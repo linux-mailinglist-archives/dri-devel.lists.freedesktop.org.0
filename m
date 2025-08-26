@@ -2,85 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC7FB355EC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518B3B354A2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 08:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E5110E5E8;
-	Tue, 26 Aug 2025 07:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E50210E2D0;
+	Tue, 26 Aug 2025 06:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H7r3mxGB";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cKfUfDzS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DEC10E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 06:11:05 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-7200073283aso793557b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 23:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756188664; x=1756793464; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s9iquqj/s7zSXGxOGmSMkXZ1B9Lfhdll8knK3f/rRm0=;
- b=H7r3mxGBiFL1vgMDOgXUlrFSvBDhuQM+SlNDKDOmiKoEJ8uwEeJMKj3iITwtcfcEVN
- 8WW0mdrMia/MMJzZysHnicDD2WkqksvvXejomoN/rmjfrjXh9wKdi/gSzPCRWKzGPU+k
- O7gM4GSCHPbbBB+VDeOL9Cqc3AccOPVciJ/MwAdy5UYcCqOsCHm/8sAP6D64b01/+6Ui
- nyWyz+tdYKX2L4k3zOMye3gMsuq+1uVqK4CB+UJ9JsJnLhxRMGS2EjbWXXINp8xWN7Lc
- ujcbnc3v0T5Bei5SiOaOLAcjw0vN8vg+f7leYGME+MmsmjAxbVLdb9gB3uL0V4pPQvyn
- qdUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756188664; x=1756793464;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s9iquqj/s7zSXGxOGmSMkXZ1B9Lfhdll8knK3f/rRm0=;
- b=h4EtTMOXMBPX+KdTs4nvPoC+ygUeQRtYdSWX6dDawMx8DLwwHT1kjBzE6y9N4vQulP
- s/eXm/dZYx5yTsUBC9zBvpkrqSQLA7+ytu/TXF6OuEDCl+wOKqm1Cs0Jkjew9tE2/Osa
- wuof3IxLtNVJksksW7rEsBbNLS1oYq6F4ZU6r8wZhZ6dl7sEkETWeNrRE2W2eZSUfZ0Y
- HzAtUEUbciU1YvWLjtF3UN4aDAb4X70s37xYApca6fRIafT0StJ/txne8gcR8m/FSFLJ
- 8Rh5ZSIWW9JGY7hZMLPHfSoL686OUjqUK8div2XvVN/ro+tv5nrR7AV8chExYTDukkDL
- lLNg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7f91cHeXs4/tWRei9lAJqggV8DC6g8HvF0ldUk87HD9xtNRe/+ZX0pyjBuackMCs7JaAcVN0aEOU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy4H5CtxNTxnBuRykXrUoX7WDM0Z55Xo6C6olLiFFfHFTxIlHiY
- JQ7OB/u5qKxAYHqX0ZWMvFizk48YS6VUqKyW8E5wa4kvOwDPSVawyhnG
-X-Gm-Gg: ASbGncvX2macnyuj2nc+6dI5xUVIHoiHlEBlixitmx97yabl63WrrEKOfb1BOOO1vuJ
- fCUGtcsxcX6jPf0PcgNdvPMg5o00e8cdYfaq84ITQcemfazPBAuEmj3+wqtvXhZlSVdqkJMpuJX
- o3mcUFZXer2cUVLUgylWZ9TxJpdvnnacipV1L9DZyeWnb7U1a1fapG4peV3PXsbOH9gRN61fiUa
- XTRcRlJzeijhi4m8l5sPeacVt/8swIBVNHT/84DY+aQgIgMo90NdcjmQ6XtO73lX7ZlGNmfAU/4
- EV1FjDoYK9X1CnCFUsiyNufeS/ATEUPEWjB+7LeJWFVz2VSNfo+nVQdbhjCR1q0G5fRkvZfAFun
- JiYxOvWWcnM+wjuPE84bdYDw04CBJQTKrX6q38QVxNMoW/+5Vb4xUhLFePSh1PVS0cQVyJx8vmA
- ==
-X-Google-Smtp-Source: AGHT+IHuvIqFraNiN8NR0puxYSwhWot5sAD6I0n0YNnJu73K5zGvZcL2epC6OzOx08JfXiCYh9caNg==
-X-Received: by 2002:a05:690c:9b09:b0:71c:f7f:d4fa with SMTP id
- 00721157ae682-71fdc418f41mr95400447b3.6.1756188663469; 
- Mon, 25 Aug 2025 23:11:03 -0700 (PDT)
-Received: from ?IPV6:2600:1700:6470:8880:b0a4:b89:bd73:d8f8?
- ([2600:1700:6470:8880:b0a4:b89:bd73:d8f8])
- by smtp.gmail.com with ESMTPSA id
- 00721157ae682-71ff1883f42sm22700717b3.45.2025.08.25.23.11.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Aug 2025 23:11:03 -0700 (PDT)
-Message-ID: <bce4e6c2-df52-4923-bb51-919271c2dc0f@gmail.com>
-Date: Mon, 25 Aug 2025 23:11:01 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2042.outbound.protection.outlook.com [40.107.220.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E31B210E2D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 06:30:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CqpXKdPSulJvKVS9bfUNvenEFQoCaKq5nUoM0Wd4kTos+c2iPFlCURhIW+IQDw+9jvPFpFeWs86imlXCPNc86PmetG0UE6z+rq+S6Li6Pqyv6xyn5MKz1De2wh48HxUmu9D8yhJSIyFxsrCAKZ5HNHT1UBC9InjwK9elWOANal1go3htCdDbLjFmYc0vbW9YNHshMqf82wXD+uOm1wKHgHlsqWnLnJBcgOv0+rOacWpCIcAZRTPQQbWYQiXTlyXuJ21EDTepwEdErvGMSXoSXMmaPXQ3RX/bar36tZlnNwNKSEbJQUI0N/RXrsew1ZkVQqj8aNFhfe8yIRGkvKSJZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xeHh2s0UGVkNcDLyFZd2yvaihHhgHuC61FcbEn4qhGI=;
+ b=BViv3Wbf1IZoN/GKxnbgSPdK4Eo0tQEAALJD0PKc6gJ7qMGPaR3wAl5Ja84ZGgULNAM414AV4F8exfPWsa9AGwEZ+cPiv6r34Tg0lTlA4ipqpLy1dEWUSp6VUy3fuES8uCl6xOPVWF6ia3JtK0HqpeENzLJx9MRENlAMabB+aIyNvjhweqGylYzvILX/QskXwE1nIx75jrgEjHgJgwqKuZCIn27oX+VZj8h5TXlfJTN+K3+GhzkAYuB7LSeU0jilSCTZExy79PrZwcrG9tn98rNU+0FfDhyVpyNSOrgrp3o7BBDb4TnesQ2SjWKlO9wdidKvtqkWsWfqBLpEtVlVVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xeHh2s0UGVkNcDLyFZd2yvaihHhgHuC61FcbEn4qhGI=;
+ b=cKfUfDzSPxlFB1A/Wvw7F9v+Cuo5dSB7fa/io+qUxPQ7t7Ji4K67oiR3D+wu/bRV7pdgQoT+7M76o2Oouko61DrQZLsnXzLsFrFUpF3ENoGYbvNnXMVqDoNnUhSmhLRn8+hfTA74GXbQDvRmbP2lQ+s4OePg5WFmJ4opY2wvfF9cOG1mXzDOalDo1UhxkJOARtPe2xuXDHC0pbECmchs+9PL+cMoMslgVtwfCflOO08MdpA7aZqIcgBOFPQ70c/++K6H43jvpfgj4UxOYCkYgGfuLmiw5javwNMTdimZEnz1dUwQuTMga/O/JdTJdjTMJD5KEn1QZqrlwnpOpORc/g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ PH0PR12MB8775.namprd12.prod.outlook.com (2603:10b6:510:28e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Tue, 26 Aug
+ 2025 06:30:22 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9052.019; Tue, 26 Aug 2025
+ 06:30:22 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: thierry.reding@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, akhileshpatilvnit@gmail.com,
+ skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] gpu: host1x: use dev_err_probe() in probe path
+Date: Tue, 26 Aug 2025 15:30:18 +0900
+Message-ID: <3902554.kQq0lBPeGt@senjougahara>
+In-Reply-To: <aKgKrCxUvP9Sw0YI@bhairav-test.ee.iitb.ac.in>
+References: <aKgKrCxUvP9Sw0YI@bhairav-test.ee.iitb.ac.in>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TY2PR02CA0017.apcprd02.prod.outlook.com
+ (2603:1096:404:56::29) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: Update Min Ma's email for AMD XDNA driver
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, jacek.lawrynowicz@linux.intel.com,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-References: <96e9e5b9-d7f2-4527-baf2-f7519ffbb612@gmail.com>
- <09906ca7-62c7-2ca7-5436-662a6c4b19f5@amd.com>
-Content-Language: en-US
-From: Min Ma <mamin506@gmail.com>
-In-Reply-To: <09906ca7-62c7-2ca7-5436-662a6c4b19f5@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 26 Aug 2025 07:42:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH0PR12MB8775:EE_
+X-MS-Office365-Filtering-Correlation-Id: 326c51c7-f83b-484a-39e1-08dde46a0899
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|10070799003|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TkxnN3dIT0NuakQ0a3orTVdCT0VNMkFyQlE2T0lOYjgvZ0NJRzBQRGx5L095?=
+ =?utf-8?B?eStmRTVsVjlHYmpPY3pZL1F0VjJlaHJ6azVaSUJIaElKNTF6WC9pQW42NW1r?=
+ =?utf-8?B?NWF2bnR3RGFWNnpBdURBNGcxZ2o2MUNicmR0ejNLTmRrM1M3ckRBYndWM0Yx?=
+ =?utf-8?B?blhPbEZ3UmNyQVR5THFrNmR4L0J0dTN4dTJBU0tXOVBMbktKM2IxTlBaVlJa?=
+ =?utf-8?B?c2kyaHk5bkFZa2hpU2grMjNTZTdpRmtvOGlMOEd4NWkydmM5UCtFQjQrd3Fx?=
+ =?utf-8?B?NFBxUUUwZng1dFp0bUpUSTgxa012Z1dFRXUzUko3VWh5d1M2L0ZNRmpoaTYx?=
+ =?utf-8?B?ajUyeHIrajZNNzhwamZTb1JtZVNPOC80Tkp5YTRXTTdpZW5MVm9kbFZLOUxB?=
+ =?utf-8?B?WEF0bGlWMVFxbVJOejJObTAwZ2tyU1FzZkxoNXhZVkVsbjVGeWJJR3E1elBP?=
+ =?utf-8?B?alFpUVk5eFdrZ0s4Znc5YXRIc21HTS9KdjladlpHcU5CQllFaGJneUVVemdF?=
+ =?utf-8?B?ZWxRN3lhODBNNXdPcmZ5LzQ1L2xMRS9XeXlCUXhlV01SckpDeVRBR2o5Y2xZ?=
+ =?utf-8?B?THkwL1hwaGdtN2JjSzRVWnZNRnRMcm5zSVZqNGJac1hIaEtHYzYyN1Z6ZDQy?=
+ =?utf-8?B?bEV2dlJnYjA0Rmt6d0RMR3pxRE13aHNGdXIwbWVkSmVGQXAzRHFBMVUvcm5O?=
+ =?utf-8?B?ODZYMmdJeXhRZzVXNVlVOU9YeHMrbU1rYXNRbk5VaVlkUFc3RDRDcUJUbEFJ?=
+ =?utf-8?B?dnBXZnJBUS9MaHBkQ2JBYlBrQVdDVHNrUkdSQXBOc0hkejVzOUNBanlOWDlo?=
+ =?utf-8?B?R3RLWCs1aXBpdzdrUFNodWpOY2J6RDRjQWhIK2krTXJWUTE5UU45TFpUZEJB?=
+ =?utf-8?B?b05FcFAvTHpqMXg5bzBJUkcrVDEvUXJNMUUzYjNNb2p2bEMzS3c1MUgzNkJs?=
+ =?utf-8?B?N3h2MGpnL2VQdlYwUVBmUHBIbjh4SmRoeFphblZIZHk3M1BxYnpEcWZ1Nzl3?=
+ =?utf-8?B?RFF2VldDeFNKM1hTbk1waHpHS3R3OUdVckpsdndROTJoMEJ4cGtMVUdrNFFN?=
+ =?utf-8?B?QTVMUmM1ZXVsSk9pSC9iM25mbThZdFIvSU90TEJRZGU3TGo0TW9BY3RhQjRD?=
+ =?utf-8?B?OCthYmhyTnRtSHdUdlh0TkNjNmlHL2ZQbjZ3WnJPcCswQ1VPVUFjSkREVzRF?=
+ =?utf-8?B?cjljS1V3eElnczJYa29FYzh0M0kyYkV0TWszVkdkOEo4V2hqR0ZNU0pXOG80?=
+ =?utf-8?B?dWtXUklBZnNHZnRHdi9Lam9mN0xiOG54Q0EwN1pIalJzSXA3V3FMYnJKZHdW?=
+ =?utf-8?B?ZjViL3daeVlHajdHcTMxY0ladXh4bnZKUndSdm16ZnJOTjluRlNLQVhOT0ZR?=
+ =?utf-8?B?dmUvc0hwUitWWVdHQzJNa0pJaE5lT3JiM3Awd3pqamhsM09MS053T3NEYUEx?=
+ =?utf-8?B?NHdEamR3T01LUmg4Z3NIUkU1NEs4d3lER0lRcURXN1p6Q1drSVEvN2hZbTRP?=
+ =?utf-8?B?RWF4VVRWQkRmQkhFV0dtS2oxOUhQdC93bEs0dGJBMlNuUEJrVTBvK2kwZlk4?=
+ =?utf-8?B?TXYyaloreEg2aUtqWDBpZEsvZnRQSmQxb2RsRjFqaXBVWjdpQTN0WlVqZW1D?=
+ =?utf-8?B?THRVUUlrek0yMEszQUVmTU14allsV1VZTTdMWnlhZHlIMzNhdzBCSG9NVkhp?=
+ =?utf-8?B?ZWp0djkyUlFvckx6WHF6d0p1YkFhNjZ0dDhHYVZETTNQK2NNcTAwVlRuRjVL?=
+ =?utf-8?B?ZFBlWHVBd2lHVUxZSlU1YjhQKzJlWkIxL2pJNkZwM3hQQktOVTZFRFRyUGpy?=
+ =?utf-8?B?UU1sN0FHSjBSa1NjSHNJQUh1UFFmZzE0bmtvcXZEWU9qc1lVKzRXdnBPU3Ax?=
+ =?utf-8?B?ekhVUklMa3UvWm9hbEpCZG51eHFrL2V1ZFlGVUpCNnppVjJHQW9ZNzIvVFp3?=
+ =?utf-8?Q?c4qbpHG1uXI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(10070799003)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NDVMSTJ5V2crWmg0aFYremR6dUc2a2lxbG1hTTJOSzBLRmJSdGVyTXMzV20v?=
+ =?utf-8?B?bS8zVkttWml1dGlybW44aG02MmdKcmRBMk5uM3B2VGhoU0VmSDF2L0VoaU1S?=
+ =?utf-8?B?M0FaRXlFb0hXQWxibW5nME5jaFpGRkxWM3V5ZXlBZ0ZvMmNXL09GN1RBSU1P?=
+ =?utf-8?B?Z1NmMzEzempzTk9UMFhDbHFvVDlGczlsNFNKRFNSN1hPWU5pMzRHN1FnQ0Jn?=
+ =?utf-8?B?bzFTeURZcG94ZmNaR3RZYVNVNytOcnExV096OTc5SDhmR29ybnVhbVJiVjBo?=
+ =?utf-8?B?NWRDVHlzQUNJbjF2MTJlRUtSc0lxa0RTT2NnckgxbjQraS9vZkJDVVpOVjdW?=
+ =?utf-8?B?TGFKQklGKytjL0dzZ3BhdG5WdkVmd2Rxb3p2TzJ0UFBHa2xFcWVDUkVoblg4?=
+ =?utf-8?B?Z0NKS1B0eVpFS1dzTVJiSUFhYkw2M2RiQjM4VkRkRnIxeUF4ZzROQVhKTXJ0?=
+ =?utf-8?B?WThPWjRnb05PTnAyUXZNbVI4TnhSOW5QUGttTUNZUFBTNnZZR3lQdlAvdUxN?=
+ =?utf-8?B?OU8rK0R4aWtZeElmcTE5aXI3OVRqZG9PRlIwMThlU2sxb2llbERMTk5EYStQ?=
+ =?utf-8?B?Q1pIdFdJdURuSC9CNXZHUktjRDlBam45SzBDTytINWFZMVprTi8yM1l6TFhB?=
+ =?utf-8?B?SUtzNHJMbjVHdTEwUEpzSURxSTlZUUs1R3ZnbG81ZVN2ZmROQTIxRUJOd2l4?=
+ =?utf-8?B?YnNGVis3VHFsbGNTVFFuVThtemxJMi85NXllbEJXVWU3bzRVZlpKVHlhejF2?=
+ =?utf-8?B?NXpZakpGUkVsdnk3VlptUExKSEFVblhDdEI0WURKNEtBenlDL0pESGFDRmVX?=
+ =?utf-8?B?aXRUN1ZwTGdkVGZ3MTRsU3M1NHF1UzFJa2lIbVVqdmlBQTI4UnhwTWVWM3Fu?=
+ =?utf-8?B?Y0lLMTA2OUpZSk1VZE02OUVtMHo5Z25paHIvSWtuNno2OStGN0RFSWJDTW9M?=
+ =?utf-8?B?ZUlOZ1dGOW1OeFp1aTEzT28wRTlibnc5Y2NNcnRoaTJLblpoSHBHcUZVbmpO?=
+ =?utf-8?B?aGRKK0JBT3VrZm1MU2dRdkQ0ayt6dHlPQWMvQzRlb2ZyN2hHUEtzS0pEeUN4?=
+ =?utf-8?B?SCtxSXZhZ1ZSOTFyOEIzbHZaU1J6WisyVnJ3MTBlVW5CQ0NYNk9QUU1DZkJ0?=
+ =?utf-8?B?dGUrYU9mNVEySUgrY3FUWHFnekl2K2hGZUdmNEE0Ujk5bjJHbEhSckhNR0pX?=
+ =?utf-8?B?QTRUQWZnRUlpV054eU9TYVkxbGRSeDk0SWcwakJyUWJoL1hzakJ6aXBoQVdP?=
+ =?utf-8?B?S0NKSExhSWtXYUlhQnVQRlIxdXBPbTdjMFZFMHVCbG9IY21BZy9YR1N3eGNJ?=
+ =?utf-8?B?WkRrRHh4NEh5OWJRZHNIczJEVmp6WWxOdmNNTGpsaVg4V2UrR1ZLT0dINHVv?=
+ =?utf-8?B?QVBKRjF0L1RDOFRvN3dPUUh4WWNTUHFVT09JTDFFVjY4Q3VoeXB5TkZIQURZ?=
+ =?utf-8?B?OVZHYjRmU0RSRmNUOE9VQTJXM1VkMjFMNWhwUFNhQzBJUzlFZ0gzREswZzJQ?=
+ =?utf-8?B?cnhRdjZINGI4dXljOFdpNkllOEYrVUtOdmptT1YyclU3Qmx6d2c0WUZsUnUx?=
+ =?utf-8?B?NC83SkFDYVJaV21RSmY2YUlFckR6ejRwT2hKNmdNTkM3TnkwTittdTNnTVpS?=
+ =?utf-8?B?ZmxwaDdMVzRTUEE3aDc0NDA3R0lqVy9nNkNxOTZkSnBZbkhNQnpuL1NCMkhO?=
+ =?utf-8?B?NlZ0bWhxeXhPem9LSmRNVjFTN2p3VDA4a3ZrT1BqcjZCTVRYaHptaUE4UmFp?=
+ =?utf-8?B?cEtxZE5ZWVFxK0tIT3NmTFkrcXhKQno3c3piZXBIVlVCQU1MVkE4OGVqK21O?=
+ =?utf-8?B?S0RIb2UycWNpM29yNGxnakcweElxemRjNTJIQlZNTlo3dmk3M1ovUEZuWUcr?=
+ =?utf-8?B?KzFCaTVDdTJzOFZaRGNFalhLMUhzSGhsU29SVy9Hb2hqa0o4cnFwQTlZdkNn?=
+ =?utf-8?B?RWs2QUJMWjFjYTV2MS80dEJDZURiRzA1Unl4dlV5TjRzWUxoOXErTVhhZ1pR?=
+ =?utf-8?B?MFhOd2JKbnAyTVliNU52VGNzcUdOTVNpcjlzTVZoYS9CSmEzU1laQXUweGw0?=
+ =?utf-8?B?MXk4bm5maUUzSlEzV09IaWZLY1A3dmJKTUZZMnlVT015d3BLUWptdTEzdk81?=
+ =?utf-8?B?cW0xVXdPTTVVSmNFQSt4d3dRd3d6YzA1Z2hHTnY0S0V2N2xrTm9mVVgrendS?=
+ =?utf-8?B?TTVkMVdwa2tPek45d1lhbnZSbitmc01WQzhQQU4wbG9mNEZGaDNSaHJqcEp4?=
+ =?utf-8?B?U3NZb3pRR05JVG9QekpwNmxNTE9nPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 326c51c7-f83b-484a-39e1-08dde46a0899
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 06:30:21.9582 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LzrLW6p2p9oodxptOs8OxR/kicVHRrjRtp1i50WVaWIpmxCkdzQkIHt54AzD7ak0Zrky2uUDc5RaJrJpvT0VUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8775
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,71 +165,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I recently left AMD and would like to continue participating in
-the review and maintenance of the XDNA driver using my personal email 
-address.
-This commit updates my contact information accordingly.
+On Friday, August 22, 2025 3:14=E2=80=AFPM Akhilesh Patil wrote:
+> Use dev_err_probe() helper as recommended by core driver model in
+> drivers/base/core.c to handle deferred probe error. Improve code
+> consistency and debuggability using standard helper.
+>=20
+> Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+> ---
+> V1 -> V2: addressed review comments as below.
+> * inline - err =3D PTR_ERR(host->clk) inside dev_err_probe()
+> * avoid printing err, as dev_err_probe() prints it internally.
+> * rebase and compile test with v6.17-rc2
+>=20
+>  drivers/gpu/host1x/dev.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index 1f93e5e276c0..c586c242f2c2 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -585,14 +585,8 @@ static int host1x_probe(struct platform_device *pdev=
+)
+>  	}
+>=20
+>  	host->clk =3D devm_clk_get(&pdev->dev, NULL);
+> -	if (IS_ERR(host->clk)) {
+> -		err =3D PTR_ERR(host->clk);
+> -
+> -		if (err !=3D -EPROBE_DEFER)
+> -			dev_err(&pdev->dev, "failed to get clock: %d\n",=20
+err);
+> -
+> -		return err;
+> -	}
+> +	if (IS_ERR(host->clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(host->clk), "failed=20
+to get
+> clock\n");
+>=20
+>  	err =3D host1x_get_resets(host);
+>  	if (err)
 
-Signed-off-by: Min Ma <mamin506@gmail.com>
----
-  MAINTAINERS | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 10850512c118..6eefa494000c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1231,7 +1231,7 @@ F:        drivers/spi/spi-amd.c
-  F:	drivers/spi/spi-amd.h
+Tested-by: Mikko Perttunen <mperttunen@nvidia.com>
+Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
 
-  AMD XDNA DRIVER
--M:	Min Ma <min.ma@amd.com>
-+M:	Min Ma <mamin506@gmail.com>
-  M:	Lizhi Hou <lizhi.hou@amd.com>
-  L:	dri-devel@lists.freedesktop.org
-  S:	Supported
--- 
-2.43.0
 
-On 8/22/2025 9:42 AM, Lizhi Hou wrote:
-> Hi Min,
-> 
-> Please fix the patch and make sure checkpatch is passed. I can not apply 
-> it.
-> 
-> Applying: MAINTAINERS: Update Min Ma's email for AMD XDNA driver
-> error: corrupt patch at line 10
-> error: could not build fake ancestor
-> 
-> Lizhi
-Hi Lizhi,
-It turns out the 'tab' was expanded to 'spaces' when I copy the output 
-of `git format-patch` to my email. A new patch is attached on above. >
-> On 7/22/25 23:38, Min Ma wrote:
->> I recently left AMD and would like to continue participating in
->> the review and maintenance of the XDNA driver using my personal email 
->> address.
->> This commit updates my contact information accordingly.
->>
->> Signed-off-by: Min Ma <mamin506@gmail.com>
->> ---
->>  MAINTAINERS | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 10850512c118..6eefa494000c 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1231,7 +1231,7 @@ F:        drivers/spi/spi-amd.c
->>  F:     drivers/spi/spi-amd.h
->>
->>  AMD XDNA DRIVER
->> -M:     Min Ma <min.ma@amd.com>
->> +M:     Min Ma <mamin506@gmail.com>
->>  M:     Lizhi Hou <lizhi.hou@amd.com>
->>  L: dri-devel@lists.freedesktop.org
->>  S:     Supported
->> -- 
->> 2.43.0
->>
+
 
