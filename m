@@ -2,95 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA08B368FA
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 16:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686EFB36919
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 16:22:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAEC210E66C;
-	Tue, 26 Aug 2025 14:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC3810E672;
+	Tue, 26 Aug 2025 14:22:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="EsPQ4CNw";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fA1j4uTz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFDFC10E66B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 14:21:20 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3c980bd5f48so2021549f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 07:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1756218079; x=1756822879; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=I+VWRhdnTUjnI3XomDtbZckS18oyRmRBoSQJRcxV7jQ=;
- b=EsPQ4CNwmgivz2cMabnO/0Uq2W4IfWNfWjpOIX6CD8FjklSSF9ESBAyFvoZr314766
- xTyjOPSSoe1JzM/XZM243imGUdIStZ56XNt80c7HXtFeyNr9LxxzuOMUXXeNSvXB6VuP
- mP2e/lvJ1gJK2wc3uCi9h7Sc2RJ4tDnH10QHloUKc1U3Qns29UbcqTPLet+7ujpAyQOm
- Mn1x6OtUGZyY7gUfYqVG1zBEcEvsa746eoXfkshdPZvhS64HJ0NIXSlE25ZE9il0QG7f
- DdOkWd8uZLzz58CN80SOr8XOp2Ggf8TXuiFKQnwLoMCySLwgveuaSEWz8jfrvk6snm46
- ttvA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36C7D10E679
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 14:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756218166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=h39i1jZswq+DsNG6K29l9TcQzwNCCY98bFn/fI62p0M=;
+ b=fA1j4uTz9PYLMXEtzxZbHxgmLVGt741AdsVeyJnusypjVwog1jklHYrcZVCP85Q80sT1pf
+ EAF02xJVETxBvHZYDChfH3HPhLccm94rHgxPOlUgq1fP3Ft00i/yJx5DeXp4CY1wINb7Zv
+ T/kV4LbRdHN3QtsWin9dLxlgFKILba8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-392-z1vLC7rzPL-C0f2VH6WlvA-1; Tue, 26 Aug 2025 10:22:43 -0400
+X-MC-Unique: z1vLC7rzPL-C0f2VH6WlvA-1
+X-Mimecast-MFC-AGG-ID: z1vLC7rzPL-C0f2VH6WlvA_1756218162
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3c380aa1ac0so2166813f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 07:22:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756218079; x=1756822879;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=I+VWRhdnTUjnI3XomDtbZckS18oyRmRBoSQJRcxV7jQ=;
- b=Gm98uX6SmMAdaRN8KipJlkXNxWLnrpccs56E/dKqYSMlm7gkvMLtpQBE9OWhscZ8Bg
- Gmwapo2pHoy3KmuRqUL2ufm3IkQcyp1GhGs+Y3ovs9LXFEs4seTpidHv7uPtfUx2avf/
- bETD7/MsIlMitFDRFrPv7T3hwav03dIfd/fBdv36j06sfKdrn/SpBqy31CH3keGBVZU7
- eIEeqQdT1cnmcA3Mbldgo0oVR7XiwZxo9w3VUdeUuGsflCTvzyITitbP3Jk01e1Or6vA
- GuhzgLPz9rkwe3UQbqN1cr28SrnB68yDHmgzEqlgmSuMjrcLA4dewNKoCk5kmioZKq4W
- qPbw==
+ d=1e100.net; s=20230601; t=1756218162; x=1756822962;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=h39i1jZswq+DsNG6K29l9TcQzwNCCY98bFn/fI62p0M=;
+ b=T6/IRpPWl43X1U4y4c4kPDO46SPsBxIV2LdtOB7aAGgIzetx0xvwEet9m6XbjQEQpF
+ LY5cagmZc11EYQHkrr9qkz8kxFqmOZ8uT62G1kay+UC1tuZR9aYv6bQFRuUQ4JC6BU/Y
+ CwiNTh6dflVFdCUFfHqsy08OxeDX5+Qw9cZKFTR4DltAYGtbo32wrBlZsAHkdAQwG5Ua
+ n59VHORI8Ayb4XTzigeWFRRFbmsU1ClXAPfVcofg/4B+CUI2X/aaSrTkrqA8ynzvA0Kz
+ ucjShJB7CnUsLiFn3oa0Z7l2xhwGSXwr91sktFxZGV8egGUxLCMcihIMBGiFKzY3OevA
+ Yw8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXmaM9R7yDQ00KjFQOucqN7DBadMNxGaS5Wx7Z+8FaJR8cVCzesTT2cRObgJXTMOVOVPB9Jk6Uot9U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlK8zMoH+Bth3e/8ChHYvF4caXCQ/hfrBiNJDqIxtmsQtWFQJw
- O3roTZEO0nodgmS6H9fhss6npzZUwdlRRyOgnr0RiTs4lf1/xYaITkWLtNys6ODoEcw=
-X-Gm-Gg: ASbGncvhHvmelHp0wc4P7QpYA0ZkBWza3qXG4Ry3a7AlpJ8ZcI0mI/+AG7AqVLw/m4y
- eClorfkPmgYpJuiw+1lijapTsysJhDWbpDm7Al7alx2JbaCF1Y5OrIUbCsRcRu5jaAipcnswWY+
- hNK4JmLyCyzE0zAPrSAbFn9WWS4++jlibz3K7jtVTkqFV/X9HiQELvruLsp0a27BOt7nSXuC0QK
- CE0oZXh/ikPZk/+QmT/y4e89pCW7iaT59LyxZswkgGFQlle73EBRIgcSa0LaMZzGTwNlYZjqsox
- DT/ulA4RAZVNLX2UfXw+NeX0X/XyO4uIJMfRjA5GcJR3MpgFrRLKqQKzcIQPDT3p95cHNBhrrpA
- MpckHEJuYqH4kbHevwGtKVAvPg1gI68o11GMZsv9Ja1zbA9Gz+6MqSg==
-X-Google-Smtp-Source: AGHT+IF1onmcmCLINy+0Rdj3SUnLle5wvn3JPSHU/RzbuH+Mf9JjVWxvuwon82t0M3+JcME7Da8B9g==
-X-Received: by 2002:a05:6000:24c9:b0:3b7:93d3:f478 with SMTP id
- ffacd0b85a97d-3c5dce01212mr13313281f8f.51.1756218079134; 
- Tue, 26 Aug 2025 07:21:19 -0700 (PDT)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
+ AJvYcCU71O92NB/mh8d/wl3wBjBDgMnUQ4dkT5nsK0gjxSOdVp2SY0ozXNR1glhF2M4s2n6ZFA1iV97kLaY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx84PN6kSgqkw1EKBmqc+wwTBfLgwnjnnCCpaHQrjMnAtKK/BQL
+ 03NKT8RyFINj0QCsO7HvpqHGU1nABSSYIQN5Vt4fpQUTfBEg12ZrNA+/DEHVkWaeOuHC4CqD2nK
+ IK6h51v0hJ0D3a5XD22ewarvAiC2z7zTcLcTlQooTWHEPX5BpPlgsVl9/lwiUfystOeVkSjiKkC
+ 2SXHS8
+X-Gm-Gg: ASbGncsdMEcqUj3/elSOWZdoQ8zDt3riR3JPK4cut9jZmytleQcIlTwCJw29ZfObwNi
+ 4vhpLFgpI0ZWh1UW1dEc/dmSQRbjsXFOlYAl+gs1uUtWywJr0RN7v5YrtU5oI4OQmwsPnjJsbHm
+ KTsmCoZnAcyGGTwDRrjy4BD8umv8Uw1XmiZunito6BEb2nIpyy/lh01VEVl8frNV3zHUlksDRsZ
+ vycDP4M1UqEBy23Cn+dVQaLU8Vba1SDzJCKSfd2WbfljmMvC168HfHssRLyYCeZkk8hU22ww1St
+ XDzuZ27WG1Jno7ZdXw09MXbcYkIirFWhWNuaKxI0sj/aM1MDqmk6n808PkgSwP77gJuofL2PRA=
+ =
+X-Received: by 2002:a05:6000:18ad:b0:3b7:940e:6529 with SMTP id
+ ffacd0b85a97d-3c5da73ee7bmr12909608f8f.10.1756218162315; 
+ Tue, 26 Aug 2025 07:22:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEoilF3OQdCbMR7mv9ylZSZkZgVzsErxb/ICdf5VRA2VO3gRqFa7W9pSbkINxHmbx1/dDo64A==
+X-Received: by 2002:a05:6000:18ad:b0:3b7:940e:6529 with SMTP id
+ ffacd0b85a97d-3c5da73ee7bmr12909579f8f.10.1756218161800; 
+ Tue, 26 Aug 2025 07:22:41 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
+ ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32760f2686dsm377332a91.0.2025.08.26.07.21.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 07:21:18 -0700 (PDT)
-Date: Tue, 26 Aug 2025 16:20:58 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, 
- 'Thomas =?utf-8?Q?Hellstr=C3=B6m'?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maxime Ripard <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>,
- Tejun Heo <tj@kernel.org>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "'Liam R . Howlett'" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Michal Hocko <mhocko@suse.com>,
- intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [RFC 0/3] cgroups: Add support for pinned device memory
-Message-ID: <qd3ioegpvmrrrwdy2qntxznyrnwq3bhe74lmuxio7sy4sjggtt@tm6nqds3pyvj>
-References: <20250819114932.597600-5-dev@lankhorst.se>
+ ffacd0b85a97d-3c711d9f3a8sm16439115f8f.62.2025.08.26.07.22.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Aug 2025 07:22:41 -0700 (PDT)
+Message-ID: <54bfb6c0-eb35-4e53-ab45-04139623abb0@redhat.com>
+Date: Tue, 26 Aug 2025 16:22:39 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="n4nu53c6pb6rlauk"
-Content-Disposition: inline
-In-Reply-To: <20250819114932.597600-5-dev@lankhorst.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3 01/11] mm/zone_device: support large zone device private
+ folios
+To: Balbir Singh <balbirs@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250812024036.690064-1-balbirs@nvidia.com>
+ <20250812024036.690064-2-balbirs@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
+ FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
+ 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
+ opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
+ 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
+ 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
+ Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
+ lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
+ cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
+ Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
+ otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
+ LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20250812024036.690064-2-balbirs@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: e1mHtwdsuoyQTMfMMEp45ZI6ZyISh-x_ENd3K3igJCE_1756218162
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,55 +165,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12.08.25 04:40, Balbir Singh wrote:
+> Add routines to support allocation of large order zone device folios
+> and helper functions for zone device folios, to check if a folio is
+> device private and helpers for setting zone device data.
+> 
+> When large folios are used, the existing page_free() callback in
+> pgmap is called when the folio is freed, this is true for both
+> PAGE_SIZE and higher order pages.
+> 
+> Zone device private large folios do not support deferred split and
+> scan like normal THP folios.
 
---n4nu53c6pb6rlauk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC 0/3] cgroups: Add support for pinned device memory
-MIME-Version: 1.0
+[...]
 
-Hello Maarten.
 
-On Tue, Aug 19, 2025 at 01:49:33PM +0200, Maarten Lankhorst <dev@lankhorst.=
-se> wrote:
-> Implementation details:
->=20
-> For each cgroup up until the root cgroup, the 'min' limit is checked
-> against currently effectively pinned value. If the value will go above
-> 'min', the pinning attempt is rejected.
+>   #else
+>   static inline void *devm_memremap_pages(struct device *dev,
+>   		struct dev_pagemap *pgmap)
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index b0ce0d8254bd..13e87dd743ad 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -427,20 +427,19 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+>   void free_zone_device_folio(struct folio *folio)
+>   {
+>   	struct dev_pagemap *pgmap = folio->pgmap;
+> +	unsigned long nr = folio_nr_pages(folio);
+> +	int i;
 
-How is pinning different from setting a 'min' limit (from a user
-perspective)?
+Not that it will currently matter much but
 
->=20
-> Pinned memory is handled slightly different and affects calculating
-> effective min/low values. Pinned memory is subtracted from both,
-> and needs to be added afterwards when calculating.
->=20
-> This is because increasing the amount of pinned memory, the amount of
-> free min/low memory decreases for all cgroups that are part of the
-> hierarchy.
+unsigned long i, nr = folio_nr_pages(folio);
 
-What is supposed to happen with pinned memory after cgroup removal?
-I find the page_counter changes little bit complex without understanding
-of the difference between min and pinned. Should this be conceptually
-similar to memory.stat:unevictable? Or rather mlock(2)? So far neither
-of those needed interaction with min/low values (in memcg).
+might be more consistent
 
-Thanks,
-Michal
+>   
+>   	if (WARN_ON_ONCE(!pgmap))
+>   		return;
+>   
+>   	mem_cgroup_uncharge(folio);
+>   
+> -	/*
+> -	 * Note: we don't expect anonymous compound pages yet. Once supported
+> -	 * and we could PTE-map them similar to THP, we'd have to clear
+> -	 * PG_anon_exclusive on all tail pages.
+> -	 */
+>   	if (folio_test_anon(folio)) {
+> -		VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
+> -		__ClearPageAnonExclusive(folio_page(folio, 0));
+> +		for (i = 0; i < nr; i++)
+> +			__ClearPageAnonExclusive(folio_page(folio, i));
+> +	} else {
+> +		VM_WARN_ON_ONCE(folio_test_large(folio));
+>   	}
+>   
+>   	/*
+> @@ -464,11 +463,15 @@ void free_zone_device_folio(struct folio *folio)
+>   
+>   	switch (pgmap->type) {
+>   	case MEMORY_DEVICE_PRIVATE:
 
---n4nu53c6pb6rlauk
-Content-Type: application/pgp-signature; name="signature.asc"
+Why are you effectively dropping the
 
------BEGIN PGP SIGNATURE-----
+if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
 
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaK3CyBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AgF3wD/T7sV0i+cdg06NdkqMGry
-p4ywSWT/m1ixLxww8iCRQjcBAIu13/A09vj6nD3AYjTurMoAlJUuSFWDZE0IA9G4
-7jEP
-=0oC5
------END PGP SIGNATURE-----
+> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
+> +		pgmap->ops->page_free(&folio->page);
 
---n4nu53c6pb6rlauk--
+
+> +		folio->page.mapping = NULL;
+
+Why are we adding this here? Does not seem large-folio specific.
+
+> +		break;
+>   	case MEMORY_DEVICE_COHERENT:
+>   		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
+>   			break;
+> -		pgmap->ops->page_free(folio_page(folio, 0));
+> -		put_dev_pagemap(pgmap);
+> +		pgmap->ops->page_free(&folio->page);
+> +		percpu_ref_put(&folio->pgmap->ref);
+
+This looks like an independent change that does not belong in this patch.
+
+
+Can't you just leave the code as is and simply convert percpu_ref_put
+to percpu_ref_put_many()? What am I missing?
+
+>   		break;
+>   
+>   	case MEMORY_DEVICE_GENERIC:
+> @@ -491,14 +494,23 @@ void free_zone_device_folio(struct folio *folio)
+>   	}
+>   }
+>   
+> -void zone_device_page_init(struct page *page)
+> +void zone_device_folio_init(struct folio *folio, unsigned int order)
+>   {
+> +	struct page *page = folio_page(folio, 0);
+> +
+> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+
+order vs. pages is wrong.
+
+In context of [1] this should probably be
+
+	VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
+
+And before that is in
+
+	VM_WARN_ON_ONCE((1u << order) > MAX_FOLIO_NR_PAGES);
+
+because we don't involve the buddy, so likely buddy limits do not apply.
+
+[1] https://lore.kernel.org/all/20250821200701.1329277-1-david@redhat.com/
+
+> +
+>   	/*
+>   	 * Drivers shouldn't be allocating pages after calling
+>   	 * memunmap_pages().
+>   	 */
+> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
+> -	set_page_count(page, 1);
+> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+> +	folio_set_count(folio, 1);
+>   	lock_page(page);
+> +
+> +	if (order > 1) {
+> +		prep_compound_page(page, order);
+> +		folio_set_large_rmappable(folio);
+> +	}
+>   }
+> -EXPORT_SYMBOL_GPL(zone_device_page_init);
+> +EXPORT_SYMBOL_GPL(zone_device_folio_init);
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 568198e9efc2..b5837075b6e0 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -1769,9 +1769,13 @@ static __always_inline void __folio_remove_rmap(struct folio *folio,
+>   	 * the folio is unmapped and at least one page is still mapped.
+>   	 *
+>   	 * Check partially_mapped first to ensure it is a large folio.
+> +	 *
+> +	 * Device private folios do not support deferred splitting and
+> +	 * shrinker based scanning of the folios to free.
+>   	 */
+>   	if (partially_mapped && folio_test_anon(folio) &&
+> -	    !folio_test_partially_mapped(folio))
+> +	    !folio_test_partially_mapped(folio) &&
+> +		!folio_is_device_private(folio))
+
+Please indent like the previous line.
+
+if (partially_mapped && folio_test_anon(folio) &&
+    !folio_test_partially_mapped(folio) &&
+    !folio_is_device_private(folio))
+
+>   		deferred_split_folio(folio, true);
+>   
+>   	__folio_mod_stat(folio, -nr, -nr_pmdmapped);
+
+
+-- 
+Cheers
+
+David / dhildenb
+
