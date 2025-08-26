@@ -2,120 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0534FB3706E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B7AB37080
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A23210E392;
-	Tue, 26 Aug 2025 16:33:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jsmTrUHG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB1210E39C;
+	Tue, 26 Aug 2025 16:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88EF710E391
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QD3ANN026003
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=o0JNkVhBc++JdNPVvj2G5Tj3
- VEOgkLl+3jrDv6VD7BE=; b=jsmTrUHGvaBkNoJMv6AJPlvdxeSRoOXScDgdF8H5
- yXOY6bOIi/t8o01fuV9IO9u0u9bMxb1l21mNd+/Jb30e07scPF6cc/eWbSFWLTFd
- Q006RaI322lcHeEaHgQsi0TQBWmN+eszFaZZixyp+V3QvFqEJNb1j3LmONws8q4+
- +VzKEQ3vxORktU3MqJWeQTYwmkY1tNBSC0awih42NN4k7NxJ60O/5t23HT8aLGoO
- rxJiAeDAImklFPUzmy1ZwWGjzgCKlGXzt2h+HZBYdNfcJruN68YReBM2hNG+Ofx+
- LnHV77cIJplKO1g4jyBlcstYoQ3Pj5x1HXx1IfWYWGv1nQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q6x89pbv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-70d9a65c386so89342756d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:33:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756226012; x=1756830812;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o0JNkVhBc++JdNPVvj2G5Tj3VEOgkLl+3jrDv6VD7BE=;
- b=bLjiehu35tp3s2416uP0gl3OeXUZnofEqTg2vLaDbjetV3HptJjTfl7bkyZS2jNRH5
- WhAotOxGyLrK9UkDvGZ8WW8vY/+KHC1YsxVcXdu3VHXLS+byxwnhSc9aqdtrEpAzBN7s
- 3crtAqTIYlWotqajQjbOvI5GHcTIQhULYo9zOxVWx7P0GKWg7N6uxce3uKAFfmLoTjgm
- jEyXI9QTfzuJ3d6fY5M2P87i1HBQRdxhZuUcRIDJicL7viPlTC4/vBq5gQphhuVGJzXd
- SqLCo7PctcVZkbNV51zJkdKYq2l0MrHxmCGn5C6u5E+f9d1xWvPJcxxzqt/SU0Egr+zx
- rrmA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWe8bpGRzcGPaOJSNrzHnxHPw1tf6vcHtWltoeQ2wPFpIxBMivyAfdJJqnHAtopPyGZE217c3wJqlM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywfvBAOIUAA1odI++EwA7WngUKem4X7PVKuxn/5/GWBRcKkAzi
- 28Lj4CRExjCqxY3gck9Oeatw9aONA4cpHmy4VD0E+Io/0ZZNZFdz0BNPiE1HtGEFySOXLATIjSa
- JOCAvnpT0tpO1541tH8zo4xKEbHogWW7XAOc35uRMlzKU01cYN5mnhrGxiwKChgcJBI80ea0=
-X-Gm-Gg: ASbGncsUp0CuhPaSwFc8EL/ErR+7JkyU7WAVcrxHmSGoLBj9tC50pkTaBaIt2rY/T2j
- t1Kp83GmLv+A6wzWMneUen+lzrMy6AVRaMDJLwPXBJdyPCKo/1PqBVG0U3jPSptZG5wd+ERkKir
- t1jwducQuBWKGP931ZTMK+RpU+i79U8DRaErE20tkt7O5wa+kynLURZJrrqwrNYUWcPCFVolc9Y
- +/na4A05Wjof31JC8l+ApaBAYq2ZbvO6ylDUFz1UFgL7WsdtUTlFqovvMfxVyviHx35spcq/fGD
- g7Oq439x0mGe8MNDePQO64oTbQfzZ/Sn+nJt60gp1ZnoeHIDzeE2cFCYwLGL13j+BBCVr/vf/n3
- i+7CJz5QW1bOQ/4WQnC3gxHuczVD2uz877fUWvKG67ZxxSKoUHkQm
-X-Received: by 2002:ad4:5cc1:0:b0:709:ee07:daaf with SMTP id
- 6a1803df08f44-70d97102f17mr190928326d6.19.1756226011471; 
- Tue, 26 Aug 2025 09:33:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFZ7aaOomBumnrq1rhi9jEEdDGg0wr1dDNic05npTTurzd/gV21cCPu8vrLKpDQ36ehil5Qyg==
-X-Received: by 2002:ad4:5cc1:0:b0:709:ee07:daaf with SMTP id
- 6a1803df08f44-70d97102f17mr190927636d6.19.1756226010771; 
- Tue, 26 Aug 2025 09:33:30 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35b27683sm2357303e87.0.2025.08.26.09.33.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 09:33:29 -0700 (PDT)
-Date: Tue, 26 Aug 2025 19:33:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 27/38] drm/msm/dp: add dp_display_get_panel() to
- initialize DP panel
-Message-ID: <smvfckejheyi7oehubdkhnh6pxokn7yugvlrynraypsu6kssj3@6vinswn4yku4>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-27-01faacfcdedd@oss.qualcomm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D3E010E395;
+ Tue, 26 Aug 2025 16:35:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E4571A25;
+ Tue, 26 Aug 2025 09:35:15 -0700 (PDT)
+Received: from [10.57.4.86] (unknown [10.57.4.86])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A5A1B3F694;
+ Tue, 26 Aug 2025 09:35:17 -0700 (PDT)
+Message-ID: <8d6ac059-fc8f-4a5d-b49e-d02777c01cfb@arm.com>
+Date: Tue, 26 Aug 2025 17:35:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-27-01faacfcdedd@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: PV0mrjvzkfXZ-dPklVPJUmJqv-LLNhva
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA0NCBTYWx0ZWRfXyo0u45T4kgOO
- uB+LGUmofaXp3SYp7EKCK4EVNypvuXaclyKgd6CMRPtgNkdYZbesNfyJlX1tLwRRYth6hZCfhda
- tNNoCPh034sym9yCim6w2oJPuEYq8wZ4t+MJs76exm2z3wplSZhDGyV5FbCypbmfSFmgN59CTtR
- bD+eLWyNCHnxy/t6cV+3PZ4EQhL04RRq8XG3B7sXvG2fJ/kJkYXuP66n/XCUAbgs2occn/4YvHR
- 30vmREUFF5jXUT13G07+f6uULkeZ9wExzss5mDko+/eBitEtV5rjujrBjv0TzOZdu05Jvzy5jjM
- QZacl0ZPRchfoQ4xpX8QJonirePDNdskCDIM/27vh+xxVWOenixwjyxeG5UB3GzZaoo+QPnZk7m
- +dSdzQS+
-X-Proofpoint-GUID: PV0mrjvzkfXZ-dPklVPJUmJqv-LLNhva
-X-Authority-Analysis: v=2.4 cv=Ep/SrTcA c=1 sm=1 tr=0 ts=68ade1dd cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=qYs0ZBLfSisuqDwih3YA:9
- a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230044
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 16/19] perf: Introduce positive capability for sampling
+To: Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>
+Cc: mingo@redhat.com, will@kernel.org, acme@kernel.org, namhyung@kernel.org,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
+ adrian.hunter@intel.com, kan.liang@linux.intel.com,
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
+ linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
+ iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <cover.1755096883.git.robin.murphy@arm.com>
+ <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
+ <20250826130806.GY4067720@noisy.programming.kicks-ass.net>
+ <aK22izKE4r6wI_D9@J2N7QTR9R3>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <aK22izKE4r6wI_D9@J2N7QTR9R3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,76 +65,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:16:13PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On 2025-08-26 2:28 pm, Mark Rutland wrote:
+> On Tue, Aug 26, 2025 at 03:08:06PM +0200, Peter Zijlstra wrote:
+>> On Wed, Aug 13, 2025 at 06:01:08PM +0100, Robin Murphy wrote:
+>>> Sampling is inherently a feature for CPU PMUs, given that the thing
+>>> to be sampled is a CPU context. These days, we have many more
+>>> uncore/system PMUs than CPU PMUs, so it no longer makes much sense to
+>>> assume sampling support by default and force the ever-growing majority
+>>> of drivers to opt out of it (or erroneously fail to). Instead, let's
+>>> introduce a positive opt-in capability that's more obvious and easier to
+>>> maintain.
+>>
+>>> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+>>> index 4d439c24c901..bf2cfbeabba2 100644
+>>> --- a/include/linux/perf_event.h
+>>> +++ b/include/linux/perf_event.h
+>>> @@ -294,7 +294,7 @@ struct perf_event_pmu_context;
+>>>   /**
+>>>    * pmu::capabilities flags
+>>>    */
+>>> -#define PERF_PMU_CAP_NO_INTERRUPT	0x0001
+>>> +#define PERF_PMU_CAP_SAMPLING		0x0001
+>>>   #define PERF_PMU_CAP_NO_NMI		0x0002
+>>>   #define PERF_PMU_CAP_AUX_NO_SG		0x0004
+>>>   #define PERF_PMU_CAP_EXTENDED_REGS	0x0008
+>>> @@ -305,6 +305,7 @@ struct perf_event_pmu_context;
+>>>   #define PERF_PMU_CAP_EXTENDED_HW_TYPE	0x0100
+>>>   #define PERF_PMU_CAP_AUX_PAUSE		0x0200
+>>>   #define PERF_PMU_CAP_AUX_PREFER_LARGE	0x0400
+>>> +#define PERF_PMU_CAP_NO_INTERRUPT	0x0800
+>>
+>> So NO_INTERRUPT was supposed to be the negative of your new SAMPLING
+>> (and I agree with your reasoning).
+>>
+>> What I'm confused/curious about is why we retain NO_INTERRUPT?
 > 
-> Add an API dp_display_get_panel() to initialize and return a DP
-> panel to be used by DP MST module. Since some of the fields of
-> DP panel are private, dp_display module needs to initialize these
-> parts and return the panel back.
+> I see from your other reply that you spotted the next patch does that.
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 23 +++++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_display.h |  2 ++
->  2 files changed, 25 insertions(+)
+> For the sake of other reviewers or anyone digging through the git
+> history it's probably worth adding a line to this commit message to say:
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 84df34306fb557341bea288ea8c13b0c81b11919..abcab3ed43b6da5ef898355cf9b7561cd9fe0404 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -632,6 +632,29 @@ static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
->  	return 0;
->  }
->  
-> +struct msm_dp_panel *msm_dp_display_get_panel(struct msm_dp *msm_dp_display)
-> +{
-> +	struct msm_dp_display_private *dp;
-> +	struct msm_dp_panel *dp_panel;
-> +
-> +	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
-> +
-> +	dp_panel = msm_dp_panel_get(&dp->msm_dp_display.pdev->dev, dp->aux, dp->link,
-> +			       dp->link_base, dp->mst2link_base, dp->mst3link_base,
-> +			       dp->pixel_base);
-> +
-> +	if (IS_ERR(dp->panel)) {
-> +		DRM_ERROR("failed to initialize panel\n");
-> +		return NULL;
-> +	}
-> +
-> +	memcpy(dp_panel->dpcd, dp->panel->dpcd, DP_RECEIVER_CAP_SIZE);
-> +	memcpy(&dp_panel->link_info, &dp->panel->link_info,
-> +	       sizeof(dp->panel->link_info));
+> | A subsequent patch will remove PERF_PMU_CAP_NO_INTERRUPT as this
+> | requires some additional cleanup.
 
-Both these lines show that link_info and dpcd belong to msm_dp_display
-rather than the panel. The panel should only be describing properties of
-the particular sink.
+Yup, the main reason is the set of drivers getting the new cap is 
+smaller than the set of drivers currently not rejecting sampling events, 
+so I wanted it to be clearly visible in the patch. Indeed I shall 
+clarify the relationship to NO_INTERRUPT in the commit message.
 
-> +
-> +	return dp_panel;
-> +}
-> +
->  static void msm_dp_display_deinit_sub_modules(struct msm_dp_display_private *dp)
->  {
->  	msm_dp_audio_put(dp->audio);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index b1ea027438d952c94f3ae80725c92e46c631bdb2..d5889b801d190b6f33b180ead898c1e4ebcbf8f3 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -65,4 +65,6 @@ void msm_dp_display_unprepare(struct msm_dp *dp);
->  
->  int msm_dp_display_get_active_stream_cnt(struct msm_dp *msm_dp_display);
->  
-> +struct msm_dp_panel *msm_dp_display_get_panel(struct msm_dp *msm_dp_display);
-> +
->  #endif /* _DP_DISPLAY_H_ */
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With best wishes
-Dmitry
+Thanks,
+Robin.
