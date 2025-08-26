@@ -2,66 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68770B35586
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813B9B355A5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:29:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93E1210E5D2;
-	Tue, 26 Aug 2025 07:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35AD10E5D3;
+	Tue, 26 Aug 2025 07:29:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aYnLgFZO";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="HX5yOo1/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F71810E272;
- Tue, 26 Aug 2025 07:24:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756193088;
- bh=fWEaE7rby5BwiPQYp9tM0XRd30FJRyFX8vJJQY21Y+w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aYnLgFZORbFNNctI8Q3e3ZZhulvu+PmnLPh9O8U+0EGX1wwK/x8OCqEJAc4krcxb0
- nDVVUSnd+wk+EbUo/MqPkVfykHX+FqydXhz3afU+kWwAyrZxmGG92JAWhLuYtm4w3k
- 5jsZp15YOK++txRDk6K45WBgKC3rCR4D56f9UsE606MQXziJS6eoijzYkYkmhmZqDE
- maotq807ZkxWK3LJpyeYCie3lWxMwvJSo6LLLspfe+jf85T4AYSoOHZVY+OvcW3tC6
- iHQdkI1TuHBGxS8MaO3wz3QfrlBrIVmnCYxFZxAczpoRG+xKHiyT7ZdTC7Ht3F3tNC
- vms79OQfK2mHA==
-Received: from xpredator (unknown
- [IPv6:2a02:2f08:eb0b:c00:e88e:21ff:fe65:be18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A5DBC17E011A;
- Tue, 26 Aug 2025 09:24:47 +0200 (CEST)
-Date: Tue, 26 Aug 2025 10:24:46 +0300
-From: Marius Vlad <marius.vlad@collabora.com>
-To: Shengyu Qu <wiagn233@outlook.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, harry.wentland@amd.com, sunpeng.li@amd.com,
- siqueira@igalia.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, contact@rafaelrc.com,
- lijo.lazar@amd.com, jesse.zhang@amd.com, tim.huang@amd.com,
- dark_sylinc@yahoo.com.ar, mario.limonciello@amd.com,
- alex.hung@amd.com, aurabindo.pillai@amd.com, sunil.khatri@amd.com,
- chiahsuan.chung@amd.com, mwen@igalia.com, Roman.Li@amd.com,
- Wayne.Lin@amd.com, dominik.kaszewski@amd.com, alvin.lee2@amd.com,
- Aric.Cyr@amd.com, Austin.Zheng@amd.com, Sung.Lee@amd.com,
- PeiChen.Huang@amd.com, dillon.varone@amd.com,
- Richard.Chiang@amd.com, ryanseto@amd.com, linux@treblig.org,
- haoping.liu@amd.com, Relja.Vojvodic@amd.com, Yihan.Zhu@amd.com,
- Samson.Tam@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- wayland-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/2] Add "pixel_encoding" to switch between RGB & YUV
- color modes
-Message-ID: <aK1hPoCmLziaPPOd@xpredator>
-References: <TY4PR01MB14432B688209B2AA416A95228983EA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+Received: from TYDPR03CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11013063.outbound.protection.outlook.com [52.101.127.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8628C10E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 07:29:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=weiuuOkvsHWhxAAZxLmR1FbjUz9dfrzvFcjBNRzrpT8AhgVJ2r51tzNFE4/cc8IuJac/Ra3wMqo4khY6dJ/UTsO1scku/k88slepVdjZOBywIbcyzVyk56AGjNAKc2xTMAyyg8X194hI2vWGpDxtBkcfN8jFi2ilY4uzjCw4Srd8ZlnTb/hjF5DZqLhiODSNTmnBP/GaOUS9PtWef8hPuqZDCZcGalDOGoeu6wWPzoEvrS3pq8AJkS4h0OK/4vGo2+W3eVPAYk0tEMzfcMx3ym5Azp+BJzUiAPZpIym3U75zWu80duEfM1RuggqNWY9dVpeA7FSro2geaZC32vsDcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Vi/tKpVg3Z0cgZN78kKDa7KgQ9PNgQwwn4PiKjRIkU=;
+ b=edwanpzyliDuyIiK+WlG6dB2QB7hRNvZnPMI6Aj86HoIffYvPXPW/tLBsmvsiejuxPFYn6ri/BSgErnhouuiojD90RaUZyhOIChmoJDTeMi5l6S98kZ0PUDrjxmO7KRcXVxpj7nPxzqU2QBvn1LNfhhBeRhfyxixcYtfFzxYs4icPW7RC/sXi4vwE9w9cvYj2vkhZ6GZLhOyQXxsfG9q+ogcICKV7Igsl5cBi4zzp8Htb73uHLSfOE0/l0TGuGVXodQf1rR9AT2MWnQbwPOzXg5DENI+xoPOXzsqjnJiM5uw7/22hax7AQcEzaLplXBd4pY/EzfA7SZ0N8QR12k5iw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Vi/tKpVg3Z0cgZN78kKDa7KgQ9PNgQwwn4PiKjRIkU=;
+ b=HX5yOo1/mVZwm8ot+XPTHBGVOKuLmvXJ0RWfSv8q7c35AJPljmioB2fOpH8a98yGMetfTHm9Y9FCCoaKWwX1CVK3qwxJ6cARxCHyg0i/WwPPiNN8eSpRiSPgt58ubFD4MYtZXPiV/oAy+xbRcEjw6DEeokGdiQaDOWCJ7fFE5Fg9PvergnHnCvdXVSDwrq1isgrn4mNvUyMAAbrg1tTlorif0oRFRiYeRWv9wrsEBMiMh/+ITTdIFPwWl6bokVRkzMSQCt+aRxvEm+M46d/Tc+hxfaFnP7KBs4Esn0ALqcGXxtsa+2YupJpegp/wb758k8t+27Hs9x7+fT9QCzerFg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ TYSPR06MB6409.apcprd06.prod.outlook.com (2603:1096:400:411::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.21; Tue, 26 Aug 2025 07:29:28 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9052.019; Tue, 26 Aug 2025
+ 07:29:28 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
+Date: Tue, 26 Aug 2025 15:29:17 +0800
+Message-Id: <20250826072917.186638-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYBP286CA0026.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:404:10a::14) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="P4ii5dE9RQd4AYRH"
-Content-Disposition: inline
-In-Reply-To: <TY4PR01MB14432B688209B2AA416A95228983EA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|TYSPR06MB6409:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4c86ddf-5a9e-4a54-c28a-08dde4724a4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|52116014|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?g7EAqzwMbbS6bJgzoBGAtawoCU2zGKJ0iRgKJm5/geMspu6ZHvTTPHlqHWg2?=
+ =?us-ascii?Q?dA02WTSx6ZV+wzxmV3AnuxteWn2FC647mEfzoAnMPl1Ls9lnQJSqF3cW2fOy?=
+ =?us-ascii?Q?LqhRL26VsWpBOVO5X55DKMkjqR6U49we+ARSny4DwCUvv8jGVgWhVE7qBmbU?=
+ =?us-ascii?Q?eKgiRh1oUhgHXI54jajAeNGmg+IBvHk5Xm3kY1j6gAO2xjST3reQBuNZIxGB?=
+ =?us-ascii?Q?SDAPOBkQkGZW0eUuIpR+Ld7dFzHZAPfl7hINEQMda3ZZZ2pCCaVfNOkpcz8V?=
+ =?us-ascii?Q?opnda3tXW3s1kBsEFh30TOiCXbz1AOReA95VhuBnFrKPKm5XK/6X4vqiOEMK?=
+ =?us-ascii?Q?9i0vGa0NrPzzqdztrGjxus/jKGe1JFsqRBQ2JCYvgwSfijBqYGOQK6o2UTN/?=
+ =?us-ascii?Q?47rpNZaVlGcZBnGD3IcoMG3CshzKc+loTVTQN4Ln5asmf/itAyH5cyu6jUms?=
+ =?us-ascii?Q?MugCRiMVqbbiQqXW6T2ZN9j1kMvc+/KFwC7kztxcTuwigeaGcIjhFaAxv4ED?=
+ =?us-ascii?Q?e9i4H2fsy16TvotyqbkcUXY5tuattWtF9U2Pv8q/loCDX/zF21ghYExROlk/?=
+ =?us-ascii?Q?Tr9QcEwjU9SDS01xgix/a9LwR9U5J6R4yrDPkXaM6VCsz28RsQL0RBLwMJGD?=
+ =?us-ascii?Q?fKR8xY1AJ267bevC3ZJ8cyyAR9jmGXIl25xpITJ6LVhYIy/YxLPlWcK+9FBM?=
+ =?us-ascii?Q?kHijq2y7wnW3s4jDSbzLjOdxmHtyhJ/FeUOWerp4eZQ4kzCuc5vQE28d4BjP?=
+ =?us-ascii?Q?oauNcFJ6Ri/+Fh24yH+fJtAVcYHeciRMiQzJoPJ8ZrvYaylvEVNM6qqDDDoa?=
+ =?us-ascii?Q?xr+wFdLEdvP9KM+VbXRzf+asclBSOhB6CmxtD58zi/rqNp0zFOt+VyzmknjK?=
+ =?us-ascii?Q?/BVMcasT6SctbJYfBVfvF8NqPhywhWHI7gKf29xVVl5w4RhtUI9VnYcqkOYU?=
+ =?us-ascii?Q?F+x3LhS+jiCOvlu+Q6gbLNuzIfG15ITqcN2wDftlMxRARh2mickv5CBdAclR?=
+ =?us-ascii?Q?jILN8TFjYjN/cmU2JZ0zt+Rwzbz8lG8/RjROFMpjZNuVueA45Risgt4SvDzk?=
+ =?us-ascii?Q?vOB+UDcrpHd+rLkzaszojSj0GlEARkGbuQPYQWtP3N32wOGCuTicOMte0Nhk?=
+ =?us-ascii?Q?shaqku+CHqGEV6vGqQrAyHVquw/pNbVuL6LZsDEXGgurbVSIQVUFxBC+pkzl?=
+ =?us-ascii?Q?qysVpHjf0wRLJYG+nTrc3DW77/EWjQEPobzavhx2vMyFCcHkGLGmx4l3XrTX?=
+ =?us-ascii?Q?EV7g1fBM5lmjRzmo9q9vPaVYWtMn6ZXNIQeuScnt4jiB1ChvdjHzpN4xmWdn?=
+ =?us-ascii?Q?KIxwGv2kcPiv+ps4RqyZ0s1F1Ob5Pmqei82B5XdzxXR3RARBgTQGLNiexB8x?=
+ =?us-ascii?Q?9L/lrisxZisD0DBq0psRZx/9Kb0f7NOOF0zCb6npen9YSo2QKfQYmsonT4IT?=
+ =?us-ascii?Q?P50PAbUZjYmm+hj6wRz/I4LkKtPeLCASTnrLW+QF73y86mZ0QRv21A=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?f+IGC06Lr91dS+b3k9DKgiPe/Y9qRZqGjcTJwQfiHmx1t2Pfcp/qwElYzrhW?=
+ =?us-ascii?Q?JvyICto/Vk1TD8KmgBXpUQBdNLHv6qHYfHqdaWp5iPS4Q6djUjaHQFi22yhE?=
+ =?us-ascii?Q?hWG3OK8DzlEOEVS6X4C0N3ih0oAkN5LduuGPHsXZwEzWHL1y+mqze8o6jPLb?=
+ =?us-ascii?Q?AgHpnTsy3A9vr+TPhw/nho1/RvL2KFjts5Oabkzu8tJwBWV7c5s1Pff2OPG6?=
+ =?us-ascii?Q?krHBh4txzRlK1uI5J0Bdi1L86Ffell2SCFyie4uWYrnrWRWM9j5QvSPS1eWW?=
+ =?us-ascii?Q?9Qa8cFbmSX8YHYqscWjFwmjKyDqfF2HxWLZ9hk7C8uOa+OoEjE6agWNqO/Tf?=
+ =?us-ascii?Q?ORK5Pp5bFdhleMIUqqgHhYa2k+gFhcWL4OIPzsHjomOSjTZFRdpVMhY1jIe7?=
+ =?us-ascii?Q?iphnwti4djkzsNB8umOCfLpn5oEI0I7pbhwJ5z+KBIGBe6EkoyO1EkTqpBQ2?=
+ =?us-ascii?Q?WuqxeWoKGlKJKe7zXw82jZncgxjYS83iSBZzB+KWxY59fNqG3h+7V8TN7yCx?=
+ =?us-ascii?Q?18NsW4hzh28TdClbNRnVG9c/t3INJcbe0GPhsyf8AYDBrQSyEw62e+CMp1wc?=
+ =?us-ascii?Q?0A1fyxO47oNY1dw4bT6s7BwsyMma/R/cHkMUAohtL5qrUJMXjX46DHId/vXm?=
+ =?us-ascii?Q?eoBElf34PB1WDQ1iYZHvGCmyl3gMRcFxhRgb+Szt6vD7NIiytXekUvdUhNyH?=
+ =?us-ascii?Q?FOTPcgoqthNlGM5/zwKCoabQhBQz/oPMmigXaOXItxuNbAdRjQd6r7W5twnx?=
+ =?us-ascii?Q?XdwvHbOG1zJSHm6edcvgIUNbAsmuTg4YZyrzSBc9Yn6eclBIl3qWzyKDQ0BM?=
+ =?us-ascii?Q?X6AFWPYi6mzQXYKf9LX6UH7bksFAVXNSlCh71Gx93K4HVsJlRzv4+60pWhGw?=
+ =?us-ascii?Q?16iiWj1myFMInSEyTl3BrZN+4710UAsfy3exkv3bSEJ/mcwZHQSS1BHcmg1D?=
+ =?us-ascii?Q?NlfIqw4b+a3rT80b7HXC63oYxv3Fk5a0rzR+datfTk86aj2K2lvDWp8WsscG?=
+ =?us-ascii?Q?5GB4WWh5Bh0iPznTN7XuMwUZ2a9NRs0aX/kvI+I5Qqpmwp9wMKbKFJscNPZI?=
+ =?us-ascii?Q?AzPGo/bRT8c8TJ1jY+XQYRHL6izEWHxjbkyBBTHwvJQ2JTeS/nHUWZVfeZGW?=
+ =?us-ascii?Q?5DBFtElDG/ib4NEZYnti+2ptnN3+igl1ojpXar65m/Cp5JpPt/MMrfqsLPc4?=
+ =?us-ascii?Q?t+F8LZEjjHCqJjP8BOAfXhePmCrpJyoGK20h7uJ2LjzdXrUGzC3fv6KHDsaP?=
+ =?us-ascii?Q?8Acm40SdpbP91N0Raza8uwdUTv/hBlA/bafduru3YskGplQKk5/Ypkhlqv7E?=
+ =?us-ascii?Q?rcBnGUhbNebdeA2C/N2GlakNhfNzXxeep0LzLSLk7ZhQFS0P/LN3AFBKc4YY?=
+ =?us-ascii?Q?TShSNr81aPqiGXzXV303Oltri8tnn5l5pm2JeY56FoQc8YuXnlJFoK0zSLfu?=
+ =?us-ascii?Q?SOGMGvm6j3aWeq9e012heKm3IFbyseUaa+vxr6T6+EtKOwCue8V37OrL9LpB?=
+ =?us-ascii?Q?AaV2Q1QaLdBlPGl1Zd7ha2LbSpQg7DxkQ2HVSncfIADn2+r3LobP569xavmI?=
+ =?us-ascii?Q?ng0KiB/O20eA6by9x7s51gJa9dlPHNnIZ+eWsZFd?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4c86ddf-5a9e-4a54-c28a-08dde4724a4d
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 07:29:28.3276 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UsdWMpDVgYF7XK1D/VDaR1Uztx7P+6GwlySCgclSZRIzQKQ5qFIw3Li6/u5qK9lsvQCgyol/XiV3s3bWzu+Lng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6409
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,85 +145,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Change the 'ret' variable from u32 to int to store -EINVAL, reducing
+potential risks such as incorrect results when comparing 'ret' with
+error codes.
 
---P4ii5dE9RQd4AYRH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+---
+ drivers/accel/amdxdna/aie2_ctx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Hi,
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index 420467a5325c..e9f9b1fa5dc1 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -199,7 +199,7 @@ aie2_sched_resp_handler(void *handle, void __iomem *data, size_t size)
+ {
+ 	struct amdxdna_sched_job *job = handle;
+ 	struct amdxdna_gem_obj *cmd_abo;
+-	u32 ret = 0;
++	int ret = 0;
+ 	u32 status;
+ 
+ 	cmd_abo = job->cmd_bo;
+@@ -229,7 +229,7 @@ static int
+ aie2_sched_nocmd_resp_handler(void *handle, void __iomem *data, size_t size)
+ {
+ 	struct amdxdna_sched_job *job = handle;
+-	u32 ret = 0;
++	int ret = 0;
+ 	u32 status;
+ 
+ 	if (unlikely(!data))
+@@ -257,7 +257,7 @@ aie2_sched_cmdlist_resp_handler(void *handle, void __iomem *data, size_t size)
+ 	u32 fail_cmd_status;
+ 	u32 fail_cmd_idx;
+ 	u32 cmd_status;
+-	u32 ret = 0;
++	int ret = 0;
+ 
+ 	cmd_abo = job->cmd_bo;
+ 	if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
+-- 
+2.34.1
 
-Prior work towards this is/was: https://lore.kernel.org/dri-devel/202401151=
-60554.720247-1-andri@yngvason.is/
-
-I have slightly modified version of that, but still working on
-getting another driver (besides amd/i915) working with it.
-
-On Tue, Aug 26, 2025 at 02:39:59AM +0800, Shengyu Qu wrote:
-> Usage:
->  - X11: xrandr --output <output name> --set "pixel encoding" <encoding>
->  - Wayland: proptest -M amdgpu -D <card path> <connector ID> connector
->    <pixel encoding ID> <encoding (ID)>
->  - Kernel Param: amdgpu.pixel_encoding=3D<encoding>
->    or amdgpu.pixel_encoding=3D<monitor>:<encoding>,<monitor>:<encoding>
->=20
-> Supported encodings are: "auto" (0) (Default and original behavior), "rgb"
-> (1), "ycbcr444" (2), "ycbcr422" (4), and "ycbcr420" (8).
->=20
-> This patch series allow users to switch between pixel encodings, which is
-> specially important when auto gets it wrong (probably because of monitor's
-> manufacturer mistake) and needs user intervention.
->=20
-> Changes since v1:
->  - Some cleanup and rebase
->  - Added YUV422 support
->=20
-> Full discussion:
-> https://gitlab.freedesktop.org/drm/amd/-/issues/476#note_2628536
->=20
-> Original patch by Yassine Imounachen, current version is modified based on
-> this patch(was rebased by Rafael Carvalho):
-> https://lists.freedesktop.org/archives/amd-gfx/2024-October/116195.html
->=20
-> Shengyu Qu (2):
->   drm/connector: Add "pixel_encoding" to switch between RGB & YUV color
->     output modes
->   drm/amdgpu: Add "pixel_encoding" DRM connector property support for
->     amdgpu
->=20
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  36 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.h   |   3 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   2 +
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 273 +++++++++++++++++-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   1 +
->  drivers/gpu/drm/amd/display/dc/core/dc.c      |   8 +
->  drivers/gpu/drm/amd/display/dc/dc_stream.h    |   2 +
->  drivers/gpu/drm/drm_modes.c                   |  32 ++
->  include/drm/drm_connector.h                   |   7 +
->  9 files changed, 353 insertions(+), 11 deletions(-)
->=20
-> --=20
-> 2.43.0
->=20
-
---P4ii5dE9RQd4AYRH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmitYTsACgkQ9jQS5glH
-1u9CLQ//bBIdGbBmI2faqdm8hqyzUUpMMJwHK4kAuv0XE4QId5db+cbUocPYM9nY
-gJPntOSb6/tPD7MyNV/xsR2ezD5tISQBjgwTYKXhf34Y+E+pAqKyyUfjwJ8Z26X1
-qt1ewRDjBtT9DPWFwEr0OHCqxreGWXGU5bMelO2GMyXR+IPT51cIkFOvHXDI91YK
-oj3qi4dJEutYeCRCPT0SAcqwD3WUIXexV0FZzp0bqcAxxDQXcu5J1hx0f0HVAU8T
-NIJ1dDM/f4kqbRZSciU7IRc58EHCyBT1Xd+UquW6hSOPjncK2BDk3Guj3u5ElTUR
-obWFF1j+ieG89bUXI7wa3/BIYrxdw7vqWj7zp0FnYDn6zIFeOTNEVR/igGx/MMde
-PSDhe/52Hwpf00MG0vjE1rja6EHOBW7aUgDhfi4gyAAbiWYW4kJ7b8xKonPv32HP
-RHy1AUq+3mlPX3vjeP4uUftlGUMKJ9lGqIjAunh5SYJ76DLbr5ugGUJnkSOiZHl7
-PAXwEFG/MRjdIIJwdfbn9C1xZSGfwfg0tW/UxGjtUfrrGVPYFNu4WKslQ1ZeusYy
-vYlfiYDMqE63Cs0V2RwyaqsF+xGcywDNafSVp5OtAhiUpxzmFEBhk4QcVlEENgUb
-Du+5qNXmt638fYp80wgdw4mhl4FRe2EArB1QHGij2YkUVTyHtT4=
-=zfJn
------END PGP SIGNATURE-----
-
---P4ii5dE9RQd4AYRH--
