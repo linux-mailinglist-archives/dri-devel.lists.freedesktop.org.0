@@ -2,90 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E305B36E7B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 17:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1499CB36E93
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 17:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C114E10E68A;
-	Tue, 26 Aug 2025 15:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A63010E693;
+	Tue, 26 Aug 2025 15:49:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cBpUZwwJ";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="e03nfmFD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C46410E383;
- Tue, 26 Aug 2025 15:48:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3A799602BB;
- Tue, 26 Aug 2025 15:48:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D1E1C4CEF1;
- Tue, 26 Aug 2025 15:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756223300;
- bh=b8FPl/vsVw5JNumARcRZVHO1eLeE0zNGP8ZNm5DfGWI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cBpUZwwJwkflKJ0/vGcmpkC8DliLFLjpny0HUmG2Ln346CiBilgYH94HOREACj5jF
- Eq+XapbP4mc3qqOBbKqJAOA0njYw2EK8+6zfRSA0eWXfO/SnsO8pThLIrOhMQixQZd
- XHTps7BStTJKDCTVj8vOn5Gy/oHQabqqNoH1MEnvwi5qkv97UYldOWhQP3PUn5/9Lm
- OHy0yblKZsp109frfTjXxEUXfzNX/BWGVXFCAq2cHizxUwV7oPc2+wbbiLb4kwDlOc
- 9FKAQoMjqXrG9GwaCG+g+UxkSz4WB1qo0ykVddH858/C+LLN/pLzUJQA3YX3ce1Yuk
- 4SOasopz6FeBw==
-Date: Tue, 26 Aug 2025 17:48:18 +0200
-From: "mripard@kernel.org" <mripard@kernel.org>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Nautiyal,
- Ankit K" <ankit.k.nautiyal@intel.com>, 
- "Murthy, Arun R" <arun.r.murthy@intel.com>, "Shankar,
- Uma" <uma.shankar@intel.com>, "Nikula, Jani" <jani.nikula@intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>, 
- "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>, 
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>, 
- "simona@ffwll.ch" <simona@ffwll.ch>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>, 
- "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, 
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>, 
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "mcanal@igalia.com" <mcanal@igalia.com>, 
- "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>, 
- "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>, 
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>,
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <20250826-skinny-dancing-otter-de9be4@houat>
-References: <20250811092707.3986802-2-suraj.kandpal@intel.com>
- <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
- <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
- <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <aJ4LQvqli36TlETu@e110455-lin.cambridge.arm.com>
- <hc6f6wgsnauh72cowocpm55tikejhiha5z4mgufeq7v6gb2qml@kmgfd26bigos>
- <wr76vyag2osox2xf7ducnkiaanzk2k5ehd2ahnoyqdm5qiywlk@penf4v5bvg5z>
- <DM3PPF208195D8D87AECE8397914A67D9A1E33EA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC17910E690
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 15:49:16 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QFC4n3023647;
+ Tue, 26 Aug 2025 15:49:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=corp-2025-04-25; bh=mgeHveTBPT3qqn2ra8VG4npb+Vf/J
+ 7RaXKQEESlrkZ0=; b=e03nfmFDA/QcN+z1XZBob0isQj527PjpC1213KrAr1g+t
+ Ux11okhgLjgyJ5K0bRkWm7WrEcEBtBwLd9EyQ/7aBQVqWEL9ai+2WjDnaE6oMRbF
+ 8Yok2RB6MHO9SfX22j9uP6zO859KDrCqbplCHKsQlMnTWNUIQKmmWPqE0exxiIrt
+ 62ZMAbvQBfI0ZgHuNqjQ3dw3fdfyN3/3RAN4utxEd1tK9nsNiRLVYWEVbqLa3Sr0
+ e5FDyGrMTd+fsmgjng3SEA1X7szGeYY4ixl9gj+ST4FIZ24sVGBmb26mK6r+3OoR
+ 2sZkHK8KijO6p0gEH7t4X8h6yJ50sJ9ZAgxhKVMSw==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q58s4r47-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Aug 2025 15:49:05 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57QEXSZK014626; Tue, 26 Aug 2025 15:49:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48q439pn14-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Aug 2025 15:49:04 +0000
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57QFn4EH020762;
+ Tue, 26 Aug 2025 15:49:04 GMT
+Received: from sidhakum-ubuntu.osdevelopmeniad.oraclevcn.com
+ (sidhakum-ubuntu.allregionaliads.osdevelopmeniad.oraclevcn.com
+ [100.100.250.108])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 48q439pn0g-1; Tue, 26 Aug 2025 15:49:04 +0000
+From: Sidhartha Kumar <sidhartha.kumar@oracle.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, willy@infradead.org,
+ sidhartha.kumar@oracle.com, jani.nikula@linux.intel.com
+Subject: [PATCH v3 0/6] DRM IDR to Xarray conversions
+Date: Tue, 26 Aug 2025 15:48:54 +0000
+Message-ID: <20250826154900.405480-1-sidhartha.kumar@oracle.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="h5fbt5za66ojtx6g"
-Content-Disposition: inline
-In-Reply-To: <DM3PPF208195D8D87AECE8397914A67D9A1E33EA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508260139
+X-Authority-Analysis: v=2.4 cv=J6mq7BnS c=1 sm=1 tr=0 ts=68add771 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117
+ a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
+ a=LxaQk2LVrQ3WACRVRfUA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf awl=host:13602
+X-Proofpoint-GUID: IJZ94Fn4UYOiVYtLqsWSqPH0mmID829C
+X-Proofpoint-ORIG-GUID: IJZ94Fn4UYOiVYtLqsWSqPH0mmID829C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAyNyBTYWx0ZWRfX3A1aAgl6mq9f
+ Yu8MsPoCday4/SL5FZ67ObY30z5PVwzth6aaFskpofupOdABNDqXJyk+4RdqSQi6FCwSiMCQOpN
+ 0qTNZXy+W3hpR01UwxJfEMPQw9WS+phQ+fXXbDUQyhYBN+hQV4Npj/vzX4E7e7xKc8ie2EWcHC0
+ AJwfiR8+NJKfIl0Imo7/d6/WOb7nXmwAaNlCIcoxt5ijGfNvMiJke8tiLCJExdpK5O4NgaD7N2k
+ 1N5yo6UvNxrnzM/iOfgTCR4EPdIs2nSfUCJyYMywzbU972oUuR4gyxKmP0aHW1Srnf3IdR3+kGn
+ K9g9Zf0g+GBoNxIl/AbRHUKEu8ITxQ0etGghw7OQAQTspbQ+Ir6NknW7w0H4C3fM/gupVUxRmFQ
+ 6ZxMGyAtH89OOv+EQdzNSjmg5K/Kkg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,121 +99,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v2[2] -> v3:
+  - indicate the indentifiers do not change in the
+    commit mesage per Jani Nikula
 
---h5fbt5za66ojtx6g
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-MIME-Version: 1.0
+v1[1] -> v2:
+  - rebase onto latest mainline v6.17-rc2
+  - fix build error in patch 1 per Intel Test Robot
 
-On Mon, Aug 25, 2025 at 06:26:48AM +0000, Kandpal, Suraj wrote:
-> > Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor
-> > drm_writeback_connector structure
-> >=20
-> > Hi,
-> >=20
-> > On Sat, Aug 16, 2025 at 01:20:53AM +0300, Dmitry Baryshkov wrote:
-> > > On Thu, Aug 14, 2025 at 05:13:54PM +0100, liviu.dudau@arm.com wrote:
-> > > > Hi,
-> > > >
-> > > > On Wed, Aug 13, 2025 at 10:04:22AM +0000, Kandpal, Suraj wrote:
-> > > > > > > > };
-> > > > > > >
-> > > > > > > I still don't like that. This really doesn't belong here. If
-> > > > > > > anything, the drm_connector for writeback belongs to drm_crtc.
-> > > > > >
-> > > > > > Why? We already have generic HDMI field inside drm_connector. I
-> > > > > > am really hoping to be able to land DP parts next to it. In
-> > > > > > theory we can have a DVI- specific entry there (e.g. with the
-> > subconnector type).
-> > > > > > The idea is not to limit how the drivers subclass those structu=
-res.
-> > > > > >
-> > > > > > I don't see a good case why WB should deviate from that design.
-> > > > > >
-> > > > > > > If the issue is that some drivers need a custom drm_connector
-> > > > > > > subclass, then I'd rather turn the connector field of
-> > > > > > > drm_writeback_connector into a pointer.
-> > > > > >
-> > > > > > Having a pointer requires additional ops in order to get
-> > > > > > drm_connector from WB code and vice versa. Having
-> > > > > > drm_connector_wb inside drm_connector saves us from those ops
-> > (which don't manifest for any other kind of structure).
-> > > > > > Nor will it take any more space since union will reuse space
-> > > > > > already taken up by HDMI part.
-> > > > > >
-> > > > > > >
-> > > > >
-> > > > > Seems like this thread has died. We need to get a conclusion on t=
-he
-> > design.
-> > > > > Laurent do you have any issue with the design given Dmitry's
-> > > > > explanation as to why this Design is good for drm_writeback_conne=
-ctor.
-> > > >
-> > > > I'm with Laurent here. The idea for drm_connector (and a lot of drm
-> > > > structures) are to be used as base "classes" for extended
-> > > > structures. I don't know why HDMI connector ended up inside
-> > > > drm_connector as not all connectors have HDMI functionality, but th=
-at's a
-> > cleanup for another day.
-> > >
-> > > Maybe Maxime can better comment on it, but I think it was made exactly
-> > > for the purpose of not limiting the driver's design. For example, a
-> > > lot of drivers subclass drm_connector via drm_bridge_connector. If
-> > > struct drm_connector_hdmi was a wrapper around struct drm_connector,
-> > > then it would have been impossible to use HDMI helpers for bridge
-> > > drivers, while current design freely allows any driver to utilize
-> > > corresponding library code.
-> >=20
-> > That's exactly why we ended up like this. With that design, we wouldn't=
- have
-> > been able to "inherit" two connector "classes": bridge_connector is one,
-> > intel_connector another one.
-> >=20
-> > See here for the rationale:
-> > https://lore.kernel.org/dri-devel/ZOTDKHxn2bOg+Xmg@phenom.ffwll.local/
-> >=20
-> > I don't think the "but we'll bloat drm_connector" makes sense either.
-> > There's already a *lot* of things that aren't useful to every connector=
- (fwnode,
-> > display_info, edid in general, scaling, vrr, etc.)
-> >=20
-> > And it's not like we allocate more than a handful of them during a syst=
-em's life.
->=20
-> So Are we okay with the approach mentioned here with the changes that hav=
-e been proposed here like
-> Having drm_writeback_connector in union with drm_hdmi_connector
+This series is part of a project to depcrecate the IDR in favor
+of the Xarray. This simplifies the code as locking is handled by
+the Xarray internally and removes the need for a seperate mutex to
+proect the IDR.
 
-I don't think we need a union here. It artificially creates the same
-issue: we can't have two types for a connector if we do so.
+The patches are from this tree and have been rebased to v6.17-rc2
+https://git.infradead.org/?p=users/willy/xarray.git;a=shortlog;h=refs/heads/xarray-conv
 
-> Also one more thing I would like to clarify here is how everyone would
-> like the patches patches where each patch changes both the drm core
-> and all related drivers (ensures buildability but then review is tough
-> for each driver). Or patches where we have initial drm core changes
-> and then each patch does the all changes in a driver in its own
-> respective patch.
 
-The latter should be preferred, but if you can't maintain bisectability
-that way, then it's the most important and you should fall back to the
-former.
+The series has been compiled and tested with drivers/gpu/drm/tests/.kunitconfig
+and passes all tests.
 
-Maxime
+[15:22:04] Testing complete. Ran 608 tests: passed: 608
+[15:22:04] Elapsed time: 34.792s total, 3.086s configuring, 31.541s building, 0.141s running
 
---h5fbt5za66ojtx6g
-Content-Type: application/pgp-signature; name="signature.asc"
+[1]: https://lore.kernel.org/dri-devel/20250818190046.157962-1-sidhartha.kumar@oracle.com/
+[2]: https://lore.kernel.org/dri-devel/20250821145429.305526-1-sidhartha.kumar@oracle.com/
 
------BEGIN PGP SIGNATURE-----
+Matthew Wilcox (6):
+  drm: Convert aux_idr to XArray
+  drm: Convert object_name_idr to XArray
+  drm: Convert syncobj_idr to XArray
+  drm: Convert magic_map to XArray
+  drm: Convert lessee_idr to XArray
+  drm: Convert tile_idr to XArray
 
-iJQEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK3XPQAKCRAnX84Zoj2+
-dkGOAXsF9clyGa0v79Lvcn8LKsqqNonbB//uZEuQy7tvsCVTi+DhFkU8idQEhmiv
-4/hwQBIBdjsjXoUxkxPssK1Cqn88KbP1KGjTWNATiM+3ovUf9J35gCUaNCEzp/9o
-nS7FRKYC
-=Lfn+
------END PGP SIGNATURE-----
+ drivers/gpu/drm/display/drm_dp_aux_dev.c | 38 ++++++--------
+ drivers/gpu/drm/drm_auth.c               | 22 ++++----
+ drivers/gpu/drm/drm_connector.c          | 26 ++++------
+ drivers/gpu/drm/drm_debugfs.c            | 19 +++----
+ drivers/gpu/drm/drm_gem.c                | 11 ++--
+ drivers/gpu/drm/drm_lease.c              | 15 +++---
+ drivers/gpu/drm/drm_mode_config.c        |  3 +-
+ drivers/gpu/drm/drm_syncobj.c            | 64 ++++++++----------------
+ include/drm/drm_auth.h                   |  9 ++--
+ include/drm/drm_device.h                 |  4 +-
+ include/drm/drm_file.h                   |  6 +--
+ include/drm/drm_mode_config.h            | 12 ++---
+ 12 files changed, 86 insertions(+), 143 deletions(-)
 
---h5fbt5za66ojtx6g--
+-- 
+2.43.0
+
