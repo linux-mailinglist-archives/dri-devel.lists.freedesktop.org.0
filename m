@@ -2,118 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEE6B358F7
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 11:32:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62941B35904
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 11:34:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCC810E621;
-	Tue, 26 Aug 2025 09:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2D010E61D;
+	Tue, 26 Aug 2025 09:34:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TtYTmx7o";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CzPArZ0K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE03B10E621
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:32:42 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57Q5XHuF026626
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:32:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=yw7Fk6HJCJShlv2t9i0lzWI2
- sWKEgdH07td1ipZYTIs=; b=TtYTmx7oQltxw6Oc38y1ihdCLJNaDUO/XHkY7JlG
- iPA1iHeugl7VmWmaaonhvIPPK9qZhmH3WI8oZAfLk6S73i8tvYZMWCV7mW7fC20q
- IaQeEGyhU3G1TQL5c2DbLUz7AZBanjz1Np68EEFeS0eFhGg8xdw1GYTGR2umic8y
- 1G6HQ3PHk5H7Cs7dQ3v7/oeu0ykQ3XwpRNspfepw1o7mEx4AfjkWALD8xJjhB0Be
- 1GTW83bNMF8D6S9K8uYTymXR2Er1WkB6zGBiTEME2wLXtGn2wgrD86vftJh9rElT
- 0pM1wD25Bi916ScgX4hSJm8Z5bNOk594j6DhyimubANMSw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5um8cd4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:32:42 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b28434045aso214983031cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 02:32:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756200761; x=1756805561;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yw7Fk6HJCJShlv2t9i0lzWI2sWKEgdH07td1ipZYTIs=;
- b=ct/mLAzFxTx+kU2wI9X3V4CThACS89brtN5UyYZLiMTfiTlKvXiw9W56FNNwHCL3fA
- gDEfBG44OqeRJk0U4PvQ75BLnaCt441dUWHfrEt2Jv65djaxtV8UmKsV7v8z/IiCOGBF
- CCcdVXMdS4GKwBEEzUPbBilkfLDR099oXYqnQYgbYTU17PGPh7M/sKKs8CfgDCqPiIpM
- jkxw4ImVJ0IhFH9qTTjtetcmeTqSRN2fEMCUaYEW2dKNj+V53MyXF4dglLJ87VSBvbPL
- EP7aEaD7YxD4y+V/27l2vySlAuE5mlZq2gG2MRondJobjvkLdColFqJWfMl0zcIGmb3R
- aqIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW9+qG8v+Y+gbWqYoVhmhEP2Jqw4ec5euqQCAWPxOaXRiKxWo9MaOEHY9TfiOkwBdyMO6Qin3rSMEI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7NGdcaTY6dUDbDQTFvlIULApDIps8TIeTSXGw5xHbAgftSJG6
- hO1Hcctwts0N0CbxS8vUqTC8o/cELtUdXU7GLukqr7zimKtcv9s1KKeEMJvkBXMnYMnTURynz0e
- EzburD5g/tfuSZmh8DeFKbBzSRDicrbosA5O0uNGSyCY3zWu/Bfl6lNGFgVKDxo55pQm+tms=
-X-Gm-Gg: ASbGncuNcC4BiJGdqVxkJV6VTezMoB9jYw9Ill3l+0GM56y2J+5FA7hKILwZimc0cMl
- +ffkfmboNXjms6qs/wOLzXdHChR8ycBxsFlVrLCipBNSXw+gQTzL1lCuQ0XRHzWWQsQ14m0tsxu
- pnu/TcggsUbrCwTEj0YbAcEyeN98a5nKFiG4e0+bq4yAB90OtqFwm835E32bTs0b9PJKSxHB9Ec
- itM+y2IfwXZm+RI5THNwKeVIOSvxtUgJCgmjvsrB4Ub3IFL0chFDswOAXuQ9Hjp7nXvci4xw4iG
- InFHf2ThjSkT01gX7c21PDTfXZBC0elxD3g1NSLqLaXERdrc4rK9moRWKSt7T7qm88wylOYCB+/
- iXtm4YC48cYDMOMeFQaxMwBlxUpioxpZNJgDlJ/lDSA6h7/avNlrQ
-X-Received: by 2002:a05:622a:544d:b0:4b1:c29:22d9 with SMTP id
- d75a77b69052e-4b2aab66b5emr196220531cf.58.1756200760488; 
- Tue, 26 Aug 2025 02:32:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE/Pd9IGXO+XQ9K5LfqZoyJqKQgbNRBf/lZhXlh2ogmR33qnivK3QzAsXMGZxpxVrpfTu0QvQ==
-X-Received: by 2002:a05:622a:544d:b0:4b1:c29:22d9 with SMTP id
- d75a77b69052e-4b2aab66b5emr196220251cf.58.1756200759935; 
- Tue, 26 Aug 2025 02:32:39 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35c9a1efsm2142240e87.118.2025.08.26.02.32.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 02:32:39 -0700 (PDT)
-Date: Tue, 26 Aug 2025 12:32:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: fix incorrect type for ret
-Message-ID: <m22aqeeviic76y5dgo6xgvlc6y3nl6xa34gnznp66g4exkgtce@eu2ta774tekb>
-References: <20250826092047.224341-1-rongqianfeng@vivo.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE3E210E61D;
+ Tue, 26 Aug 2025 09:34:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756200875; x=1787736875;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=jn7qa7RNIH/4d26C/PqCPQiPmid6vOiIwfSpUFTDhnk=;
+ b=CzPArZ0KMci1FX3VgDNIkCdq7U+g2u8rUVWQzOlAt5Nvk594dJ2b8W+2
+ GU9cJz3ZDUk7oIOeDxbqfaqhIoNIJd88v7nGA92LFEnc/YJW4b06OLrqX
+ fub6oP6I9rNIr8FtW5RdQrAZXWlPidOuuIxW3Btqa1XZ/JguNWv0R9TO5
+ FifzAgZnrQidIfSOnqITgg3t32Ti53klE7UiLGiASw9MHuJ6j//6tAqza
+ 5iTSt0wGbNkne4Krvl5SsBCgFx/Zs2mEYSFJHVRtVp/aQ1K5Qn8wufvHP
+ r7N59Vl55b/zGgHDn20+zfmcDtW7sWCQXoPYY+miDBO7KLcCsQ4KmW8xy w==;
+X-CSE-ConnectionGUID: YgvkMANPThmzSG4LooEa6A==
+X-CSE-MsgGUID: N+zdFAA8S8WcI57STzI5Dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="57446926"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208,217";a="57446926"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2025 02:34:34 -0700
+X-CSE-ConnectionGUID: Sx/CBdi/TXiEl7Cy/B07uA==
+X-CSE-MsgGUID: fjCwonFBRLqP7e0asviZrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+ d="scan'208,217";a="169928433"
+Received: from aiddamse-mobl3.gar.corp.intel.com (HELO [10.247.150.174])
+ ([10.247.150.174])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2025 02:34:30 -0700
+Content-Type: multipart/alternative;
+ boundary="------------sEuNln2CBYIFqGhsuKXbmgW2"
+Message-ID: <ec613c23-1c0a-417c-92c1-df47fd09d3d7@linux.intel.com>
+Date: Tue, 26 Aug 2025 15:04:27 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250826092047.224341-1-rongqianfeng@vivo.com>
-X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68ad7f3a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=1WtWmnkvAAAA:8 a=EUspDBNiAAAA:8 a=b381tfKDLOYfEgrzl5gA:9
- a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX3nwoG7MdX5m8
- YU1PfbVCWXXjczHJylR5k7gsLUhRvLtp2DlyjxKlMI7+DdZb1Jvm6rf2VcM5dA5WYx3ktSf/I14
- C1V37EqZqsdDan5zFUUcW6QHtGfi2mIF5pJFR+9wr9fSb6QAzo3gqphx25hDpuL9mW9o5UmbSNF
- huKrmz2mi2zgwL+L+aYJ/IAiDZwTDNl5woHt8Cuhm8iTovuCfzh89gxcCGzV0kQWlXxo2j3264x
- RXMoGQFuwlLa0WJ/53M7ZU5EOsF1a4gX+FiJa6D7a/hyih+uB9MJgrkgKRlKNo5zhKitTJ+Ewcz
- U+igyNBzjlRFVQLwKJhuWxcRLs5gbhhQ1/aarRMgMXeiPniHJY78dZjfdoG8QcFzHEgXJg1B498
- wVj9VFz1
-X-Proofpoint-GUID: RalOTbMteBh8uwMX-JlzVCXholxQFcgo
-X-Proofpoint-ORIG-GUID: RalOTbMteBh8uwMX-JlzVCXholxQFcgo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230032
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v5 5/5] drm/xe/RAS: send multicast event on occurrence of an
+ error
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Michael J <michael.j.ruhl@intel.com>, Riana Tauro <riana.tauro@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>
+References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
+ <20250730064956.1385855-6-aravind.iddamsetty@linux.intel.com>
+ <aJ-uRzbCxXmiQhlH@intel.com>
+Content-Language: en-US
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <aJ-uRzbCxXmiQhlH@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,21 +80,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 26, 2025 at 05:20:45PM +0800, Qianfeng Rong wrote:
-> Change 'ret' from unsigned long to int, as storing negative error codes
-> in an unsigned long makes it never equal to -ETIMEDOUT, causing logical
-> errors.
-> 
-> Fixes: d7d0e73f7de3 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+This is a multi-part message in MIME format.
+--------------sEuNln2CBYIFqGhsuKXbmgW2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+On 16-08-2025 03:31, Rodrigo Vivi wrote:
+> On Wed, Jul 30, 2025 at 12:19:56PM +0530, Aravind Iddamsetty wrote:
+>> Whenever a correctable or an uncorrectable error happens an event is sent
+>> to the corresponding listeners of these groups.
+>>
+>> v2: Rebase
+>> v3: protect with CONFIG_NET define.
+>>
+>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> #v2
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/xe/xe_hw_error.c | 41 ++++++++++++++++++++++++++++++++
+>>  1 file changed, 41 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+>> index bdd9c88674b2..e6e2e6250b70 100644
+>> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+>> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+>> @@ -2,6 +2,8 @@
+>>  /*
+>>   * Copyright © 2023 Intel Corporation
+>>   */
+>> +#include <net/genetlink.h>
+>> +#include <uapi/drm/drm_netlink.h>
+>>  
+>>  #include "xe_gt_printk.h"
+>>  #include "xe_hw_error.h"
+>> @@ -776,6 +778,43 @@ xe_soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+>>  				(HARDWARE_ERROR_MAX << 1) + 1);
+>>  }
+>>  
+>> +#ifdef CONFIG_NET
+>> +static void
+>> +generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
+>> +{
+>> +	struct sk_buff *msg;
+>> +	void *hdr;
+>> +
+>> +	if (!xe->drm.drm_genl_family)
+>> +		return;
+>> +
+>> +	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_ATOMIC);
+>> +	if (!msg) {
+>> +		drm_dbg_driver(&xe->drm, "couldn't allocate memory for error multicast event\n");
+>> +		return;
+>> +	}
+>> +
+>> +	hdr = genlmsg_put(msg, 0, 0, xe->drm.drm_genl_family, 0, DRM_RAS_CMD_ERROR_EVENT);
+> this is something that could be wrapped up in the drm_ras
+are you  referring to entire generate_netlink_event function? because I
+thought driver might want to pass in custom info as part of event
+may be like the error ID that was reported by HW.
+Thanks,
+Aravind.
+>
+>> +	if (!hdr) {
+>> +		drm_dbg_driver(&xe->drm, "mutlicast msg buffer is small\n");
+>> +		nlmsg_free(msg);
+>> +		return;
+>> +	}
+>> +
+>> +	genlmsg_end(msg, hdr);
+>> +
+>> +	genlmsg_multicast(xe->drm.drm_genl_family, msg, 0,
+>> +			  hw_err ?
+>> +			  DRM_GENL_MCAST_UNCORR_ERR
+>> +			  : DRM_GENL_MCAST_CORR_ERR,
+>> +			  GFP_ATOMIC);
+>> +}
+>> +#else
+>> +static void
+>> +generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
+>> +{}
+>> +#endif
+>> +
+>>  static void
+>>  xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+>>  {
+>> @@ -837,6 +876,8 @@ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_er
+>>  	}
+>>  
+>>  	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), errsrc);
+>> +
+>> +	generate_netlink_event(tile_to_xe(tile), hw_err);
+>>  unlock:
+>>  	spin_unlock_irqrestore(&tile_to_xe(tile)->irq.lock, flags);
+>>  }
+>> -- 
+>> 2.25.1
+>>
+--------------sEuNln2CBYIFqGhsuKXbmgW2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 16-08-2025 03:31, Rodrigo Vivi
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:aJ-uRzbCxXmiQhlH@intel.com">
+      <pre wrap="" class="moz-quote-pre">On Wed, Jul 30, 2025 at 12:19:56PM +0530, Aravind Iddamsetty wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">Whenever a correctable or an uncorrectable error happens an event is sent
+to the corresponding listeners of these groups.
+
+v2: Rebase
+v3: protect with CONFIG_NET define.
+
+Reviewed-by: Michael J. Ruhl <a class="moz-txt-link-rfc2396E" href="mailto:michael.j.ruhl@intel.com">&lt;michael.j.ruhl@intel.com&gt;</a> #v2
+Signed-off-by: Aravind Iddamsetty <a class="moz-txt-link-rfc2396E" href="mailto:aravind.iddamsetty@linux.intel.com">&lt;aravind.iddamsetty@linux.intel.com&gt;</a>
+---
+ drivers/gpu/drm/xe/xe_hw_error.c | 41 ++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+index bdd9c88674b2..e6e2e6250b70 100644
+--- a/drivers/gpu/drm/xe/xe_hw_error.c
++++ b/drivers/gpu/drm/xe/xe_hw_error.c
+@@ -2,6 +2,8 @@
+ /*
+  * Copyright © 2023 Intel Corporation
+  */
++#include &lt;net/genetlink.h&gt;
++#include &lt;uapi/drm/drm_netlink.h&gt;
+ 
+ #include "xe_gt_printk.h"
+ #include "xe_hw_error.h"
+@@ -776,6 +778,43 @@ xe_soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+ 				(HARDWARE_ERROR_MAX &lt;&lt; 1) + 1);
+ }
+ 
++#ifdef CONFIG_NET
++static void
++generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
++{
++	struct sk_buff *msg;
++	void *hdr;
++
++	if (!xe-&gt;drm.drm_genl_family)
++		return;
++
++	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_ATOMIC);
++	if (!msg) {
++		drm_dbg_driver(&amp;xe-&gt;drm, "couldn't allocate memory for error multicast event\n");
++		return;
++	}
++
++	hdr = genlmsg_put(msg, 0, 0, xe-&gt;drm.drm_genl_family, 0, DRM_RAS_CMD_ERROR_EVENT);
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+this is something that could be wrapped up in the drm_ras</pre>
+    </blockquote>
+    are you  referring to entire <span style="white-space: pre-wrap">generate_netlink_event function? because I thought driver might want to pass in custom info as part of event</span><br>
+    <span style="white-space: pre-wrap">may be like the error ID that was reported by HW.</span><br>
+    <span style="white-space: pre-wrap">
+</span><span style="white-space: pre-wrap">Thanks,</span><br>
+    <span style="white-space: pre-wrap">Aravind.</span>
+    <blockquote type="cite" cite="mid:aJ-uRzbCxXmiQhlH@intel.com">
+      <pre wrap="" class="moz-quote-pre">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+	if (!hdr) {
++		drm_dbg_driver(&amp;xe-&gt;drm, "mutlicast msg buffer is small\n");
++		nlmsg_free(msg);
++		return;
++	}
++
++	genlmsg_end(msg, hdr);
++
++	genlmsg_multicast(xe-&gt;drm.drm_genl_family, msg, 0,
++			  hw_err ?
++			  DRM_GENL_MCAST_UNCORR_ERR
++			  : DRM_GENL_MCAST_CORR_ERR,
++			  GFP_ATOMIC);
++}
++#else
++static void
++generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
++{}
++#endif
++
+ static void
+ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+ {
+@@ -837,6 +876,8 @@ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_er
+ 	}
+ 
+ 	xe_mmio_write32(&amp;tile-&gt;mmio, DEV_ERR_STAT_REG(hw_err), errsrc);
++
++	generate_netlink_event(tile_to_xe(tile), hw_err);
+ unlock:
+ 	spin_unlock_irqrestore(&amp;tile_to_xe(tile)-&gt;irq.lock, flags);
+ }
 -- 
-With best wishes
-Dmitry
+2.25.1
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------sEuNln2CBYIFqGhsuKXbmgW2--
