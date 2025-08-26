@@ -2,120 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30F0B358CB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 11:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DEDB358D2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 11:26:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2E410E61F;
-	Tue, 26 Aug 2025 09:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B873610E61B;
+	Tue, 26 Aug 2025 09:26:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XOuHedPu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ajd1P8fA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02ECB10E61B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:26:15 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57Q5l7jw026177
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:26:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=7KgDcKLK3b159g1W/t3sHnMu
- AA3fp8hQ8bh2XnHJ4Gc=; b=XOuHedPukwV2WWTwQlYfxX5/a2iR0+oJ8xUiQ9En
- OjLXPMJPmxWkkRBeWoSd6iFocYiVWJ6YmTOlpvYTig5msjnVJs3LGupRh1XlM5zw
- wM97wUlfeYI8ygDchqRFcpxyKsQUdislQIYS9BVMk+j0vR3QO5eSrjTT5qPl2U/A
- 72Wnm5UhJd8qciTwCnpxH5HJ3t0/k1FnB/5dhztcv0nPoPPxGr3Lxs51xy7Nfxoy
- pXDVCQD3ALX76UUQk6nXkasTCcxDqGrEVicPI/Twh2Gqr8JWGtFN3gwpFQRfYTPW
- 6c8yq9kDp3/e7JjHnZpZVTZSDyyMminjrhsnSJ1uRdIcxQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xfg759-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:26:15 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b109765d3fso112847431cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 02:26:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756200374; x=1756805174;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7KgDcKLK3b159g1W/t3sHnMuAA3fp8hQ8bh2XnHJ4Gc=;
- b=ida5sSBgi9ZIV5Z+bKwDL493a7xOUqNp5n3UY0rbnNuhUroEB0mDbeG6TwDWFN5tuC
- 2HT/o/GtRagpWtxQX36Ar4o7bEM6TQX+03JB3cRoU7qqwFEkj3KkECM/pLrKeDz2VEVk
- ICHXYp2CLEnCJ37AuY6NQc6BIJ/hN7QGQIBVXErNbc/6MXEVOxSKoJIs2/2RhR05wG+l
- zrBeOMJg2qPH84M5ogMmd8pFtctoid+0Vceq2LWoaik0e9eRLXW4YJHdiQMgOuoVzV8j
- MfhTsvWAW82zz47jmljcZV/px+HpsgdMDqkD/2/clOYdCWzty2TVaUwohR7yA7s7v0iF
- lSMA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAsTgOqJ+9qAEfwMedz7Tx1nZKgkkj4HMWcftYhtJOWCjADiMu/OLjxTpU6St1My61NuVjKY3zmuM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1hKwb/9CitMLe8fZAmBW6jjcnzYzH8zeB/NM3pnSNbCZIBVrp
- myM5m8uEa5PyhEmH9mfDdBLCu/pvX9o36vu9qtmjxnVF1Bydr8Khdwpht02vEoJ7E4R3eR5Y87f
- HPz+PI62ktI1CJIAki9hDE0Z1dF5HA2nLjF1P204g2vS50i0UKJfo5eMunpo4tJ78Hrkqp3k=
-X-Gm-Gg: ASbGncsp+hHM5wycqYETQ+jRmRQ0kVEP6WnBJ2grEQy8uLnAX1g3mO46/LHcsg48DC/
- optkG5wjAccYqloGF2TSFMXJJMOE+ex425h5s4n3ijRFV/4C20rIReXK6ATs6TvFVOmxNvItG5i
- 9KkoC1o/MFhT9DIXOjsBuEbAAwEgI/i6ilAaHp4aJt0bcTztvO/N2oAOyjWaJjVB3Q00xwFx+gp
- isAtbRKQpjKTAW5b7Y1+yjWYZ7ld9ui0Plta4eiwwaG7xMkRSUc5sA50FmOeZoZZBI5dG+L8GAz
- BpMlO/tMO/ctcC+TuPJ/EMJ6JR79UUEwg5nwAIJOSZtEEjMP2T1LKdrcZ8t+sQuumloLeKAZ3lK
- adhNLfj76qcnkQAUBUUd7Q7mGbPgBVnSULWKgQYAN6zaAlDQ4XT4X
-X-Received: by 2002:ac8:7d0f:0:b0:4ab:958a:6003 with SMTP id
- d75a77b69052e-4b2e76f6c0emr6051041cf.27.1756200374142; 
- Tue, 26 Aug 2025 02:26:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLI2pBmaxUZlk2JfGZiIZiLVPRGKwKddxYmLZBVub9Mv5V9yCX6KNDj8QRrTIRv5+E0q1Vzg==
-X-Received: by 2002:ac8:7d0f:0:b0:4ab:958a:6003 with SMTP id
- d75a77b69052e-4b2e76f6c0emr6050811cf.27.1756200373545; 
- Tue, 26 Aug 2025 02:26:13 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35c11ffesm2214856e87.40.2025.08.26.02.26.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 02:26:12 -0700 (PDT)
-Date: Tue, 26 Aug 2025 12:26:09 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 26/38] drm/msm/dp: add an API to initialize MST on
- sink side
-Message-ID: <4u5bt5y4suecanvxni2fnljdzrxnkjrg2dgkwzpj4pztvyoef3@nopu6m7w543n>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-26-01faacfcdedd@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0104010E61B;
+ Tue, 26 Aug 2025 09:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756200405; x=1787736405;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=m/ORx+S/3PUKVl2k05Y+HZfSR3C+G9RJKR2ji+SRePw=;
+ b=Ajd1P8fAVjUflIFhBdJBfcRdOc/nJSAw+QOrIuW6d8lCUg9jNLStTU6y
+ pRpS8H1I4t64IQs0Bj4Vn3xrzFtf6pMpiRBpAudV3tPMBwdGAVPqh8PQa
+ P0A5qNYZcwVhPlA7UjhKZHJXGscHraibr4WdaW9aAp6IGLTejsHdtCnwM
+ 19sTmpltgwkJxDfWa3S4pZVpAIqPaevKm51ddlNcL2y+Ny126Eiy5dBlL
+ eyL5fheDmlq5Zr8LHMla7+cjHCGqtwc3Rx9iLNxbiAvCOZa2YjQ42k8qH
+ UvZjPdZM28FCDOKbMoMeQSdoNPcVQNyrtKgSgEeAbV9U6dXhig8nCROzz A==;
+X-CSE-ConnectionGUID: 7pgaPyoRS0WEO4K3a8de0g==
+X-CSE-MsgGUID: Pt+40a8oRPmloQ3qiDW/RA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58136954"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="58136954"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2025 02:26:45 -0700
+X-CSE-ConnectionGUID: o+erdMsVR1iEo7jMwUjrtA==
+X-CSE-MsgGUID: Q8sGnOJ+T92IJahiRxKJ4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="168739947"
+Received: from aiddamse-mobl3.gar.corp.intel.com (HELO [10.247.150.174])
+ ([10.247.150.174])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2025 02:26:41 -0700
+Message-ID: <4f8584a6-ada3-4749-91db-a812674f670d@linux.intel.com>
+Date: Tue, 26 Aug 2025 14:56:38 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-26-01faacfcdedd@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX4W0ZQOjFEheO
- u+Xtq0j4zEXZGjRJWl+3tXqftHWRts8oQtfypafVBYTuMB/u/2vv1rnrt8rgmZj//foQ9nSjTTg
- gqAyLnUmAJip+3/6/0e57iyEqOB0wr6pdfIYpGkp+Pg5eeGvkpvQDMNT6rGmPKhuYNDLu1C10gz
- cfwAgEQj9kQDNQhLk28dgIgUuoH/SpSaI/2vbH1Z3fsmjpRDOkHzJ3xQO4NZ0QNMsajaZwyzR1S
- 9TNjTLQPBTtXP/axPk7HSXliS/me0FUm8TashTGWsG+jAo8ErGDsuibRDEzWlPLyydwraZXQnB1
- 14NZuRWpelxbls+DPACaf9C/6dZb8mBmHEMvSzMWxFQuRqxnjwfjr/prnWvBBeVGnWvzhtSLEUm
- 8nyAVoyZ
-X-Proofpoint-GUID: qh_0lOb0Rk8JVeCF4VfAllYkuruaLTCw
-X-Authority-Analysis: v=2.4 cv=MutS63ae c=1 sm=1 tr=0 ts=68ad7db7 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=7z2oCe98pf8tU8XqQ0sA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: qh_0lOb0Rk8JVeCF4VfAllYkuruaLTCw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v5 3/5] drm/xe/RAS: Expose the error counters
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Michael J <michael.j.ruhl@intel.com>, Riana Tauro <riana.tauro@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>
+References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
+ <20250730064956.1385855-4-aravind.iddamsetty@linux.intel.com>
+ <aJ-thMOY5A3RcYNV@intel.com>
+Content-Language: en-US
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <aJ-thMOY5A3RcYNV@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,134 +78,721 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:16:12PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> If the DP controller is capable of supporting multiple streams
-> then initialize the DP sink in MST mode by programming the DP_MSTM_CTRL
-> DPCD register to enable MST mode.
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 55 ++++++++++++++++++++++++++++++-------
->  1 file changed, 45 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index cb433103d439ac6b8089bdecf0ee6be35c914db1..84df34306fb557341bea288ea8c13b0c81b11919 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -14,6 +14,7 @@
->  #include <linux/string_choices.h>
->  #include <drm/display/drm_dp_aux_bus.h>
->  #include <drm/display/drm_hdmi_audio_helper.h>
-> +#include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_edid.h>
->  
->  #include "msm_drv.h"
-> @@ -297,6 +298,35 @@ static int msm_dp_display_lttpr_init(struct msm_dp_display_private *dp, u8 *dpcd
->  	return lttpr_count;
->  }
->  
-> +static void msm_dp_display_mst_init(struct msm_dp_display_private *dp)
-> +{
-> +	const unsigned long clear_mstm_ctrl_timeout_us = 100000;
-> +	u8 old_mstm_ctrl;
-> +	struct msm_dp *msm_dp = &dp->msm_dp_display;
-> +	int ret;
-> +
-> +	/* clear sink mst state */
-> +	drm_dp_dpcd_readb(dp->aux, DP_MSTM_CTRL, &old_mstm_ctrl);
-> +	drm_dp_dpcd_writeb(dp->aux, DP_MSTM_CTRL, 0);
-> +
-> +	/* add extra delay if MST old state is on*/
-> +	if (old_mstm_ctrl) {
-> +		drm_dbg_dp(dp->drm_dev, "wait %luus to set DP_MSTM_CTRL set 0\n",
-> +			   clear_mstm_ctrl_timeout_us);
-> +		usleep_range(clear_mstm_ctrl_timeout_us,
-> +			     clear_mstm_ctrl_timeout_us + 1000);
-> +	}
-> +
-> +	ret = drm_dp_dpcd_writeb(dp->aux, DP_MSTM_CTRL,
-> +				 DP_MST_EN | DP_UP_REQ_EN | DP_UPSTREAM_IS_SRC);
-> +	if (ret < 0) {
 
-I didn't catch this up in the previous patches. We have two sets of DPCD
-accessors: the older ones which can return error or the size of the data
-that was actually read / written (which might be less than the size of
-the buffer passed to the function) and newer ones, which return error or
-0. drm_dp_dpcd_writeb() is from the first group, so if it was
-successful, it should be returning 1. It's all a pain to handle, so
-please start using newer accessors in your patches (the full conversion
-of the MSM driver is on my todo list, but it's intrusive, so was
-delaying it...).
+On 16-08-2025 03:28, Rodrigo Vivi wrote:
+> On Wed, Jul 30, 2025 at 12:19:54PM +0530, Aravind Iddamsetty wrote:
+>> We expose the various error counters supported on a hardware via genl
+>> subsytem through the registered commands to userspace. The
+>> DRM_RAS_CMD_QUERY lists the error names with config id,
+>> DRM_RAD_CMD_READ_ONE returns the counter value for the requested config
+>> id and the DRM_RAS_CMD_READ_ALL lists the counters for all errors along
+>> with their names and config ids.
+>>
+>> v2: Rebase
+>>
+>> v3:
+>> 1. presently xe_list_errors fills blank data for IGFX, prevent it by
+>> having an early check of IS_DGFX (Michael J. Ruhl)
+>> 2. update errors from all sources
+>>
+>> v4: Check QUERY param, if its normal return not supported.
+>>
+>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/xe/xe_hw_error.c |  15 +-
+>>  drivers/gpu/drm/xe/xe_netlink.c  | 509 ++++++++++++++++++++++++++++++-
+>>  include/uapi/drm/xe_drm.h        |  85 ++++++
+>>  3 files changed, 602 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+>> index 6a7cd59caac1..bdd9c88674b2 100644
+>> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+>> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+>> @@ -531,16 +531,21 @@ static void xe_clear_all_soc_errors(struct xe_device *xe)
+>>  
+>>  		while (hw_err < HARDWARE_ERROR_MAX) {
+>>  			for (i = 0; i < XE_SOC_NUM_IEH; i++)
+>> -				xe_mmio_write32(&gt->tile->mmio, SOC_GSYSEVTCTL_REG(base, slave_base, i),
+>> +				xe_mmio_write32(&gt->tile->mmio,
+>> +						SOC_GSYSEVTCTL_REG(base, slave_base, i),
+>>  						~REG_BIT(hw_err));
+>>  
+>> -			xe_mmio_write32(&gt->tile->mmio, SOC_GLOBAL_ERR_STAT_MASTER_REG(base, hw_err),
+>> +			xe_mmio_write32(&gt->tile->mmio,
+>> +					SOC_GLOBAL_ERR_STAT_MASTER_REG(base, hw_err),
+>>  					REG_GENMASK(31, 0));
+>> -			xe_mmio_write32(&gt->tile->mmio, SOC_LOCAL_ERR_STAT_MASTER_REG(base, hw_err),
+>> +			xe_mmio_write32(&gt->tile->mmio,
+>> +					SOC_LOCAL_ERR_STAT_MASTER_REG(base, hw_err),
+>>  					REG_GENMASK(31, 0));
+>> -			xe_mmio_write32(&gt->tile->mmio, SOC_GLOBAL_ERR_STAT_SLAVE_REG(slave_base, hw_err),
+>> +			xe_mmio_write32(&gt->tile->mmio,
+>> +					SOC_GLOBAL_ERR_STAT_SLAVE_REG(slave_base, hw_err),
+>>  					REG_GENMASK(31, 0));
+>> -			xe_mmio_write32(&gt->tile->mmio, SOC_LOCAL_ERR_STAT_SLAVE_REG(slave_base, hw_err),
+>> +			xe_mmio_write32(&gt->tile->mmio,
+>> +					SOC_LOCAL_ERR_STAT_SLAVE_REG(slave_base, hw_err),
+>>  					REG_GENMASK(31, 0));
+> probably a fixup for the patch in the other series?
+> Which btw it was hard to understand the dependency. We should make this series indepentent
+> of the other one.
+agree this shouldn't have been part of this series, I might have messed
+it as part of rebasing.
+>>  			hw_err++;
+>>  		}
+>> diff --git a/drivers/gpu/drm/xe/xe_netlink.c b/drivers/gpu/drm/xe/xe_netlink.c
+>> index 9e588fb19631..20240875284a 100644
+>> --- a/drivers/gpu/drm/xe/xe_netlink.c
+>> +++ b/drivers/gpu/drm/xe/xe_netlink.c
+>> @@ -6,16 +6,521 @@
+>>  #include <net/genetlink.h>
+>>  #include <uapi/drm/drm_netlink.h>
+>>  
+>> +#include <drm/xe_drm.h>
+>> +
+>>  #include "xe_device.h"
+>>  
+>> -static int xe_genl_list_errors(struct drm_device *drm, struct sk_buff *msg, struct genl_info *info)
+>> +#define MAX_ERROR_NAME	100
+>> +
+>> +static const char * const xe_hw_error_events[] = {
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3_SNG] = "correctable-l3-sng",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_GUC] = "correctable-guc",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SAMPLER] = "correctable-sampler",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SLM] = "correctable-slm",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_IC] = "correctable-eu-ic",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_GRF] = "correctable-eu-grf",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_ARR_BIST] = "fatal-array-bist",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_L3_DOUB] = "fatal-l3-double",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_L3_ECC_CHK] = "fatal-l3-ecc-checker",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_GUC] = "fatal-guc",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_IDI_PAR] = "fatal-idi-parity",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_SQIDI] = "fatal-sqidi",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_SAMPLER] = "fatal-sampler",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_SLM] = "fatal-slm",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_EU_IC] = "fatal-eu-ic",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_EU_GRF] = "fatal-eu-grf",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_FPU] = "fatal-fpu",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_TLB] = "fatal-tlb",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_L3_FABRIC] = "fatal-l3-fabric",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SUBSLICE] = "correctable-subslice",
+>> +		[DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3BANK] = "correctable-l3bank",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_SUBSLICE] = "fatal-subslice",
+>> +		[DRM_XE_GENL_GT_ERROR_FATAL_L3BANK] = "fatal-l3bank",
+>> +		[DRM_XE_GENL_SGUNIT_ERROR_CORRECTABLE] = "sgunit-correctable",
+>> +		[DRM_XE_GENL_SGUNIT_ERROR_NONFATAL] = "sgunit-nonfatal",
+>> +		[DRM_XE_GENL_SGUNIT_ERROR_FATAL] = "sgunit-fatal",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMD] = "soc-nonfatal-csc-psf-cmd-parity",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMP] = "soc-nonfatal-csc-psf-unexpected-completion",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_REQ] = "soc-nonfatal-csc-psf-unsupported-request",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_ANR_MDFI] = "soc-nonfatal-anr-mdfi",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2T] = "soc-nonfatal-mdfi-t2t",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2C] = "soc-nonfatal-mdfi-t2c",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 0)] = "soc-nonfatal-hbm-ss0-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 1)] = "soc-nonfatal-hbm-ss0-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 2)] = "soc-nonfatal-hbm-ss0-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 3)] = "soc-nonfatal-hbm-ss0-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 4)] = "soc-nonfatal-hbm-ss0-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 5)] = "soc-nonfatal-hbm-ss0-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 6)] = "soc-nonfatal-hbm-ss0-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 7)] = "soc-nonfatal-hbm-ss0-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 8)] = "soc-nonfatal-hbm-ss1-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 9)] = "soc-nonfatal-hbm-ss1-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 10)] = "soc-nonfatal-hbm-ss1-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 11)] = "soc-nonfatal-hbm-ss1-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 12)] = "soc-nonfatal-hbm-ss1-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 13)] = "soc-nonfatal-hbm-ss1-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 14)] = "soc-nonfatal-hbm-ss1-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 15)] = "soc-nonfatal-hbm-ss1-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 0)] = "soc-nonfatal-hbm-ss2-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 1)] = "soc-nonfatal-hbm-ss2-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 2)] = "soc-nonfatal-hbm-ss2-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 3)] = "soc-nonfatal-hbm-ss2-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 4)] = "soc-nonfatal-hbm-ss2-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 5)] = "soc-nonfatal-hbm-ss2-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 6)] = "soc-nonfatal-hbm-ss2-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 7)] = "soc-nonfatal-hbm-ss2-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 8)] = "soc-nonfatal-hbm-ss3-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 9)] = "soc-nonfatal-hbm-ss3-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 10)] = "soc-nonfatal-hbm-ss3-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 11)] = "soc-nonfatal-hbm-ss3-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 12)] = "soc-nonfatal-hbm-ss3-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 13)] = "soc-nonfatal-hbm-ss3-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 14)] = "soc-nonfatal-hbm-ss3-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 15)] = "soc-nonfatal-hbm-ss3-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMD] = "soc-fatal-csc-psf-cmd-parity",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMP] = "soc-fatal-csc-psf-unexpected-completion",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_REQ] = "soc-fatal-csc-psf-unsupported-request",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PUNIT] = "soc-fatal-punit",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMD] = "soc-fatal-pcie-psf-command-parity",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMP] = "soc-fatal-pcie-psf-unexpected-completion",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_REQ] = "soc-fatal-pcie-psf-unsupported-request",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_ANR_MDFI] = "soc-fatal-anr-mdfi",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2T] = "soc-fatal-mdfi-t2t",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2C] = "soc-fatal-mdfi-t2c",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_AER] = "soc-fatal-malformed-pcie-aer",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_ERR] = "soc-fatal-malformed-pcie-err",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_UR_COND] = "soc-fatal-ur-condition-ieh",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_SERR_SRCS] = "soc-fatal-from-serr-sources",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 0)] = "soc-fatal-hbm-ss0-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 1)] = "soc-fatal-hbm-ss0-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 2)] = "soc-fatal-hbm-ss0-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 3)] = "soc-fatal-hbm-ss0-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 4)] = "soc-fatal-hbm-ss0-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 5)] = "soc-fatal-hbm-ss0-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 6)] = "soc-fatal-hbm-ss0-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 7)] = "soc-fatal-hbm-ss0-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 8)] = "soc-fatal-hbm-ss1-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 9)] = "soc-fatal-hbm-ss1-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 10)] = "soc-fatal-hbm-ss1-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 11)] = "soc-fatal-hbm-ss1-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 12)] = "soc-fatal-hbm-ss1-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 13)] = "soc-fatal-hbm-ss1-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 14)] = "soc-fatal-hbm-ss1-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 15)] = "soc-fatal-hbm-ss1-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 0)] = "soc-fatal-hbm-ss2-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 1)] = "soc-fatal-hbm-ss2-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 2)] = "soc-fatal-hbm-ss2-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 3)] = "soc-fatal-hbm-ss2-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 4)] = "soc-fatal-hbm-ss2-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 5)] = "soc-fatal-hbm-ss2-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 6)] = "soc-fatal-hbm-ss2-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 7)] = "soc-fatal-hbm-ss2-7",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 8)] = "soc-fatal-hbm-ss3-0",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 9)] = "soc-fatal-hbm-ss3-1",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 10)] = "soc-fatal-hbm-ss3-2",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 11)] = "soc-fatal-hbm-ss3-3",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 12)] = "soc-fatal-hbm-ss3-4",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 13)] = "soc-fatal-hbm-ss3-5",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 14)] = "soc-fatal-hbm-ss3-6",
+>> +		[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 15)] = "soc-fatal-hbm-ss3-7",
+>> +		[DRM_XE_GENL_GSC_ERROR_CORRECTABLE_SRAM_ECC] = "gsc-correctable-sram-ecc",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_SHUTDOWN] = "gsc-nonfatal-mia-shutdown",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_INTERNAL] = "gsc-nonfatal-mia-internal",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_SRAM_ECC] = "gsc-nonfatal-sram-ecc",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_WDG_TIMEOUT] = "gsc-nonfatal-wdg-timeout",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_ROM_PARITY] = "gsc-nonfatal-rom-parity",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_UCODE_PARITY] = "gsc-nonfatal-ucode-parity",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_VLT_GLITCH] = "gsc-nonfatal-vlt-glitch",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_PULL] = "gsc-nonfatal-fuse-pull",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_CRC_CHECK] = "gsc-nonfatal-fuse-crc-check",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_SELF_MBIST] = "gsc-nonfatal-self-mbist",
+>> +		[DRM_XE_GENL_GSC_ERROR_NONFATAL_AON_RF_PARITY] = "gsc-nonfatal-aon-parity",
+>> +		[DRM_XE_GENL_SGGI_ERROR_NONFATAL] = "sggi-nonfatal-data-parity",
+>> +		[DRM_XE_GENL_SGLI_ERROR_NONFATAL] = "sgli-nonfatal-data-parity",
+>> +		[DRM_XE_GENL_SGCI_ERROR_NONFATAL] = "sgci-nonfatal-data-parity",
+>> +		[DRM_XE_GENL_MERT_ERROR_NONFATAL] = "mert-nonfatal-data-parity",
+>> +		[DRM_XE_GENL_SGGI_ERROR_FATAL] = "sggi-fatal-data-parity",
+>> +		[DRM_XE_GENL_SGLI_ERROR_FATAL] = "sgli-fatal-data-parity",
+>> +		[DRM_XE_GENL_SGCI_ERROR_FATAL] = "sgci-fatal-data-parity",
+>> +		[DRM_XE_GENL_MERT_ERROR_FATAL] = "mert-nonfatal-data-parity",
+>> +};
+>> +
+>> +static const unsigned long xe_hw_error_map[] = {
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3_SNG] = XE_HW_ERR_GT_CORR_L3_SNG,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_GUC] = XE_HW_ERR_GT_CORR_GUC,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SAMPLER] = XE_HW_ERR_GT_CORR_SAMPLER,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SLM] = XE_HW_ERR_GT_CORR_SLM,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_IC] = XE_HW_ERR_GT_CORR_EU_IC,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_GRF] = XE_HW_ERR_GT_CORR_EU_GRF,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_ARR_BIST] = XE_HW_ERR_GT_FATAL_ARR_BIST,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_L3_DOUB] = XE_HW_ERR_GT_FATAL_L3_DOUB,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_L3_ECC_CHK] = XE_HW_ERR_GT_FATAL_L3_ECC_CHK,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_GUC] = XE_HW_ERR_GT_FATAL_GUC,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_IDI_PAR] = XE_HW_ERR_GT_FATAL_IDI_PAR,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_SQIDI] = XE_HW_ERR_GT_FATAL_SQIDI,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_SAMPLER] = XE_HW_ERR_GT_FATAL_SAMPLER,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_SLM] = XE_HW_ERR_GT_FATAL_SLM,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_EU_IC] = XE_HW_ERR_GT_FATAL_EU_IC,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_EU_GRF] = XE_HW_ERR_GT_FATAL_EU_GRF,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_FPU] = XE_HW_ERR_GT_FATAL_FPU,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_TLB] = XE_HW_ERR_GT_FATAL_TLB,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_L3_FABRIC] = XE_HW_ERR_GT_FATAL_L3_FABRIC,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_SUBSLICE] = XE_HW_ERR_GT_CORR_SUBSLICE,
+>> +	[DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3BANK] = XE_HW_ERR_GT_CORR_L3BANK,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_SUBSLICE] = XE_HW_ERR_GT_FATAL_SUBSLICE,
+>> +	[DRM_XE_GENL_GT_ERROR_FATAL_L3BANK] = XE_HW_ERR_GT_FATAL_L3BANK,
+>> +	[DRM_XE_GENL_SGUNIT_ERROR_CORRECTABLE] = XE_HW_ERR_TILE_CORR_SGUNIT,
+>> +	[DRM_XE_GENL_SGUNIT_ERROR_NONFATAL] = XE_HW_ERR_TILE_NONFATAL_SGUNIT,
+>> +	[DRM_XE_GENL_SGUNIT_ERROR_FATAL] = XE_HW_ERR_TILE_FATAL_SGUNIT,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMD] = XE_HW_ERR_SOC_NONFATAL_CSC_PSF_CMD,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMP] = XE_HW_ERR_SOC_NONFATAL_CSC_PSF_CMP,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_REQ] = XE_HW_ERR_SOC_NONFATAL_CSC_PSF_REQ,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_ANR_MDFI] = XE_HW_ERR_SOC_NONFATAL_ANR_MDFI,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2T] = XE_HW_ERR_SOC_NONFATAL_MDFI_T2T,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2C] = XE_HW_ERR_SOC_NONFATAL_MDFI_T2C,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 0)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 1)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 2)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 3)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 4)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 5)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 6)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 7)] = XE_HW_ERR_SOC_NONFATAL_HBM0_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 8)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 9)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 10)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 11)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 12)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 13)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 14)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(0, 15)] = XE_HW_ERR_SOC_NONFATAL_HBM1_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 0)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 1)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 2)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 3)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 4)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 5)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 6)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 7)] = XE_HW_ERR_SOC_NONFATAL_HBM2_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 8)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 9)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 10)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 11)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 12)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 13)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 14)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 15)] = XE_HW_ERR_SOC_NONFATAL_HBM3_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMD] = XE_HW_ERR_SOC_FATAL_CSC_PSF_CMD,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMP] = XE_HW_ERR_SOC_FATAL_CSC_PSF_CMP,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_REQ] = XE_HW_ERR_SOC_FATAL_CSC_PSF_REQ,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PUNIT] = XE_HW_ERR_SOC_FATAL_PUNIT,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMD] = XE_HW_ERR_SOC_FATAL_PCIE_PSF_CMD,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMP] = XE_HW_ERR_SOC_FATAL_PCIE_PSF_CMP,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_REQ] = XE_HW_ERR_SOC_FATAL_PCIE_PSF_REQ,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_ANR_MDFI] = XE_HW_ERR_SOC_FATAL_ANR_MDFI,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2T] = XE_HW_ERR_SOC_FATAL_MDFI_T2T,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2C] = XE_HW_ERR_SOC_FATAL_MDFI_T2C,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_AER] = XE_HW_ERR_SOC_FATAL_PCIE_AER,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_ERR] = XE_HW_ERR_SOC_FATAL_PCIE_ERR,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_UR_COND] = XE_HW_ERR_SOC_FATAL_UR_COND,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_SERR_SRCS] = XE_HW_ERR_SOC_FATAL_SERR_SRCS,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 0)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 1)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 2)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 3)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 4)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 5)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 6)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 7)] = XE_HW_ERR_SOC_FATAL_HBM0_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 8)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 9)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 10)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 11)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 12)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 13)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 14)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(0, 15)] = XE_HW_ERR_SOC_FATAL_HBM1_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 0)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 1)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 2)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 3)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 4)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 5)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 6)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 7)] = XE_HW_ERR_SOC_FATAL_HBM2_CHNL7,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 8)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL0,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 9)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL1,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 10)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL2,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 11)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL3,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 12)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL4,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 13)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL5,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 14)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL6,
+>> +	[DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 15)] = XE_HW_ERR_SOC_FATAL_HBM3_CHNL7,
+>> +	[DRM_XE_GENL_GSC_ERROR_CORRECTABLE_SRAM_ECC] = XE_HW_ERR_GSC_CORR_SRAM,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_SHUTDOWN] = XE_HW_ERR_GSC_NONFATAL_MIA_SHUTDOWN,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_INTERNAL] = XE_HW_ERR_GSC_NONFATAL_MIA_INTERNAL,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_SRAM_ECC] = XE_HW_ERR_GSC_NONFATAL_SRAM,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_WDG_TIMEOUT] = XE_HW_ERR_GSC_NONFATAL_WDG,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_ROM_PARITY] = XE_HW_ERR_GSC_NONFATAL_ROM_PARITY,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_UCODE_PARITY] = XE_HW_ERR_GSC_NONFATAL_UCODE_PARITY,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_VLT_GLITCH] = XE_HW_ERR_GSC_NONFATAL_VLT_GLITCH,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_PULL] = XE_HW_ERR_GSC_NONFATAL_FUSE_PULL,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_CRC_CHECK] = XE_HW_ERR_GSC_NONFATAL_FUSE_CRC,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_SELF_MBIST] = XE_HW_ERR_GSC_NONFATAL_SELF_MBIST,
+>> +	[DRM_XE_GENL_GSC_ERROR_NONFATAL_AON_RF_PARITY] = XE_HW_ERR_GSC_NONFATAL_AON_RF_PARITY,
+>> +	[DRM_XE_GENL_SGGI_ERROR_NONFATAL] = XE_HW_ERR_TILE_NONFATAL_SGGI,
+>> +	[DRM_XE_GENL_SGLI_ERROR_NONFATAL] = XE_HW_ERR_TILE_NONFATAL_SGLI,
+>> +	[DRM_XE_GENL_SGCI_ERROR_NONFATAL] = XE_HW_ERR_TILE_NONFATAL_SGCI,
+>> +	[DRM_XE_GENL_MERT_ERROR_NONFATAL] = XE_HW_ERR_TILE_NONFATAL_MERT,
+>> +	[DRM_XE_GENL_SGGI_ERROR_FATAL] = XE_HW_ERR_TILE_FATAL_SGGI,
+>> +	[DRM_XE_GENL_SGLI_ERROR_FATAL] = XE_HW_ERR_TILE_FATAL_SGLI,
+>> +	[DRM_XE_GENL_SGCI_ERROR_FATAL] = XE_HW_ERR_TILE_FATAL_SGCI,
+>> +	[DRM_XE_GENL_MERT_ERROR_FATAL] = XE_HW_ERR_TILE_FATAL_MERT,
+>> +};
+> probably deserves a separate header file?
+is that to have better readability? as the header will ever be used only
+in this file will it have any advantage?
+>
+>> +
+>> +static unsigned int config_gt_id(const u64 config)
+>> +{
+>> +	return config >> __XE_GENL_GT_SHIFT;
+>> +}
+>> +
+>> +static u64 config_counter(const u64 config)
+>> +{
+>> +	return config & ~(~0ULL << __XE_GENL_GT_SHIFT);
+>> +}
+>> +
+>> +static bool is_gt_error(const u64 config)
+>> +{
+>> +	unsigned int error;
+>> +
+>> +	error = config_counter(config);
+>> +	if (error <= DRM_XE_GENL_GT_ERROR_FATAL_FPU)
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +static bool is_gt_vector_error(const u64 config)
+>> +{
+>> +	unsigned int error;
+>> +
+>> +	error = config_counter(config);
+>> +	if (error >= DRM_XE_GENL_GT_ERROR_FATAL_TLB &&
+>> +	    error <= DRM_XE_GENL_GT_ERROR_FATAL_L3BANK)
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +static bool is_pvc_invalid_gt_errors(const u64 config)
+>> +{
+>> +	switch (config_counter(config)) {
+>> +	case DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3_SNG:
+>> +	case DRM_XE_GENL_GT_ERROR_CORRECTABLE_SAMPLER:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_ARR_BIST:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_L3_DOUB:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_L3_ECC_CHK:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_IDI_PAR:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_SQIDI:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_SAMPLER:
+>> +	case DRM_XE_GENL_GT_ERROR_FATAL_EU_IC:
+>> +		return true;
+>> +	default:
+>> +		return false;
+>> +	}
+>> +}
+>> +
+>> +static bool is_gsc_hw_error(const u64 config)
+>> +{
+>> +	if (config_counter(config) >= DRM_XE_GENL_GSC_ERROR_CORRECTABLE_SRAM_ECC &&
+>> +	    config_counter(config) <= DRM_XE_GENL_GSC_ERROR_NONFATAL_AON_RF_PARITY)
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +static bool is_soc_error(const u64 config)
+>>  {
+>> +	if (config_counter(config) >= DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMD &&
+>> +	    config_counter(config) <= DRM_XE_GENL_SOC_ERROR_FATAL_HBM(1, 15))
+>> +		return true;
+>> +
+>> +	return false;
+>> +}
+>> +
+>> +static int
+>> +config_status(struct xe_device *xe, u64 config)
+>> +{
+>> +	unsigned int gt_id = config_gt_id(config);
+>> +	struct xe_gt *gt = xe_device_get_gt(xe, gt_id);
+>> +
+>> +	if (!IS_DGFX(xe))
+>> +		return -ENODEV;
+>> +
+>> +	if (gt->info.type == XE_GT_TYPE_UNINITIALIZED)
+>> +		return -ENOENT;
+>> +
+>> +	/* GSC HW ERRORS are present on root tile of
+>> +	 * platform supporting MEMORY SPARING only
+>> +	 */
+>> +	if (is_gsc_hw_error(config) && !(xe->info.platform == XE_PVC && !gt_id))
+>> +		return -ENODEV;
+>> +
+>> +	/* GT vectors error  are valid on Platforms supporting error vectors only */
+>> +	if (is_gt_vector_error(config) && xe->info.platform != XE_PVC)
+>> +		return -ENODEV;
+>> +
+>> +	/* Skip gt errors not supported on pvc */
+>> +	if (is_pvc_invalid_gt_errors(config) && xe->info.platform == XE_PVC)
+>> +		return  -ENODEV;
+>> +
+>> +	/* FATAL FPU error is valid on PVC only */
+>> +	if (config_counter(config) == DRM_XE_GENL_GT_ERROR_FATAL_FPU &&
+>> +	    !(xe->info.platform == XE_PVC))
+>> +		return -ENODEV;
+>> +
+>> +	if (is_soc_error(config) && !(xe->info.platform == XE_PVC))
+>> +		return -ENODEV;
+>> +
+>> +	return (config_counter(config) >=
+>> +			ARRAY_SIZE(xe_hw_error_map)) ? -ENOENT : 0;
+>> +}
+>> +
+>> +static u64 get_counter_value(struct xe_device *xe, u64 config)
+>> +{
+>> +	const unsigned int gt_id = config_gt_id(config);
+>> +	struct xe_gt *gt = xe_device_get_gt(xe, gt_id);
+>> +	unsigned int id = config_counter(config);
+>> +
+>> +	if (is_gt_error(config) || is_gt_vector_error(config))
+>> +		return xa_to_value(xa_load(&gt->errors.hw_error, xe_hw_error_map[id]));
+>> +
+>> +	return xa_to_value(xa_load(&gt->tile->errors.hw_error, xe_hw_error_map[id]));
+>> +}
+>> +
+>> +static int fill_error_details(struct xe_device *xe, struct genl_info *info, struct sk_buff *new_msg)
+>> +{
+>> +	struct nlattr *entry_attr;
+>> +	bool counter = false;
+>> +	struct xe_gt *gt;
+>> +	int i, j;
+>> +
+>> +	BUILD_BUG_ON(ARRAY_SIZE(xe_hw_error_events) !=
+>> +		     ARRAY_SIZE(xe_hw_error_map));
+>> +
+>> +	if (info->genlhdr->cmd == DRM_RAS_CMD_READ_ALL)
+>> +		counter = true;
+>> +
+>> +	entry_attr = nla_nest_start(new_msg, DRM_RAS_ATTR_QUERY_REPLY);
+>> +	if (!entry_attr)
+>> +		return -EMSGSIZE;
+>> +
+>> +	for_each_gt(gt, xe, j) {
+>> +		char str[MAX_ERROR_NAME];
+>> +		u64 val;
+>> +
+>> +		for (i = 0; i < ARRAY_SIZE(xe_hw_error_events); i++) {
+>> +			u64 config = DRM_XE_HW_ERROR(j, i);
+>> +
+>> +			if (config_status(xe, config))
+>> +				continue;
+>> +
+>> +			/* should this be cleared everytime */
+>> +			snprintf(str, sizeof(str), "error-gt%d-%s", j, xe_hw_error_events[i]);
+>> +
+>> +			if (nla_put_string(new_msg, DRM_RAS_ATTR_ERROR_NAME, str))
+>> +				goto err;
+>> +			if (nla_put_u64_64bit(new_msg, DRM_RAS_ATTR_ERROR_ID, config, DRM_ATTR_PAD))
+>> +				goto err;
+>> +			if (counter) {
+>> +				val = get_counter_value(xe, config);
+>> +				if (nla_put_u64_64bit(new_msg, DRM_RAS_ATTR_ERROR_VALUE, val,
+>> +						      DRM_ATTR_PAD))
+>> +					goto err;
+>> +			}
+>> +		}
+>> +	}
+>> +
+>> +	nla_nest_end(new_msg, entry_attr);
+>> +
+>>  	return 0;
+>> +err:
+>> +	drm_dbg_driver(&xe->drm, "msg buff is small\n");
+>> +	nla_nest_cancel(new_msg, entry_attr);
+>> +	nlmsg_free(new_msg);
+>> +
+>> +	return -EMSGSIZE;
+>> +}
+>> +
+>> +static int xe_genl_list_errors(struct drm_device *drm, struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	struct xe_device *xe = to_xe_device(drm);
+>> +	size_t msg_size = NLMSG_DEFAULT_SIZE;
+>> +	enum drm_cmd_request_type query_type;
+>> +	struct sk_buff *new_msg;
+>> +	int retries = 2;
+>> +	void *usrhdr;
+>> +	int ret = 0;
+>> +
+>> +	if (!IS_DGFX(xe))
+>> +		return -ENODEV;
+>> +
+>> +	/* Support verbose only errors */
+>> +	query_type = nla_get_u8(info->attrs[DRM_RAS_ATTR_QUERY]);
+>> +	if (query_type == DRM_RAS_CMD_QUERY_NORMAL)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	do {
+>> +		new_msg = drm_genl_alloc_msg(drm, info, msg_size, &usrhdr);
+>> +		if (!new_msg)
+>> +			return -ENOMEM;
+>> +
+>> +		ret = fill_error_details(xe, info, new_msg);
+>> +		if (!ret)
+>> +			break;
+>> +
+>> +		msg_size += NLMSG_DEFAULT_SIZE;
+>> +	} while (retries--);
+>> +
+>> +	if (!ret)
+>> +		ret = drm_genl_reply(new_msg, info, usrhdr);
+>> +
+>> +	return ret;
+>>  }
+>>  
+>>  static int xe_genl_read_error(struct drm_device *drm, struct sk_buff *msg, struct genl_info *info)
+>>  {
+>> -	return 0;
+>> +	struct xe_device *xe = to_xe_device(drm);
+>> +	size_t msg_size = NLMSG_DEFAULT_SIZE;
+>> +	struct sk_buff *new_msg;
+>> +	void *usrhdr;
+>> +	int ret = 0;
+>> +	int retries = 2;
+>> +	u64 config, val;
+>> +
+>> +	if (info->genlhdr->cmd == DRM_RAS_CMD_READ_BLOCK)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	config = nla_get_u64(info->attrs[DRM_RAS_ATTR_ERROR_ID]);
+>> +	ret = config_status(xe, config);
+>> +	if (ret)
+>> +		return ret;
+>> +	do {
+>> +		new_msg = drm_genl_alloc_msg(drm, info, msg_size, &usrhdr);
+>> +		if (!new_msg)
+>> +			return -ENOMEM;
+>> +
+>> +		val = get_counter_value(xe, config);
+>> +		if (nla_put_u64_64bit(new_msg, DRM_RAS_ATTR_ERROR_VALUE, val, DRM_ATTR_PAD)) {
+>> +			msg_size += NLMSG_DEFAULT_SIZE;
+>> +			continue;
+>> +		}
+>> +
+>> +		break;
+>> +	} while (retries--);
+>> +
+>> +	ret = drm_genl_reply(new_msg, info, usrhdr);
+>> +
+>> +	return ret;
+>>  }
+> this .c without any public function and no .h was what draw my attention that
+> there was something wrong with the registration process. We need to have init and finish
+> per component.
 
-TL;DR: inside your code please use drm_dp_dpcd_read_byte() /
-drm_dp_dpcd_write_byte() / drm_dp_dpcd_read_data() /
-drm_dp_dpcd_write_data().
+I had designed these similar to  drm_driver ops, even with the new
+registration model i believe they would still be static.
 
-> +		DRM_ERROR("sink mst enablement failed\n");
-> +		return;
-> +	}
-> +
-> +	msm_dp->mst_active = true;
-> +}
-> +
->  static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  {
->  	struct drm_connector *connector = dp->msm_dp_display.connector;
-> @@ -315,18 +345,20 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  	if (rc)
->  		goto end;
->  
-> -	drm_edid = drm_edid_read_ddc(connector, &dp->aux->ddc);
-> -	drm_edid_connector_update(connector, drm_edid);
-> +	if (!dp->mst_supported || !drm_dp_read_mst_cap(dp->aux, dp->panel->dpcd)) {
+Is there a concern?
 
-In several previous patches, the functions initializing MST can
-return an error, leaving the user with half-initialized MST. Are those
-errors a safety coding or do they have some real-use usecase? In the
-latter case, it would be nice to keep SST wokring if enabling MST fails.
+>
+>>  
+>>  /* driver callbacks to DRM netlink commands*/
+>> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+>> index e2426413488f..d352a96e4826 100644
+>> --- a/include/uapi/drm/xe_drm.h
+>> +++ b/include/uapi/drm/xe_drm.h
+>> @@ -1974,6 +1974,91 @@ struct drm_xe_query_eu_stall {
+>>  	__u64 sampling_rates[];
+>>  };
+>>  
+>> +/*
+>> + * Top bits of every counter are GT id.
+>> + */
+>> +#define __XE_GENL_GT_SHIFT	(56)
+>> +/**
+>> + * DOC: XE GENL netlink event IDs
+>> + * TODO: Add more details
+> yes, please it is hard to understand why here.
+>
+> And also I have the feeling that this deserves to be together with
+> the other definitions above all together in a separate header.
+> perhaps even per platform?!
+this is a UAPI the below IDs are used by drm_ras tool to read a
+particular error counter. 
+so felt these should be part of this header. But, why separate headers
+aren't UAPI
+stuff be in this header instead.
 
-> +		drm_edid = drm_edid_read_ddc(connector, &dp->aux->ddc);
-> +		drm_edid_connector_update(connector, drm_edid);
->  
-> -	if (!drm_edid) {
-> -		DRM_ERROR("panel edid read failed\n");
-> -		/* check edid read fail is due to unplug */
-> -		if (!msm_dp_aux_is_link_connected(dp->aux))
-> -			return -ETIMEDOUT;
-> -	}
-> +		if (!drm_edid) {
-> +			DRM_ERROR("panel edid read failed\n");
-> +			/* check edid read fail is due to unplug */
-> +			if (!msm_dp_aux_is_link_connected(dp->aux))
-> +				return -ETIMEDOUT;
-> +		}
->  
-> -	if (rc)
-> -		goto end;
-> +		if (rc)
-> +			goto end;
-> +	}
->  
->  	msm_dp_link_process_request(dp->link);
->  
-> @@ -349,6 +381,9 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  	 */
->  	msm_dp_link_psm_config(dp->link, &dp->panel->link_info, false);
->  
-> +	if (dp->mst_supported && drm_dp_read_mst_cap(dp->aux, dp->panel->dpcd))
-> +		msm_dp_display_mst_init(dp);
-> +
->  	msm_dp_link_reset_phy_params_vx_px(dp->link);
->  
->  	if (!dp->msm_dp_display.internal_hpd)
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With best wishes
-Dmitry
+Thanks,
+Aravind.
+>
+>> + */
+>> +#define DRM_XE_HW_ERROR(gt, id) \
+>> +	((id) | ((__u64)(gt) << __XE_GENL_GT_SHIFT))
+>> +
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3_SNG		(0)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_GUC			(1)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_SAMPLER		(2)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_SLM			(3)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_IC		(4)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_EU_GRF		(5)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_ARR_BIST			(6)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_L3_DOUB			(7)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_L3_ECC_CHK		(8)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_GUC			(9)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_IDI_PAR			(10)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_SQIDI			(11)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_SAMPLER			(12)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_SLM			(13)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_EU_IC			(14)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_EU_GRF			(15)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_FPU			(16)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_TLB			(17)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_L3_FABRIC			(18)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_SUBSLICE		(19)
+>> +#define DRM_XE_GENL_GT_ERROR_CORRECTABLE_L3BANK		(20)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_SUBSLICE			(21)
+>> +#define DRM_XE_GENL_GT_ERROR_FATAL_L3BANK			(22)
+>> +#define DRM_XE_GENL_SGUNIT_ERROR_CORRECTABLE			(23)
+>> +#define DRM_XE_GENL_SGUNIT_ERROR_NONFATAL			(24)
+>> +#define DRM_XE_GENL_SGUNIT_ERROR_FATAL			(25)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMD		(26)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_CMP		(27)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_CSC_PSF_REQ		(28)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_ANR_MDFI		(29)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2T		(30)
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_MDFI_T2C		(31)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMD		(32)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_CMP		(33)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_CSC_PSF_REQ		(34)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PUNIT			(35)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMD		(36)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_CMP		(37)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_PSF_REQ		(38)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_ANR_MDFI			(39)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2T			(40)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_MDFI_T2C			(41)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_AER			(42)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_PCIE_ERR			(43)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_UR_COND			(44)
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_SERR_SRCS		(45)
+>> +
+>> +#define DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(ss, n)\
+>> +		(DRM_XE_GENL_SOC_ERROR_FATAL_SERR_SRCS + 0x1 + (ss) * 0x10 + (n))
+>> +#define DRM_XE_GENL_SOC_ERROR_FATAL_HBM(ss, n)\
+>> +		(DRM_XE_GENL_SOC_ERROR_NONFATAL_HBM(1, 15) + 0x1 + (ss) * 0x10 + (n))
+>> +
+>> +/* 109 is the last ID used by SOC errors */
+>> +#define DRM_XE_GENL_GSC_ERROR_CORRECTABLE_SRAM_ECC		(110)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_SHUTDOWN		(111)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_MIA_INTERNAL		(112)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_SRAM_ECC		(113)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_WDG_TIMEOUT		(114)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_ROM_PARITY		(115)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_UCODE_PARITY		(116)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_VLT_GLITCH		(117)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_PULL		(118)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_FUSE_CRC_CHECK	(119)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_SELF_MBIST		(120)
+>> +#define DRM_XE_GENL_GSC_ERROR_NONFATAL_AON_RF_PARITY		(121)
+>> +#define DRM_XE_GENL_SGGI_ERROR_NONFATAL			(122)
+>> +#define DRM_XE_GENL_SGLI_ERROR_NONFATAL			(123)
+>> +#define DRM_XE_GENL_SGCI_ERROR_NONFATAL			(124)
+>> +#define DRM_XE_GENL_MERT_ERROR_NONFATAL			(125)
+>> +#define DRM_XE_GENL_SGGI_ERROR_FATAL				(126)
+>> +#define DRM_XE_GENL_SGLI_ERROR_FATAL				(127)
+>> +#define DRM_XE_GENL_SGCI_ERROR_FATAL				(128)
+>> +#define DRM_XE_GENL_MERT_ERROR_FATAL				(129)
+>> +
+>>  #if defined(__cplusplus)
+>>  }
+>>  #endif
+>> -- 
+>> 2.25.1
+>>
