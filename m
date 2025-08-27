@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3526B37CEB
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17402B37CF8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:08:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7423910E763;
-	Wed, 27 Aug 2025 08:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAAF10E764;
+	Wed, 27 Aug 2025 08:07:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="lpvZbN1v";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Mnb84gfl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0CB10E763
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=nHn0/2tcQ6NKxDIG6MXiOpQl/j8R5Yoanaeftq4zEbE=; b=lpvZbN1vFE1catKAjtPmzOO25D
- zQe3EYADcLN+u+VAb4HEmMxBKY5SafJaDYo/N6TNMFuP2oZom+6QyC/AcQGjJZbELGVRCEqd3EteB
- Fb13EBgEXMvzyuuYrFYrMfeYHRByJKSbUcvu3E66udd77HpJJotr8ch5V7KlYoSDEMMaTt98Gcnvd
- Wa3nuIX7IzNZjVImMGkSlLN4d6L623lauFYlOX5VWScp13JJTS9jUan+msw/NJB5G0gmicI7Kd3F9
- PhjF5C7+pBOZ2eafUWP7tC5PQRvDdbAh3Cp2DSoY0CmCakj8e/QkSktaIWTntJgsOAU9qJ6LDboUR
- m1ZKL4hQ==;
-Received: from [213.244.170.152] (helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1urBB2-0000Hv-Tf; Wed, 27 Aug 2025 10:06:40 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
-Date: Wed, 27 Aug 2025 10:06:39 +0200
-Message-ID: <5154190.bB369e8A3T@phil>
-In-Reply-To: <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5569A10E764
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1756282076;
+ bh=iUMnI1Gr4aSIqM3m6NcNydTZjndSBas7VbolVEVepzU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Mnb84gflk5q2wshjIppNvzipnpgkgqqqkczdn533RahwnTwvlfvMoPzKAl1VUJPJc
+ hTN5RyiO9im78ixrxURAKhqtHk+IaHrV5FIgbsMWkdu7eRzgtE5JgDIMA5cPdUzWAw
+ 5lsbxiIbOBFHOwM0mWRRB56Xy6BLDcwjTqoFakuJSHqNdeCWQsn5WpLXV1SEqiWybh
+ Q6ZBT9fl49OU4kTiZTiCXh3ZivyZKcappvkcGmcJR7KI/xP86+8YT1ys0VB46RSo3+
+ d14WLCELgzukLxxEHccJ/kTN9X2MhOAcPjWT7ctVijmQmPgrEBA/aoi0C6gM7hekeB
+ BScLOoxqZwIUw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D9E117E00A3;
+ Wed, 27 Aug 2025 10:07:56 +0200 (CEST)
+Date: Wed, 27 Aug 2025 10:07:48 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, dmitry.baryshkov@oss.qualcomm.com, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.osipenko@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Use drm_gem_shmem_unpin() to unpin the backing pages
+ for a shmem GEM
+Message-ID: <20250827100748.0d7fb9d1@fedora>
+In-Reply-To: <20250827022516.2890226-1-xiaolei.wang@windriver.com>
+References: <20250827022516.2890226-1-xiaolei.wang@windriver.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,26 +64,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:39 Mitteleurop=C3=A4ische Sommerzeit schr=
-ieb Nicolas Frattaroli:
-> The sp7021 clock driver has its own shifted high word mask macro,
-> similar to the ones many Rockchip drivers have.
->=20
-> Remove it, and replace instances of it with hw_bitfield.h's
-> FIELD_PREP_WM16 macro, which does the same thing except in a common
-> macro that also does compile-time error checking.
->=20
-> This was compile-tested with 32-bit ARM with Clang, no runtime tests
-> were performed as I lack the hardware. However, I verified that fix
-> commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()=
-")
-> is not regressed. No warning is produced.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On Wed, 27 Aug 2025 10:25:16 +0800
+Xiaolei Wang <xiaolei.wang@windriver.com> wrote:
 
-While I have no connection with that specific piece of hardware,
-the change itself looks correct, so
+> Although drm_gem_shmem_free() will decrease the use count
+> on the backing pages and free backing pages for a GEM object,
+> the pages_pin_count count is not decremented, which results
+> in a warning. Therefore, use drm_gem_shmem_unpin() to unpin
+> the backing pages for a shmem GEM.
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+With the subject prefixed with "drm/gem-shmem: " this is
 
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> 
+> WARNING: CPU: 2 PID: 1106 at drivers/gpu/drm/drm_gem_shmem_helper.c:180 drm_gem_shmem_free+0x4d0/0x6f0
+>  Call trace:
+>   drm_gem_shmem_free+0x4d0/0x6f0 (P)
+>   drm_gem_shmem_free_wrapper+0x10/0x1c
+>   __kunit_action_free+0x50/0x70
+>   kunit_remove_resource+0x144/0x1e4
+>   kunit_cleanup+0x64/0xfc
+>   kunit_try_run_case_cleanup+0xa0/0xd4
+>   kunit_generic_run_threadfn_adapter+0x80/0xec
+>   kthread+0x3b8/0x6c0
+>   ret_from_fork+0x10/0x20
+> 
+> Fixes: 93032ae634d4 ("drm/test: add a test suite for GEM objects backed by shmem")
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> ---
+>  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> index 68f2c3162354..e0a9f3a917ed 100644
+> --- a/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
+> @@ -227,6 +227,7 @@ static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
+>  		len += sg->length;
+>  	}
+>  
+> +	drm_gem_shmem_unpin(shmem);
+>  	KUNIT_EXPECT_GE(test, len, TEST_SIZE);
+>  }
+>  
 
