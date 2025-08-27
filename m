@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D57CB38CCD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB72B38CD6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D0610E8F4;
-	Wed, 27 Aug 2025 22:09:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B721710E8F7;
+	Wed, 27 Aug 2025 22:09:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WPJny6Ly";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UfJsf0k5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7146310E8F9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:09:08 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47A5C10E8F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:09:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756332547;
+ s=mimecast20190719; t=1756332566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fRSpRx9RRStIQ38BNC0jYyDlyXN9Nb6MMvlgPC7q7iI=;
- b=WPJny6Lyy4t759C9TOIFqT74mgtlAq/+9iLHB61E7Zlfgaz6UUCwJD6Ltm1yIZLgVdSBFS
- qPeapNxqAcc0zIu+aDuC1MXTmGcEPO5f9ixiLxI0aTeGNyaw96ibZA4Zy1Mpvch+wevKLX
- ACQgUctDwyi5ycTaf85tyGaAtrdqVPw=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=5INZuVEW8ZoCVRVHt0CSLhpT4h786L9PUsnD4NVlnkc=;
+ b=UfJsf0k5caOxSTFI2kIqhh0F8mvkx4XEL8RELFwhs9BhLYznnBgb9iuVgoSOZNztNK91uD
+ fBLDaaHhnD+HVCZndBwnSVDOgipZRHFM0x8z4TX0Oqt62H55laM7UPqZdiz60QsOGyazBm
+ XMQAc9/7h/EjwbQdrUPrk6m+QolM6MY=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-125-8rLG3SX1N-GJeE1zdspl2w-1; Wed,
- 27 Aug 2025 18:09:03 -0400
-X-MC-Unique: 8rLG3SX1N-GJeE1zdspl2w-1
-X-Mimecast-MFC-AGG-ID: 8rLG3SX1N-GJeE1zdspl2w_1756332538
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-452-xy2DE7SVOeOfWFxJcT2kQA-1; Wed,
+ 27 Aug 2025 18:09:22 -0400
+X-MC-Unique: xy2DE7SVOeOfWFxJcT2kQA-1
+X-Mimecast-MFC-AGG-ID: xy2DE7SVOeOfWFxJcT2kQA_1756332556
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id F35E7195608A; Wed, 27 Aug 2025 22:08:57 +0000 (UTC)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 3265C1956087; Wed, 27 Aug 2025 22:09:16 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.22.80.195])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A36C230001A1; Wed, 27 Aug 2025 22:08:41 +0000 (UTC)
+ id 8A03F30001A1; Wed, 27 Aug 2025 22:08:58 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
- Niklas Cassel <cassel@kernel.org>, Alexander Potapenko <glider@google.com>,
+Cc: David Hildenbrand <david@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
@@ -71,9 +75,9 @@ Cc: David Hildenbrand <david@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v1 24/36] ata: libata-eh: drop nth_page() usage within SG entry
-Date: Thu, 28 Aug 2025 00:01:28 +0200
-Message-ID: <20250827220141.262669-25-david@redhat.com>
+Subject: [PATCH v1 25/36] drm/i915/gem: drop nth_page() usage within SG entry
+Date: Thu, 28 Aug 2025 00:01:29 +0200
+Message-ID: <20250827220141.262669-26-david@redhat.com>
 In-Reply-To: <20250827220141.262669-1-david@redhat.com>
 References: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
@@ -97,44 +101,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 It's no longer required to use nth_page() when iterating pages within a
 single SG entry, so let's drop the nth_page() usage.
 
-Cc: Damien Le Moal <dlemoal@kernel.org>
-Cc: Niklas Cassel <cassel@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/ata/libata-sff.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
-index 7fc407255eb46..1e2a2c33cdc80 100644
---- a/drivers/ata/libata-sff.c
-+++ b/drivers/ata/libata-sff.c
-@@ -614,7 +614,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
- 	offset = qc->cursg->offset + qc->cursg_ofs;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index c16a57160b262..031d7acc16142 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -779,7 +779,7 @@ __i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
+ 	GEM_BUG_ON(!i915_gem_object_has_struct_page(obj));
  
- 	/* get the current page and offset */
--	page = nth_page(page, (offset >> PAGE_SHIFT));
-+	page += offset >> PAGE_SHIFT;
- 	offset %= PAGE_SIZE;
+ 	sg = i915_gem_object_get_sg(obj, n, &offset);
+-	return nth_page(sg_page(sg), offset);
++	return sg_page(sg) + offset;
+ }
  
- 	/* don't overrun current sg */
-@@ -631,7 +631,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
- 		unsigned int split_len = PAGE_SIZE - offset;
- 
- 		ata_pio_xfer(qc, page, offset, split_len);
--		ata_pio_xfer(qc, nth_page(page, 1), 0, count - split_len);
-+		ata_pio_xfer(qc, page + 1, 0, count - split_len);
- 	} else {
- 		ata_pio_xfer(qc, page, offset, count);
- 	}
-@@ -751,7 +751,7 @@ static int __atapi_pio_bytes(struct ata_queued_cmd *qc, unsigned int bytes)
- 	offset = sg->offset + qc->cursg_ofs;
- 
- 	/* get the current page and offset */
--	page = nth_page(page, (offset >> PAGE_SHIFT));
-+	page += offset >> PAGE_SHIFT;
- 	offset %= PAGE_SIZE;
- 
- 	/* don't overrun current sg */
+ /* Like i915_gem_object_get_page(), but mark the returned page dirty */
 -- 
 2.50.1
 
