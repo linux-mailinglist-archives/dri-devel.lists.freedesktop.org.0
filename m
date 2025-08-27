@@ -2,80 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49762B389C9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 20:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03704B38A92
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 21:58:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B9710E88B;
-	Wed, 27 Aug 2025 18:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E359B10E894;
+	Wed, 27 Aug 2025 19:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="QYRo/op8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MeM+qcL2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E1710E0FA;
- Wed, 27 Aug 2025 18:41:33 +0000 (UTC)
-Received: from relay11 (localhost.localdomain [127.0.0.1])
- by relay11.grserver.gr (Proxmox) with ESMTP id 97A38CB498;
- Wed, 27 Aug 2025 21:41:31 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by relay11.grserver.gr (Proxmox) with ESMTPS id C78CCCB47E;
- Wed, 27 Aug 2025 21:41:30 +0300 (EEST)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id 3F86E201A63;
- Wed, 27 Aug 2025 21:41:30 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1756320090;
- bh=h/xwF0KGq3gWr9pBxJyflxpPHXZc98CA4hW7pDTkw2U=;
- h=Received:From:Subject:To;
- b=QYRo/op8RVr9M6QgyvKRSmcuZrGtmAq5RnrGNTMnAaIFqXouoMcIKjdmaDV4xERn5
- kEQNUja8J0H2N2froJT3gVXlkLbfzFjKTgO1VFzM7oV6js8XwYtP/q6Fjq+TdyN2xp
- ZWlgx+AFXaIYD1tIPBsc/YfJkNjQfY8CarmEaeHGaS3X9iBvZdF27KOl2EAft3v1sc
- ZspWf+ZEhxSzzTLi63Nr5tGk1tXZGHo+JEOyBvFwEEmBop+C3UsLq6RBNrbIhuFa+X
- bSoLDTl+VdNo4oKrz0DQIq2lveJqsrh4fjPKFMJMak8WoZXvwK7rGkeLnuLqOha42Q
- L/la1DrTXZNcg==
-Authentication-Results: linux3247.grserver.gr;
- spf=pass (sender IP is 209.85.167.43) smtp.mailfrom=lkml@antheas.dev
- smtp.helo=mail-lf1-f43.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-55f4bcceed0so175159e87.1;
- Wed, 27 Aug 2025 11:41:30 -0700 (PDT)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9474710E7C3;
+ Wed, 27 Aug 2025 19:57:57 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-248999413easo318305ad.3; 
+ Wed, 27 Aug 2025 12:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756324677; x=1756929477; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rjV0DwmZIW1py3fMx22hVqowrh1QvW3z5IOWwwuGuQ8=;
+ b=MeM+qcL24JM9B64zLJVGZPTcc978WCIHJJBXtGwPBztOX+c50uWgMsJLOvunq/zREa
+ 7WejNh5NMhbcxYZclcQSmuwYzQNaYjXFTsxzHRaTcK5YdW6MRj4Yx9Yt74UQsBpzqhqV
+ D5w3LFVo2Jtiu2dZyJ8v1NJZYjiTbbYfyqfkoYUc+McRnGkMLIIEbQCXCjyaVSFo8FVP
+ KXK9sdB8JuDH4bsTfGgk9Al3S1zaDeZFPdUUYXP2eQrDLNXoHQboOJxnQHsbHSORYkd6
+ cquyjifKAletw6pojD5+RUDcD7Sbp5gga07itFP2o+VfXgFR3aOMleGtyUVaNgUM7Y27
+ QAUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756324677; x=1756929477;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rjV0DwmZIW1py3fMx22hVqowrh1QvW3z5IOWwwuGuQ8=;
+ b=e4S3ztfLMbnInPyQX8lqAMbRaMC3Z6Qoe3/zbj5QkyRJCWhNLtbE8LRc+gcrFTC1al
+ apbEe7Xl9egI51vKhpu1GYLGNuhAweeaVwNwdGeKjllxSGmjItkznt2rYrjXCcKA2i7O
+ EoL2TiEuPzl9l85gG2SGpQi1UAWxnu5qJes9i6AU8vtXEX19vq6uJSdtEa7OSAY6Tchp
+ WjZe+1ZFgVN8vXlXSSZC3hK3oefD+qyDKyvXer2P1LZlhlCiTJ7slzVop4/s0nSznOxk
+ 0uUTETzYmqSRxYsWfwQT/+5LOs3KY3O5Ltir3ifibqFj5RAUXoWedILkqJBlHUJDu0rC
+ S12w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXi2cNRUmPNGwF6bA0YMPUS7sdSuif1o0t/fAnwoAqKcPD5UMqETdjYuUO4ANAaiGxn5PG17G+zWGU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFEIjTH1Ts6vxm87RwYZxMe1B3PF8bRc0jBwlCyxiymI2M6ClL
- hjXdHrFQmOyF33EBR8OpiOBLxGkCjxb5gbcOVUpD9OreL9bRwmZ+y7YZoXNSUA33yPZyWzrdH/j
- WpNTYJiLDqhxLUgOuABpRlH2/RspPasc=
-X-Google-Smtp-Source: AGHT+IFowAHaq81ABZaML4u4gPHxCp/F5971pDuQNrnE6hyA8KydV5GiZxPbrmTwchwoaJKakcXNjrp/jNeC1+Vo5qs=
-X-Received: by 2002:a05:6512:438d:b0:55f:4e8a:19ad with SMTP id
- 2adb3069b0e04-55f4e8a1b62mr1685248e87.13.1756320089546; Wed, 27 Aug 2025
- 11:41:29 -0700 (PDT)
+ AJvYcCXCAypqUij6QCeeiTIMMl7J1WqYMNW80AwC0wOymFCVlqTjGDYMRMgurSSyfq2ewl4YCtd/1w6IfSRr@lists.freedesktop.org,
+ AJvYcCXPdGveSvZVAo23RJL+K8f2ao1M8rWnVukwo46jt4lgNseKSB1lN1hSXY6qM1do+hilwz3DqE1k@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNvUeTmQEEfXvuGtfSg3epE0NlhcqtqlnArPUdY1QN8GKrYMLa
+ psoFgJIVKB6F3Mro5/Ozc2yqNZjAMWOzob5bqRlUKvwGy7Qvr+8itSewNl2QoTOIEV3q/17+hlZ
+ o55X7LvkCt5jb8QkQ4yN33nOTCCliRTQd+g==
+X-Gm-Gg: ASbGncs/mZ2+lLxH7dvpVysobBZtOeAx3pN7m9dGlXCs8z+hfKQMaDhcGH8f5E0oTuw
+ bnEXVF690RVnK/DfDRu1YLDCzTNN7Qcb6ja0wJzeloQjLAy810iXyRYNFxo4Q0F6v+gh1jZ1dPh
+ eygPsJuDNztZB6WwEq/deQosXN+/CqwFrfiHQ2VE/AK9FHIv52lL0I9v1/Qit+F3tji19hElBxz
+ KYZ+gY=
+X-Google-Smtp-Source: AGHT+IEEV1DocwEWc3jKPYLKt97a8Md11hVsuQXJBA2qHl6dQpH2Wq0GDXOFqg4EKfvaY1b+PH9cdtggpz40TZcPqPY=
+X-Received: by 2002:a17:902:c409:b0:248:a01f:a549 with SMTP id
+ d9443c01a7336-248a01fa7aamr20750765ad.11.1756324676898; Wed, 27 Aug 2025
+ 12:57:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250827174400.3692549-1-lkml@antheas.dev>
- <607d5062-1734-46c4-b851-782bd7ad3ec7@amd.com>
-In-Reply-To: <607d5062-1734-46c4-b851-782bd7ad3ec7@amd.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 27 Aug 2025 20:41:18 +0200
-X-Gmail-Original-Message-ID: <CAGwozwF-7Z_Yy8-w+EJxcJJ-1dKCtTMY356PR--EqWfyVHt+rA@mail.gmail.com>
-X-Gm-Features: Ac12FXxVD93_TcP1vy6NnC0zXLOoeVeltkj1_FC6_57yxmPfrnK8qD9vTRAr9oQ
-Message-ID: <CAGwozwF-7Z_Yy8-w+EJxcJJ-1dKCtTMY356PR--EqWfyVHt+rA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drm: panel-backlight-quirks: Do partial refactor
- and apply OLED fix
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, philm@manjaro.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Robert Beckett <bob.beckett@collabora.com>
+References: <20250824115051.32988-1-mittalyugansh1@gmail.com>
+In-Reply-To: <20250824115051.32988-1-mittalyugansh1@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 27 Aug 2025 15:57:45 -0400
+X-Gm-Features: Ac12FXxqZBGDhYUXeE_2vpNsyc1MPHvuZvg50t-1nPjCv4vA8bIXi2lV2R6gGM0
+Message-ID: <CADnq5_MoWjH2j_VyTEvDmYSKQ2Tfjo-B4som9Fwsb6r_dPo4xA@mail.gmail.com>
+Subject: Re: [PATCH] atomfirmware.h: fix multiple spelling mistakes
+To: Yugansh Mittal <mittalyugansh1@gmail.com>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: <175632009049.1615478.6730903780175231445@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,96 +86,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Aug 2025 at 20:38, Mario Limonciello
-<mario.limonciello@amd.com> wrote:
->
-> On 8/27/2025 12:43 PM, Antheas Kapenekakis wrote:
-> > This is an alternative to [1], since Phil found out there are still invalid
-> > values. We need to reconsider the other patch in that series anyway because
-> > the latest AMD firmware update might have fixed the Z13.
-> >
-> > This series refactors the panel-backlight-quirks code to make it easier to
-> > add new quirks. Specifically, it adds the ability to bind to a secondary
-> > DMI match so that the make of a device can be specified. Then, it makes
-> > EDID optional, for devices we know the value should be applied universally.
-> >
-> > This is then used to add a quirk for OLED panels that have an issue
-> > when their backlight is set with a value that contains a 0/1 value in their
-> > minor byte. This issue affects four handhelds from three different vendors,
-> > three of which are in the field. This quirk applies a |3 mask to the
-> > backlight value, which avoids this issue. In addition, the value change
-> > is minor enough so that it is essentially a NOOP. There is no need for
-> > ensuring it runs only on panels with faulty firmwares.
-> >
-> > Finally, since allowed by this refactor, a quirk for Steam Decks is added
-> > that lowers their minimum brightness to 0, matching SteamOS. This is
-> > a nicety commit, which allows for mildly lower minimum brightness, so
-> > there is no time sensitivity for having it merged. Mario noted that if
-> > that quirk was refactored to use an EDID match via the current interface,
-> > it could go through the fixes tree and land sooner, but perhaps it is not
-> > worth the effort.
-> >
-> > [1] https://lore.kernel.org/all/20250824085351.454619-2-lkml@antheas.dev/
-> >
-> > ---
-> > V1: https://lore.kernel.org/all/20250824200202.1744335-1-lkml@antheas.dev/
-> >
-> > Changes since v1:
-> > - Remove leftover quirk from patch 3 (refactor)
-> > - Add dangling comma in patch 4 (oled quirk)
-> > - Add the next generation Zotac Zone in patch 4 (currently unreleased)
->
-> Can you double check with Phil?  I thought there are two affected Zotac
-> devices, but I could be wrong.  If we can get both in a single go let's
-> do it.
+Applied.  Thanks!
 
-Indeed. V1 already included the released model. Hopefully I did not
-get the ID wrong on this one.
+Alex
 
-> > - Reword patch 1 and 5 subjects
-> >
-> > Antheas Kapenekakis (5):
-> >    drm: panel-backlight-quirks: Make EDID match optional
-> >    drm: panel-backlight-quirks: Convert brightness quirk to generic
-> >      structure
-> >    drm: panel-backlight-quirks: Add secondary DMI match
-> >    drm: panel-backlight-quirks: Add brightness mask quirk
-> >    drm: panel-backlight-quirks: Add Steam Deck brightness quirk
-> >
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  19 ++-
-> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   6 +
-> >   drivers/gpu/drm/drm_panel_backlight_quirks.c  | 113 ++++++++++++++----
-> >   include/drm/drm_utils.h                       |   8 +-
-> >   4 files changed, 115 insertions(+), 31 deletions(-)
-> >
-> >
-> > base-commit: 1b237f190eb3d36f52dffe07a40b5eb210280e00
+On Sun, Aug 24, 2025 at 7:28=E2=80=AFPM Yugansh Mittal <mittalyugansh1@gmai=
+l.com> wrote:
 >
-> The series looks fine to me.
+> This patch corrects several typographical errors in atomfirmware.h.
+> The fixes improve readability and maintain consistency in the codebase.
+> No functional changes are introduced.
 >
-> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Corrected terms include:
+> - aligment    =E2=86=92 alignment
+> - Offest      =E2=86=92 Offset
+> - defintion   =E2=86=92 definition
+> - swithing    =E2=86=92 switching
+> - calcualted  =E2=86=92 calculated
+> - compability =E2=86=92 compatibility
+> - intenal     =E2=86=92 internal
+> - sequece     =E2=86=92 sequence
+> - indiate     =E2=86=92 indicate
+> - stucture    =E2=86=92 structure
+> - regiser     =E2=86=92 register
 >
-> I have two small nits though:
+> Signed-off-by: Yugansh Mittal <mittalyugansh1@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/include/atomfirmware.h | 30 +++++++++++-----------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
 >
-> 1) Because this is "effectively" going to limit the amount of brightness
-> values available I think there should be a message when a the brightness
-> mask quirk is in use that we can get in the logs so that the changed
-> behavior isn't totally surprising.  We have some similar messages for
-> DMI detected quirks in amdgpu already.
+> diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm=
+/amd/include/atomfirmware.h
+> index 5c86423c2..3d083010e 100644
+> --- a/drivers/gpu/drm/amd/include/atomfirmware.h
+> +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
+> @@ -211,7 +211,7 @@ atom_bios_string          =3D "ATOM"
+>  };
+>  */
 >
->                 drm_info(dev, "support_edp0_on_dp1 attached\n");
->                 drm_info(dev, "aux_hpd_discon_quirk attached\n");
+> -#pragma pack(1)                          /* BIOS data must use byte alig=
+ment*/
+> +#pragma pack(1)                          /* BIOS data must use byte alig=
+nment*/
 >
-> Can you add one for this new quirk?
+>  enum atombios_image_offset{
+>    OFFSET_TO_ATOM_ROM_HEADER_POINTER          =3D 0x00000048,
+> @@ -255,8 +255,8 @@ struct atom_rom_header_v2_2
+>    uint16_t subsystem_vendor_id;
+>    uint16_t subsystem_id;
+>    uint16_t pci_info_offset;
+> -  uint16_t masterhwfunction_offset;      //Offest for SW to get all comm=
+and function offsets, Don't change the position
+> -  uint16_t masterdatatable_offset;       //Offest for SW to get all data=
+ table offsets, Don't change the position
+> +  uint16_t masterhwfunction_offset;      //Offset for SW to get all comm=
+and function offsets, Don't change the position
+> +  uint16_t masterdatatable_offset;       //Offset for SW to get all data=
+ table offsets, Don't change the position
+>    uint16_t reserved;
+>    uint32_t pspdirtableoffset;
+>  };
+> @@ -453,7 +453,7 @@ struct atom_dtd_format
+>    uint8_t   refreshrate;
+>  };
 >
-> 2) The comment for 'brightness_mask' in patch 4 should have 'or' as 'OR'
-> so it's obvious that it's logical OR to the casual reader and not a
-> typographical error.
+> -/* atom_dtd_format.modemiscinfo defintion */
+> +/* atom_dtd_format.modemiscinfo definition */
+>  enum atom_dtd_format_modemiscinfo{
+>    ATOM_HSYNC_POLARITY    =3D 0x0002,
+>    ATOM_VSYNC_POLARITY    =3D 0x0004,
+> @@ -678,7 +678,7 @@ struct lcd_info_v2_1
+>    uint32_t reserved1[8];
+>  };
 >
-> IE "After deriving brightness, OR it with this mask."
+> -/* lcd_info_v2_1.panel_misc defintion */
+> +/* lcd_info_v2_1.panel_misc definition */
+>  enum atom_lcd_info_panel_misc{
+>    ATOM_PANEL_MISC_FPDI            =3D0x0002,
+>  };
+> @@ -716,7 +716,7 @@ enum atom_gpio_pin_assignment_gpio_id {
+>    /* gpio_id pre-define id for multiple usage */
+>    /* GPIO use to control PCIE_VDDC in certain SLT board */
+>    PCIE_VDDC_CONTROL_GPIO_PINID =3D 56,
+> -  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC swithing =
+feature is enable */
+> +  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC switching=
+ feature is enable */
+>    PP_AC_DC_SWITCH_GPIO_PINID =3D 60,
+>    /* VDDC_REGULATOR_VRHOT_GPIO_PINID in Gpio_Pin_LutTable, VRHot feature=
+ is enable */
+>    VDDC_VRHOT_GPIO_PINID =3D 61,
+> @@ -734,7 +734,7 @@ enum atom_gpio_pin_assignment_gpio_id {
+>  struct atom_gpio_pin_lut_v2_1
+>  {
+>    struct  atom_common_table_header  table_header;
+> -  /*the real number of this included in the structure is calcualted by u=
+sing the (whole structure size - the header size)/size of atom_gpio_pin_lut=
+  */
+> +  /*the real number of this included in the structure is calculated by u=
+sing the (whole structure size - the header size)/size of atom_gpio_pin_lut=
+  */
+>    struct  atom_gpio_pin_assignment  gpio_pin[];
+>  };
 >
-
-Ack. I will give it 1-2 days for more feedback and resend.
-
-Antheas
-
+> @@ -997,7 +997,7 @@ enum atom_connector_layout_info_mini_type_def {
+>
+>  enum atom_display_device_tag_def{
+>    ATOM_DISPLAY_LCD1_SUPPORT            =3D 0x0002, //an embedded display=
+ is either an LVDS or eDP signal type of display
+> -  ATOM_DISPLAY_LCD2_SUPPORT                           =3D 0x0020, //seco=
+nd edp device tag 0x0020 for backward compability
+> +  ATOM_DISPLAY_LCD2_SUPPORT            =3D 0x0020, //second edp device t=
+ag 0x0020 for backward compatibility
+>    ATOM_DISPLAY_DFP1_SUPPORT            =3D 0x0008,
+>    ATOM_DISPLAY_DFP2_SUPPORT            =3D 0x0080,
+>    ATOM_DISPLAY_DFP3_SUPPORT            =3D 0x0200,
+> @@ -1011,7 +1011,7 @@ struct atom_display_object_path_v2
+>  {
+>    uint16_t display_objid;                  //Connector Object ID or Misc=
+ Object ID
+>    uint16_t disp_recordoffset;
+> -  uint16_t encoderobjid;                   //first encoder closer to the=
+ connector, could be either an external or intenal encoder
+> +  uint16_t encoderobjid;                   //first encoder closer to the=
+ connector, could be either an external or internal encoder
+>    uint16_t extencoderobjid;                //2nd encoder after the first=
+ encoder, from the connector point of view;
+>    uint16_t encoder_recordoffset;
+>    uint16_t extencoder_recordoffset;
+> @@ -1023,7 +1023,7 @@ struct atom_display_object_path_v2
+>  struct atom_display_object_path_v3 {
+>         uint16_t display_objid; //Connector Object ID or Misc Object ID
+>         uint16_t disp_recordoffset;
+> -       uint16_t encoderobjid; //first encoder closer to the connector, c=
+ould be either an external or intenal encoder
+> +       uint16_t encoderobjid; //first encoder closer to the connector, c=
+ould be either an external or internal encoder
+>         uint16_t reserved1; //only on USBC case, otherwise always =3D 0
+>         uint16_t reserved2; //reserved and always =3D 0
+>         uint16_t reserved3; //reserved and always =3D 0
+> @@ -3547,7 +3547,7 @@ struct atom_voltage_object_header_v4{
+>  enum atom_voltage_object_mode
+>  {
+>     VOLTAGE_OBJ_GPIO_LUT              =3D  0,        //VOLTAGE and GPIO L=
+ookup table ->atom_gpio_voltage_object_v4
+> -   VOLTAGE_OBJ_VR_I2C_INIT_SEQ       =3D  3,        //VOLTAGE REGULATOR =
+INIT sequece through I2C -> atom_i2c_voltage_object_v4
+> +   VOLTAGE_OBJ_VR_I2C_INIT_SEQ       =3D  3,        //VOLTAGE REGULATOR =
+INIT sequence through I2C -> atom_i2c_voltage_object_v4
+>     VOLTAGE_OBJ_PHASE_LUT             =3D  4,        //Set Vregulator Pha=
+se lookup table ->atom_gpio_voltage_object_v4
+>     VOLTAGE_OBJ_SVID2                 =3D  7,        //Indicate voltage c=
+ontrol by SVID2 ->atom_svid2_voltage_object_v4
+>     VOLTAGE_OBJ_EVV                   =3D  8,
+> @@ -3585,7 +3585,7 @@ struct atom_gpio_voltage_object_v4
+>  {
+>     struct atom_voltage_object_header_v4 header;  // voltage mode =3D VOL=
+TAGE_OBJ_GPIO_LUT or VOLTAGE_OBJ_PHASE_LUT
+>     uint8_t  gpio_control_id;                     // default is 0 which i=
+ndicate control through CG VID mode
+> -   uint8_t  gpio_entry_num;                      // indiate the entry nu=
+mbers of Votlage/Gpio value Look up table
+> +   uint8_t  gpio_entry_num;                      // indicate the entry n=
+umbers of Votlage/Gpio value Look up table
+>     uint8_t  phase_delay_us;                      // phase delay in unit =
+of micro second
+>     uint8_t  reserved;
+>     uint32_t gpio_mask_val;                         // GPIO Mask value
+> @@ -4507,8 +4507,8 @@ struct amd_acpi_description_header{
+>  struct uefi_acpi_vfct{
+>    struct   amd_acpi_description_header sheader;
+>    uint8_t  tableUUID[16];    //0x24
+> -  uint32_t vbiosimageoffset; //0x34. Offset to the first GOP_VBIOS_CONTE=
+NT block from the beginning of the stucture.
+> -  uint32_t lib1Imageoffset;  //0x38. Offset to the first GOP_LIB1_CONTEN=
+T block from the beginning of the stucture.
+> +  uint32_t vbiosimageoffset; //0x34. Offset to the first GOP_VBIOS_CONTE=
+NT block from the beginning of the structure.
+> +  uint32_t lib1Imageoffset;  //0x38. Offset to the first GOP_LIB1_CONTEN=
+T block from the beginning of the structure.
+>    uint32_t reserved[4];      //0x3C
+>  };
+>
+> @@ -4540,7 +4540,7 @@ struct gop_lib1_content {
+>  /*
+>    **********************************************************************=
+*****
+>                     Scratch Register definitions
+> -  Each number below indicates which scratch regiser request, Active and
+> +  Each number below indicates which scratch register request, Active and
+>    Connect all share the same definitions as display_device_tag defines
+>    **********************************************************************=
+*****
+>  */
+> --
+> 2.43.0
+>
