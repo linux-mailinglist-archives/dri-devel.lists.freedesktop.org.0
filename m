@@ -2,140 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BCCB3886B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 19:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F8BB388C2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 19:40:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF8510E16C;
-	Wed, 27 Aug 2025 17:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D243510E0F6;
+	Wed, 27 Aug 2025 17:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="14wkTsua";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aYQoa5Tq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B41810E16C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 17:18:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OoWzYmYHpvuHr2NTE1SNJMrbYsZSUurViRxc2Iz016ezI0KltXekRw4P8Q922L8OFCEdxFunt4P/3WqzpKmiV6t34Bv9S0yxhG0485L6x5REU1Df3awbeX3RtB4FklIh+o24G7C29Yzi9ZPWTeESAdyeCHMKj9U4rqBh2ZlYu2K2Y7D0IMYLRRdhekuAT1+qWaV6vgMpXHO+yUKmjJhCkgWFJqzU+phyxTM5T791P6oX6+631pWfr2AxYoczy96ksCrpp2zlfVkBhB59x8hC+QO8TkWdX9ioogiWMiRmGjijFQikl9O64GRnKQ1YD5kLzpcmYyNu5yzXf40owoQJsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B9I+VCdpvEvg7u68GJElvnpcKYq5YoB4sQLkuF3apVY=;
- b=N2FWermn/3WdO3Oq8lnwVElF3UGt1ksEY90V5ogkZ2IGoH0N9d1ZYWLglZHJa7K+KV7ZUofkdkqUe6q9KPfSkWWfazuRBnfKvkgxd3am131gwakgj6o5TDeIVY1KYPc7XKoeEFmiMs/yIpeyq/HzBjrVN5tAc/jnLXIRfNNJzFaU1mD4Pi9kxvjjFFB78xsFAJfsEkNwN8WiulHLpccLWn6DTfbiwSroudl6wUC+2Kfk5Ei8s8PQHbCBmQxACNflBiR9Z7X+AJnsiqVSvyH170PpipL8FsW0BH6BqLqFb5zFIA0BWmW+OgigNDs+Dx8Z0SiZIuZ8M8TA67F6iVtxsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vivo.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B9I+VCdpvEvg7u68GJElvnpcKYq5YoB4sQLkuF3apVY=;
- b=14wkTsuaJxRENj79ejIrRLRYBKz1s5c6ThKbrZ++J5n7gaIElmNFIKh0z98yuSh7pMUoo2Uv8FjyyV616xlszDl7McONV/Qa2OCfjo9+dyNeOjDbIEJVwmEqIMWj/U3cyd4ibPEHxK4F4N8tyt8cLPpWNzGCwLBxp1x7Fs51Yis=
-Received: from BY5PR04CA0026.namprd04.prod.outlook.com (2603:10b6:a03:1d0::36)
- by MN0PR12MB5907.namprd12.prod.outlook.com (2603:10b6:208:37b::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.22; Wed, 27 Aug
- 2025 17:18:14 +0000
-Received: from MWH0EPF000989EB.namprd02.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::48) by BY5PR04CA0026.outlook.office365.com
- (2603:10b6:a03:1d0::36) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.16 via Frontend Transport; Wed,
- 27 Aug 2025 17:18:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- MWH0EPF000989EB.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9052.8 via Frontend Transport; Wed, 27 Aug 2025 17:18:14 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 27 Aug
- 2025 12:18:13 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 27 Aug
- 2025 12:18:13 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 27 Aug 2025 12:18:12 -0500
-Message-ID: <6222cb69-fbb5-07b8-043c-cf0c25c9f3f0@amd.com>
-Date: Wed, 27 Aug 2025 10:18:12 -0700
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E364C10E178
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 17:40:55 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RGjJPW030124
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 17:40:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9pryiKbesf4KLCmykOzJgOnqNMnr4CU7A7f1EXmgKk4=; b=aYQoa5Tqtc2tN8AL
+ iq3IQTavdCc6+N80wDp9/1ryQ6rtURE8hJYJ1JEf8GeMDt8Z57Ye+hrSjWGiS71g
+ dhTRly7ADDiCbZ+3yuhupKzFgyym6AZwAcOPdPXs4ELX8pirZMJET9j7BYqPdz6F
+ ZDY3xCJRWorp+AKCGAuCK09e4laJy4I4REdEF1KxFyiaKUObIG+jnZSoOJ8hsS/P
+ 20/Lf4vNVU0EKTh1RpsR1NuG7UbcbDM0y4LlPFN3ItahZrHzGcEe80H5Dqu1duk/
+ fYwIxae0xwk6pCPszhHTrzdgVA9KKBlKZFlMQ3qfiDI1b8OwiDD7D9G8+1hGmZRi
+ jBWi7Q==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5unwany-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 17:40:54 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b109ad4998so3191411cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 10:40:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756316454; x=1756921254;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9pryiKbesf4KLCmykOzJgOnqNMnr4CU7A7f1EXmgKk4=;
+ b=IWWpWsUOHK/DDsmEXXiVwGEx40NZGIpKxHOr1FZA0wtQbXx6zFJ2UXUTmkOwx9mDAQ
+ gTfEnujuj3a85PVzGyjzRgrNmRgbt6ShWPx5wfitDcXW+1ZTzOvqZ5VaG3o8U+9EIyrQ
+ h7dZ2zs7YtwpSytsxca32EdPwL3uDSovODlmTDdPzgLAOiOsGz2zLYjsirAWTLn3n9ke
+ c9pQVGTu4HkJwySSM9H4y7CXGPRfCgSeETjWenleKqOI8Ht1ravG3z6TgKS1RxW/WsDP
+ rlknVYNkdD6nZcsiyOK0ENXKTkGOOfjt3Ugolt4jJ6g5YcOB5Xiu1SGXzpclx9klAYXr
+ DTVQ==
+X-Gm-Message-State: AOJu0YzuEEeyE3IojTEutfpsUCjd7NO33AiTJpGdT1edCjwCDKkUgQyr
+ lBYGs2OJ+WV9Y5cNI6fPMWimr8Upb4vBYCMt/cvzrKqG9xBc9gLi8nwBjgspfl3jmAzH0WbZIY0
+ 4LJb7MaLXdjWUZNyHh2GXqKU2h4cocgn+xo7QKPgVTEmnG2JW5XLCV+8Qgim5x5KWC9+9FaM=
+X-Gm-Gg: ASbGncvAbmp+cY0Ah7GBxrdmulWKeBnatBxOVSsWuT1uQANtaR2P15HL454LPlQltNJ
+ wVrqjnbCqdvwWe+JD6977ESmXdDvApoG5f6qzShWmVd0l4kHoD4b05RBVjR4NGH6MhUswh7RtoL
+ +9cxrExNF32bpQxcGhErbW50xdOAoeuE0wmaqb5/G3fLv7FxldehuOzyABs0UIlV6BLeCnLxcCJ
+ 39WapoOJDF9aKsHdUak8Dv76xX4lQOJmxcDY4kU3Jyub1evtU87hTTyB4TMgdJZqJT8uMIrbXnk
+ WADNMvYSxU+a1EErypdadsG8zksCfpdWl74kz58k+ayLvvONqull9nG7hBdxaY+AvWKNYB5mP8i
+ Ur5mqCsR6JinkBNwUF3MYbA==
+X-Received: by 2002:a05:6214:27c1:b0:70b:5320:d416 with SMTP id
+ 6a1803df08f44-70d970cd29fmr238271776d6.14.1756316453931; 
+ Wed, 27 Aug 2025 10:40:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGhCi0u3Z5H0bwldj3p8+1IvfpKHSh571vUpFu3K1OKrspl//SOwGcmP4Yk4ANptZX5dCndsg==
+X-Received: by 2002:a05:6214:27c1:b0:70b:5320:d416 with SMTP id
+ 6a1803df08f44-70d970cd29fmr238270536d6.14.1756316452731; 
+ Wed, 27 Aug 2025 10:40:52 -0700 (PDT)
+Received: from ehlo.thunderbird.net (85-76-46-56-nat.elisa-mobile.fi.
+ [85.76.46.56]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3365e5aa917sm28124531fa.41.2025.08.27.10.40.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Aug 2025 10:40:50 -0700 (PDT)
+Date: Wed, 27 Aug 2025 20:40:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Paul Cercueil <paul@crapouillou.net>, Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?ISO-8859-1?Q?Heiko_St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Hans de Goede <hansg@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?ISO-8859-1?Q?Ma=EDra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+CC: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_01/39=5D_drm/atomic=3A_Make_drm=5Fatomic?=
+ =?US-ASCII?Q?=5Fget=5Fconnector=5Fstate=28=29_early_return_consistent?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20250825-drm-no-more-existing-state-v1-1-f08ccd9f85c9@kernel.org>
+References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
+ <20250825-drm-no-more-existing-state-v1-1-f08ccd9f85c9@kernel.org>
+Message-ID: <BBD9E72B-B1B6-4072-A465-68204879684C@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
-Content-Language: en-US
-To: Qianfeng Rong <rongqianfeng@vivo.com>, Min Ma <min.ma@amd.com>, "Oded
- Gabbay" <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250826072917.186638-1-rongqianfeng@vivo.com>
- <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
- <eaefefb6-7ced-4c47-8bff-bae83f143b72@vivo.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <eaefefb6-7ced-4c47-8bff-bae83f143b72@vivo.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989EB:EE_|MN0PR12MB5907:EE_
-X-MS-Office365-Filtering-Correlation-Id: 092292f1-063e-4c08-150e-08dde58db4b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y0NmeTg0SURpMnRDZDZ3Rk9pY1FmZUxONzRoUGRjUVgyTEdTRjZabmRmSkpY?=
- =?utf-8?B?UEx0eVFzN0ZtZlFZSDdaSURxK2RmaWM4S05QV0xmSFZWQ0FFaDRXWldxdHlG?=
- =?utf-8?B?VmU0QnVFek1rUmphTWVHM3F0YjdoUHpWbDRXUkxTWkphUUR5UktPZUQrbVhv?=
- =?utf-8?B?Zk14ZWtaeXBLcmRwalc1Vk1RRWZRazFkRkpxL2hhSFR6VmQ1WDR5bXMvWHM3?=
- =?utf-8?B?NzFvaWt5RkxvVXppTVpOTDNaWEkrQll2RFpuMElTMDBWcHRFMjNPK1EvbWZx?=
- =?utf-8?B?Zjd6TUVyL1FiWFh6bjJlV3Yxd0tLT1p5UDFGZ09EU2E0QnUzSFlWODlaWEc4?=
- =?utf-8?B?NytzMjdpc3RwdWdzODBYYWNQQzhZcDdCSzJOa0w3b0dVa0x1UStnTmxXTjJZ?=
- =?utf-8?B?Vm12bThkUUVxQ21YcmFUWk9uQzl1RVRXMjFFcXJjUkxHNkRqVHlwN1owWU5I?=
- =?utf-8?B?c256VVc3UzhDQUUyc01odS8vZlYvVkVnVUh0TXJrb1pmelVPNUErcGtKK0FE?=
- =?utf-8?B?bXB0QkJlc1NNTEdVRThYUUZuMlJDYnpHRDhLVkgyU24reFpjYWxWVnl0dDM3?=
- =?utf-8?B?eXFKdGp3d01vd212OWZnYkt2ZFBNcUF6c1htRCtoMEIyRGlFUmRBSTIraC9M?=
- =?utf-8?B?TG05NDRId1J2dGZEeWpXTWxUOUxpdm4vVEZvMXMwdHZGcTRmM202K1p4N0Nl?=
- =?utf-8?B?TTBMY215ZUJHeEs3N3JoSzNNblNOZmlxUmRWRzllcEhDMFlwKzhDZytUbEpP?=
- =?utf-8?B?N0xOZzNyQU0yTUI2dTBNYjJmMnV4b2RpUWtTaGNjVVRkTVhnV0h5cVFoYVdp?=
- =?utf-8?B?VGduM3kzV00wT0ZTTWFFdCs5Y3RkNkRlMnIxSCtHNzlvZUJFNHpJeTNBaXUz?=
- =?utf-8?B?c0x4OHV4dldtR3JtY3FhRXpXSTVHQkxBbDB4WlQ3WVBIVUhQRTdzUlNuTXFv?=
- =?utf-8?B?MGFCS3FnQU53R3hTT2g2UUhlK09oMzlqdEtqTjQ2Vjd6bExkRnlwdERtQWpp?=
- =?utf-8?B?akZ4RnA3T1dXZXZqM1A1ejBPVW1qSUFvbFEyT3MyOHdTL0g0UmJQcE1VVlNW?=
- =?utf-8?B?MklHR3RBbkQxa3Z0NWN5ckR2YmoySWZhZ2tDTG0zTjdtUWFjdmdxU3ZGVXJP?=
- =?utf-8?B?c1hlL3RuMDhoR3BuV1dCaUdYbHp1MjIzUjZsRWNFUnNhSmVHS2svTTlwb1l2?=
- =?utf-8?B?NEVyTm5vWWE0R0VOTFQyOVAwblE2OWxyRG9Fem4xc0R5Sm5zdXAxc1YrOUFp?=
- =?utf-8?B?d081OE1BeTZDeGZ1TXRadkxBTUhkVUd1YWJsWXFsby9GNWI3MUxZajRZc0tD?=
- =?utf-8?B?Q0RHTndvYjNpbjBaQXR1UlVSaS9NZnBka01YN3VoeCtyR0RrUjB0WXlCa1VF?=
- =?utf-8?B?bnRYT1FXZCtHWndDZTdhMUZGM0Fub0pNVmJrTjQ3ZkUrT0VpVFVLUTFKd1lQ?=
- =?utf-8?B?NDZIM1NUTXY3c050MHNJMkpzeEpidGcxZWY5RWJjS1pWSUZtUjdqNW5wamVv?=
- =?utf-8?B?MERVRFpOVU93NEgxbjA5UWl4cmJYVFZxV2lmZVVHQWlzL1VOaG9tRjZQSjdy?=
- =?utf-8?B?emtCUzhKZWZvMFZnTXBwVGVzTFF1Y2tvMlVrSE10bnV6WDBWQkQwZVlDaTU3?=
- =?utf-8?B?M0J5QnZtajZBdkFsaVNLOFNiQ0tTdVJQVXE5RW5PRXJYTm03QXV4Vm5PMk5T?=
- =?utf-8?B?R3dMNGNMeXl3N0FCeittTjJNSXYyY2F5L3pmdDM1dDJiYk9pSExsZzdESHAv?=
- =?utf-8?B?anpoOVA1c3Yrb3BTdDBDUXArWDB2c2hmR2hVUGNoRzJ4SzNlYk9wMGV2TTJZ?=
- =?utf-8?B?dmUzUEpHdEZxM0NnQTFMNm9USUJsUXdYTld4TGZQajZNUWRnY3I2SFA0N1Za?=
- =?utf-8?B?N2V3bGFuU014Q0ZLUGNYRDAxMlFScVlnNDVoY0dtNmFNbk56YjNWc1lBeUd0?=
- =?utf-8?B?YkM5bmpEOExkQjZEWFYrcUlZemlsTWp0QXJ4NFBRMkhSd2xkenovdTFSNVRr?=
- =?utf-8?B?dDBWd1lXbFFSZlNuRC9qS2RMN0Y3ZTlJclhiMUxqMnJCc0htZjdYd0dGN0Nv?=
- =?utf-8?Q?KsD2uC?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 17:18:14.0046 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 092292f1-063e-4c08-150e-08dde58db4b5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989EB.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5907
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: dC1LD_Z_F530zeHdLU9EtvgVgprdnwpM
+X-Proofpoint-ORIG-GUID: dC1LD_Z_F530zeHdLU9EtvgVgprdnwpM
+X-Authority-Analysis: v=2.4 cv=JJo7s9Kb c=1 sm=1 tr=0 ts=68af4326 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=ntis2/2Y3p1p47GkerkPQg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=puQWGBksFvoA:10 a=VwQbUJbxAAAA:8
+ a=V78A4Cvkybgf4icwE48A:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMSBTYWx0ZWRfX716Ee9erCxUj
+ SODxHiW2jWouwgbmHnTNi3CgzVX95IiP5IuQldzP6gwuvyGw8HVASbroaMdCVI6AvTRk0QxWAh6
+ kcAXDQW5MFn0doDM1Zv1hrcQ8T6iQBYjsQGUukkfmMNkMG0tIbbcVBA0ey1DW11H2iF72bq5rQL
+ 1lEd6jd0YlAUNqWh0X1CcVrcBXJpS/8oZ6nWvy57JwEIDhcbjEw05RvJ1NYc8kgpqHstmZ/vQCx
+ CC3rJcVB6BiLFV9qhB94cvAuE4sxsDT+S9P4yHFNWJaQAGJ7dqxYp4UIaMd672bDeRCXrgq+K9p
+ K25ZHX48qSo1QQckcEkOwjFFcCslxFqZP9PqJXuFObZs0El5RsnTdx1QdBcxe5zpgg5EHhertLK
+ JJyyI8H3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,42 +173,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 25 August 2025 16=2E43=2E06 EEST, Maxime Ripard <mripard@kernel=2Eorg> w=
+rote:
+>The drm_atomic_get_connector_state() tries to lookup if a connector
+>state was already allocated in the global state to return early if it
+>was the case=2E drm_atomic_get_plane_state() and
+>drm_atomic_get_crtc_state() behave similarly=2E
+>
+>However, and unlike the other two, drm_atomic_get_connector_state() will
+>do that lookup after having called drm_modeset_lock(), when the others
+>will do it before=2E
+>
+>Let's move the early return before the lock to make it consistent=2E
+>
+>Signed-off-by: Maxime Ripard <mripard@kernel=2Eorg>
+>---
+> drivers/gpu/drm/drm_atomic=2Ec | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/drm_atomic=2Ec b/drivers/gpu/drm/drm_atomic=
+=2Ec
+>index cd15cf52f0c9144711da5879da57884674aea9e4=2E=2Efe21f154e0fa030f85fb3=
+d6d35e2684adcf36e26 100644
+>--- a/drivers/gpu/drm/drm_atomic=2Ec
+>+++ b/drivers/gpu/drm/drm_atomic=2Ec
+>@@ -1128,10 +1128,13 @@ drm_atomic_get_connector_state(struct drm_atomic_=
+state *state,
+> 	struct drm_mode_config *config =3D &connector->dev->mode_config;
+> 	struct drm_connector_state *connector_state;
+>=20
+> 	WARN_ON(!state->acquire_ctx);
+>=20
+>+	if (state->connectors[index]=2Estate)
+>+		return state->connectors[index]=2Estate;
 
-On 8/26/25 19:15, Qianfeng Rong wrote:
->
-> 在 2025/8/27 0:31, Lizhi Hou 写道:
->>
->> On 8/26/25 00:29, Qianfeng Rong wrote:
->>> Change the 'ret' variable from u32 to int to store -EINVAL, reducing
->>> potential risks such as incorrect results when comparing 'ret' with
->>> error codes.
->>
->> Sounds this fixes code issue. Could you add "Fixes" tag?
->>
->>
->
-> The 'ret' variable stores negative error codes directly.  Storing
-> error codes in u32 (an unsigned type) causes no runtime issues but is
-> stylistically inconsistent and very ugly.
->
-> Logical errors with 'ret' only occur when it is compared against negative
-> error codes. For example:
->
-> u32 ret = -EINVAL; // ret becomes an extremely large unsigned integer
->
-> if (ret == -EINVAL) // This condition will never be true
->
-> This patch reduces the likelihood of such issues occurring. Since it does
-> not fix an existing bug, I believe there is no need to add a Fixes tag.
+Unlike other DRM objects, connectors are dynamic=2E There is no guarantee =
+that at this point this array entry exists and it's valid=2E You might be t=
+ampering with the unallocated memory=2E
 
-I agree with the change.
-
-u32 ret = -EINVAL may lead to a gcc warning if -Wsign-conversion is 
-enabled. That is why I suggested Fixes tag.
-
-Lizhi
-
+>+
+> 	ret =3D drm_modeset_lock(&config->connection_mutex, state->acquire_ctx)=
+;
+> 	if (ret)
+> 		return ERR_PTR(ret);
+>=20
+> 	index =3D drm_connector_index(connector);
+>@@ -1150,13 +1153,10 @@ drm_atomic_get_connector_state(struct drm_atomic_=
+state *state,
+> 		       sizeof(*state->connectors) * (alloc - state->num_connector));
+>=20
+> 		state->num_connector =3D alloc;
+> 	}
+>=20
+>-	if (state->connectors[index]=2Estate)
+>-		return state->connectors[index]=2Estate;
+>-
+> 	connector_state =3D connector->funcs->atomic_duplicate_state(connector)=
+;
+> 	if (!connector_state)
+> 		return ERR_PTR(-ENOMEM);
+>=20
+> 	drm_connector_get(connector);
 >
-> Best regards,
-> Qianfeng
->
+
+
+With best wishes=20
+Dmitry
