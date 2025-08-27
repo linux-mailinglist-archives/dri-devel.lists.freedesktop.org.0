@@ -2,116 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E92B38E5A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC0FB38E6D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:27:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0475610E028;
-	Wed, 27 Aug 2025 22:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111CB10E913;
+	Wed, 27 Aug 2025 22:27:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gS4ZBzmC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N3nSP7Gc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A6710E028
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:25:00 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RGB8jb027484
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:25:00 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42BEB10E914
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:26 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RG7MK4029085
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=wMabvnMiY6aI3QTnrZr9pq+N
- RKVIz1RxP9V/JHunYhU=; b=gS4ZBzmCgDeh85coVTvtc5oGJFI2VEr0B4boNmF1
- O3qPXL7qBbiAVuTr52jGhMBV2zit0RdQ5BLv12Fl+ToaZkvNk+/1F0xHIdrwbb1J
- wmQxWz6cVISIN9+voNHKu43ytyrWMVYcVBM+BS0zM8uBNyiBQvJhoLQgZ5chaMi0
- kNfVSdHggJV6j0kxpQnGhrU+rHeMZL+IDFphUzlfQdbC2LQ8TKO68RRBFZkn+mPM
- vvZN+NnKqUQIHRSN5Yg5A6scSFSLnHBxfQFuoaKEnc5sx9unDcsxRS0YWurBvaQK
- AtnOt25Q1gVPh0lff1ALoiyTYRPbFDQNtm0WgE6pb8HW2A==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48se16w435-1
+ :references:subject:to; s=qcppdkim1; bh=coI2WbZxINU7lzeYxnfoWTr2
+ sAMMNa2PgUU+5RmzHvA=; b=N3nSP7Gc5TMt+IIn+qZ9uGuYzVafaBp1ac2JStUp
+ K7rRbNrItFfkrE4pn3NSwfK3EJKU+G54f3mtlHj6FVmTiyk34UhAcW763bLSlDn6
+ lE8nZPvaSrrbDD1z8NV8GMsE+EejI9+PUuTSSHiKEagz9bQN6sfvpB5/sPOKcU3B
+ hixfH4Wr/PN3um5++i/3CX9NXOAeLZ9SXBULzqfYPbTbm7cJ0YT0lWqwC5hM7lYu
+ l1sOWd/H9mcZguQFv0ANnTeWef+C8qNF9wb0KmfE+GAKuhHp+eDVTrDi1PKjuj3Y
+ LyVxJjOjvzkfxEw8ajNN66YMc9YGBbuSSUh3zv0iLcgaEQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5ume8nq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:25:00 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b2b3cd4d00so9180921cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:24:59 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:25 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b2a1344b36so6557791cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:27:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756333498; x=1756938298;
+ d=1e100.net; s=20230601; t=1756333644; x=1756938444;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wMabvnMiY6aI3QTnrZr9pq+NRKVIz1RxP9V/JHunYhU=;
- b=EuzbUc/ZLfktM1QRWYtygLsu3+m0ELlWJEExQzV6PnAWh73ljN8dsJhkLZkkBvpt3i
- hvmdmY/v6DGARszwLfg571s5TYpjK9YhlAiy5e2MXMKSoWvzwCfHp0ISdBcF+q8FaN1n
- /JdyVbQUxxvSOBW+Gf9T0C7NDrQvYJzPiI37de9RI5NvgEISWRuwOrzKWX3tCUzP/h7u
- 7af9FQ17ZIL3zVs6B/uZtJ+QlEHNoBfZfpw8+hxFLJIe+OAPVJycYtjHuUBfyDMVFAP5
- CyUCO5thrNMqAz5Npc4wYsULd43HSNelRWWksbXKqqcpMuTVDzbR5eLwRjuZj4+qU2sJ
- UmbQ==
+ bh=coI2WbZxINU7lzeYxnfoWTr2sAMMNa2PgUU+5RmzHvA=;
+ b=LBqGITq3uTe0+0SfhWbNo1ZYYR4ZlJlf1SVwtEm44qzkw6JSiPXGD9hRFunJXIaWZa
+ Vfzih4OYyFFsZn9uvXMEW+mhXAdB4UmU2LHqHNho6OS4kgVkS1dcXj9nr8wmRqTiQeSB
+ 4TfyoeTotzvZiJNBcnSHkaoQCWIun5iud4pNhPRD8OvxEhnxF1shuUIiUNwTWLYVFNNO
+ 7NJrEsrIKrO8pSR4QwnsOWt2c1xxn8L/ryu1ummyVY6f3aBVyyPRo0A4N4lySfMQLkHe
+ fcpbE+LatdyYAC5n/NAZo/tt3YZwodVE16utAlr+zIbML29BUxsJcmN/LQy+97KwK68/
+ ZGxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW7z3unp5nbA2j6ltYIyY0zYfNThgfUsGJIYEHoD7aRSEH817gPZ4qgRxDD2SPdemmNYYjoHhiAj1s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVuTjxJw1lI/PgEo8zgWByb6JAJ+ng12DvW07FuD0yVRQyVcHL
- 4iCFhVR5YoN/9fu/vhk3Tt0Yhr3NOPfychdQfmV9MgERWzGGSeP+dAmTu3JB0j1byPxI9xamtWK
- qhSw6EGgGdvysG/Xv3I+7fpRT4B8l5vlmthWEyzGiQAUPpC8WBbpclrAUMnrO58JJyjJppVE=
-X-Gm-Gg: ASbGnctCCeLw4chzFyqsTCTJ97D0lyMZosyE4X8wGkz1O7Lts9Mfe7yGlvCUPbS/wUk
- vvZYuC2XWfoLnHUOJ6EaCNbyfCihiViJzQea0mKwSoGI7UNGw6DDDPGMhIYQGe6Z8Jin1ltOp98
- +3zDn4ihsOUey5CPyz9dZG/Bbu5Ysz86+dj2yoXM9OrXMaro2b/l05YX+bWBFJM5LexKduXtP+W
- iwmmHl/NPTMUiwlQu4TfeZ8TYtLW7G7t8rTG1k0nuZsrTcvcTN28iexxBVZHOyyCfxzSAY+/89Y
- LJ1bkDHFPgx1MLHAHZz7XYhEBfyS7yyWTWfdVt89U4Aq3tD16W9/4Qlbul13IYYkeWmj7kCHLdo
- NMf4S/cH4wuImwMurSWB1AwSxCoHvlm6Nq2sG8LgcOOKNXBvhAR35
-X-Received: by 2002:a05:622a:5e1b:b0:4b2:b6dd:3f62 with SMTP id
- d75a77b69052e-4b2b6dd4850mr141574711cf.15.1756333498281; 
- Wed, 27 Aug 2025 15:24:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHWL5d3fRji5RjCf7oZDMHi6+hAavouE1mTTu18gEHtzIXVQqcCSxTkltVNvjDodB9v6M14nQ==
-X-Received: by 2002:a05:622a:5e1b:b0:4b2:b6dd:3f62 with SMTP id
- d75a77b69052e-4b2b6dd4850mr141574451cf.15.1756333497748; 
- Wed, 27 Aug 2025 15:24:57 -0700 (PDT)
+ AJvYcCUTQXj1TzE6mBJwzM6FeHtu+sVnlCEBjhD9zeFFW4nS2rSqOZ0/gpgg+z4oKnn35n6K+p1WbGfzTt0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXCiA+0ZrS4mtwqO+dU40pCqniDuqM00T0xSeE8TI49Rz3xkx3
+ 47BLfEtcpQ+1LZy37bxLnomwA4W2Vl0HytuUn0vIpdjc+PGTbR+avcaFS6Yeqx0Fq9iiDXWJ5DU
+ q19vPh+3kOUXO0nueMF9hlYpySrvH/s9mz29T1rGSBa8TUK5LYaWUNYUux9rFK9x7jprUYJA=
+X-Gm-Gg: ASbGncvj+qxFoZBDZEPpmv5hFdIrCWJRoMIV1OIJt8B2XYKiD6YowjHihz5y7DFewyP
+ aGwb2TuOB5tS3czwIGm8BEsv7mpzWPRqZiLiv9X8AxaUqua7lc5EUzBDvNhU0xSrgxT/6Fjoesh
+ bhQsMR9i4cbTXrKBWEzvjYP/NbxT3Cd9mBM0QfofJ431pRyxrFNkI6SHW+0XDbznZEJVpQgOKkQ
+ 41qsgD+rJrNbVX7DwmeajWrkARMeYdJSJtFD0kglvGZxl75PL126JLNbVT/ktPAUcfPN2fv23Wd
+ PwbuEfIRzgscnNrSkI7jNcEOxNN1xL5RxkqX9fx5q+Q5+mbATjcDFBsSMRzofhKN/ySWH4ccINv
+ E6Mp2x2QVZW/xcAz2Bc86bhL5HzhFw9PGGDNrKaLJGBSwAv1HVQ0F
+X-Received: by 2002:a05:622a:4c8e:b0:4b0:8f6e:d70a with SMTP id
+ d75a77b69052e-4b2de073d4amr102607581cf.22.1756333644097; 
+ Wed, 27 Aug 2025 15:27:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGfGaJaSCsOEz0+c7R0GpHgMKXCo1cAu/f4pCkJRC2KgnMVotYeSkSM/eNVsc6qfr/OnO8xNw==
+X-Received: by 2002:a05:622a:4c8e:b0:4b0:8f6e:d70a with SMTP id
+ d75a77b69052e-4b2de073d4amr102606571cf.22.1756333643552; 
+ Wed, 27 Aug 2025 15:27:23 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35ca6af5sm2954613e87.138.2025.08.27.15.24.55
+ 38308e7fff4ca-336818f1d41sm14139131fa.51.2025.08.27.15.27.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 15:24:56 -0700 (PDT)
-Date: Thu, 28 Aug 2025 01:24:53 +0300
+ Wed, 27 Aug 2025 15:27:21 -0700 (PDT)
+Date: Thu, 28 Aug 2025 01:27:19 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, 
- stephen@radxa.com, cristian.ciocaltea@collabora.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh@kernel.org,
- sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
-Message-ID: <bochli5u37mhc6eup7h2oz3yeignofbbj4k5nrvm2k7zf6f4ov@t2sje4gmveqa>
-References: <20250822063959.692098-1-andyshrk@163.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Paul Cercueil <paul@crapouillou.net>, Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Sui Jingfeng <suijingfeng@loongson.cn>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Hans de Goede <hansg@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 03/39] drm/atomic: Convert
+ drm_atomic_get_connector_state() to use new connector state
+Message-ID: <hab6s4wyauqiej5ankh3gppdqkm2ymlevhrnklfe76kqjmmjqy@fptmzxpqv5av>
+References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
+ <20250825-drm-no-more-existing-state-v1-3-f08ccd9f85c9@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822063959.692098-1-andyshrk@163.com>
-X-Proofpoint-GUID: FbJD1HMg6JAzgQWn7QNj69iuhOGgCLGJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDEyMCBTYWx0ZWRfXycnzXNFSjmBA
- rCDuZZ8tGw6cLsawFW2n+o8pBDofoT99o8BQDx1Hyn/NBXi99wWbBhETvSLjswpbGJf51q4SvmG
- pxQ+AdjGrqCK1CL4Rk/EP4lF2mdmclRyOUdn/OltuqaLWkDG9jQA+JniElFm2POdsz7fIPEmj8w
- YsijET0lXGQKQGotJNxIL8u4F+qrmtECUiqK8gsXM01QC/6mxaARBfqWD2Erf/4hTJtVKK0jqkQ
- BbJSIkSgdkyx6AXHrpTG1Gv2gciK1cFTgH4On8q0rwPhXD4wzQqACL0KXJTkVrHIJOmvljc5QXN
- 9/mvg8Hdr4CzIiYcyUWG7/+Uxdz1g5kwgO0A4BK+jKzDTwnhuaopMw+Kdg24a1sSyTZfKg7KJPx
- Q26Djmph
-X-Proofpoint-ORIG-GUID: FbJD1HMg6JAzgQWn7QNj69iuhOGgCLGJ
-X-Authority-Analysis: v=2.4 cv=CNYqXQrD c=1 sm=1 tr=0 ts=68af85bc cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=s8YR1HE3AAAA:8 a=IMEu-sUR2OXSz8FBHAsA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=jGH_LyMDp9YhSvY-UuyI:22
+In-Reply-To: <20250825-drm-no-more-existing-state-v1-3-f08ccd9f85c9@kernel.org>
+X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68af864d cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=wpE8WlYdICmIRzy2dDcA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX4DV2e9Rn3Ze4
+ wP+EesUsXGXWm06VIC8+kL3P5cevt5n6Ya96yzNcZguYpFXYkN7MIECxOMS/xePZXOQoVOw7Gv/
+ 3RzkiPxyaiLyz0lW6SpXRZhCImtWjGVHC8w9u751ov1CG1on3EhiFMdfkj4MKQcibiocAgzW3U+
+ 8FEELBNY8jnd8YiGL3PM9rKikgQOhyYV6vSpO5iaqAplWglxv7ABi2s4WC2mQRC9/JR57EncrmO
+ AJhaq9BRVwH/ghBRGAE6saM+U725llrcC2DTbpq+In23UxR0jTBuJljr/Ytj+kmJ0oLj6OfRQc5
+ vX72PaYn8gSw74ahO3spEroMbYau9ZKGUgr+hzG7VjYJ2JFWoYfJhVulV4aDwwaVUfjWEFXrCw3
+ Pr+ZqFaa
+X-Proofpoint-GUID: JHOypU7o0x0LGK67oNQ_lVlWcQAmB2NE
+X-Proofpoint-ORIG-GUID: JHOypU7o0x0LGK67oNQ_lVlWcQAmB2NE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 spamscore=0
- phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 classifier=typeunknown
+ clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508260120
+ engine=8.19.0-2507300000 definitions=main-2508230032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,88 +174,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 22, 2025 at 02:39:44PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
+On Mon, Aug 25, 2025 at 03:43:08PM +0200, Maxime Ripard wrote:
+> The drm_atomic_get_connector_state() function calls the deprecated
+> drm_atomic_get_existing_connector_state() helper to get find if a
+> connector state had already been allocated and was part of the given
+> drm_atomic_state.
 > 
+> At the point in time where drm_atomic_get_connector_state() can be
+> called (ie, during atomic_check), the existing state is the new state
+> and drm_atomic_get_existing_connector_state() can thus be replaced by
+> drm_atomic_get_new_connector_state().
 > 
-> There are two DW DPTX based DisplayPort Controller on rk3588 which
-> are compliant with the DisplayPort Specification Version 1.4 with
-> the following features:
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> * DisplayPort 1.4a
-> * Main Link: 1/2/4 lanes
-> * Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
-> * AUX channel 1Mbps
-> * Single Stream Transport(SST)
-> * Multistream Transport (MST)
-> * Type-C support (alternate mode)
-> * HDCP 2.2, HDCP 1.3
-> * Supports up to 8/10 bits per color component
-> * Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
-> * Pixel clock up to 594MHz
-> * I2S, SPDIF audio interface
-> 
-> The current version of this patch series only supports basic display outputs.
-> I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; the ALT/Type-C
-> mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Stephen and Piotr.
-> HDCP and audio features remain unimplemented.
-> For RK3588, it's only support SST, while in the upcoming RK3576, it can support
-> MST output.
-> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 660b081ff5d8c39061cebfb5ea122ac1e51677ad..30b7ec05a1af07075e40cd2822ecfd67df004ba2 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1128,11 +1128,11 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
+>  	struct drm_mode_config *config = &connector->dev->mode_config;
+>  	struct drm_connector_state *connector_state;
+>  
+>  	WARN_ON(!state->acquire_ctx);
+>  
+> -	connector_state = drm_atomic_get_existing_connector_state(state, connector);
+> +	connector_state = drm_atomic_get_new_connector_state(state, connector);
 
-[skipped changelog]
+I'd say, drop patches 1-2 and use this function directly as is now.
 
-> 
-> Andy Yan (10):
->   dt-bindings: display: rockchip: Add schema for RK3588 DPTX Controller
->   drm/bridge: synopsys: Add DW DPTX Controller support library
->   drm/rockchip: Add RK3588 DPTX output support
->   MAINTAINERS: Add entry for DW DPTX Controller bridge
-
-I tried pushing patches 1-4, but got the following error:
-
-dim: ERROR: 5a68dcf5837a ("MAINTAINERS: Add entry for DW DPTX Controller bridge"): Mandatory Maintainer Acked-by missing., aborting
-
-I'm not sure how to handle MAINTAINERS changes (or whether it's fine for
-me or not), so I will probably push patches 1-3 in a few days, if nobody
-beats me (or unless somebody points out a correct process for
-MAINTAINERS changes).
-
->   dt-bindings: display: simple-bridge: Add ra620 compatible
->   drm/bridge: simple-bridge: Add support for radxa ra620
->   arm64: dts: rockchip: Add DP0 for rk3588
->   arm64: dts: rockchip: Add DP1 for rk3588
->   arm64: dts: rockchip: Enable DisplayPort for rk3588s Cool Pi 4B
->   arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
-> 
->  .../display/bridge/simple-bridge.yaml         |    1 +
->  .../display/rockchip/rockchip,dw-dp.yaml      |  150 ++
->  MAINTAINERS                                   |    8 +
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   30 +
->  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   30 +
->  .../boot/dts/rockchip/rk3588-rock-5-itx.dts   |   59 +
->  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   37 +
->  drivers/gpu/drm/bridge/simple-bridge.c        |    5 +
->  drivers/gpu/drm/bridge/synopsys/Kconfig       |    7 +
->  drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
->  drivers/gpu/drm/bridge/synopsys/dw-dp.c       | 2095 +++++++++++++++++
->  drivers/gpu/drm/rockchip/Kconfig              |    9 +
->  drivers/gpu/drm/rockchip/Makefile             |    1 +
->  drivers/gpu/drm/rockchip/dw_dp-rockchip.c     |  150 ++
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    1 +
->  drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    1 +
->  include/drm/bridge/dw_dp.h                    |   20 +
->  17 files changed, 2605 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
->  create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
->  create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
->  create mode 100644 include/drm/bridge/dw_dp.h
+>  	if (connector_state)
+>  		return connector_state;
+>  
+>  	ret = drm_modeset_lock(&config->connection_mutex, state->acquire_ctx);
+>  	if (ret)
 > 
 > -- 
-> 2.43.0
-> 
-> base-commit: 18b8261b84ad5462d7261617fbfa49d85d396fd9
-> branch: rk3588-dp-upstream-v7
+> 2.50.1
 > 
 
 -- 
