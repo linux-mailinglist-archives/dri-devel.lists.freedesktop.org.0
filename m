@@ -2,83 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D9FB37C83
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F44CB37BB2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:30:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5A110E761;
-	Wed, 27 Aug 2025 07:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46C710E72C;
+	Wed, 27 Aug 2025 07:30:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="onAY/ahR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RhxgsoN3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA1510E750
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=gzeeqkroKmmZWJXoYtqTZrgkcFkhpm3FfXA6Qfi5FPg=; b=onAY/ahRdxPnV3oOrlFTMxQsX1
- 4/F/GUoC28qL6WdTxW50bPjN63UISSfr8rUpECTYtXUj8F6A6equvZyuPi8gKvNfIplPPmYprCEje
- uppsPP7iPfS7Ly06vK5eSP80d2opR341xk6LhR5PkC1VZGU8nu7LgogwusFd2K9ipAQrve5Nfa8sJ
- jWCQdnBzTYXNPj1AuUKZukP3eg9qFGBR7wfHOCwFc1vDrYzPVX6lW8zDfMPgZnOxxtAWIc+vREiZe
- 9ejE+O/VVoVgTm3LRiNTWCXXvToZVeA4ZmCWtyvQ7U5M4imzYzWKNS8i32zcr5z7d/9Fofigj9iol
- KuwvSPJg==;
-Received: from [213.244.170.152] (helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1urAbr-0003Q8-H8; Wed, 27 Aug 2025 09:30:19 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 10/20] drm/rockchip: dw_hdmi_qp: switch to
- FIELD_PREP_WM16 macro
-Date: Wed, 27 Aug 2025 09:30:18 +0200
-Message-ID: <881125850.0ifERbkFSE@phil>
-In-Reply-To: <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E6C10E725;
+ Wed, 27 Aug 2025 07:30:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3127E60254;
+ Wed, 27 Aug 2025 07:30:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587B4C4CEEB;
+ Wed, 27 Aug 2025 07:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756279822;
+ bh=DENKWc0ekq4UNDhRRQjwLrtYtoA+KfqAypfKZC86Eqk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RhxgsoN3lmna/+JExixoNPap1mGT+zqpO8/iUSe0edBRPqG+uoL1AosmqpeX5IHTh
+ 2chWd0LuCV5uA/wGXzLmitAFUDvq/N2tsQO6PHg3VWq7FgO8gIIqA6TBaSckSJRa5K
+ D/wIP3nU5H/MFsycCY/pxU8O00LxnYf2Rf4sYeMrQNL1vszte/bHWROoYjh07yq76F
+ kCIXEhSsvJvRwHGh8TO3/KAScj63Tkf8THgvAMfGKLUc202xART5lI5zoNuiRyDqH6
+ WtSV8ls84DVWfVSwbVY0+Ak+yUFRK6mcWFzICNSG3mLbZJ206lIt7L0gtlMiPrZDHv
+ XNBqbnNQJS+Tw==
+Date: Wed, 27 Aug 2025 09:30:20 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
+ unsupported
+Message-ID: <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
+References: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
+ <20250819-drm-limit-infoframes-v2-1-7595dda24fbd@oss.qualcomm.com>
+ <20250820-artichoke-silkworm-of-election-521b5e@houat>
+ <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="wgcccbljqt4firco"
+Content-Disposition: inline
+In-Reply-To: <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,26 +82,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:30 Mitteleurop=C3=A4ische Sommerzeit schr=
-ieb Nicolas Frattaroli:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
->=20
-> Replace this driver's HIWORD_UPDATE with the FIELD_PREP_WM16 macro from
-> hw_bitfield.h. While at it, disambiguate the GRF write to SOC_CON7 by
-> splitting the definition into the individual bitflags. This is done
-> because FIELD_PREP_WM16 shifts the value for us according to the mask,
-> so writing the mask to itself to enable two bits is no longer something
-> that can be done. It should also not be done anyway because it hides the
-> true meaning of those two individual bit flags.
->=20
-> HDMI output with this patch has been tested on both RK3588 and RK3576.
-> On the former, with both present HDMI connectors.
->=20
-> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+--wgcccbljqt4firco
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
+ unsupported
+MIME-Version: 1.0
 
+Hi,
 
+On Wed, Aug 20, 2025 at 12:52:44PM +0300, Dmitry Baryshkov wrote:
+> On Wed, Aug 20, 2025 at 09:15:36AM +0200, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Tue, Aug 19, 2025 at 09:57:30PM +0300, Dmitry Baryshkov wrote:
+> > > Currently DRM framework expects that the HDMI connector driver suppor=
+ts
+> > > all infoframe types: it generates the data as required and calls into
+> > > the driver to program all of them, letting the driver to soft-fail if
+> > > the infoframe is unsupported. This has a major drawback on userspace
+> > > API: the framework also registers debugfs files for all Infoframe typ=
+es,
+> > > possibly surprising the users when infoframe is visible in the debugfs
+> > > file, but it is not visible on the wire.
+> > >=20
+> > > Let drivers declare that they support only a subset of infoframes,
+> > > creating a more consistent interface.
+> > >=20
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >=20
+> > I'm not really convinced. Infoframes aren't really something you should
+> > ignore, AVI is effectively mandatory, HDMI kind of is too, AUDIO is if
+> > audio support is enabled, DRM is mandatory if HDR is used.
+>=20
+> Nevertheless, sun4i, innohdmi, adv7511, it6263 and rk3066 drivers
+> provide support only for the AVI infoframe.
+
+Yes, but it's still something we shouldn't paper over. The spec mandates
+it, if drivers want to deviate from it it's something we should warn
+about, not silence.
+
+sun4i is a good example, to me at least since I have the doc. The
+hardware supports AVI, Audio, ACP, and SPD. HDR isn't supported, so DRM
+isn't either. The only missing one is HDMI, but the documentation isn't
+the best so it might still be supported. In short, it's a driver issue.
+
+adv7511 supports AVI, Audio, ACP, SPD, ACP, and looks to have a
+mechanism to send any infoframe as is. So, again, driver issue.
+
+I couldn't find the other datasheet, but I'd be very surprised if it
+wasn't the case for these too.
+
+> Some of them can be extended to support other infoframe kinds (e.g.
+> ADV7511 has two spare infoframes which can be used for HDMI and SPD).
+>=20
+> > SPD is indeed optional though.
+> >=20
+> > So, it's really dynamic in essence, and not really something we should
+> > expect drivers to ignore.
+> >=20
+> > I do acknowledge that a lot of drivers just silently ignore the
+> > infoframes they don't support at the moment, which isn't great either.
+> >=20
+> > Maybe we should standardize and document what drivers should do when
+> > they don't support a given infoframe type?
+>=20
+> The chips might be generating infoframes internally. This series was
+> triggered by LT9611UXC, which does all HDMI work under the hood in the
+> firmware. See [1]. The series I posted hooks HDMI audio directly into
+> the bridge driver, but I'd really prefer to be able to use
+> drm_atomic_helper_connector_hdmi_hotplug(), especially if I ever get to
+> implementing CEC support for it.
+>=20
+> ADV7511 likewise generates audio infoframe without Linux
+> help (audio-related fields are programmed, but it's not the
+> infoframe itself).
+
+Implementing the write_infoframe hooks as a nop with a comment in those
+case is totally reasonable to me.
+
+I'd still like to document that drivers should only return 0 if they
+programmed the infoframe, and -ENOTSUPP (and the core logging a warning)
+otherwise.
+
+That way, we would be able to differentiate between the legimitate
+LT9611UXC case, and the "driver is broken" sun4i (and others) case.
+
+Maxime
+
+--wgcccbljqt4firco
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK60CAAKCRAnX84Zoj2+
+dkbWAYCMfUjpHErZH+SQIgUybfgwR6GGsSh167v91iFWGWz8EJiwF3fqRZNLLMX0
+Bs7dH+QBf3E+xTNLU4qS9e3zJulsSQ7EeLySYfsKG21vEhU0ndIesR3W4HshDPTR
+mJeUGxkx9g==
+=m9tf
+-----END PGP SIGNATURE-----
+
+--wgcccbljqt4firco--
