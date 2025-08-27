@@ -2,55 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AB2B38BC5
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 23:59:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3526B37CEB
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5AAB10E8C9;
-	Wed, 27 Aug 2025 21:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7423910E763;
+	Wed, 27 Aug 2025 08:07:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="lpvZbN1v";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA42710E763;
- Wed, 27 Aug 2025 08:06:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35FE122FC;
- Wed, 27 Aug 2025 01:06:24 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B8693F694;
- Wed, 27 Aug 2025 01:06:32 -0700 (PDT)
-Date: Wed, 27 Aug 2025 09:06:30 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com,
- kan.liang@linux.intel.com, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
- iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 16/19] perf: Introduce positive capability for sampling
-Message-ID: <20250827080630.GC745921@e132581.arm.com>
-References: <cover.1755096883.git.robin.murphy@arm.com>
- <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
- <20250826131124.GB745921@e132581.arm.com>
- <983df32a-ba74-421d-bc20-06e778b4d2c9@arm.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0CB10E763
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=nHn0/2tcQ6NKxDIG6MXiOpQl/j8R5Yoanaeftq4zEbE=; b=lpvZbN1vFE1catKAjtPmzOO25D
+ zQe3EYADcLN+u+VAb4HEmMxBKY5SafJaDYo/N6TNMFuP2oZom+6QyC/AcQGjJZbELGVRCEqd3EteB
+ Fb13EBgEXMvzyuuYrFYrMfeYHRByJKSbUcvu3E66udd77HpJJotr8ch5V7KlYoSDEMMaTt98Gcnvd
+ Wa3nuIX7IzNZjVImMGkSlLN4d6L623lauFYlOX5VWScp13JJTS9jUan+msw/NJB5G0gmicI7Kd3F9
+ PhjF5C7+pBOZ2eafUWP7tC5PQRvDdbAh3Cp2DSoY0CmCakj8e/QkSktaIWTntJgsOAU9qJ6LDboUR
+ m1ZKL4hQ==;
+Received: from [213.244.170.152] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1urBB2-0000Hv-Tf; Wed, 27 Aug 2025 10:06:40 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH v3 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
+Date: Wed, 27 Aug 2025 10:06:39 +0200
+Message-ID: <5154190.bB369e8A3T@phil>
+In-Reply-To: <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
+References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <983df32a-ba74-421d-bc20-06e778b4d2c9@arm.com>
-X-Mailman-Approved-At: Wed, 27 Aug 2025 21:59:14 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 26, 2025 at 04:53:51PM +0100, Robin Murphy wrote:
+Am Montag, 25. August 2025, 10:28:39 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Nicolas Frattaroli:
+> The sp7021 clock driver has its own shifted high word mask macro,
+> similar to the ones many Rockchip drivers have.
+>=20
+> Remove it, and replace instances of it with hw_bitfield.h's
+> FIELD_PREP_WM16 macro, which does the same thing except in a common
+> macro that also does compile-time error checking.
+>=20
+> This was compile-tested with 32-bit ARM with Clang, no runtime tests
+> were performed as I lack the hardware. However, I verified that fix
+> commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()=
+")
+> is not regressed. No warning is produced.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-[...]
+While I have no connection with that specific piece of hardware,
+the change itself looks correct, so
 
-> > Genearlly, AUX events generate interrupts based on AUX ring buffer
-> > watermark but not the period. Seems to me, it is correct to set the
-> > PERF_PMU_CAP_SAMPLING flag for them.
-> 
-> This cap is given to drivers which handle event->attr.sample_period and call
-> perf_event_overflow() - or in a few rare cases, perf_output_sample()
-> directly - to do something meaningful with it, since the intent is to convey
-> "I properly handle events for which is_sampling_event() is true". My
-> understanding is that aux events are something else entirely, but I'm happy
-> to be corrected.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-If the discussion is based only on this patch, my understanding is
-that the PERF_PMU_CAP_SAMPLING flag replaces the
-PERF_PMU_CAP_NO_INTERRUPT flag for checking whether a PMU event needs
-to be re-enabled in perf_adjust_freq_unthr_context().
 
-AUX events can trigger a large number of interrupts under certain
-conditions (e.g., if we set a very small watermark). This is why I
-conclude that we need to set the PERF_PMU_CAP_SAMPLING flag to ensure
-that AUX events are re-enabled properly after throttling (see
-perf_adjust_freq_unthr_events()).
-
-> Otherwise, perhaps this suggests it deserves to be named a little more
-> specifically for clarity, maybe PERF_CAP_SAMPLING_EVENTS?
-
-Seems to me, the naming is not critical. If without setting the
-PERF_PMU_CAP_SAMPLING flag, AUX events might lose chance to be
-re-enabled after throttling.
-
-Thanks,
-Leo
