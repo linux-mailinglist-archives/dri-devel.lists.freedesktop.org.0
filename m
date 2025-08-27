@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE781B37B40
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46BFB37B4C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3663D10E70D;
-	Wed, 27 Aug 2025 07:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0C7010E06B;
+	Wed, 27 Aug 2025 07:13:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="by6Re0uT";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="f87tkpfp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D1210E70D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:09:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D9010E06B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:13:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=OmO05LJBkK0VrGYLqc/MT3KB8ZkvEJ+xP3RyLaJt5iE=; b=by6Re0uTbU4AS3jjeZaVJBwLWw
- yOyntwSn/5Tr1y3ElBygHBgL3YfgUrpqZHKDr2vJhvO6tT0sYoIVz0lKzlBpAWVbaPU8enrdbrwCz
- S9fInrtadiZitoedzjyGxZz9CpEJZpbi9oFSvlsFE2BGrXYg8kWzxg9r6MbubHSvs32wwRPaAHlvI
- Gr8YuS8sfln8I6W2kTbuQ1vzlhd4J3kKSxgL+THbQYOMj41zk6IZFfgBY+aUfTcihKpJdTVPxHR22
- J8g8ZlRWAAEhpQgJFzcVVkcMqmlU3VahRSRtLYMdSy8XBg/hBvLg53F0gr4XcPJdn1QZbuzy1zbr6
- H/aqb7Bw==;
+ bh=K0bQQpsDzeY/Y26tMD08d+PjvNTQF08RYzop/82EMok=; b=f87tkpfpVxZrRViMoRI4d1CeNZ
+ 8kgIuN7oxH9O0wqnPTCRHKcal3QmoH2sNRFm8kzVA0dBaxO/xTgrAnG98dBu4cMlnWqLvWGlgqea4
+ NfNGd2f6Q1bvhz596vb9/7BU+93Up+/Ue9FOv+GapwhELYQiBKPa2GrmunCDcjo9MH47g6KJAWNJ1
+ JwBlcinp6eoLNgtYnTn+zvXwO7dI7mKgfBZNw1h5r4OSRXhSFCR9bVck4P1C7ZO4CzxWb1tdTIcHA
+ dhkdnLYvhksEDxzgNsPRLh5jHPGi2kMi53E7XKn2Qmw9xpWa/o3wlL7supWIZRrx/dfvHuRrnGdNt
+ Z3xESJfg==;
 Received: from [213.244.170.152] (helo=phil.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1urAHR-0007yj-9C; Wed, 27 Aug 2025 09:09:13 +0200
+ id 1urALS-0001of-9v; Wed, 27 Aug 2025 09:13:22 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: Yury Norov <yury.norov@gmail.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -68,13 +68,13 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 05/20] drm/rockchip: lvds: switch to FIELD_PREP_WM16
+Subject: Re: [PATCH v3 06/20] phy: rockchip-emmc: switch to FIELD_PREP_WM16
  macro
-Date: Wed, 27 Aug 2025 09:09:12 +0200
-Message-ID: <5226092.Mh6RI2rZIc@phil>
-In-Reply-To: <20250825-byeword-update-v3-5-947b841cdb29@collabora.com>
+Date: Wed, 27 Aug 2025 09:13:18 +0200
+Message-ID: <6820610.MHq7AAxBmi@phil>
+In-Reply-To: <20250825-byeword-update-v3-6-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-5-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-6-947b841cdb29@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -93,21 +93,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:25 Mitteleurop=C3=A4ische Sommerzeit schr=
+Am Montag, 25. August 2025, 10:28:26 Mitteleurop=C3=A4ische Sommerzeit schr=
 ieb Nicolas Frattaroli:
 > The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 > drivers that use constant masks.
 >=20
-> Remove rockchip_lvds.h's own HIWORD_UPDATE macro, and replace all
-> instances of it with hw_bitfield.h's FIELD_PREP_WM16 macro, which gives
-> us more error checking.
->=20
-> For the slightly-less-trivial case of the 2-bit width instance, the
-> results were checked during development to match all possible input
-> values (0 to 3, inclusive).
+> Replace the implementation of the rockchip eMMC PHY driver's
+> HIWORD_UPDATE macro with hw_bitfield.h's FIELD_PREP_WM16. This makes the
+> change more easily reviewable.
 >=20
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
 
