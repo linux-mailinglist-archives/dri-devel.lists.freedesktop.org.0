@@ -2,168 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3575B37E18
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F4AB37E1E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:49:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A3B10E781;
-	Wed, 27 Aug 2025 08:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6DCF10E78A;
+	Wed, 27 Aug 2025 08:49:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ACxza5iV";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OorIt3Jt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2063.outbound.protection.outlook.com [40.107.101.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDE710E780;
- Wed, 27 Aug 2025 08:47:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ClTEL01pVKS0Y0iXq74ev5PmObWQ/NXQLRRSZcr+U74tzNj7AZuRhoIIwRHmYP9dACf+wg4AaAObLJv4/YpskVJSe27TVmxbvZEnpmiIeqWZGTauKmVFmWRMlJzkTmt0C2IanTWkFUS8RNZVWdpeZ6Zpi/m0nxthxlLfackPSFitNUj3neEuDmTFVj8X2mIS+xexYRiD/mkT+8P+rOvevPQZb8S9K9UWi4yzZCLrxsebwv784NSrevUMak+4a7helr86fCmYMA0zK1gdDx84TXhkQCLmW29gs+SIBXPVhjNsMpejfK/GbT84Pdngd4GVjZ9b8xW52Ddju2QwPOECEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3Zj6xqaHyCiJP8A3qbvFZTk8gwWJSrUKC6JHU2trspc=;
- b=L+P3pIPVhpNz2sIRcCVLwrqH5ksXhaBnGmE5rK0zA3Meko175/wq43YuDR1J92lhkprj+0QBcvnLPRiwY5w6FxPOxbRVrSKHuP689yFsSdANFnPwPwgmNa6TCtdzVP8OZOtxhyxQdQzVAaM6FHQd0pf0jl6I1jamEctVkaYuDj8B+7Q5RS7wrohmPwqAezw3tJ86baoVYyxwKNLVIqbMErGVkQVBDF4l5FhwyeIMhor5Qj3NN6svTsEIVzrf8pLjJnUfbwhXBRCBzKFsJLtgcCeZLpyboD3oJZkBHFWdw2lCxrp524ZGBbJH3ObDNzkhK7nwwF4rEDyNv8jAQAo8Rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Zj6xqaHyCiJP8A3qbvFZTk8gwWJSrUKC6JHU2trspc=;
- b=ACxza5iVKWrRx1ALBf5SvksRE/GcVz0JRAdyIlmW6v/dHj/HgkmXj/EWe2Wz8RbB2GWgp6bYeQoGKI2z0ka3gWJK2+12jhI+31YtFPzTjtOv0OvO+/qIET0oiAndAiRKVUYd0LrvBZ90KqF7uKUjg18cjU0ed9wMHmvIToXtTAYQfjTCryyuYXZHMFcXJ+i+91JkYZqi9WgVtDwsBDq1yEKTjiLc6BHZe9/bW+rvDBK7fj+qL+r4zDUlEzAqUB9DYGt86KJF06PHeeMxERC0NfbVZvJjK9M9anW9t02utPOrJw9r+mLUnfscBVPCjYYVSvGmTxEzYb0nmnEtrzEmEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH8PR12MB7373.namprd12.prod.outlook.com (2603:10b6:510:217::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Wed, 27 Aug
- 2025 08:47:26 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.019; Wed, 27 Aug 2025
- 08:47:26 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 27 Aug 2025 17:47:23 +0900
-Message-Id: <DCD2VJ1WJW2O.VM7E4PD3DFYO@nvidia.com>
-To: "John Hubbard" <jhubbard@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 2/8] gpu: nova-core: firmware: add support for common
- firmware header
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
- <20250826-nova_firmware-v2-2-93566252fe3a@nvidia.com>
- <9adb92d4-6063-4032-bf76-f98dcfe2c824@nvidia.com>
-In-Reply-To: <9adb92d4-6063-4032-bf76-f98dcfe2c824@nvidia.com>
-X-ClientProxiedBy: TYCPR01CA0185.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::11) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0663A10E3A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:49:28 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 428AA69EA;
+ Wed, 27 Aug 2025 10:48:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1756284503;
+ bh=PsGM/1PWBIGUR9JFyML8LldBIOpZ1u5ipj3LCVxm1C4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OorIt3JtOWriBjIm+VMeTru+5RuGWgOcHRjDPjIH8q8gOu5N1ybYsySusHMIy9dQA
+ cKm/q9mjMhbMol9vlnBowckOJM60GWzrPVRU233BZ7aHFF2Mf1W0oN4g+N+ALc27vs
+ SoWyMTR5S5LZICo4h60B/0+daPg0MycIj+//dt6o=
+Message-ID: <b95b60c3-5988-4238-a8d4-73bd8bbf8779@ideasonboard.com>
+Date: Wed, 27 Aug 2025 11:49:22 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH8PR12MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e66179a-c313-470f-ee22-08dde5465931
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|10070799003|1800799024|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M2RIcjZvVy94cldZOExYbkZ5clMzTVdnZ2ZLbGd0aTd4eGh3WnlBSjQyekRK?=
- =?utf-8?B?RlQ4RFgrWFk0bmVnNVNwQlQzc2JzOVFYSFc0a1lKamhqNmlER3RTTVExUkdT?=
- =?utf-8?B?MW5aTk5qVzQ2TTZFckREZFg5VFd3T3R4RHhDT3Njc3BIazNiZktzWUFBY1l4?=
- =?utf-8?B?THZJWVR6ZjFJdS9tcTB6L0kzUUVPMml3VWRuUThIZ3Z2U1NhdDVKRE9hVC9Z?=
- =?utf-8?B?NVpjR3ZTdkZFYktveWNWQW9pdTNEMkpkZWs3TmQ3Z0FzWHFWbDhvcFdDVXFm?=
- =?utf-8?B?dCs5VXhRVUIwV1ZhRjF1SFhnTTdyVDUxNTdhK3NkZzAzeU9vY1MwN1dPSlVX?=
- =?utf-8?B?WUVaSkRNS0N3QzAxS0xpb0YzUnMxQXprMm9XTWtuSGw4dHBRMjlOZHJFaHNq?=
- =?utf-8?B?NVVkaWZ0cExLNWxrR2tGcno0blFaTFN6V0JLZ05JZ2tTc1VDbE1tbVQ3dmNX?=
- =?utf-8?B?M2R2WjFwZGlXR1pBbDFJNTRNUXZzVC80SzFWZG5vbnJFalhnUHlwRDREd3ZX?=
- =?utf-8?B?U1dFcHJmcDVxQWx0SWdrUzNnYmo2TjNlOHJFaHIwcEVjUzR1Y3IxcTlkVW5N?=
- =?utf-8?B?cDVjdkhjZFQ1QVI1SW1BNGRBZkN2L2ltdElwNDVKNWN5SXZtdEtneGxvNElO?=
- =?utf-8?B?MlAzdWFCTjNsQ005UUg1ZmlyK2IvcWQ0QmhoU3lCRUtzTVFKZlFaNmwrMnhF?=
- =?utf-8?B?NTkrTjVUTENQNTVDdUhid0dEUHFBRE10b3cwZ3lYSWhCWVphK0p0emIraDZB?=
- =?utf-8?B?UTBMSEZJaUROeVlVVG9LaWZSbzdrWk1rcGQrdnl6bUpSOUZoQmxRWTlIZ0o1?=
- =?utf-8?B?OHhtWU1TS3BnWFFya01sVEo1N3orbjJZMWlhTVpYTGhQWm94U3p0ZG1JY0lz?=
- =?utf-8?B?WEhjMmZ4dnN0c25BVjBCUWlWVTQ5SEhqNHV5ZjhOWWk5VjFnZDlEWS9DdVhB?=
- =?utf-8?B?R0lpbWE5NjJ1aFp1UFlQYnJCcjgvSURrT2hqcGJoQ2VFQUtLeWtqd1BZbHp1?=
- =?utf-8?B?QjV3SFg3eGJiRkNhcmRPWW9tMzYyeUVtVjhmRmx1ejdpWitmYzR4Rkdrb2dm?=
- =?utf-8?B?SklBVStmanBwYWk2emp3S1FLdmV1MUpQTTlDeFVpUlVyUldIQ2Q4WThRTTgx?=
- =?utf-8?B?ZkFQTTVVVFAyTm1SKzFWQ0RJYXBWRDlxeW9DVTBBYnBkdldETUFrZzYvTmhD?=
- =?utf-8?B?aTJrM0V1NXBkMkRybGY0Z1VnK1cwY096R1ZGZUg5SFBPMHQ4VWlpRkRRSUx2?=
- =?utf-8?B?UFRmSUp1WmVhSGJURk9XN25xcXlvZUJJeTJiUnV5VWlFK29yWDNJbWd4MWhn?=
- =?utf-8?B?S3hrL1U1V0kveWRGSElsUHVja2FjdjRIM0xpRmg4alQyeDJrdko0SEdQcUVM?=
- =?utf-8?B?UklyL0JPbUdTOGphbEc0S0NTeVpjVU8wS1Vhc1hUeEhSU2hrcGFCeFN5OVRo?=
- =?utf-8?B?enhPV1U0SzBpMUo5aUR1dkJnNVlWb1dDcnFJdGNGbkREUlVrblFUc25JdEtU?=
- =?utf-8?B?VTIvc3ZDU3pCU2VieGpubXVGVVh1cVJQT2tZK21IekRISzJuVXZablBFek80?=
- =?utf-8?B?V1p1dmZVazRPZzUxSmZ0TTNHejQ4bTFiV3M5VGpaQkt2WFcwbm55eGlmcGlI?=
- =?utf-8?B?NjQ1NFhNV3JBb3dKWVdBSFpUbUo4c3NWRkNsRFVqeW1QZFJ2NjM1dUlKcGFj?=
- =?utf-8?B?K1M1bzQyelZsVHllbDB6UG5ITG5SVDZ1eGppbDl6cFlzb3lHQS94dXlSdkdx?=
- =?utf-8?B?YVdmb3hFd3gvdHlleDdTZm91cG1VTFQzdzVrRHlGeDBuVGxrS05hQ1lGYUhn?=
- =?utf-8?B?N0lBN0RxZlJ0ZTZORHhFZ2srV3RyNXBld0VqbVdjcjdHYWsxZnB1azJXNElw?=
- =?utf-8?B?ZjNUQXVoK2drQUhLN0wrMG1KT1R5MDB6YmQ3S1phREpzOFhnWHVmVmQ4Y1po?=
- =?utf-8?B?T2tERHhkNGRZSFBhaEhrbUNtM3R3UXZzZkRyZmQrbmhhekFBQ1M4Q1dFRWhx?=
- =?utf-8?B?Yysrd0tuSWpRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3RRbnJVaVpKY3c4NDZmQ205MHdOTm5DUmxpMGlKT0dnQnFoSUlNTGxvbnRo?=
- =?utf-8?B?SjdGNGdFVk4rVjZJV0NwS1d2TE1jZE1PcHl6eklzNXNkZFVPcXMrUFdDNG9s?=
- =?utf-8?B?S0I1WEZkNWI0YklXaUVlRk8zMkdYb3U1MWNXa1J0RUZYdVRnZGNycHFLRDFT?=
- =?utf-8?B?dTFKZmxEYXpwQ2pOUW9NSEpyaVAvL0NaM2tocFdaZzNqYTdvU3QrcnpmeXJh?=
- =?utf-8?B?ZW9pdGZ5NTVESis0Q3NGYzNUMVgvSkhpSGNDSDcwZnlDaGNHbU43MnJHWTlV?=
- =?utf-8?B?c29HbHdTZ2lHZTUvVm04ZzVvVTQ1dSs0Y0o1Z0xPVXhLQ2UvWTh4Y09nVXdL?=
- =?utf-8?B?aU1xYXYrcm5tTFFtZ29VRm82TzRUam1Hd0YxTjkvSGhMYkJqblNvcVh3K1Z4?=
- =?utf-8?B?dFREeXcyMzZzTnA3ZE54bkk5aXhFaERodVIwckFFakttVTdFM2dOc21CWFhZ?=
- =?utf-8?B?c3M4c2pMMlkwcGpxR0hNSzN6K1hWMC9hdDhETmkrRGFHNnIvanVFWGYrT0Ix?=
- =?utf-8?B?U3ZIM0IyVGRIYTNYYUtwdGxQeGV6S1ZaMzZOOGE0MkorWjRDSlR6eUhMRmlF?=
- =?utf-8?B?M2hlZEtpdjV2ZW40TTUvN2lMTUttMXEvaUxaVm5Cd1UrZ0swT2g5cndLcnZj?=
- =?utf-8?B?enV1dkFQZlpKcWlwWnJkQWQwVjMvWTJWZ0hVaEx6ZGpnTWxjb1M5a3ZRcVFk?=
- =?utf-8?B?QmQwYVFCSTFndS8xZUlpem94ckdzaVJiQnZrNVNYQXNoUUVraVRySFg3bXpL?=
- =?utf-8?B?WWw3a3NSb2lUUS9mM3dBVTMwQlJBNmlMS1phYWNFZWw4SWRVVmh2YUdWenhZ?=
- =?utf-8?B?RmhlZmorNk01eFQ2Mk5hbk9iNGtoMVBGTkd0aWw2Z2cwckEwWHhXM2ZnVXZO?=
- =?utf-8?B?RklHcEpOU2hTc0JRckJUMURobGVFVDR4YWcvZFUvVGZxdndFWm5XVDhvTTZB?=
- =?utf-8?B?UU5FV0pBdERxNFBmazUveHNxckpGQ1djaDZVNktZdGZ4ZGxZTUtQS0JzVUZa?=
- =?utf-8?B?QUFTN2ppUXVjaTdtWlRXZVpPSitENTlOT212cWhSZG5meFJVRlo3QVgwVEFw?=
- =?utf-8?B?Q1gzRkdWNGkzejJXQ2xhUXBNRlp2SWhXN0RGd3I3WWxCTWo5ZXJaVVk4RlYx?=
- =?utf-8?B?NElFcjZyNjVKN0wyRjFrc1VXMi9FS1NKckZwQVhoZEU2Y09vZ1VLY1BtQS94?=
- =?utf-8?B?QVEyYU9XT3lqUjBMNndSdkl3OXZWaE44clIxRE1nYmh3VTg5V0doQVhoTVJP?=
- =?utf-8?B?S1JURGR2cVlyd2Fwd2hIRkVnTlNRU05XSkxabzc0d3hSQzc4UkNEbXJjUlhm?=
- =?utf-8?B?NWt5WndHMnBpWHNNRlc1NmgzMDBQU2FpbUN6N0IxNFR4aFMrZXBQSGJXbjRx?=
- =?utf-8?B?MWphb005dHpXaWVkNGI1TUl1ZENPL21ONjE5REdjMDNpejdWaXAxOHhFMlNw?=
- =?utf-8?B?eTVOZHp3RGt1Sk5TeSs2YlZlaW1TaWlhaExKVDh4aXk4OXkxWW5JT1hkVEty?=
- =?utf-8?B?Q2Q1VjFBY1NBVi85UlN2V0NxWjMzNEhoMlY2REV1S1JjdlJLZGVSM3lRemdU?=
- =?utf-8?B?UzJOOGw0T2o0d25CdFlLUW5MMkNkN05mRk8yN2p0aVZiRW85S2laVTBOL0da?=
- =?utf-8?B?VmZrdm9hQWt4RW54RmFnWmRpS1k1ejhVU1krUll2RXNjK1J2bnhHOXZQaUsx?=
- =?utf-8?B?cTZzb1JucjJ3bjQrcUpZbm9CanIyUjdJZE9qM0lXL1UyNFVncE1BcWt2OVFX?=
- =?utf-8?B?VVpXNkJvbGlwdkVYdUdKOUI1UDlOMGtXZ0k5ajBoMElhN3AzRGJmZXVZZ2pz?=
- =?utf-8?B?MS8yQ21kSW04UEJHdzB0cC9ablYyRU5XWU8xR2xnL2tGNktLbXYvd0xPWjFX?=
- =?utf-8?B?ZFZ0eTRsQW9iQzdyYVpxQndvUmRtOWdMUHp6L3dmOUVEUUJzL3Z2WlpES3VY?=
- =?utf-8?B?bHpUYzRrM3Q4YU9qeVZJV0NraFMyRnJ6MnJYNkU3TzNqOXRVUTh5OVl5Zk5N?=
- =?utf-8?B?UHJuZEpFeTBzbGlHVWwzL0NxRE5VOXdhcWNYME9lT0hiRE82RDdBYW83c2Ny?=
- =?utf-8?B?VlBGcW91R0dGeFZlcWE0RGdwdUxnTHBsVG05R2xNL2pmeVQ0ZVpjRytUc2tl?=
- =?utf-8?B?L1c1aHRyZFdqZXNCbTFkcWk1M3VLekU4bURWU1JXTWovMFN4THVnNTY3N1dM?=
- =?utf-8?Q?seY+mdDCcbMIdMPTYLoY0TJ54ZmlJtKUdm2ay9m0JEh1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e66179a-c313-470f-ee22-08dde5465931
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 08:47:26.5461 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /8gTYFpiDTrtcQ1FcI9JNkNN7a1JDcbRTBNV36wCIwpsF43Vr/HUDfhff7i93d0LjtY/FlctcvKBHZKB4IAIKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7373
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/tidss: Remove max_pclk_khz from tidss display
+ features
+To: Swamil Jain <s-jain1@ti.com>
+Cc: h-shenoy@ti.com, devarsht@ti.com, vigneshr@ti.com, praneeth@ti.com,
+ u-kumar1@ti.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jyri.sarha@iki.fi,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, aradhya.bhatia@linux.dev
+References: <20250819192113.2420396-1-s-jain1@ti.com>
+ <20250819192113.2420396-3-s-jain1@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250819192113.2420396-3-s-jain1@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,43 +104,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Aug 27, 2025 at 10:34 AM JST, John Hubbard wrote:
-<snip>
->> +    /// Returns the data payload of the firmware, or `None` if the data=
- range is out of bounds of
->> +    /// the firmware image.
->> +    fn data(&self) -> Option<&[u8]> {
->> +        let fw_start =3D self.hdr.data_offset as usize;
->> +        let fw_size =3D self.hdr.data_size as usize;
->> +
->> +        self.fw.get(fw_start..fw_start + fw_size)
->
-> This worries me a bit, because we never checked that these bounds
-> are reasonable: within the range of the firmware, and not overflowing
-> (.checked_add() for example), that sort of thing.
->
-> Thoughts?
+Hi,
 
-`get` returns `None` if the requested slice is out of bounds, so there
-should be no risk of panicking here.
+On 19/08/2025 22:21, Swamil Jain wrote:
+> From: Jayesh Choudhary <j-choudhary@ti.com>
+> 
+> TIDSS hardware by itself does not have variable max_pclk for each VP.
+> The maximum pixel clock is determined by the limiting factor between
+> the functional clock and the PLL (parent to the VP/pixel clock).
 
-However, `fw_start + fw_size` can panic in debug configuration if it
-overflows. In a release build I believe it will just happily wrap, and
-`get` should consequently return `None` at the invalid range... Although
-we can also get unlucky and produce a valid, yet incorrect, one.
+Hmm, this is actually not in the driver, is it? We're not limiting the
+pclk based on the fclk.
 
-This is actually something I've been thinking about while writing this
-series and could not really decide upon: how to deal with operands and
-functions in Rust that can potentially panic. Using `checked` operands
-everywhere is a bit tedious, and even with great care there is no way to
-guarantee that no panic occurs in a given function.
+> The limitation that has been modeled till now comes from the clock
+> (PLL can only be programmed to a particular max value). Instead of
+> putting it as a constant field in dispc_features, we can query the
+> DM to see if requested clock can be set or not and use it in
+> mode_valid().
+> 
+> Replace constant "max_pclk_khz" in dispc_features with
+> max_successful_rate and max_attempted_rate, both of these in
+> tidss_device structure would be modified in runtime. In mode_valid()
+> call, check if a best frequency match for mode clock can be found or
+> not using "clk_round_rate()". Based on that, propagate
+> max_successful_rate and max_attempted_rate and query DM again only if
+> the requested mode clock is greater than max_attempted_rate. (As the
+> preferred display mode is usually the max resolution, driver ends up
+> checking the highest clock the first time itself which is used in
+> subsequent checks).
+> 
+> Since TIDSS display controller provides clock tolerance of 5%, we use
+> this while checking the max_successful_rate. Also, move up
+> "dispc_pclk_diff()" before it is called.
+> 
+> This will make the existing compatibles reusable if DSS features are
+> same across two SoCs with the only difference being the pixel clock.
+> 
+> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 85 +++++++++++++----------------
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+>  drivers/gpu/drm/tidss/tidss_drv.h   | 11 +++-
+>  3 files changed, 47 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index c0277fa36425..c2c0fe0d4a0f 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  const struct dispc_features dispc_k2g_feats = {
+>  	.min_pclk_khz = 4375,
+>  
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 150000,
+> -	},
+> -
+>  	/*
+>  	 * XXX According TRM the RGB input buffer width up to 2560 should
+>  	 *     work on 3 taps, but in practice it only works up to 1280.
+> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_am65x_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_OLDI_AM65X] = 165000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_j721e_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 170000,
+> -		[DISPC_VP_INTERNAL] = 600000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 2048,
+>  		.in_width_max_3tap_rgb = 4096,
+> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am625_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_INTERNAL] = 170000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -376,15 +357,6 @@ const struct dispc_features dispc_am625_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am62a7_feats = {
+> -	/*
+> -	 * if the code reaches dispc_mode_valid with VP1,
+> -	 * it should return MODE_BAD.
+> -	 */
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_TIED_OFF] = 0,
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -441,10 +413,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am62l_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>  	.subrev = DISPC_AM62L,
+>  
+>  	.common = "common",
+> @@ -1347,25 +1315,57 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>  			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+>  }
+>  
+> +/*
+> + * Calculate the percentage difference between the requested pixel clock rate
+> + * and the effective rate resulting from calculating the clock divider value.
+> + */
+> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> +{
+> +	int r = rate / 100, rr = real_rate / 100;
+> +
+> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+> +}
+> +
+> +static int check_pixel_clock(struct dispc_device *dispc,
+> +			     u32 hw_videoport, unsigned long clock)
+> +{
+> +	unsigned long round_clock;
+> +
+> +	if (dispc->tidss->is_ext_vp_clk[hw_videoport])
+> +		return 0;
+> +
+> +	if (clock <= dispc->tidss->max_successful_rate[hw_videoport])
+> +		return 0;
+> +
+> +	if (clock < dispc->tidss->max_attempted_rate[hw_videoport])
+> +		return -EINVAL;
+> +
+> +	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+> +
+> +	if (dispc_pclk_diff(clock, round_clock) > 5)
+> +		return -EINVAL;
+> +
+> +	dispc->tidss->max_successful_rate[hw_videoport] = round_clock;
+> +	dispc->tidss->max_attempted_rate[hw_videoport] = clock;
 
-Panics are a big no-no in the kernel, yet I don't feel like we have the
-proper tools to ensure they do not happen.
+I still don't think this logic is sound. This is trying to find the
+maximum clock rate, and optimize by avoiding the calls to
+clk_round_rate() if possible. That makes sense.
 
-User-space has some crates like `no_panic`, but even these feel more
-like hacks than anything else. Something at the compiler level would be
-nice.
+But checking for the 5% tolerance breaks it, in my opinion. If we find
+out that the PLL can do, say, 100M, but we need pclk of 90M, the current
+maximum is still the 100M, isn't it?
 
-Maybe that would be a good discussion topic for the Plumber
-Microconference?
+Why can't we replace the "if (mode->clock > max_pclk)" check with a new
+check that only looks for the max rate? If we want to add tolerance
+checks to mode_valid (which are currently not there), let's add it in a
+separate patch.
+
+ Tomi
+
+> +	return 0;
+> +}
+> +
+>  enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>  					 u32 hw_videoport,
+>  					 const struct drm_display_mode *mode)
+>  {
+>  	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>  	enum dispc_vp_bus_type bus_type;
+> -	int max_pclk;
+>  
+>  	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>  
+> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+> -
+> -	if (WARN_ON(max_pclk == 0))
+> +	if (WARN_ON(bus_type == DISPC_VP_TIED_OFF))
+>  		return MODE_BAD;
+>  
+>  	if (mode->clock < dispc->feat->min_pclk_khz)
+>  		return MODE_CLOCK_LOW;
+>  
+> -	if (mode->clock > max_pclk)
+> +	if (check_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+>  		return MODE_CLOCK_HIGH;
+>  
+>  	if (mode->hdisplay > 4096)
+> @@ -1437,17 +1437,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>  	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>  }
+>  
+> -/*
+> - * Calculate the percentage difference between the requested pixel clock rate
+> - * and the effective rate resulting from calculating the clock divider value.
+> - */
+> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> -{
+> -	int r = rate / 100, rr = real_rate / 100;
+> -
+> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+> -}
+> -
+>  int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>  			  unsigned long rate)
+>  {
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index b8614f62186c..45b1a8aa9089 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
+>  
+>  struct dispc_features {
+>  	int min_pclk_khz;
+> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+>  
+>  	struct dispc_features_scaling scaling;
+>  
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index 4e38cfa99e84..667c0d772519 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -23,7 +23,16 @@ struct tidss_device {
+>  	const struct dispc_features *feat;
+>  	struct dispc_device *dispc;
+>  	bool is_ext_vp_clk[TIDSS_MAX_PORTS];
+> -
+> +	/*
+> +	 * Stores highest pixel clock value found to be valid while checking
+> +	 * supported modes for connected display
+> +	 */
+> +	unsigned long max_successful_rate[TIDSS_MAX_PORTS];
+> +	/*
+> +	 * Stores the highest attempted pixel clock rate whose validated
+> +	 * clock is within the tolerance range
+> +	 */
+> +	unsigned long max_attempted_rate[TIDSS_MAX_PORTS];
+>  
+>  	unsigned int num_crtcs;
+>  	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
+
