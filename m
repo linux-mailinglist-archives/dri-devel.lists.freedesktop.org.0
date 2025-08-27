@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32C7B38CEB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C006EB38CF2
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE9D910E8FD;
-	Wed, 27 Aug 2025 22:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2286110E8FF;
+	Wed, 27 Aug 2025 22:10:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HA+WgFhA";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L3JY/QHa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD6BB10E8FD
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:10:15 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE56510E8FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:10:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756332615;
+ s=mimecast20190719; t=1756332631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rAsuOXpZW6+ZRpVYsSsl6meZaoXTi6zM/YFmOyHNi6k=;
- b=HA+WgFhAM+KTmTgCTVIN4pCVHYCIoh0FwnedWsSLU9GxVAlc+V+D2UEQWC9hv3viUCciB9
- 4XKCBuWZXFuS1pDvqqYk8CJD/UoAU2WHEkvw446fn6uSuSAdQwxkRbGqSGKyrl5gEEUAgO
- xkx1utMTf1svLLlQEk/4bSTvIaLhlQ8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=KMi10d6QgZutAbGzL3nSBlY7ky4aRhvMewcb8M9EfzA=;
+ b=L3JY/QHaDdiLuAl0xeAqH0ZIQ2x7atxz6mujjewYYLx3Q1WVqZvWTeaZwQs9XJs4CBqUbX
+ LLJDkMrguOv6E1L8KotmgqGKeq0MvJzVS4rrso+c3Y+6zUknznNgLKoq3nFamJIkHKfaAo
+ FAWzNnpWERiBNP3IBaLdJCGljBaGwOc=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-145-dHJEc5UDOjeaJ0EVKtmuGQ-1; Wed,
- 27 Aug 2025 18:10:12 -0400
-X-MC-Unique: dHJEc5UDOjeaJ0EVKtmuGQ-1
-X-Mimecast-MFC-AGG-ID: dHJEc5UDOjeaJ0EVKtmuGQ_1756332607
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-126-Kk9fYkzwMM6MQxKq-D-h2g-1; Wed,
+ 27 Aug 2025 18:10:29 -0400
+X-MC-Unique: Kk9fYkzwMM6MQxKq-D-h2g-1
+X-Mimecast-MFC-AGG-ID: Kk9fYkzwMM6MQxKq-D-h2g_1756332624
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 4A9AE1800352; Wed, 27 Aug 2025 22:10:07 +0000 (UTC)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0FA831956087; Wed, 27 Aug 2025 22:10:24 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.22.80.195])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 8ECC630001A1; Wed, 27 Aug 2025 22:09:50 +0000 (UTC)
+ id DC4FD30001A1; Wed, 27 Aug 2025 22:10:07 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Alex Dubov <oakad@yahoo.com>, Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>,
+Cc: David Hildenbrand <david@redhat.com>, Bart Van Assche <bvanassche@acm.org>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
@@ -73,9 +73,9 @@ Cc: David Hildenbrand <david@redhat.com>, Ulf Hansson <ulf.hansson@linaro.org>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v1 28/36] mmc: drop nth_page() usage within SG entry
-Date: Thu, 28 Aug 2025 00:01:32 +0200
-Message-ID: <20250827220141.262669-29-david@redhat.com>
+Subject: [PATCH v1 29/36] scsi: scsi_lib: drop nth_page() usage within SG entry
+Date: Thu, 28 Aug 2025 00:01:33 +0200
+Message-ID: <20250827220141.262669-30-david@redhat.com>
 In-Reply-To: <20250827220141.262669-1-david@redhat.com>
 References: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
@@ -99,61 +99,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 It's no longer required to use nth_page() when iterating pages within a
 single SG entry, so let's drop the nth_page() usage.
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Alex Dubov <oakad@yahoo.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Jesper Nilsson <jesper.nilsson@axis.com>
-Cc: Lars Persson <lars.persson@axis.com>
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/mmc/host/tifm_sd.c    | 4 ++--
- drivers/mmc/host/usdhi6rol0.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/scsi/scsi_lib.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/tifm_sd.c b/drivers/mmc/host/tifm_sd.c
-index ac636efd911d3..2cd69c9e9571b 100644
---- a/drivers/mmc/host/tifm_sd.c
-+++ b/drivers/mmc/host/tifm_sd.c
-@@ -191,7 +191,7 @@ static void tifm_sd_transfer_data(struct tifm_sd *host)
- 		}
- 		off = sg[host->sg_pos].offset + host->block_pos;
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 0c65ecfedfbd6..d7e42293b8645 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -3148,8 +3148,7 @@ void *scsi_kmap_atomic_sg(struct scatterlist *sgl, int sg_count,
+ 	/* Offset starting from the beginning of first page in this sg-entry */
+ 	*offset = *offset - len_complete + sg->offset;
  
--		pg = nth_page(sg_page(&sg[host->sg_pos]), off >> PAGE_SHIFT);
-+		pg = sg_page(&sg[host->sg_pos]) + (off >> PAGE_SHIFT);
- 		p_off = offset_in_page(off);
- 		p_cnt = PAGE_SIZE - p_off;
- 		p_cnt = min(p_cnt, cnt);
-@@ -240,7 +240,7 @@ static void tifm_sd_bounce_block(struct tifm_sd *host, struct mmc_data *r_data)
- 		}
- 		off = sg[host->sg_pos].offset + host->block_pos;
+-	/* Assumption: contiguous pages can be accessed as "page + i" */
+-	page = nth_page(sg_page(sg), (*offset >> PAGE_SHIFT));
++	page = sg_page(sg) + (*offset >> PAGE_SHIFT);
+ 	*offset &= ~PAGE_MASK;
  
--		pg = nth_page(sg_page(&sg[host->sg_pos]), off >> PAGE_SHIFT);
-+		pg = sg_page(&sg[host->sg_pos]) + (off >> PAGE_SHIFT);
- 		p_off = offset_in_page(off);
- 		p_cnt = PAGE_SIZE - p_off;
- 		p_cnt = min(p_cnt, cnt);
-diff --git a/drivers/mmc/host/usdhi6rol0.c b/drivers/mmc/host/usdhi6rol0.c
-index 85b49c07918b3..3bccf800339ba 100644
---- a/drivers/mmc/host/usdhi6rol0.c
-+++ b/drivers/mmc/host/usdhi6rol0.c
-@@ -323,7 +323,7 @@ static void usdhi6_blk_bounce(struct usdhi6_host *host,
- 
- 	host->head_pg.page	= host->pg.page;
- 	host->head_pg.mapped	= host->pg.mapped;
--	host->pg.page		= nth_page(host->pg.page, 1);
-+	host->pg.page		= host->pg.page + 1;
- 	host->pg.mapped		= kmap(host->pg.page);
- 
- 	host->blk_page = host->bounce_buf;
-@@ -503,7 +503,7 @@ static void usdhi6_sg_advance(struct usdhi6_host *host)
- 	/* We cannot get here after crossing a page border */
- 
- 	/* Next page in the same SG */
--	host->pg.page = nth_page(sg_page(host->sg), host->page_idx);
-+	host->pg.page = sg_page(host->sg) + host->page_idx;
- 	host->pg.mapped = kmap(host->pg.page);
- 	host->blk_page = host->pg.mapped;
- 
+ 	/* Bytes in this sg-entry from *offset to the end of the page */
 -- 
 2.50.1
 
