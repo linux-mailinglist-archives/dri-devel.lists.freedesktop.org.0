@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC0FB38E6D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FF2B38E73
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111CB10E913;
-	Wed, 27 Aug 2025 22:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E392F10E914;
+	Wed, 27 Aug 2025 22:28:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N3nSP7Gc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ksBOx0Fa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42BEB10E914
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:26 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RG7MK4029085
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:26 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B5F10E915
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:28:34 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RGaw5n023126
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:28:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=coI2WbZxINU7lzeYxnfoWTr2
- sAMMNa2PgUU+5RmzHvA=; b=N3nSP7Gc5TMt+IIn+qZ9uGuYzVafaBp1ac2JStUp
- K7rRbNrItFfkrE4pn3NSwfK3EJKU+G54f3mtlHj6FVmTiyk34UhAcW763bLSlDn6
- lE8nZPvaSrrbDD1z8NV8GMsE+EejI9+PUuTSSHiKEagz9bQN6sfvpB5/sPOKcU3B
- hixfH4Wr/PN3um5++i/3CX9NXOAeLZ9SXBULzqfYPbTbm7cJ0YT0lWqwC5hM7lYu
- l1sOWd/H9mcZguQFv0ANnTeWef+C8qNF9wb0KmfE+GAKuhHp+eDVTrDi1PKjuj3Y
- LyVxJjOjvzkfxEw8ajNN66YMc9YGBbuSSUh3zv0iLcgaEQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5ume8nq-1
+ :references:subject:to; s=qcppdkim1; bh=LcrLZoaMuieBwoDNhdy1YKKE
+ PmtaqIZQcasiCx3hw8M=; b=ksBOx0FaLwkdk0t38aj7T0xGmpchr04zFiJSkZgZ
+ Ba64KDw1scqklvR5h9sPhUMIU5Lm2ULbS+dB0sk27byD5zxz1LdT8vRZaUw1mIEL
+ xh0i2qoc9SiowpsxDWLGj59eU9BUKYNTd+Lt+SZ/9us8XpkdePkPbROX9L0c1Nis
+ xuzdRsy97JbgBGv09uGR8V2gtRSajQOd+AstxEjUOr+Q/Lp78EBk7+sbA+6J7rxg
+ ssnXa5MEdmfrn2nI2mdVDxwzLzHHqhlfufrgyew42L4gAJrqTf9p2WsvRy8xNAKa
+ HZ7JFU2mS/Vczvql0G9Re9yqBmoUE7SgnNjvTTRqpyeYxg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5y5nw0p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:27:25 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b2a1344b36so6557791cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:27:25 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:28:33 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b109be41a1so13386811cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:28:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756333644; x=1756938444;
+ d=1e100.net; s=20230601; t=1756333713; x=1756938513;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=coI2WbZxINU7lzeYxnfoWTr2sAMMNa2PgUU+5RmzHvA=;
- b=LBqGITq3uTe0+0SfhWbNo1ZYYR4ZlJlf1SVwtEm44qzkw6JSiPXGD9hRFunJXIaWZa
- Vfzih4OYyFFsZn9uvXMEW+mhXAdB4UmU2LHqHNho6OS4kgVkS1dcXj9nr8wmRqTiQeSB
- 4TfyoeTotzvZiJNBcnSHkaoQCWIun5iud4pNhPRD8OvxEhnxF1shuUIiUNwTWLYVFNNO
- 7NJrEsrIKrO8pSR4QwnsOWt2c1xxn8L/ryu1ummyVY6f3aBVyyPRo0A4N4lySfMQLkHe
- fcpbE+LatdyYAC5n/NAZo/tt3YZwodVE16utAlr+zIbML29BUxsJcmN/LQy+97KwK68/
- ZGxA==
+ bh=LcrLZoaMuieBwoDNhdy1YKKEPmtaqIZQcasiCx3hw8M=;
+ b=iHZMk/D+aKOx9dAc+rfsPPiisl3XHqv2h3IZvFDXeTqsVG9krLJXgKc3t/vBZErJw7
+ Y0U11vqrbP02TcvWCw7epzM/4ClhbLGErnoA3WFD6uVplH06XplQ2a2h6adMGmEXmDZn
+ rtr2tV7S7ZQckcYR4/uivPp0mVmj9/j+Bbqec5fdpKoS0VD/32x0UoAE+GX7/4T5tXu4
+ iw5WzVCBgIresVsfKppw+GFckQHSTxkDANTnG/+cKJp+Je5mcQYLQn13IMf8YdNXM4YD
+ dVmyq+z4Ooag4kkNZgETHdi3RFIuq1bKoOQk8+o+9cPY5tbfn5tNYdv5KGk7lD4Owvzn
+ 36XQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTQXj1TzE6mBJwzM6FeHtu+sVnlCEBjhD9zeFFW4nS2rSqOZ0/gpgg+z4oKnn35n6K+p1WbGfzTt0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXCiA+0ZrS4mtwqO+dU40pCqniDuqM00T0xSeE8TI49Rz3xkx3
- 47BLfEtcpQ+1LZy37bxLnomwA4W2Vl0HytuUn0vIpdjc+PGTbR+avcaFS6Yeqx0Fq9iiDXWJ5DU
- q19vPh+3kOUXO0nueMF9hlYpySrvH/s9mz29T1rGSBa8TUK5LYaWUNYUux9rFK9x7jprUYJA=
-X-Gm-Gg: ASbGncvj+qxFoZBDZEPpmv5hFdIrCWJRoMIV1OIJt8B2XYKiD6YowjHihz5y7DFewyP
- aGwb2TuOB5tS3czwIGm8BEsv7mpzWPRqZiLiv9X8AxaUqua7lc5EUzBDvNhU0xSrgxT/6Fjoesh
- bhQsMR9i4cbTXrKBWEzvjYP/NbxT3Cd9mBM0QfofJ431pRyxrFNkI6SHW+0XDbznZEJVpQgOKkQ
- 41qsgD+rJrNbVX7DwmeajWrkARMeYdJSJtFD0kglvGZxl75PL126JLNbVT/ktPAUcfPN2fv23Wd
- PwbuEfIRzgscnNrSkI7jNcEOxNN1xL5RxkqX9fx5q+Q5+mbATjcDFBsSMRzofhKN/ySWH4ccINv
- E6Mp2x2QVZW/xcAz2Bc86bhL5HzhFw9PGGDNrKaLJGBSwAv1HVQ0F
-X-Received: by 2002:a05:622a:4c8e:b0:4b0:8f6e:d70a with SMTP id
- d75a77b69052e-4b2de073d4amr102607581cf.22.1756333644097; 
- Wed, 27 Aug 2025 15:27:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGfGaJaSCsOEz0+c7R0GpHgMKXCo1cAu/f4pCkJRC2KgnMVotYeSkSM/eNVsc6qfr/OnO8xNw==
-X-Received: by 2002:a05:622a:4c8e:b0:4b0:8f6e:d70a with SMTP id
- d75a77b69052e-4b2de073d4amr102606571cf.22.1756333643552; 
- Wed, 27 Aug 2025 15:27:23 -0700 (PDT)
+ AJvYcCX4rpcoFvXDLGHcIzoSq19y0opBeIemcqatNK+hL+Gaim3+rSSceVXyWkXSvcJCMZd/PdE+K0X7RCM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywj1LmNHnvY0czBvZtX75SrIq0SxYMzeqwlbQSypQ5UT64sVaOq
+ AL/rgYqLhzJZ7Ufs3t/7MQqOeLSpxL/oDxIEvkenCOcSyThYbH/JW8JZG2Of/Y87YLbH7lKKdYO
+ zweBsy65r35aCCeuqp5P2dNEfbZ3CxRg24B1UP2/R9Zi9pol9Q0URJFZg66fgCG/GsZL7vW4=
+X-Gm-Gg: ASbGnctajHv1zpN2IwxsJUVeqHyZmrphbbOEl3f+XJnnc5YgoE+A7K615GmFxBR9xMd
+ 4aC/uQW1Z0WgokIWbQv2PfT+pcc0t+/FzQb3yVfRYNk+9wTk8CG+h/WRgGqWJQwthP0e5Vv1YqA
+ PUSm9i56bjZ1mtxaC7izhyx0mLJqlyx49Nv8ASpWFoTEjFyLfApDV3sLoxBg4NNK8BAF29ISXN7
+ QsKbyUOSpcRyo0LLZ2RxvMGcit1rWqo0GBKPmBWqu45hMa8uqabCcGLq9zu/WQ2gwriJffW/9a7
+ wnosJCgJXyQfD7FjSyEAim645xt/WB1c0KcCoxGZJ77v9/1lXXsuEcJX6KBfM7uhSJK4DRZ/ylJ
+ j0rK6p2P1erxqAo0XH++HHm1EV+ysLZx+EV8954yFH+sAa/weE+ue
+X-Received: by 2002:a05:622a:cd:b0:4b2:dfc5:fbee with SMTP id
+ d75a77b69052e-4b2dfc5fdb1mr105541801cf.32.1756333712535; 
+ Wed, 27 Aug 2025 15:28:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF5nmdIbVBTqmW1BSWH9OY/lezBX2PorYOAsLp+HwXKOdiRgVyGEp2e8fxZ/9eVS1zmC9A+GQ==
+X-Received: by 2002:a05:622a:cd:b0:4b2:dfc5:fbee with SMTP id
+ d75a77b69052e-4b2dfc5fdb1mr105541351cf.32.1756333712052; 
+ Wed, 27 Aug 2025 15:28:32 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-336818f1d41sm14139131fa.51.2025.08.27.15.27.20
+ 2adb3069b0e04-55f35c13debsm2882288e87.57.2025.08.27.15.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 15:27:21 -0700 (PDT)
-Date: Thu, 28 Aug 2025 01:27:19 +0300
+ Wed, 27 Aug 2025 15:28:31 -0700 (PDT)
+Date: Thu, 28 Aug 2025 01:28:27 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -129,36 +129,36 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 03/39] drm/atomic: Convert
- drm_atomic_get_connector_state() to use new connector state
-Message-ID: <hab6s4wyauqiej5ankh3gppdqkm2ymlevhrnklfe76kqjmmjqy@fptmzxpqv5av>
+Subject: Re: [PATCH 04/39] drm/atomic: Remove unused
+ drm_atomic_get_existing_connector_state()
+Message-ID: <a3hwkno4nemddbmaz6dayd24rmqcr3zxujrvsspnulrivntxjz@o3tm6o4mc6nt>
 References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
- <20250825-drm-no-more-existing-state-v1-3-f08ccd9f85c9@kernel.org>
+ <20250825-drm-no-more-existing-state-v1-4-f08ccd9f85c9@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825-drm-no-more-existing-state-v1-3-f08ccd9f85c9@kernel.org>
-X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68af864d cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=wpE8WlYdICmIRzy2dDcA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX4DV2e9Rn3Ze4
- wP+EesUsXGXWm06VIC8+kL3P5cevt5n6Ya96yzNcZguYpFXYkN7MIECxOMS/xePZXOQoVOw7Gv/
- 3RzkiPxyaiLyz0lW6SpXRZhCImtWjGVHC8w9u751ov1CG1on3EhiFMdfkj4MKQcibiocAgzW3U+
- 8FEELBNY8jnd8YiGL3PM9rKikgQOhyYV6vSpO5iaqAplWglxv7ABi2s4WC2mQRC9/JR57EncrmO
- AJhaq9BRVwH/ghBRGAE6saM+U725llrcC2DTbpq+In23UxR0jTBuJljr/Ytj+kmJ0oLj6OfRQc5
- vX72PaYn8gSw74ahO3spEroMbYau9ZKGUgr+hzG7VjYJ2JFWoYfJhVulV4aDwwaVUfjWEFXrCw3
- Pr+ZqFaa
-X-Proofpoint-GUID: JHOypU7o0x0LGK67oNQ_lVlWcQAmB2NE
-X-Proofpoint-ORIG-GUID: JHOypU7o0x0LGK67oNQ_lVlWcQAmB2NE
+In-Reply-To: <20250825-drm-no-more-existing-state-v1-4-f08ccd9f85c9@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX1iTcmF6UdbU0
+ EZz7Q4/Db6tka8rhxIWTpcGp9yRkckSjIEQXD1HZ7WegTMzNBAyocVfDvFacpZfpVuonuMSuU1t
+ qp8XuxhOKaLCucQHcnsF9QyTI9M6pMGV1/PDbcU6K/1gh1Mh9N3A9i8OENWAL8Lw4//z+fcuhAn
+ kuUXfhF7CWpsV4nJEbg+TDXiwgirR7lZxJB3uslwn1P9z3QT47MqLHCT9552gCRmNZ1GKnvD7t+
+ SGSA6zqwdmCiZ9Lj68MzVqJQL9Yh+LgpQXUUCYn+V9Hqi1WQ9yazYmMFSIDXyB934NiHoeepXhj
+ pz60e3B+VvwahWpX7R4gFwbY/j0EO6xFXNM4U80mHU6iGRplUJrru7/0H5T13WLEvA1pRPHiZJC
+ PPMi8kLR
+X-Authority-Analysis: v=2.4 cv=Lco86ifi c=1 sm=1 tr=0 ts=68af8691 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ROUmOPvenB7E6LXmrzQA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: PvSZW-xKOnp_EPs3KEI7Noi7UfA-SIRt
+X-Proofpoint-ORIG-GUID: PvSZW-xKOnp_EPs3KEI7Noi7UfA-SIRt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230032
+ impostorscore=0 adultscore=0 clxscore=1015 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,46 +174,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 03:43:08PM +0200, Maxime Ripard wrote:
-> The drm_atomic_get_connector_state() function calls the deprecated
-> drm_atomic_get_existing_connector_state() helper to get find if a
-> connector state had already been allocated and was part of the given
-> drm_atomic_state.
-> 
-> At the point in time where drm_atomic_get_connector_state() can be
-> called (ie, during atomic_check), the existing state is the new state
-> and drm_atomic_get_existing_connector_state() can thus be replaced by
-> drm_atomic_get_new_connector_state().
+On Mon, Aug 25, 2025 at 03:43:09PM +0200, Maxime Ripard wrote:
+> The drm_atomic_get_existing_connector_state() function is deprecated and
+> isn't used anymore, so let's remove it.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/drm_atomic.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/drm/drm_atomic.h | 23 -----------------------
+>  1 file changed, 23 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 660b081ff5d8c39061cebfb5ea122ac1e51677ad..30b7ec05a1af07075e40cd2822ecfd67df004ba2 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1128,11 +1128,11 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
->  	struct drm_mode_config *config = &connector->dev->mode_config;
->  	struct drm_connector_state *connector_state;
->  
->  	WARN_ON(!state->acquire_ctx);
->  
-> -	connector_state = drm_atomic_get_existing_connector_state(state, connector);
-> +	connector_state = drm_atomic_get_new_connector_state(state, connector);
 
-I'd say, drop patches 1-2 and use this function directly as is now.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
->  	if (connector_state)
->  		return connector_state;
->  
->  	ret = drm_modeset_lock(&config->connection_mutex, state->acquire_ctx);
->  	if (ret)
-> 
-> -- 
-> 2.50.1
-> 
 
 -- 
 With best wishes
