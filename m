@@ -2,134 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5194B38025
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 12:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB839B38083
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 13:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B790110E7B3;
-	Wed, 27 Aug 2025 10:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD0D10E7A5;
+	Wed, 27 Aug 2025 11:07:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nldB+EoF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LfQIUzoO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nldB+EoF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LfQIUzoO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tq/v59Bq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 785D010E7AA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 10:45:31 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2AEC4201BB;
- Wed, 27 Aug 2025 10:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756291530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LADyVS0IBCn/UWZDRFZWgxXb5urQnxMmE+NiXZ01XYE=;
- b=nldB+EoFXloFZm1hpBz4VV2oGxvKnRO4dRb6uEOYulMOTKKkWYoPlt8G0zV/iJLRck5p3P
- cJZ2u9rGIxx0BDpZWfflljQL9icQGOEx3NmlBfeOFMxlJEbGxc04MSRcTAQ41mEEhP0qYM
- XGZkjzRbvn3r50AFwhFFeYtcDEmWU/o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756291530;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LADyVS0IBCn/UWZDRFZWgxXb5urQnxMmE+NiXZ01XYE=;
- b=LfQIUzoOQbOBijWKJxAP2gm7W11lsc5XLz9O1lYXVtRM4M+K+9qVeekSTrorCj2nezNHoE
- nMpsCPunqqvjD0BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756291530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LADyVS0IBCn/UWZDRFZWgxXb5urQnxMmE+NiXZ01XYE=;
- b=nldB+EoFXloFZm1hpBz4VV2oGxvKnRO4dRb6uEOYulMOTKKkWYoPlt8G0zV/iJLRck5p3P
- cJZ2u9rGIxx0BDpZWfflljQL9icQGOEx3NmlBfeOFMxlJEbGxc04MSRcTAQ41mEEhP0qYM
- XGZkjzRbvn3r50AFwhFFeYtcDEmWU/o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756291530;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LADyVS0IBCn/UWZDRFZWgxXb5urQnxMmE+NiXZ01XYE=;
- b=LfQIUzoOQbOBijWKJxAP2gm7W11lsc5XLz9O1lYXVtRM4M+K+9qVeekSTrorCj2nezNHoE
- nMpsCPunqqvjD0BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DC81913310;
- Wed, 27 Aug 2025 10:45:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id VSOkNMnhrmhmMAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Aug 2025 10:45:29 +0000
-Message-ID: <923276d2-9240-48bd-95df-13b4e9e23dcd@suse.de>
-Date: Wed, 27 Aug 2025 12:45:29 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DEB110E7A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 11:07:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3040460267;
+ Wed, 27 Aug 2025 11:07:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 059DFC4CEEB;
+ Wed, 27 Aug 2025 11:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756292829;
+ bh=5vc03eMdvfqUUzzsPyybym0chBJOvTR9mHKfK8sn/Mk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Tq/v59Bqjlgc3M5JdTW7wXZ6GBEBRNFnB9DeN40LVuy7vzlGFa6VwSJzi7GzG4Uo6
+ AHv6Lt64WZzcE0XJzrxvWOL1/bdOn9Xj9sTBigEwFiVBQGINm9/76qUzvzcz82m6CF
+ +Wh5y7YbUBIua8/enihnhUPiRZh5hZSm9HnAzw0VLgdqtDfAJHO2z/0GUzunJIYq+H
+ F8GPfWtAJq5qJJ74sAHnu88HWVT3FjiAgEekN+29kE0hjW0ZB7UyH845zU9sWlCT1Z
+ aBliCueagNgS2kBCWlhcJ7QECiBtF1ecrGNliGv7Qz3Az32eF/M6nY+XVUSO1KlT9F
+ +QNFCH5m5IePw==
+Date: Wed, 27 Aug 2025 12:07:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 4/9] drm/sysfb: Blit to CRTC destination format
+Message-ID: <f9ad2978-7bd7-48af-bdcc-2eed85f0b8b6@sirena.org.uk>
+References: <20250714151513.309475-1-tzimmermann@suse.de>
+ <20250714151513.309475-5-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/panic: Add a kconfig option to dump kunits
- results to png
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250821095228.648156-1-jfalempe@redhat.com>
- <20250821095228.648156-4-jfalempe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250821095228.648156-4-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[8]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zvruAmYNhudLNGt/"
+Content-Disposition: inline
+In-Reply-To: <20250714151513.309475-5-tzimmermann@suse.de>
+X-Cookie: <<<<< EVACUATION ROUTE <<<<<
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,267 +59,308 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 21.08.25 um 11:49 schrieb Jocelyn Falempe:
-> This is a bit hacky, but very handy if you want to customize the
-> panic screen.
-> It allows to dump the generated images to the logs, and then a python
-> script can convert it to .png files. It makes it easy to check how
-> the panic screen will look on different resolutions, without having
-> to crash a VM.
-> To not pollute the logs, it uses a monochrome framebuffer, compress
-> it with zlib, and base64 encode it.
+--zvruAmYNhudLNGt/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-May I suggest to export the raw image via debugfs? Debugfs can also 
-export additional information in additional files, such as 
-width/height/stride/format. This could provide the real/last image on 
-the fly, simply by reading the files. No workarounds or encodings needed.
+On Mon, Jul 14, 2025 at 05:13:04PM +0200, Thomas Zimmermann wrote:
+> Use the color format stored in struct drm_sysfb_crtc_state for
+> color-format conversion instead of the scanout-buffer format
+> announced by firmware. Currently, both values are identical.
 
-Best regards
-Thomas
+This patch, which is in -next as
+061963cd9e5b60672695e9a592be440469a6bf72, breaks boot on the original
+Raspberry Pi.  We get an oops after initialising the console:
 
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> ---
->   drivers/gpu/drm/Kconfig.debug          |  14 ++++
->   drivers/gpu/drm/tests/drm_panic_test.c | 111 +++++++++++++++++++++++++
->   scripts/kunitpanic2png.py              |  53 ++++++++++++
->   3 files changed, 178 insertions(+)
->   create mode 100755 scripts/kunitpanic2png.py
->
-> diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
-> index 05dc43c0b8c5..d8ae85132d32 100644
-> --- a/drivers/gpu/drm/Kconfig.debug
-> +++ b/drivers/gpu/drm/Kconfig.debug
-> @@ -84,6 +84,20 @@ config DRM_KUNIT_TEST
->   
->   	  If in doubt, say "N".
->   
-> +config DRM_PANIC_KUNIT_TEST_DUMP
-> +	bool "Enable screen dump to logs in KUnit tests for drm_panic"
-> +	default n
-> +	depends on DRM && DRM_PANIC && DRM_KUNIT_TEST
-> +	select ZLIB_DEFLATE
-> +	help
-> +	  This allows to dump the panic screen to the KUnit tests logs.
-> +	  It's possible with a small python script to write pngs from the logs.
-> +
-> +	  This is only to help developers customizing the drm_panic screen,
-> +	  checking the result for different resolutions.
-> +
-> +	  If in doubt, say "N"
-> +
->   config DRM_TTM_KUNIT_TEST
->   	tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
->   	default n
-> diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
-> index 46ff3e5e0e5d..8cddb845aea9 100644
-> --- a/drivers/gpu/drm/tests/drm_panic_test.c
-> +++ b/drivers/gpu/drm/tests/drm_panic_test.c
-> @@ -115,24 +115,135 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
->   	kfree(pages);
->   }
->   
-> +#ifdef CONFIG_DRM_PANIC_KUNIT_TEST_DUMP
-> +#include <linux/base64.h>
-> +#include <linux/delay.h>
-> +#include <linux/zlib.h>
-> +
-> +#define LINE_LEN 128
-> +
-> +#define COMPR_LEVEL 6
-> +#define WINDOW_BITS 12
-> +#define MEM_LEVEL 4
-> +
-> +static int compress_image(u8 *src, int size, u8 *dst)
-> +{
-> +	struct z_stream_s stream;
-> +
-> +	stream.workspace = kmalloc(zlib_deflate_workspacesize(WINDOW_BITS, MEM_LEVEL),
-> +				   GFP_KERNEL);
-> +
-> +	if (zlib_deflateInit2(&stream, COMPR_LEVEL, Z_DEFLATED, WINDOW_BITS,
-> +			      MEM_LEVEL, Z_DEFAULT_STRATEGY) != Z_OK)
-> +		return -EINVAL;
-> +
-> +	stream.next_in = src;
-> +	stream.avail_in = size;
-> +	stream.total_in = 0;
-> +	stream.next_out = dst;
-> +	stream.avail_out = size;
-> +	stream.total_out = 0;
-> +
-> +	if (zlib_deflate(&stream, Z_FINISH) != Z_STREAM_END)
-> +		return -EINVAL;
-> +
-> +	if (zlib_deflateEnd(&stream) != Z_OK)
-> +		return -EINVAL;
-> +
-> +	kfree(stream.workspace);
-> +
-> +	return stream.total_out;
-> +}
-> +
-> +static void dump_image(u8 *fb, unsigned int width, unsigned int height)
-> +{
-> +	int len = 0;
-> +	char *dst;
-> +	char *compressed;
-> +	int sent = 0;
-> +	int stride = DIV_ROUND_UP(width, 8);
-> +	int size = stride * height;
-> +
-> +	compressed = vzalloc(size);
-> +	if (!compressed)
-> +		return;
-> +	len = compress_image(fb, size, compressed);
-> +	if (len < 0) {
-> +		pr_err("Compression failed %d", len);
-> +		return;
-> +	}
-> +
-> +	dst = vzalloc(4 * DIV_ROUND_UP(len, 3) + 1);
-> +	if (!dst)
-> +		return;
-> +
-> +	len = base64_encode(compressed, len, dst);
-> +
-> +	pr_info("KUNIT PANIC IMAGE DUMP START %dx%d", width, height);
-> +	while (len > 0) {
-> +		char save = dst[sent + LINE_LEN];
-> +
-> +		dst[sent + LINE_LEN] = 0;
-> +		pr_info("%s", dst + sent);
-> +		dst[sent + LINE_LEN] = save;
-> +		sent += LINE_LEN;
-> +		len -= LINE_LEN;
-> +	}
-> +	pr_info("KUNIT PANIC IMAGE DUMP END");
-> +	vfree(compressed);
-> +	vfree(dst);
-> +
-> +}
-> +
-> +// Ignore pixel format, use 1bit per pixel in monochrome.
->   static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
->   				     unsigned int x,
->   				     unsigned int y,
->   				     u32 color)
->   {
-> +	int stride = DIV_ROUND_UP(sb->width, 8);
-> +	size_t off = x / 8 + y * stride;
-> +	u8 shift = 7 - (x % 8);
-> +	u8 *fb = (u8 *) sb->private;
-> +
-> +	if (color)
-> +		fb[off] |= 1 << shift;
-> +	else
-> +		fb[off] &= ~(1 << shift);
->   }
->   
-> +#else
-> +static void dump_image(u8 *fb, unsigned int width, unsigned int height) {}
-> +static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
-> +				     unsigned int x,
-> +				     unsigned int y,
-> +				     u32 color)
-> +{
-> +}
-> +#endif
-> +
->   static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
->   {
->   	struct drm_scanout_buffer *sb = test->priv;
->   	const struct drm_test_mode *params = test->param_value;
-> +	int fb_size;
-> +	u8 *fb;
->   
->   	sb->format = drm_format_info(params->format);
-> +	fb_size = DIV_ROUND_UP(params->width, 8) * params->height;
-> +
-> +	fb = vzalloc(fb_size);
-> +	KUNIT_ASSERT_NOT_NULL(test, fb);
-> +	sb->private = fb;
->   	sb->set_pixel = drm_test_panic_set_pixel;
->   	sb->width = params->width;
->   	sb->height = params->height;
->   
->   	params->draw_screen(sb);
-> +	if (params->format == DRM_FORMAT_XRGB8888)
-> +		dump_image(fb, sb->width, sb->height);
-> +
-> +	vfree(fb);
->   }
->   
->   static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
-> diff --git a/scripts/kunitpanic2png.py b/scripts/kunitpanic2png.py
-> new file mode 100755
-> index 000000000000..e292afd7422c
-> --- /dev/null
-> +++ b/scripts/kunitpanic2png.py
-> @@ -0,0 +1,53 @@
-> +#!/usr/bin/env python3
-> +# SPDX-License-Identifier: MIT
-> +#
-> +# Copyright (c) 2025 Red Hat.
-> +# Author: Jocelyn Falempe <jfalempe@redhat.com>
-> +
-> +from argparse import ArgumentParser
-> +from PIL import Image
-> +import base64
-> +import zlib
-> +
-> +def get_dim(s):
-> +    (w, h) = s.split('x')
-> +    return (int(w), int(h))
-> +
-> +def draw_image(img_data, width, height, n_img):
-> +
-> +    decoded = base64.b64decode(img_data)
-> +    unzipped = zlib.decompress(decoded)
-> +
-> +    img = Image.frombytes("1", (width, height), unzipped)
-> +    fname = f"panic_screen_{n_img}.png"
-> +    img.save(fname)
-> +    print(f"Image {width}x{height} saved to {fname}")
-> +
-> +def main():
-> +    parser = ArgumentParser(
-> +        prog="kunitpanic2png",
-> +        description="Read drm_panic kunit logs and translate that to png files")
-> +
-> +    parser.add_argument("filename", help="log file from kunit, usually test.log")
-> +
-> +    parsing_img = False
-> +    img_data = ""
-> +    n_img = 0
-> +
-> +    args = parser.parse_args()
-> +    with open(args.filename, "r") as f:
-> +        for line in f.readlines():
-> +            if line.startswith("KUNIT PANIC IMAGE DUMP START"):
-> +                parsing_img = True
-> +                width, height = get_dim(line.split()[-1])
-> +                continue
-> +            if line.startswith("KUNIT PANIC IMAGE DUMP END"):
-> +                draw_image(img_data, width, height, n_img)
-> +                parsing_img = False
-> +                img_data = ""
-> +                n_img += 1
-> +                continue
-> +            if parsing_img:
-> +                img_data += line.strip()
-> +
-> +main()
+[    4.057189] Console: switching to colour dummy device 80x30
+[    4.057903] 8<--- cut here ---
+[    4.057990] Unable to handle kernel NULL pointer dereference at virtual =
+address 00000048 when read
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+=2E..
 
+[    4.423159] Call trace:=20
+[    4.423196]  drm_sysfb_plane_helper_atomic_disable from drm_atomic_helpe=
+r_commit_planes+0x188/0x274
+[    4.434958]  drm_atomic_helper_commit_planes from drm_atomic_helper_comm=
+it_tail+0x30/0x68
+[    4.443259]  drm_atomic_helper_commit_tail from commit_tail+0x144/0x154
+[    4.449984]  commit_tail from drm_atomic_helper_commit+0xfc/0x10c
+[    4.456183]  drm_atomic_helper_commit from drm_atomic_commit+0xc4/0xf4
+[    4.462842]  drm_atomic_commit from drm_framebuffer_remove+0x220/0x4f0
+[    4.469495]  drm_framebuffer_remove from drm_mode_rmfb_work_fn+0x70/0x78
+[    4.476306]  drm_mode_rmfb_work_fn from process_scheduled_works+0x198/0x=
+290
+[    4.483378]  process_scheduled_works from worker_thread+0x16c/0x1f8
 
+Full log:
+
+   https://lava.sirena.org.uk/scheduler/job/1741780#L776
+
+Bisect log, with links to additional logs:
+
+# bad: [3c642997252eef4449cb6b6e02af3dc22515d817] Add linux-next specific f=
+iles for 20250827
+# good: [f51af24f910debef214edf108f7efad30874bc4f] Merge branch 'for-linux-=
+next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+# good: [a12b74d2bd4724ee1883bc97ec93eac8fafc8d3c] ASoC: tlv320aic32x4: use=
+ dev_err_probe() for regulators
+# good: [f840737d1746398c2993be34bfdc80bdc19ecae2] ASoC: SOF: imx: Remove t=
+he use of dev_err_probe()
+# good: [d78e48ebe04e9566f8ecbf51471e80da3adbceeb] ASoC: dt-bindings: Minor=
+ whitespace cleanup in example
+# good: [96bcb34df55f7fee99795127c796315950c94fed] ASoC: test-component: Us=
+e kcalloc() instead of kzalloc()
+# good: [c232495d28ca092d0c39b10e35d3d613bd2414ab] ASoC: dt-bindings: omap-=
+twl4030: convert to DT schema
+# good: [27848c082ba0b22850fd9fb7b185c015423dcdc7] spi: s3c64xx: Remove the=
+ use of dev_err_probe()
+# good: [ec0be3cdf40b5302248f3fb27a911cc630e8b855] regulator: consumer.rst:=
+ document bulk operations
+# good: [da9881d00153cc6d3917f6b74144b1d41b58338c] ASoC: qcom: audioreach: =
+add support for SMECNS module
+# good: [c1dd310f1d76b4b13f1854618087af2513140897] spi: SPISG: Use devm_kca=
+lloc() in aml_spisg_clk_init()
+# good: [2a55135201d5e24b80b7624880ff42eafd8e320c] ASoC: Intel: avs: Stream=
+line register-component function names
+# good: [550bc517e59347b3b1af7d290eac4fb1411a3d4e] regulator: bd718x7: Use =
+kcalloc() instead of kzalloc()
+# good: [0056b410355713556d8a10306f82e55b28d33ba8] spi: offload trigger: ad=
+i-util-sigma-delta: clean up imports
+# good: [cf65182247761f7993737b710afe8c781699356b] ASoC: codecs: wsa883x: H=
+andle shared reset GPIO for WSA883x speakers
+# good: [90179609efa421b1ccc7d8eafbc078bafb25777c] spi: spl022: use min_t()=
+ to improve code
+# good: [daf855f76a1210ceed9541f71ac5dd9be02018a6] ASoC: es8323: enable DAP=
+M power widgets for playback DAC
+# good: [48124569bbc6bfda1df3e9ee17b19d559f4b1aa3] spi: remove unneeded 'fa=
+st_io' parameter in regmap_config
+# good: [258384d8ce365dddd6c5c15204de8ccd53a7ab0a] ASoC: es8323: enable DAP=
+M power widgets for playback DAC and output
+# good: [6d068f1ae2a2f713d7f21a9a602e65b3d6b6fc6d] regulator: rt5133: Fix s=
+pelling mistake "regualtor" -> "regulator"
+# good: [a46e95c81e3a28926ab1904d9f754fef8318074d] ASoC: wl1273: Remove
+# good: [0e62438e476494a1891a8822b9785bc6e73e9c3f] ASoC: Intel: sst: Remove=
+ redundant semicolons
+# good: [37533933bfe92cd5a99ef4743f31dac62ccc8de0] regulator: remove unneed=
+ed 'fast_io' parameter in regmap_config
+# good: [5c36b86d2bf68fbcad16169983ef7ee8c537db59] regmap: Remove superfluo=
+us check for !config in __regmap_init()
+# good: [714165e1c4b0d5b8c6d095fe07f65e6e7047aaeb] regulator: rt5133: Add R=
+T5133 PMIC regulator Support
+# good: [9c45f95222beecd6a284fd1284d54dd7a772cf59] spi: spi-qpic-snand: han=
+dle 'use_ecc' parameter of qcom_spi_config_cw_read()
+# good: [bab4ab484a6ca170847da9bffe86f1fa90df4bbe] ASoC: dt-bindings: Conve=
+rt brcm,bcm2835-i2s to DT schema
+# good: [b832b19318534bb4f1673b24d78037fee339c679] spi: loopback-test: Don'=
+t use %pK through printk
+# good: [8c02c8353460f8630313aef6810f34e134a3c1ee] ASoC: dt-bindings: realt=
+ek,alc5623: convert to DT schema
+# good: [6b7e2aa50bdaf88cd4c2a5e2059a7bf32d85a8b1] spi: spi-qpic-snand: rem=
+ove 'clr*status' members of struct 'qpic_ecc'
+# good: [2291a2186305faaf8525d57849d8ba12ad63f5e7] MAINTAINERS: Add entry f=
+or FourSemi audio amplifiers
+# good: [a54ef14188519a0994d0264f701f5771815fa11e] regulator: dt-bindings: =
+Clean-up active-semi,act8945a duplication
+# good: [cf25eb8eae91bcae9b2065d84b0c0ba0f6d9dd34] ASoC: soc-component: unp=
+ack snd_soc_component_init_bias_level()
+# good: [595b7f155b926460a00776cc581e4dcd01220006] ASoC: Intel: avs: Condit=
+ional-path support
+# good: [a1d0b0ae65ae3f32597edfbb547f16c75601cd87] spi: spi-qpic-snand: avo=
+id double assignment in qcom_spi_probe()
+# good: [3059067fd3378a5454e7928c08d20bf3ef186760] ASoC: cs48l32: Use PTR_E=
+RR_OR_ZERO() to simplify code
+# good: [9a200cbdb54349909a42b45379e792e4b39dd223] rust: regulator: impleme=
+nt Send and Sync for Regulator<T>
+# good: [2d86d2585ab929a143d1e6f8963da1499e33bf13] ASoC: pxa: add GPIOLIB_L=
+EGACY dependency
+# good: [886f42ce96e7ce80545704e7168a9c6b60cd6c03] regmap: mmio: Add missin=
+g MODULE_DESCRIPTION()
+# good: [162e23657e5379f07c6404dbfbf4367cb438ea7d] regulator: pf0900: Add P=
+MIC PF0900 support
+git bisect start '3c642997252eef4449cb6b6e02af3dc22515d817' 'f51af24f910deb=
+ef214edf108f7efad30874bc4f' 'a12b74d2bd4724ee1883bc97ec93eac8fafc8d3c' 'f84=
+0737d1746398c2993be34bfdc80bdc19ecae2' 'd78e48ebe04e9566f8ecbf51471e80da3ad=
+bceeb' '96bcb34df55f7fee99795127c796315950c94fed' 'c232495d28ca092d0c39b10e=
+35d3d613bd2414ab' '27848c082ba0b22850fd9fb7b185c015423dcdc7' 'ec0be3cdf40b5=
+302248f3fb27a911cc630e8b855' 'da9881d00153cc6d3917f6b74144b1d41b58338c' 'c1=
+dd310f1d76b4b13f1854618087af2513140897' '2a55135201d5e24b80b7624880ff42eafd=
+8e320c' '550bc517e59347b3b1af7d290eac4fb1411a3d4e' '0056b410355713556d8a103=
+06f82e55b28d33ba8' 'cf65182247761f7993737b710afe8c781699356b' '90179609efa4=
+21b1ccc7d8eafbc078bafb25777c' 'daf855f76a1210ceed9541f71ac5dd9be02018a6' '4=
+8124569bbc6bfda1df3e9ee17b19d559f4b1aa3' '258384d8ce365dddd6c5c15204de8ccd5=
+3a7ab0a' '6d068f1ae2a2f713d7f21a9a602e65b3d6b6fc6d' 'a46e95c81e3a28926ab190=
+4d9f754fef8318074d' '0e62438e476494a1891a8822b9785bc6e73e9c3f' '37533933bfe=
+92cd5a99ef4743f31dac62ccc8de0' '5c36b86d2bf68fbcad16169983ef7ee8c537db59' '=
+714165e1c4b0d5b8c6d095fe07f65e6e7047aaeb' '9c45f95222beecd6a284fd1284d54dd7=
+a772cf59' 'bab4ab484a6ca170847da9bffe86f1fa90df4bbe' 'b832b19318534bb4f1673=
+b24d78037fee339c679' '8c02c8353460f8630313aef6810f34e134a3c1ee' '6b7e2aa50b=
+daf88cd4c2a5e2059a7bf32d85a8b1' '2291a2186305faaf8525d57849d8ba12ad63f5e7' =
+'a54ef14188519a0994d0264f701f5771815fa11e' 'cf25eb8eae91bcae9b2065d84b0c0ba=
+0f6d9dd34' '595b7f155b926460a00776cc581e4dcd01220006' 'a1d0b0ae65ae3f32597e=
+dfbb547f16c75601cd87' '3059067fd3378a5454e7928c08d20bf3ef186760' '9a200cbdb=
+54349909a42b45379e792e4b39dd223' '2d86d2585ab929a143d1e6f8963da1499e33bf13'=
+ '886f42ce96e7ce80545704e7168a9c6b60cd6c03' '162e23657e5379f07c6404dbfbf436=
+7cb438ea7d'
+# test job: [a12b74d2bd4724ee1883bc97ec93eac8fafc8d3c] https://lava.sirena.=
+org.uk/scheduler/job/1734135
+# test job: [f840737d1746398c2993be34bfdc80bdc19ecae2] https://lava.sirena.=
+org.uk/scheduler/job/1727230
+# test job: [d78e48ebe04e9566f8ecbf51471e80da3adbceeb] https://lava.sirena.=
+org.uk/scheduler/job/1706206
+# test job: [96bcb34df55f7fee99795127c796315950c94fed] https://lava.sirena.=
+org.uk/scheduler/job/1699727
+# test job: [c232495d28ca092d0c39b10e35d3d613bd2414ab] https://lava.sirena.=
+org.uk/scheduler/job/1699713
+# test job: [27848c082ba0b22850fd9fb7b185c015423dcdc7] https://lava.sirena.=
+org.uk/scheduler/job/1693185
+# test job: [ec0be3cdf40b5302248f3fb27a911cc630e8b855] https://lava.sirena.=
+org.uk/scheduler/job/1694260
+# test job: [da9881d00153cc6d3917f6b74144b1d41b58338c] https://lava.sirena.=
+org.uk/scheduler/job/1693330
+# test job: [c1dd310f1d76b4b13f1854618087af2513140897] https://lava.sirena.=
+org.uk/scheduler/job/1693130
+# test job: [2a55135201d5e24b80b7624880ff42eafd8e320c] https://lava.sirena.=
+org.uk/scheduler/job/1685827
+# test job: [550bc517e59347b3b1af7d290eac4fb1411a3d4e] https://lava.sirena.=
+org.uk/scheduler/job/1685690
+# test job: [0056b410355713556d8a10306f82e55b28d33ba8] https://lava.sirena.=
+org.uk/scheduler/job/1685834
+# test job: [cf65182247761f7993737b710afe8c781699356b] https://lava.sirena.=
+org.uk/scheduler/job/1687590
+# test job: [90179609efa421b1ccc7d8eafbc078bafb25777c] https://lava.sirena.=
+org.uk/scheduler/job/1685811
+# test job: [daf855f76a1210ceed9541f71ac5dd9be02018a6] https://lava.sirena.=
+org.uk/scheduler/job/1685552
+# test job: [48124569bbc6bfda1df3e9ee17b19d559f4b1aa3] https://lava.sirena.=
+org.uk/scheduler/job/1670240
+# test job: [258384d8ce365dddd6c5c15204de8ccd53a7ab0a] https://lava.sirena.=
+org.uk/scheduler/job/1673449
+# test job: [6d068f1ae2a2f713d7f21a9a602e65b3d6b6fc6d] https://lava.sirena.=
+org.uk/scheduler/job/1673208
+# test job: [a46e95c81e3a28926ab1904d9f754fef8318074d] https://lava.sirena.=
+org.uk/scheduler/job/1673819
+# test job: [0e62438e476494a1891a8822b9785bc6e73e9c3f] https://lava.sirena.=
+org.uk/scheduler/job/1669629
+# test job: [37533933bfe92cd5a99ef4743f31dac62ccc8de0] https://lava.sirena.=
+org.uk/scheduler/job/1669021
+# test job: [5c36b86d2bf68fbcad16169983ef7ee8c537db59] https://lava.sirena.=
+org.uk/scheduler/job/1667994
+# test job: [714165e1c4b0d5b8c6d095fe07f65e6e7047aaeb] https://lava.sirena.=
+org.uk/scheduler/job/1667749
+# test job: [9c45f95222beecd6a284fd1284d54dd7a772cf59] https://lava.sirena.=
+org.uk/scheduler/job/1667650
+# test job: [bab4ab484a6ca170847da9bffe86f1fa90df4bbe] https://lava.sirena.=
+org.uk/scheduler/job/1664754
+# test job: [b832b19318534bb4f1673b24d78037fee339c679] https://lava.sirena.=
+org.uk/scheduler/job/1659321
+# test job: [8c02c8353460f8630313aef6810f34e134a3c1ee] https://lava.sirena.=
+org.uk/scheduler/job/1659043
+# test job: [6b7e2aa50bdaf88cd4c2a5e2059a7bf32d85a8b1] https://lava.sirena.=
+org.uk/scheduler/job/1656611
+# test job: [2291a2186305faaf8525d57849d8ba12ad63f5e7] https://lava.sirena.=
+org.uk/scheduler/job/1655785
+# test job: [a54ef14188519a0994d0264f701f5771815fa11e] https://lava.sirena.=
+org.uk/scheduler/job/1656081
+# test job: [cf25eb8eae91bcae9b2065d84b0c0ba0f6d9dd34] https://lava.sirena.=
+org.uk/scheduler/job/1653063
+# test job: [595b7f155b926460a00776cc581e4dcd01220006] https://lava.sirena.=
+org.uk/scheduler/job/1653171
+# test job: [a1d0b0ae65ae3f32597edfbb547f16c75601cd87] https://lava.sirena.=
+org.uk/scheduler/job/1653632
+# test job: [3059067fd3378a5454e7928c08d20bf3ef186760] https://lava.sirena.=
+org.uk/scheduler/job/1653613
+# test job: [9a200cbdb54349909a42b45379e792e4b39dd223] https://lava.sirena.=
+org.uk/scheduler/job/1653627
+# test job: [2d86d2585ab929a143d1e6f8963da1499e33bf13] https://lava.sirena.=
+org.uk/scheduler/job/1653200
+# test job: [886f42ce96e7ce80545704e7168a9c6b60cd6c03] https://lava.sirena.=
+org.uk/scheduler/job/1653187
+# test job: [162e23657e5379f07c6404dbfbf4367cb438ea7d] https://lava.sirena.=
+org.uk/scheduler/job/1653604
+# test job: [3c642997252eef4449cb6b6e02af3dc22515d817] https://lava.sirena.=
+org.uk/scheduler/job/1741780
+# bad: [3c642997252eef4449cb6b6e02af3dc22515d817] Add linux-next specific f=
+iles for 20250827
+git bisect bad 3c642997252eef4449cb6b6e02af3dc22515d817
+# test job: [7902969a2e75fae35b04772a3e75a29737d463bd] https://lava.sirena.=
+org.uk/scheduler/job/1741974
+# good: [7902969a2e75fae35b04772a3e75a29737d463bd] Merge branch 'for-next' =
+of https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
+git bisect good 7902969a2e75fae35b04772a3e75a29737d463bd
+# test job: [c72c1b7d500f2e37ae06630ee20add5b68c7723c] https://lava.sirena.=
+org.uk/scheduler/job/1742110
+# bad: [c72c1b7d500f2e37ae06630ee20add5b68c7723c] Merge branch 'for-next' o=
+f https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git
+git bisect bad c72c1b7d500f2e37ae06630ee20add5b68c7723c
+# test job: [9f26ae24e6a8435d88cfb8c01f7d02c348eb4868] https://lava.sirena.=
+org.uk/scheduler/job/1742182
+# good: [9f26ae24e6a8435d88cfb8c01f7d02c348eb4868] Merge branch 'drm-next' =
+of https://gitlab.freedesktop.org/drm/kernel.git
+git bisect good 9f26ae24e6a8435d88cfb8c01f7d02c348eb4868
+# test job: [257ad6623adaf1685878a0d8724d5c40aa838e93] https://lava.sirena.=
+org.uk/scheduler/job/1742260
+# bad: [257ad6623adaf1685878a0d8724d5c40aa838e93] Merge branch 'drm-next' o=
+f https://gitlab.freedesktop.org/agd5f/linux.git
+git bisect bad 257ad6623adaf1685878a0d8724d5c40aa838e93
+# test job: [615471b860d628f7e7d9ffdf4b92477493e0a31c] https://lava.sirena.=
+org.uk/scheduler/job/1742299
+# good: [615471b860d628f7e7d9ffdf4b92477493e0a31c] drm/amd/pm: Remove cache=
+ logic from SMUv13.0.12
+git bisect good 615471b860d628f7e7d9ffdf4b92477493e0a31c
+# test job: [e3bd536580fe553d5768673660b1745ff1bb3b91] https://lava.sirena.=
+org.uk/scheduler/job/1742396
+# good: [e3bd536580fe553d5768673660b1745ff1bb3b91] drm/radeon: Use vmalloc_=
+array and vcalloc to simplify code
+git bisect good e3bd536580fe553d5768673660b1745ff1bb3b91
+# test job: [9d3cc361252ee8ff60d7277a97950300e0340ec4] https://lava.sirena.=
+org.uk/scheduler/job/1742517
+# good: [9d3cc361252ee8ff60d7277a97950300e0340ec4] drm/amd/display: Conside=
+r sink max slice width limitation for dsc
+git bisect good 9d3cc361252ee8ff60d7277a97950300e0340ec4
+# test job: [efe927b9702643a1d80472664c2642f0304cb608] https://lava.sirena.=
+org.uk/scheduler/job/1742628
+# good: [efe927b9702643a1d80472664c2642f0304cb608] drm/msm: fix msm_gem_vma=
+_new() allocations for managed GPUVMs
+git bisect good efe927b9702643a1d80472664c2642f0304cb608
+# test job: [b3c7edd5e50e0e92ead8794b084e92d89002dd6f] https://lava.sirena.=
+org.uk/scheduler/job/1742784
+# bad: [b3c7edd5e50e0e92ead8794b084e92d89002dd6f] drm/format-helper: Add XR=
+GB8888-to-RGB332 to drm_fb_blit()
+git bisect bad b3c7edd5e50e0e92ead8794b084e92d89002dd6f
+# test job: [d6d05e2af796ca25094f80a73d8841505d54368b] https://lava.sirena.=
+org.uk/scheduler/job/1742821
+# good: [d6d05e2af796ca25094f80a73d8841505d54368b] video: screen_info: Add =
+pixel-format helper for linear framebuffers
+git bisect good d6d05e2af796ca25094f80a73d8841505d54368b
+# test job: [061963cd9e5b60672695e9a592be440469a6bf72] https://lava.sirena.=
+org.uk/scheduler/job/1742968
+# bad: [061963cd9e5b60672695e9a592be440469a6bf72] drm/sysfb: Blit to CRTC d=
+estination format
+git bisect bad 061963cd9e5b60672695e9a592be440469a6bf72
+# test job: [31eea29d727ce35b747e68c6be350ca07b7ecd9b] https://lava.sirena.=
+org.uk/scheduler/job/1743040
+# good: [31eea29d727ce35b747e68c6be350ca07b7ecd9b] drm/sysfb: Find screen_i=
+nfo format with helpers
+git bisect good 31eea29d727ce35b747e68c6be350ca07b7ecd9b
+# first bad commit: [061963cd9e5b60672695e9a592be440469a6bf72] drm/sysfb: B=
+lit to CRTC destination format
+
+--zvruAmYNhudLNGt/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiu5tkACgkQJNaLcl1U
+h9CzTQf/Zf0zTVsSkW6QHNf90Lw5Xrg1yY+nryc15qSJCuIQp5ZEfuTiUWTQ2i7u
+PzacbDE4OICApX6cAGpcNPM+8lxecjqddANXqnYCI/3dUlrCb8fvGUWcb9EGQ0I0
+afpofmY8ZAMXvAuuDY/1H4jVfVnrf0F7v42rRK7gtyq9uC7egwzEz0MyUkutq5Wl
+BfsVQUGFsgfVEkt+P2yqv4pM3RQ9Au3ANK3XZqWq60ZQe+qyjq+2EaLKoeXh93qw
+uWN6LRJf5yjFWvTWajYMIk0pSwokUINlKXZaRKsArw8bDgmQJQcRpJ9IsL7e5FEI
+No5+q8LfyNotx+FNLxjh3ZqvER9Q7A==
+=TEoA
+-----END PGP SIGNATURE-----
+
+--zvruAmYNhudLNGt/--
