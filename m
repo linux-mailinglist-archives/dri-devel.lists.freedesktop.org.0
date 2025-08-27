@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25F4B37B80
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3275EB37B76
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2EF010E71E;
-	Wed, 27 Aug 2025 07:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98B6410E717;
+	Wed, 27 Aug 2025 07:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEF9D10E6EB;
- Wed, 27 Aug 2025 02:33:20 +0000 (UTC)
-X-UUID: 2f6b9d8c82ee11f0b29709d653e92f7d-20250827
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8556E10E6EB;
+ Wed, 27 Aug 2025 02:33:33 +0000 (UTC)
+X-UUID: 35ab35f482ee11f0b29709d653e92f7d-20250827
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:99b22ede-9b36-4247-ac3d-ef957683800b, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:592bdef1-92d9-4727-be0b-6d40946c848a, IP:0,
  U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:6493067, CLOUDID:87815dcdcd9cd6014cbe0eb001023f33,
+ RL:0,TC:0,Content:32,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:32
+X-CID-META: VersionHash:6493067, CLOUDID:1f1cc52fb45660de98e58b860571e142,
  BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
+ D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:4|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
  :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 2f6b9d8c82ee11f0b29709d653e92f7d-20250827
+X-UUID: 35ab35f482ee11f0b29709d653e92f7d-20250827
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 460976248; Wed, 27 Aug 2025 10:33:15 +0800
+ with ESMTP id 1396507482; Wed, 27 Aug 2025 10:33:26 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id B0A0AE008FAC;
- Wed, 27 Aug 2025 10:33:14 +0800 (CST)
-X-ns-mid: postfix-68AE6E6A-525672206
+ by mail.kylinos.cn (NSMail) with SMTP id DB480E008FAC;
+ Wed, 27 Aug 2025 10:33:25 +0800 (CST)
+X-ns-mid: postfix-68AE6E73-917867208
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id C4075E008FAA;
- Wed, 27 Aug 2025 10:33:08 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id A7BD5E008FAB;
+ Wed, 27 Aug 2025 10:33:18 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -86,10 +86,10 @@ Cc: zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
  imx@lists.linux.dev, linux-omap@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v2 03/18] ACPI: processor: thermal: Use
+Subject: [PATCH v2 04/18] cpufreq: brcmstb-avs-cpufreq: Use
  __free(put_cpufreq_policy) for policy reference
-Date: Wed, 27 Aug 2025 10:31:47 +0800
-Message-Id: <20250827023202.10310-4-zhangzihuan@kylinos.cn>
+Date: Wed, 27 Aug 2025 10:31:48 +0800
+Message-Id: <20250827023202.10310-5-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
 References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
@@ -119,54 +119,35 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/acpi/processor_thermal.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/cpufreq/brcmstb-avs-cpufreq.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_th=
-ermal.c
-index 1219adb11ab9..f99ed0812934 100644
---- a/drivers/acpi/processor_thermal.c
-+++ b/drivers/acpi/processor_thermal.c
-@@ -64,17 +64,13 @@ static int phys_package_first_cpu(int cpu)
+diff --git a/drivers/cpufreq/brcmstb-avs-cpufreq.c b/drivers/cpufreq/brcm=
+stb-avs-cpufreq.c
+index 5940d262374f..71450cca8e9f 100644
+--- a/drivers/cpufreq/brcmstb-avs-cpufreq.c
++++ b/drivers/cpufreq/brcmstb-avs-cpufreq.c
+@@ -480,7 +480,7 @@ static bool brcm_avs_is_firmware_loaded(struct privat=
+e_data *priv)
 =20
- static int cpu_has_cpufreq(unsigned int cpu)
+ static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
  {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+-	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(cpu);
+ 	struct private_data *priv;
 =20
- 	if (!acpi_processor_cpufreq_init)
- 		return 0;
+ 	if (!policy)
+@@ -488,8 +488,6 @@ static unsigned int brcm_avs_cpufreq_get(unsigned int=
+ cpu)
 =20
- 	policy =3D cpufreq_cpu_get(cpu);
--	if (policy) {
--		cpufreq_cpu_put(policy);
--		return 1;
--	}
--	return 0;
-+	return !!policy;
+ 	priv =3D policy->driver_data;
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	return brcm_avs_get_frequency(priv->base);
  }
 =20
- static int cpufreq_get_max_state(unsigned int cpu)
-@@ -95,7 +91,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
-=20
- static int cpufreq_set_cur_state(unsigned int cpu, int state)
- {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	struct acpi_processor *pr;
- 	unsigned long max_freq;
- 	int i, ret;
-@@ -127,8 +123,6 @@ static int cpufreq_set_cur_state(unsigned int cpu, in=
-t state)
- 		max_freq =3D (policy->cpuinfo.max_freq *
- 			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100=
-;
-=20
--		cpufreq_cpu_put(policy);
--
- 		ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
- 		if (ret < 0) {
- 			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
 --=20
 2.25.1
 
