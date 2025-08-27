@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAEAB37B81
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED50B37B9E
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2297410E722;
-	Wed, 27 Aug 2025 07:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349F510E730;
+	Wed, 27 Aug 2025 07:23:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="paqG0/bt";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Z0C0o94l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5595310E06D
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:22:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9810A10E720
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=G+hmXrHggGQu/DFm2iaN9YOAsgDAVtUlcX4wbDIaTAM=; b=paqG0/btPjpriUue1ZLq40xLBd
- GBgOWrFL05XOmF286hGkQVhrhfZqZimImLzlqfvnvVlVMHo57pYqqanZe5p+RWyExLLfK8pM6Q5Cq
- xdTc0nJjioWVaXjKpM6xHGG33hNdJlVOqRRL+S4OzGg7IrzrmTrdXDfSV/OniMWb8NfMr7hViTPqT
- qh4CArG3EfgYiwDGIxDxzDICg/hr95MIGKc/d2Fy1Rh+nq9Okcnz7bP4oClR/Liyw76jtlNxiWYgk
- upeAZRYX6mfLnf/YA7pnADtT8ZXvkmab4GGfHfUpjyupzxU/QmqBCPG9/xLHsUBttuD7WbfOzPmK7
- upjPzyNA==;
+ bh=mstaFbCpP+w2tTbkPKin/uA9B0d8ueMbHU6EXqRNUC0=; b=Z0C0o94loTfdLOzgxwFMYT1dAG
+ wKwLGPvrwms/4j1/SFX/l5DYVEUaq/TkrX23UywqWwR9an2wuZZ1YZ0WOfrN/HeS69wJoOJwyn94Z
+ uDEbkvPyPAbtc2Bomlut8c4nMpHiYfnblh6Iefj7OCsIZmbMMrybNcO8/z/LdYdOe//SaeBBp4HLk
+ Vlm41myafyjczlduzi1NwfMlZ3yIiM8JTv9Z//bqKxQDoWhg7T+O05TnxfLGoGbhd0KSlmOv7B07/
+ qSwNbJ3Vp1sa/k5SVONiTiX18FqAuGu+8dsjHzT9j+L1A2Gl5TqGv0RsKfu6/dLz3x0fi3D8dIy3u
+ 1vMhRkgQ==;
 Received: from [213.244.170.152] (helo=phil.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1urATt-00078I-85; Wed, 27 Aug 2025 09:22:05 +0200
+ id 1urAUa-0007YT-8m; Wed, 27 Aug 2025 09:22:48 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: Yury Norov <yury.norov@gmail.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -67,14 +67,15 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 07/20] drm/rockchip: dsi: switch to FIELD_PREP_WM16*
- macros
-Date: Wed, 27 Aug 2025 09:22:04 +0200
-Message-ID: <4886676.atdPhlSkOF@phil>
-In-Reply-To: <20250825-byeword-update-v3-7-947b841cdb29@collabora.com>
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v3 08/20] drm/rockchip: vop2: switch to FIELD_PREP_WM16
+ macro
+Date: Wed, 27 Aug 2025 09:22:46 +0200
+Message-ID: <5228954.Icojqenx9y@phil>
+In-Reply-To: <20250825-byeword-update-v3-8-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-7-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-8-947b841cdb29@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -93,35 +94,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:27 Mitteleurop=C3=A4ische Sommerzeit schr=
+Am Montag, 25. August 2025, 10:28:28 Mitteleurop=C3=A4ische Sommerzeit schr=
 ieb Nicolas Frattaroli:
 > The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 > drivers that use constant masks.
 >=20
-> Remove this driver's HIWORD_UPDATE macro, and replace instances of it
-> with either FIELD_PREP_WM16 or FIELD_PREP_WM16_CONST, depending on
-> whether they're in an initializer. This gives us better error checking,
-> which already saved me some trouble during this refactor.
+> Remove VOP2's HIWORD_UPDATE macro from the vop2 header file, and replace
+> all instances in rockchip_vop2_reg.c (the only user of this particular
+> HIWORD_UPDATE definition) with equivalent FIELD_PREP_WM16 instances. This
+> gives us better error checking.
 >=20
-> The driver's HIWORD_UPDATE macro doesn't shift up the value, but expects
-> a pre-shifted value. Meanwhile, FIELD_PREP_WM16 and
-> FIELD_PREP_WM16_CONST will shift the value for us, based on the given
-> mask. So a few things that used to be a HIWORD_UPDATE(VERY_LONG_FOO,
-> VERY_LONG_FOO) are now a somewhat more pleasant
-> FIELD_PREP_WM16(VERY_LONG_FOO, 1).
->=20
-> There are some non-trivial refactors here. A few literals needed a UL
-> suffix added to stop them from unintentionally overflowing as a signed
-> long. To make sure all of these cases are caught, and not just the ones
-> where the FIELD_PREP_WM16* macros use such a value as a mask, just mark
-> every literal that's used as a mask as unsigned.
->=20
-> Non-contiguous masks also have to be split into multiple
-> FIELD_PREP_WM16* instances, as the macro's checks and shifting logic
-> rely on contiguous masks.
->=20
-> This is compile-tested only.
->=20
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
 Reviewed-by: Heiko Stuebner <heiko@sntech.de>
