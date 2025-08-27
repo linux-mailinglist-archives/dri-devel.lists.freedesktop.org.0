@@ -2,167 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A8CB38BBD
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 23:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A80B39447
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 08:55:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D368A10E8C1;
-	Wed, 27 Aug 2025 21:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CE310E233;
+	Thu, 28 Aug 2025 06:55:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="jy6GKzaR";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gk4eV7zn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2052.outbound.protection.outlook.com [40.107.100.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0926210E6C1;
- Wed, 27 Aug 2025 21:56:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jQkC7K+FB9Q/rCCQGYxAG8HW7Y8aZvnwxjeRvbBSjmOPAtxDm25ig9eumHKUR3cg3689NTLlvP0k+enBC7jC3lEATIblMSY/BUzr5L8WksNepsEHQ2uyhiI+FQ0sZMemC48Bx8Yj0R21oXcC3mSY7sPHYqEi07EIVGiZyjK41ryTGiaogFgSbasNzUINuf8iVeyV726nvsGJG/6FB7iJJQexX0alLtRLfN3GJY2CKN6O/hbVAZDoJkr+ERR20xvvaeZlWIrsgQIe0iWTW9jSlr+uBym4Z+X7Bt2D26W6a1ZzbKo7N4IlB7IK5kst6ib2igfYRF5UmwL39tANtKxKSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uq0CPNLKMEz7J26PKmYLOZVccaC4IygLTh/nLsHz6LY=;
- b=iA/12tgxEB13bX4l6r4tcQzwpjwdts/mkb0aQAXxA3uX/T0DiewFZg0obrRrEQ/xYRQ+nmq09Egax1yzhMQmNad6Tw2DwZBX+mF7a6dAupNrXfPwHLD8jRh1dxrKFZHsavZRi1dNSe3U9BIg7cZ4n/kzX9gpanvKMl6LVB/XSJi9r5ZIp1Sd9o4ngAKinqs5vi2yV3tf6VmUUPAiDP6xFzqB9btyfTqp7/LwxuoScvfjdVElAl4NgoN1g5X2jKydP+L6Y21Is1BYCprbj4gscmicy5Ysluet6gmK0alx7GyOioUyLeYfcfNyqMPr1U+TV8xCDLpUvst58g2KCTuGgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uq0CPNLKMEz7J26PKmYLOZVccaC4IygLTh/nLsHz6LY=;
- b=jy6GKzaRZKc9K66mEA1viqyoE8AJjdTMEu9t6hsHQtqd9POoH3LpYzN4rw9fxh+vvtiUQWd4olXRg454DPjntAizMiZhSutsfWzUlEOmiW3gLfuAReyGehQJNlkrvy5lpTBSaEJtBjCGjpSIDQq7C/sactUCzS1vrod3U3wo8ZSASBZxDp53F5D0azOowlP3o3xhjdR4sZPI+g2ztHUTczsQTp+ShANT37CQ0YWL04PDNGQZq4wrh3IT/U5bSVQNVFWfC8fz2oMvKcfxvhKsLpT2D3Dq6Z7IKDbZPSu/GdWJ1f7tuB26m2Us5CBW/eV3NMOZzoRiG8k1o7JNe4z5iQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com (2603:10b6:408:14f::7)
- by MN2PR12MB4126.namprd12.prod.outlook.com (2603:10b6:208:199::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Wed, 27 Aug
- 2025 21:56:30 +0000
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4]) by LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4%6]) with mapi id 15.20.9073.010; Wed, 27 Aug 2025
- 21:56:30 +0000
-Message-ID: <79c7d5b5-5fe0-4306-b8c4-3c91758a4c00@nvidia.com>
-Date: Wed, 27 Aug 2025 14:56:26 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] gpu: nova-core: process and prepare more firmwares
- to boot GSP
-To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
- <dc18894e-09d3-4088-9be0-22c2070b61f4@nvidia.com>
- <DCD2P4ORDLYV.2NSHXI305AF2E@nvidia.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DCD2P4ORDLYV.2NSHXI305AF2E@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR11CA0088.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::29) To LV2PR12MB5968.namprd12.prod.outlook.com
- (2603:10b6:408:14f::7)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A17210E8C6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756332147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=f98zaxrJvycSnAQcu/39hCOw4ptNGiOoTMWM+eDqoaw=;
+ b=gk4eV7zn0mqUCS5cklNhkF0uZuP8ffMRQsrbN5Cna8o5jffpYK06YNl8+eJysOcb5Prb1r
+ vvmS95OYYwXW2RNNBQX0I4jdKgJohpmK0h1SWQKuMUSuGCGPHvSXa1ITNv7El9creuOF4t
+ fcrnfflVXLwjiSgasq95d1i2USxRSfg=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-20-1LbWQP2kMBGXOP4ayV8mdA-1; Wed,
+ 27 Aug 2025 18:02:25 -0400
+X-MC-Unique: 1LbWQP2kMBGXOP4ayV8mdA-1
+X-Mimecast-MFC-AGG-ID: 1LbWQP2kMBGXOP4ayV8mdA_1756332140
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 64F29180035D; Wed, 27 Aug 2025 22:02:18 +0000 (UTC)
+Received: from t14s.redhat.com (unknown [10.22.80.195])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id E90FC30001A5; Wed, 27 Aug 2025 22:01:42 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jens Axboe <axboe@kernel.dk>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Alexander Potapenko <glider@google.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Brendan Jackman <jackmanb@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Christoph Lameter <cl@gentwo.org>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, x86@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+ linux-arm-kernel@axis.com, linux-scsi@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-mm@kvack.org,
+ io-uring@vger.kernel.org, iommu@lists.linux.dev,
+ kasan-dev@googlegroups.com, wireguard@lists.zx2c4.com,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Alexandre Ghiti <alex@ghiti.fr>,
+ Alexandru Elisei <alexandru.elisei@arm.com>, Alex Dubov <oakad@yahoo.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Bart Van Assche <bvanassche@acm.org>, Borislav Petkov <bp@alien8.de>,
+ Brett Creeley <brett.creeley@amd.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Damien Le Moal <dlemoal@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>,
+ Doug Gilbert <dgilbert@interlog.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Lars Persson <lars.persson@axis.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Maxim Levitsky <maximlevitsky@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Niklas Cassel <cassel@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Pavel Begunkov <asml.silence@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, SeongJae Park <sj@kernel.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Shuah Khan <shuah@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Vasily Gorbik <gor@linux.ibm.com>,
+ WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+ Yishai Hadas <yishaih@nvidia.com>
+Subject: [PATCH v1 00/36] mm: remove nth_page()
+Date: Thu, 28 Aug 2025 00:01:04 +0200
+Message-ID: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5968:EE_|MN2PR12MB4126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6db0c1f5-4abb-4c18-a69f-08dde5b49414
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R0pkYiswTndwSWRsUXFOL2FwNkdYVUVDaXlZcnQ0MGtqVkdtRlM2OEpOdFFL?=
- =?utf-8?B?L1llM3ZrK3JvS3QyNFlFY3NDWklBNjNKWXVmcUxWVHZZeFU0dXZibkt5Q2ww?=
- =?utf-8?B?c2x6cWZ5VWE5aUlDRTVMMGhLZEV0ZzgyZnI2cExoeEZRRFNrSll2U0hrRXYr?=
- =?utf-8?B?dXgzZlM0UVhzcmJmSzN1ZTlHcjgyUS8rS294M3VtcVRGbE1EVG5rS3paZmEv?=
- =?utf-8?B?MDNHUjc5eUd4am9tY2VSZE93RVRGYnRRZ212YmpWM05tY0paWDVpVENwQUU3?=
- =?utf-8?B?ZTFZYWUyM3F6cFRQVkJCSERVaWlHZHRuY3dCNldubTJnb3FjTnlEMUd1STBx?=
- =?utf-8?B?STZXaXNBQzZrN2lJdElzUWlhZWVHYVJtSzlwako4aW9MaXczVFppMXJnWWZB?=
- =?utf-8?B?YmlvZGUyTHZUcjlPdTFjTWpVMTJURm9wWUFab1VSVUJYN1BVTzk3WHMyUFd1?=
- =?utf-8?B?NkJMaWpsM0ZjaWdGalN6eHlqMFpwUGEwRS8zdlh0SnRNKzUrSHl2ZURRNzFG?=
- =?utf-8?B?MUxVdTU4cFFrMWgrcUtVb3lSUHVLbVBwMmFPK0xvOXJ4WmlpNG5obWNUYW9L?=
- =?utf-8?B?OHY5N0JuZEhTWDc4RWlIMXBkaDVhQUZYKzM0YmgwQVFINGN2aFY1RE9kUXBT?=
- =?utf-8?B?S2lENUFDUGdkTUV4V0dPRDlvM2hjY3hYWkxwZExzcGJlb1B0NzNpVHNJS2hC?=
- =?utf-8?B?UUhTTHhxdmt3bGpUVmlNZFV2VzBVSjdzZm1BKzYrTXhKcHVkdVRJQjVxTjlO?=
- =?utf-8?B?aXFVNFp6TVBjTXpDVXRZeWlMUzVzdlY5MjNVYkJCM0lPWnJLNTVNSEU4amwv?=
- =?utf-8?B?bnMxdmpKRVdOUFExZzBaTmFIN0NVZzlSWk94aG5pMEVWK1YrKzZTL0lKbGhn?=
- =?utf-8?B?SGJMR0ZzaW9yUEZsTmNibDd1SUZYemtJNytkb2w4WXVZTmxQZWlHYStNNEdX?=
- =?utf-8?B?N3oxaUQ3V3NzOXNQM2l3WUpUMjdsUmxQSW9mY0lJT05IVWRpaEJPZXRMODJT?=
- =?utf-8?B?Mm0vZ2k0MFNQdjRHandWUlFWWklwN0hNV2dJTWhuaTVzQm1qK0FtZXNxZThU?=
- =?utf-8?B?Y1FIVk53NTY2KzFPcGVGT2VUeStYSnJnclBVQXVmcFVKQ3lmbTYzSWljcVh4?=
- =?utf-8?B?dUI5RlFhOXBCNXdSWXMxRXhaQ3RHb2pWOGR4MzBKMUpXZTEwclMwZTFzOTdz?=
- =?utf-8?B?VWlzNGpXY2JXWFE2L2tuUFRkejlOakIxVCtKS0FDQnkwOTBuWlVjTmZrdWJy?=
- =?utf-8?B?SXhSRWN0NDI2QW9SQUd2a0hXUk5iZGVzRURDQS85ZU5wL1FEb1dyb0gxRWtw?=
- =?utf-8?B?QnZCaEd3bjJ2WldySjJwTStmM3d5ZmlXa0djZnAxTGFKeHRmTEVYem9naGVQ?=
- =?utf-8?B?dHBvbG1vS3pDdkpWd1c3VG1weEEzUDZ5V3Bnb0plWldubi95ZTA5dlozZU1t?=
- =?utf-8?B?R3pDc1F3MmtCMkRNUVBvM3BKb1J5Z0FTaVZQQmU1cVpYdkpsdU1iWS9OVVV6?=
- =?utf-8?B?M0xSUkk3YkptdHc0T2NlT3ZjdGN2SnBHR1IyUFdRN05JNWVITVRIYllieTcy?=
- =?utf-8?B?N1ZUVmlQR2tvMlBvSUx2TWV4ZW5aUmJNdmN2U0k3UUJWckxybW8rY1BUOUla?=
- =?utf-8?B?N0pPSG5kS1BIU3NqK1VBZEUwTG50L0Fzai9DdGpMSk1wYm85dWttRlNQV2ZD?=
- =?utf-8?B?eEZyUUIvK0RYejIvamdaSkJOSjdnVTVMZ211MEM5MXZ6bnFEQ2FmbnhOZlpQ?=
- =?utf-8?B?Tjd3a2RrT3FpWitTMWVQS29JTWNWUmh4RnJSNms1NDZPRnlLNVJTOTEzakww?=
- =?utf-8?B?THllLzFpcHl5VkRDSTA4TThRRzV5ZkJ1R1JpOVh2NytZV1JLR3N4VGEzaGFE?=
- =?utf-8?B?S2dzVHVybEhWc2x1Y2xYcWhPOGRnU0xwMWVZbDUxUFM4TFNDcVNIdlZyM3ZU?=
- =?utf-8?B?UVF3V21SMGpyTmpnQ1YyazNqRUptQlpJMU5SeWJscXJEWnRoVzBkQWYvM2wv?=
- =?utf-8?B?WGpQazZ5bEdBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5968.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tkt1dDdDSFVDTEQ2dmtqbE9QN3E5U216VTNzUjZaenpLek81Z1FqWG5XMlNm?=
- =?utf-8?B?TGNzdnR2TnVwdEhYTDBBZFgzSWhmOW43RkRobm5pODNMb28zaWY5c0VuZVU3?=
- =?utf-8?B?YzJHaVdEUVNYWE9tUnV2NGdRTit4emtEM1lSNTc0UTYxL0pkb1poR2ozNVd2?=
- =?utf-8?B?Y1FiK2c2dnlPcjVmbzFiVElnK0pidlg4TEkwVTNZTFNOeDZPM3dUOFBaTnpP?=
- =?utf-8?B?Q1d6M05oSHFqYVhrbk5qWWJoR1pGNXZnNzBhaXdYSXo0RVRMdjNvN3VaQk1i?=
- =?utf-8?B?RENMRSs2Tm9MeEFLZmlYRnNkVnlNMVdiU3lSUmtabzNtckp4U0dlRzEvZXR5?=
- =?utf-8?B?TTVQMVRYUWozbGRsc2M4R3Bzd29wNlpOMW5sV0hlOHIxYjJ6ckV1ZTZQWUx2?=
- =?utf-8?B?YnhUTGNFS3ZicDR3Q29FL20vY1QrV29KQmJKSy9hZVU3aUZWdCtxY00rNmpR?=
- =?utf-8?B?NGZuWWhESVVVNGVYQW5KZWtzakEvZWprQjdmREErbUZ6NEh5UkJYdVNZNkVR?=
- =?utf-8?B?QzdnZHJreENxVSs5MUxaK1Z5TmR5YTBPQU10WTNkOVFRSHJQbzJKNXUwTGxj?=
- =?utf-8?B?MjhLNHoxMW1iSk4xZFNtQyt2OCtDK0FnaS9sM3VjMkhHbFVaS3hkS1BkV3Rm?=
- =?utf-8?B?YTZzWFFCSy9Vanl6UzB4QTJDUVVXSHUrdEZMVTlVeUNCS0l1eXdTb2FucWZX?=
- =?utf-8?B?WFJUMXdXa3VZZkZGdFlLTjZxamswOFJYdkQ5QVBjQkh3RTg5SllDbDdheGFC?=
- =?utf-8?B?MEVrSUVrVlAwKzRoOU9TWStMR1d4cEVrTE9keEx2RGtKOTYzTng3ck1TRlFh?=
- =?utf-8?B?YkpHWXFVa2V2bnhLYlEwZm5EWmt6ZzMwYVNWOWlPSEd0Z1pSVDRGOEtBRUR2?=
- =?utf-8?B?VmFhN3E4VThWbVFEdWd4SlcxV3RsbEdYZUhNVDZjTDM3RCtXSnk4YVc1RG1p?=
- =?utf-8?B?NXJaQzl3YjBuSTVRWEswTVpKdTd6MDVKbzRmQnV0cEFBQXVzMUpFOStFc0lI?=
- =?utf-8?B?ZkdPNjNNTFlQanBLRnEzanBsWEd6Q1Z2b0pLc3FuTGE0QURUbG95OENIM3ps?=
- =?utf-8?B?bkZ1c3dJUzVzb25SNXluVzgrQVpaYW9mbzZtY2c4Mm9TdFFsV0xLN1hGMFNF?=
- =?utf-8?B?R2I2MEpIZC9veEpMYjdjTmpwSTZTNTgzbStuc0VidGcrSjZTNjJ3WkJHZ09x?=
- =?utf-8?B?ZE54VmQ2dU9sTVp1cFlIWnM0bFRtemFpU29YUlQvazMybm9tSXNWZDRWa2p3?=
- =?utf-8?B?ZE5VVzF3MjFxWW1hTHZEeVB5MlFyZFRDWS9RN3BpTDhDTGt3U0lPbXZmSy9p?=
- =?utf-8?B?a2VYUDkwYU95cUh6dGwwc0cxeldxQklJK25tVnlpc3B1ZDhtMDNjK3ZXUStO?=
- =?utf-8?B?T29VZzM2NWYrWng3UGZCQkI0UXRvcWRpWU5pYktodUFBZldjMEJVOW9qaVNP?=
- =?utf-8?B?NFFqWnJxUkpvVkFMcjhBd01NazdHaGtFZURHekhJaTYvSTAyam5pYlJ1aVhq?=
- =?utf-8?B?d2FnckFHMjRFSThUb1RnRWlsREEra0xCeHAwYTBvODJIMC8ybHBWZGszU016?=
- =?utf-8?B?R20xOWhxRll2VW9ZQ3RBdVdCVDFpYlJ0ZmlNOSs5NCt1Y1dwSXE5TS9pS0NC?=
- =?utf-8?B?Q3VpL3RZVGg2WklUT0NEajlqeG9RV2NaaytaSVp6YlBsbGhZQ1BZMlhMUCt5?=
- =?utf-8?B?cE1VTERJV0o2MEM3WjV4aXV2cXgvR1M2aloxcXlXNksxOHRNVzdiaHVMRHEz?=
- =?utf-8?B?YzlHb1c3YS9NaSticU5xV1NvdmVhbmYydFdJTlljMXg1c2hpZHlKN0xzUW42?=
- =?utf-8?B?clpqakZmcHNhZERIaGM1REVDM1RXODJFNlJoSWMxZ3Y2UDRia3NnY25odnFr?=
- =?utf-8?B?cjdSancxK2lXQTY3Mmgyc3lsbkZNb0VwUG95SVR3dmFjTDBZeGtOVUJyM3JE?=
- =?utf-8?B?bXRlY2tPOVlud3VDQmFtc1o5YndBaTFvUVFZb1NSeUdvU3VkVXpCeHNFZTZT?=
- =?utf-8?B?aG5WMlo5UjZkVmJpR0FybGRqRUJlbkhGSFE5K01aV3U4R3R5T2lCR2JVUVAv?=
- =?utf-8?B?NTd4cW01dVoyazV6MVM4Z29zbm5GdktTLzJGZ2F5NkVyMnhHWmEyTUlldkNX?=
- =?utf-8?Q?yameUZd7a7etedLMH9snbqodH?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6db0c1f5-4abb-4c18-a69f-08dde5b49414
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5968.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 21:56:29.9726 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5T6CVjeHnVk0WY+2aiqnFm4xW+8ZufF8+HfXtONnAYCsPlZ9qqEcoY1zg45kZuL3r1JZhcGviBAVZtoAEOrNjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4126
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mailman-Approved-At: Thu, 28 Aug 2025 06:55:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,26 +132,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/27/25 1:39 AM, Alexandre Courbot wrote:
-> On Wed Aug 27, 2025 at 9:29 AM JST, John Hubbard wrote:
->> On 8/25/25 9:07 PM, Alexandre Courbot wrote:
->> ...
->> But the point is that the admin can be made simpler for the reviewers--even
->> those of us who know exactly what you're up to. And we should keep
->> that in mind, especially because there are many more of these situations
->> coming soon.
-> 
-> Right, b4 is supposed to be able to help with this as well, but indeed a
+This is based on mm-unstable.
 
-It really doesn't quite, though.
+I will only CC non-MM folks on the cover letter and the respective patch
+to not flood too many inboxes (the lists receive all patches).
 
-It is true that "base" (git format-patch --base) helps "b4 am" set things
-up, but then a subsequent "git am" fails due to missing prerequisites.
+--
 
-b4 isn't set up to go retrieve those, on its own anyway.
+As discussed recently with Linus, nth_page() is just nasty and we would
+like to remove it.
+
+To recap, the reason we currently need nth_page() within a folio is because
+on some kernel configs (SPARSEMEM without SPARSEMEM_VMEMMAP), the
+memmap is allocated per memory section.
+
+While buddy allocations cannot cross memory section boundaries, hugetlb
+and dax folios can.
+
+So crossing a memory section means that "page++" could do the wrong thing.
+Instead, nth_page() on these problematic configs always goes from
+page->pfn, to the go from (++pfn)->page, which is rather nasty.
+
+Likely, many people have no idea when nth_page() is required and when
+it might be dropped.
+
+We refer to such problematic PFN ranges and "non-contiguous pages".
+If we only deal with "contiguous pages", there is not need for nth_page().
+
+Besides that "obvious" folio case, we might end up using nth_page()
+within CMA allocations (again, could span memory sections), and in
+one corner case (kfence) when processing memblock allocations (again,
+could span memory sections).
+
+So let's handle all that, add sanity checks, and remove nth_page().
+
+Patch #1 -> #5   : stop making SPARSEMEM_VMEMMAP user-selectable + cleanups
+Patch #6 -> #13  : disallow folios to have non-contiguous pages
+Patch #14 -> #20 : remove nth_page() usage within folios
+Patch #21        : disallow CMA allocations of non-contiguous pages
+Patch #22 -> #32 : sanity+check + remove nth_page() usage within SG entry
+Patch #33        : sanity-check + remove nth_page() usage in
+                   unpin_user_page_range_dirty_lock()
+Patch #34        : remove nth_page() in kfence
+Patch #35        : adjust stale comment regarding nth_page
+Patch #36        : mm: remove nth_page()
+
+A lot of this is inspired from the discussion at [1] between Linus, Jason
+and me, so cudos to them.
+
+[1] https://lore.kernel.org/all/CAHk-=wiCYfNp4AJLBORU-c7ZyRBUp66W2-Et6cdQ4REx-GyQ_A@mail.gmail.com/T/#u
+
+RFC -> v1:
+* "wireguard: selftests: remove CONFIG_SPARSEMEM_VMEMMAP=y from qemu kernel
+   config"
+ -> Mention that it was never really relevant for the test
+* "mm/mm_init: make memmap_init_compound() look more like
+   prep_compound_page()"
+ -> Mention the setup of page links
+* "mm: limit folio/compound page sizes in problematic kernel configs"
+ -> Improve comment for PUD handling, mentioning hugetlb and dax
+* "mm: simplify folio_page() and folio_page_idx()"
+ -> Call variable "n"
+* "mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap()"
+ -> Keep __init_single_page() and refer to the usage of
+    memblock_reserved_mark_noinit()
+* "fs: hugetlbfs: cleanup folio in adjust_range_hwpoison()"
+* "fs: hugetlbfs: remove nth_page() usage within folio in
+   adjust_range_hwpoison()"
+ -> Separate nth_page() removal from cleanups
+ -> Further improve cleanups
+* "io_uring/zcrx: remove nth_page() usage within folio"
+ -> Keep the io_copy_cache for now and limit to nth_page() removal
+* "mm/gup: drop nth_page() usage within folio when recording subpages"
+ -> Cleanup record_subpages as bit
+* "mm/cma: refuse handing out non-contiguous page ranges"
+ -> Replace another instance of "pfn_to_page(pfn)" where we already have
+    the page
+* "scatterlist: disallow non-contigous page ranges in a single SG entry"
+ -> We have to EXPORT the symbol. I thought about moving it to mm_inline.h,
+    but I really don't want to include that in include/linux/scatterlist.h
+* "ata: libata-eh: drop nth_page() usage within SG entry"
+* "mspro_block: drop nth_page() usage within SG entry"
+* "memstick: drop nth_page() usage within SG entry"
+* "mmc: drop nth_page() usage within SG entry"
+ -> Keep PAGE_SHIFT
+* "scsi: scsi_lib: drop nth_page() usage within SG entry"
+* "scsi: sg: drop nth_page() usage within SG entry"
+ -> Split patches, Keep PAGE_SHIFT
+* "crypto: remove nth_page() usage within SG entry"
+ -> Keep PAGE_SHIFT
+* "kfence: drop nth_page() usage"
+ -> Keep modifying i and use "start_pfn" only instead
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Brendan Jackman <jackmanb@google.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Christoph Lameter <cl@gentwo.org>
+Cc: Muchun Song <muchun.song@linux.dev>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: x86@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-arm-kernel@axis.com
+Cc: linux-scsi@vger.kernel.org
+Cc: kvm@vger.kernel.org
+Cc: virtualization@lists.linux.dev
+Cc: linux-mm@kvack.org
+Cc: io-uring@vger.kernel.org
+Cc: iommu@lists.linux.dev
+Cc: kasan-dev@googlegroups.com
+Cc: wireguard@lists.zx2c4.com
+Cc: netdev@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+Cc: linux-riscv@lists.infradead.org
+
+David Hildenbrand (36):
+  mm: stop making SPARSEMEM_VMEMMAP user-selectable
+  arm64: Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  s390/Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  x86/Kconfig: drop superfluous "select SPARSEMEM_VMEMMAP"
+  wireguard: selftests: remove CONFIG_SPARSEMEM_VMEMMAP=y from qemu
+    kernel config
+  mm/page_alloc: reject unreasonable folio/compound page sizes in
+    alloc_contig_range_noprof()
+  mm/memremap: reject unreasonable folio/compound page sizes in
+    memremap_pages()
+  mm/hugetlb: check for unreasonable folio sizes when registering hstate
+  mm/mm_init: make memmap_init_compound() look more like
+    prep_compound_page()
+  mm: sanity-check maximum folio size in folio_set_order()
+  mm: limit folio/compound page sizes in problematic kernel configs
+  mm: simplify folio_page() and folio_page_idx()
+  mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap()
+  mm/mm/percpu-km: drop nth_page() usage within single allocation
+  fs: hugetlbfs: remove nth_page() usage within folio in
+    adjust_range_hwpoison()
+  fs: hugetlbfs: cleanup folio in adjust_range_hwpoison()
+  mm/pagewalk: drop nth_page() usage within folio in folio_walk_start()
+  mm/gup: drop nth_page() usage within folio when recording subpages
+  io_uring/zcrx: remove nth_page() usage within folio
+  mips: mm: convert __flush_dcache_pages() to
+    __flush_dcache_folio_pages()
+  mm/cma: refuse handing out non-contiguous page ranges
+  dma-remap: drop nth_page() in dma_common_contiguous_remap()
+  scatterlist: disallow non-contigous page ranges in a single SG entry
+  ata: libata-eh: drop nth_page() usage within SG entry
+  drm/i915/gem: drop nth_page() usage within SG entry
+  mspro_block: drop nth_page() usage within SG entry
+  memstick: drop nth_page() usage within SG entry
+  mmc: drop nth_page() usage within SG entry
+  scsi: scsi_lib: drop nth_page() usage within SG entry
+  scsi: sg: drop nth_page() usage within SG entry
+  vfio/pci: drop nth_page() usage within SG entry
+  crypto: remove nth_page() usage within SG entry
+  mm/gup: drop nth_page() usage in unpin_user_page_range_dirty_lock()
+  kfence: drop nth_page() usage
+  block: update comment of "struct bio_vec" regarding nth_page()
+  mm: remove nth_page()
+
+ arch/arm64/Kconfig                            |  1 -
+ arch/mips/include/asm/cacheflush.h            | 11 +++--
+ arch/mips/mm/cache.c                          |  8 ++--
+ arch/s390/Kconfig                             |  1 -
+ arch/x86/Kconfig                              |  1 -
+ crypto/ahash.c                                |  4 +-
+ crypto/scompress.c                            |  8 ++--
+ drivers/ata/libata-sff.c                      |  6 +--
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  2 +-
+ drivers/memstick/core/mspro_block.c           |  3 +-
+ drivers/memstick/host/jmb38x_ms.c             |  3 +-
+ drivers/memstick/host/tifm_ms.c               |  3 +-
+ drivers/mmc/host/tifm_sd.c                    |  4 +-
+ drivers/mmc/host/usdhi6rol0.c                 |  4 +-
+ drivers/scsi/scsi_lib.c                       |  3 +-
+ drivers/scsi/sg.c                             |  3 +-
+ drivers/vfio/pci/pds/lm.c                     |  3 +-
+ drivers/vfio/pci/virtio/migrate.c             |  3 +-
+ fs/hugetlbfs/inode.c                          | 33 +++++--------
+ include/crypto/scatterwalk.h                  |  4 +-
+ include/linux/bvec.h                          |  7 +--
+ include/linux/mm.h                            | 48 +++++++++++++++----
+ include/linux/page-flags.h                    |  5 +-
+ include/linux/scatterlist.h                   |  3 +-
+ io_uring/zcrx.c                               |  4 +-
+ kernel/dma/remap.c                            |  2 +-
+ mm/Kconfig                                    |  3 +-
+ mm/cma.c                                      | 39 +++++++++------
+ mm/gup.c                                      | 14 ++++--
+ mm/hugetlb.c                                  | 22 +++++----
+ mm/internal.h                                 |  1 +
+ mm/kfence/core.c                              | 12 +++--
+ mm/memremap.c                                 |  3 ++
+ mm/mm_init.c                                  | 15 +++---
+ mm/page_alloc.c                               |  5 +-
+ mm/pagewalk.c                                 |  2 +-
+ mm/percpu-km.c                                |  2 +-
+ mm/util.c                                     | 34 +++++++++++++
+ tools/testing/scatterlist/linux/mm.h          |  1 -
+ .../selftests/wireguard/qemu/kernel.config    |  1 -
+ 40 files changed, 202 insertions(+), 129 deletions(-)
 
 
-thanks,
+base-commit: efa7612003b44c220551fd02466bfbad5180fc83
 -- 
-John Hubbard
+2.50.1
 
