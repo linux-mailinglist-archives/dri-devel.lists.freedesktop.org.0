@@ -2,82 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A51B37E93
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 11:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BB3B37E8D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 11:17:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5767B10E790;
-	Wed, 27 Aug 2025 09:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F061310E033;
+	Wed, 27 Aug 2025 09:17:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="U0aACF93";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oc1S49zi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U0aACF93";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oc1S49zi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E91810E790;
- Wed, 27 Aug 2025 09:17:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A40C915A1;
- Wed, 27 Aug 2025 02:17:46 -0700 (PDT)
-Received: from bogus (unknown [10.57.57.52])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 588C63F738;
- Wed, 27 Aug 2025 02:17:41 -0700 (PDT)
-Date: Wed, 27 Aug 2025 10:17:18 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: Zihuan Zhang <zhangzihuan@kylinos.cn>, Sudeep Holla <sudeep.holla@arm.com>,
- "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Markus Mayer <mmayer@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- zhenglifeng <zhenglifeng1@huawei.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Zhang Rui <rui.zhang@intel.com>,
- Len Brown <lenb@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>,
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
- x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/18] arm64: topology: Use __free(put_cpufreq_policy)
- for policy reference
-Message-ID: <20250827-vegan-blond-marmot-eabf13@sudeepholla>
-References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
- <20250827023202.10310-2-zhangzihuan@kylinos.cn>
- <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E794710E033
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 09:17:23 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9136C22130;
+ Wed, 27 Aug 2025 09:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756286242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rBWJS3qUWaEBjcUPyhxgRjpZ7ft/NUkn6fNZC0MVkuI=;
+ b=U0aACF938TvygSwpGNorQgXuAQXgha50NCnzwOQniN1DcmfeaSyvhqOa92yALKIB9liAZ0
+ 4rv7iKrMR6/pw07AlwIYCroklrxCnNBhDMZeMXY5rUhj7DMTsfiPRgLxP5FJmSN2ylbMUD
+ anP2N46v7jJQ5hqeUnebWZ2vfLhG+AQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756286242;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rBWJS3qUWaEBjcUPyhxgRjpZ7ft/NUkn6fNZC0MVkuI=;
+ b=oc1S49ziRAyRPzdq8TuqmvjvBIWldDBSy3hb+B8IbUZi0h9hKuMXbEsvHu+mGMOdzoz+ns
+ u9zaYNGXck83YiDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756286242; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rBWJS3qUWaEBjcUPyhxgRjpZ7ft/NUkn6fNZC0MVkuI=;
+ b=U0aACF938TvygSwpGNorQgXuAQXgha50NCnzwOQniN1DcmfeaSyvhqOa92yALKIB9liAZ0
+ 4rv7iKrMR6/pw07AlwIYCroklrxCnNBhDMZeMXY5rUhj7DMTsfiPRgLxP5FJmSN2ylbMUD
+ anP2N46v7jJQ5hqeUnebWZ2vfLhG+AQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756286242;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=rBWJS3qUWaEBjcUPyhxgRjpZ7ft/NUkn6fNZC0MVkuI=;
+ b=oc1S49ziRAyRPzdq8TuqmvjvBIWldDBSy3hb+B8IbUZi0h9hKuMXbEsvHu+mGMOdzoz+ns
+ u9zaYNGXck83YiDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57D4313867;
+ Wed, 27 Aug 2025 09:17:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id MJg/FCLNrmhsEQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Aug 2025 09:17:22 +0000
+Message-ID: <086d09a9-680e-48bd-8624-2d3400a57222@suse.de>
+Date: Wed, 27 Aug 2025 11:17:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] [DRIVER] gpu: drm: add support for Yhgc ZX1000 soc
+ chipset
+To: chuguangqing <chuguangqing@inspur.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.c
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250808053508.52202-1-chuguangqing@inspur.com>
+ <20250808053508.52202-2-chuguangqing@inspur.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250808053508.52202-2-chuguangqing@inspur.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ URIBL_BLOCKED(0.00)[suse.de:mid,inspur.com:email,bootlin.com:url,yhgch_driver.name:url,yaina.de:email,imap1.dmz-prg2.suse.org:helo];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_TO(0.00)[inspur.com,linux.intel.com,kernel.org,gmail.com,ffwll.c];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[7];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,43 +145,1607 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 09:30:13AM +0100, Ben Horgan wrote:
-> Hi Zihuan,
-> 
-> On 8/27/25 03:31, Zihuan Zhang wrote:
-> > Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
-> > annotation for policy references. This reduces the risk of reference
-> > counting mistakes and aligns the code with the latest kernel style.
-> > 
-> > No functional change intended.
-> > 
-> > Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-> > ---
-> >  arch/arm64/kernel/topology.c | 9 +++------
-> >  1 file changed, 3 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-> > index 5d07ee85bdae..e3cb6d54f35b 100644
-> > --- a/arch/arm64/kernel/topology.c
-> > +++ b/arch/arm64/kernel/topology.c
-> > @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
-> >  		 */
-> >  		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
-> >  		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_EXP_MS))) {
-> > -			struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> > +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
-> Based on the guidance, in include/linux/cleanup.h, I would expect the
-> assignment to be done on this line.
-> 
-> "...the recommendation is to always define and assign variables in one
->  * statement and not group variable definitions at the top of the
->  * function when __free() is used."
-> 
+Hi,
 
-Agreed. I did something similar recently and there was a code path where
-variable wasn't initialised and ended up with freeing unassigned pointer.
-So it is more than just a recommendation sometimes.
+apologies for the late review. Comments can be found below.
+
+Am 08.08.25 um 07:35 schrieb chuguangqing:
+> add support for Yhgc BMC soc chipset
+>
+> Signed-off-by: chuguangqing <chuguangqing@inspur.com>
+> ---
+>   MAINTAINERS                                   |   5 +
+>   drivers/gpu/drm/Kconfig                       |   2 +
+>   drivers/gpu/drm/Makefile                      |   1 +
+>   drivers/gpu/drm/yhgch/Kconfig                 |   5 +
+>   drivers/gpu/drm/yhgch/Makefile                |   4 +
+>   drivers/gpu/drm/yhgch/yhgch-drm/Kconfig       |  12 +
+>   drivers/gpu/drm/yhgch/yhgch-drm/Makefile      |  20 +
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c    | 458 ++++++++++++++++++
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c   | 374 ++++++++++++++
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h   |  53 ++
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c   |  89 ++++
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h  | 209 ++++++++
+>   .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c  | 116 +++++
+>   13 files changed, 1348 insertions(+)
+>   create mode 100644 drivers/gpu/drm/yhgch/Kconfig
+>   create mode 100644 drivers/gpu/drm/yhgch/Makefile
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/Makefile
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
+>   create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 10614ca41ed0..c79d9361fa81 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27744,6 +27744,11 @@ S:	Maintained
+>   F:	Documentation/input/devices/yealink.rst
+>   F:	drivers/input/misc/yealink.*
+>   
+> +YHGC DRM DRIVER
+> +M:	chuguangqing <chuguangqing@inspur.com>
+> +S:	Maintained
+> +F:	drivers/gpu/drm/yhgch
+> +
+>   Z8530 DRIVER FOR AX.25
+>   M:	Joerg Reuter <jreuter@yaina.de>
+>   L:	linux-hams@vger.kernel.org
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index f7ea8e895c0c..8e0b1d12c81f 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -396,6 +396,8 @@ source "drivers/gpu/drm/sprd/Kconfig"
+>   
+>   source "drivers/gpu/drm/imagination/Kconfig"
+>   
+> +source "drivers/gpu/drm/yhgch/Kconfig"
+> +
+>   config DRM_HYPERV
+>   	tristate "DRM Support for Hyper-V synthetic video device"
+>   	depends on DRM && PCI && HYPERV
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 4dafbdc8f86a..f344e0173b29 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -231,6 +231,7 @@ obj-y			+= solomon/
+>   obj-$(CONFIG_DRM_SPRD) += sprd/
+>   obj-$(CONFIG_DRM_LOONGSON) += loongson/
+>   obj-$(CONFIG_DRM_POWERVR) += imagination/
+> +obj-$(CONFIG_DRM_YHGCH)  += yhgch/
+>   
+>   # Ensure drm headers are self-contained and pass kernel-doc
+>   hdrtest-files := \
+> diff --git a/drivers/gpu/drm/yhgch/Kconfig b/drivers/gpu/drm/yhgch/Kconfig
+> new file mode 100644
+> index 000000000000..ae9bb3974d04
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/Kconfig
+> @@ -0,0 +1,5 @@
+> +# License: GPL-2.0
+> +#
+> +# yhgch drm device configuration.
+> +
+
+Please drop this comment. The file's purpose is obvious.
+
+> +source "drivers/gpu/drm/yhgch/yhgch-drm/Kconfig"
+> diff --git a/drivers/gpu/drm/yhgch/Makefile b/drivers/gpu/drm/yhgch/Makefile
+> new file mode 100644
+> index 000000000000..7ed11b275d55
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/Makefile
+> @@ -0,0 +1,4 @@
+> +#
+> +# Makefile for yhgch drm drivers.
+> +
+
+Same with this comment. The file's purpose is obvious.
+
+> +obj-$(CONFIG_DRM_YHGCH) += yhgch-drm/
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig b/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
+> new file mode 100644
+> index 000000000000..10d586bbe897
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
+> @@ -0,0 +1,12 @@
+> +config DRM_YHGCH
+> +    tristate "DRM Support for Yhgch BMC"
+> +    depends on DRM && PCI && MMU
+> +    select DRM_CLIENT_SELECTION
+> +    select DRM_KMS_HELPER
+> +    select DRM_VRAM_HELPER
+> +    select DRM_TTM_HELPER
+> +    help
+> +        Choose this option if you have a Yhgch soc chipset.
+> +        If M is selected the module will be called yhgch - drm.
+> +        IF Y is selected the module will be built into the kernel.
+> +        IF N is selected the module will be excluded from the kernel.
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/Makefile b/drivers/gpu/drm/yhgch/yhgch-drm/Makefile
+> new file mode 100644
+> index 000000000000..4e2332b1843b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/Makefile
+> @@ -0,0 +1,20 @@
+> +ifneq ($(KERNELRELEASE),)
+> +
+> +yhgch-drm-y := yhgch_drm_drv.o yhgch_drm_de.o yhgch_drm_vdac.o yhgch_drm_i2c.o
+> +
+> +#obj-$(CONFIG_DRM_YHGCH) += yhgch-drm.o
+> +obj-m += yhgch-drm.o
+> +
+> +
+> +else
+> +knv := $(shell uname -r)
+> +KERNELDIR := /lib/modules/$(knv)/build
+> +PWD := $(shell pwd)
+> +
+> +default:
+> +	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+> +install:
+> +	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+> +clean:
+> +	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+> +endif
+
+What's the purpose of this else branch?
+
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
+> new file mode 100644
+> index 000000000000..aa81afd91b02
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
+> @@ -0,0 +1,458 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/delay.h>
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +
+> +#include <drm/drm_gem_vram_helper.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "yhgch_drm_drv.h"
+> +#include "yhgch_drm_regs.h"
+> +
+> +struct yhgch_dislay_pll_config {
+> +	u64 hdisplay;
+> +	u64 vdisplay;
+> +	u32 pll1_config_value;
+> +	u32 pll2_config_value;
+> +};
+> +
+> +static const struct yhgch_dislay_pll_config yhgch_pll_table[] = {
+> +	{ 640, 480, CRT_PLL1_NS_25MHZ, CRT_PLL2_NS_25MHZ },
+> +	{ 800, 600, CRT_PLL1_NS_40MHZ, CRT_PLL2_NS_40MHZ },
+> +	{ 1024, 768, CRT_PLL1_NS_65MHZ, CRT_PLL2_NS_65MHZ },
+> +	{ 1280, 1024, CRT_PLL1_NS_108MHZ, CRT_PLL2_NS_108MHZ },
+> +	{ 1920, 1080, CRT_PLL1_NS_148MHZ, CRT_PLL2_NS_148MHZ },
+> +};
+> +
+> +static inline unsigned long PADDING(unsigned long align, unsigned long data)
+> +{
+> +	return (((data) + (align) - 1) & (~((align) - 1)));
+> +}
+> +
+> +static int yhgch_plane_atomic_check(struct drm_plane *plane,
+> +				    struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+> +										 plane);
+> +	struct drm_framebuffer *fb = new_plane_state->fb;
+> +	struct drm_crtc *crtc = new_plane_state->crtc;
+> +	struct drm_crtc_state *crtc_state;
+> +	u32 src_w = new_plane_state->src_w >> 16;
+> +	u32 src_h = new_plane_state->src_h >> 16;
+> +
+
+
+> +	if (!crtc || !fb)
+> +		return 0;
+> +
+> +	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> +	if (IS_ERR(crtc_state))
+> +		return PTR_ERR(crtc_state);
+> +
+> +	if (src_w != new_plane_state->crtc_w || src_h != new_plane_state->crtc_h) {
+> +		drm_dbg_atomic(plane->dev, "scale not support\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (new_plane_state->crtc_x < 0 || new_plane_state->crtc_y < 0) {
+> +		drm_dbg_atomic(plane->dev, "crtc_x/y of drm_plane state is invalid\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!crtc_state->enable)
+> +		return 0;
+> +
+> +	if (new_plane_state->crtc_x + new_plane_state->crtc_w >
+> +	    crtc_state->adjusted_mode.hdisplay ||
+> +	    new_plane_state->crtc_y + new_plane_state->crtc_h >
+> +	    crtc_state->adjusted_mode.vdisplay) {
+> +		drm_dbg_atomic(plane->dev, "visible portion of plane is invalid\n");
+> +		return -EINVAL;
+> +	}
+
+Please replace this block with a call to 
+drm_atomic_helper_check_plane_state(). You can duplicate the code 
+ast_mode.c, lines 504 to 518. [1]
+
+[1] 
+https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L504
+
+That will handle the basic plane-state checks and updates. Either it 
+returns on disabled planes, or you'll have a valid plane that is enabled.
+
+
+> +
+> +	if (new_plane_state->fb->pitches[0] % 16 != 0) {
+> +		drm_dbg_atomic(plane->dev, "wrong stride with 16-byte aligned\n");
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void yhgch_plane_atomic_update(struct drm_plane *plane,
+> +				      struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+> +									   plane);
+> +	u32 reg;
+> +	s64 gpu_addr = 0;
+> +	u32 line_l;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(plane->dev);
+> +	struct drm_gem_vram_object *gbo;
+
+In another review, I mentioned that VRAM helpers are deprecated and on 
+their way out. For simple chipsets, gem-shmem is recommended. If your 
+chipset has full 3d acceleration, directly using TTM is advised. But 3d 
+rendering will also require Mesa drivers and additional code in the DRM 
+driver.
+
+> +
+> +	if (!new_state->fb)
+> +		return;
+> +
+> +	gbo = drm_gem_vram_of_gem(new_state->fb->obj[0]);
+> +
+> +	gpu_addr = drm_gem_vram_offset(gbo);
+> +	if (gpu_addr < 0)
+> +		return;
+> +
+> +	writel(gpu_addr, priv->mmio + YHGCH_CRT_FB_ADDRESS);
+> +
+> +	reg = new_state->fb->width * (new_state->fb->format->cpp[0]);
+> +
+> +	line_l = new_state->fb->pitches[0];
+> +	writel(YHGCH_FIELD(YHGCH_CRT_FB_WIDTH_WIDTH, reg) |
+> +	       YHGCH_FIELD(YHGCH_CRT_FB_WIDTH_OFFS, line_l),
+> +	       priv->mmio + YHGCH_CRT_FB_WIDTH);
+> +
+> +	/* SET PIXEL FORMAT */
+> +	reg = readl(priv->mmio + YHGCH_CRT_DISP_CTL);
+> +	reg &= ~YHGCH_CRT_DISP_CTL_FORMAT_MASK;
+> +	reg |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_FORMAT,
+> +			   new_state->fb->format->cpp[0] * 8 / 16);
+> +	writel(reg, priv->mmio + YHGCH_CRT_DISP_CTL);
+> +}
+> +
+> +static const u32 channel_formats1[] = {
+> +	DRM_FORMAT_RGB565, DRM_FORMAT_BGR565, DRM_FORMAT_RGB888,
+> +	DRM_FORMAT_BGR888, DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888,
+> +	DRM_FORMAT_RGBA8888, DRM_FORMAT_BGRA8888, DRM_FORMAT_ARGB8888,
+> +	DRM_FORMAT_ABGR8888
+> +};
+
+Does the chipset really support alpha channels on the primary plane? If 
+not, please remove all the alpha formats form this list.
+
+I also don't see any code in yhgch_plane_atomic_update() that handles 
+the differences in pixel formats. I'd expect code that tells the chipset 
+whether it's rgb or bgr.
+> +
+> +static struct drm_plane_funcs yhgch_plane_funcs = {
+> +	.update_plane = drm_atomic_helper_update_plane,
+> +	.disable_plane = drm_atomic_helper_disable_plane,
+> +	.destroy = drm_plane_cleanup,
+> +	.reset = drm_atomic_helper_plane_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+> +};
+> +
+> +static const struct drm_plane_helper_funcs yhgch_plane_helper_funcs = {
+> +	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
+> +	.atomic_check = yhgch_plane_atomic_check,
+> +	.atomic_update = yhgch_plane_atomic_update,
+> +};
+> +
+> +static void yhgch_crtc_dpms(struct drm_crtc *crtc, u32 dpms)
+> +{
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
+> +	u32 reg;
+> +
+> +	reg = readl(priv->mmio + YHGCH_CRT_DISP_CTL);
+> +	reg &= ~YHGCH_CRT_DISP_CTL_DPMS_MASK;
+> +	reg |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_DPMS, dpms);
+> +	reg &= ~YHGCH_CRT_DISP_CTL_TIMING_MASK;
+> +	if (dpms == YHGCH_CRT_DPMS_ON)
+> +		reg |= YHGCH_CRT_DISP_CTL_TIMING(1);
+> +	writel(reg, priv->mmio + YHGCH_CRT_DISP_CTL);
+> +}
+> +
+> +static void yhgch_crtc_atomic_enable(struct drm_crtc *crtc,
+> +				     struct drm_atomic_state *old_state)
+> +{
+> +	u32 reg;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
+> +
+> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
+> +
+> +	/* Enable display power gate & LOCALMEM power gate */
+> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
+> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
+> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
+> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
+> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
+> +	yhgch_set_current_gate(priv, reg);
+> +	yhgch_crtc_dpms(crtc, YHGCH_CRT_DPMS_ON);
+> +}
+> +
+> +static void yhgch_crtc_atomic_disable(struct drm_crtc *crtc,
+> +				      struct drm_atomic_state *old_state)
+> +{
+> +	u32 reg;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
+> +
+> +	yhgch_crtc_dpms(crtc, YHGCH_CRT_DPMS_OFF);
+> +
+> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_SLEEP);
+> +
+> +	/* Enable display power gate & LOCALMEM power gate */
+> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
+> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
+> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
+> +	reg |= YHGCH_CURR_GATE_LOCALMEM(0);
+> +	reg |= YHGCH_CURR_GATE_DISPLAY(0);
+> +	yhgch_set_current_gate(priv, reg);
+> +}
+> +
+> +static enum drm_mode_status
+> +yhgch_crtc_mode_valid(struct drm_crtc *crtc,
+> +		      const struct drm_display_mode *mode)
+> +{
+> +	size_t i = 0;
+> +	int vrefresh = drm_mode_vrefresh(mode);
+> +
+> +	if (vrefresh < 59 || vrefresh > 61)
+> +		return MODE_NOCLOCK;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(yhgch_pll_table); i++) {
+> +		if (yhgch_pll_table[i].hdisplay == mode->hdisplay &&
+> +		    yhgch_pll_table[i].vdisplay == mode->vdisplay)
+> +			return MODE_OK;
+> +	}
+> +
+> +	return MODE_BAD;
+> +}
+> +
+> +static void set_vclock_yhgch(struct drm_device *dev, u64 pll)
+> +{
+> +	u32 val;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +
+> +	val = readl(priv->mmio + CRT_PLL1_NS);
+> +	val &= ~(CRT_PLL1_NS_OUTER_BYPASS(1));
+> +	writel(val, priv->mmio + CRT_PLL1_NS);
+> +
+> +	val = CRT_PLL1_NS_INTER_BYPASS(1) | CRT_PLL1_NS_POWERON(1);
+> +	writel(val, priv->mmio + CRT_PLL1_NS);
+> +
+> +	writel(pll, priv->mmio + CRT_PLL1_NS);
+> +
+> +	usleep_range(1000, 2000);
+> +
+> +	val = pll & ~(CRT_PLL1_NS_POWERON(1));
+> +	writel(val, priv->mmio + CRT_PLL1_NS);
+> +
+> +	usleep_range(1000, 2000);
+> +
+> +	val &= ~(CRT_PLL1_NS_INTER_BYPASS(1));
+> +	writel(val, priv->mmio + CRT_PLL1_NS);
+> +
+> +	usleep_range(1000, 2000);
+> +
+> +	val |= CRT_PLL1_NS_OUTER_BYPASS(1);
+> +	writel(val, priv->mmio + CRT_PLL1_NS);
+> +}
+> +
+> +static void get_pll_config(u64 x, u64 y, u32 *pll1, u32 *pll2)
+> +{
+> +	size_t i;
+> +	size_t count = ARRAY_SIZE(yhgch_pll_table);
+> +
+> +	for (i = 0; i < count; i++) {
+> +		if (yhgch_pll_table[i].hdisplay == x &&
+> +		    yhgch_pll_table[i].vdisplay == y) {
+> +			*pll1 = yhgch_pll_table[i].pll1_config_value;
+> +			*pll2 = yhgch_pll_table[i].pll2_config_value;
+> +			return;
+> +		}
+> +	}
+> +
+> +	/* if found none, we use default value */
+> +	*pll1 = CRT_PLL1_NS_25MHZ;
+> +	*pll2 = CRT_PLL2_NS_25MHZ;
+> +}
+> +
+> +/*
+> + * This function takes care the extra registers and bit fields required to
+> + * setup a mode in board.
+> + * Explanation about Display Control register:
+> + * FPGA only supports 7 predefined pixel clocks, and clock select is
+> + * in bit 4:0 of new register 0x802a8.
+> + */
+> +static u32 display_ctrl_adjust(struct drm_device *dev,
+> +			       struct drm_display_mode *mode,
+> +			       u32 ctrl)
+> +{
+> +	u64 x, y;
+
+Rather w,  h ?
+
+> +	u32 pll1;		/* bit[31:0] of PLL */
+> +	u32 pll2;		/* bit[63:32] of PLL */
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +
+> +	x = mode->hdisplay;
+> +	y = mode->vdisplay;
+> +
+> +	get_pll_config(x, y, &pll1, &pll2);
+> +	writel(pll2, priv->mmio + CRT_PLL2_NS);
+> +	set_vclock_yhgch(dev, pll1);
+> +
+
+> +	/*
+> +	 * yhgch has to set up the top-left and bottom-right
+> +	 * registers as well.
+> +	 * Note that normal chip only use those two register for
+> +	 * auto-centering mode.
+> +	 */
+> +	writel(YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_TL_TOP, 0) |
+> +	       YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_TL_LEFT, 0),
+> +	       priv->mmio + YHGCH_CRT_AUTO_CENTERING_TL);
+> +
+> +	writel(YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM, y - 1) |
+> +	       YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_BR_RIGHT, x - 1),
+> +	       priv->mmio + YHGCH_CRT_AUTO_CENTERING_BR);
+
+What does this code do?  The comment makes it sounds as if it places the 
+primary plane within the screen?
+
+> +
+> +	/*
+> +	 * Assume common fields in ctrl have been properly set before
+> +	 * calling this function.
+> +	 * This function only sets the extra fields in ctrl.
+> +	 */
+> +
+> +	/* Set bit 25 of display controller: Select CRT or VGA clock */
+> +	ctrl &= ~YHGCH_CRT_DISP_CTL_CRTSELECT_MASK;
+> +	ctrl &= ~YHGCH_CRT_DISP_CTL_CLOCK_PHASE_MASK;
+> +
+> +	ctrl |= YHGCH_CRT_DISP_CTL_CRTSELECT(YHGCH_CRTSELECT_CRT);
+> +
+> +	/* clock_phase_polarity is 0 */
+> +	ctrl |= YHGCH_CRT_DISP_CTL_CLOCK_PHASE(0);
+> +	ctrl |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_FORMAT, 2);
+> +
+> +	writel(ctrl, priv->mmio + YHGCH_CRT_DISP_CTL);
+> +
+> +	return ctrl;
+> +}
+> +
+> +static void yhgch_crtc_mode_set_nofb(struct drm_crtc *crtc)
+> +{
+> +	u32 val;
+> +	struct drm_display_mode *mode = &crtc->state->mode;
+> +	struct drm_device *dev = crtc->dev;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +	u32 width = mode->hsync_end - mode->hsync_start;
+> +	u32 height = mode->vsync_end - mode->vsync_start;
+> +
+> +	//writel(format_pll_reg(), priv->mmio + YHGCH_CRT_PLL_CTRL);
+> +	writel(YHGCH_FIELD(YHGCH_CRT_HORZ_TOTAL_TOTAL, mode->htotal - 1) |
+> +	       YHGCH_FIELD(YHGCH_CRT_HORZ_TOTAL_DISP_END, mode->hdisplay - 1),
+> +	       priv->mmio + YHGCH_CRT_HORZ_TOTAL);
+> +
+> +	writel(YHGCH_FIELD(YHGCH_CRT_HORZ_SYNC_WIDTH, width) |
+> +	       YHGCH_FIELD(YHGCH_CRT_HORZ_SYNC_START, mode->hsync_start - 1),
+> +	       priv->mmio + YHGCH_CRT_HORZ_SYNC);
+> +
+> +	writel(YHGCH_FIELD(YHGCH_CRT_VERT_TOTAL_TOTAL, mode->vtotal - 1) |
+> +	       YHGCH_FIELD(YHGCH_CRT_VERT_TOTAL_DISP_END, mode->vdisplay - 1),
+> +	       priv->mmio + YHGCH_CRT_VERT_TOTAL);
+> +
+> +	writel(YHGCH_FIELD(YHGCH_CRT_VERT_SYNC_HEIGHT, height) |
+> +	       YHGCH_FIELD(YHGCH_CRT_VERT_SYNC_START, mode->vsync_start - 1),
+> +	       priv->mmio + YHGCH_CRT_VERT_SYNC);
+> +
+> +	val = YHGCH_FIELD(YHGCH_CRT_DISP_CTL_VSYNC_PHASE, 0);
+> +	val |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_HSYNC_PHASE, 0);
+> +	val |= YHGCH_CRT_DISP_CTL_TIMING(1);
+> +	val |= YHGCH_CRT_DISP_CTL_PLANE(1);
+> +
+> +	display_ctrl_adjust(dev, mode, val);
+> +}
+> +
+> +static void yhgch_crtc_atomic_begin(struct drm_crtc *crtc,
+> +				    struct drm_atomic_state *old_state)
+> +{
+> +	u32 reg;
+> +	struct drm_device *dev = crtc->dev;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +
+> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
+> +
+> +	/* Enable display power gate & LOCALMEM power gate */
+> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
+> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
+> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
+> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
+> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
+> +	yhgch_set_current_gate(priv, reg);
+> +
+> +	/* We can add more initialization as needed. */
+> +}
+> +
+> +static void yhgch_crtc_atomic_flush(struct drm_crtc *crtc,
+> +				    struct drm_atomic_state *state)
+> +
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+> +	if (crtc->state->event)
+> +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> +	crtc->state->event = NULL;
+> +	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+> +}
+> +
+> +static int yhgch_crtc_enable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
+> +
+> +	writel(YHGCH_RAW_INTERRUPT_EN_VBLANK(1),
+> +	       priv->mmio + YHGCH_RAW_INTERRUPT_EN);
+> +
+> +	return 0;
+> +}
+> +
+> +static void yhgch_crtc_disable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
+> +
+> +	writel(YHGCH_RAW_INTERRUPT_EN_VBLANK(0),
+> +	       priv->mmio + YHGCH_RAW_INTERRUPT_EN);
+> +}
+> +
+> +static const struct drm_crtc_funcs yhgch_crtc_funcs = {
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.destroy = drm_crtc_cleanup,
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +	.enable_vblank = yhgch_crtc_enable_vblank,
+> +	.disable_vblank = yhgch_crtc_disable_vblank,
+> +
+> +};
+> +
+> +static const struct drm_crtc_helper_funcs yhgch_crtc_helper_funcs = {
+> +	.mode_set_nofb = yhgch_crtc_mode_set_nofb,
+> +	.atomic_begin = yhgch_crtc_atomic_begin,
+> +	.atomic_flush = yhgch_crtc_atomic_flush,
+> +	.atomic_enable = yhgch_crtc_atomic_enable,
+> +	.atomic_disable = yhgch_crtc_atomic_disable,
+> +	.mode_valid = yhgch_crtc_mode_valid,
+> +};
+> +
+> +int yhgch_de_init(struct yhgch_drm_private *priv)
+> +{
+> +	struct drm_device *dev = &priv->dev;
+> +	struct drm_crtc *crtc = &priv->crtc;
+> +	struct drm_plane *plane = &priv->primary_plane;
+> +	int ret;
+> +
+> +	ret = drm_universal_plane_init(dev, plane, 1, &yhgch_plane_funcs,
+> +				       channel_formats1,
+> +				       ARRAY_SIZE(channel_formats1),
+> +				       NULL,
+> +				       DRM_PLANE_TYPE_PRIMARY,
+> +				       NULL);
+> +
+> +	if (ret) {
+> +		drm_err(dev, "failed to init plane: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	drm_plane_helper_add(plane, &yhgch_plane_helper_funcs);
+> +
+> +	ret = drm_crtc_init_with_planes(dev, crtc, plane,
+> +					NULL, &yhgch_crtc_funcs, NULL);
+> +	if (ret) {
+> +		drm_err(dev, "failed to init crtc: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
+> +	if (ret) {
+> +		drm_err(dev, "failed to set gamma size: %d\n", ret);
+> +		return ret;
+> +	}
+> +	drm_crtc_helper_add(crtc, &yhgch_crtc_helper_funcs);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
+> new file mode 100644
+> index 000000000000..382609bbf08e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
+> @@ -0,0 +1,374 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include "yhgch_drm_drv.h"
+> +
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +
+> +#include <linux/aperture.h>
+> +#include <drm/clients/drm_client_setup.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fbdev_ttm.h>
+> +
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_gem_vram_helper.h>
+> +#include <drm/drm_managed.h>
+> +#include <drm/drm_module.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "yhgch_drm_drv.h"
+> +#include "yhgch_drm_regs.h"
+> +
+> +#define MEM_SIZE_RESERVE4KVM 0x200000
+> +
+> +DEFINE_DRM_GEM_FOPS(yhgch_fops);
+> +static irqreturn_t yhgch_drm_interrupt(int irq, void *arg)
+> +{
+> +	struct drm_device *dev = (struct drm_device *)arg;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +	u32 status;
+> +
+> +	status = readl(priv->mmio + YHGCH_RAW_INTERRUPT);
+> +
+> +	if (status & YHGCH_RAW_INTERRUPT_VBLANK(1)) {
+> +		writel(YHGCH_RAW_INTERRUPT_VBLANK(1),
+> +		       priv->mmio + YHGCH_RAW_INTERRUPT);
+> +		drm_handle_vblank(dev, 0);
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
+> +		      struct drm_mode_create_dumb *args)
+> +{
+> +	return drm_gem_vram_fill_create_dumb(file, dev, 0, 16, args);
+> +}
+> +
+> +static struct drm_driver yhgch_driver = {
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	.fops = &yhgch_fops,
+> +	.name = "yhgch",
+> +	.desc = "yhgch drm driver",
+> +	.major = 3,
+> +	.minor = 1,
+> +	.debugfs_init = drm_vram_mm_debugfs_init,
+> +	.dumb_create = yhgch_dumb_create,
+> +	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
+> +	DRM_FBDEV_TTM_DRIVER_OPS,
+> +};
+> +
+> +static int __maybe_unused yhgch_pm_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> +
+> +	return drm_mode_config_helper_suspend(drm_dev);
+> +}
+> +
+> +static int __maybe_unused yhgch_pm_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
+> +
+> +	return drm_mode_config_helper_resume(drm_dev);
+> +}
+> +
+> +static const struct dev_pm_ops yhgch_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(yhgch_pm_suspend,
+> +				yhgch_pm_resume)
+> +};
+> +
+> +static const struct drm_mode_config_funcs yhgch_mode_funcs = {
+> +	.mode_valid = drm_vram_helper_mode_valid,
+> +	.atomic_check = drm_atomic_helper_check,
+> +	.atomic_commit = drm_atomic_helper_commit,
+> +	.fb_create = drm_gem_fb_create,
+> +};
+> +
+> +static int yhgch_kms_init(struct yhgch_drm_private *priv)
+> +{
+> +	struct drm_device *dev = &priv->dev;
+> +	int ret;
+> +
+> +	ret = drmm_mode_config_init(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->dev.mode_config.min_width = 0;
+> +	priv->dev.mode_config.min_height = 0;
+> +	priv->dev.mode_config.max_width = 1920;
+> +	priv->dev.mode_config.max_height = 1200;
+> +	dev->mode_config.preferred_depth = 24;
+> +	priv->dev.mode_config.prefer_shadow = 1;
+
+> +	priv->dev.mode_config.funcs = (void *)&yhgch_mode_funcs;
+
+No type casting here, please.
+
+> +
+> +	ret = yhgch_de_init(priv);
+> +	if (ret) {
+> +		drm_err(dev, "failed to init de: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = yhgch_vdac_init(priv);
+> +	if (ret) {
+> +		drm_err(dev, "failed to init vdac: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * It can operate in one of three modes: 0, 1 or Sleep.
+> + */
+> +void yhgch_set_power_mode(struct yhgch_drm_private *priv, u32 power_mode)
+> +{
+> +	unsigned int control_value = 0;
+> +	void __iomem *mmio = priv->mmio;
+> +	u32 input = 1;
+> +
+> +	if (power_mode > YHGCH_PW_MODE_CTL_MODE_SLEEP)
+> +		return;
+> +
+> +	if (power_mode == YHGCH_PW_MODE_CTL_MODE_SLEEP)
+> +		input = 0;
+> +
+> +	control_value = readl(mmio + YHGCH_POWER_MODE_CTRL);
+> +	control_value &= ~(YHGCH_PW_MODE_CTL_MODE_MASK |
+> +			   YHGCH_PW_MODE_CTL_OSC_INPUT_MASK);
+> +	control_value |= YHGCH_FIELD(YHGCH_PW_MODE_CTL_MODE, power_mode);
+> +	control_value |= YHGCH_FIELD(YHGCH_PW_MODE_CTL_OSC_INPUT, input);
+> +	writel(control_value, mmio + YHGCH_POWER_MODE_CTRL);
+> +}
+> +
+> +void yhgch_set_current_gate(struct yhgch_drm_private *priv, unsigned int gate)
+> +{
+> +	u32 gate_reg;
+> +	u32 mode;
+> +	void __iomem *mmio = priv->mmio;
+> +
+> +	/* Get current power mode. */
+> +	mode = (readl(mmio + YHGCH_POWER_MODE_CTRL) &
+> +		YHGCH_PW_MODE_CTL_MODE_MASK) >> YHGCH_PW_MODE_CTL_MODE_SHIFT;
+> +
+> +	switch (mode) {
+> +	case YHGCH_PW_MODE_CTL_MODE_MODE0:
+> +		gate_reg = YHGCH_MODE0_GATE;
+> +		break;
+> +
+> +	case YHGCH_PW_MODE_CTL_MODE_MODE1:
+> +		gate_reg = YHGCH_MODE1_GATE;
+> +		break;
+> +
+> +	default:
+> +		gate_reg = YHGCH_MODE0_GATE;
+> +		break;
+> +	}
+> +	writel(gate, mmio + gate_reg);
+> +}
+> +
+> +static void yhgch_hw_config(struct yhgch_drm_private *priv)
+> +{
+> +	u32 reg;
+> +
+> +	/* On hardware reset, power mode 0 is default. */
+> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
+> +
+> +	/* Enable display power gate & LOCALMEM power gate */
+> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
+> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
+> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
+> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
+> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
+> +
+> +	yhgch_set_current_gate(priv, reg);
+> +
+> +	/*
+> +	 * Reset the memory controller. If the memory controller
+> +	 * is not reset in chip,the system might hang when sw accesses
+> +	 * the memory.The memory should be resetted after
+> +	 * changing the MXCLK.
+> +	 */
+> +	reg = readl(priv->mmio + YHGCH_MISC_CTRL);
+> +	reg &= ~YHGCH_MSCCTL_LOCALMEM_RESET_MASK;
+> +	reg |= YHGCH_MSCCTL_LOCALMEM_RESET(0);
+> +	writel(reg, priv->mmio + YHGCH_MISC_CTRL);
+> +
+> +	reg &= ~YHGCH_MSCCTL_LOCALMEM_RESET_MASK;
+> +	reg |= YHGCH_MSCCTL_LOCALMEM_RESET(1);
+> +
+> +	writel(reg, priv->mmio + YHGCH_MISC_CTRL);
+> +}
+> +
+> +static int yhgch_hw_map(struct yhgch_drm_private *priv)
+> +{
+> +	struct drm_device *dev = &priv->dev;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	resource_size_t ioaddr, iosize;
+> +
+> +	ioaddr = pci_resource_start(pdev, 1);
+> +	iosize = pci_resource_len(pdev, 1);
+> +	priv->mmio = devm_ioremap(dev->dev, ioaddr, iosize);
+> +	if (!priv->mmio) {
+> +		drm_err(dev, "Cannot map mmio region\n");
+> +		return -ENOMEM;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int yhgch_hw_init(struct yhgch_drm_private *priv)
+> +{
+> +	int ret;
+> +
+> +	ret = yhgch_hw_map(priv);
+> +	if (ret)
+> +		return ret;
+> +	yhgch_hw_config(priv);
+> +	return 0;
+> +}
+> +
+> +static int yhgch_unload(struct drm_device *dev)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+> +	drm_atomic_helper_shutdown(dev);
+> +
+> +	free_irq(pdev->irq, dev);
+> +
+> +	pci_disable_msi(to_pci_dev(dev->dev));
+
+By using managed cleanup, these IRQ calls could likely be automated. The 
+unload function could then be removed in favor of a simple call to 
+drm_atomic_helper_shutdown().
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int yhgch_load(struct drm_device *dev)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	int ret;
+> +
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+
+I suggest to inline yhgch_load() into its only caller, as it's trivial. 
+If you really want a separate function, please avoid this upcast. You 
+have the priv pointer in the caller, so you can pass it. Increases type 
+safety.
+
+Inlining would still be preferred.
+
+> +
+> +	ret = yhgch_hw_init(priv);
+> +	if (ret)
+> +		goto err;
+> +	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
+> +				    pci_resource_len(pdev, 0));
+> +	if (ret) {
+> +		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+> +		goto err;
+> +	}
+> +	ret = yhgch_kms_init(priv);
+> +	if (ret)
+> +		goto err;
+> +	/*
+> +	 * ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+> +	 * if (ret) {
+> +	 *	drm_err(dev, "failed to initialize vblank: %d\n", ret);
+> +	 *	goto err;
+> +	 * }
+> +	 */
+
+If you don't use vblanking yet, please remove the respective code 
+(including IRQ) and send it later as a separate patch set.
+
+> +	ret = pci_enable_msi(pdev);
+
+The docs of this helper say that it is deprecated in favor of 
+pci_alloc_irq_vectors(). Please use the new interface instead.
+
+> +	if (ret) {
+> +		drm_warn(dev, "enabling MSI failed: %d\n", ret);
+> +	} else {
+> +		/* PCI devices require shared interrupts. */
+> +		ret = request_irq(pdev->irq, yhgch_drm_interrupt, IRQF_SHARED,
+> +				  dev->driver->name, dev);
+
+Please use devm_request_irq() if possible.
+
+> +		if (ret)
+> +			drm_warn(dev, "install irq failed: %d\n", ret);
+> +	}
+> +
+> +	/* reset all the states of crtc/plane/encoder/connector */
+> +	drm_mode_config_reset(dev);
+> +	return 0;
+> +
+> +err:
+> +	yhgch_unload(dev);
+> +	drm_err(dev, "failed to initialize drm driver: %d\n", ret);
+> +	return ret;
+> +}
+> +
+> +static int yhgch_pci_probe(struct pci_dev *pdev,
+> +			   const struct pci_device_id *ent)
+> +{
+> +	struct yhgch_drm_private *priv;
+> +	struct drm_device *dev;
+> +	int ret;
+> +
+> +	ret = aperture_remove_conflicting_pci_devices(pdev, yhgch_driver.name);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv = devm_drm_dev_alloc(&pdev->dev, &yhgch_driver,
+> +				  struct yhgch_drm_private, dev);
+> +
+> +	if (IS_ERR(priv)) {
+> +		DRM_ERROR("failed to allocate drm_device\n");
+> +		return PTR_ERR(priv);
+> +	}
+> +
+> +	dev = &priv->dev;
+> +	pci_set_drvdata(pdev, dev);
+> +
+> +	ret = pcim_enable_device(pdev);
+> +	if (ret) {
+> +		drm_err(dev, "failed to enable pci device: %d\n", ret);
+> +		goto err_return;
+> +	}
+> +
+> +	ret = yhgch_load(dev);
+> +	if (ret) {
+> +		drm_err(dev, "failed to load yhgch: %d\n", ret);
+> +		goto err_return;
+> +	}
+> +
+> +	ret = drm_dev_register(dev, 0);
+> +	if (ret) {
+> +		drm_err(dev, "failed to register drv for userspace access: %d\n",
+> +			ret);
+> +		goto err_unload;
+> +	}
+> +	drm_client_setup(dev, NULL);
+> +
+> +	return 0;
+> +
+> +err_unload:
+> +	yhgch_unload(dev);
+> +err_return:
+> +	return ret;
+> +}
+> +
+> +static void yhgch_pci_remove(struct pci_dev *pdev)
+> +{
+> +	struct drm_device *dev = pci_get_drvdata(pdev);
+> +
+> +	drm_dev_unregister(dev);
+> +	yhgch_unload(dev);
+> +}
+> +
+> +static void yhgch_pci_shutdown(struct pci_dev *pdev)
+> +{
+> +	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
+> +}
+> +
+> +static struct pci_device_id yhgch_pci_table[] = {
+> +	{ 0x1bd4, 0x0750, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0 },
+> +	{ 0, }
+> +};
+> +
+> +static struct pci_driver yhgch_pci_driver = {
+> +	.name = "yhgch-drm",
+> +	.id_table = yhgch_pci_table,
+> +	.probe = yhgch_pci_probe,
+> +	.remove = yhgch_pci_remove,
+> +	.shutdown = yhgch_pci_shutdown,
+> +	.driver.pm = &yhgch_pm_ops,
+> +};
+> +
+> +drm_module_pci_driver(yhgch_pci_driver);
+> +
+> +MODULE_DEVICE_TABLE(pci, yhgch_pci_table);
+> +MODULE_AUTHOR("");
+> +MODULE_DESCRIPTION("DRM Driver for YhgchBMC");
+> +MODULE_LICENSE("GPL");
+> +MODULE_VERSION("3.1");
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
+> new file mode 100644
+> index 000000000000..a2d0b148d2c2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
+> @@ -0,0 +1,53 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef YHGCH_DRM_DRV_H
+> +#define YHGCH_DRM_DRV_H
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c-algo-bit.h>
+> +#include <linux/i2c.h>
+> +#include <linux/version.h>
+> +#include <drm/drm_framebuffer.h>
+> +#include <drm/drm_encoder.h>
+> +
+> +struct yhgch_connector {
+> +	struct drm_connector base;
+> +	struct i2c_adapter adapter;
+> +	struct i2c_algo_bit_data bit_data;
+> +};
+
+You likely do not need this type. See [2] for how to setup the DDC 
+channel without an additional connector type.
+
+[2] 
+https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/mgag200/mgag200_ddc.c
+
+This will allow to contain the whole i2c includes in a single source file.
+
+> +
+> +struct yhgch_drm_private {
+
+The common name for such per-device structs would be yhgch_drm_private.  
+The _private postfix comes from a time when DRM drivers looked very 
+different from those today.
+
+> +	/* hw */
+> +	void __iomem *mmio;
+> +
+> +	/* drm */
+> +	struct drm_device dev;
+> +	struct drm_plane primary_plane;
+> +	struct drm_crtc crtc;
+> +	struct drm_encoder encoder;
+> +	struct yhgch_connector connector;
+> +};
+> +
+> +static inline struct yhgch_connector *to_yhgch_connector(struct drm_connector *connector)
+> +{
+> +	return container_of(connector, struct yhgch_connector, base);
+> +}
+> +
+> +static inline struct yhgch_drm_private *to_yhgch_drm_private(struct drm_device *dev)
+> +{
+> +	return container_of(dev, struct yhgch_drm_private, dev);
+> +}
+> +
+> +void yhgch_set_power_mode(struct yhgch_drm_private *priv, u32 power_mode);
+> +void yhgch_set_current_gate(struct yhgch_drm_private *priv,
+> +			    u32 gate);
+> +
+> +int yhgch_de_init(struct yhgch_drm_private *priv);
+> +int yhgch_vdac_init(struct yhgch_drm_private *priv);
+> +int yhgch_mm_init(struct yhgch_drm_private *yhgch);
+> +int yhgch_ddc_create(struct drm_device *drm_dev, struct yhgch_connector *connector);
+> +
+> +int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
+> +		      struct drm_mode_create_dumb *args);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
+> new file mode 100644
+> index 000000000000..5a826cb2ab46
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/delay.h>
+> +#include <linux/pci.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +#include "yhgch_drm_drv.h"
+> +
+> +#define GPIO_DATA		0x0802A0
+> +#define GPIO_DATA_DIRECTION	0x0802A4
+> +
+> +#define I2C_SCL_MASK		BIT(0)
+> +#define I2C_SDA_MASK		BIT(1)
+> +
+> +static void yhgch_set_i2c_signal(void *data, u32 mask, int value)
+> +{
+> +	struct yhgch_connector *yhgch_connector = data;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(yhgch_connector->base.dev);
+> +	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
+> +
+> +	if (value) {
+> +		tmp_dir &= ~mask;
+> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
+> +	} else {
+> +		u32 tmp_data = readl(priv->mmio + GPIO_DATA);
+> +
+> +		tmp_data &= ~mask;
+> +		writel(tmp_data, priv->mmio + GPIO_DATA);
+> +
+> +		tmp_dir |= mask;
+> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
+> +	}
+> +}
+> +
+> +static int yhgch_get_i2c_signal(void *data, u32 mask)
+> +{
+> +	struct yhgch_connector *yhgch_connector = data;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(yhgch_connector->base.dev);
+> +	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
+> +
+> +	if ((tmp_dir & mask) != mask) {
+> +		tmp_dir &= ~mask;
+> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
+> +	}
+> +
+> +	return (readl(priv->mmio + GPIO_DATA) & mask) ? 1 : 0;
+> +}
+> +
+> +static void yhgch_ddc_setsda(void *data, int state)
+> +{
+> +	yhgch_set_i2c_signal(data, I2C_SDA_MASK, state);
+> +}
+> +
+> +static void yhgch_ddc_setscl(void *data, int state)
+> +{
+> +	yhgch_set_i2c_signal(data, I2C_SCL_MASK, state);
+> +}
+> +
+> +static int yhgch_ddc_getsda(void *data)
+> +{
+> +	return yhgch_get_i2c_signal(data, I2C_SDA_MASK);
+> +}
+> +
+> +static int yhgch_ddc_getscl(void *data)
+> +{
+> +	return yhgch_get_i2c_signal(data, I2C_SCL_MASK);
+> +}
+> +
+> +int yhgch_ddc_create(struct drm_device *drm_dev,
+> +		     struct yhgch_connector *connector)
+> +{
+> +	connector->adapter.owner = THIS_MODULE;
+> +	snprintf(connector->adapter.name, I2C_NAME_SIZE, "INS i2c bit bus");
+> +	connector->adapter.dev.parent = drm_dev->dev;
+> +	i2c_set_adapdata(&connector->adapter, connector);
+> +	connector->adapter.algo_data = &connector->bit_data;
+> +
+> +	connector->bit_data.udelay = 20;
+> +	connector->bit_data.timeout = usecs_to_jiffies(2000);
+> +	connector->bit_data.data = connector;
+> +	connector->bit_data.setsda = yhgch_ddc_setsda;
+> +	connector->bit_data.setscl = yhgch_ddc_setscl;
+> +	connector->bit_data.getsda = yhgch_ddc_getsda;
+> +	connector->bit_data.getscl = yhgch_ddc_getscl;
+> +
+> +	return i2c_bit_add_bus(&connector->adapter);
+> +}
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
+> new file mode 100644
+> index 000000000000..d707f5186ab4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
+> @@ -0,0 +1,209 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef YHGCH_DRM_HW_H
+> +#define YHGCH_DRM_HW_H
+> +
+> +/* register definition */
+> +#define YHGCH_MISC_CTRL				0x4
+> +
+> +#define YHGCH_MSCCTL_LOCALMEM_RESET(x)		((x) << 6)
+> +#define YHGCH_MSCCTL_LOCALMEM_RESET_MASK	0x40
+> +
+> +#define YHGCH_CURRENT_GATE			0x000040
+> +#define YHGCH_CURR_GATE_DISPLAY(x)		((x) << 2)
+> +#define YHGCH_CURR_GATE_DISPLAY_MASK		0x4
+> +
+> +#define YHGCH_CURR_GATE_LOCALMEM(x)		((x) << 1)
+> +#define YHGCH_CURR_GATE_LOCALMEM_MASK		0x2
+> +
+> +#define YHGCH_MODE0_GATE			0x000044
+> +#define YHGCH_MODE1_GATE			0x000048
+> +#define YHGCH_POWER_MODE_CTRL			0x00004C
+> +
+> +#define YHGCH_PW_MODE_CTL_OSC_INPUT(x)		((x) << 3)
+> +#define YHGCH_PW_MODE_CTL_OSC_INPUT_MASK	0x8
+> +
+> +#define YHGCH_PW_MODE_CTL_MODE(x)		((x) << 0)
+> +#define YHGCH_PW_MODE_CTL_MODE_MASK		0x03
+> +#define YHGCH_PW_MODE_CTL_MODE_SHIFT		0
+> +
+> +#define YHGCH_PW_MODE_CTL_MODE_MODE0		0
+> +#define YHGCH_PW_MODE_CTL_MODE_MODE1		1
+> +#define YHGCH_PW_MODE_CTL_MODE_SLEEP		2
+> +
+> +//#define YHGCH_CRT_PLL_CTRL                   0x000060
+> +
+> +#define YHGCH_PLL_CTRL_BYPASS(x)		((x) << 18)
+> +#define YHGCH_PLL_CTRL_BYPASS_MASK		0x40000
+> +
+> +#define YHGCH_PLL_CTRL_POWER(x)			((x) << 17)
+> +#define YHGCH_PLL_CTRL_POWER_MASK		0x20000
+> +
+> +#define YHGCH_PLL_CTRL_INPUT(x)			((x) << 16)
+> +#define YHGCH_PLL_CTRL_INPUT_MASK		0x10000
+> +
+> +#define YHGCH_PLL_CTRL_POD(x)			((x) << 14)
+> +#define YHGCH_PLL_CTRL_POD_MASK			0xC000
+> +
+> +#define YHGCH_PLL_CTRL_OD(x)			((x) << 12)
+> +#define YHGCH_PLL_CTRL_OD_MASK			0x3000
+> +
+> +#define YHGCH_PLL_CTRL_N(x)			((x) << 8)
+> +#define YHGCH_PLL_CTRL_N_MASK			0xF00
+> +
+> +#define YHGCH_PLL_CTRL_M(x)			((x) << 0)
+> +#define YHGCH_PLL_CTRL_M_MASK			0xFF
+> +
+> +#define YHGCH_CRT_DISP_CTL			0x80200
+> +
+> +#define YHGCH_CRT_DISP_CTL_DPMS(x)		((x) << 30)
+> +#define YHGCH_CRT_DISP_CTL_DPMS_MASK		0xc0000000
+> +
+> +#define YHGCH_CRT_DPMS_ON			0
+> +#define YHGCH_CRT_DPMS_OFF			3
+> +
+> +#define YHGCH_CRT_DISP_CTL_CRTSELECT(x)		((x) << 25)
+> +#define YHGCH_CRT_DISP_CTL_CRTSELECT_MASK	0x2000000
+> +
+> +#define YHGCH_CRTSELECT_CRT			1
+> +
+> +#define YHGCH_CRT_DISP_CTL_CLOCK_PHASE(x)	((x) << 14)
+> +#define YHGCH_CRT_DISP_CTL_CLOCK_PHASE_MASK	0x4000
+> +
+> +#define YHGCH_CRT_DISP_CTL_VSYNC_PHASE(x)	((x) << 13)
+> +#define YHGCH_CRT_DISP_CTL_VSYNC_PHASE_MASK	0x2000
+> +
+> +#define YHGCH_CRT_DISP_CTL_HSYNC_PHASE(x)	((x) << 12)
+> +#define YHGCH_CRT_DISP_CTL_HSYNC_PHASE_MASK	0x1000
+> +
+> +#define YHGCH_CRT_DISP_CTL_TIMING(x)		((x) << 8)
+> +#define YHGCH_CRT_DISP_CTL_TIMING_MASK		0x100
+> +
+> +#define YHGCH_CRT_DISP_CTL_PLANE(x)		((x) << 2)
+> +#define YHGCH_CRT_DISP_CTL_PLANE_MASK		4
+> +
+> +#define YHGCH_CRT_DISP_CTL_FORMAT(x)		((x) << 0)
+> +#define YHGCH_CRT_DISP_CTL_FORMAT_MASK		0x03
+> +
+> +#define YHGCH_CRT_FB_ADDRESS			0x080204
+> +
+> +#define YHGCH_CRT_FB_WIDTH			0x080208
+> +#define YHGCH_CRT_FB_WIDTH_WIDTH(x)		((x) << 16)
+> +#define YHGCH_CRT_FB_WIDTH_WIDTH_MASK		0x3FFF0000
+> +#define YHGCH_CRT_FB_WIDTH_OFFS(x)		((x) << 0)
+> +#define YHGCH_CRT_FB_WIDTH_OFFS_MASK		0x3FFF
+> +
+> +#define YHGCH_CRT_HORZ_TOTAL			0x08020C
+> +#define YHGCH_CRT_HORZ_TOTAL_TOTAL(x)		((x) << 16)
+> +#define YHGCH_CRT_HORZ_TOTAL_TOTAL_MASK		0xFFF0000
+> +
+> +#define YHGCH_CRT_HORZ_TOTAL_DISP_END(x)	((x) << 0)
+> +#define YHGCH_CRT_HORZ_TOTAL_DISP_END_MASK	0xFFF
+> +
+> +#define YHGCH_CRT_HORZ_SYNC			0x080210
+> +#define YHGCH_CRT_HORZ_SYNC_WIDTH(x)		((x) << 16)
+> +#define YHGCH_CRT_HORZ_SYNC_WIDTH_MASK		0xFF0000
+> +
+> +#define YHGCH_CRT_HORZ_SYNC_START(x)		((x) << 0)
+> +#define YHGCH_CRT_HORZ_SYNC_START_MASK		0xFFF
+> +
+> +#define YHGCH_CRT_VERT_TOTAL			0x080214
+> +#define YHGCH_CRT_VERT_TOTAL_TOTAL(x)		((x) << 16)
+> +#define YHGCH_CRT_VERT_TOTAL_TOTAL_MASK		0x7FFF0000
+> +
+> +#define YHGCH_CRT_VERT_TOTAL_DISP_END(x)	((x) << 0)
+> +#define YHGCH_CRT_VERT_TOTAL_DISP_END_MASK	0x7FF
+> +
+> +#define YHGCH_CRT_VERT_SYNC			0x080218
+> +#define YHGCH_CRT_VERT_SYNC_HEIGHT(x)		((x) << 16)
+> +#define YHGCH_CRT_VERT_SYNC_HEIGHT_MASK		0x3F0000
+> +
+> +#define YHGCH_CRT_VERT_SYNC_START(x)		((x) << 0)
+> +#define YHGCH_CRT_VERT_SYNC_START_MASK		0x7FF
+> +
+> +/* Hardware Cursor */
+> +#define YHGCH_HWC_ADDRESS                   0x080230
+> +#define YHGCH_HWC_ADDRESS_ENABLE(x)         ((x) << 31)
+> +#define YHGCH_HWC_ADDRESS_ENABLE_MASK       0x80000000
+> +#define YHGCH_HWC_ADDRESS_ADDRESS(x)        ((x) << 0)
+> +#define YHGCH_HWC_ADDRESS_ADDRESS_MASK      0xFFFFFFF
+> +
+> +#define YHGCH_HWC_LOCATION                  0x080234
+> +#define YHGCH_HWC_LOCATION_TOP(x)           ((x) << 27)
+> +#define YHGCH_HWC_LOCATION_TOP_MASK         0x8000000
+> +#define YHGCH_HWC_LOCATION_Y(x)             ((x) << 16)
+> +#define YHGCH_HWC_LOCATION_Y_MASK           0x7FF0000
+> +#define YHGCH_HWC_LOCATION_LEFT(x)          ((x) << 11)
+> +#define YHGCH_HWC_LOCATION_LEFT_MASK        0x800
+> +#define YHGCH_HWC_LOCATION_X(x)             ((x) << 0)
+> +#define YHGCH_HWC_LOCATION_X_MASK           0x7FF
+> +
+> +#define YHGCH_HWC_COLOR_12                  0x080238
+> +#define YHGCH_HWC_COLOR_12_2_RGB(x)         ((x) << 16)
+> +#define YHGCH_HWC_COLOR_12_2_RGB_MASK       0xFFFF0000
+> +#define YHGCH_HWC_COLOR_12_1_RGB(x)         ((x) << 0)
+> +#define YHGCH_HWC_COLOR_12_1_RGB_MASK       0xFFFF
+> +
+> +#define YHGCH_HWC_COLOR_3                   0x08023C
+> +#define YHGCH_HWC_COLOR_3_RGB(x)            ((x) << 0)
+> +#define YHGCH_HWC_COLOR_3_RGB_MASK          0xFFFF
+> +
+> +/* Auto Centering */
+> +#define YHGCH_CRT_AUTO_CENTERING_TL		0x080280
+> +#define YHGCH_CRT_AUTO_CENTERING_TL_TOP(x)	((x) << 16)
+> +#define YHGCH_CRT_AUTO_CENTERING_TL_TOP_MASK	0x7FF0000
+> +
+> +#define YHGCH_CRT_AUTO_CENTERING_TL_LEFT(x)	((x) << 0)
+> +#define YHGCH_CRT_AUTO_CENTERING_TL_LEFT_MASK	0x7FF
+> +
+> +#define YHGCH_CRT_AUTO_CENTERING_BR		0x080284
+> +#define YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM(x)	((x) << 16)
+> +#define YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM_MASK	0x7FF0000
+> +
+> +#define YHGCH_CRT_AUTO_CENTERING_BR_RIGHT(x)	((x) << 0)
+> +#define YHGCH_CRT_AUTO_CENTERING_BR_RIGHT_MASK	0x7FF
+> +
+> +/* register to control panel output */
+> +#define YHGCH_DISPLAY_CONTROL_HISILE		0x80288
+> +#define YHGCH_DISPLAY_CONTROL_FPVDDEN(x)	((x) << 0)
+> +#define YHGCH_DISPLAY_CONTROL_PANELDATE(x)	((x) << 1)
+> +#define YHGCH_DISPLAY_CONTROL_FPEN(x)		((x) << 2)
+> +#define YHGCH_DISPLAY_CONTROL_VBIASEN(x)	((x) << 3)
+> +
+> +#define YHGCH_RAW_INTERRUPT			0x80290
+> +#define YHGCH_RAW_INTERRUPT_VBLANK(x)		((x) << 2)
+> +#define YHGCH_RAW_INTERRUPT_VBLANK_MASK		0x4
+> +
+> +#define YHGCH_RAW_INTERRUPT_EN			0x80298
+> +#define YHGCH_RAW_INTERRUPT_EN_VBLANK(x)	((x) << 2)
+> +#define YHGCH_RAW_INTERRUPT_EN_VBLANK_MASK	0x4
+> +
+> +/* register and values for PLL control */
+> +#define CRT_PLL1_NS				0x802a8
+> +#define CRT_PLL1_NS_OUTER_BYPASS(x)		((x) << 30)
+> +#define CRT_PLL1_NS_INTER_BYPASS(x)		((x) << 29)
+> +#define CRT_PLL1_NS_POWERON(x)			((x) << 24)
+> +
+> +#define CRT_PLL1_NS_25MHZ			0x00006691	//640x480
+> +#define CRT_PLL1_NS_40MHZ			0x00004580	//800x600
+> +#define CRT_PLL1_NS_65MHZ			0x00002568	//1024x768
+> +#define CRT_PLL1_NS_83MHZ			0x000027bb	//1280x800
+> +#define CRT_PLL1_NS_106MHZ			0x000027ef	//1440x900
+> +#define CRT_PLL1_NS_108MHZ			0x000027f2	//1280x1024
+> +#define CRT_PLL1_NS_146MHZ			0x00001575	//1680x1050
+> +#define CRT_PLL1_NS_148MHZ			0x0000145f	//1920x1080
+> +#define CRT_PLL1_NS_193MHZ			0x000018f7	//1920x1200
+> +
+> +#define CRT_PLL2_NS				0x802ac
+> +#define CRT_PLL2_NS_25MHZ			0x0
+> +#define CRT_PLL2_NS_40MHZ			0x0
+> +#define CRT_PLL2_NS_65MHZ			0x0
+> +#define CRT_PLL2_NS_83MHZ			0x0
+> +#define CRT_PLL2_NS_106MHZ			0x0
+> +#define CRT_PLL2_NS_108MHZ			0x0
+> +#define CRT_PLL2_NS_146MHZ			0x0
+> +#define CRT_PLL2_NS_148MHZ			0x0
+> +#define CRT_PLL2_NS_193MHZ			0x0
+> +
+> +#define YHGCH_FIELD(field, value) (field(value) & field##_MASK)
+> +#endif
+> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
+> new file mode 100644
+> index 000000000000..5a22b8ed007f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
+> @@ -0,0 +1,116 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/io.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include "yhgch_drm_drv.h"
+> +#include "yhgch_drm_regs.h"
+> +
+> +static int yhgch_connector_get_modes(struct drm_connector *connector)
+> +{
+> +	int count;
+> +	void *edid;
+> +	struct yhgch_connector *yhgch_connector = to_yhgch_connector(connector);
+> +
+> +	edid = drm_get_edid(connector, &yhgch_connector->adapter);
+> +	if (edid) {
+> +		drm_connector_update_edid_property(connector, edid);
+> +		count = drm_add_edid_modes(connector, edid);
+> +		if (count)
+> +			goto out;
+> +	}
+> +
+> +	count = drm_add_modes_noedid(connector,
+> +				     connector->dev->mode_config.max_width,
+> +				     connector->dev->mode_config.max_height);
+> +	drm_set_preferred_mode(connector, 1024, 768);
+> +
+> +out:
+> +	kfree(edid);
+> +	return count;
+> +}
+> +
+> +static void yhgch_connector_destroy(struct drm_connector *connector)
+> +{
+> +	struct yhgch_connector *yhgch_connector = to_yhgch_connector(connector);
+> +
+> +	i2c_del_adapter(&yhgch_connector->adapter);
+
+Please see the code liked at [2] to see how it uses managed cleanup of 
+the DDC resources. Please adapt it for your driver and remove 
+yhgch_connector_destroy(). The drm_connector_funcs.destroy can refer 
+directly to drm_connector_cleanup.
+
+> +	drm_connector_cleanup(connector);
+> +}
+> +
+> +static const struct drm_connector_helper_funcs
+> +	yhgch_connector_helper_funcs = {
+
+> +	.get_modes = yhgch_connector_get_modes,
+
+Please don't re-implement get_modes. For your simple use case, please 
+use drm_connector_helper_get_modes()
+
+[3] 
+https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/drm_probe_helper.c#L1198
+
+On connector status:
+
+As you have a VGA connector, the display might be disconnected. Set 
+detect_ctx to drm_connector_helper_detect_from_ddc.  You also have to 
+set connector->polled to DRM_CONNECTOR_POLL_CONNECT | 
+DRM_CONNECTOR_POLL_DISCONNECT and call drm_kms_helper_poll_init().
+
+Study the connector code in mgag200. It's very similar to your use case.
+
+
+Let me know if you have a transparent BMC output attached to your 
+connector. Things are slightly different then.
+
+
+Best regards
+Thomas
+
+> +};
+> +
+> +static const struct drm_connector_funcs yhgch_connector_funcs = {
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = yhgch_connector_destroy,
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static void yhgch_encoder_mode_set(struct drm_encoder *encoder,
+> +				   struct drm_display_mode *mode,
+> +				   struct drm_display_mode *adj_mode)
+> +{
+> +	u32 reg;
+> +	struct drm_device *dev = encoder->dev;
+> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
+> +
+> +	reg = readl(priv->mmio + YHGCH_DISPLAY_CONTROL_HISILE);
+> +	reg |= YHGCH_DISPLAY_CONTROL_FPVDDEN(1);
+> +	reg |= YHGCH_DISPLAY_CONTROL_PANELDATE(1);
+> +	reg |= YHGCH_DISPLAY_CONTROL_FPEN(1);
+> +	reg |= YHGCH_DISPLAY_CONTROL_VBIASEN(1);
+> +	writel(reg, priv->mmio + YHGCH_DISPLAY_CONTROL_HISILE);
+> +}
+> +
+> +static const struct drm_encoder_helper_funcs yhgch_encoder_helper_funcs = {
+> +	.mode_set = yhgch_encoder_mode_set,
+> +};
+> +
+> +int yhgch_vdac_init(struct yhgch_drm_private *priv)
+> +{
+> +	struct drm_device *dev = &priv->dev;
+> +	struct yhgch_connector *yhgch_connector = &priv->connector;
+> +	struct drm_encoder *encoder = &priv->encoder;
+> +	struct drm_crtc *crtc = &priv->crtc;
+> +	struct drm_connector *connector = &yhgch_connector->base;
+> +	int ret;
+> +
+> +	ret = yhgch_ddc_create(dev, yhgch_connector);
+> +	if (ret) {
+> +		drm_err(dev, "failed to create ddc: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> +	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_DAC);
+> +	if (ret) {
+> +		drm_err(dev, "failed to init encoder: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	drm_encoder_helper_add(encoder, &yhgch_encoder_helper_funcs);
+> +
+> +	ret = drm_connector_init_with_ddc(dev, connector,
+> +					  &yhgch_connector_funcs,
+> +					  DRM_MODE_CONNECTOR_VGA,
+> +					  &yhgch_connector->adapter);
+> +	if (ret) {
+> +		drm_err(dev, "failed to init connector: %d\n", ret);
+> +		return ret;
+> +	}
+> +	drm_connector_helper_add(connector, &yhgch_connector_helper_funcs);
+> +
+> +	drm_connector_attach_encoder(connector, encoder);
+> +
+> +	return 0;
+> +}
 
 -- 
-Regards,
-Sudeep
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
