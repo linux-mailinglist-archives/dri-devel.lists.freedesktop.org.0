@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A731CB37B9D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532EFB37B84
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F8310E729;
-	Wed, 27 Aug 2025 07:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3506110E723;
+	Wed, 27 Aug 2025 07:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8487C10E312;
- Wed, 27 Aug 2025 02:34:03 +0000 (UTC)
-X-UUID: 47777c0282ee11f0b29709d653e92f7d-20250827
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8614910E312;
+ Wed, 27 Aug 2025 02:34:06 +0000 (UTC)
+X-UUID: 494816fe82ee11f0b29709d653e92f7d-20250827
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:199cecf5-7f01-4d90-bcfb-9944cd47b8c1, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:17f27ccf-aa3b-47ba-9229-8fb68e226aa1, IP:0,
  U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:f092454a1cef70d4b47ef8bf1194cbca,
+ RL:0,TC:0,Content:26,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:26
+X-CID-META: VersionHash:6493067, CLOUDID:f2398c8c5a1aca92091435c050f04d6d,
  BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
+ D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:4|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
  :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 47777c0282ee11f0b29709d653e92f7d-20250827
+X-UUID: 494816fe82ee11f0b29709d653e92f7d-20250827
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 2138779548; Wed, 27 Aug 2025 10:33:56 +0800
+ with ESMTP id 586798460; Wed, 27 Aug 2025 10:33:59 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id BBC82E008FAB;
- Wed, 27 Aug 2025 10:33:52 +0800 (CST)
-X-ns-mid: postfix-68AE6E90-537935210
+ by mail.kylinos.cn (NSMail) with SMTP id B78F2E008FAB;
+ Wed, 27 Aug 2025 10:33:58 +0800 (CST)
+X-ns-mid: postfix-68AE6E96-41491213
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 4A0FFE008FAF;
- Wed, 27 Aug 2025 10:33:47 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id C4296E008FAC;
+ Wed, 27 Aug 2025 10:33:52 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -86,10 +86,10 @@ Cc: zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
  imx@lists.linux.dev, linux-omap@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v2 06/18] cpufreq: intel_pstate: Use
- __free(put_cpufreq_policy) for policy reference
-Date: Wed, 27 Aug 2025 10:31:50 +0800
-Message-Id: <20250827023202.10310-7-zhangzihuan@kylinos.cn>
+Subject: [PATCH v2 07/18] cpufreq: longhaul: Use __free(put_cpufreq_policy)
+ for policy reference
+Date: Wed, 27 Aug 2025 10:31:51 +0800
+Message-Id: <20250827023202.10310-8-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
 References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
@@ -119,36 +119,31 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/cpufreq/intel_pstate.c | 3 +--
+ drivers/cpufreq/longhaul.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstat=
-e.c
-index f366d35c5840..4e7e2990e9a6 100644
---- a/drivers/cpufreq/intel_pstate.c
-+++ b/drivers/cpufreq/intel_pstate.c
-@@ -1698,19 +1698,18 @@ static ssize_t store_no_turbo(struct kobject *a, =
-struct kobj_attribute *b,
- static void update_qos_request(enum freq_qos_req_type type)
+diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
+index ba0e08c8486a..ae5596919671 100644
+--- a/drivers/cpufreq/longhaul.c
++++ b/drivers/cpufreq/longhaul.c
+@@ -950,7 +950,7 @@ static int __init longhaul_init(void)
+=20
+ static void __exit longhaul_exit(void)
  {
- 	struct freq_qos_request *req;
--	struct cpufreq_policy *policy;
+-	struct cpufreq_policy *policy =3D cpufreq_cpu_get(0);
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(0);
  	int i;
 =20
- 	for_each_possible_cpu(i) {
- 		struct cpudata *cpu =3D all_cpu_data[i];
- 		unsigned int freq, perf_pct;
-+		struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	for (i =3D 0; i < numscales; i++) {
+@@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
+ 		}
+ 	}
 =20
- 		policy =3D cpufreq_cpu_get(i);
- 		if (!policy)
- 			continue;
-=20
- 		req =3D policy->driver_data;
--		cpufreq_cpu_put(policy);
-=20
- 		if (!req)
- 			continue;
+-	cpufreq_cpu_put(policy);
+ 	cpufreq_unregister_driver(&longhaul_driver);
+ 	kfree(longhaul_table);
+ }
 --=20
 2.25.1
 
