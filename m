@@ -2,60 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F411B37C20
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBFBB37C80
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A925210E07E;
-	Wed, 27 Aug 2025 07:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D8C10E75C;
+	Wed, 27 Aug 2025 07:57:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oFIccRh0";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="ETZTkoEo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8AA10E07E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:46:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AC3E86025C;
- Wed, 27 Aug 2025 07:46:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3FB7C4CEEB;
- Wed, 27 Aug 2025 07:46:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756280766;
- bh=ytubK461FniUf2IfwdqKsByFkQ4P0lYinRAgiXXMQSY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oFIccRh0T7Gcu5rUbogq38tukybr1RmrGuforXmNK4SIKXOqQNlmNVDNro+9jy5vy
- Sss83LMuf9GuGjIj95Lo6jzcmNtIUnzGuaYx8Rhrprh+ckO6axB51qtTemZYxUxk2n
- FkEZZhvE6ToWkXq7N4hl8E/6L+9o9Q3FwPol8E/8e/1YG/aEvDoIUYkjzVZUpaNGr1
- HP37jXpN+p4vno5I+RrxtD4/qPiVGAJPIicgbFhsyKrEjvdzdt3rg5CtqVhk7/om4h
- Y9OjuTySiwIPW/vrjcvjQPKvW3VX9VAx0IKrPkIpdsQgahAKQxpmdWGD43fyTey3sk
- R+B3Ib2RFpZrA==
-Date: Wed, 27 Aug 2025 09:46:03 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-Message-ID: <20250827-charming-arcane-stingray-cfb8b6@houat>
-References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
- <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
- <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
- <20250820131302.6a2da5ef@booty>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02EDC10E750
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=0MK1dUMIBWuj72rwewkqEVH0cn/LnA/1R+TUGxOlw7A=; b=ETZTkoEoOwtznU7PtnZeQFX4Fe
+ vM6Gg/U5rsSJj/WUqqtUEJV3BceYz2JVc61zNRNRjL4DFqp104N1wUclJpSswXx5sqCln7OWyunG6
+ 1BXLLRpOWOQKi7IxecmWks9WndogbL1isYzy85Po6NTAI5iUKT6cVGycUUx1+G9Sdk6QBfX5Nab2O
+ AoHyUEffPqw/BIjMBTDsou/G4FI5gXNkiAM7XHNVs95bP9wM5OxBgaN/F8O7uh73Jt61EZ5SREvoE
+ VRfAa8DcHOrlfJ+EZjWxzMMZ6lcGDOSdP3RHulTQGePkNCSjMsKPIAnaT2QKSPEuFVcPwPFvGnA9V
+ jTWs2Wcg==;
+Received: from [213.244.170.152] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1urB1d-0002Lk-PM; Wed, 27 Aug 2025 09:56:57 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH v3 16/20] PCI: rockchip: Switch to FIELD_PREP_WM16* macros
+Date: Wed, 27 Aug 2025 09:56:55 +0200
+Message-ID: <7681880.cEBGB3zze1@phil>
+In-Reply-To: <20250825-byeword-update-v3-16-947b841cdb29@collabora.com>
+References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-16-947b841cdb29@collabora.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="crrk2hz4sf2bauvt"
-Content-Disposition: inline
-In-Reply-To: <20250820131302.6a2da5ef@booty>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,87 +92,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---crrk2hz4sf2bauvt
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-MIME-Version: 1.0
-
-On Wed, Aug 20, 2025 at 01:13:02PM +0200, Luca Ceresoli wrote:
-> Hello Maxime,
+Am Montag, 25. August 2025, 10:28:36 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Nicolas Frattaroli:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
 >=20
-> On Tue, 19 Aug 2025 14:29:32 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
+> The Rockchip PCI driver, like many other Rockchip drivers, has its very
+> own definition of HIWORD_UPDATE.
 >=20
-> > > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2c_client=
- *client)
-> > >  {
-> > >  	struct sn65dsi83 *ctx =3D i2c_get_clientdata(client);
-> > > =20
-> > > +	drm_bridge_unplug(&ctx->bridge);
-> > >  	drm_bridge_remove(&ctx->bridge); =20
-> >=20
-> > Shouldn't we merge drm_bridge_unplug with the release part of
-> > devm_drm_bridge_alloc?
+> Remove it, and replace its usage with either FIELD_PREP_WM16, or two new
+> header local macros for setting/clearing a bit with the high mask, which
+> use FIELD_PREP_WM16_CONST internally. In the process, ENCODE_LANES
+> needed to be adjusted, as FIELD_PREP_WM16* shifts the value for us.
 >=20
-> I'm not sure I got what you are suggesting here, sorry.
+> That this is equivalent was verified by first making all FIELD_PREP_WM16
+> instances FIELD_PREP_WM16_CONST, then doing a static_assert() comparing
+> it to the old macro (and for those with parameters, static_asserting for
+> the full range of possible values with the old encode macro).
 >=20
-> Do you mean that __devm_drm_bridge_alloc() should add a devres action
-> to call drm_bridge_unplug(), so the unplug is called implicitly and
-> does not need to be called explicitly by all drivers?
-
-Yes
-
-> If that's what you mean, I don't think that would work. Unless I'm
-> missing something, devres actions are always invoked just after the
-> driver .remove callback.
-
-Yes, they are called in reverse order of registration, after remove.
-
-> But we need to call drm_bridge_unplug() at the beginning (or just
-> before) .remove, at least for drivers that need to do something in
-> .remove that cannot be done by devm.
+> What we get out of this is compile time error checking to make sure the
+> value actually fits in the mask, and that the mask fits in the register,
+> and also generally less icky code that writes shifted values when it
+> actually just meant to set and clear a handful of bits.
 >=20
-> In pseudocode:
->=20
-> mybridge_remove()
-> {
->   drm_bridge_unplug(); <-- explicit call as in my patch
->   xyz_disable();
->   drm_bridge_unplug(); <-- implicitly done by devres
-> }
->=20
-> We want xyz_disable() to be done after drm_bridge_unplug(), so other
-> code paths using drm_bridge_enter/exit() won't mess with xyz.
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-It's not clear to me why doing it before xyz_disable() is important
-here? If anything, it would prevent from disabling the hardware for
-example, even though you still have your memory mapping, clocks, power
-domains, regulators, etc. to properly disable it.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-You're still correct that it's a bad idea though because we want to do
-it before we start freeing all those, so it needs to execute as the
-before the devm actions ...
 
-> devres actions cannot be added to be executed _before_ .remove, AFAIK.
-
-=2E.. and we can't do that either.
-
-Maxime
-
---crrk2hz4sf2bauvt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK63uwAKCRAnX84Zoj2+
-dgLcAYCbzeLhpttYGY0jIOvo/NL1UpFAUrqw3LpkYCfx7XLCeWzOJnDcUU+sOaAV
-PQRUGesBgJr8xIO7M9NVXmh8k2lakSPVKLcdG+5v6nlYTP8thl/MHrBT2nsih6oO
-fJVVvVq9Pg==
-=XFdz
------END PGP SIGNATURE-----
-
---crrk2hz4sf2bauvt--
