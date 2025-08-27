@@ -2,48 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FD6B3790F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 06:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0EFB37917
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 06:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53DD10E6F1;
-	Wed, 27 Aug 2025 04:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD9CD10E6F2;
+	Wed, 27 Aug 2025 04:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cTrSFoAM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HXzDrS96";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2069.outbound.protection.outlook.com [40.107.220.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB5C110E6F1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 04:26:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UsMrO2Ja2e7Pr/Qfr+nzq+m9GsCcddFLKMxEzcmlRLMcTRPsejjfu4sM+Rl8GA9tIhDBHhp1Z2HFm/Pem0I8td7CGc0wnApD0jnaJawAGY/A6rn7bkBG+h1+zMf9UB2kSS//2Qvq5JSDGOqGNgMjKyUskZ1yicLho0Nhi8ehfSNO+9f9L0jQvq93+UrXip2G+OKJwtXDXFGEblX6wGmLpWoGXBvb6Fd4v/xrO+ajGoJI45M3z3vGtSeMu7VEKdxCrP/msbU9+LMke+iQxXW5gUnnIh4nO/vDBdEOU+0iEoky/wMZrmeNxS5w22rpHR6/My9auuf3GRVA/B+aD6F/uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JSF5BS6SPWWjgmz4dY9+NWhyEZNqleYhvBU+bsHxGnk=;
- b=dQReproegXaDISPQMi+wqyf3bCTNOG46VG8lJb7uG3Or+LI8IAFbA7mM/vv8rNB07VQ9lyS9LgrwmwB6Gx5b010FcSX3ggpgn8upWxVaCC1YuwC0C2/agt1vabzTUgaPwSWcaE+Hs2Vf+SGe+uCDXHB2PcBHeyXPym3OBy45NGfunD0l4QJdLDDd6jGCkXOjoCXCCAGkXNQQlQgbhOkqNWvA0okqrfQJ42oR8jgk+TILCuKPzbUCRZnFEAd3fmGdaivOdrp3aQvs1G2UZXUumLqL42xkFvW9s2bIjEdGHrSnaKWGm5TMZPlcQR8TOn8jEd3o0JVFrtVo/SIwGfw/Ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JSF5BS6SPWWjgmz4dY9+NWhyEZNqleYhvBU+bsHxGnk=;
- b=cTrSFoAMZOok5mkuMqdB9Lfu6QZJKDwJMHc0Zea3ePoQQ5qAP05mf+5reKUEg36Gf2kF29y2kqBayt7kNAx+mWGLhhK4GEfU68OX6Me65F41OlZrFQsuc4CoGk4Iuj4pt2rT38t2lXMt76U09p0V8rGyvyB6vRZBHWK6XGbJ1fUeQ96+N/Np/c7cnqkvg3gL6IPGXhJPCaGZMOpKBIjc8W9WSBnYnhHX9KErsrLHwQLo8GYZPQvXzfjgEfWac3LPrP/OpRXgjO7+k3G3wEonuVzT1njV6G/H51jZsl830H73FjGLjHPKJ4Q4ziqFBR8JdqRp42rXwDOm4Kq9QZGb1w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- BY5PR12MB4050.namprd12.prod.outlook.com (2603:10b6:a03:207::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Wed, 27 Aug
- 2025 04:26:04 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9052.019; Wed, 27 Aug 2025
- 04:26:03 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D91B510E6F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 04:28:29 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-afcb72d51dcso875208266b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 21:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756268908; x=1756873708; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=8PzH67qVhc1HJfhL/IUyEczDHRosqco9gYe1CLUj17w=;
+ b=HXzDrS96dBAFhl9jFDRiinn8twbg4WD9lNLAIhL5J9l9t+4m/y0LxvAq5oSR5Iikxc
+ rtO11wZUp7tl0v+wm/ufdvTQJD3+0oLj45KOUjbwRgiTN26fwI+kOqCTEkCbi2yjUwTK
+ /waxf4W6WC/4MZ/z6JOf5+n8AmF0LM5DPfAlhK3aoeIoNr2coMVgCtq5Ico7KTh6PBla
+ coj+W3ZeGPiukOf3pG9y07ikGNK5wJREjak5MwwlovRX1TbN3WZolDUIXuN/rNoaFIrR
+ SI6lC0joxRvy2kxLU7CxtsBWQxavxELK8RDo6n5CXb6HGyJtjc8jf60+83w1+Y4ltplC
+ PT/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756268908; x=1756873708;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8PzH67qVhc1HJfhL/IUyEczDHRosqco9gYe1CLUj17w=;
+ b=vaku9X3RBk0R6dFanvfmuYX7Pklyhp5IOk2l2UbtUPHP99NUezVKIAZWZzoySIcx4p
+ Qc7m8RlOKij+zJPq2olYWaNh9ieHceIzSKAZtyfN1rSi+HCxt6+L8GGFijOWCl7eqg7V
+ 25V6KWoKTHDlaHIqVqUGGh2tYvoOVJDTCUJWLG2nWqPuthAvcoCujv//srpT1mF3oH5v
+ OaVSTxgSFdVVK/WOmss31nBMJplitTr62YKgsCKTuXdbfUhhlWkol0VJbHBgL+H2nBzh
+ gVsZj2ZwhP3C1w0u9er928TCwzhT15RoFEfdFUF3uOxm6Iy6a+ZZe5vufo1AKblm47Ib
+ Y80g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGJ+jR82ahCJRkPmZ0Xh963n16xI80SyMHXcVLmIeUFvW/6WCUGCurGRe/++zXpoXE/ljVYOwtzE8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPCwGgL/7+bYVePrTFQwt3msRGsTM7GEmfENmi+4RTGmTV1+Q3
+ U0CNg6aUIoqUXNcLPocpR3nJILVm1r5brF+k0NpwwaXxx4nkcaReu39K
+X-Gm-Gg: ASbGncs5KOyAtpAFkpCr/S9JCD2mzRQDAowoc168uBrH37OQJz8XVXXNSnp+mDvH2iP
+ sQwY50I65dpq+TKebDgQnr7q+/L9Zoo6JvxF/nfECuQeyR5atDMdsHx6u73Hehwe2CkFDBZPOYi
+ ytl6zLdJxItM+QvzS3c5aSxU/KGYYyG8PwGH9kFnEqPjzjUSJtCfFNpfR3eLFFa4r/i/UHek2GD
+ mfm57299SAtjOKGKsJmR+ux161UcinsaA9a6D5y3iBXy54MJDoXRIHaPtYRpvRFs+t67EPDDnvD
+ xRNCdXu2rp3g0+hRu3A9GZZLYOT+8eNp6rgGykJ/ijgj0K+4zzCAqgHZ/fKl1Q50EpLTGfUccLU
+ cVCCYpSshpH9iXs5kbV66LC+0IGyBurD7rw0=
+X-Google-Smtp-Source: AGHT+IExRye3++0RibNpkbuBt9GdpOdlAkhvl85P7LOJTrQQyRm+u65q2iKB4iA790zlmhnpjTVnfg==
+X-Received: by 2002:a17:907:3f29:b0:af9:a4de:f092 with SMTP id
+ a640c23a62f3a-afe294c768emr1670874966b.55.1756268907959; 
+ Tue, 26 Aug 2025 21:28:27 -0700 (PDT)
+Received: from [127.0.0.1] ([5.248.55.4]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-afec096c7a0sm88309266b.43.2025.08.26.21.28.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Aug 2025 21:28:27 -0700 (PDT)
+Date: Wed, 27 Aug 2025 07:28:26 +0300
+From: Svyatoslav <clamor95@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
  Sowjanya Komatineni <skomatineni@nvidia.com>,
  Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
@@ -57,118 +78,23 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>
+CC: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 03/19] clk: tegra30: add CSI PAD clock gates
-Date: Wed, 27 Aug 2025 13:26:00 +0900
-Message-ID: <2029586.yKVeVyVuyW@senjougahara>
-In-Reply-To: <20250819121631.84280-4-clamor95@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v1_02/19=5D_dt-bindings=3A_cloc?=
+ =?US-ASCII?Q?k=3A_tegra20=3A_Add_IDs_for_CSI_PAD_clocks?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <2451218.NG923GbCHz@senjougahara>
 References: <20250819121631.84280-1-clamor95@gmail.com>
- <20250819121631.84280-4-clamor95@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0115.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::19) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
+ <20250819121631.84280-3-clamor95@gmail.com> <2451218.NG923GbCHz@senjougahara>
+Message-ID: <268A6593-1FAC-4A4D-925A-801FB6FEE9F6@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|BY5PR12MB4050:EE_
-X-MS-Office365-Filtering-Correlation-Id: b57f4f97-d636-40d3-a1c0-08dde521d58a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|376014|366016|1800799024|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TTc1UXpuejBEUWw4anRoS0ZnWnBLTXpPOGJ1aXhrbkRqcnVGcURlSlVXMGFn?=
- =?utf-8?B?Ti9aejlDRFY4WDc0djg3QlBRSk14UXRVZng4ZjQ0WWdpTzhsUkE0RkxOZ2NL?=
- =?utf-8?B?RDEwOGN6eUFDWG1mNit5QzNDczFKMGFaY3RIZGVxdkFTU29nZzZjUlgxWVhU?=
- =?utf-8?B?R0JVbW15cE5ySEdBdGlVd1MzbXJraWUxK3dZc0RNNmhyQ1c1ZkVLS0orWUdl?=
- =?utf-8?B?MU5ubVZOYUZ2SnlkbkxwVU9LbHZFSStVQWh5OVBvM2FpTzIzc0V4bTM4bk1n?=
- =?utf-8?B?NEh1TVQzaGVwSEg3T05kMnR6WXh0ZzI4aTJlU0w1QmhFUU5QQ3Z1b3BYaGEv?=
- =?utf-8?B?SVpaVkVXSUdtak94ZkNwSHRYU1ZadFo4bDRRSmZvM2F1aFcyakRHSkpOUUh3?=
- =?utf-8?B?ZUlvRERBVkV1L3RJMzdHciswaDR1Wis2RzRMdUIwcUFmSzFyL29weStkcUw5?=
- =?utf-8?B?Yjl0VVQ0NEdOZmt2VVpiV1hVZm1YUzNqQVZ0WmRYL1VhZ3IxTmRIVlVhRmlB?=
- =?utf-8?B?YkdRQ3VYbFdoanFXU2QzanJTM0tOSkVDT2pvUW9vR2JyUyswT1psNTgzRVor?=
- =?utf-8?B?OXMrZEhYOEV1SHd3Uk5Ba3N3V3RaL2NmOGVQcklXQ0hqMG9iclJaek5wT0Fy?=
- =?utf-8?B?WjhNRmdvT1NpdHlZQTdzNWtDUllGNzdmZkg1UTdVdzRHRmhzUU51Sjh3QjNC?=
- =?utf-8?B?OGZodjc0R2hqUTlkYmpvT21mR1J3T3BlQjJwQTJpQ3NlYlBScDNoZ3ZsQUNY?=
- =?utf-8?B?Tm9UZWlpcXZQM1lIRWNJWjdFbFROTlRkZjRqOUxVMzZreFZzRHpMZlZoaVVI?=
- =?utf-8?B?TzQya0thQmRLSnJJOXlLblhXdi9BeGl2S1hsRDVISWNyaUhPUnA2MTJDTGVO?=
- =?utf-8?B?Qno2blQyeXhpNXEzL1RFejVCVTBqaDQyWXBaVUV5T0pmdXR2TDVKcDk3NUpa?=
- =?utf-8?B?WnNPcVhpREdrNTVvSDlwN09rNzJJUXl3YzIvZGhBNG1WaUtrZ2FRck91STMw?=
- =?utf-8?B?SFZFM0xkR3RmRDc0eEp3ZkprZnJpSGlxellKWXFYSUNtNjJSZEV1TC9mSUVn?=
- =?utf-8?B?RXY0WW1HRjMwZTllZnNJaW1UUUUyNEtZZ083V3FOSUxaMnB1SjlPc3haeFJk?=
- =?utf-8?B?V05KODVHbEZzS1dKMmdXTVF3RStuUmQxMjRXS1oyVjBYd1JpMmlSV1lLalhL?=
- =?utf-8?B?SXI5VG1LdzJNb0g5MTYrY3A3SFdCdVZ6NGtBUDBHeEF0YTg3NEdZZWEyeVJX?=
- =?utf-8?B?cU8xekdrUDJBRnZ1MHpUUU02eUF6RUYxRDhGSmQ2WkZkVE5YREJLY1NEVU5E?=
- =?utf-8?B?RmdCZmNQb1drcm05Zk16bjJvUlgwWkJ6MjJtUnNuNTBEb1RBYVFEQkJrcUxB?=
- =?utf-8?B?NnNHODN4MzNWTE9uMlVXQkp3YlZLQVQxTmI2MEx4UE1iNUZWdlJGVlp4ckZ3?=
- =?utf-8?B?MU5qekRSKy9XMFhQNEF5QitwUTd3WWltT3kzY0h6MWV5T2pDYjgzVEwzTFRX?=
- =?utf-8?B?T1N0aW1NbDJOc0FTUWRveUtKYjBSWk91ZjlyU1VmQlVzdjJyclpHdzRMSzVl?=
- =?utf-8?B?dmNGeEQwSlQ0YlF5SE5WdjdFNzN0WVA2b0ppTGUxZGhjaWVPWkc3VDBsNHYz?=
- =?utf-8?B?NEJ1NTIyaDkvbE01ek9LYmdLdGliazc5dWNnRDJybHhWZFVNYWc5bzNvc1Q1?=
- =?utf-8?B?eTZUTXo3S2ZGYXNjWUhIeVpyRHY2NkdLWi9mNlNZNHJhYkUxVFBFeTVYRGZU?=
- =?utf-8?B?SjNvcWRQU0NJQjBpWUNIdUlhSndEcVVJQ1U3WHczV0dqY0ZlK2RLUkpTVUFt?=
- =?utf-8?B?Wm15YjRlMnR4MFVGRWNjSEZhUHd3dnhwUEVua0gzTnlLd21nVVZFaXRPMEFy?=
- =?utf-8?B?RVNOK2JFMmFOcnFLaGI2dXYwUVozb1JJNnZjeGlsQ1pTMjV2eHUzRXY2VzUx?=
- =?utf-8?Q?smBj1SVi447lkDyh0Sy8Me+mk5p6MKwa?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(376014)(366016)(1800799024)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmNqTUgyUXFnQVRMandmWm0zaHNlMmRXbnVmNC9rTlA5K3FDRzlsU1F4SWxG?=
- =?utf-8?B?aENGZ1FDa0p2bnB0U1pxblRQVGhBRUF5dTF6VU9IejFxMGVuUGNPelUvZW02?=
- =?utf-8?B?MFhDUm00Z045bjNnaTdnWG1LRUU4TmRmUjA4WWpqbk1zeFptNCt1SEZnbXV1?=
- =?utf-8?B?T3B2RmwzZkJuTTdoYlEveWpJY1lTSFh4OXFmaitYY2RaT29iVzdIZ3MxcVZY?=
- =?utf-8?B?YTg5V1F3VXcxRWdzQTY2V3oyZU12Ym8wOGU4cU5kSWRqdGFybjR0SnRsc2xH?=
- =?utf-8?B?bHBxSEZVeEdrTHJoUjZTVG5IWFdCWWphclNoTXF5Wm1NZ2xZc2dVbm1MZGJS?=
- =?utf-8?B?a2R3dVg1TURqcFA3eWVqVTYzcmlqWHk2c2lqTDVYZlZGVzhyazhDNUE4QjdK?=
- =?utf-8?B?ZTZrcFZXa0hUWWVYdCt2N0MxdWZMZDZoZjloVDFLT0NHeHEwU05VWVpsYnlX?=
- =?utf-8?B?NDRkcFVGSTcvMTFLRGQ3WG1TQURtaC9aRlYxaDNGL2VoYmZ5L0ZETnBFeVMr?=
- =?utf-8?B?TnVkMGt2RThRK1lPRktlaG9wMmN5NFFwdjJaR2xoWW5EcGg0N1lQYVFiT0lF?=
- =?utf-8?B?QTcwTjQ1TERZSEdDekRsazdTOHpHc3Q0YTl5M2x3YzhWVldiVnBOM3lUMElN?=
- =?utf-8?B?a3ZtSmtxc2JMTHFpSE1ZdlpvMHpPTHhtSndZbWhtd21SKzlNRUtLYTIwU2Q5?=
- =?utf-8?B?SngwdW5rdVlaR1lYY1hVcVRWelE1VXZMRXRxVkpjdHpISUU0MDg4SzVzSnFp?=
- =?utf-8?B?TWUzTGduSEdkUm93NVUwaTlMdnJOdGpSNGlvNk9zV09ObTZuemtRb1dOdGVX?=
- =?utf-8?B?SHNjSDBuajBIV0o2TXIxUmI5YzdReFhIYlFQMW1QSHFFYklwNWJmeTJXRUsx?=
- =?utf-8?B?N1hYZzkwZ094Q1lKdENkNFdFdXFLRFhGTUFaUGM4RUc0VXR0VWlaaXNTNnp6?=
- =?utf-8?B?QkRRWC9OSG1SUC8yYXhXVFN3Yk41dVVKdFpMTVBqNlI3NXh4ZnFseVd4K0ZG?=
- =?utf-8?B?OWNwYUpSVi9GcWNJRFdCdTVyL0JoOE5qMy9WUkZIbURLc3EzbWlmZ2NxZmtW?=
- =?utf-8?B?eTRpZGVXaTdsRk1ENHl1RGtEMHY4djFkSzV5L1dDbGErR0ZUekt6d3BJVG1a?=
- =?utf-8?B?UEdVWUNIMkk3emoyRVQvQ0pHQTk4OEtuRmdBK1Vpb0k1OFRwM2RnK25SM1VI?=
- =?utf-8?B?N2lEdVVseDRsaTJOR3dIeXZxcWs0M3NvM01VODFMejlYM0lxbzlKUzFZbVlo?=
- =?utf-8?B?ZGQzbmtudE9vRUtDWUNTaGJ6MmNKOXBKZG5uczZiZndlTDdrbE4rd2N0cng0?=
- =?utf-8?B?ZjZ2Skg5ZHlEcGdkZW8yQjFqOHljT3Q3a0lyQkNzT3d5bUJIN0JKM0JuN2ZE?=
- =?utf-8?B?K2REMnNlek1oRGJVT0lmazFqaDF0S1R6SWJDeklVSk0xNnc0amlQQWNzR24v?=
- =?utf-8?B?cXVPcWV5dXpSL1Y5QXBtMXVQL2ZBeENTaHVmMG0yT0NZR3NneDF3SHZWOC9q?=
- =?utf-8?B?L1lra2VjeXpBTk83SmQyRmhwd1p2YUlpdzl6UUdaOUN6OUVrVnVBYzFNQzNo?=
- =?utf-8?B?WDBTMkZ6TnN5VFowRWkrRlhsWFBxNjZBY3dxOXFrSStZa1dvZGFoajJaWFMy?=
- =?utf-8?B?M1I5MnRPb1NWKzBHYXhWSWtpWXRZb0U1MzNNYk80dXJQdFdndFE2S2xid2Jp?=
- =?utf-8?B?N0NBOE1iMnphK25La0s3WktwTDlObGVDWXR1KzBRL3diSzNkek5lMER0YWor?=
- =?utf-8?B?MXFSaVl3U0VRTlFRV3RtUGhIVmc1Nm9xeTI1NlBibkIxdnpham9ib1k2VzI0?=
- =?utf-8?B?UHJITGJwVjBTTkZIcWdrRHlPbFJqY2JVYWZrTnNzTThnRUFvNHZTRUUwbzJC?=
- =?utf-8?B?MEkwc3VIMnlnOHV0WnZTSnZONGc1SUozUjBVaHc5R1lIVEpqSE5ac2VUQ0Qv?=
- =?utf-8?B?MzBIVjA4MFcrb09HUy9ZWFZHam50ZFB2RjZpZFcwbUl3QTRwbURsMm9XbVh1?=
- =?utf-8?B?V201dEhLWmR0OEdIbFFiT2J4d1V2VmhCZjgvanExOEJSc1FveFAybVJwRUJh?=
- =?utf-8?B?UzkwTnhJL1FKVW1WNnByY0FPSlpWM1d3aEVLOFZxK1pQTVF2UDVhUmdnRkVs?=
- =?utf-8?B?dWRHREJ4UzgzS2RiVWJHVjBIYzVmQUROM0draHl0UUk2MzE1dUE2SmRIVFkv?=
- =?utf-8?B?SUlDYkloL1FCUExrbGtLOW1VemRuRHUxYk10UG05WUVpWVFXQmcwYlFLNFdS?=
- =?utf-8?B?VWIrMG55RThaS3F6UHltOUlINDBBPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b57f4f97-d636-40d3-a1c0-08dde521d58a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 04:26:03.8593 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n4Nitc6p7xtutlqCgd7BxFqILNGNum7yCnSFDIcZQvVu9UQgrHt9B0OAggmFAnWZrI2AjJuXOnz4M2mLymhrTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4050
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,69 +110,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryhel wrote:
-> Tegra30 has CSI PAD bits in both PLLD and PLLD2 clocks, that are required
-> for correct work of CSI block.
-
-'pad' is just an english word, so please write it in lowercase. Same applie=
-s=20
-to the previous patch.
-
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/clk/tegra/clk-tegra30.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/clk/tegra/clk-tegra30.c
-> b/drivers/clk/tegra/clk-tegra30.c index 70e85e2949e0..f033eb1ac26a 100644
-> --- a/drivers/clk/tegra/clk-tegra30.c
-> +++ b/drivers/clk/tegra/clk-tegra30.c
-> @@ -153,6 +153,7 @@ static unsigned long input_freq;
->=20
->  static DEFINE_SPINLOCK(cml_lock);
->  static DEFINE_SPINLOCK(pll_d_lock);
-> +static DEFINE_SPINLOCK(pll_d2_lock);
->=20
->  #define TEGRA_INIT_DATA_MUX(_name, _parents, _offset,	\
->  			    _clk_num, _gate_flags, _clk_id)	\
-> @@ -859,7 +860,7 @@ static void __init tegra30_pll_init(void)
->=20
->  	/* PLLD2 */
->  	clk =3D tegra_clk_register_pll("pll_d2", "pll_ref", clk_base, pmc_base,=
-=20
-0,
-> -			    &pll_d2_params, NULL);
-> +			    &pll_d2_params, &pll_d2_lock);
-
-Please mention adding this lock in the commit message.
-
->  	clks[TEGRA30_CLK_PLL_D2] =3D clk;
->=20
->  	/* PLLD2_OUT0 */
-> @@ -1008,6 +1009,18 @@ static void __init tegra30_periph_clk_init(void)
->  				    0, 48, periph_clk_enb_refcnt);
->  	clks[TEGRA30_CLK_DSIA] =3D clk;
->=20
-> +	/* csia_pad */
-> +	clk =3D clk_register_gate(NULL, "csia_pad", "pll_d",=20
-CLK_SET_RATE_PARENT,
-> +				clk_base + PLLD_BASE, 26, 0, &pll_d_lock);
-> +	clk_register_clkdev(clk, "csia_pad", NULL);
-> +	clks[TEGRA30_CLK_CSIA_PAD] =3D clk;
-> +
-> +	/* csib_pad */
-> +	clk =3D clk_register_gate(NULL, "csib_pad", "pll_d2",=20
-CLK_SET_RATE_PARENT,
-> +				clk_base + PLLD2_BASE, 26, 0,=20
-&pll_d2_lock);
-> +	clk_register_clkdev(clk, "csib_pad", NULL);
-> +	clks[TEGRA30_CLK_CSIB_PAD] =3D clk;
-> +
->  	/* pcie */
->  	clk =3D tegra_clk_register_periph_gate("pcie", "clk_m", 0, clk_base, 0,
->  				    70, periph_clk_enb_refcnt);
 
 
+27 =D1=81=D0=B5=D1=80=D0=BF=D0=BD=D1=8F 2025=E2=80=AF=D1=80=2E 07:19:39 GM=
+T+03:00, Mikko Perttunen <mperttunen@nvidia=2Ecom> =D0=BF=D0=B8=D1=88=D0=B5=
+:
+>On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryhel wrote:
+>> Tegra30 has CSI PAD clock enable bits embedded into PLLD/PLLD2 register=
+s=2E
+>> Add ids for these clocks=2E
+>>=20
+>> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail=2Ecom>
+>> ---
+>>  include/dt-bindings/clock/tegra30-car=2Eh | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/include/dt-bindings/clock/tegra30-car=2Eh
+>> b/include/dt-bindings/clock/tegra30-car=2Eh index f193663e6f28=2E=2E14b=
+83e90a0fc
+>> 100644
+>> --- a/include/dt-bindings/clock/tegra30-car=2Eh
+>> +++ b/include/dt-bindings/clock/tegra30-car=2Eh
+>> @@ -271,6 +271,8 @@
+>>  #define TEGRA30_CLK_AUDIO3_MUX 306
+>>  #define TEGRA30_CLK_AUDIO4_MUX 307
+>>  #define TEGRA30_CLK_SPDIF_MUX 308
+>> -#define TEGRA30_CLK_CLK_MAX 309
+>> +#define TEGRA30_CLK_CSIA_PAD 309
+>> +#define TEGRA30_CLK_CSIB_PAD 310
+>> +#define TEGRA30_CLK_CLK_MAX 311
+>>=20
+>>  #endif	/* _DT_BINDINGS_CLOCK_TEGRA30_CAR_H */
+>
+>The commit message refers to tegra20, but contents are tegra30=2E
+>
 
+My, bad, it should be tegra30
 
+>Regarding the CLK_MAX define, I agree that it would be better to get rid =
+of=20
+>it=2E Perhaps you can check if it would be reasonable to calculate it=20
+>dynamically in the driver, but a define and sanity check in the driver wo=
+uld=20
+>work too, I think=2E
+>
+
+It is not unreasonable, but moving this elsewhere may cause issues with ad=
+ding new clocks=2E Addind new clocks would require updating not only header=
+ but also a place where max clocks are moved to and ai am not sure how can =
+I dinamically calculate amount of clocks in the driver without updating bot=
+h header and driver with each new clock added=2E Maybe you can propose a me=
+thod?
+
+>Cheers,
+>Mikko
+>
+>
