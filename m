@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A55B38788
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 18:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07D1B38798
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 18:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D1310E868;
-	Wed, 27 Aug 2025 16:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC20C10E85E;
+	Wed, 27 Aug 2025 16:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="S2tooOSH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WgVXKxWV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE7D10E868
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:12:18 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6kBxm029013
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:12:18 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E8410E85E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:01 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6k9U7030084
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UG7xbcS5Tii6txkMjvrtxmVb1b0CdEdYm68Ud4Hqmfw=; b=S2tooOSHVLC5jxH+
- 5USDj1+Mi/aN5PSszo1VkCxJsEZp/x2NNSseIlr8mFtMLZt2Z9bTIhx43UIJwMI8
- XuSGehcUGTpAOnkZNGFpS7iyGXS8sDO0lS/DWDLX0Tn0fCOhNEzdbeFX/lvP0vh6
- aRnaZg1Rrbby+gHpjcSypvx1yjLPXcrNCOOGhalKV+MKRAsoSICM4WC9Ka5aiWZS
- ElUMcr2afmOO+pnp4wlqhwDeVQrUke27BL9fjUqiWiPlNML/Oda7a91QpfD1twCt
- Atn0miSKh6FSqzz832FzCbmbnd1CyqRCosKWTC4SYhjU98z8E7SSeezbCp/lvdub
- ZGo2Yg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5umdcaq-1
+ 72Snl19eM9SG13obf5lnpG+wAP1deg4gz5g3WQbmbnU=; b=WgVXKxWVJuRBsVz9
+ XHDVQMH89DBN52LZM0i6JeZ4HCO9BuZ+WqFlW+VLMi/eo3WJWoTOFmZ9dqk7WD9n
+ gexfdNriIyYI+ZBpsbjCX4VcJO5mNo7yVDWfCqBgY56v6EMaaU5mFcaXO4gXKKYt
+ 5kr87RDxfNTDSA28KzPnSE9m32vauXAfpsRUCw8xgtrmcVg30I815WVOQI9ZKNVh
+ 4MeJ0ttIpcouCf9Z659WXuzLiGmyIfWFPZgmr4piBzXGSGSMWEsFvc3FWa/70htd
+ AXv3ABUIQ9tWJTgnkg+GQtG6wS6Zoc5CqDYoAOVFPLieKtbT710xZQVDaqWZ5eEv
+ ZjXmDA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5unw37n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:12:18 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70db892e7b2so1641076d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 09:12:17 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:00 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b109affec8so42661cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 09:15:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756311137; x=1756915937;
+ d=1e100.net; s=20230601; t=1756311300; x=1756916100;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UG7xbcS5Tii6txkMjvrtxmVb1b0CdEdYm68Ud4Hqmfw=;
- b=D0dxMbobsDfLIaRyGWouQiPlzj6qI6d9568gM/eVhaPfe8rneoWbVmAsXBKI8LBOXm
- gbdXT5TkTZfGEomI5SEuefX+2nZHRUzoQ9nuMtLGVRDHTSJn0WEp/Tg5SCwJEMqiT5u1
- L8rvDBV5fkuck46TA79HPLnsHQLEtZUl3UeKtkCXJr9wri/9AeFDD5+ZJsWMOLQ+gmZ6
- qVaR07p9mviROovqcOkBcSM/JNIfCpKycGEITBg3Bawy1Bur3IfeX6DHf/O/bHFppjhr
- i3AF9/0YGvyQti0K1Z1S1UaO4Q/kEYAdUaZQ4t0ytupN4Dx31t3ixjN4464hwQS3fVd0
- h7Lw==
+ bh=72Snl19eM9SG13obf5lnpG+wAP1deg4gz5g3WQbmbnU=;
+ b=KS1NpqNFwvczDFB3SBgmvF+qI9681lLwHGtyUykfO3CZjmiWkUZ/WA/jlmVw1+N3CK
+ EDBVvfO+nY1RNQK6i1Fw1neJMhI+RynKklTIfXTh72eLl3n3U0tsJ3fyZRIvQ/HEoaY3
+ I7NYCG1zs7KVzvmqKuhsb0y9QH314dAr+Xr4fKoOUN4egluRqqhiSjJe4DNJixNlEEMO
+ 42FILCKdIgv459++bLp6yvFX4b6xAxg1DqpzegHqEhZjaOVLiOUZKCKupKYCg+nk2J06
+ QE/XhdaRE7a6ibg9hqFcrb9wSo6HIgdGx85k9Af1KueZikUI7Oqmr+wA9ahaYu+Fekve
+ BkJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVG4O0vRT2aoI4N3USmlKK+NsYSknlnqd9pO8xuKoeAQ3IrEoYhbhnjwbzsM7mrcj2Qm3FATaY9Apw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz21SLIXKmokhxppglLFtlRodcOqFlBRx7AOqLw8w0NsSGWDyDS
- ybgNUstNWd9JYsuR87QS93eP3fPJl/TB3vqA1hT4QV7jdAJitDRZ7gc0xxf+KMcSd9ukmf+NyUN
- NoIsvgCZ7z5lIX0Z11l47zFxmcSIBp+llk1AWeY+cV5hBXuEQp6DyIhDYDSGgA7ss2ox+pXo=
-X-Gm-Gg: ASbGnctlvTKx5uj/V0mzc2VhCbncL47yh1S1sN1a/eVyP9rb7hDUMZxqMzOshWZ3kbU
- UhAfXR6dDXeL1T3g3fLXUtdH4zp68xAHA4utCXT892xyQuwdVZYF5MwM8UiRKPRkuXckkKezgL3
- fBvvSxMSvmLTluGcVWUJQ9+RsPKn8QoGKzJRBBjONxws3xXTsTpSaNny1a1csx9MU1fLYNHKooV
- vxDrn7zlbAxZS30lY8XZcDZ/R/l0/t/25i+OrJcu1iLrTacr3iqDrjOVd4Ettng/RtANrexsMj0
- dsCOBh/2Wnc2LmgAkcp3Xla4lIpZQXNuiU0cIcEVf8iHVo8T2WStlTWIAH+FpuBqdjDKY4L3ooH
- LuUNeQwXXy73tbiA+Jfm8GoPNL2I0+sMcrUhv8bLXE+Sh7VGp+OhE
-X-Received: by 2002:a05:6214:20e6:b0:70b:acef:3c85 with SMTP id
- 6a1803df08f44-70d970976d8mr247393276d6.4.1756311136359; 
- Wed, 27 Aug 2025 09:12:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGtHCsOyM9I3rbi3EujqFjTjTxiDfCaPiXddil+SIYuI0DqIfUpa9RqPP6k9YnaNKG73ul6bw==
-X-Received: by 2002:a05:6214:20e6:b0:70b:acef:3c85 with SMTP id
- 6a1803df08f44-70d970976d8mr247392546d6.4.1756311135723; 
- Wed, 27 Aug 2025 09:12:15 -0700 (PDT)
+ AJvYcCWd2O/MhFils4msIAoMRwNn/DaPMwziLkcqT3OrTPt/NPBOtYMIp3j5D2TUgVpnYIjNgkuWkX4VflI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyu6hEzJycidKbw5B2ARPSarxGLea2YZLvyYmd+bhAdRR73ldnM
+ EnJYsJPKKgHQXwej+YQbw/QAQHDdEMH6eo9pOftn/+WT758Q/SLxL+P1im1B6KmxOKXNy1C99Mn
+ wZyo24fDZURiqB6H8CaecxMne4zWfRydeDlQ7jKkhmVQ2l0a+o4OdpWWMBSrB5AbNoA9p8Rs=
+X-Gm-Gg: ASbGncuu3WVWCPo83d9m9eHA+E/wPHdb2qTXtsVmd8FXvW0ooVBbn9ZeMhb9r6YJMk2
+ O5oEGsxnPCEbN9kHD3wCIleNXDTgTh/nHzdsrFREBGuKRWdDInWx19wQFJWXDKn118qruDuxQI5
+ ssj2eFpA4AYydj4CO4GaFlKEx+6bOwRX+8PwfQ/YaCDthI8FNARFf0ciHtzbGEcZ/PjP2t+HGCF
+ gKC04h4UA01I1y6uq18yqA0/KOtIHRpaYn0zi6Ihpt9fqZgNHcOsRO+5U30BfW261vVvSat1/Tl
+ moX2zOLfhhMhZGkSP8OgLFosa8EfiinbzdxCxApjTWeWOB3kNRAdXBy4OAsBP4sc5IucUIgGeep
+ jrTs/ZUNDusBeB14mQ40df6n2pOcPK6shHxknphMyBsgCnQ1U5lGN
+X-Received: by 2002:a05:622a:4ac8:b0:4b2:e0ac:63b0 with SMTP id
+ d75a77b69052e-4b2e0ac6451mr82573231cf.77.1756311299638; 
+ Wed, 27 Aug 2025 09:14:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPzGcbfBYbuRl3Du92a0zsaKioL4MbDCRH7YFgTAKCluORsEyl5ZX6nTkAvEBJ0xy1YynMxA==
+X-Received: by 2002:a05:622a:4ac8:b0:4b2:e0ac:63b0 with SMTP id
+ d75a77b69052e-4b2e0ac6451mr82572361cf.77.1756311298937; 
+ Wed, 27 Aug 2025 09:14:58 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35ca7437sm2866204e87.146.2025.08.27.09.12.12
+ 2adb3069b0e04-55f35c02020sm2863442e87.29.2025.08.27.09.14.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 09:12:14 -0700 (PDT)
-Date: Wed, 27 Aug 2025 19:12:11 +0300
+ Wed, 27 Aug 2025 09:14:57 -0700 (PDT)
+Date: Wed, 27 Aug 2025 19:14:55 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -98,39 +98,39 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
-Subject: Re: [PATCH v3 09/14] phy: qcom: qmp-usbc: Add DP PHY ops for USB/DP
- switchable Type-C PHYs
-Message-ID: <hy66bjkygfz2qdhatdyxpw2cktaeohguwdg3ydowubarqebfzr@2rjjxghmhdya>
+Subject: Re: [PATCH v3 11/14] phy: qcom: qmp-usbc: Finalize USB/DP switchable
+ PHY support
+Message-ID: <inxoswyre3qalrb3dj3lz3b5vmnpnkyy3hh4oum3z6p7yqlo2v@7g67yvvb25tc>
 References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-9-a43bd25ec39c@oss.qualcomm.com>
- <3pr7ninjxr4pgsz56dr6ojjmx27fzzszmtt6mx4r6qaqt25tnc@nrgx5qiqc7z4>
- <9bf7f51b-dcfb-4ff8-848e-dcf144936f2e@oss.qualcomm.com>
+ <20250820-add-displayport-support-for-qcs615-platform-v3-11-a43bd25ec39c@oss.qualcomm.com>
+ <jjsijdmh4hdbgd2boebtrmzvblvhz2hnl7mtv5ga76ine2fnsb@i72dz3r4lbjp>
+ <82d19340-b887-4093-9d24-4b2e19b99f8b@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9bf7f51b-dcfb-4ff8-848e-dcf144936f2e@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68af2e62 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=D5wNQ9JKZfep0icmKmAA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX2tP2nV9xDETY
- p1iOFCrUfyPVBIqZL7tJniHCozBqCP/Ddkny/Kjr5BhualhVqwHoW6sjjsDuQLneIVqcYeUgwNt
- teku2G8lY74b0YfA6nYon8ngqhNDo6NNgt83sfqtPiuarbOW29DNfy5zTbx43kKDTQIfEtio1u+
- 5TvEXGZue5JIm2ANrps4HUG6THXwQouw9bRe2EMbSkKlWnvHynKk5UIm4ZBTnK1oCjVcVo9p4/p
- TwLJmtE26zeKhnP+0y7TJNDEeHvoCj5rfxXA6vL+vhvHtVCqI228pj+NRuzAYskPdHGj+l0s1Bp
- HKw+71wMaQbcCcs1dDLImhUJXMeOZ2g2a2/iENqt2gMFrivcmMpQr9xSKkvqb3YsBiqYjP1jbUe
- jKz8xJ9i
-X-Proofpoint-GUID: L_N-djwJph6d68NBYmRQDzY9oTnOnn3H
-X-Proofpoint-ORIG-GUID: L_N-djwJph6d68NBYmRQDzY9oTnOnn3H
+In-Reply-To: <82d19340-b887-4093-9d24-4b2e19b99f8b@oss.qualcomm.com>
+X-Proofpoint-GUID: Xuyl6etE61lkHKqIAUj2knBX5RI0wYkV
+X-Proofpoint-ORIG-GUID: Xuyl6etE61lkHKqIAUj2knBX5RI0wYkV
+X-Authority-Analysis: v=2.4 cv=JJo7s9Kb c=1 sm=1 tr=0 ts=68af2f04 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=M2k1YX_etJ5cuwz7zUoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMSBTYWx0ZWRfXwLloYt/IxB55
+ YB+Sq98dJ4b0jv9eybSfJKyNx2hvvF9/dDgxkGxL61MuA+PeH8EJq643wG0Aq8nP6II5Y552JZA
+ a4EEjQpwSVZUvq+x9kBzp9VFWPXWfIBqCTvI9jlMgJeKYXPIHDclmhbBB2ohaKyRFAwVQIRw4pb
+ PdUGKIjjllyo3kWt2qwab98zhau8yNqx3/jlCbSLtXgYiDcdXUkwxOB5cr6tWUbOPOwGl00/eQP
+ 7wMbnCM7g2l3aHjxrT1+iFgS1Ae5t4lWVLjMSSGmk5s2cZbxLUDLAD6DiGLc+UrJR6mPaWYfySh
+ hSzf2k4lKXF9Vv58hZ+JVnokp+jQ4UsUZOJ9s1qCRRdh/UdHrP6yRfhLlN7IvgewGiAnj12RHY1
+ OjCcCnJD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230032
+ phishscore=0 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,56 +146,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 08:17:39PM +0800, Xiangxu Yin wrote:
+On Wed, Aug 27, 2025 at 08:34:39PM +0800, Xiangxu Yin wrote:
 > 
-> On 8/20/2025 7:45 PM, Dmitry Baryshkov wrote:
-> > On Wed, Aug 20, 2025 at 05:34:51PM +0800, Xiangxu Yin wrote:
-> >> Define qmp_usbc_dp_phy_ops struct to support DP mode on USB/DP
-> >> switchable PHYs.
+> On 8/20/2025 7:42 PM, Dmitry Baryshkov wrote:
+> > On Wed, Aug 20, 2025 at 05:34:53PM +0800, Xiangxu Yin wrote:
+> >> Complete USB/DP switchable PHY integration by adding DP clock
+> >> registration, aux bridge setup, and DT parsing. Implement clock
+> >> provider logic for USB and DP branches, and extend PHY translation
+> >> to support both USB and DP instances.
 > >>
 > >> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 > >> ---
-> >>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 163 +++++++++++++++++++++++++++++++
-> >>  1 file changed, 163 insertions(+)
+> >>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 331 ++++++++++++++++++++++++++++---
+> >>  1 file changed, 299 insertions(+), 32 deletions(-)
 > >>
-> >> @@ -1095,6 +1248,16 @@ static const struct phy_ops qmp_usbc_usb_phy_ops = {
-> >>  	.owner		= THIS_MODULE,
-> >>  };
-> >>  
-> >> +static const struct phy_ops qmp_usbc_dp_phy_ops = {
-> > Please try restructuring your patches so that there are no unused
-> > warnings in the middle of the series. You can split the next patch into
-> > 'parse' and 'enable' parts, then squash this patch into the 'enable'
-> > one.
-> 
-> 
-> You mean it's better to define and register new functions in the same patch 
-> 
-> where they're first used, to avoid unused warnings? And for things like parse_dt and phy_ops,
-> 
-> it's fine to split them into separate patches if each part is used right away?
-
-Yes.
-
-> 
-> 
-> >
-> >> +	.init		= qmp_usbc_dp_enable,
-> >> +	.exit		= qmp_usbc_dp_disable,
-> >> +	.configure	= qmp_usbc_dp_configure,
-> >> +	.calibrate	= qmp_usbc_dp_calibrate,
-> >> +	.power_on	= qmp_usbc_dp_power_on,
-> >> +	.power_off	= qmp_usbc_dp_power_off,
-> >> +	.owner		= THIS_MODULE,
-> >> +};
-> >> +
-> >>  static void qmp_usbc_enable_autonomous_mode(struct qmp_usbc *qmp)
+> >>  static int qmp_usbc_probe(struct platform_device *pdev)
 > >>  {
-> >>  	const struct qmp_phy_cfg *cfg = qmp->cfg;
-> >>
-> >> -- 
-> >> 2.34.1
-> >>
+> >>  	struct device *dev = &pdev->dev;
+> >> @@ -1703,16 +1944,32 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+> >>  	if (ret)
+> >>  		return ret;
+> >>  
+> >> -	/* Check for legacy binding with child node. */
+> >> -	np = of_get_child_by_name(dev->of_node, "phy");
+> >> -	if (np) {
+> >> -		ret = qmp_usbc_parse_usb_dt_legacy(qmp, np);
+> >> -	} else {
+> >> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
+> > Should not be necessary.
+> 
+> 
+> Got it. Iâ€™ll merge the parsing logic into a single qmp_usbc_parse_dt function.
+> 
+> Also, I checked the compatible strings in the dtsi files for this PHY series
+> looks like no current product uses the legacy binding.Â 
+> Iâ€™ll drop qmp_usbc_parse_usb_dt_legacy in the next version.
+
+
+No. It's _legacy_, it has been implemented in order to support old DTs,
+which existed at some point but then were refactored into the current
+state. You can't randomly drop DT support.
+
+> 
+> 
+> >>  		np = of_node_get(dev->of_node);
+> >> -		ret = qmp_usbc_parse_usb_dt(qmp);
+> >> +
+> >> +		ret = qmp_usbc_parse_usb3dp_dt(qmp);
+> >> +		if (ret) {
+> >> +			dev_err(qmp->dev, "parse DP dt fail ret=%d\n", ret);
+> >> +			goto err_node_put;
+> >> +		}
+> >> +
+> >> +		ret = drm_aux_bridge_register(dev);
+> >> +		if (ret) {
+> >> +			dev_err(qmp->dev, "aux bridge reg fail ret=%d\n", ret);
+> >> +			goto err_node_put;
+> >> +		}
 
 -- 
 With best wishes
