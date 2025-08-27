@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE97B38665
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 17:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979C1B38667
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 17:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCDA10E859;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAFE810E85A;
 	Wed, 27 Aug 2025 15:21:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="rleOE3sD";
+	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="EcscZGRo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD24E10E859;
- Wed, 27 Aug 2025 15:21:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C2C210E857;
+ Wed, 27 Aug 2025 15:21:20 +0000 (UTC)
 Received: from debian.intra.ispras.ru (unknown [10.10.165.10])
- by mail.ispras.ru (Postfix) with ESMTPSA id 08015406C3E0;
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9A701406C3E1;
  Wed, 27 Aug 2025 15:21:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 08015406C3E0
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 9A701406C3E1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
  s=default; t=1756308078;
- bh=hMndCnBPEkldaJ0RX8/Zz8eRCVkdzIYmV+68H1w9mS0=;
+ bh=02QJmS1dDrR4T+qTKViGS18HgwiGbUD6zmXE+BBvH9s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rleOE3sDwRZzedim40Pfv50uN1MFzfG/uT906yFJQb/JYpfnHMgDJgEnwlMBM8Xpq
- RscmmdgdDiX6xNditQmB3QG53IzB+FSH+5n8qTGtxyg1zEAUy98z68hy5Zn0bBXaKU
- Uq7wvE9HcGwAJlQUZJ9bXyR8o+GZRh7+zivN31l8=
+ b=EcscZGRoCXK2oeKOxF7rUusSMur019GncOpUWsY+SCDR3yuOVgPcWve761DlQ7m9k
+ +duxIVCwNsr1RNBmwoGYGG2PJgvoJQY8JtvZ7GFSWIeuqu68gtEXAckd+NbQJ9WH0M
+ acVwhFuqk8GU9y4DLIKXXmRcO6/gI5AL4UvhinvI=
 From: Fedor Pchelkin <pchelkin@ispras.ru>
 To: Alex Deucher <alexander.deucher@amd.com>, Melissa Wen <mwen@igalia.com>,
  Mario Limonciello <mario.limonciello@amd.com>
@@ -36,10 +36,10 @@ Cc: Fedor Pchelkin <pchelkin@ispras.ru>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Hans de Goede <hansg@kernel.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: [PATCH v3 1/2] drm/modes: export drm_mode_remove() helper
-Date: Wed, 27 Aug 2025 18:21:04 +0300
-Message-ID: <20250827152107.785477-2-pchelkin@ispras.ru>
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
+Subject: [PATCH v3 2/2] drm/amd/display: fix leak of probed modes
+Date: Wed, 27 Aug 2025 18:21:05 +0300
+Message-ID: <20250827152107.785477-3-pchelkin@ispras.ru>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250827152107.785477-1-pchelkin@ispras.ru>
 References: <20250827152107.785477-1-pchelkin@ispras.ru>
@@ -60,81 +60,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This functionality may be helpful in drivers so export it for reusability.
+amdgpu_dm_connector_ddc_get_modes() reinitializes a connector's probed
+modes list without cleaning it up. First time it is called during the
+driver's initialization phase, then via drm_mode_getconnector() ioctl.
+The leaks observed with Kmemleak are as following:
+
+unreferenced object 0xffff88812f91b200 (size 128):
+  comm "(udev-worker)", pid 388, jiffies 4294695475
+  hex dump (first 32 bytes):
+    ac dd 07 00 80 02 70 0b 90 0b e0 0b 00 00 e0 01  ......p.........
+    0b 07 10 07 5c 07 00 00 0a 00 00 00 00 00 00 00  ....\...........
+  backtrace (crc 89db554f):
+    __kmalloc_cache_noprof+0x3a3/0x490
+    drm_mode_duplicate+0x8e/0x2b0
+    amdgpu_dm_create_common_mode+0x40/0x150 [amdgpu]
+    amdgpu_dm_connector_add_common_modes+0x336/0x488 [amdgpu]
+    amdgpu_dm_connector_get_modes+0x428/0x8a0 [amdgpu]
+    amdgpu_dm_initialize_drm_device+0x1389/0x17b4 [amdgpu]
+    amdgpu_dm_init.cold+0x157b/0x1a1e [amdgpu]
+    dm_hw_init+0x3f/0x110 [amdgpu]
+    amdgpu_device_ip_init+0xcf4/0x1180 [amdgpu]
+    amdgpu_device_init.cold+0xb84/0x1863 [amdgpu]
+    amdgpu_driver_load_kms+0x15/0x90 [amdgpu]
+    amdgpu_pci_probe+0x391/0xce0 [amdgpu]
+    local_pci_probe+0xd9/0x190
+    pci_call_probe+0x183/0x540
+    pci_device_probe+0x171/0x2c0
+    really_probe+0x1e1/0x890
 
 Found by Linux Verification Center (linuxtesting.org).
 
+Fixes: acc96ae0d127 ("drm/amd/display: set panel orientation before drm_dev_register")
+Cc: stable@vger.kernel.org
 Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
 ---
- drivers/gpu/drm/drm_connector.c |  8 +-------
- drivers/gpu/drm/drm_modes.c     | 15 +++++++++++++++
- include/drm/drm_modes.h         |  1 +
- 3 files changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 272d6254ea47..0a3933b6ceec 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -27,6 +27,7 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_file.h>
- #include <drm/drm_managed.h>
-+#include <drm/drm_modes.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_privacy_screen_consumer.h>
-@@ -696,13 +697,6 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_connector_has_possible_encoder);
+v3: drop INIT_LIST_HEAD and use drm_edid_connector_update() (Melissa Wen)
+v2: use exported drm_mode_remove() (Mario Limonciello)
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index a0ca3b2c6bd8..12685966186b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8230,10 +8230,14 @@ static void amdgpu_dm_connector_ddc_get_modes(struct drm_connector *connector,
+ {
+ 	struct amdgpu_dm_connector *amdgpu_dm_connector =
+ 			to_amdgpu_dm_connector(connector);
++	struct drm_display_mode *mode, *t;
  
--static void drm_mode_remove(struct drm_connector *connector,
--			    struct drm_display_mode *mode)
--{
--	list_del(&mode->head);
--	drm_mode_destroy(connector->dev, mode);
--}
--
- /**
-  * drm_connector_cec_phys_addr_invalidate - invalidate CEC physical address
-  * @connector: connector undergoing CEC operation
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index e72f855fc495..6e021328f9c2 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -117,6 +117,21 @@ void drm_mode_probed_add(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_mode_probed_add);
- 
-+/**
-+ * drm_mode_remove - remove a mode from the associated list and destroy it
-+ * @connector: connector of the mode
-+ * @mode: mode data
-+ *
-+ * Remove @mode from the associated list, then free @mode object itself.
-+ */
-+void drm_mode_remove(struct drm_connector *connector,
-+		     struct drm_display_mode *mode)
-+{
-+	list_del(&mode->head);
-+	drm_mode_destroy(connector->dev, mode);
-+}
-+EXPORT_SYMBOL(drm_mode_remove);
+ 	if (drm_edid) {
+ 		/* empty probed_modes */
+-		INIT_LIST_HEAD(&connector->probed_modes);
++		list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
++			drm_mode_remove(connector, mode);
 +
- enum drm_mode_analog {
- 	DRM_MODE_ANALOG_NTSC, /* 525 lines, 60Hz */
- 	DRM_MODE_ANALOG_PAL, /* 625 lines, 50Hz */
-diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-index b9bb92e4b029..d7b66321f60d 100644
---- a/include/drm/drm_modes.h
-+++ b/include/drm/drm_modes.h
-@@ -460,6 +460,7 @@ int drm_mode_convert_umode(struct drm_device *dev,
- 			   struct drm_display_mode *out,
- 			   const struct drm_mode_modeinfo *in);
- void drm_mode_probed_add(struct drm_connector *connector, struct drm_display_mode *mode);
-+void drm_mode_remove(struct drm_connector *connector, struct drm_display_mode *mode);
- void drm_mode_debug_printmodeline(const struct drm_display_mode *mode);
- bool drm_mode_is_420_only(const struct drm_display_info *display,
- 			  const struct drm_display_mode *mode);
++		drm_edid_connector_update(connector, drm_edid);
+ 		amdgpu_dm_connector->num_modes =
+ 				drm_edid_connector_add_modes(connector);
+ 
 -- 
 2.50.1
 
