@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58104B37CBB
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1375B37CCB
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 10:04:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EC310E747;
-	Wed, 27 Aug 2025 08:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5009C10E754;
+	Wed, 27 Aug 2025 08:04:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="X5YrLclw";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="mtrPPwqa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B511D10E747
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:03:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B50A10E754
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 08:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=NqL3zrDeVOVmwd8ScXywURS5QoRIm4+QJ5WQbVoMCp8=; b=X5YrLclwiUXRxe4YKbLSt2k8b4
- sa2/8T33ut/6gr5gidLW0B7gFLiB8iX3JUwpCmTDPuMh2zzUTdwwEQumk7+R/D8rggSl4x1NB3mT6
- m6vYJCM9j58i/dnWOFIvuMj8zAM2MWxtvfqSFOIRBbYhxnittEcH8SXwDzvqCsZVKJb1Gs5OJXOV+
- sH0ofNfiK5taJBTtc1XfF9XAC7JBwX3J7hHrsshgW6w+WNHYdt9OB0SXlP5956BCvkjR9XkKhI6K3
- iCYOn6UIsY/6dFUEidhp+4ZOye7qnvOcMifW4x6Z9698PaQCKr1wI9TTIpN7uiXcGmmt2pRtbq/d6
- zEOcbQLA==;
+ bh=H5XGGOqUvDfBDNoA9c9ChXTIWyKSBsmEcQMHpNsNPDE=; b=mtrPPwqaUs12AGu5L+ainiAjWo
+ LG0fGbIszK398JZ0KY0dLQFqHUEgpa78WPcICY29z9haXF2gu+qet2U9oar/B9EYUcWGS5mDVmVQ5
+ FfdRptzZ2FTbaPLUYUE/DLwXpS2IBNRzVirIN+r0eD9Vx3WLDIuiC+j04MoDiy8oiUvghbsyFgJl6
+ xhHxZtck6KVDZTQ637deyTTvZvoCndnNCfAUU1vzr/vdCDtsvL4+O1XywZZrjEQ3ksrhSd67FgZUX
+ o6tiItZt/sCBeB/pcYbqDQThCgSrW42QOZe/NgxaFzLAMuSytJPKBkiLAGsDanxEmkdVRs78asGSa
+ ZB48o00Q==;
 Received: from [213.244.170.152] (helo=phil.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1urB7w-0006zw-Js; Wed, 27 Aug 2025 10:03:28 +0200
+ id 1urB8s-0007SN-IS; Wed, 27 Aug 2025 10:04:26 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: Yury Norov <yury.norov@gmail.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -68,13 +68,13 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 18/20] PM / devfreq: rockchip-dfi: switch to
- FIELD_PREP_WM16 macro
-Date: Wed, 27 Aug 2025 10:03:27 +0200
-Message-ID: <16814931.dW097sEU6C@phil>
-In-Reply-To: <20250825-byeword-update-v3-18-947b841cdb29@collabora.com>
+Subject: Re: [PATCH v3 20/20] phy: rockchip-pcie: switch to FIELD_PREP_WM16
+ macro
+Date: Wed, 27 Aug 2025 10:04:24 +0200
+Message-ID: <5143535.KlZ2vcFHjT@phil>
+In-Reply-To: <20250825-byeword-update-v3-20-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-18-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-20-947b841cdb29@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -93,26 +93,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:38 Mitteleurop=C3=A4ische Sommerzeit schr=
+Am Montag, 25. August 2025, 10:28:40 Mitteleurop=C3=A4ische Sommerzeit schr=
 ieb Nicolas Frattaroli:
 > The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 > drivers that use constant masks.
 >=20
-> Like many other Rockchip drivers, rockchip-dfi brings with it its own
-> HIWORD_UPDATE macro. This variant doesn't shift the value (and like the
-> others, doesn't do any checking).
+> The Rockchip PCIe PHY driver, used on the RK3399, has its own definition
+> of HIWORD_UPDATE.
 >=20
 > Remove it, and replace instances of it with hw_bitfield.h's
-> FIELD_PREP_WM16.  Since FIELD_PREP_WM16 requires contiguous masks and
-> shifts the value for us, some reshuffling of definitions needs to
-> happen.
+> FIELD_PREP_WM16. To achieve this, some mask defines are reshuffled, as
+> FIELD_PREP_WM16 uses the mask as both the mask of bits to write and to
+> derive the shift amount from in order to shift the value.
 >=20
-> This gives us better compile-time error checking, and in my opinion,
-> nicer code.
+> In order to ensure that the mask is always a constant, the inst->index
+> shift is performed after the FIELD_PREP_WM16, as this is a runtime
+> value.
 >=20
-> Tested on an RK3568 ODROID-M1 board, and an RK3588 ROCK 5B board.
+> From this, we gain compile-time error checking, and in my humble opinion
+> nicer code, as well as a single definition of this macro across the
+> entire codebase to aid in code comprehension.
+>=20
+> Tested on a RK3399 ROCKPro64, where PCIe still works as expected when
+> accessing an NVMe drive.
 >=20
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
 
 Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
