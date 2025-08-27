@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3DFB37A89
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 08:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C872B37A8F
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 08:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C635910E702;
-	Wed, 27 Aug 2025 06:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB83F10E708;
+	Wed, 27 Aug 2025 06:39:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FyAKrl81";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t/Zgdu+h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9183A10E702
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:38:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8A910E708
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:39:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C4A5E60254;
- Wed, 27 Aug 2025 06:38:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19FFC4CEEB;
- Wed, 27 Aug 2025 06:38:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 93BC560254;
+ Wed, 27 Aug 2025 06:39:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9DFC4CEEB;
+ Wed, 27 Aug 2025 06:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756276720;
- bh=E6lJlAUInS0Zz4cByYmPmreGqmD6Nz0mvn/LjsoUqm4=;
+ s=k20201202; t=1756276777;
+ bh=wF7DxXmMiUpG3l2HrR1TiFxT3e6vt98mMJE58cq9hWg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FyAKrl81M7Fd22mRLrZyZeCId5tlSN4YF1shlriuwJExHSEbsc/yzqbNYLG/2WFpK
- RHsVKjkR6tJlIS1I2T+Byfbq6RL5LTkie0nHiFzsyzovTUfGwfAyn7U3zQQqAFliEx
- 4PrmTxnvcN/UNskeaQJEovba3g+t4+4pyV9hXgWB0AVwCphsDB85LznxVeg0P+FEPv
- rCC9La87ucm55g3xvLi2KnSqTwobC9Xdc4WAVV1m7Jcjj9RKkCfwEsV5+9xhDaMY9F
- qF/mW4Vh2i5yivtrT2cfugw+y+K3CxZ90tsJK3yfckTup3hq19tkq9Z4wy1ZheYo7G
- wGvyFfSR2PVNw==
-Message-ID: <99889a72-e556-4ac5-b7cf-212215ccea3b@kernel.org>
-Date: Wed, 27 Aug 2025 08:38:35 +0200
+ b=t/Zgdu+h7uj26hFkUpeLwS/FvoEpULB4DwWD+g3yd6xkrqVf3ghEIOmglP82nGQpZ
+ QfHKCk8QNBdMn8ehcbvjyagmxvlHKb02KXnPBsjxCl85YYHu4oB26HQWMic63RaNL7
+ XJk4GIMCBwOMN3S+RNVo5Gzndl2sWArWdpvhs0tKOgfCy1TqKqyJQy8IWMFC2BHWPU
+ Dj2tyGw2xHqafjE7Kkd5dhWoD048KQD0KeFtucgc1uFWfDQCHeFNoFsZsfXqJ5vNcL
+ E+1uHsZJJ9P0XykHMrEbCBCM0Tv4wwbWkOXnhJg5cv+KiZmLZj9cv+frQ4wb56tD9u
+ qdYE/Dj/remwQ==
+Message-ID: <87a9e85d-b345-4ea7-895c-ec2328d00954@kernel.org>
+Date: Wed, 27 Aug 2025 08:39:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: exynosautov920: enable support for scaler
- device
+Subject: Re: [PATCH 4/4] media: samsung: scaler: Add Kconfig and Makefile
 To: Kisung Lee <kiisung.lee@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -47,8 +46,8 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
 References: <20250827044720.3751272-1-kiisung.lee@samsung.com>
- <CGME20250827045905epcas2p3a52debf186f41eef08e6d0a351d80476@epcas2p3.samsung.com>
- <20250827044720.3751272-4-kiisung.lee@samsung.com>
+ <CGME20250827045906epcas2p2198037517886df0714e24d8d908a6c57@epcas2p2.samsung.com>
+ <20250827044720.3751272-5-kiisung.lee@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,7 +93,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250827044720.3751272-4-kiisung.lee@samsung.com>
+In-Reply-To: <20250827044720.3751272-5-kiisung.lee@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,41 +112,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 27/08/2025 06:47, Kisung Lee wrote:
-> Add the Scaler Devicetree for the Scaler present on the
-> ExynosAutoV920 SoC. The scaler provides hardware acceleration
-> for 2D scaling up/down and color space conversion processing.
+> Add Kconfig and Makefile for Scaler driver directory.
+> This will serve as the entry point for enabling and building
+> Exynosautov920 specific device drivers.
+
+
+That's not a separate commit.
+
 > 
 > Signed-off-by: Kisung Lee <kiisung.lee@samsung.com>
 > ---
->  .../arm64/boot/dts/exynos/exynosautov920.dtsi | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/exynos/exynosautov920.dtsi b/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> index 0fdf2062930a..e3dad683fa36 100644
-> --- a/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> @@ -26,6 +26,7 @@ aliases {
->  		pinctrl5 = &pinctrl_hsi2ufs;
->  		pinctrl6 = &pinctrl_peric0;
->  		pinctrl7 = &pinctrl_peric1;
-> +		scaler0 = &scaler_0;
->  	};
->  
->  	arm-pmu {
-> @@ -1504,6 +1505,27 @@ timer {
->  			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
->  			     <GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
->  	};
-> +
-> +	scaler_0: scaler@1A830000 {
-> +		compatible = "samsung,exynos5-scaler";
-> +		reg = <0x0 0x1A830000 0x0 0x3000>;
-> +		interrupts = <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		mscl_qos_table = < 0 800000 800000
+>  drivers/media/platform/samsung/Kconfig  | 1 +
+>  drivers/media/platform/samsung/Makefile | 1 +
+>  2 files changed, 2 insertions(+)
 
-Nice try. NAK. Don't ever send such properties.
 
+BTW, your patchset does not pass checks required by Samsung SoC
+maintainer profile. Use the tools instead of reviewers...
 
 Best regards,
 Krzysztof
