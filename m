@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E96AB383CA
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 15:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19071B383C8
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 15:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A0810E826;
-	Wed, 27 Aug 2025 13:38:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D147710E821;
+	Wed, 27 Aug 2025 13:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="t5cJRkJW";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Kw13wE8P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82C910E821
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 13:38:49 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-45a1b0098c0so47060855e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:38:49 -0700 (PDT)
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
+ [209.85.221.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90A810E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 13:38:50 +0000 (UTC)
+Received: by mail-wr1-f73.google.com with SMTP id
+ ffacd0b85a97d-3c6abcfd303so496703f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1756301928; x=1756906728;
+ d=google.com; s=20230601; t=1756301929; x=1756906729;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=bQfNPALqYK2vuHk+KHixItNQWnKvg0esLykXcwvhImI=;
- b=t5cJRkJWRav491G2vaEl8o7lYeK4zWzKhIDgIkcxA9p0h1XYqvwLZtYMkzs9HcvnV5
- dzct86Vl/7vAocryhXt/LUldH8OenUF1XRVQEXfIAemZj6xQ9NX+aeJAeflMUoM/N/+5
- vG5UVeD7+vVCMxhu3qjQiDfX2nIi7oYWK2TlqmUy66Hz1OihDn94e31q6mWcogxh+fX8
- s+nsu8f8dnmbEu/094Lc62wS55bkRZ4aSVchIdX43s40Vbfh1UMqt7ut1/pE3+Hu3IOB
- 1xSfR/k9woDNT31VTbIW8QYeQTShOXFJ+60aIzFm6vRMHnatx1NnKHUNM6fniggK4Cwq
- DqGg==
+ bh=H0LUjaJNCERfnIpEXLt7qPeqC8Z8QMcmQ0x5DWubTsE=;
+ b=Kw13wE8PHwT8ridgTqlCXEtC6c+9InXw0yKBAxNSwJzw7DzF4vLK9/4g6gn9urmmjo
+ iDSbaG0FzJw3vkHyaDEv+00tSw7TE4Jlb6RjNGex73bgSMnITFjSNtDUG/HveY9gtsIC
+ Vrhb2TfY9G6olNuS2+fihwFrF7BrI+BXKHia2UTd/8EZORBOdes5kWqJAuxm40zEyvjd
+ KUcLWVweV8I9HvTKAOYcUW+2jsCGEPezo1YugCKu2h/XuBe592VLIVAHa3onDc26cJIi
+ b53i26vC1Dd+2MAtX20GFmBL6ZgUMqIgUpoAWNLMqyx4fLeBDwAfHF65aLkdMfqlIQGh
+ t8OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756301928; x=1756906728;
+ d=1e100.net; s=20230601; t=1756301929; x=1756906729;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bQfNPALqYK2vuHk+KHixItNQWnKvg0esLykXcwvhImI=;
- b=VPw+qxs/+ZX5ZDdJ/Ce6kI+S8qFUfydGsPZrx9OIrjN8ExUobh8ybWVrepX5k4U436
- ma90VsyYxsFIrMdjJoJJ6bKIrKx++Bt7iQaD44eka20VN4dE6jcek3kveKNZiOdu8beO
- cV2p5lQxc851g0wc1+tqO9kUEHoD7101wgPAsn7n7BwhK2GyH6r969pmPkm5uql00SG1
- xgl8nD2avsj+sn/FIeOl6ByAuImIVTbR7rXc5TrYq6JJIa35uNc6wVpp8P4/xPepgE6C
- 1EO4ftw8P5biotMxw5VffDmIFLFHyGx97vgsyLhmg0YeG9mc/Oyf6bs0spzmLF8CpVen
- PHoA==
+ bh=H0LUjaJNCERfnIpEXLt7qPeqC8Z8QMcmQ0x5DWubTsE=;
+ b=HZv0NsasFOSli7W/lKlfYz689ncgZfRM0CFi3rDn620QgVhszMWCjUMTQMnml2RS5Z
+ DQcVPPLuLptM2ME6NVIpD1ov07MczGexY0WsRnMEhN8nk6AMs/YiFHc4oK52RI7EecYq
+ L8Wj8cZHKg+nZ3KuvdkFTp23KTIs74h/QAiFD1fYHLapGfpPdALrE2S/PGEJFtm60z1A
+ erT4BWnNIAzUlDvpGwp/ah7KKw2xSQbmRArIwjAh5SN2psJgXgL//PNtFUeBvWxL3Ya4
+ Hso6E33a6fXkj23kXHTbPZZ3m0XhrG/d1h/kKhAWsY1T3ab3v3hNj9/AB2FQmDROu43k
+ T6sw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUa8uhVv2pdTnMsp+Awp/IWY8TwHX9IifsqqlnQtA60Iv48gyzvdFiOJT9ld2tnzup2kv6YSHOjAbk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlvFIAyDpqiAWQMNh73UyZWP2YTLEMgQKqtI/fbVD4vd9A9lnU
- NzEyt3k57BbsYZAOfHhdwIqSs1i3Rsi7lwL2fGfBydANPLovl2ZXY/5iHz9pkxedfBDGbMOmMo+
- 9ZOosVdYQk+NTx2PUww==
-X-Google-Smtp-Source: AGHT+IFPZWyvgMauxlJCBZKG51BQuD0rK7uUxpmPXaWTo5px4hek1IeITTzy5FZDFZFtg2EjVIQLfDcGnZLxnBQ=
-X-Received: from wmnj6.prod.google.com ([2002:a05:600c:746:b0:45b:7243:7e17])
+ AJvYcCUSitLq7wWI9CADJbHIKrr5k7TlFnyAk1oQbWFwsjKAaZP9QumQyakJ39tRuaB3GQKFGaTK3XL7wyo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YweT5SuzVui4j6Q6bf6YdWyRSHqnLQybnXiofBG7YODaE7OwGts
+ bGZeQZXP91fAK6nD/FGkq4FW27dtblP52oizPe9f4JUzscV+M5hTaNan+qiLV393lFdRj+WA+jH
+ IsqNdHZRvXYEM6KDyKQ==
+X-Google-Smtp-Source: AGHT+IGVa7PVy7PXjMz+41KLvLfZ57z1pdtrUqa1nAKHnMHdUPl5XgMWkTXVPv1ZKDQNau4tVBq+F8KPCgsVFPo=
+X-Received: from wrsa14.prod.google.com ([2002:adf:face:0:b0:3bb:8d5d:f554])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3b93:b0:459:d780:3604 with SMTP id
- 5b1f17b1804b1-45b75d6049dmr1493745e9.3.1756301928171; 
- Wed, 27 Aug 2025 06:38:48 -0700 (PDT)
-Date: Wed, 27 Aug 2025 13:38:37 +0000
+ 2002:adf:f249:0:b0:3cd:4936:7222 with SMTP id
+ ffacd0b85a97d-3cd49367a57mr844329f8f.32.1756301929456; 
+ Wed, 27 Aug 2025 06:38:49 -0700 (PDT)
+Date: Wed, 27 Aug 2025 13:38:38 +0000
 In-Reply-To: <20250827-gpuva-mutex-in-gem-v3-0-bd89f5a82c0d@google.com>
 Mime-Version: 1.0
 References: <20250827-gpuva-mutex-in-gem-v3-0-bd89f5a82c0d@google.com>
 X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
  fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4138; i=aliceryhl@google.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4667; i=aliceryhl@google.com; 
  h=from:subject:message-id;
- bh=KwFYll6+s4nlGHPxUp1+qnAKQ5iyOSPmtnFxynZNuFE=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBorwplavqOFRjfJ447BgNpHjo5GjbzOko8NDcjI
- d/+jyDq8cGJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaK8KZQAKCRAEWL7uWMY5
- Rn15D/4zkmBMFMYN9f5D+2qu/UJz9DT56FDBe3we7NrQJKXSuwUTQUHFM1tv5Y3Pqrblw9eg5ZE
- U1pWxrWMVemYlF6yGvoddGUjFyOxrj8pMPk2vcsHX+F3DoiW12+Ld+s1eXpdj5KgbLcrMVQsvVU
- E/Ny8EUKE7BCyT60NveKnu9DyrPFhXJpjOQ384isZJaOzboz07gXy6WYkctg0lniNhjQN1eMyGY
- zA8KK1WNI5dDeuc1M6C497NoKEtGW+DXpG+KtK9LM/S/NJRjwW9hiGtHXtOs/nRKWSbrI+tV6lK
- SCfb3cgqSdNz4Wo/bdSAFY2u5mr5EYCZKj3FUvKOLiDTCwprdzRX6QwXwVs+pC6xb0S/lmv2jG1
- IjDVdjYmSiz9kna2EvWy//9iCciKF9J0t4FK/wED5QHhvOB4kzerg646JonH4ehsKzDNHk1uOhb
- xayI8vCoeYFHzwFcWwnHwlRbw3lUwd9tFzsdBgw8xOtdw9G8pKcWXFAqwon7YArrPUQRg9qgCbq
- FcR1MEh6ELJXo85P/JMIsF8NWAK2E+bRaMZDRSarZtTrie6ulS4h9Gn7mq9XDXz1Jf4QjLIwsb/
- zQhybh4eEiHCYo9dRoeOUFLaTdJ5ZItfXH2aGB7/qITwCXI9O/QyviGsZUZ2purEpx26JNovAkG
- MW9kxFiag2/Uq8g==
+ bh=fxqCLepdjJoG2i/XMA26WTvgMhHanXo5UFmP/6SmsUc=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBorwplBwqLgr6P1T9aVSwRfXFaYBCf/imiAkWRB
+ GK0A7i8iw+JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaK8KZQAKCRAEWL7uWMY5
+ Rj52D/wLX0TgtsFem9qRKwgampx8gBAoARjToXXgEsXq4iETGWCHsmsHkLXw15V6qgAz8heVyjb
+ gQA417sWwug0le+2dg/dYL5wpWsEFZfC0xAQuWW0LBORi9EWfww3IFU5Ek3R6Z3FME/7cqcJr0P
+ ecKJbLGlOeDS4+OrMkfgNsOOzQbXoJuojnlWn2aMDbOnSV2TZvIbZzEn2dbtpVHh2uI+u0+8WvL
+ 4Nq+GwThibopA8/vsa1W64m03ys0skYBrhRk/z/F4RIDQaWigH8N8NaA9yEG0zQTaqi2sADSgYI
+ ktfDbR8tikcbRyPG7IO+nQHtRpxSh5avxWYxfX8nmaPCMyGT/MW8ptpNZZ/YTS2PGPuCnwt/pco
+ 02tgrWzHzZaf/6SDLjexaadzjgzyrPqRp1YIcaf73NOL+oAnx0PiQa932dn3aK9uJzrjGm221di
+ AZjWf6KajMziBCDDb+OhyhLtHCvHdQoMxs2V10I3NdvM78EosQoQieMMs7UYsrjStlVF7PoM7zg
+ 6A/QfckmicXhdRxmj1k9Z1porMrNMq7W/RHkV0Hrz1xgwCeexTww+OavJUZkHHFpn/nV074vFRK
+ s3RWXt6MknVJc+YWFwK5/qJBQlQd129OOlAHBoiupO01wH+25GCYe83ihVJGn04NjJX6AQZSDeW
+ TEUQbFa9rodBQiw==
 X-Mailer: b4 0.14.2
-Message-ID: <20250827-gpuva-mutex-in-gem-v3-1-bd89f5a82c0d@google.com>
-Subject: [PATCH v3 1/3] drm_gem: add mutex to drm_gem_object.gpuva
+Message-ID: <20250827-gpuva-mutex-in-gem-v3-2-bd89f5a82c0d@google.com>
+Subject: [PATCH v3 2/3] panthor: use drm_gem_object.gpuva.lock instead of
+ gpuva_list_lock
 From: Alice Ryhl <aliceryhl@google.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -110,108 +111,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are two main ways that GPUVM might be used:
-
-* staged mode, where VM_BIND ioctls update the GPUVM immediately so that
-  the GPUVM reflects the state of the VM *including* staged changes that
-  are not yet applied to the GPU's virtual address space.
-* immediate mode, where the GPUVM state is updated during run_job(),
-  i.e., in the DMA fence signalling critical path, to ensure that the
-  GPUVM and the GPU's virtual address space has the same state at all
-  times.
-
-Currently, only Panthor uses GPUVM in immediate mode, but the Rust
-drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
-worth to support both staged and immediate mode well in GPUVM. To use
-immediate mode, the GEMs gpuva list must be modified during the fence
-signalling path, which means that it must be protected by a lock that is
-fence signalling safe.
-
-For this reason, a mutex is added to struct drm_gem_object that is
-intended to achieve this purpose. Adding it directly in the GEM object
-both makes it easier to use GPUVM in immediate mode, but also makes it
-possible to take the gpuva lock from core drm code.
-
-As a follow-up, another change that should probably be made to support
-immediate mode is a mechanism to postpone cleanup of vm_bo objects, as
-dropping a vm_bo object in the fence signalling path is problematic for
-two reasons:
-
-* When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
-  the extobj/evicted lists during the fence signalling path.
-* Dropping a vm_bo could lead to the GEM object getting destroyed.
-  The requirement that GEM object cleanup is fence signalling safe is
-  dubious and likely to be violated in practice.
-
-Panthor already has its own custom implementation of postponing vm_bo
-cleanup.
+Now that drm_gem_object has a dedicated mutex for the gpuva list that is
+intended to be used in cases that must be fence signalling safe, use it
+in Panthor.
 
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- drivers/gpu/drm/drm_gem.c |  2 ++
- include/drm/drm_gem.h     | 24 ++++++++++++++++++------
- 2 files changed, 20 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panthor/panthor_gem.c |  4 +---
+ drivers/gpu/drm/panthor/panthor_gem.h | 12 ------------
+ drivers/gpu/drm/panthor/panthor_mmu.c | 16 ++++++++--------
+ 3 files changed, 9 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 4a89b6acb6af39720451ac24033b89e144d282dc..8d25cc65707d5b44d931beb0207c9d08a3e2de5a 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -187,6 +187,7 @@ void drm_gem_private_object_init(struct drm_device *dev,
- 	kref_init(&obj->refcount);
- 	obj->handle_count = 0;
- 	obj->size = size;
-+	mutex_init(&obj->gpuva.lock);
- 	dma_resv_init(&obj->_resv);
- 	if (!obj->resv)
- 		obj->resv = &obj->_resv;
-@@ -210,6 +211,7 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
- 	WARN_ON(obj->dma_buf);
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index a123bc740ba1460f96882206f598b148b64dc5f6..c654a3377903cf7e067becdb481fb14895a4eaa5 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -74,7 +74,6 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+ 	mutex_destroy(&bo->label.lock);
  
- 	dma_resv_fini(&obj->_resv);
-+	mutex_destroy(&obj->gpuva.lock);
+ 	drm_gem_free_mmap_offset(&bo->base.base);
+-	mutex_destroy(&bo->gpuva_list_lock);
+ 	drm_gem_shmem_free(&bo->base);
+ 	drm_gem_object_put(vm_root_gem);
  }
- EXPORT_SYMBOL(drm_gem_private_object_fini);
+@@ -246,8 +245,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
  
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index d3a7b43e2c637b164eba5af7cc2fc8ef09d4f0a4..a995c0c1b63c5946b1659cec08c360a5bb9e9fba 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -398,16 +398,28 @@ struct drm_gem_object {
- 	struct dma_resv _resv;
+ 	obj->base.base.funcs = &panthor_gem_funcs;
+ 	obj->base.map_wc = !ptdev->coherent;
+-	mutex_init(&obj->gpuva_list_lock);
+-	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
++	drm_gem_gpuva_set_lock(&obj->base.base, &obj->base.base.gpuva.lock);
+ 	mutex_init(&obj->label.lock);
  
- 	/**
--	 * @gpuva:
--	 *
--	 * Provides the list of GPU VAs attached to this GEM object.
--	 *
--	 * Drivers should lock list accesses with the GEMs &dma_resv lock
--	 * (&drm_gem_object.resv) or a custom lock if one is provided.
-+	 * @gpuva: Fields used by GPUVM to manage mappings pointing to this GEM object.
+ 	panthor_gem_debugfs_bo_init(obj);
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 8fc7215e9b900ed162e03aebeae999fda00eeb7a..80c6e24112d0bd0f1561ae4d2224842afb735a59 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -79,18 +79,6 @@ struct panthor_gem_object {
  	 */
- 	struct {
-+		/**
-+		 * @gpuva.list: list of GPUVM mappings attached to this GEM object.
-+		 *
-+		 * Drivers should lock list accesses with either the GEMs
-+		 * &dma_resv lock (&drm_gem_object.resv) or the
-+		 * &drm_gem_object.gpuva.lock mutex.
-+		 */
- 		struct list_head list;
+ 	struct drm_gem_object *exclusive_vm_root_gem;
  
-+		/**
-+		 * @gpuva.lock: lock protecting access to &drm_gem_object.gpuva.list
-+		 * when the resv lock can't be used.
-+		 *
-+		 * Should only be used when the VM is being modified in a fence
-+		 * signalling path, otherwise you should use &drm_gem_object.resv to
-+		 * protect accesses to &drm_gem_object.gpuva.list.
-+		 */
-+		struct mutex lock;
-+
- #ifdef CONFIG_LOCKDEP
- 		struct lockdep_map *lock_dep_map;
- #endif
+-	/**
+-	 * @gpuva_list_lock: Custom GPUVA lock.
+-	 *
+-	 * Used to protect insertion of drm_gpuva elements to the
+-	 * drm_gem_object.gpuva.list list.
+-	 *
+-	 * We can't use the GEM resv for that, because drm_gpuva_link() is
+-	 * called in a dma-signaling path, where we're not allowed to take
+-	 * resv locks.
+-	 */
+-	struct mutex gpuva_list_lock;
+-
+ 	/** @flags: Combination of drm_panthor_bo_flags flags. */
+ 	u32 flags;
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 2003b91a84097d419484c284c2d6241a82b5cde2..2881942ab5115686803fb9d9036bc059d56b7fa3 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -1107,9 +1107,9 @@ static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
+ 	 * GEM vm_bo list.
+ 	 */
+ 	dma_resv_lock(drm_gpuvm_resv(vm), NULL);
+-	mutex_lock(&bo->gpuva_list_lock);
++	mutex_lock(&bo->base.base.gpuva.lock);
+ 	unpin = drm_gpuvm_bo_put(vm_bo);
+-	mutex_unlock(&bo->gpuva_list_lock);
++	mutex_unlock(&bo->base.base.gpuva.lock);
+ 	dma_resv_unlock(drm_gpuvm_resv(vm));
+ 
+ 	/* If the vm_bo object was destroyed, release the pin reference that
+@@ -1282,9 +1282,9 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	 * calling this function.
+ 	 */
+ 	dma_resv_lock(panthor_vm_resv(vm), NULL);
+-	mutex_lock(&bo->gpuva_list_lock);
++	mutex_lock(&bo->base.base.gpuva.lock);
+ 	op_ctx->map.vm_bo = drm_gpuvm_bo_obtain_prealloc(preallocated_vm_bo);
+-	mutex_unlock(&bo->gpuva_list_lock);
++	mutex_unlock(&bo->base.base.gpuva.lock);
+ 	dma_resv_unlock(panthor_vm_resv(vm));
+ 
+ 	/* If the a vm_bo for this <VM,BO> combination exists, it already
+@@ -2036,10 +2036,10 @@ static void panthor_vma_link(struct panthor_vm *vm,
+ {
+ 	struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
+ 
+-	mutex_lock(&bo->gpuva_list_lock);
++	mutex_lock(&bo->base.base.gpuva.lock);
+ 	drm_gpuva_link(&vma->base, vm_bo);
+ 	drm_WARN_ON(&vm->ptdev->base, drm_gpuvm_bo_put(vm_bo));
+-	mutex_unlock(&bo->gpuva_list_lock);
++	mutex_unlock(&bo->base.base.gpuva.lock);
+ }
+ 
+ static void panthor_vma_unlink(struct panthor_vm *vm,
+@@ -2048,9 +2048,9 @@ static void panthor_vma_unlink(struct panthor_vm *vm,
+ 	struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
+ 	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_get(vma->base.vm_bo);
+ 
+-	mutex_lock(&bo->gpuva_list_lock);
++	mutex_lock(&bo->base.base.gpuva.lock);
+ 	drm_gpuva_unlink(&vma->base);
+-	mutex_unlock(&bo->gpuva_list_lock);
++	mutex_unlock(&bo->base.base.gpuva.lock);
+ 
+ 	/* drm_gpuva_unlink() release the vm_bo, but we manually retained it
+ 	 * when entering this function, so we can implement deferred VMA
 
 -- 
 2.51.0.261.g7ce5a0a67e-goog
