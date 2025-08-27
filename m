@@ -2,135 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07D1B38798
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 18:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3536B387E4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 18:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC20C10E85E;
-	Wed, 27 Aug 2025 16:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985B410E15F;
+	Wed, 27 Aug 2025 16:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WgVXKxWV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="tWIdsCE1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E8410E85E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:01 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6k9U7030084
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 72Snl19eM9SG13obf5lnpG+wAP1deg4gz5g3WQbmbnU=; b=WgVXKxWVJuRBsVz9
- XHDVQMH89DBN52LZM0i6JeZ4HCO9BuZ+WqFlW+VLMi/eo3WJWoTOFmZ9dqk7WD9n
- gexfdNriIyYI+ZBpsbjCX4VcJO5mNo7yVDWfCqBgY56v6EMaaU5mFcaXO4gXKKYt
- 5kr87RDxfNTDSA28KzPnSE9m32vauXAfpsRUCw8xgtrmcVg30I815WVOQI9ZKNVh
- 4MeJ0ttIpcouCf9Z659WXuzLiGmyIfWFPZgmr4piBzXGSGSMWEsFvc3FWa/70htd
- AXv3ABUIQ9tWJTgnkg+GQtG6wS6Zoc5CqDYoAOVFPLieKtbT710xZQVDaqWZ5eEv
- ZjXmDA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5unw37n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:15:00 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b109affec8so42661cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 09:15:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756311300; x=1756916100;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=72Snl19eM9SG13obf5lnpG+wAP1deg4gz5g3WQbmbnU=;
- b=KS1NpqNFwvczDFB3SBgmvF+qI9681lLwHGtyUykfO3CZjmiWkUZ/WA/jlmVw1+N3CK
- EDBVvfO+nY1RNQK6i1Fw1neJMhI+RynKklTIfXTh72eLl3n3U0tsJ3fyZRIvQ/HEoaY3
- I7NYCG1zs7KVzvmqKuhsb0y9QH314dAr+Xr4fKoOUN4egluRqqhiSjJe4DNJixNlEEMO
- 42FILCKdIgv459++bLp6yvFX4b6xAxg1DqpzegHqEhZjaOVLiOUZKCKupKYCg+nk2J06
- QE/XhdaRE7a6ibg9hqFcrb9wSo6HIgdGx85k9Af1KueZikUI7Oqmr+wA9ahaYu+Fekve
- BkJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWd2O/MhFils4msIAoMRwNn/DaPMwziLkcqT3OrTPt/NPBOtYMIp3j5D2TUgVpnYIjNgkuWkX4VflI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyu6hEzJycidKbw5B2ARPSarxGLea2YZLvyYmd+bhAdRR73ldnM
- EnJYsJPKKgHQXwej+YQbw/QAQHDdEMH6eo9pOftn/+WT758Q/SLxL+P1im1B6KmxOKXNy1C99Mn
- wZyo24fDZURiqB6H8CaecxMne4zWfRydeDlQ7jKkhmVQ2l0a+o4OdpWWMBSrB5AbNoA9p8Rs=
-X-Gm-Gg: ASbGncuu3WVWCPo83d9m9eHA+E/wPHdb2qTXtsVmd8FXvW0ooVBbn9ZeMhb9r6YJMk2
- O5oEGsxnPCEbN9kHD3wCIleNXDTgTh/nHzdsrFREBGuKRWdDInWx19wQFJWXDKn118qruDuxQI5
- ssj2eFpA4AYydj4CO4GaFlKEx+6bOwRX+8PwfQ/YaCDthI8FNARFf0ciHtzbGEcZ/PjP2t+HGCF
- gKC04h4UA01I1y6uq18yqA0/KOtIHRpaYn0zi6Ihpt9fqZgNHcOsRO+5U30BfW261vVvSat1/Tl
- moX2zOLfhhMhZGkSP8OgLFosa8EfiinbzdxCxApjTWeWOB3kNRAdXBy4OAsBP4sc5IucUIgGeep
- jrTs/ZUNDusBeB14mQ40df6n2pOcPK6shHxknphMyBsgCnQ1U5lGN
-X-Received: by 2002:a05:622a:4ac8:b0:4b2:e0ac:63b0 with SMTP id
- d75a77b69052e-4b2e0ac6451mr82573231cf.77.1756311299638; 
- Wed, 27 Aug 2025 09:14:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPzGcbfBYbuRl3Du92a0zsaKioL4MbDCRH7YFgTAKCluORsEyl5ZX6nTkAvEBJ0xy1YynMxA==
-X-Received: by 2002:a05:622a:4ac8:b0:4b2:e0ac:63b0 with SMTP id
- d75a77b69052e-4b2e0ac6451mr82572361cf.77.1756311298937; 
- Wed, 27 Aug 2025 09:14:58 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35c02020sm2863442e87.29.2025.08.27.09.14.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 09:14:57 -0700 (PDT)
-Date: Wed, 27 Aug 2025 19:14:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
-Subject: Re: [PATCH v3 11/14] phy: qcom: qmp-usbc: Finalize USB/DP switchable
- PHY support
-Message-ID: <inxoswyre3qalrb3dj3lz3b5vmnpnkyy3hh4oum3z6p7yqlo2v@7g67yvvb25tc>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-11-a43bd25ec39c@oss.qualcomm.com>
- <jjsijdmh4hdbgd2boebtrmzvblvhz2hnl7mtv5ga76ine2fnsb@i72dz3r4lbjp>
- <82d19340-b887-4093-9d24-4b2e19b99f8b@oss.qualcomm.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFD0E10E15F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 16:41:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BkwtbMBhtF+xN2F79f2BoCDoWhd1CfN76MrGA6SpB2lOl1/LyJwqva2JCiR7kcJFjlF57y9wZFgfpTyuII3spaioc6t3hhlwXyAzhaNkJ5NWigpRrspZDrWWso+AW0Z6FM2/IAYf7viMSCX5Gj4g5PS1DV48FeLDVj7e1JUHlXW85cXsSVmxFra73s47kzsD5CW8yE/SVCUA6G1sLmPQAxORjD35gjI8mnBckcskzYH5SoUJ91K/ybRCKx9bheT4mJC/wOQmNcv2P2jzxkJbU7kSEfMqxu9NLbdV9HEYtPQz9gGis5n9Xespca6a/K2mHh/QHyB+NaOeRHRadSnBaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jeaaiM4dTMay5/1o9dmGebiKV+yrCqqruUamX3tVL0w=;
+ b=PGpYBwlZ6XE/vyf4+yiywrJUoqd8xl5+ys9+AhKGVk1/fFnDjXP5KBDIjdilU7LLcI6WC6o/EHDQQoHWY+MPJPNXzbbg26geEO6uvI7xDor6TourMeNJPpBhoPEQGFwCAwPjctrEyA/RpV7YBk528+J3hAKNsL5t+p2/11eAeb7IO2xZ0JybY1jDoSw/BVZD19yJtL/0zp9/PyNqf4zR01mjNV2ED+ngqRawzMTvBvXzfHHqZlvX3jptIddLHWdSfJ0q51Luqm2bTFwP1WZeybTOWPr5nio+ayKXZ0P+IvjI9ol3uB5QFqDH3Jc4Lgf1QHXzWeqmdi2dSBTd1Z+JJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jeaaiM4dTMay5/1o9dmGebiKV+yrCqqruUamX3tVL0w=;
+ b=tWIdsCE1vZ8Z2b9pbpQ0iU5ICFF+UoeY0kcBHGjXOUWYC6SkToDWXcFsVnnJHKysMYljcz4OPDalwMj2u2k/nrIJIW4nrubHJt3Xo+YsZVh3Ue3LoaDvBf0lmP4bvXDqZqL/q4Z3kUnBVLUTfgMEig5AoFxTgAe9PsAE7xJfZDY=
+Received: from BY5PR13CA0009.namprd13.prod.outlook.com (2603:10b6:a03:180::22)
+ by MW6PR12MB8833.namprd12.prod.outlook.com (2603:10b6:303:23f::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Wed, 27 Aug
+ 2025 16:41:28 +0000
+Received: from SJ1PEPF0000231F.namprd03.prod.outlook.com
+ (2603:10b6:a03:180:cafe::bd) by BY5PR13CA0009.outlook.office365.com
+ (2603:10b6:a03:180::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.5 via Frontend Transport; Wed,
+ 27 Aug 2025 16:41:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SJ1PEPF0000231F.mail.protection.outlook.com (10.167.242.235) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9073.11 via Frontend Transport; Wed, 27 Aug 2025 16:41:28 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 27 Aug
+ 2025 11:41:28 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Wed, 27 Aug
+ 2025 09:41:27 -0700
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 27 Aug 2025 11:41:27 -0500
+Message-ID: <492b465b-03d5-e80e-a31a-79ce4b1f83f7@amd.com>
+Date: Wed, 27 Aug 2025 09:41:27 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+Content-Language: en-US
+To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20250822172319.377848-1-lizhi.hou@amd.com>
+ <2bec1429-4f8c-472c-99a1-420a33a3d316@amd.com>
+ <d6a02baa-3b05-73e6-9c2a-66c257efecc3@amd.com>
+ <a9814644-96e3-456f-90b7-8705a102c938@amd.com>
+ <2a21100b-2078-a166-0b47-9db6b4446b5a@amd.com>
+ <b758a72f-e30e-42f9-a6aa-6f6297b8cce3@amd.com>
+ <b3874221-5b4f-9625-de8a-4e54dc6884a2@amd.com>
+ <c048645d-480d-4b7f-8dde-efb095b2c2fa@amd.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <c048645d-480d-4b7f-8dde-efb095b2c2fa@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <82d19340-b887-4093-9d24-4b2e19b99f8b@oss.qualcomm.com>
-X-Proofpoint-GUID: Xuyl6etE61lkHKqIAUj2knBX5RI0wYkV
-X-Proofpoint-ORIG-GUID: Xuyl6etE61lkHKqIAUj2knBX5RI0wYkV
-X-Authority-Analysis: v=2.4 cv=JJo7s9Kb c=1 sm=1 tr=0 ts=68af2f04 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=M2k1YX_etJ5cuwz7zUoA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMSBTYWx0ZWRfXwLloYt/IxB55
- YB+Sq98dJ4b0jv9eybSfJKyNx2hvvF9/dDgxkGxL61MuA+PeH8EJq643wG0Aq8nP6II5Y552JZA
- a4EEjQpwSVZUvq+x9kBzp9VFWPXWfIBqCTvI9jlMgJeKYXPIHDclmhbBB2ohaKyRFAwVQIRw4pb
- PdUGKIjjllyo3kWt2qwab98zhau8yNqx3/jlCbSLtXgYiDcdXUkwxOB5cr6tWUbOPOwGl00/eQP
- 7wMbnCM7g2l3aHjxrT1+iFgS1Ae5t4lWVLjMSSGmk5s2cZbxLUDLAD6DiGLc+UrJR6mPaWYfySh
- hSzf2k4lKXF9Vv58hZ+JVnokp+jQ4UsUZOJ9s1qCRRdh/UdHrP6yRfhLlN7IvgewGiAnj12RHY1
- OjCcCnJD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230031
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231F:EE_|MW6PR12MB8833:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57dec3fe-07d5-4775-152d-08dde5889227
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Tm9tTGRlYkVXdndPVDhGUTlBV3MvR0pHTXlCUTlFRHRzeUFqUDRFSmRORnM5?=
+ =?utf-8?B?MzR4TjREMDM3bnJNdURXeXRRSysyd1IyN0hLam1IbUt4OWFOMHIxU0E3cXdS?=
+ =?utf-8?B?WWVoczQyd01MMmdvd0lXVE9LWkNONW16UkVWTGwvM3QwemFrYitHMVBkbnN5?=
+ =?utf-8?B?V3hsWWZwNjNOQzVrUjg3UXRFWDVOTjY0bVZIbGpMM29YZ1JCU2U4NGtKWVVU?=
+ =?utf-8?B?ZGlJWWg4T1ZKajhQbmswbkVKR2MxNWdCd2xnLzVqZHVQdkpvRUVzKzFQZS9W?=
+ =?utf-8?B?NERLbWRUR2VNN053SzQ1SnBubjEzbUIvTVNKSkVpeGNxWUVwWlFFMEEyM1Np?=
+ =?utf-8?B?TGs5RHY5ZlhCL3czRGhKdnl5VDdYeXB6bW5CZHExMnJwalZ0cmg2OC9zZmtX?=
+ =?utf-8?B?WlJBSk5jcmdRazUwYmVyME12Q2h2cGFSdjFKZ0M3cnRCYTROWUtiaGZrMytl?=
+ =?utf-8?B?Vy9kOFoybmtVVFIzb3JJU3FaNVFUakRuWEJNU0JVbVUzbUhPT1owd1F6VkVk?=
+ =?utf-8?B?YUhFRkIyVW9TQmFlWnFYM2pSV0ZoMjhXSWZsVmxNNk0yaEVwVjJQV3JCTVJt?=
+ =?utf-8?B?RWRQWFN6bjUrWDVpTnpXNHhsbVNwYmJ1S3Fhb0V2MTJ3UUcyYWhnNHNDR0hP?=
+ =?utf-8?B?ekJMSEtaSzFTYTNkMUorSm9rTnptREpTQ04yc2txS1ArUklZaEozN0tLQ1Aw?=
+ =?utf-8?B?eUF6Q3ptcEJsZjIrMXgwMUphRzliNGdRVU01bTlqS1Bzb2tZSkkzN1pNakNK?=
+ =?utf-8?B?NWFCdm5IQ0ZOR1JOblhnMGpzcU9Hd1Z6TkdFREZxL0xqTUZWSGJ5VWR0MlRp?=
+ =?utf-8?B?R2ttMnRTaENjSTZSSHUwWVZsbWdVQ2NPaTBhK0pKLzgyczUwU0YzNGp0L1Qv?=
+ =?utf-8?B?ajhja2V2TTRhQVNMejJHUEJhOGNwekJZeVVqbVNUWHpkWWxSeVRmSUt6RCt5?=
+ =?utf-8?B?ajU0OG05S09tdWliRlhqQy9BV2xkaFhpY1kzNVJRKzJlN2VDMXh6bEtJekxt?=
+ =?utf-8?B?elpoQ2VIUThSVDJNNmJXVGkrK05lanBUWitvbCt6THRDWG01aTM5MkIySmV4?=
+ =?utf-8?B?a0JRbEkydUNmUDd5Tzd4L3puVHJEOFNENTlnc3RyMG81NU5kcXdpWlVDVkMr?=
+ =?utf-8?B?bytobzQ3aFlEQTZMOWl6RzZaUWQ1RytUSVFCT1h5cENhTDV1UzEyeGxyRHZX?=
+ =?utf-8?B?QmVvNFJOMTZ4QjBDenFZTTVZRlA5VVpHYm9adVFrdDN4NjJzZDZGelQvYk9o?=
+ =?utf-8?B?Z0dGZElDZmdRcWo5a0xmNndPdHJ3Qk44bFpDczhVblQ0ZHBwK2h0ZjljTTU1?=
+ =?utf-8?B?MXo5aGhtTXBVeVVITG5NVGk2a1RlL1h3N21JMW1NbUdRUnY3WVNaV0NqOERj?=
+ =?utf-8?B?YkJSdllCbVVzaHQ5eXFjWGNWeVE0UjFFK014UmgwYWNFZHZoenJRSjdmSXE1?=
+ =?utf-8?B?bGw0Y1RwTDVKNzRaRElQSnk5bjM3bTFua1hPZHdDYi9mWWcrOW1pWnU4VG9a?=
+ =?utf-8?B?dm1iM25Zb2xTWmFabkV3NVBIRFFueHR6NzRub1lHUm5xM2oyVnVXOHg0YWNZ?=
+ =?utf-8?B?NUlGKzhaRkNJWjlLUVVyK3R2SmovT2RjM0JpRkdOS09RUEZuRjBhR2JDeVlF?=
+ =?utf-8?B?K2hhVUE3bXF3endBU0VsdkFBVU5rYVNxZ08zRlp0NURHbUhhWGl2cXFFd29F?=
+ =?utf-8?B?OSt3akNUbXlzanJickhGeDRGemZYRDVEbERBaGV4RURocHpKc0s5R2tYa0I1?=
+ =?utf-8?B?UTJkWG41Z29DWkNNbjhNZHNQNlVXTzlnL0hVbVJQSU1EbVFweFhtQkhyeHJq?=
+ =?utf-8?B?VVBRcStqYTR4UXVoK1dpemM2eUtvUC8vZ3dPWlNJWFlYd2VSb3VTOHNUSC9D?=
+ =?utf-8?B?eDlFb1hvcDRLdGFwWXk0RTVCa1FaK3Q2WEhTcTNrNjRNMUJZZHdvU3dqTEJ1?=
+ =?utf-8?B?a0FTV3ZyRm1ld3Bicm1vSXR6eDM1QmpCcU1pOVdNU2tzeFk0NUN0cUxkMGts?=
+ =?utf-8?B?Vnp6SXJ5WlZFMkN1RS9xQjZOdEV2WE9jZDdZYVh5cWtZdDhXRXhTTFF4RFN1?=
+ =?utf-8?Q?y6tPWQ?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 16:41:28.5470 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57dec3fe-07d5-4775-152d-08dde5889227
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF0000231F.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8833
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,64 +157,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 08:34:39PM +0800, Xiangxu Yin wrote:
-> 
-> On 8/20/2025 7:42 PM, Dmitry Baryshkov wrote:
-> > On Wed, Aug 20, 2025 at 05:34:53PM +0800, Xiangxu Yin wrote:
-> >> Complete USB/DP switchable PHY integration by adding DP clock
-> >> registration, aux bridge setup, and DT parsing. Implement clock
-> >> provider logic for USB and DP branches, and extend PHY translation
-> >> to support both USB and DP instances.
-> >>
-> >> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> >> ---
-> >>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 331 ++++++++++++++++++++++++++++---
-> >>  1 file changed, 299 insertions(+), 32 deletions(-)
-> >>
-> >>  static int qmp_usbc_probe(struct platform_device *pdev)
-> >>  {
-> >>  	struct device *dev = &pdev->dev;
-> >> @@ -1703,16 +1944,32 @@ static int qmp_usbc_probe(struct platform_device *pdev)
-> >>  	if (ret)
-> >>  		return ret;
-> >>  
-> >> -	/* Check for legacy binding with child node. */
-> >> -	np = of_get_child_by_name(dev->of_node, "phy");
-> >> -	if (np) {
-> >> -		ret = qmp_usbc_parse_usb_dt_legacy(qmp, np);
-> >> -	} else {
-> >> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
-> > Should not be necessary.
-> 
-> 
-> Got it. I’ll merge the parsing logic into a single qmp_usbc_parse_dt function.
-> 
-> Also, I checked the compatible strings in the dtsi files for this PHY series
-> looks like no current product uses the legacy binding. 
-> I’ll drop qmp_usbc_parse_usb_dt_legacy in the next version.
+
+On 8/26/25 17:31, Mario Limonciello wrote:
+> On 8/26/2025 1:10 PM, Lizhi Hou wrote:
+>>
+>> On 8/26/25 10:58, Mario Limonciello wrote:
+>>> On 8/26/2025 12:55 PM, Lizhi Hou wrote:
+>>>>
+>>>> On 8/26/25 10:18, Mario Limonciello wrote:
+>>>>> On 8/25/2025 11:48 PM, Lizhi Hou wrote:
+>>>>>>
+>>>>>> On 8/25/25 14:28, Mario Limonciello wrote:
+>>>>>>> On 8/22/2025 12:23 PM, Lizhi Hou wrote:
+>>>>>>>> Add interface for applications to get information array. The 
+>>>>>>>> application
+>>>>>>>> provides a buffer pointer along with information type, maximum 
+>>>>>>>> number of
+>>>>>>>> entries and maximum size of each entry. The buffer may also 
+>>>>>>>> contain match
+>>>>>>>> conditions based on the information type. After the ioctl 
+>>>>>>>> completes, the
+>>>>>>>> actual number of entries and entry size are returned.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>>>>>>>
+>>>>>>> How does userspace discover whether or not the new IOCTL call is 
+>>>>>>> supported?  Just a test call?
+>>>>>> The kernel header version will be used to determine whether the 
+>>>>>> application which uses new IOCTL will be compiled or not.
+>>>>>>
+>>>>>
+>>>>> But it's not actually an application compile time decision, it's a 
+>>>>> runtime decision.  IE I can compile an application with the 
+>>>>> headers on kernel 6.18 that has this, but if I try to run it on 
+>>>>> 6.15 it's going to barf.
+>>>>>
+>>>>> To some extent that comes with the territory, but I'm wondering if 
+>>>>> a better solution going forward would be for there to be a 
+>>>>> dedicated version command that you bump.
+>>>>
+>>>> For in-tree driver, I did not aware a common way for this other 
+>>>> than checking the kernel version.
+>>>>
+>>>> And here is qaic patch of adding a new IOCTL.
+>>>>
+>>>> https://github.com/torvalds/linux/ 
+>>>> commit/217b812364d360e1933d8485f063400e5dda7d66
+>>>>
+>>>>
+>>>> I know there is major, minor, patchlevel in struct drm_driver. And 
+>>>> I think that is not required for in-tree driver.
+>>>>
+>>>> Please let me know if I missed anything.
+>>>>
+>>>> Thanks,
+>>>
+>>> Right; so bump up one of those so that userspace can check it. Maybe 
+>>> "minor"?
+>>
+>> I meant for in-tree driver, is it good enough for userspace to just 
+>> check kernel version?  E.g. The drm driver versions are not used by 
+>> ivpu or qaic.
+>>
+>
+> Just because they don't doesn't mean you shouldn't.
+Ok. :) It does not sound amdxdna specific. Just wondering how the other 
+driver/application under accel subsystem handle this.
+>
+> Take a look at what amdgpu does for user queues earlier this year for 
+> example: 100b6010d7540e
+>
+> This means that a userspace application can look for that minor bump 
+> or newer to know the ioctl supports user queues.
+
+As in-tree driver is part of kernel, the userspace application can check 
+kernel version to determine whether a feature is supported or not. Could 
+you share the idea why would user application to check drm driver 
+version for this?
+
+And amdxdna driver is new added driver which never bumped drm 
+major/minor before. Thus there is not any application use drm versions. 
+Maybe using kernel version directly is good enough in this case?
+
+I am fine to bump minor if it provides better support to user applications.
 
 
-No. It's _legacy_, it has been implemented in order to support old DTs,
-which existed at some point but then were refactored into the current
-state. You can't randomly drop DT support.
+Thanks,
 
-> 
-> 
-> >>  		np = of_node_get(dev->of_node);
-> >> -		ret = qmp_usbc_parse_usb_dt(qmp);
-> >> +
-> >> +		ret = qmp_usbc_parse_usb3dp_dt(qmp);
-> >> +		if (ret) {
-> >> +			dev_err(qmp->dev, "parse DP dt fail ret=%d\n", ret);
-> >> +			goto err_node_put;
-> >> +		}
-> >> +
-> >> +		ret = drm_aux_bridge_register(dev);
-> >> +		if (ret) {
-> >> +			dev_err(qmp->dev, "aux bridge reg fail ret=%d\n", ret);
-> >> +			goto err_node_put;
-> >> +		}
+Lizhi
 
--- 
-With best wishes
-Dmitry
