@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673A3B385EE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 17:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F223B385EA
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 17:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADF410E851;
-	Wed, 27 Aug 2025 15:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E4610E849;
+	Wed, 27 Aug 2025 15:13:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gNTsOlgl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nxo6kY9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A54510E84B
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:13:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 395B510E84B
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 15:13:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 618244197C;
- Wed, 27 Aug 2025 15:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84BFC4CEF0;
- Wed, 27 Aug 2025 15:13:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 211C544B2C;
+ Wed, 27 Aug 2025 15:13:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5BC9C4CEEB;
+ Wed, 27 Aug 2025 15:13:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756307585;
- bh=k6TwiI8He8GNSiGlGO+CMw9G5rhFmltlagnJGvSCcUw=;
+ s=k20201202; t=1756307588;
+ bh=YR/gYRTUbGVsPcXt+qNXfBhGUDKi5WInCy3Qs5bL5Cw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=gNTsOlglXMeUUV2UbTVaB1a6wDp6C6CaEHdsOCguHmKF8UUQfNfMrD0aAGuoyfHvR
- MFBCtujgsPC3K1NIhpP+yrBAVPB5gQ+fzIbEfME//eg2ypaVh9Lqa4J8Q36M7HC6pF
- i12ub26z7b6bZ3lnDKyctcSDnwQwbWAaNwVVWHeh1Dvw4Z8SYpg4SpARYPS+fgMwm1
- CeKYjpbTiudQtKYcR2FNwkRE7o6HL6iBRipg4ZNtkpAX42JoFODmdVi94/RZC9qWIG
- yWFyw03Z4IC/zQ5i1gIosgBEc6wwRsDaL141gwjDNmjly35EaEIkRkzLOxSllocanG
- TGGwmO1qwTtJg==
+ b=nxo6kY9scmEYDx7Cu2pXPuIwgx4qmT1gxiMlpW4N7VpoD9nS3cCKl0bRXjd/DhrJv
+ LRGY0t7zDLssSZwYJczQv0M/LtIv0wQ4MHqolc6aajhI5HVyoUs5jehn59otX0lXah
+ 0/PUWD+XOwAsFiOgpC5u7H5p0HDqkVLEC+Jb2iYlTxLDdZ2pZCF4GvSUFlGglxlblW
+ 2dYlEH0ZVdrOMoTNVdbdFs7OP7Ma55iuHX0U6Bi5hMI3Vwokt1pXPytwdFtpaNS7WA
+ +fYMzqAWFPw4wFgGpGfVlk2/EVsjdqvTra1PsxZKtsGRqvBkLfqvTTogHMXe30VReA
+ AiKTULFxtXAeA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 27 Aug 2025 17:12:39 +0200
-Subject: [PATCH v3 08/14] drm/tidss: dispc: Switch REG_FLD_MOD to using a mask
+Date: Wed, 27 Aug 2025 17:12:40 +0200
+Subject: [PATCH v3 09/14] drm/tidss: dispc: Switch VID_REG_GET to using a mask
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250827-drm-tidss-field-api-v3-8-7689b664cc63@kernel.org>
+Message-Id: <20250827-drm-tidss-field-api-v3-9-7689b664cc63@kernel.org>
 References: <20250827-drm-tidss-field-api-v3-0-7689b664cc63@kernel.org>
 In-Reply-To: <20250827-drm-tidss-field-api-v3-0-7689b664cc63@kernel.org>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -47,12 +47,12 @@ To: Jyri Sarha <jyri.sarha@iki.fi>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3642; i=mripard@kernel.org;
- h=from:subject:message-id; bh=k6TwiI8He8GNSiGlGO+CMw9G5rhFmltlagnJGvSCcUw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnrFdL+Hg13kVz5NLBM7kBwc2/WwgnCVXeu6yerSxQ5i
- uWyJ0V3TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgIk8C2KslXC6WBDLoFWiGhpc
- xmdltnR6iXyWs76KklnRw7nLqwru7+dquvWiLdjN/H9IdPPpjRGMDaeZNGMnLnk3RbY8IueGU9Z
- RG27fgFucpXJXvjwpsdx76c2Xx4V3+p/e+ZvjmjjDdZ7THQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=YR/gYRTUbGVsPcXt+qNXfBhGUDKi5WInCy3Qs5bL5Cw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnrFdLal9a6+K4JSHEpu7znRGjRrAnNi3cx2bVZzpzJv
+ jlCbB1vx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI2HbGhtUrF8+tadSt4kos
+ uLTHdluCxq7ZZzwNbxodnmep+lyz2kt5w/y9LAfvegvdP3Wq8qvnb8aGZY9Mrs4zlmyI4fn7co/
+ 8IZvg/oJ1HBafZb9MY/m37p+R5LO7invv7QthZP25fcLtd9UlAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,95 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The REG_FLD_MOD function takes the start and end bits as parameter and
+The VID_REG_GET function takes the start and end bits as parameter and
 will generate a mask out of them.
 
 This makes it difficult to share the masks between callers, since we now
 need two arguments and to keep them consistent.
 
-Let's change REG_FLD_MOD to take the mask as an argument instead, and
+Let's change VID_REG_GET to take the mask as an argument instead, and
 let the caller create the mask. Eventually, this mask will be moved to a
 define.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 48985f0bbbacacf76293f24414470664c74c40ec..82b038285acc245f86573a6a854da37248c92407 100644
+index 82b038285acc245f86573a6a854da37248c92407..8e2c8ecb9f18c71cb532f1f5cea2bc00a0262ad3 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.c
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -595,16 +595,16 @@ void tidss_disable_oldi(struct tidss_device *tidss, u32 hw_videoport)
-  */
- 
- #define REG_GET(dispc, idx, mask)					\
- 	((u32)FIELD_GET((mask), dispc_read((dispc), (idx))))
- 
--#define REG_FLD_MOD(dispc, idx, val, start, end)			\
-+#define REG_FLD_MOD(dispc, idx, val, mask)				\
- 	({								\
- 		struct dispc_device *_dispc = (dispc);			\
- 		u32 _idx = (idx);					\
+@@ -604,13 +604,12 @@ void tidss_disable_oldi(struct tidss_device *tidss, u32 hw_videoport)
  		u32 _reg = dispc_read(_dispc, _idx);			\
--		FIELD_MODIFY(GENMASK((start), (end)), &_reg, (val));	\
-+		FIELD_MODIFY((mask), &_reg, (val));			\
+ 		FIELD_MODIFY((mask), &_reg, (val));			\
  		dispc_write(_dispc, _idx, _reg);			\
  	})
  
- #define VID_REG_GET(dispc, hw_plane, idx, start, end)			\
- 	((u32)FIELD_GET(GENMASK((start), (end)),			\
-@@ -2316,13 +2316,13 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
- 	unsigned int hw_plane;
+-#define VID_REG_GET(dispc, hw_plane, idx, start, end)			\
+-	((u32)FIELD_GET(GENMASK((start), (end)),			\
+-			dispc_vid_read((dispc), (hw_plane), (idx))))
++#define VID_REG_GET(dispc, hw_plane, idx, mask)				\
++	((u32)FIELD_GET((mask), dispc_vid_read((dispc), (hw_plane), (idx))))
  
- 	dev_dbg(dispc->dev, "%s()\n", __func__);
+ #define VID_REG_FLD_MOD(dispc, hw_plane, idx, val, start, end)		\
+ 	({								\
+ 		struct dispc_device *_dispc = (dispc);			\
+ 		u32 _hw_plane = (hw_plane);				\
+@@ -2292,11 +2291,12 @@ void dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable)
+ 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, !!enable, 0, 0);
+ }
  
- 	/* MFLAG_CTRL = ENABLED */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, 1, 0);
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, GENMASK(1, 0));
- 	/* MFLAG_START = MFLAGNORMALSTARTMODE */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, GENMASK(6, 6));
+ static u32 dispc_vid_get_fifo_size(struct dispc_device *dispc, u32 hw_plane)
+ {
+-	return VID_REG_GET(dispc, hw_plane, DISPC_VID_BUF_SIZE_STATUS, 15, 0);
++	return VID_REG_GET(dispc, hw_plane, DISPC_VID_BUF_SIZE_STATUS,
++			   GENMASK(15, 0));
+ }
  
- 	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
- 		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
- 		u32 thr_low, thr_high;
- 		u32 mflag_low, mflag_high;
-@@ -2367,17 +2367,17 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
- 	u32 cba_lo_pri = 1;
- 	u32 cba_hi_pri = 0;
- 
- 	dev_dbg(dispc->dev, "%s()\n", __func__);
- 
--	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_lo_pri, 2, 0);
--	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_hi_pri, 5, 3);
-+	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_lo_pri, GENMASK(2, 0));
-+	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_hi_pri, GENMASK(5, 3));
- 
- 	/* MFLAG_CTRL = ENABLED */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, 1, 0);
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, GENMASK(1, 0));
- 	/* MFLAG_START = MFLAGNORMALSTARTMODE */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, 6, 6);
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, GENMASK(6, 6));
- 
- 	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
- 		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
- 		u32 thr_low, thr_high;
- 		u32 mflag_low, mflag_high;
-@@ -2901,11 +2901,11 @@ static int dispc_softreset(struct dispc_device *dispc)
- 		dispc_softreset_k2g(dispc);
- 		return 0;
- 	}
- 
- 	/* Soft reset */
--	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, 1, 1);
-+	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, GENMASK(1, 1));
- 	/* Wait for reset to complete */
- 	ret = readl_poll_timeout(dispc->base_common + DSS_SYSSTATUS,
- 				 val, val & 1, 100, 5000);
- 	if (ret) {
- 		dev_err(dispc->dev, "failed to reset dispc\n");
+ static void dispc_vid_set_mflag_threshold(struct dispc_device *dispc,
+ 					  u32 hw_plane, u32 low, u32 high)
+ {
 
 -- 
 2.50.1
