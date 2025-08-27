@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53332B3815F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 13:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B96B3814C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 13:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAD3A10E7DD;
-	Wed, 27 Aug 2025 11:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBB3B10E7C8;
+	Wed, 27 Aug 2025 11:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="ipY/VwOx";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="jZ9sSIQY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D55210E7C8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 11:40:18 +0000 (UTC)
-X-UUID: 97244b26833a11f0bd5779446731db89-20250827
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD3710E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 11:40:16 +0000 (UTC)
+X-UUID: 9756297a833a11f0bd5779446731db89-20250827
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=R+Mk750hzu8WqkwCFlMfZnGEd3cRmEz0FnIHubJzlQg=; 
- b=ipY/VwOx1Uuz+Q5oE8otk2PMuaNPlIYI0Xhkc40OjSygehkcrII7okzT93XwQJKqSzFpei244o51sYkG7K7pimICLBJvyey4ItnyYxAUOyKqdzrGX4Wybdj6qVj/QvVt3vQRKpLLXZXzeZ6nTP2FuupmHwxl5Ncp8Q25+ctF848=;
+ bh=/CoNhOf+hJVV4Y8EhRNWJcjEhIvo+2fMZxmyi0epuFI=; 
+ b=jZ9sSIQY6FYewEOnjTI257OeLe6Ikvs4jj068phbQ6nM0HXK5UH2t+Q6UUuAvCgySYu1cdVyJekp26iRZq9n/LzcbzBR2yElA8dsn0HxQms5btgXG37ibXp2ppuYp2ZjR4eHIAg5jgqng/uZlsZh4f0cUCJ+gaTe9sehDBNZUnU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3, REQID:dd50cb72-5bba-4a76-86b0-f9731bdcc911, IP:0,
+X-CID-O-INFO: VERSION:1.3.3, REQID:e7b5150f-9491-4d2a-93da-866d7237b6e7, IP:0,
  UR
  L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
  elease,TS:0
-X-CID-META: VersionHash:f1326cf, CLOUDID:dba59020-786d-4870-a017-e7b4f3839b3f,
+X-CID-META: VersionHash:f1326cf, CLOUDID:daa59020-786d-4870-a017-e7b4f3839b3f,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
  -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
@@ -35,15 +35,15 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 97244b26833a11f0bd5779446731db89-20250827
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
+X-UUID: 9756297a833a11f0bd5779446731db89-20250827
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 944528733; Wed, 27 Aug 2025 19:40:11 +0800
+ with ESMTP id 1032027038; Wed, 27 Aug 2025 19:40:11 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Wed, 27 Aug 2025 19:40:09 +0800
+ 15.2.1258.39; Wed, 27 Aug 2025 19:40:10 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
  15.2.1258.39 via Frontend Transport; Wed, 27 Aug 2025 19:40:09 +0800
@@ -63,10 +63,10 @@ CC: Matthias Brugger <matthias.bgg@gmail.com>, Nicolas Dufresne
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v7 12/20] soc: mediatek: Add programming flow for unsupported
+Subject: [PATCH v7 13/20] drm/mediatek: Add programming flow for unsupported
  subsys ID hardware
-Date: Wed, 27 Aug 2025 19:37:44 +0800
-Message-ID: <20250827114006.3310175-13-jason-jh.lin@mediatek.com>
+Date: Wed, 27 Aug 2025 19:37:45 +0800
+Message-ID: <20250827114006.3310175-14-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
 References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
@@ -93,67 +93,71 @@ To support hardware without subsys IDs on new SoCs, add a programming
 flow that checks whether the subsys ID is valid.
 
 If the subsys ID is valid, the flow will call cmdq_pkt_write_subsys()
-and cmdq_pkt_write_mask_subsys() instead of the original
-cmdq_pkt_write() and cmdq_pkt_write_mask().
+instead of the original cmdq_pkt_write().
 
-If the subsys ID is invalid, the flow will call cmdq_pkt_write_pa() and
-cmdq_pkt_write_mask_pa() to achieve the same functionality.
+If the subsys ID is invalid, the flow will call cmdq_pkt_write_mask_pa()
+to achieve the same functionality.
 
 Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-mmsys.c | 12 +++++++++---
- drivers/soc/mediatek/mtk-mutex.c |  8 ++++++--
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-index bb4639ca0b8c..0c324846e334 100644
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ b/drivers/soc/mediatek/mtk-mmsys.c
-@@ -167,9 +167,15 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
- 	u32 tmp;
+diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+index ac6620e10262..d902a65e1232 100644
+--- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+@@ -66,14 +66,28 @@ struct mtk_ddp_comp_dev {
+ 	struct cmdq_client_reg cmdq_reg;
+ };
  
- 	if (mmsys->cmdq_base.size && cmdq_pkt) {
--		ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
--					  mmsys->cmdq_base.offset + offset, val,
--					  mask);
-+		offset += mmsys->cmdq_base.offset;
-+		if (mmsys->cmdq_base.subsys != CMDQ_SUBSYS_INVALID)
-+			ret = cmdq_pkt_write_mask_subsys(cmdq_pkt, mmsys->cmdq_base.subsys,
-+							 mmsys->cmdq_base.pa_base, offset,
-+							 val, mask);
-+		else /* only MMIO access, no need to check mminfro_offset */
-+			ret = cmdq_pkt_write_mask_pa(cmdq_pkt, mmsys->cmdq_base.subsys,
-+						     mmsys->cmdq_base.pa_base, offset, val, mask);
++#if IS_REACHABLE(CONFIG_MTK_CMDQ)
++static int mtk_ddp_write_cmdq_pkt(struct cmdq_pkt *cmdq_pkt, struct cmdq_client_reg *cmdq_reg,
++				  unsigned int offset, unsigned int value, unsigned int mask)
++{
++	offset += cmdq_reg->offset;
 +
- 		if (ret)
- 			pr_debug("CMDQ unavailable: using CPU write\n");
- 		else
-diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-index 38179e8cd98f..9b22d7e09d99 100644
---- a/drivers/soc/mediatek/mtk-mutex.c
-+++ b/drivers/soc/mediatek/mtk-mutex.c
-@@ -990,6 +990,7 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
- 	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
- 						 mutex[mutex->id]);
- 	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
-+	dma_addr_t en_addr = mtx->addr + DISP_REG_MUTEX_EN(mutex->id);
- 
- 	WARN_ON(&mtx->mutex[mutex->id] != mutex);
- 
-@@ -998,8 +999,11 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
- 		return -ENODEV;
- 	}
- 
--	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
--		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
-+	if (mtx->cmdq_reg.subsys != CMDQ_SUBSYS_INVALID)
-+		cmdq_pkt_write_subsys(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
++	if (cmdq_reg->subsys != CMDQ_SUBSYS_INVALID)
++		return cmdq_pkt_write_mask_subsys(cmdq_pkt, cmdq_reg->subsys, cmdq_reg->pa_base,
++						  offset, value, mask);
 +	else /* only MMIO access, no need to check mminfro_offset */
-+		cmdq_pkt_write_pa(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
++		return cmdq_pkt_write_mask_pa(cmdq_pkt, cmdq_reg->subsys, cmdq_reg->pa_base,
++					      offset, value, mask);
++}
++#endif
 +
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
+ void mtk_ddp_write(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+ 		   struct cmdq_client_reg *cmdq_reg, void __iomem *regs,
+ 		   unsigned int offset)
+ {
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (cmdq_pkt)
+-		cmdq_pkt_write(cmdq_pkt, cmdq_reg->subsys,
+-			       cmdq_reg->offset + offset, value);
++		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, GENMASK(31, 0));
+ 	else
+ #endif
+ 		writel(value, regs + offset);
+@@ -85,8 +99,7 @@ void mtk_ddp_write_relaxed(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+ {
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (cmdq_pkt)
+-		cmdq_pkt_write(cmdq_pkt, cmdq_reg->subsys,
+-			       cmdq_reg->offset + offset, value);
++		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, GENMASK(31, 0));
+ 	else
+ #endif
+ 		writel_relaxed(value, regs + offset);
+@@ -98,8 +111,7 @@ void mtk_ddp_write_mask(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+ {
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (cmdq_pkt) {
+-		cmdq_pkt_write_mask(cmdq_pkt, cmdq_reg->subsys,
+-				    cmdq_reg->offset + offset, value, mask);
++		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, mask);
+ 	} else {
+ #endif
+ 		u32 tmp = readl(regs + offset);
 -- 
 2.43.0
 
