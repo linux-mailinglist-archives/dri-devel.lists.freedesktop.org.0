@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03704B38A92
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 21:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A89B38A9D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 22:03:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E359B10E894;
-	Wed, 27 Aug 2025 19:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C1110E898;
+	Wed, 27 Aug 2025 20:02:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MeM+qcL2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KL9M9AB9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9474710E7C3;
- Wed, 27 Aug 2025 19:57:57 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-248999413easo318305ad.3; 
- Wed, 27 Aug 2025 12:57:57 -0700 (PDT)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+ [209.85.216.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E295110E897;
+ Wed, 27 Aug 2025 20:02:56 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-32578dec17aso2965a91.1; 
+ Wed, 27 Aug 2025 13:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756324677; x=1756929477; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756324976; x=1756929776; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rjV0DwmZIW1py3fMx22hVqowrh1QvW3z5IOWwwuGuQ8=;
- b=MeM+qcL24JM9B64zLJVGZPTcc978WCIHJJBXtGwPBztOX+c50uWgMsJLOvunq/zREa
- 7WejNh5NMhbcxYZclcQSmuwYzQNaYjXFTsxzHRaTcK5YdW6MRj4Yx9Yt74UQsBpzqhqV
- D5w3LFVo2Jtiu2dZyJ8v1NJZYjiTbbYfyqfkoYUc+McRnGkMLIIEbQCXCjyaVSFo8FVP
- KXK9sdB8JuDH4bsTfGgk9Al3S1zaDeZFPdUUYXP2eQrDLNXoHQboOJxnQHsbHSORYkd6
- cquyjifKAletw6pojD5+RUDcD7Sbp5gga07itFP2o+VfXgFR3aOMleGtyUVaNgUM7Y27
- QAUQ==
+ bh=03D+2LYm7zurX8AnYGu/wk2IacpBPh1XUHSL4lr1KJE=;
+ b=KL9M9AB98VhydnFedc7FzKXNoXCZjm6w0IxRAtPVSUM7lQ+baKex4YF8F1dNt2q81k
+ B2BPW6yhyGsHJetJ3zT4tgLYF05z9WR9D4iUFMqfe9Kez7HLpCdfAxhvm6YozqNrxEEG
+ 2kkFTnh2J3j4eqRQhBLY4QbKFchBRIprvgKr8G9v8KvCThumZ8EjGAwGYmIb4IbqLLhG
+ NZPeiUSBIgSa5eh5nZj45Iifces1SWdE2+kug/1U6tOY3mT1aRjQVIpyhDe4pJmwb5vD
+ PZiY9Ns+1yGVBAQwtYgPefDqhPZf55itHY5Yfz4Ib9z0aj5llm4Rva0qbZyDn4wDQeUw
+ mq5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756324677; x=1756929477;
+ d=1e100.net; s=20230601; t=1756324976; x=1756929776;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rjV0DwmZIW1py3fMx22hVqowrh1QvW3z5IOWwwuGuQ8=;
- b=e4S3ztfLMbnInPyQX8lqAMbRaMC3Z6Qoe3/zbj5QkyRJCWhNLtbE8LRc+gcrFTC1al
- apbEe7Xl9egI51vKhpu1GYLGNuhAweeaVwNwdGeKjllxSGmjItkznt2rYrjXCcKA2i7O
- EoL2TiEuPzl9l85gG2SGpQi1UAWxnu5qJes9i6AU8vtXEX19vq6uJSdtEa7OSAY6Tchp
- WjZe+1ZFgVN8vXlXSSZC3hK3oefD+qyDKyvXer2P1LZlhlCiTJ7slzVop4/s0nSznOxk
- 0uUTETzYmqSRxYsWfwQT/+5LOs3KY3O5Ltir3ifibqFj5RAUXoWedILkqJBlHUJDu0rC
- S12w==
+ bh=03D+2LYm7zurX8AnYGu/wk2IacpBPh1XUHSL4lr1KJE=;
+ b=kIOn/Qe9PieRPT+ZvMBN9J/cQ5QpWh47u6hNAMPBjrhmYFWpcCdrvOinDWg9GYFbiV
+ 0qH010kfH97wC9ySrhOKpV1oGLLWT7nzh+bIWnwZkRwMJDDXKmA2Xdies29x/vVXAavx
+ ZPI1DW33dx7gcT7SlUIxidxTDhEA+j07lQCGWg1prRkcWjYIi29GZY4a7O4MnBYEwHZR
+ o3RF19o/Ca/c5z/IumV9MK+GYUB4S9wLVxXS//K53D5MXtR2fpgUPBPqHcGWv6Lc/kWS
+ N4V7upCVFQ92fZR10e99kKBMOgSnPe214CU9uOQeNQm+cA/0lC4M6bMIqAc3rCozVE6z
+ fEWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCAypqUij6QCeeiTIMMl7J1WqYMNW80AwC0wOymFCVlqTjGDYMRMgurSSyfq2ewl4YCtd/1w6IfSRr@lists.freedesktop.org,
- AJvYcCXPdGveSvZVAo23RJL+K8f2ao1M8rWnVukwo46jt4lgNseKSB1lN1hSXY6qM1do+hilwz3DqE1k@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxNvUeTmQEEfXvuGtfSg3epE0NlhcqtqlnArPUdY1QN8GKrYMLa
- psoFgJIVKB6F3Mro5/Ozc2yqNZjAMWOzob5bqRlUKvwGy7Qvr+8itSewNl2QoTOIEV3q/17+hlZ
- o55X7LvkCt5jb8QkQ4yN33nOTCCliRTQd+g==
-X-Gm-Gg: ASbGncs/mZ2+lLxH7dvpVysobBZtOeAx3pN7m9dGlXCs8z+hfKQMaDhcGH8f5E0oTuw
- bnEXVF690RVnK/DfDRu1YLDCzTNN7Qcb6ja0wJzeloQjLAy810iXyRYNFxo4Q0F6v+gh1jZ1dPh
- eygPsJuDNztZB6WwEq/deQosXN+/CqwFrfiHQ2VE/AK9FHIv52lL0I9v1/Qit+F3tji19hElBxz
- KYZ+gY=
-X-Google-Smtp-Source: AGHT+IEEV1DocwEWc3jKPYLKt97a8Md11hVsuQXJBA2qHl6dQpH2Wq0GDXOFqg4EKfvaY1b+PH9cdtggpz40TZcPqPY=
-X-Received: by 2002:a17:902:c409:b0:248:a01f:a549 with SMTP id
- d9443c01a7336-248a01fa7aamr20750765ad.11.1756324676898; Wed, 27 Aug 2025
- 12:57:56 -0700 (PDT)
+ AJvYcCUVm0YZ9UVksEPEjaLDMnNXCkZWHJPybhsczJiUUPVto/WjQWeYCuCju8rikYC6WDe9SeAWfksvaYs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpRWc7lSw6sKVBLBOZPP/XkVps0Qpkv+uZEreMz0yokIiBqfjJ
+ JMkF08nO+HYLRqS+pEb8AJCSX06+63fXk0bf39qlI/DZB88qe0Tgwc9klAfSh15QhSgL3Ae4Uk7
+ NkqcK82MwlPAEiSSYn8jGtNABQfuUZBE=
+X-Gm-Gg: ASbGncvwwt4GM7/9rP2JYib5G/gB1I7TgsDdRZgXiVNMafnL1z8TTInSB5mLEU5xFno
+ WF0Tr65d201T3UCoN3o6ZtneYbAj9CgELi72oH5L6VlrDgJbb7ftWz4cwa8I7u/4qa/zzPXE2DP
+ Nsgi46rYPLiNJuAe31uhHf4oUYnB1sP9+d3iBRQzLfYoVzidaL7aWKH4r4qGIIsCwotssX990Iw
+ 9Fc9gA=
+X-Google-Smtp-Source: AGHT+IEYFxWIgkdasxQf+IqktH7EkiNxyQfhIsOS91kQxAAB+MMtmKC9Wu0UsNftG/lyhfkhu87LrER8trGcFO7AX10=
+X-Received: by 2002:a17:90b:1d09:b0:325:33ac:bbef with SMTP id
+ 98e67ed59e1d1-32533acd3b4mr12840525a91.6.1756324976307; Wed, 27 Aug 2025
+ 13:02:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250824115051.32988-1-mittalyugansh1@gmail.com>
-In-Reply-To: <20250824115051.32988-1-mittalyugansh1@gmail.com>
+References: <20250823202540.487616-1-kavitheshnitt@gmail.com>
+In-Reply-To: <20250823202540.487616-1-kavitheshnitt@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 27 Aug 2025 15:57:45 -0400
-X-Gm-Features: Ac12FXxqZBGDhYUXeE_2vpNsyc1MPHvuZvg50t-1nPjCv4vA8bIXi2lV2R6gGM0
-Message-ID: <CADnq5_MoWjH2j_VyTEvDmYSKQ2Tfjo-B4som9Fwsb6r_dPo4xA@mail.gmail.com>
-Subject: Re: [PATCH] atomfirmware.h: fix multiple spelling mistakes
-To: Yugansh Mittal <mittalyugansh1@gmail.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Wed, 27 Aug 2025 16:02:43 -0400
+X-Gm-Features: Ac12FXy8O47figQjWLIUNnDA1-9CpOu-ir6quXNMsaj0Pv3UTLbQ2ytf5uUvHIU
+Message-ID: <CADnq5_Onr6rR12NVagwMHURPfuQxBoVq8Qhui6heH_m-5eHsXA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Document num_rmcm_3dluts in
+ mpc_color_caps
+To: "Kavithesh A.S" <kavitheshnitt@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org, 
+ harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
+ simona@ffwll.ch
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,195 +92,32 @@ Applied.  Thanks!
 
 Alex
 
-On Sun, Aug 24, 2025 at 7:28=E2=80=AFPM Yugansh Mittal <mittalyugansh1@gmai=
-l.com> wrote:
+On Sat, Aug 23, 2025 at 4:25=E2=80=AFPM Kavithesh A.S <kavitheshnitt@gmail.=
+com> wrote:
 >
-> This patch corrects several typographical errors in atomfirmware.h.
-> The fixes improve readability and maintain consistency in the codebase.
-> No functional changes are introduced.
+> Fix a kernel-doc warning by documenting the num_rmcm_3dluts member of str=
+uct mpc_color_caps.
 >
-> Corrected terms include:
-> - aligment    =E2=86=92 alignment
-> - Offest      =E2=86=92 Offset
-> - defintion   =E2=86=92 definition
-> - swithing    =E2=86=92 switching
-> - calcualted  =E2=86=92 calculated
-> - compability =E2=86=92 compatibility
-> - intenal     =E2=86=92 internal
-> - sequece     =E2=86=92 sequence
-> - indiate     =E2=86=92 indicate
-> - stucture    =E2=86=92 structure
-> - regiser     =E2=86=92 register
+> This is my first patch submission to the kernel, feedback is welcome
 >
-> Signed-off-by: Yugansh Mittal <mittalyugansh1@gmail.com>
+> Signed-off-by: Kavithesh A.S <kavitheshnitt@gmail.com>
 > ---
->  drivers/gpu/drm/amd/include/atomfirmware.h | 30 +++++++++++-----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dc.h | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm=
-/amd/include/atomfirmware.h
-> index 5c86423c2..3d083010e 100644
-> --- a/drivers/gpu/drm/amd/include/atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
-> @@ -211,7 +211,7 @@ atom_bios_string          =3D "ATOM"
->  };
->  */
->
-> -#pragma pack(1)                          /* BIOS data must use byte alig=
-ment*/
-> +#pragma pack(1)                          /* BIOS data must use byte alig=
-nment*/
->
->  enum atombios_image_offset{
->    OFFSET_TO_ATOM_ROM_HEADER_POINTER          =3D 0x00000048,
-> @@ -255,8 +255,8 @@ struct atom_rom_header_v2_2
->    uint16_t subsystem_vendor_id;
->    uint16_t subsystem_id;
->    uint16_t pci_info_offset;
-> -  uint16_t masterhwfunction_offset;      //Offest for SW to get all comm=
-and function offsets, Don't change the position
-> -  uint16_t masterdatatable_offset;       //Offest for SW to get all data=
- table offsets, Don't change the position
-> +  uint16_t masterhwfunction_offset;      //Offset for SW to get all comm=
-and function offsets, Don't change the position
-> +  uint16_t masterdatatable_offset;       //Offset for SW to get all data=
- table offsets, Don't change the position
->    uint16_t reserved;
->    uint32_t pspdirtableoffset;
->  };
-> @@ -453,7 +453,7 @@ struct atom_dtd_format
->    uint8_t   refreshrate;
->  };
->
-> -/* atom_dtd_format.modemiscinfo defintion */
-> +/* atom_dtd_format.modemiscinfo definition */
->  enum atom_dtd_format_modemiscinfo{
->    ATOM_HSYNC_POLARITY    =3D 0x0002,
->    ATOM_VSYNC_POLARITY    =3D 0x0004,
-> @@ -678,7 +678,7 @@ struct lcd_info_v2_1
->    uint32_t reserved1[8];
->  };
->
-> -/* lcd_info_v2_1.panel_misc defintion */
-> +/* lcd_info_v2_1.panel_misc definition */
->  enum atom_lcd_info_panel_misc{
->    ATOM_PANEL_MISC_FPDI            =3D0x0002,
->  };
-> @@ -716,7 +716,7 @@ enum atom_gpio_pin_assignment_gpio_id {
->    /* gpio_id pre-define id for multiple usage */
->    /* GPIO use to control PCIE_VDDC in certain SLT board */
->    PCIE_VDDC_CONTROL_GPIO_PINID =3D 56,
-> -  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC swithing =
-feature is enable */
-> +  /* if PP_AC_DC_SWITCH_GPIO_PINID in Gpio_Pin_LutTable, AC/DC switching=
- feature is enable */
->    PP_AC_DC_SWITCH_GPIO_PINID =3D 60,
->    /* VDDC_REGULATOR_VRHOT_GPIO_PINID in Gpio_Pin_LutTable, VRHot feature=
- is enable */
->    VDDC_VRHOT_GPIO_PINID =3D 61,
-> @@ -734,7 +734,7 @@ enum atom_gpio_pin_assignment_gpio_id {
->  struct atom_gpio_pin_lut_v2_1
->  {
->    struct  atom_common_table_header  table_header;
-> -  /*the real number of this included in the structure is calcualted by u=
-sing the (whole structure size - the header size)/size of atom_gpio_pin_lut=
-  */
-> +  /*the real number of this included in the structure is calculated by u=
-sing the (whole structure size - the header size)/size of atom_gpio_pin_lut=
-  */
->    struct  atom_gpio_pin_assignment  gpio_pin[];
->  };
->
-> @@ -997,7 +997,7 @@ enum atom_connector_layout_info_mini_type_def {
->
->  enum atom_display_device_tag_def{
->    ATOM_DISPLAY_LCD1_SUPPORT            =3D 0x0002, //an embedded display=
- is either an LVDS or eDP signal type of display
-> -  ATOM_DISPLAY_LCD2_SUPPORT                           =3D 0x0020, //seco=
-nd edp device tag 0x0020 for backward compability
-> +  ATOM_DISPLAY_LCD2_SUPPORT            =3D 0x0020, //second edp device t=
-ag 0x0020 for backward compatibility
->    ATOM_DISPLAY_DFP1_SUPPORT            =3D 0x0008,
->    ATOM_DISPLAY_DFP2_SUPPORT            =3D 0x0080,
->    ATOM_DISPLAY_DFP3_SUPPORT            =3D 0x0200,
-> @@ -1011,7 +1011,7 @@ struct atom_display_object_path_v2
->  {
->    uint16_t display_objid;                  //Connector Object ID or Misc=
- Object ID
->    uint16_t disp_recordoffset;
-> -  uint16_t encoderobjid;                   //first encoder closer to the=
- connector, could be either an external or intenal encoder
-> +  uint16_t encoderobjid;                   //first encoder closer to the=
- connector, could be either an external or internal encoder
->    uint16_t extencoderobjid;                //2nd encoder after the first=
- encoder, from the connector point of view;
->    uint16_t encoder_recordoffset;
->    uint16_t extencoder_recordoffset;
-> @@ -1023,7 +1023,7 @@ struct atom_display_object_path_v2
->  struct atom_display_object_path_v3 {
->         uint16_t display_objid; //Connector Object ID or Misc Object ID
->         uint16_t disp_recordoffset;
-> -       uint16_t encoderobjid; //first encoder closer to the connector, c=
-ould be either an external or intenal encoder
-> +       uint16_t encoderobjid; //first encoder closer to the connector, c=
-ould be either an external or internal encoder
->         uint16_t reserved1; //only on USBC case, otherwise always =3D 0
->         uint16_t reserved2; //reserved and always =3D 0
->         uint16_t reserved3; //reserved and always =3D 0
-> @@ -3547,7 +3547,7 @@ struct atom_voltage_object_header_v4{
->  enum atom_voltage_object_mode
->  {
->     VOLTAGE_OBJ_GPIO_LUT              =3D  0,        //VOLTAGE and GPIO L=
-ookup table ->atom_gpio_voltage_object_v4
-> -   VOLTAGE_OBJ_VR_I2C_INIT_SEQ       =3D  3,        //VOLTAGE REGULATOR =
-INIT sequece through I2C -> atom_i2c_voltage_object_v4
-> +   VOLTAGE_OBJ_VR_I2C_INIT_SEQ       =3D  3,        //VOLTAGE REGULATOR =
-INIT sequence through I2C -> atom_i2c_voltage_object_v4
->     VOLTAGE_OBJ_PHASE_LUT             =3D  4,        //Set Vregulator Pha=
-se lookup table ->atom_gpio_voltage_object_v4
->     VOLTAGE_OBJ_SVID2                 =3D  7,        //Indicate voltage c=
-ontrol by SVID2 ->atom_svid2_voltage_object_v4
->     VOLTAGE_OBJ_EVV                   =3D  8,
-> @@ -3585,7 +3585,7 @@ struct atom_gpio_voltage_object_v4
->  {
->     struct atom_voltage_object_header_v4 header;  // voltage mode =3D VOL=
-TAGE_OBJ_GPIO_LUT or VOLTAGE_OBJ_PHASE_LUT
->     uint8_t  gpio_control_id;                     // default is 0 which i=
-ndicate control through CG VID mode
-> -   uint8_t  gpio_entry_num;                      // indiate the entry nu=
-mbers of Votlage/Gpio value Look up table
-> +   uint8_t  gpio_entry_num;                      // indicate the entry n=
-umbers of Votlage/Gpio value Look up table
->     uint8_t  phase_delay_us;                      // phase delay in unit =
-of micro second
->     uint8_t  reserved;
->     uint32_t gpio_mask_val;                         // GPIO Mask value
-> @@ -4507,8 +4507,8 @@ struct amd_acpi_description_header{
->  struct uefi_acpi_vfct{
->    struct   amd_acpi_description_header sheader;
->    uint8_t  tableUUID[16];    //0x24
-> -  uint32_t vbiosimageoffset; //0x34. Offset to the first GOP_VBIOS_CONTE=
-NT block from the beginning of the stucture.
-> -  uint32_t lib1Imageoffset;  //0x38. Offset to the first GOP_LIB1_CONTEN=
-T block from the beginning of the stucture.
-> +  uint32_t vbiosimageoffset; //0x34. Offset to the first GOP_VBIOS_CONTE=
-NT block from the beginning of the structure.
-> +  uint32_t lib1Imageoffset;  //0x38. Offset to the first GOP_LIB1_CONTEN=
-T block from the beginning of the structure.
->    uint32_t reserved[4];      //0x3C
->  };
->
-> @@ -4540,7 +4540,7 @@ struct gop_lib1_content {
->  /*
->    **********************************************************************=
-*****
->                     Scratch Register definitions
-> -  Each number below indicates which scratch regiser request, Active and
-> +  Each number below indicates which scratch register request, Active and
->    Connect all share the same definitions as display_device_tag defines
->    **********************************************************************=
-*****
->  */
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/di=
+splay/dc/dc.h
+> index 59c077561..06f05979b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -234,6 +234,7 @@ struct lut3d_caps {
+>   * @ogam_ram: programmable out gamma LUT
+>   * @ocsc: output color space conversion matrix
+>   * @num_3dluts: MPC 3D LUT; always assumes a preceding shaper LUT
+> + * @num_rmcm_3dluts: number of RMCM 3D LUTS supported
+>   * @shared_3d_lut: shared 3D LUT flag. Can be either DPP or MPC, but sin=
+gle
+>   * instance
+>   * @ogam_rom_caps: pre-definied curve caps for regamma 1D LUT
 > --
 > 2.43.0
->
