@@ -2,93 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498E7B38134
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 13:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97587B3816D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 13:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6084610E7C1;
-	Wed, 27 Aug 2025 11:37:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7054810E7E7;
+	Wed, 27 Aug 2025 11:41:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="flwbDkTh";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="WYzz/VNk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3435D10E7C1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 11:37:06 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-7f8ea864d63so9037785a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 04:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1756294625; x=1756899425;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GfndeEOwCnpCOK3QWCzVz+jGoFaf5I3pq8HSBnsv0uc=;
- b=flwbDkThB1u8SBy3BCPRJJNRYIZruo+2KB5pR18leEg0qctsa5bBEy9JATYuNTZvb5
- dzOyy24sdUWoP9qPRmyO47cMzxSdmMqHxbVfhcZopmKaetrOluj0g/LtsoVWF0Lj8pj4
- Xwz3a9ndP31hQZUx1EzFV+elEZNAzIb77JqqA0U80f0FxJbskGu24rgnrqqIbfR2/ziT
- jIW7pEqjmx8kHo4dIzqBrdN/77MuNZGCapJCZBU5sfmjtMOIU0KnKaMF4QSrhCQoFVPH
- bJI0dtwC6qp3INKDFDyqdsOaRuWkSi58ymRUcZTslqf9qSC8ptSPUvxgz0qrHS9JlDQB
- Q1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756294625; x=1756899425;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GfndeEOwCnpCOK3QWCzVz+jGoFaf5I3pq8HSBnsv0uc=;
- b=R9YSnodwtFmHZOxwplYLZV8BPkEffmqtO4K000EHKdQ8FuaG3wUKXFhd6CI4SZ498M
- c9RBsCr2Gfhal9lcjH2nWj981kZjR64mVsWqL0aW6RO9SSh71eeoSj3URg3YQyNVG6X7
- coDzjfv0ZknG9KCBcRZsNq/zWGeOIGXWhwAHv79yZkXi4Y9E/yZVEuF5oaT+FizW53l5
- d+EQxm8SeQeTHsJRZHH9G0PHS6KRyXl1mWjwEfjJsaUiMCxhhVjGftI/dh3p8uKYQP+n
- TOA/OZOJQnq6+TRYLc9vq1sh20qUu025ClwGoPV8SZtAfoAmy9Q7je0kFcZ4gE0Mb/o0
- VCGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX91JSh6N7dMDIZHLq36Tx3Jaf6iOjLEdVybH27sh5Xg1UznEsx6w25mbszcnpeKGCKAuHlYYMsP2A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWgMWifVYTsUzNuvCaJSeQUBYkXIfRvSFo8cb2IzXK4URwnt01
- eav5z+rG6Vbh/ffFY8dMnglN54fYujehe454OZ0WcAz2UNwWlnYx1wRwALIVZxP6yBfWmuJqQwa
- KigHXSS0jUi8JqHSlHAV8aFoGn44/hzChqv8mZjSORQ==
-X-Gm-Gg: ASbGnctrk0zsZlFp/5X7eSz6BP+/rto3Fxf5gAeQ4DKq/SzsjGIATY6EJnrLejd5rNC
- Rbec58fpZc+ocwWrGfwKgTEhb/LYNkMC2jcIJAjOM4+BggDYrWMUDbWz1f67yOoZh50QELCM803
- 6Ck9jhRrWDBJUjowaLbax9sWN+hg8HKCuCzwef4g0S2yzMfuHqhnZGKEFa3P9hgJPcsQIIivj6P
- mHt5yQ20h101SN3
-X-Google-Smtp-Source: AGHT+IGm7iJLIIebL1+88laKEXRfjU4Dz7HmoTdOZAJey6UBB7j4fE3V3lw96EobEWDFpPJOKKiRUxKIM3arwj0EGNg=
-X-Received: by 2002:a05:620a:3711:b0:7ee:4a7e:e9a3 with SMTP id
- af79cd13be357-7ee4a7eece9mr1477937485a.48.1756294625009; Wed, 27 Aug 2025
- 04:37:05 -0700 (PDT)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC26410E7BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 11:40:17 +0000 (UTC)
+X-UUID: 963dc5ac833a11f0bd5779446731db89-20250827
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=J8gnlV72WZgKZtB2F8l1wKF5O8kipZ2VREg53WszLKc=; 
+ b=WYzz/VNkYHchOMW80pcuv9pNkdYTo716dEITFN2uC2B604ZJny5I8Qnfx/9k/TIh9cEjgUtb8cDZHF2Y2wxEw81gIDLanc6QPUV2X8aIOxdrgmjYolcbD386hnmoMctuoyem3YTkewY0hxHmoe9jtNEr3e+rCSnPfw5YVL6cYnw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3, REQID:2c54b6e8-3156-48dc-a91f-1d35117d775f, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:-30
+X-CID-META: VersionHash:f1326cf, CLOUDID:78b6ec44-18c5-4075-a135-4c0afe29f9d6,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:2,IP:n
+ il,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+ ,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 963dc5ac833a11f0bd5779446731db89-20250827
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1541416151; Wed, 27 Aug 2025 19:40:10 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Wed, 27 Aug 2025 19:40:08 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Wed, 27 Aug 2025 19:40:07 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>, Nicolas Dufresne
+ <nicolas@ndufresne.ca>, Jason-JH Lin <jason-jh.lin@mediatek.com>, Nancy Lin
+ <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Paul-PL
+ Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, Xiandong
+ Wang <xiandong.wang@mediatek.com>, Sirius Wang <sirius.wang@mediatek.com>,
+ Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v7 00/20] Add GCE support for MT8196
+Date: Wed, 27 Aug 2025 19:37:32 +0800
+Message-ID: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <TY4PR01MB14432B688209B2AA416A95228983EA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <aK1hPoCmLziaPPOd@xpredator>
- <TY4PR01MB1443219A9870877AF120FE63B9839A@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <20250827-imperial-mongrel-of-dignity-712fab@houat>
- <CAPj87rPhK+E2FP62fnNxFySDOkqqKxo_oa94i7DR3_6a1j1o1A@mail.gmail.com>
- <20250827-enchanted-merciful-badger-d51816@houat>
-In-Reply-To: <20250827-enchanted-merciful-badger-d51816@houat>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 27 Aug 2025 12:36:53 +0100
-X-Gm-Features: Ac12FXzn6v9MHx6a6sqFNAPJ1q2fkI0xvp2gSmrt9F65w1ac40HF9ChdBRScx2U
-Message-ID: <CAPj87rMDj-3ohEtXQYy25Rp0zNtZxQxS4Rmd-akgx9kkvB4Ysw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add "pixel_encoding" to switch between RGB & YUV
- color modes
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Shengyu Qu <wiagn233@outlook.com>, Marius Vlad <marius.vlad@collabora.com>,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, harry.wentland@amd.com, sunpeng.li@amd.com, 
- siqueira@igalia.com, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- contact@rafaelrc.com, lijo.lazar@amd.com, jesse.zhang@amd.com, 
- tim.huang@amd.com, dark_sylinc@yahoo.com.ar, mario.limonciello@amd.com, 
- alex.hung@amd.com, aurabindo.pillai@amd.com, sunil.khatri@amd.com, 
- chiahsuan.chung@amd.com, mwen@igalia.com, Roman.Li@amd.com, Wayne.Lin@amd.com, 
- dominik.kaszewski@amd.com, alvin.lee2@amd.com, Aric.Cyr@amd.com, 
- Austin.Zheng@amd.com, Sung.Lee@amd.com, PeiChen.Huang@amd.com, 
- dillon.varone@amd.com, Richard.Chiang@amd.com, ryanseto@amd.com, 
- linux@treblig.org, haoping.liu@amd.com, Relja.Vojvodic@amd.com, 
- Yihan.Zhu@amd.com, Samson.Tam@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- wayland-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,54 +87,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-On Wed, 27 Aug 2025 at 12:21, Maxime Ripard <mripard@kernel.org> wrote:
-> On Wed, Aug 27, 2025 at 11:39:25AM +0100, Daniel Stone wrote:
-> > There are other reasons to have uAPI though ...
-> >
-> > One is because you really care about the colour properties, and you'd
-> > rather have better fidelity than anything else, even if it means some
-> > modes are unusable.
-> >
-> > Another is for situations which static quirks can't handle. If you
-> > want to keep headroom on the link (either to free up bandwidth for
-> > other uses), or you accidentally bought a super-long cable so have a
-> > flaky link, you might well want to force it to use lower fidelity so
-> > you can negotiate a lower link rate.
-> >
-> > I'm all for just dtrt automatically, but there are definitely reasons
-> > to expose it to userspace regardless.
->
-> Oh, yeah, definitely.
->
-> But bringing the big guns and the requirements we have for those to
-> address the point initially discussed by the gitlab issues seems like
-> biting off more than they can chew.
->
-> Even more so since whatever uapi we come up with would still depend on
-> the EDIDs, and they would still be broken for these monitors.
+This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+driver and related subsystems. The changes include adding compatible
+names and iommus property, updating driver data to accommodate hardware
+changes, and modifying the usage of CMDQ APIs to support non-subsys ID
+hardware.
 
-Sounds like we're agreeing with each other then.
+---
 
-Shengyu's 'I want these broken panels to work' usecase is probably
-best served with an EDID quirk, yeah.
+Change in v7:
+1. Rename cmdq_reg_shift_addr() and cmdq_reg_revert_addr() to 
+   cmdq_convert_gce_addr() and cmdq_revert_gce_addr().
+2. Change cmdq_vm_toggle to cmdq_vm_init().
 
-The reason Marius is working on it is the reasons I said above though
-- some for uses where we'd rather clearly fail out and push an error
-to userspace than continue with visually-degraded output, and some for
-uses where people have bought a too-long cable (or bought a too-short
-one which is now at tension through a 180=C2=B0 bend) so we want to force
-the lowest link rate possible, without dropping to a ridiculously low
-resolution.
+Change in v6:
+1. Move the removal patches to the end of series.
+2. Fix build error for cmdq_pkt_jump_rel_temp patch.
 
-So I don't think these are in tension, and Marius should proceed with
-his work (complete with the proper userspace to back it up), and
-Shengyu should proceed with new in-kernel quirks, which will be
-effective when the properties are set to auto, but hard overridden by
-userspace if it decides otherwise.
+Change in RESEND v5:
+1. Separate the removal of cmdq_get_shift_pa() from [PATCH v5 03/19] to a
+   single patch [PATCH RESEND v5 10/20].
 
-How does that sound?
+Change in v5:
+1. Rebase on tag: next-20250424 + patch [1].
+2. Split adding driver data for MT8196 patch to 3 independent patch
+   and add more detail commit message to each patch.
+3. Refine passing shift_pa as the parameter in API to storing it into
+   the cmdq_pkt.
+4. Refine DMA address potential issue in cmdq mailbox driver.
+5. Change the mminfra_offset related mbox API to passing it by cmdq_pkt.
+6. Add new cmdq_pkt_write_pa() and cmdq_pkt_write_subsys() APIs to
+   replace the cmdq_pkt_write().
 
-Cheers,
-Daniel
+[1] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20250421035650.441383-1-jason-jh.lin@mediatek.com/
+
+Change in v4:
+1. Remove dt-binding header and add a gce header in dts folder.
+2. Remove dot in sign-off name.
+3. Change addr type from u32 to dma_addr_t for cmdq_reg_shift_addr() and
+   cmdq_reg_revert_addr().
+
+Change in v3:
+1. Merge 2 dt-bindings pathes together and add more detail commit message.
+2. Change type u32 to phys_addr_t for pa_base of struct cmdq_client_reg.
+3. Remove cmdq_subsys_is_valid() and subsys_num in CMDQ driver.
+4. Add CMDQ_SUBSYS_INVALID to check subsys instead of using
+   cmdq_subsys_is_invalid().
+5. Make use of CMDQ_THR_SPR0 define to the parameter of CMDQ APIs.
+6. Rebase on the new MACRO in mtk-mdp3-comp.h.
+
+Change in v2:
+1. Remove the constant and fix warning in dt-bindings.
+2. Remove the pa_base parameter of CMDQ APIs and related modification.
+3. Move subsys checking to client drivers and use 2 alternative
+   CMDQ APIs to achieve the same functionality.
+
+---
+
+Jason-JH Lin (20):
+  arm64: dts: mediatek: Add GCE header for MT8196
+  mailbox: mtk-cmdq: Refine DMA address handling for the command buffer
+  mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+    instruction
+  soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+  soc: mediatek: mtk-cmdq: Add cmdq_pkt_jump_rel_temp() for removing
+    shift_pa
+  mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+  mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+    transaction
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+    subsys ID support
+  soc: mediatek: mtk-cmdq: Add new APIs to replace cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+  soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+    addresses
+  soc: mediatek: Add programming flow for unsupported subsys ID hardware
+  drm/mediatek: Add programming flow for unsupported subsys ID hardware
+  media: platform: mtk-mdp3: Add programming flow for unsupported subsys
+    ID hardware
+  media: platform: mtk-mdp3: Change cmdq_pkt_jump_rel() to
+    cmdq_pkt_jump_rel_temp()
+  soc: mediatek: mtk-cmdq: Remove shift_pa parameter from
+    cmdq_pkt_jump()
+  media: platform: mtk-mdp3: Use cmdq_pkt_jump_rel() without shift_pa
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_jump() and
+    cmdq_pkt_jump_rel_temp()
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+  mailbox: mtk-cmdq: Remove unsued cmdq_get_shift_pa()
+
+ arch/arm64/boot/dts/mediatek/mt8196-gce.h     | 612 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  24 +-
+ drivers/mailbox/mtk-cmdq-mailbox.c            | 111 +++-
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  16 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  70 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |   2 -
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |   1 -
+ drivers/soc/mediatek/mtk-cmdq-helper.c        |  68 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  12 +-
+ drivers/soc/mediatek/mtk-mutex.c              |   8 +-
+ include/linux/mailbox/mtk-cmdq-mailbox.h      |  19 +-
+ include/linux/soc/mediatek/mtk-cmdq.h         |  83 ++-
+ 12 files changed, 937 insertions(+), 89 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
+
+-- 
+2.43.0
+
