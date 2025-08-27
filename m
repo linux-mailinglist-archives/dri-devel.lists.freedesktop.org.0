@@ -2,66 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC5BB37E83
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 11:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A51B37E93
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 11:17:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1537D10E3D6;
-	Wed, 27 Aug 2025 09:14:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ybSh3C85";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5767B10E790;
+	Wed, 27 Aug 2025 09:17:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6E0E10E3D6;
- Wed, 27 Aug 2025 09:14:05 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cBf3Z2hMFz9tYW;
- Wed, 27 Aug 2025 11:14:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1756286042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4ABfWD+wfQkBovVLN+RK7L89ALZTtXm1mXIS6lK+ex4=;
- b=ybSh3C85V69ck1E4bv1d5QJITxmxxPsuKpam9r3ba3Es3XiJK8E92RnNG7dRnLAj5tngoU
- PF9V53yjMH9wtgWIQVKGC3LdMyXag8Tfwj7bq76Qea6hiz3dQhMidHwaM/wT3D3oX4XcUY
- gWsidi7QXwWrGc2rmEpuT+MhWZ5iUFijQCT/TVbNcsfgsv/La8FZzSCtOAuJi0tVXCWrEx
- XGWLqkcyRTtXpTuGBW4dQBMRSheWlXGfBkq4y7R2YLfiY+f9yi/bZ2vrrT7hdJ3dqi/iFy
- mY3auiVZ1SwbM/XV1q68PXd0hPkjl9C3gZbbVqYim/XpZlfYT1XTOVfs23mdPQ==
-Message-ID: <dabd1269-6223-4ceb-911f-22ae0aac4d5f@mailbox.org>
-Date: Wed, 27 Aug 2025 11:13:57 +0200
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/3] drm/ttm: ...
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Hildenbrand <david@redhat.com>, intel-xe@lists.freedesktop.org,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5E91810E790;
+ Wed, 27 Aug 2025 09:17:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A40C915A1;
+ Wed, 27 Aug 2025 02:17:46 -0700 (PDT)
+Received: from bogus (unknown [10.57.57.52])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 588C63F738;
+ Wed, 27 Aug 2025 02:17:41 -0700 (PDT)
+Date: Wed, 27 Aug 2025 10:17:18 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: Zihuan Zhang <zhangzihuan@kylinos.cn>, Sudeep Holla <sudeep.holla@arm.com>,
+ "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Markus Mayer <mmayer@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ zhenglifeng <zhenglifeng1@huawei.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Zhang Rui <rui.zhang@intel.com>,
+ Len Brown <lenb@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
+ x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, x86@kernel.org
-Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
- matthew.brost@intel.com, dave.hansen@linux.intel.com, luto@kernel.org,
- peterz@infradead.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-References: <20250820143739.3422-1-christian.koenig@amd.com>
- <edf4aee5-54eb-4fad-aa89-4913d44371fe@redhat.com>
- <4e5f4ef0-53f1-417e-8f3b-76fd7c64cd23@amd.com>
- <f983521c-b43d-4245-93fc-fcb847908573@redhat.com>
- <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
- <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
- <fc3e013c-e7f7-441d-a638-2ee3dd372775@amd.com>
- <75aca34d-3557-49e9-a523-bd3244c28190@redhat.com>
- <a01f7ca8-7930-4b04-b597-0ebf8500a748@amd.com>
- <d32fa753-66a1-451a-8cef-95c1f78fc366@redhat.com>
- <87050572-811e-4b0c-9ebd-8ebb05f3c617@amd.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <87050572-811e-4b0c-9ebd-8ebb05f3c617@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: rh178afm3jdodp3jdzxh5zce7ubd4f37
-X-MBO-RS-ID: 8987716fed8f81225e7
+ imx@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/18] arm64: topology: Use __free(put_cpufreq_policy)
+ for policy reference
+Message-ID: <20250827-vegan-blond-marmot-eabf13@sudeepholla>
+References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
+ <20250827023202.10310-2-zhangzihuan@kylinos.cn>
+ <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,12 +93,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 27, 2025 at 09:30:13AM +0100, Ben Horgan wrote:
+> Hi Zihuan,
+> 
+> On 8/27/25 03:31, Zihuan Zhang wrote:
+> > Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
+> > annotation for policy references. This reduces the risk of reference
+> > counting mistakes and aligns the code with the latest kernel style.
+> > 
+> > No functional change intended.
+> > 
+> > Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+> > ---
+> >  arch/arm64/kernel/topology.c | 9 +++------
+> >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+> > index 5d07ee85bdae..e3cb6d54f35b 100644
+> > --- a/arch/arm64/kernel/topology.c
+> > +++ b/arch/arm64/kernel/topology.c
+> > @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
+> >  		 */
+> >  		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
+> >  		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_EXP_MS))) {
+> > -			struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+> > +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+> Based on the guidance, in include/linux/cleanup.h, I would expect the
+> assignment to be done on this line.
+> 
+> "...the recommendation is to always define and assign variables in one
+>  * statement and not group variable definitions at the top of the
+>  * function when __free() is used."
+> 
 
-Public Service Announcement from your friendly neighbourhood mailing list moderation queue processor:
-
-I recommend setting a non-empty subject in follow-ups to this thread, or I might accidentally discard them from the moderation queue (I just almost did).
-
+Agreed. I did something similar recently and there was a code path where
+variable wasn't initialised and ended up with freeing unassigned pointer.
+So it is more than just a recommendation sometimes.
 
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+Regards,
+Sudeep
