@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C36B38C5E
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CFFB38C64
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE2410E8DD;
-	Wed, 27 Aug 2025 22:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E3610E8DF;
+	Wed, 27 Aug 2025 22:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TefR4SCw";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L03EBCuj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3581810E8DF
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:05:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6204210E8DF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756332351;
+ s=mimecast20190719; t=1756332367;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tOg+y93CWdttiSRHo5MMFmvDG+rRd/OMag8GX96YAWo=;
- b=TefR4SCwLU95eyGTl4qEexmmI7iO9PjzPm0VYw9Pg8ZbW1gr7mtOtVmvUXuA4/psmmpNJz
- UcnTqnbOa6MLiIkEfIb3Ec+g3la+rGkIjOMOKBWLJWTq3QwtnghX/6dGLcWmvL3CtnaKXA
- z3+xpAyV6KoCG9u1QYqBIFk1i192Tjc=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ bh=jt1gUZzcr2XqEG7AN90PiEkY48hGbYno8tKmbdcHa9Y=;
+ b=L03EBCuj9qpJ/xGhIJJj1bmQV9sOwb0NTyo2wLRKjuXKw0X1nYwDL4WLxEVwLQspLHXqxD
+ /Dl9J8IIXmViGhC7wckwiuIxCFY0WdFC8apSv8n5bLMxivU3AVbtRjDEaPQVoRuEV1Qdza
+ YtnE7Vx4ysulk2gn4IVbu7N2kN/Ay/8=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-468-z4mlROjvMIiLD1GebYFmSQ-1; Wed,
- 27 Aug 2025 18:05:47 -0400
-X-MC-Unique: z4mlROjvMIiLD1GebYFmSQ-1
-X-Mimecast-MFC-AGG-ID: z4mlROjvMIiLD1GebYFmSQ_1756332341
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-522-J9sCWjtzNZKv3p8K8yqDNQ-1; Wed,
+ 27 Aug 2025 18:06:02 -0400
+X-MC-Unique: J9sCWjtzNZKv3p8K8yqDNQ-1
+X-Mimecast-MFC-AGG-ID: J9sCWjtzNZKv3p8K8yqDNQ_1756332357
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BEADE195419A; Wed, 27 Aug 2025 22:05:41 +0000 (UTC)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 230CF19560B0; Wed, 27 Aug 2025 22:05:57 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.22.80.195])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id DDB1430001A5; Wed, 27 Aug 2025 22:05:26 +0000 (UTC)
+ id 5908830001A1; Wed, 27 Aug 2025 22:05:42 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+Cc: David Hildenbrand <david@redhat.com>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
@@ -70,10 +70,10 @@ Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
  Robin Murphy <robin.murphy@arm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org
-Subject: [PATCH v1 12/36] mm: simplify folio_page() and folio_page_idx()
-Date: Thu, 28 Aug 2025 00:01:16 +0200
-Message-ID: <20250827220141.262669-13-david@redhat.com>
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: [PATCH v1 13/36] mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap()
+Date: Thu, 28 Aug 2025 00:01:17 +0200
+Message-ID: <20250827220141.262669-14-david@redhat.com>
 In-Reply-To: <20250827220141.262669-1-david@redhat.com>
 References: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
@@ -94,71 +94,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that a single folio/compound page can no longer span memory sections
-in problematic kernel configurations, we can stop using nth_page().
+We can now safely iterate over all pages in a folio, so no need for the
+pfn_to_page().
 
-While at it, turn both macros into static inline functions and add
-kernel doc for folio_page_idx().
+Also, as we already force the refcount in __init_single_page() to 1,
+we can just set the refcount to 0 and avoid page_ref_freeze() +
+VM_BUG_ON. Likely, in the future, we would just want to tell
+__init_single_page() to which value to initialize the refcount.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+Further, adjust the comments to highlight that we are dealing with an
+open-coded prep_compound_page() variant, and add another comment explaining
+why we really need the __init_single_page() only on the tail pages.
+
+Note that the current code was likely problematic, but we never ran into
+it: prep_compound_tail() would have been called with an offset that might
+exceed a memory section, and prep_compound_tail() would have simply
+added that offset to the page pointer -- which would not have done the
+right thing on sparsemem without vmemmap.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/mm.h         | 16 ++++++++++++++--
- include/linux/page-flags.h |  5 ++++-
- 2 files changed, 18 insertions(+), 3 deletions(-)
+ mm/hugetlb.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 2dee79fa2efcf..f6880e3225c5c 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -210,10 +210,8 @@ extern unsigned long sysctl_admin_reserve_kbytes;
- 
- #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
- #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
--#define folio_page_idx(folio, p)	(page_to_pfn(p) - folio_pfn(folio))
- #else
- #define nth_page(page,n) ((page) + (n))
--#define folio_page_idx(folio, p)	((p) - &(folio)->page)
- #endif
- 
- /* to align the pointer to the (next) page boundary */
-@@ -225,6 +223,20 @@ extern unsigned long sysctl_admin_reserve_kbytes;
- /* test whether an address (unsigned long or pointer) is aligned to PAGE_SIZE */
- #define PAGE_ALIGNED(addr)	IS_ALIGNED((unsigned long)(addr), PAGE_SIZE)
- 
-+/**
-+ * folio_page_idx - Return the number of a page in a folio.
-+ * @folio: The folio.
-+ * @page: The folio page.
-+ *
-+ * This function expects that the page is actually part of the folio.
-+ * The returned number is relative to the start of the folio.
-+ */
-+static inline unsigned long folio_page_idx(const struct folio *folio,
-+		const struct page *page)
-+{
-+	return page - &folio->page;
-+}
-+
- static inline struct folio *lru_to_folio(struct list_head *head)
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 4a97e4f14c0dc..1f42186a85ea4 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3237,17 +3237,18 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
  {
- 	return list_entry((head)->prev, struct folio, lru);
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 5ee6ffbdbf831..faf17ca211b4f 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -316,7 +316,10 @@ static __always_inline unsigned long _compound_head(const struct page *page)
-  * check that the page number lies within @folio; the caller is presumed
-  * to have a reference to the page.
-  */
--#define folio_page(folio, n)	nth_page(&(folio)->page, n)
-+static inline struct page *folio_page(struct folio *folio, unsigned long n)
-+{
-+	return &folio->page + n;
-+}
+ 	enum zone_type zone = zone_idx(folio_zone(folio));
+ 	int nid = folio_nid(folio);
++	struct page *page = folio_page(folio, start_page_number);
+ 	unsigned long head_pfn = folio_pfn(folio);
+ 	unsigned long pfn, end_pfn = head_pfn + end_page_number;
+-	int ret;
+-
+-	for (pfn = head_pfn + start_page_number; pfn < end_pfn; pfn++) {
+-		struct page *page = pfn_to_page(pfn);
  
- static __always_inline int PageTail(const struct page *page)
++	/*
++	 * We mark all tail pages with memblock_reserved_mark_noinit(),
++	 * so these pages are completely uninitialized.
++	 */
++	for (pfn = head_pfn + start_page_number; pfn < end_pfn; page++, pfn++) {
+ 		__init_single_page(page, pfn, zone, nid);
+ 		prep_compound_tail((struct page *)folio, pfn - head_pfn);
+-		ret = page_ref_freeze(page, 1);
+-		VM_BUG_ON(!ret);
++		set_page_count(page, 0);
+ 	}
+ }
+ 
+@@ -3257,12 +3258,15 @@ static void __init hugetlb_folio_init_vmemmap(struct folio *folio,
  {
+ 	int ret;
+ 
+-	/* Prepare folio head */
++	/*
++	 * This is an open-coded prep_compound_page() whereby we avoid
++	 * walking pages twice by initializing/preparing+freezing them in the
++	 * same go.
++	 */
+ 	__folio_clear_reserved(folio);
+ 	__folio_set_head(folio);
+ 	ret = folio_ref_freeze(folio, 1);
+ 	VM_BUG_ON(!ret);
+-	/* Initialize the necessary tail struct pages */
+ 	hugetlb_folio_init_tail_vmemmap(folio, 1, nr_pages);
+ 	prep_compound_head((struct page *)folio, huge_page_order(h));
+ }
 -- 
 2.50.1
 
