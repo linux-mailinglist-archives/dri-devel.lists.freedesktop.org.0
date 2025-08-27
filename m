@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811B2B37B74
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58188B37B7D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 847FA10E715;
-	Wed, 27 Aug 2025 07:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CED710E71C;
+	Wed, 27 Aug 2025 07:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8559510E312;
- Wed, 27 Aug 2025 02:34:30 +0000 (UTC)
-X-UUID: 576dcd6482ee11f0b29709d653e92f7d-20250827
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 840B710E312;
+ Wed, 27 Aug 2025 02:34:33 +0000 (UTC)
+X-UUID: 5abbd61482ee11f0b29709d653e92f7d-20250827
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:18f8ffd4-d9a9-4408-aab5-c35097565dc8, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:8564305a-8abc-4629-99ad-b3d7d3369df9, IP:0,
  U
- RL:0,TC:0,Content:32,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:32
-X-CID-META: VersionHash:6493067, CLOUDID:2dbac917d42042bb9e9a6bb17c01f6f1,
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:433d3d754bf22cd382d78454512c3772,
  BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:4|50,EDM:-3
+ D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
  :0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 576dcd6482ee11f0b29709d653e92f7d-20250827
+X-UUID: 5abbd61482ee11f0b29709d653e92f7d-20250827
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 2130677979; Wed, 27 Aug 2025 10:34:22 +0800
+ with ESMTP id 668903300; Wed, 27 Aug 2025 10:34:28 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 790E8E008FAC;
- Wed, 27 Aug 2025 10:34:22 +0800 (CST)
-X-ns-mid: postfix-68AE6EAD-937581218
+ by mail.kylinos.cn (NSMail) with SMTP id CED22E008FAC;
+ Wed, 27 Aug 2025 10:34:27 +0800 (CST)
+X-ns-mid: postfix-68AE6EB3-644502219
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id B441EE008FAC;
- Wed, 27 Aug 2025 10:34:16 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id 36833E008FAE;
+ Wed, 27 Aug 2025 10:34:22 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -86,10 +86,10 @@ Cc: zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
  imx@lists.linux.dev, linux-omap@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v2 11/18] cpufreq: tegra186: Use __free(put_cpufreq_policy)
- for policy reference
-Date: Wed, 27 Aug 2025 10:31:55 +0800
-Message-Id: <20250827023202.10310-12-zhangzihuan@kylinos.cn>
+Subject: [PATCH v2 12/18] PM / devfreq: Use __free(put_cpufreq_policy) for
+ policy reference
+Date: Wed, 27 Aug 2025 10:31:56 +0800
+Message-Id: <20250827023202.10310-13-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
 References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
@@ -119,33 +119,118 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/cpufreq/tegra186-cpufreq.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/devfreq/governor_passive.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/cpufreq/tegra186-cpufreq.c b/drivers/cpufreq/tegra18=
-6-cpufreq.c
-index cbabb726c664..4d71e262a729 100644
---- a/drivers/cpufreq/tegra186-cpufreq.c
-+++ b/drivers/cpufreq/tegra186-cpufreq.c
-@@ -105,7 +105,7 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
- cpu)
- {
- 	struct tegra186_cpufreq_data *data =3D cpufreq_get_driver_data();
- 	struct tegra186_cpufreq_cluster *cluster;
+diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governo=
+r_passive.c
+index 953cf9a1e9f7..99597c921e38 100644
+--- a/drivers/devfreq/governor_passive.c
++++ b/drivers/devfreq/governor_passive.c
+@@ -80,13 +80,13 @@ static int get_target_freq_with_cpufreq(struct devfre=
+q *devfreq,
+ 	struct devfreq_passive_data *p_data =3D
+ 				(struct devfreq_passive_data *)devfreq->data;
+ 	struct devfreq_cpu_data *parent_cpu_data;
 -	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	unsigned int edvd_offset, cluster_id;
- 	u32 ndiv;
+ 	unsigned long cpu, cpu_cur, cpu_min, cpu_max, cpu_percent;
+ 	unsigned long dev_min, dev_max;
+ 	unsigned long freq =3D 0;
+ 	int ret =3D 0;
 =20
-@@ -117,7 +117,6 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
- cpu)
- 	ndiv =3D readl(data->regs + edvd_offset) & EDVD_CORE_VOLT_FREQ_F_MASK;
- 	cluster_id =3D data->cpus[policy->cpu].bpmp_cluster_id;
- 	cluster =3D &data->clusters[cluster_id];
+ 	for_each_online_cpu(cpu) {
++		struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 		policy =3D cpufreq_cpu_get(cpu);
+ 		if (!policy) {
+ 			ret =3D -EINVAL;
+@@ -94,10 +94,8 @@ static int get_target_freq_with_cpufreq(struct devfreq=
+ *devfreq,
+ 		}
+=20
+ 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
+-		if (!parent_cpu_data) {
+-			cpufreq_cpu_put(policy);
++		if (!parent_cpu_data)
+ 			continue;
+-		}
+=20
+ 		/* Get target freq via required opps */
+ 		cpu_cur =3D parent_cpu_data->cur_freq * HZ_PER_KHZ;
+@@ -106,7 +104,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
+q *devfreq,
+ 					devfreq->opp_table, &cpu_cur);
+ 		if (freq) {
+ 			*target_freq =3D max(freq, *target_freq);
+-			cpufreq_cpu_put(policy);
+ 			continue;
+ 		}
+=20
+@@ -121,7 +118,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
+q *devfreq,
+ 		freq =3D dev_min + mult_frac(dev_max - dev_min, cpu_percent, 100);
+=20
+ 		*target_freq =3D max(freq, *target_freq);
+-		cpufreq_cpu_put(policy);
+ 	}
+=20
+ 	return ret;
+@@ -256,7 +252,6 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+ 	struct device *dev =3D devfreq->dev.parent;
+ 	struct opp_table *opp_table =3D NULL;
+ 	struct devfreq_cpu_data *parent_cpu_data;
+-	struct cpufreq_policy *policy;
+ 	struct device *cpu_dev;
+ 	unsigned int cpu;
+ 	int ret;
+@@ -273,6 +268,7 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+ 	}
+=20
+ 	for_each_possible_cpu(cpu) {
++		struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 		policy =3D cpufreq_cpu_get(cpu);
+ 		if (!policy) {
+ 			ret =3D -EPROBE_DEFER;
+@@ -280,16 +276,14 @@ static int cpufreq_passive_register_notifier(struct=
+ devfreq *devfreq)
+ 		}
+=20
+ 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
+-		if (parent_cpu_data) {
+-			cpufreq_cpu_put(policy);
++		if (parent_cpu_data)
+ 			continue;
+-		}
+=20
+ 		parent_cpu_data =3D kzalloc(sizeof(*parent_cpu_data),
+ 						GFP_KERNEL);
+ 		if (!parent_cpu_data) {
+ 			ret =3D -ENOMEM;
+-			goto err_put_policy;
++			goto err;
+ 		}
+=20
+ 		cpu_dev =3D get_cpu_device(cpu);
+@@ -314,7 +308,6 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+ 		parent_cpu_data->max_freq =3D policy->cpuinfo.max_freq;
+=20
+ 		list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_list);
+-		cpufreq_cpu_put(policy);
+ 	}
+=20
+ 	mutex_lock(&devfreq->lock);
+@@ -327,8 +320,6 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+=20
+ err_free_cpu_data:
+ 	kfree(parent_cpu_data);
+-err_put_policy:
 -	cpufreq_cpu_put(policy);
+ err:
 =20
- 	return (cluster->ref_clk_khz * ndiv) / cluster->div;
- }
+ 	return ret;
 --=20
 2.25.1
 
