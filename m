@@ -2,163 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB19B3776A
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 03:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF4CB377A0
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 04:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EAE10E30F;
-	Wed, 27 Aug 2025 01:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98CDF10E29F;
+	Wed, 27 Aug 2025 02:15:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RtohOwq/";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="RAFJcZv4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B67B10E6EB
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 01:50:50 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R0UEPI031911
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 01:50:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=0laXQCaNkR8BdkTEIAIjvxkP
- U6e+xAcI3sMZOZG++40=; b=RtohOwq/mGWF5aMn8hEPDpMx/rZR9xAALF19Kgyn
- ABnotCfpABau8JwSOXOICFi9m0+JYeo5KRmxM7/PZXvfAVZ+xkORF/VXDwTNR3Ph
- HPx+mTISivbCf4otlZINmlEZaKzFvdI6E4ajQHq9yVGAUfZo4nLChDdFD8U1iaE4
- IS1qmtCDKjKe0bte0kvKERccexJ6lHl808lZOQbURByejcjFT3WTBN/nsM8JSd+g
- k1B3AWzsQK6lbv1D9bzTVgUEmdbFOgAkV//+43Xv1+qkGLvzB6NM7Z7dZU1NecZ0
- guNgLQYiFnm+R6mcteg49ubo9IpFgtLwxmbQpqJPkNbHbw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48se16syuj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 01:50:49 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b10ab0062aso150796761cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 18:50:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756259448; x=1756864248;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0laXQCaNkR8BdkTEIAIjvxkPU6e+xAcI3sMZOZG++40=;
- b=tcmntHNuSNPeyg4NNcHqJasOKwPV8UnVtlcHm3wfS+wGgXdQ2o7q5SRhYPr4n9vgr4
- RZEcDMFdSL8qgYf4UOcrOzx9cL+gjwYE1hZgZvI/j/b03CXvCL1g/vjPrZZQCcjz89SU
- LslKCyljVD9a8F7sBwzsNT+te/40lpQ+KYZ97eI62JkePZRxgKCvb60QclKmon/ur013
- Tpg0Ab0ndqLbvrXun/SKUDk7y/qTeVp9Vv4ZV3iy22FP6p22zgeLuXsHZhqoZFkjMPR0
- tVZ0KTq8ffC85IhCrGaIqvgtVnj6WZO5Yydkw9od5+x2HnHeNvW3M+/3NukfBJ6MwIPh
- T/2Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW3WHz0zhZNLeRLaCN5WsfSl3yRCcTtnS8KS84DrkS2X+33WxUAY8Vm3cIoIWOz1rzdm6g5bnjr0+M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyH4zt0PuqhGfLcFNJMGkWZGqglC25d2v9rNg6Lf+zYM99EUhYf
- mPbVA1QS/q9E4FvEyofEUjjE7L1QrWnUndUVPksgwaDSKWR6pCvxFpvZ+V8Hk4X9cSBNLhQlnqg
- WR5IBJq+C+2AV1xEbtE1OFH7mV6j85TSeXEEdPAkMNtQsycwMmhBtPtdHzOS9v8nk/rHByAs=
-X-Gm-Gg: ASbGnctb9GZGAe/MQ2OPIrXTKDFIVRwbJ2m8GMUHeJMBpbueHyJ27pmbE1+JLsb/7md
- y/ykx16z1N+KunDz4OUYUxFR5sh5IxzFaHC8/I77HmT6BExGhUiezrndy+kFz7xJWr9aGO7MScr
- aJGMg25rtR9zZmLk7xrxgr2+brL3dcuUAaZ0M7XANIH7Ra78dk/ahy7MeWJa+Srv8jyDcimnxgZ
- rbPTrfhPcpAEOlnAxTf2GXbgFXQCpAKKjcQosWJdsOQvZiaaymmhGOvHJBkjRM5wUQFuXcWscug
- EPG0fAMWlOTl/rTpDP4ppORKGYsC7FsW7I4GYxGT27rh6RJGjI4aTDSkkAm2w9o+4Hm2XSboOpU
- b7poe14vpJ2neu/SwhUYA7z9uMNQ/+M86PiXI/O4DXByOd1OMw5DS
-X-Received: by 2002:ac8:5e12:0:b0:4ae:6b72:2ae2 with SMTP id
- d75a77b69052e-4b2aaacef55mr186157201cf.40.1756259448026; 
- Tue, 26 Aug 2025 18:50:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMxKJaOrtRDBj0yHJf7PhiEmF+htiaol/DYqvG4rG8Xn2tdgOPzsKsBrI5J0XgVP0gDX2TkA==
-X-Received: by 2002:ac8:5e12:0:b0:4ae:6b72:2ae2 with SMTP id
- d75a77b69052e-4b2aaacef55mr186156351cf.40.1756259447377; 
- Tue, 26 Aug 2025 18:50:47 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f4b46d050sm989200e87.150.2025.08.26.18.50.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 18:50:46 -0700 (PDT)
-Date: Wed, 27 Aug 2025 04:50:44 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Paul Cercueil <paul@crapouillou.net>, Liviu Dudau <liviu.dudau@arm.com>,
- Russell King <linux@armlinux.org.uk>,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Dharma Balasubiramani <dharma.b@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Hans de Goede <hansg@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 26/39] drm/msm/mdp5: Switch to
- drm_atomic_get_new_crtc_state()
-Message-ID: <dc2sfo6edj4w3qiwldoglaanbi2h7mmev7x4pklwbl7x6x6rah@kjyc52pv2xqy>
-References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
- <20250825-drm-no-more-existing-state-v1-26-f08ccd9f85c9@kernel.org>
+Received: from TYPPR03CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11012063.outbound.protection.outlook.com [52.101.126.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD6F710E29F
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 02:15:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dp7YEXrQMlcD8ieSlWbCx3eQG+jwp8m286a1sYxpIQU9p2gXrsgpAsOBewACOadvgiKIOvgxeY+E3r4pidAs8ia6SUhfnO8IOCvnBdZGbZL2V6SnymwbtBTCfEnnDVtpmzprAydXFUFJ4wCZJsmRHhlKfnqQPdOOS9p/jvcvrkFX+iEF5OPTE1rcjynqs2DZQsr8t2VHCdlnaZXZH9Hvzr/ZX+OjaAVr/l12ckXfS6oLOHOt1RfdVy7wWX44zxwHfQo3SxSnJmFKFK/LEhjLFZ2ZjcM5pEbmyCJl+gmy1P55HU4s6UiVelh3BenKtXbkUK4FLTUZhhiGxHpfPXfcnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G/mZUME6iQvcWh2TCCzAPiw+61AkatH8/qdRrtlSIOY=;
+ b=oC4l3TMXL8hgn0rrLP3W8DThdQkwdmOFps79ve+Abki/ta9Zazb7zzOCrsgrvrTfrk56dy2v7vHBV0pyRAXCuDrZxwQNkY+/xMzTmo241oy+Hn+BeGyGXv+yP7+Y0xpr8H/NSufU7r7xYl1j9W79lW5KxiPnXTGB+MtW14m8bXvb4/yek4ta+uHt8lBAYwMGfbRERM1If0becqClqta+ep8aSN7UR1S3h/you9fhGbtjcFcRbdVht7RDV7bx/kSpIBpF9dt3A8CgGP568L050NxYR62hACq6Xnrqea3dySxlmnYj06NV5hb+6cz0D/kCILi43uVPznRLIX5y1lW+SQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G/mZUME6iQvcWh2TCCzAPiw+61AkatH8/qdRrtlSIOY=;
+ b=RAFJcZv4d2sAhR3GaRHf4M4mnhcc8rpJ+jLAJkeR7PEBEkhssjv+zKlvdS2epx1RiXdisN+KBhZ32e1ZFqUN3ZLcrQCvvVelgIJ/H84w/yUvq8BtQl0070natYjndBMH88NyeC8WeucvSbtM/xx577u7hR/T+5mHvh2qJsUPTWNmSgksznzZ9btnEw6WC7o3H+pSQ3fuLV3yF93WU3n3FZJPDAAoNozDo9oe02EjkZnQXCC7PD4d5EwxB66iBsnhxys08F+NlWkXN120QDRYVW4YvW/P7IjFR3pGp3Kci00cL0e9f7FBrNIRVBXKUq/ActXzEAaAVEH+sl8D0Azr3w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ SEZPR06MB5478.apcprd06.prod.outlook.com (2603:1096:101:a1::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.20; Wed, 27 Aug 2025 02:15:07 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9073.010; Wed, 27 Aug 2025
+ 02:15:06 +0000
+Message-ID: <eaefefb6-7ced-4c47-8bff-bae83f143b72@vivo.com>
+Date: Wed, 27 Aug 2025 10:15:03 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, Min Ma <min.ma@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250826072917.186638-1-rongqianfeng@vivo.com>
+ <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+In-Reply-To: <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYCP286CA0148.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::16) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-drm-no-more-existing-state-v1-26-f08ccd9f85c9@kernel.org>
-X-Proofpoint-GUID: EaOVqjEpJFIQkMd2ZkJmBDVBg1DYo84c
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDEyMCBTYWx0ZWRfX2LVtp1sHJj0a
- hm2RFnVH1YF28yLGmO8urkvbf9GasvnsFM1jCgTftvAQsVX4cH34MIMj7qVOtlwPL/HwMmOfTo2
- 6nJImn5Su/+l5jge3ek5kUowhlyA8Q1SYRUH3cHirSTTrHXpo3XGsXkIUTGR3AE4Ea/MyAimyXa
- 6nNG8sd/Zu9DxdCN4l+lSbpOnvCKMvOHgtm/TCigh56uqFQ8JULq5gc3TwgOUru7G1g7+AjHGbm
- wAOBWb8IUiP5avm0ToOQvFa2LYcE9xqNzp6YxsFDOqxTB1r2aPCldQrSIWUND7ssPeD3zpyskuA
- lnu0oHhwqFlU57fWS68BtfhgEQBfhBGu2C5sLj2Snq88wpIh6exxFlVvtrRgbbBidk+KKYTTQca
- BSqakceJ
-X-Proofpoint-ORIG-GUID: EaOVqjEpJFIQkMd2ZkJmBDVBg1DYo84c
-X-Authority-Analysis: v=2.4 cv=CNYqXQrD c=1 sm=1 tr=0 ts=68ae6479 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=viL_tbrIvFpnGUkEXy0A:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 spamscore=0
- phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508260120
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|SEZPR06MB5478:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb338f4d-f7b1-4560-3c49-08dde50f8a34
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dDBCU3h4K1lDU0V6cTFLb00rS0VvaEJ3dWNURngvVmU4NHEvNW8rcG9hc3Z1?=
+ =?utf-8?B?Zk5yZC9TUHgxMWw1UUVzRzhXSkw3UEdHVUdHdjBBVlQ0aGFJK1prRHZJdXpV?=
+ =?utf-8?B?S3gvbWNIL0ZacnF6cWU0Q2l1d05KMlBmQlpVMFA0RGlNMVRLM0pibDYyekJn?=
+ =?utf-8?B?R0Joc1hzMUZlM2NFTTlzOU92OTV4RmNQdGFBUE9wMkR0SVVoMFRhN3NVRG5Z?=
+ =?utf-8?B?TmtLVStIaUVDOVlLVVZMZGNHZGkzeFQwMUhXcHhDSUdkdEpIMHhFSElid3B5?=
+ =?utf-8?B?NGdidjQ3OEYxbDlLMnZhYmd5RHp2RU9IQ2gvZnpNcWFtZ0dGdUI4elhEZ0dk?=
+ =?utf-8?B?OEVuTFNlODFDc1pZc0hRNE96emZYQ0x0YUdGM3NGTWp2SUIzcWFESTUzWjNJ?=
+ =?utf-8?B?N2JzQS9Nd0E5UGVrZEhoNjZQT0ZXNTdZY3ZqVi9QL3RjTmdJSnpNTmw1WWU4?=
+ =?utf-8?B?Ui9QeUkzTEthbXBQSVY5STFGL3NIT1B2azdpY0wzSEFFYW1hUjlPR2Z5TzV1?=
+ =?utf-8?B?SGtNNm1hMWwxSkFXSGR2blFTS1FtOS9UL1Y3WElHZkw0VTZDOWF1M1cxcFUr?=
+ =?utf-8?B?emdzMDdaNkt0bUdjTXg2WlE1Z3Q0Ull6TmRUYzlxTnFZZUFaTWllWW1Xakcy?=
+ =?utf-8?B?N1BMWDNUL1FkTExhY3lCeWt1aGMrVGovTVhJbURSN3JUZGxIVXpUNGJyV1Zw?=
+ =?utf-8?B?ak9hbXJpNmNtRm9KcDcvM09TREZVM3FqMXI4QjZCVWk5NG5EaUlZNEM3SjFF?=
+ =?utf-8?B?ZXNpVDVUMXByRmFpR3ZiUEpQS1lWVVRMUFZqSVNrczhpOVhZUm5rQ1F4dm45?=
+ =?utf-8?B?SUlEK01xNFltcmN2YVltOVVzZUttUjZrYWp0RXY0Y25PSzI5bVB5bWdSR2ow?=
+ =?utf-8?B?RHU4RGh3NzdCTkhnZ1I2NmJDOXVlZjdLcElWRkoxMzlhU1k0UG9Pa1NldkJs?=
+ =?utf-8?B?TWtrYjc2cHlLOWtEUDVDTWFNVExaK0xWaGRhVlNrN0dpV0tMbHBHK3I0cUlW?=
+ =?utf-8?B?N1VGVko2OHU2ejIxUy8zQnZsVDVzR0N4bGs1bmNOM25VeDZ1UGFxT3doTmZl?=
+ =?utf-8?B?aXVXQlJsRDNJNjM2aU9aR1VIam84OENQQjZYTGZISUl2ZG5TQ2kzdVhJcFEy?=
+ =?utf-8?B?Mk1uRXNMcFpQRHZUUWttVVZVOWtoTXZkM243MmpDdzVDL2VlWjlQRGJ3dkxl?=
+ =?utf-8?B?WjQyZW1JRlczZCt0T1hOQVltZDdFQ0NCM3dyWUhRMkRDOGpvSUJoWTljNytZ?=
+ =?utf-8?B?WGVWTzZhNm5oU2N2SnNiNFRjMUYzejRkOG05bEJ3OFV3ZGE5dHBsek03TkNU?=
+ =?utf-8?B?dHNCNnJwb2hIMGFxM0Y1MGNtY1BwMVdmNllzMmsvbGVtUjhVdWl0ZVFZTUlE?=
+ =?utf-8?B?anNjVUtKdzluZW1GZHB1ZTliMGhHSTZDQTNHdUlwcUo1d0FQNUE5eW5iODNY?=
+ =?utf-8?B?UENHL2RqSWNiNS9HeDFwWnJqd3RONWU1L0g2SHVZbm9sMDR6NFUxN1FWUEVF?=
+ =?utf-8?B?N2pTRjZqbjJucHgxYnZzaFpseXVhTmttU1VQVVdqL3FtYXhIUC9ZNkVEYTJN?=
+ =?utf-8?B?dUtQN2lzcE5nVVk1bnlMRGZ3RzlJbGR3QW5LMmJRdk1pb1NtQk5NcDRPWFZ6?=
+ =?utf-8?B?YkNta0s2OE1ZNVZnNUo0OUhOUFdIVjJHcWxjY1g3VTA4aXpNaXZIWXRwdC9F?=
+ =?utf-8?B?YWlTckpzZVY2WGJGNlgwNk1EMDB2YnRkZXhjZER5QVNwVHVHRnQxKzc0aTF0?=
+ =?utf-8?B?TWd3blBhVXJUT01ydHRONGVLQ2VpOSs0b1BqcnAzRGRjREZwaG14QzByZVBS?=
+ =?utf-8?B?YXRMNXB2M2RTS2hzbStZQzFNYmFnUHpYTElkNVlPTlUwOFNZeTNxK3ptaUFm?=
+ =?utf-8?B?a3BzeU4yVjg0SmxwTkVpMmlZY2ZCdVd5ekJQdUVHUFBLek80cDBYRlFyMEIx?=
+ =?utf-8?Q?kaaUTv01xro=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rzdka2M4TEpDNGs5WFVKaDh3QllmUmdBRnVSL05ieWRCLzlnU1VSYStpSlRI?=
+ =?utf-8?B?eU82ZGlOVUdRcGlpUXlldWxJUVU4WGg4OWt3R2p4MjljWTJRWFV2L0d3aVl4?=
+ =?utf-8?B?ZHNYbGtZUko5VFpqcGJFRkFQa1ZqY04zeDJKMWk5OGJOODd0S0dUWSs2V2FI?=
+ =?utf-8?B?Y1ZxWGxxTjZ4OTJ0ZUFLaWFRZEZGSXBuOXdLSkVUVGJmVkNwL1phUmZaNmVi?=
+ =?utf-8?B?cWtYM3hXMkpyenFsalE0bm5tc28zdjhHT0JiTXBqTmx4NlYyR1VyNHMvQWF3?=
+ =?utf-8?B?RUFHejF0MGlMM0RqOEk1NnJsWU82OWplYy93dU00dkpPYUpxenowVnhFNjlH?=
+ =?utf-8?B?aXZhd0V6QVNPUjh3a205VitrMmExZllGdUFDZllyRC90aEhjUmpGQ2l0Yk9D?=
+ =?utf-8?B?VnJTb0NCTVJXWkEwTE0ycTRMZXY3V1F5VS9qaUxqK3dCdmhKT1lDS3kvWlRL?=
+ =?utf-8?B?MFpmVkRZWk53cmxrRnJyblVnREEwQ3NLb3M4c3RSTmxVUjc2ZXRsOVl4YjRv?=
+ =?utf-8?B?dzVsZGhvOGdhY3Y5TjZOaWpqdlhRZG16elFqcVYxd3J2Q2RFcVJCWHUyWmd3?=
+ =?utf-8?B?UjloZE1qZWdWUUg3V25PRlF4Y0ROQXIxbXdsdEVTZFMvbTRUcnpGQ3VtcDVI?=
+ =?utf-8?B?aUM1WWtRb1lLSG1sR0grN3kzbUR5ZnNMZ2NHN3RmaHhreXZDOGVkQWIvM3p5?=
+ =?utf-8?B?bHcwOVNzeHliZUtuK09zQ0dTOUhVc0lrUCt5b0NTTkx5TjdnQzQrNmVaTlhD?=
+ =?utf-8?B?c0F0d3NRbnM0WTR5bXJxc0FVUTRuU3JuQXp6TTlpVXVhMzBHYytIdXJQVWJ0?=
+ =?utf-8?B?OXFKMnA3OVVCeEViN2R0L1dhcTVOcnBRNml0anZOL2FTU1dEb3ZMdkRCL20v?=
+ =?utf-8?B?QkRtOGRaK3pSS0pYVDF4cmtlSFN5M2V0ekNBc0sxbHYxcWZsVWRUeHFiMjVQ?=
+ =?utf-8?B?YjJHZ0R5d1lEYUk4ajd4dGg2K1RBMTlnL2FYOGpEdk5LcDFYcG0vVVhEcTk3?=
+ =?utf-8?B?Qm8zV0FYdEF0YjEwWXAwWXN4czFmVzVXQWhWNFE2ZlZvQkZKNXMwTnlKajYx?=
+ =?utf-8?B?QWkvUU1tVTZQRERjWDlYMWJPRlF5cXFZaWtSK3c1TUFScFdBQ0VuYVdTaTA1?=
+ =?utf-8?B?NVVtSlNsdVBiMXUwdmlGeVRMUHA3QWk5eHJoY21Camt0UHVPMmF3NUpKSWlE?=
+ =?utf-8?B?a01vY2o2K0NLRzNxS2llckJRV2lOM0EydmVIcG9PRjhrYitvSkpCcG96QnhM?=
+ =?utf-8?B?VUdKMkltZURhMDlRVTcwM0pzTXVxcUJPbkdvbkJhb1YvNHM3RjJqNG9wa0tv?=
+ =?utf-8?B?VXVHcDZvd2RVUUtjci9ndXBlenN2OWpVeW9lSHFMSGtJT0x3MlFQRUllL3ov?=
+ =?utf-8?B?Z1pNQ3RDUjZ0YWl3OGVEdnV0L2d2dmlCck1xSktadms4NHBzdkQ3VmxCdEw5?=
+ =?utf-8?B?T2c4Q3JWVXJBN1paS3FFOGY5bURXbGd2eXMrRFNoOEN4OWQ2dUNoUXlXOHlG?=
+ =?utf-8?B?UWt1aDRlc21TZ25kZ0JWVGpxYmZlaDl4My9MYkpET2FhMHEweTQvaFF6aWxW?=
+ =?utf-8?B?Q2Z5SDExYkx5TTZ6U05iOUtsWUdvL0ROb0FrSTUrOCtaTVlWb0xGdDU2UHo3?=
+ =?utf-8?B?UERDbFhWL2JWWXlCUWQ3dkxBMk5obGErNFR2cURSQ01GL3lTVFR5SlN2MkpN?=
+ =?utf-8?B?TG0vZWZsTmJza0ppTXhQVXFYb0RXTzJoc1VZYU4wSzJrNFYyK1RoclZ1UzY4?=
+ =?utf-8?B?dytRcjVqQ1lYdjlMWTlkNlNNVWU5cXJDRllBWkNmWTlwZXBWM2NWMjlhcTFT?=
+ =?utf-8?B?SWJaWHBoYS9HeEdZQWltZnE1cXhxMkRiSllLdXdXaWVDRXY2aDBYMktIUlA3?=
+ =?utf-8?B?eitPa3ZMWEdJNE5rdnp5SGxIOFV4NytGY1AzZWM1RThqbVE4USszMWIzRldD?=
+ =?utf-8?B?MkZvb1BYYkUwSG52U0ltOWNQcXpZY2NnUjFFUjZGV1krcnFiclNMTmFZYnVJ?=
+ =?utf-8?B?emxDMHBlODFWbzFpTHozbzJMdU9lbks0aXd0S3RzZlQvVjR1bmlRU1dTVTJN?=
+ =?utf-8?B?RkhseVhpYUxkMEo4ZUtMNWhkMHY2ZThqUnlHQlpxcWF4Y1Fta3lOZ3VXRy9T?=
+ =?utf-8?Q?d5jPRYYQdi38cNpNI/J2ScQXs?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb338f4d-f7b1-4560-3c49-08dde50f8a34
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 02:15:06.7552 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B610itaZMR537gBxZ/uCBqeMebezF31jqKvVQMBagSSNVkaktE+Fo8sUO+ooglwKZSgIvGv5t1QbaSFSgkpXvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5478
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,27 +163,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 03:43:31PM +0200, Maxime Ripard wrote:
-> The msm atomic_check implementation uses the deprecated
-> drm_atomic_get_existing_crtc_state() helper.
-> 
-> This hook is called as part of the global atomic_check, thus before the
-> states are swapped. The existing state thus points to the new state, and
-> we can use drm_atomic_get_new_crtc_state() instead.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+在 2025/8/27 0:31, Lizhi Hou 写道:
+>
+> On 8/26/25 00:29, Qianfeng Rong wrote:
+>> Change the 'ret' variable from u32 to int to store -EINVAL, reducing
+>> potential risks such as incorrect results when comparing 'ret' with
+>> error codes.
+>
+> Sounds this fixes code issue. Could you add "Fixes" tag?
+>
+>
 
-To merge through drm-misc-next:
+The 'ret' variable stores negative error codes directly.  Storing
+error codes in u32 (an unsigned type) causes no runtime issues but is
+stylistically inconsistent and very ugly.
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Logical errors with 'ret' only occur when it is compared against negative
+error codes. For example:
 
+u32 ret = -EINVAL; // ret becomes an extremely large unsigned integer
 
--- 
-With best wishes
-Dmitry
+if (ret == -EINVAL) // This condition will never be true
+
+This patch reduces the likelihood of such issues occurring. Since it does
+not fix an existing bug, I believe there is no need to add a Fixes tag.
+
+Best regards,
+Qianfeng
+
