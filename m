@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20647B38D39
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C93B38CA5
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC9A10E90E;
-	Wed, 27 Aug 2025 22:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA4510E8F8;
+	Wed, 27 Aug 2025 22:08:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cJMHpOKE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bRX+tNGW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED2DD10E90E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756332749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xokvzkSIEpQffuWgfIG7Waj6e5Wn3/nTay4YDrY+vKU=;
- b=cJMHpOKEflEGW6r1DEZkdtM72JlEy8JYgASDGZ0qURaBi9PInhqkfC+8WbUPqZkylrRdso
- qieD0M7nfruKM054L1ICFu5hDnPMtQcLbEd2s6ZzsftybYEux70lLcCA1yp8iNVm9IVE6W
- +I0l1VmuGhKgSlLuft/3NlDzjpo+WSQ=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-488-RQvXUovaMI65FI3R-Bh1mA-1; Wed,
- 27 Aug 2025 18:12:26 -0400
-X-MC-Unique: RQvXUovaMI65FI3R-Bh1mA-1
-X-Mimecast-MFC-AGG-ID: RQvXUovaMI65FI3R-Bh1mA_1756332741
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id A0A3C19560AA; Wed, 27 Aug 2025 22:12:21 +0000 (UTC)
-Received: from t14s.redhat.com (unknown [10.22.80.195])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 2874830001A5; Wed, 27 Aug 2025 22:12:05 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C99EF10E8EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:08:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AAB516027F;
+ Wed, 27 Aug 2025 22:08:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECAEC4CEEB;
+ Wed, 27 Aug 2025 22:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756332483;
+ bh=zzgfsYDCFmRhdoMZwZ++3Els9HxkLOsb+5Uew5Yhl6I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bRX+tNGWVTUIuuRWXCG5ONBpUuQUHP/wyei8Yn+SJQPZSdxqbskV+o+bN48kMj2LB
+ 4LR1hBAGzxuKLAJWZNXy2LqiiK4grBJTMBnIjHo0RwE4YUqcPtybj6NCyu5EeXcjNd
+ n0UcO9BkDLs6IzjiMW2jrqIMMVulxJo5Do3KhN4j9Hvj+V51zj+8jFAFccSUx9DHvR
+ /2IKuBbcutfJoszc+0hXc++CluMVTe/YUadwI9Jqk2eOGsxfQeX5CdH02aoJyE9ygy
+ k3Zy+tyzneCTzQN6/F9NY9/LcqCQjrY9f2UV7/xR2BsYufOXpBoDEbFPfmTFIJ7lsY
+ 9CC5fg9wyhsdg==
+Date: Wed, 27 Aug 2025 15:08:01 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Matt Coster <matt.coster@imgtec.com>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v1 36/36] mm: remove nth_page()
-Date: Thu, 28 Aug 2025 00:01:40 +0200
-Message-ID: <20250827220141.262669-37-david@redhat.com>
-In-Reply-To: <20250827220141.262669-1-david@redhat.com>
-References: <20250827220141.262669-1-david@redhat.com>
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+Message-ID: <aK-BwY8c-OR_WqNk@thelio>
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
+ <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+ <aKjWiU4fQw3k77GR@x1>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKjWiU4fQw3k77GR@x1>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,40 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that all users are gone, let's remove it.
+On Fri, Aug 22, 2025 at 01:43:53PM -0700, Drew Fustini wrote:
+> On Fri, Aug 22, 2025 at 12:20:17AM +0200, Michal Wilczynski wrote:
+> > Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+> > TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+> > the GPU using the drm/imagination driver.
+> > 
+> > By adding this node, the kernel can recognize and initialize the GPU,
+> > providing graphics acceleration capabilities on the Lichee Pi 4A and
+> > other boards based on the TH1520 SoC.
+> > 
+> > Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
+> > controlled programatically.
+> > 
+> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > Reviewed-by: Drew Fustini <drew@pdp7.com>
+> > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > Acked-by: Matt Coster <matt.coster@imgtec.com>
+> > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> > ---
+> >  arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> 
+> I've applied this to thead-dt-for-next [1]:
+> 
+> 0f78e44fb857 ("riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node")
+> 
+> Thanks,
+> Drew
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git/log/?h=thead-dt-for-next
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/mm.h                   | 2 --
- tools/testing/scatterlist/linux/mm.h | 1 -
- 2 files changed, 3 deletions(-)
+Hi Matt,
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 2ca1eb2db63ec..b26ca8b2162d9 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -210,9 +210,7 @@ extern unsigned long sysctl_admin_reserve_kbytes;
- 
- #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
- bool page_range_contiguous(const struct page *page, unsigned long nr_pages);
--#define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
- #else
--#define nth_page(page,n) ((page) + (n))
- static inline bool page_range_contiguous(const struct page *page,
- 		unsigned long nr_pages)
- {
-diff --git a/tools/testing/scatterlist/linux/mm.h b/tools/testing/scatterlist/linux/mm.h
-index 5bd9e6e806254..121ae78d6e885 100644
---- a/tools/testing/scatterlist/linux/mm.h
-+++ b/tools/testing/scatterlist/linux/mm.h
-@@ -51,7 +51,6 @@ static inline unsigned long page_to_phys(struct page *page)
- 
- #define page_to_pfn(page) ((unsigned long)(page) / PAGE_SIZE)
- #define pfn_to_page(pfn) (void *)((pfn) * PAGE_SIZE)
--#define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
- 
- #define __min(t1, t2, min1, min2, x, y) ({              \
- 	t1 min1 = (x);                                  \
--- 
-2.50.1
+Do you know when the dt binding patch will be applied to
+the drm-misc/for-linux-next tree?
 
+I applied the dts patch but it is creating a warning in next right now.
+If the binding won't show up soon in drm-misc, then I'll remove this dts
+patch from next as dtbs_check is now failing in next. I can add it back
+once the binding makes it to next.
+
+Thanks,
+Drew
