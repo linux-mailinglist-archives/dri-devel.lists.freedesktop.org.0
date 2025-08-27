@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC1CB37B78
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F950B37B94
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9289E10E716;
-	Wed, 27 Aug 2025 07:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A5010E737;
+	Wed, 27 Aug 2025 07:22:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="PFozBq2P";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="qqeX1/48";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E9810E6FA
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 05:06:45 +0000 (UTC)
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20250827045907epoutp01a486562ae3a6a0edf02bc7af117ec8e1~fhvCFLH2j0302803028epoutp01c
+X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
+ Wed, 27 Aug 2025 05:04:18 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40AE10E6F8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 05:04:18 +0000 (UTC)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20250827045907epoutp03e79565d0c1f4fcf6c43d5b150e27c825~fhvChj2Qb1999319993epoutp03q
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 04:59:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20250827045907epoutp01a486562ae3a6a0edf02bc7af117ec8e1~fhvCFLH2j0302803028epoutp01c
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20250827045907epoutp03e79565d0c1f4fcf6c43d5b150e27c825~fhvChj2Qb1999319993epoutp03q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1756270747;
- bh=WUXp9lG7X26uP7murNUm5kgTEUw+iAz/NoMGgwgkXEI=;
- h=From:To:Cc:Subject:Date:References:From;
- b=PFozBq2PABiLrMMGdNDfnYS0qeUAZ4gQ/TyGCL4iVM/2raVzLyTDmHy9iKyTQvr2I
- VLjPrOhuXNlcB794I9/ucdisI+ZpeE4DZTYQw1THeWQzNtgsuv+x35C3mlrDw2hUU+
- hr46S6zlLBPy9iBVAAsHikc/8YunaH5vbuV0iPzA=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
- epcas2p4.samsung.com (KnoxPortal) with ESMTPS id
- 20250827045906epcas2p40026048003f6d8216bc9caba963b5182~fhvBe0NlJ3229232292epcas2p4z;
- Wed, 27 Aug 2025 04:59:06 +0000 (GMT)
-Received: from epcas2p4.samsung.com (unknown [182.195.36.102]) by
- epsnrtp04.localdomain (Postfix) with ESMTP id 4cBXPP70F0z6B9mK; Wed, 27 Aug
- 2025 04:59:05 +0000 (GMT)
+ bh=8oixCpq4frQkHJU5kPDWHHO8FnB0bWWAyMSsLl8RP6Q=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qqeX1/48myY0kVClgM04MOHYWrhW8F/qrchPTWqSl6c4kWaC7c3nNK90Z1jSVzLnl
+ ekDDPBcjuFdjGAI1eABnCrmT2+XuXWT3WEu2qkDJs57VKik1fcxhGntrE1g0/ZP1Ga
+ NTa3VzzLbipMV2op+0JBsXeCfgJ9exYCXlcTpNLw=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+ epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
+ 20250827045907epcas2p14cd817aeb803e37481873e88e923355a~fhvCCg1GE1186511865epcas2p1f;
+ Wed, 27 Aug 2025 04:59:07 +0000 (GMT)
+Received: from epcas2p2.samsung.com (unknown [182.195.36.91]) by
+ epsnrtp03.localdomain (Postfix) with ESMTP id 4cBXPQ25Hmz3hhTD; Wed, 27 Aug
+ 2025 04:59:06 +0000 (GMT)
 Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
- epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250827045905epcas2p2daa6599d04f38c002e396abf23d60fe7~fhvARTiXQ1734917349epcas2p2u;
+ epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20250827045905epcas2p4b2cbd4b881af1c1be4b345861d1a635b~fhvAflIe82320923209epcas2p4t;
  Wed, 27 Aug 2025 04:59:05 +0000 (GMT)
 Received: from mclaren.dsn.sec.samsung.com (unknown [10.229.9.108]) by
  epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250827045905epsmtip2fc5355cf5088afd226e12a4f77c10640~fhvAK8HCh1766017660epsmtip2D;
+ 20250827045905epsmtip2009f0b11b3909a6cc82fa31a646beeb5~fhvASaS5H1855818558epsmtip2h;
  Wed, 27 Aug 2025 04:59:05 +0000 (GMT)
 From: Kisung Lee <kiisung.lee@samsung.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
@@ -54,21 +56,24 @@ Cc: Kisung Lee <kiisung.lee@samsung.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH 0/4] Add DT bindings and driver code for Scaler
-Date: Wed, 27 Aug 2025 04:47:16 +0000
-Message-ID: <20250827044720.3751272-1-kiisung.lee@samsung.com>
+Subject: [PATCH 1/4] dt-bindings: soc: samsung: scaler: exynos: Add
+ ExynosAutov920 compatible
+Date: Wed, 27 Aug 2025 04:47:17 +0000
+Message-ID: <20250827044720.3751272-2-kiisung.lee@samsung.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250827044720.3751272-1-kiisung.lee@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250827045905epcas2p2daa6599d04f38c002e396abf23d60fe7
+X-CMS-MailID: 20250827045905epcas2p4b2cbd4b881af1c1be4b345861d1a635b
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 cpgsPolicy: CPGSC10-234,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250827045905epcas2p2daa6599d04f38c002e396abf23d60fe7
-References: <CGME20250827045905epcas2p2daa6599d04f38c002e396abf23d60fe7@epcas2p2.samsung.com>
+X-CMS-RootMailID: 20250827045905epcas2p4b2cbd4b881af1c1be4b345861d1a635b
+References: <20250827044720.3751272-1-kiisung.lee@samsung.com>
+ <CGME20250827045905epcas2p4b2cbd4b881af1c1be4b345861d1a635b@epcas2p4.samsung.com>
 X-Mailman-Approved-At: Wed, 27 Aug 2025 07:22:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,39 +90,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series adds device tree bindings and driver support
-for the ExynosAuto scaler hardware. It adds YAML binding docs,
-updates Kconfig and Makefile, and provides initial driver
-code to register the Scaler device as a V4L2 video node for
-video processing.
+Add samsung,exynos5-scaler compatible for ExynosAutov920 SoC.
 
-Kisung Lee (4):
-  dt-bindings: soc: samsung: scaler: exynos: Add ExynosAutov920
-    compatible
-  media: samsung: scaler: add scaler driver code
-  arm64: dts: exynosautov920: enable support for scaler device
-  media: samsung: scaler: Add Kconfig and Makefile
+Signed-off-by: Kisung Lee <kiisung.lee@samsung.com>
+---
+ Documentation/devicetree/bindings/gpu/samsung-scaler.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/gpu/samsung-scaler.yaml          |    1 +
- .../arm64/boot/dts/exynos/exynosautov920.dtsi |   22 +
- drivers/media/platform/samsung/Kconfig        |    1 +
- drivers/media/platform/samsung/Makefile       |    1 +
- .../platform/samsung/v920-scaler/Kconfig      |   17 +
- .../platform/samsung/v920-scaler/Makefile     |    9 +
- .../samsung/v920-scaler/scaler-core.c         | 3640 +++++++++++++++++
- .../samsung/v920-scaler/scaler-regs.c         |  744 ++++
- .../samsung/v920-scaler/scaler-regs.h         |  406 ++
- .../platform/samsung/v920-scaler/scaler.h     |  621 +++
- .../v920-scaler/videodev2_exynos_media.h      |  162 +
- 11 files changed, 5624 insertions(+)
- create mode 100644 drivers/media/platform/samsung/v920-scaler/Kconfig
- create mode 100644 drivers/media/platform/samsung/v920-scaler/Makefile
- create mode 100644 drivers/media/platform/samsung/v920-scaler/scaler-core.c
- create mode 100644 drivers/media/platform/samsung/v920-scaler/scaler-regs.c
- create mode 100644 drivers/media/platform/samsung/v920-scaler/scaler-regs.h
- create mode 100644 drivers/media/platform/samsung/v920-scaler/scaler.h
- create mode 100644 drivers/media/platform/samsung/v920-scaler/videodev2_exynos_media.h
-
+diff --git a/Documentation/devicetree/bindings/gpu/samsung-scaler.yaml b/Documentation/devicetree/bindings/gpu/samsung-scaler.yaml
+index 9fb530e65d0e..5a472e29dc8a 100644
+--- a/Documentation/devicetree/bindings/gpu/samsung-scaler.yaml
++++ b/Documentation/devicetree/bindings/gpu/samsung-scaler.yaml
+@@ -14,6 +14,7 @@ properties:
+     enum:
+       - samsung,exynos5420-scaler
+       - samsung,exynos5433-scaler
++      - samsung,exynos5-scaler
+ 
+   reg:
+     maxItems: 1
 -- 
 2.25.1
 
