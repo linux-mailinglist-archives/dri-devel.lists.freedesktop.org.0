@@ -2,80 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9D7B38ABC
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 22:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76236B38AC9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 22:24:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE83E10E8AF;
-	Wed, 27 Aug 2025 20:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723C410E8B1;
+	Wed, 27 Aug 2025 20:24:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ghb1ln1x";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="euLhcl90";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1F5510E8AF;
- Wed, 27 Aug 2025 20:14:11 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-b49c729577dso39188a12.0; 
- Wed, 27 Aug 2025 13:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756325651; x=1756930451; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QlufRgie91QgTam9xSC34zQrGY0Nj6hkzf3Xl64IrEI=;
- b=Ghb1ln1xUm0olBDCZcQsUvEhD0vkzXByaEHc4RLXA2488cnr7kYfJSaYthYsHvqAP1
- CkvOd4cYD7fjqXCQFtwNHBjiSJYWg2SNWQAUWrLjYB3XYAxo4xqzAhhty4eaMUua/mkJ
- 3m2TgdYtpZFy9sdvM/bA/fZBOarQsCvLN8NH/UXi/0Wpg+r17LNcvS3ITG8/k151CBO7
- VVjT1cSXBsDvfmJX7Rm65tSX9zw2aNT0dHY1jyiICtZuS0DSjttzxVvw75NCn3resylH
- 2y63mqUYd57i7XENRONK/oZmiYAN5f+0fNrdo0Lotr6aKrVif2xe+1CZKIPvnZI28VUR
- ktEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756325651; x=1756930451;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QlufRgie91QgTam9xSC34zQrGY0Nj6hkzf3Xl64IrEI=;
- b=J2OcbWtfWMRh5yBk2DQ5JYNCXi8GFZptmYErLN2nlSR7XcNZYvab0s+wJoGe0M3L1J
- fVQoyiY5XKasuL08b/+ItkTeVlqic2GtZ8wKcssRSSuVUGrH7j6YDPw55eufUYWOVghZ
- nbgDkjLkeHrqvBWrRXVQB8vXSZ5PuKkmUW2V3NJ/Ky7biyYayf6suF6WWKnv1XnsdP01
- 7QnzWKBBttQ6NHhiSOpLRT48l/iaWInCW5wSX5RbSTZJwsLX+kjan0Fn/6L+Z3kZgE14
- o9BmIirLzYa+PFpT+s4zr0qW2i6fgdXD6VVJ55VFw7O9fA/zOGtBygvam/WcIrnYcN5N
- djyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIFPAI3Vxc4DN+HHkivKw+07eYqfZNBq6PSjyLYGwQXPFpqumFToRjaCkaT0P1PN1yaxxbn2480UtI@lists.freedesktop.org,
- AJvYcCWy+5agqCP2Ips7v91Rtu62VXZym+YRR+clUZ92pLKAnmZKhx6+QhmFYI7VoQf+9TnH8Hw3Plr6@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0ecnFimXxeN3ZJ6Ft2vjLkmLbUEcyZEn5jn4Qclrdyj1QqxOS
- xn4kp+l9Pc9ekiuH0mu3YBpA1cY2o6d5hsukGDXUkVCJAxWSuv+iilMq6dSY4rHjx5yx1ylFtFi
- sqxPCSKC+AE9gOPNGvAwhgzuncrm32H0ndQ==
-X-Gm-Gg: ASbGncsuyal9ANy3zRIxEmiSks0bZg14QWLLAKxnBpiqzGRmhj0m83PNacQsWshy7+q
- OuGDzdHJx9hR0bQGvD82oN4aORZzgJ53yV5nNSCcIvNboIDM6inAGZzCIm9Mg0v0j335lK6Q2oF
- yHwslnHWTZYqBgDGZjzUB2lABO+1/YCzztC07/5pBiGa/zqjKcYROn2qSEdPYLIi7bMVc6ZnQ8D
- 3jG+4kfVK+uuM7A6A==
-X-Google-Smtp-Source: AGHT+IFrr5jFKjpnE8DrRgdjnkjAjrqoK6JTUZFNF2hiIHZxWtLqdu/5EvB4/E0d9H3HhNfbu22mum1R1mgd/ZnN1U0=
-X-Received: by 2002:a17:902:f689:b0:246:b3cc:f854 with SMTP id
- d9443c01a7336-246b3cd0030mr95147505ad.2.1756325651320; Wed, 27 Aug 2025
- 13:14:11 -0700 (PDT)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C5210E17D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 20:24:06 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57RKNvp81825109;
+ Wed, 27 Aug 2025 15:23:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1756326237;
+ bh=l2kumuCMLlBCJKAinXlyJgLWFRWFnmkwqXm+yzlGKgc=;
+ h=From:To:CC:Subject:Date;
+ b=euLhcl90UmAP6JPogxrdYfsXvuEeQFvw02QsxLt2OGBZroIQoKGO8TVnfgxXSXGMt
+ FCb99EywBWCegcvpqBOeFU5tFGOeHETl9VDGN7kPSLKeaF2WIpPfpuTQwMikTrqtKJ
+ icrDy7wX0am3FxxqMk0AdKW2lapiPq+i8pDeEwAE=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57RKNv122382663
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 27 Aug 2025 15:23:57 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 27
+ Aug 2025 15:23:57 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 27 Aug 2025 15:23:56 -0500
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57RKNvFS3643386;
+ Wed, 27 Aug 2025 15:23:57 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
+ <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>,
+ <tomi.valkeinen@ideasonboard.com>, <devarsht@ti.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>, Nishanth Menon <nm@ti.com>
+Subject: [PATCH V5 0/5] drm/bridge: it66121: Add initial it66122 support
+Date: Wed, 27 Aug 2025 15:23:49 -0500
+Message-ID: <20250827202354.2017972-1-nm@ti.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-References: <20250823202540.487616-1-kavitheshnitt@gmail.com>
- <CADnq5_Onr6rR12NVagwMHURPfuQxBoVq8Qhui6heH_m-5eHsXA@mail.gmail.com>
- <5e065f3a-9237-4798-9380-11c43b477882@igalia.com>
-In-Reply-To: <5e065f3a-9237-4798-9380-11c43b477882@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 27 Aug 2025 16:13:59 -0400
-X-Gm-Features: Ac12FXyaAs-5dxZif0zb7XyNWucHk08jDJxEwJTUXNmK5agirepWHrhYt6lUYII
-Message-ID: <CADnq5_MwNuSLWePB-GvkAbTv-kf=uxy8y7nd8ZSpPbB7NUVjhA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Document num_rmcm_3dluts in
- mpc_color_caps
-To: Melissa Wen <mwen@igalia.com>
-Cc: "Kavithesh A.S" <kavitheshnitt@gmail.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, harry.wentland@amd.com, sunpeng.li@amd.com, 
- siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
- airlied@gmail.com, simona@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,54 +74,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 4:10=E2=80=AFPM Melissa Wen <mwen@igalia.com> wrote=
-:
->
->
->
-> On 27/08/2025 17:02, Alex Deucher wrote:
-> > Applied.  Thanks!
-> >
-> > Alex
-> >
-> > On Sat, Aug 23, 2025 at 4:25=E2=80=AFPM Kavithesh A.S <kavitheshnitt@gm=
-ail.com> wrote:
-> >> Fix a kernel-doc warning by documenting the num_rmcm_3dluts member of =
-struct mpc_color_caps.
-> >>
-> >> This is my first patch submission to the kernel, feedback is welcome
-> >>
-> >> Signed-off-by: Kavithesh A.S <kavitheshnitt@gmail.com>
-> >> ---
-> >>   drivers/gpu/drm/amd/display/dc/dc.h | 1 +
-> >>   1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd=
-/display/dc/dc.h
-> >> index 59c077561..06f05979b 100644
-> >> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> >> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> >> @@ -234,6 +234,7 @@ struct lut3d_caps {
-> >>    * @ogam_ram: programmable out gamma LUT
-> >>    * @ocsc: output color space conversion matrix
-> >>    * @num_3dluts: MPC 3D LUT; always assumes a preceding shaper LUT
-> >> + * @num_rmcm_3dluts: number of RMCM 3D LUTS supported
-> A bit late to comment, but I think you should keep the "always assumes a
-> preceding shaper LUT" part.
-> This info is still very useful and links shaper LUT caps to this attribut=
-e.
+Hi,
 
-I'll add that before I push it.
+Add initial support for IT66122, which seems to be compatible to it66121
+but probably has additional functionality.
 
-Alex
+BeagleY-AI uses this it66122 as the old part is no longer in production
+as far as I understand.
 
->
-> Melissa
->
-> >>    * @shared_3d_lut: shared 3D LUT flag. Can be either DPP or MPC, but=
- single
-> >>    * instance
-> >>    * @ogam_rom_caps: pre-definied curve caps for regamma 1D LUT
-> >> --
-> >> 2.43.0
->
+Now, BeaglePlay uses it66121 at the moment, but at some point, it might
+end up flipping over to the new part. Additionally, it also looks like
+Revision D of BeagleBone Black switched over to it66122 as well.
+
+Series is based on next-20250827
+
+Bootlog: BeaglePlay: https://gist.github.com/nmenon/65afb917ee1818979d338cf25732a920
+
+Changes in V5:
+* Switched over to ARRAY_SIZE
+* Picked up Andrew's Reviewed-by
+
+Changes in V4:
+* Added patch to sort the compatibles alpha-numerically
+* vid/pid lookup is done without using the match_data.
+* picked reviews
+
+Changes in V3:
+Based on Tomi's and Devarsh's reviews, and searching online (and failing
+to find) for a public data sheet, I have refactored the series to:
+a) Detect the ID by matching vid/pid
+b) Introduce it66122 basic support which seems to work based on
+   empirical testing evidence on BeagleY-AI. This allows incremental
+   patches in the future by someone who might have access to the data
+   sheet to add additional features for the chip.
+c) Irritated by checkpatch --strict warnings, added a patch to fix
+   existing warnings as part of this series, but it could probably go
+   in independent of everything else.
+d) Stopped claiming it66122 is drop in replacement of it66121 :)
+
+Changes in V2:
+* Picked up Krystoff's binding ack
+* Switched over to a vid/pid list
+
+V4: https://lore.kernel.org/all/20250819130807.3322536-1-nm@ti.com/
+V3: https://lore.kernel.org/all/20250815034105.1276548-1-nm@ti.com/
+V2: https://lore.kernel.org/all/20250813204106.580141-1-nm@ti.com/
+V1: https://lore.kernel.org/all/20250813190835.344563-1-nm@ti.com/
+
+Nishanth Menon (5):
+  dt-bindings: display: bridge: it66121: Add compatible string for
+    IT66122
+  drm/bridge: it66121: Drop ftrace like dev_dbg() prints
+  drm/bridge: it66121: Sort the compatibles
+  drm/bridge: it66121: Use vid/pid to detect the type of chip
+  drm/bridge: it66121: Add minimal it66122 support
+
+ .../bindings/display/bridge/ite,it66121.yaml  |  1 +
+ drivers/gpu/drm/bridge/ite-it66121.c          | 68 +++++++++----------
+ 2 files changed, 34 insertions(+), 35 deletions(-)
+
+-- 
+2.47.0
+
