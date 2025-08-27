@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F649B37C85
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D9FB37C83
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E9B10E75B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5A110E761;
 	Wed, 27 Aug 2025 07:57:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="KerKK3pP";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="onAY/ahR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE7F10E750
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA1510E750
  for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:57:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=EZOJWExa5qLVEsPq3j8HydiA2WaZ9eh1caYD7hcSf6o=; b=KerKK3pP0fv1hWcFkf5UpwwS+n
- DyQX+x1U4BG5PeUL9KWfsYEO6fuQjo/YxabrfldV/H3A2mt8I4eYKIuyAC4eO0xkUkBGwK0VGv585
- VfJseMvGcO2e0TjLYtji/No56lZU93TOZXLeXSjv8Y++0qW918oMas8lhpPQD0C6XgSVBfexzDiNc
- l6T0oulWEpXVtAplOBjGdeI/zsh+6p/65C4UrnexkWP8Mc8GzNrDa8PD1xre5axw3aDFwjsQA9Y+7
- /KGjGCtsHQtDf3+4RYdeIMp8KrYdqiy6Qj4EC3hgFn8uTgVZLt3JaBYS1DsW9MKByBNdqENelR31X
- kzLC0Vuw==;
+ bh=gzeeqkroKmmZWJXoYtqTZrgkcFkhpm3FfXA6Qfi5FPg=; b=onAY/ahRdxPnV3oOrlFTMxQsX1
+ 4/F/GUoC28qL6WdTxW50bPjN63UISSfr8rUpECTYtXUj8F6A6equvZyuPi8gKvNfIplPPmYprCEje
+ uppsPP7iPfS7Ly06vK5eSP80d2opR341xk6LhR5PkC1VZGU8nu7LgogwusFd2K9ipAQrve5Nfa8sJ
+ jWCQdnBzTYXNPj1AuUKZukP3eg9qFGBR7wfHOCwFc1vDrYzPVX6lW8zDfMPgZnOxxtAWIc+vREiZe
+ 9ejE+O/VVoVgTm3LRiNTWCXXvToZVeA4ZmCWtyvQ7U5M4imzYzWKNS8i32zcr5z7d/9Fofigj9iol
+ KuwvSPJg==;
 Received: from [213.244.170.152] (helo=phil.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1urAXL-0000X5-Vt; Wed, 27 Aug 2025 09:25:40 +0200
+ id 1urAbr-0003Q8-H8; Wed, 27 Aug 2025 09:30:19 +0200
 From: Heiko Stuebner <heiko@sntech.de>
 To: Yury Norov <yury.norov@gmail.com>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -67,14 +67,15 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 09/20] phy: rockchip-samsung-dcphy: switch to
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v3 10/20] drm/rockchip: dw_hdmi_qp: switch to
  FIELD_PREP_WM16 macro
-Date: Wed, 27 Aug 2025 09:25:38 +0200
-Message-ID: <5502100.jE0xQCEvom@phil>
-In-Reply-To: <20250825-byeword-update-v3-9-947b841cdb29@collabora.com>
+Date: Wed, 27 Aug 2025 09:30:18 +0200
+Message-ID: <881125850.0ifERbkFSE@phil>
+In-Reply-To: <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-9-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
@@ -93,20 +94,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, 25. August 2025, 10:28:29 Mitteleurop=C3=A4ische Sommerzeit schr=
+Am Montag, 25. August 2025, 10:28:30 Mitteleurop=C3=A4ische Sommerzeit schr=
 ieb Nicolas Frattaroli:
 > The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 > drivers that use constant masks.
 >=20
-> phy-rockchip-samsung-dcphy is actually an exemplary example, where the
-> similarities to FIELD_PREP were spotted and the driver local macro has
-> the same semantics as the new FIELD_PREP_WM16 hw_bitfield.h macro.
+> Replace this driver's HIWORD_UPDATE with the FIELD_PREP_WM16 macro from
+> hw_bitfield.h. While at it, disambiguate the GRF write to SOC_CON7 by
+> splitting the definition into the individual bitflags. This is done
+> because FIELD_PREP_WM16 shifts the value for us according to the mask,
+> so writing the mask to itself to enable two bits is no longer something
+> that can be done. It should also not be done anyway because it hides the
+> true meaning of those two individual bit flags.
 >=20
-> Still, get rid of FIELD_PREP_HIWORD now that a shared implementation
-> exists, replacing the two instances of it with FIELD_PREP_WM16. This
-> gives us slightly better error checking; the value is now checked to fit
-> in 16 bits.
+> HDMI output with this patch has been tested on both RK3588 and RK3576.
+> On the former, with both present HDMI connectors.
 >=20
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
 Reviewed-by: Heiko Stuebner <heiko@sntech.de>
