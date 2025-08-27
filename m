@@ -2,132 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD7AB381F7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 14:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85692B3821A
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 14:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5608010E7AD;
-	Wed, 27 Aug 2025 12:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7271910E7CB;
+	Wed, 27 Aug 2025 12:17:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="k3+SE3fU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uSfffBxr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k3+SE3fU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uSfffBxr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lR8vuIvd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C8010E7AD
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 12:08:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9E68D225CE;
- Wed, 27 Aug 2025 12:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756296487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YUG4IsVK51ED8GJtEs2Zz00KOUySwi98i6qMp6XiJ0s=;
- b=k3+SE3fUdGYsqYQhMhz7D8Aae0oNMLn5yTLfTwGJzCB3vZbIWnsmu1oNHdQuFp5nbftxNC
- AbV1X4cCDJMXjdl4BCgb4mXG/qS4topITE6rst3OPcE9VVVCc7LT9788StMnookbjMxKA7
- b9D9nlDXk++aYY+O32QmOvjrp4bxO6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756296487;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YUG4IsVK51ED8GJtEs2Zz00KOUySwi98i6qMp6XiJ0s=;
- b=uSfffBxr7x5b32WunNdrywxNg+aKBYB6ngWps8Biq9uSZUlSYiRUj6S5xqjSWC7d/hKwPI
- +tEDF9e9IVwUnECA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756296487; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YUG4IsVK51ED8GJtEs2Zz00KOUySwi98i6qMp6XiJ0s=;
- b=k3+SE3fUdGYsqYQhMhz7D8Aae0oNMLn5yTLfTwGJzCB3vZbIWnsmu1oNHdQuFp5nbftxNC
- AbV1X4cCDJMXjdl4BCgb4mXG/qS4topITE6rst3OPcE9VVVCc7LT9788StMnookbjMxKA7
- b9D9nlDXk++aYY+O32QmOvjrp4bxO6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756296487;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=YUG4IsVK51ED8GJtEs2Zz00KOUySwi98i6qMp6XiJ0s=;
- b=uSfffBxr7x5b32WunNdrywxNg+aKBYB6ngWps8Biq9uSZUlSYiRUj6S5xqjSWC7d/hKwPI
- +tEDF9e9IVwUnECA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 594BF13310;
- Wed, 27 Aug 2025 12:08:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id FCVFEyf1rmhHTAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Aug 2025 12:08:07 +0000
-Message-ID: <035b6b7a-fcaa-4d2d-a80f-6523d53ddff6@suse.de>
-Date: Wed, 27 Aug 2025 14:08:06 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F7310E7CB
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 12:17:52 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6kJUW029178
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 12:17:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ X8RSqvNCRDDgijasg0nbutFMmtBqyja8T4LtC7m2lA8=; b=lR8vuIvdVjrFz78j
+ ZphFCEx85h7qmFpG4lXcHddG6+Uo/V6xt+7hh51h9rUmisheQ/iPYr0OHEDEYnsM
+ Wt9dfgxex3zll6bUY1mXRrVSULlVA1pFczVpGvBsM9QtZ+j9WdlF1XvhxgvYMthp
+ r2NY1ev16MXzsOTvfUjrWyfo+tnHs7TdEIINU4XQac0ygWRPBBci1JV7hjE7VGEM
+ 1W//Rw9/SIszUvctz6T6wpKOCoR6IpbB8wDNmFpxQEl/pQCeRogqEW2LXLimkmPS
+ RLJvSgZPvb+6nYNgNhVO4HdLoUvX+u3wgGinYyuXSD+old4avxQkFK9T0vD0pIx1
+ 1OaPMA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5umcpmr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 12:17:51 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-24457f484d6so24704775ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 05:17:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756297070; x=1756901870;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=X8RSqvNCRDDgijasg0nbutFMmtBqyja8T4LtC7m2lA8=;
+ b=Z6xzc6mVF1Kfj68IyROvxPFyxAbSfJeX+45jqgmvgHEJZZjSVQhPFrl5Ev2KsllFjQ
+ gpMm1FksRISZRWp67hBDY+wDTjOhRIYaMffL/t4D6Y/LFm44MVRrdtxl/bNaFHAnme2d
+ RuC1VkHl/R1V6EAdi8msF5pSgEovRFQJ0MgJhrD/V9beBtxubu4aqS5NWP+8DAFCH3xs
+ 1l7IJsZhxPs3Yp7mCoXVh0zIkiMQHrtFsEICky2dZNZ9qrAFzGBfTACcDOdOk1FJT1MP
+ QlFvl7vjhd6HpiAe80ywIot3ANsqHspL1Dw2cvoGOHbGQptjOdHqvsyoLuZLWfjbgxww
+ BObQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW32QxhoAbe4PEvWeKdLqdRD8kDweSZJWX/PegedpG5hkHNl/S0BoolxRKxnORMxrqVW+lcjuHzL3I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywu5IxRpVuw3NlIwulOLGdux16uX6qte1pbHpj6q6ubzbqOC8Rn
+ B9sZ/OIWHJlyVkjrSZXkPTsHYi51+j2ateGHATOw3gnX13cBBcizNudEsuvnSHNrbSyfogE2w98
+ okX6m/d/cK0Scs0XbMyAduFyCHniTozYIdWNDl05sYINWYzF5biTSaQo8i/C7MC6tRfGI7ck=
+X-Gm-Gg: ASbGncutEukuMgaoMgiEj+aoq5Mcan+w5e9etDWptmhGxkHL4RWoDa10k9tdNjrclL1
+ Jb51yL2BDI/BW87MfcKs8/rdKXBpormHdwDf93lCrTXkRNFpg8ZF86NDUZ8QTAHegMkH9hMJ7ZZ
+ GBbR14gXdmkDFkEHsUsO4XhRzVH+KQ5S2GrU3pH9ZB78wXTXfWQWvg6VZ7OuizO+DJLgIHrOoSK
+ CmCtnCFwbE/TRVvdG2zSPA4s6tjU0Ja1mrziBfo3YOoBkngcTyizVIUuIeA0syJLcT8+z1n+X67
+ spjDVXYid/edv93mIDv4qDae0uqmVl9PlB+PupMDFzGJogfu5naog9D05xETz3zGer8Kx5FHESH
+ mpqxqu3Urs7nFQ1z6QAnAFX2hDyOecA==
+X-Received: by 2002:a17:902:fb8b:b0:248:bf0a:a127 with SMTP id
+ d9443c01a7336-248bf0aa1bfmr1663445ad.1.1756297070528; 
+ Wed, 27 Aug 2025 05:17:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWwdfvw8f7MeJn13rr7IAskUSFh8jN+On8IyJ79l4iyWHwbCU7vdfd6HxX6olsZxDiEsjN2A==
+X-Received: by 2002:a17:902:fb8b:b0:248:bf0a:a127 with SMTP id
+ d9443c01a7336-248bf0aa1bfmr1663025ad.1.1756297069957; 
+ Wed, 27 Aug 2025 05:17:49 -0700 (PDT)
+Received: from [10.133.33.166] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3276fcd3285sm1910956a91.14.2025.08.27.05.17.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Aug 2025 05:17:49 -0700 (PDT)
+Message-ID: <9bf7f51b-dcfb-4ff8-848e-dcf144936f2e@oss.qualcomm.com>
+Date: Wed, 27 Aug 2025 20:17:39 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sysfb: Do not deref unexisting CRTC state in
- atomic_disable
-To: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20250826145044.954396-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250826145044.954396-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- MID_RHS_MATCH_FROM(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- RCVD_TLS_ALL(0.00)[]; TO_DN_NONE(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, imap1.dmz-prg2.suse.org:helo,
- suse.de:mid, suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Subject: Re: [PATCH v3 09/14] phy: qcom: qmp-usbc: Add DP PHY ops for USB/DP
+ switchable Type-C PHYs
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
+References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
+ <20250820-add-displayport-support-for-qcs615-platform-v3-9-a43bd25ec39c@oss.qualcomm.com>
+ <3pr7ninjxr4pgsz56dr6ojjmx27fzzszmtt6mx4r6qaqt25tnc@nrgx5qiqc7z4>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <3pr7ninjxr4pgsz56dr6ojjmx27fzzszmtt6mx4r6qaqt25tnc@nrgx5qiqc7z4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68aef76f cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=eEvFyuGTnR1_S7nXHuIA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX7ub4qyXF1BY8
+ qmDUJ29/HZRuv+dfF9/5cylKn0fL4QZVX1388QdlfMKJ3ARBRkN6IrWDi2Cmrv0vnKEeC0vxKBY
+ FPOJgygM8MoKVPfFRpZfp7kyJeBCAauZyZ2xBVNZgYw8SAd3e+LGSzYHpI0/e1cM/W0UwyNTkF/
+ KRBY+2dEuNEeTGGFH+hTnRqt2h6RWzN/2YknyWZA4844OxWEv3BkTbGoSntfj8fa6/ZtObINN7B
+ fNuASFgWYLcBRzanFPB15eu4kP6JQEgqPK/ad5gsoFdKHNSNiZdT7D4XHbiAxhiZrI5FrI0uKqQ
+ fR89VxodMuLnub/3MK/bpsZhsKi1eH3cArVwcWj96iGn1fttAECh+W5eQsrxDUSMB1bXovTprkT
+ nTB0Mu14
+X-Proofpoint-GUID: tzCggdtSG0C8RD1y_XKKpbKuNotQRb9H
+X-Proofpoint-ORIG-GUID: tzCggdtSG0C8RD1y_XKKpbKuNotQRb9H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-27_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508230032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,81 +143,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 8/20/2025 7:45 PM, Dmitry Baryshkov wrote:
+> On Wed, Aug 20, 2025 at 05:34:51PM +0800, Xiangxu Yin wrote:
+>> Define qmp_usbc_dp_phy_ops struct to support DP mode on USB/DP
+>> switchable PHYs.
+>>
+>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>> ---
+>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 163 +++++++++++++++++++++++++++++++
+>>  1 file changed, 163 insertions(+)
+>>
+>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> index 1508a4a5f57aff85318485b79528325f28a825a4..a1495a2029cf038bb65c36e42d0a4f633e544558 100644
+>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>> @@ -22,6 +22,8 @@
+>>  #include <linux/slab.h>
+>>  #include <linux/usb/typec.h>
+>>  #include <linux/usb/typec_mux.h>
+>> +#include <dt-bindings/phy/phy-qcom-qmp.h>
+>> +#include <drm/bridge/aux-bridge.h>
+> This one is not necessary yet
 
-Am 26.08.25 um 16:50 schrieb Thomas Zimmermann:
-> Do not access CRTC state in drm_sysfb_plane_helper_atomic_disable().
-> Use format from sysfb device for clearing scanout buffer. This is
-> the behavior from before commit 061963cd9e5b ("drm/sysfb: Blit to
-> CRTC destination format").
->
-> When being disabled, the plane has no associated CRTC. Trying to deref
-> the format pointer results in a segmentation fault. An example stack
-> track is shown below.
->
-> [   58.948915] Oops: general protection fault, probably for non-canonical address 0xdffffc0000000023: 0000 [#1] SMP KASAN PTI
-> [   58.959971] KASAN: null-ptr-deref in range [0x0000000000000118-0x000000000000011f]
+
+Ok, will remove unnecessary aux-bridge related part.
+
+
+>>  
+>>  #include "phy-qcom-qmp-common.h"
+>>  
 > [...]
-> [   58.979308] RIP: 0010:drm_sysfb_plane_helper_atomic_disable+0x1af/0x520
-> [...]
-> [   59.084227] Call Trace:
-> [   59.086682]  <TASK>
-> [   59.088793]  ? __pfx_drm_sysfb_plane_helper_atomic_disable+0x10/0x10
-> [   59.095155]  ? crtc_disable+0xf2/0x5a0
-> [   59.098920]  drm_atomic_helper_commit_planes+0x848/0x1030
-> [   59.104336]  drm_atomic_helper_commit_tail+0x41/0xb0
-> [   59.109316]  commit_tail+0x204/0x330
-> [   59.112903]  drm_atomic_helper_commit+0x242/0x2e0
-> [   59.117618]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
-> [   59.122851]  drm_atomic_commit+0x1e1/0x290
-> [   59.126957]  ? drm_atomic_add_affected_connectors+0x266/0x330
-> [   59.132714]  ? __pfx_drm_atomic_commit+0x10/0x10
-> [   59.137343]  ? __pfx___drm_printfn_info+0x10/0x10
-> [   59.142058]  ? drm_atomic_set_crtc_for_connector+0x436/0x630
-> [   59.147729]  atomic_remove_fb+0x631/0x920
-> [   59.151751]  ? save_trace+0xcf/0x180
-> [   59.155343]  ? __pfx_atomic_remove_fb+0x10/0x10
-> [   59.159890]  ? __pfx___drm_dev_dbg+0x10/0x10
-> [   59.164173]  drm_framebuffer_remove+0x19a/0x710
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 061963cd9e5b ("drm/sysfb: Blit to CRTC destination format")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
+>>  static const struct phy_ops qmp_usbc_usb_phy_ops = {
+>>  	.init		= qmp_usbc_usb_enable,
+>>  	.exit		= qmp_usbc_usb_disable,
+>> @@ -1095,6 +1248,16 @@ static const struct phy_ops qmp_usbc_usb_phy_ops = {
+>>  	.owner		= THIS_MODULE,
+>>  };
+>>  
+>> +static const struct phy_ops qmp_usbc_dp_phy_ops = {
+> Please try restructuring your patches so that there are no unused
+> warnings in the middle of the series. You can split the next patch into
+> 'parse' and 'enable' parts, then squash this patch into the 'enable'
+> one.
 
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-via IRC: 
-https://people.freedesktop.org/~cbrill/dri-log/?channel=dri-devel&highlight_names=&date=2025-08-27
+You mean it's better to define and register new functions in the same patch 
 
-> ---
->   drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+where they're first used, to avoid unused warnings? And for things like parse_dt and phy_ops,
+
+it's fine to split them into separate patches if each part is used right away?
+
+
 >
-> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> index 0e05345cdeee..963c380fea64 100644
-> --- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> +++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-> @@ -281,10 +281,7 @@ void drm_sysfb_plane_helper_atomic_disable(struct drm_plane *plane,
->   	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
->   	void __iomem *dst_vmap = dst.vaddr_iomem; /* TODO: Use mapping abstraction */
->   	unsigned int dst_pitch = sysfb->fb_pitch;
-> -	struct drm_crtc_state *crtc_state = crtc_state =
-> -		drm_atomic_get_new_crtc_state(state, plane_state->crtc);
-> -	struct drm_sysfb_crtc_state *sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
-> -	const struct drm_format_info *dst_format = sysfb_crtc_state->format;
-> +	const struct drm_format_info *dst_format = sysfb->fb_format;
->   	struct drm_rect dst_clip;
->   	unsigned long lines, linepixels, i;
->   	int idx;
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+>> +	.init		= qmp_usbc_dp_enable,
+>> +	.exit		= qmp_usbc_dp_disable,
+>> +	.configure	= qmp_usbc_dp_configure,
+>> +	.calibrate	= qmp_usbc_dp_calibrate,
+>> +	.power_on	= qmp_usbc_dp_power_on,
+>> +	.power_off	= qmp_usbc_dp_power_off,
+>> +	.owner		= THIS_MODULE,
+>> +};
+>> +
+>>  static void qmp_usbc_enable_autonomous_mode(struct qmp_usbc *qmp)
+>>  {
+>>  	const struct qmp_phy_cfg *cfg = qmp->cfg;
+>>
+>> -- 
+>> 2.34.1
+>>
