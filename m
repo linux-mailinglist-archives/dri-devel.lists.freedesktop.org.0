@@ -2,94 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7649BB383BE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 15:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8A2B383C1
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 15:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BC710E101;
-	Wed, 27 Aug 2025 13:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F49B10E81A;
+	Wed, 27 Aug 2025 13:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IsDBBTaO";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="fMZbe/SJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA8510E101
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 13:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756301615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K8z/3KgzEoz0nXpB3RNGuEeKXFHUG30ORWT5Yv+ILFU=;
- b=IsDBBTaOE4E9eqSJyiSSylROrCclRrSY/jaltKcw6QiXrl2fOgbF1RXXb6NB4nBU47B5Zn
- akaWFVdwU5nc4EdJMqIxsMZH4yep3oZ4aKkBZpx4bDlqB0TzmSTW/xLKAMuAxO/5NqZYgn
- lklDvxVvGKB5CDoKt8otYViiaku+qos=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-641-l6RKIkwMPEONqiV_D4IVyg-1; Wed, 27 Aug 2025 09:33:33 -0400
-X-MC-Unique: l6RKIkwMPEONqiV_D4IVyg-1
-X-Mimecast-MFC-AGG-ID: l6RKIkwMPEONqiV_D4IVyg_1756301612
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3c79f0a57ddso2381587f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:33:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756301612; x=1756906412;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CC110E81A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 13:36:02 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3c854b6459fso2519976f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 06:36:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1756301761; x=1756906561;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K8z/3KgzEoz0nXpB3RNGuEeKXFHUG30ORWT5Yv+ILFU=;
- b=FCXJ8/DO5emuDArldqlS0exS5FwMWhQfaMU+EVrgTPjI+Tg6XAAiInN3Qg+OpHuHlC
- rBeXvLygKJfainmuWDpZNzFeAzYMEIasZK2tKWPMMvPOYyi4XfVCQLFWnGJa2poTu+Y5
- OhfB4fj9NWzDkddepB5zJIVBrcPBC1HIb+kQFa6i5xpPfv2gqPzw4KPPMWVlHzh2agGI
- YVeboWiBH1qV2s3Srvb8Vbq2/9t+d7wta7sM2hnaXQlECx6C9Pocst6S5NxsXMRowoi9
- JJB6OEmvNBTk2xJN+gCs8QC0QcgcAJMr92Bo/RmNFXYVMbmduPihFf+zClCLHuvvpcDr
- 0F9Q==
+ bh=eGOmUMQiFrZLOh8vf9B0X5R9r/nRdm1RYB7hggPhOyQ=;
+ b=fMZbe/SJZYOmQonqjtY5UYZa/PhEfeJiUtFBYwP3tOouVPxEonao5mDKsZ2xY0LNaP
+ xaG3GieunHCld1/u+SrM6DTICXKrzywQuQZP5rwXNh5TZEy6YFZJmb8OmfVyETXoPcr9
+ CniPST4pUGw2C0xfAJUgTmaKU+df2w2HYOL99uvDP3BixMUzvQBHihkPNHbwjZtW56Yo
+ UITsB0+hxm3Ygi6deeAmF6ECsgEJbMqpKwSd3/dRHbKbkCMXrBTLbz3oB2iucGik80OC
+ 74+2OceHhAnRJZkr97hpzD7SfB1NleyeHGfBTpEvwCGMK5dyPfZAUgKQztxCf4NSer2X
+ YXpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756301761; x=1756906561;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eGOmUMQiFrZLOh8vf9B0X5R9r/nRdm1RYB7hggPhOyQ=;
+ b=wRhUHuZqVHmc2fyXo3gY3SZg8zQ/LDBK1fnJvUKJrNnu2CpXJMiNSWwLVN7snBMDmf
+ rSff3iXiTnu2sxHt86WuOIU8jvT2J8j4TwRHKfBFptI+e4hXMP6/5mlahwi4mNrLMLOu
+ k0c41epx5dWbol785FJhwMkvN2oX28DDZXevcuFxXhwlrqNL+a2sKEhfk9omwAumnBZC
+ BNgnObq3yJXqPlb7Y8Hb+pbJXWev8PMASSrm7Z6hMCpRGsOOkZxGBq+uzL9t1zy2BA6K
+ P1MmtVj825MbDxd2tqB0lW2c3dep93+Jdn7cA/c9nKWc0PFvWMUMf4APZWJIs3e7mSWC
+ lVAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVW5XUN/T/WRxzaSmpqeSS53XpGgZURyqfSf69kBV7DEf7VAW3OJKQUUfwJE1WmW9m8mCAuUVpsBNs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweQERuIJo8q+sVBFqqAtxyxipiqe3m/3qGhjfJWO3qSH+f+JDN
- GvhG5I7tgXt8r1lKwnW1AlIFGTsX6Qu1JLnt0CgGiX9ITkIZWuLl6RA5UsDVwyRlb2I7mOwfCD4
- gp+Z2Tv3Nlgyl7v13t8K4plvbvOBclO5qWAKmRzyXZVaMs8OPIOW1vJhsOxOWUFkN7+y/bw==
-X-Gm-Gg: ASbGncs/64MLf2/wlKqqLSHMxgprSM9V99VgU5zlPCibiZQQn9Anz77FzXGIx/XMSA9
- 5HjjoreBcL7DKEpiX19u6miSV7GdiFJAs8j3VEY/9llfJWNYwXPgjAR8K9xNSKiC3IiiEZZESTU
- U3/J2B4byxEmhmyEWxd18XdBOZhqNQ2hE8/ymmMdWWZyN9UV9CylyUAhX2a98ivmKfhVePaT4EZ
- FtiZ5i7a8VtM7jEZ2xoLR1DIEoh52ycHYwsKVwh28M6KKeAhHdG9gndVgYlZZBqaUxEMMG/+Td2
- QpNtnoMOsfeSlgOGHJyXw4wGtnbx+Pc=
-X-Received: by 2002:a05:6000:2281:b0:3cd:4ff9:c487 with SMTP id
- ffacd0b85a97d-3cd4ff9c926mr847042f8f.45.1756301612376; 
- Wed, 27 Aug 2025 06:33:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpXWIRKQBLCST7L7FbqSdMsqrTEd8mC9YrfacqJgmW7hhmhY+MtE22/oJUnVDrsWnKorEEVQ==
-X-Received: by 2002:a05:6000:2281:b0:3cd:4ff9:c487 with SMTP id
- ffacd0b85a97d-3cd4ff9c926mr847017f8f.45.1756301611871; 
- Wed, 27 Aug 2025 06:33:31 -0700 (PDT)
-Received: from redhat.com ([185.137.39.233]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3ccac1b892bsm2973545f8f.67.2025.08.27.06.33.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 06:33:31 -0700 (PDT)
-Date: Wed, 27 Aug 2025 09:33:27 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Honglei Huang <honglei1.huang@amd.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/virtio: fix host visible memory detection in
- virtio-gpu
-Message-ID: <20250827093320-mutt-send-email-mst@kernel.org>
-References: <20250827081231.1878248-1-honglei1.huang@amd.com>
- <9ecf015d-d96a-40ac-a7fb-50e46c4f6e00@collabora.com>
+ AJvYcCXm9eP2P64UVVR5cu0UNCfXSqXV7w0KkPO37DjqFWkQChoDAVtBdXFJdUBS/Uy7/yKde0jGxlhvc3M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZr+XwjIOCd5fpojsrgxG2vMhHE+ob2lGaLwxAD/rwjbuVzXaE
+ qw2i5DqtLJAkLe9m+//6Hx4tMnWTp/g6z8JE12VLQgNvfhLKXHG8fsTKPc8HN7YYeBRgFMmZFJY
+ 6tyy+SfUNM9Q7kThRUEgub9gZUygNU6Lbt8Rmmsog
+X-Gm-Gg: ASbGnctFo2SDCkeZ74kp72MXMUqr6aLlApp4E+MigjakueJTzW+mZT5FhYfekF1LxXv
+ CGpcTCSYHmM3u/XMhzUhChlcqmDUR3PI2g0uUixjQaEkD1s/pXnmckEPeFe1utHP8JXOA8kJe5C
+ TYehnrSuT9MBGzTtzGUwfpq7EOgoTGtkjtfbPYl0Lvu3BI2X1CVgQPb6TmZYxb6YeBV2KAoeSGJ
+ Oh7xXZlUUjqj/Vtdt5o6LSYDmKhyxvwi2LAbhtZq2qIKCM=
+X-Google-Smtp-Source: AGHT+IHjHJmGD5DH9knJOvdRvJjpphE0DRT+0QgA7e0zgvj/m6tmppysdXDHMexnnD+ApseovkD6UD97qJ9iYad+xmk=
+X-Received: by 2002:a5d:5f8d:0:b0:3c8:89e9:6ab3 with SMTP id
+ ffacd0b85a97d-3c889e96d40mr10372677f8f.46.1756301761013; Wed, 27 Aug 2025
+ 06:36:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9ecf015d-d96a-40ac-a7fb-50e46c4f6e00@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sKUJEyIjpVLdp-eCFO6ruvoeFQznFyCrVxHHymRPUtU_1756301612
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250822-gpuva-mutex-in-gem-v2-0-c41a10d1d3b9@google.com>
+ <20250822-gpuva-mutex-in-gem-v2-3-c41a10d1d3b9@google.com>
+ <DC8VTZ5OZY42.1OCS3QJHZGPAK@kernel.org>
+In-Reply-To: <DC8VTZ5OZY42.1OCS3QJHZGPAK@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Wed, 27 Aug 2025 15:35:48 +0200
+X-Gm-Features: Ac12FXxAkj8iFKvJ5DYueBHinszRbjebva-Cfx5kFVxyDxjx17skWDdJUMDf4aA
+Message-ID: <CAH5fLghHYguGp=0OkL11u27x_K7x+xhd1QhQZoub-dQ1QbZpfA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] gpuvm: remove gem.gpuva.lock_dep_map
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Rob Herring <robh@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,63 +99,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 03:52:05PM +0300, Dmitry Osipenko wrote:
-> On 8/27/25 11:12, Honglei Huang wrote:
-> > From: Honglei Huang <Honglei1.Huang@amd.com>
-> > 
-> > Commit 206cc44588f7 ("virtio: reject shm region if length is zero")
-> > enhanced the validation in virtio_get_shm_region() by adding a check
-> > for a zero-length shared memory region.
-> > 
-> > It is performed before the underlying transport's .get_shm_region()
-> > implementation is called. This creates an issue in the virtio-gpu
-> > driver, where the `region` struct is part of a larger structure
-> > that is zero-initialized by drmm_kzalloc().
-> > 
-> > Consequently, the `len` field is 0 at the time of the check, causing
-> > virtio_get_shm_region() to return false prematurely. This prevents the
-> > host visible memory feature from being enabled, even when the device
-> > supports it.
-> > 
-> > To resolve this, this patch bypasses the inline helper and calls the
-> > underlying vdev->config->get_shm_region() function pointer directly.
-> > This ensures that the region's parameters are checked only after they
-> > have been populated by the transport, aligning with the intended logic.
-> > 
-> > Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
-> > ---
-> >  drivers/gpu/drm/virtio/virtgpu_kms.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> > index 7dfb2006c561..ed5981248302 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> > @@ -174,8 +174,10 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
-> >  	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
-> >  		vgdev->has_resource_blob = true;
-> >  	}
-> > -	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
-> > -				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
-> > +	if (vgdev->vdev->config->get_shm_region &&
-> > +	    vgdev->vdev->config->get_shm_region(
-> > +		    vgdev->vdev, &vgdev->host_visible_region,
-> > +		    VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
-> >  		if (!devm_request_mem_region(&vgdev->vdev->dev,
-> >  					     vgdev->host_visible_region.addr,
-> >  					     vgdev->host_visible_region.len,
-> 
-> Hi, virtio_get_shm_region() change has been reverted by [1]. Don't think
-> anything else needs to be done.
-> 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20250827&id=ced17ee32a9988b8a260628e7c31a100d7dc082e
-> 
-> +cc Michael Tsirkin
-> 
-> Might be only good to send a stable kernel PR with that revert. I see
-> patch available only in linux-next, while stable kernels need to be
-> fixed sooner.
+On Fri, Aug 22, 2025 at 12:25=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> On Fri Aug 22, 2025 at 11:28 AM CEST, Alice Ryhl wrote:
+> > diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> > index 4a22b9d848f7b3d5710ca554f5b01556abf95985..598ba376b9430cdd4ab7bac=
+dc15de031a887cf71 100644
+> > --- a/include/drm/drm_gpuvm.h
+> > +++ b/include/drm/drm_gpuvm.h
+> > @@ -196,10 +196,20 @@ enum drm_gpuvm_flags {
+> >        */
+> >       DRM_GPUVM_RESV_PROTECTED =3D BIT(0),
+> >
+> > +     /**
+> > +      * @DRM_GPUVM_IMMEDIATE_MODE: use the locking scheme that makes i=
+t safe
+> > +      * to modify the GPUVM during the fence signalling path
+>
+> I think this isn't entirely true yet or at least can be ambiguous for now=
+,
+> because it doesn't prevent users from having DRM_GPUVM_RESV_PROTECTED set=
+, which
+> requires the DMA resv lock to destroy a struct drm_gpuvm_bo, which may ha=
+ppen
+> from drm_gpuva_unlink().
+>
+> So, for now, until we have the deferred drop idea in place, it also
+> requires DRM_GPUVM_RESV_PROTECTED to not be set.
+>
+> (Eventually, we of course want both to be represented as a single flag, s=
+uch
+> that it becomes an either or.)
 
-sooner than what?
+I'm going to introduce "designed for" in the wording to address this.
+I don't think we need to say that you are required to only pick one of
+DRM_GPUVM_RESV_PROTECTED or this flag, since you can use both if you
+manually postpone vm_bo cleanup. Let's just not elaborate on that
+here.
 
+> I also wouldn't say "makes it safe to", but rather "makes it possible to
+> safely". We have no control over what the users do with the mutex. :)
+>
+> NIT: missing period
+
+I didn't put a period for consistency. Nothing else has a period in
+the summary sentence at the top of the doc-comment.
+
+Alice
