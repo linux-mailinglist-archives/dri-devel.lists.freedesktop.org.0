@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739A8B38C87
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276A9B38C91
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 00:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D070E10E8E8;
-	Wed, 27 Aug 2025 22:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E2C110E8ED;
+	Wed, 27 Aug 2025 22:07:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ftvEY9Qb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FGAZP31Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5489B10E8E8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:07:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5310E8EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 22:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756332430;
+ s=mimecast20190719; t=1756332445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QCvnB/7xI7T/4p4mwWx/D4+W6s//h9G2+oSyfbDOFZs=;
- b=ftvEY9QbbtpEdWEFwA9LZnhZo1kLdEz8iioe4D0O2C7Hz2PdubtD9nFct8FV4nRddsAl+B
- IDwUFzXhynhjn0LWdtAaX5+FC7OmH5RFCWToTiWXFj3ZVDjNLj87ldzjTtI5R4BqJbLLzA
- K6PdnxExzO9KK9evt4bUtsc4/Axt6j4=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ bh=Mae/7n3uM/9R//Wdj7TtDbDkO9ysL6apaiu1QaIksGk=;
+ b=FGAZP31ZQJZyusWVZ6FeEO7BR1PrJIOvJ8ysuiRRgFB9SQ1wSJK/M1IpjsEIp32a9hNkgN
+ +MGU3uaMvTTQUc0WSVxeVZ7L2d/2BVlHxI/B99STAJ+OqcY/0Y5s8u5MFIIAqNtBou9UkI
+ 9GBym8n/T5drYrZ6I6bLb/t+i+6X+sY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-82-ClQKmaRWPAKB1M2iEYT62g-1; Wed,
- 27 Aug 2025 18:07:06 -0400
-X-MC-Unique: ClQKmaRWPAKB1M2iEYT62g-1
-X-Mimecast-MFC-AGG-ID: ClQKmaRWPAKB1M2iEYT62g_1756332421
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-484-meNFbt-4OO6MS1lMNpb3mg-1; Wed,
+ 27 Aug 2025 18:07:22 -0400
+X-MC-Unique: meNFbt-4OO6MS1lMNpb3mg-1
+X-Mimecast-MFC-AGG-ID: meNFbt-4OO6MS1lMNpb3mg_1756332437
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B7B791800285; Wed, 27 Aug 2025 22:07:01 +0000 (UTC)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 4DB08180036F; Wed, 27 Aug 2025 22:07:17 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.22.80.195])
  by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id B7D6F30001A1; Wed, 27 Aug 2025 22:06:45 +0000 (UTC)
+ id 530E930001A1; Wed, 27 Aug 2025 22:07:01 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -71,10 +71,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v1 17/36] mm/pagewalk: drop nth_page() usage within folio in
- folio_walk_start()
-Date: Thu, 28 Aug 2025 00:01:21 +0200
-Message-ID: <20250827220141.262669-18-david@redhat.com>
+Subject: [PATCH v1 18/36] mm/gup: drop nth_page() usage within folio when
+ recording subpages
+Date: Thu, 28 Aug 2025 00:01:22 +0200
+Message-ID: <20250827220141.262669-19-david@redhat.com>
 In-Reply-To: <20250827220141.262669-1-david@redhat.com>
 References: <20250827220141.262669-1-david@redhat.com>
 MIME-Version: 1.0
@@ -95,27 +95,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's no longer required to use nth_page() within a folio, so let's just
-drop the nth_page() in folio_walk_start().
+nth_page() is no longer required when iterating over pages within a
+single folio, so let's just drop it when recording subpages.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/pagewalk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/gup.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/mm/pagewalk.c b/mm/pagewalk.c
-index c6753d370ff4e..9e4225e5fcf5c 100644
---- a/mm/pagewalk.c
-+++ b/mm/pagewalk.c
-@@ -1004,7 +1004,7 @@ struct folio *folio_walk_start(struct folio_walk *fw,
- found:
- 	if (expose_page)
- 		/* Note: Offset from the mapped page, not the folio start. */
--		fw->page = nth_page(page, (addr & (entry_size - 1)) >> PAGE_SHIFT);
-+		fw->page = page + ((addr & (entry_size - 1)) >> PAGE_SHIFT);
- 	else
- 		fw->page = NULL;
- 	fw->ptl = ptl;
+diff --git a/mm/gup.c b/mm/gup.c
+index b2a78f0291273..89ca0813791ab 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -488,12 +488,11 @@ static int record_subpages(struct page *page, unsigned long sz,
+ 			   unsigned long addr, unsigned long end,
+ 			   struct page **pages)
+ {
+-	struct page *start_page;
+ 	int nr;
+ 
+-	start_page = nth_page(page, (addr & (sz - 1)) >> PAGE_SHIFT);
++	page += (addr & (sz - 1)) >> PAGE_SHIFT;
+ 	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+-		pages[nr] = nth_page(start_page, nr);
++		pages[nr] = page++;
+ 
+ 	return nr;
+ }
+@@ -1512,7 +1511,7 @@ static long __get_user_pages(struct mm_struct *mm,
+ 			}
+ 
+ 			for (j = 0; j < page_increm; j++) {
+-				subpage = nth_page(page, j);
++				subpage = page + j;
+ 				pages[i + j] = subpage;
+ 				flush_anon_page(vma, subpage, start + j * PAGE_SIZE);
+ 				flush_dcache_page(subpage);
 -- 
 2.50.1
 
