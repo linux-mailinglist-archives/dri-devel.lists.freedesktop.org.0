@@ -2,96 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEEFB384BF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 16:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFEEB38501
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 16:31:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAA810E138;
-	Wed, 27 Aug 2025 14:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4166710E814;
+	Wed, 27 Aug 2025 14:31:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HjIMsAYg";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="daTFYMGP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE43210E138
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 14:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756304283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sgUfxBOpWvR/1fknE7QCUEeu1XgrhJGIUSMRhQLyKfY=;
- b=HjIMsAYgnxtWKHHiQpftFTDe7hKzRRfUiZbe2HOf6sRl2f5yfTs4iyzr0QbmfPy9PxWm0x
- 5+P1eT0wGY/tC7iLYy5PL6xVA+chLRaiZD2XEiFB7zbpDChb5P7iglrdyBfV69jpNZTwyG
- /GizUv3z28LTK5v/XsideVWA6oMSnlk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-102-PKWMhPB6PIaBsDApUft3FA-1; Wed, 27 Aug 2025 10:18:02 -0400
-X-MC-Unique: PKWMhPB6PIaBsDApUft3FA-1
-X-Mimecast-MFC-AGG-ID: PKWMhPB6PIaBsDApUft3FA_1756304281
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-45a1b0098c0so47356305e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:18:02 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8272210E814
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 14:31:18 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57R6kBBv029068
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 14:31:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Q0lt8Alc0eadGnQMpiWDAGtF8IcvB+wKd8Bpg0uTVog=; b=daTFYMGP9Mk8g61z
+ LDzBGao1EZeoj4fn8cyOkWYcYi6w3RqveMI7c7wSJJ6oF/ZwMdw8NqIX8pnQJnl3
+ mm/aOEnR3XNURV504Vz7W2Eb8nE5zj5QsAcLhPbskmjtOQ+KkjSZSN9iAz9IOH+a
+ Di4R0OVdn2S59QHrJ5qStdl5sTPFbS57QO2ZPDIR8jsQKEdpNCsmkqDPM1KSWAS/
+ ZCTiAf6sKCbPc/Ez361+ornmJMf5qT2p6wjf3s+uUq/YM0w/iYQpxx+gbCaSVjMw
+ iBsG8PGOQiLXvCOrY90eY8NYPKH9pn1gNmhE3E8heb2dMUDSTutsg1JcWzesgdhE
+ qpGbbA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5umd1kt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 14:31:17 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b109bc103bso155364821cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 07:31:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756304281; x=1756909081;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sgUfxBOpWvR/1fknE7QCUEeu1XgrhJGIUSMRhQLyKfY=;
- b=mqjANbyXK6a+FBAiSRPXlfAqPAICj7KQCdOiODcwZU5KEK5K5FIljPWpjCEsPa4HGf
- nV5q5im8L1gm5yze6GJZwqrZaXfh4jzmig9uaODDypvSBwRIpHZUga52/yBbLccacW/U
- 9E3sTILqwH+KS4PGxvxeCweuuaNMblbCwyByOJLe7wdf5to2U3vjqN83uaBd6nJ8xnHx
- kThRe8Ulg8abP2+oczxkoXkdiWZp3kMvvHUHjCSJ26AEXLXsRiPo17Hqznq+9Ghcocu0
- /RHOI3LAkulY1vrIiD+dnKeeSwGvn9cecxIPe+owLar721GBPbtqgMLKQPRNP6xZ1wys
- i55w==
+ d=1e100.net; s=20230601; t=1756305076; x=1756909876;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q0lt8Alc0eadGnQMpiWDAGtF8IcvB+wKd8Bpg0uTVog=;
+ b=Zrxug/sIT3CAJSK5BMYi7CSeMFje0Zj6DUlZp9fHyTP6g22hJ+0xeRW0IFHSSNmRmx
+ lvibu0WTO8MFuFvflbhoAQIys3R96iCHmx+GY8M5ep+civv7ZZpvYSSy330vK9ZB+QbC
+ gVEhbt/SuS7Y5nvwqmj8WwGoCdvYhk16qA4qrqCjfEryI8NSViXQUkyaIxeGQroR5jSa
+ 306P4LaVuL9DGiQM0wjkVG3LN8Pgkk6jYt16T+Eywjov3lXA4tivzf1mi7DZxldL13gq
+ YefZvl2raa9L6ylXZFRAVZHyZ8JxWkzT2gKaJjy/kKdPozjB8salhMD9NbyluERJ6xld
+ xmSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWP1ugPDrNI2gmGYDAP8h8tWNsScQ8N9LybJhv0Ugni0PvMy3NI5G+ecQW0joQ4MxQZEvcDSRRXCr8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVwxg7vYEB2gTh9C0+TIRoQzaQLuiydeM4k42keRESQ3UDH0wW
- b0QPxnfsrxHYpY+7kFgL3Xdp9sM0z7bdWo8bdrOeNRmaqAYjX/JNePJVXz4VZcZonmp/lEArScE
- cH3auoaMzV0DV106xcx6a42ld3hrRq0uLn6MiOXGow6q3FpYmril8I5KcCnbseVgZHsUajA==
-X-Gm-Gg: ASbGncuDq53wGo9PhZ6jripwlB8uIFRjFLI+QMros3Oo1hHnCFyVjtuq2Q/M30i6HkN
- XSmKvoHJxqA9hQNLINfgmO2ZlORAxXGEJYnHjc0+4MawsLCC8A6b6VCgNLYY3IP/CZl+kDCGCJY
- 4KY1qSEZAu7FyMnQ0FD+e2+pJT3pTfVtCfUQdNd7H1DrzokEuVmKsKLjLaB7HNTllnq+U0c/68r
- bgXVM0zL7rrMADfP+H0nD+GUXgWkUyaXpqwlp5qC2ArnxDndC436CtJHgqay4seCjnp6HghOSny
- eqnHNSr8F78zISPmjAUh4XPTzFnfrfg=
-X-Received: by 2002:a05:600c:45d4:b0:458:f70d:ebdd with SMTP id
- 5b1f17b1804b1-45b5179eb97mr244030755e9.16.1756304280881; 
- Wed, 27 Aug 2025 07:18:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEbZR9PVQfnxpyO9iPgY1rrQVw+ltDuzZUlf8dML5LjizH06Bt+gcbs14ArI6vFUc4IVe70XQ==
-X-Received: by 2002:a05:600c:45d4:b0:458:f70d:ebdd with SMTP id
- 5b1f17b1804b1-45b5179eb97mr244030425e9.16.1756304280434; 
- Wed, 27 Aug 2025 07:18:00 -0700 (PDT)
-Received: from redhat.com ([185.137.39.233]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3ca6240b4ecsm10592154f8f.43.2025.08.27.07.17.58
+ AJvYcCXlkiPOm9D9jyOdBFxCcCNAJI4UX3RqnIdY7LqBYlI+I9rutElRuRuXOB/xI946o0a/a+NXf6qO7zA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwOsScAYD2QktmWqts9qk6wzyQZJAkGzVnGH7T9N1N95hwa2kN9
+ epS0Q4miKDYdpYWEqRXEuszHDk+kY7q+szElVaTwdlW7mWuCsbGn5vN3/V+3Cxr7WKUuiv59qbm
+ THSQFnQyOmmlbqkaX7GnSXePI0WOoJcjnN4INQv1IW8cJGWzoJrTdtBQX8LWFJPh2LQRbiok=
+X-Gm-Gg: ASbGncujCeRKdxSjITmul4kQhHRT62BzK+bWk/9eqtt+cNGFWrzTvcFuB90ifD2WZ0O
+ 0tqNqOnCxn8OfyhYtky/az7NNNThUJ23NwBjvqCJFYr85+krueW6gfUxf3Xe7Sfovit0NnH1XAR
+ mStUOgcQOkQha9KSvsiGdqJJdglcABI4B4ygdIAQcQqF4TNX+ciOBTF2JbJ8VFEbbSpar9ZhsBk
+ FFG95Qg+ZWDKTCrDoerbMVK+ddOzVIuBxNcdEeGTa5INsTnbGeb5f+4CggqXCpHjj5WTWOP+68b
+ hmV6vhVl63dzjzU7vUk2e5vj+B4gp4jH/C9PMDDPa80vDDkNbv3NqUR4k7YjiQCRWs3TMbAK7eK
+ iAg43QedSrRplABYRMC6gYih/AL+LSFwkSZ/CA62QIM29joasWz6H
+X-Received: by 2002:a05:622a:3c8:b0:4b1:2783:ab99 with SMTP id
+ d75a77b69052e-4b2aaacf013mr240586451cf.39.1756305076118; 
+ Wed, 27 Aug 2025 07:31:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFovrqRv2sivDnbTsFQFcberelJyZtK09JvAw7fJdBbeVxPt0vDz1SXP+xHSgKWaxjA8FBaBw==
+X-Received: by 2002:a05:622a:3c8:b0:4b1:2783:ab99 with SMTP id
+ d75a77b69052e-4b2aaacf013mr240585511cf.39.1756305075350; 
+ Wed, 27 Aug 2025 07:31:15 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55f35ca8c35sm2833513e87.143.2025.08.27.07.31.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Aug 2025 07:17:59 -0700 (PDT)
-Date: Wed, 27 Aug 2025 10:17:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Honglei Huang <honglei1.huang@amd.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
+ Wed, 27 Aug 2025 07:31:13 -0700 (PDT)
+Date: Wed, 27 Aug 2025 17:31:11 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/virtio: fix host visible memory detection in
- virtio-gpu
-Message-ID: <20250827101732-mutt-send-email-mst@kernel.org>
-References: <20250827081231.1878248-1-honglei1.huang@amd.com>
- <9ecf015d-d96a-40ac-a7fb-50e46c4f6e00@collabora.com>
- <20250827093320-mutt-send-email-mst@kernel.org>
- <c38fb2bf-15c4-4cee-be0e-59d998cd03ac@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v3 07/14] phy: qcom: qmp-usbc: Move reset and regulator
+ config into PHY cfg
+Message-ID: <osav4kwxytfuxvnf26ugdw2qasd753smywsux5punuegbkxqgq@fp3r4esqiqyq>
+References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
+ <20250820-add-displayport-support-for-qcs615-platform-v3-7-a43bd25ec39c@oss.qualcomm.com>
+ <ofvzduf5xyip7w6yde2xwsrvv3tdh7ew3yyzeya2qzpqty3j7p@bnetyjowhdn5>
+ <6f7c3962-ccfc-4400-a77f-399b06da93e1@oss.qualcomm.com>
+ <llrt3xnd5gagovnmyzqebp2da5v67bkxjntfcgc5r5auamspyj@7v5taph3i3c4>
+ <f3cc06c1-25d2-40f4-bd77-8a9c51b40efa@oss.qualcomm.com>
 MIME-Version: 1.0
-In-Reply-To: <c38fb2bf-15c4-4cee-be0e-59d998cd03ac@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Bc9i7zn_cbwzDLEg0wpHDY_DDD79vooyEIcsOU2TKrQ_1756304281
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f3cc06c1-25d2-40f4-bd77-8a9c51b40efa@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68af16b6 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=LvOJhfRPg24KsvUfCm0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX21Ne2+7fDKor
+ gKr2Q1kqOdYf5uxdUVgKPMoO3jz3HoiHUQYTXqrXe6LimSmd8TdNFV7l5VP3WHF6g0vmOOo3C7S
+ Vser0vnLJzb1aj7JeoTW9BDwR8GlfxqZDZzJycaONGNT/Hk09iu6BWL+zIEWaL4cXzKDbGa/AfA
+ E0uSIaZo2LAqHctrMhT4HSX+kFu/8ESar7azgRMZH3+bjy4Xifre3v5Po907RiFyogEBJZf4L8B
+ SDFlD44tpZ2Xhio6XewtS/CXmTAtgjVskpkO2wxWv7Xjp4mSGptOlm9XMq8wUHZwhL9QBNcb9dH
+ kWEJzUBWAOzEEOjtZpp1kf7AWhEiTRaEvioU3a576030pq5Pzu/xSenNmB1OsMUlGCCvRqrEYjm
+ dmyrB4K6
+X-Proofpoint-GUID: J7u2qhjH12hjPDpHhop_0V8SHpSnmxDE
+X-Proofpoint-ORIG-GUID: J7u2qhjH12hjPDpHhop_0V8SHpSnmxDE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-27_03,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508230032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,77 +148,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 27, 2025 at 04:51:37PM +0300, Dmitry Osipenko wrote:
-> On 8/27/25 16:33, Michael S. Tsirkin wrote:
-> > On Wed, Aug 27, 2025 at 03:52:05PM +0300, Dmitry Osipenko wrote:
-> >> On 8/27/25 11:12, Honglei Huang wrote:
-> >>> From: Honglei Huang <Honglei1.Huang@amd.com>
-> >>>
-> >>> Commit 206cc44588f7 ("virtio: reject shm region if length is zero")
-> >>> enhanced the validation in virtio_get_shm_region() by adding a check
-> >>> for a zero-length shared memory region.
-> >>>
-> >>> It is performed before the underlying transport's .get_shm_region()
-> >>> implementation is called. This creates an issue in the virtio-gpu
-> >>> driver, where the `region` struct is part of a larger structure
-> >>> that is zero-initialized by drmm_kzalloc().
-> >>>
-> >>> Consequently, the `len` field is 0 at the time of the check, causing
-> >>> virtio_get_shm_region() to return false prematurely. This prevents the
-> >>> host visible memory feature from being enabled, even when the device
-> >>> supports it.
-> >>>
-> >>> To resolve this, this patch bypasses the inline helper and calls the
-> >>> underlying vdev->config->get_shm_region() function pointer directly.
-> >>> This ensures that the region's parameters are checked only after they
-> >>> have been populated by the transport, aligning with the intended logic.
-> >>>
-> >>> Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
-> >>> ---
-> >>>  drivers/gpu/drm/virtio/virtgpu_kms.c | 6 ++++--
-> >>>  1 file changed, 4 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> >>> index 7dfb2006c561..ed5981248302 100644
-> >>> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-> >>> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> >>> @@ -174,8 +174,10 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
-> >>>  	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
-> >>>  		vgdev->has_resource_blob = true;
-> >>>  	}
-> >>> -	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
-> >>> -				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
-> >>> +	if (vgdev->vdev->config->get_shm_region &&
-> >>> +	    vgdev->vdev->config->get_shm_region(
-> >>> +		    vgdev->vdev, &vgdev->host_visible_region,
-> >>> +		    VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
-> >>>  		if (!devm_request_mem_region(&vgdev->vdev->dev,
-> >>>  					     vgdev->host_visible_region.addr,
-> >>>  					     vgdev->host_visible_region.len,
-> >>
-> >> Hi, virtio_get_shm_region() change has been reverted by [1]. Don't think
-> >> anything else needs to be done.
-> >>
-> >> [1]
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20250827&id=ced17ee32a9988b8a260628e7c31a100d7dc082e
-> >>
-> >> +cc Michael Tsirkin
-> >>
-> >> Might be only good to send a stable kernel PR with that revert. I see
-> >> patch available only in linux-next, while stable kernels need to be
-> >> fixed sooner.
-> > 
-> > sooner than what?
+On Wed, Aug 27, 2025 at 09:28:00PM +0800, Xiangxu Yin wrote:
 > 
-> Next 6.17 kernel release. I see patch in the linux-next branch. Often
-> there is a -fixes branch for patches that go into RC kernel, but I don't
-> see one in your vhost kernel tree. Will the revert land into 6.17-rc4?
-> Everything is good if yes.
+> On 8/22/2025 6:08 PM, Dmitry Baryshkov wrote:
+> > On Fri, Aug 22, 2025 at 04:29:28PM +0800, Xiangxu Yin wrote:
+> >> On 8/20/2025 7:30 PM, Dmitry Baryshkov wrote:
+> >>> On Wed, Aug 20, 2025 at 05:34:49PM +0800, Xiangxu Yin wrote:
+> >>>> Refactor reset and regulator configuration to be managed via qmp_phy_cfg
+> >>>> instead of hardcoded lists. This enables per-PHY customization and
+> >>>> simplifies initialization logic for USB-only and USB/DP switchable PHYs.
+> >>> Please split into two patches in order to simplify reviewing.
+> >>
+> >> Ok, will split reset and regulator part.
+> >>
+> >>
+> >>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> >>>> ---
+> >>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 108 +++++++++++++++----------------
+> >>>>  1 file changed, 53 insertions(+), 55 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >>>> index 61128d606238321d1b573655b3b987226aa2d594..4e797b7e65da0e3a827efa9a179f1c150c1b8b00 100644
+> >>>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >>>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >>>> @@ -421,8 +421,9 @@ struct qmp_phy_cfg {
+> >>>>  	int (*configure_dp_phy)(struct qmp_usbc *qmp);
+> >>>>  	int (*calibrate_dp_phy)(struct qmp_usbc *qmp);
+> >>>>  
+> >>>> -	/* regulators to be requested */
+> >>>> -	const char * const *vreg_list;
+> >>>> +	const char * const *reset_list;
+> >>>> +	int num_resets;
+> >>>> +	const struct regulator_bulk_data *vreg_list;
+> >>>>  	int num_vregs;
+> >>>>  
+> >>>>  	/* array of registers with different offsets */
+> >>>> @@ -453,7 +454,6 @@ struct qmp_usbc {
+> >>>>  	struct clk_hw dp_pixel_hw;
+> >>>>  	struct clk_bulk_data *clks;
+> >>>>  	int num_clks;
+> >>>> -	int num_resets;
+> >>>>  	struct reset_control_bulk_data *resets;
+> >>>>  	struct regulator_bulk_data *vregs;
+> >>>>  
+> >>>> @@ -514,9 +514,18 @@ static const char * const usb3phy_reset_l[] = {
+> >>>>  	"phy_phy", "phy",
+> >>>>  };
+> >>>>  
+> >>>> -/* list of regulators */
+> >>>> -static const char * const qmp_phy_vreg_l[] = {
+> >>>> -	"vdda-phy", "vdda-pll",
+> >>>> +static const char * const usb3dpphy_reset_l[] = {
+> >>>> +	"phy_phy", "dp_phy",
+> >>>> +};
+> >>>> +
+> >>>> +static const struct regulator_bulk_data qmp_phy_usb_vreg_l[] = {
+> >>>> +	{ .supply = "vdda-phy" },
+> >>>> +	{ .supply = "vdda-pll" },
+> >>> Please fill in the values for all platforms. It well might be that they
+> >>> all share the same current requirements.
+> >>
+> >> I checked previous DP projects and found all platforms configured vdda-phy with 21.8mA and vdda-pll with 36mA.
+> > No. On SDM660 and MSM8998 DP defines 73.4 mA for 0.9V supply and
+> > 12.560 mA for 1.8 V supply.
+> >
+> >> However, I didn’t find USB load configs in downstream and from SoC related power grids:
+> > Please check the actual HW documentation for those platforms.
+> >
+> >> QCS615
+> >> L12A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
+> >> L5A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
+> >>
+> >> sm6150
+> >> L11A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
+> >> L4A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
+> >>
+> >> SM6115
+> >> L12A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
+> >> L4A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
+> >>
+> >> QCM2290
+> >> L13A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
+> >> L12A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
+> >>
+> >> sdm660
+> >> LDO10A: VDDA_USB_SS_1P8 Ipk:14mA
+> >> LDO1B: VDDA_USB_SS_CORE Ipk:68.6mA
+> >>
+> >> msm8998
+> >> L2A: VDDA_USB_SS_1P2 Ipk:14.2mA
+> >> L1A: VDDA_USB_SS_CORE Ipk:68.6mA
+> >>
+> >> It seems the USB power requirements vary across platforms, and the
+> >> 21800 µA load for vdda-phy exceeds the Ipk range in most cases.
+> > Ipk being ?
+> 
+> 
+> IPK: Instantaneous Peak Current
+> 
+> 
+> >> I also tested removing the load settings for USB+DP PHY, and DP still works fine.
+> > It mostly works either because we don't allow mode switching on older
+> > platforms (yet) or because somebody else has already voted and that vote
+> > keeps the required mode.
+> >
+> > As you've started looking on specifying proper current load, please
+> > finish the work.
+> 
+> 
+> Discussed with chip validation and power SW teams.
+> 
+> The power grid tables are primarily used to ensure each module receives 
+> the correct voltage, and they define the Ipk for each submodule. 
+> 
+> While they don’t specify recommended regulator load values, the Ipk values
+> reflect the expected power domain strength and can help estimate the voting
+> strength needed for each supply.
+> 
+> Since regulator load is mainly used for voting, I’ll define init_load_uA in
+> the next patch based on each SoC’s Ipk values to better align with hardware expectations.
 
-Should go into rc4 or rc5, yes.
+If the Ipk is defined per module, then it's fine.
 
-
-> -- 
-> Best regards,
-> Dmitry
-
+-- 
+With best wishes
+Dmitry
