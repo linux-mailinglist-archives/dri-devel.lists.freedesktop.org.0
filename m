@@ -2,218 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2648BB3A084
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089D8B3A127
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:20:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1432710E9C9;
-	Thu, 28 Aug 2025 14:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A90E110E9CE;
+	Thu, 28 Aug 2025 14:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="mhMOJsyF";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Mk5AMWXO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NhRCnLi+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F8610E9BD;
- Thu, 28 Aug 2025 14:13:31 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SCivfP023326;
- Thu, 28 Aug 2025 14:13:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2025-04-25; bh=Vwuta87SoO+OM5t4cY
- BUjiDWzh1pb4vYINT0cG7zvRQ=; b=mhMOJsyF4ZM0QZhCZVoOyvEaz3lJh997zt
- 8EfRJP4BhEafQOHk/kvboY4K7fqnVfNWPk8a+rEUNUCQb12iNoFX3TmEW2han3/U
- aAr9Cmel8NYzQ1MFeRcNYl7RNw/1fEGuC/BsVLlzeJ/gMob7Oyd+1odnGUDISO+h
- gUOZOwJtJvCibAPG0B1rx1TyBMCsFPo1NoTjRpQUzd63x4tWFc5BGttHLNr3ccNN
- KBX38dz23YeDd29cwA3H1ZugxrlMKKn4ejqimJdsNjKxlbq1OyiXxs95BZpZ736x
- YPKZ45p0NJ0h3g33lLodJVvcWKDRXvW8C3dZYxkLgdEZy3uwfIeQ==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q42t8f6w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Aug 2025 14:13:08 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 57SD72tr018982; Thu, 28 Aug 2025 14:13:07 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 48q43c1qfj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Aug 2025 14:13:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VLbyPs3ltHjg7E/HBFQg2TdzwtXftnPkJh6NhmwiXQPtYg2JWSZlEJvp995/MHeKO4PgMcxIVzB/BcpfsqLdrA1T7xL/T21IXEEZtX1+82A4/tSlQxngLKQ6sY0cIS8DV1aEsao6fyC31kTQRKaWsSUa+fwoveL9/XT6nWUrTlxNYYRqaCuVldsX7Cm0vRgB5DGYCcaXQt6sypkULImIJqJoOEHZvZxUaOTPD52nRJhwWyiLaidjF416HKFfatXj5eTAelwopR+LaeuY2QSBp203zB3Nk9nCfzAX9MZy2orZEhNyLgvMrMyPY2p9c4/J0Y2kZtL7XPGLZr8crIHs1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vwuta87SoO+OM5t4cYBUjiDWzh1pb4vYINT0cG7zvRQ=;
- b=o1ElHyGwN7gJySuq16jTrba3V4z8/sXayqgWVmbjfpjIuyLwdNX6sNXgMy7bhyJijzbQW0ZsvjtqxKm3qeQr+1UsKt4Gsk++FUwvcYL81yYSmxmq5b7KLr44lqLwvwBh+a6EjLGJC9PeZl49S228rgmoZGPSNgJaP628r6BzQWxXd7qTMdBSyK3JphlwsfvvYeKVqnKIa3EIIGlMKWjqgkMxjBcKuAvDu8EU1l9RPVTsoinLDOdTYfNZ6GX5jQlDA8igwsSkvterf+d7cO2oaBcxN4FibltMtwkmmJxHbRveB5TraJQYCwhF+Pjn6G47UVOJnQbKvS57PeIFLZmEqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vwuta87SoO+OM5t4cYBUjiDWzh1pb4vYINT0cG7zvRQ=;
- b=Mk5AMWXOspv2penpEB/ooDt2k11nXyIpcCNGMaKK7wUbOUfkHRX0MN4m8+NAdGKqqGy5WwqbJklkMX13C3ftavZkp1tCxcloKV2RCvwwQp7JuR9CGpXTrLVvKu0tV3pTdlttIijuKF9dL1nrPWdy6sEUn1BbqAgO5DaQrKhpZ48=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by BN0PR10MB4933.namprd10.prod.outlook.com (2603:10b6:408:125::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 28 Aug
- 2025 14:12:59 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
- 14:12:59 +0000
-Date: Thu, 28 Aug 2025 15:12:49 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>,
- Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
- io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v1 03/36] s390/Kconfig: drop superfluous "select
- SPARSEMEM_VMEMMAP"
-Message-ID: <6b835163-58e4-45e6-920b-c0594f97d315@lucifer.local>
-References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-4-david@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250827220141.262669-4-david@redhat.com>
-X-ClientProxiedBy: LO4P123CA0548.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:319::11) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6ED10E9CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:20:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 03DAD601A9;
+ Thu, 28 Aug 2025 14:20:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1216DC4CEED;
+ Thu, 28 Aug 2025 14:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756390833;
+ bh=lf36fcVdxXkGVEzJgWrnSFwcXRqDcy56SXyVsTRCxmw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NhRCnLi+YncysdGOzA4HIa0G0pRTqZOLEmQ6LhvY2CFNvx3g7Fza69XzDm0bgxAUO
+ 9Kbe/D82zCh0e8rPaHYRoLaR6+MhEmbor4mgRmcCqBwymSTF3/6XFeZFvcpjvs35nB
+ 7v3niT3IvRhhMfnSIzk7k/T/kNMO/fvSn1SNIz0zPl6NcM7gU7JF3GqeBzBgSSa8II
+ YXtHQQ6gMiUBBST3MYmQIi3iCqT0jwHxE0qD2U07RWdKN6aZrAdwAb3LujUGI1l8zi
+ nm22KwZQy/JhC4hgRFAHlW1XvSEvpKJW+skpefeWcbDIyAn4I9+db09ltnPBMG/BVb
+ 5iPwphVSiVoXQ==
+Date: Thu, 28 Aug 2025 16:20:30 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 29/37] ASoC: apple: mca: Add "apple,t8103-mca" compatible
+Message-ID: <aLBlrphpYmJs4q8p@finisterre.sirena.org.uk>
+Mail-Followup-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Hector Martin <marcan@marcan.st>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-29-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|BN0PR10MB4933:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec218813-1ec5-4acf-6d71-08dde63cfdea
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0CXq/eF9XGlwKcZqMiCdFEVb8Yb8dC9nBuDCTbegSF2am1i2sf4lRvxJSOKB?=
- =?us-ascii?Q?8FrLdKjC6Z+PyprktXtYOojs4MTAhKAoa+uWBuUwTacC8L//pP/FKcLGtAAP?=
- =?us-ascii?Q?Euf2k3NsYySJiFrCNPk0E4dScE+rXtII+plRhFRHgUMKSFUq6QZGcv8hO23a?=
- =?us-ascii?Q?/6/cVn/e1M2D8O2n9/WcJq8sK9XMpXtyF0BWKY58wf1rECwlxtLqmkuaqMw8?=
- =?us-ascii?Q?J5TGamMNDI7YLOtkUEOSAkt3gy2IFTkKNX/Ksp+mtDzbn0rOiT6hz3xVrEkE?=
- =?us-ascii?Q?U/++AiHN+iH8g4J6kWEqe6mA4vlRyjghGl1VBbMoLWSk4PYJ14XPk40C6hJx?=
- =?us-ascii?Q?r1YslIS8Zx6BVM191jcZNg2j2I7wA2LZ+LKGRTx7AYVIesPr+y8Al+PwmJLa?=
- =?us-ascii?Q?kxCCn5DpjKf0TcoKAmMjv8wdn3UiMsb5f+fFXxCWe2MOac2ADJxdqYdUBfQc?=
- =?us-ascii?Q?C18mWhUuoCsQf3mbQM1C5KcoEhxvG0qgCiLy0UpjyPUodGFIXZ14+Z+IAZbM?=
- =?us-ascii?Q?ueK3ZvyUnQ9JbtYBmq4/kpouzykiZftcT27ofLOn0Tblxw1zc7M5P6WVgYwK?=
- =?us-ascii?Q?d0aLVlAokBRPqxoZ7npBpguQgdKvAtTE1rPb4Xi/B++J2IOQtprA4whtHJHK?=
- =?us-ascii?Q?5UUrpLwo64FICBfu2cqDpopMICQgJRNYtv28RNm2QPY3M6GXaBCq16HJNg1G?=
- =?us-ascii?Q?WNAgy9bTu+UvBVTbzrzRIpiC43ja4WqH1sSm1WHQaMvgQxWgeZ1aEXjYZtBp?=
- =?us-ascii?Q?YKZ4gHltg3rckaXHATyAc7i6Wn0bX2H7otNLU1ewetlZFicjUDp0uLEsBsid?=
- =?us-ascii?Q?XwWJ51w1kwd2hSDVHlUPaKTqcVwqgZQYJgOMx8hcHd7gwKGzoM86Sp0zug37?=
- =?us-ascii?Q?8ZV2gjaYSkiTPvOp1pCMF0aRWyovDEWhQESBDlGhuTrDY8HL9QZPcXHV1VYK?=
- =?us-ascii?Q?0aiRXFnhygtDkbFyBY59S8mOmIxBXXS+A/YUj7lOXFwLd6oWJlf9MMBhxoux?=
- =?us-ascii?Q?MbzQ8O+4AIxY5S0VHCIWHytTO8EtHZu0kLLKbPEPnQxbSyCgpYFw/87N41wn?=
- =?us-ascii?Q?koMefnfTQh0kNufGrCc0l/i68PUSAbtD3epGXjrb29OHNVVSns6uyxBHFtYe?=
- =?us-ascii?Q?6Hmjt7oh1fL/EEqJ+ZiBZvn257ZD3Dm51GTSHVW462xyUKTygdjCbVRWpHcD?=
- =?us-ascii?Q?O6yZGStq3UhQp3jpbLsmjiIS1kC7tZNbmQyuCjtVmgLXjkJCabNDTbxEDH1+?=
- =?us-ascii?Q?MrM2XhKR49R6AjQXgLXQpaJfA2Js/iP7HFAGYSwF52DmNIF1NoJH9r1IYVMw?=
- =?us-ascii?Q?x5KievTo0njgrTJH3LRvwjFi1UGvryriyNnE3TGPZaT6lT93qwK1v64QWmsq?=
- =?us-ascii?Q?uV90NQiuSChZiidIoh9n3jAtXPevauDjKqzcKw/f6KomGqTOFFC0JoHNIngL?=
- =?us-ascii?Q?9LRBt4fFPho=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u8/ooHo50V3zIfJyKxVton5d0ZdFhVLThqgpYKATELEWYo3/24y9HIVaGw9c?=
- =?us-ascii?Q?SRokc4i5Lr2AVh87U8zN4V6AZGqekfYhsfx1L+Tj4a8NfCXxzk5vfBdSCzt2?=
- =?us-ascii?Q?481AkxqJlQh4MRiiIvsgH3VD7c/t7xb38R1FKSllTsuKZpuYF+jOc9D6eib4?=
- =?us-ascii?Q?n34DNcbPJjjm+wjAZAOKbGdJfonEOhzv3WEVpxuj2PDYrmqeHOxD81x0EVQM?=
- =?us-ascii?Q?C6yo9V+0yaxPeeuW3Yqw5262IyLlr1k9jlIFPpq5Z4FcKkN/3JF6Yu6cI5ZO?=
- =?us-ascii?Q?AZZGunE5qKDa4dmxNnRkSND6HqUQE9laX26OhrsHJ+neF/xXL32UPB6Rkdyj?=
- =?us-ascii?Q?sd3TUbUKlDIEdXVsJkDIij9GuIE5fBHhlZs0aYk/BDnttOaSi+fpYPSte8ov?=
- =?us-ascii?Q?TIz8UMBZiWa9bXhpLjzIfN6fRVJ/sgHqZYWtLdhqF2SQhY4K7lKpiWpjzbRD?=
- =?us-ascii?Q?3XhgL8XEYMdglW9rzWiFiN4FAcrOZxV/gecYGuguPMGzFPqtf+9JsCtpjhsK?=
- =?us-ascii?Q?8CYwcEMOIxhJ+Q2ALWvDTycENz99OplwreiZA1nRPlfeopDz7GxR5wrLoDua?=
- =?us-ascii?Q?H2JBCFi/IuYYyFCISmrZd+ppnGYt26Epxd1m0RbWC0NGlEnVjrGkEKzdK8yA?=
- =?us-ascii?Q?jwJ6j22TR92d4twPKAkuLwljtBGHVEZ0UjoA6aA4ITil377eKba8PeiKwhJi?=
- =?us-ascii?Q?abhNWc4meigTbnLSglSmGY9oG7S3oQWxOLrdxEUsdFaoRhybP2l2+FgBG206?=
- =?us-ascii?Q?zcXoQ44ePn8zfKIp+68t22dk/+ot/AzhaNe6Y4llSvhcWneop0WF1P97pRLH?=
- =?us-ascii?Q?BH2PjG27cD3oaPzY0tdeJPw1ByJactdstWOeVWIqz8wR58AjsZVyPWYFv3L7?=
- =?us-ascii?Q?/fEdRWB+5LpsJ3DK0ISxPr+IQ3Oa+H3661ayKHnzBAENg077UmZvRE4EC64m?=
- =?us-ascii?Q?D3LupbyDK90Hj4Yj/sZtUpXUg7oH0KYK3RfHAIvYoQeRV9ytlKwavg0FCg3U?=
- =?us-ascii?Q?5P/PJmUFKdDuLGSzxQ4QbPd8Oi1VDo5a4ROmEsBTKH045NELcDnSk+7nbkP2?=
- =?us-ascii?Q?1V24LVGpzEw624Z5VK9jXSLUXiQr0r/FCInF1y9QslrbQcx7q5f8momvZXUr?=
- =?us-ascii?Q?x+eXT2oAdnlUSV2qJnaKQCHwHBP2v1GkA1gqZPauYMVPhrtF6wX0W1G71hLC?=
- =?us-ascii?Q?tF0OJCl+il3qnTKgaPYVrpgTtPI4ybeiF9srJmsp7Qb1fqZhSH8Y/vjfGubV?=
- =?us-ascii?Q?FZmAHHeU+7fgDjuAuSh8xoiXiKgsxkROnfUmqhes7Sst/VH3w85oTLqpq5ZQ?=
- =?us-ascii?Q?rEwCy4iTAuZOAJxejV168VW06JlExb7LtHTmE5sj4NuU1DiAdMVKERF/fqmZ?=
- =?us-ascii?Q?77jEHzvcNQVvNZZlEDNQVdTjIEou2GmLEuEHExOMaQPqvZ0jSVJz7lXInZKC?=
- =?us-ascii?Q?qkS+wWqA+NEUZh3KIdQsuOG5gPLiSqEJTh3G7oaklx1+mEtoziwFGNL9VIG3?=
- =?us-ascii?Q?5Oh/P9ketEqmb+HHrxv9bJR4E1fZr/BmO+jINqhcFL99z01aA2Kz5XEEXIH9?=
- =?us-ascii?Q?aEHsTK0+gNXQv4xvQp89x5xhD4MtnK7Hkrz/3QDwoQgRp6RwzAXbbAsXfbrI?=
- =?us-ascii?Q?Ng=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: UhSoWtzdCVaQrcM49wigN0lnHiEBLOXY9+BeGwvNrh5VynFKnfQgu2rsWANqLZL3mghXMCLc+JT7MWHKsVM4+iMLNIA7ap+TOLSTXyTYe+sjjguLwFxurhfmE7XyIo2ZGV1fvvNy19U/vETXX6RYrVDxPt4kG6xobbFCmeeYoOIVjm55t/wCYVpSG+UEtvVJIquV9/qv6Btm+uYUBYmEpiuekgiIqHHsIkeoo0rr/xEXZxC1CGYqGlGF2a7J+MWHFAhd+5jex+gsBWQQe7Cpje2gvT1pvRBsonvMc4v+zdv8nwIbg2UlinPa7TxyAJL5popSw78ebmTffaSrkiYPdYWZfDhXoXF2LlxX/X3el4gjHJwzWXsTEL6vjvA9Hg6JFyu6EGLRY171lHHafqwi5BsS5TkKsjiwICuLFiUHi3/HtHerMtFDYDEesHXxqfHhO+mTWsdwPzFLHR6NeQvwh/0dQ9CT2ulxTCWeNtCK0QYUUhVwFa0b1i7Ku4luD83Dp91DEuj/NLCcicPPaaTu9gEYU8UuBFd21OoLA3GeFIHoFUIAb2zo9Ho6k8v5/1wH5X48RjxCRwwRoG/4dfSez+JKYxA+y0g/RnxwGdB1X7s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec218813-1ec5-4acf-6d71-08dde63cfdea
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 14:12:58.9590 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SakifnTJ1ZiFEF6NCafu/Tg4g3nbinV1/ygobW4RB7wePRMFenYOoF7xMwF+VZ3zMN/G0eAGJWWo0HXfBlWBp+Eu+Pk7KUQHrinoy1xVbrU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4933
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=977
- suspectscore=0
- mlxscore=0 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2508110000 definitions=main-2508280119
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAxMyBTYWx0ZWRfX6gCWr1BwrVuN
- tMiSez95+GCsWN2bXUFReodau+Rrgw0eGtNJWl7eC1sjpTy+ffa5Y4krhl1Z+oGjyQPCGRP2rHF
- NnPwl9BC6ls7qZLX7eLymfRU2uyRiITNrp6Yv/+m6bu9lk1bMl2O5Dri1kvhpSTF066lv13xwA2
- mFIQgrXBSNosctyZippYd8nkpxDJRllPED/tNSZgnkk9NFkj6knaGBLmTCqStZAwjLJYjoq1WGK
- IEEgMZkO29ISWIVgdPfcErutdRQGd4MhS2l5UbhLd0vb7CwgWGhVwyI0lRwJ+wHWE4lb5qKWV1W
- RvZckVJZ5O/QIMM6SsF3XiyQr4nT1PLDnRz7sotdsVJP4XNg6yf5WOLaOhIjlwW98yVbVHQVaYV
- ppjOiqdb
-X-Proofpoint-ORIG-GUID: F-CIlqOJo7WSuF0c2l3D3jAAoWvF0WLn
-X-Authority-Analysis: v=2.4 cv=RqfFLDmK c=1 sm=1 tr=0 ts=68b063f4 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8 a=oT2u5JrfrMdI38_HYMgA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: F-CIlqOJo7WSuF0c2l3D3jAAoWvF0WLn
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uf6ivQ/nvSUaKtJ/"
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-29-507ba4c4b98e@jannau.net>
+X-Cookie: Filmed before a live audience.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -229,41 +142,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 12:01:07AM +0200, David Hildenbrand wrote:
-> Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
-> is selected.
 
-Ah yes there are other cases :)
+--uf6ivQ/nvSUaKtJ/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->
-> Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-> Cc: Sven Schnelle <svens@linux.ibm.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On Thu, Aug 28, 2025 at 04:01:48PM +0200, Janne Grunau wrote:
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,mca" anymore [1]. Use
+> "apple,t8103-mca" as base compatible as it is the SoC the driver and
+> bindings were written for.
 
-LGTM, so:
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+--uf6ivQ/nvSUaKtJ/
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> ---
->  arch/s390/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-> index bf680c26a33cf..145ca23c2fff6 100644
-> --- a/arch/s390/Kconfig
-> +++ b/arch/s390/Kconfig
-> @@ -710,7 +710,6 @@ menu "Memory setup"
->  config ARCH_SPARSEMEM_ENABLE
->  	def_bool y
->  	select SPARSEMEM_VMEMMAP_ENABLE
-> -	select SPARSEMEM_VMEMMAP
->
->  config ARCH_SPARSEMEM_DEFAULT
->  	def_bool y
-> --
-> 2.50.1
->
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwZa0ACgkQJNaLcl1U
+h9AZzAf9FwGiLEV1f73F5zd675Y2KqApY8qs1WdHJoMsbVF2pyIG+BaPOZFWev+Y
+W/CGJO/0ug8Dva88HgCqfrQsT5zF1pUdtWCIZtY3aMXaP9xP/c3LdBbKB1I9ZEQm
+20sIQJ1uLAvisfFM43hjaucZW+C6Oey6mIMppFulQWLE5grarlOHZooIDxwLZkIl
+ImPZcOC2GRY4oA0Q7zduXDpDmBOe5ERiXCHfzq2JCS71tDLQnSqKbsb7xOdn5zVZ
+8dikDaRXkjo8Tu17L1s6d+vFZmFEXw2IJ+fX0+s1lkb+me0WQitFjcJefrfeeaIV
+3Cn6PEYlYDOwQ6jpDJil1kegfjJHOA==
+=avIu
+-----END PGP SIGNATURE-----
+
+--uf6ivQ/nvSUaKtJ/--
