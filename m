@@ -2,162 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D867DB395D7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B44B395F0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1603110E1B7;
-	Thu, 28 Aug 2025 07:46:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D00010E1B3;
+	Thu, 28 Aug 2025 07:50:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eHAsVJf/";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HWCY5Cs0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tvHLRvH9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HWCY5Cs0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tvHLRvH9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48B4610E1B3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 07:46:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756367192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8D110E1B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 07:50:37 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B6B1733781;
+ Thu, 28 Aug 2025 07:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756367435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=QIPVhNdDqwyEUU2mMSzlYSdtbuVp92JbzlpYQuyYJ0w=;
- b=eHAsVJf/8JCIXyxJzzeRIBtueAyFwQ1Ln8zGGPP7Jn/ZqFZej9yBqXBPuqJpeIKUrYLrqg
- 1xoHS2SlYmj4WK2OKvOJUZcPn9ftNSqwF/WrEnBwV2qsdHR1BtStfOTUb2awfAYEiGC494
- H8EctAe9BeyA52f6x+PPZHaN8DHbnJM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-158-nj-yqN70OGK62GpTU6qO5g-1; Thu, 28 Aug 2025 03:46:30 -0400
-X-MC-Unique: nj-yqN70OGK62GpTU6qO5g-1
-X-Mimecast-MFC-AGG-ID: nj-yqN70OGK62GpTU6qO5g_1756367190
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3c6ae25997cso394588f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 00:46:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756367189; x=1756971989;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QIPVhNdDqwyEUU2mMSzlYSdtbuVp92JbzlpYQuyYJ0w=;
- b=Lahb4sN09iBdpvs50puTl7WhKVEFg8bdkqNEnmY6gospgHFM49uJYVdFcr3RIID3+4
- EPpW1WAQJp8+GGbK5igoTtWAHIY6US2z1nlx2lf5uk2CCD/WHAyulrFIh8KGkd1OHc5F
- hFOuMpfhKd+RI5D3oouCW9Y8NxYhCbnN/Rm7Llw0jSpP9AnCvx/dTxmJEErdLwr9GcGs
- NITeutq5bDWagzfUvHOIovsTe3f+W0xRNjVCHIlPn+af62waQGkZXjVLwbtfAS/ZlXh9
- MWseODycI8CyHF5OsTt8IQdDbecWR94TcU3jVcW3avQ9D28PK5Cw+xyLyPgFMkJaFnBv
- L1hw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJztKHS8hQQuQHLBkC9P5AiRAa8Ue9u6n+V06/mvRoxf7pdqN8DQ6Hi4pxBqRE2h1qBba+jjHaNX0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdYlPBq1VWcHsrRba5cWl39kStbVPu+L87M+OVVvZfxwhomZpG
- WuKZQ23Ioe+Ff+YODiq2stqicz/mKZBqO3mVqB3CitpLWFKXG0m0HiyrK7t+JIalFdGdHildcWY
- fcVaa6lD+ciUG6uz8Erpl+f//phI68EhZym13XpA+vO4JRFWl39swJvDnIe1KxnHFvYgXvg==
-X-Gm-Gg: ASbGncu9IL9Ddprc5hr81mQeTdr6LUiOemayXIL9xDDI7umFalq5Ycb0YLemsnPKdRI
- /nNsmaGXA/7pTdf7VU8CuTozXY15rqZFZjK5j6rm2b38AahbjfCRZoBf2w9134USmL3MlScyy1f
- aMSNXDKc3S1bcFNBItJRaZ9+SEnGK4W74i0+GqysLVEw9KGw3nRx6fpljp0fvR90bGDSiQ0waxp
- f5qnJQGxYZ9bbi4OgHX8dZBjKQG6pjgMIIrze7AouU3tP1vMfQHTMKMvUfLgSxLbHgYrO1h60Kz
- NLhLchohsWa5Nm/tkjblpIEIqK+6baviEXA1Dn+AmyOovxJ5JiKx/zV0H7BAnXHr1qkL3dz0fwS
- wldMuuHphTSI8wRdP0yDsRd7iC6xebefDvxkenexQRsWc8qkYhrbaGRnvIqR9YajwvJY=
-X-Received: by 2002:a05:6000:18ad:b0:3b7:948a:1361 with SMTP id
- ffacd0b85a97d-3c5da741330mr15989058f8f.6.1756367189584; 
- Thu, 28 Aug 2025 00:46:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHbZS9TwQor8utX8Cftd7hubod4ESO9oJ14F94do36paGGmjXBbrC+y7X5MmcQWQ6JKGQD26w==
-X-Received: by 2002:a05:6000:18ad:b0:3b7:948a:1361 with SMTP id
- ffacd0b85a97d-3c5da741330mr15989008f8f.6.1756367189132; 
- Thu, 28 Aug 2025 00:46:29 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f28:c100:2225:10aa:f247:7b85?
- (p200300d82f28c100222510aaf2477b85.dip0.t-ipconnect.de.
- [2003:d8:2f28:c100:2225:10aa:f247:7b85])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b6b1cdf05sm35411485e9.1.2025.08.28.00.46.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Aug 2025 00:46:28 -0700 (PDT)
-Message-ID: <0e1c0fe1-4dd1-46dc-8ce8-a6bf6e4c3e80@redhat.com>
-Date: Thu, 28 Aug 2025 09:46:25 +0200
+ bh=Z5D6GoBD7lVN0aaWBxn658yNiz3/WqBdlchz7jbuifk=;
+ b=HWCY5Cs0jOs/jJuIKVhNACU9w5Gs5TWqMHHdo+HjejzC2ugZsWwEZSEUp6NRXANs/oTFPH
+ pmoLlRJDfXWuH86fsrfZJAh+rXItkRO65uJYobxAnlfvK8Mt6SxAQwQ9w+825r19uFgMwg
+ kPA/0BcKiQaVYjPT6hBWOrF0blq8XYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756367435;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z5D6GoBD7lVN0aaWBxn658yNiz3/WqBdlchz7jbuifk=;
+ b=tvHLRvH9Aqr60a2Nj5GpOV/Z51Ow2nJeOgFZNpCz88hDsPT9/q6iIs0jJ9OQfU8T1o+k7Y
+ Io4yL+T8M/N/pJBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HWCY5Cs0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tvHLRvH9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756367435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z5D6GoBD7lVN0aaWBxn658yNiz3/WqBdlchz7jbuifk=;
+ b=HWCY5Cs0jOs/jJuIKVhNACU9w5Gs5TWqMHHdo+HjejzC2ugZsWwEZSEUp6NRXANs/oTFPH
+ pmoLlRJDfXWuH86fsrfZJAh+rXItkRO65uJYobxAnlfvK8Mt6SxAQwQ9w+825r19uFgMwg
+ kPA/0BcKiQaVYjPT6hBWOrF0blq8XYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756367435;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z5D6GoBD7lVN0aaWBxn658yNiz3/WqBdlchz7jbuifk=;
+ b=tvHLRvH9Aqr60a2Nj5GpOV/Z51Ow2nJeOgFZNpCz88hDsPT9/q6iIs0jJ9OQfU8T1o+k7Y
+ Io4yL+T8M/N/pJBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3545C13326;
+ Thu, 28 Aug 2025 07:50:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CxcRC0sKsGiJHgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 28 Aug 2025 07:50:35 +0000
+Message-ID: <d040da3e-501f-45d8-bcbb-95fa77e94a59@suse.de>
+Date: Thu, 28 Aug 2025 09:50:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/36] mm: simplify folio_page() and folio_page_idx()
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org
-References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-13-david@redhat.com>
- <20250828074356.3xiuqugokg36yuxw@master>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250828074356.3xiuqugokg36yuxw@master>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Nj4Ag3pw1O-DmbCGI4t7p8dvBhDfiJH0uD0SuHl1xCc_1756367190
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, 
+ stephen@radxa.com, cristian.ciocaltea@collabora.com,
+ neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
+ yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh@kernel.org, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+References: <20250822063959.692098-1-andyshrk@163.com>
+ <bochli5u37mhc6eup7h2oz3yeignofbbj4k5nrvm2k7zf6f4ov@t2sje4gmveqa>
 Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <bochli5u37mhc6eup7h2oz3yeignofbbj4k5nrvm2k7zf6f4ov@t2sje4gmveqa>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[oss.qualcomm.com,163.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[20];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[163.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[dt];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: B6B1733781
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,13 +160,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> 
-> Curious about why it is in page-flags.h. It seems not related to page-flags.
+Hi
 
-Likely because we have the page_folio() in there as well.
+Am 28.08.25 um 00:24 schrieb Dmitry Baryshkov:
+> On Fri, Aug 22, 2025 at 02:39:44PM +0800, Andy Yan wrote:
+>> From: Andy Yan <andy.yan@rock-chips.com>
+>>
+>>
+>> There are two DW DPTX based DisplayPort Controller on rk3588 which
+>> are compliant with the DisplayPort Specification Version 1.4 with
+>> the following features:
+>>
+>> * DisplayPort 1.4a
+>> * Main Link: 1/2/4 lanes
+>> * Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
+>> * AUX channel 1Mbps
+>> * Single Stream Transport(SST)
+>> * Multistream Transport (MST)
+>> * Type-C support (alternate mode)
+>> * HDCP 2.2, HDCP 1.3
+>> * Supports up to 8/10 bits per color component
+>> * Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
+>> * Pixel clock up to 594MHz
+>> * I2S, SPDIF audio interface
+>>
+>> The current version of this patch series only supports basic display outputs.
+>> I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; the ALT/Type-C
+>> mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Stephen and Piotr.
+>> HDCP and audio features remain unimplemented.
+>> For RK3588, it's only support SST, while in the upcoming RK3576, it can support
+>> MST output.
+>>
+> [skipped changelog]
+>
+>> Andy Yan (10):
+>>    dt-bindings: display: rockchip: Add schema for RK3588 DPTX Controller
+>>    drm/bridge: synopsys: Add DW DPTX Controller support library
+>>    drm/rockchip: Add RK3588 DPTX output support
+>>    MAINTAINERS: Add entry for DW DPTX Controller bridge
+> I tried pushing patches 1-4, but got the following error:
+>
+> dim: ERROR: 5a68dcf5837a ("MAINTAINERS: Add entry for DW DPTX Controller bridge"): Mandatory Maintainer Acked-by missing., aborting
+>
+> I'm not sure how to handle MAINTAINERS changes (or whether it's fine for
+> me or not), so I will probably push patches 1-3 in a few days, if nobody
+> beats me (or unless somebody points out a correct process for
+> MAINTAINERS changes).
+
+That warning has been added recently to make sure that patches do not 
+get in without sufficient review. It's overly pedantic, though. If 
+you're confident that you have R-bs from enough relevant people, push 
+the patches with 'dim -f' to ignore the warning.
+
+Best regards
+Thomas
+
+>
+>>    dt-bindings: display: simple-bridge: Add ra620 compatible
+>>    drm/bridge: simple-bridge: Add support for radxa ra620
+>>    arm64: dts: rockchip: Add DP0 for rk3588
+>>    arm64: dts: rockchip: Add DP1 for rk3588
+>>    arm64: dts: rockchip: Enable DisplayPort for rk3588s Cool Pi 4B
+>>    arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
+>>
+>>   .../display/bridge/simple-bridge.yaml         |    1 +
+>>   .../display/rockchip/rockchip,dw-dp.yaml      |  150 ++
+>>   MAINTAINERS                                   |    8 +
+>>   arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   30 +
+>>   .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   30 +
+>>   .../boot/dts/rockchip/rk3588-rock-5-itx.dts   |   59 +
+>>   .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   37 +
+>>   drivers/gpu/drm/bridge/simple-bridge.c        |    5 +
+>>   drivers/gpu/drm/bridge/synopsys/Kconfig       |    7 +
+>>   drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
+>>   drivers/gpu/drm/bridge/synopsys/dw-dp.c       | 2095 +++++++++++++++++
+>>   drivers/gpu/drm/rockchip/Kconfig              |    9 +
+>>   drivers/gpu/drm/rockchip/Makefile             |    1 +
+>>   drivers/gpu/drm/rockchip/dw_dp-rockchip.c     |  150 ++
+>>   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    1 +
+>>   drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    1 +
+>>   include/drm/bridge/dw_dp.h                    |   20 +
+>>   17 files changed, 2605 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
+>>   create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+>>   create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+>>   create mode 100644 include/drm/bridge/dw_dp.h
+>>
+>> -- 
+>> 2.43.0
+>>
+>> base-commit: 18b8261b84ad5462d7261617fbfa49d85d396fd9
+>> branch: rk3588-dp-upstream-v7
+>>
 
 -- 
-Cheers
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-David / dhildenb
 
