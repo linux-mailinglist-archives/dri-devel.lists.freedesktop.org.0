@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62436B393C3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 08:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB61B393DB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 08:34:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A986B10E11C;
-	Thu, 28 Aug 2025 06:27:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBF110E193;
+	Thu, 28 Aug 2025 06:34:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l3Uuobcp";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="f6JqcjoN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBB1310E11C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 06:27:04 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-afe9358fe77so2279066b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 23:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756362423; x=1756967223; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rw1P48Rw9airUIZAlX8WPmdMSK7aVKwW+bhgC+9irms=;
- b=l3UuobcpnaRq69jypvK5LiCE14KOVl5POqyCjQ93zw3FCTCNr9EAozFm8L0CH5x11B
- 03m0IMCse1j8g2IbIAWpZi2lNqWWqJSQi6gyTqcUDogeUZ3v05qSRotZH7rP4itNvovx
- odCrA/WQmSOt7USYhxDZiCLoqwpl0K1XUdSeaUL2fjtFHTIIKIJ7ljJRaP7rHrisGbN3
- HrMlmoOl6Rq2BYcwxk5qbFI9IDH8Kx9+G3y1qH2lquKVE8OWwFycqOEBfZFq34Ji2ajU
- IHmmNWjJrd0+i0iXA1IOHag8Eo1js5ElMksly9d/aHV8m0qAp2qed7no0oPId4S+M8O/
- 4iPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756362423; x=1756967223;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rw1P48Rw9airUIZAlX8WPmdMSK7aVKwW+bhgC+9irms=;
- b=YeyK44JJr+dUtLMJeLKHWnKekJF9waMgP/VpxWPJWdHeu2oG9FC9WdJhadWnGWPXaL
- +sZGbMLs00wpqJPpCtf8SMYpBiYkoEOBzTImWr6PTIr2ALUrb8icZo/lAPOL+gve+z9u
- PWQ09XMkx05n5/qgqYQrCj9navXb1WQcZ0oBZtIuY0Qb6QphKlRUqj6EtxpHH2f5soVQ
- AFN+dknjahInMjlZk4G1E+9cOx3M3Ny7yXsUD68prlDUxBqvPvNJuj/TkR4Jlu5xZQ9g
- Rxn9xXYaAQgJd188L/90d9lTRYyeX68mqLkFuJEc3StDU8ffdnaOXzRpRZynoQyxU8ls
- 178Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV4mu+IBNr+BpnDCpepp3jD8B/8RTLuJjCdMAST7eHawoHhojFep5DT62zSqxub9e1BXhOs+uM4lMY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yybb/7aioVrnkFtxGJaF1fX2loRE9AtdLwyuYCOdxYTwXV2IudC
- lkkZtHhk65yhQACA3mkjIjk8YPWNhrn5TOMbSkcgm4xhT9i5vWszMCpeFFwoF64nZxhpFOZeW2a
- cGr6OhBwrQNhugmS/QGIVPWSTMLyj6ko=
-X-Gm-Gg: ASbGncvmS8bytdm2vpVyFXYVjrMRu22Hvf+RvSO9jRYnMkXXUclVERch7kPZXbaBGDn
- mVaC2h2ErcCQ8sNfy1evoMpxB7CHpG1EeE6EVCilYOMPfkWCxT0JSRoFUN1hX6NzA2lfnFU/rff
- mMqH5WuX2ZoAnBPLe1t/x0TisLfeISpKqBkW4jeFppxWCajmgevBjdR5LsQFFmaHR0CV63DyAij
- s5a8F6jPDyKTOai
-X-Google-Smtp-Source: AGHT+IHllcdWIIyE/tgfPoEMaupjgVRkzKVjdIUnd/uLbIt7Xuq/3mz/DvL95F4OMvojqNdXHzV5gHpDUDZi1keN1KE=
-X-Received: by 2002:a17:907:7f8e:b0:af9:5a60:3319 with SMTP id
- a640c23a62f3a-afe2902ee2bmr2188427166b.19.1756362422867; Wed, 27 Aug 2025
- 23:27:02 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A028410E193
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 06:34:06 +0000 (UTC)
+X-UUID: f8495da883d811f0b33aeb1e7f16c2b6-20250828
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=ULhWCMRnfloXSUOUb5D++K1tzuZ3+YXJYVeiwkdjmeI=; 
+ b=f6JqcjoN6QKY3SrBy1St1yNmmlv8yJpC8apS75UVln/BaoZ2EKqBgYv0j6k1NA4opNEDt/HwCVagFd3+vsZ/38RrVJvWX16rdNtzuqR2OxTqO7oWuVjAcB0H5qJA0f38TCHmqqAD9KucZD5NxMDgn5CGkjoUmFziV1fp6JsBBuY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3, REQID:5d86f7b4-7348-4f7e-be94-79e9417123f9, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:f1326cf, CLOUDID:f777b26d-c2f4-47a6-876f-59a53e9ecc6e,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+ nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+ ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f8495da883d811f0b33aeb1e7f16c2b6-20250828
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1737505082; Thu, 28 Aug 2025 14:33:55 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Thu, 28 Aug 2025 14:33:53 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Thu, 28 Aug 2025 14:33:53 +0800
+From: Paul Chen <paul-pl.chen@mediatek.com>
+To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <chunkuang.hu@kernel.org>, <angelogioacchino.delregno@collabora.com>
+CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
+ <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>, <xiandong.wang@mediatek.com>,
+ <sirius.wang@mediatek.com>, <paul-pl.chen@mediatek.com>,
+ <sunny.shen@mediatek.com>, <fshao@chromium.org>, <treapking@chromium.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 01/19] dt-bindings: arm: mediatek: mmsys: add compatible for
+ MT8196
+Date: Thu, 28 Aug 2025 14:31:52 +0800
+Message-ID: <20250828063327.3475747-1-paul-pl.chen@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20250825150948.2998-1-chunkuang.hu@kernel.org>
-In-Reply-To: <20250825150948.2998-1-chunkuang.hu@kernel.org>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 28 Aug 2025 16:26:50 +1000
-X-Gm-Features: Ac12FXzArv6j2S3_biYutaI-lCZofq_ZLCSqVSZm8jbnf5oqhY51MlmSIypDoP0
-Message-ID: <CAPM=9txPBARP_60P1M=9SF6HzPWkaj2gDN=J0wCAO2PvjwUWug@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm fixes - 20250825
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, Jason-JH Lin <jason-jh.lin@mediatek.com>, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Ma Ke <make24@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,23 +83,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Louis-Alexis Eyraud (2):
->       drm/mediatek: dsi: Fix DSI host and panel bridge pre-enable order
->       drm/mediatek: mtk_hdmi: Fix inverted parameters in some regmap_update_bits calls
+From: Nancy Lin <nancy.lin@mediatek.com>
 
-Hey,
+In previous SoCs, a single HW pipeline was an independent mmsys,
+which included the OVL module, PQ module, and display interface
+module.
 
-^^^ this patch is missing a S-o-b line from the committer, please fix.
+In the 8196, to increase the flexibility of pipeline connection
+and control, the OVL module on a single HW pipeline was separated
+into two mmsys, namely ovlsys0 and ovlsys1. The PQ module was also
+separated into a dispsys0, and the display interface module was
+separated into a dispsys1. Additionally, display power-related
+settings are controlled through vdiso-ao.
 
-Thanks,
-Dave.
+For example:
+The primary path and external path of the display both use
+ovlsys0 -> dispsys0 -> dispsys1, forming a pipeline.
 
->
-> Ma Ke (1):
->       drm/mediatek: Fix device/node reference count leaks in mtk_drm_get_all_drm_priv
->
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 ++++++++++++++-------
->  drivers/gpu/drm/mediatek/mtk_dsi.c     |  6 ++++++
->  drivers/gpu/drm/mediatek/mtk_hdmi.c    |  8 ++++----
->  drivers/gpu/drm/mediatek/mtk_plane.c   |  3 ++-
->  4 files changed, 26 insertions(+), 12 deletions(-)
+The third path of the display uses ovlsys1 -> dispsys0 -> dispsys1,
+forming another pipeline.
+
+Therefore, the 8196 needs to add 5 compatible string to support
+mmsys for MT8196.
+
+Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
+Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml     | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+index 3f4262e93c78..5f244a8f6a47 100644
+--- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
++++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+@@ -39,6 +39,11 @@ properties:
+               - mediatek,mt8195-vdosys1
+               - mediatek,mt8195-vppsys0
+               - mediatek,mt8195-vppsys1
++              - mediatek,mt8196-dispsys0
++              - mediatek,mt8196-dispsys1
++              - mediatek,mt8196-ovlsys0
++              - mediatek,mt8196-ovlsys1
++              - mediatek,mt8196-vdisp-ao
+               - mediatek,mt8365-mmsys
+           - const: syscon
+ 
+-- 
+2.45.2
+
