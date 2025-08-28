@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DD7B3AC1A
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 22:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB56EB3AC25
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 22:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E631B10EACB;
-	Thu, 28 Aug 2025 20:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22DE010EAD0;
+	Thu, 28 Aug 2025 20:59:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="o9FD5qD3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vWeeHxWu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2575610EACB
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 20:59:35 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-55f467f3c06so1158527e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 13:59:35 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2944610EAD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 20:59:54 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-336ada26e92so7010141fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 13:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1756414773; x=1757019573; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1756414792; x=1757019592; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nhUyagpznBFRZ9pdGyujL8snMtRV7AxzIDv/2iWCkkM=;
- b=o9FD5qD3arYqPd852n6F0X0AxfHCnUpCR9yNXRIZVsk/9saetXuOfe/S5/IMfOS7Pc
- 7i83JdomtL/50Tjw2UoklfJp8NfSakqNomowdcperAsdL3uvphJUbidvCfFQF+Vn9DZz
- amtnXkBZB36JOk/OEimlmN8RehPKsoG6HEF0GPpXxqdBVB4t0aUXc/x0R7I3eD+J9LhT
- fr7tuLRW2Gx9QW3SRFfE4/p3NsPkit/7EV2+WfPcL81hGGQcfG68zr4yrxmuVdofi/V6
- OzDBkZ9x/SAwGCKs8dfTcj0ibUN3MgLhIdSYoZwVI2ptau1o0rp1Wci83g8sX+fhBo/y
- HD3g==
+ bh=vcH+lJXlXkzbWh1s+giYmvp9r3m+hUxJ894v+cf3nQo=;
+ b=vWeeHxWuKaSFMsirX30ekwGor94XWmYuF/i3zcByitjl6+ORlgXDSFO0d8AYk9mmcM
+ gntUGFnZK0AzlFTF+VS8hwk3HvJa+jrYrddjW2X6yn3EfMUC37obMNjM0O+PjJWwsyid
+ yDlLBlCPdfoD9EKvPw1brWyzHCqXRgV74dwYvBW9V5IuxDEclp/PEcyaEfXv0FmxKa2T
+ MqXvrfea2GkySPJ61d8/eNjzi9DddtNCId+XL+B42JlNPsL+WvuwhfHgNF0fOlgsSPBw
+ lE2Zfv6/4dVfcSi0fUNMTYdnBYqFnk6/U/2du8OtRI3PRReWYW8E0Xsi78qadIchTW20
+ x5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756414773; x=1757019573;
+ d=1e100.net; s=20230601; t=1756414792; x=1757019592;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nhUyagpznBFRZ9pdGyujL8snMtRV7AxzIDv/2iWCkkM=;
- b=vr8oIUOHe4X15YjBIajO6PLL7NUKcN8mK4lWP0SSsoAF20QE+1Vzh6vFaBXwgWBaq4
- lj0vR/u1hsj06TThz9tHGUUbqrm8dZGDBGH2150FEdiAOt6Ha8lLENwDBkVOajYqtS2g
- KHR7jDecyUOdR+73sFXhQhZfudwWJq2Ullzx6xqCLobPAEMu+fW0D2SLspBEGxb56dt8
- 7Q5EE//6SAGbCngI/umW74ynwFUD8VNDXWcWmPHbCQ6rrlDZhomc7UJ9CrB2Br4x4g2f
- 7PjRiwXiszKqun78E0rGF5mWVpBeyQiHULLp45ZwuLo9EGPrkXKRFLyFW/R898ofAxrI
- C1DA==
+ bh=vcH+lJXlXkzbWh1s+giYmvp9r3m+hUxJ894v+cf3nQo=;
+ b=FoYwYNY92be59MauKkty2rMioUjKhCxq2HBoKDWZ5s6Mkp2+KGCapURClUDhG+Yz9O
+ E4Jd6tKhkt0py0yzD75LUikphLescky+93nu4mvI6EOWHVaktI44zz+1aWjgT9U2X8yy
+ OuJZh086ifVoED2e9AWDfEk1nRcu9x2BZ28EL9YkS36OQ3yWWtKcTJAJ+72oibozVTtB
+ /UjFLTGnOUtl1We1KZlk6LtItBIidyIT685T1kGNN2tDMtINtC5oMapHN4Gzj+XOtwvs
+ n31BkjkEFf/i5sr/nuOz8Q0JnsVWITgn7SBqEQL+pKcIOhZt7hLTiLzdKcSAEwQbvqwt
+ glAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVzaAcGQmvQrB6DGH66ULg1Ji8QDlbL3O+ixnZrIeza59vI90iJbxLaM/ciFMVuxysnKpC03EJj5MM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdLC4iS2XVtjLK0o2K5dyJLY8RgWrULNCsjCOG0GwBLH1aD4H4
- lQcOnB8lCpryCZTdgGM8QlPwP5DedvugpyGXJ1gU3xWwoJPaZ9xjRUzga81bGqCQnMTVlt1ZoBD
- eoNLRDQT3YGVjMyTgYeHGj1NxBUc/jzuSBra0vqz0ow==
-X-Gm-Gg: ASbGncufYJjSmvs+Mf6wHo+F1RPAhx0WZRNq6pZ91asHqM2IhR7twFoqYIjlsc9ZrI5
- fODlX0p4jykSGGLX+9AadvWTMv7ETgo0r2gQaLGT+fPpkozcwy6vdu4LikjtejdQOMeO2IoBFji
- 5cRL4xL2CCV7oPOME58k4tWuVVHoRkTe0eA3Dq0tr2mTuGC6qrbxAEX0Jw7I4KxthzmOmXMEjp4
- KGA10A=
-X-Google-Smtp-Source: AGHT+IGkAeRfSepttrAWspST3WxeFhzvmsQkOJn8zGWgyydoFU7mfe7dFpmDKHnPoU/jmN1MyfkA6699WvyfKPSV4Ms=
-X-Received: by 2002:a05:6512:6301:b0:55f:503c:d322 with SMTP id
- 2adb3069b0e04-55f503cd585mr2344975e87.40.1756414773211; Thu, 28 Aug 2025
- 13:59:33 -0700 (PDT)
+ AJvYcCURp0+L63xViAHPrpcYVKl390l9J+KGkOedL2bFn5nlEPuQOpnCxbotEhhzsODIeHdxfTah9jERT5c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxz3+AA7sShWuHONXkizXyKzCm+LGx9hIGCPcYxxe/6GDz9UU/w
+ r0PH1yPpsItxHIBha+qe2qlqjJ0KEojpVOisF04OXW1tdeTpITwcG/DI42/N3QNfNiy/AVaUc7b
+ GYq44avvI2XgiQcpb8Oh6NSyj38DJ1fOydZh7LO8YOQ==
+X-Gm-Gg: ASbGncueBTBzhpZtiFsJz2ofVmu6194Go28OKppkRq7YE9aryfXYaOaLfA/VghdvZTT
+ S932DJpW0YHqvo24d0TQcfB/GgDIKjeyz6sNhVst1IE/45AgPMBp4RyhhdljYI4bmMoG5/8/vG5
+ R5n0nE3eZEVCqzt7ZRr0h4VYxqYu3srvTR1k3Vrbq6lEWhICwvkf8t3nSBwVqQBb/0E1tSHJERR
+ BWb0Mo=
+X-Google-Smtp-Source: AGHT+IEvCK27Dx3T+NwB4QTV9UIlsAab63smCZ6D7uUks2NtQZowbM82iFbh3N6kvr8t1WPK8CdOU0xtB51L+4ds/dQ=
+X-Received: by 2002:a05:651c:3256:10b0:332:3fd0:15fb with SMTP id
+ 38308e7fff4ca-33650ba8612mr48592831fa.0.1756414792241; Thu, 28 Aug 2025
+ 13:59:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-8-507ba4c4b98e@jannau.net>
-In-Reply-To: <20250828-dt-apple-t6020-v1-8-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-9-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-9-507ba4c4b98e@jannau.net>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 28 Aug 2025 22:59:22 +0200
-X-Gm-Features: Ac12FXwdi56r5WxKQlnuWh0e5CWqxbReZCdYkWbkMywpfjpFF5zgYMlMEAzYzgg
-Message-ID: <CACRpkdbvLhTQ8EujGg9QMbuGVRDnH9ApVxVt1NdmSmPw77QXdA@mail.gmail.com>
-Subject: Re: [PATCH 08/37] pinctrl: apple: Add "apple,
- t8103-pinctrl" as compatible
+Date: Thu, 28 Aug 2025 22:59:41 +0200
+X-Gm-Features: Ac12FXyoYnYKNXDomZzl4EdS0dXvIhCV2tkZJGb1B6Y1kaQgUA-l_NpqH411N_c
+Message-ID: <CACRpkdbg8KYcDpqDKn9fqs+rL9hLK9mGCj0PTXPBGDW7A_AZbw@mail.gmail.com>
+Subject: Re: [PATCH 09/37] dt-bindings: pinctrl: apple,pinctrl: Add
+ apple,t6020-pinctrl compatible
 To: Janne Grunau <j@jannau.net>
 Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Neal Gompa <neal@gompa.dev>, 
@@ -129,6 +129,9 @@ On Thu, Aug 28, 2025 at 4:02=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
 > lists with the generic compatible "apple,pinctrl" anymore [1]. Use
 > "apple,t8103-pinctrl" as fallback compatible as it is the SoC the driver
 > and bindings were written for.
+>
+> The M2 Pro/Max/Ultra SoCs use the same pinctrl hardware, so just add its
+> per-SoC compatible using the new base as fallback.
 >
 > [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
 ernel.org/
