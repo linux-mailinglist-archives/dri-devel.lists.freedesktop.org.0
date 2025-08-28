@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245B8B3A0C9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C2BB3A0D7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E06C10E9CA;
-	Thu, 28 Aug 2025 14:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83E910E9D8;
+	Thu, 28 Aug 2025 14:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="VaHDj0PY";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="C+edsKmm";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="QSfGsLBu";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Fliw0l3x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from flow-a7-smtp.messagingengine.com
  (flow-a7-smtp.messagingengine.com [103.168.172.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F047C10E9CA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431E610E9CA
  for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:16:15 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
- by mailflow.phl.internal (Postfix) with ESMTP id B45EF1380DBE;
- Thu, 28 Aug 2025 10:02:21 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 10:02:21 -0400
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailflow.phl.internal (Postfix) with ESMTP id 54F7A1380DAE;
+ Thu, 28 Aug 2025 10:02:24 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Thu, 28 Aug 2025 10:02:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756389741;
- x=1756396941; bh=d1uuzbyK+TBo4FKAGVpnZlWXc03joPgRcgcWkt54xQI=; b=
- VaHDj0PY+V+AsDh4qD25M+zhsGKWgtfDZDmedCbfP+EkCQywzgXWlXCSEVOZqjhv
- 7UZDu6/4yqx3KWACwKGn5LTqKnxsBWoIjiIALvisrCm7/zS4GdUOU9F8QOqhZqr4
- 52CERp0d39AmPJd9FDDN+AW75JzwtwpCvLw7mean4SYOlIFpXQVoUOPNBMh+jdEz
- D79ERgCHoJ1EgTJ2F9+G6aSnPOGIuNisCxV4zoA260iNJLDc+uc23w/RLNiTUPAe
- z2w8u8vZlTDOVQmyocuG6YW2KzUxtme3qVyz/azJd5mOmMaYtl2mh5bXR7hSIARr
- +RDkwh75QL1OIv6ORBFu3Q==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1756389744;
+ x=1756396944; bh=M2iMoMuWKPileIoEWnr4HEQnopXO/M4SnWfH9o37EXQ=; b=
+ QSfGsLBuIU0Ijiytjx3wkb7VeSHz6D9gp/eXBqB8EQFItQq9jBNJc3OSYab6o4eP
+ uum6CtK5joRGiXx09nzSMeub5NOQeJVriHMRxDFswX3VCwi3D5tbsyE4uWmgovr7
+ ENyPJTZNIXXVcgyOaC/S7UFKImcdUuMjx7THqDOAxA+Us5WyrP0xFnroCDjZIQdo
+ b6K6/meSm/RdkShe7o2+OD+JOhBF+iaI2tpOyBWQ+W+GE8O2LE051sJpLsmjrHlA
+ 3IaoBkYTCwQFBvu5OTUIH0sj4/u3BNm5vNAiFYVG19Rvu5+24zNPjfT2uR9mhQz/
+ 53uUqcPYMjXKdnro8cMFRQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389741; x=
- 1756396941; bh=d1uuzbyK+TBo4FKAGVpnZlWXc03joPgRcgcWkt54xQI=; b=C
- +edsKmmgQpUUdgiXz5LRMt0w28yLVSrI7MsZIsPtNCituhTpwZWvWREvhgEUux8E
- UBUPU/V3A+VmSYDz/LJL2HcEQPGPbJn85jPh9iULAwQ9ptIoydbVftX5jaoxNChL
- pGf2VdxOMZu4rsUsCRI7dK4JTkGvJpAJiPVD4IgksWwaBzebhFRxXEdNyu/l5vew
- P0GAwEdjQcjBQf4I7zxFIuQygK9qSFWSxstrpmyON8c1VbcceKab4h0+EwHlrTgx
- VtIUyVBue5/yaokYBcyDn2mVXwQyuw65vK2hiNQ8nvdPBlqYAsqTumRJxGestZ0l
- cIHYxhton2o+jvcED5jaQ==
-X-ME-Sender: <xms:bWGwaJOjUfAt2gPyXzDYH-QgJmwJCaGGpCEF_YS9LWfnNJUTQi4o_g>
- <xme:bWGwaKzDA0OMFWaVfRJCxHerCzhhNRw1vEilx6gOfrXXtVKMukX1cJvIXBs5IMyW2
- dJRufB8zrpTOT8c5E0>
-X-ME-Received: <xmr:bWGwaC9T6uH96i2PXR13lLZfcIcmo8wmeaNpImOLE4UvHEniBDl75tdgju-d8XMrtL141uNjsLM1QkKRUb-Yt8MTLM8hd_X1i4qFRg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389744; x=
+ 1756396944; bh=M2iMoMuWKPileIoEWnr4HEQnopXO/M4SnWfH9o37EXQ=; b=F
+ liw0l3x0GjEXVzr/v6xwru66+fQ7ipcA1zLttyYz5azNN82VUXgA4xC7zda8a65l
+ PMbVrd0g/DTqhEz/sCwwMNXemM1y3GFU7pV/8SxsIBHnTFX6dclnLsgfQhd0iQUk
+ MVmADzF49AWXN7Sngi0w/VpDGaVHlh+N8kCkOEY6Up7NtLAJvxP3D+QTApb+Zdxe
+ wH8xIr/jORCvFTY04fRuQLM8DyeoZapFoAaHo6KEkAX1QGSd9sI8ZYjRx0jz8Son
+ Gkfb0ishZtY+zrhOWjvdHODsVPBkuQyUCujnVsoVo4scEUd1iZ+pLEWFGl1NPIa1
+ dU0KM8p0L1Js84n6oSjrw==
+X-ME-Sender: <xms:b2GwaBPZV6Yc6pBfAdDN0cmpg0l5f7ko9k40kqUUN8oL5_w0wR9a3g>
+ <xme:b2GwaCyLualUVJnbIuDlF6oXEDaaG0wBen9t6j3Us4W14MFLqkS98Nsa6u20Lj5Gd
+ utHylo7Eyaqqx3kFH4>
+X-ME-Received: <xmr:b2GwaK9EjdieurpMQ7Wmqf2qywY08wNg8E9lHqcn6ccyFlXiFnRRYyRmsLYL4AY_HBaXzOpCEAXpZ0Sen2hHd491Nl6mkT8ehaPfjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvdduucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
  gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
@@ -66,22 +66,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdote
  gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
  vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
  gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:bWGwaMwXMChxee1x41cVZmcENyVrdN8cxsZouPfGzoov0QyiO-HTAw>
- <xmx:bWGwaHGFJ459KgUjWGFOoXpHCZ4kv4lQ07dAIJ1f4VXkCYekMANtJA>
- <xmx:bWGwaCnKTsBNdTFXQdp_hlUWzUIJOXQtsQOpCfMJzEJ8eJq_-3nYqw>
- <xmx:bWGwaDRt5Z0bkvGLPlUQu2b9W3E7SszPvHJLDA8J1WqUm92N57d-Xg>
- <xmx:bWGwaOEpaf--yyX6ZMRIBcyqRqWVh9eTLzAZ62ilQKNakq-L_QMdUoRG>
+X-ME-Proxy: <xmx:b2GwaEzriTIp3F1os66OJrt_tmMEP-GWzFtpzGz_Sp7SUIornbZX6g>
+ <xmx:b2GwaPGSa6Q9v_O9EN_Kp8yyl95dXVwjzZlv5hWI_qZQIJBj27CF_Q>
+ <xmx:b2GwaKmJadH7Uc0y6Pv8wWEZ8ZB3X33_8rNETMzyrUti8g50FY4_6w>
+ <xmx:b2GwaLT2VXivlqD2b5AuBMyrQD8uWBUvLUblmuwFS5rNf-7kmQLCCQ>
+ <xmx:cGGwaKzoZAfVYTbHEpqjHi_tdyuKIH9HoEvcYZgyVF19dgUPuOqsw5ln>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:19 -0400 (EDT)
+ 28 Aug 2025 10:02:22 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:33 +0200
-Subject: [PATCH 14/37] nvme-apple: Add "apple,t8103-nvme-ans2" as
+Date: Thu, 28 Aug 2025 16:01:34 +0200
+Subject: [PATCH 15/37] dt-bindings: nvme: apple: Add apple,t6020-nvme-ans2
  compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-14-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-15-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -125,13 +125,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=987; i=j@jannau.net; s=yk2024; 
- h=from:subject:message-id;
- bh=Jb83KxX2H7kR1o63dY79EQbQmU6FMtXfENWdCwzKWS4=; 
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZadqXLVW/17dYSM90/iZHgq4LH/1RnpqsA7RybLB
- Ckm/ursKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMBHO8wx/RW5UOcq4h897Z+b1
- dkFcZmbHiZmFYQxWMamLXq4qmr1On+G/0/STT/xviR66ueGsrL7KNjXWPxf99SodOUPr7JdPniH
- IDwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2340; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=Mho2OjViGa90r2gQMrmzE7gYFPoJqXSER+dRg1JxY98=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZbrnNL3iDV2fQ+esWT7nmcBUw095etWSjBKOKvEy
+ X/Y4n6jo5SFQYyLQVZMkSVJ+2UHw+oaxZjaB2Ewc1iZQIYwcHEKwERWz2H4Xzl14+/9pjvt/k1q
+ ZXt7/ZGs8ulfvOsUZgV1mZ2cWS2RsJ7hf+nn2CReFpZJezcv3q38aDmv0gnxc7/8NvhoLfh9kPm
+ vARsA
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -154,25 +154,74 @@ lists with the generic compatible "apple,nvme-ans2" anymore [1]. Add
 "apple,t8103-nvme-ans2" as fallback compatible as it is the SoC the
 driver and bindings were written for.
 
+Invert the condition for the 2 or 3 power-domains check to allow using
+"apple,t8103-nvme-ans2" as base compatible.
+
+"apple,t6020-nvme-ans2" on Apple M2 Pro/Max/Ultra SoCs is compatible
+with "apple,t8103-nvme-ans2" so add its per-SoC compatible.
+
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- drivers/nvme/host/apple.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml   | 29 +++++++++++++---------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index 1286c31320e630cb012009d6b962526e0553869f..1f57a7a20715cb2370f1e72872c2e08bde44bbc8 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -1626,6 +1626,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(apple_nvme_pm_ops, apple_nvme_suspend,
- 				apple_nvme_resume);
+diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+index fc6555724e1858e8a16f6750302ff0ad9c4e5b88..fedfacbca93714d988310f53a0a4c951d9342a61 100644
+--- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
++++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+@@ -11,12 +11,17 @@ maintainers:
  
- static const struct of_device_id apple_nvme_of_match[] = {
-+	{ .compatible = "apple,t8103-nvme-ans2" },
- 	{ .compatible = "apple,nvme-ans2" },
- 	{},
- };
+ properties:
+   compatible:
+-    items:
+-      - enum:
+-          - apple,t8103-nvme-ans2
+-          - apple,t8112-nvme-ans2
+-          - apple,t6000-nvme-ans2
+-      - const: apple,nvme-ans2
++    oneOf:
++      - items:
++          - const: apple,t6020-nvme-ans2
++          - const: apple,t8103-nvme-ans2
++      - items:
++          - enum:
++              # Do not add additional SoC to this list.
++              - apple,t8103-nvme-ans2
++              - apple,t8112-nvme-ans2
++              - apple,t6000-nvme-ans2
++          - const: apple,nvme-ans2
+ 
+   reg:
+     items:
+@@ -67,20 +72,20 @@ if:
+     compatible:
+       contains:
+         enum:
+-          - apple,t8103-nvme-ans2
+-          - apple,t8112-nvme-ans2
++          - apple,t6000-nvme-ans2
++          - apple,t6020-nvme-ans2
+ then:
+   properties:
+     power-domains:
+-      maxItems: 2
++      minItems: 3
+     power-domain-names:
+-      maxItems: 2
++      minItems: 3
+ else:
+   properties:
+     power-domains:
+-      minItems: 3
++      maxItems: 2
+     power-domain-names:
+-      minItems: 3
++      maxItems: 2
+ 
+ required:
+   - compatible
 
 -- 
 2.51.0
