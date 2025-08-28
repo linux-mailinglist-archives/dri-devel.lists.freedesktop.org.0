@@ -2,38 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C1BB394FC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAADB3B416
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B263910E7C6;
-	Thu, 28 Aug 2025 07:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EFE410EB57;
+	Fri, 29 Aug 2025 07:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P3P6rik2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CEaL4I+i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7620A10E6C4;
- Thu, 28 Aug 2025 07:21:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4394B601D3;
- Thu, 28 Aug 2025 07:21:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A4FC4CEF5;
- Thu, 28 Aug 2025 07:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756365679;
- bh=C7/duUHB1jzTe2zoRwJGPq9tnOYsk04M/lnKM6Lw4jw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=P3P6rik2V+dAnat9eWuSvAQFs7ROQol0qfl7mXX/2cUYI+C7QRP3XNCAjTFTXOboX
- PnGh4LwLXGdtC/lBzkP3HHTgLg4rsEUWyyc9GJT6llTjHe+2h8KOlurSZnUiJw3NW7
- qKwPWdsXnTrtZmXRScitgLnU7lvFVln3pfXq+R+VNtWe5rSbPPMi2iORZuC/qKAp5S
- 3fe04bSwMQR8OaSYcElHlHSfQVwB6Zb3HSUqkl5IfcwdDCl1ZwfSrzEWyOB1KGcrlw
- JUhlVcCM4Av5WDpYuP6k5h/vdvl0/1bLz8dvd0y2eUBSbWa12OIyuKGJ2VR5zTU1an
- L77vfQGsfA4Og==
-Date: Thu, 28 Aug 2025 10:21:00 +0300
-From: Mike Rapoport <rppt@kernel.org>
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1BD10E6C5;
+ Thu, 28 Aug 2025 07:31:53 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3c8fe6bd038so285005f8f.1; 
+ Thu, 28 Aug 2025 00:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756366311; x=1756971111; darn=lists.freedesktop.org;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EuV0vIwmYzbGp0NvCAEdvEWsqc4i4ounAUIZgXtsn78=;
+ b=CEaL4I+it9cgp57KMDikpt/a02qr5I6TTfPmP78VeShHL66kf7KILrF4OICBZn7KTN
+ 3FrNqS+Xe5cRsL6Vurl2WTkKXjCsPIA1CAMtUNEjcOxIQ2a+RADo7uOtGLy6LJhqtzCm
+ NhHqweT+cn1qH4S7UuukbQ8VVnFUImAFAHyD3F9WPzEzc4uBEOHzBjSTeXM3ysqoAgmj
+ QRXLIzyy1pta791ixE0oE1Zk+veM94gb/q4B4o3xfKuar1hz8jHb1MhV/QTyNYqVZ81T
+ 0tpqmmhAqLmZ6SvNxOdUsdupnxVblSs8bS5eDrjK3JeK+cZKcxnXFToa9qTMNd5SYivE
+ sAeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756366311; x=1756971111;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=EuV0vIwmYzbGp0NvCAEdvEWsqc4i4ounAUIZgXtsn78=;
+ b=v1KKOFTuFoIl94XLQ8zeQXbGzcHvDGxrg2klkZY4rwMkbxNIhSQFPFGgzze1+OeNQw
+ xy7mgy8a8CVOBa92qpml/rJG2O/F567gIJQc3QATqzLDbJsgBUGkU+Sf/D6UYVIYHc0n
+ zH5mS8Cdk6a1Ts8bnh46v8Tw3MqMQlIagHBDTzn7zO4S3jklvio6heHrcKoLUxAaRj9O
+ O/y1JwZwQcAciqZfBjC+kQWDxxmoDyj+m9Z4U6E6DckEizeIOH+n7ClsVNJSF617ITG2
+ GQiqSXUM5ZxCh/1slcM4xRzag0VgM/we181iujFbXpVGiIVUaZFPQ0C3vP8z7WUZz+kA
+ jm1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2gR8KOBgVDHXs/Oq/C1z5QRrHpVcLWdPkFeoJxyn+Wo/mKjqg2rhjcCp6cUEfQmos2QVXB3NYh8JM@lists.freedesktop.org,
+ AJvYcCUFlUtpSq/e87MPX7nhd7YXVsD6ykxniNQKwT7NhQ24Qmx7RSAYzEaF+JhfCxYdcGRzIRPjgLwt1Sg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLymk4gUvLbl4eqAgv/l2U+2C0sPAyGq8SncuJ01jHezRnUq6t
+ XHAR9LSUnETFt37VGqj5CcdZWGELBy81xYXhlwRAVd237Ae+0TPM6EAZ
+X-Gm-Gg: ASbGncsINzZ86x1YekCHRgF35v39x39i6rH6Fc0+qeemsQDtN73X81WxCplU0XkIapO
+ PtBD06yjIaZ7j1oL4krEQzpmIZbzi4X6gGCTBdttys+xn/2O83Slgk4Z9/fePegXJH+PJMB+KsM
+ PdqagMZPj/XUCwo1cu+wenaOjC81uBLQP+IRWUIz3fn0lZdXaTb1GAw/1n77ARfvsppKuVDTTEB
+ z6tJTudsYJD5YPI6mNYdx/JQ5E2R9c6nfbh/C2ptj4xbHU7Uz1k0YL36HRcXyZxgDHCoknyUBSZ
+ 0a213neQRTUSTu+IvQK1GOA2usL0Qc+jDx/vRQEoc2WiZoR1gc3pzVQj0ctYBYDHCaBPDq5XL79
+ +ExJ9SqjjeeMfJs97uiRS5KQSo+PDQxyOX7tM
+X-Google-Smtp-Source: AGHT+IGYsCTFAB2u+mO+a+/7YQm7WCRYBnf/bqNrDbgJHuGpC+AeSLNYygCiHCIag3yJJPklKDadWQ==
+X-Received: by 2002:a05:6000:2891:b0:3cd:96bb:b948 with SMTP id
+ ffacd0b85a97d-3cd96bbc28fmr1837267f8f.47.1756366311260; 
+ Thu, 28 Aug 2025 00:31:51 -0700 (PDT)
+Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3c9c9324dc9sm14883755f8f.3.2025.08.28.00.31.50
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 28 Aug 2025 00:31:50 -0700 (PDT)
+Date: Thu, 28 Aug 2025 07:31:50 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
+ SeongJae Park <sj@kernel.org>, Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>,
  Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
@@ -52,21 +85,24 @@ Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
  linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Marco Elver <elver@google.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v1 13/36] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-Message-ID: <aLADXP89cp6hAq0q@kernel.org>
+ wireguard@lists.zx2c4.com, x86@kernel.org
+Subject: Re: [PATCH v1 06/36] mm/page_alloc: reject unreasonable
+ folio/compound page sizes in alloc_contig_range_noprof()
+Message-ID: <20250828073150.jyafkufvkjfqwp3f@master>
 References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-14-david@redhat.com>
+ <20250827220141.262669-7-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827220141.262669-14-david@redhat.com>
+In-Reply-To: <20250827220141.262669-7-david@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Approved-At: Fri, 29 Aug 2025 07:17:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,87 +115,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 12:01:17AM +0200, David Hildenbrand wrote:
-> We can now safely iterate over all pages in a folio, so no need for the
-> pfn_to_page().
-> 
-> Also, as we already force the refcount in __init_single_page() to 1,
-> we can just set the refcount to 0 and avoid page_ref_freeze() +
-> VM_BUG_ON. Likely, in the future, we would just want to tell
-> __init_single_page() to which value to initialize the refcount.
-> 
-> Further, adjust the comments to highlight that we are dealing with an
-> open-coded prep_compound_page() variant, and add another comment explaining
-> why we really need the __init_single_page() only on the tail pages.
-> 
-> Note that the current code was likely problematic, but we never ran into
-> it: prep_compound_tail() would have been called with an offset that might
-> exceed a memory section, and prep_compound_tail() would have simply
-> added that offset to the page pointer -- which would not have done the
-> right thing on sparsemem without vmemmap.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  mm/hugetlb.c | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 4a97e4f14c0dc..1f42186a85ea4 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -3237,17 +3237,18 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
->  {
->  	enum zone_type zone = zone_idx(folio_zone(folio));
->  	int nid = folio_nid(folio);
-> +	struct page *page = folio_page(folio, start_page_number);
->  	unsigned long head_pfn = folio_pfn(folio);
->  	unsigned long pfn, end_pfn = head_pfn + end_page_number;
-> -	int ret;
-> -
-> -	for (pfn = head_pfn + start_page_number; pfn < end_pfn; pfn++) {
-> -		struct page *page = pfn_to_page(pfn);
->  
-> +	/*
-> +	 * We mark all tail pages with memblock_reserved_mark_noinit(),
-> +	 * so these pages are completely uninitialized.
+On Thu, Aug 28, 2025 at 12:01:10AM +0200, David Hildenbrand wrote:
+>Let's reject them early, which in turn makes folio_alloc_gigantic() reject
+>them properly.
+>
+>To avoid converting from order to nr_pages, let's just add MAX_FOLIO_ORDER
+>and calculate MAX_FOLIO_NR_PAGES based on that.
+>
+>Reviewed-by: Zi Yan <ziy@nvidia.com>
+>Acked-by: SeongJae Park <sj@kernel.org>
+>Signed-off-by: David Hildenbrand <david@redhat.com>
 
-                             ^ not? ;-)
-
-> +	 */
-> +	for (pfn = head_pfn + start_page_number; pfn < end_pfn; page++, pfn++) {
->  		__init_single_page(page, pfn, zone, nid);
->  		prep_compound_tail((struct page *)folio, pfn - head_pfn);
-> -		ret = page_ref_freeze(page, 1);
-> -		VM_BUG_ON(!ret);
-> +		set_page_count(page, 0);
->  	}
->  }
->  
-> @@ -3257,12 +3258,15 @@ static void __init hugetlb_folio_init_vmemmap(struct folio *folio,
->  {
->  	int ret;
->  
-> -	/* Prepare folio head */
-> +	/*
-> +	 * This is an open-coded prep_compound_page() whereby we avoid
-> +	 * walking pages twice by initializing/preparing+freezing them in the
-> +	 * same go.
-> +	 */
->  	__folio_clear_reserved(folio);
->  	__folio_set_head(folio);
->  	ret = folio_ref_freeze(folio, 1);
->  	VM_BUG_ON(!ret);
-> -	/* Initialize the necessary tail struct pages */
->  	hugetlb_folio_init_tail_vmemmap(folio, 1, nr_pages);
->  	prep_compound_head((struct page *)folio, huge_page_order(h));
->  }
-> -- 
-> 2.50.1
-> 
+Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
 
 -- 
-Sincerely yours,
-Mike.
+Wei Yang
+Help you, Help me
