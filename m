@@ -2,130 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82509B3A6E3
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 18:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CD0B3A70B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 18:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1CF310EA4F;
-	Thu, 28 Aug 2025 16:50:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="mv9+17Kg";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="IyWfsEtv";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D70BE10EA50;
+	Thu, 28 Aug 2025 16:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a1-smtp.messagingengine.com
- (flow-a1-smtp.messagingengine.com [103.168.172.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC07F10EA4F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 16:50:18 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
- by mailflow.phl.internal (Postfix) with ESMTP id E3DD31380CD9;
- Thu, 28 Aug 2025 12:50:17 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-03.internal (MEProxy); Thu, 28 Aug 2025 12:50:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756399817;
- x=1756407017; bh=0NVIgLeywlcdQ7Q96WR+bM0acpRT6H98AkXzmXrivW0=; b=
- mv9+17KgF+5GxOl9vLcdUtzFnoGfgshEXGSdE9REgEQZq3GUbd6cGMl+1XHjHaGn
- gRn5J3tBrLwKGOLArwU+SwnGxXBrO+6XMrQMC9uhnBHq4N7p4rC7aYyfMR/x7+VH
- Kr1yZrgBgm4iZmu8nkX4VwnTVuEvm67D/eKs/7ybS2UNFANfW290F7mPGfTI/Dm3
- 5H0qXfPBjnhZzDwVXAiYOykUCMM0Z//BS8hMucloljBJmasWT9rSaZedbFDVhESx
- Os9ak1XmWvhp8pecHT+xvsYiP9YA86zvkqt0LcDKtGaAX/lpBJqSVaybMEnv7kJz
- fbmEr3UZ1qv3GSlhUph4IQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756399817; x=
- 1756407017; bh=0NVIgLeywlcdQ7Q96WR+bM0acpRT6H98AkXzmXrivW0=; b=I
- yWfsEtvH5pa0deFWH5y+3Wv8iC++fyUJzaKl0zTLlHTFsrFBKltzqsCKNE2bpW7H
- WZEdNUyqlCWPJ1gDLWtRpoUDSa9fNg+b8PAqdSspStFRXQR0qIjJasbTc5VXnDJY
- LV0vY26Or4luziTABSgI82H/8Ov1+fhNzsxpTCEmcopAYLQhNfqfTcox4lobPbO8
- tI9jNPtHd+bBhTSMwAAVyVUmvBXJiIGDe0RdmYT94+GNLj6uC0NVka3y5otetQ7K
- jjfzsE5+DRrT+7N9usH8oy60yQi0nSoP46sUUZ+s/W9b0RCt9d99oXcOTu7zze7y
- WBgtUjFRANmVIPI+elMlg==
-X-ME-Sender: <xms:xoiwaIbwiPlONZyvvi3nrwonaYX0GPTt0j98poxImmWpqps68_1DbQ>
- <xme:xoiwaK2wEmopWAvQU09c0ZiTiWKcZT5jfQSOlyZunfuU5U7zsvsT6xpQcPiFu5btz
- VzOLCZ9pvfsENega0I>
-X-ME-Received: <xmr:xoiwaL6z8yuoEP9fblhgra2VNvMI-jh6RKnJtliUwx53eQO20tt6-2dicZxHzpQoO5lU9j9tP1u5Te1bCfbmfw321V6aP0TULq8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduheefucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeflrghnnhgv
- ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
- efkeeuudettddvffevhfevvdekhffgveehfefhffehfeetgfetffeugfevfefhnecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
- hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
- thhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomhdprhgtphhtthhopehsvh
- gvnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiif
- vghighdrihhopdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoh
- eprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghr
- nhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpd
- hrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprhgrfhgr
- vghlsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:xoiwaNm2W47ghLtWIAD_pLahxBhBVbtlB0HjuziPYBUZSeeRVEXQTA>
- <xmx:xoiwaC5DusAdyl5Pk1di6jyPCo5sIoppiKD0TupQW-3eWXylCA373w>
- <xmx:xoiwaCsKTp4DaYaYaIDjWLqlvlKWjo035Lklt_v6NWHAVsNG6jOhjg>
- <xmx:xoiwaFtpbONR3sJOiA3GJesirPwRAbsZWp3JhVVJESjdloGO55-IPQ>
- <xmx:yYiwaGZUykDrx6nBmdQEI6U-4WzN_i3nfk1N2dRMiDOlhpPNNeGnuj8c>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:50:13 -0400 (EDT)
-Date: Thu, 28 Aug 2025 18:50:12 +0200
-From: Janne Grunau <j@jannau.net>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Michael Turquette <mturquette@baylibre.com>,
- Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
- iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250828165012.GC204299@robin.jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E12DA10EA50;
+ Thu, 28 Aug 2025 16:56:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 269EB1688;
+ Thu, 28 Aug 2025 09:56:30 -0700 (PDT)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D576C3F738;
+ Thu, 28 Aug 2025 09:56:35 -0700 (PDT)
+Date: Thu, 28 Aug 2025 17:56:30 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: David Gow <davidgow@google.com>
+Cc: Marie Zhussupova <marievic@google.com>, marievictoria875@gmail.com,
+ rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev,
+ elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v4 0/7] kunit: Refactor and extend KUnit's parameterized
+ testing framework
+Message-ID: <aLCKPieOlM8dD858@J2N7QTR9R3>
+References: <20250826091341.1427123-1-davidgow@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
+In-Reply-To: <20250826091341.1427123-1-davidgow@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,36 +52,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 12:11:40AM +0800, Nick Chan wrote:
+On Tue, Aug 26, 2025 at 05:13:30PM +0800, David Gow wrote:
+> Hi all,
 > 
-> Janne Grunau 於 2025/8/28 晚上10:01 寫道:
-> > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > files.
-> [...]
-> > After discussion with the devicetree maintainers we agreed to not extend
-> > lists with the generic compatibles anymore [1]. Instead either the first
-> > compatible SoC or t8103 is used as fallback compatible supported by the
-> > drivers. t8103 is used as default since most drivers and bindings were
-> > initially written for M1 based devices.
-> >
-> > The series adds those fallback compatibles to drivers where necessary,
-> > annotates the SoC lists for generic compatibles as "do not extend" and
-> > adds t6020 per-SoC compatibles.
+> This is a new version of Marie's patch series, with a couple of extra
+> fixes squashed in, notably:
+> - drm/xe/tests: Fix some additional gen_params signatures
+> https://lore.kernel.org/linux-kselftest/20250821135447.1618942-1-davidgow@google.com/
+> - kunit: Only output a test plan if we're using kunit_array_gen_params
+> https://lore.kernel.org/linux-kselftest/20250821135447.1618942-2-davidgow@google.com/
 > 
-> The series is inconsistent about the use of generic fallback compatibles.
+> These should fix the issues found in linux-next here:
+> https://lore.kernel.org/linux-next/20250818120846.347d64b1@canb.auug.org.au/
 > 
-> "apple,aic2", "apple,s5l-fpwm", "apple,asc-mailbox-v4" is still used.
+> These changes only affect patches 3 and 4 of the series, the others are
+> unchanged from v3.
+> 
+> Thanks, everyone, and sorry for the inconvenience!
 
-Those are less generic than say "apple,spi". For "apple,aic2" especially
-it's clear which SoCs use it and the set is closed (ignoring iphone SoCs
-which very likely will never run linux). For the interrupt controller
-the fallout of not using the "apple,aic2" is larger since even m1n1
-expect that. irq driver is special in so far as it requires more than
-adding a compatible.
-I think "apple,s5l-fpwm" and "apple,asc-mailbox-v4" are specific enough
-and describe simple hardware so the will not cause issues unlike the
-complex firmware based "apple,nvme-ans2".
+Thanks for this!
 
-Janne
+I had a go at converting some of my aarch64 instruction encoding tests
+over to this, and having the ability to dynamically generate the params
+array before iterating over the case makes that much easier to handle.
+
+FWIW, for the series:
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+I'll see about getting those converted over and posted once this is in.
+
+Mark.
+
+> 
+> Cheers,
+> -- David
+> 
+> ---
+> 
+> Hello!
+> 
+> KUnit offers a parameterized testing framework, where tests can be
+> run multiple times with different inputs. However, the current
+> implementation uses the same `struct kunit` for each parameter run.
+> After each run, the test context gets cleaned up, which creates
+> the following limitations:
+> 
+> a. There is no way to store resources that are accessible across
+>    the individual parameter runs.
+> b. It's not possible to pass additional context, besides the previous
+>    parameter (and potentially anything else that is stored in the current
+>    test context), to the parameter generator function.
+> c. Test users are restricted to using pre-defined static arrays
+>    of parameter objects or generate_params() to define their
+>    parameters. There is no flexibility to make a custom dynamic
+>    array without using generate_params(), which can be complex if
+>    generating the next parameter depends on more than just the single
+>    previous parameter.
+> 
+> This patch series resolves these limitations by:
+> 
+> 1. [P 1] Giving each parameterized run its own `struct kunit`. It will
+>    remove the need to manage state, such as resetting the `test->priv`
+>    field or the `test->status_comment` after every parameter run.
+> 
+> 2. [P 1] Introducing parameterized test context available to all
+>    parameter runs through the parent pointer of type `struct kunit`.
+>    This context won't be used to execute any test logic, but will
+>    instead be used for storing shared resources. Each parameter run
+>    context will have a reference to that parent instance and thus,
+>    have access to those resources.
+> 
+> 3. [P 2] Introducing param_init() and param_exit() functions that can
+>    initialize and exit the parameterized test context. They will run once
+>    before and after the parameterized test. param_init() can be used to add
+>    resources to share between parameter runs, pass parameter arrays, and
+>    any other setup logic. While param_exit() can be used to clean up
+>    resources that were not managed by the parameterized test, and
+>    any other teardown logic.
+> 
+> 4. [P 3] Passing the parameterized test context as an additional argument
+>    to generate_params(). This provides generate_params() with more context,
+>    making parameter generation much more flexible. The generate_params()
+>    implementations in the KCSAN and drm/xe tests have been adapted to match
+>    the new function pointer signature.
+> 
+> 5. [P 4] Introducing a `params_array` field in `struct kunit`. This will
+>    allow the parameterized test context to have direct storage of the
+>    parameter array, enabling features like using dynamic parameter arrays
+>    or using context beyond just the previous parameter. This will also
+>    enable outputting the KTAP test plan for a parameterized test when the
+>    parameter count is available.
+> 
+> Patches 5 and 6 add examples tests to lib/kunit/kunit-example-test.c to
+> showcase the new features and patch 7 updates the KUnit documentation
+> to reflect all the framework changes.
+> 
+> Thank you!
+> -Marie
+> 
+> ---
+> 
+> Changes in v4:
+> 
+> Link to v3 of this patch series:
+> https://lore.kernel.org/linux-kselftest/20250815103604.3857930-1-marievic@google.com/
+> 
+> - Fixup the signatures of some more gen_params functions in the drm/xe
+>   driver.
+> - Only print a KTAP test plan if a parameterised test is using the
+>   built-in kunit_array_gen_params generating function, fixing the issues
+>   with generator functions which skip array elements.
+> 
+> Changes in v3:
+> 
+> Link to v2 of this patch series:
+> https://lore.kernel.org/all/20250811221739.2694336-1-marievic@google.com/
+> 
+> - Added logic for skipping the parameter runs and updating the test statistics
+>   when parameterized test initialization fails.
+> - Minor changes to the documentation.
+> - Commit message formatting.
+> 
+> Changes in v2:
+> 
+> Link to v1 of this patch series:
+> https://lore.kernel.org/all/20250729193647.3410634-1-marievic@google.com/
+> 
+> - Establish parameterized testing terminology:
+>    - "parameterized test" will refer to the group of all runs of a single test
+>      function with different parameters.
+>    - "parameter run" will refer to the execution of the test case function with
+>      a single parameter.
+>    - "parameterized test context" is the `struct kunit` that holds the context
+>      for the entire parameterized test.
+>    - "parameter run context" is the `struct kunit` that holds the context of the
+>      individual parameter run.
+>    - A test is defined to be a parameterized tests if it was registered with a
+>      generator function.
+> - Make comment edits to reflect the established terminology.
+> - Require users to manually pass kunit_array_gen_params() to
+>   KUNIT_CASE_PARAM_WITH_INIT() as the generator function, unless they want to
+>   provide their own generator function, if the parameter array was registered
+>   in param_init(). This is to be consistent with the definition of a
+>   parameterized test, i.e. generate_params() is never NULL if it's
+>   a parameterized test.
+> - Change name of kunit_get_next_param_and_desc() to
+>   kunit_array_gen_params().
+> - Other minor function name changes such as removing the "__" prefix in front
+>   of internal functions.
+> - Change signature of get_description() in `struct params_array` to accept
+>   the parameterized test context, as well.
+> - Output the KTAP test plan for a parameterized test when the parameter count
+>   is available.
+> - Cover letter was made more concise.
+> - Edits to the example tests.
+> - Fix bug of parameterized test init/exit logic being done outside of the
+>   parameterized test check.
+> - Fix bugs identified by the kernel test robot.
+> 
+> ---
+> 
+> Marie Zhussupova (7):
+>   kunit: Add parent kunit for parameterized test context
+>   kunit: Introduce param_init/exit for parameterized test context
+>     management
+>   kunit: Pass parameterized test context to generate_params()
+>   kunit: Enable direct registration of parameter arrays to a KUnit test
+>   kunit: Add example parameterized test with shared resource management
+>     using the Resource API
+>   kunit: Add example parameterized test with direct dynamic parameter
+>     array setup
+>   Documentation: kunit: Document new parameterized test features
+> 
+>  Documentation/dev-tools/kunit/usage.rst | 342 +++++++++++++++++++++++-
+>  drivers/gpu/drm/xe/tests/xe_pci.c       |  14 +-
+>  drivers/gpu/drm/xe/tests/xe_pci_test.h  |   9 +-
+>  include/kunit/test.h                    |  95 ++++++-
+>  kernel/kcsan/kcsan_test.c               |   2 +-
+>  lib/kunit/kunit-example-test.c          | 217 +++++++++++++++
+>  lib/kunit/test.c                        |  94 +++++--
+>  rust/kernel/kunit.rs                    |   4 +
+>  8 files changed, 740 insertions(+), 37 deletions(-)
+> 
+> -- 
+> 2.51.0.261.g7ce5a0a67e-goog
+> 
