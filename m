@@ -2,114 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C9AB3A772
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 19:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3B3B3A79D
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 19:19:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A0010EA5A;
-	Thu, 28 Aug 2025 17:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A2810E1E7;
+	Thu, 28 Aug 2025 17:19:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="U1vmJQuL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Oa+A/JKj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
- [209.85.216.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EADB10EA59
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 17:15:19 +0000 (UTC)
-Received: by mail-pj1-f74.google.com with SMTP id
- 98e67ed59e1d1-327d1fea06eso322334a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 10:15:19 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE4F10E1E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 17:19:04 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-244582738b5so10962575ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 10:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1756401319; x=1757006119;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=g/D1R1ws5ojuN4WG3pCUGyU24UMqyGj6lojr+YSYQ0c=;
- b=U1vmJQuLewXbWwDYMROWIh9ioIbwYsAWVqk5XfQl0adeNoFvLXZFXXlev9iz92jZha
- mLQmuAUowXzr10nQqJEIYLCIbcp9yzifkSnS6pi270qIR6/gGbLZPrvWqPLaH5UCg4m0
- fwlpOEOLaO0aUeDWWPoAtxeqiO504/RziIUxgEFM1LJ4Bt0BoB3vZeVb+yP0ofQk5ZiX
- bYzEh5bcJcndK/i1gsacbvgoNYb4iP6hFnxnbzyG1Q13hrLOPQoQznKFdwueAnA2qc2X
- /VIcJt+EPbdtXgWqNRrpJOBpRNhw2zMK2D6PiQ6wAthM77kG7xhyminMq6SasZVal18b
- 0qtg==
+ d=gmail.com; s=20230601; t=1756401544; x=1757006344; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
+ b=Oa+A/JKjPbJD5gBH9aWvnW4wsNeH8vTJg40PA1XPA3s/ZOGDuvKlJyhAVBjKydI8my
+ rPAcicjaoMcj7yOjKrk7/Ehiqrw/JAKIU4UovTL1Es3QYqCXvovcBYeXyyWsD3R3VwsQ
+ rPL76fcHt9tJz8AzbV2M1FERQd/czaVGMr+r5Jdq+OF6LQhcoS8eVsB33uEsi2appIsJ
+ /WUIzt7TMB5nTwXgawwuKepkW4xeUyQo8ZZsuRJF+Ok0RjMi40OA0v4EjG586JpkDSEB
+ 1LxyHNegFpZDVSNlQue7oIzW7B6I/bqTfr7/hucA0de0D5Ik1nz1WfGr9F8ta1pxsaqm
+ IViA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756401319; x=1757006119;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=g/D1R1ws5ojuN4WG3pCUGyU24UMqyGj6lojr+YSYQ0c=;
- b=rZCdFOVi5erJF6N53LOdiySMBT1puWdsaEu5QbZZTxJEGS4nTUrw9oKiop1W2Ix5zY
- aTauRGBx1qiFeVbllRKcTKTBt2usxYrM4HvC5G1WBmCNK3CN7W7MBjMExrRSL9HIwZSs
- 0nz8TLFP4eoeExCbdqFiEtNYLTL8cRnGNnogej6AldwxeryXmgi0kPAHtQWn1SBLj6Mj
- kjZ8BJ6L6pCm1e8pWSVZULPiBGadLiZrUwVSZj1uJvgM/q9b/7/+ICHRj2gC/Bb5aAXQ
- BvuEhwfquO7EbLy8Agx7mVR+FNOcXETKDaxRuKKCkeOc4t7ANxOxeU1k7qrDFA1WvNXF
- 0zKQ==
+ d=1e100.net; s=20230601; t=1756401544; x=1757006344;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
+ b=PqFJ8cE/X/yks3VM099xgfAiTAlRbb72J79i8EY9WXPDjZxpoZ8Ck7NqOzkxR2KufE
+ KHQdRpayPENlK6Ie5CVwtZPhn+894Inueiy7uGVUaNqidbfoJaoXbiNBNXxHUt3YbxY9
+ n+PpwQ3L8nkXdpzlRLczJLot2/eOg2EN+s6n7Jr+vLDljhS9jcHf1aDI6Z35UqcCUQ3t
+ nefBo3mPToIHg7YBPH2PwW1J6HWBM8F70NoLUiVsewswjc7wzSNzPcm6YY0Br81a9g2c
+ Ivamo90hIBXVKQlsHLxsQIE/nnV9sOK9PlRXRa4LU9VYh/jCSU+1ONcCUDXYuM2j3pvO
+ 7epg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHctkmrqG68xujflU3SKeqiJWH12Fo2/qei9LsoLf+4NiQT/doQiNaYyh0+YPUjecJCDFf2FkxWYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjZk28NWsDvsvS5gzcckIuywsZsvHNOlAdJdGdQJoLbp4zigVC
- CGBGx02aWDaFhoQEzSCwzFNMf0U2+6Ay9CcOzU7uleaZ1qXjXZBhSGhfsMr8MFIMnTKN0EOJTVn
- kTaQAqA==
-X-Google-Smtp-Source: AGHT+IEgfCMAj/kPGbx0Dj2C82B+XByTzBEnlSaJgGQHGzaozLp7T19v0PG28aEIfyLg5E6WkydfWYNcBOM=
-X-Received: from pjhk31.prod.google.com ([2002:a17:90a:4ca2:b0:327:9b90:7a79])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:1dc3:b0:327:cec7:b8c6
- with SMTP id 98e67ed59e1d1-327cec7cb53mr1738031a91.32.1756401318775; Thu, 28
- Aug 2025 10:15:18 -0700 (PDT)
-Date: Thu, 28 Aug 2025 10:15:17 -0700
-In-Reply-To: <874d821e-8ea3-40ac-921b-c19bb380a456@kylinos.cn>
-Mime-Version: 1.0
-References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
- <20250827023202.10310-3-zhangzihuan@kylinos.cn> <aK8Sd30K64mbN1Nt@google.com>
- <874d821e-8ea3-40ac-921b-c19bb380a456@kylinos.cn>
-Message-ID: <aLCOpfNkcQN9P-Wa@google.com>
-Subject: Re: [PATCH v2 02/18] KVM: x86: Use __free(put_cpufreq_policy) for
- policy reference
-From: Sean Christopherson <seanjc@google.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- Markus Mayer <mmayer@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
- Zhang Rui <rui.zhang@intel.com>, 
- Len Brown <lenb@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Lukasz Luba <lukasz.luba@arm.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, 
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>, 
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, 
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
- x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- imx@lists.linux.dev, linux-omap@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ AJvYcCW6GWQ4bBjL2UiYOypHE8H379IUM7aXs82Ksg+DSF42NGE24e6MDhbgQHVB7+mw4y0qasW2WieNFDM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLszLJVBtp4HNwCurbLG7MoedpdcnxxXZwQ9gy2uT+ZLnVagfc
+ pn3iiH0N8AKWhael1wZvIc5eACZxAnGOidhke1pFrTzYbmIP3mJUgI3c
+X-Gm-Gg: ASbGncv8TwLJNsCKUgjEPLavK0snWAoEZn9/XYxFRt4GvVk8evHy6R1Wfxqlscv778i
+ oqQnprGvqKQMotJaEzcEOHBTivqNulmyxivGul0LkqVZ9/qNeVTZ61D43xQDnTJ/EtiJyEe0QM6
+ xSn5EV3wxeqcETb34HmdirzH0icpfSMTOUtdmNtxa7DCWrKOHmmOS47tR2Zx2vxPtG2eJbUievM
+ U2DWFDfTY6I2NRV/fp9qfzmqu7nUktIJgZGKeioqeTEfSNAA29QMQBYq0GOqP1oNlKNqVGSFTHl
+ +GWgMDV1FCu+tnYOiNH6rhM3UYfIllnUF+KdUitz6H3jgL5z+K6qBJOwQlaJ5mDTJ/2joekB1dJ
+ 4FBBTprxoFEnMRGnKXw+hBWsJDGw5GoJuRA3ahxJfoRVkBx+epPxeWA==
+X-Google-Smtp-Source: AGHT+IFPj3GBG1tXe0w52JDhOrrrStWKIT6zs8hpAEsM8UEVZqo8QCtKE2lg8olsPKFlf0oBzRgObQ==
+X-Received: by 2002:a17:903:2391:b0:249:308:353 with SMTP id
+ d9443c01a7336-2490308048fmr5489935ad.41.1756401543466; 
+ Thu, 28 Aug 2025 10:19:03 -0700 (PDT)
+Received: from [192.168.1.111] ([59.188.211.98])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24905da2f20sm739185ad.82.2025.08.28.10.18.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Aug 2025 10:19:02 -0700 (PDT)
+Message-ID: <86ab9bd4-9a4f-4ae9-930f-5fb9ef69c963@gmail.com>
+Date: Fri, 29 Aug 2025 01:18:47 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>, van Spriel <arend@broadcom.com>,
+ Lee Jones <lee@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
+ <20250828165012.GC204299@robin.jannau.net>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20250828165012.GC204299@robin.jannau.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,104 +130,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025, Zihuan Zhang wrote:
-> > Hmm, this is technically buggy.  __free() won't invoke put_cpufreq_poli=
-cy() until
-> > policy goes out of scope, and so using __free() means the code is effec=
-tively:
-> >=20
-> > 		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
-> > 			struct cpufreq_policy *policy;
-> > 			int cpu;
-> >=20
-> > 			cpu =3D get_cpu();
-> > 			policy =3D cpufreq_cpu_get(cpu);
-> > 			if (policy && policy->cpuinfo.max_freq)
-> > 				max_tsc_khz =3D policy->cpuinfo.max_freq;
-> > 			put_cpu();
-> >=20
-> > 			if (policy)
-> > 				cpufreq_cpu_put(policy);
-> > 		}
 
-...
+Janne Grunau 於 2025/8/29 凌晨12:50 寫道:
+> On Fri, Aug 29, 2025 at 12:11:40AM +0800, Nick Chan wrote:
+>> Janne Grunau 於 2025/8/28 晚上10:01 寫道:
+>>> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+>>> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+>>> follow design of the t600x family so copy the structure of SoC *.dtsi
+>>> files.
+>> [...]
+>>> After discussion with the devicetree maintainers we agreed to not extend
+>>> lists with the generic compatibles anymore [1]. Instead either the first
+>>> compatible SoC or t8103 is used as fallback compatible supported by the
+>>> drivers. t8103 is used as default since most drivers and bindings were
+>>> initially written for M1 based devices.
+>>>
+>>> The series adds those fallback compatibles to drivers where necessary,
+>>> annotates the SoC lists for generic compatibles as "do not extend" and
+>>> adds t6020 per-SoC compatibles.
+>> The series is inconsistent about the use of generic fallback compatibles.
+>>
+>> "apple,aic2", "apple,s5l-fpwm", "apple,asc-mailbox-v4" is still used.
+> Those are less generic than say "apple,spi". For "apple,aic2" especially
+> it's clear which SoCs use it and the set is closed (ignoring iphone SoCs
+> which very likely will never run linux). For the interrupt controller
+> the fallout of not using the "apple,aic2" is larger since even m1n1
+> expect that. irq driver is special in so far as it requires more than
+> adding a compatible.
+> I think "apple,s5l-fpwm" and "apple,asc-mailbox-v4" are specific enough
+> and describe simple hardware so the will not cause issues unlike the
+> complex firmware based "apple,nvme-ans2".
 
-> Yes, this will indeed change the execution order.
-> Can you accept that?=20
+All of these compatibles has around the same specificity as "apple,nvme-ans2" which is
+a mistake of using A11's version (ans2) to describe the M1 nvme (ans3). Though I do agree
+"apple,asc-mailbox-v4", "apple,s5l-fpwm" and "apple,aic2" should be fine compatibility-wise.
 
-No, because it's buggy.
+Although AIC2 compatible should be fine that may not hold for later versions since Linux's
+AIC driver is actually AIC + core complex FIQ stuff, so when you do add newer AICs it is
+probably better to use SoC-specific compatible there.
 
-> Personally, I don=E2=80=99t think it=E2=80=99s ideal either.
->=20
-> 		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
->  			int cpu;
-> 			cpu =3D get_cpu();
-> 			{
-> 				struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_=
-cpu_get(cpu);
-> 				if (policy && policy->cpuinfo.max_freq)
-> 					max_tsc_khz =3D policy->cpuinfo.max_freq;
-> 			}
-> 			put_cpu();
->=20
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 }
->=20
-> Other places may also have the same issue,
->=20
-> maybe we should consider introducing a macro to handle this properly,
-> so that initialization and cleanup are well defined without changing
-> the existing order unexpected.
->=20
-> like this:
->=20
-> #define WITH_CPUFREQ_POLICY(cpu) {\
->=20
-> for(struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D  \
-> 			cpufreq_cpu_get(cpu);			\
-> 			policy;)
->=20
-> Then Use it:
->=20
-> 		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
->  			int cpu;
-> 			cpu =3D get_cpu();
-> 			WITH_CPUFREQ_POLICY(cpu){
-> 				if (policy->cpuinfo.max_freq)
-> 					max_tsc_khz =3D policy->cpuinfo.max_freq;
-> 			}
-> 			put_cpu();
-
-This all feels very forced, in the sense that we have a shiny new tool and =
-are
-trying to use it everywhere without thinking critically about whether or no=
-t
-doing so is actually an improvement.
-
-At a glance, this is literally the only instance in the entire kernel where=
- the
-CPU to use is grabbed immediately before the policy.
-=20
-  $ git grep -B 20 cpufreq_cpu_get | grep -e get_cpu -e smp_processor_id
-  arch/x86/kvm/x86.c-			cpu =3D get_cpu();
-  drivers/cpufreq/cppc_cpufreq.c-static int cppc_get_cpu_power(struct devic=
-e *cpu_dev,
-  drivers/cpufreq/cppc_cpufreq.c-static int cppc_get_cpu_cost(struct device=
- *cpu_dev, unsigned long KHz,
-  drivers/cpufreq/mediatek-cpufreq-hw.c-mtk_cpufreq_get_cpu_power(struct de=
-vice *cpu_dev, unsigned long *uW,
-
-Probably because KVM's usage is rather bizarre and honestly kind of dumb.  =
-But
-KVM has had this behavior for 15+ years, so as weird as it is, I'm not incl=
-ined
-to change it without a really, really strong reason to do so, e.g. to itera=
-te
-over all CPUs or something.
-
-So given that this is the only intance of the problem patter, I think it ma=
-kes
-sense to leave KVM as-is, and not spend a bunch of time trying to figure ou=
-t how
-to make KVM's usage play nice with __free().
+>
+> Janne
+>
+Best regards,
+Nick Chan
