@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6099B395C4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D867DB395D7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E5D10E1B1;
-	Thu, 28 Aug 2025 07:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1603110E1B7;
+	Thu, 28 Aug 2025 07:46:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AOvqKnes";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eHAsVJf/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA8010E19F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 07:44:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B4610E1B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 07:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756367075;
+ s=mimecast20190719; t=1756367192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dhK+BxA/iOgcFdCxhcrFsJ9ic9ebRUg2wIpkT+UYj24=;
- b=AOvqKnes9gqzin9m/GiLp/xZ3St+18a2v4Go7zxNoTzWh8U0tT0Yt41eG2ofqoRv1XpYyW
- TuCMlaCLNRfb7NhkVqtLJfPpzYgh8ewi3b6zLedhqbVjUDTbCB2YW0SqIdd9EGLN7kRLY3
- Cu8kphQLwXnhmDY00rVJDs3O0l3PeQg=
+ bh=QIPVhNdDqwyEUU2mMSzlYSdtbuVp92JbzlpYQuyYJ0w=;
+ b=eHAsVJf/8JCIXyxJzzeRIBtueAyFwQ1Ln8zGGPP7Jn/ZqFZej9yBqXBPuqJpeIKUrYLrqg
+ 1xoHS2SlYmj4WK2OKvOJUZcPn9ftNSqwF/WrEnBwV2qsdHR1BtStfOTUb2awfAYEiGC494
+ H8EctAe9BeyA52f6x+PPZHaN8DHbnJM=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-687-IlNXL6WvO8WihIvhSxWkUA-1; Thu, 28 Aug 2025 03:44:32 -0400
-X-MC-Unique: IlNXL6WvO8WihIvhSxWkUA-1
-X-Mimecast-MFC-AGG-ID: IlNXL6WvO8WihIvhSxWkUA_1756367071
+ us-mta-158-nj-yqN70OGK62GpTU6qO5g-1; Thu, 28 Aug 2025 03:46:30 -0400
+X-MC-Unique: nj-yqN70OGK62GpTU6qO5g-1
+X-Mimecast-MFC-AGG-ID: nj-yqN70OGK62GpTU6qO5g_1756367190
 Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3ccfd9063a0so207494f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 00:44:31 -0700 (PDT)
+ ffacd0b85a97d-3c6ae25997cso394588f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 00:46:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756367071; x=1756971871;
+ d=1e100.net; s=20230601; t=1756367189; x=1756971989;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=dhK+BxA/iOgcFdCxhcrFsJ9ic9ebRUg2wIpkT+UYj24=;
- b=bf57s2Ej4efHxSQiGeVClhtYFUDBS2rNffVe30RJZ7hfzdyz6H9h/+FZTWrk4Ltr6I
- eIzu1w22Ftg+NTdRvIKFjZSRS36s45Lq4JCMhb0Y4Y81i5AxdUgrVe6zIK8dCwv2U8lR
- cWOIrmrT10BPscmAu/j/ZqmH6vUjDpUnM4tWqnblfJZ/N59J2Jy2I2vMDutZtgrWttlo
- RtzQnK+dvln+pdH/OFwU/OYN5VKD7wfsVXQq9bGD8KWRvTdyPsNPGGNl4dak4LPQO/sF
- Xmm2P69f2o4Oq/t+QqH+rbkjLMDhXJZmvCjarfUEB9cgImOxYzSfiikv9WBdCBT1vKkx
- fzow==
+ bh=QIPVhNdDqwyEUU2mMSzlYSdtbuVp92JbzlpYQuyYJ0w=;
+ b=Lahb4sN09iBdpvs50puTl7WhKVEFg8bdkqNEnmY6gospgHFM49uJYVdFcr3RIID3+4
+ EPpW1WAQJp8+GGbK5igoTtWAHIY6US2z1nlx2lf5uk2CCD/WHAyulrFIh8KGkd1OHc5F
+ hFOuMpfhKd+RI5D3oouCW9Y8NxYhCbnN/Rm7Llw0jSpP9AnCvx/dTxmJEErdLwr9GcGs
+ NITeutq5bDWagzfUvHOIovsTe3f+W0xRNjVCHIlPn+af62waQGkZXjVLwbtfAS/ZlXh9
+ MWseODycI8CyHF5OsTt8IQdDbecWR94TcU3jVcW3avQ9D28PK5Cw+xyLyPgFMkJaFnBv
+ L1hw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQeyZFD+IjW/Y+0NKGevW5qYRIhs0VIzdUp365UqWXeY6uSWPMTOmVsw3XhdQgDr6EGcgl5jqUowE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwjBDZIGXbuUwH8TwGU7UrQUh9ZCNlJA4YdIcgSfM5WXo+jVLh
- ju4jAV7V0vZAjHI7tpH2t9dLsj1PjgntzBf8uTH9WnATnh1A1+mYw1x1HYM73e/ZmtLcAUry06Z
- wSVLdqkgI62Orqz0YhkIt2OFdbMZx3Mc8TlaQtzkw1M9mbtGMPhIRW+5CW2Rcv5xTyLP7rQ==
-X-Gm-Gg: ASbGnctXSEpt08F9fujPd3MOllZJ20z6CIZI31v67y4oT4B4VWfpqOvm2wWE9LvPuRj
- DQf2W9KjjP7YgR/y0XuzbACfAZ65MtH88vlTpujtWIz1l4Ylci2X1I4bJ1ePpSitEQpIkzEaMmV
- nPuN+xnI54OA1nxXns+tcbNgiABnncSYbXxblrZB/jVEGVZ6DJq9aQmOcUzMxqvhDxAXdXmRo5s
- 51I73SZ4k+Tw0VQWzDT9Izx5Q7fwpaWe7iwDfcJy0a8Vp5bzyMKz+W9KQTL9WirWLgon+3ks/B7
- QPJK1djh8XGV317RP6xqV8rjT6Uq4gW2tSVEQnp6/pXUTEuHlsAH6VQpC3jzXlS3kfbc5PEr+NG
- VRP66T2gUAMp4G2/DZ1bGs5tpUjViyD52Rx1IPHxMCaaOtf/ngT/Vgfedmu2Rq4xZOLE=
-X-Received: by 2002:a5d:5d0a:0:b0:3b8:f358:e80d with SMTP id
- ffacd0b85a97d-3c5db8ab097mr18867003f8f.5.1756367070845; 
- Thu, 28 Aug 2025 00:44:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHXm6ZHFF1yBgYNSUrsi9TF+wDF8WO4dw6T2lJHPZ3voQni8d+w8tpOsvfzaL30mwHhRdMyBw==
-X-Received: by 2002:a5d:5d0a:0:b0:3b8:f358:e80d with SMTP id
- ffacd0b85a97d-3c5db8ab097mr18866962f8f.5.1756367070322; 
- Thu, 28 Aug 2025 00:44:30 -0700 (PDT)
+ AJvYcCUJztKHS8hQQuQHLBkC9P5AiRAa8Ue9u6n+V06/mvRoxf7pdqN8DQ6Hi4pxBqRE2h1qBba+jjHaNX0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdYlPBq1VWcHsrRba5cWl39kStbVPu+L87M+OVVvZfxwhomZpG
+ WuKZQ23Ioe+Ff+YODiq2stqicz/mKZBqO3mVqB3CitpLWFKXG0m0HiyrK7t+JIalFdGdHildcWY
+ fcVaa6lD+ciUG6uz8Erpl+f//phI68EhZym13XpA+vO4JRFWl39swJvDnIe1KxnHFvYgXvg==
+X-Gm-Gg: ASbGncu9IL9Ddprc5hr81mQeTdr6LUiOemayXIL9xDDI7umFalq5Ycb0YLemsnPKdRI
+ /nNsmaGXA/7pTdf7VU8CuTozXY15rqZFZjK5j6rm2b38AahbjfCRZoBf2w9134USmL3MlScyy1f
+ aMSNXDKc3S1bcFNBItJRaZ9+SEnGK4W74i0+GqysLVEw9KGw3nRx6fpljp0fvR90bGDSiQ0waxp
+ f5qnJQGxYZ9bbi4OgHX8dZBjKQG6pjgMIIrze7AouU3tP1vMfQHTMKMvUfLgSxLbHgYrO1h60Kz
+ NLhLchohsWa5Nm/tkjblpIEIqK+6baviEXA1Dn+AmyOovxJ5JiKx/zV0H7BAnXHr1qkL3dz0fwS
+ wldMuuHphTSI8wRdP0yDsRd7iC6xebefDvxkenexQRsWc8qkYhrbaGRnvIqR9YajwvJY=
+X-Received: by 2002:a05:6000:18ad:b0:3b7:948a:1361 with SMTP id
+ ffacd0b85a97d-3c5da741330mr15989058f8f.6.1756367189584; 
+ Thu, 28 Aug 2025 00:46:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbZS9TwQor8utX8Cftd7hubod4ESO9oJ14F94do36paGGmjXBbrC+y7X5MmcQWQ6JKGQD26w==
+X-Received: by 2002:a05:6000:18ad:b0:3b7:948a:1361 with SMTP id
+ ffacd0b85a97d-3c5da741330mr15989008f8f.6.1756367189132; 
+ Thu, 28 Aug 2025 00:46:29 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f28:c100:2225:10aa:f247:7b85?
  (p200300d82f28c100222510aaf2477b85.dip0.t-ipconnect.de.
  [2003:d8:2f28:c100:2225:10aa:f247:7b85])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3cd2e01dd9dsm4501230f8f.60.2025.08.28.00.44.28
+ 5b1f17b1804b1-45b6b1cdf05sm35411485e9.1.2025.08.28.00.46.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Aug 2025 00:44:29 -0700 (PDT)
-Message-ID: <377449bd-3c06-4a09-8647-e41354e64b30@redhat.com>
-Date: Thu, 28 Aug 2025 09:44:27 +0200
+ Thu, 28 Aug 2025 00:46:28 -0700 (PDT)
+Message-ID: <0e1c0fe1-4dd1-46dc-8ce8-a6bf6e4c3e80@redhat.com>
+Date: Thu, 28 Aug 2025 09:46:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 13/36] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+Subject: Re: [PATCH v1 12/36] mm: simplify folio_page() and folio_page_idx()
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
@@ -97,14 +97,15 @@ Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org
 References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-14-david@redhat.com> <aLADXP89cp6hAq0q@kernel.org>
+ <20250827220141.262669-13-david@redhat.com>
+ <20250828074356.3xiuqugokg36yuxw@master>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -150,9 +151,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <aLADXP89cp6hAq0q@kernel.org>
+In-Reply-To: <20250828074356.3xiuqugokg36yuxw@master>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Bi3mfvFj3RYQ4rnceWXXRDPrF9v2ZB_QrSttdy0IKqA_1756367071
+X-Mimecast-MFC-PROC-ID: Nj4Ag3pw1O-DmbCGI4t7p8dvBhDfiJH0uD0SuHl1xCc_1756367190
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -172,54 +173,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.08.25 09:21, Mike Rapoport wrote:
-> On Thu, Aug 28, 2025 at 12:01:17AM +0200, David Hildenbrand wrote:
->> We can now safely iterate over all pages in a folio, so no need for the
->> pfn_to_page().
->>
->> Also, as we already force the refcount in __init_single_page() to 1,
->> we can just set the refcount to 0 and avoid page_ref_freeze() +
->> VM_BUG_ON. Likely, in the future, we would just want to tell
->> __init_single_page() to which value to initialize the refcount.
->>
->> Further, adjust the comments to highlight that we are dealing with an
->> open-coded prep_compound_page() variant, and add another comment explaining
->> why we really need the __init_single_page() only on the tail pages.
->>
->> Note that the current code was likely problematic, but we never ran into
->> it: prep_compound_tail() would have been called with an offset that might
->> exceed a memory section, and prep_compound_tail() would have simply
->> added that offset to the page pointer -- which would not have done the
->> right thing on sparsemem without vmemmap.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/hugetlb.c | 20 ++++++++++++--------
->>   1 file changed, 12 insertions(+), 8 deletions(-)
->>
->> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
->> index 4a97e4f14c0dc..1f42186a85ea4 100644
->> --- a/mm/hugetlb.c
->> +++ b/mm/hugetlb.c
->> @@ -3237,17 +3237,18 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
->>   {
->>   	enum zone_type zone = zone_idx(folio_zone(folio));
->>   	int nid = folio_nid(folio);
->> +	struct page *page = folio_page(folio, start_page_number);
->>   	unsigned long head_pfn = folio_pfn(folio);
->>   	unsigned long pfn, end_pfn = head_pfn + end_page_number;
->> -	int ret;
->> -
->> -	for (pfn = head_pfn + start_page_number; pfn < end_pfn; pfn++) {
->> -		struct page *page = pfn_to_page(pfn);
->>   
->> +	/*
->> +	 * We mark all tail pages with memblock_reserved_mark_noinit(),
->> +	 * so these pages are completely uninitialized.
 > 
->                               ^ not? ;-)
+> Curious about why it is in page-flags.h. It seems not related to page-flags.
 
-Can you elaborate?
+Likely because we have the page_folio() in there as well.
 
 -- 
 Cheers
