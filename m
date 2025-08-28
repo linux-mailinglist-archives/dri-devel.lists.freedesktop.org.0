@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089D8B3A127
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22F5B3A149
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90E110E9CE;
-	Thu, 28 Aug 2025 14:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9799210E9EE;
+	Thu, 28 Aug 2025 14:22:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NhRCnLi+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c9UWA7qi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6ED10E9CE
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:20:35 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAB010E9D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:22:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 03DAD601A9;
- Thu, 28 Aug 2025 14:20:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1216DC4CEED;
- Thu, 28 Aug 2025 14:20:33 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D2C874455B;
+ Thu, 28 Aug 2025 14:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A761C4CEEB;
+ Thu, 28 Aug 2025 14:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756390833;
- bh=lf36fcVdxXkGVEzJgWrnSFwcXRqDcy56SXyVsTRCxmw=;
+ s=k20201202; t=1756390942;
+ bh=ZNUOk/U5XHkyNmed5rNpKTvmqEEuZ1Qc8KSMKTF7N2A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NhRCnLi+YncysdGOzA4HIa0G0pRTqZOLEmQ6LhvY2CFNvx3g7Fza69XzDm0bgxAUO
- 9Kbe/D82zCh0e8rPaHYRoLaR6+MhEmbor4mgRmcCqBwymSTF3/6XFeZFvcpjvs35nB
- 7v3niT3IvRhhMfnSIzk7k/T/kNMO/fvSn1SNIz0zPl6NcM7gU7JF3GqeBzBgSSa8II
- YXtHQQ6gMiUBBST3MYmQIi3iCqT0jwHxE0qD2U07RWdKN6aZrAdwAb3LujUGI1l8zi
- nm22KwZQy/JhC4hgRFAHlW1XvSEvpKJW+skpefeWcbDIyAn4I9+db09ltnPBMG/BVb
- 5iPwphVSiVoXQ==
-Date: Thu, 28 Aug 2025 16:20:30 +0200
+ b=c9UWA7qi1mCxALI/fcKN3YcVU6r7ymNdfLj7eTcXldzCR6zJit7gQ+5KOHpnKbm+T
+ dhbMER4Rm403oplzlUJCyXAlhkX3xFaq1m3zp+Z9K3G/gN2ZWbvRhkpuB3S+3TyY5e
+ 8UpVhJuYv2NcCUbh4QCBulLMoC2/cqWBFAugEm42eA9BU7lmnYLS3eXGpiJn7eRPfP
+ l8dzuY30A7ABSOMdKTzJstpikUD3zRCs09pjYhcDbF529t5uaGmXF4NIvzBtOg2D2m
+ ZgZVZLKojrkpB3D753h4uk7Tm2EL78Zl/HK5T3rBtZ0Sm6e9CHPxpg+t5mA68wsQWV
+ sMYDhmNK+NiNQ==
+Date: Thu, 28 Aug 2025 16:22:19 +0200
 From: Mark Brown <broonie@kernel.org>
 To: Janne Grunau <j@jannau.net>
 Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -73,8 +73,9 @@ Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
  dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
  linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 29/37] ASoC: apple: mca: Add "apple,t8103-mca" compatible
-Message-ID: <aLBlrphpYmJs4q8p@finisterre.sirena.org.uk>
+Subject: Re: [PATCH 30/37] ASoC: dt-bindings: apple,mca: Add t6020-mca
+ compatible
+Message-ID: <aLBmG_YKAjfhclz5@finisterre.sirena.org.uk>
 Mail-Followup-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
@@ -120,12 +121,12 @@ Mail-Followup-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
  dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
  linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-29-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-30-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="uf6ivQ/nvSUaKtJ/"
+ protocol="application/pgp-signature"; boundary="R/s8UvYbtRjS5rew"
 Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-29-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-30-507ba4c4b98e@jannau.net>
 X-Cookie: Filmed before a live audience.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -143,11 +144,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---uf6ivQ/nvSUaKtJ/
+--R/s8UvYbtRjS5rew
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Aug 28, 2025 at 04:01:48PM +0200, Janne Grunau wrote:
+On Thu, Aug 28, 2025 at 04:01:49PM +0200, Janne Grunau wrote:
 > After discussion with the devicetree maintainers we agreed to not extend
 > lists with the generic compatible "apple,mca" anymore [1]. Use
 > "apple,t8103-mca" as base compatible as it is the SoC the driver and
@@ -155,19 +156,19 @@ On Thu, Aug 28, 2025 at 04:01:48PM +0200, Janne Grunau wrote:
 
 Acked-by: Mark Brown <broonie@kernel.org>
 
---uf6ivQ/nvSUaKtJ/
+--R/s8UvYbtRjS5rew
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwZa0ACgkQJNaLcl1U
-h9AZzAf9FwGiLEV1f73F5zd675Y2KqApY8qs1WdHJoMsbVF2pyIG+BaPOZFWev+Y
-W/CGJO/0ug8Dva88HgCqfrQsT5zF1pUdtWCIZtY3aMXaP9xP/c3LdBbKB1I9ZEQm
-20sIQJ1uLAvisfFM43hjaucZW+C6Oey6mIMppFulQWLE5grarlOHZooIDxwLZkIl
-ImPZcOC2GRY4oA0Q7zduXDpDmBOe5ERiXCHfzq2JCS71tDLQnSqKbsb7xOdn5zVZ
-8dikDaRXkjo8Tu17L1s6d+vFZmFEXw2IJ+fX0+s1lkb+me0WQitFjcJefrfeeaIV
-3Cn6PEYlYDOwQ6jpDJil1kegfjJHOA==
-=avIu
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwZhoACgkQJNaLcl1U
+h9DqSwf9Geew2GG8U08Cp3YSqes1Niq7rfNXO481mbApMr+kngCZ4cjnxRGwZ690
+77xnO5uGLJkfPBt8ZHzyyJK1A/u2sE+Smbb2mXKJoSNJ6Z2Yn/4i+Ez9OZ+ZyftL
+fZMNo3ol1vREKrfdKTcgL5IiDYy/VyYGS+TUTWrLjv5N+RFP8a2KZKTKKz7urWMl
+JuJt4kjIjX/7qY2ZM/VHS6F/yXZ1salKEYmdRATzPA6mAXix7sPVnAsfu3kkBJ65
+TZnb9NKtLK/ZB9V/X8GzXTxHuDeY9TmCpc/+eebbXeBZpOou9mTxYxpHoRAF3MXC
+WEXpefNWCR7pc3QpdL7HzMvzvIT5GQ==
+=4Q82
 -----END PGP SIGNATURE-----
 
---uf6ivQ/nvSUaKtJ/--
+--R/s8UvYbtRjS5rew--
