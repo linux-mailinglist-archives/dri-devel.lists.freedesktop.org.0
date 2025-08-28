@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D94B39622
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 10:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B92BB3962B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 10:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B68A810E1BD;
-	Thu, 28 Aug 2025 08:05:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 363F710E6C8;
+	Thu, 28 Aug 2025 08:06:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gMnagQH3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vBGjtF+G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B154010E1BD
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 08:05:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A457510E1C7;
+ Thu, 28 Aug 2025 08:06:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CD1C54027B;
- Thu, 28 Aug 2025 08:05:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37569C4CEEB;
- Thu, 28 Aug 2025 08:05:31 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 62110417C0;
+ Thu, 28 Aug 2025 08:06:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04174C4CEEB;
+ Thu, 28 Aug 2025 08:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756368331;
- bh=Szqu3ISPHcSpDClnU/NQVEOhbXjcDa2CwfQfHM2oTVQ=;
+ s=k20201202; t=1756368382;
+ bh=8h3kXegWoTZB71c0/EOwOGHCDp9sWcsK0sA1Fhv8ieM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gMnagQH3MSE3OCmKYpRsd8lUsxpc8Ung8Xj9N13IShaXG1JpVQ17BGz/vZbJ8ayia
- JATXdShQIFwJtWM16pujBqztN/HTAHa1eI1ruO392vGQ5bcnBpM/XVuQPAhLb+epfg
- l+vq7JbmIEiI0o7x/Jv6L4M7n+VVeNbukGTI3/GpD9kQYUwecJAhxnypY82JF2OpgN
- OpDKH2Xbm6L24Rh++PCS5s0FIDKVW188ch6qzc0yfxjVB+EvXvlGjVysaI9/dnMl9w
- EBrj1g+TwpS5VfAtcAXeVX4ofcMrlcOTM6deJOEiGJCGib96kXayOKOspPBjlGlk7s
- hAB3OigOpxutA==
-Date: Thu, 28 Aug 2025 10:05:28 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Andy Yan <andyshrk@163.com>, heiko@sntech.de, hjc@rock-chips.com,
- naoki@radxa.com, 
- stephen@radxa.com, cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, yubing.zhang@rock-chips.com,
- krzk+dt@kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 
- robh@kernel.org, sebastian.reichel@collabora.com, 
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
-Message-ID: <20250828-tangible-wakeful-coati-ec27d1@houat>
-References: <20250822063959.692098-1-andyshrk@163.com>
- <bochli5u37mhc6eup7h2oz3yeignofbbj4k5nrvm2k7zf6f4ov@t2sje4gmveqa>
- <d040da3e-501f-45d8-bcbb-95fa77e94a59@suse.de>
+ b=vBGjtF+Gn0Ojo1KVedpXcUo5UNPKTP/e/wulKW1x/vz4AZ2m1wZ6thc/Lps+xlQF6
+ DwTPlbi9e+FvV8tPla4md0hJavNfKkFh5xzuaITPDW7oEVPRJuMnRQWVL0KaIZNEg4
+ 4T8RWZ0Rh3tP7DQ1cUFf+tX54SzZArEKNTK8B97r3LwqCLB/OYDUdoSALNtM9+F5Dv
+ KS7BJVC9pXBz7unzWbhSWZxMJ+vW4HayoOqIpbx1GOFj1iYowGmGtL7JMjJ/av8GLW
+ NBVH9qH0fuKVNbHUV4tP2RMgGBJTXgbSoYrIDxxmnUwirlVFE2Z9r3rXRQTzilPCUm
+ zB6/THzmytDdA==
+Date: Thu, 28 Aug 2025 11:06:07 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 13/36] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+Message-ID: <aLAN7xS4WQsN6Hpm@kernel.org>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-14-david@redhat.com>
+ <aLADXP89cp6hAq0q@kernel.org>
+ <377449bd-3c06-4a09-8647-e41354e64b30@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ymx6junihpockhkm"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d040da3e-501f-45d8-bcbb-95fa77e94a59@suse.de>
+In-Reply-To: <377449bd-3c06-4a09-8647-e41354e64b30@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,97 +84,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 28, 2025 at 09:44:27AM +0200, David Hildenbrand wrote:
+> On 28.08.25 09:21, Mike Rapoport wrote:
+> > On Thu, Aug 28, 2025 at 12:01:17AM +0200, David Hildenbrand wrote:
+> > > We can now safely iterate over all pages in a folio, so no need for the
+> > > pfn_to_page().
+> > > 
+> > > Also, as we already force the refcount in __init_single_page() to 1,
+> > > we can just set the refcount to 0 and avoid page_ref_freeze() +
+> > > VM_BUG_ON. Likely, in the future, we would just want to tell
+> > > __init_single_page() to which value to initialize the refcount.
+> > > 
+> > > Further, adjust the comments to highlight that we are dealing with an
+> > > open-coded prep_compound_page() variant, and add another comment explaining
+> > > why we really need the __init_single_page() only on the tail pages.
+> > > 
+> > > Note that the current code was likely problematic, but we never ran into
+> > > it: prep_compound_tail() would have been called with an offset that might
+> > > exceed a memory section, and prep_compound_tail() would have simply
+> > > added that offset to the page pointer -- which would not have done the
+> > > right thing on sparsemem without vmemmap.
+> > > 
+> > > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > > ---
+> > >   mm/hugetlb.c | 20 ++++++++++++--------
+> > >   1 file changed, 12 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > > index 4a97e4f14c0dc..1f42186a85ea4 100644
+> > > --- a/mm/hugetlb.c
+> > > +++ b/mm/hugetlb.c
+> > > @@ -3237,17 +3237,18 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
+> > >   {
+> > >   	enum zone_type zone = zone_idx(folio_zone(folio));
+> > >   	int nid = folio_nid(folio);
+> > > +	struct page *page = folio_page(folio, start_page_number);
+> > >   	unsigned long head_pfn = folio_pfn(folio);
+> > >   	unsigned long pfn, end_pfn = head_pfn + end_page_number;
+> > > -	int ret;
+> > > -
+> > > -	for (pfn = head_pfn + start_page_number; pfn < end_pfn; pfn++) {
+> > > -		struct page *page = pfn_to_page(pfn);
+> > > +	/*
+> > > +	 * We mark all tail pages with memblock_reserved_mark_noinit(),
+> > > +	 * so these pages are completely uninitialized.
+> > 
+> >                               ^ not? ;-)
+> 
+> Can you elaborate?
 
---ymx6junihpockhkm
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
-MIME-Version: 1.0
+Oh, sorry, I misread "uninitialized".
+Still, I'd phrase it as 
 
-On Thu, Aug 28, 2025 at 09:50:34AM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 28.08.25 um 00:24 schrieb Dmitry Baryshkov:
-> > On Fri, Aug 22, 2025 at 02:39:44PM +0800, Andy Yan wrote:
-> > > From: Andy Yan <andy.yan@rock-chips.com>
-> > >=20
-> > >=20
-> > > There are two DW DPTX based DisplayPort Controller on rk3588 which
-> > > are compliant with the DisplayPort Specification Version 1.4 with
-> > > the following features:
-> > >=20
-> > > * DisplayPort 1.4a
-> > > * Main Link: 1/2/4 lanes
-> > > * Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
-> > > * AUX channel 1Mbps
-> > > * Single Stream Transport(SST)
-> > > * Multistream Transport (MST)
-> > > * Type-C support (alternate mode)
-> > > * HDCP 2.2, HDCP 1.3
-> > > * Supports up to 8/10 bits per color component
-> > > * Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
-> > > * Pixel clock up to 594MHz
-> > > * I2S, SPDIF audio interface
-> > >=20
-> > > The current version of this patch series only supports basic display =
-outputs.
-> > > I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; the A=
-LT/Type-C
-> > > mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Stephen a=
-nd Piotr.
-> > > HDCP and audio features remain unimplemented.
-> > > For RK3588, it's only support SST, while in the upcoming RK3576, it c=
-an support
-> > > MST output.
-> > >=20
-> > [skipped changelog]
-> >=20
-> > > Andy Yan (10):
-> > >    dt-bindings: display: rockchip: Add schema for RK3588 DPTX Control=
-ler
-> > >    drm/bridge: synopsys: Add DW DPTX Controller support library
-> > >    drm/rockchip: Add RK3588 DPTX output support
-> > >    MAINTAINERS: Add entry for DW DPTX Controller bridge
-> > I tried pushing patches 1-4, but got the following error:
-> >=20
-> > dim: ERROR: 5a68dcf5837a ("MAINTAINERS: Add entry for DW DPTX Controlle=
-r bridge"): Mandatory Maintainer Acked-by missing., aborting
-> >=20
-> > I'm not sure how to handle MAINTAINERS changes (or whether it's fine for
-> > me or not), so I will probably push patches 1-3 in a few days, if nobody
-> > beats me (or unless somebody points out a correct process for
-> > MAINTAINERS changes).
->=20
-> That warning has been added recently to make sure that patches do not get=
- in
-> without sufficient review. It's overly pedantic, though.
+	/*
+	 * We marked all tail pages with memblock_reserved_mark_noinit(),
+	 * so we must initialize them here.
+	 */
 
-It's not "overly pedantic", it follows the contribution rules. I'd argue
-that, if anything, we've been overly tolerant with that kind of
-practices.
+> -- 
+> Cheers
+> 
+> David / dhildenb
+> 
 
-We do have a bug with handling MAINTAINERS changes at the moment. But
-everything else shouldn't be ignored: either patch MAINTAINERS to
-reflect the actual contribution path, or get the maintainers Ack.
-
-> If you're confident that you have R-bs from enough relevant people,
-> push the patches with 'dim -f' to ignore the warning.
-
-And let's not just advise that either.
-
-Maxime
-
---ymx6junihpockhkm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLANyAAKCRAnX84Zoj2+
-dvcTAX9rZO7QwXxbtcVqDnn23mh2i9KEU6GCe3pKfMrxhyxr/xeu+2p/6ozBtwvy
-dnuUOUwBgO9N54kfuFqmTdfZIBhi2RTQ4iuHn4jAnfkBH1wkyB6OhyEze6gnXwEZ
-eUsIzifPzw==
-=bTVf
------END PGP SIGNATURE-----
-
---ymx6junihpockhkm--
+-- 
+Sincerely yours,
+Mike.
