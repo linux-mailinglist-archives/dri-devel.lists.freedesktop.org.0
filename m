@@ -2,62 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF540B3AE83
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 01:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC4BB3AE94
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 01:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3BD10EB01;
-	Thu, 28 Aug 2025 23:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE37310EB02;
+	Thu, 28 Aug 2025 23:50:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YVfU0deX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lUM2trqD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E1010EB01
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:43:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B871610EB02
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:50:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 19BCD45111
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:43:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2F62C4CEF9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:43:08 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 53CFC45084
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:50:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ED55C4CEFA
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756424589;
- bh=IKkQPTLNow+5QOzXg9+pFjpSfZ+cYSFqp7PIC7fnb5w=;
+ s=k20201202; t=1756425014;
+ bh=zsWCFAyMsxiaMzTEC3Gr3yuzGPTx6B+vy48OAuN/rqM=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YVfU0deXqRDF4IOAq6X17WobB7FIGPMzhKfg7Vwm8ecdu/lLR9olzZGF2ZzDGG+3v
- JIXuKH/6G25Epw9Tr5TkWejuvganUyZHlGMiYV7vhQ2Dm4awn8wEAZivuJXJ5GHeHF
- zXhgKKo0/CM5TugZLqnYw0dxZTn8nP0P+ikXPTdKekU2gyXZUd5/ok+yRZA9pEYqin
- QZ3mVV/zpbMaktBDqUSQ4iriMIuGyomVCHs9U9x/tp47sSJS3880sTO9eq6aQhrzjY
- J9zrJU5dqOWmY+sc7ZD7cVPzsemrQ43xN+dWKb7fykNn7T19FehML+kcJi8vpBn+6R
- cWsVEeU4ktWag==
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2445805aa2eso16413935ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 16:43:08 -0700 (PDT)
+ b=lUM2trqD6QlWxEbRGcHnWfAT2Dw6TF/vTGWJnBm3Lnj48ttau7a9jzrHNOqTDhcjd
+ z0sB8EwOiczyD7iNgthyhi+Omu58xYralkqysW54YfQUTMuDqO0gi4j3uDXLV7e9mQ
+ FbKlQ3XrVF/6gGwwfiZ644bMQa8Oic2wG/g1Tli3VZN7dnZo8Gu//4PtFB4tKfKJQp
+ GZmG92gVtfuLoaQ61eXYr1rAjQyOuOlM1DjxMw7CWiyTciFXlf1Jxu7lP/0h0TJPKQ
+ EVtNBY9OIA/EIuO9l5ZsrmiXSoyeQID06KOCFP8BQj6VWd3urFpHeywTWuGvXNF6pa
+ 10ECT7tdBeZSw==
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-323267872f3so1421997a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 16:50:14 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPAzXxdBFx/qbMNTNc2WroITeCJr3DypX7k1X2OAikX1mov+skpjY8f5pFgNLCVIRvGzx5xtoOhCw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyW3Q0mx+sNO+QLu10CyYleyzNsCwGIxxVHaD+Gc0uW/Qbg3t/V
- xO/LEe/jdHwu5GCJ+TAWlIBk69qtSHiCqnMO+X8McEq5yyeDxQJhcWcENkDn68W1HErJnPVx3Gv
- rRW0F5V8e6uPtFUJ3hUc8Y2PCBYQoFQ==
-X-Google-Smtp-Source: AGHT+IFSLDRoEj3Ks5hwGi1W8AnLLwz/yGpEDFuakB+9DYUjJgQ8P7MVJ/lJfz07WcL7JOg4li7B6vPRid2aUekAwfk=
-X-Received: by 2002:a17:903:1249:b0:240:7247:f738 with SMTP id
- d9443c01a7336-2462edee76fmr342377505ad.1.1756424588455; Thu, 28 Aug 2025
- 16:43:08 -0700 (PDT)
+ AJvYcCVzpro36jqdi/HKrTX3L9M7OTpxvga3/16iLw8ICrwM+xU4KjHt1ehgBawXit4nWKE8gEPd4AsLrv0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHF9Q1iAkHTqahfT+WxUmaKABtscZ5pcEDMim/npWSM7L9b4zB
+ MwCfgjV6rZwqChCD4sw8QTdoXBQE21i7ua8V/HcyORyCrx22v0F73P+E4cutPiRDOPekItSKYP5
+ 1oEXywdbVVOBtBIMOvb45Ad2EbVqeEQ==
+X-Google-Smtp-Source: AGHT+IEyPrn2mauZsphfR5LkJf3knFAASu6dleEuuWgWtdTpwoFH8h3V5JmRW8ZSNdzaXyzRk8Y/2ADMz9Ym8II8Udk=
+X-Received: by 2002:a17:90b:384c:b0:325:57fc:87ce with SMTP id
+ 98e67ed59e1d1-32557fc89damr26677996a91.9.1756425013709; Thu, 28 Aug 2025
+ 16:50:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250825150948.2998-1-chunkuang.hu@kernel.org>
- <CAPM=9txPBARP_60P1M=9SF6HzPWkaj2gDN=J0wCAO2PvjwUWug@mail.gmail.com>
-In-Reply-To: <CAPM=9txPBARP_60P1M=9SF6HzPWkaj2gDN=J0wCAO2PvjwUWug@mail.gmail.com>
+References: <20250722092722.425-1-johan@kernel.org>
+ <aK7VCJ9yOKntjgKX@hovoldconsulting.com>
+In-Reply-To: <aK7VCJ9yOKntjgKX@hovoldconsulting.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 29 Aug 2025 07:44:18 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8yV=Wj_rXWSZMiXJsqzm9swvMj8QnKJAMVn83krYatxw@mail.gmail.com>
-X-Gm-Features: Ac12FXzIyWw4_oCgW2atmQfT4w63UswKbptiVkaCrxHf4Fc9WJ6K6uWBZ3v-ZOw
-Message-ID: <CAAOTY_8yV=Wj_rXWSZMiXJsqzm9swvMj8QnKJAMVn83krYatxw@mail.gmail.com>
-Subject: Re: [GIT PULL] mediatek drm fixes - 20250825
-To: Dave Airlie <airlied@gmail.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, Jason-JH Lin <jason-jh.lin@mediatek.com>, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Ma Ke <make24@iscas.ac.cn>
+Date: Fri, 29 Aug 2025 07:51:23 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-CijzQqrRUf_=cQbTUSybN3GT46q0vx1139mmZub_OfQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy2kPL9Itx_6-_TK8BzHuWR2wBjPXyw4so4ACn3LaV_swD9vLFI7S9ZLJk
+Message-ID: <CAAOTY_-CijzQqrRUf_=cQbTUSybN3GT46q0vx1139mmZub_OfQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: fix device leaks at bind
+To: Johan Hovold <johan@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ "Nancy.Lin" <nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,36 +79,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave:
+Hi, Johan:
 
-Dave Airlie <airlied@gmail.com> =E6=96=BC 2025=E5=B9=B48=E6=9C=8828=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=882:27=E5=AF=AB=E9=81=93=EF=BC=9A
+Johan Hovold <johan@kernel.org> =E6=96=BC 2025=E5=B9=B48=E6=9C=8827=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:51=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> > Louis-Alexis Eyraud (2):
-> >       drm/mediatek: dsi: Fix DSI host and panel bridge pre-enable order
-> >       drm/mediatek: mtk_hdmi: Fix inverted parameters in some regmap_up=
-date_bits calls
+> On Tue, Jul 22, 2025 at 11:27:22AM +0200, Johan Hovold wrote:
+> > Make sure to drop the references to the sibling platform devices and
+> > their child drm devices taken by of_find_device_by_node() and
+> > device_find_child() when initialising the driver data during bind().
+> >
+> > Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 mult=
+i mmsys support")
+> > Cc: stable@vger.kernel.org    # 6.4
+> > Cc: Nancy.Lin <nancy.lin@mediatek.com>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
 >
-> Hey,
->
-> ^^^ this patch is missing a S-o-b line from the committer, please fix.
+> Can this one be picked up?
 
-Sorry for this. I've fixes this and sent new pull request.
+Ma Ke has sent a similar patch [1] before you. And that patch fix more thin=
+gs.
+I've already pick up the final version [2].
+
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20250718033226.339=
+0054-1-make24@iscas.ac.cn/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+commit/?h=3Dmediatek-drm-fixes-20250825&id=3D1f403699c40f0806a707a9a6eed3b8=
+904224021a
 
 Regards,
 Chun-Kuang.
 
 >
-> Thanks,
-> Dave.
->
-> >
-> > Ma Ke (1):
-> >       drm/mediatek: Fix device/node reference count leaks in mtk_drm_ge=
-t_all_drm_priv
-> >
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 ++++++++++++++-------
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c     |  6 ++++++
-> >  drivers/gpu/drm/mediatek/mtk_hdmi.c    |  8 ++++----
-> >  drivers/gpu/drm/mediatek/mtk_plane.c   |  3 ++-
-> >  4 files changed, 26 insertions(+), 12 deletions(-)
+> Johan
