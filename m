@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB66B3AAD9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 21:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A90AB3AAE3
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 21:31:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18F510EAA1;
-	Thu, 28 Aug 2025 19:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1E810EAA4;
+	Thu, 28 Aug 2025 19:31:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hNdgAhox";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dfzMtSaY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB4410E03A;
- Thu, 28 Aug 2025 19:24:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3A44144B14;
- Thu, 28 Aug 2025 19:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9843FC4CEF4;
- Thu, 28 Aug 2025 19:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756409046;
- bh=kj+qLm0IXzBNLGOLwFFX+4io3j7Sj5+HCcStzPHPSGs=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=hNdgAhoxWwknjnIsOl6bj/01t3BMYMxbdCsAMIsJZjJo0JjARFbexVpIEGRnSPY/F
- /r9ZjrUUNZ5y49NVQTcwAZrB1imTan3iXHIlnm3NFs03jeJkEZO31u+xWQVLAXG1/D
- ov8tyFg6exfTDdOp70wNjoPqHDN6DK/PsXdm5pGmlZOxafH9LQYNVOLFM7+C5+OdKI
- nc9WYr+26ERVttMoHozmm8iQXvQgWsQJXjyrhSVHX6aIv5GQsSrReRg9+MlZdAEseS
- vpTslNNMrKuuMhE+3t/vY/YXSjQhvW34o1g+JMo2KR26LqJMN3MbiUxpS+7M1lkqtM
- VD4GJ72nvi6Gw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 Aug 2025 21:24:02 +0200
-Message-Id: <DCEB1J2P3MZS.3IGXEYP0MAC5H@kernel.org>
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Miguel Ojeda" <ojeda@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: gpu: nova-core: arm32 build errors
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C424F10EAA4;
+ Thu, 28 Aug 2025 19:31:41 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-248e01cd834so2094935ad.0; 
+ Thu, 28 Aug 2025 12:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756409501; x=1757014301; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=20L/t/dQg856UitOCMDzjeFNPY/n61oJgouq8+c/wpg=;
+ b=dfzMtSaYnrZZ2YBaxE+GM71E4cvnVG9i7K+66b/SUcJnydFZR5RzXE9coKBlA7pLnE
+ Ffej+dYc6wpXNQm4jTC2TnfJPiMwdvIyRx58XinN8rPqGUNUwtyZxe/NIwiVg/cBpL4L
+ eLHYr6EsX1fhez1LEf5qCQ/uTI85ys9vFuEvTde5PYhpenzER+u+n3pu5wCEzkltb/Bj
+ u2dAsbtf7EF5WdDfBwx+BB+1f6MSj10aG/xLQ6ecNalZfbUKulfxyMy9UsO1k9OJ8ADQ
+ Hmoct1IAu7o6kDxPDAQr9RSAbBgSinb4kch87N3VAX9HiOcCjMB/74FiXKWPosPr7Oft
+ SKTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756409501; x=1757014301;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=20L/t/dQg856UitOCMDzjeFNPY/n61oJgouq8+c/wpg=;
+ b=KNOxJqrZJ9TkfK0o4mb9HxdmzFmBInaBIy/N+A3IS7z7IlX/UMOJ3wuZLNcdErWVde
+ H57eGb+4u+qD6XDW2Dx3Fz2HzCW0RmGSEvbiSQeT+fM72tA7zQnpT36kqgvjJ2M5cVWN
+ gky1tISwmqzseeNBfRx9PvQ0/AkmD1Jgv02o0juOYmvwvqQA4lbP9ltTXq/Tr+pGu8/v
+ 8TV/vdAkhlQvB01o/vKjhgKa58K3w1otYn/NNls/foJwjOdv60jr1WBlR4KXaqq1L6Yu
+ /wUgn1H+CqgTNnMAjL3wmQBqABl+gMYbbexV6BSD+Bn5Ai1v+4gWjQaxYDkwkAqUKoXi
+ EwiA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV0U0VK9IEaxF3wdltQwGYnWkNmt0geOFc0twbZzUbkHwaUXRiu9oIThQSsEjv4g2gSuCkqxWi/fac=@lists.freedesktop.org,
+ AJvYcCWEvkqFM5g1KyGq12nCvdbfzR2OZEIlzmv+++IJDv4xxMbGRbyectLoOBzgWLs9k2WG+WIodq8iIg==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyjoq/NZZle989ZlRFtFg3CbkgH9rgBKUosBRa1ykKZmmDvaDo7
+ Z716YTsFCvhpo3I4qdoTlzTLTL/mpEPu0xP49KrRo5rIfHa/1YoQdRIgvf8/iwbALeQ5+lA9JzO
+ dkrmDhHTORwyuGabO/fVMF43xPjnch9I=
+X-Gm-Gg: ASbGncu/7Xjjz3p6qGbhnJDq+ldKX1l4TKqaxuCzz0x6133lKO315exVU4kH56TLo1Z
+ SLhcB+I4WK1WMEodbeJoI9RXUYTds6R0FcChFD0As5ot0UHBamTghwtdvHaUd265ST9httoT5xM
+ G2VMnEErpNNiZyjT5slRcm3DA6gJ2xdOkSLAxqrjzI0SWHi3i+rELOhI1T2q2q1n7LmfdBtFryy
+ O3gwJ/l9bGzLCnyB3QDVpbqgXuJxSC55N9Kjmt/JRDYNPdqObHxyjutr2ZM/Djt9IJJHvCNWZkE
+ omJpGiPDKLGiCE0dqHRBUCvqo+CNBEU+IxUG
+X-Google-Smtp-Source: AGHT+IFWdw6UhPiyKJrbHE7IDTwFisR1W8SRBwQA99k5or2f4Qr+eBc4mB2thKEKcqtoV9bQyWk8o9eMXoEOsRDv48Q=
+X-Received: by 2002:a17:902:d50d:b0:240:25f3:5be9 with SMTP id
+ d9443c01a7336-2462ef6f3fbmr183406685ad.10.1756409501161; Thu, 28 Aug 2025
+ 12:31:41 -0700 (PDT)
+MIME-Version: 1.0
 References: <20250828160247.37492-1-ojeda@kernel.org>
  <b680c343-ba97-4eb4-b426-56e318dce492@kernel.org>
-In-Reply-To: <b680c343-ba97-4eb4-b426-56e318dce492@kernel.org>
+ <DCEB1J2P3MZS.3IGXEYP0MAC5H@kernel.org>
+In-Reply-To: <DCEB1J2P3MZS.3IGXEYP0MAC5H@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 28 Aug 2025 21:31:28 +0200
+X-Gm-Features: Ac12FXwvQbB3YxWRKL103qR7GEVPMjkX_VgeadkNh7YUOWF4Fhw5ZECkLfkRVzk
+Message-ID: <CANiq72mkPqFnb4ztiCokE6+ntVSmgOTgERshg-4SMmLboFOqNg@mail.gmail.com>
+Subject: Re: gpu: nova-core: arm32 build errors
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,211 +91,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Aug 28, 2025 at 7:54 PM CEST, Danilo Krummrich wrote:
-> On 8/28/25 6:02 PM, Miguel Ojeda wrote:
->> Similar to another one I sent, I hope it helps -- it may be useful to ma=
-ke it
->> build in 32-bit as a test for those kinds of platforms.
+On Thu, Aug 28, 2025 at 9:24=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
 >
-> Agreed.
+> Maybe I spoke too soon, it's actually pretty painful to keep 32-bit
+> compatibility, even though it would be nice for testing purposes.
+>
+> I'll paste the diff to fix it below, I think that makes it obvious why I =
+say
+> that.
+>
+> Instead, we should really just depend on CONFIG_64BIT (which implies
+> ARCH_DMA_ADDR_T_64BIT).
 
-Maybe I spoke too soon, it's actually pretty painful to keep 32-bit
-compatibility, even though it would be nice for testing purposes.
+Yeah, it isn't great.
 
-I'll paste the diff to fix it below, I think that makes it obvious why I sa=
-y
-that.
+If it were just that, maybe it it is worth it (and a `DmaAddress`
+newtype, not just a typedef, could perhaps be nice anyway?), but if
+you think it will become increasingly painful later, then it may be
+best to focus on what matters.
 
-Instead, we should really just depend on CONFIG_64BIT (which implies
-ARCH_DMA_ADDR_T_64BIT).
+It is unlikely there is going to be actual users on a 32-bit platform, righ=
+t?
 
---
-
-diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon=
-.rs
-index 50437c67c14a..e6a22834e317 100644
---- a/drivers/gpu/nova-core/falcon.rs
-+++ b/drivers/gpu/nova-core/falcon.rs
-@@ -466,7 +466,7 @@ fn dma_wr<F: FalconFirmware<Target =3D E>>(
-             .set_base((dma_start >> 8) as u32)
-             .write(bar, E::BASE);
-         regs::NV_PFALCON_FALCON_DMATRFBASE1::default()
--            .set_base((dma_start >> 40) as u16)
-+            .set_base((dma_start.checked_shr(40).unwrap_or(0)) as u16)
-             .write(bar, E::BASE);
-
-         let cmd =3D regs::NV_PFALCON_FALCON_DMATRFCMD::default()
-diff --git a/drivers/gpu/nova-core/fb/hal.rs b/drivers/gpu/nova-core/fb/hal=
-.rs
-index 2f914948bb9a..710491ee445a 100644
---- a/drivers/gpu/nova-core/fb/hal.rs
-+++ b/drivers/gpu/nova-core/fb/hal.rs
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
-
-+use kernel::bindings::dma_addr_t as DmaAddress;
- use kernel::prelude::*;
-
- use crate::driver::Bar0;
-@@ -11,12 +12,12 @@
-
- pub(crate) trait FbHal {
-     /// Returns the address of the currently-registered sysmem flush page.
--    fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64;
-+    fn read_sysmem_flush_page(&self, bar: &Bar0) -> DmaAddress;
-
-     /// Register `addr` as the address of the sysmem flush page.
-     ///
-     /// This might fail if the address is too large for the receiving regi=
-ster.
--    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result;
-+    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: DmaAddress) -> Res=
-ult;
-
-     /// Returns `true` is display is supported.
-     fn supports_display(&self, bar: &Bar0) -> bool;
-diff --git a/drivers/gpu/nova-core/fb/hal/ga100.rs b/drivers/gpu/nova-core/=
-fb/hal/ga100.rs
-index 871c42bf033a..c4ae172b4ed4 100644
---- a/drivers/gpu/nova-core/fb/hal/ga100.rs
-+++ b/drivers/gpu/nova-core/fb/hal/ga100.rs
-@@ -2,6 +2,7 @@
-
- struct Ga100;
-
-+use kernel::bindings::dma_addr_t as DmaAddress;
- use kernel::prelude::*;
-
- use crate::driver::Bar0;
-@@ -10,13 +11,22 @@
-
- use super::tu102::FLUSH_SYSMEM_ADDR_SHIFT;
-
--pub(super) fn read_sysmem_flush_page_ga100(bar: &Bar0) -> u64 {
--    u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).adr_39_08()) =
-<< FLUSH_SYSMEM_ADDR_SHIFT
-+pub(super) fn read_sysmem_flush_page_ga100(bar: &Bar0) -> DmaAddress {
-+    let addr =3D u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).=
-adr_39_08())
-+        << FLUSH_SYSMEM_ADDR_SHIFT
-         | u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::read(bar).adr_=
-63_40())
--            << FLUSH_SYSMEM_ADDR_SHIFT_HI
-+            << FLUSH_SYSMEM_ADDR_SHIFT_HI;
-+
-+    addr.try_into().unwrap_or_else(|_| {
-+        kernel::warn_on!(true);
-+
-+        0
-+    })
- }
-
--pub(super) fn write_sysmem_flush_page_ga100(bar: &Bar0, addr: u64) {
-+pub(super) fn write_sysmem_flush_page_ga100(bar: &Bar0, addr: DmaAddress) =
-{
-+    let addr =3D Into::<u64>::into(addr);
-+
-     regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::default()
-         .set_adr_63_40((addr >> FLUSH_SYSMEM_ADDR_SHIFT_HI) as u32)
-         .write(bar);
-@@ -34,11 +44,11 @@ pub(super) fn display_enabled_ga100(bar: &Bar0) -> bool=
- {
- const FLUSH_SYSMEM_ADDR_SHIFT_HI: u32 =3D 40;
-
- impl FbHal for Ga100 {
--    fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64 {
-+    fn read_sysmem_flush_page(&self, bar: &Bar0) -> DmaAddress {
-         read_sysmem_flush_page_ga100(bar)
-     }
-
--    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
-+    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: DmaAddress) -> Res=
-ult {
-         write_sysmem_flush_page_ga100(bar, addr);
-
-         Ok(())
-diff --git a/drivers/gpu/nova-core/fb/hal/ga102.rs b/drivers/gpu/nova-core/=
-fb/hal/ga102.rs
-index a73b77e39715..271dfd522b3c 100644
---- a/drivers/gpu/nova-core/fb/hal/ga102.rs
-+++ b/drivers/gpu/nova-core/fb/hal/ga102.rs
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
-
-+use kernel::bindings::dma_addr_t as DmaAddress;
- use kernel::prelude::*;
-
- use crate::driver::Bar0;
-@@ -13,11 +14,11 @@ fn vidmem_size_ga102(bar: &Bar0) -> u64 {
- struct Ga102;
-
- impl FbHal for Ga102 {
--    fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64 {
-+    fn read_sysmem_flush_page(&self, bar: &Bar0) -> DmaAddress {
-         super::ga100::read_sysmem_flush_page_ga100(bar)
-     }
-
--    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
-+    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: DmaAddress) -> Res=
-ult {
-         super::ga100::write_sysmem_flush_page_ga100(bar, addr);
-
-         Ok(())
-diff --git a/drivers/gpu/nova-core/fb/hal/tu102.rs b/drivers/gpu/nova-core/=
-fb/hal/tu102.rs
-index b022c781caf4..157342411596 100644
---- a/drivers/gpu/nova-core/fb/hal/tu102.rs
-+++ b/drivers/gpu/nova-core/fb/hal/tu102.rs
-@@ -3,17 +3,28 @@
- use crate::driver::Bar0;
- use crate::fb::hal::FbHal;
- use crate::regs;
-+
-+use kernel::bindings::dma_addr_t as DmaAddress;
- use kernel::prelude::*;
-
- /// Shift applied to the sysmem address before it is written into `NV_PFB_=
-NISO_FLUSH_SYSMEM_ADDR`,
- /// to be used by HALs.
- pub(super) const FLUSH_SYSMEM_ADDR_SHIFT: u32 =3D 8;
-
--pub(super) fn read_sysmem_flush_page_gm107(bar: &Bar0) -> u64 {
--    u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).adr_39_08()) =
-<< FLUSH_SYSMEM_ADDR_SHIFT
-+pub(super) fn read_sysmem_flush_page_gm107(bar: &Bar0) -> DmaAddress {
-+    let addr =3D u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).=
-adr_39_08())
-+        << FLUSH_SYSMEM_ADDR_SHIFT;
-+
-+    addr.try_into().unwrap_or_else(|_| {
-+        kernel::warn_on!(true);
-+
-+        0
-+    })
- }
-
--pub(super) fn write_sysmem_flush_page_gm107(bar: &Bar0, addr: u64) -> Resu=
-lt {
-+pub(super) fn write_sysmem_flush_page_gm107(bar: &Bar0, addr: DmaAddress) =
--> Result {
-+    let addr =3D Into::<u64>::into(addr);
-+
-     // Check that the address doesn't overflow the receiving 32-bit regist=
-er.
-     if addr >> (u32::BITS + FLUSH_SYSMEM_ADDR_SHIFT) =3D=3D 0 {
-         regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::default()
-@@ -37,11 +48,11 @@ pub(super) fn vidmem_size_gp102(bar: &Bar0) -> u64 {
- struct Tu102;
-
- impl FbHal for Tu102 {
--    fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64 {
-+    fn read_sysmem_flush_page(&self, bar: &Bar0) -> DmaAddress {
-         read_sysmem_flush_page_gm107(bar)
-     }
-
--    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
-+    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: DmaAddress) -> Res=
-ult {
-         write_sysmem_flush_page_gm107(bar, addr)
-     }
-
+Cheers,
+Miguel
