@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CDBB3A0DA
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245B8B3A0C9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 268CB10E9E1;
-	Thu, 28 Aug 2025 14:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E06C10E9CA;
+	Thu, 28 Aug 2025 14:16:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="TATu/aEd";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="cLmH1HDO";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="VaHDj0PY";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="C+edsKmm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from flow-a7-smtp.messagingengine.com
  (flow-a7-smtp.messagingengine.com [103.168.172.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF59110E04D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F047C10E9CA
  for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:16:15 +0000 (UTC)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
- by mailflow.phl.internal (Postfix) with ESMTP id BE9371380DA7;
- Thu, 28 Aug 2025 10:02:18 -0400 (EDT)
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+ by mailflow.phl.internal (Postfix) with ESMTP id B45EF1380DBE;
+ Thu, 28 Aug 2025 10:02:21 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-02.internal (MEProxy); Thu, 28 Aug 2025 10:02:18 -0400
+ by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 10:02:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756389738;
- x=1756396938; bh=PJSAjPUgJujthn86fjzmtWHBBOTG9ts44gGI05Gk5C4=; b=
- TATu/aEdKzZ/REk0w2EOJSGOTuC+dPuxTgdMsyFxk38Zq7D6KVTn4AQHpYdDddaV
- W091xOgsqKdSgQpqA80hM2niKZFXdRfkKu+1/aBA5X80vN2HyNHOfNcNsiyWHyEJ
- uFE+f6tzCpTgF7B6vY7w27WbytcwAVwT7e8lgxBv5380kF0ZRAd/FBfJfjTQJd0s
- dWv6ZEQQUWfVX7qgqh/yAq4/y4eP7csptVkJjvo77Zshv7/+EMPGF5/HEJxesxCo
- 48mDtVUn0ryUY2Qj8X0EAEWR/uviM3boDdM3/FGyx+7Zlvn+6PGNpR2uHux9+2KG
- 0z0WVrR8iC8U4nrdPmfkvA==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1756389741;
+ x=1756396941; bh=d1uuzbyK+TBo4FKAGVpnZlWXc03joPgRcgcWkt54xQI=; b=
+ VaHDj0PY+V+AsDh4qD25M+zhsGKWgtfDZDmedCbfP+EkCQywzgXWlXCSEVOZqjhv
+ 7UZDu6/4yqx3KWACwKGn5LTqKnxsBWoIjiIALvisrCm7/zS4GdUOU9F8QOqhZqr4
+ 52CERp0d39AmPJd9FDDN+AW75JzwtwpCvLw7mean4SYOlIFpXQVoUOPNBMh+jdEz
+ D79ERgCHoJ1EgTJ2F9+G6aSnPOGIuNisCxV4zoA260iNJLDc+uc23w/RLNiTUPAe
+ z2w8u8vZlTDOVQmyocuG6YW2KzUxtme3qVyz/azJd5mOmMaYtl2mh5bXR7hSIARr
+ +RDkwh75QL1OIv6ORBFu3Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389738; x=
- 1756396938; bh=PJSAjPUgJujthn86fjzmtWHBBOTG9ts44gGI05Gk5C4=; b=c
- LmH1HDOxKagfv0iS3hQRq6vjdHodK5o9GVfSCsn81Hnks42aGzypH7on6eNh8sUE
- k98WEv4zNdz6a54oZ0CSxdM2I0tH2DumDQSqf29V22pBe2egzjpX3iX/uwMHNp3a
- QYRkgVjiir4z8cfQIVcMjiIQrTwlRLEb13wxBcdZtbyX3maHp1YkoClM9+dRAE4k
- IwY88onujI8FmPMghIgwFMe+hiPvNLPXpHNrGA2gyrrqA2dd5bEa15XY0xeTXnaf
- x9Q8gNE2UuT+BV+SXgs0/NBMiE2Jx8HTTSgadBk7M4XjSaNKO1URtTXtvD9L7emF
- ciaDM1w63loDNOpq1Q8CQ==
-X-ME-Sender: <xms:amGwaCOQrHfS1W5XSPXmsXToGIflcZokz1XOTvG9DKBFl3w975edSw>
- <xme:amGwaIa0YGv5zKtM4POIBOWQnXJ4Q3gXtmhWmVR95vFRjmi63fSSh0BGgzm2Tbq7c
- GP12fI77oSR3_UrlaA>
-X-ME-Received: <xmr:amGwaCNNrItUCJHB1y0Nfr7lpjCfAe_HvSdXL7MFLIex6RRe3zUGysm9f7W2Fbc6t9TMv7wJeLOHplppq7a4w_I0Pm-xrorny4vrRw>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389741; x=
+ 1756396941; bh=d1uuzbyK+TBo4FKAGVpnZlWXc03joPgRcgcWkt54xQI=; b=C
+ +edsKmmgQpUUdgiXz5LRMt0w28yLVSrI7MsZIsPtNCituhTpwZWvWREvhgEUux8E
+ UBUPU/V3A+VmSYDz/LJL2HcEQPGPbJn85jPh9iULAwQ9ptIoydbVftX5jaoxNChL
+ pGf2VdxOMZu4rsUsCRI7dK4JTkGvJpAJiPVD4IgksWwaBzebhFRxXEdNyu/l5vew
+ P0GAwEdjQcjBQf4I7zxFIuQygK9qSFWSxstrpmyON8c1VbcceKab4h0+EwHlrTgx
+ VtIUyVBue5/yaokYBcyDn2mVXwQyuw65vK2hiNQ8nvdPBlqYAsqTumRJxGestZ0l
+ cIHYxhton2o+jvcED5jaQ==
+X-ME-Sender: <xms:bWGwaJOjUfAt2gPyXzDYH-QgJmwJCaGGpCEF_YS9LWfnNJUTQi4o_g>
+ <xme:bWGwaKzDA0OMFWaVfRJCxHerCzhhNRw1vEilx6gOfrXXtVKMukX1cJvIXBs5IMyW2
+ dJRufB8zrpTOT8c5E0>
+X-ME-Received: <xmr:bWGwaC9T6uH96i2PXR13lLZfcIcmo8wmeaNpImOLE4UvHEniBDl75tdgju-d8XMrtL141uNjsLM1QkKRUb-Yt8MTLM8hd_X1i4qFRg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
  gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
- ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
- ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
- hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
- thhtoheplhhinhhugidqghhpihhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
- htohepjhhohhgrnhhnvghssehsihhpshholhhuthhiohhnshdrnhgvthdprhgtphhtthho
- pehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehvkhhouhhlsehkvghrnhgvlh
- drohhrghdprhgtphhtthhopehlihhnuhigqdifrghttghhughoghesvhhgvghrrdhkvghr
- nhgvlhdrohhrghdprhgtphhtthhopehkvghtthgvnhhishesohhpvghnsghsugdrohhrgh
- dprhgtphhtthhopehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgr
- ghhisehgrhhimhgsvghrghdrmhgvpdhrtghpthhtoheplhhinhhugidqihdvtgesvhhgvg
- hrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:amGwaNrE4SjWa0M6nAcyg9qc4ADfdqXm2F3-q7cWQ6bv3MaKC1PlnQ>
- <xmx:amGwaJsfT8OtI23o1imPXkUe4tWRTOv5wUIRXvF8pwvzenHAwwHPxA>
- <xmx:amGwaJTSNTC_M0yMrkYURcjE-LCSykIoIt5QKfXgwPDFvfrdU6TaqA>
- <xmx:amGwaBAU9w8swmbuTcQIyPqdYW68YkkDDHoEu6yE7QI-CgLbqJzlqg>
- <xmx:amGwaKjjvARS_lnDdLfyucLHiu5G3DZWZXaOJRXvUYcPljcqu4P26F3A>
+ ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
+ ekkefgjeettdduueejgeeuteduffefteejudegieevuedvieffteeljeelgfeknecuffho
+ mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedunecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohep
+ ieegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhgphhiohesvh
+ hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhhrghnnhgvshesshhiphhs
+ ohhluhhtihhonhhsrdhnvghtpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipd
+ hrtghpthhtohepvhhkohhulheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
+ gidqfigrthgthhguohhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkh
+ gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
+ vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
+ gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:bWGwaMwXMChxee1x41cVZmcENyVrdN8cxsZouPfGzoov0QyiO-HTAw>
+ <xmx:bWGwaHGFJ459KgUjWGFOoXpHCZ4kv4lQ07dAIJ1f4VXkCYekMANtJA>
+ <xmx:bWGwaCnKTsBNdTFXQdp_hlUWzUIJOXQtsQOpCfMJzEJ8eJq_-3nYqw>
+ <xmx:bWGwaDRt5Z0bkvGLPlUQu2b9W3E7SszPvHJLDA8J1WqUm92N57d-Xg>
+ <xmx:bWGwaOEpaf--yyX6ZMRIBcyqRqWVh9eTLzAZ62ilQKNakq-L_QMdUoRG>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:17 -0400 (EDT)
+ 28 Aug 2025 10:02:19 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:32 +0200
-Subject: [PATCH 13/37] dt-bindings: iommu: apple,sart: Add apple,t6020-sart
+Date: Thu, 28 Aug 2025 16:01:33 +0200
+Subject: [PATCH 14/37] nvme-apple: Add "apple,t8103-nvme-ans2" as
  compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-13-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-14-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -125,13 +125,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1007; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=fwlWHXlK1F3ZW5/scw/ugcuAufqFjwh+zEOkSopcdUY=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZaeMYbi24RWyds6ftqed0X/t2v7nnKbz/7tkTsE/
- 3ne0crrKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMBH3WkaGpvDt0eV193d53Smr
- 6Lj7rfDvA9+f4WfeVaw+cMnsScdEL4b/cZ3XUpV7jT/G1v0uqJ/4I6zX986Wn+rZ2z/NuxT/ZBI
- 3EwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=987; i=j@jannau.net; s=yk2024; 
+ h=from:subject:message-id;
+ bh=Jb83KxX2H7kR1o63dY79EQbQmU6FMtXfENWdCwzKWS4=; 
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiZadqXLVW/17dYSM90/iZHgq4LH/1RnpqsA7RybLB
+ Ckm/ursKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMBHO8wx/RW5UOcq4h897Z+b1
+ dkFcZmbHiZmFYQxWMamLXq4qmr1On+G/0/STT/xviR66ueGsrL7KNjXWPxf99SodOUPr7JdPniH
+ IDwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -149,30 +149,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"apple,t6020-sart" as found in Apple's M2 Pro/Max/Ultra SoCs is
-compatible with SART3 used in t6000. Add its per-SoC compatible to allow
-a distinction should it become necessary.
+After discussion with the devicetree maintainers we agreed to not extend
+lists with the generic compatible "apple,nvme-ans2" anymore [1]. Add
+"apple,t8103-nvme-ans2" as fallback compatible as it is the SoC the
+driver and bindings were written for.
+
+[1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/iommu/apple,sart.yaml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/apple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/iommu/apple,sart.yaml b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-index e87c1520fea60a2de549aa8a469fcded52e3b6e3..dec0a5c6219732fbfd8c28d350db4b577d9ea377 100644
---- a/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+++ b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
-@@ -30,7 +30,9 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--          - const: apple,t8112-sart
-+          - enum:
-+              - apple,t6020-sart
-+              - apple,t8112-sart
-           - const: apple,t6000-sart
-       - enum:
-           - apple,t6000-sart
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 1286c31320e630cb012009d6b962526e0553869f..1f57a7a20715cb2370f1e72872c2e08bde44bbc8 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1626,6 +1626,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(apple_nvme_pm_ops, apple_nvme_suspend,
+ 				apple_nvme_resume);
+ 
+ static const struct of_device_id apple_nvme_of_match[] = {
++	{ .compatible = "apple,t8103-nvme-ans2" },
+ 	{ .compatible = "apple,nvme-ans2" },
+ 	{},
+ };
 
 -- 
 2.51.0
