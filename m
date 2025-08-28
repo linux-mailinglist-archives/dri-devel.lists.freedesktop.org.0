@@ -2,99 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CAAB391B0
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C498BB391BB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9840610E185;
-	Thu, 28 Aug 2025 02:33:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E782C10E922;
+	Thu, 28 Aug 2025 02:35:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Lc2rwN1t";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4716310E185;
- Thu, 28 Aug 2025 02:33:04 +0000 (UTC)
-X-UUID: 5053b84483b711f0b29709d653e92f7d-20250828
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:9e7721f3-4def-4494-ae6b-e8e5dd0438e3, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:ab9379ea25ec926fdd1c492817d92794,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
- -3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
- :0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 5053b84483b711f0b29709d653e92f7d-20250828
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
- (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1305374640; Thu, 28 Aug 2025 10:32:59 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 5ABE6E008FAE;
- Thu, 28 Aug 2025 10:32:59 +0800 (CST)
-X-ns-mid: postfix-68AFBFDB-172902359
-Received: from [172.25.120.24] (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id ADF7BE008FAB;
- Thu, 28 Aug 2025 10:32:47 +0800 (CST)
-Message-ID: <6f6c1e35-101d-4ef1-ac6e-5db337ccdd84@kylinos.cn>
-Date: Thu, 28 Aug 2025 10:32:46 +0800
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F71810E922
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:35:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756348503; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=IBKrafhpz/+6faHHFrXVSzsS7vuhdJBIAUDLPtiBZvopqN87ZOh3gefQnL2HMB8za4InRngzXSfw+i3Ep8EFMRT4G3rn3FNFaC9vex/yTscArVdGbvDOk25o/iad/pZg8b6C+Ir0Y1aRddhPMWbbFSJkeLZkcfYrA1tbg7goPO0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1756348503;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=8Q7OTYSNjYnaiJukdzrTqRn402H4JDcPMAA2S6KRFdo=; 
+ b=TiNryiQ/68qpAPNeBx9cEU6L2hlUc0tENJXd/+LG4otUVs5WzWlQ0MNINqXJ5kXMpWbHMtuG4HZINxrYKqkpUWvyi5sUiZtIQXOSmYoKGTIxA6OBaTpR31AAtOG67415Zh66SygrJuHtY92AfdLeXZupsceJswP+lMi32fpl4og=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756348502; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=8Q7OTYSNjYnaiJukdzrTqRn402H4JDcPMAA2S6KRFdo=;
+ b=Lc2rwN1tPYWvyvObc0sht+qWAjW14+wyRCqknv8HvvBPr8q9hRthXvEqWkLuGBZ3
+ 5mdwjt+Vik7k7frGgGKO+0CBeqIwxl9+wggGfN9CyGRVz8bvu/0ibDsNUSlMUPtmCK8
+ XXzVszg/HNH1ZjbwcLpHkwS/MDV2mtaOxPjBLmDM=
+Received: by mx.zohomail.com with SMTPS id 1756348500386647.143849521538;
+ Wed, 27 Aug 2025 19:35:00 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Subject: [PATCH 0/5] Introduce Panfrost JM contexts
+Date: Thu, 28 Aug 2025 03:34:03 +0100
+Message-ID: <20250828023422.2404784-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/18] arm64: topology: Use __free(put_cpufreq_policy)
- for policy reference
-To: Sudeep Holla <sudeep.holla@arm.com>, Ben Horgan <ben.horgan@arm.com>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, Markus Mayer
- <mmayer@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
- <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
- x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
- <20250827023202.10310-2-zhangzihuan@kylinos.cn>
- <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
- <1756341899099493.57.seg@mailgw.kylinos.cn>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <1756341899099493.57.seg@mailgw.kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,58 +64,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series brings the notion of JM contexts into Panfrost.
+UM will be able to create contexts, get a handle for them and attach
+it to a job submission. Contexts describe basic HW resource assignment
+to jobs, and also their job slot priorities.
 
-=E5=9C=A8 2025/8/27 17:17, Sudeep Holla =E5=86=99=E9=81=93:
-> On Wed, Aug 27, 2025 at 09:30:13AM +0100, Ben Horgan wrote:
->> Hi Zihuan,
->>
->> On 8/27/25 03:31, Zihuan Zhang wrote:
->>> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
->>> annotation for policy references. This reduces the risk of reference
->>> counting mistakes and aligns the code with the latest kernel style.
->>>
->>> No functional change intended.
->>>
->>> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
->>> ---
->>>   arch/arm64/kernel/topology.c | 9 +++------
->>>   1 file changed, 3 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topolog=
-y.c
->>> index 5d07ee85bdae..e3cb6d54f35b 100644
->>> --- a/arch/arm64/kernel/topology.c
->>> +++ b/arch/arm64/kernel/topology.c
->>> @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
->>>   		 */
->>>   		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
->>>   		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAM=
-PLE_EXP_MS))) {
->>> -			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
->>> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
->> Based on the guidance, in include/linux/cleanup.h, I would expect the
->> assignment to be done on this line.
->>
->> "...the recommendation is to always define and assign variables in one
->>   * statement and not group variable definitions at the top of the
->>   * function when __free() is used."
->>
-> Agreed. I did something similar recently and there was a code path wher=
-e
-> variable wasn't initialised and ended up with freeing unassigned pointe=
-r.
-> So it is more than just a recommendation sometimes.
->
-Thanks a lot for your suggestions.
+A Mesa MR with UM changes that leverage this new kernel driver feature
+is still in the making.
 
-We are also considering introducing a WITH_CPUFREQ_POLICY wrapper to=20
-encapsulate the cpufreq_cpu_get/put usage, so that the release order=20
-won=E2=80=99t be accidentally changed.
+Boris Brezillon (5):
+  drm/panfrost: Add job slot register defs for affinity
+  drm/panfrost: Introduce uAPI for JM context creation
+  drm/panfrost: Introduce JM context for manging job resources
+  drm/panfrost: Expose JM context IOCTLs to UM
+  drm/panfrost: Display list of device JM contexts over debugfs
 
-Link:=20
-https://lore.kernel.org/all/874d821e-8ea3-40ac-921b-c19bb380a456@kylinos.=
-cn/
-
-Do you have any suggestions or preferences on this direction?
+ drivers/gpu/drm/panfrost/panfrost_device.h |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 152 +++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_job.c    | 270 +++++++++++++++++----
+ drivers/gpu/drm/panfrost/panfrost_job.h    |  27 ++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |   6 +
+ include/uapi/drm/panfrost_drm.h            |  93 +++++++
+ 6 files changed, 494 insertions(+), 58 deletions(-)
 
 
+base-commit: 5c76c794bf29399394ebacaa5af8436b8bed0d46
+--
+2.50.0
