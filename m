@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944CBB3AD06
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 23:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52CAB3AD19
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 23:56:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E94E10EAE9;
-	Thu, 28 Aug 2025 21:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9E710EAED;
+	Thu, 28 Aug 2025 21:56:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d9fWpClX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fShS14ZU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 362E810EAE4;
- Thu, 28 Aug 2025 21:54:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5410EAEC
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 21:56:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3882660139;
- Thu, 28 Aug 2025 21:54:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAB9EC4CEEB;
- Thu, 28 Aug 2025 21:54:03 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 868A760139;
+ Thu, 28 Aug 2025 21:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6786FC4CEEB;
+ Thu, 28 Aug 2025 21:56:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756418045;
- bh=YuCjMILfFRDLM9IotFFtm6J1AMM1IlbXrF51dAP7i0s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=d9fWpClXkIn3791ahnWtbU3Dncfz81HQZJkoxg+K0z/a808pgEzp+HVr7/D08tYgU
- gmOuKmc2d9FeeQS2v5IYju+mbG7uCOo8uJoogmuQ72wj9N6Nl1fGapjBaWug2Q6ZR1
- gGrChHg1Kgx2EEdgXbW21JEHfRX4Qlk1SVvnY1drE9qvGLeMDELLxXOW07noIi20Bn
- e5Sp37iRI29nuNHTZlZ+otTDiRuc8eZ+bY9ddneX7ilFdPsV2XOjOwcZwkS75DboBD
- AKXA4cCL7vMjpmoRlhGjtgzVPZHHVVIm2p09n840RyRkVVFjJ7ufoZXBinB/d3bWkI
- id+7W2+tbU9Vg==
-Message-ID: <76064a67-206d-411e-87b0-651c338cf204@kernel.org>
-Date: Thu, 28 Aug 2025 23:54:01 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: gpu: nova-core: arm32 build errors
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ s=k20201202; t=1756418199;
+ bh=dSngZWUPELR3QxYM2J7tSWcOG69It00KDI2P68gPg34=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fShS14ZU9g2uMtlXOdGlNrGxb1FPB+hi/AWsG5ubmCfFyjbAZUU45fSykZZ3AAsKp
+ fdSlH9u5yIumKzKidWWSSxxjE1MvRGOjiRHlQv6+39AlppwStNdKRCJKe8IeubgH3c
+ U1GR7WVWYd7MvEWoOE5wrosQfE5u2i4g9Ayj7gPgSm+or8wxO9hWBhYiTOR1ld9Obe
+ LBJz4uGDnarR22rkrKb+EiBB2c0w4AZ1vEctukS9blJFE8xIsDrmjHJgx5tCw87CUD
+ taZ2ayjCf6oGs/rfbRDftLlw+rrdqfE3jUC8a/lB3BTEODoIpoJHy2aaF5mOz78PrG
+ cM3mHAQFHGcEw==
+Date: Thu, 28 Aug 2025 23:56:30 +0200
+From: Drew Fustini <fustini@kernel.org>
+To: Matt Coster <matt.coster@imgtec.com>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Binns <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250828160247.37492-1-ojeda@kernel.org>
- <b680c343-ba97-4eb4-b426-56e318dce492@kernel.org>
- <DCEB1J2P3MZS.3IGXEYP0MAC5H@kernel.org>
- <CANiq72mkPqFnb4ztiCokE6+ntVSmgOTgERshg-4SMmLboFOqNg@mail.gmail.com>
- <bc2b45b0-eb0f-4519-a398-2f0707d45d80@nvidia.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <bc2b45b0-eb0f-4519-a398-2f0707d45d80@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+Message-ID: <aLDQjq9U_mDvMTJo@gen8>
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
+ <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+ <aKjWiU4fQw3k77GR@x1> <aK-BwY8c-OR_WqNk@thelio>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aK-BwY8c-OR_WqNk@thelio>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,19 +78,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/28/25 11:45 PM, John Hubbard wrote:
-> So Nova should definitely depend upon 64-bit configs.
+On Wed, Aug 27, 2025 at 03:08:01PM -0700, Drew Fustini wrote:
+> On Fri, Aug 22, 2025 at 01:43:53PM -0700, Drew Fustini wrote:
+> > On Fri, Aug 22, 2025 at 12:20:17AM +0200, Michal Wilczynski wrote:
+> > > Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+> > > TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+> > > the GPU using the drm/imagination driver.
+> > > 
+> > > By adding this node, the kernel can recognize and initialize the GPU,
+> > > providing graphics acceleration capabilities on the Lichee Pi 4A and
+> > > other boards based on the TH1520 SoC.
+> > > 
+> > > Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
+> > > controlled programatically.
+> > > 
+> > > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > > Reviewed-by: Drew Fustini <drew@pdp7.com>
+> > > Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> > > Acked-by: Matt Coster <matt.coster@imgtec.com>
+> > > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> > > ---
+> > >  arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
+> > >  1 file changed, 21 insertions(+)
+> > 
+> > I've applied this to thead-dt-for-next [1]:
+> > 
+> > 0f78e44fb857 ("riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node")
+> > 
+> > Thanks,
+> > Drew
+> > 
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git/log/?h=thead-dt-for-next
+> 
+> Hi Matt,
+> 
+> Do you know when the dt binding patch will be applied to
+> the drm-misc/for-linux-next tree?
+> 
+> I applied the dts patch but it is creating a warning in next right now.
+> If the binding won't show up soon in drm-misc, then I'll remove this dts
+> patch from next as dtbs_check is now failing in next. I can add it back
+> once the binding makes it to next.
 
-Yeah, I fully agree.
+I've now removed this patch from thead-dt-for-next and will add it back
+once the bindings show up in next.
 
-But I think it would have been good to have a consumer for the generic APIs that
-has to deal with it, which I think was also Miguel's point.
-
-I will send a patch for Nova to depend on 64-bit. Independent of that, I think
-the code requires a few cleanups (e.g. avoiding `as` casts or using the DMA
-type).
-
-I will also further look into how we can help other drivers from the perspective
-of the DMA layer to deal with this, e.g. in the context of a DmaRage type, etc.
-
-- Danilo
+Thanks,
+Drew
