@@ -2,41 +2,214 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2EFB3A4BD
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 17:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85EBB3A4C4
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 17:44:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3511410EA37;
-	Thu, 28 Aug 2025 15:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1254110EA34;
+	Thu, 28 Aug 2025 15:44:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="TJ1nvdR8";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="VMNn8kP+";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F0B210EA37;
- Thu, 28 Aug 2025 15:39:33 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03FCD1A32;
- Thu, 28 Aug 2025 08:39:25 -0700 (PDT)
-Received: from [10.1.37.42] (e122027.cambridge.arm.com [10.1.37.42])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0B293F738;
- Thu, 28 Aug 2025 08:39:29 -0700 (PDT)
-Message-ID: <78226027-7daf-4b4b-8c7f-9d9b3141fe7c@arm.com>
-Date: Thu, 28 Aug 2025 16:39:29 +0100
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7284F10EA34;
+ Thu, 28 Aug 2025 15:44:33 +0000 (UTC)
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SEMxt5029591;
+ Thu, 28 Aug 2025 15:44:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=DHwVa/lVACCrZEaOy+
+ hxxXoimWg8nh1PzsZ7tjd5Fbk=; b=TJ1nvdR8oyccOziVQIxbQ2z3qZQu4v3tjx
+ /RznoEf/tRdh+FAQfQ76KC7WD6MtOs/Y7STpJlPXbOSfmC4OVQ0oS/pgaoxbD1Il
+ Vk7RY4YArRos7Pd3lCkk9itvfoNbeGWmOe/dDdGVoHfkQuZ1MnJtMpCvo9GJ73+H
+ 4wwWI/DN9qmhbm+20j4e2DhjAtUXEDleMqNA8Dv2NnI1vtJjyeJuXmaPemh+aE0j
+ VABmiUmUQ24RA3em1XIdZz9QvPe/0x9f+j0BhcnK7uCVUcH8y2IbCNoHnINvIZRb
+ itgAQ0CM5QzqPemZQIi7Nehw3aAmMGhRHPwcSaiJnfQA6/vLXqMQ==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q5pt8yt9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 15:44:12 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57SEGDMH012325; Thu, 28 Aug 2025 15:44:11 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2063.outbound.protection.outlook.com [40.107.95.63])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48q43c11ep-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 15:44:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MjGULiD/pca6V0uT1lfAaA0/NSi1qO/oIb8xomuKAwlKVFSeSFmrFuWiu8wg+mQLX4ZkJ4yAO0jfbh8L9PLT7BvKt8HVJYnjOnGbTpx9BfnKmj62hjAjilFqJijq+/nEjcPzFUIor42eZs4qxHjU1rTkGSvigRpjukrq7aqh3y6kN0Q74wQaoYsbcvxsPeD1p3vvPKZ9BaSBKO3hAVzYaXGuKCR1TsNuFZ/xAMeX6k+Z0fETsV5l+YPHTkU0dzpQIjqzYoSBzZJaXUIgey6Izu7d8XaIDlOh3tOj2dpbLFwg5b5UmQYvyJ9Fo4Hl5Nyr5s0eBgck3Kg2k3o8W0E+hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DHwVa/lVACCrZEaOy+hxxXoimWg8nh1PzsZ7tjd5Fbk=;
+ b=x4kmXWwYNJCxtMCISYeaZXmNqOxQtF9CNofW2c7/H6asvt1LAU/565Xam+Tw9cch4i4Vw2kC2YoMb98r6FBdhtgn7ndwLsUwTTBRu3LGlAqECa/0/rH9sf0YCf89c6EDoMgp6XzDpnUf6GHSRZBqIlUADI0f/QnsJbqOx19Aj8vqleO2kFmZCO9VPVGs2zwxoekm4fN44YCdK7bVNMMaGRXk54gZWa8I9XmBXcbIj5rJIB1yrfu+2kYQjY+32Lsm36bHzm2xU0xvN0kMrwJn70WGIFGdSGG/1vPFFge8znPSVOxp/TN0DhAV+1+swezWODJt/btIOZot9MIfngVSdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DHwVa/lVACCrZEaOy+hxxXoimWg8nh1PzsZ7tjd5Fbk=;
+ b=VMNn8kP+wxVpAGmXCwsOnxrCepPVI2Qp6ymiyID/nftPKqQFBKyueINi+6vWWXqVQRglL7PJ2L4fF79Y08UtPkrweeL14lTDMKfX3angzpd6oFENws+nSYBxwEKGjVTgV3KU7M2CSwUVcfDUvbL08rHBJHdT98cSKRWuSdWaVXE=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by IA1PR10MB5921.namprd10.prod.outlook.com (2603:10b6:208:3d7::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Thu, 28 Aug
+ 2025 15:44:03 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
+ 15:44:03 +0000
+Date: Thu, 28 Aug 2025 16:43:55 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 14/36] mm/mm/percpu-km: drop nth_page() usage within
+ single allocation
+Message-ID: <2ee63b0d-f5d8-41ee-ae7a-0e917638cebc@lucifer.local>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-15-david@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827220141.262669-15-david@redhat.com>
+X-ClientProxiedBy: LO2P265CA0357.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:d::33) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH i-g-t 4/4] tests/panthor: add panthor tests
-To: Daniel Almeida <daniel.almeida@collabora.com>, adrinael@adrinael.net,
- arek@hiler.eu, kamil.konieczny@linux.intel.com,
- juhapekka.heikkila@gmail.com, bhanuprakash.modem@gmail.com,
- ashutosh.dixit@intel.com, karthik.b.s@intel.com,
- boris.brezillon@collabora.com, liviu.dudau@arm.com
-Cc: intel-gfx@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250828130402.2549948-1-daniel.almeida@collabora.com>
- <20250828130402.2549948-5-daniel.almeida@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250828130402.2549948-5-daniel.almeida@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|IA1PR10MB5921:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5beafdb5-1229-4ba6-3685-08dde649b710
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vnwzyE9PPSU8rAInLuQl0dYN0TQOuu112vJi44oLYEYtvwuUNS7t80lOOB7B?=
+ =?us-ascii?Q?afwCGgaBZHkgn7dTivQrrWFM119a/FUS8kl2QvkxzdUJz45Yh2fkjUUB4L+n?=
+ =?us-ascii?Q?mgNEH3+vSbocZdX01L00K+1bvlWz7W3Qk9Gafp0JSPNhoayIr49EQQF85Vdy?=
+ =?us-ascii?Q?AhJk4hwY1ighdmv2uA1PqQe4Hd9VJIRWKjykysgcH8pK+Z+GlGW+avE8WkJz?=
+ =?us-ascii?Q?FGC/WVjMA1zX5XraAXvQUt+wj5P65il0md26xrM4KvBMha1il2uhO2WOks6J?=
+ =?us-ascii?Q?VqzJ6irlmyjs15DqufGXHlE7ZX6oiQ5mcw4+IUpOm8npEqEUihyTB/uMH+bL?=
+ =?us-ascii?Q?aUWL0rbr1SlL8NJxrvLrTEtvYMBR0DoyEGhpe00hyD+Al3jXeUPueI7cWgt3?=
+ =?us-ascii?Q?Ennn0Ya5KXsQCqOoB/x79ypEKMHDnUlC9AUfvKOZ3rX+PTeb9cC15R0hFqj3?=
+ =?us-ascii?Q?QVlApBCIBCUP2BGlPNbKvWPFp6G7V9jk0EHB3ZsuYy3a+7GJ8Q5vr5P1GkFN?=
+ =?us-ascii?Q?Ooqidjwjtm97xrgRlwI1j3AEZtImKeTTCM/FCUJzJ10x8ZEKorJWPmVG6STe?=
+ =?us-ascii?Q?u+tf0H2xGuHRGfa5XHeee58WJjWN+C9PaEVOy6DKViMI+K7DW5cNo65EOP8n?=
+ =?us-ascii?Q?U4mteCgd9WNDzJ8U3DjDY7741TrC0Gi4WNQK0GdDLXhgzjnhZMphCyNSOYkE?=
+ =?us-ascii?Q?SeQj4BrsBqTEisourm3Nf694CQJL8GgMil4goaqOrf+0a96JAtKTl2VgHUGQ?=
+ =?us-ascii?Q?Rd4sYEXO+VoS+4qNISt6nHtR1Z7+tj9w8PRbUOu+by6ZpSG7v/xOCIX2GTN/?=
+ =?us-ascii?Q?W0h3urSOH3MsnjchtxpY7ekc0J5WS7jRD6oL7TLxgDm4xcFd2CUqgoV3dSz6?=
+ =?us-ascii?Q?WWzWY/ZhI4AQoAEPzFvBTIObx3p96+ZFsZqEx1Hd93BRjBVlf/QYxReP+fKZ?=
+ =?us-ascii?Q?7Sz8XDW9ww4DqMlMBJGF1kXe0iEmf1FTVQ4W4SKy/X1RqlyP6l0NmHx1UzPp?=
+ =?us-ascii?Q?N9HgQgGYAhwTi+5fMRVA46ZhDf2TfzDUtT86KzSRaDjwdFCzjbOyWrBrqt3F?=
+ =?us-ascii?Q?v+VnTWQrBPDny/pRr5qvPFuekpYfu/teuiRiGVONjO4QaS1abf9w8Y4uPmKZ?=
+ =?us-ascii?Q?Yuo4klYo9nqCrw40Y80AhbZNQ7SJ60/btJ7yS5uH7laZqypMbffeYYWLWmoJ?=
+ =?us-ascii?Q?X3+8NnJlkxvo+JCldrHW0CSglmQHTIrxciOrgk7LfriqSYppH1U3FrFg9HdC?=
+ =?us-ascii?Q?sKXrVyWX2Zd31qOOCTxAKfFrcB/dKyPNvDwm2PJ3Vh6MFdo9pEiq5w0Ypino?=
+ =?us-ascii?Q?qtrWlGSHmFmFSYj5Cu2/Tmp6MXQ2Q3iA+B9OSt8LCbdMX6w35CVI9fPkluNh?=
+ =?us-ascii?Q?LjK+O8AO3dU4xNNEdSxEJW+6smFzUGp5sJ77xcKPzOqf4rc2BwomPcBO3wca?=
+ =?us-ascii?Q?bp1peVuPDME=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Mpv7KamN2euzudnwsqsI+jFV2e7lUffC+17j+Co0LkVnsdM03glaWmQWuKZ9?=
+ =?us-ascii?Q?wn/s36YVCdsQww5VhYUIahMXv8eGRmCzBawzmcVB0VjTNja64uaZgGbO9h7F?=
+ =?us-ascii?Q?ID0vifbH335s/MyGY2YCMG0a8CHR1uGpifcznkyx0akYEdkXH/OtuyJweFCR?=
+ =?us-ascii?Q?rEKrdX2C6o3mSVG7SUjNl8J/UuTPmX+OLjYqIgfKVdWwzKESr9QOUF0qJFwW?=
+ =?us-ascii?Q?a37MHiCPVQEXOX9XM0JwLJiIOWU83/ZLUvk78WP22WlfTMKYURsxa0cw98Aj?=
+ =?us-ascii?Q?i4aMVyEndEGK4Sq3NPKg4eG1+ic01KTQ3Epmi5ZKoHzHwT4EKHWUVsnqlwmG?=
+ =?us-ascii?Q?2EGJzkVnA9TSDVxTmCMnCuLe0xlTz1l4oXUqUKVIXljq8c78lYwzhoYQMghX?=
+ =?us-ascii?Q?wJctscVvDqSaSFsUbH6HDWjwbSEPE2+L7rIkyKWkdO1AH2IarP0kP9YyUmTy?=
+ =?us-ascii?Q?wyfTiIOZmbekKFm7VSfskJoJqZBbPV5eqK1j1DRAw40x4YoFLxN4EqZXHM2n?=
+ =?us-ascii?Q?Gg2zW4dHStTQnQILrpZwDDWHSDFO31DaN3U9ej0Gk5p8h4f73G1Bch5Su6YA?=
+ =?us-ascii?Q?wfI2R5PROFTXsqbD2gVTauFTRDb72H6gH9QOUruOBjdby6BDf6qKHUDrL+eA?=
+ =?us-ascii?Q?9F9RgeaORhYmElTZT37caSIPem0wTRPVJL2jJeGgaM3EMMEUmFkbArWmCF4K?=
+ =?us-ascii?Q?9VDl9ECpsmGCIzG+vuVnbJ3TDMVgatO5n3VktXw7iV4r6Q+xa3oO5VpPZ8us?=
+ =?us-ascii?Q?qEdtL5cMtD2QUSujkQWZx6jz3Utuzn6amph4sENV/x94DN1kUB7cbvVJCsFU?=
+ =?us-ascii?Q?Ss5Qc19xDTsebd5H7H1qo7pmhPw8vcWoBnG4SzJ91fDdHIqTdUW3zZnw7EDh?=
+ =?us-ascii?Q?JWz+gSFevVgcNKdaGryHqCeCErQtcHW6RlE7H1fj4N4P7iQmZlOKyjWXgui6?=
+ =?us-ascii?Q?BqjLP+rxMKzdO7169s+MTs3gMfw5q0AiOEPbXeoy2Si05qKdiWwEKLW5RwXT?=
+ =?us-ascii?Q?hTkLs4wPIhjjqWd9wm11vBZB3GKLs9ELzE99aqj8IukQye34Ykrzr7WdcSkf?=
+ =?us-ascii?Q?3hOKKaHkr/XIuakmAeWkC8zXsE3h3XknEZVSZ0iEYrd5mstmT+hU/KOXXSrj?=
+ =?us-ascii?Q?AnTCV+up7OYjUFvIcaBi2+8+tkurWKGdjiksw7c43bAvO9TUOBIPngOqmlDn?=
+ =?us-ascii?Q?fP8L7vN0UzQAkeMca0210KiIq6ANAFks1Dja732Z0LrZdnkxleYnzZMJaZdY?=
+ =?us-ascii?Q?R2u3FqDm0ydturng4tKY2wFc5q1CPKnWg6AauGTWnqZbPYV+kQdHgR7NQqLt?=
+ =?us-ascii?Q?sYlvbG2stBZNdKqTjcC9DnIp32zGdpbiIFEgbikLLsR/xhlfSiUhpYLqG6AY?=
+ =?us-ascii?Q?ZJ6GFZBcooHMTEtI4zjcXW/H91N9ETjnYumM/NbFLkx5OZN7VGK1pzfj4xFd?=
+ =?us-ascii?Q?FASQ9cE4TAbN1XLdg6S4z3oEvMEvdVTV2ZFNLWS4Yk40zGo7z2IF2uQwlwvL?=
+ =?us-ascii?Q?dVV5JbVMhLGQIArR56HsX8Vh49fUbl3biW7egidCH9zPxBgSwevZJNTLQm0h?=
+ =?us-ascii?Q?O0KdinKEK+AdcZiGQKo54tPCDWrqUXtMg8WWIueAVpWUH8VUXlA8k7WFV350?=
+ =?us-ascii?Q?3w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: xiNyBB1J0z5xUbQy9XkvopyZdYswxe/TQmf1Hkv9Kfi/jBtjgfB9QOAnnV3TT+VOzDUuLKtlMhBqUdB9y/ICigN8XNxxrfD7IDgBfZTiB4kuzpGkkWL95kJfqYYpi87tA44WNsqMxD1Mg3P5myD43oWfjMKQ6aKCNudg10rOOICUj/MB6Z9PPc2C/yzaiF8wt0odDrN1dGr0A8WkOQpUsUl5w1neUyjnCgXxBe03k+aNsvRIjloo9GdE5+MlwTeKOe2iETP2059Lw5grbY+QmaLnQN3waG5eihCa5hckFpO/KZ40ic4qj5uWFCzKzLBei5xIYD8jFbBAToMSiIosIFddFYaHE7miwoNbfnq6b96UfylIHmP7JZ9rRFpcyx1NefZa67srDOeZSKNuYBM8u9T3/9pdmEuyGZ2Iuh5WWILZxEL2l/Ceyv8Lb9/f1PdarnM/SYYVlbaTqRBME1gYpqTTueR5pr9cn5ywpNrFj6B2r4Fy1PGoTmvNGWB8OS33aU461FLv1ldYPMcRVWeUx2VxgJk0CHIO0gbK6EejzNW8Q51Kgc1Phk0332unT2wXGN3DWR+83AlJdEUuAvvFe8s9YT6yN6aThsyt9cxVMbc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5beafdb5-1229-4ba6-3685-08dde649b710
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 15:44:03.6737 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7qXj3HFkZC0Kdr49tSPAIQhX1KfgoXA4Rv10qHeeGHODwjzf9h0dnFbJz6t2lv9J5j9vBl3ShVplxPDk/fyOp8rCSKRwle136jMNeU+JWVQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB5921
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 bulkscore=0
+ adultscore=0 mlxlogscore=999 spamscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2508280131
+X-Proofpoint-ORIG-GUID: ZKcug2oQWMc6riyba7y5ksFYFxG79tb8
+X-Proofpoint-GUID: ZKcug2oQWMc6riyba7y5ksFYFxG79tb8
+X-Authority-Analysis: v=2.4 cv=EcXIQOmC c=1 sm=1 tr=0 ts=68b0794c b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117
+ a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8
+ a=pe3YOxSbL00LKGLRwgEA:9 a=CjuIK1q_8ugA:10 cc=ntf awl=host:12069
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMCBTYWx0ZWRfXwiWT+jBmSg5s
+ yG1FLG0EqGDoZk41PBHqlZntnLzC1V1QpSDMRm5TYFVpvxhSiqhBgXfGA+fTbhdXfmY+1+CAsW7
+ MhAsGYPEtkCeVnwkaFSGSptaElI1HVD2Pyi5aLA/0ft+7ZesZ+42IzFnVV6ZVoVYZodZ+QnviM+
+ ZnJvMftHAW2FJJV3MCVN6dmvsrao5ilQyR1FJduEMp/wlqz+xzgGb0cYx/TtvdWcYgvNGvV7YjA
+ 40GoJ8od19RGsZLyK6gcjEeRF93BNrDvk0Rnum5qG51uzu2xszMOYc31gdsiql9TqdVV+8P5U0N
+ 2c3LK9S0kdJREsQRQs1gFMqmZVY/K4SWoB64BeXDM3syh0QYjZRJhj60btIV0hlzrWUs6A2VNyI
+ d5SvJiAnIWhJWogr0mmCjz4Gcq6DAg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,679 +225,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Thu, Aug 28, 2025 at 12:01:18AM +0200, David Hildenbrand wrote:
+> We're allocating a higher-order page from the buddy. For these pages
+> (that are guaranteed to not exceed a single memory section) there is no
+> need to use nth_page().
+>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-A couple of errors that I hit when I tested this are below.
+Oh hello! Now it all comes together :)
 
-On 28/08/2025 14:04, Daniel Almeida wrote:
-> Add an initial test suit covering query device properties, allocating
-> memory, binding and unbinding VA ranges through VM_BIND and submitting a
-> simple piece of work through GROUP_SUBMIT.
+nth_tag():
+
+LGTM, so:
+
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
 > ---
->  lib/igt_panthor.c             | 136 ++++++++++++++++++
->  lib/igt_panthor.h             |  20 +++
->  tests/panthor/meson.build     |   4 +
->  tests/panthor/panthor_gem.c   |  59 ++++++++
->  tests/panthor/panthor_group.c | 264 ++++++++++++++++++++++++++++++++++
->  tests/panthor/panthor_query.c |  25 ++++
->  tests/panthor/panthor_vm.c    |  73 ++++++++++
->  7 files changed, 581 insertions(+)
->  create mode 100644 tests/panthor/panthor_gem.c
->  create mode 100644 tests/panthor/panthor_group.c
->  create mode 100644 tests/panthor/panthor_query.c
->  create mode 100644 tests/panthor/panthor_vm.c
-> 
-> diff --git a/lib/igt_panthor.c b/lib/igt_panthor.c
-> index 3e2c29b17..c422320c5 100644
-> --- a/lib/igt_panthor.c
-> +++ b/lib/igt_panthor.c
-> @@ -2,6 +2,9 @@
->  // SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
->  
->  #include "igt_panthor.h"
-> +#include "drmtest.h"
-> +#include "ioctl_wrappers.h"
-> +#include "panthor_drm.h"
->  
->  /**
->   * SECTION:igt_panthor
-> @@ -12,3 +15,136 @@
->   * This library provides various auxiliary helper functions for writing Panthor
->   * tests.
->   */
-> +
-> +void igt_panthor_query(int fd, int32_t type, void* data, size_t size, int err)
-> +{
-> +    struct drm_panthor_dev_query query = {
-> +        .type = type,
-> +        .pointer = (uintptr_t)data,
-> +        .size = size,
-> +    };
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_DEV_QUERY, &query, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_DEV_QUERY, &query);
-> +    }
-> +}
-> +
-> +void igt_panthor_vm_create(int fd, uint32_t *vm_id, int err)
-> +{
-> +    struct drm_panthor_vm_create vm_create = {};
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create);
-> +        *vm_id = vm_create.id;
-> +    }
-> +}
-> +
-> +void igt_panthor_vm_destroy(int fd, uint32_t vm_id, int err)
-> +{
-> +    struct drm_panthor_vm_destroy vm_destroy = {
-> +        .id = vm_id,
-> +    };
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy);
-> +    }
-> +}
-> +
-> +void igt_panthor_vm_bind(int fd, uint32_t vm_id, uint32_t bo_handle,
-> +                         uint64_t va, uint64_t size, uint32_t flags, int err)
-> +{
-> +    struct drm_panthor_vm_bind_op bind_op = {
-> +        .flags = flags,
-> +        .bo_handle = bo_handle,
-> +        .va = va,
-> +        .size = size,
-> +    };
-> +
-> +    struct drm_panthor_vm_bind vm_bind = {
-> +        .vm_id = vm_id,
-> +        .flags = 0,
-> +        .ops = DRM_PANTHOR_OBJ_ARRAY(1, &bind_op),
-> +    };
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind);
-> +    }
-> +}
-> +
-> +void igt_panthor_bo_create(int fd, struct panthor_bo *bo,
-> +                           uint64_t size, uint32_t flags, int err)
-> +{
-> +    struct drm_panthor_bo_create bo_create = {
-> +        .size = size,
-> +        .flags = flags,
-> +    };
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create);
-> +    }
-> +
-> +    bo->handle = bo_create.handle;
-> +    bo->size = bo_create.size;
-> +    bo->offset = 0;
-> +    bo->map = NULL;
-> +}
-> +
-> +uint64_t igt_panthor_bo_mmap_offset(int fd, uint32_t handle, int err)
-> +{
-> +    struct drm_panthor_bo_mmap_offset bo_mmap_offset = {
-> +        .handle = handle,
-> +    };
-> +
-> +    if (err) {
-> +        do_ioctl_err(fd, DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET, &bo_mmap_offset, err);
-> +    } else {
-> +        do_ioctl(fd, DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET, &bo_mmap_offset);
-> +    }
-> +    return bo_mmap_offset.offset;
-> +}
-> +
-> +void *igt_panthor_mmap_bo(int fd, uint32_t handle, uint64_t size, unsigned prot)
-> +{
-> +    struct drm_panthor_bo_mmap_offset mmap_bo = {
-> +        .handle = handle,
-> +    };
-> +    void *ptr;
-> +
-> +    do_ioctl(fd, DRM_IOCTL_PANTHOR_BO_MMAP_OFFSET, &mmap_bo);
-> +
-> +    ptr = mmap(0, size, prot, MAP_SHARED, fd, mmap_bo.offset);
-> +    if (ptr == MAP_FAILED)
-> +        return NULL;
-> +    else
-> +        return ptr;
-> +}
-> +
-> +void igt_panthor_bo_create_mapped(int fd, struct panthor_bo *bo, uint64_t size,
-> +                                  uint32_t flags, int err) {
-> +  igt_panthor_bo_create(fd, bo, size, flags, err);
-> +  bo->offset = igt_panthor_bo_mmap_offset(fd, bo->handle, err);
-> +  bo->map = igt_panthor_mmap_bo(fd, bo->handle, bo->size,
-> +                           PROT_READ | PROT_WRITE);
-> +}
-> +
-> +void igt_panthor_free_bo(int fd, struct panthor_bo *bo)
-> +{
-> +    if (!bo)
-> +        return;
-> +
-> +    if (bo->map) {
-> +        munmap(bo->map, bo->size);
-> +    }
-> +
-> +    gem_close(fd, bo->handle);
-> +}
-> \ No newline at end of file
-> diff --git a/lib/igt_panthor.h b/lib/igt_panthor.h
-> index c4bee1838..421f44a33 100644
-> --- a/lib/igt_panthor.h
-> +++ b/lib/igt_panthor.h
-> @@ -4,5 +4,25 @@
->  #ifndef IGT_PANTHOR_H
->  #define IGT_PANTHOR_H
->  
-> +#include <stdint.h>
-> +#include <stddef.h>
-> +
-> +struct panthor_bo {
-> +    int handle;
-> +    uint64_t offset;
-> +    uint64_t size;
-> +    void *map;
-> +};
-> +
-> +void igt_panthor_query(int fd, int32_t type, void* data, size_t size, int err);
-> +void igt_panthor_vm_create(int fd, uint32_t *vm_id, int err);
-> +void igt_panthor_vm_destroy(int fd, uint32_t vm_id, int err);
-> +void igt_panthor_vm_bind(int fd, uint32_t vm_id, uint32_t bo_handle, uint64_t va, uint64_t size, uint32_t flags, int err);
-> +void igt_panthor_bo_create(int fd, struct panthor_bo *bo, uint64_t size, uint32_t flags, int err);
-> +uint64_t igt_panthor_bo_mmap_offset(int fd, uint32_t handle, int err);
-> +void igt_panthor_free_bo(int fd, struct panthor_bo *bo);
-> +void igt_panthor_bo_create_mapped(int fd, struct panthor_bo *bo, uint64_t size,
-> +                                  uint32_t flags, int err);
-> +void *igt_panthor_mmap_bo(int fd, uint32_t handle, uint64_t size, unsigned prot);
->  
->  #endif /* IGT_PANTHOR_H */
-> diff --git a/tests/panthor/meson.build b/tests/panthor/meson.build
-> index 979ae91e0..89edcc844 100644
-> --- a/tests/panthor/meson.build
-> +++ b/tests/panthor/meson.build
-> @@ -1,4 +1,8 @@
->  panthor_progs = [
-> +	'panthor_gem',
-> +	'panthor_query',
-> +	'panthor_vm',
-> +	'panthor_group',
->  ]
->  
->  foreach prog : panthor_progs
-> diff --git a/tests/panthor/panthor_gem.c b/tests/panthor/panthor_gem.c
-> new file mode 100644
-> index 000000000..0bdaa3495
-> --- /dev/null
-> +++ b/tests/panthor/panthor_gem.c
-> @@ -0,0 +1,59 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
-> +
-> +#include "igt.h"
-> +#include "igt_core.h"
-> +#include "igt_panthor.h"
-> +
-> +igt_main {
-> +  int fd;
-> +
-> +  igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
-> +
-> +  igt_subtest("bo_create") {
-> +    struct panthor_bo bo;
-> +    igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
-> +    igt_assert(bo.handle != 0);
-> +
-> +    igt_panthor_free_bo(fd, &bo);
-> +  }
-> +
-> +  igt_subtest("bo_mmap_offset") {
-> +    struct panthor_bo bo;
-> +    uint64_t mmap_offset;
-> +
-> +    igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
-> +    igt_assert(bo.handle != 0);
-> +
-> +    mmap_offset = igt_panthor_bo_mmap_offset(fd, bo.handle, 0);
-> +    igt_assert(mmap_offset != 0);
-> +
-> +    igt_panthor_free_bo(fd, &bo);
-> +  }
-> +
-> +  igt_subtest("bo_mmap_offset_invalid_handle") {
-> +    struct panthor_bo bo;
-> +    uint64_t mmap_offset;
-> +
-> +    igt_panthor_bo_create(fd, &bo, 4096, 0, 0);
-> +    igt_assert(bo.handle != 0);
-> +
-> +    mmap_offset = igt_panthor_bo_mmap_offset(fd, 0xdeadbeef, ENOENT);
-> +    igt_assert(mmap_offset == 0);
-> +
-> +    igt_panthor_free_bo(fd, &bo);
-> +  }
-> +
-> +  igt_subtest("bo_create_round_size") {
-> +    struct panthor_bo bo;
-> +    uint64_t expected_size = 8192;
-> +
-> +    igt_panthor_bo_create(fd, &bo, 5000, 0, 0);
-> +    igt_assert(bo.handle != 0);
-> +    igt_assert(bo.size == expected_size);
-> +
-> +    igt_panthor_free_bo(fd, &bo);
-> +  }
-> +
-> +  igt_fixture { drm_close_driver(fd); }
-> +}
-> diff --git a/tests/panthor/panthor_group.c b/tests/panthor/panthor_group.c
-> new file mode 100644
-> index 000000000..b7e3cf9c3
-> --- /dev/null
-> +++ b/tests/panthor/panthor_group.c
-> @@ -0,0 +1,264 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
-> +
-> +#include <stdint.h>
-> +#include <sys/mman.h>
-> +#include <endian.h> // For htole64
-> +#include <unistd.h>
-> +
-> +#include "drm.h"
-> +#include "igt.h"
-> +#include "igt_core.h"
-> +#include "igt_panthor.h"
-> +#include "panthor_drm.h"
-> +
-> +static void
-> +issue_store_multiple(u8 *command_stream, uint64_t kernel_va, uint32_t constant)
-> +{
-> +    uint64_t opcode, reg_num, mov48, store_multiple, flush;
-> +    uint64_t sr, src0, register_bitmap, offset;
-> +
-> +    // MOV48: Load the source register ([r68; r69]) with the kernel address
-> +    opcode = 0x1;
-> +    reg_num = 68;
-> +    mov48 = (opcode << 56) | (reg_num << 48) | kernel_va;
-> +    mov48 = htole64(mov48);
-> +    memcpy(&command_stream[0], &mov48, sizeof(mov48));
-> +
-> +    // MOV48: Load a known constant into r70
-> +    opcode = 0x1;
-> +    reg_num = 70;
-> +    mov48 = (opcode << 56) | (reg_num << 48) | constant;
-> +    mov48 = htole64(mov48);
-> +    memcpy(&command_stream[8], &mov48, sizeof(mov48));
-> +
-> +    // STORE_MULTIPLE: Store the first register to the address pointed to by [r68; r69]
-> +    opcode = 0x15; // STORE_MULTIPLE
-> +    sr = 70; // Starting from register r70
-> +    src0 = 68; // Address pointed to by [r68; r69]
-> +    register_bitmap = 1; // Store the first register
-> +    offset = 0; // Offset
-> +    store_multiple = (opcode << 56) | (sr << 48) | (src0 << 40) | (register_bitmap << 16) | offset;
-> +    store_multiple = htole64(store_multiple);
-> +    memcpy(&command_stream[16], &store_multiple, sizeof(store_multiple));
-> +
-> +    opcode = 0x1;
-> +    reg_num = 68;
-> +    mov48 = (opcode << 56) | (reg_num << 48) | 0;
-> +    mov48 = htole64(mov48);
-> +    memcpy(&command_stream[24], &mov48, sizeof(mov48));
-> +
-> +    opcode = 36;
-> +    flush = opcode << 56 | 0ull << 48 | reg_num << 40 | 0ull << 16 | 0x233;
-> +    flush = htole64(flush);
-> +    memcpy(&command_stream[32], &flush, sizeof(flush));
-> +}
-> +
-> +igt_main {
-> +  int fd;
-> +
-> +  igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
-> +
-> +  igt_subtest("group_create") {
-> +    struct drm_panthor_gpu_info gpu_info = {};
-> +    struct drm_panthor_vm_create vm_create = {};
-> +    struct drm_panthor_group_create group_create = {};
-> +    struct drm_panthor_queue_create queue = {};
-> +    struct drm_panthor_obj_array queues;
-> +    struct drm_panthor_group_destroy group_destroy;
-> +    struct drm_panthor_vm_destroy vm_destroy;
-
-Both group_destroy and vm_destroy need their padding fields initialised.
-
-> +
-> +    igt_panthor_query(fd, DRM_PANTHOR_DEV_QUERY_GPU_INFO, &gpu_info, sizeof(gpu_info), 0);
-> +    igt_assert(gpu_info.gpu_id != 0);
-> +
-> +    vm_create.flags = 0;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create), 0);
-> +    igt_assert(vm_create.id != 0);
-> +
-> +    queue.priority = 0; // Low priority
-> +    queue.ringbuf_size = 4096; // Example size
-> +    queues = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue);
-> +
-> +    group_create.queues = queues;
-> +    group_create.max_compute_cores = 1;
-> +    group_create.max_fragment_cores = 1;
-> +    group_create.max_tiler_cores = 1;
-> +    group_create.priority = PANTHOR_GROUP_PRIORITY_MEDIUM;
-> +    group_create.compute_core_mask = gpu_info.shader_present & 0x1; // Use first core
-> +    group_create.fragment_core_mask = gpu_info.shader_present & 0x1; // Use first core
-> +    group_create.tiler_core_mask = gpu_info.tiler_present & 0x1; // Use first tiler
-> +    group_create.vm_id = vm_create.id;
-> +
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &group_create), 0);
-> +    igt_assert(group_create.group_handle != 0);
-> +
-> +    // Cleanup: Destroy the group and VM
-> +    group_destroy = (struct drm_panthor_group_destroy){ .group_handle = group_create.group_handle };
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_DESTROY, &group_destroy), 0);
-> +
-> +    vm_destroy = (struct drm_panthor_vm_destroy) { .id = vm_create.id };
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy), 0);
-> +  }
-> +
-> +  igt_subtest("group_submit") {
-> +    struct drm_panthor_gpu_info gpu_info = {};
-> +    struct drm_panthor_vm_create vm_create = {};
-> +    struct drm_panthor_group_create group_create = {};
-> +    struct drm_panthor_queue_create queue = {};
-> +    struct drm_panthor_obj_array queues;
-> +    struct drm_panthor_group_submit group_submit = {};
-> +    struct drm_panthor_queue_submit queue_submit = {};
-> +    struct drm_panthor_group_destroy group_destroy;
-> +    struct drm_panthor_obj_array queue_submits;
-> +    struct drm_panthor_vm_destroy vm_destroy;
-
-Again both group_destroy and vm_destroy need their padding fields
-initialised.
-
-> +    struct drm_panthor_bo_create bo_create = {};
-> +    struct drm_panthor_vm_bind vm_bind = {};
-> +    struct drm_panthor_vm_bind_op vm_bind_op = {};
-> +    struct drm_syncobj_wait wait = {};
-> +    struct drm_syncobj_create syncobj_create = {};
-> +    struct drm_panthor_sync_op sync_op = {};
-> +    struct drm_gem_close gem_close = {};
-> +    struct drm_syncobj_destroy syncobj_destroy = {};
-> +    uint64_t command_stream_gpu_addr;
-> +    uint32_t command_stream_size;
-> +    uint64_t result_gpu_addr;
-> +    uint32_t cmd_buf_bo_handle;
-> +    uint32_t result_bo_handle;
-> +    uint32_t syncobj_handle;
-> +    uint8_t command_stream[64] = {0};
-> +    uint8_t *bo_cpu_addr;
-> +    uint8_t *result_cpu_addr;
-> +    const int INITIAL_VA = 0x1000000;
-> +
-> +
-> +    igt_panthor_query(fd, DRM_PANTHOR_DEV_QUERY_GPU_INFO, &gpu_info, sizeof(gpu_info), 0);
-> +    igt_assert(gpu_info.gpu_id != 0);
-> +
-> +    vm_create.flags = 0;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_CREATE, &vm_create), 0);
-> +    igt_assert(vm_create.id != 0);
-> +
-> +    bo_create.size = 4096;
-> +    bo_create.flags = 0;
-> +    bo_create.exclusive_vm_id = vm_create.id;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create), 0);
-> +    igt_assert(bo_create.handle != 0);
-> +    cmd_buf_bo_handle = bo_create.handle;
-> +
-> +    vm_bind_op.flags = DRM_PANTHOR_VM_BIND_OP_TYPE_MAP;
-> +    vm_bind_op.bo_handle = cmd_buf_bo_handle;
-> +    vm_bind_op.bo_offset = 0;
-> +    vm_bind_op.va = INITIAL_VA;
-> +    vm_bind_op.size = bo_create.size;
-> +    vm_bind.ops = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &vm_bind_op);
-> +    vm_bind.vm_id = vm_create.id;
-> +    vm_bind.flags = 0;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind), 0);
-> +
-> +    command_stream_gpu_addr = vm_bind_op.va;
-> +    command_stream_size = sizeof(command_stream);
-> +
-> +    bo_cpu_addr = igt_panthor_mmap_bo(fd, bo_create.handle, bo_create.size, PROT_READ | PROT_WRITE);
-> +    igt_assert(bo_cpu_addr != MAP_FAILED);
-> +
-> +    // Create the BO to receive the result of the store.
-> +    memset(&bo_create, 0, sizeof(bo_create));
-> +    bo_create.size = 4096;
-> +    bo_create.flags = 0;
-> +    bo_create.exclusive_vm_id = vm_create.id;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_BO_CREATE, &bo_create), 0);
-> +    igt_assert(bo_create.handle != 0);
-> +    result_bo_handle = bo_create.handle;
-> +
-> +    // Also bind the result BO.
-> +    vm_bind_op.flags = DRM_PANTHOR_VM_BIND_OP_TYPE_MAP;
-> +    vm_bind_op.bo_handle = result_bo_handle;
-> +    vm_bind_op.bo_offset = 0;
-> +    vm_bind_op.va = INITIAL_VA + 4096;
-> +    vm_bind_op.size = bo_create.size;
-> +    vm_bind.ops = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &vm_bind_op);
-> +    vm_bind.vm_id = vm_create.id;
-> +    vm_bind.flags = 0;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_BIND, &vm_bind), 0);
-> +    result_gpu_addr = vm_bind_op.va;
-> +
-> +    issue_store_multiple(command_stream, result_gpu_addr, 0xdeadbeef);
-> +    memcpy(bo_cpu_addr, command_stream, command_stream_size);
-> +    munmap(bo_cpu_addr, bo_create.size);
-> +
-> +    queue.priority = 0;
-> +    queue.ringbuf_size = 4096;
-> +    queues = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue);
-> +
-> +    group_create.queues = queues;
-> +    group_create.max_compute_cores = 1;
-> +    group_create.max_fragment_cores = 1;
-> +    group_create.max_tiler_cores = 1;
-> +    group_create.priority = PANTHOR_GROUP_PRIORITY_MEDIUM;
-> +    group_create.compute_core_mask = gpu_info.shader_present & 0x1;
-> +    group_create.fragment_core_mask = gpu_info.shader_present & 0x1;
-> +    group_create.tiler_core_mask = gpu_info.tiler_present & 0x1;
-> +    group_create.vm_id = vm_create.id;
-> +
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &group_create), 0);
-> +    igt_assert(group_create.group_handle != 0);
-> +
-> +    syncobj_create = (struct drm_syncobj_create){
-> +        .flags = 0,
-> +    };
-> +
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_CREATE, &syncobj_create), 0);
-> +    syncobj_handle = syncobj_create.handle;
-> +
-> +    sync_op = (struct drm_panthor_sync_op) {
-> +        .handle = syncobj_handle,
-> +        .flags = DRM_PANTHOR_SYNC_OP_SIGNAL,
-> +    };
-> +
-> +    queue_submit.syncs = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &sync_op);
-> +
-> +    queue_submit.queue_index = 0;
-> +    queue_submit.stream_size = command_stream_size;
-> +    queue_submit.stream_addr = command_stream_gpu_addr;
-> +    queue_submit.latest_flush = 0;
-> +    queue_submits = (struct drm_panthor_obj_array)DRM_PANTHOR_OBJ_ARRAY(1, &queue_submit);
-> +
-> +    group_submit.group_handle = group_create.group_handle;
-> +    group_submit.queue_submits = queue_submits;
-> +
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_SUBMIT, &group_submit), 0);
-> +
-> +    wait = (struct drm_syncobj_wait) {
-> +      .handles = (uint64_t)&syncobj_handle,
-> +      .count_handles = 1,
-> +      .timeout_nsec = INT64_MAX,
-> +      .flags = 0,
-> +    };
-> +
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_WAIT, &wait), 0);
-> +
-> +    result_cpu_addr = igt_panthor_mmap_bo(fd, bo_create.handle, bo_create.size, PROT_READ | PROT_WRITE);
-> +
-> +    igt_assert(*(uint32_t *)result_cpu_addr == 0xdeadbeef);
-> +    munmap(result_cpu_addr, bo_create.size);
-> +
-> +    syncobj_destroy.handle = syncobj_handle;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_SYNCOBJ_DESTROY, &syncobj_destroy), 0);
-> +
-> +
-> +    group_destroy.group_handle = group_create.group_handle;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_DESTROY, &group_destroy), 0);
-> +
-> +    vm_destroy.id = vm_create.id;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_PANTHOR_VM_DESTROY, &vm_destroy), 0);
-> +
-> +    gem_close.handle = cmd_buf_bo_handle;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_GEM_CLOSE, &gem_close), 0);
-> +
-> +    gem_close.handle = result_bo_handle;
-> +    igt_assert_eq(igt_ioctl(fd, DRM_IOCTL_GEM_CLOSE, &gem_close), 0);
-> +
-> +}
-> +
-> +  igt_fixture { drm_close_driver(fd); }
-> +}
-> diff --git a/tests/panthor/panthor_query.c b/tests/panthor/panthor_query.c
-> new file mode 100644
-> index 000000000..3bbecf3a6
-> --- /dev/null
-> +++ b/tests/panthor/panthor_query.c
-> @@ -0,0 +1,25 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
-> +
-> +#include "igt.h"
-> +#include "igt_core.h"
-> +#include "igt_panthor.h"
-> +#include "panthor_drm.h"
-> +#include <stdint.h>
-> +
-> +igt_main {
-> +  int fd;
-> +
-> +  igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
-> +
-> +  igt_subtest("query") {
-> +    struct drm_panthor_gpu_info gpu = {};
-> +
-> +    igt_panthor_query(fd, DRM_PANTHOR_DEV_QUERY_GPU_INFO, &gpu, sizeof(gpu), 0);
-> +
-> +    igt_assert(gpu.gpu_id != 0);
-> +    igt_assert(gpu.gpu_rev != 0);
-
-It's perfectly valid for gpu_rev to read as 0.
-
-Thanks,
-Steve
-
-> +  }
-> +
-> +  igt_fixture { drm_close_driver(fd); }
-> +}
-> diff --git a/tests/panthor/panthor_vm.c b/tests/panthor/panthor_vm.c
-> new file mode 100644
-> index 000000000..484602de3
-> --- /dev/null
-> +++ b/tests/panthor/panthor_vm.c
-> @@ -0,0 +1,73 @@
-> +// SPDX-License-Identifier: MIT
-> +// SPDX-FileCopyrightText: Copyright (C) 2025 Collabora Ltd.
-> +
-> +#include "igt.h"
-> +#include "igt_core.h"
-> +#include "igt_panthor.h"
-> +#include "panthor_drm.h"
-> +
-> +igt_main {
-> +  int fd;
-> +
-> +  igt_fixture { fd = drm_open_driver(DRIVER_PANTHOR); }
-> +
-> +  igt_subtest("vm_create_destroy") {
-> +    uint32_t vm_id;
-> +
-> +    igt_panthor_vm_create(fd, &vm_id, 0);
-> +    igt_assert(vm_id != 0);
-> +
-> +    igt_panthor_vm_destroy(fd, vm_id, 0);
-> +  }
-> +
-> +  igt_subtest("vm_destroy_invalid") {
-> +    igt_panthor_vm_destroy(fd, 0xdeadbeef, EINVAL);
-> +  }
-> +
-> +  igt_subtest("vm_bind") {
-> +    uint32_t vm_id;
-> +    struct panthor_bo bo;
-> +    uint64_t bo_size = 0x1000;
-> +
-> +    igt_panthor_vm_create(fd, &vm_id, 0);
-> +    igt_assert(vm_id != 0);
-> +
-> +    igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
-> +    igt_panthor_vm_bind(fd, vm_id, bo.handle, 0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_MAP, 0);
-> +
-> +    igt_panthor_vm_destroy(fd, vm_id, 0);
-> +  }
-> +
-> +  igt_subtest("vm_unbind") {
-> +    uint32_t vm_id;
-> +    struct panthor_bo bo;
-> +    uint64_t bo_size = 0x1000;
-> +
-> +    igt_panthor_vm_create(fd, &vm_id, 0);
-> +    igt_assert(vm_id != 0);
-> +
-> +    igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
-> +    igt_panthor_vm_bind(fd, vm_id, bo.handle, 0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_MAP, 0);
-> +    igt_panthor_vm_bind(fd, vm_id, 0, 0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP, 0);
-> +
-> +    igt_panthor_vm_destroy(fd, vm_id, 0);
-> +  }
-> +
-> +  igt_subtest("vm_unbind_invalid_address") {
-> +    uint32_t vm_id;
-> +    struct panthor_bo bo;
-> +    uint64_t bo_size = 0x1000;
-> +
-> +    igt_panthor_vm_create(fd, &vm_id, 0);
-> +    igt_assert(vm_id != 0);
-> +
-> +    igt_panthor_bo_create(fd, &bo, bo_size, 0, 0);
-> +
-> +    /* This was not bound previously*/
-> +    igt_panthor_vm_bind(fd, vm_id, bo.handle, 0x1000, 0x1000, DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP, EINVAL);
-> +    igt_panthor_vm_destroy(fd, vm_id, 0);
-> +  }
-> +
-> +
-> +  igt_fixture { drm_close_driver(fd); }
-> +}
-
+>  mm/percpu-km.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/mm/percpu-km.c b/mm/percpu-km.c
+> index fe31aa19db81a..4efa74a495cb6 100644
+> --- a/mm/percpu-km.c
+> +++ b/mm/percpu-km.c
+> @@ -69,7 +69,7 @@ static struct pcpu_chunk *pcpu_create_chunk(gfp_t gfp)
+>  	}
+>
+>  	for (i = 0; i < nr_pages; i++)
+> -		pcpu_set_page_chunk(nth_page(pages, i), chunk);
+> +		pcpu_set_page_chunk(pages + i, chunk);
+>
+>  	chunk->data = pages;
+>  	chunk->base_addr = page_address(pages);
+> --
+> 2.50.1
+>
