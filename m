@@ -2,135 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894F7B39130
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 03:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31027B3918E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:16:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6691010E048;
-	Thu, 28 Aug 2025 01:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F5710E921;
+	Thu, 28 Aug 2025 02:16:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KZcKznnE";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="OsD+TrRG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD4C10E048
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 01:41:06 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57RGYQE9016186
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 01:41:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Ssoc0exiUKYkJTufSStqPOkqj7hxlg71SdT94NhDD5U=; b=KZcKznnEPFgJsOQn
- EbH6lO2kFL1smweAQwe0gt/nnQ022nK0GbWupThfJsU0f7ZLhDq/kYXGcn3hQK6z
- jX97ca+qt3gJQggKBuMYHUP/FiOEXKPGTqGziyUX6+JNDP1Eoo6Owcclv5gzhYoJ
- JikNeSV0C2Ia87AyLHicMHs4LvwtmwLWKtgSze6A3LvFyVFO2VvH8ywTGn6pfbez
- Qi99DmkrLD2WCiXWCqUtboc3ClyzpFsHi1/n0hlX2+o877h3lvJGweYxtx+HXv8u
- FCsMEfO5EAMC6yX95wiRWKiTapGow2J82CzabkJAb8TSNvn3l3queQl6F0YBuk7+
- xULbmA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48rtpf0ss4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 01:41:04 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-3253ba05aa7so110821a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 18:41:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756345263; x=1756950063;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Ssoc0exiUKYkJTufSStqPOkqj7hxlg71SdT94NhDD5U=;
- b=ZM6MBDExnB0CHxazV7rTyADiY3aP30G7sTltyBu+fbGOfnNS0+XM5MC21Iuj3KWCRj
- eFrKl6bzj10nE53YfmeBNNkwwuVwXwLBRDxv8sb+rrCpl59vqjGhHT03xK0fqLKblRnv
- TVLNZOUO4GbAIXEI1w3o9Soc4+ljjohQSFp2mcOYYvagHz4yIwCYMAJK76fKKVoCRvt6
- cETdVqYLc8dbse2KfZP2RS1a6j10kVe4NXfQBC5NCpUhWNbseEgyasHZYBS7IveVfPjp
- cx0+qsKcSpjE611e5qUovnUYgsUpY2fVOF6M+L6iX+e+oWHrq6xVgK5vSwZYoRiZrvFL
- twYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkwEWA7ZxIqUwLL331LI3Sv4glvzfDdhDNCLC1dWqGgpyjvW4JJxIma81mhRxlZj/Rr/Svu/d6y2Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxurD4Zs+5zxMB19T8XUa483gepeRLzxPxiCPbTMHQbHUUYAyZ
- OYO0l5rOYa/d7R4pT8kbuKAiJ7EtA+dU3HJPtIvbfNymg7tijO02AaNZVIvSd7pvicfKDqIFoiC
- YPOX0p52ijqmHSk28LWu9oQwuWcRR1iREe1yi/+bXjEweAxzk64TJdPyhnwIXnyRkButjgGM=
-X-Gm-Gg: ASbGncvatYfMoGYa2dWCkti7lDD6umXgNhkF6p5wxzwSAaBABDv9jF969qs4LyrpGD0
- k/cj4hNnNJmU716DE1ErK5PAXghvAljddlA72kFFWG7kR4fai6MLA8vlt0mKlrOtaECTllrBnPB
- 24Z17GS548Qu600dJNfPXZ/TJ4dOdWTVNrJgRMXknKKg5ID+dyP+wrgdNUmzmvZb2XIO22sj4Pr
- nTJQj9tgnFcOSAVqqtgr/3r2FJzvPg6OeOTvza7LoBYuO94mXTCwQ1rdSAsbblqvaA3VRFjD4A7
- 2CEkyujXR8w4hgws1O9aUT7f1+ZMLTsg58kH7LXASNT/Zp9thNzXnxIVvmjHSURtpuTX+wbHVRC
- jkMHKi3qZHpk0X3lY3LajAgt7rCpx0Q==
-X-Received: by 2002:a17:902:f9c3:b0:23f:fd0e:e5c0 with SMTP id
- d9443c01a7336-2462ef98ba8mr109012385ad.9.1756345263528; 
- Wed, 27 Aug 2025 18:41:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGWXipYMCUO2Kzzeeg7jT0Nmhu/2L6WMJrB3Z5gpVV1nUTBpvsLjmhXjD4WaZ1s7Er0CBjoxA==
-X-Received: by 2002:a17:902:f9c3:b0:23f:fd0e:e5c0 with SMTP id
- d9443c01a7336-2462ef98ba8mr109012105ad.9.1756345262976; 
- Wed, 27 Aug 2025 18:41:02 -0700 (PDT)
-Received: from [10.133.33.166] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2466889c61bsm133558605ad.143.2025.08.27.18.40.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Aug 2025 18:41:02 -0700 (PDT)
-Message-ID: <749ec6d1-f2f9-40f5-9c41-3443698f250a@oss.qualcomm.com>
-Date: Thu, 28 Aug 2025 09:40:51 +0800
-MIME-Version: 1.0
+Received: from OS8PR02CU002.outbound.protection.outlook.com
+ (mail-japanwestazon11012008.outbound.protection.outlook.com [40.107.75.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10BAA10E04B
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:16:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rGAY5rI/WG41jfGa7+Uo8pfDsvKvzG4GJBY8d6yXFZ0qPAguRamhAv6tIy5uaQ7wJEIHt136LomwB4ApkjhPG8zmUi+6cPSuRGfE+tsuWyoasUaxQMEkXQpsIHljFxfxT8wAwhS529G3+rFctF/3pskfmt9uTljMbjCiZTsp7vtAKoaTpXHA/CcOwP4Y3UbhBgeOCJP+z17ZyKukxiMRYIjZiM0XcLSrjhtqEIAOAmJXQd4J3Zn/y3Hg8cDgd3eCIIl3rQfzGd1vd9RrNXfQERwAwY4BuPpKt1iFuN5oFHEZDslTLXx24x/YIAzveYdcQDLLOMLx5hiOj4eMxYZd2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nXzaiOqJmcZi3EUvNLeIpsXmm5VtJpoc27qn7nKMI0k=;
+ b=OkMJ7kQfdP+YLXlfOV6LjQ9Qov37MMHPr22LQ/9R1GWnCHum/hI52DoqkrUS0AZY3yF3fV/qxgOTB1tXDReYusZau7nxmJEulk4jHUQGcLVgbVkcs4UtzQJR00vH1B3B7NnEabUwJSIL8sNxpzcpNxUqrwecMK01yWsorBmNCetTEA8gGdAX2ig0h41kBf5Lp3maCJn14GRnV664fLSc0LkAAVV4xm5w8hIalRFBD96gAHnZ7nB1QKfnJEq5qQsXQa87leEFxiPDQ0BNYFkO2nO9a3aifBK7gor63PgfOU1fWJyzuhCWD0wwbzs0DBUe47zNT5AuIh8hwI+qkF6l7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nXzaiOqJmcZi3EUvNLeIpsXmm5VtJpoc27qn7nKMI0k=;
+ b=OsD+TrRG6Sh7rqSu4jIBLZZfzvThBEktC7ve4t/iNerYcWyjWwYX8HlzR9PkBjeUTKevKx2ozjX4oB/4IMejAEtfvJvvR54LPkFjTxgBqADv57EekCVf7jPI5tB4IukKqKkD196d7jUyRspnWAFazPDXHnif+nnHa05orHsuJ1ePkY+zFz77LMJ/ggs4EDxg+FPfLxwnScuqb7yxdWOoSfx4Fkbg3O22aYGFlQ9NRGzWNDUrfIKWZ9O5+2haiipkHK/1JLfErqTN+BqF/9XD5w9EpiT8O5Q20fl06rX8AszRXLLVC5NnLV7HCRLrncjII3YEQKFRHRaxK1qYojPeKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ KL1PR06MB6670.apcprd06.prod.outlook.com (2603:1096:820:100::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Thu, 28 Aug
+ 2025 02:16:21 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
+ 02:16:21 +0000
+Message-ID: <b7438e06-b747-4afd-8581-fba671a35a4e@vivo.com>
+Date: Thu, 28 Aug 2025 10:16:17 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/14] phy: qcom: qmp-usbc: Move reset and regulator
- config into PHY cfg
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-7-a43bd25ec39c@oss.qualcomm.com>
- <ofvzduf5xyip7w6yde2xwsrvv3tdh7ew3yyzeya2qzpqty3j7p@bnetyjowhdn5>
- <6f7c3962-ccfc-4400-a77f-399b06da93e1@oss.qualcomm.com>
- <llrt3xnd5gagovnmyzqebp2da5v67bkxjntfcgc5r5auamspyj@7v5taph3i3c4>
- <f3cc06c1-25d2-40f4-bd77-8a9c51b40efa@oss.qualcomm.com>
- <osav4kwxytfuxvnf26ugdw2qasd753smywsux5punuegbkxqgq@fp3r4esqiqyq>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <osav4kwxytfuxvnf26ugdw2qasd753smywsux5punuegbkxqgq@fp3r4esqiqyq>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
+Content-Language: en-US
+To: Lizhi Hou <lizhi.hou@amd.com>, Min Ma <min.ma@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250826072917.186638-1-rongqianfeng@vivo.com>
+ <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
+ <eaefefb6-7ced-4c47-8bff-bae83f143b72@vivo.com>
+ <6222cb69-fbb5-07b8-043c-cf0c25c9f3f0@amd.com>
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+In-Reply-To: <6222cb69-fbb5-07b8-043c-cf0c25c9f3f0@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: srHg6nlB_4YvGq_-auLzDkUoQwTQy97A
-X-Proofpoint-ORIG-GUID: srHg6nlB_4YvGq_-auLzDkUoQwTQy97A
-X-Authority-Analysis: v=2.4 cv=Hd8UTjE8 c=1 sm=1 tr=0 ts=68afb3b0 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=Nindc6OTbrst8G9qLT4A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDE0MiBTYWx0ZWRfX3L83qVDjqUOI
- SrGWiCWi8yTEuwS92ZoZRY6ilJXvxR6E3ukWFEAGZjJo0I0rWgP9ayJM8MfyLX+z/gYUjrvDsUz
- ge4DIObB2eqtLwjtLgUTv9EewpT5yMTID4NBOXT8Ytt+1nGDbghpZgIjO0flGFZG8byBcdTDJB2
- sUvEvZqzGT//k6XViuFgn/7chrgUVR1woE8+xrvWvYRGBKf1AdU3mp0xsuBmK6/T7+Qr7jlz00v
- rLbjPb/nTspbkNzY+bbF+ZiFXknU26aB1rFIgZDiyTa5l8h+b74armNkvxKq+4nDeN2SH9jZW5a
- 6t1Uluf4D3pZOljFl4ReNGQQ3JRI0rUiRTFAA6P5JSaNTHR5yYkej6RuAHvR5KlIe51nm5NMj5e
- y9BPcmlX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-27_04,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508250142
+X-ClientProxiedBy: SI2PR02CA0044.apcprd02.prod.outlook.com
+ (2603:1096:4:196::17) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|KL1PR06MB6670:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a182f9d-7cb4-415a-eeca-08dde5d8e0fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0hjTEVQVGZoblJOY0hyVmNvY2l6UkZGVkp3d1JDbWN0QmZobGJ6Q1VrbERB?=
+ =?utf-8?B?Sythc1kyLzVSaDNzZ08zWCs3cVZiQ1dNWkc0cVNFNWcvQTlIeFhFaC8wbDZa?=
+ =?utf-8?B?dDhIdXhFYSt4QkJHNFUyZi9NdDFhUDBxMWNmOEFUcTN2UEVRMjl4Nkt2VUZo?=
+ =?utf-8?B?UWs4YjNQT2FYVDM2R1YxVUZueCtDTUk4Q1F1SmpqYnJKN3M1WXRXTTFxSzBn?=
+ =?utf-8?B?dFdacmdNM2pqcnRGNys0ZVQ3Wkp1RVR0akQ3NS9KN2xlVlVvVm1tNlVYMUp3?=
+ =?utf-8?B?QzV6MnNOMEwwYkZnaEZ1WFlteTdEOHFGVDZtWjBtYVRlVmdtcWRUOXdkOUVK?=
+ =?utf-8?B?dGlvdUlRci85VE5hOGtCREdveGkxTzBFWFJGWWw0SUpITnRlbGtnOS90eTIw?=
+ =?utf-8?B?SXlyZkExNEhibUk1MXVqODFaZWlUQXllcS9qZ0I2ekF5WmR3RG00ODJwbm11?=
+ =?utf-8?B?akwvNU9GWFVJbTZzWmFIVTQ3aGY4emU4VWpiWlBTL3pGOW5ybnpTelk3NVJa?=
+ =?utf-8?B?Q2RiRmc1TnlJL2xCaHp0dEJGbXBvQlNEUFFnUVcvWHZrWTBXLzdhNWxNY0hQ?=
+ =?utf-8?B?TWxlbjlLRkd4NTJ3RzlmTEMvem9UeE5TNlZCbzhpc3E4dHgxQ0xtdlFKQ0hN?=
+ =?utf-8?B?MjFGeHpPNjdaZjArZkwrdjcvOVRTcDdKcDhreVdFdVMxTjRuc3FCY3MxZWlL?=
+ =?utf-8?B?N0NEcXlCaEt4bHBRcW1qTDVIVzFQVVhRZ1ZLRTYrTlNGZC9hWFNlR1dtZXZY?=
+ =?utf-8?B?YUtWL2tKN0dyOU5QUHpNaEkvS0NuUDlDdXk2S3lUM2JNL01DSXpaMllIVkww?=
+ =?utf-8?B?WHVMeDNiL2JRQjA1Ky96ZHEyZ0hGbUY4K2s3S0Y5UU9xNnFtU2RUMGxEWitB?=
+ =?utf-8?B?YTNOS3F5NTJHNGpsMDQ5ZHV2RzExRGM0V0NXNWZsdXV0Y0NtcS9CYmN4c3Ry?=
+ =?utf-8?B?TG1RNWRINjVGT1ludXhKeXRYQ3l0cmhWbnZGNXJHcngraHpZQWtJU3JLcExw?=
+ =?utf-8?B?L3cwc05uMUx6RHMzd2FBdUJ3cFNnSURBcWIxbUl4dllRNnJTRCtrM1JNZEFL?=
+ =?utf-8?B?SmlDZmUrbjhTOGJKZ0twS1pVdnZidnE1bFUrV2V1bERMQU1udDRTek5jRSt6?=
+ =?utf-8?B?SCt5M3JtYzkzSkpIVkNqb3ZyYmJ1TnJOZEMxTG1yMFRFRnljSUVQcTFlQ3Nw?=
+ =?utf-8?B?SFpvQlNRc0dEM2pXTmNoWUpCK29tazk1WmR2NENhQkFGUVYvNFBrR2JEQlVu?=
+ =?utf-8?B?ZG40KzdXNHFCVVo5dW5OQkRjeTRlK2NEQTV5ZE1XT2srb0RBWWhUbForcGIy?=
+ =?utf-8?B?aGR6ZDM4am1KVUxRUXZtYkdLQXdKSTFBMEk1QVUzUDJmQzZoc0oyQXFiMXNs?=
+ =?utf-8?B?eVdyOXdvc1kra1dEK3F6Rnl3dWEramdBYnNBT0VaODVvV3NQVmVxeklzbEFV?=
+ =?utf-8?B?UjhYWS9rUXUvdU1EcXB4NXVIV09sdEVqNkI5eGtkRkFaejNIRUd5bS9EaXBU?=
+ =?utf-8?B?ajVWNDFxeUhEL1A1Sk1hZEM4dnBwS0NjdGcyWXhGWXJkKzZGZWJXanNyNlZC?=
+ =?utf-8?B?ZzRMcWZLWjhaUXQ5RzFvd3JnTVRrellpb3hTOGtWd2s3Tkt5Nlk3aGFwWHVO?=
+ =?utf-8?B?ZmYxcWlyMGdIZzRlTHFnb3pDYXZwYyt6N2lUNnkvTkhhdjV4MnZ5dUwrbU5H?=
+ =?utf-8?B?UFhDWlRuQmNKS1FnV2lHcEdXOGkyOTBUakNJcFFYMnhRNEVEdUxYWDZBSTVk?=
+ =?utf-8?B?SEM3MmVFSFFxT2Y1OUk2MUNsOHJaemFlSURGNlVHV2dxS1ZTTHB2ZlcvR01P?=
+ =?utf-8?B?ZjQ0ZVdhQ2ZtNzZlRDRzeHpzUy85TWFRTzgwSkpnTExmS0FWb0NLVXNXSUhN?=
+ =?utf-8?B?eU95VmJqa3UvazNMQzdpZWhxRS82ejRSb1A3N0ZmRVR1Q1ZtbXk5dEJvZmFa?=
+ =?utf-8?Q?91ZhHdRm/rc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjJENjd3UWZOZUc5dXdRVEJPclZ2Z0F0enMvREJUMmJ5NDZXdVRZMHJYNzFQ?=
+ =?utf-8?B?MUltZ0duRVJyYzBETm9IYnNtdlJ4Z01qVkNmSTVuekJuaXVMU2FpRjlxU1Bk?=
+ =?utf-8?B?NjNWdGVsUHZOOVE4Qko2dnZZUnNGYi9GblVMY05nUDdxaGxSM1ZDYThPcDdm?=
+ =?utf-8?B?NlBEUVVRRnJSdmxFa2JNaHBQYWIvR2MvMXZFWUZacVpPejVRR1J3RWJlR1c0?=
+ =?utf-8?B?VysxLzJmRi9qZmFLMWt0UGxGMVJKTFVVYVRpczJnY0xjN3cxa3ROMWZvMFJW?=
+ =?utf-8?B?T1lGNE1jb2lRL0RCa1BQMjFZbVBKZmhZc3pleHRwdXVNcEZTcG1KR0RHbG9Y?=
+ =?utf-8?B?SGxDOGl5czdqdmxoVDNIMFFxQnAwQXduaTRVaGFpb2gyaGtBTXExSUYrRW1H?=
+ =?utf-8?B?VjcvZ0FTNXNkR2FCbFA4SW4rbFRncElac01oTUJOMlp6WlVRTWhQd3ZmL2t5?=
+ =?utf-8?B?VS9YSFZGSThtQUNiZjVnSmYzSjdOeFQ5SFJ1TUhIQVZHZWJ3MnRUc0NZWWJz?=
+ =?utf-8?B?U1hxVlEwc3ZRNVo1VXRyQkgrWFRRelNRR3hOdWNPc3lFK2hNbjJLTXBMWnB3?=
+ =?utf-8?B?WHF5Mmk0SytIbnA1d0xkMWt4MDAxaHNycEdBKytyajF2eWJqelZGMkR4eHNr?=
+ =?utf-8?B?NS94aTRCNlhiRjNVTUcxWFlBdTA4Rk9aNlQ3bFJVdkVJWkFBMFVraUNwUFJH?=
+ =?utf-8?B?RzU5eU1YbUJ0d1FBd0YxYi9VSEN4eCtpeFFsNnFkZm93SGRUMk16ZFNaMGdQ?=
+ =?utf-8?B?VHNsLzNQQThBNmprOStlbmV6LzFIOEs0WWhaZlZheUNKd3ZQbFhRN24yVkxm?=
+ =?utf-8?B?eW81RjVyV21YRnhNd3RpalhSanBCalNJV0ZGQXZuV0ZjM2liMkZqTlQ5Uitu?=
+ =?utf-8?B?WE05cWt3TnVIU3M2bTFZaE5qRE5QaWlTeGwyUFZhSUYzRzEydzNob3h0VU1I?=
+ =?utf-8?B?c2tKL0cyQzQyenZZc0c0OHo5alphS2Q5Q2VSeWhYaDVNRktvZ0VKYVJnR0l5?=
+ =?utf-8?B?UFZBZnZoT0NxZUtidmxGaG9sRGRiVUxZK2libTV6Q3c2R1NraXN6VnZHOHh1?=
+ =?utf-8?B?ejJSbG5Rem5Ucmd3T3hJZlJRWWRCMUl4WTZ2RGdZS0hleGZsU095L0xSY2Q2?=
+ =?utf-8?B?STRpVGJVYTRqU1ljR3lWVy9rVGlIcW9RQm40ZkR1WEsyaGdFMEVyM2NXRUtp?=
+ =?utf-8?B?eHM2RStST094bld3ZTc1NDdxc0NCYXZ6MzlGT2ZWT2hNbkdPSldLTWxzRU5a?=
+ =?utf-8?B?czZlYlR1cWR0VEJPNDlLU2lQL0lmSG0zdW1ONXh3Rlo2cW5Pc1U5TWRncVdy?=
+ =?utf-8?B?SkJ5WU1Rb2N1WHd6VzBIN2V0YUw3U0hpZ2ZVbWRUMTYxNDJYY01MRHZuTFk2?=
+ =?utf-8?B?UEo0VG9CTFBGVU8rK3NwZEhzN1ovcXNEV3lpM0pCMFArZ3Z2a0luKytmbDVX?=
+ =?utf-8?B?Y0NRYmt2WGdCenFjcXlBWWpXUjRqdERseXZXNUZFR1BZQTZyR0FBaXNLU05j?=
+ =?utf-8?B?OWlQS0s4eGkyVll4U2xLK29wczZ4cXYxVjNmY25uN0Q4OTkzbW1SRG9xcnQ2?=
+ =?utf-8?B?OHlZQUUvL29EYTBud25lTFEvYjNqeFRnbGJwdXNiVDVpa0UzOVFkLzRweG5k?=
+ =?utf-8?B?aVdlSkJuM1RFdGs4RWVTOUlkemtsVnFHRkJ1T3pSY1BGRE5LUGpvV2l6WGNF?=
+ =?utf-8?B?ZjlDTzBTYXA1bFRtQUtqVTJYRmJsMXY4WCtZY0ZxSTZxU0s2TytOVXNFSTJE?=
+ =?utf-8?B?Q2h4cWI4VlBpbzQ2NmZyd0NKZGJUSnNBa1I1WjFxdnc3d3ZIOHhCVHgrMWkv?=
+ =?utf-8?B?ZkxNQkVrWURJT3lCZXZhNS8wZHArckE2MTNyWkxHTU00bFZLZ1NrUllKdmhW?=
+ =?utf-8?B?K0VpZTVlakVaNkdvK3ZDbC85N3Z4bGlzelcyVmdHa2pPcWkxbG9xMjcwQmdQ?=
+ =?utf-8?B?NkowQ3hSRU1nSi9OdWFwZzBxVnFPcTdENlNuVHNPWnl3QU9OcEtpV1JHNW0v?=
+ =?utf-8?B?R1VkSFd6ZzJ6QnFPVVArdy9iZGFyN1NFaklzMk5lMFBpdnpMNUJMSEtwcTIz?=
+ =?utf-8?B?cC9LMjFIc05GRUpoT0d2bis1NS82ZUQxV1QyQjBMVkMzRjUrVUNKTXNDTXRY?=
+ =?utf-8?Q?qNpCIiH4aeuujBYx54DnzIyT7?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a182f9d-7cb4-415a-eeca-08dde5d8e0fb
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 02:16:20.8995 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yrI7cb8viAdobPzrFdxTuIr/DU1MXdi+iIGz5xAXPdLBJ8nf3goyYyQtozSc1LHc6jZYsnSxFeut8u7QMgDpxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6670
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,124 +166,52 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/27/2025 10:31 PM, Dmitry Baryshkov wrote:
-> On Wed, Aug 27, 2025 at 09:28:00PM +0800, Xiangxu Yin wrote:
->> On 8/22/2025 6:08 PM, Dmitry Baryshkov wrote:
->>> On Fri, Aug 22, 2025 at 04:29:28PM +0800, Xiangxu Yin wrote:
->>>> On 8/20/2025 7:30 PM, Dmitry Baryshkov wrote:
->>>>> On Wed, Aug 20, 2025 at 05:34:49PM +0800, Xiangxu Yin wrote:
->>>>>> Refactor reset and regulator configuration to be managed via qmp_phy_cfg
->>>>>> instead of hardcoded lists. This enables per-PHY customization and
->>>>>> simplifies initialization logic for USB-only and USB/DP switchable PHYs.
->>>>> Please split into two patches in order to simplify reviewing.
->>>> Ok, will split reset and regulator part.
->>>>
->>>>
->>>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>>>>> ---
->>>>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 108 +++++++++++++++----------------
->>>>>>  1 file changed, 53 insertions(+), 55 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>>>> index 61128d606238321d1b573655b3b987226aa2d594..4e797b7e65da0e3a827efa9a179f1c150c1b8b00 100644
->>>>>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>>>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>>>> @@ -421,8 +421,9 @@ struct qmp_phy_cfg {
->>>>>>  	int (*configure_dp_phy)(struct qmp_usbc *qmp);
->>>>>>  	int (*calibrate_dp_phy)(struct qmp_usbc *qmp);
->>>>>>  
->>>>>> -	/* regulators to be requested */
->>>>>> -	const char * const *vreg_list;
->>>>>> +	const char * const *reset_list;
->>>>>> +	int num_resets;
->>>>>> +	const struct regulator_bulk_data *vreg_list;
->>>>>>  	int num_vregs;
->>>>>>  
->>>>>>  	/* array of registers with different offsets */
->>>>>> @@ -453,7 +454,6 @@ struct qmp_usbc {
->>>>>>  	struct clk_hw dp_pixel_hw;
->>>>>>  	struct clk_bulk_data *clks;
->>>>>>  	int num_clks;
->>>>>> -	int num_resets;
->>>>>>  	struct reset_control_bulk_data *resets;
->>>>>>  	struct regulator_bulk_data *vregs;
->>>>>>  
->>>>>> @@ -514,9 +514,18 @@ static const char * const usb3phy_reset_l[] = {
->>>>>>  	"phy_phy", "phy",
->>>>>>  };
->>>>>>  
->>>>>> -/* list of regulators */
->>>>>> -static const char * const qmp_phy_vreg_l[] = {
->>>>>> -	"vdda-phy", "vdda-pll",
->>>>>> +static const char * const usb3dpphy_reset_l[] = {
->>>>>> +	"phy_phy", "dp_phy",
->>>>>> +};
->>>>>> +
->>>>>> +static const struct regulator_bulk_data qmp_phy_usb_vreg_l[] = {
->>>>>> +	{ .supply = "vdda-phy" },
->>>>>> +	{ .supply = "vdda-pll" },
->>>>> Please fill in the values for all platforms. It well might be that they
->>>>> all share the same current requirements.
->>>> I checked previous DP projects and found all platforms configured vdda-phy with 21.8mA and vdda-pll with 36mA.
->>> No. On SDM660 and MSM8998 DP defines 73.4 mA for 0.9V supply and
->>> 12.560 mA for 1.8 V supply.
+在 2025/8/28 1:18, Lizhi Hou 写道:
+>
+> On 8/26/25 19:15, Qianfeng Rong wrote:
+>>
+>> 在 2025/8/27 0:31, Lizhi Hou 写道:
 >>>
->>>> However, I didn’t find USB load configs in downstream and from SoC related power grids:
->>> Please check the actual HW documentation for those platforms.
+>>> On 8/26/25 00:29, Qianfeng Rong wrote:
+>>>> Change the 'ret' variable from u32 to int to store -EINVAL, reducing
+>>>> potential risks such as incorrect results when comparing 'ret' with
+>>>> error codes.
 >>>
->>>> QCS615
->>>> L12A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
->>>> L5A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
->>>>
->>>> sm6150
->>>> L11A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
->>>> L4A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
->>>>
->>>> SM6115
->>>> L12A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
->>>> L4A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
->>>>
->>>> QCM2290
->>>> L13A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
->>>> L12A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
->>>>
->>>> sdm660
->>>> LDO10A: VDDA_USB_SS_1P8 Ipk:14mA
->>>> LDO1B: VDDA_USB_SS_CORE Ipk:68.6mA
->>>>
->>>> msm8998
->>>> L2A: VDDA_USB_SS_1P2 Ipk:14.2mA
->>>> L1A: VDDA_USB_SS_CORE Ipk:68.6mA
->>>>
->>>> It seems the USB power requirements vary across platforms, and the
->>>> 21800 µA load for vdda-phy exceeds the Ipk range in most cases.
->>> Ipk being ?
->>
->> IPK: Instantaneous Peak Current
->>
->>
->>>> I also tested removing the load settings for USB+DP PHY, and DP still works fine.
->>> It mostly works either because we don't allow mode switching on older
->>> platforms (yet) or because somebody else has already voted and that vote
->>> keeps the required mode.
+>>> Sounds this fixes code issue. Could you add "Fixes" tag?
 >>>
->>> As you've started looking on specifying proper current load, please
->>> finish the work.
+>>>
 >>
->> Discussed with chip validation and power SW teams.
+>> The 'ret' variable stores negative error codes directly. Storing
+>> error codes in u32 (an unsigned type) causes no runtime issues but is
+>> stylistically inconsistent and very ugly.
 >>
->> The power grid tables are primarily used to ensure each module receives 
->> the correct voltage, and they define the Ipk for each submodule. 
+>> Logical errors with 'ret' only occur when it is compared against 
+>> negative
+>> error codes. For example:
 >>
->> While they don’t specify recommended regulator load values, the Ipk values
->> reflect the expected power domain strength and can help estimate the voting
->> strength needed for each supply.
+>> u32 ret = -EINVAL; // ret becomes an extremely large unsigned integer
 >>
->> Since regulator load is mainly used for voting, I’ll define init_load_uA in
->> the next patch based on each SoC’s Ipk values to better align with hardware expectations.
-> If the Ipk is defined per module, then it's fine.
+>> if (ret == -EINVAL) // This condition will never be true
+>>
+>> This patch reduces the likelihood of such issues occurring. Since it 
+>> does
+>> not fix an existing bug, I believe there is no need to add a Fixes tag.
+>
+> I agree with the change.
+>
+> u32 ret = -EINVAL may lead to a gcc warning if -Wsign-conversion is 
+> enabled. That is why I suggested Fixes tag.
 
 
-Yes, under each regulator, multiple submodules are powered, and each submodule defines its own Ipk value.
+Thank you for letting me know about this. I will submit the v2 version.
 
+Best regards,
+Qianfeng
 
+>
+> Lizhi
+>
+>>
+>> Best regards,
+>> Qianfeng
+>>
