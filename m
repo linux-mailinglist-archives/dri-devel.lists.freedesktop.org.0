@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E60DB3B415
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F83B3B41B
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5595D10EB54;
-	Fri, 29 Aug 2025 07:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8540110EB5C;
+	Fri, 29 Aug 2025 07:17:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WMgAY7RS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IMQ/+Wm8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B05D10E6CD;
- Thu, 28 Aug 2025 07:37:58 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-61cb9f6dbe7so1131551a12.0; 
- Thu, 28 Aug 2025 00:37:58 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8214D10E19F;
+ Thu, 28 Aug 2025 07:43:58 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-61cb9f6dbe7so1139201a12.0; 
+ Thu, 28 Aug 2025 00:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756366677; x=1756971477; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756367037; x=1756971837; darn=lists.freedesktop.org;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TVrt2ctwbXgHbo+Hn2TZ0gCxiv/sLljbJFjbqAY/TQU=;
- b=WMgAY7RSZ48rQF9CxGJ1qXnOzw6U0P4GaHwBa9+EduNcJallioKhnj4jSIkYTbTwcI
- l84sZTcQ5Z5uas9ZQzi+j76+0dGuFzWMjBcrkp833NuMHlkNTDdbx1xevTFBI28gakYy
- QQoN+GaW4NVpZkwZ4BnXO8N9ev4xPg9YQol3088Azw9JUMjp0+k0oxkM6pVOzDvq44ta
- lTdERaKgWznH0HJKqm9PRYL6wKBBR4qdwozYWsDaBVL9Vi2wNMahUGXeMEKlt93i6uMB
- TlrTTq2hmL8gvFuGu94VGbibEkSooCVjJkeARQNVNJhZNf+u4x1u+scZsvwMtl4Hvve9
- KXBQ==
+ bh=uCyWFKVmsqDpuka3mORfqvZ6ED5815cQsuT83UfJ0fY=;
+ b=IMQ/+Wm8thcXQbsQ3Lxt1O7uG8LDGr1D/VgzgKObFGYbYJIrsast5iqazV3skuhwhm
+ 8GpI0C6IRZ0aA9aX0S9RV2uCJ3zQwkDm2mtTHBpQh++Y2FHuLEga5/MCUp0myX+VNe9W
+ 72kAc+A0ykWU37cQ9FD8LvuQ5jrQjmsW9+BFXQ4lLdmzo1r3XAdT2jBDgoRJ1Z81B4Vu
+ vVx1ph0DNWzcQkzU89MwpvG3bUSsfPN8JU6huRgxKaJZwRTyKKSBduQa3zvndg+GzXpG
+ gPhbNMBWE9BzoZARGWURyG0dwaEL4hcTz+98Ac5V3w7SEupHjdsbp73wVBjnEVs4iwn/
+ 61AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756366677; x=1756971477;
+ d=1e100.net; s=20230601; t=1756367037; x=1756971837;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=TVrt2ctwbXgHbo+Hn2TZ0gCxiv/sLljbJFjbqAY/TQU=;
- b=ZvYQPFR0zjSk20NnnZ6CywKA8dppTd2UHqClyikd2tLCSvnpIkRh8Wscc5EAEPmR3q
- aOGJn8ekkUA60z/Qh/Iqlvdsj6WLpbtM6cF3smTUnBBk8J90ERjCKrBqjMbzl+vrJ1uL
- 54nK/duR5J6+378bBO1uu1vWow7KPegq/My3hs2l7HD5320qPadf+5lAczE1d2b2/wvA
- ZkIzm79fHTd9170HGVZ2doU98Nad2nBeOAiDDnTOlv3Fhix/mx87SW9mx4djG/XZXYmh
- 50sqVyYRXz4wrHoWCAu+la3Q+hFKvnkD76P6AaH59NbZ0q0CfhHNfENW+/GXsFOepumY
- VLww==
+ bh=uCyWFKVmsqDpuka3mORfqvZ6ED5815cQsuT83UfJ0fY=;
+ b=co87OKaPr53xd1O4U7iP6W9MGfCpUBI1aMxD8hfaRiORX9bFdOVQHj1oy8p3Tqx6sB
+ 1kAgRZ1Y0A7ygR2hI6QJZymM3GwmrlAGuMnLm5XupYyE++xTEAHLXq4qayz8plZ6fx8y
+ Zoc4z16a5pmeIleL5Ygb3rdTMazrvBusu3UvGLf3Ad89HhS/p2tGAIjbXaZW7I4WxZLQ
+ b1sMjnjspm8gztVL31gjo80BAv5awhnMWR6vAP3nPrTDwc3OGXwdokkOURqDozn5X74v
+ lJ+3WGTLEAsstogRnjGnmju0q9Emnhc+UowkDw6N36CarRF0/zK1IIYteG6pzNG7f4JM
+ nSUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUj5Q2D9F/em6/a91ksWKVjAuLb4A58VeHSL94D2hL2bvyNrlqt5VeDWu77dIwo7m/XT/FSyiV5iCYj@lists.freedesktop.org,
- AJvYcCVHSVYDOB/UGki5fisdn2V4FHyAoemiIDH/wH81V03Heutn19c4uJYdij25L2ml19vkYjdBmJubsQo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIUE3XZ3TpDy9qrgG9KJcwEA/xFW8W65LV9zyg0omAydHMwrCA
- Cnue33T7sweJuUkAmzSj6lfwwl00rnErqvL5VCDjp84zbiaidReOJWZ1
-X-Gm-Gg: ASbGncve2s19361mDjkRDGMaJ5aYL4STvqGtBd5mUOCnHm5eBStRSLG/n3CZPtMPxpO
- 9QxZgobxNKaCrljqWaSkHfyEIiMfFqaO/GutA6R9O58eXsNO5m8xNBZZRVO4qxi8QA/M+sHP/MX
- 34gc+gsHokztxcUcWBOUQl+r2RhKbX+mXnflTezS0y4EjLxgAg2v+zrHxIBwBS3595t6twk0SBJ
- gm6hZT+t5n+PqUlE+I/eAl2+bOlesQ3IWZVZBV2T6wVbgkcbTJPTMoNqikmeyttv+gLKswDNca9
- NCjGiF5qH6OAfHuEXAjoWOk8pHdg94VyVwVC6A1HQOh8RZj61jdzzrRqtdu5Tg/rimyrAk3uuZw
- 9XQDw/POFjg541N7IOPyVqh03Pm8AFb6G/6SMrzjazdOv03w=
-X-Google-Smtp-Source: AGHT+IHzpXzU7IRYTRL9u8s1GDWZ3U5CYmUtBakw/pIBZX/rgdseIwaMMauanPlQhlJ9DDnzYy2q2w==
-X-Received: by 2002:a05:6402:52c4:b0:607:28c9:c3c9 with SMTP id
- 4fb4d7f45d1cf-61c1b453182mr20154119a12.6.1756366676733; 
- Thu, 28 Aug 2025 00:37:56 -0700 (PDT)
+ AJvYcCUbU6Lr1chyn4DhbvamTdZh+74wr2hH/F8jJu2CGwX9+itPf9BBeLeEjy1wLDJznvLAbvLppRSWdlU=@lists.freedesktop.org,
+ AJvYcCWpZFqomsuP/1xdrlYMC5XeX/PAPFk1qP9iu45p0wBFeCXtxwkbIGFIRho42esCTOlgTiut/6tA1eAX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGRwS/AimDV+oG0uCsLlP0c5aOd+k7RTTbiA36RWsucxXZqh4A
+ SL6Cu7tYqY6WSZ8rqLJ021nB8zy0IuzsHO2MReitRWTYZgfjp8/Edwuh
+X-Gm-Gg: ASbGncueFtr9EaXhB1g3tMzHCGotKDJFib21Fve9llGhiGY918jpborbdzqM33cOQGC
+ +8/bxBiwZIU8qoA9qoe6/2NDtU9XOBs0+f+rfeDWbqVwnHzVAh3dVCs+cby1tit944QG7Oj2tcQ
+ R2diqVLFQhl1ZFUFywhrenUecIPvDzb+dqN/3SPCaxycGZDsTS6LagItBkxRS+Wd/9kiIaw0qqW
+ u3l6qocikMbFAXjtczBc9ensHO76RsdAY1sjyP8pQfn9X1VD3w4nD7HHAzUCLMzIHdGQJoy0xJk
+ NOm5YoA2CCdPFAKcxXr4+hn7xRjfRQcmNoCg6iVpk176r6bQyl8I7Ap1qRrwkKm6PAug+51xKqM
+ ORssr+VaoR0r6NCrRqbwjJeid7Y8djUsy8uItz5dAmU+njQ4=
+X-Google-Smtp-Source: AGHT+IFCWGCB9w3JZkSqlrk4a0OYpaWYnOsewLh1z3k9Jb7NB4buZSqln74MwC7LX4UWbpbQGZTMJw==
+X-Received: by 2002:a17:906:3717:b0:afe:764d:6b31 with SMTP id
+ a640c23a62f3a-afe764d736dmr1280383766b.4.1756367036783; 
+ Thu, 28 Aug 2025 00:43:56 -0700 (PDT)
 Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-61cdb00baf9sm715248a12.33.2025.08.28.00.37.56
+ a640c23a62f3a-afe48fae316sm1165798866b.28.2025.08.28.00.43.56
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 28 Aug 2025 00:37:56 -0700 (PDT)
-Date: Thu, 28 Aug 2025 07:37:56 +0000
+ Thu, 28 Aug 2025 00:43:56 -0700 (PDT)
+Date: Thu, 28 Aug 2025 07:43:56 +0000
 From: Wei Yang <richard.weiyang@gmail.com>
 To: David Hildenbrand <david@redhat.com>
 Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>,
@@ -86,21 +85,21 @@ Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
  linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Marco Elver <elver@google.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org
-Subject: Re: [PATCH v1 11/36] mm: limit folio/compound page sizes in
- problematic kernel configs
-Message-ID: <20250828073755.gyq5cyafrxb7lnw2@master>
+Subject: Re: [PATCH v1 12/36] mm: simplify folio_page() and folio_page_idx()
+Message-ID: <20250828074356.3xiuqugokg36yuxw@master>
 References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-12-david@redhat.com>
+ <20250827220141.262669-13-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250827220141.262669-12-david@redhat.com>
+In-Reply-To: <20250827220141.262669-13-david@redhat.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 X-Mailman-Approved-At: Fri, 29 Aug 2025 07:17:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,30 +118,83 @@ Reply-To: Wei Yang <richard.weiyang@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 12:01:15AM +0200, David Hildenbrand wrote:
->Let's limit the maximum folio size in problematic kernel config where
->the memmap is allocated per memory section (SPARSEMEM without
->SPARSEMEM_VMEMMAP) to a single memory section.
+On Thu, Aug 28, 2025 at 12:01:16AM +0200, David Hildenbrand wrote:
+>Now that a single folio/compound page can no longer span memory sections
+>in problematic kernel configurations, we can stop using nth_page().
 >
->Currently, only a single architectures supports ARCH_HAS_GIGANTIC_PAGE
->but not SPARSEMEM_VMEMMAP: sh.
->
->Fortunately, the biggest hugetlb size sh supports is 64 MiB
->(HUGETLB_PAGE_SIZE_64MB) and the section size is at least 64 MiB
->(SECTION_SIZE_BITS == 26), so their use case is not degraded.
->
->As folios and memory sections are naturally aligned to their order-2 size
->in memory, consequently a single folio can no longer span multiple memory
->sections on these problematic kernel configs.
->
->nth_page() is no longer required when operating within a single compound
->page / folio.
+>While at it, turn both macros into static inline functions and add
+>kernel doc for folio_page_idx().
 >
 >Reviewed-by: Zi Yan <ziy@nvidia.com>
->Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 >Signed-off-by: David Hildenbrand <david@redhat.com>
 
 Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+
+The code looks good, while one nit below.
+
+>---
+> include/linux/mm.h         | 16 ++++++++++++++--
+> include/linux/page-flags.h |  5 ++++-
+> 2 files changed, 18 insertions(+), 3 deletions(-)
+>
+>diff --git a/include/linux/mm.h b/include/linux/mm.h
+>index 2dee79fa2efcf..f6880e3225c5c 100644
+>--- a/include/linux/mm.h
+>+++ b/include/linux/mm.h
+>@@ -210,10 +210,8 @@ extern unsigned long sysctl_admin_reserve_kbytes;
+> 
+> #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
+> #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+>-#define folio_page_idx(folio, p)	(page_to_pfn(p) - folio_pfn(folio))
+> #else
+> #define nth_page(page,n) ((page) + (n))
+>-#define folio_page_idx(folio, p)	((p) - &(folio)->page)
+> #endif
+> 
+> /* to align the pointer to the (next) page boundary */
+>@@ -225,6 +223,20 @@ extern unsigned long sysctl_admin_reserve_kbytes;
+> /* test whether an address (unsigned long or pointer) is aligned to PAGE_SIZE */
+> #define PAGE_ALIGNED(addr)	IS_ALIGNED((unsigned long)(addr), PAGE_SIZE)
+> 
+>+/**
+>+ * folio_page_idx - Return the number of a page in a folio.
+>+ * @folio: The folio.
+>+ * @page: The folio page.
+>+ *
+>+ * This function expects that the page is actually part of the folio.
+>+ * The returned number is relative to the start of the folio.
+>+ */
+>+static inline unsigned long folio_page_idx(const struct folio *folio,
+>+		const struct page *page)
+>+{
+>+	return page - &folio->page;
+>+}
+>+
+> static inline struct folio *lru_to_folio(struct list_head *head)
+> {
+> 	return list_entry((head)->prev, struct folio, lru);
+>diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>index 5ee6ffbdbf831..faf17ca211b4f 100644
+>--- a/include/linux/page-flags.h
+>+++ b/include/linux/page-flags.h
+>@@ -316,7 +316,10 @@ static __always_inline unsigned long _compound_head(const struct page *page)
+>  * check that the page number lies within @folio; the caller is presumed
+>  * to have a reference to the page.
+>  */
+>-#define folio_page(folio, n)	nth_page(&(folio)->page, n)
+>+static inline struct page *folio_page(struct folio *folio, unsigned long n)
+>+{
+>+	return &folio->page + n;
+>+}
+> 
+
+Curious about why it is in page-flags.h. It seems not related to page-flags.
+
+> static __always_inline int PageTail(const struct page *page)
+> {
+>-- 
+>2.50.1
+>
 
 -- 
 Wei Yang
