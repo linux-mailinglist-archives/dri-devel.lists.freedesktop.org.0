@@ -2,154 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31027B3918E
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CAAB391B0
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0F5710E921;
-	Thu, 28 Aug 2025 02:16:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="OsD+TrRG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9840610E185;
+	Thu, 28 Aug 2025 02:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11012008.outbound.protection.outlook.com [40.107.75.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10BAA10E04B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:16:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rGAY5rI/WG41jfGa7+Uo8pfDsvKvzG4GJBY8d6yXFZ0qPAguRamhAv6tIy5uaQ7wJEIHt136LomwB4ApkjhPG8zmUi+6cPSuRGfE+tsuWyoasUaxQMEkXQpsIHljFxfxT8wAwhS529G3+rFctF/3pskfmt9uTljMbjCiZTsp7vtAKoaTpXHA/CcOwP4Y3UbhBgeOCJP+z17ZyKukxiMRYIjZiM0XcLSrjhtqEIAOAmJXQd4J3Zn/y3Hg8cDgd3eCIIl3rQfzGd1vd9RrNXfQERwAwY4BuPpKt1iFuN5oFHEZDslTLXx24x/YIAzveYdcQDLLOMLx5hiOj4eMxYZd2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nXzaiOqJmcZi3EUvNLeIpsXmm5VtJpoc27qn7nKMI0k=;
- b=OkMJ7kQfdP+YLXlfOV6LjQ9Qov37MMHPr22LQ/9R1GWnCHum/hI52DoqkrUS0AZY3yF3fV/qxgOTB1tXDReYusZau7nxmJEulk4jHUQGcLVgbVkcs4UtzQJR00vH1B3B7NnEabUwJSIL8sNxpzcpNxUqrwecMK01yWsorBmNCetTEA8gGdAX2ig0h41kBf5Lp3maCJn14GRnV664fLSc0LkAAVV4xm5w8hIalRFBD96gAHnZ7nB1QKfnJEq5qQsXQa87leEFxiPDQ0BNYFkO2nO9a3aifBK7gor63PgfOU1fWJyzuhCWD0wwbzs0DBUe47zNT5AuIh8hwI+qkF6l7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nXzaiOqJmcZi3EUvNLeIpsXmm5VtJpoc27qn7nKMI0k=;
- b=OsD+TrRG6Sh7rqSu4jIBLZZfzvThBEktC7ve4t/iNerYcWyjWwYX8HlzR9PkBjeUTKevKx2ozjX4oB/4IMejAEtfvJvvR54LPkFjTxgBqADv57EekCVf7jPI5tB4IukKqKkD196d7jUyRspnWAFazPDXHnif+nnHa05orHsuJ1ePkY+zFz77LMJ/ggs4EDxg+FPfLxwnScuqb7yxdWOoSfx4Fkbg3O22aYGFlQ9NRGzWNDUrfIKWZ9O5+2haiipkHK/1JLfErqTN+BqF/9XD5w9EpiT8O5Q20fl06rX8AszRXLLVC5NnLV7HCRLrncjII3YEQKFRHRaxK1qYojPeKw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- KL1PR06MB6670.apcprd06.prod.outlook.com (2603:1096:820:100::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Thu, 28 Aug
- 2025 02:16:21 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9073.010; Thu, 28 Aug 2025
- 02:16:21 +0000
-Message-ID: <b7438e06-b747-4afd-8581-fba671a35a4e@vivo.com>
-Date: Thu, 28 Aug 2025 10:16:17 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
-Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, Min Ma <min.ma@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250826072917.186638-1-rongqianfeng@vivo.com>
- <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
- <eaefefb6-7ced-4c47-8bff-bae83f143b72@vivo.com>
- <6222cb69-fbb5-07b8-043c-cf0c25c9f3f0@amd.com>
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-In-Reply-To: <6222cb69-fbb5-07b8-043c-cf0c25c9f3f0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0044.apcprd02.prod.outlook.com
- (2603:1096:4:196::17) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4716310E185;
+ Thu, 28 Aug 2025 02:33:04 +0000 (UTC)
+X-UUID: 5053b84483b711f0b29709d653e92f7d-20250828
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:9e7721f3-4def-4494-ae6b-e8e5dd0438e3, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:ab9379ea25ec926fdd1c492817d92794,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+ -3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+ :0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 5053b84483b711f0b29709d653e92f7d-20250828
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1305374640; Thu, 28 Aug 2025 10:32:59 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 5ABE6E008FAE;
+ Thu, 28 Aug 2025 10:32:59 +0800 (CST)
+X-ns-mid: postfix-68AFBFDB-172902359
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id ADF7BE008FAB;
+ Thu, 28 Aug 2025 10:32:47 +0800 (CST)
+Message-ID: <6f6c1e35-101d-4ef1-ac6e-5db337ccdd84@kylinos.cn>
+Date: Thu, 28 Aug 2025 10:32:46 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|KL1PR06MB6670:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a182f9d-7cb4-415a-eeca-08dde5d8e0fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0hjTEVQVGZoblJOY0hyVmNvY2l6UkZGVkp3d1JDbWN0QmZobGJ6Q1VrbERB?=
- =?utf-8?B?Sythc1kyLzVSaDNzZ08zWCs3cVZiQ1dNWkc0cVNFNWcvQTlIeFhFaC8wbDZa?=
- =?utf-8?B?dDhIdXhFYSt4QkJHNFUyZi9NdDFhUDBxMWNmOEFUcTN2UEVRMjl4Nkt2VUZo?=
- =?utf-8?B?UWs4YjNQT2FYVDM2R1YxVUZueCtDTUk4Q1F1SmpqYnJKN3M1WXRXTTFxSzBn?=
- =?utf-8?B?dFdacmdNM2pqcnRGNys0ZVQ3Wkp1RVR0akQ3NS9KN2xlVlVvVm1tNlVYMUp3?=
- =?utf-8?B?QzV6MnNOMEwwYkZnaEZ1WFlteTdEOHFGVDZtWjBtYVRlVmdtcWRUOXdkOUVK?=
- =?utf-8?B?dGlvdUlRci85VE5hOGtCREdveGkxTzBFWFJGWWw0SUpITnRlbGtnOS90eTIw?=
- =?utf-8?B?SXlyZkExNEhibUk1MXVqODFaZWlUQXllcS9qZ0I2ekF5WmR3RG00ODJwbm11?=
- =?utf-8?B?akwvNU9GWFVJbTZzWmFIVTQ3aGY4emU4VWpiWlBTL3pGOW5ybnpTelk3NVJa?=
- =?utf-8?B?Q2RiRmc1TnlJL2xCaHp0dEJGbXBvQlNEUFFnUVcvWHZrWTBXLzdhNWxNY0hQ?=
- =?utf-8?B?TWxlbjlLRkd4NTJ3RzlmTEMvem9UeE5TNlZCbzhpc3E4dHgxQ0xtdlFKQ0hN?=
- =?utf-8?B?MjFGeHpPNjdaZjArZkwrdjcvOVRTcDdKcDhreVdFdVMxTjRuc3FCY3MxZWlL?=
- =?utf-8?B?N0NEcXlCaEt4bHBRcW1qTDVIVzFQVVhRZ1ZLRTYrTlNGZC9hWFNlR1dtZXZY?=
- =?utf-8?B?YUtWL2tKN0dyOU5QUHpNaEkvS0NuUDlDdXk2S3lUM2JNL01DSXpaMllIVkww?=
- =?utf-8?B?WHVMeDNiL2JRQjA1Ky96ZHEyZ0hGbUY4K2s3S0Y5UU9xNnFtU2RUMGxEWitB?=
- =?utf-8?B?YTNOS3F5NTJHNGpsMDQ5ZHV2RzExRGM0V0NXNWZsdXV0Y0NtcS9CYmN4c3Ry?=
- =?utf-8?B?TG1RNWRINjVGT1ludXhKeXRYQ3l0cmhWbnZGNXJHcngraHpZQWtJU3JLcExw?=
- =?utf-8?B?L3cwc05uMUx6RHMzd2FBdUJ3cFNnSURBcWIxbUl4dllRNnJTRCtrM1JNZEFL?=
- =?utf-8?B?SmlDZmUrbjhTOGJKZ0twS1pVdnZidnE1bFUrV2V1bERMQU1udDRTek5jRSt6?=
- =?utf-8?B?SCt5M3JtYzkzSkpIVkNqb3ZyYmJ1TnJOZEMxTG1yMFRFRnljSUVQcTFlQ3Nw?=
- =?utf-8?B?SFpvQlNRc0dEM2pXTmNoWUpCK29tazk1WmR2NENhQkFGUVYvNFBrR2JEQlVu?=
- =?utf-8?B?ZG40KzdXNHFCVVo5dW5OQkRjeTRlK2NEQTV5ZE1XT2srb0RBWWhUbForcGIy?=
- =?utf-8?B?aGR6ZDM4am1KVUxRUXZtYkdLQXdKSTFBMEk1QVUzUDJmQzZoc0oyQXFiMXNs?=
- =?utf-8?B?eVdyOXdvc1kra1dEK3F6Rnl3dWEramdBYnNBT0VaODVvV3NQVmVxeklzbEFV?=
- =?utf-8?B?UjhYWS9rUXUvdU1EcXB4NXVIV09sdEVqNkI5eGtkRkFaejNIRUd5bS9EaXBU?=
- =?utf-8?B?ajVWNDFxeUhEL1A1Sk1hZEM4dnBwS0NjdGcyWXhGWXJkKzZGZWJXanNyNlZC?=
- =?utf-8?B?ZzRMcWZLWjhaUXQ5RzFvd3JnTVRrellpb3hTOGtWd2s3Tkt5Nlk3aGFwWHVO?=
- =?utf-8?B?ZmYxcWlyMGdIZzRlTHFnb3pDYXZwYyt6N2lUNnkvTkhhdjV4MnZ5dUwrbU5H?=
- =?utf-8?B?UFhDWlRuQmNKS1FnV2lHcEdXOGkyOTBUakNJcFFYMnhRNEVEdUxYWDZBSTVk?=
- =?utf-8?B?SEM3MmVFSFFxT2Y1OUk2MUNsOHJaemFlSURGNlVHV2dxS1ZTTHB2ZlcvR01P?=
- =?utf-8?B?ZjQ0ZVdhQ2ZtNzZlRDRzeHpzUy85TWFRTzgwSkpnTExmS0FWb0NLVXNXSUhN?=
- =?utf-8?B?eU95VmJqa3UvazNMQzdpZWhxRS82ejRSb1A3N0ZmRVR1Q1ZtbXk5dEJvZmFa?=
- =?utf-8?Q?91ZhHdRm/rc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjJENjd3UWZOZUc5dXdRVEJPclZ2Z0F0enMvREJUMmJ5NDZXdVRZMHJYNzFQ?=
- =?utf-8?B?MUltZ0duRVJyYzBETm9IYnNtdlJ4Z01qVkNmSTVuekJuaXVMU2FpRjlxU1Bk?=
- =?utf-8?B?NjNWdGVsUHZOOVE4Qko2dnZZUnNGYi9GblVMY05nUDdxaGxSM1ZDYThPcDdm?=
- =?utf-8?B?NlBEUVVRRnJSdmxFa2JNaHBQYWIvR2MvMXZFWUZacVpPejVRR1J3RWJlR1c0?=
- =?utf-8?B?VysxLzJmRi9qZmFLMWt0UGxGMVJKTFVVYVRpczJnY0xjN3cxa3ROMWZvMFJW?=
- =?utf-8?B?T1lGNE1jb2lRL0RCa1BQMjFZbVBKZmhZc3pleHRwdXVNcEZTcG1KR0RHbG9Y?=
- =?utf-8?B?SGxDOGl5czdqdmxoVDNIMFFxQnAwQXduaTRVaGFpb2gyaGtBTXExSUYrRW1H?=
- =?utf-8?B?VjcvZ0FTNXNkR2FCbFA4SW4rbFRncElac01oTUJOMlp6WlVRTWhQd3ZmL2t5?=
- =?utf-8?B?VS9YSFZGSThtQUNiZjVnSmYzSjdOeFQ5SFJ1TUhIQVZHZWJ3MnRUc0NZWWJz?=
- =?utf-8?B?U1hxVlEwc3ZRNVo1VXRyQkgrWFRRelNRR3hOdWNPc3lFK2hNbjJLTXBMWnB3?=
- =?utf-8?B?WHF5Mmk0SytIbnA1d0xkMWt4MDAxaHNycEdBKytyajF2eWJqelZGMkR4eHNr?=
- =?utf-8?B?NS94aTRCNlhiRjNVTUcxWFlBdTA4Rk9aNlQ3bFJVdkVJWkFBMFVraUNwUFJH?=
- =?utf-8?B?RzU5eU1YbUJ0d1FBd0YxYi9VSEN4eCtpeFFsNnFkZm93SGRUMk16ZFNaMGdQ?=
- =?utf-8?B?VHNsLzNQQThBNmprOStlbmV6LzFIOEs0WWhaZlZheUNKd3ZQbFhRN24yVkxm?=
- =?utf-8?B?eW81RjVyV21YRnhNd3RpalhSanBCalNJV0ZGQXZuV0ZjM2liMkZqTlQ5Uitu?=
- =?utf-8?B?WE05cWt3TnVIU3M2bTFZaE5qRE5QaWlTeGwyUFZhSUYzRzEydzNob3h0VU1I?=
- =?utf-8?B?c2tKL0cyQzQyenZZc0c0OHo5alphS2Q5Q2VSeWhYaDVNRktvZ0VKYVJnR0l5?=
- =?utf-8?B?UFZBZnZoT0NxZUtidmxGaG9sRGRiVUxZK2libTV6Q3c2R1NraXN6VnZHOHh1?=
- =?utf-8?B?ejJSbG5Rem5Ucmd3T3hJZlJRWWRCMUl4WTZ2RGdZS0hleGZsU095L0xSY2Q2?=
- =?utf-8?B?STRpVGJVYTRqU1ljR3lWVy9rVGlIcW9RQm40ZkR1WEsyaGdFMEVyM2NXRUtp?=
- =?utf-8?B?eHM2RStST094bld3ZTc1NDdxc0NCYXZ6MzlGT2ZWT2hNbkdPSldLTWxzRU5a?=
- =?utf-8?B?czZlYlR1cWR0VEJPNDlLU2lQL0lmSG0zdW1ONXh3Rlo2cW5Pc1U5TWRncVdy?=
- =?utf-8?B?SkJ5WU1Rb2N1WHd6VzBIN2V0YUw3U0hpZ2ZVbWRUMTYxNDJYY01MRHZuTFk2?=
- =?utf-8?B?UEo0VG9CTFBGVU8rK3NwZEhzN1ovcXNEV3lpM0pCMFArZ3Z2a0luKytmbDVX?=
- =?utf-8?B?Y0NRYmt2WGdCenFjcXlBWWpXUjRqdERseXZXNUZFR1BZQTZyR0FBaXNLU05j?=
- =?utf-8?B?OWlQS0s4eGkyVll4U2xLK29wczZ4cXYxVjNmY25uN0Q4OTkzbW1SRG9xcnQ2?=
- =?utf-8?B?OHlZQUUvL29EYTBud25lTFEvYjNqeFRnbGJwdXNiVDVpa0UzOVFkLzRweG5k?=
- =?utf-8?B?aVdlSkJuM1RFdGs4RWVTOUlkemtsVnFHRkJ1T3pSY1BGRE5LUGpvV2l6WGNF?=
- =?utf-8?B?ZjlDTzBTYXA1bFRtQUtqVTJYRmJsMXY4WCtZY0ZxSTZxU0s2TytOVXNFSTJE?=
- =?utf-8?B?Q2h4cWI4VlBpbzQ2NmZyd0NKZGJUSnNBa1I1WjFxdnc3d3ZIOHhCVHgrMWkv?=
- =?utf-8?B?ZkxNQkVrWURJT3lCZXZhNS8wZHArckE2MTNyWkxHTU00bFZLZ1NrUllKdmhW?=
- =?utf-8?B?K0VpZTVlakVaNkdvK3ZDbC85N3Z4bGlzelcyVmdHa2pPcWkxbG9xMjcwQmdQ?=
- =?utf-8?B?NkowQ3hSRU1nSi9OdWFwZzBxVnFPcTdENlNuVHNPWnl3QU9OcEtpV1JHNW0v?=
- =?utf-8?B?R1VkSFd6ZzJ6QnFPVVArdy9iZGFyN1NFaklzMk5lMFBpdnpMNUJMSEtwcTIz?=
- =?utf-8?B?cC9LMjFIc05GRUpoT0d2bis1NS82ZUQxV1QyQjBMVkMzRjUrVUNKTXNDTXRY?=
- =?utf-8?Q?qNpCIiH4aeuujBYx54DnzIyT7?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a182f9d-7cb4-415a-eeca-08dde5d8e0fb
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 02:16:20.8995 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yrI7cb8viAdobPzrFdxTuIr/DU1MXdi+iIGz5xAXPdLBJ8nf3goyYyQtozSc1LHc6jZYsnSxFeut8u7QMgDpxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6670
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/18] arm64: topology: Use __free(put_cpufreq_policy)
+ for policy reference
+To: Sudeep Holla <sudeep.holla@arm.com>, Ben Horgan <ben.horgan@arm.com>
+Cc: "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Markus Mayer
+ <mmayer@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
+ <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
+ x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250827023202.10310-1-zhangzihuan@kylinos.cn>
+ <20250827023202.10310-2-zhangzihuan@kylinos.cn>
+ <70f4c2ce-1dbd-4596-af78-bca1cdbbb581@arm.com>
+ <1756341899099493.57.seg@mailgw.kylinos.cn>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <1756341899099493.57.seg@mailgw.kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,52 +111,57 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-在 2025/8/28 1:18, Lizhi Hou 写道:
+=E5=9C=A8 2025/8/27 17:17, Sudeep Holla =E5=86=99=E9=81=93:
+> On Wed, Aug 27, 2025 at 09:30:13AM +0100, Ben Horgan wrote:
+>> Hi Zihuan,
+>>
+>> On 8/27/25 03:31, Zihuan Zhang wrote:
+>>> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
+>>> annotation for policy references. This reduces the risk of reference
+>>> counting mistakes and aligns the code with the latest kernel style.
+>>>
+>>> No functional change intended.
+>>>
+>>> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+>>> ---
+>>>   arch/arm64/kernel/topology.c | 9 +++------
+>>>   1 file changed, 3 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topolog=
+y.c
+>>> index 5d07ee85bdae..e3cb6d54f35b 100644
+>>> --- a/arch/arm64/kernel/topology.c
+>>> +++ b/arch/arm64/kernel/topology.c
+>>> @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
+>>>   		 */
+>>>   		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
+>>>   		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAM=
+PLE_EXP_MS))) {
+>>> -			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
+>>> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>> Based on the guidance, in include/linux/cleanup.h, I would expect the
+>> assignment to be done on this line.
+>>
+>> "...the recommendation is to always define and assign variables in one
+>>   * statement and not group variable definitions at the top of the
+>>   * function when __free() is used."
+>>
+> Agreed. I did something similar recently and there was a code path wher=
+e
+> variable wasn't initialised and ended up with freeing unassigned pointe=
+r.
+> So it is more than just a recommendation sometimes.
 >
-> On 8/26/25 19:15, Qianfeng Rong wrote:
->>
->> 在 2025/8/27 0:31, Lizhi Hou 写道:
->>>
->>> On 8/26/25 00:29, Qianfeng Rong wrote:
->>>> Change the 'ret' variable from u32 to int to store -EINVAL, reducing
->>>> potential risks such as incorrect results when comparing 'ret' with
->>>> error codes.
->>>
->>> Sounds this fixes code issue. Could you add "Fixes" tag?
->>>
->>>
->>
->> The 'ret' variable stores negative error codes directly. Storing
->> error codes in u32 (an unsigned type) causes no runtime issues but is
->> stylistically inconsistent and very ugly.
->>
->> Logical errors with 'ret' only occur when it is compared against 
->> negative
->> error codes. For example:
->>
->> u32 ret = -EINVAL; // ret becomes an extremely large unsigned integer
->>
->> if (ret == -EINVAL) // This condition will never be true
->>
->> This patch reduces the likelihood of such issues occurring. Since it 
->> does
->> not fix an existing bug, I believe there is no need to add a Fixes tag.
->
-> I agree with the change.
->
-> u32 ret = -EINVAL may lead to a gcc warning if -Wsign-conversion is 
-> enabled. That is why I suggested Fixes tag.
+Thanks a lot for your suggestions.
+
+We are also considering introducing a WITH_CPUFREQ_POLICY wrapper to=20
+encapsulate the cpufreq_cpu_get/put usage, so that the release order=20
+won=E2=80=99t be accidentally changed.
+
+Link:=20
+https://lore.kernel.org/all/874d821e-8ea3-40ac-921b-c19bb380a456@kylinos.=
+cn/
+
+Do you have any suggestions or preferences on this direction?
 
 
-Thank you for letting me know about this. I will submit the v2 version.
-
-Best regards,
-Qianfeng
-
->
-> Lizhi
->
->>
->> Best regards,
->> Qianfeng
->>
