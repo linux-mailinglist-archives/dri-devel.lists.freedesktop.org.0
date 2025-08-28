@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393BEB3A191
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30BBB3A196
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2823910E9ED;
-	Thu, 28 Aug 2025 14:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B30010E9F4;
+	Thu, 28 Aug 2025 14:26:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G/tyDUhS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RutgfVEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 391BB10E9E5;
- Thu, 28 Aug 2025 14:26:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF2A010E9EF;
+ Thu, 28 Aug 2025 14:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756391161; x=1787927161;
+ t=1756391162; x=1787927162;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XYraX9WBt4/ZGdP4VERwCedpodcwHHdZ5EbzsY96tKk=;
- b=G/tyDUhSpu16Cy8LB53WGH9cz+clOeYTKkC80sshLPZXgYPRjse8jtQm
- TYAiN5Dg4TDCr0sfGUmvBwr8sDHac8gkXbwyxaQc45GfWxua3PSGDrs34
- Pp7quoZPuzD+dclgayeKimMZ85E/HKGDGGac7VmsEPcKyjMwIX6Wd8TJE
- 3JplqgaZms9pzlJXDvfLRIkJJ2wSWn4D1stI4ljM/kyho/b/5i8OlZcd0
- joKdQ8Vte6XKdJ7JkDrskDCobjxkiIBNjmmkEqdusZeTnAhbxe4UjgZXT
- LWQTyWeUD2TVb1NQQdscldahrQPO9McfpxW0xxB3spTh28p+7pzzvm0md g==;
-X-CSE-ConnectionGUID: gioEj/lNTlaLJH73sfVT8w==
-X-CSE-MsgGUID: Oz7v0v0QRDyDPnhru3m/9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="58763193"
-X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; d="scan'208";a="58763193"
+ bh=I5MSLD6UPo+x5SKwGNwSN0r81H2cAoREvwyqqohUeag=;
+ b=RutgfVEfRIK6NwBeVOAU1kzlCQs4Xpk3QbdFFozb64miffWoxPloB1TA
+ PPxTfawNR86uc+Y7JP4j0+VUY/v2hIyu5dO2PNC0r2jp6omZrEBVpeXB1
+ 1ulBjTXOYDHKUc4Dy8uVkRr2g3sf4fjoC9chMylPLnRCjA2HVia+ZqfF7
+ DMS0MkwLLc13/++MmOoMFC3Xbdsg3Cug9ruaI52UsYM7+TyaQ49Y7Guug
+ QlVueC9/lx67hV/8wxiovjD6LLDQhbOnKFqXwAsXykvwRaBJzJs/I0AOd
+ wQkBHhXtr76iQiFwg+F/W4iKgI9pfClccFWE2siR6IRVEAs4aZGd5oiy2 Q==;
+X-CSE-ConnectionGUID: 1qUKrzKARMa7zw+c0jZBPw==
+X-CSE-MsgGUID: TBRY1hZES/uPDgfXIDm5qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="58763198"
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; d="scan'208";a="58763198"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2025 07:26:01 -0700
-X-CSE-ConnectionGUID: XmFxCi64Tbq5cB1niQrKWw==
-X-CSE-MsgGUID: Vq3TFIvATn+y5JWhINH3Ag==
+ 28 Aug 2025 07:26:02 -0700
+X-CSE-ConnectionGUID: tsNCAflrShWHsHReOPNK7g==
+X-CSE-MsgGUID: AoLuZsWaTi6UX/nwA0l6Hw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; d="scan'208";a="170025875"
+X-IronPort-AV: E=Sophos;i="6.18,217,1751266800"; d="scan'208";a="170025890"
 Received: from johunt-mobl9.ger.corp.intel.com (HELO mwauld-desk.intel.com)
  ([10.245.245.84])
  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Aug 2025 07:26:00 -0700
+ 28 Aug 2025 07:26:02 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v6 3/8] drm/gpusvm: pull out drm_gpusvm_pages substructure
-Date: Thu, 28 Aug 2025 15:24:34 +0100
-Message-ID: <20250828142430.615826-13-matthew.auld@intel.com>
+Subject: [PATCH v6 4/8] drm/gpusvm: refactor core API to use pages struct
+Date: Thu, 28 Aug 2025 15:24:35 +0100
+Message-ID: <20250828142430.615826-14-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250828142430.615826-10-matthew.auld@intel.com>
 References: <20250828142430.615826-10-matthew.auld@intel.com>
@@ -70,423 +70,297 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pull the pages stuff from the svm range into its own substructure, with
-the idea of having the main pages related routines, like get_pages(),
-unmap_pages() and free_pages() all operating on some lower level
-structures, which can then be re-used for stuff like userptr.
-
-v2:
-  - Move seq into pages struct (Matt B)
-v3:
-  - Small kernel-doc fixes
+Refactor the core API of get/unmap/free pages to all operate on
+drm_gpusvm_pages. In the next patch we want to export a simplified core
+API without needing fully blown svm range etc.
 
 Suggested-by: Matthew Brost <matthew.brost@intel.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/drm_gpusvm.c | 67 +++++++++++++++++++-----------------
- drivers/gpu/drm/xe/xe_pt.c   |  2 +-
- drivers/gpu/drm/xe/xe_svm.c  | 16 ++++-----
- drivers/gpu/drm/xe/xe_svm.h  |  6 ++--
- include/drm/drm_gpusvm.h     | 48 +++++++++++++++++---------
- 5 files changed, 80 insertions(+), 59 deletions(-)
+ drivers/gpu/drm/drm_gpusvm.c | 161 ++++++++++++++++++++++++-----------
+ 1 file changed, 110 insertions(+), 51 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index b2920b8551f5..fa193dd265b0 100644
+index fa193dd265b0..eb50ed0d0f55 100644
 --- a/drivers/gpu/drm/drm_gpusvm.c
 +++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -629,8 +629,8 @@ drm_gpusvm_range_alloc(struct drm_gpusvm *gpusvm,
- 	range->itree.start = ALIGN_DOWN(fault_addr, chunk_size);
- 	range->itree.last = ALIGN(fault_addr + 1, chunk_size) - 1;
- 	INIT_LIST_HEAD(&range->entry);
--	range->notifier_seq = LONG_MAX;
--	range->flags.migrate_devmem = migrate_devmem ? 1 : 0;
-+	range->pages.notifier_seq = LONG_MAX;
-+	range->pages.flags.migrate_devmem = migrate_devmem ? 1 : 0;
+@@ -980,19 +980,18 @@ drm_gpusvm_range_find_or_insert(struct drm_gpusvm *gpusvm,
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_find_or_insert);
  
- 	return range;
- }
-@@ -992,19 +992,20 @@ static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
- 					   struct drm_gpusvm_range *range,
- 					   unsigned long npages)
+ /**
+- * __drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range (internal)
++ * __drm_gpusvm_unmap_pages() - Unmap pages associated with GPU SVM pages (internal)
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
+  * @npages: Number of pages to unmap
+  *
+- * This function unmap pages associated with a GPU SVM range. Assumes and
++ * This function unmap pages associated with a GPU SVM pages struct. Assumes and
+  * asserts correct locking is in place when called.
+  */
+-static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
+-					   struct drm_gpusvm_range *range,
+-					   unsigned long npages)
++static void __drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
++				     struct drm_gpusvm_pages *svm_pages,
++				     unsigned long npages)
  {
--	unsigned long i, j;
--	struct drm_pagemap *dpagemap = range->dpagemap;
-+	struct drm_gpusvm_pages *svm_pages = &range->pages;
-+	struct drm_pagemap *dpagemap = svm_pages->dpagemap;
+-	struct drm_gpusvm_pages *svm_pages = &range->pages;
+ 	struct drm_pagemap *dpagemap = svm_pages->dpagemap;
  	struct device *dev = gpusvm->drm->dev;
-+	unsigned long i, j;
- 
- 	lockdep_assert_held(&gpusvm->notifier_lock);
- 
--	if (range->flags.has_dma_mapping) {
--		struct drm_gpusvm_range_flags flags = {
--			.__flags = range->flags.__flags,
-+	if (svm_pages->flags.has_dma_mapping) {
-+		struct drm_gpusvm_pages_flags flags = {
-+			.__flags = svm_pages->flags.__flags,
- 		};
- 
- 		for (i = 0, j = 0; i < npages; j++) {
--			struct drm_pagemap_addr *addr = &range->dma_addr[j];
-+			struct drm_pagemap_addr *addr = &svm_pages->dma_addr[j];
- 
- 			if (addr->proto == DRM_INTERCONNECT_SYSTEM)
- 				dma_unmap_page(dev,
-@@ -1020,9 +1021,9 @@ static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
- 		/* WRITE_ONCE pairs with READ_ONCE for opportunistic checks */
- 		flags.has_devmem_pages = false;
- 		flags.has_dma_mapping = false;
--		WRITE_ONCE(range->flags.__flags, flags.__flags);
-+		WRITE_ONCE(svm_pages->flags.__flags, flags.__flags);
- 
--		range->dpagemap = NULL;
-+		svm_pages->dpagemap = NULL;
- 	}
+ 	unsigned long i, j;
+@@ -1028,17 +1027,15 @@ static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
  }
  
-@@ -1036,11 +1037,13 @@ static void __drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
- static void drm_gpusvm_range_free_pages(struct drm_gpusvm *gpusvm,
- 					struct drm_gpusvm_range *range)
+ /**
+- * drm_gpusvm_range_free_pages() - Free pages associated with a GPU SVM range
++ * __drm_gpusvm_free_pages() - Free dma array associated with GPU SVM pages
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
+  *
+  * This function frees the dma address array associated with a GPU SVM range.
+  */
+-static void drm_gpusvm_range_free_pages(struct drm_gpusvm *gpusvm,
+-					struct drm_gpusvm_range *range)
++static void __drm_gpusvm_free_pages(struct drm_gpusvm *gpusvm,
++				    struct drm_gpusvm_pages *svm_pages)
  {
-+	struct drm_gpusvm_pages *svm_pages = &range->pages;
-+
+-	struct drm_gpusvm_pages *svm_pages = &range->pages;
+-
  	lockdep_assert_held(&gpusvm->notifier_lock);
  
--	if (range->dma_addr) {
--		kvfree(range->dma_addr);
--		range->dma_addr = NULL;
-+	if (svm_pages->dma_addr) {
-+		kvfree(svm_pages->dma_addr);
-+		svm_pages->dma_addr = NULL;
- 	}
- }
+ 	if (svm_pages->dma_addr) {
+@@ -1072,8 +1069,8 @@ void drm_gpusvm_range_remove(struct drm_gpusvm *gpusvm,
+ 		return;
  
-@@ -1152,9 +1155,11 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_put);
+ 	drm_gpusvm_notifier_lock(gpusvm);
+-	__drm_gpusvm_range_unmap_pages(gpusvm, range, npages);
+-	drm_gpusvm_range_free_pages(gpusvm, range);
++	__drm_gpusvm_unmap_pages(gpusvm, &range->pages, npages);
++	__drm_gpusvm_free_pages(gpusvm, &range->pages);
+ 	__drm_gpusvm_range_remove(notifier, range);
+ 	drm_gpusvm_notifier_unlock(gpusvm);
+ 
+@@ -1138,6 +1135,28 @@ void drm_gpusvm_range_put(struct drm_gpusvm_range *range)
+ }
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_put);
+ 
++/**
++ * drm_gpusvm_pages_valid() - GPU SVM range pages valid
++ * @gpusvm: Pointer to the GPU SVM structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
++ *
++ * This function determines if a GPU SVM range pages are valid. Expected be
++ * called holding gpusvm->notifier_lock and as the last step before committing a
++ * GPU binding. This is akin to a notifier seqno check in the HMM documentation
++ * but due to wider notifiers (i.e., notifiers which span multiple ranges) this
++ * function is required for finer grained checking (i.e., per range) if pages
++ * are valid.
++ *
++ * Return: True if GPU SVM range has valid pages, False otherwise
++ */
++static bool drm_gpusvm_pages_valid(struct drm_gpusvm *gpusvm,
++				   struct drm_gpusvm_pages *svm_pages)
++{
++	lockdep_assert_held(&gpusvm->notifier_lock);
++
++	return svm_pages->flags.has_devmem_pages || svm_pages->flags.has_dma_mapping;
++}
++
+ /**
+  * drm_gpusvm_range_pages_valid() - GPU SVM range pages valid
+  * @gpusvm: Pointer to the GPU SVM structure
+@@ -1155,11 +1174,7 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_put);
  bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
  				  struct drm_gpusvm_range *range)
  {
-+	struct drm_gpusvm_pages *svm_pages = &range->pages;
-+
- 	lockdep_assert_held(&gpusvm->notifier_lock);
- 
--	return range->flags.has_devmem_pages || range->flags.has_dma_mapping;
-+	return svm_pages->flags.has_devmem_pages || svm_pages->flags.has_dma_mapping;
+-	struct drm_gpusvm_pages *svm_pages = &range->pages;
+-
+-	lockdep_assert_held(&gpusvm->notifier_lock);
+-
+-	return svm_pages->flags.has_devmem_pages || svm_pages->flags.has_dma_mapping;
++	return drm_gpusvm_pages_valid(gpusvm, &range->pages);
  }
  EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
  
-@@ -1172,9 +1177,10 @@ static bool
- drm_gpusvm_range_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
- 				      struct drm_gpusvm_range *range)
+@@ -1173,57 +1188,59 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
+  *
+  * Return: True if GPU SVM range has valid pages, False otherwise
+  */
+-static bool
+-drm_gpusvm_range_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
+-				      struct drm_gpusvm_range *range)
++static bool drm_gpusvm_pages_valid_unlocked(struct drm_gpusvm *gpusvm,
++					    struct drm_gpusvm_pages *svm_pages)
  {
-+	struct drm_gpusvm_pages *svm_pages = &range->pages;
+-	struct drm_gpusvm_pages *svm_pages = &range->pages;
  	bool pages_valid;
  
--	if (!range->dma_addr)
-+	if (!svm_pages->dma_addr)
+ 	if (!svm_pages->dma_addr)
  		return false;
  
  	drm_gpusvm_notifier_lock(gpusvm);
-@@ -1201,6 +1207,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 			       struct drm_gpusvm_range *range,
- 			       const struct drm_gpusvm_ctx *ctx)
+-	pages_valid = drm_gpusvm_range_pages_valid(gpusvm, range);
++	pages_valid = drm_gpusvm_pages_valid(gpusvm, svm_pages);
+ 	if (!pages_valid)
+-		drm_gpusvm_range_free_pages(gpusvm, range);
++		__drm_gpusvm_free_pages(gpusvm, svm_pages);
+ 	drm_gpusvm_notifier_unlock(gpusvm);
+ 
+ 	return pages_valid;
+ }
+ 
+ /**
+- * drm_gpusvm_range_get_pages() - Get pages for a GPU SVM range
++ * drm_gpusvm_get_pages() - Get pages and populate GPU SVM pages struct
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: The SVM pages to populate. This will contain the dma-addresses
++ * @mm: The mm corresponding to the CPU range
++ * @notifier: The corresponding notifier for the given CPU range
++ * @pages_start: Start CPU address for the pages
++ * @pages_end: End CPU address for the pages (exclusive)
+  * @ctx: GPU SVM context
+  *
+- * This function gets pages for a GPU SVM range and ensures they are mapped for
+- * DMA access.
++ * This function gets and maps pages for CPU range and ensures they are
++ * mapped for DMA access.
+  *
+  * Return: 0 on success, negative error code on failure.
+  */
+-int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
+-			       struct drm_gpusvm_range *range,
+-			       const struct drm_gpusvm_ctx *ctx)
++static int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
++				struct drm_gpusvm_pages *svm_pages,
++				struct mm_struct *mm,
++				struct mmu_interval_notifier *notifier,
++				unsigned long pages_start,
++				unsigned long pages_end,
++				const struct drm_gpusvm_ctx *ctx)
  {
-+	struct drm_gpusvm_pages *svm_pages = &range->pages;
- 	struct mmu_interval_notifier *notifier = &range->notifier->notifier;
+-	struct drm_gpusvm_pages *svm_pages = &range->pages;
+-	struct mmu_interval_notifier *notifier = &range->notifier->notifier;
  	struct hmm_range hmm_range = {
  		.default_flags = HMM_PFN_REQ_FAULT | (ctx->read_only ? 0 :
-@@ -1223,7 +1230,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 	int err = 0;
- 	struct dev_pagemap *pagemap;
- 	struct drm_pagemap *dpagemap;
--	struct drm_gpusvm_range_flags flags;
-+	struct drm_gpusvm_pages_flags flags;
- 	enum dma_data_direction dma_dir = ctx->read_only ? DMA_TO_DEVICE :
- 							   DMA_BIDIRECTIONAL;
+ 			HMM_PFN_REQ_WRITE),
+ 		.notifier = notifier,
+-		.start = drm_gpusvm_range_start(range),
+-		.end = drm_gpusvm_range_end(range),
++		.start = pages_start,
++		.end = pages_end,
+ 		.dev_private_owner = gpusvm->device_private_page_owner,
+ 	};
+-	struct mm_struct *mm = gpusvm->mm;
+ 	void *zdd;
+ 	unsigned long timeout =
+ 		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
+ 	unsigned long i, j;
+-	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
+-					       drm_gpusvm_range_end(range));
++	unsigned long npages = npages_in_range(pages_start, pages_end);
+ 	unsigned long num_dma_mapped;
+ 	unsigned int order = 0;
+ 	unsigned long *pfns;
+@@ -1236,7 +1253,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
  
-@@ -1269,7 +1276,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 	 */
- 	drm_gpusvm_notifier_lock(gpusvm);
+ retry:
+ 	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+-	if (drm_gpusvm_range_pages_valid_unlocked(gpusvm, range))
++	if (drm_gpusvm_pages_valid_unlocked(gpusvm, svm_pages))
+ 		goto set_seqno;
  
--	flags.__flags = range->flags.__flags;
-+	flags.__flags = svm_pages->flags.__flags;
- 	if (flags.unmapped) {
- 		drm_gpusvm_notifier_unlock(gpusvm);
- 		err = -EFAULT;
-@@ -1282,13 +1289,12 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 		goto retry;
- 	}
- 
--	if (!range->dma_addr) {
-+	if (!svm_pages->dma_addr) {
- 		/* Unlock and restart mapping to allocate memory. */
- 		drm_gpusvm_notifier_unlock(gpusvm);
--		range->dma_addr = kvmalloc_array(npages,
--						 sizeof(*range->dma_addr),
--						 GFP_KERNEL);
--		if (!range->dma_addr) {
-+		svm_pages->dma_addr =
-+			kvmalloc_array(npages, sizeof(*svm_pages->dma_addr), GFP_KERNEL);
-+		if (!svm_pages->dma_addr) {
- 			err = -ENOMEM;
- 			goto err_free;
- 		}
-@@ -1327,13 +1333,13 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 					goto err_unmap;
- 				}
- 			}
--			range->dma_addr[j] =
-+			svm_pages->dma_addr[j] =
- 				dpagemap->ops->device_map(dpagemap,
- 							  gpusvm->drm->dev,
- 							  page, order,
- 							  dma_dir);
- 			if (dma_mapping_error(gpusvm->drm->dev,
--					      range->dma_addr[j].addr)) {
-+					      svm_pages->dma_addr[j].addr)) {
- 				err = -EFAULT;
- 				goto err_unmap;
- 			}
-@@ -1359,7 +1365,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 				goto err_unmap;
- 			}
- 
--			range->dma_addr[j] = drm_pagemap_addr_encode
-+			svm_pages->dma_addr[j] = drm_pagemap_addr_encode
- 				(addr, DRM_INTERCONNECT_SYSTEM, order,
- 				 dma_dir);
- 		}
-@@ -1370,16 +1376,16 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
- 
- 	if (pagemap) {
- 		flags.has_devmem_pages = true;
--		range->dpagemap = dpagemap;
-+		svm_pages->dpagemap = dpagemap;
- 	}
- 
- 	/* WRITE_ONCE pairs with READ_ONCE for opportunistic checks */
--	WRITE_ONCE(range->flags.__flags, flags.__flags);
-+	WRITE_ONCE(svm_pages->flags.__flags, flags.__flags);
- 
- 	drm_gpusvm_notifier_unlock(gpusvm);
- 	kvfree(pfns);
- set_seqno:
--	range->notifier_seq = hmm_range.notifier_seq;
-+	svm_pages->notifier_seq = hmm_range.notifier_seq;
- 
+ 	pfns = kvmalloc_array(npages, sizeof(*pfns), GFP_KERNEL);
+@@ -1390,7 +1407,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
  	return 0;
  
-@@ -1396,7 +1402,6 @@ EXPORT_SYMBOL_GPL(drm_gpusvm_range_get_pages);
- 
- /**
-  * drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range
-- * drm_gpusvm_range_evict() - Evict GPU SVM range
-  * @gpusvm: Pointer to the GPU SVM structure
-  * @range: Pointer to the GPU SVM range structure
-  * @ctx: GPU SVM context
-@@ -1520,10 +1525,10 @@ void drm_gpusvm_range_set_unmapped(struct drm_gpusvm_range *range,
- {
- 	lockdep_assert_held_write(&range->gpusvm->notifier_lock);
- 
--	range->flags.unmapped = true;
-+	range->pages.flags.unmapped = true;
- 	if (drm_gpusvm_range_start(range) < mmu_range->start ||
- 	    drm_gpusvm_range_end(range) > mmu_range->end)
--		range->flags.partial_unmap = true;
-+		range->pages.flags.partial_unmap = true;
+ err_unmap:
+-	__drm_gpusvm_range_unmap_pages(gpusvm, range, num_dma_mapped);
++	__drm_gpusvm_unmap_pages(gpusvm, svm_pages, num_dma_mapped);
+ 	drm_gpusvm_notifier_unlock(gpusvm);
+ err_free:
+ 	kvfree(pfns);
+@@ -1398,8 +1415,58 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
+ 		goto retry;
+ 	return err;
  }
- EXPORT_SYMBOL_GPL(drm_gpusvm_range_set_unmapped);
- 
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index c129048a9a09..029480c9cebd 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -729,7 +729,7 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
- 			return -EAGAIN;
- 		}
- 		if (xe_svm_range_has_dma_mapping(range)) {
--			xe_res_first_dma(range->base.dma_addr, 0,
-+			xe_res_first_dma(range->base.pages.dma_addr, 0,
- 					 range->base.itree.last + 1 - range->base.itree.start,
- 					 &curs);
- 			xe_svm_range_debug(range, "BIND PREPARE - MIXED");
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 76c6d74c1208..d6ef0cd8a02c 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -25,9 +25,9 @@ static bool xe_svm_range_in_vram(struct xe_svm_range *range)
- 	 * memory.
- 	 */
- 
--	struct drm_gpusvm_range_flags flags = {
-+	struct drm_gpusvm_pages_flags flags = {
- 		/* Pairs with WRITE_ONCE in drm_gpusvm.c */
--		.__flags = READ_ONCE(range->base.flags.__flags),
-+		.__flags = READ_ONCE(range->base.pages.flags.__flags),
- 	};
- 
- 	return flags.has_devmem_pages;
-@@ -57,7 +57,7 @@ static struct xe_vm *range_to_vm(struct drm_gpusvm_range *r)
- 	       (r__)->base.gpusvm,					\
- 	       xe_svm_range_in_vram((r__)) ? 1 : 0,			\
- 	       xe_svm_range_has_vram_binding((r__)) ? 1 : 0,		\
--	       (r__)->base.notifier_seq,				\
-+	       (r__)->base.pages.notifier_seq,				\
- 	       xe_svm_range_start((r__)), xe_svm_range_end((r__)),	\
- 	       xe_svm_range_size((r__)))
- 
-@@ -128,7 +128,7 @@ xe_svm_range_notifier_event_begin(struct xe_vm *vm, struct drm_gpusvm_range *r,
- 	range_debug(range, "NOTIFIER");
- 
- 	/* Skip if already unmapped or if no binding exist */
--	if (range->base.flags.unmapped || !range->tile_present)
-+	if (range->base.pages.flags.unmapped || !range->tile_present)
- 		return 0;
- 
- 	range_debug(range, "NOTIFIER - EXECUTE");
-@@ -716,7 +716,7 @@ bool xe_svm_range_validate(struct xe_vm *vm,
- 	xe_svm_notifier_lock(vm);
- 
- 	ret = (range->tile_present & ~range->tile_invalidated & tile_mask) == tile_mask &&
--	       (devmem_preferred == range->base.flags.has_devmem_pages);
-+	       (devmem_preferred == range->base.pages.flags.has_devmem_pages);
- 
- 	xe_svm_notifier_unlock(vm);
- 
-@@ -827,7 +827,7 @@ bool xe_svm_range_needs_migrate_to_vram(struct xe_svm_range *range, struct xe_vm
- 	struct xe_vm *vm = range_to_vm(&range->base);
- 	u64 range_size = xe_svm_range_size(range);
- 
--	if (!range->base.flags.migrate_devmem || !preferred_region_is_vram)
-+	if (!range->base.pages.flags.migrate_devmem || !preferred_region_is_vram)
- 		return false;
- 
- 	xe_assert(vm->xe, IS_DGFX(vm->xe));
-@@ -884,7 +884,7 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 	if (IS_ERR(range))
- 		return PTR_ERR(range);
- 
--	if (ctx.devmem_only && !range->base.flags.migrate_devmem)
-+	if (ctx.devmem_only && !range->base.pages.flags.migrate_devmem)
- 		return -EACCES;
- 
- 	if (xe_svm_range_is_valid(range, tile, ctx.devmem_only))
-@@ -1221,7 +1221,7 @@ int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
- {
- 	struct drm_pagemap *dpagemap;
- 
--	xe_assert(tile_to_xe(tile), range->base.flags.migrate_devmem);
-+	xe_assert(tile_to_xe(tile), range->base.pages.flags.migrate_devmem);
- 	range_debug(range, "ALLOCATE VRAM");
- 
- 	dpagemap = tile_local_pagemap(tile);
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 9d6a8840a8b7..f0e0e009c7fc 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -105,7 +105,7 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
- static inline bool xe_svm_range_has_dma_mapping(struct xe_svm_range *range)
- {
- 	lockdep_assert_held(&range->base.gpusvm->notifier_lock);
--	return range->base.flags.has_dma_mapping;
-+	return range->base.pages.flags.has_dma_mapping;
- }
- 
- /**
-@@ -184,7 +184,9 @@ struct xe_vram_region;
- struct xe_svm_range {
- 	struct {
- 		struct interval_tree_node itree;
--		const struct drm_pagemap_addr *dma_addr;
-+		struct {
-+			const struct drm_pagemap_addr *dma_addr;
-+		} pages;
- 	} base;
- 	u32 tile_present;
- 	u32 tile_invalidated;
-diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
-index 0e336148309d..1ee4188c3067 100644
---- a/include/drm/drm_gpusvm.h
-+++ b/include/drm/drm_gpusvm.h
-@@ -106,16 +106,16 @@ struct drm_gpusvm_notifier {
- };
- 
- /**
-- * struct drm_gpusvm_range_flags - Structure representing a GPU SVM range flags
-+ * struct drm_gpusvm_pages_flags - Structure representing a GPU SVM pages flags
-  *
-- * @migrate_devmem: Flag indicating whether the range can be migrated to device memory
-- * @unmapped: Flag indicating if the range has been unmapped
-- * @partial_unmap: Flag indicating if the range has been partially unmapped
-- * @has_devmem_pages: Flag indicating if the range has devmem pages
-- * @has_dma_mapping: Flag indicating if the range has a DMA mapping
-- * @__flags: Flags for range in u16 form (used for READ_ONCE)
-+ * @migrate_devmem: Flag indicating whether the pages can be migrated to device memory
-+ * @unmapped: Flag indicating if the pages has been unmapped
-+ * @partial_unmap: Flag indicating if the pages has been partially unmapped
-+ * @has_devmem_pages: Flag indicating if the pages has devmem pages
-+ * @has_dma_mapping: Flag indicating if the pages has a DMA mapping
-+ * @__flags: Flags for pages in u16 form (used for READ_ONCE)
-  */
--struct drm_gpusvm_range_flags {
-+struct drm_gpusvm_pages_flags {
- 	union {
- 		struct {
- 			/* All flags below must be set upon creation */
-@@ -130,6 +130,27 @@ struct drm_gpusvm_range_flags {
- 	};
- };
++
++/**
++ * drm_gpusvm_range_get_pages() - Get pages for a GPU SVM range
++ * @gpusvm: Pointer to the GPU SVM structure
++ * @range: Pointer to the GPU SVM range structure
++ * @ctx: GPU SVM context
++ *
++ * This function gets pages for a GPU SVM range and ensures they are mapped for
++ * DMA access.
++ *
++ * Return: 0 on success, negative error code on failure.
++ */
++int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
++			       struct drm_gpusvm_range *range,
++			       const struct drm_gpusvm_ctx *ctx)
++{
++	return drm_gpusvm_get_pages(gpusvm, &range->pages, gpusvm->mm,
++				    &range->notifier->notifier,
++				    drm_gpusvm_range_start(range),
++				    drm_gpusvm_range_end(range), ctx);
++}
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_get_pages);
  
 +/**
-+ * struct drm_gpusvm_pages - Structure representing a GPU SVM mapped pages
++ * drm_gpusvm_unmap_pages() - Unmap GPU svm pages
++ * @gpusvm: Pointer to the GPU SVM structure
++ * @svm_pages: Pointer to the GPU SVM pages structure
++ * @npages: Number of pages in @svm_pages.
++ * @ctx: GPU SVM context
 + *
-+ * @dma_addr: Device address array
-+ * @dpagemap: The struct drm_pagemap of the device pages we're dma-mapping.
-+ *            Note this is assuming only one drm_pagemap per range is allowed.
-+ * @notifier_seq: Notifier sequence number of the range's pages
-+ * @flags: Flags for range
-+ * @flags.migrate_devmem: Flag indicating whether the range can be migrated to device memory
-+ * @flags.unmapped: Flag indicating if the range has been unmapped
-+ * @flags.partial_unmap: Flag indicating if the range has been partially unmapped
-+ * @flags.has_devmem_pages: Flag indicating if the range has devmem pages
-+ * @flags.has_dma_mapping: Flag indicating if the range has a DMA mapping
++ * This function unmaps pages associated with a GPU SVM pages struct. If
++ * @in_notifier is set, it is assumed that gpusvm->notifier_lock is held in
++ * write mode; if it is clear, it acquires gpusvm->notifier_lock in read mode.
++ * Must be called in the invalidate() callback of the corresponding notifier for
++ * IOMMU security model.
 + */
-+struct drm_gpusvm_pages {
-+	struct drm_pagemap_addr *dma_addr;
-+	struct drm_pagemap *dpagemap;
-+	unsigned long notifier_seq;
-+	struct drm_gpusvm_pages_flags flags;
-+};
++static void drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
++				   struct drm_gpusvm_pages *svm_pages,
++				   unsigned long npages,
++				   const struct drm_gpusvm_ctx *ctx)
++{
++	if (ctx->in_notifier)
++		lockdep_assert_held_write(&gpusvm->notifier_lock);
++	else
++		drm_gpusvm_notifier_lock(gpusvm);
++
++	__drm_gpusvm_unmap_pages(gpusvm, svm_pages, npages);
++
++	if (!ctx->in_notifier)
++		drm_gpusvm_notifier_unlock(gpusvm);
++}
 +
  /**
-  * struct drm_gpusvm_range - Structure representing a GPU SVM range
-  *
-@@ -138,11 +159,7 @@ struct drm_gpusvm_range_flags {
-  * @refcount: Reference count for the range
-  * @itree: Interval tree node for the range (inserted in GPU SVM notifier)
-  * @entry: List entry to fast interval tree traversal
-- * @notifier_seq: Notifier sequence number of the range's pages
-- * @dma_addr: Device address array
-- * @dpagemap: The struct drm_pagemap of the device pages we're dma-mapping.
-- *            Note this is assuming only one drm_pagemap per range is allowed.
-- * @flags: Flags for range
-+ * @pages: The pages for this range.
-  *
-  * This structure represents a GPU SVM range used for tracking memory ranges
-  * mapped in a DRM device.
-@@ -153,10 +170,7 @@ struct drm_gpusvm_range {
- 	struct kref refcount;
- 	struct interval_tree_node itree;
- 	struct list_head entry;
--	unsigned long notifier_seq;
--	struct drm_pagemap_addr *dma_addr;
--	struct drm_pagemap *dpagemap;
--	struct drm_gpusvm_range_flags flags;
-+	struct drm_gpusvm_pages pages;
- };
+  * drm_gpusvm_range_unmap_pages() - Unmap pages associated with a GPU SVM range
+  * @gpusvm: Pointer to the GPU SVM structure
+@@ -1419,15 +1486,7 @@ void drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
+ 	unsigned long npages = npages_in_range(drm_gpusvm_range_start(range),
+ 					       drm_gpusvm_range_end(range));
  
- /**
+-	if (ctx->in_notifier)
+-		lockdep_assert_held_write(&gpusvm->notifier_lock);
+-	else
+-		drm_gpusvm_notifier_lock(gpusvm);
+-
+-	__drm_gpusvm_range_unmap_pages(gpusvm, range, npages);
+-
+-	if (!ctx->in_notifier)
+-		drm_gpusvm_notifier_unlock(gpusvm);
++	return drm_gpusvm_unmap_pages(gpusvm, &range->pages, npages, ctx);
+ }
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_unmap_pages);
+ 
 -- 
 2.51.0
 
