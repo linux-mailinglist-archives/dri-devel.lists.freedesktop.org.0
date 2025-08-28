@@ -2,119 +2,215 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3B3B3A79D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 19:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14933B3A7F7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 19:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42A2810E1E7;
-	Thu, 28 Aug 2025 17:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D96810EA5E;
+	Thu, 28 Aug 2025 17:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Oa+A/JKj";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="Aba0JhH6";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="kDlrqnvj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE4F10E1E7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 17:19:04 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-244582738b5so10962575ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 10:19:04 -0700 (PDT)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD51310EA58;
+ Thu, 28 Aug 2025 17:29:03 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SHMwQg006641;
+ Thu, 28 Aug 2025 17:28:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=aBXDY0NTB8rucW4oTj
+ rLu1rphld4LyLS5443kqp4HcI=; b=Aba0JhH6t/LXaGlniy5/P6ycbVyIFoLwAw
+ Kinpju7lZgmwrivW1J/5PRpLcVJhzKZeN7Kg4CQoqE8nz9YgJvz9JrPN3Y/x6BCR
+ BpO3wzzNigrITRCaqZ5kUSMOfHvU4nhVGTTvPT1r8PvEL/acUh6daBf5b59M9+HP
+ culWedOaoGgxcbG4yr7GNaNO4HCForusg9X27W8GgEsoneFzK6G42QDUlhMv7vBx
+ CzEcluynT/qoKFReg+vFlyKyPeHE19TiXtGbknrhwKjVEBKbqE+52XDF/8gJzJSu
+ kKrCUg90CmS1AfZAW36wL5HuN1lc0peLBi6HVbW5gC4TACx6iAXA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q42t8vtj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 17:28:47 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57SGR2Ad014568; Thu, 28 Aug 2025 17:28:46 GMT
+Received: from bn1pr04cu002.outbound.protection.outlook.com
+ (mail-eastus2azon11010030.outbound.protection.outlook.com [52.101.56.30])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48q43c5yk3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 17:28:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EhpaW2SkrbizqQ3DU9miokzxkS0zQrtFExnPR2GR/qG9E2F5ZSGYoIqWKR3l2/OZd6SjHCFf5pvG1p6r9jxboHhwLBd8kaN/I8bw5xqUQwgtO+YJKpmKF4UG3UEDcgItfu8C9d0pW6P2qvDxbsfs7LCjea5XPzHnJeLSFSlxumnBxqnC1E2MZrQWPlEDnEexVw6MJOxLNxRulILmMRxDblJNhWqGTbIWshd7Cayw/dUMf54gWW2zBZA2SgSRSb1tpqsSwSXYIT8Ny0NIWN1X9RMB7z7p0u6mppcZGhu8HT+DeQmKykP7LLqN/S5+z/UumC7bnWMbhFKkKHocdHdCdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aBXDY0NTB8rucW4oTjrLu1rphld4LyLS5443kqp4HcI=;
+ b=mSezt8BRUSspp5qNsnIVWJ8DuEvXlVs4QUCT9M5s+kk2qR9ic697spHsmzgOyaRhO7grWfKFXoRyGDXP0wWjzHbIPPuQSniPERX4OVEBHbkAYVDhGfSWZXlxET5PkafCjU+hYByuXqerxtU6d1zIxQuETfh6mZVF9doRPCFD2Qa1J8N/cW+f8qvb+sXJiSOnqippMLeAP+lEwp1QYHQCD2XE5rrH/cI1wgmWKHaFAArx8ttrE/x+D1Ga+RRqfgISfcOHQ5oiT40p4tIcjju6Od8st4syrlwMqznBe+b/47oCN//A/8tf+rcftdEa5oEcKCVRh5QBsCHHLMw8rHA6xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756401544; x=1757006344; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
- b=Oa+A/JKjPbJD5gBH9aWvnW4wsNeH8vTJg40PA1XPA3s/ZOGDuvKlJyhAVBjKydI8my
- rPAcicjaoMcj7yOjKrk7/Ehiqrw/JAKIU4UovTL1Es3QYqCXvovcBYeXyyWsD3R3VwsQ
- rPL76fcHt9tJz8AzbV2M1FERQd/czaVGMr+r5Jdq+OF6LQhcoS8eVsB33uEsi2appIsJ
- /WUIzt7TMB5nTwXgawwuKepkW4xeUyQo8ZZsuRJF+Ok0RjMi40OA0v4EjG586JpkDSEB
- 1LxyHNegFpZDVSNlQue7oIzW7B6I/bqTfr7/hucA0de0D5Ik1nz1WfGr9F8ta1pxsaqm
- IViA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756401544; x=1757006344;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SS4pv8uyaXLZEUMjbC2GJgsLUt5PP91S4SC3iNr8JIE=;
- b=PqFJ8cE/X/yks3VM099xgfAiTAlRbb72J79i8EY9WXPDjZxpoZ8Ck7NqOzkxR2KufE
- KHQdRpayPENlK6Ie5CVwtZPhn+894Inueiy7uGVUaNqidbfoJaoXbiNBNXxHUt3YbxY9
- n+PpwQ3L8nkXdpzlRLczJLot2/eOg2EN+s6n7Jr+vLDljhS9jcHf1aDI6Z35UqcCUQ3t
- nefBo3mPToIHg7YBPH2PwW1J6HWBM8F70NoLUiVsewswjc7wzSNzPcm6YY0Br81a9g2c
- Ivamo90hIBXVKQlsHLxsQIE/nnV9sOK9PlRXRa4LU9VYh/jCSU+1ONcCUDXYuM2j3pvO
- 7epg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW6GWQ4bBjL2UiYOypHE8H379IUM7aXs82Ksg+DSF42NGE24e6MDhbgQHVB7+mw4y0qasW2WieNFDM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLszLJVBtp4HNwCurbLG7MoedpdcnxxXZwQ9gy2uT+ZLnVagfc
- pn3iiH0N8AKWhael1wZvIc5eACZxAnGOidhke1pFrTzYbmIP3mJUgI3c
-X-Gm-Gg: ASbGncv8TwLJNsCKUgjEPLavK0snWAoEZn9/XYxFRt4GvVk8evHy6R1Wfxqlscv778i
- oqQnprGvqKQMotJaEzcEOHBTivqNulmyxivGul0LkqVZ9/qNeVTZ61D43xQDnTJ/EtiJyEe0QM6
- xSn5EV3wxeqcETb34HmdirzH0icpfSMTOUtdmNtxa7DCWrKOHmmOS47tR2Zx2vxPtG2eJbUievM
- U2DWFDfTY6I2NRV/fp9qfzmqu7nUktIJgZGKeioqeTEfSNAA29QMQBYq0GOqP1oNlKNqVGSFTHl
- +GWgMDV1FCu+tnYOiNH6rhM3UYfIllnUF+KdUitz6H3jgL5z+K6qBJOwQlaJ5mDTJ/2joekB1dJ
- 4FBBTprxoFEnMRGnKXw+hBWsJDGw5GoJuRA3ahxJfoRVkBx+epPxeWA==
-X-Google-Smtp-Source: AGHT+IFPj3GBG1tXe0w52JDhOrrrStWKIT6zs8hpAEsM8UEVZqo8QCtKE2lg8olsPKFlf0oBzRgObQ==
-X-Received: by 2002:a17:903:2391:b0:249:308:353 with SMTP id
- d9443c01a7336-2490308048fmr5489935ad.41.1756401543466; 
- Thu, 28 Aug 2025 10:19:03 -0700 (PDT)
-Received: from [192.168.1.111] ([59.188.211.98])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24905da2f20sm739185ad.82.2025.08.28.10.18.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Aug 2025 10:19:02 -0700 (PDT)
-Message-ID: <86ab9bd4-9a4f-4ae9-930f-5fb9ef69c963@gmail.com>
-Date: Fri, 29 Aug 2025 01:18:47 +0800
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aBXDY0NTB8rucW4oTjrLu1rphld4LyLS5443kqp4HcI=;
+ b=kDlrqnvjMik2O9K/x2MSyuTK/eQ6etdnfjfO/G9Z/S2Tl3j59FuDKanN1AGArEwF1G4VWd4rTEtN/bfKZxiKr01VARUCkInMQxRdJ6mlgGRQB6L+dVIq8raxFubj7cgwYrI3AaUp8l+R5ZZj1wiKzwVs4ip3ql6rbB89ILmL4Ko=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by SN7PR10MB6499.namprd10.prod.outlook.com (2603:10b6:806:2a6::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Thu, 28 Aug
+ 2025 17:28:42 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
+ 17:28:42 +0000
+Date: Thu, 28 Aug 2025 18:28:33 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexandru Elisei <alexandru.elisei@arm.com>, 
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 21/36] mm/cma: refuse handing out non-contiguous page
+ ranges
+Message-ID: <b772a0c0-6e09-4fa4-a113-fe5adf9c7fe0@lucifer.local>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-22-david@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827220141.262669-22-david@redhat.com>
+X-ClientProxiedBy: LO2P265CA0327.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a4::27) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner
- <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, van Spriel <arend@broadcom.com>,
- Lee Jones <lee@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <932e0085-c901-40f8-b0d5-67f8f0b934e6@gmail.com>
- <20250828165012.GC204299@robin.jannau.net>
-Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250828165012.GC204299@robin.jannau.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SN7PR10MB6499:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5408e8aa-2030-4953-b2ec-08dde6585556
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qZKVy86gluGSmp09IVbZXyrpnl4cQLV5IhkRx9jqpoQXwIl3Y0ELdDmPTXiQ?=
+ =?us-ascii?Q?1nM90Ak/VbEllpVuMtQ7cNDAHTZQFa+Ex3iDmmyiEYd0VcB38W7Zs6FiB7gq?=
+ =?us-ascii?Q?ejgaNNmIWH0WJ+Jmt7XNx/dcCU+fbUyTjsSH8v8GsAgrTyN6eXuzenyqrz6Q?=
+ =?us-ascii?Q?0zxNkCJOs+huxA3Rb+Rohl7+JGr5JFGnvNDrvWZCpEgZh/gHYNOXGXocciO0?=
+ =?us-ascii?Q?BNFTQNLcA8ephX/eynKVYk5t1M4OALDNdPGTPihbLHn8kg4GCVN2zLLHuDDA?=
+ =?us-ascii?Q?mZl9CpfHmlBiW2n5HhNbFn/8rxP9Q3SrpxKklHh3zuQarEvVi9DCGYsJYWKX?=
+ =?us-ascii?Q?JGk61tOwl8+oxmfVIvEPeiNU97MHE5rxGYOCyh4R77Aa4ficdgasa5iX77U4?=
+ =?us-ascii?Q?I0P7BTnEiC9RstkbPnG1n4giQACzy6ih9siB6rR3gaz5eb2VmfrVD7UBCB/H?=
+ =?us-ascii?Q?J5s86sUJpUVStnUI6Yiqv3qHgPWqavYEyPC/j4P7JzJW70XOE9IfcctYSUlJ?=
+ =?us-ascii?Q?FcQ8CQWHl43k5l+Q3Nv/Y6JKZD/i6PyfzvBYl58keESjgHhSsVQgAxpCC6+P?=
+ =?us-ascii?Q?+EsJRqRHmJeyfTZqKyBNXYDWBc80GVF/xauJ+g9J6b0J+b9Afy9mAYi3IEvC?=
+ =?us-ascii?Q?vIrV5x28/crH7ayLvaZ55l/T6V6Sh+EYQ7JMk2kzTgpyQDd1AdgjrM790bZ/?=
+ =?us-ascii?Q?WUjX+Wm1wi3bSQuu+5I7egpm9L23fZI70p/lIHUedBUJ1nEOCo0bLsX8tCYs?=
+ =?us-ascii?Q?CRUO7nTi2CI0IQRgjtA1qIIH0ZeaHi7EQwGpcT0S9FC45QaudqZu0aHGx/ct?=
+ =?us-ascii?Q?SN1JRmI4NL1AIYMt5XpdtmeccEy0MPHBVlyZMCS5Z0eYQqdGLCaYBmFf1pHP?=
+ =?us-ascii?Q?mprz3mxuDVZQJWha8s3B3zDBEkJRovcp1MpuOheMFCulWIl0MA3XZsnEViCa?=
+ =?us-ascii?Q?05m3ZzQpmdlu9XHWJmKFyup6pCuH3p/wmJ+6rVkZBYNr9DCTe7vS108HoYdE?=
+ =?us-ascii?Q?Vqw5p38743ZbW6JcyhRlnrE3ATeGH+A/54kCAnpt4fVtfkWXUW+XcCJ2WXLH?=
+ =?us-ascii?Q?Sy2ABIf70IjoqmI/FR0fzfJLML4R5gu4vkBEReN6hurSN+zuuKgxvIenpkVY?=
+ =?us-ascii?Q?unC0GhpgWVc22eQArkEeCiCd+TrdGtjUdFI9IQdCT/3D5ug+bspMsJ1cwGL2?=
+ =?us-ascii?Q?eCifcQa90L7/Rm1bKDd5rCjwULDJAMeCuVbhchYC5PU8xJLgEYa2LzmsUUgl?=
+ =?us-ascii?Q?2EVQmwbGGcZiCCz7AUEOOioIz8Pt4sVBzR4rHNAWJnZeDb7RisWU1GHBMtM+?=
+ =?us-ascii?Q?tZ8tLOpAhv8R7u/XNfDEntu7dWHVlOfJSJH5vhS92ltuL6QMZUlnE11W18e3?=
+ =?us-ascii?Q?zGGNXTjUZg72IFX4AK09AXJtbXXVlnyPe66A8p5tdzuw9YnhLw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UWrySEt+LgWrkMr1yh1iK6qOpDIXAZ7YLhsaQhc9GAES+aC0D02ZXviCbESM?=
+ =?us-ascii?Q?GBVZMZBlQ/0UlbOITjYvmTxViHx/HGjSa7sMvvcXN0U+EM9HZ/I3uM7iy5c8?=
+ =?us-ascii?Q?O/e1Zv1YQJlOQJrgsLWmGRR7ELgPHzhwMUofzW/FjGq3WY7iPuWYewQjPzOD?=
+ =?us-ascii?Q?qF8q/lMc58Jf95Jj8j1ujm3ZBlA6UqqVIvV3srAGZ52bwzRLnttapkDbCHWQ?=
+ =?us-ascii?Q?7+hu0560+mH3Fz5M0OcjqmHndWxgEw8GUQZpxHVnPboC4Y5VxV18OI57WYee?=
+ =?us-ascii?Q?MtdD5SBO64y7ggU3L8qN91JXdROsYS8/HaT5q42MPoMRT7zpiwXL0rNTWEbs?=
+ =?us-ascii?Q?fhQJ5VgDqWmz/kXylWVH+eSW/W1j1F78O/vwibzf9dC4UeH21HEcPTRz2hlI?=
+ =?us-ascii?Q?PqJvtBHwOGk/KkcaP1+fCB/fMe0R0OdnzkQIm+RldCNsajhFnwAqWHvilGZq?=
+ =?us-ascii?Q?57ZHfMmagxjKH/15p7yeZaVLAcZT1WINAQUQ2YUKyIjo5YNbVQfjzo27DWQt?=
+ =?us-ascii?Q?QNso4OABluUh5gNKKRMRwraPIRVCaF/Y4aBGRIdQedJ2VqZ0Ck5tAfaEEK65?=
+ =?us-ascii?Q?T26M2UZU1SYH6UWGF8w3YAFmYatZG9MBQ0tFXVX4wfpLgJ0Os8UPAxDaqF1b?=
+ =?us-ascii?Q?E8UZ4bi89A0pbuCnym/iURkT15X04zpzX9EYs2HcdMIYO/Iy6/zrmJOCC3Xp?=
+ =?us-ascii?Q?dmmVFunD40V/sM36uuB3hU6Q0fns4SMs5YPSIke1c9Rneb2tdN9FbZ66ClPC?=
+ =?us-ascii?Q?Z1YSIo7LB8ZqkDhno/n+qwzFhSQxCJ1aWdo92g2yB1/5UZtGiTl6IdJn4Dqq?=
+ =?us-ascii?Q?CA1ipvvNCA2k72OqKjAShl6OlES1m7GHk7o7iNuTL7Rs//6GY83QLMlsau1F?=
+ =?us-ascii?Q?VnYacefF7dtib1YBgWy7J4CiVmSSuGve7LlhVf4aXfSLtqUCehrkolJt+S3U?=
+ =?us-ascii?Q?4K042ltfucrq2K7/wpofAxWFBbUytYZR2il5g2tvkoG4zEx5cLJ6312S0Zf7?=
+ =?us-ascii?Q?q9gCkpzi5M2LG9pQdRzbCoY+Egsr0c3SzMlkd2ciZ1J8qUwYTaDmqeNf+MBU?=
+ =?us-ascii?Q?RPR2FvLyE/VkhdyEpr8lNz7wAejvgx7gF4WQjGNqNN9oMKd19nOjMahp1sAh?=
+ =?us-ascii?Q?ZfzeQysOAI9m8J4avNdKmPYqkmF3UzHHK7nHPnIAWPbI9SZ+v1ES/Rtn920c?=
+ =?us-ascii?Q?GDKaTnTKSzcFtEpPr8Rqcudb3ysdJBOugaeyNHqQr3V+gty/Jw403Abdidq3?=
+ =?us-ascii?Q?7eDrHOpQ0LrffxCDlb+VMe0JXN7Bjmq0hiDVFBN5m84FrSfAf7M/9DSq3aGB?=
+ =?us-ascii?Q?5/6cZhuLjG0rc85NBqTNbZw27u3/iN+9yx2aQrYq0CUhgjBWBNIjzLS2Ml1c?=
+ =?us-ascii?Q?GoVZ9TbDqQp/7N99jPYfO823F/4tPuFPPQR9MJc6BrCQ1UiP8gGAD3LL7zhz?=
+ =?us-ascii?Q?LCC1sxv6DzEOVtZPYVMTaB20zmSMIPbrSPJUuedBZ59pAOOGudmmN2w/ZVtm?=
+ =?us-ascii?Q?2TcFVH7sf5BQ5oYyIry6AJJgCPGob7hYOBpdc9f32tcIt1LjGCAFad03hSTC?=
+ =?us-ascii?Q?4flt7OvSFWhPfXlEaV5MCwxrDSeUyXmZngt8fHxsRrJ3RA6OymhXKZccRZmG?=
+ =?us-ascii?Q?1w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: JLQ0LKdUmMuyW1mmlq/c4zweu0Kpku3B1JOFNsW7nZAzJPl/v0EKcTgvqanQEgOoy63qpGvwDYNRjqF8Wr+sTiBtkLW1qnIEoj9PAgTnFi1Cz22cAaBrxrXN/mRVQ4lYfY3e7TWTE7byAMhOsFR4nb0S8PzpGwfULERCxv/0c3+H2HMMzEuyp4bujc9usXb0WB2gVdh2xLVHa77SQaPdiJcVC9dyByMHdmPXdaMruOObwb40SkrIanLxsmAe+07nltVc+YxdTmt0jv+KCj1EKdgocmJ2MQj9SM00cpBrTB88FIe0/FWBb93IzQgVANG2QgMRwAVLm6CBRbynfsLcDlSbleSc8jrKQanbAhD5obAlz4+38Kcj9QL7ZHVpTpS8RlOX0tD7BMn6fXaraQ5DcXyEJuXaCuQuIDIgRzxuBXybHV3OSpb1g/GaVuXe4/dOS98wSWRTax4OPd+jAYblpPQNc1XWVjjWgkwBxddJGFGq5CCwdj4oA+aE8Sj7zKUWt30lFG7jF2wz+smODdnlnXryeX1bFrmZE4VGwB95HPhikrCWADYSizTnb/nvsYNIxkjV5nn2fHGUXwMKQ4goj+7weifhCEBIQ8eHdoeSxH0=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5408e8aa-2030-4953-b2ec-08dde6585556
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 17:28:42.1453 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IO39DEeMh8i5aoXI1XZuRamjwY+UvO5Uyjiyp7Dmce1rR9zcRPuoPXe+OF/fNfTpfvDI6EVAglvQI3DW0b/0GuVd4znA9hdzkUvBr/G6iFc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6499
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ mlxscore=0 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508280146
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAxMyBTYWx0ZWRfX2d5TY2SwmK0J
+ dHyJzbSHvJtqzuC0uMIYZqJrnkKppCGNLXfLJTiYTJvWXk3P3ue8dFTurYf1WIFP7CHD1PP/in1
+ Smy0xph6UkGLuo6Ch3H0rJ01CHmAOyhEylG0C/o3qMN67up++2DLnQ4BLAkTTxkrSfcvZpU4Gua
+ zcsO2mDFBujCbbih4sA5sjVJFHc5NVIioEdPTtD2gG0nlVgk9a/SH+Fi3zS4odnDGcVTfuDNjk1
+ SByxzFNUF30fkY+L8Genb1lZxBEWaCdF7sGJN2Gl3MwGW81t6PzLedCdt3Tei+/csS78vCa6qkt
+ pEwBCfOPQ7N/0A7jn/KbFWKfbVLzrT7dea8w9JZtMQ8LH+FfgDz+v3YARkO9htgQEx44FiVx4xk
+ TZKfYTLe2IF7JHO3m0e/AzWLWC7L0w==
+X-Proofpoint-ORIG-GUID: iD1Kdg9z-G30NaKfqAMtDFVuUaAQIz1W
+X-Authority-Analysis: v=2.4 cv=RqfFLDmK c=1 sm=1 tr=0 ts=68b091cf b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117
+ a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=7CQSdrXTAAAA:8 a=20KFwNOVAAAA:8
+ a=yPCof4ZbAAAA:8 a=GHHY5ymhaPZS117lnJMA:9 a=CjuIK1q_8ugA:10
+ a=a-qgeE7W1pNrGK8U0ZQC:22 cc=ntf awl=host:13602
+X-Proofpoint-GUID: iD1Kdg9z-G30NaKfqAMtDFVuUaAQIz1W
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,47 +226,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 28, 2025 at 12:01:25AM +0200, David Hildenbrand wrote:
+> Let's disallow handing out PFN ranges with non-contiguous pages, so we
+> can remove the nth-page usage in __cma_alloc(), and so any callers don't
+> have to worry about that either when wanting to blindly iterate pages.
+>
+> This is really only a problem in configs with SPARSEMEM but without
+> SPARSEMEM_VMEMMAP, and only when we would cross memory sections in some
+> cases.
 
-Janne Grunau 於 2025/8/29 凌晨12:50 寫道:
-> On Fri, Aug 29, 2025 at 12:11:40AM +0800, Nick Chan wrote:
->> Janne Grunau 於 2025/8/28 晚上10:01 寫道:
->>> This series adds device trees for Apple's M2 Pro, Max and Ultra based
->>> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
->>> follow design of the t600x family so copy the structure of SoC *.dtsi
->>> files.
->> [...]
->>> After discussion with the devicetree maintainers we agreed to not extend
->>> lists with the generic compatibles anymore [1]. Instead either the first
->>> compatible SoC or t8103 is used as fallback compatible supported by the
->>> drivers. t8103 is used as default since most drivers and bindings were
->>> initially written for M1 based devices.
->>>
->>> The series adds those fallback compatibles to drivers where necessary,
->>> annotates the SoC lists for generic compatibles as "do not extend" and
->>> adds t6020 per-SoC compatibles.
->> The series is inconsistent about the use of generic fallback compatibles.
->>
->> "apple,aic2", "apple,s5l-fpwm", "apple,asc-mailbox-v4" is still used.
-> Those are less generic than say "apple,spi". For "apple,aic2" especially
-> it's clear which SoCs use it and the set is closed (ignoring iphone SoCs
-> which very likely will never run linux). For the interrupt controller
-> the fallout of not using the "apple,aic2" is larger since even m1n1
-> expect that. irq driver is special in so far as it requires more than
-> adding a compatible.
-> I think "apple,s5l-fpwm" and "apple,asc-mailbox-v4" are specific enough
-> and describe simple hardware so the will not cause issues unlike the
-> complex firmware based "apple,nvme-ans2".
-
-All of these compatibles has around the same specificity as "apple,nvme-ans2" which is
-a mistake of using A11's version (ans2) to describe the M1 nvme (ans3). Though I do agree
-"apple,asc-mailbox-v4", "apple,s5l-fpwm" and "apple,aic2" should be fine compatibility-wise.
-
-Although AIC2 compatible should be fine that may not hold for later versions since Linux's
-AIC driver is actually AIC + core complex FIQ stuff, so when you do add newer AICs it is
-probably better to use SoC-specific compatible there.
+I'm guessing this is something that we don't need to worry about in
+reality?
 
 >
-> Janne
+> Will this cause harm? Probably not, because it's mostly 32bit that does
+> not support SPARSEMEM_VMEMMAP. If this ever becomes a problem we could
+> look into allocating the memmap for the memory sections spanned by a
+> single CMA region in one go from memblock.
 >
-Best regards,
-Nick Chan
+> Reviewed-by: Alexandru Elisei <alexandru.elisei@arm.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+LGTM other than refactoring point below.
+
+CMA stuff looks fine afaict after staring at it for a while, on proviso
+that handing out ranges within the same section is always going to be the
+case.
+
+Anyway overall,
+
+LGTM, so:
+
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+
+> ---
+>  include/linux/mm.h |  6 ++++++
+>  mm/cma.c           | 39 ++++++++++++++++++++++++---------------
+>  mm/util.c          | 33 +++++++++++++++++++++++++++++++++
+>  3 files changed, 63 insertions(+), 15 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index f6880e3225c5c..2ca1eb2db63ec 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -209,9 +209,15 @@ extern unsigned long sysctl_user_reserve_kbytes;
+>  extern unsigned long sysctl_admin_reserve_kbytes;
+>
+>  #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
+> +bool page_range_contiguous(const struct page *page, unsigned long nr_pages);
+>  #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+>  #else
+>  #define nth_page(page,n) ((page) + (n))
+> +static inline bool page_range_contiguous(const struct page *page,
+> +		unsigned long nr_pages)
+> +{
+> +	return true;
+> +}
+>  #endif
+>
+>  /* to align the pointer to the (next) page boundary */
+> diff --git a/mm/cma.c b/mm/cma.c
+> index e56ec64d0567e..813e6dc7b0954 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -780,10 +780,8 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+>  				unsigned long count, unsigned int align,
+>  				struct page **pagep, gfp_t gfp)
+>  {
+> -	unsigned long mask, offset;
+> -	unsigned long pfn = -1;
+> -	unsigned long start = 0;
+>  	unsigned long bitmap_maxno, bitmap_no, bitmap_count;
+> +	unsigned long start, pfn, mask, offset;
+>  	int ret = -EBUSY;
+>  	struct page *page = NULL;
+>
+> @@ -795,7 +793,7 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+>  	if (bitmap_count > bitmap_maxno)
+>  		goto out;
+>
+> -	for (;;) {
+> +	for (start = 0; ; start = bitmap_no + mask + 1) {
+>  		spin_lock_irq(&cma->lock);
+>  		/*
+>  		 * If the request is larger than the available number
+> @@ -812,6 +810,22 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+>  			spin_unlock_irq(&cma->lock);
+>  			break;
+>  		}
+> +
+> +		pfn = cmr->base_pfn + (bitmap_no << cma->order_per_bit);
+> +		page = pfn_to_page(pfn);
+> +
+> +		/*
+> +		 * Do not hand out page ranges that are not contiguous, so
+> +		 * callers can just iterate the pages without having to worry
+> +		 * about these corner cases.
+> +		 */
+> +		if (!page_range_contiguous(page, count)) {
+> +			spin_unlock_irq(&cma->lock);
+> +			pr_warn_ratelimited("%s: %s: skipping incompatible area [0x%lx-0x%lx]",
+> +					    __func__, cma->name, pfn, pfn + count - 1);
+> +			continue;
+> +		}
+> +
+>  		bitmap_set(cmr->bitmap, bitmap_no, bitmap_count);
+>  		cma->available_count -= count;
+>  		/*
+> @@ -821,29 +835,24 @@ static int cma_range_alloc(struct cma *cma, struct cma_memrange *cmr,
+>  		 */
+>  		spin_unlock_irq(&cma->lock);
+>
+> -		pfn = cmr->base_pfn + (bitmap_no << cma->order_per_bit);
+>  		mutex_lock(&cma->alloc_mutex);
+>  		ret = alloc_contig_range(pfn, pfn + count, ACR_FLAGS_CMA, gfp);
+>  		mutex_unlock(&cma->alloc_mutex);
+> -		if (ret == 0) {
+> -			page = pfn_to_page(pfn);
+> +		if (!ret)
+>  			break;
+> -		}
+>
+>  		cma_clear_bitmap(cma, cmr, pfn, count);
+>  		if (ret != -EBUSY)
+>  			break;
+>
+>  		pr_debug("%s(): memory range at pfn 0x%lx %p is busy, retrying\n",
+> -			 __func__, pfn, pfn_to_page(pfn));
+> +			 __func__, pfn, page);
+>
+> -		trace_cma_alloc_busy_retry(cma->name, pfn, pfn_to_page(pfn),
+> -					   count, align);
+> -		/* try again with a bit different memory target */
+> -		start = bitmap_no + mask + 1;
+> +		trace_cma_alloc_busy_retry(cma->name, pfn, page, count, align);
+>  	}
+>  out:
+> -	*pagep = page;
+> +	if (!ret)
+> +		*pagep = page;
+>  	return ret;
+>  }
+>
+> @@ -882,7 +891,7 @@ static struct page *__cma_alloc(struct cma *cma, unsigned long count,
+>  	 */
+>  	if (page) {
+>  		for (i = 0; i < count; i++)
+> -			page_kasan_tag_reset(nth_page(page, i));
+> +			page_kasan_tag_reset(page + i);
+>  	}
+>
+>  	if (ret && !(gfp & __GFP_NOWARN)) {
+> diff --git a/mm/util.c b/mm/util.c
+> index d235b74f7aff7..0bf349b19b652 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1280,4 +1280,37 @@ unsigned int folio_pte_batch(struct folio *folio, pte_t *ptep, pte_t pte,
+>  {
+>  	return folio_pte_batch_flags(folio, NULL, ptep, &pte, max_nr, 0);
+>  }
+> +
+> +#if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
+> +/**
+> + * page_range_contiguous - test whether the page range is contiguous
+> + * @page: the start of the page range.
+> + * @nr_pages: the number of pages in the range.
+> + *
+> + * Test whether the page range is contiguous, such that they can be iterated
+> + * naively, corresponding to iterating a contiguous PFN range.
+> + *
+> + * This function should primarily only be used for debug checks, or when
+> + * working with page ranges that are not naturally contiguous (e.g., pages
+> + * within a folio are).
+> + *
+> + * Returns true if contiguous, otherwise false.
+> + */
+> +bool page_range_contiguous(const struct page *page, unsigned long nr_pages)
+> +{
+> +	const unsigned long start_pfn = page_to_pfn(page);
+> +	const unsigned long end_pfn = start_pfn + nr_pages;
+> +	unsigned long pfn;
+> +
+> +	/*
+> +	 * The memmap is allocated per memory section. We need to check
+> +	 * each involved memory section once.
+> +	 */
+> +	for (pfn = ALIGN(start_pfn, PAGES_PER_SECTION);
+> +	     pfn < end_pfn; pfn += PAGES_PER_SECTION)
+> +		if (unlikely(page + (pfn - start_pfn) != pfn_to_page(pfn)))
+> +			return false;
+
+I find this pretty confusing, my test for this is how many times I have to read
+the code to understand what it's doing :)
+
+So we have something like:
+
+  (pfn of page)
+   start_pfn        pfn = align UP
+        |                 |
+        v                 v
+ |         section        |
+        <----------------->
+          pfn - start_pfn
+
+Then check page + (pfn - start_pfn) == pfn_to_page(pfn)
+
+And loop such that:
+
+  (pfn of page)
+   start_pfn                                      pfn
+        |                                          |
+        v                                          v
+ |         section        |         section        |
+        <------------------------------------------>
+                        pfn - start_pfn
+
+Again check page + (pfn - start_pfn) == pfn_to_page(pfn)
+
+And so on.
+
+So the logic looks good, but it's just... that took me a hot second to
+parse :)
+
+I think a few simple fixups
+
+bool page_range_contiguous(const struct page *page, unsigned long nr_pages)
+{
+	const unsigned long start_pfn = page_to_pfn(page);
+	const unsigned long end_pfn = start_pfn + nr_pages;
+	/* The PFN of the start of the next section. */
+	unsigned long pfn = ALIGN(start_pfn, PAGES_PER_SECTION);
+	/* The page we'd expected to see if the range were contiguous. */
+	struct page *expected = page + (pfn - start_pfn);
+
+	/*
+	 * The memmap is allocated per memory section. We need to check
+	 * each involved memory section once.
+	 */
+	for (; pfn < end_pfn; pfn += PAGES_PER_SECTION, expected += PAGES_PER_SECTION)
+		if (unlikely(expected != pfn_to_page(pfn)))
+			return false;
+	return true;
+}
+
+> +	return true;
+> +}
+> +#endif
+>  #endif /* CONFIG_MMU */
+> --
+> 2.50.1
+>
