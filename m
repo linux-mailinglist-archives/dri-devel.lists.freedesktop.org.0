@@ -2,72 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB61B393DB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 08:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2FBB393CC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 08:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBF110E193;
-	Thu, 28 Aug 2025 06:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDD5B10E199;
+	Thu, 28 Aug 2025 06:32:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="f6JqcjoN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YpfCMnF2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A028410E193
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 06:34:06 +0000 (UTC)
-X-UUID: f8495da883d811f0b33aeb1e7f16c2b6-20250828
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=ULhWCMRnfloXSUOUb5D++K1tzuZ3+YXJYVeiwkdjmeI=; 
- b=f6JqcjoN6QKY3SrBy1St1yNmmlv8yJpC8apS75UVln/BaoZ2EKqBgYv0j6k1NA4opNEDt/HwCVagFd3+vsZ/38RrVJvWX16rdNtzuqR2OxTqO7oWuVjAcB0H5qJA0f38TCHmqqAD9KucZD5NxMDgn5CGkjoUmFziV1fp6JsBBuY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3, REQID:5d86f7b4-7348-4f7e-be94-79e9417123f9, IP:0,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:0
-X-CID-META: VersionHash:f1326cf, CLOUDID:f777b26d-c2f4-47a6-876f-59a53e9ecc6e,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
- nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
- ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: f8495da883d811f0b33aeb1e7f16c2b6-20250828
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw02.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1737505082; Thu, 28 Aug 2025 14:33:55 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Thu, 28 Aug 2025 14:33:53 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Thu, 28 Aug 2025 14:33:53 +0800
-From: Paul Chen <paul-pl.chen@mediatek.com>
-To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <chunkuang.hu@kernel.org>, <angelogioacchino.delregno@collabora.com>
-CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
- <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>, <xiandong.wang@mediatek.com>,
- <sirius.wang@mediatek.com>, <paul-pl.chen@mediatek.com>,
- <sunny.shen@mediatek.com>, <fshao@chromium.org>, <treapking@chromium.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 01/19] dt-bindings: arm: mediatek: mmsys: add compatible for
- MT8196
-Date: Thu, 28 Aug 2025 14:31:52 +0800
-Message-ID: <20250828063327.3475747-1-paul-pl.chen@mediatek.com>
-X-Mailer: git-send-email 2.45.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E6910E199
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 06:32:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756362759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=7AoG9YHih5iXChLTsxRiuXwiWs4qQNPsTE1cJiG9KLo=;
+ b=YpfCMnF2O09i2b8Yb2ekQiUQmSitm9Sh0/yRn1zS/xGPJrwlxCR9U3X8lg44zzf0uQ6ilV
+ CppAVjnFwBHR8CFj0E9JkD8HQCHfwG7oUelv8awDZpE2A9thPwu4E14uuXEjyro+/9G7KG
+ 3xObdLFasWd4bJH0nCd7deFhsYFRoaM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-410-_3_3dgVIMbqpqzHUwv_Pig-1; Thu, 28 Aug 2025 02:32:36 -0400
+X-MC-Unique: _3_3dgVIMbqpqzHUwv_Pig-1
+X-Mimecast-MFC-AGG-ID: _3_3dgVIMbqpqzHUwv_Pig_1756362755
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-45b7bb85e90so1159145e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 23:32:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756362755; x=1756967555;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7AoG9YHih5iXChLTsxRiuXwiWs4qQNPsTE1cJiG9KLo=;
+ b=kt/eerj6lY7Cz7B3PdYuuv2da9RKKtiSjQJMqXTFZgB1pUlxcO8b8uQU6UoaKvKvxd
+ PEjb19DfzIdmXyY+Z74rjHw8bWI2Whw1O4qn1tupBiq+Ny4sRx9/D8AdHL647pFU9ljR
+ MKql/5SHNTpU24t80nbRs6OU1RWi9WaIkR2EN8zdDRHJ1NR3ORcDumP7/d/LI5fsAA2y
+ jZvXIRoYzcfAMNAPdBlCqopDem3zbWINebYvt6SSKxl6B6fXvu1aRza6JFPtgneqd/m8
+ GH0hIjSvvdmZ6dMQBTY+bDPhzT7j/M6ageqrHhgqVhKRydo3HiOGQ9dYN5IJq9hvP1bh
+ Zitg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXiQ88gWr/VyGYoz9/qlJvRvozAukeNHF2aG7LjG5bwWfPb7itYtdqyujfBH54My/EzjB4XyXNdwv4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPKj5Iwe8JQcQQXiYdaFuNCf3ueXOceev49VdweAcHjVyQT3/4
+ xGOcQpqMPVudfBgNRixqUDRM5+Of4BSe6z6VxKRcPZPmiZk5PJjfgy9tu8GBpqAt/IHHQslTXc8
+ GnNdnPy/JM3rYi+YSvqj+vMRmz3FRtdXVcF3BMIhG4PFUQ0s9HBQUbh1yGRLSXNVG84Ztgg==
+X-Gm-Gg: ASbGncsJ9TW/Po77mZKILUe72oy4sDu69Us331kj3RFEZuOcIviuUTN3+N9H5Oc2f8+
+ hGJtG5leMW5YMNVyu+84E4pBDbNM2XQ8h4OX9E2Uopda9aBzaPk3xiMPKnHsqBsOlOPO0S8SuUu
+ xxUkCFsF+tI9l6RBoycrorgBoB3hzsOzVzHzvt5DN+URWsngnsMEK0w+kSuCLARD/EMY/6wDCMB
+ Xkkvd2qXcUV0HlkmxYf0mO+BCrYtnO3z05VTVugthy4ZiBBm5lydEbbRm7QYKG0ZUSHLgC3ZqvD
+ 3T5QMoC+/se9deI=
+X-Received: by 2002:a05:600c:c493:b0:45b:7bba:c79f with SMTP id
+ 5b1f17b1804b1-45b7bbaca16mr4471395e9.13.1756362754979; 
+ Wed, 27 Aug 2025 23:32:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHfmgTsZg/VX13PXkOipuoNoPe3imAyCZvKudh2VGqkUeTRG4jj92qcBhtntnqYiRsxLL3FQg==
+X-Received: by 2002:a05:600c:c493:b0:45b:7bba:c79f with SMTP id
+ 5b1f17b1804b1-45b7bbaca16mr4471145e9.13.1756362754535; 
+ Wed, 27 Aug 2025 23:32:34 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3c70e4ba046sm25390318f8f.1.2025.08.27.23.32.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Aug 2025 23:32:33 -0700 (PDT)
+Date: Thu, 28 Aug 2025 08:32:33 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250828-hypersonic-colorful-squirrel-64f04b@houat>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xhzf22kj3z7coqpl"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,52 +102,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nancy Lin <nancy.lin@mediatek.com>
 
-In previous SoCs, a single HW pipeline was an independent mmsys,
-which included the OVL module, PQ module, and display interface
-module.
+--xhzf22kj3z7coqpl
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: [PULL] drm-misc-fixes
+MIME-Version: 1.0
 
-In the 8196, to increase the flexibility of pipeline connection
-and control, the OVL module on a single HW pipeline was separated
-into two mmsys, namely ovlsys0 and ovlsys1. The PQ module was also
-separated into a dispsys0, and the display interface module was
-separated into a dispsys1. Additionally, display power-related
-settings are controlled through vdiso-ao.
+Hi,
 
-For example:
-The primary path and external path of the display both use
-ovlsys0 -> dispsys0 -> dispsys1, forming a pipeline.
+Here's this week drm-misc-fixes PR
 
-The third path of the display uses ovlsys1 -> dispsys0 -> dispsys1,
-forming another pipeline.
+Maxime
 
-Therefore, the 8196 needs to add 5 compatible string to support
-mmsys for MT8196.
+drm-misc-fixes-2025-08-28:
+Several nouveau fixes to remove unused code, fix an error path and be
+less restrictive with the formats it accepts. A fix for amdgpu to pin
+vmapped dma-buf, and a revert for tegra for a regression in the dma-buf
+/ GEM code.
+The following changes since commit 1a2cf179e2973f6801c67397ecc987391b084bcf:
 
-Signed-off-by: Nancy Lin <nancy.lin@mediatek.com>
-Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml     | 5 +++++
- 1 file changed, 5 insertions(+)
+  Merge drm/drm-fixes into drm-misc-fixes (2025-08-20 16:08:49 +0200)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-index 3f4262e93c78..5f244a8f6a47 100644
---- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-@@ -39,6 +39,11 @@ properties:
-               - mediatek,mt8195-vdosys1
-               - mediatek,mt8195-vppsys0
-               - mediatek,mt8195-vppsys1
-+              - mediatek,mt8196-dispsys0
-+              - mediatek,mt8196-dispsys1
-+              - mediatek,mt8196-ovlsys0
-+              - mediatek,mt8196-ovlsys1
-+              - mediatek,mt8196-vdisp-ao
-               - mediatek,mt8365-mmsys
-           - const: syscon
- 
--- 
-2.45.2
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-08-28
+
+for you to fetch changes up to 16fdb3cc6af8460f23a706512c6f5e7dfdd4f338:
+
+  Revert "drm/tegra: Use dma_buf from GEM object instance" (2025-08-26 10:41:27 +0200)
+
+----------------------------------------------------------------
+Several nouveau fixes to remove unused code, fix an error path and be
+less restrictive with the formats it accepts. A fix for amdgpu to pin
+vmapped dma-buf, and a revert for tegra for a regression in the dma-buf
+/ GEM code.
+
+----------------------------------------------------------------
+Alice Ryhl (1):
+      drm/gpuvm: fix various typos in .c and .h gpuvm file
+
+James Jones (1):
+      drm/nouveau/disp: Always accept linear modifier
+
+Thomas Zimmermann (2):
+      drm/amdgpu: Pin buffers while vmap'ing exported dma-buf objects
+      Revert "drm/tegra: Use dma_buf from GEM object instance"
+
+Timur Tabi (3):
+      drm/nouveau: fix error path in nvkm_gsp_fwsec_v2
+      drm/nouveau: remove unused increment in gm200_flcn_pio_imem_wr
+      drm/nouveau: remove unused memory target test
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c     | 34 ++++++++++-
+ drivers/gpu/drm/drm_gpuvm.c                     | 78 ++++++++++++-------------
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c         |  4 ++
+ drivers/gpu/drm/nouveau/nvkm/falcon/gm200.c     | 15 ++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c |  5 +-
+ drivers/gpu/drm/tegra/gem.c                     |  2 +-
+ include/drm/drm_gpuvm.h                         | 10 ++--
+ 7 files changed, 88 insertions(+), 60 deletions(-)
+
+--xhzf22kj3z7coqpl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK/4AQAKCRAnX84Zoj2+
+dkEEAYDpd0YqFdGm9BGLBX+ExSDguR4FXLpIfdqxzG6EJoktzNXweJcV9HXhC2AT
+waiATMUBfR2v2dsmPYo2/ACCLvLsmbz+Suzjg42Wau45mht7nnKgJaNO+SsDm0AL
+2rWgo3t/4A==
+=TtXz
+-----END PGP SIGNATURE-----
+
+--xhzf22kj3z7coqpl--
 
