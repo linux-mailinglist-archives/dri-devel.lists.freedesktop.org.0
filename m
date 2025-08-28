@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A8EB3A2E7
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F628B3A2EB
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:57:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFD110EA05;
-	Thu, 28 Aug 2025 14:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C1110EA08;
+	Thu, 28 Aug 2025 14:57:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="GJDLjv0s";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ETi7pKqg";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="dKZTWc9N";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bhy7dx9+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from flow-a7-smtp.messagingengine.com
  (flow-a7-smtp.messagingengine.com [103.168.172.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A927110EA05
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:57:22 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailflow.phl.internal (Postfix) with ESMTP id 160D71380B4F;
- Thu, 28 Aug 2025 10:57:22 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA5CD10EA07
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:57:29 +0000 (UTC)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+ by mailflow.phl.internal (Postfix) with ESMTP id 3A1E81380B50;
+ Thu, 28 Aug 2025 10:57:29 -0400 (EDT)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:57:22 -0400
+ by phl-compute-08.internal (MEProxy); Thu, 28 Aug 2025 10:57:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756393042;
- x=1756400242; bh=V64a73VvrKCoZvDCqGqV5W7rpDA2rSjjZ4pJF0rMEn8=; b=
- GJDLjv0snqHZCQp33LyEim27UE+YG68QgP9cZmyG90uXjzRCCfsH8F2i2F7qsUL+
- LA7GexjdWUD2v3ugHdxqQP4Lxoqlwqn4aTubpxUN+KHvuBwxeFZcAkZ2mQbHjOup
- ffUjn8rigcWZj2xyjCfDNYUSALtgu2TzC3VFLSjaguZV2AtAfWzvaPm7i+RzI+/I
- F2/fZxbskGq147LC2GXYA2t465qMPi+5ZXl00aE4GQ7ZUTi+qMEx28rVie69h4M5
- Aex2/yCeGOSDOVzq8qKVFdyXklrC71NFQBjKSzIx3Q1vYrlej+3SpxlQuukPAXvh
- Kcc+KNlIhXdSrJxswJBTvw==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1756393049;
+ x=1756400249; bh=cRzTYLdDQJlN+AsnUFYs6ysk9Esr0uJgukajjV8XmNE=; b=
+ dKZTWc9Nyr2MgfmVErExgv3GyPKI9rl6L6MT+3qGC595j0SGP1xRtnkeA0nST5jI
+ YdvraRaYA34I/hqaZSk1OWfSr/5qcAtfxSTgOytRI/md0z6vmHTpE3W0bm87UE/6
+ ZjHR7JEDrkvo1t6Ir7327gCpislIuqjq61kxA2Mk8OTSoyB7JmwIWUJ4/rzFPdJe
+ 6T0HmY2j+wZWuplx3EXHFKE7Zj9FnuXGGUb6FaCVuRpGyqkYiYWTAsZARSZp1ODs
+ XzUgiXwGAmiDHYQrsXA2FSIua+La6zXzzZ/YuOo8v4UzXL5Wq7F+tvrlglJ41hHr
+ nsoXNTSTExuKNYHDmBYKZg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756393042; x=
- 1756400242; bh=V64a73VvrKCoZvDCqGqV5W7rpDA2rSjjZ4pJF0rMEn8=; b=E
- Ti7pKqgVIxqrugXdxQQTa+Eyw0oAt0wH5LzoJp+jBYwMjKA76F3Yaw/dmLRZarM9
- uVUtNd3jfNAduCfqZWt/nzViJ4HlddF79mXWh2XTkVZf5t6ej9c4AMPUMKj59yRS
- MooLT9dRPTqpGqXOcWs51jgRj1u/Dhjaf55SLh3zQoUAk/2OybghENGSAUJ1cJIw
- 1TKnQAG8jyoka8PE2FKjV6mYU1MofZauBwuHIoVJU54OJF2His4fmZEjrUdnaj4C
- ZvnmA1WMFuOPvS8fsVGT/vJgThEUtwQzfzkcRFWCXPweHXq1V7wBBwCvrC0MA4mS
- e8VKPOBclDP/Vg5muWKew==
-X-ME-Sender: <xms:UW6waK9egwF-PHQS4q33WmNUJ22fKbVVd0b-czvpz5DXFr0q5RrZSw>
- <xme:UW6waJiWGwnK9Ws1bk5jehHdHNDiYvcffskGuU1nDgjC8x3QYQTXkGCUdn32UJf9x
- Ne2yNr720NOeDTNd8w>
-X-ME-Received: <xmr:UW6waKspH7sZGKtVXiybMtv50dJcLXxTKK1BzGpxpR-LydaoJ0NnnhwFKPAcyi7LEA8y9nAncge_QMr0Xe_98f7S47VZ9ofu_AnZRQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdoteggodetrf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756393049; x=
+ 1756400249; bh=cRzTYLdDQJlN+AsnUFYs6ysk9Esr0uJgukajjV8XmNE=; b=B
+ hy7dx9+1iqzda2R29l7vODcJAt+FCFjPGkbvFSRlACyUGnvjA+Mbwbaa4yaYa1DP
+ 8VCZ6/eMEC/uT5BjRaiYmodzkF1d/+MZ/bCY/fJUI5CvFwZJ/s5SuqeOCt7NF9AD
+ ebMTHuyOvSZvKoVVrwYLXrW/vB8kQZ2G19xeZPlXtLPU8GNrnXBKV7r9wdPeKFC5
+ VHvmKIqtK5ZMHhvmhg9tDIEk1j74oxGUM+BK3B1W+uXuRYhCexDUtuL34TcSnFCi
+ iTkxNFkJrjAmvzKhWilPwFGNRdSVlJpYX+/FQ5cuJ6L2PpnqzHBsxBpjieqY+ecb
+ nChc+Q3g6q3bFy+hEuorg==
+X-ME-Sender: <xms:WG6waDW7h_eh1wkVrYohv96kl6_k-H0ULlWbufogOMvAvbhC548QOw>
+ <xme:WG6waKZfnzMjWHwwieE4dT0nRDIsyUEAydmiPv85I-mIG0gocXUv56pxqiCDZD4gb
+ E1dE7XTUkKIZpkOBbw>
+X-ME-Received: <xmr:WG6waKFYxrh8xVhi8pnZ6WQ_TPlO-wI8jwW9B4NGyG5UdaTacQcZYWU00NCnGuo3Rq0-2sH0CQDKIyBFaeu8kgF3-WFEe-uVxA9gjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufedvucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
  gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
  ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
  ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
- uhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
+ uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
  hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
  thhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrh
  hoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdp
@@ -65,22 +65,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdote
  lhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtth
  hopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhirhgvshhhrdhk
  uhhmrghrsehlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:UW6waJjSsl7mlU6gVMdUICY_oaFEBZ_OnrJRLbY5o3N_hlS1GXTwhA>
- <xmx:UW6waE1WtFNbZRVx6MLIvqy4UILkDFqABKMw53mm6uFIRXUL8fYJDQ>
- <xmx:UW6waNVfubNi8mMPF4DPWOoq0D3SFqKuiPVaUXoW1o1_rOdkUCreTQ>
- <xmx:UW6waHCvTyfQ4TdxmaTRvbaeu4jvwtwJAPvz1y21055UQslQDLhtKA>
- <xmx:Um6waOgkPi77vIRnIPi4-Rakm1JTi-aGn3Z0GOY96MbASIsorhCS8JVZ>
+X-ME-Proxy: <xmx:WG6waFbV2jHRuOR8r63tauCSw0QCbqXP3AzIO7CR8Q7siXWRV3YufA>
+ <xmx:WG6waDM1XHnLOcyiFVDhPt5W6WpqkDsbw-Ia0-HhmSWFm16ktlcwAw>
+ <xmx:WG6waMPrfX4T-SCVUEc1EQTpAjeQQF2a9BsgrQ6jHxAbv3VW0zyjGQ>
+ <xmx:WG6waMYXH3ao4yKFy-e17Wuko0HJ8qpxwe3CMHbfD5zTHxdveaKArg>
+ <xmx:WW6waLug32LqoBDv-FN-IdS1ZOPUvUWAvvZdBuwz4Qy_Lx8Oj7Lojqyy>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:57:20 -0400 (EDT)
+ 28 Aug 2025 10:57:27 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:52:14 +0200
-Subject: [PATCH 36/37] arm64: dts: apple: Add J474s, J475c and J475d device
- trees
+Date: Thu, 28 Aug 2025 16:52:15 +0200
+Subject: [PATCH 37/37] arm64: dts: apple: Add J180d (Mac Pro, M2 Ultra,
+ 2023) device tree
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-36-bb8e1b87edef@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-37-bb8e1b87edef@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -124,13 +124,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7317; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4648; i=j@jannau.net;
  s=yk2024; h=from:subject:message-id;
- bh=l7yL19aCh35taWDFH83CvyK57t6q3LJgsAEFMdKfBGw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNuQxXXoSeZ7yawRQ4953rh6B1TTqpiy1D1B8fN5hye
- Y+XKdOMjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABM5H8zIMEfQxLpx6ZnzLEts
- 333LaFr96HBU6PRKVxedXLO8T6viIxkZZmfd3P1EYe32Y2aM0yZMYO+/sNZ1ZVv3G97gk22qbja
- WjAA=
+ bh=Qn4p2qGj7smY42jf3MkxeZAcVQODxziZd71/POYoV3o=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNuQxFxyc+1psQspX3iKvxnsYfuxw9TStSbM5p1Wzhu
+ R2y7hNzRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgImsOcnIMPFn/z+t4/8jjTia
+ 5z2zUl3lMH8Wh/2rQv2sQk7TM13/LzP8z3+YrFL/yHDvqZmhIcmJ7v/SdoVwV7nP2jvrRYq1+vk
+ N/AA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -148,144 +148,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add device trees for the M2 Pro Mac mini and the M2 Max and Ultra
-Mac Studio. These devices are very similar to the M1 Max and Ultra
-Mac Studio so reuse the device template, include the .dtsi for the new
-SocS and correct for the minimal differences.
+From: Hector Martin <marcan@marcan.st>
 
-Co-developed-by: Hector Martin <marcan@marcan.st>
+The M2 Ultra in the Mac Pro differs from the M2 Ultra Mac Studio in its
+PCIe setup. It uses all available 16 PCIe Gen4 on the first die and 8
+PCIe Gen4 lanes on the second die to connect to ann 100 lane Microchip
+Switchtec PCIe switch. All internal PCIe devices and the PCIe slots are
+connected to the PCIe switch.
+Each die has implements a PCIe controller with a single 16 or 8 lane
+port. The PCIe controller is mostly compatible with existing
+implementation in pcie-apple.c.
+The resources for other 8 lanes on the second die are used to connect
+the NVMe flash with the controller in the SoC.
+This initial device tree does not include PCIe support.
+
 Signed-off-by: Hector Martin <marcan@marcan.st>
+Co-developed-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/Makefile             |  3 ++
- arch/arm64/boot/dts/apple/t6020-j474s.dts      | 47 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t6021-j475c.dts      | 37 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t6022-j475d.dts      | 42 +++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi     | 38 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi | 38 +++++++++++++++++++++
- 6 files changed, 205 insertions(+)
+ arch/arm64/boot/dts/apple/Makefile        |   1 +
+ arch/arm64/boot/dts/apple/t6022-j180d.dts | 121 ++++++++++++++++++++++++++++++
+ 2 files changed, 122 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-index e97a6676387c6e4cbaf3b0834c4e59338d08d1b8..21c4e02a4429fa1db506dd85637a44000073590e 100644
+index 21c4e02a4429fa1db506dd85637a44000073590e..4eebcd85c90fcf0f358b0b32debf2475f6dbbf2c 100644
 --- a/arch/arm64/boot/dts/apple/Makefile
 +++ b/arch/arm64/boot/dts/apple/Makefile
-@@ -83,6 +83,9 @@ dtb-$(CONFIG_ARCH_APPLE) += t6020-j414s.dtb
+@@ -79,6 +79,7 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6022-j180d.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6020-j414s.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t6021-j414c.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t6020-j416s.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6021-j416c.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6020-j474s.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6021-j475c.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6022-j475d.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j415.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
+diff --git a/arch/arm64/boot/dts/apple/t6022-j180d.dts b/arch/arm64/boot/dts/apple/t6022-j180d.dts
 new file mode 100644
-index 0000000000000000000000000000000000000000..7c7ad5b8ad189e5d04d03189a07c82426185dd7d
+index 0000000000000000000000000000000000000000..dca6bd167c225aa23e78e1c644bf6c97f42d46b5
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -0,0 +1,47 @@
++++ b/arch/arm64/boot/dts/apple/t6022-j180d.dts
+@@ -0,0 +1,121 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Mac mini (M2 Pro, 2023)
++ * Mac Pro (M2 Ultra, 2023)
 + *
-+ * target-type: J474s
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+/dts-v1/;
-+
-+#include "t6020.dtsi"
-+
-+/*
-+ * This model is very similar to M1 and M2 Mac Studio models so base it on those
-+ * and remove the missing SDHCI controller.
-+ */
-+
-+#include "t602x-j474-j475.dtsi"
-+
-+/ {
-+	compatible = "apple,j474s", "apple,t6020", "apple,arm-platform";
-+	model = "Apple Mac mini (M2 Pro, 2023)";
-+};
-+
-+/* PCIe devices */
-+&wifi0 {
-+	compatible = "pci14e4,4434";
-+	brcm,board-type = "apple,tasmania";
-+};
-+
-+&bluetooth0 {
-+	compatible = "pci14e4,5f72";
-+	brcm,board-type = "apple,tasmania";
-+};
-+
-+/*
-+ * port01 is unused, remove the PCIe sdhci0 node from t600x-j375.dtsi and adjust
-+ * the iommu-map.
-+ */
-+/delete-node/ &sdhci0;
-+
-+&pcie0 {
-+	iommu-map = <0x100 &pcie0_dart_0 1 1>,
-+			<0x200 &pcie0_dart_2 1 1>,
-+			<0x300 &pcie0_dart_3 1 1>;
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..533e3577487469e868c05976013f0d89ff3faea0
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -0,0 +1,37 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Mac Studio (M2 Max, 2023)
-+ *
-+ * target-type: J475c
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+/dts-v1/;
-+
-+#include "t6021.dtsi"
-+#include "t602x-j474-j475.dtsi"
-+
-+/ {
-+	compatible = "apple,j475c", "apple,t6021", "apple,arm-platform";
-+	model = "Apple Mac Studio (M2 Max, 2023)";
-+};
-+
-+&wifi0 {
-+	compatible = "pci14e4,4434";
-+	brcm,board-type = "apple,canary";
-+};
-+
-+&bluetooth0 {
-+	compatible = "pci14e4,5f72";
-+	brcm,board-type = "apple,canary";
-+};
-+
-+/* enable PCIe port01 with SDHCI */
-+&port01 {
-+	status = "okay";
-+};
-+
-+&pcie0_dart_1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..736594544f79b5e45f6ea0c98e6c71d948ef7a43
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -0,0 +1,42 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Mac Studio (M2 Ultra, 2023)
-+ *
-+ * target-type: J475d
++ * target-type: J180d
 + *
 + * Copyright The Asahi Linux Contributors
 + */
@@ -293,124 +200,115 @@ index 0000000000000000000000000000000000000000..736594544f79b5e45f6ea0c98e6c71d9
 +/dts-v1/;
 +
 +#include "t6022.dtsi"
-+#include "t602x-j474-j475.dtsi"
 +#include "t6022-jxxxd.dtsi"
 +
 +/ {
-+	compatible = "apple,j475d", "apple,t6022", "apple,arm-platform";
-+	model = "Apple Mac Studio (M2 Ultra, 2023)";
++	compatible = "apple,j180d", "apple,t6022", "apple,arm-platform";
++	model = "Apple Mac Pro (M2 Ultra, 2023)";
++	aliases {
++		nvram = &nvram;
++		serial0 = &serial0;
++	};
++
++	chosen {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		stdout-path = "serial0";
++
++		framebuffer0: framebuffer@0 {
++			compatible = "apple,simple-framebuffer", "simple-framebuffer";
++			reg = <0 0 0 0>; /* To be filled by loader */
++			/* Format properties will be added by loader */
++			status = "disabled";
++			power-domains = <&ps_dispext0_cpu0_die1>, <&ps_dptx_phy_ps_die1>;
++		};
++	};
++
++	memory@10000000000 {
++		device_type = "memory";
++		reg = <0x100 0 0x2 0>; /* To be filled by loader */
++	};
 +};
 +
-+&framebuffer0 {
-+	power-domains = <&ps_dispext0_cpu0_die1>, <&ps_dptx_phy_ps_die1>;
-+};
-+
-+/* enable PCIe port01 with SDHCI */
-+&port01 {
++&serial0 {
 +	status = "okay";
 +};
 +
-+&pcie0_dart_1 {
-+	status = "okay";
-+};
-+
-+&wifi0 {
-+	compatible = "pci14e4,4434";
-+	brcm,board-type = "apple,canary";
-+};
-+
-+&bluetooth0 {
-+	compatible = "pci14e4,5f72";
-+	brcm,board-type = "apple,canary";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi b/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi
-new file mode 100644
-index 0000000000000000000000000000000000000000..4f7bf2ebfe397dbde6451672d74ef76fe782bcd0
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi
-@@ -0,0 +1,38 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Mac Pro (M2 Ultra, 2023) and Mac Studio (M2 Ultra, 2023)
-+ *
-+ * This file contains the parts common to J180 and J475 devices with t6022.
-+ *
-+ * target-type: J180d / J475d
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+/* delete power-domains for missing disp0 / disp0_die1 */
-+/delete-node/ &ps_disp0_cpu0;
-+/delete-node/ &ps_disp0_fe;
-+
-+/delete-node/ &ps_disp0_cpu0_die1;
-+/delete-node/ &ps_disp0_fe_die1;
-+
-+/* USB Type C */
++/* USB Type C Rear */
 +&i2c0 {
-+	/* front-right */
-+	hpm4: usb-pd@39 {
++	hpm2: usb-pd@3b {
 +		compatible = "apple,cd321x";
-+		reg = <0x39>;
++		reg = <0x3b>;
 +		interrupt-parent = <&pinctrl_ap>;
 +		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
 +		interrupt-names = "irq";
 +	};
 +
-+	/* front-left */
-+	hpm5: usb-pd@3a {
++	hpm3: usb-pd@3c {
 +		compatible = "apple,cd321x";
-+		reg = <0x3a>;
++		reg = <0x3c>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++
++	/* hpm4 and hpm5 included from t6022-jxxxd.dtsi */
++
++	hpm6: usb-pd@3d {
++		compatible = "apple,cd321x";
++		reg = <0x3d>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++
++	hpm7: usb-pd@3e {
++		compatible = "apple,cd321x";
++		reg = <0x3e>;
 +		interrupt-parent = <&pinctrl_ap>;
 +		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
 +		interrupt-names = "irq";
 +	};
 +};
-diff --git a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-new file mode 100644
-index 0000000000000000000000000000000000000000..ee12fea5b12cb37f95d9cb531c9065403665e8ca
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-@@ -0,0 +1,38 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
++
++/* USB Type C Front */
++&i2c3 {
++	status = "okay";
++
++	hpm0: usb-pd@38 {
++		compatible = "apple,cd321x";
++		reg = <0x38>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <60 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++
++	hpm1: usb-pd@3f {
++		compatible = "apple,cd321x";
++		reg = <0x3f>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <60 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++};
++
 +/*
-+ * Mac mini (M2 Pro, 2023) and Mac Studio (2023)
-+ *
-+ * This file contains the parts common to J474 and J475 devices with t6020,
-+ * t6021 and t6022.
-+ *
-+ * target-type: J474s / J475c / J475d
-+ *
-+ * Copyright The Asahi Linux Contributors
++ * Delete unused PCIe nodes, the Mac Pro uses slightly different PCIe
++ * controllers with a single port connected to a PM40100 PCIe switch
 + */
++/delete-node/ &pcie0;
++/delete-node/ &pcie0_dart_0;
++/delete-node/ &pcie0_dart_1;
++/delete-node/ &pcie0_dart_2;
++/delete-node/ &pcie0_dart_3;
 +
-+/*
-+ * These models are very similar to the previous generation Mac Studio, other
-+ * than GPIO indices.
-+ */
-+
-+#include "t600x-j375.dtsi"
-+
-+&framebuffer0 {
-+	power-domains = <&ps_dispext0_cpu0>, <&ps_dptx_phy_ps>;
++&nco_clkref {
++	clock-frequency = <1068000000>;
 +};
 +
-+&hpm0 {
-+	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
-+};
-+
-+&hpm1 {
-+	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
-+};
-+
-+&hpm2 {
-+	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
-+};
-+
-+&hpm3  {
-+	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
-+};
++#include "spi1-nvram.dtsi"
 
 -- 
 2.51.0
