@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F71FB3A2E4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A8EB3A2E7
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA8E10EA02;
-	Thu, 28 Aug 2025 14:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFD110EA05;
+	Thu, 28 Aug 2025 14:57:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="DuyrylXL";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rb2RQvP9";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="GJDLjv0s";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ETi7pKqg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from flow-a7-smtp.messagingengine.com
  (flow-a7-smtp.messagingengine.com [103.168.172.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5C810EA02
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:57:14 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
- by mailflow.phl.internal (Postfix) with ESMTP id 4AA791380B4E;
- Thu, 28 Aug 2025 10:57:14 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 10:57:14 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A927110EA05
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:57:22 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+ by mailflow.phl.internal (Postfix) with ESMTP id 160D71380B4F;
+ Thu, 28 Aug 2025 10:57:22 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-01.internal (MEProxy); Thu, 28 Aug 2025 10:57:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756393034;
- x=1756400234; bh=zEovG5yBMLpYSq+qWeGt0QGGZjC21kOTenMNhOnZThg=; b=
- DuyrylXLe9QhFBHI9BIGa+e3gvbo7MnZrjVdhKr+c3ijIvi0SgrY8JwVGTbhN7Cr
- BMttxv00HnZ7+ik9Oa7Ls23hg4FggfVy1TuD9dVeCweJX6pbGiY2ytNvXNJ6Y3Ta
- NAwRGVEshq25KKscDBOmAIT0cuHMmqBGtQ9Ilc6sS3OKm1U7C9aW0gWLECb/ClMd
- s84FGQCAEsQn27DcDt2g6EbQ1pi4uEoPpSRWvNYopMTI1+BcRopgUVLZcbOnsC6z
- rpCmdFCA/JfagiFIQQHcGsLGswtLKA0PEXe+6QRTKN/NrpKMkYZIb/8WSgpxA92w
- FzuhIeJSQ3kwttyswIiJ2Q==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1756393042;
+ x=1756400242; bh=V64a73VvrKCoZvDCqGqV5W7rpDA2rSjjZ4pJF0rMEn8=; b=
+ GJDLjv0snqHZCQp33LyEim27UE+YG68QgP9cZmyG90uXjzRCCfsH8F2i2F7qsUL+
+ LA7GexjdWUD2v3ugHdxqQP4Lxoqlwqn4aTubpxUN+KHvuBwxeFZcAkZ2mQbHjOup
+ ffUjn8rigcWZj2xyjCfDNYUSALtgu2TzC3VFLSjaguZV2AtAfWzvaPm7i+RzI+/I
+ F2/fZxbskGq147LC2GXYA2t465qMPi+5ZXl00aE4GQ7ZUTi+qMEx28rVie69h4M5
+ Aex2/yCeGOSDOVzq8qKVFdyXklrC71NFQBjKSzIx3Q1vYrlej+3SpxlQuukPAXvh
+ Kcc+KNlIhXdSrJxswJBTvw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756393034; x=
- 1756400234; bh=zEovG5yBMLpYSq+qWeGt0QGGZjC21kOTenMNhOnZThg=; b=R
- b2RQvP9xkSpUMgYM27Z3XrWRZCX4l5+1GQ/AbgrQvHwKFZ1c7XPEUgkgtXf9AQ02
- gJcYD/D4j/LewZY5gtNXSX1PUZNioQjyXeFjsOLgtvF6t5cn8SK15j3HeeFNHl4/
- rSmBl7wxUFA9Dk49Jb3jDkvXncedHZa9cSqixlDWmD8b42qwU02DNuxH7FGRAirx
- 0GCzzs5nrg/HWByrvY+NnjFV/hXP8kgXnkflI96h2iWgfLOKTH7Nutt951cnner0
- Ql4Qh4WjgFock1sLGFzXH9Tvy0ZlwTqOduQ+e11LU91ZbPLLfFwbLsqXjAChwnZ3
- Aa2TZJrXnqfv1AaWr+OJw==
-X-ME-Sender: <xms:SW6waHFvopWAMcE0W6DfeUlFik-r_4eQIMjKeA2qrm3Akhl7pHVrtQ>
- <xme:SW6waLzcmJOtAnp2sXBYhCWJ3lQGqDGrIniZKuHY91U1uulpVbWTEMciUJ9uvXx5N
- F7NBLtKsMtmQQSPKVU>
-X-ME-Received: <xmr:SW6waCHwfQWj8iZNGnb8mW4aIIQOMNBCXBofz2oKHhVmn_JeYibr7bxTCBtJjlG6brqj6v2OJNA6KjkQ_n3rAr41bT1_VQEgTF5-0w>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756393042; x=
+ 1756400242; bh=V64a73VvrKCoZvDCqGqV5W7rpDA2rSjjZ4pJF0rMEn8=; b=E
+ Ti7pKqgVIxqrugXdxQQTa+Eyw0oAt0wH5LzoJp+jBYwMjKA76F3Yaw/dmLRZarM9
+ uVUtNd3jfNAduCfqZWt/nzViJ4HlddF79mXWh2XTkVZf5t6ej9c4AMPUMKj59yRS
+ MooLT9dRPTqpGqXOcWs51jgRj1u/Dhjaf55SLh3zQoUAk/2OybghENGSAUJ1cJIw
+ 1TKnQAG8jyoka8PE2FKjV6mYU1MofZauBwuHIoVJU54OJF2His4fmZEjrUdnaj4C
+ ZvnmA1WMFuOPvS8fsVGT/vJgThEUtwQzfzkcRFWCXPweHXq1V7wBBwCvrC0MA4mS
+ e8VKPOBclDP/Vg5muWKew==
+X-ME-Sender: <xms:UW6waK9egwF-PHQS4q33WmNUJ22fKbVVd0b-czvpz5DXFr0q5RrZSw>
+ <xme:UW6waJiWGwnK9Ws1bk5jehHdHNDiYvcffskGuU1nDgjC8x3QYQTXkGCUdn32UJf9x
+ Ne2yNr720NOeDTNd8w>
+X-ME-Received: <xmr:UW6waKspH7sZGKtVXiybMtv50dJcLXxTKK1BzGpxpR-LydaoJ0NnnhwFKPAcyi7LEA8y9nAncge_QMr0Xe_98f7S47VZ9ofu_AnZRQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
  gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
  ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfe
  ehheeileduffehteeihfdvtdelffdutdeludduiedutedvfeffheekhefgtedtnecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
+ uhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrg
  hurdhnvghtpdhnsggprhgtphhtthhopeeigedpmhhouggvpehsmhhtphhouhhtpdhrtghp
  thhtohepshhvvghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrh
  hoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdp
@@ -65,22 +65,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedufeefucetufdote
  lhdrohhrghdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtth
  hopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepvhhirhgvshhhrdhk
  uhhmrghrsehlihhnrghrohdrohhrgh
-X-ME-Proxy: <xmx:SW6waABfvOVJ06FjHISZYejQtoBS2deSvc3_G6shMPMqIbXWZqOb6w>
- <xmx:SW6waMnl6KFMaXd86cN-NC_mA_Ztk0INE3GgkQZ0gyvm3naAiaxe-A>
- <xmx:SW6waCqIJLYpSXtbl2wWCcf7e2ek-UORujekCdBHTY0szoOQQUPs1w>
- <xmx:SW6waO4oBwgE444EjWWiwlhywiziIswDZoHWmgSSFS4EtJOZ7BmimA>
- <xmx:Sm6waHwrHGdZnquLhHDz0eRDYPpM4OvVXRJ8dy-tGpZqmo7mVEVuETrv>
+X-ME-Proxy: <xmx:UW6waJjSsl7mlU6gVMdUICY_oaFEBZ_OnrJRLbY5o3N_hlS1GXTwhA>
+ <xmx:UW6waE1WtFNbZRVx6MLIvqy4UILkDFqABKMw53mm6uFIRXUL8fYJDQ>
+ <xmx:UW6waNVfubNi8mMPF4DPWOoq0D3SFqKuiPVaUXoW1o1_rOdkUCreTQ>
+ <xmx:UW6waHCvTyfQ4TdxmaTRvbaeu4jvwtwJAPvz1y21055UQslQDLhtKA>
+ <xmx:Um6waOgkPi77vIRnIPi4-Rakm1JTi-aGn3Z0GOY96MbASIsorhCS8JVZ>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:57:12 -0400 (EDT)
+ 28 Aug 2025 10:57:20 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:52:13 +0200
-Subject: [PATCH 35/37] arm64: dts: apple: Add J414 and J416 Macbook Pro
- device trees
+Date: Thu, 28 Aug 2025 16:52:14 +0200
+Subject: [PATCH 36/37] arm64: dts: apple: Add J474s, J475c and J475d device
+ trees
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-35-bb8e1b87edef@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-36-bb8e1b87edef@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-bb8e1b87edef@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -124,13 +124,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6033; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7317; i=j@jannau.net;
  s=yk2024; h=from:subject:message-id;
- bh=S07EP1T9a+F21XDmFw4P0kSjcpho1ok3SAFpALIIyfg=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNuQw7Ky5tl+c/6yp62HWa6+57wVctdVK2P1F6EbyyY
- MnV9MbTHSUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACZyoonhn9Hl5C/u20IXzlHf
- tVVXqadauGy5ZM6OuwoM+z45Hu3qbmT4MdVEY//O9/MOPpoRq3CaRWDC/wWSZVtt5HpCJW7dfdP
- BBAA=
+ bh=l7yL19aCh35taWDFH83CvyK57t6q3LJgsAEFMdKfBGw=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNuQxXXoSeZ7yawRQ4953rh6B1TTqpiy1D1B8fN5hye
+ Y+XKdOMjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABM5H8zIMEfQxLpx6ZnzLEts
+ 333LaFr96HBU6PRKVxedXLO8T6viIxkZZmfd3P1EYe32Y2aM0yZMYO+/sNZ1ZVv3G97gk22qbja
+ WjAA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -148,51 +148,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hector Martin <marcan@marcan.st>
+Add device trees for the M2 Pro Mac mini and the M2 Max and Ultra
+Mac Studio. These devices are very similar to the M1 Max and Ultra
+Mac Studio so reuse the device template, include the .dtsi for the new
+SocS and correct for the minimal differences.
 
-Add device trees for the T6020 and T6021 based Macbook Pros (M2 Pro/Max,
-14/16-inch). The devices are very similar to the T6000/T6001 based ones
-so reuse the device templates, include the new SoCs and correct for the
-minimal differences.
-
+Co-developed-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Hector Martin <marcan@marcan.st>
-Co-developed-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/Makefile             |  4 +++
- arch/arm64/boot/dts/apple/t6020-j414s.dts      | 26 +++++++++++++++
- arch/arm64/boot/dts/apple/t6020-j416s.dts      | 26 +++++++++++++++
- arch/arm64/boot/dts/apple/t6021-j414c.dts      | 26 +++++++++++++++
- arch/arm64/boot/dts/apple/t6021-j416c.dts      | 26 +++++++++++++++
- arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi | 45 ++++++++++++++++++++++++++
- 6 files changed, 153 insertions(+)
+ arch/arm64/boot/dts/apple/Makefile             |  3 ++
+ arch/arm64/boot/dts/apple/t6020-j474s.dts      | 47 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t6021-j475c.dts      | 37 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t6022-j475d.dts      | 42 +++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi     | 38 +++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi | 38 +++++++++++++++++++++
+ 6 files changed, 205 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-index df4ba8ef6213c9f7e4ef02a50d7250008977cc71..e97a6676387c6e4cbaf3b0834c4e59338d08d1b8 100644
+index e97a6676387c6e4cbaf3b0834c4e59338d08d1b8..21c4e02a4429fa1db506dd85637a44000073590e 100644
 --- a/arch/arm64/boot/dts/apple/Makefile
 +++ b/arch/arm64/boot/dts/apple/Makefile
-@@ -79,6 +79,10 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6020-j414s.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6021-j414c.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6020-j416s.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t6021-j416c.dtb
+@@ -83,6 +83,9 @@ dtb-$(CONFIG_ARCH_APPLE) += t6020-j414s.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6021-j414c.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6020-j416s.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t6021-j416c.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6020-j474s.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6021-j475c.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t6022-j475d.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8112-j415.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
-diff --git a/arch/arm64/boot/dts/apple/t6020-j414s.dts b/arch/arm64/boot/dts/apple/t6020-j414s.dts
+diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
 new file mode 100644
-index 0000000000000000000000000000000000000000..631c54c5f03dee9e7d37a7811f87f939e5187b10
+index 0000000000000000000000000000000000000000..7c7ad5b8ad189e5d04d03189a07c82426185dd7d
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6020-j414s.dts
-@@ -0,0 +1,26 @@
++++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
+@@ -0,0 +1,47 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * MacBook Pro (14-inch, M2 Pro, 2023)
++ * Mac mini (M2 Pro, 2023)
 + *
-+ * target-type: J414s
++ * target-type: J474s
 + *
 + * Copyright The Asahi Linux Contributors
 + */
@@ -200,63 +197,52 @@ index 0000000000000000000000000000000000000000..631c54c5f03dee9e7d37a7811f87f939
 +/dts-v1/;
 +
 +#include "t6020.dtsi"
-+#include "t602x-j414-j416.dtsi"
 +
-+/ {
-+	compatible = "apple,j414s", "apple,t6020", "apple,arm-platform";
-+	model = "Apple MacBook Pro (14-inch, M2 Pro, 2023)";
-+};
-+
-+&wifi0 {
-+	brcm,board-type = "apple,tokara";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,tokara";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6020-j416s.dts b/arch/arm64/boot/dts/apple/t6020-j416s.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..c277ed5889a2145a4043b7f3230dbd49971d3068
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6020-j416s.dts
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * MacBook Pro (16-inch, M2 Pro, 2023)
-+ *
-+ * target-type: J416s
-+ *
-+ * Copyright The Asahi Linux Contributors
++ * This model is very similar to M1 and M2 Mac Studio models so base it on those
++ * and remove the missing SDHCI controller.
 + */
 +
-+/dts-v1/;
-+
-+#include "t6020.dtsi"
-+#include "t602x-j414-j416.dtsi"
++#include "t602x-j474-j475.dtsi"
 +
 +/ {
-+	compatible = "apple,j416s", "apple,t6020", "apple,arm-platform";
-+	model = "Apple MacBook Pro (16-inch, M2 Pro, 2023)";
++	compatible = "apple,j474s", "apple,t6020", "apple,arm-platform";
++	model = "Apple Mac mini (M2 Pro, 2023)";
 +};
 +
++/* PCIe devices */
 +&wifi0 {
-+	brcm,board-type = "apple,amami";
++	compatible = "pci14e4,4434";
++	brcm,board-type = "apple,tasmania";
 +};
 +
 +&bluetooth0 {
-+	brcm,board-type = "apple,amami";
++	compatible = "pci14e4,5f72";
++	brcm,board-type = "apple,tasmania";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t6021-j414c.dts b/arch/arm64/boot/dts/apple/t6021-j414c.dts
++
++/*
++ * port01 is unused, remove the PCIe sdhci0 node from t600x-j375.dtsi and adjust
++ * the iommu-map.
++ */
++/delete-node/ &sdhci0;
++
++&pcie0 {
++	iommu-map = <0x100 &pcie0_dart_0 1 1>,
++			<0x200 &pcie0_dart_2 1 1>,
++			<0x300 &pcie0_dart_3 1 1>;
++};
+diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
 new file mode 100644
-index 0000000000000000000000000000000000000000..cdcf0740714dcf71e8d0cead879bce8f27431ccf
+index 0000000000000000000000000000000000000000..533e3577487469e868c05976013f0d89ff3faea0
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6021-j414c.dts
-@@ -0,0 +1,26 @@
++++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
+@@ -0,0 +1,37 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * MacBook Pro (14-inch, M2 Max, 2023)
++ * Mac Studio (M2 Max, 2023)
 + *
-+ * target-type: J414c
++ * target-type: J475c
 + *
 + * Copyright The Asahi Linux Contributors
 + */
@@ -264,78 +250,150 @@ index 0000000000000000000000000000000000000000..cdcf0740714dcf71e8d0cead879bce8f
 +/dts-v1/;
 +
 +#include "t6021.dtsi"
-+#include "t602x-j414-j416.dtsi"
++#include "t602x-j474-j475.dtsi"
 +
 +/ {
-+	compatible = "apple,j414c", "apple,t6021", "apple,arm-platform";
-+	model = "Apple MacBook Pro (14-inch, M2 Max, 2023)";
++	compatible = "apple,j475c", "apple,t6021", "apple,arm-platform";
++	model = "Apple Mac Studio (M2 Max, 2023)";
 +};
 +
 +&wifi0 {
-+	brcm,board-type = "apple,tokara";
++	compatible = "pci14e4,4434";
++	brcm,board-type = "apple,canary";
 +};
 +
 +&bluetooth0 {
-+	brcm,board-type = "apple,tokara";
++	compatible = "pci14e4,5f72";
++	brcm,board-type = "apple,canary";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t6021-j416c.dts b/arch/arm64/boot/dts/apple/t6021-j416c.dts
++
++/* enable PCIe port01 with SDHCI */
++&port01 {
++	status = "okay";
++};
++
++&pcie0_dart_1 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
 new file mode 100644
-index 0000000000000000000000000000000000000000..6d8146b941703692a0cd92508add1784e0fc211b
+index 0000000000000000000000000000000000000000..736594544f79b5e45f6ea0c98e6c71d948ef7a43
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t6021-j416c.dts
-@@ -0,0 +1,26 @@
++++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
+@@ -0,0 +1,42 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * MacBook Pro (16-inch, M2 Max, 2022)
++ * Mac Studio (M2 Ultra, 2023)
 + *
-+ * target-type: J416c
++ * target-type: J475d
 + *
 + * Copyright The Asahi Linux Contributors
 + */
 +
 +/dts-v1/;
 +
-+#include "t6021.dtsi"
-+#include "t602x-j414-j416.dtsi"
++#include "t6022.dtsi"
++#include "t602x-j474-j475.dtsi"
++#include "t6022-jxxxd.dtsi"
 +
 +/ {
-+	compatible = "apple,j416c", "apple,t6021", "apple,arm-platform";
-+	model = "Apple MacBook Pro (16-inch, M2 Max, 2023)";
++	compatible = "apple,j475d", "apple,t6022", "apple,arm-platform";
++	model = "Apple Mac Studio (M2 Ultra, 2023)";
 +};
-+
-+&wifi0 {
-+	brcm,board-type = "apple,amami";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,amami";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
-new file mode 100644
-index 0000000000000000000000000000000000000000..0e806d8ddf81b1073bfced964fa64c4e75a9e998
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * MacBook Pro (14/16-inch, 2022)
-+ *
-+ * This file contains the parts common to J414 and J416 devices with both t6020 and t6021.
-+ *
-+ * target-type: J414s / J414c / J416s / J416c
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+/*
-+ * These models are essentially identical to the previous generation, other than
-+ * the GPIO indices.
-+ */
-+
-+#include "t600x-j314-j316.dtsi"
 +
 +&framebuffer0 {
-+	power-domains = <&ps_disp0_cpu0>, <&ps_dptx_phy_ps>;
++	power-domains = <&ps_dispext0_cpu0_die1>, <&ps_dptx_phy_ps_die1>;
++};
++
++/* enable PCIe port01 with SDHCI */
++&port01 {
++	status = "okay";
++};
++
++&pcie0_dart_1 {
++	status = "okay";
++};
++
++&wifi0 {
++	compatible = "pci14e4,4434";
++	brcm,board-type = "apple,canary";
++};
++
++&bluetooth0 {
++	compatible = "pci14e4,5f72";
++	brcm,board-type = "apple,canary";
++};
+diff --git a/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi b/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f7bf2ebfe397dbde6451672d74ef76fe782bcd0
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Mac Pro (M2 Ultra, 2023) and Mac Studio (M2 Ultra, 2023)
++ *
++ * This file contains the parts common to J180 and J475 devices with t6022.
++ *
++ * target-type: J180d / J475d
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/* delete power-domains for missing disp0 / disp0_die1 */
++/delete-node/ &ps_disp0_cpu0;
++/delete-node/ &ps_disp0_fe;
++
++/delete-node/ &ps_disp0_cpu0_die1;
++/delete-node/ &ps_disp0_fe_die1;
++
++/* USB Type C */
++&i2c0 {
++	/* front-right */
++	hpm4: usb-pd@39 {
++		compatible = "apple,cd321x";
++		reg = <0x39>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++
++	/* front-left */
++	hpm5: usb-pd@3a {
++		compatible = "apple,cd321x";
++		reg = <0x3a>;
++		interrupt-parent = <&pinctrl_ap>;
++		interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "irq";
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee12fea5b12cb37f95d9cb531c9065403665e8ca
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
+@@ -0,0 +1,38 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Mac mini (M2 Pro, 2023) and Mac Studio (2023)
++ *
++ * This file contains the parts common to J474 and J475 devices with t6020,
++ * t6021 and t6022.
++ *
++ * target-type: J474s / J475c / J475d
++ *
++ * Copyright The Asahi Linux Contributors
++ */
++
++/*
++ * These models are very similar to the previous generation Mac Studio, other
++ * than GPIO indices.
++ */
++
++#include "t600x-j375.dtsi"
++
++&framebuffer0 {
++	power-domains = <&ps_dispext0_cpu0>, <&ps_dptx_phy_ps>;
 +};
 +
 +&hpm0 {
@@ -350,16 +408,8 @@ index 0000000000000000000000000000000000000000..0e806d8ddf81b1073bfced964fa64c4e
 +	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
 +};
 +
-+&hpm5 {
++&hpm3  {
 +	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
-+};
-+
-+&wifi0 {
-+	compatible = "pci14e4,4434";
-+};
-+
-+&bluetooth0 {
-+	compatible = "pci14e4,5f72";
 +};
 
 -- 
