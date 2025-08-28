@@ -2,98 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B63B3ADDD
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 00:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90776B3AE43
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 01:11:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28A410EAF0;
-	Thu, 28 Aug 2025 22:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C2B10EAF3;
+	Thu, 28 Aug 2025 23:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ickAScEA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d43CzfJk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F8510EAF0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 22:52:51 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-32326e09f58so1553766a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 15:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1756421570; x=1757026370;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fu86Ald7tqqA3nYrxZxsFpT0WhbJBu30dcAkxkqb9jU=;
- b=ickAScEA46ZVDJMj3NcJjyIScIlgb77bviqJKzRQ8vuMEnCLsoeGU2PMOuk/wXcGrP
- lW/mJejQ/Gcfp6zAiAJH/a98dCi3hdnvpC7w2M6wDbDVA6ioUTEGO8U1oK/g9ffi+Ph8
- cyv5O1IAiXTfxcUWGZ+kcRRw4dGf7vB5vgBXE=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10D7C10EAF3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:11:26 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SLWcKh024959
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:11:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=CcwPb98D2xg5sUyCBoeco6KS
+ Je0ON7jV0q8gk3wftUg=; b=d43CzfJkVtNCcnXvTigbg9V2wZhs9tPvt3pGpY48
+ UMtN7J9Z3LNjTXjydLSp1gFM3mmRW+FKQverrMHoObEWbtNKOvpPVszoUy5kwjnE
+ lj+5+S4hExYK8MW+4ruwCCFZ5j6rwtDoIYG6zNKtleyYQuNot14ymqJexK20uWqw
+ x3jJt1zKSPb9tHFJMl0Ss2O0/KZ59UAiw8mwK8Ax52G9Me0Tigz4ERp/IKiJsrWW
+ RowNZtFJeEf1klzJSd9G+DJtizvZ+VxTpdrD5/Z7v975jxRM9zQjyioumPbd7tq7
+ QQlofmvZrRGQbzU2a0hX11We+jnezP+nFvJDwGXCgwgjeA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5w327re-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:11:25 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-70de47323ddso43071396d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 16:11:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756421570; x=1757026370;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fu86Ald7tqqA3nYrxZxsFpT0WhbJBu30dcAkxkqb9jU=;
- b=eJ0D+T+zZIFGBGLTYDvCbUv7Aw7Hj3FGkTmyJA8asKA4giYq2jypiotbOJA3Q+qG0b
- btG1M0nMf5B8MYUA5pbdof4XzBOo5z3G6f0+Mo0nvsvWcaEuHZQaMiS2Lj7E7Pi/TSNq
- IAZj/MEKbljnh+7hz4FdiETo6SSBZH5M4EI8Gqb0hEV22j1VSBNI4D2zp3lVwiePABrh
- SlgFwYgBtgPKGfpF5QEo9U2EOvBgz1LdPtIsN/AnW3RnhZwEoTwmsw7D7weddfXbRC3d
- x1LhICXK1ocru91G15Dmt08TL5gT5cdEqPoqtLN2Gdl5/M+Bl6lLW0sF7RlfGi4Iw9SD
- QkiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXNBLe0ORSRJj80UOfPpjCbYGOnwW04Il1b1slc+RXkgUYPf9j+tpk1T2BEQzjLtYkpKSw3DawP6xk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpzbBaeGjXNqsoN6uT23lBE1R/xaNDXtr0rehHHCuy3h9p8mZr
- Y12oCu3AMl7hrIxopinNeYLJDepET2xJYP4sGW8hCK2EOVnvwa99aWK386RrXTp22Pfu7muX2CS
- 0gmY=
-X-Gm-Gg: ASbGncuKrcj7JFU6agihIiDP7lngLeUlLZhiTHvjpPCpaU6tzGTcn7N+v3wX7cdqgco
- xO7MUEpD0mcWF3ue8X97RGhMMj5kPANuwXrOkCEQdMZ6Lq9pblE927wZmB8EUbhJRAsk7zKAzB0
- 3/2FvrBjJSp2GKMFvvPOlT/SJiNRae2SpL6zevyqBKBjC54mrs471VWqQlCNpzUXYfCX8L7pDJC
- I8V0/1Yo2gAOOAfhe9gle0UZcK1/NKuYKKmA+PHwALQikRfFK9R2XyOC7LkAcxLWgsKuf2IOIzN
- criu6fhESLyH9Ok7hKWHSWc3+rZm63rhtcluWuEaHbnPgtGW4v7j42cQAigmCCFTM58Y2UgNvTC
- FBJ5ZnbN1kx2EUXYWg6a6Aedi5siU0rWfJ+oSeFRzeMeK33HrPiBcyCETBDLsX0o3WQ==
-X-Google-Smtp-Source: AGHT+IGNjL94BmawQoGOQfIWosgE1xYsRWMMMUYVe0LpLwvKbEpq2VsX1XHxl55BPci9Mziohiudug==
-X-Received: by 2002:a17:90b:2ccd:b0:312:e731:5a66 with SMTP id
- 98e67ed59e1d1-32515ee159bmr30188678a91.3.1756421570297; 
- Thu, 28 Aug 2025 15:52:50 -0700 (PDT)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
- [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3276fde4cecsm6179043a91.29.2025.08.28.15.52.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Aug 2025 15:52:45 -0700 (PDT)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-b49cf21320aso1703533a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 15:52:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU56RzWvgEdA3Z44MANeQiAr4U24saEEJlwuphJsXQnjE5AU3zuiDwM/rfj5yAy/LofY9d+LVQjN5Y=@lists.freedesktop.org
-X-Received: by 2002:a17:902:f612:b0:248:b25d:ff2d with SMTP id
- d9443c01a7336-248b25e0a84mr76625375ad.51.1756421563760; Thu, 28 Aug 2025
- 15:52:43 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1756422684; x=1757027484;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CcwPb98D2xg5sUyCBoeco6KSJe0ON7jV0q8gk3wftUg=;
+ b=F3QhF/IYrKZM9XN5DEWZ8XbvRE+ubmkTG//QHA9iGAgEE201R4PelVKX+ntCd68Gzk
+ JpQuPzHhyT2Nw+mUAS0kpkM5RVHia1PaT9DzHlWl/Xg15eh219XU6jlBiAaIr+fUtbUj
+ ibWnwVU2kRbL/NmLUgbjfVJ19UWqd4Wm9N51SLW+rwqEVhqmvwVYBQRtTubFGXb1BSc4
+ ffRV7K3t6NkZgBx/Fuq/Ewl1HSAKL6ujGS8t5VEh7If/6kK3b0s1KUlGhMG96KCajpJ4
+ 3XZ/P3CI4fC4DCoZEIFxuZUah+DU7iYVg4yn2K3kLEKRRWfXUWM7nIajz0v3ZZ8h9aXZ
+ ZNQQ==
+X-Gm-Message-State: AOJu0YzZ4b+2XHRiMaOHTJ0j8znEv9jcJHjwKeA+n4Dw3xuA6liXRf8w
+ jg7PMIsy0N/H3pBzeGy+Df43ZZGofYl7z0tgtYpDjHpwpVh1X7hmezjx1B6aAjRTrQxyVLICSqV
+ 0CczQG/rHkN0bAqQ7uzf7uotqpHas/HewquIrNpcvrhh+SdnUQluiilBT11vJqBYPTeAKpYI=
+X-Gm-Gg: ASbGnctvwRG3CLLPeOuiRUWjd+hHc4OGwW0MUzFW8zYiHEHJbxudrrblxxr2IpGtgL6
+ j4wKI4h3rh9da7rtrkq4sh/2X8u5W/EFGvv2IdJIjan0sgQCy/eIpBpqKEj3WwusNgIwg+q63gA
+ DfL7JuwdNPz3WClcVXVISlS7iHZ+mdIFNLc9m1dlfIPM/ms+mp9StFT8tZi1gFNPtoQWwNXTubW
+ N2vCTZnUKJUCr0hH86yYVMrbkqmlfyrfSzNiZ9N+qIFarIsUP48z1KZP1ajSlb5TJXISGN17+4o
+ ijDYQrv/anVOx6o55lME2IMjDr8rxN1iTxSzCOYxpSA32X+MjVM7AkLFTr/JgNnvrzltSj49PAM
+ Uqi3tZJOniqdJK7KYMW+c/LsAt4LoAF3AtjFKC2FJCHrlFS3s0xw3
+X-Received: by 2002:a05:622a:5793:b0:4b3:4d9:1a20 with SMTP id
+ d75a77b69052e-4b304d91c8fmr37454661cf.46.1756422684211; 
+ Thu, 28 Aug 2025 16:11:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGhgdun2fn1jFqmiQbfyBvO+zPjYV9lB5FdqpEXRjyP1PtkoydoYjW2c/bS7zgz7W252CkZPg==
+X-Received: by 2002:a05:622a:5793:b0:4b3:4d9:1a20 with SMTP id
+ d75a77b69052e-4b304d91c8fmr37454411cf.46.1756422683667; 
+ Thu, 28 Aug 2025 16:11:23 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-336b4613c10sm1461051fa.1.2025.08.28.16.11.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Aug 2025 16:11:21 -0700 (PDT)
+Date: Fri, 29 Aug 2025 02:11:18 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/msm: Drop unneeded NULL check
+Message-ID: <l5t72pobsea2mcsulxsomrqpbeezj22vdtp7gqg6zjlqwzkjgk@p624paf4vhn3>
+References: <20250717151202.7987-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20250821122341.1257286-1-mwalle@kernel.org>
- <CAD=FV=Xt-DPHRddZM=t-KTWiGouNfm_QpPps3MA6csd+j=YO+A@mail.gmail.com>
-In-Reply-To: <CAD=FV=Xt-DPHRddZM=t-KTWiGouNfm_QpPps3MA6csd+j=YO+A@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 28 Aug 2025 15:52:32 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XCOPeEgpjvCuDjT=OjEk1P8vszL6iJqkY-DcpXtpXTjA@mail.gmail.com>
-X-Gm-Features: Ac12FXxGQ3gwKFNpja0uZrKs0DRled9vAzxyIxlYJEziCVKJJ63hTgomuUTkhic
-Message-ID: <CAD=FV=XCOPeEgpjvCuDjT=OjEk1P8vszL6iJqkY-DcpXtpXTjA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: fix REFCLK setting
-To: Michael Walle <mwalle@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Devarsh Thakkar <devarsht@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717151202.7987-1-robin.clark@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=Z/vsHGRA c=1 sm=1 tr=0 ts=68b0e21d cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=-2mmMjQWwNZ6YRhNbUMA:9
+ a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX0FF3NEWFCd4i
+ yUlSoVxvwC3z1ck887dGAJnDvY+auNQVW/Gtgd6agoN8lLRwNkrpfPTvAxK/DOSXyN9DDanQzEM
+ hSuNyTJv/8Qn+cm4D/WrpNvS/Ps6ngXUnW7MRnKxOlxT6h+aoUMYnaTtkDMSxJbEpvHo/idTJHT
+ gOeqvl2bHsFQhFdPPxMnqZ+u7y7wuBociV2c1SqLxZiPcPtEB1u7iFKZvLdObkrP60Dc3/nILqZ
+ T8hV0iSXbs7uWucSR/0aMvRo2cBICQu7M/99AuyNjcfzMTDstAIV2MRy9XGXmVIP1+0kvxsu8n5
+ 8DaFpLgQ0aisFUDQDbpAte2AOX0PPj0erRu/+ssx/7Z3r/t3UxNyB0LEBkk9/svOdXZiHPjgSLd
+ Lpj1xVch
+X-Proofpoint-GUID: Ui3PWQH0nNecVoRZoTbbTKDKKvXis7kl
+X-Proofpoint-ORIG-GUID: Ui3PWQH0nNecVoRZoTbbTKDKKvXis7kl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,51 +126,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Jul 17, 2025 at 08:12:01AM -0700, Rob Clark wrote:
+> This is always set in msm_gpu_init(), and can never be NULL.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/msm_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-On Thu, Aug 21, 2025 at 7:36=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Thu, Aug 21, 2025 at 5:23=E2=80=AFAM Michael Walle <mwalle@kernel.org>=
- wrote:
-> >
-> > The bridge has three bootstrap pins which are sampled to determine the
-> > frequency of the external reference clock. The driver will also
-> > (over)write that setting. But it seems this is racy after the bridge is
-> > enabled. It was observed that although the driver write the correct
-> > value (by sniffing on the I2C bus), the register has the wrong value.
-> > The datasheet states that the GPIO lines have to be stable for at least
-> > 5us after asserting the EN signal. Thus, there seems to be some logic
-> > which samples the GPIO lines and this logic appears to overwrite the
-> > register value which was set by the driver. Waiting 20us after
-> > asserting the EN line resolves this issue.
-> >
-> > Signed-off-by: Michael Walle <mwalle@kernel.org>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> nit: officially you're supposed to move your Signed-off-by all the way
-> at the bottom of all the other tags any time you post a patch. I don't
-> think it's important enough to re-send, though.
->
-> In any case, thanks for re-posting. I guess it kinda stagnated. I'll
-> give this another week on the list and then plan to apply to
-> drm-misc-fixes unless there are any other comments.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-I realized that this is lacking a Fixes: tag. I went back and
-confirmed that even in the first version of the driver, AKA commit
-a095f15c00e2 ("drm/bridge: add support for sn65dsi86 bridge driver"),
-we still had no delay between these two lines:
 
-pm_runtime_get_sync(pdata->dev);
-
-/* configure bridge ref_clk */
-ti_sn_bridge_set_refclk_freq(pdata);
-
-...and the last line of the runtime resume function was turning on the
-enable. So I believe this means that the bug has always been there.
-Does that sound right to others? If so, I'll add that Fixes tag when
-applying.,..
-
--Doug
+-- 
+With best wishes
+Dmitry
