@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E23B3A0E5
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73435B3A0C6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 16:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35FB10E9E4;
-	Thu, 28 Aug 2025 14:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C40C810E9D4;
+	Thu, 28 Aug 2025 14:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="XVx2JXVs";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="M9B1JpB0";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="aotlmlBn";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="OvqpcMB5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from flow-a7-smtp.messagingengine.com
  (flow-a7-smtp.messagingengine.com [103.168.172.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD19210E9D1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:16:16 +0000 (UTC)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
- by mailflow.phl.internal (Postfix) with ESMTP id 7B5D61380DDF;
- Thu, 28 Aug 2025 10:02:48 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-03.internal (MEProxy); Thu, 28 Aug 2025 10:02:48 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475B210E9CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 14:16:15 +0000 (UTC)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+ by mailflow.phl.internal (Postfix) with ESMTP id 56DF01380DE8;
+ Thu, 28 Aug 2025 10:02:51 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-08.internal (MEProxy); Thu, 28 Aug 2025 10:02:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1756389768;
- x=1756396968; bh=Du2NKwG5kjMYapHOMS4ErXJWLOLHI7y0mRPWnckCGRc=; b=
- XVx2JXVslCNQrTUX6rMoc1H7c2pxiOBr/8LPm6wIqOKxdCv+QHmPBNgrMYh95Z5U
- K4cBQMGovl4oSnILs6zNdv5tK3jFUXDTRrIhe1g50zbzNxszK7wNkq5ob4HPAnY0
- b03g0A22gjONulPBYxXi806CEXZsIMiX8zs16Avq9/r2J1C+AwPNGDNVeemRDJv8
- 2jssWp87a4zz506RU4OrbroPa/RDkd8KboIjDADAUmkZ72wVRfVvubQNwnWDUuzj
- Z/pirRclbwhBbqe34B3wuMiAWJIWSUvYGKxhAjupElveZ2tT1KkAwQldPzsGqXf5
- ZlySZzbaf0UzDQF2uHnWLg==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1756389771;
+ x=1756396971; bh=9HExCj4N7N9aCY12n6+mCffOhzLVaGrLIRy2IV0TicI=; b=
+ aotlmlBnYn18OSm3dOWIkWvxo4EMR4XpW7FNjTgmAOuokUSxs/3PvUKjlho0SqbS
+ G9ZH4Fh7nTmcnaaoxHNwJfzDwVGcVmvbaSFCXkZs35MRUDFQxM8PFlObOSn/iwpA
+ XZSsQNi/fCHlXjkR9TFPxA4kCY+w9/dqRNS/nI+gVdN0jE0zxk0CacPb52d26Aat
+ v5lT2FW7RTpYLqMUV2MqFWLpEU1q25b3C5wGrojqmwQMta+y50cj1X5r4KBpjRy+
+ PiPyI3d8iV/SVo8OMnQltOPU2zXmqMmynnlsBlE2kHdZegKIla8h/Lg+N2dxJ3Us
+ br1NTkEg4hqDah0sM0TyBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389768; x=
- 1756396968; bh=Du2NKwG5kjMYapHOMS4ErXJWLOLHI7y0mRPWnckCGRc=; b=M
- 9B1JpB0tfJ1T56e1NRwnWbkXUmlcBKGZH4+xdITs4w/cImWR8iyg1Xmg3j0zUZPB
- WtePFO9bBaV3rgBB1hGDt9vWt6pydPsdKDmDXmisO4Yor5Ag8CxaR2D+sJniNSkv
- zy5ukD/RxczA06gBH8B+9e4juyaAX/dwFF7hXwB9GFpXixdyrH5OXdM9RjhFQb3E
- UNJphIXK2geZIbuV0Hh8BtuMJRHW9l8m4rnhvOU9Ik7N0k0whKdr9ayV5nqtJvBA
- BfkTPjvnnySiRGEUpk6HKrVXukWHPsl2bXUg4rCovGCgiYq0jQ812KW6A4R89Ioa
- RnueoScCE5BsvW+88LKTw==
-X-ME-Sender: <xms:h2GwaAQ4MbLkyoZi9f0lO1GdMb4vPLLSekvjTpZ_jMfO2C3JRdoKlw>
- <xme:h2GwaMl9v4ShPl11JvqRTZXyWLi-vxJOl8dSwRxIpKJoZNR4hRjMrFR2hwsOUoJCl
- sODnC-bFXg7nKKLTis>
-X-ME-Received: <xmr:h2GwaIifykCToSnYn8qw43gKpf837ce99C2vu6T8dDmnGnJYDI57fN1D7X2kcNIpbqm9SB4V3UDbwW4OS1sBmqNFpqWGBtNeh8Lbjg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756389771; x=
+ 1756396971; bh=9HExCj4N7N9aCY12n6+mCffOhzLVaGrLIRy2IV0TicI=; b=O
+ vqpcMB5CqSTnTHujgJ19lJ24UIUgfPwHWG/j0snA+zCqy99zevshZqC/17m3fd9b
+ g1El+Myks9GXUdxph0rfSLq0qAOEnG5Cgp5uqwJVv7sZvsog2DNGe1Jmy1nYqnE2
+ mKfcQpuNawMSmTvYt4Ys9uTR+lkI1lH3OONnZNuSoltMJqyJalAB1O00wphovG58
+ euT3vraiBNBBMJZo0AlmcZlvE23uzMv9VyyDETC/vJcMQ2bAE/h7HZtdCg+wh/vg
+ FmpCbX+whGH/UhKBdiHg8ECBVbMTpLgGjYdZ9oeryJ/X6sPSKlMIWuObKA+XEtZv
+ BnAEuAz3JeVXWxM1ROsyQ==
+X-ME-Sender: <xms:imGwaJdaWWt49Ljswkr6e-T22V6pVyibbD94LuX86cF8znC8seFfCA>
+ <xme:imGwaGBIasOnqBC5-TsckU1JgDlkuDngTMT8zH5ojURT6pRtL0P5-xHd_V_QxeKKR
+ 4y5H5k7zt7P4dpqgJQ>
+X-ME-Received: <xmr:imGwaNOLuhajKhXN5f1kTUmMDZUppoWFn0K72y7fFpbMcicW6UfFC12JVQ0MqsVWlW61aXwu1ij9puOnOjjsoizp1IyxM_3DVsLexg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
  gurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgv
  ucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepve
  ekkefgjeettdduueejgeeuteduffefteejudegieevuedvieffteeljeelgfeknecuffho
- mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedvnecurfgrrh
+ mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
  grmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohep
  ieegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigqdhgphhiohesvh
  hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohhhrghnnhgvshesshhiphhs
@@ -66,22 +66,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeduvddvucetufdote
  gvthhtvghnihhssehophgvnhgsshgurdhorhhgpdhrtghpthhtohepkhgsuhhstghhsehk
  vghrnhgvlhdrohhrghdprhgtphhtthhopehsrghgihesghhrihhmsggvrhhgrdhmvgdprh
  gtphhtthhopehlihhnuhigqdhivdgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:h2GwaLGPVKIKQkx1jsX_5SRtkyw-LqoFRPZ39xXJjyOfF4C0uZLVGA>
- <xmx:h2GwaPJPgnCkyL21NymVJSXi1zUPu5YO6XiN2reFMTUfH4B929XGZA>
- <xmx:h2GwaBbp0j-Jas6AvKviCk3p9Fp_oS9ioMRcivi0SphoQqvxs362cg>
- <xmx:h2GwaB2Ga6XeWUNvtrJOZKcxFnC9d_x1pKdMHpavHztJBv9iZtWjog>
- <xmx:iGGwaG5Xw12NZGk-ViJ0x2NWqhdr93bxXtmPBuMfv4b-L4KcIh0EKMi->
+X-ME-Proxy: <xmx:imGwaKCN6yZbB8wiZn_r1oROJTs2F9Rh1PNrRaEexAJH9_ZojPhRXw>
+ <xmx:imGwaLUoRed0qCNycRD1W479Fzh3YSaX2oG6Ut5HPTzCUya4FZXI5Q>
+ <xmx:imGwaB1mTM2Muwbh54cQIAxPq0qzrgpzFPE97eII0ZCWPXrSclmYXA>
+ <xmx:imGwaBgM7lznyE8paYUuoH_yXmYE2st4YJG2EfbK89BxPMYQJ90MtQ>
+ <xmx:i2GwaJDeN6MaRf7NVI7BvP1SkCoBblSvYeBlmiuzJpI0PD0R04V5eqrO>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 10:02:46 -0400 (EDT)
+ 28 Aug 2025 10:02:49 -0400 (EDT)
 From: Janne Grunau <j@jannau.net>
-Date: Thu, 28 Aug 2025 16:01:43 +0200
-Subject: [PATCH 24/37] dt-bindings: watchdog: apple,wdt: Add t6020-wdt
- compatible
+Date: Thu, 28 Aug 2025 16:01:44 +0200
+Subject: [PATCH 25/37] clk: clk-apple-nco: Add "apple,t8103-nco" compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250828-dt-apple-t6020-v1-24-507ba4c4b98e@jannau.net>
+Message-Id: <20250828-dt-apple-t6020-v1-25-507ba4c4b98e@jannau.net>
 References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 To: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -125,13 +124,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
  linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1897; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=ykPAcrH7nH5stpCWnGizSLioWRUE/N+dbccnuhE6jU4=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiVa3tMJLl0+1OZ/j/LDzZME5F7n/Z841PWcWM3LT4
- n25aL5tRykLgxgXg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIlM4GD4Z1Giqb1S+v2NDXJH
- yy8dMMtfFTrdOlH5nbfDbo4iyb6wRIb/Pt7bcg+f5JNyXn+xYMH10DC7+B9tZq83XNolrtTw1us
- 6GwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=921; i=j@jannau.net; s=yk2024; 
+ h=from:subject:message-id;
+ bh=jcJtYPSKpG1I/YyWi+Q4doEt+hWLBjAswfRHUAO81VU=; 
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhowNiVb33E7um9BjsD5xIlfT3uMhpxX2lm/6/3F6/NGe3
+ 6be4aV/OkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAEzkcwsjwwHbFTGOyt0Ky6Ok
+ jwm57L8afea7yF5j1+UlxxSzCqOl1Bn+p3z13LJbVCu9vuPURbFfT4u5fc/1/lu+Ipl1XXnZ7K1
+ s3AA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -150,58 +149,29 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 After discussion with the devicetree maintainers we agreed to not extend
-lists with the generic compatible "apple,wdt" anymore [1]. Use
-"apple,t8103-wdt" as base compatible as it is the SoC the driver and
+lists with the generic compatible "apple,nco" anymore [1]. Use
+"apple,t8103-nco" as base compatible as it is the SoC the driver and
 bindings were written for.
-
-The block on the Apple M2 Pro/Max/Ultra SoCs is compatible with the
-existing driver so add its per-SoC compatible.
 
 [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- .../devicetree/bindings/watchdog/apple,wdt.yaml    | 27 +++++++++++++---------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ drivers/clk/clk-apple-nco.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-index 310832fa8c2803d463148954ed30795b11d97cb2..05602678c070d764331795f6df91abbc55eb0f2a 100644
---- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
-@@ -14,17 +14,22 @@ allOf:
+diff --git a/drivers/clk/clk-apple-nco.c b/drivers/clk/clk-apple-nco.c
+index 457a48d4894128fff24d50eb7c9a3cbd7d35f245..c205b7f1dadeb837b76cfd30b6009db6c1f9a79f 100644
+--- a/drivers/clk/clk-apple-nco.c
++++ b/drivers/clk/clk-apple-nco.c
+@@ -318,6 +318,7 @@ static int applnco_probe(struct platform_device *pdev)
+ }
  
- properties:
-   compatible:
--    items:
--      - enum:
--          - apple,s5l8960x-wdt
--          - apple,t7000-wdt
--          - apple,s8000-wdt
--          - apple,t8010-wdt
--          - apple,t8015-wdt
--          - apple,t8103-wdt
--          - apple,t8112-wdt
--          - apple,t6000-wdt
--      - const: apple,wdt
-+    oneOf:
-+      - items:
-+          - const: apple,t6020-wdt
-+          - const: apple,t8103-wdt
-+      - items:
-+          - enum:
-+              # Do not add additional SoC to this list.
-+              - apple,s5l8960x-wdt
-+              - apple,t7000-wdt
-+              - apple,s8000-wdt
-+              - apple,t8010-wdt
-+              - apple,t8015-wdt
-+              - apple,t8103-wdt
-+              - apple,t8112-wdt
-+              - apple,t6000-wdt
-+          - const: apple,wdt
- 
-   reg:
-     maxItems: 1
+ static const struct of_device_id applnco_ids[] = {
++	{ .compatible = "apple,t8103-nco" },
+ 	{ .compatible = "apple,nco" },
+ 	{ }
+ };
 
 -- 
 2.51.0
