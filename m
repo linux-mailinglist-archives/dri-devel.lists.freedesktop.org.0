@@ -2,61 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4F4B391C2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049DDB391C9
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 04:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9216210E92B;
-	Thu, 28 Aug 2025 02:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E48A10E928;
+	Thu, 28 Aug 2025 02:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="e5wKqVPi";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TMLl/Xyd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1E9710E92A
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:35:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756348521; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=DA4N4aH5+wWrP1LP3Sif2/kVsTYDQSSvvojqVC86fVK9a04jv+5tfToFYB+ffWoRMDRYiQ49vCWeHX0JjNUCh+V4smqEmb2or0BAAh3+ADTaNPTxAUbXLQFa5uh80lcmELhLXJCbWrdX9fEH6v8Uakb5ZKJ/aEJH9NFY8taHxFI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756348521;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=V1Uvfctiz0Q3YCABen6cOD/xIWF8r6drJ7x0TI0+0eA=; 
- b=S3FZxUVoZDTFqDYWBPw2CJGd4N+MbxYYRRsHmdOwjWKhjnqOsB13SCmn229+IDz9xr1f39JBmjlUEkKvbUX7GdIIGeo2wt8OTIVbDc+Xf9UbOiC3vOyR3pO0gHMBiFTuX8TF9qc0jKB6U3uTjeXE5R7up6wQqogLxFQagl6qg7Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756348521; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=V1Uvfctiz0Q3YCABen6cOD/xIWF8r6drJ7x0TI0+0eA=;
- b=e5wKqVPiGOL9qx/mvTMxmh/x1KqDz9tkR9F5adZB9Kmu4VnMtBflfIK47DsTGJRC
- KeryRSEJHSaUbCcnxdH6fikEElOpLUR69tmmDglxVdfgYZuSPxoWMMOolEyoXhgSnKd
- TU3pdGiqg1ELi5lbcjVU2AK8YHEeernREV1uoQSo=
-Received: by mx.zohomail.com with SMTPS id 1756348518972966.8106728089455;
- Wed, 27 Aug 2025 19:35:18 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70C8010E928
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:37:41 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57REuWtv001842
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:37:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ CzpcX1ydkh01oreyPdVhWuWFkuUt/DHhQ7WgcSO750o=; b=TMLl/Xydf3peKmCe
+ 3SJjXBy53cYoHckUs24pk4jiQpMdnIUK4/0lzziwMe9wGDQPQps29hwfZ8qDwG6L
+ y5rwjPVEvjgE6p7nPXO85SsJR/2cR3NQOOh7snQGUiuMeaoO8DnwnTsWmwTmpM+A
+ ov2U4t6uUfN162F7218VBxd+Tilqr1B05PSPzWwm/chUSlpouTb8jwCc9wVbe7W3
+ zpTxbI6/NmX6H4KPnT29ocU03slHyAqVcgPQWgIOjPtyvcYaN8mkxavwy3wKDmPM
+ YWE9yIcef7XVxNc/LGZ/gW0aT4BKSBtGvogfUKuFwJjfhEPeqlvUgrCEj7v0+LM4
+ luvzeA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48t47b9mrq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 02:37:40 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-3275d1275d1so138971a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Aug 2025 19:37:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756348660; x=1756953460;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=CzpcX1ydkh01oreyPdVhWuWFkuUt/DHhQ7WgcSO750o=;
+ b=raw4afNesp4bF7+I6tLTB2zgS3Z4wT1MehWqcg9K5ufuLvFV7HHyxFnxRU+wiyO4fq
+ Qem3L6AdgB2nvP+pzc36F+TYVlQbFrz3jtP0DOwMHNn+KgIw14wiClE1X6+XC8nkHvoV
+ REU0sfb5Pq2tnRAQkEZeCyBdzwO47RccnPlCwxyhpXK/l/89p7bBI1+Y53OxEEhNuBMN
+ bfSVJU7L2FBWTqeIfOUsPf7Y0iESsobO9pfTWjXBKgZoK7Qfup5F6JabEWNI7QlsHUka
+ 5c0jlA7NkKcUdCVhoePZvLiZpZaQHKDjv4C/N/o1Vv3nxANpOOWvq9GoM+ZcRh36wbr/
+ jiNQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVZ6muKfUtHibf+byuf07EmEuPMJm1ZN10Mh55hN5qy3pH+V3OEMJOcO3ioeDkKgA49N0OsGnVTVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwitHYn8hiizWBiT5NItv4AJokrh5V9sHhRxi0vEdNA6MEhXPBh
+ MZ+GiqMRSLn8MPS2MnTgFE8vl3R5tLLND3zTr8XW4bk8B0XonEla7KxC1uc6aa3ZpGTFj2gCKyv
+ wn8/p/V6a1MQs/uGONL+z1ZB2MCtvrz9YwCvjUvUbRKES1cejv0pisCVF0t+ck7soOkm1lbQ=
+X-Gm-Gg: ASbGncv6aij6M2NuziI+Mo13vAdt7tGK36wc13b1nA8ACl3JBQMraHGkG7Rpp8buVnh
+ 0kLi1gk6nUl7cwAfCAGE96hscQCHN8TDPbrxmLhO7W02XQRWMoc0OlfBkeD1ercQdyk1jJb5smX
+ PxWho/a2tRwVt9Aky9Z3ewepyLqt+P8Bb0wVv64nNBnQUKFYOx720n4Gb5FK4aixBBGs8PzcXp2
+ XHG8McDpc/A3EEGIxyXFwB6SHWornbn2+fCLYdmrSWyU4EjRB3pOsLNP/T7iMIEB7f4+QGJvQ0F
+ t0Udob7n/0zLO6xlwEaaErCQRwxm9SUJUyoyJodiXgsPtOKn6nOZRZdiBhhQ3jjnHk/b0phruMJ
+ A0tA+D6v+lPQ9sYQsivsyAUjITfimCg==
+X-Received: by 2002:a17:90b:3885:b0:327:76b9:3c74 with SMTP id
+ 98e67ed59e1d1-32776b93dc0mr2682866a91.4.1756348659709; 
+ Wed, 27 Aug 2025 19:37:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHe55ZTHJRQToocxrNCqcxFeBqSv5AmBiOroCNnrtBkGeKvVOpw2UJG22Bn+GftHwdcq8/fIg==
+X-Received: by 2002:a17:90b:3885:b0:327:76b9:3c74 with SMTP id
+ 98e67ed59e1d1-32776b93dc0mr2682846a91.4.1756348659166; 
+ Wed, 27 Aug 2025 19:37:39 -0700 (PDT)
+Received: from [10.133.33.166] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b49cbb7c0e0sm12696409a12.37.2025.08.27.19.37.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Aug 2025 19:37:38 -0700 (PDT)
+Message-ID: <31a1d952-eab3-4630-8337-94a45d144199@oss.qualcomm.com>
+Date: Thu, 28 Aug 2025 10:37:29 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 11/14] phy: qcom: qmp-usbc: Finalize USB/DP switchable
+ PHY support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 5/5] drm/panfrost: Display list of device JM contexts over
- debugfs
-Date: Thu, 28 Aug 2025 03:34:08 +0100
-Message-ID: <20250828023422.2404784-6-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250828023422.2404784-1-adrian.larumbe@collabora.com>
-References: <20250828023422.2404784-1-adrian.larumbe@collabora.com>
-MIME-Version: 1.0
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
+References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
+ <20250820-add-displayport-support-for-qcs615-platform-v3-11-a43bd25ec39c@oss.qualcomm.com>
+ <jjsijdmh4hdbgd2boebtrmzvblvhz2hnl7mtv5ga76ine2fnsb@i72dz3r4lbjp>
+ <82d19340-b887-4093-9d24-4b2e19b99f8b@oss.qualcomm.com>
+ <inxoswyre3qalrb3dj3lz3b5vmnpnkyy3hh4oum3z6p7yqlo2v@7g67yvvb25tc>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <inxoswyre3qalrb3dj3lz3b5vmnpnkyy3hh4oum3z6p7yqlo2v@7g67yvvb25tc>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: N9bjTF7N8thL00D591rtntZG-IxSmkkE
+X-Authority-Analysis: v=2.4 cv=CYoI5Krl c=1 sm=1 tr=0 ts=68afc0f4 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=cSqeRI19cUNuZMl-djwA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-ORIG-GUID: N9bjTF7N8thL00D591rtntZG-IxSmkkE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI3MDEyOCBTYWx0ZWRfX3WAG8ZC+jMvR
+ qJTWmxhQJ0VSPTP4gBD1CjQTZX21hkpsBCKqdIfncDxKQ/kZ+/FlS301JL3ZU2jOAoV4etHcGYG
+ 81rEYXwsbI7IsqsHYScHnjPjOfBBXlXJ/+zEcVuKHSLiEe2+AkU19D2W4WbS9Y4/SQM6K5Qe6ac
+ n//0hTYl8jcWt4L8W3bbdX728nLmo2aptEgB/6ZLBV1qDu+lM3gQFYhd9ZYCOYKpmn+CmgBP13m
+ s7a9BfxW81PD9Jd6sMlYH53OQia5dClVxzgHb3+xRyKWdFANLWgSWUoHtp1pFM9PMpEG7tVzHgQ
+ LqD2QXBaXUC2lbTqjMORqfLS1csU5Off8idFl/H/WO4YlEsyfILV4iMgF4IqLwXt4ewkRRE3i/3
+ uDQU+/xw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_01,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 adultscore=0 clxscore=1015 phishscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508270128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,144 +144,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
 
-For DebugFS builds, create a filesystem knob that, for every single open
-file of the Panfrost DRM device, shows its command name information and
-PID (when applicable), and all of its existing JM contexts.
+On 8/28/2025 12:14 AM, Dmitry Baryshkov wrote:
+> On Wed, Aug 27, 2025 at 08:34:39PM +0800, Xiangxu Yin wrote:
+>> On 8/20/2025 7:42 PM, Dmitry Baryshkov wrote:
+>>> On Wed, Aug 20, 2025 at 05:34:53PM +0800, Xiangxu Yin wrote:
+>>>> Complete USB/DP switchable PHY integration by adding DP clock
+>>>> registration, aux bridge setup, and DT parsing. Implement clock
+>>>> provider logic for USB and DP branches, and extend PHY translation
+>>>> to support both USB and DP instances.
+>>>>
+>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>> ---
+>>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 331 ++++++++++++++++++++++++++++---
+>>>>  1 file changed, 299 insertions(+), 32 deletions(-)
+>>>>
+>>>>  static int qmp_usbc_probe(struct platform_device *pdev)
+>>>>  {
+>>>>  	struct device *dev = &pdev->dev;
+>>>> @@ -1703,16 +1944,32 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+>>>>  	if (ret)
+>>>>  		return ret;
+>>>>  
+>>>> -	/* Check for legacy binding with child node. */
+>>>> -	np = of_get_child_by_name(dev->of_node, "phy");
+>>>> -	if (np) {
+>>>> -		ret = qmp_usbc_parse_usb_dt_legacy(qmp, np);
+>>>> -	} else {
+>>>> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
+>>> Should not be necessary.
+>>
+>> Got it. I’ll merge the parsing logic into a single qmp_usbc_parse_dt function.
+>>
+>> Also, I checked the compatible strings in the dtsi files for this PHY series
+>> looks like no current product uses the legacy binding. 
+>> I’ll drop qmp_usbc_parse_usb_dt_legacy in the next version.
+>
+> No. It's _legacy_, it has been implemented in order to support old DTs,
+> which existed at some point but then were refactored into the current
+> state. You can't randomly drop DT support.
 
-For every context, show also register values that a UM tool could decode
-back into a mask of L2 caches, tiling units and shader cores which jobs
-submitted under that context can use.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 101 ++++++++++++++++++++++++
- 1 file changed, 101 insertions(+)
+Ok, understand.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index b54cdd589ec4..3ba43180ca8d 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -713,6 +713,52 @@ static int panthor_gems_show(struct seq_file *m, void *data)
- 	return 0;
- }
- 
-+static void show_panfrost_jm_ctx(struct panfrost_jm_ctx *jm_ctx, u32 handle,
-+				 struct seq_file *m)
-+{
-+	static const char * const prios[] = {
-+		[DRM_SCHED_PRIORITY_HIGH] = "HIGH",
-+		[DRM_SCHED_PRIORITY_NORMAL] = "NORMAL",
-+		[DRM_SCHED_PRIORITY_LOW] = "LOW",
-+	};
-+
-+	seq_printf(m, " JM context %u:\n", handle);
-+
-+	for (u32 i = 0; i < ARRAY_SIZE(jm_ctx->slots); i++) {
-+		const struct panfrost_js_ctx *slot = &jm_ctx->slots[i];
-+		const char *prio = NULL;
-+
-+		if (!slot->enabled)
-+			continue;
-+
-+		if (slot->sched_entity.priority < ARRAY_SIZE(prios))
-+			prio = prios[slot->sched_entity.priority];
-+
-+		seq_printf(m, "  slot %u: priority %s config %x affinity %llx xaffinity %x\n",
-+			   i, prio ? prio : "UNKNOWN", slot->config,
-+			   slot->affinity, slot->xaffinity);
-+	}
-+}
-+
-+static int show_file_jm_ctxs(struct panfrost_file_priv *pfile,
-+			     struct seq_file *m)
-+{
-+	struct panfrost_jm_ctx *jm_ctx;
-+	unsigned long i;
-+
-+	xa_lock(&pfile->jm_ctxs);
-+	xa_for_each(&pfile->jm_ctxs, i, jm_ctx) {
-+		jm_ctx = panfrost_jm_ctx_get(jm_ctx);
-+		xa_unlock(&pfile->jm_ctxs);
-+		show_panfrost_jm_ctx(jm_ctx, i, m);
-+		panfrost_jm_ctx_put(jm_ctx);
-+		xa_lock(&pfile->jm_ctxs);
-+	}
-+	xa_unlock(&pfile->jm_ctxs);
-+
-+	return 0;
-+}
-+
- static struct drm_info_list panthor_debugfs_list[] = {
- 	{"gems", panthor_gems_show, 0, NULL},
- };
-@@ -726,9 +772,64 @@ static int panthor_gems_debugfs_init(struct drm_minor *minor)
- 	return 0;
- }
- 
-+static int show_each_file(struct seq_file *m, void *arg)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)m->private;
-+	struct drm_device *ddev = node->minor->dev;
-+	int (*show)(struct panfrost_file_priv *, struct seq_file *) =
-+		node->info_ent->data;
-+	struct drm_file *file;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry(file, &ddev->filelist, lhead) {
-+		struct task_struct *task;
-+		struct panfrost_file_priv *pfile = file->driver_priv;
-+		struct pid *pid;
-+
-+		/*
-+		 * Although we have a valid reference on file->pid, that does
-+		 * not guarantee that the task_struct who called get_pid() is
-+		 * still alive (e.g. get_pid(current) => fork() => exit()).
-+		 * Therefore, we need to protect this ->comm access using RCU.
-+		 */
-+		rcu_read_lock();
-+		pid = rcu_dereference(file->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
-+		seq_printf(m, "client_id %8llu pid %8d command %s:\n",
-+			   file->client_id, pid_nr(pid),
-+			   task ? task->comm : "<unknown>");
-+		rcu_read_unlock();
-+
-+		ret = show(pfile, m);
-+		if (ret < 0)
-+			break;
-+
-+		seq_puts(m, "\n");
-+	}
-+
-+	mutex_unlock(&ddev->filelist_mutex);
-+	return ret;
-+}
-+
-+static struct drm_info_list panfrost_sched_debugfs_list[] = {
-+	{ "sched_ctxs", show_each_file, 0, show_file_jm_ctxs },
-+};
-+
-+static void panfrost_sched_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panfrost_sched_debugfs_list,
-+				 ARRAY_SIZE(panfrost_sched_debugfs_list),
-+				 minor->debugfs_root, minor);
-+}
-+
- static void panfrost_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_gems_debugfs_init(minor);
-+	panfrost_sched_debugfs_init(minor);
- }
- #endif
- 
--- 
-2.50.0
 
+>>
+>>>>  		np = of_node_get(dev->of_node);
+>>>> -		ret = qmp_usbc_parse_usb_dt(qmp);
+>>>> +
+>>>> +		ret = qmp_usbc_parse_usb3dp_dt(qmp);
+>>>> +		if (ret) {
+>>>> +			dev_err(qmp->dev, "parse DP dt fail ret=%d\n", ret);
+>>>> +			goto err_node_put;
+>>>> +		}
+>>>> +
+>>>> +		ret = drm_aux_bridge_register(dev);
+>>>> +		if (ret) {
+>>>> +			dev_err(qmp->dev, "aux bridge reg fail ret=%d\n", ret);
+>>>> +			goto err_node_put;
+>>>> +		}
