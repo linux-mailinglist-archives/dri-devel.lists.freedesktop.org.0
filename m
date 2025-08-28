@@ -2,170 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86762B394AC
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E17AB3B411
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A5910E650;
-	Thu, 28 Aug 2025 07:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D12EA10E04F;
+	Fri, 29 Aug 2025 07:17:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="k75Br01P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P/BEZEs1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2073.outbound.protection.outlook.com [40.107.93.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F5A10E650;
- Thu, 28 Aug 2025 07:08:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kH5/WBbw8HUJOCgnXGVZTcHeVkg9dwJYnVedaLLtd2cLsb/XHZzprKoxg9lPaTo4fjljH5pmBHPbK+qK9lK5L70l03D8P00sWLuV3aw71hfxTIQ0pelPVp5vQymhiFvXuLjwgSn0a0UETIqRHED1gdEh6butbLLtjmT4EgZRqF8du98HWmdzAqeHh+icRTl2Xe8xxbJeMQl4hJ0B/ugCFH4bz2nzmpt+0CZK65Ukl2J5etQ18DtLj9A61OBlC7xAW5z3KxImoWPL/AeCRJdHtsR+pS9arS+tOjAlrKT/vu/xZvI/kDkAKXrGaChVIWlg7ryg9w85XfPUqvNizIS7Vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qtzbal4fOIER9YPHikOPiYQ+1nw8swuUyoVQ+DPKWIM=;
- b=jacIIhryeRcwP9EHoF2S7SaFSLvCVD1AQqDZAzbfhL7zPBh6QdiZU8OI1ksNueZusxtCqP6iW8jq9ouXhUBcjxu+h5xHiQO++xWqn8nFImNhN1bgz7FjQIxnXl7zUpBm1g0Cd5O5HcmReUmwOElThpAm0Ox9m6AD0oaeAnhD0ijN6k2trRRyvgNzUjWoxx+LPxOM4kShQ18QOaCiJDfKYixhWil4qy4vuBzGDivsLTeA8s29gj+GDj6fGHHMN27eQIeuemywlcOyQkLqIz1Va5+2Gk2VIkxeZXqV3ASMR9Pa8Mp61ePuCq/rGCjA4UTWCw2sCZt/VbMlrVUykBFdiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qtzbal4fOIER9YPHikOPiYQ+1nw8swuUyoVQ+DPKWIM=;
- b=k75Br01P5EIB0IukUcu9nuHa/OzTqddTEojB9EVNKzqlt911NmNMTo7mn8bplqh6Ac84/oxV8LrIga2zKETNE0eQCYvRN7XIgHvbW4RG1sxiTxidkYMIpuuLU4cM/P0XRK3Lzl7qCOekDYBrFag/mQ8Ue70i7d6KUEzilNy5Mc2swAhxQiwV5ZoDQj19IgIvqYcRepdygjK4Ccg/hj7jf7YjBW6H79qGckGnX5StaUIdFlRDlhNov9cbLxnxNpTeh1jqbRJegbkUaOQpgaJBJ/DI2sy+MmCtqZO8bDbomwFuoa8T84yP82X8tsJHbNP1mpoEgbPtLOYTAHoKlzWROQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by BN7PPF915F74166.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::6d9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Thu, 28 Aug
- 2025 07:08:33 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
- 07:08:33 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 Aug 2025 16:08:29 +0900
-Message-Id: <DCDVECIAW1NI.2J8SHDVJLY7V5@nvidia.com>
-To: "John Hubbard" <jhubbard@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 2/8] gpu: nova-core: firmware: add support for common
- firmware header
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
- <20250826-nova_firmware-v2-2-93566252fe3a@nvidia.com>
- <9adb92d4-6063-4032-bf76-f98dcfe2c824@nvidia.com>
- <DCD2VJ1WJW2O.VM7E4PD3DFYO@nvidia.com>
- <2532f8a1-83ba-4f72-aae7-9d810eda417a@nvidia.com>
-In-Reply-To: <2532f8a1-83ba-4f72-aae7-9d810eda417a@nvidia.com>
-X-ClientProxiedBy: TYCP286CA0202.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:385::10) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA1110E6BE;
+ Thu, 28 Aug 2025 07:18:53 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-afebb6d4093so95912966b.1; 
+ Thu, 28 Aug 2025 00:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756365532; x=1756970332; darn=lists.freedesktop.org;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ACPidqQG6DQZNVxh12NaJPKP3Jkf06hyqyPjQ1p5F2E=;
+ b=P/BEZEs1Gp1r8lAk7Cwq+2yuudfNPTcNyQGMrPYdRLVJ0w5lRWatxgwgtf+/XkdDYc
+ jZX0Ble8qa8PBEIFGc94tjbAU4lc3AyAlmhnNljIbUZ8MqqG/TBMJJ3ePl7zAztQzNPo
+ 1CcFcmtVC/ITAXdToEdjai460Fz0e+CM7NftwRXP8afXpmlAYdEmPCgTuAqDpJZQJKZC
+ LuVIxGhJUvj80FXnSyvrta8DflvvhEwmtIVqnrUB6pPgyHvl+SYDOcCn/yGDSWZo8fGJ
+ GjCsBW5NHE334IiIFAajvMr1iBpQG9GtlbwdDg7xzSpRnrR5bacP17YfMoMK5lhy/qTB
+ M/sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756365532; x=1756970332;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=ACPidqQG6DQZNVxh12NaJPKP3Jkf06hyqyPjQ1p5F2E=;
+ b=m+5D+738Fv88i+G6BJqhahTZn/6faIcse5TaHVEORn5zInyLNPYZ0Y/2dQLv61NOWD
+ mf6YuQKs5rCMPg37cyIKG7UBymrRh1KJKU67WOc5tCPGpwjeApqRC/ZNqtswTUBkzncj
+ 32nGHg+mC0v55KW7nx7g0NTVvXdgWFYdK/lqT9DhwqDFHUXGVy7Ez9/9DYU4Ch10q3Nl
+ VqKSd3nZajQQKDBauAv638dJZQ6taNVJRXFKYY+mnETXj+h1izZBArc5+8Bo63FbNXcm
+ zG/02NFc63+s7ALEPMJ/qilc+fJqdRM+Wvqt235LAqygWmxOkVvtEpnDek4sS+1zsPzw
+ 9JrQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUL1PVRxCClDFUViv4sE/U5WpDE99iDS0bGHCwPPjK20SA9bx6pJnf67fZJr1vD7IE3fMtTZ6QPCf4T@lists.freedesktop.org,
+ AJvYcCW7LpRJaGI+Hn21ixOqedgKIOYqUbA56t46p2qBICyRUh5BqqUjtqjO+kNXjTGJbBh0AJ5X7VxGkbA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWK/adrI9sWY2ojgcpgCUMExa5hVLgzKVuvTgfRcPoV4AEAP7/
+ MBP/6RQgJpXhQE0ahaqU9V00l8I8lcH5ShZUukz1koK6xGzl2zrwaexs
+X-Gm-Gg: ASbGncs/+/WCuv7womVzPejyCM8aJrd6k5GLrQMy782/sbPIK1xBy1JXIRdlslsd+2s
+ Y0vcbjk1fkxvmXmA2fF74wOQekngos1kBOUxh5fUn5K2t8GEjx1wgbSbyR6+znlBvNPFyA+9zAl
+ zJQZDezbZfsmy35vCEVF1kjzHVVvYl4WlQCKhSBBqzApZaOrtcgFd59mLdCPb6pkbdxe5tgEygv
+ 5eUSN/xcaZ878DFfuxuoxsvumW2AtWmVYXCV0BQzxCA/j+DhIpUFpoZ0DSU7fXyA3ZXTWu7oUFZ
+ yhZ3Xs6iM1sByNhQfp/kXkKVhQVTp2OY9BvT2s7kvt/sa5PWscYQRvek/9UVEL93iWLu/lsChit
+ /eCQM7PcbK9Bs1yXhBWoRv0PB91VER6K7R/WX
+X-Google-Smtp-Source: AGHT+IEf18QCG44U8jBJ4evHstdtd0oL4Hr6BpN08BPT0cHmsLXVki3gbBRZpXohq9eRx3IUTA8+0Q==
+X-Received: by 2002:a17:907:d2a:b0:afe:dbfb:b10e with SMTP id
+ a640c23a62f3a-afedbfbb935mr140730666b.47.1756365531421; 
+ Thu, 28 Aug 2025 00:18:51 -0700 (PDT)
+Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-afe98ade972sm616427066b.50.2025.08.28.00.18.50
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 28 Aug 2025 00:18:50 -0700 (PDT)
+Date: Thu, 28 Aug 2025 07:18:50 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ SeongJae Park <sj@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org
+Subject: Re: [PATCH v1 01/36] mm: stop making SPARSEMEM_VMEMMAP user-selectable
+Message-ID: <20250828071850.kl7clyh6e75horlk@master>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-2-david@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|BN7PPF915F74166:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0eac0ab6-463b-4d5e-6880-08dde601b278
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|10070799003|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bkEzbHZNTmxZMnF2dmplWUVhaVRIakRLd21IeVVibnhMejdqaXQzTE8vYjBw?=
- =?utf-8?B?NlZHZ28wS1BzVUh5UVIxNXBpQWpFQnh1VFcxWm05ZWEvRkpOZmVETlUySTkz?=
- =?utf-8?B?bUxXbDI2OHpxZ2hIMmZpZkZuVXVZL1pMUk43YUkvcHZiWGJrSjFCNDlNcmp3?=
- =?utf-8?B?YWlodGxXVzVLS3huSFVSSTU2ZTRzNUJjRkJIY0VGQld4NGpKV0pxZkF1MVRG?=
- =?utf-8?B?NVk0ZnMzQS9nRzJENkNDV2srYzZCVEZrbWR6Y1o5dnpiWXVWN0xCbVZZS2Rq?=
- =?utf-8?B?MHpLZy9BQmczZHYxZjc3RlF2WXZ0N1NmQmNSd0wrbVdESlpqNFovaytZeElP?=
- =?utf-8?B?bFBtcVBjME9WNUV6TVBSeUFqT3Z0K09yUHVOcjZQWExUMmUwNDhFZStlRENX?=
- =?utf-8?B?OUdiS0VJOTllSUNZQ1dMeWlDaC80aXRtWnF2ZWtKaEQ0T2sxeEIrSGtZbVUz?=
- =?utf-8?B?bkVYM0pFRFY5TDluQWJEdGdkSVErbXgwTE8yY2lrbit4K0ZtQlY5SXFSOHpF?=
- =?utf-8?B?NmV2WVBrMlgvNE9uLzU2M09lb3NIdmZnVVVLL1RpZ0RJSVkvYklpR25Jejlj?=
- =?utf-8?B?NHVVOWp5ajRvdU9rRGVobVFvUkRQMkNRYVpnK0szU1RLOEgxSXllNEVwTnU1?=
- =?utf-8?B?VFljSUtydzNJYWQ0S3IyRmFrSTI1ZDNsRmJHK1BOUnVJeDZ4SWF1RW5JZUNJ?=
- =?utf-8?B?aG0xU1JHZDJpcmJtTjZyWVBDWTV0N2g4SUM4SHBQNHhrZXBqU1EzcnlWWjh0?=
- =?utf-8?B?dktqQ2V5MEx4TmtHZ0x6ZTlkc1k5NHFMbURGZjdpNGx6M0RIN1pmczZBNE1y?=
- =?utf-8?B?dnh6eTArKzNmUUQ2MEJBSWpCTzNvSTRCQWlRaVRiYXM1ZDVqN3FQcFc5NS9z?=
- =?utf-8?B?VEZWQWxMRzVmVjlKZnA2akE1Uk4xRWpwTkNFbHpmL1hadkF6czdOYTJkeXkr?=
- =?utf-8?B?Uit2dTB5Z0NxMEFEV0tWbStWRnVZK2N0RmpmVE5XUk1YRFI1NmFKaDFIMDlC?=
- =?utf-8?B?alhvdE90Z01ocytIOWU4NHhmK2J5ZzBnaDRNTld6TmRhUzAvSHhkUzVGNHlX?=
- =?utf-8?B?VDNVdHdjaDRJOWk1bjB3bWx1TmNWK3Y0UjVCK1NkNGdQMUxKMTA1WkZTZ244?=
- =?utf-8?B?dzdqeUtvRVVXRjFiamVuSGpYS29lQ3NBdUFBS1VoQlA2YWxpS3V0VXFhbkht?=
- =?utf-8?B?VWJEL3A3N0JqZ0F2aVZEd2ljdlJmSnNEdFcxd3hoV05XOERsSWJDN1lsbkN3?=
- =?utf-8?B?bXdWYjN4elc0N05SRHVmQ2l1N3RWdERYMlliUXNCbloxMXNMbG9WRWdTK05l?=
- =?utf-8?B?ZC96RnZVNDRsLzA4THZVQ0pobkEzTGtsdEdDOWlpa0JWTlBlV2lzQ2xIeGRT?=
- =?utf-8?B?Y3FaUkUzNnNjMmhFODI5eEo4N1BhL3NKVThUTWt5UlFKOUZacENuR0dZbmtD?=
- =?utf-8?B?YnhyN1I0bE5PSklibG9hVUZsUDBXbTJ3OFZ0NVVvRmk4ME5BNzYwQ043K3NW?=
- =?utf-8?B?ei9JaU0xb3Nydk5YRzJFNlRrYmJkRFVINFRSb3N5K1JOZnNmT1MyTkk2QXA4?=
- =?utf-8?B?c0t4VGtCdTI1bm5vY3FnUW05UXZyMllRTFIzbXRQY2p2aWV6anBZRVE1cldN?=
- =?utf-8?B?b1k1emlkWGN0VUxPaDNHa25ORldIMlNMMk9pUmNZYWZmT2xlUEoxcmpjcWJh?=
- =?utf-8?B?ZDh3OUdQcEU3TDhFVGxIbTQ0UDNUOUdsWUZmbkxJdjJYK3dCWkFkNWk1UENh?=
- =?utf-8?B?WVYvRFY1SlhRdUljV3dBa29lR2NQaklyQlFXZFcrZkZsQXE5UXE5KzM2Tmp4?=
- =?utf-8?B?eHU4SUpuQ3plU3l4M2dhVXFZYlNCcm5YU21mSlNCR3hrU3BZUkU0UHJUVGs1?=
- =?utf-8?B?YWNOaEVjVFNyK0laNUNHaGxDNndTSmJwdk5Kc0RMa1Y2dnFoMEwyOGxvTk9O?=
- =?utf-8?B?dld6M0lZTUpYUWx3N2w3cVBqbm1PbEY5enQ5cDdpVjJPcWdud29yRFFzZ2g2?=
- =?utf-8?B?ZWVWWk1NbW13PT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eENHN1dGV1MvYUxMTWRRNjVVYmY1R2YwNjgreHAvdWVjYnVlQ2lkcGVuTFFF?=
- =?utf-8?B?aCtiSndhUzFXY3l6Q2kxc1l6OTJqU3lZM0U0U2hiZE95cVZYcFdtSzJZcTkz?=
- =?utf-8?B?cmk4L0x2QXJucG1MdXJNZmVIUnYwK2ZqbnFBdGp5RVo5Rk9EM0xIeVZFZW1k?=
- =?utf-8?B?MTkyRjBsU1J6UkdxbXFDRG9QL2ZTcHNsU3lYRjMrQlVGUWFrODNaVFY0dmlX?=
- =?utf-8?B?bStEM0FrVWhndUZ3RStJVk5kTlNKcmpNa253VUpmNC9CYnpBWC94RkN3SGZU?=
- =?utf-8?B?M2xiNWtrcFUvQkMyOE5TRXM3a1gyYURmM1IxaWxEZ3hzbFFXLzJsMGJ5N240?=
- =?utf-8?B?TnRXNjZuT216UGRML3JrWmRvRDJzSDJxSStZS3lHbWk2aXFtdWY4V3dBZ3Zt?=
- =?utf-8?B?YVc0ZlR5RXdtdjFRa0dDQmJhMzFBSXIrQ3UzVlh4QmpnQVNVU2hJbHdrVGZ6?=
- =?utf-8?B?b1hpV3ppTk0xUEZTTkhKR3NBbjFjc1pxZHA2TXVoZC8xM3RMbFE3NlZWaEdY?=
- =?utf-8?B?WVpaOU5Zc3NuVFJFaHkxNzYvQ0NrRHhtdUhBbWhlbnZIdklBcG82WURuSmwy?=
- =?utf-8?B?dnV6cnpZYUlkVWNwTTdFSng3SFhGcmNpaUpEOTZIYWR6bFh5SXVNNFc0QUFB?=
- =?utf-8?B?clFGdWJrNDRNd3pSUGtZYjhjdHZkU09pUTMyVEt0bWFPVTEyWjRHaWtybXQz?=
- =?utf-8?B?SWxjYmI2eXZWNW9lNE9YbDE5T1lYUm91c01HVmpVQStrR1p3YUxWSHZKbkJN?=
- =?utf-8?B?WHVKNUg4eWoxSzltc1hHWCtxcUZIS2ViK1N0WEY2OThTNUVIaCtSdUM0YUJk?=
- =?utf-8?B?SmJOZVlVenlQOXRKNGZIU3kvb0R1eHBSbTNuK3Z4dVQxZFlDdU1TMS8xQXlz?=
- =?utf-8?B?bVVIdU5jMzlGVWpsZTJOZVJnM05Mbnk5WmJuL0VqU21SRXYwTTJHSkIvcG1q?=
- =?utf-8?B?OHM0c3J1cXY5SDcyNC9vTDN1SDhVRHIwQ2w4M3J3dFVyUmtBczN1K0pLSWZ3?=
- =?utf-8?B?ZnpMUlFKdE9EbHNtam10S1IzT0FRcFVlTWd4ZmltUC8vOTJGM29LcFUyZ1pI?=
- =?utf-8?B?MUg3U2JyU25ic0tpQjZDb0dHdHA4dzdaUHJpOUk5UU5ZVG9qUjhzTDdWamtD?=
- =?utf-8?B?dk1TY2c0ZXVYeU9SZjZ4aGR6WkRmVkRmVkhXRjJ6cTErRjVadklDUnNsWW1r?=
- =?utf-8?B?T3B0bUd0S1FOemxLbFNMNE5hWkl2K2l6UG9VUU9mU3Z2ZnFKMlJwU2gva0tv?=
- =?utf-8?B?RlRLZW1BS2FIMm5BbWhOY2o4Y0piZTFTOEFkbXB6RWU2dTVNQnEyWjZsbVdG?=
- =?utf-8?B?UGlkOEVoSktIdS9qVWZ5WTBseFNzdW5UTWVhMlpSMmRqS3hpMXFhNkhHNjRM?=
- =?utf-8?B?UHN4YnErS2F5RS8yWUtJU0l6TE1sd3ZaaFBlYTNIREYxaXFiWWxuN3Y1VW5Q?=
- =?utf-8?B?WWs3T3gwN1VDOGFIMHFURG1aV1hqb0h6RnM5c2d4YktGeVRUMHNQaTU1bVRF?=
- =?utf-8?B?aU9GZmVxUDBGajN1WFFqbTVsT0Mvd1Jub1p4bVFxcVFZSWhCQXRoRER4MzFJ?=
- =?utf-8?B?S2JBMk0xTFBzRlY0RXJMMEw3Y29hSnF2Nm9jUXlRanZXZ3NieWdEZERFMmFY?=
- =?utf-8?B?bnljRGZKSHB4L2NjcWoyazArd2VZd0FEY1ZEQ3VlOU5EMVVJY2QyZWt3UTJG?=
- =?utf-8?B?RThpWUdFU1J0WWZjWFErbzJHVVhOWE9nWkl4bjgrcUcrMlBSYTFiVFNOd2Qx?=
- =?utf-8?B?bW9LZlo2Y0dVZzhnWGJGWUxnbnhlSG5WRGZZeS9ISkRZZ2ZHN1lyWTYzb0ZB?=
- =?utf-8?B?dm5BSHpkNk9TaXJmMkJKTm9hU1RBYklYb1NPM1haVkgxcmNnTTdHMzJOZ3hT?=
- =?utf-8?B?NWVmbGxxWlZ5R3FGUkFFZnZPNE1mTTIvcmlMeVRVYm5WK3lKUVhNenZZTThz?=
- =?utf-8?B?NU55YkdSbXVDcFRsT01nYVVCT2J4Um96UG11emVRK2d6Q2h5T1E2OE1oTnpW?=
- =?utf-8?B?QThJaEd1NWMvTnV5Tm9lNXVnU0FObTI5M2dGa21iRnY4QndIeGM5WU1ESHZ4?=
- =?utf-8?B?MUMvY09pbFlpNzdMUmw5djFabjFJcnJvNHEwNGU2bU15MDliMFpFSHJDdjJh?=
- =?utf-8?B?OVZWTFpYd3JESnhMOTlKNzdNaVRjZEJObFZ3NDY1Y2dCbWUwbXJOSW1pZE1U?=
- =?utf-8?Q?kGpM8a1Dmh1a+4ll3F0DynxMHbd/1jj5PK7CmPz0LCEK?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0eac0ab6-463b-4d5e-6880-08dde601b278
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 07:08:33.1195 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hVWvbHgqnzWlim6BHUGC47qWyqtrK3nEKMCS5RLDR2K6+J/V5Z01szN0mHl+JTP6Iw9OmfgQFs1VUxKRjgbFWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF915F74166
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827220141.262669-2-david@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Approved-At: Fri, 29 Aug 2025 07:17:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,33 +123,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Aug 28, 2025 at 6:50 AM JST, John Hubbard wrote:
-> On 8/27/25 1:47 AM, Alexandre Courbot wrote:
->> On Wed Aug 27, 2025 at 10:34 AM JST, John Hubbard wrote:
->> <snip>
->>>> +    /// Returns the data payload of the firmware, or `None` if the da=
-ta range is out of bounds of
->>>> +    /// the firmware image.
->>>> +    fn data(&self) -> Option<&[u8]> {
->>>> +        let fw_start =3D self.hdr.data_offset as usize;
->>>> +        let fw_size =3D self.hdr.data_size as usize;
->>>> +
->>>> +        self.fw.get(fw_start..fw_start + fw_size)
->>>
->>> This worries me a bit, because we never checked that these bounds
->>> are reasonable: within the range of the firmware, and not overflowing
->>> (.checked_add() for example), that sort of thing.
->>>
->>> Thoughts?
->>=20
->> `get` returns `None` if the requested slice is out of bounds, so there
->> should be no risk of panicking here.
+On Thu, Aug 28, 2025 at 12:01:05AM +0200, David Hildenbrand wrote:
+>In an ideal world, we wouldn't have to deal with SPARSEMEM without
+>SPARSEMEM_VMEMMAP, but in particular for 32bit SPARSEMEM_VMEMMAP is
+>considered too costly and consequently not supported.
 >
-> I was wondering about the bounds themselves, though. Couldn't they
-> be wrong? (Do we care?)
+>However, if an architecture does support SPARSEMEM with
+>SPARSEMEM_VMEMMAP, let's forbid the user to disable VMEMMAP: just
+>like we already do for arm64, s390 and x86.
+>
+>So if SPARSEMEM_VMEMMAP is supported, don't allow to use SPARSEMEM without
+>SPARSEMEM_VMEMMAP.
+>
+>This implies that the option to not use SPARSEMEM_VMEMMAP will now be
+>gone for loongarch, powerpc, riscv and sparc. All architectures only
+>enable SPARSEMEM_VMEMMAP with 64bit support, so there should not really
+>be a big downside to using the VMEMMAP (quite the contrary).
+>
+>This is a preparation for not supporting
+>
+>(1) folio sizes that exceed a single memory section
+>(2) CMA allocations of non-contiguous page ranges
+>
+>in SPARSEMEM without SPARSEMEM_VMEMMAP configs, whereby we
+>want to limit possible impact as much as possible (e.g., gigantic hugetlb
+>page allocations suddenly fails).
+>
+>Acked-by: Zi Yan <ziy@nvidia.com>
+>Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>Acked-by: SeongJae Park <sj@kernel.org>
+>Cc: Huacai Chen <chenhuacai@kernel.org>
+>Cc: WANG Xuerui <kernel@xen0n.name>
+>Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+>Cc: Michael Ellerman <mpe@ellerman.id.au>
+>Cc: Nicholas Piggin <npiggin@gmail.com>
+>Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>Cc: Paul Walmsley <paul.walmsley@sifive.com>
+>Cc: Palmer Dabbelt <palmer@dabbelt.com>
+>Cc: Albert Ou <aou@eecs.berkeley.edu>
+>Cc: Alexandre Ghiti <alex@ghiti.fr>
+>Cc: "David S. Miller" <davem@davemloft.net>
+>Cc: Andreas Larsson <andreas@gaisler.com>
+>Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Not sure what you mean by wrong bounds here? Do you mean what if the
-header data is incorrect?
+Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+
+>---
+> mm/Kconfig | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>
+>diff --git a/mm/Kconfig b/mm/Kconfig
+>index 4108bcd967848..330d0e698ef96 100644
+>--- a/mm/Kconfig
+>+++ b/mm/Kconfig
+>@@ -439,9 +439,8 @@ config SPARSEMEM_VMEMMAP_ENABLE
+> 	bool
+> 
+> config SPARSEMEM_VMEMMAP
+>-	bool "Sparse Memory virtual memmap"
+>+	def_bool y
+> 	depends on SPARSEMEM && SPARSEMEM_VMEMMAP_ENABLE
+>-	default y
+> 	help
+> 	  SPARSEMEM_VMEMMAP uses a virtually mapped memmap to optimise
+> 	  pfn_to_page and page_to_pfn operations.  This is the most
+>-- 
+>2.50.1
+>
+
+-- 
+Wei Yang
+Help you, Help me
