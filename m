@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86745B39795
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 10:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A84B39835
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 11:27:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8D110E8A0;
-	Thu, 28 Aug 2025 08:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EDC310E95E;
+	Thu, 28 Aug 2025 09:27:40 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WMTyq+k2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 708D110E8A0
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 08:57:55 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-05 (Coremail) with SMTP id zQCowADHHl8NGrBom2m0Dw--.33487S2;
- Thu, 28 Aug 2025 16:57:49 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: tzimmermann@suse.de, javierm@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] drm/vesadrm: Remove unneeded semicolon
-Date: Thu, 28 Aug 2025 16:57:08 +0800
-Message-Id: <20250828085708.3383760-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADHHl8NGrBom2m0Dw--.33487S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFWDuF4rXw4DXFWDWrWUtwb_yoWxAFb_u3
- W8Xwn3WrWDCF909r4fAa10vFWavw48Za1kZ3WIga9xt347Zr45XrW7uFWkXw1UXrW0yFZ8
- Ja4xWr1fArs7ujkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbsxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
- tVW8ZwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
- 1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
- 14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
- IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
- 87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
- ZFpf9x0JUPOz3UUUUU=
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA6ED10E95D
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 09:27:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 3203F44F1C;
+ Thu, 28 Aug 2025 09:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC04C4CEF4;
+ Thu, 28 Aug 2025 09:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756373258;
+ bh=r/M9f7QJp9Hkjjyl4KwvKc1dnUJA0dXw9egGgYD0RgI=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=WMTyq+k2jCs5omx99TLS9vPAOlxhd6rtCZ68Eu+MheAwiGYH54rebvMyh6HMQIFDI
+ f5OZ9weYfDXvjRPDubWjfohiH4s4EEurx6tdQwozVtMQza8EWO0B1/1b/GSGd7ixuY
+ CueaEXLUO8eRXGUta8R8zgVjaSPYZR5GD/xKanv4Kgmv43iAsdqeg+NWh5sQQvgsZl
+ 3lDeAH0ISnZTB9EWFS4BjWr5HFeVoGGkeV8wCRSaQyIV1zyxujJfHe6mmywkGTyCv+
+ t2l42e7+90zXuqpP/AgdqDukvL6jYCEs0XVHdO+jZwsVQZfS8Ny0wAVbOX/sTrvjr+
+ FCDfYs4tL7tGg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 Aug 2025 11:27:32 +0200
+Message-Id: <DCDYCT8QSYGM.XIKU6FJ1ESAQ@kernel.org>
+Subject: Re: [PATCH v3 3/3] gpuvm: remove gem.gpuva.lock_dep_map
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris
+ Brezillon" <boris.brezillon@collabora.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Steven Price" <steven.price@arm.com>,
+ "Liviu Dudau" <liviu.dudau@arm.com>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Rob Herring" <robh@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250827-gpuva-mutex-in-gem-v3-0-bd89f5a82c0d@google.com>
+ <20250827-gpuva-mutex-in-gem-v3-3-bd89f5a82c0d@google.com>
+In-Reply-To: <20250827-gpuva-mutex-in-gem-v3-3-bd89f5a82c0d@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,27 +69,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
-semantic patch at scripts/coccinelle/misc/semicolon.cocci.
+On Wed Aug 27, 2025 at 3:38 PM CEST, Alice Ryhl wrote:
+>  #ifdef CONFIG_LOCKDEP
+> -/**
+> - * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gp=
+uva list.
+> - * @obj: the &drm_gem_object
+> - * @lock: the lock used to protect the gpuva list. The locking primitive
+> - * must contain a dep_map field.
+> - *
+> - * Call this if you're not proctecting access to the gpuva list with the
+> - * dma-resv lock, but with a custom lock.
+> - */
+> -#define drm_gem_gpuva_set_lock(obj, lock) \
+> -	if (!WARN((obj)->gpuva.lock_dep_map, \
+> -		  "GEM GPUVA lock should be set only once.")) \
+> -		(obj)->gpuva.lock_dep_map =3D &(lock)->dep_map
+> -#define drm_gem_gpuva_assert_lock_held(obj) \
+> -	lockdep_assert((obj)->gpuva.lock_dep_map ? \
+> -		       lock_is_held((obj)->gpuva.lock_dep_map) : \
+> +#define drm_gem_gpuva_assert_lock_held(gpuvm, obj) \
+> +	lockdep_assert(drm_gpuvm_immediate_mode(gpuvm) ? \
+> +		       lock_is_held(&(obj)->gpuva.lock.dep_map) : \
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/gpu/drm/sysfb/vesadrm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+NIT: I think this can just be:
 
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 1170e71e4208..16a4b52d45c6 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -289,7 +289,7 @@ static int vesadrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 			break;
- 		}
- 		break;
--	};
-+	}
- 
- 	return 0;
- }
--- 
-2.25.1
+	lockdep_is_held(&(obj)->gpuva.lock)
 
+If you want I can fix it up on apply.
+
+>  		       dma_resv_held((obj)->resv))
+>  #else
+> -#define drm_gem_gpuva_set_lock(obj, lock) do {} while (0)
+> -#define drm_gem_gpuva_assert_lock_held(obj) do {} while (0)
+> +#define drm_gem_gpuva_assert_lock_held(gpuvm, obj) do {} while (0)
+>  #endif
