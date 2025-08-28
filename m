@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6DFB39551
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982BEB3955C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 09:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3495810E6C7;
-	Thu, 28 Aug 2025 07:36:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8BB410E6BA;
+	Thu, 28 Aug 2025 07:37:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cxc1DKcp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pFmOV0HX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC2E710E6BA;
- Thu, 28 Aug 2025 07:36:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27F9610E6C8;
+ Thu, 28 Aug 2025 07:37:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 07B6A600AA;
- Thu, 28 Aug 2025 07:36:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A01C4CEEB;
- Thu, 28 Aug 2025 07:36:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4E78F601FC;
+ Thu, 28 Aug 2025 07:37:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7312EC4CEEB;
+ Thu, 28 Aug 2025 07:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756366586;
- bh=1K/qVW1RZwXvUuErhJcM8fL6vinn6Fu+vGPXQZ7rDHg=;
+ s=k20201202; t=1756366672;
+ bh=ypUAy8NWcIBt+dmd+5qONQkZWcuP0uYcJ+1JecEEurg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cxc1DKcpJi0l54c6FRSm68q8cn66LDFt0AY5deSnZZNDfuVIryNjMTQyOOde8HyaH
- HJDxUqLmr9FnXjqqag6Vmbo717dy3KCJ3n1qr+utjH58r92T6YOHaQpJ7CY/DY4goL
- GqT7iD0QPzaywYSiRo1HyKojV0QqNxL55SwycGKGmWRGS0O8CfFJJ4g8tM1PDI7rwz
- hmC64KdU7u9DGGeHGW/izrqC0qncFNSksC7B/2zZov9VvkpqsNh6TLXvTCEhsmp0D1
- OuePzMXkJS1gLb5HX0JC+/9eAhlPU3WG7+wrvynoWrkoBlbelrW/jUbxNsms0CMG3K
- yI2o00Kf0wHqg==
-Date: Thu, 28 Aug 2025 09:36:24 +0200
+ b=pFmOV0HXtE9bk1DeT5Zjf6xKCscjuFmRqQR9wY0w7KGhL2czwCMdSN4ckwx2Yo/wD
+ dou9jJcMq8/ky5FZv0HRuO1M/5a4n45j/sccokcHmlbCD4y85Vq7fBFuTr8VQAQBlI
+ VRavAe20vsQ6TtOdz3sr/B+P+/U74obzJZbOLfpTNesz4q+eVOVoJlYPDjI8qwEUrN
+ ZxkTaR2PVNKd3eVCsRvP3dApr6wRJRJ1kB16Pyg+pHNxr1pnsY5HgK12mj4a3//oF5
+ 2sm0kqk1gaEwZ9STjOdoUCu9mBleeyEaTgOrtnd+aG4xKC2nIYTD1a+YaWwqgwWa1Y
+ hdPvNeBMACj7Q==
+Date: Thu, 28 Aug 2025 09:37:50 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -48,15 +48,14 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 2/6] dt-bindings: display/msm: dp-controller: document
- QCS8300 compatible
-Message-ID: <20250828-kind-crocodile-of-progress-6cbbb0@kuoka>
+Subject: Re: [PATCH v9 3/6] dt-bindings: display/msm: Document MDSS on QCS8300
+Message-ID: <20250828-glossy-pheasant-of-energy-bae4dd@kuoka>
 References: <20250825-qcs8300_mdss-v9-0-ebda1de80ca0@oss.qualcomm.com>
- <20250825-qcs8300_mdss-v9-2-ebda1de80ca0@oss.qualcomm.com>
+ <20250825-qcs8300_mdss-v9-3-ebda1de80ca0@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250825-qcs8300_mdss-v9-2-ebda1de80ca0@oss.qualcomm.com>
+In-Reply-To: <20250825-qcs8300_mdss-v9-3-ebda1de80ca0@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,53 +71,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 11:34:21AM +0800, Yongxing Mou wrote:
-> Add compatible string for the DisplayPort controller found on the
-> Qualcomm QCS8300 SoC.
-> 
-> The Qualcomm QCS8300 platform comes with one DisplayPort controller
-> that supports 4 MST streams.
+On Mon, Aug 25, 2025 at 11:34:22AM +0800, Yongxing Mou wrote:
+> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
 > 
 > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
->  .../bindings/display/msm/dp-controller.yaml        | 26 +++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
+>  .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 282 +++++++++++++++++++++
+>  1 file changed, 282 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index 68a6fd27506fda004e53174db5bcc88a29e8d2a6..4da22a211442b7abe2dc18e769d8fd14d224eb40 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -18,6 +18,7 @@ properties:
->    compatible:
->      oneOf:
->        - enum:
-> +          - qcom,qcs8300-dp
->            - qcom,sa8775p-dp
->            - qcom,sc7180-dp
->            - qcom,sc7280-dp
-> @@ -179,6 +180,7 @@ allOf:
->            compatible:
->              contains:
->                enum:
-> +                - qcom,qcs8300-dp
->                  - qcom,sa8775p-dp
->                  - qcom,x1e80100-dp
->        then:
-> @@ -241,11 +243,25 @@ allOf:
->                minItems: 5
->                maxItems: 6
->          else:
-> -          # Default to 2 streams MST
-> -          properties:
-> -            clocks:
-> -              minItems: 6
-> -              maxItems: 6
-> +          if:
 
-Please do not nest if:then:if:then. It gets unreadable very fast.
-
-I don't even understand why you need this. The code does not exist in
-the next, either. That does not help.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
