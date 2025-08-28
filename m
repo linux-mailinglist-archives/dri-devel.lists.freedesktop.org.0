@@ -2,81 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F40EB3AB03
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 21:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DB9B3AB1E
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 21:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A40BC10EAB1;
-	Thu, 28 Aug 2025 19:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B5F10E05C;
+	Thu, 28 Aug 2025 19:57:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GH7NRUCs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kNzv9GTB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0E510EAB1;
- Thu, 28 Aug 2025 19:36:20 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-248f2da72edso1456735ad.2; 
- Thu, 28 Aug 2025 12:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756409780; x=1757014580; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FPYnbt4z9PqW8+XCueL8f6hyeaxZluayQKz6AjJWREU=;
- b=GH7NRUCspovkuKGVsCa8msQuEsccUlh8c2t8S5VH9WDfBvDei+GHff1lRuWRM71SBe
- a1yfbvaTlSAwcHpIUUCWikhV2MTANF9iKjNpI4CpQIq95TA2XUU0Glgb9gFMWjDH9P3E
- HSvJUwNHF8OSZjftTONL+SloejogBmalsB5ca42kCIzq1rA5iFUecUEEymxwmgWTB4BZ
- XuRNsqYLzw6H5LN+uaurxkAZPWT+2Ow921nHt4x10Sx56g9H5j4/SkYxRG0esU76O/fK
- XgQTRJG/85ekbPb91JtS0dvnKenf0SexTa1DLBPkFyS80jN0JzbL8io/DlOn1a7EyOnl
- AbjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756409780; x=1757014580;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FPYnbt4z9PqW8+XCueL8f6hyeaxZluayQKz6AjJWREU=;
- b=lz0dmZubk1YJYF0mt3YNYmUVfGMl6/evY78Bs06MA1oFYEuA6uwzroW/M9tEa5HrGQ
- BNure+2ozCblAgxe8P9Ksm0ICB7iZsLDmMpWaPvMJlFO09TgOUJ3i4Ss8T8zsEUm+A+k
- 7V6LW+XAUth4xYUn84DTNc5HwAj3iZwnNp2bshTUlRGizck0zworPkWtFRDNHetnvbA0
- OJlyMiZnxoLRyUUswXcWsHye/ozkK//POYKS2pK/TivnEN8xe3hLiUFS59dEHBTM1D3M
- u+F4fyWvR81dBYxKdkU/6KP3BnGtAe2a9W27htm2ZzEdbXArCev2PEWHj0k9Ty/+Sg3q
- bcQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEdlCsi/Cvxkp92FKAGsrd4qkLLuOHLsc+YEKH+vizswaybEiOAQ2SwYOgX6R4No5vYr4vgH0+cQ==@lists.freedesktop.org,
- AJvYcCXrpnVyiEcwziOs7iL6MelBdj8TXKFq3ER99C3mAIXXW4tZxHB3ylRR+jb5/Q/zOsL7lxekFwrpnB8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvayXrUxjqqIGyc0mo206KxfdWGValF0ceq5HnaDQb29zvVf1B
- NoA39eZZm8FVPhFVPCFUzKH7hQ1ON3cooBvjd4aznkbGPh8XcNt9mhxAvBZEIf9tdnmlJgZgK+V
- ZijrpogYrRFJVawF6NuH+KFu/nwJnb1o=
-X-Gm-Gg: ASbGnctsgbKSxoxcjE2OVdERO/VnzbzccQ+x8JEc9xHBT9m84BCJ5PnR1bpkqaXImFi
- m0TYxfppy8O6dtYSkS66SlHRcDI6daBBO8vmsRIaBQDvMDemkFbfhujQqYk9tpOHTdfdPK5URVO
- nIppDo5GfYsLcwTztyal0in5WujpJKTyAEsDKGGWCl7I4x2ckq2G1nT6KK/xh5qNXyfy58f9Smd
- iU0+i8gWVmtgphxJR4DqYdJCVWQsaT/F39kA1Wkr+0GZIkvLyb8nFhaYPR8tcsndet183U2ykO0
- T3ZEDm/2bBZFGji0poivz7krDQ==
-X-Google-Smtp-Source: AGHT+IHfdoPvT3BCCGLuczSe9PPNY89s467ywbu87kEOVFUaRViMez0tWnQkPG3jel8d8TX57n3a2PCq5DJC/O1xUEM=
-X-Received: by 2002:a17:902:da8b:b0:246:b41d:252e with SMTP id
- d9443c01a7336-246b42c6bbamr143309125ad.2.1756409780124; Thu, 28 Aug 2025
- 12:36:20 -0700 (PDT)
-MIME-Version: 1.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E8E10E05C;
+ Thu, 28 Aug 2025 19:57:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 937AD42B21;
+ Thu, 28 Aug 2025 19:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFA52C4CEEB;
+ Thu, 28 Aug 2025 19:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756411040;
+ bh=J9p1+SFkJ1DD0HNbdzfpG7QiXzTQqNC+170Di7UX3P8=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=kNzv9GTBNQw2jmLbuHmLZwNm2lSRbeCVYQ8MZyO7IT4qf+br2F68+vMxaR6PNdrzP
+ 1X8X0YEiamcGhGG5GXHBcCW2ncGrs7CQPvsiFVeqoty2ZhrZWX6KKUqTb1euHHcpFK
+ hvNF9FUDlhjdu6iXqa9yuH3uvKsCEtzjc6vevSa33siMTlemYmawxKt9LWn88KvvST
+ I/UmSsYXKQ0d3l3m9a00ZXevKDezOezVyGqdrNfZ+QsbxdznbjMk4PejknKbcxmI6g
+ c5/Sn98//btbhZVl+z/Mn6tPawLn61Rp78bs0COCJhcQuX/9Bciwn3q+DOYVwvDRPM
+ ZuEU5ofQTpT/g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 Aug 2025 21:57:16 +0200
+Message-Id: <DCEBQZ7WA1KI.1G8TNWH32QWG@kernel.org>
+Subject: Re: gpu: nova-core: arm32 build errors
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20250828160247.37492-1-ojeda@kernel.org>
  <b680c343-ba97-4eb4-b426-56e318dce492@kernel.org>
  <DCEB1J2P3MZS.3IGXEYP0MAC5H@kernel.org>
  <CANiq72mkPqFnb4ztiCokE6+ntVSmgOTgERshg-4SMmLboFOqNg@mail.gmail.com>
 In-Reply-To: <CANiq72mkPqFnb4ztiCokE6+ntVSmgOTgERshg-4SMmLboFOqNg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 28 Aug 2025 21:36:05 +0200
-X-Gm-Features: Ac12FXw2hLVUgBSwSS2yfSEkQm89avb4BuFIG4x_TILvdztH4UADYAvwE3UX24Q
-Message-ID: <CANiq72=6Ji97UW96V-VjjbRG=ouGeHA7QXpP2gBOJYFx=oJ19w@mail.gmail.com>
-Subject: Re: gpu: nova-core: arm32 build errors
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,14 +63,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 9:31=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Thu Aug 28, 2025 at 9:31 PM CEST, Miguel Ojeda wrote:
+> On Thu, Aug 28, 2025 at 9:24=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
+> wrote:
+>>
+>> Maybe I spoke too soon, it's actually pretty painful to keep 32-bit
+>> compatibility, even though it would be nice for testing purposes.
+>>
+>> I'll paste the diff to fix it below, I think that makes it obvious why I=
+ say
+>> that.
+>>
+>> Instead, we should really just depend on CONFIG_64BIT (which implies
+>> ARCH_DMA_ADDR_T_64BIT).
 >
-> and a `DmaAddress`
-> newtype, not just a typedef, could perhaps be nice anyway?
+> Yeah, it isn't great.
+>
+> If it were just that, maybe it it is worth it (and a `DmaAddress`
+> newtype, not just a typedef, could perhaps be nice anyway?)
 
-The one from your linked patch is not a newtype though, so I guess
-there is a reason for that.
+What do you have in mind what the newtype can do?
 
-Cheers,
-Miguel
+I assume the idea is to make it provide methods {to,from}_u64, where to_u64=
+()
+has to be fallible? This would be an improvement, but not really solve the =
+issue
+entirely.
+
+The annoying part really is
+
+	pub(super) fn read_sysmem_flush_page_ga100(bar: &Bar0) -> DmaAddress {
+	    let addr =3D u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).=
+adr_39_08())
+	        << FLUSH_SYSMEM_ADDR_SHIFT
+	        | u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::read(bar).adr_=
+63_40())
+	            << FLUSH_SYSMEM_ADDR_SHIFT_HI;
+=09
+	    addr.try_into().unwrap_or_else(|_| {
+	        kernel::warn_on!(true);
+=09
+	        0
+	    })
+	}
+
+i.e. when we read a u64 from registers, but we know that what we've orignal=
+ly
+written there is a DmaAddress, so we can assume that a cast to DmaAddress i=
+s
+fine.
+
+But this really depends on driver specific semantics.
+
+> but if
+> you think it will become increasingly painful later, then it may be
+> best to focus on what matters.
+
+We'll have a couple more such cases for sure; I think being able to assume =
+that
+DmaAddress is always 64-bit will result in simpler and less distracting cod=
+e.
+
+But if we can come up with a good idea to deal with this with a DmaAddress =
+type;
+I'm open to that.
+
+> It is unlikely there is going to be actual users on a 32-bit platform, ri=
+ght?
+
+Yeah, I doubt that someone could think it's a great idea to run a Turing+ G=
+PU on
+some 32-bit machine.
