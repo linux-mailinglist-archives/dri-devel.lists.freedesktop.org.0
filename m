@@ -2,66 +2,216 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7A2B3A6C6
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 18:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C551BB3A6D6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Aug 2025 18:49:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E3710EA4B;
-	Thu, 28 Aug 2025 16:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5052C10EA4E;
+	Thu, 28 Aug 2025 16:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="olV9FDnI";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="KdWBpK2r";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rTkofyyR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D893F10EA4D
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 16:45:36 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57SGisPw2022902;
- Thu, 28 Aug 2025 11:44:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1756399494;
- bh=uvOzIUOt4mRyEwxd4Xgg6NBzk4tyhr5ea4GoxBX2rz0=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=olV9FDnIudQJKaDsNmUyDlKi+4Qe8y9KFTAjT4QvBNDEezi4sE9wlkFbsW9PuMYUe
- 76UWa6Tb/Qv4jnc9pE/mPakWBgZIxu5shDVqVnYwtKoCVLM5+2Iu9jW/mqXpidhv6U
- TM2sPTvjj6QulzAiRGwkARXu72PpD52E4+MjtsM0=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57SGisS93593614
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Thu, 28 Aug 2025 11:44:54 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 28
- Aug 2025 11:44:53 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 28 Aug 2025 11:44:53 -0500
-Received: from [172.24.233.20] (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57SGinYH928769;
- Thu, 28 Aug 2025 11:44:50 -0500
-Message-ID: <9e09e8d9-d2b4-4c94-955a-903aec4e812e@ti.com>
-Date: Thu, 28 Aug 2025 22:14:49 +0530
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF2F10EA4E;
+ Thu, 28 Aug 2025 16:49:32 +0000 (UTC)
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SGfxdO021545;
+ Thu, 28 Aug 2025 16:49:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=z/kKdVny9czxoV5y1K
+ KriERorz1lE4RPzGm246axNEo=; b=KdWBpK2rZ7FbU9gAd1hK6b1UCuFbAV43oF
+ V/xAe1XPFWeYvmsdeM3yLqL5JWv0o2v2VwL+Pi5RYuArDu2vkhRRT3f+R2XZ5cwW
+ 7rZAN0VOSiD3WGO9aLRGfy11BFJnbnCVcF8LGQqaF0OMQOyQSrYnqAHwHd42/L3D
+ rBj7vOHJmO64hhovNK0SBmW+pXYkATbmeNuFuGR5siPsPtP7KwRzvEJRlxklhGpj
+ 1uYq49qm2u6bQ9uIyz9m79TXP5LI1Mwma6WuCIHnSmQKV4fNlZRzfgLkSSmIsK3q
+ qB/dTL+DBXcGq6rIn+arOzpnPys34CPuaHQqxOXjIPeJ5fHPPPAA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q5pt944e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 16:49:13 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57SFYUXI005292; Thu, 28 Aug 2025 16:49:13 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2051.outbound.protection.outlook.com [40.107.93.51])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48qj8cc72e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Aug 2025 16:49:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MpusY2vSnm138MvesJY3o06jb0EAaB2W41EFreJD4PIGgAvA2rpSd0wB/E9IEiBx7QO1siOGtI5f8ErY8/uxi3NUkKzKdm4ofBRaeMxVo0Unm4dFgcdxu7Y8o3X9zASrfbYrNddA41yCkK+CVW++tXh9s/t8jUiQZ+Zds4NH7KcwL+nYQzHvgohTiXpm59PC/uW0JDASLuZ/N9XYl7EweLwkw4M3mrK6GXG+kUTFOSu4I0XyPiE5gVAmbVclwcHrWhdidPgwOrkohU37p4uw/qHvO31oaC32G23YP1HucwlX+6oI8Vv0I125ZerhsG2YVg+3hizqgqKVYV3g8wE7Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z/kKdVny9czxoV5y1KKriERorz1lE4RPzGm246axNEo=;
+ b=iDm0hOi7YFP2ZpeIxYXIQPtx9BvFHRqKx9b3ykn0452RU5cMfdQn6IBq7SqHeOZaBFPu5joF46YT3qvSs710nvD7KyHnBfo8WPJhmrhY0Pz67J8nzJw1CivUCM2GPHMB5azB3D2QWyufaqt8+8/8+zNjYGDJgKXffoTsNNJxhsbFlmEPbpYH3gFlmuVQCEL5aL9xibClHfOebLVVvR+mN18a0DAukiyiMa7orCELKsuuGgVJ6RnBdj6JashmnjkzVoqB4py4C0iWyO+F01ed0sE6YmL3cfhSSy5Ovr7DiaYOslKMmz2MrRzFVlcgUAUpPwifpfPZPK1qhY2KmmfyGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z/kKdVny9czxoV5y1KKriERorz1lE4RPzGm246axNEo=;
+ b=rTkofyyRey4n6fyCJDJvylrtM38/MpUYCNiZp/jrO9jfZg4XUZpapyvmAoEC5v74/6w7Z52DpOCYhMXCESsUuAw/DCWkgLOhPrBkYW5J8Gkw0ZkIFXZhzDhC23B2bt4d4CyN3GTmCWXlefPZuj7cAq8G5576CRa7B1/hGZf+ZC4=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by PH7PR10MB6676.namprd10.prod.outlook.com (2603:10b6:510:20e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Thu, 28 Aug
+ 2025 16:49:04 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
+ 16:49:04 +0000
+Date: Thu, 28 Aug 2025 17:48:56 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>,
+ Jens Axboe <axboe@kernel.dk>, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 19/36] io_uring/zcrx: remove nth_page() usage within
+ folio
+Message-ID: <4f366255-5dd9-44ac-878c-e44e557b8484@lucifer.local>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-20-david@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827220141.262669-20-david@redhat.com>
+X-ClientProxiedBy: LO4P265CA0327.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:390::10) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/tidss: Remove max_pclk_khz from tidss display
- features
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <h-shenoy@ti.com>, <devarsht@ti.com>, <vigneshr@ti.com>, <praneeth@ti.com>,
- <u-kumar1@ti.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <jyri.sarha@iki.fi>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <aradhya.bhatia@linux.dev>
-References: <20250819192113.2420396-1-s-jain1@ti.com>
- <20250819192113.2420396-3-s-jain1@ti.com>
- <b95b60c3-5988-4238-a8d4-73bd8bbf8779@ideasonboard.com>
-Content-Language: en-US
-From: Swamil Jain <s-jain1@ti.com>
-In-Reply-To: <b95b60c3-5988-4238-a8d4-73bd8bbf8779@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|PH7PR10MB6676:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc8a8a61-9506-49db-e569-08dde652cc29
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5Gn5DcHCqjDgQbGOFBghS3c/dqswOSarGYMJdkg4G/nFOz4HvDv3MDA8oaqU?=
+ =?us-ascii?Q?j/Fr7tzpkpR1ASqSDHSjH0WkON5wPoi0DYBln5bgAebpUBvEQ+FQJG6xZRpn?=
+ =?us-ascii?Q?Ic8PxeyZlxbNsbbotBme9klNqnuHDcd4qlCuDxjtua6LlJKqN3RWp/gxjbF5?=
+ =?us-ascii?Q?k4Jn4PrRSwOigi/WWYzIDjlulF8KPcaAnaXX+UEblozRDQ3jKNxzu/kz6HMn?=
+ =?us-ascii?Q?bXVlJ009iLJ52AzgQg5r4pOIJyxLNDc7AGBRunE4+CvPsh3NN8468I5WkZ8t?=
+ =?us-ascii?Q?HYO/+SBCUvIt6FDg+EEtODf1s7WQIJiXkPY8xt3sLN/cAPeRW2fg8zE7hvKd?=
+ =?us-ascii?Q?Cr32zTXk4LrSfut5k24yuN3Qq72ns8epupd0op7izI8I6a3VJYcI8/s2mepI?=
+ =?us-ascii?Q?um652DORW3jO+ZTKHtuvQRMB6BpXc7vFC0kPaiNBO8cfpV3ccaXmS7OIwFso?=
+ =?us-ascii?Q?wQlmGFlIT48DVVie0kpR3KeJvFLCjEv+hfmmzospXXX/C8fWpUl4TrAxQX3Q?=
+ =?us-ascii?Q?Vc3uaD+S08GhZI3p6nhFK33pKEfGm8jBhwwg6y8o5f300blTVj3XTG4QHfgX?=
+ =?us-ascii?Q?LGmuord2mKr1OxrDAjSP33TT82iCdWbaY8IZc58cTlzrlDAbvDEOuZcM0XMD?=
+ =?us-ascii?Q?WeKEC9wJI/jnn1vX7EW67Y1i2d+A3F80wCHR8YCfHCQoDOVR0HToD7+Ksjve?=
+ =?us-ascii?Q?gzDhGI5V7kEOuGwTsdxZXTlL6uzHmSziLxxBDoxGaXXM2cZ5HJEHuOHYivUf?=
+ =?us-ascii?Q?gcWYuqKRiyJajx3sdP5jzwwxz8dressc7YFN8nAzM88vmVnOY6aD8luwgcxb?=
+ =?us-ascii?Q?nTOng3nBs4xE86Jw3UriFrdYgGatwu0HiIyIB7soq819c2RHF4/cHJLF88TK?=
+ =?us-ascii?Q?4Vtchw/eRZq+zG3iZa9XFQJe3yaEshJY2SCdrCQhAUrLUeNrzfx0K8RUaf4L?=
+ =?us-ascii?Q?0Zpc+vousRTjA8sjPBItaW+3nrokmW4+vQW01W1HPOz2OxjBv+4n6+UR46gd?=
+ =?us-ascii?Q?WzNAxPRqgq4b64JYlP8WHWUb/DfxzP5cwInEuyzxTYcbPtqqTupGtzsZST2r?=
+ =?us-ascii?Q?Hv3sXITqQ7/8KWm17VPvxO1L7FRlrtsACz92A0iIYUMSkFTP9hp9YisrZJ4v?=
+ =?us-ascii?Q?4VTPv0tDVOzFcjsFCVRACL60LwTjdGwxuxvzajxiJdjoEDrTr7tJSFbJUEty?=
+ =?us-ascii?Q?BSQUZg2pcz3qrvEJ2FS7BThm6IjkcEagIlnRaopF4V1mUvEn077yJ8+8B/dV?=
+ =?us-ascii?Q?5NMwCjMrBJ0QVJCLEM4I0ajPxG+3A79xJbLdjRhKP26Oz0/8Mg0VcC4brAAX?=
+ =?us-ascii?Q?V1w05cKMWCGGprNElOrXt9X460UotbawYR83akXmEo7P46X73356WV/QsVoh?=
+ =?us-ascii?Q?3yDcVjEdh638s+mIE7W+Z6/5Fr24cbsw6B2PaoUi6AqCZ/CseOlKtQDONK/y?=
+ =?us-ascii?Q?SfK02v2OD8Q=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CZmBO6Z/UMwoafcs3vxpKx/mZJu0CyZl4cyl3+XeCg5sEsEZ0SPxro6Q9aHl?=
+ =?us-ascii?Q?1mDK/l/jloVOArmWVin5R88EFYfNuN0/TTTRWfASSKNCXOWhmkkWMSkRTAWv?=
+ =?us-ascii?Q?T34L/MhSrNvfgD2zv7y/boYh1PL6F0Vv10aua/lXxqXOfcKm2rWqjcRNJ4Px?=
+ =?us-ascii?Q?kmZrou86zJWMUVlMCBcuL1FzeT2wbqLxhidqS0OCmR86jgdrEDYvYf361UxA?=
+ =?us-ascii?Q?GoH7F/0PonX9Q93hmQfuLfUBIr0NAmx3JSfD7UanzU00HnaLhTUvTsFbBIGi?=
+ =?us-ascii?Q?gagJsXk2+3Ka1pljna4w+kgWDTXu+lmk9abrXAYBOp9uMttHyBWhw+DLCmOP?=
+ =?us-ascii?Q?2dTl8nxV3579pMVlvySsVChcrcOt3ttEm7+c8nyClOCqHV3LEDIKvc48jinB?=
+ =?us-ascii?Q?ZDqNsosDFN71udB3zDm5Qfyues98E3DezhlL/ekL2+SxXw1yFl76aGrr+Hay?=
+ =?us-ascii?Q?zbqcgUjreBkdwjWdQsSoT3+eTfp4CEnXXgS6GVdTGqyUM2YT+kbHsBol0Wm4?=
+ =?us-ascii?Q?aq2sJ4gMnN76ZaDcHqFG8wzPq+Z4Xk60rIguc+DwUdu2fg2mdRXNr+pbV6Zb?=
+ =?us-ascii?Q?6uZyEuqaWrnB/SjHnihpadde7oN/5QpAcb/e56Rm1yhW4cADSUkUNDBcgSkc?=
+ =?us-ascii?Q?L+qTkg1UDWY3jUMy3ZVPJt7LyIW+WG1iQ3o3nnROeRMz9kXJFimCUBvaH+dS?=
+ =?us-ascii?Q?67kUtii63fBdQrDTuaXvdjep31ETqTcu2D2PJGh8Jtq5mEv8+6qKOopvy37m?=
+ =?us-ascii?Q?edqD/ojVgACQXjbYwqHYJr5hB8jM88upqTWTSIr1E+mP2weSANRbEs6LKI6y?=
+ =?us-ascii?Q?CoQbbH00TzhXeUqkFVQKGWHmWWdu5Vy/oYO0ZYzeJ5+uAZybCSBuGRYAM6N5?=
+ =?us-ascii?Q?xeW1+tCKtygBKlhtKl1fKSKlbnt6MQg7oT8x1JZIbwKTqZrM5WHdVu59urK5?=
+ =?us-ascii?Q?IpiRu8AMP3/sfXAPrLwTCwemnZOfoRiVINRsalyhuGVq3XZz4rD12XeyMiCN?=
+ =?us-ascii?Q?K/gXHZ12KwMhqurlnWMzg27OSADfBqcAyfFJ52XcsabXNEVzmR+/7WxIYL5t?=
+ =?us-ascii?Q?jeSU8nRiHzEw3B2qM6dm+icuXmx2qXu1qbaQO0cLjUb4sP2I3KLfQWM0s4IP?=
+ =?us-ascii?Q?CSXn/hILNnq39aKjjUIywbNc8jAZHkcoLGmVw/Xcy+YiaVLIjtDzNLeS0vLJ?=
+ =?us-ascii?Q?/KwHNPMKXpqncvyFSVoKnK6P2lFMrHWspxBHSqvB1UeS/QeWjFvht6RZmFf1?=
+ =?us-ascii?Q?gUeVikJKgJSA3g8Str86qQUe6Nm3k4SDNcfga8xGjpmzBd7owedY8zzLMjyN?=
+ =?us-ascii?Q?FAG5QpyGHwiwQziSv5sCEopqH56Hr0mJhLD/WaFAVhj0ue3uKBFzqpZQqAxe?=
+ =?us-ascii?Q?xgc0UT58T18oEJ1+8cIQHHJB7cFJdVN5vbfuSkGCtd9DXvcS0ctL2TRofC0l?=
+ =?us-ascii?Q?afekDiKmavul0XM82i6qskg+nnKDC8DEsjkEwluMrt2swAzs+2h0DQAP0G7O?=
+ =?us-ascii?Q?rfy97dEXaOvtRchP1URu0r33izhQ625hkvBPp0hZw0Ms7A/h4i0DxjL4hsxZ?=
+ =?us-ascii?Q?gRoag3OnLgrO2jmX462jdO3Pct6jhGsz+aT9Ui3s8kDzaZKWCFzDbFBO37Cm?=
+ =?us-ascii?Q?+w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: BhmjQvwxIAnLC0RcujaWHOU95rG3YtwA7Ob/4EhgJ77kvCqPMmFSDYnZEwT4Xe1f8/Q803wSCOd9hKnMhFqtSGnCQn+q41wB2m8daSQt7t8Neav1BTkxFj8Ka7lJTM7/uOGrMMUV9YwGE5jAl6C72o5FoKOc6ZI4vPDoAC6+5L+Wtmxvb7u1Fcvrv76NytsNQGY78BrADOb9cPfeWJsCvnnjgeINZGqE0pzN8Gcy5Yw714f9egxI8tuPub6vuAbIGKP4SVVN5QoYPyIGoFYZCj6X2Bv0M8W3YbQBEx2PuaOuqGieVOuNXLrt233Qd6x3jSQrbetQ2GQh7innMlqFacFU2+hzIdFK1Orj2WHOnC2rSeZ957fJ/xsw9R4kA/y5JO8akT4AU+pQG1NnLBRXE0YEO88TqX7TlbpRCfMydkquxUlxoU03de0Hwo3WzYlYSmtwohmOmi3Kn+GeXjDyH7IRppq+JbDUb/gvteUhinPW0PRW+yD7uesBRNyzdGZyVFR+qJV515LpOi6LOp0tzCqIxFUZ9q3nLljESIC8VsQsZuC0UzRSjFx1kzO0hthE0jxKJkBiB0XGbFfSuRzrdlTT40sntWBKpHJoiLG2gKo=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc8a8a61-9506-49db-e569-08dde652cc29
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 16:49:04.4163 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7qoofzsFgYgh3L8BJCY6IRM74EAJL9VmM6QYqjZI2iqV9WEjrtQsqSES3l7rB8MQxCqY6qOTttAA1GDyKoGZ0Ulnu6D8CZIfTdPGZwgrPHY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6676
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0 spamscore=0
+ phishscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2508280140
+X-Proofpoint-ORIG-GUID: 9O-sf2ReLjg2rIKrRw8D5-NG2RDW-m8M
+X-Proofpoint-GUID: 9O-sf2ReLjg2rIKrRw8D5-NG2RDW-m8M
+X-Authority-Analysis: v=2.4 cv=EcXIQOmC c=1 sm=1 tr=0 ts=68b0888a b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117
+ a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=pGLkceISAAAA:8 a=20KFwNOVAAAA:8
+ a=yPCof4ZbAAAA:8 a=EXw04sjPN8ny6hS6K18A:9 a=CjuIK1q_8ugA:10 cc=ntf
+ awl=host:12068
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMCBTYWx0ZWRfXxE0Gcrvu9ydx
+ 4LfTcDcy444N6G6bPLNPmOrCEsoCdorR11V6R2vSg5Emumn8uXKBdwbJfT2ySJtl+MG4Bqrepd1
+ F0Nu66IhQD9b6OP7IKr6IA1NrTs2jVRADQSIDEsL4NCbnLlknh5ISsd5xoq6kw3NqvVTgH5JMSh
+ Fwm2P+y9m0X/mYVjVHApBmFy4pv/h7BLz6YL9CpQ8sStpFoNJE7HlDl3RFeqHiY4nXPoOdraT1K
+ NiVEGWVR7i0BaiEFvacb9fSnDVj6fogu1fMZMAHNLMTO+F2E9hD7N3emMJyMhccqJLfh33vHxHG
+ PHE8nDIsLs0WaiGDckk8bj17cqdbpzVNzBJA8ziw0kMvtEh/qQ5F8n0wFjkQVIp58hz1pIHP870
+ ZoflFjZYSf0AEGhl8wBRYLwA0zuuYg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,272 +227,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 28, 2025 at 12:01:23AM +0200, David Hildenbrand wrote:
+> Within a folio/compound page, nth_page() is no longer required.
+> Given that we call folio_test_partial_kmap()+kmap_local_page(), the code
+> would already be problematic if the pages would span multiple folios.
+>
+> So let's just assume that all src pages belong to a single
+> folio/compound page and can be iterated ordinarily. The dst page is
+> currently always a single page, so we're not actually iterating
+> anything.
+>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Pavel Begunkov <asml.silence@gmail.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
+On basis of src pages being within the same folio, LGTM, so:
 
-On 8/27/25 14:19, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 19/08/2025 22:21, Swamil Jain wrote:
->> From: Jayesh Choudhary <j-choudhary@ti.com>
->>
->> TIDSS hardware by itself does not have variable max_pclk for each VP.
->> The maximum pixel clock is determined by the limiting factor between
->> the functional clock and the PLL (parent to the VP/pixel clock).
-> 
-> Hmm, this is actually not in the driver, is it? We're not limiting the
-> pclk based on the fclk.
-Hi Tomi,
-We are checking what all pclks can be supported, which is limited by 
-fclk, thats what Jayesh wanted to mention here.
-> 
->> The limitation that has been modeled till now comes from the clock
->> (PLL can only be programmed to a particular max value). Instead of
->> putting it as a constant field in dispc_features, we can query the
->> DM to see if requested clock can be set or not and use it in
->> mode_valid().
->>
->> Replace constant "max_pclk_khz" in dispc_features with
->> max_successful_rate and max_attempted_rate, both of these in
->> tidss_device structure would be modified in runtime. In mode_valid()
->> call, check if a best frequency match for mode clock can be found or
->> not using "clk_round_rate()". Based on that, propagate
->> max_successful_rate and max_attempted_rate and query DM again only if
->> the requested mode clock is greater than max_attempted_rate. (As the
->> preferred display mode is usually the max resolution, driver ends up
->> checking the highest clock the first time itself which is used in
->> subsequent checks).
->>
->> Since TIDSS display controller provides clock tolerance of 5%, we use
->> this while checking the max_successful_rate. Also, move up
->> "dispc_pclk_diff()" before it is called.
->>
->> This will make the existing compatibles reusable if DSS features are
->> same across two SoCs with the only difference being the pixel clock.
->>
->> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
->> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
->> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->> Signed-off-by: Swamil Jain <s-jain1@ti.com>
->> ---
->>   drivers/gpu/drm/tidss/tidss_dispc.c | 85 +++++++++++++----------------
->>   drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
->>   drivers/gpu/drm/tidss/tidss_drv.h   | 11 +++-
->>   3 files changed, 47 insertions(+), 50 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
->> index c0277fa36425..c2c0fe0d4a0f 100644
->> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>   const struct dispc_features dispc_k2g_feats = {
->>   	.min_pclk_khz = 4375,
->>   
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_DPI] = 150000,
->> -	},
->> -
->>   	/*
->>   	 * XXX According TRM the RGB input buffer width up to 2560 should
->>   	 *     work on 3 taps, but in practice it only works up to 1280.
->> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>   };
->>   
->>   const struct dispc_features dispc_am65x_feats = {
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_DPI] = 165000,
->> -		[DISPC_VP_OLDI_AM65X] = 165000,
->> -	},
->> -
->>   	.scaling = {
->>   		.in_width_max_5tap_rgb = 1280,
->>   		.in_width_max_3tap_rgb = 2560,
->> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>   };
->>   
->>   const struct dispc_features dispc_j721e_feats = {
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_DPI] = 170000,
->> -		[DISPC_VP_INTERNAL] = 600000,
->> -	},
->> -
->>   	.scaling = {
->>   		.in_width_max_5tap_rgb = 2048,
->>   		.in_width_max_3tap_rgb = 4096,
->> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
->>   };
->>   
->>   const struct dispc_features dispc_am625_feats = {
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_DPI] = 165000,
->> -		[DISPC_VP_INTERNAL] = 170000,
->> -	},
->> -
->>   	.scaling = {
->>   		.in_width_max_5tap_rgb = 1280,
->>   		.in_width_max_3tap_rgb = 2560,
->> @@ -376,15 +357,6 @@ const struct dispc_features dispc_am625_feats = {
->>   };
->>   
->>   const struct dispc_features dispc_am62a7_feats = {
->> -	/*
->> -	 * if the code reaches dispc_mode_valid with VP1,
->> -	 * it should return MODE_BAD.
->> -	 */
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_TIED_OFF] = 0,
->> -		[DISPC_VP_DPI] = 165000,
->> -	},
->> -
->>   	.scaling = {
->>   		.in_width_max_5tap_rgb = 1280,
->>   		.in_width_max_3tap_rgb = 2560,
->> @@ -441,10 +413,6 @@ const struct dispc_features dispc_am62a7_feats = {
->>   };
->>   
->>   const struct dispc_features dispc_am62l_feats = {
->> -	.max_pclk_khz = {
->> -		[DISPC_VP_DPI] = 165000,
->> -	},
->> -
->>   	.subrev = DISPC_AM62L,
->>   
->>   	.common = "common",
->> @@ -1347,25 +1315,57 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
->>   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
->>   }
->>   
->> +/*
->> + * Calculate the percentage difference between the requested pixel clock rate
->> + * and the effective rate resulting from calculating the clock divider value.
->> + */
->> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
->> +{
->> +	int r = rate / 100, rr = real_rate / 100;
->> +
->> +	return (unsigned int)(abs(((rr - r) * 100) / r));
->> +}
->> +
->> +static int check_pixel_clock(struct dispc_device *dispc,
->> +			     u32 hw_videoport, unsigned long clock)
->> +{
->> +	unsigned long round_clock;
->> +
->> +	if (dispc->tidss->is_ext_vp_clk[hw_videoport])
->> +		return 0;
->> +
->> +	if (clock <= dispc->tidss->max_successful_rate[hw_videoport])
->> +		return 0;
->> +
->> +	if (clock < dispc->tidss->max_attempted_rate[hw_videoport])
->> +		return -EINVAL;
->> +
->> +	round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
->> +
->> +	if (dispc_pclk_diff(clock, round_clock) > 5)
->> +		return -EINVAL;
->> +
->> +	dispc->tidss->max_successful_rate[hw_videoport] = round_clock;
->> +	dispc->tidss->max_attempted_rate[hw_videoport] = clock;
-> 
-> I still don't think this logic is sound. This is trying to find the
-> maximum clock rate, and optimize by avoiding the calls to
-> clk_round_rate() if possible. That makes sense.
-> 
-> But checking for the 5% tolerance breaks it, in my opinion. If we find
-> out that the PLL can do, say, 100M, but we need pclk of 90M, the current
-> maximum is still the 100M, isn't it?
-> 
-> Why can't we replace the "if (mode->clock > max_pclk)" check with a new
-> check that only looks for the max rate? If we want to add tolerance
-> checks to mode_valid (which are currently not there), let's add it in a
-> separate patch.
-> 
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Yeah, we can drop tolerance check. So, should we drop 
-check_pixel_clock() and also clk_round_rate(), but then how can we know 
-the maximum supported pclk?
-
-Regards,
-Swamil
->   Tomi
-> 
->> +	return 0;
->> +}
->> +
->>   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
->>   					 u32 hw_videoport,
->>   					 const struct drm_display_mode *mode)
->>   {
->>   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
->>   	enum dispc_vp_bus_type bus_type;
->> -	int max_pclk;
->>   
->>   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
->>   
->> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
->> -
->> -	if (WARN_ON(max_pclk == 0))
->> +	if (WARN_ON(bus_type == DISPC_VP_TIED_OFF))
->>   		return MODE_BAD;
->>   
->>   	if (mode->clock < dispc->feat->min_pclk_khz)
->>   		return MODE_CLOCK_LOW;
->>   
->> -	if (mode->clock > max_pclk)
->> +	if (check_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
->>   		return MODE_CLOCK_HIGH;
->>   
->>   	if (mode->hdisplay > 4096)
->> @@ -1437,17 +1437,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
->>   	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
->>   }
->>   
->> -/*
->> - * Calculate the percentage difference between the requested pixel clock rate
->> - * and the effective rate resulting from calculating the clock divider value.
->> - */
->> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
->> -{
->> -	int r = rate / 100, rr = real_rate / 100;
->> -
->> -	return (unsigned int)(abs(((rr - r) * 100) / r));
->> -}
->> -
->>   int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
->>   			  unsigned long rate)
->>   {
->> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
->> index b8614f62186c..45b1a8aa9089 100644
->> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
->> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
->> @@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
->>   
->>   struct dispc_features {
->>   	int min_pclk_khz;
->> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
->>   
->>   	struct dispc_features_scaling scaling;
->>   
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
->> index 4e38cfa99e84..667c0d772519 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.h
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
->> @@ -23,7 +23,16 @@ struct tidss_device {
->>   	const struct dispc_features *feat;
->>   	struct dispc_device *dispc;
->>   	bool is_ext_vp_clk[TIDSS_MAX_PORTS];
->> -
->> +	/*
->> +	 * Stores highest pixel clock value found to be valid while checking
->> +	 * supported modes for connected display
->> +	 */
->> +	unsigned long max_successful_rate[TIDSS_MAX_PORTS];
->> +	/*
->> +	 * Stores the highest attempted pixel clock rate whose validated
->> +	 * clock is within the tolerance range
->> +	 */
->> +	unsigned long max_attempted_rate[TIDSS_MAX_PORTS];
->>   
->>   	unsigned int num_crtcs;
->>   	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
-> 
+> ---
+>  io_uring/zcrx.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
+> index e5ff49f3425e0..18c12f4b56b6c 100644
+> --- a/io_uring/zcrx.c
+> +++ b/io_uring/zcrx.c
+> @@ -975,9 +975,9 @@ static ssize_t io_copy_page(struct io_copy_cache *cc, struct page *src_page,
+>
+>  		if (folio_test_partial_kmap(page_folio(dst_page)) ||
+>  		    folio_test_partial_kmap(page_folio(src_page))) {
+> -			dst_page = nth_page(dst_page, dst_offset / PAGE_SIZE);
+> +			dst_page += dst_offset / PAGE_SIZE;
+>  			dst_offset = offset_in_page(dst_offset);
+> -			src_page = nth_page(src_page, src_offset / PAGE_SIZE);
+> +			src_page += src_offset / PAGE_SIZE;
+>  			src_offset = offset_in_page(src_offset);
+>  			n = min(PAGE_SIZE - src_offset, PAGE_SIZE - dst_offset);
+>  			n = min(n, len);
+> --
+> 2.50.1
+>
