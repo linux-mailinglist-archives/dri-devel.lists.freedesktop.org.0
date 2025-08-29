@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AC8B3BE95
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 16:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AFCB3BE96
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 16:57:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E6D10EBEA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DD410EBED;
 	Fri, 29 Aug 2025 14:57:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="V9wEVqS7";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="RwjKHf0a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3632B10EBEA;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36B6010EBED;
  Fri, 29 Aug 2025 14:57:49 +0000 (UTC)
 Received: from relay12 (localhost [127.0.0.1])
- by relay12.grserver.gr (Proxmox) with ESMTP id BB223BDDBA;
- Fri, 29 Aug 2025 17:57:46 +0300 (EEST)
+ by relay12.grserver.gr (Proxmox) with ESMTP id 28971BDC09;
+ Fri, 29 Aug 2025 17:57:47 +0300 (EEST)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay12.grserver.gr (Proxmox) with ESMTPS id E01D9BDC09;
- Fri, 29 Aug 2025 17:57:45 +0300 (EEST)
+ by relay12.grserver.gr (Proxmox) with ESMTPS id B3F40BDD1C;
+ Fri, 29 Aug 2025 17:57:46 +0300 (EEST)
 Received: from antheas-z13 (x5996a855.customers.hiper-net.dk [89.150.168.85])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id EF4772018C2;
- Fri, 29 Aug 2025 17:57:44 +0300 (EEST)
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id D45922018C9;
+ Fri, 29 Aug 2025 17:57:45 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1756479465;
- bh=JgmfI1Y9LsFCqusqOxgMzWxU37dtVABhLBzbIPfJIyE=; h=From:To:Subject;
- b=V9wEVqS7/Yz6UJR03zxZrIHWocGUk+s54GAeHozJfkG9Y+rcnPRVc0LbmSbIghwV9
- vidu/wKB+JcR0eBr6xZxBZu+DEVNZkShh14p2Aei6ThnHkUnG9+FSd0XRtVVuVIoOH
- pMoUPYWdSc/kh90pNCiF3iu6SAxVr1lIIS7CGJ7aG0yOZfcd8pjosCMfUNWMIDHHz5
- vi8dgt3nkogAuNMw02gOOTpiTNMGqLBuK5G5xYCVzSFBJzYcnL+ClaFiLvSrV7vR6U
- 06dAXqDqKAFYDExFJbF4kwTVwpuEFDVlNb3QuKv1YYvxB+wBUBexEMzP5le++K0Rh0
- EVSqeu/EUuxQw==
+ s=default; t=1756479466;
+ bh=eOvCjbVtCDcSD69NmTG6S1mGz0BcfYQbAOIOCu/qG44=; h=From:To:Subject;
+ b=RwjKHf0ai59wInqx1PTslD8P1TSwCyzKVaD1dXPwGd2vFUEnADOl5gKdIdyXfXKg2
+ eCp6yoAy/T7L4CFNc8CVTC65cJr/SIHyPn4pK9Q0dheyH+yMbLKOn42IlAcstbhSqz
+ JLPNnTe5kYHPvDC/io1NsvZbXl/a2fZc+rjSZsDTUXCe9Fxq7vXo/GHYpGGcgKfi0x
+ lz2t9ouuAixOmCbTHelYAkFLTx5huOM1ZZEQgJ2Ut8SH2tGxpGRZoTrxk7ggv8u8xe
+ OnQmAn8omfJfXFp1RSlU2TBKu1YcFWDme6DWjaCWuG5R1R0vXCW/yLP3/2yjDAuTQX
+ 1IuPui2MRfVsw==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 89.150.168.85) smtp.mailfrom=lkml@antheas.dev
  smtp.helo=antheas-z13
@@ -48,15 +48,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Mario Limonciello <mario.limonciello@amd.com>,
  Robert Beckett <bob.beckett@collabora.com>,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v3 0/6] drm: panel-backlight-quirks: Do partial refactor and
- apply OLED fix
-Date: Fri, 29 Aug 2025 16:55:35 +0200
-Message-ID: <20250829145541.512671-1-lkml@antheas.dev>
+Subject: [PATCH v3 1/6] drm: panel-backlight-quirks: Make EDID match optional
+Date: Fri, 29 Aug 2025 16:55:36 +0200
+Message-ID: <20250829145541.512671-2-lkml@antheas.dev>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250829145541.512671-1-lkml@antheas.dev>
+References: <20250829145541.512671-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <175647946550.277909.764430967015112844@linux3247.grserver.gr>
+X-PPP-Message-ID: <175647946639.277952.14470684280693686509@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -75,67 +76,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an alternative to [1], since Phil found out there are still invalid
-values. We need to reconsider the other patch in that series anyway because
-the latest AMD firmware update might have fixed the Z13.
+Currently, having a valid panel_id match is required to use the quirk
+system. For certain devices, we know that all SKUs need a certain quirk.
+Therefore, allow not specifying ident by only checking for a match
+if panel_id is non-zero.
 
-This series refactors the panel-backlight-quirks code to make it easier to
-add new quirks. Specifically, it adds the ability to bind to a secondary
-DMI match so that the make of a device can be specified. Then, it makes
-EDID optional, for devices we know the value should be applied universally.
-
-This is then used to add a quirk for OLED panels that have an issue
-when their backlight is set with a value that contains a 0/1 value in their
-minor byte. This issue affects four handhelds from three different vendors,
-three of which are in the field. This quirk applies a |3 mask to the
-backlight value, which avoids this issue. In addition, the value change
-is minor enough so that it is essentially a NOOP. There is no need for
-ensuring it runs only on panels with faulty firmwares.
-
-Finally, since allowed by this refactor, a quirk for Steam Decks is added
-that lowers their minimum brightness to 0, matching SteamOS. This is
-a nicety commit, which allows for mildly lower minimum brightness, so
-there is no time sensitivity for having it merged. Mario noted that if
-that quirk was refactored to use an EDID match via the current interface,
-it could go through the fixes tree and land sooner, but perhaps it is not
-worth the effort.
-
-[1] https://lore.kernel.org/all/20250824085351.454619-2-lkml@antheas.dev/
-
+Tested-by: Philip Müller <philm@manjaro.org>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
-V2: https://lore.kernel.org/all/20250827174400.3692549-1-lkml@antheas.dev/
-V1: https://lore.kernel.org/all/20250824200202.1744335-1-lkml@antheas.dev/
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes since V2:
-- Apply SD quirks at the middle so that backlight quirks stay together
-- Add log when quirks are applied. Has to be separate because we need
-  to grab a reference to the drm_device first and add it to min
-  brightness first.
-- Capitalize OR in patch 4
-
-Changes since v1:
-- Remove leftover quirk from patch 3 (refactor)
-- Add dangling comma in patch 4 (oled quirk)
-- Add the next generation Zotac Zone in patch 4 (currently unreleased)
-- Reword patch 1 and 5 subjects
-
-Antheas Kapenekakis (6):
-  drm: panel-backlight-quirks: Make EDID match optional
-  drm: panel-backlight-quirks: Convert brightness quirk to generic
-    structure
-  drm: panel-backlight-quirks: Add secondary DMI match
-  drm: panel-backlight-quirks: Add brightness mask quirk
-  drm: panel-backlight-quirks: Add Steam Deck brightness quirk
-  drm: panel-backlight-quirks: Log applied panel brightness quirks
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  31 ++++-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   5 +
- drivers/gpu/drm/drm_panel_backlight_quirks.c  | 113 ++++++++++++++----
- include/drm/drm_utils.h                       |   8 +-
- 4 files changed, 125 insertions(+), 32 deletions(-)
-
-
-base-commit: 1b237f190eb3d36f52dffe07a40b5eb210280e00
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+index 598f812b7cb3..b38b33e26ea5 100644
+--- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -50,7 +50,7 @@ static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_bac
+ 	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
+ 		return false;
+ 
+-	if (!drm_edid_match(edid, &quirk->ident))
++	if (quirk->ident.panel_id && !drm_edid_match(edid, &quirk->ident))
+ 		return false;
+ 
+ 	return true;
 -- 
 2.51.0
 
