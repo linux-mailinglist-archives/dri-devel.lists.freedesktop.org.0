@@ -2,169 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFDDB3B0A0
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 03:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FFCB3B0CC
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0741910EB27;
-	Fri, 29 Aug 2025 01:51:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Tx0mYneb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46CCA10EB25;
+	Fri, 29 Aug 2025 02:17:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0842F10E0AB;
- Fri, 29 Aug 2025 01:51:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzbuGhzSYty5q99A0CgvNoQY0UEI1gPqjkJxSaksafPKxKn+ha2sYOL//GLQ5CgR7bpSznfenAQzbVHrYfDDFMWzUEKWBWgAWIMLnmgjWuL/o/FFLHoKBIQQXWaguM2m92l71yrr6Q6cY7I11qNcwy7YlJs8nhFZEDwiO74y0sRDWauT095+emsfl0GGyrcPYY/pnO7tkZBrR8zuDYAbvLaZVO+T0JvIvfyWp6gGqNcoFekIlZlTyvzS78PAbCKwEn4YZXBMtwIacEBTZqyUg79EnAvdBLVrWOV8VI0SqT5dds5b4UMunbgd9bAdLJXXNxm/+XSdrmLPEaFpU34Atg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qk52YHXxG8ra/J9BK8CZBHl9M6rp3NHesXWUib2CZQU=;
- b=YURpUkz9IpvRnQc63/tbsf887HyV6H9eAkJYhJF3JTRtqMo4nN8FHckWm2k4Kb4QYucurQyj2ioPmg3RXeWYVgKJimrW23OUaaN1G2mAuszsks+7MY/vuzcekkKmGAck1CdzPqHycyiur6mvS0/FRYWZMAXQfbdpDPR+KKGlWUc0PX5JJxyeCwQAzqnaLiUyXywuAb9zhWq55B5DCakcFZ1UHqM1/1bntxggl8FI/WtJB9j2cDEUsJdf72Vcr+dDIXb20pKT+fixaJEVh7Z+WDOdF5nshoQRM6uLC0lKO580mWMd7iRxBKqnZ0dSm7C22Vc8vr+D3zM0gOfyyJ7YNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qk52YHXxG8ra/J9BK8CZBHl9M6rp3NHesXWUib2CZQU=;
- b=Tx0mYnebeQv9ETHYFs5KXwrlNNjckm/qzOfDV7iILsu8mI+PkFSvo4k7rucfSTdXAlBe6NeYlvdiwK8muf33/5DrPSKrUAk259aITlNInMa7EcMORxr3g8CvYwzeou586/Qi0eRzZ8oMAQU5tWyouDpI0oZeMAAzjTnbafvevyzLywUeHDYIB9Uo1hBluabpoUblfjqvcC4Oxm8KNoEEgDu+xYju54oEcNxJ7q5uIsM7kormKgUMM028K/OZTuhwryXxjzX+zIZwOaXp+4qO6usivcqvkO4otDigLq9tbn34SyOGvDSD0kFdNVFsX2zZzFJQLa8Ro25Y5tSsjNR2kQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MN0PR12MB6104.namprd12.prod.outlook.com (2603:10b6:208:3c8::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Fri, 29 Aug
- 2025 01:51:40 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.019; Fri, 29 Aug 2025
- 01:51:40 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 29 Aug 2025 10:51:37 +0900
-Message-Id: <DCEJAA3GN0WK.3GBZVQ9FZGUQ3@nvidia.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 1/8] rust: transmute: add `from_bytes_copy` method to
- `FromBytes` trait
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
- <20250826-nova_firmware-v2-1-93566252fe3a@nvidia.com>
- <DCE0VZXSP39I.FKGHKONUTB5L@nvidia.com>
- <CANiq72=Z26jzVMbGfqL-_Wq8boX5qApmPCVGA1D6cwzOxgWWLg@mail.gmail.com>
-In-Reply-To: <CANiq72=Z26jzVMbGfqL-_Wq8boX5qApmPCVGA1D6cwzOxgWWLg@mail.gmail.com>
-X-ClientProxiedBy: TY4PR01CA0078.jpnprd01.prod.outlook.com
- (2603:1096:405:36c::16) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E4610EB25
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 02:17:50 +0000 (UTC)
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-Z6gLkaVyOmml4Mc3alxCVA-1; Thu,
+ 28 Aug 2025 22:16:40 -0400
+X-MC-Unique: Z6gLkaVyOmml4Mc3alxCVA-1
+X-Mimecast-MFC-AGG-ID: Z6gLkaVyOmml4Mc3alxCVA_1756433799
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id D5DFD195609D; Fri, 29 Aug 2025 02:16:38 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.67.32.4])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 7C1BF19560B4; Fri, 29 Aug 2025 02:16:36 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+	dakr@kernel.org
+Subject: [PATCH 1/2] nouveau: fix disabling the nonstall irq due to storm
+ code. (v2)
+Date: Fri, 29 Aug 2025 12:16:32 +1000
+Message-ID: <20250829021633.1674524-1-airlied@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB6104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 116660ab-449b-4fc8-40a8-08dde69e9920
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|376014|366016|7416014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WERPdGpSMFI3MThsZit2Z3FYdVpPMk9xTDZkbEtZb2ZxMVprMkVuWFZIU2pT?=
- =?utf-8?B?bnZ6R2xuVEtjcW9OV0sxOGtxSVpKWEYvMXBxQmpyQjFLSjV3L0xSSHNsTmJN?=
- =?utf-8?B?VmhDcEJyZkxxbHFnVkNxY2RCdVM0L3NIWkNWRVljUE9YU0xhelJQcG04bWpz?=
- =?utf-8?B?b0svdmxBTnV0aWxLMDF5UjBTa2ZiazhQZ1FJTStoSnlBNDQ5bE5ra0R1SVVZ?=
- =?utf-8?B?ZXRFTEgwZVJlUDEwclFKRWpFemlGQll1dGVOQzB0MkdTN3QzalYxZXlYb3FY?=
- =?utf-8?B?UHdUTDY5TXhBb25ON29RRkZ4Z295MkU2R2wwWnJuU3M4MHBHSWlBcS9uTEhU?=
- =?utf-8?B?SzA4bVFkb1A3OGx5M0wwZWVicmtpNEd0Ym5TYkE5N1ZVZTgrT0NybHFjYmFE?=
- =?utf-8?B?bkI1UUg2WW4yM20rdVNuMEZBSzlHSE9nKzF4R3dnVExGVkJSbDdlZFA2QXQ1?=
- =?utf-8?B?c1NzSHMySVpqRDZQbkhlYlFOZ1ZaQmdTT1VwSHVETTFFbXNaTWpyYjJlWVN2?=
- =?utf-8?B?TGpORDl3SXRHcXZKQ0ZZbk5sRldaa0w3VVQvd1dMbEsySVUzS1c5ZExkWDh4?=
- =?utf-8?B?MnNxaFlvWkt6blRyWnNhNE45aGYreGNyU21Dc0tPa0hGOSs0bzVibDlwS3hO?=
- =?utf-8?B?N0QxdkkrUnB4Q1UwVnFaWXB4bGVhNjNJMFJhczFySGFicFZuWVZJdlg0bTNI?=
- =?utf-8?B?dFJ2Wm8wQWlvMHRjZzBobzkzdWZXeUd6OVRkbkpRL21KSkthVGFVTUVucy9r?=
- =?utf-8?B?UnlnN2tzcEFXOC9lN0F3M2hpcHprcnFLWXgraWc4L2FRblM3aUpQZnpZNzdn?=
- =?utf-8?B?ZE81RlFZbTVuWTVkQTZOWDZPZXRxTzU4dkJSSUF3T3RjemorRUx1cE1NYklz?=
- =?utf-8?B?RFNWbm9xQnROcjJQbFh2RERIZU5RVGFOd2hJTG8waDFCVURXbFlKcXFaLzN2?=
- =?utf-8?B?YTE5MlJXTGdvU0UwbzhjK3JIcUhJQldXdHp4QVcyL0lxZ3lMN2VzTFpiQVFs?=
- =?utf-8?B?Q1laVENwbXFJeng0Q2E0L29oQTdFNHhvUk9Hb2FmM0JCWnFTZHpiSEFzVE01?=
- =?utf-8?B?YzVHaitENldTdkJ2c1lFdHBZSGFzSEdrM2o0NjF3MFQ3U1BXdzc4cTIrR1lZ?=
- =?utf-8?B?RGpBMjRyVjBmeFJXL3BzM21QaFZHSnBZcnI1WXJJOWs2SVNMMDQ2eEFBY2s3?=
- =?utf-8?B?QW5EckxORGZRcnhnb2pyanM3MHpIbGE5eFZhekoyeFE3K2NiWForV0RkSGdC?=
- =?utf-8?B?TlF4emswMlRTWWdzbWJ6WkRLNE9OQ2ljODlvR0JRYS9sWFFtV1lqdFRlU0hZ?=
- =?utf-8?B?U0Ztbkl3Vnc4VUdMc3NzaDVWa0xvdzVtT0dZTExxWXNudEVIOUJWSS9hQUZo?=
- =?utf-8?B?VWlGK2JuTmZSQTFwWTlZOTdsVU80YVdJd2k1VXF6ZEtRUzd3ckFsTllxT1Jt?=
- =?utf-8?B?cXp0RXhBRmJKZVF5VDJ1VkRRcjNxb20rUTNzeC9HY0hBZndtK09OTEhZZXFJ?=
- =?utf-8?B?bjg5ejhoSlo5UVZLTU01dEtET0NYTzhKMjMzQzdkcU1QejBmWDJWeTlwSUlp?=
- =?utf-8?B?WUdqcmNUVFdSd21TOWtpZ0Q0LzhVZC9rUEhNUUdoYVNmeU1rQW9mMlBnTHUy?=
- =?utf-8?B?YmtnMTMwUWgwSmozUzFaSVNRRW1hTkprZDdJOG44bDhGTGk2cUR6QnRVL1dK?=
- =?utf-8?B?MmtEeWNCN2lCa3lZbCtEaHlSVjB1SHJLeW1IZFV4cjU4RlFxQlFRb0kyaStS?=
- =?utf-8?B?RjVlcHVTYUhic0gza0s0ZStpNk9ZV1UvNHFsRUhTbWp6OG03NnZiNFpLUTUr?=
- =?utf-8?B?Y2llZDNMNmtDcVJJM1ZuOXVJVGRBeE9EalFuM1MxVnJ2UHJCQUhqM2xjc0s3?=
- =?utf-8?B?aUtoTXNQQm00V0p1RlRvT2ZYSHpEQ3dKYkNVZWQ1ZDZPZ0xxWmRpNWxxODdh?=
- =?utf-8?Q?ihSKrfr9F/Q=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(376014)(366016)(7416014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0w3d0VON045cjIrU2FRaFpQS1NjOW9ucmNzUXNoSkpTMUpTQTNMUDJSTTJD?=
- =?utf-8?B?MUI1SzQzWExYUU8reEtBcHpNTGdsd3orTnlxdjRNNXZBd2dMMmQ3N0lVQzVj?=
- =?utf-8?B?STc4VzFJcFJ4M08wbCs0alVhYVFldXE1RDgxNjA2N1M1NkpFNjJTbVVDdnE5?=
- =?utf-8?B?ajAxOU9naUpXRUFVV3VwSEQwWHZjbUZYQVk4WUJ1MkJ5TmVpcG5saDN3TmU1?=
- =?utf-8?B?T2hKUnpZR25MZzZHZGlkRFlBK3ZhdmR1Z0xyMnJIK0sxcDdGcVd6eDVGVkR0?=
- =?utf-8?B?THg2RlR4eUM1WHEzN0RzdFJ0cGwxYVdBMUVKVFEzSUgrUktwbmMvbVp3ckNy?=
- =?utf-8?B?S0ZIaTcyditpVkh6bGQwWStoQVJXQzEvMkRlQzdvY2l4WklhV1N4YTYrekJ4?=
- =?utf-8?B?ZjYrS2hIYkJGODVDamlCTXRiZDNpNXhhcmFvTnhrTGpOaDdTTGc0VW9EVnEz?=
- =?utf-8?B?YmdvUHFNRFJnN0pRVjVEVHZISlFPL2pkVkFUazNTaW5Ndk1relJrY3ZIOC9P?=
- =?utf-8?B?Rm9nRGlkSitwUm5qUmdGb0N5MXEzcWZkbDVacHVBd2NXdndKRS9ma3EwcUI5?=
- =?utf-8?B?ZDRMN1MwalJNb0lWK2NsR2hDbnlPTDZBTEFnM0poQmhONE8randjVDlqNElU?=
- =?utf-8?B?akVlMnoreHA4b05MTGNzU04zV0p5R0NUVS9Ga3BKZWFNVFAzcTFpTEovczdl?=
- =?utf-8?B?TWhNQTJmVE5tUDR3WVBoMURkS3c1S0RRTlN6azZXWGdCUGMzUDM0TmZXTC9y?=
- =?utf-8?B?ZGNaSFdmQ1ZNQnlNdml3akpXQzk1aUVHMXY3OHpoM1hqQWs2d3d4dWI2NHlr?=
- =?utf-8?B?RGlFRkhUV2pNaWlkOTAvUXF5UEJZWnhFVUwrUUV1ayszMkRmTWRmOTJac3cy?=
- =?utf-8?B?RE1YYmxEMHo2SHZGTFRFSmRTd1ptUzRNdS9yRVowL0ZiSkorakVHb3hodGZt?=
- =?utf-8?B?MFFaVWo4aDdEcXAyclY2Y25mTDNtUTV5Nk9ZV1ljM2RPVHAycjhlRmVRdExM?=
- =?utf-8?B?bzgrN25DSmpCZmRBdXJoMEVGRmlzRTlUUzF4Nzd2YkJYZzNSR1B5ODVCYmFW?=
- =?utf-8?B?MzVSdzZEUDR2dU5UTDUra3BjZERHRUpoNmlib3lwTEhwUmNMeVhkWGxpSm8w?=
- =?utf-8?B?V3hKRXp4V1p4RFNna3BlMVFqdkdKSlIyQnVRaGVERWNCMllPeko5Qm9zVlJv?=
- =?utf-8?B?TjRDOTZLc1NwS2dTSVJ3Q01HYzZta3NxSU1qNWI3WkxjQUZOZXRVT3phU0do?=
- =?utf-8?B?ZUJjNHlxamFVdXR5OUNvL0JzdzFRbDBNajRGQjhic09nOXd2STdVTytyb1Ry?=
- =?utf-8?B?U0JERm1wa3QwZElldEdrN0krNkhxNEN2ckJ2dzc3ODRrVUlQNU5ieXZZeDht?=
- =?utf-8?B?cnA4ZGErblo4NnJlTFlWWVJYc2h5Y3YwSGpOeXQyQmVGb25xZlcwdnlBQkpn?=
- =?utf-8?B?QzhKVzZ6LzNCZUp4NERnVUdVc21mdURNSDFiQVJEYkJDQXZKYVFrdnlmTEVL?=
- =?utf-8?B?LzREZzNGcUZiL01HUnk5Skg3NHJEZ3NodGc4UUwvdVVhbG9JdzhrSzhkYS81?=
- =?utf-8?B?MUxlWDdVVE9ENDNCZE1jYVRuUFJ1L0pFTkZiUzR3c2U0alUwTDl5RmxRY0po?=
- =?utf-8?B?anAwWmJ5TFp1RTlYT0ljTlBka3Jwd2FiRnhpOG5FTmhLVXZPcCtvVHVDSmlt?=
- =?utf-8?B?Z0cyVzlFVkZSYlNTdHIvMmhaUG8zODNnRVVLMlNkVG1zSjY0MWYyWTAweExM?=
- =?utf-8?B?QlNVeTJIWldpWlFkT0did1V5Yi9nM1VLbU82Sy9pRWExZlJHS2I5eWNYam1t?=
- =?utf-8?B?Mmx4Zk1xQjErWTRTcFZLa2VkT2ErU3hTdW9yKzVyZSt6TzVHc0RLcVVzVmZV?=
- =?utf-8?B?aEhYdTJWbTQ3UzZnODlmdVdKMnNLeWtyaG4yaWFMaGZkeS9yUm11Ujk2SEQv?=
- =?utf-8?B?ZitnUmNkWkpFOEVmd0ZESDB4VFRCQmtRb25qeHFlRjEvV0RVU2VLMWJkRzB6?=
- =?utf-8?B?cWd0QUpneDN2VzFydldvNUJ3eUJEbWlGM0NPY2ZJZ1VOa25IeVRVTlYzbFFE?=
- =?utf-8?B?ZEVWeGdLRll4ZzdpdlBEVHhiMUlxZFFDQkFTREs2R3plc2UreU5tVlVqRk44?=
- =?utf-8?B?WTdFcTVOWHZYVStjNHBHbDdoNWphMEorbllKdFNnZGxScXVwVVRSWFhGdXFp?=
- =?utf-8?Q?Kir2vQE5jMA0bOWonBufo86tPhaX0IVJhQOyufq5RpH1?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 116660ab-449b-4fc8-40a8-08dde69e9920
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 01:51:40.6780 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XTqdGr6er+dthykVxXz4fMMu8MtljjbKz+651ExHhfOZzajYHTZDFkVDnLT5JbQq4oaqm02yfugH1EQPHiLI+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6104
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: GBBrdBwL2USt7eHS0AP_i3B6Su2Fw0FWQQh9ssC1DyU_1756433799
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,17 +60,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Aug 28, 2025 at 8:45 PM JST, Miguel Ojeda wrote:
-> On Thu, Aug 28, 2025 at 1:26=E2=80=AFPM Alexandre Courbot <acourbot@nvidi=
-a.com> wrote:
->>
->> We got 3 Reviewed-by on this patch - Miguel, are you ok if I merge it
->> together with Christian's `from_bytes` patch, since they are closely
->> related?
->
-> If you are taking this series this cycle, then sure!
->
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+From: Dave Airlie <airlied@redhat.com>
 
-Thanks Miguel! Pushed this into nova-next, right after Christian's
-patch.
+Nouveau has code that when it gets an IRQ with no allowed handler
+it disables it to avoid storms.
+
+However with nonstall interrupts, we often disable them from
+the drm driver, but still request their emission via the push submission.
+
+Just don't disable nonstall irqs ever in normal operation, the
+event handling code will filter them out, and the driver will
+just enable/disable them at load time.
+
+This fixes timeouts we've been seeing on/off for a long time,
+but they became a lot more noticable on Blackwell.
+
+This doesn't fix all of them, there is a subsequent fence emission
+fix to fix the last few.
+
+Fixes: 3ebd64aa3c4f ("drm/nouveau/intr: support multiple trees, and explici=
+t interfaces")
+Cc: stable@vger.kernel.org
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+
+---
+v2: add missing ga102.
+---
+ .../gpu/drm/nouveau/nvkm/engine/fifo/base.c   |  2 ++
+ .../gpu/drm/nouveau/nvkm/engine/fifo/ga100.c  | 22 ++++++++++++-------
+ .../gpu/drm/nouveau/nvkm/engine/fifo/ga102.c  |  1 +
+ .../gpu/drm/nouveau/nvkm/engine/fifo/priv.h   |  2 ++
+ .../nouveau/nvkm/subdev/gsp/rm/r535/fifo.c    |  2 +-
+ 5 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c b/drivers/gpu/=
+drm/nouveau/nvkm/engine/fifo/base.c
+index fdffa0391b31..6fd4e60634fb 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c
+@@ -350,6 +350,8 @@ nvkm_fifo_dtor(struct nvkm_engine *engine)
+ =09nvkm_chid_unref(&fifo->chid);
+=20
+ =09nvkm_event_fini(&fifo->nonstall.event);
++=09if (fifo->func->nonstall_dtor)
++=09=09fifo->func->nonstall_dtor(fifo);
+ =09mutex_destroy(&fifo->mutex);
+=20
+ =09if (fifo->func->dtor)
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c b/drivers/gpu=
+/drm/nouveau/nvkm/engine/fifo/ga100.c
+index e74493a4569e..81beae473122 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
+@@ -517,19 +517,11 @@ ga100_fifo_nonstall_intr(struct nvkm_inth *inth)
+ static void
+ ga100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
+ {
+-=09struct nvkm_fifo *fifo =3D container_of(event, typeof(*fifo), nonstall.=
+event);
+-=09struct nvkm_runl *runl =3D nvkm_runl_get(fifo, index, 0);
+-
+-=09nvkm_inth_block(&runl->nonstall.inth);
+ }
+=20
+ static void
+ ga100_fifo_nonstall_allow(struct nvkm_event *event, int type, int index)
+ {
+-=09struct nvkm_fifo *fifo =3D container_of(event, typeof(*fifo), nonstall.=
+event);
+-=09struct nvkm_runl *runl =3D nvkm_runl_get(fifo, index, 0);
+-
+-=09nvkm_inth_allow(&runl->nonstall.inth);
+ }
+=20
+ const struct nvkm_event_func
+@@ -564,12 +556,25 @@ ga100_fifo_nonstall_ctor(struct nvkm_fifo *fifo)
+ =09=09if (ret)
+ =09=09=09return ret;
+=20
++=09=09nvkm_inth_allow(&runl->nonstall.inth);
++
+ =09=09nr =3D max(nr, runl->id + 1);
+ =09}
+=20
+ =09return nr;
+ }
+=20
++void
++ga100_fifo_nonstall_dtor(struct nvkm_fifo *fifo)
++{
++=09struct nvkm_runl *runl;
++=09nvkm_runl_foreach(runl, fifo) {
++=09=09if (runl->nonstall.vector < 0)
++=09=09=09continue;
++=09=09nvkm_inth_block(&runl->nonstall.inth);
++=09}
++}
++
+ int
+ ga100_fifo_runl_ctor(struct nvkm_fifo *fifo)
+ {
+@@ -599,6 +604,7 @@ ga100_fifo =3D {
+ =09.runl_ctor =3D ga100_fifo_runl_ctor,
+ =09.mmu_fault =3D &tu102_fifo_mmu_fault,
+ =09.nonstall_ctor =3D ga100_fifo_nonstall_ctor,
++=09.nonstall_dtor =3D ga100_fifo_nonstall_dtor,
+ =09.nonstall =3D &ga100_fifo_nonstall,
+ =09.runl =3D &ga100_runl,
+ =09.runq =3D &ga100_runq,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c b/drivers/gpu=
+/drm/nouveau/nvkm/engine/fifo/ga102.c
+index 755235f55b3a..18a0b1f4eab7 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
+@@ -30,6 +30,7 @@ ga102_fifo =3D {
+ =09.runl_ctor =3D ga100_fifo_runl_ctor,
+ =09.mmu_fault =3D &tu102_fifo_mmu_fault,
+ =09.nonstall_ctor =3D ga100_fifo_nonstall_ctor,
++=09.nonstall_dtor =3D ga100_fifo_nonstall_dtor,
+ =09.nonstall =3D &ga100_fifo_nonstall,
+ =09.runl =3D &ga100_runl,
+ =09.runq =3D &ga100_runq,
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h b/drivers/gpu/=
+drm/nouveau/nvkm/engine/fifo/priv.h
+index 5e81ae195329..fff1428ef267 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h
+@@ -41,6 +41,7 @@ struct nvkm_fifo_func {
+ =09void (*start)(struct nvkm_fifo *, unsigned long *);
+=20
+ =09int (*nonstall_ctor)(struct nvkm_fifo *);
++=09void (*nonstall_dtor)(struct nvkm_fifo *);
+ =09const struct nvkm_event_func *nonstall;
+=20
+ =09const struct nvkm_runl_func *runl;
+@@ -200,6 +201,7 @@ u32 tu102_chan_doorbell_handle(struct nvkm_chan *);
+=20
+ int ga100_fifo_runl_ctor(struct nvkm_fifo *);
+ int ga100_fifo_nonstall_ctor(struct nvkm_fifo *);
++void ga100_fifo_nonstall_dtor(struct nvkm_fifo *);
+ extern const struct nvkm_event_func ga100_fifo_nonstall;
+ extern const struct nvkm_runl_func ga100_runl;
+ extern const struct nvkm_runq_func ga100_runq;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c b/drive=
+rs/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+index 1ac5628c5140..b8be0a872e7a 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+@@ -601,7 +601,7 @@ r535_fifo_new(const struct nvkm_fifo_func *hw, struct n=
+vkm_device *device,
+ =09rm->chan.func =3D &r535_chan;
+ =09rm->nonstall =3D &ga100_fifo_nonstall;
+ =09rm->nonstall_ctor =3D ga100_fifo_nonstall_ctor;
+-
++=09rm->nonstall_dtor =3D ga100_fifo_nonstall_dtor;
+ =09return nvkm_fifo_new_(rm, device, type, inst, pfifo);
+ }
+=20
+--=20
+2.50.1
+
