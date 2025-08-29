@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C122B3B6AB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561B4B3B6AC
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743E010E076;
-	Fri, 29 Aug 2025 09:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814D810E127;
+	Fri, 29 Aug 2025 09:05:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fBN6Le+Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bF7FcMOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA2210E011
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E6CE10E076
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 09:05:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B9DE36013D;
+ by sea.source.kernel.org (Postfix) with ESMTP id B977B43735;
  Fri, 29 Aug 2025 09:05:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E453C4CEF0;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9460DC4CEF4;
  Fri, 29 Aug 2025 09:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1756458333;
- bh=b+WF2J+qrsGcj8cAU4xgyNrWdpj0Vz5yotbWDF7MJQg=;
- h=From:To:Cc:Subject:Date:From;
- b=fBN6Le+Yb27NYeFRI19Y7gZGNyEtfoOuSZzaNR2cmjGTnaKutu/HJD8nCm6/GsVUa
- rR9O3eUga4N7eRJfjlBsLuCtqQ5MPN6bj/ITh73AWYxeK4yWWJR49rN6uERc2APZ9q
- 3dfWYSY77GOtTqsw/+vR2DftiEpoNrAXzAZbtwtKOyCcFtbbbLag7k94imaopEsLkw
- wIcc/EBMeC2wL/F+XH9Ykp7KC0qknZ4Ax3Od18tnE026uz5++x46UJ2s00DmulsTCh
- 5N3xLbdo6D76GPqs/MWUlH6FdoO8no2n4FeIA7A2apktDSKw/Sq91EKztrmZW6Xr9q
- BU7wZddFlmYSw==
+ bh=ivKqM50M4iw0RSehXQduIKjOJqOijpdsoVz0fl/OOBI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bF7FcMOzYYva//9gz2v556cx+Y++Ep1b+HAJ3LmAnQnhupdAwtkKiCvzYKg5h8zi/
+ nK2N74IQ8/Zoa3mo6w5uv1/cWVL3ZvZ+AgLmrek0If3qdKoo1NLwjdZondqkJ+8hlv
+ UFs4GmorG4DL/ZaXJqG1DBw7zi6XqjiRhOuYb7cjB9C236SAPo8AJRzzBH+YWmYYfL
+ H3m3Gs7UogVIo+FGAx/sr4+4whBDug5BVQvTam8xtuiCg3CRXS+Rtg8ecRqvltaldJ
+ HoUNmwpQta+TupsaN8Bm6jRuJkOhbRTxswIkcZhHjlMrWGkpf7Pg/ZFnY3i9hEJovB
+ itacSAnYKBdbg==
 Received: from johan by xi.lan with local (Exim 4.98.2)
- (envelope-from <johan@kernel.org>) id 1urv2x-000000005WD-04un;
+ (envelope-from <johan@kernel.org>) id 1urv2x-000000005WF-0cxW;
  Fri, 29 Aug 2025 11:05:23 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -41,11 +41,14 @@ Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Ma Ke <make24@iscas.ac.cn>, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/2] drm/mediatek: fix potential OF node use-after-free
-Date: Fri, 29 Aug 2025 11:03:43 +0200
-Message-ID: <20250829090345.21075-1-johan@kernel.org>
+ linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ stable@vger.kernel.org
+Subject: [PATCH 1/2] drm/mediatek: fix potential OF node use-after-free
+Date: Fri, 29 Aug 2025 11:03:44 +0200
+Message-ID: <20250829090345.21075-2-johan@kernel.org>
 X-Mailer: git-send-email 2.49.1
+In-Reply-To: <20250829090345.21075-1-johan@kernel.org>
+References: <20250829090345.21075-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,29 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A recent change (included in the drm pull request for 6.17-rc4) fixed a
-device reference leak but also introduced a potential OF node
-use-after-free.
+The for_each_child_of_node() helper drops the reference it takes to each
+node as it iterates over children and an explicit of_node_put() is only
+needed when exiting the loop early.
 
-This series fixes the new OF node reference imbalance and drops the
-unnecessary gotos introduced by the broken fix, effectively reverting
-that change in favour of the minimal fix I had previously posted here:
+Drop the recently introduced bogus additional reference count decrement
+at each iteration that could potentially lead to a use-after-free.
 
-	https://lore.kernel.org/lkml/20250722092722.425-1-johan@kernel.org/
+Fixes: 1f403699c40f ("drm/mediatek: Fix device/node reference count leaks in mtk_drm_get_all_drm_priv")
+Cc: Ma Ke <make24@iscas.ac.cn>
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-These should go into 6.17 which (soon) has the broken fix, which was
-also marked for stable backport.
-
-Johan
-
-
-Johan Hovold (2):
-  drm/mediatek: fix potential OF node use-after-free
-  drm/mediatek: clean up driver data initialisation
-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 34131ae2c207..3b02ed0a16da 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -388,11 +388,11 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+ 
+ 		of_id = of_match_node(mtk_drm_of_ids, node);
+ 		if (!of_id)
+-			goto next_put_node;
++			continue;
+ 
+ 		pdev = of_find_device_by_node(node);
+ 		if (!pdev)
+-			goto next_put_node;
++			continue;
+ 
+ 		drm_dev = device_find_child(&pdev->dev, NULL, mtk_drm_match);
+ 		if (!drm_dev)
+@@ -418,11 +418,10 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
+ next_put_device_pdev_dev:
+ 		put_device(&pdev->dev);
+ 
+-next_put_node:
+-		of_node_put(node);
+-
+-		if (cnt == MAX_CRTC)
++		if (cnt == MAX_CRTC) {
++			of_node_put(node);
+ 			break;
++		}
+ 	}
+ 
+ 	if (drm_priv->data->mmsys_dev_num == cnt) {
 -- 
 2.49.1
 
