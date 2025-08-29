@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E41B3B370
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 08:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB52BB3B384
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 08:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA2E510EB49;
-	Fri, 29 Aug 2025 06:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5474210EB4A;
+	Fri, 29 Aug 2025 06:35:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ead6Kr+0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mUS4NeEQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F80A10EB49
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:32:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F96610EB4A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:35:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2F6B64170E;
- Fri, 29 Aug 2025 06:32:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D48C4CEF0;
- Fri, 29 Aug 2025 06:32:20 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 201204535C;
+ Fri, 29 Aug 2025 06:35:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AACDC4CEF5;
+ Fri, 29 Aug 2025 06:35:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756449141;
- bh=lZ0QTag0VjlOQOxSce3jMyppu0ATtFUwrlYgNcJo/x0=;
+ s=k20201202; t=1756449326;
+ bh=0NgMjqXnvtRxxln19R3tS9pI1H20Mq7W/lHIuqdY+uk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ead6Kr+0+piLg9YfVifMhyiEpWCpjYQwKm5BrNkbVVEhEtUxHhdAY3TZdPVPMcPho
- X3MQDNIkatnzRTNeLcZGs0m8ip2ORZAsk+iB5f9gNgs9Q3Kr7pXUqAwlL/fhzdjlf0
- 5JpoRNg74ZvzDfAj19KNjv+NyjqWhN2ttfNmJN6aGpaRinfwpW0CW1TFc2bOvqAeiZ
- x+X3MEjEruyfBzhwk9aOZJcYANhUWu4Atdkg3VSVbMKA73GlPZulTS1m8pd/XuZZFO
- L6mqlEbt2gJG/NF5ilq0yfdbTjGFrpREaByt43g///9jPr93TLluHDTMvEZDCtOu8k
- Fz+dHR4x+QKQQ==
-Date: Fri, 29 Aug 2025 08:32:18 +0200
+ b=mUS4NeEQDHp4RpXIEfmuZNrr7scAypuu9Ptx8sJ0yCP1XNllD61+L5wEEx9ld2LEB
+ IKZ8NbSez9ZALLcZTsa2OTkyVVitVJs4listetsc4sgMlzbfcOo+NQ/i10dA4OGiJV
+ 3ypKzqdmOYZWb3FOdXhkzi+F/V959omeAx0IGhpWxCotcvditbNQSMaIyAWjBxbLGL
+ ehOepos0hy2v1fN/9Xx35Nhm+9qoq/NFA2yoic7goQ9zq4YIlODN5rtI/pvCN7LSuF
+ YQ3ja/kZA9aWCCGInZ+/PpGYpePQHhkMO5PozkkNwawFZY/k721wgzp/EBR5bhA4sF
+ U3e5wycRVi74w==
+Date: Fri, 29 Aug 2025 08:35:23 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Paul Chen <paul-pl.chen@mediatek.com>
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
@@ -43,13 +43,15 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  dri-devel@lists.freedesktop.org, 
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v4 00/19] Add MediaTek SoC DRM support for MT8196
-Message-ID: <20250829-curious-indigo-worm-b7e7ad@kuoka>
+Subject: Re: [PATCH v4 03/19] dt-bindings: display: mediatek: add EXDMA yaml
+ for MT8196
+Message-ID: <20250829-solemn-herring-of-conversion-ec5b1a@kuoka>
 References: <20250828080855.3502514-1-paul-pl.chen@mediatek.com>
+ <20250828080855.3502514-4-paul-pl.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250828080855.3502514-1-paul-pl.chen@mediatek.com>
+In-Reply-To: <20250828080855.3502514-4-paul-pl.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,36 +67,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 04:06:55PM +0800, Paul Chen wrote:
+On Thu, Aug 28, 2025 at 04:06:58PM +0800, Paul Chen wrote:
 > From: Paul-pl Chen <paul-pl.chen@mediatek.com>
 > 
-> Changes in v4:
-> - [PATCH v4 11/19]
->   Add New commit to refactor the naming of OVL Fornat.
-> - [PATCH v4 12/19]
->   Refactor ovl_blend_mode fucntion
-> - [PATCH v4 13/19]
->   Move mtk_ovl_get_blend_mode to this commit to align with driver.
-> - [PATCH v4 14/19]
->   Remove the unused paramter cmdq
->   Remove the reapet of pitch setting
-> - [PATCH v4 15/19]
->   Remove the unused paramter cmdq
->   Remove the useless parametrt of func():mtk_disp_blender_config
-> - [PATCH v4 16/19] 
->   Simplified the driiver code to improve readability 
-> - [PATCH v4 17/19]
->   Refine mtk_ovlsys_adaptor_layer_config's layer config checking. 
->   Refine mtk_ovlsys_adaptor_config's logic
->   Fix func()'s mtk_ovlsys_adaptor_stop settting
->   Refine mtk_ovlsys_adaptor_clk_enbale to repaet NULL checking
-> - [PATCH v4 18/19]
->   Fix the system report's syntext error
+> Add mediatek,exdma.yaml to support EXDMA for MT8196.
+> The MediaTek display overlap extended DMA engine, namely
+> OVL_EXDMA or EXDMA, primarily functions as a DMA engine
+> for reading data from DRAM with various DRAM footprints
+> and data formats.
+> 
+> Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
+> ---
+>  .../bindings/dma/mediatek,exdma.yaml          | 68 +++++++++++++++++++
 
 
-Where are lore links to previous versions?
+Your changelog says NOTHING changed here and this fails tests, so does it
+mean you received that warnings before but you keep sending same broken
+code?
 
-Why aren't you using b4?
+Last two weeks of contributions from mediatek are absolutely terrible.
+Very poor code, basic in-house reviews not done, basic testing not done.
+
+I talked about this at OSSE 25 with some friends and got reasons why
+your setup is broken. Well, it's on you.
+
+I was already raising this with Mediatek, but we are now back to square
+one.
+
+NAK, because this patch WAS NEVER tested.
 
 Best regards,
 Krzysztof
