@@ -2,120 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F736B3BF78
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 17:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E18B3BF8C
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 17:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D875310E05A;
-	Fri, 29 Aug 2025 15:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC42110EC03;
+	Fri, 29 Aug 2025 15:40:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hxRjy6JU";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="CQ2GSonU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73F1610E05A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 15:37:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C3D6C40BA3;
- Fri, 29 Aug 2025 15:37:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61569C4CEFC;
- Fri, 29 Aug 2025 15:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756481820;
- bh=Z0Bv7WaDdOXi4UMDM6ZgBS7CKcxMZ6kvuSO3nqYq5X8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hxRjy6JU/oDw6RINsxcmGRsTVGeDOVIb4ykJmLCqUX+QQzeylWuLrDXAGu73hmOa8
- cXkBsFfxubx34foFYG+QHJojJeqb3QzXsHL83AkHDPdn/Qv4/IIR3e2qaYlaHVj7X8
- /ujZy8fCtuvOl+p3ABN9mW0y/L62IEPa3LIB45zqcEIJiII+iaRRjvCxcFZVIe4UIP
- kaEKsYFY6b00ExIR7mNyizMsT0mnem6gSXppPc1I0E+Yiwnl2Whyv7VtVp7zbfroC1
- buwbPy49vW/4gXiHEGPpC1YTGlyYCgxjAJ+Hb56S4jwabvggJ+9rHuCjN6QDMZMzu7
- EVcfRMiw+6syA==
-From: SeongJae Park <sj@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DAMON <damon@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Power Management <linux-pm@vger.kernel.org>,
- Linux Block Devices <linux-block@vger.kernel.org>,
- Linux BPF <bpf@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux KASAN <kasan-dev@googlegroups.com>,
- Linux Devicetree <devicetree@vger.kernel.org>,
- Linux fsverity <fsverity@lists.linux.dev>,
- Linux MTD <linux-mtd@lists.infradead.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux Sound <linux-sound@vger.kernel.org>, Borislav Petkov <bp@alien8.de>,
- Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
- Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
- tytso@mit.edu, Richard Weinberger <richard@nod.at>,
- Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
- David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>,
- Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
- The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Steve French <stfrench@microsoft.com>,
- Meetakshi Setiya <msetiya@microsoft.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>,
- =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 02/14] Documentation: damon: reclaim: Convert "Free Page
- Reporting" citation link
-Date: Fri, 29 Aug 2025 08:36:58 -0700
-Message-Id: <20250829153658.69466-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250829075524.45635-3-bagasdotme@gmail.com>
-References: 
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D09310EC03
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 15:40:21 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-7f84c170734so262905485a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 08:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1756482020; x=1757086820;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vMllst7gcBdZpXi7zdiPGvGRd+qrzm4OkoKr77sAH60=;
+ b=CQ2GSonUYnp+Fk86KaS3nsw38yp7C50bwzFLJsJjFF9mLDwuYJ+6yq5GvmFihYQbYH
+ nEqvYSL0LawtVm0D8sErCPbgjjlt1Mme6u75IlMsNNlnHvE/hbvfMZAerx5tZbNPLqY1
+ leaiIWcj6dUm0L0e/eXnrjFDLWSRHGwSvEcNnWnZG5q2nVUHklLhWfzg633h/D5v/eU+
+ OOOgXgBFrSAB1CrID9R38gvR6plw3xBfizUziCqYloFaR/twbawr0IUTdercOgbdgA8Y
+ dyzIe2T/HapcIfJ5oFkDUvkVsr+DqZVDSqRjqqdIQ3OMeNhXhFBGCxKbPBCNU51w46he
+ NY5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756482020; x=1757086820;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vMllst7gcBdZpXi7zdiPGvGRd+qrzm4OkoKr77sAH60=;
+ b=aTMIax5/gLhr+vZLVy+mJRjLY5PnB4zu7oxpJGtU2eTWbFbgOpIqI8zeKMpAEW5n3G
+ vo3VpMOhlwhiWgDaLzaT6MDZHUuhxKkk/hhOv9ImtBbEI/u2UMhmgL72EjH/nsruVzkC
+ xBpIYHuvXIc9VczD3H35MEAF++aVfCekLaUQFyfh3HTYvmR7PsFRUbopBI4H0CUpTorn
+ EXqHXEO46o5bLDiILqhXeYd7S/b/p0Y8hlrz7YW7BiztXaWhfzpwWNDfKBRea4FUKy0N
+ fZJ/uxk8+K+tFCCnPuNvN9PqvKQ++Cy/8+9Fq4pRNDM63kGS8d7P5NXp47J8lwrfNWdc
+ 67oA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVwEXE5fhrKhrq/Ckfn8ZodtSrkMmAN9CaNwmdhFHxh8BPJvPIpuSKDW4x5oqs/Jeb3EXiD9sy/Vn4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEhKtYGHlAQGR148pkI2PzMuti4eFoRFXzdi2CxmhMgliajRtH
+ fVRkcamkq6wZwCr/uLSgvN8plywNBc19i+oY4XbMuMMnNBrkwqjDLa7KKBYB1Snk8/lkUwuOtKy
+ GTqhUeyfbyKc41RuiLDyr9We2Jv+rOErAMwB5vq3FEA==
+X-Gm-Gg: ASbGncv5VG4v3cowWphf6/XeSTh/OZktVtVm1sDmrsAmHLdpf/3iLQjuvokhlL073gk
+ Km3gYC78mHSWDN6s83QJX/6+Km5c0yp0XS3Ffz5I6REsp1s02oTxOCygpT2YxN0lv/0EVlGdQej
+ 1m+NhdlKsa8L9wRYKjrTlJZXRLR/6yoLKM1xFpPUV2gIOV6gL+hNfj6o88Mde4JfBrSt1heip6e
+ gQwYYLYFd864MGZ
+X-Google-Smtp-Source: AGHT+IE8Uc8yE6e7x+T9rqx7j4SzBv64YwjT0y2LqCPYIhx7HTc0mU0MQAVdWTXexDU/wbuTY+TnRdDvA85/7NRQ3wc=
+X-Received: by 2002:a05:620a:a08c:b0:7e9:f81f:ce8a with SMTP id
+ af79cd13be357-7ea11095a39mr2507020285a.76.1756482020300; Fri, 29 Aug 2025
+ 08:40:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250825-rk3588-10bpc-v2-0-955622d16985@collabora.com>
+In-Reply-To: <20250825-rk3588-10bpc-v2-0-955622d16985@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Fri, 29 Aug 2025 17:40:08 +0200
+X-Gm-Features: Ac12FXwMRvICk8YV3mQ4_G0eTMWJVkBD72BsJ-WaKgZKQMAHDd1L4Y9QuXJV1oE
+Message-ID: <CAPj87rNgW5-1YzurL-sFJF2SsGFmENF9JD+82cqHAYLfa67LZA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] High color depth support for RK3576/RK3588 HDMI
+ output
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,20 +96,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Aug 2025 14:55:12 +0700 Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+Hi Cristian,
 
-> Use internal cross-reference for the citation link to Free Page
-> Reporting docs.
+On Mon, 25 Aug 2025 at 12:08, Cristian Ciocaltea
+<cristian.ciocaltea@collabora.com> wrote:
+> Since both Rockchip RK3576 and RK3588 SoCs are capable of handling 10
+> bpc color depth HDMI output and we've already landed the required HDPTX
+> PHY driver changes to support the setup, let's add the missing bits and
+> pieces to VOP2, DW HDMI QP encoder and bridge library.
+>
+> Please note this conflicts with the HDMI CEC series [1], hence I added
+> that as a b4-managed dependency.
 
-Thank you for fixing this!
+Thanks, no comments on this one, but having not read the PHY changes
+at all, the series is:
+Acked-by: Daniel Stone <daniels@collabora.com>
 
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Reviewed-by: SeongJae Park <sj@kernel.org>
-
-
-Thanks,
-SJ
-
-[...]
+Cheers,
+Daniel
