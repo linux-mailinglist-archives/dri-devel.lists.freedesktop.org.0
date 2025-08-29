@@ -2,75 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63346B3C264
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 20:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D92B3C26D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 20:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A26D10EC28;
-	Fri, 29 Aug 2025 18:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CDF10EC2E;
+	Fri, 29 Aug 2025 18:31:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gIr+Ifi0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NFz8NKrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614C710EC27;
- Fri, 29 Aug 2025 18:27:02 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-b47174b335bso369405a12.2; 
- Fri, 29 Aug 2025 11:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756492022; x=1757096822; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DkDLHFzMwhGrjPg06GqQv0+K8YzczfW4YoD6Re0s0a0=;
- b=gIr+Ifi05O3HWHrIFvnCj2FQZ7ffMZq8jkQRCFpXiwxY0MvnB/ux9NNgxSJ81DEZUk
- E3F5fYMKEj8q4+ibKu+2w+KZwHNt0vjWkAOQ9yEd/PnBq040/z8HQlPMdrOMkn3jzRfn
- KaG6mnqINzIJyKznv6EX9xwsoP//Ro/Y4uBSlO6dUzegr7Pp5lN7Yk1kr/CtJk7/Kwov
- joxGF7fCK614gjFsFZ8PTdNTlkhf9rzWyna8Ea2AVfvv1zBIY5Ty2PxMSJnoYuBgJFQF
- nYpVUm9UOlqe9rN+XyIuC3T4BJoRI5hMdbtMb/LtmMvX37+4yis75udw70+yZ4a6Qep4
- xthQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756492022; x=1757096822;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DkDLHFzMwhGrjPg06GqQv0+K8YzczfW4YoD6Re0s0a0=;
- b=eNrbTjdlg9+cAE+nHaqwEekrx7Ad6M5gMnVcn4+qM3zmf7sOVwd4nOBDwWyqXkeuCm
- hDIoAdZHNW2YPUyrKYkAoaAyzZ7zmiXTmGlpGZvIkXelIjWv7bWMCaBbE/8RPQUbTSQ1
- rwr0xLADGWf9X1U1YQrGSPb+KCc4e9161vZKsvsj3ItiJBbwVccT8hWNpE9wYSeO/+Nb
- 6KLLHwyofpEn+qwqsvcRBJVJ8x86+Vuc06wZFv87ikfdYJEmJIe7fmMnkmTlk1RhQ/oI
- uCwnfQJLzZb6q8ZwNrVpzFO3QkK81hTWboBs0YacetR/oZFi5mw2jzZTVeNjpij5pZ79
- rjGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8OWnaPFXUfxux6lRKUSUSSudViGITcQjvcZDO+LNbIl7OdNXWU5p09cOIDPF8eIz/salig3ugoOI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxgjHzcNwXTfxRXE53dmAbclexlVbVLeZc1fTma92Ahs9TNnXU
- 0zWPlVhBFRGZqYxOuyQO8L1AlGVINSoSPL8/0vMMcEtuk32g/B9QfuHEUPMB1hepb6xNJIkCDHz
- 0VNhCo2vmN3X2Ei5sZxcYBH7daIe5lc2/jA==
-X-Gm-Gg: ASbGnctvdMAgSB/useb33B9zmemCi+/InXVhbWDsM8rw4A2qj39cWFVHwwrov0C2R1m
- HnE7j3us56yzODlpgDGjIKQjoZFWbkftQtwwqaat4Nf183BtbASFi6RR0o9ynNTdyaO5q0Mc5L9
- dpz0WHstcRr+WDleyDMx7HkqUm35ZRmE1zDZdcrO2w86Cpf89+oGQCa+tRoElDIdF4nDsF+/7jj
- RIPjlM=
-X-Google-Smtp-Source: AGHT+IFaWgOD9by+SQ/8OLiq6kJGXw7bUcexKwbwE1tkiknVjzj0JvoqLxDv5KO9XTlV8qM2PQy9fxP6box6128CsLk=
-X-Received: by 2002:a17:90b:1d92:b0:327:e34e:eb01 with SMTP id
- 98e67ed59e1d1-327f5b87d56mr1856537a91.1.1756492021824; Fri, 29 Aug 2025
- 11:27:01 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1A4010EC29;
+ Fri, 29 Aug 2025 18:31:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2747E60142;
+ Fri, 29 Aug 2025 18:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392BBC4CEF0;
+ Fri, 29 Aug 2025 18:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756492271;
+ bh=tyqs0cYFzl3/uScjz+bnC/nHz4Zbr0XXBB0zC5nt9u4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NFz8NKrLoGKO+m/Wnx15S7oUV4+2JAuYFq/dkK3nLmZtSeosEpofGuplxKQqva8+l
+ tbvezIO3iBqnQTfc82c1u7x1SvuIawu0nN5fuC3Fkqy53O+yVLJHVWE32bjjOHYcZR
+ 2rKMZqn1/h2ghLcmAmEPRAmAdPsZkMhkEeO+etKBH4y/Nwmr2zm2afBecxCPRsVzsf
+ e3wdLlI33euqwrDyWC2ULlK/GoYBf9XtaGdxNVV/vhIHTwzvGE9IgN2m/Adn1QIp75
+ mx8vvyZOOoKYMCdde6nEk+l5b+OrX8Va5U++d+iM96ZJt2W+IimKgv8mbKNn6WiQM/
+ k67RFi4uuON1A==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH] Revert "drm/nouveau: Remove waitque for sched teardown"
+Date: Fri, 29 Aug 2025 20:30:45 +0200
+Message-ID: <20250829183044.213380-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-References: <20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local>
-In-Reply-To: <20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 29 Aug 2025 14:26:50 -0400
-X-Gm-Features: Ac12FXwPhh5l0LhWYYCLOfE636IYJClXvYP9fxX_dVOB1qxyhYB1RRM4ov0IJYA
-Message-ID: <CADnq5_Oqonrth+5T-83dnFBZ67GvykkPt-9aUepJd+fUMwnupw@mail.gmail.com>
-Subject: Re: evergreen_packet3_check:... radeon 0000:1d:00.0: vbo resource
- seems too big for the bo
-To: Borislav Petkov <bp@alien8.de>
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,45 +58,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 1:53=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> Heya folks,
->
-> this flood happens with plain 6.16 on my workstation - haven't done any h=
-w
-> changes:
+This reverts:
 
-Have you updated mesa?  Looks like a userspace change.
+commit bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
+commit 5f46f5c7af8c ("drm/nouveau: Add new callback for scheduler teardown")
+commit 89b2675198ab ("drm/nouveau: Make fence container helper usable driver-wide")
 
-Alex
+from the drm/sched teardown leak fix series:
 
->
-> [   29.094609] evergreen_packet3_check: 115 callbacks suppressed
-> [   29.094615] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106737] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106740] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106742] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106745] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106747] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106750] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106752] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106754] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   29.106757] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.579786] evergreen_packet3_check: 29 callbacks suppressed
-> [   52.579792] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591825] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591829] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591832] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591835] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591838] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591840] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591843] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591846] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-> [   52.591849] radeon 0000:1d:00.0: vbo resource seems too big for the bo
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+https://lore.kernel.org/dri-devel/20250710125412.128476-2-phasta@kernel.org/
+
+The aforementioned series removed a blocking waitqueue from
+nouveau_sched_fini(). It was mistakenly assumed that this waitqueue only
+prevents jobs from leaking, which the series fixed.
+
+The waitqueue, however, also guarantees that all VM_BIND related jobs
+are finished in order, cleaning up mappings in the GPU's MMU. These jobs
+must be executed sequentially. Without the waitqueue, this is no longer
+guaranteed, because entity and scheduler teardown can race with each
+other.
+
+Revert all patches related to the waitqueue removal.
+
+Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 20 +++++++++++++-------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  6 ------
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 20 +++++++++++++-------
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  9 ++++++---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
+ 5 files changed, 36 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 9f345a008717..e4b8ddbb2b92 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -38,6 +38,12 @@
+ static const struct dma_fence_ops nouveau_fence_ops_uevent;
+ static const struct dma_fence_ops nouveau_fence_ops_legacy;
+ 
++static inline struct nouveau_fence *
++from_fence(struct dma_fence *fence)
++{
++	return container_of(fence, struct nouveau_fence, base);
++}
++
+ static inline struct nouveau_fence_chan *
+ nouveau_fctx(struct nouveau_fence *fence)
+ {
+@@ -71,7 +77,7 @@ nouveau_local_fence(struct dma_fence *fence, struct nouveau_drm *drm)
+ 	    fence->ops != &nouveau_fence_ops_uevent)
+ 		return NULL;
+ 
+-	return to_nouveau_fence(fence);
++	return from_fence(fence);
+ }
+ 
+ void
+@@ -277,7 +283,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
+ static long
+ nouveau_fence_wait_legacy(struct dma_fence *f, bool intr, long wait)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 	unsigned long sleep_time = NSEC_PER_MSEC / 1000;
+ 	unsigned long t = jiffies, timeout = t + wait;
+ 
+@@ -457,7 +463,7 @@ static const char *nouveau_fence_get_get_driver_name(struct dma_fence *fence)
+ 
+ static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 
+ 	return !fctx->dead ? fctx->name : "dead channel";
+@@ -471,7 +477,7 @@ static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
+  */
+ static bool nouveau_fence_is_signaled(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 	struct nouveau_channel *chan;
+ 	bool ret = false;
+@@ -487,7 +493,7 @@ static bool nouveau_fence_is_signaled(struct dma_fence *f)
+ 
+ static bool nouveau_fence_no_signaling(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 
+ 	/*
+ 	 * caller should have a reference on the fence,
+@@ -512,7 +518,7 @@ static bool nouveau_fence_no_signaling(struct dma_fence *f)
+ 
+ static void nouveau_fence_release(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 
+ 	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
+@@ -530,7 +536,7 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
+ 
+ static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = to_nouveau_fence(f);
++	struct nouveau_fence *fence = from_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 	bool ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 9957a919bd38..51bb0d9032a4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -17,12 +17,6 @@ struct nouveau_fence {
+ 	unsigned long timeout;
+ };
+ 
+-static inline struct nouveau_fence *
+-to_nouveau_fence(struct dma_fence *fence)
+-{
+-	return container_of(fence, struct nouveau_fence, base);
+-}
+-
+ int  nouveau_fence_create(struct nouveau_fence **, struct nouveau_channel *);
+ int  nouveau_fence_new(struct nouveau_fence **, struct nouveau_channel *);
+ void nouveau_fence_unref(struct nouveau_fence **);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 0cc0bc9f9952..387579b17181 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -122,9 +122,11 @@ nouveau_job_done(struct nouveau_job *job)
+ {
+ 	struct nouveau_sched *sched = job->sched;
+ 
+-	spin_lock(&sched->job_list.lock);
++	spin_lock(&sched->job.list.lock);
+ 	list_del(&job->entry);
+-	spin_unlock(&sched->job_list.lock);
++	spin_unlock(&sched->job.list.lock);
++
++	wake_up(&sched->job.wq);
+ }
+ 
+ void
+@@ -305,9 +307,9 @@ nouveau_job_submit(struct nouveau_job *job)
+ 	}
+ 
+ 	/* Submit was successful; add the job to the schedulers job list. */
+-	spin_lock(&sched->job_list.lock);
+-	list_add(&job->entry, &sched->job_list.head);
+-	spin_unlock(&sched->job_list.lock);
++	spin_lock(&sched->job.list.lock);
++	list_add(&job->entry, &sched->job.list.head);
++	spin_unlock(&sched->job.list.lock);
+ 
+ 	drm_sched_job_arm(&job->base);
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+@@ -458,8 +460,9 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 		goto fail_sched;
+ 
+ 	mutex_init(&sched->mutex);
+-	spin_lock_init(&sched->job_list.lock);
+-	INIT_LIST_HEAD(&sched->job_list.head);
++	spin_lock_init(&sched->job.list.lock);
++	INIT_LIST_HEAD(&sched->job.list.head);
++	init_waitqueue_head(&sched->job.wq);
+ 
+ 	return 0;
+ 
+@@ -499,6 +502,9 @@ nouveau_sched_fini(struct nouveau_sched *sched)
+ 	struct drm_gpu_scheduler *drm_sched = &sched->base;
+ 	struct drm_sched_entity *entity = &sched->entity;
+ 
++	rmb(); /* for list_empty to work without lock */
++	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
++
+ 	drm_sched_entity_fini(entity);
+ 	drm_sched_fini(drm_sched);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+index b98c3f0bef30..20cd1da8db73 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.h
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+@@ -103,9 +103,12 @@ struct nouveau_sched {
+ 	struct mutex mutex;
+ 
+ 	struct {
+-		struct list_head head;
+-		spinlock_t lock;
+-	} job_list;
++		struct {
++			struct list_head head;
++			spinlock_t lock;
++		} list;
++		struct wait_queue_head wq;
++	} job;
+ };
+ 
+ int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index d94a85509176..79eefdfd08a2 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 	u64 end = addr + range;
+ 
+ again:
+-	spin_lock(&sched->job_list.lock);
+-	list_for_each_entry(__job, &sched->job_list.head, entry) {
++	spin_lock(&sched->job.list.lock);
++	list_for_each_entry(__job, &sched->job.list.head, entry) {
+ 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
+ 
+ 		list_for_each_op(op, &bind_job->ops) {
+@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 
+ 				if (!(end <= op_addr || addr >= op_end)) {
+ 					nouveau_uvmm_bind_job_get(bind_job);
+-					spin_unlock(&sched->job_list.lock);
++					spin_unlock(&sched->job.list.lock);
+ 					wait_for_completion(&bind_job->complete);
+ 					nouveau_uvmm_bind_job_put(bind_job);
+ 					goto again;
+@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 			}
+ 		}
+ 	}
+-	spin_unlock(&sched->job_list.lock);
++	spin_unlock(&sched->job.list.lock);
+ }
+ 
+ static int
+-- 
+2.49.0
+
