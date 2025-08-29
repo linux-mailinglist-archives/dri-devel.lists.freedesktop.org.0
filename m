@@ -2,40 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC73B3B704
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C54B3B7E7
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:58:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1147F10E128;
-	Fri, 29 Aug 2025 09:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCF310E200;
+	Fri, 29 Aug 2025 09:58:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BTSidfGI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7C3B910E1FC
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 09:20:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE1FD1756;
- Fri, 29 Aug 2025 02:20:38 -0700 (PDT)
-Received: from [10.1.29.20] (unknown [10.1.29.20])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1F6B3F738;
- Fri, 29 Aug 2025 02:20:44 -0700 (PDT)
-Message-ID: <2b076729-8a34-444c-8ee0-44a08f5a2731@arm.com>
-Date: Fri, 29 Aug 2025 10:20:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: assign unique names to queues
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27B4E10E12F;
+ Fri, 29 Aug 2025 09:58:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B7CD143CFD;
+ Fri, 29 Aug 2025 09:58:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2367C4CEF4;
+ Fri, 29 Aug 2025 09:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756461508;
+ bh=KDoth+kAYRavO4Qft6ekvmhD5j99ml0dSojmfq8vU8E=;
+ h=Date:From:To:Cc:Subject:From;
+ b=BTSidfGIfGEaKs845+2g1h/e9KQwEYEK4MCB9j9nLwkIiRXFkrPIAjdxvDE3gpAG1
+ AM8v7XeOg+dwMb/oYM4edixNCUdRXv86BVnGy7QKFdJPW75tdeQqxd79mRUdVSsVM+
+ Xn+AJalHJKqPaHCKLF4A8pY7vigaoMs8aqK4nCJFSGK4R5llkIU6uCOYyMGCpNouHY
+ PUOrgGVS/3Lqoti7i5ah9Ftut27MqyL+k4wQxnSUjW9dhlcKvvFc8i18V/7fKZJUSG
+ YOklE++ycqz4qQ5c2+pzyWaIe+j1Ukcubmae8bvdiWSJLIdaCD1Xgz6TZ+qp0tfpan
+ V0ATO8b+2N0AQ==
+Date: Fri, 29 Aug 2025 11:58:21 +0200
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250828200532.3534201-1-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250828200532.3534201-1-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH][next] drm/amdgpu/amdkfd: Avoid a couple hundred
+ -Wflex-array-member-not-at-end warnings
+Message-ID: <aLF5vQv9P_vp0R6_@kspp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,119 +61,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2025 21:05, Chia-I Wu wrote:
-> Userspace relies on the ring field of gpu_scheduler tracepoints to
-> identify a drm_gpu_scheduler.  The value of the ring field is taken from
-> sched->name.
-> 
-> Because we typically have multiple schedulers running in parallel in
-> each process, assign unique names to schedulers such that userspace can
-> distinguish them.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-One nit below, but otherwise:
+Move the conflicting declarations to the end of the corresponding
+structures. Notice that `struct dev_pagemap` is a flexible structure,
+this is a structure that contains a flexible-array member.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Fix 283 of the following type of warnings:
+    283 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h:111:28: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
 
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 32 ++++++++++++++++++-------
->  1 file changed, 23 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ba5dc3e443d9c..26616b6cb110d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -360,6 +360,9 @@ struct panthor_queue {
->  	/** @entity: DRM scheduling entity used for this queue. */
->  	struct drm_sched_entity entity;
->  
-> +	/** @name: DRM scheduler name for this queue. */
-> +	char name[32];
-> +
->  	/**
->  	 * @remaining_time: Time remaining before the job timeout expires.
->  	 *
-> @@ -3308,9 +3311,10 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->  
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args, u32 gid,
-> +		   u32 qid)
->  {
-> -	const struct drm_sched_init_args sched_args = {
-> +	struct drm_sched_init_args sched_args = {
->  		.ops = &panthor_queue_sched_ops,
->  		.submit_wq = group->ptdev->scheduler->wq,
->  		.num_rqs = 1,
-> @@ -3323,7 +3327,7 @@ group_create_queue(struct panthor_group *group,
->  		.credit_limit = args->ringbuf_size / sizeof(u64),
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
->  		.timeout_wq = group->ptdev->reset.wq,
-> -		.name = "panthor-queue",
-> +		.name = NULL, /* will point to queue->name */
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 8 +++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h | 8 +++++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-NIT: There's no need to explicitly assign NULL here.
-
-Thanks,
-Steve
-
->  		.dev = group->ptdev->base.dev,
->  	};
->  	struct drm_gpu_scheduler *drm_sched;
-> @@ -3398,6 +3402,11 @@ group_create_queue(struct panthor_group *group,
->  	if (ret)
->  		goto err_free_queue;
->  
-> +	/* assign a unique name */
-> +	snprintf(queue->name, sizeof(queue->name), "panthor-queue-%d-%d", gid,
-> +		 qid);
-> +	sched_args.name = queue->name;
-> +
->  	ret = drm_sched_init(&queue->scheduler, &sched_args);
->  	if (ret)
->  		goto err_free_queue;
-> @@ -3540,12 +3549,18 @@ int panthor_group_create(struct panthor_file *pfile,
->  	memset(group->syncobjs->kmap, 0,
->  	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
->  
-> +	ret = xa_alloc(&gpool->xa, &gid, group,
-> +		       XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> +	if (ret)
-> +		goto err_put_group;
-> +
->  	for (i = 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] = group_create_queue(group, &queue_args[i]);
-> +		group->queues[i] =
-> +			group_create_queue(group, &queue_args[i], gid, i);
->  		if (IS_ERR(group->queues[i])) {
->  			ret = PTR_ERR(group->queues[i]);
->  			group->queues[i] = NULL;
-> -			goto err_put_group;
-> +			goto err_erase_gid;
->  		}
->  
->  		group->queue_count++;
-> @@ -3553,10 +3568,6 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	group->idle_queues = GENMASK(group->queue_count - 1, 0);
->  
-> -	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> -	if (ret)
-> -		goto err_put_group;
-> -
->  	mutex_lock(&sched->reset.lock);
->  	if (atomic_read(&sched->reset.in_progress)) {
->  		panthor_group_stop(group);
-> @@ -3575,6 +3586,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	return gid;
->  
-> +err_erase_gid:
-> +	xa_erase(&gpool->xa, gid);
-> +
->  err_put_group:
->  	group_put(group);
->  	return ret;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index ddd472e56f69..24f3e5cfbe5d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1155,9 +1155,6 @@ struct amdgpu_device {
+ 	/* for userq and VM fences */
+ 	struct amdgpu_seq64		seq64;
+ 
+-	/* KFD */
+-	struct amdgpu_kfd_dev		kfd;
+-
+ 	/* UMC */
+ 	struct amdgpu_umc		umc;
+ 
+@@ -1320,6 +1317,11 @@ struct amdgpu_device {
+ 	struct mutex                    userq_mutex;
+ 	bool                            userq_halt_for_enforce_isolation;
+ 	struct amdgpu_uid *uid_info;
++
++	/* KFD
++	 * Must be last --ends in a flexible-array member.
++	 */
++	struct amdgpu_kfd_dev		kfd;
+ };
+ 
+ static inline uint32_t amdgpu_ip_version(const struct amdgpu_device *adev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 33eb4826b58b..127927b16ee2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -107,11 +107,13 @@ struct amdgpu_kfd_dev {
+ 	bool init_complete;
+ 	struct work_struct reset_work;
+ 
+-	/* HMM page migration MEMORY_DEVICE_PRIVATE mapping */
+-	struct dev_pagemap pgmap;
+-
+ 	/* Client for KFD BO GEM handle allocations */
+ 	struct drm_client_dev client;
++
++	/* HMM page migration MEMORY_DEVICE_PRIVATE mapping
++	 * Must be last --ends in a flexible-array member.
++	 */
++	struct dev_pagemap pgmap;
+ };
+ 
+ enum kgd_engine_type {
+-- 
+2.43.0
 
