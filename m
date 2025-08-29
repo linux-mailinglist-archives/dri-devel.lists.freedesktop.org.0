@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C36B3DAAA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2365BB3DA96
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:02:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A4710E391;
-	Mon,  1 Sep 2025 07:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5127410E378;
+	Mon,  1 Sep 2025 07:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HgGUNA9J";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m6Xy4Vfm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A7AE10EB68
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:35 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2490369145fso5611735ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:35 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D22BE10EB69
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:37 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-246648f833aso11818455ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756454135; x=1757058935; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756454137; x=1757058937; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GkZ2LL+fO6oH27E7YsqUKpWK9h0JvMFOl/W1FWHyGxk=;
- b=HgGUNA9JIPte8s7C3s97DG9tzTyC/xBeSz+JXK5+o4oEWSRRYEsMOtnlzzQvpDYNdw
- 4h1FvdwwAmR92XWqKw2RdEPTeoihqOSlDlJdwPKG0v5NBhVV5U6vf5lQ4/z98H3eni9n
- iemcFuo5wKYkEpStTYIIJdCjqKSp4GwzbMrd2eS5QSwJFK+euxqFMmH9RkqzpEmLx0HG
- wwb/GlRFfCW5PRX47gG+2PUZVRqR2kq1shN0m6AUfmfCSJ7ZH+A+wgVJ+5OYNqbzCrm/
- SVB2ZuQmNMIFLROiUIRLOxfQkPd5j+EvgM3nfgk5BNxqRdxXYT7E4Jk743sEXv8uWnv5
- 1HmQ==
+ bh=0koFSnJrv2UowuMhMeqtiJIslvN7BbZv6mHXQ/mKo7A=;
+ b=m6Xy4VfmZZo/6LZdChjt1q1B/+Yokzbdgcs0MVB41KDHyZGtqtUO+tAQxYQ1EExBJw
+ Oyc3Dg9M43GLaRS8UDyMxU/2ezPJPzuWEauRfyQQh3nKsOeEpqtCU6svehKrKeSrw4ka
+ hwx4V9yHXrJQp1hfzbfybGC2Dc5Xfj0rHJMowmNcAdj01VVc2O0vH6cNONfgP/CEvCol
+ HmGwIzZAPBypWMxsj5cqChqtWjPcUrkL5xG+27+OCV4/TN6RDf9AdBAB6YvVs3fYMSqQ
+ zu1AAjfQpewVPDKWOxt0JhtBzUdfWaTpBA9Atg+ZXtNmyqqD+gxD1re2md6t47WqjIBo
+ bQWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756454135; x=1757058935;
+ d=1e100.net; s=20230601; t=1756454137; x=1757058937;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GkZ2LL+fO6oH27E7YsqUKpWK9h0JvMFOl/W1FWHyGxk=;
- b=q6+xOrUUtKZ6jgFs77fmyyIoKeGLRlb2cnMLjqzWOCHbusoV9ofKx0J75PPGapDHvC
- ztLzjvQBEGf5QCwi3gL8XU363Lf7KGgiFdgE+5O1cR1XgOY/aHqF3sl7yyyLitDwEJS0
- evH8cFynLt8IucVCe+bpDaKPmqBxxD3WBfvZGgHCagnzaUXC1bYaXExV9eKBDRPAwOHd
- IEx6JNjz4aDhRTspz5DG/Ec7lSuBUh6NxlDpCn1AxpuEXVg/KWQf0yzD8DkYv/odrVES
- ibxCFOAS/wB/dl7MmsU/CP7fP0hNpTIdD2V6tJFEqfikpKg9falTz0NF+kGLJ0ycIv9S
- nmjA==
+ bh=0koFSnJrv2UowuMhMeqtiJIslvN7BbZv6mHXQ/mKo7A=;
+ b=JCxl9nS/xWAZlgfrZ9CJD/5C21nY6B2Ba4OkQ/8ScRRNiGdi354oX9Lkvzxg/Fzlh1
+ JNk2zXb4mopTTEeawCoRFan4F6cUiomsULTTkSRK/30h/xpuT/i8oUh0zYH2fV1dqFJ3
+ Vlb6Kj6IJUTzuoQS6U9fTEkhHNSFMMsv/FSqZPbF+mDxHvzclm8b6Zw7slLV+quLOkmX
+ x9gyR9N9LYrXdrP+elwDRZExTCTJrgMat4yHOZKmi3EppuTXHhucYs7MTaIGnStCoYFv
+ oa0zggdyt43vBMc4W27RmvpFqAn8PA1pU8P1sQ5xCBvI6l+54cu9y/fF5yLBG7Oqr85n
+ n8JA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1OoCO1cUMZzfb1OSX5mBXcMHeX2dHEWP1gsKx3qMgEwP1xbwulRje6ewSgXRILEFI1qh8juCU6d4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyguOFL6iYMDz/NE6SqgM7NMhJt3Q/1Avmgt6haYZ6YcQQIxqW7
- xvY4DcN17216gDExeKyGhOvJ3Fgq2S3AWxo4WTP2fwjEvcqQn1CWRyF2
-X-Gm-Gg: ASbGnct3GCPOTAnq6WnYicBpUx2ytRLpdwxS52Pwi+h+N73Afn7/2aYb0aVNigxKfr0
- R8YVQitBmXmD3nH2sglTp//DFOxs4VBPTd3IlGmMwWH97iZ9othzKDTj2qnSZ+AG59Ac9GuUTSK
- C446I022Rex9fKJhPKyxWVjF4c10rjC3OINXtBfFklwVvuebkkLRPgX+4nx/F+g5v0rw9f0B9ZD
- nohUCMJXyEgZzTEUB2qLApKXlkfO7KhA00UF560qsVqACoKE1quKx/vPdGBU4bVLuNaw4jNktTQ
- 1sKVIth7Fuv5Tmz/WJVOQSFmolfPOSVDOmXe+43LfOxcVcIqtazCj9rGJhdjw2JBXq3odXYtGKZ
- HwZZFHOBILGLQoVSDlTNHo3ym1AxHJyNmFyzI
-X-Google-Smtp-Source: AGHT+IHJ0etjvptegteXgkUWoFIILA9nIajrzCKr99WRD5OzNxzSggv2jyDezns1lof2dGSUjRUcTQ==
-X-Received: by 2002:a17:903:4b07:b0:249:2297:c424 with SMTP id
- d9443c01a7336-2492297c777mr3315565ad.15.1756454134776; 
- Fri, 29 Aug 2025 00:55:34 -0700 (PDT)
+ AJvYcCUJn6/BsKFcG9S70fXXYJybcZVHlKKh3kQZULNVusE9AANKSzeZSaEIwvF4yc0rJK3ddMXZPpTpP8U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx5u+1F/TL7F7INwjbz+RqDlQFw7NQCTdYJrHksNYx9sZYll0SN
+ 3kf9NesLpF20f0fmSFKvM38kP16jF6Zyx++ysyqcrVrOx0VSyFZS7DJI
+X-Gm-Gg: ASbGnctJa454uY1ioJrRMEgpmne+KNPTKzYJznQFaNvZ3VhSEFhC8s7HgnTlyievAiH
+ Bcqh6Khv3L75DJ/NVLi3UBIM5uEBgfMkJrQC0pRxIpperO7f8uSGy4WauZ6F1tbhnKJvJ0wu56x
+ 14HFUUWWNcYHbXaUIe54bhgBMxeEdOj7gdAQ9OBoYuR9sZksCpCi2szA8AGz6B+p91aFd21IAkO
+ d+sii5oApnC590ZLxvg4kj2THSCD2cE/ByU6Zh8cRjTbBFX90QeNbOEXUCfoUWevknWNzlT7y+c
+ TxXQtBw87oqMP1WmQirP5HWlkIHUxijb/wHqTt6Eml1zP45C+UG4GRbkOhMaUx8V08IdGqDyudd
+ Zfh11BcFY3gEtCp2/P8f+/C/tuw==
+X-Google-Smtp-Source: AGHT+IGNjBdTFArxVwVJhrEyw48u+wDRa+YP0G1KaeCtmArj8lT7+bi74vyrPcJB8r8IUDLpPVmmVA==
+X-Received: by 2002:a17:902:e888:b0:240:a54e:21a0 with SMTP id
+ d9443c01a7336-2462ee13154mr358734785ad.19.1756454137188; 
+ Fri, 29 Aug 2025 00:55:37 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24903724ec8sm16944365ad.41.2025.08.29.00.55.34
+ d9443c01a7336-24905da26b9sm16688215ad.93.2025.08.29.00.55.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 00:55:34 -0700 (PDT)
+ Fri, 29 Aug 2025 00:55:35 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id EF6DE4444CA3; Fri, 29 Aug 2025 14:55:27 +0700 (WIB)
+ id 2F80944808DE; Fri, 29 Aug 2025 14:55:27 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,20 +140,20 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Bart Van Assche <bvanassche@acm.org>,
  =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 02/14] Documentation: damon: reclaim: Convert "Free Page
- Reporting" citation link
-Date: Fri, 29 Aug 2025 14:55:12 +0700
-Message-ID: <20250829075524.45635-3-bagasdotme@gmail.com>
+Subject: [PATCH 03/14] Documentation: perf-security: Convert security
+ credentials bibliography link
+Date: Fri, 29 Aug 2025 14:55:13 +0700
+Message-ID: <20250829075524.45635-4-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
 References: <20250829075524.45635-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=839; i=bagasdotme@gmail.com;
- h=from:subject; bh=br/gH56HVzhrfYYqrTP3c/xceN5BBvTsvI3pBYQ/yVo=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY14UOzeckV2lWTlnxluBwiWvpt1jF+xvT61/ejpwa
- tSzw60XO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjAR0x5GhlnvrvsFdd3e6TjZ
- g2FTa8uK3U48C+++2yu+oPH13XO8khKMDP0RbvPq2Hk2WQbMuFkV7P77fsRatst+E/e4qhe89eI
- LYAcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=bagasdotme@gmail.com;
+ h=from:subject; bh=OYt2QegR/+u0q3CRKm7Zg38q7SY9D/3L6tdzv43Jflg=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY17WLH+uxHuD5TvzhcJo65MVRz8evf+ht/Kg8H3eu
+ d3xR8redZSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BeAmZzL8r1qVsXFN0aQnhlcd
+ HbX/7Z5y0OBc87cVSY827u/OC7GTfMTI8J1f/vkt1YY1nGfMLy+IOlnmXaYQu3XLZy7bCT/2T+u
+ /xQUA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -173,24 +173,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use internal cross-reference for the citation link to Free Page
-Reporting docs.
+Use internal cross-reference for bibliography link to security
+credentials docs.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/mm/damon/reclaim.rst | 2 +-
+ Documentation/admin-guide/perf-security.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index af05ae6170184f..92bb7cf1b5587a 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -298,4 +298,4 @@ granularity reclamation. ::
- 
- .. [1] https://research.google/pubs/pub48551/
- .. [2] https://lwn.net/Articles/787611/
--.. [3] https://www.kernel.org/doc/html/latest/mm/free_page_reporting.html
-+.. [3] Documentation/mm/free_page_reporting.rst
+diff --git a/Documentation/admin-guide/perf-security.rst b/Documentation/admin-guide/perf-security.rst
+index 34aa334320cad3..ec308e00771427 100644
+--- a/Documentation/admin-guide/perf-security.rst
++++ b/Documentation/admin-guide/perf-security.rst
+@@ -311,7 +311,7 @@ Bibliography
+ .. [2] `<http://man7.org/linux/man-pages/man2/perf_event_open.2.html>`_
+ .. [3] `<http://web.eece.maine.edu/~vweaver/projects/perf_events/>`_
+ .. [4] `<https://perf.wiki.kernel.org/index.php/Main_Page>`_
+-.. [5] `<https://www.kernel.org/doc/html/latest/security/credentials.html>`_
++.. [5] Documentation/security/credentials.rst
+ .. [6] `<http://man7.org/linux/man-pages/man7/capabilities.7.html>`_
+ .. [7] `<http://man7.org/linux/man-pages/man2/ptrace.2.html>`_
+ .. [8] `<https://en.wikipedia.org/wiki/Hardware_performance_counter>`_
 -- 
 An old man doll... just what I always wanted! - Clara
 
