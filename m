@@ -2,73 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1727FB3B0CA
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD206B3B100
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:23:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7C110E090;
-	Fri, 29 Aug 2025 02:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94EB10EB2E;
+	Fri, 29 Aug 2025 02:23:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JFn4yMSU";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="p0qwMLOH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D655810E090;
- Fri, 29 Aug 2025 02:17:42 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-afefc7be9d4so65605366b.1; 
- Thu, 28 Aug 2025 19:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756433861; x=1757038661; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2zNq7nTrPyuvfyWDRfXFepylMjeAYocF2SPbgXmN+NY=;
- b=JFn4yMSUJ77p6/W25emwJ6KEmhoREUdb51V/vN4grIR0xLEtgybOZpBawFbNLFKTNq
- z8tdQ6v+JUPDD3gS3TbzxzpxAllelsVbLYI09EZAzG3gR1dJpWik1grXk2jQ9SHuywnc
- iQL4z1kI2NDWnGH6+y5HcaEUVeeys9cABWg/MKJEgGmowoqmSX0h2jExPLDABLwrYGjz
- NyM2GLZ+FGqmF0kIL5Hfrgn76YfAC8DMNKHmV0NfYwEDe07GKwtF868faHmY80BRCCkf
- mMh+wgAAkBda+b3spYe9WdVumFeROCTSP4US3LC9PvWEuB3tZELX8iWaryKXHI2AblUB
- dAYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756433861; x=1757038661;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2zNq7nTrPyuvfyWDRfXFepylMjeAYocF2SPbgXmN+NY=;
- b=tYGkXZLPCh47N8eZlquXmaV6WsVuBtr0NuEI645GINdhME1sJnKWNrvbZWrg3t9rJD
- PqMDsfUm7CjEIkv0Cgl6YpO8KU4+9RdrrPgFHYQGZbGXKLQ+M//EpqVuHKDryr6yTYjZ
- b3YBM/jJ5rmrzEWCJfE+QozGK1xEetTGYUFQBOAgjCwUROT3Eld2ZdZIXqE4cy0GA1BD
- uDKsyqsY2FIkTuuLO+1ew47JarhnImgJVXrdw5vjxC0lGSsOFuXUG4XF0Wqc2upQ17z8
- 9AgMhgCQ41pJvKNDMDQO6DIKaR0O4lri2GxQvVXBltu1ys6tdlUG9enaLMM8cx0TZe9J
- uBxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXke+YwMn8Mfdk87DJahx5q5FNj81a0MONLuOgLH1P2X+F7FAgfkivCmzelvU3hQyJRBOtvfUN+@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1f7kMD6tNv0LMo9uS2iIHGUdFeeuQtRmrtQwSEpFl7z5Ifk4T
- MMUd9TrGl499b65XiYpwd63C19Vn4x4olWmf8/zh/ZAQNcU0tpvauk4aHns+fiyHS8t51H1CEe7
- D5hWm96Xd0pigA7GJ7MJZDUzWNFP5ztg=
-X-Gm-Gg: ASbGncsTLSR07PWfWOp+Sp3or2NNS3A3meHqJguKPwAhyBC/olF/Rd4d5OqtyBfQwZV
- MVVGZurnIfqsy8/kcmVMA0Gsl0Tq0fk+j06Tbtu+IhWcc0ssHaChZWqX6l54ctAOnKsJAZLZh7I
- EosWKQO+j0vu6C1q80LGh4IByK+9Llysse/BMsSi8N9oVWDc7zEkr/X7AFApRa+pdXNeqUlWfpO
- MQw2Q==
-X-Google-Smtp-Source: AGHT+IHXFQhjHCz4WRh3Z6nwd1kt85DmecDfzWJx/U2I59eH5vdudxcMKiNPeYrOPOCwuNRjHx4BglqZ4CqT80/chds=
-X-Received: by 2002:a17:907:e895:b0:afe:d499:a450 with SMTP id
- a640c23a62f3a-afed499a769mr567379466b.64.1756433861163; Thu, 28 Aug 2025
- 19:17:41 -0700 (PDT)
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8193910EB2D;
+ Fri, 29 Aug 2025 02:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1756434225;
+ bh=UHRA4gGEGjTWcsmrfjcfYxxL2gmHi/bqcEFXtmpy7Kc=;
+ h=Date:From:To:Cc:Subject:From;
+ b=p0qwMLOHs6YcbWy7GVJu/S40VlvyXA2q+nIZrB7rk1fTIINyYPUW71fiZ8xb9UKfq
+ UradhSBBhwCIQ66WBkxR7fQkusmpaChy5x25SDUDAiybqRePgOz+EEWoSToxFoIu8j
+ Sjb6rw/slXBoKYHeXlgg6b8s6W1JfrJgH2iv3p1G1f8YlW6GzZ+bPhyFGtRfKXV5wX
+ oa8ULY0TH6eypszEv/Qn5WO+dbvadQ+Wi8nHS+wqgsGVYR6IAzUIERPc7yGnoEu5P1
+ 0x49D3VMWsQ7V3oXKKvOgASq3hKwmpvonA9C53tTa7XD6Ykfe2ALPWlgdB9K7UqJqT
+ kr2BnkagCWgww==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4cChsD6Rjzz4wfl;
+ Fri, 29 Aug 2025 12:23:44 +1000 (AEST)
+Date: Fri, 29 Aug 2025 12:23:43 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20250829122343.4b31642f@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20250828205517.1553768-1-airlied@gmail.com>
- <CAOFGe94kJQfGirjjyDCAD-Ryc7N=U4exd10rTWy_YhiemkZW3Q@mail.gmail.com>
-In-Reply-To: <CAOFGe94kJQfGirjjyDCAD-Ryc7N=U4exd10rTWy_YhiemkZW3Q@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 29 Aug 2025 12:17:30 +1000
-X-Gm-Features: Ac12FXwILmhT4Tjt0Pef5kwUx2JqQ_VQ8dGk_ebDd7LFjxOhqYVeL3eMfC6KmUk
-Message-ID: <CAPM=9tw8fsJHEBJbahACLqmjVOFxLqx1LeLFosUu-EdAAYyCYA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] nouveau: fix disabling the nonstall irq due to storm
- code.
-To: Faith Ekstrand <faith@gfxstrand.net>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- dakr@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/dbmPQnu+I=eNxOB/okb+t/_";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,25 +59,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > +}
-> > +
-> >  int
-> >  ga100_fifo_runl_ctor(struct nvkm_fifo *fifo)
-> >  {
-> > @@ -599,6 +604,7 @@ ga100_fifo = {
-> >         .runl_ctor = ga100_fifo_runl_ctor,
-> >         .mmu_fault = &tu102_fifo_mmu_fault,
-> >         .nonstall_ctor = ga100_fifo_nonstall_ctor,
-> > +       .nonstall_dtor = ga100_fifo_nonstall_dtor,
->
-> You're missing the corresponding update in ga102.c, which is what
-> actually covers most of the drivers.  Honestly, I'm not even sure why
-> there are two files. They look identical to me.
+--Sig_/dbmPQnu+I=eNxOB/okb+t/_
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Indeed, the r535 change is all that really matters since it's the GSP
-path, and we shouldn't use non-gsp on these paths.
+Hi all,
 
-I've fixed it up anyways in a v2.
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-Thanks,
-Dave.
+drivers/gpu/drm/tests/drm_exec_test.c: In function 'test_prepare_array':
+drivers/gpu/drm/tests/drm_exec_test.c:171:1: error: the frame size of 2136 =
+bytes is larger than 2048 bytes [-Werror=3Dframe-larger-than=3D]
+  171 | }
+      | ^
+cc1: all warnings being treated as errors
+
+Possibly caused by commit
+
+  e7fa80e2932c ("drm_gem: add mutex to drm_gem_object.gpuva")
+
+I have used the drm-misc tree from next-20250828 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/dbmPQnu+I=eNxOB/okb+t/_
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmixDy8ACgkQAVBC80lX
+0GzsnQf/aMPMRMWvoXVvkr/0OOseZGxrEsTbLfDhThTKjMWEWKrq3PVFUnVyzWzL
+iqanDcSr+7NHIRP+S1bKH/alnMdSdtYpwYUARwfEJUVvTpWmFkjX8FM3A52r6ahs
+uQhPHzZN6AgnYHv1H6aKg3ZthwAMSt2OO+pRZRVDkbJNZNbDctSloJ+s3oUNAXNC
+7eSO+MP35OaKkz6VklGCoQfRhJXonAZeQoCdECi+U7ybdYk6kgbOP0XXprWCmTot
+/U2bBYKlTli++XtKiTvjnEG9vAJGde7+thjHEDFKYuWUwaaOHDGlevWgaZMOm6f1
+WzSFbbBA1nWC2h9HOiQyssb6GjeYxA==
+=RbTf
+-----END PGP SIGNATURE-----
+
+--Sig_/dbmPQnu+I=eNxOB/okb+t/_--
