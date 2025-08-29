@@ -2,86 +2,191 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEE4B3C466
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 23:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6ADB3C48B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 00:01:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F10810EC39;
-	Fri, 29 Aug 2025 21:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B2B10EC3B;
+	Fri, 29 Aug 2025 22:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="sKALfVV/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J6BDAtlB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic310-21.consmr.mail.gq1.yahoo.com
- (sonic310-21.consmr.mail.gq1.yahoo.com [98.137.69.147])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13F6810EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 21:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1756504559; bh=2f6BfIkM46QmDlINovTYFl8rCojhvrz4JFGm7r4wsv4=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=sKALfVV/mrARhZ+mHEwY5w5S1m6/nGuHo7J3p192L0wNFl0Sn5gdCZY6Tp8Ru2izcn/MDUQi+0rF3IbVhLaPys5qhrbreD4xf0v9vUN2ybxx+s3cQSpSg7ZhH/lG+PdvW8AB8T4MyAdHJFOeGpiLR1Vjcw7UGj6MT0RDTFEFvj9892IRLKyCaFLBSy1ojk3HJbcG6OGVHb1HoGCtNB4JFNrgnc5VGlHEWsU7FHJ5B3kPjtEteG4RC8c/Owde2lCpXUGPlcGzdsFuKtOa+U4defgOMhFSZhZUMbxP/dK57zcM+Y/Xki8DKohhtL2Xyti4Icvm9+lLHRKCN7tgetyUqA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1756504559; bh=7j2ObEb7TFuMTJldCgmroioAWucG9cTn7fbtxQk7Odr=;
- h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
- b=V+WjTTKCqeE/o89tWB5rVuOA+ch9Nx3Kx1oFrWaK6yh/PcoiMpFNbIpJcOp5Vo2/PrWRaBBIlcgPgDym2Y+4EN/zc42/kweBEgS8Er0PH9v+NOE+UIe8zEIYlDfj+b09botk++KG6OwW7995u55g1xUpRHO9Tx0vRlfYJILgkbPVpKNTXYGWmB8cnYOrFu2DVCIRJqQvRpG+/TaGo6OVCweQLNIRV7pURuXWnOcnsZwKCtK/vZ4PmuKcByL2TAcGbfuXptHcutncvyPhKYSwGFR8tw9Aey4VPomo6HVK1B2XHW8/Ox610jBq9Gu7l1f9ni9dcFACz4bKA2hrgq5wnw==
-X-YMail-OSG: Xbsj_rwVM1l2WLwrBh_IOgpkvYKJ9JxAJCnbzmAEjbpoaol8Iscy8VU4MpbZuYG
- FWCyMn_VK0emN_fxc_U7Nv4_uBuJn.LWKk_ZOu9efO2ISL9ppgAAXWLiLze3U5y_2pFPxtdReTfa
- YqiLP0Qfvqvl9vfL4B2vAWl7MX1QQK0m0k9hIDjXTTfbQ.iUc2X1D_eT96u8ZykgK379z5EoKlYr
- 5f27b7K.oF2tf8lehhnLRchwxMpHdLDO6HsoNdC_.h.1cvFGVbfNxRSkSIil0Uslsys6u8PR3VII
- 2AqHw1iWyjqpmlgYsBdwc4favwMS2kb1zIeQgb0gpCe5dbXEOCguQpzaJJDVPpp5QGe0ndYJC4yd
- tkcGIQP9q8cmV6.9Q3E9er.arm6LCWELTc9d0QwxouOjSgNpMjI.0CkYyVVsnJ57JAnDOacP5usl
- .r8tS6YdDzF.uUUyrawB6zrXfjgNaO9zoY53Dr7eM22tybQDHfTw1VRU16_1ktY1P16DNjCYLpYz
- a6Zw6i_SA3.mmkWfh12lAlpZI_8AmwtvXA2b7xU.k7252g06RCYgul_wl4uJWI.H.fDx.162Amzi
- P3OKzMmmpJgVK6EZcZfOmqzqfzBb9tX3irZEROh77LksCV2ngyJLVd3BVvQg8A0pNHpZ7j76LzOF
- P933sgUIx9s2elPCMx9FrqvClbDaNY7GyDg80R6DvzndA3jaW_alyekXRc3VhHOI0DvX1YqrpHDj
- bhgmpTJc7bVOROyzd4Epr3iTFt2tQJp3TF960PUCfMGXoJf0CiGx7344XZ0zSvBOt_PkcdJSXb.t
- deg4DLcWD.2FVAq.tQ5mPh9itljxusIQSppNIExUa46RYVnn2rsTGYxYdWqpgMx3N25Y320Jo5Wx
- 6a4cH72G9Z1nvkim7UVZDj8Gq_lFhw4KPBY_0XZOkZ9AT_9D6Dkes6v2yvdDGg215KXSlZ8bXG2u
- nxx3ya6BoC_iXWi51_2Kw8B_IpblyslHBqGpUjP15thydGncXoTFqZrdI.o0W87o1AVfSgv4tOk.
- j0XJQWccWJ7eYNyPRC4rU4GjrvnrOd4W02wQkrHsP7GDhgRhZ8ueQkhYa9UFOxrbuFBAcw6rc4Jt
- tPcNGY9Zf82sSPV7Ic5rmdbc21xK7BLvrfa3cXmN_QtBAAx8aEEcCqh5QQ2WMX1wkX2DZJKMejjz
- terkLp5qexoDE_9BPkiV.nWdAtQSwMzsKDPIuT0rMkzoCYNWk0htIGiu4qHFss0lVpdIUk5x2cQH
- AQ2CQ3EaALrQBcesL3bx2_kr0rD8hG2uGWqCUE3baCm1RFb6alxY9jQ5QPluuxIHBar6XUI4ClfF
- mSY25f7I2ZV0veqiJT_6J8mSurKK4XMcz14LcipLiSqCbEk9im4PvTgOCVEOrsBX.q0YdR6yVkLR
- e3uPLrrWg4tMZaTG.tnq6O_zTq20ywdkNsWXV9PQ5rSnMFUKAf9298l7IHgz9pE1gpaoB2lzpQOG
- xDgzt4WjGRW6svO9DVc5rLC2nXQ8DdCQqi27vQMnGztwi9EOt6Nge5u88b5.D7E_t99Z12lGVUjb
- d5VnueK9NlzXgLuE94NYM6GO7eph.LH.INrl6v5Kl358cJ883vsXmgORdHrKTYOKhW6eVYXqajDq
- elGucBv1ZJvW2YIslHfPmp5yyzoSsYjpwCTXEGR1iNu8K50MsIkWSUuBiso1B8XeNQfecVwKWmCV
- gpdZ021rDMZn5wCdY85aLFv_Uff4D_o6TX_ksVyERE29SlccnY3W8Gju1Erbj6JaNdiWG8ys1k9I
- QdsluxmLkQX6bzkb1_Do1vervnGLlZ0F92MF1pEXh27XMqoNOFMB7kTkjOm06nyigSOgT..EbV.W
- rl0XoSxbi0sllXfqFWxFSywsl2hzLLG_LtWU7_ckJUp9RX0locusHzV11_lmxjoUbHdMtO1xCgiH
- 6xoguJA137wCh0PWgJTkHuK5SlNkkgo2ITW4G6MxH70Bsc7jCClfvGzVoJOlRFVVdyz5nrdEAZ94
- 5fWKVe0F8VkbD7WSeHOX6GU9MeOHOd03MLku7v2erZyrxKqkDoorajX7LQgvRNhPgWIAMjtrazqV
- q8MvzdJSifT0DOW5Z.EsbaYMHApBy.mlpFA0rEF41NEv3Xy4Q0CsVpkjuRelTkrgbuWwbHo3fd5g
- 1wMlunFlPbvt3QRFnIcoFo.UezabZnhsPlDlqQ_gg..axw9AaGxbKRDgjnwJcULlWeLxiwcocYpC
- Tpc7TgTPTf0POXgl9PKlQgELyTUkXhtaV.tyQ8frAdkJ6oqH0HQQ_0y67
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 49948386-4028-4a6a-84cb-25f9ec076e16
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.gq1.yahoo.com with HTTP; Fri, 29 Aug 2025 21:55:59 +0000
-Received: by hermes--production-ir2-7d8c9489f-8n4zw (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 66d03f964ec0b6a1a22218baa273b900; 
- Fri, 29 Aug 2025 21:55:56 +0000 (UTC)
-Message-ID: <03c1feb8ab27f0ebd9add221fbbedc384deae244.camel@aol.com>
-Subject: Re: [PATCH v3] drm/gud: Replace simple display pipe with DRM atomic
- helpers
-From: Ruben Wauters <rubenru09@aol.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Ingo Molnar	
- <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Jani Nikula	
- <jani.nikula@intel.com>, Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Fri, 29 Aug 2025 22:55:54 +0100
-In-Reply-To: <20250818193553.2162-1-rubenru09@aol.com>
-References: <20250818193553.2162-1-rubenru09.ref@aol.com>
- <20250818193553.2162-1-rubenru09@aol.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A01510E215;
+ Fri, 29 Aug 2025 22:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756504873; x=1788040873;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=ilhgFdrOcOBdllU5rdRtu/MjtrtgvD8szp8yBULPajE=;
+ b=J6BDAtlBl4wS1q9w65paKx754wY7HUQwCgTvlFal9MiwAIrM/cTrHEVF
+ oYQff4HqrTKhIyM8PrrAeRTxLsB9Qh17nxyYzij7bCdriNPVTp1bNZKZz
+ pvkp1q+kZDMI4yWWmikjsTWMw0oxzDJEjd48ycCWvXcFAas22NDF778Qi
+ DvddAq+L4KG0rVBAEiwdEeEIyK2wo9fbo/t9VfqxP454tsbZ/5QXzKy2D
+ 04PP6y0qC5GQS2P+pdOjZs5byfLNS/BGSIQ4iX3AlrZgPrwDNoGmsxDWa
+ OyNvXINHcVM+3Q8pCJ7V19USa3BXXDYWH6iC47A3knhGxWyoDMrV0X5lu g==;
+X-CSE-ConnectionGUID: aXlC6oVtQfKdZPIy9q/5ag==
+X-CSE-MsgGUID: p7U0OypAS+W7y6ndfEJSww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11537"; a="84204549"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; d="scan'208";a="84204549"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2025 15:01:12 -0700
+X-CSE-ConnectionGUID: iubHeJvlQ2qEL3JRHCCv1Q==
+X-CSE-MsgGUID: uEWS6LGCStaWX75Rk8ac+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; d="scan'208";a="175782807"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2025 15:01:12 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 29 Aug 2025 15:01:10 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Fri, 29 Aug 2025 15:01:10 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.60)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 29 Aug 2025 15:01:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LC3bbmVTQhIMCCzKuHTC9aunyOo3Uh5/8vRjV/IbresghDauBlhRDKRi6X8OQKPyvd6FPK1EU1cv2WKoqwvxemzqs4lk959+JOrafGAMCJ8m33j8c1BE96EONnFHq5uyZNkzgqNT2zOXgB7yHnzKYcZ2iyrXb27UPMlrBLHkPZjbgHj96udWJoat9czKR1H3m9by4WETCeFHofiPTcik0t/hGcAHwHFViVuLvGbtQLTGgKmqu/3HNbfVyHc1asrAbNRutTOofYLWFFL34bxvvGLUBGqFPKgX1ebAGEN4eKokgnjTolY8l7tqx7WCiP4hUl8uas/+Kk8bNx3grzLtxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KUieSqiV5MpnYyZHh5Srcde2NbWLQard/Hr3SqK+IuI=;
+ b=yFW+qAgu0ju0FIe4vWsqddfFlVIEJdgr0VZYlCBs3u5rf1ySG5bV1XRiJj/DLwvZ5sRSAcexJlDxR8es6w4dLsrNZ4tIoOwcizTcK9Kpz6rQL3ek9QZIdv1j+pL7nRTBxgs7BjRWitYsn32usjZ4aajE8oWGzDvPmyfwOUpBf0h9wJD+biUg4KostyEhwxPl5dKEoRQQyfyrmME4PIiahzU4PGkLDe0fme9KmkNSrM8cjHFkw4jTiDjiCxQCfaZKMuRTcHxEj/OoK3rg/dPvE6Ekm5J4s2gVRiz6yX3964CUk7a8Wucuz/6P2G+PMC7G5+y9WxCGBFMIc+B1S4YcrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6141.namprd11.prod.outlook.com (2603:10b6:8:b3::13) by
+ IA3PR11MB8988.namprd11.prod.outlook.com (2603:10b6:208:57d::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9073.15; Fri, 29 Aug 2025 22:01:00 +0000
+Received: from DM4PR11MB6141.namprd11.prod.outlook.com
+ ([fe80::31fd:4de2:2775:396f]) by DM4PR11MB6141.namprd11.prod.outlook.com
+ ([fe80::31fd:4de2:2775:396f%4]) with mapi id 15.20.9073.014; Fri, 29 Aug 2025
+ 22:01:00 +0000
+Date: Fri, 29 Aug 2025 17:00:56 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-next
+Message-ID: <nuejxdhnalyok7tzwkrj67dwjgdafwp4mhdejpyyqnrh4f2epq@nlldovuflnbx>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY3PR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::19) To DM4PR11MB6141.namprd11.prod.outlook.com
+ (2603:10b6:8:b3::13)
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.24362
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6141:EE_|IA3PR11MB8988:EE_
+X-MS-Office365-Filtering-Correlation-Id: 144d6f78-a6c5-46e0-d3c7-08dde74789c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|27256017; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SG0wTEVXcDZMVUVNTXpldFhvVEkvanhOQnlwbGJaekowSFdGNlYxS1BEeEtM?=
+ =?utf-8?B?dER6Qk1XVElCTDJrcjdaQmZHVlZwZjJZbjY4aTIrVUZOeFdvd2JTdEJSTnRk?=
+ =?utf-8?B?bG1RRjNUVGV5dlVLWTY3MEZ0REU3UXpxT0hQZWo3WDZlMFhJMmZGS2swQkti?=
+ =?utf-8?B?WjZENU53NkUvblR6a3drRXRHbDIxTW82aExrOUxsQU5ydXRCalZVSkVlNzlz?=
+ =?utf-8?B?OVFScDRickRoK2tNb1R2K3YwZ2dxTjU1VSttTy84bHVlcUI2L2wrNW9rNXFO?=
+ =?utf-8?B?SWZ1MWw1ZkM4OUZwQzdZNmlKUStKcEhrZDFWQjBaQXE0cHh0dC83N1hqRXgx?=
+ =?utf-8?B?QkRUQWpzaStRTTEyQXFlRURHNk1QSTNjSHhxSmNmbFZab2o4cDUxZy9kaHdL?=
+ =?utf-8?B?ZFlmd3g3U0ZFMnUzV1U2cXpJbzRHcG0zU3orR3ZwV0NqOHN3a1F3QkNsSENU?=
+ =?utf-8?B?QlUrMTRPWFp1N1hTMjVMaTYyQXduNDEyZ3JuaGs4ejVOcDJ0SDNGbGpzU1U3?=
+ =?utf-8?B?UngwcWE0Y0FuVGJmQ0pCd1lrMng4eExSZmd0SXRWWDNPM0VHeVZLbCtuMWpX?=
+ =?utf-8?B?MEdFZVgwdEdGaTVSb2x3SlUwTWZzNG5NcHJEbHM4elZMdzBCc2RXaktIckxv?=
+ =?utf-8?B?NCtoK2U2YWUyQitSYjJ3V0tqRC9WeURVQW9RRXZpdGdNbDJONGRoOHpSOExW?=
+ =?utf-8?B?dGhBNEVjVlJRQkxPeUJOcCtoVlBOZ2Vkb1FRUUc0S1hETEkya25zenVVc1lN?=
+ =?utf-8?B?YURDZmJGSnRpMFNjaUJUUTlDT0dXbDU0dHJsekFwdXFtb3MrWUlkOU94UWw5?=
+ =?utf-8?B?NkxrUGl5RGVqV2c3ZnBBOXNvYmg1TUZLK0pJbGw0VGM1dGZDVUthT3ZPQmRk?=
+ =?utf-8?B?N0lXWEdiWnNIQU9ENyswaFhYMW1jQzBJeG9XRENMUFpWVVNNOTBXd2huVmNZ?=
+ =?utf-8?B?YU5VdVdtZ2lnN3ZIL3hSbGlFaDNCdTBjVm5rajJwcVBsM2g0d3ZBSC9oWDVN?=
+ =?utf-8?B?d25uejFoRlZrcGpYU3BiNmVJTWxVWEtsM09Ob2ZzSjJYLzYwbXV1R1QvMlJH?=
+ =?utf-8?B?aFhHZ2V5NGxxT1BMdHNqOUt5OEJwSnJmMklWNUhEUDdUNFp5NTJoZVVzbzh4?=
+ =?utf-8?B?OWRyODFXckpTRUlNZitwYnVQUzN3L1Y2eWJ2SkNFWE9FZHk4c084blZ1N2FK?=
+ =?utf-8?B?Q2tBSlU2cVhTbklibllKYUl6NUxJZ2dHZ0U4RXBET2YwQStBYUZyTVN1ckEr?=
+ =?utf-8?B?c3NzUHNrQkRCbmtQblZNUDJVWGxGY2N2VnJ4OG41Z3Blekh4T053Tmd0d1JT?=
+ =?utf-8?B?aG1INGtxbDZjZ29JaHpIOUV4QVFMZmhON0lkNXdIdVprSGEwZ2lkOHN0alM0?=
+ =?utf-8?B?aTQ4ZVhvRVhpUTNqUFVPV1h4K2o2dXJDSVpzR0c0TjI3SHZjTGZQTTJqMHV5?=
+ =?utf-8?B?bzBncmJadytvaHUzbGpVcUZEU0NyekV1WVpIOHBZRmZOVGQ5WWdBR1pIc3lL?=
+ =?utf-8?B?cVV4NmFSTGFVZERyZ0xUbWd6RGkxQkh5ZUxDME9JVWZLYzNsNlVUMmY0Vkcr?=
+ =?utf-8?B?Nnh5QmZpOENGZEZYNktQQlNZVUw3NW55cmpJa2FGclNURFFEeDV5aHdacUVh?=
+ =?utf-8?B?eHNmanh2VHRneHBEakZFZ2psam52anRKalVXRW9ReWlEazdHSTJzZkJENkZj?=
+ =?utf-8?B?UGdXYi9CV0VyV3ZRN1dNZE1LZjdKdUp0enYvWVdOcmhDaVRRcUZwaWQ5dEdS?=
+ =?utf-8?B?NC9CMitNYmxUT3plRStVSGtDQ1gwaGY1NjloUHRVbTgyeHpIc0VlVEIrZndT?=
+ =?utf-8?B?MmxlREVpM3JCRTBSYzdGM2ppN2hXRW1qYkEra01zWG56Tk9DVTF3QkcrMzQw?=
+ =?utf-8?B?TEFkUDVBZVpxa0oza0RDVXE2Q2FwUWU4ajRpOEdYcTBkY1FXcW1MKzZXMkZ5?=
+ =?utf-8?Q?R0n1W4fARn8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB6141.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(27256017); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?elNHdmxTQ2hXQzZNOG5lQlAxZm1sdXBLMnFvRnpVNXFKQVBaYjVPME9yT0NU?=
+ =?utf-8?B?NC9MSVRVMFpwLzlzUlRFYXBaNDBRb25sUlVudC9CbXYrWlVjNE5BdUlRbVRY?=
+ =?utf-8?B?K1Jla1RVMXNPY1doaDlxUnJ4M01uK3pPT0VPUHVodzZKNk50L2JGbTR4R0Fj?=
+ =?utf-8?B?cTVsQWJqajJIMlhhTzlvVmFOczZRUXkvb0lmZXZLYjBBdExMa1R6ZmRWRmgx?=
+ =?utf-8?B?WHBheXo4TVFpa28wMTAraDlja1NDOWVJQ3FYc3Q4MFVJM2VBNHB0dDJ3ODNF?=
+ =?utf-8?B?RHdTTVFSOWFiT2cvSjArbWUxdlgvV1ljYzlOQ3JsU1JxWG5RUUMxdVkvNGEv?=
+ =?utf-8?B?d1dVbHVUUGxFeU9xcGU5L2FieWYrRVZGNG4yRDhBdkp2cjZxQWI0MklMZDhE?=
+ =?utf-8?B?aFp5NDE1ZFZvR2NrNldWbkZhZnZJY0UxTTFKTXVta2d5ZFRjdGNOdnJhSmNB?=
+ =?utf-8?B?WUlad1N3aUhHNEw0ay9MR2ZNQ3FnLzRGcXJNdmlLUkk1VzM4WXJIdFpTeHFi?=
+ =?utf-8?B?TDBOTVRXT0JkZDhacmtOV2t1eDFtU0JZOEFvMElGbVVtaXRzY1djbjJFTEtL?=
+ =?utf-8?B?bWphQUJaREpIUDhZV1RyRG9haDQzYjFpSkFsMGI5Zk15UHIwbzBYdlVFRExI?=
+ =?utf-8?B?Q0JVM1BJd1dsQ3pKelRybmxrNlAvaHNVaFZTOGRvaGJPdEM5WW96eHpIWjhM?=
+ =?utf-8?B?cEl5SE5nTVJjSHpSbXNydjhObGt2UzhhY2pJYTBGVGFMUXRTU2lLb3U4NUhX?=
+ =?utf-8?B?WVlXeUxmSzdXMmlUT2IwYmZTVFN5b0hrQjQ3eHFMM3V2ZmYrQnF6RjVMK3I1?=
+ =?utf-8?B?NEpJc2huNDRTd0ZZZ2xDdi9SWVVhOVRMTDMyNjRWWkZBTm1aWTd5VHZaWUQ3?=
+ =?utf-8?B?aTl5azlGQzE5Mzk5V1plMEtkR29wNSs0d3hEeHZjN0NodGhtM3JMOG15YkJn?=
+ =?utf-8?B?eDhTTEwyTThENWZmaWpsdW9vcndUODBsUXVDd1hFeDQ3WmwwUlpTWnhCU05q?=
+ =?utf-8?B?T2NHLzg2ek9raFY3cWMxajFNM3FYc2FwcHA0dVZCYkNpNUpVSVpWYnpsSzNV?=
+ =?utf-8?B?Q0VmeVdXa1c5RnhCM3djcmZZR0p5bmk5cmliRC9KVHg0T1orUm1mc3dhdWRI?=
+ =?utf-8?B?czNEUjhvZUJoQ3c0Z0EvWEtaSmRkYWZXUkR2akt2MW8yWTNYeGxjUXU4THQ4?=
+ =?utf-8?B?aFp0S0NHTFlPZEgrMDJIT0syeVBHREw4WUJXUDhGRUsxbnphNGwvNitZb3N6?=
+ =?utf-8?B?NUlEemt5V0dZcEVnZG1ZelNLZzNEbDFKK2U2c2hTWUFxaW1rQlFqakc2NGlB?=
+ =?utf-8?B?OHBsVnh3SWJWWWQxcVJwK091UU8yYVVFTjlaaXg0Uy81NWtkL3NPVWhqM2JX?=
+ =?utf-8?B?cWh0d0JDYXNNNHJ5c1pNUUQxZnc3NS9aYk1vTmpUY3NHWmVDSE1YS095V0hj?=
+ =?utf-8?B?MTRCSWNmYnJ3R0ZZdW9DL1VnQVdjNmNzTDFHcU42K2lOdDVIN0VSMEJBZzAy?=
+ =?utf-8?B?elFUZ3RhL3Yrc1packprZEZ2ZFdhSkJabndrMjRFUVBTUFFqdmRIT3Z0UVFw?=
+ =?utf-8?B?SEc3OFFRM0x5YmlldWZsYUd6RU1uN0RNNkUveDVUZkVBeEdrQ3hCQzMrNVR6?=
+ =?utf-8?B?NTdPaXNsNHdCWmNxcGNpWjVHOUxwckJoK0hUUjliUUx2L1doOHVhRTcxR2hj?=
+ =?utf-8?B?MVRxaHpBMm9pck1hZ0MyekxsYi9hb2NrT0Z2blZiQmlITDJKbXEzNzhmNEV3?=
+ =?utf-8?B?eVFwaFNOck5Delhkc0tISHJQQTJFVWRlMEpWajZVcUlBN2FDa1lzeHI0Zldv?=
+ =?utf-8?B?ZWZmMzZDWklyaDR6cE5JcGtZK1FsM3A5L01lajFzM3I3dkhJODdNQUdQM0g1?=
+ =?utf-8?B?bEpoWEFkWVc5QTA1ankwYW5xU3ppNWdGZUU2Qlp6M1pmZjJyU0NSVTQ4Vktk?=
+ =?utf-8?B?bjFlRFpGTHZRa1Jkdy8wSEpid0lDTmJRdFRIa1dBWjNsTXVnSDJ2QjRvczRp?=
+ =?utf-8?B?UEREQ3UybG5OcmY5a0tDQTFJWDRaeFVCeFlQZW5hZTk2RnZhaXdNeDFwRzNu?=
+ =?utf-8?B?NEovNi9zOFRwdHVYU3dnTE5jTythVHUyZWlVVnRIVkJDRXowQjJuT0Jpd1dh?=
+ =?utf-8?B?d210SGF3djVEMHR6ZWRra1FzMHR3YThFTEwvb1lnWkNJSU5GeEpZV3RkYVBD?=
+ =?utf-8?B?MWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 144d6f78-a6c5-46e0-d3c7-08dde74789c5
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6141.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 22:01:00.0000 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MvYOwGL/rjE5RDK1aJJnZLvp2Xig26p7AbX047ge8LC4c1TOEz73SSbTHdJ2y96F2Pc23IDXMAoYU6sI3ay7Q+G/GYQy3xpj9hxo7scyjAs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB8988
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,424 +202,619 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-08-18 at 20:35 +0100, Ruben Wauters wrote:
-> The simple display pipe is obsolete and the atomic helpers allow for
-> more control over the rendering process. As such, this patch replaces
-> the old simple display pipe system with the newer atomic helpers.
->=20
-> As the code is mainly the same, merely replaced with the new atomic
-> system, there should be no change in functionality.
->=20
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+Hi Dave and Sima,
 
-Hello, I was just checking to see if anyone had a chance to review this
-patch?
+Here is the first pull targeting 6.18. Quite on the big side and
+contains 3 new UAPIs. The 2 backmerges are there since part of the work
+went through the PCI subsystem (for SR-IOV) and drm-misc (for madvise
+interface).
 
-Thank you
+I anticipate we will have one more pull request in a couple of weeks,
+but it should be smaller than this one.
 
-Ruben Wauters
+Thaks,
+Lucas De Marchi
 
-> ---
-> I noticed as well elsewhere in the driver WARN_ON_ONCE was used
-> instead
-> of drm_WARN_ON_ONCE(). I have fixed it for the ones I've modified,
-> and
-> will fix it for the driver as a whole in another patch.
->=20
-> v2 changes:
-> - address review comments by reorganising gud_probe()
->=20
-> v3 changes:
-> - fix formatting and spacing
-> - remove unnecessary includes
-> - convert WARN_ON_ONCE() to drm_WARN_ON_ONCE()
-> - remove dst rect intersect check
-> - remove encoder from gud_device and switch to gconn->encoder
-> ---
-> =C2=A0drivers/gpu/drm/gud/gud_connector.c | 25 +++++------
-> =C2=A0drivers/gpu/drm/gud/gud_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 52 ++++++++++++++++++-----
-> =C2=A0drivers/gpu/drm/gud/gud_internal.h=C2=A0 | 13 +++---
-> =C2=A0drivers/gpu/drm/gud/gud_pipe.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 64 +=
-++++++++++++++++++--------
-> --
-> =C2=A04 files changed, 99 insertions(+), 55 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/gud/gud_connector.c
-> b/drivers/gpu/drm/gud/gud_connector.c
-> index 0f07d77c5d52..4a15695fa933 100644
-> --- a/drivers/gpu/drm/gud/gud_connector.c
-> +++ b/drivers/gpu/drm/gud/gud_connector.c
-> @@ -16,7 +16,6 @@
-> =C2=A0#include <drm/drm_modeset_helper_vtables.h>
-> =C2=A0#include <drm/drm_print.h>
-> =C2=A0#include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
-> =C2=A0#include <drm/gud.h>
-> =C2=A0
-> =C2=A0#include "gud_internal.h"
-> @@ -607,13 +606,16 @@ int gud_connector_fill_properties(struct
-> drm_connector_state *connector_state,
-> =C2=A0	return gconn->num_properties;
-> =C2=A0}
-> =C2=A0
-> +static const struct drm_encoder_funcs
-> gud_drm_simple_encoder_funcs_cleanup =3D {
-> +	.destroy =3D drm_encoder_cleanup,
-> +};
-> +
-> =C2=A0static int gud_connector_create(struct gud_device *gdrm, unsigned
-> int index,
-> =C2=A0				struct gud_connector_descriptor_req
-> *desc)
-> =C2=A0{
-> =C2=A0	struct drm_device *drm =3D &gdrm->drm;
-> =C2=A0	struct gud_connector *gconn;
-> =C2=A0	struct drm_connector *connector;
-> -	struct drm_encoder *encoder;
-> =C2=A0	int ret, connector_type;
-> =C2=A0	u32 flags;
-> =C2=A0
-> @@ -681,20 +683,13 @@ static int gud_connector_create(struct
-> gud_device *gdrm, unsigned int index,
-> =C2=A0		return ret;
-> =C2=A0	}
-> =C2=A0
-> -	/* The first connector is attached to the existing simple
-> pipe encoder */
-> -	if (!connector->index) {
-> -		encoder =3D &gdrm->pipe.encoder;
-> -	} else {
-> -		encoder =3D &gconn->encoder;
-> -
-> -		ret =3D drm_simple_encoder_init(drm, encoder,
-> DRM_MODE_ENCODER_NONE);
-> -		if (ret)
-> -			return ret;
-> -
-> -		encoder->possible_crtcs =3D 1;
-> -	}
-> +	gconn->encoder.possible_crtcs =3D drm_crtc_mask(&gdrm->crtc);
-> +	ret =3D drm_encoder_init(drm, &gconn->encoder,
-> &gud_drm_simple_encoder_funcs_cleanup,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_MODE_ENCODER_NONE, NULL);
-> +	if (ret)
-> +		return ret;
-> =C2=A0
-> -	return drm_connector_attach_encoder(connector, encoder);
-> +	return drm_connector_attach_encoder(connector, &gconn-
-> >encoder);
-> =C2=A0}
-> =C2=A0
-> =C2=A0int gud_get_connectors(struct gud_device *gdrm)
-> diff --git a/drivers/gpu/drm/gud/gud_drv.c
-> b/drivers/gpu/drm/gud/gud_drv.c
-> index 5385a2126e45..5f57f841e603 100644
-> --- a/drivers/gpu/drm/gud/gud_drv.c
-> +++ b/drivers/gpu/drm/gud/gud_drv.c
-> @@ -16,6 +16,7 @@
-> =C2=A0#include <drm/clients/drm_client_setup.h>
-> =C2=A0#include <drm/drm_atomic_helper.h>
-> =C2=A0#include <drm/drm_blend.h>
-> +#include <drm/drm_crtc_helper.h>
-> =C2=A0#include <drm/drm_damage_helper.h>
-> =C2=A0#include <drm/drm_debugfs.h>
-> =C2=A0#include <drm/drm_drv.h>
-> @@ -27,7 +28,6 @@
-> =C2=A0#include <drm/drm_managed.h>
-> =C2=A0#include <drm/drm_print.h>
-> =C2=A0#include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
-> =C2=A0#include <drm/gud.h>
-> =C2=A0
-> =C2=A0#include "gud_internal.h"
-> @@ -289,7 +289,7 @@ static int gud_get_properties(struct gud_device
-> *gdrm)
-> =C2=A0			 * but mask out any additions on future
-> devices.
-> =C2=A0			 */
-> =C2=A0			val &=3D GUD_ROTATION_MASK;
-> -			ret =3D
-> drm_plane_create_rotation_property(&gdrm->pipe.plane,
-> +			ret =3D
-> drm_plane_create_rotation_property(&gdrm->plane,
-> =C2=A0							=09
-> DRM_MODE_ROTATE_0, val);
-> =C2=A0			break;
-> =C2=A0		default:
-> @@ -338,10 +338,30 @@ static int gud_stats_debugfs(struct seq_file
-> *m, void *data)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> -static const struct drm_simple_display_pipe_funcs gud_pipe_funcs =3D {
-> -	.check=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D gud_pipe_check,
-> -	.update	=C2=A0=C2=A0=C2=A0 =3D gud_pipe_update,
-> -	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS
-> +static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs =3D {
-> +	.atomic_check =3D drm_crtc_helper_atomic_check
-> +};
-> +
-> +static const struct drm_crtc_funcs gud_crtc_funcs =3D {
-> +	.reset =3D drm_atomic_helper_crtc_reset,
-> +	.destroy =3D drm_crtc_cleanup,
-> +	.set_config =3D drm_atomic_helper_set_config,
-> +	.page_flip =3D drm_atomic_helper_page_flip,
-> +	.atomic_duplicate_state =3D
-> drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state =3D
-> drm_atomic_helper_crtc_destroy_state,
-> +};
-> +
-> +static const struct drm_plane_helper_funcs gud_plane_helper_funcs =3D
-> {
-> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +	.atomic_check =3D gud_plane_atomic_check,
-> +	.atomic_update =3D gud_plane_atomic_update,
-> +};
-> +
-> +static const struct drm_plane_funcs gud_plane_funcs =3D {
-> +	.update_plane =3D drm_atomic_helper_update_plane,
-> +	.disable_plane =3D drm_atomic_helper_disable_plane,
-> +	.destroy =3D drm_plane_cleanup,
-> +	DRM_GEM_SHADOW_PLANE_FUNCS,
-> =C2=A0};
-> =C2=A0
-> =C2=A0static const struct drm_mode_config_funcs gud_mode_config_funcs =3D=
- {
-> @@ -350,7 +370,7 @@ static const struct drm_mode_config_funcs
-> gud_mode_config_funcs =3D {
-> =C2=A0	.atomic_commit =3D drm_atomic_helper_commit,
-> =C2=A0};
-> =C2=A0
-> -static const u64 gud_pipe_modifiers[] =3D {
-> +static const u64 gud_plane_modifiers[] =3D {
-> =C2=A0	DRM_FORMAT_MOD_LINEAR,
-> =C2=A0	DRM_FORMAT_MOD_INVALID
-> =C2=A0};
-> @@ -567,12 +587,17 @@ static int gud_probe(struct usb_interface
-> *intf, const struct usb_device_id *id)
-> =C2=A0			return -ENOMEM;
-> =C2=A0	}
-> =C2=A0
-> -	ret =3D drm_simple_display_pipe_init(drm, &gdrm->pipe,
-> &gud_pipe_funcs,
-> -					=C2=A0=C2=A0 formats, num_formats,
-> -					=C2=A0=C2=A0 gud_pipe_modifiers,
-> NULL);
-> +	ret =3D drm_universal_plane_init(drm, &gdrm->plane, 0,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &gud_plane_funcs,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 formats, num_formats,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gud_plane_modifiers,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_PLANE_TYPE_PRIMARY,
-> NULL);
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> +	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
-> +	drm_plane_enable_fb_damage_clips(&gdrm->plane);
-> +
-> =C2=A0	devm_kfree(dev, formats);
-> =C2=A0	devm_kfree(dev, formats_dev);
-> =C2=A0
-> @@ -582,7 +607,12 @@ static int gud_probe(struct usb_interface *intf,
-> const struct usb_device_id *id)
-> =C2=A0		return ret;
-> =C2=A0	}
-> =C2=A0
-> -	drm_plane_enable_fb_damage_clips(&gdrm->pipe.plane);
-> +	ret =3D drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm-
-> >plane, NULL,
-> +					&gud_crtc_funcs, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_crtc_helper_add(&gdrm->crtc, &gud_crtc_helper_funcs);
-> =C2=A0
-> =C2=A0	ret =3D gud_get_connectors(gdrm);
-> =C2=A0	if (ret) {
-> diff --git a/drivers/gpu/drm/gud/gud_internal.h
-> b/drivers/gpu/drm/gud/gud_internal.h
-> index d6fb25388722..d27c31648341 100644
-> --- a/drivers/gpu/drm/gud/gud_internal.h
-> +++ b/drivers/gpu/drm/gud/gud_internal.h
-> @@ -11,11 +11,11 @@
-> =C2=A0#include <uapi/drm/drm_fourcc.h>
-> =C2=A0
-> =C2=A0#include <drm/drm_modes.h>
-> -#include <drm/drm_simple_kms_helper.h>
-> =C2=A0
-> =C2=A0struct gud_device {
-> =C2=A0	struct drm_device drm;
-> -	struct drm_simple_display_pipe pipe;
-> +	struct drm_plane plane;
-> +	struct drm_crtc crtc;
-> =C2=A0	struct work_struct work;
-> =C2=A0	u32 flags;
-> =C2=A0	const struct drm_format_info *xrgb8888_emulation_format;
-> @@ -62,11 +62,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8
-> request, u8 val);
-> =C2=A0
-> =C2=A0void gud_clear_damage(struct gud_device *gdrm);
-> =C2=A0void gud_flush_work(struct work_struct *work);
-> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
-> -		=C2=A0=C2=A0 struct drm_plane_state *new_plane_state,
-> -		=C2=A0=C2=A0 struct drm_crtc_state *new_crtc_state);
-> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
-> -		=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane_state *old_state);
-> +int gud_plane_atomic_check(struct drm_plane *plane,
-> +			=C2=A0=C2=A0 struct drm_atomic_state *state);
-> +void gud_plane_atomic_update(struct drm_plane *plane,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_atomic_state *atomic_state);
-> =C2=A0int gud_connector_fill_properties(struct drm_connector_state
-> *connector_state,
-> =C2=A0				=C2=A0 struct gud_property_req
-> *properties);
-> =C2=A0int gud_get_connectors(struct gud_device *gdrm);
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c
-> b/drivers/gpu/drm/gud/gud_pipe.c
-> index 8d548d08f127..54d9aa9998e5 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -20,7 +20,6 @@
-> =C2=A0#include <drm/drm_gem_framebuffer_helper.h>
-> =C2=A0#include <drm/drm_print.h>
-> =C2=A0#include <drm/drm_rect.h>
-> -#include <drm/drm_simple_kms_helper.h>
-> =C2=A0#include <drm/gud.h>
-> =C2=A0
-> =C2=A0#include "gud_internal.h"
-> @@ -451,14 +450,15 @@ static void gud_fb_handle_damage(struct
-> gud_device *gdrm, struct drm_framebuffer
-> =C2=A0	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach,
-> damage);
-> =C2=A0}
-> =C2=A0
-> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
-> -		=C2=A0=C2=A0 struct drm_plane_state *new_plane_state,
-> -		=C2=A0=C2=A0 struct drm_crtc_state *new_crtc_state)
-> +int gud_plane_atomic_check(struct drm_plane *plane,
-> +			=C2=A0=C2=A0 struct drm_atomic_state *state)
-> =C2=A0{
-> -	struct gud_device *gdrm =3D to_gud_device(pipe->crtc.dev);
-> -	struct drm_plane_state *old_plane_state =3D pipe->plane.state;
-> -	const struct drm_display_mode *mode =3D &new_crtc_state->mode;
-> -	struct drm_atomic_state *state =3D new_plane_state->state;
-> +	struct gud_device *gdrm =3D to_gud_device(plane->dev);
-> +	struct drm_plane_state *old_plane_state =3D
-> drm_atomic_get_old_plane_state(state, plane);
-> +	struct drm_plane_state *new_plane_state =3D
-> drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc *crtc =3D new_plane_state->crtc;
-> +	struct drm_crtc_state *crtc_state;
-> +	const struct drm_display_mode *mode;
-> =C2=A0	struct drm_framebuffer *old_fb =3D old_plane_state->fb;
-> =C2=A0	struct drm_connector_state *connector_state =3D NULL;
-> =C2=A0	struct drm_framebuffer *fb =3D new_plane_state->fb;
-> @@ -469,20 +469,37 @@ int gud_pipe_check(struct
-> drm_simple_display_pipe *pipe,
-> =C2=A0	int idx, ret;
-> =C2=A0	size_t len;
-> =C2=A0
-> -	if (WARN_ON_ONCE(!fb))
-> +	if (drm_WARN_ON_ONCE(plane->dev, !fb))
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> +	if (drm_WARN_ON_ONCE(plane->dev, !crtc))
-> +		return -EINVAL;
-> +
-> +	crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
-> +
-> +	mode =3D &crtc_state->mode;
-> +
-> +	ret =3D drm_atomic_helper_check_plane_state(new_plane_state,
-> crtc_state,
-> +						=C2=A0
-> DRM_PLANE_NO_SCALING,
-> +						=C2=A0
-> DRM_PLANE_NO_SCALING,
-> +						=C2=A0 false, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!new_plane_state->visible)
-> +		return 0;
-> +
-> =C2=A0	if (old_plane_state->rotation !=3D new_plane_state->rotation)
-> -		new_crtc_state->mode_changed =3D true;
-> +		crtc_state->mode_changed =3D true;
-> =C2=A0
-> =C2=A0	if (old_fb && old_fb->format !=3D format)
-> -		new_crtc_state->mode_changed =3D true;
-> +		crtc_state->mode_changed =3D true;
-> =C2=A0
-> -	if (!new_crtc_state->mode_changed && !new_crtc_state-
-> >connectors_changed)
-> +	if (!crtc_state->mode_changed && !crtc_state-
-> >connectors_changed)
-> =C2=A0		return 0;
-> =C2=A0
-> =C2=A0	/* Only one connector is supported */
-> -	if (hweight32(new_crtc_state->connector_mask) !=3D 1)
-> +	if (hweight32(crtc_state->connector_mask) !=3D 1)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> =C2=A0	if (format->format =3D=3D DRM_FORMAT_XRGB8888 && gdrm-
-> >xrgb8888_emulation_format)
-> @@ -500,7 +517,7 @@ int gud_pipe_check(struct drm_simple_display_pipe
-> *pipe,
-> =C2=A0	if (!connector_state) {
-> =C2=A0		struct drm_connector_list_iter conn_iter;
-> =C2=A0
-> -		drm_connector_list_iter_begin(pipe->crtc.dev,
-> &conn_iter);
-> +		drm_connector_list_iter_begin(plane->dev,
-> &conn_iter);
-> =C2=A0		drm_for_each_connector_iter(connector, &conn_iter) {
-> =C2=A0			if (connector->state->crtc) {
-> =C2=A0				connector_state =3D connector->state;
-> @@ -567,16 +584,18 @@ int gud_pipe_check(struct
-> drm_simple_display_pipe *pipe,
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
-> -		=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane_state *old_state)
-> +void gud_plane_atomic_update(struct drm_plane *plane,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_atomic_state *atomic_state)
-> =C2=A0{
-> -	struct drm_device *drm =3D pipe->crtc.dev;
-> +	struct drm_device *drm =3D plane->dev;
-> =C2=A0	struct gud_device *gdrm =3D to_gud_device(drm);
-> -	struct drm_plane_state *state =3D pipe->plane.state;
-> -	struct drm_shadow_plane_state *shadow_plane_state =3D
-> to_drm_shadow_plane_state(state);
-> -	struct drm_framebuffer *fb =3D state->fb;
-> -	struct drm_crtc *crtc =3D &pipe->crtc;
-> +	struct drm_plane_state *old_state =3D
-> drm_atomic_get_old_plane_state(atomic_state, plane);
-> +	struct drm_plane_state *new_state =3D
-> drm_atomic_get_new_plane_state(atomic_state, plane);
-> +	struct drm_shadow_plane_state *shadow_plane_state =3D
-> to_drm_shadow_plane_state(new_state);
-> +	struct drm_framebuffer *fb =3D new_state->fb;
-> +	struct drm_crtc *crtc =3D new_state->crtc;
-> =C2=A0	struct drm_rect damage;
-> +	struct drm_atomic_helper_damage_iter iter;
-> =C2=A0	int ret, idx;
-> =C2=A0
-> =C2=A0	if (crtc->state->mode_changed || !crtc->state->enable) {
-> @@ -611,7 +630,8 @@ void gud_pipe_update(struct
-> drm_simple_display_pipe *pipe,
-> =C2=A0	if (ret)
-> =C2=A0		goto ctrl_disable;
-> =C2=A0
-> -	if (drm_atomic_helper_damage_merged(old_state, state,
-> &damage))
-> +	drm_atomic_helper_damage_iter_init(&iter, old_state,
-> new_state);
-> +	drm_atomic_for_each_plane_damage(&iter, &damage)
-> =C2=A0		gud_fb_handle_damage(gdrm, fb, &shadow_plane_state-
-> >data[0], &damage);
-> =C2=A0
-> =C2=A0	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+drm-xe-next-2025-08-29:
+UAPI Changes:
+  - Add madvise interface (Himal Prasad Ghimiray)
+  - Add DRM_IOCTL_XE_VM_QUERY_MEMORY_RANGE_ATTRS to query VMA count and
+    memory attributes (Himal Prasad Ghimiray)
+  - Handle Firmware reported Hardware Errors notifying userspace with
+    device wedged uevent (Riana Tauro)
+
+Cross-subsystem Changes:
+
+  - Add a vendor-specific recovery method to drm device wedged uevent
+    (Riana Tauro)
+
+Driver Changes:
+  - Use same directory structure in debugfs as in sysfs (Michal Wajdeczko)
+  - Cleanup and future-proof VRAM region initialization (Piotr Piórkowski)
+  - Add G-states and PCIe link states to debugfs (Soham Purkait)
+  - Cleanup eustall debug messages (Harish Chegondi)
+  - Add SR-IOV support to restore Compression Control Surface (CCS) to
+    Xe2 and later (Satyanarayana K V P)
+  - Enable SR-IOV PF mode by default on supported platforms without
+    needing CONFIG_DRM_XE_DEBUG and mark some platforms behind
+    force_probe as supported (Michal Wajdeczko)
+  - More targeted log messages (Michal Wajdeczko)
+  - Cleanup STEER_SEMAPHORE/MCFG_MCR_SELECTOR usage (Nitin Gote)
+  - Use common code to emit flush (Tvrtko Ursulin)
+  - Add/extend more HW workarounds and tunings for Xe2 and Xe3
+    (Sk Anirban, Tangudu Tilak Tirumalesh, Nitin Gote, Chaitanya Kumar Borah)
+  - Add a generic dependency scheduler to help with TLB invalidations
+    and future scenarios (Matthew Brost)
+  - Use DRM scheduler for delayed GT TLB invalidations (Matthew Brost)
+  - Error out on incorrect device use in configfs
+    (Michal Wajdeczko, Lucas De Marchi)
+  - Refactor configfs attributes (Michal Wajdeczko / Lucas De Marchi)
+  - Allow configuring future VF devices via configfs (Michal Wajdeczko)
+  - Implement some missing XeLP workarounds (Tvrtko Ursulin)
+  - Generalize WA BB setup/emission and add support for
+    mid context restore BB, aka indirect context (Tvrtko Ursulin)
+  - Prepare the driver to expose mmio regions to userspace
+    in future (Ilia Levi)
+  - Add more GuC load error status codes (John Harrison)
+  - Document DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING (Priyanka Dandamudi)
+  - Disable CSC and RPM on VFs (Lukasz Laguna, Satyanarayana K V P)
+  - Fix oops in xe_gem_fault with PREEMPT_RT (Maarten Lankhorst)
+  - Skip LMTT update if no LMEM was provisioned (Michal Wajdeczko)
+  - Add support to VF migration (Tomasz Lis)
+  - Use a helper for guc_waklv_enable functions (Jonathan Cavitt)
+  - Prepare GPU SVM for migration of THP (Francois Dugast)
+  - Program LMTT directory pointer on all GTs within a tile
+    (Piotr Piórkowski)
+  - Rename XE_WA to XE_GT_WA to better convey its scope vs the device WAs
+    (Matt Atwood)
+  - Allow to match devices on PCI devid/vendorid only (Lucas De Marchi)
+  - Improve PDE PAT index selection (Matthew Brost)
+  - Consolidate ASID allocation in xe_vm_create() vs
+    xe_vm_create_ioctl() (Piotr Piórkowski)
+  - Resize VF BARS to max possible size according to number of VFs
+    (Michał Winiarski)
+  - Untangle vm_bind_ioctl cleanup order (Christoph Manszewski)
+  - Start fixing usage of XE_PAGE_SIZE vs PAGE_SIZE to improve
+    compatibility with non-x86 arch (Simon Richter)
+  - Improve tile vs gt initialization order and accounting
+    (Gustavo Sousa)
+  - Extend WA kunit test to PTL
+  - Ensure data is initialized before transferring to pcode
+    (Stuart Summers)
+  - Add PSMI support for HW validation (Lucas De Marchi,
+    Vinay Belgaumkar, Badal Nilawar)
+  - Improve xe_dma_buf test (Thomas Hellström, Marcin Bernatowicz)
+  - Fix basename() usage in generator with !glibc (Carlos Llamas)
+  - Ensure GT is in C0 during resumes (Xin Wang)
+  - Add TLB invalidation abstraction (Matt Brost, Stuart Summers)
+  - Make MI_TLB_INVALIDATE conditional on migrate (Matthew Auld)
+  - Prepare xe_nvm to be initialized early for future use cases
+    (Riana Tauro)
+The following changes since commit 1cd0c7afef97c3192edc92774a62d36b2a0bf2e0:
+
+   Merge tag 'drm-misc-next-2025-08-21' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2025-08-25 06:38:49 +1000)
+
+are available in the Git repository at:
+
+   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-08-29
+
+for you to fetch changes up to 1047bd82794a1eab64d643f196d09171ce983f44:
+
+   drm/xe: Fix incorrect migration of backed-up object to VRAM (2025-08-29 15:30:57 +0200)
+
+----------------------------------------------------------------
+UAPI Changes:
+  - Add madvise interface (Himal Prasad Ghimiray)
+  - Add DRM_IOCTL_XE_VM_QUERY_MEMORY_RANGE_ATTRS to query VMA count and
+    memory attributes (Himal Prasad Ghimiray)
+  - Handle Firmware reported Hardware Errors notifying userspace with
+    device wedged uevent (Riana Tauro)
+
+Cross-subsystem Changes:
+
+  - Add a vendor-specific recovery method to drm device wedged uevent
+    (Riana Tauro)
+
+Driver Changes:
+  - Use same directory structure in debugfs as in sysfs (Michal Wajdeczko)
+  - Cleanup and future-proof VRAM region initialization (Piotr Piórkowski)
+  - Add G-states and PCIe link states to debugfs (Soham Purkait)
+  - Cleanup eustall debug messages (Harish Chegondi)
+  - Add SR-IOV support to restore Compression Control Surface (CCS) to
+    Xe2 and later (Satyanarayana K V P)
+  - Enable SR-IOV PF mode by default on supported platforms without
+    needing CONFIG_DRM_XE_DEBUG and mark some platforms behind
+    force_probe as supported (Michal Wajdeczko)
+  - More targeted log messages (Michal Wajdeczko)
+  - Cleanup STEER_SEMAPHORE/MCFG_MCR_SELECTOR usage (Nitin Gote)
+  - Use common code to emit flush (Tvrtko Ursulin)
+  - Add/extend more HW workarounds and tunings for Xe2 and Xe3
+    (Sk Anirban, Tangudu Tilak Tirumalesh, Nitin Gote, Chaitanya Kumar Borah)
+  - Add a generic dependency scheduler to help with TLB invalidations
+    and future scenarios (Matthew Brost)
+  - Use DRM scheduler for delayed GT TLB invalidations (Matthew Brost)
+  - Error out on incorrect device use in configfs
+    (Michal Wajdeczko, Lucas De Marchi)
+  - Refactor configfs attributes (Michal Wajdeczko / Lucas De Marchi)
+  - Allow configuring future VF devices via configfs (Michal Wajdeczko)
+  - Implement some missing XeLP workarounds (Tvrtko Ursulin)
+  - Generalize WA BB setup/emission and add support for
+    mid context restore BB, aka indirect context (Tvrtko Ursulin)
+  - Prepare the driver to expose mmio regions to userspace
+    in future (Ilia Levi)
+  - Add more GuC load error status codes (John Harrison)
+  - Document DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING (Priyanka Dandamudi)
+  - Disable CSC and RPM on VFs (Lukasz Laguna, Satyanarayana K V P)
+  - Fix oops in xe_gem_fault with PREEMPT_RT (Maarten Lankhorst)
+  - Skip LMTT update if no LMEM was provisioned (Michal Wajdeczko)
+  - Add support to VF migration (Tomasz Lis)
+  - Use a helper for guc_waklv_enable functions (Jonathan Cavitt)
+  - Prepare GPU SVM for migration of THP (Francois Dugast)
+  - Program LMTT directory pointer on all GTs within a tile
+    (Piotr Piórkowski)
+  - Rename XE_WA to XE_GT_WA to better convey its scope vs the device WAs
+    (Matt Atwood)
+  - Allow to match devices on PCI devid/vendorid only (Lucas De Marchi)
+  - Improve PDE PAT index selection (Matthew Brost)
+  - Consolidate ASID allocation in xe_vm_create() vs
+    xe_vm_create_ioctl() (Piotr Piórkowski)
+  - Resize VF BARS to max possible size according to number of VFs
+    (Michał Winiarski)
+  - Untangle vm_bind_ioctl cleanup order (Christoph Manszewski)
+  - Start fixing usage of XE_PAGE_SIZE vs PAGE_SIZE to improve
+    compatibility with non-x86 arch (Simon Richter)
+  - Improve tile vs gt initialization order and accounting
+    (Gustavo Sousa)
+  - Extend WA kunit test to PTL
+  - Ensure data is initialized before transferring to pcode
+    (Stuart Summers)
+  - Add PSMI support for HW validation (Lucas De Marchi,
+    Vinay Belgaumkar, Badal Nilawar)
+  - Improve xe_dma_buf test (Thomas Hellström, Marcin Bernatowicz)
+  - Fix basename() usage in generator with !glibc (Carlos Llamas)
+  - Ensure GT is in C0 during resumes (Xin Wang)
+  - Add TLB invalidation abstraction (Matt Brost, Stuart Summers)
+  - Make MI_TLB_INVALIDATE conditional on migrate (Matthew Auld)
+  - Prepare xe_nvm to be initialized early for future use cases
+    (Riana Tauro)
+
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+       drm/xe/oa: Fix static checker warning about null gt
+
+Badal Nilawar (1):
+       drm/xe/psmi: Add Wa_14020001231
+
+Balasubramani Vivekanandan (1):
+       drm/xe/devcoredump: Defer devcoredump initialization during probe
+
+Carlos Llamas (1):
+       drm/xe: switch to local xbasename() helper
+
+Chaitanya Kumar Borah (1):
+       drm/xe/wcl: Extend L3bank mask workaround
+
+Christoph Manszewski (2):
+       drm/xe: Fix vm_bind_ioctl double free bug
+       drm/xe: Untangle vm_bind_ioctl cleanup order
+
+Dan Carpenter (3):
+       drm/xe: Fix a NULL vs IS_ERR() bug in xe_i2c_register_adapter()
+       drm/xe: Fix an IS_ERR() vs NULL bug in xe_tile_alloc_vram()
+       drm/xe/vf: Fix IS_ERR() vs NULL check in xe_sriov_vf_ccs_init()
+
+Francois Dugast (6):
+       drm/pagemap: Rename drm_pagemap_device_addr to drm_pagemap_addr
+       drm/pagemap: Use struct drm_pagemap_addr in mapping and copy functions
+       drm/pagemap: DMA map folios when possible
+       drm/pagemap: Allocate folios when possible
+       drm/xe/migrate: Populate struct drm_pagemap_addr array
+       drm/xe/svm: Migrate folios when possible
+
+Gustavo Sousa (2):
+       drm/xe: Probe for tile count during device info initialization
+       drm/xe: Use for_each_gt to define gt_count
+
+Harish Chegondi (1):
+       drm/xe: Remove unnecessary EU stall debug message
+
+Himal Prasad Ghimiray (21):
+       drm/xe/uapi: Add madvise interface
+       drm/xe/vm: Add attributes struct as member of vma
+       drm/xe/vma: Move pat_index to vma attributes
+       drm/xe/vma: Modify new_vma to accept struct xe_vma_mem_attr as parameter
+       drm/xe/svm: Split system allocator vma incase of madvise call
+       drm/xe: Allow CPU address mirror VMA unbind with gpu bindings for madvise
+       drm/xe/svm: Add xe_svm_ranges_zap_ptes_in_range() for PTE zapping
+       drm/xe: Implement madvise ioctl for xe
+       drm/xe/svm: Add svm ranges migration policy on atomic access
+       drm/xe/madvise: Update migration policy based on preferred location
+       drm/xe/svm: Support DRM_XE_SVM_MEM_RANGE_ATTR_PAT memory attribute
+       drm/xe/uapi: Add flag for consulting madvise hints on svm prefetch
+       drm/xe/svm: Consult madvise preferred location in prefetch
+       drm/xe/bo: Add attributes field to xe_bo
+       drm/xe/bo: Update atomic_access attribute on madvise
+       drm/xe/madvise: Skip vma invalidation if mem attr are unchanged
+       drm/xe/vm: Add helper to check for default VMA memory attributes
+       drm/xe: Reset VMA attributes to default in SVM garbage collector
+       drm/xe: Enable madvise ioctl for xe
+       drm/xe/uapi: Add UAPI for querying VMA count and memory attributes
+       drm/xe/uapi: Fix kernel-doc formatting for madvise and vma_query
+
+Ilia Levi (1):
+       drm/xe: Support for mmap-ing mmio regions
+
+John Harrison (1):
+       drm/xe/guc: Add more GuC load error status codes
+
+Jonathan Cavitt (1):
+       drm/xe/xe_guc_ads: Consolidate guc_waklv_enable functions
+
+Karthik Poosa (1):
+       drm/xe/hwmon: Add SW clamp for power limits writes
+
+Lucas De Marchi (15):
+       drm/xe: Fix build without debugfs
+       drm/intel/pciids: Add match on vendor/id only
+       Merge drm/drm-next into drm-xe-next
+       drm/xe/psmi: Add GuC flag to enable PSMI
+       drm/xe/psmi: Add debugfs interface for PSMI
+       drm/xe/rtp: Add match for psmi
+       drm/xe/configfs: Simplify kernel doc
+       drm/xe/configfs: Allow to enable PSMI
+       drm/xe/configfs: Use guard() for dev->lock
+       drm/xe/configfs: Use tree-like output in documentation
+       drm/xe/configfs: Improve documentation steps
+       drm/xe/configfs: Minor fixes to documentation
+       drm/xe/configfs: Dump custom settings when binding
+       Merge drm/drm-next into drm-xe-next
+       drm/xe/configfs: Block runtime attribute changes
+
+Lukasz Laguna (2):
+       drm/xe/vf: Don't register I2C devices if VF
+       drm/xe/vf: Disable CSC support on VF
+
+Maarten Lankhorst (1):
+       drm/xe: Fix oops in xe_gem_fault when running core_hotunplug test.
+
+Marcin Bernatowicz (1):
+       drm/xe/tests: Make cross-device dma-buf BOs CPU-visible on small BAR
+
+Matt Atwood (2):
+       drm/xe: rename XE_WA to XE_GT_WA
+       drm/xe: Update function names for GT specific workarounds
+
+Matthew Auld (5):
+       drm/xe/migrate: prevent infinite recursion
+       drm/xe/migrate: don't overflow max copy size
+       drm/xe/migrate: prevent potential UAF
+       drm/xe: rework PDE PAT index selection
+       drm/xe/migrate: make MI_TLB_INVALIDATE conditional
+
+Matthew Brost (15):
+       drm/xe: Explicitly mark migration queues with flag
+       drm/xe: Add generic dependecy jobs / scheduler
+       drm/xe: Create ordered workqueue for GT TLB invalidation jobs
+       drm/xe: Add dependency scheduler for GT TLB invalidations to bind queues
+       drm/xe: Add GT TLB invalidation jobs
+       drm/xe: Use GT TLB invalidation jobs in PT layer
+       drm/xe: Remove unused GT TLB invalidation trace points
+       drm/xe: Don't trigger rebind on initial dma-buf validation
+       drm/xe: s/tlb_invalidation/tlb_inval
+       drm/xe: Add xe_tlb_inval structure
+       drm/xe: Add xe_gt_tlb_invalidation_done_handler
+       drm/xe: Decouple TLB invalidations from GT
+       drm/xe: Prep TLB invalidation fence before sending
+       drm/xe: Add helpers to send TLB invalidations
+       drm/xe: Split TLB invalidation code in frontend and backend
+
+Michal Wajdeczko (25):
+       drm/xe: Move debugfs GT attributes under tile directory
+       drm/xe/pf: Enable SR-IOV PF mode by default
+       drm/xe: Enable SR-IOV for ADL/ATSM
+       drm/xe: Enable SR-IOV for TGL
+       drm/xe: Make GGTT TLB invalidation failure message GT oriented
+       drm/xe/guc: Clear whole g2h_fence during initialization
+       drm/xe/configfs: Fix pci_dev reference leak
+       drm/xe/configfs: Enforce canonical device names
+       drm/xe/configfs: Use pci_name() for lookup
+       drm/xe/hw_engine_group: Don't use drm_warn to catch missed case
+       drm/xe/pf: Skip LMTT update if no LMEM was provisioned
+       drm/xe/pf: Disable PF restart worker on device removal
+       drm/xe/pf: Make sure PF is ready to configure VFs
+       drm/xe/pf: Don't resume device from restart worker
+       drm/xe: Simplify module initialization code
+       drm/xe: Print module init abort code
+       drm/xe/configfs: Destroy xe_configfs.su_mutex on exit/error
+       drm/xe/configfs: Drop redundant init() error message
+       drm/xe/configfs: Rename struct xe_config_device
+       drm/xe/configfs: Rename configfs_find_group() helper
+       drm/xe/configfs: Reintroduce struct xe_config_device
+       drm/xe/configfs: Keep default device config settings together
+       drm/xe/configfs: Only allow configurations for supported devices
+       drm/xe/configfs: Allow adding configurations for future VFs
+       drm/xe/kunit: Extend platform generator with PTL
+
+Michał Winiarski (1):
+       drm/xe/pf: Set VF LMEM BAR size
+
+Nitin Gote (2):
+       drm/xe: Rename MCFG_MCR_SELECTOR to STEER_SEMAPHORE
+       drm/xe/tuning: Apply "Disable NULL query for Anyhit Shader" to Xe2
+
+Piotr Piórkowski (8):
+       drm/xe: Use devm_ioremap_wc for VRAM mapping and drop manual unmap
+       drm/xe: Use dynamic allocation for tile and device VRAM region structures
+       drm/xe: Move struct xe_vram_region to a dedicated header
+       drm/xe: Split xe_migrate allocation from initialization
+       drm/xe: Unify the initialization of VRAM regions
+       drm/xe/pf: Program LMTT directory pointer on all GTs within a tile
+       drm/xe: Assign ioctl xe file handler to vm in xe_vm_create
+       drm/xe: Move ASID allocation and user PT BO tracking into xe_vm_create
+
+Priyanka Dandamudi (1):
+       drm/xe/uapi: Add documentation for DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING
+
+Raag Jadav (2):
+       drm/xe: Don't fail probe on unsupported mailbox command
+       drm/xe/i2c: Introduce xe_i2c_present()
+
+Riana Tauro (11):
+       drm/xe: Add documentation for Xe Device Wedging
+       drm: Add a vendor-specific recovery method to drm device wedged uevent
+       drm/xe: Set GT as wedged before sending wedged uevent
+       drm/xe: Add a helper function to set recovery method
+       drm/xe/xe_survivability: Refactor survivability mode
+       drm/xe/xe_survivability: Add support for Runtime survivability mode
+       drm/xe/doc: Document device wedged and runtime survivability
+       drm/xe: Add support to handle hardware errors
+       drm/xe/xe_hw_error: Handle CSC Firmware reported Hardware errors
+       drm/xe/xe_hw_error: Add fault injection to trigger csc error handler
+       drm/xe/nvm: Use root tile mmio
+
+Satyanarayana K V P (6):
+       drm/xe/vf: Create contexts for CCS read write
+       drm/xe/vf: Attach and detach CCS copy commands with BO
+       drm/xe/vf: Register CCS read/write contexts with Guc
+       drm/xe/vf: Fix VM crash during VF driver release
+       drm/xe/vf: Refactor CCS save/restore to use default migration context
+       drm/xe/pm: Disable RPM for SR-IOV VFs
+
+Shuicheng Lin (1):
+       drm/xe/hw_engine_group: Avoid call kfree() for drmm_kzalloc()
+
+Simon Richter (2):
+       Mark xe driver as BROKEN if kernel page size is not 4kB
+       drm/xe: Make page size consistent in loop
+
+Sk Anirban (1):
+       drm/xe/ptl: Apply Wa_16026007364
+
+Soham Purkait (1):
+       drm/xe/xe_debugfs: Exposure of G-State and pcie link state residency counters through debugfs
+
+Stuart Summers (3):
+       drm/xe/pcode: Initialize data0 for pcode read routine
+       drm/xe: Move explicit CT lock in TLB invalidation sequence
+       drm/xe: Cancel pending TLB inval workers on teardown
+
+Tangudu Tilak Tirumalesh (1):
+       drm/xe: Extend wa_13012615864 to additional Xe2 and Xe3 platforms
+
+Thomas Hellström (5):
+       drm/xe: Defer buffer object shrinker write-backs and GPU waits
+       drm/xe/vm: Don't pin the vm_resv during validation
+       drm/xe/tests/xe_dma_buf: Set the drm_object::dma_buf member
+       drm/xe/vm: Clear the scratch_pt pointer on error
+       drm/xe: Fix incorrect migration of backed-up object to VRAM
+
+Tomasz Lis (8):
+       drm/xe/sa: Avoid caching GGTT address within the manager
+       drm/xe/vf: Pause submissions during RESFIX fixups
+       drm/xe: Block reset while recovering from VF migration
+       drm/xe/vf: Rebase HWSP of all contexts after migration
+       drm/xe/vf: Rebase MEMIRQ structures for all contexts after migration
+       drm/xe/vf: Post migration, repopulate ring area for pending request
+       drm/xe/vf: Refresh utilization buffer during migration recovery
+       drm/xe/vf: Rebase exec queue parallel commands during migration recovery
+
+Tvrtko Ursulin (3):
+       drm/xe: Use emit_flush_imm_ggtt helper instead of open coding
+       drm/xe/xelp: Implement Wa_16010904313
+       drm/xe/xelp: Add Wa_18022495364
+
+Vinay Belgaumkar (1):
+       drm/xe/psmi: Add Wa_16023683509
+
+Xin Wang (2):
+       drm/xe: make xe_gt_idle_disable_c6() handle the forcewake internally
+       drm/xe: Ensure GT is in C0 during resumes
+
+Zbigniew Kempczyński (1):
+       drm/xe/xe_sync: avoid race during ufence signaling
+
+Zhanjun Dong (1):
+       drm/xe/uc: Fix missing unwind goto
+
+  Documentation/gpu/drm-uapi.rst                    |  47 +-
+  Documentation/gpu/xe/index.rst                    |   1 +
+  Documentation/gpu/xe/xe_device.rst                |  10 +
+  Documentation/gpu/xe/xe_pcode.rst                 |   6 +-
+  drivers/gpu/drm/drm_drv.c                         |   2 +
+  drivers/gpu/drm/drm_gpusvm.c                      |   4 +-
+  drivers/gpu/drm/drm_pagemap.c                     | 142 +++--
+  drivers/gpu/drm/xe/Makefile                       |  10 +-
+  drivers/gpu/drm/xe/abi/guc_actions_abi.h          |   8 +
+  drivers/gpu/drm/xe/abi/guc_errors_abi.h           |   3 +
+  drivers/gpu/drm/xe/abi/guc_klvs_abi.h             |   2 +
+  drivers/gpu/drm/xe/display/intel_fbdev_fb.c       |   2 +-
+  drivers/gpu/drm/xe/display/xe_display_wa.c        |   2 +-
+  drivers/gpu/drm/xe/display/xe_fb_pin.c            |   5 +-
+  drivers/gpu/drm/xe/display/xe_plane_initial.c     |   5 +-
+  drivers/gpu/drm/xe/instructions/xe_mi_commands.h  |   1 +
+  drivers/gpu/drm/xe/regs/xe_engine_regs.h          |   3 +
+  drivers/gpu/drm/xe/regs/xe_gsc_regs.h             |   2 +
+  drivers/gpu/drm/xe/regs/xe_gt_regs.h              |   2 +-
+  drivers/gpu/drm/xe/regs/xe_hw_error_regs.h        |  20 +
+  drivers/gpu/drm/xe/regs/xe_irq_regs.h             |   1 +
+  drivers/gpu/drm/xe/regs/xe_pmt.h                  |  10 +
+  drivers/gpu/drm/xe/tests/xe_dma_buf.c             |  13 +-
+  drivers/gpu/drm/xe/tests/xe_pci.c                 |   7 +
+  drivers/gpu/drm/xe/tests/xe_wa_test.c             |   1 +
+  drivers/gpu/drm/xe/xe_assert.h                    |   4 +-
+  drivers/gpu/drm/xe/xe_bb.c                        |  35 ++
+  drivers/gpu/drm/xe/xe_bb.h                        |   3 +
+  drivers/gpu/drm/xe/xe_bo.c                        |  94 +++-
+  drivers/gpu/drm/xe/xe_bo.h                        |   4 +-
+  drivers/gpu/drm/xe/xe_bo_types.h                  |  12 +
+  drivers/gpu/drm/xe/xe_configfs.c                  | 346 ++++++++++---
+  drivers/gpu/drm/xe/xe_configfs.h                  |   4 +
+  drivers/gpu/drm/xe/xe_debugfs.c                   | 114 ++++
+  drivers/gpu/drm/xe/xe_dep_job_types.h             |  29 ++
+  drivers/gpu/drm/xe/xe_dep_scheduler.c             | 143 +++++
+  drivers/gpu/drm/xe/xe_dep_scheduler.h             |  21 +
+  drivers/gpu/drm/xe/xe_device.c                    | 112 +++-
+  drivers/gpu/drm/xe/xe_device.h                    |   1 +
+  drivers/gpu/drm/xe/xe_device_sysfs.c              |   8 +-
+  drivers/gpu/drm/xe/xe_device_types.h              |  86 +---
+  drivers/gpu/drm/xe/xe_eu_stall.c                  |   4 +-
+  drivers/gpu/drm/xe/xe_exec_queue.c                | 111 ++++
+  drivers/gpu/drm/xe/xe_exec_queue.h                |   5 +
+  drivers/gpu/drm/xe/xe_exec_queue_types.h          |  15 +
+  drivers/gpu/drm/xe/xe_gen_wa_oob.c                |  10 +-
+  drivers/gpu/drm/xe/xe_ggtt.c                      |  15 +-
+  drivers/gpu/drm/xe/xe_gpu_scheduler.c             |  13 +
+  drivers/gpu/drm/xe/xe_gpu_scheduler.h             |   1 +
+  drivers/gpu/drm/xe/xe_gsc.c                       |   6 +-
+  drivers/gpu/drm/xe/xe_gt.c                        |  34 +-
+  drivers/gpu/drm/xe/xe_gt_debugfs.c                |  56 +-
+  drivers/gpu/drm/xe/xe_gt_idle.c                   |  21 +-
+  drivers/gpu/drm/xe/xe_gt_idle.h                   |   2 +-
+  drivers/gpu/drm/xe/xe_gt_mcr.c                    |   4 +-
+  drivers/gpu/drm/xe/xe_gt_pagefault.c              |  35 +-
+  drivers/gpu/drm/xe/xe_gt_sriov_pf.c               |  24 +-
+  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c        |  13 +-
+  drivers/gpu/drm/xe/xe_gt_sriov_vf.c               |  14 +
+  drivers/gpu/drm/xe/xe_gt_sriov_vf.h               |   1 +
+  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c       | 596 ---------------------
+  drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h       |  40 --
+  drivers/gpu/drm/xe/xe_gt_tlb_invalidation_types.h |  32 --
+  drivers/gpu/drm/xe/xe_gt_topology.c               |   2 +-
+  drivers/gpu/drm/xe/xe_gt_types.h                  |  33 +-
+  drivers/gpu/drm/xe/xe_guc.c                       |  43 +-
+  drivers/gpu/drm/xe/xe_guc_ads.c                   | 123 ++---
+  drivers/gpu/drm/xe/xe_guc_buf.c                   |   2 +-
+  drivers/gpu/drm/xe/xe_guc_ct.c                    |   8 +-
+  drivers/gpu/drm/xe/xe_guc_fwif.h                  |   7 +
+  drivers/gpu/drm/xe/xe_guc_pc.c                    |  23 +-
+  drivers/gpu/drm/xe/xe_guc_submit.c                | 209 +++++++-
+  drivers/gpu/drm/xe/xe_guc_submit.h                |  10 +
+  drivers/gpu/drm/xe/xe_guc_tlb_inval.c             | 242 +++++++++
+  drivers/gpu/drm/xe/xe_guc_tlb_inval.h             |  19 +
+  drivers/gpu/drm/xe/xe_guc_types.h                 |   6 +
+  drivers/gpu/drm/xe/xe_heci_gsc.c                  |   2 +-
+  drivers/gpu/drm/xe/xe_hw_engine.c                 |   2 +-
+  drivers/gpu/drm/xe/xe_hw_engine_group.c           |   4 +-
+  drivers/gpu/drm/xe/xe_hw_error.c                  | 182 +++++++
+  drivers/gpu/drm/xe/xe_hw_error.h                  |  15 +
+  drivers/gpu/drm/xe/xe_hwmon.c                     |   8 +-
+  drivers/gpu/drm/xe/xe_i2c.c                       |  18 +-
+  drivers/gpu/drm/xe/xe_i2c.h                       |   2 +
+  drivers/gpu/drm/xe/xe_irq.c                       |   4 +
+  drivers/gpu/drm/xe/xe_lmtt.c                      |  21 +-
+  drivers/gpu/drm/xe/xe_lrc.c                       | 174 ++++++-
+  drivers/gpu/drm/xe/xe_lrc.h                       |   9 +
+  drivers/gpu/drm/xe/xe_migrate.c                   | 424 +++++++++++----
+  drivers/gpu/drm/xe/xe_migrate.h                   |  29 +-
+  drivers/gpu/drm/xe/xe_mmio.c                      |  33 --
+  drivers/gpu/drm/xe/xe_mmio_gem.c                  | 226 ++++++++
+  drivers/gpu/drm/xe/xe_mmio_gem.h                  |  20 +
+  drivers/gpu/drm/xe/xe_module.c                    |  29 +-
+  drivers/gpu/drm/xe/xe_nvm.c                       |   8 +-
+  drivers/gpu/drm/xe/xe_oa.c                        |   8 +-
+  drivers/gpu/drm/xe/xe_pci.c                       |  76 ++-
+  drivers/gpu/drm/xe/xe_pci_types.h                 |   2 +-
+  drivers/gpu/drm/xe/xe_pm.c                        |  23 +-
+  drivers/gpu/drm/xe/xe_psmi.c                      | 306 +++++++++++
+  drivers/gpu/drm/xe/xe_psmi.h                      |  14 +
+  drivers/gpu/drm/xe/xe_pt.c                        | 238 +++++----
+  drivers/gpu/drm/xe/xe_pt_types.h                  |   3 +-
+  drivers/gpu/drm/xe/xe_pxp_submit.c                |   2 +-
+  drivers/gpu/drm/xe/xe_query.c                     |  13 +-
+  drivers/gpu/drm/xe/xe_res_cursor.h                |  10 +-
+  drivers/gpu/drm/xe/xe_ring_ops.c                  |  22 +-
+  drivers/gpu/drm/xe/xe_rtp.c                       |   7 +
+  drivers/gpu/drm/xe/xe_rtp.h                       |   3 +
+  drivers/gpu/drm/xe/xe_sa.c                        |   1 -
+  drivers/gpu/drm/xe/xe_sa.h                        |  15 +-
+  drivers/gpu/drm/xe/xe_sa_types.h                  |   1 -
+  drivers/gpu/drm/xe/xe_sriov.c                     |  19 +
+  drivers/gpu/drm/xe/xe_sriov.h                     |   1 +
+  drivers/gpu/drm/xe/xe_sriov_vf.c                  |  78 ++-
+  drivers/gpu/drm/xe/xe_sriov_vf_ccs.c              | 377 ++++++++++++++
+  drivers/gpu/drm/xe/xe_sriov_vf_ccs.h              |  17 +
+  drivers/gpu/drm/xe/xe_sriov_vf_ccs_types.h        |  53 ++
+  drivers/gpu/drm/xe/xe_sriov_vf_types.h            |   6 +
+  drivers/gpu/drm/xe/xe_survivability_mode.c        | 169 ++++--
+  drivers/gpu/drm/xe/xe_survivability_mode.h        |   5 +-
+  drivers/gpu/drm/xe/xe_survivability_mode_types.h  |   8 +
+  drivers/gpu/drm/xe/xe_svm.c                       | 369 ++++++++++---
+  drivers/gpu/drm/xe/xe_svm.h                       |  27 +-
+  drivers/gpu/drm/xe/xe_sync.c                      |   2 +-
+  drivers/gpu/drm/xe/xe_tile.c                      |  62 ++-
+  drivers/gpu/drm/xe/xe_tile.h                      |  14 +-
+  drivers/gpu/drm/xe/xe_tlb_inval.c                 | 434 ++++++++++++++++
+  drivers/gpu/drm/xe/xe_tlb_inval.h                 |  46 ++
+  drivers/gpu/drm/xe/xe_tlb_inval_job.c             | 268 ++++++++++
+  drivers/gpu/drm/xe/xe_tlb_inval_job.h             |  33 ++
+  drivers/gpu/drm/xe/xe_tlb_inval_types.h           | 130 +++++
+  drivers/gpu/drm/xe/xe_trace.h                     |  40 +-
+  drivers/gpu/drm/xe/xe_ttm_stolen_mgr.c            |  12 +-
+  drivers/gpu/drm/xe/xe_ttm_vram_mgr.c              |  22 +-
+  drivers/gpu/drm/xe/xe_ttm_vram_mgr.h              |   3 +-
+  drivers/gpu/drm/xe/xe_tuning.c                    |   2 +-
+  drivers/gpu/drm/xe/xe_vm.c                        | 602 ++++++++++++++++++----
+  drivers/gpu/drm/xe/xe_vm.h                        |  31 +-
+  drivers/gpu/drm/xe/xe_vm_madvise.c                | 445 ++++++++++++++++
+  drivers/gpu/drm/xe/xe_vm_madvise.h                |  15 +
+  drivers/gpu/drm/xe/xe_vm_types.h                  |  57 +-
+  drivers/gpu/drm/xe/xe_vram.c                      | 211 +++++---
+  drivers/gpu/drm/xe/xe_vram.h                      |  11 +
+  drivers/gpu/drm/xe/xe_vram_freq.c                 |   4 +-
+  drivers/gpu/drm/xe/xe_vram_types.h                |  85 +++
+  drivers/gpu/drm/xe/xe_wa.c                        |  25 +-
+  drivers/gpu/drm/xe/xe_wa.h                        |   8 +-
+  drivers/gpu/drm/xe/xe_wa_oob.rules                |  11 +-
+  include/drm/drm_device.h                          |   4 +
+  include/drm/drm_gpusvm.h                          |   4 +-
+  include/drm/drm_pagemap.h                         |  50 +-
+  include/drm/intel/pciids.h                        |   5 +
+  include/uapi/drm/xe_drm.h                         | 282 +++++++++-
+  154 files changed, 7228 insertions(+), 1877 deletions(-)
+  create mode 100644 Documentation/gpu/xe/xe_device.rst
+  create mode 100644 drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+  create mode 100644 drivers/gpu/drm/xe/xe_dep_job_types.h
+  create mode 100644 drivers/gpu/drm/xe/xe_dep_scheduler.c
+  create mode 100644 drivers/gpu/drm/xe/xe_dep_scheduler.h
+  delete mode 100644 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
+  delete mode 100644 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h
+  delete mode 100644 drivers/gpu/drm/xe/xe_gt_tlb_invalidation_types.h
+  create mode 100644 drivers/gpu/drm/xe/xe_guc_tlb_inval.c
+  create mode 100644 drivers/gpu/drm/xe/xe_guc_tlb_inval.h
+  create mode 100644 drivers/gpu/drm/xe/xe_hw_error.c
+  create mode 100644 drivers/gpu/drm/xe/xe_hw_error.h
+  create mode 100644 drivers/gpu/drm/xe/xe_mmio_gem.c
+  create mode 100644 drivers/gpu/drm/xe/xe_mmio_gem.h
+  create mode 100644 drivers/gpu/drm/xe/xe_psmi.c
+  create mode 100644 drivers/gpu/drm/xe/xe_psmi.h
+  create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf_ccs.c
+  create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf_ccs.h
+  create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf_ccs_types.h
+  create mode 100644 drivers/gpu/drm/xe/xe_tlb_inval.c
+  create mode 100644 drivers/gpu/drm/xe/xe_tlb_inval.h
+  create mode 100644 drivers/gpu/drm/xe/xe_tlb_inval_job.c
+  create mode 100644 drivers/gpu/drm/xe/xe_tlb_inval_job.h
+  create mode 100644 drivers/gpu/drm/xe/xe_tlb_inval_types.h
+  create mode 100644 drivers/gpu/drm/xe/xe_vm_madvise.c
+  create mode 100644 drivers/gpu/drm/xe/xe_vm_madvise.h
+  create mode 100644 drivers/gpu/drm/xe/xe_vram_types.h
