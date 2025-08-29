@@ -2,42 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB04B3BC95
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5999B3BC9D
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95B3E10EBB8;
-	Fri, 29 Aug 2025 13:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2374010EBBC;
+	Fri, 29 Aug 2025 13:41:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f98+42k7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A94F810EBB8
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 13:41:07 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 108B915A1;
- Fri, 29 Aug 2025 06:40:59 -0700 (PDT)
-Received: from [10.1.29.20] (unknown [10.1.29.20])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BAC6A3F738;
- Fri, 29 Aug 2025 06:41:04 -0700 (PDT)
-Message-ID: <35034ce0-46de-4417-9bd6-6ea90c5e9095@arm.com>
-Date: Fri, 29 Aug 2025 14:41:02 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E08710EBB9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 13:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756474906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=7ZezTDYPV9FY1vYbYIlP1Z79qo+TmLw98Vo74TFiYNA=;
+ b=f98+42k7426a6CzPQitG4DnS9zPuRNCj/2cp6rT985RCqcYo/vnpZO6T/x/SB7t5eP5Tsj
+ HVYVCVdLegLykUVu5kQakqp49TeNtQzmzkc4lUi1lNYjUYkDaoD9LecAW8SFGQAJDDcJ26
+ YgrLct+RrB7vq1xlQoGiX5+chGe/iGY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-YUbQZL7uNyikkfG9U24xRQ-1; Fri, 29 Aug 2025 09:41:45 -0400
+X-MC-Unique: YUbQZL7uNyikkfG9U24xRQ-1
+X-Mimecast-MFC-AGG-ID: YUbQZL7uNyikkfG9U24xRQ_1756474904
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-45a1ad21752so12836605e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:41:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756474904; x=1757079704;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7ZezTDYPV9FY1vYbYIlP1Z79qo+TmLw98Vo74TFiYNA=;
+ b=ayU4FZqN+q7FYL5i6p0KWm2B7sRcJM1rnh0X6RY8UhkB9pYkZm5kEOnDWau7tHbCY1
+ cl90pesvlxizZCOzF+B2rPJt9EI79H/Sn6dWyDNzz4fF6stqiNcJd8581dqXad/Wwn66
+ zrv+D0yd0ggSA18reu/0Q23HQqWrhK70w3yt/FY4ffErfNOVu3UjcaHB5+tBJQ2ifQsq
+ j9i12BFauMFHE2mLaJ7M3lOKn7xIBa1Fq0ID4INxNT+HRDkppHEA2YlOGYFzYHNB67L1
+ 4YtMqHzpsLsNB3wkU1wj7N8vRl2j0xkE7K/lpqJqCX96mtHKUwhK2xQuPq1nNYwnGC0/
+ fZlw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4G6ebQbR8zYViyEWTHpmEP0SbEvgxlgsYa8WNJSTw5fga2jCPGdFxlMXLrhoZNFaNAFBoXG/PbBE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvSBAgl6aHTmi5+Ngc8eWZZszzvlgCwoQ/njQI4ZSrzTw32Enn
+ f8zIKseL/MOLlbl+6oDXu2defXg/o6IIZpcsK1Zt2R1xpKGfhLHqpQ2AQfGM8XUbhwOfDKFBo0X
+ ID16n7aS7siSu6DCSSq+9lV4vpY1gnHSAgS5vc0BsFRl4IuBHFerwEbOtAdj4R5vMufpnwg==
+X-Gm-Gg: ASbGncsL2l2zNQLcTc94SRGhvF+SUv76ZIYVJN11KJhkbYZTrnirPPMlAxgOWjydtqb
+ sIUer08TRV+Xohic4pUVbcBurPNIMg+JHi7OqHlOTXaVDj4RCJJE43atpLVRmp2MUJF9aC2JB1T
+ ZoK4ddhb8RqWawpYxlJyb5pARjoORNznsI2H56QDTyI6zPZKABGpz6hJKV1UrrAM4wZ0Ed+bD90
+ zpcb+j3AWrFGNRSOjGML7kovKhUpPUR1fiz0bARoiGX6jKHgD0nh9NdQYkEpY64qRdYfMJEhjGD
+ wopMuZKFLYpRkfRAI6dV36DEySB8mFSbS2ka5lhX7prLMudFfxTkBehnczdJMC9s7UgNRNDCl1Z
+ U71dYNIbnrJPPFa1aNY65E1ELSqMy+lED2ydb7BEfhrnqvShUbOaH414CNm4DvSFI
+X-Received: by 2002:a05:600c:8b0a:b0:45b:733b:1feb with SMTP id
+ 5b1f17b1804b1-45b733b214dmr83370775e9.10.1756474903644; 
+ Fri, 29 Aug 2025 06:41:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWe5EWQVl5iPDqqeubvc9kL/5oN1fdgiPPYoM9Zstyja975cqp15HWRaThC/EH89lpSzwt8Q==
+X-Received: by 2002:a05:600c:8b0a:b0:45b:733b:1feb with SMTP id
+ 5b1f17b1804b1-45b733b214dmr83370155e9.10.1756474903176; 
+ Fri, 29 Aug 2025 06:41:43 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f1d:100:4f8e:bb13:c3c7:f854?
+ (p200300d82f1d01004f8ebb13c3c7f854.dip0.t-ipconnect.de.
+ [2003:d8:2f1d:100:4f8e:bb13:c3c7:f854])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3cf3458a67esm3469559f8f.62.2025.08.29.06.41.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Aug 2025 06:41:42 -0700 (PDT)
+Message-ID: <632fea32-28aa-4993-9eff-99fc291c64f2@redhat.com>
+Date: Fri, 29 Aug 2025 15:41:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/panthor: add asn-hash support
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250828201806.3541261-1-olvaffe@gmail.com>
- <20250828201806.3541261-3-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250828201806.3541261-3-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v1 18/36] mm/gup: drop nth_page() usage within folio when
+ recording subpages
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-19-david@redhat.com>
+ <c0dadc4f-6415-4818-a319-e3e15ff47a24@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <c0dadc4f-6415-4818-a319-e3e15ff47a24@lucifer.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: egyjTbsocJHykPajV_N_6ttjJ_1K2DNLqroFxE9ks2o_1756474904
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,156 +173,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2025 21:18, Chia-I Wu wrote:
-> Parse asn-hash and enable custom ASN hash when the property exists.
-> This is required on some socs such as mt8196.
+On 28.08.25 18:37, Lorenzo Stoakes wrote:
+> On Thu, Aug 28, 2025 at 12:01:22AM +0200, David Hildenbrand wrote:
+>> nth_page() is no longer required when iterating over pages within a
+>> single folio, so let's just drop it when recording subpages.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
 > 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-
-This mostly looks fine, although there is a question of naming. This was
-renamed in a later version of the architecture to be L2C_SLICE_HASH
-(rather than ASN_HASH).
-
-I'm honestly not sure whether to stick with asn-hash (as it's out in the
-wild already) or try to align with the newer spec and whether that will
-create or avoid confusion!
-
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 28 ++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_device.h |  6 +++++
->  drivers/gpu/drm/panthor/panthor_gpu.c    | 17 ++++++++++++++
->  drivers/gpu/drm/panthor/panthor_regs.h   |  4 ++++
->  4 files changed, 55 insertions(+)
+> This looks correct to me, so notwithtsanding suggestion below, LGTM and:
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 81df49880bd87..19423c495d8d7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -41,6 +41,30 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  	return -ENOTSUPP;
->  }
->  
-> +static int panthor_gpu_asn_hash_init(struct panthor_device *ptdev)
-> +{
-> +	int ret;
-> +
-> +	ret = of_property_read_u32_array(ptdev->base.dev->of_node, "asn-hash",
-> +					 ptdev->asn_hash,
-> +					 ARRAY_SIZE(ptdev->asn_hash));
-> +	if (ret) {
-> +		if (ret == -EINVAL)
-> +			ret = 0;
-> +		return ret;
-> +	}
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> 
+>> ---
+>>   mm/gup.c | 7 +++----
+>>   1 file changed, 3 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/mm/gup.c b/mm/gup.c
+>> index b2a78f0291273..89ca0813791ab 100644
+>> --- a/mm/gup.c
+>> +++ b/mm/gup.c
+>> @@ -488,12 +488,11 @@ static int record_subpages(struct page *page, unsigned long sz,
+>>   			   unsigned long addr, unsigned long end,
+>>   			   struct page **pages)
+>>   {
+>> -	struct page *start_page;
+>>   	int nr;
+>>
+>> -	start_page = nth_page(page, (addr & (sz - 1)) >> PAGE_SHIFT);
+>> +	page += (addr & (sz - 1)) >> PAGE_SHIFT;
+>>   	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+>> -		pages[nr] = nth_page(start_page, nr);
+>> +		pages[nr] = page++;
+> 
+> 
+> This is really nice, but I wonder if (while we're here) we can't be even
+> more clear as to what's going on here, e.g.:
+> 
+> static int record_subpages(struct page *page, unsigned long sz,
+> 			   unsigned long addr, unsigned long end,
+> 			   struct page **pages)
+> {
+> 	size_t offset_in_folio = (addr & (sz - 1)) >> PAGE_SHIFT;
+> 	struct page *subpage = page + offset_in_folio;
+> 
+> 	for (; addr != end; addr += PAGE_SIZE)
+> 		*pages++ = subpage++;
+> 
+> 	return nr;
+> }
+> 
+> Or some variant of that with the masking stuff self-documented.
 
-NIT: I think this would be neater written as:
+What about the following cleanup on top:
 
-	if (ret == -EINVAL)
-		return 0;
-	else if (ret)
-		return ret
 
-Thanks,
-Steve
+diff --git a/mm/gup.c b/mm/gup.c
+index 89ca0813791ab..5a72a135ec70b 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
+  #ifdef CONFIG_MMU
+  
+  #ifdef CONFIG_HAVE_GUP_FAST
+-static int record_subpages(struct page *page, unsigned long sz,
+-                          unsigned long addr, unsigned long end,
+-                          struct page **pages)
+-{
+-       int nr;
+-
+-       page += (addr & (sz - 1)) >> PAGE_SHIFT;
+-       for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+-               pages[nr] = page++;
+-
+-       return nr;
+-}
+-
+  /**
+   * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
+   * @page:  pointer to page to be grabbed
+@@ -2963,8 +2950,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+         if (pmd_special(orig))
+                 return 0;
+  
+-       page = pmd_page(orig);
+-       refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
++       refs = (end - addr) >> PAGE_SHIFT;
++       page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+  
+         folio = try_grab_folio_fast(page, refs, flags);
+         if (!folio)
+@@ -2985,6 +2972,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+         }
+  
+         *nr += refs;
++       for (; refs; refs--)
++               *(pages++) = page++;
+         folio_set_referenced(folio);
+         return 1;
+  }
+@@ -3003,8 +2992,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+         if (pud_special(orig))
+                 return 0;
+  
+-       page = pud_page(orig);
+-       refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
++       refs = (end - addr) >> PAGE_SHIFT;
++       page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+  
+         folio = try_grab_folio_fast(page, refs, flags);
+         if (!folio)
+@@ -3026,6 +3015,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+         }
+  
+         *nr += refs;
++       for (; refs; refs--)
++               *(pages++) = page++;
+         folio_set_referenced(folio);
+         return 1;
+  }
 
-> +
-> +	if (GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) < 11) {
-> +		drm_err(&ptdev->base,
-> +			"Custom ASN hash not supported by the device");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	ptdev->has_asn_hash = true;
-> +
-> +	return 0;
-> +}
-> +
->  static int panthor_clk_init(struct panthor_device *ptdev)
->  {
->  	ptdev->clks.core = devm_clk_get(ptdev->base.dev, NULL);
-> @@ -257,6 +281,10 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		goto err_unplug_gpu;
->  
-> +	ret = panthor_gpu_asn_hash_init(ptdev);
-> +	if (ret)
-> +		goto err_unplug_gpu;
-> +
->  	ret = panthor_mmu_init(ptdev);
->  	if (ret)
->  		goto err_unplug_gpu;
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index 4fc7cf2aeed57..6f8e2b3b037e5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -114,6 +114,12 @@ struct panthor_device {
->  	/** @coherent: True if the CPU/GPU are memory coherent. */
->  	bool coherent;
->  
-> +	/** @has_asn_hash: True if custom ASN hash is enabled. */
-> +	bool has_asn_hash;
-> +
-> +	/** @asn_hash: ASN_HASH values for custom ASN hash */
-> +	u32 asn_hash[3];
-> +
->  	/** @gpu_info: GPU information. */
->  	struct drm_panthor_gpu_info gpu_info;
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index db69449a5be09..f9222b67f314d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -52,6 +52,22 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
->  }
->  
-> +static void panthor_gpu_asn_hash_set(struct panthor_device *ptdev)
-> +{
-> +	u32 l2_config;
-> +	u32 i;
-> +
-> +	if (!ptdev->has_asn_hash)
-> +		return;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ptdev->asn_hash); i++)
-> +		gpu_write(ptdev, ASN_HASH(i), ptdev->asn_hash[i]);
-> +
-> +	l2_config = gpu_read(ptdev, L2_CONFIG);
-> +	l2_config |= L2_CONFIG_ASN_HASH_ENABLE;
-> +	gpu_write(ptdev, L2_CONFIG, l2_config);
-> +}
-> +
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	gpu_write(ptdev, GPU_INT_CLEAR, status);
-> @@ -243,6 +259,7 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
->  
->  	/* Set the desired coherency mode before the power up of L2 */
->  	panthor_gpu_coherency_set(ptdev);
-> +	panthor_gpu_asn_hash_set(ptdev);
->  
->  	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index 8bee76d01bf83..c9f795624e79b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -64,6 +64,8 @@
->  
->  #define GPU_FAULT_STATUS				0x3C
->  #define GPU_FAULT_ADDR					0x40
-> +#define L2_CONFIG					0x48
-> +#define   L2_CONFIG_ASN_HASH_ENABLE			BIT(24)
->  
->  #define GPU_PWR_KEY					0x50
->  #define  GPU_PWR_KEY_UNLOCK				0x2968A819
-> @@ -110,6 +112,8 @@
->  
->  #define GPU_REVID					0x280
->  
-> +#define ASN_HASH(n)					(0x2C0 + ((n) * 4))
-> +
->  #define GPU_COHERENCY_FEATURES				0x300
->  #define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
->  
+
+The nice thing is that we only record pages in the array if they actually passed our tests.
+
+
+-- 
+Cheers
+
+David / dhildenb
 
