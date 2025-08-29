@@ -2,118 +2,218 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9944BB3BB91
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 14:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF35B3BBAF
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 14:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5388E10EBA8;
-	Fri, 29 Aug 2025 12:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFFAD10EBAC;
+	Fri, 29 Aug 2025 12:52:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dHa/sty2";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="sf1ejbJ7";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ZJs0XvGC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4C2810EBA8
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 12:44:35 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57T85JEF011808
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 12:44:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- OM5XRmALpbTNQitrR9ghy0nuO7Xiw48Vs7z2c0FwRTU=; b=dHa/sty2zDtjNNrT
- 2+ydEmn71OEmzuuCbyEWn6xNDKNUn4iuWAzgLOO6iyPX23QBeg5FRsE2gq+ayGNe
- 6IvLv/6LFYVaLqv6L/e2thkIQBDPTO0nc4x9qZPutMtEUzFwEGA5NYGwxnnrdyey
- xEHYE3eWd1vuJ1Jj5JHsAzUp9f5xsoq09DO2LgsOxOJCpf7qkjeIrA4MBWyz06cy
- /4VzI48MFZzw/ZG3mfQm98o1G45HVfgRyRi/UrkKSRj9h6k+cElWzhMR9Gw4mgky
- fukN5GFRQsm04u0wRIA5/BbVDwCfBvrbMhECYwnNWNsBxuS/BlUl3kA8mb9D1mse
- nZBhIQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q615uu5n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 12:44:34 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70ddadde46bso39776536d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 05:44:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756471474; x=1757076274;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OM5XRmALpbTNQitrR9ghy0nuO7Xiw48Vs7z2c0FwRTU=;
- b=H9HoWUyfixlIoYEZo1aD9sI4GrQphuVlqg7BX3wW5kJnb4VIYZjm2Q5S/7N/zi49Y/
- IrH/eS3dEqFoAfmwpIHYWN/05NBDQpH3TDG22vd2XsmlENb3uM85m77fyItwrjw7deKf
- FK10WqlmXJ/R2Ww9f/rVy4TLuFXyqpvCX9/M9lYbNUN5xM14PzRJDp165mag7hBCJ9JO
- iM74bC6beGzZtdpeYDSO5Ghe1DkzD/MSBBbAkf0V8RVQD8PbigV/3AjzRKghicglTDXb
- jTA4mXha39RoWRECguljjPd+8XWYrfbwjmlk/Yune69z10+tYoZVHKEXRHse26OQBJX2
- ccwA==
-X-Gm-Message-State: AOJu0YwagPZmu6IiIviy4ObYCA2LNd3Rvx2lDktCxRh5WD2KDQLKV7vV
- t7C/L4B44xOslxyNyeDd2pcD2b//2Kkya38ecVK33HDf7EKQZ7Jrg4jIeL6FH6rnVQfIZGnSIaw
- LPb+bMUleVAIVuMNq0lh/Y0jZcCaQuKkfoKuAK79+fn39A3/Sw2cvwT11q1bhnDbCqW3yRFn2WS
- tA79Asew==
-X-Gm-Gg: ASbGncuz9Gi6Nr1URmvEIyn2ousIq8ep0atqSDDCvYlX7YqDiuw8TxY5nUrDM5at3SD
- fnj2TfvFqikPFMjyvF544dhRio2YaMkX3h62By4qM0LQugDW+7Wf3sQiiJll6D+OOMQ+XAxwdBM
- U+jkycm5zXQKmGERsXXh65jY/+dCI1V8NhTz80n4nz+/MYK1vk4xYjtYidrHM06PopLrkSruTXG
- Ni8wZ2tWUC3I9CiDdOPza9Ok9fVJeLF9Rre0bnX+o1wElOWJW0i9bZb3SmJ8RBfnZF/me8tQtW7
- RGDSygrEDNi2SQrQkeZHojJmvg4aQZzwvK8JsX4UslgdQv+8377GxphhHkDCtX//j/IfZrvpAhO
- 300Vf/RY5p7t4OsryBXpfN2QI/lASdXrvimIvLMyKYsUbKfNRP+6G
-X-Received: by 2002:a05:6214:2345:b0:70d:f7ce:fe5b with SMTP id
- 6a1803df08f44-70df7cf02d3mr57827566d6.57.1756471473831; 
- Fri, 29 Aug 2025 05:44:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqiiEbiwWzc97h8HM8qB+w+Kb+eEqt8tEqiEr6/iDIqeknHui3+C0lMnaDZ/UaSsYiDc+Mqw==
-X-Received: by 2002:a05:6214:2345:b0:70d:f7ce:fe5b with SMTP id
- 6a1803df08f44-70df7cf02d3mr57827156d6.57.1756471473250; 
- Fri, 29 Aug 2025 05:44:33 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f67a50435sm593782e87.152.2025.08.29.05.44.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 05:44:32 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250827-adv7511-infoframes-v1-1-f89b9690f89c@oss.qualcomm.com>
-References: <20250827-adv7511-infoframes-v1-1-f89b9690f89c@oss.qualcomm.com>
-Subject: Re: [PATCH] drm/bridge: adv7511: provide SPD and HDMI infoframes
-Message-Id: <175647147213.828962.3232012241776711078.b4-ty@oss.qualcomm.com>
-Date: Fri, 29 Aug 2025 15:44:32 +0300
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C9A10E221;
+ Fri, 29 Aug 2025 12:52:12 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57TAYiuD026792;
+ Fri, 29 Aug 2025 12:51:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=pwh5I607Wmtm5xnJko
+ uUwSqIJNZb1Z0CvioeJScwY1M=; b=sf1ejbJ7DMh9G9ZhHtWa7J5Oeooj4LqnTc
+ 9vcMSinJaL0jm0hm6YYZvto6jbD/jC+ciPndpH5Qw06NXzdHennwASvnt1GCxnHY
+ enPrOyJ3fU7MJdljs/25jLD4ald7TM0XfF4i/WqI8sYatLvq8iKbdBXMOhQOK7ia
+ HStlffp36zGaxq4vqLsZXUx5uwlTcv2dZKVh6Q2tPxqw6Je4A6lP/lHSTtnZn69h
+ wQ4T9SIqJXwFtRMdZyBtRmCx9hv7IwyQr8R4lQ9hL6kjeeN0Ul7r70EinuvTd4dZ
+ m97xrE4h6hxkkQqpKt33CQhlRdQVU3j0cK3zahnEBOccVmHD9s8Q==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48q48eth0f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Aug 2025 12:51:49 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57TB0KOn005562; Fri, 29 Aug 2025 12:51:49 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2078.outbound.protection.outlook.com [40.107.237.78])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48q43d7ahq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Aug 2025 12:51:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wD05ZmvqguZ+h2mBa6ko8S/1Dd5QDOVYpE+Qdj3dSgyHFObg4HL6VxRYBP3/zuhgW0ctF8cck7YpADmqNEcgMT6VfgKI3EGWYuu8Ih+3T8g9YLKn2oCP5EgKwl5/dLjmxiHXlDayWvK2jrHhjJar1fN+y4TNTSzN/OIQT+Xpld30r7CfYzqkrvrNrjgGFrPfsED56KxhVCSFtI00xFpmZaQN6wxSh4rx2N6QM0qANXLkriyptaKq022J4uoxmbj/gaUMik+rpu9+JzUVFCxM8khQMrHFy6vOTkKXubGf1m+bgsMlGQw74SbQdUXSogUwKpxyuqJp7/wk+7L0jN//Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pwh5I607Wmtm5xnJkouUwSqIJNZb1Z0CvioeJScwY1M=;
+ b=rEGxYXd2RnNgtswErVqufHBR7IMtzFpOLeUkTEFUIXPyIonrhqsZ/CoJTROyldVwYifS3UQ7QSn04xRzbv8CkbXjvCWqm2pXdog5h/9gZg18frWN4r9TiZXoGq4djgZHlK3itRdP7bRaGe985azXzlZ2SlV6hjCECZJxPrN1Fo2KyRNk9bFnGFv/Qs/LYen53kiK8x8lmJarsVj2PrZrBF5ta9Dwpt6/irBpxUFLnsZVgWifmT7d5siokJ38j+MCi7u1qq9UAZfr3pNIApajJ6JxbRpA0/7tRn48drLVQmNfXdjcVJXCRgfLqQx2e8hrKEVDA8FOXAo8hcjGH+K9GQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pwh5I607Wmtm5xnJkouUwSqIJNZb1Z0CvioeJScwY1M=;
+ b=ZJs0XvGCekcrTiYe/CMhTjM10P8arnK8M9Jwhyddel8Hd9RAWKR943K+Ns3hkx17uOmuzDDw6w5VzqiWuuCv8OGUROZI8OhPFZCCArgEzjDl/nklxS8OGtsyRRDvJWUPTug+aFEQ3uyLXy5iYO5nfcQmAbtzo2MgB1UVEscHGWY=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CH3PR10MB7905.namprd10.prod.outlook.com (2603:10b6:610:1be::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Fri, 29 Aug
+ 2025 12:51:44 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Fri, 29 Aug 2025
+ 12:51:43 +0000
+Date: Fri, 29 Aug 2025 13:51:41 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 20/36] mips: mm: convert __flush_dcache_pages() to
+ __flush_dcache_folio_pages()
+Message-ID: <549a60a6-25e2-48d5-b442-49404a857014@lucifer.local>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-21-david@redhat.com>
+ <ea74f0e3-bacf-449a-b7ad-213c74599df1@lucifer.local>
+ <2be7db96-2fa2-4348-837e-648124bd604f@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2be7db96-2fa2-4348-837e-648124bd604f@redhat.com>
+X-ClientProxiedBy: LO2P265CA0435.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:e::15) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzNCBTYWx0ZWRfXzDKTx5D1qDTl
- K4PahjTAQ8GQbtaOcOP2MpGr3h0kBJFFutaTurUZL433Q1QCAgPA6S3pOrpSgV+IUj0KMIDrM5Q
- n34UY6TZ4wIJBEjSihRAeC4XTBUlEG+hFA164dyf0aEHg4Y6YJ/11USokp0GgOxMMX5lBfU3ymz
- xNNFoIYamRgR+mAd4xE8UUNAJlo1z0n1oMQYAYO3P9EKqndiZZ4SypqaYQedQaPZD9Mf1gU228+
- GMotCFE35c/vhcQ0DUvcRDAo943RjenNofZjKnUdrYng2vB9AmyOh1Ym8UVqdM05GWGv+ZMLSdP
- kWRTSeMM6o+v51kRavqNlGw+fYtfSo3LAa/sBdSTfJqRi9cRREpe5kD5Ms0eKdFBEtqk2buvOMI
- UuOY2jRH
-X-Proofpoint-GUID: ulZhUBjR_N9ItLxe0czsqXuvLJU7fZhj
-X-Authority-Analysis: v=2.4 cv=K+AiHzWI c=1 sm=1 tr=0 ts=68b1a0b2 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=CDa_aIuWbD5CBshxjBkA:9 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: ulZhUBjR_N9ItLxe0czsqXuvLJU7fZhj
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CH3PR10MB7905:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58307290-420d-4b4e-1467-08dde6face80
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xeaI7LyZbZcoxcRAdnCynOv1Mit3iq0g8yJQqBpLAenCQ06JHAcEy0aXIGnH?=
+ =?us-ascii?Q?mxX4af0KFgrqFqzXCrc0FlHk+Jjbn0aIsQiougPgnRpxYdPdnDQCusFr2rOk?=
+ =?us-ascii?Q?9Nbns1Ldj3UZWblNT5OSvSXwIIdlnS0mEn/rhbhJR235Sixgx543NMTLA6qW?=
+ =?us-ascii?Q?2ODjly394EnXRpuqxaSQaklDsght/n0BrOVlYpkHjHGQ6pl7+xCiDZYbpG3V?=
+ =?us-ascii?Q?5yGmEWNX8yiZ7wDPKm/Jf9CR0afRl2awZgFaNLJeg0dlk2ec1dKILaTLNMom?=
+ =?us-ascii?Q?rBFh6edZshX0TjJjmEZ4vEPMbexJa2NjCc8qYrwCdfFTz9h6FWE4IJX2INLg?=
+ =?us-ascii?Q?U3qAyzzt+7U4OYebmk7onamGscqytXdgvtwaosffqIr+Ql0X1gPqmSlb6PN4?=
+ =?us-ascii?Q?RCA9fwi044PGrExlodEiWnHQFJ3EjPQGzMG80p2JdtA+Z2UZ4GTAYsQ35B3K?=
+ =?us-ascii?Q?haSbMGHFTYLOQF+VPYM3kXhexbgMYWZBwL6ZYh8IsS6hJWFJ0OleIE0IRNnC?=
+ =?us-ascii?Q?YWULf9EuCV765lePd1RnjHBVgf8zGGQpNSx/NidyLEKXS/WYoAknFlFPE22b?=
+ =?us-ascii?Q?vzyxJz2DPCoiEi23ScR7T21zUsKs6x850aT2b9p9GywdnVsUTuK+kvnlwnG7?=
+ =?us-ascii?Q?jskfVcUQNBOFy7PDCeq/FdcGuDo/WFvxJ4QzrlAtCS4EBwECW6ffKSvvrjvy?=
+ =?us-ascii?Q?Nq4/TI7N21oeJqegoPlajj/8S4zyoCIK+9eNXNEpYy3m3SIxJ1o88fWCV6cl?=
+ =?us-ascii?Q?L3yRdT53yGW5t7q8xPCFYV7RK+bpevrY9ZD3EtoRRJ7H599E/TKCJ4Y/VkXy?=
+ =?us-ascii?Q?vMoGoXdxYEgIDJCyqPmzzz6wZff8Y6ow2t/m8DVdM8oUQ5fHxeAPs0UD0YPS?=
+ =?us-ascii?Q?Oivb7KZEnukNM+2eseWT7gngis9a/X7xldPnxeGR10AQUQ1y3iRErE3Vbkme?=
+ =?us-ascii?Q?lTSvX1ggXgvoCgQU2VSY9HAaTg9Xkzh5ZY9QCL3zz4q1WZ0h4e/jQHakbypT?=
+ =?us-ascii?Q?2gazOlGQjbdDkgLjsxi4mwlrmfDk0lwq8szEG2PitY0x9Kwervzj5u6GfxxQ?=
+ =?us-ascii?Q?0f8/tN914OOb7ZDJmJIjhViUMDBtCYq9lwKaM3oZ274ya0Sa67Q5TRtzfyUc?=
+ =?us-ascii?Q?JD5WlYe0o420WBZhv782JKi0cIQr60N6Cw7BwSy6IOk7akiBHb9RPkres/Dz?=
+ =?us-ascii?Q?/N9TJfyXGFPRJh49IAT2Sg3p/dijUUG/x0++S0rAFnEppAGeIv9uLJ1fSyB9?=
+ =?us-ascii?Q?0RPlixa43aNQXgJkT04VLEQsbkbmNBvwQJuAS6b5RhqF2CSboV3jKvNRn5El?=
+ =?us-ascii?Q?qKpLh3aI/qnjy6KkMTX5waiDZNpEf6DE+7Fihq+neWnIOouynlnLFy3qmrVT?=
+ =?us-ascii?Q?vwKh4Y+ESr2pIRfAhorjDfxEguO418xm81DZrOgjJVYDJL8Pqq29q5stTCke?=
+ =?us-ascii?Q?lT49yQjgjaU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?634ckdqopkQE+clIzzPwn1GUuN03xNX6tSMotBhEXMKR9OwT98f/Ru1jXE0Y?=
+ =?us-ascii?Q?sbNIWVkQuR0SpMN4s0u+ihh5tJBIaNC+mgIaLSeagt4G4j0Xe3hd1sP3tvgS?=
+ =?us-ascii?Q?fEziZW6xsYtq0Pu4rutCYexSlz/fg2jMDjgPtrCFGyqlAepxllJT6y4xC9SD?=
+ =?us-ascii?Q?ayOkwiGpqp1fTgesxIDLtTqvkSk9jEd7ie2hn8fUJoCMHg4ZastEecD9rWEF?=
+ =?us-ascii?Q?uF6Z+OAl6tI6MB3RceqXcCPFy1oSlZiXnSt2ahqFM6ftzyPiGyTR5A2i6Eg2?=
+ =?us-ascii?Q?8fo5mKIlYB79/UI1k6KFy8wxJucUpnV2t5WcB5+1gD79jLLgufcJdKjqdc0R?=
+ =?us-ascii?Q?SnAt95f7BOKdPBPl92PU0BEI2T/cpltF/xq02f49MlHHcmh3ThAOYCZUit/0?=
+ =?us-ascii?Q?BG2OeCCJUoBC026+KQ54NGybU36IlqdHfjoWlCtRbcf4VC9F/h7nrLDpuG1b?=
+ =?us-ascii?Q?t+DkiNhZ09cXw0FYU/DkWufMkT0/HYJNoe2JrzYA+ukUTAsWWsFVql3z9mc7?=
+ =?us-ascii?Q?TaPkk0mkEzN8CFgDmJCW/tGuAItX7/k6xuOO66SaE3tenSALRp2Q+etSEuUD?=
+ =?us-ascii?Q?Syh//5VYv0GmbiIXOnwJJ8dSMLU0euXXSL8ixHIHpLh/H6wPPFlf+4AH5IuS?=
+ =?us-ascii?Q?hPl3mHhIE7hUxfqfw9Iu+Wju+ZjYUXGMfa6fgvQwNIPM851FHoidW9707Mcu?=
+ =?us-ascii?Q?J89xGKWkVG5LCYixdudsTZbuTfvdJMgh5fxDzcKVFUbMA+SwjCWK1e7C9S50?=
+ =?us-ascii?Q?Ts718B6ivNu6SnP26VR2hmbx+dZYphiZsnQrtVP1NhtbO72488MHBmdk43X/?=
+ =?us-ascii?Q?bp67ffE/knEop9sGEtHntt5uPKxL8dTfvfw2UELK/NCMsuEnyXJuvrrBdKQU?=
+ =?us-ascii?Q?YfzDFv3zFJEnhjdUkKkuTEGTOoZh1225M3POJ2WbfTnTnAzwiygbUC5NtMAO?=
+ =?us-ascii?Q?2ie4kpaHOrdJMOD6klgG5A4aGOSfyDwW4nH7RwEyg4f5phJY/gMcWodHHdbe?=
+ =?us-ascii?Q?3JjMrlq3TtXe3zYm3Bl0adfBxWtsYLusl4Bm/pyACkRM0jYGYtr6VUawVG+y?=
+ =?us-ascii?Q?KmSgUg5ZZr6xhWEK+D6YasUZMLHvaPX9u8Nd7r7PBQUnwL1+Az3XCFbPTSBL?=
+ =?us-ascii?Q?vQPAfS6lOC/x+BmHH6Jk7ZO8s5Hb9Y2AgJ0CvrLj1hWyHS09AsWJb0HE4nmI?=
+ =?us-ascii?Q?mGVhL6i92GhNRQQ4oIFM1hUFoHkfv4zaknyeMoVd68zovK/aLJvVxhdae/A5?=
+ =?us-ascii?Q?5faxzHPvUjlCZVx68Ssmuu5VKhChUBHu9pHtTzHjCoXjKqlFfSVmX+B+7I3q?=
+ =?us-ascii?Q?mNGyFuDmXQb5Oy65KVyxFn4Msg+Ks/DhlnPt0kjmu1UIFNzQ4kAPpRW5RKeh?=
+ =?us-ascii?Q?pbDVeK0AhgZ8Ekq7mgS/GShiToJGXzDrPtr8y9fbxOv4TfTsiMK5zc5+0vg8?=
+ =?us-ascii?Q?yBy+eqIv0UGg2wgtsHn9iV8OoOoDMZ9pZ5t8F1mXNvoLdN2WdevB3cnQxGbi?=
+ =?us-ascii?Q?3Ej8dEA2wmG/SAGLYkT2LDWNifb4XoC5/21/7puW7TYoLDcPfWJUOhYNjuP+?=
+ =?us-ascii?Q?lCcdpRiljfLZb81LHoWxXhZE3GqCa02aO/YnW9AozWbp4bJ+scamrR9ykM2o?=
+ =?us-ascii?Q?Aw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: c/ks1Qi4CX07e4+4yKPt2QvT/Gl0yVzmwaxlYsRimt1rz3DASGvafPvLQCcIjL4z5ifSaY78aDsolAYTYFV18MrXrI6nbwqrWS1uyAoLKDqr0lqLYlSYAbkxspA6aP2I17mNPj8ER38eYhpRoC17uyazWvEBAtKqkngDeh4w1VyiRnvgs7pcD4jeXveSj9oKe1PaU5XFrRGHS1ZBN+3K9lZkTwBWuDWfUmJuKZq+hhWc1TqoafbGs5E1oSJ+KYXVQHEofp8S+TyPAN/8rdhhs97veWro8E5HrV0JqZuCGVdQ2KC8WRj7TNt4POHKgi+7hryKprHNKQVR7ZCtQ4sm7gwW3sxDNrp7oRQxO01QqDyoCXtE/mSopPzS9iV3esRythN1t0icJXZjcIqhXq/zKXv2qXO5SZxV4F6D/6MQHLBg8kbtTrWNfJxMAsEs2bNsx9/ApoV+Nf4BhB/vweuHeClnruJH8zcreRU/YlQCjV9Ucg1yKNm6m3A74WH5UYlE4cweUI46OJ3AoduXUv8TjMf08p02PuVYikc/OjHKXR0JFVVHbW0WuxR1WHzlzITCtQsYYivI3JiidMmGG9quK5DkKyBfpcmSq40ITWnvYak=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58307290-420d-4b4e-1467-08dde6face80
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 12:51:43.7968 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kzy7lqwubj8TkOkVvgrah2jeZSs6ow3pPNNg+vaCCM/zlbeuHqtZgkGcH0FY1xSIwhwxPj7Ikh1HzhVw0VH8oX+fFSqtwihUr8ge0iAhY+k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7905
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-29_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230034
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0
+ mlxlogscore=834 spamscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508290107
+X-Proofpoint-GUID: j4pmZCMJvq-QMnwmX-e6gHT0_v0c6hkb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAxNCBTYWx0ZWRfXxE+ah7S+2KnY
+ X4Spn2G/FN4irPLpEPwcVLP6tRTujdYusfbvfvrkAqzitcBEZKwWrGpB6dKwDWy+pS3bDzb1ABa
+ r5n+3h4DlinzlvP1uaJQXk9w07vZQZe+H/aOGrUIbqUVMANUCuJ85aLOHztl7AoRQclaHpA+AGy
+ QfApngsD5RX+1ptspNHwm1gnUMEtsDHLZ0nI4V30aiDqwh25KYI/LPzrVQ3A9RdTbVAyTjJKGEh
+ plxJxt8ymmTQAScQL+ZVU2Y3Xzng54Ly8Od7Iw7u3RuxvmuK3Cvb1x22bxhUXtOSy93EELMuzAH
+ rotyfZ8AE68sBmt8jtnZl3HzxfoHbD2Yw3k3E4DFr/ncdIoxpkztZ7rhmYvVj8p/itoHvSkkV7s
+ BIwDn3br
+X-Authority-Analysis: v=2.4 cv=FtgF/3rq c=1 sm=1 tr=0 ts=68b1a265 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117
+ a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=20KFwNOVAAAA:8 a=08gvc_oQcYO4o9qCUcwA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: j4pmZCMJvq-QMnwmX-e6gHT0_v0c6hkb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,21 +229,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 27 Aug 2025 16:29:04 +0300, Dmitry Baryshkov wrote:
-> ADV75xx hardware supports sending SPD InfoFrame over the HDMI link. Also
-> it provides support for two generic (Spare) InfoFrames. Use those
-> capabilities to be able to send SPD and HDMI Vendor-Specific Infoframes.
-> 
-> 
+On Thu, Aug 28, 2025 at 10:51:46PM +0200, David Hildenbrand wrote:
+> On 28.08.25 18:57, Lorenzo Stoakes wrote:
+> > On Thu, Aug 28, 2025 at 12:01:24AM +0200, David Hildenbrand wrote:
+> > > Let's make it clearer that we are operating within a single folio by
+> > > providing both the folio and the page.
+> > >
+> > > This implies that for flush_dcache_folio() we'll now avoid one more
+> > > page->folio lookup, and that we can safely drop the "nth_page" usage.
+> > >
+> > > Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> > > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > > ---
+> > >   arch/mips/include/asm/cacheflush.h | 11 +++++++----
+> > >   arch/mips/mm/cache.c               |  8 ++++----
+> > >   2 files changed, 11 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
+> > > index 5d283ef89d90d..8d79bfc687d21 100644
+> > > --- a/arch/mips/include/asm/cacheflush.h
+> > > +++ b/arch/mips/include/asm/cacheflush.h
+> > > @@ -50,13 +50,14 @@ extern void (*flush_cache_mm)(struct mm_struct *mm);
+> > >   extern void (*flush_cache_range)(struct vm_area_struct *vma,
+> > >   	unsigned long start, unsigned long end);
+> > >   extern void (*flush_cache_page)(struct vm_area_struct *vma, unsigned long page, unsigned long pfn);
+> > > -extern void __flush_dcache_pages(struct page *page, unsigned int nr);
+> > > +extern void __flush_dcache_folio_pages(struct folio *folio, struct page *page, unsigned int nr);
+> >
+> > NIT: Be good to drop the extern.
+>
+> I think I'll leave the one in, though, someone should clean up all of them
+> in one go.
 
-Applied to drm-misc-next, thanks!
+This is how we always clean these up though, buuut to be fair that's in mm.
 
-[1/1] drm/bridge: adv7511: provide SPD and HDMI infoframes
-      commit: f4028ef65dc4fe9010bcc017597fe0fea6479097
+>
+> Just imagine how the other functions would think about the new guy showing
+> off here. :)
 
-Best regards,
--- 
-With best wishes
-Dmitry
+;)
 
+>
+> >
+> > >
+> > >   #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 1
+> > >   static inline void flush_dcache_folio(struct folio *folio)
+> > >   {
+> > >   	if (cpu_has_dc_aliases)
+> > > -		__flush_dcache_pages(&folio->page, folio_nr_pages(folio));
+> > > +		__flush_dcache_folio_pages(folio, folio_page(folio, 0),
+> > > +					   folio_nr_pages(folio));
+> > >   	else if (!cpu_has_ic_fills_f_dc)
+> > >   		folio_set_dcache_dirty(folio);
+> > >   }
+> > > @@ -64,10 +65,12 @@ static inline void flush_dcache_folio(struct folio *folio)
+> > >
+> > >   static inline void flush_dcache_page(struct page *page)
+> > >   {
+> > > +	struct folio *folio = page_folio(page);
+> > > +
+> > >   	if (cpu_has_dc_aliases)
+> > > -		__flush_dcache_pages(page, 1);
+> > > +		__flush_dcache_folio_pages(folio, page, folio_nr_pages(folio));
+> >
+> > Hmmm, shouldn't this be 1 not folio_nr_pages()? Seems that the original
+> > implementation only flushed a single page even if contained within a larger
+> > folio?
+>
+> Yes, reworked it 3 times and messed it up during the last rework. Thanks!
 
+Woot I found an actual bug :P
+
+Yeah it's fiddly so understandable. :)
+
+>
+> --
+> Cheers
+>
+> David / dhildenb
+>
+
+Cheers, Lorenzo
