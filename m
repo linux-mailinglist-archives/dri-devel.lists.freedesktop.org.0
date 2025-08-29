@@ -2,75 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4F4B3C53E
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 00:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD8BB3C541
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 00:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19EDA10EC52;
-	Fri, 29 Aug 2025 22:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D8C10E219;
+	Fri, 29 Aug 2025 22:43:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TXLXjiae";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VeC96OkG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D6A10EC52
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 22:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756507410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/CGc5IYCcldED/cw1fL3e87GMHcob6lNDfrF2dVSZ4=;
- b=TXLXjiaeCUrNBk8SP2jyHrVAHEXquQDGa/AlN/qk9DPthXlfyNZyYJfuLej8mrUJL7+Ulo
- r5Jf2E65xL2CTrSNH//gtSGfxoyzU2M6+iAbChIpQT5EWbnPdpo58LY2hz8VS2ZeW43C85
- iuBcQiVvNkdMa5m9PcaRQSgbQA1vzsU=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-583-_Ln9jEUpPEmpud-bgdS2Tg-1; Fri,
- 29 Aug 2025 18:43:25 -0400
-X-MC-Unique: _Ln9jEUpPEmpud-bgdS2Tg-1
-X-Mimecast-MFC-AGG-ID: _Ln9jEUpPEmpud-bgdS2Tg_1756507402
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8A32E1956048; Fri, 29 Aug 2025 22:43:22 +0000 (UTC)
-Received: from chopper.redhat.com (unknown [10.22.80.78])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 998A2180028A; Fri, 29 Aug 2025 22:43:17 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Asahi Lina <lina+kernel@asahilina.net>,
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v3 14/14] rust: drm: gem: Add BaseObject::prime_export()
-Date: Fri, 29 Aug 2025 18:35:29 -0400
-Message-ID: <20250829224116.477990-15-lyude@redhat.com>
-In-Reply-To: <20250829224116.477990-1-lyude@redhat.com>
-References: <20250829224116.477990-1-lyude@redhat.com>
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D5C10E219
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 22:43:42 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e970e624b7cso1537047276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 15:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756507421; x=1757112221; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=udiKLVNkIDA74KaNKsNLED3CYr951WL3Mof5I/6GvIs=;
+ b=VeC96OkG6napWV+zHMG2Aw75j11ny9KhYY0jFPyUTdM/MoRleJfmamy6pe6Vu5WZMo
+ Z3wNKcjTLcw5c28NP13hmuzop8rZ0ZYFvE350LClReqmvjJkekv1tsy+by+7x9pzqwAY
+ Foye2d9OM6vkFxYib78gT8j0GaYtr36BKrxGiwg2cmdapjCdGJSYJFk5cT3wVBIzvYsV
+ T4mLwtcWtKViMCYMp0CkZz0iOY1RLm0YTCyf4K0pQPYGu/Z/VAnj/NRmKBF9nUg5JwKl
+ KvG2rz24MsCkuWVC41DRvohxFGTr2DD25kloW9AlrGqjIytklGUDEvfaQGJxSDPR76YO
+ Z83A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756507421; x=1757112221;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=udiKLVNkIDA74KaNKsNLED3CYr951WL3Mof5I/6GvIs=;
+ b=EqI6Zk4yFMiV7/TpQCTmse6/J3n1l3Tpn8ACDshX+ybwoXuCwCbFpVJUnl7VsGhvtr
+ 6v7flSRanjPzIvM0TqFFJxvaeJWFTsnlJvTmxLY0dmKbve2vQa/96I1WFm+UypSVAV3M
+ YonzUj9nNjrvyaqmNvUOmIERzV7mZFS1uS6xDPN+KM1Z3hghiaZ3PldeFAChaLe7ZBDz
+ c8Nl1Sms9QDkJ62U/cw9d2joSKA/aCBTZtIBpSsDMHNECdVO0mw3t9Bfk0gf3qGN4MZu
+ x6fpPuFoZM5u5CkJNhuEO1j/UDoLh/oKRD69U2eIcButrjk8p8sgWEy1ozkrZkQyMsu/
+ oesA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6upCh7uUbOKnL+Kxd94zboWlBwUBNJSn/pxYQaJLnqxsqnVtUhOmTLcg/7KMKT2hRKlEOB+AVA04=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDG05i00LnCf/2pd05gOelb1nTv3ilWQsQ3LKTSVgHWV44vEcK
+ IAXFmKKX/4gzPsYGJqBAF7OmpTyGs8x52qK/Ap/lG5LS/2SCdM2ji8Cn1pHb4hW+85aCg3mhXbX
+ PJOUbAOfDZFW0eIMIQQPkjNPM41Jysko=
+X-Gm-Gg: ASbGncuidyCba3kzw/JhV76sIYB9xoQe/6GBW+LV36cAAKL50ea0B6TVN54buLDYAcE
+ x1h2KyKylrjzASMyK8sxw2gq60Y1S1fbPNXhQCmnC42OEhvD5oxEeLBYLNvjck4Hmd4waD+z/8D
+ k7iA6cdxlGFvX36mcEqfem7S8WO1Dy6jnpynfU7+cBg0L6u35opXeCJwQyFwBGYnVfInThE4BxV
+ FkDv9UZ8OdxDjL3UBoy+5tAIjY9zUc494soWZqF
+X-Google-Smtp-Source: AGHT+IG7+qrK10j2OniIUuE6HYEwMQmZ44Ww1i+O+Xzn42Xt0t77rSw2hX1Ufver3FsgGcbygrcesYnK1tIHq9EWZxc=
+X-Received: by 2002:a05:690c:9308:b0:71b:fdc2:e2f5 with SMTP id
+ 00721157ae682-72273c07007mr8660787b3.12.1756507421394; Fri, 29 Aug 2025
+ 15:43:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <20250828200532.3534201-1-olvaffe@gmail.com>
+ <20250829100021.361578c5@fedora>
+In-Reply-To: <20250829100021.361578c5@fedora>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Fri, 29 Aug 2025 15:43:30 -0700
+X-Gm-Features: Ac12FXw_fmpijziG28lSyisZ_EUbaH9OTC2ukYTDG5aMUwFtStQTYxDDoyaJoh8
+Message-ID: <CAPaKu7TTwf9F20g3nqOk6Yns7zbgA9kaAonCFZJTko=9p_Q+hw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panthor: assign unique names to queues
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,70 +89,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We just added an export() callback that GEM objects can implement, but
-without any way of actually exporting a DmaBuf<T>. So let's add one by
-introducing bindings for drm_gem_prime_export().
+On Fri, Aug 29, 2025 at 1:00=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> On Thu, 28 Aug 2025 13:05:32 -0700
+> Chia-I Wu <olvaffe@gmail.com> wrote:
+>
+> > Userspace relies on the ring field of gpu_scheduler tracepoints to
+> > identify a drm_gpu_scheduler.  The value of the ring field is taken fro=
+m
+> > sched->name.
+> >
+> > Because we typically have multiple schedulers running in parallel in
+> > each process, assign unique names to schedulers such that userspace can
+> > distinguish them.
+> >
+> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>
+> Two minor comments below.
+>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_sched.c | 32 ++++++++++++++++++-------
+> >  1 file changed, 23 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/=
+panthor/panthor_sched.c
+> > index ba5dc3e443d9c..26616b6cb110d 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -360,6 +360,9 @@ struct panthor_queue {
+> >       /** @entity: DRM scheduling entity used for this queue. */
+> >       struct drm_sched_entity entity;
+> >
+> > +     /** @name: DRM scheduler name for this queue. */
+> > +     char name[32];
+> > +
+> >       /**
+> >        * @remaining_time: Time remaining before the job timeout expires=
+.
+> >        *
+> > @@ -3308,9 +3311,10 @@ static u32 calc_profiling_ringbuf_num_slots(stru=
+ct panthor_device *ptdev,
+> >
+> >  static struct panthor_queue *
+> >  group_create_queue(struct panthor_group *group,
+> > -                const struct drm_panthor_queue_create *args)
+> > +                const struct drm_panthor_queue_create *args, u32 gid,
+> > +                u32 qid)
+> >  {
+> > -     const struct drm_sched_init_args sched_args =3D {
+> > +     struct drm_sched_init_args sched_args =3D {
+> >               .ops =3D &panthor_queue_sched_ops,
+> >               .submit_wq =3D group->ptdev->scheduler->wq,
+> >               .num_rqs =3D 1,
+> > @@ -3323,7 +3327,7 @@ group_create_queue(struct panthor_group *group,
+> >               .credit_limit =3D args->ringbuf_size / sizeof(u64),
+> >               .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> >               .timeout_wq =3D group->ptdev->reset.wq,
+> > -             .name =3D "panthor-queue",
+> > +             .name =3D NULL, /* will point to queue->name */
+> >               .dev =3D group->ptdev->base.dev,
+> >       };
+> >       struct drm_gpu_scheduler *drm_sched;
+> > @@ -3398,6 +3402,11 @@ group_create_queue(struct panthor_group *group,
+> >       if (ret)
+> >               goto err_free_queue;
+> >
+> > +     /* assign a unique name */
+> > +     snprintf(queue->name, sizeof(queue->name), "panthor-queue-%d-%d",=
+ gid,
+> > +              qid);
+> > +     sched_args.name =3D queue->name;
+>
+> Should we plan ahead and have the pid in the name too?
+Yes!  I intended for the name to be unique, but incorrectly assumed
+that the group pool was global.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- rust/kernel/dma_buf.rs     |  1 -
- rust/kernel/drm/gem/mod.rs | 24 +++++++++++++++++++++++-
- 2 files changed, 23 insertions(+), 2 deletions(-)
+Since group pools are per-file, I will include file->client_id in the
+names in v2.
 
-diff --git a/rust/kernel/dma_buf.rs b/rust/kernel/dma_buf.rs
-index a66829afcd129..a2086918efd17 100644
---- a/rust/kernel/dma_buf.rs
-+++ b/rust/kernel/dma_buf.rs
-@@ -20,7 +20,6 @@ unsafe impl Send for DmaBuf {}
- // SAFETY: `struct dma_buf` is thread-safe
- unsafe impl Sync for DmaBuf {}
- 
--#[expect(unused)]
- impl DmaBuf {
-     /// Convert from a `*mut bindings::dma_buf` to a [`DmaBuf`].
-     ///
-diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 1ac25fc6d527b..75ffd5541e84c 100644
---- a/rust/kernel/drm/gem/mod.rs
-+++ b/rust/kernel/drm/gem/mod.rs
-@@ -11,7 +11,7 @@
-     bindings, dma_buf,
-     drm::driver::{AllocImpl, AllocOps},
-     drm::{self, private::Sealed},
--    error::{to_result, Result},
-+    error::{from_err_ptr, to_result, Result},
-     prelude::*,
-     types::{ARef, AlwaysRefCounted, Opaque},
- };
-@@ -225,6 +225,28 @@ fn lookup_handle<D, F, O>(file: &drm::File<F>, handle: u32) -> Result<ARef<Self>
-         Ok(unsafe { ARef::from_raw(obj.into()) })
-     }
- 
-+    /// Export a [`DmaBuf`] for this GEM object using the DRM prime helper library.
-+    ///
-+    /// `flags` should be a set of flags from [`fs::file::flags`](kernel::fs::file::flags).
-+    fn prime_export(&self, flags: u32) -> Result<DmaBuf<Self>> {
-+        // SAFETY: `as_raw()` always returns a valid pointer to an initialized `drm_gem_object`.
-+        let dma_ptr = unsafe { bindings::drm_gem_prime_export(self.as_raw(), flags as i32) };
-+
-+        // `drm_gem_prime_export()` returns either an error pointer, or a valid pointer to an
-+        // initialized `dma_buf` on success.
-+        let dma_ptr = from_err_ptr(dma_ptr)?;
-+
-+        // SAFETY:
-+        // - We checked that dma_ptr is not an error, so it must point to an initialized dma_buf
-+        // - We used drm_gem_prime_export(), so `dma_ptr` will remain valid until a call to
-+        //   `drm_gem_prime_release()` which we don't call here.
-+        let dma_buf = unsafe { dma_buf::DmaBuf::from_raw(dma_ptr) };
-+
-+        // INVARIANT: We used drm_gem_prime_export() to create this dma_buf, fulfilling the
-+        // invariant that this dma_buf came from a GEM object of type `Self`.
-+        Ok(DmaBuf(dma_buf.into(), PhantomData))
-+    }
-+
-     /// Creates an mmap offset to map the object from userspace.
-     fn create_mmap_offset(&self) -> Result<u64> {
-         // SAFETY: The arguments are valid per the type invariant.
--- 
-2.50.0
-
+>
+> > +
+> >       ret =3D drm_sched_init(&queue->scheduler, &sched_args);
+> >       if (ret)
+> >               goto err_free_queue;
+> > @@ -3540,12 +3549,18 @@ int panthor_group_create(struct panthor_file *p=
+file,
+> >       memset(group->syncobjs->kmap, 0,
+> >              group_args->queues.count * sizeof(struct panthor_syncobj_6=
+4b));
+> >
+> > +     ret =3D xa_alloc(&gpool->xa, &gid, group,
+> > +                    XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
+> > +     if (ret)
+> > +             goto err_put_group;
+> > +
+> >       for (i =3D 0; i < group_args->queues.count; i++) {
+> > -             group->queues[i] =3D group_create_queue(group, &queue_arg=
+s[i]);
+> > +             group->queues[i] =3D
+> > +                     group_create_queue(group, &queue_args[i], gid, i)=
+;
+>
+> nit: the limit is 100 chars now, so I think we can have it on a single
+> line.
+>
+> >               if (IS_ERR(group->queues[i])) {
+> >                       ret =3D PTR_ERR(group->queues[i]);
+> >                       group->queues[i] =3D NULL;
+> > -                     goto err_put_group;
+> > +                     goto err_erase_gid;
+> >               }
+> >
+> >               group->queue_count++;
+> > @@ -3553,10 +3568,6 @@ int panthor_group_create(struct panthor_file *pf=
+ile,
+> >
+> >       group->idle_queues =3D GENMASK(group->queue_count - 1, 0);
+> >
+> > -     ret =3D xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_=
+PER_POOL), GFP_KERNEL);
+> > -     if (ret)
+> > -             goto err_put_group;
+> > -
+> >       mutex_lock(&sched->reset.lock);
+> >       if (atomic_read(&sched->reset.in_progress)) {
+> >               panthor_group_stop(group);
+> > @@ -3575,6 +3586,9 @@ int panthor_group_create(struct panthor_file *pfi=
+le,
+> >
+> >       return gid;
+> >
+> > +err_erase_gid:
+> > +     xa_erase(&gpool->xa, gid);
+> > +
+> >  err_put_group:
+> >       group_put(group);
+> >       return ret;
+>
