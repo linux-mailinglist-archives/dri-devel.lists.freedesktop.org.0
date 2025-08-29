@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C03B3DAB0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA64B3DAA6
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA38B10E38C;
-	Mon,  1 Sep 2025 07:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E6910E380;
+	Mon,  1 Sep 2025 07:03:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JMF5AKJZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kYdA3dTr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB2E710EB6A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 08:02:59 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-772301f8ae2so226899b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 01:02:59 -0700 (PDT)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F3E910EB65
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:49 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-b4c8bee055cso772785a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756454579; x=1757059379; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756454149; x=1757058949; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ji3KkW3qUsiM430Q8CaZBzXxSVywrfxa2oAywWyFSjA=;
- b=JMF5AKJZ9nLJigLtGnpGf7HlCX8LlGo2839r6NRIl4Rp5s26RaqQ3IaaJSa0nsMGg0
- e0yDTCTSca+YNhQIwW6pA5Mapa5LSH0/E88197d2a085XNHKEGRQpDb2HD8HRhtB06Rc
- WeleVml86/5MdEMJlHsRExjes/dQ7PDpmaD2SDO45cRsAVVdaUDg7j8VpqxdoFp6s47h
- v3q3WD057HTZidDZT0zEwkArgA5b8dJTFiQRfLzRZGZWmYwTKi3/ePc9MCMVm5OrW5YR
- +RNURMsu5aCqVB00e32bCcQG3yEUNy+UBsbarOj4r6o7/PAVBYe6hvLUXQDO0Js09hUZ
- JRhA==
+ bh=mQcUO3MMNiHKjyp0GXG4A4uvsTQgAsYSLBA8ucpISkE=;
+ b=kYdA3dTrpEvQJnZwMi63OK7Gy4Te3cB1Gw6LJUtVpjCKwrO88q7jfR8MQstQqe3WbY
+ NtU4EfVrHNCNPVcH8mvZxQOExAzbeOV5R0GlDtNiMm/heMhVIN1rBXQZU25dy4ieLwjm
+ c780AQbHpIuFndp3gzOZM+n5/OUj047OTogQ003FG5WQxwtEDfFXPUNnMisgKSx3Rxai
+ 6BinbmJCMsbeTSvH572QOKRanADNgurvMf4Ro7+iXZaIDuAwtkA6QB7tLWJhnn6gyFtt
+ 0ABhK2DTVdR+1kiRq+4PNTHdb1eG+Sesj1nHil4S2CQEQ+mPUNo83ltHCz9t7hNgSbeW
+ mM/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756454579; x=1757059379;
+ d=1e100.net; s=20230601; t=1756454149; x=1757058949;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ji3KkW3qUsiM430Q8CaZBzXxSVywrfxa2oAywWyFSjA=;
- b=ppG3tybegwLXQrRDOXjLPhBmaMbKXSGVdocDzJWyuHNSAnmq6X5nwzVihavyMmYhTU
- YOkXXu6orkrlA2GacgtW/eLE0bKsE+H5lhTZ8e77DwnK69OTJf2Q5yyn+sQ7uoD/sG+Z
- Jvie8iwzgxqZQefpM/8cqJh426aVBUNKAOGwW9TxJIhLSFOX5dfh/8iiQfFejVTgMJEr
- Zt6dySdwhFZnPOSIynh+xi4Tg+AZxIt77hq3Xlp6HY3t9PV9B5xOuoiWWUqnHbQim25f
- tKpgWx8b1gcsBvYOOV13Sv/hqTjYRZuV11CdVtvAbbGBT95UwDfGawjcWz9g1pEThD0P
- 8f7g==
+ bh=mQcUO3MMNiHKjyp0GXG4A4uvsTQgAsYSLBA8ucpISkE=;
+ b=as4bhfPghDiyLgpJNl29owiHGqKFuRA6DSzLf5vhWSBEWca+H0dzEaczoloPo3af6E
+ gGMeId20D0GHXhwojICyYqaUgp8lEp6z0sXEOoO2xQZk5Ux5h58TSiXpEq7JuQqI1g4p
+ 36QUnMf5PLsheD/s/AWZWDOVFiOcC12+cr8WCtI2PbtLAPwHSl/Ob3VLVFmjLoSKD6wk
+ +fpAGENxyPMfpMB97y8sbtndk7blf5VLXMLI4kSinUgSgIwu7xEdpMombOwy35fi6OK6
+ CKWvWT8viQN10rpqD5YQSezm9DeIhBwnGa1TjrtMt+PSFEriqyIThcHsAQXxsRuPboAT
+ sUuQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhQxmIBc8GG68mex/TmY8jVbqZpNiXFHXr7G1epxEeV8DzrHAfKDGjP4fkwga83vevNCxO8+P3oes=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywmrzpIFMaihOLrSLsFFtlZQcHUY97YysFYWiOeHL0XrW9nutU
- 5TYbWrWE3C4+uCnRoTijZRKZXfOwurzdY79W2gaNe6wtdQugOh0affHy
-X-Gm-Gg: ASbGncvsAVA3EI1dTIhmxbXC/Ndk0VwXHJXLloNEVzZW1LN5dJli5x7+xU0Mo86MQl9
- 2TdVmJiKWgNSH6ortIOFpbPjoPXKdJqOCdWX/B2fPHRe36Dp0BBYW0bdwwnAB1vXqYWCBzB3any
- TIc3WZQX5LFjBhMsFL/qnzPwjFg5Q4YSiqMbIS/arNyurg9zbRH6oJ15sdYF4V84M3dK6pT8gm0
- pMaCvUNtqfJlrUjPMOSG4MCcZwLx8hGzS5zgzZON+zPKlxzNdKYjGYsoapzdbN/WOFCytpm2ENE
- TjDWxzOLBthVg7DAd9tvL7+eYgFyzUegQMqFy7u7XusCNcm1V/u+ziX6UEHMs1au/dy5GQbxoXP
- BommsTsBCdR9k5MCsokbdOwTyDIkrcVH/MaJufGdp/rjcuR4=
-X-Google-Smtp-Source: AGHT+IG4XzsUhVmrn4fJ8v1PNDsbGNCghgUfxDPbkeqpUjvEg9N6RxHWj66Wbdw1AdmD0ATs4dsvZw==
-X-Received: by 2002:a05:6a20:3ca8:b0:240:750:58f with SMTP id
- adf61e73a8af0-24340d91edcmr35447322637.30.1756454578938; 
- Fri, 29 Aug 2025 01:02:58 -0700 (PDT)
+ AJvYcCV1oCBRSvQw/8qVDxH+VqiisVuAWjt3Q1Vx27QeZVsq9Ap8lONIvgMpVySayy+ePGO+3l3qDxcdxHs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0K5Xz1q3gTmjWIoJE9qwcXRS3g+8Xhsl5ufWWdGAxQr0xqASn
+ j9mIPisPO51QG9QMchmUAwqs9oIguUiCEhdqEQ4fdijwbVJdx/UF451p
+X-Gm-Gg: ASbGncvEuD+4a8egQRuQlgamFMKPrb64aDqfgtAspTidbrvtOCJWB9nD6cyNTsOuh/4
+ 9OurwjpBW/81J7URNtZDj8iCUGxFPr1X5CxM+LT7HcFjrrJowPBZpaBL2HRPq4NJqmfqnQOFK0Q
+ tRlsxp8qsz1cyMDk6WCDAcKPxWPKtTTKmFg7b1gdK/A9VdsRrpMPQ4WcY4OvZa5iPe9w1mlW5Ko
+ 0czAoyyvBwTVPADl0jvH2Asm67WDjXnvCZeQNObYb38zUNtxgGKEyicutZFesjFu+3vLR8G+Ueb
+ JGWsgmftDYptzgUXVt/mVEEH16gjha7t1RsvI+5uWMyfNB3jTe6ah1XHttI50ZitLcLWnPPpw8E
+ WAFuFtgjVnaMJVLCXcy0p/hAx4pIhRW6b4k+f
+X-Google-Smtp-Source: AGHT+IHLqM32trOVVzh172ftn7E15FM6Ea2Jk4ybBnzNmcbOCkm5faJ3oUsml9NRpuaa5OiBwPVbig==
+X-Received: by 2002:a17:90b:4ccc:b0:327:7c5a:fe77 with SMTP id
+ 98e67ed59e1d1-3277c5aff68mr10961209a91.30.1756454148623; 
+ Fri, 29 Aug 2025 00:55:48 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b4cd0e1c0besm1461992a12.24.2025.08.29.01.02.57
+ 98e67ed59e1d1-327a22ec24dsm2591905a91.3.2025.08.29.00.55.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 01:02:58 -0700 (PDT)
+ Fri, 29 Aug 2025 00:55:43 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 1E9654489F51; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
+ id 3924545A3F85; Fri, 29 Aug 2025 14:55:29 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,20 +140,20 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Bart Van Assche <bvanassche@acm.org>,
  =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA Driver
- docs
-Date: Fri, 29 Aug 2025 14:55:22 +0700
-Message-ID: <20250829075524.45635-13-bagasdotme@gmail.com>
+Subject: [PATCH 13/14] nitro_enclaves: Use internal cross-reference for kernel
+ docs links
+Date: Fri, 29 Aug 2025 14:55:23 +0700
+Message-ID: <20250829075524.45635-14-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
 References: <20250829075524.45635-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1684; i=bagasdotme@gmail.com;
- h=from:subject; bh=QIAPxg2EoM7XBiBH/OfCd9SfIrsCdhbBl57WJdF7gOo=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY14FftK8Ic/EqPdDdzlDXfSrtOCCiCo1tq0af6f2T
- rxS2nS/o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5M42RYQe/RHjLfYX8tv8L
- 9vQt6eKUm/OnRm/3gUlFq/44pi2Xf8HI0BjxjsH0R+yFD+urVrRxaVu1SiT8M9vxwkWu7L/ecZP
- DfAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1391; i=bagasdotme@gmail.com;
+ h=from:subject; bh=evrdLEAoXKuQzTljW81Kh3KyWLApG8gUObVzJ2YlNgE=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY16J9usWFB1WvT+NSavLIanh+698vZJvp5Iqyn5cF
+ Oeb1Xiho5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABPJ/8zI8C+tSSfleGvDlW33
+ Ss5v/Xrog5zFrjCmKzem/Vr2Ka6JL4WRod0y2uaV0GJBfuHrJzY9vTqdTVAvLqhtcdO5S89liyP
+ teAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -173,46 +173,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ASoC codec and platform driver docs contain reference to writing ALSA
-driver docs, as an external link. Use :doc: directive for the job
-instead.
+Convert links to kernel docs pages from external link to internal
+cross-references.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/sound/soc/codec.rst    | 4 ++--
- Documentation/sound/soc/platform.rst | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/virt/ne_overview.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
-index af973c4cac9309..b9d87a4f929b5d 100644
---- a/Documentation/sound/soc/codec.rst
-+++ b/Documentation/sound/soc/codec.rst
-@@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
- 	int (*prepare)(struct snd_pcm_substream *);
-   };
+diff --git a/Documentation/virt/ne_overview.rst b/Documentation/virt/ne_overview.rst
+index 74c2f5919c886e..572105eab452b2 100644
+--- a/Documentation/virt/ne_overview.rst
++++ b/Documentation/virt/ne_overview.rst
+@@ -91,10 +91,10 @@ running in the primary VM via a poll notification mechanism. Then the user space
+ enclave process can exit.
  
--Please refer to the ALSA driver PCM documentation for details.
--https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-+Please refer to the :doc:`ALSA driver PCM documentation
-+<../kernel-api/writing-an-alsa-driver>` for details.
- 
- 
- DAPM description
-diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
-index 7036630eaf016c..bd21d0a4dd9b0b 100644
---- a/Documentation/sound/soc/platform.rst
-+++ b/Documentation/sound/soc/platform.rst
-@@ -45,8 +45,8 @@ snd_soc_component_driver:-
- 	...
-   };
- 
--Please refer to the ALSA driver documentation for details of audio DMA.
--https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-+Please refer to the :doc:`ALSA driver documentation
-+<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
- 
- An example DMA driver is soc/pxa/pxa2xx-pcm.c
- 
+ [1] https://aws.amazon.com/ec2/nitro/nitro-enclaves/
+-[2] https://www.kernel.org/doc/html/latest/admin-guide/mm/hugetlbpage.html
++[2] Documentation/admin-guide/mm/hugetlbpage.rst
+ [3] https://lwn.net/Articles/807108/
+-[4] https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
++[4] Documentation/admin-guide/kernel-parameters.rst
+ [5] https://man7.org/linux/man-pages/man7/vsock.7.html
+-[6] https://www.kernel.org/doc/html/latest/x86/boot.html
+-[7] https://www.kernel.org/doc/html/latest/arm64/hugetlbpage.html
+-[8] https://www.kernel.org/doc/html/latest/arm64/booting.html
++[6] Documentation/arch/x86/boot.rst
++[7] Documentation/arch/arm64/hugetlbpage.rst
++[8] Documentation/arch/arm64/booting.rst
 -- 
 An old man doll... just what I always wanted! - Clara
 
