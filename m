@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE52B3DA99
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F84B3DAA4
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D32A10E377;
-	Mon,  1 Sep 2025 07:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD2110E385;
+	Mon,  1 Sep 2025 07:03:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D1ZNkg6V";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JHxB4vmL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2BE10EB66
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:40 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b47052620a6so2119474a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:40 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20FA410EB67
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:43 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7722c8d2846so347809b3a.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756454140; x=1757058940; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756454142; x=1757058942; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4+SUGCH8uEjWgwJ6PdsO74F0lOA4arnp0TuRWyoM63o=;
- b=D1ZNkg6VUHHfWVZKNwpEhdboUIJd+VgMj1Mc6zFXX4VRFfbfQ2jtwv/c6uEQXaCRWV
- TnxANbw0ZhVzkoC1h5TjkDWrqqT15ivdLonOeCN0CoLzWd09MX2AbIbdnIALZ3EC1Sfv
- pdvTJvBlbEM6wn2T/ollZpHmDImvsa6q7fp1O3K8QJtIqtXzGN4X1qxM17b5jeeY3zZ4
- HN6S4rLDPNHS4RYrJC9cI8yHvG59qxBT7We3AOoufpZ5XeGeU/kBi5UwXeTVfwCkhsyD
- d8u+QN7UuwMjGFqQa5rY2TBCd7cAGuT/alN3Nxe/ZZPANze8BcsmZYGoOHsf7igT2D+6
- Hqpg==
+ bh=exY9byyl4etH+4IQEKnm6qXO5lYPceGxvCuurSN7fh0=;
+ b=JHxB4vmL2YfAsnTlwiL3C/DrgVJT12PXKy/2sRrEu02MTtEDzQXU9yx7u5MAVujRdk
+ +WM3Mcqp+DZ5gcfCY0GU2JSsk6+aiY5+njwjahSKc4g2swjSWXBlBFu2iGcku2o6hyRC
+ LPsy1t5fls6VKkYgBkJPvDdxajLEV0C0/xC32bEbvKt1c6JyohY+sKBUc5G40LiJsEdO
+ 0XrTk6aqNQ5+G4CNAmnFEDMp+n5jVq9p3OH+vVIl/PAlCH8lXcBXjYMON/bt/rCauIfr
+ GxbYJSEBZUPO5BTyoPwwCGS0gIidkQxnT8zRWIivGUJREgZChgcyUPSWBrFbFDDCVeHP
+ li7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756454140; x=1757058940;
+ d=1e100.net; s=20230601; t=1756454142; x=1757058942;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4+SUGCH8uEjWgwJ6PdsO74F0lOA4arnp0TuRWyoM63o=;
- b=KUkErk2rHgAITJgnIC6cKFoc42FKjB6baV6/aZyqReam2i7MW2N4ACUftNqAopAG9X
- gpLjTbmDpXte9cw4SL0LpKpS0BWPzoV389IrZwhfrFEh44E5iQVie8LzJ15f0Vwe5cGv
- xR5rb0GmpJGbXx387FaHAimnUHZYJXi2J268Cedx+2SLm7eO/v4kzHS+ubxLwSl5QE1z
- UYh29u77FUd7AwT1iTtb1mahH65BHm3k5iEmaR93V5jYe/JSzOZLQL21vSSdfHT1fbD8
- DSLCBl3fWOojAj2Tybj9eTKP7WLy7AXIez93JL+W6n64lYpSWIlFfExnCEJqFi1qUeXZ
- Erkg==
+ bh=exY9byyl4etH+4IQEKnm6qXO5lYPceGxvCuurSN7fh0=;
+ b=hqNvSni0MAPGKVlXO6+oKMuTTf5xGz1uPYFRm3V+r6lFEera50mz8em4eb+t089yc/
+ dWtNdYnAqmmvpZFzBDgFkzBoXNxgSBrHPsuktWHAuwCRr7OyU74GO2BPQlzK4aQaexQs
+ 7JKyeEm1GViqQ2mjIvdYu3yskoHCOAXvrQ4fPnOSaNk5fEIJIhvouQcRlBSPzqMz0SZx
+ nYG60ZI1tMDgnSlrIR63beC43XKKh/rxXGLhIyxgY0EByCAQNebPpVt03g3ldZqSPrJU
+ jnHWhXAfH0c7Dbo0/aEF2bZYiumt0stL5ePfYN3zlcXD5hU+RhRyZEe6L7fxz5LIL6Ic
+ uCIg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXeltHcAQFZUbwn9nG8/2y0sBlXwK9Le8azmY9qk1J4cqpPlKshcQnTIRxsiAblrYOjEczRWgaqZxk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydqZtVMfy5aI8IGk4rkDAAMW6cvziipp8VFSbvxqhuHi34VgQA
- BAlt90+Yg2JCQKkkYLrT0S3H04vRVxNEZXy4Q8668QqJSX2d56CO8CP1LD2vfjHrGIk=
-X-Gm-Gg: ASbGncvTspkKHsa2ofbf/4lvGQK1nc1aS3xS0xkxVA9uGLHbBV5OP0vLD5gYFx5GnJ3
- xI0B6J5lWsdV2FCI28jZzSziDQCwA667bFWXoTFWuJs2LjjQBT2mHuPi0kNMazNI9S0MBSQrG6+
- nfONtW/IuS41Ju59qs46sZI6L0yoIfQyc6NWuAfkNCDmzKRBd3QFZX3CPjgURw+r37JLyj/zqPI
- XaZQTGc6rU1M6B8lN8ZIhTV7D4ZLBLWa66aESpukfGU64cWN0LMeO9F7q7UmC4Yfnagkro4kwWt
- iD9fOVLPUPNUshQF0tVWx40xDpEDMzRGQ2V829s3Rs8RwWHWqSwdF22G35wMSffyzYQ1vrPbUyl
- KSl3xnUygbBFy2KU9w11cL4wAAlk+hZ4RI7AC
-X-Google-Smtp-Source: AGHT+IEUIbmp5KZdMZPn0c0CGQYstQ2DxLDepEvVflAGtJJLsQl7+Hp4DCT56TGBU1NzXfP4o4RcNw==
-X-Received: by 2002:a17:902:d510:b0:249:11cc:2afc with SMTP id
- d9443c01a7336-24911cc303bmr18192475ad.7.1756454139741; 
- Fri, 29 Aug 2025 00:55:39 -0700 (PDT)
+ AJvYcCXqlh1Lw8om35mfdvB+QjTEAlFgy9BrTvXks6mAUvOg4AUC/UvhTBzTl8U2xv1/9XCmDncvUANdLZs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUUTJLSgT2kyjbPGB2kk74CmOClxIdwRcIfZoHMQgbmApr+fIF
+ fcAWqyEXgEDDOg3GIGp+jUVWBLInGR9MiKayfNEqAjCDzwoPpjQvu3PV
+X-Gm-Gg: ASbGncsCYQOCGnM3H2gLAHvr9ILM2ah4Kf8haRvul168192MwJUSiDIVmF97ZagJv86
+ oKWNPwOpC5r/CRE7bOYWrSGS1flqfNGXp2GE4260B5yNVsDEKajfqkRg1z5VDVHCTcttdadcfTw
+ 6rerWB8BNqJcjluhllZ3dZy8iKOXUHYGlikMDywfWV9x2JeFCrmox+KApEF4ENPN1E4PXhTIMWx
+ o2vlE+S1I0oMrYwycvmTZwmXl7lxo+mcfiV/P5OJAxKt+aH5j3uAqhbVIo+t3kzuaWiWjTe/cml
+ rm7Sr7tPzpj0+ew3j8jXybMaOh0tAQpys1DesAAthyPLLf7CG/BxNz9xt5b0D+ebcAv4Y/vOZRf
+ O+iXuvW6UXzkmjW/gwR6Bnkw3u712vcWwvNkwLN3UQh3g3Ww=
+X-Google-Smtp-Source: AGHT+IGl2H1cpKBrzVIc01ALD2l+GqNGGEJdm0M1vP0Ajl0ap9rVA4eE5ntn2ncpRPD9DtXSzK3gDA==
+X-Received: by 2002:a05:6a20:1585:b0:232:7c7b:1c7b with SMTP id
+ adf61e73a8af0-24340c429e2mr42540329637.14.1756454142509; 
+ Fri, 29 Aug 2025 00:55:42 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24903704379sm17029615ad.29.2025.08.29.00.55.35
+ d2e1a72fcca58-7722a2aaa70sm1550930b3a.24.2025.08.29.00.55.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Aug 2025 00:55:37 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 5F71C44808E5; Fri, 29 Aug 2025 14:55:27 +0700 (WIB)
+ id 7A9CF44808EB; Fri, 29 Aug 2025 14:55:27 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,20 +140,20 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Bart Van Assche <bvanassche@acm.org>,
  =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 04/14] Documentation: amd-pstate: Use internal link to
- kselftest
-Date: Fri, 29 Aug 2025 14:55:14 +0700
-Message-ID: <20250829075524.45635-5-bagasdotme@gmail.com>
+Subject: [PATCH 05/14] Documentation: blk-mq: Convert block layer docs
+ external links
+Date: Fri, 29 Aug 2025 14:55:15 +0700
+Message-ID: <20250829075524.45635-6-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
 References: <20250829075524.45635-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=889; i=bagasdotme@gmail.com;
- h=from:subject; bh=YCjSy3OR+PtbNsOx3d7dblyTwJjnDEtFBwBCle5X25g=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY14qPYlapHXxetwsqb0JS9jb7/0/73aj6M+zsn/7f
- 7uJBK+t7ihlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBEJPkZ/hloBmcs7pqXLvRo
- 3uW3yzpsL08refrBOejE1FfXjopF7nZk+B9pJzZFXlK9u2zWB3XR7Keu63hWz99heLTAzXSF0Y1
- 5YmwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2751; i=bagasdotme@gmail.com;
+ h=from:subject; bh=7QXrNRuCbHeHgCYdGUN3dSXlo+bJ6ZwXyeTt5Kf+8Ys=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY17q3TFftH6q+kyOiIzsCLYVR/ZOd/GUnnS+Yu6/k
+ 6t6/fl6OkpZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjARpWqGfwYJyctD8hT/NwY/
+ sO81mNZXoe/tpx8864flkqYm66Aruxn+V81fprfBrut+sv/0I1K75vi+e3t4WtGyeRzBVy1DeSv
+ K+QE=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -173,24 +173,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert kselftest docs link to internal cross-reference.
+Convert external links to block layer docs to use internal linking.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/pm/amd-pstate.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ Documentation/block/blk-mq.rst | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
-index e1771f2225d5f0..37082f2493a7c1 100644
---- a/Documentation/admin-guide/pm/amd-pstate.rst
-+++ b/Documentation/admin-guide/pm/amd-pstate.rst
-@@ -798,5 +798,4 @@ Reference
- .. [3] Processor Programming Reference (PPR) for AMD Family 19h Model 51h, Revision A1 Processors
-        https://www.amd.com/system/files/TechDocs/56569-A1-PUB.zip
+diff --git a/Documentation/block/blk-mq.rst b/Documentation/block/blk-mq.rst
+index fc06761b6ea906..4d511feda39cfd 100644
+--- a/Documentation/block/blk-mq.rst
++++ b/Documentation/block/blk-mq.rst
+@@ -87,17 +87,16 @@ IO Schedulers
+ There are several schedulers implemented by the block layer, each one following
+ a heuristic to improve the IO performance. They are "pluggable" (as in plug
+ and play), in the sense of they can be selected at run time using sysfs. You
+-can read more about Linux's IO schedulers `here
+-<https://www.kernel.org/doc/html/latest/block/index.html>`_. The scheduling
+-happens only between requests in the same queue, so it is not possible to merge
+-requests from different queues, otherwise there would be cache trashing and a
+-need to have a lock for each queue. After the scheduling, the requests are
+-eligible to be sent to the hardware. One of the possible schedulers to be
+-selected is the NONE scheduler, the most straightforward one. It will just
+-place requests on whatever software queue the process is running on, without
+-any reordering. When the device starts processing requests in the hardware
+-queue (a.k.a. run the hardware queue), the software queues mapped to that
+-hardware queue will be drained in sequence according to their mapping.
++can read more about Linux's IO schedulers at Documentation/block/index.rst.
++The scheduling happens only between requests in the same queue, so it is not
++possible to merge requests from different queues, otherwise there would be
++cache trashing and a need to have a lock for each queue. After the scheduling,
++the requests are eligible to be sent to the hardware. One of the possible
++schedulers to be selected is the NONE scheduler, the most straightforward one.
++It will just place requests on whatever software queue the process is running
++on, without any reordering. When the device starts processing requests in the
++hardware queue (a.k.a. run the hardware queue), the software queues mapped to
++that hardware queue will be drained in sequence according to their mapping.
  
--.. [4] Linux Kernel Selftests,
--       https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
-+.. [4] Documentation/dev-tools/kselftest.rst
+ Hardware dispatch queues
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -143,7 +142,7 @@ Further reading
+ 
+ - `NOOP scheduler <https://en.wikipedia.org/wiki/Noop_scheduler>`_
+ 
+-- `Null block device driver <https://www.kernel.org/doc/html/latest/block/null_blk.html>`_
++- Documentation/block/null_blk.rst
+ 
+ Source code documentation
+ =========================
 -- 
 An old man doll... just what I always wanted! - Clara
 
