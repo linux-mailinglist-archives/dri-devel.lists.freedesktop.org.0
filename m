@@ -2,105 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B53B3B6E7
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D02B3B6E5
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 11:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5E0310EB72;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E8A10E124;
 	Fri, 29 Aug 2025 09:17:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dgrQH8kR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Z0/s6Z9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dgrQH8kR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Z0/s6Z9";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="sYlbdGoo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3591D10E124
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5778310EB71
  for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 09:17:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9B1765BF96;
- Fri, 29 Aug 2025 09:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756459054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=CWQr3MM4ZUYgJ8qKDrjxba4oYvnTyGS+2E+MEV6S3ZQ=;
- b=dgrQH8kRIUCVG26GBX1l8JGACf+O/A+VyCq477gnYdSAVh1dGZpsX7JGGKtDbPQYYQqNlX
- sdZl6jhE0J7ZIkLiiGDP6rdk+LB4Pj4KoKiTABweU/ZZimju8MCO/3qZmN3wLLQQyRZfJz
- GjKF5JgWkRJV+2qPKm6rQ8onucHIib0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756459054;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=CWQr3MM4ZUYgJ8qKDrjxba4oYvnTyGS+2E+MEV6S3ZQ=;
- b=3Z0/s6Z90PGz3KD4dlFIJ6DyEYY0F9sBzbbagJk1xXP+sNZk6s7JaC9lvo9phAeRZEx61m
- FF5ECN2uj7/3rkDg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dgrQH8kR;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="3Z0/s6Z9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756459054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=CWQr3MM4ZUYgJ8qKDrjxba4oYvnTyGS+2E+MEV6S3ZQ=;
- b=dgrQH8kRIUCVG26GBX1l8JGACf+O/A+VyCq477gnYdSAVh1dGZpsX7JGGKtDbPQYYQqNlX
- sdZl6jhE0J7ZIkLiiGDP6rdk+LB4Pj4KoKiTABweU/ZZimju8MCO/3qZmN3wLLQQyRZfJz
- GjKF5JgWkRJV+2qPKm6rQ8onucHIib0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756459054;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=CWQr3MM4ZUYgJ8qKDrjxba4oYvnTyGS+2E+MEV6S3ZQ=;
- b=3Z0/s6Z90PGz3KD4dlFIJ6DyEYY0F9sBzbbagJk1xXP+sNZk6s7JaC9lvo9phAeRZEx61m
- FF5ECN2uj7/3rkDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 635FD13326;
- Fri, 29 Aug 2025 09:17:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id HzIZFy5wsWhPLwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 29 Aug 2025 09:17:34 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: mripard@kernel.org, maarten.lankhorst@linux.intel.com, javierm@redhat.com,
- sam@ravnborg.org, simona@ffwll.ch, airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4] drm/fb-helper: Synchronize dirty worker with vblank
-Date: Fri, 29 Aug 2025 11:13:45 +0200
-Message-ID: <20250829091447.46719-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.1
+X-UUID: fcb22d5884b811f0bd5779446731db89-20250829
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=336PQw3uXU0Znvz55zA6oLPN4hF7V2cSCNRDMtsX4HE=; 
+ b=sYlbdGooXVEnJzNKjh5LXZjQUkeWJNSTFxfHzje2cwgR8vwblCj8hlKReDqtM0CCIttIeqSNbzUsg7B9aUfaX7zyT7fluccozABLU8wCekZ/t9dKk9IeU+AD0AX1dgtcQdxdemzneyFxjeWchc++md6pLADtWT5aaAZoV0qwuZo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3, REQID:5eba1d9f-8b72-4f08-af5a-ecfbb7617157, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:f1326cf, CLOUDID:8737fe6b-8443-424b-b119-dc42e68239b0,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+ nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:
+ 0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: fcb22d5884b811f0bd5779446731db89-20250829
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1952749229; Fri, 29 Aug 2025 17:17:29 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 29 Aug 2025 17:17:27 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 29 Aug 2025 17:17:27 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Jassi Brar
+ <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jason-JH Lin <jason-jh.lin@mediatek.com>, 
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Yongqiang Niu
+ <yongqiang.niu@mediatek.com>, Zhenxing Qin <zhenxing.qin@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>, Sirius Wang
+ <sirius.wang@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>, Jarried
+ Lin <jarried.lin@mediatek.com>, Fei Shao <fshao@chromium.org>, Chen-yu Tsai
+ <wenst@chromium.org>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-media@vger.kernel.org>
+Subject: [PATCH v2 0/3] Fix sleeping function called from invalid context
+Date: Fri, 29 Aug 2025 17:15:57 +0800
+Message-ID: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,redhat.com,ravnborg.org,ffwll.ch,gmail.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
- FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9B1765BF96
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,160 +86,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before updating the display from the console's shadow buffer, the dirty
-worker now waits for a vblank. This allows several screen updates to pile
-up and acts as a rate limiter. If a DRM master is present, it could
-interfere with the vblank. Don't wait in this case.
+We found that there is a spin_lock_irqsave protection in msg_submit()
+of mailbox.c and it is in the atomic context.
+So when the mailbox controller driver calls pm_runtime_get_sync() in
+mbox_chan_ops->send_data(), it will get this BUG report.
+"BUG: sleeping function called from invalid context at drivers/base/power/runtime.c:1164"
 
-v4:
-	* share code with WAITFORVSYNC ioctl (Emil)
-	* use lock guard
-v3:
-	* add back helper->lock
-	* acquire DRM master status while waiting for vblank
-v2:
-	* don't hold helper->lock while waiting for vblank
+Additionally, pm_runtime_put_autosuspend() should be invoked from the
+GCE IRQ handler to ensure the hardware has actually completed its work.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+To resolve these issues, remove the pm_runtime calls from
+cmdq_mbox_send_data() and delegate power management responsibilities
+to the client driver.
 ---
-The previous reviews of this patch can be found as part of the series at
-https://patchwork.freedesktop.org/series/66442/#rev3 .
+Changes in v2:
+- Move pm_runtmie APIs from cmdq driver to client drivers.
+- Move pm_runtime_put_autosuspend to GCE irq callback function.
+- Link to v1: https://lore.kernel.org/r/20240614040133.24967-1-jason-jh.lin@mediatek.com
 ---
- drivers/gpu/drm/drm_client_modeset.c | 44 ++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_fb_helper.c      | 30 ++++---------------
- include/drm/drm_client.h             |  1 +
- 3 files changed, 51 insertions(+), 24 deletions(-)
+Jason-JH Lin (3):
+  mailbox: mtk-cmdq: Remove pm_runtime APIs from cmdq_mbox_send_data()
+  drm/mediatek: Add pm_runtime support for GCE power control
+  media: platform: mtk-mdp3: Add pm_runtime support for GCE power
+    control
 
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index 9c2c3b0c8c47..fc4caf7da5fc 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -1293,6 +1293,50 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
- }
- EXPORT_SYMBOL(drm_client_modeset_dpms);
- 
-+/**
-+ * drm_client_modeset_wait_for_vblank() - Wait for the next VBLANK to occur
-+ * @client: DRM client
-+ * @crtc_index: The ndex of the CRTC to wait on
-+ *
-+ * Block the caller until the given CRTC has seen a VBLANK. Do nothing
-+ * if the CRTC is disabled. If there's another DRM master present, fail
-+ * with -EBUSY.
-+ *
-+ * Returns:
-+ * 0 on success, or negative error code otherwise.
-+ */
-+int drm_client_modeset_wait_for_vblank(struct drm_client_dev *client, unsigned int crtc_index)
-+{
-+	struct drm_device *dev = client->dev;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	/*
-+	 * Rate-limit update frequency to vblank. If there's a DRM master
-+	 * present, it could interfere while we're waiting for the vblank
-+	 * event. Don't wait in this case.
-+	 */
-+	if (!drm_master_internal_acquire(dev))
-+		return -EBUSY;
-+
-+	crtc = client->modesets[crtc_index].crtc;
-+
-+	/*
-+	 * Only wait for a vblank event if the CRTC is enabled, otherwise
-+	 * just don't do anything, not even report an error.
-+	 */
-+	ret = drm_crtc_vblank_get(crtc);
-+	if (!ret) {
-+		drm_crtc_wait_one_vblank(crtc);
-+		drm_crtc_vblank_put(crtc);
-+	}
-+
-+	drm_master_internal_release(dev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_client_modeset_wait_for_vblank);
-+
- #ifdef CONFIG_DRM_KUNIT_TEST
- #include "tests/drm_client_modeset_test.c"
- #endif
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 11a5b60cb9ce..53e9dc0543de 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -368,6 +368,10 @@ static void drm_fb_helper_fb_dirty(struct drm_fb_helper *helper)
- 	unsigned long flags;
- 	int ret;
- 
-+	mutex_lock(&helper->lock);
-+	drm_client_modeset_wait_for_vblank(&helper->client, 0);
-+	mutex_unlock(&helper->lock);
-+
- 	if (drm_WARN_ON_ONCE(dev, !helper->funcs->fb_dirty))
- 		return;
- 
-@@ -1068,15 +1072,9 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
- 			unsigned long arg)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
--	struct drm_device *dev = fb_helper->dev;
--	struct drm_crtc *crtc;
- 	int ret = 0;
- 
--	mutex_lock(&fb_helper->lock);
--	if (!drm_master_internal_acquire(dev)) {
--		ret = -EBUSY;
--		goto unlock;
--	}
-+	guard(mutex)(&fb_helper->lock);
- 
- 	switch (cmd) {
- 	case FBIO_WAITFORVSYNC:
-@@ -1096,28 +1094,12 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
- 		 * make. If we're not smart enough here, one should
- 		 * just consider switch the userspace to KMS.
- 		 */
--		crtc = fb_helper->client.modesets[0].crtc;
--
--		/*
--		 * Only wait for a vblank event if the CRTC is
--		 * enabled, otherwise just don't do anythintg,
--		 * not even report an error.
--		 */
--		ret = drm_crtc_vblank_get(crtc);
--		if (!ret) {
--			drm_crtc_wait_one_vblank(crtc);
--			drm_crtc_vblank_put(crtc);
--		}
--
--		ret = 0;
-+		ret = drm_client_modeset_wait_for_vblank(&fb_helper->client, 0);
- 		break;
- 	default:
- 		ret = -ENOTTY;
- 	}
- 
--	drm_master_internal_release(dev);
--unlock:
--	mutex_unlock(&fb_helper->lock);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_fb_helper_ioctl);
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 146ca80e35db..bdd845e383ef 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -220,6 +220,7 @@ int drm_client_modeset_check(struct drm_client_dev *client);
- int drm_client_modeset_commit_locked(struct drm_client_dev *client);
- int drm_client_modeset_commit(struct drm_client_dev *client);
- int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
-+int drm_client_modeset_wait_for_vblank(struct drm_client_dev *client, unsigned int crtc_index);
- 
- /**
-  * drm_client_for_each_modeset() - Iterate over client modesets
+ drivers/gpu/drm/mediatek/mtk_crtc.c                  |  7 +++++++
+ drivers/mailbox/mtk-cmdq-mailbox.c                   | 12 +-----------
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 11 +++++++++++
+ 3 files changed, 19 insertions(+), 11 deletions(-)
+
 -- 
-2.50.1
+2.43.0
 
