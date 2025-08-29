@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A9BB3C1FD
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F901B3C200
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:46:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228AE10E1C0;
-	Fri, 29 Aug 2025 17:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA6C10EC1D;
+	Fri, 29 Aug 2025 17:46:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C8avuxjm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jkvWDz1i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E1B10E1C0;
- Fri, 29 Aug 2025 17:46:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5AF610EC1C;
+ Fri, 29 Aug 2025 17:46:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756489576; x=1788025576;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=iINmr2KFYoSGsHTNTuQy3QPX4Iv/FtsHEayJdZ4JN8Q=;
- b=C8avuxjmhLeD7uA7aMNiwBTbOXBZ79mjCAx0EA+X4mQsqU+0SkPiRiG2
- KXaq//iZGqy/vNRS+iJGXCYJIpD+muDerCk77PGHhb7Il0LqYNdqOHWiv
- 61FFjmTU3jaakdLFWj+vH/l5s10GcIZct5etIUji8CfzCQLAeYtQiyapF
- idsc9AW/8fj8pXSoLlWiaVgnHgxNVcbIbD8G3f/8C9vnI+BPBtYxb8mi/
- MxKF8es3g9wR0lx1Ry1JuwV8r4Qp9SM3qX/F8Nl3ZKRyh24FUUa9s5PWk
- UbAHUMFmMgdx85dNZcS/0ajJzfzpaYHYf19XWSU6YHGsm3Q8Ug5KwZlWX A==;
-X-CSE-ConnectionGUID: ycYogkYPQGqyyguo0viJLw==
-X-CSE-MsgGUID: Ef9uk8hqRbqXrWD0s1cXZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58851383"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58851383"
+ t=1756489582; x=1788025582;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=F+vDjpHX0nPQPXfZIZXWFZn3sfiMw9Otqkj/ZFDb4Yc=;
+ b=jkvWDz1iw8v2PKr4t49vgTwXI30KCOVO1RraiTkPhsstzgZRkI9OSd0K
+ mWIw8mW+ijO5lkF8WMmUaXBc0/ym52dQsw6/bAjhBnrzsiOcADl3WYobd
+ 81rnxb7lk1Pvo4/fzXj8pW5KulGmeVTOM5qTF6fm0rdK4KuzyoVi/F9pg
+ 6CaR5ALcxQmHKInE1MHPiC/avC/GQHvi5vlwxW5cpcTlztwdGh2sUn2ty
+ cQElLu3PSn1Lm0Fo9vjH96ekwlFrfDrTo3ytsq2W02u+/Hg9ktsPdTVil
+ 2azpv8TrAjCBoSSLdKPRRA3Rm4fS4VpgBnEIeyDC9jVds3zbxTXpTR+sD A==;
+X-CSE-ConnectionGUID: TCO5hCbPTcKR6iQAtUV9/g==
+X-CSE-MsgGUID: QdMjHUBMQKyGZrFenoBlKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58851392"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58851392"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2025 10:46:16 -0700
-X-CSE-ConnectionGUID: QVvqT+VwSzuYmS61GvWMGg==
-X-CSE-MsgGUID: Zka0mUPyQ02fm5dlf3hXFA==
+ 29 Aug 2025 10:46:22 -0700
+X-CSE-ConnectionGUID: Ww1TxfqpSsWhnAjfT7raRg==
+X-CSE-MsgGUID: OKPQqQP+Td2CnAwwDdpsrQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; d="scan'208";a="175716538"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; d="scan'208";a="175716541"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.58])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Aug 2025 10:46:13 -0700
+ 29 Aug 2025 10:46:19 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, jani.nikula@intel.com,
  Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  linux-hardening@vger.kernel.org
-Subject: [PATCH 1/3] drm/i915: rename range_overflows_end() to
- range_end_overflows()
-Date: Fri, 29 Aug 2025 20:45:59 +0300
-Message-ID: <20250829174601.2163064-1-jani.nikula@intel.com>
+Subject: [PATCH 2/3] drm/i915: document range_overflows() and
+ range_end_overflows() macros
+Date: Fri, 29 Aug 2025 20:46:00 +0300
+Message-ID: <20250829174601.2163064-2-jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250829174601.2163064-1-jani.nikula@intel.com>
+References: <20250829174601.2163064-1-jani.nikula@intel.com>
 MIME-Version: 1.0
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
@@ -71,77 +73,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename range_overflows_end() to range_end_overflows(), along with the _t
-variant.
-
-It's all rather subjective, but I think range_end_overflows() reads
-better.
+Document the macros in preparation for making them more generally
+available.
 
 Cc: Kees Cook <kees@kernel.org>
 Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
 Cc: linux-hardening@vger.kernel.org
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_fbc.c | 4 ++--
- drivers/gpu/drm/i915/gt/intel_rc6.c      | 2 +-
- drivers/gpu/drm/i915/i915_utils.h        | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/i915_utils.h | 46 +++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
-index d4c5deff9cbe..446e2ad28a70 100644
---- a/drivers/gpu/drm/i915/display/intel_fbc.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbc.c
-@@ -383,11 +383,11 @@ static void i8xx_fbc_program_cfb(struct intel_fbc *fbc)
- 	struct drm_i915_private *i915 = to_i915(display->drm);
- 
- 	drm_WARN_ON(display->drm,
--		    range_overflows_end_t(u64, i915_gem_stolen_area_address(i915),
-+		    range_end_overflows_t(u64, i915_gem_stolen_area_address(i915),
- 					  i915_gem_stolen_node_offset(&fbc->compressed_fb),
- 					  U32_MAX));
- 	drm_WARN_ON(display->drm,
--		    range_overflows_end_t(u64, i915_gem_stolen_area_address(i915),
-+		    range_end_overflows_t(u64, i915_gem_stolen_area_address(i915),
- 					  i915_gem_stolen_node_offset(&fbc->compressed_llb),
- 					  U32_MAX));
- 	intel_de_write(display, FBC_CFB_BASE,
-diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
-index 9ca42589da4d..bf38cc5fe872 100644
---- a/drivers/gpu/drm/i915/gt/intel_rc6.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
-@@ -341,7 +341,7 @@ static int vlv_rc6_init(struct intel_rc6 *rc6)
- 		return PTR_ERR(pctx);
- 	}
- 
--	GEM_BUG_ON(range_overflows_end_t(u64,
-+	GEM_BUG_ON(range_end_overflows_t(u64,
- 					 i915->dsm.stolen.start,
- 					 pctx->stolen->start,
- 					 U32_MAX));
 diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-index 9cb40c2c4b12..fdac9a158b53 100644
+index fdac9a158b53..968dae941532 100644
 --- a/drivers/gpu/drm/i915/i915_utils.h
 +++ b/drivers/gpu/drm/i915/i915_utils.h
-@@ -79,7 +79,7 @@ bool i915_error_injected(void);
+@@ -67,6 +67,18 @@ bool i915_error_injected(void);
+ 		drm_err(&(i915)->drm, fmt, ##__VA_ARGS__); \
+ })
+ 
++/**
++ * range_overflows() - Check if a range is out of bounds
++ * @start: Start of the range.
++ * @size:  Size of the range.
++ * @max:   Exclusive upper boundary.
++ *
++ * A strict check to determine if the range [@start, @start + @size) is
++ * invalid with respect to the allowable range [0, @max). Any range
++ * starting at or beyond @max is considered an overflow, even if @size is 0.
++ *
++ * Returns: true if the range is out of bounds.
++ */
+ #define range_overflows(start, size, max) ({ \
+ 	typeof(start) start__ = (start); \
+ 	typeof(size) size__ = (size); \
+@@ -76,9 +88,32 @@ bool i915_error_injected(void);
+ 	start__ >= max__ || size__ > max__ - start__; \
+ })
+ 
++/**
++ * range_overflows_t() - Check if a range is out of bounds
++ * @type:  Data type to use.
++ * @start: Start of the range.
++ * @size:  Size of the range.
++ * @max:   Exclusive upper boundary.
++ *
++ * Same as range_overflows() but forcing the parameters to @type.
++ *
++ * Returns: true if the range is out of bounds.
++ */
  #define range_overflows_t(type, start, size, max) \
  	range_overflows((type)(start), (type)(size), (type)(max))
  
--#define range_overflows_end(start, size, max) ({ \
-+#define range_end_overflows(start, size, max) ({ \
++/**
++ * range_end_overflows() - Check if a range's endpoint is out of bounds
++ * @start: Start of the range.
++ * @size:  Size of the range.
++ * @max:   Exclusive upper boundary.
++ *
++ * Checks only if the endpoint of a range (@start + @size) exceeds @max.
++ * Unlike range_overflows(), a zero-sized range at the boundary (@start == @max)
++ * is not considered an overflow. Useful for iterator-style checks.
++ *
++ * Returns: true if the endpoint exceeds the boundary.
++ */
+ #define range_end_overflows(start, size, max) ({ \
  	typeof(start) start__ = (start); \
  	typeof(size) size__ = (size); \
- 	typeof(max) max__ = (max); \
-@@ -88,8 +88,8 @@ bool i915_error_injected(void);
+@@ -88,6 +123,17 @@ bool i915_error_injected(void);
  	start__ > max__ || size__ > max__ - start__; \
  })
  
--#define range_overflows_end_t(type, start, size, max) \
--	range_overflows_end((type)(start), (type)(size), (type)(max))
-+#define range_end_overflows_t(type, start, size, max) \
-+	range_end_overflows((type)(start), (type)(size), (type)(max))
++/**
++ * range_end_overflows_t() - Check if a range's endpoint is out of bounds
++ * @type:  Data type to use.
++ * @start: Start of the range.
++ * @size:  Size of the range.
++ * @max:   Exclusive upper boundary.
++ *
++ * Same as range_end_overflows() but forcing the parameters to @type.
++ *
++ * Returns: true if the endpoint exceeds the boundary.
++ */
+ #define range_end_overflows_t(type, start, size, max) \
+ 	range_end_overflows((type)(start), (type)(size), (type)(max))
  
- #define ptr_mask_bits(ptr, n) ({					\
- 	unsigned long __v = (unsigned long)(ptr);			\
 -- 
 2.47.2
 
