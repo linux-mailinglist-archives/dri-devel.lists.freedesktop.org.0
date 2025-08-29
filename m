@@ -2,219 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C096DB3BE4B
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 16:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDFAB3BE87
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 16:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD8D310EBE8;
-	Fri, 29 Aug 2025 14:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6134810EBEC;
+	Fri, 29 Aug 2025 14:50:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="sfY/bdwe";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wnFxpf/L";
+	dkim=pass (2048-bit key; unprotected) header.d=gfxstrand-net.20230601.gappssmtp.com header.i=@gfxstrand-net.20230601.gappssmtp.com header.b="V2CU8/er";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCDC10E17E;
- Fri, 29 Aug 2025 14:45:47 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57TCuEtR020434;
- Fri, 29 Aug 2025 14:45:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2025-04-25; bh=Wj9HDML+13E4bxM9yz
- rqxxojbP+sR9POgqKLDKuHOe4=; b=sfY/bdweQEAHvZ+Ci5LGGmDpGrbbd5MHZU
- eeOHC0FFFzJ9owuje2L/i7tT4EIJIQ9+9jVTgYqLrTAt+etA+t3uOgcQRX+1B+2f
- KaF6Vc1EpRGmgWTCIeAka+TZRyk9tg8Cel2QKfM4aOrlvpSBVgbzBD/qVdiaE+Xe
- cUGcR2t9V9hUlcwFcczbKFPAbozd/ckMPaH0lhYE/zUAgQ96GtlIvUqyyPsJ1rah
- qH2rp+gi/urAFtjIx6OE3O+OfvSrPysFT8oJJLso23x1Ot3aqAOkLlJr8tg4QP4a
- fxp0jmz/5Ng4omOq3Nm7bFLWGEN5ieP4/Pu3zmSuGbIXZs1+ZwLA==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48r8twhb8k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Aug 2025 14:45:19 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 57TEAspw026710; Fri, 29 Aug 2025 14:45:18 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 48q43d3134-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Aug 2025 14:45:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NhhCOJ+coHh9Yh32hsnTTpe6ao2g+Fyofsgkd4doCSGnBsWiAoejT+87DLt4BhUsQ1EXtB3f+t4Z7xp21jgqJg/VlpkeybYQBSrdn7cO8sBBOFiD9r0NlyRi37EOx11mJymM7cPM0LLzy5xCKbiiaJZWKnChALdsZd9oA0B+hXmWz5rBEvXFUf97Fs7xxmXTdVPuHrygIqQrPHbl3bwjD3xQeffwVKzhOYj4js2OyrK6CauKfWUOYHM6bwukB2eNrTKcuYL4HJpH+1+vdw5UR4wJqk0bTlpp3B8WojKYnGVc/ylmiqrlywWQtD1oZ7JOT+fenM9qJPmcrjA56NrciQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wj9HDML+13E4bxM9yzrqxxojbP+sR9POgqKLDKuHOe4=;
- b=EnGMWB83tY1YKtoLok1PXD3HOShgqYSP0mds/ppAqnb+cT2XqOf+vXK+5m073YGlpe9QnJvdZ/JTifoIKiBi2zljJjG0MQZk9JCDd6FP5ekI6kF0U+T0nrsQ9QgboRmtsRhcAhytE45yJNVBGSopIZCAMzdno1BfYe4wxXJyqeL7x6oBeOnYxgtcMBlJpYzmbkisgyVUnB4xtzj0XRhnA7tNxMGrcTiWIwGklVkCO5Gz6N4T8I4bfcq4onbJzSkVIGDsK5LJ+HFE3tkC/6rMkYvpOSdKCpE36hg6Juri+8AOVBtvsvt2SmUh96xY+LhX+52cWCsBtoJTZ5+6pAvn6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+ [209.85.215.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4232710EBE9
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 14:50:11 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id
+ 41be03b00d2f7-b4c8bee055cso1063910a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wj9HDML+13E4bxM9yzrqxxojbP+sR9POgqKLDKuHOe4=;
- b=wnFxpf/Lkf53/R/Xi96c7wfiWoiJbsY2WhUtWAMRZpO4fUIMLCXu9w9gZQ1kpXIhjnIbSRFrleYvTRC1zdkqPAXFSVfUsal8bpv/EohkkHa9+XsHj4m51w8kvZ6lEzWYN9pYHpMf1rgcv+EK08RSS5JXYH/5zireljnTP9+U+6o=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by DS0PR10MB7296.namprd10.prod.outlook.com (2603:10b6:8:f8::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.16; Fri, 29 Aug
- 2025 14:45:10 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.9052.019; Fri, 29 Aug 2025
- 14:45:09 +0000
-Date: Fri, 29 Aug 2025 15:45:08 +0100
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>,
- Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
- io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v1 20/36] mips: mm: convert __flush_dcache_pages() to
- __flush_dcache_folio_pages()
-Message-ID: <c3e822d9-2aeb-428b-af39-49c89ed42890@lucifer.local>
-References: <20250827220141.262669-1-david@redhat.com>
- <20250827220141.262669-21-david@redhat.com>
- <ea74f0e3-bacf-449a-b7ad-213c74599df1@lucifer.local>
- <2be7db96-2fa2-4348-837e-648124bd604f@redhat.com>
- <549a60a6-25e2-48d5-b442-49404a857014@lucifer.local>
- <e877229a-ffd8-4459-a31b-ecabde28e07f@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e877229a-ffd8-4459-a31b-ecabde28e07f@redhat.com>
-X-ClientProxiedBy: LO4P123CA0589.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:295::17) To DM4PR10MB8218.namprd10.prod.outlook.com
- (2603:10b6:8:1cc::16)
+ d=gfxstrand-net.20230601.gappssmtp.com; s=20230601; t=1756479011; x=1757083811;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OO2kfUyqCh2tLO6z6YUVQo9y6L8QQ/AzHAEKzdJdRx8=;
+ b=V2CU8/er23H43pXBLUUgFnXiLD+7whrN5L+w+RyZH8cknjIn2mzhnQVI2JY56r/zVW
+ zIloSpM4rv4t5RXTeKofIdZGwxopw4NgIZ5nGC2Og/gguYDUxzAPC02CntmQnLROEPLM
+ UjhG6Ppo1MQdIzGZStPnQbVtN56sbWRBqVPtBJ2Bm7o2rptsJDNy4Oe+Meq3vzC2qsu1
+ M0nbf8Xu+AAFfltQfq73r0WMbZ1mLWRmDmnkf0C7GlKyYfCweprHPTSv3ER75Q5EYYy5
+ b722aJtPSBD93u3NeZHzhG7wdrxV94MSQsse+avtrZqqRDEWjf+iVjNom4uJJk5PTCyp
+ 6xtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756479011; x=1757083811;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OO2kfUyqCh2tLO6z6YUVQo9y6L8QQ/AzHAEKzdJdRx8=;
+ b=GKYKSY+hkSZpFOB09npabhrVHCN2vH9zdcoqeBpPJ8StWg9NMavt2WI4xPBFqkF4S/
+ RS/o/WE3bbKf4IVaZyr4S3QEMgXWn15PkEz688fBJgwpF7RhEuxcu9wBd+lM8WjgJd0J
+ wi1WeMhmqj+3MKfkgcV5dw70M09TNfjgTA+5qFe9g09nOtVgoQiDHOfOuyXuFSNwVSkY
+ vyUQpx36XM+swe4kysLOHAXl1PIao95wcc1wIebk9z0xZUf8meHt0+oml1lmkuxQ8QNP
+ qnwtZlqTWe9PhLLt9L8AcZeWYAICMjkjdM4hP4Jl4Ulv78RU4I9BNJGWNFw5i8fx4O3b
+ Ql+g==
+X-Gm-Message-State: AOJu0YzrDhw0sQoCni0+82QwFfsYQ3TRv+Hlh64lj3l+l6Xqy6ztBgmi
+ 5ayCtcEX0I7gMarH6iWyytttCyRSxxCvza4LT8+ZlTirUqQ9VSabrHu4aO1Yn5dvrWK84+3KjKy
+ bC+Sj1yxVj31swtzjLrUJ87Tc7q57dm+lgPLUR4nAWw==
+X-Gm-Gg: ASbGnctM8n/yE1uGRpyoHJkZoKhzSeS9dhJCGWYE7fNftqVv9//pNaWZLRzga+zkGc+
+ MDrxc77h7T8P/4waSRAlAMtH6DCG+6y5K5v67Ba40gonWQxMX1Isz0SDJyuflkcyHX8qpv+nuGO
+ xbb/GNWw8erv7PQ+gE1NJ2QFawmBZOxyDnFajQ9ME1vkBwcP4t7+nzjSrYDHv8vi8ZVO4X5p3z3
+ ivx5j+0d502kB42Tg==
+X-Google-Smtp-Source: AGHT+IFRXSGaDAEaFKQtiyEMP6kQZzUFARG8g+Xk6Xo+TWGWuy4Tm3z2qapi2jAWwK1gX8mHX5Yl99N3UMw0Hub8KOo=
+X-Received: by 2002:a17:903:37c5:b0:246:cfc4:9a52 with SMTP id
+ d9443c01a7336-246cfc4a0ccmr269028505ad.52.1756479010693; Fri, 29 Aug 2025
+ 07:50:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DS0PR10MB7296:EE_
-X-MS-Office365-Filtering-Correlation-Id: c22a6981-488a-44a2-622d-08dde70aa74a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?F6UoXxA14lHiHxoPL1Q0wkEk7OsQu3hs2AuhTw6sbN+GcZ3WDzWYM6Q0wmhC?=
- =?us-ascii?Q?cOBiudkxQGC6TdjU0AqHUR4OFqf6rOmPKj6EQNdcM9JyTIGnBtwSLlVQPyAk?=
- =?us-ascii?Q?+58QqsvGWQZ2jHHAfPCPq7jnQKWa/0Gs01yZG+h8ycIt4CKxlGoxzd03eimL?=
- =?us-ascii?Q?bmeI1+i2mH4ywF57yTAHJu+VEEIyLAh9ld2OMyE+yUxNP7Fsx4AmwsUYBQTD?=
- =?us-ascii?Q?4hTE65faWeKb8t3p/EYbPNfoHpFXtrR5doBblG49q29E8MMXcqfYK1OYhKin?=
- =?us-ascii?Q?wDiMwpBUbDHaDtFylu7ziuDCuFqyr/PEV3NZvI20FUtWiqpXz0lp3g57tDQQ?=
- =?us-ascii?Q?Kg8dyw9F28aIZfMimQEBJzsHwuCqyeWmY3aUf5QTZu/58ivYpjMOBPs8tpTn?=
- =?us-ascii?Q?/vRG0MSSrQ7Y6mSQSDqWeaXmxnkVMWd0I1fCzO+wWlupM2pHUZMgO/kpJSmO?=
- =?us-ascii?Q?ra955M9Z9pKyiVkp0KZ1yG/LbhT+os1Clk1Bvz3MtIv7NFfs6BYGzQQGKNo6?=
- =?us-ascii?Q?gW9Hnh0T82R0t33gmde9Ibf1YAy4FRK+lskKieWZ/FbROdTGYss844+z7CsI?=
- =?us-ascii?Q?JL3Qx/qelZ64swLUDq93ULRoCQFjS+Uj3QkEVBJwJ0abvkPP8AiYC+5DUXJM?=
- =?us-ascii?Q?Sttm3UKAArm21/J2bKrPySdOnK72RkjmtgroEKVl9NYNra5vfD6+uGVBLwvh?=
- =?us-ascii?Q?Goun/HBUMtzquiwShHUe4TYki3kgbIzvVFzGAd34AM6cMCygDO2H1RqRjDN7?=
- =?us-ascii?Q?LZBlimQed3nfJ8sSl6WsMBLnubD2s8XNA5kCtGem2gRyS/BYJJF4UT3u90bE?=
- =?us-ascii?Q?qvTYnZTHsOoHERts1RWq1dN95a+4tzqKTD3uBbVPq4ZjeW3a7D6Jh+6h3igd?=
- =?us-ascii?Q?TfQbAwX8CjnfExNO+wrgVPoUww6w9psp8/a6QlIJZkRN5ItuHwy7jYGnddXS?=
- =?us-ascii?Q?M3KPS+9NHVDcS/Dkc+XzBtfmyim9A9NNQ/MmtjBb+wZHFFAWB3emflbKTMiX?=
- =?us-ascii?Q?M+uCQ6LqtCKd5mmfexyQOTsaL28G4eoZwQ54WqWYQ5/JPJ51QcuyYSHloP95?=
- =?us-ascii?Q?ursc6IxEOsL0GwXksOXzZzC7IED80jSQix0OjMdxp/GVRTbyq94LsxoF62ac?=
- =?us-ascii?Q?rdCSX4EdDgfLJsbw+QZeTHyr0I3lFRmNOk8ZkVub6jpmJ80rU3WdOVSBIC7z?=
- =?us-ascii?Q?A3qiCgrQ0AOlqF+imO3x/o4WO0r6H6WLZ9dNlEAuXTpxyMfMLPzdP1i8DzDm?=
- =?us-ascii?Q?FP9Rq0iwfJg3Kq01BNEJb7xJvNVxB4jfJbf24XNBsJ1DKPrqMs6V5+w4U3pC?=
- =?us-ascii?Q?+FiUT0BRVMYrdpA5yscCgkHQI26H2qV9je7bJr1NUUZh1xgI5N3HPQIFqr+z?=
- =?us-ascii?Q?ygp2sEJ1y3+wja+qRqAQNK9rcoD2s4ILdwKfoojdLh5wh63d1EIktYaFbFWa?=
- =?us-ascii?Q?P7A8F9wvRtc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR10MB8218.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ActtIyQQw0PUnAVUJ0Y7OqI2YqB1+SXV0zXACZRWIBi+sHPms5jPKDzh353a?=
- =?us-ascii?Q?yHImyTBF3vp5cgSU/0FwohVIXdAEkkGJHi4rBRMRjB7/xtwLqGzJXmuY8kzt?=
- =?us-ascii?Q?wUWUurDbtzKMchO8ij7VEbS/jTlz3pypjzzg3syGI3M4nxuD/pJj1ljwZHnA?=
- =?us-ascii?Q?VGJmNHnmkfMdq8yefkpLmXfKhOYgWfQWRmyNk3796QrABO7JLlyuTGWMXiDJ?=
- =?us-ascii?Q?kYTkVcDVOvICmXl4/ncdigNLS3KModH8TMC5g8rOUYuXViiyNa/EoEDXf7IW?=
- =?us-ascii?Q?uG4krL+DvN1DMTguTnuJq8XXR0C6IKY4kI1ZHesITEo82a00W2HinnL+OGuH?=
- =?us-ascii?Q?XXVqgw4cGkf5iA+BIvh/3tUN5r9zlsi5rsa93xGfdG85+3lJkKxFbBLlQKyT?=
- =?us-ascii?Q?H3T/8r1ciV9G4Mk4R8l3/npTNqTrzniKafRbK2odHDdSsaiZC30s4RcBC3XV?=
- =?us-ascii?Q?Heqzy0Rs9iEZOAZ/WGk9SGpNt6kas5IEhx3Dyo0ah3qU2+lNiVb/E5qk0lal?=
- =?us-ascii?Q?jSbl+/RUgSCQyn2wE3EqKkqNt4jd2SFTPULPZ8QR5i+N0EB+HjpvXpMBdj9N?=
- =?us-ascii?Q?cImAJDxa5LV9z2SGUIISnseswRN9gHQbQ8REjLPR+Nw4mo9H/rp3MalHOQ4O?=
- =?us-ascii?Q?nvwtd97tCOg3vIRXywM6udhggBuB3SU71Bkq2Fc7drrIe8LzlwaIH2i+cOrS?=
- =?us-ascii?Q?0d5/5pQcE3FVs9R83AQ3oa273ZLRA5a+FFnEy+zRzZBOhu8tWsTZzWolxC05?=
- =?us-ascii?Q?tfwwmr9G21sdNZGJ4GOLU8IasDTOFJ2j3JDjLTryyNYIirFgZnyKQAsh7DXi?=
- =?us-ascii?Q?IksDe2H1rE3Wq1sBWOLfC+c4r7rgbHArzkRtjQGzpuhbZt8dsNQqRU+MMm6N?=
- =?us-ascii?Q?jS4HPx7UC8G41S0bbDnOM2KFItcg3O6YFGG3fGhYfvQf9zqotl1dVbrhvnXq?=
- =?us-ascii?Q?DKac+sBM3ZO2hKPBnam2nhCVvYP0truJkOKYJY+L23ObPrqzxQbaDqklmtPl?=
- =?us-ascii?Q?93k/qFk0Z75Q4kQ0pV/eeLlYjFfKsNdZvUal3iCebLg3pjHhR026xTUHQltv?=
- =?us-ascii?Q?cT+ph5DjripqR2MS+slRSF33xxsHLC6bvuAE5M/OM8ERDuVsiVvWNNm01PPj?=
- =?us-ascii?Q?CD6HQZJ1g2RLcLPo7t1VD2k0WralU9sLfOB43G21L+9QOg1r22gZsb97uTxL?=
- =?us-ascii?Q?KgM01SO4ks2J/UIyNVjA8TBi5mTWtCyBZkoe5TI+DdH1YE8CIYJwUEI7hXZF?=
- =?us-ascii?Q?QQm87sacJ8NqTFmtngAP8rT38yOzQBxNyal32GIdKXMqjoIq9Lk96mkhreBu?=
- =?us-ascii?Q?FHS+UVAxrLAlqjsQnvgW4ukHmFUauPAj5E5OpbnGIFGmg+R1Gib2Ie2FhDUF?=
- =?us-ascii?Q?ylinNq40H5lBToJbr+B9jmUDtvmkg4L1sOta2Y8l57xCoWTLzWISyHDTJY7X?=
- =?us-ascii?Q?agxQMq+g2xgmKmmyRVZjcYyDaYpVHR4REEsVpk8mWsYLT+kRu6u9w+L2dtWX?=
- =?us-ascii?Q?kDUXGjj5X18p3Nroqc5CotCJBBcBEThFhlcbcRdgrCwLtRvhJW9A6QBDYGyk?=
- =?us-ascii?Q?ut1GsRwzhu++a4xwbGmH9btdcVtLb3khQZm7cBCQKZP/P5MbAWlqDOAVNHys?=
- =?us-ascii?Q?dg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: Pv8uCinyQBF92j2zduDNai43RN5BzUAoytgSM2j10ico5KHV8bE0J5TQOFF/lFJf9SjYpRfiMGA0+hOb3yLCYbUXcUKWWxMjPKS+N32ifTq5wvxHRJRRDktVpwt4ioUjedcWRpwr3mZzJC58S8Gw5rpFKxtV5XNdIbz1DNj0C5Z3BpUPwu1jFk+ef1Z2GaCA4Vjeum8KmGS9higgvfFkge8blbL8cds+MCnbfgS/3fuHReiCnQ5uclhDyUl5VQKlZ1lGl26FSY6/ipoigXmwySWbrBIOQII3nuRGnOXicng00AzmOuMmrrp+mB/Ra1vwXiJteUQStycmdYRmQXpx77iqGVn+/DaJPsIt6oFEDjdJ9BuLTn4qIJ4MldRK9+cWfmxTvXFheeWiD46IBPw0kfq5x60p8kT0A/vSkIp9leDTh+MbGVAwIePiSGZv9nP0BhkZ0cNinFqF5I+tVK7i25AQavmClTcLVmHT8J8KCSlHvCjHopEbe05fLlh4GyAqGsMpsVwc0f3ZRKXsexXzBjw7xIXseHrf1RupDnyaT070FdfsB98MwIj9Z7bGp29FcjeqcY6fwxV6OcrVf0jfuAQ9IMQqapAwrTu5lyC6Wi8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c22a6981-488a-44a2-622d-08dde70aa74a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 14:45:09.9471 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UYzM9cC9u6QXEMCF29cRRdX4oBW3xU8MsTZh0oUiExHBXhLuIXXR+I9e5lusxqmJEiTCIC5rwyGKUV6o7sV+auKZHCh0eMEzsIWNFMkD5Rs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7296
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-29_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- bulkscore=0 malwarescore=0
- adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=837 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2508290124
-X-Proofpoint-ORIG-GUID: iL7ekxRxS-mIH12WbU1aPgdEFwFIlfgP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI0MDE4NCBTYWx0ZWRfX1R+4bkIGjmQ0
- 4DgljLtXaqZcqgIVc18sDHZ4Ze0tMAmU9FPnQZ1uiCkJOpV/93P4wvj/ErxbDF6fNl/WNmkEDJ+
- H1zzjSdzuCB/Tdm0NEx8lwLB6YyF316RtjmovHogoMJIvl0ztGfKJo5WWr6IPbdH/pHCh85SNaV
- 0UwRBicBr5MYx4q8gOdIpjuUYCCcIDxU/MOXoRePkDRM2QkNDI5H4qWqT+kemWmMTBPoUSIZcjb
- z0dXLxcNL6eglUVUojE09nxReUkNKSNWM5ySQRvP6lIaeA6+zrAN3uLU8/JRauuGMHhjdbNeWbW
- Bdcbx9Ju2xvhOPG79g5tkPlqQK3eZOxIIHUpdCr3esMZ6z35GjmXQbwZlOPVY9EJNmvqwQB7Jrl
- Ha5/S3pO
-X-Proofpoint-GUID: iL7ekxRxS-mIH12WbU1aPgdEFwFIlfgP
-X-Authority-Analysis: v=2.4 cv=IciHWXqa c=1 sm=1 tr=0 ts=68b1bcff cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=20KFwNOVAAAA:8 a=LZ6zlcjlEepz2M0PLPMA:9
- a=CjuIK1q_8ugA:10
+References: <20250829021633.1674524-1-airlied@gmail.com>
+In-Reply-To: <20250829021633.1674524-1-airlied@gmail.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Fri, 29 Aug 2025 10:49:59 -0400
+X-Gm-Features: Ac12FXzar1Z7rKv7qZ_yPRgG5WWF9qnflSoL4POjxuoSorCFCIunJO25X9LlMUE
+Message-ID: <CAOFGe95wF3-8dcbmEs+t=Z_NeXyES4xkTmKToZkExompEq0VFQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nouveau: fix disabling the nonstall irq due to storm
+ code. (v2)
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ dakr@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -230,51 +84,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 03:44:20PM +0200, David Hildenbrand wrote:
-> On 29.08.25 14:51, Lorenzo Stoakes wrote:
-> > On Thu, Aug 28, 2025 at 10:51:46PM +0200, David Hildenbrand wrote:
-> > > On 28.08.25 18:57, Lorenzo Stoakes wrote:
-> > > > On Thu, Aug 28, 2025 at 12:01:24AM +0200, David Hildenbrand wrote:
-> > > > > Let's make it clearer that we are operating within a single folio by
-> > > > > providing both the folio and the page.
-> > > > >
-> > > > > This implies that for flush_dcache_folio() we'll now avoid one more
-> > > > > page->folio lookup, and that we can safely drop the "nth_page" usage.
-> > > > >
-> > > > > Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> > > > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > > > ---
-> > > > >    arch/mips/include/asm/cacheflush.h | 11 +++++++----
-> > > > >    arch/mips/mm/cache.c               |  8 ++++----
-> > > > >    2 files changed, 11 insertions(+), 8 deletions(-)
-> > > > >
-> > > > > diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
-> > > > > index 5d283ef89d90d..8d79bfc687d21 100644
-> > > > > --- a/arch/mips/include/asm/cacheflush.h
-> > > > > +++ b/arch/mips/include/asm/cacheflush.h
-> > > > > @@ -50,13 +50,14 @@ extern void (*flush_cache_mm)(struct mm_struct *mm);
-> > > > >    extern void (*flush_cache_range)(struct vm_area_struct *vma,
-> > > > >    	unsigned long start, unsigned long end);
-> > > > >    extern void (*flush_cache_page)(struct vm_area_struct *vma, unsigned long page, unsigned long pfn);
-> > > > > -extern void __flush_dcache_pages(struct page *page, unsigned int nr);
-> > > > > +extern void __flush_dcache_folio_pages(struct folio *folio, struct page *page, unsigned int nr);
-> > > >
-> > > > NIT: Be good to drop the extern.
-> > >
-> > > I think I'll leave the one in, though, someone should clean up all of them
-> > > in one go.
-> >
-> > This is how we always clean these up though, buuut to be fair that's in mm.
-> >
+On Thu, Aug 28, 2025 at 10:17=E2=80=AFPM Dave Airlie <airlied@gmail.com> wr=
+ote:
 >
-> Well, okay, I'll make all the other functions jealous and blame it on you!
-> :P
+> From: Dave Airlie <airlied@redhat.com>
+>
+> Nouveau has code that when it gets an IRQ with no allowed handler
+> it disables it to avoid storms.
+>
+> However with nonstall interrupts, we often disable them from
+> the drm driver, but still request their emission via the push submission.
+>
+> Just don't disable nonstall irqs ever in normal operation, the
+> event handling code will filter them out, and the driver will
+> just enable/disable them at load time.
+>
+> This fixes timeouts we've been seeing on/off for a long time,
+> but they became a lot more noticable on Blackwell.
+>
+> This doesn't fix all of them, there is a subsequent fence emission
+> fix to fix the last few.
+>
+> Fixes: 3ebd64aa3c4f ("drm/nouveau/intr: support multiple trees, and expli=
+cit interfaces")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-;)
+I don't 100% grok all the storm stuff but this certainly looks
+reasonable and I'm convinced it shouldn't break anything
 
+Reviewed-by Faith Ekstrand <faith.ekstrand@collabora.com>
+
+>
+> ---
+> v2: add missing ga102.
+> ---
+>  .../gpu/drm/nouveau/nvkm/engine/fifo/base.c   |  2 ++
+>  .../gpu/drm/nouveau/nvkm/engine/fifo/ga100.c  | 22 ++++++++++++-------
+>  .../gpu/drm/nouveau/nvkm/engine/fifo/ga102.c  |  1 +
+>  .../gpu/drm/nouveau/nvkm/engine/fifo/priv.h   |  2 ++
+>  .../nouveau/nvkm/subdev/gsp/rm/r535/fifo.c    |  2 +-
+>  5 files changed, 20 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c b/drivers/gp=
+u/drm/nouveau/nvkm/engine/fifo/base.c
+> index fdffa0391b31..6fd4e60634fb 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c
+> @@ -350,6 +350,8 @@ nvkm_fifo_dtor(struct nvkm_engine *engine)
+>         nvkm_chid_unref(&fifo->chid);
+>
+>         nvkm_event_fini(&fifo->nonstall.event);
+> +       if (fifo->func->nonstall_dtor)
+> +               fifo->func->nonstall_dtor(fifo);
+>         mutex_destroy(&fifo->mutex);
+>
+>         if (fifo->func->dtor)
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c b/drivers/g=
+pu/drm/nouveau/nvkm/engine/fifo/ga100.c
+> index e74493a4569e..81beae473122 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c
+> @@ -517,19 +517,11 @@ ga100_fifo_nonstall_intr(struct nvkm_inth *inth)
+>  static void
+>  ga100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
+>  {
+> -       struct nvkm_fifo *fifo =3D container_of(event, typeof(*fifo), non=
+stall.event);
+> -       struct nvkm_runl *runl =3D nvkm_runl_get(fifo, index, 0);
+> -
+> -       nvkm_inth_block(&runl->nonstall.inth);
+>  }
+>
+>  static void
+>  ga100_fifo_nonstall_allow(struct nvkm_event *event, int type, int index)
+>  {
+> -       struct nvkm_fifo *fifo =3D container_of(event, typeof(*fifo), non=
+stall.event);
+> -       struct nvkm_runl *runl =3D nvkm_runl_get(fifo, index, 0);
+> -
+> -       nvkm_inth_allow(&runl->nonstall.inth);
+>  }
+>
+>  const struct nvkm_event_func
+> @@ -564,12 +556,25 @@ ga100_fifo_nonstall_ctor(struct nvkm_fifo *fifo)
+>                 if (ret)
+>                         return ret;
+>
+> +               nvkm_inth_allow(&runl->nonstall.inth);
+> +
+>                 nr =3D max(nr, runl->id + 1);
+>         }
+>
+>         return nr;
+>  }
+>
+> +void
+> +ga100_fifo_nonstall_dtor(struct nvkm_fifo *fifo)
+> +{
+> +       struct nvkm_runl *runl;
+> +       nvkm_runl_foreach(runl, fifo) {
+> +               if (runl->nonstall.vector < 0)
+> +                       continue;
+> +               nvkm_inth_block(&runl->nonstall.inth);
+> +       }
+> +}
+> +
+>  int
+>  ga100_fifo_runl_ctor(struct nvkm_fifo *fifo)
+>  {
+> @@ -599,6 +604,7 @@ ga100_fifo =3D {
+>         .runl_ctor =3D ga100_fifo_runl_ctor,
+>         .mmu_fault =3D &tu102_fifo_mmu_fault,
+>         .nonstall_ctor =3D ga100_fifo_nonstall_ctor,
+> +       .nonstall_dtor =3D ga100_fifo_nonstall_dtor,
+>         .nonstall =3D &ga100_fifo_nonstall,
+>         .runl =3D &ga100_runl,
+>         .runq =3D &ga100_runq,
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c b/drivers/g=
+pu/drm/nouveau/nvkm/engine/fifo/ga102.c
+> index 755235f55b3a..18a0b1f4eab7 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
+> @@ -30,6 +30,7 @@ ga102_fifo =3D {
+>         .runl_ctor =3D ga100_fifo_runl_ctor,
+>         .mmu_fault =3D &tu102_fifo_mmu_fault,
+>         .nonstall_ctor =3D ga100_fifo_nonstall_ctor,
+> +       .nonstall_dtor =3D ga100_fifo_nonstall_dtor,
+>         .nonstall =3D &ga100_fifo_nonstall,
+>         .runl =3D &ga100_runl,
+>         .runq =3D &ga100_runq,
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h b/drivers/gp=
+u/drm/nouveau/nvkm/engine/fifo/priv.h
+> index 5e81ae195329..fff1428ef267 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h
+> @@ -41,6 +41,7 @@ struct nvkm_fifo_func {
+>         void (*start)(struct nvkm_fifo *, unsigned long *);
+>
+>         int (*nonstall_ctor)(struct nvkm_fifo *);
+> +       void (*nonstall_dtor)(struct nvkm_fifo *);
+>         const struct nvkm_event_func *nonstall;
+>
+>         const struct nvkm_runl_func *runl;
+> @@ -200,6 +201,7 @@ u32 tu102_chan_doorbell_handle(struct nvkm_chan *);
+>
+>  int ga100_fifo_runl_ctor(struct nvkm_fifo *);
+>  int ga100_fifo_nonstall_ctor(struct nvkm_fifo *);
+> +void ga100_fifo_nonstall_dtor(struct nvkm_fifo *);
+>  extern const struct nvkm_event_func ga100_fifo_nonstall;
+>  extern const struct nvkm_runl_func ga100_runl;
+>  extern const struct nvkm_runq_func ga100_runq;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c b/dri=
+vers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+> index 1ac5628c5140..b8be0a872e7a 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c
+> @@ -601,7 +601,7 @@ r535_fifo_new(const struct nvkm_fifo_func *hw, struct=
+ nvkm_device *device,
+>         rm->chan.func =3D &r535_chan;
+>         rm->nonstall =3D &ga100_fifo_nonstall;
+>         rm->nonstall_ctor =3D ga100_fifo_nonstall_ctor;
+> -
+> +       rm->nonstall_dtor =3D ga100_fifo_nonstall_dtor;
+>         return nvkm_fifo_new_(rm, device, type, inst, pfifo);
+>  }
 >
 > --
-> Cheers
->
-> David / dhildenb
+> 2.50.1
 >
