@@ -2,48 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD206B3B100
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA4BB3B104
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94EB10EB2E;
-	Fri, 29 Aug 2025 02:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5105B10EB2A;
+	Fri, 29 Aug 2025 02:32:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="p0qwMLOH";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hjl7ZbxX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8193910EB2D;
- Fri, 29 Aug 2025 02:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1756434225;
- bh=UHRA4gGEGjTWcsmrfjcfYxxL2gmHi/bqcEFXtmpy7Kc=;
- h=Date:From:To:Cc:Subject:From;
- b=p0qwMLOHs6YcbWy7GVJu/S40VlvyXA2q+nIZrB7rk1fTIINyYPUW71fiZ8xb9UKfq
- UradhSBBhwCIQ66WBkxR7fQkusmpaChy5x25SDUDAiybqRePgOz+EEWoSToxFoIu8j
- Sjb6rw/slXBoKYHeXlgg6b8s6W1JfrJgH2iv3p1G1f8YlW6GzZ+bPhyFGtRfKXV5wX
- oa8ULY0TH6eypszEv/Qn5WO+dbvadQ+Wi8nHS+wqgsGVYR6IAzUIERPc7yGnoEu5P1
- 0x49D3VMWsQ7V3oXKKvOgASq3hKwmpvonA9C53tTa7XD6Ykfe2ALPWlgdB9K7UqJqT
- kr2BnkagCWgww==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4cChsD6Rjzz4wfl;
- Fri, 29 Aug 2025 12:23:44 +1000 (AEST)
-Date: Fri, 29 Aug 2025 12:23:43 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20250829122343.4b31642f@canb.auug.org.au>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2923510EB2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 02:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+ Content-Type; bh=/NSh9exXaV3mbXvMj+1kS4uqG4EyWHM1miHRNzuQSLM=;
+ b=hjl7ZbxXK4eydWkCtecrgKvGYg5I86g18ky3ymLIRDCGQEiXg+YpeQk0mtqz3u
+ TcsOAAYx83eG5JvkPjFVOLp5AFw6PBUrL2gzr/x40bkZGxFU6kYtbPjchN3nB0Ac
+ ERsjwcm3G0RyaJqqVB/3imrXd2wNw65O98jPpSFE3UYcI=
+Received: from localhost (unknown [])
+ by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
+ _____wD3HznMELFo1sYnEw--.1949S2; 
+ Fri, 29 Aug 2025 10:30:37 +0800 (CST)
+Date: Fri, 29 Aug 2025 10:30:35 +0800
+From: Qianqiang Liu <qianqiang.liu@163.com>
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+ Yury Norov <yury.norov@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+ Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Shixiong Ou <oushixiong@kylinos.cn>,
+ Zsolt Kajtar <soci@c64.rulez.org>, Ingo Molnar <mingo@kernel.org>,
+ Nam Cao <namcao@linutronix.de>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Joel Granados <joel.granados@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Sohil Mehta <sohil.mehta@intel.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Sravan Kumar Gundu <sravankumarlpu@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna Schumaker <anna.schumaker@oracle.com>,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ Max Kellermann <max.kellermann@ionos.com>,
+ Yunhui Cui <cuiyunhui@bytedance.com>, Tejun Heo <tj@kernel.org>,
+ Luo Gengkun <luogengkun@huaweicloud.com>, Li Huafei <lihuafei1@huawei.com>,
+ Thorsten Blum <thorsten.blum@linux.dev>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/9] crash_core: use panic_try_start() in crash_kexec()
+Message-ID: <aLEQy-srX89Rndch@debian.debian.local>
+References: <20250825022947.1596226-1-wangjinchao600@gmail.com>
+ <20250825022947.1596226-4-wangjinchao600@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/dbmPQnu+I=eNxOB/okb+t/_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825022947.1596226-4-wangjinchao600@gmail.com>
+X-CM-TRANSID: _____wD3HznMELFo1sYnEw--.1949S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF47JFy8JFyUCw18tr1rCrg_yoW8AFW7pF
+ 1ayay7Kw4kuFn5Kwn7JrsrtF4Fvw48JayxJa4vvF1fAasxJr15Jryv934xtFWjg343Kw1r
+ AF12g3Zag398XFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziuT5PUUUUU=
+X-Originating-IP: [60.166.106.45]
+X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiYhq3amiwW6b1mwABsv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,46 +89,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/dbmPQnu+I=eNxOB/okb+t/_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Aug 25, 2025 at 10:29:31AM +0800, Jinchao Wang wrote:
+> crash_kexec() had its own code to exclude parallel execution by setting
+> panic_cpu. This is already handled by panic_try_start(). Switch to
+> panic_try_start() to remove the duplication and keep the logic consistent.
+> 
+> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> ---
+>  kernel/crash_core.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index a4ef79591eb2..bb38bbaf3a26 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (C) 2002-2004 Eric Biederman  <ebiederm@xmission.com>
+>   */
+>  
+> +#include "linux/panic.h"
 
-Hi all,
+Can you change this line of code to #include <linux/panic.h>?
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/buildid.h>
+> @@ -143,17 +144,7 @@ STACK_FRAME_NON_STANDARD(__crash_kexec);
+>  
+>  __bpf_kfunc void crash_kexec(struct pt_regs *regs)
+>  {
+> -	int old_cpu, this_cpu;
+> -
+> -	/*
+> -	 * Only one CPU is allowed to execute the crash_kexec() code as with
+> -	 * panic().  Otherwise parallel calls of panic() and crash_kexec()
+> -	 * may stop each other.  To exclude them, we use panic_cpu here too.
+> -	 */
+> -	old_cpu = PANIC_CPU_INVALID;
+> -	this_cpu = raw_smp_processor_id();
+> -
+> -	if (atomic_try_cmpxchg(&panic_cpu, &old_cpu, this_cpu)) {
+> +	if (panic_try_start()) {
+>  		/* This is the 1st CPU which comes here, so go ahead. */
+>  		__crash_kexec(regs);
+>  
+> @@ -161,7 +152,7 @@ __bpf_kfunc void crash_kexec(struct pt_regs *regs)
+>  		 * Reset panic_cpu to allow another panic()/crash_kexec()
+>  		 * call.
+>  		 */
+> -		atomic_set(&panic_cpu, PANIC_CPU_INVALID);
+> +		panic_reset();
+>  	}
+>  }
+>  
+> -- 
+> 2.43.0
 
-drivers/gpu/drm/tests/drm_exec_test.c: In function 'test_prepare_array':
-drivers/gpu/drm/tests/drm_exec_test.c:171:1: error: the frame size of 2136 =
-bytes is larger than 2048 bytes [-Werror=3Dframe-larger-than=3D]
-  171 | }
-      | ^
-cc1: all warnings being treated as errors
+-- 
+Best,
+Qianqiang Liu
 
-Possibly caused by commit
-
-  e7fa80e2932c ("drm_gem: add mutex to drm_gem_object.gpuva")
-
-I have used the drm-misc tree from next-20250828 for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/dbmPQnu+I=eNxOB/okb+t/_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmixDy8ACgkQAVBC80lX
-0GzsnQf/aMPMRMWvoXVvkr/0OOseZGxrEsTbLfDhThTKjMWEWKrq3PVFUnVyzWzL
-iqanDcSr+7NHIRP+S1bKH/alnMdSdtYpwYUARwfEJUVvTpWmFkjX8FM3A52r6ahs
-uQhPHzZN6AgnYHv1H6aKg3ZthwAMSt2OO+pRZRVDkbJNZNbDctSloJ+s3oUNAXNC
-7eSO+MP35OaKkz6VklGCoQfRhJXonAZeQoCdECi+U7ybdYk6kgbOP0XXprWCmTot
-/U2bBYKlTli++XtKiTvjnEG9vAJGde7+thjHEDFKYuWUwaaOHDGlevWgaZMOm6f1
-WzSFbbBA1nWC2h9HOiQyssb6GjeYxA==
-=RbTf
------END PGP SIGNATURE-----
-
---Sig_/dbmPQnu+I=eNxOB/okb+t/_--
