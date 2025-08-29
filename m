@@ -2,53 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384B9B3B0FE
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1727FB3B0CA
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 04:17:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24EBB10EB2C;
-	Fri, 29 Aug 2025 02:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7C110E090;
+	Fri, 29 Aug 2025 02:17:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JFn4yMSU";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 422 seconds by postgrey-1.36 at gabe;
- Fri, 29 Aug 2025 02:23:47 UTC
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 818EB10EB2C
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 02:23:47 +0000 (UTC)
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-520-zKWTYmqAOsWOxTzzCQrCZA-1; Thu,
- 28 Aug 2025 22:16:43 -0400
-X-MC-Unique: zKWTYmqAOsWOxTzzCQrCZA-1
-X-Mimecast-MFC-AGG-ID: zKWTYmqAOsWOxTzzCQrCZA_1756433802
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 2ED2818004D4; Fri, 29 Aug 2025 02:16:42 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.67.32.4])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id BE0CD19560B4; Fri, 29 Aug 2025 02:16:39 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org,
-	dakr@kernel.org
-Subject: [PATCH 2/2] nouveau: Membar before between semaphore writes and the
- interrupt
-Date: Fri, 29 Aug 2025 12:16:33 +1000
-Message-ID: <20250829021633.1674524-2-airlied@gmail.com>
-In-Reply-To: <20250829021633.1674524-1-airlied@gmail.com>
-References: <20250829021633.1674524-1-airlied@gmail.com>
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D655810E090;
+ Fri, 29 Aug 2025 02:17:42 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-afefc7be9d4so65605366b.1; 
+ Thu, 28 Aug 2025 19:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756433861; x=1757038661; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2zNq7nTrPyuvfyWDRfXFepylMjeAYocF2SPbgXmN+NY=;
+ b=JFn4yMSUJ77p6/W25emwJ6KEmhoREUdb51V/vN4grIR0xLEtgybOZpBawFbNLFKTNq
+ z8tdQ6v+JUPDD3gS3TbzxzpxAllelsVbLYI09EZAzG3gR1dJpWik1grXk2jQ9SHuywnc
+ iQL4z1kI2NDWnGH6+y5HcaEUVeeys9cABWg/MKJEgGmowoqmSX0h2jExPLDABLwrYGjz
+ NyM2GLZ+FGqmF0kIL5Hfrgn76YfAC8DMNKHmV0NfYwEDe07GKwtF868faHmY80BRCCkf
+ mMh+wgAAkBda+b3spYe9WdVumFeROCTSP4US3LC9PvWEuB3tZELX8iWaryKXHI2AblUB
+ dAYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756433861; x=1757038661;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2zNq7nTrPyuvfyWDRfXFepylMjeAYocF2SPbgXmN+NY=;
+ b=tYGkXZLPCh47N8eZlquXmaV6WsVuBtr0NuEI645GINdhME1sJnKWNrvbZWrg3t9rJD
+ PqMDsfUm7CjEIkv0Cgl6YpO8KU4+9RdrrPgFHYQGZbGXKLQ+M//EpqVuHKDryr6yTYjZ
+ b3YBM/jJ5rmrzEWCJfE+QozGK1xEetTGYUFQBOAgjCwUROT3Eld2ZdZIXqE4cy0GA1BD
+ uDKsyqsY2FIkTuuLO+1ew47JarhnImgJVXrdw5vjxC0lGSsOFuXUG4XF0Wqc2upQ17z8
+ 9AgMhgCQ41pJvKNDMDQO6DIKaR0O4lri2GxQvVXBltu1ys6tdlUG9enaLMM8cx0TZe9J
+ uBxQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXke+YwMn8Mfdk87DJahx5q5FNj81a0MONLuOgLH1P2X+F7FAgfkivCmzelvU3hQyJRBOtvfUN+@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1f7kMD6tNv0LMo9uS2iIHGUdFeeuQtRmrtQwSEpFl7z5Ifk4T
+ MMUd9TrGl499b65XiYpwd63C19Vn4x4olWmf8/zh/ZAQNcU0tpvauk4aHns+fiyHS8t51H1CEe7
+ D5hWm96Xd0pigA7GJ7MJZDUzWNFP5ztg=
+X-Gm-Gg: ASbGncsTLSR07PWfWOp+Sp3or2NNS3A3meHqJguKPwAhyBC/olF/Rd4d5OqtyBfQwZV
+ MVVGZurnIfqsy8/kcmVMA0Gsl0Tq0fk+j06Tbtu+IhWcc0ssHaChZWqX6l54ctAOnKsJAZLZh7I
+ EosWKQO+j0vu6C1q80LGh4IByK+9Llysse/BMsSi8N9oVWDc7zEkr/X7AFApRa+pdXNeqUlWfpO
+ MQw2Q==
+X-Google-Smtp-Source: AGHT+IHXFQhjHCz4WRh3Z6nwd1kt85DmecDfzWJx/U2I59eH5vdudxcMKiNPeYrOPOCwuNRjHx4BglqZ4CqT80/chds=
+X-Received: by 2002:a17:907:e895:b0:afe:d499:a450 with SMTP id
+ a640c23a62f3a-afed499a769mr567379466b.64.1756433861163; Thu, 28 Aug 2025
+ 19:17:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 87lc7ukDGNuRJDfhWrmtO-_TjWblYLp6c-Ha2PQnHb8_1756433802
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+References: <20250828205517.1553768-1-airlied@gmail.com>
+ <CAOFGe94kJQfGirjjyDCAD-Ryc7N=U4exd10rTWy_YhiemkZW3Q@mail.gmail.com>
+In-Reply-To: <CAOFGe94kJQfGirjjyDCAD-Ryc7N=U4exd10rTWy_YhiemkZW3Q@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 29 Aug 2025 12:17:30 +1000
+X-Gm-Features: Ac12FXwILmhT4Tjt0Pef5kwUx2JqQ_VQ8dGk_ebDd7LFjxOhqYVeL3eMfC6KmUk
+Message-ID: <CAPM=9tw8fsJHEBJbahACLqmjVOFxLqx1LeLFosUu-EdAAYyCYA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nouveau: fix disabling the nonstall irq due to storm
+ code.
+To: Faith Ekstrand <faith@gfxstrand.net>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ dakr@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,233 +84,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
+> > +}
+> > +
+> >  int
+> >  ga100_fifo_runl_ctor(struct nvkm_fifo *fifo)
+> >  {
+> > @@ -599,6 +604,7 @@ ga100_fifo = {
+> >         .runl_ctor = ga100_fifo_runl_ctor,
+> >         .mmu_fault = &tu102_fifo_mmu_fault,
+> >         .nonstall_ctor = ga100_fifo_nonstall_ctor,
+> > +       .nonstall_dtor = ga100_fifo_nonstall_dtor,
+>
+> You're missing the corresponding update in ga102.c, which is what
+> actually covers most of the drivers.  Honestly, I'm not even sure why
+> there are two files. They look identical to me.
 
-This ensures that the memory write and the interrupt are properly
-ordered and we won't wake up the kernel before the semaphore write has
-hit memory.
+Indeed, the r535 change is all that really matters since it's the GSP
+path, and we shouldn't use non-gsp on these paths.
 
-Fixes: b1ca384772b6 ("drm/nouveau/gv100-: switch to volta semaphore methods=
-")
-Cc: stable@vger.kernel.org
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/nouveau/gv100_fence.c         |  7 +-
- .../drm/nouveau/include/nvhw/class/clc36f.h   | 85 +++++++++++++++++++
- 2 files changed, 91 insertions(+), 1 deletion(-)
+I've fixed it up anyways in a v2.
 
-diff --git a/drivers/gpu/drm/nouveau/gv100_fence.c b/drivers/gpu/drm/nouvea=
-u/gv100_fence.c
-index cccdeca72002..317e516c4ec7 100644
---- a/drivers/gpu/drm/nouveau/gv100_fence.c
-+++ b/drivers/gpu/drm/nouveau/gv100_fence.c
-@@ -18,7 +18,7 @@ gv100_fence_emit32(struct nouveau_channel *chan, u64 virt=
-ual, u32 sequence)
- =09struct nvif_push *push =3D &chan->chan.push;
- =09int ret;
-=20
--=09ret =3D PUSH_WAIT(push, 8);
-+=09ret =3D PUSH_WAIT(push, 13);
- =09if (ret)
- =09=09return ret;
-=20
-@@ -32,6 +32,11 @@ gv100_fence_emit32(struct nouveau_channel *chan, u64 vir=
-tual, u32 sequence)
- =09=09  NVDEF(NVC36F, SEM_EXECUTE, PAYLOAD_SIZE, 32BIT) |
- =09=09  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_TIMESTAMP, DIS));
-=20
-+=09PUSH_MTHD(push, NVC36F, MEM_OP_A, 0,
-+=09=09=09=09MEM_OP_B, 0,
-+=09=09=09=09MEM_OP_C, NVDEF(NVC36F, MEM_OP_C, MEMBAR_TYPE, SYS_MEMBAR),
-+=09=09=09=09MEM_OP_D, NVDEF(NVC36F, MEM_OP_D, OPERATION, MEMBAR));
-+
- =09PUSH_MTHD(push, NVC36F, NON_STALL_INTERRUPT, 0);
-=20
- =09PUSH_KICK(push);
-diff --git a/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h b/drivers/=
-gpu/drm/nouveau/include/nvhw/class/clc36f.h
-index 8735dda4c8a7..338f74b9f501 100644
---- a/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h
-+++ b/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h
-@@ -7,6 +7,91 @@
-=20
- #define NVC36F_NON_STALL_INTERRUPT                                 (0x0000=
-0020)
- #define NVC36F_NON_STALL_INTERRUPT_HANDLE                                 =
-31:0
-+// NOTE - MEM_OP_A and MEM_OP_B have been replaced in gp100 with methods f=
-or
-+// specifying the page address for a targeted TLB invalidate and the uTLB =
-for
-+// a targeted REPLAY_CANCEL for UVM.
-+// The previous MEM_OP_A/B functionality is in MEM_OP_C/D, with slightly
-+// rearranged fields.
-+#define NVC36F_MEM_OP_A                                            (0x0000=
-0028)
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_TARGET_CLIENT_UNIT_ID       =
- 5:0  // only relevant for REPLAY_CANCEL_TARGETED
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_INVALIDATION_SIZE                  =
- 5:0  // Used to specify size of invalidate, used for invalidates which are=
- not of the REPLAY_CANCEL_TARGETED type
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_TARGET_GPC_ID               =
-10:6  // only relevant for REPLAY_CANCEL_TARGETED
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_MMU_ENGINE_ID               =
- 6:0  // only relevant for REPLAY_CANCEL_VA_GLOBAL
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR                         1=
-1:11
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR_EN                 0x0000=
-0001
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR_DIS                0x0000=
-0000
-+#define NVC36F_MEM_OP_A_TLB_INVALIDATE_TARGET_ADDR_LO                    3=
-1:12
-+#define NVC36F_MEM_OP_B                                            (0x0000=
-002c)
-+#define NVC36F_MEM_OP_B_TLB_INVALIDATE_TARGET_ADDR_HI                     =
-31:0
-+#define NVC36F_MEM_OP_C                                            (0x0000=
-0030)
-+#define NVC36F_MEM_OP_C_MEMBAR_TYPE                                       =
- 2:0
-+#define NVC36F_MEM_OP_C_MEMBAR_TYPE_SYS_MEMBAR                      0x0000=
-0000
-+#define NVC36F_MEM_OP_C_MEMBAR_TYPE_MEMBAR                          0x0000=
-0001
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB                                =
- 0:0
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ONE                      0x0000=
-0000
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ALL                      0x0000=
-0001  // Probably nonsensical for MMU_TLB_INVALIDATE_TARGETED
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC                                =
- 1:1
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC_ENABLE                   0x0000=
-0000
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC_DISABLE                  0x0000=
-0001
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY                             =
- 4:2  // only relevant if GPC ENABLE
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_NONE                  0x0000=
-0000
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_START                 0x0000=
-0001
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_START_ACK_ALL         0x0000=
-0002
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_TARGETED       0x0000=
-0003
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_GLOBAL         0x0000=
-0004
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_VA_GLOBAL      0x0000=
-0005
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE                           =
- 6:5  // only relevant if GPC ENABLE
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_NONE                0x0000=
-0000
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_GLOBALLY            0x0000=
-0001
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_INTRANODE           0x0000=
-0002
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE                        =
- 9:7 //only relevant for REPLAY_CANCEL_VA_GLOBAL
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_READ              =
-   0
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_WRITE             =
-   1
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_STRONG     =
-   2
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_RSVRVD            =
-   3
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_WEAK       =
-   4
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_ALL        =
-   5
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_WRITE_AND_ATOMIC  =
-   6
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ALL               =
-   7
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL                   =
- 9:7  // Invalidate affects this level and all below
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_ALL         0x0000=
-0000  // Invalidate tlb caches at all levels of the page table
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_PTE_ONLY    0x0000=
-0001
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE0  0x0000=
-0002
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE1  0x0000=
-0003
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE2  0x0000=
-0004
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE3  0x0000=
-0005
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE4  0x0000=
-0006
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE5  0x0000=
-0007
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE                       =
-   11:10  // only relevant if PDB_ONE
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_VID_MEM             0x=
-00000000
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_SYS_MEM_COHERENT    0x=
-00000002
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_SYS_MEM_NONCOHERENT 0x=
-00000003
-+#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ADDR_LO                       3=
-1:12  // only relevant if PDB_ONE
-+#define NVC36F_MEM_OP_C_ACCESS_COUNTER_CLR_TARGETED_NOTIFY_TAG            =
-19:0
-+// MEM_OP_D MUST be preceded by MEM_OPs A-C.
-+#define NVC36F_MEM_OP_D                                            (0x0000=
-0034)
-+#define NVC36F_MEM_OP_D_TLB_INVALIDATE_PDB_ADDR_HI                        =
-26:0  // only relevant if PDB_ONE
-+#define NVC36F_MEM_OP_D_OPERATION                                        3=
-1:27
-+#define NVC36F_MEM_OP_D_OPERATION_MEMBAR                            0x0000=
-0005
-+#define NVC36F_MEM_OP_D_OPERATION_MMU_TLB_INVALIDATE                0x0000=
-0009
-+#define NVC36F_MEM_OP_D_OPERATION_MMU_TLB_INVALIDATE_TARGETED       0x0000=
-000a
-+#define NVC36F_MEM_OP_D_OPERATION_L2_PEERMEM_INVALIDATE             0x0000=
-000d
-+#define NVC36F_MEM_OP_D_OPERATION_L2_SYSMEM_INVALIDATE              0x0000=
-000e
-+// CLEAN_LINES is an alias for Tegra/GPU IP usage
-+#define NVC36F_MEM_OP_B_OPERATION_L2_INVALIDATE_CLEAN_LINES         0x0000=
-000e
-+#define NVC36F_MEM_OP_D_OPERATION_L2_CLEAN_COMPTAGS                 0x0000=
-000f
-+#define NVC36F_MEM_OP_D_OPERATION_L2_FLUSH_DIRTY                    0x0000=
-0010
-+#define NVC36F_MEM_OP_D_OPERATION_L2_WAIT_FOR_SYS_PENDING_READS     0x0000=
-0015
-+#define NVC36F_MEM_OP_D_OPERATION_ACCESS_COUNTER_CLR                0x0000=
-0016
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE                           =
- 1:0
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_MIMC                0x0000=
-0000
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_MOMC                0x0000=
-0001
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_ALL                 0x0000=
-0002
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_TARGETED            0x0000=
-0003
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE                  =
- 2:2
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE_MIMC       0x0000=
-0000
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE_MOMC       0x0000=
-0001
-+#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_BANK                  =
- 6:3
- #define NVC36F_SEM_ADDR_LO                                         (0x0000=
-005c)
- #define NVC36F_SEM_ADDR_LO_OFFSET                                         =
-31:2
- #define NVC36F_SEM_ADDR_HI                                         (0x0000=
-0060)
---=20
-2.50.1
-
+Thanks,
+Dave.
