@@ -2,152 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808CBB3C57F
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 01:09:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F699B3C59B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 01:31:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E8A10E33C;
-	Fri, 29 Aug 2025 23:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C696510E050;
+	Fri, 29 Aug 2025 23:31:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="S0XT+JP9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="T1xMVhio";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7D3310E33C;
- Fri, 29 Aug 2025 23:09:15 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2083.outbound.protection.outlook.com [40.107.101.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5951A10E00F;
+ Fri, 29 Aug 2025 23:31:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PaAiB6VsymRmLhLmHCfybFxANT67Xeu2pULqpm/CaYrkyRRQF7/pJFolls463YkFpGAtuQCBsx2nFIKpZTU4YIs4uG+xKcpWdxDhvHArpZ8tmo5+R+aHG3uTr1OalNdhDFcfDQ7cpUHB7OZkZDNK3w/iZeIHv1r/HhcvCbq/kMXTEuqRoSL1ZE1gW3TfVBUCiDNUJmPUyGSMGQMBOP8SIjiwVC8QPHirAxjPnZsomci5L06/5vuAJyaBQtz0/CbFs5QZ/Vnffi+zVM/cyz+efxpV9Po+ftFKzQXUPz+NSG47JNap+ZMu4IYUNObQaU4kzPDxey5ouNKQjKLmEdZvHg==
+ b=djMNi4b/od/nXjLDtHtd2equpmQFLENk2NTt2lbULybBhnnxXaZ8NVNN3VmYRiapWRfjHH1+/LYv0PhI3NVZxY0Ptd0T6Ok8H4B9XejT9KC45a/g6WldHXg7VQF1gPugiwzPOQwr0LONzwXlLsnqID00U0qSrRYGJnjE2DyrlxlpSXY36cRv9ZDg07Td2aXVF7JPx0c2XOP5mZc+4+xEoakI0U57xt5Rx5VCr49J7OV00wlyXBGiB72/tFQsIWlXfBEsxODVLNfH+Ff9KO3kOjA717xk+2oAYpKSM71NXmFQrxOqLLfC4AYvZqbpOvE8vEzc2Lmj0Y/qFHqEHaJd8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yuktZRE3CS5/dFGIpCZ3oLYLpoCzi7qERL9nR/IsFCw=;
- b=qOyzlJCLFXO6pCo0Egn1y89YCmK9zU5j0PiSmLHfO6XqPs2qHzcGn1opryDGiTByH3Uzaxr6cMxkZYmezdJH8j/wtsspJh8Brm++8MJ1eSbIWbaCCBryMWaiTIh/2xUFTadVxu75tNmnY/cGRK3Gn0m7mj/cCQLFjPW3GjKONsCbKm8pmyZui95dlSDKaqn890azpFHdlk5S8K92v3cQ4QTnmKLu+k64SjdprkLniQJ52ipc4yxizVdgHftdKQsUXIomG9tXm6Tb6+r2XcISRSDfm5wLi/NyR4dNGU3MzoE3iVDx3aTEVOXFZdlGyA62hUvDoIHqoLLNIARiF/EdJQ==
+ bh=Txo45vvy8ShbFpHkoohM5yVX9KnMdXLr6fDlyfu6B1U=;
+ b=RVZH00Np5Qtg7heXp/veGalTMYHShTbGwukM/i3EnietSjD1eobcgU/b9aQmS2mCDUIpHBtYoXqifX5DP1MzS4j5rKJb5OSNfAG42/kwvGqP4Zl18sfFioVnOTvsZbxTW4zDMtQ03uCSCb3lTkTSw+hbrj79xZTJYWKdwbxE43JMS7Amc8e++/wWE5J9vgRQmWLnagHVYey5OEX6C3zHTzqLd7ydFT0EVeMqW2FARXPG7AuE9cFAoM/sza9zSrTPMn6f5VUq793qJkTQ9G2TR1be4T81/rwhsaRToI3AiaSPjiEp6l47KDAEYg0z8keJDa9sueT6gGKMJWTSQZVzUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yuktZRE3CS5/dFGIpCZ3oLYLpoCzi7qERL9nR/IsFCw=;
- b=S0XT+JP9S2ODXURm9jJBGHHe1g6wjtycT2RVbm2td9N6ActEgI8VN83azaeQAUrfLXK9v9cr9aMBSPfiWMIpNZ9aOjVrAaRe8BI924v2USRutsIph5OGLCOOaWvq2B1Hyqm60e65M04rJclpxTdeZ6hSMNwMKq7YRyozZemllw4CCyDcJ4Qm1nUpIe9zZ55zAe/fm93YL989S1HUF8uP0i4NXCB9Gcl52TIWXbUr7AyWqakcDDlks05E12r9GFoudMmGaml8/+QayCi4kJyZZEiF1MVbrR6eSI2Y7U60oVJRfwcbPqeqyiSAe4nem61qc1HJUa7bwy8ZuMJhEOt91w==
+ bh=Txo45vvy8ShbFpHkoohM5yVX9KnMdXLr6fDlyfu6B1U=;
+ b=T1xMVhioXZi2oRLwcw/ehvnh9NzcLeFIycuH75bAIlBR/KCTyw1TzhQKV58I7HoUq8jR7E/y6HbDa0ij7tCbg7s73O7XCqeRl1zKanEgJBF7yFRrqKuaJdckh2oVkDgNPcRwrfuiQ0WzP1M4ZIh7ZDIhsz24npbJwI0JpPd6Afoc+EtXSXpLHTgnkSifoKhIXruUSjRmuIlMm4FLrqpiFc3cWytiBuja47ljRK8KNuxmmK0zVZpKGlzq/BSgM/3W/gZWwHjiPJfgq89ySKBdE8MOE8+N3RnDFvSzIIJkNjQW79rd+5OTkZ/NDZ6NAJM9oB9Cy87vJpwKZprV8wUWEA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA3SPRMB0011.namprd12.prod.outlook.com (2603:10b6:806:31a::7)
- by SA3PR12MB9159.namprd12.prod.outlook.com (2603:10b6:806:3a0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.21; Fri, 29 Aug
- 2025 23:09:09 +0000
-Received: from SA3SPRMB0011.namprd12.prod.outlook.com
- ([fe80::3228:78a0:2b93:2cd5]) by SA3SPRMB0011.namprd12.prod.outlook.com
- ([fe80::3228:78a0:2b93:2cd5%7]) with mapi id 15.20.9052.012; Fri, 29 Aug 2025
- 23:09:09 +0000
-Message-ID: <0385ce30-036e-4caa-8cce-7415991a34eb@nvidia.com>
-Date: Fri, 29 Aug 2025 16:09:06 -0700
+Received: from LV2PR12MB5968.namprd12.prod.outlook.com (2603:10b6:408:14f::7)
+ by SA1PR12MB6994.namprd12.prod.outlook.com (2603:10b6:806:24d::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Fri, 29 Aug
+ 2025 23:31:01 +0000
+Received: from LV2PR12MB5968.namprd12.prod.outlook.com
+ ([fe80::e6dd:1206:6677:f9c4]) by LV2PR12MB5968.namprd12.prod.outlook.com
+ ([fe80::e6dd:1206:6677:f9c4%6]) with mapi id 15.20.9073.021; Fri, 29 Aug 2025
+ 23:31:01 +0000
+Message-ID: <e091c6c1-98f8-4876-b2f1-c928da7aa7eb@nvidia.com>
+Date: Fri, 29 Aug 2025 16:30:58 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nouveau: Membar before between semaphore writes and
- the interrupt
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org, dakr@kernel.org
-References: <20250829021633.1674524-1-airlied@gmail.com>
- <20250829021633.1674524-2-airlied@gmail.com>
+Subject: Re: [PATCH v2 8/8] gpu: nova-core: compute layout of more framebuffer
+ regions required for GSP
+To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
+ <20250826-nova_firmware-v2-8-93566252fe3a@nvidia.com>
 Content-Language: en-US
-From: James Jones <jajones@nvidia.com>
-In-Reply-To: <20250829021633.1674524-2-airlied@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20250826-nova_firmware-v2-8-93566252fe3a@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH8P220CA0009.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:345::15) To SA3SPRMB0011.namprd12.prod.outlook.com
- (2603:10b6:806:31a::7)
+X-ClientProxiedBy: SJ0PR05CA0123.namprd05.prod.outlook.com
+ (2603:10b6:a03:33d::8) To LV2PR12MB5968.namprd12.prod.outlook.com
+ (2603:10b6:408:14f::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3SPRMB0011:EE_|SA3PR12MB9159:EE_
-X-MS-Office365-Filtering-Correlation-Id: daed1557-05c0-4f2c-3962-08dde7510e3d
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5968:EE_|SA1PR12MB6994:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ad246a4-8d82-4a94-25c6-08dde7541d64
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y0lJMmowY3NqRXBLYllkNUFnSGpuUlVVSjVYK2RObktDODk5ajB3Z0I2bDRO?=
- =?utf-8?B?cWZYM2Q3emJlYUdVTFROYVQ5VFE5dThHYW9wbk9US0J2dEIvOGdNa3FvcExh?=
- =?utf-8?B?MXlpQlRRUTJNR1dtUmRSNXFwSmJSRDUxL2RTLzFLTzBUdm1EcUFLMWZ3ZDVn?=
- =?utf-8?B?dlp4aGIzajhtOFNOS2Z6VmpSTkoyc08vREcyN2lPSDJ6WDdYbUt4c2VmVTR6?=
- =?utf-8?B?NDJrUWluZDBvR2ZNUnZtUlJwbHZXTVZlZ2ZVdk1ydnV0bzBLU0lpQlBlenAv?=
- =?utf-8?B?dEQ3amp3OFlIVWh4UEVEUjY3ZGZ0NkRQNWlaL0g5YXBOZDhJbnFaK241dEVV?=
- =?utf-8?B?a2VqVExsU0Y3T3Naa2U0d082YU5jRDVHTUt0bFFQeHErYzJtZDc0VE5PVGJL?=
- =?utf-8?B?ZXNxVG9yQi9XbkVoendsRlVMcWptbnZLUGNQa0VsclRjMGdBMldyN2VBdlZi?=
- =?utf-8?B?cUVZcElrNVIrcHVyRnhaSC9SY1gzWWFSTmZGZlZpWlZVa0EvR0xmWitKZmhs?=
- =?utf-8?B?dDEwcERSd3VqSFdTaUVmYmdsaDBZTy8wVTgrT1pOdm9scC9OQ3drSUU3aWZp?=
- =?utf-8?B?SXk2QTFVR3h5M0d0QWh2MXVoSU5BQW1sVTMyN0h1VmZpMUxvLzhMWVJ3d2RJ?=
- =?utf-8?B?a1RpS1VERDdwSEJlTFVnMFZDclpjUEg5Nm93WTE5bURmQ1hTVFpMYUdadURH?=
- =?utf-8?B?NTdrVWowdW9pS3RFSjNwL0I0NWpSTllnZ2VkOWdMR3FWMEswK3NLTmVVZkQr?=
- =?utf-8?B?ZklUVEQ4aXRKazdnOTJJcmxPOTZ6OHZRMk03Qml4THpQb3FZTEpIaWkwZjZs?=
- =?utf-8?B?MlpobHFzNDE3ZmhwRTFvS2ZUcFdmMC9WK3FRSGI4bW5WZkVVd3BzdUh4UktJ?=
- =?utf-8?B?N3Z5am12aGVyTFlFVytjNndFczBkVllUVFowNVBVMUxxcHlvRjMwdHkrbWx2?=
- =?utf-8?B?THVjY1pUNWpZYURCTDBtaStnSTBwMmxnRkJCcTlidkRrbGw1dC9SNTZ1ZUE3?=
- =?utf-8?B?QVdCaVBFS0pVM1kydHZFM2ZuOU5vcC9sUG13NDRrWEo1ZkNPSjBKekgwMTRK?=
- =?utf-8?B?UXN0YmtpaFN4NnJXZ2NMRDRzOE9hY2FIZzN5R1dCUTI2a1EzTFpNY2xrLzhY?=
- =?utf-8?B?RVVlZDFGNWV4T3lYN3Y3ZVBETnlEVTNXZVhIbElSOVZOQ2diaWltNTRHcHVQ?=
- =?utf-8?B?b0pBc3QwU2w1dlR0N2V1Z0NyWmhFeTJJRWh0V3ZDUlErUm9YTG5mdHVmRVdI?=
- =?utf-8?B?VGRidXowWkFUUnJnMTJtNHd2WUtGZElFSlJVaW9xYmMvRjZYUmhDKzJpekNn?=
- =?utf-8?B?clQ2S1pIMy9HcXdTU0NiQmMvcXF0a3FNUE02ai9ZMlFnWHliazdhakkwUGkz?=
- =?utf-8?B?UkoxcHlQT1phcUQwNGsvMkRFbnNZWGQ1eS95K2pKRG0zVTErZmM3ZDdUVWkv?=
- =?utf-8?B?dHN0SEhUMkd4QnVPanZINVc2Ykk5RFgzeE9DNW82OG5LVnplRDdqc2VhbXhT?=
- =?utf-8?B?YlMycVQyZFpFOExnd0dKMVJIdUY5KzhjTXYxOUdndFI3NFNuT0Y2RGtwZkR3?=
- =?utf-8?B?Ym5nOFFNQSt0anV4V2tjMzdSc21Td05FZm84NGtWQWEwNXk4blFWZWh0d2tr?=
- =?utf-8?B?OWtQanhpMFhNQ05IQVNlam0xQ1drRmhjZGRYQ2pvY0cwQjRRUTVUck9aeUFx?=
- =?utf-8?B?WkFiWXQ4dHI5NzlpcWU3N1k4S2l1dzBlLzVJVnhNUWN3ZEtGYWl3N1hQK0Vv?=
- =?utf-8?B?bHQxVVVaaEFHdlFLMXlVY3VSTStvK0tIL2s3c1Vtd2pzOXJSbGxvTFA2TWdT?=
- =?utf-8?B?YUtpdjlFSzhyajFkUW5pVFRtZ3pPN2YzVEVBaStkU1hScEtIdlA5a0JTN2FC?=
- =?utf-8?B?Mk9SV3VMRWt6dU9ta0d0TURWVzVZL0d5NzhTRCtLME9ySFE9PQ==?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b2w2d3N5R0FqS2hhQ3ZWNmo3QmtzTkh2TC9wVVdRdjltb3hmYkYwMkprUndC?=
+ =?utf-8?B?ZktDVTZYRTgzWm53ZDQ3SG1LNWphNGNMUC9HSDd6enFKaXVqTThuL2IzNHgr?=
+ =?utf-8?B?YkJYeU9zYXRJZVh6NmRHK2hxb2tsckdTZ0JVS1F3bko0SnI0bDYvd0pTRnc0?=
+ =?utf-8?B?Q0NYSmNEU2ZRVEJTU3ZHZWNQem9ZVzlJN0dvb1lQdDFiemtPNkYxN2hlU0lQ?=
+ =?utf-8?B?aUwyVmFMYWlKeUdObDFSTGZnRXVCTXh1T01namhqMFljQTQycmZueEUrRXk2?=
+ =?utf-8?B?aDBLYzFBQkR4elQvK3A3U2xBT09oUXB1cTJ4WFZPYXgyN0F0Y3Avbm9XNGlC?=
+ =?utf-8?B?NVZLN1J5SFRBQUxuR1ZnTjlMenpnY2Y1N3hIU2RWNGM3THVveUd3eXYvWE96?=
+ =?utf-8?B?RHZWbmhpZEMvbjRIR2NDb01LZUxlTFViZERaZVZNbC9SZmlrUlpSbm92ZDFY?=
+ =?utf-8?B?aVVOZXdwU3dBME1EZFJwcUYrWXNpbjJwRldzMDhoSWVWU3B5RElYdDBiaWdX?=
+ =?utf-8?B?VGo0NWgzSEx0dnlkN3c1MUFFMWJMK3ZiWHpoWUl5Z0w5UEZhZUpXY0pXaGdq?=
+ =?utf-8?B?Vkt2OXR0bW9XQ2JUMzN2b0FjZVFGOWpTQ2hpSnBwTjNCMXNLVE52d0dCWjlL?=
+ =?utf-8?B?N2V0Q0NLbU5ZSk9JOW81b2wwYTFGNm9IY21kK3NLZUpiTGVYc0I1Q09tdnha?=
+ =?utf-8?B?RHlROVRiRDdYdjRSM3IwS25KcEZpYmJDcTVkSjNTb2VFSmhaSUNiR2ZJTmNB?=
+ =?utf-8?B?NG1zYVltZ1VnUmgvYVFDdXZrbHRNdTh5MnFOS0ZiR01VS2RBa09nZEpZRnB3?=
+ =?utf-8?B?Y2xsQUxjNzFGY1FvT0ZhajB6K0hoWkljQllmaEdnQzNJeVhWSzlVcEJheUdJ?=
+ =?utf-8?B?RDVYdGRBOWszdUYxdGVWbGg1MVhFbTdnRjFRYVlrYUpMSTFKTi83RVBBMFZH?=
+ =?utf-8?B?SDNMV0xTYkhXSm1kQ09lVGMzOWZyckZ0c0t5NlVoY3ZnVHVkLzVjMnlCUmZ1?=
+ =?utf-8?B?bW91Si9GWXRiUzlXTUhRUVhhOHRxR2VpK2VldENzZkQxUTlteXNCVnR1WEpy?=
+ =?utf-8?B?MnIweGxoS3JLYXdpYkkwakttWEFNa1pGMDlGc0NrTFY0UGZydnlKNE1uTTZ1?=
+ =?utf-8?B?K2dpdFNyaGNlWkJiZTluTHdDVXVCOFhiK0hUb0pEY3ZVTnhlanR5dk1wTjZO?=
+ =?utf-8?B?S3Z2RElhS2NVM3JYR2ZmQjlDZ0VuYmk3WXQ1bUtIZzBEVmF6VlFZV210WWVC?=
+ =?utf-8?B?cTZkWVFSdjFNeFVMTUp1NnVaQWY4VjVqMnFrSGtjajBNb0NWWGozY08yTkpN?=
+ =?utf-8?B?WG9OZVBvNk42cVhxZUJqRGpNWGtNTnhDa3ZUODVocS9pOEYzUVc0SXJjUndj?=
+ =?utf-8?B?SjNPN0VVaUR6VnNhYThLL1FLL3FTTWhkcjlCNVJlRWVVQ0FPN3dnTHMxUFU4?=
+ =?utf-8?B?Qm9ZY1pFdkxWT0Z2ODJjZ2VxMW5hVDNsY0ZpcWF2c1hwZnlDZ3h6NHovTHNY?=
+ =?utf-8?B?SWNLYjcyL3RCNTlEK08vY1gyUWFwd0o5UExiQ1hacGFnM1RWeGt3a2dsM2NS?=
+ =?utf-8?B?dDVZdUtzZEhhMXgwRUVMNEtwTUN2ajErVkdmV3hQRmtJZzRLVnNsbTFQd1d2?=
+ =?utf-8?B?eUJLc1JhazFlQ3VjZGFnS2dtNHN5UFF2aFNiMHZCMm1UaS9qQzR1dklCbG9Q?=
+ =?utf-8?B?SE8zVFBwT1pOeFZVZzNPVUNiRnRhMUoyQU9sdzduZTI1b1lVeUFRRG56bnIz?=
+ =?utf-8?B?R3BzRkthRlFyWGVGWkMzaGh4TFNGeDB0R0MzelNJMWRsdHg1YW5sYzk5Ykk4?=
+ =?utf-8?B?bUFJQXZBbGplRFNWUGlpam9GQU5vaW9HV0lEVi9lWmtwMWVvNE1lbnJqekNJ?=
+ =?utf-8?B?bk82emtWdUJyTGd2M0tDZjZjc1JFdzN4MjIyd1VRRjFOVEk3YUl5ZnJEYmlV?=
+ =?utf-8?B?L2dpM0xIMmFhdkRkL2ZjZUsyWSs4bVN0VTd5L1QxUDBpNGNDQWlLY2JIY2Va?=
+ =?utf-8?B?TTQ5UVozT29nPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA3SPRMB0011.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5968.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7416014)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDNGOXdPcWtqZ3czRVJ1UHo5Rm5CNmpRZ0ZiYkpuMDIva1VZMEw2ak1RSnhm?=
- =?utf-8?B?NlR1MnkzV3NUekNvL3U1dWc2ZmprcFliY1VzL1lZbTBzWWJad09kcjB1cVdL?=
- =?utf-8?B?d2svMVc2WG12TGM1cXFXMHlwR29mZWpSRWgxNTJSa3VQZXdSRHNWTlI2V1gx?=
- =?utf-8?B?d0ZCS0dMZmZyWlFVMjhRcVZWNTRPYVU0VTZhMm5lOFdoYU5TSmtJYmdHTW1K?=
- =?utf-8?B?dGxaMXdyMjhYd3YxOEFLeVZ6WkFPZUNwSmZnVXMyUXBPZXYvUHB6QVY5bTJu?=
- =?utf-8?B?U2VoYWdsbW5LYTB3dG9JWGxxek9STUN3akxMM3JaSVU2V1EyUGl4dEd0ZkQx?=
- =?utf-8?B?TVVyVjltVXJvaUhGQXVrVEFPaW45MWhrcHVvb1RnTmFjSDBsb2swSjB0STc3?=
- =?utf-8?B?SVR0ZFIxdWRNbDRKOE9PMzR6MVNzNnprRUM2SHBzOWc2M3NVOThBV2lPQzhz?=
- =?utf-8?B?bWxpbCtOSTV2ZkdNajFJdjFIdXlEaU9wMmptV2xuNDZaa1ZCSi9tVmZ0aGxP?=
- =?utf-8?B?SEtRK3pVOHhoZTJGdnU0bENLUUgvV3JnZDhFMGh3NElwa0gvdHJ4Y09XRk95?=
- =?utf-8?B?WGpUTmJ4aXlEQWp6T0cwNEVReHVpcFJ2YmdkV3NSZlBpcDdrWFJ5ZGpHR3FB?=
- =?utf-8?B?Q0F6REdUeU1GdjJRSHNSVFdUaVRtZHh2RzJLTTV3Sm5iQlFIdjBUelVuUGJr?=
- =?utf-8?B?bGtqa2dBc3VJSGN1SHJReXNXblUvNFRGUGhqcEpheExGUFpURWxYYldvYXd6?=
- =?utf-8?B?bGpwZ1lxNnVGKytadFp4MWVqTDNIY3ZrRVZtVW9DR3JkM2p4K3krc3hPZ3Fi?=
- =?utf-8?B?dmp2bXNRZjBmeFdHbmk4T0ZrNlppbitKN2V4cWpPUURUcExwcmtzK1lhdTZZ?=
- =?utf-8?B?UytXaWlQM1NoS3JXUzRUc0pGU2xmWU50ZkZ2UXZocjBwSWtQL1R6OFA1ZnUz?=
- =?utf-8?B?KzdvTS9NWXIxRGZPU1JTajJURVpHQXNHWXM2K2REb0lHUHU1SkxsRXYwbDJY?=
- =?utf-8?B?MEF2a1I5M09Va2l2OGE2L1V3akc4eGE3aTRnUHhYY09PQWY5ZWRqeTlCemdp?=
- =?utf-8?B?Yk5SQzN2aVppTjJXdzFxSS9hK1Fxb1pjWVdLd25NQXR4R0pXUTN3WkxUUDl5?=
- =?utf-8?B?LzBFMkRNL0k5NWFBSitaUm5pYW9uMGlnMVdqem84TmE1eEVOZ2krRWhmOHZy?=
- =?utf-8?B?cXdWU1NkMUNNUXluSzdQbjJ6YVNGc3lUMmQ5MForaS9TdmdnUlhQMlI3eUt6?=
- =?utf-8?B?dHRYQm9JWHNDRm9MQXhHN2M1Rm5CeXJvS0pBWGxUd04rQ09ITlI0amRQaXNT?=
- =?utf-8?B?ZnJ6M3cxWGtrUjVqbUNnNmlxcm9nU2g1VVlJYlNQVzdVQlJQQ1RLTHJFQk1o?=
- =?utf-8?B?L3JKYzcvQWZaekdqUFJoM21kaTJXbzRGVWREL1VpeTVjL3lXbWQvdER3amFl?=
- =?utf-8?B?a2U4RW1HVTIrWHRJMDlJcU5FaTQxb0lvR2FQTnMrV1o1ZFZlcURCbUdHR0Y5?=
- =?utf-8?B?V3hJVnJYSVNpaUZ6dHIyVU16VFluQkNQQ3g4czUrZmhqN2ZqQnR0algvcjNu?=
- =?utf-8?B?bHlyM09sZTJCSlQzREp6cXdmUUlvNjlUT2d5R1puclVMeGtvNC9FS1ZXV1hN?=
- =?utf-8?B?QzRBN29hYWNDdWNtczBwK1oyT1ArOFl0ZHF0TlVCYm8wN3luTEhoNnZrdERQ?=
- =?utf-8?B?V1Y4SVdGcGxwUGRDVWVWbkdaQ1llSDlycnphVjV0K0crU1VXTHBua2dlMkta?=
- =?utf-8?B?ZmM4eENWc1dwQm43VnpuY1krcTF0dGwxbFVTQ1BUWmdNbThxdjVKWkhsdEp6?=
- =?utf-8?B?dDFuRlVQS20vRkdhZnUyNFVPTVdVRTZESXdoK1ZLSGhzSWVDR2FmUDlJMVhJ?=
- =?utf-8?B?Q2NoNDVjc2ZqWktPS0ZZWVM4Z0taYnlYNGZwVFR1bHJVR0JyODJwUXZMSVVI?=
- =?utf-8?B?dWtpS3BqazE1eWsvY21UcjBkbnVVcFNKK2ZnUGdOQkhLdlIwZ0MxQTFXZSs3?=
- =?utf-8?B?SDhJYlBYbVRYOWEydXM5L3pwRFFZd3VEeFB4eWpuMTlUV2hwdzFMYUpPbW15?=
- =?utf-8?B?MWNDd1owUmpxdGVBYXloUHZvY0M0dWtna2RTUGZvR09LWDBIdGhvUTJDeFJ4?=
- =?utf-8?Q?LnNrPzVuewuULY6U4pH6I1DP5?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OHV3dTFGV2NZTndqdWphZExWbDVnZUtEeEsxTTZqT2RNMjJJc3dsTU1mWmRE?=
+ =?utf-8?B?UVBHVjhqUHY4TU5WcXg1dm16TFNRMmdqdHBSSmtCcnVid0ZLTnlJWDdUZ2ho?=
+ =?utf-8?B?czRVWm5vVzRMWmRueUZrSmwxREtBVXFlNUkwRThlWFBYc0Q3ODludGczUHdz?=
+ =?utf-8?B?Q00xRUJVdDZQdldoeFlSYlhrNlAwVHNzN1ExQVJDSmFjUE9wUmljUWl5TzB4?=
+ =?utf-8?B?Rkw2bExjNHpQM3h3Z3ZpLy9TTVJMVEJ6Nk1OWVN6YkVERXYyT0xBMll4L1pW?=
+ =?utf-8?B?dG1ZRG9SbUtHSjBDZThKWi9vdWJVSjVBQmlaUVRyYXM3dU5EdVZXdVY1UXdq?=
+ =?utf-8?B?Yml1MTRCWGcyN28rbVZHQVRHZ0tYK0RBQ0xuOW03Y3FkRi85SVRQWDZqVEpC?=
+ =?utf-8?B?bzFNOGNaclBISUFhSkhlYkk2Q2V4Wk1uakpBa29kY0lsanl0amhsMENWYlVU?=
+ =?utf-8?B?cnZndlZtQmhxb3BQUElJQVgrdFVUM3hqanVDSnBWQmxLNjVXT3J0QkM1Z1Jv?=
+ =?utf-8?B?QWhxY3A5ZEcxYzIyelI2bi92NkNZakI4MmtXS2ttWGtOb25Yb0lYNU1RUDlS?=
+ =?utf-8?B?bE9oQTRpMTk3QlFzSk1yS0s1U2hMS21sYjg4TzFlZWhNMDVFeHdKeGQ2S1cz?=
+ =?utf-8?B?NjlTTStOczFJZEVoVld0blRXOTJKYnIyVFNvalp6dHZMYXNaU2kyYnNiTit6?=
+ =?utf-8?B?cWdZL3FwQ29UazZjZEcrb0t4TTgxVDY2ZVBRVnh0a05zUmF4VkJDN203TmhJ?=
+ =?utf-8?B?Q1J3RlUvNEJQUHdqOVZCMXBkYVRLVGlmLy9zR0JXVEcvVUYvWWIwVDRwWGx4?=
+ =?utf-8?B?UFY1Ukp4Q0htdFYxQnVPcDRUWFZ4SEhjcU1nRTdSQm5Ca3F4Z08vMTluZWVv?=
+ =?utf-8?B?d0srTTZCTkU2ZW9YcGhjWnpzUFM3dDNxWFh5UlQwcnkvYnM2WUt4SHNac2M1?=
+ =?utf-8?B?NmZ0aHk5ZERzazdvdVlYazkwdlNjd2VwSG02Zk9CUVBqV0xCRVhMYnVNcnNQ?=
+ =?utf-8?B?NXkyNFNHWkowanVrUnpMVzNHdy9Uc3RISnl4TUp0TnFNeiswNjVUb05SNEIw?=
+ =?utf-8?B?NU5INHM1UnpvZncxL0RWUnZ4M29RZFJUd1JEd1NWS01JMWpnekQ2UlNrUXhu?=
+ =?utf-8?B?eGoxN0NNcjBiMkJGaEp2SlFtUHZRN1BHTGUrczQ4QWtGREFPcHl0RndWaDFr?=
+ =?utf-8?B?RzhFRjRzMHRnTUxPRzFheForbFFRODYxZ2lQSGtPMVppNXRkamwvMGpwNCt5?=
+ =?utf-8?B?bU5lbG1hRWI2SDBCL0doemw0QWpETWJ2MWJiNm1rQ2pUU1dZMlBYVlMxd25D?=
+ =?utf-8?B?T3N0ak01aDBuNkREcXdkS0t6OTZUaXNicUZuYVM1M1luYUJXS05hQkNibW42?=
+ =?utf-8?B?M1NzeldhMEhHRHluVTJhOXZNWVUwYXhXV1NKY1RmNG9qRjVDT3BpUUZCMTkw?=
+ =?utf-8?B?VmFFOENiUzhKb2xpS1BGSWsrVjBNVnZKdHNFM2JadkVLeCsyaUhyYnhYTUor?=
+ =?utf-8?B?Yzk0MDZtQktUU2FuaEZhMFYwVFJYUmpRa0lTWmhnRzNndXZIVHRzRis4YnlB?=
+ =?utf-8?B?dGU4WlJvZ0l0UTZOMTEwTFU2Lyt4Zk9XM1RRRkQ2eEsra0lUUjFtZzR5T29K?=
+ =?utf-8?B?MjVRUXluODhlK1JxemZoU0F0U0RIZ0dDZ2NHaUtvRmRUUzEyS1dOQUlJRW80?=
+ =?utf-8?B?Z3F6dGFuYlpTeDhJMjlBSUJlZkJlc0xXRGExR0pFMDNBRFovU000V3hqMy9W?=
+ =?utf-8?B?V25lUXVnRE1EbUgvUkU0dHdhVjludkU4Y0ZTdi9BRHFidW5lbTAwSGxBVHhv?=
+ =?utf-8?B?Y01YZEwwWndCc1hxb2lMeENadUlXTzBYUmhmTm9mbXJRWVdybnZzUmxZOVRU?=
+ =?utf-8?B?cExOcjhLNVYxbmRka0JQTXhueUlSS0EzWTRIYkVhOXd2emVWVTAvclk4VG5E?=
+ =?utf-8?B?eERkenFKblZmZHAwRVdxa0t4eVUvVzFKMEZhNzFMOExmZWp2VXdISktYd25Q?=
+ =?utf-8?B?SlRvSW5WQmw4YWs0NUxKa2dsdlF4NGNaSDhEVGNFdU05RWFTOENRL240Yk5z?=
+ =?utf-8?B?eEJUUzd6VStVMU5vVDZmWEg4VDJQbmdSNEhXYnA5RVE0a20rWUkrTWFJaHZ2?=
+ =?utf-8?Q?BXE+DYgNdB/3dGxqjbCYMzOL7?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: daed1557-05c0-4f2c-3962-08dde7510e3d
-X-MS-Exchange-CrossTenant-AuthSource: SA3SPRMB0011.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ad246a4-8d82-4a94-25c6-08dde7541d64
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5968.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 23:09:08.5592 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 23:31:01.5227 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /QpX5HlBOldVbyX0q8RM+QqdAo9vhvoy/7anV/LNCQoGFVx9ewyKAHC2nO1hIf/gQTw1dgWTE+twcK5ahCz65w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9159
+X-MS-Exchange-CrossTenant-UserPrincipalName: bWwbkNIOFh1zLAnvRUL+91EaGoJTx3BsOOpj/+DA2DZt9sjE0o+b6AXPePLa5D+19jbKKXd6WrNj+vPhvJQbeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6994
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,149 +177,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For posterity: This surprised me, so I asked our architecture team 
-whether it makes sense. They confirmed the additional sysmembar is 
-required for correct ordering between the interrupt handler's CPU read 
-and the host semaphore release's memory write.
+On 8/25/25 9:07 PM, Alexandre Courbot wrote:
+> diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+> index b0e860498b883815b3861b8717f8ee1832d25440..a3eb063f86b3a06a7ad01e684919115abf5e28da 100644
+...
+>          let fb = {
+> @@ -138,10 +202,54 @@ pub(crate) fn new(chipset: Chipset, bar: &Bar0) -> Result<Self> {
+>              frts_base..frts_base + FRTS_SIZE
+>          };
+>  
+> +        let boot = {
 
-Thanks,
--James
+A few lines earlier, not shown in these diffs because it's not part of this patch,
+there is a closely related TODO item:
 
-On 8/28/25 19:16, Dave Airlie wrote:
-> From: Faith Ekstrand <faith.ekstrand@collabora.com>
-> 
-> This ensures that the memory write and the interrupt are properly
-> ordered and we won't wake up the kernel before the semaphore write has
-> hit memory.
-> 
-> Fixes: b1ca384772b6 ("drm/nouveau/gv100-: switch to volta semaphore methods")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->   drivers/gpu/drm/nouveau/gv100_fence.c         |  7 +-
->   .../drm/nouveau/include/nvhw/class/clc36f.h   | 85 +++++++++++++++++++
->   2 files changed, 91 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/gv100_fence.c b/drivers/gpu/drm/nouveau/gv100_fence.c
-> index cccdeca72002..317e516c4ec7 100644
-> --- a/drivers/gpu/drm/nouveau/gv100_fence.c
-> +++ b/drivers/gpu/drm/nouveau/gv100_fence.c
-> @@ -18,7 +18,7 @@ gv100_fence_emit32(struct nouveau_channel *chan, u64 virtual, u32 sequence)
->   	struct nvif_push *push = &chan->chan.push;
->   	int ret;
->   
-> -	ret = PUSH_WAIT(push, 8);
-> +	ret = PUSH_WAIT(push, 13);
->   	if (ret)
->   		return ret;
->   
-> @@ -32,6 +32,11 @@ gv100_fence_emit32(struct nouveau_channel *chan, u64 virtual, u32 sequence)
->   		  NVDEF(NVC36F, SEM_EXECUTE, PAYLOAD_SIZE, 32BIT) |
->   		  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_TIMESTAMP, DIS));
->   
-> +	PUSH_MTHD(push, NVC36F, MEM_OP_A, 0,
-> +				MEM_OP_B, 0,
-> +				MEM_OP_C, NVDEF(NVC36F, MEM_OP_C, MEMBAR_TYPE, SYS_MEMBAR),
-> +				MEM_OP_D, NVDEF(NVC36F, MEM_OP_D, OPERATION, MEMBAR));
+            // TODO[NUMM]: replace with `align_down` once it lands.
+            let frts_base = (vga_workspace.start & !(FRTS_DOWN_ALIGN - 1)) - FRTS_SIZE;
+
+...which I think could be optionally fixed now, and added to this patch.
+
+Or it could be done later, in a different patch, but it seems convenient
+to merge it in as long as we're here, and using .align_down() in this patch.
+
+...
+> diff --git a/drivers/gpu/nova-core/nvfw.rs b/drivers/gpu/nova-core/nvfw.rs
+> index 7c5baccc34a2387c30e51f93d3ae039b14b6b83a..11a63c3710b1aa1eec78359c15c101bdf2ad99c8 100644
+> --- a/drivers/gpu/nova-core/nvfw.rs
+> +++ b/drivers/gpu/nova-core/nvfw.rs
+> @@ -1,3 +1,42 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  
+>  mod r570_144;
 > +
->   	PUSH_MTHD(push, NVC36F, NON_STALL_INTERRUPT, 0);
->   
->   	PUSH_KICK(push);
-> diff --git a/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h b/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h
-> index 8735dda4c8a7..338f74b9f501 100644
-> --- a/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h
-> +++ b/drivers/gpu/drm/nouveau/include/nvhw/class/clc36f.h
-> @@ -7,6 +7,91 @@
->   
->   #define NVC36F_NON_STALL_INTERRUPT                                 (0x00000020)
->   #define NVC36F_NON_STALL_INTERRUPT_HANDLE                                 31:0
-> +// NOTE - MEM_OP_A and MEM_OP_B have been replaced in gp100 with methods for
-> +// specifying the page address for a targeted TLB invalidate and the uTLB for
-> +// a targeted REPLAY_CANCEL for UVM.
-> +// The previous MEM_OP_A/B functionality is in MEM_OP_C/D, with slightly
-> +// rearranged fields.
-> +#define NVC36F_MEM_OP_A                                            (0x00000028)
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_TARGET_CLIENT_UNIT_ID        5:0  // only relevant for REPLAY_CANCEL_TARGETED
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_INVALIDATION_SIZE                   5:0  // Used to specify size of invalidate, used for invalidates which are not of the REPLAY_CANCEL_TARGETED type
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_TARGET_GPC_ID               10:6  // only relevant for REPLAY_CANCEL_TARGETED
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_CANCEL_MMU_ENGINE_ID                6:0  // only relevant for REPLAY_CANCEL_VA_GLOBAL
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR                         11:11
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR_EN                 0x00000001
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_SYSMEMBAR_DIS                0x00000000
-> +#define NVC36F_MEM_OP_A_TLB_INVALIDATE_TARGET_ADDR_LO                    31:12
-> +#define NVC36F_MEM_OP_B                                            (0x0000002c)
-> +#define NVC36F_MEM_OP_B_TLB_INVALIDATE_TARGET_ADDR_HI                     31:0
-> +#define NVC36F_MEM_OP_C                                            (0x00000030)
-> +#define NVC36F_MEM_OP_C_MEMBAR_TYPE                                        2:0
-> +#define NVC36F_MEM_OP_C_MEMBAR_TYPE_SYS_MEMBAR                      0x00000000
-> +#define NVC36F_MEM_OP_C_MEMBAR_TYPE_MEMBAR                          0x00000001
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB                                 0:0
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ONE                      0x00000000
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ALL                      0x00000001  // Probably nonsensical for MMU_TLB_INVALIDATE_TARGETED
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC                                 1:1
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC_ENABLE                   0x00000000
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_GPC_DISABLE                  0x00000001
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY                              4:2  // only relevant if GPC ENABLE
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_NONE                  0x00000000
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_START                 0x00000001
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_START_ACK_ALL         0x00000002
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_TARGETED       0x00000003
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_GLOBAL         0x00000004
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_REPLAY_CANCEL_VA_GLOBAL      0x00000005
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE                            6:5  // only relevant if GPC ENABLE
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_NONE                0x00000000
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_GLOBALLY            0x00000001
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACK_TYPE_INTRANODE           0x00000002
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE                         9:7 //only relevant for REPLAY_CANCEL_VA_GLOBAL
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_READ                 0
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_WRITE                1
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_STRONG        2
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_RSVRVD               3
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_WEAK          4
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ATOMIC_ALL           5
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_WRITE_AND_ATOMIC     6
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_ACCESS_TYPE_VIRT_ALL                  7
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL                    9:7  // Invalidate affects this level and all below
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_ALL         0x00000000  // Invalidate tlb caches at all levels of the page table
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_PTE_ONLY    0x00000001
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE0  0x00000002
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE1  0x00000003
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE2  0x00000004
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE3  0x00000005
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE4  0x00000006
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PAGE_TABLE_LEVEL_UP_TO_PDE5  0x00000007
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE                          11:10  // only relevant if PDB_ONE
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_VID_MEM             0x00000000
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_SYS_MEM_COHERENT    0x00000002
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_APERTURE_SYS_MEM_NONCOHERENT 0x00000003
-> +#define NVC36F_MEM_OP_C_TLB_INVALIDATE_PDB_ADDR_LO                       31:12  // only relevant if PDB_ONE
-> +#define NVC36F_MEM_OP_C_ACCESS_COUNTER_CLR_TARGETED_NOTIFY_TAG            19:0
-> +// MEM_OP_D MUST be preceded by MEM_OPs A-C.
-> +#define NVC36F_MEM_OP_D                                            (0x00000034)
-> +#define NVC36F_MEM_OP_D_TLB_INVALIDATE_PDB_ADDR_HI                        26:0  // only relevant if PDB_ONE
-> +#define NVC36F_MEM_OP_D_OPERATION                                        31:27
-> +#define NVC36F_MEM_OP_D_OPERATION_MEMBAR                            0x00000005
-> +#define NVC36F_MEM_OP_D_OPERATION_MMU_TLB_INVALIDATE                0x00000009
-> +#define NVC36F_MEM_OP_D_OPERATION_MMU_TLB_INVALIDATE_TARGETED       0x0000000a
-> +#define NVC36F_MEM_OP_D_OPERATION_L2_PEERMEM_INVALIDATE             0x0000000d
-> +#define NVC36F_MEM_OP_D_OPERATION_L2_SYSMEM_INVALIDATE              0x0000000e
-> +// CLEAN_LINES is an alias for Tegra/GPU IP usage
-> +#define NVC36F_MEM_OP_B_OPERATION_L2_INVALIDATE_CLEAN_LINES         0x0000000e
-> +#define NVC36F_MEM_OP_D_OPERATION_L2_CLEAN_COMPTAGS                 0x0000000f
-> +#define NVC36F_MEM_OP_D_OPERATION_L2_FLUSH_DIRTY                    0x00000010
-> +#define NVC36F_MEM_OP_D_OPERATION_L2_WAIT_FOR_SYS_PENDING_READS     0x00000015
-> +#define NVC36F_MEM_OP_D_OPERATION_ACCESS_COUNTER_CLR                0x00000016
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE                            1:0
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_MIMC                0x00000000
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_MOMC                0x00000001
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_ALL                 0x00000002
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TYPE_TARGETED            0x00000003
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE                   2:2
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE_MIMC       0x00000000
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_TYPE_MOMC       0x00000001
-> +#define NVC36F_MEM_OP_D_ACCESS_COUNTER_CLR_TARGETED_BANK                   6:3
->   #define NVC36F_SEM_ADDR_LO                                         (0x0000005c)
->   #define NVC36F_SEM_ADDR_LO_OFFSET                                         31:2
->   #define NVC36F_SEM_ADDR_HI                                         (0x00000060)
+> +use core::ops::Range;
+> +
+> +use kernel::sizes::SZ_1M;
+> +
+> +/// Heap memory requirements and constraints for a given version of the GSP LIBOS.
+> +pub(crate) struct LibosParams {
+> +    /// The base amount of heap required by the GSP operating system, in bytes.
+> +    pub(crate) carveout_size: u64,
+> +    /// The minimum and maximum sizes allowed for the GSP FW heap, in bytes.
+> +    pub(crate) allowed_heap_size: Range<u64>,
+> +}
+> +
+> +/// Version 2 of the GSP LIBOS (Turing and GA100)
+> +pub(crate) const LIBOS2_PARAMS: LibosParams = LibosParams {
+> +    carveout_size: r570_144::GSP_FW_HEAP_PARAM_OS_SIZE_LIBOS2 as u64,
+> +    allowed_heap_size: r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MIN_MB as u64 * SZ_1M as u64
+> +        ..r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB as u64 * SZ_1M as u64,
+
+We only support one version of the firmware. And in the coming months,
+that one version will have a different version number.
+
+Given those constraints, we should simply remove most (all?) of the "r570_144::"
+namespace qualifiers in the code, starting here.
+
+That way, we get:
+
+a) A small diff, instead of a huge one, when we update to a new firmware
+   version.
+
+b) Shorter, cleaner symbols everywhere: GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB
+   instead of r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB, for example.
+
+> +};
+> +
+> +/// Version 3 of the GSP LIBOS (GA102+)
+> +pub(crate) const LIBOS3_PARAMS: LibosParams = LibosParams {
+> +    carveout_size: r570_144::GSP_FW_HEAP_PARAM_OS_SIZE_LIBOS3_BAREMETAL as u64,
+> +    allowed_heap_size: r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS3_BAREMETAL_MIN_MB as u64
+> +        * SZ_1M as u64
+> +        ..r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS3_BAREMETAL_MAX_MB as u64 * SZ_1M as u64,
+> +};
+> +
+> +/// Amount of GSP-RM heap memory used during GSP-RM boot and initialization (up to and including
+> +/// the first client subdevice allocation) on Turing/Ampere/Ada.
+> +pub(crate) use r570_144::GSP_FW_HEAP_PARAM_BASE_RM_SIZE_TU10X;
+> +/// WPR heap usage of a single client channel allocation.
+> +pub(crate) use r570_144::GSP_FW_HEAP_PARAM_CLIENT_ALLOC_SIZE;
+> +/// Amount of extra WPR heap to reserve per GB of framebuffer memory, in bytes.
+> +pub(crate) use r570_144::GSP_FW_HEAP_PARAM_SIZE_PER_GB_FB;
+> +
+> +/// Structure passed to the GSP bootloader, containing the framebuffer layout as well as the DMA
+> +/// addresses of the GSP bootloader and firmware.
+> +pub(crate) use r570_144::GspFwWprMeta;
+
+thanks,
+-- 
+John Hubbard
 
