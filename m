@@ -2,85 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A04AB3C350
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 21:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB8BB3C35E
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 21:52:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA3310EC47;
-	Fri, 29 Aug 2025 19:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94A6410E21A;
+	Fri, 29 Aug 2025 19:52:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uPYEnPUU";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="egx3H2Kl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB7010EC59
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 19:51:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 93AD540BAC;
- Fri, 29 Aug 2025 19:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BBC4CEF0;
- Fri, 29 Aug 2025 19:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756497082;
- bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uPYEnPUUg4/LuQVFtqhOOS0tGS/0OVJpM+KchdKwqnpfkH0/J3whjo1E0NBxW4gpi
- uJDXfPT2+7W9SvWuvKxITtr+9wgDa0PLPjlOlPveFqy+zGxeJXRW3bmLtv6e6tXZkm
- Lt0jKmNEbrsoJG57fd3KAzrHhMHII+VJCvAN8o9yIncXsE2LjVvdVRlbplw8VmHBsq
- nEieoqr4Hd58x1XnW+1xWPl9IbBCsaBFlrOtBOQRsS5iKDBvoMcj7GYIAOBvWu/48K
- 9ZUoI9CDe2TXQXinfy+0J0W3S8zuoPtSs1TE+Ci/Y2CLPC2Ymd1DL36wGlg46kmRHz
- JZChNYlMpZoRQ==
-Date: Fri, 29 Aug 2025 14:51:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Michael Turquette <mturquette@baylibre.com>,
- Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, iommu@lists.linux.dev,
- linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250829195119.GA1206685-robh@kernel.org>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C711510E179
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 19:52:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756497125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Qdef9Piv775GEt9ecqC3DBhio0JyExkR0P3CDUdZaXQ=;
+ b=egx3H2KlGUPl1Hq2ByW7m5puFXcr/AOC46KvhbR3pEyAlxlPhUKUNx75N471x5yVt7m/gI
+ 1qN7jQ3RgMHBEhXQaxTt6DWvkQZBFMRgcgjiY+T8GhfuX/Ab5c9IFs4zbGBLpLW72J3Oc0
+ 9rErSThFdoeczzILWgwHhoxG3jTCeJ8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-685-F5CIvDyKOk-k5j91WeCMLQ-1; Fri, 29 Aug 2025 15:52:04 -0400
+X-MC-Unique: F5CIvDyKOk-k5j91WeCMLQ-1
+X-Mimecast-MFC-AGG-ID: F5CIvDyKOk-k5j91WeCMLQ_1756497123
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3cf48ec9e40so657237f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 12:52:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756497123; x=1757101923;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Qdef9Piv775GEt9ecqC3DBhio0JyExkR0P3CDUdZaXQ=;
+ b=W6Xv9jdyTSyhKVLa/tzJEsASjbPfGU3HzH78Xi/Ke8K9KhFO8sIKq8vjb1V4F/s7fx
+ txTozUfrEQmeA6TeQ1L6v3nIXZxUNbsi5tSznv9WYFifD2abpEj80AUCOgjTAznrXza+
+ X6Y9uQDY5XDTzbw9UBnxQnQd94jMW/BvYaWxvfgKhjGdFFOEvqWjUMrvSc03ov+K9PQ6
+ VODfvLfVnv+V6rWur/sNN5PvXD6NiInwsyXJiHfX5U5jaDGVy1CCR/H8NWCKFBu39xL1
+ pbSyojJFje/abPgbUHrFSq8JKGctHQhGOe2H4M7rVmFBYhEFVlALRikWYFNZTg4r7jmS
+ SQHw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1Nor0KNFO9zUbMSZYTMlb9f2k+YcpRCl0e0Zkz2uHNeNcIToMnckwPSlNtZUi8GeT+WC+VLyqRHQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZ/hLWVwaXn8H4A7tTK5m8K9nU5X1ug3ZLnrczUcCaRDxLIIFg
+ LnFNCsSYGboNXp3kHJzGlCwHhT5sQX2T58hOdi4/+tt56fwOZjCCh6bx3855ymUnzY1gswgBjsZ
+ me31GyDfXQU67qpKFB59z8KZz2XHpTKl1KD9Vs7kJH7Ku82/JF5Pg44U4XAz344G/4SrusA==
+X-Gm-Gg: ASbGncuWbpq/2RIoFU86LHHbVaGW0/eEqjY0A7v/LnN8nFymaQw9lpzKSeYtlqDb1RH
+ QsMtsHYClDCZ7EtD5los4MgUQemTU4uxvqXlI0cLGeRrlYuWNG/l9phQHJ3XnOS6dwxratl9alG
+ M+F0TguTXfwpecsZg+VlInWFGbIM8EZaNmXupbT4cIR9ApVzsJLJVY3K3+oCew5Mpo0NFTRVeDM
+ +y6StmByHPLyK7ERDFf+aedtOFfZm6O/1pWxhjw8uyv7SkS4V77kLP6PWMKNgXTIIFNV82C3l/O
+ zmqAy0Joe9JGDlaDpdHBc992+dqnOJThy8RlEiU+4L4rNp34Akk1U0W+l64JkKkkVmtpkNmvxLO
+ J56MMqSXoMmQYICaWbYs2znp8i/bdOwekT7MKk7/PfCsy/on4Veba1bUJ/tS2Xwt0
+X-Received: by 2002:a05:6000:1acf:b0:3c8:c89d:6b5b with SMTP id
+ ffacd0b85a97d-3c8c89d6f7dmr15934167f8f.48.1756497122826; 
+ Fri, 29 Aug 2025 12:52:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGFEdnfetEA0BUizp3/CuPF56sLxPoeCqh2ZRwgbpaot2nz3v6EntxAXtiXE/xXI9ZBdLsGFA==
+X-Received: by 2002:a05:6000:1acf:b0:3c8:c89d:6b5b with SMTP id
+ ffacd0b85a97d-3c8c89d6f7dmr15934152f8f.48.1756497122351; 
+ Fri, 29 Aug 2025 12:52:02 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f1d:100:4f8e:bb13:c3c7:f854?
+ (p200300d82f1d01004f8ebb13c3c7f854.dip0.t-ipconnect.de.
+ [2003:d8:2f1d:100:4f8e:bb13:c3c7:f854])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3cf276ccc13sm4411990f8f.22.2025.08.29.12.52.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Aug 2025 12:52:01 -0700 (PDT)
+Message-ID: <4ef6e251-37c2-47ac-bff7-3b2a7d7e58d6@redhat.com>
+Date: Fri, 29 Aug 2025 21:52:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: stupid and complicated PAT :)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ x86@kernel.org
+Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
+ matthew.brost@intel.com, dave.hansen@linux.intel.com, luto@kernel.org,
+ peterz@infradead.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+References: <20250820143739.3422-1-christian.koenig@amd.com>
+ <edf4aee5-54eb-4fad-aa89-4913d44371fe@redhat.com>
+ <4e5f4ef0-53f1-417e-8f3b-76fd7c64cd23@amd.com>
+ <f983521c-b43d-4245-93fc-fcb847908573@redhat.com>
+ <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
+ <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
+ <fc3e013c-e7f7-441d-a638-2ee3dd372775@amd.com>
+ <75aca34d-3557-49e9-a523-bd3244c28190@redhat.com>
+ <a01f7ca8-7930-4b04-b597-0ebf8500a748@amd.com>
+ <d32fa753-66a1-451a-8cef-95c1f78fc366@redhat.com>
+ <87050572-811e-4b0c-9ebd-8ebb05f3c617@amd.com>
+ <e717c8b8-51f1-4332-b5fd-ade55aaba1b0@redhat.com>
+ <3a91d9df-1536-490b-bbc6-268a3a32ac1c@redhat.com>
+ <00aaca69-2549-48b4-bd3c-fcebe2589df0@redhat.com>
+ <094606f3-a138-4561-a0b7-d952f4896939@amd.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <094606f3-a138-4561-a0b7-d952f4896939@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: FyQlD1cd6SsliY2FJ_w3E0ffjYrjsay2NKy8GrDIQj8_1756497123
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,71 +167,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> follow design of the t600x family so copy the structure of SoC *.dtsi
-> files.
-> 
-> t6020 is a cut-down version of t6021, so the former just includes the
-> latter and disables the missing bits.
-> 
-> t6022 is two connected t6021 dies. The implementation seems to use
-> t6021 and disables blocks based on whether it is useful to carry
-> multiple instances. The disabled blocks are mostly on the second die.
-> MMIO addresses on the second die have a constant offset. The interrupt
-> controller is multi-die aware. This setup can be represented in the
-> device tree with two top level "soc" nodes. The MMIO offset is applied
-> via "ranges" and devices are included with preprocessor macros to make
-> the node labels unique and to specify the die number for the interrupt
-> definition.
-> 
-> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
-> counterparts. The existing device templates are SoC agnostic so the new
-> devices can reuse them and include their t602{0,1,2}.dtsi file. The
-> minor differences in pinctrl and gpio numbers can be easily adjusted.
-> 
-> With the t602x SoC family Apple introduced two new devices:
-> 
-> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
-> missing SDHCI card reader and two front USB3.1 type-c ports and their
-> internal USB hub can be easily deleted.
-> 
-> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
-> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
-> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
-> calls the PCIe controller "apcie-ge" in their device tree. The
-> implementation seems to be mostly compatible with the base t6020 PCIe
-> controller. The main difference is that there is only a single port with
-> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
-> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
-> and PCIe slots connect too.
-> 
-> This series does not include PCIe support for the Mac Pro for two
-> reasons:
-> - the linux switchtec driver fails to probe and the downstream PCIe
->   connections come up as PCIe Gen1
-> - some of the internal devices require PERST# and power control to come
->   up. Since the device are connected via the PCIe switch the PCIe
->   controller can not do this. The PCI slot pwrctrl can be utilized for
->   power control but misses integration with PERST# as proposed in [1].
-> 
-> This series depends on "[PATCH v2 0/5] Apple device tree sync from
-> downstream kernel" [2] due to the reuse of the t600x device templates
-> (patch dependencies and DT compilation) and 4 page table level support
-> in apple-dart and io-pgtable-dart [3] since the dart instances report
-> 42-bit IAS (IOMMU device attach fails without the series).
-> 
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatibles anymore [1]. Instead either the first
-> compatible SoC or t8103 is used as fallback compatible supported by the
-> drivers. t8103 is used as default since most drivers and bindings were
-> initially written for M1 based devices.
 
-An issue here is any OS without the compatibles added to the drivers 
-won't work. Does that matter here? Soon as you need any new drivers or 
-significant driver changes it won't. The compatible additions could be 
-backported to stable. They aren't really any different than new PCI IDs 
-which get backported.
+> 
+> Yes, that can absolutely happen. But for iomem we would have an explicit call to ioremap(), ioremap_wc(), ioremap_cache() for that before anybody would map anything into userspace page tables.
+> 
+> But thinking more about it I just had an OMFG moment! Is it possible that the PAT currently already has a problem with that?
+> 
+> We had customer projects where BARs of different PCIe devices ended up on different physical addresses after a hot remove/re-add.
+> 
+> Is it possible that the PAT keeps enforcing certain caching attributes for a physical address? E.g. for example because a driver doesn't clean up properly on hot remove?
+> 
+> If yes than that would explain a massive number of problems we had with hot add/remove.
 
-Rob
+The code is a mess, so if a driver messed up, likely everything is possible.
+
+TBH, the more I look at this all, the more WTF moments I am having.
+
+> 
+>>> What I am currently wondering is: assume we get a
+>>> pfnmap_setup_cachemode_pfn() call and we could reliably identify whether
+>>> there was a previous registration, then we could do
+>>>
+>>> (a) No previous registration: don't modify pgprot. Hopefully the driver
+>>>        knows what it is doing. Maybe we can add sanity checks that the
+>>>        direct map was already updated etc.
+>>> (b) A previous registration: modify pgprot like we do today.
+> 
+> That would work for me.
+> 
+>>> System RAM is the problem. I wonder how many of these registrations we
+>>> really get and if we could just store them in the same tree as !system
+>>> RAM instead of abusing page flags.
+>>
+>> commit 9542ada803198e6eba29d3289abb39ea82047b92
+>> Author: Suresh Siddha <suresh.b.siddha@intel.com>
+>> Date:   Wed Sep 24 08:53:33 2008 -0700
+>>
+>>      x86: track memtype for RAM in page struct
+>>          Track the memtype for RAM pages in page struct instead of using the
+>>      memtype list. This avoids the explosion in the number of entries in
+>>      memtype list (of the order of 20,000 with AGP) and makes the PAT
+>>      tracking simpler.
+>>          We are using PG_arch_1 bit in page->flags.
+>>          We still use the memtype list for non RAM pages.
+>>
+>>
+>> I do wonder if that explosion is still an issue today.
+> 
+> Yes it is. That is exactly the issue I'm working on here.
+> 
+> It's just that AGP was replaced by internal GPU MMUs over time and so we don't use the old AGP code any more but just call get_free_pages() (or similar) directly.
+
+Okay, I thought I slowly understood how it works, then I stumbled over 
+the set_memory_uc / set_memory_wc implementation and now I am *all 
+confused*.
+
+I mean, that does perform a PAT reservation.
+
+But when is that reservation ever freed again? :/
+
+How can set_memory_wc() followed by set_memory_uc() possibly work? I am 
+pretty sure I am missing a piece of the puzzle.
+
+I think you mentioned that set_memory_uc() is avoided by drivers because 
+of highmem mess, but what are drivers then using to modify the direct map?
+
+-- 
+Cheers
+
+David / dhildenb
+
