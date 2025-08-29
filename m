@@ -2,136 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562E6B3BCB6
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DC4B3BCB9
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:44:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849A810E04E;
-	Fri, 29 Aug 2025 13:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 876D110E0EB;
+	Fri, 29 Aug 2025 13:44:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="niM/T1EI";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BcUQemeY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2067.outbound.protection.outlook.com [40.107.94.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAA210E04E;
- Fri, 29 Aug 2025 13:43:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CSszUsXJTYEdl8r9ELoCQVv1utFXnnFTZJ8tEQ+x5mINKlguN/0rKpx/+3PvtjORFAI4bR/iEbC0SUq9/A9g4pMclRVruRET3IbWJIhgjpsKrKzJUxu6rLOho9QkFJ9cGO2BzE8cPaZWDoe0i8gzz4eqm3ldtJQLJOQipWWqp6Ipf5yCrKgFFvGVfxu4g7gYSWC80H7AfaBVR3VUy181a7ak3D30QdwKIh8nj237G4U4/8z5tHn0R+78rxQ3KXfm3bqqhOBIUZjuNMSqryWVXBMysr6VZW5FryaMCCtMYN5cYqfImQrxYFyV2oTTNCQe9ZBY/TR8rNTyLhyNBQ+S7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A+iGB511p+qY9kZH6k4iL//cr2XMHhjqejlvumrpCaE=;
- b=vQtx/9DKeeeV3CtXMeW3EI7BINTFk6ugNlmnSUgVwao8h1r/0FsWRdBnl8DBrUSxfiSxobDYkblVzaQFURKvjf8SJcAxb6AZtBx2g1ksefYgvTobdYv30Gv7wA7WLTN8ldohIPsw1pN2KnWT0ntt06mW+GMBKiHbVSBdoPzQ9qScqJJs7a010vetArxxO9dYJU/8E8W5SIJl1x9mHiu0rI1xcDBk8D5FE80AU5IzceX2CeTB3zi0Ox6TqoANSxs+NXwPwtdGTMd767NhEWVvYLv6VSx83cpaRqlaq5hVRJF17czxL+JGqkfcK7ICxzLTOwbb2Rbch8FpIYovOMN63g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A+iGB511p+qY9kZH6k4iL//cr2XMHhjqejlvumrpCaE=;
- b=niM/T1EIWuBWbLjSgzrAMvKTkeyK2huoP3S/xF1XuIcQ5C/645wz/yo2vAQfBOe7axVA8W+BLrgSYlOTs/hFgCvCiI3DIn4Awta1lBzQCWLVtAc9KyKRW6rPrA3MruZlvLu+X2Yqm6ZHLVtym8Ly6niwV85x8dbAiTM313io/scT9S4sttcay7IttzlfXHT7VjcnJJPfXBeyWGMyVpW47Ky/TXpzKLcg8cTL6rWAZvtDsA/B5Crgyc/FvD3m45PLZnUGt+K6al4+fQ36q6PtvNIUnV5M8rXlLRjxigLRbvvbJWpof+tSPrvBP4gTla8WqlFbK9oXiWQEfyMyAAeukQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by IA4PR12MB9809.namprd12.prod.outlook.com (2603:10b6:208:54f::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.15; Fri, 29 Aug
- 2025 13:43:33 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9052.017; Fri, 29 Aug 2025
- 13:43:33 +0000
-Date: Fri, 29 Aug 2025 09:43:32 -0400
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] gpu: nova-core: vbios: store reference to Device
- where relevant
-Message-ID: <20250829134332.GA1832912@joelbox2>
-References: <20250808-vbios_device-v1-0-834bbbab6471@nvidia.com>
- <20250808-vbios_device-v1-2-834bbbab6471@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250808-vbios_device-v1-2-834bbbab6471@nvidia.com>
-X-ClientProxiedBy: BN0PR07CA0012.namprd07.prod.outlook.com
- (2603:10b6:408:141::34) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 656D610E0EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 13:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756475067;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qjuXMBMcmzq+emhjc+4nz3INVtnsR/3o1W/HmfSMpGo=;
+ b=BcUQemeYhjetjNTJr4lH9pVAIs3KejG+dlTqO360L73SgM1N9S7JketWLWXqEh/E6kDaBp
+ ZcUzn4CRRs6DFx2pf+IQxVulP1b0DHh6D5LlFzwWcosekx4TIYp6LuazrnDpeq/rqKSOIF
+ aYo2cFultMxxolU+d6+tVCWbGAeyA5A=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-600-YfMPWHesN7KJbcxwWmrJVg-1; Fri, 29 Aug 2025 09:44:26 -0400
+X-MC-Unique: YfMPWHesN7KJbcxwWmrJVg-1
+X-Mimecast-MFC-AGG-ID: YfMPWHesN7KJbcxwWmrJVg_1756475065
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3cceb92ea73so1232199f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:44:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756475065; x=1757079865;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qjuXMBMcmzq+emhjc+4nz3INVtnsR/3o1W/HmfSMpGo=;
+ b=hv2Yfaaw2GdZ8MwrZrFdym9V1kxyeLKi9+mcfDfe//LhPrSzQF4VBVL3l67S7MqwHY
+ 68nOmp22RWkm4pVkORQBvXf6c4XJz6T9Dvw6JFtFG4ayLhy1/5PKAb27phPESXlNI04t
+ /L4w5gkewkarFRIlw0MOKYSo5ZRSO9K3U5M0yLDeLjWVaRPmHAmbGE5hyEVla8Rqyc5F
+ ww1MhUr2YyaChhiLOadZuVRDo5YZ+WGEcuSxarw9AxXrPW/4BB9Nhma/pmsTjtV3U84T
+ x7eZbcq/fJ7iCtWToroGbiO9CDq3MEG9Qbm07GZlS8XV3+tI8ze8Cb9p1Z0lPiW9cLXt
+ RQsA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4iUSM3AG01X/M0Nr+yBSLfKI95XwW9Jw0m9KKmhVYk3laWj3vs7Y2pCC81/M5r5fGphLIn8+1kdk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrtvVIvAS8ow7Jp6326YvRTFDILHrQsrB6DSH07dlsMt6Fp6v+
+ JgqJkSHXGZE3sg3qS8/EIyV3h7gtyTeMDyqHepsImwhYd37N3dZ8boF2sYBbRWcE+jr3UHC+1q+
+ 4Y6TRfKErCghkfMaBN3pFhlEKve4apZV4rvATKkg5AdseTrveArF3rWiWbw6lP7mqK7sYwA==
+X-Gm-Gg: ASbGncs9o6W9PdoDP4e2qAlkzFBk9eGKoqxOJeuLmb+c/pEedwV+iOzc2oKoA7R3KXA
+ esto4Da7ZDqTiYriJuWbcUS/yA7Fj5zViGuurq1ENfw5785RlVLdg+XFFutFDhlunIjq1OPW7nY
+ 4IC8LZcrkBt9Bmx2KQrDSaleUzH1xwKJs7Uh/r3f6ZIeq6sktg5Jv4aErC7AM+cMHmKoaFruQsK
+ lvpdVR78vmx0pPolQWC8SqIE+grMF4emTThA7ZTPDqycH9Zj9eNcI/M8z8wtoitP0nbbeaPhQnk
+ kNmlx9Jb/23KiCHswte8jS5OobWMYAYWggdgrcO5MNYMMX+05FkFNvL1omEG7IqX8EwXSufZ45a
+ KDzfpWtmusfOly12Gs+kVPmm4blOTVqqEiody6ennywSX18m6xm/9MDIndeDVf76l
+X-Received: by 2002:a05:6000:4383:b0:3b7:882c:790 with SMTP id
+ ffacd0b85a97d-3c5dc73625cmr21478706f8f.37.1756475064901; 
+ Fri, 29 Aug 2025 06:44:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+LDG7SGqPVe42ftCg4HBC4EBVhYJgcuG7xRsE/56l9/NNaGo5xTMXjkE7lTdlBAQ5z49MkQ==
+X-Received: by 2002:a05:6000:4383:b0:3b7:882c:790 with SMTP id
+ ffacd0b85a97d-3c5dc73625cmr21478675f8f.37.1756475064268; 
+ Fri, 29 Aug 2025 06:44:24 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f1d:100:4f8e:bb13:c3c7:f854?
+ (p200300d82f1d01004f8ebb13c3c7f854.dip0.t-ipconnect.de.
+ [2003:d8:2f1d:100:4f8e:bb13:c3c7:f854])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b6f306c22sm121018675e9.13.2025.08.29.06.44.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Aug 2025 06:44:23 -0700 (PDT)
+Message-ID: <e877229a-ffd8-4459-a31b-ecabde28e07f@redhat.com>
+Date: Fri, 29 Aug 2025 15:44:20 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|IA4PR12MB9809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1badb384-e6b5-463f-601c-08dde7020c2c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pmHzLHeBNw51JNd0U7mQ5dvJ/Kz5e7tR+9eTzQ3s9E8N9+Flr68J5KH7QOiD?=
- =?us-ascii?Q?RH+XZ5EpVWxCYHa7S4k9vC+n+bn/AOAusE8J8aa9l+Bozl2xNyK5T9cVsMAW?=
- =?us-ascii?Q?JVMDgycErCAEGUgwTRW+6q1/K0upQO5+RqFnEdcIETVgeeAz5CJiuu7BmPH+?=
- =?us-ascii?Q?MDQH551YyABxuVmrn2HWLDvY/AI5C4PB4ZurqIaq0c8Nt07Y5nas/NWnyz+W?=
- =?us-ascii?Q?FsQqr/P/HL9a7Ky15ajOUvxMQ52lY04NS1ALF8yQ0ojaShLnpdB5Kp3JT+/J?=
- =?us-ascii?Q?a3R0jPItg+Qy16LyReAf047XoMx9CM0PRHKxDTIGe2bH7wSy94S4jl+JEpzs?=
- =?us-ascii?Q?c9fcARfXjTWUwo6N8t3vgZ6AQKMgwHBeruh7O0aR3r9xWuIHJzTpSZNY3bnw?=
- =?us-ascii?Q?bCQJEi5+uZNK/Hx16i+iEMbHqQXex4Fb/mk1et2yuC63XvOu+YhlA8F7c5qN?=
- =?us-ascii?Q?W6yq4Aa65eNaPqAXDFlc751LnrcorEYqzYNNXBjH2WjF0zbLkF4uJ6mdomex?=
- =?us-ascii?Q?BczqyuUiG09Moo/nGKeeegGeVJypQBz4c3qLzQu7i3m1HiPmIKVUeV6nK1QK?=
- =?us-ascii?Q?jEshC7bHyrRXQndTF9SGT79XU8j6MlVtSk0btIqEsJa0dujW1OQKrRTcgmu/?=
- =?us-ascii?Q?dK+GSfGtJ4SA10n8mHnMux9qM0BaRrV5oKfWXHXL2DlTTNfVXUs7hodoTc8u?=
- =?us-ascii?Q?9IMf5rQKrY/FReCyGm9ISFsKTz3BBuEXXUAf+MnGa89IEhKlwP0SCiz2w56M?=
- =?us-ascii?Q?mnYjQrRfNwsi+XsnD8IHHIGRa8pq9Q1StStxUBNFxH0F2295xnyp8oJgX6dZ?=
- =?us-ascii?Q?P+GbzxJkBi/g94oV0kZOfOMbOe38HdHI7MSJUuNvnzHkB5IeQUkRf3jcQhZK?=
- =?us-ascii?Q?VShbm09IXTZc2StmHz0FunQhwAj9rOIFtjA+mhiCVbCYbPBrYzQAKwtJVXko?=
- =?us-ascii?Q?2WYty9chZAyCuv6TI1EeDkH0Cv1EKResRp3K0Lckxkez7KX8Nr0WxzBbsBNC?=
- =?us-ascii?Q?dL7CuUkSYfji5EI/pKwbnih56/3pjN3KYLZFiqvYumK+GsXfMkl+ojIqZJc8?=
- =?us-ascii?Q?HuNVr4jw/qosu5jCDbNejC3piSClqthzFE52tvEqIFX82/9uXH3j4yzREuJv?=
- =?us-ascii?Q?2oPJfJW6o34C+IXPF/em75rZlvWYUzQJHfx6ow5jFkKC7XA+iWj7WRwZvhZD?=
- =?us-ascii?Q?q3wlnwf4swT1ZWxJq/2E5i6J+hC7eQDKh7bVSwQeduc79+wscq2Q752hqJew?=
- =?us-ascii?Q?3kqM7Q+MgD9MOCTxQsclZE9fLWzr7gaI5HLyHf0iTUgQ6RmHzmObvLrgKeku?=
- =?us-ascii?Q?zCxW/w7lRUd9+XBReQQT+9lF/Fae8+Ecg7YIye6VQBsDgn/vQi+oKpj6Bn4B?=
- =?us-ascii?Q?fo0BPFQdQZjUP46JjGdIpwycMRS2TZ4ztWqja7gLIBEOw+rQoA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KWt1mYjvvrBu4u2M25bayYMH9w5eBRQzIt8KemFuwS3FLnwmPVnRZh61EM8X?=
- =?us-ascii?Q?wkRuJUj4eH+oTD3ydfDZoMbPP+n1FyNCgqPQk/824m2oN+cXBOWHIYSXGGXK?=
- =?us-ascii?Q?UAnoWbZTXpXjwpcTYQA/FeXU3ohUXDWblfdjGACofJMPXCWmmd2SgrJfQE4V?=
- =?us-ascii?Q?odzlW5agheNZs1XM/OKdxslFofwH+owil94NrPiAGPOr1pazCCEk7bo1BL67?=
- =?us-ascii?Q?5oZ+9cU6P4STb7qxzN9XQhnVj69VDPsCWnM6Ej19wELZgnkTq3HCZA078Gqv?=
- =?us-ascii?Q?RkgELIgiXLQ5tdDf9neW80KWZEPzTnktwPYI8JYgCRx+T7ZSm+Qu+zqqUGbV?=
- =?us-ascii?Q?fUnNDXTTgs8R8NdcSe5uAi28RKrWRdwaKhKK7A/uSMHMRPQ1xMNIXdUTEOVo?=
- =?us-ascii?Q?vQGooTMezfn7sFjwzHKoRy1JV+aLn7rPbU6wohnqAuBOTze5DcDs0m4+MSX3?=
- =?us-ascii?Q?Rn7y2sqRotasnP3jH3gbCnIdp27AcU0/2Sfv54oo0VyDlGTZc31Arn+grhCd?=
- =?us-ascii?Q?arpMqxutzUcAWGiIDu8DwHpfmfsbcVBiPCCUvz+a0qwA691aRwPKmBPl/Hb7?=
- =?us-ascii?Q?a03ul/w2BaoRKywU0mUQg0VAdO4PXhsKOdIUv12S6EBNnw0agBoXwexmvk4n?=
- =?us-ascii?Q?GI5fW4Q5F93o0J9LKdE1NY3lgYsk9EO8Ug77KjxnOD3AltFRzjARy+U46Mnn?=
- =?us-ascii?Q?LStGolbZFEyWeSGQ+rPiUIdIPn7sWDPTtC7Rfp38OYIY+Lez9/hErf/J35ui?=
- =?us-ascii?Q?reAs1kOHrAP9q4Tn4IVPSmQ8XLD4kyI+WS/TciVr4jA5FXtAVoe3sHQTsOom?=
- =?us-ascii?Q?xiwqUsPBQj2emWINuhTCZArs4+0+KP+UyAUHxhFZNv/dadxrIlfWT3FOP34m?=
- =?us-ascii?Q?mGOBsCS+Daoh+5z4UyPA52kjMLNkuLaFgLQYwMT5WuPnb39f4UEZYFAI5Of0?=
- =?us-ascii?Q?mL3hqZLwq5WkQTyleK4wa6m1R3qdJrrVsZvCYRzspsvs0FdIqcyueQXyVkaD?=
- =?us-ascii?Q?laOaqRH2b8CLivVEHfcT6GJqkqXRZpD3OShu1Kcxq/dAnX6gVZkck21ptMxz?=
- =?us-ascii?Q?NM6Og4SFJfcHDxj4p9fpgTYb3yK7BJLwzqVE3tqq0cklGEOas18X22f3bF6L?=
- =?us-ascii?Q?4cZEI9hF5/ru1vOK7JgD2nGCaSDOcZ2pF3S2qFGyBYEgP3t4GqMdGDGoriE8?=
- =?us-ascii?Q?WI8UFCGiJSu4Y7XxSUL9yzGeMJxfRyNMkXXEBd28nnY2qDDnXKfjGrHQsQmP?=
- =?us-ascii?Q?z5SrX88TcA0FQ/XCjBRrtbpXNaZLDEmLCV9J+uPbHDrxZR04AugiEKNtnjdI?=
- =?us-ascii?Q?n/0XCNtTaMyCqQy+gzlsxy27oai0YE1jJTMpEcSjZ+FoAlUBLeutWdLJXBWD?=
- =?us-ascii?Q?2S+kAloDic0le+xZ0K99547SVyPiTb9AGjxeSoVIrTAoPTX2EoXqsw5s0nw2?=
- =?us-ascii?Q?7LcTj6PNWwp4zAhMksO7/Gqflsp7AUzZh08rHWb1IyMVVzVCtJNiYRr5um5M?=
- =?us-ascii?Q?vhEAguJfOw/R8iOg/yFAm+eLyD+nJRDiL/JduREY8mDxPGTXbkZI1LoC9Mvo?=
- =?us-ascii?Q?QEs0Nli3GhdR7Su47t56MK6OC6oMduKAXLgA+uJO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1badb384-e6b5-463f-601c-08dde7020c2c
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 13:43:33.8354 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nWQ54GuUOz4uJOfrCBmnBEchnlpxMl9aHrXQqOoamIVc1JCGsh1mltvEo8als3XJV+VhLgUOhgGDE2yaJORs7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9809
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 20/36] mips: mm: convert __flush_dcache_pages() to
+ __flush_dcache_folio_pages()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-21-david@redhat.com>
+ <ea74f0e3-bacf-449a-b7ad-213c74599df1@lucifer.local>
+ <2be7db96-2fa2-4348-837e-648124bd604f@redhat.com>
+ <549a60a6-25e2-48d5-b442-49404a857014@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <549a60a6-25e2-48d5-b442-49404a857014@lucifer.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JfqytZu8TqmX2Tg4--UcNQQvPDf6oNdtZUlFrmxjHXU_1756475065
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,271 +177,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 08, 2025 at 11:46:42AM +0900, Alexandre Courbot wrote:
-> Now that the vbios code uses a non-bound `Device` instance, store an
-> `ARef` to it at construction time so we can use it for logging without
-> having to carry an extra argument on every method for that sole purpose.
+On 29.08.25 14:51, Lorenzo Stoakes wrote:
+> On Thu, Aug 28, 2025 at 10:51:46PM +0200, David Hildenbrand wrote:
+>> On 28.08.25 18:57, Lorenzo Stoakes wrote:
+>>> On Thu, Aug 28, 2025 at 12:01:24AM +0200, David Hildenbrand wrote:
+>>>> Let's make it clearer that we are operating within a single folio by
+>>>> providing both the folio and the page.
+>>>>
+>>>> This implies that for flush_dcache_folio() we'll now avoid one more
+>>>> page->folio lookup, and that we can safely drop the "nth_page" usage.
+>>>>
+>>>> Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>    arch/mips/include/asm/cacheflush.h | 11 +++++++----
+>>>>    arch/mips/mm/cache.c               |  8 ++++----
+>>>>    2 files changed, 11 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
+>>>> index 5d283ef89d90d..8d79bfc687d21 100644
+>>>> --- a/arch/mips/include/asm/cacheflush.h
+>>>> +++ b/arch/mips/include/asm/cacheflush.h
+>>>> @@ -50,13 +50,14 @@ extern void (*flush_cache_mm)(struct mm_struct *mm);
+>>>>    extern void (*flush_cache_range)(struct vm_area_struct *vma,
+>>>>    	unsigned long start, unsigned long end);
+>>>>    extern void (*flush_cache_page)(struct vm_area_struct *vma, unsigned long page, unsigned long pfn);
+>>>> -extern void __flush_dcache_pages(struct page *page, unsigned int nr);
+>>>> +extern void __flush_dcache_folio_pages(struct folio *folio, struct page *page, unsigned int nr);
+>>>
+>>> NIT: Be good to drop the extern.
+>>
+>> I think I'll leave the one in, though, someone should clean up all of them
+>> in one go.
 > 
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-
-Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
-
-thanks,
-
- - Joel
-
-> ---
->  drivers/gpu/nova-core/firmware/fwsec.rs |  8 ++--
->  drivers/gpu/nova-core/vbios.rs          | 69 ++++++++++++++++++++-------------
->  2 files changed, 46 insertions(+), 31 deletions(-)
+> This is how we always clean these up though, buuut to be fair that's in mm.
 > 
-> diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
-> index 0dff3cfa90afee0cd4c3348023c8bfd7edccdb29..d9b9d1f92880cbcd36dac84b9e86a84e6465cf5d 100644
-> --- a/drivers/gpu/nova-core/firmware/fwsec.rs
-> +++ b/drivers/gpu/nova-core/firmware/fwsec.rs
-> @@ -253,8 +253,8 @@ impl FalconFirmware for FwsecFirmware {
->  
->  impl FirmwareDmaObject<FwsecFirmware, Unsigned> {
->      fn new_fwsec(dev: &Device<device::Bound>, bios: &Vbios, cmd: FwsecCommand) -> Result<Self> {
-> -        let desc = bios.fwsec_image().header(dev)?;
-> -        let ucode = bios.fwsec_image().ucode(dev, desc)?;
-> +        let desc = bios.fwsec_image().header()?;
-> +        let ucode = bios.fwsec_image().ucode(desc)?;
->          let mut dma_object = DmaObject::from_data(dev, ucode)?;
->  
->          let hdr_offset = (desc.imem_load_size + desc.interface_offset) as usize;
-> @@ -343,7 +343,7 @@ pub(crate) fn new(
->          let ucode_dma = FirmwareDmaObject::<Self, _>::new_fwsec(dev, bios, cmd)?;
->  
->          // Patch signature if needed.
-> -        let desc = bios.fwsec_image().header(dev)?;
-> +        let desc = bios.fwsec_image().header()?;
->          let ucode_signed = if desc.signature_count != 0 {
->              let sig_base_img = (desc.imem_load_size + desc.pkc_data_offset) as usize;
->              let desc_sig_versions = u32::from(desc.signature_versions);
-> @@ -382,7 +382,7 @@ pub(crate) fn new(
->              dev_dbg!(dev, "patching signature with index {}\n", signature_idx);
->              let signature = bios
->                  .fwsec_image()
-> -                .sigs(dev, desc)
-> +                .sigs(desc)
->                  .and_then(|sigs| sigs.get(signature_idx).ok_or(EINVAL))?;
->  
->              ucode_dma.patch_signature(signature, sig_base_img)?
-> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-> index b5564b4d3e4758e77178aa403635e4780f0378cc..6fc06b1b83655a7dec00308880dbdfc32d7105ce 100644
-> --- a/drivers/gpu/nova-core/vbios.rs
-> +++ b/drivers/gpu/nova-core/vbios.rs
-> @@ -9,6 +9,7 @@
->  use kernel::device;
->  use kernel::error::Result;
->  use kernel::prelude::*;
-> +use kernel::types::ARef;
->  
->  /// The offset of the VBIOS ROM in the BAR0 space.
->  const ROM_OFFSET: usize = 0x300000;
-> @@ -230,10 +231,10 @@ pub(crate) fn new(dev: &device::Device, bar0: &Bar0) -> Result<Vbios> {
->              (second_fwsec_image, first_fwsec_image, pci_at_image)
->          {
->              second
-> -                .setup_falcon_data(dev, &pci_at, &first)
-> +                .setup_falcon_data(&pci_at, &first)
->                  .inspect_err(|e| dev_err!(dev, "Falcon data setup failed: {:?}\n", e))?;
->              Ok(Vbios {
-> -                fwsec_image: second.build(dev)?,
-> +                fwsec_image: second.build()?,
->              })
->          } else {
->              dev_err!(
-> @@ -742,9 +743,10 @@ fn try_from(base: BiosImageBase) -> Result<Self> {
->  ///
->  /// Each BiosImage type has a BiosImageBase type along with other image-specific fields. Note that
->  /// Rust favors composition of types over inheritance.
-> -#[derive(Debug)]
->  #[expect(dead_code)]
->  struct BiosImageBase {
-> +    /// Used for logging.
-> +    dev: ARef<device::Device>,
->      /// PCI ROM Expansion Header
->      rom_header: PciRomHeader,
->      /// PCI Data Structure
-> @@ -801,6 +803,7 @@ fn new(dev: &device::Device, data: &[u8]) -> Result<Self> {
->          data_copy.extend_from_slice(data, GFP_KERNEL)?;
->  
->          Ok(BiosImageBase {
-> +            dev: dev.into(),
->              rom_header,
->              pcir,
->              npde,
-> @@ -836,7 +839,7 @@ fn get_bit_token(&self, token_id: u8) -> Result<BitToken> {
->      ///
->      /// This is just a 4 byte structure that contains a pointer to the Falcon data in the FWSEC
->      /// image.
-> -    fn falcon_data_ptr(&self, dev: &device::Device) -> Result<u32> {
-> +    fn falcon_data_ptr(&self) -> Result<u32> {
->          let token = self.get_bit_token(BIT_TOKEN_ID_FALCON_DATA)?;
->  
->          // Make sure we don't go out of bounds
-> @@ -847,14 +850,14 @@ fn falcon_data_ptr(&self, dev: &device::Device) -> Result<u32> {
->          // read the 4 bytes at the offset specified in the token
->          let offset = token.data_offset as usize;
->          let bytes: [u8; 4] = self.base.data[offset..offset + 4].try_into().map_err(|_| {
-> -            dev_err!(dev, "Failed to convert data slice to array");
-> +            dev_err!(self.base.dev, "Failed to convert data slice to array");
->              EINVAL
->          })?;
->  
->          let data_ptr = u32::from_le_bytes(bytes);
->  
->          if (data_ptr as usize) < self.base.data.len() {
-> -            dev_err!(dev, "Falcon data pointer out of bounds\n");
-> +            dev_err!(self.base.dev, "Falcon data pointer out of bounds\n");
->              return Err(EINVAL);
->          }
->  
-> @@ -978,11 +981,10 @@ fn find_entry_by_type(&self, entry_type: u8) -> Result<PmuLookupTableEntry> {
->  impl FwSecBiosBuilder {
->      fn setup_falcon_data(
->          &mut self,
-> -        dev: &device::Device,
->          pci_at_image: &PciAtBiosImage,
->          first_fwsec: &FwSecBiosBuilder,
->      ) -> Result {
-> -        let mut offset = pci_at_image.falcon_data_ptr(dev)? as usize;
-> +        let mut offset = pci_at_image.falcon_data_ptr()? as usize;
->          let mut pmu_in_first_fwsec = false;
->  
->          // The falcon data pointer assumes that the PciAt and FWSEC images
-> @@ -1005,10 +1007,15 @@ fn setup_falcon_data(
->          self.falcon_data_offset = Some(offset);
->  
->          if pmu_in_first_fwsec {
-> -            self.pmu_lookup_table =
-> -                Some(PmuLookupTable::new(dev, &first_fwsec.base.data[offset..])?);
-> +            self.pmu_lookup_table = Some(PmuLookupTable::new(
-> +                &self.base.dev,
-> +                &first_fwsec.base.data[offset..],
-> +            )?);
->          } else {
-> -            self.pmu_lookup_table = Some(PmuLookupTable::new(dev, &self.base.data[offset..])?);
-> +            self.pmu_lookup_table = Some(PmuLookupTable::new(
-> +                &self.base.dev,
-> +                &self.base.data[offset..],
-> +            )?);
->          }
->  
->          match self
-> @@ -1021,14 +1028,18 @@ fn setup_falcon_data(
->                  let mut ucode_offset = entry.data as usize;
->                  ucode_offset -= pci_at_image.base.data.len();
->                  if ucode_offset < first_fwsec.base.data.len() {
-> -                    dev_err!(dev, "Falcon Ucode offset not in second Fwsec.\n");
-> +                    dev_err!(self.base.dev, "Falcon Ucode offset not in second Fwsec.\n");
->                      return Err(EINVAL);
->                  }
->                  ucode_offset -= first_fwsec.base.data.len();
->                  self.falcon_ucode_offset = Some(ucode_offset);
->              }
->              Err(e) => {
-> -                dev_err!(dev, "PmuLookupTableEntry not found, error: {:?}\n", e);
-> +                dev_err!(
-> +                    self.base.dev,
-> +                    "PmuLookupTableEntry not found, error: {:?}\n",
-> +                    e
-> +                );
->                  return Err(EINVAL);
->              }
->          }
-> @@ -1036,7 +1047,7 @@ fn setup_falcon_data(
->      }
->  
->      /// Build the final FwSecBiosImage from this builder
-> -    fn build(self, dev: &device::Device) -> Result<FwSecBiosImage> {
-> +    fn build(self) -> Result<FwSecBiosImage> {
->          let ret = FwSecBiosImage {
->              base: self.base,
->              falcon_ucode_offset: self.falcon_ucode_offset.ok_or(EINVAL)?,
-> @@ -1044,8 +1055,8 @@ fn build(self, dev: &device::Device) -> Result<FwSecBiosImage> {
->  
->          if cfg!(debug_assertions) {
->              // Print the desc header for debugging
-> -            let desc = ret.header(dev)?;
-> -            dev_dbg!(dev, "PmuLookupTableEntry desc: {:#?}\n", desc);
-> +            let desc = ret.header()?;
-> +            dev_dbg!(ret.base.dev, "PmuLookupTableEntry desc: {:#?}\n", desc);
->          }
->  
->          Ok(ret)
-> @@ -1054,13 +1065,16 @@ fn build(self, dev: &device::Device) -> Result<FwSecBiosImage> {
->  
->  impl FwSecBiosImage {
->      /// Get the FwSec header ([`FalconUCodeDescV3`]).
-> -    pub(crate) fn header(&self, dev: &device::Device) -> Result<&FalconUCodeDescV3> {
-> +    pub(crate) fn header(&self) -> Result<&FalconUCodeDescV3> {
->          // Get the falcon ucode offset that was found in setup_falcon_data.
->          let falcon_ucode_offset = self.falcon_ucode_offset;
->  
->          // Make sure the offset is within the data bounds.
->          if falcon_ucode_offset + core::mem::size_of::<FalconUCodeDescV3>() > self.base.data.len() {
-> -            dev_err!(dev, "fwsec-frts header not contained within BIOS bounds\n");
-> +            dev_err!(
-> +                self.base.dev,
-> +                "fwsec-frts header not contained within BIOS bounds\n"
-> +            );
->              return Err(ERANGE);
->          }
->  
-> @@ -1072,7 +1086,7 @@ pub(crate) fn header(&self, dev: &device::Device) -> Result<&FalconUCodeDescV3>
->          let ver = (hdr & 0xff00) >> 8;
->  
->          if ver != 3 {
-> -            dev_err!(dev, "invalid fwsec firmware version: {:?}\n", ver);
-> +            dev_err!(self.base.dev, "invalid fwsec firmware version: {:?}\n", ver);
->              return Err(EINVAL);
->          }
->  
-> @@ -1092,7 +1106,7 @@ pub(crate) fn header(&self, dev: &device::Device) -> Result<&FalconUCodeDescV3>
->      }
->  
->      /// Get the ucode data as a byte slice
-> -    pub(crate) fn ucode(&self, dev: &device::Device, desc: &FalconUCodeDescV3) -> Result<&[u8]> {
-> +    pub(crate) fn ucode(&self, desc: &FalconUCodeDescV3) -> Result<&[u8]> {
->          let falcon_ucode_offset = self.falcon_ucode_offset;
->  
->          // The ucode data follows the descriptor.
-> @@ -1104,15 +1118,16 @@ pub(crate) fn ucode(&self, dev: &device::Device, desc: &FalconUCodeDescV3) -> Re
->              .data
->              .get(ucode_data_offset..ucode_data_offset + size)
->              .ok_or(ERANGE)
-> -            .inspect_err(|_| dev_err!(dev, "fwsec ucode data not contained within BIOS bounds\n"))
-> +            .inspect_err(|_| {
-> +                dev_err!(
-> +                    self.base.dev,
-> +                    "fwsec ucode data not contained within BIOS bounds\n"
-> +                )
-> +            })
->      }
->  
->      /// Get the signatures as a byte slice
-> -    pub(crate) fn sigs(
-> -        &self,
-> -        dev: &device::Device,
-> -        desc: &FalconUCodeDescV3,
-> -    ) -> Result<&[Bcrt30Rsa3kSignature]> {
-> +    pub(crate) fn sigs(&self, desc: &FalconUCodeDescV3) -> Result<&[Bcrt30Rsa3kSignature]> {
->          // The signatures data follows the descriptor.
->          let sigs_data_offset = self.falcon_ucode_offset + core::mem::size_of::<FalconUCodeDescV3>();
->          let sigs_size =
-> @@ -1121,7 +1136,7 @@ pub(crate) fn sigs(
->          // Make sure the data is within bounds.
->          if sigs_data_offset + sigs_size > self.base.data.len() {
->              dev_err!(
-> -                dev,
-> +                self.base.dev,
->                  "fwsec signatures data not contained within BIOS bounds\n"
->              );
->              return Err(ERANGE);
-> 
-> -- 
-> 2.50.1
-> 
+
+Well, okay, I'll make all the other functions jealous and blame it on 
+you! :P
+
+-- 
+Cheers
+
+David / dhildenb
+
