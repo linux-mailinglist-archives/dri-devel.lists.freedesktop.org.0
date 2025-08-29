@@ -2,95 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAA9B3B3CA
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BCCB3B402
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A907310E0C2;
-	Fri, 29 Aug 2025 07:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45C4910EB50;
+	Fri, 29 Aug 2025 07:13:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kG3/lYj1";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="wre0eaCF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE62A10E0C2
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:05:58 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3ce772ce0dbso922539f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756451157; x=1757055957; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wNEPTqZi/7bPFbDHtLTOaaHKFKd0cf7LdGjAAfOz8EE=;
- b=kG3/lYj1Qkett+SEWEbaTbAf5vFYGZqSJdoPK4b7bpoHGVtI/LEKvS9YAIxkTOeIIE
- xCyw/8R2hfKD3pNTKSjOFjG7o0vN3NS4JMkfF9fjwV49gp/rApG5AHOdbJPFVPvkEwlq
- R0WNGUr5NqtTIZzNO6WLPr6TJZUJ2zxPYJTWJ1GhgGFmsX2vrZVYSX92uSqDcGCirhu3
- mS7ijeuvp86Q+9uE1U0Mrcf4d08xbhlmWFfd0rc0bsr8oTiVw6ro5rLdCYeayqOuuQTA
- H79Mq+R6xaaUTILoDJsKhXF7vWzqPmphw7S+fN4sB+6sFqKAtvdahPVG7dBQm6Llu8hV
- /r7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756451157; x=1757055957;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wNEPTqZi/7bPFbDHtLTOaaHKFKd0cf7LdGjAAfOz8EE=;
- b=u9RKzbJ5lNUy3Ok+oGHwPPejZFVgA07EL6uj3yyhjJUk2068flpyiwItgWyjoAQXPr
- 4zGdyot2i/0O1ZixmQZhzuLOvcU9obtWZhYNIioy3XEdWgvtI4eTZEDepI+/4vGktQwh
- +ZNzEnlGhEeHpFLApOqnqqXSBd6AijU0Y8A9S30gAz9WHGGxHLC0o9aKpJn4Y4zutSj6
- dtLegNpHnBAU1brVPU/Kaf1Ad/BUT94sW3Gs/NAt9CMX+QX9gPU78kZyWq4bgI5+nuOg
- uuqaFx+nHE1l93ZJDKav6UxoEE/ialqyc1Og9W2qXapfd9tfa3V0rWIWGGFS6s+RZwZ0
- TUqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYlDSGVX5JcpsdhAw9Muu6XIxz9KeG0yXIAM2WuELmrMUTeD2C6k3cn57JEhrbeZYjjcQ5RJokKdk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5YuX9q06uAre4sOhprdeAjV6vvaWE7GpTwIU8pGGpaUgzVLbk
- 8BJbj9AOsdE5pr1vjE7UoUnDyRLnWYzESI0YhIBDHWAljv3ytuTcAUNLcvIzfBx6PI+8GESjoci
- bwyRCX1kmps5P28YtvbqzB/ngN0HoeA0=
-X-Gm-Gg: ASbGncvKjf0hg7OvDxdoQs9AhGWdcvbjhYfeepxTtCGvWgr8PDqkRdMepvuiB9lCfoL
- 4KWBCRBzEcLtMcoavrdF1VD5ZgWL5jijJSZIYLhXrfR2mO5V+5dHA8c5ktsOTdBxpQdFBMokyCH
- 0O7QuiuquMthWA/ICwYmLiRPUexhhXwi/UOpeTaClEcoUVMegqfXP32iSqHNjgAKTZZWw7p3iBy
- aWSnFLP3qGKKy3uHhU=
-X-Google-Smtp-Source: AGHT+IGXvbXOcj19XnruUNyzz7sCZJtBcE1ugNlGUJcQ+lWmHZNXEX7dQgfWsT/2E2qiYE74RzUuAZOyfwAf0jx0+GY=
-X-Received: by 2002:a05:6000:22c2:b0:3c8:acd2:75d9 with SMTP id
- ffacd0b85a97d-3c8acd2812emr16190955f8f.40.1756451156619; Fri, 29 Aug 2025
- 00:05:56 -0700 (PDT)
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18BA510EB50
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:13:30 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57T6Z2OX006185;
+ Fri, 29 Aug 2025 09:13:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ FhcK0scHrUQ3RL614dPfgdhZHypbITDDP2rh3ct8h8g=; b=wre0eaCF/stQW3SM
+ IXnc9GdY8oSHGeQCwzMi/BEDywKGeIRsKsYFS/rgG/rPbqe8um//+qKxxYBXnuKk
+ Jb/ZYDepR18DmvI2ufrJUYgPkC331LdN6w0cEK0Z/PoNDAXDuND7K+N4UbxUiVoz
+ HqFrbB66P90/7spdVO+cQcIVRKkhx8ErvQuELXjadb4kPZpX9AYYIPHnnX0g1Ho6
+ RZ4hDg4e/pOEKtCDqpWLi9BKjYJxG8ZoGbGpgf7MOXOd6P4m1tOTXKI66ce8dY1D
+ cMCkR7/jMvNo5GEH9BsnAiiw89POzUqRr2MjELOYGEPgf96W1kUKLpWgmPzD9uz4
+ UGP0Kw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48qrkmw7e1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Aug 2025 09:13:18 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4830E40049;
+ Fri, 29 Aug 2025 09:11:54 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1AC0A78EEA9;
+ Fri, 29 Aug 2025 09:10:52 +0200 (CEST)
+Received: from [10.252.3.130] (10.252.3.130) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 29 Aug
+ 2025 09:10:50 +0200
+Message-ID: <9d3499b0-be86-4152-ab28-37de81d850a4@foss.st.com>
+Date: Fri, 29 Aug 2025 09:10:49 +0200
 MIME-Version: 1.0
-References: <20250819121631.84280-1-clamor95@gmail.com>
- <2263218.C4sosBPzcN@senjougahara>
- <CAPVz0n3AvQaFrpeyUODpqOwkxxinjWgMQTgqvD4hAZvdqprVdA@mail.gmail.com>
- <18894880.sWSEgdgrri@senjougahara>
-In-Reply-To: <18894880.sWSEgdgrri@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Fri, 29 Aug 2025 10:05:45 +0300
-X-Gm-Features: Ac12FXzmilSrHiJWScmOpCjw2MVssM9bFAGoeDiBX7hXsR-oymkUtqcsKAMUCRQ
-Message-ID: <CAPVz0n2A+dR2Rvwf-S_OpgAKE1BVwVnD2nLw=s-z=7W_A_+yKw@mail.gmail.com>
-Subject: Re: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and
- Tegra30
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-staging@lists.linux.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/13] Enable display support for STM32MP25
+To: Philippe CORNU <philippe.cornu@foss.st.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Christophe Roullier
+ <christophe.roullier@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250822-drm-misc-next-v5-0-9c825e28f733@foss.st.com>
+ <4f0d417a-3a57-5ed7-9bbb-758679a9625d@foss.st.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <4f0d417a-3a57-5ed7-9bbb-758679a9625d@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.3.130]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-29_02,2025-08-28_01,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,295 +91,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D1=82, 29 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 03:3=
-0 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thursday, August 28, 2025 7:23=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE =
-13:15 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > On Thursday, August 28, 2025 5:28=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=
-=BE 11:13 Mikko Perttunen <mperttunen@nvidia.com>
-> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > On Wednesday, August 27, 2025 7:45=E2=80=AFPM Svyatoslav Ryhel wr=
-ote:
-> > > > > > =D1=81=D1=80, 27 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80.=
- =D0=BE 13:36 Mikko Perttunen <mperttunen@nvidia.com>
-> > >
-> > > =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > > > On Wednesday, August 27, 2025 1:32=E2=80=AFPM Svyatoslav wrot=
-e:
-> > > > > > > > 27 =D1=81=D0=B5=D1=80=D0=BF=D0=BD=D1=8F 2025=E2=80=AF=D1=80=
-. 07:09:45 GMT+03:00, Mikko Perttunen
-> > > > > > >
-> > > > > > > <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > > > > >On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryh=
-el wrote:
-> > > > > > > > >> CSUS clock is required to be enabled on camera device
-> > > > > > > > >> configuration
-> > > > > > > > >> or
-> > > > > > > > >> else camera module refuses to initiate properly.
-> > > > > > > > >>
-> > > > > > > > >> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > > > >> ---
-> > > > > > > > >>
-> > > > > > > > >>  drivers/clk/tegra/clk-tegra20.c | 1 +
-> > > > > > > > >>  drivers/clk/tegra/clk-tegra30.c | 1 +
-> > > > > > > > >>  2 files changed, 2 insertions(+)
-> > > > > > > > >>
-> > > > > > > > >> diff --git a/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> b/drivers/clk/tegra/clk-tegra20.c index
-> > > > > > > > >> 551ef0cf0c9a..42f8150c6110
-> > > > > > > > >> 100644
-> > > > > > > > >> --- a/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> +++ b/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> @@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table
-> > > > > > > > >> init_table[]
-> > > > > > > > >> =3D {
-> > > > > > > > >>
-> > > > > > > > >>    { TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 }=
-,
-> > > > > > > > >>    { TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
-> > > > > > > > >>    { TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
-> > > > > > > > >>
-> > > > > > > > >> +  { TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 }=
-,
-> > > > > > > > >>
-> > > > > > > > >>    /* must be the last entry */
-> > > > > > > > >>    { TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
-> > > > > > > > >>
-> > > > > > > > >>  };
-> > > > > > > > >>
-> > > > > > > > >> diff --git a/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> b/drivers/clk/tegra/clk-tegra30.c index
-> > > > > > > > >> 82a8cb9545eb..70e85e2949e0
-> > > > > > > > >> 100644
-> > > > > > > > >> --- a/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> +++ b/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> @@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table
-> > > > > > > > >> init_table[]
-> > > > > > > > >> =3D {
-> > > > > > > > >>
-> > > > > > > > >>    { TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
-> > > > > > > > >>    { TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 480000=
-00, 0
-> > > > > > > > >>    },
-> > > > > > > > >>    { TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
-> > > > > > > > >>
-> > > > > > > > >> +  { TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 }=
-,
-> > > > > > > > >>
-> > > > > > > > >>    /* must be the last entry */
-> > > > > > > > >>    { TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
-> > > > > > > > >>
-> > > > > > > > >>  };
-> > > > > > > > >
-> > > > > > > > >I looked into what this clock does and it seems to be a ga=
-te
-> > > > > > > > >for
-> > > > > > > > >the
-> > > > > > > > >CSUS
-> > > > > > > > >pin, which provides an output clock for camera sensors (VI
-> > > > > > > > >MCLK).
-> > > > > > > > >Default
-> > > > > > > > >source seems to be PLLC_OUT1. It would be good to note tha=
-t on
-> > > > > > > > >the
-> > > > > > > > >commit
-> > > > > > > > >message, as I can't find any documentation about the CSUS =
-clock
-> > > > > > > > >elsewhere.
-> > > > > > > > >
-> > > > > > > > >What is the 6MHz rate based on?
-> > > > > > > >
-> > > > > > > > 6mhz is the statistic value which I was not able to alter w=
-hile
-> > > > > > > > testing.
-> > > > > > > > I
-> > > > > > > > have tried 12mhz and 24mhz too but it remained 6mhz, so I l=
-eft
-> > > > > > > > it
-> > > > > > > > 6mhz.
-> > > > > > > >
-> > > > > > > > >Since this seems to be a clock consumed by the sensor, it =
-seems
-> > > > > > > > >to
-> > > > > > > > >me
-> > > > > > > > >that
-> > > > > > > > >rather than making it always on, we could point to it in t=
-he
-> > > > > > > > >sensor's
-> > > > > > > > >device tree entry.
-> > > > > > > >
-> > > > > > > > Sensor device tree uses vi_sensor as clocks source and sens=
-or
-> > > > > > > > drivers
-> > > > > > > > don't
-> > > > > > > > support multiple linked clocks.
-> > > > > > >
-> > > > > > > AIUI vi_sensor is an internal clock so the sensor cannot be
-> > > > > > > receiving
-> > > > > > > it
-> > > > > > > directly. Perhaps the sensor is actually connected to csus, a=
-nd
-> > > > > > > the
-> > > > > > > reason
-> > > > > > > we need to enable it is to allow the vi_sensor clock to pass
-> > > > > > > through
-> > > > > > > the
-> > > > > > > csus gate?
-> > > > > > >
-> > > > > > > That leaves the question of why the csus pad would be muxed t=
-o
-> > > > > > > vi_sensor
-> > > > > > > by
-> > > > > > > default, but perhaps there's an explanation for that.
-> > > > > >
-> > > > > > From downstream T30 sources csus and vi_sensor are always calle=
-d in
-> > > > > > pair (6MHz csus and 24MHz for vi_sensor), naturally I assumed t=
-hat
-> > > > > > latter is used as camera reference clock since most sensors has
-> > > > > > reference clock around 24 MHz
-> > > > >
-> > > > > It's possible that the csus pad is still outputting 24MHz. The pi=
-nmux
-> > > > > options for the csus pad are various clocks, so it would seem log=
-ical
-> > > > > that the clock source for the pad is one of those clocks. However=
-, on
-> > > > > the
-> > > > > clock framework side, the csus clock is just a gate. What I'm con=
-fused
-> > > > > about is that since on the clock framework side the parent of csu=
-s is
-> > > > > currently set to clk_m, I don't know why setting the rate of csus
-> > > > > would
-> > > > > affect the output of the pad, given clk_m is not one of the optio=
-ns
-> > > > > for
-> > > > > the pinmux.
-> > > > >
-> > > > > It's be good to verify the register value for the csus pinmux to =
-see
-> > > > > where
-> > > > > it thinks the clock is coming from, and then check how that match=
-es
-> > > > > with
-> > > > > what we are seeing.
-> > > >
-> > > > TRM does not provide such data, it has only register address with
-> > > > layout for it as a plain pad control, that register has only DRVDN,
-> > > > DRVUP, SLWR and SLWF and I don't see a way to decode clock value or
-> > > > parent or anything similar. If you give me a method I will calculat=
-e
-> > > > those values.
-> > >
-> > > I notice that on Tegra20, there is a mux pingroup called 'csus', whic=
-h has
-> > > the mux options PLLC_OUT1, PLLP_OUT2, PLLP_OUT3, and VI_SENSOR_CLK (b=
-ased
-> > > on upstream pinctrl-tegra20.c). The TRM also says 'Enable clock to SU=
-S
-> > > pad.' about the CSUS (or SUS) clock.
-> > >
-> > > On Tegra30, however, which I guess you refer to, I guess mux pingroup=
-s are
-> > > gone and each pin has its own mux (again looking at upstream pinctrl-
-> > > tegra30.c). vi_mclk_pt1 is now its own mux with the options VI, VI_AL=
-T1,
-> > > VI_ALT2, VI_ALT3. The drive group for this pin is still called csus, =
-so by
-> > > that name it only has the drive settings as you mention.
-> > >
-> > > Are you testing on Tegra20, Tegra30, or both?
-> >
-> > I am testing on Tegra30 since I did not have compatible Tegra20 device
-> > (with supported camera).
-> >
-> > > I've looked at some Tegra30 schematics, and they show a signal called
-> > > VI_MCLK being routed to CSI cameras.
-> > >
-> > > > Another theory is that maybe csus is used for VIP cameras only and
-> > > > vi_sensor is used for CSI cameras, but they both have to be on in
-> > > > order to work correctly. Csus was removed from Tegra114 along with
-> > > > VIP, might not be a coincidence. Moreover, T124 uses vi_sensor as
-> > > > camera mclk source.
-> > >
-> > > I see the CSUS clock still on Tegra124 based on the upstream kernel. =
-There
-> > > is also a CAM_MCLK pin. It seems Tegra30 has both VI_MCLK and CAM_MCL=
-K
-> > > pins, which both can output the clock. After Tegra30 there is only
-> > > CAM_MCLK.
-> > >
-> > > Looking at L4T r21, in tegra12_clocks.c, it defines the clocks mclk a=
-nd
-> > > mclk2.>
-> > > There is a comment on mclk saying:
-> > >                        .clk_num =3D 92, /* csus */
-> > >
-> > > whereas mclk2 is vim2_clk. These clocks are indeed defined as gates, =
-with
-> > > vi_sensor / vi_sensor2 as parent, set_rate being passed onto the pare=
-nt.
-> > >
-> > > All of that wasn't very coherently written, but to summarize my thoug=
-hts:
-> > >
-> > > On Tegra30, we have
-> > > - Pins vi_mclk and cam_mclk. Both can only source from (vi_)mclk whic=
-h
-> > > also
-> > > goes by name csus. The mclk/csus clock is a clock gate with vi_sensor=
- as
-> > > parent.
-> > > On Tegra114 and later,
-> > > - Same situation, but vi_mclk is gone, so instead we have cam_mclk
-> > > (possibly multiple with associated mclkN and vi_sensorN clocks)
-> > > On Tegra20,
-> > > - The vi_mclk pin has a variety of mux options, one of which is
-> > > VI_SENSOR_CLK. I expect this to correspond to the same behavior as la=
-ter
-> > > chips, i.e. sources from the csus(/mclk) clock, which sources from
-> > > vi_sensor.
-> >
-> > While this is all quite interesting, how to configure this properly?
->
-> Fix the csus clock's parent to be vi_sensor. Point the sensor's device tr=
-ee
-> clock entry to csus. The sensor's clk_enable should then ungate csus and
-> clk_set_rate should flow to vi_sensor to set the rate appropriately. In t=
-he
-> board device tree pinctrl section, set the vi_mclk pin's function to VI
-> (should be default on Tegra30, but best to be explicit).
->
-> I think that should do it, but it's all theoretical of course :)
->
 
-Ok, seems to work correctly. I will add same setup to Tegra114 since
-camera is not operational without same CSUS gate if you don't mind.
 
-> >
-> > > > Here is a fragment of Tegra124 clock tree (dumped from Mi pad 1)
-> > > >
-> > > >          pll_p                                 on     13  x34
-> > > >          408000000
-> > > >
-> > > > vi_sensor2                       $ off    0   3.0      136000000 mc=
-lk2
-> > > >
-> > > >                    $ off    0            136000000 vi_sensor
-> > > >
-> > > >         $ off    0   3.0      136000000 mclk                       =
-   $
-> > > >         off
-> > > >
-> > > >    0            136000000
-> > > >
-> > > > > > > > >Cheers,
-> > > > > > > > >Mikko
+On 8/28/25 17:27, Philippe CORNU wrote:
 >
 >
+> On 8/22/25 16:34, Raphael Gallais-Pou wrote:
+>> This series aims to add and enable sufficient LVDS display support for
+>> STM32MP257F-EV1 board.
+>>
+>> LVDS is the default use case to drive a display panel on STM32MP257F-EV,
+>> even though DSI panels will be supported in the near future.
+>>
+>> The LTDC needs a pixel rate in sync with the bridge currently in use.
+>> For that both DSI and LVDS bridges need to declare an internal clock and
+>> become clock provider to the mux. The mux then selects the reference
+>> clock for the LTDC pixel rate generation.
+>>
+>> For now this mux is handled internally in the LTDC, while waiting for
+>> the STM32 clock framework to merge a 'clk-mux' based on the SYSCFG.
+>> This explains the link done in the patch [7/8] between the LVDS,
+>> providing the reference clock for the LTDC internals.
+>>
+>>    +----------+              |\
+>>    |  DSI PHY |------------->| \           +------------+
+>>    |          |ck_dsi_phy    |  |          |            |
+>>    +----------+              |  |--------->|    LTDC    |
+>>    +----------+              |  |pixel_clk |            |
+>>    | LVDS PHY |------------->|  |          +------------+
+>>    |          |clk_pix_lvds  |  |
+>>    +----------+              |  |
+>>                              |  |
+>>     ck_ker_ltdc ------------>| /
+>>                              |/|
+>>                                └- SYSCFG
+>>
+>> Clock selection applies as follow:
+>> - 0b00: Selects ck_dsi_phy
+>> - 0b01: Selects clk_pix_lvds
+>> - 0b10: Selects ck_ker_ltdc (for parallel or DSI display).
+>> - 0b11: Reserved
+>>
+>> The reset value of the register controlling the mux is 0b01, meaning
+>> that the default clock assigned is the clk_pix_lvds.  This causes two
+>> things:
+>>
+>> - In order to get basic display on the LVDS encoder, like intended,
+>> nothing has to be done on this mux within the LTDC driver (which for now
+>> explains the unused syscfg phandle on the LTDC node in the device-tree).
+>>
+>> - 'pixel_clk' is dependent from 'clk_pix_lvds' because of the LTDC clock
+>> domains.  They also need to be sync to get a coherent pixel rate though
+>> the display clock tree (which explains the LVDS phandle on the LTDC node
+>> in the device-tree).
+>>
+>> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+>> ---
+>> Changes in v5:
+>> - Documentation:
+>>    - LTDC: Clamp correctly min/maxItems value (again)
+>> - Add Yannick's trailers where relevant except in patch [01/13] which
+>>    has been modified
+>> - Link to v4:
+>> https://lore.kernel.org/r/20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com
+>>
+>> Changes in v4:
+>> - Documentation:
+>>    - LTDC: Add "st,stm32mp255-ltdc" compatible.  After internal
+>>      discussion, we came to the solution that the LTDC on STM32MP255 SoC
+>>      needs its own compatible, since it does have the same amount of
+>>      clocks than on STM32MP251 SoC.
+>> - Devicetree:
+>>    - Add "st,stm32mp255" compatible on corresponding dtsi
+>> - Drivers:
+>>    - LTDC: Handle "st,stm32mp255" compatible
+>> - Remove Rob's r-b from patch [01/13] since it was modified.
+>> - Link to v3:
+>> https://lore.kernel.org/r/20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com
+>>
+>> Changes in v3:
+>> - Rebased on latest drm-misc-next
+>> - Documentation:
+>>    - LTDC: Clamp correctly min/maxItems value
+>>    - LVDS: Remove second 'items' keyword
+>> - Add Krzysztof's trailer where relevant
+>> - Link to v2:
+>> https://lore.kernel.org/r/20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com
+>>
+>> Changes in v2:
+>> - Documentation:
+>>    - Add support for new compatible "st,stm32mp255-lvds"
+>>    - Change LTDC compatible for SoC compliant one
+>>    - Make clearer LTDC clock-names property
+>> - Devicetree:
+>>    - Change compatible according to the documentation
+>>    - Change clock and clock-names order to match documentation (and avoid
+>>      warnings)
+>> - Drivers:
+>>    - Change LTDC compatible
+>> - Add Rob's trailer where relevant
+>> - Link to v1:
+>> https://lore.kernel.org/r/20250725-drm-misc-next-v1-0-a59848e62cf9@foss.st.com
+>>
+>> ---
+>> Raphael Gallais-Pou (11):
+>>        dt-bindings: display: st: add two new compatibles to LTDC device
+>>        dt-bindings: display: st,stm32-ltdc: add access-controllers property
+>>        dt-bindings: display: st: add new compatible to LVDS device
+>>        dt-bindings: display: st,stm32mp25-lvds: add access-controllers property
+>>        dt-bindings: display: st,stm32mp25-lvds: add power-domains property
+>>        dt-bindings: arm: stm32: add required #clock-cells property
+>>        arm64: dts: st: add ltdc support on stm32mp251
+>>        arm64: dts: st: add ltdc support on stm32mp255
+>>        arm64: dts: st: add lvds support on stm32mp255
+>>        arm64: dts: st: add clock-cells to syscfg node on stm32mp251
+>>        arm64: dts: st: enable display support on stm32mp257f-ev1 board
+>>
+>> Yannick Fertre (2):
+>>        drm/stm: ltdc: support new hardware version for STM32MP25 SoC
+>>        drm/stm: ltdc: handle lvds pixel clock
+>>
+>>   .../bindings/arm/stm32/st,stm32-syscon.yaml        | 31 ++++++---
+>>   .../devicetree/bindings/display/st,stm32-ltdc.yaml | 55 ++++++++++++++-
+>>   .../bindings/display/st,stm32mp25-lvds.yaml        | 13 +++-
+>>   arch/arm64/boot/dts/st/stm32mp251.dtsi             | 19 ++++++
+>>   arch/arm64/boot/dts/st/stm32mp255.dtsi             | 20 +++++-
+>>   arch/arm64/boot/dts/st/stm32mp257f-ev1.dts         | 79 ++++++++++++++++++++++
+>>   drivers/gpu/drm/stm/drv.c                          | 12 +++-
+>>   drivers/gpu/drm/stm/ltdc.c                         | 58 +++++++++++++++-
+>>   drivers/gpu/drm/stm/ltdc.h                         |  6 ++
+>>   9 files changed, 275 insertions(+), 18 deletions(-)
+>> ---
+>> base-commit: c8cea4371e5eca30cda8660aabb337747dabc51d
+>> change-id: 20250617-drm-misc-next-4af406c1c45f
+>>
+>> Best regards,
 >
+> Hi Raphael,
+> Thank you for these great patches.
 >
+> If you agree, I think you can merge 01-08 in misc.
+
+Hi Philippe,
+
+Applied patches [01/13] -> [08/13] on drm-misc-next.
+
+Thanks,
+Best regards,
+Raphaël
+>
+> Best regards
+> Philippe :-)
+
