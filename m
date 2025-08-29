@@ -2,138 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0C9B3BBEB
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00490B3BBFB
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 15:09:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A126E10EBAD;
-	Fri, 29 Aug 2025 13:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E7910EBAF;
+	Fri, 29 Aug 2025 13:09:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="092QEI3v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BC8B4WF4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="092QEI3v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BC8B4WF4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X/UoUdFE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F3D10EBAD
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 13:07:16 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B3C1C20830;
- Fri, 29 Aug 2025 13:07:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756472834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB4910EBAF
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 13:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756472992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ilyD2cOqtOyzlqVOjqg7d1mL9eol5NAIIMG9rO12+G8=;
- b=092QEI3vdZ5MfnWCWaNxsh8LRwDG1nQFm6VkQGw8zVRFmBW/siW3/GWob+t5xliX+O0cIc
- I6wL6vqAa34JpFXbVYhXHkgPzCKMLYmouKTOK+fI5f9LUfJzMMeSl3uYdBOEgFfk9mSQWy
- 40of5pVOPzAWrs+gfKractLI5N2S/tk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756472834;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ilyD2cOqtOyzlqVOjqg7d1mL9eol5NAIIMG9rO12+G8=;
- b=BC8B4WF4vIeLstkdhNKmt2Mpari9L6+7osWQJJ9VkHPdmh/jOJZHl9rIacEtAvZL+SENsy
- MIuOVnGIheogB5Cw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=092QEI3v;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BC8B4WF4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756472834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ilyD2cOqtOyzlqVOjqg7d1mL9eol5NAIIMG9rO12+G8=;
- b=092QEI3vdZ5MfnWCWaNxsh8LRwDG1nQFm6VkQGw8zVRFmBW/siW3/GWob+t5xliX+O0cIc
- I6wL6vqAa34JpFXbVYhXHkgPzCKMLYmouKTOK+fI5f9LUfJzMMeSl3uYdBOEgFfk9mSQWy
- 40of5pVOPzAWrs+gfKractLI5N2S/tk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756472834;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ilyD2cOqtOyzlqVOjqg7d1mL9eol5NAIIMG9rO12+G8=;
- b=BC8B4WF4vIeLstkdhNKmt2Mpari9L6+7osWQJJ9VkHPdmh/jOJZHl9rIacEtAvZL+SENsy
- MIuOVnGIheogB5Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C3C713326;
- Fri, 29 Aug 2025 13:07:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2ND1IAKmsWh9eAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 29 Aug 2025 13:07:14 +0000
-Message-ID: <ef6558a9-c44a-4c66-967c-187f260f73e1@suse.de>
-Date: Fri, 29 Aug 2025 15:07:14 +0200
+ bh=GMW9HLrWQaKZG+KlEEwhYfHDFt7S0jSgL0MHJQucZHQ=;
+ b=X/UoUdFE7/bpil3lEALRjf2by6so9ZC9jRqj+2SdbkaBmhiAqss4lLQNBVDoQAiu5TZZX4
+ fg/+PUHfrMRjqzEISoHSYU1Um1bFEV/FkatTEgBbiIwYl/Rb1N/W6KXqczF7VD5jtQul93
+ LMr2s0PLX2QD8uv7Lxup3sqNggMRGtU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-402-Feo5eF4VNEOsjjpWNO5c5g-1; Fri, 29 Aug 2025 09:09:51 -0400
+X-MC-Unique: Feo5eF4VNEOsjjpWNO5c5g-1
+X-Mimecast-MFC-AGG-ID: Feo5eF4VNEOsjjpWNO5c5g_1756472989
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3cf48ec9fc1so629675f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:09:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756472989; x=1757077789;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GMW9HLrWQaKZG+KlEEwhYfHDFt7S0jSgL0MHJQucZHQ=;
+ b=necahy9+TnOD67gZ5zU/yjfyjUwDk5bTtsUlK0a43ZyIyc6C3adHPNLXqQi/Y01MiQ
+ ajQRtHJazQ4wPDK7w5b3aDXJE0MvhtOv6orKnYdhMTBNDthUJaAqI/9kN5xHQEg/kaVb
+ brPS7FdMuRzoWWboKFetdOYnOUSk2FrKMPkbQTYAuO8LjI1vUvtBU5a0Bzl1c5sxXtcO
+ iM9taFVrL8G9oLW8so3BcYYTPVok4CgR/ZcWQJVizRiRuDXSX61qpjxGSZPZ22tpK/tH
+ A58ualXTufcEG+FXH981K0aYhZqM70ryaCLFFkPJH9otFSs0r8r/8qBfG/6amLsDe+04
+ fGxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTZp+kkraxPiLUgqZezLCfe0dDU8QQmvZpTWglhMqSe4shqTcirZvZC6V11STLd0syTgHKFWNUqHI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkWQ8drdBke9Ft32/AEo7Sgu8Eawk8kA2R8cCLHUlrzyMFUVrV
+ TMPh9tKfWt6llJIwojneJdw5uD6J3GsgRkPRa6+0oRv/FIXfhXjNNwBSP5gGgjcg+REg7S2d2X4
+ 3x4d0DWjJK+RfcgpX/p1EygIBqpj6paP7e8sIs15ej7WQkAvjAO3jjnkEhS8v371jcErtPA==
+X-Gm-Gg: ASbGncv3KsiMeP0yPaaJAbpIo9P92nOXCqKsp2e8NCfacwlmBGIrhw2GgvZnrFrwWF3
+ BfejkB1QgndYWyDaFpcDKM1bte76EOD+GPNFxnTZaGNLWknGOs2IpNpsFiz3cYIbKBGImljWR05
+ SKx7KE7fFpD124yAHAmjhQLJ1pU6ZPa1h/zBcqS5yy5dEZxNYK0hbyjd/HN5Ki5HozrT1kqC95f
+ bO2mMrPkOmqXV3wpg3jeAlKgz0tnvL951iKhod9boqLZb8LXiA+IX+fYeFPnogK7Ay3pCUG/8Hp
+ EuRy+SIY5mdUXV4kiGyLMXXdXx7hlrA06TmuvhVC3ilBaPI3p+pY86v2faecKwEoY5Uass9pdqJ
+ zIMXKWlNLCN54lr9LmB0d1wwlQVEoWax3makZQAXqqlwIXNh22CjyA8UJPtIkpjGy
+X-Received: by 2002:a05:6000:4023:b0:3d0:d6e6:5d96 with SMTP id
+ ffacd0b85a97d-3d0d6e6642emr1463764f8f.38.1756472988568; 
+ Fri, 29 Aug 2025 06:09:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE2EE1FdffCNgqV63lR4bEMYpCijk6Rt1WA7Ibu/9lrj3Iet7fHqrTgMv1xYGinJ39Wr3I/NQ==
+X-Received: by 2002:a05:6000:4023:b0:3d0:d6e6:5d96 with SMTP id
+ ffacd0b85a97d-3d0d6e6642emr1463686f8f.38.1756472987991; 
+ Fri, 29 Aug 2025 06:09:47 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f1d:100:4f8e:bb13:c3c7:f854?
+ (p200300d82f1d01004f8ebb13c3c7f854.dip0.t-ipconnect.de.
+ [2003:d8:2f1d:100:4f8e:bb13:c3c7:f854])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3d12c90a01bsm906716f8f.31.2025.08.29.06.09.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Aug 2025 06:09:47 -0700 (PDT)
+Message-ID: <4f6e66a1-1747-402e-8f1a-f6b7783fc2e5@redhat.com>
+Date: Fri, 29 Aug 2025 15:09:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
-To: Nick Bowler <nbowler@draconx.ca>, Doug Anderson <dianders@chromium.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- regressions@lists.linux.dev
-References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
- <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
- <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
+Subject: Re: [PATCH v1 06/36] mm/page_alloc: reject unreasonable
+ folio/compound page sizes in alloc_contig_range_noprof()
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>,
+ SeongJae Park <sj@kernel.org>, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org
+References: <20250827220141.262669-1-david@redhat.com>
+ <20250827220141.262669-7-david@redhat.com>
+ <f195300e-42e2-4eaa-84c8-c37501c3339c@lucifer.local>
+ <547145e0-9b0e-40ca-8201-e94cc5d19356@redhat.com>
+ <34edaa0d-0d5f-4041-9a3d-fb5b2dd584e8@lucifer.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <34edaa0d-0d5f-4041-9a3d-fb5b2dd584e8@lucifer.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KnLTDU9gMur6oF-GhboA8bch4L5Rh_sn1iDv8KrtSRo_1756472989
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B3C1C20830
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:dkim,suse.de:mid];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,96 +176,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+> 
+> It seems a bit arbitrary, like we open-code this (at risk of making a mistake)
+> in some places but not others.
 
-it's been a while since you sent this report. I assume, the problem is 
-this there?
+[...]
 
-Am 30.04.25 um 15:28 schrieb Nick Bowler:
-> Hi Doug,
->
-> On Mon, Apr 28, 2025 at 01:40:25PM -0700, Doug Anderson wrote:
->> On Sun, Apr 20, 2025 at 9:26■PM Nick Bowler <nbowler@draconx.ca> wrote:
->>> I recently noticed that on current kernels I lose video output from
->>> my Blackbird's AST2500 BMC after a reboot
-> [...]
->>>    ce3d99c8349584bc0fbe1e21918a3ea1155343aa is the first bad commit
->>>    commit ce3d99c8349584bc0fbe1e21918a3ea1155343aa
->>>    Author: Douglas Anderson <dianders@chromium.org>
->>>    Date:   Fri Sep 1 16:39:53 2023 -0700
->>>
->>>        drm: Call drm_atomic_helper_shutdown() at shutdown time for misc drivers
-> [...]
->> Bleh. That's not good. If I had to guess there's some subtle bug /
->> missing timing constraint that's being triggered here. A few things to
->> try:
 >>
->> 1. Add a several second delay after the call to
->> "drm_atomic_helper_shutdown()", like msleep(5000) or something like
->> that. That's kind of a shot in the dark, but it's fairly common for
->> panels to get upset if you turn them off and then turn them on again
->> too quickly. This would be my blind guess of what is happening.
-> Adding msleep(5000) does nothing except that once the video turns off
-> it now takes 5 seconds longer to reboot.
->
->> 2. Could you give more details about what panel you're using?
-> According to the documentation I have for the machine, the video output
-> of the AST2500 BMC is connected to an IT66121 HDMI transmitter.
+>> One could argue that maybe one would want a order_to_pages() helper (that
+>> could use BIT() internally), but I am certainly not someone that would
+>> suggest that at this point ...  :)
+> 
+> I mean maybe.
+> 
+> Anyway as I said none of this is massively important, the open-coding here is
+> correct, just seems silly.
 
-That dmesg refers to a SIL164. I always thought these where only for 
-DVI. With the IT66121, I'd expect the warning from [1] in the dmesg.
+Maybe we really want a ORDER_PAGES() and PAGES_ORDER().
 
-[1] 
-https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_main.c#L196
+But I mean, we also have PHYS_PFN() PFN_PHYS() and see how many "<< 
+PAGE_SIZE" etc we are using all over the place.
 
+> 
+>>
+>>>
+>>>> +
+>>>>    /*
+>>>>     * compound_nr() returns the number of pages in this potentially compound
+>>>>     * page.  compound_nr() can be called on a tail page, and is defined to
+>>>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>>>> index baead29b3e67b..426bc404b80cc 100644
+>>>> --- a/mm/page_alloc.c
+>>>> +++ b/mm/page_alloc.c
+>>>> @@ -6833,6 +6833,7 @@ static int __alloc_contig_verify_gfp_mask(gfp_t gfp_mask, gfp_t *gfp_cc_mask)
+>>>>    int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+>>>>    			      acr_flags_t alloc_flags, gfp_t gfp_mask)
+> 
+> Funny btw th
+> 
+>>>>    {
+>>>> +	const unsigned int order = ilog2(end - start);
+>>>>    	unsigned long outer_start, outer_end;
+>>>>    	int ret = 0;
+>>>>
+>>>> @@ -6850,6 +6851,9 @@ int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+>>>>    					    PB_ISOLATE_MODE_CMA_ALLOC :
+>>>>    					    PB_ISOLATE_MODE_OTHER;
+>>>>
+>>>> +	if (WARN_ON_ONCE((gfp_mask & __GFP_COMP) && order > MAX_FOLIO_ORDER))
+>>>> +		return -EINVAL;
+>>>
+>>> Possibly not worth it for a one off, but be nice to have this as a helper function, like:
+>>>
+>>> static bool is_valid_order(gfp_t gfp_mask, unsigned int order)
+>>> {
+>>> 	return !(gfp_mask & __GFP_COMP) || order <= MAX_FOLIO_ORDER;
+>>> }
+>>>
+>>> Then makes this:
+>>>
+>>> 	if (WARN_ON_ONCE(!is_valid_order(gfp_mask, order)))
+>>> 		return -EINVAL;
+>>>
+>>> Kinda self-documenting!
+>>
+>> I don't like it -- especially forwarding __GFP_COMP.
+>>
+>> is_valid_folio_order() to wrap the order check? Also not sure.
+> 
+> OK, it's not a big deal.
+> 
+> Can we have a comment explaining this though? As people might be confused
+> as to why we check this here and not elsewhere.
 
-The ast driver doesn't do much during shutdown. Could you please 
-out-comment the lines at either [2] xor [3] and report on either effect? 
-These calls turn of the video chip's memory access and sync pulses. Not 
-doing that might resolve the problem.
-
-[2] 
-https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L835
-[3] 
-https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L839
-
-Best regards
-Thomas
-
->
-> Then in turn I have that connected to some generic HDMI->VGA adapter
-> (PrimeCables branded).  I also tried with another much more expensive
-> device (Extron DVI-RGB 200) and observe no difference in behaviour.
->
-> i think these devices are working and there's just no output signal
-> on the hdmi port.
->
->> Ideally it'd be great if you could say which device tree you're using too.
-> Not sure how to answer this.  Do you want me to look at something
-> specific in /proc/device-tree?  Or dump it somehow?
->
->> 3. Any chance you can gather the `dmesg` from a failing boot and
->> provide it somehow? Are there any errors in the logs from the failing
->> boot?
-> To clarify, there is no boot failure.  There is just no video output
-> after rebooting.  I can then boot Linux again by any method that works
-> without being able to see the screen, and then everything is fine once
-> I do that.
->
-> I've attached the dmesg output (gzipped) from after such a reboot.
-> Except for the order and the timestamps, the messages are identical to
-> when I boot after rebooting a kernel which does not disable the video.
->
-> Thanks,
->    Nick
+I can add a comment.
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Cheers
 
+David / dhildenb
 
