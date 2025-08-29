@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B76B3C3E9
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 22:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F89B3DA94
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8163F10E2A0;
-	Fri, 29 Aug 2025 20:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFBC10E374;
+	Mon,  1 Sep 2025 07:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="Cks1foIN";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dESvnRAv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D0F10E28E;
- Fri, 29 Aug 2025 20:49:00 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9917D40E0176; 
- Fri, 29 Aug 2025 20:48:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 1HIo8XtwEOWj; Fri, 29 Aug 2025 20:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1756500535; bh=kkuOsSBk0lMyzox1zOeLQPDxcRHJN+ocAuOHBc3PZP4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cks1foINE6OFW+Tiv7M8/BbnxobBbsjbjNcWwVO+MlyUQxZ1tFIoWXMyesIn93wvH
- 5TfexEGy+7nMu/JY23HtB54MW1wTXBNMUSAoY19toCfivVOudSyZjtC8ri0faCnMiy
- N5uIvbyifLq+IxOOOrZ64hxFaJhLsf/Tm5b4BGvheerF5VsjTl6WVuanrfJFAyuSks
- 05QGSpei7pU5Ecz5RxCbkR2UDsG3IgZVPZ9XqkRB2/prSoO47P41j92ojKavCiAHGV
- TVV0PG3dVYMlnxI5QquqVgEPBqHkG+U9IFRf/jAUjrwQFyAFrY1yzaWuSvRxPAFthn
- f9OzvjKrRWxxPrhOwhq4bzOUhuIZbmfGO1LR0of0+5ZIl/j0V2/Wr0woTsuM0U9j0U
- vAUZknYZ8Eycp7NCTijxciAQdE/gjQTk+wxX1ypak0OStd/ZWadkMFDgc6+riwD76N
- TxDHQmMxs+6xnS35tw0Y6vJUtmC7wF12CXX6pzgefok6MeNtPGeDBmt1BTt1RIi4Ep
- zQuuIgwLnPfy4E3JO5QyTpe53bAu6/jyHdqxt12S1ltQHO/HlclBp+QX67lxAjM733
- OsqIOKSjVGMJdnkv/dkdqPPO5F/N/GtmXwB787FuDcc4RcI00FizNRKYwmk/eah/pG
- Mpk/90nsCbpfrts5uqD9Eb5U=
-Received: from zn.tnic (pd953092e.dip0.t-ipconnect.de [217.83.9.46])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id
- 2884440E016E; Fri, 29 Aug 2025 20:48:49 +0000 (UTC)
-Date: Fri, 29 Aug 2025 22:48:40 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: evergreen_packet3_check:... radeon 0000:1d:00.0: vbo resource
- seems too big for the bo
-Message-ID: <20250829204840.GEaLISKGTwuScnDF8Y@fat_crate.local>
-References: <20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local>
- <CADnq5_Oqonrth+5T-83dnFBZ67GvykkPt-9aUepJd+fUMwnupw@mail.gmail.com>
- <20250829194044.GCaLICPKJcGJRYdSfO@fat_crate.local>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 346B210E129
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 20:59:39 +0000 (UTC)
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net
+ [192.184.212.33])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 4CA79211627B;
+ Fri, 29 Aug 2025 13:59:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4CA79211627B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1756501177;
+ bh=JFWDwi8WW+5cmq8k1iafkjchsEZ4XvNd8Q16Wo9KAu8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dESvnRAvmpVLr0VYBZnRRYhqqZR3B639/FohGqaKD2D5bP/9Yrve21Irvr3nS9rb6
+ oV0XKAIHOKvPIy3mqCdHpdb+o4CglUZTuulng4cFfFX5xmNa+/8oCUYPlxUGlvaNbr
+ 67e3J3ZlD0dwqiTzzvQCWTMikVloz4heqlFWTFCA=
+Message-ID: <0b9ea4e8-3751-0286-4bd9-fe09035dd22d@linux.microsoft.com>
+Date: Fri, 29 Aug 2025 13:59:35 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250829194044.GCaLICPKJcGJRYdSfO@fat_crate.local>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V0 1/2] hyper-v: Add CONFIG_HYPERV_VMBUS option
+Content-Language: en-US
+To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-arch@vger.kernel.org, virtualization@lists.linux.dev
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, jikos@kernel.org,
+ bentiss@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
+ wei.liu@kernel.org, decui@microsoft.com, dmitry.torokhov@gmail.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, bhelgaas@google.com,
+ James.Bottomley@HansenPartnership.com, martin.petersen@oracle.com,
+ gregkh@linuxfoundation.org, deller@gmx.de, arnd@arndb.de,
+ sgarzare@redhat.com, horms@kernel.org
+References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
+ <20250828005952.884343-2-mrathor@linux.microsoft.com>
+ <5003d5e8-a025-4827-b8a0-6fe11877421b@linux.microsoft.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <5003d5e8-a025-4827-b8a0-6fe11877421b@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.4 required=2.1 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A autolearn=ham
+ autolearn_force=no version=3.4.0
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+X-Mailman-Approved-At: Mon, 01 Sep 2025 07:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,93 +77,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 09:40:44PM +0200, Borislav Petkov wrote:
-> On Fri, Aug 29, 2025 at 02:26:50PM -0400, Alex Deucher wrote:
-> > Have you updated mesa?  Looks like a userspace change.
+On 8/28/25 17:29, Nuno Das Neves wrote:
+> On 8/27/2025 5:59 PM, Mukesh Rathor wrote:
+>> Somehow vmbus driver is hinged on CONFIG_HYPERV. It appears this is initial
+>> code that did not get addressed when the scope of CONFIG_HYPERV went beyond
+>> vmbus. This commit creates a fine grained HYPERV_VMBUS option and updates
+>> drivers that depend on VMBUS.
+>>
 > 
-> Yeah, I did a long overdue OS upgrade today:
+> The commit message can be improved. The docs are helpful here:
+> https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
 > 
-> $ grep -i mesa /var/log/dpkg.log
+> In particular, some clearer reasons for the change.
+> e.g.
+> - CONFIG_HYPERV encompasses too much right now. It's not always clear what
+>   depends on builtin hyperv code and what depends on vmbus.
+> 
+> - Since there is so much builtin hyperv code, building CONFIG_HYPERV as a
+>   module doesn't make intuitive sense. Building vmbus support as a module does.
+> 
+> - There are actually some real scenarios someone may want to compile with
+>   CONFIG_HYPERV but without vmbus, like baremetal root partition.
+> 
+> FWIW I think it's a good idea, interested to hear what others think.
 
-Btw, this thing:
+Sorry, you had mentioned it and I expanded the cover letter and forgot the
+commit message here. You said it better than I could above, so I can just use
+that in V1 next week if no other comments.
 
-                                if (p->rdev && (size + offset) > radeon_bo_size(reloc->robj)) {
-                                        /* force size to size of the buffer */
-                                        dev_warn_ratelimited(p->dev, "vbo resource seems too big for the bo\n");
-                                        ib[idx+1+(i*8)+1] = radeon_bo_size(reloc->robj) - offset;
-                                }
+Thanks,
+-Mukesh
 
-is yet another example of useless flooding of dmesg.
 
-It's not like I can do anything about it except report it. And that thing
-fires every 5s or so.
+> Nuno
+> 
+>> Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
+>> ---
+>>  drivers/gpu/drm/Kconfig        |  2 +-
+>>  drivers/hid/Kconfig            |  2 +-
+>>  drivers/hv/Kconfig             | 12 +++++++++---
+>>  drivers/hv/Makefile            |  2 +-
+>>  drivers/input/serio/Kconfig    |  4 ++--
+>>  drivers/net/hyperv/Kconfig     |  2 +-
+>>  drivers/pci/Kconfig            |  2 +-
+>>  drivers/scsi/Kconfig           |  2 +-
+>>  drivers/uio/Kconfig            |  2 +-
+>>  drivers/video/fbdev/Kconfig    |  2 +-
+>>  include/asm-generic/mshyperv.h |  8 +++++---
+>>  net/vmw_vsock/Kconfig          |  2 +-
+>>  12 files changed, 25 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> index f7ea8e895c0c..58f34da061c6 100644
+>> --- a/drivers/gpu/drm/Kconfig
+>> +++ b/drivers/gpu/drm/Kconfig
+>> @@ -398,7 +398,7 @@ source "drivers/gpu/drm/imagination/Kconfig"
+>>  
+>>  config DRM_HYPERV
+>>  	tristate "DRM Support for Hyper-V synthetic video device"
+>> -	depends on DRM && PCI && HYPERV
+>> +	depends on DRM && PCI && HYPERV_VMBUS
+>>  	select DRM_CLIENT_SELECTION
+>>  	select DRM_KMS_HELPER
+>>  	select DRM_GEM_SHMEM_HELPER
+>> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+>> index a57901203aeb..fe3dc8c0db99 100644
+>> --- a/drivers/hid/Kconfig
+>> +++ b/drivers/hid/Kconfig
+>> @@ -1162,7 +1162,7 @@ config GREENASIA_FF
+>>  
+>>  config HID_HYPERV_MOUSE
+>>  	tristate "Microsoft Hyper-V mouse driver"
+>> -	depends on HYPERV
+>> +	depends on HYPERV_VMBUS
+>>  	help
+>>  	Select this option to enable the Hyper-V mouse driver.
+>>  
+>> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+>> index 2e8df09db599..08c4ed005137 100644
+>> --- a/drivers/hv/Kconfig
+>> +++ b/drivers/hv/Kconfig
+>> @@ -44,18 +44,24 @@ config HYPERV_TIMER
+>>  
+>>  config HYPERV_UTILS
+>>  	tristate "Microsoft Hyper-V Utilities driver"
+>> -	depends on HYPERV && CONNECTOR && NLS
+>> +	depends on HYPERV_VMBUS && CONNECTOR && NLS
+>>  	depends on PTP_1588_CLOCK_OPTIONAL
+>>  	help
+>>  	  Select this option to enable the Hyper-V Utilities.
+>>  
+>>  config HYPERV_BALLOON
+>>  	tristate "Microsoft Hyper-V Balloon driver"
+>> -	depends on HYPERV
+>> +	depends on HYPERV_VMBUS
+>>  	select PAGE_REPORTING
+>>  	help
+>>  	  Select this option to enable Hyper-V Balloon driver.
+>>  
+>> +config HYPERV_VMBUS
+>> +	tristate "Microsoft Hyper-V Vmbus driver"
+>> +	depends on HYPERV
+>> +	help
+>> +	  Select this option to enable Hyper-V Vmbus driver.
+>> +
+>>  config MSHV_ROOT
+>>  	tristate "Microsoft Hyper-V root partition support"
+>>  	depends on HYPERV && (X86_64 || ARM64)
+>> @@ -75,7 +81,7 @@ config MSHV_ROOT
+>>  
+>>  config MSHV_VTL
+>>  	tristate "Microsoft Hyper-V VTL driver"
+>> -	depends on X86_64 && HYPERV_VTL_MODE
+>> +	depends on X86_64 && HYPERV_VTL_MODE && HYPERV_VMBUS
+>>  	# Mapping VTL0 memory to a userspace process in VTL2 is supported in OpenHCL.
+>>  	# VTL2 for OpenHCL makes use of Huge Pages to improve performance on VMs,
+>>  	# specially with large memory requirements.
+>> diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+>> index c53a0df746b7..050517756a82 100644
+>> --- a/drivers/hv/Makefile
+>> +++ b/drivers/hv/Makefile
+>> @@ -1,5 +1,5 @@
+>>  # SPDX-License-Identifier: GPL-2.0
+>> -obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
+>> +obj-$(CONFIG_HYPERV_VMBUS)	+= hv_vmbus.o
+>>  obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
+>>  obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
+>>  obj-$(CONFIG_MSHV_ROOT)		+= mshv_root.o
+>> diff --git a/drivers/input/serio/Kconfig b/drivers/input/serio/Kconfig
+>> index 17edc1597446..c7ef347a4dff 100644
+>> --- a/drivers/input/serio/Kconfig
+>> +++ b/drivers/input/serio/Kconfig
+>> @@ -276,8 +276,8 @@ config SERIO_OLPC_APSP
+>>  
+>>  config HYPERV_KEYBOARD
+>>  	tristate "Microsoft Synthetic Keyboard driver"
+>> -	depends on HYPERV
+>> -	default HYPERV
+>> +	depends on HYPERV_VMBUS
+>> +	default HYPERV_VMBUS
+>>  	help
+>>  	  Select this option to enable the Hyper-V Keyboard driver.
+>>  
+>> diff --git a/drivers/net/hyperv/Kconfig b/drivers/net/hyperv/Kconfig
+>> index c8cbd85adcf9..982964c1a9fb 100644
+>> --- a/drivers/net/hyperv/Kconfig
+>> +++ b/drivers/net/hyperv/Kconfig
+>> @@ -1,7 +1,7 @@
+>>  # SPDX-License-Identifier: GPL-2.0-only
+>>  config HYPERV_NET
+>>  	tristate "Microsoft Hyper-V virtual network driver"
+>> -	depends on HYPERV
+>> +	depends on HYPERV_VMBUS
+>>  	select UCS2_STRING
+>>  	select NLS
+>>  	help
+>> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+>> index 9a249c65aedc..7065a8e5f9b1 100644
+>> --- a/drivers/pci/Kconfig
+>> +++ b/drivers/pci/Kconfig
+>> @@ -221,7 +221,7 @@ config PCI_LABEL
+>>  
+>>  config PCI_HYPERV
+>>  	tristate "Hyper-V PCI Frontend"
+>> -	depends on ((X86 && X86_64) || ARM64) && HYPERV && PCI_MSI && SYSFS
+>> +	depends on ((X86 && X86_64) || ARM64) && HYPERV_VMBUS && PCI_MSI && SYSFS
+>>  	select PCI_HYPERV_INTERFACE
+>>  	select IRQ_MSI_LIB
+>>  	help
+>> diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+>> index 5522310bab8d..19d0884479a2 100644
+>> --- a/drivers/scsi/Kconfig
+>> +++ b/drivers/scsi/Kconfig
+>> @@ -589,7 +589,7 @@ config XEN_SCSI_FRONTEND
+>>  
+>>  config HYPERV_STORAGE
+>>  	tristate "Microsoft Hyper-V virtual storage driver"
+>> -	depends on SCSI && HYPERV
+>> +	depends on SCSI && HYPERV_VMBUS
+>>  	depends on m || SCSI_FC_ATTRS != m
+>>  	default HYPERV
+>>  	help
+>> diff --git a/drivers/uio/Kconfig b/drivers/uio/Kconfig
+>> index b060dcd7c635..6f86a61231e6 100644
+>> --- a/drivers/uio/Kconfig
+>> +++ b/drivers/uio/Kconfig
+>> @@ -140,7 +140,7 @@ config UIO_MF624
+>>  
+>>  config UIO_HV_GENERIC
+>>  	tristate "Generic driver for Hyper-V VMBus"
+>> -	depends on HYPERV
+>> +	depends on HYPERV_VMBUS
+>>  	help
+>>  	  Generic driver that you can bind, dynamically, to any
+>>  	  Hyper-V VMBus device. It is useful to provide direct access
+>> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+>> index c21484d15f0c..72c63eaeb983 100644
+>> --- a/drivers/video/fbdev/Kconfig
+>> +++ b/drivers/video/fbdev/Kconfig
+>> @@ -1774,7 +1774,7 @@ config FB_BROADSHEET
+>>  
+>>  config FB_HYPERV
+>>  	tristate "Microsoft Hyper-V Synthetic Video support"
+>> -	depends on FB && HYPERV
+>> +	depends on FB && HYPERV_VMBUS
+>>  	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
+>>  	select FB_IOMEM_HELPERS_DEFERRED
+>>  	help
+>> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+>> index 1d2ad1304ad4..66c58c91b530 100644
+>> --- a/include/asm-generic/mshyperv.h
+>> +++ b/include/asm-generic/mshyperv.h
+>> @@ -165,6 +165,7 @@ static inline u64 hv_generate_guest_id(u64 kernel_version)
+>>  
+>>  void __init hv_mark_resources(void);
+>>  
+>> +#if IS_ENABLED(CONFIG_HYPERV_VMBUS)
+>>  /* Free the message slot and signal end-of-message if required */
+>>  static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
+>>  {
+>> @@ -200,6 +201,10 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
+>>  	}
+>>  }
+>>  
+>> +extern int vmbus_interrupt;
+>> +extern int vmbus_irq;
+>> +#endif /* CONFIG_HYPERV_VMBUS */
+>> +
+>>  int hv_get_hypervisor_version(union hv_hypervisor_version_info *info);
+>>  
+>>  void hv_setup_vmbus_handler(void (*handler)(void));
+>> @@ -213,9 +218,6 @@ void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs));
+>>  void hv_remove_crash_handler(void);
+>>  void hv_setup_mshv_handler(void (*handler)(void));
+>>  
+>> -extern int vmbus_interrupt;
+>> -extern int vmbus_irq;
+>> -
+>>  #if IS_ENABLED(CONFIG_HYPERV)
+>>  /*
+>>   * Hypervisor's notion of virtual processor ID is different from
+>> diff --git a/net/vmw_vsock/Kconfig b/net/vmw_vsock/Kconfig
+>> index 56356d2980c8..8e803c4828c4 100644
+>> --- a/net/vmw_vsock/Kconfig
+>> +++ b/net/vmw_vsock/Kconfig
+>> @@ -72,7 +72,7 @@ config VIRTIO_VSOCKETS_COMMON
+>>  
+>>  config HYPERV_VSOCKETS
+>>  	tristate "Hyper-V transport for Virtual Sockets"
+>> -	depends on VSOCKETS && HYPERV
+>> +	depends on VSOCKETS && HYPERV_VMBUS
+>>  	help
+>>  	  This module implements a Hyper-V transport for Virtual Sockets.
+>>  
 
-You could consider turning that into a _once thing and be done with it.
-
-And someone already ratelimited them:
-
-59d76d6bc206 ("drm/radeon: ratelimit bo warnings")
-
-but it ain't enough.
-
-$ dmesg | grep "vbo resource" | wc -l
-22393
-
-So even if I go and find which commit added it:
-
-  cb5fcbd540b4 ("drm/radeon/kms/evergreen: add initial CS parser")
-
-I'm still none the wiser. And I'm not even a normal user - I have seen kernel
-code in the past :-)
-
-Hell, I don't even know what CS is...
-
-/me goes and searches the web a bit...
-
-Aha, it could be a command submission parser or so. Still have no clue what
-this warning is telling me.
-
-Going back to searching the web...
-
-ok, so it looks like this is validating some packet3 set resource thing and
-when the resource type? is a SQ_TEX_VTX_VALID_BUFFER - perhaps a valid vertex
-buffer? Vertex buffer I understand. But texture vertex buffer?
-
-Anyway, it checks whether the vbo (vertex buffer object?) resource is
-too big for the buffer object which has gotten as some sort of a relocation
-packet 3 thing...
-
-And I still have no clue what is going on. Perhaps the new MESA is sending
-wrong command types, who knows.
-
-I absolutely cannot fix it - that's for sure.
-
-And so this rambling of mine confirms my old theory that the warning and error
-messages we put in the kernel are not really useful. Especially to users.
-
-Because there isn't a whole lot they can do about them except reporting them
-to those who can actually do something about.
-
-I.e., those messages might as well be hashes which we can stick into a lookup
-table to fish out a longer string which tells us what is going on.
-
-So I *think* you should make this a once message or *at* *least* ratelimit the
-hell of it so that it appears very seldomly. The rule of thumb should be what
-you want this message to do?
-
-To make a user report it to you?
-
-Or something else?
-
-In any case, I am already very picky with the error messages visible to users
-in the code I'm maintaining, this'll make me be even stricter.
-
-Oh well.
-
-Thanks for listening. :-)
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
