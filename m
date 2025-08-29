@@ -2,78 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD8BB3C541
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 00:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271D3B3C544
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 00:44:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D8C10E219;
-	Fri, 29 Aug 2025 22:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A29C10E220;
+	Fri, 29 Aug 2025 22:44:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VeC96OkG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="nKXtOaSW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71D5C10E219
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 22:43:42 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-e970e624b7cso1537047276.0
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 15:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756507421; x=1757112221; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=udiKLVNkIDA74KaNKsNLED3CYr951WL3Mof5I/6GvIs=;
- b=VeC96OkG6napWV+zHMG2Aw75j11ny9KhYY0jFPyUTdM/MoRleJfmamy6pe6Vu5WZMo
- Z3wNKcjTLcw5c28NP13hmuzop8rZ0ZYFvE350LClReqmvjJkekv1tsy+by+7x9pzqwAY
- Foye2d9OM6vkFxYib78gT8j0GaYtr36BKrxGiwg2cmdapjCdGJSYJFk5cT3wVBIzvYsV
- T4mLwtcWtKViMCYMp0CkZz0iOY1RLm0YTCyf4K0pQPYGu/Z/VAnj/NRmKBF9nUg5JwKl
- KvG2rz24MsCkuWVC41DRvohxFGTr2DD25kloW9AlrGqjIytklGUDEvfaQGJxSDPR76YO
- Z83A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756507421; x=1757112221;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=udiKLVNkIDA74KaNKsNLED3CYr951WL3Mof5I/6GvIs=;
- b=EqI6Zk4yFMiV7/TpQCTmse6/J3n1l3Tpn8ACDshX+ybwoXuCwCbFpVJUnl7VsGhvtr
- 6v7flSRanjPzIvM0TqFFJxvaeJWFTsnlJvTmxLY0dmKbve2vQa/96I1WFm+UypSVAV3M
- YonzUj9nNjrvyaqmNvUOmIERzV7mZFS1uS6xDPN+KM1Z3hghiaZ3PldeFAChaLe7ZBDz
- c8Nl1Sms9QDkJ62U/cw9d2joSKA/aCBTZtIBpSsDMHNECdVO0mw3t9Bfk0gf3qGN4MZu
- x6fpPuFoZM5u5CkJNhuEO1j/UDoLh/oKRD69U2eIcButrjk8p8sgWEy1ozkrZkQyMsu/
- oesA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU6upCh7uUbOKnL+Kxd94zboWlBwUBNJSn/pxYQaJLnqxsqnVtUhOmTLcg/7KMKT2hRKlEOB+AVA04=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDG05i00LnCf/2pd05gOelb1nTv3ilWQsQ3LKTSVgHWV44vEcK
- IAXFmKKX/4gzPsYGJqBAF7OmpTyGs8x52qK/Ap/lG5LS/2SCdM2ji8Cn1pHb4hW+85aCg3mhXbX
- PJOUbAOfDZFW0eIMIQQPkjNPM41Jysko=
-X-Gm-Gg: ASbGncuidyCba3kzw/JhV76sIYB9xoQe/6GBW+LV36cAAKL50ea0B6TVN54buLDYAcE
- x1h2KyKylrjzASMyK8sxw2gq60Y1S1fbPNXhQCmnC42OEhvD5oxEeLBYLNvjck4Hmd4waD+z/8D
- k7iA6cdxlGFvX36mcEqfem7S8WO1Dy6jnpynfU7+cBg0L6u35opXeCJwQyFwBGYnVfInThE4BxV
- FkDv9UZ8OdxDjL3UBoy+5tAIjY9zUc494soWZqF
-X-Google-Smtp-Source: AGHT+IG7+qrK10j2OniIUuE6HYEwMQmZ44Ww1i+O+Xzn42Xt0t77rSw2hX1Ufver3FsgGcbygrcesYnK1tIHq9EWZxc=
-X-Received: by 2002:a05:690c:9308:b0:71b:fdc2:e2f5 with SMTP id
- 00721157ae682-72273c07007mr8660787b3.12.1756507421394; Fri, 29 Aug 2025
- 15:43:41 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2025910E220;
+ Fri, 29 Aug 2025 22:44:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g9hoeb23Lh/+CPmbsLmhHITQNP3yTqGgqi7XwenT8weKRiZO8z8LogoH/1vbGZxDLA8K70dcsnU2eBm+7+3fxtGVQPxyabQT5EkS02KUEwJLAfTVAPy4NUZshvRB3XhZFe+kdI2GENt7N0UdWKHv4QZ5R/L2ovcOI3GBSqrb52vTsaQ1m/s+p1FMuyEgLfTSbjtllt70bZDBT3m7zkTAaiZDiZ04NYYjziY0rZiDG41r5V5dhVEBag3BOUd+gRmL4sp4Bau9Uh9XvNUebT/W4jyt1rInBOW6GBi/5hpYeUY4mXNG/TeXiTgLZaGo96m0uBbeVXromrrz/flmcqeqcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=btIPAbK3bUv7/v2CFO+Tup6zXNlLh4DQcGsE7TNVxZA=;
+ b=vNPjPKy5f6CQNn2UVWyQwj3CvAgJezAvk3bA5xLZlxDtCywkmbakZki2rdaNxtbragSOA+wNpzHFBcEjjjJpZfnputdreL1MulUCMeZHsJ0g9wsqxeaDDj76iP0NmzG6I3y03jEx6WNd/Jmnxy54vLqCnqBzIoIWgeelgdS17duLoJCqdOJjKWm1W0UYmFrdo5stf246GRu576roxiIG+JFbgs0gOoL50D5GZqjI2NvUsMST+naqEfF72KXEb0bLVhkVMM99xzL7UDnC9bNw1lATUeK0kHO3dmN10ZE7bpmaE8yJdEdMz8pZ1cSQnMyemrXxeoZ99haICImzgoq5Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=btIPAbK3bUv7/v2CFO+Tup6zXNlLh4DQcGsE7TNVxZA=;
+ b=nKXtOaSWBVr5zUabEezX2RoNTgxc6QemiHFeHD+VCxM/f9yQrdhNzzll3EZ9ZAj+OXTEakLXcG5Br9uUi+sS41iszvmbk9PJMcFtfVj0d2/shDsqUrcODHUblBYSC6tLrURMeuZNdZMQF2QjaVRQrBlts6AVc5jinXJ0/Bh7MhkCjuphpNQXRgg7n2CTQ0MJ8W4AS6fFCyXk/fydutfsnYdfiS7S9iPOCPFfrkAp1zldDEQvsUZsbwTA3IWoV8yEPLirnT++Yjc8ZPlAhzSFToeEr7Q2UwmouU7dmsV5aIdr2o3U//PCPrqCnyTnZ5xUtLc9V68qIvZsNi7rGx7Caw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by DS7PR12MB5813.namprd12.prod.outlook.com (2603:10b6:8:75::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Fri, 29 Aug
+ 2025 22:43:52 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9052.017; Fri, 29 Aug 2025
+ 22:43:52 +0000
+Date: Fri, 29 Aug 2025 18:43:50 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ "lossin@kernel.org" <lossin@kernel.org>,
+ "ojeda@kernel.org" <ojeda@kernel.org>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tmgross@umich.edu" <tmgross@umich.edu>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "aliceryhl@google.com" <aliceryhl@google.com>,
+ "gary@garyguo.net" <gary@garyguo.net>, Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH 05/17] nova-core: gsp: Add support for checking if GSP
+ reloaded
+Message-ID: <20250829224054.GA2082651@joelbox2>
+References: <20250829173254.2068763-1-joelagnelf@nvidia.com>
+ <20250829173254.2068763-6-joelagnelf@nvidia.com>
+ <a251efc542a49e95fd7b7032bdd1092253f967b4.camel@nvidia.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a251efc542a49e95fd7b7032bdd1092253f967b4.camel@nvidia.com>
+X-ClientProxiedBy: BN9PR03CA0930.namprd03.prod.outlook.com
+ (2603:10b6:408:107::35) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-References: <20250828200532.3534201-1-olvaffe@gmail.com>
- <20250829100021.361578c5@fedora>
-In-Reply-To: <20250829100021.361578c5@fedora>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 29 Aug 2025 15:43:30 -0700
-X-Gm-Features: Ac12FXw_fmpijziG28lSyisZ_EUbaH9OTC2ukYTDG5aMUwFtStQTYxDDoyaJoh8
-Message-ID: <CAPaKu7TTwf9F20g3nqOk6Yns7zbgA9kaAonCFZJTko=9p_Q+hw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panthor: assign unique names to queues
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS7PR12MB5813:EE_
+X-MS-Office365-Filtering-Correlation-Id: b08768b0-da3b-4be1-0c14-08dde74d873a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?yQzFQNFSuzDsIci/0MKcWFm80LbgOgMRNtR6lnFgUz+Y7fDFQFU/++9OE6?=
+ =?iso-8859-1?Q?hhfHcSskOvf51sGHjEIRPDQNXS7qOFMy3nreKzYjQBYHc+RzqE2NHg4QOo?=
+ =?iso-8859-1?Q?hFh3M+zL66kwSHSjt1ZkKqe4C4Makp5+TxbIUicZLBzbN/ktyNCO56UGR+?=
+ =?iso-8859-1?Q?K9K9kkbpN1d/F/ftO7MqCeJsSrqv7l0bA95k4ZblY6LaNfwoY9TZGSwuj6?=
+ =?iso-8859-1?Q?CIvljuuH6SKDWxaf9pYuesqGOzCQ/dsYQn8T9jaUluMy5hr25zXJRxrvia?=
+ =?iso-8859-1?Q?MEzFwlq196W4qzPhe7TEhptlweBlMXzsYUGHK41gXNalTR/fMkEhNhNvLr?=
+ =?iso-8859-1?Q?RETq8wzkkP2PuxPZ0x2lriRhGZ8MPE4h1C1Dcetc7eMxHZF6n4+n0l7M9Y?=
+ =?iso-8859-1?Q?omFVzgkhsd3W9TTne5lpSL/8SB4FhgVeJVMBlSyVw1hMwqktpVmt9IspZE?=
+ =?iso-8859-1?Q?pIyAi+VdNi6tcOm3yD+3LHAPprjpF/diOT4pM2l7ZoabDV85S9p909BFxS?=
+ =?iso-8859-1?Q?6nr90d2SVfamGSww/C+DwmS9mDXDZ20HjUaFiAMk82iPw8bB8Kin8D/6IW?=
+ =?iso-8859-1?Q?+lzSFqxi8pVJnmgnuoiD1WKxeNxmvK4LYeHmGX87xuFtGnU0TmfjP+F9WB?=
+ =?iso-8859-1?Q?zPHKpM15UY0un6ewlPm1CisabbtuK0YwuV6h2565tP8h+BeLTQucPtT+U6?=
+ =?iso-8859-1?Q?PinyO1wbhloyA+NZVeNijDrgT+l7GZ6TAVTgqYdRVReuoJFugUmTxLJFef?=
+ =?iso-8859-1?Q?UtDQibrlf3dNVNhth7TfciQXdnGTCgs+R9jOZvAjIeO+T5RU0arlu7WDof?=
+ =?iso-8859-1?Q?Zk2PY4Feu0uCuYZMit/t1WBKaxwyqxQ028LqPsd50cEY1ULwVsQdHLNiLy?=
+ =?iso-8859-1?Q?oE7Dqkkvco22czINO50osxP4f3rwWhIxIYF8VQ7L4W0oek86EKRWOmQA37?=
+ =?iso-8859-1?Q?dmOJQdHb/H3F6KQOVDg8JvV6crbQpsYsr940UOQCU2dRI9Cs//cYkLCYkY?=
+ =?iso-8859-1?Q?QL7RavHZMt84/a/0SfcAIIgJvKVVZjTLJIDp1dVuW1Xv+k7dx5OdENrW1n?=
+ =?iso-8859-1?Q?vdhVbsnm86NIQt2ceK2o6d6DGQhedK7gePx8z10ddiGqvofheuHox2llbZ?=
+ =?iso-8859-1?Q?eOThd+dpDm+7OpfVcM7uRZLqEI7B4byDtDT603BBSNcegXiIBYTsgOA9Fq?=
+ =?iso-8859-1?Q?5wHUCr25Z90yHg8Xuka73NAmpXlgHuGF1T6+BJi4QdPYfYAvsYl65TK1Db?=
+ =?iso-8859-1?Q?SQOE1YeTkdNBfqG9SJrxaexYQGD9uba2r/b3S+78MIe263Yq/GGVQoXf5q?=
+ =?iso-8859-1?Q?rFYxR0EeGQodLeOoHGAgoUOblaFhMnG+X7GeTcJNz7WcsqD9ik4iEXxcDK?=
+ =?iso-8859-1?Q?t7lKRGHX+fW1Nl67ZIIurnQORdrClKb/kvEV4n1o7ugsX4pkiAFpFUdw/h?=
+ =?iso-8859-1?Q?HEIAKbitsiuw7YnH8cFDvN0x8mv5HnHb6DTvbg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?e8d+KsDc/Dq0BaEbZN2tFTt4A7nPQpOJacuiDocbSNIO0NiE2jYHlycWtQ?=
+ =?iso-8859-1?Q?F1ZTKEA1SigL0DclWIrGr1aRv1ZtC/zagsK2Pd21ZQ6CKjEYw9HqmBzNYb?=
+ =?iso-8859-1?Q?+ygIoffXngpLDS7YfXyf8A/sUF6pPcA058NCGSnwYnQxhn531xC5xxNkXz?=
+ =?iso-8859-1?Q?5GMYJAcRj5au+dphU7fI6KzIW9TEmlnwj1pTwetLKaETWmH58AXAcXNxxQ?=
+ =?iso-8859-1?Q?0H7bEUDiqJDvGUkI+CevDgQ6Moev6KwenRBygEL4B/JvYK3HSTvNhJFtTq?=
+ =?iso-8859-1?Q?gWlvQLLOEeLdGm9pK5b5kPQLIZwBWNBFqaaotTkPZ3ACDuCQZkLz0C+NpU?=
+ =?iso-8859-1?Q?IQS0A5I4ZThtKjLFXJZtDR3oQgkCDq6uuZxfKpT4QtyEiulTw8h8k9mQZo?=
+ =?iso-8859-1?Q?1XZmI5IUkn3d7JPjHxI4pvyA3e/hDB+Dn6LJLXjyjfK9ynd45pFckHzDQr?=
+ =?iso-8859-1?Q?g0M9BiWrFEauVXjM1lHNICXaP/84mUPHaFbwbbgclGXcHoWGDIA1ZJTl0F?=
+ =?iso-8859-1?Q?yy36R08XqkpjWwzGkLV4D2cINF/WY0GIhMd/Xk1JiewU7XhrtAATDy0xlM?=
+ =?iso-8859-1?Q?vFVmjP4Vc+muVqDjI8ILItYiG/XBTsiBkDht4z+39lM3RGjpEMF7pla1cB?=
+ =?iso-8859-1?Q?+EZhGcIlQZOKpgB2Ov8IfiiK/adju62Yxjr2ACMbBj17sI04S+MCGH04mG?=
+ =?iso-8859-1?Q?ZOEiNTBazfB99aUtce0SXpYUAK/A12TFv3t9+MzFGjQBJFQUicInxkIwW8?=
+ =?iso-8859-1?Q?7gc/KYuZ4eIDTkHUMUn3XBMmMNE67IcOyf61rPl88N/zLUYvgorcyczQFs?=
+ =?iso-8859-1?Q?gKb8I0/0Zinf3E2w3KCrcf6Hz0Y4Z/Lae46DfOX3SanJjkhG//Z+6y2+oL?=
+ =?iso-8859-1?Q?DnJzJ7qV6WAVbAD0/lpGcbRMgy/bj5JITD/tAlpaBOljaJL+NKtX9WHEcl?=
+ =?iso-8859-1?Q?qcpVeVR5HLMsDjuE7GFL93MctPzYcKZVNjxsfHo434/W+hwHWWW7OxqEm8?=
+ =?iso-8859-1?Q?EZn5qkjRXHgikoTg5hZwZSYls8PflEL2BCzC7lg3Vsmy0op3ZJ4t2tpFGV?=
+ =?iso-8859-1?Q?8FymURt2qrTCW26jBVbS28iFSaybB7Na9otk69U3ETX0jCgxqq2oFA5ix7?=
+ =?iso-8859-1?Q?U6Lup6LlK6fCW8fC3pB7urWNyQVe+x5+MBpHknuW2e7yIj4idBcoixHtkl?=
+ =?iso-8859-1?Q?jQWmQbzY7oEBv+m6UP9zqMwcaNQ76E9YVGvVqQyPqVA4W+O5lNk9j3pFJd?=
+ =?iso-8859-1?Q?ZTFiDfKawFdAnkX4o2sUFusnGrfqueu+VCx7DGeYPIVkBTi8GcL4DfJhpl?=
+ =?iso-8859-1?Q?gUiuOT369B3rH6ycSYiF9pWfKT3kbqerGC0rSeB6q/m4jcePu4mjXC54Hb?=
+ =?iso-8859-1?Q?EGamdgKqF5YlIxgGiiejKfKsP7zwbRYkOEQLmtOiTtLy/TrsUeBCRpbG3z?=
+ =?iso-8859-1?Q?u9TQ2TMdYhAZJ9P6n1kYGpm0vPcRh0uyIZ9v8AcZ1TY2R7tWq235hD2NY8?=
+ =?iso-8859-1?Q?IsicgTyXgyPXIDRbrzVy1yZ6+dteTrguoh6Nrx1hvBhcBGEZp7gBgyJH8p?=
+ =?iso-8859-1?Q?MI7eVYgpA/bj7zhNM+sZvTuj2Cp6dzbDbPoQwzwevM7OTklaxhQPjp8v8/?=
+ =?iso-8859-1?Q?FvbxmngbnM5X3ApKk6+v34MRzQE9u81c3B?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b08768b0-da3b-4be1-0c14-08dde74d873a
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 22:43:52.5518 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4eOuXkKqFT+erHaUCKTzVY5MOGJrqcDVH6Vb+qZEhPDwHERaBFVQwTofbFze/iYM3NWzfhAK1O/r2S8BxllzrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5813
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,143 +169,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 1:00=E2=80=AFAM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
->
-> On Thu, 28 Aug 2025 13:05:32 -0700
-> Chia-I Wu <olvaffe@gmail.com> wrote:
->
-> > Userspace relies on the ring field of gpu_scheduler tracepoints to
-> > identify a drm_gpu_scheduler.  The value of the ring field is taken fro=
-m
-> > sched->name.
-> >
-> > Because we typically have multiple schedulers running in parallel in
-> > each process, assign unique names to schedulers such that userspace can
-> > distinguish them.
-> >
-> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
->
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->
-> Two minor comments below.
->
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_sched.c | 32 ++++++++++++++++++-------
-> >  1 file changed, 23 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/=
-panthor/panthor_sched.c
-> > index ba5dc3e443d9c..26616b6cb110d 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> > @@ -360,6 +360,9 @@ struct panthor_queue {
-> >       /** @entity: DRM scheduling entity used for this queue. */
-> >       struct drm_sched_entity entity;
-> >
-> > +     /** @name: DRM scheduler name for this queue. */
-> > +     char name[32];
-> > +
-> >       /**
-> >        * @remaining_time: Time remaining before the job timeout expires=
-.
-> >        *
-> > @@ -3308,9 +3311,10 @@ static u32 calc_profiling_ringbuf_num_slots(stru=
-ct panthor_device *ptdev,
-> >
-> >  static struct panthor_queue *
-> >  group_create_queue(struct panthor_group *group,
-> > -                const struct drm_panthor_queue_create *args)
-> > +                const struct drm_panthor_queue_create *args, u32 gid,
-> > +                u32 qid)
-> >  {
-> > -     const struct drm_sched_init_args sched_args =3D {
-> > +     struct drm_sched_init_args sched_args =3D {
-> >               .ops =3D &panthor_queue_sched_ops,
-> >               .submit_wq =3D group->ptdev->scheduler->wq,
-> >               .num_rqs =3D 1,
-> > @@ -3323,7 +3327,7 @@ group_create_queue(struct panthor_group *group,
-> >               .credit_limit =3D args->ringbuf_size / sizeof(u64),
-> >               .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
-> >               .timeout_wq =3D group->ptdev->reset.wq,
-> > -             .name =3D "panthor-queue",
-> > +             .name =3D NULL, /* will point to queue->name */
-> >               .dev =3D group->ptdev->base.dev,
-> >       };
-> >       struct drm_gpu_scheduler *drm_sched;
-> > @@ -3398,6 +3402,11 @@ group_create_queue(struct panthor_group *group,
-> >       if (ret)
-> >               goto err_free_queue;
-> >
-> > +     /* assign a unique name */
-> > +     snprintf(queue->name, sizeof(queue->name), "panthor-queue-%d-%d",=
- gid,
-> > +              qid);
-> > +     sched_args.name =3D queue->name;
->
-> Should we plan ahead and have the pid in the name too?
-Yes!  I intended for the name to be unique, but incorrectly assumed
-that the group pool was global.
+On Fri, Aug 29, 2025 at 06:44:53PM +0000, Timur Tabi wrote:
+> On Fri, 2025-08-29 at 13:32 -0400, Joel Fernandes wrote:
+> > +    /// Function to check if GSP reload/resume has completed during the boot process.
+> > +    #[expect(dead_code)]
+> > +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+> 
+> I think this should be renamed to is_reload_completed() and return just bool instead of Result<bool>
 
-Since group pools are per-file, I will include file->client_id in the
-names in v2.
+This function can return Err(ETIMEDOUT).
 
->
-> > +
-> >       ret =3D drm_sched_init(&queue->scheduler, &sched_args);
-> >       if (ret)
-> >               goto err_free_queue;
-> > @@ -3540,12 +3549,18 @@ int panthor_group_create(struct panthor_file *p=
-file,
-> >       memset(group->syncobjs->kmap, 0,
-> >              group_args->queues.count * sizeof(struct panthor_syncobj_6=
-4b));
-> >
-> > +     ret =3D xa_alloc(&gpool->xa, &gid, group,
-> > +                    XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> > +     if (ret)
-> > +             goto err_put_group;
-> > +
-> >       for (i =3D 0; i < group_args->queues.count; i++) {
-> > -             group->queues[i] =3D group_create_queue(group, &queue_arg=
-s[i]);
-> > +             group->queues[i] =3D
-> > +                     group_create_queue(group, &queue_args[i], gid, i)=
-;
->
-> nit: the limit is 100 chars now, so I think we can have it on a single
-> line.
->
-> >               if (IS_ERR(group->queues[i])) {
-> >                       ret =3D PTR_ERR(group->queues[i]);
-> >                       group->queues[i] =3D NULL;
-> > -                     goto err_put_group;
-> > +                     goto err_erase_gid;
-> >               }
-> >
-> >               group->queue_count++;
-> > @@ -3553,10 +3568,6 @@ int panthor_group_create(struct panthor_file *pf=
-ile,
-> >
-> >       group->idle_queues =3D GENMASK(group->queue_count - 1, 0);
-> >
-> > -     ret =3D xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_=
-PER_POOL), GFP_KERNEL);
-> > -     if (ret)
-> > -             goto err_put_group;
-> > -
-> >       mutex_lock(&sched->reset.lock);
-> >       if (atomic_read(&sched->reset.in_progress)) {
-> >               panthor_group_stop(group);
-> > @@ -3575,6 +3586,9 @@ int panthor_group_create(struct panthor_file *pfi=
-le,
-> >
-> >       return gid;
-> >
-> > +err_erase_gid:
-> > +     xa_erase(&gpool->xa, gid);
-> > +
-> >  err_put_group:
-> >       group_put(group);
-> >       return ret;
->
+> 
+> > +        wait_on(timeout, || {
+> > +            let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+> > +            if val.boot_stage_3_handoff() {
+> > +                Some(true)
+> > +            } else {
+> > +                None
+> > +            }
+> > +        })
+> 
+> And if you insist on returning Result<bool>, at least have this return Some(false) or
+> Some(val.boot_stage_3_handoff()) instead.
+
+Ok, so basically that means we would return False if a timeout occured.
+That's fine with me, I can make that change.
+
+thanks,
+
+ - Joel
+
