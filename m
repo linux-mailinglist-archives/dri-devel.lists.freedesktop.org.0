@@ -2,83 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECB1B3C1FA
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A9BB3C1FD
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50F7910EC1A;
-	Fri, 29 Aug 2025 17:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228AE10E1C0;
+	Fri, 29 Aug 2025 17:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Emvt37c2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C8avuxjm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 817E810EC1A;
- Fri, 29 Aug 2025 17:43:01 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-246aef91e57so32282165ad.1; 
- Fri, 29 Aug 2025 10:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756489381; x=1757094181; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CVgM7Tyu00zzsMBseHOctXjMN0Os3f8IXfyGMpQmnqE=;
- b=Emvt37c2Bdh4EUHdz8Mka2DkuQ42p14ciiK6JzvAnDB6zyiLHNdKZuRT0HV4T+ukFy
- x+c/c1EhVfkpQuwFTc4Bxcq5ns8CML+rxK5HGhN8GkLVr6d6d9dIaQryux/+HuMpdOgq
- fc9j9PRLgBwB2aB3gWHMnVRVBW5xjhir+VUAAZSJXh/ryuEUYdqzgRfIgUDx4v7RoiQL
- NrMLzqK/na48j2OCICH33kv+zySVPIJOwDprgG1WRMwW4bNCZyTDQG56dAuhQAhhL7kT
- HQ4tM+7opxu3YIjwpv++nEA4qJplMSG3rMy/vKedsh8bVxiyuL189SGD337nPKITh+6e
- pjRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756489381; x=1757094181;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CVgM7Tyu00zzsMBseHOctXjMN0Os3f8IXfyGMpQmnqE=;
- b=Vi0yDms+lSlPXFXLpmpU1+De0gVqw0u5ZBl+kR7gkMAT4wfl8+n4uklo0B3HHcFzn5
- yXzHvBz3g//zniXOWmJfizHXzBqjZ6DT6Qw6nlItLG/cH4pHusrc/G3qbAmIVJ8PckUV
- xHXzcbQRISVnRups1i0BDwCHl6ke1fcdr+XKNFPlMR9QEmJFP/tm1/Wnz2MsDSZ47uGO
- HWVwagbmp19LyT6qrI/2e4sNy8q8TDeY/Rp7/v0nG8oosotOZyUs1Bhk+/+cFVOXr3a+
- Wnslbai7Ks82QtrphbHRjHhMrwgsyBrjHrkR55EbNvRMx8dixuZxiD+atTCGCLlxCOOf
- mF6Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUYZIcKh5Nlh1I/gWQe9aHg9uIWBMuYbpgfUehYUTTF0jwpfTm43jXMmYhg5gfZW9Oa2UYiypbvV4s8@lists.freedesktop.org,
- AJvYcCUvZhy6rYj7swNQTyc0P9ZByQrhv64+3Lo9HRss3pr3de9OnS6cYb2pelCi/MGYU1LLuLM+jmTa@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4A7wqEYUawedmV1Mq9xje5oRBrTdES9OMG7loD+qTYMsAsK2M
- 1kQBYpUZCdlRecQ1wlvEDnRArolveE6LX5vFaDKbckGiMG9h0NQZjkfq
-X-Gm-Gg: ASbGncuWsRcuag6hVIjoQacUPsQXkAv3/oGVHFf10tDCmn4ela39j3dEnPCYXMtD+5R
- wuti4I7/I/ycfV+xT21govMlS5OZRA9xym3/zhTna8WXnS3DbbgpcwCt1IyauI5ttUyXSbn2VfV
- u9SaMI8hP7c9ad5xJ8keK3zIgfxO3uwVlgYs40WznEgZlg7A6UNa23tWCwwQXGfUQ6/zw13kFbu
- v2OGWB0IJlgCTv2RL7hQsdkEXEqiVw3IGca0DWLDa8Y8EcywNP1VQlltQbyX85jda+OI7j1Gjyi
- cxzBcAkHGuOqK2ZrP/rmjwTnkTiBkXGsqbVFYNLDVQHnCTElzFoV3JJtudhiEJ7ZMZi/wD/swut
- puu7bDU569177C7iELUPoJMHpXXkW0hO3tLL7NQtalU54wV5CM7eB0v56qUW/rTe8XajK+gxqvQ
- ==
-X-Google-Smtp-Source: AGHT+IE23KRcGDR/kd3c4g0abkgFnf3oFZxhdeRn83CjGT1YO9Cgs7wU0MlSqxAutRWSDpZp8ltIBw==
-X-Received: by 2002:a17:903:1205:b0:248:79d4:93b5 with SMTP id
- d9443c01a7336-24879d497a4mr160522795ad.33.1756489380684; 
- Fri, 29 Aug 2025 10:43:00 -0700 (PDT)
-Received: from lkmp.. ([157.51.63.166]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b4cd347db1fsm2727833a12.47.2025.08.29.10.42.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 10:43:00 -0700 (PDT)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: rakuram.e96@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- harry.wentland@amd.com, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, rdunlap@infradead.org, siqueira@igalia.com,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH v2 2/2] docs: gpu: Fix spelling in gpu documentation 
-Date: Fri, 29 Aug 2025 23:12:43 +0530
-Message-ID: <20250829174244.13864-1-rakuram.e96@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250821025957.22546-3-rakuram.e96@gmail.com>
-References: <20250821025957.22546-3-rakuram.e96@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2E1B10E1C0;
+ Fri, 29 Aug 2025 17:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756489576; x=1788025576;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=iINmr2KFYoSGsHTNTuQy3QPX4Iv/FtsHEayJdZ4JN8Q=;
+ b=C8avuxjmhLeD7uA7aMNiwBTbOXBZ79mjCAx0EA+X4mQsqU+0SkPiRiG2
+ KXaq//iZGqy/vNRS+iJGXCYJIpD+muDerCk77PGHhb7Il0LqYNdqOHWiv
+ 61FFjmTU3jaakdLFWj+vH/l5s10GcIZct5etIUji8CfzCQLAeYtQiyapF
+ idsc9AW/8fj8pXSoLlWiaVgnHgxNVcbIbD8G3f/8C9vnI+BPBtYxb8mi/
+ MxKF8es3g9wR0lx1Ry1JuwV8r4Qp9SM3qX/F8Nl3ZKRyh24FUUa9s5PWk
+ UbAHUMFmMgdx85dNZcS/0ajJzfzpaYHYf19XWSU6YHGsm3Q8Ug5KwZlWX A==;
+X-CSE-ConnectionGUID: ycYogkYPQGqyyguo0viJLw==
+X-CSE-MsgGUID: Ef9uk8hqRbqXrWD0s1cXZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58851383"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58851383"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2025 10:46:16 -0700
+X-CSE-ConnectionGUID: QVvqT+VwSzuYmS61GvWMGg==
+X-CSE-MsgGUID: Zka0mUPyQ02fm5dlf3hXFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; d="scan'208";a="175716538"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.58])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2025 10:46:13 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, jani.nikula@intel.com,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+Subject: [PATCH 1/3] drm/i915: rename range_overflows_end() to
+ range_end_overflows()
+Date: Fri, 29 Aug 2025 20:45:59 +0300
+Message-ID: <20250829174601.2163064-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,9 +71,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Rename range_overflows_end() to range_end_overflows(), along with the _t
+variant.
 
-This is a gentle follow-up on this patch. Please let me know if any further
-changes are required.
+It's all rather subjective, but I think range_end_overflows() reads
+better.
 
-Regards
+Cc: Kees Cook <kees@kernel.org>
+Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_fbc.c | 4 ++--
+ drivers/gpu/drm/i915/gt/intel_rc6.c      | 2 +-
+ drivers/gpu/drm/i915/i915_utils.h        | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index d4c5deff9cbe..446e2ad28a70 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -383,11 +383,11 @@ static void i8xx_fbc_program_cfb(struct intel_fbc *fbc)
+ 	struct drm_i915_private *i915 = to_i915(display->drm);
+ 
+ 	drm_WARN_ON(display->drm,
+-		    range_overflows_end_t(u64, i915_gem_stolen_area_address(i915),
++		    range_end_overflows_t(u64, i915_gem_stolen_area_address(i915),
+ 					  i915_gem_stolen_node_offset(&fbc->compressed_fb),
+ 					  U32_MAX));
+ 	drm_WARN_ON(display->drm,
+-		    range_overflows_end_t(u64, i915_gem_stolen_area_address(i915),
++		    range_end_overflows_t(u64, i915_gem_stolen_area_address(i915),
+ 					  i915_gem_stolen_node_offset(&fbc->compressed_llb),
+ 					  U32_MAX));
+ 	intel_de_write(display, FBC_CFB_BASE,
+diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+index 9ca42589da4d..bf38cc5fe872 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rc6.c
++++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+@@ -341,7 +341,7 @@ static int vlv_rc6_init(struct intel_rc6 *rc6)
+ 		return PTR_ERR(pctx);
+ 	}
+ 
+-	GEM_BUG_ON(range_overflows_end_t(u64,
++	GEM_BUG_ON(range_end_overflows_t(u64,
+ 					 i915->dsm.stolen.start,
+ 					 pctx->stolen->start,
+ 					 U32_MAX));
+diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+index 9cb40c2c4b12..fdac9a158b53 100644
+--- a/drivers/gpu/drm/i915/i915_utils.h
++++ b/drivers/gpu/drm/i915/i915_utils.h
+@@ -79,7 +79,7 @@ bool i915_error_injected(void);
+ #define range_overflows_t(type, start, size, max) \
+ 	range_overflows((type)(start), (type)(size), (type)(max))
+ 
+-#define range_overflows_end(start, size, max) ({ \
++#define range_end_overflows(start, size, max) ({ \
+ 	typeof(start) start__ = (start); \
+ 	typeof(size) size__ = (size); \
+ 	typeof(max) max__ = (max); \
+@@ -88,8 +88,8 @@ bool i915_error_injected(void);
+ 	start__ > max__ || size__ > max__ - start__; \
+ })
+ 
+-#define range_overflows_end_t(type, start, size, max) \
+-	range_overflows_end((type)(start), (type)(size), (type)(max))
++#define range_end_overflows_t(type, start, size, max) \
++	range_end_overflows((type)(start), (type)(size), (type)(max))
+ 
+ #define ptr_mask_bits(ptr, n) ({					\
+ 	unsigned long __v = (unsigned long)(ptr);			\
+-- 
+2.47.2
+
