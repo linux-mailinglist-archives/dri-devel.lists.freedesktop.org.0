@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD32B3DAA0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D291B3DA98
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:02:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B8510E38A;
-	Mon,  1 Sep 2025 07:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57B9E10E37A;
+	Mon,  1 Sep 2025 07:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f0xXRZGd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D1EV2OyC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A37710EB69
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 07:55:43 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-327b3e24637so1031157a91.3
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 00:55:43 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B5010EB6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 08:02:56 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-7720b23a49fso2055710b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 01:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756454143; x=1757058943; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756454575; x=1757059375; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rNDvUkQSM5YXWXIzm38SWG/hRRo/bsx6SYKE7k7lSmY=;
- b=f0xXRZGdOpf737As81qgVXR2t5emEIlngBfRwmiK4m7d19pXaWpczn2HboJpUIREC3
- e6maEcn8UzJka1Jr2q0EesX7vB9e7wkltMwD6TaWI1Kpxw60hhkKVbfiIvVvZ72L2H08
- dcJO3doC0XZlGyf3KsF0/UKqGjrxe72wLbIQq/GQSph2hpUPknz5NzXpi8TjDyvg/QzV
- TQv7LU8Z3qNq4bwAVkTmwqw9ALAj5oIkHRk6WzZCk1p6FA19qtNkrOLAx/su7QauGUWB
- uWHWG+0xoRZ2IU0NHXXx4ELxjU7OESQtAOZPKB6Y4NubBxHipaALE30THY9HV7Mn0D8N
- n4bQ==
+ bh=2kNx/lgQaweLHCKpOd5HxLBg5NtnJ9f3nOi2hx/97zs=;
+ b=D1EV2OyCP3ode5aivaQmi0vRFIHsLIfX1IxJF123+KW/uU/yDMLyCrXhJ7mqXpRz/K
+ swR4govxEKWPoD2NtkpFa2hwWwQcHN8QKLQG69IrnDVed3NUNWHs7fR4EnUuP3m4ai2Q
+ /G/aC/DQo2N2EXF6nENI/fW5lgoTPt+nZnJ5CiHAcAj5N21Gf4bIJoTem6XzkCyBRbAk
+ 6LUmAw4kZBg1C4d53YBR0DojABb0s8MGi33/IC7T0WeUhz602QWyPQYDkoZICbZjmPLk
+ 1MU44zH3Vt3atQZOU+BRI7zte/kEKRTzxbnOQocXiRoN8faUxQXk+A5kQrAU04ieLgEv
+ NZ0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756454143; x=1757058943;
+ d=1e100.net; s=20230601; t=1756454576; x=1757059376;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rNDvUkQSM5YXWXIzm38SWG/hRRo/bsx6SYKE7k7lSmY=;
- b=t9LZp4pctJ3M2x4aS6LGDLW1F1Nbz1BHPXgzyBm3gq72E+9grBo6b6x8r9j6FEmqBM
- GoYChliNiU1MiM1kzDqKDnZtJBWusDeeG2Ri0ddvKP08LVTqXYQUtumnWexUaLOQmWE9
- hB9GGn4eR43PUCzf5E0M5LPhmLBubAF3l4wkFG2k1S6CNXXqfS+wLx/U4NA0KcBfR8Vd
- xFKQku/OCnvUwc6FOGtOD7EHeiypGdBvr6uzRkIQIbL7uUN/Teefn+G9tZIRK2Rg5JF1
- TSeorJ1GrTAK5F4pNcvD924eMiwStwvD/FIMrgC4HDauBbbIBVHd/vCJ3fne4LayNFjS
- e/og==
+ bh=2kNx/lgQaweLHCKpOd5HxLBg5NtnJ9f3nOi2hx/97zs=;
+ b=ncwvUXUX/gMXFBwR/hq3yXHZot/whpMvNMhwQ0Nqp20S7y/ckQFfQUaZ1gcl6wJaRH
+ AzRZ46+51/OXpiB8etOcz9GBOPqNoO3brCpuYr0cjLnAQqO1vSSXKi+DBsFzcAR21HJY
+ f+2q3SoPM36c6l2uJ7J2oYhnmSYcO1yrXC/An4r7mw+QXlkwX5P0pb1Rm0Wdz0zPjhyw
+ JqND530pW5rIgNoJ4tHIFRUTg/V6hvB1l1ztijIlDC6L4rhX+KzoKqYNYP+4kUjtyMaZ
+ AO6x5fDs0gzLiDHq/3LAaRiYvjkFMQ0Q4ZyVxh5XCNwHFSVpTTwHUiSYsemCheqcyqD6
+ Sbeg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAEFZsOACLhOKjeINaOkN0eoHExivrX8Twfd0c3N/WuxPJFYKNwipX5lUkr91FPgJHipkG960MDTM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+fENURyvpmm3TLSvtJOIfx1ZE26IyrNfaPfayxskbiZ7QFVKa
- Zmz9i4qfRA3Akf+IGI8BmSpklsP50ZQbdn5qI2IGcXDvsYaQwjHvmmpA
-X-Gm-Gg: ASbGncs9v/NufLosmKSLPhKqNk3wLD9qj4xL5jq5vQWNrn9I4eEVWHV0LpenZ3xKEbE
- vBEUMYngxJ6PDs7GEzxOeCwq2oYAhLme9BeT18ENqLG7MRAFyNzWF5u9iM6hLEaaI/sKhdPQBDJ
- M9eAQopS7VuKSY0obWWCwGImdNZCaEOnPHkdfTzkbo59IB2Qor2wJKlo6JyKop1ZkGLzEjBZ//f
- c50+NNPyuDEnlF/g0IfX+ZkmyhBP0Go1duA5BgKxivRQ/DTy4pENdAYqIRFYxqZWJ6lMWQBauiR
- 0Fdaym/2HgV6ji1+cdGFvLU4gxzXyyfXmjRKshyiEcmqP3KJkj2Q/nDFKalZIXP3UAvMZHcyPWC
- m02QtOflZ7ysUrMmZhV/gUrUjSfPHqdKc+6Ry
-X-Google-Smtp-Source: AGHT+IG3+4PiXre8myZJXbMXtIyGoT2Zo+1v7SoTFErR1CQFe7OBynTDKWH1/q0UIz7vCvtEP71Wtg==
-X-Received: by 2002:a17:90b:4c02:b0:324:ece9:6afb with SMTP id
- 98e67ed59e1d1-32515eadfb6mr30884939a91.3.1756454142399; 
- Fri, 29 Aug 2025 00:55:42 -0700 (PDT)
+ AJvYcCUKNz/2drJxhwtjnW4FscHfu8piDm79L241RKn6Xd7EJYpaGg80uQLiSnJlvsS924W/t6Q50uJqtP8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUNV32DEcAEWtJaq3vaiUVvQra4+5FJd5k8aVB0c2bCvYCbofY
+ Gd0r8Nim/lFzfWBDNZXi7rlhkWWHKEPNXUFsKp9SOrFQIIskx4B6KyUk
+X-Gm-Gg: ASbGnctQBJVfqz8s3XD8nSTwPZUi77upYO8WXsAgx3lJXErvJpjjf2KmkEvUF0L4Nmw
+ 91n2RC2TmOLmRWQ4vReCFAkQBDv2JtvGHBLvP29wlT1UcXBoNxOkgm8NheoNimaqP4rpw/5XItR
+ TxfqJbHaVQqXaTKiv7pgjQNQ64Mv24q/IkUBn+2GexRdTfutaDhIJj7JaBsIrA07sdKAehkHyC6
+ CkmvXg+BA/pJFUDB4EKD+WNkf7kNpv54ggz9jdpXEYIjGCCJTsnvv0IAkjyIc2ros0ZjCTtu7KI
+ 5M8AvA1bwGnE8QwhchySgLZpqKegqzoC6RIDOzRChGlc+ZrJ7fNJ4EaHVtjh4zPqEnThz9y4bYo
+ plPcC4rkGg6nqPYksktyJ0kXyG7Uy1pG8xiiJ
+X-Google-Smtp-Source: AGHT+IH+t29amFLYd0pmHfYJonIUbgBYX5deBT907gE9ZXzofCuXi+cmB62DwyrzhPtfYbGnFlKG4w==
+X-Received: by 2002:a17:902:d2c4:b0:249:25f2:16d0 with SMTP id
+ d9443c01a7336-24925f219ebmr1591865ad.12.1756454575452; 
+ Fri, 29 Aug 2025 01:02:55 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3276fcd48cesm7365898a91.19.2025.08.29.00.55.35
+ d9443c01a7336-249037254a0sm16722785ad.33.2025.08.29.01.02.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 00:55:37 -0700 (PDT)
+ Fri, 29 Aug 2025 01:02:54 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 8D99044808FE; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
+ id A15474480905; Fri, 29 Aug 2025 14:55:28 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,19 +140,19 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Bart Van Assche <bvanassche@acm.org>,
  =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
  Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 06/14] Documentation: bpf: Convert external kernel docs link
-Date: Fri, 29 Aug 2025 14:55:16 +0700
-Message-ID: <20250829075524.45635-7-bagasdotme@gmail.com>
+Subject: [PATCH 07/14] Documentation: kasan: Use internal link to kunit
+Date: Fri, 29 Aug 2025 14:55:17 +0700
+Message-ID: <20250829075524.45635-8-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
 References: <20250829075524.45635-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2744; i=bagasdotme@gmail.com;
- h=from:subject; bh=IiAjp2UiG4E4i0m+2wynqH3PCAcCcaK0of1KdBtx1KU=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY162Whs7TnrT1LggM0BOd5LEqfAiXtc37zS3e5gl8
- vnwGP7sKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwES+TGNkWCZ94c28TXy5tQ2r
- bD/4zPoTU9D/g2m/U+vihV++Li1Y5MvI8PjMzk3qf6eEm+VfELaazHDuklKIXI/3z+ub9I0rLF5
- X8QIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=bagasdotme@gmail.com;
+ h=from:subject; bh=yEY9P3BA6E4kqaGTHyjuJlgmOOGj2m2ZOET4fPd8xcs=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkbY15eUeC/XH99x9zD0/p/z/9z+OvEiwfuXjriUbHJw
+ 5Al4fDvwo5SFgYxLgZZMUWWSYl8Tad3GYlcaF/rCDOHlQlkCAMXpwBMZOZehv8FVlI3eaYvZbZV
+ FT1yZ4VwhOvUr/8ro6tZD8+s1FyQW17C8E8vzE754pXFu0SKjG4wxTc6XF7j/+Pma/mjrVH18/Y
+ ypfEAAA==
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -172,56 +172,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert links to other docs pages that use external links into
-internal cross-references.
+Use internal linking to KUnit documentation.
 
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/bpf/bpf_iterators.rst | 3 +--
- Documentation/bpf/map_xskmap.rst    | 5 ++---
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ Documentation/dev-tools/kasan.rst | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
-index 189e3ec1c6c8e0..c8e68268fb3e76 100644
---- a/Documentation/bpf/bpf_iterators.rst
-+++ b/Documentation/bpf/bpf_iterators.rst
-@@ -123,8 +123,7 @@ which often takes time to publish upstream and release. The same is true for pop
- tools like `ss <https://man7.org/linux/man-pages/man8/ss.8.html>`_ where any
- additional information needs a kernel patch.
- 
--To solve this problem, the `drgn
--<https://www.kernel.org/doc/html/latest/bpf/drgn.html>`_ tool is often used to
-+To solve this problem, the :doc:`drgn <drgn>` tool is often used to
- dig out the kernel data with no kernel change. However, the main drawback for
- drgn is performance, as it cannot do pointer tracing inside the kernel. In
- addition, drgn cannot validate a pointer value and may read invalid data if the
-diff --git a/Documentation/bpf/map_xskmap.rst b/Documentation/bpf/map_xskmap.rst
-index dc143edd923393..58562e37c16a01 100644
---- a/Documentation/bpf/map_xskmap.rst
-+++ b/Documentation/bpf/map_xskmap.rst
-@@ -10,7 +10,7 @@ BPF_MAP_TYPE_XSKMAP
- 
- The ``BPF_MAP_TYPE_XSKMAP`` is used as a backend map for XDP BPF helper
- call ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action, like 'devmap' and 'cpumap'.
--This map type redirects raw XDP frames to `AF_XDP`_ sockets (XSKs), a new type of
-+This map type redirects raw XDP frames to AF_XDP sockets (XSKs), a new type of
- address family in the kernel that allows redirection of frames from a driver to
- user space without having to traverse the full network stack. An AF_XDP socket
- binds to a single netdev queue. A mapping of XSKs to queues is shown below:
-@@ -181,12 +181,11 @@ AF_XDP-forwarding programs in the `bpf-examples`_ directory in the `libxdp`_ rep
- For a detailed explanation of the AF_XDP interface please see:
- 
- - `libxdp-readme`_.
--- `AF_XDP`_ kernel documentation.
-+- Documentation/networking/af_xdp.rst.
- 
- .. note::
-     The most comprehensive resource for using XSKMAPs and AF_XDP is `libxdp`_.
- 
- .. _libxdp: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp
--.. _AF_XDP: https://www.kernel.org/doc/html/latest/networking/af_xdp.html
- .. _bpf-examples: https://github.com/xdp-project/bpf-examples
- .. _libxdp-readme: https://github.com/xdp-project/xdp-tools/tree/master/lib/libxdp#using-af_xdp-sockets
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 0a1418ab72fdfc..c0896d55c97af8 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -562,7 +562,5 @@ There are a few ways to run the KASAN tests.
+    With ``CONFIG_KUNIT`` and ``CONFIG_KASAN_KUNIT_TEST`` built-in, it is also
+    possible to use ``kunit_tool`` to see the results of KUnit tests in a more
+    readable way. This will not print the KASAN reports of the tests that passed.
+-   See `KUnit documentation <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
+-   for more up-to-date information on ``kunit_tool``.
+-
+-.. _KUnit: https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
++   See :doc:`KUnit documentation <kunit/index>` for more up-to-date information
++   on ``kunit_tool``.
 -- 
 An old man doll... just what I always wanted! - Clara
 
