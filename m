@@ -2,80 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D0FB3B41C
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 09:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9DAB3B390
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 08:42:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE3410EB5E;
-	Fri, 29 Aug 2025 07:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E59E10EB4D;
+	Fri, 29 Aug 2025 06:42:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Buvlu/J1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dKEKQJ0J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2051610EB4C
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:36:13 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-e973f268b07so134309276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:36:13 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C3710EB4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:42:44 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3ceb830dd58so528981f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Aug 2025 23:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756449372; x=1757054172; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1756449762; x=1757054562; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rIYcdGfd/N0Y7hEFXW14y1n0UaZQpTNZtxJVAnkglXc=;
- b=Buvlu/J1nrZ+DDgi5KAISjzzx0u7v5Y9UTTO/sr4RpRKSQuxr6hZRi6keb6yNndpVI
- fJ1N49LFGZAtf5qaKVtcq4WwKiBTwc80nrOxl3SQMzIXZNuGxo2jC8Kr4cu43OmY0RLm
- Llz0liyLZubQsGRQFJL1q9G6cQPttnwqpw+ZQf482PAnFKgFhYifTIJDuONG0UrkPctA
- Hr541/7HCarJsFe95mzgkujDidmaluXpR+XyIjwQVfJlw9SLdgrV6i3WEY0KOWwRyuka
- z7DBiW2PQzOsQOdnqtFtwFufPDM5f0iOuInuQclP8Z/q1W9Z3C0lWu4qRT30e2KpJDcN
- Bsmg==
+ bh=QWSNy/JRqLkLoJxnOEcFDdNep+6HQzRpiS/0aFPTMrQ=;
+ b=dKEKQJ0JJViZE8NqRmxX2ONycAk99WSr3ilgTxil5Xs+wbLBDKUoee2J7Cyi/h7alw
+ tQi8901JnTgIesN/4rtMLW01rQ2QsfpIroRpPwxSuUa4KLLTujmE4oZD2XkXi/rJlJcV
+ PMJf9c+e1cB0ReAX9usjJSBrWeSlhHGogvThJvt9s6sY0saZTG3ZMWBqxAyv3B5Q3gMg
+ MZNr5Zs0OOpz5OiBltlZqYqEyKDLVrZl+XCr1Sqka85ISrFGLHCz7X+ISpSJjniU5stE
+ 7JvvsIi+NkIFcXVAlfNj1rvjFtqIZE5RFqycFKfCLocASg32QAdy4ZGKKuHjVjRazS3F
+ NxJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756449372; x=1757054172;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1756449762; x=1757054562;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rIYcdGfd/N0Y7hEFXW14y1n0UaZQpTNZtxJVAnkglXc=;
- b=sv4Ot+UFvrT4BtKlwqMMooYxx9xnuiftnGi72d821b+EeT3hYptFdfELMo6RNq141x
- KI8feByRd9dY1QXCvLL9txOgCWkM57mR1k+Dz3GcO0YvDioUTSsvIKJR5M9R1uXnx2/j
- BmclkA9rdElt8OggIeiS9eOPvFLT8MRFN0YwK/rDLo/TQdOejlTeSNCdh3dMPMVgmS+4
- UluN2ZkwclICcK+16qeKKhYvMd7H/I4tOOqkAi+eKPgcYm1FyXXYL6awNHWbf5Sc7Rkk
- 8TiblDV5jN1WY1PbCTrRui4NhtFKwwHAWIJHnNF1Y6dsZmNqSRcrza0smguiRmcWpypr
- rszQ==
-X-Gm-Message-State: AOJu0Yx1ZTma110hDWznKyq//XYUOzJyt9JpJQz++wVkXOWlMssru3C3
- jyxix7tRo/SiAO9BvQgH6AU6L1qBY4i87inBPl9Xtkx8HeRH45XY3iyL
-X-Gm-Gg: ASbGnctCWb0c/ctxCObeuSqxOYK6uvaqIjfXCV7tjKGB0mKOkg7zSwk7F8QPzO1QWCL
- SkDmLg+N/tbIFxuBiqRqh5nO2fI0KG7X3M66N38DqF2qCTSBrjUPoeu04IOLiUr4oJxGvFD8ghf
- opEPMNMV4Oqv2LlswuvwQZdhkJ9YcwnbkQXiiaDwxjyhuQ13WfHuQHHTk1uup322fwfoYyr5Ygi
- 2m2GYeNIZRlBTXXtA4Oi6/qBQHYU+hv1aT770EfGMeM+ZuZofk+RWxXIDnMY91SAv0AsyG0y8EH
- eb7kRoCxYnP7Jx5ZTZSbHujtO/mKxtFV3gB5BDWdZPGwdqr+9LMyvi2LmfRLUNU+kl/jd9YoOzg
- C2BJQ2hm9JeTvqWpbi7JCx4VOTc0tSV9RtCuL1nwIZjuHapFEHrzSOPKHseH02VBXip4G9RkHsq
- Jtlq8IFelahIck3vs27Be++s2aU5dS6QH4WJOag1mlmOax5g==
-X-Google-Smtp-Source: AGHT+IH+lR+hABKYAFxx7DdPXWQevTkb0HrCtdsfZ37CvrqzSheWlkul+8CbBDZRN9eqKZ7fKHsSGQ==
-X-Received: by 2002:a05:690c:d8d:b0:721:22ca:695d with SMTP id
- 00721157ae682-7226a181ca2mr1421607b3.0.1756449372100; 
- Thu, 28 Aug 2025 23:36:12 -0700 (PDT)
-Received: from mamin506-9800x3d.attlocal.net
- (162-197-212-189.lightspeed.sntcca.sbcglobal.net. [162.197.212.189])
- by smtp.googlemail.com with ESMTPSA id
- 00721157ae682-721c634e68fsm5093557b3.23.2025.08.28.23.36.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Aug 2025 23:36:11 -0700 (PDT)
-From: Min Ma <mamin506@gmail.com>
-To: lizhi.hou@amd.com
-Cc: dri-devel@lists.freedesktop.org, jacek.lawrynowicz@linux.intel.com,
- linux-kernel@vger.kernel.org, mamin506@gmail.com, ogabbay@kernel.org,
- quic_jhugo@quicinc.com
-Subject: [PATCH v2] MAINTAINERS: Update Min Ma's email for AMD XDNA driver
-Date: Thu, 28 Aug 2025 23:36:07 -0700
-Message-ID: <20250829063607.789-1-mamin506@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <09906ca7-62c7-2ca7-5436-662a6c4b19f5@amd.com>
-References: <09906ca7-62c7-2ca7-5436-662a6c4b19f5@amd.com>
+ bh=QWSNy/JRqLkLoJxnOEcFDdNep+6HQzRpiS/0aFPTMrQ=;
+ b=lpXdIsxk/LlvXV+nJPa7Srn1K6tcj3+oE0ua8FwljiA1Psrp+hsjAOlm8U45KOVHUh
+ gXBwkW+W4rF3cY21ESfuh1LEq9bw6hhLIDVxMdLdnsbqcbNRjJXjVNvpNOdEkm4l5OVn
+ p1CEGFS22jHGREhDQJNgBGfpCjYQIfNCNPgyR8UvtgnL77U1ozOTshVIoVsXfW8GACSs
+ qENdR1qyEzcJl4NiWH4Acbs+VIXyqledOUkMJcEXPPtuX0/kNNo5wUdV1zl2u2C5kupS
+ WNGseDZDvPM+BGEFYQ0oYZBKCbgd1MpBEO5yXjzJmnQAPBpzHCZZNjkvNf+KtrKexNWH
+ kFwQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgt/5eG8l1hgIt5hNHDQhu6X9ncyKcuGt17XPrIT9C3ekOJFF9cYK5l3Q+3bkr0hPhtdQCUee8rOM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEsmHOzP+Dv5pWvgvnBULu4bdRwNsKsYAmIypjZYr5tp/nhjt0
+ H0AEyubFhwHbBeyQ6aIGRqi2ognMFoQ7bHycJz6d3C6pjlEqx+YkyHgzPolM/utatb1pbOacrkY
+ EOYCw6A7tULVOqWLigo5JMAMqny0gWCw=
+X-Gm-Gg: ASbGncsRfId1NU770n5NmMvDMML70Oqx+a1pPJQwOWfruzN7kehA/HT8lezyuQMK2hO
+ gnBw2+W7HxCuqs++TaK8F9gYII1fKzMstfC4y1u91of+82dIgZZuZEB5rlK5Of3cpKh7BlLZNLW
+ dI8To6xau6oB4o1pdpDPocPTInrj1pDD04x0+yfG8erSWQN1/ZG+evHl15xENj2LJw7WGM2a8Rs
+ 7pwecAJ
+X-Google-Smtp-Source: AGHT+IHjRL9sOfRC6KlJXM91TuBldUFCTWN+6IKyuNVfAGqivuS+QA4CO7lbMYhZ/89R1DWqkhTaNLnSJ6XXeiMAmew=
+X-Received: by 2002:a05:6000:40ca:b0:3d0:c6bf:60c6 with SMTP id
+ ffacd0b85a97d-3d0c6bf6478mr507752f8f.13.1756449761912; Thu, 28 Aug 2025
+ 23:42:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 29 Aug 2025 07:17:00 +0000
+References: <20250819121631.84280-1-clamor95@gmail.com>
+ <20250819121631.84280-5-clamor95@gmail.com>
+ <20250819202722.GA1264491-robh@kernel.org>
+In-Reply-To: <20250819202722.GA1264491-robh@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 29 Aug 2025 09:42:30 +0300
+X-Gm-Features: Ac12FXxicf5syu3ZrQDe1liim-jpvbuNbb6FjdElmnqfyMSBMVU7aVm-Nae8-uI
+Message-ID: <CAPVz0n1CN_rXu6EvgiMBeCvpOK6Ep96pax+naRha-=9THBifZQ@mail.gmail.com>
+Subject: Re: [PATCH v1 04/19] dt-bindings: display: tegra: document Tegra30 VIP
+To: Rob Herring <robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>, linux-media@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +105,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I recently left AMD and would like to continue participating in
-the review and maintenance of the XDNA driver using my personal email address.
-This commit updates my contact information accordingly.
+=D0=B2=D1=82, 19 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 23:2=
+7 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Tue, Aug 19, 2025 at 03:16:16PM +0300, Svyatoslav Ryhel wrote:
+> > Parallel VI interface found in Tegra30 is exactly the same as Tegra20 h=
+as.
+>
+> That's not what the compatible schema says. 'exactly the same' implies a
+> fallback to whatever it is exactly the same as.
+>
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  .../devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml    | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
+ra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegr=
+a20-vip.yaml
+> > index 14294edb8d8c..39e9b3297dbd 100644
+> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi=
+p.yaml
+> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi=
+p.yaml
+> > @@ -13,6 +13,7 @@ properties:
+> >    compatible:
+> >      enum:
+> >        - nvidia,tegra20-vip
+> > +      - nvidia,tegra30-vip
+> >
 
-Signed-off-by: Min Ma <mamin506@gmail.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Rob, may I use this:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 10850512c118..6eefa494000c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1231,7 +1231,7 @@ F:	drivers/spi/spi-amd.c
- F:	drivers/spi/spi-amd.h
- 
- AMD XDNA DRIVER
--M:	Min Ma <min.ma@amd.com>
-+M:	Min Ma <mamin506@gmail.com>
- M:	Lizhi Hou <lizhi.hou@amd.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
--- 
-2.43.0
+properties:
+  compatible:
+    one0f:
+      - const: nvidia,tegra20-vip
+      - items:
+          - const: nvidia,tegra30-vip
+          - const: nvidia,tegra20-vip
 
+Among all Tegra SoC only 2 have VIP support Tegra20 and Tegra30.
+Tegra30 is backwards compatible with Tegra20 so we can use fallback.
+There should be no new generation added to this schema.
+
+OR should I use enum?
+
+properties:
+  compatible:
+      one0f:
+        - enum:
+          - nvidia,tegra20-vip
+
+        - items:
+          - const: nvidia,tegra30-vip
+          - const: nvidia,tegra20-vip
+
+> >    ports:
+> >      $ref: /schemas/graph.yaml#/properties/ports
+> > --
+> > 2.48.1
+> >
