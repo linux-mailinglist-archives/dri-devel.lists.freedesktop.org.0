@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD0FB3C1D1
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901C9B3C1D5
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 19:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2D010EC13;
-	Fri, 29 Aug 2025 17:33:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61ECE10EC16;
+	Fri, 29 Aug 2025 17:34:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Pe1rQr+w";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="iI13Q4oS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFB7B10E1E0;
- Fri, 29 Aug 2025 17:33:44 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2082.outbound.protection.outlook.com [40.107.93.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D19510EC13;
+ Fri, 29 Aug 2025 17:33:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mRyx2sn5UDOGvyY70r1jdvIHNHow6AythWQ3EWI8Avm3iCxcF5HL0HyN0PEIbDHv2d0Hkt7yCUrZf+LRUFd3zMOidtIoazsfgspXcdc4SXi+0jesrBv4MtGFvE0Rv8xoOuLDvYb/v1PM1PUIzDaX9cLpmXsrCRN6f4I0ekkbna7cJJRfBLdSJum3Ta/z1xkbxH7jEb3NP5KuOl2+MlNd5K74xX5WJmwT+bmlyCIDBVZM9Fsm1DW3KlsHYJ0rMfwyfHqcoFGBLcnPa5ddvQgJjm5vmZ1/e7HE5034JgBNzasdNA1Wc0DZ79XRl9w3gLQt+TTgcvAmPi8koXyUI13uNA==
+ b=Yfupw2Jlcm5DpJqaq6C2qr+BbGt45QzdbheJQdFec4JtXvIOr19iRl06Hod72pjNsVeWNTcZ6EN8sHps12WBKFhT2EeWNBVLAYA7ekxMsAcU/JRTAf/DWtUVuVB3snwUWLiVJtacgndqC7KoTf5k94IF21+Evpyvfx8T68+SqdI8+cHNjN7MKX9NJ72NuFOWcuzvd8dmnT3nBg3h56XECC7qNSHtJhHuKUp65E+2b+0Zmk40/J6vOQ5L9y/eQLIq4yzHhzR2Rc3aZLDXvCVv/uFCQsz5XSrhnpcK91P4cfd23JMW5W140vp9mDWhd+8zhV6nBRB9fJuIDV+HXPAwPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L0AnTk/3rbN29du8ofGxiJYhTDDKxYoOF8E8ttxOHY4=;
- b=PgLAT8h3j2X7NjDVUO2vb1m/vomCzb7RWnE8bO0JYOZqe0zTcbU13vYM04Rw3tffHFMbcgR4R39kmtrPyH6SvH+radT1Ur6hHtBSWiesvZBotvux/r6LT4iNdj4JvCHJu5+nV9nk15iVu7nNP8nEJUpyllWuUiUGRNI4sjDqq0SY3VyqaKBjuznE5m77qotVeZ/shOuyLptKEAZkrCCNuTJfoyVj/tsI3O04HanDHwNmNAzPzy5d2eAb3VEO0H7jXd0Op9ubjN0UHZt4DzKBUxuPxonybh1ULobwjMCwMAAvkcfkRl6JzsjFLr6+17nhaRZaQr5dMxUsj6mb7LBtZQ==
+ bh=HEFFhT6Hxx7Cc5LJLMQchHtszeKz53e2TSuaTIh/VNg=;
+ b=K5BT8Mn8sTNeQz5mqEkTyYPRiusBxS6I4hxK4Ixiu8Mu1Wj3koScPvToFcVHej3Sem0en2PnXPj5/48rqS1zW7bLCOJ6g0ExYN2itDGnmbAwmgb/FLOC7Id4jN6/LCGiYKPBf9zt8cG3uF1LsaD5v/u/l3F7EQNuS9Jhy6C5mkHBzBnjKRon7cCC91dbuEyDZ0s7/v9JFLT+pCLzdDepYRj3kBwIWo0zJpkGjmjteb5a8qHK3poZbezCwMoeLUSPKFV/Zw9Jm8P35Pan0JhT8d01vEn2DP8LPP6UzmGyUbOz71WkP896NCiWYxbWHG/cYxIL1yRW5XLk7o7F4Y/GIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L0AnTk/3rbN29du8ofGxiJYhTDDKxYoOF8E8ttxOHY4=;
- b=Pe1rQr+wUGtzgGZ/iks1SajL80k9rNjG+ipCO7G3RWHEtw/HWoVli9SLLZPaxn2nYY1yaJOKyZxKPg3O9NZrpTpp+ugVqVlKiyVpkKRNDjPO8RUt88HtxbnQPVGSgPQxSLsf4aeVEtUfNXLnb2GV9QeATQSwyffbRB3qe+iXi2k8VisUHuRVG304BlDS5KtL5kLlBx9LSvjrOR4R5BD43mo+6t1bb56cVyOoAlJEc9lIP1x0tJ1rQUbfXwKkloHxIx80wn0QBKOE7ZFbSIuRGpOV2dknzdbcfu1YiWVix1gB58qvKTZdYfegPKUeL/EE0YkXYIMTdI4mzVSCttmyiQ==
+ bh=HEFFhT6Hxx7Cc5LJLMQchHtszeKz53e2TSuaTIh/VNg=;
+ b=iI13Q4oSjSM+0RuEc7s8ONnjXApOItVBTKKz6fmnNspcIlgbn/xzXSSQbRYbfYiZ6CkgA+NFzW8I6QUAhrT0bvTNAN9NmRml+Aj9oLXbn6IYlc0XsV7TAr1z6QKigVkgHDnfG+pSjV42dqQ7XGKCRCBm/N+nHJy55DJKFAyHjI4O82DxtYE832+wnNG0brGgoQHaioJ8I046OmNldF8/qbHzJ8UYy0VGcDQOIjIWCephTlUCd4UP9V7fHAM3mbcDLNWkmFJMWsWn4b0edmBD3l3tQMGzl3i1aNGN3tLNHoy08lSLLoxKzDl6WsrIgxvZBEsPumniTAhzxpJKl0lTFg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by CH2PR12MB4069.namprd12.prod.outlook.com (2603:10b6:610:ac::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.16; Fri, 29 Aug
- 2025 17:33:38 +0000
+ 2025 17:33:40 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9052.017; Fri, 29 Aug 2025
- 17:33:38 +0000
+ 17:33:40 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  dakr@kernel.org, acourbot@nvidia.com
@@ -57,90 +57,89 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
  Timur Tabi <ttabi@nvidia.com>, joel@joelfernandes.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: [PATCH 16/17] gpu: nova-core: gsp: Wait for gsp initialisation to
- complete
-Date: Fri, 29 Aug 2025 13:32:53 -0400
-Message-Id: <20250829173254.2068763-17-joelagnelf@nvidia.com>
+Subject: [PATCH 17/17] gpu: nova-core: Add get_gsp_info() command
+Date: Fri, 29 Aug 2025 13:32:54 -0400
+Message-Id: <20250829173254.2068763-18-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250829173254.2068763-1-joelagnelf@nvidia.com>
 References: <20250829173254.2068763-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN0P220CA0030.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::24) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR22CA0018.namprd22.prod.outlook.com
+ (2603:10b6:208:238::23) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH2PR12MB4069:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82046004-c444-424e-ebff-08dde7223017
+X-MS-Office365-Filtering-Correlation-Id: 670ef624-515f-4dc5-c1de-08dde722316b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pF7QwFD43lkKgKE1v01OjmIUmrlm+uXk7LW+r4fnVoXLH+t6Sid4EHjNkOC6?=
- =?us-ascii?Q?esMxuvv63vKEI4F980t4Mq94QmamVYAkgLHpTW34U+PghYCZZUTFMD+MNsAi?=
- =?us-ascii?Q?E7MGEwOvEKVz4Ko9E5E/Z5CjgIFHFuKVu5lnTmj46YtPCfMXUWxQGBA+lsKP?=
- =?us-ascii?Q?aTf9JYZRC8UeF1YICuWFrOENdsnvM8Rqe+7pBW6bcDf/t+22q2hqNQmshGU8?=
- =?us-ascii?Q?AETPcJ9GtdLvS8W9TUa3Wt6cid0zrvuU4KInH0dmAsISF+k7j9wz4rYNqmbu?=
- =?us-ascii?Q?lIVuRjD0TRcE1GKmhLwccfrRmqPc/6kNeh30ooiDhTTASE7+Zevk40ArvRn6?=
- =?us-ascii?Q?C6qEzTVRpxg49RnJLLMdGUDtgIHwdr+t8k1e0MV8vMydzKUQu2DcH5EjKwiG?=
- =?us-ascii?Q?CPvv2qnyYAO6bl0Onzu7XBPYuGkGN8SOIwYKjLW+80rVfZ2sDSlcWaGhRQz2?=
- =?us-ascii?Q?prl6Dl1JuoJlVCToEKXx4iPLjE7FupPTTX4X4uJj1OmYEKmXguner1aOQmJu?=
- =?us-ascii?Q?N5I/sybs7EfGVRwgdXYMJVmmAQmpesgU4+v3bBizOJ/YTq5z+yRMmmOOlsSM?=
- =?us-ascii?Q?0YNOnvXYK+hn6ykI5JEKg73pGcAWtG83PI+jIJz6hPAJ/J03hobiGRVXprJr?=
- =?us-ascii?Q?w2y/h9DhTLbSzuhpbwWzuEUXz5uQa2tYQYehE9n5UR4+smsRijEdlUr9YfQ1?=
- =?us-ascii?Q?FgIiGWtz6bkMP2fs+Zi2kICbUuuQdhKbd8KNNVxnNiG+qlKsYkB1U5ygsFrB?=
- =?us-ascii?Q?o+V8+1mFblly0lxmzH7DG3ZF9ZUfPTJqHLFzY+gFih1cEligP4misTs3fBrb?=
- =?us-ascii?Q?xyvK6MMoUqeOu/++aflXEdVl/DrGiw/I+zsj3oF80lH75xiZSZ51HJzUS/Gn?=
- =?us-ascii?Q?tYQ/Okoft2vjEJ63ufJDLaxN8bJfEUOoO711Vf5Bc3DxOGEdysjOsVfc0wZe?=
- =?us-ascii?Q?2nFYf6loe9VG7034GuKwUW+YWw8BFLpBlWeth9Xs7OXLGap/tnqcyQIrc6wA?=
- =?us-ascii?Q?JT5u92Km+IFHAE3DN14/1TNNFwVPvpjGoPa8yazc/8DyEPmGqnMwjLC0+yqi?=
- =?us-ascii?Q?3v4oNhwI7ZoWOwmpsFxj9FKqxGqnWocIUoI7YlmuA2Xfj7lHJzIjx8ZV8Cos?=
- =?us-ascii?Q?5k60obyz7RRslVsA0ldxPraKrBr4xTpVhTHkcn7vCQ62dm8M6WTHZv34d4zq?=
- =?us-ascii?Q?LwQZOksM96DGNba7XbJPhZfRVk6soNFwL4zY436Y7luYI/HzCLnARLv/qH5G?=
- =?us-ascii?Q?y/OrVEl+Mf+GSM4mkroR8pIEhZ8nD2m7nFiVwd2EkVWX0Y2UiDSQkEcSLkWA?=
- =?us-ascii?Q?CLWn5o8iUyVfQWz9s5/A0CRrYM1nMu+oZSI6Kci+hhR8tM7Y8TaAEWzkOA9y?=
- =?us-ascii?Q?H5QAQ8BTvjVdmnun5Ii80k2uRT42WMxBRh9OsKBJO8rNUQtDkt3Y/RPjMaGS?=
- =?us-ascii?Q?gFJpcoHtsa4=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2Q8MmWGaTHwDmLspjDy5dPH5ZL9eycCWj31yi6pDdPK+JDSKcYuThv5NlS1g?=
+ =?us-ascii?Q?4rJ5Xthu9fxu2NyNhVoCCVE0rkdwKLBBLAo1EWiGwiBkcJRH+VilGBYrW1/k?=
+ =?us-ascii?Q?iGi48EGT+YjF5kCh+xstyaX2gXXBsQr7FmChoYoXd7oymyVvWBYXuMX7a+5U?=
+ =?us-ascii?Q?tqWupmZ85sy6z3RRl9fqc51PZD6q7sz0VKHcV58Ypw1E8rzv4wY29xC3vofs?=
+ =?us-ascii?Q?YlyrcNJLfAJ4Lgc500y416kP0Ap8yS7/ZY17uLUxLwsz5S7juZLFrphqobkX?=
+ =?us-ascii?Q?ggoabWoOM9mi2AbIRvioCtTFyH3pgtIlF3n7f93o/+s9mtoDS3LhirbdjvQc?=
+ =?us-ascii?Q?EtjGEpdX/bsgJvXB73SOdpRkLX0fAqUXyZBl45vivqcxBxhlHFItOUmIkROA?=
+ =?us-ascii?Q?5uR+E2SvM74DDXRHNhSjZvTNzi1KzPqdNZC4gRyKbF6LeukkeN+Owst8MK/h?=
+ =?us-ascii?Q?PShmMVc62bjNwMdrqisAOIIQyneye2NQTV8eC7frCdYiohySRMJhnEbsmu0R?=
+ =?us-ascii?Q?BiAjjc0F2+qjDE/FONmx0e2wj+9jWZVO6VpAvZdHjKQgBEczDUpRBGRHpajW?=
+ =?us-ascii?Q?NXmWCiaEQyOuL+xvf0AumPkBr+vTNjv0ANujBgIJnWSsfs1XIrl/U2ur0Ewp?=
+ =?us-ascii?Q?NzDPTrJoceAPqb/L1zYdrxOFiZr5B0XD0ISBk70C7p3GkCcvHG47qGFRGjuk?=
+ =?us-ascii?Q?joNPLy6Xn03EWiQF8zP/U4sRbpEGXOH8BnayDIXNdWMhkvhXq6pQ+vUSI1Y4?=
+ =?us-ascii?Q?nW9EbYb5Np0SWxYXVC8g9e7tlyt+2UFd1jh/f456/CsbcDMxvLyUVBx/6adb?=
+ =?us-ascii?Q?yhQVaxr7B/6SgZcE46rMq3iBswtIn5/jFu6UzlbsgI3HCMfNKDWHv8+r6zao?=
+ =?us-ascii?Q?3P1KEr+/8WZORW6w+qBR5j4ft6NnHKKZ0lUy0vmRmh+PdgTwmJnb+nuhp+EY?=
+ =?us-ascii?Q?Uy1ZmBwhT+NDOateIFBihiEUD/Av1d+Fjf3IuOOE3LQFHltA3xypEg5GnKn1?=
+ =?us-ascii?Q?Y0lZHeAcNGYi73/rrPA/YfNrxL/MQ3L6CgNRjFD4cqyoLe/ZQLFKsAie5QJY?=
+ =?us-ascii?Q?XDLXwdMEw01mrMjFgn8oxuBibvFx/g4ZtBUD7Ki3qlaffSE6v9857WpWGCvp?=
+ =?us-ascii?Q?G+w03iplCCsbtttpDir7uMt2zaxhfBTUp0HYX2F/rx3PabZhvFeKD8WomN9U?=
+ =?us-ascii?Q?b4ST32rpkPoL40mFvIV7Thu4F5Vh5Ri8x6puKbtP9jvbTDnJZFi/LIpFZQnY?=
+ =?us-ascii?Q?f14+/lkVjhXBr1Iyf1+Nv1x5VOtnaiUy1A/qc8piy07fAEJfNVY18IW9Akjk?=
+ =?us-ascii?Q?7l3SHUEd169ZOAkRFR/BEXTlr+ETVJ3pvuneP8VcX7YH+1Kcs8E/LE9SamNj?=
+ =?us-ascii?Q?ktZDIDYuo70UEDTDWFz91kaeBFMugaZbgtEg2rwr95CuaKtM4b+AH532o0gE?=
+ =?us-ascii?Q?mm/tnYeIzyk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nQuh0n6bpQMsi9AxUItEKktV3PxBXqLeaWrY+Z20glHPFt/Us3yCu4yO67Um?=
- =?us-ascii?Q?L0kAb5dMDQmdYiH6s++F0s/WhJ9v6bkuvJ+m3DrlMYM78qGBz2BoBuHPgI1w?=
- =?us-ascii?Q?XbDgUAAMyzziwi3/3hlv8ODEXS1LW6Ohxjst8lzMXgHfLmKydDytlYMoxlWm?=
- =?us-ascii?Q?MRJrRk2haXcfnanydk2cv8g6zpqigCfHTVI2iLGSRr6UnlDjqSmeILYbf4eN?=
- =?us-ascii?Q?fG/JN7s+NiKBpP9ddFcys1MXp2ReKylhpngHRn3ptuPu4CLPwDuS102lApAp?=
- =?us-ascii?Q?3usMBgCChu7Cm1jFHtLRzt2HrPOJkV09gP4jNeyb1UMsWc3qaedDqMpr7Nto?=
- =?us-ascii?Q?CxX5CBI9DqIpUnmxReeNhw0O/nXOfyFspTbKgkCuBQ/Urmp9ATBZ1PZVSsfw?=
- =?us-ascii?Q?CjVLiLq4dZa4f1J6lNGjgCQbBcwKc661GYlGNu98lWmPxsBVMggrMp8VH4pj?=
- =?us-ascii?Q?RbWOOP2aXEshjVCbboGmKR6Cvz5GuwtVjli7YYjrn9rV1W4DOSV4aXU48dSz?=
- =?us-ascii?Q?H8Ht/4wg+IKi6tUEB3N7+4Vcgm0/1DmKgNxChYPcfqNBm+A98Aw+mizV+S/J?=
- =?us-ascii?Q?6IUEOFjFJwP/fZLnG+utRcGH9E+N4sxCRqoLy5B1j8Wz9HQaZuHyB3vxM0OK?=
- =?us-ascii?Q?bM3T6I9fHKCHZzfobJPJ+R9vIGIFTzHxvn2J327jGw5Y0Pp2aLwTm0lx1acJ?=
- =?us-ascii?Q?Wl1w2BrmPAmXcOD7/vNNoeZnfb2+19ZaX0PRCL3BPbKVnpdr/KxycZth8wHv?=
- =?us-ascii?Q?xHmtBli3LS81kXHlFgMbdkhoMxStJrKJhy2Eezlp2nLH1hkUCPtyB/sFPgc9?=
- =?us-ascii?Q?Z0DI66hpSYdqkE4BVBeOTSXp3CuBusGTC1rVTS6bkoFla8ZvBBBfAisvYekT?=
- =?us-ascii?Q?etNQO24ACgsUkIJhG13fxTb8jD2TC8TDX96Yq24ot0+GB8xdno9vy8DrZeAm?=
- =?us-ascii?Q?ITmFo0Lh3V/0B/SkojacsiBO3tSMZtvuM7JzD/4F0UgLs15SyrTdQMjpaf/p?=
- =?us-ascii?Q?nIU5IKNBjJOBCoXqLirwjVl8JkaVUkhz3z1EyiY4NQv82xFgPFKP6uIf2BA5?=
- =?us-ascii?Q?k4Q5RP4nKvdkY4kwjdXWjoDsG7ecwP/Nh60/8OanyNFWUwpBSCfxsPpQ/4BW?=
- =?us-ascii?Q?SqC4jfZsZPL7GJsZWXQh1SFxxTTTG6Pk95RlABlETnOabMgPOAEVglbLHnoZ?=
- =?us-ascii?Q?vE3iXWuD7Duc+PU6nWiZAPX6s9Dj8cK66zTlKkEFe1JgGhR5ugpuSDIfvU9W?=
- =?us-ascii?Q?xuLdsFjJ1tgVNflnYkTVFZeXc60P71J3K+DGfrDYn8hT9Jb59meAWaZVOg2Q?=
- =?us-ascii?Q?BVC2ZDNhhMTlFx2v8rOZ3scz9yGj7dDJMJbd7coZNA6OgoH1u/E0AjZLZuQB?=
- =?us-ascii?Q?bTVdGbaMfcL490rlPnjxHPoOWqkop/51JplX8gnbGRs+FST/A1RdE4TW3S2F?=
- =?us-ascii?Q?eakJmc3uBAKMW41YY+JmvjudsihZ9LZKYSuZ7wlKkobqRa7eBOIixQnrk7Qe?=
- =?us-ascii?Q?JhJHWEW5LjbCoPIp1YI7gzvKUAaaOPkM2Os3aQQ32bXbsetNBG6FtGX9Yicq?=
- =?us-ascii?Q?sBBGCKPzNfITkVr8g6X/UGDbTNpozpVCU6thd1J6?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xvhUaJYRHWpBYFVgncVZF2qZ7LwPwsovxDgQOzJg84rSxAHdqcArmCCN/k22?=
+ =?us-ascii?Q?eswE+eeJejN0c24Gt+eaGVuLrgxTih3lqM4gYNyOeTR0iA2cNJ8MWdOmIB5Y?=
+ =?us-ascii?Q?fadTzgZVW7O+P8By95u4/JRmphc7uL7TWxXg+0dx12V317rrFYA0qf4pQY70?=
+ =?us-ascii?Q?a/C39KxXiQ1BlqDTuWv2NJbM/hUdjW2yS+3dH44fRocMQqs0/E9uDAjxRUvB?=
+ =?us-ascii?Q?0kk2BS20Uz1qMfqNQkRp5WBpd25xqJfjr8W69oBp54dGqpHvhFa4GjDgsnOl?=
+ =?us-ascii?Q?7ODqjqjRJSsaBCt70vOqcHscsv8iCZwTMqU3MqivOt0zzRVwDNvdlX83q2vf?=
+ =?us-ascii?Q?siH/TGeX58KB/XnRJMUWhQvdo4Xm+XhcbiGBg+lwoOd88pT39wjkrX4jHZd9?=
+ =?us-ascii?Q?0zYmCrdlBtnQssxwGHqsqwD6wAwXNPGR2KKzN3Roiv+KERx5MMtUWV3FFCpV?=
+ =?us-ascii?Q?xhH77y3sJbysl8e+2f4A3pRsOUn6TiAFkE90+W6jjyUqs9vke26ifaer7Bc/?=
+ =?us-ascii?Q?mkdz4PJIMy5PrkKvaEKzVtu2MhCLBf8J+2czwbtqqGrMiHZLVJR5Wm2sPsuK?=
+ =?us-ascii?Q?qe0DkdwYVuNznsx3FWrZR5vJlhngUtluvCkMlMjq859dIcizpJ5azyh7zQd2?=
+ =?us-ascii?Q?DvMCk4uzxlMtQ1toIts71E8fESvc43ZEfpPoP8bvv36miGclImpfdhheHCzy?=
+ =?us-ascii?Q?FW+T1TqrUyUk787DJi68OhiN066KuWI1UYvSXe0U/mY6CPC9yz5Ao5/q44aG?=
+ =?us-ascii?Q?oFLFxuuM4/WNhuuacjKHTPhVFGIMEzDddtWdOxrPG5+IiVZHsNyg3r4921E0?=
+ =?us-ascii?Q?IluXWLeI/uDVt229M0cjdIQypehSlSs2mcgwgkgRcHFnLMORf6VM2B8seqFa?=
+ =?us-ascii?Q?uZLNl747uoWNYI3tdP3F9YLDyQujo3kTWa4TF9qiWlNEGkZSG9tLbWeVypuA?=
+ =?us-ascii?Q?1gTsv0QnLxSamRExoYaexCSBiS9bfPtoKZ6OzD9qoDYwf0/L7L+wbarob+jj?=
+ =?us-ascii?Q?jbSaXy9rbA2dejwL+ipP96wy/lR0Jfe9YwTUVMOAoTJcuLgX40m3OWTyblGI?=
+ =?us-ascii?Q?53sc4RL+b4Uvg9wIGGINeMzOVigwTMLJh+z1aXkw5v856TaIjdJ54LCxdmhU?=
+ =?us-ascii?Q?7ONREyJzQ6wMM9yqS2/Y5x+KKr6pcBW+bIhLRmy60n4wge+hP8yXO9bFV8FZ?=
+ =?us-ascii?Q?olaxRYuVOFhoSO/0GMpbeG38K8tkRwB9HeLO1ZcRjKFlaxfkqmN34CLlBOWX?=
+ =?us-ascii?Q?ndAJLN43n/5iZZJ+J8joXFDrcLpMMAKUZsjrpEz9klK8ef+FtZZoQtKjAp8h?=
+ =?us-ascii?Q?D2ogMdkvY+/KKppKkDilKe7q3j8QmIV4w6eRdM8ZcJzgq+gfgVyqgmADpKtE?=
+ =?us-ascii?Q?o6Dy7W0ilB2ye7kPeplZEEPfthiFN/0/zixij2EfvM7L/ZGTpuSNNXods+Eq?=
+ =?us-ascii?Q?7UGGuEGUqH+EpCRbGDvWtFv38rmaNkcP4RBpUbJARtocU/wvKdPIW4wOufGX?=
+ =?us-ascii?Q?0g2PPKbLRElaPedmexxJIbWFKuMouQPcGAJmmjTcRv38++/HSjnsf5g11VQG?=
+ =?us-ascii?Q?N7e7AHR+/FqjbfhzaCLiO+OHGe+7sN50Cjt/6zVc?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82046004-c444-424e-ebff-08dde7223017
+X-MS-Exchange-CrossTenant-Network-Message-Id: 670ef624-515f-4dc5-c1de-08dde722316b
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 17:33:38.0248 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 17:33:40.2423 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WvvrI7tyMXrClCRE2MDolED2vena8QGhKmIr66t9wBSqFCdLzWuw3OoIOHJ0wxWrBb+aCmDpDY+Ol8MBUijkUg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lg8hd6mALXzVLRkNw3puiYjNfJxcxT+TsExflRKb3X9OusL895D0tvaRaEcLulIHKq2IzLHxyDezHuomnikRqw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,95 +158,352 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alistair Popple <apopple@nvidia.com>
 
-This adds the GSP init done command to wait for GSP initialisation
-to complete. Once this command has been received the GSP is fully
-operational and will respond properly to normal RPC commands.
+Introduce the get_gsp_info() command. This is a basic command which is
+sent to the GSP to get some information about the GPU. In particular
+it gets the model number of the GPU which is printed to the kernel log.
+This proves that the GSP is fully initialised and that the command queue
+is functional.
 
-Co-developed-by: Joel Fernandes <joelagnelf@nvidia.com>
+It also serves to demonstrate how interactions and data from the GSP
+will be handled. GSP specific data structures will not be used outside
+of the GSP command parsing layer. Instead data will be converted to
+Nova specific structures (in this case the GspStaticConfigInfo struct)
+for consumption by the rest of the driver. This ensures the rest of the
+driver is isolated from any changes that may occur to GSP interaction.
+
 Signed-off-by: Alistair Popple <apopple@nvidia.com>
 ---
- drivers/gpu/nova-core/gpu.rs          |  3 +++
- drivers/gpu/nova-core/gsp/commands.rs | 34 +++++++++++++++++++++++++--
- 2 files changed, 35 insertions(+), 2 deletions(-)
+ drivers/gpu/nova-core/gpu.rs                  |   8 +-
+ drivers/gpu/nova-core/gsp/commands.rs         |  49 ++++++
+ drivers/gpu/nova-core/nvfw.rs                 |   2 +
+ .../gpu/nova-core/nvfw/r570_144_bindings.rs   | 163 ++++++++++++++++++
+ drivers/gpu/nova-core/util.rs                 |  15 ++
+ 5 files changed, 236 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index c2a9cb32837f..023bafc85f58 100644
+index 023bafc85f58..7aeecdb0dd28 100644
 --- a/drivers/gpu/nova-core/gpu.rs
 +++ b/drivers/gpu/nova-core/gpu.rs
-@@ -10,6 +10,7 @@
+@@ -10,7 +10,7 @@
  use crate::firmware::{Firmware, FIRMWARE_VERSION};
  use crate::gfw;
  use crate::gsp;
-+use crate::gsp::commands::gsp_init_done;
+-use crate::gsp::commands::gsp_init_done;
++use crate::gsp::commands::{get_gsp_info, gsp_init_done};
  use crate::regs;
  use crate::util;
  use crate::vbios::Vbios;
-@@ -375,6 +376,8 @@ pub(crate) fn new(
-             Delta::from_secs(10),
+@@ -377,6 +377,12 @@ pub(crate) fn new(
          )?;
  
-+        gsp_init_done(&mut libos.cmdq, Delta::from_secs(10))?;
-+
+         gsp_init_done(&mut libos.cmdq, Delta::from_secs(10))?;
++        let info = get_gsp_info(&mut libos.cmdq, bar)?;
++        dev_info!(
++            pdev.as_ref(),
++            "GPU name: {}\n",
++            util::str_from_null_terminated(&info.gpu_name)
++        );
+ 
          Ok(pin_init!(Self {
              spec,
-             bar: devres_bar,
 diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
-index 12ea8cdec21d..9f858aedf853 100644
+index 9f858aedf853..3491f8edef0a 100644
 --- a/drivers/gpu/nova-core/gsp/commands.rs
 +++ b/drivers/gpu/nova-core/gsp/commands.rs
-@@ -8,13 +8,15 @@
- use kernel::device;
- use kernel::pci;
- use kernel::prelude::*;
-+use kernel::time::Delta;
- use kernel::transmute::{AsBytes, FromBytes};
- 
- use crate::driver::Bar0;
--use crate::gsp::cmdq::GspCommandToGsp;
--use crate::gsp::cmdq::GspCmdq;
-+use crate::gsp::cmdq::{GspCommandToGsp, GspMessageFromGsp};
-+use crate::gsp::GspCmdq;
- use crate::gsp::GSP_PAGE_SIZE;
- use crate::nvfw::{
-+    NV_VGPU_MSG_EVENT_GSP_INIT_DONE,
+@@ -19,6 +19,8 @@
+     NV_VGPU_MSG_EVENT_GSP_INIT_DONE,
      NV_VGPU_MSG_FUNCTION_SET_REGISTRY,
      NV_VGPU_MSG_FUNCTION_GSP_SET_SYSTEM_INFO,
++    NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO,
++    GspStaticConfigInfo_t,
      GspSystemInfo,
-@@ -32,6 +34,34 @@ unsafe impl AsBytes for GspSystemInfo {}
+     PACKED_REGISTRY_TABLE,
+     PACKED_REGISTRY_ENTRY,
+@@ -34,6 +36,12 @@ unsafe impl AsBytes for GspSystemInfo {}
  //         that is not a problem because they are not used outside the kernel.
  unsafe impl FromBytes for GspSystemInfo {}
  
-+struct GspInitDone {}
-+impl GspMessageFromGsp for GspInitDone {
-+    const FUNCTION: u32 = NV_VGPU_MSG_EVENT_GSP_INIT_DONE;
++unsafe impl FromBytes for GspStaticConfigInfo_t {}
++
++pub(crate) struct GspStaticConfigInfo {
++    pub gpu_name: [u8; 40],
 +}
 +
-+pub(crate) fn gsp_init_done(cmdq: &mut GspCmdq, timeout: Delta) -> Result {
-+    loop {
-+        cmdq.wait_for_msg_from_gsp(timeout)?;
-+        let msg = loop {
-+            match cmdq.receive_msg_from_gsp() {
-+                Ok(x) => break Ok(x),
-+                Err(EAGAIN) => continue,
-+                Err(x) => break Err(x),
-+            };
-+        }?;
+ struct GspInitDone {}
+ impl GspMessageFromGsp for GspInitDone {
+     const FUNCTION: u32 = NV_VGPU_MSG_EVENT_GSP_INIT_DONE;
+@@ -62,6 +70,47 @@ pub(crate) fn gsp_init_done(cmdq: &mut GspCmdq, timeout: Delta) -> Result {
+     }
+ }
+ 
++impl GspMessageFromGsp for GspStaticConfigInfo_t {
++    const FUNCTION: u32 = NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO;
++}
 +
-+        let init_done = msg.try_as::<GspInitDone>().map(|_| ());
++impl GspCommandToGsp for GspStaticConfigInfo_t {
++    const FUNCTION: u32 = NV_VGPU_MSG_FUNCTION_GET_GSP_STATIC_INFO;
++}
 +
-+        msg.ack()?;
++pub(crate) fn get_gsp_info(cmdq: &mut GspCmdq, bar: &Bar0) -> Result<GspStaticConfigInfo> {
++    let mut msg = cmdq.alloc_gsp_queue_command(size_of::<GspStaticConfigInfo_t>())?;
++    msg.try_as::<GspStaticConfigInfo_t>();
++    msg.send_to_gsp(bar)?;
++    cmdq.wait_for_msg_from_gsp(Delta::from_secs(5))?;
++    let msg = cmdq.receive_msg_from_gsp()?;
++    let info = msg.try_as::<GspStaticConfigInfo_t>().map(|(x, _)| x)?;
 +
-+        match init_done {
-+            Ok(()) => break Ok(()),
-+            Err(ERANGE) => continue,
-+            Err(e) => break Err(e),
-+        };
-+    }
++    let gpu_name_str = info
++        .gpuNameString
++        .get(
++            0..=info
++                .gpuNameString
++                .iter()
++                .position(|&b| b == 0)
++                .unwrap_or(info.gpuNameString.len() - 1),
++        )
++        .and_then(|bytes| CStr::from_bytes_with_nul(bytes).ok())
++        .and_then(|cstr| cstr.to_str().ok())
++        .unwrap_or("invalid utf8");
++
++    let mut gpu_name = [0u8; 40];
++    let bytes = gpu_name_str.as_bytes();
++    let copy_len = core::cmp::min(bytes.len(), gpu_name.len());
++    gpu_name[..copy_len].copy_from_slice(&bytes[..copy_len]);
++    gpu_name[copy_len] = b'\0';
++
++    let config_info = GspStaticConfigInfo { gpu_name };
++
++    msg.ack()?;
++    Ok(config_info)
 +}
 +
  const GSP_REGISTRY_NUM_ENTRIES: usize = 2;
  struct RegistryEntry {
      key: &'static str,
+diff --git a/drivers/gpu/nova-core/nvfw.rs b/drivers/gpu/nova-core/nvfw.rs
+index 39e5f3d5b432..d51a697e6c27 100644
+--- a/drivers/gpu/nova-core/nvfw.rs
++++ b/drivers/gpu/nova-core/nvfw.rs
+@@ -43,6 +43,8 @@ pub(crate) struct LibosParams {
+ 
+ pub(crate) use r570_144::{
+     rpc_run_cpu_sequencer_v17_00,
++    GspStaticConfigInfo_t,
++
+     // Core GSP structures
+     GspSystemInfo,
+ 
+diff --git a/drivers/gpu/nova-core/nvfw/r570_144_bindings.rs b/drivers/gpu/nova-core/nvfw/r570_144_bindings.rs
+index 607d99ac2221..4aaa381749ae 100644
+--- a/drivers/gpu/nova-core/nvfw/r570_144_bindings.rs
++++ b/drivers/gpu/nova-core/nvfw/r570_144_bindings.rs
+@@ -320,6 +320,77 @@ fn fmt(&self, fmt: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+ pub type _bindgen_ty_3 = ffi::c_uint;
+ #[repr(C)]
+ #[derive(Debug, Default, Copy, Clone)]
++pub struct NV0080_CTRL_GPU_GET_SRIOV_CAPS_PARAMS {
++    pub totalVFs: u32_,
++    pub firstVfOffset: u32_,
++    pub vfFeatureMask: u32_,
++    pub FirstVFBar0Address: u64_,
++    pub FirstVFBar1Address: u64_,
++    pub FirstVFBar2Address: u64_,
++    pub bar0Size: u64_,
++    pub bar1Size: u64_,
++    pub bar2Size: u64_,
++    pub b64bitBar0: u8_,
++    pub b64bitBar1: u8_,
++    pub b64bitBar2: u8_,
++    pub bSriovEnabled: u8_,
++    pub bSriovHeavyEnabled: u8_,
++    pub bEmulateVFBar0TlbInvalidationRegister: u8_,
++    pub bClientRmAllocatedCtxBuffer: u8_,
++    pub bNonPowerOf2ChannelCountSupported: u8_,
++    pub bVfResizableBAR1Supported: u8_,
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
++pub struct NV2080_CTRL_BIOS_GET_SKU_INFO_PARAMS {
++    pub BoardID: u32_,
++    pub chipSKU: [ffi::c_char; 9usize],
++    pub chipSKUMod: [ffi::c_char; 5usize],
++    pub skuConfigVersion: u32_,
++    pub project: [ffi::c_char; 5usize],
++    pub projectSKU: [ffi::c_char; 5usize],
++    pub CDP: [ffi::c_char; 6usize],
++    pub projectSKUMod: [ffi::c_char; 2usize],
++    pub businessCycle: u32_,
++}
++pub type NV2080_CTRL_CMD_FB_GET_FB_REGION_SURFACE_MEM_TYPE_FLAG = [u8_; 17usize];
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
++pub struct NV2080_CTRL_CMD_FB_GET_FB_REGION_FB_REGION_INFO {
++    pub base: u64_,
++    pub limit: u64_,
++    pub reserved: u64_,
++    pub performance: u32_,
++    pub supportCompressed: u8_,
++    pub supportISO: u8_,
++    pub bProtected: u8_,
++    pub blackList: NV2080_CTRL_CMD_FB_GET_FB_REGION_SURFACE_MEM_TYPE_FLAG,
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
++pub struct NV2080_CTRL_CMD_FB_GET_FB_REGION_INFO_PARAMS {
++    pub numFBRegions: u32_,
++    pub fbRegion: [NV2080_CTRL_CMD_FB_GET_FB_REGION_FB_REGION_INFO; 16usize],
++}
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
++pub struct NV2080_CTRL_GPU_GET_GID_INFO_PARAMS {
++    pub index: u32_,
++    pub flags: u32_,
++    pub length: u32_,
++    pub data: [u8_; 256usize],
++}
++impl Default for NV2080_CTRL_GPU_GET_GID_INFO_PARAMS {
++    fn default() -> Self {
++        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
++        unsafe {
++            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
++            s.assume_init()
++        }
++    }
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
+ pub struct DOD_METHOD_DATA {
+     pub status: u32_,
+     pub acpiIdListLen: u32_,
+@@ -367,6 +438,19 @@ pub struct ACPI_METHOD_DATA {
+ }
+ #[repr(C)]
+ #[derive(Debug, Default, Copy, Clone)]
++pub struct VIRTUAL_DISPLAY_GET_MAX_RESOLUTION_PARAMS {
++    pub headIndex: u32_,
++    pub maxHResolution: u32_,
++    pub maxVResolution: u32_,
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
++pub struct VIRTUAL_DISPLAY_GET_NUM_HEADS_PARAMS {
++    pub numHeads: u32_,
++    pub maxNumHeads: u32_,
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
+ pub struct BUSINFO {
+     pub deviceID: u16_,
+     pub vendorID: u16_,
+@@ -395,6 +479,85 @@ pub struct GSP_PCIE_CONFIG_REG {
+ }
+ #[repr(C)]
+ #[derive(Debug, Default, Copy, Clone)]
++pub struct EcidManufacturingInfo {
++    pub ecidLow: u32_,
++    pub ecidHigh: u32_,
++    pub ecidExtended: u32_,
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
++pub struct FW_WPR_LAYOUT_OFFSET {
++    pub nonWprHeapOffset: u64_,
++    pub frtsOffset: u64_,
++}
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
++pub struct GspStaticConfigInfo_t {
++    pub grCapsBits: [u8_; 23usize],
++    pub gidInfo: NV2080_CTRL_GPU_GET_GID_INFO_PARAMS,
++    pub SKUInfo: NV2080_CTRL_BIOS_GET_SKU_INFO_PARAMS,
++    pub fbRegionInfoParams: NV2080_CTRL_CMD_FB_GET_FB_REGION_INFO_PARAMS,
++    pub sriovCaps: NV0080_CTRL_GPU_GET_SRIOV_CAPS_PARAMS,
++    pub sriovMaxGfid: u32_,
++    pub engineCaps: [u32_; 3usize],
++    pub poisonFuseEnabled: u8_,
++    pub fb_length: u64_,
++    pub fbio_mask: u64_,
++    pub fb_bus_width: u32_,
++    pub fb_ram_type: u32_,
++    pub fbp_mask: u64_,
++    pub l2_cache_size: u32_,
++    pub gpuNameString: [u8_; 64usize],
++    pub gpuShortNameString: [u8_; 64usize],
++    pub gpuNameString_Unicode: [u16_; 64usize],
++    pub bGpuInternalSku: u8_,
++    pub bIsQuadroGeneric: u8_,
++    pub bIsQuadroAd: u8_,
++    pub bIsNvidiaNvs: u8_,
++    pub bIsVgx: u8_,
++    pub bGeforceSmb: u8_,
++    pub bIsTitan: u8_,
++    pub bIsTesla: u8_,
++    pub bIsMobile: u8_,
++    pub bIsGc6Rtd3Allowed: u8_,
++    pub bIsGc8Rtd3Allowed: u8_,
++    pub bIsGcOffRtd3Allowed: u8_,
++    pub bIsGcoffLegacyAllowed: u8_,
++    pub bIsMigSupported: u8_,
++    pub RTD3GC6TotalBoardPower: u16_,
++    pub RTD3GC6PerstDelay: u16_,
++    pub bar1PdeBase: u64_,
++    pub bar2PdeBase: u64_,
++    pub bVbiosValid: u8_,
++    pub vbiosSubVendor: u32_,
++    pub vbiosSubDevice: u32_,
++    pub bPageRetirementSupported: u8_,
++    pub bSplitVasBetweenServerClientRm: u8_,
++    pub bClRootportNeedsNosnoopWAR: u8_,
++    pub displaylessMaxHeads: VIRTUAL_DISPLAY_GET_NUM_HEADS_PARAMS,
++    pub displaylessMaxResolution: VIRTUAL_DISPLAY_GET_MAX_RESOLUTION_PARAMS,
++    pub displaylessMaxPixels: u64_,
++    pub hInternalClient: u32_,
++    pub hInternalDevice: u32_,
++    pub hInternalSubdevice: u32_,
++    pub bSelfHostedMode: u8_,
++    pub bAtsSupported: u8_,
++    pub bIsGpuUefi: u8_,
++    pub bIsEfiInit: u8_,
++    pub ecidInfo: [EcidManufacturingInfo; 2usize],
++    pub fwWprLayoutOffset: FW_WPR_LAYOUT_OFFSET,
++}
++impl Default for GspStaticConfigInfo_t {
++    fn default() -> Self {
++        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
++        unsafe {
++            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
++            s.assume_init()
++        }
++    }
++}
++#[repr(C)]
++#[derive(Debug, Default, Copy, Clone)]
+ pub struct GspSystemInfo {
+     pub gpuPhysAddr: u64_,
+     pub gpuPhysFbAddr: u64_,
+diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.rs
+index 76cedf3710d7..1709a5d50e54 100644
+--- a/drivers/gpu/nova-core/util.rs
++++ b/drivers/gpu/nova-core/util.rs
+@@ -45,3 +45,18 @@ pub(crate) fn wait_on<R, F: Fn() -> Option<R>>(timeout: Delta, cond: F) -> Resul
+         }
+     }
+ }
++
++/// Converts a null-terminated byte array to a string slice.
++///
++/// Returns "invalid" if the bytes are not valid UTF-8 or not null-terminated.
++pub(crate) fn str_from_null_terminated(bytes: &[u8]) -> &str {
++    use kernel::str::CStr;
++
++    // Find the first null byte, then create a slice that includes it
++    bytes
++        .iter()
++        .position(|&b| b == 0)
++        .and_then(|null_pos| CStr::from_bytes_with_nul(&bytes[..=null_pos]).ok())
++        .and_then(|cstr| cstr.to_str().ok())
++        .unwrap_or("invalid")
++}
 -- 
 2.34.1
 
