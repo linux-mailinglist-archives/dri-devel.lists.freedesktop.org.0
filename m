@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66743B3B3A0
-	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 08:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CFBB3B3A2
+	for <lists+dri-devel@lfdr.de>; Fri, 29 Aug 2025 08:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7792E10E11A;
-	Fri, 29 Aug 2025 06:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90B710EB4F;
+	Fri, 29 Aug 2025 06:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UYKrrjM9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OXIUtayT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BBF10E11A
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:48:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 595CD10EB4F
+ for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 06:49:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C1E4C60051;
- Fri, 29 Aug 2025 06:48:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D00C4CEF0;
- Fri, 29 Aug 2025 06:48:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B0CCA60054;
+ Fri, 29 Aug 2025 06:49:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C218FC4CEF0;
+ Fri, 29 Aug 2025 06:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756450123;
- bh=J0rKrdxOhHWwS+mtwdjmhTwdm1+u+noFAQcTkYElpqs=;
+ s=k20201202; t=1756450147;
+ bh=6bcq9zt/NpRi6mq0YCfI9xt2nKhZqME42o36Ib3lF88=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UYKrrjM92oN1VUFRgvdGGp9Hu4bdSz74SMy/6aaX+JLVjwIjJG/EWB9yKZQhT+epD
- rejPLq+1EPDIEPj9rPyYcq8uQBKHiKNuMXkgEY51lBcF7pQ0mpOdQP9gI/Ip5miQYX
- 5Yn2YQuyrHu3HousmJeHdXt5/BwZf2jd/Y90WeTO48FJWFB/lGj6oFKU7qqyhbUWS2
- vk4THj86pu0EvVDvOijBv6JjxM+QcNsbh8XTLm+ZXX9kFS82d1Mx4WtXwQWLYAQ3Fd
- MyYvEhh5PtNnRkoHuFxXph3MLihdStZDNWZt0hFaMdW1XmPKsuUXrQAhCuaZu7ovUz
- d4W4OMzG3ZRtA==
-Date: Fri, 29 Aug 2025 08:48:40 +0200
+ b=OXIUtayTen7s+65e3ZLlV7vTinbyBakYn6QvCkaqfAeDXk0k/IWDP9Uh0GNjICUft
+ hZa0x+AVGTHCO5eqCNyoZLUr5LBsKcYK6smjyga8RrVd4+a5mhtih5gkavL1YPx64Z
+ QO4nBYgDI7f13f+RIJBh4JaOhj9W+FMgw/t9fgbHYdEeMSt4jmf7Ke75wozmNh8Sti
+ lWan1m7trIAx855hlbdP+LFdZl6ht58VQL5XieW0yXVsBxYY+3rFAIIokwPEC/cMMl
+ BN33hu09n1FFHpsRpz6opSZopeW0PfroWFzpiZZppgg3espuV+aGFV5W+wdXCRUbSL
+ NAsvSIxKld4pA==
+Date: Fri, 29 Aug 2025 08:49:04 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Paul Chen <paul-pl.chen@mediatek.com>
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
@@ -43,16 +43,15 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  dri-devel@lists.freedesktop.org, 
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v4 03/19] dt-bindings: display: mediatek: add EXDMA yaml
- for MT8196
-Message-ID: <20250829-industrious-economic-jacamar-ce264d@kuoka>
+Subject: Re: [PATCH v4 05/19] dt-bindings: display: mediatek: add OUTPROC
+ yaml for MT8196
+Message-ID: <20250829-little-independent-slug-2465c8@kuoka>
 References: <20250828080855.3502514-1-paul-pl.chen@mediatek.com>
- <20250828080855.3502514-4-paul-pl.chen@mediatek.com>
- <20250829-solemn-herring-of-conversion-ec5b1a@kuoka>
+ <20250828080855.3502514-6-paul-pl.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250829-solemn-herring-of-conversion-ec5b1a@kuoka>
+In-Reply-To: <20250828080855.3502514-6-paul-pl.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +67,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 08:35:23AM +0200, Krzysztof Kozlowski wrote:
-> On Thu, Aug 28, 2025 at 04:06:58PM +0800, Paul Chen wrote:
-> > From: Paul-pl Chen <paul-pl.chen@mediatek.com>
-> > 
-> > Add mediatek,exdma.yaml to support EXDMA for MT8196.
-> > The MediaTek display overlap extended DMA engine, namely
-> > OVL_EXDMA or EXDMA, primarily functions as a DMA engine
-> > for reading data from DRAM with various DRAM footprints
-> > and data formats.
-> > 
-> > Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
-> > ---
-> >  .../bindings/dma/mediatek,exdma.yaml          | 68 +++++++++++++++++++
+On Thu, Aug 28, 2025 at 04:07:00PM +0800, Paul Chen wrote:
+> From: Paul-pl Chen <paul-pl.chen@mediatek.com>
 > 
+> Add mediate,outproc.yaml to support OUTPROC for MT8196.
+> MediaTek display overlap output processor, namely OVL_OUTPROC
+> or OUTPROC,handles the post-stage of pixel processing in the
+> overlapping procedure.
 > 
-> Your changelog says NOTHING changed here and this fails tests, so does it
-> mean you received that warnings before but you keep sending same broken
-> code?
-> 
-> Last two weeks of contributions from mediatek are absolutely terrible.
-> Very poor code, basic in-house reviews not done, basic testing not done.
-> 
-> I talked about this at OSSE 25 with some friends and got reasons why
-> your setup is broken. Well, it's on you.
-> 
-> I was already raising this with Mediatek, but we are now back to square
-> one.
-> 
-> NAK, because this patch WAS NEVER tested.
+> Signed-off-by: Paul-pl Chen <paul-pl.chen@mediatek.com>
 
+NAK,
 
-And now I found you got EXACTLY the same error at v3, so you just never
-tested and ignored OUR test reports.
-
-This is unfortunately an example how you waste reviewers' time.
+Never tested.
 
 Best regards,
 Krzysztof
