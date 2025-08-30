@@ -2,135 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9397B3CAD5
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 14:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E32B3CAE5
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 14:57:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49BCE10E254;
-	Sat, 30 Aug 2025 12:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B1610E23F;
+	Sat, 30 Aug 2025 12:57:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="jCm2WXEu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l+7mlNZt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11012032.outbound.protection.outlook.com [40.107.75.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34ED210E254
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 12:47:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uMwOSnhPeUYG1caLCY6hg6yqHj8jMixBsw5vob6O/BOb68o0gc/wQar/UOM9uHsLP8QjrsQ7z8+PRRG625g1W30HHOxfDPlV7kG2eEEHpaXFo1vCiqtYkHI/mMwAUbSL7vEx56+xRpi39wYSyUSL5Tp4Y0Og1/Ve6Puj7aRcVhJJfn8Qr9pVbzSEnL8QGnac4m4UVJ9W3GLdXBJsLfRDKj/OaRSHdbam46xhmuehuwBVyzOqIkv3JZ3UXS/S7BO63AtsFcL/cubNbDnWXzZDGacIFdf3/ZahRTfU7mZhFjzEOLFGz5PJb+d8rKUNI1FeTeFOCjr0Hc8yzgKlAIij+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F07n9j/P7vHwoojB1r7IHCVCKOMhRLqygGLUHx61Arw=;
- b=tfriyiqAvG/vPZybpDk1U37+RoKYnDKElZ3NW+Tq/yizf8R3UokoRMlea9RB4XHnuPEbgoRaNMFo2ozb7IqGBhV8c56rVpb4d+yEJgFvOuoTIBYXkIbeQzf5VvN4sF4L1snhZwhksOmvaCvK6ZLh8USZGVyK8kj/m2dzzWHGbAATdxVQTjks8v51moGu7/W5Ep195rqHQmX7L9k1e/ND0AI3B8T6ohzjI92LFMhz/e2qDLnSkFiRRmgQEsPy7GOQ9lenW+zFztXdTv71V13LZdDsdbgGOoCZsvioVI2xBOobs0BBzK0/MRa49OwwonqT41169RK3JNDiy0sNFrBpYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F07n9j/P7vHwoojB1r7IHCVCKOMhRLqygGLUHx61Arw=;
- b=jCm2WXEu3nhcs/F6gthiPjzjhLMNIcmgPukrC5SShbQa9rOxZ9f5HSR8e/x9yPRpMCJvdsVujHFe1EjaLpt3mrAKy5Rw7uadJKIxPHnwseg4Nu0annYLCPSn3JxcJQ5UYYXU0VZxUWzU11MwedSgYcLPMuzmyLZVnFiJLSwtYWi7SMZn5rH6SpyiksCiBeKymcUGLJkiEetiJn95zKW3oiqWUbMJGmMcSyV/aP2RbuzpflonkN8bPlvkCY6WN03HG7uOziXKBw9QMGkfzp6iK67fOEJBdPhkw4jxI610yg02a2Cw28r07Xvtb7jBNqVFxgSE446Nv99vgHjGoiEShA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- TYSPR06MB6713.apcprd06.prod.outlook.com (2603:1096:400:479::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9052.21; Sat, 30 Aug 2025 12:47:15 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9073.021; Sat, 30 Aug 2025
- 12:47:15 +0000
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Qianfeng Rong <rongqianfeng@vivo.com>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fbdev: mb862xxfb: Use int type to store negative error codes
-Date: Sat, 30 Aug 2025 20:47:00 +0800
-Message-Id: <20250830124703.73732-1-rongqianfeng@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0008.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::14) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B61810E23F;
+ Sat, 30 Aug 2025 12:57:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 3F880402BD;
+ Sat, 30 Aug 2025 12:57:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C74C4CEF4;
+ Sat, 30 Aug 2025 12:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756558625;
+ bh=6kFjNNDgn39uI5ZcQcgVoBOGmQgQ9XzNrTTLP1QtxqA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=l+7mlNZtZvwRvnEwROPTwb+Wm8f3sykidxk098PNE2hu/xbO1k+LzWXqJNhnHTqRF
+ vvNOiix9E6hcW7pd/QuP8LhA24EBHyjQW8YekEbXjFNptjgbCFu3Ps/2Tu8Yt78UB6
+ BUWfGP4HDjHQnm0WPv/JM7SG70yIUASggKc0mmwWodfpLTuTdohR6TpxfBlIFJldJW
+ NWq9GF/TwTqDbn2ctd2tDvvYTPf3XBZMb7zammky+MJ9D5GEazyXJcV/ES2IkbKbdd
+ os2okRG06HUUUcFUdYtk/AOLXIBcftXj9wwOSkgWRHXr9Axe5ZCNWk3C0J1zIUD3uV
+ EX5++HeSYn5UA==
+Message-ID: <e249a1d1-f1fb-4818-b9d6-e0b5c17c61a5@kernel.org>
+Date: Sat, 30 Aug 2025 14:56:58 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|TYSPR06MB6713:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e8d2c69-b236-4fef-e716-08dde7c358a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|52116014|376014|1800799024|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?IIOf7jqpxUhql9HMVmP7XgMFJJcNzDfFUobUh0JU/hnffOw8u0tMTLLRiVur?=
- =?us-ascii?Q?Vfuv/D4z44LefYWJQGOb4J15vui63aQc4lMORwXnqubWAvBjmRiVU5OVgePd?=
- =?us-ascii?Q?duquzTySBQagPgfbeOBhg4YS7SCCnRfQJDT9kaBafUMkG5bCGwRkpFbOZcsP?=
- =?us-ascii?Q?dDEkrP6/BpTb1IE7DpGJjV3D9PuwLq7KFYaEoQTJS/Qf9D4PXbVq5LRBNYQj?=
- =?us-ascii?Q?XUUcuXHtfx1TNCiWHucE0qahr0JLnVKH6CXBRg0H6fNISWX8+Wm2W5OmJ0YW?=
- =?us-ascii?Q?Pl/l5eexaTFXs/u/J3avjj/p16a6vuYqHsa8/jWMKOV98iriKtRXxtV1Auj3?=
- =?us-ascii?Q?j1mi68xRh+wIPIVgfqJKqeo1Xh7jJ2viiPdNfLDpQd68P+HRdbiXW0sTHWEq?=
- =?us-ascii?Q?EHtTUub7i0fCRmlGIl79pmtiHyg7uDdIr0bjP7OWi9DlF0UIme4ClNMpcwTP?=
- =?us-ascii?Q?36u9iM5EkJ05G2nCC/lpVecAy004ZviVF6n5XFlpwb/Hc3P1GCyRlLpkj7iz?=
- =?us-ascii?Q?LU8JN1v5YWxWG6JTlfNHO1XTGR7VpmPHE8vY98i2ra251C1iu5a2lxdQp1d2?=
- =?us-ascii?Q?35Bl/bLDuHCz3G1O8fQVn6Fd4ElJEyHUgthTzlOcICIn5wnZ03ZY+MQWcNcU?=
- =?us-ascii?Q?7hWjGjFdajglg51vQZvMesZmYekYP5XVrUVopnIqyX6U2jGEnLJf/ZP7eMzs?=
- =?us-ascii?Q?XvnwL6O9VS8n6iCmywFHMoyKtMMLEyZfKwDUlwn7kCuztoQSRTYxzRZy5EVP?=
- =?us-ascii?Q?vDRwwHKw3Pq5+lAOD3GZwhUUx0l4BDBIJo74K5Gl6/Tlolrz77J2XZ9OorUi?=
- =?us-ascii?Q?+FI9dcOGRxkLrSMdfzlesYKDKcOpgzPdMyj7tK1wENjhddd3gTUAvrjCPosu?=
- =?us-ascii?Q?u8cpBaVnB2+oMKzcYciBiBb3MhdG/hpp7XqLVUXgtJs0sDnui+OpemoiCgYz?=
- =?us-ascii?Q?VCTJyCaK5pT7J3LcvbSsePsEN/ydWmmQSwNx+G8zghFA4OLeg3+bPuUn80ch?=
- =?us-ascii?Q?hR0/PC8nzb+NDk95kipDBGoT6k3bAYscgz4ZC+69Ey2FmG+J+g0OF23brKa8?=
- =?us-ascii?Q?7/P32MVT02WCfVTs86ENuicytlZKwbFArwFYewkUQeXJfPJae0gBkM2yclAu?=
- =?us-ascii?Q?Hc4m4yxMsk71dos3qrWOQ3/GtAHIKGciY59/HzgOVfMAI2SeAO34tDYlM9SG?=
- =?us-ascii?Q?yKzT/sis6Yy7DKdg40UrIu2b+mlorDvefZfbNxDXqVZ4l0BCRWayIhJSr3k5?=
- =?us-ascii?Q?TeENFYtYYuSNUO0iUgOC4Ts1RIGRkZWyHiXnI97CsVErYJSLZrooTO7fUJCg?=
- =?us-ascii?Q?4EZhMLD7yIU5aNrTj6jFi8/WaDJzqBL/Zuftd2q70E3OKNcuLG5dav4+bqlC?=
- =?us-ascii?Q?9hey9PCYZLIU3TWzXZLdSZX50j/QwEuFTmviuGxxkgbcYTfNfOTHpTlPoV1h?=
- =?us-ascii?Q?a/sMb2i5sGWbj6bnqLIHBg6JdY1gB1k+pKI/NUmisb57jjVZ0T1ErA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?90KA6FIpEx9nysPtEqD+gTn41tf8bz5ru2AtrEC9y55l7Md1XL2SsYDouw9n?=
- =?us-ascii?Q?Z5ifFE95AS3gQ8sFjyW4f0dA8XaipNqN93I6TVpxlOAxIjAntW/McBdMu0jj?=
- =?us-ascii?Q?B3CGJEG7TBH6lpum3U22vYUUcLXSnahpbLDkduepYXdnzS2IBRzfjpnd5dnE?=
- =?us-ascii?Q?pYL+SzZUA55Jbm232lXmv8Gi5UawY9sq8IGv4zVsunyFloKgjOKTm/6KTcnl?=
- =?us-ascii?Q?1k+uNClwHRzkiyTRacUqnI8FfSIswmCemPkqBx0biO7rubAZ7un6CSXtdfWl?=
- =?us-ascii?Q?1AXR3qXc257yYgq5yCVT17RRh5URVV+wUgxUMhVziD8f66kxRwN+gVcq5hg2?=
- =?us-ascii?Q?a2INQyIn2NILBgIMTr8r4sgIeD+cpYbnlJZX5+con10Og9wWZXEvecN0eqVT?=
- =?us-ascii?Q?jC7U/S7SC6g8gbGAU23RjPED4u6lr3kDjTpl95QWl21GtmM8xr4GqCZsBREM?=
- =?us-ascii?Q?e7p99RBmtp2vBmvRFXfWGVWeTfXaJoFQNjJU1jGhh5GYE6HjjD8KmjWjHzVd?=
- =?us-ascii?Q?5YbxVa0HUI4yRqpwrOXLCQEMFDD6xS0LTO/gu+Y3EvNsE/J68IZghjamFiLU?=
- =?us-ascii?Q?MqUf6VOirkK4op80aTaruOMpOsPX0g4oPmB/TXlSeHbjok++EMcCATQCs8YH?=
- =?us-ascii?Q?WxD4ySW052otOAdc9032agh6o76nahhz1n0zvm42UiXS3LshTlFNHbMeglsq?=
- =?us-ascii?Q?MmVtLeWcHXKXK6yaAzK24C2aT9GC8f6924H1TD0QyPQwdhz+SBjBaqXqB3n6?=
- =?us-ascii?Q?/yTWPEJtB+XGVNLRlygBg70bQczFzRHMOpKR6IJy9jL9u+72N/X+ixUaGJSr?=
- =?us-ascii?Q?7NDrSCj0vK6Gzr5DfoIw1Xixa0QtiLwkCa+zaB3y2r4j96C2aCoHTypOLYa4?=
- =?us-ascii?Q?g/jqmQPVRug+4GNq0nyd9kEEBNtPVFpRd8eTDdIGDBYy1AQ6yTD5rhPaQuL1?=
- =?us-ascii?Q?1TfcUWxiyojtesELX/UbrDT0mRrudkeJBA0YpZgvpNE43KjB4vUD6rbo0WyW?=
- =?us-ascii?Q?d08iRuN7WeKcoh4bfEZif9OsMOOxm7CUba5r5HIDiuL3bDjPseqqqCSU1LWA?=
- =?us-ascii?Q?uu37QM2gsBq7uf+uYR2ID97UBtYUy45Fhs/fC7b28D3fv9p6xli1gpyMHfOb?=
- =?us-ascii?Q?AjAVdO68dBxUlObUbsvO3GdjZmaccLXDQBnjYv6sS8/6fMefOrOt4vX5SP75?=
- =?us-ascii?Q?fUQ9lgzGERn/dV4qw3VE2KoqU8AJ19GjKzHTRD9uEiTf0H0AbF9jGXTzsYX+?=
- =?us-ascii?Q?dR8Is22DiCrCZTUDn89xMzB3WDs0WaVLLU2uM1gWEoFbWqIZ/n5PH21YxqDx?=
- =?us-ascii?Q?j78mTV2lwb5sr1FvO0T+dnl+/CMyTBFdOQ04f5MAPHjHlpLCY1oUfnOJdqs2?=
- =?us-ascii?Q?kQUs+dYMCQq47JyMtomxx2b1lzrlLT+fwlB3JLzYr4448QJ36nZB1chiVjUB?=
- =?us-ascii?Q?GpfwtpGbhAfX6MPXiUs/aKYbxA2anvpl/vmwbl1V2UaIUtfyVvLZCxxLlJcN?=
- =?us-ascii?Q?HCuAt6evkiky1ssrwb97EcRhefivhnC0BiVD6d5iL1bjH2Lh3jK0NvIdliZN?=
- =?us-ascii?Q?9mKr8GYAYET4rnUaLUpn2GS3AQ2sJppJtzfIhB+6?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e8d2c69-b236-4fef-e716-08dde7c358a6
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2025 12:47:15.0147 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qyDN6r6mbqjXtemvXW0G6rRxzBzUhVvYpEH34bUIr61e5d30yw2oHWIqWKbWYz76tUEMK3N1X2q7mXnJ2nJZTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6713
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/8] gpu: nova-core: firmware: process and prepare the
+ GSP firmware
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
+ <20250826-nova_firmware-v2-5-93566252fe3a@nvidia.com>
+ <5338bd30-f3ed-42c7-af0e-77c3ef7d675d@kernel.org>
+ <DCEVAXNB3EL9.YFTIP5RQCTUW@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <DCEVAXNB3EL9.YFTIP5RQCTUW@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,34 +73,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the 'ret' variable in of_platform_mb862xx_probe() from unsigned long
-to int, as it needs to store either negative error codes or zero.
+On 8/29/25 1:16 PM, Alexandre Courbot wrote:
+> On Thu Aug 28, 2025 at 8:27 PM JST, Danilo Krummrich wrote:
+>> On 8/26/25 6:07 AM, Alexandre Courbot wrote:
+>>>    /// Structure encapsulating the firmware blobs required for the GPU to operate.
+>>>    #[expect(dead_code)]
+>>>    pub(crate) struct Firmware {
+>>> @@ -36,7 +123,10 @@ pub(crate) struct Firmware {
+>>>        booter_unloader: BooterFirmware,
+>>>        /// GSP bootloader, verifies the GSP firmware before loading and running it.
+>>>        gsp_bootloader: RiscvFirmware,
+>>> -    gsp: firmware::Firmware,
+>>> +    /// GSP firmware.
+>>> +    gsp: Pin<KBox<GspFirmware>>,
+>>
+>> Is there a reason why we don't just propagate it through struct Gpu, which uses
+>> pin-init already?
+>>
+>> You can make Firmware pin_data too and then everything is within the single
+>> allocation of struct Gpu.
 
-Storing the negative error codes in unsigned type, doesn't cause an issue
-at runtime but can be confusing. Additionally, assigning negative error
-codes to unsigned type may trigger a GCC warning when the -Wsign-conversion
-flag is enabled.
+Thanks a lot for the write-up below!
 
-No effect on runtime.
+> I tried doing that at first, and hit the problem that the `impl PinInit`
+> returned by `GspFirmware::new` borrows a reference to the GSP firmware
+> binary loaded by `Firmware::new` - when `Firmware::new` returns, the
+> firmware gets freed, and the borrow checker complains.
+> 
+> We could move the GSP firmware loading code into the `pin_init!` of
+> `Firmware::new`, but now we hit another problem: in `Gpu::new` the
+> following code is executed:
+> 
+>      FbLayout::new(chipset, bar, &fw.gsp_bootloader, &fw.gsp)?
+> 
+> which requires the `Firmware` instance, which doesn't exist yet as the
+> `Gpu` object isn't initialized until the end of the method.
+> 
+> So we could move `FbLayout`, and everything else created by `Gpu::new`
+> to become members of the `Gpu` instance. It does make sense actually:
+> this `new` method is doing a lot of stuff, such as running FRTS, and
+> with Alistair's series it even runs Booter, the sequencer and so on.
+> Maybe we should move all firmware execution to a separate method that is
+> called by `probe` after the `Gpu` is constructed, as right now the `Gpu`
+> constructor looks like it does a bit more than it should.
 
-Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
----
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Absolutely, executing the firmware should be a separate method. Having it in the
+constructor makes things more difficult.
+> ... but even when doing that, `Firmware::new` and `FbLayout::new` still
+> require a reference to the `Bar`, and... you get the idea. :)
 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index ade88e7bc760..676c6d3ccc12 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -674,7 +674,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
- 	struct fb_info *info;
- 	struct resource res;
- 	resource_size_t res_size;
--	unsigned long ret = -ENODEV;
-+	int ret = -ENODEV;
- 
- 	if (of_address_to_resource(np, 0, &res)) {
- 		dev_err(dev, "Invalid address\n");
--- 
-2.34.1
+Lifetime wise this should be fine, the &Bar out-lives the constructor, since
+it's lifetime is bound to the &Device<Bound> which lives for the entire duration
+of probe().
+> So I don't think the current design allows us to do that easily or at
+> all, and even if it does, it will be at a significant cost in code
+> clarity. There is also the fact that I am considering making the
+> firmware member of `Gpu` a trait object: the boot sequence is so
+> different between pre and post-Hopper that I don't think it makes sense
+> to share the same `Firmware` structure between the two. I would rather
+> see `Firmware` as an opaque trait object, which provides high-level
+> methods such as "start GSP" behind which the specifics of each GPU
+> family are hidden. If we go with this design, `Firmware` will become a
+> trait object and so cannot be pinned into `Gpu`.
+> 
+> This doesn't change my observation that `Gpu::new` should not IMHO do
+> steps like booting the GSP - it should just acquire the resources it
+> needs, return the pinned GPU object, and then `probe` can continue the
+> boot sequence. Having the GPU object pinned and constructed early
+> simplifies things quite a bit as the more we progress with boot, the
+> harder it becomes to construct everything in place (and the `PinInit`
+> closure also becomes more and more complex).
+> 
+> I'm still laying down the general design, but I'm pretty convinced that
+> having `Firmware` as a trait object is the right way to abstract the
+> differences between GPU families.
 
+Makes sense, it's fine with me to keep this in its separate allocation for the
+purpose of making Firmware an opaque trait object, which sounds reasonable.
+
+But we should really properly separate construction of the GPU structure from
+firmware boot code execution as you say. And actually move the construction of
+the GPU object into try_pin_init!().
