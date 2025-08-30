@@ -2,161 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236EEB3DAA9
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC30B3D044
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Aug 2025 01:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264EB10E393;
-	Mon,  1 Sep 2025 07:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B2B10E290;
+	Sat, 30 Aug 2025 23:58:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eYsKvaCj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QzroMwDy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7FA10E290
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 23:11:33 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-b4f1ee2e250so218254a12.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 16:11:33 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5E710E290
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 23:58:49 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-248a61a27acso23395355ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 16:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756595493; x=1757200293; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pKJR3d1y6/pE646jp/qQ2LVHmuXD7qWjBS7Rpy0QVAg=;
- b=eYsKvaCjY3vD9NNFfpjrscNN419aXyhIZHQKc4i2OZYysqwmRb+WQNhKKXnWXBqlzQ
- 0TR/4EW0PxlUcX6Tqx1ygxVwJ7D4P0ihM0TbgcziE1Ey7ZkFQlOKJUpUlg9zsqInKFMJ
- ljwE/rhBbBmcMNmomc+UKiEic5kHy6MYNXb26jElvdowhxvnnOCmexO8PwkCI2IIM8aZ
- NbhqyDFluRC/gE2DrRjsZK17cTM92bwzR4XPrCsRdwapKwVNhIMBWxClyAZI9CA3947h
- nXfTp3+2V8lte/a7GbhjfUSkSwwYGILXIClLArE9dWnUEGrs/c8vNfKg6r5d8LSTaJ0g
- dA6w==
+ d=gmail.com; s=20230601; t=1756598328; x=1757203128; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PveN7MRoWDfCIrihbZGiJf7FxtVFx+3ubpFWOv24Cwk=;
+ b=QzroMwDyPHBrcXpVsghnx7+iOmI0wV5LMU9+VU8kP705eN8l7SsWXLpX/p64mim4Ho
+ zGn1aZUszXGUWiXiqUBkhnBeizLoKnv2usdEV2/HE67nkldl5watNq2aNpMce+LKtiFU
+ /zoKlBU5R9lxY8Zfb0pO8PM4pW9jfoVLvgSvCFdt5JBCK7ERAIhIleH8O9lMkB/UtGDt
+ x2MjqJOEm1NSxf9IAEUrNO0wQxC1gtbowDhoAagRmJmge/RSNGM1P7y2onmeSn4+WqmL
+ P+/WcjzWiHEV3uJLMpIvmy7tkV/BIMgcbA3le6ouqpXas/yeu4cjzK+rYqua06UATq6D
+ 9FeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756595493; x=1757200293;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pKJR3d1y6/pE646jp/qQ2LVHmuXD7qWjBS7Rpy0QVAg=;
- b=IOdUR9UE92x7KTeU3PpOO7s5hbVPDPaS81teS4nnvXUbBX9ndY86tTanuHIXefglTb
- eRh6o747YSARn+pIh+m/dv0ujjqHWejH6Xcev1av99NVAnxCV1EhEQ3RVGBdSkuZCo0z
- ObyIUlroMD887o+21Vofrktw61SS+y9VKsKvy2ULd/udvzcKOYxR42a0ycLe7ctGxw+6
- iyG3hgCWYFpFG2G0zqfIYAAK3zKOKR5+E6GVETEAfvR1p3/7Rxe4oeEvcgjVqJFhCcWh
- INJyqHRSB6Uvpxyv4IvTgWTR8FeI2XdG8bWrFerYD9QvvX0Dl8TR663zNm8qgT3mTAVJ
- ZZpQ==
+ d=1e100.net; s=20230601; t=1756598328; x=1757203128;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PveN7MRoWDfCIrihbZGiJf7FxtVFx+3ubpFWOv24Cwk=;
+ b=sao8OJ9/eB7uo6JsUcbt0a/MEqNeOvLFKpjUb3Knj4iVoyQVr7tlGI8R2eVkhyaTgj
+ IIuqD5Bndy6jOnC7zHjPNUzrs7NOKtcdqmn/MGQympM0XUopl4zfwimyhxrKBUMF6tAj
+ RDqf1iH+3pTzQF14lwdvQLhcXeKxdX5hueY9N2Oww93ZrpUuHEPjLBWsPAoY4iEJQiA6
+ DJieBu4Bx+5upA3wSygOl/KTEorTRqvEgTlakkfv6YJutMzOd7w4MDH4eBwXeiNiJBE5
+ cDXOUeH7N4puR7naK3kR1RU6EYMp5O/bwTDWtpYkxpPjO1QbE5M66izG8h+ZBzjSU3yl
+ 0j/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWDXwUQCR6EIg0feXVycwkWpPpAGni27jBsK69e3O8DRJNkSlZ5vDYFbGfvWwkoSZlTSB7P1GWBhc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4g1LYb/Lw6uiqYayoIvO+43YRoosS6Nxc5/uQbXHKG8jtoReb
- uWkOWv8fuvbpgln3o9C5zEXFSvvU2x2sAvD6IV6jM7+kdl6gYceYbH0T
-X-Gm-Gg: ASbGncsur5z6YxCyPj4AUIL3YT0B58gomKDlajOs+WMWSTgCMWjuKk8/sh9ZnBib+Go
- 87iQ5xSuAP0IBmG4C4XKI72xKlCKDIsu1eNqF7INheAFemb08mB5OopVjegpT5FbLYk6ZTb3baW
- iKoHBOeNIBV/WaHG0PjTIP3vkAdTBXYGrUJGKIPH4/tjX82VharNAnwDaSw5fho8sBY2JFP+ha3
- b+dcPZaHJCbxpCiUSYz6gwV5n5tWN+y0eGdotYLMBQE9ykGglyo6SqaeS24KzQodcuRxEGXcDeS
- l8PpOZ7F4E6ywj6HdxI/EkPQ9mPbTnUtjq8iCq850ZAXu+58pL4MH7r49IpQqZABmHPFb6luzje
- lvE9n6me+3rRLLyHCOgpBY6WMAJ9Be/f4DZJA
-X-Google-Smtp-Source: AGHT+IH09TdLkBTBS46a9KkDQcsPHCKV5BjcOl3BN1JIlX/axUWBHc8jxps5fYfmQWtY+6vT/lzr2w==
-X-Received: by 2002:a17:902:c952:b0:248:cd4c:d6e with SMTP id
- d9443c01a7336-2494488a679mr39782015ad.9.1756595492940; 
- Sat, 30 Aug 2025 16:11:32 -0700 (PDT)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24906395aa0sm61840295ad.100.2025.08.30.16.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Aug 2025 16:11:31 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
- id 3F63E4222987; Sun, 31 Aug 2025 06:11:28 +0700 (WIB)
-Date: Sun, 31 Aug 2025 06:11:28 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DAMON <damon@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Power Management <linux-pm@vger.kernel.org>,
- Linux Block Devices <linux-block@vger.kernel.org>,
- Linux BPF <bpf@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>,
- Linux KASAN <kasan-dev@googlegroups.com>,
- Linux Devicetree <devicetree@vger.kernel.org>,
- Linux fsverity <fsverity@lists.linux.dev>,
- Linux MTD <linux-mtd@lists.infradead.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
- Linux Networking <netdev@vger.kernel.org>,
- Linux Sound <linux-sound@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
- Peter Zijlstra <peterz@infradead.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
- Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
- Richard Weinberger <richard@nod.at>,
- Zhihao Cheng <chengzhihao1@huawei.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas.schier@linux.dev>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Shay Agroskin <shayagr@amazon.com>,
- Arthur Kiyanovski <akiyano@amazon.com>,
- David Arinzon <darinzon@amazon.com>,
- Saeed Bishara <saeedb@amazon.com>, Andrew Lunn <andrew@lunn.ch>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
- The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Steve French <stfrench@microsoft.com>,
- Meetakshi Setiya <msetiya@microsoft.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>,
- Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
- Driver docs
-Message-ID: <aLOFIEknbxQZ6FM2@archie.me>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
- <20250829075524.45635-13-bagasdotme@gmail.com>
- <20250830224614.6a124f82@foz.lan>
+ AJvYcCUNZ2TKyGXbc3s+LKRE0WRyJS5s+KnE73wY8NYczmlqBs1SPQcIqQI9yV3pMgrvwCWCpeD1wvWuTPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDQqot8YyApmFbKZJR/U33VKvDQ7yWdzIH4fChDKjx9pHYBtI7
+ dPOX2bv2Xx3ldnWOPYR6WCVwA+dw6kVYvUbutNWYymB5eH++4Bfc72uj
+X-Gm-Gg: ASbGncuseDZiu2LtUH+IbBABgub9zYiDdoj8KOaAwqw9MfujDjyHZvU/sx/nyNSdtjm
+ EYGeMVLjnSXFMzIJRCmPK5s7lvU4L6znp9GncZkDWvaWKIMD4Ax/UAmWh8zrhcDO22LynPUfDa9
+ EHRY6q/gZ7zU6brRKAJ/w0FvuJjVboQzufGLR0rqpRlfhvgkPb54BWIYGG/iuFM+041Tkfzzr2G
+ QX5KhByiKRM6xkf+9O6s5fp+3Oe8ehxDAHQMRWf/oSkQt/EAiA5/X8O9ILbeCZzTc9kudvB1sca
+ m7oygM9e49f0TJXjN9lSEljYDnIBwPj2ZBkZOMVj9/isV8CTwzNChIkvnubGOpMYsqhVDXrPgUS
+ CCLF3EkVCrgbpsJc8JidsNeZywpQhbJLhGN/ZSA==
+X-Google-Smtp-Source: AGHT+IHINaZd/OyqfQwD/ES7Eu7hfLJbxybfyzvV1FKp2OpH/dlzkxedX09+klQq8xVKQb/pnGM99g==
+X-Received: by 2002:a17:902:e5cf:b0:248:fbba:964b with SMTP id
+ d9443c01a7336-2493ee5428amr53871855ad.12.1756598328515; 
+ Sat, 30 Aug 2025 16:58:48 -0700 (PDT)
+Received: from Barrys-MBP.hub ([47.72.128.212])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b4cd28ae414sm5618654a12.33.2025.08.30.16.58.43
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 30 Aug 2025 16:58:48 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ zhengtangquan@oppo.com, Barry Song <v-songbaohua@oppo.com>
+Subject: [PATCH] dma-buf: system_heap: use larger contiguous mappings instead
+ of per-page mmap
+Date: Sun, 31 Aug 2025 07:58:38 +0800
+Message-Id: <20250830235838.58067-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="q50L9+H94gXo88jD"
-Content-Disposition: inline
-In-Reply-To: <20250830224614.6a124f82@foz.lan>
-X-Mailman-Approved-At: Mon, 01 Sep 2025 07:02:45 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,42 +92,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Barry Song <v-songbaohua@oppo.com>
 
---q50L9+H94gXo88jD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can allocate high-order pages, but mapping them one by
+one is inefficient. This patch changes the code to map
+as large a chunk as possible. The code looks somewhat
+complicated mainly because supporting mmap with a
+non-zero offset is a bit tricky.
 
-On Sat, Aug 30, 2025 at 10:46:22PM +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 29 Aug 2025 14:55:22 +0700
-> Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
-> > -Please refer to the ALSA driver documentation for details of audio DMA.
-> > -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-als=
-a-driver.html
-> > +Please refer to the :doc:`ALSA driver documentation
-> > +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
->=20
-> Don't use relative paths for :doc:. They don't work well, specially
-> when one uses SPHINXDIRS.
->=20
-> The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
-> and let automarkup figure it out. As we have a checker, broken
-> references generate warnings at build time.
+Using the micro-benchmark below, we see that mmap becomes
+3.5X faster:
 
-Thanks for the tip!
+  #include <stdio.h>
+  #include <fcntl.h>
+  #include <linux/dma-heap.h>
+  #include <sys/ioctl.h>
+  #include <sys/mman.h>
+  #include <time.h>
+  #include <unistd.h>
+  #include <stdlib.h>
 
---=20
-An old man doll... just what I always wanted! - Clara
+  #define SIZE   (512UL * 1024 * 1024)
+  #define PAGE   4096
+  #define STRIDE (PAGE/sizeof(int))
+  #define PAGES  (SIZE/PAGE)
 
---q50L9+H94gXo88jD
-Content-Type: application/pgp-signature; name=signature.asc
+  int main(void) {
+      int heap = open("/dev/dma_heap/system", O_RDONLY);
+      struct dma_heap_allocation_data d = { .len = SIZE, .fd_flags = O_RDWR|O_CLOEXEC };
+      ioctl(heap, DMA_HEAP_IOCTL_ALLOC, &d);
 
------BEGIN PGP SIGNATURE-----
+      struct timespec t0, t1;
+      clock_gettime(CLOCK_MONOTONIC, &t0);
+      int *p = mmap(NULL, SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, d.fd, 0);
+      clock_gettime(CLOCK_MONOTONIC, &t1);
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaLOFGwAKCRD2uYlJVVFO
-o9MMAPwIm+r4BZdTF0jZV4Naj+z2WrUBji4gRFJQ4f97vYNhfgEAwX/UGgC71a9U
-lMJHF+utPAWnldcv9PoyPOBgO71EEAA=
-=C7rV
------END PGP SIGNATURE-----
+      for (int i = 0; i < PAGES; i++) p[i*STRIDE] = i;
+      for (int i = 0; i < PAGES; i++)
+          if (p[i*STRIDE] != i) {
+              fprintf(stderr, "mismatch at page %d\n", i);
+              exit(1);
+          }
 
---q50L9+H94gXo88jD--
+      long ns = (t1.tv_sec-t0.tv_sec)*1000000000L + (t1.tv_nsec-t0.tv_nsec);
+      printf("mmap 512MB took %.3f us, verify OK\n", ns/1000.0);
+      return 0;
+  }
+
+W/ patch:
+
+~ # ./a.out
+mmap 512MB took 200266.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 198151.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 197069.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 196781.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 198102.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 195552.000 us, verify OK
+
+W/o patch:
+
+~ # ./a.out
+mmap 512MB took 6987470.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6970739.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6984383.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6971311.000 us, verify OK
+~ # ./a.out
+mmap 512MB took 6991680.000 us, verify OK
+
+Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+---
+ drivers/dma-buf/heaps/system_heap.c | 33 +++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index bbe7881f1360..4c782fe33fd4 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -186,20 +186,35 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+ 	struct sg_table *table = &buffer->sg_table;
+ 	unsigned long addr = vma->vm_start;
+-	struct sg_page_iter piter;
+-	int ret;
++	unsigned long pgoff = vma->vm_pgoff;
++	struct scatterlist *sg;
++	int i, ret;
++
++	for_each_sgtable_sg(table, sg, i) {
++		unsigned long n = sg->length >> PAGE_SHIFT;
+ 
+-	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+-		struct page *page = sg_page_iter_page(&piter);
++		if (pgoff < n)
++			break;
++		pgoff -= n;
++	}
++
++	for (; sg && addr < vma->vm_end; sg = sg_next(sg)) {
++		unsigned long n = (sg->length >> PAGE_SHIFT) - pgoff;
++		struct page *page = sg_page(sg) + pgoff;
++		unsigned long size = n << PAGE_SHIFT;
++
++		if (addr + size > vma->vm_end)
++			size = vma->vm_end - addr;
+ 
+-		ret = remap_pfn_range(vma, addr, page_to_pfn(page), PAGE_SIZE,
+-				      vma->vm_page_prot);
++		ret = remap_pfn_range(vma, addr, page_to_pfn(page),
++				size, vma->vm_page_prot);
+ 		if (ret)
+ 			return ret;
+-		addr += PAGE_SIZE;
+-		if (addr >= vma->vm_end)
+-			return 0;
++
++		addr += size;
++		pgoff = 0;
+ 	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.39.3 (Apple Git-146)
+
