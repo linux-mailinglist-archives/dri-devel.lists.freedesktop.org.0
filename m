@@ -2,144 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EE3B3C636
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 02:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E460FB3C6DE
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 02:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4714510E406;
-	Sat, 30 Aug 2025 00:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3601310E0DB;
+	Sat, 30 Aug 2025 00:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q+5mmYj+";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="bEnIRgKu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A33F10E40F
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 00:23:25 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57TLNrFm030299
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 00:23:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- tMGCzwi7iMqpBSIwuiogi39ZPNmDZ+NlaUaBUi0ePrI=; b=Q+5mmYj+n/VSVLYh
- QoJEjJoCvH+Des/LL/ULV2D2nLttafyPPr2QA4sl2XtTaYHJCq4T+bPQyVJ7CsSl
- sSIV7foFigiuEhSUTP84O9+acizE7obyfGN6k/EJXvjRHRa4ypkFCbTpjHaiezd5
- 5/bZ1AL/17zWQfZl/v2+oBXPoChXDOnv+u0eoZuBSqp6g/dxVhNIrzxuMXhbbJl6
- fTzqNL9CiDglo0WwZ8bP60aHCVi1zi9fSMFc+4MZh2Fou+OjxvYFhw5cWxX++xa6
- 1zwL/DRLfGpnoltZyvB8GSnx6Nt1crfT9tXJyRD4u4fCaxdXUwXxTe4NEg+ftutX
- 1IayYA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5wecthq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 00:23:24 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b2ecb8e64bso33281641cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 29 Aug 2025 17:23:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756513404; x=1757118204;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tMGCzwi7iMqpBSIwuiogi39ZPNmDZ+NlaUaBUi0ePrI=;
- b=n1pXhfggRm7PzhXhrB1MtCRUkWd5fKNX2MqPWyxQtVY7i9hAYvdMZHnjFZGlNezEC1
- wfwdg1jodxWlCZKvVVmzpH6eHzuU3hdxKAmyJathROV3a9U3034zFdQVDW/ZtC1SPAK+
- QTarSdK79pAMM5VF3pwu4NACgsYxIUZppqNlNV/KlTm09Mi10mU1vpwl8AKCk9436Wo9
- 2Oa2r56kCKubRgt/jWdLQYsbp7FfrY6Bj/VctvTC9HCI4Ai+GDlZVOQE9w4jjDfnOwze
- vQ+w0+FuOjGRdIGIzgrsAr/L8WlOLsgf5PshwiG0MJIYbj+0tyuHZTDgKIIBoHX02ILU
- AScQ==
-X-Gm-Message-State: AOJu0Yy+QbsmQQ8ms1/WhlL3rAmYw3L3Bh8umXDpEMy2gd9yMhqYyqTz
- aPAOfozx+9PEx6EWinRO4KC0qjpU0r7NdaYklPE3frmIk4K9iMFu+R4IJv7xVM0XCCO2MCaLPki
- 8CR6/yVtdHLjc4Gyxf0/pqt2y7DOXi1u5WC7N+pa35VUfMTDKco//h7HM0zh1fjfBt/rPxRY=
-X-Gm-Gg: ASbGnct3V+8nNDs0ijNGzTk+VL4jdHNOHYsEsPCU8tCha3hGEHdMtJ8HUtY5vPlIJd3
- kbZov1xXk82TFA5yGDPyqWV8emNhlpmAoPQPHCj1sacR38pDiPgOCltIq2RMaFNEUKf/d3JivAh
- 7yFvrjOoPNS6IAiNSspc6cIN5IATJGL+7G0rEvQkGwLncQmbUIfQJVri05ggI+rji4pwU/1NrQa
- lygHww7F7HTzQagoly9Ztjn0WFyQotezFdBLJKv4mD8ifeIlVrSIVIwm1ZVK5xoLsoWpFk1hkXo
- HHnDlqUJKwijc+5q1EZJc7Aq2XpO/z6BfEeNrW2IUUw5+6uGTMiEJ9o8D5ZmYwwKyVa/WbkIwQG
- OYntKQjU1dWuB9GAkw8TGO9CqOm8INtsCig43o0HrCnOD6EHIFDOO
-X-Received: by 2002:ac8:7dd0:0:b0:4b2:8ac4:ef8e with SMTP id
- d75a77b69052e-4b31dca7d9bmr6262471cf.73.1756513403724; 
- Fri, 29 Aug 2025 17:23:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHQbp4HnJW53TtgpH4goLIxU1betKvFXJivt7Yk4w2HXWAhfhSte/bjtbH3ZPMA/GFEM5dqMA==
-X-Received: by 2002:ac8:7dd0:0:b0:4b2:8ac4:ef8e with SMTP id
- d75a77b69052e-4b31dca7d9bmr6262001cf.73.1756513403243; 
- Fri, 29 Aug 2025 17:23:23 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f676dc52esm1019907e87.8.2025.08.29.17.23.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Aug 2025 17:23:22 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 30 Aug 2025 03:23:07 +0300
-Subject: [PATCH v3 11/11] drm/bridge: lontium-lt9611uxc: switch to HDMI
- audio helpers
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2080.outbound.protection.outlook.com [40.107.243.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6786910E0DB;
+ Sat, 30 Aug 2025 00:59:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PJiHWhbbEgrAVNg2QpffeUXMlNmM5Ul1udbQmUB60lUk1bepkQBEtZ0eXcXUh9NxaIzV9YXoO60z8KiIxWbD03wTYO/1JZgmD58n8sbLLHhFE/Qhw3ORY9+NBbwu4bVBXVFrgahzPuWzDqvGNjJNOEiu/MGw0iHfpWU/HTcgD9DsIKa2gJG0f/D1qMcAjThFmElC873EZ6Dz/i+LxP9Jt1xsELBz872PhqYGKZd6ObXwUh1Zb7qJzCPLq1zVkHFuMA3zp+SofmBpsTa16r92rxL2NHa9VQ+cDDAC0CPFPMVOSCo3hxc+Neh9C++l2xH8j/nyhTk6HQAUoNQ/DGMwoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p8FrJhv/dWPJg2SnGmhDYqMC1HmYaOngV9olbJhn+sg=;
+ b=nN2pK/JBMAPm7y8QKVWcm7YEY4isi7542WulvsTLd4bXoBZ6byyjB8Fs+VrYN9wJv5HiAEf8EY/l+6rX0sYgqCGsfLmp6p1Rn0d/dil/G4Nr3q1xra+uckbql5V7eN8d+eMRaA9wp4BiqJmHTkuwDHeG7rtobd2OuPJlIIJnN/e2rysmXqOUgrtcaOkMEXak2C+nRmsTZ7dNZUMLUmFkB/+yIpAMi0DlLRIc/3ALsXecov3a9djeFTH1H9M7olGoGP54SsRYsi+bHKIURU6rSw2h1cqZygAhEVVj4qlXDaeqQtres/SpAN+w6fzTuQciPHWFfB81/1fnROFDyhmjAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p8FrJhv/dWPJg2SnGmhDYqMC1HmYaOngV9olbJhn+sg=;
+ b=bEnIRgKuKsuGqWxBtXxYu0sjRrZytMkIcrvOP55aTbfESSABDFRbGjUhbf520C4dwPjOnqJEh2i4TOZmYtXP/iGvDT9xi1p4XJ+GYhfJu1rkXNrryGj/nv8PNWr1tMiumML6t2wswIVolf0FDw6PJUP4otxy365t1w/PTd87Gwt5Ia3E+j8DwlKTiocvJfYJPoZt294vlBSTC7pUWG6Kq+3uhQAh5gRzP5xjj13s5mJRts+kUqTr68TL9RbevjYIJesISqcz9HrEt55PAi0kILpi4KeZAA0KPfFikqt542E6hG584kooCKOa0WI+rcFdK6GZz58Ayjz5CCmemoQDcw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SA0PR12MB4368.namprd12.prod.outlook.com (2603:10b6:806:9f::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Sat, 30 Aug
+ 2025 00:59:19 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.019; Sat, 30 Aug 2025
+ 00:59:18 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 30 Aug 2025 09:59:13 +0900
+Message-Id: <DCFCSPF1PTLT.2A4LKV4TAF0JU@nvidia.com>
+Subject: Re: [PATCH v2 8/8] gpu: nova-core: compute layout of more
+ framebuffer regions required for GSP
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "John Hubbard" <jhubbard@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
+ <20250826-nova_firmware-v2-8-93566252fe3a@nvidia.com>
+ <e091c6c1-98f8-4876-b2f1-c928da7aa7eb@nvidia.com>
+In-Reply-To: <e091c6c1-98f8-4876-b2f1-c928da7aa7eb@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0005.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:26c::9) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250830-drm-limit-infoframes-v3-11-32fcbec4634e@oss.qualcomm.com>
-References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
-In-Reply-To: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6539;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=VIOVx9ZFQcN8aP7U3+DXeUs0Ba2NJyVyJ0ONqbKAcgU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoskRk4mO/Wae/aVjMwFDeIGRIwNht1W8+SnIgW
- mGWDw77GSyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaLJEZAAKCRCLPIo+Aiko
- 1aiuB/wLjBle4c8EUZFBkZrH+ITKfuu9NiqqEEnbh20zp5cP/q6DGCXvqn7JiotAYk/2OWe+TgZ
- wibQ6J9oaQdsYHdWszWTqJ+VckceGts93XDX83DH6MjkZl+U8ZmQazE2GM4X8phxTGZUpwrsT7Z
- PDXS9mKbl+23uOJ1Os8+rhOL1tKuMqFeIZEo+ChO/XJwS8pxmNET5bhSBFls35KXWLrGYP9NYV4
- J5+ZfT8+UntW/s1gQvPQB3LefV4pCOhcu9Kw9AWBxi2ScS9jJ0Zzh3XvewVtxknFkFz6JndPqqP
- ZQ0mPlZZl8Gb4f76AWhB8eGhy2KizaEN1C0CmHbU7wwbx3+Q
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: vO4ppJ8pwchpyaYRzWmquKBY53jmNjMM
-X-Proofpoint-ORIG-GUID: vO4ppJ8pwchpyaYRzWmquKBY53jmNjMM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX7xats02gevOX
- xYRscwBLzxrMNdishrxJSnwWI2hwzsuKldffRGnfyL1fgus1TIR8D2eyXE/a9b83oXumoBBjOQE
- KMsORUygBML6okfmp57nrZw/9td8s2p+2qMBjJxhLCBGlIYHjhjjAaYbFd7Gj9aZa97UHZvV/98
- gItdYoZ2VO2JjyYylLTyd4+IbaWgtydE0M3uTnLQq43aMJ0cjzma7zNTaXWhJyE6qnACS7KNRw1
- LkrxoBHrBQ7DRXQi4wmwdxrsjSkotF4vaEZ8MN7PoEei8VS+8A4w4ATLgrNZqoa5Y4sbTV/1hJe
- XgIKgASCK1HIY6XGLY8/GCivw/RPBtbHXaZx0d+LEv3eSLnk1R6Sxzr7X34b1KOvU+MnyKeSbYd
- NuLkvPk7
-X-Authority-Analysis: v=2.4 cv=BJazrEQG c=1 sm=1 tr=0 ts=68b2447c cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=l1vpWyVUGYkh7_PGMaYA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-29_07,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
- bulkscore=0 phishscore=0 suspectscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230033
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SA0PR12MB4368:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bc15d2c-68eb-4db6-a9b2-08dde7607249
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|10070799003|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a0phVW44T0JQQzQ3eitjVktXMExQblgwaTEyTGRhVFE0Z2xDWU1abG5pM0ZY?=
+ =?utf-8?B?VzF6dTBCYmd2aGpDcUNlRFZvRnpuMGtDR0tOVEdaYUtHYUVCMFpGRmRBMmJB?=
+ =?utf-8?B?eGlTYkpWSTlNanJBbklrN3pzM0Z6aERRblY3b0VHRnpsK0gyMkRTN2d0L0J1?=
+ =?utf-8?B?a3hrY0ZRNmlXRlQ4YUxDZWV1SDZPRmYxWGpVc0ZJdFVuamVVTHl0UzNxRUcv?=
+ =?utf-8?B?VitmeUk3cU9qY01hYUI0Ui9wQ2dZY0dHZGVna29FNEt2ZnBvNzRtZWpLaXNQ?=
+ =?utf-8?B?OGFwTEk1QlFQdk16R042SWlzTGhxRTFKeWZNbmJaeUZIeXZ5c2Z3bzJINE96?=
+ =?utf-8?B?Vnd2SHNhNTRNeEMwZUkwWmZsS0FhVGtWblcxMkJRbDEzeVNhRFlydnB1QWhn?=
+ =?utf-8?B?T2U1VWpYWmIxaGhUcDZlTC9rdEc0c2JiMWloQlg1Z1A2R1ZsemJhZVQ2OGJR?=
+ =?utf-8?B?dlN3YmdDYy9RTjVwYk0xa0NFb0FKekpQWlNTZERRdTNtMEVpOXhrQ2RHSFRr?=
+ =?utf-8?B?VTQ5MnVKYWR2T2xxa0dka1FPUElSUHlDWXBtMVozL0ROSDRJZ0dhUER5cFd5?=
+ =?utf-8?B?MzZuZlBmK0ZoZzlmWHdTcXJuTVNpVjhDeUhOc3pBc243QWtDcWxVRDczUzI2?=
+ =?utf-8?B?Y24zK0Y4Z1ZVU0diMlgrSnpOSUVVZHJET1FydkFHMFdXcDBqY0Z1dCtZdFlP?=
+ =?utf-8?B?V1lhYjJtUE90S3BsTHBOVEU0eUpyR1FBSXJjWndaZmRobTcyUWZZTnUrdkZC?=
+ =?utf-8?B?M01kUXhaRGJwMWJKbmlmNmpCdWJZaFRRa2hBRkVReURSYzhiMUhqVE9yZzg5?=
+ =?utf-8?B?OHdwSGF6VlBLMWU1cFA1YUVMbE1DN1B4K3RjWTdHaWk1NHlFQVBZUFFlVHNE?=
+ =?utf-8?B?d3hieWVrbTF4a2pyZmVkVlA2d3BTNW5FN3d2ZVVZa0FMSFpidWxwSWlvWllo?=
+ =?utf-8?B?c05yc1ZUbVVMcEdZNmllSU1kNSt0cllEeG8rT0xBSG5rSTRWbzgvczVkNmhs?=
+ =?utf-8?B?T1RaWDQ2K01HeHhzYzh1N2h2ZUJFNWJVQVFqb2VuTUZXQ1pmNnRUaFV5V1l0?=
+ =?utf-8?B?YlZUNXpIT09xQnRBWXBHdjdsWUNRR0ZYNnR2ZnplTlppckQvUjdpLzV1dU8z?=
+ =?utf-8?B?U21tdUMwMWI0TG1NMG8xSUMvK1ovL2tPMUZSSi9oOVJOOXhFbTB2Q0NXU2ZI?=
+ =?utf-8?B?UDF6KzMwajBLUEI2dkZSRXEvc2hua2piZWdWMW5takZEbVpyUkNGeFZvTkhY?=
+ =?utf-8?B?YkFkQmI2WUNJNVYzZnJpazBZYW5FSGFnTkJwZ3pwM1c0MGJTNEM4MmtTN3h4?=
+ =?utf-8?B?eHhHUklXalM0Q0FOcGx5V01OY1hjQTlCWWVEdlFZODl2ZTgxYyszK1ZCaWhO?=
+ =?utf-8?B?S2N2bXFIUjRKaTU4aDJPbnNGODQ1VU40Tm1yV25zMjZZRVQvTHJpNU9LbVRW?=
+ =?utf-8?B?ZENCMStnaEQ3WXhucUtzVGdaMEc1WHN1RFEvSHR6SEN0YS9zSXJBUElmaEFX?=
+ =?utf-8?B?bXFoUE9DcGJ2QWlXTFFoSGY5YWFybXlLRGZ0Q0xMQUJnU3JPMzRyYWMvZXhL?=
+ =?utf-8?B?RkYxZEtpV3plR1BaQjNRcUNPK2srVlMvVDAwQndLV1plWlpTaWhUZ2pJWVJs?=
+ =?utf-8?B?aGVlSjc1QlQwYW9YMmpGd0xZWm5Jc3YwZGhYRkpDZDRXenpmNDhuNmRaMFFG?=
+ =?utf-8?B?NUFyeEFCL29GYUwrMXBqVTViMWxsaW41cUREMThQYlpRLzVHcTErRndTdVJi?=
+ =?utf-8?B?MGJSeHNlV2lnMzBJekdLRkFtUnRiRGJobmtCd1BsM2JtUlJ4dU9YcWRsai83?=
+ =?utf-8?B?ZlBrYkJBbllLVFI3OElJVG0yNitnNTBCb3luMGFaU0VXbzRQczNWTjVvQnB1?=
+ =?utf-8?B?NFljRmcvelN3UFhKNGNuTlhpTUFJZW9pd1ZRUXZJUzNoQ2h6K21rdXJxTnVG?=
+ =?utf-8?B?aVJoMU1BZEk3MWR0Uk9BbmZoUHdPc1phVWo5akl2WXdlWVpkMzY5VFZ4N1NE?=
+ =?utf-8?B?OGJKNkVNWWlRPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(10070799003)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnhoWjBwcVZQdGc0ZmJqamZuV294RjJhdTZmczcwbWlZdVVTTko0OTNuYVlQ?=
+ =?utf-8?B?UGR3UTNBYkp3TFV6UzY0c3d4SDdFL3hObHJqNmxIZi9GYVFmSnZCcEdyZnVj?=
+ =?utf-8?B?eWdFemNpaVlaU2lGWm90VEZoTFI5UUJQQ29TckVkNDE5R0FwT0ZKN0tiYzQy?=
+ =?utf-8?B?dWpKanZ2Wnp0cFMrSjBtTUNqTjRBZ1U0RnA5QXA5MDg4VHhDWXRIZk9NZGhx?=
+ =?utf-8?B?K0ZWOWdrWVp3Ti8wS3JhTW0xZC9rd3lEczFWZStNN05vK1RLb3d2TnF3ZEcw?=
+ =?utf-8?B?MlZXQ1VEa3JTN1RrMXp1SHYvQ1JRT1ZjYUZUay9iemcyOURaVElHVkM1U0cx?=
+ =?utf-8?B?Y1pLeTVycU13Ry9hSEpuSVRka0hDdFBXWTZvYkVZZlMvc3pjb0EvZk1UQ3dQ?=
+ =?utf-8?B?bTdsbkFOUU9EMVNmV2RGRk1JSk15aUtTYWkxcy93YnhJQmFHSHlray9wL0tH?=
+ =?utf-8?B?SUVPaHVtTjNJY2MxZ0JiRk0vRlRJbEFpamE4bTFnWWc3bWRhMDJRN3Z6RlFt?=
+ =?utf-8?B?djhDdm9RdUg1S3U4eUZ6RHhZNzBHd3NhL05RTWVYYTJlVUZtMGZQVnNNbUdS?=
+ =?utf-8?B?ei90RGJpak5XWGxhc3hlcUNaMG1IMGlCcGFKdTdSNXgxSWJFTzQ0OHlXNCtV?=
+ =?utf-8?B?N0NxdnFORmc1WmpvNUFhUVBtRkN1TTd5TzRSUENiTHp0SmhySytseCtPb3lU?=
+ =?utf-8?B?SlRCWGxra1pEdCs4NERxa1V2VjJHVUJDRDA5SkxJQlduYW5ETDBTRGF1eFl4?=
+ =?utf-8?B?NGoyY3Vvc2tRRk5KSjJGZlRWS3llenEycU5TV0RyMFdKaEpZa2FNVE45b0cy?=
+ =?utf-8?B?Q050RWM3eHc3OTZKT05GalZSMGE5WVVpV0gvQXQzN2M1emcvcWRXM01UR0M1?=
+ =?utf-8?B?Vkw0TUwveUZ0OG9sZFR2eXY5SEJPNHY3NDljeEtveUNnenl2K1lrUFU5eEJw?=
+ =?utf-8?B?YlZpU005Z2RKRWhRQTYrK2duaVFxZm8yOTJYRGVWNjZHTzlrSDA2dlhVTVVT?=
+ =?utf-8?B?d2FqSmkxc0dMd2NPM1JsWldGNklaTjNDWXhMZ0t5TEtSTTl4c0pLLzdmdW9m?=
+ =?utf-8?B?K1lQU0VCa2R6NzNkZDVaUVlCWk1JRGdBUm1zelV3NUFaVzlVcmRYMjltY1Bu?=
+ =?utf-8?B?V2kwTFY1cytuQlc1c3BzWkhXdEZKYmt4VjQ0L2srSTRzRzJNVjlQZnZWT2Ny?=
+ =?utf-8?B?RXlTVFIwN0NTR1g1QmZhY081d3dMem45eHlaU1FHclRldWIxREM5Q2ZTM2Fo?=
+ =?utf-8?B?cnBIY0ZxVER2aTUyc3JVelp6c3UwbnhjOTdKREhsd2hXM2hxTXB3TlkvdHFk?=
+ =?utf-8?B?a0QzanhTWkhRNElodWFVMW5iQ1JkSnVxZTlZNlc0cm5kZnkwUjZSeFJaakdm?=
+ =?utf-8?B?UlVTOVA0eURTYWNYL3ZpVVBwRjF2LzVTNFBZMjYwTnZjcTg0bmtRVDhtSFE4?=
+ =?utf-8?B?QkI1VFMzT25KU1Z3bG9VTGZJMEFEY3ZaNStGdnMwbURUenFSVlZhc0xIallx?=
+ =?utf-8?B?MmVHckdPenF0R2VuMVpoNFB6STdNMWpnczd5eGEyY2pPdjdRNmRnVk5zOEtD?=
+ =?utf-8?B?REVHcVdoUVB4eEVzYTNDTWRSRm9paWJKY2lJQm5STHdDVXh6L252cW50SmY4?=
+ =?utf-8?B?TFgwYk1DYWtuYlBqK3JWNmpDVUhmUzV2N0RybDZhWFlMVlZxd2NvendDQS91?=
+ =?utf-8?B?VmlvZXo4V01QK2lHaENTdWtMaXI4aXhLUE9IOHdxWXNxd1ZhaCtMcGxKUlJR?=
+ =?utf-8?B?N2xJbkxpTUZNY2lwRVNFV0NDdExKZTZTaEdWS05FSE5IbUV0U0ZJUTBNVHpv?=
+ =?utf-8?B?L3Q5Y2FTVE5yS2VDc0FVVTRnbEpEQXVqZUtiRWNxeHRRU2cxajN5c0FVYk1F?=
+ =?utf-8?B?a1V0WHF3dFBMZ1JSMUVHS3NFcnFTWnhtdGNBZFdKUnpQMFo4V2ZlWEpxUkVK?=
+ =?utf-8?B?Ly9rWkpoRFhDNGZ6MHIyVjFoRm9EbGJVNEZtZEdQcXYzRHlKM3R6LzU5cy94?=
+ =?utf-8?B?aHVibkJ2cURqWTZFR0s4RWFRMHYwK2NTY0taNXJoTFM5dU5UWWdFWGh2Q0pa?=
+ =?utf-8?B?V3hTM0N3OTZzSTlqeUlzUi9kamhNVXlUeEgrZlZla0FXdEozanJtR042eEdk?=
+ =?utf-8?B?WXNabERidHlJTEo1bEJhZmF2RWlwRXJJQXE0YTF0N1Z4MTZZZWZTUDBGby9a?=
+ =?utf-8?Q?rWe8xN9xooHvP0NjWs9iGrOOPA/LrF7m/P0KY16PrOf/?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bc15d2c-68eb-4db6-a9b2-08dde7607249
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2025 00:59:18.7807 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DFQfA1i6LPhmkGM4UiXE+gU+o0JGdqDXVInaVL4WOyg9796mV481LOBnMfOJS9em9+AGqnFA96Pn8trYgehtaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4368
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,218 +179,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While LT9611UXC is a DSI-to-HDMI bridge, it implements all HDMI-related
-functions internally, in the firmware. Implement DRM_BRIDGE_OP_HDMI and
-DRM_BRIDGE_OP_HDMI_AUDIO by providing necessary stubs, streamlining HDMI
-and HDMI audio plumbing (which includes plugged notifications and ELD
-handling).
+On Sat Aug 30, 2025 at 8:30 AM JST, John Hubbard wrote:
+> On 8/25/25 9:07 PM, Alexandre Courbot wrote:
+>> diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+>> index b0e860498b883815b3861b8717f8ee1832d25440..a3eb063f86b3a06a7ad01e68=
+4919115abf5e28da 100644
+> ...
+>>          let fb =3D {
+>> @@ -138,10 +202,54 @@ pub(crate) fn new(chipset: Chipset, bar: &Bar0) ->=
+ Result<Self> {
+>>              frts_base..frts_base + FRTS_SIZE
+>>          };
+>> =20
+>> +        let boot =3D {
+>
+> A few lines earlier, not shown in these diffs because it's not part of th=
+is patch,
+> there is a closely related TODO item:
+>
+>             // TODO[NUMM]: replace with `align_down` once it lands.
+>             let frts_base =3D (vga_workspace.start & !(FRTS_DOWN_ALIGN - =
+1)) - FRTS_SIZE;
+>
+> ...which I think could be optionally fixed now, and added to this patch.
+>
+> Or it could be done later, in a different patch, but it seems convenient
+> to merge it in as long as we're here, and using .align_down() in this pat=
+ch.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 130 ++++++++++++-----------------
- 1 file changed, 54 insertions(+), 76 deletions(-)
+This is taken care of by the series adding the `Alignment` type:
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 38fb8776c0f441ae433c60a7680aaa6501a8956e..df4661986423a871c006af2a36d85d8103935f93 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -17,8 +17,6 @@
- #include <linux/wait.h>
- #include <linux/workqueue.h>
- 
--#include <sound/hdmi-codec.h>
--
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
-@@ -27,6 +25,8 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-+#include <drm/display/drm_hdmi_audio_helper.h>
-+
- #define EDID_BLOCK_SIZE	128
- #define EDID_NUM_BLOCKS	2
- 
-@@ -48,7 +48,6 @@ struct lt9611uxc {
- 	struct device_node *dsi1_node;
- 	struct mipi_dsi_device *dsi0;
- 	struct mipi_dsi_device *dsi1;
--	struct platform_device *audio_pdev;
- 
- 	struct gpio_desc *reset_gpio;
- 	struct gpio_desc *enable_gpio;
-@@ -429,12 +428,50 @@ static const struct drm_edid *lt9611uxc_bridge_edid_read(struct drm_bridge *brid
- 	return drm_edid_read_custom(connector, lt9611uxc_get_edid_block, lt9611uxc);
- }
- 
-+static int lt9611uxc_hdmi_clear_infoframe(struct drm_bridge *bridge,
-+					 enum hdmi_infoframe_type type)
-+{
-+	/* LT9611UXC managed infoframes in the firmware, provide an empty stub */
-+	return 0;
-+}
-+
-+static int lt9611uxc_hdmi_write_infoframe(struct drm_bridge *bridge,
-+					  enum hdmi_infoframe_type type,
-+					  const u8 *buffer, size_t len)
-+{
-+	/* LT9611UXC managed infoframes in the firmware, provide an empty stub */
-+	return 0;
-+}
-+
-+static int lt9611uxc_hdmi_audio_prepare(struct drm_bridge *bridge,
-+					struct drm_connector *connector,
-+					struct hdmi_codec_daifmt *fmt,
-+					struct hdmi_codec_params *hparms)
-+{
-+	/*
-+	 * LT9611UXC will automatically detect rate and sample size, so no need
-+	 * to setup anything here.
-+	 */
-+	return 0;
-+}
-+
-+static void lt9611uxc_hdmi_audio_shutdown(struct drm_bridge *bridge,
-+					  struct drm_connector *connector)
-+{
-+}
-+
- static const struct drm_bridge_funcs lt9611uxc_bridge_funcs = {
- 	.attach = lt9611uxc_bridge_attach,
- 	.mode_valid = lt9611uxc_bridge_mode_valid,
- 	.mode_set = lt9611uxc_bridge_mode_set,
- 	.detect = lt9611uxc_bridge_detect,
- 	.edid_read = lt9611uxc_bridge_edid_read,
-+
-+	.hdmi_write_infoframe = lt9611uxc_hdmi_write_infoframe,
-+	.hdmi_clear_infoframe = lt9611uxc_hdmi_clear_infoframe,
-+
-+	.hdmi_audio_prepare = lt9611uxc_hdmi_audio_prepare,
-+	.hdmi_audio_shutdown = lt9611uxc_hdmi_audio_shutdown,
- };
- 
- static int lt9611uxc_parse_dt(struct device *dev,
-@@ -508,73 +545,6 @@ static int lt9611uxc_read_version(struct lt9611uxc *lt9611uxc)
- 	return ret < 0 ? ret : rev;
- }
- 
--static int lt9611uxc_hdmi_hw_params(struct device *dev, void *data,
--				    struct hdmi_codec_daifmt *fmt,
--				    struct hdmi_codec_params *hparms)
--{
--	/*
--	 * LT9611UXC will automatically detect rate and sample size, so no need
--	 * to setup anything here.
--	 */
--	return 0;
--}
--
--static void lt9611uxc_audio_shutdown(struct device *dev, void *data)
--{
--}
--
--static int lt9611uxc_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--					 struct device_node *endpoint,
--					 void *data)
--{
--	struct of_endpoint of_ep;
--	int ret;
--
--	ret = of_graph_parse_endpoint(endpoint, &of_ep);
--	if (ret < 0)
--		return ret;
--
--	/*
--	 * HDMI sound should be located as reg = <2>
--	 * Then, it is sound port 0
--	 */
--	if (of_ep.port == 2)
--		return 0;
--
--	return -EINVAL;
--}
--
--static const struct hdmi_codec_ops lt9611uxc_codec_ops = {
--	.hw_params	= lt9611uxc_hdmi_hw_params,
--	.audio_shutdown = lt9611uxc_audio_shutdown,
--	.get_dai_id	= lt9611uxc_hdmi_i2s_get_dai_id,
--};
--
--static int lt9611uxc_audio_init(struct device *dev, struct lt9611uxc *lt9611uxc)
--{
--	struct hdmi_codec_pdata codec_data = {
--		.ops = &lt9611uxc_codec_ops,
--		.max_i2s_channels = 2,
--		.i2s = 1,
--		.data = lt9611uxc,
--	};
--
--	lt9611uxc->audio_pdev =
--		platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
--					      PLATFORM_DEVID_AUTO,
--					      &codec_data, sizeof(codec_data));
--
--	return PTR_ERR_OR_ZERO(lt9611uxc->audio_pdev);
--}
--
--static void lt9611uxc_audio_exit(struct lt9611uxc *lt9611uxc)
--{
--	if (lt9611uxc->audio_pdev) {
--		platform_device_unregister(lt9611uxc->audio_pdev);
--		lt9611uxc->audio_pdev = NULL;
--	}
--}
--
- #define LT9611UXC_FW_PAGE_SIZE 32
- static void lt9611uxc_firmware_write_page(struct lt9611uxc *lt9611uxc, u16 addr, const u8 *buf)
- {
-@@ -858,11 +828,24 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 	i2c_set_clientdata(client, lt9611uxc);
- 
- 	lt9611uxc->bridge.of_node = client->dev.of_node;
--	lt9611uxc->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID;
-+	lt9611uxc->bridge.ops = DRM_BRIDGE_OP_DETECT |
-+		DRM_BRIDGE_OP_EDID |
-+		DRM_BRIDGE_OP_HDMI |
-+		DRM_BRIDGE_OP_HDMI_AUDIO;
- 	if (lt9611uxc->hpd_supported)
- 		lt9611uxc->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 	lt9611uxc->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 
-+	lt9611uxc->bridge.vendor = "Lontium";
-+	lt9611uxc->bridge.product = "LT9611UXC";
-+	lt9611uxc->bridge.autogenerated_infoframes =
-+		DRM_CONNECTOR_INFOFRAME_AUDIO |
-+		DRM_CONNECTOR_INFOFRAME_AVI;
-+
-+	lt9611uxc->bridge.hdmi_audio_dev = dev;
-+	lt9611uxc->bridge.hdmi_audio_max_i2s_playback_channels = 2;
-+	lt9611uxc->bridge.hdmi_audio_dai_port = 2;
-+
- 	drm_bridge_add(&lt9611uxc->bridge);
- 
- 	/* Attach primary DSI */
-@@ -881,10 +864,6 @@ static int lt9611uxc_probe(struct i2c_client *client)
- 		}
- 	}
- 
--	ret = lt9611uxc_audio_init(dev, lt9611uxc);
--	if (ret)
--		goto err_remove_bridge;
--
- 	return 0;
- 
- err_remove_bridge:
-@@ -908,7 +887,6 @@ static void lt9611uxc_remove(struct i2c_client *client)
- 
- 	free_irq(client->irq, lt9611uxc);
- 	cancel_work_sync(&lt9611uxc->work);
--	lt9611uxc_audio_exit(lt9611uxc);
- 	drm_bridge_remove(&lt9611uxc->bridge);
- 
- 	mutex_destroy(&lt9611uxc->ocm_lock);
+https://lore.kernel.org/rust-for-linux/20250821-num-v4-2-1f3a425d7244@nvidi=
+a.com/
 
--- 
-2.47.2
+>
+> ...
+>> diff --git a/drivers/gpu/nova-core/nvfw.rs b/drivers/gpu/nova-core/nvfw.=
+rs
+>> index 7c5baccc34a2387c30e51f93d3ae039b14b6b83a..11a63c3710b1aa1eec78359c=
+15c101bdf2ad99c8 100644
+>> --- a/drivers/gpu/nova-core/nvfw.rs
+>> +++ b/drivers/gpu/nova-core/nvfw.rs
+>> @@ -1,3 +1,42 @@
+>>  // SPDX-License-Identifier: GPL-2.0
+>> =20
+>>  mod r570_144;
+>> +
+>> +use core::ops::Range;
+>> +
+>> +use kernel::sizes::SZ_1M;
+>> +
+>> +/// Heap memory requirements and constraints for a given version of the=
+ GSP LIBOS.
+>> +pub(crate) struct LibosParams {
+>> +    /// The base amount of heap required by the GSP operating system, i=
+n bytes.
+>> +    pub(crate) carveout_size: u64,
+>> +    /// The minimum and maximum sizes allowed for the GSP FW heap, in b=
+ytes.
+>> +    pub(crate) allowed_heap_size: Range<u64>,
+>> +}
+>> +
+>> +/// Version 2 of the GSP LIBOS (Turing and GA100)
+>> +pub(crate) const LIBOS2_PARAMS: LibosParams =3D LibosParams {
+>> +    carveout_size: r570_144::GSP_FW_HEAP_PARAM_OS_SIZE_LIBOS2 as u64,
+>> +    allowed_heap_size: r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MIN_M=
+B as u64 * SZ_1M as u64
+>> +        ..r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB as u64 * SZ=
+_1M as u64,
+>
+> We only support one version of the firmware. And in the coming months,
+> that one version will have a different version number.
+>
+> Given those constraints, we should simply remove most (all?) of the "r570=
+_144::"
+> namespace qualifiers in the code, starting here.
+>
+> That way, we get:
+>
+> a) A small diff, instead of a huge one, when we update to a new firmware
+>    version.
+>
+> b) Shorter, cleaner symbols everywhere: GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_=
+MAX_MB
+>    instead of r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB, for exam=
+ple.
 
+`nvfw` is the module that is supposed to abstract the currently
+supported firmware version - but in order to provide this abstraction,
+it needs to refer the items in question. :) I don't see how we could
+avoid these qualifiers short of having a `use r750_144::*` which could
+result into name collisions.
+
+But maybe we can do a module alias to reduce the diff once the version
+changes:
+
+    use r570_144 as fwbindings;
+    ...
+
+    pub(crate) const LIBOS2_PARAMS: LibosParams =3D LibosParams {
+        carveout_size: fwbindings::GSP_FW_HEAP_PARAM_OS_SIZE_LIBOS2 as u64,
+
+Is that what you had in mind?
