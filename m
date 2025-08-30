@@ -2,135 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78F1B3CFDE
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Aug 2025 00:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA04CB3D00D
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Aug 2025 00:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE8210E286;
-	Sat, 30 Aug 2025 22:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF6710E293;
+	Sat, 30 Aug 2025 22:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="i3GnX8W6";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="V525SsJG";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="ObrS52SG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20A3610E031
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 22:29:20 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ULBtML025182
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 22:29:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=GNi6qlMhUO/dlDLKPCpe1Eoh
- MUP/BhLmz8wF/QSm9/A=; b=i3GnX8W6MzF7/jJqLQfusJdMEK+lmRXnmxPfHHY1
- JPvU271NEVX0/v6y7ODjamnq+H35oviI2R0naUJNBJpMjQ372GejEdRgYAaVwriD
- UuP6g6EZHnfjp6jRkib7fwem4DSzBXnuwGFWs8Bx/dKken7qgT+Q47BDBEnHD/fW
- AOjVS77HhoxWByxt9zCkSoPxghyGfIfk80XXJk/y483CHjFMaGP4kjQ/AcYT6ciI
- i0qD3LFPO0B/sa8mnRCx5iomQnAJyXkhrVP00urFpwzbtyFGPxJgQ03tWBSnsQAX
- T1fqATL+5HD27JlCxMLfLyKmM7EZNQWozZhMbvA9sqGkOQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uscus7sk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 22:29:18 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-70a9f55eb56so59987706d6.2
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 15:29:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756592958; x=1757197758;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GNi6qlMhUO/dlDLKPCpe1EohMUP/BhLmz8wF/QSm9/A=;
- b=RtTEeXKD50RtemBXZ6mImaXrMl7STdbOnRuuaKtUziOMWnmKq4xL05LF97+ITR1fdw
- TWl5+WJgtO8It86yqg9+gBLu0BBbwgKZPlo73vhtcYjmq2K8GR4WINJQeaMuTgt8QUhr
- MS+H/OWHSSmNLKBWx4rNEOEl86jIPww0mjUma+biqkHYFQvVp/k9FlDVWdf2WouVvYlf
- Lr8cCwWwxsglFB9fUpSsPkCzUjZjZgnkwHJeEZvVUMp4TaEdqWLwuqbGVH5d7jQ6oSIN
- NnpH1mxptJS3r1s34XwUfNdiOWEelH74FdJftEHT1zA8q3Z9/PviR0fEn0dvUZtdGw9m
- 9hjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVY9pHUruWz8dzsZkcb4tLlEKSINF382AmFPrbpNKJOMsUC4Yg3r40+yP8iAlxwIUN27ETc64rSJ6k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwA1nfZ+gfbVpFM0kK+ilgiau009vEqtmGYpO2owwuyw0/jLoLR
- LaKwPdvIdljlYpgETUlOCCpRza4uAsNw2NvOm/49+LYC/EKWIcFN6nS0SdOLDfH3q/mvtjuYo8a
- ogt5VqTzt58hmp1mckkjMxwb0Moqx/thymIfnbbsxeMWlOzA8mIxnPVj4l2pczG7zgLQhBcM=
-X-Gm-Gg: ASbGncssaBID1R8C5xOypVQL1YnaVDGaftkyg1EKVzTVdndTYrExYyDbBR9a6xotq1z
- DHIFk+yK9xwP7z7YgX/u0/V3NjfNRavtvgwGSaW8MK3p5Mu0aecNjFH2N/OxCm/YXx//4TZZy8p
- g9jP0HMJxLBi3KOJNa9nweOTphoeIYZa3xYKGzLGzmYNwVnsmucbks/9b5ohf30CaTw2VmHs2Os
- 5jur27xnfma2PB/WIWPDGzP2Bq73iR8kP6E3wPc+jTQGYU+IiQbjE80Ol9jgGWtpdMYfz3C03e5
- Tne+xHbX+XFxmvelqJD7SjAV2n2cPFJI9evwg0gHyEoDdpSbjaXwKh7hhPLFNb2q6qTwt2uLHcB
- hQ2wyLy7Q+lIjAHaSKQIN1ZiFo9D7hcO63609WAKhGWqOHPBMewmz
-X-Received: by 2002:a05:6214:21cb:b0:70d:c6b9:c256 with SMTP id
- 6a1803df08f44-70fac94115cmr30677726d6.58.1756592957765; 
- Sat, 30 Aug 2025 15:29:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFaqdCzqqQwp+xBjOwKvWSPX4p3qiZ0ZzV9L7+TYukjcGa33kntlWRwDlkYGow/owafc/jjnw==
-X-Received: by 2002:a05:6214:21cb:b0:70d:c6b9:c256 with SMTP id
- 6a1803df08f44-70fac94115cmr30677306d6.58.1756592956994; 
- Sat, 30 Aug 2025 15:29:16 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-336d0e3f3absm4929391fa.37.2025.08.30.15.29.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Aug 2025 15:29:15 -0700 (PDT)
-Date: Sun, 31 Aug 2025 01:29:13 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-Message-ID: <57ekub6uba7iee34sviadareqxv234zbmkr7avqofxes4mqnru@vgkppexnj6cb>
-References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
- <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE4110E291;
+ Sat, 30 Aug 2025 22:48:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
+ c=relaxed/relaxed; 
+ h=To:Message-Id:Date:Subject:From; t=1756593500; bh=sJBbh12ISrJRahnF37YRfUd
+ ntH2Zj/Dof0WzSnco3wM=; b=V525SsJGaAnwPq+t9xAPlVv0j9F8sS1QAB0b6Ow9//Lg/DesHT
+ sYjew1Mk7b2Am7dSbJ3pkhoJ1WRcjwv/maOUH3JZymZBTscAcw30NZnter5ZBrhMMthnXLQgKDO
+ Qf5zuNVQ00/i5EQu8+5reQ0H5nsmLUSN0+d6U51QuzGd2j/f0BtRrynWDe13V+dYRb0XS5JakTf
+ H4MvG0o2ddn9dRMLLHVtcSD06skEknXSIbW2SICQFKc+iZT64zgQV0/mis9pvsSXGLWMRGRyXsh
+ YocEgIkTL/U2ggT30iQdudiSl96iRz8RjfIjr5oHXdBUzej1ThpZ/QBFE7XSxNv0wlQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
+ c=relaxed/relaxed; 
+ h=To:Message-Id:Date:Subject:From; t=1756593500; bh=sJBbh12ISrJRahnF37YRfUd
+ ntH2Zj/Dof0WzSnco3wM=; b=ObrS52SGDuDkUG7OYrYEfVVSl5WFuyGMCQBb2cR8mQZyipBfif
+ jq1RZwNg/9vBaWPOaMAnnsz3nN54i1HMGqAg==;
+From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
+ <barnabas.czeman@mainlining.org>
+Subject: [PATCH v7 0/6] Initial support of MSM8937 and Xiaomi Redmi 3S
+Date: Sun, 31 Aug 2025 00:38:12 +0200
+Message-Id: <20250831-msm8937-v7-0-232a9fb19ab7@mainlining.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMSBTYWx0ZWRfX8MCEJ9jBfuvx
- W5COzyvqH6gbY9TL3f2RusE4qg7OBCOrcib5zB3EZedfjDlmr5+O+2zrSsT2XCrWIP9ERv1VEYt
- 2ol0HtyRTOV2tws3D7A8wh35Lg44uMXX2YLWOTt/c8FzcfmdI/0eIgYHM4prIjGBrg1D2w6oLB8
- Ws+fbhEEtGSLRGtFaYmglQh/0w4F/PtfagW+wUZhY30uk2cKfm9gzr5Di+HCAsz2PwzNXSp1j3c
- uzk3y6FYZclCQGlOdQV8pvYLOpOr125syRjrKcQaZGIEqpIGvXqCcpflumXp4pUHejbX3PMDB1V
- n+kLyzpBdCHu9xBqiGBEPVTI+X2qZERooYS9xyN2C15vrULGu4Y6jbyZ7GMKururuPjNpezRfZ2
- xmvqm0vx
-X-Authority-Analysis: v=2.4 cv=A8xsP7WG c=1 sm=1 tr=0 ts=68b37b3e cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=eLVs-IFDZWC_gK9YM6cA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: 6zSYZSwTJQ0w2LOPDzlEw19jfMB_MyBy
-X-Proofpoint-GUID: 6zSYZSwTJQ0w2LOPDzlEw19jfMB_MyBy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-30_09,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300031
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFR9s2gC/23QwWrEIBAG4FdZPNeio3G0p75H6SHRMSs0yWKKt
+ Cx595qF1kBz/Ae/n3HubKWcaGUvlzvLVNKalrkGfLowf+3nkXgKNTMQ0AmQgk/rZJ1CDmApiuA
+ Vecfq61ummL4eTW/vNV/T+rnk70dxkfv0t0P+dRTJBccASMFgRGFfpz7NH2lO8/i85JHtRQUOG
+ FTDUPHgHNahURTUKVZHrBtWFYc+oJcWvPfDKdYNK9k1rCuWUSogi6LX7hR3DWs4/Lnb147OoqM
+ odTjHpmEL7ejF7Fg4MUDvB4P0D2/b9gPKPdAX1AEAAA==
+X-Change-ID: 20250210-msm8937-228ef0dc3ec9
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, 
+ =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
+ Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Adam Skladowski <a_skl39@protonmail.com>, 
+ Sireesh Kodali <sireeshkodali@protonmail.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, iommu@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ linux@mainlining.org, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Daniil Titov <daniilt971@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Dang Huynh <danct12@riseup.net>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756593498; l=3677;
+ i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
+ bh=IuNo5LYqCPvx/bmG5bVEJ7GNfYLU2l5PW8pqqLvr0FA=;
+ b=JmEkgEoQFTvoyzCT4SGtdSTtC7G04pIOn1TLJGFJbeQ8s6TOaK2UASahhtHzNkP6Sa0MkCDCg
+ eufnpkXrgzzAPg26B3aFppdfWenkSFLpvWJWKWwm9JbzQQlfQJecky2
+X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
+ pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,45 +101,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 30, 2025 at 09:30:01AM +0200, Daniel Stone wrote:
-> Hi Dmitry,
-> 
-> On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > It's not uncommon for the particular device to support only a subset of
-> > HDMI InfoFrames. It's not a big problem for the kernel, since we adopted
-> > a model of ignoring the unsupported Infoframes, but it's a bigger
-> > problem for the userspace: we end up having files in debugfs which do
-> > mot match what is being sent on the wire.
-> >
-> > Sort that out, making sure that all interfaces are consistent.
-> 
-> Thanks for the series, it's a really good cleanup.
-> 
-> I know that dw-hdmi-qp can support _any_ infoframe, by manually
-> packing it into the two GHDMI banks. So the supported set there is
-> 'all of the currently well-known ones, plus any two others, but only
-> two and not more'. I wonder if that has any effect on the interface
-> you were thinking about for userspace?
+This patch series add initial support for MSM8937 SoC
+and Xiaomi Redmi 3S (land).
 
-I was mostly concerned with the existing debugfs interface (as it is
-also used e.g. for edid-decode, etc).
+The series is extending the MSM8917 gcc and pinctrl drivers
+because they are sibling SoCs.
+MSM8937 have 4 more A53 cores and have one more dsi port then
+MSM8917.
+It implements little-big architecture and uses Adreno 505.
 
-It seems "everything + 2 spare" is more or less common (ADV7511, MSM
-HDMI also have those. I don't have at hand the proper datasheet for
-LT9611 (non-UXC one), but I think its InfoFrames are also more or less
-generic).  Maybe we should change debugfs integration to register the
-file when the frame is being enabled and removing it when it gets unset.
+Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+---
+Changes in v7:
+- gpu.yaml: update adreno 505 pattern
+- Link to v6: https://lore.kernel.org/r/20250820-msm8937-v6-0-b090b2acb67e@mainlining.org
 
-Then in the long run we can add 'slots' and allocate some of the frames
-to the slots. E.g. ADV7511 would get 'software AVI', 'software SPD',
-'auto AUDIO' + 2 generic slots (and MPEG InfoFrame which can probably be
-salvaged as another generic one)). MSM HDMI would get 'software AVI',
-'software AUDIO' + 2 generic slots (+MPEG + obsucre HDMI which I don't
-want to use). Then the framework might be able to prioritize whether to
-use generic slots for important data (as DRM HDR, HDMI) or less important
-(SPD).
+Changes in v6:
+- msm8937:
+  - Fix nodes ordering.
+  - Format clocks, reg, dmas and -names properties.
+  - Add gpu_speedbin.
+- Describe A505 clocks.
+- Link to v5: https://lore.kernel.org/r/20250421-msm8937-v5-0-bf9879ef14d9@mainlining.org
 
+Changes in v5:
+- msm8937:
+  - Remove wrongly defined idle-states.
+  - Fix thermal zones.
+  - Use the header with DSI phy clock IDs.
+  - Fix the nodes order.
+  - Fix the pinctrls style.
+  - Follow gcc header changes.
+- msm8937-xiaomi-land:
+  - Remove headphone switch and speaker amplifier bindings.
+  - Unify status property style.
+- gcc bindings:
+  - Expand MSM8953 gcc schema with MSM8937.
+  - Add MSM8937 prefix for MSM8937 specific clocks.
+- gcc:
+  - Follow the bindings changes.
+- Drop alwayson clock documentation it will be handled in another
+  patchset.
+- Link to v4: https://lore.kernel.org/r/20250315-msm8937-v4-0-1f132e870a49@mainlining.org
+
+Changes in v4:
+- Add missing rpmcc include for qcom,gcc-msm8937 dtbinding exmaple.
+- msm8937: add missing space after s9-p1@230
+- msm8937-xiaomi-land: replace LED_FUNCTION_INDICATOR to LED_FUNCTION_STATUS
+- Remove applied patches
+- Link to v3: https://lore.kernel.org/r/20250224-msm8937-v3-0-dad7c182cccb@mainlining.org
+
+Changes in v3:
+- Fix qcom,gcc-msm8937 dtbinding example 
+- Link to v2: https://lore.kernel.org/r/20250223-msm8937-v2-0-b99722363ed3@mainlining.org
+
+Changes in v2:
+- drop applied patches
+- drop gcc schema commits infavor of a new schema for gcc-msm8937
+- document always on clock for adreno 505/506/510
+- msm8937:
+  - set cache size
+  - rename cpu labels
+  - fix style issues addressed by review
+- msm8937-xiaom-land:
+  - remove unused serial0 alias
+  - remove regulator-always-on from pm8937_l6
+  - add blue indicator led for aw2013
+- Link to v1: https://lore.kernel.org/r/20250211-msm8937-v1-0-7d27ed67f708@mainlining.org
+
+---
+Barnabás Czémán (4):
+      dt-bindings: clock: qcom: Add MSM8937 Global Clock Controller
+      dt-bindings: display/msm/gpu: describe A505 clocks
+      dt-bindings: arm: qcom: Add Xiaomi Redmi 3S
+      arm64: dts: qcom: Add Xiaomi Redmi 3S
+
+Dang Huynh (1):
+      arm64: dts: qcom: Add initial support for MSM8937
+
+Daniil Titov (1):
+      clk: qcom: gcc: Add support for Global Clock controller found on MSM8937
+
+ Documentation/devicetree/bindings/arm/qcom.yaml    |    6 +
+ .../bindings/clock/qcom,gcc-msm8953.yaml           |   11 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       |    2 +-
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ arch/arm64/boot/dts/qcom/msm8937-xiaomi-land.dts   |  381 ++++
+ arch/arm64/boot/dts/qcom/msm8937.dtsi              | 2134 ++++++++++++++++++++
+ drivers/clk/qcom/Kconfig                           |    6 +-
+ drivers/clk/qcom/gcc-msm8917.c                     |  617 +++++-
+ include/dt-bindings/clock/qcom,gcc-msm8917.h       |   19 +
+ 9 files changed, 3166 insertions(+), 11 deletions(-)
+---
+base-commit: 3cace99d63192a7250461b058279a42d91075d0c
+change-id: 20250210-msm8937-228ef0dc3ec9
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Barnabás Czémán <barnabas.czeman@mainlining.org>
