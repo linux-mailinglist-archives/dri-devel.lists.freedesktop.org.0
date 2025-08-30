@@ -2,170 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B901CB3C85C
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 07:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF096B3C8A2
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 09:16:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E41C310E053;
-	Sat, 30 Aug 2025 05:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86DF510E013;
+	Sat, 30 Aug 2025 07:16:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mexV4gm2";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="bGPRiKj+";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="A28P82GL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2056.outbound.protection.outlook.com [40.107.220.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC6C10E053;
- Sat, 30 Aug 2025 05:47:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yXrjeUa4x5dnqD2IHLFEYNOpVO7WHyMX5O2loOmxrLhrQ9A2ZvUB1Ir2hk9oGzeNgkEQYe+hHlu7yjhUsidw7Z9fUXZl3m2G/+jAMz3gXreXN1LExwyMf2dGcT/QKL+tNy3n2gynjAFkDpWZbTiEo2L5trmcM3P7rFQdRkmDQQ/+tXtKqjNXq16URJcU8ARISYiic3me3xzd5ZpbBfgjteadMoqbHM6x+mxy+ZjIOaathAw5DeuASbrADuK1YwlCYfc0McGX53VEoGiNiBmgVY2R7aOkrQAJ4v6q3qwBH8Cotpem9wf16JfCOlutC6AWxLRsQkjNP2vXmB+qrQCLiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wIqjUfV00jWhoyEO4VsJSNzYSxKY3QwAuevBrjTtixo=;
- b=Y4EypfKrI1/kMvjEzBG0M/pb584rTCt/2MjYen5m9tOWnSsXWUJXPb1OVVjBe0Dam/LlIW2iRB01jpOO0yW+32OackLzyKfQF4g+3NpXqTQo/rJSqpXxxVSVu7oEVICZ5XuNtz+M7GQ1lFNMFXrY5Ap6jniwMYNGTS/o7d5ZSqEx7+DV63xqpVskchmnbhF/yekMEblrGARM1qQZvU2m/OnXmIVd7weFoR29y7jt4XTcDYkK8BrpZCN02lEzF5wylbZwiwTmIeDT7Ylffhq7+nIgVnX6SeXTpCrHZvvXxotSxRNLorAEhmTLhlVqyBssqfRLPQTIThm2lwWDj/SorA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wIqjUfV00jWhoyEO4VsJSNzYSxKY3QwAuevBrjTtixo=;
- b=mexV4gm2B1YVtdVVtbF85cdnRRpLKyX8F0ZofFP4ZzpPhkC53UgPvTLnhe81CDN/1tUjL+oDiYy9b+iMW37VEby948W/DpT4sf/JhKUgKZVLEoVKmUl2hL8N8MOFQRF7hV/yV/TcCF9fcr2VginmnjH9zvpEeQ30LhV4lQMh/OJX53s6q+Glc+3hZEc3u9dJbs29jXs8/wQDNQCeQ+Rm4XYg6qcESqGq9P4wwzLJdtq0VJ/jvcELjc0B0lSI0t7tfd6qT3b6Saj2dFVv8ruU+5uxixfC3maF0UqHfPy21MBCuUUQJq0tlFA9QM+zra+mE//sZ2ZW/cljqy7kO877kw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com (2603:10b6:408:14f::7)
- by DS7PR12MB6360.namprd12.prod.outlook.com (2603:10b6:8:93::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.21; Sat, 30 Aug
- 2025 05:46:58 +0000
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4]) by LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4%6]) with mapi id 15.20.9073.021; Sat, 30 Aug 2025
- 05:46:57 +0000
-Message-ID: <33168c6e-0dd9-47f8-865f-061be48d48f2@nvidia.com>
-Date: Fri, 29 Aug 2025 22:46:54 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/8] gpu: nova-core: compute layout of more framebuffer
- regions required for GSP
-To: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from flow-a8-smtp.messagingengine.com
+ (flow-a8-smtp.messagingengine.com [103.168.172.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 330DE10E013
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 07:16:27 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailflow.phl.internal (Postfix) with ESMTP id 50B9C13803E1;
+ Sat, 30 Aug 2025 03:16:26 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-05.internal (MEProxy); Sat, 30 Aug 2025 03:16:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm2; t=1756538186; x=1756545386; bh=rH5wSPSqP8
+ tNxz48V8nyDtHP/PfH/+QarsY2hPsLNiY=; b=bGPRiKj+zJAsCUQyrJp0/StHT3
+ Z0CEFhLQjV5xm7Yvbyg5RazYCfPbyTHWSm2ZpCegTbXOy6qhuD/CjdcFxuViszyu
+ G3+fcGeOv7HdCyn7AzxAqSFmzLO2erX/Vdp5eEeZaLTZRFRspFMiQ+busfvUv9xK
+ P1Qxg+vqomILq0dDixCVgYHw5VQEBClB9I6+/uTShTR//VYQFOWuKhVaLsvC6l/b
+ E1N/tfeehqrMQEp4i3wWoOJxGypUi7brZoL9qGPmQKmmMa93tVd1AY5Gro+BAjS3
+ WpUTogmTRpIeiSKPcsYZ3mE0og2OG5NvvD5b/WVFxeoMPFsjnwskajCq3uyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1756538186; x=1756545386; bh=rH5wSPSqP8tNxz48V8nyDtHP/PfH/+QarsY
+ 2hPsLNiY=; b=A28P82GLhQ+gU+qNvkSXEMIHHGhWHgGPB6W2BqfuM8nVdICuM2A
+ NcqEdXjnRC5GOtPhl8vytw2JOVW6a632Lth7tFVqpN0jcVrs5FIWi0nJ5dbfpPbz
+ 93UWghe/7/x4NXeA4FN4wHq2l0R/6xrVdl4M6x+X4EqZcsuk7fUrrkX7z2aqNGXe
+ GRh9v13JNwBHa0GWMNd0IJAZ/VLuVZRHMzmIP6KgEOrMibcUtTOr/XOmSC3N9SR2
+ +4h7cZHX5hYQElJlZ9AcSZWpik6DY6Yif1Q+6msGHxqUXYJZ/hDnKBXbWh3Xvalq
+ Rf1Hz1zKH3Te14Zyu+F/tIsbTPiaescl/sQ==
+X-ME-Sender: <xms:R6WyaEoVPmMMjSTFVHUliXOdv-32qkUK5pBFUekwj0BEfXYXKXHMdg>
+ <xme:R6WyaOxfi2Sr_p908cLZZq0WtOWmPygKs_jKndyVj8rKDpXX8ikKi1OeywN_Gtza-
+ FiH-hDxXuUZTl36M64>
+X-ME-Received: <xmr:R6WyaEyfRmAxZWCNsVqvVaXCqEN1juICIShBdAflOgf0gNEE_E5nocVl8uCdcH2Ux_v_VJ8rmIGy5LrSoEu2QIiMu_-QOznOlpk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeehjeejucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcu
+ ifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvd
+ ffveelgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhu
+ shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruh
+ drnhgvthdpnhgspghrtghpthhtohepieefpdhmohguvgepshhmthhpohhuthdprhgtphht
+ thhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnh
+ gvlhdrohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdp
+ rhgtphhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehkrhiikhdoug
+ htsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghl
+ rdhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoh
+ eprhgrfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhrvghshhdrkhhu
+ mhgrrheslhhinhgrrhhordhorhhg
+X-ME-Proxy: <xmx:R6WyaOKeRrX_rKVtlS-_HS0UcyN9w8mWfjCwNfiQ70_pAa29FRblZA>
+ <xmx:R6WyaBhJsS4AgbvUvcN_o6uHp3h_R8NH2iRFaJDZJdGCW4iQPaQfCw>
+ <xmx:R6WyaMkzXbMbopG8scAkzx_CFhYUQNKGJXW5k3t17XIk3bIEeUpTWQ>
+ <xmx:R6WyaOgrns0dbGzbmla7f4E8nyVhRwKAcFG-qkHg9ORUTbTcZhmzrg>
+ <xmx:SqWyaJIOEg53pkAeV7MbeJTeynbZUjxSAdTQb-JDXFYqQHxsi0m95a1W>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 30 Aug 2025 03:16:22 -0400 (EDT)
+Date: Sat, 30 Aug 2025 09:16:20 +0200
+From: Janne Grunau <j@jannau.net>
+To: Rob Herring <robh@kernel.org>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Alistair Popple <apopple@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
- <20250826-nova_firmware-v2-8-93566252fe3a@nvidia.com>
- <e091c6c1-98f8-4876-b2f1-c928da7aa7eb@nvidia.com>
- <DCFCSPF1PTLT.2A4LKV4TAF0JU@nvidia.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DCFCSPF1PTLT.2A4LKV4TAF0JU@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR11CA0105.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::46) To LV2PR12MB5968.namprd12.prod.outlook.com
- (2603:10b6:408:14f::7)
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
+ iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
+ linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
+ linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
+ linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
+ linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
+ linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250830071620.GD204299@robin.jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250829195119.GA1206685-robh@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5968:EE_|DS7PR12MB6360:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82bd5867-2a02-4547-aefc-08dde788a1e6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|10070799003|1800799024|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z3RuQ2dETzRUVHU1enppaE52TGhsd3hoWXFOWkZ0d29XMzMvd0ppWW8xUVda?=
- =?utf-8?B?RDZ2ZjZPcXFmNWlxSG9lZjZpelpJWkxzajc5aTg0SFIrb3owZS80ZDBuWTJr?=
- =?utf-8?B?T3RWSmo5N1pZUmlxeEFNdkE5OEhzSFBNNGZNdXR3cUJpcHdPUXZTb2VyQW95?=
- =?utf-8?B?dm8vSVVnckhXb0xBL0JoOUhqQndiMFlSY1pLTXdqTUE5NHFGSkpCQjdwVE9C?=
- =?utf-8?B?TmNob2xXSFA4Q0tzaHFoRmJ5RERiZWFHcWZlRFF3Wk53bHFDNkdxN1NIa1NZ?=
- =?utf-8?B?VERFbWp6T0hvcWRWaUZic2VGMGJzaTNDSGdaOU9xVGVVQmxIWVVaT0RhbDJ4?=
- =?utf-8?B?aTI4NUtvbnU4SkJXOFVFUHBScE91QWFNMkNUM0dweXNlNVlLeGdHSEtxWUxQ?=
- =?utf-8?B?MTJlTGxhaTllZElyaEJTZGRHd1VCS2hYUnJwNUlsZFpXb3VURDFDUHhSZkRs?=
- =?utf-8?B?dGh2YzBiSU1xeGNMVFpZeGNFYU02Mnc0bG5vMkFObjIvck0wUzdzcmpNRkZY?=
- =?utf-8?B?ZVlhU3R2UDc0WkI5N3piUFMyZlJtS1B3REdIWmJDc1VZZmpiTGk4TmtpWXVw?=
- =?utf-8?B?eXVuZjF2SkI1RjJzSG92L2JyazhnRWkrZzFoS1pHTHNsOHY1T3Z0VFZnR0lt?=
- =?utf-8?B?ZDF3L3I4ZDB1NTR0L2tYZlE5ZzFVVWw5VGMyWVFraXorTG1uTDJLTjJOOWVp?=
- =?utf-8?B?OW9ROE1yeTYybVVoODNjRVV4c2ZoaS9QSkpENEFYcjFicXNPNnNyS2lIUnhE?=
- =?utf-8?B?NGhEcGJqM1ZFdXgxckNIa3FMYVcwQTB4UnFWMHJzUGlZdTRjSVBNN214MURG?=
- =?utf-8?B?bk8rV29oTDlrU1h5b2w2cEdhOVA1dTlZVE1OZ1U2Zy9aS0lVRkYwRlhVYnFZ?=
- =?utf-8?B?c0pvdVpsSXM5YlhUTHJWME9TbVdtczFkRE1FSjNWNWtkN2NsUy9xNmRLOVJJ?=
- =?utf-8?B?aUdTTEJyU2FtaFdGSEtOSkU1SmpKN1phc3owaWQ3MVFHZVNheHVIL0Z5Vjkw?=
- =?utf-8?B?SUhRMG5pSzRsNlJvRGoxOFNmeDlnK25HS3FsdFB5dXkxNU5RRWF0VlQ4V21z?=
- =?utf-8?B?UzZqVURXWUg2Skh3N2hMb1V4V3JOWUFEVzdxUGkweU5GdlkvVklUcTNabHZB?=
- =?utf-8?B?eis4cjJGLysrNGI2c1FGQ1dSaVdnMjY2bzBLOTRyNmp1Ylo0WGFuVStCTzk1?=
- =?utf-8?B?OG9hSjZ4M29NekE0V0FPTlU2U29ZMVEvTEVta0VUNU5nK2s5WDgrWkl4bXNT?=
- =?utf-8?B?TFN0S0tzR1ppVmQ0bloyQ3I1bU1jVWtzMXk1OStwWnlqOEIvV01XQlN5b0Qw?=
- =?utf-8?B?VHhaL2EvajB2enpWYTV2WmErem1pcEQ4cFdwUGh0VmlxRDVac3JQWnN3MHBh?=
- =?utf-8?B?MlJFM0lvbit0TDJVUG1GU1p1ekFLRmF2YWdBdjBnMzJlNTY5eWNnSzhwRWhG?=
- =?utf-8?B?eisrc1U3ZEE5NjhQMHRxSUM4czBERXpvVUhxbnJDckRWSkhUdVd5cVE0NHYr?=
- =?utf-8?B?STJuOFB2NWtLS0FHTHM2cnlEYUxhaHhZTm5wWHZDRFN1Wnh3Z0NNZ0NzQ040?=
- =?utf-8?B?bWZTVW44cUUzbk1nOFcvU0lHbGF6c3YwZUhLUWFGc1lNbjJkTFlSZ1c2dExi?=
- =?utf-8?B?ZW5pT3hEUFhadThwMDlIUk9aYlR2ZllTWW93RUo5L3lDcUQ0QWh4a1ZoSDhG?=
- =?utf-8?B?TEgrcWRSTnBZSmVFYXR3aFRpenVMa2k4NXAxZURLU3pUVlNJNWFEUUxzQitB?=
- =?utf-8?B?a2NaTkczZkhtMDU3T0RnUG1LU3dDcnRPS2pzdXFNUUhYZUNoNkkzNjQxQ3Ns?=
- =?utf-8?B?SUZKTDQ5M0RaSUY3M0diTE8zVnM2ZGZ2NkJOZkRhS1gwS1NqNWJsZjBRRUdp?=
- =?utf-8?B?VWZJSjJPUWNTSkpXM3loK0RDM2JqWlJtRUpLLzc4VnNpN0IvMjRvOTdqY1Fa?=
- =?utf-8?B?QWgrM0NhMHhtdnQrR214cm1FdmxGY3p1OFVKU2N4MEdKbjRFajcvMWlUdk1n?=
- =?utf-8?B?ZXB1a2RxOUhBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5968.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(10070799003)(1800799024)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azEzR1JSYUtnZHRGSDNyQVdCR25UOHk2ZEpJYjUxcS9xVUcvenpoV3FpN1Yz?=
- =?utf-8?B?ZlJ6SStGZCtIa2ZwTXBxSGZVdWJTcm5LS2NEdFpucDRidFNQK0hvZXordWxT?=
- =?utf-8?B?ZFR3QTJYZVhDcnRCSWZLWGphNU5iTzUwR0dXUEdSS3dNUGhUdEtyTDN4L2N2?=
- =?utf-8?B?OVNQQzBFME9wTkhsTUVsQkt5WmdLaVp1b3p6ZXk3OEhRekhFZk5ZTFFMQ3oy?=
- =?utf-8?B?NUVMMUVYbUYyRGkyQ2Y2MGZTM0dmbVNjTEs2cHRIV2FtdDVsdmo1M1pwTzVL?=
- =?utf-8?B?Q3BWU3c5MkxFYWtzNk9vd0V4ZklkcWhqRkM1cjdrZ0ZMWG9pTFFqQUpPUHdR?=
- =?utf-8?B?eldTSmR3eE5PdkRYcnQ2MzlicG5DZVZYNUNzeUFFM2RUSkRVc2l5NlZMQ3lz?=
- =?utf-8?B?VDV2QWtLTGtCa1hBRGdxbEFsb0RLWkpVL295MGRTR0xDYmcyWGlVZU43SlVE?=
- =?utf-8?B?YU5ZUjUvaTVndzc3YnpsSUcraVA4eW55SDE4QkM2aXFRTDFLOVFLNlFld3Rh?=
- =?utf-8?B?OFVpTXJhNFhSWVRaTFlGWGhGckhiTG9EbSsrMGF0eHhPR2hVYjhrMVlyL0lw?=
- =?utf-8?B?dFZHY1RQZG80VUxmeGwzN04zNjN2c1p6V0xBMmw0a3Vkb2VXNjUxSURVMUlk?=
- =?utf-8?B?MnJ3bklaQ3g2ek5UQ2QvQXdQUEFIU2xyd1Q2RXo4NjZVaWhaQ0dSYTduTGFG?=
- =?utf-8?B?cFBOTGNsaEwwSFdNVFVLUDlqaGp6QWh5Zmd2SnhBdFNVSTJlZWt6RnorOE5D?=
- =?utf-8?B?MmtiNDRxS0MwUUJ5Z25qa3poWGoyUi9HUTIyWGpwTWN4dEp6WXZVQVBNZktj?=
- =?utf-8?B?dmZ6bCtMU2x4cEh3NWwrdUFtMGFKU1JrbTJkVGVodGpjNkt3K01nMEd6WlQ1?=
- =?utf-8?B?U0xxSHJkdzB6R1A4TmJZQTN6TnY1OWRqamFna1FvU1BoVlBJeHFXSXpGZmZX?=
- =?utf-8?B?cFBRNTFuaVIxZWRwM2JLcWsrV0FvL3hDa3RTOThid1J0aWZRSlAwc09WdTJr?=
- =?utf-8?B?RUIveEs5c3pBbDlFTVUrM0VtSWVmSkJVeXFncngwbnc4bmpxcUpXc1NqMnIx?=
- =?utf-8?B?UXBkYVJDeTI2UzhaNnpOZEdyWFZQRFZEWGovb0t5Tk1tb3pjOTZYbktkZ3lS?=
- =?utf-8?B?b1JIZ09nbkw4SERPS0FEUTU3dGp4T0NLWTIxb3FWNm53WDc5cThzZkttUGQx?=
- =?utf-8?B?VDU5NjluVjFOSUhXa3ZQMWRxZ3ZZV1lmZjE3aERUMWdEemlIZGMvZDRzN2hB?=
- =?utf-8?B?YUNMMjBLWWY0K3JXWXRwTkI1d21VbHMydTN6QURxNnJyTlpGT29jMTIzTm1B?=
- =?utf-8?B?TkI4ZndFZ0JCblVVaGRTNzd5bFprZ21xS293bVIwbDkzM21ucmFnT0ZINFFw?=
- =?utf-8?B?RU03bTVlQ3VpckNMd0pTY1BvR2IxOFBZNDNMcTdkRkgrNi81NllLNGlOU0N5?=
- =?utf-8?B?TTUzMjlBemJiRGJUMkxrcW45bkZxNTdRNW1GZ1BxY3dkUDBpTTdMSlhlSUdI?=
- =?utf-8?B?ZmJCdGljVEw5bkdIVi90anJaakt1TEZPeGRvOUs1S21uOEpPUWhnOFdhanc1?=
- =?utf-8?B?aU1VRngvV05HS2dpTVRReklLVFBiSnFXVFNrMnZhUmFHaWI1c3V6UFc5Ymtr?=
- =?utf-8?B?RTNzbnllZjYxT091aTZ6bnFxdGZUV2dOK0VmZ3Y0RGxYQzJWajdwcjlIQnRi?=
- =?utf-8?B?cXY0RUc1QlBKeGJ5ZS95SEZBZXBqbTV1RVpCT1FGZGpRa045TlJpc0kwcXBo?=
- =?utf-8?B?NzRmb3l5UHR5cmE5ZEdUMVNMeld3cXpGb3BEYlQxU1I2RktFcmw0ZTZYMFpJ?=
- =?utf-8?B?MUhEOFJLbGVkQTV6NXJQcC9kVno2RzRIYWtjQW4zOURuTmVWSGZ6ZlpUNHhM?=
- =?utf-8?B?am1UUnBUZTAzSzIzQkpnVUZNNTN3Um5OUWhjWjhDdUJHRTlpb2k1NE9HL0VI?=
- =?utf-8?B?d1l0a0o1QkExTnMrc3RabmpGeXB2dWoxZW4wUFRMaHZvRmdCdGI0aDllRjN5?=
- =?utf-8?B?dngzR1J0ZWJheXpVdXMyeElaQ0JkMUpMUzZhMUx6WkRzdzJ1ZlJhb3VkbDRm?=
- =?utf-8?B?MFd5QjJlVEdaRXR4L2hWdzEwSXFSVlJ3cWFpVExoUHdHZzdidUt0SzE2WW40?=
- =?utf-8?B?OUwyTG1CWWpGUGlhN1RteXFjMStJcmM5MC8yZmdtWDN1REJWNGJGbDdLdTVV?=
- =?utf-8?Q?iGj7KCuFnR+UBULC4FA98vc=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82bd5867-2a02-4547-aefc-08dde788a1e6
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5968.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2025 05:46:57.6307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I8BT9Tf9DHr9Gu/nCPrwU5D6KRI5RVCZ9PxwoA1IS8RiIljpE8euaT8x68jR1hBW080IAUt9cNrEjSngDaPrtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6360
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250829195119.GA1206685-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,50 +137,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/29/25 5:59 PM, Alexandre Courbot wrote:
-> On Sat Aug 30, 2025 at 8:30 AM JST, John Hubbard wrote:
->> On 8/25/25 9:07 PM, Alexandre Courbot wrote:
->> ...
->> We only support one version of the firmware. And in the coming months,
->> that one version will have a different version number.
->>
->> Given those constraints, we should simply remove most (all?) of the "r570_144::"
->> namespace qualifiers in the code, starting here.
->>
->> That way, we get:
->>
->> a) A small diff, instead of a huge one, when we update to a new firmware
->>     version.
->>
->> b) Shorter, cleaner symbols everywhere: GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB
->>     instead of r570_144::GSP_FW_HEAP_SIZE_OVERRIDE_LIBOS2_MAX_MB, for example.
+On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
+> On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> > This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> > follow design of the t600x family so copy the structure of SoC *.dtsi
+> > files.
+> > 
+> > t6020 is a cut-down version of t6021, so the former just includes the
+> > latter and disables the missing bits.
+> > 
+> > t6022 is two connected t6021 dies. The implementation seems to use
+> > t6021 and disables blocks based on whether it is useful to carry
+> > multiple instances. The disabled blocks are mostly on the second die.
+> > MMIO addresses on the second die have a constant offset. The interrupt
+> > controller is multi-die aware. This setup can be represented in the
+> > device tree with two top level "soc" nodes. The MMIO offset is applied
+> > via "ranges" and devices are included with preprocessor macros to make
+> > the node labels unique and to specify the die number for the interrupt
+> > definition.
+> > 
+> > The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> > counterparts. The existing device templates are SoC agnostic so the new
+> > devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> > minor differences in pinctrl and gpio numbers can be easily adjusted.
+> > 
+> > With the t602x SoC family Apple introduced two new devices:
+> > 
+> > The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> > missing SDHCI card reader and two front USB3.1 type-c ports and their
+> > internal USB hub can be easily deleted.
+> > 
+> > The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> > devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> > implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> > calls the PCIe controller "apcie-ge" in their device tree. The
+> > implementation seems to be mostly compatible with the base t6020 PCIe
+> > controller. The main difference is that there is only a single port with
+> > with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> > Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> > and PCIe slots connect too.
+> > 
+> > This series does not include PCIe support for the Mac Pro for two
+> > reasons:
+> > - the linux switchtec driver fails to probe and the downstream PCIe
+> >   connections come up as PCIe Gen1
+> > - some of the internal devices require PERST# and power control to come
+> >   up. Since the device are connected via the PCIe switch the PCIe
+> >   controller can not do this. The PCI slot pwrctrl can be utilized for
+> >   power control but misses integration with PERST# as proposed in [1].
+> > 
+> > This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> > downstream kernel" [2] due to the reuse of the t600x device templates
+> > (patch dependencies and DT compilation) and 4 page table level support
+> > in apple-dart and io-pgtable-dart [3] since the dart instances report
+> > 42-bit IAS (IOMMU device attach fails without the series).
+> > 
+> > After discussion with the devicetree maintainers we agreed to not extend
+> > lists with the generic compatibles anymore [1]. Instead either the first
+> > compatible SoC or t8103 is used as fallback compatible supported by the
+> > drivers. t8103 is used as default since most drivers and bindings were
+> > initially written for M1 based devices.
 > 
-> `nvfw` is the module that is supposed to abstract the currently
-> supported firmware version - but in order to provide this abstraction,
-> it needs to refer the items in question. :) I don't see how we could
-> avoid these qualifiers short of having a `use r750_144::*` which could
-> result into name collisions.
+> An issue here is any OS without the compatibles added to the drivers 
+> won't work. Does that matter here? Soon as you need any new drivers or 
+> significant driver changes it won't. The compatible additions could be 
+> backported to stable. They aren't really any different than new PCI IDs 
+> which get backported.
 
-My idea here was: "what name collisions?". There shouldn't be any.
-Because again, there is only one firmware version supported at a time.
+I don't think backporting the driver compatible additions to stable
+linux is very useful. It is only relevant for t602x devices and the only
+way to interact with them is the serial console. The T602x PCIe support
+added in v6.16 requires dart changes (the posted 4th level io page table
+support) to be useful. After that PCIe ethernet works so there is a
+practical way to interact with t602x systems. So there are probably zero
+user of upstream linux on those devices 
+I'm more concerned about other projects already supporting t602x
+devices. At least u-boot and OpenBSD will be affected by this. As short
+term solution m1n1 will add the generic compatibles [1] temporarily.
+I think keeping this roughly for a year should allow to add the
+compatibles and wait for "fixed" releases of those projects.
+I'll send fixes for u-boot once the binding changes are reviewed.
 
-> 
-> But maybe we can do a module alias to reduce the diff once the version
-> changes:
-> 
->      use r570_144 as fwbindings;
->      ...
-> 
->      pub(crate) const LIBOS2_PARAMS: LibosParams = LibosParams {
->          carveout_size: fwbindings::GSP_FW_HEAP_PARAM_OS_SIZE_LIBOS2 as u64,
-> 
-> Is that what you had in mind?
-
-Not initially, but it would address most of what bothered me here,
-which is having a particular version number all over everywhere.
-
-
-thanks,
--- 
-John Hubbard
-
+Janne
