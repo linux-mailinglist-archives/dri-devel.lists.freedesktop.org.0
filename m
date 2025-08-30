@@ -2,106 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31DAB3DAA5
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88885B3CF67
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 22:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C13610E38F;
-	Mon,  1 Sep 2025 07:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 027B210E029;
+	Sat, 30 Aug 2025 20:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i7heKHiF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="KpA68xaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17C2110E029
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 20:46:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8645643FD7;
- Sat, 30 Aug 2025 20:46:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEEB;
- Sat, 30 Aug 2025 20:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756586804;
- bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=i7heKHiF1WEcWegbUMD1XKbmetMnNnCnljRU/sfGxpB5c3sZchsdHRdnTVLky717F
- dDeCNXpev8o9LRk1S9eXnS8o8kWvMacaFziEO6OdWtswKvTxZQ5pU4eCd2WUx5BQCO
- 14bLFP5QVji02AMa5CJyqW/en6PTbHSnZ78vGj75ZZT/RVMFCiYHRoYXRol8qlqKgn
- 3lrkJ1IYbZBkwoMZse44FP62uqEzr0WjQEZOzoSJLrIrlje9NRgPYVERWMHuVkMn2k
- 2QurVWFt7IIr5AR3ahUSN1uV7FUBrHkmiXJe15aj9LzSrsbpHevBdir8lYlUv2SDdP
- 83zxdoGwMwcyQ==
-Date: Sat, 30 Aug 2025 22:46:22 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
- Documentation <linux-doc@vger.kernel.org>, Linux DAMON
- <damon@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>,
- Linux Power Management <linux-pm@vger.kernel.org>, Linux Block Devices
- <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
- Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
- <kasan-dev@googlegroups.com>, Linux Devicetree
- <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
- Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
- <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
- Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner
- <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Huang Rui
- <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
- Jens Axboe <axboe@kernel.dk>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
- Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
- <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
- Frascino <vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
- Richard Weinberger <richard@nod.at>, Zhihao Cheng
- <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
- <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
- <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
- <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew Lunn
- <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
- Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Steve French <stfrench@microsoft.com>, Meetakshi Setiya
- <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche
- <bvanassche@acm.org>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
- Driver docs
-Message-ID: <20250830224614.6a124f82@foz.lan>
-In-Reply-To: <20250829075524.45635-13-bagasdotme@gmail.com>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
- <20250829075524.45635-13-bagasdotme@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5EDC10E029
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 20:56:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756587368; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C80znvS6HLmQAR2Xqx2p569m7XK5YZhrcbQcKf/Yn94kJSD2gp1i0Rz4AZAC5ruC+LyUVfwavPbr0CNUuC9Ph0LaVbjwoxIt14uKkgCjit+yDbimkUj59ED/q9Y21J05sYFRnkRn0o4d2h6b52IAjM8lsct85yZdszmg0ntznvc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1756587368;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=CdVeq+DH8Ok61ytouQu7G9Bwf3CEvXSVj4Eaz6xQmas=; 
+ b=e5vzX8Chj+/Lu12XCMK5TohKDcIYhhgxnvS0ofRnlz9o7UpVmcyCuXGokdTN1TJIavEk4QVklmLfWMl948BnoPDR8CRaokzBhw5SFlpAl+hXDW8sDjxD4/aGMBn/Z8CEpYElmvMXXxyVUmNCbSPuFObsnO6Em4oXbF5JCFJLKAE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756587368; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=CdVeq+DH8Ok61ytouQu7G9Bwf3CEvXSVj4Eaz6xQmas=;
+ b=KpA68xaPVh5VW42eEhcQOtvZo3Q3fZSv+V5Dt+9oiUS7gwaqusjKNf2maGPpjrGD
+ 3uZBq/0EnVtpM6r7oedBPZYQcCFNtQJprZllgSAVLoZKP6CllbYgHqDR4KUNFHw0I/b
+ ygIU22VEXNh59NC7KnzcHpwgqKvEiXsXx78WT0A8=
+Received: by mx.zohomail.com with SMTPS id 1756587363738235.87912575851544;
+ Sat, 30 Aug 2025 13:56:03 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+ id C76E4180F91; Sat, 30 Aug 2025 22:55:58 +0200 (CEST)
+Date: Sat, 30 Aug 2025 22:55:58 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/rockchip: analogix_dp: Apply
+ devm_clk_get_optional() for &rockchip_dp_device.grfclk
+Message-ID: <vtpva7fgzwgde3sgtjir4ckns2yak7kmrumgccutwbupyqxyjt@zmxbatrhiaoo>
+References: <20250824065441.3220852-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Mon, 01 Sep 2025 07:02:45 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xhy3y75flbopwu4h"
+Content-Disposition: inline
+In-Reply-To: <20250824065441.3220852-1-damon.ding@rock-chips.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.4.3/256.549.67
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,53 +75,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Fri, 29 Aug 2025 14:55:22 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-> ASoC codec and platform driver docs contain reference to writing ALSA
-> driver docs, as an external link. Use :doc: directive for the job
-> instead.
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+--xhy3y75flbopwu4h
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] drm/rockchip: analogix_dp: Apply
+ devm_clk_get_optional() for &rockchip_dp_device.grfclk
+MIME-Version: 1.0
+
+Hi,
+
+On Sun, Aug 24, 2025 at 02:54:41PM +0800, Damon Ding wrote:
+> The "grf" clock is optional for Rockchip eDP controller(RK3399 needs
+> while RK3288 and RK3588 do not).
+>=20
+> It can make the code more consice to use devm_clk_get_optional()
+> instead of devm_clk_get() with extra checks.
+>=20
+> In addtion, DRM_DEV_ERROR() is replaced by dev_err_probe().
+>=20
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>=20
+> ------
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>=20
+> Changes in v2:
+> - Replace DRM_DEV_ERROR() with dev_err_probe().
 > ---
->  Documentation/sound/soc/codec.rst    | 4 ++--
->  Documentation/sound/soc/platform.rst | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
-> index af973c4cac9309..b9d87a4f929b5d 100644
-> --- a/Documentation/sound/soc/codec.rst
-> +++ b/Documentation/sound/soc/codec.rst
-> @@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
->  	int (*prepare)(struct snd_pcm_substream *);
->    };
->  
-> -Please refer to the ALSA driver PCM documentation for details.
-> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-> +Please refer to the :doc:`ALSA driver PCM documentation
-> +<../kernel-api/writing-an-alsa-driver>` for details.
->  
->  
->  DAPM description
-> diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
-> index 7036630eaf016c..bd21d0a4dd9b0b 100644
-> --- a/Documentation/sound/soc/platform.rst
-> +++ b/Documentation/sound/soc/platform.rst
-> @@ -45,8 +45,8 @@ snd_soc_component_driver:-
->  	...
->    };
->  
-> -Please refer to the ALSA driver documentation for details of audio DMA.
-> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-> +Please refer to the :doc:`ALSA driver documentation
-> +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gp=
+u/drm/rockchip/analogix_dp-rockchip.c
+> index d30f0983a53a..937f83cf42fc 100644
+> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> @@ -335,15 +335,9 @@ static int rockchip_dp_of_probe(struct rockchip_dp_d=
+evice *dp)
+>  		return PTR_ERR(dp->grf);
+>  	}
+> =20
+> -	dp->grfclk =3D devm_clk_get(dev, "grf");
+> -	if (PTR_ERR(dp->grfclk) =3D=3D -ENOENT) {
+> -		dp->grfclk =3D NULL;
+> -	} else if (PTR_ERR(dp->grfclk) =3D=3D -EPROBE_DEFER) {
+> -		return -EPROBE_DEFER;
+> -	} else if (IS_ERR(dp->grfclk)) {
+> -		DRM_DEV_ERROR(dev, "failed to get grf clock\n");
+> -		return PTR_ERR(dp->grfclk);
+> -	}
+> +	dp->grfclk =3D devm_clk_get_optional(dev, "grf");
+> +	if (IS_ERR(dp->grfclk))
+> +		return dev_err_probe(dev, PTR_ERR(dp->grfclk), "failed to get grf cloc=
+k\n");
+> =20
+>  	dp->pclk =3D devm_clk_get(dev, "pclk");
+>  	if (IS_ERR(dp->pclk)) {
+> --=20
+> 2.34.1
+>=20
 
-Don't use relative paths for :doc:. They don't work well, specially
-when one uses SPHINXDIRS.
+--xhy3y75flbopwu4h
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
-and let automarkup figure it out. As we have a checker, broken
-references generate warnings at build time.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Mauro
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmizZVoACgkQ2O7X88g7
++ppybRAAnuprNlS3e0DxWGjBWmgQes7KWMOHGqPxrwx+w7DGlx8UwANysNrj+7TP
+/WxUb7x9RoWqCkAQp+eZViVcWT9KJKwCiygwG8Y7Qs6yPOQF+totPtFOSjQjV5U1
+seRfhDHhOBF3tlOE6lu1sdaywS8sDetN93iFsXVrPVIPXMHwFuYRIM/RSK9v3tp/
+9kSs5cV7QqSAH1YPEVX3HKhbywFixMqld4EWpBz2/uPsS6jyqwo4FgrGoTfEoT0m
+o+Mys/Hzl/LxueJF6gn0FC6FGUxd7Jwi5bvkq4Hlyubn+Bb0/ouZJGrhuo8JIpcV
+W159aRLupmAb4Sh+NhPUjImDxjtsvoFCM7m64XUTxNsdxwFjEBujk84gYa/hjd9M
+P+PZb4HeEzU66JUK/1scp0yGGnXtOM+ZIM186VwIgfGVtqgLmGGswk5Fl0wPZGTn
+MqWMHE82iHMfWBOEhmIXMCLF5mOVwpFoFjcftc//2Ko80A27VPgCpzJcf9TXdJ7/
+FrZ1PPPfGO1JCLIXRrfXU45OH45xkuZZK55BRyb8TaAzsJ/2tpPCjjcRyJp/znWT
+GE2l+eWMNRwPGya3WhC4EOFyXmeTnfNtUhUa60XuINCfJjICM3P+dGtOrBS4lyM8
++MIwGalFj1Odm+lZeHbIQUXJSxVb0IF/Z2SPEwS/ZztVMsuEbAM=
+=pWI8
+-----END PGP SIGNATURE-----
+
+--xhy3y75flbopwu4h--
