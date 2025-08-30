@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD942B3C8C7
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 09:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6708B3C8D1
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 09:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B2410E238;
-	Sat, 30 Aug 2025 07:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB19710E1BC;
+	Sat, 30 Aug 2025 07:39:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="XgCCygt1";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="SO+yqS9V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A94810E238
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 07:34:39 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-4b109c58e29so45890711cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 00:34:39 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52DC910E1BC
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 07:39:08 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-7fdddb25854so97166385a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 00:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1756539278; x=1757144078;
+ d=fooishbar.org; s=google; t=1756539547; x=1757144347;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/XKolNdOG4rWtnm/Z1Xm//IS1jzblLqTcVqQ5IMS/rM=;
- b=XgCCygt1+ceeQo9FSytavHM0RPVoeBDY3xoEo4LofhTttbrel1EEyEWUAgZDO2quzZ
- aGvAKL+TrZ9hKQ4c6ZM6qaSRY0eSKUrBAbJF9HWXYa+F1xavcvm//YG3x+4kIGjMZEec
- lgw3wjZhDxhFwyr5Hpz5FNxTrXKUNOvpcO9DMsHUAA0a4SM+SFGAG3PTh1QFKQ/8YtVC
- dSG5NSNdfFgNGChl4t5RLPcSNXJ3nJ7l1fDBlfS7HebvH8Ev1wmMjgA/CCmiATcCezjX
- 8jZLrJoU7pc7h7TxD0LkU/bHaoQGpeN2gPZpFFFvuTU15h/87Erwewlsdjz2plcC5+8i
- 0HyA==
+ bh=7fzjqNbnl1FH7mVwqP6ExvQ8qLgU7/T3+Fqhp2L/qAI=;
+ b=SO+yqS9VV7IlqVgPVV+Ojp1+DGZ0P674OM6Cu5/VsAevmyghw3IxKBU25806mKoeIx
+ BeKnEb5ozySzbbPCDiCRSS5rAltNlP9Lc9KHPJMisQvVODJ6hdvkby18R57C6R7oLFoU
+ e5xO3acC0zT9kYbV/pAJxkprIWNOm5oyuxFqbN0ncI8QFxKWCbAxS8ssOJ+v8NFJpyCI
+ H/OxyRVwgD6X6/NM790cbRNRmbEz647R/kKxLi2+eOEcigSczBuAUz+Li8MHWrB7IxEq
+ DvbmE7wBc5Y8q6wtGF/kp1eFjktYDsBNk0YrzJEmQhwMmCTUr7ozkj8FGRQE/f1bGNyD
+ 93Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756539278; x=1757144078;
+ d=1e100.net; s=20230601; t=1756539547; x=1757144347;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=/XKolNdOG4rWtnm/Z1Xm//IS1jzblLqTcVqQ5IMS/rM=;
- b=R7QxT4KpvM2+ScIcr0/DBfN935EcbhlGf4qcyNOQyNFB/66KEwEtOKizIPZo8P5xeu
- E0rsdMwaSc8wsgKauFnE/7Y57KC1v5Tzgoo1WnVN6irgLPPzpEEu4ZvNDaMf1kn+jXYc
- p/FdcZR5/wGbSCfHo7Z23/6Hyn+NJ3yrnzYmFLp88rbzj7xyzRhMK/pnZ1S1dJqN4wVJ
- 0cdiwGv+CY9bD2FBxx7GWsuOerjfiZPcIdMZsknQMtgtm/yKgdzcBtX748JkffPbjwlY
- QxdeIqHituIq0+tA+8wCy4f1/Txg/fSNvLaqqAt6dUHgaRZBpdFTJQe/ulYhDVF5uyVF
- F/+w==
+ bh=7fzjqNbnl1FH7mVwqP6ExvQ8qLgU7/T3+Fqhp2L/qAI=;
+ b=KCbPWaUI3Q8lfPY5YdlDQPkZ6U9T2xvBFuHoNys1pZ5X8a/ZGgeaMyZ1zJjHefH4Kw
+ 01/U+1Paoqh+wRpECeWP1yHaT1xPOSWNw4R9Cpld/wNe1DP+j1JOUiE7o6hBsJh4jpgU
+ tMwwXEPLl7rAXq/DOI2JMzQSpMvcc4HvVzntgrVRx6dmlICAhY94T2ycOMDrAEbl81u0
+ 6O0aFkr/nsqSKaGmgkKXZQcQytiGQa+alpY0RgWWtXMZTMK4lERn9BgtAym9aq0ANlwg
+ Mbs3rLefAKFlvz5OuH0ox7izkA2ZYrC05Ubx2PRXhK8Nt2rZPokzSCaaMXlgeU1+v34F
+ owOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJpYtYLIjj5I32WwoT9EKVw7UH808gx16yEPy7PAKb2FoB0xu5J5suKbf3R+4uXQ+9P0gKDonBeAs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyuPvBJTLGxzMdX3apEgClGBwRHxIuGd3qrFr9p7Jg+JfW+4obq
- j09j+ua81DflDt/Hk/bwDVCG5sl0nxiM/Du3zRX9OiDKy/iLvcJY0ksjXwEgqcovtRp7j1UI22W
- T7s19OGXJ/AsFnFnbWV58ZvQRlcBAAPbTWrhZ6UuzmA==
-X-Gm-Gg: ASbGncscwQ1Jx25bI7juzif4KdVekpflfx16/kBwokVUw3R+JDRkd0h+HlzKptTHu9z
- UESBuF5oMwJV1pkQtdMgQJpjqBkD1W3ryPeU+g8/jd9KiMk/gbEjN9bclEvahRA1/5RcDSlqV+6
- L0pqnXlO3uWu9EHgpuK8kt61hRIihH8kNcsB1oYXn7clZbQKDysbxwTFogjRuVF3/TwFUujwlc8
- memow==
-X-Google-Smtp-Source: AGHT+IF+RtT0nHcRaStCokPpIqIxLujpZpjFFgu9P7ssG1Dbp9cdTPQGJvkbcXDD3qNhvrdS/Kj2NXgLvHLELse+VQw=
-X-Received: by 2002:a05:622a:4116:b0:4b2:ec43:3de4 with SMTP id
- d75a77b69052e-4b31dcb27f5mr15037901cf.75.1756539278311; Sat, 30 Aug 2025
- 00:34:38 -0700 (PDT)
+ AJvYcCWZeWDGCT78WGIaoA1XBP9D/sLdQ/Gc9g02QBXAeXnkPJehcFEmySAIAUeL/qvh/HiP7EBGQtUXtFU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyu5bip30AaKxaEcrgZ0ih6pHSoLZAICR2ccfuUuF8eFAGWHrzG
+ 45zVSvROWrtH7jGE6xvhKIMxyi3zp5zvey1KwkmECEEIlHwUhd6ZbLiruOuq+sUs0xhUAzekDIt
+ DnYJIKOjQys66Pufl0zNKhptI9ARkgZJ6++GIRqyhXA==
+X-Gm-Gg: ASbGncvGu+gXHiGDrUXklmnX8VYrNO38vQheHNV2d3PgrESp0fCr1IKJVoVBQZF98Us
+ pZzoihwU8La2b5dWt0OW2IBk8qkE0VPRAsOKJg1JJCDaOBECJ3jXVSu9+F7pts3Y33hON9VTh9O
+ OIde+ZRhh/aQSOIcguWgL5GMZgnelDPNaSYewhO9/4gqVoAG8k24tPkSxZFqJtfWvsyjBBw2NIo
+ DdiZDv5vD5QT7zj
+X-Google-Smtp-Source: AGHT+IGcdIb5Bh5zrCRPBVL3fLoDcfNzuR05JRese/yFeQ6WZnki9GRGlAQtC8Gf4B7czjKl7GD5FNu5efT2Tyeq4FE=
+X-Received: by 2002:a05:620a:3194:b0:7e9:f820:2b72 with SMTP id
+ af79cd13be357-7ff2c51b1dfmr138787485a.72.1756539547138; Sat, 30 Aug 2025
+ 00:39:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250830-drm-limit-infoframes-v3-0-32fcbec4634e@oss.qualcomm.com>
- <20250830-drm-limit-infoframes-v3-9-32fcbec4634e@oss.qualcomm.com>
-In-Reply-To: <20250830-drm-limit-infoframes-v3-9-32fcbec4634e@oss.qualcomm.com>
+ <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
+In-Reply-To: <CAPj87rNDtfEYV88Ue0bFXJwQop-zy++Ty7uQ9XfrQ2TbAijeRg@mail.gmail.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Sat, 30 Aug 2025 09:34:26 +0200
-X-Gm-Features: Ac12FXz1p7iZOdEEQR_vXRtXiF18jyko9t937NCSmf3jeVcnUDmrfFo9HX_W5zM
-Message-ID: <CAPj87rNMr-2ZeZ2Pqb5qG4Z-xtUyOVxbY635pw_PDEjVpd5-OQ@mail.gmail.com>
-Subject: Re: [PATCH v3 09/11] drm/connector: verify that HDMI connectors
- support necessary InfoFrames
+Date: Sat, 30 Aug 2025 09:38:55 +0200
+X-Gm-Features: Ac12FXzM9U8oA3u3fX5rkC_Acspb1Bpg3nyPrRsz__oJ7apEVkNTDxD29-I5hyE
+Message-ID: <CAPj87rNz7PPqZ7P4JSKdnizFaEoaBMf2VFBYbpVn3VNt1giU0w@mail.gmail.com>
+Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per driver
+ capabilities
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -107,9 +107,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
-> +       if (!(supported_infoframes & DRM_CONNECTOR_INFOFRAME_VENDOR))
-> +               drm_info(dev, "HDMI conneector with no support for Vendor-Specific InfoFrame\n");
+On Sat, 30 Aug 2025 at 09:30, Daniel Stone <daniel@fooishbar.org> wrote:
+> On Sat, 30 Aug 2025 at 02:23, Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> > It's not uncommon for the particular device to support only a subset of
+> > HDMI InfoFrames. It's not a big problem for the kernel, since we adopted
+> > a model of ignoring the unsupported Infoframes, but it's a bigger
+> > problem for the userspace: we end up having files in debugfs which do
+> > mot match what is being sent on the wire.
+> >
+> > Sort that out, making sure that all interfaces are consistent.
+>
+> Thanks for the series, it's a really good cleanup.
 
-'conneector'
+FWIW, the rest of the series is:
+Acked-by: Daniel Stone <daniels@collabora.com>
