@@ -2,47 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E6FB3CB55
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 15:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B25B3CC19
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 17:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECAC110E05F;
-	Sat, 30 Aug 2025 13:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAA110E045;
+	Sat, 30 Aug 2025 15:40:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FY6k6nEf";
+	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="gu2KRnOe";
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="fYjsBjj+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A73910E05F;
- Sat, 30 Aug 2025 13:51:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 11593601AE;
- Sat, 30 Aug 2025 13:51:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8240BC4CEEB;
- Sat, 30 Aug 2025 13:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756561916;
- bh=2uyG4+ulgAzEzQvhrODw7yVCoX+JjMIGXVH6/1D9sgU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FY6k6nEfkzkw4RLA8A3XB78AzuOPkaqDpXLULO9+9DX2t3i7KrQcB+ccnFI4gA/tB
- L5BCHDY0auXo3e0xdwr+WyGNhQ8J8TtGDx+wxvo4ijhXcU5uKHLha03l+2vmoSSGbj
- /bN6HAxFamFwbnO8bccQIxX0FcOWIWnx86wKiwgmejIMgMj4uCVTC0zupCfdpPkz8R
- FaUB2bfBe1mxiH8hW6y+sTWm6CzcpBfQWgd8nf1UuoouA1AXCL/xjlNlNELbI16B/x
- DGZjSyc1WnwxmRIVBQA/AL6Io7omfmTaUnbxlPvKV5wE6EeWNfQzoDc6gibBjlwt+/
- tl/8dk6yRieyQ==
-Message-ID: <41730916-2f02-4584-99bc-5556355bceeb@kernel.org>
-Date: Sat, 30 Aug 2025 15:51:53 +0200
+X-Greylist: delayed 571 seconds by postgrey-1.36 at gabe;
+ Sat, 30 Aug 2025 15:40:19 UTC
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F27310E045
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 15:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+ t=1756567845; bh=iFu8Q2if9Qqq+73Po+C+y3AM8ycDyWQMWtUM/L9qSe8=;
+ h=From:To:Subject:Date:From;
+ b=gu2KRnOea5xiROynE1gcOSEuaNpGOvvpIdaC1zXhMf4Fu+jE9qhnjasKVYwduLpMq
+ xerDILh+09LLUnOq4Gr3ZXOEOKs4LJA34GuGPpiHeboGQ73y1RcTP76U3Aag5v3BZ8
+ CphIslukYgdmUqR2c1+DdpWpVng/hrrd+6xPchoaGBhrExGb1yMdmV1NLxXpksr5rL
+ Iz/C6FK2VXnUzOrcOS20dXXT4pAWqN86CyEomBe9F+BmGQwGaz6ROLprCZff1tjoSn
+ JS5wDw6E03Noy65sOimh/lHL1PlE9HO9BRd6LXXRepQB3decMb8WMZCIvMyULbztBI
+ 35nZtykdiZiTw==
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 146FFFB05;
+ Sat, 30 Aug 2025 17:30:45 +0200 (CEST)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2JDz5b2oaxtr; Sat, 30 Aug 2025 17:30:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+ t=1756567843; bh=iFu8Q2if9Qqq+73Po+C+y3AM8ycDyWQMWtUM/L9qSe8=;
+ h=From:To:Subject:Date:From;
+ b=fYjsBjj+VZqKvHRzOGf3u/HT+2Zp0NogvO3sevb3T8r3b7gPTJpbjBkQnBftBwWAP
+ Mjg/1cAWPuEtZvj9mN9k7q+LxesRRXG63yEkX5QiIx4Hdh8VdSe3YTITeJ48muiw/9
+ k0Lf5ZUI9tC1dHy2Zbf3T/DQFP38gcsRycM/7a3tUrgW54Bb3M8lolrDL0eqEy0vsI
+ DFsS0lgCrrE+41xRRXUWkN8qC4MtZxHdbm4jkHBkr0RuFKcEWuufmhRMVopCFpWDXO
+ /kkyK3uW5EwiK5LuTkDBKP6ClTSQKKi1f6LBXk9Q+Rcw0zXTSVafBsNoDqb35Ms34c
+ 7ufhT7RA1B31g==
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Casey Connolly <casey.connolly@linaro.org>,
+ phone-devel@vger.kernel.org
+Subject: [PATCH] drm/panel: visionox-rm69299: Fix clock frequency for SHIFT6mq
+Date: Sat, 30 Aug 2025 17:29:25 +0200
+Message-ID: <e975da213c1f8030db50d66ec1c9597f59f25e35.1756567474.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: nova-core: take advantage of pci::Device::unbind()
-To: acourbot@nvidia.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250830133255.62380-1-dakr@kernel.org>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250830133255.62380-1-dakr@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,37 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/30/25 3:32 PM, Danilo Krummrich wrote:
-> +    pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
-> +        // Unregister the sysmem flush page before we release it.
-> +        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, |bar| {
-> +            self.sysmem_flush.unregister(bar);
-> +
-> +            false
-> +        }));
-> +    }
->   }
+Make the clock frequency match what the sdm845 downstream kernel
+uses. Otherwise we're seeing timeouts like
 
-Actually, inspect() + is_err() is much nicer:
+```
+msm_dsi ae94000.dsi: [drm:dsi_cmds2buf_tx] *ERROR* wait for video done timed out
+dsi_cmds2buf_tx: cmd dma tx failed, type=0x5, data0=0x28, len=4, ret=-110
+panel-visionox-rm69299 ae94000.dsi.0: sending DCS SET_DISPLAY_OFF failed: -110
+```
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 2db9afdc6087..ca4ea5749975 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -303,10 +303,10 @@ pub(crate) fn new(
+Signed-off-by: Guido Günther <agx@sigxcpu.org>
+---
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-      pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
-          // Unregister the sysmem flush page before we release it.
--        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, |bar| {
--            self.sysmem_flush.unregister(bar);
--
--            false
--        }));
-+        kernel::warn_on!(self
-+            .bar
-+            .access(pdev.as_ref())
-+            .inspect(|bar| self.sysmem_flush.unregister(bar))
-+            .is_err());
-      }
-  }
+diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+index 909c280eab1fb..e65697ce6f51c 100644
+--- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
++++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+@@ -247,7 +247,7 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
+ };
+ 
+ static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
+-	.clock = 158695,
++	.clock = 149360,
+ 	.hdisplay = 1080,
+ 	.hsync_start = 1080 + 26,
+ 	.hsync_end = 1080 + 26 + 2,
+-- 
+2.51.0
 
