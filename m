@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40D8B3CC4E
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 17:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F689B3CC7B
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 17:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7293D10E060;
-	Sat, 30 Aug 2025 15:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F8C610E2A8;
+	Sat, 30 Aug 2025 15:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="VAa5s/UB";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="fpnmV5xa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93AE510E060
- for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 15:51:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756569098; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4122310E2A8
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 15:58:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756569490; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=P1/kYQf3rpEaaux1unhzMQVVMuMxQrs+RK/P2nUB0Q7Y2op4sVZNBVNddqDgSFBl4Tu7GVziZlXBjDDn3WAxY1eSmkg/tnX9RUyfJdPP5y+0ufO2BwjS/ZZrU50VFIRNuwHnhwPGc7QCAiDhaDBo2JGASpDnmaCR1aeEFgg23aE=
+ b=bf+b+3a4sVvhV3bkS9vXJ9rRIsNfqw5ymoOj2XjmlFZ+1wnHcuLezQO/yqtkJZ8pK8b8iAsHX+7tbgfdjqVf8i4cpb1W8WQF8ZuQMtu1upIj9rcdAG0rK3HNpZGjHalKzrVLpqoRIk+jZFqanxVuP8gQl6tJN9jzAU1MmYJK1Ag=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756569098;
+ s=zohoarc; t=1756569490;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Wx7m4hcqw7kzbF5SB2/ZNPhXjM10x5VyNRfQjrU50zg=; 
- b=ZYEVxQrkZuNR60vwJDZk7flzxaGIYjRRN3sbTOR2WB6kr72xu6YHG3SSUNrkrzsT26zUep8FbF/eh43VoT8qRlI9f8TuKNJ0QqwsraJuibQ56B70LxjadFs14VBLnjEQ7Z/aISUysQhcHvtEqtCDxlaBunw6HhnzCSvxcpGOSv0=
+ bh=o7BAKJAUkgHDDyHf3DDIgGywvAo5UMkqpCapHfDZTTc=; 
+ b=PNgNFeQuHzbdeXHDxLqFrBFsrCRqTCdprrP2V6hoI6oA9s7xl8YhxNTfm0UVquNf+q9yAjzL67yvXzjfSUnjtjR7RooHftH1JNgVsU3K7PH4S6vqmKqZEjdzdL2iI/Jbu1VTzDY5X4OOSFfLwamZvTlNOkcHKjp4KCqipcIVDnQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756569098; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756569490; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=Wx7m4hcqw7kzbF5SB2/ZNPhXjM10x5VyNRfQjrU50zg=;
- b=VAa5s/UB9ZeNJYBoecCHzOoiovkBofW6uDgWKwrWg6qPgAVE8mTgzz2vgzwdpD2f
- 2QAiuxlfcrxKVwQWgeZOds/TUFYNQSWGi6mL0nvuKCy1VVz64xdz1z5/q6hsUGzPW4f
- 9uMy6jKFqYASoaPNl9WrXLGnTCE8L+5hhaGU3lm8=
-Received: by mx.zohomail.com with SMTPS id 1756569096828771.479480166115;
- Sat, 30 Aug 2025 08:51:36 -0700 (PDT)
-Date: Sat, 30 Aug 2025 16:51:31 +0100
+ bh=o7BAKJAUkgHDDyHf3DDIgGywvAo5UMkqpCapHfDZTTc=;
+ b=fpnmV5xasuVKBcyGRr/qF7uwCbO6skGem25CNh3q5H/7pBCRzYD4weFFYB8TlFh9
+ 8OF8KKUlf7+F43HwMiV83DS5GMKontvarqR7xK9k2VlUYlhIhXgitH0oIrEwqpzSrLs
+ +56BhevGy8SU3N7KJqilaA/d8QtymDH1tNkPfuz4=
+Received: by mx.zohomail.com with SMTPS id 1756569489365787.3719609398668;
+ Sat, 30 Aug 2025 08:58:09 -0700 (PDT)
+Date: Sat, 30 Aug 2025 16:58:04 +0100
 From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
 To: Lukas Zapolskas <lukas.zapolskas@arm.com>
 Cc: dri-devel@lists.freedesktop.org, nd@arm.com, 
@@ -49,7 +49,7 @@ Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
  linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v5 5/7] drm/panthor: Implement the counter sampler and
  sample handling
-Message-ID: <4illikc5yhh7vznbrijpnatzbpxxcbvnhjtqzpj5nswgduvoxe@uvqlcjqxiplk>
+Message-ID: <xbyzzgijrywkprzx7wfcgrfj7s6ethfkdy2nvpjtreumbp4j3t@wp24ma45cqmb>
 References: <cover.1753449448.git.lukas.zapolskas@arm.com>
  <ae6f93a51033a35e9b8e7d2994c8595975f95264.1753449448.git.lukas.zapolskas@arm.com>
 MIME-Version: 1.0
@@ -71,10 +71,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-Hi Lukas, it seems I forgot to add a little review remark to the additions in the Panthor FW header file
-
-Also, it seems the kernel bot has reported a build error in this patch.
 
 On 25.07.2025 15:57, Lukas Zapolskas wrote:
 > From: Adrián Larumbe <adrian.larumbe@collabora.com>
@@ -201,10 +197,6 @@ On 25.07.2025 15:57, Lukas Zapolskas wrote:
 >  	u32 group_stride;
 >  #define GLB_PERFCNT_FW_SIZE(x) ((((x) >> 16) << 8))
 > +#define GLB_PERFCNT_HW_SIZE(x) (((x) & GENMASK(15, 0)) << 8)
-
-These are probably best added in their own separate commit, right before the present one.
-I think it's customary to add register and HW interface definitions before the commits that use them.
-
 >  	u32 perfcnt_size;
 >  	u32 instr_features;
 >  #define PERFCNT_FEATURES_MD_SIZE(x) (((x) & GENMASK(3, 0)) << 8)
@@ -1126,7 +1118,11 @@ I think it's customary to add register and HW interface definitions before the c
 > +	sampler->sample = sample;
 > +	sampler->sample_slots = perf_ringbuf_slots;
 > +	sampler->em = kzalloc(sizeof(*sampler->em), GFP_KERNEL);
-> +
+
+I guess you're not checking kzalloc's return value because
+struct panthor_perf_enable_masks isn't too big either, but in that case
+you might as well embed it in the sampler struct straight away.
+
 > +	mutex_init(&sampler->sampler_lock);
 > +	spin_lock_init(&sampler->pend_lock);
 > +	INIT_LIST_HEAD(&sampler->session_list);
