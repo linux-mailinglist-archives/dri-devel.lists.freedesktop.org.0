@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94C0B3CB49
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 15:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E6FB3CB55
+	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 15:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516CF10E258;
-	Sat, 30 Aug 2025 13:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECAC110E05F;
+	Sat, 30 Aug 2025 13:51:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dHgpK3Dk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FY6k6nEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9056310E258;
- Sat, 30 Aug 2025 13:33:07 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A73910E05F;
+ Sat, 30 Aug 2025 13:51:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3822340756;
- Sat, 30 Aug 2025 13:33:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E047C4CEEB;
- Sat, 30 Aug 2025 13:33:04 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 11593601AE;
+ Sat, 30 Aug 2025 13:51:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8240BC4CEEB;
+ Sat, 30 Aug 2025 13:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756560787;
- bh=KUIODrG5XQbfWzpU1LZ2DKCpjNZtci4G0uQgtBgcg9s=;
- h=From:To:Cc:Subject:Date:From;
- b=dHgpK3Dk9vWGGZQT7+D0Qs22b9zbsd/0e8CFxzCfuX13v1wUZwvsqjD1C98qsZuy8
- 43hjI/ICkx8wKMbQBK5CAx9vg7P9vxDIVkjpB6bnsMzxe9PNpXtvqmkEVk7PZ1K/nx
- ij96aOdk3oAUIkDB0D2MZy96BsXwswDyF0i0NWY2dn1rG/GsUaLIGN9Rm2uri4Gbxj
- 0qBs1HUIui6u9ev5pNPrDok0SQ7ji12ofS2UXgoCkyGXOFIFQvqjYjqll+dtQCyLmu
- TPOJ/d585TZmsx6rDQB5abtjQDaAUwkRuQmeAgsyUAHeDy0EgPkpkFgr/LM5bB5EPD
- fkYasutry9Ytg==
-From: Danilo Krummrich <dakr@kernel.org>
-To: acourbot@nvidia.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] gpu: nova-core: take advantage of pci::Device::unbind()
-Date: Sat, 30 Aug 2025 15:32:53 +0200
-Message-ID: <20250830133255.62380-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.51.0
+ s=k20201202; t=1756561916;
+ bh=2uyG4+ulgAzEzQvhrODw7yVCoX+JjMIGXVH6/1D9sgU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FY6k6nEfkzkw4RLA8A3XB78AzuOPkaqDpXLULO9+9DX2t3i7KrQcB+ccnFI4gA/tB
+ L5BCHDY0auXo3e0xdwr+WyGNhQ8J8TtGDx+wxvo4ijhXcU5uKHLha03l+2vmoSSGbj
+ /bN6HAxFamFwbnO8bccQIxX0FcOWIWnx86wKiwgmejIMgMj4uCVTC0zupCfdpPkz8R
+ FaUB2bfBe1mxiH8hW6y+sTWm6CzcpBfQWgd8nf1UuoouA1AXCL/xjlNlNELbI16B/x
+ DGZjSyc1WnwxmRIVBQA/AL6Io7omfmTaUnbxlPvKV5wE6EeWNfQzoDc6gibBjlwt+/
+ tl/8dk6yRieyQ==
+Message-ID: <41730916-2f02-4584-99bc-5556355bceeb@kernel.org>
+Date: Sat, 30 Aug 2025 15:51:53 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: nova-core: take advantage of pci::Device::unbind()
+To: acourbot@nvidia.com
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250830133255.62380-1-dakr@kernel.org>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250830133255.62380-1-dakr@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,74 +58,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have pci::Device::unbind() we can unregister the sysmem
-flush page with a direct access the I/O resource, i.e. without RCU read
-side critical section.
+On 8/30/25 3:32 PM, Danilo Krummrich wrote:
+> +    pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
+> +        // Unregister the sysmem flush page before we release it.
+> +        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, |bar| {
+> +            self.sysmem_flush.unregister(bar);
+> +
+> +            false
+> +        }));
+> +    }
+>   }
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- drivers/gpu/nova-core/driver.rs |  4 ++++
- drivers/gpu/nova-core/gpu.rs    | 20 ++++++++++----------
- 2 files changed, 14 insertions(+), 10 deletions(-)
+Actually, inspect() + is_err() is much nicer:
 
-diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-index 274989ea1fb4..02514e1e2529 100644
---- a/drivers/gpu/nova-core/driver.rs
-+++ b/drivers/gpu/nova-core/driver.rs
-@@ -54,4 +54,8 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> Result<Pin<KBox<Self
- 
-         Ok(this)
-     }
-+
-+    fn unbind(pdev: &pci::Device<Core>, this: Pin<&Self>) {
-+        this.gpu.unbind(pdev);
-+    }
- }
 diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 8caecaf7dfb4..2db9afdc6087 100644
+index 2db9afdc6087..ca4ea5749975 100644
 --- a/drivers/gpu/nova-core/gpu.rs
 +++ b/drivers/gpu/nova-core/gpu.rs
-@@ -163,7 +163,7 @@ fn new(bar: &Bar0) -> Result<Spec> {
- }
- 
- /// Structure holding the resources required to operate the GPU.
--#[pin_data(PinnedDrop)]
-+#[pin_data]
- pub(crate) struct Gpu {
-     spec: Spec,
-     /// MMIO mapping of PCI BAR 0
-@@ -174,15 +174,6 @@ pub(crate) struct Gpu {
-     sysmem_flush: SysmemFlush,
- }
- 
--#[pinned_drop]
--impl PinnedDrop for Gpu {
--    fn drop(self: Pin<&mut Self>) {
--        // Unregister the sysmem flush page before we release it.
--        self.bar
--            .try_access_with(|b| self.sysmem_flush.unregister(b));
--    }
--}
--
- impl Gpu {
-     /// Helper function to load and run the FWSEC-FRTS firmware and confirm that it has properly
-     /// created the WPR2 region.
-@@ -309,4 +300,13 @@ pub(crate) fn new(
-             sysmem_flush,
-         }))
-     }
-+
-+    pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
-+        // Unregister the sysmem flush page before we release it.
-+        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, |bar| {
-+            self.sysmem_flush.unregister(bar);
-+
-+            false
-+        }));
-+    }
- }
+@@ -303,10 +303,10 @@ pub(crate) fn new(
 
-base-commit: 09f90256e8902793f594517ef440698585eb3595
--- 
-2.51.0
+      pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
+          // Unregister the sysmem flush page before we release it.
+-        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, |bar| {
+-            self.sysmem_flush.unregister(bar);
+-
+-            false
+-        }));
++        kernel::warn_on!(self
++            .bar
++            .access(pdev.as_ref())
++            .inspect(|bar| self.sysmem_flush.unregister(bar))
++            .is_err());
+      }
+  }
 
