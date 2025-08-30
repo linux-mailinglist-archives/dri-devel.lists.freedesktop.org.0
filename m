@@ -2,66 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB83DB3CE60
-	for <lists+dri-devel@lfdr.de>; Sat, 30 Aug 2025 19:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31DAB3DAA5
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B4E210E118;
-	Sat, 30 Aug 2025 17:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C13610E38F;
+	Mon,  1 Sep 2025 07:03:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="T84joA7W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i7heKHiF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7208310E118;
- Sat, 30 Aug 2025 17:48:32 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A5B1440E00DA; 
- Sat, 30 Aug 2025 17:48:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id XkJzyz9Yx29P; Sat, 30 Aug 2025 17:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1756576103; bh=PoXjEkaAcc/flHSmlJ9GQv3iSJMxXG6LBAdj5AN0JbI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T84joA7WNMFR5PYNZSuHtbylHyIoQm8jfrqh9x4pXJ2Tl/CVi942cBlkmZYKJNTiY
- 3Ciq9dm2ZvtTp5DGp06iWAv3OB9TY/HfHEP7kjsFi8qfGDbp0B1Q0Rp8XTHS2g+Vgf
- T4rb8HWzp3lTMBhRDVnx/QREQOAGIh0YOAzoAO4S3++6ylUVsjFZPGip7uA0oUhAXr
- 2ETDLHnOiTmXEz/uz3BW4BtLS4Dyulo9ZzNxfCD02U1iCUQs3jrzxeXA2MW2NEGU5j
- u1KLZXTIeVWTe6TvQxgytVkdfoBQcJqs/kO+iwLuc+14jOt7xbo1/Y8aDUhkVrj/B2
- 8MwambP5pWXa8RkZ9kiw71iHs24Zo3tQwbstJxeVRN3lbscCMAuH6fE0UdCR83KJXh
- VpzdsmToicnq4tWIQjxQI7+Fk6322mVK7PVM6BSdXwvhznkNMywzo9VjYO6F69G8PO
- W9Bw2QV6rqhZFox1VxfAdhKcNDow6oEgin+q7z46rg2o0e3yu8BwiPaUJTnTEG7oRQ
- CZACzojAFjfArrqp2jl/DRtyHOIB4ROwx6SN6cOnEnil5qzAnoibWBLHPHUe+Gx2L3
- 74EQ9Bb2xKxLTUGlgTPu4BaHH4f5Y0z2mF+wEC6hZKsYn28YeWq8uh0Ms1jFQXQMch
- gqpeEAG9cy+qn3yPfT1ACkyk=
-Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id
- 6529240E0140; Sat, 30 Aug 2025 17:48:17 +0000 (UTC)
-Date: Sat, 30 Aug 2025 19:48:10 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: evergreen_packet3_check:... radeon 0000:1d:00.0: vbo resource
- seems too big for the bo
-Message-ID: <20250830174810.GAaLM5WkiFc2BtQ6kW@fat_crate.local>
-References: <20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local>
- <CADnq5_Oqonrth+5T-83dnFBZ67GvykkPt-9aUepJd+fUMwnupw@mail.gmail.com>
- <20250829194044.GCaLICPKJcGJRYdSfO@fat_crate.local>
- <20250829204840.GEaLISKGTwuScnDF8Y@fat_crate.local>
- <CADnq5_MbpYmC2PSyOr0gQk7F8mVz0-LG3dZtUZS2HhV8LTgDww@mail.gmail.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17C2110E029
+ for <dri-devel@lists.freedesktop.org>; Sat, 30 Aug 2025 20:46:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8645643FD7;
+ Sat, 30 Aug 2025 20:46:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEEB;
+ Sat, 30 Aug 2025 20:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756586804;
+ bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=i7heKHiF1WEcWegbUMD1XKbmetMnNnCnljRU/sfGxpB5c3sZchsdHRdnTVLky717F
+ dDeCNXpev8o9LRk1S9eXnS8o8kWvMacaFziEO6OdWtswKvTxZQ5pU4eCd2WUx5BQCO
+ 14bLFP5QVji02AMa5CJyqW/en6PTbHSnZ78vGj75ZZT/RVMFCiYHRoYXRol8qlqKgn
+ 3lrkJ1IYbZBkwoMZse44FP62uqEzr0WjQEZOzoSJLrIrlje9NRgPYVERWMHuVkMn2k
+ 2QurVWFt7IIr5AR3ahUSN1uV7FUBrHkmiXJe15aj9LzSrsbpHevBdir8lYlUv2SDdP
+ 83zxdoGwMwcyQ==
+Date: Sat, 30 Aug 2025 22:46:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux DAMON
+ <damon@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>, Linux Block Devices
+ <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
+ Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
+ <kasan-dev@googlegroups.com>, Linux Devicetree
+ <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
+ <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Huang Rui
+ <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
+ Frascino <vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng
+ <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
+ <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
+ <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
+ <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew Lunn
+ <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
+ Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>, Meetakshi Setiya
+ <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche
+ <bvanassche@acm.org>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
+ Driver docs
+Message-ID: <20250830224614.6a124f82@foz.lan>
+In-Reply-To: <20250829075524.45635-13-bagasdotme@gmail.com>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+ <20250829075524.45635-13-bagasdotme@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CADnq5_MbpYmC2PSyOr0gQk7F8mVz0-LG3dZtUZS2HhV8LTgDww@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 01 Sep 2025 07:02:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,95 +117,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 30, 2025 at 12:30:09PM -0400, Alex Deucher wrote:
-> Yes, I agree these should be warn_once().  If you send a patch I'll
-> apply it, otherwise, I'll take a look next week. 
+Em Fri, 29 Aug 2025 14:55:22 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-See below. I tried to explain the whole situation as good as I could.
+> ASoC codec and platform driver docs contain reference to writing ALSA
+> driver docs, as an external link. Use :doc: directive for the job
+> instead.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/sound/soc/codec.rst    | 4 ++--
+>  Documentation/sound/soc/platform.rst | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+> index af973c4cac9309..b9d87a4f929b5d 100644
+> --- a/Documentation/sound/soc/codec.rst
+> +++ b/Documentation/sound/soc/codec.rst
+> @@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
+>  	int (*prepare)(struct snd_pcm_substream *);
+>    };
+>  
+> -Please refer to the ALSA driver PCM documentation for details.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver PCM documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details.
+>  
+>  
+>  DAPM description
+> diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
+> index 7036630eaf016c..bd21d0a4dd9b0b 100644
+> --- a/Documentation/sound/soc/platform.rst
+> +++ b/Documentation/sound/soc/platform.rst
+> @@ -45,8 +45,8 @@ snd_soc_component_driver:-
+>  	...
+>    };
+>  
+> -Please refer to the ALSA driver documentation for details of audio DMA.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
 
-> For some background, older GPUs did not support memory protection, so the
-> kernel driver validates all of the command submissions (CS) from userspace
-> to make sure the commands would not access any memory they shouldn't.  In
-> your case it's a vertex buffer object (VBO) which contains vertex data for
-> the 3D engine on the GPU.  So newer mesa code is sending a command
-> submission with an invalid vbo size.  As such the kernel driver rejects the
-> command submission.  This may result in subtle rendering issues as the
-> invalid command submission does not get sent to the hardware. 
+Don't use relative paths for :doc:. They don't work well, specially
+when one uses SPHINXDIRS.
 
-Very nice, thanks! I've added it to the commit message.
+The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
+and let automarkup figure it out. As we have a checker, broken
+references generate warnings at build time.
 
-> I would suggest filing a mesa bug report:
-> https://gitlab.freedesktop.org/mesa/mesa/-/issues/
-
-Right, I'd love to except that's my main workstation and I don't love
-testing/debugging kernels on it. The thing must JustWork(tm).
-
-I'll try to repro on some of my other boxes and report it then.
-
-Thanks Alex!
-
----
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Sat, 30 Aug 2025 19:24:28 +0200
-Subject: [PATCH] drm/radeon/evergreen_cs: Make the VBO size mismatch message a once-type
-
-With newer MESA (version 9.0.2 in Debian), the message
-
-  [54588.405160] evergreen_packet3_check: 32 callbacks suppressed
-  [54588.405166] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-  [54588.418034] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-  [54588.418037] radeon 0000:1d:00.0: vbo resource seems too big for the bo
-  ...
-
-floods dmesg and the ratelimiting doesn't help a whole lot. The user
-can't really do anything about it so make it a once message.
-
-Some background info from Alex:
-
-"[O]lder GPUs did not support memory protection, so the kernel driver
-validates all of the command submissions (CS) from userspace to make
-sure the commands would not access any memory they shouldn't.
-
-In your case it's a vertex buffer object (VBO) which contains vertex
-data for the 3D engine on the GPU.  So newer mesa code is sending
-a command submission with an invalid vbo size.  As such the kernel
-driver rejects the command submission.
-
-This may result in subtle rendering issues as the invalid command
-submission does not get sent to the hardware.  I would suggest filing
-a mesa bug report:
-
-https://gitlab.freedesktop.org/mesa/mesa/-/issues"
-
-So users are encouraged to report this bug if they catch it in their
-dmesg.
-
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://lore.kernel.org/r/20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local
----
- drivers/gpu/drm/radeon/evergreen_cs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/radeon/evergreen_cs.c
-index a46613283393..6285ff1b1bff 100644
---- a/drivers/gpu/drm/radeon/evergreen_cs.c
-+++ b/drivers/gpu/drm/radeon/evergreen_cs.c
-@@ -2418,7 +2418,7 @@ static int evergreen_packet3_check(struct radeon_cs_parser *p,
- 				size = radeon_get_ib_value(p, idx+1+(i*8)+1);
- 				if (p->rdev && (size + offset) > radeon_bo_size(reloc->robj)) {
- 					/* force size to size of the buffer */
--					dev_warn_ratelimited(p->dev, "vbo resource seems too big for the bo\n");
-+					dev_warn_once(p->dev, "vbo resource seems too big for the bo\n");
- 					ib[idx+1+(i*8)+1] = radeon_bo_size(reloc->robj) - offset;
- 				}
- 
--- 
-2.51.0
-
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Regards,
+Mauro
