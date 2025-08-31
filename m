@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9DFB3D390
-	for <lists+dri-devel@lfdr.de>; Sun, 31 Aug 2025 15:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A0FB3D391
+	for <lists+dri-devel@lfdr.de>; Sun, 31 Aug 2025 15:15:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D44410E2AB;
-	Sun, 31 Aug 2025 13:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921E810E2E8;
+	Sun, 31 Aug 2025 13:15:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Orj7FjhZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k6YZuiU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338F810E2AB
- for <dri-devel@lists.freedesktop.org>; Sun, 31 Aug 2025 13:15:17 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E1D10E2E8
+ for <dri-devel@lists.freedesktop.org>; Sun, 31 Aug 2025 13:15:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 025E4601AA;
- Sun, 31 Aug 2025 13:15:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C249DC4CEED;
- Sun, 31 Aug 2025 13:15:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BE68D43943;
+ Sun, 31 Aug 2025 13:15:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8395AC4CEED;
+ Sun, 31 Aug 2025 13:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756646115;
- bh=KNZqnAJDSvZhrOWXY6gn9grSX2GUlE3BTdQEaD9TzL8=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=Orj7FjhZ3tev8SWtBCiTBzhc4prpIrPoQFhnQwrgftnfKxzmND6qL4dahlWXXngeO
- X33DN4hfAp8CIhowda3pviEjdohBYeucaHOS3T08SaVkQw/bDiD3qml4EyTJoOlbfi
- 7kuFdqqsDSJlzOLjmMnbqYnl0JM+oBuXcEpk4kJPd5nXX+RiSjOLYEpObtk5METZY3
- ilJhzlUfp2CinLjglpPTK3oj5WmybhpwZqHAfD7frTubKrW6y/0EG98Ti0xw6u/F/X
- D3jjFk5LRfD9XeteEsQLBwzPlw7FQu/8D5oG+nRcn7DcAq1wPe2xwKnE45AlLJWPso
- ThuLbcol24HmA==
-Message-ID: <c1d910ad-c319-421a-b603-0bc4e7f4b128@kernel.org>
-Date: Sun, 31 Aug 2025 15:15:10 +0200
+ s=k20201202; t=1756646151;
+ bh=ANktB1XVH0lriAb3buAebKIFQ0RHCB1yQb5INnEG+ak=;
+ h=Date:Subject:From:To:References:In-Reply-To:From;
+ b=k6YZuiU66CuceQsq95EmaSHk6icFpMy/3YAqdGJOAw0FGzLOagcoJYoFku1+pCaij
+ GmTkfVa8zbZ69yvQCaYjHLiugbVXspgAXGAzd1f3p1zCTtVkcs2vfg0yu0PMEr3a/H
+ oW2X/JCyLfxCiVyb+DWTJ51sF1oXYO5k7mBU5xmYGitsPfqLZvDSVdt2yjArDi6r/O
+ EJK8tAtpaEUmBGEI56apnoYHBQ6QEHZZ8bWkDVeMagLgehrg4kVd9YnoKYcILWBrbM
+ GT5VkAs171LOcQIDysr8CWTfWzI87n++Dlhs8pQWl1xQjr6xDNmkZnlVrwtnaOZMHP
+ xXXNDgklqaNPA==
+Message-ID: <f1b78854-56db-4523-8efc-580792fbf1e8@kernel.org>
+Date: Sun, 31 Aug 2025 15:15:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] dt-bindings: display: dsi-controller: add bridge to
  patternProperties
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Harikrishna Shenoy <h-shenoy@ti.com>, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  linus.walleij@linaro.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20250827112539.4001513-1-h-shenoy@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <c1d910ad-c319-421a-b603-0bc4e7f4b128@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -87,7 +88,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250827112539.4001513-1-h-shenoy@ti.com>
+In-Reply-To: <c1d910ad-c319-421a-b603-0bc4e7f4b128@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,38 +106,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/08/2025 13:25, Harikrishna Shenoy wrote:
-> Extend the DSI controller schema to allow bridge child nodes.
-> This makes it possible to describe external bridge devices directly
-> connected as DSI peripherals.
-
-Where is any user of this?
-
+On 31/08/2025 15:15, Krzysztof Kozlowski wrote:
+>> diff --git a/Documentation/devicetree/bindings/display/dsi-controller.yaml b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+>> index 67ce10307ee0..bb4d6e9e7d0c 100644
+>> --- a/Documentation/devicetree/bindings/display/dsi-controller.yaml
+>> +++ b/Documentation/devicetree/bindings/display/dsi-controller.yaml
+>> @@ -46,7 +46,7 @@ properties:
+>>      const: 0
+>>  
+>>  patternProperties:
+>> -  "^panel@[0-3]$":
+>> +  "^(panel|bridge)@[0-3]$":
+>>      description: Panels connected to the DSI link
 > 
-> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
-> ---
-> Changelog v1 --> v2:
-> - Updated patternProperties regex.
-> - Improved commit message.
+> Description needs update.
 > 
->  Documentation/devicetree/bindings/display/dsi-controller.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/dsi-controller.yaml b/Documentation/devicetree/bindings/display/dsi-controller.yaml
-> index 67ce10307ee0..bb4d6e9e7d0c 100644
-> --- a/Documentation/devicetree/bindings/display/dsi-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/dsi-controller.yaml
-> @@ -46,7 +46,7 @@ properties:
->      const: 0
->  
->  patternProperties:
-> -  "^panel@[0-3]$":
-> +  "^(panel|bridge)@[0-3]$":
->      description: Panels connected to the DSI link
+> Are bridges having exactly the same properties as panels?
 
-Description needs update.
-
-Are bridges having exactly the same properties as panels?
+Ah, does not really matter now, it was applied.
 
 Best regards,
 Krzysztof
