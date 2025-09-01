@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BEEB3D7DA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 05:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC118B3D7EF
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 05:49:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A25B10E309;
-	Mon,  1 Sep 2025 03:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C23410E30E;
+	Mon,  1 Sep 2025 03:49:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDB510E309;
- Mon,  1 Sep 2025 03:47:08 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0527210E30C;
+ Mon,  1 Sep 2025 03:49:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DA136601D4;
- Mon,  1 Sep 2025 03:47:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BDFC4CEF0;
- Mon,  1 Sep 2025 03:47:05 +0000 (UTC)
-Date: Mon, 1 Sep 2025 05:47:04 +0200
+ by sea.source.kernel.org (Postfix) with ESMTP id C732740C4F;
+ Mon,  1 Sep 2025 03:49:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CA8C4CEF0;
+ Mon,  1 Sep 2025 03:49:26 +0000 (UTC)
+Date: Mon, 1 Sep 2025 05:49:24 +0200
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -34,15 +34,15 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 8/9] arm64: dts: qcom: sm6350: correct DP
- compatibility strings
-Message-ID: <20250901-defiant-illegal-marmot-7ce0db@kuoka>
+Subject: Re: [PATCH v7 3/9] dt-bindings: display/msm: dp-controller: document
+ DP on SM7150
+Message-ID: <20250901-wild-urban-angelfish-e2cc84@kuoka>
 References: <20250829-dp_mst_bindings-v7-0-2b268a43917b@oss.qualcomm.com>
- <20250829-dp_mst_bindings-v7-8-2b268a43917b@oss.qualcomm.com>
+ <20250829-dp_mst_bindings-v7-3-2b268a43917b@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250829-dp_mst_bindings-v7-8-2b268a43917b@oss.qualcomm.com>
+In-Reply-To: <20250829-dp_mst_bindings-v7-3-2b268a43917b@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +58,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 29, 2025 at 01:48:21AM +0300, Dmitry Baryshkov wrote:
-> SM6350 doesn't have MST support, as such in DT schema it has been
-> switched to use SC7180 as a fallback compatible. Make DT file implement
-
-That's insufficient. You basically claim to do it only because bindings
-change. Bindings were changed only because devices differ, so that's
-your true explanation here as well.
-
-> this change.
+On Fri, Aug 29, 2025 at 01:48:16AM +0300, Dmitry Baryshkov wrote:
+> The qcom,sm7150-dp compatible is documented in schema. Mark DisplayPort
+> controller as compatible with SM8350.
 > 
-> Fixes: 62f87a3cac4e ("arm64: dts: qcom: sm6350: Add DisplayPort controller")
+> Fixes: 726eded12dd7 ("dt-bindings: display/msm: Add SM7150 MDSS")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/sm6350.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-> index 2493b9611dcb675f4c33794ecc0ee9e8823e24d4..8459b27cacc72a4827a2e289e669163ad6250059 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-> @@ -2249,7 +2249,7 @@ opp-560000000 {
->  			};
->  
->  			mdss_dp: displayport-controller@ae90000 {
-> -				compatible = "qcom,sm6350-dp", "qcom,sm8350-dp";
-> +				compatible = "qcom,sm6350-dp", "qcom,sc7180-dp";
 
-No, that's breaking all the users.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
