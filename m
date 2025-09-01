@@ -2,97 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF94B3DF5C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986FFB3DF75
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACC610E3FE;
-	Mon,  1 Sep 2025 10:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67FF210E403;
+	Mon,  1 Sep 2025 10:03:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OAfDyLPM";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="kIMLoz+i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4845110E3FE
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:00:45 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28AFEE92;
- Mon,  1 Sep 2025 11:59:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756720776;
- bh=TiWStABcw7lSysl391uOdXBoQXiu7icDIWGc77HUDaU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OAfDyLPMGS+F9o9K07ihTaqKb/ktdXBDaaeLbDCIaL9H7NFCLIyRovUIQW1/dsZNO
- PXuCDj2jFUBWOUXhnCGLoSRbfTlG2FseUCijMYrzBbnH+q51YSVRR5xbD+BB6xz6mG
- HNsjXyALCESgPhabvcY96VuEulkZ8xgoALm2HooE=
-Message-ID: <e1dd9bd1-0e73-4a8d-947b-7c5a117d8827@ideasonboard.com>
-Date: Mon, 1 Sep 2025 13:00:39 +0300
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1953810E408
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:03:18 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 581A2Zdn2750339;
+ Mon, 1 Sep 2025 05:02:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1756720955;
+ bh=AYD7oJiYVhwC2GJ9A4w87lRcuZgiRa3/UfxKJj2oMGM=;
+ h=From:To:CC:Subject:Date;
+ b=kIMLoz+igdMEjesfDK+GAmAWNZkzqzacqu+ZXrK34Y5LyiMm5WIjcBNIkdoeOeSjx
+ Bh8vd16N9vgdQWSZH7s8T3T9mGkdENpaf+U/zGoqHKkRgrnFbmyNHwxtz91XI+sGwM
+ Yle6LBdI7J4SSpzF5ZC/PXDL6/PhvnKCDdRfQFv8=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 581A2ZTQ1899681
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 1 Sep 2025 05:02:35 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 1
+ Sep 2025 05:02:34 -0500
+Received: from fllvem-mr07.itg.ti.com (10.64.41.89) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 1 Sep 2025 05:02:34 -0500
+Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
+ by fllvem-mr07.itg.ti.com (8.18.1/8.18.1) with ESMTP id 581A2YwA159723;
+ Mon, 1 Sep 2025 05:02:34 -0500
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+ by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 581A2XwK011082;
+ Mon, 1 Sep 2025 05:02:34 -0500
+From: Meghana Malladi <m-malladi@ti.com>
+To: <namcao@linutronix.de>, <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
+ <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+ <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+ <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+ <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+ <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next v2 0/6] Add AF_XDP zero copy support
+Date: Mon, 1 Sep 2025 15:32:21 +0530
+Message-ID: <20250901100227.1150567-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/6] drm/bridge: cadence: cdns-mhdp8546*: Change
- drm_connector from structure to pointer
-To: Harikrishna Shenoy <h-shenoy@ti.com>
-Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lyude@redhat.com, luca.ceresoli@bootlin.com,
- viro@zeniv.linux.org.uk, andy.yan@rock-chips.com, linux@treblig.org,
- javierm@redhat.com, linux-kernel@vger.kernel.org, devarsht@ti.com,
- j-choudhary@ti.com, u-kumar1@ti.com, s-jain1@ti.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, mripard@kernel.org, lumag@kernel.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org
-References: <20250811075904.1613519-1-h-shenoy@ti.com>
- <20250811075904.1613519-3-h-shenoy@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250811075904.1613519-3-h-shenoy@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,133 +78,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series adds AF_XDP zero coppy support to icssg driver.
 
-On 11/08/2025 10:59, Harikrishna Shenoy wrote:
-> From: Jayesh Choudhary <j-choudhary@ti.com>
-> 
-> After adding DBANC framework, mhdp->connector is not initialised during
-> bridge_attach(). The connector is however required in few driver calls
-> like cdns_mhdp_hdcp_enable() and cdns_mhdp_modeset_retry_fn().
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-Does this mean that if you apply only the previous commit, mhdp will
-crash/misbehave as mdhp->connector is not initialized?
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
 
-> Use drm_connector pointer instead of structure, set it in bridge_enable()
-> and clear it in bridge_disable(), and make appropriate changes.
-> 
-> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
 
-This also has a fixes tag, but I don't see any mention of any bug being
-fixed.
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		259		462		645
+txonly		350		354		760
+l2fwd 		178		240		0
 
-For the subjects of the whole series, I think you can just use
-"drm/bridge: cdns-mhdp: ...". That's much shorter.
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
 
- Tomi
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 12 ++++++------
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h |  2 +-
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c |  8 ++++----
->  3 files changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index 08702ade2903..c2ce3d6e5a88 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1755,7 +1755,6 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
->  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->  	struct cdns_mhdp_bridge_state *mhdp_state;
->  	struct drm_crtc_state *crtc_state;
-> -	struct drm_connector *connector;
->  	struct drm_connector_state *conn_state;
->  	struct drm_bridge_state *new_state;
->  	const struct drm_display_mode *mode;
-> @@ -1785,12 +1784,12 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
->  	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
->  			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
->  
-> -	connector = drm_atomic_get_new_connector_for_encoder(state,
-> -							     bridge->encoder);
-> -	if (WARN_ON(!connector))
-> +	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
-> +								   bridge->encoder);
-> +	if (WARN_ON(!mhdp->connector))
->  		goto out;
->  
-> -	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
->  	if (WARN_ON(!conn_state))
->  		goto out;
->  
-> @@ -1853,6 +1852,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
->  		cdns_mhdp_hdcp_disable(mhdp);
->  
->  	mhdp->bridge_enabled = false;
-> +	mhdp->connector = NULL;
->  	cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
->  	resp &= ~CDNS_DP_FRAMER_EN;
->  	resp |= CDNS_DP_NO_VIDEO_MODE;
-> @@ -2134,7 +2134,7 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
->  
->  	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
->  
-> -	conn = &mhdp->connector;
-> +	conn = mhdp->connector;
->  
->  	/* Grab the locks before changing connector property */
->  	mutex_lock(&conn->dev->mode_config.mutex);
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> index bad2fc0c7306..b297db53ba28 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> @@ -375,7 +375,7 @@ struct cdns_mhdp_device {
->  	 */
->  	struct mutex link_mutex;
->  
-> -	struct drm_connector connector;
-> +	struct drm_connector *connector;
->  	struct drm_bridge bridge;
->  
->  	struct cdns_mhdp_link link;
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> index 42248f179b69..59f18c3281ef 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> @@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
->  	int ret;
->  
->  	dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
-> -		mhdp->connector.name, mhdp->connector.base.id);
-> +		mhdp->connector->name, mhdp->connector->base.id);
->  
->  	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
->  
-> @@ -445,7 +445,7 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
->  
->  	dev_err(mhdp->dev,
->  		"[%s:%d] HDCP link failed, retrying authentication\n",
-> -		mhdp->connector.name, mhdp->connector.base.id);
-> +		mhdp->connector->name, mhdp->connector->base.id);
->  
->  	ret = _cdns_mhdp_hdcp_disable(mhdp);
->  	if (ret) {
-> @@ -487,13 +487,13 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
->  	struct cdns_mhdp_device *mhdp = container_of(hdcp,
->  						     struct cdns_mhdp_device,
->  						     hdcp);
-> -	struct drm_device *dev = mhdp->connector.dev;
-> +	struct drm_device *dev = mhdp->connector->dev;
->  	struct drm_connector_state *state;
->  
->  	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
->  	mutex_lock(&mhdp->hdcp.mutex);
->  	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> -		state = mhdp->connector.state;
-> +		state = mhdp->connector->state;
->  		state->content_protection = mhdp->hdcp.value;
->  	}
->  	mutex_unlock(&mhdp->hdcp.mutex);
+v2-v1:
+Posted the series from net-next. This fixed the issue reported by Jakub in v1.
+v1: https://lore.kernel.org/all/20250818112424.3068643-1-m-malladi@ti.com/ 
+
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
+
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 401 +++++++++++++++++--
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 379 +++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  26 +-
+ 3 files changed, 699 insertions(+), 107 deletions(-)
+
+
+base-commit: 864ecc4a6dade82d3f70eab43dad0e277aa6fc78
+-- 
+2.43.0
 
