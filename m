@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696D2B3E83D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447DBB3E848
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D01F10E48A;
-	Mon,  1 Sep 2025 15:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D4010E48C;
+	Mon,  1 Sep 2025 15:05:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G1Oz4IV2";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BbYNFLR8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47F910E488
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:05:39 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C0910E48C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:05:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756739139;
+ s=mimecast20190719; t=1756739157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vbF+Eclm8a76znTMytGJjLFZFrrqxTZ8tlcAavdISGA=;
- b=G1Oz4IV2g//uYOyUlJtCP/LWgWABRm734ollU88AoLxFqMekGHcUeypghipKeuuxl5HRgs
- Z+5Cck8Cm/oudFDmaEqDenmydBE+gfY1m3rzHtx4euTb2MXIFZjRdJCSdmt+ehU/8v+4LR
- m7eWGplSQzT+YmWTGG4dAc1V1r9li3k=
+ bh=u9ikJfv6RMgWpDoO/PrbRDajESXjomPX0LKmeM4ApTo=;
+ b=BbYNFLR8QGiCXGp1LSI8ErvcFT9mLzrtrWAccz+kxmVJ/JdbaNUXPjtGGeaJ5avZxo8d6B
+ bTQ9ffy1NAKA85J9Zlr8aUVora6CZTdiIebfrNALV/j0juTmpgskOWNEStaAAdFZygLvDt
+ UTxc6pd7BogIB2Rut6EyXJpSMeGmb08=
 Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-444-EqzKMDgCOYua6LxcHPSp-g-1; Mon,
- 01 Sep 2025 11:05:34 -0400
-X-MC-Unique: EqzKMDgCOYua6LxcHPSp-g-1
-X-Mimecast-MFC-AGG-ID: EqzKMDgCOYua6LxcHPSp-g_1756739129
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-321-BCH8lRQHM2i3AvlSIjWhRg-1; Mon,
+ 01 Sep 2025 11:05:54 -0400
+X-MC-Unique: BCH8lRQHM2i3AvlSIjWhRg-1
+X-Mimecast-MFC-AGG-ID: BCH8lRQHM2i3AvlSIjWhRg_1756739146
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 3EC86180035C; Mon,  1 Sep 2025 15:05:28 +0000 (UTC)
+ id 6BF1118003FC; Mon,  1 Sep 2025 15:05:45 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 3D05F18003FC; Mon,  1 Sep 2025 15:05:11 +0000 (UTC)
+ id 0BD8C1800447; Mon,  1 Sep 2025 15:05:28 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
  "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Alexander Potapenko <glider@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
@@ -75,10 +73,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v2 03/37] s390/Kconfig: drop superfluous "select
+Subject: [PATCH v2 04/37] x86/Kconfig: drop superfluous "select
  SPARSEMEM_VMEMMAP"
-Date: Mon,  1 Sep 2025 17:03:24 +0200
-Message-ID: <20250901150359.867252-4-david@redhat.com>
+Date: Mon,  1 Sep 2025 17:03:25 +0200
+Message-ID: <20250901150359.867252-5-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
@@ -103,30 +101,29 @@ Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
 is selected.
 
 Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/s390/Kconfig | 1 -
+ arch/x86/Kconfig | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index bf680c26a33cf..145ca23c2fff6 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -710,7 +710,6 @@ menu "Memory setup"
- config ARCH_SPARSEMEM_ENABLE
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 58d890fe2100e..e431d1c06fecd 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1552,7 +1552,6 @@ config ARCH_SPARSEMEM_ENABLE
  	def_bool y
- 	select SPARSEMEM_VMEMMAP_ENABLE
--	select SPARSEMEM_VMEMMAP
+ 	select SPARSEMEM_STATIC if X86_32
+ 	select SPARSEMEM_VMEMMAP_ENABLE if X86_64
+-	select SPARSEMEM_VMEMMAP if X86_64
  
  config ARCH_SPARSEMEM_DEFAULT
- 	def_bool y
+ 	def_bool X86_64 || (NUMA && X86_32)
 -- 
 2.50.1
 
