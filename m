@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D8DB3DC4A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398A3B3DC62
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:31:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF8410E07E;
-	Mon,  1 Sep 2025 08:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC1B10E3A0;
+	Mon,  1 Sep 2025 08:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IBUiRqAD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k1nAkyNn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF31F10E07E
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 08:24:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756715095; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Zg2c0obA1UnwfOqyHGRxSYCgX+d6Xva8Nc7ImycqM6qrN+AOTHYmKVimduvCkA16QN80vNVvujOKmEGHHDK6Z45gNMOSZPt9x8vKYutdNApaJ/9oKVm2oW/TODBftMs6c404Wnxnt1GY+qK4kFNZF+GIuaJ+SVM4gbr5k9cs754=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756715095;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ENxmtp4/0M35AV+LAqoPB243G7NajpAOcJ3hJQ1hxMY=; 
- b=IpcVyTsC6YVEEw/qJoE0p/4N53yWIJG+WlcGldl4NL2i52HISqvS6/tkCrbcnTj4OYxg6N/scO7yMGicvgkWRpwaP7/PqGZ648nyoS4JBZ5A/QecjcKCboNUDuBo5tDcpPL/A6lsJRlYVuVpsBn65q95P21w3b+9L322yeoVaSQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756715095; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=ENxmtp4/0M35AV+LAqoPB243G7NajpAOcJ3hJQ1hxMY=;
- b=IBUiRqADqRSOMp3Ez2L+Z47co+Jemfp5u1Ccog3OTKs1bKRAgfGm8AiOwoPrniLT
- uMpKn+FJ1WGQA+6Mwg59IOI91ktAyvNTFS9wqFHffoKbgKRAxcNbJZWxD27dW+wNqQm
- D7rDk7yFMAnkMbFevSiw9n8JQFncoM2vDQWt0Sok=
-Received: by mx.zohomail.com with SMTPS id 1756715093436620.0647613268478;
- Mon, 1 Sep 2025 01:24:53 -0700 (PDT)
-Date: Mon, 1 Sep 2025 09:24:50 +0100
-From: Adrian Larumbe <adrian.larumbe@collabora.com>
-To: Faith Ekstrand <faith@gfxstrand.net>
-Cc: dri-devel@lists.freedesktop.org, 
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH 5/7] drm/panfrost: Add flag to map GEM object Write-Back
- Cacheable
-Message-ID: <w65vhrxgqbstnv5zbal2djxz6f5hkter26nqfngr7evonbwqcj@tmgvbdjho3f5>
-References: <20250822142954.902402-1-faith.ekstrand@collabora.com>
- <20250822142954.902402-6-faith.ekstrand@collabora.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC38810E3A0;
+ Mon,  1 Sep 2025 08:31:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A9DC1601D9;
+ Mon,  1 Sep 2025 08:31:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33C4C4CEF0;
+ Mon,  1 Sep 2025 08:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756715487;
+ bh=KH7Bi0satXiuEt+iUfxg2rFDS/DtKwZ5mSXucRghtVI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=k1nAkyNnpNEhA8zBalU7njJx6iDL5Q1PvtolTvWHg5EhOZ5QutpNkJAkFwpGPKgGV
+ 8DHY5gDYTh304lSkrjAHS233RPb+QimDLsV98/1DmA/LH4IYIEJ7OrcHMzMIdXvHjG
+ ecnT0/jUVyi2qpIyP+1aJB5dbt7yWCV/0jdHR4dbtQNgYcIjnqWj9gvha0JbpPXOG1
+ ZbvD0aefVJnhOQlvZV5dYDLLGsRCpx22tFnN9oRZIQEuiQFZ8lLTtRNOPWmBzBjjI7
+ cdQxyFfPP6L7Ryl79Szpg3kus3P7+FlOJmXXlC/BXOr/naGKSDahDCKhFX0F485Wl8
+ 6N4fNCNip8bpw==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH v2] Revert "drm/nouveau: Remove waitque for sched teardown"
+Date: Mon,  1 Sep 2025 10:31:08 +0200
+Message-ID: <20250901083107.10206-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250822142954.902402-6-faith.ekstrand@collabora.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +58,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.08.2025 10:29, Faith Ekstrand wrote:
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 7 +++++--
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 3 +++
->  include/uapi/drm/panfrost_drm.h         | 1 +
->  3 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 1ea6c509a5d5..ac2a3939f0c1 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -116,6 +116,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  	return 0;
->  }
->
-> +#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
-> +				 PANFROST_BO_HEAP | \
-> +				 PANFROST_BO_WB_MMAP)
-> +
->  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  		struct drm_file *file)
->  {
-> @@ -125,8 +129,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  	struct panfrost_gem_mapping *mapping;
->  	int ret;
->
-> -	if (!args->size || args->pad ||
-> -	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-> +	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
->  		return -EINVAL;
->
->  	/* Heaps should never be executable */
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index bb73f2a68a12..9a707055d946 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -320,6 +320,9 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
->  	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
->  	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
->
-> +	if (flags & PANFROST_BO_WB_MMAP)
-> +		bo->base.map_wc = true;
-> +
+This reverts:
 
-How come in the case of Panthor,
+commit bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
+commit 5f46f5c7af8c ("drm/nouveau: Add new callback for scheduler teardown")
 
-         if (flags & DRM_PANTHOR_BO_WB_MMAP)
-              shmem->map_wc = false;
+from the drm/sched teardown leak fix series:
 
-but here, it means we would map the BO WC instead?
+https://lore.kernel.org/dri-devel/20250710125412.128476-2-phasta@kernel.org/
 
->  	return bo;
->  }
->
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index ed67510395bd..e09b6f25acb2 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -90,6 +90,7 @@ struct drm_panfrost_wait_bo {
->  /* Valid flags to pass to drm_panfrost_create_bo */
->  #define PANFROST_BO_NOEXEC	1
->  #define PANFROST_BO_HEAP	2
-> +#define PANFROST_BO_WB_MMAP	4
->
->  /**
->   * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
-> --
-> 2.50.1
+The aforementioned series removed a blocking waitqueue from
+nouveau_sched_fini(). It was mistakenly assumed that this waitqueue only
+prevents jobs from leaking, which the series fixed.
 
-Adrian Larumbe
+The waitqueue, however, also guarantees that all VM_BIND related jobs
+are finished in order, cleaning up mappings in the GPU's MMU. These jobs
+must be executed sequentially. Without the waitqueue, this is no longer
+guaranteed, because entity and scheduler teardown can race with each
+other.
+
+Revert all patches related to the waitqueue removal.
+
+Fixes: bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
+Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+Changes in v2:
+  - Don't revert commit 89b2675198ab ("drm/nouveau: Make fence container helper usable driver-wide")
+  - Add Fixes-tag
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 15 -----------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  1 -
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 35 ++++++++++---------------
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  9 ++++---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 +++---
+ 5 files changed, 24 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 9f345a008717..869d4335c0f4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -240,21 +240,6 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ 	return ret;
+ }
+ 
+-void
+-nouveau_fence_cancel(struct nouveau_fence *fence)
+-{
+-	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&fctx->lock, flags);
+-	if (!dma_fence_is_signaled_locked(&fence->base)) {
+-		dma_fence_set_error(&fence->base, -ECANCELED);
+-		if (nouveau_fence_signal(fence))
+-			nvif_event_block(&fctx->event);
+-	}
+-	spin_unlock_irqrestore(&fctx->lock, flags);
+-}
+-
+ bool
+ nouveau_fence_done(struct nouveau_fence *fence)
+ {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 9957a919bd38..183dd43ecfff 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -29,7 +29,6 @@ void nouveau_fence_unref(struct nouveau_fence **);
+ 
+ int  nouveau_fence_emit(struct nouveau_fence *);
+ bool nouveau_fence_done(struct nouveau_fence *);
+-void nouveau_fence_cancel(struct nouveau_fence *fence);
+ int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
+ int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, bool exclusive, bool intr);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 0cc0bc9f9952..e60f7892f5ce 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -11,7 +11,6 @@
+ #include "nouveau_exec.h"
+ #include "nouveau_abi16.h"
+ #include "nouveau_sched.h"
+-#include "nouveau_chan.h"
+ 
+ #define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
+ 
+@@ -122,9 +121,11 @@ nouveau_job_done(struct nouveau_job *job)
+ {
+ 	struct nouveau_sched *sched = job->sched;
+ 
+-	spin_lock(&sched->job_list.lock);
++	spin_lock(&sched->job.list.lock);
+ 	list_del(&job->entry);
+-	spin_unlock(&sched->job_list.lock);
++	spin_unlock(&sched->job.list.lock);
++
++	wake_up(&sched->job.wq);
+ }
+ 
+ void
+@@ -305,9 +306,9 @@ nouveau_job_submit(struct nouveau_job *job)
+ 	}
+ 
+ 	/* Submit was successful; add the job to the schedulers job list. */
+-	spin_lock(&sched->job_list.lock);
+-	list_add(&job->entry, &sched->job_list.head);
+-	spin_unlock(&sched->job_list.lock);
++	spin_lock(&sched->job.list.lock);
++	list_add(&job->entry, &sched->job.list.head);
++	spin_unlock(&sched->job.list.lock);
+ 
+ 	drm_sched_job_arm(&job->base);
+ 	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+@@ -392,23 +393,10 @@ nouveau_sched_free_job(struct drm_sched_job *sched_job)
+ 	nouveau_job_fini(job);
+ }
+ 
+-static void
+-nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
+-{
+-	struct nouveau_fence *fence;
+-	struct nouveau_job *job;
+-
+-	job = to_nouveau_job(sched_job);
+-	fence = to_nouveau_fence(job->done_fence);
+-
+-	nouveau_fence_cancel(fence);
+-}
+-
+ static const struct drm_sched_backend_ops nouveau_sched_ops = {
+ 	.run_job = nouveau_sched_run_job,
+ 	.timedout_job = nouveau_sched_timedout_job,
+ 	.free_job = nouveau_sched_free_job,
+-	.cancel_job = nouveau_sched_cancel_job,
+ };
+ 
+ static int
+@@ -458,8 +446,9 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+ 		goto fail_sched;
+ 
+ 	mutex_init(&sched->mutex);
+-	spin_lock_init(&sched->job_list.lock);
+-	INIT_LIST_HEAD(&sched->job_list.head);
++	spin_lock_init(&sched->job.list.lock);
++	INIT_LIST_HEAD(&sched->job.list.head);
++	init_waitqueue_head(&sched->job.wq);
+ 
+ 	return 0;
+ 
+@@ -493,12 +482,16 @@ nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+ 	return 0;
+ }
+ 
++
+ static void
+ nouveau_sched_fini(struct nouveau_sched *sched)
+ {
+ 	struct drm_gpu_scheduler *drm_sched = &sched->base;
+ 	struct drm_sched_entity *entity = &sched->entity;
+ 
++	rmb(); /* for list_empty to work without lock */
++	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
++
+ 	drm_sched_entity_fini(entity);
+ 	drm_sched_fini(drm_sched);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+index b98c3f0bef30..20cd1da8db73 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.h
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+@@ -103,9 +103,12 @@ struct nouveau_sched {
+ 	struct mutex mutex;
+ 
+ 	struct {
+-		struct list_head head;
+-		spinlock_t lock;
+-	} job_list;
++		struct {
++			struct list_head head;
++			spinlock_t lock;
++		} list;
++		struct wait_queue_head wq;
++	} job;
+ };
+ 
+ int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index d94a85509176..79eefdfd08a2 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 	u64 end = addr + range;
+ 
+ again:
+-	spin_lock(&sched->job_list.lock);
+-	list_for_each_entry(__job, &sched->job_list.head, entry) {
++	spin_lock(&sched->job.list.lock);
++	list_for_each_entry(__job, &sched->job.list.head, entry) {
+ 		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
+ 
+ 		list_for_each_op(op, &bind_job->ops) {
+@@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 
+ 				if (!(end <= op_addr || addr >= op_end)) {
+ 					nouveau_uvmm_bind_job_get(bind_job);
+-					spin_unlock(&sched->job_list.lock);
++					spin_unlock(&sched->job.list.lock);
+ 					wait_for_completion(&bind_job->complete);
+ 					nouveau_uvmm_bind_job_put(bind_job);
+ 					goto again;
+@@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+ 			}
+ 		}
+ 	}
+-	spin_unlock(&sched->job_list.lock);
++	spin_unlock(&sched->job.list.lock);
+ }
+ 
+ static int
+-- 
+2.49.0
+
