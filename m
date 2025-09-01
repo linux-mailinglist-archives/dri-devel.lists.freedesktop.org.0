@@ -2,97 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E116FB3DFEE
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9F4B3E014
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:25:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B89F10E3C7;
-	Mon,  1 Sep 2025 10:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BA510E411;
+	Mon,  1 Sep 2025 10:25:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lEubheKh";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="kb7lCGLk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC2610E3C7
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:18:48 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67E51E92;
- Mon,  1 Sep 2025 12:17:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756721859;
- bh=iOkaljgYLSdO8hKFV+fAbOx0CUR35mexW82LJfDAoR0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lEubheKh9ZKfSHprC4cLb66haXZSQgnd+cQtRkfv9FYi6OiwLURM6fHJVya0WFB9C
- 8VTz2hmDJoOjFQZspb+s35JjYp2WojP8Cote8kQ9pmVfsfMKvov+NtFyCbNbbN5+V2
- 1UCfne1boUUM+fq/fNU+T4vdLVOzHSyc2MPYhFvU=
-Message-ID: <4e7fb22e-8b15-46e5-906b-9b2aa65f2911@ideasonboard.com>
-Date: Mon, 1 Sep 2025 13:18:42 +0300
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4495C10E411
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:25:45 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250901102543euoutp02e765b711b4dbd25b697c9a1b5adb75ab~hIanx0z-30473504735euoutp02j
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:25:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250901102543euoutp02e765b711b4dbd25b697c9a1b5adb75ab~hIanx0z-30473504735euoutp02j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1756722343;
+ bh=0i5QpIyudkj0DESLieNBClWyAhZMEeba8yZNtq0Apww=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=kb7lCGLk7D9Hdwh9lJSLy1cNVaWOaudPEgFUP5EMD3NnelqzLeRGJKxpkmGosarGy
+ xyoNgPsLvqKsuvlC+8dVzC43xxh2RD5D7uzGxCCcLpHdV1eOC4rthcfg+NcLgwPLcR
+ J0x29gjWogIZ9oCQPZiU7IpnyfkRQmO+2+7wp3AI=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250901102542eucas1p2d9dced055a8e021c8fa2c938bc9a9764~hIanQLu1r1127911279eucas1p2M;
+ Mon,  1 Sep 2025 10:25:42 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250901102541eusmtip1e9890e14b6cf3f08dc2ad68f30fc9ad3~hIalo15pj1151611516eusmtip1Y;
+ Mon,  1 Sep 2025 10:25:41 +0000 (GMT)
+Message-ID: <ea57ca6e-4000-49f7-8e0b-899f34b7693a@samsung.com>
+Date: Mon, 1 Sep 2025 12:25:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
- HDCP state in bridge atomic check
-To: Harikrishna Shenoy <h-shenoy@ti.com>
-Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lyude@redhat.com, luca.ceresoli@bootlin.com,
- viro@zeniv.linux.org.uk, andy.yan@rock-chips.com, linux@treblig.org,
- javierm@redhat.com, linux-kernel@vger.kernel.org, devarsht@ti.com,
- j-choudhary@ti.com, u-kumar1@ti.com, s-jain1@ti.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, mripard@kernel.org, lumag@kernel.org,
- dianders@chromium.org, dri-devel@lists.freedesktop.org
-References: <20250811075904.1613519-1-h-shenoy@ti.com>
- <20250811075904.1613519-7-h-shenoy@ti.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
+ helper for the Analogix DP driver
+To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250811075904.1613519-7-h-shenoy@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <46f9137e-402d-4c0f-a224-10520f80c8b4@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250901102542eucas1p2d9dced055a8e021c8fa2c938bc9a9764
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
+X-EPHeader: CA
+X-CMS-RootMailID: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
+References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
+ <20250814104753.195255-1-damon.ding@rock-chips.com>
+ <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
+ <7cb50c9c-ac41-43b6-8c69-5f184e7c94cf@samsung.com>
+ <1ccd3889-5f13-4609-9bd8-2c208e17fc96@rock-chips.com>
+ <f2ebfff1-08ab-4f26-98f3-6d6415d58a5e@samsung.com>
+ <a5e613ba-b404-40ae-b467-0f6f223f5d4c@rock-chips.com>
+ <461daea4-5582-4aa2-bfea-130d2fb93717@samsung.com>
+ <46f9137e-402d-4c0f-a224-10520f80c8b4@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,78 +89,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 11/08/2025 10:59, Harikrishna Shenoy wrote:
-> Now that we have DBANC framework and legacy connector functions removed,
-> handle the HDCP disabling in bridge atomic check rather than in connector
-> atomic check previously.
-
-Both this and the patch 4 make me feel a bit confused: In patch 1 a
-bunch of code is removed. Then in patches 4 and 6 we add it back. Yes,
-we don't add it back the same way, but this raises the question if the
-first patch then breaks these two features, until patches 4 and 6 add it
-back.
-
-Or is the case that with DRM_BRIDGE_ATTACH_NO_CONNECTOR, which is the
-way tidss uses this, none of the code removed in patch 1 was even being
-called? And thus, in theory, patches 4 and 6 could even be added before
-patch 1?
-
-The patches nor the cover letter really explain well what's going on
-here. The "fixes" tags also confuse me. So is the current upstream
-driver working fine or not? Are there bugs? It would be good to fix
-those bugs first, then do the cleanup of removing the old code. Maybe
-that's difficult to do and this patch order makes sense, but it's all
-left very unclear to the reviewer.
-
- Tomi
-
-> 
-> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
-> ---
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index 4fb1db3e030c..af41b2908a74 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1960,6 +1960,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->  {
->  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->  	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-> +	struct drm_connector_state *old_state, *new_state;
-> +	struct drm_atomic_state *state = crtc_state->state;
-> +	struct drm_connector *conn = mhdp->connector;
-> +	u64 old_cp, new_cp;
->  
->  	mutex_lock(&mhdp->link_mutex);
->  
-> @@ -1979,6 +1983,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->  	if (mhdp->info)
->  		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
->  
-> +	if (conn && mhdp->hdcp_supported) {
-> +		old_state = drm_atomic_get_old_connector_state(state, conn);
-> +		new_state = drm_atomic_get_new_connector_state(state, conn);
-> +		old_cp = old_state->content_protection;
-> +		new_cp = new_state->content_protection;
+On 01.09.2025 05:41, Damon Ding wrote:
+> On 8/29/2025 4:23 PM, Marek Szyprowski wrote:
+>> On 29.08.2025 10:08, Damon Ding wrote:
+>>> On 8/20/2025 5:20 AM, Marek Szyprowski wrote:
+>>>> On 15.08.2025 04:59, Damon Ding wrote:
+>>>>> On 2025/8/15 5:16, Marek Szyprowski wrote:
+>>>>>> On 14.08.2025 16:33, Marek Szyprowski wrote:
+>>>>>>> On 14.08.2025 12:47, Damon Ding wrote:
+>>>>>>>> PATCH 1 is a small format optimization for struct
+>>>>>>>> analogid_dp_device.
+>>>>>>>> PATCH 2 is to perform mode setting in
+>>>>>>>> &drm_bridge_funcs.atomic_enable.
+>>>>>>>> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
+>>>>>>>> PATCH 7 is to apply the drm_bridge_connector helper.
+>>>>>>>> PATCH 8-10 are to move the panel/bridge parsing to the Analogix
+>>>>>>>> side.
+>>>>>>>> PATCH 11-12 are preparations for apply panel_bridge helper.
+>>>>>>>> PATCH 13 is to apply the panel_bridge helper.
+>>>>>>>
+>>>>>>> This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's
+>>>>>>> Kconfig,
+>>>>>>> so it causes build break:
+>>>>>>>
+>>>>>>> drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to
+>>>>>>> `drm_bridge_connector_init'
+>>>>>>> make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
+>>>>>>>
+>>>>>>> After adding this dependency, the Exynos DP driver stops 
+>>>>>>> working. On
+>>>>>>> Samsung Snow Chromebook I observed following issue:
+>>>>>>>
+>>>>>>> [    4.534220] exynos-dp 145b0000.dp-controller: failed to attach
+>>>>>>> following panel or bridge (-16)
+>>>>>>> [    4.543428] exynos-drm exynos-drm: failed to bind
+>>>>>>> 145b0000.dp-controller (ops exynos_dp_ops): -16
+>>>>>>> [    4.551775] exynos-drm exynos-drm: adev bind failed: -16
+>>>>>>> [    4.556559] exynos-dp 145b0000.dp-controller: probe with driver
+>>>>>>> exynos-dp failed with error -16
+>>>>>>>
+>>>>>>> I will investigate details later in the evening.
+>>>>>>
+>>>>>> The failure is caused by trying to add plat_data->next_bridge twice
+>>>>>> (from exynos_dp's .attach callback, and from analogix' ->bind
+>>>>>> callback).
+>>>>>>
+>>>>>>
+>>>>>> Best regards
+>>>>>
+>>>>> I see. The bridge attachment for the next bridge was not well thought
+>>>>> out. It may be better to move panel_bridge addition a little forward
+>>>>> and remove next_bridge attachment on the Analogix side. Then, the
+>>>>> Rockchip side and Exynos side can do their own next_bridge attachment
+>>>>> in &analogix_dp_plat_data.attach() as they want.
+>>>>>
+>>>>> Could you please help test the following modifications(they have been
+>>>>> tested on my RK3588S EVB1 Board) on the Samsung Snow Chromebook? ;-)
+>>>>
+>>>> Assuming that I properly applied the malformed diff, it doesn't solve
+>>>> all the issues. There are no errors reported though, but the display
+>>>> chain doesn't work and no valid mode is reported:
+>>>>
+>>>> # dmesg | grep drm
+>>>> [    3.384992] [drm] Initialized panfrost 1.4.0 for 11800000.gpu on
+>>>> minor 0
+>>>> [    4.487739] [drm] Exynos DRM: using 14400000.fimd device for DMA
+>>>> mapping operations
+>>>> [    4.494202] exynos-drm exynos-drm: bound 14400000.fimd (ops
+>>>> fimd_component_ops)
+>>>> [    4.502374] exynos-drm exynos-drm: bound 14450000.mixer (ops
+>>>> mixer_component_ops)
+>>>> [    4.511930] exynos-drm exynos-drm: bound 145b0000.dp-controller 
+>>>> (ops
+>>>> exynos_dp_ops)
+>>>> [    4.518411] exynos-drm exynos-drm: bound 14530000.hdmi (ops
+>>>> hdmi_component_ops)
+>>>> [    4.529628] [drm] Initialized exynos 1.1.0 for exynos-drm on 
+>>>> minor 1
+>>>> [    4.657434] exynos-drm exynos-drm: [drm] Cannot find any crtc or
+>>>> sizes
+>>>> [    4.925023] exynos-drm exynos-drm: [drm] Cannot find any crtc or
+>>>> sizes
+>>>>
+>>>> # ./modetest -c -Mexynos
+>>>> Connectors:
+>>>> id      encoder status          name            size (mm)       modes
+>>>>      encoders
+>>>> 69      0       disconnected    LVDS-1          0x0             0
+>>>>        68
+>>>>     props:
+>>>>           1 EDID:
+>>>>                   flags: immutable blob
+>>>>                   blobs:
+>>>>
+>>>>                   value:
+>>>>           2 DPMS:
+>>>>                   flags: enum
+>>>>                   enums: On=0 Standby=1 Suspend=2 Off=3
+>>>>                   value: 0
+>>>>           5 link-status:
+>>>>                   flags: enum
+>>>>                   enums: Good=0 Bad=1
+>>>>                   value: 0
+>>>>           6 non-desktop:
+>>>>                   flags: immutable range
+>>>>                   values: 0 1
+>>>>                   value: 0
+>>>>           4 TILE:
+>>>>                   flags: immutable blob
+>>>>                   blobs:
+>>>>
+>>>>                   value:
+>>>> 71      0       disconnected    HDMI-A-1        0x0             0
+>>>>        70
+>>>>     props:
+>>>>           1 EDID:
+>>>>                   flags: immutable blob
+>>>>                   blobs:
+>>>>
+>>>>                   value:
+>>>>           2 DPMS:
+>>>>                   flags: enum
+>>>>                   enums: On=0 Standby=1 Suspend=2 Off=3
+>>>>                   value: 0
+>>>>           5 link-status:
+>>>>                   flags: enum
+>>>>                   enums: Good=0 Bad=1
+>>>>                   value: 0
+>>>>           6 non-desktop:
+>>>>                   flags: immutable range
+>>>>                   values: 0 1
+>>>>                   value: 0
+>>>>           4 TILE:
+>>>>                   flags: immutable blob
+>>>>                   blobs:
+>>>>
+>>>>                   value:
+>>>>
+>>>>
+>>>> I will investigate details later this week.
+>>>>
+>>>
+>>> Could you please provide the related DTS file for the test? I will
+>>> also try to find out the reason for this unexpected issue. ;-)
+>>
+>> Unfortunately I didn't find enough time to debug this further. The above
+>> log is from Samsung Snow Chromebook,
+>> arch/arm/boot/dts/samsung/exynos5250-snow.dts
+>>
+>>
+>
+> I compare the differences in the following display path before and 
+> after this patch series:
+>
+> exynos_dp -> nxp-ptn3460 -> panel "auo,b116xw03"
+>
+> The issue is likely caused by the &drm_connector_funcs.detect() 
+> related logic. Before this patch series, the nxp-ptn3460 connector is 
+> always connector_status_connected because there is not available 
+> &drm_connector_funcs.detect(). After it, the DRM_BRIDGE_OP_DETECT flag 
+> make the connection status depend on analogix_dp_bridge_detect().
+>
+> Could you please add the following patches additionally and try again?
+> (Not the final solution, just validation)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c 
+> b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index a93ff8f0a468..355911c47354 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1491,9 +1491,11 @@ int analogix_dp_bind(struct analogix_dp_device 
+> *dp, struct drm_device *drm_dev)
+>                 }
+>         }
+>
+> -       bridge->ops = DRM_BRIDGE_OP_DETECT |
+> -                     DRM_BRIDGE_OP_EDID |
+> +       bridge->ops = DRM_BRIDGE_OP_EDID |
+>                       DRM_BRIDGE_OP_MODES;
+> +       if (drm_bridge_is_panel(dp->plat_data->next_bridge))
+> +               bridge->ops |= DRM_BRIDGE_OP_DETECT;
 > +
-> +		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
-> +		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> +			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
-> +			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
-> +			crtc_state->mode_changed = true;
-> +		}
-> +
-> +		if (!new_state->crtc) {
-> +			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
-> +				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
-> +		}
-> +	}
-> +
->  	mutex_unlock(&mhdp->link_mutex);
->  	return 0;
->  }
+>         bridge->of_node = dp->dev->of_node;
+>         bridge->type = DRM_MODE_CONNECTOR_eDP;
+>         ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
+
+It is better. Now the display panel is detected and reported to 
+userspace, but it looks that something is not properly initialized, 
+because there is garbage instead of the proper picture.
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
