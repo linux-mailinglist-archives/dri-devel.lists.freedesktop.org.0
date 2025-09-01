@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2A7B3E2BD
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F180B3E2BE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D094610E441;
-	Mon,  1 Sep 2025 12:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8783B10E43B;
+	Mon,  1 Sep 2025 12:26:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gtwSBrmZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L5Xb4IeH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36F5110E43B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:26:10 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-45b8b8d45b3so10018875e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:26:10 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7636B10E43B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:26:11 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3d0dd9c9381so2894292f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756729569; x=1757334369; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756729570; x=1757334370; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=whOVHJAOahoMLucD4mGkfc/iuTQbzIwEjfulDz04PLY=;
- b=gtwSBrmZdHvZUbqhWqrXxwh/2SBTNLn74hAvFc+OVPBw4wBOhpXkhkDCQaFamjjFG9
- IA1GgWsc49nf9TwV15F33RepCsMqTfmXDz7Khf7Egdr6I1MdiY0BipfE7wkQHvDhI7f6
- WiiwANhiOjja9OaqoDTkJTgkRlfLjYYtm99WqaT3qn/19Xe1CrEwm+il9ZotGAXycHOE
- l9P9Uvux3zCZV73aElUnumUmh/Uf86X/W4rkxE/3q1P6i9bEjKSKAYH5U+soEyapM6eO
- MtL1Rb4FO9Bj4U+CKb9ulsf5RRNCOt43saKi8KPG8D0gpfXUY//e0R+rh6hLrIEK590o
- ySvw==
+ bh=5O+yZ0tVj4VVG9ie2bCzxaZKaxc2ngyJg4tXjB6Ebrs=;
+ b=L5Xb4IeHq2uxHfaPmNPpGRK2foIIC1s2jI3/s2W/GudLB+ELXagCoIW38oQxsycqZK
+ tGyOZCLRWXuPMMieIKbh4Dg+3Oc/NoMQ1WtKPTJSxZDR+slFh7PaE76FjMgpUPzRBIjq
+ PwVd6Ux5mitNQFrv7IymK3U9FNbeJ2nsjTDqZa2xfPpLQfzKkWPhMh2eIEwT3/4OpwVj
+ HlYwOzMSGtSxBJul49A64WnEKMQIv3qvlHoQ+Qvm0kSDUI7qugizDCJ+JI822NGKxeJS
+ Vke89O7bLKT1cSIhs5c7LgNznQ5mfYNTQ5jCShwSXdoHM4jCGV5pzYnCosGZhC1p/HFM
+ A1RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756729569; x=1757334369;
+ d=1e100.net; s=20230601; t=1756729570; x=1757334370;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=whOVHJAOahoMLucD4mGkfc/iuTQbzIwEjfulDz04PLY=;
- b=Xa5WgO6rzvheex+/ksPhOYquSvI6QIq46mopeMTmioecXYD0MJmsVA9NtSiV6A1OtJ
- ZqqvwJ72+M/0XYQoDMI9X8oC+2PiDVhy+dXATxOqtAwSfsUu9BWcZTleS+cwIb0U19GO
- ZD7E95cRgsuahSkIGS6bGEUmaKwTiLb4HPWkjoobAlmYMKGtqzegpDnwiH+Wym03E2p1
- 4IIUdILvGSMYCnQluN57fmZDXfN7dpVwsGmQ4wMC6dl+NToyCqMfkxCS0814h3xUNfUt
- v4IX0Z0X6vGr0ZROZAUN7RfPnt8SOJnN4m2DwnW2X8Mwyd28JnLkT2ACeczPE7rrtvll
- CdhQ==
+ bh=5O+yZ0tVj4VVG9ie2bCzxaZKaxc2ngyJg4tXjB6Ebrs=;
+ b=nzSX7II9G6OGt2l6ZC6p+FRAfd0eU8e07RguZ8YFhP56n8q/j+ZKmKQ+SsBE4IXs1G
+ vMRX8+CoAsG3FPot1NmmxRuVwTb4fMBgWpmiK5Et0lqR/Z4SpqcC/l7QJUGZbddp5Ctq
+ LIlRYS456y9FFQ0qmBTiRBhUIj/v48orqnJSRhgenvFg0WPiQ9fB1v0oWbyKSaMN4aBX
+ dqHdKp++Zo8cP4Vqw9VV+yqZKd5Xu7jHliP8V7ATl9N6OGZc7iw5xVLLILj/miRQMNUX
+ XmwmSX7O51OluqQDFex+vqpqO+cyuX+siuYkEcc3VZXV6Q5qL065Vy5THlCatMcDs2jP
+ r26Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpZncG1i/LthrHXMEenJa/eWCgeIuhDPDmlwKSCRnAv1AakDQsndSnVWglFdg95M/0G7ENnQeUxZg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKleRfR28VWwILfjozBnkKl3gSiayhihLKTzyq2X0k3UBfaRDH
- /lTkfTjmeR0i3RFogKHQ51eDHuR/Tsri0VfZnc65U7KxdEamEkJ/r0q4
-X-Gm-Gg: ASbGncun1yxH2jUfT9iWj7VM/qlQYfZggpm4DBVdtAXwZf7UomMRpSFI+OE4fI/Disj
- 8pAzbjuER1NVEHXgzfkj0qwKmt09ODEtT1ncxOcsyBKruDVVkKmv7h6CzGIe2NNmUjez4YszMiZ
- A8qMiRi6zuSGOY+9uDZ8Jz+kvPtKQOtxq91UIi/wu8LWOzXDamzvKyuiMSCHOaDjrgJ9AQFjUpe
- mZZhYqaAYh/PZ333MA7+PRvRrWh8ly1wOh7Xr5TGqMBiSOcQ79Q9ODnrjXRJtEcSG9XGKx6257X
- 00NB6i/jrHNco5bUrmW7p0D7glQAUci7p2y0Z0XN8r4w2W3Pk1AEJgdARIxqyNkdB3zKGZGuALd
- /57/Ct03VHVtcCXcPlTVVc51vFzqg
-X-Google-Smtp-Source: AGHT+IFEqVYalH4LP7GApA+3RHzluMAgFEDYygQcy3rt/FHlPm0MC8iYalSmAfccw0g2lQYKSvVGPg==
-X-Received: by 2002:a05:600c:1e87:b0:45b:47e1:ef68 with SMTP id
- 5b1f17b1804b1-45b855bec6emr60723135e9.35.1756729568494; 
- Mon, 01 Sep 2025 05:26:08 -0700 (PDT)
+ AJvYcCUECw1os0RZ601SAT6SamNMlFR/IhCK9dLEtaKRivpReNzweVDGar3i7uUrH9LFwFZG5skDY/JjH8c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyni0ZBEkBb4ZL6BCKd9ylXihYBPN6AeSRP+3hLibMRACSCVHgD
+ VN8kOJLvWZp6dHE+p4EH75KF2DJHrTSAMQclSFSg/g44+dQO5Z7OYaDM
+X-Gm-Gg: ASbGncv8kpdzhGTISOOFncbPkONy9A9S/HLkWy7XhxSQh+h/6lkUqfUiUTJO8iB7AfN
+ Sq9k82jWlt7jAa+7JfFJXBsS+JMv1Avuhxt9ilDEauZ1Y5M+gaU3ptXmtU551lmYuM6znER/ycR
+ ivUuR8jjS7CtAuuWjS4Za5IeaTsrx5oY/57mZkSgAwBNkuvPJVkt+JkpffCFH+evI+Y3oyjU8NR
+ YlP1bi/iAjF4U/N8Ayr/SAL8Ih7H1szaiUdphNoRdoCt9YLJDQ7Lbwhor6y7JzOuplJUJ80oFox
+ v42suvL+C848BxyqHLlRAHLCnvCHps16Qagg9CY82ObslQ9KPHSr6qqzsMG9NiVJKfsJdDfeZ2X
+ WgE2efnMDW+Nkk/kK4mraauPYVAjHWO6pwqyrsts=
+X-Google-Smtp-Source: AGHT+IEez3DPgxAss23izjD/lj9HKWSCt851WzEhPT8lwiYI89K4kHJbwaUo6MmcCHOXKG1VR8RWdw==
+X-Received: by 2002:a05:6000:4205:b0:3d9:415c:b146 with SMTP id
+ ffacd0b85a97d-3d9415cb164mr37173f8f.15.1756729569839; 
+ Mon, 01 Sep 2025 05:26:09 -0700 (PDT)
 Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b74950639sm207297055e9.17.2025.09.01.05.26.07
+ 5b1f17b1804b1-45b74950639sm207297055e9.17.2025.09.01.05.26.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Sep 2025 05:26:07 -0700 (PDT)
+ Mon, 01 Sep 2025 05:26:09 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -68,12 +68,12 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, sebastian.wick@redhat.com, xaver.hugl@kde.org,
  victoria@system76.com, a.hindborg@kernel.org, leitao@debian.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mark Yacoub <markyacoub@google.com>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v6 11/16] drm/vkms: Allow to attach connectors and encoders
- via configfs
-Date: Mon,  1 Sep 2025 14:25:36 +0200
-Message-ID: <20250901122541.9983-12-jose.exposito89@gmail.com>
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Mark Yacoub <markyacoub@google.com>
+Subject: [PATCH v6 12/16] drm/vkms: Allow to configure the default device
+ creation
+Date: Mon,  1 Sep 2025 14:25:37 +0200
+Message-ID: <20250901122541.9983-13-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250901122541.9983-1-jose.exposito89@gmail.com>
 References: <20250901122541.9983-1-jose.exposito89@gmail.com>
@@ -95,141 +95,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-
-Create a default subgroup at
-/config/vkms/connectors/connector/possible_encoders that will contain
-symbolic links to the possible encoders for the connector.
+Add a new module param to allow to create or not the default VKMS
+instance. Useful when combined with configfs to avoid having additional
+VKMS instances.
 
 Tested-by: Mark Yacoub <markyacoub@google.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst           |  2 +
- drivers/gpu/drm/vkms/vkms_configfs.c | 62 ++++++++++++++++++++++++++++
- 2 files changed, 64 insertions(+)
+ drivers/gpu/drm/vkms/vkms_drv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index b799102d54ac..31a3880ad83c 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -112,6 +112,7 @@ To finish the configuration, link the different pipeline items::
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index c1f23e6a4b07..6d299903fab2 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -50,6 +50,10 @@ static bool enable_overlay;
+ module_param_named(enable_overlay, enable_overlay, bool, 0444);
+ MODULE_PARM_DESC(enable_overlay, "Enable/Disable overlay support");
  
-   sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/planes/plane0/possible_crtcs
-   sudo ln -s /config/vkms/my-vkms/crtcs/crtc0 /config/vkms/my-vkms/encoders/encoder0/possible_crtcs
-+  sudo ln -s /config/vkms/my-vkms/encoders/encoder0 /config/vkms/my-vkms/connectors/connector0/possible_encoders
++static bool create_default_dev = true;
++module_param_named(create_default_dev, create_default_dev, bool, 0444);
++MODULE_PARM_DESC(create_default_dev, "Create or not the default VKMS device");
++
+ DEFINE_DRM_GEM_FOPS(vkms_driver_fops);
  
- Since at least one primary plane is required, make sure to set the right type::
+ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
+@@ -219,6 +223,9 @@ static int __init vkms_init(void)
+ 	if (ret)
+ 		return ret;
  
-@@ -129,6 +130,7 @@ And removing the top level directory and its subdirectories::
- 
-   sudo rm /config/vkms/my-vkms/planes/*/possible_crtcs/*
-   sudo rm /config/vkms/my-vkms/encoders/*/possible_crtcs/*
-+  sudo rm /config/vkms/my-vkms/connectors/*/possible_encoders/*
-   sudo rmdir /config/vkms/my-vkms/planes/*
-   sudo rmdir /config/vkms/my-vkms/crtcs/*
-   sudo rmdir /config/vkms/my-vkms/encoders/*
-diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 692e1b708012..8e90acbebd6a 100644
---- a/drivers/gpu/drm/vkms/vkms_configfs.c
-+++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -88,11 +88,14 @@ struct vkms_configfs_encoder {
-  *
-  * @group: Top level configuration group that represents a connector.
-  * Initialized when a new directory is created under "/config/vkms/connectors"
-+ * @possible_encoders_group: Default subgroup of @group at
-+ * "connector/possible_encoders"
-  * @dev: The vkms_configfs_device this connector belongs to
-  * @config: Configuration of the VKMS connector
-  */
- struct vkms_configfs_connector {
- 	struct config_group group;
-+	struct config_group possible_encoders_group;
- 	struct vkms_configfs_device *dev;
- 	struct vkms_config_connector *config;
- };
-@@ -126,6 +129,10 @@ struct vkms_configfs_connector {
- 	container_of(to_config_group((item)), struct vkms_configfs_connector, \
- 		     group)
- 
-+#define connector_possible_encoders_item_to_vkms_configfs_connector(item) \
-+	container_of(to_config_group((item)), struct vkms_configfs_connector, \
-+		     possible_encoders_group)
++	if (!create_default_dev)
++		return 0;
 +
- static ssize_t crtc_writeback_show(struct config_item *item, char *page)
- {
- 	struct vkms_configfs_crtc *crtc;
-@@ -528,6 +535,55 @@ static const struct config_item_type connector_item_type = {
- 	.ct_owner	= THIS_MODULE,
- };
- 
-+static int connector_possible_encoders_allow_link(struct config_item *src,
-+						  struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_configfs_encoder *encoder;
-+	int ret;
-+
-+	if (target->ci_type != &encoder_item_type)
-+		return -EINVAL;
-+
-+	connector = connector_possible_encoders_item_to_vkms_configfs_connector(src);
-+	encoder = encoder_item_to_vkms_configfs_encoder(target);
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		if (connector->dev->enabled)
-+			return -EBUSY;
-+
-+		ret = vkms_config_connector_attach_encoder(connector->config,
-+							   encoder->config);
-+	}
-+
-+	return ret;
-+}
-+
-+static void connector_possible_encoders_drop_link(struct config_item *src,
-+						  struct config_item *target)
-+{
-+	struct vkms_configfs_connector *connector;
-+	struct vkms_configfs_encoder *encoder;
-+
-+	connector = connector_possible_encoders_item_to_vkms_configfs_connector(src);
-+	encoder = encoder_item_to_vkms_configfs_encoder(target);
-+
-+	scoped_guard(mutex, &connector->dev->lock) {
-+		vkms_config_connector_detach_encoder(connector->config,
-+						     encoder->config);
-+	}
-+}
-+
-+static struct configfs_item_operations connector_possible_encoders_item_operations = {
-+	.allow_link	= connector_possible_encoders_allow_link,
-+	.drop_link	= connector_possible_encoders_drop_link,
-+};
-+
-+static const struct config_item_type connector_possible_encoders_group_type = {
-+	.ct_item_ops	= &connector_possible_encoders_item_operations,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
- static struct config_group *make_connector_group(struct config_group *group,
- 						 const char *name)
- {
-@@ -554,6 +610,12 @@ static struct config_group *make_connector_group(struct config_group *group,
- 
- 		config_group_init_type_name(&connector->group, name,
- 					    &connector_item_type);
-+
-+		config_group_init_type_name(&connector->possible_encoders_group,
-+					    "possible_encoders",
-+					    &connector_possible_encoders_group_type);
-+		configfs_add_default_group(&connector->possible_encoders_group,
-+					   &connector->group);
- 	}
- 
- 	return &connector->group;
+ 	config = vkms_config_default_create(enable_cursor, enable_writeback, enable_overlay);
+ 	if (IS_ERR(config))
+ 		return PTR_ERR(config);
 -- 
 2.51.0
 
