@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57717B3DAFA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F76B3DBA7
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291B410E396;
-	Mon,  1 Sep 2025 07:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37AA710E39E;
+	Mon,  1 Sep 2025 08:00:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PkXND/HT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NnktJ6BX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12BAF10E396
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 07:27:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756711640;
- bh=LAcnBodV1W8hZWleUCLeTPPUE98/reb7yOHhqiqbJ/o=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PkXND/HTsf7p4+y9DgvDdRKdN+1KRkjeu9YmiGWIuA9Nf/JY5F5STyeFZi0PDhPx+
- 6/nU0K/k6OvH0HbhdJT0tokmcCsbcXTFa9QxsDY+oXD+v4e7Pa/p0xr6z0SHeJxqdt
- 4fKrV0qXyABD6VcX0vEIciiLc5UEPOeli0mpeEp+uEi5gm3bcsW/p691lPCqjXKAEP
- ZXxIOxX4Dy12e8CbBWiSp8hAWXdVI57gkuBc6v2FjqeO/30lJS85ov0UibWMQ2hQzz
- 4zxgO2UJzERxC0drlt2hb+2wo45eSCFW+N3AkNtFe4ByPIc/g2VtCNzYcbASqVcxZz
- lMxmlYX78R0Aw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EDF2617E0FDB;
- Mon,  1 Sep 2025 09:27:19 +0200 (CEST)
-Date: Mon, 1 Sep 2025 09:27:11 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: assign unique names to queues
-Message-ID: <20250901092711.15832cfe@fedora>
-In-Reply-To: <20250829230251.3095911-1-olvaffe@gmail.com>
-References: <20250829230251.3095911-1-olvaffe@gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83A1910E39E
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 08:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756713656; x=1788249656;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=g5rUmTuezgYyFz7mD+PkUM2h+ED4WZI0WlduoWGjqu8=;
+ b=NnktJ6BXLX56Ag0YPsBZhO1EyVctiS9kRvFfVY8SVrcKmJukwpaJfkeL
+ jAKUjBW878IuMUHT8tIql2sI888SS6ijN+/pU691Nh/GPxud0pkRJ73HT
+ g/Yzm51Kn+zdVkkqjgikUnFzbiDFuNrJA9zoACCNcV08/OEsCCeEesfay
+ 4m1NyWZ0P4l8mdIrCWqpAHCTzySKcKwpKAdaKaMQX1qjuSxEUYWF5jU4E
+ TqvupDD2anPvPMHJa1oGl9ctIsT0rsz89m0vOsG7i6bk+30kNdZF9kBqj
+ PhUiiviAyUtoAyfyTomVC+dKNrNiNlMyd2i7UqunWjqwz8jCY2TDN7vpI Q==;
+X-CSE-ConnectionGUID: P4xV72j6Q12ICJXu30zCuQ==
+X-CSE-MsgGUID: V4XTtt6/QQmD6zGqLAdOyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="69534605"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="69534605"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2025 00:41:12 -0700
+X-CSE-ConnectionGUID: UDPZUt3gQTqNvVDWlwGHpA==
+X-CSE-MsgGUID: IE+Tp6zTSvmIiumJ3y83Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="171714894"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.244.171])
+ ([10.245.244.171])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2025 00:41:10 -0700
+Message-ID: <700e88048fd7dc58c3d5a3d91f80595a2f8c3353.camel@linux.intel.com>
+Subject: Re: [PATCH] amdgpu/ttm: make sure exported objects are populated
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, Christian Koenig
+ <christian.koenig@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Date: Mon, 01 Sep 2025 09:40:51 +0200
+In-Reply-To: <20250901045618.1853752-1-airlied@gmail.com>
+References: <20250901045618.1853752-1-airlied@gmail.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,168 +71,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 29 Aug 2025 16:02:50 -0700
-Chia-I Wu <olvaffe@gmail.com> wrote:
+Hi Dave,
 
-> Userspace relies on the ring field of gpu_scheduler tracepoints to
-> identify a drm_gpu_scheduler.  The value of the ring field is taken from
-> sched->name.
-> 
-> Because we typically have multiple schedulers running in parallel in
-> each process, assign unique names to schedulers such that userspace can
-> distinguish them.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-> 
+On Mon, 2025-09-01 at 14:56 +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+>=20
+> While discussing cgroups we noticed a problem where you could export
+> a BO to a dma-buf without having it ever being backed or accounted
+> for.
+>=20
+> This meant in low memory situations or eventually with cgroups, a
+> lower privledged process might cause the compositor to try and
+> allocate
+> a lot of memory on it's behalf and this could fail. At least make
+> sure the exporter has managed to allocate the RAM at least once
+> before exporting the object.
+
+With a shmem analogy, let's say process A creates a shmem object and
+doesn't populate it. It's then shared with process B which faults in
+the pages or otherwise causes it to be populated. Will this patch
+ensure we behave the same WRT memory usage accounting?
+
+Also some concerns below.
+
+>=20
+> This only applies currently to TTM_PL_SYSTEM objects, because
+> GTT objects get populated on first validate, and VRAM doesn't
+> use TT.
+>=20
+> TODO:
+> other drivers?
+> split this into two?
+>=20
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
-> 
-> v2:
->  - include drm_client_id in the name to be truly unique
->  - remove unnecessary NULL in drm_sched_init_args initialization
->  - reformat to column width 100
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
->  drivers/gpu/drm/panthor/panthor_sched.c | 32 +++++++++++++++++--------
->  drivers/gpu/drm/panthor/panthor_sched.h |  3 ++-
->  3 files changed, 25 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 9256806eb6623..be962b1387f03 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1105,7 +1105,7 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  	if (ret)
->  		goto out;
->  
-> -	ret = panthor_group_create(pfile, args, queue_args);
-> +	ret = panthor_group_create(pfile, args, queue_args, file->client_id);
-
-Hm, maybe it's time we start passing drm_file instead of panthor_file
-to limit the number of arguments, but I guess this can be done in a
-follow-up patch.
-
->  	if (ret < 0)
->  		goto out;
->  	args->group_handle = ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ba5dc3e443d9c..62f17476e5852 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -360,6 +360,9 @@ struct panthor_queue {
->  	/** @entity: DRM scheduling entity used for this queue. */
->  	struct drm_sched_entity entity;
->  
-> +	/** @name: DRM scheduler name for this queue. */
-> +	char name[32];
-
-The base string ("panthor-queue---") is already 16 characters. You then
-have a group ID that's below 128 IIRC, and a queue ID that's no more
-than 15, so that's 5 more chars. This leaves you 10 chars for the
-client ID (theoretically a 64-bit integer). I know the logic is sane
-because you truncate the string, but I'm wondering if we shouldn't make
-this string bigger to cover the theoretical max client_id, or simply
-dynamically allocate it (kasprintf()), so we don't have to think about
-it if we end up adding more stuff to the string.
-
-> +
->  	/**
->  	 * @remaining_time: Time remaining before the job timeout expires.
->  	 *
-> @@ -3308,9 +3311,10 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->  
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args,
-> +		   u64 drm_client_id, u32 gid, u32 qid)
->  {
-> -	const struct drm_sched_init_args sched_args = {
-> +	struct drm_sched_init_args sched_args = {
->  		.ops = &panthor_queue_sched_ops,
->  		.submit_wq = group->ptdev->scheduler->wq,
->  		.num_rqs = 1,
-> @@ -3323,7 +3327,6 @@ group_create_queue(struct panthor_group *group,
->  		.credit_limit = args->ringbuf_size / sizeof(u64),
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
->  		.timeout_wq = group->ptdev->reset.wq,
-> -		.name = "panthor-queue",
->  		.dev = group->ptdev->base.dev,
->  	};
->  	struct drm_gpu_scheduler *drm_sched;
-> @@ -3398,6 +3401,11 @@ group_create_queue(struct panthor_group *group,
->  	if (ret)
->  		goto err_free_queue;
->  
-> +	/* assign a unique name */
-> +	snprintf(queue->name, sizeof(queue->name), "panthor-queue-%llu-%u-%u",
-> +		 drm_client_id, gid, qid);
-> +	sched_args.name = queue->name;
-> +
->  	ret = drm_sched_init(&queue->scheduler, &sched_args);
->  	if (ret)
->  		goto err_free_queue;
-> @@ -3447,7 +3455,8 @@ static void add_group_kbo_sizes(struct panthor_device *ptdev,
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args)
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id)
->  {
->  	struct panthor_device *ptdev = pfile->ptdev;
->  	struct panthor_group_pool *gpool = pfile->groups;
-> @@ -3540,12 +3549,16 @@ int panthor_group_create(struct panthor_file *pfile,
->  	memset(group->syncobjs->kmap, 0,
->  	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
->  
-> +	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
+> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |=C2=A0 5 ++++
+> =C2=A0drivers/gpu/drm/ttm/ttm_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 28
+> +++++++++++++++++++++
+> =C2=A0include/drm/ttm/ttm_bo.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 1 +
+> =C2=A03 files changed, 34 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index ce27cb5bb05e..d0f578d0ae6c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -343,11 +343,16 @@ struct dma_buf *amdgpu_gem_prime_export(struct
+> drm_gem_object *gobj,
+> =C2=A0{
+> =C2=A0	struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(gobj);
+> =C2=A0	struct dma_buf *buf;
+> +	int ret;
+> =C2=A0
+> =C2=A0	if (amdgpu_ttm_tt_get_usermm(bo->tbo.ttm) ||
+> =C2=A0	=C2=A0=C2=A0=C2=A0 bo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID)
+> =C2=A0		return ERR_PTR(-EPERM);
+> =C2=A0
+> +	ret =3D ttm_bo_setup_export(&bo->tbo);
 > +	if (ret)
-> +		goto err_put_group;
+> +		return ERR_PTR(ret);
 > +
->  	for (i = 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] = group_create_queue(group, &queue_args[i]);
-> +		group->queues[i] = group_create_queue(group, &queue_args[i], drm_client_id, gid, i);
->  		if (IS_ERR(group->queues[i])) {
->  			ret = PTR_ERR(group->queues[i]);
->  			group->queues[i] = NULL;
-> -			goto err_put_group;
-> +			goto err_erase_gid;
->  		}
->  
->  		group->queue_count++;
-> @@ -3553,10 +3566,6 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	group->idle_queues = GENMASK(group->queue_count - 1, 0);
->  
-> -	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> -	if (ret)
-> -		goto err_put_group;
-> -
->  	mutex_lock(&sched->reset.lock);
->  	if (atomic_read(&sched->reset.in_progress)) {
->  		panthor_group_stop(group);
-> @@ -3575,6 +3584,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	return gid;
->  
-> +err_erase_gid:
-> +	xa_erase(&gpool->xa, gid);
+> =C2=A0	buf =3D drm_gem_prime_export(gobj, flags);
+> =C2=A0	if (!IS_ERR(buf))
+> =C2=A0		buf->ops =3D &amdgpu_dmabuf_ops;
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 273757974b9f..bf98e28a8bda 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -1284,3 +1284,31 @@ int ttm_bo_populate(struct ttm_buffer_object
+> *bo,
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(ttm_bo_populate);
 > +
->  err_put_group:
->  	group_put(group);
->  	return ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-> index 742b0b4ff3a3c..f4a475aa34c0a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.h
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
-> @@ -21,7 +21,8 @@ struct panthor_job;
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args);
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id);
->  int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
->  int panthor_group_get_state(struct panthor_file *pfile,
->  			    struct drm_panthor_group_get_state *get_state);
+> +int ttm_bo_setup_export(struct ttm_buffer_object *bo)
+> +{
+> +	struct ttm_operation_ctx ctx =3D {
+> +		.interruptible =3D false,
+> +		.no_wait_gpu =3D true,
+> +		/* We opt to avoid OOM on system pages allocations
+> */
+> +		.gfp_retry_mayfail =3D true,
+> +		.allow_res_evict =3D false,
+> +	};
+
+I think we'd want to have the caller (driver) provide the
+ttm_operation_ctx. The driver may want to subclass or call
+interruptible.
+
+
+> +
+> +	int ret;
+> +
+> +	if (!bo->ttm)
+> +		return 0;
+> +
+> +	if (bo->ttm && ttm_tt_is_populated(bo->ttm))
+> +		return 0;
+> +
+
+bo->ttm is not safe to reference without the bo lock. Nor is the
+ttm_tt_is_populated stable without the bo lock since you may race with
+a swapout / shrink.
+
+Thanks,
+Thomas
+
+
+> +	ret =3D ttm_bo_reserve(bo, false, false, NULL);
+> +	if (ret !=3D 0)
+> +		return ret;
+> +
+> +	ret =3D ttm_bo_populate(bo, bo->resource->placement &
+> TTM_PL_FLAG_MEMCG, &ctx);
+> +	ttm_bo_unreserve(bo);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(ttm_bo_setup_export);
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index c33b3667ae76..5cdd89da9ef5 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -473,6 +473,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object
+> *bo);
+> =C2=A0int ttm_bo_populate(struct ttm_buffer_object *bo,
+> =C2=A0		=C2=A0=C2=A0=C2=A0 bool memcg_account,
+> =C2=A0		=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *ctx);
+> +int ttm_bo_setup_export(struct ttm_buffer_object *bo);
+> =C2=A0
+> =C2=A0/* Driver LRU walk helpers initially targeted for shrinking. */
+> =C2=A0
 
