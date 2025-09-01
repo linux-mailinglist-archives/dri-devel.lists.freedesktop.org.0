@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCB3AB3EE88
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 21:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5436B3EE94
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 21:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C3C10E0A0;
-	Mon,  1 Sep 2025 19:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF74910E47B;
+	Mon,  1 Sep 2025 19:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="mIp5z6bC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eX/2DigA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE40810E0A0;
- Mon,  1 Sep 2025 19:41:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=OXmQwmuMTAG2HSIdNxmQ9RuY2Q8gE5vO81foFabz8EM=; b=mIp5z6bCmDN8CVf6e95RVanZY3
- 3fs7ps5/6g3Kljt72q2L9SLWFPd6uRmqzLSHOVyBQ1XFJeFs7GhbDYSVgbEThdun76IK0wEGA6i1y
- PShFtPw+wCRuzBJKLhbeBjvgHpNEZX3wpKSyd5yrL6QPcJBD2grhKasAogHUNhEGnEvUtEZeIRGT5
- KPigGs+AQXMZS8CRletpvvIge7yfv16jUqGGGJnl8uUX0Knv50WdgYiVM8KBBpE+MvtwPYbwFMIko
- Az15hxI8cb2fpnL8NqUTh78c9T8HuQHBGSgKgAm5BgNk5+VEKgRCh2Q1LjteqHDVotxnchij1EUhK
- AYRGYM8Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1utAPZ-00000003qbD-0LLf; Mon, 01 Sep 2025 19:41:53 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
- id EBAB0300342; Mon, 01 Sep 2025 21:41:51 +0200 (CEST)
-Date: Mon, 1 Sep 2025 21:41:51 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: christian.koenig@amd.com, matthew.auld@intel.com,
- jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, alexander.deucher@amd.com
-Subject: Re: [PATCH v5 1/2] drm/buddy: Optimize free block management with RB
- tree
-Message-ID: <20250901194151.GJ4067720@noisy.programming.kicks-ass.net>
-References: <20250901185604.2222-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7019D10E47B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 19:46:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 016B544E4B;
+ Mon,  1 Sep 2025 19:46:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D6EC4CEF0;
+ Mon,  1 Sep 2025 19:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756755984;
+ bh=xn/VcIgzHE0PmB/v3LOHApTytoYKXknTVhZ//rRTXPg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=eX/2DigAipoH8LZ1yzPeYdsSTG9icEIzHyLoMY2pMGhuWVPHCgJZ65ckmSe1sMXpZ
+ y89byCrXB+rnPDy/nko/utRST3mAqrGrlWyvIT7QeotKTOIaz39XoQ/FnFRvrx/w1U
+ dJFrHW7EAqvu9TAJ+NPak6NnCWTU9TqWFVx144Q+abQitQd4GbmbcyddYkgIh2Ivuf
+ /SILTe45+M4N4KFCXF6v7PnFD7SNLuZXbfIcjDRk+UgTcUvfxgt6LY7epKfLVzjiaE
+ QJZeBcvYSfn600h2ocld8oOIm0CU3OuyqwOPTb8c64fOBGuz2XV/5UFUx/Stjwg5xl
+ rsy5eyU7yxFKw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+ arnd@arndb.de, gregkh@linuxfoundation.org, Ling Xu <quic_lxu5@quicinc.com>
+Cc: quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v10 0/5] Add support for gdsp remoteproc on lemans
+Date: Mon,  1 Sep 2025 14:46:05 -0500
+Message-ID: <175675595927.1796591.9742902752337762891.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250813030638.1075-1-quic_lxu5@quicinc.com>
+References: <20250813030638.1075-1-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901185604.2222-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,161 +61,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 12:26:04AM +0530, Arunpravin Paneer Selvam wrote:
-> Replace the freelist (O(n)) used for free block management with a
-> red-black tree, providing more efficient O(log n) search, insert,
-> and delete operations. This improves scalability and performance
-> when managing large numbers of free blocks per order (e.g., hundreds
-> or thousands).
 
-Did you consider the interval tree?
+On Wed, 13 Aug 2025 08:36:33 +0530, Ling Xu wrote:
+> The fastrpc driver has support for 5 types of remoteprocs. There are
+> some products which support GDSP remoteprocs. GDSP is General Purpose
+> DSP where tasks can be offloaded. Add fastrpc nodes and task offload
+> support for GDSP. Also strict domain IDs for domain.
+> Patch [v9]: https://lore.kernel.org/linux-arm-msm/20250716132836.1008119-1-quic_lxu5@quicinc.com/
+> 
+> Changes in v10:
+>   - Rebase patch because the file is renamed to lemans.dtsi.
+> Changes in v9:
+>   - Change the patches order.
+> Changes in v8:
+>   - Split patch.
+> Changes in v7:
+>   - Edit commit message.
+> Changes in v6:
+>   - Edit commit message.
+>   - Remove unused definition.
+> Changes in v5:
+>   - Edit commit message and add sapce before comment end.
+>   - Move domain definitions back to driver.
+> Changes in v4:
+>   - Split patch and change to common syntax.
+> Changes in v3:
+>   - Restrict domain IDs to represent a domain.
+> Changes in v2:
+>   - Add GPDSP labels in dt-bindings.
+> 
+> [...]
 
+Applied, thanks!
 
-> @@ -41,23 +43,53 @@ static void drm_block_free(struct drm_buddy *mm,
->  	kmem_cache_free(slab_blocks, block);
->  }
->  
-> -static void list_insert_sorted(struct drm_buddy *mm,
-> -			       struct drm_buddy_block *block)
-> +static void rbtree_insert(struct drm_buddy *mm,
-> +			  struct drm_buddy_block *block)
->  {
-> +	struct rb_root *root = &mm->free_tree[drm_buddy_block_order(block)];
-> +	struct rb_node **link = &root->rb_node;
-> +	struct rb_node *parent = NULL;
->  	struct drm_buddy_block *node;
-> -	struct list_head *head;
-> +	u64 offset;
-> +
-> +	offset = drm_buddy_block_offset(block);
->  
-> -	head = &mm->free_list[drm_buddy_block_order(block)];
-> -	if (list_empty(head)) {
-> -		list_add(&block->link, head);
-> -		return;
-> +	while (*link) {
-> +		parent = *link;
-> +		node = rb_entry(parent, struct drm_buddy_block, rb);
-> +
-> +		if (offset < drm_buddy_block_offset(node))
-> +			link = &parent->rb_left;
-> +		else
-> +			link = &parent->rb_right;
->  	}
->  
-> -	list_for_each_entry(node, head, link)
-> -		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
-> -			break;
-> +	rb_link_node(&block->rb, parent, link);
-> +	rb_insert_color(&block->rb, root);
-> +}
+[2/5] arm64: dts: qcom: lemans: add GDSP fastrpc-compute-cb nodes
+      commit: efc28845524843f199e420695eab3841299b05d2
 
-static inline bool __drm_bb_less(const struct drm_buddy_block *a,
-				 const struct drm_buddy_block *b)
-{
-	return drm_buddy_block_offset(a) < drm_buddy_block_offset(b);
-}
-
-#define __node_2_drm_bb(node) rb_entry((node), struct drm_buddy_block, rb)
-
-static inline bool rb_drm_bb_less(struct rb_node *a, const struct rb_node *b)
-{
-	return __drm_bb_less(__node_2_drm_bb(a), __node_2_drm_bb(b));
-}
-
-static void rbtree_insert(struct drm_buddy *mm, struct drm_buddy_block *block)
-{
-	rb_add(block->rb, &mm->free_tree[drm_buddy_block_order(block)], rb_drm_bb_less);
-}
-
-> +
-> +static void rbtree_remove(struct drm_buddy *mm,
-> +			  struct drm_buddy_block *block)
-> +{
-> +	struct rb_root *root;
-> +
-> +	root = &mm->free_tree[drm_buddy_block_order(block)];
-> +	rb_erase(&block->rb, root);
->  
-> -	__list_add(&block->link, node->link.prev, &node->link);
-> +	RB_CLEAR_NODE(&block->rb);
-> +}
-> +
-> +static inline struct drm_buddy_block *
-> +rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
-> +{
-> +	struct rb_node *node = rb_last(&mm->free_tree[order]);
-> +
-> +	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
-> +}
-
-rb_add_cached() caches the leftmost entry, if you invert the key, the
-last is first.
-
-> diff --git a/include/linux/rbtree.h b/include/linux/rbtree.h
-> index 8d2ba3749866..17190bb4837c 100644
-> --- a/include/linux/rbtree.h
-> +++ b/include/linux/rbtree.h
-> @@ -79,6 +79,62 @@ static inline void rb_link_node_rcu(struct rb_node *node, struct rb_node *parent
->  	   ____ptr ? rb_entry(____ptr, type, member) : NULL; \
->  	})
->  
-> +/**
-> + * rbtree_for_each_entry - iterate in-order over rb_root of given type
-> + *
-> + * @pos:	the 'type *' to use as a loop cursor.
-> + * @root:	'rb_root *' of the rbtree.
-> + * @member:	the name of the rb_node field within 'type'.
-> + */
-> +#define rbtree_for_each_entry(pos, root, member) \
-> +	for ((pos) = rb_entry_safe(rb_first(root), typeof(*(pos)), member); \
-> +	     (pos); \
-> +	     (pos) = rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member))
-> +
-> +/**
-> + * rbtree_reverse_for_each_entry - iterate in reverse in-order over rb_root
-> + * of given type
-> + *
-> + * @pos:	the 'type *' to use as a loop cursor.
-> + * @root:	'rb_root *' of the rbtree.
-> + * @member:	the name of the rb_node field within 'type'.
-> + */
-> +#define rbtree_reverse_for_each_entry(pos, root, member) \
-> +	for ((pos) = rb_entry_safe(rb_last(root), typeof(*(pos)), member); \
-> +	     (pos); \
-> +	     (pos) = rb_entry_safe(rb_prev(&(pos)->member), typeof(*(pos)), member))
-> +
-> +/**
-> + * rbtree_for_each_entry_safe - iterate in-order over rb_root safe against removal
-> + *
-> + * @pos:	the 'type *' to use as a loop cursor
-> + * @n:		another 'type *' to use as temporary storage
-> + * @root:	'rb_root *' of the rbtree
-> + * @member:	the name of the rb_node field within 'type'
-> + */
-> +#define rbtree_for_each_entry_safe(pos, n, root, member) \
-> +	for ((pos) = rb_entry_safe(rb_first(root), typeof(*(pos)), member), \
-> +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL; \
-> +	     (pos); \
-> +	     (pos) = (n), \
-> +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL)
-> +
-> +/**
-> + * rbtree_reverse_for_each_entry_safe - iterate in reverse in-order over rb_root
-> + * safe against removal
-> + *
-> + * @pos:	the struct type * to use as a loop cursor.
-> + * @n:		another struct type * to use as temporary storage.
-> + * @root:	pointer to struct rb_root to iterate.
-> + * @member:	name of the rb_node field within the struct.
-> + */
-> +#define rbtree_reverse_for_each_entry_safe(pos, n, root, member) \
-> +	for ((pos) = rb_entry_safe(rb_last(root), typeof(*(pos)), member), \
-> +	     (n) = (pos) ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*(pos)), member) : NULL; \
-> +	     (pos); \
-> +	     (pos) = (n), \
-> +	     (n) = (pos) ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*(pos)), member) : NULL)
-> +
-
-Not really a fan of these. That's typically a sign you're doing it
-wrong. Full tree iteration is actually slower than linked list.
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
