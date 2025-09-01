@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BBEB3E86B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0802B3E871
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BAF10E497;
-	Mon,  1 Sep 2025 15:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8E9E10E499;
+	Mon,  1 Sep 2025 15:07:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qy96MkBd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PhqRuC8U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29EFD10E497
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:07:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765EB10E49B
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:07:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756739244;
+ s=mimecast20190719; t=1756739255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFQCeV5GlShS/zx1bu5/T/iLUPYfRFaciJSmR65IujE=;
- b=Qy96MkBd4IUKd1TNuArbRxmOmH6FfjlZeJSp5yBdAfTIIBbl2IX3entzod2lX/qYBtD3Kx
- BsS4zx+qzl3txchl1XjnZrMNmhunFKWyW0TWJOnfQrI8XxIHKSQmPWuKhb1ED377F6VQZA
- veCgGuFz61Pg3qI92H0RmO+YA6NWUbU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=1uoE6NXhltHN+7rLv53vXfhLviFP/GMqcI5NGlTVFxQ=;
+ b=PhqRuC8UK7aS4AxSEcEB5C+E1s8fpcEbTxwRhO6yYznnGYKjOwP5ja2E9vqXKgM7hXQZqQ
+ e1Y32rS5F/BfY40LUyiZflKhirjcGCEihKmljCEX9FD/+C4F4TCfbHruvV/gEa6UeZG78L
+ V+zQl4hgw08TXm1uvYLDk0P2pMjb4jk=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-616-CT1kZFJdPz29r0kFU6Fbtg-1; Mon,
- 01 Sep 2025 11:07:20 -0400
-X-MC-Unique: CT1kZFJdPz29r0kFU6Fbtg-1
-X-Mimecast-MFC-AGG-ID: CT1kZFJdPz29r0kFU6Fbtg_1756739235
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-458-Vu95gNDhN86FCvXuoQpXFg-1; Mon,
+ 01 Sep 2025 11:07:34 -0400
+X-MC-Unique: Vu95gNDhN86FCvXuoQpXFg-1
+X-Mimecast-MFC-AGG-ID: Vu95gNDhN86FCvXuoQpXFg_1756739249
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 09663180035C; Mon,  1 Sep 2025 15:07:15 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 609CF195608B; Mon,  1 Sep 2025 15:07:29 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 90EDB1800447; Mon,  1 Sep 2025 15:07:01 +0000 (UTC)
+ id 9DFF318003FC; Mon,  1 Sep 2025 15:07:15 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
  Wei Yang <richard.weiyang@gmail.com>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
@@ -65,17 +66,16 @@ Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org
-Subject: [PATCH v2 10/37] mm: sanity-check maximum folio size in
- folio_set_order()
-Date: Mon,  1 Sep 2025 17:03:31 +0200
-Message-ID: <20250901150359.867252-11-david@redhat.com>
+Subject: [PATCH v2 11/37] mm: limit folio/compound page sizes in problematic
+ kernel configs
+Date: Mon,  1 Sep 2025 17:03:32 +0200
+Message-ID: <20250901150359.867252-12-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
@@ -96,34 +96,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's sanity-check in folio_set_order() whether we would be trying to
-create a folio with an order that would make it exceed MAX_FOLIO_ORDER.
+Let's limit the maximum folio size in problematic kernel config where
+the memmap is allocated per memory section (SPARSEMEM without
+SPARSEMEM_VMEMMAP) to a single memory section.
 
-This will enable the check whenever a folio/compound page is initialized
-through prepare_compound_head() / prepare_compound_page() with
-CONFIG_DEBUG_VM set.
+Currently, only a single architectures supports ARCH_HAS_GIGANTIC_PAGE
+but not SPARSEMEM_VMEMMAP: sh.
+
+Fortunately, the biggest hugetlb size sh supports is 64 MiB
+(HUGETLB_PAGE_SIZE_64MB) and the section size is at least 64 MiB
+(SECTION_SIZE_BITS == 26), so their use case is not degraded.
+
+As folios and memory sections are naturally aligned to their order-2 size
+in memory, consequently a single folio can no longer span multiple memory
+sections on these problematic kernel configs.
+
+nth_page() is no longer required when operating within a single compound
+page / folio.
 
 Reviewed-by: Zi Yan <ziy@nvidia.com>
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/internal.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/mm.h | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/mm/internal.h b/mm/internal.h
-index 45da9ff5694f6..9b0129531d004 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -755,6 +755,7 @@ static inline void folio_set_order(struct folio *folio, unsigned int order)
- {
- 	if (WARN_ON_ONCE(!order || !folio_test_large(folio)))
- 		return;
-+	VM_WARN_ON_ONCE(order > MAX_FOLIO_ORDER);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 77737cbf2216a..2dee79fa2efcf 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2053,11 +2053,25 @@ static inline long folio_nr_pages(const struct folio *folio)
+ 	return folio_large_nr_pages(folio);
+ }
  
- 	folio->_flags_1 = (folio->_flags_1 & ~0xffUL) | order;
- #ifdef NR_PAGES_IN_LARGE_FOLIO
+-/* Only hugetlbfs can allocate folios larger than MAX_ORDER */
+-#ifdef CONFIG_ARCH_HAS_GIGANTIC_PAGE
+-#define MAX_FOLIO_ORDER		PUD_ORDER
+-#else
++#if !defined(CONFIG_ARCH_HAS_GIGANTIC_PAGE)
++/*
++ * We don't expect any folios that exceed buddy sizes (and consequently
++ * memory sections).
++ */
+ #define MAX_FOLIO_ORDER		MAX_PAGE_ORDER
++#elif defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
++/*
++ * Only pages within a single memory section are guaranteed to be
++ * contiguous. By limiting folios to a single memory section, all folio
++ * pages are guaranteed to be contiguous.
++ */
++#define MAX_FOLIO_ORDER		PFN_SECTION_SHIFT
++#else
++/*
++ * There is no real limit on the folio size. We limit them to the maximum we
++ * currently expect (e.g., hugetlb, dax).
++ */
++#define MAX_FOLIO_ORDER		PUD_ORDER
+ #endif
+ 
+ #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
 -- 
 2.50.1
 
