@@ -2,92 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BB7B3E477
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 15:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E9EB3E4B4
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 15:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56B310E45D;
-	Mon,  1 Sep 2025 13:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19B010E460;
+	Mon,  1 Sep 2025 13:23:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NehNTax9";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ck8Zgk4W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389BE10E45D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 13:17:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6328710E460
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 13:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756732652;
+ s=mimecast20190719; t=1756732992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LZO/bK69jUlRIeMZwS/vG5/0W+8gIUMGxQyNC0dZPbA=;
- b=NehNTax99btPQCZqelHUy5JQ+EVON5ciXip9t2ls5yebvt+sNQdg0LcfJau+AUCRkIxJIg
- brDBsEfRM/W4k/7ggvzcpAqZ7hSsbrUJaFqbm/0dvLwnUyS/V4krvzrQhL0Q/u4rwl6WD/
- 966ZkqUQqDQCyW7z0h60puNot2XWGqw=
+ bh=Cxq7T2V7lpPnrYC2+PR+qicjY5gpUXVxT7pGCrLEVTk=;
+ b=Ck8Zgk4W0reXu5h8jmqDBDmBCF3aZYwEEsH6Gh+bg1AS5gE3fRfNjYAEhDfktirtMOaBhl
+ K6ly/TjS2EZrM3nbWSzTFo6B04kLq13EyZrh61TiignzXbXhx3hr1D5VgLX00+9wjaZu5S
+ Co5qFbio8mdn4Skx/OeBUcrz1BIGUMY=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-280-E8VPfyfUOZ-ZCaNgqUP6_g-1; Mon, 01 Sep 2025 09:17:30 -0400
-X-MC-Unique: E8VPfyfUOZ-ZCaNgqUP6_g-1
-X-Mimecast-MFC-AGG-ID: E8VPfyfUOZ-ZCaNgqUP6_g_1756732650
+ us-mta-510-kVyJz366PqWgoEQpmzX-Fg-1; Mon, 01 Sep 2025 09:23:11 -0400
+X-MC-Unique: kVyJz366PqWgoEQpmzX-Fg-1
+X-Mimecast-MFC-AGG-ID: kVyJz366PqWgoEQpmzX-Fg_1756732990
 Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-45b828bed3fso10829565e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 06:17:30 -0700 (PDT)
+ 5b1f17b1804b1-45b71eef08eso21850635e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 06:23:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756732649; x=1757337449;
+ d=1e100.net; s=20230601; t=1756732990; x=1757337790;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LZO/bK69jUlRIeMZwS/vG5/0W+8gIUMGxQyNC0dZPbA=;
- b=iT/aO67wUQSMo/aO0+bJ0pWrvIPa0Jr8seNBHDhwoT0HlJrY2w/OPFXxA3OuN+bvhy
- XqzUu+mJzDBnO3HvJxj7b9qLfbi0/l4CpRCK2y4kZJZXSdJxvMBiTWAoIHA9J9h9uHmV
- 3ER81ZqvR/LRD/vGDTjVHebLZARNv8xfnlLky1vY9/SCskq0GG/WnuL/ieMp7y7FnOC0
- 3g+z+KCkTBwRu8frAKDxq9LF1WYbc9zPdkxFi2VGcklBIO6LblWyBx8gf1aPiGhEAviz
- NE9cZGXc5BYMkrICR1V96DD1PUSdGMpU82rnWLu68xy8h+aZuXViVcmJIJ0XCtPl9Mt6
- bVBQ==
+ bh=Cxq7T2V7lpPnrYC2+PR+qicjY5gpUXVxT7pGCrLEVTk=;
+ b=RJCFNNkO4dLi/CxwX/eFIaX23yREubrkj5mOCbUYzd6TwN9egpOdW7LWH5aPED14Jc
+ 0qeLcyWP7DBYKoJgXL+37Q9E0sP7TGsAmURlqYlSwfjN1dHLwwiArAUhH8T/8id8GQrD
+ fs3e5NXTy7uhXfCi6BhJ/xj3z4+SULXjBvjmNuZe1ubpwyOwOAqPb5U7VXvweuiN/A9c
+ +lylkJ2y6VWCGM7hWbywaKVV2bzWk98V6+v1qWLPY/2VpXI8oqwZy2zBcZv8sDZVc9RC
+ emzLi1S6jv3kI+MK2A826tukzqJJhqShQccgeHU3MPaF28hsY6NrX7aSQjCwbvdy8M4y
+ TbTw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDJfjPenkv2YdhnJcqHoPGLC3CRyDDpFinrgfGQV471NQ/9FT5iexCdS4woOMyJ5lywwj5Lgs3iBk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxa0jSVWR4sn1YWAMdRHLpSgQyZZG/CXKJqCzhnWAsE2PJDOhz4
- +Wa7dHCTctfXagGQJNw1Ri9XRKPWIVCwHeLO8BWoBGqMuIq9tuNkjHRVt+eQRdezgLo9e/5ZoqC
- XsSXe+E3wdHiRISJeH9WFLese5VEHa/4UXBC8AX222iQkey3lK+exWpw1hDR5BVK1wl2GgA==
-X-Gm-Gg: ASbGncvgpgqwe4BVj6lKDd9psAsF7r2xbz1GmRsrRVt1EnRIWKvFhf8OUSweyBAJOhQ
- BOF4ZLNeXxsXTmcAwv1eJqOPJFEr9DR5kQRmDQQf9fNMnay+ZeLvHHELAQXVeuxAsyGwn2THG9f
- zYxwPdeWCAuBJuIq8ZttgNED+MmORgtLxGs4xATLnjvvKO6UdoF9+mseBY6bdCjQqO7Ogpnpv0R
- Xz913sx14mrH6OGb5WuXsYQHNQU2Wu6wMCOFERl/gyvCqdbiHByi6STovhJt+4j7RetKlFGU8B6
- hTRid6OpDqWaX8op/O2mwkiOv327ee/hMMMufNI5dBLnfbb36IDALY7x2vgaC/iRUg==
+ AJvYcCXlIGoU8MOj3t16Ecp8D2t/n3F+WRkj1QwXrBdN7Pk81XyooSXyETBWhTJ8KSrJSilge1G3UR4d7w8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOhduga2Oq5Il1GI7fLXnBIPHQP+x2J3hgZXJSMv/+1oh8rJ9h
+ p7JwMKv7wMYWP1zYGuKVIMDThpnZCOSbOq742iZKxuAQV/ZH7hPjkeH0YLP9r+f5Pt+kx4cB+5O
+ nHUBOPxkEAQjwC6g/hf+0xcqvZi+H54ygvSbwMWoXB1TqCqaap1eSA9R2NfUUfKAZhJHiLA==
+X-Gm-Gg: ASbGncvmmBbIbLXQqIA+yOZICCBRYyxWXPEEzMDxzNxw8W1zer7ooFepmGVYGQtaw9u
+ bxN23U+oPsSU4iAzv4kgFEnXgo9IrZDwEqWGhtEOa3wNh/yv9+fIP/e6sNoYWadaHvnPBuNJGjj
+ WpBPLt1YYx9VcfmCUnttIxle6ptTFmzISrLVywSHbaGeda5AjZ1Zh0WKu5Bbx+fWXqYSNoM57XH
+ PR+SSwwx5HIQbGxDvRhc5mf0t/O4ndWzv1boCQps1kz1ODzoFjrFC4I7UFMMvGxwn2OENWSLRIH
+ 9xC2JnFlsnsQrwMM64ZsMQHsdqkkjfpRtoS+TUH4W9u0a67bc0ZVuoy7qlnTd1Ht8A==
 X-Received: by 2002:a05:600c:8b42:b0:45b:7e86:7378 with SMTP id
- 5b1f17b1804b1-45b8558be6emr57766885e9.34.1756732649592; 
- Mon, 01 Sep 2025 06:17:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhXOtsZRDLW2l3J+Wn9wiLXesejOPTq/Wp1Kxm7t60DSLp7i1mtWhQUMZ8vc4tXh5zVbs2Hw==
+ 5b1f17b1804b1-45b8558be6emr57927795e9.34.1756732990192; 
+ Mon, 01 Sep 2025 06:23:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFn+xR292CYaY9FGMba3rZUFGRMyeIqFOQQHajodDM19zB/eMHw015CBudwcpdCSUn47hWdZg==
 X-Received: by 2002:a05:600c:8b42:b0:45b:7e86:7378 with SMTP id
- 5b1f17b1804b1-45b8558be6emr57766575e9.34.1756732649152; 
- Mon, 01 Sep 2025 06:17:29 -0700 (PDT)
+ 5b1f17b1804b1-45b8558be6emr57927525e9.34.1756732989773; 
+ Mon, 01 Sep 2025 06:23:09 -0700 (PDT)
 Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b6f4aa8a0sm238572925e9.12.2025.09.01.06.17.27
+ 5b1f17b1804b1-45b74950639sm209197995e9.17.2025.09.01.06.23.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Sep 2025 06:17:28 -0700 (PDT)
+ Mon, 01 Sep 2025 06:23:09 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Iker Pedrosa <ikerpedrosam@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+To: Thomas Zimmermann <tzimmermann@suse.de>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
  <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
  <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
-In-Reply-To: <20250901-industrious-rooster-from-mars-85e3cc@houat>
-References: <20250806-st7920-v1-0-64ab5a34f9a0@gmail.com>
- <20250806-st7920-v1-3-64ab5a34f9a0@gmail.com>
- <24a5ac33-945b-4861-ac0b-94eaa647e893@kernel.org>
- <CABdCQ=Mysc3a5JNe7te0nRAOzB2n9vQcEz+hZmE3B3vmDYNt2A@mail.gmail.com>
- <083588db-10a5-48ff-80da-55c5b79e843b@kernel.org>
- <20250901-industrious-rooster-from-mars-85e3cc@houat>
-Date: Mon, 01 Sep 2025 15:17:26 +0200
-Message-ID: <87y0qyfh21.fsf@minerva.mail-host-address-is-not-set>
+Subject: Re: [PATCH v2 5/6] drm/format-helper: introduce
+ drm_fb_xrgb8888_to_gray2()
+In-Reply-To: <2b0eee63-2b7d-4ca5-b673-4f3761d2e386@suse.de>
+References: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
+ <20250721-st7571-format-v2-5-159f4134098c@gmail.com>
+ <87y0sh947w.fsf@minerva.mail-host-address-is-not-set>
+ <aJnc36ojqSb3-Ti2@gmail.com>
+ <2b0eee63-2b7d-4ca5-b673-4f3761d2e386@suse.de>
+Date: Mon, 01 Sep 2025 15:23:07 +0200
+Message-ID: <87v7m2fgsk.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hwt4aC6_GcJg8eJQrsccSEZeX6wqWkn3aRPkujEm2Ys_1756732650
+X-Mimecast-MFC-PROC-ID: C0AiIJLqWluFhM01R0Ocwbifs8dYzzUlyLf9USf_5uk_1756732990
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,43 +105,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Maxime,
+Hello Thomas,
 
-> On Wed, Aug 20, 2025 at 03:10:16PM +0200, Krzysztof Kozlowski wrote:
->> On 20/08/2025 14:23, Iker Pedrosa wrote:
->> >>>
->> >>> +DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
->> >>> +M:   Iker Pedrosa <ikerpedrosam@gmail.com>
->> >>> +S:   Maintained
->> >>> +T:   git https://gitlab.freedesktop.org/drm/misc/kernel.git
->> >>
->> >>
->> >> Drop, unless you have commit rights there. Parent entry already covers
->> >> this, doesn't it?
->> >>
->> > 
->> > I don't have them, but I'm working with Javier and I think he does have
->> > permissions. Let me ask him when he gets back.
->> 
->> Javier is not mentioned here. You are adding redundant and useless
->> information. T: is for subsystem maintainers, not for individual drivers.
+> Hi
 >
-> Kinda. I mean, you're absolutely right for pretty that it's implicit in
-> most places in the kernel.
+> Am 11.08.25 um 14:06 schrieb Marcus Folkesson:
+>> On Mon, Jul 21, 2025 at 01:24:19PM +0200, Javier Martinez Canillas wrote:
+>>> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+>>>
+>>>> Convert XRGB8888 to 2bit grayscale.
+>>>>
+>>>> It uses drm_fb_xrgb8888_to_gray8() to convert the pixels to gray8 as an
+>>>> intermediate step before converting to gray2.
+>>>>
+>>>> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+>>>> ---
+>>> I would like Thomas to review it too, but for me the change looks good.
+>> A friendly ping to Thomas.
 >
-> However, it's not here. The drm-misc tree is meant to collect the
-> patches for all those small drivers, and we don't have a folder to put
-> these drivers under.
+> Apologies for the late review.
 >
-> It was pretty confusing to differentiate a driver maintained through its
-> own tree, and one maintained through drm-misc, so at least explicitly
-> having the git tree set to drm-misc is how we show that's where the
-> patches are going to land.
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 >
 
-Thanks a lot for the clarification.
+No worries and thanks a lot for your review.
 
 -- 
 Best regards,
