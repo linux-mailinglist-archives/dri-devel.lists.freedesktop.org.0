@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1171B3DD2C
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7126DB3DD2F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D866810E3CA;
-	Mon,  1 Sep 2025 08:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE4010E3C4;
+	Mon,  1 Sep 2025 08:58:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CDF10E3C4;
- Mon,  1 Sep 2025 08:58:26 +0000 (UTC)
-X-UUID: ce45fcaa871111f0b29709d653e92f7d-20250901
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68DC410E3C4;
+ Mon,  1 Sep 2025 08:58:35 +0000 (UTC)
+X-UUID: d3d01002871111f0b29709d653e92f7d-20250901
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:32ec79ce-b7fb-486c-a29f-ba035ebc7973, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:91218b6e-7623-4861-8c97-36b43e2f0e7e, IP:0,
  U
- RL:0,TC:0,Content:26,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:26
-X-CID-META: VersionHash:6493067, CLOUDID:54a8b82e8127115c930df8f8935c7019,
+ RL:0,TC:0,Content:38,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:38
+X-CID-META: VersionHash:6493067, CLOUDID:f0135f5c24c77514b6cdf0eea2f8050c,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:4|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
@@ -26,17 +26,17 @@ X-CID-META: VersionHash:6493067, CLOUDID:54a8b82e8127115c930df8f8935c7019,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ce45fcaa871111f0b29709d653e92f7d-20250901
+X-UUID: d3d01002871111f0b29709d653e92f7d-20250901
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1426818083; Mon, 01 Sep 2025 16:58:19 +0800
+ with ESMTP id 1713458472; Mon, 01 Sep 2025 16:58:28 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id EBB6FE008FA7;
- Mon,  1 Sep 2025 16:58:18 +0800 (CST)
-X-ns-mid: postfix-68B5602A-782193739
+ by mail.kylinos.cn (NSMail) with SMTP id 092DCE008FA7;
+ Mon,  1 Sep 2025 16:58:28 +0800 (CST)
+X-ns-mid: postfix-68B5602E-667223740
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 33CF0E008FA8;
- Mon,  1 Sep 2025 16:58:15 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id 03A5FE008FAA;
+ Mon,  1 Sep 2025 16:58:18 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -72,9 +72,9 @@ Cc: Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v3 04/12] cpufreq: longhaul: Use scope-based cleanup helper
-Date: Mon,  1 Sep 2025 16:57:40 +0800
-Message-Id: <20250901085748.36795-5-zhangzihuan@kylinos.cn>
+Subject: [PATCH v3 05/12] cpufreq: powernv: Use scope-based cleanup helper
+Date: Mon,  1 Sep 2025 16:57:41 +0800
+Message-Id: <20250901085748.36795-6-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250901085748.36795-1-zhangzihuan@kylinos.cn>
 References: <20250901085748.36795-1-zhangzihuan@kylinos.cn>
@@ -103,31 +103,61 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/cpufreq/longhaul.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/cpufreq/powernv-cpufreq.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
-index ba0e08c8486a..ae5596919671 100644
---- a/drivers/cpufreq/longhaul.c
-+++ b/drivers/cpufreq/longhaul.c
-@@ -950,7 +950,7 @@ static int __init longhaul_init(void)
-=20
- static void __exit longhaul_exit(void)
+diff --git a/drivers/cpufreq/powernv-cpufreq.c b/drivers/cpufreq/powernv-=
+cpufreq.c
+index 7d9a5f656de8..811fdbf398fa 100644
+--- a/drivers/cpufreq/powernv-cpufreq.c
++++ b/drivers/cpufreq/powernv-cpufreq.c
+@@ -892,15 +892,15 @@ static int powernv_cpufreq_reboot_notifier(struct n=
+otifier_block *nb,
+ 				unsigned long action, void *unused)
  {
--	struct cpufreq_policy *policy =3D cpufreq_cpu_get(0);
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
-u_get(0);
- 	int i;
+ 	int cpu;
+-	struct cpufreq_policy *cpu_policy;
 =20
- 	for (i =3D 0; i < numscales; i++) {
-@@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
- 		}
+ 	rebooting =3D true;
+ 	for_each_online_cpu(cpu) {
+-		cpu_policy =3D cpufreq_cpu_get(cpu);
++		struct cpufreq_policy *cpu_policy __free(put_cpufreq_policy) =3D
++			cpufreq_cpu_get(cpu);
++
+ 		if (!cpu_policy)
+ 			continue;
+ 		powernv_cpufreq_target_index(cpu_policy, get_nominal_index());
+-		cpufreq_cpu_put(cpu_policy);
  	}
 =20
--	cpufreq_cpu_put(policy);
- 	cpufreq_unregister_driver(&longhaul_driver);
- 	kfree(longhaul_table);
- }
+ 	return NOTIFY_DONE;
+@@ -913,7 +913,6 @@ static struct notifier_block powernv_cpufreq_reboot_n=
+b =3D {
+ static void powernv_cpufreq_work_fn(struct work_struct *work)
+ {
+ 	struct chip *chip =3D container_of(work, struct chip, throttle);
+-	struct cpufreq_policy *policy;
+ 	unsigned int cpu;
+ 	cpumask_t mask;
+=20
+@@ -928,14 +927,14 @@ static void powernv_cpufreq_work_fn(struct work_str=
+uct *work)
+ 	chip->restore =3D false;
+ 	for_each_cpu(cpu, &mask) {
+ 		int index;
++		struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
++			cpufreq_cpu_get(cpu);
+=20
+-		policy =3D cpufreq_cpu_get(cpu);
+ 		if (!policy)
+ 			continue;
+ 		index =3D cpufreq_table_find_index_c(policy, policy->cur, false);
+ 		powernv_cpufreq_target_index(policy, index);
+ 		cpumask_andnot(&mask, &mask, policy->cpus);
+-		cpufreq_cpu_put(policy);
+ 	}
+ out:
+ 	cpus_read_unlock();
 --=20
 2.25.1
 
