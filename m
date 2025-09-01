@@ -2,86 +2,212 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C4AB3E13B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 13:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD1BB3E14E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 13:16:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F310C10E421;
-	Mon,  1 Sep 2025 11:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4271210E42A;
+	Mon,  1 Sep 2025 11:16:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="lGS1EtFT";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="dWvjX8zO";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="iRCl1gVA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 581DF10E421
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 11:14:19 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-45b869d3560so15803985e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 04:14:19 -0700 (PDT)
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F62410E429
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 11:16:49 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5816f2aX1725151; Mon, 1 Sep 2025 12:16:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=fUp5C5i+XGNOUoWdkWVF72vO2
+ Gx5P1YaVLv2lGY7iHY=; b=dWvjX8zOn3INy780abc+mlMjtv0vITTywWALnkQG3
+ cN9fQO/y7GxmLf+rGsde4WO5vPH9TKHvKUtsw7ZE6SYt8W3lIbjf85cOptGRIAla
+ YG6qY6LeHHn2tcB/8MoCk0xOF/mb4IH/P09ur0E972FNLC5zVR9OwbHJTWdjN8MC
+ i+maA3A3ZGhBRYz9zi0PNP1z52he77BJf7D5ZlIUqstY7ajh8TwTY0tcgQhNP5bg
+ yhRbppGhi53JJFJarqJmLk+GEQwYgY1lVF2hOHObibxVTyIO42Z3N/tnkxGxvHEH
+ yLu+C3G40wOUpo85vsytpNfEiqul7Euj7KMTSdFMAJexQ==
+Received: from lo0p265cu003.outbound.protection.outlook.com
+ (mail-uksouthazon11022107.outbound.protection.outlook.com [52.101.96.107])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 48uscshts5-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Mon, 01 Sep 2025 12:16:21 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oP+tdOu58f1kwOeqyhq53OqNiUqTilTDcihC+yl4AvGKzIdlJJf9+kC9wgey6l0294uS3aMsRKO3ESSpFkYr24xyNWJs0/E2ab7R4oljlgxV2AN21vG5dy3ApeTJfw45EpkKL+f4UPeu4bikaq0l9lrPVAxQQPx6Bq54s+0+IMglgOECsAuI2I6vwHDQ4tQx8oGDIT4tiBKSKBwD2aX4ULqac84y9KhW9HdhZrf0xEQJEy16WKChV5vUUR7e9r+VqizOX3y76Cr1c4XFdiZ7rVdAEWCr7AIK9nnm6BCWI7FzR9SmnheYymHeK382FL3ox9eJpkCEkoMwvs+g9x6VSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fUp5C5i+XGNOUoWdkWVF72vO2Gx5P1YaVLv2lGY7iHY=;
+ b=KTfdGjVV+Xn93c8LGVQoJ0fR6BUfefpU29yL/SWt4qPGSmKKMSkfgcAaXvcOHlJynGpCipL0WkbOx4M+zyddjJ1WzbprF2IJ9JdF8FZDvLRb6oST8VmJ88JuHiQEwi/Z409FjbTR98YJ9ZsRzrBgbgSY8Fti1+3OCHqkhzw3E+HJcdPs3Wx+W7mSpbCjHxzYe+pCTPbw3CT4r0YlWpbWPYyxYnxNVR7yQ6s7iozl/taWP30q1Y1ZN3TR+IIfAe75cuvcINh7repP6xbUyWRjzAWvjwU3Tpy1TmCUlfnb0zO/fZ6iABGXjdDJsqpNKlxOZAVpu5bzeExgOSCN9eA6HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1756725258; x=1757330058;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xBkwqjsaZDNhTrLuqiVAJvU1qg51uqafesNIgxktokA=;
- b=lGS1EtFTYydHyB2T9MRLDc/DuicReRGrIrn48efJYk6bO9QEQALNe0wPFDgFcKRMZH
- OzGi3T6HXHjM0uJxKaZV9K+jiCkWglzDOTZzZ8cT9aPFNQxxuTnUOcuLz0U1Hy18DaWR
- PqvkzU1+h7HrUq5cNpZNG0O8n3q+r/6dHwklvG4Up8oPHstYVRncmC6ZxIYmXqhNmvNG
- im7FBB2TaY1Bmk94rTVtLy0x5DHAfY7vQDXl2fr2UNLz15HzC+WOAimZ++jw4nPt0J9S
- pez9HUlI+zKadEVs5GpsHBj6notEeHPTW7ey5A3wnlG7Aj5hxxXMP7ij8X7eURjHJfFJ
- SP8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756725258; x=1757330058;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xBkwqjsaZDNhTrLuqiVAJvU1qg51uqafesNIgxktokA=;
- b=PSxK+VY9qwpan+OBv4cKcLv8y6oEZyQqqEfQtrucVWa7iuVAHuLGrqKncVTxrFmacj
- kwPSnvwu4967YLs88FMKWR9D0pBOPRU6im3pVrYC50QnWrYzOWt1MHieM1H3tBAI8z/B
- wFY7PtwfgJrPdpexXQbb0gbK7ovGPcNbM74msAD6g3ZbODtRDArjRE9AF1+PLpLF9fY6
- vL5G/wJOmAZ7BAcQ/7VzKDLaVLL+A1YbzZftdeLFXQCQ13HTqDByluNpvkvzfY27S7p9
- O0ilzb2G/simXvj00N8/FJoPSznrExEtjawlDJChvO9nO9S+gcPiwm5DKXM6ed6zFTi3
- iU2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUR1Gcvb5795bynvsKpSS4caF8jU/oT0Urc9JoL0DYB6i0XSSSH9jQAnv5ZQEgN4ex0rss/3H3OWWg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmbiH6TlUJbH4t0qySehyDQesPwyuHtixl3Doj2RjmAYyqumfn
- q/xbQaA5ICvAYl1BKXV6wr9PrCo8dKDBlbrWCfqJCoCI2/5SoqNewvu19+6bf+FFF7g=
-X-Gm-Gg: ASbGncsxUZwufX55X2db6rY4LYbTjE0T3lfeZ9swSX49hHCz/f+8evkDZGwC9VoqayA
- q9IuhuPrsxQLeOdSN3KE7Na/BVJ2NGx+UY4RefYzacoMCo3W+TaT5VwnzGzGwU33+B1Z0S0Tm5M
- ZfA9QXLT/6FI7k53NY09Gqx83zGuczAcE1qigR5mQYG/ANTr6uvsSsQfSoeh6Din0cHTKXKUOD4
- sA0Bp6HwDbm2jh/5mwWZuG9CPrYmMi8OiQSYXsUTu5pLtOv0DrPK2BuB4yJ9i+8Zz024UiYi4us
- rk5R3escUgmd9zlkUTsjhedrcq8kyu1LAYxAwAzpHPnT53pA4dDrMwvkNQixvotH25r218L+i6U
- TidvrIdjezOqnpFizvOFfdYJ0CYCntQyDVfs=
-X-Google-Smtp-Source: AGHT+IEAILM6Jf6ZqkuW3x0Apw3b+DywTCqewxFbm6qZWu0XmBBDdNmEf2BLvNJg+lqzsUsPfcbz4w==
-X-Received: by 2002:a05:600c:4588:b0:45b:86ee:4181 with SMTP id
- 5b1f17b1804b1-45b86ee4497mr59846715e9.22.1756725257287; 
- Mon, 01 Sep 2025 04:14:17 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b7c461edasm96341605e9.9.2025.09.01.04.14.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 04:14:16 -0700 (PDT)
-Message-ID: <7e828c84-6dbb-4a0c-9733-4fa0d2b2d07f@ursulin.net>
-Date: Mon, 1 Sep 2025 12:14:14 +0100
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fUp5C5i+XGNOUoWdkWVF72vO2Gx5P1YaVLv2lGY7iHY=;
+ b=iRCl1gVATuom0I5UkQeEKafaoX1d6Hx/dqz7WLfsEoQ/Dndpo7JXbzuLKprwrICnnUJyufkcg5j6EOTRot2jnESExCRt6wp/xunpLoCJ0C2YZxzzID5E6ixRk1d6H8i+oF/ki4IQ8JkWHNIe+6oL+YMfnJapda9lRQ1mH5G7D/8=
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:16c::5)
+ by LO4P265MB6779.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f1::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.25; Mon, 1 Sep
+ 2025 11:16:18 +0000
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::6016:e25d:b539:1ed1]) by LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::6016:e25d:b539:1ed1%5]) with mapi id 15.20.9073.026; Mon, 1 Sep 2025
+ 11:16:18 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Drew Fustini <fustini@kernel.org>
+CC: Michal Wilczynski <m.wilczynski@samsung.com>, Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
+ <Frank.Binns@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, "linux-riscv@lists.infradead.org"
+ <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+Thread-Topic: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+Thread-Index: AQHcE6V+m0GwzHkHd06R4lk48JBqc7R3FtCAgAGPHQCABZZzgA==
+Date: Mon, 1 Sep 2025 11:16:18 +0000
+Message-ID: <a329ff82-ca79-41ac-b61e-e843103f55a6@imgtec.com>
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
+ <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+ <aKjWiU4fQw3k77GR@x1> <aK-BwY8c-OR_WqNk@thelio> <aLDQjq9U_mDvMTJo@gen8>
+In-Reply-To: <aLDQjq9U_mDvMTJo@gen8>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LO0P265MB3404:EE_|LO4P265MB6779:EE_
+x-ms-office365-filtering-correlation-id: 416c6a54-7d01-4ed2-7373-08dde948f91c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|4053099003|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?K01GL1NLOXNaMDlxSC9MMmt3blUvbnZ6RzlhcFlVdjlzUEV1QlZUa3NhYkFS?=
+ =?utf-8?B?VklkU2tTeWNKcE5ObUF6QnhuSVFTWVBxSHl0ZW14U21oTTF1TEtXNTJNaU5x?=
+ =?utf-8?B?VnZRd3htTTVBMUNFUTk1d0ROTTZ5L3pnVFZyLzhBOFdvOG90ZWtXbzY5U2VX?=
+ =?utf-8?B?ZzQzWlZUVmVlSXFSOFArbTBGTFpRTE1waThhSjBWRkZjaUkxUzczaDcxeFFa?=
+ =?utf-8?B?OTFYVkpURmxvK2MxV09Hb2lRYitEN3cwaWljTnNTVFBhVFNhTnoyYjc2WlU2?=
+ =?utf-8?B?a3pYaHpibFR4S2VXMkNWR3pUbjVpdVhvOG5Mb1NsblhBQVlGTHdXajhMQU50?=
+ =?utf-8?B?SGRZN01iWlczQVF1UXFDTmxmcUZlcUNVVHcyM3ZTdVpTRk9NR0ppN1hGRmVa?=
+ =?utf-8?B?S3dVaEwyUGdwbGZZK05sRmRpQ3RJY2w2Nk5EZlFIOFZKdHBGTU8xRUo1Rmgz?=
+ =?utf-8?B?QUhVRnlaSDRlOSt1cXV5OW9HKzk4aDJPeW5rZ0pWVnFQZ1VyMnFRYncxY2JY?=
+ =?utf-8?B?Z1lxVm5waDJUQlRtK3dEQ0JCaHdtb1BlaTRzd1hjL2dZTTRTZllmZjhidk9a?=
+ =?utf-8?B?dkZScjdVUTBUZzlCSHMzYzBKNG9WaFU4bHl3Mks1ZnVROFNYT01pTmgwM2Yz?=
+ =?utf-8?B?VGV6SWRKZlE4bUFQMDhpcTRlWk4yMWNqSTB4MDQ4VWNlVk5EZGJyTFFFcUNC?=
+ =?utf-8?B?MFY0NWc4QTVzUXRzYnBUWTc0bCtrWEVEbWJneDlMYkpTZTFPVVlYTkJmR3lm?=
+ =?utf-8?B?Q0NXcFI0ZDBXRk5rSWhHeTBpclRRRWZ6YS8xV1ZKT0JNQkJrQTAydHMvdVBu?=
+ =?utf-8?B?ZE4rQ3EraVp1L1J0NWZ5ak1GbWpDaDRyNUdrTkU4WVBxbHE5OWYwZGpla3V4?=
+ =?utf-8?B?WmM3dHpsdTJ6dHZhdmJxOHVDb1pTaElRU1NmenF6aXpsZ3ZhazRJUzFTQ1pW?=
+ =?utf-8?B?MGZJT0hkZ1VIejRzN3hzVUxHR3ZxTC9wNFo2d1FTTWMvTDFpRGRJNnF4TGJ0?=
+ =?utf-8?B?RnhCNzhOWW94VWwvdEVmdGpRNm9rZHVtTFpuSWdMQVhLY1UxNGMrbVdvbkZQ?=
+ =?utf-8?B?eFhxaVNEeUhnQzdNSm1ocUYvSkc4VGZBaHU0bWFtaFdSNEF4MVNtb1Bjd29a?=
+ =?utf-8?B?WjJhT2s1Z1NkWWFHSXpMTUJsNmd5NTNzSHl4aGJSUE1aRm1uM1M2MHpuV1lx?=
+ =?utf-8?B?TlA0QUtFelhVSGM1Nmk3dkFkSEtETjdKczErZlV1UU1vYndCVm5abTNsVkpq?=
+ =?utf-8?B?Znp6Z1oxRXUxaWs2NXRjNm0zTUY1c0twSjROeEFPRU9mTE5ndlZsUnJiZU1o?=
+ =?utf-8?B?NXJTVzNLaDF5TU1kekZHR0FoQncza25tcVNOVWhxcTFaa3NZVTErNmdJVUp0?=
+ =?utf-8?B?V3RIanJLcE9MMkh0bUYrb1hhNUMzNHJsbzc5aGM4SGh2aDBDYVBlL0V4UVBY?=
+ =?utf-8?B?UlNxQ1NvSDFsdGRRTWdJWVdOaWx1OHJXZ1ViRjA1NGF1RmlBd2lGQVpJM3Fm?=
+ =?utf-8?B?YkhEdi80b0NBY3UrVDJWa3ZFZmhlK3RqR3hWckhaNzI4Qjh1b0dBYkQ3czZY?=
+ =?utf-8?B?RXhkaHpnNUx0WVlMakpid0xhZnF5Y3pPSWZCRXlSU1o1azRpNDRQQWwwYSsx?=
+ =?utf-8?B?aFZydElDY0svbmErNlVOd2htYUVFaG5UaDcycjdHMVFvazNycXJuc2dDSk5p?=
+ =?utf-8?B?a3ZsM3lSV1Vhc0xRMnFhTnQwNUpYY3RuUGdWNStFZGZlekI1Kzh4bjMvWUZT?=
+ =?utf-8?B?SjZiTEVhZ2JDL213eXl5QzVzMitzRTFDMVozZ3BxRFE0Ry9iUWdSdGRBWTVG?=
+ =?utf-8?B?dGVJOEVVY2FTcENJUnB2QmNJM0ZkT3hodlFSM0JrNWFXRVh5NEJ1ZHFkaGgx?=
+ =?utf-8?B?OVo0bHdWVzlDa0tDTlo0ekpiUTFNSkY4NGxmd1hYdnYxNzF6dmJWVnh5aERV?=
+ =?utf-8?B?MEkzam1pcGpIVnB3R1hwalZHSG1SUFgvTmtmRmY0YjQxZG1qNWMvYWdmVmh0?=
+ =?utf-8?Q?DPuEjg0yKS96l9sTvApldAX+LQvWHQ=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(4053099003)(38070700018);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VUVxT3V0ZlZzR1NKYzhJOFBUZE1lU2ZEbUN6YlRHdGQzakVDRGN2MXNlU0NB?=
+ =?utf-8?B?UFo3VzQ5UnNHL2dHVmNnS1E1dmF2K1pZVkRXdWc4Smk5Rjk5ZlJCdkJxeHhZ?=
+ =?utf-8?B?THM5MWxQYXFZNEMvTUFjZEFpQ0s0OFlWN2NIb3ZRUmlXVUQ0aGhORkFlaU82?=
+ =?utf-8?B?aGN5T0dMQ3hNK1R3aVVaKzhGNEw5Z3FFVm9PTU1mTEhCY0hPWDBySGJwRU9O?=
+ =?utf-8?B?MEd6NzF6a3B2VUQ3bzdpdXlJZVJYNUllbkd2ZWtGK3hvTm11UmgzMFdIYjBy?=
+ =?utf-8?B?OW9YTDVsT2poRVdCUVpsQVZxUnVyRU9tZFg1OHMxZmJHeDNQLzd3WUNVYklZ?=
+ =?utf-8?B?anpndmRpNm45NmdjOXBmc3NXZzR6eHdPZXhLY1pEb3hBWDBZT1BPYXE5a3A3?=
+ =?utf-8?B?eGJ2MktDVEF5MTZIOEdIVFo0c09lTDVLVm9oVTZ1NjlTWlB2QWNYSmVKdk1q?=
+ =?utf-8?B?NXNTWFlHb0oyaDl5R2ZBamV0MUdKMGVuMmVUaUErYUduRFhCOGxqa0dTOEhO?=
+ =?utf-8?B?eW5RWG1iWEo3eTJkRDBXdnI2YWpHRnhzWEI3WDlJb24yeDJSc3NhZHNRb2F2?=
+ =?utf-8?B?bldIbVJPMVQvQjE5NUNoYWphVWpZUWxNQ1kxMlFUeEpFdGhuaFkvV2VZb0da?=
+ =?utf-8?B?eXllMjdmOXk1aGpkRTJjTEdWNHMxZVZwTEd6R0VhbVkxVnQwVHA4UXh5aHp0?=
+ =?utf-8?B?aTFoOER1YjNyYUdiRk5Kcmk2VkdxL0pBNDFzV1dpYWE4THpLb2hTa2pDWTht?=
+ =?utf-8?B?aWtsMlp1WFpDUXpRaldDamJOWFh1c2xHendzTXJuRUZaUzFsSWtGV3ZYNmVk?=
+ =?utf-8?B?bFJMT0IxaW51ejdUZGFJWDBYRWllMkFCOUZjRkM1VFd3ZkhqUHkxZloybVdG?=
+ =?utf-8?B?cEIxZEhUM3FSeEx6cUJTdU1UMyt0elM4aFk3OVVRNzhhSWR2QWRjOEdLOGgr?=
+ =?utf-8?B?SGJFWHU0Wm85VDc4TGljMWxBaUFVanVYaVRKc1JUWjhqTG9QVUR2TllWSzZP?=
+ =?utf-8?B?dFhDT216ZDBuNlQ3VG5kUDA1UW1lbXpUMENLazF5RzBWd3ZzRzE3YitnRW5Z?=
+ =?utf-8?B?N2VBTnpsUGE5aWZVQUEwUHhuL2VBUGlRRFpiSVVNdG52M2RnVk8wNndyRFU4?=
+ =?utf-8?B?eWVqVlQ2bUp2VWpMUEN2ZTFXQXV3RDY1ZjlIRFhzYlozdDZpaFY5Nm4xYUtt?=
+ =?utf-8?B?OWxteWo5UnBMWk5rdVhIbkJFK0dEaTVEQ0c3M3BxK1ZjOUt4QTgvdHY3Wnlp?=
+ =?utf-8?B?ZnloUGQrV25VeXVzN1MvQ2pYeFdWZzRrNjgrU2RubDY2dEhRTHdjNXN0MXhn?=
+ =?utf-8?B?VUp6di9jYm1SOFRxdVRCU2lvZ21GaDZwa1R3UHdvNUtoUVRSZnFlVi9EWWdG?=
+ =?utf-8?B?aDJncjdPWGN6U1hYK3F0K2M1Q0o4WTE3YmNRS3VsR3FXb095WU83RjYwdGdD?=
+ =?utf-8?B?REhld2ZOWXdKMldhNkVoWmtQcmRjaVZ2YnNWZkZrNWozcHo4Zlp4VEFuZGh0?=
+ =?utf-8?B?OXROS1Jqd3hGK3g0UGNCTGlkRTNjNlN3SUcvZzFYNk1uWWZhSVQrczRCZHBV?=
+ =?utf-8?B?NXh5eGsyU2NpTkQyd2tyWVR1OWJ3SG5QemF0K0dRb1l0SnoyOXY3V09yRHlo?=
+ =?utf-8?B?TkQyZDRkTXpsZUpReXFwSGxENmJnOWZlQzdub1kvWDRIb3dUUzUyTytMZzhp?=
+ =?utf-8?B?MWpGcDdsUGw5TllPbkRHTTM4dnpxKyt6UFVIcjQxZXNGa3pRUE8yNHlEZGJp?=
+ =?utf-8?B?TFhQYTlJRW5kYWNxWDlWaENGTndJUll0bUw3cUhxOENsb3E3NThud2E5V3Uv?=
+ =?utf-8?B?WStxdVlJM0pIUEsweDRRNEtTVzdjRnF4cHdoNUlnMXc3eklFN1N2dDl2cExI?=
+ =?utf-8?B?OUhadU1kZlc5NXZYU3R4T1ByN0N4eU55aWNjOW5nOU00dmwxTXJydStnWnEr?=
+ =?utf-8?B?d01wb3VCakVyZFdtOFN3aUNSWm9LTGpUV0RZc2wvNDBTT083UzVnNU1YWWZT?=
+ =?utf-8?B?UlFYNWRmeHVCM3ZmV1RIdVNmTTBzV2paZG5maWsvcmRVOWtKbDBnSjlya1ha?=
+ =?utf-8?B?c091WCtGNlBiZHdrb09mdldjeFhkTURmQUJ6a09oSG9DVVdFcDhTYi8yZitw?=
+ =?utf-8?B?T01iTDArVXNqdTAzY05rNXV0M0VCTzFoamdXNnBKR2c1VTdiMEdZVU1aNFR2?=
+ =?utf-8?B?NFE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rHW15qCDbrN0JgGXO6KhR1Ml"
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from
- IOCTL
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- simona.vetter@ffwll.ch
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- ltp@lists.linux.it, tvrtko.ursulin@igalia.com, phasta@mailbox.org,
- airlied@gmail.com, dakr@kernel.org, sumit.semwal@linaro.org
-References: <202508200843.8b006132-lkp@intel.com>
- <7a193321-f9fa-43db-a495-594b1c586735@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <7a193321-f9fa-43db-a495-594b1c586735@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 416c6a54-7d01-4ed2-7373-08dde948f91c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2025 11:16:18.2585 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dcFpaYedbm0lklhAe0sxd9/bTHVBpvGA4oHf+1MND8MQgrfm3OViTLUeBR0klzQFjlEFLymRPjlJEcMzg29UXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6779
+X-Proofpoint-ORIG-GUID: OkPAhazwsNd0L6RMv2EwQDcDWJ1R_3v6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAxMDEyMCBTYWx0ZWRfX4z+tI3eoVt01
+ tG+1nYYZ2tctIscByu5IGxHhjfI2vVccfmKEb/s1vzOJJVRegb2ula+WhCqeuH32mwMQ3WCH8Mo
+ ymVRrHUc99FVMSuaX1LeIwbdNkRUQ2aE79t9xXQvlixoSqPj1Wm9y4nlahCoCsICjGN5VorCQpo
+ fYhEDWbTtu97Q0do08HSw5RBFekSBEz/mcjLe67SoPxuzD9ccQquOfmWwG1vR/MWxd/yNHn/LIn
+ /b2FUrLoH5Uus9cdgY2dgJi5PfwbaTUkgznofqQiTmTLnQcj1nKBQtH1lU98V1q2ivM4/JXF3A9
+ 34qVSiosAF5oChgbA3gLcOEhb6UYjP1etHMqvdmVCud9SjXJd2X+J192cmlI1M=
+X-Authority-Analysis: v=2.4 cv=GtdC+l1C c=1 sm=1 tr=0 ts=68b58087 cx=c_pps
+ a=BVlPTUHEdyGWsQesGsPzag==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=NgoYpvdbvlAA:10 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8 a=KKAkSRfTAAAA:8
+ a=8TDWt9qEAAAA:8 a=hD80L64hAAAA:8 a=jfUe7C8prb4qZSu0H7oA:9 a=QEXdDO2ut3YA:10
+ a=A9360hjEzD9n6dWme0IA:9 a=FfaGCDsud1wA:10 a=t8nPyN_e6usw4ciXM-Pk:22
+ a=cvBusfyB2V15izCimMoJ:22 a=ERxVmvoQgHyZXf33qDKr:22
+X-Proofpoint-GUID: OkPAhazwsNd0L6RMv2EwQDcDWJ1R_3v6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,239 +223,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--------------rHW15qCDbrN0JgGXO6KhR1Ml
+Content-Type: multipart/mixed; boundary="------------AVD6o0YOr3S6wgAVMLkw14vq";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
+ <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <a329ff82-ca79-41ac-b61e-e843103f55a6@imgtec.com>
+Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
+ <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+ <aKjWiU4fQw3k77GR@x1> <aK-BwY8c-OR_WqNk@thelio> <aLDQjq9U_mDvMTJo@gen8>
+In-Reply-To: <aLDQjq9U_mDvMTJo@gen8>
 
-On 21/08/2025 14:00, Christian König wrote:
-> Hi Sima,
-> 
-> I need your opinion on this here. Adding the warning to not signal a fence from IOCTL context yielded it's first victim.
-> 
-> Skimming through the code what i915 does here is to signal a dma_fence from an error handling path. E.g. the dma_fence was allocated, initialized, the vma code finds that something is wrong and signals the fence and frees it's reference.
-> 
-> The function which does that has the following comment:
-> 
-> /**
->   * dma_fence_work_commit_imm: Commit the fence, and if possible execute locally.
->   * @f: the fenced worker
->   *
->   * Instead of always scheduling a worker to execute the callback (see
->   * dma_fence_work_commit()), we try to execute the callback immediately in
->   * the local context. It is required that the fence be committed before it
->   * is published, and that no other threads try to tamper with the number
->   * of asynchronous waits on the fence (or else the callback will be
->   * executed in the wrong context, i.e. not the callers).
->   */
-> 
-> This works technically, but I would say that this is absolutely not the best practice.
-> 
-> We have some oportunity to unify dma_fence_work logic between i915 and amdgpu here, but I'm pretty sure I don't want to allow such stuff in amdgpu even if it saves a few of CPU cycles in an error cleanup path.
+--------------AVD6o0YOr3S6wgAVMLkw14vq
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Jumping in a bit. I had a quick look to remind myself of this area. 
-Unfortunately it is not an error cleanup path but the goto labels are a 
-bit misleadingly named. The immediate path triggers quite a lot in 
-practice so to remove this would need some testing to ensure no regressions.
+On 28/08/2025 22:56, Drew Fustini wrote:
+> On Wed, Aug 27, 2025 at 03:08:01PM -0700, Drew Fustini wrote:
+>> On Fri, Aug 22, 2025 at 01:43:53PM -0700, Drew Fustini wrote:
+>>> On Fri, Aug 22, 2025 at 12:20:17AM +0200, Michal Wilczynski wrote:
+>>>> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEA=
+D
+>>>> TH1520 SoC used by the Lichee Pi 4A board. This node enables support=
+ for
+>>>> the GPU using the drm/imagination driver.
+>>>>
+>>>> By adding this node, the kernel can recognize and initialize the GPU=
+,
+>>>> providing graphics acceleration capabilities on the Lichee Pi 4A and=
 
-Regards,
+>>>> other boards based on the TH1520 SoC.
+>>>>
+>>>> Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can'=
+t be
+>>>> controlled programatically.
+>>>>
+>>>> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+>>>> Reviewed-by: Drew Fustini <drew@pdp7.com>
+>>>> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>>> Acked-by: Matt Coster <matt.coster@imgtec.com>
+>>>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>>>> ---
+>>>>  arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
+>>>>  1 file changed, 21 insertions(+)
+>>>
+>>> I've applied this to thead-dt-for-next [1]:
+>>>
+>>> 0f78e44fb857 ("riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node")=
 
-Tvrtko
+>>>
+>>> Thanks,
+>>> Drew
+>>>
+>>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git=
+/log/?h=3Dthead-dt-for-next
+>>
+>> Hi Matt,
+>>
+>> Do you know when the dt binding patch will be applied to
+>> the drm-misc/for-linux-next tree?
+>>
+>> I applied the dts patch but it is creating a warning in next right now=
+=2E
+>> If the binding won't show up soon in drm-misc, then I'll remove this d=
+ts
+>> patch from next as dtbs_check is now failing in next. I can add it bac=
+k
+>> once the binding makes it to next.
+>=20
+> I've now removed this patch from thead-dt-for-next and will add it back=
 
-> 
-> What's your opinion on that?
-> 
+> once the bindings show up in next.
+
+Hi Drew,
+
+Apologies for the delay, I was on holiday last week.
+
+I've just applied the non-dts patches to drm-misc-next [1], would you
+mind re-adding the dts patch to thead-dt-for-next?
+
+Cheers,
+Matt
+
+[1]: https://lore.kernel.org/r/175672521205.30950.2944854121832397083.b4-=
+ty@imgtec.com
+
+>=20
 > Thanks,
-> Christian.
-> 
-> On 20.08.25 09:27, kernel test robot wrote:
->>
->>
->> Hello,
->>
->> kernel test robot noticed "WARNING:at_drivers/dma-buf/dma-fence.c:#dma_fence_signal" on:
->>
->> commit: 409db68e04bdf052bc03f620e70339764b598ade ("[PATCH 2/2] dma-buf: add warning when dma_fence is signaled from IOCTL")
->> url: https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-add-warning-when-dma_fence-is-signaled-from-IOCTL/20250812-223543
->> base: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git 53e760d8949895390e256e723e7ee46618310361
->> patch link: https://lore.kernel.org/all/20250812143402.8619-2-christian.koenig@amd.com/
->> patch subject: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled from IOCTL
->>
->> in testcase: ltp
->> version: ltp-x86_64-9f512c1d8-1_20250809
->> with following parameters:
->>
->> 	test: syscalls-ipc-msgstress
->>
->>
->>
->> config: x86_64-rhel-9.4-ltp
->> compiler: gcc-12
->> test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-4770 CPU @ 3.40GHz (Haswell) with 16G memory
->>
->> (please refer to attached dmesg/kmsg for entire log/backtrace)
->>
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <oliver.sang@intel.com>
->> | Closes: https://lore.kernel.org/oe-lkp/202508200843.8b006132-lkp@intel.com
->>
->>
->> [   51.636268][  T218] ------------[ cut here ]------------
->> [ 51.636273][ T218] WARNING: CPU: 3 PID: 218 at drivers/dma-buf/dma-fence.c:420 dma_fence_signal (drivers/dma-buf/dma-fence.c:420 drivers/dma-buf/dma-fence.c:502)
->> [   51.636292][  T218] Modules linked in: coretemp sd_mod snd_hda_codec_realtek_lib snd_hda_codec_generic sg ipmi_devintf kvm_intel snd_hda_intel ipmi_msghandler platform_profile i915(+) kvm snd_hda_codec intel_gtt dell_wmi snd_hda_core drm_buddy binfmt_misc dell_smbios snd_intel_dspcfg ttm dell_wmi_descriptor snd_intel_sdw_acpi snd_hwdep mei_wdt sparse_keymap irqbypass drm_display_helper ahci ghash_clmulni_intel snd_pcm libahci rfkill cec mei_me rapl intel_cstate dcdbas snd_timer drm_client_lib libata intel_uncore mei snd drm_kms_helper i2c_i801 i2c_smbus pcspkr lpc_ich soundcore video wmi fuse drm loop dm_mod
->> [   51.636385][  T218] CPU: 3 UID: 0 PID: 218 Comm: (udev-worker) Not tainted 6.17.0-rc1-00006-g409db68e04bd #1 PREEMPT(voluntary)
->> [   51.636395][  T218] Hardware name: Dell Inc. OptiPlex 9020/0DNKMN, BIOS A05 12/05/2013
->> [ 51.636399][ T218] RIP: 0010:dma_fence_signal (drivers/dma-buf/dma-fence.c:420 drivers/dma-buf/dma-fence.c:502)
->> [ 51.636415][ T218] Code: 00 fc ff df 80 3c 02 00 75 36 48 8b 3b 4c 89 e6 e8 10 33 27 01 89 e8 5b 5d 41 5c c3 cc cc cc cc e8 b0 2e 77 fe 48 85 c0 75 bc <0f> 0b eb b8 0f 0b bd ea ff ff ff 5b 89 e8 5d 41 5c c3 cc cc cc cc
->> All code
->> ========
->>     0:	00 fc                	add    %bh,%ah
->>     2:	ff                   	(bad)
->>     3:	df 80 3c 02 00 75    	filds  0x7500023c(%rax)
->>     9:	36 48 8b 3b          	ss mov (%rbx),%rdi
->>     d:	4c 89 e6             	mov    %r12,%rsi
->>    10:	e8 10 33 27 01       	call   0x1273325
->>    15:	89 e8                	mov    %ebp,%eax
->>    17:	5b                   	pop    %rbx
->>    18:	5d                   	pop    %rbp
->>    19:	41 5c                	pop    %r12
->>    1b:	c3                   	ret
->>    1c:	cc                   	int3
->>    1d:	cc                   	int3
->>    1e:	cc                   	int3
->>    1f:	cc                   	int3
->>    20:	e8 b0 2e 77 fe       	call   0xfffffffffe772ed5
->>    25:	48 85 c0             	test   %rax,%rax
->>    28:	75 bc                	jne    0xffffffffffffffe6
->>    2a:*	0f 0b                	ud2		<-- trapping instruction
->>    2c:	eb b8                	jmp    0xffffffffffffffe6
->>    2e:	0f 0b                	ud2
->>    30:	bd ea ff ff ff       	mov    $0xffffffea,%ebp
->>    35:	5b                   	pop    %rbx
->>    36:	89 e8                	mov    %ebp,%eax
->>    38:	5d                   	pop    %rbp
->>    39:	41 5c                	pop    %r12
->>    3b:	c3                   	ret
->>    3c:	cc                   	int3
->>    3d:	cc                   	int3
->>    3e:	cc                   	int3
->>    3f:	cc                   	int3
->>
->> Code starting with the faulting instruction
->> ===========================================
->>     0:	0f 0b                	ud2
->>     2:	eb b8                	jmp    0xffffffffffffffbc
->>     4:	0f 0b                	ud2
->>     6:	bd ea ff ff ff       	mov    $0xffffffea,%ebp
->>     b:	5b                   	pop    %rbx
->>     c:	89 e8                	mov    %ebp,%eax
->>     e:	5d                   	pop    %rbp
->>     f:	41 5c                	pop    %r12
->>    11:	c3                   	ret
->>    12:	cc                   	int3
->>    13:	cc                   	int3
->>    14:	cc                   	int3
->>    15:	cc                   	int3
->> [   51.636420][  T218] RSP: 0018:ffffc90000a9ed30 EFLAGS: 00010046
->> [   51.636428][  T218] RAX: 0000000000000000 RBX: ffff88811750fc00 RCX: 0000000000000018
->> [   51.636437][  T218] RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffff88810691512c
->> [   51.636440][  T218] RBP: 0000000be56b1408 R08: 0000000000000001 R09: fffff52000153d9a
->> [   51.636445][  T218] R10: 0000000000000003 R11: ffff888108145000 R12: 0000000000000246
->> [   51.636452][  T218] R13: ffffffffc1c9b060 R14: ffff88810406ba0c R15: 1ffff92000153dc2
->> [   51.636455][  T218] FS:  00007efd90c038c0(0000) GS:ffff8883e4077000(0000) knlGS:0000000000000000
->> [   51.636459][  T218] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   51.636462][  T218] CR2: 00007f5bd8238c20 CR3: 000000040ed8a005 CR4: 00000000001726f0
->> [   51.636466][  T218] Call Trace:
->> [   51.636469][  T218]  <TASK>
->> [ 51.636477][ T218] fence_work (include/linux/dma-fence.h:272 drivers/gpu/drm/i915/i915_sw_fence_work.c:23) i915
->> [ 51.637304][ T218] fence_notify (drivers/gpu/drm/i915/i915_sw_fence_work.c:39) i915
->> [ 51.637827][ T218] __i915_sw_fence_complete (drivers/gpu/drm/i915/i915_sw_fence.c:201) i915
->> [ 51.638300][ T218] i915_vma_pin_ww (drivers/gpu/drm/i915/i915_vma.c:1601) i915
->> [ 51.638763][ T218] ? __pfx_i915_vma_pin_ww (drivers/gpu/drm/i915/i915_vma.c:1434) i915
->> [ 51.639218][ T218] ? i915_gem_object_make_unshrinkable (include/linux/list.h:215 include/linux/list.h:287 drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:500) i915
->> [ 51.639648][ T218] ? i915_vma_make_unshrinkable (drivers/gpu/drm/i915/i915_vma.c:2292) i915
->> [ 51.640091][ T218] ? intel_ring_pin (drivers/gpu/drm/i915/gt/intel_ring.c:73) i915
->> [ 51.640505][ T218] intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1290 drivers/gpu/drm/i915/gt/intel_ring_submission.c:1421) i915
->> [ 51.640918][ T218] ? __pfx_intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1349) i915
->> [   51.641232][   T65] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
->> [ 51.641321][ T218] ? intel_engine_init_whitelist (drivers/gpu/drm/i915/gt/intel_workarounds.c:2104) i915
->> [ 51.641735][ T218] ? __intel_wakeref_init (arch/x86/include/asm/atomic.h:28 include/linux/atomic/atomic-arch-fallback.h:503 include/linux/atomic/atomic-instrumented.h:68 drivers/gpu/drm/i915/intel_wakeref.c:109) i915
->> [ 51.642126][ T218] intel_engines_init (drivers/gpu/drm/i915/gt/intel_engine_cs.c:1514) i915
->> [ 51.642521][ T218] ? i915_gem_object_make_unshrinkable (arch/x86/include/asm/atomic.h:93 include/linux/atomic/atomic-arch-fallback.h:667 include/linux/atomic/atomic-arch-fallback.h:1119 include/linux/atomic/atomic-instrumented.h:524 drivers/gpu/drm/i915/gem/i915_gem_shrinker.c:498) i915
->> [ 51.642929][ T218] ? __pfx_intel_ring_submission_setup (drivers/gpu/drm/i915/gt/intel_ring_submission.c:1349) i915
->> [ 51.643331][ T218] intel_gt_init (drivers/gpu/drm/i915/gt/intel_gt.c:719) i915
->> [ 51.643728][ T218] i915_gem_init (drivers/gpu/drm/i915/i915_gem.c:1191) i915
->> [ 51.644140][ T218] i915_driver_probe (drivers/gpu/drm/i915/i915_driver.c:831) i915
->> [ 51.644524][ T218] ? __pfx_i915_driver_probe (drivers/gpu/drm/i915/i915_driver.c:780) i915
->> [ 51.644903][ T218] ? drm_privacy_screen_get (drivers/gpu/drm/drm_privacy_screen.c:169) drm
->> [ 51.645047][ T218] ? intel_display_driver_probe_defer (drivers/gpu/drm/i915/display/intel_display_driver.c:84) i915
->> [ 51.645483][ T218] ? i915_pci_probe (drivers/gpu/drm/i915/i915_pci.c:995) i915
->> [ 51.645876][ T218] ? __pfx_i915_pci_probe (drivers/gpu/drm/i915/i915_pci.c:956) i915
->> [ 51.646267][ T218] local_pci_probe (drivers/pci/pci-driver.c:324)
->> [ 51.646283][ T218] pci_call_probe (drivers/pci/pci-driver.c:392)
->> [ 51.646295][ T218] ? _raw_spin_lock (arch/x86/include/asm/atomic.h:107 include/linux/atomic/atomic-arch-fallback.h:2170 include/linux/atomic/atomic-instrumented.h:1302 include/asm-generic/qspinlock.h:111 include/linux/spinlock.h:187 include/linux/spinlock_api_smp.h:134 kernel/locking/spinlock.c:154)
->> [ 51.646308][ T218] ? __pfx_pci_call_probe (drivers/pci/pci-driver.c:352)
->> [ 51.646321][ T218] ? kernfs_add_one (fs/kernfs/dir.c:834)
->> [ 51.646337][ T218] ? pci_assign_irq (drivers/pci/irq.c:149)
->> [ 51.646350][ T218] ? pci_match_device (drivers/pci/pci-driver.c:159 (discriminator 1))
->> [ 51.646362][ T218] ? kernfs_put (arch/x86/include/asm/atomic.h:67 (discriminator 1) include/linux/atomic/atomic-arch-fallback.h:2278 (discriminator 1) include/linux/atomic/atomic-instrumented.h:1384 (discriminator 1) fs/kernfs/dir.c:569 (discriminator 1))
->> [ 51.646368][ T218] pci_device_probe (drivers/pci/pci-driver.c:452)
->> [ 51.646377][ T218] really_probe (drivers/base/dd.c:581 drivers/base/dd.c:659)
->> [ 51.646391][ T218] __driver_probe_device (drivers/base/dd.c:801)
->> [ 51.646404][ T218] driver_probe_device (drivers/base/dd.c:831)
->> [ 51.646416][ T218] __driver_attach (drivers/base/dd.c:1218)
->> [ 51.646424][ T218] ? __pfx___driver_attach (drivers/base/dd.c:1158)
->> [ 51.646428][ T218] bus_for_each_dev (drivers/base/bus.c:369)
->> [ 51.646441][ T218] ? __pfx_bus_for_each_dev (drivers/base/bus.c:358)
->> [ 51.646444][ T218] ? __kmalloc_cache_noprof (arch/x86/include/asm/jump_label.h:46 include/linux/memcontrol.h:1714 mm/slub.c:2210 mm/slub.c:4190 mm/slub.c:4229 mm/slub.c:4391)
->> [ 51.646456][ T218] ? klist_add_tail (include/linux/list.h:150 include/linux/list.h:183 lib/klist.c:104 lib/klist.c:137)
->> [ 51.646468][ T218] bus_add_driver (drivers/base/bus.c:678)
->> [ 51.646482][ T218] driver_register (drivers/base/driver.c:249)
->> [ 51.646490][ T218] i915_init (drivers/gpu/drm/i915/i915_driver.c:1428) i915
->> [ 51.646891][ T218] ? __pfx_i915_init (drivers/gpu/drm/i915/i915_config.c:13) i915
->> [   51.647101][   T67] sd 2:0:0:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
->> [ 51.647277][ T218] do_one_initcall (init/main.c:1269)
->> [ 51.647292][ T218] ? kfree (mm/slub.c:4680 mm/slub.c:4879)
->> [ 51.647304][ T218] ? __pfx_do_one_initcall (init/main.c:1260)
->> [ 51.647315][ T218] ? kasan_unpoison (mm/kasan/shadow.c:156 mm/kasan/shadow.c:182)
->> [ 51.647327][ T218] ? __kasan_slab_alloc (mm/kasan/common.c:329 mm/kasan/common.c:356)
->> [ 51.647340][ T218] ? __kmalloc_cache_noprof (mm/slub.c:4180 mm/slub.c:4229 mm/slub.c:4391)
->> [ 51.647352][ T218] ? kasan_save_track (arch/x86/include/asm/current.h:25 mm/kasan/common.c:60 mm/kasan/common.c:69)
->> [ 51.647365][ T218] ? kasan_unpoison (mm/kasan/shadow.c:156 mm/kasan/shadow.c:182)
->> [ 51.647377][ T218] do_init_module (kernel/module/main.c:3039)
->> [ 51.647388][ T218] ? __pfx_do_init_module (kernel/module/main.c:3011)
->> [ 51.647402][ T218] ? kfree (mm/slub.c:4680 mm/slub.c:4879)
->> [ 51.647414][ T218] ? klp_module_coming (kernel/livepatch/core.c:1317)
->> [ 51.647426][ T218] ? load_module (kernel/module/main.c:2468 kernel/module/main.c:2463 kernel/module/main.c:3504)
->> [ 51.647441][ T218] load_module (kernel/module/main.c:3509)
->> [ 51.647449][ T218] ? ima_post_read_file (security/integrity/ima/ima_main.c:896 security/integrity/ima/ima_main.c:878)
->> [ 51.647466][ T218] ? __pfx_load_module (kernel/module/main.c:3353)
->> [ 51.647478][ T218] ? __pfx_kernel_read_file (fs/kernel_read_file.c:38)
->> [ 51.647489][ T218] ? init_module_from_file (kernel/module/main.c:3701)
->> [ 51.647499][ T218] init_module_from_file (kernel/module/main.c:3701)
->> [ 51.647514][ T218] ? __pfx_init_module_from_file (kernel/module/main.c:3677)
->> [ 51.647525][ T218] ? mm_get_unmapped_area (arch/x86/include/asm/bitops.h:206 arch/x86/include/asm/bitops.h:238 include/asm-generic/bitops/instrumented-non-atomic.h:142 mm/mmap.c:805 mm/mmap.c:871)
->> [ 51.647540][ T218] ? _raw_spin_lock (arch/x86/include/asm/atomic.h:107 include/linux/atomic/atomic-arch-fallback.h:2170 include/linux/atomic/atomic-instrumented.h:1302 include/asm-generic/qspinlock.h:111 include/linux/spinlock.h:187 include/linux/spinlock_api_smp.h:134 kernel/locking/spinlock.c:154)
->> [ 51.647547][ T218] ? __pfx__raw_spin_lock (kernel/locking/spinlock.c:153)
->> [ 51.647560][ T218] idempotent_init_module (kernel/module/main.c:3713)
->> [ 51.647573][ T218] ? __pfx_idempotent_init_module (kernel/module/main.c:3705)
->> [ 51.647582][ T218] ? __pfx___seccomp_filter (kernel/seccomp.c:1244)
->> [ 51.647590][ T218] ? fdget (include/linux/atomic/atomic-arch-fallback.h:479 include/linux/atomic/atomic-instrumented.h:50 fs/file.c:1167 fs/file.c:1181)
->> [ 51.647607][ T218] ? security_capable (security/security.c:1142)
->> [ 51.647615][ T218] __x64_sys_finit_module (include/linux/file.h:62 include/linux/file.h:83 kernel/module/main.c:3736 kernel/module/main.c:3723 kernel/module/main.c:3723)
->> [ 51.647627][ T218] ? syscall_trace_enter (kernel/entry/syscall-common.c:44)
->> [ 51.647640][ T218] do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)
->> [ 51.647657][ T218] ? fput (arch/x86/include/asm/atomic64_64.h:79 include/linux/atomic/atomic-arch-fallback.h:2913 include/linux/atomic/atomic-arch-fallback.h:3364 include/linux/atomic/atomic-long.h:698 include/linux/atomic/atomic-instrumented.h:3767 include/linux/file_ref.h:157 fs/file_table.c:544)
->> [ 51.647668][ T218] ? ksys_mmap_pgoff (mm/mmap.c:609)
->> [ 51.647682][ T218] ? do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)
->> [ 51.647694][ T218] ? from_kgid_munged (kernel/user_namespace.c:535)
->> [ 51.647708][ T218] ? _copy_to_user (arch/x86/include/asm/uaccess_64.h:126 arch/x86/include/asm/uaccess_64.h:147 include/linux/uaccess.h:197 lib/usercopy.c:26)
->> [ 51.647722][ T218] ? cp_new_stat (fs/stat.c:471)
->> [ 51.647732][ T218] ? __pfx_cp_new_stat (fs/stat.c:471)
->>
->>
->> The kernel config and materials to reproduce are available at:
->> https://download.01.org/0day-ci/archive/20250820/202508200843.8b006132-lkp@intel.com
->>
->>
->>
-> 
+> Drew
 
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------AVD6o0YOr3S6wgAVMLkw14vq--
+
+--------------rHW15qCDbrN0JgGXO6KhR1Ml
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaLWAgQUDAAAAAAAKCRB5vBnz2d5qsD30
+AP0bWTxsE/Z3/zziHqrl5bNC0sZ02ck/iu3wR/sjqsaa+QEAkNkKiVQhDI7hGWQGcBwhESlgG6EJ
+4q0PHkG2igst6Q8=
+=mK/y
+-----END PGP SIGNATURE-----
+
+--------------rHW15qCDbrN0JgGXO6KhR1Ml--
