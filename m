@@ -2,92 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5F9B3EB12
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF7CB3EB2C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:44:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5969A10E4DA;
-	Mon,  1 Sep 2025 15:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9652110E4DB;
+	Mon,  1 Sep 2025 15:44:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="i7o+GvoY";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="LkugW23d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
- [209.85.219.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99D6110E4DA
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:41:14 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-e96eb999262so3293160276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:41:14 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861E410E4DB
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:44:01 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-72019872530so40460747b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1756741274;
- x=1757346074; darn=lists.freedesktop.org; 
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1756741440;
+ x=1757346240; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iHKEov60ZzmVR4/OSBANPJk+KzVHprHoCBj7JSL3kNI=;
- b=i7o+GvoYZ20YpaP+9xd+oLurt0EoPKk+7VBHpAlhveBw3fcWrWO70PZJu02yksrUz6
- gw2hm+L4fjexts1j3NHWTX+bN5m50EOoRIkuhqd5mEfVJI10ty3TAsdrn094xgrTGizO
- 9YouWVUSLIRgP7JyA8dbommQr2651RsSviRKOGL61mFvrQEyyN3CPXGMdNUVLPZPvAFE
- K3P/J9QOgXHIxoZ8hXvdJDID5sCvEvoZoVBYR/DjsIBgL6vq3aC55bX9/9aY/p3LPayP
- YeZGyW9A1SYilaRcgsNv9YfxbQ3M8Bd+7i1bvQMc2ZSpB+W6j2w5V4coid5by8s9AsX1
- DiBA==
+ bh=cUiM499WAsgc6Ukc/D+bl/hCEszVrQlmtsEYo4ugE2U=;
+ b=LkugW23dspR1iz1ZUT+p1kdc5CqBUynosTXIgnqWg5/LK9uCnhFDve9s0A0XEym3ib
+ a0EhaqyrUQ36qfxPpULbdwuNA9p9rR0j/EWYnBNAKiX2KMAQ+6esIE3Cv1lp2hNdXUYB
+ mwACSWhS1Dp34cdCJksVPIDubvjGdoJXUgxxl9S7/akw5eqdpD3AZ8wbPNGmcFQhzU/8
+ LD6Tb/mW6UOhNZ3l/fKDYHboNRaGyjpyycyVIZLuL1DpFzduup1qLgYdmXtfqwkz2E9n
+ TxzKWDnSimc55etbA0jkOXIuitlJDOtWpCfB19aisRS6ox+bgPk1oS63TT+QAII3r5XV
+ WNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756741274; x=1757346074;
+ d=1e100.net; s=20230601; t=1756741440; x=1757346240;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iHKEov60ZzmVR4/OSBANPJk+KzVHprHoCBj7JSL3kNI=;
- b=HXEzwrfLsxK/9saXlprGU42tQMqH84O559KK4Hlw7WQ4ZQtHR9CjPk+e+86/l1Ojik
- 1PgQa9HxfZotqKRVmifkx3dZ+2RURTD4CBlIAzcDKWfVFDK2nzuOgf5QhbibClH4mLyw
- Yzq0FVH6mqqHv9PKPm1c9qkDewj3kJJab4qkNzYMGUDKuLSDiMFzV+4kR8svNCYFZ856
- s8AiagmbpHh/SbdD7QCNlCOlAk+Nrs8vC7Lp1kor898EjoooHANTzWZxFPI2f0kGagRS
- LeXyZDf4vuQmeVgQh/vYG9Gbe8pdGAdVlV9xOfd2YwFx4lYMMaqoPPGzFokVeDayvhzU
- 6mJw==
+ bh=cUiM499WAsgc6Ukc/D+bl/hCEszVrQlmtsEYo4ugE2U=;
+ b=OEtghEvfaxyLo+fnEN3RUxo3hikLWQmuJcAyW3KBMKqlswgdoVrk+y6zdky6tQ/HP0
+ DbFTfhB6zZCi6nG3ChaqDn0FOY6XU4LfNqOCQjX5oo+t4pxGBIknXA2FHE6ecaS8lUXT
+ hl7GX9T3DnRlTcPYOYTt7+oSoBtWUwHyrL1PtPRbFmAgHf522MPxzPaeyZUCl8aNMPus
+ KT6l0JWDdVZA9pImx078nYCjzkvzo8l5A6i2rYHbm0hgb0iFmkambMgEjRl2nuYeOLBe
+ 4EDRPxLj1J4BW7dl7ze8OTXl38zrBQL4vsTcUEnh7hXvn/kAVIL/97s5fUpMad8cIz2N
+ CUCw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXr2cx2nKwI0WKH/6nrswQN0hDPpT/2j7lwi7BTd5un143B/V3afsrZFpPYWbYqlPCQ3ilnOw058Q0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWOWqyHvnNKWky7J54+dRbz4284/QI3CI3/BXb/tS/7VXEElIa
- 4b+GOjrdqKNN/L7sM55Z/VTDIcKlHs0d6GZxY8nDQfooaQtUFin6FpARVIvZu5zn7QTXE0L6ZaT
- /HUtPDTc=
-X-Gm-Gg: ASbGncuvSqIT/lximB6TFJDM/RhkC0maRDIhishk3FDyNMIs6OhNej9dJ2no0/r159R
- EuCZda7vc0zwxwxfM6HF9QvarYo/snWHFxhs5CyCtD5f4+/KvXdYMXP+Fq/5Sf9t/tESpS8Y2RX
- yCGiT7npmg/w+qGfYT6wUih8zSHCe7d5xBgq1nRnXd0Yu4cGMfffgxeABv5MvfhrgjITYERPlIO
- /wddH9oKitgR+IKnpXclLmg3zrjUg9nrPxjHiJZ7AhQQi/D00KMzYqtUiih8ZKkCL+2prHIEKSf
- 6MVov4QL6RVdRmHtDSkxHZYTMjkTchSJG7waDowpclsBkPVtKrJRh3UqRNpAwTsh8n9rFngGV2X
- OagE930zxTkbvy6SMZgHOuk01if2wKcyP37PiAa30+K1KCpFZMr0U+R+qxJg+Z8VgNL7FddHaUb
- fC
-X-Google-Smtp-Source: AGHT+IFIm4QxnA6JGlrxm25eTpJa8GAkHdpfwIVakvSmbjqmZKUzX17RUiScfgbFQmBYI+BfFl0y3g==
-X-Received: by 2002:a05:690c:688a:b0:722:6a42:5caa with SMTP id
- 00721157ae682-722764effc1mr107399637b3.27.1756741273407; 
- Mon, 01 Sep 2025 08:41:13 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
- [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-7227d5d4141sm15811937b3.5.2025.09.01.08.41.12
+ AJvYcCXTWUJvZBvHOFGT705j2BfwzwdRT0Y62prcDqgoOrPIFkWFoCYFkO7N5saTDrIbyHvplq7EMMGMXt4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIdMUoF96AAMeTVHHwasWPwuq6O+omKnjC6mc8JuukXNPJSs46
+ 9n7yLncDOFeLAxx7KIUzyAnJeKBu44G8xE9h00ui8zbsK3UaeJJ0ivALtVUB9DGRR0OoE/kYjzx
+ u8fezpRHX8w==
+X-Gm-Gg: ASbGnctTPx4Al+HtZ/Iap11LkDkTrAghkipKoD1dglLZWeaWOaLvp/GYSDuJYkg1EvC
+ TBqcsPNaCnXXP8MJ4Czsl3Ayob593qd8jakpGxUAUR35lRjExMaCmVxbnwzP1bQ6Z8D0BV5p4vD
+ oHRg0hBoypqmSn7dr+wpjcSMbhS3O+wu8euki0Pg5tlLLzEKVkISlGIx1jyRswe9Rv/81qHNsAG
+ o1iuVNbwKS97G/BYOakcjzM2YFx0YqnFqq6V2aNWe1Ly7T7eQvcrg0n8rnvYbgUmgZ7mU2mm6JS
+ 7NVmozBIS8nTYGOsrKdD7aOFImPrJJf2LO9aD2cIe7d3qv6TAMS/iwum1eOzqL87elK+sdzdPpU
+ 92nK0FzXgy0cLaptpbcVN+HJN5NG6x+zwXkq9GLdZuUoM0UVB1CPXs9igQDdY2qMfB0c1sneOfP
+ sqKjVJC3h1tVE=
+X-Google-Smtp-Source: AGHT+IEbJT8iUyjpoWwAFvik2p99ti3bEAuAb3JG3RLUoxx+HHh5uO5hSCAWc90z6rRXI8J+YeqNaA==
+X-Received: by 2002:a05:690c:6809:b0:71f:e430:6671 with SMTP id
+ 00721157ae682-72276406fd1mr106461477b3.22.1756741440447; 
+ Mon, 01 Sep 2025 08:44:00 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-7227d62d94dsm15859177b3.20.2025.09.01.08.43.59
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 08:41:13 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-72267c05111so22937877b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:41:12 -0700 (PDT)
+ Mon, 01 Sep 2025 08:43:59 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e931c858dbbso3499691276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:43:59 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYcDfK7fuq79Zsk6Th9ndkzVnuKHvMH1UicmBEhlyEAPf/L5LvM9j1zK6AWuOdAWgFUskgPyX5kPQ=@lists.freedesktop.org
-X-Received: by 2002:a05:690c:dcd:b0:71f:f866:bba4 with SMTP id
- 00721157ae682-72276399149mr77541167b3.17.1756741272503; Mon, 01 Sep 2025
- 08:41:12 -0700 (PDT)
+ AJvYcCXdRAZnNQ3eAz3CrT2uZy2w4pJtzyOq4rf9GfSmVCWM5VJBWoE53zYAGWTJrM6+zEUJx474hRmMip0=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:dcd:b0:720:378:bec1 with SMTP id
+ 00721157ae682-722763a6893mr103121127b3.19.1756741439428; Mon, 01 Sep 2025
+ 08:43:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <aKcRW6fsRP_o5C_y@stanley.mountain>
-In-Reply-To: <aKcRW6fsRP_o5C_y@stanley.mountain>
+References: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
+In-Reply-To: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Mon, 1 Sep 2025 17:41:01 +0200
-X-Gmail-Original-Message-ID: <CAAObsKBCPMzXV=2F4M2PrsES1M+0OHA2ZJtmYTuQMPPd1u34Vw@mail.gmail.com>
-X-Gm-Features: Ac12FXx7SKvTTtIn3H-UONdlJo2MpxhJozLfBtiot7SO0qywsKGbTt0HEy5Ygf4
-Message-ID: <CAAObsKBCPMzXV=2F4M2PrsES1M+0OHA2ZJtmYTuQMPPd1u34Vw@mail.gmail.com>
-Subject: Re: [PATCH next] accel/rocket: Fix some error checking in
- rocket_core_init()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
+Date: Mon, 1 Sep 2025 17:43:48 +0200
+X-Gmail-Original-Message-ID: <CAAObsKCcpLheLP-qAW34CfG53vGnAceAOT19VUDLt4nKW1tDUA@mail.gmail.com>
+X-Gm-Features: Ac12FXzUHl7q6vH9f1nyi7wu4CMwk0i7C4k_JNPH92MntSXDR3OrCP25AsHGPxY
+Message-ID: <CAAObsKCcpLheLP-qAW34CfG53vGnAceAOT19VUDLt4nKW1tDUA@mail.gmail.com>
+Subject: Re: [PATCH] accel/rocket: Fix usages of kfree() and sizeof()
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+ Julia Lawall <julia.lawall@inria.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,40 +104,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 21, 2025 at 2:30=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
+On Wed, Aug 13, 2025 at 6:02=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
 >
-> The problem is that pm_runtime_get_sync() can return 1 on success so
-> checking for zero doesn't work.  Use the pm_runtime_resume_and_get()
-> function instead.  The pm_runtime_resume_and_get() function does
-> additional cleanup as well so that's a bonus as well.
+> Replace usages of kfree() with kvfree() for pointers which were
+> allocated using kvmalloc(), as required by the kernel memory management
+> API.
 >
-> Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/accel/rocket/rocket_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Use sizeof() on the type that a pointer references instead of the
+> pointer itself. In this case, scheds and *scheds both happen to be
+> pointers, so sizeof() will expand to the same value in either case, but
+> using *scheds is more technically correct since scheds is an array of
+> drm_gpu_scheduler *.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> Closes: https://lore.kernel.org/r/202508120730.PLbjlKbI-lkp@intel.com/
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 
-Thanks, Dan, I have applied it to drm-misc-next.
+Thanks, Brigham, I just went ahead and applied it to drm-misc-next. I
+also think two commits wouldn't have been worth it.
 
 Regards,
 
 Tomeu
 
-> diff --git a/drivers/accel/rocket/rocket_core.c b/drivers/accel/rocket/ro=
-cket_core.c
-> index 72fb5e5798fa..abe7719c1db4 100644
-> --- a/drivers/accel/rocket/rocket_core.c
-> +++ b/drivers/accel/rocket/rocket_core.c
-> @@ -74,7 +74,7 @@ int rocket_core_init(struct rocket_core *core)
+> ---
+>  drivers/accel/rocket/rocket_job.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
->         pm_runtime_enable(dev);
+> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/roc=
+ket_job.c
+> index 5d4afd69230623215e3105da7153d2d010636d52..f6fe1a6d9264b7508a3adc032=
+48e5a704c68c4f0 100644
+> --- a/drivers/accel/rocket/rocket_job.c
+> +++ b/drivers/accel/rocket/rocket_job.c
+> @@ -222,7 +222,7 @@ static int rocket_job_push(struct rocket_job *job)
+>  err_unlock:
+>         drm_gem_unlock_reservations(bos, job->in_bo_count + job->out_bo_c=
+ount, &acquire_ctx);
+>  err:
+> -       kfree(bos);
+> +       kvfree(bos);
 >
-> -       err =3D pm_runtime_get_sync(dev);
-> +       err =3D pm_runtime_resume_and_get(dev);
->         if (err) {
->                 rocket_job_fini(core);
->                 return err;
-> --
-> 2.47.2
+>         return ret;
+>  }
+> @@ -496,7 +496,8 @@ void rocket_job_fini(struct rocket_core *core)
+>  int rocket_job_open(struct rocket_file_priv *rocket_priv)
+>  {
+>         struct rocket_device *rdev =3D rocket_priv->rdev;
+> -       struct drm_gpu_scheduler **scheds =3D kmalloc_array(rdev->num_cor=
+es, sizeof(scheds),
+> +       struct drm_gpu_scheduler **scheds =3D kmalloc_array(rdev->num_cor=
+es,
+> +                                                         sizeof(*scheds)=
+,
+>                                                           GFP_KERNEL);
+>         unsigned int core;
+>         int ret;
+> @@ -630,7 +631,7 @@ int rocket_ioctl_submit(struct drm_device *dev, void =
+*data, struct drm_file *fil
+>                 rocket_ioctl_submit_job(dev, file, &jobs[i]);
+>
+>  exit:
+> -       kfree(jobs);
+> +       kvfree(jobs);
+>
+>         return ret;
+>  }
+>
+> ---
+> base-commit: a3daf184bd85d7c08ce948a79bb0e4cac2203923
+> change-id: 20250813-rocket-free-fix-3ca6a759a290
+>
+> Thanks!
+> Brigham Campbell <me@brighamcampbell.com>
 >
