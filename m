@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447DBB3E848
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EA5B3E84C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D4010E48C;
-	Mon,  1 Sep 2025 15:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F11F710E48D;
+	Mon,  1 Sep 2025 15:06:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BbYNFLR8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MgE+zqqy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98C0910E48C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:05:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D1A10E48D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756739157;
+ s=mimecast20190719; t=1756739168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u9ikJfv6RMgWpDoO/PrbRDajESXjomPX0LKmeM4ApTo=;
- b=BbYNFLR8QGiCXGp1LSI8ErvcFT9mLzrtrWAccz+kxmVJ/JdbaNUXPjtGGeaJ5avZxo8d6B
- bTQ9ffy1NAKA85J9Zlr8aUVora6CZTdiIebfrNALV/j0juTmpgskOWNEStaAAdFZygLvDt
- UTxc6pd7BogIB2Rut6EyXJpSMeGmb08=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=cLXaFnsvcEZ3Dj9TJuBmn3z/jlqr9HdUmmd8IA3Df2I=;
+ b=MgE+zqqy5G/BkuIFc2fp3Ge/gQ+MGnGz3XAP2oJuCGJqSt8WRaRgO6z4Ec3J7UjgFAZRgH
+ SZpR4Rz8sXW3Hix37lfU2FoggVNzOI+/wezJ5yI3Ld5sDeVPThd63wnFZVNr4rVml7GK7k
+ RnU/Bo9jusEKVZe6OyQcoTyk//Bd3oc=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-321-BCH8lRQHM2i3AvlSIjWhRg-1; Mon,
- 01 Sep 2025 11:05:54 -0400
-X-MC-Unique: BCH8lRQHM2i3AvlSIjWhRg-1
-X-Mimecast-MFC-AGG-ID: BCH8lRQHM2i3AvlSIjWhRg_1756739146
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-643-vn9FlFaVPyW1oPG7gsT7bA-1; Mon,
+ 01 Sep 2025 11:06:06 -0400
+X-MC-Unique: vn9FlFaVPyW1oPG7gsT7bA-1
+X-Mimecast-MFC-AGG-ID: vn9FlFaVPyW1oPG7gsT7bA_1756739161
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 6BF1118003FC; Mon,  1 Sep 2025 15:05:45 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9823C19560B2; Mon,  1 Sep 2025 15:06:01 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 0BD8C1800447; Mon,  1 Sep 2025 15:05:28 +0000 (UTC)
+ id F13EE18003FC; Mon,  1 Sep 2025 15:05:45 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
  "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Alexander Potapenko <glider@google.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Shuah Khan <shuah@kernel.org>,
+ Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
@@ -73,10 +72,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v2 04/37] x86/Kconfig: drop superfluous "select
- SPARSEMEM_VMEMMAP"
-Date: Mon,  1 Sep 2025 17:03:25 +0200
-Message-ID: <20250901150359.867252-5-david@redhat.com>
+Subject: [PATCH v2 05/37] wireguard: selftests: remove
+ CONFIG_SPARSEMEM_VMEMMAP=y from qemu kernel config
+Date: Mon,  1 Sep 2025 17:03:26 +0200
+Message-ID: <20250901150359.867252-6-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
@@ -97,33 +96,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
-is selected.
+It's no longer user-selectable (and the default was already "y"), so
+let's just drop it.
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+It was never really relevant to the wireguard selftests either way.
+
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Shuah Khan <shuah@kernel.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/x86/Kconfig | 1 -
+ tools/testing/selftests/wireguard/qemu/kernel.config | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 58d890fe2100e..e431d1c06fecd 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1552,7 +1552,6 @@ config ARCH_SPARSEMEM_ENABLE
- 	def_bool y
- 	select SPARSEMEM_STATIC if X86_32
- 	select SPARSEMEM_VMEMMAP_ENABLE if X86_64
--	select SPARSEMEM_VMEMMAP if X86_64
- 
- config ARCH_SPARSEMEM_DEFAULT
- 	def_bool X86_64 || (NUMA && X86_32)
+diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
+index 0a5381717e9f4..1149289f4b30f 100644
+--- a/tools/testing/selftests/wireguard/qemu/kernel.config
++++ b/tools/testing/selftests/wireguard/qemu/kernel.config
+@@ -48,7 +48,6 @@ CONFIG_JUMP_LABEL=y
+ CONFIG_FUTEX=y
+ CONFIG_SHMEM=y
+ CONFIG_SLUB=y
+-CONFIG_SPARSEMEM_VMEMMAP=y
+ CONFIG_SMP=y
+ CONFIG_SCHED_SMT=y
+ CONFIG_SCHED_MC=y
 -- 
 2.50.1
 
