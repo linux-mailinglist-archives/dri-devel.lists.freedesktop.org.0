@@ -2,42 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9122EB3E09D
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B57B3E0BB
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC9010E073;
-	Mon,  1 Sep 2025 10:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3024A10E0C8;
+	Mon,  1 Sep 2025 10:57:43 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IAjqzoh+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/fRJAeTx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAjqzoh+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/fRJAeTx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2634710E073
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:52:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31D8016A3;
- Mon,  1 Sep 2025 03:51:58 -0700 (PDT)
-Received: from [10.57.4.133] (unknown [10.57.4.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A45243F6A8;
- Mon,  1 Sep 2025 03:52:04 -0700 (PDT)
-Message-ID: <56130662-4768-44ff-829e-9d77258c4342@arm.com>
-Date: Mon, 1 Sep 2025 11:52:02 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1E310E0C8
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:57:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CB7141F387;
+ Mon,  1 Sep 2025 10:57:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756724259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MJ9mB5276luBW5BCVBhJkfGW2NUyKeWlDKg55I45vx4=;
+ b=IAjqzoh+V8vyDPGtwjbL7zx03l6SBYBRFxe8yOhG52BXrEJwBuJSwRXw8FqsUUEJyD/96A
+ jHj9iwCALainTjLckUCyTCMBj1PQg/xC3uJIVUkafHD8umtrrXLym0PTUgTLNvCVrLzqd+
+ lHyCvUe70+m7U7rCNqmDXOPtvJ22IlQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756724259;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MJ9mB5276luBW5BCVBhJkfGW2NUyKeWlDKg55I45vx4=;
+ b=/fRJAeTxCswhtCgpapbnHoX/ChOmN7hEOuhxhaFsTIX4PWl1e/NfX1XTU78isYegBZu1Da
+ ltVaEKUV8TYybQDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756724259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MJ9mB5276luBW5BCVBhJkfGW2NUyKeWlDKg55I45vx4=;
+ b=IAjqzoh+V8vyDPGtwjbL7zx03l6SBYBRFxe8yOhG52BXrEJwBuJSwRXw8FqsUUEJyD/96A
+ jHj9iwCALainTjLckUCyTCMBj1PQg/xC3uJIVUkafHD8umtrrXLym0PTUgTLNvCVrLzqd+
+ lHyCvUe70+m7U7rCNqmDXOPtvJ22IlQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756724259;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MJ9mB5276luBW5BCVBhJkfGW2NUyKeWlDKg55I45vx4=;
+ b=/fRJAeTxCswhtCgpapbnHoX/ChOmN7hEOuhxhaFsTIX4PWl1e/NfX1XTU78isYegBZu1Da
+ ltVaEKUV8TYybQDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 80C9D1378C;
+ Mon,  1 Sep 2025 10:57:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cyzuHSN8tWiNCwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 01 Sep 2025 10:57:39 +0000
+Message-ID: <2b0eee63-2b7d-4ca5-b673-4f3761d2e386@suse.de>
+Date: Mon, 1 Sep 2025 12:57:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] drm/panfrost: Introduce uAPI for JM context creation
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20250828023422.2404784-1-adrian.larumbe@collabora.com>
- <20250828023422.2404784-3-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250828023422.2404784-3-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 5/6] drm/format-helper: introduce
+ drm_fb_xrgb8888_to_gray2()
+To: Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
+ <20250721-st7571-format-v2-5-159f4134098c@gmail.com>
+ <87y0sh947w.fsf@minerva.mail-host-address-is-not-set>
+ <aJnc36ojqSb3-Ti2@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aJnc36ojqSb3-Ti2@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCPT_COUNT_TWELVE(0.00)[12]; TAGGED_RCPT(0.00)[dt];
+ MID_RHS_MATCH_FROM(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ FREEMAIL_TO(0.00)[gmail.com,redhat.com];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,187 +152,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/08/2025 03:34, Adrián Larumbe wrote:
-> From: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> The new uAPI lets user space query the KM driver for the available
-> priorities a job can be given at submit time. These are managed through
-> the notion of a context, which besides a priority, codifies the list
-> of L2 caches, shading cores and tiler units a job is allowed to use,
-> for all three of the available device job slots.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Hi
 
-There's no cover letter for this series, so maybe I'm missing some
-context. But I'm not sure why we want to expose the tiler/l2/core masks
-to user space.
+Am 11.08.25 um 14:06 schrieb Marcus Folkesson:
+> On Mon, Jul 21, 2025 at 01:24:19PM +0200, Javier Martinez Canillas wrote:
+>> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+>>
+>>> Convert XRGB8888 to 2bit grayscale.
+>>>
+>>> It uses drm_fb_xrgb8888_to_gray8() to convert the pixels to gray8 as an
+>>> intermediate step before converting to gray2.
+>>>
+>>> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+>>> ---
+>> I would like Thomas to review it too, but for me the change looks good.
+> A friendly ping to Thomas.
 
-If you were trying to better support OpenCL on T628 I can just about
-understand the core mask. But, I doubt you are... (does anyone care
-about that anymore? ;) ). And really it's the core groups that matter
-rather than the raw affinities.
+Apologies for the late review.
 
-The tiler/l2 affinities (and the XAFFINITY register in general) is there
-as a power saving mechanism. If we know that a job is not going to use
-the shader cores at all (a tiler-only job) then we can avoid turning
-them on, but obviously we still need the L2 and tiler blocks to be powered.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-kbase handled this with a "core_req" field which listed the required
-cores for each job. We already have a "requirements" field which we
-could extend for the same purpose (PANFROST_JD_REQ_TILER_ONLY or
-similar). I don't think this makes sense to include in a "context".
 
-But like I said, maybe I'm missing something - what is the use case for
-controlling affinity?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-[The priority parts look ok here, but that's mixed in with the affinity
-changes.]
-
-> ---
->  include/uapi/drm/panfrost_drm.h | 93 +++++++++++++++++++++++++++++++++
->  1 file changed, 93 insertions(+)
-> 
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index ed67510395bd..2d8b32448e68 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -22,6 +22,8 @@ extern "C" {
->  #define DRM_PANFROST_PERFCNT_DUMP		0x07
->  #define DRM_PANFROST_MADVISE			0x08
->  #define DRM_PANFROST_SET_LABEL_BO		0x09
-> +#define DRM_PANFROST_JM_CTX_CREATE		0x0a
-> +#define DRM_PANFROST_JM_CTX_DESTROY		0x0b
->  
->  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
->  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-> @@ -31,6 +33,8 @@ extern "C" {
->  #define DRM_IOCTL_PANFROST_GET_BO_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_GET_BO_OFFSET, struct drm_panfrost_get_bo_offset)
->  #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_MADVISE, struct drm_panfrost_madvise)
->  #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
-> +#define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
-> +#define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
->  
->  /*
->   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-> @@ -71,6 +75,12 @@ struct drm_panfrost_submit {
->  
->  	/** A combination of PANFROST_JD_REQ_* */
->  	__u32 requirements;
-> +
-> +	/** JM context handle. Zero if you want to use the default context. */
-> +	__u32 jm_ctx_handle;
-> +
-> +	/** Padding field. MBZ. */
-> +	__u32 pad;
->  };
->  
->  /**
-> @@ -177,6 +187,7 @@ enum drm_panfrost_param {
->  	DRM_PANFROST_PARAM_AFBC_FEATURES,
->  	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP,
->  	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP_FREQUENCY,
-> +	DRM_PANFROST_PARAM_ALLOWED_JM_CTX_PRIORITIES,
->  };
->  
->  struct drm_panfrost_get_param {
-> @@ -299,6 +310,88 @@ struct panfrost_dump_registers {
->  	__u32 value;
->  };
->  
-> +enum drm_panfrost_jm_ctx_priority {
-> +	/**
-> +	 * @PANFROST_JM_CTX_PRIORITY_LOW: Low priority context.
-> +	 */
-> +	PANFROST_JM_CTX_PRIORITY_LOW = 0,
-> +
-> +	/**
-> +	 * @PANFROST_JM_CTX_PRIORITY_MEDIUM: Medium priority context.
-> +	 */
-> +	PANFROST_JM_CTX_PRIORITY_MEDIUM,
-> +
-> +	/**
-> +	 * @PANFROST_JM_CTX_PRIORITY_HIGH: High priority context.
-> +	 *
-> +	 * Requires CAP_SYS_NICE or DRM_MASTER.
-> +	 */
-> +	PANFROST_JM_CTX_PRIORITY_HIGH,
-> +};
-> +
-> +#define PANFROST_JS_FLAG_ENABLED		(1 << 0)
-> +
-> +struct drm_panfrost_js_ctx_info {
-> +	/** @flags: Combination of PANFROST_JS_FLAG_xxx values */
-> +	__u32 flags;
-> +
-> +	/** @priority: Context priority (see enum drm_panfrost_jm_ctx_priority). */
-> +	__u8 priority;
-> +
-> +	/**
-> +	 * @tiler_mask: Mask encoding tiler units that can be used by the job slot
-> +	 *
-> +	 * When this field is zero, it means the tiler won't be used.
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::tiler_present.
-> +	 */
-> +	__u8 tiler_mask;
-> +
-> +	/**
-> +	 * @l2_mask: Mask encoding L2 caches that can be used by the job slot
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::l2_present.:
-> +	 */
-> +	__u16 l2_mask;
-> +
-> +	/**
-> +	 * @core_mask: Mask encoding cores that can be used by the job slot
-> +	 *
-> +	 * When this field is zero, it means the queue won't be used.
-> +	 *
-> +	 * The bits set here should also be set in drm_panthor_gpu_info::shader_present.
-> +	 */
-> +	__u64 core_mask;
-> +};
-> +
-> +struct drm_panfrost_jm_ctx_create {
-> +	/** @handle: Handle of the created JM context */
-> +	__u32 handle;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +
-> +	/**
-> +	 * @slots: Job slots
-> +	 *
-> +	 * This field must be greater than zero and less than 8 (only three slots
-> +	 * available).
-> +	 */
-> +	struct drm_panfrost_js_ctx_info slots[3];
-
-We don't allow user space to choose which slot is being targetted, so
-this feels odd. I guess this allows deliberately disabling slot 1 to
-force slot 2. But the code in this series doesn't seem to implement
-this. I'm also not sure I understand why you would want a different
-priority for different slots?
-
-Thanks,
-Steve
-
-> +};
-> +
-> +struct drm_panfrost_jm_ctx_destroy {
-> +	/**
-> +	 * @handle: Handle of the JM context to destroy.
-> +	 *
-> +	 * Must be a valid context handle returned by DRM_IOCTL_PANTHOR_JM_CTX_CREATE.
-> +	 */
-> +	__u32 handle;
-> +
-> +	/** @pad: Padding field, MBZ. */
-> +	__u32 pad;
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
 
