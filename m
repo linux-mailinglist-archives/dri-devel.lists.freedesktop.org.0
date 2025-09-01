@@ -2,72 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5D5B3F019
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 22:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B62FB3F072
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 23:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5ADA10E05B;
-	Mon,  1 Sep 2025 20:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CF010E141;
+	Mon,  1 Sep 2025 21:20:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cax/6wFl";
+	dkim=pass (2048-bit key; unprotected) header.d=listout.xyz header.i=@listout.xyz header.b="prGBy7V1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED09A10E05B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 20:53:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AC894600BB;
- Mon,  1 Sep 2025 20:53:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BD1C4CEF0;
- Mon,  1 Sep 2025 20:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756760021;
- bh=EmEPDFeBBJxotEJAdRweNgxFgd00ZCenQukoIPB92JE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cax/6wFl529KhgAtAeHnm/zGOt1M5B4Q5BqFpnj3fSmO5hLNcDbTPz8cBvcYAn1Je
- 2uWy3w6ZLKjjkxqi4U6cM/tSmmOPw6V40BxCcB126yzz4m1KNY0uSPtvFU53FKcaXm
- O6vgKrRWpqExHgEefovwHz7RX/tfE/YiDzXPlANfSj95b/zr8fumVQ9l7JK4BpPzvo
- 0tIA8oBykMQnbDP3flII/mK0bBNFg8voQT1sI0QqNXe9r6Sv0dBCOst9sbbbsDXfUX
- 2RXwWZWt5Gi/6ucV+OuSONPU1oX/ZUzZh41bx31FaMqc4YIP+xGk7VP09AwYjSrbvC
- OzqhBe2kcR9NQ==
-Date: Mon, 1 Sep 2025 13:53:27 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Michal Wilczynski <m.wilczynski@samsung.com>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Frank Binns <Frank.Binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
- node
-Message-ID: <aLYHx6NgfLovbBAG@gen8>
-References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
- <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
- <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
- <aKjWiU4fQw3k77GR@x1> <aK-BwY8c-OR_WqNk@thelio>
- <aLDQjq9U_mDvMTJo@gen8>
- <a329ff82-ca79-41ac-b61e-e843103f55a6@imgtec.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7405610E141
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 21:20:49 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cG1xn6wN4z9tVj;
+ Mon,  1 Sep 2025 23:20:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+ t=1756761646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7jkYr+WUzboPryPVnYCdKAKPTcuqZmMnMRi94vAHDVM=;
+ b=prGBy7V1SNTz2F05Do+Xdlspgc+CTHgOjW3vtJYvVzpTO4WEgdfsMaSYdlD3IbZgMiP4j6
+ RC4jEk2SqbaCTrLPxNk5/P/tmoh//nqgN+ZpYMOeUVgyfu0D5f/Z1S/lMhXf9d0NYdX0Jz
+ m8vv65gX+/s8in/9E2ibrH+yaxy6XRR/gVIuM5Ytrl+RVEUTv/VeRHnqfWrbGrWdDPJwnC
+ TAeqLamb7qagXup3qAKLmIiQrxIcaIV8ulQ0Tm9wS2RWtWae7XZOjU6ba7qMCMReVGQVpf
+ 9K/om2H98PdCM1oftZEHjSY1n8BEo1Kd+evHqmz21sm6bHdsx+gcMS4CH/pK7g==
+From: Brahmajit Das <listout@listout.xyz>
+To: linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
+ simona@ffwll.ch, jonathanh@nvidia.com
+Subject: [PATCH] =?UTF-8?q?drm/tegra:=20hdmi:=20sor:=20Fix=20error:=20vari?=
+ =?UTF-8?q?able=20=E2=80=98j=E2=80=99=20set=20but=20not=20used?=
+Date: Tue,  2 Sep 2025 02:50:20 +0530
+Message-ID: <20250901212020.3757519-1-listout@listout.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gSZ+C/ozphYAjkpf"
-Content-Disposition: inline
-In-Reply-To: <a329ff82-ca79-41ac-b61e-e843103f55a6@imgtec.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,38 +59,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The variable j is set, however never used in or outside the loop, thus
+resulting in dead code.
+Building with GCC 16 results in a build error due to
+-Werror=unused-but-set-variable= enabled by default.
+This patch clean up the dead code and fixes the build error.
 
---gSZ+C/ozphYAjkpf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Example build log:
+drivers/gpu/drm/tegra/sor.c:1867:19: error: variable ‘j’ set but not used [-Werror=unused-but-set-variable=]
+ 1867 |         size_t i, j;
+      |                   ^
 
-On Mon, Sep 01, 2025 at 11:16:18AM +0000, Matt Coster wrote:
-> Hi Drew,
->=20
-> Apologies for the delay, I was on holiday last week.
->=20
-> I've just applied the non-dts patches to drm-misc-next [1], would you
-> mind re-adding the dts patch to thead-dt-for-next?
+Signed-off-by: Brahmajit Das <listout@listout.xyz>
+---
+ drivers/gpu/drm/tegra/hdmi.c | 4 ++--
+ drivers/gpu/drm/tegra/sor.c  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Thanks for the update.
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index 8cd2969e7d4b..c4820f5e7658 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -658,7 +658,7 @@ static void tegra_hdmi_write_infopack(struct tegra_hdmi *hdmi, const void *data,
+ {
+ 	const u8 *ptr = data;
+ 	unsigned long offset;
+-	size_t i, j;
++	size_t i;
+ 	u32 value;
+ 
+ 	switch (ptr[0]) {
+@@ -691,7 +691,7 @@ static void tegra_hdmi_write_infopack(struct tegra_hdmi *hdmi, const void *data,
+ 	 * - subpack_low: bytes 0 - 3
+ 	 * - subpack_high: bytes 4 - 6 (with byte 7 padded to 0x00)
+ 	 */
+-	for (i = 3, j = 0; i < size; i += 7, j += 8) {
++	for (i = 3; i < size; i += 7) {
+ 		size_t rem = size - i, num = min_t(size_t, rem, 4);
+ 
+ 		value = tegra_hdmi_subpack(&ptr[i], num);
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 21f3dfdcc5c9..bc7dd562cf6b 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -1864,7 +1864,7 @@ static void tegra_sor_hdmi_write_infopack(struct tegra_sor *sor,
+ {
+ 	const u8 *ptr = data;
+ 	unsigned long offset;
+-	size_t i, j;
++	size_t i;
+ 	u32 value;
+ 
+ 	switch (ptr[0]) {
+@@ -1897,7 +1897,7 @@ static void tegra_sor_hdmi_write_infopack(struct tegra_sor *sor,
+ 	 * - subpack_low: bytes 0 - 3
+ 	 * - subpack_high: bytes 4 - 6 (with byte 7 padded to 0x00)
+ 	 */
+-	for (i = 3, j = 0; i < size; i += 7, j += 8) {
++	for (i = 3; i < size; i += 7) {
+ 		size_t rem = size - i, num = min_t(size_t, rem, 4);
+ 
+ 		value = tegra_sor_hdmi_subpack(&ptr[i], num);
+-- 
+2.51.0
 
-I've now pushed the dts patch back to thead-dt-for-next:
-
-[3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
-      commit: 5052d5cf1359e9057ec311788c12997406fdb2fc
-
--Drew
-
---gSZ+C/ozphYAjkpf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSy8G7QpEpV9aCf6Lbb7CzD2SixDAUCaLYHnQAKCRDb7CzD2Six
-DFx1AQDhO4oxK/8VUlhe2hYNiss5b+vRMU1sBAHKoo06bhapNQEAj2PyvDIqT8IF
-nKIS+EVxulnWrJ7yeHXsijpV3oST8wM=
-=NHPw
------END PGP SIGNATURE-----
-
---gSZ+C/ozphYAjkpf--
