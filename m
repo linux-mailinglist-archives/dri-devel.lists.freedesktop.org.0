@@ -2,56 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB98B3E26B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1B9B3E2A4
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:24:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6973910E42D;
-	Mon,  1 Sep 2025 12:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6EA10E0A4;
+	Mon,  1 Sep 2025 12:24:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JmxisZL7";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="R0akGs4r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156FD10E42D
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756728883;
- bh=uHFks4P6z+NBQPblKW2zC+6zDXB4WugzndH+Ioi+LiU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JmxisZL7gGAsM6w0LnM+cD3yeH/cxF0eMpXFir5ZqJycJWnAM1wfHlEKi/fjonwOq
- CHKtvpjrhlX7oYqdIkPWph21DY+VkT+CVPPvzZzhp1FaMgXmBsOIt5267mp7q5b00x
- BQCOvwdP4HvLGnNwJciKgpsH57W22CO5Hg8V7KVymNGiMRN3Qo0GE49Qkjo7nf/Ru/
- 6Lo8bsKEz0I4EHc2Qnis0nju7xnBM0Qk781ChevsiI0nV6u4Ri7oKi3/b0ExM8YIRo
- yrm9nSz8KSsLvapkoNb2bce2PJrlCrVi1qdF8pkZs620UF+vFaDDDDsp/hqnxoSn6W
- 5hN49lPQ04rQg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 06F5D17E0FDB;
- Mon,  1 Sep 2025 14:14:42 +0200 (CEST)
-Date: Mon, 1 Sep 2025 14:14:39 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Rob Herring <robh@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/5] drm/panfrost: Introduce uAPI for JM context creation
-Message-ID: <20250901141439.42740449@fedora>
-In-Reply-To: <56130662-4768-44ff-829e-9d77258c4342@arm.com>
-References: <20250828023422.2404784-1-adrian.larumbe@collabora.com>
- <20250828023422.2404784-3-adrian.larumbe@collabora.com>
- <56130662-4768-44ff-829e-9d77258c4342@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E11E10E0A4
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:24:51 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-45b86157e18so9937735e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1756729490; x=1757334290; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=MfkhISYvBMEAQlL6pZ3jPBacsMMEIifm78tAx7TD2ao=;
+ b=R0akGs4rAotAzb2ZSRlVv5oLyYB1505Cimwdo6E/pThrqidic5Sx3sngNyi/HRjNiM
+ +r+xxMrR2lb3fDd9K7tbRp5e1SFhNAZ/kvKpROT8CILxf2wvMXqzFq83I1op79/8j1Sl
+ UI8AYteKEIYLcfbWnxjD2e41gtBCSEMDOYqnCaerW/tWvyt3Wo9TN2n+OVfUIXLGOvxo
+ nrgD00vdEdbErpRdzOsCa++VsoomPunR8pAVObATS26zdOwgq3MC8MksC/PElsVjNPf+
+ S/MHrTlt44yvX/qnorGJU8mYC3EWNSucJK1qhXziVaSbUjoVEVAfW7a0pslb32UP6f26
+ bsdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756729490; x=1757334290;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=MfkhISYvBMEAQlL6pZ3jPBacsMMEIifm78tAx7TD2ao=;
+ b=HM1kdTNbCisvbjWpKGIlwrDcEXVYruazK9Z1mNmL2JKslO4NqqK8Qr8DnP0z/CCnVA
+ 9vgviXbHo8hpEVFqZRSb9sRFIsAWwt0Bd1GPvQGO1gooB7CiAlqlB35ESS4WoEvRS0QC
+ 5sK5ePELNGfZ3EFKyizxIA0s9xnE+J+fSmbUjiheaT9wtOWQ40JFdpnoRbfdZg5McBrF
+ et8HRaGAmTk5c2dWHz50R7UzGmPy3daVtWB6e2w/1dUDAJimznlpjz+WLjzpDLgLP5up
+ VFUB6AfRMMnQZmf/gpFu/q+Al1FTgV8ug38FShGh1yBUAM4Zlg6SvKZHCLcAcICEvUtU
+ ygVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZHoi/Rc/kTZ74Hw4dY2F+qQLm0qz+0T0cAraAf9RTQd6xUSCb6N4i0+MH2ZF+oOVpfGPzrVdG4pM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytQdP9Iw8w5m4Xxx9tk5j0InhoTGyz+jL92+H4SI0pZFrhBVdv
+ RVIAxYVtKTqU9dh4pJrpOGhHYWIue0JzrflHyo8H1W4F9WAJ2zU8+vb5MqRmP2eYVyQ=
+X-Gm-Gg: ASbGncvvh3XZKRJeIQgNKI9CawQZNaOf8k0u4gq93Hbh5KiwiUTh8XdGFlFQ77nmoQJ
+ mlniG8Bwj4FO2yuE7MsKFUfJ28msqVhOXa3XB1ZSQUy8RHkhMj8dYBan6M/bEZ1X1YGxyfOlKaz
+ eEKY9TW6lRRWJpGCS2+HmiKg+NMGhTyfmyakLdtQG6dAI1XpksVEJXA7rr55DdTbLIddHfMMyKc
+ sdeWRoNOfQm6cI2pJO4G/Ur2tu3HL9czpWwfiFl2t6DwGSGYa7EJM7SXDBXBZ1CCbrCZG7VuYcH
+ UK1dGNz7oyqsa7K8vl867UaJ0l0uk7dslm1xhJOfYGtdcBBMtdpWXa5HK4TsqhEkKRRQ1epfQYp
+ Iox5PhBbN7aKm+6yDapnBTTPmIEBkYnxNA3NSaBL830emMrQhvxL7APYIvO+Xfq+dWjsXS/ZzgB
+ fURLRcrHc=
+X-Google-Smtp-Source: AGHT+IFGT8W3UAxgtuIxzCjUXqI2nE78D/VdHvOwHMOvAuiM4y3wWCDkvebLIQeC9Id+0fTq3AN6+Q==
+X-Received: by 2002:a5d:5888:0:b0:3ce:46d8:5e11 with SMTP id
+ ffacd0b85a97d-3d1dfa19456mr6338946f8f.34.1756729489776; 
+ Mon, 01 Sep 2025 05:24:49 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:881c:7d0e:ad0a:d9a?
+ ([2a01:e0a:3d9:2080:881c:7d0e:ad0a:d9a])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3d2250115fdsm9738932f8f.40.2025.09.01.05.24.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Sep 2025 05:24:49 -0700 (PDT)
+Message-ID: <e92049c6-1d90-482f-ad4f-0c88bb96989e@linaro.org>
+Date: Mon, 1 Sep 2025 14:24:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: visionox-rm69299: Fix clock frequency for
+ SHIFT6mq
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Casey Connolly <casey.connolly@linaro.org>, phone-devel@vger.kernel.org
+References: <e975da213c1f8030db50d66ec1c9597f59f25e35.1756567474.git.agx@sigxcpu.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <e975da213c1f8030db50d66ec1c9597f59f25e35.1756567474.git.agx@sigxcpu.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,234 +121,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steve,
+On 30/08/2025 17:29, Guido Günther wrote:
+> Make the clock frequency match what the sdm845 downstream kernel
+> uses. Otherwise we're seeing timeouts like
+> 
+> ```
+> msm_dsi ae94000.dsi: [drm:dsi_cmds2buf_tx] *ERROR* wait for video done timed out
+> dsi_cmds2buf_tx: cmd dma tx failed, type=0x5, data0=0x28, len=4, ret=-110
+> panel-visionox-rm69299 ae94000.dsi.0: sending DCS SET_DISPLAY_OFF failed: -110
+> ```
+> 
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
+> ---
+>   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> index 909c280eab1fb..e65697ce6f51c 100644
+> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
+> @@ -247,7 +247,7 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
+>   };
+>   
+>   static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
+> -	.clock = 158695,
+> +	.clock = 149360,
+>   	.hdisplay = 1080,
+>   	.hsync_start = 1080 + 26,
+>   	.hsync_end = 1080 + 26 + 2,
 
-On Mon, 1 Sep 2025 11:52:02 +0100
-Steven Price <steven.price@arm.com> wrote:
-
-> On 28/08/2025 03:34, Adri=C3=A1n Larumbe wrote:
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> >=20
-> > The new uAPI lets user space query the KM driver for the available
-> > priorities a job can be given at submit time. These are managed through
-> > the notion of a context, which besides a priority, codifies the list
-> > of L2 caches, shading cores and tiler units a job is allowed to use,
-> > for all three of the available device job slots.
-> >=20
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> =20
->=20
-> There's no cover letter for this series, so maybe I'm missing some
-> context. But I'm not sure why we want to expose the tiler/l2/core masks
-> to user space.
-
-tiler/l2 masks, I'm not sure we need, especially if there's only just
-one tiler unit / l2 cache. I exposed the core mask so one can reserve
-cores for an application.
-
->=20
-> If you were trying to better support OpenCL on T628 I can just about
-> understand the core mask. But, I doubt you are... (does anyone care
-> about that anymore? ;) ). And really it's the core groups that matter
-> rather than the raw affinities.
-
-Ok, so low vs high bits (don't know the granularity of the core group,
-so low/high might actually bit low/middle-low/middle-high/high) in the
-the affinity register, right?
-
->=20
-> The tiler/l2 affinities (and the XAFFINITY register in general) is there
-> as a power saving mechanism. If we know that a job is not going to use
-> the shader cores at all (a tiler-only job) then we can avoid turning
-> them on, but obviously we still need the L2 and tiler blocks to be powere=
-d.
-
-Okay, I thought it was more of a "use only these cores, the rest is
-reserved for something else", my bad.
-
->=20
-> kbase handled this with a "core_req" field which listed the required
-> cores for each job. We already have a "requirements" field which we
-> could extend for the same purpose (PANFROST_JD_REQ_TILER_ONLY or
-> similar). I don't think this makes sense to include in a "context".
-
-It was more a core reservation mechanism, which I expected to be forced
-at context creation time. I mean, it can still be at the UMD level, and
-we would pass the mask of cores to use at job submission time. The
-problem I see with just expressing the maximum number of cores one can
-use is that it doesn't work for core reservation. Also, I went for this
-interface because that's more or less what panthor exposes (mask of
-cores that can be used, and maximum of number of cores that can be used
-in this pool).
-
->=20
-> But like I said, maybe I'm missing something - what is the use case for
-> controlling affinity?
->=20
-> [The priority parts look ok here, but that's mixed in with the affinity
-> changes.]
->=20
-> > ---
-> >  include/uapi/drm/panfrost_drm.h | 93 +++++++++++++++++++++++++++++++++
-> >  1 file changed, 93 insertions(+)
-> >=20
-> > diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfros=
-t_drm.h
-> > index ed67510395bd..2d8b32448e68 100644
-> > --- a/include/uapi/drm/panfrost_drm.h
-> > +++ b/include/uapi/drm/panfrost_drm.h
-> > @@ -22,6 +22,8 @@ extern "C" {
-> >  #define DRM_PANFROST_PERFCNT_DUMP		0x07
-> >  #define DRM_PANFROST_MADVISE			0x08
-> >  #define DRM_PANFROST_SET_LABEL_BO		0x09
-> > +#define DRM_PANFROST_JM_CTX_CREATE		0x0a
-> > +#define DRM_PANFROST_JM_CTX_DESTROY		0x0b
-> > =20
-> >  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANF=
-ROST_SUBMIT, struct drm_panfrost_submit)
-> >  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PAN=
-FROST_WAIT_BO, struct drm_panfrost_wait_bo)
-> > @@ -31,6 +33,8 @@ extern "C" {
-> >  #define DRM_IOCTL_PANFROST_GET_BO_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_PANFROST_GET_BO_OFFSET, struct drm_panfrost_get_bo_offset)
-> >  #define DRM_IOCTL_PANFROST_MADVISE		DRM_IOWR(DRM_COMMAND_BASE + DRM_PA=
-NFROST_MADVISE, struct drm_panfrost_madvise)
-> >  #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
-> > +#define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + D=
-RM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
-> > +#define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + =
-DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
-> > =20
-> >  /*
-> >   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls mod=
-ule
-> > @@ -71,6 +75,12 @@ struct drm_panfrost_submit {
-> > =20
-> >  	/** A combination of PANFROST_JD_REQ_* */
-> >  	__u32 requirements;
-> > +
-> > +	/** JM context handle. Zero if you want to use the default context. */
-> > +	__u32 jm_ctx_handle;
-> > +
-> > +	/** Padding field. MBZ. */
-> > +	__u32 pad;
-> >  };
-> > =20
-> >  /**
-> > @@ -177,6 +187,7 @@ enum drm_panfrost_param {
-> >  	DRM_PANFROST_PARAM_AFBC_FEATURES,
-> >  	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP,
-> >  	DRM_PANFROST_PARAM_SYSTEM_TIMESTAMP_FREQUENCY,
-> > +	DRM_PANFROST_PARAM_ALLOWED_JM_CTX_PRIORITIES,
-> >  };
-> > =20
-> >  struct drm_panfrost_get_param {
-> > @@ -299,6 +310,88 @@ struct panfrost_dump_registers {
-> >  	__u32 value;
-> >  };
-> > =20
-> > +enum drm_panfrost_jm_ctx_priority {
-> > +	/**
-> > +	 * @PANFROST_JM_CTX_PRIORITY_LOW: Low priority context.
-> > +	 */
-> > +	PANFROST_JM_CTX_PRIORITY_LOW =3D 0,
-> > +
-> > +	/**
-> > +	 * @PANFROST_JM_CTX_PRIORITY_MEDIUM: Medium priority context.
-> > +	 */
-> > +	PANFROST_JM_CTX_PRIORITY_MEDIUM,
-> > +
-> > +	/**
-> > +	 * @PANFROST_JM_CTX_PRIORITY_HIGH: High priority context.
-> > +	 *
-> > +	 * Requires CAP_SYS_NICE or DRM_MASTER.
-> > +	 */
-> > +	PANFROST_JM_CTX_PRIORITY_HIGH,
-> > +};
-> > +
-> > +#define PANFROST_JS_FLAG_ENABLED		(1 << 0)
-> > +
-> > +struct drm_panfrost_js_ctx_info {
-> > +	/** @flags: Combination of PANFROST_JS_FLAG_xxx values */
-> > +	__u32 flags;
-> > +
-> > +	/** @priority: Context priority (see enum drm_panfrost_jm_ctx_priorit=
-y). */
-> > +	__u8 priority;
-> > +
-> > +	/**
-> > +	 * @tiler_mask: Mask encoding tiler units that can be used by the job=
- slot
-> > +	 *
-> > +	 * When this field is zero, it means the tiler won't be used.
-> > +	 *
-> > +	 * The bits set here should also be set in drm_panthor_gpu_info::tile=
-r_present.
-> > +	 */
-> > +	__u8 tiler_mask;
-> > +
-> > +	/**
-> > +	 * @l2_mask: Mask encoding L2 caches that can be used by the job slot
-> > +	 *
-> > +	 * The bits set here should also be set in drm_panthor_gpu_info::l2_p=
-resent.:
-> > +	 */
-> > +	__u16 l2_mask;
-> > +
-> > +	/**
-> > +	 * @core_mask: Mask encoding cores that can be used by the job slot
-> > +	 *
-> > +	 * When this field is zero, it means the queue won't be used.
-> > +	 *
-> > +	 * The bits set here should also be set in drm_panthor_gpu_info::shad=
-er_present.
-> > +	 */
-> > +	__u64 core_mask;
-> > +};
-> > +
-> > +struct drm_panfrost_jm_ctx_create {
-> > +	/** @handle: Handle of the created JM context */
-> > +	__u32 handle;
-> > +
-> > +	/** @pad: Padding field, MBZ. */
-> > +	__u32 pad;
-> > +
-> > +	/**
-> > +	 * @slots: Job slots
-> > +	 *
-> > +	 * This field must be greater than zero and less than 8 (only three s=
-lots
-> > +	 * available).
-
-Not sure what this doc referred to, but slots is not an integer :D.
-
-> > +	 */
-> > +	struct drm_panfrost_js_ctx_info slots[3]; =20
->=20
-> We don't allow user space to choose which slot is being targetted, so
-> this feels odd.
-
-Some of this has been extracted from the panthor-ification of JM, and
-you're probably right that it doesn't make sense to expose the
-subqueues in panfrost.
-
-> I guess this allows deliberately disabling slot 1 to
-> force slot 2. But the code in this series doesn't seem to implement
-> this. I'm also not sure I understand why you would want a different
-> priority for different slots?
-
-Internally, a slot maps to a sched entity, which is where the priority
-is defined. Sure, we could have a global priority for the whole context,
-but I figured I'd just expose what the KMD is capable of (per subqueue
-priority) and let the UMD assign the same priority to all slots. But if
-we don't expose the slots directly, we might as well just define a
-priority and the set of resources that can be used by any of the
-subqueues.
-
-Regards,
-
-Boris
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
