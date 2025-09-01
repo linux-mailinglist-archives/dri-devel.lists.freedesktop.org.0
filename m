@@ -2,132 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2D1B3E355
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DE1B3E366
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19D2610E44B;
-	Mon,  1 Sep 2025 12:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A038310E44E;
+	Mon,  1 Sep 2025 12:41:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WkV3fYSI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Vw04YyHP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1F710E44A
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:39:07 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 581B44vn025467
- for <dri-devel@lists.freedesktop.org>; Mon, 1 Sep 2025 12:39:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Ag+uc2sfSISlJdM0Nw82xpwB7MNtUR0GdzbeqIRcIGA=; b=WkV3fYSIlVrcFM2Q
- IZe+oZy7wvsT7uLcQpkSKNJpdIfj5VXYmI5Bf4jwrwSjZHOZLvxx283DBy8YoJ5Z
- o5N0LHt97jEiriRn8qt/G/apE6Bxg5XEHB2DXDp83U/EM6jhzeDSDyB+9+AIww6X
- Db0gDmfkYh7DR1QWBFvD3iOrTmLTzBbYWHKBB9eDNFilJcur074t5jsncIa4Pf8g
- 17uq7FUtQ4KvRqMv/9TJUvWwW6DlcVAmFcQl1zWcoCpCVRvlQrzmapq2D7zhD4j+
- e1S5WXiIubJsugnSCXjw7PiipAnBrcEIzuFIW3gTi1+x7NrByEIeRTscDdb5JcPq
- SqPptQ==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urvyvsyc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 12:39:06 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-244580538c3so11582405ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:39:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756730345; x=1757335145;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Ag+uc2sfSISlJdM0Nw82xpwB7MNtUR0GdzbeqIRcIGA=;
- b=cDMRmtBHRLops2VrrT0cpe83DlNPMWNauOHcVZU+CdQsXN2uxd4uQqnUlYHZe4iPNL
- +OMgxMTHhmSWZ31d4Ix+/BBEQX8/islTwCarHJgn9xw3yCr1ugOqYwO/TAsZkxKxQeg4
- zdVTkecyra1xjrhVtEOTtCOFArTis7bk89iHDdztW5aOYteF/JAXJ0Z8wawBHRHqHkcw
- 9jpiGV2dPiLaCVXYm/IFc3jW4PkZrrs9N7uPUrsFyQtytptF8bCS/01oDJZ/iIJoPGhc
- JGW8mjNopN4miKQiyxVo/tx8EmtTDXVqg9PI/NdrHrPom8ZzxKPyca+GO9++lyKyvK4W
- KGFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZugqnZV3HDJhs3FktgE59ehC787mOCmIRV40ML9O9skaLOv+1+g8kQOKS7bTY5u1L4gAlYUFz5tw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdYYWx2caOad/LxfVQ8BuvfnXR3F1696ADfp8IsI31P1Zht/nn
- RrYeuM2H+OuoUeYT4UEVwmoC+WonEVZALFy/UbvEiYE5vuDa/M4Iy4ZtXHhwqoryUZbRyMP0lVI
- /Y7cdIhAyBgSdsZSH0pq8U8WbaRwvwXnLjIZqetI/QHcwwWYWFV/cE7nftdypMYinidyZ/uM=
-X-Gm-Gg: ASbGncunsVSz4tI/rWJOnmONTw3DEde0EkqU0QNKVawO4Do5sQw741pkBzfb8MpyJqB
- 30Ph9lLW/4dfU7CiX7q0EOe+3lvPXhVgYuRt1axSmulyXUgRK20mzPHrYsxU7DcMtgp/VAWvgZI
- 4V0zT/uDOOAMKa07LYUei8qx7DUSdEeC+ex8K0iKy3aj3ZO6SMhlpspwi75KjZ0crrljrHU2eIe
- calVnlMZSwWeVWM+xuha1RN2iJWcX2XrFv0F5jb7oALS43FstG4WgzxqW76wwLJ0Cv3B+SFdvFv
- kHQMxgEjbfpU088MfI0iHsXt63WSw3YvG3qHcR6w97Ia4c9WmiEBQQNUgZb5ThmV5cSnyIBQLjK
- 3HFA9xz1ESzKYfEHOUB1BOFd/2R0zQA==
-X-Received: by 2002:a17:902:d488:b0:248:ff48:8779 with SMTP id
- d9443c01a7336-2491e1ed5d2mr67830975ad.2.1756730345017; 
- Mon, 01 Sep 2025 05:39:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGenErKxO5/yYfNFbGUt4G6q+mh/TfyItFjo8JNUx5mpoIN5ZQtB3b2C6jXNrrW8UUGRc9ZyA==
-X-Received: by 2002:a17:902:d488:b0:248:ff48:8779 with SMTP id
- d9443c01a7336-2491e1ed5d2mr67830675ad.2.1756730344486; 
- Mon, 01 Sep 2025 05:39:04 -0700 (PDT)
-Received: from [10.133.33.251] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2490658999fsm101472765ad.112.2025.09.01.05.38.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 05:39:04 -0700 (PDT)
-Message-ID: <04549ce5-fa14-440d-b5b9-f8ff059f632a@oss.qualcomm.com>
-Date: Mon, 1 Sep 2025 20:38:56 +0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33EEA10E44E
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:41:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FMxUG1/ePboqByE4TxNBuEZ2s1O33r40bZjgAQj6zDMNylnFUuTYv31ROY6qpaFs+qG8Lccgx7l1pY8Ehwq/NIYx3gDrfVPB27f73ief57yv1PPQ/ftXb8NkvHc+mVVusoX8YImr2T4rSHk+4aGTt6zI+mtFZ9dXnk44ru71AtKbnrdEg8+ZMrigD5sdxA9R1Ib6tHFh3jxQCayZj8C910PdtoW/D2OL7B09zKXpiJ2UdhtNoyw7CP4dT9Ghj9T9lXmOudrsCo1tZ31idXrI2Kxp6SvyjFwLZVQPvvx6oWLV8xBfGRXzGcd1/mpEeKARdggOqGjmufgzZ6yY364fOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sLyATpXHvMFMiL3ehqCSbtvIsXHanifKLU7Jb+m3/98=;
+ b=GtFni7aR5l1mlFZ9whLEZzLuQRrCIJLjV1e29oYYacSpEYnSCk/ZTd0iFT7M6OUWESbr8LJuMdVsaz83O4P+Cs3cBPBSV9XuKaveeIXGVu5eo1FroTRe0NQ44FkDpnQmq4oou0H/xUzP5D+p1CTzq3LJIpkS9LNNrZkbWLAH7tzV2MDpXnjhGwUj8qc2i/fNomyuldXokqQloVbBAeJW0niyyEoUF6CqAwEQrOVYkIcA2Y0Kg46JTWQaEW2tripsDoxxgle9tPWOvJg1f80FHuiDv2TtKrCz9PoV/9S2GgD3CarUeo/5i2j0P/VGNWklJvvy9FeureQ2X/tx53Q98g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sLyATpXHvMFMiL3ehqCSbtvIsXHanifKLU7Jb+m3/98=;
+ b=Vw04YyHPXFq6i4yZLWWLXP6RIYEWJxv21xvqJIfTJkwEmTHcp4My0+kJ0dsemrLeV3dfzB7joa/4v9M3vJ//zLg0FlPkKSySXRajpp/D6YRS72Mei+iXhKuxxS7yVsNIe1CNMWXlVWvCZh1ifgRD1/Ml4YdDd7Uvp5DuD49TotY=
+Received: from DS7PR06CA0025.namprd06.prod.outlook.com (2603:10b6:8:54::31) by
+ IA1PR12MB8359.namprd12.prod.outlook.com (2603:10b6:208:3fc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.26; Mon, 1 Sep
+ 2025 12:40:59 +0000
+Received: from DS1PEPF00017092.namprd03.prod.outlook.com
+ (2603:10b6:8:54:cafe::f4) by DS7PR06CA0025.outlook.office365.com
+ (2603:10b6:8:54::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.27 via Frontend Transport; Mon,
+ 1 Sep 2025 12:40:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF00017092.mail.protection.outlook.com (10.167.17.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9094.14 via Frontend Transport; Mon, 1 Sep 2025 12:40:59 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 1 Sep
+ 2025 07:40:52 -0500
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Mon, 1 Sep
+ 2025 05:40:50 -0700
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm/sched: Fix racy access to drm_sched_entity.dependency
+Date: Mon, 1 Sep 2025 14:40:32 +0200
+Message-ID: <20250901124032.1955-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/14] dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
-To: Rob Herring <robh@kernel.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
- <20250822142230.GA3591699-robh@kernel.org>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <20250822142230.GA3591699-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: pRHaI3Sd9kTgu8o5DJ349OZjJfXiXPy7
-X-Proofpoint-ORIG-GUID: pRHaI3Sd9kTgu8o5DJ349OZjJfXiXPy7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNyBTYWx0ZWRfX1MXdgRwQ+ZUx
- k439sctuKDQG5fHbRHVkbHSVuH53iAxEP0XQD1DwwSOct4yTe0ISb3ct9YWF3bvLbWMUCbwOgXg
- VyoM+zq5qURbVF2PM1X11ZQi1qfon2BA3R9JQ63tvCoGj3NguyWmBiIJfGowPFzhDRHV5cvmAkJ
- 3wmOfpbqN/kp2qLQKM6qsxPpK6dbPDhKKwwbBFPBMRpmegnAO5j3AjYDSwIBG5NYgqSwzojlcU0
- SiUnSdIcPVxyC6CEzPjtFlLnyBSJO5m0FGxHEMDj8Sq6xBAGKHbJaAS4efdgxsBkPy2e+eUWiqW
- EH7HqNBSI5T0jj3oNtsow7AeinUBzRITKOKyY3yqhWuDkf9BfAJK/sHrqX+IwwX2PLjzSpdtg3P
- 2XH+CCCS
-X-Authority-Analysis: v=2.4 cv=NrDRc9dJ c=1 sm=1 tr=0 ts=68b593ea cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=mavVfetI76m9BAqSKQsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300027
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To satlexmb09.amd.com
+ (10.181.42.218)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017092:EE_|IA1PR12MB8359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e449e69-3c3e-4565-572d-08dde954cdc9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|36860700013|7416014|376014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GUklaJtqpfHSLd4HDJZ7FQN/auMGJyRNeFNKc+3LpfwB2Mo5l16IgzgRge+R?=
+ =?us-ascii?Q?CIdaaHw3Dy7DK176urLGNGAMoEc3kBLnJnEAFZZigxnuRRio1Yhh0rDPRAfA?=
+ =?us-ascii?Q?V9cT7MJvxu4yIA83KT40Zbgb8Zh1j7PiAKlT1tGcJfUazUZKDulqJCfOVM/8?=
+ =?us-ascii?Q?Ka1SBNeW3w87tI8LLrX/xpQjIbmPfyCsAhvNhBAqGkydXsvRcjHHNeOG7F7I?=
+ =?us-ascii?Q?2Ubrb66FXcJ6F1PJTVypTz5YDEkuwoZdXOwaO+Z2e1qx7TLNGFTtfpNNqbdd?=
+ =?us-ascii?Q?WoMijAylN52vHpgnxFaS+Df4HL4XyVKMu+ns4SvzBnkf7CLc3u5jb3MbKxwu?=
+ =?us-ascii?Q?QAiGKekmVI+ajOv6qhNeRIrpRH15y8vZj4yoeSfMbsIuXPg7s84rjyFFb+IN?=
+ =?us-ascii?Q?QN92beimWw7jPnh6CYY9Bcx6rBQ/LbW6RM9kMsi7fH14Yv2EchlE3xeOEkek?=
+ =?us-ascii?Q?x0eh687A3Odwyi4RAmcn1HSiyBAe7SoPs6rTUMwzahmWo+hiTg8pdR3AhtUp?=
+ =?us-ascii?Q?uW+CYLC+Rv5TdipMQTi/6dssiM519nKmBTzCmdMETjdyq8LwnAKEmyinxPrU?=
+ =?us-ascii?Q?zDQG0cA5Ps9G2V0nV9GEDoMAQlfG3oC2ryisb0iRkopZZ1OU8zHeiCCcmWQB?=
+ =?us-ascii?Q?QP7l1mNOb3KHzt6z62eprf4+MWUC60j+oLvDHF0/cb6F3brT3UoJMr8NJBIv?=
+ =?us-ascii?Q?zclxc/5H0Xlwyf+zxZLwzl5ohQW7NWUBRgA63j4ZU5JcBzGLL+IV5pxqnlQS?=
+ =?us-ascii?Q?8TnE16ea+TLhK8k14DmAwIw1RAC6J57HuWonqcYOHoUv1O2MeaqP0W3VMRUd?=
+ =?us-ascii?Q?GDetdPBMteabQ0Jq2ELIOxyQyOGN8uSaMwBUSWWJOgF37DES7TW61xvoS1T/?=
+ =?us-ascii?Q?ivkOtojq8g44WLxvGnn6vkT+sjbXJT/qeMZskbvkPm4A/GlHxR87CBf5JKnL?=
+ =?us-ascii?Q?og/hqiu6CjwnqjbQmitBBkEuNsVkzxI3FZQRDnDYHwv7o7TkR1GPmmM8eiMJ?=
+ =?us-ascii?Q?cyrn3yXDogWQB7OLqSunoAtOgOpxWXlvSdEOVY+2hAiiL+cIRSO1c42SCNQu?=
+ =?us-ascii?Q?8YaLP7SU6aRgm32tggwRszzGAdR/WzkX5IP+odKmcCVSXSio3mNNQ1NQAMl8?=
+ =?us-ascii?Q?vWbjw8LIDnytt+VRblRuNLC11WiaiPT/nXzhLvWsZkGfJogeWQdKo4ISS0/T?=
+ =?us-ascii?Q?DEdb1XVZ4FG8AGfCHrjr9rMKT59I3if1jwyV8zptzu04utU5JZdYNVwRIAkE?=
+ =?us-ascii?Q?1bAI/3rTRK4vSVwUGAZg5xEXBX6EhnfskJV4MnZQ3GyRWrtQRRI4yLGXyu0R?=
+ =?us-ascii?Q?xbHsg/jMYfo/Tugza69hpssIMBFNuh1odHOZMT1fWIOP47PF3W05Di+hDI/g?=
+ =?us-ascii?Q?YWZGztB23iyJN6pf+USg65s10CdW+31/wFkUp/l7V7/zzV/ykXAKsEBVN1pn?=
+ =?us-ascii?Q?tZUkNguU25w8WJdTAMxDnCL4p01mTU/vDP53b4pvOa+59p1rcsfxZQwsvjUv?=
+ =?us-ascii?Q?JKCKe99LDR/gtbV2fX5OO96wHZGqXPt2jgxu1a/CsuOApiLRpCcF8Agx5g?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 12:40:59.4711 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e449e69-3c3e-4565-572d-08dde954cdc9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017092.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8359
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,149 +143,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The drm_sched_job_unschedulable trace point can access
+entity->dependency after it was cleared by the callback
+installed in drm_sched_entity_add_dependency_cb, causing:
 
-On 8/22/2025 10:22 PM, Rob Herring wrote:
-> On Wed, Aug 20, 2025 at 05:34:44PM +0800, Xiangxu Yin wrote:
->> Add device tree binding documentation for the Qualcomm QMP USB3+DP PHY
->> on QCS615 Platform. This PHY supports both USB3 and DP functionality
->> over USB-C, with PHY mode switching capability. It does not support
->> combo mode.
->>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   | 108 +++++++++++++++++++++
->>  1 file changed, 108 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..c2b1fbab2930f0653f4ddb95f7b54d8fe994f92d
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
->> @@ -0,0 +1,108 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-usb3dp-phy.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm QMP USB3-DP PHY controller (DP, QCS615)
->> +
->> +maintainers:
->> +  - Vinod Koul <vkoul@kernel.org>
-> No, this should be someone who has the h/w.
+BUG: kernel NULL pointer dereference, address: 0000000000000020
+[...]
+Workqueue: comp_1.1.0 drm_sched_run_job_work [gpu_sched]
+RIP: 0010:trace_event_raw_event_drm_sched_job_unschedulable+0x70/0xd0 [gpu_sched]
 
+To fix this we either need to keep a reference to the fence before
+setting up the callbacks, or move the trace_drm_sched_job_unschedulable
+calls into drm_sched_entity_add_dependency_cb where they can be
+done earlier.
 
-I have discussed with Bjorn offline. In the next version, I’ll update myself as
-the maintainer for this dt-binding.
+Fixes: 76d97c870f29 ("drm/sched: Trace dependencies for GPU jobs")
 
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
->> +
->> +description:
->> +  The QMP PHY controller supports physical layer functionality for both
->> +  USB3 and DisplayPort over USB-C. While it enables mode switching
->> +  between USB3 and DisplayPort, but does not support combo mode.
-> Wrap at 80 chars.
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 8867b95ab089..3d06f72531ba 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -391,7 +391,8 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
+  * Add a callback to the current dependency of the entity to wake up the
+  * scheduler when the entity becomes available.
+  */
+-static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
++static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity,
++					       struct drm_sched_job *sched_job)
+ {
+ 	struct drm_gpu_scheduler *sched = entity->rq->sched;
+ 	struct dma_fence *fence = entity->dependency;
+@@ -421,6 +422,10 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+ 		entity->dependency = fence;
+ 	}
+ 
++	if (trace_drm_sched_job_unschedulable_enabled() &&
++	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &entity->dependency->flags))
++		trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
++
+ 	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
+ 				    drm_sched_entity_wakeup))
+ 		return true;
+@@ -461,10 +466,8 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 
+ 	while ((entity->dependency =
+ 			drm_sched_job_dependency(sched_job, entity))) {
+-		if (drm_sched_entity_add_dependency_cb(entity)) {
+-			trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
++		if (drm_sched_entity_add_dependency_cb(entity, sched_job))
+ 			return NULL;
+-		}
+ 	}
+ 
+ 	/* skip jobs from entity that marked guilty */
+-- 
+2.43.0
 
-
-Ok, will update next patch.
-
-
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - qcom,qcs615-qmp-usb3-dp-phy
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 2
->> +
->> +  clock-names:
->> +    items:
->> +      - const: cfg_ahb
->> +      - const: ref
->> +
->> +  resets:
->> +    maxItems: 2
->> +
->> +  reset-names:
->> +    items:
->> +      - const: phy_phy
-> phy_phy?
->
->> +      - const: dp_phy
->> +
->> +  vdda-phy-supply: true
->> +
->> +  vdda-pll-supply: true
->> +
->> +  "#clock-cells":
->> +    const: 1
->> +    description:
->> +      See include/dt-bindings/phy/phy-qcom-qmp.h
->> +
->> +  "#phy-cells":
->> +    const: 1
->> +    description:
->> +      See include/dt-bindings/phy/phy-qcom-qmp.h
->> +
->> +  qcom,tcsr-reg:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    items:
->> +      - items:
->> +          - description: phandle to TCSR hardware block
->> +          - description: offset of the VLS CLAMP register
->> +      - items:
->> +          - description: phandle to TCSR hardware block
->> +          - description: offset of the DP PHY mode register
->> +    description: Clamp and PHY mode register present in the TCSR
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - resets
->> +  - reset-names
->> +  - vdda-phy-supply
->> +  - vdda-pll-supply
->> +  - "#clock-cells"
->> +  - "#phy-cells"
->> +  - qcom,tcsr-reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
->> +    #include <dt-bindings/clock/qcom,rpmh.h>
->> +
->> +    phy@88e8000 {
->> +      compatible = "qcom,qcs615-qmp-usb3-dp-phy";
->> +      reg = <0x88e8000 0x2000>;
->> +
->> +      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
->> +               <&gcc GCC_USB3_SEC_CLKREF_CLK>;
->> +      clock-names = "cfg_ahb",
->> +                    "ref";
->> +
->> +      resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
->> +               <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
->> +      reset-names = "phy_phy",
->> +                    "dp_phy";
->> +
->> +      vdda-phy-supply = <&vreg_l11a>;
->> +      vdda-pll-supply = <&vreg_l5a>;
->> +
->> +      #clock-cells = <1>;
->> +      #phy-cells = <1>;
->> +
->> +      qcom,tcsr-reg = <&tcsr 0xbff0>,
->> +                      <&tcsr 0xb24c>;
->> +    };
->>
->> -- 
->> 2.34.1
->>
