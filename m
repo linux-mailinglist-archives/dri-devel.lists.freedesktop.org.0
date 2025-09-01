@@ -2,85 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9209B3DD77
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 11:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7198B3DDB3
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 11:11:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70FE210E3DD;
-	Mon,  1 Sep 2025 09:02:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6651010E03D;
+	Mon,  1 Sep 2025 09:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="XVjtta+0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ShGSKhxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE7610E3DA
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 09:02:05 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45b8b7ac427so4544375e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 02:02:05 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10CD310E03D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 09:11:32 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-45b77f59bd8so23108805e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 02:11:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1756717324; x=1757322124;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Q8RPXBLC5ldsUqsxVQXK6DmVHhHHPKbMvb74af34BlQ=;
- b=XVjtta+0LrEF30O7r5FoaQvLIyIAia8z3soYD9XBE2MbInIfcVCOfhom1halrA24Es
- RVffkOmbmmSU9mukHwQc6t14rykIGxIvMv1A+C6F81WMBQnwjgNa9ErEwY+lAwVGyGKu
- WAc5rdX2eszqiJIgPSFEg7rOzgRoKI3v+9XaYQp7tlEdSxR4P9rhSqj5+vZUmvOn5m1H
- xTy02Zz4GYIiw5VsmoJL7o2m/iy8mNxwSCua2l8L1ouf4oSRSIDD0zPK4KYqEaZAHj+m
- mEgon97z/LlZt1lzr3IprVISOkCG2mHtGK0dD2Ine5WAEaQEJF9sN6yaBlKPVyMr9bFt
- asFg==
+ d=gmail.com; s=20230601; t=1756717890; x=1757322690; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jtzlsr7MnFg9Y5VOjl2EoljPhue21WUatPCKKyRxvGQ=;
+ b=ShGSKhxYSqxY4bPQTDfiKQ9PHNdAO8QfjfqSbBXlOP9GEeza9RBpCGzGfQRECLykEn
+ YWXEla/J5I+O9tn10ILVdQfA2UBqjFZWRvHJ9VWTsSd94065EfD0E8FsYzeVBa5N3meo
+ 0BTH74bac45SAd1JprPnMGYlDMYVDUBM4dP7PqP52l3xH5jKQTfW6onDYvMLdtwAFbOW
+ QP9N8fLF+KXldo0yM+D39lpjPTMM6V0LbwlesCtcRtGDw5WZDaL7fIZZLyl7iJ86c4m7
+ xlr9IVUT9QCBZyRyC9/8txFACMN38pVWyLsBMbhiltHaANoRnFUkVSlCGUfDiFAvbs8W
+ 3Iyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756717324; x=1757322124;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Q8RPXBLC5ldsUqsxVQXK6DmVHhHHPKbMvb74af34BlQ=;
- b=XrMVXZYKm0/MUkyDUuTIr4yqLsGaiU0wNUm8DmlDUjA5bCfEKkNsMUFrOhPLswBoUT
- HB7zAfVDC8oJN649rOd6Iwd02blN8DPLv76GezZaFcJHj6SSxgVRerkuJj0UAvwZ1QJ0
- tyih9+gS411F+Z13pUJoCa6T6ZEQYp8qtbt6lcbMg1AtUqV7k8QeUKzOKBq9H7YFvGmB
- fH1wvj0Mw3TpgD6W05Tkb02/dECzFjo4Hmoy6jzebiN5/z8j5YSW2PR5lndduFZMqO95
- OJ7dHqMKz4BuSXUrcBycYP98Q2RzUDBQ4uHuJompt+eSjscQGk/ZRXdo2tJHPioEbj68
- KByg==
+ d=1e100.net; s=20230601; t=1756717890; x=1757322690;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Jtzlsr7MnFg9Y5VOjl2EoljPhue21WUatPCKKyRxvGQ=;
+ b=ucVTnr9MTPipKbOZPso2Zgy3lkN+TFW/TeDUfpo2lPPlacz7O3NuU80nehEKClXYE7
+ bLQheigS5/thBp5oEvmgJ36V2b7kHcbcisxeVbj0mn7w0aW5awOiW5mKTKLFDxtzF9kV
+ cdN84BOCDxdCfaWKAxROJZxZLDB3H6emITXcDvxQh0qLzP79WnfNsgnonqdNIjXAZX5h
+ ycfrpeLywGszJE4i00DiiIYeARkCc7Ar1Qw5GVa38P3B1n0aOcYvrAM5Zj9I/9rME/px
+ h5T5bdpvFAaFQErLucwx7Mm7MUdul/6lSx23YapMkjTidBARFTgpjQr0oW/7R1Pg++wp
+ YT4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8LMB7yx8odDmhVtqvXBU3SR5t+FO0wrsrq7QEiRTR2HtuucPXHmNFdvuwdnTdHaHAgbVU6Cd5k2I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+taa77u4WNj9Nb83UkOICLqLMiArMrkv23eMroHUlTZHijt5B
- tA8twLHk24M22Vt74kSlWyMztFPI75yyctWpmo+QbRow3TyGaTjl5QS5aP7E0m6u4cA=
-X-Gm-Gg: ASbGncvVRjI7ck4PXkhZN1q3ERkKF/QhHUXOTy/VOwkYsoX/86rEym4danOB4MePYq1
- 7M07LS21/2LOaZxtZMADtdKDliipw544h9CimK7i0ruGAF5bjFQ96NGy2C3/liuehohzeGNnXJ8
- dp/IuyHNiUbrYJJxScShTII1S7pRUdNHQyAzhVYCfUOiZBaFB5x2f6l+ym4TbbntkOhcz3Ax4Tn
- L+m9UMwdFd0BPt1k3/pALUYm8hn7954dmfC+7ZD5jAY2aVRWWc6vM8N+bvwGdhEtAvcRAftQi5v
- 9KRjUZgBsbtnEWPeMy+X+lz373mF6uHhP9p7CfFBayyBlZGW73M1iHdh4BGDPtumNiap2yGDNi1
- M/78ft6noy37wjm+nhfROJIfBbdrfDf9L1cdAqgVNDGoLtw==
-X-Google-Smtp-Source: AGHT+IFATa0P1gj9ZG+bFpTTF/PDbmIBdrStL6Ztg7iLjcDRq2nyWpFsCTfBKuh9T9aPaqNoKufiSQ==
-X-Received: by 2002:a05:600c:1d06:b0:45b:6275:42cc with SMTP id
- 5b1f17b1804b1-45b8557a3f7mr54828095e9.28.1756717323313; 
- Mon, 01 Sep 2025 02:02:03 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b8efb280csm9195665e9.3.2025.09.01.02.02.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 02:02:02 -0700 (PDT)
-Message-ID: <a05bb414-4dd1-4cbe-aa1a-beaea2d056aa@ursulin.net>
-Date: Mon, 1 Sep 2025 10:02:02 +0100
+ AJvYcCVCryWzmOc0rV0PqR2aOExyLiqHcWtxM6z1E3Rj4BJr9C3aOwGqPkOrf4SkO+r6gzsw1Rs0B0chsbU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsovtsZXLwrmyv9fzxZDVLiUPTYcjvn9CHnDVXeRl5AHmQKNel
+ gZhNNLBL094aELoocy+cHUwAKgVk3NSk+N+tiiYbecRzi7wWy7EQMjQT
+X-Gm-Gg: ASbGncs0pqXyrwivgaiApGVEgMHqefDXCDqv7LI38/DXY7DSLoOqkCTv3V7dQUzleuX
+ oDu6NJ7s5WsMJVDZE57yIhFyVYlAq75yVfH8V+F96qhGvR2eTpjwCzOMS75rJmt6naWH9HYAwiK
+ 9K2oum9S1yoCXmTDyi4jwiDwQPmw8O9oE79dTbFn5JTLvC7/aX/4ZktUvSPiuV3nvDe5oViQJbZ
+ d6B+qruvhz+5rqrVbhjVBUsvsKpH1Q2FRabP3oyImj8Uobp8154X7a6+fVh/aV2VQn4ShdxLiwZ
+ o//oKtgjn99BAr57Ayu12y4O4HYFKgTqy2A4kuhsjpTQIxX3+XNEaPNpFB+UFtQqzKmB40qnRbN
+ gnFW9olhNKZVuTjNjzFeqllbOeOzV1Ew=
+X-Google-Smtp-Source: AGHT+IF89HPh/W7gp3tyZa5ClRJdNdBTtpXKZrbEusjQ0tOtn6D/ZUDJbY4LvRTCQajkSfbWR5bnoA==
+X-Received: by 2002:a05:600c:4f4a:b0:45b:8a0e:cdbf with SMTP id
+ 5b1f17b1804b1-45b8a0ece70mr40139155e9.1.1756717890322; 
+ Mon, 01 Sep 2025 02:11:30 -0700 (PDT)
+Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3d60d93b949sm4451045f8f.2.2025.09.01.02.11.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Sep 2025 02:11:29 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: andy.yan@rock-chips.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/bridge: synopsys: Fix spelling mistake "pixeel" ->
+ "pixel"
+Date: Mon,  1 Sep 2025 10:10:44 +0100
+Message-ID: <20250901091044.2450367-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] drm/amdgpu: increment share sched score on entity
- selection
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250822134348.6819-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250822134348.6819-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,131 +94,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There is a spelling mistake in a dev_warn message. Fix it.
 
-On 22/08/2025 14:43, Pierre-Eric Pelloux-Prayer wrote:
-> For hw engines that can't load balance jobs, entities are
-> "statically" load balanced: on their first submit, they select
-> the best scheduler based on its score.
-> The score is made up of 2 parts:
-> * the job queue depth (how much jobs are executing/waiting)
-> * the number of entities assigned
-> 
-> The second part is only relevant for the static load balance:
-> it's a way to consider how many entities are attached to this
-> scheduler, knowing that if they ever submit jobs they will go
-> to this one.
-> 
-> For rings that can load balance jobs freely, idle entities
-> aren't a concern and shouldn't impact the scheduler's decisions.
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 23 ++++++++++++++++++-----
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  1 +
->   2 files changed, 19 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> index f5d5c45ddc0d..4a078d2d98c5 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
-> @@ -206,9 +206,11 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
->   {
->   	struct drm_gpu_scheduler **scheds = NULL, *sched = NULL;
->   	struct amdgpu_device *adev = ctx->mgr->adev;
-> +	bool static_load_balancing = false;
->   	struct amdgpu_ctx_entity *entity;
->   	enum drm_sched_priority drm_prio;
->   	unsigned int hw_prio, num_scheds;
-> +	struct amdgpu_ring *aring;
->   	int32_t ctx_prio;
->   	int r;
->   
-> @@ -236,17 +238,22 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
->   		r = amdgpu_xcp_select_scheds(adev, hw_ip, hw_prio, fpriv,
->   						&num_scheds, &scheds);
->   		if (r)
-> -			goto cleanup_entity;
-> +			goto error_free_entity;
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Indeed, previously this was calling drm_sched_entity_fini() before 
-drm_sched_entity_init() and it only worked because of kzalloc.
-
->   	}
->   
->   	/* disable load balance if the hw engine retains context among dependent jobs */
-> -	if (hw_ip == AMDGPU_HW_IP_VCN_ENC ||
-> -	    hw_ip == AMDGPU_HW_IP_VCN_DEC ||
-> -	    hw_ip == AMDGPU_HW_IP_UVD_ENC ||
-> -	    hw_ip == AMDGPU_HW_IP_UVD) {
-> +	static_load_balancing = hw_ip == AMDGPU_HW_IP_VCN_ENC ||
-> +				hw_ip == AMDGPU_HW_IP_VCN_DEC ||
-> +				hw_ip == AMDGPU_HW_IP_UVD_ENC ||
-> +				hw_ip == AMDGPU_HW_IP_UVD;
-> +
-> +	if (static_load_balancing) {
->   		sched = drm_sched_pick_best(scheds, num_scheds);
->   		scheds = &sched;
->   		num_scheds = 1;
-> +		aring = container_of(sched, struct amdgpu_ring, sched);
-> +		entity->sched_ring_score = aring->sched_score;
-> +		atomic_inc(entity->sched_ring_score);
-
-If we were to bike-shed we could find a way to avoid the new local 
-variables. Keeping the if as is and assign to entity->sched_ring_score 
-directly, and then checking for that on the cleanup path. Still works 
-due kzalloc. Or if relying on kzalloc is not desired, at least bool 
-static_load_balance could be replaced by re-naming the aring local as 
-static_aring and using it like the name suggests.
-
-Could also move the atomic_inc to the success path to avoid having to 
-add code to error unwind.
-
-Both cases are I think equally racy in the sense that parallel 
-amdgpu_ctx_init_entity invocations can all pick the same sched. But that 
-is true today AFAICT because score is not incremented until later in the 
-job submit process.
-
-I suppose one way to make the assignment more robust would be to 
-"rotate" (or randomize) the sched list atomically before calling 
-drm_sched_pick_best. Thoughts?
-
-Regards,
-
-Tvrtko
-
->   	}
->   
->   	r = drm_sched_entity_init(&entity->entity, drm_prio, scheds, num_scheds,
-> @@ -264,6 +271,9 @@ static int amdgpu_ctx_init_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
->   	drm_sched_entity_fini(&entity->entity);
->   
->   error_free_entity:
-> +	if (static_load_balancing)
-> +		atomic_dec(entity->sched_ring_score);
-> +
->   	kfree(entity);
->   
->   	return r;
-> @@ -514,6 +524,9 @@ static void amdgpu_ctx_do_release(struct kref *ref)
->   			if (!ctx->entities[i][j])
->   				continue;
->   
-> +			if (ctx->entities[i][j]->sched_ring_score)
-> +				atomic_dec(ctx->entities[i][j]->sched_ring_score);
-> +
->   			drm_sched_entity_destroy(&ctx->entities[i][j]->entity);
->   		}
->   	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
-> index 090dfe86f75b..076a0e165ce0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
-> @@ -39,6 +39,7 @@ struct amdgpu_ctx_entity {
->   	uint32_t		hw_ip;
->   	uint64_t		sequence;
->   	struct drm_sched_entity	entity;
-> +	atomic_t		*sched_ring_score;
->   	struct dma_fence	*fences[];
->   };
->   
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+index 9bbfe8da3de0..d9b9739ae3d0 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+@@ -1554,7 +1554,7 @@ static int dw_dp_bridge_atomic_check(struct drm_bridge *bridge,
+ 
+ 	if ((adjusted_mode->hsync_start - adjusted_mode->hdisplay) & 0x1) {
+ 		adjusted_mode->hsync_start += 1;
+-		dev_warn(dp->dev, "hfp is not 2 pixeel aligned, fixup to aligned hfp\n");
++		dev_warn(dp->dev, "hfp is not 2 pixel aligned, fixup to aligned hfp\n");
+ 	}
+ 
+ 	if (adjusted_mode->hsync_end - adjusted_mode->hsync_start < min_hsync) {
+-- 
+2.51.0
 
