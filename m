@@ -2,133 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04939B3DF40
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 11:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF94B3DF5C
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:00:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2717410E3FD;
-	Mon,  1 Sep 2025 09:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACC610E3FE;
+	Mon,  1 Sep 2025 10:00:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lQS/xVmv";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OAfDyLPM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 419C510E3FB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 09:58:45 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5819eN2H019276
- for <dri-devel@lists.freedesktop.org>; Mon, 1 Sep 2025 09:58:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- s5H/bF7V+/uMeSq3g0gxgqc/EofmL6r/gf0PKGC0ccY=; b=lQS/xVmvG6A+GYPB
- iOPwO35lO+3st8M1q3ObbX8yFPXMvvWu6Y6KJChPWmEC/1ICyfJDxbhY2K3CibQE
- zng83HD8CZrgwQdt80DM3VHNjtR6m/rBjPJWgJsBujrmqn/Zj6kPbjIONIj1AuSQ
- 5kM0tpCuaDyqqabWyBIhvoN69ca0yDwfN+/T9SWkjOMuKSYRXErMpuU4OsHgr4K3
- 4PtCpBg2kadVsc5Sn0iyyb4lW/M/hwWMRw48cJIzvbO6jJZu1bdQF4t3aIRFjXzB
- Nu0eTON0Kyg2KkLQ5kHUmrAWI11a7Ut97G2S8/FizAe7l3Sepy3Ogr2WtZgmA3uw
- CP143w==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48w8wy0369-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 09:58:44 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b4f736195daso810119a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 02:58:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756720723; x=1757325523;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s5H/bF7V+/uMeSq3g0gxgqc/EofmL6r/gf0PKGC0ccY=;
- b=gD5qP7QNK7BWLJsgobaM6YnO4rlSVg2GjwBA2c9k1mbM6znR8j6Xy3GjBAK2wYD2XE
- nRhoZbt21aBjnjyaLad/Ayo5XKnh1RGiAxia4ckmLilcvZ2EK54DrCXkO9uqAVXIzJoA
- 5iJ6NyozVrN9PTPbZkLjIN1QYyfzXlcOTdiwQrybR2kWn0MSF01LadZdkMr2pqAIoDf/
- uZrPy7KBUTRezWnywHHBcEhFtxBdpWw5OOYAlJxOHojq/5Ss6na4iKvRQIIj0SOan/HP
- /QVlMl6EV32Lu8wkLs7Div3ovrHg1isW5yPFc7LEbysKMfpbJuqYNOmvq72wR893pYD1
- HmuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUAwRT1JtWtAAhU65Mu5EWmVXoriOOZXAUcyJScyuObUQfTmAkhfvdKO7nAgHeNLK/pWAl02mQp880=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwP0JAG0CqiEmqvSwX2/lsQNxnc0ydu+gMwbjGiesoNJi+ZdE9J
- jdmGGHMEALpN5wbPuJCAtlbihHR2vRz8Gqmwu8+qMbJiBBVABySwR3m6995A31R1DMeMYF1rym1
- vAu+v3FQgZyKZRSov2CgtwEfMMUPyX4pPFGAu/nNYgaze6dH1YZs1zNjxx8anPxPABqUELDY=
-X-Gm-Gg: ASbGncvYA4BCtdhoV9JYbndRdbvBo3E2AuX2wO7j2ppCnHGJ1UbjbxOTUX+zqm5vewi
- cUaY3sSSjoBMtd6opCH4blDaPzxNBOed9pydxW7REOmyyRG/LlbPhqnH2uG3otm0HSX0+l3IJ6l
- Gq228xO/VnhjKKuCdLJm8aHaMJ3vR4+9amw3jiHLhqpTUxf6ETPk3CJBtfRGY9BLPJHFDLCD9zq
- aDrLf/fmpPdMFpIh0GuZZ7jhlFovjpy7AqSTWq2sQ9UOyGp4kKpX9f+Zz3iqS1RtQGFW2o3NyDW
- hLZeVBeewgbLKgiMmQe9tj6cd9ApkeFOOE62lpvgAOIb13ndDeFgeuwo0HSHrIYvQrWqLqw=
-X-Received: by 2002:a05:6a20:72a8:b0:243:755:58b5 with SMTP id
- adf61e73a8af0-243d6f7e021mr10260520637.54.1756720723175; 
- Mon, 01 Sep 2025 02:58:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEcT6Sy3B9OTw9HVUyb8xsdhYrAB9UJyNu8eiRPjBXTTgcVrCt/D/vmbND6zyw2UIQqSmNAag==
-X-Received: by 2002:a05:6a20:72a8:b0:243:755:58b5 with SMTP id
- adf61e73a8af0-243d6f7e021mr10260470637.54.1756720722682; 
- Mon, 01 Sep 2025 02:58:42 -0700 (PDT)
-Received: from cse-cd01-lnx.ap.qualcomm.com ([114.94.8.21])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7722a26bfe2sm10305656b3a.14.2025.09.01.02.58.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Sep 2025 02:58:42 -0700 (PDT)
-From: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Date: Mon, 01 Sep 2025 17:57:34 +0800
-Subject: [PATCH v10 6/6] drm/msm/dp: Add DisplayPort controller for QCS8300
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4845110E3FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:00:45 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28AFEE92;
+ Mon,  1 Sep 2025 11:59:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1756720776;
+ bh=TiWStABcw7lSysl391uOdXBoQXiu7icDIWGc77HUDaU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OAfDyLPMGS+F9o9K07ihTaqKb/ktdXBDaaeLbDCIaL9H7NFCLIyRovUIQW1/dsZNO
+ PXuCDj2jFUBWOUXhnCGLoSRbfTlG2FseUCijMYrzBbnH+q51YSVRR5xbD+BB6xz6mG
+ HNsjXyALCESgPhabvcY96VuEulkZ8xgoALm2HooE=
+Message-ID: <e1dd9bd1-0e73-4a8d-947b-7c5a117d8827@ideasonboard.com>
+Date: Mon, 1 Sep 2025 13:00:39 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/6] drm/bridge: cadence: cdns-mhdp8546*: Change
+ drm_connector from structure to pointer
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, lyude@redhat.com, luca.ceresoli@bootlin.com,
+ viro@zeniv.linux.org.uk, andy.yan@rock-chips.com, linux@treblig.org,
+ javierm@redhat.com, linux-kernel@vger.kernel.org, devarsht@ti.com,
+ j-choudhary@ti.com, u-kumar1@ti.com, s-jain1@ti.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, mripard@kernel.org, lumag@kernel.org,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org
+References: <20250811075904.1613519-1-h-shenoy@ti.com>
+ <20250811075904.1613519-3-h-shenoy@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250811075904.1613519-3-h-shenoy@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250901-qcs8300_mdss-v10-6-87cab7e48479@oss.qualcomm.com>
-References: <20250901-qcs8300_mdss-v10-0-87cab7e48479@oss.qualcomm.com>
-In-Reply-To: <20250901-qcs8300_mdss-v10-0-87cab7e48479@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756720668; l=1242;
- i=yongxing.mou@oss.qualcomm.com; s=20241121; h=from:subject:message-id;
- bh=jmOF3YxLYSDfb8Ohpc4kXPJtA6m1LCaahphFup+ozoQ=;
- b=f9d+cJvkz4X1o3ygAyE4yDQLdFavOoV2A1iTB2IP2/9bGSNAus9L+k4CJMzrFYJlYnWv5JD2C
- 6XtJKflv/acCfCPt93e5e8IU+9EdYW6yJHxMMWdV5lAkSkxssNGg5TB
-X-Developer-Key: i=yongxing.mou@oss.qualcomm.com; a=ed25519;
- pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
-X-Authority-Analysis: v=2.4 cv=Ycq95xRf c=1 sm=1 tr=0 ts=68b56e54 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=E9mFum2VwHQHOKsBOicA:9
- a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-GUID: HUHHkiONXMrqqcPU7h_KdXTVQWbwPBb8
-X-Proofpoint-ORIG-GUID: HUHHkiONXMrqqcPU7h_KdXTVQWbwPBb8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAxMDEwMSBTYWx0ZWRfX/aklUGcCZv0d
- f5hvqsepEiKlPigHfsxUhOLLgpJsifkypx+Ino+W/d3XPzlfCfUd/J9lAi3+IhZpTuK9RHX4IWC
- le/isv6iTUzRgTH17bZJ8kS3/UWneMMDiYLDW3z+GcXpK5H6pwogoxgTBlZ4MK46cEtjKt+5VcJ
- jFh4DHj1ia0Oj1nZgbpWZ2ScAwsdmK+vkcBtbM6dRdUGOBGMyHHepHMone6FXv92Hj8bvPK6DYI
- oz74MA55Xm1Chgw9JXO3LnbAGcasd3cAnBVC9VMkkB+SOrdyOUTrSpj4t9ETlz2Ws+m067ofnZU
- CRfn2ukL7JiNhre/5wWfJAqnlLJ3uXNl0Vg7ELcZ4syKBGMzJReiiYMrhBVeNJjUzkVSEYaia7p
- g+L0wULf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509010101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,31 +108,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Qualcomm QCS8300 platform comes with one DisplayPort controller
-with same base offset as SM8650. But it requires new compatible string
-because QCS8300 controller supports 4 MST streams. 4 MST streams will
-be enabled as part of MST feature support. Currently, using SM8650 data
-structure to enable SST on QCS8300.
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 1 +
- 1 file changed, 1 insertion(+)
+On 11/08/2025 10:59, Harikrishna Shenoy wrote:
+> From: Jayesh Choudhary <j-choudhary@ti.com>
+> 
+> After adding DBANC framework, mhdp->connector is not initialised during
+> bridge_attach(). The connector is however required in few driver calls
+> like cdns_mhdp_hdcp_enable() and cdns_mhdp_modeset_retry_fn().
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d87d47cc7ec3eb757ac192c411000bc50b824c59..bb4660585849d1a67921a28e7e12422e0c327ab2 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -187,6 +187,7 @@ static const struct msm_dp_desc msm_dp_desc_x1e80100[] = {
- };
- 
- static const struct of_device_id msm_dp_dt_match[] = {
-+	{ .compatible = "qcom,qcs8300-dp", .data = &msm_dp_desc_sm8650 },
- 	{ .compatible = "qcom,sa8775p-dp", .data = &msm_dp_desc_sa8775p },
- 	{ .compatible = "qcom,sc7180-dp", .data = &msm_dp_desc_sc7180 },
- 	{ .compatible = "qcom,sc7280-dp", .data = &msm_dp_desc_sc7280 },
+Does this mean that if you apply only the previous commit, mhdp will
+crash/misbehave as mdhp->connector is not initialized?
 
--- 
-2.34.1
+> Use drm_connector pointer instead of structure, set it in bridge_enable()
+> and clear it in bridge_disable(), and make appropriate changes.
+> 
+> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+
+This also has a fixes tag, but I don't see any mention of any bug being
+fixed.
+
+For the subjects of the whole series, I think you can just use
+"drm/bridge: cdns-mhdp: ...". That's much shorter.
+
+ Tomi
+
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 12 ++++++------
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h |  2 +-
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c |  8 ++++----
+>  3 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index 08702ade2903..c2ce3d6e5a88 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -1755,7 +1755,6 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+>  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>  	struct cdns_mhdp_bridge_state *mhdp_state;
+>  	struct drm_crtc_state *crtc_state;
+> -	struct drm_connector *connector;
+>  	struct drm_connector_state *conn_state;
+>  	struct drm_bridge_state *new_state;
+>  	const struct drm_display_mode *mode;
+> @@ -1785,12 +1784,12 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+>  	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+>  			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
+>  
+> -	connector = drm_atomic_get_new_connector_for_encoder(state,
+> -							     bridge->encoder);
+> -	if (WARN_ON(!connector))
+> +	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
+> +								   bridge->encoder);
+> +	if (WARN_ON(!mhdp->connector))
+>  		goto out;
+>  
+> -	conn_state = drm_atomic_get_new_connector_state(state, connector);
+> +	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
+>  	if (WARN_ON(!conn_state))
+>  		goto out;
+>  
+> @@ -1853,6 +1852,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
+>  		cdns_mhdp_hdcp_disable(mhdp);
+>  
+>  	mhdp->bridge_enabled = false;
+> +	mhdp->connector = NULL;
+>  	cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+>  	resp &= ~CDNS_DP_FRAMER_EN;
+>  	resp |= CDNS_DP_NO_VIDEO_MODE;
+> @@ -2134,7 +2134,7 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
+>  
+>  	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
+>  
+> -	conn = &mhdp->connector;
+> +	conn = mhdp->connector;
+>  
+>  	/* Grab the locks before changing connector property */
+>  	mutex_lock(&conn->dev->mode_config.mutex);
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> index bad2fc0c7306..b297db53ba28 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+> @@ -375,7 +375,7 @@ struct cdns_mhdp_device {
+>  	 */
+>  	struct mutex link_mutex;
+>  
+> -	struct drm_connector connector;
+> +	struct drm_connector *connector;
+>  	struct drm_bridge bridge;
+>  
+>  	struct cdns_mhdp_link link;
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+> index 42248f179b69..59f18c3281ef 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+> @@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
+>  	int ret;
+>  
+>  	dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
+> -		mhdp->connector.name, mhdp->connector.base.id);
+> +		mhdp->connector->name, mhdp->connector->base.id);
+>  
+>  	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
+>  
+> @@ -445,7 +445,7 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
+>  
+>  	dev_err(mhdp->dev,
+>  		"[%s:%d] HDCP link failed, retrying authentication\n",
+> -		mhdp->connector.name, mhdp->connector.base.id);
+> +		mhdp->connector->name, mhdp->connector->base.id);
+>  
+>  	ret = _cdns_mhdp_hdcp_disable(mhdp);
+>  	if (ret) {
+> @@ -487,13 +487,13 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
+>  	struct cdns_mhdp_device *mhdp = container_of(hdcp,
+>  						     struct cdns_mhdp_device,
+>  						     hdcp);
+> -	struct drm_device *dev = mhdp->connector.dev;
+> +	struct drm_device *dev = mhdp->connector->dev;
+>  	struct drm_connector_state *state;
+>  
+>  	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+>  	mutex_lock(&mhdp->hdcp.mutex);
+>  	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> -		state = mhdp->connector.state;
+> +		state = mhdp->connector->state;
+>  		state->content_protection = mhdp->hdcp.value;
+>  	}
+>  	mutex_unlock(&mhdp->hdcp.mutex);
 
