@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2D8B3E830
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54033B3E834
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934D210E47E;
-	Mon,  1 Sep 2025 15:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84FF710E484;
+	Mon,  1 Sep 2025 15:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gpt7txwl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pe0lS/ju";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B1DE10E47E
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:05:04 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A62410E484
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:05:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756739103;
+ s=mimecast20190719; t=1756739118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OLi4fM0QNdibiBA1k/MTnIMFu1+uGtd+Ar5TgdqnEIc=;
- b=gpt7txwlUZu2pv/mYda7tudzKe0m4DIhm/Tlwvto3nynMRJ6iuCasx9UMHSEn+gBzOGDRg
- kzceN24khuCE30I6s2F1/sBloEbZFutHCBZFHhU2u0XhF+oBmBWsNfE5LJE34bpS8H97Yt
- BmIhd/q66vlBEMeWl+1dIwvZxMWObKw=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=lga6UMMa0aQahAKpa9DbBvj6lFfUW2++fx2DNoNdxSA=;
+ b=Pe0lS/jug8TQuYJXylSJMSmiXxqoww0efmMJH8GtQHkwhIawORkewh8ZiPL8gasfzUgGXv
+ nSZET3ws7foQaVZx3a98+3BQ2j1txgkuEn5PW9beoHpuYGIXGMCoZNgoJp3YMwluO/ulGf
+ QS1H7MQWG3gutx4Q9hQ4Z084jlVmVuA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-596-SnJjvg_JMVyx55RP_RE7oQ-1; Mon,
- 01 Sep 2025 11:05:02 -0400
-X-MC-Unique: SnJjvg_JMVyx55RP_RE7oQ-1
-X-Mimecast-MFC-AGG-ID: SnJjvg_JMVyx55RP_RE7oQ_1756739097
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-357-kjaS4mfWPCWoOwPIngtDKg-1; Mon,
+ 01 Sep 2025 11:05:17 -0400
+X-MC-Unique: kjaS4mfWPCWoOwPIngtDKg-1
+X-Mimecast-MFC-AGG-ID: kjaS4mfWPCWoOwPIngtDKg_1756739112
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BEDFD19560B1; Mon,  1 Sep 2025 15:04:55 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 9E3B8180028C; Mon,  1 Sep 2025 15:05:11 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 1702E1800297; Mon,  1 Sep 2025 15:04:35 +0000 (UTC)
+ id 418001800447; Mon,  1 Sep 2025 15:04:56 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+Cc: David Hildenbrand <david@redhat.com>,
  "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- SeongJae Park <sj@kernel.org>, Wei Yang <richard.weiyang@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Will Deacon <will@kernel.org>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
@@ -79,10 +71,11 @@ Cc: David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
  Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org
-Subject: [PATCH v2 01/37] mm: stop making SPARSEMEM_VMEMMAP user-selectable
-Date: Mon,  1 Sep 2025 17:03:22 +0200
-Message-ID: <20250901150359.867252-2-david@redhat.com>
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: [PATCH v2 02/37] arm64: Kconfig: drop superfluous "select
+ SPARSEMEM_VMEMMAP"
+Date: Mon,  1 Sep 2025 17:03:23 +0200
+Message-ID: <20250901150359.867252-3-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
@@ -103,69 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In an ideal world, we wouldn't have to deal with SPARSEMEM without
-SPARSEMEM_VMEMMAP, but in particular for 32bit SPARSEMEM_VMEMMAP is
-considered too costly and consequently not supported.
+Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
+is selected.
 
-However, if an architecture does support SPARSEMEM with
-SPARSEMEM_VMEMMAP, let's forbid the user to disable VMEMMAP: just
-like we already do for arm64, s390 and x86.
-
-So if SPARSEMEM_VMEMMAP is supported, don't allow to use SPARSEMEM without
-SPARSEMEM_VMEMMAP.
-
-This implies that the option to not use SPARSEMEM_VMEMMAP will now be
-gone for loongarch, powerpc, riscv and sparc. All architectures only
-enable SPARSEMEM_VMEMMAP with 64bit support, so there should not really
-be a big downside to using the VMEMMAP (quite the contrary).
-
-This is a preparation for not supporting
-
-(1) folio sizes that exceed a single memory section
-(2) CMA allocations of non-contiguous page ranges
-
-in SPARSEMEM without SPARSEMEM_VMEMMAP configs, whereby we
-want to limit possible impact as much as possible (e.g., gigantic hugetlb
-page allocations suddenly fails).
-
-Acked-by: Zi Yan <ziy@nvidia.com>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: SeongJae Park <sj@kernel.org>
-Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Alexandre Ghiti <alex@ghiti.fr>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Andreas Larsson <andreas@gaisler.com>
+Cc: Will Deacon <will@kernel.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ arch/arm64/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 4108bcd967848..330d0e698ef96 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -439,9 +439,8 @@ config SPARSEMEM_VMEMMAP_ENABLE
- 	bool
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index e9bbfacc35a64..b1d1f2ff2493b 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1570,7 +1570,6 @@ source "kernel/Kconfig.hz"
+ config ARCH_SPARSEMEM_ENABLE
+ 	def_bool y
+ 	select SPARSEMEM_VMEMMAP_ENABLE
+-	select SPARSEMEM_VMEMMAP
  
- config SPARSEMEM_VMEMMAP
--	bool "Sparse Memory virtual memmap"
-+	def_bool y
- 	depends on SPARSEMEM && SPARSEMEM_VMEMMAP_ENABLE
--	default y
- 	help
- 	  SPARSEMEM_VMEMMAP uses a virtually mapped memmap to optimise
- 	  pfn_to_page and page_to_pfn operations.  This is the most
+ config HW_PERF_EVENTS
+ 	def_bool y
 -- 
 2.50.1
 
