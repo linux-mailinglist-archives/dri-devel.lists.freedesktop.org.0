@@ -2,92 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663AAB3EB06
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5F9B3EB12
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B5F10E4D9;
-	Mon,  1 Sep 2025 15:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5969A10E4DA;
+	Mon,  1 Sep 2025 15:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="SMpTfH/L";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="i7o+GvoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
- [209.85.219.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26D2010E4D9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:40:36 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-e98a18faa25so2022293276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:40:36 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D6110E4DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:41:14 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-e96eb999262so3293160276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1756741235;
- x=1757346035; darn=lists.freedesktop.org; 
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1756741274;
+ x=1757346074; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=em/9vDUrj0pedA4nKRso3xCwe3GgZ+2y9mHvn6I2icE=;
- b=SMpTfH/LoN8UxK9dPFhuxMdLTLaT1QIWQCBix9dSaqTXEETnVuGGjdH6Unbh/W7gdr
- 2EdpHTLzscM2exwE9VP6vrPOJf3he1yN/YCuvI+Q2dVtZJaIMbDA3R8A6SsrywhXyJY6
- ioFprHoNM59kIvYyvYnFxUwolFEj6WjjPB1dwI8J01iOHv/zMiwqNvIdPJtRW0diJIuw
- osxMaLol7FL0FSsoA4swtF4eBgohHTsSeBQRAeIvXPu8VYkxNWCYCY5nhdJtyFMzKM9A
- US8LvmyP3E1LYQ1qw3N+4Lucuf04w7l04Iu+lxkJIpD4VPTEyXAUKnEIak1U7ZBnw2Br
- h1IA==
+ bh=iHKEov60ZzmVR4/OSBANPJk+KzVHprHoCBj7JSL3kNI=;
+ b=i7o+GvoYZ20YpaP+9xd+oLurt0EoPKk+7VBHpAlhveBw3fcWrWO70PZJu02yksrUz6
+ gw2hm+L4fjexts1j3NHWTX+bN5m50EOoRIkuhqd5mEfVJI10ty3TAsdrn094xgrTGizO
+ 9YouWVUSLIRgP7JyA8dbommQr2651RsSviRKOGL61mFvrQEyyN3CPXGMdNUVLPZPvAFE
+ K3P/J9QOgXHIxoZ8hXvdJDID5sCvEvoZoVBYR/DjsIBgL6vq3aC55bX9/9aY/p3LPayP
+ YeZGyW9A1SYilaRcgsNv9YfxbQ3M8Bd+7i1bvQMc2ZSpB+W6j2w5V4coid5by8s9AsX1
+ DiBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756741235; x=1757346035;
+ d=1e100.net; s=20230601; t=1756741274; x=1757346074;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=em/9vDUrj0pedA4nKRso3xCwe3GgZ+2y9mHvn6I2icE=;
- b=GYpYWh4oPUE5DKVrwZi4lFnOn6U4xiDZDvM8PQlECU9HBpEJNR6BmKw+O3U8S0Lpbg
- ysVnk4Kv444m/UlT8odXlsiHBINkMWGhI7PiBqQz0X8NHvhqcp9TG8Y429oYtG+/T/mG
- ggMv28GrTSywkTXOvr5WpeZmc4ZEtiY25AlkAtf9oNus4rrnD8XISjICV9dM+N4cI8ln
- 7Cu0cxQCu4/l1wiFKU2fM16GQscBk7+QrrrKkSpnx8FJTMoR72IuxE6/mJYsVWvZUlvC
- zPMy3++YbDEydxH/SZRpa5n+bhygqoa/O7NUYdvuE/mSxRCW4sOe4UHPrlbry1MBHZ9w
- sSiQ==
+ bh=iHKEov60ZzmVR4/OSBANPJk+KzVHprHoCBj7JSL3kNI=;
+ b=HXEzwrfLsxK/9saXlprGU42tQMqH84O559KK4Hlw7WQ4ZQtHR9CjPk+e+86/l1Ojik
+ 1PgQa9HxfZotqKRVmifkx3dZ+2RURTD4CBlIAzcDKWfVFDK2nzuOgf5QhbibClH4mLyw
+ Yzq0FVH6mqqHv9PKPm1c9qkDewj3kJJab4qkNzYMGUDKuLSDiMFzV+4kR8svNCYFZ856
+ s8AiagmbpHh/SbdD7QCNlCOlAk+Nrs8vC7Lp1kor898EjoooHANTzWZxFPI2f0kGagRS
+ LeXyZDf4vuQmeVgQh/vYG9Gbe8pdGAdVlV9xOfd2YwFx4lYMMaqoPPGzFokVeDayvhzU
+ 6mJw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+6OwVyaK2d8lOjgZXK5QPT/eoAufMZDCA7i3+Q0HdpCfNrLNQNsJmVj6Cbe9EKOL+m2+BIX4k5vw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrYUG8iwpIxgV/bJ5/5qC1fnHcwlFd8honM4Cd4Gaqi3mxfSy8
- wfu7qqkWIerp8J0KJZNPCe3U0/sjK8O6lytd/KGcjcZ0/yLHgSlyAzsgpVxU4CGStdv1rUULtPF
- tJG9qh28=
-X-Gm-Gg: ASbGncvCVoMILni4wrD7l3eGhZVoQ2ZR9mBIxg4MjFyjkRGS85GHnsWnBKfJcbm2IG0
- XZYb8okA5Yorc44z52Sa7BwVIcmfxW7PrAQaBIqDN6eYoki7u4R1FHFf4GOjDDB0q6qdrenGJue
- 0BmEP4/KdMGRo5/AbDftrbvVTzckrlLi9ecoRED1B2xGx1XOnhCpagycjwMU//rqKuLJD1hBfHO
- b3wrb1dFqz6Xb2FKjLmyOdbs+ZYM88zauipRRpAQ2oStx8hd0iuSs/CeX8oIBT7fmpQZvqsidgD
- Ma+3k4mdiDpokjaeJn3fntWuVf+4mdwlHjt8aCc50z7dFMeBqcYwbM9zYbLd6ecHbxjULVKEOP3
- HUjBxxTnvjhwsA/6YNwGBdDhwDCrsDcGyGiPWaamBBvkrF4KkIj449OkKPA3OsuYUaTL/Li3q/Q
- Qn
-X-Google-Smtp-Source: AGHT+IH9CnzDYv4qKJdv0O82uvPHLeh+PC46CkGQ2pn17lnZbyaLJqeBlA0IEdmxrxpM/EYOFjKFYQ==
-X-Received: by 2002:a05:6902:70d:b0:e96:c7b3:b726 with SMTP id
- 3f1490d57ef6-e98a5820859mr7415124276.30.1756741235126; 
- Mon, 01 Sep 2025 08:40:35 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
- [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
- 3f1490d57ef6-e98ac5a8a51sm2102068276.33.2025.09.01.08.40.34
+ AJvYcCXr2cx2nKwI0WKH/6nrswQN0hDPpT/2j7lwi7BTd5un143B/V3afsrZFpPYWbYqlPCQ3ilnOw058Q0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWOWqyHvnNKWky7J54+dRbz4284/QI3CI3/BXb/tS/7VXEElIa
+ 4b+GOjrdqKNN/L7sM55Z/VTDIcKlHs0d6GZxY8nDQfooaQtUFin6FpARVIvZu5zn7QTXE0L6ZaT
+ /HUtPDTc=
+X-Gm-Gg: ASbGncuvSqIT/lximB6TFJDM/RhkC0maRDIhishk3FDyNMIs6OhNej9dJ2no0/r159R
+ EuCZda7vc0zwxwxfM6HF9QvarYo/snWHFxhs5CyCtD5f4+/KvXdYMXP+Fq/5Sf9t/tESpS8Y2RX
+ yCGiT7npmg/w+qGfYT6wUih8zSHCe7d5xBgq1nRnXd0Yu4cGMfffgxeABv5MvfhrgjITYERPlIO
+ /wddH9oKitgR+IKnpXclLmg3zrjUg9nrPxjHiJZ7AhQQi/D00KMzYqtUiih8ZKkCL+2prHIEKSf
+ 6MVov4QL6RVdRmHtDSkxHZYTMjkTchSJG7waDowpclsBkPVtKrJRh3UqRNpAwTsh8n9rFngGV2X
+ OagE930zxTkbvy6SMZgHOuk01if2wKcyP37PiAa30+K1KCpFZMr0U+R+qxJg+Z8VgNL7FddHaUb
+ fC
+X-Google-Smtp-Source: AGHT+IFIm4QxnA6JGlrxm25eTpJa8GAkHdpfwIVakvSmbjqmZKUzX17RUiScfgbFQmBYI+BfFl0y3g==
+X-Received: by 2002:a05:690c:688a:b0:722:6a42:5caa with SMTP id
+ 00721157ae682-722764effc1mr107399637b3.27.1756741273407; 
+ Mon, 01 Sep 2025 08:41:13 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-7227d5d4141sm15811937b3.5.2025.09.01.08.41.12
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 08:40:34 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-71d60504788so36372997b3.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:40:34 -0700 (PDT)
+ Mon, 01 Sep 2025 08:41:13 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-72267c05111so22937877b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 08:41:12 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVgWbIAmvGdlQ1OsHHwwa1exQNw6mhF3LLux1orBKBV4YJnXFE13QcNDfckRzQO/gNdyQBtjqDeRF0=@lists.freedesktop.org
-X-Received: by 2002:a05:690c:4c11:b0:721:5b31:54bb with SMTP id
- 00721157ae682-72276408c56mr100755167b3.23.1756741234330; Mon, 01 Sep 2025
- 08:40:34 -0700 (PDT)
+ AJvYcCXYcDfK7fuq79Zsk6Th9ndkzVnuKHvMH1UicmBEhlyEAPf/L5LvM9j1zK6AWuOdAWgFUskgPyX5kPQ=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:dcd:b0:71f:f866:bba4 with SMTP id
+ 00721157ae682-72276399149mr77541167b3.17.1756741272503; Mon, 01 Sep 2025
+ 08:41:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250826063248.32153-1-lukas.bulwahn@redhat.com>
-In-Reply-To: <20250826063248.32153-1-lukas.bulwahn@redhat.com>
+References: <aKcRW6fsRP_o5C_y@stanley.mountain>
+In-Reply-To: <aKcRW6fsRP_o5C_y@stanley.mountain>
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Mon, 1 Sep 2025 17:40:23 +0200
-X-Gmail-Original-Message-ID: <CAAObsKDxqhZ5McrDXD0koa_vZc8NnPHTMbKdNrsPNb9qrKfSCQ@mail.gmail.com>
-X-Gm-Features: Ac12FXzuk1Gcnj96u5r1uDpZiwfQREbRtmbKct0ZTYs0gxuteSNfDWyua5Sgwls
-Message-ID: <CAAObsKDxqhZ5McrDXD0koa_vZc8NnPHTMbKdNrsPNb9qrKfSCQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: adjust file entry in DRM ACCEL DRIVER FOR
- ROCKCHIP NPU
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org, 
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Date: Mon, 1 Sep 2025 17:41:01 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBCPMzXV=2F4M2PrsES1M+0OHA2ZJtmYTuQMPPd1u34Vw@mail.gmail.com>
+X-Gm-Features: Ac12FXx7SKvTTtIn3H-UONdlJo2MpxhJozLfBtiot7SO0qywsKGbTt0HEy5Ygf4
+Message-ID: <CAAObsKBCPMzXV=2F4M2PrsES1M+0OHA2ZJtmYTuQMPPd1u34Vw@mail.gmail.com>
+Subject: Re: [PATCH next] accel/rocket: Fix some error checking in
+ rocket_core_init()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,50 +105,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks, Lukas, I have applied it to drm-misc-next.
+On Thu, Aug 21, 2025 at 2:30=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> The problem is that pm_runtime_get_sync() can return 1 on success so
+> checking for zero doesn't work.  Use the pm_runtime_resume_and_get()
+> function instead.  The pm_runtime_resume_and_get() function does
+> additional cleanup as well so that's a bonus as well.
+>
+> Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/accel/rocket/rocket_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Thanks, Dan, I have applied it to drm-misc-next.
 
 Regards,
 
 Tomeu
 
-On Tue, Aug 26, 2025 at 8:32=E2=80=AFAM Lukas Bulwahn <lbulwahn@redhat.com>=
- wrote:
+> diff --git a/drivers/accel/rocket/rocket_core.c b/drivers/accel/rocket/ro=
+cket_core.c
+> index 72fb5e5798fa..abe7719c1db4 100644
+> --- a/drivers/accel/rocket/rocket_core.c
+> +++ b/drivers/accel/rocket/rocket_core.c
+> @@ -74,7 +74,7 @@ int rocket_core_init(struct rocket_core *core)
 >
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>         pm_runtime_enable(dev);
 >
-> Commit a7352c849492 ("dt-bindings: npu: rockchip,rknn: Add bindings") add=
-s
-> the device-tree binding rockchip,rk3588-rknn-core.yaml, whereas the commi=
-t
-> ed98261b4168 ("accel/rocket: Add a new driver for Rockchip's NPU") adds t=
-he
-> section DRM ACCEL DRIVER FOR ROCKCHIP NPU in MAINTAINERS with a file entr=
-y
-> referring to rockchip,rknn-core.yaml. Note that the file entry is missing
-> the part rk3588, compared to the added file above, which it intends to
-> refer to.
->
-> Adjust the file entry to the intended file name.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d4bddc462c07..a569828c9f3d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7542,7 +7542,7 @@ L:        dri-devel@lists.freedesktop.org
->  S:     Supported
->  T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:     Documentation/accel/rocket/
-> -F:     Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> +F:     Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.y=
-aml
->  F:     drivers/accel/rocket/
->  F:     include/uapi/drm/rocket_accel.h
->
+> -       err =3D pm_runtime_get_sync(dev);
+> +       err =3D pm_runtime_resume_and_get(dev);
+>         if (err) {
+>                 rocket_job_fini(core);
+>                 return err;
 > --
-> 2.50.1
+> 2.47.2
 >
