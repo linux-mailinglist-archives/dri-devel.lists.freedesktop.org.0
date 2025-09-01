@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3800FB3DD33
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB29B3DD35
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681C010E098;
-	Mon,  1 Sep 2025 08:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED45510E3CC;
+	Mon,  1 Sep 2025 08:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C5A10E3CC;
- Mon,  1 Sep 2025 08:58:38 +0000 (UTC)
-X-UUID: d644f14a871111f0b29709d653e92f7d-20250901
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DA410E3CF;
+ Mon,  1 Sep 2025 08:58:44 +0000 (UTC)
+X-UUID: d88a416c871111f0b29709d653e92f7d-20250901
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:bd3b8266-8573-448a-b72f-1ec5d0220522, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:f0312209-cc58-49da-b2fe-bd1490843f15, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:c9315f1ffc089d33de71e119d1e21f59,
+X-CID-META: VersionHash:6493067, CLOUDID:cb619b8137095f381006df9a56b13c38,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
@@ -26,17 +26,17 @@ X-CID-META: VersionHash:6493067, CLOUDID:c9315f1ffc089d33de71e119d1e21f59,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: d644f14a871111f0b29709d653e92f7d-20250901
+X-UUID: d88a416c871111f0b29709d653e92f7d-20250901
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 640016447; Mon, 01 Sep 2025 16:58:32 +0800
+ with ESMTP id 155411594; Mon, 01 Sep 2025 16:58:36 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 28B95E008FA7;
- Mon,  1 Sep 2025 16:58:32 +0800 (CST)
-X-ns-mid: postfix-68B56037-986048743
+ by mail.kylinos.cn (NSMail) with SMTP id EEA53E008FAB;
+ Mon,  1 Sep 2025 16:58:35 +0800 (CST)
+X-ns-mid: postfix-68B5603B-776156745
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 6E0E2E008FAA;
- Mon,  1 Sep 2025 16:58:28 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id 344EFE008FA8;
+ Mon,  1 Sep 2025 16:58:32 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -72,9 +72,10 @@ Cc: Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v3 07/12] drm/i915: Use scope-based cleanup helper
-Date: Mon,  1 Sep 2025 16:57:43 +0800
-Message-Id: <20250901085748.36795-8-zhangzihuan@kylinos.cn>
+Subject: [PATCH v3 08/12] cpufreq: powerpc: macintosh: Use scope-based cleanup
+ helper
+Date: Mon,  1 Sep 2025 16:57:44 +0800
+Message-Id: <20250901085748.36795-9-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250901085748.36795-1-zhangzihuan@kylinos.cn>
 References: <20250901085748.36795-1-zhangzihuan@kylinos.cn>
@@ -103,31 +104,39 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/gpu/drm/i915/gt/intel_llc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/macintosh/windfarm_cpufreq_clamp.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_llc.c b/drivers/gpu/drm/i915/g=
-t/intel_llc.c
-index 1d19c073ba2e..f15e4c0fa54b 100644
---- a/drivers/gpu/drm/i915/gt/intel_llc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_llc.c
-@@ -29,13 +29,11 @@ static struct intel_gt *llc_to_gt(struct intel_llc *l=
-lc)
+diff --git a/drivers/macintosh/windfarm_cpufreq_clamp.c b/drivers/macinto=
+sh/windfarm_cpufreq_clamp.c
+index 28d18ef22bbb..08558756990b 100644
+--- a/drivers/macintosh/windfarm_cpufreq_clamp.c
++++ b/drivers/macintosh/windfarm_cpufreq_clamp.c
+@@ -62,12 +62,11 @@ static const struct wf_control_ops clamp_ops =3D {
 =20
- static unsigned int cpu_max_MHz(void)
+ static int __init wf_cpufreq_clamp_init(void)
  {
 -	struct cpufreq_policy *policy;
 +	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
 u_get(0);
- 	unsigned int max_khz;
+ 	struct wf_control *clamp;
+ 	struct device *dev;
+ 	int ret;
 =20
 -	policy =3D cpufreq_cpu_get(0);
- 	if (policy) {
- 		max_khz =3D policy->cpuinfo.max_freq;
--		cpufreq_cpu_put(policy);
- 	} else {
- 		/*
- 		 * Default to measured freq if none found, PCU will ensure we
+ 	if (!policy) {
+ 		pr_warn("%s: cpufreq policy not found cpu0\n", __func__);
+ 		return -EPROBE_DEFER;
+@@ -79,8 +78,6 @@ static int __init wf_cpufreq_clamp_init(void)
+ 	ret =3D freq_qos_add_request(&policy->constraints, &qos_req, FREQ_QOS_M=
+AX,
+ 				   max_freq);
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	if (ret < 0) {
+ 		pr_err("%s: Failed to add freq constraint (%d)\n", __func__,
+ 		       ret);
 --=20
 2.25.1
 
