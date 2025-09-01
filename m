@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605AEB3DFAE
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFEAB3DFBE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 12:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FC210E407;
-	Mon,  1 Sep 2025 10:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D60EA10E409;
+	Mon,  1 Sep 2025 10:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iLjhUv5j";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FZ876Z4a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B4AE10E407
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:07:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE8E10E409
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 10:08:38 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0962520;
- Mon,  1 Sep 2025 12:05:57 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 456ED520;
+ Mon,  1 Sep 2025 12:07:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756721159;
- bh=QsFy0cUAann4QjAlNLvWc8+3nmSw7v30y/oqatGbVvI=;
+ s=mail; t=1756721250;
+ bh=5wsS1CHZJ8OHXPaiPOyAmOnek5kpfFZAZqQYIPhD/pY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iLjhUv5jqg8vr85511b6NXj2Dh0o2JzqY55TqUsiAV2hlLjjEm0W15kYKKwW1OK4l
- LTvPw5GAjCiyqeQReUyWBgl8yJQe2Ii7bNFKdFR+/TehwWfHto2DS+Brf1+Bk4gbnC
- xgnR8J/KHnVDIJSp3LfV96osKIErMxpVcj0Xo3B8=
-Message-ID: <f3b80a7a-f18b-4f49-93e8-5728b8531f38@ideasonboard.com>
-Date: Mon, 1 Sep 2025 13:07:01 +0300
+ b=FZ876Z4an8wopVLNXrdbdhA2uRlErOFwxpxyQWBIC+Zdm1st1uhzmJm467q5BY+da
+ 5r57Cdl3SQIR67UklgztQZBOrsVM9Tg5Vpcn8hhm1xBFAlyxEYmuJTNClOGZNmmvSN
+ EydUI5HnDl89Pdj/ZjvLtyCEQ0auZj/k+nA4Xskw=
+Message-ID: <2dd50da1-eb33-4d91-9bfc-224160f1e947@ideasonboard.com>
+Date: Mon, 1 Sep 2025 13:08:33 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] drm/bridge: cadence: cdns-mhdp8546-core: Add
- mode_valid hook to drm_bridge_funcs
+Subject: Re: [PATCH v5 5/6] drm/bridge: cadence: cdns-mhdp8546-core: Reduce
+ log level for DPCD read/write
 To: Harikrishna Shenoy <h-shenoy@ti.com>
 Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
@@ -44,7 +44,7 @@ Cc: jonas@kwiboo.se, jernej.skrabec@gmail.com,
  Laurent.pinchart@ideasonboard.com, mripard@kernel.org, lumag@kernel.org,
  dianders@chromium.org, dri-devel@lists.freedesktop.org
 References: <20250811075904.1613519-1-h-shenoy@ti.com>
- <20250811075904.1613519-5-h-shenoy@ti.com>
+ <20250811075904.1613519-6-h-shenoy@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -90,7 +90,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250811075904.1613519-5-h-shenoy@ti.com>
+In-Reply-To: <20250811075904.1613519-6-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,55 +113,42 @@ Hi,
 On 11/08/2025 10:59, Harikrishna Shenoy wrote:
 > From: Jayesh Choudhary <j-choudhary@ti.com>
 > 
-> Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
-> this bridge or not. In the legacy !(DBANC) usecase, we were using the hook
-> from drm_connector_helper_funcs but with removal of legacy code, we need
-> to have mode_valid() in drm_bridge_funcs.
+> Reduce the log level for cdns_mhdp_dpcd_read and cdns_mhdp_dpcd_write
+> errors in cdns_mhdp_transfer function as in case of failure, there is
+> flooding of these prints along with other indicators like EDID failure
+> logs which are fairly intuitive in themselves rendering these error logs
+> useless.
+> Also, the caller functions for the cdns_mhdp_transfer in drm_dp_helper.c
+> (which calls it 32 times), has debug log level in case transfer fails.
+> So having a superseding log level in cdns_mhdp_transfer seems bad.
 > 
-> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
 > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > ---
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index b2f5a48cac2d..47c657237c37 100644
+> index 47c657237c37..4fb1db3e030c 100644
 > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1999,6 +1999,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
->  	return cdns_mhdp_edid_read(mhdp, connector);
->  }
+> @@ -778,7 +778,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
+>  			if (!ret)
+>  				continue;
 >  
-> +static enum drm_mode_status
-> +cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
-> +			    const struct drm_display_info *info,
-> +			    const struct drm_display_mode *mode)
-> +{
-> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-> +
-> +	mutex_lock(&mhdp->link_mutex);
-> +
-> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-> +				    mhdp->link.rate)) {
-> +		mutex_unlock(&mhdp->link_mutex);
-> +		return MODE_CLOCK_HIGH;
-> +	}
-> +
-> +	mutex_unlock(&mhdp->link_mutex);
-> +	return MODE_OK;
-> +}
-> +
->  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->  	.atomic_enable = cdns_mhdp_atomic_enable,
->  	.atomic_disable = cdns_mhdp_atomic_disable,
-> @@ -2013,6 +2032,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->  	.edid_read = cdns_mhdp_bridge_edid_read,
->  	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
->  	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
-> +	.mode_valid = cdns_mhdp_bridge_mode_valid,
->  };
+> -			dev_err(mhdp->dev,
+> +			dev_dbg(mhdp->dev,
+>  				"Failed to write DPCD addr %u\n",
+>  				msg->address + i);
 >  
->  static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+> @@ -788,7 +788,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
+>  		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
+>  					  msg->buffer, msg->size);
+>  		if (ret) {
+> -			dev_err(mhdp->dev,
+> +			dev_dbg(mhdp->dev,
+>  				"Failed to read DPCD addr %u\n",
+>  				msg->address);
+>  
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
