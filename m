@@ -2,154 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D848B3E2A7
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B11B3E2AF
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:25:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C928610E433;
-	Mon,  1 Sep 2025 12:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B705110E435;
+	Mon,  1 Sep 2025 12:25:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f+s5Pljh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ubey+isC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D715510E433
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756729519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ry3HTsvjDYn6ZhWkEuXZ7HIdFuNl7/b7zLeVSRNzby4=;
- b=f+s5PljhWQ2mvi86o2wC+whlY9Z9dih0SpRtWq/tg4YwLw/FHCXG6klictWrp/yYMsOaKA
- TsgCSbTW/Z58oaRD0P8A3BaH04CMN8g1eyiB2qBNspyKMwzb3Fp0ggK2qQBdgpbPQEazdV
- MTnZP2rstkZ89npOSTN2BUsVe9vzKCA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-487-kIRvTld-M5WnlF_3d00RCg-1; Mon, 01 Sep 2025 08:25:18 -0400
-X-MC-Unique: kIRvTld-M5WnlF_3d00RCg-1
-X-Mimecast-MFC-AGG-ID: kIRvTld-M5WnlF_3d00RCg_1756729517
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-45b8f4c2f7fso4663615e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:25:18 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6218A10E435
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:25:54 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-45b7d497abaso27440945e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756729553; x=1757334353; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qbycQLF9MWkGkzA+fGZj0+ulP2LwfvU4kMytcoetwe8=;
+ b=Ubey+isCvY4RZhcTJeshrDThlGS0w0zJE3YfLgU3R21jqpRjEVwIbHiNJmDHkAlNH8
+ KV26gDZ+hpSiR/2Z7vwdWqQduaDdja3F3F1ZVa3+XjO0bEJ8SCVJSLXu4M5rjw+d8K6S
+ WO8IhM9mUtOLhqiL58P897Y+G5Ej87qsQTW+oZUyIpLc1tCOyoIZjCYyZghrAWdWOI99
+ /8THNzLSDltoVaAeLui4fOMNx1JOvbbQQzy7kwiDYszfg8ORCM0/6ol4U1oe1ahenOXX
+ cet8ypBxNZnAaXwXTLhm4p94ameTaUFFdyWxyCcvcLz36MJ71Yu4ddop3RNf6WYBrdJI
+ DBCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756729517; x=1757334317;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1756729553; x=1757334353;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Ry3HTsvjDYn6ZhWkEuXZ7HIdFuNl7/b7zLeVSRNzby4=;
- b=YJ8uqCS1sG4qTtl+rXJ05SJFLnf2WvuGTUHepSvlhBVq4AOrW6x5gLAUTx4XkhoCnc
- a+nNY9+i9H9bUTjtywn7KiTWGimEXQvV32ZRJyDKZDYjRqpY1S/hrN8LZVRR3ON6f8mF
- QLnW8L6mscIZPC5+A97g+m7yNtno4oaPX9S0fhPHBzRC4zgttEGecfRpiBcGtrXJgI8X
- f21YZF6Qq8lcMsDt+2HaD8nMm+b+1/2/X+N5fQ/vMLxcR1g5L2WnoJD5IaH9WiBexZyn
- tTWVM3Vu2Rfat1rOtWCGTRK9D3kklux4iNB8IwC44soJLPs2ZXPMkP55AUkVZbZjN0G6
- GswQ==
+ bh=qbycQLF9MWkGkzA+fGZj0+ulP2LwfvU4kMytcoetwe8=;
+ b=OxducCtJNIIJohlXMtLGKG/en6vpnF8aiUSu0WM09utoUogIlusHI3/f6aE+xjQkur
+ nJlO0VpZtgImOQjAt9U0G/jdPMFZCcvaMNKRKu3Mct0e12HjnG7pe5+E+AF3IIKTndhs
+ tT5NdGJmRDF9y2+BsYQomHoAYwFKDjX5//DeE21O1Mg1eeoe8b3hSul9PDq4TK19lSKo
+ /iFRBMe79yyL2nhEQiAN6o6JOkv5QqPXQoETl+9Dq6H5uWMuDFcwkIOsAEPxmu89jGLL
+ 0u7afkwR5200BkkYH/rI3fmRNSkUUPeav1gCI5SrJH+3ZZ5t/dNdCl0X/XD6NbEwcHUa
+ y2Kw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWNNum1w9yvyge9UO+7EvV7SK8jFlidmHtJcsnFPcDXjoH550o4lidPrLtBP3yYZcbeAbVCu/DfZQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywp2y+p/rJU/um27gZX0ucAQm2X5L4hC5nZ1eNi4f5QDOB0P4IV
- QLWWULtqYxUZEzYsdzz1aU9fMhG59VXz0UQDWEK+f6GeXw4VPJXflWws760HoGssSHlG35Z0NU6
- nFVIa9Vc0x/Qj2aq2Zm+E+4wcJfgCjuce5L63555r99vhj2lUYBfhcvkjuXdS8h3HvXA8QQ==
-X-Gm-Gg: ASbGnct6Yb+f9g2TBbGyiogHaIb2aAjI4NGDWR3QUbkHXbl7Ln2iZ4INF3K3703Hql7
- AtueNoT6fHgYSeFZtGYHKLP8oYRVyR0dPVNhf683qxCYAHP6DyllIQlwtfjFEJm5oKFvzOlKPm0
- DaKS05UmqE5mGC/cN7ioWfXMz46PgyjlzrLjm1mm1/cgvms5MXDqn7UekhNyUVvT2YX51RJBEQO
- X3d1PtHZaFb7GCj0O2/b0rcITX22IGK007V4MubD0YwB0jh9lid2vvwUxVzgWSmdL5BdK5oYQMX
- evi3s/Rh5GPUKE9WZCBEBp/EVnyrQsE/BtldW5UbQTTPrkLef/WiIqq36z6gH7nspuIBG9GzK5H
- DGK+xlXesyUAClSvYx5MQlqrdIT6+ZaZrHS+RZRtyshBSRN7996VT36WNfgQiS4oeccM=
-X-Received: by 2002:a05:600c:1e89:b0:45b:88ed:9558 with SMTP id
- 5b1f17b1804b1-45b88ed9bc3mr51982175e9.30.1756729517127; 
- Mon, 01 Sep 2025 05:25:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEMGDtOgsZk0c5UDFaUJZJgP3BXCuLTMzz4/00ieMVST2ui2ccALyIM8NlgAkQyyG7Klnzysg==
-X-Received: by 2002:a05:600c:1e89:b0:45b:88ed:9558 with SMTP id
- 5b1f17b1804b1-45b88ed9bc3mr51981875e9.30.1756729516581; 
- Mon, 01 Sep 2025 05:25:16 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f37:2b00:948c:dd9f:29c8:73f4?
- (p200300d82f372b00948cdd9f29c873f4.dip0.t-ipconnect.de.
- [2003:d8:2f37:2b00:948c:dd9f:29c8:73f4])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b6f0c6dc1sm237238175e9.1.2025.09.01.05.25.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 05:25:15 -0700 (PDT)
-Message-ID: <dc21e54c-d7ae-4d7e-9acb-6a3fa573b20f@redhat.com>
-Date: Mon, 1 Sep 2025 14:25:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/3] cgroups: Add support for pinned device memory
-To: Maarten Lankhorst <dev@lankhorst.se>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?=27Thomas_Hellstr=C3=B6m=27?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
- Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?=27Michal_Koutn=C3=BD=27?=
- <mkoutny@suse.com>, Michal Hocko <mhocko@kernel.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "'Liam R . Howlett'" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Michal Hocko <mhocko@suse.com>, intel-xe@lists.freedesktop.org,
+ AJvYcCUHui3qTSEn4p7q8TtGpw3X78lFEDsVRISUA+R2GMFFdDq5YEU2L7doGzug/9mgr/KTnUBIDImCOwA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZylpu7PqqMUZSvu45t/DD65j+40XBaU/g+kxNUZ8BOJLwKJP5
+ LZlczt634Wd8Y3YG6qmf+so7OoWtkCuFh+t7KbUXst/eim4+4YXhMAC/
+X-Gm-Gg: ASbGncsMLDyPKhS+HGMFnhzhxprEZWdxwe9Y2iU8O7xHxc7o7RT5sfpAnlWnjUiv6W6
+ hKjUloI0RNq7+y1keZCNO/ZafDozkvRoaHgXAO+mSwg8CRsfNESs5yn5s4HPueJ4uQ46dPlhktI
+ 8php4+hTpzzZd7P6/epzeA7CKrniqtRTGK99Z2K1WoDx49hJON5W9U0mFXWuIfmJGdwAD0nQ3r6
+ j2EEpvnRVkTPZ0bi/PyhfnctBnlm0NXCIVXYlUdMVJuF5OEoNRO716FYJlOBqrFMmUncEHepMRf
+ pWceUWGGZAf9vSjYCd4iSjijcQ4HDqzpe8aiL5SvKsQm9W+nQk2wH1tYQQp5p2QOwEIghwHdsfe
+ FTFVYGv8EIBHj2cqc0P76DbnU4XYN
+X-Google-Smtp-Source: AGHT+IHRynpVpTWD6ySXHOkdCNUyg4PSynT/rcEtXw/LLZpnm9LeRHn2wE/hMLoxu9UKMd4J2YF/7A==
+X-Received: by 2002:a05:600c:a44:b0:45b:7f72:340 with SMTP id
+ 5b1f17b1804b1-45b8557c68cmr69560785e9.25.1756729552446; 
+ Mon, 01 Sep 2025 05:25:52 -0700 (PDT)
+Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b74950639sm207297055e9.17.2025.09.01.05.25.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Sep 2025 05:25:51 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, sebastian.wick@redhat.com, xaver.hugl@kde.org,
+ victoria@system76.com, a.hindborg@kernel.org, leitao@debian.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, linux-mm@kvack.org
-References: <20250819114932.597600-5-dev@lankhorst.se>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20250819114932.597600-5-dev@lankhorst.se>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RW2QMi4kPJmFSx73DrGFPGgYz5TK6qapYiTvmjScySo_1756729517
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v6 00/16] drm/vkms: Add configfs support
+Date: Mon,  1 Sep 2025 14:25:25 +0200
+Message-ID: <20250901122541.9983-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,46 +90,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19.08.25 13:49, Maarten Lankhorst wrote:
-> When exporting dma-bufs to other devices, even when it is allowed to use
-> move_notify in some drivers, performance will degrade severely when
-> eviction happens.
-> 
-> A perticular example where this can happen is in a multi-card setup,
-> where PCI-E peer-to-peer is used to prevent using access to system memory.
-> 
-> If the buffer is evicted to system memory, not only the evicting GPU wher
-> the buffer resided is affected, but it will also stall the GPU that is
-> waiting on the buffer.
-> 
-> It also makes sense for long running jobs not to be preempted by having
-> its buffers evicted, so it will make sense to have the ability to pin
-> from system memory too.
-> 
-> This is dependant on patches by Dave Airlie, so it's not part of this
-> series yet. But I'm planning on extending pinning to the memory cgroup
-> controller in the future to handle this case.
-> 
-> Implementation details:
-> 
-> For each cgroup up until the root cgroup, the 'min' limit is checked
-> against currently effectively pinned value. If the value will go above
-> 'min', the pinning attempt is rejected.
-> 
-> Pinned memory is handled slightly different and affects calculating
-> effective min/low values. Pinned memory is subtracted from both,
-> and needs to be added afterwards when calculating.
+Hi everyone,
 
-The term "pinning" is overloaded, and frequently we refer to 
-pin_user_pages() and friends.
+This series allow to configure one or more VKMS instances without having
+to reload the driver using configfs.
 
-So I'm wondering if there is an alternative term to describe what you 
-want to achieve.
+The process of configuring a VKMS device is documented in "vkms.rst".
 
-Is it something like "unevictable" ?
+In addition, I created a CLI tool to easily control VKMS instances from the
+command line: vkmsctl [1].
 
+The series is structured in 3 blocks:
+
+  - Patches 1..11: Basic device configuration. For simplicity, I kept the
+    available options as minimal as possible.
+
+  - Patches 12 and 13: New option to skip the default device creation and to-do
+    cleanup.
+
+  - Patches 14, 15 and 16: Allow to hot-plug and unplug connectors. This is not
+    part of the minimal set of options, but I included in this series so it can
+    be used as a template/example of how new configurations can be added.
+
+Finally, the code is thoroughly tested by a collection of IGT tests [2]. The IGT
+series is almost fully reviewed (1 patch is missing) and it is waiting on this
+series to be merged.
+
+I don't know what is preventing this series to be ACK by a DRM maintainer, but
+please, if there is something missing or that needs to be fixed let me know.
+
+I CCed the configfs maintainers in case they can give feedback about the design
+of the configfs API or the configfs related code, just in case that is one of
+the complicated points to review by DRM maintainers.
+
+Best wishes,
+José Expósito
+
+[1] https://github.com/JoseExposito/vkmsctl
+[2] https://lore.kernel.org/igt-dev/20250807074550.6543-1-jose.exposito89@gmail.com/
+
+Changes in v6:
+
+  - No code changes, rebased on top of drm-misc-next
+  - Added Tested-by: Mark Yacoub, who merged the series into the Android tree (thanks!)
+    https://lore.kernel.org/dri-devel/CAC0gqY6ZH8h5aoNh31ck3dP6c3YYtfTRjJ47Obu6xSXSVXm5mA@mail.gmail.com/
+  - Added a link in the cover letter the CLI to configure VKMS: vkmsctl
+  - CCed more people to try to get the series merged
+  - Link to v5: https://lore.kernel.org/dri-devel/20250507135431.53907-1-jose.exposito89@gmail.com/
+
+Changes in v5:
+
+  - No code changes, rebased on top of drm-misc-next
+  - Added Reviewed-by tags, thanks Louis!
+  - Link to v4: https://lore.kernel.org/dri-devel/20250407081425.6420-1-jose.exposito89@gmail.com/
+
+Changes in v4:
+
+  - No code changes, rebased on top of drm-misc-next
+  - Since Louis and I worked on this together, set him as the author of some of
+    the patches and me as co-developed-by to reflect this joint effort.
+  - Link to v3: https://lore.kernel.org/all/20250307163353.5896-1-jose.exposito89@gmail.com/
+
+Changes in v3:
+
+  - Applied review comments by Louis Chauvet: (thanks!!)
+    - Use scoped_guard() instead of guard(mutex)(...)
+    - Fix a use-after-free error in the connector hot-plug code
+  - Rebased on top of drm-misc-next
+  - Link to v2: https://lore.kernel.org/all/20250225175936.7223-1-jose.exposito89@gmail.com/
+
+Changes in v2:
+
+  - Applied review comments by Louis Chauvet:
+    - Use guard(mutex)(...) instead of lock/unlock
+    - Return -EBUSY when trying to modify a enabled device
+    - Move the connector hot-plug related patches to the end
+  - Rebased on top of drm-misc-next
+  - Link to v1: https://lore.kernel.org/dri-devel/20250218170808.9507-1-jose.exposito89@gmail.com/T/
+
+José Expósito (6):
+  drm/vkms: Expose device creation and destruction
+  drm/vkms: Allow to configure the default device creation
+  drm/vkms: Remove completed task from the TODO list
+  drm/vkms: Allow to configure connector status
+  drm/vkms: Allow to update the connector status
+  drm/vkms: Allow to configure connector status via configfs
+
+Louis Chauvet (10):
+  drm/vkms: Add and remove VKMS instances via configfs
+  drm/vkms: Allow to configure multiple planes via configfs
+  drm/vkms: Allow to configure the plane type via configfs
+  drm/vkms: Allow to configure multiple CRTCs via configfs
+  drm/vkms: Allow to configure CRTC writeback support via configfs
+  drm/vkms: Allow to attach planes and CRTCs via configfs
+  drm/vkms: Allow to configure multiple encoders via configfs
+  drm/vkms: Allow to attach encoders and CRTCs via configfs
+  drm/vkms: Allow to configure multiple connectors via configfs
+  drm/vkms: Allow to attach connectors and encoders via configfs
+
+ Documentation/gpu/vkms.rst                    | 100 ++-
+ drivers/gpu/drm/vkms/Kconfig                  |   1 +
+ drivers/gpu/drm/vkms/Makefile                 |   3 +-
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c |  24 +
+ drivers/gpu/drm/vkms/vkms_config.c            |   8 +-
+ drivers/gpu/drm/vkms/vkms_config.h            |  26 +
+ drivers/gpu/drm/vkms/vkms_configfs.c          | 833 ++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_configfs.h          |   8 +
+ drivers/gpu/drm/vkms/vkms_connector.c         |  35 +
+ drivers/gpu/drm/vkms/vkms_connector.h         |   9 +
+ drivers/gpu/drm/vkms/vkms_drv.c               |  18 +-
+ drivers/gpu/drm/vkms/vkms_drv.h               |  20 +
+ 12 files changed, 1072 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
+
+
+base-commit: 6b53cf48d9339c75fa51927b0a67d8a6751066bd
 -- 
-Cheers
-
-David / dhildenb
+2.51.0
 
