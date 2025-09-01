@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1F9B3DC3A
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D8DB3DC4A
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81DF010E070;
-	Mon,  1 Sep 2025 08:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF8410E07E;
+	Mon,  1 Sep 2025 08:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="cM0IxvwY";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IBUiRqAD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D896610E095
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 08:21:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756714906; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF31F10E07E
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 08:24:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756715095; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=ADmgaCG/CvnJr2lXyKcqp/Y91Q9wfaH/RLcDo+NJaDLuaHxoJ7aYr87wOSQq9n0PtzDGK4wFkul4lcLe6GG23q41Vi0iqhBH58rws6iPPg3zu31XATLm/0zkTkqcGUGS8b2zZsAVxBO/A2Ri67SZup2hdbhykkYnLndoWtormUs=
+ b=Zg2c0obA1UnwfOqyHGRxSYCgX+d6Xva8Nc7ImycqM6qrN+AOTHYmKVimduvCkA16QN80vNVvujOKmEGHHDK6Z45gNMOSZPt9x8vKYutdNApaJ/9oKVm2oW/TODBftMs6c404Wnxnt1GY+qK4kFNZF+GIuaJ+SVM4gbr5k9cs754=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756714906;
+ s=zohoarc; t=1756715095;
  h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=V2VYL77T4YVqyTYlcxX7LR4V7tDFNs0R6vDzZ5e/xf8=; 
- b=QB7OjjxtoW61250zEgdiIV24QkPK3kNwg2xmvwY5Nl+rXRwqP61H8LFFuKB7T/jTX+V4twIyPlYehyuYPHkR9hOxEAjgagDLx9A1p9ZBYFHkX21aJEuZO73MQ/lik2E8UcvXUQ4dKie7xPDnehAP8EujW3QJ3kvXwWDGiGuyZwk=
+ bh=ENxmtp4/0M35AV+LAqoPB243G7NajpAOcJ3hJQ1hxMY=; 
+ b=IpcVyTsC6YVEEw/qJoE0p/4N53yWIJG+WlcGldl4NL2i52HISqvS6/tkCrbcnTj4OYxg6N/scO7yMGicvgkWRpwaP7/PqGZ648nyoS4JBZ5A/QecjcKCboNUDuBo5tDcpPL/A6lsJRlYVuVpsBn65q95P21w3b+9L322yeoVaSQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756714906; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756715095; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=V2VYL77T4YVqyTYlcxX7LR4V7tDFNs0R6vDzZ5e/xf8=;
- b=cM0IxvwY2iOiDR65w0n5bes8nLmSOKKSohBVRAJz0NkYdvzEiteIt2oJhtUzylAi
- 7Dub0GCHCgJHyXZLjSf8BatYEX7SuNGirE/5qp+PQVRlMcClp5b/VPp0IV+jGG7KE9Q
- 62H29f2EVuKr20RmpxnJofAaDo3iP+metFblEXIA=
-Received: by mx.zohomail.com with SMTPS id 1756714905112966.9933530005575;
- Mon, 1 Sep 2025 01:21:45 -0700 (PDT)
-Date: Mon, 1 Sep 2025 09:21:42 +0100
+ bh=ENxmtp4/0M35AV+LAqoPB243G7NajpAOcJ3hJQ1hxMY=;
+ b=IBUiRqADqRSOMp3Ez2L+Z47co+Jemfp5u1Ccog3OTKs1bKRAgfGm8AiOwoPrniLT
+ uMpKn+FJ1WGQA+6Mwg59IOI91ktAyvNTFS9wqFHffoKbgKRAxcNbJZWxD27dW+wNqQm
+ D7rDk7yFMAnkMbFevSiw9n8JQFncoM2vDQWt0Sok=
+Received: by mx.zohomail.com with SMTPS id 1756715093436620.0647613268478;
+ Mon, 1 Sep 2025 01:24:53 -0700 (PDT)
+Date: Mon, 1 Sep 2025 09:24:50 +0100
 From: Adrian Larumbe <adrian.larumbe@collabora.com>
 To: Faith Ekstrand <faith@gfxstrand.net>
 Cc: dri-devel@lists.freedesktop.org, 
- Faith Ekstrand <faith.ekstrand@collabora.com>
-Subject: Re: [PATCH 4/7] drm/panthor: Bump the driver version to 1.6
-Message-ID: <nq47s4smmtktgipymagklodknlcq6zbhq2u5kw6mivlgptmwvb@7cxqoem4cfmh>
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH 5/7] drm/panfrost: Add flag to map GEM object Write-Back
+ Cacheable
+Message-ID: <w65vhrxgqbstnv5zbal2djxz6f5hkter26nqfngr7evonbwqcj@tmgvbdjho3f5>
 References: <20250822142954.902402-1-faith.ekstrand@collabora.com>
- <20250822142954.902402-5-faith.ekstrand@collabora.com>
+ <20250822142954.902402-6-faith.ekstrand@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250822142954.902402-5-faith.ekstrand@collabora.com>
+In-Reply-To: <20250822142954.902402-6-faith.ekstrand@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +71,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 22.08.2025 10:29, Faith Ekstrand wrote:
 > Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 7 +++++--
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 3 +++
+>  include/uapi/drm/panfrost_drm.h         | 1 +
+>  3 files changed, 9 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 1527966604e1..2da06057ce37 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1658,6 +1658,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
->   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
->   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
->   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-> + * - 1.6 - adds DRM_PANTHOR_BO_WB_MMAP flag
-> + *       - adds DRM_IOCTL_PANTHOR_BO_SYNC ioctl
->   */
->  static const struct drm_driver panthor_drm_driver = {
->  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> @@ -1671,7 +1673,7 @@ static const struct drm_driver panthor_drm_driver = {
->  	.name = "panthor",
->  	.desc = "Panthor DRM driver",
->  	.major = 1,
-> -	.minor = 5,
-> +	.minor = 6,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 1ea6c509a5d5..ac2a3939f0c1 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -116,6 +116,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
+>  	return 0;
+>  }
+>
+> +#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
+> +				 PANFROST_BO_HEAP | \
+> +				 PANFROST_BO_WB_MMAP)
+> +
+>  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+>  		struct drm_file *file)
+>  {
+> @@ -125,8 +129,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+>  	struct panfrost_gem_mapping *mapping;
+>  	int ret;
+>
+> -	if (!args->size || args->pad ||
+> -	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
+> +	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
+>  		return -EINVAL;
+>
+>  	/* Heaps should never be executable */
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index bb73f2a68a12..9a707055d946 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -320,6 +320,9 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+>  	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
+>  	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
+>
+> +	if (flags & PANFROST_BO_WB_MMAP)
+> +		bo->base.map_wc = true;
+> +
 
-I tink this might be something you need to do in the previous patch, the moment the new
-ioctl is made available in the panthor_drm_driver_ioctls array.
+How come in the case of Panthor,
 
+         if (flags & DRM_PANTHOR_BO_WB_MMAP)
+              shmem->map_wc = false;
 
->  	.gem_create_object = panthor_gem_create_object,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+but here, it means we would map the BO WC instead?
+
+>  	return bo;
+>  }
+>
+> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+> index ed67510395bd..e09b6f25acb2 100644
+> --- a/include/uapi/drm/panfrost_drm.h
+> +++ b/include/uapi/drm/panfrost_drm.h
+> @@ -90,6 +90,7 @@ struct drm_panfrost_wait_bo {
+>  /* Valid flags to pass to drm_panfrost_create_bo */
+>  #define PANFROST_BO_NOEXEC	1
+>  #define PANFROST_BO_HEAP	2
+> +#define PANFROST_BO_WB_MMAP	4
+>
+>  /**
+>   * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
 > --
 > 2.50.1
-
 
 Adrian Larumbe
