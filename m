@@ -2,72 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967C4B3E3E7
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 15:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71A1B3E3D7
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 15:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 777AE10E457;
-	Mon,  1 Sep 2025 13:04:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CFEC10E45A;
+	Mon,  1 Sep 2025 13:03:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="nKP18NCd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CkkSHyce";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A111710E457
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 13:04:37 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 581CFmgh007371;
- Mon, 1 Sep 2025 15:04:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- eKDbTF0rJsPIq16LFXauITfPuABX1GiMtD/9wpmMhxk=; b=nKP18NCdR7MnPsNK
- LYIVJwSlF+zZ1Iibb3GQJxS1cAou41iJMAr6wOKNtk/EYT8y1lnjCFMzdebyzHGE
- dzwPSxFTFZIGWJzC62QTyGOeDte1TGvkDXNTj2d8hj/PLv06cXR1cYo0xefAuqp8
- QU99m+uISxXxWCYriCiCCtiQQJOXSzAicrBgZ33qUNiYKuLIj5Apdhm+KmFNn6Z7
- Rgc8BwXSZ2ACMhAgJpiVXkbEhLsGBFie9sUqq8QUNlmdgmmIpwhlWUSsasxg09gM
- 4dnJ5qDw6pJPQYSpYjo6a8l3+RQZ+8Tc0UJd8smBOneW73mrF49y62h7o4m0hpOM
- SD5/xA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48urmx756q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Sep 2025 15:04:25 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B57054005C;
- Mon,  1 Sep 2025 15:02:55 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3A14879C6AB;
- Mon,  1 Sep 2025 15:01:57 +0200 (CEST)
-Received: from [10.252.4.3] (10.252.4.3) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Mon, 1 Sep
- 2025 15:01:56 +0200
-Message-ID: <c8e91123-e407-4813-8236-1852d44b93d9@foss.st.com>
-Date: Mon, 1 Sep 2025 15:01:55 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B63D10E457;
+ Mon,  1 Sep 2025 13:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756731815; x=1788267815;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=tAG7nA4Ot4yMzZ2sZM5r0WbAmpf4OMSMR4spRY77DSE=;
+ b=CkkSHycecueHIhYbaZjXowStkuK1amXL2TqCZDwZXSrabOgVTRyhhD0M
+ Td8IvJALT/4bTX7brUFJ4jU4kwttYq5DjFb0KI8T6zUWBpTnrR7QeIQrK
+ XGQJo4KUc0pbhx6aIc8h6tQmoBMph6PoMnQN2H9L/0d531Y96Bu8Q4IOu
+ PGyY11C939iPv4F6uDAf5gOnA+mGTPBhfDBaTF0X8pOxgnEcsWnlRP5yw
+ csIvL+sh/R6DC8IzN5svBs1JdZ+4rnvPxUHqVXIXvzjT75WGxD7WvBjSB
+ MfveKr8+QGSboDJmtjs98gckL1VWHER6UTZPCxeva1tQ9M9rySdRPVTxb A==;
+X-CSE-ConnectionGUID: +/G6lRSARlqTu3csNM2s7Q==
+X-CSE-MsgGUID: pVTwjF0fRLa3h00XavAbfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="69695697"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="69695697"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2025 06:03:35 -0700
+X-CSE-ConnectionGUID: 35J1xP/mRiGeN7PIGPATwQ==
+X-CSE-MsgGUID: QGxijaeWQzuNhlFcKbBsyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="194669734"
+Received: from opintica-mobl1 (HELO localhost) ([10.245.244.140])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2025 06:03:30 -0700
+Date: Mon, 1 Sep 2025 16:03:28 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <aLWZoEZVlBj2d8J9@jlahtine-mobl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: lvds: Remove unused members from main structure
-To: Liu Ying <victor.liu@nxp.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250829-panel-lvds-remove-width-height-v1-1-acecf0c84dc4@nxp.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250829-panel-lvds-remove-width-height-v1-1-acecf0c84dc4@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.252.4.3]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-01_05,2025-08-28_01,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,42 +75,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave & Sima,
 
+Here goes the first drm-intel-gt-next PR towards v6.18.
 
-On 8/29/25 09:53, Liu Ying wrote:
-> Since commit 03fa454bb666 ("drm/panel: lvds: Simplify mode parsing"),
-> the width and height members of struct panel_lvds are no longer used.
-> Remove them.  No functional change.
->
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
+No new features, more of a -fixes PR this time.
 
-Hi,
+Workaround fixes for older platforms, one overflow fix and an
+cmpxchg optimization for x86 platforms.
 
-Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Then the usual set of selftest improvements, smaller fixes and cleanups.
 
-Best regards,
-Raphaël
->  drivers/gpu/drm/panel/panel-lvds.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-> index 23fd535d8f479045a87b0f51bec17cd7c66b0f75..46b07f38559f35aa3b0a41662cc29480e53e885f 100644
-> --- a/drivers/gpu/drm/panel/panel-lvds.c
-> +++ b/drivers/gpu/drm/panel/panel-lvds.c
-> @@ -28,8 +28,6 @@ struct panel_lvds {
->  	struct device *dev;
->  
->  	const char *label;
-> -	unsigned int width;
-> -	unsigned int height;
->  	struct drm_display_mode dmode;
->  	u32 bus_flags;
->  	unsigned int bus_format;
->
-> ---
-> base-commit: 3cace99d63192a7250461b058279a42d91075d0c
-> change-id: 20250829-panel-lvds-remove-width-height-1d063f0bb178
->
-> Best regards,
+Regards, Joonas
 
+***
+
+drm-intel-gt-next-2025-09-01:
+
+Driver Changes:
+
+- Apply multiple JSL/EHL/Gen7/Gen6 workaround properly at context level (Sebastian)
+- Protect against overflow in active_engine() (Krzysztof)
+- Use try_cmpxchg64() in __active_lookup() (Uros)
+
+- Enable GuC CT_DEAD output in regular debug builds (John)
+- Static checker and style fixes (Sebastian)
+- Selftest improvements (Krzysztof)
+
+The following changes since commit dccf655f69002d496a527ba441b4f008aa5bebbf:
+
+  drm/i915/gsc: mei interrupt top half should be in irq disabled context (2025-06-30 14:21:06 -0400)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-09-01
+
+for you to fetch changes up to b7a855f488c6825e3dc06e78c49326491bef6f98:
+
+  drm/i915/gt: Relocate Gen6 context-specific workaround (2025-08-18 20:32:25 -0100)
+
+----------------------------------------------------------------
+Driver Changes:
+
+- Apply multiple JSL/EHL/Gen7/Gen6 workaround properly at context level (Sebastian)
+- Protect against overflow in active_engine() (Krzysztof)
+- Use try_cmpxchg64() in __active_lookup() (Uros)
+
+- Enable GuC CT_DEAD output in regular debug builds (John)
+- Static checker and style fixes (Sebastian)
+- Selftest improvements (Krzysztof)
+
+----------------------------------------------------------------
+John Harrison (1):
+      drm/i915/guc: Enable CT_DEAD output in regular debug builds
+
+Krzysztof Karas (3):
+      drm/i915/selftests: Do not overwrite error code after intel_context_migrate_clear() call
+      drm/i915/selftests: Do not leak vm_area_struct on early return
+      drm/i915/gt: Protect against overflow in active_engine()
+
+Sebastian Brzezinka (5):
+      drm/i915: Add braces around the else block in clflush_write32()
+      drm/i915: Replace empty conditional with continue in eb_relocate_vma()
+      drm/i915/gt: Relocate compression repacking WA for JSL/EHL
+      drm/i915/gt: Relocate Gen7 context-specific workarounds
+      drm/i915/gt: Relocate Gen6 context-specific workaround
+
+Uros Bizjak (1):
+      drm/i915/active: Use try_cmpxchg64() in __active_lookup()
+
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     | 57 +++++++++---------
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 70 ++++++++++------------
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        | 49 +++++++--------
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |  2 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c          | 11 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h          |  2 +-
+ drivers/gpu/drm/i915/i915_active.c                 |  5 +-
+ 7 files changed, 98 insertions(+), 98 deletions(-)
