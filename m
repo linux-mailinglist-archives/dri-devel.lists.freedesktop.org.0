@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A1AB3E75B
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 16:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A375B3E7E1
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 16:52:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F2A510E47D;
-	Mon,  1 Sep 2025 14:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CC010E0AE;
+	Mon,  1 Sep 2025 14:52:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eCZ+BQTO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MjgC36Iq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7666510E488;
- Mon,  1 Sep 2025 14:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756737485; x=1788273485;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=WQNkr5EKb/5FuHLMhuxLTbLlrHHNbuV0X7itYDSvCTo=;
- b=eCZ+BQTOUSC/kJi0jsd7bYPMunbDOHsDP6dsNf8GlmOR2QKudkQhTJFm
- s9iZ58hYyRtq/fQnbZmtWtnthMIHxb9A9lhc0js8G5TrVa5JO2aA7l0e3
- 72llqFuofPrBte8U760YyGwue7p34WIjItPxo9//Gwyp8sKioZqiMzzhO
- 3zvUAUru5aw4vKlAfSmWCAnBGhoSml9dc3zxjmKN6sERV8uw3VTxVfF48
- +Z1E2ZpHqBkMd2F5oOJoF/oOvf0epI1ymQkryRHTZiW7Y4jgIu6gG5eYk
- FJvd8IFXBOeGJPzgAPnT2I/jnBSDchVFPreb1udGF/Nxp9VepCLJqFYA6 A==;
-X-CSE-ConnectionGUID: k3WvXTtST1yN6VhtV6fPWw==
-X-CSE-MsgGUID: GHv8v361Tn6XiCjINQKrMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76595901"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="76595901"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2025 07:38:04 -0700
-X-CSE-ConnectionGUID: FKyLHvmdRWK5frmJXgJzRQ==
-X-CSE-MsgGUID: TmZPTmE/S+a9W82GyBX+0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; d="scan'208";a="170590896"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.244.171])
- ([10.245.244.171])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2025 07:37:56 -0700
-Message-ID: <3713e6d83421fcf64978927a1cb40fae1e3c7a57.camel@linux.intel.com>
-Subject: Re: [RFC 0/3] cgroups: Add support for pinned device memory
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst
- <dev@lankhorst.se>,  Lucas De Marchi <lucas.demarchi@intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,  Simona
- Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Tejun Heo
- <tj@kernel.org>, Johannes Weiner	 <hannes@cmpxchg.org>, 'Michal
- =?ISO-8859-1?Q?Koutn=FD=27?= <mkoutny@suse.com>,  Michal Hocko
- <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, Shakeel
- Butt	 <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, Andrew
- Morton	 <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "'Liam R . Howlett'"
- <Liam.Howlett@oracle.com>,  Vlastimil Babka	 <vbabka@suse.cz>, Mike
- Rapoport <rppt@kernel.org>, Suren Baghdasaryan	 <surenb@google.com>, Thomas
- Zimmermann <tzimmermann@suse.de>
-Cc: Michal Hocko <mhocko@suse.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- cgroups@vger.kernel.org, linux-mm@kvack.org
-Date: Mon, 01 Sep 2025 16:37:51 +0200
-In-Reply-To: <25b42c8e-7233-4121-b253-e044e022b327@gmx.de>
-References: <20250819114932.597600-5-dev@lankhorst.se>
- <25b42c8e-7233-4121-b253-e044e022b327@gmx.de>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C08C10E0AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 14:52:18 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-45b84367affso20586795e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 07:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756738336; x=1757343136; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7w1Tbo1J3hCx1txGwhp2+EuzkbUEfr2XiGFdNUS8Gbg=;
+ b=MjgC36IqDs2I9ocuzmKr6CETWOiixRx/Y1VOWvd9xBYZjomm45VCg1L3mlt8o0OnMN
+ gMi93Lqr/XqBZ07MKzee31Q6ThniTAI15aQL3PoyozOlfbcCs1sbjDSurqRkkSXGGl06
+ rTmYbrEuVtSAHUajfYmB6yGrkbuBq/tamqf5f5J3NLDxtGm2KjQ+XZwe9fXx6gaxGzOH
+ bxLsA6buQ5UMiF/bdO5uKNUsdILIY7F2P8oCcDyxqXbQuJk5N97ITvSdhAuYm/xSMPIp
+ TDtQDPkaGbOiTUgn8vxToGDY+FN1M7XBo3eljsiRtcH0ad7zQAWTz/svfcGpXfgEd56V
+ +LEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756738336; x=1757343136;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7w1Tbo1J3hCx1txGwhp2+EuzkbUEfr2XiGFdNUS8Gbg=;
+ b=SVT/9z4x0PoZU3XnE6OYOJ3ucWU+IJBI/xguUiVo9Dh8RlJQQ15fICjatvRm3JuLQq
+ 8INotqZfzabj34TpUnoDefnPtXF4FU7knvFfeK2j174vRVILGQK4KoSqJw/zqkeERSic
+ gb2n832tTLlFAkTc+FxLlQ5MIVT7qtwnWK4zZpvx45jlXYBIvKrUpNrrsrYBMHSTprqm
+ D5Gn+5Wionnfab3leAmfDfof1f5J3/fm40PBA1va4y0XX/XXlUshHkkg23l9dJ6OnUxY
+ owCtaJCeKYBeIw9qZws8C7JDkbaAN2Ru7synXMKTBAVH4XjQWnTdaYvGo6jOPKuFWxdj
+ M0BA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAuFdROFaT7DIln4uv7KrrWBhtbTMka/Rr43WWaTlyCmMpnfk4b6xvyzd4ayWwzqFSSfQtMVq+LqY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZfpLs0PRShOiexuhGZJymbA3ugDKpJa9KGXC5HTLmecxKCk+w
+ DgSVeUxOG2G2Glq/Q+K6AdyX7eqvgYMHTNVoIoX5dsIOVGTZW70s7oLG
+X-Gm-Gg: ASbGncvEDgiGAhq4ZPYl4lM5nsuDIkzabZyb2I8cLOvF3flYi0Yz+gtKicDYV8BWVOH
+ W6r4tG06t0WW51jLRKs0gHEUJOjaug4lfbhKq0UZbTtnf3hCHGjUcdrdVAl6ZueSzvtLxaE9gTn
+ QzslJ9lWcPgOZHOrR/KE1WkJJGjyPV6kHAxwd7iCzz6hKdoO2JnER4synR7EGyme4JheGmQGPzC
+ VIP4xFsU12m4+aISs2mRtP3slxCAdzwNAxsL3yvvFtbvEcMeAuAY3lnyPwBwFvCK54Ndvx4pi3M
+ X7eWQ6Y/oYHhaUDQYLsJQl6nvdNTJhGIbezfYQahYzIZe8l4oKRxJN5EevAdY6XW2BmTmA8SDNZ
+ Si1NIZU5SZvzlppHj9jJsZk9vjdIA
+X-Google-Smtp-Source: AGHT+IG+SvqNSIccCz0rsXPSX3cW6clNxgls15pKY4xfgXvdWIzmy6IrSvkz4NehpGFyAP+osZ/C2g==
+X-Received: by 2002:a05:6000:2409:b0:3d6:89f0:f348 with SMTP id
+ ffacd0b85a97d-3d689f0f684mr2925978f8f.15.1756738336309; 
+ Mon, 01 Sep 2025 07:52:16 -0700 (PDT)
+Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b69b7529asm146874265e9.0.2025.09.01.07.52.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Sep 2025 07:52:15 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com,
+ mripard@kernel.org, simona@ffwll.ch, thomas.petazzoni@bootlin.com,
+ tzimmermann@suse.de
+Subject: [PATCH 0/2] drm/vkms: Fix plane blending z-order
+Date: Mon,  1 Sep 2025 16:52:05 +0200
+Message-ID: <20250901145206.51213-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250801-vkms-fix-zpos-v1-0-d83ba1e6291d@bootlin.com>
+References: <20250801-vkms-fix-zpos-v1-0-d83ba1e6291d@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,114 +92,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Louis,
 
-On Mon, 2025-09-01 at 14:45 +0200, Natalie Vock wrote:
-> Hi,
->=20
-> On 8/19/25 13:49, Maarten Lankhorst wrote:
-> > When exporting dma-bufs to other devices, even when it is allowed
-> > to use
-> > move_notify in some drivers, performance will degrade severely when
-> > eviction happens.
-> >=20
-> > A perticular example where this can happen is in a multi-card
-> > setup,
-> > where PCI-E peer-to-peer is used to prevent using access to system
-> > memory.
-> >=20
-> > If the buffer is evicted to system memory, not only the evicting
-> > GPU wher
-> > the buffer resided is affected, but it will also stall the GPU that
-> > is
-> > waiting on the buffer.
-> >=20
-> > It also makes sense for long running jobs not to be preempted by
-> > having
-> > its buffers evicted, so it will make sense to have the ability to
-> > pin
-> > from system memory too.
-> >=20
-> > This is dependant on patches by Dave Airlie, so it's not part of
-> > this
-> > series yet. But I'm planning on extending pinning to the memory
-> > cgroup
-> > controller in the future to handle this case.
-> >=20
-> > Implementation details:
-> >=20
-> > For each cgroup up until the root cgroup, the 'min' limit is
-> > checked
-> > against currently effectively pinned value. If the value will go
-> > above
-> > 'min', the pinning attempt is rejected.
->=20
-> Why do you want to reject pins in this case? What happens in desktop=20
-> usecases (e.g. PRIME buffer sharing)? AFAIU, you kind of need to be
-> able=20
-> to pin buffers and export them to other devices for that whole thing
-> to=20
-> work, right? If the user doesn't explicitly set a min value, wouldn't
-> the value being zero mean any pins will be rejected (and thus PRIME=20
-> would break)?
+I already made some comments about zpos here:
+https://lore.kernel.org/dri-devel/aJDDr_9soeNRAmm0@fedora/
+But let's start the conversation here as well!
 
-That's really the point. If an unprivileged malicious process is
-allowed to pin arbitrary amounts of memory, thats a DOS vector.
+> As reported by Marius [1], the current blending algorithm for vkms planes 
+> is not future-proof. Currently the z-ordering is only garanteed by the 
+> creation order. As the future ConfigFS interface will allows to create 
+> planes, this order may vary.
+>
+> To avoid this, add the zpos property and blend the planes according to 
+> this zpos order.
+>
+> [1]:https://lore.kernel.org/all/aHpGGxZyimpJ8Ehz@xpredator/
 
-However drivers that allow unlimited pinning today need to take care
-when implementing restrictions to avoid regressions. Like perhaps
-adding this behind a config option.
+In case you want to have a look, 3 years ago I sent a patch adding the
+property and blending following the zpos order, but it wasn't merged:
+https://github.com/JoseExposito/linux/commit/befc79a1341b27eb328b582c3841097d17ccce71
+The way "vkms_state->active_planes" is set is a bit simpler, but it might
+not be valid anymore due to code changes.
 
-That said, IMO dma-buf clients should implement move_notify() whenever
-possible to provide an option to avoid pinning unless necessary.
+About this series, I didn't have a chance to run IGT test to validate it,
+but in general your code looks good.
 
-/Thomas
+My only question is, how do we avoid breaking changes in the configfs side?
 
+For the mutable/immutable configuration it'd be easy: We set it to
+immutable by default, i.e, when the user creates a new plane via configfs:
 
+  $ sudo mkdir /sys/kernel/config/vkms/<device name>/planes/<plane name>
 
->=20
-> If your objective is to prevent pinned buffers from being evicted,=20
-> perhaps you could instead make TTM try to avoid evicting pinned
-> buffers=20
-> and prefer unpinned buffers as long as there are unpinned buffers to=20
-> evict? As long as the total amount of pinned memory stays below min,
-> no=20
-> pinned buffers should get evicted with that either.
+We set "planes/<plane name>/zpos_mutability" to immutable.
 
+However, we don't know the plane type (required to set the zpos value) when
+the user creates a new plane on configfs.
+Therefore, we can not set the correct value in "planes/<plane name>/zpos".
+Have you already figured out a solution for this?
 
->=20
-> Best,
-> Natalie
->=20
-> >=20
-> > Pinned memory is handled slightly different and affects calculating
-> > effective min/low values. Pinned memory is subtracted from both,
-> > and needs to be added afterwards when calculating.
-> >=20
-> > This is because increasing the amount of pinned memory, the amount
-> > of
-> > free min/low memory decreases for all cgroups that are part of the
-> > hierarchy.
-> >=20
-> > Maarten Lankhorst (3):
-> > =C2=A0=C2=A0 page_counter: Allow for pinning some amount of memory
-> > =C2=A0=C2=A0 cgroup/dmem: Implement pinning device memory
-> > =C2=A0=C2=A0 drm/xe: Add DRM_XE_GEM_CREATE_FLAG_PINNED flag and
-> > implementation
-> >=20
-> > =C2=A0 drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 66 ++=
-+++++++++++++++++++-
-> > =C2=A0 drivers/gpu/drm/xe/xe_dma_buf.c | 10 +++-
-> > =C2=A0 include/linux/cgroup_dmem.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
-> > =C2=A0 include/linux/page_counter.h=C2=A0=C2=A0=C2=A0 |=C2=A0 8 +++
-> > =C2=A0 include/uapi/drm/xe_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-10 +++-
-> > =C2=A0 kernel/cgroup/dmem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 57 ++++++++++++++++++-
-> > =C2=A0 mm/page_counter.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 98
-> > ++++++++++++++++++++++++++++++---
-> > =C2=A0 7 files changed, 237 insertions(+), 14 deletions(-)
-> >=20
->=20
+Jose
 
+PS - In case you missed it, I created:
+https://github.com/JoseExposito/vkmsctl
+I'll add zpos there once we support it in configfs :)
