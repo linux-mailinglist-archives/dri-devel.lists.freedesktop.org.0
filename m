@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D53EB3E7F0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 16:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6DC7B3E81B
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:02:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2B610E004;
-	Mon,  1 Sep 2025 14:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD72E10E486;
+	Mon,  1 Sep 2025 15:02:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tIboGu5Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ASpIzDXv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C46210E004;
- Mon,  1 Sep 2025 14:54:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F237A10E481;
+ Mon,  1 Sep 2025 15:02:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 33DF8601D9;
- Mon,  1 Sep 2025 14:54:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC04C4CEF4;
- Mon,  1 Sep 2025 14:54:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C3CDB60010;
+ Mon,  1 Sep 2025 15:02:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6629FC4CEF0;
+ Mon,  1 Sep 2025 15:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756738455;
- bh=+C5Bfpn7pkSAzJAPd79k3zy0HrYGm4sseH/iJN98pq8=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=tIboGu5YUtuRLwVqEac/KyozuKsBRXAWzP0iFvJfZxSZ+yYASdWLvowDU8mx2LsCB
- O57O/tbujOtlfok0JorsPLzkQgPeWXMZEX6Zib1uw2UFXPu0zZgojxmduOfxclfLyH
- 4OdZy4T81y4yQ/jdaGTmi3Zum8b98DbzZpIjId5kixuq+AvBPvpPW3dVnVONA3NLfr
- DZcXhBLhyO/XA9IjQvzUf3uatr3Ejp2XsouiNlA/tgG1f4GWfSOLyzoAjXET6qsjov
- XiQ+ER+LFr5Atwmd4/FL/AhFpQU0WUKhJWIR+dT24k1xb7cneroUDnjraijLuSzw0+
- eTtq4nw+jYZrQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 01 Sep 2025 16:54:13 +0200
-Message-Id: <DCHJT462NSWC.RGNMTKZY295P@kernel.org>
-Subject: Re: [PATCH] gpu: nova-core: take advantage of pci::Device::unbind()
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- "Nouveau" <nouveau-bounces@lists.freedesktop.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250830133255.62380-1-dakr@kernel.org>
- <DCGNTYLUDMUD.2OVROKOZ97QWP@nvidia.com>
- <DCHEFFK24WF2.2RGNO3JUNLCUR@kernel.org>
- <DCHHNSM1VS76.3ET66BZWUXCOM@nvidia.com>
-In-Reply-To: <DCHHNSM1VS76.3ET66BZWUXCOM@nvidia.com>
+ s=k20201202; t=1756738936;
+ bh=lnc+um8VArbYMljrTCJrSlQx6rW9NJXP+JTcHgg6lmI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ASpIzDXviCLx1/5FGjw5eIOO7ADuGSeKnYiKHwpSUldf2FuOYxr6RKp73YTT7ldkc
+ VOb6UOUa+pY0LzP/dqoyv/G8iabVr0Ktmy1kk/G7NCA8X5aU2/N88dPVkHDRAX0e8n
+ PEmZXiOVdf2zjFxii58l6q4AF/3vgOnql+P9hTUF1ddYi8GRCdFl7erlvFbdd3T8rV
+ Kf/ck7bIMPDDhgFRh/McZEiQB2wiz9DIU44COIRkjIxi3XjYZrn5C3bnDayfP4Abbo
+ Vy64mkYm8uQYwiMTSs9US6g2VKrLJXuBDdHeVYVjUNd7AtRGce1pjlk5ftWAHw9Oau
+ 5C2vddgNVP76A==
+From: Danilo Krummrich <dakr@kernel.org>
+To: acourbot@nvidia.com
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v2] gpu: nova-core: take advantage of pci::Device::unbind()
+Date: Mon,  1 Sep 2025 17:01:53 +0200
+Message-ID: <20250901150207.63094-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,43 +55,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Sep 1, 2025 at 3:13 PM CEST, Alexandre Courbot wrote:
-> On Mon Sep 1, 2025 at 7:41 PM JST, Danilo Krummrich wrote:
->> On Sun Aug 31, 2025 at 3:50 PM CEST, Alexandre Courbot wrote:
->>>> +    pub(crate) fn unbind(&self, pdev: &pci::Device<device::Bound>) {
->>>> +        // Unregister the sysmem flush page before we release it.
->>>> +        kernel::warn_on!(self.bar.access(pdev.as_ref()).map_or(true, =
-|bar| {
->>>> +            self.sysmem_flush.unregister(bar);
->>>> +
->>>> +            false
->>>> +        }));
->>>> +    }
->>>
->>> Maybe I'm overtly cautious, but this method can be called from a large
->>> part of the driver, leaving the Gpu device in a half-unbound state. The
->>> `PinnedDrop` approach had the benefit of not allowing this.
->>>
->>> One way to solve the problem would be to make this method `pub(in
->>> crate::driver)`, so other modules cannot call it.
->>
->> pub(in crate::driver) doesn't work, since hierarchically it's a sibling.=
- :(
->
-> Argh. TIL.
->
->>
->> However, I can add a doc-comment to make it a bit more obvious.
->
-> Would it also help if we made `Gpu::unbind` take a
-> `pci::Device<device::Core>`? That way, driver functions that only have a
-> bound device could not invoke it.
+Now that we have pci::Device::unbind() we can unregister the sysmem
+flush page with a direct access the I/O resource, i.e. without RCU read
+side critical section.
 
-This was my intention, but somehow I typed Bound.
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+Changes in v2:
+  - Use Device<Core>.
+  - Add doc-comment.
+---
+ drivers/gpu/nova-core/driver.rs |  4 ++++
+ drivers/gpu/nova-core/gpu.rs    | 22 ++++++++++++----------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
-> (also, should we make the argument a `device::Device` instead of a
-> `pci::Device`?)
+diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
+index 274989ea1fb4..02b3edd7bbdc 100644
+--- a/drivers/gpu/nova-core/driver.rs
++++ b/drivers/gpu/nova-core/driver.rs
+@@ -54,4 +54,8 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> Result<Pin<KBox<Self
+ 
+         Ok(this)
+     }
++
++    fn unbind(pdev: &pci::Device<Core>, this: Pin<&Self>) {
++        this.gpu.unbind(pdev.as_ref());
++    }
+ }
+diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+index 8caecaf7dfb4..80a54e303663 100644
+--- a/drivers/gpu/nova-core/gpu.rs
++++ b/drivers/gpu/nova-core/gpu.rs
+@@ -163,7 +163,7 @@ fn new(bar: &Bar0) -> Result<Spec> {
+ }
+ 
+ /// Structure holding the resources required to operate the GPU.
+-#[pin_data(PinnedDrop)]
++#[pin_data]
+ pub(crate) struct Gpu {
+     spec: Spec,
+     /// MMIO mapping of PCI BAR 0
+@@ -174,15 +174,6 @@ pub(crate) struct Gpu {
+     sysmem_flush: SysmemFlush,
+ }
+ 
+-#[pinned_drop]
+-impl PinnedDrop for Gpu {
+-    fn drop(self: Pin<&mut Self>) {
+-        // Unregister the sysmem flush page before we release it.
+-        self.bar
+-            .try_access_with(|b| self.sysmem_flush.unregister(b));
+-    }
+-}
+-
+ impl Gpu {
+     /// Helper function to load and run the FWSEC-FRTS firmware and confirm that it has properly
+     /// created the WPR2 region.
+@@ -309,4 +300,15 @@ pub(crate) fn new(
+             sysmem_flush,
+         }))
+     }
++
++    /// Called when the corresponding [`Device`](device::Device) is unbound.
++    ///
++    /// Note: This method must only be called from `Driver::unbind`.
++    pub(crate) fn unbind(&self, dev: &device::Device<device::Core>) {
++        kernel::warn_on!(self
++            .bar
++            .access(dev)
++            .inspect(|bar| self.sysmem_flush.unregister(bar))
++            .is_err());
++    }
+ }
 
-I think it makes sense to abstract the specific bus device, since long term=
- we
-also want to support tegra.
+base-commit: 09f90256e8902793f594517ef440698585eb3595
+-- 
+2.51.0
+
