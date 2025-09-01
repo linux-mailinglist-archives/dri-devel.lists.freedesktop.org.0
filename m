@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B60B3E2B5
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:26:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F0DB3E2BA
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 14:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C674C10E43C;
-	Mon,  1 Sep 2025 12:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B7710E437;
+	Mon,  1 Sep 2025 12:26:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BcV0R0p1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TZ5hrngT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
  [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A21ED10E43C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:26:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C32110E43F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 12:26:03 +0000 (UTC)
 Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-3cdc54cabb1so1763434f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:26:01 -0700 (PDT)
+ ffacd0b85a97d-3d1bf79d758so1754501f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 05:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756729560; x=1757334360; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756729561; x=1757334361; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9Kd+8v+lNqUBf/GT3Tpl70jL5RnUvrkjCq/aFbg8lmY=;
- b=BcV0R0p1FbVAU3Lpn8PiYx0oNeG2KOIXHpNnu7W6OVsC86xWGLltNqfZA8VKU0fIzj
- 8u4FsMhWPNKhlr6OxHF0nwktkHP7DqBxpGSGzktMgbDTb1QF5g7kRzRJtkTAfhsUgSRk
- N1OdbUUDKTfIeMzXOjlf7DIrbchNIY8pSFGPKUJhkqDYQPb/ArDVTBihfC8XvWrcYHoF
- beO0NQyaBwFRyUUmsCX28W/xuZlo+IaQ6c6UzKOQVNSTi6ukjejCJ5zCMnSvKtzPW8CM
- zU6F/5UufaKbXMFvT0F/DmkBh+g59r59c6N3dZfYSmNOQf0wyIMv+5miMwnqrgUDjcrh
- OV9w==
+ bh=PhgkvBTCE0C0PpkJQl0fVQ7vOytz85QGtS9e86SU8oY=;
+ b=TZ5hrngTuDLd8rGFHjWXRQL83lbokEAxOQ1SKqX5gUcZ5ag44xwsr8rH/wde0K6NNC
+ l9uSv3vJCIzBnZxSlxQcJxLSCu8vmC4gl+d/lVye8Pv23C/2vVhy8sugiESENzPn2hna
+ KgQsZMQ3wBUqxVaDt8ClL+QbQ/X3ybEOlRFyx7nA0E8lpN/NNIbE/pbcMkIf1McZSvVb
+ 71C8J3mEMemxD3y87F3vX9SVwQwAPHC9OwtVEVhE46gMFYu9EQ1+/p1nuRzVsDa9Qiwe
+ bRCWRYZcEWZUfMviE8xvqk3yAqhwG23QvLTjJwpSc/Bp4h/Y9pPaxWDHZxLanXupAyIV
+ 3RUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756729560; x=1757334360;
+ d=1e100.net; s=20230601; t=1756729561; x=1757334361;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9Kd+8v+lNqUBf/GT3Tpl70jL5RnUvrkjCq/aFbg8lmY=;
- b=kZh3M3D0Y9aRy9D14kZIFdnOAuiNEhtPfBPuEdg3CD1z3OH2RC83cQLIvRtiU2fQ3R
- hV8HURw7Xi3XmsXf9Ozj6UUuvQM0yziYG/T1pjCTkeZnTL1inpU6WsMKLhhGrZhFJRqs
- 27GOaW+oeXv2H0AnrYPcNgLwI0xjAWQmjjTtl2Y5vUBsRENwbJ5PAJiLRh3ctsywSjd0
- bQ8jLRWe0sxrhcqotqbBksbU1q28j2A9etlegHXI+beZXjlkrv1pScELbox9VSJ72new
- GQklD4dqedQ2ygRI7GfW6nMzUujpgiIEuhkV+nBIg44kut20EgYWyPP7WMoh7PHZc3iQ
- URIA==
+ bh=PhgkvBTCE0C0PpkJQl0fVQ7vOytz85QGtS9e86SU8oY=;
+ b=MMXfee9nfan2LZGEwMZiD41+uJBBEDvGTvsPyGiFG1RHlV/ty/qGolLry71kvfTqYq
+ F0Ee8H+vHrQkYupSf5r4Mq4wNQwok6ncjM7JTqdsAarczepAGHEIKsDeu9ELARdzhLJ6
+ 3M9+LEMOs/lZdwNdM0C3KQQWOlPoxUDwDbFHub+8uH0d1IcUaZTE0DEIfhGDkuqcWYE9
+ MJyvBGnzs/bUy+OK4Fk1N6IBig2tujCceJj5McIKGpsfZOoLrHVCcOIV/iJK52Y67PEA
+ oZTDwkbpHa3l2o/5ln+K26duS4SBncTRqeGt6MBMWe4BYnq/nqpJ/Htj7PFmQMPnkpFQ
+ lBwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXL8spj9AHrshhTZP+RNRQgmXXOMMoIxhJwGJxkJLPJgaOsudmfXmWjkNaLt38Ofcx3evUSE0sGR+M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLngGiCDE53NnHboa/8SIHGQ/J0teD75zOroGxagf4z55jXZA0
- yr5LTnRbs0X+y7uKUPxfjxhIv/xap+w5515bJF33HqdqY6zEe3FSNdDB
-X-Gm-Gg: ASbGncup9cTTiVJKWd2y6owLCQ6uFpo59ACiqf9OoCBVEAZlkxUxsNma+1Yp4ATf8rJ
- FL+7oXa/IN8Ko8pNVkNS81vT6VHdKw5zCs6+F02JrHhbywOBHAZI5d5npEim/AljWuNpwdkhybm
- PzxBPJLv0Lf3hajwOJKOoIYJonvR+/ljklJAZafiSvm/TkM9TQqv8ypfZXLHxN7LWWBjLH6t/Zq
- 7pLYckjP32yA0CDX4qH209Kd67RtDVI09OJwciy8t941ofklJC6Vh7epkP/NrCzcBqgwHeg5nE9
- OZutlsUNoIauKYrEQSuzUTr96XxGF8HdzUibYfptzSosdezDlg20mDp1Y5WTHb51HQiX+x0F2dU
- 9+z0Ob+AwfR0wR4aiAA==
-X-Google-Smtp-Source: AGHT+IGuuEBOjNbXGYS5rZ0vDEw96Ox0pQNqekC/kGf/n5YBjqljMAsIMyYDoKNWBmt/er9Fy0jYKA==
-X-Received: by 2002:a05:6000:420e:b0:3ca:3b3f:ec8e with SMTP id
- ffacd0b85a97d-3d1dfc072bamr8174078f8f.39.1756729559914; 
- Mon, 01 Sep 2025 05:25:59 -0700 (PDT)
+ AJvYcCWrZX8Cu6bkPOJNL4JHDlvbfZQOetoiK85NEkIT/q7TrdRix+BcxG1fy9mJcUnk9D+rfpQa2Skswro=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVIAmDB8KiEGcAflnw4tTt5Ts5DWXMuWQ9Alptkteq0E3msKLe
+ AbjlezUbGYqv+ZMcw+Frqyw5ahzfCdN8prHQYjkovoVHMycEItBza+MY
+X-Gm-Gg: ASbGncujvKv0c76D9wuCt8mPGKr5KVu6Nopy9N7k7JsW4SDmcpBNeIVL9YGZhFJXUwG
+ 8Fcw1GFjqbTv/exyMiEnA+3NAdaWC1Y6DXI10hdJViNfbMvNsjuEuF1RcYaiFAZ3m4YJ2T2owrJ
+ eVkZsvN866YRjhBwLErykguFml/qtAN+d1kKQLezUGRjGKJ+zqYuRj7BLmIU0s9B/aot1jz7vZt
+ xU+212kRq/EIW7yGyU9+X+wb5+yUDU99DyXE5w7SbNin/3aMXc0vplLDf1ksLqvz6zbngYm276l
+ xh4wR9LHwA7Wx2nqvtB1HuIuLi0GJd0bue799xhN4GrfgrljSqMFNXe9ggv/6Oa2RomcUugN4T2
+ S0AYimx/JL3hVp9Gj79Lu6phNnXt4
+X-Google-Smtp-Source: AGHT+IFyxCd/v1nUFUVSnKjpf2X7+zw+bdrPnqE3ZWLFkWIx3xO0PpowOJcQy9w6v5eXOmfgB96NYg==
+X-Received: by 2002:a05:6000:2889:b0:3d1:61f0:d256 with SMTP id
+ ffacd0b85a97d-3d1e01d549cmr6713622f8f.42.1756729561295; 
+ Mon, 01 Sep 2025 05:26:01 -0700 (PDT)
 Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b74950639sm207297055e9.17.2025.09.01.05.25.58
+ 5b1f17b1804b1-45b74950639sm207297055e9.17.2025.09.01.05.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Sep 2025 05:25:59 -0700 (PDT)
+ Mon, 01 Sep 2025 05:26:00 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -70,10 +70,10 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Mark Yacoub <markyacoub@google.com>,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v6 05/16] drm/vkms: Allow to configure multiple CRTCs via
- configfs
-Date: Mon,  1 Sep 2025 14:25:30 +0200
-Message-ID: <20250901122541.9983-6-jose.exposito89@gmail.com>
+Subject: [PATCH v6 06/16] drm/vkms: Allow to configure CRTC writeback support
+ via configfs
+Date: Mon,  1 Sep 2025 14:25:31 +0200
+Message-ID: <20250901122541.9983-7-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250901122541.9983-1-jose.exposito89@gmail.com>
 References: <20250901122541.9983-1-jose.exposito89@gmail.com>
@@ -97,8 +97,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Create a default subgroup at /config/vkms/crtcs to allow to create as
-many CRTCs as required.
+When a CRTC is created, add a `writeback` file to allow to enable or
+disable writeback connector support
 
 Tested-by: Mark Yacoub <markyacoub@google.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
@@ -106,165 +106,85 @@ Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Co-developed-by: José Expósito <jose.exposito89@gmail.com>
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- Documentation/gpu/vkms.rst           |  6 ++
- drivers/gpu/drm/vkms/vkms_configfs.c | 85 ++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
+ Documentation/gpu/vkms.rst           |  4 +++
+ drivers/gpu/drm/vkms/vkms_configfs.c | 42 ++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
 
 diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index dd880ce6811c..7396447b5e58 100644
+index 7396447b5e58..9f76918bb1d1 100644
 --- a/Documentation/gpu/vkms.rst
 +++ b/Documentation/gpu/vkms.rst
-@@ -74,6 +74,7 @@ By default, the instance is disabled::
- And directories are created for each configurable item of the display pipeline::
+@@ -94,6 +94,10 @@ Continue by creating one or more CRTCs::
  
-   tree /config/vkms/my-vkms
-+  ├── crtcs
-   ├── enabled
-   └── planes
+   sudo mkdir /config/vkms/my-vkms/crtcs/crtc0
  
-@@ -89,6 +90,10 @@ Planes have 1 configurable attribute:
- - type: Plane type: 0 overlay, 1 primary, 2 cursor (same values as those
-   exposed by the "type" property of a plane)
- 
-+Continue by creating one or more CRTCs::
++CRTCs have 1 configurable attribute:
 +
-+  sudo mkdir /config/vkms/my-vkms/crtcs/crtc0
++- writeback: Enable or disable writeback connector support by writing 1 or 0
 +
  Once you are done configuring the VKMS instance, enable it::
  
    echo "1" | sudo tee /config/vkms/my-vkms/enabled
-@@ -100,6 +105,7 @@ Finally, you can remove the VKMS instance disabling it::
- And removing the top level directory and its subdirectories::
- 
-   sudo rmdir /config/vkms/my-vkms/planes/*
-+  sudo rmdir /config/vkms/my-vkms/crtcs/*
-   sudo rmdir /config/vkms/my-vkms
- 
- Testing With IGT
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 398755127759..62a82366791d 100644
+index 62a82366791d..e9f445043268 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -17,6 +17,7 @@ static bool is_configfs_registered;
-  * @group: Top level configuration group that represents a VKMS device.
-  * Initialized when a new directory is created under "/config/vkms/"
-  * @planes_group: Default subgroup of @group at "/config/vkms/planes"
-+ * @crtcs_group: Default subgroup of @group at "/config/vkms/crtcs"
-  * @lock: Lock used to project concurrent access to the configuration attributes
-  * @config: Protected by @lock. Configuration of the VKMS device
-  * @enabled: Protected by @lock. The device is created or destroyed when this
-@@ -25,6 +26,7 @@ static bool is_configfs_registered;
- struct vkms_configfs_device {
- 	struct config_group group;
- 	struct config_group planes_group;
-+	struct config_group crtcs_group;
+@@ -74,6 +74,47 @@ struct vkms_configfs_crtc {
+ #define crtc_item_to_vkms_configfs_crtc(item) \
+ 	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
  
- 	struct mutex lock;
- 	struct vkms_config *config;
-@@ -45,6 +47,20 @@ struct vkms_configfs_plane {
- 	struct vkms_config_plane *config;
- };
- 
-+/**
-+ * struct vkms_configfs_crtc - Configfs representation of a CRTC
-+ *
-+ * @group: Top level configuration group that represents a CRTC.
-+ * Initialized when a new directory is created under "/config/vkms/crtcs"
-+ * @dev: The vkms_configfs_device this CRTC belongs to
-+ * @config: Configuration of the VKMS CRTC
-+ */
-+struct vkms_configfs_crtc {
-+	struct config_group group;
-+	struct vkms_configfs_device *dev;
-+	struct vkms_config_crtc *config;
-+};
-+
- #define device_item_to_vkms_configfs_device(item) \
- 	container_of(to_config_group((item)), struct vkms_configfs_device, \
- 		     group)
-@@ -55,6 +71,71 @@ struct vkms_configfs_plane {
- #define plane_item_to_vkms_configfs_plane(item) \
- 	container_of(to_config_group((item)), struct vkms_configfs_plane, group)
- 
-+#define crtc_item_to_vkms_configfs_crtc(item) \
-+	container_of(to_config_group((item)), struct vkms_configfs_crtc, group)
-+
-+static void crtc_release(struct config_item *item)
++static ssize_t crtc_writeback_show(struct config_item *item, char *page)
 +{
 +	struct vkms_configfs_crtc *crtc;
-+	struct mutex *lock;
++	bool writeback;
 +
 +	crtc = crtc_item_to_vkms_configfs_crtc(item);
-+	lock = &crtc->dev->lock;
 +
-+	scoped_guard(mutex, lock) {
-+		vkms_config_destroy_crtc(crtc->dev->config, crtc->config);
-+		kfree(crtc);
-+	}
++	scoped_guard(mutex, &crtc->dev->lock)
++		writeback = vkms_config_crtc_get_writeback(crtc->config);
++
++	return sprintf(page, "%d\n", writeback);
 +}
 +
-+static struct configfs_item_operations crtc_item_operations = {
-+	.release	= &crtc_release,
-+};
-+
-+static const struct config_item_type crtc_item_type = {
-+	.ct_item_ops	= &crtc_item_operations,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
-+static struct config_group *make_crtc_group(struct config_group *group,
-+					    const char *name)
++static ssize_t crtc_writeback_store(struct config_item *item, const char *page,
++				    size_t count)
 +{
-+	struct vkms_configfs_device *dev;
 +	struct vkms_configfs_crtc *crtc;
++	bool writeback;
 +
-+	dev = child_group_to_vkms_configfs_device(group);
++	crtc = crtc_item_to_vkms_configfs_crtc(item);
 +
-+	scoped_guard(mutex, &dev->lock) {
-+		if (dev->enabled)
-+			return ERR_PTR(-EBUSY);
++	if (kstrtobool(page, &writeback))
++		return -EINVAL;
 +
-+		crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
-+		if (!crtc)
-+			return ERR_PTR(-ENOMEM);
++	scoped_guard(mutex, &crtc->dev->lock) {
++		if (crtc->dev->enabled)
++			return -EBUSY;
 +
-+		crtc->dev = dev;
-+
-+		crtc->config = vkms_config_create_crtc(dev->config);
-+		if (IS_ERR(crtc->config)) {
-+			kfree(crtc);
-+			return ERR_CAST(crtc->config);
-+		}
-+
-+		config_group_init_type_name(&crtc->group, name, &crtc_item_type);
++		vkms_config_crtc_set_writeback(crtc->config, writeback);
 +	}
 +
-+	return &crtc->group;
++	return (ssize_t)count;
 +}
 +
-+static struct configfs_group_operations crtcs_group_operations = {
-+	.make_group	= &make_crtc_group,
++CONFIGFS_ATTR(crtc_, writeback);
++
++static struct configfs_attribute *crtc_item_attrs[] = {
++	&crtc_attr_writeback,
++	NULL,
 +};
 +
-+static const struct config_item_type crtc_group_type = {
-+	.ct_group_ops	= &crtcs_group_operations,
-+	.ct_owner	= THIS_MODULE,
-+};
-+
- static ssize_t plane_type_show(struct config_item *item, char *page)
+ static void crtc_release(struct config_item *item)
  {
- 	struct vkms_configfs_plane *plane;
-@@ -262,6 +343,10 @@ static struct config_group *make_device_group(struct config_group *group,
- 				    &plane_group_type);
- 	configfs_add_default_group(&dev->planes_group, &dev->group);
+ 	struct vkms_configfs_crtc *crtc;
+@@ -93,6 +134,7 @@ static struct configfs_item_operations crtc_item_operations = {
+ };
  
-+	config_group_init_type_name(&dev->crtcs_group, "crtcs",
-+				    &crtc_group_type);
-+	configfs_add_default_group(&dev->crtcs_group, &dev->group);
-+
- 	return &dev->group;
- }
- 
+ static const struct config_item_type crtc_item_type = {
++	.ct_attrs	= crtc_item_attrs,
+ 	.ct_item_ops	= &crtc_item_operations,
+ 	.ct_owner	= THIS_MODULE,
+ };
 -- 
 2.51.0
 
