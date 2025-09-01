@@ -2,66 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666F2B3ECB0
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 18:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1718B3EDAF
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 20:16:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3963B10E161;
-	Mon,  1 Sep 2025 16:52:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mlahX8tV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C994610E4ED;
+	Mon,  1 Sep 2025 18:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9C710E161
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 16:52:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BE0E0439A1;
- Mon,  1 Sep 2025 16:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1756745534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QCTr3085Xa6hBKg6QXgP66qPB7i84eR07oEHAnEHSXQ=;
- b=mlahX8tV7/LXhSxxVsp63cubPC3xzgt2qkiUyKjidpy+LUSv8iuoYPjbQO+o2rNtS986m2
- IvBWBpDn1xt4Fimz8IMvijR7avZ5oImvLc2bECeC7rE4tw01mwzsvWWG4aEfP6XNW2YJZ0
- SYRrn+w/1Bry0X6s8aMlrbz5H/WRv8fndqC85XWibkQ42Hmq1Xm6G9PjMCRbBrp1hn9IIt
- dNQX3RGdOmQ1hPLmDpWf6q3xXaUFH2t3tQnPCzmtn2XfOD4IYLZORJwoWsPs+wI39bltyb
- yoIIbgF9sZMfr/gl8J96KFvetpa0TxBglLyNPSol2Q00y9cq592wzSIq0WlfJw==
-Date: Mon, 1 Sep 2025 18:52:08 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- devicetree@vger.kernel.org, l.stach@pengutronix.de,
- shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v5 4/7] drm/bridge: dw-hdmi: Add API
- dw_hdmi_set_sample_iec958() for iec958 format
-Message-ID: <20250901185208.394cd162@booty>
-In-Reply-To: <20250821073131.2550798-5-shengjiu.wang@nxp.com>
-References: <20250821073131.2550798-1-shengjiu.wang@nxp.com>
- <20250821073131.2550798-5-shengjiu.wang@nxp.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C36A110E178;
+ Mon,  1 Sep 2025 18:16:46 +0000 (UTC)
+Message-ID: <9c296c72-768e-4893-a099-a2882027f2b9@lankhorst.se>
+Date: Mon, 1 Sep 2025 20:16:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 0/3] cgroups: Add support for pinned device memory
+To: David Hildenbrand <david@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?=27Thomas_Hellstr=C3=B6m=27?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
+ Natalie Vock <natalie.vock@gmx.de>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?=27Michal_Koutn=C3=BD=27?=
+ <mkoutny@suse.com>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "'Liam R . Howlett'" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-mm@kvack.org
+References: <20250819114932.597600-5-dev@lankhorst.se>
+ <dc21e54c-d7ae-4d7e-9acb-6a3fa573b20f@redhat.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <dc21e54c-d7ae-4d7e-9acb-6a3fa573b20f@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduledvieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesnhigphdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehli
- hhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,33 +58,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Shengjiu,
+Hello David,
 
-On Thu, 21 Aug 2025 15:31:28 +0800
-Shengjiu Wang <shengjiu.wang@nxp.com> wrote:
-
-> Add API dw_hdmi_set_sample_iec958() for IEC958 format because audio device
-> driver needs IEC958 information to configure this specific setting.
+Den 2025-09-01 kl. 14:25, skrev David Hildenbrand:
+> On 19.08.25 13:49, Maarten Lankhorst wrote:
+>> When exporting dma-bufs to other devices, even when it is allowed to use
+>> move_notify in some drivers, performance will degrade severely when
+>> eviction happens.
+>>
+>> A perticular example where this can happen is in a multi-card setup,
+>> where PCI-E peer-to-peer is used to prevent using access to system memory.
+>>
+>> If the buffer is evicted to system memory, not only the evicting GPU wher
+>> the buffer resided is affected, but it will also stall the GPU that is
+>> waiting on the buffer.
+>>
+>> It also makes sense for long running jobs not to be preempted by having
+>> its buffers evicted, so it will make sense to have the ability to pin
+>> from system memory too.
+>>
+>> This is dependant on patches by Dave Airlie, so it's not part of this
+>> series yet. But I'm planning on extending pinning to the memory cgroup
+>> controller in the future to handle this case.
+>>
+>> Implementation details:
+>>
+>> For each cgroup up until the root cgroup, the 'min' limit is checked
+>> against currently effectively pinned value. If the value will go above
+>> 'min', the pinning attempt is rejected.
+>>
+>> Pinned memory is handled slightly different and affects calculating
+>> effective min/low values. Pinned memory is subtracted from both,
+>> and needs to be added afterwards when calculating.
 > 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> Acked-by: Liu Ying <victor.liu@nxp.com>
+> The term "pinning" is overloaded, and frequently we refer to pin_user_pages() and friends.
+> 
+> So I'm wondering if there is an alternative term to describe what you want to achieve.
+> 
+> Is it something like "unevictable" ?
+It could be required to include a call pin_user_pages(), in case a process wants to pin 
+from a user's address space to the gpu.
 
-[...]
+It's not done yet, but it wouldn't surprise me if we want to include it in the future.
+Functionally it's similar to mlock() and related functions.
 
-> +void dw_hdmi_set_sample_iec958(struct dw_hdmi *hdmi, unsigned int iec958)
-> +{
-> +	mutex_lock(&hdmi->audio_mutex);
-> +	hdmi->sample_iec958 = iec958;
-> +	mutex_unlock(&hdmi->audio_mutex);
-> +}
+Perhaps call it mlocked instead?
 
-Apologies for jumping in the discussion as late as in v5, but I noticed
-this patch and I was wondering whether this mutex_lock/unlock() is
-really needed, as you're copying an int.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Kind regards,
+~Maarten Lankhorst
