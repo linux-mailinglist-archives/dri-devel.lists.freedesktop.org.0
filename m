@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD70B3E8C4
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F14EB3E8C6
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 17:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C1FE10E4B8;
-	Mon,  1 Sep 2025 15:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D26310E4B2;
+	Mon,  1 Sep 2025 15:11:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="P5ew8bq8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZoI8uCPX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9742110E4B5
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:10:53 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA32710E4B2
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 15:11:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756739452;
+ s=mimecast20190719; t=1756739467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i06htfFlQWUPNnzacoxmjdCfJTHM/jIyMh7+2RAfHF4=;
- b=P5ew8bq8bwh6PnsSq1ADRNQkH30XgJBoxPDkep9a54z9fdGbleDriVcJ5uyIAknweUbSPV
- 9uorE3bXJBu3gPuW/Bcolaj9SDCo1vF5NmvlkpMFZCbunMfZCd+vc3LxseVstbMUblyGlY
- aO5fuKDCqhWzI2N+t8gsPWFUlPgw5z0=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ bh=XXIrQPK2KTSHTm5n0r+eAcK1OeXNu/U6cGKCJgmF5aw=;
+ b=ZoI8uCPXIX39p+p/wp+1dSbGUuCNR7t3waxrRVO5auncSjbdiJ15qef81q9LkZ2p1YONS0
+ dDYdHwTSSpsJ7oqd7TmyG+KDHSH0OCEAEOv27fnwDJeHu2h9OSmY3XDHNz6lFtuPrMi2MY
+ 5LUHq8/2zfavOgoQJ1W7vXhBEQNWUFo=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-mPsifsa5O0-R1fp0Ep7F3g-1; Mon,
- 01 Sep 2025 11:10:49 -0400
-X-MC-Unique: mPsifsa5O0-R1fp0Ep7F3g-1
-X-Mimecast-MFC-AGG-ID: mPsifsa5O0-R1fp0Ep7F3g_1756739444
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-80-VJeTZUpaN-Gpu0-I1j8nww-1; Mon,
+ 01 Sep 2025 11:11:05 -0400
+X-MC-Unique: VJeTZUpaN-Gpu0-I1j8nww-1
+X-Mimecast-MFC-AGG-ID: VJeTZUpaN-Gpu0-I1j8nww_1756739460
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 6F20F19560B2; Mon,  1 Sep 2025 15:10:44 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 389871955F27; Mon,  1 Sep 2025 15:11:00 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.22.88.45])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 6AB8A1800280; Mon,  1 Sep 2025 15:10:29 +0000 (UTC)
+ id 0AAD418003FC; Mon,  1 Sep 2025 15:10:44 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
+Cc: David Hildenbrand <david@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Alexander Potapenko <glider@google.com>,
+ Niklas Cassel <cassel@kernel.org>, Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
@@ -64,6 +63,7 @@ Cc: David Hildenbrand <david@redhat.com>,
  linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
  Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
  Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
  Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
@@ -71,10 +71,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH v2 24/37] scatterlist: disallow non-contigous page ranges in a
- single SG entry
-Date: Mon,  1 Sep 2025 17:03:45 +0200
-Message-ID: <20250901150359.867252-25-david@redhat.com>
+Subject: [PATCH v2 25/37] ata: libata-sff: drop nth_page() usage within SG
+ entry
+Date: Mon,  1 Sep 2025 17:03:46 +0200
+Message-ID: <20250901150359.867252-26-david@redhat.com>
 In-Reply-To: <20250901150359.867252-1-david@redhat.com>
 References: <20250901150359.867252-1-david@redhat.com>
 MIME-Version: 1.0
@@ -95,64 +95,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The expectation is that there is currently no user that would pass in
-non-contigous page ranges: no allocator, not even VMA, will hand these
-out.
+It's no longer required to use nth_page() when iterating pages within a
+single SG entry, so let's drop the nth_page() usage.
 
-The only problematic part would be if someone would provide a range
-obtained directly from memblock, or manually merge problematic ranges.
-If we find such cases, we should fix them to create separate
-SG entries.
-
-Let's check in sg_set_page() that this is really the case. No need to
-check in sg_set_folio(), as pages in a folio are guaranteed to be
-contiguous. As sg_set_page() gets inlined into modules, we have to
-export the page_range_contiguous() helper -- use EXPORT_SYMBOL, there is
-nothing special about this helper such that we would want to enforce
-GPL-only modules.
-
-We can now drop the nth_page() usage in sg_page_iter_page().
-
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
 Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Niklas Cassel <cassel@kernel.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/scatterlist.h | 3 ++-
- mm/util.c                   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/ata/libata-sff.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index 6f8a4965f9b98..29f6ceb98d74b 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -158,6 +158,7 @@ static inline void sg_assign_page(struct scatterlist *sg, struct page *page)
- static inline void sg_set_page(struct scatterlist *sg, struct page *page,
- 			       unsigned int len, unsigned int offset)
- {
-+	VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
- 	sg_assign_page(sg, page);
- 	sg->offset = offset;
- 	sg->length = len;
-@@ -600,7 +601,7 @@ void __sg_page_iter_start(struct sg_page_iter *piter,
-  */
- static inline struct page *sg_page_iter_page(struct sg_page_iter *piter)
- {
--	return nth_page(sg_page(piter->sg), piter->sg_pgoffset);
-+	return sg_page(piter->sg) + piter->sg_pgoffset;
- }
+diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
+index 7fc407255eb46..1e2a2c33cdc80 100644
+--- a/drivers/ata/libata-sff.c
++++ b/drivers/ata/libata-sff.c
+@@ -614,7 +614,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
+ 	offset = qc->cursg->offset + qc->cursg_ofs;
  
- /**
-diff --git a/mm/util.c b/mm/util.c
-index fbdb73aaf35fe..bb4b47cd67091 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -1314,5 +1314,6 @@ bool page_range_contiguous(const struct page *page, unsigned long nr_pages)
- 			return false;
- 	return true;
- }
-+EXPORT_SYMBOL(page_range_contiguous);
- #endif
- #endif /* CONFIG_MMU */
+ 	/* get the current page and offset */
+-	page = nth_page(page, (offset >> PAGE_SHIFT));
++	page += offset >> PAGE_SHIFT;
+ 	offset %= PAGE_SIZE;
+ 
+ 	/* don't overrun current sg */
+@@ -631,7 +631,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
+ 		unsigned int split_len = PAGE_SIZE - offset;
+ 
+ 		ata_pio_xfer(qc, page, offset, split_len);
+-		ata_pio_xfer(qc, nth_page(page, 1), 0, count - split_len);
++		ata_pio_xfer(qc, page + 1, 0, count - split_len);
+ 	} else {
+ 		ata_pio_xfer(qc, page, offset, count);
+ 	}
+@@ -751,7 +751,7 @@ static int __atapi_pio_bytes(struct ata_queued_cmd *qc, unsigned int bytes)
+ 	offset = sg->offset + qc->cursg_ofs;
+ 
+ 	/* get the current page and offset */
+-	page = nth_page(page, (offset >> PAGE_SHIFT));
++	page += offset >> PAGE_SHIFT;
+ 	offset %= PAGE_SIZE;
+ 
+ 	/* don't overrun current sg */
 -- 
 2.50.1
 
