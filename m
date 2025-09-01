@@ -2,95 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FCAB3DD12
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E71B3DD24
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 10:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E37110E3AE;
-	Mon,  1 Sep 2025 08:52:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BJdT2d18";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8FF10E3B2;
+	Mon,  1 Sep 2025 08:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8450E10E3AE
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 08:52:25 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51236EAE;
- Mon,  1 Sep 2025 10:51:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756716677;
- bh=eBiENUdZ7cBlGmNfmtDmzZhm3YM5dUq2S5qDOz9A49E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BJdT2d18e+gP7JDDfmldCci8h7bVIQQtlhEB+ZVsyRbj8hJoQQD7XwG/PRRT8ZMuD
- ScaoOFDyOoNyXrfpgMM4a9SQwGuOesc60xqLb/78RhdtXAlajQ6b3Rvz72uC59FpGV
- MZCbu1pBOhvsYZ0HP1sAKoccmwWGHBaPpL0npeLA=
-Message-ID: <327d2ef2-d670-4677-ba1f-b19c2f0b4f3f@ideasonboard.com>
-Date: Mon, 1 Sep 2025 11:52:19 +0300
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D3810E3B2;
+ Mon,  1 Sep 2025 08:58:11 +0000 (UTC)
+X-UUID: c4d74aac871111f0b29709d653e92f7d-20250901
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:f1e2aab6-178f-4d82-b846-3ad535999412, IP:0,
+ U
+ RL:0,TC:0,Content:26,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:26
+X-CID-META: VersionHash:6493067, CLOUDID:16a24fa6142617347b8ddbaac62faf64,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:4|50,EDM:-3,IP:ni
+ l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c4d74aac871111f0b29709d653e92f7d-20250901
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 920024082; Mon, 01 Sep 2025 16:58:03 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id CD288E008FA7;
+ Mon,  1 Sep 2025 16:58:02 +0800 (CST)
+X-ns-mid: postfix-68B5601A-630246734
+Received: from localhost.localdomain (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 23964E008FA6;
+ Mon,  1 Sep 2025 16:57:54 +0800 (CST)
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+To: "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>
+Cc: Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Zihuan Zhang <zhangzihuan@kylinos.cn>
+Subject: [PATCH v3 00/12] cpufreq: use __free() for all cpufreq_cpu_get()
+ references
+Date: Mon,  1 Sep 2025 16:57:36 +0800
+Message-Id: <20250901085748.36795-1-zhangzihuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-To: Swamil Jain <s-jain1@ti.com>
-Cc: h-shenoy@ti.com, devarsht@ti.com, vigneshr@ti.com, praneeth@ti.com,
- u-kumar1@ti.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jyri.sarha@iki.fi,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, aradhya.bhatia@linux.dev
-References: <20250819192113.2420396-1-s-jain1@ti.com>
- <20250819192113.2420396-4-s-jain1@ti.com>
- <837a8381-02bd-4882-bfa4-6d5c34f44119@ideasonboard.com>
- <a23b03a2-86d0-41ff-882f-40c152ff6fb0@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <a23b03a2-86d0-41ff-882f-40c152ff6fb0@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,96 +94,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patchset converts all remaining cpufreq users to rely on the
+__free(put_cpufreq_policy) annotation for policy references, instead of
+calling cpufreq_cpu_put() manually.
 
-On 29/08/2025 06:50, Swamil Jain wrote:
-> Hi Tomi,
-> 
-> On 8/27/25 14:35, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 19/08/2025 22:21, Swamil Jain wrote:
->>> From: Jayesh Choudhary <j-choudhary@ti.com>
->>>
->>> Since OLDI consumes DSS VP clock directly as serial clock, certain
->>> checks cannot be performed in tidss driver which should be checked
->>
->> I think this is a bit misleading. The OLDI input clock doesn't come from
->> DSS, so I wouldn't call it "DSS VP clock". The point here is that the
->> clock from the PLL is used by both OLDI and DSS, and in the current
->> architecture the OLDI driver manages the clock, so the DSS driver can't
->> really do checks, it just has to accept the clock rate. All checks need
->> to be done in the OLDI driver.
->>
->>> in OLDI driver. Add check for mode clock and set max_successful_rate
->>> and max_attempted_rate field for tidss in case the VP is OLDI.
->>>
->>> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
->>> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
->>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
->>> ---
->>>   drivers/gpu/drm/tidss/tidss_oldi.c | 25 +++++++++++++++++++++++++
->>>   1 file changed, 25 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/
->>> tidss/tidss_oldi.c
->>> index ef01ecc17a12..2ed2d0666ccb 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
->>> @@ -309,6 +309,30 @@ static u32
->>> *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>>       return input_fmts;
->>>   }
->>>   +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
->>> +                   struct drm_bridge_state *bridge_state,
->>> +                   struct drm_crtc_state *crtc_state,
->>> +                   struct drm_connector_state *conn_state)
->>> +{
->>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
->>> +    struct drm_display_mode *adjusted_mode;
->>> +    unsigned long round_clock;
->>> +
->>> +    adjusted_mode = &crtc_state->adjusted_mode;
->>> +
->>> +    if (adjusted_mode->clock > oldi->tidss-
->>> >max_successful_rate[oldi->parent_vp]) {
->>
->> You can change the above check to <=, and return 0 here early.
->>
->>> +        round_clock = clk_round_rate(oldi->serial, adjusted_mode-
->>> >clock * 7 * 1000);
->>> +
->>> +        if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000,
->>> round_clock) > 5)
->>> +            return -EINVAL;
->>> +
->>> +        oldi->tidss->max_successful_rate[oldi->parent_vp] =
->>> round_clock;
->>> +        oldi->tidss->max_attempted_rate[oldi->parent_vp] =
->>> adjusted_mode->clock * 7 * 1000;
->>> +    }
->>
->> This is not very nice. We should have a function in tidss that we call
->> here, instead of poking into these tidss's variables directly.
->>
->> Actually... Do we even need to use the tidss->max_* fields? The above
->> code is not checking the VP clock maximum, it's actually looking at the
->> serial clock maximum. Currently those two clocks are linked, though, but
->> would it make more sense to have the max_* fields here, in OLDI, for
->> OLDI's serial clock?We don't require tidss->max_* fields here as we
->> only have single mode 
-> for OLDI. This is added to make it consistent with check_pixel_clock()
-> for validating modes.
-> 
-> You are right we shouldn't use tidss->* fields directly in OLDI driver.
-> 
-> As Maxime suggested we only have very few modes for OLDI, can we skip
-> caching maximum pixel clock in case of OLDI? What would you suggest Tomi?
+Motivation:
+- Reduce the chance of reference counting mistakes
+- Make the code more consistent with the latest kernel style
+- behavior remains the same, but reference counting is now safer=20
+  and easier to maintain.
 
-I think it's best to at least try the trivial option discussed in this
-thread: just use clk_round_rate, without any code to cache or seek out
-the max.
+The changes are split into 12 patches as they touch different subsystems
+and are maintained by different people. There is no functional change.
 
- Tomi
+V3:
+ - drop patch 'KVM: x86: Use __free(put_cpufreq_policy) for policy refere=
+nce'
+ - removed 5 patches which has been applied
+ - Consolidate CPUFreq policy assignments and allocations into one line,
+   suggested by Ben Horgan
+ - Change cpu_has_cpufreq() return type to bool, following Rafael's sugge=
+stion
+ - Change the title to 'Use scope-based cleanup helper'
+
+V2:
+ - Fix compile error in powernv-cpufreq.c
+ - Split patch to separate logical changes
+
+Zihuan Zhang (12):
+  arm64: topology: Use scope-based cleanup helper
+  ACPI: processor: thermal: Use scope-based cleanup helper
+  cpufreq: intel_pstate: Use scope-based cleanup helper
+  cpufreq: longhaul: Use scope-based cleanup helper
+  cpufreq: powernv: Use scope-based cleanup helper
+  PM / devfreq: Use scope-based cleanup helper
+  drm/i915: Use scope-based cleanup helper
+  cpufreq: powerpc: macintosh: Use scope-based cleanup helper
+  powercap: dtpm_cpu: Use scope-based cleanup helper
+  thermal: imx: Use scope-based cleanup helper
+  thermal/drivers/ti-soc-thermal: Use scope-based cleanup helper
+  PM: EM: Use scope-based cleanup helper
+
+ arch/arm64/kernel/topology.c                  |  9 +++----
+ drivers/acpi/processor_thermal.c              | 18 +++++--------
+ drivers/cpufreq/intel_pstate.c                |  8 +++---
+ drivers/cpufreq/longhaul.c                    |  3 +--
+ drivers/cpufreq/powernv-cpufreq.c             | 11 ++++----
+ drivers/devfreq/governor_passive.c            | 25 +++++++-----------
+ drivers/gpu/drm/i915/gt/intel_llc.c           |  4 +--
+ drivers/macintosh/windfarm_cpufreq_clamp.c    |  5 +---
+ drivers/powercap/dtpm_cpu.c                   | 26 +++++--------------
+ drivers/thermal/imx_thermal.c                 | 12 +++------
+ .../ti-soc-thermal/ti-thermal-common.c        | 11 +++-----
+ kernel/power/energy_model.c                   |  9 +++----
+ 12 files changed, 46 insertions(+), 95 deletions(-)
+
+--=20
+2.25.1
 
