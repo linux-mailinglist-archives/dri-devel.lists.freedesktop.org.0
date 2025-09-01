@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B82EB3DA50
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 08:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF49B3DA7D
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Sep 2025 09:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBFD010E0A3;
-	Mon,  1 Sep 2025 06:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A2510E22E;
+	Mon,  1 Sep 2025 07:00:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LmFUTpLl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hvYft1NT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB19710E0A3;
- Mon,  1 Sep 2025 06:54:21 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8882210E22E
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Sep 2025 07:00:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8B6B04467E;
- Mon,  1 Sep 2025 06:54:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC11C4AF0C;
- Mon,  1 Sep 2025 06:54:20 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 92540601BB;
+ Mon,  1 Sep 2025 07:00:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD57C4CEF0;
+ Mon,  1 Sep 2025 07:00:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756709661;
- bh=fwrdXGVjUYTBQheWc/IsdqXrl6C9veTKc/wEeMzy6Ro=;
+ s=k20201202; t=1756710051;
+ bh=ZeFbSr4PbTwyBV2OZDCGcrnpJKQZAVSA0iWy33B9hkk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LmFUTpLl5iNLL2/TUwx1oABydVV7GBecXV4IgcoopSl28MYX7ugia5dDbWbet1kRl
- 2cUHjwsW3S1ULyP/3pVqmTKsG83ZwlsxcbqtcoS+Ri4DqcNDsJfc5SRP4tYq2CRoF6
- PIv881LCWriz19Xc0NTpcm53tr9N6JTq6TOgM1EX+vSkoTNFJkBm2apRhZs+a6qXnw
- SJE+f2KobYNeXxhWHfGsDH23e5HjX092guokAQUjSCOhALU8BWA2+TOe6hrmoORmJd
- LVmQpsWHJLRV97+Xaco5MOtBzfHz0xWnXt9F8njQLdoj1v42qRayegs8nHKmE2UEGC
- 7NppgdOlpgS9A==
-Date: Mon, 1 Sep 2025 08:54:18 +0200
+ b=hvYft1NTetVSsSX4p5CXUeKpmkLpiMxaAl1TTkydFWd6PqU8Xx1OHJJipNZB9g/hU
+ Q+sRzxY8fnQZMhwPyCihTGDq8ntIem3BjpvVz3NCFdlmwbhqQjDTOmU3um4Rkc2DuE
+ EPrDo+cptEIOJ2PFpAb9Us/eQ7mwmujATMjjfzgCAP3zHBGkNaYE0ijcyE1MfktsR0
+ TVwXkf1mK+aFAUopGFN0I+bjs83gtzJRHDY+Ffqc3I8cI+5ZuU2uqHvRh8VVyXYDby
+ 0+iaSjKuzNuUiWOazmYBLsb1G6uBInMMhtu3tteE59SicP/ceX3qoBADDbjW1I4xUt
+ uBotJSPLxSEnA==
+Date: Mon, 1 Sep 2025 09:00:48 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
- unsupported
-Message-ID: <20250901-illustrious-dark-kagu-f4ef76@houat>
-References: <20250819-drm-limit-infoframes-v2-0-7595dda24fbd@oss.qualcomm.com>
- <20250819-drm-limit-infoframes-v2-1-7595dda24fbd@oss.qualcomm.com>
- <20250820-artichoke-silkworm-of-election-521b5e@houat>
- <v7w7xkefm6ap7delx7wsvxmc76fwptqhe4ehokzfh4baueb7hr@acrx36exv42v>
- <20250827-adorable-ocelot-of-adventure-ba88b7@houat>
- <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
+To: Doug Anderson <dianders@chromium.org>
+Cc: John Ripple <john.ripple@keysight.com>, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi86: break probe dependency loop
+Message-ID: <20250901-airborne-marten-of-serendipity-b55e21@houat>
+References: <20250820152407.2788495-1-john.ripple@keysight.com>
+ <20250820152407.2788495-2-john.ripple@keysight.com>
+ <CAD=FV=VfCWFViDE1a5-_KtH0Pfo2EnCJeo2k8MaWuRHhmMPMMA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="y4s6v275ws7f4w3b"
+ protocol="application/pgp-signature"; boundary="hoexycmw3smg4mip"
 Content-Disposition: inline
-In-Reply-To: <jrvjvayhjczgb4yx3xshbv3e6ndzkmb7uu3ynoes2maniwjg37@hamxu5mzqmf7>
+In-Reply-To: <CAD=FV=VfCWFViDE1a5-_KtH0Pfo2EnCJeo2k8MaWuRHhmMPMMA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,187 +64,63 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---y4s6v275ws7f4w3b
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--hoexycmw3smg4mip
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/8] drm/connector: let drivers declare infoframes as
- unsupported
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi86: break probe dependency loop
 MIME-Version: 1.0
 
-On Wed, Aug 27, 2025 at 05:04:53PM +0300, Dmitry Baryshkov wrote:
-> On Wed, Aug 27, 2025 at 09:30:20AM +0200, Maxime Ripard wrote:
-> > On Wed, Aug 20, 2025 at 12:52:44PM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, Aug 20, 2025 at 09:15:36AM +0200, Maxime Ripard wrote:
-> > > > Hi,
-> > > >=20
-> > > > On Tue, Aug 19, 2025 at 09:57:30PM +0300, Dmitry Baryshkov wrote:
-> > > > > Currently DRM framework expects that the HDMI connector driver su=
-pports
-> > > > > all infoframe types: it generates the data as required and calls =
-into
-> > > > > the driver to program all of them, letting the driver to soft-fai=
-l if
-> > > > > the infoframe is unsupported. This has a major drawback on usersp=
-ace
-> > > > > API: the framework also registers debugfs files for all Infoframe=
- types,
-> > > > > possibly surprising the users when infoframe is visible in the de=
-bugfs
-> > > > > file, but it is not visible on the wire.
-> > > > >=20
-> > > > > Let drivers declare that they support only a subset of infoframes,
-> > > > > creating a more consistent interface.
-> > > > >=20
-> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.co=
-m>
-> > > >=20
-> > > > I'm not really convinced. Infoframes aren't really something you sh=
-ould
-> > > > ignore, AVI is effectively mandatory, HDMI kind of is too, AUDIO is=
- if
-> > > > audio support is enabled, DRM is mandatory if HDR is used.
-> > >=20
-> > > Nevertheless, sun4i, innohdmi, adv7511, it6263 and rk3066 drivers
-> > > provide support only for the AVI infoframe.
-> >=20
-> > Yes, but it's still something we shouldn't paper over. The spec mandates
-> > it, if drivers want to deviate from it it's something we should warn
-> > about, not silence.
-> >=20
-> > sun4i is a good example, to me at least since I have the doc. The
-> > hardware supports AVI, Audio, ACP, and SPD. HDR isn't supported, so DRM
-> > isn't either. The only missing one is HDMI, but the documentation isn't
-> > the best so it might still be supported. In short, it's a driver issue.
-> >=20
-> > adv7511 supports AVI, Audio, ACP, SPD, ACP, and looks to have a
-> > mechanism to send any infoframe as is. So, again, driver issue.
+On Fri, Aug 29, 2025 at 09:40:30AM -0700, Doug Anderson wrote:
+> Hi,
 >=20
-> I've send a patch, enabling SPD and VSI (HDMI) InfoFrames on ADV7511.
+> On Wed, Aug 20, 2025 at 8:24=E2=80=AFAM John Ripple <john.ripple@keysight=
+=2Ecom> wrote:
+> >
+> > The commit c3b75d4734cb ("drm/bridge: sn65dsi86: Register and attach our
+> > DSI device at probe") was intended to prevent probe ordering issues and
+> > created the ti_sn_attach_host function.
+> >
+> > In practice, I found the following when using the nwl-dsi driver:
+> >  - ti_sn_bridge_probe happens and it adds the i2c bridge. Then
+> >    ti_sn_attach_host runs (in the ti_sn_bridge_probe function) and fail=
+s to
+> >    find the dsi host which then returns to ti_sn_bridge_probe and remov=
+es
+> >    the i2c bridge because of the failure.
+> >  - The nwl_dsi_probe then runs and adds dsi host to the host list and t=
+hen
+> >    looks for the i2c bridge, which is now gone, so it fails. This loop
+> >    continues for the entire boot sequence.
 >=20
-> >=20
-> > I couldn't find the other datasheet, but I'd be very surprised if it
-> > wasn't the case for these too.
-> >=20
-> > > Some of them can be extended to support other infoframe kinds (e.g.
-> > > ADV7511 has two spare infoframes which can be used for HDMI and SPD).
-> > >=20
-> > > > SPD is indeed optional though.
-> > > >=20
-> > > > So, it's really dynamic in essence, and not really something we sho=
-uld
-> > > > expect drivers to ignore.
-> > > >=20
-> > > > I do acknowledge that a lot of drivers just silently ignore the
-> > > > infoframes they don't support at the moment, which isn't great eith=
-er.
-> > > >=20
-> > > > Maybe we should standardize and document what drivers should do when
-> > > > they don't support a given infoframe type?
-> > >=20
-> > > The chips might be generating infoframes internally. This series was
-> > > triggered by LT9611UXC, which does all HDMI work under the hood in the
-> > > firmware. See [1]. The series I posted hooks HDMI audio directly into
-> > > the bridge driver, but I'd really prefer to be able to use
-> > > drm_atomic_helper_connector_hdmi_hotplug(), especially if I ever get =
-to
-> > > implementing CEC support for it.
-> > >=20
-> > > ADV7511 likewise generates audio infoframe without Linux
-> > > help (audio-related fields are programmed, but it's not the
-> > > infoframe itself).
-> >=20
-> > Implementing the write_infoframe hooks as a nop with a comment in those
-> > case is totally reasonable to me.
-> >=20
-> > I'd still like to document that drivers should only return 0 if they
-> > programmed the infoframe, and -ENOTSUPP (and the core logging a warning)
-> > otherwise.
-> >=20
-> > That way, we would be able to differentiate between the legimitate
-> > LT9611UXC case, and the "driver is broken" sun4i (and others) case.
+> Which i2c bridge are you talking about? You mean the one created by
+> i2c_add_adapter() in drm_dp_aux_register()? I guess I'm confused about
+> why the DSI probe routine would even be looking for that adapter.
 >=20
-> I don't want to end up in a sitation where userspace has a different
-> idea of the InfoFrame being sent than the actual one being present on
-> the wire.
+> In any case, I don't _think_ your patch is valid. Specifically, if you
+> notice ti_sn_attach_host() can return "-EPROBE_DEFER". That's a valid
+> error code to return from a probe routine but I don't think it's a
+> valid error code to return from a bridge attach function, is it?
 
-It's not ideal, sure, but also, what's wrong with it? We're doing it
-*all the time*. Modes programmed by userspace are adjusted for the
-hardware, and thus the mode reported by the CRTC turns out different
-than the one actually used in hardware. Audio sampling rates might not
-match exactly what we're doing. The quirks infrastructure disables part
-of the EDID the userspace has access to, etc.
+It's not documented anywhere though, so we'd need to document (and
+assess) if it's acceptable first.
 
-And all those are under the userspace control, which the infoframes
-aren't.
-
-> It seems, we need several states per the infoframe:
->=20
-> - Not supported
-
-Honestly, I'm not sure we need a state for that one. If that infoframe
-was set by the framework, then the driver must support it. And if it
-wasn't, then there's nothing in debugfs.
-
-> - Autogenerated
-
-Do we have any way to read them back on those?
-
-> - Generated by software
->=20
-> E.g. in case of ADV7511 we can declare that Audio InfofFrame is
-> autogenerated, AVI, HDMI and SPD as 'software-generated' and DRM (HDR)
-> as unsupported. LT9611UXC will declare all (need to check) frame types
-> as auto.
->=20
-> This way we can implement the checks and still keep userspace from
-> having irrelevant data in debugfs.
-
-If the only thing you're after is to prevent inconsistent data in
-userpace for devices that can generate it automatically, then I guess we
-could just implement an (optional) callback to read an infoframe from
-the hardware when reading from debugfs. Would that work?
-
-> I will update my patchset to implement this, but I have another question
-> beforehand: should we just declare VSI support or should it be more exact,
-> specifying that the driver support HVS (00:0c:03), HVFS (c4:5d:d8), etc?
-
-I guess you're talking about HDMI 1.4 Vendor specific Infoframe vs HDMI
-2.0 HF-VSIF here?
-
-If so, the toggle should be HDMI 2.0 support. We'll need that toggle for
-other things anyway (scrambler, YUV420, etc.)
-
-> I'm asking, because e.g. MSM HDMI controller has hardware support for
-> generating HVS frames (but only HVS, the OUI is not programmed, register
-> format doesn't match 1:1 frame contents, etc). I instead ended up using
-> GENERIC0, because it was more flexible (it's like SPARE packets on
-> ADV7511, the contents is being sent as is). However if we ever need to
-> send DRM infoframes, we might need to switch from GENERIC0 to HVS, for
-> the price of being unable to send HVFS frames.
-
-Section 10.2 of the HDMI 2.0 states:
-
-  Transmission of the HF-VSIF by Source Devices is optional unless one (or
-  more) of the features listed in Table 10-1 is active 1. If such features
-  are active, transmission of the HF-VSIF is mandatory.
-
-The features in question being 3d.
-
-So unless you're supporting 3d, suppporting VSI only seems ok to me.
+We should also amend
+https://docs.kernel.org/gpu/drm-kms-helpers.html#special-care-with-mipi-dsi=
+-bridges
 
 Maxime
 
---y4s6v275ws7f4w3b
+--hoexycmw3smg4mip
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVDFgAKCRAnX84Zoj2+
-dsW/AX0U83PxVz2ZFGRVhJWXbdOSlFJaS3ZJB3hJQHhEvUxAjMDyEmsQtJpab64J
-jlTA8AgBgJFA5ObmVPWx35prpq51wIE1WmPfaEIYnyIy9Nwy/I77gfqMjdFA5fGb
-bQYMz+U6mQ==
-=xcRb
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLVEoAAKCRAnX84Zoj2+
+dupqAX40hRyvkHZyIYywMCfPVV2IAYd6DnoXJ6H/p4qb5Xz2UwikqugDDzxJcmJ1
+qaDvsaUBf2sKrCfvVaAcGQ3ULwYe+Zs3Aa4WJtjToWES91VYZVPd2gULYsnDqmP2
+DNZQNQ6AtA==
+=1bEs
 -----END PGP SIGNATURE-----
 
---y4s6v275ws7f4w3b--
+--hoexycmw3smg4mip--
