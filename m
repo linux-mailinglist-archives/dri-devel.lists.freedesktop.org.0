@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C42B3FAB8
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696FEB3FAB9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA37010E632;
-	Tue,  2 Sep 2025 09:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C1E10E636;
+	Tue,  2 Sep 2025 09:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FYccUm3S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q2KCvzRo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5377E10E632
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:36:41 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04FD010E633
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:36:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 76F3060202;
- Tue,  2 Sep 2025 09:36:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1E30C4CEF5;
- Tue,  2 Sep 2025 09:36:39 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E018142B57;
+ Tue,  2 Sep 2025 09:36:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71634C4CEED;
+ Tue,  2 Sep 2025 09:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756805800;
- bh=4s+EdQLLE4OJ4zmw/t4AFVqJF89V43rtin5JQIwvBaI=;
+ s=k20201202; t=1756805802;
+ bh=YUnEdqaOBR1EAT4m7wwF7J6oO20/+BxOlRt2PwojQm4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=FYccUm3STrZ1g941kwkD9TqNT6voG0QvOD+2Gf75F2Ik9r378C+m3ocLLxqvpFBXl
- 6PCR8KIntxuI6zo+UmPvvUrWRZPzxF3pZz59uN3l7tSvD7m2Vh0CGDUHU48z6qKgAn
- yq1jxb2KTD71whLTwz0X+/sRKpUInHu/aOylUsdB9P0/3/XIav1lUCnvpOrQm3G07T
- AxVJQcuJzABsMnKt535pvBiWKeNj9JjND/4mwSu3qDqMt7x56H9RpCaIun3MD0f4dU
- LIWEGknbuSBIgKsFUxTTDbZIQeY7thMmKq7J1i2IikUSf9iolau8rytDU9cTlZn/qj
- ++1YqhlP+cbvw==
+ b=q2KCvzRonN203v51NFUzbmInIo43cUOJfGvGFOLKCNvmDcfvz/57etN//s/o1Nt5I
+ vqworBgNIbN3uhxN2XdQH06RwRJdX4ZXCyoNFsnjcxFTu8NzJSrD0NwY1DpQp0ztHx
+ erZgn/u9zZYC7N1OuZeBHvBRgo6J1cGhfZVi/3YX0kwthVmp9oMuGCN23sMmrwT2J3
+ ms9g8Q+3QODBzYQHBgUkVKFNa53im7pXtdwNsW8xRYrEtgtFTv6BFCS8+H+llDtq1B
+ E09lctPLfvpNT7neoyzSOhf8SRsX698KBpEjrqxozMeSNOBB1QlcxhmH+Ac+6tKk2o
+ uRVy2TKCvhrgw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 02 Sep 2025 11:35:27 +0200
-Subject: [PATCH v2 28/37] drm/tegra: Switch to drm_atomic_get_new_crtc_state()
+Date: Tue, 02 Sep 2025 11:35:28 +0200
+Subject: [PATCH v2 29/37] drm/tilcdc: Switch to drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-drm-no-more-existing-state-v2-28-de98fc5f6d66@kernel.org>
+Message-Id: <20250902-drm-no-more-existing-state-v2-29-de98fc5f6d66@kernel.org>
 References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
 In-Reply-To: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1434; i=mripard@kernel.org;
- h=from:subject:message-id; bh=4s+EdQLLE4OJ4zmw/t4AFVqJF89V43rtin5JQIwvBaI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbdoU7ClZ6ujU/N/0fNEPlxsL1JnF/e37MVpGOF1Num
- 75v3t2NHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiV3kZ6/1vNn3sbTz09/z3
- /H+XTsw9sfZ41xFrdqYj6lbbdp8y5f+xu2fOj9BkmxOewTIbX71f6c7Y8Gy5xqo3e80tq9ZuXVS
- q4LQ0sP5sAINFeMm1B5yh+mcUvit1WAklXdotfX1GyqtHia+jAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1415; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=YUnEdqaOBR1EAT4m7wwF7J6oO20/+BxOlRt2PwojQm4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbdkWYKa40XbBm7RSpU6z/N1Zv1ue4cPHIpMRqrpMSK
+ Y9WCU+43TGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmwtTI2LAu5WxyvORbLb/1
+ +bpMM5Ok3x5oPr/+r+vZD8Zr4hx9qhsuTpLw4bv/d8+XoA1vb4tOvsrYMMd/Yf21/1MWGn/Qst5
+ pe3NKZtr0iHgpP610czdZUQGTMl7+XXumCW96Ulh1V18nOyIPAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,7 +69,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tegra atomic_check implementation uses the deprecated
+The tilcdc atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -80,32 +79,31 @@ we can use drm_atomic_get_new_crtc_state() instead.
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 ---
-To: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-To: Jonathan Hunter <jonathanh@nvidia.com>
+To: Jyri Sarha <jyri.sarha@iki.fi>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
 ---
- drivers/gpu/drm/tegra/dc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/tilcdc/tilcdc_plane.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 59d5c1ba145a82f62c1835da574867084da98106..0f80da3544c9b3a239c43740c05f007711bc728b 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1031,11 +1031,11 @@ static int tegra_cursor_atomic_async_check(struct drm_plane *plane, struct drm_a
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_crtc_state *crtc_state;
- 	int min_scale, max_scale;
- 	int err;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
+index cf77a8ce7398040814ec20eeffc6da960e36dfc0..aa72ca679598b6617366e89ffb3838ed8b323f2f 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
+@@ -40,12 +40,11 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
+ 		dev_err(plane->dev->dev, "%s: crtc position must be zero.",
+ 			__func__);
+ 		return -EINVAL;
+ 	}
  
--	crtc_state = drm_atomic_get_existing_crtc_state(state, new_state->crtc);
+-	crtc_state = drm_atomic_get_existing_crtc_state(state,
+-							new_state->crtc);
 +	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
+ 	/* we should have a crtc state if the plane is attached to a crtc */
  	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
+ 		return 0;
  
- 	if (!crtc_state->active)
- 		return -EINVAL;
+ 	if (crtc_state->mode.hdisplay != new_state->crtc_w ||
 
 -- 
 2.50.1
