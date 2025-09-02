@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96252B3FDFC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 13:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321F6B3FDFF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 13:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C96D10E677;
-	Tue,  2 Sep 2025 11:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A24610E67D;
+	Tue,  2 Sep 2025 11:44:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="N0qvCah1";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sRQkbhhY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0F23410E677
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 11:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=PIYKzYycihMD4JMgiZg2+/PeU14Nm88EbCnHcrhnpKo=; b=N
- 0qvCah1pvOtgWI2yu/1+MBa8m4bx3VW/r96fbbZ8xpxgbCigxQLbU50YtAWaroVz
- pwaELQ7sdUC5P/oSwiBBlE2IJM7XkklObdpijxWNULxbbArSvLrECpy8BXcf6E7L
- XD/uYchk3DsLRExIz7elF5t3LwSJqx5U+BGfQUnIzk=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-116 (Coremail) ; Tue, 2 Sep 2025 19:42:25 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 2 Sep 2025 19:42:25 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-Cc: "Andy Yan" <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org
-Subject: Re:[bug report] drm/bridge: synopsys: Add DW DPTX Controller
- support library
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <aLaQLlJC8qMrnDAf@stanley.mountain>
-References: <aLaQLlJC8qMrnDAf@stanley.mountain>
-X-NTES-SC: AL_Qu2eBPSavEsv4yObZukfmUgWjuw/WsG1v/Ul1YBSP556jD3p4zIfY19KDFLO6/uKGTmTvRGeVDJ+2NRqdIdzW58Vv55IWfpJoMtGwxLq3/Mmuw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 057AD10E67B;
+ Tue,  2 Sep 2025 11:44:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id ADD4060206;
+ Tue,  2 Sep 2025 11:44:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E614AC4CEF5;
+ Tue,  2 Sep 2025 11:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1756813445;
+ bh=DaJ6EJatQGC+ytu6Zrl/0Pk26QWT1XYEoFcww77ugFI=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:From;
+ b=sRQkbhhY2dpH3gTZiqeCInER2iVnTwFZtIfqvaq2phUEXi+y6PrF7dLHETzR7ihxl
+ u5k3ZXOc75ac9MgoI3Lmpog/W7jY+8tFd2HlV6LqUlG27yL9ZbR7ubs+3i+s/M5hWd
+ aPU/72zgQAPLyB00V8y3pKW1JBt3SnhH4EcNY7DU=
+Subject: Patch "Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to
+ LANE0_1_STATUS"" has been added to the 5.4-stable tree
+To: dri-devel@lists.freedesktop.org, imre.deak@intel.com,
+ intel-gfx@lists.freedesktop.org, sashal@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Tue, 02 Sep 2025 13:44:01 +0200
+In-Reply-To: <20250828174932.414566-1-imre.deak@intel.com>
+Message-ID: <2025090201-unsafe-energize-b9cd@gregkh>
 MIME-Version: 1.0
-Message-ID: <779db8f8.9d44.1990a3c423a.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dCgvCgD3H+0h2LZorZQnAA--.2846W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEgu8Xmi20vuxaAABsU
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,67 +56,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgoKSGVsbG8gRGFuLAogICAgIFNlZSBteSByZXBseSBpbmxpbmUuCgpBdCAyMDI1LTA5LTAyIDE0
-OjM1OjI2LCAiRGFuIENhcnBlbnRlciIgPGRhbi5jYXJwZW50ZXJAbGluYXJvLm9yZz4gd3JvdGU6
-Cj5IZWxsbyBBbmR5IFlhbiwKPgo+Q29tbWl0IDg2ZWVjYzNhOWMyZSAoImRybS9icmlkZ2U6IHN5
-bm9wc3lzOiBBZGQgRFcgRFBUWCBDb250cm9sbGVyCj5zdXBwb3J0IGxpYnJhcnkiKSBmcm9tIEF1
-ZyAyMiwgMjAyNSAobGludXgtbmV4dCksIGxlYWRzIHRvIHRoZQo+Zm9sbG93aW5nIFNtYXRjaCBz
-dGF0aWMgY2hlY2tlciB3YXJuaW5nOgo+Cj4JZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5
-cy9kdy1kcC5jOjczMCBkd19kcF92b2x0YWdlX21heCgpCj4Jd2FybjogYml0d2lzZSBBTkQgaXMg
-emVybyAnMHgzICYgMHgxOCcKCgpUaGFua3MgZm9yIGNhdGNoaW5nIHRoaXMsICBJIHNlbnQgYSBw
-YXRjaCB0cnkgdG8gZml4IHRoaXMgaXNzdWUgaGVyZVswXToKCgo+Cj5kcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL3N5bm9wc3lzL2R3LWRwLmMKPiAgICA3Mjggc3RhdGljIHU4IGR3X2RwX3ZvbHRhZ2Vf
-bWF4KHU4IHByZWVtcGgpCj4gICAgNzI5IHsKPi0tPiA3MzAgICAgICAgICBzd2l0Y2ggKHByZWVt
-cGggJiBEUF9UUkFJTl9QUkVfRU1QSEFTSVNfTUFTSykgewo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eCj5UaGlzIG1hc2sgd2lsbCBh
-bHdheXMgYmUgemVybyAoRFBfVFJBSU5fUFJFX0VNUEhfTEVWRUxfMCkuCj4KPiAgICA3MzEgICAg
-ICAgICBjYXNlIERQX1RSQUlOX1BSRV9FTVBIX0xFVkVMXzA6Cj4gICAgNzMyICAgICAgICAgICAg
-ICAgICByZXR1cm4gRFBfVFJBSU5fVk9MVEFHRV9TV0lOR19MRVZFTF8zOwo+ICAgIDczMyAgICAg
-ICAgIGNhc2UgRFBfVFJBSU5fUFJFX0VNUEhfTEVWRUxfMToKPiAgICA3MzQgICAgICAgICAgICAg
-ICAgIHJldHVybiBEUF9UUkFJTl9WT0xUQUdFX1NXSU5HX0xFVkVMXzI7Cj4gICAgNzM1ICAgICAg
-ICAgY2FzZSBEUF9UUkFJTl9QUkVfRU1QSF9MRVZFTF8yOgo+ICAgIDczNiAgICAgICAgICAgICAg
-ICAgcmV0dXJuIERQX1RSQUlOX1ZPTFRBR0VfU1dJTkdfTEVWRUxfMTsKPiAgICA3MzcgICAgICAg
-ICBjYXNlIERQX1RSQUlOX1BSRV9FTVBIX0xFVkVMXzM6Cj4gICAgNzM4ICAgICAgICAgZGVmYXVs
-dDoKPiAgICA3MzkgICAgICAgICAgICAgICAgIHJldHVybiBEUF9UUkFJTl9WT0xUQUdFX1NXSU5H
-X0xFVkVMXzA7Cj4gICAgNzQwICAgICAgICAgfQo+ICAgIDc0MSB9Cj4KPlRoZSBwcm9ibGVtIGlz
-IHRoZSBpbmNvbnNpc3RlbnQgPj4gMyBzaGlmdGluZy4gIEhlcmUgaXMgaG93IHRoZQo+Y2FsbGVy
-IGxvb2tzIGxpa2U6Cj4KPiAgIDc1NSAgICAgICAgICAgICAgICAgIHAgPSBkcm1fZHBfZ2V0X2Fk
-anVzdF9yZXF1ZXN0X3ByZV9lbXBoYXNpcyhzdGF0dXMsIGkpOwo+Cj5wIGlzIGEgMHgzIDw8IDMg
-bWFzawo+Cj4gICA3NTYgICAgICAgICAgICAgICAgICBwID4+PSBEUF9UUkFJTl9QUkVfRU1QSEFT
-SVNfU0hJRlQ7Cj4KPldlIHNoaWZ0IGl0ID4+IDMgZm9yIGNvbnZlbmllbmNlCj4KPiAgIDc1NyAg
-Cj4gICA3NTggICAgICAgICAgICAgICAgICBpZiAodiAhPSBhZGotPnZvbHRhZ2Vfc3dpbmdbaV0g
-fHwgcCAhPSBhZGotPnByZV9lbXBoYXNpc1tpXSkKPiAgIDc1OSAgICAgICAgICAgICAgICAgICAg
-ICAgICAgY2hhbmdlZCA9IHRydWU7Cj4gICA3NjAgIAo+ICAgNzYxICAgICAgICAgICAgICAgICAg
-aWYgKHAgPj0gIChEUF9UUkFJTl9QUkVfRU1QSF9MRVZFTF8zID4+IERQX1RSQUlOX1BSRV9FTVBI
-QVNJU19TSElGVCkpIHsKPiAgIDc2MiAgICAgICAgICAgICAgICAgICAgICAgICAgYWRqLT5wcmVf
-ZW1waGFzaXNbaV0gPSBEUF9UUkFJTl9QUkVfRU1QSF9MRVZFTF8zID4+Cj4gICA3NjMgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRFBfVFJBSU5fUFJFX0VN
-UEhBU0lTX1NISUZUOwo+ICAgNzY0ICAgICAgICAgICAgICAgICAgICAgICAgICBhZGotPnByZV9t
-YXhfcmVhY2hlZFtpXSA9IHRydWU7Cj4gICA3NjUgICAgICAgICAgICAgICAgICB9IGVsc2Ugewo+
-ICAgNzY2ICAgICAgICAgICAgICAgICAgICAgICAgICBhZGotPnByZV9lbXBoYXNpc1tpXSA9IHA7
-Cj4gICA3NjcgICAgICAgICAgICAgICAgICAgICAgICAgIGFkai0+cHJlX21heF9yZWFjaGVkW2ld
-ID0gZmFsc2U7Cj4gICA3NjggICAgICAgICAgICAgICAgICB9Cj4gICA3NjkgIAo+ICAgNzcwICAg
-ICAgICAgICAgICAgICAgdiA9IG1pbih2LCBkd19kcF92b2x0YWdlX21heChwKSk7Cj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KPkJ1dCB0aGUg
-ZHdfZHBfdm9sdGFnZV9tYXgoKSBmdW5jdGlvbiBleHBlY3RzIHRoZSB1bnNoaWZ0ZWQgdmFsdWUu
-Cj4KPlRoZXJlIGlzIGFub3RoZXIgc2ltaWxhciB3YXJuaW5nIGJ1dCBpdCdzIHByb2JhYmx5IGRl
-bGliZXJhdGUuCgoKWWVzLCB0aGlzIGlzIGRlbGliZXJhdGUsIHdlIHdpbGwgc2V0IERXX0RQX1NE
-UF9IT1JJWk9OVEFMX0lOVEVSVkFMIHdoZW4gd2UgYWRkIHN1cHBvcnQgZm9yICBhdWRpbyBpbiB0
-aGUKZnV0dXJlLiBTbyBJIHRoaW5rIHdlIGNhbiBsZXQgaXQgYXMgaXQgaXMgbm93LgoKCj5kcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWRwLmM6MTA3MiBkd19kcF9zZW5kX3NkcCgp
-IHdhcm46IGJpdHdpc2UgQU5EIGlzIHplcm8gJzB4MSAmIDB4MicKPgo+ZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9zeW5vcHN5cy9kdy1kcC5jCj4gIDEwNjYgIAo+ICAxMDY3ICAgICAgICAgIGlmIChz
-ZHAtPmZsYWdzICYgRFdfRFBfU0RQX1ZFUlRJQ0FMX0lOVEVSVkFMKQo+ICAxMDY4ICAgICAgICAg
-ICAgICAgICAgcmVnbWFwX3VwZGF0ZV9iaXRzKGRwLT5yZWdtYXAsIERXX0RQX1NEUF9WRVJUSUNB
-TF9DVFJMLAo+ICAxMDY5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVOX1ZF
-UlRJQ0FMX1NEUCA8PCBuciwKPiAgMTA3MCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBFTl9WRVJUSUNBTF9TRFAgPDwgbnIpOwo+ICAxMDcxICAKPiAgMTA3MiAgICAgICAgICBp
-ZiAoc2RwLT5mbGFncyAmIERXX0RQX1NEUF9IT1JJWk9OVEFMX0lOVEVSVkFMKQo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl5eXl4KPkRX
-X0RQX1NEUF9IT1JJWk9OVEFMX0lOVEVSVkFMIGlzIG5ldmVyIHVzZWQuCj4KPiAgMTA3MyAgICAg
-ICAgICAgICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhkcC0+cmVnbWFwLCBEV19EUF9TRFBfSE9S
-SVpPTlRBTF9DVFJMLAo+ICAxMDc0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IEVOX0hPUklaT05UQUxfU0RQIDw8IG5yLAo+ICAxMDc1ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIEVOX0hPUklaT05UQUxfU0RQIDw8IG5yKTsKPiAgMTA3NiAgCj4KClswXWh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDI1MDkwMjExMjkyMi42ODQ1ODEtMS1h
-bmR5c2hya0AxNjMuY29tL1QvI3UKPnJlZ2FyZHMsCj5kYW4gY2FycGVudGVyCg==
+
+This is a note to let you know that I've just added the patch titled
+
+    Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
+
+to the 5.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
+and it can be found in the queue-5.4 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From imre.deak@intel.com  Tue Sep  2 13:42:52 2025
+From: Imre Deak <imre.deak@intel.com>
+Date: Thu, 28 Aug 2025 20:49:26 +0300
+Subject: Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
+To: <stable@vger.kernel.org>
+Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Sasha Levin <sashal@kernel.org>
+Message-ID: <20250828174932.414566-1-imre.deak@intel.com>
+
+From: Imre Deak <imre.deak@intel.com>
+
+This reverts commit 2402adce8da4e7396b63b5ffa71e1fa16e5fe5c4 which is
+commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f upstream.
+
+The upstream commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f ("drm/dp:
+Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS") the
+reverted commit backported causes a regression, on one eDP panel at
+least resulting in display flickering, described in detail at the Link:
+below. The issue fixed by the upstream commit will need a different
+solution, revert the backport for now.
+
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>
+Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/drm_dp_helper.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/drm_dp_helper.c
++++ b/drivers/gpu/drm/drm_dp_helper.c
+@@ -280,7 +280,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_a
+ 	 * We just have to do it before any DPCD access and hope that the
+ 	 * monitor doesn't power down exactly after the throw away read.
+ 	 */
+-	ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, DP_LANE0_1_STATUS, buffer,
++	ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, DP_DPCD_REV, buffer,
+ 				 1);
+ 	if (ret != 1)
+ 		goto out;
+
+
+Patches currently in stable-queue which might be from imre.deak@intel.com are
+
+queue-5.4/revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
