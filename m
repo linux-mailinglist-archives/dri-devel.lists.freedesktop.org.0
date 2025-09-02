@@ -2,122 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9CFB400B5
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99124B400E9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:41:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFA7610E6AE;
-	Tue,  2 Sep 2025 12:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1486710E6B3;
+	Tue,  2 Sep 2025 12:41:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AOUDiaID";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g+H6nq0S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60FD810E6AE
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 12:35:04 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582B3BuH025567
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 12:35:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=B4rVQpxPPO+FQPgP3B3UuvMg
- XoWmixIq4Cskx+zX+jI=; b=AOUDiaIDOm5Fthrt+eQBaDoLAMOABN3sm7UL2qPI
- aZWN6UlGTDdR/90xc5qKg3qwW1RNpaDUwKQg8b+5iXIbOLHkLElDTkD4pOZJNVm+
- I91o5Zoa6Od63CX4a0F+4hwKGx9IXX5l3BauAwj+G4KRcKkaa9TPYYIcnZ9osNeU
- 4TfcMruhuwyghHnfw1F957otT+rOHSr7RqETecK1kds0tLWiwMl2EF0bLZjoV1v6
- Ffu1QKlH7D2axvr0YSaUIkGADq5HgsgYljt0ZG2wrHmgtZdeYjnld7wjA7WAWalt
- YhiinRjnYyxmreETv1UTnpD/qdja/yJt4BmoIEH7SrCeOQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uscuyths-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 12:35:03 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b2f7851326so133048401cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 05:35:03 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0094710E6B3;
+ Tue,  2 Sep 2025 12:41:39 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3d1bf79d75aso1055994f8f.0; 
+ Tue, 02 Sep 2025 05:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756816898; x=1757421698; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bLl+JLjIhJwlWgN4ocOU2hzq7YznyPeqJKD3znSlmKM=;
+ b=g+H6nq0S82hbmHz9FPZgQ6I9x+p+7ezaBi1ch/Ixr6yb8S7ZWsADxayumRwQ/0lik3
+ hKru0ukF/w6varHxQga9Dt+t7Pb2KEI+KIRkDelbopPMN4M49GJT0J2W9yYJLTf2qfSF
+ cYQa2+2ZuX2otcMnRL9VrqKEhDyBSAKPKHvP3Ty+UhpZoTDQv1d90jql0I9QVv00RajD
+ 7gBf0w6uFQ3PXpON0mm2kL3d90XecYKeqNkLc5KKvs7NKRU1kjGsjsMAHuX4TKZmvuzE
+ IPlflQ13MWzYA4IYyNS9AwDWBjyiZD0U+dxv08ZZmhgSgUrsq7kaNIZF3XwRoLmeqdT/
+ iF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756816503; x=1757421303;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B4rVQpxPPO+FQPgP3B3UuvMgXoWmixIq4Cskx+zX+jI=;
- b=JAnF0DH0V6sInKlrWWeuJ1OFVpUWoHJK+XLRxM5JGSaKsI4ouWPsr4rkjxYDI/Wlyb
- 4C1bhwwC34X+OwWsATVQju4xm9FP2WrZGB90Lk351UxcQe2mW95IYHL1MaxHQJ1VrbwW
- 0WAU3XHv/CZ21FwzA+k/U+UObyQ9bFo7dYpEDJHXXORaVa3Kq4FGDUhzKDko82MHtvY3
- PVrV3L5CqHPliePxzaZcBn1g3BRAwT7dAey2MHnMxLIQbsoae26vhghpDJuerfguups4
- a7L6EqX8/nhMkQqgwYwZlxBgOsZkr9Swm/pCwf4MNwtn+LEhV/J6kZY2GilytlxzDTad
- IATw==
+ d=1e100.net; s=20230601; t=1756816898; x=1757421698;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bLl+JLjIhJwlWgN4ocOU2hzq7YznyPeqJKD3znSlmKM=;
+ b=k63PGvePvaazCpQs4nJONpBakj09Q0w8NzOUloD45LosJEcP4taPHIgXfJXEq5OD4y
+ kdD6WLsbceEv72aCdGmZeupe03A01Q9+tRoKGTnye0JA7YX4d0Apsbav3ErsrACubY/I
+ 0Ubx9p3IybIKGGwl5ECWGK+R3wpwBEnNTJQ5DUF0OJ6khGsKs9jZ7tN2TbZeCVF3vWjW
+ oXIhJ150CrzNoUq4L38PPt9zj0xLeZBlamtZsrtEI4KmO3SVhHNB+efYXIbodhDVwD04
+ 4k10gpAHpwKPkaQLDHeICFhfGo6fXvN1Arej6rfMV5uWJTJBj0STuKYzO5tvkX/Mhcpd
+ 17AQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUq5SkY4DM6fwo+RjslXRwMeD+q5gZtd+lydm1HKlj7cnoXYMdfTkx/MEvMKf3MMbcGvOphrgILxsk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzurmzAgSGQIqlpryfrItyP9Jlea9YxbfXVg+kDIn9z77BkOR7Z
- UXs17qfh/kOn0huK1fshvv+BCGemhA1xtcch5qAmPw+IsV38S8pFVjLHWJrZ8nU26+PxtsaQKmf
- KBnq5zqFj9AZ9vaBC1rjSn+TkX8HOLZTnZqvLPDbyDafoR+WBwB0dgOKyN6sdJbKLJmvCLfw=
-X-Gm-Gg: ASbGnct3yi7P1PxuzTF4x2ChbIOu93qcUR1GeFYNV/CcX2GS2HmLoqd8Blya9DbTNF2
- MxgvtsdqGmp4rdLmLGFF4LPhot1BMj03v6gBwJ9JeWqoihK6yugBFqrqE8qH9vtM2iMECIQtgVd
- LLlsUejtolAQOsTw0s02KnavY1JYhXFz9AAE6sw9SdC6dg7Lo/ppLE57gP50fHZYWEXns84W7Uv
- BJ6hVPwjQRvd3ZZb6/y471w4ANMajk+yOePgnU/BDDImWzkLTAlRK6O6OqkUyvYq9i3fgQ3lMoB
- RuD3mMQqqf+Mke8hv3W2OEGG4PjPN2yYQcaOMc3vwtbVsW73kyNt9bXIjSMK6TxeUhyW+JxMtvc
- zmmiIm/BfPWRxVQHI2oaVDdihNL8DAH5Gb7/h8YZFcH/qLpuutQWB
-X-Received: by 2002:ac8:5d49:0:b0:4b2:8ac4:ef72 with SMTP id
- d75a77b69052e-4b31dcd0d89mr141080091cf.65.1756816502566; 
- Tue, 02 Sep 2025 05:35:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGU/aLTJMFsLAMJ+zNuNGOEzmGzhvygt22y0Or38v41tO37Dhmnsn2U9YWvwA5+Rbfi+EGYqg==
-X-Received: by 2002:ac8:5d49:0:b0:4b2:8ac4:ef72 with SMTP id
- d75a77b69052e-4b31dcd0d89mr141079651cf.65.1756816501921; 
- Tue, 02 Sep 2025 05:35:01 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-560827a71bfsm672243e87.129.2025.09.02.05.35.00
+ AJvYcCUSkQbUiWS4Ay17V5mdO30uYZ++2P5Ve/94LGeXoLF69tM5qePXauOk8+20GiJna3I76btkkNqk@lists.freedesktop.org,
+ AJvYcCWtAJQhlMbnnvCcp/d9Hkt5FldM9B7gESj25TERJ+/RH6i2U/AsdKtY3DSeJwcJkuC6MOkzCOoBDsjo@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJV06kywn55UojHiSYceqjTrRylfwL6L8g3N739RvU73y3wlEk
+ ckK1bkEZvoFbLri1EZIbb5RdqDjE//wZbTzpeupuDkPxvMqXPFESywXh
+X-Gm-Gg: ASbGnctEbUtbeXH5ThsHa4wQaghCHGWQUM58EB0FbVbn9MzWvNt0Bcd+EC/11HagCzJ
+ PzCHzxwUbwVTr6euWMtDjTmlDIup7y9HVZZiWW+8bkFLW7dRCZr9LvS5zekmp57NG6i/ZzrNaRb
+ Kjk7u28lCeqNAiApWFqhfeWme5OuwhkiCRb4ps/zp4kXqt/+Lmizh07KwSxbkUeDmEkonh7UnVK
+ RMgw55scpi1H/v052VIAA7+ejnFZRR5P5jRX9/Vm+XXXE/6di0e4iAvPQg1hZvGEJORzBwMfcc/
+ cP3YqhGcgQ2aTEWDxziftXcD8xvfDn/mdT4wSQXx5q4G9vRCs/313IgcPIbZSlkNWWyop/b92j6
+ akv281i4ed53qtRZANVzrVlLfprufIs8=
+X-Google-Smtp-Source: AGHT+IEz5I9J4HFpTbmwM96KDxKRFH9y58DSSHqyixEB5HxWInPxE6QIjGk6UgfMHbUWnP2ymlC0Og==
+X-Received: by 2002:a05:6000:4020:b0:3c6:c737:d39f with SMTP id
+ ffacd0b85a97d-3d1dc5a5641mr10228606f8f.3.1756816898145; 
+ Tue, 02 Sep 2025 05:41:38 -0700 (PDT)
+Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3cf276d5e5fsm19738997f8f.27.2025.09.02.05.41.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 05:35:01 -0700 (PDT)
-Date: Tue, 2 Sep 2025 15:34:59 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ Tue, 02 Sep 2025 05:41:36 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 01/38] drm/msm/dp: remove cached drm_edid from panel
-Message-ID: <z3erghqmjodsqbkkzzxtdt7ca3xw2esj3jqsshouipqu2mqvx2@kwxqs6d2ntuu>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-1-01faacfcdedd@oss.qualcomm.com>
- <otmy4kttxflsxkvacwdsqynck4nqeww7jsxaq2xwjtlooxnhvx@gmpezdliskck>
- <5b142910-81e7-462d-8933-70705334ef0a@oss.qualcomm.com>
- <yarnaujunszlfrbduakodv7n63wjgh6og3t4qowhu3n6tz6fmn@4kb4crd5rqq7>
- <d7141b57-fa3c-49ce-9830-8310a58b9581@oss.qualcomm.com>
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, John Clements <john.clements@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amd/amdgpu: Fix missing error return on kzalloc
+ failure
+Date: Tue,  2 Sep 2025 13:40:50 +0100
+Message-ID: <20250902124050.2628822-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7141b57-fa3c-49ce-9830-8310a58b9581@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMSBTYWx0ZWRfX4+tCIt4cQsOx
- Tu9fJGD3JJxyjUPUKES+fAuEPntEJcmOgXYi31VTvqU8bROgV1Getp9yh5EIgcOUCagJWBf6DT8
- C8GG4gumbb+YIBiD0D6Fj0QBHCFxsDkiW5pNu7QIOspanibm2FWpcKL3HrHYrfeKu5CqwRFxSxH
- lZbThvaDouhMkdJZTJL/NHWoQ04dDqfsoJ3uI/Cj3+SqNCT5eY3OcjDbUI9ok+2c4FCR3Es+eDu
- RU64BOWfrji517eJ3oO6+krEPK7WfAyGvhmLyN4opWv3MOCVKStlZe6+ZaNk+qNIqZBlWnNtH+9
- HTOGMQISXYMbdSAsKK2gnG4JljH0f1+Hxf2PKpm5Jfy7lvg5R+JHngtADZjuzc9J5eia5sKJppl
- di0uuEs0
-X-Authority-Analysis: v=2.4 cv=A8xsP7WG c=1 sm=1 tr=0 ts=68b6e477 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=pUvFZNViTmPBewPdAa8A:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: A6c0-g91BBl2wNeJu8Q8GtARIlM8Uk-Y
-X-Proofpoint-GUID: A6c0-g91BBl2wNeJu8Q8GtARIlM8Uk-Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300031
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,61 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 06:19:11PM +0800, Yongxing Mou wrote:
-> 
-> 
-> On 9/2/2025 5:36 PM, Dmitry Baryshkov wrote:
-> > On Tue, Sep 02, 2025 at 04:42:18PM +0800, Yongxing Mou wrote:
-> > > 
-> > > 
-> > > On 8/26/2025 12:41 AM, Dmitry Baryshkov wrote:
-> > > > On Mon, Aug 25, 2025 at 10:15:47PM +0800, Yongxing Mou wrote:
-> > > > > The cached drm_edid in msm_dp_panel was redundant and led to unnecessary
-> > > > > state management complexity. This change removes the drm_edid member from
-> > > > 
-> > > > Please see Documentation/process/submitting-patches.rst on how to write
-> > > > commit messages. Please use imperative language instead of describing
-> > > > the changes.
-> > > > 
-> > > > THe patch LGTM.
-> > > > 
-> > > Thanks, will update it in next version. Since the HPD refactor series are
-> > > unlikely to be merged soon. Can I separate out some patches from the MST
-> > > series that don't have dependencies and send them individually to make it
-> > > get applied? This would help reduce the number of the MST series.
-> > 
-> > Yes, of course. Please keep version number monothonic for those patches
-> > (e.g. by telling b4 that it should start from v4).
-> > 
-> Sure. Thanks,  I want to confirm whether the patches should be sent
-> individually or grouped into a series? They seem to be logically unrelated.
-> I was originally planning to send each one separately.>>
+Currently the kzalloc failure check just sets reports the failure
+and sets the variable ret to -ENOMEM, which is not checked later
+for this specific error. Fix this by just returning -ENOMEM rather
+than setting ret.
 
-You can send them separately.
+Fixes: 4fb930715468 ("drm/amd/amdgpu: remove redundant host to psp cmd buf allocations")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > > > the panel structure and refactors related functions to use locally read
-> > > > > EDID data instead.
-> > > > > 
-> > > > > - Replaces msm_dp_panel_read_sink_caps() with msm_dp_panel_read_link_caps()
-> > > > > - Updates msm_dp_panel_handle_sink_request() to accept drm_edid as input
-> > > > > - Removes msm_dp_panel_get_modes() and drm_edid caching logic
-> > > > > - Cleans up unused drm_edid_free() calls
-> > > > > 
-> > > > > This simplifies EDID handling and avoids stale data issues.
-> > > > > 
-> > > > > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> > > > > ---
-> > > > >    drivers/gpu/drm/msm/dp/dp_display.c | 28 +++++++++++++++-------
-> > > > >    drivers/gpu/drm/msm/dp/dp_panel.c   | 47 ++++---------------------------------
-> > > > >    drivers/gpu/drm/msm/dp/dp_panel.h   |  9 +++----
-> > > > >    3 files changed, 26 insertions(+), 58 deletions(-)
-> > > > > 
-> > > > 
-> > > 
-> > > 
-> > 
-> 
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index 1d6e1d5de8fa..3696f48c233b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -448,7 +448,7 @@ static int psp_sw_init(struct amdgpu_ip_block *ip_block)
+ 	psp->cmd = kzalloc(sizeof(struct psp_gfx_cmd_resp), GFP_KERNEL);
+ 	if (!psp->cmd) {
+ 		dev_err(adev->dev, "Failed to allocate memory to command buffer!\n");
+-		ret = -ENOMEM;
++		return -ENOMEM;
+ 	}
+ 
+ 	adev->psp.xgmi_context.supports_extended_data =
 -- 
-With best wishes
-Dmitry
+2.51.0
+
