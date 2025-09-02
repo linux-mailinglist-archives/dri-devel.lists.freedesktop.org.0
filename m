@@ -2,85 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B564EB400AE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AFEB400B8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E627010E6AA;
-	Tue,  2 Sep 2025 12:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 761BE10E6B7;
+	Tue,  2 Sep 2025 12:35:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i7qbKK0V";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OojGcCfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0EA310E6AA
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 12:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756816446; x=1788352446;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dKIOlWu6X6tSVzInNxELrT+k6xJoOIovfskXlUXMCmQ=;
- b=i7qbKK0VUtrA9emCjytVdsQdEdxTr3HBIR1cFz6KxowJ2ELa9ZSS4OXg
- QAFRB/bTMt/3W6tjvzJq1HhzlJgan60L4ny9KfW9yAvJbJO8xkTfkFniy
- Jr+ccAS4yR8QWN0dOT36AFIu0Wd6Hqg4aHCsuAkRDBamOHLiowGRXJpqI
- Qkf+UR6cZTps8ytJnAsruWKc8FgpfAQYJchaio/OX5Vfu2xNyESPNXHS9
- s3QbKpJo2eWz4SW5MqVPq7ZX07NHG6G6TRA9ibxASxuny6mj57jy3WcyI
- TUZ0VYGBoKva+8ciIMpSgIa3q93OGSF+XcDYzEjR0os0fdkdHbmO66uCt w==;
-X-CSE-ConnectionGUID: n4pMuAfJRaCzOGWEZJJywQ==
-X-CSE-MsgGUID: RNbE+E9nS5GpVFwJzg8mTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59156802"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="59156802"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 05:34:05 -0700
-X-CSE-ConnectionGUID: ULXZ2jqUT3eZ+Wruydwibw==
-X-CSE-MsgGUID: WA10W79ISFKaHCfaisZ93g==
-X-ExtLoop1: 1
-Received: from smile.fi.intel.com ([10.237.72.52])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 05:33:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1utQCw-0000000AgyP-3kDu; Tue, 02 Sep 2025 15:33:54 +0300
-Date: Tue, 2 Sep 2025 15:33:54 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Zijun Hu <quic_zijuhu@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/9] list: add list_last_entry_or_null()
-Message-ID: <aLbkMvYgSFYbtUDN@smile.fi.intel.com>
-References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
- <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-1-888912b0be13@bootlin.com>
- <aJJ9ttmL7wiw41fY@smile.fi.intel.com>
- <20250814183609.3788a6df@booty>
- <aKXRHAyfPHPpZmMs@smile.fi.intel.com>
- <20250902135709.19e1ef54@booty>
- <20250902-speedy-friendly-alpaca-f80709@houat>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22A910E6B2;
+ Tue,  2 Sep 2025 12:35:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B7E146020D;
+ Tue,  2 Sep 2025 12:35:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3C3C4CEED;
+ Tue,  2 Sep 2025 12:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1756816504;
+ bh=m9d/Q5uOT2VS5QNyb+GyKhdNjIgRLA4iyzPmJPCtyO4=;
+ h=Subject:To:Cc:From:Date:From;
+ b=OojGcCfGsMvOPwnSghaKTef7Oyzk3Apqg2XFGAxSmRz50DugktAkIiztasIGIVNk7
+ 9OrZZXmZvJMUHPMM5xORLk096x2URDcy4LxuTKPTJn2iIqX9QWjRm2biBD3e/2tDzf
+ 87wfE6PGre7fss9dc11fBcUoQtXS+K1/eKTFR9Rw=
+Subject: Patch "Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to
+ LANE0_1_STATUS"" has been added to the 6.12-stable tree
+To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ imre.deak@intel.com, intel-gfx@lists.freedesktop.org, sashal@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Tue, 02 Sep 2025 14:34:50 +0200
+Message-ID: <2025090250-unhelpful-line-9166@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902-speedy-friendly-alpaca-f80709@houat>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,35 +55,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 02:22:28PM +0200, Maxime Ripard wrote:
-> On Tue, Sep 02, 2025 at 01:57:09PM +0200, Luca Ceresoli wrote:
-> > On Wed, 20 Aug 2025 16:43:56 +0300
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-...
+This is a note to let you know that I've just added the patch titled
 
-> > While applying this patch with dim on drm-misc-next, dim push-branch
-> > failed because:
-> > 
-> >   dim: ERROR: cb86408b1fc2 ("list: add list_last_entry_or_null()"): Mandatory Maintainer Acked-by missing., aborting
-> > 
-> > Looking at the dim code, it is looking for a Reviewed- or Acked-by from
-> > people listed by `scripts/get_maintainer.pl --no-git-fallback -m --nol
-> > --norolestats`. but that command returns an empty string, so it will
-> > never allow me to push.
+    Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
 
-This seems to be a quite strict rule, esp. for the include/* lib/* code.
-I believe among DRM reviewers / maintainers a lot of people capable to
-review that code and push it. Why is it a problem?
+to the 6.12-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-> > How can I get that commit pushed to drm-misc-next?
-> 
-> Adding a MAINTAINERS entry for it would be nice too
+The filename of the patch is:
+     revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
+and it can be found in the queue-6.12 subdirectory.
 
-Just in case you want to go this direction, please, do not put my name as M:.
-
--- 
-With Best Regards,
-Andy Shevchenko
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
+From imre.deak@intel.com  Tue Sep  2 13:50:59 2025
+From: Imre Deak <imre.deak@intel.com>
+Date: Thu, 28 Aug 2025 20:49:29 +0300
+Subject: Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
+To: <stable@vger.kernel.org>
+Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Sasha Levin <sashal@kernel.org>
+
+From: Imre Deak <imre.deak@intel.com>
+
+This reverts commit 3c778a98bee16b4c7ba364a0101ee3c399a95b85 which is
+commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f upstream.
+
+The upstream commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f ("drm/dp:
+Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS") the
+reverted commit backported causes a regression, on one eDP panel at
+least resulting in display flickering, described in detail at the Link:
+below. The issue fixed by the upstream commit will need a different
+solution, revert the backport for now.
+
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>
+Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/display/drm_dp_helper.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -664,7 +664,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_a
+ 	 * monitor doesn't power down exactly after the throw away read.
+ 	 */
+ 	if (!aux->is_remote) {
+-		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
++		ret = drm_dp_dpcd_probe(aux, DP_DPCD_REV);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+
+
+Patches currently in stable-queue which might be from imre.deak@intel.com are
+
+queue-6.12/revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
