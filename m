@@ -2,82 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70502B4057F
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64892B40620
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3BC10E730;
-	Tue,  2 Sep 2025 13:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03CD110E73B;
+	Tue,  2 Sep 2025 14:06:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="XPfuRCHH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PrSgB096";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XPfuRCHH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PrSgB096";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NowuO1XU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qJvO2GVB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NowuO1XU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qJvO2GVB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 069DC10E730
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:54:19 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2BFB10E73B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 14:06:47 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 793351F394;
- Tue,  2 Sep 2025 13:54:17 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 57F0D211D0;
+ Tue,  2 Sep 2025 14:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756821257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756822006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nkrr4CabSOa9fp9TnVPSJ/KPE6ieQRdQScrwDdHBxCc=;
- b=XPfuRCHHETy2nSyVI8RQt3iJUwbvSrAiVxG/bHtHEWPZbDZUDBk0hZwFJdIkZ70/QpDTSj
- DsfSjgWUGd1eS3++IgDd4e51nzz4jR1abtCwQ2k1/bSOHjSlPYO490jFEoSKdDOWjNDE+4
- oSDRUJl9CSHrU2VQ800SmMzy0Mg/6B0=
+ bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
+ b=NowuO1XU6pCdFMxyzfVwCM1NVTRvLoMLTMno+dzrAQb415IHogH4B7aBOu4eNUly5QqDI5
+ 5kd6OlDY5NnSRVMgtpTuSL/MI/PGOEDdyPSUxJVn3oMLDPyZ087tRNWFt9lRGrYa/cfG6I
+ fvz8tfGTSrXOrReF5FClCJ6WzNRO0T4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756821257;
+ s=susede2_ed25519; t=1756822006;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nkrr4CabSOa9fp9TnVPSJ/KPE6ieQRdQScrwDdHBxCc=;
- b=PrSgB096ZaF7Co0Y8J+9+1gfWQAMlzRa1MX01O8Dvgr3J+PFUxYn0x6YNoGjq5W2RU4LJm
- lb1VNk+fbyLrjLDQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XPfuRCHH;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PrSgB096
+ bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
+ b=qJvO2GVB8bhj1tslii9DcANIwb2ZqQIJBjpFScu7IfvOlu6Zkad9i/0ig5gQ24R8e+O2Mk
+ sEXdiotHFFhOFkCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756821257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756822006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nkrr4CabSOa9fp9TnVPSJ/KPE6ieQRdQScrwDdHBxCc=;
- b=XPfuRCHHETy2nSyVI8RQt3iJUwbvSrAiVxG/bHtHEWPZbDZUDBk0hZwFJdIkZ70/QpDTSj
- DsfSjgWUGd1eS3++IgDd4e51nzz4jR1abtCwQ2k1/bSOHjSlPYO490jFEoSKdDOWjNDE+4
- oSDRUJl9CSHrU2VQ800SmMzy0Mg/6B0=
+ bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
+ b=NowuO1XU6pCdFMxyzfVwCM1NVTRvLoMLTMno+dzrAQb415IHogH4B7aBOu4eNUly5QqDI5
+ 5kd6OlDY5NnSRVMgtpTuSL/MI/PGOEDdyPSUxJVn3oMLDPyZ087tRNWFt9lRGrYa/cfG6I
+ fvz8tfGTSrXOrReF5FClCJ6WzNRO0T4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756821257;
+ s=susede2_ed25519; t=1756822006;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Nkrr4CabSOa9fp9TnVPSJ/KPE6ieQRdQScrwDdHBxCc=;
- b=PrSgB096ZaF7Co0Y8J+9+1gfWQAMlzRa1MX01O8Dvgr3J+PFUxYn0x6YNoGjq5W2RU4LJm
- lb1VNk+fbyLrjLDQ==
+ bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
+ b=qJvO2GVB8bhj1tslii9DcANIwb2ZqQIJBjpFScu7IfvOlu6Zkad9i/0ig5gQ24R8e+O2Mk
+ sEXdiotHFFhOFkCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B86F13882;
- Tue,  2 Sep 2025 13:54:17 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4BF113882;
+ Tue,  2 Sep 2025 14:06:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id F01BBQn3tmh0ZQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:54:17 +0000
-Message-ID: <4dfb851d-cd13-47cf-9965-774396bb0071@suse.de>
-Date: Tue, 2 Sep 2025 15:54:16 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id uC4uNvX5tmjvaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 14:06:45 +0000
+Message-ID: <3a73aada-48ad-45ad-8144-b58760113d6f@suse.de>
+Date: Tue, 2 Sep 2025 16:06:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 22/29] drm/tidss: crtc: Cleanup reset implementation
+Subject: Re: [PATCH 24/29] drm/tidss: dispc: Improve mode checking logs
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -90,7 +88,7 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-22-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-24-14ad5315da3f@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,39 +115,25 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-22-14ad5315da3f@kernel.org>
+In-Reply-To: <20250902-drm-state-readout-v1-24-14ad5315da3f@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[15];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 793351F394
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,46 +152,141 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> The tidss_crtc_reset() function will (rightfully) destroy any
-> pre-existing state.
+> The dispc_vp_mode_valid() function checks whether a mode can be handled
+> by the display controller.
 >
-> However, the tidss CRTC driver has its own CRTC state structure that
-> subclasses drm_crtc_state, and yet will destroy the previous state
-> by calling __drm_atomic_helper_crtc_destroy_state() and kfree() on its
-> drm_crtc_state pointer.
->
-> It works only because the drm_crtc_state is the first field in the
-> structure, and thus its offset is 0. It's incredibly fragile however, so
-> let's call our destroy implementation in such a case to deal with it
-> properly.
+> There's a whole bunch of criteria, and it's not clear when a rejection
+> happens why it did. Let's add a bunch of logs on error to make it
+> clearer.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/tidss/tidss_crtc.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 47 +++++++++++++++++++++++++++++--------
+>   1 file changed, 37 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index eb431a238b11d22349d61f0e17f05994f50d5f2f..8fcc6a2f94770ae825eeb2a3b09856a2bf2d6a1e 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -355,13 +355,11 @@ static void tidss_crtc_destroy_state(struct drm_crtc *crtc,
->   static void tidss_crtc_reset(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index 32248b5f71b7566dc33d7a7db0efb26d3a9ed1c3..ef948e3041e10bc65cf2c4794a4e4cffa7e3fb3a 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -1349,47 +1349,63 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>   
+>   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>   					 u32 hw_videoport,
+>   					 const struct drm_display_mode *mode)
 >   {
->   	struct tidss_crtc_state *tstate;
+> +	struct tidss_device *tidss = dispc->tidss;
+> +	struct drm_device *dev = &tidss->ddev;
+>   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>   	enum dispc_vp_bus_type bus_type;
+>   	int max_pclk;
 >   
->   	if (crtc->state)
-> -		__drm_atomic_helper_crtc_destroy_state(crtc->state);
-> -
-> -	kfree(crtc->state);
-> +		tidss_crtc_destroy_state(crtc, crtc->state);
+>   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
 >   
->   	tstate = kzalloc(sizeof(*tstate), GFP_KERNEL);
->   	if (!tstate) {
->   		crtc->state = NULL;
->   		return;
+>   	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+>   
+> -	if (WARN_ON(max_pclk == 0))
+> +	if (WARN_ON(max_pclk == 0)) {
+
+Better remove this WARN_ON(). User-space could trigger it and spam the 
+kernel logs. It's also a driver bug, I think.
+
+> +		drm_dbg(dev, "Invalid maximum pixel clock");
+>   		return MODE_BAD;
+> +	}
+>   
+> -	if (mode->clock < dispc->feat->min_pclk_khz)
+> +	if (mode->clock < dispc->feat->min_pclk_khz) {
+> +		drm_dbg(dev, "Mode pixel clock below hardware minimum pixel clock");
+>   		return MODE_CLOCK_LOW;
+> +	}
+>   
+> -	if (mode->clock > max_pclk)
+> +	if (mode->clock > max_pclk) {
+> +		drm_dbg(dev, "Mode pixel clock above hardware maximum pixel clock");
+>   		return MODE_CLOCK_HIGH;
+> +	}
+>   
+> -	if (mode->hdisplay > 4096)
+> +	if (mode->hdisplay > 4096) {
+> +		drm_dbg(dev, "Number of active horizontal pixels above hardware limits.");
+>   		return MODE_BAD;
+> +	}
+>   
+> -	if (mode->vdisplay > 4096)
+> +	if (mode->vdisplay > 4096) {
+> +		drm_dbg(dev, "Number of active vertical lines above hardware limits.");
+>   		return MODE_BAD;
+> +	}
+>   
+>   	/* TODO: add interlace support */
+> -	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
+> +		drm_dbg(dev, "Interlace modes not suppported.");
+>   		return MODE_NO_INTERLACE;
+> +	}
+>   
+>   	/*
+>   	 * Enforce the output width is divisible by 2. Actually this
+>   	 * is only needed in following cases:
+>   	 * - YUV output selected (BT656, BT1120)
+>   	 * - Dithering enabled
+>   	 * - TDM with TDMCycleFormat == 3
+>   	 * But for simplicity we enforce that always.
+>   	 */
+> -	if ((mode->hdisplay % 2) != 0)
+> +	if ((mode->hdisplay % 2) != 0) {
+> +		drm_dbg(dev, "Number of active horizontal pixels must be even.");
+>   		return MODE_BAD_HVALUE;
+> +	}
+>   
+>   	hfp = mode->hsync_start - mode->hdisplay;
+>   	hsw = mode->hsync_end - mode->hsync_start;
+>   	hbp = mode->htotal - mode->hsync_end;
+>   
+> @@ -1397,29 +1413,40 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>   	vsw = mode->vsync_end - mode->vsync_start;
+>   	vbp = mode->vtotal - mode->vsync_end;
+>   
+>   	if (hsw < 1 || hsw > 256 ||
+>   	    hfp < 1 || hfp > 4096 ||
+> -	    hbp < 1 || hbp > 4096)
+> +	    hbp < 1 || hbp > 4096) {
+> +		drm_dbg(dev,
+> +			"Horizontal blanking or sync outside of hardware limits (fp: %u, sw: %u, bp: %u).",
+> +			hfp, hsw, hbp);
+>   		return MODE_BAD_HVALUE;
+> +	}
+>   
+>   	if (vsw < 1 || vsw > 256 ||
+> -	    vfp > 4095 || vbp > 4095)
+> +	    vfp > 4095 || vbp > 4095) {
+> +		drm_dbg(dev,
+> +			"Vertical blanking or sync outside of hardware limits (fp: %u, sw: %u, bp: %u).",
+> +			vfp, vsw, vbp);
+>   		return MODE_BAD_VVALUE;
+> +	}
+>   
+>   	if (dispc->memory_bandwidth_limit) {
+>   		const unsigned int bpp = 4;
+>   		u64 bandwidth;
+>   
+>   		bandwidth = 1000 * mode->clock;
+>   		bandwidth = bandwidth * mode->hdisplay * mode->vdisplay * bpp;
+>   		bandwidth = div_u64(bandwidth, mode->htotal * mode->vtotal);
+>   
+> -		if (dispc->memory_bandwidth_limit < bandwidth)
+> +		if (dispc->memory_bandwidth_limit < bandwidth) {
+> +			drm_dbg(dev, "Required memory bandwidth outside of hardware limits.");
+>   			return MODE_BAD;
+> +		}
+>   	}
+>   
+> +	drm_dbg(dev, "Mode is valid.");
+>   	return MODE_OK;
+>   }
+>   
+>   int dispc_vp_enable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>   {
 >
 
 -- 
