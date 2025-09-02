@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B3DB3F7EB
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:14:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4717B3F7F7
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4956E10E1BB;
-	Tue,  2 Sep 2025 08:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A7B10E5D3;
+	Tue,  2 Sep 2025 08:15:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pcd6bIBH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I1OnqSU+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3750F10E1BB
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:14:28 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3C910E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756800867;
+ s=mimecast20190719; t=1756800926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7sjD/QRd0X/r3/hIK35g/NLILC2+ivFRe7H4S8czaX8=;
- b=Pcd6bIBHiU0MtxZbBLmORgsGQyYdRE0BXGpS42enu0ZXObw3gyQF2+oyh+3mRnkzcbrRa8
- G+klXwDyzJWAd8zcJBRMxaXlh1JWk/bes8YfR43K/5wKK18S6yOapKPeE+V1rzSvhic3WH
- g7YMPkKksuK3OdHEOw/zM0pY/tEVO7k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HXRyi8QQ+yoEJQrCXQN+YoD6Y9D+uJQKqe1ifwkGZM0=;
+ b=I1OnqSU+JLZ11NV3V1TJlvPTnMfNDJ65TY2INSYQdE18bJQXiJR85xq8nuuTrLHuZVBVkh
+ EfUuXk1sQTtVFpZUl6Aaa17RDyff0+n2RIzlkd3uj/mftkmb8vcj7bW2UBvQmnzCkTJu8S
+ YtDi2jvo10lXrUrXFePzJUf89/E+PsU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-oMqyb2xoMB-qsSTdmXbIhQ-1; Tue, 02 Sep 2025 04:14:26 -0400
-X-MC-Unique: oMqyb2xoMB-qsSTdmXbIhQ-1
-X-Mimecast-MFC-AGG-ID: oMqyb2xoMB-qsSTdmXbIhQ_1756800865
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-45b920e0c25so6970225e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 01:14:25 -0700 (PDT)
+ us-mta-104-RDAIw1sGPQSjm5cu4dgCEQ-1; Tue, 02 Sep 2025 04:15:25 -0400
+X-MC-Unique: RDAIw1sGPQSjm5cu4dgCEQ-1
+X-Mimecast-MFC-AGG-ID: RDAIw1sGPQSjm5cu4dgCEQ_1756800924
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-45b7f0d1449so19078565e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 01:15:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756800864; x=1757405664;
+ d=1e100.net; s=20230601; t=1756800924; x=1757405724;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7sjD/QRd0X/r3/hIK35g/NLILC2+ivFRe7H4S8czaX8=;
- b=P8r6DzBwJiZRvIfVvl5zufqNyYDkMsBfW7CReax3AKESYQenbA0aSGkottRFDIUgOj
- ym6KTVkEUn8qnQMuAAxQEC/cBTejM+UqpACVuWZU3T9wLyHXX9BS4mQPB2/EdLTeC2jw
- KqfhuQUgtElc1hgDLsRRPRZjMFv25HU5fNoS/IwFylWCmFrO120daw+83wVyHzVVz8ie
- ONk/nyE4lyS25u0LpZjJPRwEFczeWXpRk9TxHUhSuUxHCmsupTufA+ao9TgBjeTwbKbY
- W6t0YsJsAjCDBNlr084n0/gOhWbVApnkBzcj2GsoK7yKf09/s6QRfeQ5B/1lTeLpqq+u
- zj0Q==
-X-Gm-Message-State: AOJu0Yz13pcrh3Cns9HI7vx43YPISIufD82qVW4UcnXsjN2b1XJIZC+u
- YYB84orbOMre9P/Skcol01+ESPrCnci1LAVNWzDe4Qy8jwHN2Jsh3WMlw0qRFaPbNev3SlIUv/+
- cSXNH/3ZAHJxfkfk5iW/AC7slCB0qPq1327ISnJV/5/QCkmDfvN/l8KrzuNDjR7+nKlvrOVeWHk
- w/sQ==
-X-Gm-Gg: ASbGnctuJd0rnR59QL0EHi6wnLY7agB8rIoszO2LrvVdbDiBNzN/ee5Y0Mk56CdFDlJ
- cqojEZ5kJ5ZltTmpJFrj/PClyWO7vej8D2+r9XkwlMJCavxF3vEknR3YmljiOwCNRr0j5JZHRMk
- u5w3b+QutKkdz1kHfGBenkEadiPEKs43SIRLQJP/fdJ9/CyYIy1EKYTS5wQwSuc/xeLU3rEcG81
- KdVXiwh5WcsuO7gtfvw/QhQD8To9bcxNlJdBaNGTMAJkjJfp35AyJ7A4HpczWu1qNWeDOzR1hOw
- sE+5evUZAI7fTJ0UjiilQY/mTj4XB/EukCV9kOQQhwueWBt76R6A4An0vkD0m37ulg==
-X-Received: by 2002:a05:600c:4f0b:b0:459:d821:a45b with SMTP id
- 5b1f17b1804b1-45b87bf56e3mr84719855e9.9.1756800864456; 
- Tue, 02 Sep 2025 01:14:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFSE9BbGoAU9QWUHXjPbgLFfuEZvjJTrv5W5hVxfxt5ez8sFPvU3aLh4xjk4Nk3CockqCwCUw==
-X-Received: by 2002:a05:600c:4f0b:b0:459:d821:a45b with SMTP id
- 5b1f17b1804b1-45b87bf56e3mr84719555e9.9.1756800864077; 
- Tue, 02 Sep 2025 01:14:24 -0700 (PDT)
+ bh=HXRyi8QQ+yoEJQrCXQN+YoD6Y9D+uJQKqe1ifwkGZM0=;
+ b=bepZ0xGrlfcmlh4X7OjLurL4Z3DR4D/L2CWH8/zOK7ck0yIKqYfYQFAKAxmg/Yy/7w
+ IPCvRk9BA69VuY0eg+mI4jQTbDVkvzC4CLYq1GZj34XQEX3uParo8SWgPQmbkYPJYDoN
+ n7A0O9rxVbknAW7ecYQ8wgL7vzgzBXS9CgS2X2K1jl6HC39qZtwsf+56CFJG2snUGOoc
+ pGbn5BG1BsZhxWAFRMB5EJLS/XlopZJVw/aHh31uuml6q7GgABTE/qwqi9XzvZ0s7WRt
+ 3I8beu6utUZL6f34EQAUuWoErblN54D2j2TxIGLx8uAsIMz8rglHZwncm0TY3nybegXL
+ 104A==
+X-Gm-Message-State: AOJu0Yzsg52Sg/otzf5VRh1SHBr+STU9TJxm/mElT4iGE1GVJH/MfMxF
+ M6Ct5wqjGHAvNHLJ95UeK5YNHdDg93zeT8ZnpuVivd27c69xxKiaSKr8V+UrpO1oMUTj/M6uLmJ
+ B90+VJwwbM0ck3pFItitTbC97R2Z+OORfnG6w85GG8Z1thdZOfCRdGiJIUuEeJkwQXYYwww==
+X-Gm-Gg: ASbGncv+Wf43e52IJTfK/9q6t/EkxyOPD9/pgDiQDTMbhTmy2DGocQoBEXyFTN88y77
+ 8uT1Zbzw42XFQnV/qLR75E8ld+Pmro/MOSkiupoq+tZnaG3mYo4lnbqmWawKYOvcLhcH4a/tbLa
+ 2wyvS8HmrZaAGBSIp/vS96Rdh40Xwov2nqQjG9gFZnkeI8HWiEvCRoy6gIRvwMIPOoNxtffhez8
+ 8J/aEuW/uiU6qjr/g4BzOil4KaVzkorUh01TMl8VkOYwoFaZjtJ04C9t+uGotfRtqxmTRaEw+FU
+ M1ypshcmx2SzcDRPNnJeIGdELTqMqN3bKluvxoA3KnrwRPt/TQWf60eMi1qJ5Spvgw==
+X-Received: by 2002:a05:600c:4ecd:b0:45b:876b:bccd with SMTP id
+ 5b1f17b1804b1-45b876bc00dmr78095885e9.6.1756800924067; 
+ Tue, 02 Sep 2025 01:15:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEf3BXjXuhH+zQHiKvFQfBOrdSHe7/u6GM1yafj+Lz0Rrl2E0wkGX+XU06hmLpkjw/X//Nfmg==
+X-Received: by 2002:a05:600c:4ecd:b0:45b:876b:bccd with SMTP id
+ 5b1f17b1804b1-45b876bc00dmr78095555e9.6.1756800923608; 
+ Tue, 02 Sep 2025 01:15:23 -0700 (PDT)
 Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b9ab7c7dbsm7829315e9.11.2025.09.02.01.14.23
+ 5b1f17b1804b1-45b7eb05fd9sm186678105e9.24.2025.09.02.01.15.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 01:14:23 -0700 (PDT)
+ Tue, 02 Sep 2025 01:15:23 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, louis.chauvet@bootlin.com,
  drawat.floss@gmail.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
@@ -72,15 +71,15 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, louis.chauvet@bootlin.com,
  maarten.lankhorst@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org, Thomas
  Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 2/4] drm/vblank: Add CRTC helpers for simple use cases
-In-Reply-To: <20250901111241.233875-3-tzimmermann@suse.de>
+Subject: Re: [PATCH v2 3/4] drm/vkms: Convert to DRM's vblank timer
+In-Reply-To: <20250901111241.233875-4-tzimmermann@suse.de>
 References: <20250901111241.233875-1-tzimmermann@suse.de>
- <20250901111241.233875-3-tzimmermann@suse.de>
-Date: Tue, 02 Sep 2025 10:14:22 +0200
-Message-ID: <87frd5fezl.fsf@minerva.mail-host-address-is-not-set>
+ <20250901111241.233875-4-tzimmermann@suse.de>
+Date: Tue, 02 Sep 2025 10:15:21 +0200
+Message-ID: <87cy89fexy.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BdC1Uf8vP6IAl9IzBZru-gCGpNA-SiAAhQBlgnPbGBs_1756800865
+X-Mimecast-MFC-PROC-ID: zHAOfdMhBlLvHYRKvbBhvw_v1hZdTt2ZmoGEFGQpOqY_1756800924
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,21 +99,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Implement atomic_flush, atomic_enable and atomic_disable of struct
-> drm_crtc_helper_funcs for vblank handling. Driver with no further
-> requirements can use these functions instead of adding their own.
-> Also simplifies the use of vblank timers.
+> Replace vkms' vblank timer with the DRM implementation. The DRM
+> code is identical in concept, but differs in implementation.
 >
-> v2:
-> - fix docs
+> Vblank timers are covered in vblank helpers and initializer macros,
+> so remove the corresponding hrtimer in struct vkms_output. The
+> vblank timer calls vkms' custom timeout code via handle_vblank_timeout
+> in struct drm_crtc_helper_funcs.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
-
-You could mention (as you do for the first patch) that the helpers' code
-have been adopted from vkms. Since the CRTC enable/disable callbacks are
-the same and the flush is mostly the same (minus the vkms specific bits
-that touches the struct vkms_output).
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
