@@ -2,138 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E394DB402BA
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CACB402BC
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD6510E6E2;
-	Tue,  2 Sep 2025 13:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93E6510E6E4;
+	Tue,  2 Sep 2025 13:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="THgycutG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rk5fc7Nx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="THgycutG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rk5fc7Nx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GyWs4xTc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6255910E6E4
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:22:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D033D211A2;
- Tue,  2 Sep 2025 13:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756819361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0HFmgxdh9UywBudMtT0xj7qaL3uD8klJAz80JBdkKvY=;
- b=THgycutGaZGE01hUGQL3kiq89Zh1zwNsPxPCGSjuqiH5ZMCJHcz9eC9HuHM8Vwb66E62RR
- 4yljh9ezmRUteOoGGX0DE9DdExDoMuuT2S+msVWWwy7MnX4wCmWZtv5EKsnWzQqHVkZjhH
- hfkizvL5Ax+L94+fY04j7BFLxuDDSC0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756819361;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0HFmgxdh9UywBudMtT0xj7qaL3uD8klJAz80JBdkKvY=;
- b=rk5fc7Nx9S9THAfhHbmVR0x3U5E16ANNPkpW/Pfm027b9/dD8QXm8NDs2njezl3DmjD25i
- i7dEjCFY2TFz5cCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756819361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0HFmgxdh9UywBudMtT0xj7qaL3uD8klJAz80JBdkKvY=;
- b=THgycutGaZGE01hUGQL3kiq89Zh1zwNsPxPCGSjuqiH5ZMCJHcz9eC9HuHM8Vwb66E62RR
- 4yljh9ezmRUteOoGGX0DE9DdExDoMuuT2S+msVWWwy7MnX4wCmWZtv5EKsnWzQqHVkZjhH
- hfkizvL5Ax+L94+fY04j7BFLxuDDSC0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756819361;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0HFmgxdh9UywBudMtT0xj7qaL3uD8klJAz80JBdkKvY=;
- b=rk5fc7Nx9S9THAfhHbmVR0x3U5E16ANNPkpW/Pfm027b9/dD8QXm8NDs2njezl3DmjD25i
- i7dEjCFY2TFz5cCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CDBA13882;
- Tue,  2 Sep 2025 13:22:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id sn3AGKHvtmhVWgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:22:41 +0000
-Message-ID: <056b0335-f104-4b67-9882-6beaecd21c76@suse.de>
-Date: Tue, 2 Sep 2025 15:22:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/29] drm/bridge: Implement atomic_print_state
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA57410E6E4
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:22:50 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582AVe8c032487
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 13:22:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=bnOMNcgQTARJqOqxiCbPbIZk
+ hjKqpauvdBCD8pLsQcA=; b=GyWs4xTcOJESFlgSeT0axog15tx8gjBcDzntMD7q
+ Utiw8kq7EPO+GZhnW0untLLNISWeir0cCSSOwmGTiB6IzFat6GJTvVWe2QhiCppT
+ cq/fEaxWG6VHkZbfFopHvmLvqrqlrW7Z8cFQA7gVc+XK296UXB/eZUCJ6V+HzXGk
+ EoKpJ0tuucS+T+J3fDqCvyDtUv4LBHsJne8Su5EaZwq5X6Onnx3rvrdIAqj2YcYc
+ f1F4kWYgk2zEpa/lJgwrgrUP54bb2SJs4KIxQCzQ5ToiVMicHw6MPE5YcT0HVDhI
+ JzWxXf7yXnm/OTeyZvzOEEs+YAvSrS/5oGHV8o8p4AFAIw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48wqvw9mtq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 13:22:50 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b319ed6427so99461661cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 06:22:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756819369; x=1757424169;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bnOMNcgQTARJqOqxiCbPbIZkhjKqpauvdBCD8pLsQcA=;
+ b=sMqrRs/PMe4AgBozxyXkz/y2gBG4Di9ERf4fvmpLMt41JRGhHeYH2n1iWR0goiTf8s
+ gqym2ve04foNf00uhzMmCHL4W9sByNuqobXflncIBQMgm1LTrACnlotGf1aCJaMUGm33
+ EF06YBcbJCYEMfNAetyHquIebjYP+kaoAAowZPJoV2Q7J1SzJEGFNwOaDUd7NEXyNL/r
+ DsXDRhfkqqNbcZ09wDAa5nNfok/1LMq+qJCeArFPgz7KXSZwRnxE4osHplcWG72HXABP
+ +aYkTeYsinljLcqly+nWSrRJKoZ48gRaZfeu/b5zOhA3wPNykHTZY6DbdhZExr3BMAGM
+ YHPw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXXFl/0fUA1ZJeL+f+ZbprmqrXhb+/H82baTNGVkhIe7OUUNIpFR212rm49m6rNDemrIAxJpVde5io=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztUbPen011ZmPA4BxBXAq7Pz10X65BOSbUech9bloPvCZzILxY
+ NLWAv/2mm4LIVM+sTpWgi/Xx9nLl6qWmICgQ5k2w1PgnRhqXxDDUHAaNYuloElZY/XfxHY6mX7w
+ wC8iZ/m+4i8IOORW0ohFXTT4uOzdtRA1C2X0ZtADxY33TRfX53ZvDp38CvkyfHtNNoHdzD6Q=
+X-Gm-Gg: ASbGncsmNLtmp2QWVRA5Q4chiDgQj52pF80shqu15/QlVCcmxWAQIIGdwFUY0aW0oOA
+ NcILA8QuD4XHvjHNKixViwCLtqnbtyDtXgoNVAWKkBhey4EEv+qZ69avzjemBalInPhiarUQHRw
+ 2v+YLiCqfyULLqPzc/9MQ72CQtrRvHc89WIwN9zq9u/C/VDkVYTQ4pXkITjTM+g1kQfVNoPDC09
+ 3lVYzJm1RoWnNZgpth+98UcL2beogZvdH4yZ+tKx+ZsoQOvGEipXQ3amjuIAc8420WRp191En2n
+ bVq3MGw6660lDZokQpSkZmElDSN3NV8Wx7jzSg1aut8QSkinsHzC1hAY+wEVUDhuKX5SuWr852k
+ XpDfaerMeMbF69qxLbU7JHRK5i3vyN/dABou0XqFpxR5L3dWoiuq5
+X-Received: by 2002:a05:622a:4008:b0:4b3:444d:d831 with SMTP id
+ d75a77b69052e-4b3444ddad2mr43181211cf.77.1756819368642; 
+ Tue, 02 Sep 2025 06:22:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG/Yfd06dDxWc4ORQu80mKYAy1Xmpyw2gmC89vwxroKbFRt8K7S04LGANB6G5EwZakLVep4FQ==
+X-Received: by 2002:a05:622a:4008:b0:4b3:444d:d831 with SMTP id
+ d75a77b69052e-4b3444ddad2mr43180581cf.77.1756819367875; 
+ Tue, 02 Sep 2025 06:22:47 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-560827b5727sm679643e87.150.2025.09.02.06.22.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Sep 2025 06:22:47 -0700 (PDT)
+Date: Tue, 2 Sep 2025 16:22:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-6-14ad5315da3f@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-6-14ad5315da3f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 34/37] drm/atomic: Remove unused
+ drm_atomic_get_existing_crtc_state()
+Message-ID: <uvna7myr5hrsfbnki64i7oeg7elvdyyc7z4p4sq3qj4ubzi5e3@rx5mkmyzseny>
+References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
+ <20250902-drm-no-more-existing-state-v2-34-de98fc5f6d66@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902-drm-no-more-existing-state-v2-34-de98fc5f6d66@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAyMDAyNCBTYWx0ZWRfX8pmLnoe5QOQ3
+ P8wUIbkcJHIdB6MmLzCOCQnJZ34cc0xFRofx0rUSADeZULYqQ3bhbqtUwQWMorPB35CswFP6cc0
+ sMLVb2SMPZ3ys699qDdW9BJKnf+SSjnT7JHTFa/Es3vTubXLgJ1WTQk7l/Xu1hxqQWoLSVhI7En
+ 6Fy3Xmrrqd8xZ5qj9wQXsTLgMfZ/RRto/SCoFCvGdPnEazIVuVyuAkOgSf+O0/ZMLGaaH8JatUr
+ 0i9v0szpMBYmkaxhkFNIgpkhxPdzcOoro4elq+ue6YYvS+lkEGvIrbuIaJPO7BtONqGDfnol2Mq
+ X+qnZmG8Wp5fMa/unP9fhoWBz9ecN5wPGCGGhtoz+ZfTyqvGmyELAUP0K+HZRO0QRhSZSZsNF+I
+ 7I8ggyWa
+X-Authority-Analysis: v=2.4 cv=WKh/XmsR c=1 sm=1 tr=0 ts=68b6efaa cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=v-H7qGZ_gL21L2yEE4EA:9
+ a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: TQ3EyYMWFCz-iTqMtOuZj8b-oCBYOVVR
+X-Proofpoint-ORIG-GUID: TQ3EyYMWFCz-iTqMtOuZj8b-oCBYOVVR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 adultscore=0
+ spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509020024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,71 +125,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> Bridges have some fields in their state worth printing, but we don't
-> provide an atomic_print_state implementation to show those fields.
->
-> Let's do so.
->
+On Tue, Sep 02, 2025 at 11:35:33AM +0200, Maxime Ripard wrote:
+> The drm_atomic_get_existing_crtc_state() function is deprecated and
+> isn't used anymore, so let's remove it.
+> 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->   drivers/gpu/drm/drm_bridge.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index dd439d55177a867acb7ab73c02182bada44d93c9..e803dfd8fd5aae9c16931445213df04d8715b9f6 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -370,13 +370,31 @@ drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
->   	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
->   
->   	bridge->funcs->atomic_destroy_state(bridge, state);
->   }
->   
-> +static void
-> +drm_bridge_atomic_print_priv_state(struct drm_printer *p,
-> +				   const struct drm_private_state *s)
-> +{
-> +	const struct drm_bridge_state *state =
-> +		container_of_const(s, struct drm_bridge_state, base);
+>  include/drm/drm_atomic.h | 18 ------------------
+>  1 file changed, 18 deletions(-)
+> 
 
-Maybe adopt drm_priv_to_bridge_state() to accept const pointers?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-https://elixir.bootlin.com/linux/v6.16.4/source/include/drm/drm_atomic.h#L1236
-
-
-
-> +	struct drm_bridge *bridge = drm_priv_to_bridge(s->obj);
-> +
-> +	drm_printf(p, "bridge: %s", drm_get_connector_type_name(bridge->type));
-> +	drm_printf(p, "\tinput bus configuration:");
-> +	drm_printf(p, "\t\tcode: %04x", state->input_bus_cfg.format);
-> +	drm_printf(p, "\t\tflags: %08x", state->input_bus_cfg.flags);
-> +	drm_printf(p, "\toutput bus configuration:");
-> +	drm_printf(p, "\t\tcode: %04x", state->output_bus_cfg.format);
-> +	drm_printf(p, "\t\tflags: %08x", state->output_bus_cfg.flags);
-> +}
-> +
->   static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
->   	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
->   	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
-> +	.atomic_print_state = drm_bridge_atomic_print_priv_state,
->   };
->   
->   static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
->   {
->   	return bridge->funcs->atomic_reset != NULL;
->
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+With best wishes
+Dmitry
