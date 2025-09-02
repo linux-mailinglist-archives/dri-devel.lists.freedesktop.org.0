@@ -2,126 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA12B40086
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCA7B40089
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:29:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB2910E6A9;
-	Tue,  2 Sep 2025 12:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D7210E6AB;
+	Tue,  2 Sep 2025 12:29:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TVy5TnMy";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZKf5YVfk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7136510E6A9
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 12:29:36 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3dad6252eacso241290f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 05:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1756816175; x=1757420975; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=1ZrMGz19D43nUqFgTyxFJMNWsEoiEGhGU7kOoh8E0aU=;
- b=TVy5TnMyWHUZZxk396jJXgDChtjZWFhmAhRlUXhXPc4y+UCuKhumhGI5WB3yEHQ/mC
- ddIeqBvpZpkQ3wD7+kDWcGz1UU+VRwcRf+9lZp7l8EQkos84t7SJ9eYxeNhtSmoWqWJk
- U9hs+g5UDQSy2vjvkSM1d853Ma5QR+1t/tWb9TFvoG7VXU1/w1A2HF2amN/oCJKztXXX
- XdgoIqbQuyW8ZA/rmWgUXSIPx2EIpMXelcUsKtdkf1rEc+P4DxZ6Hwl8ro884JwkZOX3
- nuK3e8HFTnAQKov9uRRM72kSUPwq5HDn4jfoPIuiwlL2gwsni0KFRxurZzbWyAifsItN
- GlkQ==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9F310E6AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 12:29:49 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582AoSWJ013626
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 12:29:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ o8P2Gir3O8jPJB6+GGpkTLBfJkGgJFjfvAetbhb186M=; b=ZKf5YVfkfYkeFnga
+ BgoXxP+n0VH/aFnIhKWmQnNxY7elH/2xUjNU4YLC8rxpyQxEnZxBvxXbFLi0rWOu
+ f3Jkk4jUtFYN+ZIR5dKtAliVyU8CEILJJukAq/hURosDjzlO1adjYKlrZO+MyR83
+ oRvR+XRvYshx1AbrnVeBw4o3ux7xxNzr8t3pm+PuzdEtNyHUW4CbffZvDy0XEX0M
+ a96OkNufbp/gGHaap9eJNVEWdoQbTSsboWgUqdIe0GMa29delGaXcDSnoxbO2ECV
+ x2CbWtokibQKqaXuc6f4xve3+ieUOCtwAhxQXKJJVOs0Ym0H/3C69BhvQ+hJbAdd
+ 9n/THg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0efw4v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 12:29:49 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4b3387c826eso7422401cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 05:29:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756816175; x=1757420975;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=1ZrMGz19D43nUqFgTyxFJMNWsEoiEGhGU7kOoh8E0aU=;
- b=RYOpLaS599zD1aJpOvDBleKoNvjWPBEFltcTAEGQCEjwxwLuCnFq1oehS5A0szfdxq
- SAt5iutBU/v2nRKRS2DpLrnIrP09Ro8Bf0HyUNPCPLdBn4UlN2jxEXUV4QPDnwY1NgjI
- dd947i/tfFre0zEp5c9WIq4DX04WMsSRdKiTkXu5eTgJABlFt7xvIe1L342Wm1p2nJn9
- PQJIRu7/NKoPfMo2YC0xQSBYKApVY9pfhHcjCi6O4Ue2y3KbTWmv3896dW/dL9bY7d7x
- Z3aVIKUK+CvCBnBYr8o0XTnzusJvuiq4cuoJqfEdH48JveeOgRGXPy0Md43SE32IXmn9
- j7vQ==
+ d=1e100.net; s=20230601; t=1756816188; x=1757420988;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=o8P2Gir3O8jPJB6+GGpkTLBfJkGgJFjfvAetbhb186M=;
+ b=XY5kgJYYI7SWOWTafmTtqmGhuQJQiwYfKxNe2iP6HLNL98RZjI8NBf3+iaILJ5V2Wd
+ 8/3YlLKpDBO7o+YImp8ZHn28J5vV8oOBaIzpeH9SHe4C8VJ+XPiT9TDnTJEDmkPzhlFJ
+ q9eDpFixhzCzoeBj9imO2Dj4GiS+GP4pdHi+ZhMT6oNqnlUgKaO1C3Z63aMYeMnXtMEu
+ zK8kiROGNKkSIAsJmzd9+rLuDeO31wGm1vSZ8jHp3CxleVLS3STEXuTPaoWqK/WG+4AH
+ 7XGtU7GaFB35QJmsCrdKMveclzW6XPjUn9f+M+EOcYgng0CSj1bpWSUUueuEKytrg7H9
+ 7OIw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMxKyGXnNlEf3gN6MOmfo1M8NConmkNScFDO78/OjROXzz/AXZ3DbvorBjk9uM5iXUO70/snbUD38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmaRwNDt8/vop5NSTMFENJWCZLrne/oRCziYvinlJLQMEEHgEi
- hxnrBD2e/4eP1ruQUz7V2V4G0lCbOvo0/TG2Y7DkA86C2wqjfYMxFTxrPM7xie5P6Wo=
-X-Gm-Gg: ASbGncsaSMdu7hp3CG0Z+pyTCn/loS24m/1TOjzDHUEMPujkXzkYbDlTREop0+Y/NoW
- Ik1nGKbSkgRczzvyc9I8qDbfGBOuTHdh+ND/Mp/ExrA/9T9DWN+3l1WXhux15UhWyoWA1IOg2vj
- Wq4eVcdzkIfXwkSR9fJFPDLlizyWSAe3qLfbEmrQZICLClyKKcnwocyUFyTr3JgFCkja5wuTPah
- h3e6CrvUn/kwgZf7GNaldMCcd7EigPPWWH0ot+gcpChoI4FT/ZdZ4wKj9Rmo5PtN8S5e4ddhS4a
- w06u0a/xKfwNdy+iDmq6tMmbyrUFizYt0MYcE3rpqZVZUVPsdsX1QIuCvdETtyoSCJtygcKAxBJ
- aByRxLcw7ef6qiExVerrkvutZKOZH/inkT/Ol0sJiRrBPCtz45OGoPKJrcmjvwLKvX1GTkeVADp
- 0=
-X-Google-Smtp-Source: AGHT+IE1b3znR8mhSVfN1o59ljoC/UoU3/SWyuUcMM/rQ1Xo7sYc7jTiyhzTL42RejqME3JwAEmmLg==
-X-Received: by 2002:a5d:64c6:0:b0:3ce:f0a5:d586 with SMTP id
- ffacd0b85a97d-3d1dc5a2fe0mr7157423f8f.1.1756816174847; 
- Tue, 02 Sep 2025 05:29:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:5c8d:8a1e:ea2b:c939?
- ([2a01:e0a:3d9:2080:5c8d:8a1e:ea2b:c939])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3cf33adf170sm21033678f8f.33.2025.09.02.05.29.33
+ AJvYcCWxKkQqEXWeut4xqO4EIBabOF1iRatoBMqoMECA2Hml6igHyu1WmfI9hHsr+e2jj82rIuk6DV/nGrY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxN1L7TpYIZ8JKnmBCdxGp4faN452PiF5+f6ViExEEuY1Xt6M/O
+ 2MRxkn5rlLg+kQhuCavLq/dHOW4WHBLY7KtV3dNwEgMHpBtRLrIid9GDD1UXaRj4Q5I6lCINW4x
+ 0wX6yaa5DgwNCRLpiQMseO7vytQgkQpVxDdJK3+Cs1+6KvJlLCF2lDbCDZOgStaP7WVSOHGU=
+X-Gm-Gg: ASbGncsbmzywTDF4AAhSU/qn0fo23uyDNM6kE6DKH3RY8wEFNctQQgMhQ5qTaDRVyb3
+ ehcdD1Q88MRXaRmXQq0PILUwuqEhyCcmWV/DCesNnq6WuMsMCUgcxa3We7Ht9awRkmcLfUTg/P2
+ 3DH4DO5jiTElfMBHHZQ8nw/XddOyo8VhYODxVF5wUWLV7LNwd6u2QX2VbUg5XS+F0hR0/iV+7Rg
+ /UdGlvA93JoYfCSzR8uoTySQ/ctTFKtPXebz1Ba0UkF3dHXHSndRAFvXLK/jPpb6n71zWTATJoH
+ lmVJrulnqwvc+8yeLOIZ+nzdn4o0SRr/CFCtkzhJBwmkoDhrXeMLFVEep9d6xgOqh5PaVKd6R6P
+ +IrUQDZOdzhKdpRZ8Dbe8kA==
+X-Received: by 2002:a05:622a:144b:b0:4b0:8cfa:a507 with SMTP id
+ d75a77b69052e-4b313f44a5cmr108395621cf.10.1756816187728; 
+ Tue, 02 Sep 2025 05:29:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsvBp4S9s9oRswfDvkLrbWzaHDxtJFSJQVPWxI8jySZ8itlnPJLwhXxGi8T2KTMsnZUjXbSA==
+X-Received: by 2002:a05:622a:144b:b0:4b0:8cfa:a507 with SMTP id
+ d75a77b69052e-4b313f44a5cmr108395361cf.10.1756816187173; 
+ Tue, 02 Sep 2025 05:29:47 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-61cfc1c7edcsm9627002a12.6.2025.09.02.05.29.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Sep 2025 05:29:34 -0700 (PDT)
-Message-ID: <81b1e0b8-6a5b-4eb9-8f9d-fe9a52f0afcd@linaro.org>
-Date: Tue, 2 Sep 2025 14:29:33 +0200
+ Tue, 02 Sep 2025 05:29:46 -0700 (PDT)
+Message-ID: <9df42327-b417-454d-9f4a-608979498f79@oss.qualcomm.com>
+Date: Tue, 2 Sep 2025 14:29:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 3/5] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy:
- Document static lanes mapping
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH 2/4] drm/msm/a6xx: Fix GMU firmware parser
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20250902-topic-x1e80100-hdmi-v2-0-f4ccf0ef79ab@linaro.org>
- <20250902-topic-x1e80100-hdmi-v2-3-f4ccf0ef79ab@linaro.org>
- <slgu2d4iv6ef76f43gvwaelcl5ymymsvhokyunalq7z3l2ht3j@t7pko4rtqvgm>
- <bf772209-2420-4794-a52a-1d5932146307@linaro.org>
- <tl4fskw6yq6rniwwqkrvnulfpgym3jswlt5bmulgquogv7xkct@6bl4boesilsw>
- <14f334fc-35de-4f21-8eb1-f6b41ac24704@linaro.org>
- <oel3t35pxegxaowcfjbrzrxvuw47p7pzcinz7kf2uj2ivcderv@efbttlqpwcc7>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <oel3t35pxegxaowcfjbrzrxvuw47p7pzcinz7kf2uj2ivcderv@efbttlqpwcc7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Jonathan Marek <jonathan@marek.ca>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250902-assorted-sept-1-v1-0-f3ec9baed513@oss.qualcomm.com>
+ <20250902-assorted-sept-1-v1-2-f3ec9baed513@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250902-assorted-sept-1-v1-2-f3ec9baed513@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: HRz-ryK-HQGh-pV6gCIfgwkledGDd7k2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX4LmDzW3qn9lU
+ VtcwfD25804y54D3ZEvSf+x5/MkWrWXVNuUkGq7DIyRt4oApvYIyNrgUDxhUAUj/eeXonoZ9yOa
+ dDNLXqg5ZPLyLrhhph2RbNZm13zAIkZvzI1wmV/Tp9W/o/oIruRbFbAawmboAXV1vDS6tM7nCrh
+ DIzb2+qNHPbnnBCHxHdJoVjwls21Dyn//+E3Lj2pbNVfl3DtSRrs9JvGW4mFQGWrUNqz+QFVXg1
+ pOIJAXVyv6NljDIOCFVdJtTu16KKYJRUUULnV1kQh04BroBgotVcJt1cxupCN7Ckl1AnhbjqwFs
+ 90S6linbZmXTjRcj2VrS0Y+9JtWDVlWrmXVpypZz47YnPs4fseFk8lLIweWZto75U/6hCeW3AjD
+ KOrJjNiL
+X-Proofpoint-ORIG-GUID: HRz-ryK-HQGh-pV6gCIfgwkledGDd7k2
+X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68b6e33d cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=B4Uh0k_u2pjkwks94HoA:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,113 +130,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/09/2025 14:22, Dmitry Baryshkov wrote:
-> On Tue, Sep 02, 2025 at 12:05:45PM +0200, Neil Armstrong wrote:
->> On 02/09/2025 11:46, Dmitry Baryshkov wrote:
+On 9/2/25 1:50 PM, Akhil P Oommen wrote:
+> Current parser logic for GMU firmware assumes a dword aligned payload
+> size for every block. This is not true for all GMU firmwares. So, fix
+> this by using correct 'size' value in the calculation for the offset
+> for the next block's header.
 
-<snip>
+Hm, I haven't seen this in the wild - do you have any specific examples?
 
->>
->> This is wrong, those are the internal connections to the controllers,
->> those are fixed. I'm speaking about the external lanes, but there's only
->> a single port.
->>
->> So, following your suggestion, we should use the Output port 0, but as it's
->> only a single port it would need to have 2 endpoints, one for USB3 and one for
->> DP.
->>
->> For example:
->>
->> \{
->> 	dp-connector {
->> 		compatible = "dp-connector";
->> 		type = "a";
->>
->> 		port {
->> 			dp_con: endpoint {
->> 				remote-endpoint = <&usb_1_ss2_qmpphy_dp_out>;
->> 			};
->> 		};
->> 	};
->>
->> 	usb-a-connector {
->> 		compatible = "usb-a-connector";
->>
->> 		ports {
->> 			#address-cells = <1>;
->> 			#size-cells = <0>;
->>
->> 			port@0 {
->> 				reg = <0>;
->>                       		usb_con_hs: endpoint {
->>                          		remote-endpoint = <&usb_1_ss2_dwc3_hs>;
->>                       		};
->>                   	};
->>
->>                   	port@1 {
->>                       		reg = <1>;
->>                      		usb_con_ss: endpoint {
->>                           		remote-endpoint = <&usb_1_ss2_qmpphy_usb3_out>;
->>                       		};
->>                   	};
->> 		};
->> 	};
->>
->> };
->>
->> &usb_1_ss2_dwc3_hs {
->> 	remote-endpoint = <&usb_1_ss2_dwc3_hs>;
->> };
->>
->> &usb_1_ss2_qmpphy {
->> 	/delete-property/ mode-switch;
->> 	/delete-property/ orientation-switch;
->>
->> 	ports {
->> 		
->> 		port@0{
->> 			#address-cells = <1>;
->> 			#size-cells = <0>;
->>
->> 			/delete-node/ endpoint;
->>
->> 			usb_1_ss2_qmpphy_usb3_out: endpoint@0 {
->> 				reg = <0>;
->> 				
->> 				remote-endpoint = <&usb_con_ss>;
->>
->> 				data-lanes = <1 2 0 0>;
->> 			};
->>
->> 			usb_1_ss2_qmpphy_dp_out: endpoint@1 {
->> 				reg = <1>;
->> 				
->> 				remote-endpoint = <&dp_con>;
->>
->> 				data-lanes = <0 0 1 2>;
->> 			};
->> 		};
->> 	};
->> };
->>
->> So the driver logic would need to look at the port0/endpoint0 and port0/endpoint1
->> data-lanes to figure out the mode.
->>
->> Is this what you were thinking ?
 > 
-> No, I was really thinking about the data-lanes in the PHY parts, so I
-> was incorrect there (which is incrrect as you've pointed out).
+> Fixes: c6ed04f856a4 ("drm/msm/a6xx: A640/A650 GMU firmware path")
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> The endpoints approach looks interesting though.
-> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 28e6705c6da682c7b41c748e375dda59a6551898..ea52374c9fcd481d816ed9608e9f6eb1c2e3005a 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -758,6 +758,8 @@ static bool fw_block_mem(struct a6xx_gmu_bo *bo, const struct block_header *blk)
+>  	return true;
+>  }
+>  
+> +#define NEXT_BLK(blk) ((const struct block_header *)((const char *)blk + sizeof(*blk) + blk->size))
 
-Indeed this would accurately describe the data flow and lane mapping, but
-I fear this would add a very complex logic in the driver.
+CHECK: Macro argument 'blk' may be better as '(blk)' to avoid precedence issues
+#146: FILE: drivers/gpu/drm/msm/adreno/a6xx_gmu.c:761:
++#define NEXT_BLK(blk) ((const struct block_header *)((const char *)blk + sizeof(*blk) + blk->size))
 
-Anyway I'll try to drop something.
-
-Neil
+Konrad
