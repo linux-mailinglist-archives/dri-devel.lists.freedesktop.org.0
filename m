@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA21B3FA4B
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EBBB3FA4D
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D40810E614;
-	Tue,  2 Sep 2025 09:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B5810E617;
+	Tue,  2 Sep 2025 09:28:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CHRii3RU";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QLqWswT/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B4810E614
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5DC510E614
  for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:28:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756805286;
- bh=kX99daaTmRjZZgK7NDFvXocEUTsxLb0HWG3/u7rNoOQ=;
- h=From:Subject:Date:To:Cc:From;
- b=CHRii3RUTvt67o2uyq3VloVbOygGmlL+ddS1PuriwQWfeAIyTPZlfq3zweQJ2itTL
- qjNUWhdH3E4FsFVFqfdkCKRr0FfCQmuNe0i6bMBHF1uONrRCMKypfFTMo2LylPtFHp
- 1oh4N7dOdmPtEDmL/HzH/z715AxV2/LiETaHAS2UID8E27Blw9ZctXuU/H4EIHLYMv
- KwQlHvNPjA657acqbePIapKEo2OmtDv3tM1RLE5mqo5BeWY+1GQkMHv9tuPTIy4hIi
- fpfb3jye3VcvfHsE+3ot69+5m64gcVv3MESMnVJYeq0zq788GOpmHQLFlbqPfZYsVc
- XN7+VILWcxaOw==
+ s=mail; t=1756805287;
+ bh=YtwElPS8aR4gW4cx1Fi4f1c2ZQrNeyC9qjC7zQ2lfzM=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=QLqWswT/plgp0WihKxXmc8Ek7MMT+Bv87dJrvqF7XJTaTKd3VbFvZ0fRjzzRp10Ou
+ +81ctYoi0IN98HhTQP+pYTFSN/5wDzNXBl+EyANuCrkPbnOR2JTcd8pvtw328KTuQY
+ XAYLHfJcI8750dVd0WKks/seZkLXC0jZbzxQYSIlBcSccN6sL/lzOKjPnnmfBxnY02
+ /fh0r4S08W3Z0whRPFKj/AISBrBnhMzHG2Dz++2bjo0JSiMNPEWvCn66TimZx6LYcn
+ 72EOXt3RVBt5kJnBwtuZl2yWoQKZsrMS+FzeC6xC3Lu0LxKj7DfZWaMuOwxO8qOuou
+ 28YSy7OXmP3Jg==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 3225917E0676;
- Tue,  2 Sep 2025 11:28:06 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 0E23617E12B9;
+ Tue,  2 Sep 2025 11:28:07 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH 0/2] Introduce BACKGROUND_COLOR DRM CRTC property
-Date: Tue, 02 Sep 2025 12:27:55 +0300
-Message-Id: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
+Date: Tue, 02 Sep 2025 12:27:56 +0300
+Subject: [PATCH 1/2] drm: Add CRTC background color property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJu4tmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyNL3aJsY1MLC92k9OT8nPwi3WTDRPMky0RTA/OkZCWgpoKi1LTMCrC
- B0bG1tQBLBZTeYAAAAA==
-X-Change-ID: 20250829-rk3588-bgcolor-c1a7b9a507bc
+Message-Id: <20250902-rk3588-bgcolor-v1-1-fd97df91d89f@collabora.com>
+References: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
+In-Reply-To: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -69,154 +67,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some display controllers can be hardware-configured to present non-black
-colors for pixels which are not covered by any plane (or are exposed
-through transparent regions of higher planes).
+Some display controllers can be hardware programmed to show non-black
+colors for pixels that are either not covered by any plane or are
+exposed through transparent regions of higher planes.  This feature can
+help reduce memory bandwidth usage, e.g. in compositors managing a UI
+with a solid background color while using smaller planes to render the
+remaining content.
 
-The first patch of the series introduces the BACKGROUND_COLOR DRM
-property that can be attached to a CRTC via a dedicated helper function.
-A 64-bit ARGB color value format is also defined and can be manipulated
-with the help of a few utility macros.
+To support this capability, introduce the BACKGROUND_COLOR standard DRM
+mode property, which can be attached to a CRTC through the
+drm_crtc_attach_background_color_property() helper function.
 
-Note this is a reworked version of the patch [1] submitted (many) years
-ago by Matt Roper.  The main changes are:
+Additionally, define a 64-bit ARGB format value to be built with the
+help of a dedicated drm_argb64() utility macro.  Individual color
+components can be extracted with desired precision using the
+corresponding DRM_ARGB64_*() macros.
 
-* Dropped drm_arg() in favor of drm_argb64() to get rid of the bpc
-  parameter and the related shifting for more flexibility in operation,
-  e.g. when user-space cannot make use of the helper and/or when it
-  doesn't now the actual precision supported by the HW.  This also
-  simplifies the property verification/validation testing (see below).
-  It works by extracting the specified number of least-significant bits
-  from each color component.
-* Renamed DRM_ARGB_*() to DRM_ARGB64_*_LSB() while providing convenience
-  wrappers to extract all 16 bits of a specific color via DRM_ARGB64_*()
-* Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
-  drm_property_create_range() to create the BACKGROUND_COLOR property
-* Moved crtc_state->bgcolor initialization from
-  __drm_atomic_helper_crtc_reset() to
-  __drm_atomic_helper_crtc_state_reset()
-* Replaced '*bgcolor*' occurrences to '*background_color*' for
-  consistency with the actual property name in both storage field and
-  helper functions names
-
-The second patch adds background color support to the VOP2 display
-controller used in the RK3568, RK3576, and RK3588 Rockchip SoC families.
-
-For the moment this has been validated using a modetest wrapper script
-[2], which is able to execute several tests - see an example of a
-generated report at the end.  Proper support in Weston is currently in
-development, and I will provide a reference once it becomes available.
-
-The tests were performed on the Radxa boards listed below.  Please note
-that as of next-20250901, there are a few known regressions; for each
-case, I mentioned the actual problem and its related fix/workaround
-accordingly:
-
-* ROCK 3A (RK3568)
- - issue: broken networking
- - fix: revert commit da114122b831 ("net: ethernet: stmmac: dwmac-rk: Make
-   the clk_phy could be used for external phy")
-
-* ROCK 4D (RK3576)
- - issue: random freezes right after booting
- - fix: add regulator_ignore_unused to kernel cmdline
-
-* ROCK 5B (RK3588)
- - issue: broken networking
- - fix: apply patch [3]
-
-[1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
-[2] https://gitlab.collabora.com/cristicc/linux-next/-/commits/drm-vop2-bgcolor-test
-[3] https://lore.kernel.org/all/20250827230943.17829-1-inochiama@gmail.com/
-
-Validation report on ROCK 5B
-============================
-
-$ tools/testing/rk-bgcol-test.sh
-
----------------------------------------------------------------
- Available Rockchip display connectors
----------------------------------------------------------------
-id	type	status	crtc_id	plane_id
-85	11	2	0	34
-88	11	1	83	40
-
-Selected connector: id=88 crtc=83 plane=40
-
----------------------------------------------------------------
- Check initial state
----------------------------------------------------------------
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-    Connector: HDMI-A-2
-	background color (10bpc): r=0 g=0 b=0
-
----------------------------------------------------------------
- Set/get DRM property
----------------------------------------------------------------
-Changing prop value to: 0xffff00000000ffff
-opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-    Connector: HDMI-A-2
-	background color (10bpc): r=0 g=0 b=ffff
-
----------------------------------------------------------------
- Plane display test 40@83:960x540+480+270
----------------------------------------------------------------
-
-Changing prop value to 0xffffffff00000000
-Press ENTER to continue..
-opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
-testing 960x540@XR24 overlay plane 40
-
-Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
-    Connector: HDMI-A-2
-	background color (10bpc): r=ffff g=0 b=0
-
-Changing prop value to 0xffff0000ffff0000
-Press ENTER to continue..
-opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
-testing 960x540@XR24 overlay plane 40
-
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
-    Connector: HDMI-A-2
-	background color (10bpc): r=0 g=ffff b=0
-
-Changing prop value to 0xffff00000000ffff
-Press ENTER to continue..
-opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
-testing 960x540@XR24 overlay plane 40
-
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
-    Connector: HDMI-A-2
-	background color (10bpc): r=0 g=0 b=ffff
-
----------------------------------------------------------------
- Restoring state
----------------------------------------------------------------
-Changing prop value to: 0xffff000000000000
-opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
-Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
-    Connector: HDMI-A-2
-	background color (10bpc): r=0 g=0 b=0
-
+Co-developed-by: Matt Roper <matthew.d.roper@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Cristian Ciocaltea (2):
-      drm: Add CRTC background color property
-      drm/rockchip: vop2: Support setting custom background color
+ drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++++
+ drivers/gpu/drm/drm_blend.c               | 37 +++++++++++++++++++++++++++----
+ drivers/gpu/drm/drm_mode_config.c         |  6 +++++
+ include/drm/drm_blend.h                   |  4 +++-
+ include/drm/drm_crtc.h                    | 12 ++++++++++
+ include/drm/drm_mode_config.h             |  5 +++++
+ include/uapi/drm/drm_mode.h               | 30 +++++++++++++++++++++++++
+ 8 files changed, 94 insertions(+), 5 deletions(-)
 
- drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
- drivers/gpu/drm/drm_atomic_uapi.c            |  4 +++
- drivers/gpu/drm/drm_blend.c                  | 37 +++++++++++++++++++++++++---
- drivers/gpu/drm/drm_mode_config.c            |  6 +++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 +++
- include/drm/drm_blend.h                      |  4 ++-
- include/drm/drm_crtc.h                       | 12 +++++++++
- include/drm/drm_mode_config.h                |  5 ++++
- include/uapi/drm/drm_mode.h                  | 30 ++++++++++++++++++++++
- 10 files changed, 110 insertions(+), 6 deletions(-)
----
-base-commit: d0630b758e593506126e8eda6c3d56097d1847c5
-change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 7142e163e618ea0d7d9d828e1bd9ff2a6ec0dfeb..359264cf467c5270b77f0b04548073bc92cb812e 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -75,6 +75,7 @@ __drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *crtc_state,
+ 				     struct drm_crtc *crtc)
+ {
+ 	crtc_state->crtc = crtc;
++	crtc_state->background_color = drm_argb64(0xffff, 0, 0, 0);
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
+ 
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 85dbdaa4a2e25878c953b9b41539c8566d55c6d9..a447cb119aaa6cd11348be77b39f342a1386836d 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -407,6 +407,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ 					&replaced);
+ 		state->color_mgmt_changed |= replaced;
+ 		return ret;
++	} else if (property == config->background_color_property) {
++		state->background_color = val;
+ 	} else if (property == config->prop_out_fence_ptr) {
+ 		s32 __user *fence_ptr = u64_to_user_ptr(val);
+ 
+@@ -452,6 +454,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+ 		*val = (state->ctm) ? state->ctm->base.id : 0;
+ 	else if (property == config->gamma_lut_property)
+ 		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
++	else if (property == config->background_color_property)
++		*val = state->background_color;
+ 	else if (property == config->prop_out_fence_ptr)
+ 		*val = 0;
+ 	else if (property == crtc->scaling_filter_property)
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index 6852d73c931ce32e62062e2b8f8c5e38612d5210..5a287d12685b007a2732f510f62675f500e53727 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -191,10 +191,6 @@
+  *		 plane does not expose the "alpha" property, then this is
+  *		 assumed to be 1.0
+  *
+- * Note that all the property extensions described here apply either to the
+- * plane or the CRTC (e.g. for the background color, which currently is not
+- * exposed and assumed to be black).
+- *
+  * SCALING_FILTER:
+  *     Indicates scaling filter to be used for plane scaler
+  *
+@@ -207,6 +203,23 @@
+  *
+  * Drivers can set up this property for a plane by calling
+  * drm_plane_create_scaling_filter_property
++ *
++ * The property extensions described above all apply to the plane.  Drivers
++ * may also expose the following crtc property extension:
++ *
++ * BACKGROUND_COLOR:
++ *	Background color is set via drm_crtc_attach_background_color_property().
++ *	It controls the ARGB color of a full-screen layer that exists below all
++ *	planes.  This color will be used for pixels not covered by any plane and
++ *	may also be blended with plane contents as allowed by a plane's alpha
++ *	values.  The background color defaults to black, and is assumed to be
++ *	black for drivers that do not expose this property.  Although background
++ *	color isn't a plane, it is assumed that the color provided here
++ *	undergoes the same pipe-level degamma/CSC/gamma transformations that
++ *	planes undergo.  Note that the color value provided here includes an
++ *	alpha channel, hence non-opaque background color values are allowed, but
++ *	are generally only honored in special cases (e.g. when a memory
++ *	writeback connector is in use).
+  */
+ 
+ /**
+@@ -621,3 +634,19 @@ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_blend_mode_property);
++
++/**
++ * drm_crtc_attach_background_color_property - attach background color property
++ * @crtc: drm crtc
++ *
++ * Attaches the background color property to @crtc.  The property defaults to
++ * solid black and will accept 64-bit ARGB values in the format generated by
++ * drm_argb64().
++ */
++void drm_crtc_attach_background_color_property(struct drm_crtc *crtc)
++{
++	drm_object_attach_property(&crtc->base,
++				   crtc->dev->mode_config.background_color_property,
++				   drm_argb64(0xffff, 0, 0, 0));
++}
++EXPORT_SYMBOL(drm_crtc_attach_background_color_property);
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 25f376869b3a41d47bbe72b0df3e35cad142f3e6..6d70bfab45ca2bb81ed3ca1940fd1cd85e8cc58e 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -375,6 +375,12 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+ 		return -ENOMEM;
+ 	dev->mode_config.gamma_lut_size_property = prop;
+ 
++	prop = drm_property_create_range(dev, 0,
++					 "BACKGROUND_COLOR", 0, U64_MAX);
++	if (!prop)
++		return -ENOMEM;
++	dev->mode_config.background_color_property = prop;
++
+ 	prop = drm_property_create(dev,
+ 				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
+ 				   "IN_FORMATS", 0);
+diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
+index 88bdfec3bd8848acd1ef5742aaaa23483b332a2e..c7e888767c81c2745cd3cce88c10db4bbe305d1e 100644
+--- a/include/drm/drm_blend.h
++++ b/include/drm/drm_blend.h
+@@ -31,8 +31,9 @@
+ #define DRM_MODE_BLEND_COVERAGE		1
+ #define DRM_MODE_BLEND_PIXEL_NONE	2
+ 
+-struct drm_device;
+ struct drm_atomic_state;
++struct drm_crtc;
++struct drm_device;
+ struct drm_plane;
+ 
+ static inline bool drm_rotation_90_or_270(unsigned int rotation)
+@@ -58,4 +59,5 @@ int drm_atomic_normalize_zpos(struct drm_device *dev,
+ 			      struct drm_atomic_state *state);
+ int drm_plane_create_blend_mode_property(struct drm_plane *plane,
+ 					 unsigned int supported_modes);
++void drm_crtc_attach_background_color_property(struct drm_crtc *crtc);
+ #endif
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index caa56e039da2a748cf40ebf45b37158acda439d9..4653dacc1077b9ed8fb4cf27cc84530ba1706f6a 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -274,6 +274,18 @@ struct drm_crtc_state {
+ 	 */
+ 	struct drm_property_blob *gamma_lut;
+ 
++	/**
++	 * @background_color:
++	 *
++	 * RGB value representing the pipe's background color.  The background
++	 * color (aka "canvas color") of a pipe is the color that will be used
++	 * for pixels not covered by a plane, or covered by transparent pixels
++	 * of a plane.  The value here should be built using drm_argb64(), while
++	 * the individual color components can be extracted with desired
++	 * precision via the DRM_ARGB64_*() macros.
++	 */
++	u64 background_color;
++
+ 	/**
+ 	 * @target_vblank:
+ 	 *
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 2e848b816218584eb077ed887bf97705f012a622..ea422afec5c4108a223dc872e1b6835ffc596cc3 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -814,6 +814,11 @@ struct drm_mode_config {
+ 	 * gamma LUT as supported by the driver (read-only).
+ 	 */
+ 	struct drm_property *gamma_lut_size_property;
++	/**
++	 * @background_color_property: Optional CRTC property to set the
++	 * background color.
++	 */
++	struct drm_property *background_color_property;
+ 
+ 	/**
+ 	 * @suggested_x_property: Optional connector property with a hint for
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index a122bea2559387576150236e3a88f99c24ad3138..4bd6a8ca8868109bcbe21f9f6e9864519c9d03ec 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -1363,6 +1363,36 @@ struct drm_mode_closefb {
+ 	__u32 pad;
+ };
+ 
++/*
++ * Put 16-bit ARGB values into a standard 64-bit representation that
++ * can be used for ioctl parameters, inter-driver communication, etc.
++ */
++static inline __u64
++drm_argb64(__u16 alpha, __u16 red, __u16 green, __u16 blue)
++{
++	return (__u64)alpha << 48 | (__u64)red << 32 | (__u64)green << 16 | blue;
++}
++
++/*
++ * Extract the specified number of least-significant bits of a specific
++ * color component from a standard 64-bit ARGB value.
++ */
++#define DRM_ARGB64_COMP(c, shift, numlsb) \
++	((__u16)(((c) >> (shift)) & ((1UL << (numlsb) % 17) - 1)))
++#define DRM_ARGB64_ALPHA_LSB(c, numlsb) DRM_ARGB64_COMP(c, 48, numlsb)
++#define DRM_ARGB64_RED_LSB(c, numlsb)   DRM_ARGB64_COMP(c, 32, numlsb)
++#define DRM_ARGB64_GREEN_LSB(c, numlsb) DRM_ARGB64_COMP(c, 16, numlsb)
++#define DRM_ARGB64_BLUE_LSB(c, numlsb)  DRM_ARGB64_COMP(c, 0, numlsb)
++
++/*
++ * Convenience wrappers to extract all 16 bits of a specific color
++ * component from a standard 64-bit ARGB value.
++ */
++#define DRM_ARGB64_ALPHA(c)		DRM_ARGB64_ALPHA_LSB(c, 16)
++#define DRM_ARGB64_RED(c)		DRM_ARGB64_RED_LSB(c, 16)
++#define DRM_ARGB64_GREEN(c)		DRM_ARGB64_GREEN_LSB(c, 16)
++#define DRM_ARGB64_BLUE(c)		DRM_ARGB64_BLUE_LSB(c, 16)
++
+ #if defined(__cplusplus)
+ }
+ #endif
+
+-- 
+2.51.0
 
