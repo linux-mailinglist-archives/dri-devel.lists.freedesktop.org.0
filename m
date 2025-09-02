@@ -2,120 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34763B3FAD5
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D028B3FADF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71BDD10E642;
-	Tue,  2 Sep 2025 09:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D9E10E1C6;
+	Tue,  2 Sep 2025 09:42:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xb6ZPcu/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="amhEq1GE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC58310E1C6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:41:21 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822S6MZ010341
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 09:41:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=X8F1Aylw8vvRYnvl4Vx+2yEC
- SAL/1P4EKbFDjgjCCS4=; b=Xb6ZPcu/3DtxMHqcWy4rG8k1k3LMUuMBDhpv893t
- Vry64vS3KcRkI5c5P+5EmC9T17IxqW+Qnl8BZz1uO1ZBI3aHVRLlqDZSD/eGAJ3h
- 3kaIchCS0up2/Oeb1Xaozv+ve5opMxxeVBonvlKQb8JygRwN1tanbo9DvNPc6lZM
- 9gM3T5X0qcotf74lDfUG7/g7eaTnoew6gckPrkAdmwVXWCMYUo9rzXM0D7pAh22Y
- l8r5dylc2QI2IghY4vzmynI8PUA40U5LCy9IbSgEYCtJh4EkmqPXaXK62vddlQPn
- UrNw1H3qPqUGh+OxJVRAtFZ6IEzwuDXYtGE8gezUUw/qAQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urmjfasc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 09:41:20 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b29cdc7417so100652011cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 02:41:20 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E2E10E1C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756806159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=asWSuLH6iU8nN8yxFqi4dFvgrrSedS75Z/J4pSraBcc=;
+ b=amhEq1GEBMAOUyRo7ZqCOuEyXTB6No1qJLMom890IeSwgxmxB1iuPJylvS3qCP2/TfsivG
+ UesLyX4PjU+1NoAM49T/hdbHM/XD+bMDh9Yq7iUbFD4iDwSl8HFaZDDmphke76H2fUPZ5r
+ 6MKdvwq/IH1pHYz8iygwPumsc8+4dxE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-206-C7bQ4xurMiqC4Ngv3bTmsw-1; Tue, 02 Sep 2025 05:42:36 -0400
+X-MC-Unique: C7bQ4xurMiqC4Ngv3bTmsw-1
+X-Mimecast-MFC-AGG-ID: C7bQ4xurMiqC4Ngv3bTmsw_1756806155
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-45b9635bcc7so3249585e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 02:42:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756806080; x=1757410880;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X8F1Aylw8vvRYnvl4Vx+2yECSAL/1P4EKbFDjgjCCS4=;
- b=pXiMyZtBqtKkp2eJnZTVLhgYJwdrq+eU0wOA2lFn/Tc/ZQeKdBbf9WEvOc5E0dSQYW
- Bod/LSJPvEg+oTOt0Ccz/BUxRxlXEGChuHCLLve+Qm5tNmgsIakrsTAtw2KtjLBYheX0
- OUs6QXKzA4K/d/0KQW4FebiygWdBI4KfOJBqbhrEzj1vpIgEsWIph8NIu6UHkiUHTlqL
- k5jU87Y6idvqhtxpA9ott9rIhKRmM6N9yikI2JrQyODcCCA6CM6jw5h/Ex4PTGNuuTrP
- mSA2jOaAYnZHHsGrxtXP9yrZBGZSeBPQWEz9H4nECxJlpEVDf5A4d6fVGbMR4Bc0JUXs
- mE7w==
+ d=1e100.net; s=20230601; t=1756806155; x=1757410955;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=asWSuLH6iU8nN8yxFqi4dFvgrrSedS75Z/J4pSraBcc=;
+ b=DlOuEmwU0HAk6IWo1cWE3UJWPgxP9Y0TAmW3qqVnC9rceFgCh3mmSpqh1MB5bJ6tuy
+ fTfI+476gm7iinjSVJN0flZn0BPi+xcNpLRQ9LQ5JqKAlnX4diXcB1PeN2fXzSqLQALe
+ SA14pmX3xKfxvYQzVSk8zE0+ehNs2qX1rCG3lGvIvMj3IsT/cLD98DYSR7HTuiUS7KT+
+ nTywJO38So4KAnP40D3s2IZTClqN4mTH4q+jHtnzz8yWsxpv2/66gqneWFWJe9kDb5xQ
+ Bzg2QQIgmkMxB1jgnuae5wGcmImpOgbOSLYyTqDF/9zH9lRaWGkANpcDfWsejdQM2Wd2
+ OUeg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXOaXId9FDYVtzua6S6YB8zBwcXrwR3+0ar6IleapqZL6w0tqc8lERx918E7ywNzik9RTIsxiTinhk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxEiPO2LBLVBhWbO1tAVqoFBnSZAMXTDB/MkgmKB/JUAkct+wjn
- rfUMklyBvraBpzh27rJu47I7xwLHVJDntnMGdequi/fkHvFtcubNbjs8wrw/HI2L5CMlpl9uKYU
- GQKot3J+6KET4EqcTvfaCnP1rOBGX17Bm0H78QnPgCDdzKqonxnmuN88dYiZDeNJY4pc52fI=
-X-Gm-Gg: ASbGncuHMilhZaODK092wrfWu2mxlaL/IkS+Kfx4OxT3NFekRo3jX6W6VWtCG66ZPxy
- eBCMA+rzNsIN8RzLGWWxNNMfgGUo/EL7O5mJMb79sR1aT92fkNtpAZr4lo3ZlDXrw9ZWg1lF0Xm
- 6gCcClhUYwcv8eTEdKpKm0+e3pooBPeRE1b1PEMzRnRbH2vnxjvsymWjbTLdW0rFcju9MKYimOL
- vxj2mGV0w2xioq39gu2Kcxy2+2TuN58+4jyQrO1c4tKOWo/kTVUKe8i9gnHN4YjZ5fNzKRR3MXT
- RjI2PIkd8WkHFt5CBdrK+61xutwj+RRhCahX10VoS7qriK5S+tJX9LziKGfitr2B0ZJLN6geY3h
- RTv1HaOSJ+TukKhgQgbHro/ozP0XFnIghUNQcgMPDYowN8KvIs13t
-X-Received: by 2002:a05:622a:1a86:b0:4b0:c1c8:ba6b with SMTP id
- d75a77b69052e-4b31d84640bmr144942171cf.23.1756806079696; 
- Tue, 02 Sep 2025 02:41:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG1kM1KKXIRQLni8+uR7WNKiFx9E+rFnyVU/tfrtMInNL9wYmJHshcvZJNSvNe3Lbzu//4Sng==
-X-Received: by 2002:a05:622a:1a86:b0:4b0:c1c8:ba6b with SMTP id
- d75a77b69052e-4b31d84640bmr144941971cf.23.1756806078981; 
- Tue, 02 Sep 2025 02:41:18 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ AJvYcCUpgbTvMEDlgcUl64MVraRox/xqf+1UESmvZLTsONVKXVCyOaBMv7uhxVDIAg0aVjqzSKDyCzxP7/U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxexPCHZrVjKm8nufjlsbqygMWSWxbrkkNWnfZyd24ukF6GyXzF
+ 9M/6rWR3iAhyQx6d2B/8G6NXz4kJzPMBImmj/z+OnQmZyQab+iG4zVxtyYtQDByITfnhEAT0EZ8
+ exCSLrkjtQ/XNRBKqpGKslBGsjA+tA1QkbbJUMJXyxQLlGHyJK63a9gjjP5F+RF4K+Q8iIg==
+X-Gm-Gg: ASbGncunE7UuE6UhreMldgUhGV47TBhYCltrxFmV3APQVFVa7c32uBRoHvB9TTDJlZd
+ a4DywflfX9jLPj+LqiDN+SvFg3sFZQmVbYWDPAOvYdXJjD58VF3UM12nvT2sxWxD344oBltSgVh
+ Yj0abGsSzXB3npk9i/46Ms+3NDjL47GTF+ozQeV8nL/X3EExCVljx3TZrPOcx7esom3fVqo1n1c
+ SMGtochZKwr9OrlrZWZRlOLi5ot6HX6VrVds6s5kuQSi0ig7jt6iJSWbpy/IUJw6u3caat1GRyk
+ 18VY92dV+sxCQP/0M47WEzdHX5HST3N9Rs4uAZMbd3rbm6I2u60qkANkG9wP91ciPPCkuNwFddH
+ dH7khFVk7Mw+9KbYK067DQdEokeXX3i/eb41tHlwzuMbLP3oyHcm6KNkshad2c/0Zfzc=
+X-Received: by 2002:a05:600c:1ca4:b0:43c:ec4c:25b4 with SMTP id
+ 5b1f17b1804b1-45b8554e2ffmr100852605e9.10.1756806154842; 
+ Tue, 02 Sep 2025 02:42:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDiNU8UZPL8aTl3qS6g7/9CMF4yIxtcwFaCcDzAuhGVy5bNnLkv/vvSAEHWB2EXNvzk4IR6w==
+X-Received: by 2002:a05:600c:1ca4:b0:43c:ec4c:25b4 with SMTP id
+ 5b1f17b1804b1-45b8554e2ffmr100852105e9.10.1756806154215; 
+ Tue, 02 Sep 2025 02:42:34 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f1f:3f00:731a:f5e5:774e:d40c?
+ (p200300d82f1f3f00731af5e5774ed40c.dip0.t-ipconnect.de.
+ [2003:d8:2f1f:3f00:731a:f5e5:774e:d40c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-337f4c904dbsm3631981fa.17.2025.09.02.02.41.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 02:41:18 -0700 (PDT)
-Date: Tue, 2 Sep 2025 12:41:16 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 12/38] drm/msm/dp: introduce max_streams for DP
- controller MST support
-Message-ID: <lngtq2tw4qajgjk57un5xrveblkmtjkkz3yjgue53vp6wwmqmf@owderf4zerfq>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-12-01faacfcdedd@oss.qualcomm.com>
+ 5b1f17b1804b1-45b8acbe982sm57017205e9.6.2025.09.02.02.42.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Sep 2025 02:42:33 -0700 (PDT)
+Message-ID: <22019944-2ef2-4463-9b3f-23c9e7c70b2f@redhat.com>
+Date: Tue, 2 Sep 2025 11:42:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-12-01faacfcdedd@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=OemYDgTY c=1 sm=1 tr=0 ts=68b6bbc0 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=KSwXNKDnAPCPISpuv5EA:9
- a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Eu3b_GkqXGHs1QzHVQSjJ4jOTnsPNyZz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNCBTYWx0ZWRfX8dzpQ6S5ZqTj
- kAh4HLo/TWgCRa2z2PGg7mlM3sQjmHJE77aXW5PTBl0yl60iVQDmwsHZ8ondGxmKX59rbKVAXO5
- 7GksXeGUnVz/Jp3HXT90oj2XG7Cxc3Be2J93RTp5ns4855HmbAuYK0gGvLertgx9ozyqEpa4crI
- U+tYcr9HNJLg1mIvdHRJpR26nMB5qeyPxNM8bzHMYisJdv5j8p6G2qRJVlc323jCnVO1HTGwfSb
- TzpiLNR1Te8u/b8SVnWtZka+cIFDxTkfkiQLUK3DPhBQsobyqCbBL4rnvPxMr2FPJr/Hqln/BlV
- +nDKy6A+EW6JuhpiZYS0MAoIn0MpnKPmjdyqLkEvHjRfwOl1ZtWb84RK4AYXcjXm3Qu6/9S1Frg
- z8fJY47K
-X-Proofpoint-ORIG-GUID: Eu3b_GkqXGHs1QzHVQSjJ4jOTnsPNyZz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_03,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300024
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 26/37] drm/i915/gem: drop nth_page() usage within SG
+ entry
+To: Tvrtko Ursulin <tursulin@ursulin.net>, linux-kernel@vger.kernel.org
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-27-david@redhat.com>
+ <4bbf5590-7591-4dfc-a23e-0bda6cb31a80@ursulin.net>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <4bbf5590-7591-4dfc-a23e-0bda6cb31a80@ursulin.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: VSOOWankKZl90R2k0Rpv4c7CJ_Jw0MyuM-2WnCxmf8Y_1756806155
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,112 +177,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:15:58PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On 02.09.25 11:22, Tvrtko Ursulin wrote:
 > 
-> Introduce the `mst_streams` field in each DP controller descriptor to
-> specify the number of supported MST streams. Most platforms support 2 or
-> 4 MST streams, while platforms without MST support default to a single
-> stream (`DEFAULT_STREAM_COUNT = 1`).
+> On 01/09/2025 16:03, David Hildenbrand wrote:
+>> It's no longer required to use nth_page() when iterating pages within a
+>> single SG entry, so let's drop the nth_page() usage.
+>>
+>> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>    drivers/gpu/drm/i915/gem/i915_gem_pages.c | 2 +-
+>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>> index c16a57160b262..031d7acc16142 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+>> @@ -779,7 +779,7 @@ __i915_gem_object_get_page(struct drm_i915_gem_object *obj, pgoff_t n)
+>>    	GEM_BUG_ON(!i915_gem_object_has_struct_page(obj));
+>>    
+>>    	sg = i915_gem_object_get_sg(obj, n, &offset);
+>> -	return nth_page(sg_page(sg), offset);
+>> +	return sg_page(sg) + offset;
+>>    }
+>>    
+>>    /* Like i915_gem_object_get_page(), but mark the returned page dirty */
 > 
-> This change also accounts for platforms with asymmetric stream support,
-> e.g., DP0 supporting 4 streams and DP1 supporting 2.
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 21 +++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->  2 files changed, 22 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 78d932bceb581ee54116926506b1025bd159108f..a8477a0a180137f15cbb1401c3964636aa32626c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -33,6 +33,7 @@ module_param(psr_enabled, bool, 0);
->  MODULE_PARM_DESC(psr_enabled, "enable PSR for eDP and DP displays");
->  
->  #define HPD_STRING_SIZE 30
-> +#define DEFAULT_STREAM_COUNT 1
->  
->  enum {
->  	ISR_DISCONNECTED,
-> @@ -52,6 +53,7 @@ struct msm_dp_display_private {
->  	bool core_initialized;
->  	bool phy_initialized;
->  	bool audio_supported;
-> +	bool mst_supported;
->  
->  	struct drm_device *drm_dev;
->  
-> @@ -84,12 +86,15 @@ struct msm_dp_display_private {
->  
->  	void __iomem *p0_base;
->  	size_t p0_len;
-> +
-> +	int max_stream;
->  };
->  
->  struct msm_dp_desc {
->  	phys_addr_t io_start;
->  	unsigned int id;
->  	bool wide_bus_supported;
-> +	int mst_streams;
->  };
->  
->  static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
-> @@ -1213,6 +1218,15 @@ static int msm_dp_display_get_io(struct msm_dp_display_private *display)
->  	return 0;
->  }
->  
-> +int msm_dp_get_mst_max_stream(struct msm_dp *msm_dp_display)
-> +{
-> +	struct msm_dp_display_private *dp;
-> +
-> +	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
-> +
-> +	return dp->max_stream;
-> +}
-> +
->  static int msm_dp_display_probe(struct platform_device *pdev)
->  {
->  	int rc = 0;
-> @@ -1239,6 +1253,13 @@ static int msm_dp_display_probe(struct platform_device *pdev)
->  	dp->msm_dp_display.is_edp =
->  		(dp->msm_dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
->  	dp->hpd_isr_status = 0;
-> +	dp->max_stream = DEFAULT_STREAM_COUNT;
-> +	dp->mst_supported = FALSE;
-> +
-> +	if (desc->mst_streams > DEFAULT_STREAM_COUNT) {
-> +		dp->max_stream = desc->mst_streams;
+> LGTM. If you want an ack to merge via a tree other than i915 you have
+> it. I suspect it might be easier to coordinate like that.
 
-We should keep compatibility with earlier DT files which didn't define
-enough stream clocks for DP MST case. Please check how many stream
-clocks are actually present in the DT and set max_stream accordingly.
-
-> +		dp->mst_supported = TRUE;
-> +	}
->  
->  	rc = msm_dp_display_get_io(dp);
->  	if (rc)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 37c6e87db90ce951274cdae61f26d76dc9ef3840..7727cf325a89b4892d2370a5616c4fa76fc88485 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -29,6 +29,7 @@ struct msm_dp {
->  	bool psr_supported;
->  };
->  
-> +int msm_dp_get_mst_max_stream(struct msm_dp *msm_dp_display);
->  int msm_dp_display_get_modes(struct msm_dp *msm_dp_display);
->  bool msm_dp_display_check_video_test(struct msm_dp *msm_dp_display);
->  int msm_dp_display_get_test_bpp(struct msm_dp *msm_dp_display);
-> 
-> -- 
-> 2.34.1
-> 
+Yeah, it would be best to route all of that through the MM tree. Thanks!
 
 -- 
-With best wishes
-Dmitry
+Cheers
+
+David / dhildenb
+
