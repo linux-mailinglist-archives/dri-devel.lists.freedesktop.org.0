@@ -2,94 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA190B3F5EE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF34B4782D
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D3D10E5BA;
-	Tue,  2 Sep 2025 06:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4071F10E42D;
+	Sat,  6 Sep 2025 22:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cAywLg4r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m7rMnX4R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F4B10E5BA
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756795989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+K8NuGq4C9QdLZ+9B/ZeN6vB6jZQ2wCK4Lufhm2yvDs=;
- b=cAywLg4rFUiVgvzPWKQD2d/YhJJyX/i8/HmdQC8KYHs/u+SkPH9Sh7/IbG2BMcMRZnm8cS
- uKcylf58Q0TMXdIlcA86etcPMp99w91WOnImoIc75/XMW0eZ67i6YhheoJ83h/TOpy97Eh
- Juc7/MgsK9NK81ojB74PyZ2OwXiizEE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-341-WJSJnkSlMWSBgDlP4zJOzA-1; Tue, 02 Sep 2025 02:53:08 -0400
-X-MC-Unique: WJSJnkSlMWSBgDlP4zJOzA-1
-X-Mimecast-MFC-AGG-ID: WJSJnkSlMWSBgDlP4zJOzA_1756795987
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45b920e0c25so6378715e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:53:08 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB6F10E5BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:53:24 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-77256e75eacso1682474b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756796004; x=1757400804; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=n8L3h0fY9m0/QQwH+0igEz7ROkcJh1IoEWIXBgUPEvg=;
+ b=m7rMnX4RE5IaQCSftTFREuKLwGd8l1O8xIpxh33jfGAKPK1eUGsejT9ZuULrF2+o/E
+ rLtBfVfNu8kFH65CFdFSov8bfy8tB8VI0i1DzBA3KukFiHbn7WbODsuhpNxnxkSP8xtO
+ D0ISFkSKHFPjDDsFxV+jElMVlwJHsrPHYlmN8Fo927on/lqYCPPa4eF+OfAUKZOcai3q
+ Srkm12zF2f6pylgGkesKnZvBiSAcqZ1rc8BJU/YW1Yn14nAYskMI1WS1v8mhLF+T5/4d
+ gnz4gr5eNpeasuo5XO7oiyzHV4KeJM3m3yVWsrsYTfvI5WXSzN8nWja84z8janrBrDYx
+ PQbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756795987; x=1757400787;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+K8NuGq4C9QdLZ+9B/ZeN6vB6jZQ2wCK4Lufhm2yvDs=;
- b=wOmavJN8Yblsq3QxnN8NVJYsdhIxlzJ4qqJGKcqc5AYcM+L3DqghErA2I0egqoctCp
- mO9JjsBMjdNgXS1vC+V+dObMHx1ZU1PM5FF0/MRKaPtSZEQHjhlkGZEbZLoJ5UloX966
- +Q5xBrJBYUFyPHjHQKqkr+PP1d5rs905JmSJSx5oUuANK8ZRpWAjKz8dDzJHzOQK2aNP
- 5BcUEZnOrAS8SPJRkF9WXQUkhs0D40AFb42TMftAbcK8yAshLaNYDk6tx/F9Jv/OS0dF
- obrBcUXIk2/d7fgd4B0ogWroYQvagAMY3+bM8v1efDCovWHFLWkRhpWUMMBX5TivYvt4
- RI9g==
-X-Gm-Message-State: AOJu0YxVGCnMPSLqUUzZ3CrG5RkgSqWM4XN7v9AFZq/CLYmXynGgEd8c
- CeabORGsWDDTyLL422OdLCvJPmFksmkyeWi2peLG7iWbXUzYc1rcn6oTZyvVuT9MZ2w2VsMb1Dv
- l0//1OMoCBlhAJE4HzoLpKxu4uO5VZBDpxBjB2nll17KEzOCqJXE3mfPkt0vmQ1gJb45Mis/isv
- 8Dxw==
-X-Gm-Gg: ASbGncuircUCoAG+P4Z1BY5TGf7vI4QgaSNJtrFhVSqX/ChBt5A7lBzts7chwu+CUPg
- zedcLpRCJHAT92JsWhGhh2JKaldpLbGgDpx0WgcTLvdYHMpp0hH/e/DUqNkq7bS/ULT7ez8aMV5
- t8+ith/NxZDoBo1gMIydCDgbyEnyOHt3XFdVrQq6kIdQAfCZKlkrqTvzs1FRovYotgvQZSdXnTy
- 8/7nVs+2gU0Wdjr9vHw5V1VPY4voH31WFon42jkOAa1k8pb4bNKv2fZ99UZCG78xH9ApGIkrb04
- mL8oLdGVcxFlPUmtauqIEUF5N3Y4BQPWr/jxU7kdzvwl8ab1vLUMJ5OmQrkaTOTTEzc9qeRwYsd
- dZs0=
-X-Received: by 2002:a05:600c:4fcd:b0:459:e025:8c40 with SMTP id
- 5b1f17b1804b1-45b85533712mr90988715e9.10.1756795987026; 
- Mon, 01 Sep 2025 23:53:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGz51Ie3z2lpuE4iSzLr6zBvItZujQkwWhY7FbZx0aSwkGmip7kmBwGt8RCR8Vk/qRL8ULlTA==
-X-Received: by 2002:a05:600c:4fcd:b0:459:e025:8c40 with SMTP id
- 5b1f17b1804b1-45b85533712mr90988395e9.10.1756795986618; 
- Mon, 01 Sep 2025 23:53:06 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ d=1e100.net; s=20230601; t=1756796004; x=1757400804;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n8L3h0fY9m0/QQwH+0igEz7ROkcJh1IoEWIXBgUPEvg=;
+ b=Fu/KLvk59nrozfL7Ky307WplcLWsILKTE+19cKpug3nlD6d2KVzW4l/y+2Umwa4Qz9
+ uF2fRttEAfQ1apvBC39ssqlBreXlIy1jxtCKBsp0w6CQDwVkhKGMvNBYIm48nqWno/J2
+ JaIUBnokcg2tpTInC71cNZUFecvR/JbLAKkZUX+7gjEOQvTAxXCXiZbkWmfBJrzRPfGc
+ bPX354i1jOMXeEEakxH/y2I+5+JfSe1UoYhlFFLA5RclxJPqv6qaq+AKkzToW9f+w7o5
+ UjEedCVGNf3EpmT+QStgBdog5jmlMAxm5asRZmH1w0vDRU1Z6Hl642/W4emqMTEnBLJt
+ GUQw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVITG86spNhaa6D0qkmp9zEoiOMrG+q7ZHvDhVHWR2/sPhrLzEse884bguOsotIzJZ6kNmziK1KSyE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+J38dhXHUNSxHt5Gsmd2RhNTemXv0iS1AxWv8bjIapzTtfAtp
+ ELbWmXGNL+agOWqpqCZpJqcrF/ZpNnh6xcVUdcFhyZHsC7HWDHlnPiqc
+X-Gm-Gg: ASbGncu6N8eoUdRDAN1KuJ7wjti1OULsqv/8uKQpdlFl4mxExw/EhoyDNLrev1fI7VJ
+ ERZ98SST072FxlRQlHFKW42LuMMrdSiZFLndLS43BU/7OeatOvvx2yyGiD8KeEQTeV3nKTfnzNT
+ ou8VbY2hPW1loZvCBThCyx8Mxfk8WiPP6LHaX/LWr3aRyteK7FSXr1xpbG/NWP8YQ+GgpON+OfD
+ yoMvZ03pbmZZixNwEE1vxPajLBPI2i3DcfxRiWJMI97/h/IS2HT6L/kwx2bUnIHJeh6lwfxmvmt
+ aXCFstiUklX2d/zNNe4/i4RxM4KlyjtITa15QqVKI9OkseqsWqTYood90WnxnVTDVZEyCBhQGUE
+ Vc7KEUm7vsb9rCKqRONVuN8z0tkLQx82SjqrLR+fboSR4EJ4XPpY=
+X-Google-Smtp-Source: AGHT+IHvBM1zgMPL/lGGPLbmfWf+OkqvgeYJS8nXhpxD8ghD9Yl03F3VqPgBKx2Mt6pprTqIftO/yw==
+X-Received: by 2002:a05:6a20:3944:b0:243:b411:ae41 with SMTP id
+ adf61e73a8af0-243d6f09c1fmr15720875637.32.1756796004244; 
+ Mon, 01 Sep 2025 23:53:24 -0700 (PDT)
+Received: from [127.0.1.1] (211-23-39-77.hinet-ip.hinet.net. [211.23.39.77])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b7e7d23b7sm183922365e9.1.2025.09.01.23.53.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 23:53:06 -0700 (PDT)
-Message-ID: <80ba860e-c282-4ae4-a91d-09986197c609@redhat.com>
-Date: Tue, 2 Sep 2025 08:53:05 +0200
+ 98e67ed59e1d1-327e8d3d635sm12312558a91.1.2025.09.01.23.53.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Sep 2025 23:53:23 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Subject: [PATCH v5 0/3] Add support for Mayqueen Pixpaper e-ink panel
+Date: Tue, 02 Sep 2025 14:53:17 +0800
+Message-Id: <20250902-drm-v5-0-d77c678c4ae3@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] drm/ast: Remove unused SCU-MPLL and SCU-STRAP
- values
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org
-References: <20250826065032.344412-1-tzimmermann@suse.de>
- <20250826065032.344412-5-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250826065032.344412-5-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: iqVRDJjJaPkY8oTbKJSQ0OHB0uv91LVuorBogYA9-AE_1756795987
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAF2UtmgC/13MwQ6CMAzG8VcxOzvTlpWBJ9/DeFi2oktEzDBEY
+ 3h3JxxEjv+mv++teklRerXfvFWSIfaxu+Xg7Ub5i7udRceQWxEQg4VKh9TqEghDAxY5WJU/70m
+ a+JxWjqfcl9g/uvSaRgf8Xv/9gBq0YWBuggu+codz6+J157tWff1AC4NmNpQNB3QkSLYu/doUC
+ 0M4myIbwdIXXsRSWayN+ZkKeDYmm9qIEw/IdRWWZhzHDy/DS0EyAQAA
+X-Change-ID: 20250708-drm-6021df0715d7
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Wig Cheng <onlywig@gmail.com>, LiangCheng Wang <zaq14760@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756796000; l=4874;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=cVrq8S7OsCD2q4s3MgrJ/bVufPCakQkhjJvo1bN8dMY=;
+ b=RbM62ThyOvXOey7QFVEMVqQncbF77hNDrjoGJHiazNUD3ypzrOpqZh1MLf9N27j6BxaBZzPo7
+ 6J37hEO5kTAAVlDuvFeHYVZbUhEjmcUxjd6ed7falQaolcnmB/iQ0EK
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=5IaLhzvMqasgGPT47dsa8HEpfb0/Dv2BZC0TzSLj6E0=
+X-Mailman-Approved-At: Sat, 06 Sep 2025 22:49:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,56 +109,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/08/2025 08:49, Thomas Zimmermann wrote:
-> The ast driver used SCU-MPLL and SCU-STRAP to compute the memory
-> clock. Remove the now unused values.
-> 
+This patch series adds support for the Mayqueen Pixpaper e-ink display panel,
+controlled via SPI.
 
-Thanks, it looks good to me.
+The series includes:
+- A new vendor-prefix entry for "mayqueen"
+- Device tree binding documentation for the Pixpaper panel
+- A DRM tiny driver implementation for the Pixpaper panel
+- A MAINTAINERS entry for the Pixpaper DRM driver and binding
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+The panel supports 122x250 resolution with XRGB8888 format and uses SPI,
+along with GPIO lines for reset, busy, and data/command control.
 
+The driver has been tested on:
+- Raspberry Pi 2 Model B
+with Linux kernel 6.16.
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/ast/ast_main.c | 13 ++-----------
->   1 file changed, 2 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 492cc8461eb0..41ff880cfdec 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -214,7 +214,7 @@ static int ast_get_dram_info(struct ast_device *ast)
->   {
->   	struct drm_device *dev = &ast->base;
->   	struct device_node *np = dev->dev->of_node;
-> -	uint32_t mcr_cfg, mcr_scu_mpll, mcr_scu_strap;
-> +	uint32_t mcr_cfg;
->   
->   	switch (ast->config_mode) {
->   	case ast_use_dt:
-> @@ -222,22 +222,13 @@ static int ast_get_dram_info(struct ast_device *ast)
->   		 * If some properties are missing, use reasonable
->   		 * defaults for GEN5
->   		 */
-> -		if (of_property_read_u32(np, "aspeed,mcr-configuration",
-> -					 &mcr_cfg))
-> +		if (of_property_read_u32(np, "aspeed,mcr-configuration", &mcr_cfg))
->   			mcr_cfg = 0x00000577;
-> -		if (of_property_read_u32(np, "aspeed,mcr-scu-mpll",
-> -					 &mcr_scu_mpll))
-> -			mcr_scu_mpll = 0x000050C0;
-> -		if (of_property_read_u32(np, "aspeed,mcr-scu-strap",
-> -					 &mcr_scu_strap))
-> -			mcr_scu_strap = 0;
->   		break;
->   	case ast_use_p2a:
->   		ast_write32(ast, 0xf004, 0x1e6e0000);
->   		ast_write32(ast, 0xf000, 0x1);
->   		mcr_cfg = ast_read32(ast, 0x10004);
-> -		mcr_scu_mpll = ast_read32(ast, 0x10120);
-> -		mcr_scu_strap = ast_read32(ast, 0x10170);
->   		break;
->   	case ast_use_defaults:
->   	default:
+---
+Changes in v5:
+- Integrated pixpaper-regs.h into pixpaper.c
+- Added "L: dri-devel@lists.freedesktop.org" in MAINTAINERS
+- Renamed helper to pixpaper_wait_for_panel()
+- Fixed endianness with __le32 + le32_to_cpu()
+- Replaced drm_err() with drm_err_once()
+- Simplified connector get_modes() via drm_connector_helper_get_modes_fixed()
+- Dropped manual drm_mode_validate_size() check
+- Moved resolution validation to CRTC mode_valid()
+
+- Link to v4: https://lore.kernel.org/r/20250805-drm-v4-0-94eaec01598d@gmail.com
+
+Changes in v4:
+- Applied BIT() macro for all register bit definitions (per checkpatch)
+- Fixed alignment and indentation based on checkpatch suggestions
+- Removed unnecessary blank lines after braces
+- Fixed universal plane init() call indentation
+- Link to v3: https://lore.kernel.org/r/20250721-drm-v3-0-e16c3cee7263@gmail.com
+
+Changes in v3:
+- MAINTAINERS
+    - Added pixpaper-regs.h
+
+- Kconfig
+    - Rename config symbol to DRM_PIXPAPER (drop TINYDRM_ prefix).
+    - Reordered Kconfig select lines alphabetically.
+
+- Code structure & style
+    - Fix include order: move <linux/> headers above <drm/> headers.
+    - Removed forward declarations; placed static functions next to usage
+    - Switched logging to drm_err()/drm_warn()/drm_dbg() (legacy DRM_ERROR/WARN removed)
+    - Remove dev_info() statements.
+    - Switched encoder type to DRM_MODE_ENCODER_NONE
+    - Moved pixpaper_panel_hw_init() from atomic_enable() to probe() to avoid redundant hardware init.
+    - Use helper to_pixpaper_panel() instead of container_of() on crtc.
+
+- Robustness
+    - Added timeout + warning in pixpaper_wait_busy() to ensure robustness if BUSY line gets stuck.
+    - Introduced struct pixpaper_error_ctx to propagate SPI/GPIO errors
+
+- Clean‑ups
+    - Removed drm_plane_enable_fb_damage_clips() (full‑frame updates)
+    - Removed noisy info prints; kept drm_dbg() only where helpful
+    - Consolidated all magic register values/commands into new
+      pixpaper-regs.h with datasheet‑aligned naming
+
+- Memory helpers
+    - Driver now uses GEM SHMEM helpers; GEM DMA helpers dropped
+      (panel has no bus‑mastering DMA)
+
+- Functionality fixes
+    - Rewrote pack_pixels_to_byte() to correctly handle 4-color (B/W/R/Y) layout
+      based on expected panel color encoding
+
+- DRM callback safety
+    - Add missing drm_dev_enter()/drm_dev_exit() in callbacks.
+
+- Tags added
+    - Reviewed-by: Rob Herring <robh@kernel.org> (from v1)
+    - Acked-by: Rob Herring <robh@kernel.org> (from v1)
+    - Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> (from v2)
+
+- Link to v2: https://lore.kernel.org/r/20250714-drm-v2-0-5d1a2e12796c@gmail.com
+
+Changes in v2:
+- Reordered patches so that DT bindings come before the driver (suggested by Rob Herring)
+- Fixed sparse warning: removed duplicate `.reset` initializer in `pixpaper_plane_funcs`
+- Fixed checkpatch issues reported by Media CI:
+  - Removed unnecessary blank line before closing brace
+  - Moved opening parentheses up to function call lines (e.g., `DRM_WARN(...)`)
+  - Fixed alignment of conditionals
+  - Fixed `dev_warn(` and `drm_universal_plane_init(` formatting
+- Thanks to Rob Herring for ack on vendor-prefix patch
+- Link to v1: https://lore.kernel.org/r/20250708-drm-v1-0-45055fdadc8a@gmail.com
+
+Thanks to all reviewers for feedback across earlier versions.
+
+Best regards,
+LiangCheng Wang
+<zaq14760@gmail.com>
+
+---
+LiangCheng Wang (2):
+      dt-bindings: display: Add Mayqueen Pixpaper e-ink panel
+      drm: tiny: Add support for Mayqueen Pixpaper e-ink panel
+
+Wig Cheng (1):
+      dt-bindings: vendor-prefixes: Add Mayqueen name
+
+ .../bindings/display/mayqueen,pixpaper.yaml        |   63 ++
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ MAINTAINERS                                        |    7 +
+ drivers/gpu/drm/tiny/Kconfig                       |   15 +
+ drivers/gpu/drm/tiny/Makefile                      |    1 +
+ drivers/gpu/drm/tiny/pixpaper.c                    | 1171 ++++++++++++++++++++
+ 6 files changed, 1259 insertions(+)
+---
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+change-id: 20250708-drm-6021df0715d7
+
+Best regards,
+-- 
+LiangCheng Wang <zaq14760@gmail.com>
 
