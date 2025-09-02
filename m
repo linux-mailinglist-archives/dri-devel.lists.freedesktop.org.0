@@ -2,71 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE11B3FA4A
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA21B3FA4B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC44C10E616;
-	Tue,  2 Sep 2025 09:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D40810E614;
+	Tue,  2 Sep 2025 09:28:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="m449y+po";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CHRii3RU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C2610E616
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:27:54 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5829RbNs2954196;
- Tue, 2 Sep 2025 04:27:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1756805257;
- bh=vE9iAHYq75eYvQEHVqllo047tep+ROLMiBTF8/YwkvE=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=m449y+poAqcKE9AbgacHKx8a4ooNXiuTqSKcAce+qjTZTPPJLr86yNO08LUkddkNZ
- bTBIdiBBrzEq7i8IocdRWp927WJ+qXDCSK+J65OGtZyhtJbcgVnO3yZMGNLZ8E9yjz
- +1EyM2xrmAUL3Dp6e534kaxJeYGVTOFsP//5S3qE=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5829RbJj3384826
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 2 Sep 2025 04:27:37 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 2
- Sep 2025 04:27:36 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 2 Sep 2025 04:27:36 -0500
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5829RTbJ3567947;
- Tue, 2 Sep 2025 04:27:30 -0500
-Message-ID: <7c0957a9-a970-4332-9df9-26ba432a0aec@ti.com>
-Date: Tue, 2 Sep 2025 14:57:29 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B4810E614
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1756805286;
+ bh=kX99daaTmRjZZgK7NDFvXocEUTsxLb0HWG3/u7rNoOQ=;
+ h=From:Subject:Date:To:Cc:From;
+ b=CHRii3RUTvt67o2uyq3VloVbOygGmlL+ddS1PuriwQWfeAIyTPZlfq3zweQJ2itTL
+ qjNUWhdH3E4FsFVFqfdkCKRr0FfCQmuNe0i6bMBHF1uONrRCMKypfFTMo2LylPtFHp
+ 1oh4N7dOdmPtEDmL/HzH/z715AxV2/LiETaHAS2UID8E27Blw9ZctXuU/H4EIHLYMv
+ KwQlHvNPjA657acqbePIapKEo2OmtDv3tM1RLE5mqo5BeWY+1GQkMHv9tuPTIy4hIi
+ fpfb3jye3VcvfHsE+3ot69+5m64gcVv3MESMnVJYeq0zq788GOpmHQLFlbqPfZYsVc
+ XN7+VILWcxaOw==
+Received: from localhost (unknown [82.79.138.60])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 3225917E0676;
+ Tue,  2 Sep 2025 11:28:06 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH 0/2] Introduce BACKGROUND_COLOR DRM CRTC property
+Date: Tue, 02 Sep 2025 12:27:55 +0300
+Message-Id: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Set the
- mhdp connector earlier in atomic_enable()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <lyude@redhat.com>,
- <luca.ceresoli@bootlin.com>, <viro@zeniv.linux.org.uk>,
- <andy.yan@rock-chips.com>, <linux@treblig.org>, <javierm@redhat.com>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
- <j-choudhary@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <mripard@kernel.org>, <lumag@kernel.org>, <dianders@chromium.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20250811075904.1613519-1-h-shenoy@ti.com>
- <20250811075904.1613519-4-h-shenoy@ti.com>
- <6fa1a8d5-149e-437d-aef0-587c49957197@ideasonboard.com>
-Content-Language: en-US
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-In-Reply-To: <6fa1a8d5-149e-437d-aef0-587c49957197@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-B4-Tracking: v=1; b=H4sIAJu4tmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDCyNL3aJsY1MLC92k9OT8nPwi3WTDRPMky0RTA/OkZCWgpoKi1LTMCrC
+ B0bG1tQBLBZTeYAAAAA==
+X-Change-ID: 20250829-rk3588-bgcolor-c1a7b9a507bc
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, Matt Roper <matthew.d.roper@intel.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,73 +69,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some display controllers can be hardware-configured to present non-black
+colors for pixels which are not covered by any plane (or are exposed
+through transparent regions of higher planes).
 
-On 9/1/25 15:35, Tomi Valkeinen wrote:
-> Hi,
->
-> On 11/08/2025 10:59, Harikrishna Shenoy wrote:
->> From: Jayesh Choudhary <j-choudhary@ti.com>
->>
->> In case if we get errors in cdns_mhdp_link_up() or cdns_mhdp_reg_read()
->> in atomic_enable, we will go to cdns_mhdp_modeset_retry_fn() and will hit
->> NULL pointer while trying to access the mutex. We need the connector to
->> be set before that. Unlike in legacy !(DBANC) cases, we do not have
->> connector initialised in bridge_attach(). So set the mhdp->connector
->> in atomic_enable() earlier to avoid possible NULL pointer.
->>
->> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
->> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->> ---
->>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++----------
->>   1 file changed, 10 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> index c2ce3d6e5a88..b2f5a48cac2d 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> @@ -1759,12 +1759,21 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
->>   	struct drm_bridge_state *new_state;
->>   	const struct drm_display_mode *mode;
->>   	u32 resp;
->> -	int ret;
->> +	int ret = 0;
->>   
->>   	dev_dbg(mhdp->dev, "bridge enable\n");
->>   
->>   	mutex_lock(&mhdp->link_mutex);
->>   
->> +	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
->> +								   bridge->encoder);
->> +	if (WARN_ON(!mhdp->connector))
->> +		goto out;
->> +
->> +	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
->> +	if (WARN_ON(!conn_state))
->> +		goto out;
-> You are just moving code here, but... Shouldn't these be errors? If I
-> read this right, ret is 0 here, and thus if we hit either of those
-> issues above, we'll return 0.
->
->   Tomi
->
-This is a void function, no need to return
->> +
->>   	if (mhdp->plugged && !mhdp->link_up) {
->>   		ret = cdns_mhdp_link_up(mhdp);
->>   		if (ret < 0)
->> @@ -1784,15 +1793,6 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
->>   	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
->>   			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
->>   
->> -	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
->> -								   bridge->encoder);
->> -	if (WARN_ON(!mhdp->connector))
->> -		goto out;
->> -
->> -	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
->> -	if (WARN_ON(!conn_state))
->> -		goto out;
->> -
->>   	if (mhdp->hdcp_supported &&
->>   	    mhdp->hw_state == MHDP_HW_READY &&
->>   	    conn_state->content_protection ==
+The first patch of the series introduces the BACKGROUND_COLOR DRM
+property that can be attached to a CRTC via a dedicated helper function.
+A 64-bit ARGB color value format is also defined and can be manipulated
+with the help of a few utility macros.
+
+Note this is a reworked version of the patch [1] submitted (many) years
+ago by Matt Roper.  The main changes are:
+
+* Dropped drm_arg() in favor of drm_argb64() to get rid of the bpc
+  parameter and the related shifting for more flexibility in operation,
+  e.g. when user-space cannot make use of the helper and/or when it
+  doesn't now the actual precision supported by the HW.  This also
+  simplifies the property verification/validation testing (see below).
+  It works by extracting the specified number of least-significant bits
+  from each color component.
+* Renamed DRM_ARGB_*() to DRM_ARGB64_*_LSB() while providing convenience
+  wrappers to extract all 16 bits of a specific color via DRM_ARGB64_*()
+* Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
+  drm_property_create_range() to create the BACKGROUND_COLOR property
+* Moved crtc_state->bgcolor initialization from
+  __drm_atomic_helper_crtc_reset() to
+  __drm_atomic_helper_crtc_state_reset()
+* Replaced '*bgcolor*' occurrences to '*background_color*' for
+  consistency with the actual property name in both storage field and
+  helper functions names
+
+The second patch adds background color support to the VOP2 display
+controller used in the RK3568, RK3576, and RK3588 Rockchip SoC families.
+
+For the moment this has been validated using a modetest wrapper script
+[2], which is able to execute several tests - see an example of a
+generated report at the end.  Proper support in Weston is currently in
+development, and I will provide a reference once it becomes available.
+
+The tests were performed on the Radxa boards listed below.  Please note
+that as of next-20250901, there are a few known regressions; for each
+case, I mentioned the actual problem and its related fix/workaround
+accordingly:
+
+* ROCK 3A (RK3568)
+ - issue: broken networking
+ - fix: revert commit da114122b831 ("net: ethernet: stmmac: dwmac-rk: Make
+   the clk_phy could be used for external phy")
+
+* ROCK 4D (RK3576)
+ - issue: random freezes right after booting
+ - fix: add regulator_ignore_unused to kernel cmdline
+
+* ROCK 5B (RK3588)
+ - issue: broken networking
+ - fix: apply patch [3]
+
+[1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
+[2] https://gitlab.collabora.com/cristicc/linux-next/-/commits/drm-vop2-bgcolor-test
+[3] https://lore.kernel.org/all/20250827230943.17829-1-inochiama@gmail.com/
+
+Validation report on ROCK 5B
+============================
+
+$ tools/testing/rk-bgcol-test.sh
+
+---------------------------------------------------------------
+ Available Rockchip display connectors
+---------------------------------------------------------------
+id	type	status	crtc_id	plane_id
+85	11	2	0	34
+88	11	1	83	40
+
+Selected connector: id=88 crtc=83 plane=40
+
+---------------------------------------------------------------
+ Check initial state
+---------------------------------------------------------------
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0 g=0 b=0
+
+---------------------------------------------------------------
+ Set/get DRM property
+---------------------------------------------------------------
+Changing prop value to: 0xffff00000000ffff
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+    Connector: HDMI-A-2
+	background color (10bpc): r=0 g=0 b=ffff
+
+---------------------------------------------------------------
+ Plane display test 40@83:960x540+480+270
+---------------------------------------------------------------
+
+Changing prop value to 0xffffffff00000000
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=ffff g=0 b=0
+
+Changing prop value to 0xffff0000ffff0000
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0 g=ffff b=0
+
+Changing prop value to 0xffff00000000ffff
+Press ENTER to continue..
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+testing 960x540@XR24 overlay plane 40
+
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+    Connector: HDMI-A-2
+	background color (10bpc): r=0 g=0 b=ffff
+
+---------------------------------------------------------------
+ Restoring state
+---------------------------------------------------------------
+Changing prop value to: 0xffff000000000000
+opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+    Connector: HDMI-A-2
+	background color (10bpc): r=0 g=0 b=0
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Cristian Ciocaltea (2):
+      drm: Add CRTC background color property
+      drm/rockchip: vop2: Support setting custom background color
+
+ drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |  4 +++
+ drivers/gpu/drm/drm_blend.c                  | 37 +++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_mode_config.c            |  6 +++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 +++
+ include/drm/drm_blend.h                      |  4 ++-
+ include/drm/drm_crtc.h                       | 12 +++++++++
+ include/drm/drm_mode_config.h                |  5 ++++
+ include/uapi/drm/drm_mode.h                  | 30 ++++++++++++++++++++++
+ 10 files changed, 110 insertions(+), 6 deletions(-)
+---
+base-commit: d0630b758e593506126e8eda6c3d56097d1847c5
+change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
+
