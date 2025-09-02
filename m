@@ -2,45 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF23B3FEC3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 13:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C44B3FEC5
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 13:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C5E10E68A;
-	Tue,  2 Sep 2025 11:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BCB10E68B;
+	Tue,  2 Sep 2025 11:57:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GvueDW5y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mSGou2m3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4031410E686;
- Tue,  2 Sep 2025 11:57:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CFDA443495;
- Tue,  2 Sep 2025 11:56:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56894C4CEF7;
- Tue,  2 Sep 2025 11:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1756814219;
- bh=IPlhrnZHoqqJiSgIjsgVI/W3SKpW9MSBrXYWQE0lwAk=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=GvueDW5yyC0Qr/IqQAq5cIDC7p00TEnqFWhLLRaGszHl9qjeY4peVqFPj0AmZibQ6
- rHzC7P+pyJPZfKEWPuxWyflJTXVQqMveZcXaxkBONrZB20cjM+YMgvfg4hTVl+Nyjo
- SZGVWj1CMApROMbds7rASpZ/9u7B6qJaFF4IBlGs=
-Subject: Patch "Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to
- LANE0_1_STATUS"" has been added to the 5.10-stable tree
-To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- imre.deak@intel.com, intel-gfx@lists.freedesktop.org, sashal@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 02 Sep 2025 13:56:43 +0200
-In-Reply-To: <20250828174932.414566-2-imre.deak@intel.com>
-Message-ID: <2025090243-overload-chooser-45c4@gregkh>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4B810E68B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 11:57:16 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B1F4E1F748;
+ Tue,  2 Sep 2025 11:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1756814235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yfvmzc8qZmjMW4mhkIuHV/6a4hUMeSIVMoLiNUvK0Jk=;
+ b=mSGou2m35QWKjYxVcVxQArlWxxMr6rCzPkBdM5epuolTdmwUn/CGj7/YzLOTl95SXL+rdW
+ Qmd3zGWZxrgIIbKW+mP6eKYSh2nkdGGx6786bF2vat3cXwuFxalz19AWFtfU8BwLF7FqIb
+ HwEk5o3aJ50JovfkLIaBcFPq6JbztM0XfPdvlM/XHM36dfzFSkWl4W5peWJIk4uv7J7mzE
+ B4HnnnfW76VCNH6Op4IzHvCpnvsjzC1zrXXa2zqwc7EAjwhGIDfULGU/C/B2OzZzo4Qfiw
+ 0KqG+//FWeBZMHA88sTqW0lzVIhMgY0wWTGwFuhxHIhocwckKSxb5PZl2e22Cg==
+Date: Tue, 2 Sep 2025 13:57:09 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Liu Ying
+ <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, Andrew Morton
+ <akpm@linux-foundation.org>, Zijun Hu <quic_zijuhu@quicinc.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/9] list: add list_last_entry_or_null()
+Message-ID: <20250902135709.19e1ef54@booty>
+In-Reply-To: <aKXRHAyfPHPpZmMs@smile.fi.intel.com>
+References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
+ <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-1-888912b0be13@bootlin.com>
+ <aJJ9ttmL7wiw41fY@smile.fi.intel.com>
+ <20250814183609.3788a6df@booty>
+ <aKXRHAyfPHPpZmMs@smile.fi.intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvkedprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrm
+ hhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,65 +83,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello DRM maintainers,
 
-This is a note to let you know that I've just added the patch titled
+On Wed, 20 Aug 2025 16:43:56 +0300
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-    Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
+> On Thu, Aug 14, 2025 at 06:36:09PM +0200, Luca Ceresoli wrote:
+> > On Wed, 6 Aug 2025 00:55:02 +0300
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> >   
+> > > On Fri, Aug 01, 2025 at 07:05:23PM +0200, Luca Ceresoli wrote:  
+> > > > Add an equivalent of list_first_entry_or_null() to obtain the last element
+> > > > of a list.    
+> > > 
+> > > Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>  
+> > 
+> > Thanks Andy!
+> > 
+> > However I'm not sure when and where this should be applied.
+> > 
+> > Except for this one patch, all patches in the series are for
+> > drm-misc-next. Also, patch 1 is currently not needed by any other
+> > series AFAIK.
+> > 
+> > Based on the above, is it correct to assume that the whole series can
+> > be applied on drm-misc-next? (when other patches will have a
+> > R-by/Ack-by of course)
+> > 
+> > Also, is Andy's A-by enough to apply this patch?  
+> 
+> The list.h is common for many, I think going via DRM with my Ack is enough
+> based on the Git history of my changes in this file. But if you want more
+> reliable source, get an Ack from Andrew Morton.
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+While applying this patch with dim on drm-misc-next, dim push-branch
+failed because:
 
-The filename of the patch is:
-     revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
-and it can be found in the queue-5.10 subdirectory.
+  dim: ERROR: cb86408b1fc2 ("list: add list_last_entry_or_null()"): Mandatory Maintainer Acked-by missing., aborting
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+Looking at the dim code, it is looking for a Reviewed- or Acked-by from
+people listed by `scripts/get_maintainer.pl --no-git-fallback -m --nol
+--norolestats`. but that command returns an empty string, so it will
+never allow me to push.
 
+How can I get that commit pushed to drm-misc-next?
 
-From imre.deak@intel.com  Tue Sep  2 13:49:03 2025
-From: Imre Deak <imre.deak@intel.com>
-Date: Thu, 28 Aug 2025 20:49:27 +0300
-Subject: Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
-To: <stable@vger.kernel.org>
-Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Sasha Levin <sashal@kernel.org>
-Message-ID: <20250828174932.414566-2-imre.deak@intel.com>
+I think `dim push-branch -f` would work: am I supposed to use it?
 
-From: Imre Deak <imre.deak@intel.com>
+(not sure my committer rights allow that)
 
-This reverts commit 89d17a2d89a83c5b7643ca934651a3f9229e4734 which is
-commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f upstream.
+Luca
 
-The upstream commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f ("drm/dp:
-Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS") the
-reverted commit backported causes a regression, on one eDP panel at
-least resulting in display flickering, described in detail at the Link:
-below. The issue fixed by the upstream commit will need a different
-solution, revert the backport for now.
-
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Sasha Levin <sashal@kernel.org>
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_dp_helper.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -299,7 +299,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_a
- 	 * monitor doesn't power down exactly after the throw away read.
- 	 */
- 	if (!aux->is_remote) {
--		ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, DP_LANE0_1_STATUS,
-+		ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, DP_DPCD_REV,
- 					 buffer, 1);
- 		if (ret != 1)
- 			goto out;
-
-
-Patches currently in stable-queue which might be from imre.deak@intel.com are
-
-queue-5.10/revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
