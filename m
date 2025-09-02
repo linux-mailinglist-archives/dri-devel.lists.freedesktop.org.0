@@ -2,82 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7BDB40205
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568BFB40216
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9E210E6D8;
-	Tue,  2 Sep 2025 13:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B498E10E6EB;
+	Tue,  2 Sep 2025 13:10:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hIOzX/NM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xaisRgqh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hIOzX/NM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xaisRgqh";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CliPJ4e0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L0mAlQUh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CliPJ4e0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L0mAlQUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9514110E6D8
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:08:17 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A29E310E6DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:10:17 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 06DAE211E7;
- Tue,  2 Sep 2025 13:08:15 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0C2FA1F391;
+ Tue,  2 Sep 2025 13:10:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756818495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756818616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sQKX48qPcgwHVW+NCAlkDrUqgPcoHhJtJTs0F29hUFQ=;
- b=hIOzX/NMrpSI02Cf/ondEAjOizE+dT4kS36RjI8WIB5l5WupySwTkjtkEEEEhTwa4f7Xmy
- kGZA9rSWGrtiaxoRHuK4nWbb69dc9yHgwn/DIBeN4NYA3Fgs0grfspa2VqcCUy02e1EopT
- CPrTjZD8VdLedVtvyHEKx2dA3q+j9yo=
+ bh=rTqHH1AcOAymChGmY86z9oHWElU0HhyGUHwMMlp4hyg=;
+ b=CliPJ4e0TQHuyS355JcgYaSQuJkISbiiXbGqlLL0y4M0sGqZjB+/TSjczSnXZER0RihcpI
+ IOy5HjpIB9NQACH42yV/swJw9DWj7ZBcjESUP1pc/VF8/XNhfP4a2jNjSs3x/j4C3SXYL5
+ nzc7mgH19apHtkGXxYbWi823w3MCPFg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756818495;
+ s=susede2_ed25519; t=1756818616;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sQKX48qPcgwHVW+NCAlkDrUqgPcoHhJtJTs0F29hUFQ=;
- b=xaisRgqhtLeq8MQWuHCrvyPRAk0ilpPkFZ3MSZmz/gUZzOujfuCmgaE+QpDkN+pwuxFRaO
- LWzgruOEaAG9vzAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="hIOzX/NM";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xaisRgqh
+ bh=rTqHH1AcOAymChGmY86z9oHWElU0HhyGUHwMMlp4hyg=;
+ b=L0mAlQUhr1tCwAZpPOFiyVgJvD+pMi9ebIeJfjrhHePpN5L1cogmJ7XGzj2BO/ieJfehXq
+ Qu80VJsoPYtMc8Cg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CliPJ4e0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L0mAlQUh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756818495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756818616; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sQKX48qPcgwHVW+NCAlkDrUqgPcoHhJtJTs0F29hUFQ=;
- b=hIOzX/NMrpSI02Cf/ondEAjOizE+dT4kS36RjI8WIB5l5WupySwTkjtkEEEEhTwa4f7Xmy
- kGZA9rSWGrtiaxoRHuK4nWbb69dc9yHgwn/DIBeN4NYA3Fgs0grfspa2VqcCUy02e1EopT
- CPrTjZD8VdLedVtvyHEKx2dA3q+j9yo=
+ bh=rTqHH1AcOAymChGmY86z9oHWElU0HhyGUHwMMlp4hyg=;
+ b=CliPJ4e0TQHuyS355JcgYaSQuJkISbiiXbGqlLL0y4M0sGqZjB+/TSjczSnXZER0RihcpI
+ IOy5HjpIB9NQACH42yV/swJw9DWj7ZBcjESUP1pc/VF8/XNhfP4a2jNjSs3x/j4C3SXYL5
+ nzc7mgH19apHtkGXxYbWi823w3MCPFg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756818495;
+ s=susede2_ed25519; t=1756818616;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=sQKX48qPcgwHVW+NCAlkDrUqgPcoHhJtJTs0F29hUFQ=;
- b=xaisRgqhtLeq8MQWuHCrvyPRAk0ilpPkFZ3MSZmz/gUZzOujfuCmgaE+QpDkN+pwuxFRaO
- LWzgruOEaAG9vzAA==
+ bh=rTqHH1AcOAymChGmY86z9oHWElU0HhyGUHwMMlp4hyg=;
+ b=L0mAlQUhr1tCwAZpPOFiyVgJvD+pMi9ebIeJfjrhHePpN5L1cogmJ7XGzj2BO/ieJfehXq
+ Qu80VJsoPYtMc8Cg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A1FA13888;
- Tue,  2 Sep 2025 13:08:14 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DE5313888;
+ Tue,  2 Sep 2025 13:10:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id IQ4/AT7stmhaVQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:08:14 +0000
-Message-ID: <d807d181-6b14-4711-b297-72dcd49b4937@suse.de>
-Date: Tue, 2 Sep 2025 15:08:12 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lYCgJLfstmgfVgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:10:15 +0000
+Message-ID: <78a39bbf-92c8-46a9-9744-2fa1720bb7d0@suse.de>
+Date: Tue, 2 Sep 2025 15:10:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/29] drm/atomic: Document atomic state lifetime
+Subject: Re: [PATCH 02/29] drm/atomic: Fix unused but set warning in
+ for_each_old_plane_in_state
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -90,7 +91,7 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-1-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-2-14ad5315da3f@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,7 +118,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-1-14ad5315da3f@kernel.org>
+In-Reply-To: <20250902-drm-state-readout-v1-2-14ad5315da3f@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
@@ -127,11 +128,10 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
  TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
  SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
  FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
  RCVD_COUNT_TWO(0.00)[2];
  DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
@@ -140,11 +140,11 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  TAGGED_RCPT(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
  DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim, suse.de:email]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 06DAE211E7
+X-Rspamd-Queue-Id: 0C2FA1F391
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
@@ -166,118 +166,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi
 
 Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> How drm_atomic_state structures and the various entity structures are
-> allocated and freed isn't really trivial, so let's document it.
-
-Thanks for doing this.
-
+> The for_each_old_plane_in_state() macro triggers a compiler warning if
+> the plane parameter passed to it isn't used in the code block.
+>
+> Add a similar workaround than in most other macros.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   Documentation/gpu/drm-kms.rst |  6 ++++++
->   drivers/gpu/drm/drm_atomic.c  | 45 +++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 51 insertions(+)
->
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index abfe220764e1edc758a6bc6fb5ff9c8e1c7749ff..dc0f61a3d29e752889077d855a4bea381f2e2c18 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
->   :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
->   
->   Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
->   coverage of specific topics.
->   
-> +Atomic State Lifetime
-> +---------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> +   :doc: state lifetime
-> +
->   Handling Driver Private State
->   -----------------------------
->   
->   .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
->      :doc: handling driver private state
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index cd15cf52f0c9144711da5879da57884674aea9e4..b356d26faad4acaa25c1fe6f9bd5043b6364ce87 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -44,10 +44,55 @@
->   #include <drm/drm_writeback.h>
->   
->   #include "drm_crtc_internal.h"
->   #include "drm_internal.h"
->   
-> +/**
-> + * DOC: state lifetime
-> + *
-> + * &struct drm_atomic_state represents an update to video pipeline state.
-> + *
-> + * Its lifetime is:
-> + *
-> + * - at reset time, the entity reset implementation will allocate a
-> + *   new, default, state and will store it in the entity state pointer.
 
-Can you somehow mention drm_mode_config_reset() here? 'Reset time' might 
-be too abstract.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> + *
-> + * - whenever a new update is needed:
-> + *
-> + *   + we allocate a new &struct drm_atomic_state using drm_atomic_state_alloc().
-> + *
-> + *   + we copy the state of each affected entity into our &struct
-> + *     drm_atomic_state using drm_atomic_get_plane_state(),
-> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
-> + *     drm_atomic_get_private_obj_state(). That state can then be
-> + *     modified.
-> + *
-> + *     At that point, &struct drm_atomic_state stores three state
-> + *     pointers for that particular entity: the old, new, and existing
-> + *     (called "state") states. The old state is the state currently
-> + *     active in the hardware, ie either the one initialized by reset()
-
-'ie' should be replaced by 'which is'. AFAIK ie is used like this: 
-(i.e., ...).
-
-> + *     or a newer one if a commit has been made. The new state is the
-> + *     state we just allocated and we might eventually commit to the
-> + *     hardware. The existing state points to the state we'll eventually
-> + *     have to free, the new state for now.
-
-That final sentence is confusing. What are we doing with the existing 
-state? Will the old state ever become the existing state? You also never 
-explain this below.
-
-Maybe only focus on the old and new state for now and explain the 
-meaning of the existing state in a separate bullet point.
+This patch should probably get merged in any case
 
 Best regards
 Thomas
 
-> + *
-> + *   + Once we run a commit, it is first checked and if the check is
-> + *     successful, it is committed. Part of the commit is a call to
-> + *     drm_atomic_helper_swap_state() which will turn the new state into
-> + *     the active state. Doing so involves updating the entity state
-> + *     pointer (&drm_crtc.state or similar) to point to the new state,
-> + *     and the existing state will now point to the old state, that used
-> + *     to be active but isn't anymore.
-> + *
-> + *   + When the commit is done, and when all references to our &struct
-> + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
-> + *     free all the old states.
-> + *
-> + *   + Now, we don't have any active &struct drm_atomic_state anymore,
-> + *     and only the entity active states remain allocated.
-> + */
+> ---
+>   include/drm/drm_atomic.h | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index 38636a593c9d98cadda85ccd67326cb152f0dd27..689a29bdeb4a06672ab6fffecb513d58ff6e07f9 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -1053,11 +1053,13 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+>   	for ((__i) = 0;							\
+>   	     (__i) < (__state)->dev->mode_config.num_total_plane;	\
+>   	     (__i)++)							\
+>   		for_each_if ((__state)->planes[__i].ptr &&		\
+>   			     ((plane) = (__state)->planes[__i].ptr,	\
+> +			      (void)(plane) /* Only to avoid unused-but-set-variable warning */, \
+>   			      (old_plane_state) = (__state)->planes[__i].old_state, 1))
 > +
->   void __drm_crtc_commit_free(struct kref *kref)
->   {
->   	struct drm_crtc_commit *commit =
->   		container_of(kref, struct drm_crtc_commit, ref);
->   
+>   /**
+>    * for_each_new_plane_in_state - iterate over all planes in an atomic update
+>    * @__state: &struct drm_atomic_state pointer
+>    * @plane: &struct drm_plane iteration cursor
+>    * @new_plane_state: &struct drm_plane_state iteration cursor for the new state
 >
 
 -- 
