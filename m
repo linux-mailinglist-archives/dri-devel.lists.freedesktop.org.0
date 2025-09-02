@@ -2,73 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECEBB40F7B
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 23:35:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B2B40FA5
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 23:53:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA4C10E0BB;
-	Tue,  2 Sep 2025 21:35:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019B210E841;
+	Tue,  2 Sep 2025 21:53:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="myVExmJC";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="W4Wn71t0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48E310E0BB
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 21:35:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756848932; x=1788384932;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=feSylG8v5RU948ye3Aa4+gNuJQDlGa8ABq1tWoE+Wc4=;
- b=myVExmJCtRlQa9BLigploF8dXYoWhF0hquDnaKgMyxiR3gs6ZdqC5Qdn
- hdeNusuwggDCFmNBQh186vId1U6+C86a8rsiOEpykbkgQAAMQxfPMnJ9n
- MQarhV5LjiF/9y4Md+9OzJNzeLPIyhG3nFNAyXzh0CgWhREnz+F2HJKgW
- sshVt+EmdQPEfpFYAZqHrSldz85DRXjhu2HjsyCTp/TfpFNP9IAEhItiR
- wBblUG3ovWHW0dv0GuTkZxpl5EEpQmwk2r9+EF6AttyteTXw4B5nrpq4l
- CNAiwi6/iO5uw1+4w8WGb+XWoA3K5svydvMSpwLi4RzR82bA9tGAbZ4o/ Q==;
-X-CSE-ConnectionGUID: FrD9CDjcRheNjAnmNkj/lw==
-X-CSE-MsgGUID: RO9ZPBAwTWu1NeuJkOqekw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="59001795"
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="59001795"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 14:35:32 -0700
-X-CSE-ConnectionGUID: DLHUacnhR3mqLdlPaKYduA==
-X-CSE-MsgGUID: /Bh1eTHdThyfOCxrG7T+XA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="171553507"
-Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
- by orviesa008.jf.intel.com with ESMTP; 02 Sep 2025 14:35:15 -0700
-Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1utYeh-00033D-0S;
- Tue, 02 Sep 2025 21:35:07 +0000
-Date: Wed, 3 Sep 2025 05:35:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
- linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org,
- Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v9 06/11] firmware: qcom: scm: add support for object
- invocation
-Message-ID: <202509030554.WR3MNpCE-lkp@intel.com>
-References: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7532210E841
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 21:53:37 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F127C41DE2;
+ Tue,  2 Sep 2025 21:53:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1756850015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=br/QgVoy/c9/5rdndTufFT/AwJSOiX40/l6/1pESy2E=;
+ b=W4Wn71t0ERnKj+15R+6nOiFru5MHlxap9PUNx0hhPgURCDHhHcLz06thXfcbSt+mgDmGDD
+ WF1OcYas8FP2V/i3eALEJeS1uhoVlHI0QSSD3nC7IJE7oxz5213OdxhmGpLmSuZsCwnblE
+ sN15FwekQWvsaZJMjT7uEmHTglMngF7o0i66Kf+ik950cVo0q5WWh8JAmxCvS24+Q6vCLh
+ Fr4ibsSTGtFmkbsUh2fRbq20u9gvgaWVYKkLBBBU5XpHp5dVa99niAu/zX6sh7ylULCF5j
+ 82f1boSl7fdtq5tAukfWCFh8yiEbZkSvB0QByw7x8JeWRcjnZdtvs9WP/4W/Tw==
+Date: Tue, 2 Sep 2025 23:53:26 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>, Chaoyi Chen
+ <chaoyi.chen@rock-chips.com>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 3/9] drm/bridge: add
+ drm_for_each_bridge_in_chain_scoped()
+Message-ID: <20250902235326.678947cd@booty>
+In-Reply-To: <20250820114030.401e5d4f@booty>
+References: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
+ <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-3-edb6ee81edf1@bootlin.com>
+ <7gpqrxlxxuarbp5b7bycukbbjdcuonlhn4zm6xinnrlqzrbeu7@rrpcwxnxxrag>
+ <20250819180137.28ca89c0@booty> <20250820114030.401e5d4f@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -51
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddufeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuuhhsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfeukedufeekuddugfeuteekgeelveelgfduteefjeffjeeiveetvefflefguddtnecuffhomhgrihhnpehophgvnhdqshhtugdrohhrghdpghhithhhuhgsrdhiohdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegrgeeivdemudgsuggumeeluddtudemvdelgehfpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjr
+ dhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,84 +80,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amirreza,
+Hi Maxime,
 
-kernel test robot noticed the following build warnings:
+On Wed, 20 Aug 2025 11:40:30 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-[auto build test WARNING on 33bcf93b9a6b028758105680f8b538a31bc563cf]
+> Hi Maxime,
+> 
+> On Tue, 19 Aug 2025 18:01:37 +0200
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> 
+> > Hi Maxime,
+> > 
+> > On Tue, 19 Aug 2025 15:47:06 +0200
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >   
+> > > > +/**
+> > > > + * drm_for_each_bridge_in_chain_scoped - iterate over all bridges attached
+> > > > + *                                       to an encoder
+> > > > + * @encoder: the encoder to iterate bridges on
+> > > > + * @bridge: a bridge pointer updated to point to the current bridge at each
+> > > > + *	    iteration
+> > > > + *
+> > > > + * Iterate over all bridges present in the bridge chain attached to @encoder.
+> > > > + *
+> > > > + * Automatically gets/puts the bridge reference while iterating, and puts
+> > > > + * the reference even if returning or breaking in the middle of the loop.
+> > > > + */
+> > > > +#define drm_for_each_bridge_in_chain_scoped(encoder, bridge)		\
+> > > > +	for (struct drm_bridge *bridge __free(drm_bridge_put) =		\
+> > > > +	     drm_bridge_chain_get_first_bridge(encoder);		\      
+> > > 
+> > > So my understanding is that the initial value of bridge would be cleaned
+> > > up with drm_bridge_put...
+> > >     
+> > > > +	     bridge;							\
+> > > > +	     bridge = drm_bridge_get_next_bridge_and_put(bridge))      
+> > > 
+> > > ... but also when iterating?
+> > > 
+> > > So if we have more than 0 values, we put two references?    
+> > 
+> > No, this is not the case. The __free action is executed only when
+> > exiting the entire for loop, not a single iteration.
+> > 
+> > This is consistent with the fact that the loop variable is persistent
+> > across iterations.  
+> 
+> PS: here's the C language spec reference:
+> 
+> > 6.8.5.3 The for statement
+> > The statement
+> > for ( clause-1 ; expression-2 ; expression-3 ) statement
+> > behaves as follows:
+> > [...]
+> > If clause-1 is a declaration, the scope of any identifiers it declares
+> > is the remainder of the declaration and the entire loop   
+> 
+> https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf
+> https://rgambord.github.io/c99-doc/sections/6/8/5/3/index.html
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250902-125821
-base:   33bcf93b9a6b028758105680f8b538a31bc563cf
-patch link:    https://lore.kernel.org/r/20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-6-a2af23f132d5%40oss.qualcomm.com
-patch subject: [PATCH v9 06/11] firmware: qcom: scm: add support for object invocation
-config: i386-buildonly-randconfig-001-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030554.WR3MNpCE-lkp@intel.com/reproduce)
+I think my replies have proven the correctness of the bridge cleanup in
+this patch. Based on my arguments, do you agree this patch is correct?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509030554.WR3MNpCE-lkp@intel.com/
+If it is, I think most of the remainder of this series is trivial to
+review, and it would be a good step forward for dynamic bridge lifetime
+implementation.
 
-All warnings (new ones prefixed by >>):
+Otherwise, don't hesitate to let me know your concerns.
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from drivers/firmware/qcom/qcom_scm.c:13:
-   drivers/firmware/qcom/qcom_scm.c: In function 'qcom_scm_qtee_init':
->> drivers/firmware/qcom/qcom_scm.c:2208:35: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:17: note: in expansion of macro 'dev_err'
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                 ^~~~~~~
-   drivers/firmware/qcom/qcom_scm.c:2208:63: note: format string is defined here
-    2208 |                 dev_err(scm->dev, "qcomtee: register failed: %d\n",
-         |                                                              ~^
-         |                                                               |
-         |                                                               int
-         |                                                              %ld
-
-
-vim +2208 drivers/firmware/qcom/qcom_scm.c
-
-  2188	
-  2189	static void qcom_scm_qtee_init(struct qcom_scm *scm)
-  2190	{
-  2191		struct platform_device *qtee_dev;
-  2192		u64 result, response_type;
-  2193		int ret;
-  2194	
-  2195		/*
-  2196		 * Probe for smcinvoke support. This will fail due to invalid buffers,
-  2197		 * but first, it checks whether the call is supported in QTEE syscall
-  2198		 * handler. If it is not supported, -EIO is returned.
-  2199		 */
-  2200		ret = qcom_scm_qtee_invoke_smc(0, 0, 0, 0, &result, &response_type);
-  2201		if (ret == -EIO)
-  2202			return;
-  2203	
-  2204		/* Setup QTEE interface device. */
-  2205		qtee_dev = platform_device_register_data(scm->dev, "qcomtee",
-  2206							 PLATFORM_DEVID_NONE, NULL, 0);
-  2207		if (IS_ERR(qtee_dev)) {
-> 2208			dev_err(scm->dev, "qcomtee: register failed: %d\n",
-  2209				PTR_ERR(qtee_dev));
-  2210			return;
-  2211		}
-  2212	
-  2213		ret = devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
-  2214		if (ret)
-  2215			dev_err(scm->dev, "qcomtee: add action failed: %d\n", ret);
-  2216	}
-  2217	
+Best regards,
+Luca
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
