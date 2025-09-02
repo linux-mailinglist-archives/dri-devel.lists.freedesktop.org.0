@@ -2,117 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF460B4081C
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC8EB40842
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84CF310E77E;
-	Tue,  2 Sep 2025 14:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2DD10E788;
+	Tue,  2 Sep 2025 14:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eu3j3OhN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O2Jiuv33";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEA410E77E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 14:57:15 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582EqCdo019600
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 14:57:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=TsmfkgMBnp9SJQN3L5y7Bh9L
- sMiuyaGhK5Ns/kSaNZc=; b=eu3j3OhN8NE52GVbTnYhN5bolGpchquaY6Oo8k/l
- ZIq1js7kPg4ehpJhc5KyjfsJFAH4PuF77ImvKVVyLchpgfZVrYhzELTaL3Z9voCb
- omQZTL90PlEPBphxQuuykkCUPnLUzlNvsjDl5vSrGvOVrnwZMkmMk/5QU6a2iggr
- O/SzQYmNFf7PoYqZaaVSCk6DFHVh2V0r+iG6vvAfQ1Tq3KW/sCIrEe3hU5UTWcuL
- obseSgjLOqRVhF5dHpbiQuqVGnqB/No/IgASByuaos+JmEB5Ygs56lGJtSKKqoKB
- 4uCxCvZP7OT+Ir/3FozajGUA06obmmqQ2nmw3djLIVI/5g==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urw0077w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 14:57:14 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b3476fbe7eso17759971cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 07:57:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756825033; x=1757429833;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TsmfkgMBnp9SJQN3L5y7Bh9LsMiuyaGhK5Ns/kSaNZc=;
- b=wfvoLiTCg9DBLSlFE3izGUKWCY/nEpwHaRsfiBj4vuHq3P/t2Z5IhKlItJZc0Lrznf
- LgsRArBkGEAlG9r9kab0IkhxvSCGJm1RXVSY5iRV5wIcUHGmJ/CoyZP+BMDiTVKYiSDG
- 54cF8g78aiYaiNmb3BMGRC6Eh2A1I3ekMqKatgckM0CXrtCKVc9U2aRRwCc9HG7G0+Ue
- mPaQHg1v4kbbGH8YtTBLj2Uz1nwQYFkerQn66JGlT0tzNDe9PrQJVXNWTF+RxaMIb75i
- OsicCAY4vgXuTbHJXdAb7D5icmRZLrRSH/KrgLDlYm3htVq/88aA5amxNGywyhJjUS8l
- M/aA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSWIuzJUSieFs/Y7BIUMSo26VAwgIpaeBNDbgg4NiP7AvgB6JD8rwvEFJ80GjfZAonVdM/K3dVSQQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZwUEjWsupeNifXqGNiQ2ICU3RRNCM/fD6y/Aep2ZAUGNE2jCD
- xm6Eebg2cRNn8GsjQcn0L8PlYSYwS39AbRoz9NSu3WVq2f75x29suQh/+kasiBd+SGEhwtIs9rW
- 5c18bZSKesFrdc9IIUPu9lD+gpIZOo+Y4YHElGy+9grCSiFKHgqHv/JMKE0ig3DBbdH3WNJ8=
-X-Gm-Gg: ASbGncvMYAkq/aPlN2ok8gkbUg9q0O1hs5YA/2/u/N0fh/fZd9TrStLXsUKF93FrqBD
- xgCXyin9K/kgVOHerP/4rBxlcekk0/NIBez2RYgW8GMcGhVVrDwR+b6pkfxY3vWGBPpsPHc5hHP
- ERJLKNwI9dC9/oJNQpP8x50IeuVr6wabZb4g0ygIJQrfRFqXjdoRUmyLviOL9JS1Hat0uRerDhb
- 4hjYFfaP9Vh3NeOW1T+poiVUBqYQk8OUTmblPbL6yV4VTKUNHHvgxilkbwdOCnjArtUCdfTu0Qa
- 59pKtY0UrTRB4VgMOL/PrCQM7FzKSQrpLBvNwreYsTQQM+UsLgPupUzvhjt4/OI5RoJ5FiUYi8A
- ytq4+toCawXvk8p4B62YS0ZoDOfps+mREepPbI2Pcfi2lt1TxvSK0
-X-Received: by 2002:a05:622a:1103:b0:4b3:9f3:8f86 with SMTP id
- d75a77b69052e-4b31da25423mr131231331cf.43.1756825033221; 
- Tue, 02 Sep 2025 07:57:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZq3/yRV8lo2PEycPVb24whKPiXTRJq33EprBVrpg4tMMnhbq/xhljHZVKKCnnnAke8vRMXw==
-X-Received: by 2002:a05:622a:1103:b0:4b3:9f3:8f86 with SMTP id
- d75a77b69052e-4b31da25423mr131230811cf.43.1756825032575; 
- Tue, 02 Sep 2025 07:57:12 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-560827b3ac5sm751954e87.147.2025.09.02.07.57.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 07:57:11 -0700 (PDT)
-Date: Tue, 2 Sep 2025 17:57:09 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v15 00/13] drm/msm/dpu: Support quad pipe with
- dual-interface
-Message-ID: <53z5v73r4ixmecpo6z3a6rnsmkgjjftbrwke24bf7mkr5ffh64@2viglv4lnows>
-References: <20250819-v6-16-rc2-quad-pipe-upstream-v15-0-2c7a85089db8@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF3C10E785;
+ Tue,  2 Sep 2025 14:59:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756825180; x=1788361180;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=vDmXH55NIAF/iJDyxaMzr02S19+EYKdkSPtubaiyCyk=;
+ b=O2Jiuv33q06UHfqhm09pPOXvLDhMOmXPXJm3Zt5zVeUXgegcTQHthGAM
+ kQ9WcdvoG3zGuTwytxYHXReuX4AjMuViPwuOEO9TS4Ymof8MJLgW86USA
+ XKLkSZ2qiuLTcbN7YFaqi20+YI8OlBvNd6xJyMXh/6y2QabgnGcgp7m0H
+ fKuqf/4U4BGScU5LrAsZM2Qal8Y7fi1usc4u3Q2biN/cBv+e58WNhKlsw
+ UZ4hZnOb82cAUTskEVPfeqC+hP8mGHDWK1eod3wUFc47pArBM+DV9R+5X
+ bEsr3mnd61l3U8zR2lnC9pAI+YIW25grmFw8cqki9dAIUHjoLOCtIwoyq A==;
+X-CSE-ConnectionGUID: dpnNrA/0SFe87VzxMMrijg==
+X-CSE-MsgGUID: o+tNdEoKR6G3A+W+2dI2DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59052454"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="59052454"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2025 07:59:39 -0700
+X-CSE-ConnectionGUID: gnZHfUcPTo6N3QPQ0TAk6w==
+X-CSE-MsgGUID: 8fXfvuiMRWqfQqmhFXx7tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="171451041"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.193])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2025 07:59:33 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, David
+ Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Christian Koenig
+ <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>, Matthew Auld
+ <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, Maxime
+ Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v11 06/11] drm/i915: Add intel_bo_alloc_framebuffer()
+In-Reply-To: <20250624091501.257661-7-jfalempe@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250624091501.257661-1-jfalempe@redhat.com>
+ <20250624091501.257661-7-jfalempe@redhat.com>
+Date: Tue, 02 Sep 2025 17:59:30 +0300
+Message-ID: <508c32788930b591fdb578f4f406278a8818d771@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819-v6-16-rc2-quad-pipe-upstream-v15-0-2c7a85089db8@linaro.org>
-X-Proofpoint-GUID: 8n44vRLpCO5FlFiKEBWSbpDnu2b1VYUf
-X-Proofpoint-ORIG-GUID: 8n44vRLpCO5FlFiKEBWSbpDnu2b1VYUf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNyBTYWx0ZWRfX1MItUZ+sUTKi
- Ap7M888MgZbg+mZfJCuTcUcW6gNp9WEIH74fLDWGvluLWMi5ep0EmQp8RiY/Xg2YBKBwpq9tIMP
- SQexM453RswrMCnO3IvWE4gcXl+JDHepVXffRVBVCXjhNTcUw8sJlS6HXmkklLmZs7ImvZ29aaN
- 4jHmzwtjJGm/v8HEbnXehde0IYEmQnQyfnbrC5/gEn45kj7iMO7RQSZ760YH+nvS2HletJfaiW9
- CGVnc0yG7E3muLAmDe0gsM0apyB5+Y4cCZBOurlkFQDh+p35YPo504vUoo7Cs/JLxo6Z685fbFj
- AhOsqsgXWWXhiaVaNBEg714ZLPsVw6Xx+VIuCH7KsAkKWXsqihoPj1ayMnpPFLMnONsErCMb3ts
- LzVjLycf
-X-Authority-Analysis: v=2.4 cv=NrDRc9dJ c=1 sm=1 tr=0 ts=68b705ca cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8
- a=NuLzGU6fH5aT33uQb0QA:9 a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
- a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300027
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,41 +81,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 19, 2025 at 09:30:54AM +0800, Jun Nie wrote:
-> 2 or more SSPPs and dual-DSI interface are need for super wide panel.
-> And 4 DSC are preferred for power optimal in this case due to width
-> limitation of SSPP and MDP clock rate constrain. This patch set
-> extends number of pipes to 4 and revise related mixer blending logic
-> to support quad pipe. All these changes depends on the virtual plane
-> feature to split a super wide drm plane horizontally into 2 or more sub
-> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
-> whole drm plane.
-> 
-> The first pipe pair co-work with the first mixer pair to cover the left
-> half of screen and 2nd pair of pipes and mixers are for the right half
-> of screen. If a plane is only for the right half of screen, only one
-> or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
-> assinged for invalid pipe.
-> 
-> For those panel that does not require quad-pipe, only 1 or 2 pipes in
-> the 1st pipe pair will be used. There is no concept of right half of
-> screen.
-> 
-> For legacy non virtual plane mode, the first 1 or 2 pipes are used for
-> the single SSPP and its multi-rect mode.
-> 
-> Changes in v15:
-> - Polish logic in sspp check and assignment.
-> - Link to v14: https://lore.kernel.org/r/20250801-v6-16-rc2-quad-pipe-upstream-v14-0-b626236f4c31@linaro.org
+On Tue, 24 Jun 2025, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+> Encapsulate the struct intel_framebuffer into an xe_framebuffer
+> or i915_framebuffer, and allow to add specific fields for each
+> variant for the panic use-case.
+> This is particularly needed to have a struct xe_res_cursor available
+> to support drm panic on discrete GPU.
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>
+> v11:
+>  * Added in v11
+>
+>  drivers/gpu/drm/i915/display/i9xx_plane.c     |  3 ++-
+>  drivers/gpu/drm/i915/display/intel_bo.c       |  6 +++++
+>  drivers/gpu/drm/i915/display/intel_bo.h       |  2 ++
+>  drivers/gpu/drm/i915/display/intel_fb.c       |  2 +-
+>  .../drm/i915/display/skl_universal_plane.c    |  2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h    |  2 ++
+>  drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 22 +++++++++++++++++
+>  drivers/gpu/drm/xe/display/intel_bo.c         | 24 +++++++++++++++++++
+>  8 files changed, 60 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/=
+i915/display/i9xx_plane.c
+> index e7e35fd4bdc3..f291ced989dc 100644
+> --- a/drivers/gpu/drm/i915/display/i9xx_plane.c
+> +++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
+> @@ -15,6 +15,7 @@
+>  #include "i9xx_plane.h"
+>  #include "i9xx_plane_regs.h"
+>  #include "intel_atomic.h"
+> +#include "intel_bo.h"
+>  #include "intel_de.h"
+>  #include "intel_display_irq.h"
+>  #include "intel_display_regs.h"
+> @@ -1174,7 +1175,7 @@ i9xx_get_initial_plane_config(struct intel_crtc *cr=
+tc,
+>=20=20
+>  	drm_WARN_ON(display->drm, pipe !=3D crtc->pipe);
+>=20=20
+> -	intel_fb =3D kzalloc(sizeof(*intel_fb), GFP_KERNEL);
+> +	intel_fb =3D intel_bo_alloc_framebuffer();
+>  	if (!intel_fb) {
+>  		drm_dbg_kms(display->drm, "failed to alloc fb\n");
+>  		return;
+> diff --git a/drivers/gpu/drm/i915/display/intel_bo.c b/drivers/gpu/drm/i9=
+15/display/intel_bo.c
+> index fbd16d7b58d9..bcf2eded7469 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_bo.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: MIT
+>  /* Copyright =C2=A9 2024 Intel Corporation */
+>=20=20
+> +#include "display/intel_display_types.h"
+>  #include "gem/i915_gem_mman.h"
+>  #include "gem/i915_gem_object.h"
+>  #include "gem/i915_gem_object_frontbuffer.h"
+> @@ -57,3 +58,8 @@ void intel_bo_describe(struct seq_file *m, struct drm_g=
+em_object *obj)
+>  {
+>  	i915_debugfs_describe_obj(m, to_intel_bo(obj));
+>  }
+> +
+> +struct intel_framebuffer *intel_bo_alloc_framebuffer(void)
+> +{
+> +	return i915_gem_object_alloc_framebuffer();
+> +}
+> diff --git a/drivers/gpu/drm/i915/display/intel_bo.h b/drivers/gpu/drm/i9=
+15/display/intel_bo.h
+> index ea7a2253aaa5..315a81768c73 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bo.h
+> +++ b/drivers/gpu/drm/i915/display/intel_bo.h
+> @@ -7,6 +7,7 @@
+>  #include <linux/types.h>
+>=20=20
+>  struct drm_gem_object;
+> +struct intel_framebuffer;
+>  struct seq_file;
+>  struct vm_area_struct;
+>=20=20
+> @@ -23,5 +24,6 @@ struct intel_frontbuffer *intel_bo_set_frontbuffer(stru=
+ct drm_gem_object *obj,
+>  						   struct intel_frontbuffer *front);
+>=20=20
+>  void intel_bo_describe(struct seq_file *m, struct drm_gem_object *obj);
+> +struct intel_framebuffer *intel_bo_alloc_framebuffer(void);
+>=20=20
+>  #endif /* __INTEL_BO__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i9=
+15/display/intel_fb.c
+> index 763b36c4de10..6158031821fd 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -2346,7 +2346,7 @@ intel_framebuffer_create(struct drm_gem_object *obj,
+>  	struct intel_framebuffer *intel_fb;
+>  	int ret;
+>=20=20
+> -	intel_fb =3D kzalloc(sizeof(*intel_fb), GFP_KERNEL);
+> +	intel_fb =3D intel_bo_alloc_framebuffer();
+>  	if (!intel_fb)
+>  		return ERR_PTR(-ENOMEM);
+>=20=20
+> diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers=
+/gpu/drm/i915/display/skl_universal_plane.c
+> index 1ba04f1b3ec0..cbd0521a201c 100644
+> --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> @@ -3029,7 +3029,7 @@ skl_get_initial_plane_config(struct intel_crtc *crt=
+c,
+>  		return;
+>  	}
+>=20=20
+> -	intel_fb =3D kzalloc(sizeof(*intel_fb), GFP_KERNEL);
+> +	intel_fb =3D intel_bo_alloc_framebuffer();
+>  	if (!intel_fb) {
+>  		drm_dbg_kms(display->drm, "failed to alloc fb\n");
+>  		return;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm=
+/i915/gem/i915_gem_object.h
+> index c34f41605b46..364941444a0a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -17,6 +17,7 @@
+>  #include "i915_vma_types.h"
+>=20=20
+>  enum intel_region_id;
+> +struct intel_framebuffer;
+>=20=20
+>  #define obj_to_i915(obj__) to_i915((obj__)->base.dev)
+>=20=20
+> @@ -691,6 +692,7 @@ i915_gem_object_unpin_pages(struct drm_i915_gem_objec=
+t *obj)
+>  int __i915_gem_object_put_pages(struct drm_i915_gem_object *obj);
+>  int i915_gem_object_truncate(struct drm_i915_gem_object *obj);
+>=20=20
+> +struct intel_framebuffer *i915_gem_object_alloc_framebuffer(void);
+>  /**
+>   * i915_gem_object_pin_map - return a contiguous mapping of the entire o=
+bject
+>   * @obj: the object to map into kernel address space
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/=
+i915/gem/i915_gem_pages.c
+> index 7f83f8bdc8fb..10b84970f17f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -6,6 +6,7 @@
+>  #include <drm/drm_cache.h>
+>  #include <linux/vmalloc.h>
+>=20=20
+> +#include "display/intel_display_types.h"
 
-I tried picking up these patches into the msm-next-lumag, however they
-seem to trigger a lot of IGT test failures. See [1]. Could you please
-take a look at those failures? Note, virtual planes are still disabled
-by default.
+This one slipped through... non-display parts of i915 should not be
+adding more display/ includes, and should not poke at display data
+types.
 
-[1] https://gitlab.freedesktop.org/drm/msm/-/pipelines/1502582
+>  #include "gt/intel_gt.h"
+>  #include "gt/intel_tlb.h"
+>=20=20
+> @@ -354,6 +355,27 @@ static void *i915_gem_object_map_pfn(struct drm_i915=
+_gem_object *obj,
+>  	return vaddr ?: ERR_PTR(-ENOMEM);
+>  }
+>=20=20
+> +struct i915_panic_data {
+> +	struct page **pages;
+> +	int page;
+> +	void *vaddr;
+> +};
+> +
+> +struct i915_framebuffer {
+> +	struct intel_framebuffer base;
+> +	struct i915_panic_data panic;
+> +};
+> +
+> +struct intel_framebuffer *i915_gem_object_alloc_framebuffer(void)
+> +{
+> +	struct i915_framebuffer *i915_fb;
+> +
+> +	i915_fb =3D kzalloc(sizeof(*i915_fb), GFP_KERNEL);
+> +	if (i915_fb)
+> +		return &i915_fb->base;
+> +	return NULL;
+> +}
+> +
+>  /* get, pin, and map the pages of the object into kernel space */
+>  void *i915_gem_object_pin_map(struct drm_i915_gem_object *obj,
+>  			      enum i915_map_type type)
+> diff --git a/drivers/gpu/drm/xe/display/intel_bo.c b/drivers/gpu/drm/xe/d=
+isplay/intel_bo.c
+> index 27437c22bd70..926fcd9c86e1 100644
+> --- a/drivers/gpu/drm/xe/display/intel_bo.c
+> +++ b/drivers/gpu/drm/xe/display/intel_bo.c
+> @@ -3,6 +3,8 @@
+>=20=20
+>  #include <drm/drm_gem.h>
+>=20=20
+> +#include "intel_display_types.h"
+> +
+
+This file is also supposed to be an abstraction layer, and should not be
+looking at intel framebuffer details.
+
+*sad trombone*
+
+Jocelyn, not your fault, it's our fault, and it's also a bunch more todo
+items and refactoring for us. :(
+
+BR;
+Jani.
 
 
--- 
-With best wishes
-Dmitry
+>  #include "xe_bo.h"
+>  #include "intel_bo.h"
+>=20=20
+> @@ -59,3 +61,25 @@ void intel_bo_describe(struct seq_file *m, struct drm_=
+gem_object *obj)
+>  {
+>  	/* FIXME */
+>  }
+> +
+> +struct xe_panic_data {
+> +	struct page **pages;
+> +	int page;
+> +	void *vaddr;
+> +};
+> +
+> +struct xe_framebuffer {
+> +	struct intel_framebuffer base;
+> +	struct xe_panic_data panic;
+> +};
+> +
+> +struct intel_framebuffer *intel_bo_alloc_framebuffer(void)
+> +{
+> +	struct xe_framebuffer *xe_fb;
+> +
+> +	xe_fb =3D kzalloc(sizeof(*xe_fb), GFP_KERNEL);
+> +	if (xe_fb)
+> +		return &xe_fb->base;
+> +	return NULL;
+> +}
+> +
+
+--=20
+Jani Nikula, Intel
