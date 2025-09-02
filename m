@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41CAB4006C
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:27:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C44B40082
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D83910E69B;
-	Tue,  2 Sep 2025 12:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A32CE10E6A3;
+	Tue,  2 Sep 2025 12:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d3OvI9F3";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CHfYD8nd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6905B10E69B;
- Tue,  2 Sep 2025 12:27:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F098210E6A2;
+ Tue,  2 Sep 2025 12:29:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4D9934409B;
- Tue,  2 Sep 2025 12:27:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2851C4CEFB;
- Tue,  2 Sep 2025 12:27:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8BC88444FE;
+ Tue,  2 Sep 2025 12:29:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFBAFC4CEED;
+ Tue,  2 Sep 2025 12:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1756816039;
- bh=i3tuxvfcd5w4zp76adW9BEq62UuBzN/i206DxuwVeBw=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=d3OvI9F3IsS64G25rBhCpiN8d9I9fbukrSBiSmeYWroaaYgKaOYLryPdGoJWUpT75
- BPDBIIaikfGaYllmWQJ4DVdh/W3c7ElZDyuuxvoObhfn7vZjc8lBQShlZ9UA625TeB
- OlVH6dcJFjvaUn9Spci6PBXAQAzBoFykd8GOkVas=
+ s=korg; t=1756816154;
+ bh=92weadBsLBtOBpIDdkSwgWW4PsaDkAvpE3CfW3zHmb8=;
+ h=Subject:To:Cc:From:Date:From;
+ b=CHfYD8ndmrbSsuxCWQwRyq4qz2Cgi19V8bLdjYlAijDhBTOksooJkThRwc0vmzzIL
+ Lrd4QtbxYTCsE/cex8z8CMLD+2LUYCH/oIa9kZ4eem6/V3ZODVhIMfRKOrSoSnZKm+
+ y/dYGLqbbe+i02TdQ7+gXOxUQni4xKIh81yczWUY=
 Subject: Patch "Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to
- LANE0_1_STATUS"" has been added to the 6.1-stable tree
+ LANE0_1_STATUS"" has been added to the 6.6-stable tree
 To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  imre.deak@intel.com, intel-gfx@lists.freedesktop.org, sashal@kernel.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 02 Sep 2025 14:27:05 +0200
-In-Reply-To: <20250828174932.414566-4-imre.deak@intel.com>
-Message-ID: <2025090205-donut-commerce-d712@gregkh>
+Date: Tue, 02 Sep 2025 14:28:56 +0200
+Message-ID: <2025090256-pleading-removing-21f6@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +60,12 @@ This is a note to let you know that I've just added the patch titled
 
     Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
 
-to the 6.1-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -78,11 +77,10 @@ Date: Thu, 28 Aug 2025 20:49:29 +0300
 Subject: Revert "drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS"
 To: <stable@vger.kernel.org>
 Cc: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, Sasha Levin <sashal@kernel.org>
-Message-ID: <20250828174932.414566-4-imre.deak@intel.com>
 
 From: Imre Deak <imre.deak@intel.com>
 
-This reverts commit 4f546a77671076a0a49c08b4c6a7d0888d72f7d2 which is
+This reverts commit 65e46aeaf84aa88539bcff6b8077e05fbd0700da which is
 commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f upstream.
 
 The upstream commit a40c5d727b8111b5db424a1e43e14a1dcce1e77f ("drm/dp:
@@ -117,4 +115,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from imre.deak@intel.com are
 
-queue-6.1/revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
+queue-6.6/revert-drm-dp-change-aux-dpcd-probe-address-from-dpcd_rev-to-lane0_1_status.patch
