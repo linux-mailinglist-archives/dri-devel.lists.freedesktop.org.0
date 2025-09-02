@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DC4B40E59
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 22:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E8EB40E6B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 22:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEF8C10E82F;
-	Tue,  2 Sep 2025 20:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0444B10E05C;
+	Tue,  2 Sep 2025 20:15:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B346bbO3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D2Kv2E4q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C66910E82F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 20:06:28 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7724cacc32bso2291798b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 13:06:28 -0700 (PDT)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6608510E05C
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 20:15:45 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-24b157ba91bso1996495ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 13:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756843588; x=1757448388; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=Ayy33aEbiCOrojQ+KoYlyNeKLNvxYtR93pxbZ3I6xUs=;
- b=B346bbO39UdJ6/pFJPX22R2ulKyw80ViYBvwNBiFVKgdwZrQbJ0vUCrIT+Li9avJI6
- TxpFYPXYNAriD8UxIeuzWLuECtkYDn2UG0b58DzUtxP4ipDZ3tuQ/2f2DLTWuUX+/CAh
- ScVhkVSj/S0+2m4YerKM25i05lRgLZEkmoA6/Y8Q3TRayV91WlnCLoYYUmAZO4EYcc5X
- yAbNMEFhhFIuYP1lvJg3cd3N3vxzT7LB4q0/eOzgbCtMQwQaKiYio3/8izaDp86VdxNw
- TPEXL+4eMr7dDHoCreJ2YH4NMWALFfQBaRhLU7858Sph1dvut/ROZVzPT3ynSERAjMhR
- bV4g==
+ d=gmail.com; s=20230601; t=1756844145; x=1757448945; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0+TJreQ9c1ntb/ERBr/du1hi7ycAmwaHIYVOmj1mQOI=;
+ b=D2Kv2E4q2u2SdoNeXHWx0ANhdOPlLCr+gR4voJ9dXINSzaTlJgJ5BYId4rcRUl6Gmd
+ RF6l9QY5tSLY7vToM8Oehbt+j+mG7AWWteqXty+UN8kx+ORO7cI4vrSUO9bLk341ksYH
+ 8bAjJb5Wi7iGf2+Ho5L0rUnvM6TDpJuZ1uSD8Yb836JBKmPhWAZ2y/8Og5Ht45NKnxEp
+ 4Z5Ae3vp7nvdJkMriGMOiFCofenkcv9hKuhf7gAL1x8PGwt5lHQ/ucaADb7EgATj6Gna
+ P8Qc8jPS85mtUfXnUH1hUg6dHNk6HH8ptwysSIYCkMgTHHFQq5Q3HSQ4a5AcdQ1KcD7f
+ Ngow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756843588; x=1757448388;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ayy33aEbiCOrojQ+KoYlyNeKLNvxYtR93pxbZ3I6xUs=;
- b=IkgwJ3981+rOO+DqMlxJvBqKsJFDLytX25xD7E4czDzfTz/Y9JMFIcT5z/02BQDKwU
- 8TiAtnJgFtVbLgGEab9tgSzcrodO7IT07TdL16LJ1GK6mp2X36chjFsneIgi8E9k7f1C
- GOf5XwYhUNJeuDi033bbvAE/c50DUVbchyVb2ngsJ1YeKyzP34tXBlAT31d6B3J7nQPJ
- UQaop7PkBAhSgwlnFqjD0sKtqbnra7ab1kKlSCvgOzs3/aycJSYiHOiQkEz7N8x9TtZ+
- /NyTKFW41Ypq3ZA6Q7SbTxNkb43gU/zbvquQzwlOAqrcaFmGAOuI7y3ix46+D2Jv/Pyg
- baEA==
+ d=1e100.net; s=20230601; t=1756844145; x=1757448945;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0+TJreQ9c1ntb/ERBr/du1hi7ycAmwaHIYVOmj1mQOI=;
+ b=fi+Bss+BY+/kiG1+3g7W3jafoW0QMMF6DaXnhPyjRmTXRw50BSC834aGuXXnK1N+m4
+ qvKsp8IGSb+65jRyNBKVqmJOeJksU0NhCB/0NELmsP7RnOX/5MbP/8WOzmuqKGIwQ9+b
+ +sK0NdQCj3esw3NqQO569bsQENB69hOCC0QgUND3oh7uzrfTw32CQ+8RW+zjUBixNQWn
+ r5GdNMzdpbmOmYCMJXG1Jrcums04YWjQyOjHDJAglwRalFfc8j6PrLs9nxsvLk9CzvWQ
+ rOygDzJGYBPReI5yySDi+H8/ItnSD2ukGkjOjtL/EzSOdlHEccGbKblerrJ/HEncJOOE
+ qpHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpUlb4PlZ22v9LJ/5EmSV/GQBpm+CBI6lC5fVxt7su6dymraB5DMqD/1YG66/Y/7+p6K2Fh/4T4dQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1YrVfzsCxi2BkbLC3JW6PmFkIZCYWyQD/gkgVOnVxqQ+Acwq+
- hF7rXqMIA3+GGrj+IglloX+kDzFN64zdPR5VmiS8l7kzVWsWidpfyohDepJ3iwy8
-X-Gm-Gg: ASbGncvIrTw+aeaZl9XRoUu6X0TI2Nfp75R3Oup1Olnf5u3vsQnzTin2C8Z/krprd1S
- swEixRdktLEKGvVCYjTSkiuXb5ER9g/RaF/oiazVwFykADhQl7HnoLHu2bUwK+SNDic0h/H27uU
- 6JjcVDxSp42YEYp9M6sSbcInjZm47JhhjTu1+aEaayrEXdj66qKDC8oSVgJc9DjSQygz6C0FYUt
- fgj7RWKFfRijqwecHv9EjpqwiNAROiX+nDBsMA84//h8CEosG/D/ZMBqFsJabIQiawbrWXS5SUP
- S4MgD2Ow2SLZGjeOw+olx2IxPmd/rfzhaxYJWc0qyG6kfORhkQ2SK2w8IEchCG7DitST1fXlWii
- SV0ugj0gs1fEPGL4fdHwMod+94hhgDzqAP2I7p6fnd4RhtWBCK13i2QJAlVTLPVTliMckOrpXEL
- CRiIr3qkMDXPiNK0x46isrx8Z7QjG1LF4=
-X-Google-Smtp-Source: AGHT+IFMzFQ1FkEPST51kLn+3qPNQ2XfQ/4Cjo0P7wmFjUPdDGLI6HmQWVl8iu/ZdMYPYOvP7uXkWQ==
-X-Received: by 2002:a17:902:d4cb:b0:249:2318:7a2d with SMTP id
- d9443c01a7336-249448f6e79mr152558375ad.19.1756843587778; 
- Tue, 02 Sep 2025 13:06:27 -0700 (PDT)
-Received: from localhost (185.3.125.34.bc.googleusercontent.com.
- [34.125.3.185]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-24903702999sm141252535ad.3.2025.09.02.13.06.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 13:06:27 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/panthor: assign unique names to queues
-Date: Tue,  2 Sep 2025 13:06:24 -0700
-Message-ID: <20250902200624.428175-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.51.0.338.gd7d06c2dae-goog
+ AJvYcCW/cFyeChP1eulWZJMz5+MXoa+KhH8l0lsmUBvbKAgmnJID6o2Vn7efCR6iHQUD4a/9DjuYRYOULt8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyOpBonzuHC7BX0cEGAvkiO1YjmxiucHjb5zEEkTM/NHeju0ghv
+ IL6cHwbnbO9q2bKndHo2ZnYFYSM52gPeWWWO1oCGucVf6WMcc2w7WLUyCgs9Enavq7vcH+Lr3ER
+ l8bW9PnAR4a9YOVYVTu8/duQMebBC9TA=
+X-Gm-Gg: ASbGncs8SplncH66SNT13ZfOayoTvciUZ2h9U/A7HFNECF2KAyil6XePRYpNcnr0FEf
+ ketDfvLw837fsvBZUK+h3lxm8Plo5bWEJj7Eav8oahBW0k4Bq93rhhbPJ8PeanBR5D/ow4CNPCR
+ mbvm5Hdm8Ri5NnOWeag1eEhe6KahpV7aEmy28h5ibaq8CjqpgX9xVhEcH+CWLXApPZ63vr77tuk
+ KkgGf8=
+X-Google-Smtp-Source: AGHT+IE8+qVIg1fsk02fgebEvTE+8DsgRIZjSJxAQIyXaooi3lu5odPITUnpGSeBzre9dybnmrnCm3aU1vNG7/eJbPY=
+X-Received: by 2002:a17:902:d488:b0:248:ff48:8779 with SMTP id
+ d9443c01a7336-2491e1ed5d2mr100323795ad.2.1756844144618; Tue, 02 Sep 2025
+ 13:15:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250902175034.2056708-1-lizhi.hou@amd.com>
+ <CADnq5_MvdU0v7uF8hvA=kkopGAEA=M4DDw8wAGSQMnihfSnKRw@mail.gmail.com>
+ <1f4a1d11-e187-a73f-d876-f72a7f799eed@amd.com>
+In-Reply-To: <1f4a1d11-e187-a73f-d876-f72a7f799eed@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 2 Sep 2025 16:15:32 -0400
+X-Gm-Features: Ac12FXwnLTMThop9qnPtP52A_wLxntzF8SGipo6chzURp5a9RsxyObFHTbMx6DE
+Message-ID: <CADnq5_NH0yEBprBumF3rvdPJVtCXpR-XLgBkCVV7sOTqnu6GPw@mail.gmail.com>
+Subject: Re: [PATCH V3] accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+To: Lizhi Hou <lizhi.hou@amd.com>
+Cc: ogabbay@kernel.org, quic_jhugo@quicinc.com, 
+ jacek.lawrynowicz@linux.intel.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com, 
+ mario.limonciello@amd.com, maciej.falkowski@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,170 +88,469 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace relies on the ring field of gpu_scheduler tracepoints to
-identify a drm_gpu_scheduler.  The value of the ring field is taken from
-sched->name.
+On Tue, Sep 2, 2025 at 3:58=E2=80=AFPM Lizhi Hou <lizhi.hou@amd.com> wrote:
+>
+>
+> On 9/2/25 12:48, Alex Deucher wrote:
+> > On Tue, Sep 2, 2025 at 2:09=E2=80=AFPM Lizhi Hou <lizhi.hou@amd.com> wr=
+ote:
+> >> Add interface for applications to get information array. The applicati=
+on
+> >> provides a buffer pointer along with information type, maximum number =
+of
+> >> entries and maximum size of each entry. The buffer may also contain ma=
+tch
+> >> conditions based on the information type. After the ioctl completes, t=
+he
+> >> actual number of entries and entry size are returned.
+> >>
+> >> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> >> Link: https://lore.kernel.org/r/20250827203031.1512508-1-lizhi.hou@amd=
+.com
+> > Do you have a link to the proposed userspace which uses this new IOCTL?
+>
+> Yes. It is used by runtime library:
+>
+> https://github.com/amd/xdna-driver/blob/main/src/shim/host/platform_host.=
+cpp#L337
 
-Because we typically have multiple schedulers running in parallel in
-each process, assign unique names to schedulers such that userspace can
-distinguish them.
+You may want to throw that link in your commit message.
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Alex
 
----
-
-v2:
- - include drm_client_id in the name to be truly unique
- - remove unnecessary NULL in drm_sched_init_args initialization
- - reformat to column width 100
-
-v3:
- - switch to kasprintf for queue name
-   - open to alternatives such as name[48], shorter prefix (e.g.,
-     panthor-q), etc.
----
- drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
- drivers/gpu/drm/panthor/panthor_sched.c | 38 ++++++++++++++++++-------
- drivers/gpu/drm/panthor/panthor_sched.h |  3 +-
- 3 files changed, 31 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 9256806eb6623..be962b1387f03 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1105,7 +1105,7 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
- 	if (ret)
- 		goto out;
- 
--	ret = panthor_group_create(pfile, args, queue_args);
-+	ret = panthor_group_create(pfile, args, queue_args, file->client_id);
- 	if (ret < 0)
- 		goto out;
- 	args->group_handle = ret;
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index ba5dc3e443d9c..b328631c00489 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -360,6 +360,9 @@ struct panthor_queue {
- 	/** @entity: DRM scheduling entity used for this queue. */
- 	struct drm_sched_entity entity;
- 
-+	/** @name: DRM scheduler name for this queue. */
-+	char *name;
+>
+>
+> Lizhi
+>
+> >
+> > Alex
+> >
+> >> ---
+> >>   drivers/accel/amdxdna/aie2_pci.c        | 116 ++++++++++++++++++----=
+--
+> >>   drivers/accel/amdxdna/amdxdna_pci_drv.c |  30 ++++++
+> >>   drivers/accel/amdxdna/amdxdna_pci_drv.h |   1 +
+> >>   include/uapi/drm/amdxdna_accel.h        | 111 ++++++++++++++++++++++=
 +
- 	/**
- 	 * @remaining_time: Time remaining before the job timeout expires.
- 	 *
-@@ -901,6 +904,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 	if (queue->scheduler.ops)
- 		drm_sched_fini(&queue->scheduler);
- 
-+	kfree(queue->name);
-+
- 	panthor_queue_put_syncwait_obj(queue);
- 
- 	panthor_kernel_bo_destroy(queue->ringbuf);
-@@ -3308,9 +3313,10 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
- 
- static struct panthor_queue *
- group_create_queue(struct panthor_group *group,
--		   const struct drm_panthor_queue_create *args)
-+		   const struct drm_panthor_queue_create *args,
-+		   u64 drm_client_id, u32 gid, u32 qid)
- {
--	const struct drm_sched_init_args sched_args = {
-+	struct drm_sched_init_args sched_args = {
- 		.ops = &panthor_queue_sched_ops,
- 		.submit_wq = group->ptdev->scheduler->wq,
- 		.num_rqs = 1,
-@@ -3323,7 +3329,6 @@ group_create_queue(struct panthor_group *group,
- 		.credit_limit = args->ringbuf_size / sizeof(u64),
- 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
- 		.timeout_wq = group->ptdev->reset.wq,
--		.name = "panthor-queue",
- 		.dev = group->ptdev->base.dev,
- 	};
- 	struct drm_gpu_scheduler *drm_sched;
-@@ -3398,6 +3403,15 @@ group_create_queue(struct panthor_group *group,
- 	if (ret)
- 		goto err_free_queue;
- 
-+	/* assign a unique name */
-+	queue->name = kasprintf(GFP_KERNEL, "panthor-queue-%llu-%u-%u", drm_client_id, gid, qid);
-+	if (!queue->name) {
-+		ret = -ENOMEM;
-+		goto err_free_queue;
-+	}
-+
-+	sched_args.name = queue->name;
-+
- 	ret = drm_sched_init(&queue->scheduler, &sched_args);
- 	if (ret)
- 		goto err_free_queue;
-@@ -3447,7 +3461,8 @@ static void add_group_kbo_sizes(struct panthor_device *ptdev,
- 
- int panthor_group_create(struct panthor_file *pfile,
- 			 const struct drm_panthor_group_create *group_args,
--			 const struct drm_panthor_queue_create *queue_args)
-+			 const struct drm_panthor_queue_create *queue_args,
-+			 u64 drm_client_id)
- {
- 	struct panthor_device *ptdev = pfile->ptdev;
- 	struct panthor_group_pool *gpool = pfile->groups;
-@@ -3540,12 +3555,16 @@ int panthor_group_create(struct panthor_file *pfile,
- 	memset(group->syncobjs->kmap, 0,
- 	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
- 
-+	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-+	if (ret)
-+		goto err_put_group;
-+
- 	for (i = 0; i < group_args->queues.count; i++) {
--		group->queues[i] = group_create_queue(group, &queue_args[i]);
-+		group->queues[i] = group_create_queue(group, &queue_args[i], drm_client_id, gid, i);
- 		if (IS_ERR(group->queues[i])) {
- 			ret = PTR_ERR(group->queues[i]);
- 			group->queues[i] = NULL;
--			goto err_put_group;
-+			goto err_erase_gid;
- 		}
- 
- 		group->queue_count++;
-@@ -3553,10 +3572,6 @@ int panthor_group_create(struct panthor_file *pfile,
- 
- 	group->idle_queues = GENMASK(group->queue_count - 1, 0);
- 
--	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
--	if (ret)
--		goto err_put_group;
--
- 	mutex_lock(&sched->reset.lock);
- 	if (atomic_read(&sched->reset.in_progress)) {
- 		panthor_group_stop(group);
-@@ -3575,6 +3590,9 @@ int panthor_group_create(struct panthor_file *pfile,
- 
- 	return gid;
- 
-+err_erase_gid:
-+	xa_erase(&gpool->xa, gid);
-+
- err_put_group:
- 	group_put(group);
- 	return ret;
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-index 742b0b4ff3a3c..f4a475aa34c0a 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.h
-+++ b/drivers/gpu/drm/panthor/panthor_sched.h
-@@ -21,7 +21,8 @@ struct panthor_job;
- 
- int panthor_group_create(struct panthor_file *pfile,
- 			 const struct drm_panthor_group_create *group_args,
--			 const struct drm_panthor_queue_create *queue_args);
-+			 const struct drm_panthor_queue_create *queue_args,
-+			 u64 drm_client_id);
- int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
- int panthor_group_get_state(struct panthor_file *pfile,
- 			    struct drm_panthor_group_get_state *get_state);
--- 
-2.51.0.338.gd7d06c2dae-goog
-
+> >>   4 files changed, 232 insertions(+), 26 deletions(-)
+> >>
+> >> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/=
+aie2_pci.c
+> >> index 7a3449541107..87c425e3d2b9 100644
+> >> --- a/drivers/accel/amdxdna/aie2_pci.c
+> >> +++ b/drivers/accel/amdxdna/aie2_pci.c
+> >> @@ -785,11 +785,12 @@ static int aie2_get_clock_metadata(struct amdxdn=
+a_client *client,
+> >>
+> >>   static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void *a=
+rg)
+> >>   {
+> >> -       struct amdxdna_drm_query_hwctx *tmp __free(kfree) =3D NULL;
+> >> -       struct amdxdna_drm_get_info *get_info_args =3D arg;
+> >> -       struct amdxdna_drm_query_hwctx __user *buf;
+> >> +       struct amdxdna_drm_hwctx_entry *tmp __free(kfree) =3D NULL;
+> >> +       struct amdxdna_drm_get_array *array_args =3D arg;
+> >> +       struct amdxdna_drm_hwctx_entry __user *buf;
+> >> +       u32 size;
+> >>
+> >> -       if (get_info_args->buffer_size < sizeof(*tmp))
+> >> +       if (!array_args->num_element)
+> >>                  return -EINVAL;
+> >>
+> >>          tmp =3D kzalloc(sizeof(*tmp), GFP_KERNEL);
+> >> @@ -802,14 +803,23 @@ static int aie2_hwctx_status_cb(struct amdxdna_h=
+wctx *hwctx, void *arg)
+> >>          tmp->num_col =3D hwctx->num_col;
+> >>          tmp->command_submissions =3D hwctx->priv->seq;
+> >>          tmp->command_completions =3D hwctx->priv->completed;
+> >> -
+> >> -       buf =3D u64_to_user_ptr(get_info_args->buffer);
+> >> -
+> >> -       if (copy_to_user(buf, tmp, sizeof(*tmp)))
+> >> +       tmp->pasid =3D hwctx->client->pasid;
+> >> +       tmp->priority =3D hwctx->qos.priority;
+> >> +       tmp->gops =3D hwctx->qos.gops;
+> >> +       tmp->fps =3D hwctx->qos.fps;
+> >> +       tmp->dma_bandwidth =3D hwctx->qos.dma_bandwidth;
+> >> +       tmp->latency =3D hwctx->qos.latency;
+> >> +       tmp->frame_exec_time =3D hwctx->qos.frame_exec_time;
+> >> +       tmp->state =3D AMDXDNA_HWCTX_STATE_ACTIVE;
+> >> +
+> >> +       buf =3D u64_to_user_ptr(array_args->buffer);
+> >> +       size =3D min(sizeof(*tmp), array_args->element_size);
+> >> +
+> >> +       if (copy_to_user(buf, tmp, size))
+> >>                  return -EFAULT;
+> >>
+> >> -       get_info_args->buffer +=3D sizeof(*tmp);
+> >> -       get_info_args->buffer_size -=3D sizeof(*tmp);
+> >> +       array_args->buffer +=3D size;
+> >> +       array_args->num_element--;
+> >>
+> >>          return 0;
+> >>   }
+> >> @@ -817,23 +827,24 @@ static int aie2_hwctx_status_cb(struct amdxdna_h=
+wctx *hwctx, void *arg)
+> >>   static int aie2_get_hwctx_status(struct amdxdna_client *client,
+> >>                                   struct amdxdna_drm_get_info *args)
+> >>   {
+> >> +       struct amdxdna_drm_get_array array_args;
+> >>          struct amdxdna_dev *xdna =3D client->xdna;
+> >> -       struct amdxdna_drm_get_info info_args;
+> >>          struct amdxdna_client *tmp_client;
+> >>          int ret;
+> >>
+> >>          drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+> >>
+> >> -       info_args.buffer =3D args->buffer;
+> >> -       info_args.buffer_size =3D args->buffer_size;
+> >> -
+> >> +       array_args.element_size =3D sizeof(struct amdxdna_drm_query_hw=
+ctx);
+> >> +       array_args.buffer =3D args->buffer;
+> >> +       array_args.num_element =3D args->buffer_size / array_args.elem=
+ent_size;
+> >>          list_for_each_entry(tmp_client, &xdna->client_list, node) {
+> >> -               ret =3D amdxdna_hwctx_walk(tmp_client, &info_args, aie=
+2_hwctx_status_cb);
+> >> +               ret =3D amdxdna_hwctx_walk(tmp_client, &array_args,
+> >> +                                        aie2_hwctx_status_cb);
+> >>                  if (ret)
+> >>                          break;
+> >>          }
+> >>
+> >> -       args->buffer_size =3D (u32)(info_args.buffer - args->buffer);
+> >> +       args->buffer_size -=3D (u32)(array_args.buffer - args->buffer)=
+;
+> >>          return ret;
+> >>   }
+> >>
+> >> @@ -877,6 +888,58 @@ static int aie2_get_info(struct amdxdna_client *c=
+lient, struct amdxdna_drm_get_i
+> >>          return ret;
+> >>   }
+> >>
+> >> +static int aie2_query_ctx_status_array(struct amdxdna_client *client,
+> >> +                                      struct amdxdna_drm_get_array *a=
+rgs)
+> >> +{
+> >> +       struct amdxdna_drm_get_array array_args;
+> >> +       struct amdxdna_dev *xdna =3D client->xdna;
+> >> +       struct amdxdna_client *tmp_client;
+> >> +       int ret;
+> >> +
+> >> +       drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+> >> +
+> >> +       array_args.element_size =3D min(args->element_size,
+> >> +                                     sizeof(struct amdxdna_drm_hwctx_=
+entry));
+> >> +       array_args.buffer =3D args->buffer;
+> >> +       array_args.num_element =3D args->num_element * args->element_s=
+ize /
+> >> +                               array_args.element_size;
+> >> +       list_for_each_entry(tmp_client, &xdna->client_list, node) {
+> >> +               ret =3D amdxdna_hwctx_walk(tmp_client, &array_args,
+> >> +                                        aie2_hwctx_status_cb);
+> >> +               if (ret)
+> >> +                       break;
+> >> +       }
+> >> +
+> >> +       args->element_size =3D array_args.element_size;
+> >> +       args->num_element =3D (u32)((array_args.buffer - args->buffer)=
+ /
+> >> +                                 args->element_size);
+> >> +
+> >> +       return ret;
+> >> +}
+> >> +
+> >> +static int aie2_get_array(struct amdxdna_client *client,
+> >> +                         struct amdxdna_drm_get_array *args)
+> >> +{
+> >> +       struct amdxdna_dev *xdna =3D client->xdna;
+> >> +       int ret, idx;
+> >> +
+> >> +       if (!drm_dev_enter(&xdna->ddev, &idx))
+> >> +               return -ENODEV;
+> >> +
+> >> +       switch (args->param) {
+> >> +       case DRM_AMDXDNA_HW_CONTEXT_ALL:
+> >> +               ret =3D aie2_query_ctx_status_array(client, args);
+> >> +               break;
+> >> +       default:
+> >> +               XDNA_ERR(xdna, "Not supported request parameter %u", a=
+rgs->param);
+> >> +               ret =3D -EOPNOTSUPP;
+> >> +       }
+> >> +       XDNA_DBG(xdna, "Got param %d", args->param);
+> >> +
+> >> +       drm_dev_exit(idx);
+> >> +       return ret;
+> >> +}
+> >> +
+> >>   static int aie2_set_power_mode(struct amdxdna_client *client,
+> >>                                 struct amdxdna_drm_set_state *args)
+> >>   {
+> >> @@ -926,15 +989,16 @@ static int aie2_set_state(struct amdxdna_client =
+*client,
+> >>   }
+> >>
+> >>   const struct amdxdna_dev_ops aie2_ops =3D {
+> >> -       .init           =3D aie2_init,
+> >> -       .fini           =3D aie2_fini,
+> >> -       .resume         =3D aie2_hw_resume,
+> >> -       .suspend        =3D aie2_hw_suspend,
+> >> -       .get_aie_info   =3D aie2_get_info,
+> >> -       .set_aie_state  =3D aie2_set_state,
+> >> -       .hwctx_init     =3D aie2_hwctx_init,
+> >> -       .hwctx_fini     =3D aie2_hwctx_fini,
+> >> -       .hwctx_config   =3D aie2_hwctx_config,
+> >> -       .cmd_submit     =3D aie2_cmd_submit,
+> >> +       .init =3D aie2_init,
+> >> +       .fini =3D aie2_fini,
+> >> +       .resume =3D aie2_hw_resume,
+> >> +       .suspend =3D aie2_hw_suspend,
+> >> +       .get_aie_info =3D aie2_get_info,
+> >> +       .set_aie_state =3D aie2_set_state,
+> >> +       .hwctx_init =3D aie2_hwctx_init,
+> >> +       .hwctx_fini =3D aie2_hwctx_fini,
+> >> +       .hwctx_config =3D aie2_hwctx_config,
+> >> +       .cmd_submit =3D aie2_cmd_submit,
+> >>          .hmm_invalidate =3D aie2_hmm_invalidate,
+> >> +       .get_array =3D aie2_get_array,
+> >>   };
+> >> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/a=
+mdxdna/amdxdna_pci_drv.c
+> >> index 8ef5e4f27f5e..0a1fd55e745e 100644
+> >> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> >> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> >> @@ -26,6 +26,13 @@ MODULE_FIRMWARE("amdnpu/17f0_10/npu.sbin");
+> >>   MODULE_FIRMWARE("amdnpu/17f0_11/npu.sbin");
+> >>   MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
+> >>
+> >> +/*
+> >> + * 0.0: Initial version
+> >> + * 0.1: Support getting all hardware contexts by DRM_IOCTL_AMDXDNA_GE=
+T_ARRAY
+> >> + */
+> >> +#define AMDXDNA_DRIVER_MAJOR           0
+> >> +#define AMDXDNA_DRIVER_MINOR           1
+> >> +
+> >>   /*
+> >>    * Bind the driver base on (vendor_id, device_id) pair and later use=
+ the
+> >>    * (device_id, rev_id) pair as a key to select the devices. The devi=
+ces with
+> >> @@ -164,6 +171,26 @@ static int amdxdna_drm_get_info_ioctl(struct drm_=
+device *dev, void *data, struct
+> >>          return ret;
+> >>   }
+> >>
+> >> +static int amdxdna_drm_get_array_ioctl(struct drm_device *dev, void *=
+data,
+> >> +                                      struct drm_file *filp)
+> >> +{
+> >> +       struct amdxdna_client *client =3D filp->driver_priv;
+> >> +       struct amdxdna_dev *xdna =3D to_xdna_dev(dev);
+> >> +       struct amdxdna_drm_get_array *args =3D data;
+> >> +       int ret;
+> >> +
+> >> +       if (!xdna->dev_info->ops->get_array)
+> >> +               return -EOPNOTSUPP;
+> >> +
+> >> +       if (args->pad || !args->num_element || !args->element_size)
+> >> +               return -EINVAL;
+> >> +
+> >> +       mutex_lock(&xdna->dev_lock);
+> >> +       ret =3D xdna->dev_info->ops->get_array(client, args);
+> >> +       mutex_unlock(&xdna->dev_lock);
+> >> +       return ret;
+> >> +}
+> >> +
+> >>   static int amdxdna_drm_set_state_ioctl(struct drm_device *dev, void =
+*data, struct drm_file *filp)
+> >>   {
+> >>          struct amdxdna_client *client =3D filp->driver_priv;
+> >> @@ -195,6 +222,7 @@ static const struct drm_ioctl_desc amdxdna_drm_ioc=
+tls[] =3D {
+> >>          DRM_IOCTL_DEF_DRV(AMDXDNA_EXEC_CMD, amdxdna_drm_submit_cmd_io=
+ctl, 0),
+> >>          /* AIE hardware */
+> >>          DRM_IOCTL_DEF_DRV(AMDXDNA_GET_INFO, amdxdna_drm_get_info_ioct=
+l, 0),
+> >> +       DRM_IOCTL_DEF_DRV(AMDXDNA_GET_ARRAY, amdxdna_drm_get_array_ioc=
+tl, 0),
+> >>          DRM_IOCTL_DEF_DRV(AMDXDNA_SET_STATE, amdxdna_drm_set_state_io=
+ctl, DRM_ROOT_ONLY),
+> >>   };
+> >>
+> >> @@ -218,6 +246,8 @@ const struct drm_driver amdxdna_drm_drv =3D {
+> >>          .fops =3D &amdxdna_fops,
+> >>          .name =3D "amdxdna_accel_driver",
+> >>          .desc =3D "AMD XDNA DRM implementation",
+> >> +       .major =3D AMDXDNA_DRIVER_MAJOR,
+> >> +       .minor =3D AMDXDNA_DRIVER_MINOR,
+> >>          .open =3D amdxdna_drm_open,
+> >>          .postclose =3D amdxdna_drm_close,
+> >>          .ioctls =3D amdxdna_drm_ioctls,
+> >> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/a=
+mdxdna/amdxdna_pci_drv.h
+> >> index b6b3b424d1d5..72d6696d49da 100644
+> >> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
+> >> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+> >> @@ -58,6 +58,7 @@ struct amdxdna_dev_ops {
+> >>          int (*cmd_submit)(struct amdxdna_hwctx *hwctx, struct amdxdna=
+_sched_job *job, u64 *seq);
+> >>          int (*get_aie_info)(struct amdxdna_client *client, struct amd=
+xdna_drm_get_info *args);
+> >>          int (*set_aie_state)(struct amdxdna_client *client, struct am=
+dxdna_drm_set_state *args);
+> >> +       int (*get_array)(struct amdxdna_client *client, struct amdxdna=
+_drm_get_array *args);
+> >>   };
+> >>
+> >>   /*
+> >> diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxd=
+na_accel.h
+> >> index ce523e9ccc52..a1fb9785db77 100644
+> >> --- a/include/uapi/drm/amdxdna_accel.h
+> >> +++ b/include/uapi/drm/amdxdna_accel.h
+> >> @@ -34,6 +34,7 @@ enum amdxdna_drm_ioctl_id {
+> >>          DRM_AMDXDNA_EXEC_CMD,
+> >>          DRM_AMDXDNA_GET_INFO,
+> >>          DRM_AMDXDNA_SET_STATE,
+> >> +       DRM_AMDXDNA_GET_ARRAY =3D 10,
+> >>   };
+> >>
+> >>   /**
+> >> @@ -455,6 +456,112 @@ struct amdxdna_drm_get_info {
+> >>          __u64 buffer; /* in/out */
+> >>   };
+> >>
+> >> +#define AMDXDNA_HWCTX_STATE_IDLE       0
+> >> +#define AMDXDNA_HWCTX_STATE_ACTIVE     1
+> >> +
+> >> +/**
+> >> + * struct amdxdna_drm_hwctx_entry - The hardware context array entry
+> >> + */
+> >> +struct amdxdna_drm_hwctx_entry {
+> >> +       /** @context_id: Context ID. */
+> >> +       __u32 context_id;
+> >> +       /** @start_col: Start AIE array column assigned to context. */
+> >> +       __u32 start_col;
+> >> +       /** @num_col: Number of AIE array columns assigned to context.=
+ */
+> >> +       __u32 num_col;
+> >> +       /** @hwctx_id: The real hardware context id. */
+> >> +       __u32 hwctx_id;
+> >> +       /** @pid: ID of process which created this context. */
+> >> +       __s64 pid;
+> >> +       /** @command_submissions: Number of commands submitted. */
+> >> +       __u64 command_submissions;
+> >> +       /** @command_completions: Number of commands completed. */
+> >> +       __u64 command_completions;
+> >> +       /** @migrations: Number of times been migrated. */
+> >> +       __u64 migrations;
+> >> +       /** @preemptions: Number of times been preempted. */
+> >> +       __u64 preemptions;
+> >> +       /** @errors: Number of errors happened. */
+> >> +       __u64 errors;
+> >> +       /** @priority: Context priority. */
+> >> +       __u64 priority;
+> >> +       /** @heap_usage: Usage of device heap buffer. */
+> >> +       __u64 heap_usage;
+> >> +       /** @suspensions: Number of times been suspended. */
+> >> +       __u64 suspensions;
+> >> +       /**
+> >> +        * @state: Context state.
+> >> +        * %AMDXDNA_HWCTX_STATE_IDLE
+> >> +        * %AMDXDNA_HWCTX_STATE_ACTIVE
+> >> +        */
+> >> +       __u32 state;
+> >> +       /** @pasid: PASID been bound. */
+> >> +       __u32 pasid;
+> >> +       /** @gops: Giga operations per second. */
+> >> +       __u32 gops;
+> >> +       /** @fps: Frames per second. */
+> >> +       __u32 fps;
+> >> +       /** @dma_bandwidth: DMA bandwidth. */
+> >> +       __u32 dma_bandwidth;
+> >> +       /** @latency: Frame response latency. */
+> >> +       __u32 latency;
+> >> +       /** @frame_exec_time: Frame execution time. */
+> >> +       __u32 frame_exec_time;
+> >> +       /** @txn_op_idx: Index of last control code executed. */
+> >> +       __u32 txn_op_idx;
+> >> +       /** @ctx_pc: Program counter. */
+> >> +       __u32 ctx_pc;
+> >> +       /** @fatal_error_type: Fatal error type if context crashes. */
+> >> +       __u32 fatal_error_type;
+> >> +       /** @fatal_error_exception_type: Firmware exception type. */
+> >> +       __u32 fatal_error_exception_type;
+> >> +       /** @fatal_error_exception_pc: Firmware exception program coun=
+ter. */
+> >> +       __u32 fatal_error_exception_pc;
+> >> +       /** @fatal_error_app_module: Exception module name. */
+> >> +       __u32 fatal_error_app_module;
+> >> +       /** @pad: Structure pad. */
+> >> +       __u32 pad;
+> >> +};
+> >> +
+> >> +#define DRM_AMDXDNA_HW_CONTEXT_ALL     0
+> >> +
+> >> +/**
+> >> + * struct amdxdna_drm_get_array - Get information array.
+> >> + */
+> >> +struct amdxdna_drm_get_array {
+> >> +       /**
+> >> +        * @param:
+> >> +        *
+> >> +        * Supported params:
+> >> +        *
+> >> +        * %DRM_AMDXDNA_HW_CONTEXT_ALL:
+> >> +        * Returns all created hardware contexts.
+> >> +        */
+> >> +       __u32 param;
+> >> +       /**
+> >> +        * @element_size:
+> >> +        *
+> >> +        * Specifies maximum element size and returns the actual eleme=
+nt size.
+> >> +        */
+> >> +       __u32 element_size;
+> >> +       /**
+> >> +        * @num_element:
+> >> +        *
+> >> +        * Specifies maximum number of elements and returns the actual=
+ number
+> >> +        * of elements.
+> >> +        */
+> >> +       __u32 num_element; /* in/out */
+> >> +       /** @pad: MBZ */
+> >> +       __u32 pad;
+> >> +       /**
+> >> +        * @buffer:
+> >> +        *
+> >> +        * Specifies the match conditions and returns the matched info=
+rmation
+> >> +        * array.
+> >> +        */
+> >> +       __u64 buffer;
+> >> +};
+> >> +
+> >>   enum amdxdna_drm_set_param {
+> >>          DRM_AMDXDNA_SET_POWER_MODE,
+> >>          DRM_AMDXDNA_WRITE_AIE_MEM,
+> >> @@ -519,6 +626,10 @@ struct amdxdna_drm_set_power_mode {
+> >>          DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_SET_STATE, \
+> >>                   struct amdxdna_drm_set_state)
+> >>
+> >> +#define DRM_IOCTL_AMDXDNA_GET_ARRAY \
+> >> +       DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_GET_ARRAY, \
+> >> +                struct amdxdna_drm_get_array)
+> >> +
+> >>   #if defined(__cplusplus)
+> >>   } /* extern c end */
+> >>   #endif
+> >> --
+> >> 2.34.1
+> >>
