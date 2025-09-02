@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14461B40A13
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 18:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177B9B40A1B
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 18:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC4510E7D7;
-	Tue,  2 Sep 2025 16:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453F010E1DC;
+	Tue,  2 Sep 2025 16:04:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HzbY+U4j";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FUUfI3WX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E58610E7D6;
- Tue,  2 Sep 2025 16:02:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 777C96000A;
- Tue,  2 Sep 2025 16:02:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC43C4CEED;
- Tue,  2 Sep 2025 16:02:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756828976;
- bh=WD5QoiSFvm8FXaT2EJFv8YYAQhHRSKqn05M5i5Mz+EM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HzbY+U4j6voVv+KrLHsqxwrKrTfsLH6REHFC5I2RRYxOH/WP8K0++Sy0O/YAykah6
- NZKkHnJskDv2qURIqXSnFeVb5fH4CYSNotm821tH2cwfdSStUXgjBbKRYkQ6lE4z5x
- S1E3nSuVZ8dhJsTORh3jpibyuRvDrQguAx64h883ziwg5NW8Ez+U7Sr5VfQhBFFUKU
- ZQMkEr5WUXUYofZQu66e6uub6ETpz23h3V7Xe8cq4MJYD85+FX/VNvabx1fxRQF5uS
- N2jDOQI6j63kxatcqHZYYPQt9pJJz2m4m/A0hpgXQRV0ejuvwHJ8YTSh1prd5K6XO2
- J8YPQT7Hhpvbg==
-Date: Tue, 2 Sep 2025 18:02:53 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Nitin Gote <nitin.r.gote@intel.com>, 
- =?utf-8?Q?Miko=C5=82aj?= Wasiak <mikolaj.wasiak@intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>, 
- Andi Shyti <andi.shyti@linux.intel.com>, Jani Nikula <jani.nikula@intel.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/i915: Replace kmalloc() + copy_from_user() with
- memdup_user()
-Message-ID: <xbqfj4owftg2fwbxhj6zgajzzb2kgmgzk7dr6xcn2nudojl7sp@rulvri7zbwdf>
-References: <20250902081046.35463-2-thorsten.blum@linux.dev>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7C010E1DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 16:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1756829092;
+ bh=ovWdbmcLBmA33JBDYg84OE2PqHzIKb6iNt+T6eoF2kw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FUUfI3WXYc1B8QJ6WeBpPvR0+1cMVN778Sl29SAmhAoSko8l+RH/Bxm0WuqqyJJW1
+ lrMAWYbfZ80CGBKTAcbSG/5phmbYDtRElhkRWQsS9uubdqJ8wRB8MMfG+ZuqR0EuH5
+ cc4hQYsR8yFJX4o5sAEOP2F17NHZFKm/Loaa7WpvuUrKY1fNLRA9RgbCkxZUyWSGld
+ ZMvRimQ+t3ZM3ANHSvPz18MV+Wjp08FasY9xoJR+TY+A4eE9FUKLI9OF72e5kPK8jO
+ J7wJyFTpc76oxwxhQbs+xMKsWOMZ1oUXQNvGMP9PG9O5KdeNyGwlOdVxEehCPDsBh3
+ 4dG8NXOEAcTIg==
+Received: from [192.168.1.90] (unknown [82.79.138.60])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5E63E17E131D;
+ Tue,  2 Sep 2025 18:04:51 +0200 (CEST)
+Message-ID: <fc9baa6d-ed38-478b-9338-8a76986639da@collabora.com>
+Date: Tue, 2 Sep 2025 19:04:50 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902081046.35463-2-thorsten.blum@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Introduce BACKGROUND_COLOR DRM CRTC property
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Matt Roper <matthew.d.roper@intel.com>
+References: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
+ <50e3f25c-f4e1-40f6-8e36-23193863f1ee@foss.st.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <50e3f25c-f4e1-40f6-8e36-23193863f1ee@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,20 +68,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thorsten,
+Hi Raphael,
 
-On Tue, Sep 02, 2025 at 10:10:42AM +0200, Thorsten Blum wrote:
-> Replace kmalloc() followed by copy_from_user() with memdup_user() to
-> improve and simplify set_context_image(), and to silence the following
-> Coccinelle/coccicheck warning reported by memdup_user.cocci:
+On 9/2/25 4:19 PM, Raphael Gallais-Pou wrote:
 > 
->   WARNING opportunity for memdup_user
 > 
-> No functional changes intended.
+> On 9/2/25 11:27, Cristian Ciocaltea wrote:
+>> Some display controllers can be hardware-configured to present non-black
+>> colors for pixels which are not covered by any plane (or are exposed
+>> through transparent regions of higher planes).
+>>
+>> The first patch of the series introduces the BACKGROUND_COLOR DRM
+>> property that can be attached to a CRTC via a dedicated helper function.
+>> A 64-bit ARGB color value format is also defined and can be manipulated
+>> with the help of a few utility macros.
 > 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> Hi Cristian,
+> 
+> Thanks for this work ! :)
+> 
+> FWIW I sent a series also based on Matt's work four years ago:
+> https://lore.kernel.org/dri-devel/20210707084557.22443-2-raphael.gallais-pou@foss.st.com/
+> 
+> IIRC at the time there was some questions around the pixel format used for the
+> property, and non-opaque color vs alpha pre-multiplication.
+> Mind that on STM32MP platforms alpha channel for the background color is not
+> supported.
+> 
+> Hope the thread can bring some insights.
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Thanks for pointing this out, I will consider it for v2.
 
-Thanks,
-Andi
+Regards,
+Cristian
