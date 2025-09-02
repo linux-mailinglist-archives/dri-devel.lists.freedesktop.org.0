@@ -2,79 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4871FB40DCC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 21:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CD6B40DD8
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 21:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72D5B10E822;
-	Tue,  2 Sep 2025 19:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4046C10E81E;
+	Tue,  2 Sep 2025 19:26:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fKTFaFnP";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Qx3Zx3/O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC6910E822
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 19:20:07 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-248a61a27acso1712425ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 12:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756840807; x=1757445607; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=Lqk5Vefs2rKeCe+6cqHNXCOBv4Tg9GxL1mkV6VFNW7I=;
- b=fKTFaFnP3Ac7oIcqx2QFbqIAn3NUF/K6iCzJt1F9kueqNQhX0AyrBn59HPZ1DqJ89G
- VYMzjbK8IBfvT9l7ys65n6+LmLKQQf14yjoa9plXkabE/Pr1Kc8EACWxo3pjg0TDkVfK
- S4Gp5cdKpvIcCiJQcAMVpL73Gc+OrlUVq1iSUlLXq+fErBewf2BGnes1WCooO45Z5X01
- ozTSJlOwHYe7CNmap8TAmt7colDA3yQV6hxTZY6m8XbCOeR/JsTa0O1kFe9wfkEyV9Ie
- JlkGHCXNu/OQSYk0jfYpfhajHFK3nh6yMUxLU/MVzNZ6oc56h9yg5mtk1ZpRRJX/lu/Y
- HAJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756840807; x=1757445607;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lqk5Vefs2rKeCe+6cqHNXCOBv4Tg9GxL1mkV6VFNW7I=;
- b=YAwWgP+TjZLcnQRSEFPZdiQ7ZR/6z0GDw2JswKNXqiEqgfNtiyWJR3YRXRvaa+D4W5
- eJLO1cAipfJmxa0UxcdoWxKZj4zkW7ffULy3DpYDqR6e5n3zP67bHl1smkWqKVkyWErJ
- dHHDxOMBCBuC1bfp0BzVKlza9GkrcZuQoqtq9mhz4BtueVTrtWMKEOOWskEPkIPbGoV+
- VSDkcIQsQKw9r34SuXV83+Z6/qUCBOs2uLl9NVzu7StHlKL62jUnpRiE3ZJ/OXXFIJlV
- DS86jd86T9nRg2UMQclD5YtRCamEWZdlIvu53MUfjb8vi6NP2l8/1nhv5BAfpy5+cwfe
- ilbA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWCtZWwpHU3BI2Ph1rkaMMZZ1gLlrlkAz60gZrKwuM9kdBWBLU/G/EQluZmFTAxuBv8Rn8SdyNTu7I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSKSvkJVtx01l7ajD5TRj8LeAlgJqILyHVYV6qI2/ifl5MBg4h
- iqLItTPNrItug9QOAnYddq2n9t6mrgYVcW5ChD/aQlYGfXG/GAFQcdeA
-X-Gm-Gg: ASbGncst590AO3SfVo/QbqANTv7BiSvUUDLqJTADd+N+cfWEuwW0Q4mKdxq4xMAfWv+
- 0tT71vy6mbLUQOO4o1ZPuiH1M3QBzru2anJzj+k8x84gwtIy8lInOGme6HQwgWQMuGxnRiAdk+1
- Y6zGU9wrXO/s9WsPbVt/huj3VpGWQI5Ebbx8jvREkuK3vR66vxn3d1cV+Js4CG8ChSTxyl3PZF9
- T0dg4pQR88SDc2jEU3C4XPKuYT3Y5kRRyeNm6lPF11MSe9bSGLbCGmHLHyqy8m5LD5XpJhvdCGI
- qLyjXoCMF82yO/ghDaZnqT4umY2+cj8UFoN69GsoLG3P0YUO+GjPISuAD3EGdz4VLOzhXYd/SoR
- 5cerj4fmMFAdp8ThdzGcAKr1qhY54qZKzQODTYVSBjR0Rb5uFEnJUHmWXBageQhvkWfQMZldnWZ
- p4Aib40wUsu+Lq1LAWaweD
-X-Google-Smtp-Source: AGHT+IHVRhUinMr0NXVSOtf58/Vog13sqczgF9BAwS+1PRiZbHywe42DldsFcFwUkyLLrJ/DQcf1Kg==
-X-Received: by 2002:a17:902:d50c:b0:248:a642:eeeb with SMTP id
- d9443c01a7336-2493ef4dc88mr177979855ad.15.1756840806409; 
- Tue, 02 Sep 2025 12:20:06 -0700 (PDT)
-Received: from localhost (185.3.125.34.bc.googleusercontent.com.
- [34.125.3.185]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-2490359f808sm140966515ad.0.2025.09.02.12.20.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 12:20:06 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8774810E81E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 19:26:06 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 31BCFC6D;
+ Tue,  2 Sep 2025 21:24:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1756841097;
+ bh=K5FHRQfG74/3uwGbvOqfy7sOkX4EOSJRWCw0QqjgE6Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qx3Zx3/OJBChrh02xfFc8tk4nkT0jirENKy+hIYIvJgK+HwPNUf8dONhnxoH299Db
+ fTY9Hrix/FRqg8a+Ym1WXxgwM1v7PiOGaPz9AeLBAWkuClv3FUEZ6jX+fOhnUZOfio
+ SHZweFoA2blSFFYMkYBCIQqbIsb1kQKMEDEoEzgg=
+Date: Tue, 2 Sep 2025 21:25:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panthor: validate group queue count
-Date: Tue,  2 Sep 2025 12:20:01 -0700
-Message-ID: <20250902192001.409738-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.51.0.338.gd7d06c2dae-goog
+Subject: Re: [PATCH 02/29] drm/atomic: Fix unused but set warning in
+ for_each_old_plane_in_state
+Message-ID: <20250902192544.GQ13448@pendragon.ideasonboard.com>
+References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-2-14ad5315da3f@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250902-drm-state-readout-v1-2-14ad5315da3f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,27 +64,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A panthor group can have at most MAX_CS_PER_CSG panthor queues.
+Hi Maxime,
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index ba5dc3e443d9c..249ab889ca91f 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -3473,6 +3473,9 @@ int panthor_group_create(struct panthor_file *pfile,
- 	    hweight64(group_args->tiler_core_mask) < group_args->max_tiler_cores)
- 		return -EINVAL;
- 
-+	if (group_args->queues.count > MAX_CS_PER_CSG)
-+		return -EINVAL;
-+
- 	group = kzalloc(sizeof(*group), GFP_KERNEL);
- 	if (!group)
- 		return -ENOMEM;
+On Tue, Sep 02, 2025 at 10:32:30AM +0200, Maxime Ripard wrote:
+> The for_each_old_plane_in_state() macro triggers a compiler warning if
+> the plane parameter passed to it isn't used in the code block.
+> 
+> Add a similar workaround than in most other macros.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  include/drm/drm_atomic.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index 38636a593c9d98cadda85ccd67326cb152f0dd27..689a29bdeb4a06672ab6fffecb513d58ff6e07f9 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -1053,11 +1053,13 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+>  	for ((__i) = 0;							\
+>  	     (__i) < (__state)->dev->mode_config.num_total_plane;	\
+>  	     (__i)++)							\
+>  		for_each_if ((__state)->planes[__i].ptr &&		\
+>  			     ((plane) = (__state)->planes[__i].ptr,	\
+> +			      (void)(plane) /* Only to avoid unused-but-set-variable warning */, \
+>  			      (old_plane_state) = (__state)->planes[__i].old_state, 1))
+> +
+
+While at it, shouldn't you apply the same workaround to the
+old_plane_state variable, like done for new_plane_state in
+for_each_new_plane_in_state() ? Or is it expected that drivers will
+always make use of it.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  /**
+>   * for_each_new_plane_in_state - iterate over all planes in an atomic update
+>   * @__state: &struct drm_atomic_state pointer
+>   * @plane: &struct drm_plane iteration cursor
+>   * @new_plane_state: &struct drm_plane_state iteration cursor for the new state
+
 -- 
-2.51.0.338.gd7d06c2dae-goog
+Regards,
 
+Laurent Pinchart
