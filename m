@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F47DB3F878
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5FAB3F879
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55F4810E5DF;
-	Tue,  2 Sep 2025 08:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9BD10E5E0;
+	Tue,  2 Sep 2025 08:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="acf/IRqR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GSvf1ZRW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0940910E5DF
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:33:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3A5910E5E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:33:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4FFBD60209;
- Tue,  2 Sep 2025 08:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB278C4CEF8;
- Tue,  2 Sep 2025 08:33:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 26FB060211;
+ Tue,  2 Sep 2025 08:33:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CFD8C4CEF8;
+ Tue,  2 Sep 2025 08:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756801995;
- bh=kj637CfnoTBAP2JHnQ7FgGsKAbZI6lr9iDOVp8nZO54=;
+ s=k20201202; t=1756801998;
+ bh=tgHDqH0C2lxD8T1iP02FKrEoh+NLndcjoc9fVjgWywI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=acf/IRqRy1dKrnhfcpuPZZu44SXxfHaD14eBvgxd4JmMIxSlQ87quAx8LQubSh255
- GW1XQW7Zxil7fd5WdQnYdnzWn99MBI0mi4UYjS3wmmNvuM7S88IWe8P5hBknorwid8
- rc50C7zdWWy3mKnO9m4ZzwErsy6+xeJXJJmlVvBNNL/sF1eTQEFz9yYfPxZ3ivyMMh
- ARMNJLDp3SshojoG8Rx/xgCOuoa7cigmtaLmXDpa8RiH1SMuqlZG0DdAIjJpyYz+XI
- ZfSm/HjAd3JfCtuy57PAmXPAOtmrkbwWGdXSS8PCECrH2Yrtk6rxWToI6CG5JSLmWz
- 6o1qq/79PfnVw==
+ b=GSvf1ZRW043A+UcKUKqeHcK77lMflTHce9vslIVN6tX0h1WQO7X+d209fBd0Fg5IB
+ mb/L0aSOeNYDVIur9m57FnCU92BZ0JrLft879cwqD92WY6N2hPon0s7bAOA3op+Lr6
+ JJzOqHDthW9vi5gGk7FjvnV8QF1jlNc/cTww3IkFSg1s9ghvysA+OweXqhRESDrr6N
+ hvG3bbz0RSc7qbckco5LgeUYnM3pLSguRa/5XZ1e9sUBT8cJdvVRL2QUtKIU4TSqWK
+ 40+vu2Y7OQ/gCkRLJNluhS94ExUYV+uIzoneeW3pZUB04l0Pf1L24vBfow5oBdTdyg
+ +WMEOwSswVOJw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 02 Sep 2025 10:32:30 +0200
-Subject: [PATCH 02/29] drm/atomic: Fix unused but set warning in
- for_each_old_plane_in_state
+Date: Tue, 02 Sep 2025 10:32:31 +0200
+Subject: [PATCH 03/29] drm/atomic: Fix unused but set warning in
+ for_each_old_private_obj_in_state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-drm-state-readout-v1-2-14ad5315da3f@kernel.org>
+Message-Id: <20250902-drm-state-readout-v1-3-14ad5315da3f@kernel.org>
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
 In-Reply-To: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1285; i=mripard@kernel.org;
- h=from:subject:message-id; bh=kj637CfnoTBAP2JHnQ7FgGsKAbZI6lr9iDOVp8nZO54=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGi2q7Wjc6mfQDqijIooGWom/m600NFGVJUGNt33Gto+wV8sg
- IiVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmi2q7UACgkQJ1/OGaI9vnYnbQF/YvG2
- Mr1FKSJx5wr1GHBZJIDiihazgl00jO7Xszl0BjZNfpnxCVP6m2FEDiBw2jwBAX44O5ak4Zsn4aM
- gII9+PMoeUuQ6Dv892qnsDEffFrD+UnaaPoijyzSW5OF2wjpHG0E=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=tgHDqH0C2lxD8T1iP02FKrEoh+NLndcjoc9fVjgWywI=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbVm/1EHQJlu5+OudfzbIK1pk3de3eV6Y8jkm6vfZ7s
+ utU1bDqjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRzdKMDW84hRw38p3z4nR9
+ stLG/9DDWVL+Jf4/erjupE784eMhoXM3W7rG9Op/0WVOgTFvf98WYazTY+H4YOQZmega/d87P32
+ 3bpzdmlSHw6vqT/sGsxU5WPF1nhZb/0Kf3dDcfm7ogb573wE=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,34 +74,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The for_each_old_plane_in_state() macro triggers a compiler warning if
-the plane parameter passed to it isn't used in the code block.
+The for_each_old_private_obj_in_state() macro triggers a compiler
+warning if the obj parameter passed to it isn't used in the code block.
 
 Add a similar workaround than in most other macros.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/drm/drm_atomic.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 38636a593c9d98cadda85ccd67326cb152f0dd27..689a29bdeb4a06672ab6fffecb513d58ff6e07f9 100644
+index 689a29bdeb4a06672ab6fffecb513d58ff6e07f9..f13f926d21047e42bb9ac692c2dd4b88f2ebd91c 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -1053,11 +1053,13 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
- 	for ((__i) = 0;							\
- 	     (__i) < (__state)->dev->mode_config.num_total_plane;	\
- 	     (__i)++)							\
- 		for_each_if ((__state)->planes[__i].ptr &&		\
- 			     ((plane) = (__state)->planes[__i].ptr,	\
-+			      (void)(plane) /* Only to avoid unused-but-set-variable warning */, \
- 			      (old_plane_state) = (__state)->planes[__i].old_state, 1))
-+
+@@ -1112,10 +1112,11 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
+  */
+ #define for_each_old_private_obj_in_state(__state, obj, old_obj_state, __i) \
+ 	for ((__i) = 0; \
+ 	     (__i) < (__state)->num_private_objs && \
+ 		     ((obj) = (__state)->private_objs[__i].ptr, \
++		      (void)(obj) /* Only to avoid unused-but-set-variable warning */, \
+ 		      (old_obj_state) = (__state)->private_objs[__i].old_state, 1); \
+ 	     (__i)++)
+ 
  /**
-  * for_each_new_plane_in_state - iterate over all planes in an atomic update
-  * @__state: &struct drm_atomic_state pointer
-  * @plane: &struct drm_plane iteration cursor
-  * @new_plane_state: &struct drm_plane_state iteration cursor for the new state
+  * for_each_new_private_obj_in_state - iterate over all private objects in an atomic update
 
 -- 
 2.50.1
