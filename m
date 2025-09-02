@@ -2,92 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6A2B40BFF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B50B40C01
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFC310E7FD;
-	Tue,  2 Sep 2025 17:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 945A710E7FE;
+	Tue,  2 Sep 2025 17:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aK1aXbeo";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="u4WtRMmM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD3A10E7FD
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 17:27:03 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-b4ee87cc81eso2595945a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:27:03 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B1A10E801
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 17:27:14 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-4b350971a2eso23831cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1756834022; x=1757438822;
+ d=google.com; s=20230601; t=1756834033; x=1757438833;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R+vzI8/XRAisFFEKfXyULKg1mw6j6BVTtSv7WOtjwOo=;
- b=aK1aXbeog3Gy32ev52VPoKqHEwjB5llDh0xUL3984UtEjkl6IDdFRP5Dz0Q/afFKpW
- fclaOuiARA6UMlu7tzS8ihk0I5mLgyYSrbvVhrSAt4mTbHQolVsgdTt3mcY4Bk7HgmOn
- e5X9Jaq3qob+F6cJ/D8BDlbQwsy8I8f8au94c=
+ bh=Vtd7VHBua4ceoiPNxCebsTr+W/5i6xNmrYZ+hl6cZwE=;
+ b=u4WtRMmMURl1+vWuBcmALj9Nh3sjwSOW0Aq8hTpxjGoZAoLwFIswNek/wsbVyixkVq
+ 359pSukSzLDTb3NCmsG0mkiWTfxIr73v3kxiZ0POZGZE5onR48kIoIyR3GEjGrPRR2cW
+ 9fWrAFSsrydL4a3TT4/zt0blRbUBJBQ70Ih+ATJEO+az6qCtFKtCt/FS3ImqUQGmWqCx
+ El7a0Nly2iuWl4fFyS0FPatyJdP0HlwTW2wdFIt+I53zA66cLyshXJFKZMHMqsWNTW20
+ Zt1F1OJGzoxs7gco5Wuy6gOB45RQjaydLR6GiMQxlGTIUJ3NmvtmkUkgdJpHTHa6Euf0
+ 1Ttg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756834022; x=1757438822;
+ d=1e100.net; s=20230601; t=1756834033; x=1757438833;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R+vzI8/XRAisFFEKfXyULKg1mw6j6BVTtSv7WOtjwOo=;
- b=r1/wCIAuFSd+GQTdUrqd4fX5CTYWFcb0cBmIH/1P7Fnp//5tbp0oYCfc6M1HF9i+N5
- gnva2/tIrPPVB1WvCCQv53BOuJGhAzcj1Ai6lsZhA3tUBn/HcpqPTIm0C16tHO6bDXBq
- ybqAg/zTYGTbgDDhZnZdwGGWKZhFbiYjCNKJVRToXMtWKKMSK2e8bSulpnQNVljdQOko
- 4kCFcgwBDAVWyGQ8GwZ0NvWESBA1yCJHKa7xD9wFJbJs/54CDZaWzRMK7dydxe8GbQfs
- pCkVwd2XfH2JIrGC00S1V1JMYuykjU5Im9fegc+N8eB5j8RTwuDCJsfWodmn/FFJnuVV
- 0E6Q==
+ bh=Vtd7VHBua4ceoiPNxCebsTr+W/5i6xNmrYZ+hl6cZwE=;
+ b=tnPapPNWqerlW+RdDt31Y1r11uhsCtgudy4/pkCMqN6YLWBRPGelMxvY8howAoUQMF
+ E4KA967qtRrWZvtX7Qe73L0UR16wgqmOUhm6E7u4SWBVuy29iZO+Fy1r58/AzW6gPaNO
+ cHOz8vEFiu+Mimc5dr+0315tMu/FyfMX+94QWwom7ZwbxHuFpNMsvrN/YguCYWXXNXFU
+ RmTGVKK5wDETqojfJoBCDUyUeNb/vHAjsVYZYw8YdnIVU52Xe//qPn3NiDwgxiP3TQR3
+ XgnL9y5UUbu7BdxMxzb3CmTLe4+GQrhUmn2OzUNBrTxP9J6LQmq/DPQ0ODyfR7uzVgLM
+ bFiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4QHi0AgYFcAIGatr7Sg0MOe9X5KkA575ErKcyqMHYBnDV33qvGPlovZGTC18qeRYoGE7iBDAHrgs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8uYuVZd55IlCe/zTkZOUAThiwys1c5jDZZc5TDm4aa2c1OfTr
- LkwfWTzB8jNOMS2pJCVuA49GJRq9kn174Q97dG5mXZTNqX4r9ejTw9STM+N/YgP7DzZTis8Oubw
- gO/4=
-X-Gm-Gg: ASbGncutTeuFeHMNr7o/9bbdWwoYZgGh12q9OLSBvAInBbXZOkcUXQnyNamqskga2NS
- wDm5ypeRwAElFoFoGUrCj/pc/G7cyi3WpSGcC1pDNQpWb7zjchCEsoayCUHhP+auUG1C3eZP3Q2
- kirml6upz2dZAOs3YtZ0ZLqKrFcR201EOCBRgbfzp2nzNcUxB+35htP+Qm3Nj1RbMNi3vuwNnCI
- nQCtUlmdQkYsJGhidlqcJ+L/naXdmGesNfM6OVyBEINB5cIf249ykwhtWhkd4SDLSrso5ofgwlY
- BcrUX9+CP3W16DtMO0Au+ZV0nRdVwewyvJ+xiPUq89sDx7dfIcltduc/7bE+VmpGy1Gve3pDZrC
- Ld4tzHObqSBaryQETtBuJUHW+v8mJJgOFOMpdsIYVOL3EsWOCDkxZKjbgZwP7ajdwstiMytsRF5
- Vs
-X-Google-Smtp-Source: AGHT+IGbDF+Cf3lXhtcmmfCEms/9NFf9XgRlGsRG+g6xDGBdPIQje0j5WlnkfuwKdlKe2tH1LexIqQ==
-X-Received: by 2002:a17:902:f546:b0:24a:b0cf:5f97 with SMTP id
- d9443c01a7336-24ab0cf62acmr127054525ad.40.1756834022277; 
- Tue, 02 Sep 2025 10:27:02 -0700 (PDT)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
- [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24906594319sm135134485ad.114.2025.09.02.10.27.01
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Sep 2025 10:27:01 -0700 (PDT)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-b4d5886f825so3384634a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:27:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3djRf1v6oNSw2xtwsQrKrVaIpejJzpqT0jToIk5RLKjsKwR7ABJffQBVyDSdeliAMAFG8RhHJpSc=@lists.freedesktop.org
-X-Received: by 2002:a17:903:19e3:b0:245:f002:d67c with SMTP id
- d9443c01a7336-24944b19dbemr145156225ad.30.1756834020690; Tue, 02 Sep 2025
- 10:27:00 -0700 (PDT)
+ AJvYcCXX2gW/3FXWAZLQPcPqZ7CORjxH+19qO0cSRf1xGKG0Uk06DdrQBod83EUCaEHhJRejqAKT8nyS+JE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzC4AQIHSDNI4PZiCo2b3Tel7JWOYu8NQSqWRH8zYPFz3m29ib1
+ JPIOU0JqxtWt6qXov2th2VWzhHhhUJSZ9Gdk1ZjLdKDjSEaKbV57I9P8JEbFDYwYXD1xjWn41yz
+ sq2kRueWtfeKP9U7aEcSMR4Ri0gLF4cunTC1YHNt4
+X-Gm-Gg: ASbGncuUNSQcJ8EGjXr4lbofSQibBmhrwdvqEaJvgwcmQwCG60nzM12B7N8tKvrHfky
+ mSnJM6qTw4nF7MmiUh+fGduGQEijc1eP1DzgCF2rg/V1HWHOCdJx5hz2uOwSL5+vBaN9h4c/xZh
+ /hSNNai/oIa3ljlPqLbPUWbp/CxD0MSEofIlmHnUPPBx/q1tY1XYIw0XtB7lh2x7PphqvkHDVoo
+ MVrgVd7EQ/nw74sXBxJyQ==
+X-Google-Smtp-Source: AGHT+IEC6y1tRdSi2UTqmtXyZZzRrZPY9SLNKXOIO98qFYX+T6uH0H7eN0bzXqp5gDwmp+jCKoimReIKubvN32ot1YM=
+X-Received: by 2002:a05:622a:609:b0:4b2:9d13:e973 with SMTP id
+ d75a77b69052e-4b48dc6d116mr536321cf.0.1756834032561; Tue, 02 Sep 2025
+ 10:27:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAD=FV=VfCWFViDE1a5-_KtH0Pfo2EnCJeo2k8MaWuRHhmMPMMA@mail.gmail.com>
- <20250902162246.4143785-1-john.ripple@keysight.com>
-In-Reply-To: <20250902162246.4143785-1-john.ripple@keysight.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 2 Sep 2025 10:26:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XyM0WHB8kpirqfnV2CY2KTrHd14pi5qeS+Sq7mjPphsA@mail.gmail.com>
-X-Gm-Features: Ac12FXzoK6a2pOM7UM9T1UG-G9CD1NZjmPlNlNUAg32e3wNBEbg9ufNPfoYnvbs
-Message-ID: <CAD=FV=XyM0WHB8kpirqfnV2CY2KTrHd14pi5qeS+Sq7mjPphsA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi86: break probe dependency loop
-To: John Ripple <john.ripple@keysight.com>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
- andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org, 
- jernej.skrabec@gmail.com, jonas@kwiboo.se, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch, 
- tzimmermann@suse.de
+References: <20250902154630.4032984-1-thierry.reding@gmail.com>
+ <20250902154630.4032984-4-thierry.reding@gmail.com>
+In-Reply-To: <20250902154630.4032984-4-thierry.reding@gmail.com>
+From: Frank van der Linden <fvdl@google.com>
+Date: Tue, 2 Sep 2025 10:27:01 -0700
+X-Gm-Features: Ac12FXxFN3O8AlGVbL0n79ufqlqXNkpXNtbyObY0H0t07exhvNnrkMb8tnUsJCI
+Message-ID: <CAPTztWa7kcx8bBEJEKvnjcD4v1-eDLVxMd9C10XiBQi4CDLfHg@mail.gmail.com>
+Subject: Re: [PATCH 3/9] mm/cma: Allow dynamically creating CMA areas
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Mike Rapoport <rppt@kernel.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,76 +94,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Sep 2, 2025 at 9:23=E2=80=AFAM John Ripple <john.ripple@keysight.co=
-m> wrote:
+On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding@gmail=
+.com> wrote:
 >
-> Hi,
+> From: Thierry Reding <treding@nvidia.com>
 >
-> >Which i2c bridge are you talking about? You mean the one created by
-> >i2c_add_adapter() in drm_dp_aux_register()? I guess I'm confused about
-> >why the DSI probe routine would even be looking for that adapter.
+> There is no technical reason why there should be a limited number of CMA
+> regions, so extract some code into helpers and use them to create extra
+> functions (cma_create() and cma_free()) that allow creating and freeing,
+> respectively, CMA regions dynamically at runtime.
 >
-> The i2c bridge I was seeing was created by the drm_bridge_add() function
-> in the ti_sn_bridge_probe() function. Without moving the ti_sn_attach_hos=
-t()
-> function out of the ti_sn_bridge_probe() function I kept getting stuck in=
- a
-> loop during boot where the bridge would never come up. It's possible this
-> could be a unique interaction with the hardware I'm using and the nwl-dsi
-> driver.
-
-Sorry, I still don't really know what i2c bridge you're talking about
-here. At this point there are a number of different MIPI hosts that
-are using ti-sn65dsi86 and they don't seem to run into this, so
-probably digging into your MIPI host to see exactly what it's doing
-makes sense. Where exactly is the nwl-dsi driver trying to acquire
-this bridge and failing?
-
-
-> >In any case, I don't _think_ your patch is valid. Specifically, if you
-> >notice ti_sn_attach_host() can return "-EPROBE_DEFER". That's a valid
-> >error code to return from a probe routine but I don't think it's a
-> >valid error code to return from a bridge attach function, is it?
+> Note that these dynamically created CMA areas are treated specially and
+> do not contribute to the number of total CMA pages so that this count
+> still only applies to the fixed number of CMA areas.
 >
-> What error code would you suggest?
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  include/linux/cma.h | 16 ++++++++
+>  mm/cma.c            | 89 ++++++++++++++++++++++++++++++++++-----------
+>  2 files changed, 83 insertions(+), 22 deletions(-)
+>
+> diff --git a/include/linux/cma.h b/include/linux/cma.h
+> index 62d9c1cf6326..f1e20642198a 100644
+> --- a/include/linux/cma.h
+> +++ b/include/linux/cma.h
+> @@ -61,6 +61,10 @@ extern void cma_reserve_pages_on_error(struct cma *cma=
+);
+>  struct folio *cma_alloc_folio(struct cma *cma, int order, gfp_t gfp);
+>  bool cma_free_folio(struct cma *cma, const struct folio *folio);
+>  bool cma_validate_zones(struct cma *cma);
+> +
+> +struct cma *cma_create(phys_addr_t base, phys_addr_t size,
+> +                      unsigned int order_per_bit, const char *name);
+> +void cma_free(struct cma *cma);
+>  #else
+>  static inline struct folio *cma_alloc_folio(struct cma *cma, int order, =
+gfp_t gfp)
+>  {
+> @@ -71,10 +75,22 @@ static inline bool cma_free_folio(struct cma *cma, co=
+nst struct folio *folio)
+>  {
+>         return false;
+>  }
+> +
+>  static inline bool cma_validate_zones(struct cma *cma)
+>  {
+>         return false;
+>  }
+> +
+> +static inline struct cma *cma_create(phys_addr_t base, phys_addr_t size,
+> +                                    unsigned int order_per_bit,
+> +                                    const char *name)
+> +{
+> +       return NULL;
+> +}
+> +
+> +static inline void cma_free(struct cma *cma)
+> +{
+> +}
+>  #endif
+>
+>  #endif
+> diff --git a/mm/cma.c b/mm/cma.c
+> index e56ec64d0567..8149227d319f 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -214,6 +214,18 @@ void __init cma_reserve_pages_on_error(struct cma *c=
+ma)
+>         set_bit(CMA_RESERVE_PAGES_ON_ERROR, &cma->flags);
+>  }
+>
+> +static void __init cma_init_area(struct cma *cma, const char *name,
+> +                                phys_addr_t size, unsigned int order_per=
+_bit)
+> +{
+> +       if (name)
+> +               snprintf(cma->name, CMA_MAX_NAME, "%s", name);
+> +       else
+> +               snprintf(cma->name, CMA_MAX_NAME,  "cma%d\n", cma_area_co=
+unt);
+> +
+> +       cma->available_count =3D cma->count =3D size >> PAGE_SHIFT;
+> +       cma->order_per_bit =3D order_per_bit;
+> +}
+> +
+>  static int __init cma_new_area(const char *name, phys_addr_t size,
+>                                unsigned int order_per_bit,
+>                                struct cma **res_cma)
+> @@ -232,13 +244,8 @@ static int __init cma_new_area(const char *name, phy=
+s_addr_t size,
+>         cma =3D &cma_areas[cma_area_count];
+>         cma_area_count++;
+>
+> -       if (name)
+> -               snprintf(cma->name, CMA_MAX_NAME, "%s", name);
+> -       else
+> -               snprintf(cma->name, CMA_MAX_NAME,  "cma%d\n", cma_area_co=
+unt);
+> +       cma_init_area(cma, name, size, order_per_bit);
+>
+> -       cma->available_count =3D cma->count =3D size >> PAGE_SHIFT;
+> -       cma->order_per_bit =3D order_per_bit;
+>         *res_cma =3D cma;
+>         totalcma_pages +=3D cma->count;
+>
+> @@ -251,6 +258,27 @@ static void __init cma_drop_area(struct cma *cma)
+>         cma_area_count--;
+>  }
+>
+> +static int __init cma_check_memory(phys_addr_t base, phys_addr_t size)
+> +{
+> +       if (!size || !memblock_is_region_reserved(base, size))
+> +               return -EINVAL;
+> +
+> +       /*
+> +        * CMA uses CMA_MIN_ALIGNMENT_BYTES as alignment requirement whic=
+h
+> +        * needs pageblock_order to be initialized. Let's enforce it.
+> +        */
+> +       if (!pageblock_order) {
+> +               pr_err("pageblock_order not yet initialized. Called durin=
+g early boot?\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       /* ensure minimal alignment required by mm core */
+> +       if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +
+>  /**
+>   * cma_init_reserved_mem() - create custom contiguous area from reserved=
+ memory
+>   * @base: Base address of the reserved area
+> @@ -271,22 +299,9 @@ int __init cma_init_reserved_mem(phys_addr_t base, p=
+hys_addr_t size,
+>         struct cma *cma;
+>         int ret;
+>
+> -       /* Sanity checks */
+> -       if (!size || !memblock_is_region_reserved(base, size))
+> -               return -EINVAL;
+> -
+> -       /*
+> -        * CMA uses CMA_MIN_ALIGNMENT_BYTES as alignment requirement whic=
+h
+> -        * needs pageblock_order to be initialized. Let's enforce it.
+> -        */
+> -       if (!pageblock_order) {
+> -               pr_err("pageblock_order not yet initialized. Called durin=
+g early boot?\n");
+> -               return -EINVAL;
+> -       }
+> -
+> -       /* ensure minimal alignment required by mm core */
+> -       if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
+> -               return -EINVAL;
+> +       ret =3D cma_check_memory(base, size);
+> +       if (ret < 0)
+> +               return ret;
+>
+>         ret =3D cma_new_area(name, size, order_per_bit, &cma);
+>         if (ret !=3D 0)
+> @@ -1112,3 +1127,33 @@ void __init *cma_reserve_early(struct cma *cma, un=
+signed long size)
+>
+>         return ret;
+>  }
+> +
+> +struct cma *__init cma_create(phys_addr_t base, phys_addr_t size,
+> +                             unsigned int order_per_bit, const char *nam=
+e)
+> +{
+> +       struct cma *cma;
+> +       int ret;
+> +
+> +       ret =3D cma_check_memory(base, size);
+> +       if (ret < 0)
+> +               return ERR_PTR(ret);
+> +
+> +       cma =3D kzalloc(sizeof(*cma), GFP_KERNEL);
+> +       if (!cma)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       cma_init_area(cma, name, size, order_per_bit);
+> +       cma->ranges[0].base_pfn =3D PFN_DOWN(base);
+> +       cma->ranges[0].early_pfn =3D PFN_DOWN(base);
+> +       cma->ranges[0].count =3D cma->count;
+> +       cma->nranges =3D 1;
+> +
+> +       cma_activate_area(cma);
+> +
+> +       return cma;
+> +}
+> +
+> +void cma_free(struct cma *cma)
+> +{
+> +       kfree(cma);
+> +}
+> --
+> 2.50.0
 
-You can't just change the error code. The problem here is that, in
-general, there is no guarantee of the order that devices are probed in
-Linux. The general solution for this in Linux is for drivers to find
-all the devices that they depend on during their probe routine. If any
-are missing then they return -EPROBE_DEFER and the system will try
-again once more things are loaded. In the case of ti-sn65dsi86 we need
-the MIPI host device so we find it at probe time. If it's not there
-then we want to try again later.
 
-The whole "try again" logic for -EPROBE_DEFER is only guaranteed in
-certain contexts. Generally it's reserved for probe. ...but that logic
-_could_ be extended to other contexts. It's possible it could be
-extended to bridge attach, but one would have to make sure it actually
-is (I haven't checked) and, as Maxime says, it should be documented.
+I agree that supporting dynamic CMA areas would be good. However, by
+doing it like this, these CMA areas are invisible to the rest of the
+system. E.g. cma_for_each_area() does not know about them. It seems a
+bit inconsistent that there will now be some areas that are globally
+known, and some that are not.
 
-I suppose it's also possible that when ti_sn_bridge_attach() is
-called, it's guaranteed that of_find_mipi_dsi_host_by_node() won't
-return NULL. If you can prove this by looking through the DRM code
-_then_ you could probably make your change and just change the error
-code.
+I am being somewhat selfish here, as I have some WIP code that needs
+the global list :-) But I think the inconsistency is a more general
+point than just what I want (and the s390 code does use
+cma_for_each_area()). Maybe you could keep maintaining a global
+structure containing all areas? What do you think are the chances of
+running out of the global count of areas?
 
+Also, you say that "these are treated specially and do not contribute
+to the number of total CMA pages". But, if I'm reading this right, you
+do call cma_activate_area(), which will do
+init_cma_reserved_pageblock() for each pageblock in it. Which adjusts
+the CMA counters for the zone they are in. But your change does not
+adjust totalcma_pages for dynamically created areas. That seems
+inconsistent, too.
 
-To sum it up
-
-1. Ideally you can fix the nwl-dsi driver to work however everyone
-else is working.
-
-2. If you can't then your commit message needs to prove that it's safe
-to move the code to the "attach" routine. You either need to prove
-that it's guaranteed that of_find_mipi_dsi_host_by_node() won't return
-NULL when called from ti_sn_bridge_attach() or you need to prove that
-returning -EPROBE_DEFER in this case is safe.
-
-3. In either case, updating the docs that Maxime pointed to would be useful=
-.
-
-
--Doug
+- Frank
