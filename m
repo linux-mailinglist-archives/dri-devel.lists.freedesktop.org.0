@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BB8B3F896
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D111CB3F897
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 10:34:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E9F10E5F7;
-	Tue,  2 Sep 2025 08:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB9F10E5F9;
+	Tue,  2 Sep 2025 08:34:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OE9wNu6F";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ROqW1Pv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF4F10E5F9
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:34:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13AB410E5FC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 08:34:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5C3A34346C;
- Tue,  2 Sep 2025 08:34:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1A02C4CEED;
- Tue,  2 Sep 2025 08:34:15 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id EFB8941531;
+ Tue,  2 Sep 2025 08:34:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85923C4CEF7;
+ Tue,  2 Sep 2025 08:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756802056;
- bh=rt6xHw1/6F4wIZvvIQx12pdyMgsEZs64/BuHhHgoQwY=;
+ s=k20201202; t=1756802058;
+ bh=6y3aIMSfaSkH8Ni+8XNxtNqvzdtes72Di9oihgPJJu4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=OE9wNu6Fow/wzbcDKpaesIgEoPQDBgwiy3phinjKnfBpJjNYcFqDTaZHjgx22BYrn
- JuRDoSEXIkqzW0itymk/DH6pMziXluwWwdzaK+iVXOJTtTSQsRvv1yfW/ujpHICsQ0
- q4T+b0VOivpxSLB+1qqJILq4qz0cO96bawJs0sp8Zq+p94icSWLdxcEb76PA1qPFhR
- 4Q2iGyB7eCWpA/9EEsruBBG8cW3I8eIZBu1ihtV/lcSFyxxqcQQRnXDTwbQeAFPxXy
- m3U5PqVjikq9gendmC5hS6dHCOJoUY4BJOEDz5UJqXN4CvKvEMtsGwr5WwyA+Vy/69
- /0D9ukBT7+UuA==
+ b=ROqW1Pv//GU9c/bbW5HHgd+xBAFtBD8xsXz/Uc4reii0BIBmGEmlQ8OCKuuMpy2J2
+ N5a9AMJySEOm5nIs0cI2PoQ4JswyEZIqCXYUAlPU+N7RAYJ1OctTqYNjFuMk3mlX+G
+ 5q8yNTUrDTW62lfkJ9fHzMFPc9C5+ObaMNDDziva10aHl/74MqLcxvILq/LWmbftw1
+ 3L/Mb/LU5Gk21uhkUCHrY0s/BkLuKVPPa3dIr0WVvy4wX8bZYHmWiGA5fHgZZ9WFTL
+ pOsYCNgSfGHcySt/9Mxp3701b/7IHBDRl/iR6Qh0qvzifnxP33UZOtGN1W9xlkoV8A
+ 8qRUKfdSGJu+g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 02 Sep 2025 10:32:53 +0200
-Subject: [PATCH 25/29] drm/tidss: dispc: Move dispc_device definition to
- headers
+Date: Tue, 02 Sep 2025 10:32:54 +0200
+Subject: [PATCH 26/29] drm/tidss: dispc: make accessors accessible to other
+ parts of the driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-drm-state-readout-v1-25-14ad5315da3f@kernel.org>
+Message-Id: <20250902-drm-state-readout-v1-26-14ad5315da3f@kernel.org>
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
 In-Reply-To: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3016; i=mripard@kernel.org;
- h=from:subject:message-id; bh=rt6xHw1/6F4wIZvvIQx12pdyMgsEZs64/BuHhHgoQwY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbVu9vWbVg48IHYQnLPijEmvWE2DJstFfbbHFAdnr2j
- U3qJgwzO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEFu5irE/61DHnc6/J/VVS
- s56FM9Wvz+cTep4wMWl26IcmAfsrE+96Lti571nNreyAyQl9J8/tj2BsuFGn7jBlyck5LZu2met
- f/nS6tM74UY9ewYQeyz1dlZ97/CV37Up1TVi52KFgps8lCxklAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2182; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=6y3aIMSfaSkH8Ni+8XNxtNqvzdtes72Di9oihgPJJu4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbVh9wOcr5m3HGpdkK/8tfz3TzrfvioLjNav157wiFp
+ e/MXrLadUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJ2Iox1llMvyhXm+69pWtJ
+ Tf8ubeHlqYu2xe/1NchjSm8onnc431PkcnzTsQ2Nf1Vf73m28/m3k4z1Qc2b/sxQPfF1q/jC3B2
+ tRybdXPH13Hc2/sK1KYpFLp82rKvO3hu50Nxpwr3YW0wtt57sAwA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,111 +74,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to access the dispc_device structure from other parts of the
-driver so let's move it to a header.
-
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 33 ---------------------------------
- drivers/gpu/drm/tidss/tidss_dispc.h | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 4 ++--
+ drivers/gpu/drm/tidss/tidss_dispc.h | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index ef948e3041e10bc65cf2c4794a4e4cffa7e3fb3a..2f9cf95d6d0525a02d8adaae968aa551b7e27077 100644
+index 2f9cf95d6d0525a02d8adaae968aa551b7e27077..18b6beddfe51f9b5c164481ee2ef0fa289e63318 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.c
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -476,43 +476,10 @@ const struct dispc_features dispc_am62l_feats = {
- 	.vid_order = {0},
- };
+@@ -504,11 +504,11 @@ void dispc_vid_write(struct dispc_device *dispc, u32 hw_plane, u16 reg, u32 val)
  
- static const u16 *dispc_common_regmap;
+ 	CH(dispc);
+ 	iowrite32(val, base + reg);
+ }
  
--struct dss_vp_data {
--	u32 *gamma_table;
--};
--
--struct dispc_device {
--	struct tidss_device *tidss;
--	struct device *dev;
--
--	void __iomem *base_common;
--	void __iomem *base_vid[TIDSS_MAX_PLANES];
--	void __iomem *base_ovr[TIDSS_MAX_PORTS];
--	void __iomem *base_vp[TIDSS_MAX_PORTS];
--
--	struct regmap *am65x_oldi_io_ctrl;
--
--	struct clk *vp_clk[TIDSS_MAX_PORTS];
--
--	const struct dispc_features *feat;
--
--	struct clk *fclk;
--
--	bool is_enabled;
--
--	struct dss_vp_data vp_data[TIDSS_MAX_PORTS];
--
--	u32 *fourccs;
--	u32 num_fourccs;
--
--	u32 memory_bandwidth_limit;
--
--	struct dispc_errata errata;
--};
--
- static void CH(struct dispc_device *dispc)
+-static u32 dispc_vid_read(struct dispc_device *dispc, u32 hw_plane, u16 reg)
++u32 dispc_vid_read(struct dispc_device *dispc, u32 hw_plane, u16 reg)
  {
- 	WARN_ON((dispc->dev->power.runtime_status != RPM_ACTIVE) &&
- 		(dispc->dev->power.runtime_status != RPM_RESUMING) &&
- 		(dispc->dev->power.runtime_status != RPM_SUSPENDING));
+ 	void __iomem *base = dispc->base_vid[hw_plane];
+ 
+ 	CH(dispc);
+ 	return ioread32(base + reg);
+@@ -538,11 +538,11 @@ static void dispc_vp_write(struct dispc_device *dispc, u32 hw_videoport,
+ 
+ 	CH(dispc);
+ 	iowrite32(val, base + reg);
+ }
+ 
+-static u32 dispc_vp_read(struct dispc_device *dispc, u32 hw_videoport, u16 reg)
++u32 dispc_vp_read(struct dispc_device *dispc, u32 hw_videoport, u16 reg)
+ {
+ 	void __iomem *base = dispc->base_vp[hw_videoport];
+ 
+ 	CH(dispc);
+ 	return ioread32(base + reg);
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 849ec984026e223de7c8a55a4b5672c2262f38c0..f5d5798de1ba550dedbcba36b1ef41d5ecceaa0c 100644
+index f5d5798de1ba550dedbcba36b1ef41d5ecceaa0c..b249cd0da331bf801992a7f38ff9031a5f8da0b8 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.h
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -95,10 +95,43 @@ struct dispc_features {
- 	u32 num_vids;
- 	struct dispc_vid_info vid_info[TIDSS_MAX_PLANES];
- 	u32 vid_order[TIDSS_MAX_PLANES];
- };
+@@ -181,9 +181,12 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
+ 		       u32 hw_videoport);
+ void dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable);
+ const u32 *dispc_plane_formats(struct dispc_device *dispc, unsigned int *len);
+ u32 dispc_plane_find_fourcc_by_dss_code(u8 code);
  
-+struct dss_vp_data {
-+	u32 *gamma_table;
-+};
++u32 dispc_vid_read(struct dispc_device *dispc, u32 hw_plane, u16 reg);
++u32 dispc_vp_read(struct dispc_device *dispc, u32 hw_videoport, u16 reg);
 +
-+struct dispc_device {
-+	struct tidss_device *tidss;
-+	struct device *dev;
-+
-+	void __iomem *base_common;
-+	void __iomem *base_vid[TIDSS_MAX_PLANES];
-+	void __iomem *base_ovr[TIDSS_MAX_PORTS];
-+	void __iomem *base_vp[TIDSS_MAX_PORTS];
-+
-+	struct regmap *am65x_oldi_io_ctrl;
-+
-+	struct clk *vp_clk[TIDSS_MAX_PORTS];
-+
-+	const struct dispc_features *feat;
-+
-+	struct clk *fclk;
-+
-+	bool is_enabled;
-+
-+	struct dss_vp_data vp_data[TIDSS_MAX_PORTS];
-+
-+	u32 *fourccs;
-+	u32 num_fourccs;
-+
-+	u32 memory_bandwidth_limit;
-+
-+	struct dispc_errata errata;
-+};
-+
- extern const struct dispc_features dispc_k2g_feats;
- extern const struct dispc_features dispc_am625_feats;
- extern const struct dispc_features dispc_am62a7_feats;
- extern const struct dispc_features dispc_am62l_feats;
- extern const struct dispc_features dispc_am65x_feats;
+ int dispc_init(struct tidss_device *tidss);
+ void dispc_remove(struct tidss_device *tidss);
+ 
+ #endif
 
 -- 
 2.50.1
