@@ -2,122 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8D8B3F3EF
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 06:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C87B3F427
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 07:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776BF10E585;
-	Tue,  2 Sep 2025 04:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94FBA10E59A;
+	Tue,  2 Sep 2025 05:05:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Tx4vpK2W";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hZMhVXM8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A13810E57F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 04:56:30 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822SO0A025567
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 04:56:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4C5VhC/4pFCnYsmQJ5EmNbV8HXu0TRSksgnPURzlR3I=; b=Tx4vpK2WBWhiCtNY
- sm8/FoCB0SlXn37FORfYCgOjeQemeJ+LUOOETXQnEpU3iT1gg48+xYQYmiqqEDjH
- YlLvUrEakatZJT2NVCkbY8cC1x0OY4F28Xd89XznVUJb6yGUmoebgKRG9OMfZASS
- cVB+1BG8wKyNAk8rId4bZlpUCSiZ0jW0y2HCxJgJ9tJ1cQt1nh5nlA/6noek+//f
- 3lr9VfvgN2Ogih1uKI0Y40B0KWdbBNOm6OTbb+JmIJnk+7IdDbq4f7ICQkKJiXV4
- 7hOBQeX0qItaRIg7VEu2hEnVwuUVNMUcXIz1lrWg3kACSeXjqt3ZCYTboFHAW90v
- G5CdVA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uscuxjv4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 04:56:30 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-24a9cc916baso19034335ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 21:56:29 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28EA10E59A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 05:05:25 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-45b8b25296fso12993165e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 22:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756789524; x=1757394324; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UsvxK8OTvjy6mRY2UF8u2ijfI8Gfv3ds+RCWrhu9dI8=;
+ b=hZMhVXM8nisBO6BL9Rvchfrd0V2V9XeGOw6wp47CKf5lPpR2VKIsntVtQIXzcAY5DG
+ DQs0jp0c0NkuvVF1SJpLdnckcmx3zX7SAzauNjzWSpukRX/ZytzGjhPdtgfB/WegTo6y
+ pv0CvGD3my0GT1ZKIMtEDzSVk1gMUHDPzFHUORU9gWV003eGp8KntXTVkcPrt/ugp3OQ
+ uaKjgGf/ZHgLink7n1bXwdjNAxgZlTnAPITT+GdQIYwOI3bRFGHyvdePUYDejaJBh8Mh
+ gUG+ga+NVzqR35d2eYaHQ/P84tBvmVU1zWCDQjuNI7f2f8LF/kn29ra1bzOrUirBSLyJ
+ sz7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756788989; x=1757393789;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1756789524; x=1757394324;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4C5VhC/4pFCnYsmQJ5EmNbV8HXu0TRSksgnPURzlR3I=;
- b=GnilQnAPApj14k6XmUFbBrBPck5tunSsCeUCsOIFW2+Szigza/7U5mO2b1Pjv14mOU
- ImfV2hULwFqZJwSI+Il0wMjvkX8Tza1HBIpGliQMYVKWnIWve32Efdo5ThlbuYC3geKF
- 2I2+i/bXxyJkukYdRUg80gn3XQsf/GJ8hfuQ9JJuGPjtUCTAlX1XSCk3mnXplTgKrFON
- 3Mai0LKywyu84I+zwkTLFXOq0jgWmJI/p+exumvkAREgdj4oFtO3copAbpxJeqkeJINv
- qMjdOBr/C/nS1dzX8m32QLaYNjA6TYYQ7aT1i+Bt8VYp16dRU2koDfOggKaD7YQUZxJx
- oSTQ==
+ bh=UsvxK8OTvjy6mRY2UF8u2ijfI8Gfv3ds+RCWrhu9dI8=;
+ b=VqitxWwGf9ExzKtlBGL1b0K1lZh7o2d+J/PQeRtnwofEJwNz3HxclNjtwsUsGTHytn
+ gLogvwBnRdEt1SvldI+zq9BoeGPYmFK4khcTtL1tyb0/7lqSfdsxp2t937XxmvENDAhH
+ vmFlKIQywqSQ2/MR/GkrSbxoegNSYFaniBp8H8LKUvFUc0eYsjSZuL2fCFPPa+rmiuwU
+ /MUICrf2D2R1ZGW3hT93J59lRUArTesbGBvqcuehWGUM8saE2SxAyspAj47k+fvseGeq
+ 3RT7cLrJWel185LiWKWCjcJojrhC+j3zC3Rn1FBfq+9iLGIBrfI2/dks5yrsTTYsHIJv
+ XCDg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVjy95wlWM3ZfN3k3o0tdfWS+grOw26jnfpJth1y2Jo3BSFnQh/O6FjwEQd96eT3r47gbAT/EgekKk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxChEdZKkT/SxJkBxtke4KphWmoTzWMuVrxIGcmJZtEOsIhYKJM
- LTmCRvx7lb0rWk5gh/+oJBNukj/tYx7vIdNEDTTZk0YJraacVAnju0y1AitpOmh93OQkA482EYu
- /L5GLWg1/2P05KhzwIXdnOfHuW/Y5UP/uoEbEhkYylMvGmkUR+1Pi83VdY6LnwNVba2xbqw==
-X-Gm-Gg: ASbGncvovsrZjdLBGsrt4WusZl0580fF8tnCX5btRRxuyti9rqmBF/EhvceuRM6hl90
- JCF/hUph1d+ReX9IzOeg02Og8J8lV1pyj6JUVNVMsndwvz4kUIY48pXNv/kI6NnShxXxpRiPxpM
- FBWukbA79ye5JqUYsRFcOduIjmpYraF/C/1Wt0dpZAyHvFsvngcDKLMFmbPvmeBcI+CY/j13WNx
- 5ECqNAwoCtM527XduJyvSsR7twVDUJ14Uwcx34fLbOZTTmFRmEHWM4ZmwiyNGxydETnys+ODnaw
- oDmvO0uLbIbxX0giHPSWmLLwqVM/8Ay0fClRBqAU7ykLgHN/dnraJai69yekRpd9h62Gm5Mlhnc
- xPdTdX0T96Bi/MpaHp9tzZpI=
-X-Received: by 2002:a17:902:d502:b0:246:fdf7:2c71 with SMTP id
- d9443c01a7336-24944af12e2mr132951155ad.47.1756788988610; 
- Mon, 01 Sep 2025 21:56:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7F0eEjJmAaiuShpIkxQfExITaVHfEaEVCThMdzzbDlLzUzKrz3dCFXLdIOBLWZwLgt+OxrA==
-X-Received: by 2002:a17:902:d502:b0:246:fdf7:2c71 with SMTP id
- d9443c01a7336-24944af12e2mr132950855ad.47.1756788988089; 
- Mon, 01 Sep 2025 21:56:28 -0700 (PDT)
-Received: from hu-azarrabi-lv.qualcomm.com (Global_NAT1.qualcomm.com.
- [129.46.96.20]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24b1f30a63asm1795345ad.66.2025.09.01.21.56.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Sep 2025 21:56:27 -0700 (PDT)
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Date: Mon, 01 Sep 2025 21:55:58 -0700
-Subject: [PATCH v9 11/11] Documentation: tee: Add Qualcomm TEE driver
+ AJvYcCWG5eRj0+UCsY1udr3zWFtMbpqsCWa6sMcsuSfoCg2pMOllKWLXkx7WeTXCuJR/eX7+krv9fSbrO00=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzSv6YjC1gxaSfPUqjd0lMQrwmNlFayGD83lkZj+tNC98rO2Qc
+ 9nqKl1YjhzX8xcoPh8Q5lnCrjlNS3F7MEQqCFMJwDb/wwjE/ULTmAWLjqaz7f8VY3bB+LdpJJ71
+ is/pnOOJRKTszjNsl0lwM68SHsY3bDI4=
+X-Gm-Gg: ASbGncvn0B121Sk2JiJswu3E5un6+uCa3bFKf65XQEMxf3bmvnDttZ8qig8vknSlRI+
+ YH5nQUqkogxiiFi2YO4ccRXHz8bDNm3XiCXK0/BIIov6n17ekFtlBSonRbZZ+ESpnb2k1yKufGn
+ 8ptLTQloWF2TSVVPoAXsP4Pll9dkVwoARuoGnrG0+1pV/BTUHK5h/3z5JFmpDweWS3Ah+UQXC3n
+ Yob0VPw
+X-Google-Smtp-Source: AGHT+IFaLGWrhMd9gaUFsjIuhaYuop/TR0fhRThMUYmbG5VO5CB2x6zfi844hhIhJImP7arGJuqPWad7TwuKTeA/xGg=
+X-Received: by 2002:a5d:5f95:0:b0:3d0:b3cc:c21c with SMTP id
+ ffacd0b85a97d-3d1e06aff5bmr7629522f8f.55.1756789523601; Mon, 01 Sep 2025
+ 22:05:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-11-a2af23f132d5@oss.qualcomm.com>
-References: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-0-a2af23f132d5@oss.qualcomm.com>
-In-Reply-To: <20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-0-a2af23f132d5@oss.qualcomm.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Sumit Garg <sumit.garg@oss.qualcomm.com>
-X-Mailer: b4 0.13.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMSBTYWx0ZWRfXyoO0BU5Et7ml
- 57tA3fSdySR9b1wk62OzMo2jy7BbphVPdREx3jNSOQ0PXYDmKwP3GWmSa0kp5AZvkR5n+pN7sgs
- vVGx9RSeIb61N2jyQVgs6+YsYXQrRDEA/lfwNnfg1OAlCCfLZeBLVsRLFG5RtHD/3CEn0vdQgHS
- ZwtM2Ms0pQfhL8wdth1ZvCEwQC+GBkMFjlc0TGxcBo0W1ZCnSLKUXQinqJhN6gXJHe80KKPEvLs
- wmfxnKIYW0uW5WgjMjS60L6+Hilx5y77LUdoW7gKn7e0ekrw+UC0JcD/ZIB+7VNW8Pez5WV6C8J
- yMYDA6f4mxQ54e1Q7Nkxh4oMM76i56EyQpUHvR9rsUugLFBfxU1NFYjnQ3QFoATo51KoWuBv3gT
- rnbwgdEW
-X-Authority-Analysis: v=2.4 cv=A8xsP7WG c=1 sm=1 tr=0 ts=68b678fe cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8
- a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=vCTlBN6rBY5pDr9NrAkA:9 a=QEXdDO2ut3YA:10
- a=M0EVDjxxv-UA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: bGXvtjuv4GqQXIIouXfI2Dv03v1Of3rO
-X-Proofpoint-GUID: bGXvtjuv4GqQXIIouXfI2Dv03v1Of3rO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_01,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300031
+References: <20250819121631.84280-1-clamor95@gmail.com>
+ <20250819121631.84280-8-clamor95@gmail.com>
+ <6948375.lOV4Wx5bFT@senjougahara>
+In-Reply-To: <6948375.lOV4Wx5bFT@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 2 Sep 2025 08:05:12 +0300
+X-Gm-Features: Ac12FXyFWFQp9zyC-dC-muHX4hjhMNXKuUIlIfX1jsnphJFz8uYCWTVS01gjz_M
+Message-ID: <CAPVz0n2dp7kdCWFLWQjQY+tGO_ayzxGW=zxx3FwX_yeeR9J2Bg@mail.gmail.com>
+Subject: Re: [PATCH v1 07/19] staging: media: tegra-video: csi: parametrize
+ MIPI calibration device presence
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+ linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,143 +105,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the Qualcomm TEE driver.
+=D0=B2=D1=82, 2 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 03:47 Mikko=
+ Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > Dedicated MIPI calibration block appears only in Tegra114, before Tegra=
+114
+> > all MIPI calibration pads were part of VI block.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/staging/media/tegra-video/csi.c      | 12 +++++++-----
+> >  drivers/staging/media/tegra-video/csi.h      |  1 +
+> >  drivers/staging/media/tegra-video/tegra210.c |  1 +
+> >  3 files changed, 9 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/tegra-video/csi.c
+> > b/drivers/staging/media/tegra-video/csi.c index 74c92db1032f..2f9907a20=
+db1
+> > 100644
+> > --- a/drivers/staging/media/tegra-video/csi.c
+> > +++ b/drivers/staging/media/tegra-video/csi.c
+> > @@ -485,11 +485,13 @@ static int tegra_csi_channel_alloc(struct tegra_c=
+si
+> > *csi, if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+> >               return 0;
+> >
+> > -     chan->mipi =3D tegra_mipi_request(csi->dev, node);
+> > -     if (IS_ERR(chan->mipi)) {
+> > -             ret =3D PTR_ERR(chan->mipi);
+> > -             chan->mipi =3D NULL;
+> > -             dev_err(csi->dev, "failed to get mipi device: %d\n", ret)=
+;
+> > +     if (csi->soc->has_mipi_calibration) {
+> > +             chan->mipi =3D tegra_mipi_request(csi->dev, node);
+>
+> The way I would read 'soc->has_mipi_calibration' is that this device (CSI=
+)
+> contains the MIPI calibration hardware. I.e. the opposite of here. I woul=
+d
+> invert the logic and optionally call it e.g. 'internal_mipi_calib'.
+>
+> A cleaner way to do this might be to always call tegra_mipi_request et al=
+. --
+> on pre-Tegra114 SoCs this would just call back to the VI/CSI driver using=
+ the
+> callbacks registered in the MIPI driver as we discussed before. That way =
+the
+> CSI driver won't need separate code paths for SoCs with internal MIPI
+> calibration and SoCs with the external MIPI calibration device.
+>
 
-Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
----
- Documentation/tee/index.rst |  1 +
- Documentation/tee/qtee.rst  | 96 +++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |  1 +
- 3 files changed, 98 insertions(+)
+So basically MIPI calibration device for Tegra20/Tegra30 has to be
+created within CSI and when MIPI calibration is requested, CSI phandle
+is used. Question: may I use a dedicated node for MIPI calibration
+within CSI or it has to use CSI node itself? With dedicated node
+configuration should be much simpler and can help avoiding probe of
+entire.
 
-diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
-index 4be6e69d7837..62afb7ee9b52 100644
---- a/Documentation/tee/index.rst
-+++ b/Documentation/tee/index.rst
-@@ -11,6 +11,7 @@ TEE Subsystem
-    op-tee
-    amd-tee
-    ts-tee
-+   qtee
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/tee/qtee.rst b/Documentation/tee/qtee.rst
-new file mode 100644
-index 000000000000..2fa2c1bf6384
---- /dev/null
-+++ b/Documentation/tee/qtee.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================================
-+QTEE (Qualcomm Trusted Execution Environment)
-+=============================================
-+
-+The QTEE driver handles communication with Qualcomm TEE [1].
-+
-+The lowest level of communication with QTEE builds on the ARM SMC Calling
-+Convention (SMCCC) [2], which is the foundation for QTEE's Secure Channel
-+Manager (SCM) [3] used internally by the driver.
-+
-+In a QTEE-based system, services are represented as objects with a series of
-+operations that can be called to produce results, including other objects.
-+
-+When an object is hosted within QTEE, executing its operations is referred
-+to as "direct invocation". QTEE can also invoke objects hosted in the non-secure
-+world using a method known as "callback request".
-+
-+The SCM provides two functions to support direct invocation and callback requests:
-+
-+- QCOM_SCM_SMCINVOKE_INVOKE: Used for direct invocation. It can return either
-+  a result or initiate a callback request.
-+- QCOM_SCM_SMCINVOKE_CB_RSP: Used to submit a response to a callback request
-+  triggered by a previous direct invocation.
-+
-+The QTEE Transport Message [4] is stacked on top of the SCM driver functions.
-+
-+A message consists of two buffers shared with QTEE: inbound and outbound
-+buffers. The inbound buffer is used for direct invocation, and the outbound
-+buffer is used to make callback requests. This picture shows the contents of
-+a QTEE transport message::
-+
-+                                      +---------------------+
-+                                      |                     v
-+    +-----------------+-------+-------+------+--------------------------+
-+    | qcomtee_msg_    |object | buffer       |                          |
-+    |  object_invoke  |  id   | offset, size |                          | (inbound buffer)
-+    +-----------------+-------+--------------+--------------------------+
-+    <---- header -----><---- arguments ------><- in/out buffer payload ->
-+
-+                                      +-----------+
-+                                      |           v
-+    +-----------------+-------+-------+------+----------------------+
-+    | qcomtee_msg_    |object | buffer       |                      |
-+    |  callback       |  id   | offset, size |                      | (outbound buffer)
-+    +-----------------+-------+--------------+----------------------+
-+
-+Each buffer is started with a header and array of arguments.
-+
-+QTEE Transport Message supports four types of arguments:
-+
-+- Input Object (IO) is an object parameter to the current invocation
-+  or callback request.
-+- Output Object (OO) is an object parameter from the current invocation
-+  or callback request.
-+- Input Buffer (IB) is (offset, size) pair to the inbound or outbound region
-+  to store parameter to the current invocation or callback request.
-+- Output Buffer (OB) is (offset, size) pair to the inbound or outbound region
-+  to store parameter from the current invocation or callback request.
-+
-+Picture of the relationship between the different components in the QTEE
-+architecture::
-+
-+         User space               Kernel                     Secure world
-+         ~~~~~~~~~~               ~~~~~~                     ~~~~~~~~~~~~
-+   +--------+   +----------+                                +--------------+
-+   | Client |   |callback  |                                | Trusted      |
-+   +--------+   |server    |                                | Application  |
-+      /\        +----------+                                +--------------+
-+      ||  +----------+ /\                                          /\
-+      ||  |callback  | ||                                          ||
-+      ||  |server    | ||                                          \/
-+      ||  +----------+ ||                                   +--------------+
-+      ||       /\      ||                                   | TEE Internal |
-+      ||       ||      ||                                   | API          |
-+      \/       \/      \/   +--------+--------+             +--------------+
-+   +---------------------+  | TEE    | QTEE   |             | QTEE         |
-+   |   libqcomtee [5]    |  | subsys | driver |             | Trusted OS   |
-+   +-------+-------------+--+----+-------+----+-------------+--------------+
-+   |      Generic TEE API        |       |   QTEE MSG                      |
-+   |      IOCTL (TEE_IOC_*)      |       |   SMCCC (QCOM_SCM_SMCINVOKE_*)  |
-+   +-----------------------------+       +---------------------------------+
-+
-+References
-+==========
-+
-+[1] https://docs.qualcomm.com/bundle/publicresource/topics/80-70015-11/qualcomm-trusted-execution-environment.html
-+
-+[2] http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
-+
-+[3] drivers/firmware/qcom/qcom_scm.c
-+
-+[4] drivers/tee/qcomtee/qcomtee_msg.h
-+
-+[5] https://github.com/quic/quic-teec
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5086db700aeb..bac9436f65c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20984,6 +20984,7 @@ QUALCOMM TEE (QCOMTEE) DRIVER
- M:	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
- L:	linux-arm-msm@vger.kernel.org
- S:	Maintained
-+F:	Documentation/tee/qtee.rst
- F:	drivers/tee/qcomtee/
- 
- QUALCOMM TRUST ZONE MEMORY ALLOCATOR
-
--- 
-2.34.1
-
+> Cheers,
+> Mikko
+>
+> > +             if (IS_ERR(chan->mipi)) {
+> > +                     ret =3D PTR_ERR(chan->mipi);
+> > +                     chan->mipi =3D NULL;
+> > +                     dev_err(csi->dev, "failed to get mipi device:
+> %d\n", ret);
+> > +             }
+> >       }
+> >
+> >       return ret;
+> > diff --git a/drivers/staging/media/tegra-video/csi.h
+> > b/drivers/staging/media/tegra-video/csi.h index 3ed2dbc73ce9..400b913bb=
+1cb
+> > 100644
+> > --- a/drivers/staging/media/tegra-video/csi.h
+> > +++ b/drivers/staging/media/tegra-video/csi.h
+> > @@ -128,6 +128,7 @@ struct tegra_csi_soc {
+> >       unsigned int num_clks;
+> >       const struct tpg_framerate *tpg_frmrate_table;
+> >       unsigned int tpg_frmrate_table_size;
+> > +     bool has_mipi_calibration;
+> >  };
+> >
+> >  /**
+> > diff --git a/drivers/staging/media/tegra-video/tegra210.c
+> > b/drivers/staging/media/tegra-video/tegra210.c index
+> > da99f19a39e7..305472e94af4 100644
+> > --- a/drivers/staging/media/tegra-video/tegra210.c
+> > +++ b/drivers/staging/media/tegra-video/tegra210.c
+> > @@ -1218,4 +1218,5 @@ const struct tegra_csi_soc tegra210_csi_soc =3D {
+> >       .num_clks =3D ARRAY_SIZE(tegra210_csi_cil_clks),
+> >       .tpg_frmrate_table =3D tegra210_tpg_frmrate_table,
+> >       .tpg_frmrate_table_size =3D ARRAY_SIZE(tegra210_tpg_frmrate_table=
+),
+> > +     .has_mipi_calibration =3D true,
+> >  };
+>
+>
+>
+>
