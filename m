@@ -2,84 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1087B41015
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 00:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD73B4109E
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 01:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 129D210E055;
-	Tue,  2 Sep 2025 22:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEFAE10E00A;
+	Tue,  2 Sep 2025 23:12:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="vkdHkCoi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bDQTrL7u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D054310E055
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 22:38:00 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5607c2f1598so2253039e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 15:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1756852678; x=1757457478;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C2Z2q0BkPqIY+E04bVXl2gU0zLZQjMNqg1qcdhYoTFM=;
- b=vkdHkCoiAenrMN4KYNFB+Q7hed3M2hBfpmw8MyPLfE/AVy+laMRaUZFYkTwZqK22NI
- AKo/kN1io0Q6OG2UheFLo/pjnyoOqP99KSWUy5bjX+wh9fkUBLPT92lvTHoOqilui3qY
- qLLrNYkfNHH+qzwubF4WHQNr9Bp1isZ9QLcuyOdY0ne6SYsK8E5qzbSty7WJXgBYsjlB
- Qa2rONVH1JeBtwYk3OX5UkbOWkIGdy/5ESnHd/SXRzOF1anVF8/4X1d0H1QeSHUnfaED
- +KgxDh+ag51nhGIzK53uwf25rxfhvHrMS+VFvK2kvndHNq5JUdogpA4vyVUk9s7UAQGm
- HgUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756852678; x=1757457478;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C2Z2q0BkPqIY+E04bVXl2gU0zLZQjMNqg1qcdhYoTFM=;
- b=WQRqttwf+s8MTt1+uIlaWYPi9Qw5elMdhYyDK2nU1YpUnOUVJwwxGncqQG8bvbO0cz
- zy5kPhup9md1D1WuvBgBrs27Qg6OEMG2BNfPBUPK2oW6AYEVlV5cM8/5u6NxsSAucWRd
- y31RPWkaFhECrGSmnR2YOjQE3qLzdu82rrmuJCA0uTfcSC+a2GLmRkXvukL7Z5Hk5vO0
- 3Yr7rW9fGPfNFy4+i9xYe49GSyacrt4J0w7ko1YRAmWT+Yda8DDmanCKfDq2a8wT6nu1
- Fu6Ezq4Z0Ekj5Ad6O2WnrmLGfy228pUI28p2Cr4ipa8nIw89wnWsHAVuh5c16BNUM1h7
- noCg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrwZ2ufZbkAP6bTQxkITQagG+8+TtXLrGqFgM3MppssiBL5us34EwRwiZyQfTmP1PxF1/NosZD35M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNBFxNZElP5MYwLD4Q0okLnTdbA1zQ32FuHsNLFNjdP+W6iXNY
- i7XbR+YxEZIrk4Id7g9aK4SOqheIqlcFrzvyKLYpQa2POcsCWJGi8vFx+ikAG14x9+emCn4z8JA
- UK2/ulJY4Y4koY3xQlCeoomp7pZ/YHtwZgt96WWEo/7NcvcSzds26PnA=
-X-Gm-Gg: ASbGncu6TFQcUseyYIWQiIp7Cvk94b5U+MmNIG4eL2EPrOBlFBO1sKqSsIsZC4o8mik
- o+P0m9GgEFZc9wLaGFcbXtlx6n0mfxwOrZlIm2KseW3BAP49n5JlRc7f2m7aSeg3lOGftEqtadk
- kBtvuzr6D1IcXWnGdrnQFacWV8K0SiUMF0mg1Er2vtzFD9XjSL5YpTYEx0KaNvKy4QE07Hbc+jP
- o93BsAovRq1SLUr9H+ZyqAkZrHjWg5oiIdcKSzJU+tKVscdnGyrQx+WhRRJIlhv
-X-Google-Smtp-Source: AGHT+IGmWy6Aq1ZCfTZaoiG4mkrbhZY4MfRXR19EYAWZXvoUsJvrpBj01w+uPYMLT8d4w27jw93YIe/anSgqxv5w//I=
-X-Received: by 2002:a05:6512:32cb:b0:55f:3bca:b161 with SMTP id
- 2adb3069b0e04-55f708db526mr4266129e87.27.1756852678372; Tue, 02 Sep 2025
- 15:37:58 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 176ED10E00A;
+ Tue,  2 Sep 2025 23:12:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 990AA60224;
+ Tue,  2 Sep 2025 23:12:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05DDEC4CEED;
+ Tue,  2 Sep 2025 23:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756854739;
+ bh=nGd6ubL9Tf/e1xXoHEq4QdDtCjYAfInQ7R9+GVfgkr0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bDQTrL7ukZTL5zgkIX5VBewQ0FdZgocbX6GbSmLy/+MdtvPcsEwaOnZStytUVCrML
+ 7Lrw5b1arUATJvNXgcR4Nvmms0kqYMACqF9yNduS4XCV4BcCj/JtJWZncuHwrIciTy
+ oQUtcInfo4Wcf47DtuIMQmm3bDJzkXWhhzXS+vlwJvkhMjuaI3WEdiaF1FD6OByiN+
+ hCHucubAA9r8rUX5zM+wfHcQ21+hmhMmtzwugJn9eyII0EA1k/rsjLAnuHuq5+1IIU
+ 7+Bp1ovO33f4F3vcGVs/36vNBtyowvZl/ZbuU/gEeFMqr5+rTBTb/CkdblfFanZHhJ
+ JWofrD5m+pJRg==
+Message-ID: <843554b1-f4c5-43f5-a23b-583339708bea@kernel.org>
+Date: Wed, 3 Sep 2025 01:12:13 +0200
 MIME-Version: 1.0
-References: <20250902154630.4032984-1-thierry.reding@gmail.com>
- <20250902154630.4032984-5-thierry.reding@gmail.com>
-In-Reply-To: <20250902154630.4032984-5-thierry.reding@gmail.com>
-From: John Stultz <jstultz@google.com>
-Date: Tue, 2 Sep 2025 15:37:45 -0700
-X-Gm-Features: Ac12FXwG3iNj8EaL9OuUHyuMyacZ5I_i_Y3lylzCsdPDiddwbaDN3qJymljUZSU
-Message-ID: <CANDhNCoM4RFX-QccF7xT=+-tduGj9OZ_8SgrTVyRucMwyVc73Q@mail.gmail.com>
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Add debugfs support
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/11] gpu: nova-core: move GSP boot code out of `Gpu`
+ constructor
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com>
+ <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,25 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding@gmail=
-.com> wrote:
->
-> From: Thierry Reding <treding@nvidia.com>
->
-> Add a callback to struct dma_heap_ops that heap providers can implement
-> to show information about the state of the heap in debugfs. A top-level
-> directory named "dma_heap" is created in debugfs and individual files
-> will be named after the heaps.
->
+On 9/2/25 4:31 PM, Alexandre Courbot wrote:
+>       pub(crate) fn new(
+>           pdev: &pci::Device<device::Bound>,
+>           devres_bar: Arc<Devres<Bar0>>,
 
-I know its debugfs, but this feels a little loosey-goosey as an uAPI.
-Is there any expected format for the show function?
+The diff is hiding it, but with this patch we should also make sure that this 
+returns impl PinInit<Self, Error> rather than Result<impl PinInit<Self>.
 
-What would other dmabuf heaps ideally export via this interface?
+I think this should be possible now.
 
-Is there some consistent dma_heap-ish concept for it to justify it
-being under a dma_heap directory, and not just an independent debugfs
-file for the driver implementing the dmabuf heap?
+> @@ -293,20 +317,15 @@ pub(crate) fn new(
+>           )?;
+>           gsp_falcon.clear_swgen0_intr(bar);
+>   
+> -        let _sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
+> -
+> -        let fb_layout = FbLayout::new(spec.chipset, bar)?;
+> -        dev_dbg!(pdev.as_ref(), "{:#x?}\n", fb_layout);
+> -
+> -        let bios = Vbios::new(pdev.as_ref(), bar)?;
+> -
+> -        Self::run_fwsec_frts(pdev.as_ref(), &gsp_falcon, bar, &bios, &fb_layout)?;
+> +        let sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
+>   
+>           Ok(pin_init!(Self {
+>               spec,
+>               bar: devres_bar,
+>               fw,
+>               sysmem_flush,
+> +            gsp_falcon,
+> +            sec2_falcon,
+>           }))
+>       }
+>   }
+> 
 
-thanks
--john
