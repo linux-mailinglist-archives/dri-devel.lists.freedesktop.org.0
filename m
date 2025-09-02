@@ -2,82 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85FDB404B4
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901DEB404C4
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22B610E71D;
-	Tue,  2 Sep 2025 13:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0BF10E720;
+	Tue,  2 Sep 2025 13:46:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="V3agZ340";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H3Gg8THw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V3agZ340";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H3Gg8THw";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GAFzzk7k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C+fKUD85";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GAFzzk7k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C+fKUD85";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C793C10E71E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:45:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01B3110E720
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:46:21 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5402021244;
- Tue,  2 Sep 2025 13:45:49 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7E8AF21247;
+ Tue,  2 Sep 2025 13:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756820749; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756820779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kdiPutUwA3/YQH4p7RZXxCphX4M1i0ZdtTdjhGLNVt8=;
- b=V3agZ3409CIkaWtfwx+x/HRm1C4uhv+mYk65jvXbjoHwDyENomPfJLO8UskSx4RWdamiva
- 3q9IR+03259TqRBvEEHX/gQTKeu04TfwDlNyrEUJmG+yrVeg1vJVB7M+sRGbt0RGmTtFra
- 0nE5P9317dYt4DIoUh5xtdGHT9yTt3M=
+ bh=fbghVxIng/tdo9p/1jzNs4kVCl5X2dj4kKeWX+KOppQ=;
+ b=GAFzzk7kNWQgwnuxhkonmP/OlH3ZWwnArvZWAJOlVVcGgSh6uflhUDjSVLdCAu8LblYfHb
+ R9wo9MoDnW95TozL/IoWkQ/IAU6FElI5bERor3HJmFVRKf2fXclQV0Yobr0BCxtk/0PC+f
+ 2nTtUlz6t74+0PZG3oaxon8eE/BE4ig=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756820749;
+ s=susede2_ed25519; t=1756820779;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kdiPutUwA3/YQH4p7RZXxCphX4M1i0ZdtTdjhGLNVt8=;
- b=H3Gg8THwewr0rEdbnRjm56YDyUJUon5icxZBakKQ4T2He5B660OYavyVNCcF5Jsqd7DpSR
- 7qJ2inEgROrlV5DQ==
+ bh=fbghVxIng/tdo9p/1jzNs4kVCl5X2dj4kKeWX+KOppQ=;
+ b=C+fKUD85wIw97Q3ZkB56ZZBLd6reY76Bp8NqjEXxlrerhmLTpCSyj5IJSx+9JKZj9baKB2
+ /eUtov34F945SeAg==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=V3agZ340;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H3Gg8THw
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GAFzzk7k;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C+fKUD85
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756820749; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756820779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kdiPutUwA3/YQH4p7RZXxCphX4M1i0ZdtTdjhGLNVt8=;
- b=V3agZ3409CIkaWtfwx+x/HRm1C4uhv+mYk65jvXbjoHwDyENomPfJLO8UskSx4RWdamiva
- 3q9IR+03259TqRBvEEHX/gQTKeu04TfwDlNyrEUJmG+yrVeg1vJVB7M+sRGbt0RGmTtFra
- 0nE5P9317dYt4DIoUh5xtdGHT9yTt3M=
+ bh=fbghVxIng/tdo9p/1jzNs4kVCl5X2dj4kKeWX+KOppQ=;
+ b=GAFzzk7kNWQgwnuxhkonmP/OlH3ZWwnArvZWAJOlVVcGgSh6uflhUDjSVLdCAu8LblYfHb
+ R9wo9MoDnW95TozL/IoWkQ/IAU6FElI5bERor3HJmFVRKf2fXclQV0Yobr0BCxtk/0PC+f
+ 2nTtUlz6t74+0PZG3oaxon8eE/BE4ig=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756820749;
+ s=susede2_ed25519; t=1756820779;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kdiPutUwA3/YQH4p7RZXxCphX4M1i0ZdtTdjhGLNVt8=;
- b=H3Gg8THwewr0rEdbnRjm56YDyUJUon5icxZBakKQ4T2He5B660OYavyVNCcF5Jsqd7DpSR
- 7qJ2inEgROrlV5DQ==
+ bh=fbghVxIng/tdo9p/1jzNs4kVCl5X2dj4kKeWX+KOppQ=;
+ b=C+fKUD85wIw97Q3ZkB56ZZBLd6reY76Bp8NqjEXxlrerhmLTpCSyj5IJSx+9JKZj9baKB2
+ /eUtov34F945SeAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9A4D13882;
- Tue,  2 Sep 2025 13:45:48 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F66713882;
+ Tue,  2 Sep 2025 13:46:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id FDOUNwz1tmhYYgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:45:48 +0000
-Message-ID: <c3ccf01a-9584-4224-8846-fb8352240467@suse.de>
-Date: Tue, 2 Sep 2025 15:45:48 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id c+p2Biv1tmh8YgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:46:19 +0000
+Message-ID: <e42e194d-a01c-4e5d-8acd-acedd96ad859@suse.de>
+Date: Tue, 2 Sep 2025 15:46:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/29] drm/crtc: Drop no_vblank bit field
+Subject: Re: [PATCH 12/29] drm/atomic_helper: Pass nonblock to commit_tail
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -90,7 +90,7 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-11-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-12-14ad5315da3f@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,7 +117,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-11-14ad5315da3f@kernel.org>
+In-Reply-To: <20250902-drm-state-readout-v1-12-14ad5315da3f@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
@@ -133,13 +133,14 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
  TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
  TAGGED_RCPT(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim, suse.de:email,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 5402021244
+X-Rspamd-Queue-Id: 7E8AF21247
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
@@ -161,40 +162,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> The no_vblank field in drm_crtc_state is defined as a bit-field with a
-> single bit.
->
-> This will create a syntax issue with the macros we'll introduce next,
-> and most other booleans but the *_changed ones in drm_crtc_state do not
-> use a bit field anyway.
->
-> Let's drop it.
+> We'll need to know if a commit is blocking or non-blocking in
+> commit_tail later on, so let's pass it along.
 >
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   include/drm/drm_crtc.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/drm_atomic_helper.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index c462bd9b2f7d3ae08e669463717002e5f78122fe..11e3299cfad1572c6e507918c7cceae7a28ba4cf 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -184,11 +184,11 @@ struct drm_crtc_state {
->   	 * &drm_crtc_state.no_blank == true is valid and usually used when the
->   	 * writeback connector attached to the CRTC has a new job queued. In
->   	 * this case the driver will send the VBLANK event on its own when the
->   	 * writeback job is complete.
->   	 */
-> -	bool no_vblank : 1;
-> +	bool no_vblank;
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index f59512476ebf2b48e1c7034950bcaf99237f03c6..14d9bc282ca570964e494936090898b2dc6bee31 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -2332,11 +2332,11 @@ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state)
 >   
->   	/**
->   	 * @plane_mask: Bitmask of drm_plane_mask(plane) of planes attached to
->   	 * this CRTC.
->   	 */
+>   	drm_atomic_helper_cleanup_planes(dev, state);
+>   }
+>   EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
+>   
+> -static void commit_tail(struct drm_atomic_state *state)
+> +static void commit_tail(struct drm_atomic_state *state, bool nonblock)
+>   {
+>   	struct drm_device *dev = state->dev;
+>   	const struct drm_mode_config_helper_funcs *funcs;
+>   	struct drm_crtc_state *new_crtc_state;
+>   	struct drm_crtc *crtc;
+> @@ -2390,11 +2390,11 @@ static void commit_tail(struct drm_atomic_state *state)
+>   static void commit_work(struct work_struct *work)
+>   {
+>   	struct drm_atomic_state *state = container_of(work,
+>   						      struct drm_atomic_state,
+>   						      commit_work);
+> -	commit_tail(state);
+> +	commit_tail(state, true);
+>   }
+>   
+>   /**
+>    * drm_atomic_helper_async_check - check if state can be committed asynchronously
+>    * @dev: DRM device
+> @@ -2610,11 +2610,11 @@ int drm_atomic_helper_commit(struct drm_device *dev,
+>   
+>   	drm_atomic_state_get(state);
+>   	if (nonblock)
+>   		queue_work(system_unbound_wq, &state->commit_work);
+>   	else
+> -		commit_tail(state);
+> +		commit_tail(state, false);
+>   
+>   	return 0;
+>   
+>   err:
+>   	drm_atomic_helper_unprepare_planes(dev, state);
 >
 
 -- 
