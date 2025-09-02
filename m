@@ -2,58 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B454AB40BA3
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6A2B40BFF
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8F610E1E6;
-	Tue,  2 Sep 2025 17:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFC310E7FD;
+	Tue,  2 Sep 2025 17:27:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QrJcHnY2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aK1aXbeo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3B410E1E6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 17:07:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 44E6E6021A;
- Tue,  2 Sep 2025 17:07:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30155C4CEED;
- Tue,  2 Sep 2025 17:07:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756832850;
- bh=IYDkzilxbSRyvx9Io0tT0IQnawm6gQq1M15aM43RTy0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QrJcHnY2/wjwWY+uPJoel9dpLf4kO7HdRU6XfNCfelnVc14HkpJBicDAYW3ppNTJA
- zDtST6cdUj/fpUtCh1fdfTBW6oTh+xS3J6pr5Y4TlOuIuwTQn5likfZAlWe/x5gPZu
- dgIz5ucR3jdTarirjfImBycxGgX25tWjBXNetCXkbAR8RxmHDzC0q0uCAPK8WoE4+M
- tuEG8LKwJNUsqoR+l/XjRIzziPicjVv0D8Z3Fa/lPjyOeLABlHA8p2jd79ULtQ8tnE
- lPYzPJWO25WBnAn/VqyYrfzYh0xj7tumOMcunOQdGWGSO4bfNc/MW8ruyl7SAfD9eY
- C8oiFXpa8hRcA==
-Date: Tue, 2 Sep 2025 19:07:25 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Andy Yan <andyshrk@163.com>, 
- heiko@sntech.de, hjc@rock-chips.com, naoki@radxa.com, stephen@radxa.com, 
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, 
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, 
- sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
-Message-ID: <3ygqnj4idey7u4m7ltlv7pnfhkkvcepmpfdijdszctaeopq3ky@qteg33comjl3>
-References: <20250822063959.692098-1-andyshrk@163.com>
- <bochli5u37mhc6eup7h2oz3yeignofbbj4k5nrvm2k7zf6f4ov@t2sje4gmveqa>
- <d040da3e-501f-45d8-bcbb-95fa77e94a59@suse.de>
- <20250828-tangible-wakeful-coati-ec27d1@houat>
- <n3scvjsx2aec2ijnr5wwevkmhtegkts5nb43yti7dkjujqaezq@shbcy7ftibzo>
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD3A10E7FD
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 17:27:03 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b4ee87cc81eso2595945a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:27:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1756834022; x=1757438822;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R+vzI8/XRAisFFEKfXyULKg1mw6j6BVTtSv7WOtjwOo=;
+ b=aK1aXbeog3Gy32ev52VPoKqHEwjB5llDh0xUL3984UtEjkl6IDdFRP5Dz0Q/afFKpW
+ fclaOuiARA6UMlu7tzS8ihk0I5mLgyYSrbvVhrSAt4mTbHQolVsgdTt3mcY4Bk7HgmOn
+ e5X9Jaq3qob+F6cJ/D8BDlbQwsy8I8f8au94c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756834022; x=1757438822;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R+vzI8/XRAisFFEKfXyULKg1mw6j6BVTtSv7WOtjwOo=;
+ b=r1/wCIAuFSd+GQTdUrqd4fX5CTYWFcb0cBmIH/1P7Fnp//5tbp0oYCfc6M1HF9i+N5
+ gnva2/tIrPPVB1WvCCQv53BOuJGhAzcj1Ai6lsZhA3tUBn/HcpqPTIm0C16tHO6bDXBq
+ ybqAg/zTYGTbgDDhZnZdwGGWKZhFbiYjCNKJVRToXMtWKKMSK2e8bSulpnQNVljdQOko
+ 4kCFcgwBDAVWyGQ8GwZ0NvWESBA1yCJHKa7xD9wFJbJs/54CDZaWzRMK7dydxe8GbQfs
+ pCkVwd2XfH2JIrGC00S1V1JMYuykjU5Im9fegc+N8eB5j8RTwuDCJsfWodmn/FFJnuVV
+ 0E6Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV4QHi0AgYFcAIGatr7Sg0MOe9X5KkA575ErKcyqMHYBnDV33qvGPlovZGTC18qeRYoGE7iBDAHrgs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8uYuVZd55IlCe/zTkZOUAThiwys1c5jDZZc5TDm4aa2c1OfTr
+ LkwfWTzB8jNOMS2pJCVuA49GJRq9kn174Q97dG5mXZTNqX4r9ejTw9STM+N/YgP7DzZTis8Oubw
+ gO/4=
+X-Gm-Gg: ASbGncutTeuFeHMNr7o/9bbdWwoYZgGh12q9OLSBvAInBbXZOkcUXQnyNamqskga2NS
+ wDm5ypeRwAElFoFoGUrCj/pc/G7cyi3WpSGcC1pDNQpWb7zjchCEsoayCUHhP+auUG1C3eZP3Q2
+ kirml6upz2dZAOs3YtZ0ZLqKrFcR201EOCBRgbfzp2nzNcUxB+35htP+Qm3Nj1RbMNi3vuwNnCI
+ nQCtUlmdQkYsJGhidlqcJ+L/naXdmGesNfM6OVyBEINB5cIf249ykwhtWhkd4SDLSrso5ofgwlY
+ BcrUX9+CP3W16DtMO0Au+ZV0nRdVwewyvJ+xiPUq89sDx7dfIcltduc/7bE+VmpGy1Gve3pDZrC
+ Ld4tzHObqSBaryQETtBuJUHW+v8mJJgOFOMpdsIYVOL3EsWOCDkxZKjbgZwP7ajdwstiMytsRF5
+ Vs
+X-Google-Smtp-Source: AGHT+IGbDF+Cf3lXhtcmmfCEms/9NFf9XgRlGsRG+g6xDGBdPIQje0j5WlnkfuwKdlKe2tH1LexIqQ==
+X-Received: by 2002:a17:902:f546:b0:24a:b0cf:5f97 with SMTP id
+ d9443c01a7336-24ab0cf62acmr127054525ad.40.1756834022277; 
+ Tue, 02 Sep 2025 10:27:02 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
+ [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24906594319sm135134485ad.114.2025.09.02.10.27.01
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Sep 2025 10:27:01 -0700 (PDT)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b4d5886f825so3384634a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:27:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3djRf1v6oNSw2xtwsQrKrVaIpejJzpqT0jToIk5RLKjsKwR7ABJffQBVyDSdeliAMAFG8RhHJpSc=@lists.freedesktop.org
+X-Received: by 2002:a17:903:19e3:b0:245:f002:d67c with SMTP id
+ d9443c01a7336-24944b19dbemr145156225ad.30.1756834020690; Tue, 02 Sep 2025
+ 10:27:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="kkc2r2aygpzd7tty"
-Content-Disposition: inline
-In-Reply-To: <n3scvjsx2aec2ijnr5wwevkmhtegkts5nb43yti7dkjujqaezq@shbcy7ftibzo>
+References: <CAD=FV=VfCWFViDE1a5-_KtH0Pfo2EnCJeo2k8MaWuRHhmMPMMA@mail.gmail.com>
+ <20250902162246.4143785-1-john.ripple@keysight.com>
+In-Reply-To: <20250902162246.4143785-1-john.ripple@keysight.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 2 Sep 2025 10:26:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XyM0WHB8kpirqfnV2CY2KTrHd14pi5qeS+Sq7mjPphsA@mail.gmail.com>
+X-Gm-Features: Ac12FXzoK6a2pOM7UM9T1UG-G9CD1NZjmPlNlNUAg32e3wNBEbg9ufNPfoYnvbs
+Message-ID: <CAD=FV=XyM0WHB8kpirqfnV2CY2KTrHd14pi5qeS+Sq7mjPphsA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi86: break probe dependency loop
+To: John Ripple <john.ripple@keysight.com>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+ andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org, 
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,101 +105,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---kkc2r2aygpzd7tty
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
-MIME-Version: 1.0
+On Tue, Sep 2, 2025 at 9:23=E2=80=AFAM John Ripple <john.ripple@keysight.co=
+m> wrote:
+>
+> Hi,
+>
+> >Which i2c bridge are you talking about? You mean the one created by
+> >i2c_add_adapter() in drm_dp_aux_register()? I guess I'm confused about
+> >why the DSI probe routine would even be looking for that adapter.
+>
+> The i2c bridge I was seeing was created by the drm_bridge_add() function
+> in the ti_sn_bridge_probe() function. Without moving the ti_sn_attach_hos=
+t()
+> function out of the ti_sn_bridge_probe() function I kept getting stuck in=
+ a
+> loop during boot where the bridge would never come up. It's possible this
+> could be a unique interaction with the hardware I'm using and the nwl-dsi
+> driver.
 
-On Thu, Aug 28, 2025 at 03:56:21PM +0300, Dmitry Baryshkov wrote:
-> On Thu, Aug 28, 2025 at 10:05:28AM +0200, Maxime Ripard wrote:
-> > On Thu, Aug 28, 2025 at 09:50:34AM +0200, Thomas Zimmermann wrote:
-> > > Hi
-> > >=20
-> > > Am 28.08.25 um 00:24 schrieb Dmitry Baryshkov:
-> > > > On Fri, Aug 22, 2025 at 02:39:44PM +0800, Andy Yan wrote:
-> > > > > From: Andy Yan <andy.yan@rock-chips.com>
-> > > > >=20
-> > > > >=20
-> > > > > There are two DW DPTX based DisplayPort Controller on rk3588 which
-> > > > > are compliant with the DisplayPort Specification Version 1.4 with
-> > > > > the following features:
-> > > > >=20
-> > > > > * DisplayPort 1.4a
-> > > > > * Main Link: 1/2/4 lanes
-> > > > > * Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
-> > > > > * AUX channel 1Mbps
-> > > > > * Single Stream Transport(SST)
-> > > > > * Multistream Transport (MST)
-> > > > > * Type-C support (alternate mode)
-> > > > > * HDCP 2.2, HDCP 1.3
-> > > > > * Supports up to 8/10 bits per color component
-> > > > > * Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
-> > > > > * Pixel clock up to 594MHz
-> > > > > * I2S, SPDIF audio interface
-> > > > >=20
-> > > > > The current version of this patch series only supports basic disp=
-lay outputs.
-> > > > > I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; t=
-he ALT/Type-C
-> > > > > mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Steph=
-en and Piotr.
-> > > > > HDCP and audio features remain unimplemented.
-> > > > > For RK3588, it's only support SST, while in the upcoming RK3576, =
-it can support
-> > > > > MST output.
-> > > > >=20
-> > > > [skipped changelog]
-> > > >=20
-> > > > > Andy Yan (10):
-> > > > >    dt-bindings: display: rockchip: Add schema for RK3588 DPTX Con=
-troller
-> > > > >    drm/bridge: synopsys: Add DW DPTX Controller support library
-> > > > >    drm/rockchip: Add RK3588 DPTX output support
-> > > > >    MAINTAINERS: Add entry for DW DPTX Controller bridge
-> > > > I tried pushing patches 1-4, but got the following error:
-> > > >=20
-> > > > dim: ERROR: 5a68dcf5837a ("MAINTAINERS: Add entry for DW DPTX Contr=
-oller bridge"): Mandatory Maintainer Acked-by missing., aborting
-> > > >=20
-> > > > I'm not sure how to handle MAINTAINERS changes (or whether it's fin=
-e for
-> > > > me or not), so I will probably push patches 1-3 in a few days, if n=
-obody
-> > > > beats me (or unless somebody points out a correct process for
-> > > > MAINTAINERS changes).
-> > >=20
-> > > That warning has been added recently to make sure that patches do not=
- get in
-> > > without sufficient review. It's overly pedantic, though.
-> >=20
-> > It's not "overly pedantic", it follows the contribution rules. I'd argue
-> > that, if anything, we've been overly tolerant with that kind of
-> > practices.
-> >=20
-> > We do have a bug with handling MAINTAINERS changes at the moment. But
-> > everything else shouldn't be ignored: either patch MAINTAINERS to
-> > reflect the actual contribution path, or get the maintainers Ack.
->=20
-> For me that points out that MAINTAINERS changes should be integrated
-> into the corresponding driver patch rather than being a separate patch.
+Sorry, I still don't really know what i2c bridge you're talking about
+here. At this point there are a number of different MIPI hosts that
+are using ti-sn65dsi86 and they don't seem to run into this, so
+probably digging into your MIPI host to see exactly what it's doing
+makes sense. Where exactly is the nwl-dsi driver trying to acquire
+this bridge and failing?
 
-Not really. It's really just a bug in dim, there's no hidden intent :)
 
-Maxime
+> >In any case, I don't _think_ your patch is valid. Specifically, if you
+> >notice ti_sn_attach_host() can return "-EPROBE_DEFER". That's a valid
+> >error code to return from a probe routine but I don't think it's a
+> >valid error code to return from a bridge attach function, is it?
+>
+> What error code would you suggest?
 
---kkc2r2aygpzd7tty
-Content-Type: application/pgp-signature; name="signature.asc"
+You can't just change the error code. The problem here is that, in
+general, there is no guarantee of the order that devices are probed in
+Linux. The general solution for this in Linux is for drivers to find
+all the devices that they depend on during their probe routine. If any
+are missing then they return -EPROBE_DEFER and the system will try
+again once more things are loaded. In the case of ti-sn65dsi86 we need
+the MIPI host device so we find it at probe time. If it's not there
+then we want to try again later.
 
------BEGIN PGP SIGNATURE-----
+The whole "try again" logic for -EPROBE_DEFER is only guaranteed in
+certain contexts. Generally it's reserved for probe. ...but that logic
+_could_ be extended to other contexts. It's possible it could be
+extended to bridge attach, but one would have to make sure it actually
+is (I haven't checked) and, as Maxime says, it should be documented.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLckTAAKCRAnX84Zoj2+
-dvUNAYCXA+YfH43/lvB6Cay1XQoaT6hY+j/3vvS/vks7PUidYe3u20HeFQ6TDCMt
-fDk7xbsBfAg4iZlxbGaBsHx/isVkX0/hsjK1EZiqd0QFjc1leQ3iDtnQ7qFLJv9m
-BMMAuZ+5Zg==
-=yuqj
------END PGP SIGNATURE-----
+I suppose it's also possible that when ti_sn_bridge_attach() is
+called, it's guaranteed that of_find_mipi_dsi_host_by_node() won't
+return NULL. If you can prove this by looking through the DRM code
+_then_ you could probably make your change and just change the error
+code.
 
---kkc2r2aygpzd7tty--
+
+To sum it up
+
+1. Ideally you can fix the nwl-dsi driver to work however everyone
+else is working.
+
+2. If you can't then your commit message needs to prove that it's safe
+to move the code to the "attach" routine. You either need to prove
+that it's guaranteed that of_find_mipi_dsi_host_by_node() won't return
+NULL when called from ti_sn_bridge_attach() or you need to prove that
+returning -EPROBE_DEFER in this case is safe.
+
+3. In either case, updating the docs that Maxime pointed to would be useful=
+.
+
+
+-Doug
