@@ -2,188 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5880CB3F9D7
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A67B3FA16
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1FA10E31D;
-	Tue,  2 Sep 2025 09:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 958F810E31A;
+	Tue,  2 Sep 2025 09:21:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="izIS8sFq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BJ0VWmAH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA8E10E31D;
- Tue,  2 Sep 2025 09:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756804235; x=1788340235;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=WwQVQHHv3og+d9kXbo9B4+B/dhS1dR8Rk1Nh+9B3yGI=;
- b=izIS8sFqtTtobr7E7tU7pUR/rWNbMy6FaGteOHL9Kc5NXgIeBDUPnFXI
- pa4rDkM4gWDfn4sfTmDd1I+MOfifOa5T8jv5bfQwL90rkxBIYWDvJAwQP
- oea/5iBaiiJ2cAVrp7mHbqxoqo6yn+uy81hS4OQ/QQaPamcu0NpmHlNGj
- y+dmQnaPnc911jiXuBwk3WEc7YlnJ2odeqGGKJQm9oPBaq6I5J6vX8c0H
- 38UB5XqKUiexwX96Teu680AmkyBKTQEv5X88e+6Iwgi7iYCTYBCSeDexB
- XVZQpss/TH22oPPHzbVPh+yaoymqgVNKwsH5AkJvjYA9NZQPq2QlI3sWD g==;
-X-CSE-ConnectionGUID: AIRiUqlrTlWu5dgjukELxQ==
-X-CSE-MsgGUID: QIv1HPVVQxWPDiK4nhvZpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="59005317"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="59005317"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 02:10:35 -0700
-X-CSE-ConnectionGUID: NIhuMTbQQ6WkfNt+jFYGFA==
-X-CSE-MsgGUID: pLOER2isR2umjo6qO8nJ9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="171667740"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 02:10:35 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Sep 2025 02:10:33 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Tue, 2 Sep 2025 02:10:33 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.75)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Sep 2025 02:10:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hVgREn7ZWa5tPRpXmTLUOSolDGhlOJQPfgcjj2j6cRyHGpm4ZIIVh6K7Wpv8bmphJ8n1050HQ4NfsT0H95gGbeZ/aFDuH6KKTD4oKdClw4NUEomGY7LXA9wo9YI04lC169PsemFU4SY5tj7SLA2dBoMtd2QIJS1hCk9z2KMeTlU/V5477pmuoVqdENeCa4ggHA7WQG0F9x2A7ob4aTQ1/ab7cl+mYV9AmKGGpDYV1nVMMOdIB3bSeXvG2lrWBeu7x2MzHFRyVd9UzZF71XDNJBk1151lBxL7+oO8S78gIneHmBAurlLMfnUed6//fjmiklDhHOODtl+Cfi+GnVs01Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CpatTF62e6PgYlI/81knp2Sbo33iCfXHfKvAFoxlKtw=;
- b=EgEDw5xgNk0WI9G5Uu2OL1/BmzW5MiyWbMkOSOuRTsTdQlO/Y0uO2tv5XR0gTlTLwZpaE300WHBeNM+7pVJ/NwOehRyvkeAofCfIT0Eb1LAxA2oyt2q93BrWYtmyXmysC71YQ+mzzb40QCkxeKmE4MkqiIfcCsajvDLlOQjnsve/WUUh/C8rQxpG4Yma2Jy6CmYUXtC2KB/NWDV6y3vPSnYkFuher9tYsr++8kTj4a+jq1xbupx3PRfddURTlMFa8AuICGVUh0fqc9hB919Jn+FGMBmZxMd7mr4PBaN585QYoTkaH4LQPI6bUlkazdjO5HxrtSURy0c47agQiPL9wQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY8PR11MB7828.namprd11.prod.outlook.com (2603:10b6:930:78::8)
- by DS7PR11MB9475.namprd11.prod.outlook.com (2603:10b6:8:26b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Tue, 2 Sep
- 2025 09:10:26 +0000
-Received: from CY8PR11MB7828.namprd11.prod.outlook.com
- ([fe80::5461:fa8c:58b8:e10d]) by CY8PR11MB7828.namprd11.prod.outlook.com
- ([fe80::5461:fa8c:58b8:e10d%4]) with mapi id 15.20.9073.026; Tue, 2 Sep 2025
- 09:10:26 +0000
-Date: Tue, 2 Sep 2025 11:10:18 +0200
-From: Francois Dugast <francois.dugast@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-CC: Matthew Auld <matthew.auld@intel.com>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH v5 1/8] drm/gpusvm: fix hmm_pfn_to_map_order() usage
-Message-ID: <aLa0ejSifS16yA31@fdugast-desk>
-References: <20250818152152.67815-10-matthew.auld@intel.com>
- <20250818152152.67815-11-matthew.auld@intel.com>
- <aKNlPkAEXJ9/j1Hy@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKNlPkAEXJ9/j1Hy@lstrano-desk.jf.intel.com>
-Organization: Intel Corporation
-X-ClientProxiedBy: WA2P291CA0044.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::20) To CY8PR11MB7828.namprd11.prod.outlook.com
- (2603:10b6:930:78::8)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B29A310E31A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:21:24 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822RtIa010115
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 09:21:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=c7HfgZitoM7gN1hKYZrNPb5e
+ K6Mggu3Yh+vY076Vgao=; b=BJ0VWmAHrIfcOhZsOFvRaHnIYrlN+1THXYb2gXcz
+ zVmvmRco1vMvCFwMUkKb4P1aeOYdO0obeif0C18kkQp3+N7wsINNVdosAFYu7uQR
+ MaD7NvscDW2masjL9NuCyfXkVf6JVzrSIH9tqd044uxelBnAeMFQaEUKffWFNwNk
+ JF1nyNNLLHFi+ZgTcVHH2HiLfI/S/yo9pn4hDx1PxS47QV0aRA9kuSfb5ga8JYvx
+ usJvSECzvu3mRXoJHtSNd1JseTsa3xA4dS0BYihkCLOz3xd4ZvBbvvnsh/eCW6uI
+ vz7CPq5tj11FSluEQPHykSpfGuYxUmdnstaKc1qc70G85w==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urmjf8n5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 09:21:23 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-70ddadde46bso89599656d6.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 02:21:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756804883; x=1757409683;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c7HfgZitoM7gN1hKYZrNPb5eK6Mggu3Yh+vY076Vgao=;
+ b=tHQ+ORzmlwkEfu1y1bQ3LFMGSlQVrmW0C11zdqbpQGQYT3TcOc+hUGFOsNuom+XaaU
+ +OBh5xX81+8BBqD73fuSh1tgVueaKXWJH+QBDGBgGczzCMtpbQu9trOhFHmhUci6EC4c
+ ZlM1qoXOWrSDcEvVMOQjNEqMcmMoOGptYDoJSX6QOl2dhaWXtYMGjVouPoALCPID2SvR
+ t/iJ1DiIUxo0zLF8+P8bIPspncQSQVr26A1vKAnzIUZf/ExEPKJHwFW37w6JfgiuJRGi
+ 3uD8GlbwIe6InDYyu1rOuQrqXNarz05HmLO8fZeNNzirttoyewNcWftu+7h66ticucWm
+ UZ4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0ub+mpaD0Iq4MGowU1Iq78YBkerrhB+alDC7Q7dstn+neWd00fEqNt65HFhzkc4SGzm59fwPN29k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRq1qaDkT/jftK3xbR7XgjuUlWHBKuaJgz33+VtKCneXXVTheo
+ DPBT8CP2iTg1ZWhNuyCqirxEY200jZgNUc4cT8RAkSm/mb7jTg9eUjpPF0BfeTGxZcMX0T6jSvF
+ CPq7GRj13NVM7dcA6z0x7Un1MxHay9rFLXE1ciiwizFPj4HfZdRW8Tg/qQO/Ij9pZ6dqPlJ8=
+X-Gm-Gg: ASbGncsRnuMIYsS1nrLbaTY/N4jhKVuRxw/sTN4yNK77USMjQhWAiZIDgOzY/oO0m78
+ 8oQsUAf2AajSuJ9S5vMwvVLWy9qXN+1qWsk0+5lk8J7+Tb1bm7tTbk6x5abKxiTDChnL4uxchIC
+ wVY89MKZEDOJLVjVNn0My492E+hh2Yv0YKg0HuhlWadSfdWmOMhpPVUVUukLBviHqsWqgsyanzb
+ noydFDMjznjDTM2cW6rxCDYCT0rBgqD/BC3XLY/AyaXMhZQb5KEcNqPkr38CMc0Fr+LJheA4lKR
+ Mjj5EpbnIGEDmKHOoOnuzXhjvEsi3+3VZPgc1dBtqjCjY+R5pp6TEp0AE2iTQxZAIJcgik1BVck
+ OgdTkJ50eyNRTQSCtJHcmsNXYlRLRTbTyM1bv87DAz8Z5hN6OFtTy
+X-Received: by 2002:a05:622a:8c9:b0:4b3:e77:90ab with SMTP id
+ d75a77b69052e-4b31dd5f362mr139211611cf.73.1756804882511; 
+ Tue, 02 Sep 2025 02:21:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFQOjKCyF0PTGniEGS7XzhWjEDR5pXTxvrIUjdarmCqjdrVAR3t8O340qmLNTCT1OLhA5b5Mg==
+X-Received: by 2002:a05:622a:8c9:b0:4b3:e77:90ab with SMTP id
+ d75a77b69052e-4b31dd5f362mr139211311cf.73.1756804881966; 
+ Tue, 02 Sep 2025 02:21:21 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56084b0dd56sm207707e87.85.2025.09.02.02.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Sep 2025 02:21:21 -0700 (PDT)
+Date: Tue, 2 Sep 2025 12:21:19 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 3/3] misc: fastrpc: Add polling mode support for
+ fastRPC driver
+Message-ID: <hqbazo62hdfwgxoevzkchfddvjpr2ttp7wltpkoooou5anongs@5ncpjec3egjh>
+References: <20250901053336.3939595-1-ekansh.gupta@oss.qualcomm.com>
+ <20250901053336.3939595-4-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR11MB7828:EE_|DS7PR11MB9475:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1685771f-2356-4831-5544-08ddea008e1f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTlZbWZvQ2RwbW1STHJjMDFqUVFmSDZyRlplaStlOHIwRWFoQzEveXVIV3M3?=
- =?utf-8?B?bmtFenlRZHN1K3QrYVA0b0d2MDZoOUtIWWR0aEcrRThBaWk3MVA2MEVwQkEw?=
- =?utf-8?B?VHZBZHBXWkpUOFlqMzBNSDc0cnAyUTQ4dXFvYzYybGNjYmxYMEtQaWdleWRI?=
- =?utf-8?B?NkFRSC9nVm4xbndOdmxvcjRJakdzWTVSOWFhOTdjU2FiQy9Hd3hTSVN4ZUlW?=
- =?utf-8?B?d1dWMU1kaGNHY0FiSDJoV0dNckY0cHdReG9BRUkweTZNWi80R2FSZTJBMkx3?=
- =?utf-8?B?VjJ3QytNWmhYTGloS3J6RE5yRy9tZU9KZXVXM0N3cWlPMCtjaHhWZzFXdVBP?=
- =?utf-8?B?Q0JlVkdVdXIxM0toa2hOVW1WcGN6LzVOYXNkWStOWHhFUmhNYTZMdGFKdmNZ?=
- =?utf-8?B?STA4WEtId1BqVisvMEJRTmErQkVLQU5UTm1ZVFhqWGU3cGNVSEZ5a2c2aVFD?=
- =?utf-8?B?ZEpoa1V5WXVqNGYzZ0t6VmtDYjlYNWc1QlhteHRlUG41Zlc0cHFIdk8vb3FL?=
- =?utf-8?B?SGdoYkJIdHpxaXo2Z25nNFh1SnM1eHN2ZkcrZWtVRzYvU3hkeDAxYU5lN1o0?=
- =?utf-8?B?OEcwM21CaXFXRW5zcGVKMlVPOStxS3p1aWtVSXVRL3JaNjBZdjlEdDRiVUht?=
- =?utf-8?B?ZytvcFAwYUsrcEVRWEtQeityamZJN2IvK2tqb3NIMkpqRmd6Mk5YaXQycFVi?=
- =?utf-8?B?MHRRYnpvS2t1R3ZRRjhSbHJsVXdjZE5RaGVOMThtMGVkWnRxUE9JRjBJdnJQ?=
- =?utf-8?B?QjhYS0M5ZzFaeUh0dHBYUU95NWZsMWVkWmlrYTI4SjY3bGhmL3BuOUpUcmRr?=
- =?utf-8?B?KzNocHMxM1F4eVdvVHpSVjA1STlVU3RoaTg1YlNqQ0ZkTFNJOVdzWGh0Q1JL?=
- =?utf-8?B?NExza2YvT0JlaE10YSt3c2JySjBBWm5OWDJVNkIrWnc1SUJMNUNCdlZMSlU3?=
- =?utf-8?B?ZlN6L0x4T2dsOXNmdzRXSEhnNHN4NithdEcyQktLdjV5cFVjYmtmNURNR3FE?=
- =?utf-8?B?RzVaSEcyaXFUWGU3aG91RWhtell0WXlSWGN5ejVXVDV5U2RiREh4VkJuV0ox?=
- =?utf-8?B?bVVYa0RuOHlOL0FnRlA0b3BPK1FweGNBNEFCQ1F4R3N0eE1naEh4NDdZTWNH?=
- =?utf-8?B?MlgwUjkreXJrb3UvajlQa2kxZ2ZQQ0pRNVdhdmhGeUpGU09MVUQ5aVQxSk12?=
- =?utf-8?B?U05pVWV0SXNSR2M2UWQyWnk2R2ZoeEpLczlscm5nMlRrY21kYUlsbjNyMzZ2?=
- =?utf-8?B?NWY0bjNveDQxcVRYVzFyUkFTYlV6RFgyWnJ4bkZ2UE5sS3EvWnYrTVh0OU5Y?=
- =?utf-8?B?Sk14cFJwV2dyajRRUzY2OGxmMnBZNDRqdmhmKzRwRzBUemFPeWdIODZMbnBV?=
- =?utf-8?B?WDh5YmRZcG1mNmw3NlFOYThKZEZJVHNHb05ZYk1obFVBMEp6UzJuMFIzSlAx?=
- =?utf-8?B?Sk1RaXNnSHMybVg2bGtpa0pDZWhwdDVOTXlMa1YxVExKK2kyQVRrd1doSHJF?=
- =?utf-8?B?YzhENmt6amtGbmlVamZlM2NSSVhFa3ZZaHIybFkvaW0wR3lQNlVJMVZCa05M?=
- =?utf-8?B?U1BxZFExenVUTFF4OUZlRmErSHZ2WktxZXBPQmpxQWFMWW1qVEhhWnVGRjBt?=
- =?utf-8?B?OFFoVjAxbXVXS3FPc2FQay9qaEVIS0tBTXpZYnRZZXo2cmtYaEJNaDEyMWZn?=
- =?utf-8?B?eUNQekF5ZS9qY1ZMcll6NHJ3TXRwTGdGQ3NyaDVxL2krc05WQWJ3WHdwOXhF?=
- =?utf-8?B?b2pmSmNyaGdNTmc5d2RNWUx6aXJaVmIrM0t6OHpHVUtWWkxUKzVpbnFJUjZH?=
- =?utf-8?B?eTg3blFwUWc1cVM4UnlLek5iWXBHRklybWR4L09WYUl5Nys1M3d1Q08vcURD?=
- =?utf-8?B?bVFLUkpBbFlxd29jVjdUN2pTaHJnTzFUeXI1aTNmME03d0VPUzM0VlFjQ3Br?=
- =?utf-8?Q?hyQOMkWI940=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY8PR11MB7828.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3ZIbCtBZDVrK0EzNnpWbHVRYUxOZDRNTnpKc0pjaTBFcXVRTHZXTElZNlNK?=
- =?utf-8?B?dkk3ek8zQk03VnZWL2g0UnB0aDd2UTM1NzhRR29JZUk2amxEUzdLakFVUmFU?=
- =?utf-8?B?ZDNFMExkWDRKNWtCVlM2aU13V2dPZTd1ZlVuTFRmckV3aDQwMXViL3I4NDQ2?=
- =?utf-8?B?anI3TkgycGZINVR1L0wzWkU3Vk9aTFVLR3ZXTXJnb2tWeU1MTTZvVDBHNVpK?=
- =?utf-8?B?QS8vbk9GQVRPRml1RGdzT3R0bFNFNTRnQzJPZDhIMVIxYWdVY1N1djRZV1JH?=
- =?utf-8?B?V0g1Qmo1SDlnNzVOc2JXZDgxM1NnZlpFTU1qMkR1TUw5U0k5NUU4Ry9hTzNS?=
- =?utf-8?B?OHhacjRjMVVlVHkvcG84WUl5eGtMSHN6c09SOXMvb3pFY0lKck5jb0FkMnlm?=
- =?utf-8?B?SFpSY1ZqaGcrb3ZUNEFLVm9tTlVHWGVsY2VvUnVqWStjc0tvTm1MODJnSndm?=
- =?utf-8?B?Yk1LdWJjT0NRZSs3U2dQQ0ozbVcvcCtQeTFaU0huWm40RkpXazlHVWNCY0pW?=
- =?utf-8?B?cGhIOTVES2lyM09vb29xZGIzWXg2bURYWjRZUjBKbVZjd2VaWVNQTzhRR0s1?=
- =?utf-8?B?OTBxbjZPMStlNWp5YlQ4Zy9SMnlVVXlVVzBDUlZUQnZaRUxPNXRVWDkvNGdD?=
- =?utf-8?B?cGtOajFSNHVyTnhXL3lmT1VhdklxU3BvUU0zaUs0WXN4NG56N3VDUDRXc0xW?=
- =?utf-8?B?bDc4WWlFWm8wY0dFRUJqRnN4Uko4VWNWS2VnaXBzc2RTR1gweW5Bek5kWHZp?=
- =?utf-8?B?VnlBZTFtRkhZU2lwNHAvNG9WSXBrNGhGQmd4ZXJLU3lsMUhBbk1HYkVmaHpS?=
- =?utf-8?B?aCtRNTNJTlYyN203aUZVTkhvZ3VLTzlTVTNHclRqNUxjVkhhOEdHWFhvRld0?=
- =?utf-8?B?VFBnZ2hmRWFwY3JKUkd2RUh6YWk3ZGZnbFZTTUsrVHd4YXh4TzhiWjJrUFQ0?=
- =?utf-8?B?NVVXWCtJT0M5U01yR2E0djFOSjd3dnpsdmRpQXNZUmRHMEZSVHJicVB4K0xq?=
- =?utf-8?B?TUFTMC9kcDc2V25mUjhmLzZWOEFhZWFwNFJ1OXBWRXlybDVGdkhqWnQyd2lI?=
- =?utf-8?B?ZXJtWHVNQzF3MkR3cDlPQXNjdkJJMTJyckloRUVCVm11VzJkaFliZkhmQjNy?=
- =?utf-8?B?dlc2ZjVZa0hlN2hPTjlibi94VHd4L0hKRkxiNnFvS1doUVdlbW9IUEtnRGhU?=
- =?utf-8?B?Wi9BdHR4U29ZdG8waVAyUmljbkpuRGFCVTErZTlkVEdCZXM2a0k2bVhvSmp5?=
- =?utf-8?B?cldNMFFsUEN3Rk45eERqSFZ4bFVGTm5uMHlTcHV0dlV5Q3J0emFXMjZNUk9m?=
- =?utf-8?B?SGJZdmphcnNqbFF2Q3Z0ZjRIZURxQXFlUjlRSHJJV0lhVWhOY0gxMGhTbzJn?=
- =?utf-8?B?VWl1MkVtVFBIQ1pWK0t3U1A1NmIxRmIzbXBiSTF4Y1lxd3dveEoyWVdSMnZr?=
- =?utf-8?B?YzJmZm56aktlczJVNmZkOEdINDZheUloUyt6bDFHTWE5ZHdsS0UzWGRmNTJy?=
- =?utf-8?B?ZDl0a1BwWDBQWGhwbHJVZithR3N1NU5MMTlOZWVWZkNNMFVRVG9MV0FKWmQw?=
- =?utf-8?B?MmdUUkFGTysxUEFXU25jcjdIS0tSZm1iZHdJbThvdzBUT1BQMkFCSUJjOWVZ?=
- =?utf-8?B?WWp1TDlsbGJUd3VwR3ZBcm96TTFCOW92VmJyQ3NUVGZDdThFZnU4eGF2cnJK?=
- =?utf-8?B?SGlXeW5Ya2U5bzRwY09RbWRQaWVNTVkyVXJpVUEwS1hOb3NNRTB2MGxQZ2l5?=
- =?utf-8?B?a2IyVTZaMk1UVllhZnRvQnBURUJGYUJRblRsU3JVTlhvM1psaGNPbnVwZitr?=
- =?utf-8?B?T01ISGZ5Ym5lM1BoOVM0ejBGdEl5L0lSL0xydndEL3hPeFN6eWFSVWRpL0c0?=
- =?utf-8?B?bTJaVXBLWXExcjZsYkJmSitwT0pLK3ZCcUdRVFIwdTYyb0k1ZHJ6Vnlsc0R3?=
- =?utf-8?B?dXBHYXZxWStaak9TR1NUdWx0dWVBVUJXeHJ2UUZiUkJLS3pFOGg5aGViVzBH?=
- =?utf-8?B?REpPSWZpaDNEb3paSWt3d2RHM0xyQ1JsR1dsbjNYd1Z1dkorNEkreTUwcXU4?=
- =?utf-8?B?NXFrbFVVRm0xQ1VLbXEwTXdXc3ZjdGNpQTdEc1JsWGI5VkVKWVBEMDJ3SHBK?=
- =?utf-8?B?SEZSZzdBR3pleWo3MzFZcGFkVlJQRUdQSTV1eitsZ3dTbXl2dTNDa3gzMHow?=
- =?utf-8?B?anc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1685771f-2356-4831-5544-08ddea008e1f
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7828.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2025 09:10:26.4896 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dNCYvYmiQ6Khsj/bHceJ32FR4z0j8586PDGx2cnRJJGackoe5481ahBOEcxuOY3CGpUCkIIwofd+gnmjKoTyxbZ4v5ssfWBBr+fZh7IJacs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB9475
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250901053336.3939595-4-ekansh.gupta@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=OemYDgTY c=1 sm=1 tr=0 ts=68b6b713 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=oqQymis2muytsmd_M6sA:9 a=CjuIK1q_8ugA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: cXSD7mwDXDBLbeyL0a4AgRiL4hnbkBJh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNCBTYWx0ZWRfXyap8/BERQygV
+ kLlr1fqSQHFcVqtLDWrXFI+7bhxCalnRt6fi7xPo/0Y0wZLhiayE8WnUPjBu7SvZPdffkGH6uXm
+ xj5wS1Whr3LnhzvR2U+ualv5QVAPVZpncebW/hyPP33rwXlmsUnCyqAM8TIhTdrjxk9Q/C+Mb95
+ gdc+LvVSJJS4AwljdoNMmorh2dfjlioVQRiSmRV0P5bHp2ssItwvQg1qhmXdHPQQ4c+cTU7iM9D
+ nd7EwkbzDF+z0gqCYrqrL5zGYh//yUrUxmDkAYZtKvx9yjzuvU/8eGJvGfAg6yAVyWlqfjn99pq
+ 00uEd/1S7Jbm5CJ207wd+W+Qr5Gjaxr6YqxvCqAKljhZW/GFdwmNczrgpyNqvsYKKCzZZi83fko
+ JXyCAh5x
+X-Proofpoint-ORIG-GUID: cXSD7mwDXDBLbeyL0a4AgRiL4hnbkBJh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_03,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,101 +125,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 18, 2025 at 10:39:10AM -0700, Matthew Brost wrote:
-> On Mon, Aug 18, 2025 at 04:21:54PM +0100, Matthew Auld wrote:
-> > Handle the case where the hmm range partially covers a huge page (like
-> > 2M), otherwise we can potentially end up doing something nasty like
-> > mapping memory which is outside the range, and maybe not even mapped by
-> > the mm. Fix is based on the xe userptr code, which in a future patch
-> > will directly use gpusvm, so needs alignment here.
-> > 
-> > v2:
-> >   - Add kernel-doc (Matt B)
-> >   - s/fls/ilog2/ (Thomas)
-> > 
-> > Reported-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_gpusvm.c | 33 +++++++++++++++++++++++++++++++--
-> >  1 file changed, 31 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-> > index 661306da6b2d..50a36e7b71e2 100644
-> > --- a/drivers/gpu/drm/drm_gpusvm.c
-> > +++ b/drivers/gpu/drm/drm_gpusvm.c
-> > @@ -708,6 +708,35 @@ drm_gpusvm_range_alloc(struct drm_gpusvm *gpusvm,
-> >  	return range;
-> >  }
-> >  
-> > +/**
-> > + * drm_gpusvm_hmm_pfn_to_order() - Get the largest CPU mapping order.
-> > + * @hmm_pfn: The current hmm_pfn.
-> > + * @hmm_pfn_index: Index of the @hmm_pfn within the pfn array.
-> > + * @npages: Number of pages within the pfn array i.e the hmm range size.
-> > + *
-> > + * To allow skipping PFNs with the same flags (like when they belong to
-> > + * the same huge PTE) when looping over the pfn array, take a given a hmm_pfn,
-> > + * and return the largest order that will fit inside the CPU PTE, but also
-> > + * crucially accounting for the original hmm range boundaries.
-> > + *
-> > + * Return: The largest order that will safely fit within the size of the hmm_pfn
-> > + * CPU PTE.
-> > + */
-> > +static unsigned int drm_gpusvm_hmm_pfn_to_order(unsigned long hmm_pfn,
-> > +						unsigned long hmm_pfn_index,
-> > +						unsigned long npages)
-> > +{
-> > +	unsigned long size;
-> > +
-> > +	size = 1UL << hmm_pfn_to_map_order(hmm_pfn);
-> > +	size -= (hmm_pfn & ~HMM_PFN_FLAGS) & (size - 1);
-> > +	hmm_pfn_index += size;
-> > +	if (hmm_pfn_index > npages)
-> > +		size -= (hmm_pfn_index - npages);
+On Mon, Sep 01, 2025 at 11:03:36AM +0530, Ekansh Gupta wrote:
+> For any remote call to DSP, after sending an invocation message,
+> fastRPC driver waits for glink response and during this time the
+> CPU can go into low power modes. This adds latency to overall fastrpc
+> call as CPU wakeup and scheduling latencies are included.  Adding a
+
+s/Adding/Add/, see Documentation/process/submitting-patches.rst
+
+> polling mode support with which fastRPC driver will poll continuously
+> on a memory after sending a message to remote subsystem which will
+> eliminate CPU wakeup and scheduling latencies and reduce fastRPC
+> overhead.
+
+Describe your design decisions: when it is enabled, why, etc.
+
 > 
-> Hmm, okay. On the core MM side, we’ve discussed updating HMM to populate
-> PFNs only at order granularity. If that lands, this code could break in
-> some odd cases. That argues for leaving HMM as-is for now. For the
-> moment, this code works, but we should keep an eye on HMM—or
-> future-proof it by populating all potentially absent entries.
->
-
-For reference, this is the patch which mentions possibly only sparsely
-populating HMM PFNs in the future:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/mm-hmm-populate-pfns-from-pmd-swap-entry.patch
-
-Francois
- 
-> Matt 
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+>  drivers/misc/fastrpc.c | 121 ++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 114 insertions(+), 7 deletions(-)
 > 
-> > +
-> > +	return ilog2(size);
-> > +}
-> > +
-> >  /**
-> >   * drm_gpusvm_check_pages() - Check pages
-> >   * @gpusvm: Pointer to the GPU SVM structure
-> > @@ -766,7 +795,7 @@ static bool drm_gpusvm_check_pages(struct drm_gpusvm *gpusvm,
-> >  			err = -EFAULT;
-> >  			goto err_free;
-> >  		}
-> > -		i += 0x1 << hmm_pfn_to_map_order(pfns[i]);
-> > +		i += 0x1 << drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
-> >  	}
-> >  
-> >  err_free:
-> > @@ -1342,7 +1371,7 @@ int drm_gpusvm_range_get_pages(struct drm_gpusvm *gpusvm,
-> >  	for (i = 0, j = 0; i < npages; ++j) {
-> >  		struct page *page = hmm_pfn_to_page(pfns[i]);
-> >  
-> > -		order = hmm_pfn_to_map_order(pfns[i]);
-> > +		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
-> >  		if (is_device_private_page(page) ||
-> >  		    is_device_coherent_page(page)) {
-> >  			if (zdd != page->zone_device_data && i > 0) {
-> > -- 
-> > 2.50.1
-> > 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 57e118de6e4a..939a3e3d29e2 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/firmware/qcom/qcom_scm.h>
+>  #include <uapi/misc/fastrpc.h>
+>  #include <linux/of_reserved_mem.h>
+> +#include <linux/compiler.h>
+> +#include <linux/iopoll.h>
+>  
+>  #define ADSP_DOMAIN_ID (0)
+>  #define MDSP_DOMAIN_ID (1)
+> @@ -37,6 +39,7 @@
+>  #define FASTRPC_CTX_MAX (256)
+>  #define FASTRPC_INIT_HANDLE	1
+>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
+> +#define FASTRPC_MAX_STATIC_HANDLE (20)
+
+What is this?
+
+>  #define FASTRPC_CTXID_MASK (0xFF00)
+>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+>  #define INIT_FILE_NAMELEN_MAX (128)
+> @@ -105,6 +108,20 @@
+>  
+>  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>  
+> +/* Poll response number from remote processor for call completion */
+> +#define FASTRPC_POLL_RESPONSE (0xdecaf)
+> +
+> +/* Polling mode timeout limit */
+> +#define FASTRPC_POLL_MAX_TIMEOUT_US (10000)
+> +
+> +/* Response types supported for RPC calls */
+> +enum fastrpc_response_flags {
+> +	/* normal job completion glink response */
+> +	NORMAL_RESPONSE = 0,
+> +	/* process updates poll memory instead of glink response */
+> +	POLL_MODE = 1,
+> +};
+
+bool is_polled;
+
+OR
+
+unsigned long is_polled : 1;
+
+> +
+>  struct fastrpc_phy_page {
+>  	u64 addr;		/* physical address */
+>  	u64 size;		/* size of contiguous region */
+> @@ -235,8 +252,14 @@ struct fastrpc_invoke_ctx {
+>  	u32 sc;
+>  	u64 *fdlist;
+>  	u32 *crc;
+> +	/* Poll memory that DSP updates */
+> +	u32 *poll;
+>  	u64 ctxid;
+>  	u64 msg_sz;
+> +	/* work done status flag */
+> +	bool is_work_done;
+> +	/* response flags from remote processor */
+> +	enum fastrpc_response_flags rsp_flags;
+>  	struct kref refcount;
+>  	struct list_head node; /* list of ctxs */
+>  	struct completion work;
+> @@ -891,7 +914,8 @@ static int fastrpc_get_meta_size(struct fastrpc_invoke_ctx *ctx)
+>  		sizeof(struct fastrpc_invoke_buf) +
+>  		sizeof(struct fastrpc_phy_page)) * ctx->nscalars +
+>  		sizeof(u64) * FASTRPC_MAX_FDLIST +
+> -		sizeof(u32) * FASTRPC_MAX_CRCLIST;
+> +		sizeof(u32) * FASTRPC_MAX_CRCLIST +
+> +		sizeof(u32);
+>  
+>  	return size;
+>  }
+> @@ -987,6 +1011,8 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+>  	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
+>  	pages = fastrpc_phy_page_start(list, ctx->nscalars);
+>  	ctx->fdlist = (u64 *)(pages + ctx->nscalars);
+> +	ctx->crc = (u32 *)(ctx->fdlist + FASTRPC_MAX_FDLIST);
+
+Why?
+
+> +	ctx->poll = (u32 *)(ctx->crc + FASTRPC_MAX_CRCLIST);
+>  	args = (uintptr_t)ctx->buf->virt + metalen;
+>  	rlen = pkt_size - metalen;
+>  	ctx->rpra = rpra;
+> @@ -1155,6 +1181,83 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+>  
+>  }
+>  
+> +static inline u32 fastrpc_poll_op(void *p)
+> +{
+> +	struct fastrpc_invoke_ctx *ctx = p;
+> +
+> +	dma_rmb();
+> +	return READ_ONCE(*ctx->poll);
+
+Is this enough? Is the write by the DSP side going to invalidate the
+cache for this memory location? Think about older platforms which
+usually don't have dma-coherent property in the DSP / FastRPC nodes.
+
+> +}
+> +
+> +static int poll_for_remote_response(struct fastrpc_invoke_ctx *ctx)
+> +{
+> +	u32 val;
+> +	int ret;
+> +
+> +	/*
+> +	 * Poll until DSP writes FASTRPC_POLL_RESPONSE into *ctx->poll
+> +	 * or until another path marks the work done.
+> +	 */
+> +	ret = read_poll_timeout_atomic(fastrpc_poll_op, val,
+> +				       (val == FASTRPC_POLL_RESPONSE) ||
+> +				       ctx->is_work_done, 1,
+> +				       FASTRPC_POLL_MAX_TIMEOUT_US, false, ctx);
+> +
+> +	if (!ret && val == FASTRPC_POLL_RESPONSE) {
+> +		ctx->is_work_done = true;
+> +		ctx->retval = 0;
+> +	}
+> +
+> +	if (ret == -ETIMEDOUT)
+> +		ret = -EIO;
+> +
+> +	return ret;
+> +}
+> +
+> +static inline int fastrpc_wait_for_response(struct fastrpc_invoke_ctx *ctx,
+> +					    u32 kernel)
+> +{
+> +	int err = 0;
+> +
+> +	if (kernel) {
+> +		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
+> +			err = -ETIMEDOUT;
+> +	} else {
+> +		err = wait_for_completion_interruptible(&ctx->work);
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +static int fastrpc_wait_for_completion(struct fastrpc_invoke_ctx *ctx,
+> +				       u32 kernel)
+> +{
+> +	int err;
+> +
+> +	do {
+> +		switch (ctx->rsp_flags) {
+> +		case NORMAL_RESPONSE:
+> +			err = fastrpc_wait_for_response(ctx, kernel);
+> +			if (err || ctx->is_work_done)
+> +				return err;
+> +			break;
+> +		case POLL_MODE:
+> +			err = poll_for_remote_response(ctx);
+> +			/* If polling timed out, move to normal response mode */
+> +			if (err)
+> +				ctx->rsp_flags = NORMAL_RESPONSE;
+> +			break;
+> +		default:
+
+What kind of response type can it be? Have you had checked for the flag
+being set, you wouldn't have a false possibility of having another
+response type.
+
+> +			err = -EBADR;
+> +			dev_dbg(ctx->fl->sctx->dev,
+> +				"unsupported response type:0x%x\n", ctx->rsp_flags);
+> +			break;
+> +		}
+> +	} while (!ctx->is_work_done);
+> +
+> +	return err;
+> +}
+> +
+>  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
+>  				   u32 handle, u32 sc,
+>  				   struct fastrpc_invoke_args *args)
+> @@ -1190,16 +1293,19 @@ static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
+>  	if (err)
+>  		goto bail;
+>  
+> -	if (kernel) {
+> -		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
+> -			err = -ETIMEDOUT;
+> -	} else {
+> -		err = wait_for_completion_interruptible(&ctx->work);
+> -	}
+> +	if (handle > FASTRPC_MAX_STATIC_HANDLE && fl->pd == USER_PD)
+> +		ctx->rsp_flags = POLL_MODE;
+
+This definitely needs to be explained.
+
+>  
+> +	err = fastrpc_wait_for_completion(ctx, kernel);
+>  	if (err)
+>  		goto bail;
+>  
+> +	if (!ctx->is_work_done) {
+> +		err = -ETIMEDOUT;
+> +		dev_dbg(fl->sctx->dev, "Invalid workdone state for handle 0x%x, sc 0x%x\n",
+> +			handle, sc);
+> +		goto bail;
+> +	}
+>  	/* make sure that all memory writes by DSP are seen by CPU */
+>  	dma_rmb();
+>  	/* populate all the output buffers with results */
+> @@ -2462,6 +2568,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+>  
+>  	ctx->retval = rsp->retval;
+>  	complete(&ctx->work);
+> +	ctx->is_work_done = true;
+>  
+>  	/*
+>  	 * The DMA buffer associated with the context cannot be freed in
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
