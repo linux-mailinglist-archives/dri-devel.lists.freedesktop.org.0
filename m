@@ -2,62 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8C7B40196
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 14:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBF7B401C5
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 003BF10E6D4;
-	Tue,  2 Sep 2025 12:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181F510E6D7;
+	Tue,  2 Sep 2025 13:02:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y03rLipQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oVk0WkuS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1E410E6D4
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 12:58:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BD99743995;
- Tue,  2 Sep 2025 12:58:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08555C4CEED;
- Tue,  2 Sep 2025 12:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756817909;
- bh=CM1gzdTND9tJKwW5aJTGTYza7PZbOeFeI+0kiHDsfk0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y03rLipQ172HNCWdzae1SvWeUKEZCuyy4iT/sxqmRUG2Mk9XAm0JD2Cf43Q4ccXI4
- vJ3zCW+7bhV2I/8W3AQ/zj+cPA9rZhBtVccOf2Syvu2xP3GZZOcRUzTwD1l9Dszm61
- coTmrjtssASLghJ0YobZBbn3b5yvo1gmHUuMYKl3N+eOUDvW9dLkEd42uz6ExoscbL
- AN9nGwSWGJAg2aXnrk/T8mIOnh8SJFTLZoRnFwoAw9p/ZVbj1um54ETkG1UmVJ0yaX
- k1mi0ufFXvprbr0GmTrnZJZPMNtSonfXc/UWWvtDhkzWmzN/ZJ+J57M3aRwqpyvkrT
- ePb8jIU/SceyA==
-Date: Tue, 2 Sep 2025 15:58:24 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 08/10] vfio/pci: Enable peer-to-peer DMA transactions
- by default
-Message-ID: <20250902125824.GH10073@unreal>
-References: <cover.1754311439.git.leon@kernel.org>
- <edb2ec654fc27ba8f73695382ab0a029f18422b5.1754311439.git.leon@kernel.org>
- <20250806160201.2b72e7a0.alex.williamson@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4FB10E6D7
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:02:06 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582BC8qR012365
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 13:02:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=DI3pErojxmIjWUczxGnCciKc
+ RSBlU9zv3W60qXm0b74=; b=oVk0WkuS9zYpad0XHNNdHabJFeXiPvZUPFdKCJO6
+ HMdDXTUACzAEeFOb8gY0swD57tVFGIuhD6oKhMewG4dZB3ImivQ4Ha26EEwrl6AC
+ 590Zo/KrpPYQBQUc/3Q2ZYrVXCxpHawyi8QepRySbRTKeyp4AHX2bxGHnYAHA+jn
+ 4kru5a3dBtY97MJ967fzFVD+uWkS4kCjgFIc9IP4/wGMjGypufD4sRaXohBd9wa2
+ to2ujfqfFyZb9cwEqcHJApvcd9YrFnBb3Bp41Rs5kqxWi14XHCxB4C+gPlHrHmfp
+ EiWbz/xvTDhZkn6oyKOROSjFfXzDTCM08i7Rw8O8UigtjA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2ffr55-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 13:02:06 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-77267239591so1860788b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 06:02:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756818125; x=1757422925;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DI3pErojxmIjWUczxGnCciKcRSBlU9zv3W60qXm0b74=;
+ b=FqCTlT/Hj2+GiEXsQritBAGWcDudZOLOmjI2+/lTPbXNs3GvbtbpU3EzcF76KR9n6M
+ kkuiFJjtqNVPFxlxg6N9mh1fYgcmMUruyaGzpSmLPR8pRQ+eDT/LEtSwvBo5ErV5d7iq
+ nXQv302WMtNqq4X7YSEWy5lVH93KQrfqP7FJkDhd2tpW1p9AX2TtWjIKDxTh54z5MyWH
+ O4yPKYT8ys931Dvjd7bzgcePTyrs92t92F4XZbjlVMF4AKISHCDHl7CBWTRViFnvNuAe
+ 4hZTFjLnawbmsfoMARzX2n9rtVe1+YiRIQBtzjWnlJiAcAkqgK9h/ziD6TyW0OObIs1d
+ NIew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViCvgdAuLyj5UXUCVZiIhtUa12OrmT1JgRu09QY7AqlkoSNSPogUd/qDRBw014tGvMgsXIjmGeoPc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUNCyyUVVjBLT5F0jdnduD1fFHaexklEygGqRO3wsTiFrelvsi
+ w6ChdmLQX3sLd4fKhLmBotnniqbRrzf/kQ7CK8WkcFE1LALuutSjgss2xtVY/0oieJFLYtiTUHF
+ uL5/gcmw5bSDmfEGFQVFBSvYZhE9zykyUq780sy1h7bNGupM+WYAqlCZhTN7BKRMwy802Vrs=
+X-Gm-Gg: ASbGncslBS3HdE6EnHt5gJo3uN6UxYQLx/C+NjsXriYNxh8TFiFkdSzL7zn4YIrj5t+
+ RfbOADNZ04irIaLIPZKPnRFffZ99E1xAL6Z359JxgulfbqWMd7bnRU77Aolxm4iO4NzEPcFUrIu
+ ICTdEkVYcgBH7F8gW6RZJZ6R+fItDfSe3u1GFHWE6hAxdR9O18JyidT7MVSdsek1zSOj79J2G9D
+ gXw2yKeu7cHESV5gBJ83l0QAVz2s9UM4hJKRSMj0nC1snWEnppCdUUBrwLFgJmKG9dAiJYbVofy
+ 57P1+9EsLCPolcqWQj2jp1jm7P7K/ZSArQ5pbIyF8lBV8loJVUklGB38wSmxP5AxRtKaphG5+AA
+ vH5WMjYP/a1Bg5Ap9udcvfoIrmc0++WvLIsjejjnkgufWrvi93AkZ
+X-Received: by 2002:a05:6a20:2446:b0:23d:d9dd:8e4f with SMTP id
+ adf61e73a8af0-243d6f02e27mr13224710637.28.1756818125026; 
+ Tue, 02 Sep 2025 06:02:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEr2WgYJlX68yywgyWjPUXsRjYvXEYtyzFO9iJAKUUUIjy9ijeStIweH2qG+cpUesIk7rFkhA==
+X-Received: by 2002:a05:6a20:2446:b0:23d:d9dd:8e4f with SMTP id
+ adf61e73a8af0-243d6f02e27mr13224650637.28.1756818124529; 
+ Tue, 02 Sep 2025 06:02:04 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-560827901eesm672660e87.78.2025.09.02.06.02.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Sep 2025 06:02:03 -0700 (PDT)
+Date: Tue, 2 Sep 2025 16:02:01 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] drm/msm/adreno: Add a modparam to skip GPU
+Message-ID: <zmaphb3douzah5m447naluu7cjrwieb36uznjb7uamblxduira@xhtklqmy22tu>
+References: <20250902-assorted-sept-1-v1-0-f3ec9baed513@oss.qualcomm.com>
+ <20250902-assorted-sept-1-v1-3-f3ec9baed513@oss.qualcomm.com>
+ <a701e4f9-57b7-46cc-b42f-f1a4a902fbbb@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250806160201.2b72e7a0.alex.williamson@redhat.com>
+In-Reply-To: <a701e4f9-57b7-46cc-b42f-f1a4a902fbbb@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX43IrBWJIn22V
+ c05ctwZ+SXYfRRS9pu2AvF6ihb3Sw1VmLXH1V9O7tiqekuPhW+hX8bI+piLNipto1hj0qswgVl8
+ AkxLuqKVCVETloNI3xTXLoGBR71+Dt072rcutUKrWJoDAD8rN1nac4830ToPZ6CsWPMSbtKwYck
+ OzQ0RarWcI0ajK5IbbDLwV4Wq0dxZozInENOQtKnyFoPN8CKK9Qm7m8FEamKnsDsBmHZzAJKvZ2
+ trPquvxeNZiNi2Rv8eDfJEyeM0QEIoAIK0wB2OHJsNrs7ZqDRylPWzTNR3e9zBcteeLhjLi/Jl/
+ fKoZcPKlQGCX58wQYhYM8K5qgs/UMeTQY6zLsRGDtkvhWuZniX2WaC0KnOL1xGXBa9qZ4zgaLLt
+ 0TFctRBV
+X-Proofpoint-ORIG-GUID: sztzWUEtmPMPdDxdBb_BtFSd9cxCGtBt
+X-Proofpoint-GUID: sztzWUEtmPMPdDxdBb_BtFSd9cxCGtBt
+X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68b6eace cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=PxnZWOFFpC0IAZjruz4A:9 a=CjuIK1q_8ugA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,77 +134,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 06, 2025 at 04:02:01PM -0600, Alex Williamson wrote:
-> On Mon,  4 Aug 2025 16:00:43 +0300
-> Leon Romanovsky <leon@kernel.org> wrote:
+On Tue, Sep 02, 2025 at 02:30:48PM +0200, Konrad Dybcio wrote:
+> On 9/2/25 1:50 PM, Akhil P Oommen wrote:
+> > During bringup of a new GPU support, it is convenient to have knob to
+> > quickly disable GPU, but keep the display support. This helps to
+> > fallback to 'kms_swrast' in case of bootup issues due to GPU. Add a
+> > modparam to support this.
 > 
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Make sure that all VFIO PCI devices have peer-to-peer capabilities
-> > enables, so we would be able to export their MMIO memory through DMABUF,
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/vfio/pci/vfio_pci_core.c | 4 ++++
-> >  include/linux/vfio_pci_core.h    | 1 +
-> >  2 files changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> > index 31bdb9110cc0f..df9a32d3deac9 100644
-> > --- a/drivers/vfio/pci/vfio_pci_core.c
-> > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > @@ -28,6 +28,7 @@
-> >  #include <linux/nospec.h>
-> >  #include <linux/sched/mm.h>
-> >  #include <linux/iommufd.h>
-> > +#include <linux/pci-p2pdma.h>
-> >  #if IS_ENABLED(CONFIG_EEH)
-> >  #include <asm/eeh.h>
-> >  #endif
-> > @@ -2088,6 +2089,9 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
-> >  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
-> >  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
-> >  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-> > +	vdev->provider = pci_p2pdma_enable(vdev->pdev);
-> > +	if (IS_ERR(vdev->provider))
-> > +		return PTR_ERR(vdev->provider);
-> 
-> I think this just made all vfio-pci drivers functionally dependent on
-> CONFIG_PCI_P2PDMA.  Seems at best exporting a dma-buf should be
-> restricted if this fails.  Thanks,
+> I'm not entirely opposed, but slapping a // in front of the compatible
+> in the dt works just as well
 
-It is temporary solution in next patch "vfio/pci: Add dma-buf export
-support for MMIO regions", the strict ifdef is added.
-
-  2107 #ifdef CONFIG_VFIO_PCI_DMABUF
-  2108         vdev->provider = pci_p2pdma_enable(vdev->pdev);
-  2109         if (IS_ERR(vdev->provider))
-  2110                 return PTR_ERR(vdev->provider);
-  2111
-  2112         INIT_LIST_HEAD(&vdev->dmabufs);
-  2113 #endif
-
-I will split "vfio/pci: Add dma-buf export ..." patch to introduce CONFIG_VFIO_PCI_DMABUF
-before this "vfio/pci: Enable peer-to-peer ..." patch.
-
-Thanks
+Which requires rebuilding and reprovisioning
 
 > 
-> Alex
-> 
-> >  	init_rwsem(&vdev->memory_lock);
-> >  	xa_init(&vdev->ctx);
-> >  
-> > diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> > index fbb472dd99b36..b017fae251811 100644
-> > --- a/include/linux/vfio_pci_core.h
-> > +++ b/include/linux/vfio_pci_core.h
-> > @@ -94,6 +94,7 @@ struct vfio_pci_core_device {
-> >  	struct vfio_pci_core_device	*sriov_pf_core_dev;
-> >  	struct notifier_block	nb;
-> >  	struct rw_semaphore	memory_lock;
-> > +	struct p2pdma_provider  *provider;
-> >  };
-> >  
-> >  /* Will be exported for vfio pci drivers usage */
-> 
+> Konrad
+
+-- 
+With best wishes
+Dmitry
