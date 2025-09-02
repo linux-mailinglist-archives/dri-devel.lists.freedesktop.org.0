@@ -2,111 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A568AB3F6C4
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3257AB3F6D6
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D679310E16A;
-	Tue,  2 Sep 2025 07:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6D410E233;
+	Tue,  2 Sep 2025 07:43:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nKAPXSuM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GpUoSuu7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CE210E16A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 07:34:11 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3cf991e8bb8so2283625f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 00:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1756798450; x=1757403250; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=I32gN7OFjznQLzjzVHId6kppg+GjM4YqrgK6h7SJVJE=;
- b=nKAPXSuMDxxoVfYiLvfENgHAeamNKncEiTPetvanTtsY06TUgL0P2+4gKLpLtpv+Hx
- IpDWU2tQnn5Zyf8wCtM90nvoDzYRTZmnhTkXzRcx8pa04u0Ox1jfMnr0DH0HsDzi6mpc
- QZfqr4YTyGeBLJRfPHg6Egr7JmLVTvYGrHIisdvXlJWbvUdP8NJ6HuC8lCSWxl00ZwJW
- 9v7j5j2irxHptAnx7C9Od0x8gao9FNfftRpFzawbVEC54pg6YqQDIz8w7so6iL6wbxC6
- uNnx7z9DdgVI3D/iUFHTCvUwixLWs0wMMABgLdpebseqjZi6beRMo1/VbAgyXI1nfIr7
- nd0g==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813D010E39A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 07:43:05 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822S5Yh025153
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 07:43:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ fnjTF+IaCjsvagtTVWlYOHKpZG1AVIayRYMdSpwzC9U=; b=GpUoSuu7mKd8Hyro
+ /q/p0CkBzAU7HRLqZm4RO77++CCtkoxWiTOPqKHeAPZwRkf3nfZQ/nGGN1e43L1h
+ sgGacleD8tpHlRpV1c/mqbwi3QkRvMkb6DRQQtFYytniJATyn6q0ZcM70J+2X3lL
+ qeWF9hXYn9z5ZzmLmhSOluSoKl+9zmiqvUqIjsI61LYJwCT56cq/cfoRkZSgLWdO
+ 86AMe3sbpaxf9DEP3pmAozt979kkE08scF2tWo5YrSK7cFI4k9kMid6FrhnG7pv3
+ ojF007vIh5VZVmK0r8iApiz5JXbqdNVorX/Gpk3Obkhm2PVtX0GdirrZxrOlVTbv
+ e6LYyA==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uscuy0e1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 07:43:04 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-7724688833bso2513195b3a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 00:43:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756798450; x=1757403250;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=I32gN7OFjznQLzjzVHId6kppg+GjM4YqrgK6h7SJVJE=;
- b=kF6zXhJNNsdgVaLbNoo1ZNXLu7vIlzJRby6WCaFct5YGA5aplXOk8fhifDd4rLasE4
- QI5rHCRAl6tWQEI5roj73Z1tXuYU1yFosC9z/NcvnN9TtAGBu2kUhbFfReG0HIgFXZ4x
- HgOAtwKO8PBWCYCELFnHb5JOJ5MNxz6X+Avq9z5FG8ZaxYw0ozD7HX8BhWJXM57yuhJF
- L7TNgJDhRsgSh9fvcQtAmK5nE6jMOpyhXyEV9c7mM95GK9emAqPthCRMitCFTaBRioNY
- 6miKA6nCv3kQuwcEPr2o9h/rmB43VLEkaHlTS/GJai1HqvP82UxgVpW3FBqyPeDTB/Sj
- oqdQ==
-X-Gm-Message-State: AOJu0YyiRDVE7mEi/LhfVEDQaW+sXZ/yZXnszojs6VtE7JpZ/8p8pnBs
- DQBkp5+ehhsHAyEl5zpluN0GJVaWT+P6Fplb/QiUaduQz9hthmMld65kbR/qM264EaU=
-X-Gm-Gg: ASbGncu00mwDx5uzBo6Fy7OGB0DPOVBT10df3/rzi+jefC9/SEF/dkqq1Y7eW5njEA1
- T4kNRjMIa0CMAxyBOiO0ieRCq8AP0rCfWWcSYzm+OMAJYVn6dMn4IPQ/RUCGOMF+9XJAzPMmYuW
- SLOBmvdXzlTj6GPleOgmgklS2xbc/SDzdhPsptgZRSW4yP+AbPi1ZhFAW1sLjCMHDGXxOEwtDMs
- hozQSEthX9avci/tjUVxVUG7Hj6X7e/yWJ1gs87Gp0BybEgQmme1EUDXKtOGt3iO9W0dlnpkMFa
- wdJ1zlRO7utumvT+PIBJxMnsWtEFA20Iq6srgUtLOkazv7f8jzo3r7tPqKbjQlv5cqr+XnKttut
- y535c5J8hnutgktiEvb3YdEukYM4CaXgXJYRmEpab5B5PIwW4Ih0btwTCkQ+YcoGMktZcXrpI2e
- Pawa+jMmSX7g==
-X-Google-Smtp-Source: AGHT+IFvYs68Buuceqmom9cK+b3tmxRcvwX+RCf/RKksGGfS++c275PvWsJMjWEvnt8iSrFclv8Jzw==
-X-Received: by 2002:a5d:64e9:0:b0:3c8:d236:26bd with SMTP id
- ffacd0b85a97d-3d1dc5a29d4mr7689830f8f.11.1756798450078; 
- Tue, 02 Sep 2025 00:34:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:5c8d:8a1e:ea2b:c939?
- ([2a01:e0a:3d9:2080:5c8d:8a1e:ea2b:c939])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b7e8ab093sm192349435e9.22.2025.09.02.00.34.09
+ d=1e100.net; s=20230601; t=1756798983; x=1757403783;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fnjTF+IaCjsvagtTVWlYOHKpZG1AVIayRYMdSpwzC9U=;
+ b=CHmCU1+N7fthYivSv07T9AOUcOsGblQaup/bInCelK1J0qQqAYzkjY50eOi4iuw/hB
+ Xzdhv+Kv26LO/c+cFbForreiCS8KeETMoPRGHpMCVrky1POjzXK43goQy+WEYDiR61t6
+ HUZhff3hhr1cw7Pq5Shc+IFDb4a64tjileY3baMjax3wuKjVbS2z3KRdPHpgXL1vY1hB
+ rNIOhGmGZyVXBKGiIFqJBz1/SXB2fHJwjWAO6vUAXoYz+wYEHhh8Y4urG3v6O+h6I61N
+ /F9fS3Pe6Bbd7VEJOINYQq2K4WiT0Uk631VGqw+7hVwVcG14cSWfl38aB0ZXWElm2kLD
+ ngwQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDt7Za0FImm7Ucxc/DFKIhFz0ycBTZ8op4jsW00THk+enkHIwko6QT1e1FEPnsOb2g9VWc8XnWK9Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzdxvkk5GVG/ZERpmqMp+EsFTDbkW0FsGTi/Dh/m/ZJRMUMsK3o
+ 7JowqRmIfWHtSgGx1wnHST8usEDQzlDlBLbgR/kF8aWJyFknuegul4Of/0EVuQxCtnJunBd10a0
+ UYLjMYr0PO6V3OHkohHbYSNK/c99LQS+hm/5dnoYcqP0SsdMB5pqQSqwLlC5m7417aJspAvg=
+X-Gm-Gg: ASbGnctXaLNjzCRVUD91ph6HY1tJ7YOq6D766AYmJukkSmsUAZkKipeYVJkQqkUKy7W
+ SY68MZAoOYzfEEZF53BhsGs14/KskYGomzezoNXU4CJUj13La3bKZXx33Zqw7ToLhWOO7PVqZE5
+ 8xTrqO5sb60vCU/UeskO5TTFy82bTLmMm9IymSN2PSYM0vk77Icf2bEud5ALxYV4TPvfw8XrJwr
+ mnXb4T6AfMrzXYrquFsBE5xqxsnVp1O1rjXmZz/Xy5UdGUoeetck09qh6+lls+xjmctAtISHfL6
+ W/0GO/MZNyTJd1oLYDZPf5A9Abqtd18T5tWrQDqugnJ/57mFOAeryKqRA9+UuKsGfA6aBlBWUtU
+ ZHz7GNF109cvxOGVFKjvna/W3zPnMwQ==
+X-Received: by 2002:a05:6a00:92a0:b0:771:fc48:7c1a with SMTP id
+ d2e1a72fcca58-7723e396d7cmr13352196b3a.27.1756798983203; 
+ Tue, 02 Sep 2025 00:43:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF0cW22l8sm4wVKSWuN7QJXzlTLBwumx+hGhHMDLGo3x0YH0EYLjibSDkyAAzWcl6azzB/umQ==
+X-Received: by 2002:a05:6a00:92a0:b0:771:fc48:7c1a with SMTP id
+ d2e1a72fcca58-7723e396d7cmr13352160b3a.27.1756798982704; 
+ Tue, 02 Sep 2025 00:43:02 -0700 (PDT)
+Received: from [10.133.33.25] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7725d5b90fasm4602173b3a.100.2025.09.02.00.42.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Sep 2025 00:34:09 -0700 (PDT)
-Message-ID: <b49e2a94-695e-42ec-99de-aed42e62572d@linaro.org>
-Date: Tue, 2 Sep 2025 09:34:09 +0200
+ Tue, 02 Sep 2025 00:43:02 -0700 (PDT)
+Message-ID: <e59fca7a-4145-4aab-80a5-8305f935e8d4@oss.qualcomm.com>
+Date: Tue, 2 Sep 2025 15:42:55 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/3] drm/panel: visionox-rm69299: Add backlight support
-To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Subject: Re: [PATCH v10 2/6] dt-bindings: display/msm: dp-controller: document
+ QCS8300 compatible
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20250901-shift6mq-panel-v1-0-444b4abbfaea@sigxcpu.org>
- <20250901-shift6mq-panel-v1-3-444b4abbfaea@sigxcpu.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250901-shift6mq-panel-v1-3-444b4abbfaea@sigxcpu.org>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250901-qcs8300_mdss-v10-0-87cab7e48479@oss.qualcomm.com>
+ <20250901-qcs8300_mdss-v10-2-87cab7e48479@oss.qualcomm.com>
+ <20250902-speedy-overjoyed-dove-edf2ee@kuoka>
+ <fe2867dd-50a6-42d8-92b0-0e29fa7691ee@kernel.org>
+Content-Language: en-US
+From: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+In-Reply-To: <fe2867dd-50a6-42d8-92b0-0e29fa7691ee@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMSBTYWx0ZWRfX9A10Vffy0Vgo
+ fGekJ/O2LNy68d6NX3dH1V3tm6+M5B9vEbkKiD1cGjLIrFR7bOqzsWdO9N7Kn7SRPvqtgvFVVf7
+ tIyuwZF1vHaZRveiBCy1KV7O/j/tcip0VWsiE531gKPxqx0M+bE9a5tMwxTCXiAp8b/No78gy0m
+ etCEQcCraEa1Y3aIjxEemBqqd6k4qhaU9EGCDfq4CXG6N7vu/GBHyiXhHRMe1IFbtERRwIYVLr0
+ Eie/+QvUvfo9eRivRb/AURwjoZ9TR2Im7vXYlhCPqj6wmz1k8CwWLj/FlrOjgpHodvsu5JnNSHG
+ Oa4lE8Z0HVnbRN+dxszCX97uP7PVTFnP/4K2mXS3pgZRp+tPMeIp2skuwldQ+FeDnnf9snXLTLc
+ vOUCBokw
+X-Authority-Analysis: v=2.4 cv=A8xsP7WG c=1 sm=1 tr=0 ts=68b6a008 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=MLVnLUUmlBKzLzVVyHoA:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: K9pHgMrNG7xrt_qfcNPnw03i3wZsWVEr
+X-Proofpoint-GUID: K9pHgMrNG7xrt_qfcNPnw03i3wZsWVEr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_02,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,126 +138,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/09/2025 16:22, Guido Günther wrote:
-> The shift6mq's variant supports controlling the backlight via DSI
-> commands. Use that if a max_brightness is set in the device specific
-> data.
-> 
-> Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> ---
->   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 67 ++++++++++++++++++++++++++
->   1 file changed, 67 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> index 2216d38366ea37368d15480f9d8a8ccbfe77ba3b..5e5ff6056c80e67a5bf8fe4911cdbc588db5d03b 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> @@ -3,6 +3,7 @@
->    * Copyright (c) 2019, The Linux Foundation. All rights reserved.
->    */
->   
-> +#include <linux/backlight.h>
->   #include <linux/delay.h>
->   #include <linux/module.h>
->   #include <linux/property.h>
-> @@ -20,6 +21,8 @@ struct visionox_rm69299_panel_desc {
->   	const struct drm_display_mode *mode;
->   	const u8 *init_seq;
->   	unsigned int init_seq_len;
-> +	int max_brightness;
-> +	int initial_brightness;
->   };
->   
->   struct visionox_rm69299 {
-> @@ -285,6 +288,63 @@ static const struct drm_panel_funcs visionox_rm69299_drm_funcs = {
->   	.get_modes = visionox_rm69299_get_modes,
->   };
->   
-> +static int visionox_rm69299_bl_get_brightness(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness;
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return brightness;
-> +}
-> +
-> +static int visionox_rm69299_bl_update_status(struct backlight_device *bl)
-> +{
-> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
-> +	u16 brightness = backlight_get_brightness(bl);
-> +	int ret;
-> +
-> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +
-> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct backlight_ops visionox_rm69299_bl_ops = {
-> +	.update_status = visionox_rm69299_bl_update_status,
-> +	.get_brightness = visionox_rm69299_bl_get_brightness,
-> +};
-> +
-> +static struct backlight_device *
-> +visionox_rm69299_create_backlight(struct visionox_rm69299 *ctx)
-> +{
-> +	struct device *dev = &ctx->dsi->dev;
-> +	const struct backlight_properties props = {
-> +		.type = BACKLIGHT_RAW,
-> +		.brightness = ctx->desc->initial_brightness,
-> +		.max_brightness = ctx->desc->max_brightness,
-> +	};
-> +
-> +	if (!ctx->desc->max_brightness)
-> +		return 0;
-> +
-> +	return devm_backlight_device_register(dev, dev_name(dev), dev, ctx->dsi,
-> +					      &visionox_rm69299_bl_ops,
-> +					      &props);
-> +}
-> +
->   static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   {
->   	struct device *dev = &dsi->dev;
-> @@ -316,6 +376,11 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   		return PTR_ERR(ctx->reset_gpio);
->   	}
->   
-> +	ctx->panel.backlight = visionox_rm69299_create_backlight(ctx);
-> +	if (IS_ERR(ctx->panel.backlight))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-> +				     "Failed to create backlight\n");
-> +
->   	drm_panel_add(&ctx->panel);
->   
->   	dsi->lanes = 4;
-> @@ -353,6 +418,8 @@ const struct visionox_rm69299_panel_desc visionox_rm69299_shift_desc = {
->   	.mode = &visionox_rm69299_1080x2160_60hz,
->   	.init_seq = (const u8 *)visionox_rm69299_1080x2160_60hz_init_seq,
->   	.init_seq_len = ARRAY_SIZE(visionox_rm69299_1080x2160_60hz_init_seq),
-> +	.max_brightness = 255,
-> +	.initial_brightness = 50,
->   };
->   
->   static const struct of_device_id visionox_rm69299_of_match[] = {
-> 
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+On 9/2/2025 2:41 PM, Krzysztof Kozlowski wrote:
+> On 02/09/2025 08:38, Krzysztof Kozlowski wrote:
+>> On Mon, Sep 01, 2025 at 05:57:30PM +0800, Yongxing Mou wrote:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              # QCS8300 only has one DP controller that supports 4
+>>> +              # streams MST.
+>>> +              - qcom,qcs8300-dp
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          minItems: 9
+>>> +          maxItems: 9
+>>> +        clocks:
+>>> +          minItems: 8
+>>> +          maxItems: 8
+>>
+>> Clocks have only five items, reg has 5. At least in my next from few
+>> days ago.
+>>
+>> Nothing explains any patchset dependencies, so this makes reviewing more
+>> difficult than it should be.
+> OK, I found the dependency in cover letter (I was looking at wrong cover
+> letter), but the dependency does not have relevant clock changes, so
+> this is still wrong.
+> 
+Hi, 
+https://lore.kernel.org/all/20250829-dp_mst_bindings-v7-7-2b268a43917b@oss.qualcomm.com/ 
+dp-controller.yaml descriptions for regs and clks have been added. 
+Compare with SA8775P, QCS8300 don't have DP1 controller which supports 2 
+streams MST, so its minItems and maxItems clocks is 8. > I suggest to 
+slow down with this patchset. It's v10 already with
+> simultaneous other changes and two (!!!) dependencies.
+> Sorry for that, will wait until the dependencies become stable before 
+updating the patch.> I don't know how I am supposed to review this.
+> 
+> Best regards,
+> Krzysztof
+
