@@ -2,53 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1757FB40E1D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 21:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06CFB40E23
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 21:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D8B10E829;
-	Tue,  2 Sep 2025 19:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B41DF10E82C;
+	Tue,  2 Sep 2025 19:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kbv/mDMW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CCW3q19f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3B9910E829
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 19:49:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6EC62C6D;
- Tue,  2 Sep 2025 21:48:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756842517;
- bh=j2FGCZt5h71J5kGeIF0TOdjUL86/+YlDqZ3I/3KmapY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kbv/mDMW6rjxbT/gMIOMbGm0SrkceC3cVvn/XJCsdjQFkqC7H0iofOrciZo+tZgMN
- /0ySLXZGttjRXob7orwueR+tpTs3oGqCdWXR5fJpaJkl/s6Y1ZM5mct1SV/dAWda0e
- 0h94cKvZzb2oN4ou6xlaM7tKfJqxusVhICyY1T0k=
-Date: Tue, 2 Sep 2025 21:49:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/29] drm/atomic_state_helper: Fix bridge state
- initialization
-Message-ID: <20250902194924.GT13448@pendragon.ideasonboard.com>
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-5-14ad5315da3f@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250902-drm-state-readout-v1-5-14ad5315da3f@kernel.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2F210E82C;
+ Tue,  2 Sep 2025 19:53:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B18BF41812;
+ Tue,  2 Sep 2025 19:53:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAF6C4CEED;
+ Tue,  2 Sep 2025 19:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756842798;
+ bh=EES9E4p0II9pKq1UKkB0kITaMd3S6hMDx8aHEP9YBYM=;
+ h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+ b=CCW3q19f1yy6u796iT5OMmZJMQLz+bWmn4U6nlUY7VzI2NWzyHxVfjszhxKJ93DmH
+ ci8C/CpnQ5DDiJLgd0Q82xyrht1moay6Tn+b29iioYmVATBhO3UiDJ+yRVSBkmhSf/
+ aNcG9zBu6bQpx7D4GL+hFKD50p6ue0RUxM8Rb6uTuLTDRT2adLnXhJQqRTIyl+md46
+ ybLvLczL+ZeDR5e0Nb3f/1QyIQVX6Ow4VY5+gMGwOpbCvMS98XakCbuSiB4zsFDg+m
+ kQFCbyjmGMUl+xAnJ/J4IBXXqtBKmBXqZn8emdVArub4WIhnBs/xk5elo0IQ/kz/+u
+ lmO2IXDyaNg2Q==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 02 Sep 2025 21:53:12 +0200
+Message-Id: <DCIKSL18GE9A.2R4BAGR56YVPF@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v3 02/11] gpu: nova-core: move GSP boot code out of
+ `Gpu` constructor
+References: <20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com>
+ <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
+In-Reply-To: <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,80 +70,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Tue, Sep 02, 2025 at 10:32:33AM +0200, Maxime Ripard wrote:
-> Bridges implement their state using a drm_private_obj and an
-
-s/and an/and a/
-
-> hand-crafted reset implementation.
-> 
-> Since drm_private_obj doesn't have a set of reset helper like the other
-> states, __drm_atomic_helper_bridge_reset() was initializing both the
-
-s/was initializing/initializes/
-
-> drm_private_state and the drm_bridge_state structures.
-> 
-> This initialization however was missing the drm_private_state.obj
-
-s/was missing/is missing/
-
-Or do I incorrectly think that the commit message should describe the
-current situation in the present tense ?
-
-> pointer to the drm_private_obj the state was allocated for, creating a
-> NULL pointer dereference when trying to access it.
-> 
-> Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 7142e163e618ea0d7d9d828e1bd9ff2a6ec0dfeb..b962c342b16aabf4e3bea52a914e5deb1c2080ce 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -707,10 +707,17 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->  	__drm_atomic_helper_connector_destroy_state(state);
->  	kfree(state);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
->  
-> +static void __drm_atomic_helper_private_obj_reset(struct drm_private_obj *obj,
-> +						  struct drm_private_state *state)
-> +{
-> +	memset(state, 0, sizeof(*state));
-
-As Thomas mentioned, the memset is likely not needed.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +	state->obj = obj;
-> +}
+On Tue Sep 2, 2025 at 4:31 PM CEST, Alexandre Courbot wrote:
+> diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driv=
+er.rs
+> index 274989ea1fb4a5e3e6678a08920ddc76d2809ab2..1062014c0a488e959379f009c=
+2e8029ffaa1e2f8 100644
+> --- a/drivers/gpu/nova-core/driver.rs
+> +++ b/drivers/gpu/nova-core/driver.rs
+> @@ -6,6 +6,8 @@
+> =20
+>  #[pin_data]
+>  pub(crate) struct NovaCore {
+> +    // Placeholder for the real `Gsp` object once it is built.
+> +    pub(crate) gsp: (),
+>      #[pin]
+>      pub(crate) gpu: Gpu,
+>      _reg: auxiliary::Registration,
+> @@ -40,8 +42,14 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInf=
+o) -> Result<Pin<KBox<Self
+>          )?;
+> =20
+>          let this =3D KBox::pin_init(
+> -            try_pin_init!(Self {
+> +            try_pin_init!(&this in Self {
+>                  gpu <- Gpu::new(pdev, bar)?,
+> +                gsp <- {
+> +                    // SAFETY: `this.gpu` is initialized to a valid valu=
+e.
+> +                    let gpu =3D unsafe { &(*this.as_ptr()).gpu };
 > +
->  /**
->   * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
->   * @obj: CRTC object
->   * @state: new private object state
->   *
-> @@ -796,10 +803,11 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
->   */
->  void __drm_atomic_helper_bridge_reset(struct drm_bridge *bridge,
->  				      struct drm_bridge_state *state)
->  {
->  	memset(state, 0, sizeof(*state));
-> +	__drm_atomic_helper_private_obj_reset(&bridge->base, &state->base);
->  	state->bridge = bridge;
->  }
->  EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
->  
->  /**
-> 
+> +                    gpu.start_gsp(pdev)?
+> +                },
 
--- 
-Regards,
+Please use pin_chain() [1] for this.
 
-Laurent Pinchart
+More in general, unsafe code should be the absolute last resort. If we add =
+new
+unsafe code I'd love to see a comment justifying why there's no other way t=
+han
+using unsafe code for this, as we agreed in [2].
+
+I did a quick grep on this series and I see 21 occurrences of "unsafe", if =
+I
+substract the ones for annotations and for FromBytes impls, it's still 9 ne=
+w
+ones. :(
+
+Do we really need all of them?
+
+Otherwise, I really like this, it's a great improvement over initializing
+everything into the Gpu struct -- thanks for the refactoring!
+
+[1] https://rust.docs.kernel.org/kernel/prelude/trait.PinInit.html#method.p=
+in_chain
+[2] https://docs.kernel.org/gpu/nova/guidelines.html#language
