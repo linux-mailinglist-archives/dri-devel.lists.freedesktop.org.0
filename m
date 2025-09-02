@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA54CB4021D
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A383BB40244
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:13:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F238810E6D9;
-	Tue,  2 Sep 2025 13:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A337D10E6DB;
+	Tue,  2 Sep 2025 13:13:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TjZz4Iqg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aKHmtreB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TjZz4Iqg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aKHmtreB";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ggil2a3K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m/VfEM78";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UDzg500S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eEkkJom6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03FB710E6D9
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:10:50 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 721D110E6DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:13:32 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 70EA11F394;
- Tue,  2 Sep 2025 13:10:48 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E9A451F394;
+ Tue,  2 Sep 2025 13:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756818648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756818811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jV6EmMIqBKPBrwb8x6lWHZghJUtds/59uY5BNXWez+0=;
- b=TjZz4IqgnqZ+LzVt8oAPtFqMqq4XcPNZl5uLtrjesYgbnQ1We//f+FGpBSQ+TuqQbkt6mJ
- 2NSBbvhMEME45Dh5PCyBA8nPUajDmDogoYxqAixy9t7zrw5O5LLq1mz8ewR4rmkA3ld2o1
- jDroN+2FOSadFO7WdwYNGShB7tsp/Eg=
+ bh=rTb+Q/dVzDNCGCjD2nKbYyYukWWjwnPhLkl3U3vSUEk=;
+ b=ggil2a3KFs4QEFh0y4vEgHx0wWs2GSsFD5mAJgn8cxAFe2ul+Xc3s4DTeLHrKK8kPs14Pf
+ 9A1VvNiQSrS+UtMMN97fqU72fL6DYJ5LHPrk0vGynrqLyPbsM9WUrHX9XIfauBsW5tjZk/
+ o8eQdRUAVc4Tf6e8eK4kcxHiILesjdM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756818648;
+ s=susede2_ed25519; t=1756818811;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jV6EmMIqBKPBrwb8x6lWHZghJUtds/59uY5BNXWez+0=;
- b=aKHmtreBDrktAtYbjqYbWL0Z9MIRk+luH1vaWZW6kcPvvHwTgXFGQydhOKWSJI9BV7bDEi
- uLTJg3f3dRH+S+Dg==
+ bh=rTb+Q/dVzDNCGCjD2nKbYyYukWWjwnPhLkl3U3vSUEk=;
+ b=m/VfEM78Xc3iN6jClrpPiRGdWhJziOfCImbPazjT17GJ8x6gE+kRFU53MohQ/1t5wmtkTY
+ N/Jop0IxDJ8GfyBw==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TjZz4Iqg;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aKHmtreB
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756818648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1756818810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jV6EmMIqBKPBrwb8x6lWHZghJUtds/59uY5BNXWez+0=;
- b=TjZz4IqgnqZ+LzVt8oAPtFqMqq4XcPNZl5uLtrjesYgbnQ1We//f+FGpBSQ+TuqQbkt6mJ
- 2NSBbvhMEME45Dh5PCyBA8nPUajDmDogoYxqAixy9t7zrw5O5LLq1mz8ewR4rmkA3ld2o1
- jDroN+2FOSadFO7WdwYNGShB7tsp/Eg=
+ bh=rTb+Q/dVzDNCGCjD2nKbYyYukWWjwnPhLkl3U3vSUEk=;
+ b=UDzg500SyJv7POUUjrGeUnHqI1O4qDT2eWy7WIWI3uNMSE+tmQQPUWtTu0hRFLeH3PrOwA
+ 7G1D/sjeeCpx5CF0vb1snoCIoKa9w9AEVI7JmWu82VMwWcXMfaNLrVFjUy4AxtO5OnM7JH
+ dkeAQRE/yhYDGpD2hgeHLffMnIh4ktI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756818648;
+ s=susede2_ed25519; t=1756818810;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jV6EmMIqBKPBrwb8x6lWHZghJUtds/59uY5BNXWez+0=;
- b=aKHmtreBDrktAtYbjqYbWL0Z9MIRk+luH1vaWZW6kcPvvHwTgXFGQydhOKWSJI9BV7bDEi
- uLTJg3f3dRH+S+Dg==
+ bh=rTb+Q/dVzDNCGCjD2nKbYyYukWWjwnPhLkl3U3vSUEk=;
+ b=eEkkJom6NwrZtj+f29/cuhm5Kk1Wjb8L7SQnLmFD/ustDuzzhr9AwEvQHhs57KlPMkOip8
+ pSh5xMj86Rv+tkDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0323013888;
- Tue,  2 Sep 2025 13:10:47 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8160D13888;
+ Tue,  2 Sep 2025 13:13:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id TPgtO9fstmhaVgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:10:47 +0000
-Message-ID: <c76f914e-13ed-463f-be94-1a5c3d031986@suse.de>
-Date: Tue, 2 Sep 2025 15:10:47 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wrbwHXrttmg2VwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:13:30 +0000
+Message-ID: <adba0c39-228b-4311-83d1-09aa71ddb911@suse.de>
+Date: Tue, 2 Sep 2025 15:13:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/29] drm/atomic: Fix unused but set warning in
- for_each_old_private_obj_in_state
+Subject: Re: [PATCH 04/29] drm/atomic_helper: Skip over NULL private_obj
+ pointers
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -91,7 +89,7 @@ To: Maxime Ripard <mripard@kernel.org>,
 Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-3-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-4-14ad5315da3f@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -118,36 +116,26 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-3-14ad5315da3f@kernel.org>
+In-Reply-To: <20250902-drm-state-readout-v1-4-14ad5315da3f@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 70EA11F394
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
  FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
-X-Spam-Score: -3.01
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,35 +154,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> The for_each_old_private_obj_in_state() macro triggers a compiler
-> warning if the obj parameter passed to it isn't used in the code block.
->
-> Add a similar workaround than in most other macros.
->
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+However, can this happen? Private state objects without state data?
+
+Best regards
+Thomas
+
 > ---
->   include/drm/drm_atomic.h | 1 +
->   1 file changed, 1 insertion(+)
+>   drivers/gpu/drm/drm_atomic.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 689a29bdeb4a06672ab6fffecb513d58ff6e07f9..f13f926d21047e42bb9ac692c2dd4b88f2ebd91c 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -1112,10 +1112,11 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p);
->    */
->   #define for_each_old_private_obj_in_state(__state, obj, old_obj_state, __i) \
->   	for ((__i) = 0; \
->   	     (__i) < (__state)->num_private_objs && \
->   		     ((obj) = (__state)->private_objs[__i].ptr, \
-> +		      (void)(obj) /* Only to avoid unused-but-set-variable warning */, \
->   		      (old_obj_state) = (__state)->private_objs[__i].old_state, 1); \
->   	     (__i)++)
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index b356d26faad4acaa25c1fe6f9bd5043b6364ce87..9b198610791d19c7fd276ca59264a961d21caf43 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -295,10 +295,13 @@ void drm_atomic_state_default_clear(struct drm_atomic_state *state)
+>   	}
 >   
->   /**
->    * for_each_new_private_obj_in_state - iterate over all private objects in an atomic update
+>   	for (i = 0; i < state->num_private_objs; i++) {
+>   		struct drm_private_obj *obj = state->private_objs[i].ptr;
+>   
+> +		if (!obj)
+> +			continue;
+> +
+>   		obj->funcs->atomic_destroy_state(obj,
+>   						 state->private_objs[i].state);
+>   		state->private_objs[i].ptr = NULL;
+>   		state->private_objs[i].state = NULL;
+>   		state->private_objs[i].old_state = NULL;
 >
 
 -- 
