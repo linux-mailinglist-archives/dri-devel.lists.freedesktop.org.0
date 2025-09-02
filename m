@@ -2,57 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CE5B3FA4E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0248B3FA67
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:30:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9263D10E618;
-	Tue,  2 Sep 2025 09:28:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C708B10E615;
+	Tue,  2 Sep 2025 09:30:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="plDeZ6Hr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ogeea3Kb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755BC10E617
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:28:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756805288;
- bh=DJEgTveXx+nh3X2zirS8evwV7Zg17ZJfI1XFceEOvsc=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=plDeZ6HrxNX2C/q5p3BHe1TkPU0Lea5RU6czuNfLVhtknWSnjblE75hMrtLzwKu37
- Q8iKK/WW/a5j/KSQeD8wId5AEc6fgSQzo/oAAA2VxYAgR4L5SLrZdt94BtI1xHitz4
- 6Lc9YjqACRsoZ2SfiXT+YF0Y6g3xc1AZuJ2d5ONR2GzLnvUa1l8q0TgQupJXa+1r1X
- VS3Izs8F7LsSdeMfm3rHMmkwdoTLoz53bywuTZq649dwf1Er6kQPtMPKCPNWypcee/
- cfanGtMIsLDj8e5DkDEOJMoSpKPWI/kcopLTXFdT3trXWpJPyeShcFngmS0j6c977N
- xgufOIwyjS+EA==
-Received: from localhost (unknown [82.79.138.60])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id D468417E1301;
- Tue,  2 Sep 2025 11:28:07 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 02 Sep 2025 12:27:57 +0300
-Subject: [PATCH 2/2] drm/rockchip: vop2: Support setting custom background
- color
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 638EF10E615
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:30:39 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822SaMu030840
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 09:30:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=jA18KHak3xEuH/pG/ByyPr54
+ rqvVPspGXhnOl9P369I=; b=Ogeea3KbBKvZAmnR6hReYKQ20SGd+Kjeo6dawV4y
+ mgFQFWWbQlVO/hmrq+rvFuzd17svyADjmJkKjmiGNQt3OcLOhR/dPfV0y7wPMseS
+ LeC31ZQ9EQT/rix/tKEKoOmlwy9uWqLdTArgauq/XIdrmyAPdRBAqbb/yrGCkP8c
+ coNen6GhHRsGK2N9JyiuVbLe5NrNg9ZQ2rjmSMCi1zGMZNF2KUV9UtMC80hergkn
+ cGa0HyKoAGI+FdF4UKElq6b+uSy2wLtbcg7IIUZUAizjMBaK1OQIv3LDFhcnOFZE
+ K+wMq5vT/BCzll+DACmOZwpRGkPhI0KUuLEm0mp5naBNCw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ura8q8se-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 09:30:38 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b3316dd5d0so45139641cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 02:30:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756805437; x=1757410237;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jA18KHak3xEuH/pG/ByyPr54rqvVPspGXhnOl9P369I=;
+ b=g5TrTZtvWxHkAeF08LA0XFbA9ceFiJlEqR/+aPcHFcIs4Vo1C++tpd0W5WEoTq8lK6
+ E8sf90VmMza9d0e+7ikDlkxAgsiAjwBN5aXZXHZA4Bp1Sa03QNFd8Q4opjomSui2ufJp
+ 6XbpxYUFoSf89az+0OhkIpmhMMxGwCPC7zg3GFNT/s7bu8WqyaEAicLRF1duxIzNdZuT
+ gm3HjFkUr987nLolhDxoOoZ2JcXep2HIJ2/v6MdlmeMf8cqjOKy5TGAksRXxiru4Lwo7
+ X8GHjrupxoCTnxx6/YmKGBQAMmGrVGAGAcnCvXVLY9T7rIB6sA9ofq0Wi/8X5h7u1u96
+ ziXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2izKkW4UtVEhk3USSqQ4h7MOcT6Hrz590dkWqpmv/vsrYUlFBu6eVr6l8XrjUB22kcb8hpJsQMDo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQWVa2I6zkm2E2eHrQ2oXYzUJBK3qkExoOJrG77m87oEhj+Q3x
+ 9qhmKuckSnFVgn+aOnJs/5DUay3Wi/NIL24yyoewrbaEDJI31irAKmdDMQ7UrLoryh2UGilNB2g
+ pPHLHJfs+ySo22dZHeFtY2ozivFwI9AIkHxJQywl2vHeMaUtB/jr7EYuK5ncm8kpmCZd8Wto=
+X-Gm-Gg: ASbGncsoClNSCWjfKOVKG7u5wpVflhKCQB8kNjqWIxGrMfcyKzgsKp8VhUqbQWm3hro
+ x2njYqYL5yiFyDsJ3lgxlqY3WqXslwss4ouOWTBg3CSk+bydn2AAHJfST9IiXMpw+JYFWgqE1Ir
+ NzHBar+LG9cTxEPiX0lShWx4nObsf2i/9d6g/24N3eSa16Zbs8nNaE6duxuu6oV07KVQ+j4QcYu
+ 4IXZ3if1Y2XTVyV+ZpDqytny+nL1NXVHRnhP3ZzicYDiB5KZqZyBT3uBHvmhI0h3x9bWayV1Q51
+ BhCV7ISJYDzsM3M5GT209I5vd2eL0jIEL2hqxb9kbWImscOQ8kuflUu3ju8EfGt1+63nubk6bUR
+ 9FE5zLF9qLZqhvB2Q0dF0tB0RqiggqR5huPSuzUnjJFRepfW7aJZo
+X-Received: by 2002:a05:622a:2609:b0:4b2:8e41:1aed with SMTP id
+ d75a77b69052e-4b31da37e70mr123618831cf.50.1756805437300; 
+ Tue, 02 Sep 2025 02:30:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH3B2sMY6mhuzZQ9BKM05I6HOCeVfKyCF2/fNLRfgWKFDFDuw/uEv61rjhN5aI6FvZLt8UIZQ==
+X-Received: by 2002:a05:622a:2609:b0:4b2:8e41:1aed with SMTP id
+ d75a77b69052e-4b31da37e70mr123618381cf.50.1756805436682; 
+ Tue, 02 Sep 2025 02:30:36 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5608279d2cesm541552e87.112.2025.09.02.02.30.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Sep 2025 02:30:35 -0700 (PDT)
+Date: Tue, 2 Sep 2025 12:30:33 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy:
+ Document static lanes mapping
+Message-ID: <slgu2d4iv6ef76f43gvwaelcl5ymymsvhokyunalq7z3l2ht3j@t7pko4rtqvgm>
+References: <20250902-topic-x1e80100-hdmi-v2-0-f4ccf0ef79ab@linaro.org>
+ <20250902-topic-x1e80100-hdmi-v2-3-f4ccf0ef79ab@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-rk3588-bgcolor-v1-2-fd97df91d89f@collabora.com>
-References: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
-In-Reply-To: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902-topic-x1e80100-hdmi-v2-3-f4ccf0ef79ab@linaro.org>
+X-Proofpoint-ORIG-GUID: qpWtsOTOR0M3Xj9F16XnoGW4Z6vFGVLh
+X-Proofpoint-GUID: qpWtsOTOR0M3Xj9F16XnoGW4Z6vFGVLh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyMCBTYWx0ZWRfX2GaFHcNdmDhf
+ pxJVl72eaEX9KiGj+rCmevRFBfNX5vm4I36SW2q+ciTGUeCMyIT6hJplwDeZ8hfdoHzgM0KXJDg
+ P7YupIzwsniyFc+/MKEstZZHRWB7p7xAcvdtsi+rEIqgIZ4qgsYbx6POSBabN3FR0wATpu7rCt5
+ KL2dPYhF5C9+jBIcte7F21YSGownm8jkUtOGvJ4DYJXMA6cpxy2J6mXtxFjQ1VkJMFcY/UbPXTz
+ +IxpdtwwfGqPUXvPgATOUyhC63lhPNFmww3qNVHMu5292ojzViKujUhQiJ8I9IdT4x2m/i6qhNv
+ 0FPRoMIRMmS7is8/oq5996K4Saw3jRPBVT9fql7UF72BNXOZCM7COg4lXeQJVUXlAs0sHFpd0Q/
+ xGk3QuGF
+X-Authority-Analysis: v=2.4 cv=VNndn8PX c=1 sm=1 tr=0 ts=68b6b93e cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=h5iY_YrdyxaDv9g1vm0A:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_03,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,83 +136,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VOP2 allows configuring the background color of each video output port.
+On Tue, Sep 02, 2025 at 11:00:30AM +0200, Neil Armstrong wrote:
+> The QMP USB3/DP Combo PHY hosts an USB3 phy and a DP PHY on top
+> of a combo glue to route either lanes to the 4 shared physical lanes.
+> 
+> The routing of the lanes can be:
+> - 2 DP + 2 USB3
+> - 4 DP
+> - 2 USB3
+> 
+> The layout of the lanes was designed to be mapped and swapped
+> related to the USB-C Power Delivery negociation, so it supports
+> a finite set of mappings inherited by the USB-C Altmode layouts.
+> 
+> Nevertheless those QMP Comby PHY can be statically used to
+> drive a DisplayPort connector, DP->HDMI bridge, USB3 A Connector,
+> etc... without an USB-C connector and no PD events.
+> 
+> Add a property that documents the static lanes mapping to
+> each underlying PHY to allow supporting boards directly
+> connecting USB3 and DisplayPort lanes to the QMP Combo
+> lanes.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         | 29 ++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> index c8bc512df08b5694c8599f475de78679a4438449..12511a462bc6245e0b82726d053d8605148c5047 100644
+> --- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> @@ -76,6 +76,35 @@ properties:
+>    mode-switch: true
+>    orientation-switch: true
+>  
+> +  qcom,static-lanes-mapping:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 4
+> +    items:
+> +      enum:
+> +        - 0 # Unconnected (PHY_NONE)
+> +        - 4 # USB3 (PHY_TYPE_USB3)
+> +        - 6 # DisplayPort (PHY_TYPE_DP)
+> +    description:
+> +      Describes the static mapping of the Combo PHY lanes, when not used
+> +      a in a Type-C dynamic setup using USB-C PD Events to change the mapping.
+> +      The 4 lanes can either routed to the underlying DP PHY or the USB3 PHY.
+> +      Only 2 of the lanes can be connected to the USB3 PHY, but the 4 lanes can
+> +      be connected to the DP PHY.
 
-Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
-which defaults to solid black, take it into account when programming the
-hardware.
+It feels like this significantly duplicates existing data-lanes
+definitions. Can we use that property to express the same semantics?
 
-Note that only the 10 least significant bits of each color component are
-used, as this is the maximum precision supported by the display
-controller.
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 ++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index b50927a824b4020a7ffd57974070ed202cd8b838..7fe060e7e58297d583b1396cf606b7ba580b8e79 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1548,6 +1548,7 @@ static void vop2_post_config(struct drm_crtc *crtc)
- 	struct vop2_video_port *vp = to_vop2_video_port(crtc);
- 	struct vop2 *vop2 = vp->vop2;
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	u64 bgcolor = crtc->state->background_color;
- 	u16 vtotal = mode->crtc_vtotal;
- 	u16 hdisplay = mode->crtc_hdisplay;
- 	u16 hact_st = mode->crtc_htotal - mode->crtc_hsync_start;
-@@ -1593,7 +1594,11 @@ static void vop2_post_config(struct drm_crtc *crtc)
- 		vop2_vp_write(vp, RK3568_VP_POST_DSP_VACT_INFO_F1, val);
- 	}
- 
--	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
-+	/* Background color is programmed with 10 bits of precision */
-+	val = FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_RED(bgcolor));
-+	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GREEN(bgcolor));
-+	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE, DRM_ARGB64_BLUE(bgcolor));
-+	vop2_vp_write(vp, RK3568_VP_DSP_BG, val);
- }
- 
- static int us_to_vertical_line(struct drm_display_mode *mode, int us)
-@@ -1972,6 +1977,10 @@ static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
- 		   drm_get_bus_format_name(vcstate->bus_format));
- 	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
- 	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
-+	seq_printf(s, "\tbackground color (10bpc): r=%x g=%x b=%x\n",
-+		   DRM_ARGB64_RED(cstate->background_color),
-+		   DRM_ARGB64_GREEN(cstate->background_color),
-+		   DRM_ARGB64_BLUE(cstate->background_color));
- 	seq_printf(s, "    Display mode: %dx%d%s%d\n",
- 		   mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
- 		   drm_mode_vrefresh(mode));
-@@ -2461,6 +2470,8 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 			return dev_err_probe(drm->dev, ret,
- 					     "crtc init for video_port%d failed\n", i);
- 
-+		drm_crtc_attach_background_color_property(&vp->crtc);
-+
- 		drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
- 		if (vop2->lut_regs) {
- 			const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index fa5c56f16047e3493e82fbedaced221459696dcc..596558adc1207e837eb8eca49b35d7a55d693f88 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -659,6 +659,10 @@ enum dst_factor_mode {
- #define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV		GENMASK(3, 2)
- #define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV		GENMASK(1, 0)
- 
-+#define RK3568_VP_DSP_BG__DSP_BG_RED			GENMASK(29, 20)
-+#define RK3568_VP_DSP_BG__DSP_BG_GREEN			GENMASK(19, 10)
-+#define RK3568_VP_DSP_BG__DSP_BG_BLUE			GENMASK(9, 0)
-+
- #define RK3568_VP_POST_SCL_CTRL__VSCALEDOWN		BIT(1)
- #define RK3568_VP_POST_SCL_CTRL__HSCALEDOWN		BIT(0)
- 
+> +      The numbers corresponds to the PHY Type the lanes are connected to.
+> +      The possible combinations are
+> +        <0 0 0 0> when none are connected
+> +        <4 4 0 6> USB3 and DP single lane
+> +        <4 4 6 6> USB3 and DP
+> +        <6 6 4 4> DP and USB3
+> +        <6 0 4 4> DP and USB3 single lane
+> +        <4 4 0 0> USB3 Only
+> +        <0 0 4 4> USB3 Only
+> +        <6 0 0 0> DP single lane
+> +        <0 0 0 6> DP single lane
+> +        <6 6 0 0> DP 2 lanes
+> +        <0 0 6 6> DP 2 lanes
+> +        <6 6 6 6> DP 4 lanes
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>      properties:
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
-2.51.0
-
+With best wishes
+Dmitry
