@@ -2,88 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DEAB3F5EC
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0B6B3F5ED
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E8E10E199;
-	Tue,  2 Sep 2025 06:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E050510E5B6;
+	Tue,  2 Sep 2025 06:52:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IZ0TQ2wL";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BbJyudGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE08E10E5B6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:52:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E63D410E5B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:52:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756795957;
+ s=mimecast20190719; t=1756795971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E661k6HBoADq/DAhw/qUbzRHt1Szc73tA9AXdoU+kRw=;
- b=IZ0TQ2wLASJWwALWM8pRJeuae4/fGAmJK6d3K5UepO6HAL1btTs58M6H8WmD6A5FYQOpnz
- dvNlut1978kT/aedquL9L+0Zy6cnBHvqMbN7sxlqOjgLpiWUVXCnxagBbeRCmV7sFRWXF/
- zE2gpGLiEoNW70d9lR+uwMqemWMRrb4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0aagU472yzSNbhqsZfq7Z/HRmOFq5cxSmKAzL2h0CUc=;
+ b=BbJyudGJ0BBp2cVPQvoE5s3IyAe4IbFJpDEJm+SDVVMyU9mDpT/Fpy8facZ4Euf+OxP2oF
+ TmQrZ+/AoWSJexubNcLK2v47+dh8XDoTLWctiWpT1fpNRZWZNratrYXkxcDGQYlRSOi/Gt
+ 65a8MO1wQYam8poEebORFbxxsWBfaK8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-SgCW-EJbPfKwtCCbWyflTQ-1; Tue, 02 Sep 2025 02:52:35 -0400
-X-MC-Unique: SgCW-EJbPfKwtCCbWyflTQ-1
-X-Mimecast-MFC-AGG-ID: SgCW-EJbPfKwtCCbWyflTQ_1756795955
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45b990eb77cso2225325e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:52:35 -0700 (PDT)
+ us-mta-685-4T8WcyFxPTyk8lbTmMLzdQ-1; Tue, 02 Sep 2025 02:52:50 -0400
+X-MC-Unique: 4T8WcyFxPTyk8lbTmMLzdQ-1
+X-Mimecast-MFC-AGG-ID: 4T8WcyFxPTyk8lbTmMLzdQ_1756795969
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-45b8a307c12so9816605e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:52:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756795955; x=1757400755;
+ d=1e100.net; s=20230601; t=1756795969; x=1757400769;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E661k6HBoADq/DAhw/qUbzRHt1Szc73tA9AXdoU+kRw=;
- b=HyiJeZlhleFMsh2mDWFQ2HJYuMFc7/tZETgYtDvEqjfJAH0b/AaEct8wbIc50OGTEw
- HH/UxD6JrnNgnMGWfoatAhuCQ9Wf+7ek+Qk1mY2L50VqqAs3/57sQ/8t4aMZg694ArSa
- 88bc9qUo15g8KYc8OPqjfOc2sn/SRlBGAVKDx349ksCJ9ckxN9UTDsUg/HAUfJWAX6n2
- yBH+wHGphQDBljkjujBAEdkR7dOqm6TYSaKNSudCDN6FbGc19tjqaR2hD7XmLOJ/HqW7
- 3kz7oq62ZgA4yoIU3FxSE1KvGbkRK7pezcTgeckB7je+xAKsJT5xdRfP0o+5APvUR6gI
- +vhg==
-X-Gm-Message-State: AOJu0YxTT9+kN0NELLqLYt7CoX2fXon/gAm5qTqPOk5Bfu+Jh3wUtYGQ
- sK8rPyCAuVgNxikhYNMPx/d2onJvoggYbbZF9aRn0+mOlAWuKz4hyunYEyAHE4VlX2dxZUcFhdK
- oKMB+hGLgV9frqlYpleNpZYUrarpBk7n7/axFvHB1jAbtPwzCS0pXOwag62RVWKHPeo9tAw==
-X-Gm-Gg: ASbGncsnFq5NfHHeQmxu2eEdSyooNirBsfH7K9XDWM54dw8ajR8al4fRtv8w5eJKWj/
- kDMa4ccABov+3ljApgXilLoOdsuXD4JTzQIemmfTw1vwEBjX+Ap85NnuSWrj+uwpSCgUivrsQ5J
- NNomu3hS/7W0UStwN8g016wJHynQEGEDPfm18tujDT4B8RE/uSo48AlRvECEKS3tLPDW+3+nect
- 6/Pk/k71rYwTCA+f0Ijb3FGkfLgp07CECUYjjcSQRDEX+WCRhfOjWmxU8aDDgSELOROdWdOFIh6
- tKK3tO0M92QjZ4iRv7+7CW4ZBHIh+SY+bLYUnYXIwNWN4dPe0nZLbtnjYau7V8q+IRTYRkHe4aK
- ypy8=
-X-Received: by 2002:a05:600c:810c:b0:45b:92a6:63e3 with SMTP id
- 5b1f17b1804b1-45b92a665f4mr19626615e9.9.1756795954715; 
- Mon, 01 Sep 2025 23:52:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFYW/UgEsW9UeiLaMyGHWY9fWVzjWD9MAiZf3cVDjiLqJm8142ESrmfyKdYMqBTRZHB3B5V+A==
-X-Received: by 2002:a05:600c:810c:b0:45b:92a6:63e3 with SMTP id
- 5b1f17b1804b1-45b92a665f4mr19626505e9.9.1756795954293; 
- Mon, 01 Sep 2025 23:52:34 -0700 (PDT)
+ bh=0aagU472yzSNbhqsZfq7Z/HRmOFq5cxSmKAzL2h0CUc=;
+ b=QkQLeNW6ggCRllh+6x+/M3HvA2eWYgqwD2IbwvZfSVeX77jBXid/PB5kGRT2m3PAPi
+ 0L4SDIGzstHf8p8KL/FOnkZi6t2UHmn7pdzAgN92G0DfkzRixZ92HhZYIqsrJXR2qgw0
+ NdlHvwbSc6rH8NEwFR27dHzdOxNgAepNImX+nSLln1v8xyqoDajOQIo1KHGEIsvhafdi
+ jzLbbTMVS+561j8MUZggwd5AXmucsheOgWMDWtpXisVgkgjmdk4ZBZ8HVXgewaezl2Dh
+ gJBb/ATMb8TDQ5TpauRUnh7t9Hoywg3YjlxEq611DUNy1yVqGdpKqW2iC5F8tq5hDCOH
+ JoZw==
+X-Gm-Message-State: AOJu0YyraHymuphnLHXnghU+khdQ8Sw1F5LX6HzjlFRRQyZjTOObwR/0
+ w/X7R+hTaKVwJKxQRzbnHwKw5DMj/CkzikgEncDQfg2/uvDn+3Zlo42uIqfVqrAU8kpGwT7dItQ
+ sH/AGmCqvlnl6MRXaV3IZy/jpYEY5LWlV0WGgbjtyMisCXGMuG+mIktwhl3KBFofh18rSHQ==
+X-Gm-Gg: ASbGncu23LEMoWN1HyeK0pvXPC19MUUrWguTtER29CSHs0J5z/sFbZFAicemFWk5ysr
+ sjWTii7dGcgD4r8wu0erVrIweH0IH9N0vHjV5lRNRimwbwbpBrAPqZ0mNt8YnzSx6MAyWsbZEeZ
+ edurQBkjWjoXGZokl9EVooPvSwqj67TCPaAj091e7YfoGSqxLBnS53IM7mfm+YUhIfqwbEp86xi
+ KzqzwtHtu+viKJFiX0Awm3mLx33gOQfaU2lLnGigohpmwm2MAYp2cSYjdtFFHyiP4JJgZ9DzPHQ
+ DHUiS4KbvK8f0VmR2yqaZR8MR2/5Si6xXV1pIIwOCru1vYtvx2cZyW+h9ww+iQoZMysP/oimNSP
+ Pt0w=
+X-Received: by 2002:a05:600c:1f08:b0:45b:7bba:c7b5 with SMTP id
+ 5b1f17b1804b1-45b8557c880mr77260005e9.28.1756795968794; 
+ Mon, 01 Sep 2025 23:52:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE1d5tk3RDPmkswuur7dnBqQIF5kg1rZcQs2yjfC97vfcYzSiqLzBNtyOhirDnLxHEGtmtICg==
+X-Received: by 2002:a05:600c:1f08:b0:45b:7bba:c7b5 with SMTP id
+ 5b1f17b1804b1-45b8557c880mr77259725e9.28.1756795968343; 
+ Mon, 01 Sep 2025 23:52:48 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
  ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b87b3900dsm71423835e9.0.2025.09.01.23.52.33
+ 5b1f17b1804b1-45b6f30fe02sm260158565e9.18.2025.09.01.23.52.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 23:52:33 -0700 (PDT)
-Message-ID: <48e02aea-e8f7-4452-ae0a-aefac1225971@redhat.com>
-Date: Tue, 2 Sep 2025 08:52:33 +0200
+ Mon, 01 Sep 2025 23:52:47 -0700 (PDT)
+Message-ID: <7eb489cc-2092-4c8b-9c13-ecc1cb93c9a4@redhat.com>
+Date: Tue, 2 Sep 2025 08:52:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] drm/ast: Remove unused dram_bus_width field
+Subject: Re: [PATCH v2 3/6] drm/ast: Remove unused mclk field
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20250826065032.344412-1-tzimmermann@suse.de>
- <20250826065032.344412-3-tzimmermann@suse.de>
+ <20250826065032.344412-4-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250826065032.344412-3-tzimmermann@suse.de>
+In-Reply-To: <20250826065032.344412-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: De7lF96T8nif1KUk3jUfRfjVTWytU1a5lXNewTBu_VY_1756795955
+X-Mimecast-MFC-PROC-ID: PnltT5JRdwifJYo--2CXdoW929ttNPdCSoKOgz-POGY_1756795969
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -104,53 +104,81 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/08/2025 08:49, Thomas Zimmermann wrote:
-> The DRAM bus width is not necessary for the driver. Remove it.
+> The memory clock is not necessary for the driver. In default for
+> AST2600 is event incorrect; should be 800 MHz. Remove it.
+> 
 
 Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-> 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_drv.h  | 1 -
->   drivers/gpu/drm/ast/ast_main.c | 6 ------
->   2 files changed, 7 deletions(-)
+>   drivers/gpu/drm/ast/ast_drv.h  |  1 -
+>   drivers/gpu/drm/ast/ast_main.c | 26 --------------------------
+>   2 files changed, 27 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index e37a55295ed7..403b86f00a54 100644
+> index 403b86f00a54..c9c933b5a70d 100644
 > --- a/drivers/gpu/drm/ast/ast_drv.h
 > +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -172,7 +172,6 @@ struct ast_device {
->   	enum ast_config_mode config_mode;
+> @@ -173,7 +173,6 @@ struct ast_device {
 >   	enum ast_chip chip;
 >   
-> -	uint32_t dram_bus_width;
 >   	uint32_t dram_type;
->   	uint32_t mclk;
+> -	uint32_t mclk;
 >   
+>   	void __iomem	*vram;
+>   	unsigned long	vram_base;
 > diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 830f1c5fe893..0b3fb6856db7 100644
+> index 0b3fb6856db7..492cc8461eb0 100644
 > --- a/drivers/gpu/drm/ast/ast_main.c
 > +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -242,7 +242,6 @@ static int ast_get_dram_info(struct ast_device *ast)
->   		break;
+> @@ -215,7 +215,6 @@ static int ast_get_dram_info(struct ast_device *ast)
+>   	struct drm_device *dev = &ast->base;
+>   	struct device_node *np = dev->dev->of_node;
+>   	uint32_t mcr_cfg, mcr_scu_mpll, mcr_scu_strap;
+> -	uint32_t denum, num, div, ref_pll, dsel;
+>   
+>   	switch (ast->config_mode) {
+>   	case ast_use_dt:
+> @@ -243,10 +242,6 @@ static int ast_get_dram_info(struct ast_device *ast)
 >   	case ast_use_defaults:
 >   	default:
-> -		ast->dram_bus_width = 16;
 >   		ast->dram_type = AST_DRAM_1Gx16;
->   		if (IS_AST_GEN6(ast))
->   			ast->mclk = 800;
-> @@ -251,11 +250,6 @@ static int ast_get_dram_info(struct ast_device *ast)
+> -		if (IS_AST_GEN6(ast))
+> -			ast->mclk = 800;
+> -		else
+> -			ast->mclk = 396;
 >   		return 0;
 >   	}
 >   
-> -	if (mcr_cfg & 0x40)
-> -		ast->dram_bus_width = 16;
+> @@ -300,27 +295,6 @@ static int ast_get_dram_info(struct ast_device *ast)
+>   		}
+>   	}
+>   
+> -	if (mcr_scu_strap & 0x2000)
+> -		ref_pll = 14318;
 > -	else
-> -		ast->dram_bus_width = 32;
+> -		ref_pll = 12000;
 > -
->   	if (IS_AST_GEN6(ast)) {
->   		switch (mcr_cfg & 0x03) {
->   		case 0:
+> -	denum = mcr_scu_mpll & 0x1f;
+> -	num = (mcr_scu_mpll & 0x3fe0) >> 5;
+> -	dsel = (mcr_scu_mpll & 0xc000) >> 14;
+> -	switch (dsel) {
+> -	case 3:
+> -		div = 0x4;
+> -		break;
+> -	case 2:
+> -	case 1:
+> -		div = 0x2;
+> -		break;
+> -	default:
+> -		div = 0x1;
+> -		break;
+> -	}
+> -	ast->mclk = ref_pll * (num + 2) / ((denum + 2) * (div * 1000));
+>   	return 0;
+>   }
+>   
 
