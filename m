@@ -2,68 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C93B406B0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEC1B406BC
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:29:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA9C10E753;
-	Tue,  2 Sep 2025 14:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72A610E075;
+	Tue,  2 Sep 2025 14:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YZCs+V7+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AIYSyNVq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7AC10E753
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 14:27:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A903910E075;
+ Tue,  2 Sep 2025 14:29:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756823279; x=1788359279;
+ t=1756823373; x=1788359373;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=SgoVGE0nvwzHp4yiQ79SeUmtMRue7DoGWu8+GcPVz6Y=;
- b=YZCs+V7+CuTnWfGPa1uFhgGMHFjCvIhlcKTDNycDS9WMllOb3vUeVp1/
- CkzNLLNe2c4kZjgBP2nN5OzdL+Upc8yWBb3kBu/V8x0uUMA+d78CHo8zF
- o+ZuCFgxOReB+vfv8Iuc3DvDc5waN5MbiYmksnh8Gq9yzh3Vd30ZQaMsg
- 3a7thlpJfWEElGaRrEUVy34RVxDjdd+r4MGN9YUTB/tFAE4ZUfNBVRBGQ
- IW0zqTBOeSP139i25DnwEioYhMcDuJ4lfhY9HjIAWu+uiWiFOcyPqLb93
- DrP2FZEs6JSBI5w5D47e/m06DNemrSvBc3CXDUYLK2j466g3a5sM/o1ll w==;
-X-CSE-ConnectionGUID: qCB91wwdSgu5M6+pw/+YMw==
-X-CSE-MsgGUID: 89lVeUm0TZivinVZJSjglQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="70480819"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="70480819"
+ bh=/di9Z9Q2Z9WifwPEgJy+cghwk2Lex4IcvqCufSkxz1M=;
+ b=AIYSyNVqb43Xrrt+s8NFE76ACqF/JNKezb3QqdVicxR5nNGPOyatNgJh
+ XWg2WjSWe4DfUg4c5hZDa8f1q6R3C9AgDiJao0rR2fOKsuPx4m/+1Eg0v
+ yRiOgguaBvdoqrs1buplhhWR7NqRSuhMbNe9crnwBG8rQ4tVC7TbvyqmS
+ yb7XHFFUDZN/SAdFs7YFNkrcO0HL4hnSYieXrmFqYEaxPK3zYAe6VG4VZ
+ z4NnEOnJCQCI8xkfVVwN8e/7zGgr0bUyTIW2xJz9Sd1rKSUjA6OdP7IR3
+ S99ev0JyYuIHQPsDdb2jcczw4KijCXbm2kKKnKuBdoUDeV+u1n1YZ+1SN w==;
+X-CSE-ConnectionGUID: KKrBMZaNT7uctO/OGkLH/A==
+X-CSE-MsgGUID: prCOIMEbTeiPFtx+KKNPQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="70480981"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="70480981"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 07:27:59 -0700
-X-CSE-ConnectionGUID: fatX4FH7Tx66qXDZpCTUgQ==
-X-CSE-MsgGUID: RLHLx8mvSp+cm653lO8tug==
+ 02 Sep 2025 07:29:33 -0700
+X-CSE-ConnectionGUID: KBB6d1l3TTe5YfjCkl77Bg==
+X-CSE-MsgGUID: HxnFVIFXRyiIXQcPIZR2Ng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="176601919"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="176602640"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO stinkbox)
  ([10.245.245.118])
- by orviesa005.jf.intel.com with SMTP; 02 Sep 2025 07:27:55 -0700
+ by orviesa005.jf.intel.com with SMTP; 02 Sep 2025 07:29:15 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 02 Sep 2025 17:27:54 +0300
-Date: Tue, 2 Sep 2025 17:27:54 +0300
+ Tue, 02 Sep 2025 17:29:14 +0300
+Date: Tue, 2 Sep 2025 17:29:14 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 36/37] drm/atomic: Convert
- drm_atomic_get_private_obj_state() to use new plane state
-Message-ID: <aLb-6ikKRwIUQe6o@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Manikandan Muralidharan <manikandan.m@microchip.com>,
+	Dharma Balasubiramani <dharma.b@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-samsung-soc@vger.kernel.org, Liu Ying <victor.liu@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Edmund Dea <edmund.j.dea@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Sui Jingfeng <suijingfeng@loongson.cn>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica@freedesktop.org,
+	"Zhang <"@freedesktop.org
+Subject: Re: [PATCH v2 00/37] drm/atomic: Get rid of existing states (not
+ really)
+Message-ID: <aLb_OrVn6hK0Hf-F@intel.com>
 References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
- <20250902-drm-no-more-existing-state-v2-36-de98fc5f6d66@kernel.org>
- <tmph723nw4bdmekhgvgrcyk6hngu7dw5stajeiskmaugfdhfa2@bcmbqpzeavy4>
- <aLb723DdsIC2jTva@intel.com>
- <pc2ux3nerxltc5h5g6cdyh5tgfrnh75j7i2edzc572og2zx2ws@623doofedid4>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <pc2ux3nerxltc5h5g6cdyh5tgfrnh75j7i2edzc572og2zx2ws@623doofedid4>
+In-Reply-To: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,63 +114,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 05:17:24PM +0300, Dmitry Baryshkov wrote:
-> On Tue, Sep 02, 2025 at 05:14:51PM +0300, Ville Syrjälä wrote:
-> > On Tue, Sep 02, 2025 at 04:25:12PM +0300, Dmitry Baryshkov wrote:
-> > > On Tue, Sep 02, 2025 at 11:35:35AM +0200, Maxime Ripard wrote:
-> > > > The drm_atomic_get_private_obj_state() function tries to find if a
-> > > > private_obj had already been allocated and was part of the given
-> > > > drm_atomic_state. If one is found, it returns the existing state
-> > > > pointer.
-> > > > 
-> > > > At the point in time where drm_atomic_get_private_obj_state() can be
-> > > > called (ie, during atomic_check), the existing state is the new state
-> > > > and we can thus replace the hand-crafted logic by a call to
-> > > > drm_atomic_get_new_private_obj_state().
-> > > 
-> > > 
-> > > This function is being used in e.g. this call stack:
-> > > ingenic_drm_crtc_atomic_enable -> ingenic_drm_get_priv_state ->
-> > > drm_atomic_get_private_obj_state(). Please correct me if I'm wrong,
-> > > doesn't it happen already after the state switch?
-> > 
-> > Looks like it should just use the get_new_state() there.
-> > 
-> > Hmm, I wonder if we should make the get_state() functions warn
-> > (and maybe return NULL) if they get called after the state has
-> > been swapped?
+On Tue, Sep 02, 2025 at 11:34:59AM +0200, Maxime Ripard wrote:
+> Hi,
 > 
-> Might be.
+> Here's a series to get rid of the drm_atomic_helper_get_existing_*_state
+> accessors.
 > 
-> Note: I just quickly git grepped the function and stumbled upon the
-> first questionable use. There might be uther users which call it after
-> swapping the state.
+> The initial intent was to remove the __drm_*_state->state pointer to
+> only rely on old and new states, but we still need it now to know which
+> of the two we need to free: if a state has not been committed (either
+> dropped or checked only), then we need to free the new one, if it has
+> been committed we need to free the old state. 
+> 
+> Thus, the state pointer is kept (and documented) only to point to the
+> state we should free eventually.
+> 
+> All users have been converted to the relevant old or new state
+> accessors.  
+> 
+> This was tested on tidss.
+> 
+> Let me know what you think,
+> Maxime
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-I tried to have a quick look at all the callers and didn't spot
-other obviously wrong uses, but I can't guarantee that I didn't
-miss some by accident.
+Other than the pre-existing ingenic private state issue that
+Dmitry spotted I didn't see anything obviously wrong.
 
+So apart from that the series is
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+> ---
+> Changes in v2:
+> - Dropped the first and second patches
+> - Reworked the recipient list to be nicer with SMTPs
+> - Link to v1: https://lore.kernel.org/r/20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org
 > 
-> > 
-> > > 
-> > > > 
-> > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_atomic.c | 8 ++++----
-> > > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > > 
-> > > 
-> > > -- 
-> > > With best wishes
-> > > Dmitry
-> > 
-> > -- 
-> > Ville Syrjälä
-> > Intel
+> ---
+> Maxime Ripard (37):
+>       drm/atomic: Convert drm_atomic_get_connector_state() to use new connector state
+>       drm/atomic: Remove unused drm_atomic_get_existing_connector_state()
+>       drm/atomic: Document __drm_connectors_state state pointer
+>       drm/atomic: Convert __drm_atomic_get_current_plane_state() to modern accessor
+>       drm/atomic: Convert drm_atomic_get_plane_state() to use new plane state
+>       drm/vkms: Convert vkms_crtc_atomic_check() to use new plane state
+>       drm/tilcdc: crtc: Use drm_atomic_helper_check_crtc_primary_plane()
+>       drm/atomic: Remove unused drm_atomic_get_existing_plane_state()
+>       drm/atomic: Document __drm_planes_state state pointer
+>       drm/atomic: Convert drm_atomic_get_crtc_state() to use new connector state
+>       drm/ingenic: ipu: Switch to drm_atomic_get_new_crtc_state()
+>       drm/arm/malidp: Switch to drm_atomic_get_new_crtc_state()
+>       drm/armada: Switch to drm_atomic_get_new_crtc_state()
+>       drm/atmel-hlcdc: Switch to drm_atomic_get_new_crtc_state()
+>       drm/exynos: Switch to drm_atomic_get_new_crtc_state()
+>       drm/imx-dc: Switch to drm_atomic_get_new_crtc_state()
+>       drm/imx-dcss: Switch to drm_atomic_get_new_crtc_state()
+>       drm/imx-ipuv3: Switch to drm_atomic_get_new_crtc_state()
+>       drm/ingenic: Switch to drm_atomic_get_new_crtc_state()
+>       drm/kmb: Switch to drm_atomic_get_new_crtc_state()
+>       drm/logicvc: Switch to drm_atomic_get_new_crtc_state()
+>       drm/loongson: Switch to drm_atomic_get_new_crtc_state()
+>       drm/mediatek: Switch to drm_atomic_get_new_crtc_state()
+>       drm/msm/mdp5: Switch to drm_atomic_get_new_crtc_state()
+>       drm/omap: Switch to drm_atomic_get_new_crtc_state()
+>       drm/rockchip: Switch to drm_atomic_get_new_crtc_state()
+>       drm/sun4i: Switch to drm_atomic_get_new_crtc_state()
+>       drm/tegra: Switch to drm_atomic_get_new_crtc_state()
+>       drm/tilcdc: Switch to drm_atomic_get_new_crtc_state()
+>       drm/vboxvideo: Switch to drm_atomic_get_new_crtc_state()
+>       drm/vc4: Switch to drm_atomic_get_new_crtc_state()
+>       drm/atomic: Switch to drm_atomic_get_new_crtc_state()
+>       drm/framebuffer: Switch to drm_atomic_get_new_crtc_state()
+>       drm/atomic: Remove unused drm_atomic_get_existing_crtc_state()
+>       drm/atomic: Document __drm_crtcs_state state pointer
+>       drm/atomic: Convert drm_atomic_get_private_obj_state() to use new plane state
+>       drm/atomic: Document __drm_private_objs_state state pointer
 > 
+>  drivers/gpu/drm/arm/malidp_planes.c             |   2 +-
+>  drivers/gpu/drm/armada/armada_plane.c           |   3 +-
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c |   2 +-
+>  drivers/gpu/drm/drm_atomic.c                    |  21 ++--
+>  drivers/gpu/drm/drm_framebuffer.c               |   2 +-
+>  drivers/gpu/drm/exynos/exynos_drm_plane.c       |   2 +-
+>  drivers/gpu/drm/imx/dc/dc-plane.c               |   2 +-
+>  drivers/gpu/drm/imx/dcss/dcss-plane.c           |   4 +-
+>  drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c         |   3 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c       |   3 +-
+>  drivers/gpu/drm/ingenic/ingenic-ipu.c           |   4 +-
+>  drivers/gpu/drm/kmb/kmb_plane.c                 |   3 +-
+>  drivers/gpu/drm/logicvc/logicvc_layer.c         |   4 +-
+>  drivers/gpu/drm/loongson/lsdc_plane.c           |   2 +-
+>  drivers/gpu/drm/mediatek/mtk_plane.c            |   3 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c      |   7 +-
+>  drivers/gpu/drm/omapdrm/omap_plane.c            |   2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c     |   6 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c    |   2 +-
+>  drivers/gpu/drm/sun4i/sun8i_ui_layer.c          |   3 +-
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c          |   3 +-
+>  drivers/gpu/drm/tegra/dc.c                      |   2 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_crtc.c            |   9 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_plane.c           |   3 +-
+>  drivers/gpu/drm/vboxvideo/vbox_mode.c           |   8 +-
+>  drivers/gpu/drm/vc4/vc4_plane.c                 |   6 +-
+>  drivers/gpu/drm/vkms/vkms_crtc.c                |   4 +-
+>  include/drm/drm_atomic.h                        | 144 ++++++++++++------------
+>  28 files changed, 124 insertions(+), 135 deletions(-)
+> ---
+> base-commit: 7fa4d8dc380fbd81a9d702a855c50690c9c6442c
+> change-id: 20250825-drm-no-more-existing-state-9b3252c1a33b
+> 
+> Best regards,
 > -- 
-> With best wishes
-> Dmitry
+> Maxime Ripard <mripard@kernel.org>
 
 -- 
 Ville Syrjälä
