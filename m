@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98228B3F4F7
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B383B3F502
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:07:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C44F10E58F;
-	Tue,  2 Sep 2025 06:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1738A10E594;
+	Tue,  2 Sep 2025 06:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iYhRqvlp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zlo6oaSd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34A9210E58F
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:04:59 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3cef2c300afso630021f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:04:59 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F8810E594
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:07:26 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45b9aae45c7so24405e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1756793098; x=1757397898; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1756793244; x=1757398044; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=2b3JuSsnshEbB2H24ad5BMEkyTFrlBTid3O0T6ibdMc=;
- b=iYhRqvlpsKF16xJj+1fKo8RDQOt4dRTL0aVEjV2o0OjKVfBbmOEug6Rk+RYACJObIX
- 5SF1ytQp9tSH/HgBMYVWu5hC+SIujP2iSE6KpiQujXX0kmOTFIwVNiQxy9045mO6Wyma
- zgUuQ/9I1KKJfd190qB/ndgKvLzedJ5UhIqxHfU9pyTAwOEM/cXd2tRgEN2+PdHUdY55
- 1OK0cJutlrwbwzo7ypJ+G9KF3OQ11Fqq3Da6fJY3zx+5s4YflUR2QhJxW7lCj59vwhZg
- vGF8V0ekEczUxIbqWQCOsnEi442US9iaABzEmKpFOTif56ddigrd5P5SYhMyM8Bw5uCX
- zekw==
+ bh=t/B1FaoD/CzixDmOU5vubVEgdSvYSaE5OyF1FY9TFP8=;
+ b=zlo6oaSd5T6Xf107lpSUxPb0rIijMynvefrdtdaORWsGtxfto3IyWVi7b4xdRZsZJk
+ /YBytAPvd8MoTdBNqdIBpS3v2LfmAn/9pZmz3epsq9PQ7gbD4Fzrfvb+fMD6AthB4RCw
+ wD+hlU/OxsuRNNgwIIweTBuEDjHtqDC+/XxZH2C1FZfH/2jps9OwBANPOOvRNqFL76QB
+ TjdL/rFy7gCFw9NkRpuVgflwRIUuAjcLUyld/kliq1qvj4kfd0U8IznXTBXcXZ1oSKhO
+ XiTaF4ZRTROViSiYegSGhCv+wtbV8+DsMN3PsUXOrhRhrQl1rh/w0+Q6siayw2b/SKrG
+ cHNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756793098; x=1757397898;
+ d=1e100.net; s=20230601; t=1756793244; x=1757398044;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=2b3JuSsnshEbB2H24ad5BMEkyTFrlBTid3O0T6ibdMc=;
- b=EmnE5rHC3iD/sZe/Svr9uv68fPy8URADv48ZsGIud/z5r96u4ipzq+a3ygZCGYZ/V3
- ePg5AIoUCs+sfI3W8ZPaQ7ngsJEi8MktVmb38c9a+u/R6hsQtDS6H59TqkfCg+UOtY69
- JOzamVyZBtovu3pcEv+5arLnbYaOPzU6xmvKDVqlHBtWKSaONxrgLsVeANRZohE/Fb7/
- +bzOnp91HO5B7IZrTsYq92DhtqWDVQo5mqpXZcv6We+oyg9KFp58SQ8P9gOUXD6FnNxA
- AA2B+oOto79ZNAR6/3vwHl3dv9A0NRAudgIxjCtWf/KvF1YwKAYnpb3QJUI421qdgFJp
- +DnA==
+ bh=t/B1FaoD/CzixDmOU5vubVEgdSvYSaE5OyF1FY9TFP8=;
+ b=sNnpUKe4+3NO+N/3VgqtrjeC9EhpP2+/ZxcKOUhwNPSxR6ssS7Rn6AHHVs4OZM9Ff2
+ 0R5c6HwXM6JDHFGfTPHG++dCWjYyIHwGrCUJ//gWfpHmkeiy7daMnOjfJlGXwdxKP54O
+ WZMoYvQ79uhlQ7MrKNY/L9qrfA3hMmdSd+zGhDPml2RjwFGpa3tEFNQ8YA5KH8ykCNhP
+ ab6N3eBIHDgbJpxD3Q698oMGegn82WEv35DB4p5zIJ8uEgbH8QoSHfBGeroMnqrWkZug
+ BfGCSIBw4ytXc0M+p2uCn+wIwYHr60s7VsZff6EvLpTkYCnnIExztu6qAtvql1jk5X+8
+ taEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUyCyGFQqmgiN1lWqpqwQ7ehYeQJWfO8YcYu1foTvSLIfonhpKqh9x0DRSByJstAlCPELgtyUi1jts=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywagp7fZ2fyvh87074Rhs0jPTlsBuNePJ8DNpnXuOr9Nh/asOB6
- aOy5spI8DfK6JmUP0eFDh8uW8g86AfBcdMLdiJKRamPvd5rB5fF5k0TMPA44n4HhyR8=
-X-Gm-Gg: ASbGnctoh++IM3DGqHN6yAifZLroSH2a8Jwesytg+4AD0efcJRmwo89kWr4p8qtFjhO
- /7cU83eJS/2zxVwJhI62DFkwePmWxM5g2Oa+3MHBcsME/KemaByANWVm8NxH5ShHUjnXqkIE94+
- 0b4A0pVp1dkQg6YqB68fCY489sGfw5k8ZFsMalyMrPHpb88A8nzqYkrqYVhXA93x9c+t/b3NeAN
- sJNavY1zleJG1fSnMxyeYOXMg4S8YB9hSBZVcuvsBnpTQjwGcSSayNVi9xjFYXEMSzbx0HN6t/O
- 5MzksnZnaCG56h4zaZFWelOiVU+i1/5KO0SwBXGe2UdTpgcUMfxdOrbN/Odit5dGrO6XQARAzdP
- cM18RNLrlFun/LZj2xf6JB59hUckmV4iVYMA2kZqNPrc=
-X-Google-Smtp-Source: AGHT+IGzQvNWUwBdb294u3aSfKMN/4Lhuayvos0l/gCcNz8KPqZ1Si6aA9RC3fHNpONP2IXnMVzHIA==
-X-Received: by 2002:a05:6000:2307:b0:3c9:774f:6484 with SMTP id
- ffacd0b85a97d-3d0fa72c0d8mr4993112f8f.5.1756793097550; 
- Mon, 01 Sep 2025 23:04:57 -0700 (PDT)
+ AJvYcCVNga12h0G8fLA+ckW2SUjxife/MKqewlVXmoqU5/h9y2woFoCQ32p1r+5cXJyocJkRotJ3zGm546s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaRRpzsDOz9amo2fPnNw7U8ehKeaYFMd9Fq7W1N7025uisgAvi
+ 4oiRkXq9ad002iCjVgfsiryEzBwUeYwBccD4uT5jSarRJtabThnPK/91mhnxNWcwU4M=
+X-Gm-Gg: ASbGncvS0XF1MQpI43We5a/i8MZyCPd4iy6YU8GBNs5Eqm3ZWa2R29nzJwNAhud3nBs
+ DMmNhq6L7zBjqMDqax26lXkbkFzobrx2StHSttj3UKcOKI3RW0FBIOMXhb5y/mDj78ZpjEVDmrq
+ /nUMW6i0234hiBmNgKrZYd2uS/dLJ6GUNU6FShIyyE5L/Y4hUwn0IQoM/RppytxiC9tEn+HpBNU
+ YGfoVBdzV+T2kKkVryjCYizxYjP9u0Tjz+0r3EPfOfMm5OX9CpajDsptD+7LJ7ZGHpN7yzElCSp
+ k9p9CoLHYLa0jOqlgrqwDB9aCWNzin1c2DX5Ttfal5uIiYKbcewlo7sM/60yCz/uGbSQprJQ+s9
+ bPBL2RdIcYidIsG530aJlQgJvC/aQsaiqguLbrc58nLRRKGG8P2e3xA==
+X-Google-Smtp-Source: AGHT+IHlJQa2ozPDy4pXB3L1qvYBOkak8WzZG+cqww52jrlmExUNErZsn4LdUbYEor0rhiu5nFzizw==
+X-Received: by 2002:a05:600c:4f8b:b0:455:f12f:e3fc with SMTP id
+ 5b1f17b1804b1-45b81e92f7fmr56974255e9.2.1756793244503; 
+ Mon, 01 Sep 2025 23:07:24 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.219.123])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3d1007c0dc8sm16442802f8f.53.2025.09.01.23.04.55
+ 5b1f17b1804b1-45b7e74b72esm186726245e9.0.2025.09.01.23.07.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 23:04:56 -0700 (PDT)
-Message-ID: <24999a53-ea5a-4823-a84f-2ca0ca184bb4@linaro.org>
-Date: Tue, 2 Sep 2025 08:04:54 +0200
+ Mon, 01 Sep 2025 23:07:23 -0700 (PDT)
+Message-ID: <ddd0f518-f9e1-49e8-bbaf-b810adcd35b3@linaro.org>
+Date: Tue, 2 Sep 2025 08:07:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/9] dt-bindings: display/msm: dp-controller: fix
- fallback for SM6350
+Subject: Re: [PATCH v7 8/9] arm64: dts: qcom: sm6350: correct DP compatibility
+ strings
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
@@ -85,9 +85,9 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250829-dp_mst_bindings-v7-0-2b268a43917b@oss.qualcomm.com>
- <20250829-dp_mst_bindings-v7-2-2b268a43917b@oss.qualcomm.com>
- <20250901-arboreal-gay-wolf-bcaaec@kuoka>
- <qy6c2gundpbz5ixqpt2hefzfb56wcrzcaclqwg2opof4zc7lep@dpc3nv6usurk>
+ <20250829-dp_mst_bindings-v7-8-2b268a43917b@oss.qualcomm.com>
+ <20250901-defiant-illegal-marmot-7ce0db@kuoka>
+ <abkkn4f7uca6tzjasltyysxecuuirxxvbjz6l6re5v4z6jlmuh@ugz6jtw6vo4n>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -134,7 +134,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <qy6c2gundpbz5ixqpt2hefzfb56wcrzcaclqwg2opof4zc7lep@dpc3nv6usurk>
+In-Reply-To: <abkkn4f7uca6tzjasltyysxecuuirxxvbjz6l6re5v4z6jlmuh@ugz6jtw6vo4n>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -152,69 +152,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/09/2025 06:03, Dmitry Baryshkov wrote:
-> On Mon, Sep 01, 2025 at 05:45:49AM +0200, Krzysztof Kozlowski wrote:
->> On Fri, Aug 29, 2025 at 01:48:15AM +0300, Dmitry Baryshkov wrote:
->>> The SM6350 doesn't have MST support, as such it is not compatible with
->>> the SM8350 platform. Add new entry for SM6350 with fallback to SC7180
->>> (which belongs to the same generation and also doesn't have MST
->>> support).
+On 02/09/2025 06:04, Dmitry Baryshkov wrote:
 >>>
->>> Fixes: 39086151593a ("dt-bindings: display: msm: dp-controller: document SM6350 compatible")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> ---
->>>  .../devicetree/bindings/display/msm/dp-controller.yaml     | 14 +++++++++++++-
->>>  1 file changed, 13 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> index aed3bafa67e3c24d2a876acd29660378b367603a..0f814aa6f51406fdbdd7386027f88dfbacb24392 100644
->>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
->>> @@ -31,13 +31,25 @@ properties:
->>>            - qcom,sm8650-dp
->>>        - items:
->>>            - enum:
->>> -              - qcom,sar2130p-dp
->>>                - qcom,sm6350-dp
->>> +          - const: qcom,sc7180-dp
->>> +
->>> +      # deprecated entry for compatibility with old DT
->>> +      - items:
->>> +          - enum:
->>> +              - qcom,sm6350-dp
->>> +          - const: qcom,sm8350-dp
->>> +        deprecated: true
+>>> diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
+>>> index 2493b9611dcb675f4c33794ecc0ee9e8823e24d4..8459b27cacc72a4827a2e289e669163ad6250059 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
+>>> @@ -2249,7 +2249,7 @@ opp-560000000 {
+>>>  			};
+>>>  
+>>>  			mdss_dp: displayport-controller@ae90000 {
+>>> -				compatible = "qcom,sm6350-dp", "qcom,sm8350-dp";
+>>> +				compatible = "qcom,sm6350-dp", "qcom,sc7180-dp";
 >>
->> If it is only about bindings then there is little benefit in keeping
->> this, just drop this case.  However you cannot drop it from DTS, so this
->> is a bit pointless.
+>> No, that's breaking all the users.
 > 
-> Our plan is:
-> - land updated DT bindings, describing MST clocks on MST-enabled
->   platforms,
-> - land updated DTS, adding MST clocks where applicable,
+> WHy though? Both old and new lines are using fallbacks to bind the
+> driver to the device.
 
-This part breaks all out-of-tree users of DTS.
+Kernel has sc7180 fallback, but what if other DTS user does not and that
+other user was relying on sm8350 fallback compatible? That other user
+won't have sm6350 dedicated handling as well.
 
-> - land driver changes, keeping legacy support for non-MST DTs on
->   MST-enabled SoCs
-> 
->>
->> Lack of MST support is not informative enough to claim it is not
->> compatible with 8350. For example if it was working fine via fallback,
->> then that statement is simply not correct.
->>
->> And it HAD to work fine, because there is nothing binding to
->> qcom,sm6350-dp.
-> 
-> It is working fine since currently we don't have MST support on the
-> driver side (nor do we describe MST clocks in DT). It's true that the
-> driver will have to handle non-MST DT for SM8350. However I definitely
-> don't want to describe both cases in the bindings. SM6350 is not going
-> to be compatible with the MST-enabled SM8350 schema.
+That breaking of users I meant.
 
-The question is rather: is SM6350 going to be compatible (working) with
-MST-enabled drivers.
+With the kernel it should work, assuming SC7180-dp was introduced
+similar time as 8350-dp.
 
 Best regards,
 Krzysztof
