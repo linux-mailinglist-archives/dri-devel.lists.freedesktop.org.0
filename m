@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696FEB3FAB9
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9268AB3FABC
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C1E10E636;
-	Tue,  2 Sep 2025 09:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C530B10E633;
+	Tue,  2 Sep 2025 09:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q2KCvzRo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kQTliF1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04FD010E633
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:36:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 996A410E633
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:36:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E018142B57;
- Tue,  2 Sep 2025 09:36:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71634C4CEED;
- Tue,  2 Sep 2025 09:36:42 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 81744401B4;
+ Tue,  2 Sep 2025 09:36:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B13C4CEF7;
+ Tue,  2 Sep 2025 09:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756805802;
- bh=YUnEdqaOBR1EAT4m7wwF7J6oO20/+BxOlRt2PwojQm4=;
+ s=k20201202; t=1756805805;
+ bh=vxH+nzeCsbFnxXQGIGvhfJGZy++l91+CQmtXEk/gT1I=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=q2KCvzRonN203v51NFUzbmInIo43cUOJfGvGFOLKCNvmDcfvz/57etN//s/o1Nt5I
- vqworBgNIbN3uhxN2XdQH06RwRJdX4ZXCyoNFsnjcxFTu8NzJSrD0NwY1DpQp0ztHx
- erZgn/u9zZYC7N1OuZeBHvBRgo6J1cGhfZVi/3YX0kwthVmp9oMuGCN23sMmrwT2J3
- ms9g8Q+3QODBzYQHBgUkVKFNa53im7pXtdwNsW8xRYrEtgtFTv6BFCS8+H+llDtq1B
- E09lctPLfvpNT7neoyzSOhf8SRsX698KBpEjrqxozMeSNOBB1QlcxhmH+Ac+6tKk2o
- uRVy2TKCvhrgw==
+ b=kQTliF1T61XVmzBdI6BupUxAe8Z38z8KtJBBV4U7jwtbtUBVNDy+kqtZ9dOKOGf5e
+ jWaJAUXCS3JPE7Z0ax8vUgw413cQEncKKoRIpF9SlzjLh99b/MukgggdAdr4NXxu/i
+ rd7cYf0Ate0rom3jjtlr1/NqIpK9Q7idJ0/8UEy0cvO/92TJC/MHUQr0Dg+FycyNI+
+ lpIggL2Z4WJhraf/n5XY3w96D5QYNVEFqRyS4uxHeQpOuRjgqfxzbHz4NbmQK4NB6p
+ cqHmKnoui+4kiEEshRu5STvy7npYA44p4cLBxFgwI/fX9zWEc5DDfHF4EwfvdTI37R
+ GT5morD1fpsWQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 02 Sep 2025 11:35:28 +0200
-Subject: [PATCH v2 29/37] drm/tilcdc: Switch to drm_atomic_get_new_crtc_state()
+Date: Tue, 02 Sep 2025 11:35:29 +0200
+Subject: [PATCH v2 30/37] drm/vboxvideo: Switch to
+ drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-drm-no-more-existing-state-v2-29-de98fc5f6d66@kernel.org>
+Message-Id: <20250902-drm-no-more-existing-state-v2-30-de98fc5f6d66@kernel.org>
 References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
 In-Reply-To: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Hans de Goede <hansg@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1415; i=mripard@kernel.org;
- h=from:subject:message-id; bh=YUnEdqaOBR1EAT4m7wwF7J6oO20/+BxOlRt2PwojQm4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbdkWYKa40XbBm7RSpU6z/N1Zv1ue4cPHIpMRqrpMSK
- Y9WCU+43TGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmwtTI2LAu5WxyvORbLb/1
- +bpMM5Ok3x5oPr/+r+vZD8Zr4hx9qhsuTpLw4bv/d8+XoA1vb4tOvsrYMMd/Yf21/1MWGn/Qst5
- pe3NKZtr0iHgpP610czdZUQGTMl7+XXumCW96Ulh1V18nOyIPAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1899; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=vxH+nzeCsbFnxXQGIGvhfJGZy++l91+CQmtXEk/gT1I=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnbdkXsOdf6W1T6i4mTpEtUQJaPOv+e5vgnhcH6mZpyl
+ 8zdXN93TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgIlsO8tYZ3c59uVPk6lNXbeE
+ Vezu/vd+b8Mj8FegmFUmuPhf/OHMb2Kzu5IV2lp4T0/rmH+NyVuGsaEvcvnGpLMTj016OmlruXp
+ J/oe9YhlV7AvZt7vwddz3cL5zll3vWqGSRtpHx0tFNszPJAA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,7 +69,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tilcdc atomic_check implementation uses the deprecated
+The vboxvideo atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -79,31 +79,46 @@ we can use drm_atomic_get_new_crtc_state() instead.
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 ---
-To: Jyri Sarha <jyri.sarha@iki.fi>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Hans de Goede <hansg@kernel.org>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/tilcdc/tilcdc_plane.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/vboxvideo/vbox_mode.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-index cf77a8ce7398040814ec20eeffc6da960e36dfc0..aa72ca679598b6617366e89ffb3838ed8b323f2f 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-@@ -40,12 +40,11 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
- 		dev_err(plane->dev->dev, "%s: crtc position must be zero.",
- 			__func__);
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index 9ff3bade979577df0bc2e6e9653b3fb8fd486062..aa0dded595b6e00a9aa2027b36ca11711ccc0439 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -260,12 +260,12 @@ static int vbox_primary_atomic_check(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct drm_crtc_state *crtc_state = NULL;
+ 
+ 	if (new_state->crtc) {
+-		crtc_state = drm_atomic_get_existing_crtc_state(state,
+-								new_state->crtc);
++		crtc_state = drm_atomic_get_new_crtc_state(state,
++							   new_state->crtc);
+ 		if (WARN_ON(!crtc_state))
+ 			return -EINVAL;
  	}
  
--	crtc_state = drm_atomic_get_existing_crtc_state(state,
--							new_state->crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
- 	/* we should have a crtc state if the plane is attached to a crtc */
- 	if (WARN_ON(!crtc_state))
- 		return 0;
+ 	return drm_atomic_helper_check_plane_state(new_state, crtc_state,
+@@ -342,12 +342,12 @@ static int vbox_cursor_atomic_check(struct drm_plane *plane,
+ 	u32 width = new_state->crtc_w;
+ 	u32 height = new_state->crtc_h;
+ 	int ret;
  
- 	if (crtc_state->mode.hdisplay != new_state->crtc_w ||
+ 	if (new_state->crtc) {
+-		crtc_state = drm_atomic_get_existing_crtc_state(state,
+-								new_state->crtc);
++		crtc_state = drm_atomic_get_new_crtc_state(state,
++							   new_state->crtc);
+ 		if (WARN_ON(!crtc_state))
+ 			return -EINVAL;
+ 	}
+ 
+ 	ret = drm_atomic_helper_check_plane_state(new_state, crtc_state,
 
 -- 
 2.50.1
