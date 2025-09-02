@@ -2,51 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1722BB40C46
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D21FB40C5D
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 19:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E87610E802;
-	Tue,  2 Sep 2025 17:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE8710E805;
+	Tue,  2 Sep 2025 17:45:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uj8MCz2z";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KPrnPvca";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C6610E802;
- Tue,  2 Sep 2025 17:40:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4B4D16000A;
- Tue,  2 Sep 2025 17:40:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE72C4CEED;
- Tue,  2 Sep 2025 17:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756834831;
- bh=8DlnXpYC+KIZ90R/hZ53tbMz4E6ISDH9xSdqxhlTqg8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Uj8MCz2zItGENmC9fV9rdh/pUQ1kyrq4/Ra946iRMQZ4OqYW5EdZVv2o39TzHklvb
- HnlyUjKdnmHWuNyBPIgYOSIBmkxRnDbi7yId/pfjSSx3ab18neq6CTZnwETdKpngaO
- zUIs9RPzjt2FNkcOHYVCwSH42cPqcU809XylqR8Y0/MRskmbtXeHPAoVzmFYpyLRqZ
- uujNzqJqryKVsrUZSBDSezEpQzymB/Ff9B8PE2voHFfubwHJT2cYkUE2JzFp9W3m+y
- ZyQ1UgMFRuQNHWBIGRHmoWxuP407aDXyKGI98Mp+h30oJ0j8Q8yPDSrg1iY3+o6w4g
- dwVZY8w3sLS0Q==
-Date: Tue, 2 Sep 2025 19:40:27 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, acourbot@nvidia.com, 
- daniel.almeida@collabora.com, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Add drm-rust tree for Rust DRM drivers and
- infrastructure
-Message-ID: <humoafx7njwhvdwarelew2bwyl34q3ls5vbrkj6psfukoroni5@z7ap6mc4lj3k>
-References: <20250901202850.208116-1-dakr@kernel.org>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79D4410E805
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 17:45:45 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7725fb32e1bso2374288b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 10:45:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756835145; x=1757439945; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mLftuepl8Ai11mnJzzF3qo/kXusPLAacbdlidpMXOjM=;
+ b=KPrnPvcaCXa6Wnpa6+1ZfViPH6x4qlAYUPlFJAQyZCZcQeko09R7fMgiBkG3eyc+26
+ 265s6U7c7JKiYGHV3/cHO+ojvKOwRQAHPqIbZbr6EfhxtoDM+BhZ7LhBOiIsPgbjq9B9
+ Q/xAi5BT/TQ9HclZE96/m/GIT80DfpJ5F7T83b6MqubLmDTnaTB7VqewIKJ8Uyx7B5w/
+ nh2+OLCRxFFXP0M91UPcsECOlskx+Ou0L4WraU8li35wWXNWLkQ0Jhpu62t5jweQ79/c
+ GZQOs6r8bBm9PMyJnSA/a7B4/1iAi4Pw4EhGxbnGKEkjTOELsyd85uJU4lm3qsVinLVn
+ 8uug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756835145; x=1757439945;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mLftuepl8Ai11mnJzzF3qo/kXusPLAacbdlidpMXOjM=;
+ b=JlmJSxaxEdIrXZcUw6zK1QKDxtPoQBYJVnCmNQCV92c/HFBtTt5H0Ti4hWPpW+U3L2
+ t/Ka+WG2dWBOp5QfU5703MVlFu0Ip8gBkxz/fkucFBKRIQt85WPIyNAwMTXaFBEqTpLm
+ +qscYftUUYb5rxJ5/NPSiRnNnP5nEvhsuMnqmd8Mv42gKy7HrybiwppT4wqZArKSf8wp
+ vMvfhTZJ5jTgXZ101viivsi2mBdgk/HHpyGf9hOeTZ7dfesJApqaShSUAVd5n9cYdX2P
+ YNESjtsF3I48zRMBTTBQQJ6MnMbcc2c7y54BA2owQHbZC+RnEQ87BvJZT3grbrlELudI
+ i9wQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPcCciRQurJIJuLfEqi4akgsLBLDGOP4reWGpuIDdSQZ9itwAPbTZbkMfFggUuq3wFBpVP1cp6sZo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywayloz7pKLnwLKqtTuyxpBZXPMpYrZzgHHj/xSPBa36sLdv8uk
+ J03KbpZ0sBXVudWSm4XOgrhTTBmPdf/OnP4PmaEDWoXc6Xh8CZS+HSCBZRV/Lw==
+X-Gm-Gg: ASbGncsFGhmmrb+8v6tJpsvaKVA2xul4Fk+8KGfe8aWu9/6Fe6vlT0FjtKuzaLoZAsA
+ OQL1XV/eP2Bse0yrb8wqEMzDKTAbYeFYyj5ir80JW2VGgTSIVAP7jdEcgD6K2YInLI6saoiPPn5
+ HeRgSRX4sDye0q38FrE7TDPR9b+yTn/ijMv4Me8wzLLRLh+jDnzohewf3u02tSz/OXrhfJA2H5X
+ OaY1bLm0IZS4ALViQEX+3DwPvpM+Z66+gokogF6v4zqtpmuLMx6QPG5CYmKMqUf6/3p8wv8AVa5
+ oVYbZvmzmJ+N2UBx6fUHxRjaRlB/ZLO9VBeTj/+RqSnihtR3+LW86KRN78/uClJ9URkUbjyPTC4
+ wKcDv0JPJ1b2N/wJ609yhjXJV3jloDHFcLtZaaRE=
+X-Google-Smtp-Source: AGHT+IHraZscRDQf4h1fjj89O4jtpkvZmFKpvnnflKmKHVlG1h1oO0o54pzOpCTebqJtHo6A7gyQVw==
+X-Received: by 2002:a05:6a20:258f:b0:240:1241:5f2c with SMTP id
+ adf61e73a8af0-243d6dd13dfmr20064959637.10.1756835144876; 
+ Tue, 02 Sep 2025 10:45:44 -0700 (PDT)
+Received: from Terra ([2001:df0:b240:6cbd:e842:2f6a:96d:9188])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7724f079b88sm8154759b3a.40.2025.09.02.10.45.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Sep 2025 10:45:44 -0700 (PDT)
+Date: Tue, 2 Sep 2025 23:15:39 +0530
+From: Athul Raj Kollareth <krathul3152@gmail.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: tzimmermann@suse.de, skhan@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ simona@ffwll.ch, mripard@kernel.org
+Subject: Re: [PATCH v4 RESEND] drm: Replace the deprecated DRM_* logging
+ macros in gem helper files
+Message-ID: <aLctQ5pbI5vITf0S@Terra>
+References: <aLcGnf_wrY5QuZZC@Terra>
+ <6a5cc1e0-ea0a-4d7f-8834-20a371346d79@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="eikyndkyyww5vqd6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901202850.208116-1-dakr@kernel.org>
+In-Reply-To: <6a5cc1e0-ea0a-4d7f-8834-20a371346d79@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,98 +92,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 02, 2025 at 05:35:48PM +0200, Michal Wajdeczko wrote:
+> 
+> 
+> On 9/2/2025 5:00 PM, Athul Raj Kollareth wrote:
+> > Replace the DRM_* logging macros used in gem helper files with the
+> > appropriate ones specified in /include/drm/drm_print.h.
+> > 
+> > Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+> > ---
+> > Changes in v4:
+> >     - Some codestyle corrections.
+> >     - Remove OOM error logging in drm_gem_init().
+> > 
+> > Changes in v3:
+> >     - Revert all changes to drm_gem_objects_lookup().
+> >     - Use drm_device from minor.
+> > 
+> > Changes in v2:
+> >     - Change drm_gem_objects_lookup() to take a drm_device* argument.
+> >     - Make appropriate changes to all calls of drm_gem_objects_lookup().
+> > ---
+> >  drivers/gpu/drm/drm_gem.c            | 13 +++++++------
+> >  drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
+> >  2 files changed, 8 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index 4a89b6acb6af..dc3d6cfa692b 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -102,7 +102,6 @@ drm_gem_init(struct drm_device *dev)
+> >  	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
+> >  					  GFP_KERNEL);
+> >  	if (!vma_offset_manager) {
+> > -		DRM_ERROR("out of memory\n");
+> >  		return -ENOMEM;
+> >  	}
+> 
+> nit: you can now remove { }, didn't checkpatch.pl complain?
+No, it did not.
+> >  
+> > @@ -783,9 +782,10 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+> >  int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+> >  			   int count, struct drm_gem_object ***objs_out)
+> >  {
+> > -	int ret;
+> > -	u32 *handles;
+> > +	struct drm_device *dev = filp->minor->dev;
+> >  	struct drm_gem_object **objs;
+> > +	u32 *handles;
+> > +	int ret;
+> >  
+> >  	if (!count)
+> >  		return 0;
+> > @@ -805,7 +805,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+> >  
+> >  	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+> >  		ret = -EFAULT;
+> > -		DRM_DEBUG("Failed to copy in GEM handles\n");
+> > +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+> >  		goto out;
+> >  	}
+> >  
+> > @@ -853,12 +853,13 @@ EXPORT_SYMBOL(drm_gem_object_lookup);
+> >  long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+> >  				    bool wait_all, unsigned long timeout)
+> >  {
+> > -	long ret;
+> > +	struct drm_device *dev = filep->minor->dev;
+> >  	struct drm_gem_object *obj;
+> > +	long ret;
+> >  
+> >  	obj = drm_gem_object_lookup(filep, handle);
+> >  	if (!obj) {
+> > -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+> > +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> > index 4f0320df858f..a507cf517015 100644
+> > --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> > @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
+> >  
+> >  	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
+> >  	if (ret) {
+> > -		DRM_ERROR("Failed to vmap PRIME buffer\n");
+> > +		drm_err(dev, "Failed to vmap PRIME buffer\n");
+> >  		return ERR_PTR(ret);
+> >  	}
+> >  
+> 
+> otherwise LGTM, so with nit fixed:
+> 
+> 	Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> 
+> but you still need someone else to merge it
+> 
+Thank you, I will fix it and hopefully get someone to merge it.
 
---eikyndkyyww5vqd6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] MAINTAINERS: Add drm-rust tree for Rust DRM drivers and
- infrastructure
-MIME-Version: 1.0
-
-On Mon, Sep 01, 2025 at 10:26:39PM +0200, Danilo Krummrich wrote:
-> Multiple DRM Rust drivers (e.g. nova-core, nova-drm, Tyr, rvkms) are in
-> development, with at least Nova and (soon) Tyr already upstream. Having a
-> shared tree will ease and accelerate development, since all drivers can
-> consume new infrastructure in the same release cycle.
->=20
-> This includes infrastructure shared with other subsystem trees (e.g. Rust
-> or driver-core). By consolidating in drm-rust, we avoid adding extra
-> burden to drm-misc maintainers, e.g. dealing with cross-tree topic
-> branches.
->=20
-> The drm-misc tree is not a good fit for this stage of development, since
-> its documented scope is small drivers with occasional large series.
->=20
-> Rust drivers in development upstream, however, regularly involve large
-> patch series, new infrastructure, and shared topic branches, which may
-> not align well with drm-misc at this stage.
->=20
-> The drm-rust tree may not be a permanent solution. Once the core Rust,
-> DRM, and KMS infrastructure have stabilized, drivers and infrastructure
-> changes are expected to transition into drm-misc or standalone driver
-> trees respectively. Until then, drm-rust provides a dedicated place to
-> coordinate development without disrupting existing workflows too much.
->=20
-> Cc: Alice Ryhl <aliceryhl@google.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Alexandre Courbot <acourbot@nvidia.com>
-> Cc: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
->  MAINTAINERS | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fe168477caa4..1cd6597c7f1d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8079,7 +8079,6 @@ F:	Documentation/devicetree/bindings/gpu/
->  F:	Documentation/gpu/
->  F:	drivers/gpu/drm/
->  F:	drivers/gpu/vga/
-> -F:	rust/kernel/drm/
->  F:	include/drm/drm
->  F:	include/linux/vga*
->  F:	include/uapi/drm/
-> @@ -8096,6 +8095,16 @@ X:	drivers/gpu/drm/radeon/
->  X:	drivers/gpu/drm/tegra/
->  X:	drivers/gpu/drm/xe/
-> =20
-> +DRM DRIVERS AND COMMON INFRASTRUCTURE [RUST]
-> +M:	Danilo Krummrich <dakr@kernel.org>
-> +M:	Alice Ryhl <aliceryhl@google.com>
-> +S:	Supported
-> +W:	https://drm.pages.freedesktop.org/maintainer-tools/drm-rust.html
-> +T:	git https://gitlab.freedesktop.org/drm/rust/kernel.git
-> +F:	drivers/gpu/drm/nova/
-> +F:	drivers/gpu/nova-core/
-> +F:	rust/kernel/drm/
-> +
-
-Would it make sense to add the drm-misc maintainers as reviewers for the
-bindings?
-
-Either way,
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---eikyndkyyww5vqd6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaLcsCgAKCRAnX84Zoj2+
-diUfAYCICnzUOeZAXgLDM24mxtd9WwQGTfjRMWXnN6NZg83KmAmJsj1/c3t0jBWF
-9uQfGBkBf29ImuGgjfzhJp075EPXs6d9v5wSW4gfEAyyTPWZPraqjxliL6JU+je0
-iWsShiuugg==
-=RhRF
------END PGP SIGNATURE-----
-
---eikyndkyyww5vqd6--
+Best regards,
+Athul
