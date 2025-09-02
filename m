@@ -2,57 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A98B3F745
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:59:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FAAB3F744
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:59:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEF1E10E5B1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F5F10E1A1;
 	Tue,  2 Sep 2025 07:59:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NbcPLt/k";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vJG3GOiE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BAC10E5C8
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 07:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wJ61FIB/NmPV7dswnNYnMoUac/R593vmjpM+oAD5/gE=; b=NbcPLt/kcNxKZuGOZ1NxUhKfUy
- eyIJiAUbh0Pv9Y/rUPDndpT4OWbCOyeMxCJAZ/KpmJv4UBrrwSc0+bkPmQnfdPd6k8GVdgXL6SlqC
- X79vT0hJ+vkzbC0kGTthKy6DOgOUM7m6nkBjKhdiwLb2g4ZkwWoujfTVR1nK8CrIHVKjosbHPwQrl
- 3t4qWtWQuneOdGgwDG5587KaY/kcqxzwdjXcYNN5Bl7MgfLeCDmtbZ9d7tqLSwe3fqoRE/oI98cRx
- P2rwl+gVYVyvMCYT3HYFaphqZJF6Mtogzmk71V+VTunFiI2J0ZIXyTqLgFKYMXLHGVTTvM0HbWt/8
- EsZgXyiA==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1utLvA-005bRr-Kw; Tue, 02 Sep 2025 09:59:16 +0200
-Message-ID: <b9f7a493-5611-4450-a26a-10b03d1dc313@igalia.com>
-Date: Tue, 2 Sep 2025 08:59:15 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BBF10E5C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 07:59:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A549E60202;
+ Tue,  2 Sep 2025 07:59:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B101FC4CEF5;
+ Tue,  2 Sep 2025 07:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756799974;
+ bh=EF1op+eddct4pM3ZB2o0aAETXERusr9OmQud0x6jKd8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vJG3GOiE51Copquw/et4yKR2MBNqyeTR1IAPc0P1wxza24c8Bq4Zc/8Q7eKkeJOJ8
+ pYWFTt1JmIPWALpvCaXjNsP99j/f0dLV/DYLcnsQ3vBiopJOhJLZBr6W/QP40TczLY
+ s4mj9mZjOSnLBdFU1bnx5nhOyDJcF93bwPlgmYGWl3pCuhraZsFOltCb77vP8GOf5t
+ 12ryEquytxYXA5Le3xuYe8epm+vJQDqaCgoRv6HGXdjCf7BWZqERl7WQ97+WKzu8y8
+ +FrcNp9sY8CK3kbN/yxn0KKBCpQodqKbLOJCPqhdlq76MB+N2NhN1BGCu2b3GIzIWi
+ ewGqlCi6YaApQ==
+Date: Tue, 2 Sep 2025 09:59:31 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>, 
+ van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Michael Turquette <mturquette@baylibre.com>,
+ Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-bluetooth@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 01/37] dt-bindings: arm: apple: Add t6020x compatibles
+Message-ID: <20250902-optimal-copperhead-of-chemistry-ebd7fa@kuoka>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-1-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Fix racy access to
- drm_sched_entity.dependency
-To: phasta@kernel.org,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250901124032.1955-1-pierre-eric.pelloux-prayer@amd.com>
- <da59f28c7d8b3d83833aa0494b3b198335cf588f.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <da59f28c7d8b3d83833aa0494b3b198335cf588f.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-1-507ba4c4b98e@jannau.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +95,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 28, 2025 at 04:01:20PM +0200, Janne Grunau wrote:
+> This adds the following apple,t6020/t6021/t6022 platforms:
 
-On 02/09/2025 08:27, Philipp Stanner wrote:
-> On Mon, 2025-09-01 at 14:40 +0200, Pierre-Eric Pelloux-Prayer wrote:
->> The drm_sched_job_unschedulable trace point can access
->> entity->dependency after it was cleared by the callback
->> installed in drm_sched_entity_add_dependency_cb, causing:
->>
->> BUG: kernel NULL pointer dereference, address: 0000000000000020
->> [...]
->> Workqueue: comp_1.1.0 drm_sched_run_job_work [gpu_sched]
->> RIP: 0010:trace_event_raw_event_drm_sched_job_unschedulable+0x70/0xd0 [gpu_sched]
->>
->> To fix this we either need to keep a reference to the fence before
->> setting up the callbacks, or move the trace_drm_sched_job_unschedulable
->> calls into drm_sched_entity_add_dependency_cb where they can be
->> done earlier.
->>
->> Fixes: 76d97c870f29 ("drm/sched: Trace dependencies for GPU jobs")
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> Applied to drm-misc-next
+"Add..."
 
-Shouldn't it have been drm-misc-fixes?
 
-Regards,
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Tvrtko
-
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++----
->>   1 file changed, 7 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 8867b95ab089..3d06f72531ba 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -391,7 +391,8 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
->>    * Add a callback to the current dependency of the entity to wake up the
->>    * scheduler when the entity becomes available.
->>    */
->> -static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->> +static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity,
->> +					       struct drm_sched_job *sched_job)
->>   {
->>   	struct drm_gpu_scheduler *sched = entity->rq->sched;
->>   	struct dma_fence *fence = entity->dependency;
->> @@ -421,6 +422,10 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>   		entity->dependency = fence;
->>   	}
->>   
->> +	if (trace_drm_sched_job_unschedulable_enabled() &&
->> +	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &entity->dependency->flags))
->> +		trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
->> +
->>   	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
->>   				    drm_sched_entity_wakeup))
->>   		return true;
->> @@ -461,10 +466,8 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
->>   
->>   	while ((entity->dependency =
->>   			drm_sched_job_dependency(sched_job, entity))) {
->> -		if (drm_sched_entity_add_dependency_cb(entity)) {
->> -			trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
->> +		if (drm_sched_entity_add_dependency_cb(entity, sched_job))
->>   			return NULL;
->> -		}
->>   	}
->>   
->>   	/* skip jobs from entity that marked guilty */
-> 
+Best regards,
+Krzysztof
 
