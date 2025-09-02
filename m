@@ -2,138 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64892B40620
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40DAB40628
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 16:07:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CD110E73B;
-	Tue,  2 Sep 2025 14:06:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36FD10E741;
+	Tue,  2 Sep 2025 14:07:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NowuO1XU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qJvO2GVB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NowuO1XU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qJvO2GVB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ltB2nbAN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BFB10E73B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 14:06:47 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 57F0D211D0;
- Tue,  2 Sep 2025 14:06:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756822006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
- b=NowuO1XU6pCdFMxyzfVwCM1NVTRvLoMLTMno+dzrAQb415IHogH4B7aBOu4eNUly5QqDI5
- 5kd6OlDY5NnSRVMgtpTuSL/MI/PGOEDdyPSUxJVn3oMLDPyZ087tRNWFt9lRGrYa/cfG6I
- fvz8tfGTSrXOrReF5FClCJ6WzNRO0T4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756822006;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
- b=qJvO2GVB8bhj1tslii9DcANIwb2ZqQIJBjpFScu7IfvOlu6Zkad9i/0ig5gQ24R8e+O2Mk
- sEXdiotHFFhOFkCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756822006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
- b=NowuO1XU6pCdFMxyzfVwCM1NVTRvLoMLTMno+dzrAQb415IHogH4B7aBOu4eNUly5QqDI5
- 5kd6OlDY5NnSRVMgtpTuSL/MI/PGOEDdyPSUxJVn3oMLDPyZ087tRNWFt9lRGrYa/cfG6I
- fvz8tfGTSrXOrReF5FClCJ6WzNRO0T4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756822006;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pCeyRXDjeXdIYPa2EpXAmE++weae5wnHDPz0vJ1nNwI=;
- b=qJvO2GVB8bhj1tslii9DcANIwb2ZqQIJBjpFScu7IfvOlu6Zkad9i/0ig5gQ24R8e+O2Mk
- sEXdiotHFFhOFkCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E4BF113882;
- Tue,  2 Sep 2025 14:06:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id uC4uNvX5tmjvaQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 14:06:45 +0000
-Message-ID: <3a73aada-48ad-45ad-8144-b58760113d6f@suse.de>
-Date: Tue, 2 Sep 2025 16:06:45 +0200
-MIME-Version: 1.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2046.outbound.protection.outlook.com [40.107.96.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D27E310E741
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 14:07:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TURrtL1vQH8MgvsWA3mDUN9A6Vn9uq6ows0Eh9cK4+FMdH+GlsG5ALZPrbcQ1f/hfVf0ssf5mtBahv1/6xx9+5Z/1K132ujSbqMQRtzZRv7RHNFkf4fQpvT+yY+5GYOZXf0OEOUUFYuedP8LmB679E231JluImonHrBcjCRVo+HN7YCvUNlp9hDaP1fsE1MnnpAnjlv+HAl0VSRGaN8y1G74v0j7dqIiITs456qxC5muTyZplH0aFBbyZ3DM5e84WIw2UYrnCV+nf+ncIMCs3i+U6CMFMy3uQnR1Lk5Yl/YNaJGLAImrHc+6MEfYmPtBb4HkbATbO+Z66jXxUXV4tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Jw0rKOTR/qJa29F7yyhPZ7sutZEY3iqAeCQpK/sNYY=;
+ b=sLCW6Ju+9+cN10bhLX6gh5ViKU/LIsTpWOYF01bCp/9Grvg7lWknMMvXYgnNxAjhq+8EJddDPjyMfEK0LGVs+A1abU1qWPGCE9RQGCK4OhRE4AQQtwUHQ/fk7JJ/5EGz8ByC4I7Zp2+1zIbqOGPRAmM3RjA/Z8m16Dz/SBZb2c8SvG8JWj8lNdorS4KtxxhfJ/5bYHEirwFHb2BUL+wkcKwMr2vJgLTVvWHz+ttSKOvJaCZiNlZgo0NnD4/5cNO7WvvAdfDGkyWE2zCFAQCHFnTwlas5FLnsIv7w1JAMS1ZVwy28CyN++AmHD5C0xDCZ1EFjEPenVHnCJlTfJhOMsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9Jw0rKOTR/qJa29F7yyhPZ7sutZEY3iqAeCQpK/sNYY=;
+ b=ltB2nbANMp/ix/spItAm3zx13ZpVSUNkCkGIBQMsJwQWC4e1VOEHgIDXV4wCHfMUe2DTvSTjwHcGtMSTEFd3Bo8R86G573hGKu7t2kTg1W4BET4UisgfNVnZVe0ZxibdjW87YpGh2cCpKcMgIIzcyni5dH8SvefU0PViL1EMGSs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB7445.namprd12.prod.outlook.com (2603:10b6:510:217::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Tue, 2 Sep
+ 2025 14:07:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9073.021; Tue, 2 Sep 2025
+ 14:07:30 +0000
+Message-ID: <e1507242-952c-4131-93e1-6af52760b283@amd.com>
+Date: Tue, 2 Sep 2025 16:07:24 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/29] drm/tidss: dispc: Improve mode checking logs
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-24-14ad5315da3f@kernel.org>
+Subject: Re: [PATCH 09/15] ttm/pool: initialise the shrinker earlier
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: cgroups@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch
+References: <20250902041024.2040450-1-airlied@gmail.com>
+ <20250902041024.2040450-10-airlied@gmail.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-24-14ad5315da3f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250902041024.2040450-10-airlied@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-ClientProxiedBy: FR4P281CA0090.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cd::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7445:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfb54635-9b5f-44c7-d9b4-08ddea2a0df9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?REhLWmRSRlNqNWxETUdSSGRweHJmVDhGdmJYN1ZpMmtlU1RlRXZlOEpxSmZZ?=
+ =?utf-8?B?TWd0QnZkbFJ5ZERqeDdRTTZaaFdBNnc3NW5GcnliV2ViektZMGMwaU1kTnZO?=
+ =?utf-8?B?R0pjTGIyODAzUEowSXJQSTZhOEdQV2lPcEs0OVBUM2o2Z2JXQW5SV1MxNDla?=
+ =?utf-8?B?KzNmSFJhR2N2MGtveTN2Y2w2SkswM24zLytSNk1VVGg5ajFjQlVEcTJpMmp6?=
+ =?utf-8?B?VFAzdDJ1cmVzd21HWTFQOW1XNlJETmJVK2xRbmwyL0tFaTVQWmRPejdWVzdZ?=
+ =?utf-8?B?SjMwdUN0U0hwbnhwQjBJKy9Wc2tsYjJuZW9sTmdZSTVuZ0FSMVdCVW1pYSsv?=
+ =?utf-8?B?VEdmMkRaWDZybTFRWDdaUlUwcFE3TmttSkVrUzN5OThWd2tmVnhnOU5UaERW?=
+ =?utf-8?B?K2I3MHE0NkFkc0d5d1ZxRFhHRUxIeCs3d0x3M1ZzQ3ZWTWtXeE5MZ2NzeXkr?=
+ =?utf-8?B?aEJEM25mUWd6T3huRVVJZkhQL1hLSzN0cVhmVjVneTlIOCt6NzZYSERlbGZZ?=
+ =?utf-8?B?KzJnbzhoL1czcVRGVEdOblphTjN1TGw0NW1ka1hOMWpITWJINjhrbXgvOVpS?=
+ =?utf-8?B?ZDNHK1lXNTVZWE9TOTk2b0h4bWV4RDRsTHdzbURGQTZjSDdjZitqUDZzTWRV?=
+ =?utf-8?B?Zkw0RTBrVzFZS3U0bEJpWEtRRDB5TldXSXFOL0psKzFmakh3Ukt5MzFzNU5t?=
+ =?utf-8?B?SHcwdm5QQWlTY0VkMnlkODlMS2c1UkgxREtUMENCRHdVOXR5ZUpVSlBZeGFH?=
+ =?utf-8?B?OXZFUTNsZWN3a2RFSHJwMUs5NFEvTkh4RlFsQzFqS3U3eCtsdUpqZVAwSWRs?=
+ =?utf-8?B?RkNXWGpMWlFhb1lIZmlXWldiZ0pvT2xqQ0I2akwzcXp4YS9Jcy9SeGdCZ2Nr?=
+ =?utf-8?B?OHFsZW1iOHdxL21BQ3A1K1pNd0hGWUEwdDNHTWpUZkNKcmFjeGU0NFM1Tm5a?=
+ =?utf-8?B?c2VhdGZCd2hoUDdZS09UQll0eitSNlJBVzRYRS9FVkdmRWl0MFhtNEUrTnVJ?=
+ =?utf-8?B?MzM4UTcvdDFra1JEeUwzeENyRW1Qd014U2kzRk0xdGFsVDVtUTRMNzd0djJM?=
+ =?utf-8?B?QU9ueVNYWkViMUlDNkNRdlg1MEQyaXVsc2YxR2ZEZm5WT2ZWdTdhbzFnWFI3?=
+ =?utf-8?B?SjlNak5RNHlER2JORXkvTWJoMU9ZWEJmNGlPaXhMTHpOYzRaYUZjWENlTito?=
+ =?utf-8?B?V2oxVVNFQXdJdXFiRjBJU3c2eEFMK09ZVzlaTjdwdGRGOEhDajJOelpSTXBR?=
+ =?utf-8?B?ak9EN2c4R3BpT0VCN1o5Qm9MamlueElxaHA4QUdoTEhKM0IvTHNPZCtubWNy?=
+ =?utf-8?B?MVBGZWdkMEhjRWE0T0V1enVjbVNpWWZFVzB5RVpIUVYrZ3NKYkJmTWNNbHNG?=
+ =?utf-8?B?SFg0TXpsOWJOaTNFMlNHRy9tS0tYK3RXSFNBYi9CT0trY0ZQMjBvanFxWm1M?=
+ =?utf-8?B?UlVFTU9Fc25wWW1la2FYdHVMdExtdnFUQ3J4OE1XWWg0amE1NkxkQjcwNTNw?=
+ =?utf-8?B?U0Y5Yk80K1pUV0dOdktYTGdZL0Z2WkpGMU90UzJ2OHV0QzNHMFlxZEJHOW96?=
+ =?utf-8?B?MVNBUnE4aGR3WU9KWDBEcEoxMkx4VHBQNk1PMVBoK0N4aFA4UUVFeGQvRnJs?=
+ =?utf-8?B?QnE2RnN3R3ZNK3o1djZhbzJKSTM2b050RHZiMWFlbGV5ODZKY1NmMXdhcDRM?=
+ =?utf-8?B?MFQ4ZDN2VG1IV0hBK1F4UmJmVEMyQ04vUE1SNVdaeEpseloyRStiMDZuWTVW?=
+ =?utf-8?B?bUo3V29ZSjh3eFlXSkVIMk14dUo2ZXBBWFFlRUVoaDVsSXJ4bnBqMFZ6Ykwy?=
+ =?utf-8?B?ZUNiY0NpUEdGZDVQV2VoeUY3MXREMzh6ZE42eWF0Vk5nL0Z0TERsWWNGQ0FV?=
+ =?utf-8?B?ZlVuaGxQK053WFZKWkF5V0pFOW9hVGYzYXV1b0lOaVVyeHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkExb0t3c2F4a3llVWZnZWpONjBuWnF4bTIwVHF5SXVMZWJLWGprTVpSajhV?=
+ =?utf-8?B?VGJXSG01S0ZlNkdxUDIvaGhZb2xrR2diRjZuTlgxalI0b1RhZlpkQVl1Kzdh?=
+ =?utf-8?B?dkZvNTI5Rmxhbm9MT0VLYjNoU29HVmhwOUxIRHJwK0dmQ0ZXcThlS2thWkY2?=
+ =?utf-8?B?NXJoZ091dzg0VTVzL2NnWWJGNlgyNjgzck51Y1RWK2NxMUZkbUllQVNHVDJh?=
+ =?utf-8?B?N0h5OFMwMFBqclhwblQyYjFSVUdMVW1HUStCUHZZYlZWK1UvcnAzdi9YUVNJ?=
+ =?utf-8?B?SWhEMUJGd0k5MXpGaytVMkJlOVpPYWsvYm5PT2VyU3BaQzJycGRoZU5CbWxa?=
+ =?utf-8?B?SnpVWExyTXJFemZ0Y0l0MzYwUXpTY25qN2hNRFBoaEIrOEQ4RFpMWlFvSFlu?=
+ =?utf-8?B?am15Ri9nc2pNczhKeGVrb212SnpzU1dEK2xUYURiSDRJeThMK3pvS29yR1Ji?=
+ =?utf-8?B?KzdwNkNLTzBuYTZhTUxJZ0w4bVdIZlBPZ0hFeGtLdG1JbU1iallON2dHWE1p?=
+ =?utf-8?B?bnZFUEdXZWxkbWR5aUdBMXlIN04xVVJUck9RaHFicFRGU05sSlk5S0dXbndW?=
+ =?utf-8?B?NS9pcGRwQm8rMUVuZFhKUE1vYS9Vd1k3Q2pmaWpRN1g5SmowYmVDRWRQRVpn?=
+ =?utf-8?B?aXdIdHN4N2xncEo3TUN0YXhHaHBDNEcyUFRScWJPQnBPTGV4OERpNDMvTmg0?=
+ =?utf-8?B?WVVtWkV4anVCR29OUFI1SGgyZWZXVytKODBQcENENUg5VFlHQkhpc0R3OTdt?=
+ =?utf-8?B?YThLODVSWnFKc0dlZ2o2aHZDT0diY0VhVDBmWjFuQ204U3ZJVzZORUxKL1Jo?=
+ =?utf-8?B?eFA0TlNuWE9Lb1pmNTR4U2lHdjRheVNDOS85MmdXb2htdTZLV1ZSRUJ3OTBC?=
+ =?utf-8?B?WEhKc24rVGdueVJ6Y0FxRHlCMUlFWTZKMG85Vk1BZXI0ZVhKcU1pcEYxS01a?=
+ =?utf-8?B?OTFSNXdJamYvM0JUd3NSVHF6SHJ2SXloSFk2KzF5bFllVUlPNENwTGpPYWxs?=
+ =?utf-8?B?ZStPTStRYjA5OVVQWHBuNTcyak9WQnlnMVpNTExBaGwzMkFMWXM4NFBSWkJJ?=
+ =?utf-8?B?cmVNaUEzc3BmMytXdmhPUkowQzM2QTZyOVhDQzdSZ0VZN3BjbjRxaG9DZ1p1?=
+ =?utf-8?B?aGM1T0doZGJtc0tqOHowdnlvK09HUFBLTWg5YUI5TW4za1JwMEl1WkpXa3Nu?=
+ =?utf-8?B?SzRRZFQrVHBEV3ZrSVh6QXhjeFhuT0hMWWdQdFJkUmYzNzlEN1Y1RVI3NGsw?=
+ =?utf-8?B?czVNU2o0SjVIbndLbWgxb1hOaWNCcWV0RERyRHlPODYvQTJRT2lZU083VE1h?=
+ =?utf-8?B?aHJrRTF4ZTJ0WkFqSUdBTUM4OFI0VUN6REQxdUJrU2dITDVOMWFtWW43a3BD?=
+ =?utf-8?B?cThoOGpaNkhOK0lnaDdwOGZmUVh4VDFjak40dmRNY1ZJbGlBb3V0cFlJcDZH?=
+ =?utf-8?B?d2pMMkRrSFRWMHNTRGF3dWVWZlB5cmFHRlBEaU4yUTZtbC9zckkvc2tFUmtX?=
+ =?utf-8?B?TXJOV2lFYWlSZkJhQWIyTGpVWXJPR0MyYTlBZUxIWllRLy9VQjRKcmY0L0hC?=
+ =?utf-8?B?RXFNY1Y3UjJhQVZRaCtvWFY4dDVnU2daZlpkL3ZtRDhTY3JIbVF3eXBnUWNv?=
+ =?utf-8?B?bkdncXVmRllHTHNjWkI5Wmk1SmhhaXBrWkVxZmV0dlZhenFpRDEzYUpKbjZz?=
+ =?utf-8?B?UDV3a0thS3lzSjV6Z2RINmxvc3k3Nkh0ODBneXZWcE1xUGlnc0xndkhodGFt?=
+ =?utf-8?B?QVVraHBBUUhqZ2JmRzltUCtCRlBheDFMekhrWW1maFRuemRxUHpocy9kMU1m?=
+ =?utf-8?B?eVJUWHFnOVB0TmFtMGVHQ29qZjlqTGxoYytlbnRzUTZRUmQ2YjBwNHo0ckUr?=
+ =?utf-8?B?YjNnTkNaaFJCek0zeWFWZmt0aEgwQXIwWmtwVTZ0S3BEaDU2RmllZTFiUS9u?=
+ =?utf-8?B?UjhoeE5ZTXM4WkQ4R244QUhwNklKY3dsaTMrdlVMeXkxWXpucnh6Q3NLUkht?=
+ =?utf-8?B?U1dOb0MveURYb0ZRSmF0SHBCbCs0MXNuM1IreUhSK3dRdU1VMDFBNk12L3RZ?=
+ =?utf-8?B?TXNEcDlBVWFJZlBOR0FjMCtKWjZiWDdFWHpmYjlTRDFWdkVPQ1N0Nm4wQjBF?=
+ =?utf-8?Q?rrsfctdSTKpCfI7bmGDZPDfXe?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfb54635-9b5f-44c7-d9b4-08ddea2a0df9
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2025 14:07:30.3109 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: COZuOv0+yXRztFsBv1gTsnHeLSPKC2+1k4VotbDO9xHr5Dbkx+5xEN9LrRVEBD7X
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,151 +167,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> The dispc_vp_mode_valid() function checks whether a mode can be handled
-> by the display controller.
->
-> There's a whole bunch of criteria, and it's not clear when a rejection
-> happens why it did. Let's add a bunch of logs on error to make it
-> clearer.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 02.09.25 06:06, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> Later memcg enablement needs the shrinker initialised before the list lru,
+> Just move it for now.
+
+Hui? That should just be the other way around.
+
+The shrinker depends on the list lru and so needs to come after ttm_pool_type_init() and not before.
+
+Regards,
+Christian.
+
+> 
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 47 +++++++++++++++++++++++++++++--------
->   1 file changed, 37 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 32248b5f71b7566dc33d7a7db0efb26d3a9ed1c3..ef948e3041e10bc65cf2c4794a4e4cffa7e3fb3a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -1349,47 +1349,63 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
->   
->   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
->   					 u32 hw_videoport,
->   					 const struct drm_display_mode *mode)
->   {
-> +	struct tidss_device *tidss = dispc->tidss;
-> +	struct drm_device *dev = &tidss->ddev;
->   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
->   	enum dispc_vp_bus_type bus_type;
->   	int max_pclk;
->   
->   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
->   
->   	max_pclk = dispc->feat->max_pclk_khz[bus_type];
->   
-> -	if (WARN_ON(max_pclk == 0))
-> +	if (WARN_ON(max_pclk == 0)) {
-
-Better remove this WARN_ON(). User-space could trigger it and spam the 
-kernel logs. It's also a driver bug, I think.
-
-> +		drm_dbg(dev, "Invalid maximum pixel clock");
->   		return MODE_BAD;
-> +	}
->   
-> -	if (mode->clock < dispc->feat->min_pclk_khz)
-> +	if (mode->clock < dispc->feat->min_pclk_khz) {
-> +		drm_dbg(dev, "Mode pixel clock below hardware minimum pixel clock");
->   		return MODE_CLOCK_LOW;
-> +	}
->   
-> -	if (mode->clock > max_pclk)
-> +	if (mode->clock > max_pclk) {
-> +		drm_dbg(dev, "Mode pixel clock above hardware maximum pixel clock");
->   		return MODE_CLOCK_HIGH;
-> +	}
->   
-> -	if (mode->hdisplay > 4096)
-> +	if (mode->hdisplay > 4096) {
-> +		drm_dbg(dev, "Number of active horizontal pixels above hardware limits.");
->   		return MODE_BAD;
-> +	}
->   
-> -	if (mode->vdisplay > 4096)
-> +	if (mode->vdisplay > 4096) {
-> +		drm_dbg(dev, "Number of active vertical lines above hardware limits.");
->   		return MODE_BAD;
-> +	}
->   
->   	/* TODO: add interlace support */
-> -	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
-> +		drm_dbg(dev, "Interlace modes not suppported.");
->   		return MODE_NO_INTERLACE;
-> +	}
->   
->   	/*
->   	 * Enforce the output width is divisible by 2. Actually this
->   	 * is only needed in following cases:
->   	 * - YUV output selected (BT656, BT1120)
->   	 * - Dithering enabled
->   	 * - TDM with TDMCycleFormat == 3
->   	 * But for simplicity we enforce that always.
->   	 */
-> -	if ((mode->hdisplay % 2) != 0)
-> +	if ((mode->hdisplay % 2) != 0) {
-> +		drm_dbg(dev, "Number of active horizontal pixels must be even.");
->   		return MODE_BAD_HVALUE;
-> +	}
->   
->   	hfp = mode->hsync_start - mode->hdisplay;
->   	hsw = mode->hsync_end - mode->hsync_start;
->   	hbp = mode->htotal - mode->hsync_end;
->   
-> @@ -1397,29 +1413,40 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
->   	vsw = mode->vsync_end - mode->vsync_start;
->   	vbp = mode->vtotal - mode->vsync_end;
->   
->   	if (hsw < 1 || hsw > 256 ||
->   	    hfp < 1 || hfp > 4096 ||
-> -	    hbp < 1 || hbp > 4096)
-> +	    hbp < 1 || hbp > 4096) {
-> +		drm_dbg(dev,
-> +			"Horizontal blanking or sync outside of hardware limits (fp: %u, sw: %u, bp: %u).",
-> +			hfp, hsw, hbp);
->   		return MODE_BAD_HVALUE;
-> +	}
->   
->   	if (vsw < 1 || vsw > 256 ||
-> -	    vfp > 4095 || vbp > 4095)
-> +	    vfp > 4095 || vbp > 4095) {
-> +		drm_dbg(dev,
-> +			"Vertical blanking or sync outside of hardware limits (fp: %u, sw: %u, bp: %u).",
-> +			vfp, vsw, vbp);
->   		return MODE_BAD_VVALUE;
-> +	}
->   
->   	if (dispc->memory_bandwidth_limit) {
->   		const unsigned int bpp = 4;
->   		u64 bandwidth;
->   
->   		bandwidth = 1000 * mode->clock;
->   		bandwidth = bandwidth * mode->hdisplay * mode->vdisplay * bpp;
->   		bandwidth = div_u64(bandwidth, mode->htotal * mode->vtotal);
->   
-> -		if (dispc->memory_bandwidth_limit < bandwidth)
-> +		if (dispc->memory_bandwidth_limit < bandwidth) {
-> +			drm_dbg(dev, "Required memory bandwidth outside of hardware limits.");
->   			return MODE_BAD;
-> +		}
->   	}
->   
-> +	drm_dbg(dev, "Mode is valid.");
->   	return MODE_OK;
->   }
->   
->   int dispc_vp_enable_clk(struct dispc_device *dispc, u32 hw_videoport)
->   {
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+>  drivers/gpu/drm/ttm/ttm_pool.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index 9a8b4f824bc1..2c9969de7517 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -1381,6 +1381,17 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>  	spin_lock_init(&shrinker_lock);
+>  	INIT_LIST_HEAD(&shrinker_list);
+>  
+> +	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+> +	if (!mm_shrinker)
+> +		return -ENOMEM;
+> +
+> +	mm_shrinker->count_objects = ttm_pool_shrinker_count;
+> +	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
+> +	mm_shrinker->batch = TTM_SHRINKER_BATCH;
+> +	mm_shrinker->seeks = 1;
+> +
+> +	shrinker_register(mm_shrinker);
+> +
+>  	for (i = 0; i < NR_PAGE_ORDERS; ++i) {
+>  		ttm_pool_type_init(&global_write_combined[i], NULL,
+>  				   ttm_write_combined, i);
+> @@ -1403,17 +1414,6 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>  #endif
+>  #endif
+>  
+> -	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+> -	if (!mm_shrinker)
+> -		return -ENOMEM;
+> -
+> -	mm_shrinker->count_objects = ttm_pool_shrinker_count;
+> -	mm_shrinker->scan_objects = ttm_pool_shrinker_scan;
+> -	mm_shrinker->batch = TTM_SHRINKER_BATCH;
+> -	mm_shrinker->seeks = 1;
+> -
+> -	shrinker_register(mm_shrinker);
+> -
+>  	return 0;
+>  }
+>  
 
