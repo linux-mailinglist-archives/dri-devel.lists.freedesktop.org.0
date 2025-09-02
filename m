@@ -2,139 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63B1B40280
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9B4B402B4
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 15:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F54D10E6D1;
-	Tue,  2 Sep 2025 13:18:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C58110E331;
+	Tue,  2 Sep 2025 13:22:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="uhc2maRU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="opzvab4s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uhc2maRU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="opzvab4s";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="u84S6j7v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 440F910E6E1
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:18:20 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C87B61F391;
- Tue,  2 Sep 2025 13:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756819098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bEnWNsXQCXcE5gLT2+BVb6krhSlAtI75qvg/Iierkes=;
- b=uhc2maRUodtZ12qeNeMemG9YAZud9gzU234plmjFIQckz9gFHYoJFRMHZbAb2lJuum5T1F
- zWmvPThLw53WGRyoLvbA+8L9ueVU/9wP+AQW9+j6wO5pCMhAbf4G3ouAzD1afgv7AQ7WI9
- Rvpxc+pRQJQS5geC/OR3wbXZR/ZBD74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756819098;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bEnWNsXQCXcE5gLT2+BVb6krhSlAtI75qvg/Iierkes=;
- b=opzvab4s2Lnmmg6l8N7FEjWIbdAvYHVTctxpufFgXI3mvnFVMIdGjFJoP//GejspAceeRW
- lpOdF7XLbbP1qYBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756819098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bEnWNsXQCXcE5gLT2+BVb6krhSlAtI75qvg/Iierkes=;
- b=uhc2maRUodtZ12qeNeMemG9YAZud9gzU234plmjFIQckz9gFHYoJFRMHZbAb2lJuum5T1F
- zWmvPThLw53WGRyoLvbA+8L9ueVU/9wP+AQW9+j6wO5pCMhAbf4G3ouAzD1afgv7AQ7WI9
- Rvpxc+pRQJQS5geC/OR3wbXZR/ZBD74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756819098;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bEnWNsXQCXcE5gLT2+BVb6krhSlAtI75qvg/Iierkes=;
- b=opzvab4s2Lnmmg6l8N7FEjWIbdAvYHVTctxpufFgXI3mvnFVMIdGjFJoP//GejspAceeRW
- lpOdF7XLbbP1qYBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6517813882;
- Tue,  2 Sep 2025 13:18:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ps/6FprutmjTWAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Sep 2025 13:18:18 +0000
-Message-ID: <9f17dfd9-a4d4-41e9-b988-bd8ca858e5e7@suse.de>
-Date: Tue, 2 Sep 2025 15:18:17 +0200
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCD910E331
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 13:22:23 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582D9Gx4024544;
+ Tue, 2 Sep 2025 15:22:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ s9AN+5V0g7vIUCzNGDoPZQbgjwt0oGtbWkVLcxxUCEE=; b=u84S6j7vGFoTzNcx
+ nujLMQXT3/vtxSG6iDshDSA9qIaiCXruRuPNuPBHboHE+oGEuu4ePIDpbZzZOrKI
+ 79lKv/JcTr/OATQHaQI56QsHoPfGi5/tiQkO6WxVVIssVDOcundllXj+qwci3sMW
+ 15gtEvfRf/6Ya1U51nJUeE6fkVC5w1v3er8yz3L+etAttvSApAuLVvCKQ99y27iZ
+ qW3lazu3akpqFkxDHL8X36t2XJ/4GkTNO6ddI9uynDt3q2+aW1fFEs9UZeuIDmwm
+ n9gtDibUd3tOm2KX0ZK3M7q332RV7QXpuwqzKE322Ywwa92XD48VEOxr6xo4XFi9
+ lcBqnA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48urmxcaap-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Sep 2025 15:22:00 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4298340045;
+ Tue,  2 Sep 2025 15:20:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89B513AD3AF;
+ Tue,  2 Sep 2025 15:19:27 +0200 (CEST)
+Received: from [10.130.74.180] (10.130.74.180) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Tue, 2 Sep
+ 2025 15:19:26 +0200
+Message-ID: <50e3f25c-f4e1-40f6-8e36-23193863f1ee@foss.st.com>
+Date: Tue, 2 Sep 2025 15:19:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/29] drm/atomic_state_helper: Fix bridge state
- initialization
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH 0/2] Introduce BACKGROUND_COLOR DRM CRTC property
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-5-14ad5315da3f@kernel.org>
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>
+CC: <kernel@collabora.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>,
+ Matt Roper <matthew.d.roper@intel.com>
+References: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250902-drm-state-readout-v1-5-14ad5315da3f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TAGGED_RCPT(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[15];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,intel.com,linaro.org,ideasonboard.com,kwiboo.se,iki.fi];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.130.74.180]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-02_04,2025-08-28_01,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,78 +86,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> Bridges implement their state using a drm_private_obj and an
-> hand-crafted reset implementation.
+
+On 9/2/25 11:27, Cristian Ciocaltea wrote:
+> Some display controllers can be hardware-configured to present non-black
+> colors for pixels which are not covered by any plane (or are exposed
+> through transparent regions of higher planes).
 >
-> Since drm_private_obj doesn't have a set of reset helper like the other
-> states, __drm_atomic_helper_bridge_reset() was initializing both the
-> drm_private_state and the drm_bridge_state structures.
+> The first patch of the series introduces the BACKGROUND_COLOR DRM
+> property that can be attached to a CRTC via a dedicated helper function.
+> A 64-bit ARGB color value format is also defined and can be manipulated
+> with the help of a few utility macros.
+
+Hi Cristian,
+
+Thanks for this work ! :)
+
+FWIW I sent a series also based on Matt's work four years ago:
+https://lore.kernel.org/dri-devel/20210707084557.22443-2-raphael.gallais-pou@foss.st.com/
+
+IIRC at the time there was some questions around the pixel format used for the
+property, and non-opaque color vs alpha pre-multiplication.
+Mind that on STM32MP platforms alpha channel for the background color is not
+supported.
+
+Hope the thread can bring some insights.
+
+Best regards,
+Raphaël
 >
-> This initialization however was missing the drm_private_state.obj
-> pointer to the drm_private_obj the state was allocated for, creating a
-> NULL pointer dereference when trying to access it.
+> Note this is a reworked version of the patch [1] submitted (many) years
+> ago by Matt Roper.  The main changes are:
 >
-> Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> * Dropped drm_arg() in favor of drm_argb64() to get rid of the bpc
+>   parameter and the related shifting for more flexibility in operation,
+>   e.g. when user-space cannot make use of the helper and/or when it
+>   doesn't now the actual precision supported by the HW.  This also
+>   simplifies the property verification/validation testing (see below).
+>   It works by extracting the specified number of least-significant bits
+>   from each color component.
+> * Renamed DRM_ARGB_*() to DRM_ARGB64_*_LSB() while providing convenience
+>   wrappers to extract all 16 bits of a specific color via DRM_ARGB64_*()
+> * Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
+>   drm_property_create_range() to create the BACKGROUND_COLOR property
+> * Moved crtc_state->bgcolor initialization from
+>   __drm_atomic_helper_crtc_reset() to
+>   __drm_atomic_helper_crtc_state_reset()
+> * Replaced '*bgcolor*' occurrences to '*background_color*' for
+>   consistency with the actual property name in both storage field and
+>   helper functions names
+>
+> The second patch adds background color support to the VOP2 display
+> controller used in the RK3568, RK3576, and RK3588 Rockchip SoC families.
+>
+> For the moment this has been validated using a modetest wrapper script
+> [2], which is able to execute several tests - see an example of a
+> generated report at the end.  Proper support in Weston is currently in
+> development, and I will provide a reference once it becomes available.
+>
+> The tests were performed on the Radxa boards listed below.  Please note
+> that as of next-20250901, there are a few known regressions; for each
+> case, I mentioned the actual problem and its related fix/workaround
+> accordingly:
+>
+> * ROCK 3A (RK3568)
+>  - issue: broken networking
+>  - fix: revert commit da114122b831 ("net: ethernet: stmmac: dwmac-rk: Make
+>    the clk_phy could be used for external phy")
+>
+> * ROCK 4D (RK3576)
+>  - issue: random freezes right after booting
+>  - fix: add regulator_ignore_unused to kernel cmdline
+>
+> * ROCK 5B (RK3588)
+>  - issue: broken networking
+>  - fix: apply patch [3]
+>
+> [1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
+> [2] https://gitlab.collabora.com/cristicc/linux-next/-/commits/drm-vop2-bgcolor-test
+> [3] https://lore.kernel.org/all/20250827230943.17829-1-inochiama@gmail.com/
+>
+> Validation report on ROCK 5B
+> ============================
+>
+> $ tools/testing/rk-bgcol-test.sh
+>
+> ---------------------------------------------------------------
+>  Available Rockchip display connectors
+> ---------------------------------------------------------------
+> id	type	status	crtc_id	plane_id
+> 85	11	2	0	34
+> 88	11	1	83	40
+>
+> Selected connector: id=88 crtc=83 plane=40
+>
+> ---------------------------------------------------------------
+>  Check initial state
+> ---------------------------------------------------------------
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=0 g=0 b=0
+>
+> ---------------------------------------------------------------
+>  Set/get DRM property
+> ---------------------------------------------------------------
+> Changing prop value to: 0xffff00000000ffff
+> opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=0 g=0 b=ffff
+>
+> ---------------------------------------------------------------
+>  Plane display test 40@83:960x540+480+270
+> ---------------------------------------------------------------
+>
+> Changing prop value to 0xffffffff00000000
+> Press ENTER to continue..
+> opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+> testing 960x540@XR24 overlay plane 40
+>
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffffffff00000000
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=ffff g=0 b=0
+>
+> Changing prop value to 0xffff0000ffff0000
+> Press ENTER to continue..
+> opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+> testing 960x540@XR24 overlay plane 40
+>
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffff0000ffff0000
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=0 g=ffff b=0
+>
+> Changing prop value to 0xffff00000000ffff
+> Press ENTER to continue..
+> opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+> testing 960x540@XR24 overlay plane 40
+>
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffff00000000ffff
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=0 g=0 b=ffff
+>
+> ---------------------------------------------------------------
+>  Restoring state
+> ---------------------------------------------------------------
+> Changing prop value to: 0xffff000000000000
+> opened device `RockChip Soc DRM` on driver `rockchip` (version 1.0.0 at 0)
+> Read BACKGROUND_COLOR prop (ARGB64): 0xffff000000000000
+>     Connector: HDMI-A-2
+> 	background color (10bpc): r=0 g=0 b=0
+>
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->   drivers/gpu/drm/drm_atomic_state_helper.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+> Cristian Ciocaltea (2):
+>       drm: Add CRTC background color property
+>       drm/rockchip: vop2: Support setting custom background color
 >
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 7142e163e618ea0d7d9d828e1bd9ff2a6ec0dfeb..b962c342b16aabf4e3bea52a914e5deb1c2080ce 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -707,10 +707,17 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->   	__drm_atomic_helper_connector_destroy_state(state);
->   	kfree(state);
->   }
->   EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
->   
-> +static void __drm_atomic_helper_private_obj_reset(struct drm_private_obj *obj,
-> +						  struct drm_private_state *state)
-> +{
-> +	memset(state, 0, sizeof(*state));
-
-This argument is guaranteed to be zero'd, I think. No need for a memset.
-
-> +	state->obj = obj;
-> +}
-> +
->   /**
->    * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
->    * @obj: CRTC object
->    * @state: new private object state
->    *
-> @@ -796,10 +803,11 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
->    */
->   void __drm_atomic_helper_bridge_reset(struct drm_bridge *bridge,
->   				      struct drm_bridge_state *state)
->   {
->   	memset(state, 0, sizeof(*state));
-
-Another unnecessary memset?
-
-Best regards
-Thomas
-
-> +	__drm_atomic_helper_private_obj_reset(&bridge->base, &state->base);
->   	state->bridge = bridge;
->   }
->   EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
->   
->   /**
+>  drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+>  drivers/gpu/drm/drm_atomic_uapi.c            |  4 +++
+>  drivers/gpu/drm/drm_blend.c                  | 37 +++++++++++++++++++++++++---
+>  drivers/gpu/drm/drm_mode_config.c            |  6 +++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 +++++++++-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 +++
+>  include/drm/drm_blend.h                      |  4 ++-
+>  include/drm/drm_crtc.h                       | 12 +++++++++
+>  include/drm/drm_mode_config.h                |  5 ++++
+>  include/uapi/drm/drm_mode.h                  | 30 ++++++++++++++++++++++
+>  10 files changed, 110 insertions(+), 6 deletions(-)
+> ---
+> base-commit: d0630b758e593506126e8eda6c3d56097d1847c5
+> change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
 >
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
 
