@@ -2,132 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333A4B3FB18
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3AFB3FB31
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 11:51:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFEED10E644;
-	Tue,  2 Sep 2025 09:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C42F410E645;
+	Tue,  2 Sep 2025 09:51:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="df44LpFW";
+	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="N4KlK53K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F9C10E1C5
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:49:02 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5822XJ7c031628
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Sep 2025 09:49:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ef0edgZ/9neE8uhkiRDCZwng
- z4JTifOPA35MBTbIahA=; b=df44LpFWVR9fhHJ3FYUk3VZt9dD565gwO6w1Z10M
- GT/4EpKZfqfGDw+OssvwXIkml8BcKYZyikE3SMc6MKbhyrPHt6a5+e4Hp4dHcIjk
- e16YpjM0zcW7dztmy7qn3FRPq/aZdb3hSFXQqsEG5TyDdNn/1snsMGq9Y126lL/E
- 3MXgqj5B53IfeE55sklNjY590QFtVb8mwJr2cVr0HcDxkhwxWWmePKGcvpdn/dvR
- Dbgu+oFWKD5kVLZ2DiwYK0HgMV4WD0YNyIaoiaiZ0pxCsucbIxKYxHvymUKbsNSz
- E5ETn3eaY5YNEizL1m9Tu/eqB6364D+vljm/vUo3+4vOmA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48wqvw9320-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 09:49:01 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b30d6ed3a4so20027581cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 02:49:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756806540; x=1757411340;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ef0edgZ/9neE8uhkiRDCZwngz4JTifOPA35MBTbIahA=;
- b=DKglVj5kx8ySxih8+ueawyaMjESpVpLmBiJj53my08Wj336VlRd10mk9AtRlHcQUXm
- y3O60p9fxozYDUQfFI8lcx8xRLCCakMqpZsuKtLZ8O0k5jNFFXtDJCOCka9EEHQ+ta2k
- MWCjiEnsBkCD1bgY3p21p2E2WDACG4egCPh2Dt4prf0VhcR/BkvbiuPjfQ9FO+76XQmm
- epNJQ4W8lFZ90k4yChy24f26ZPLEyp0lXixNKuYAi5M73iHVc9qaWJdYnfGtxjX0JCnp
- y3DUfYW78FtuzhxwPBj9cRNbU3jaI4NlvDcMbr9CEjjTNeaQASWe+I2AX3Bjn5lRF1+b
- 5E9g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+udXHZq2uR+W+ug3uLjEZnL07MvGz86kPeitbJLNckIMd3hYNUZ7+8AApnYcaV+sKxrKU9aocc50=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyi/WMwvEPIHQ49ukTbmKdwDIpP1PMUeULoIKT65XGtI+HM4ssM
- Jz1+mpRl1qdZoWTQyc/FpDp/hcJ1B02qkN8u9BHxU8JvU75MBZHDmzZpVFatwLIXR0F/glr1ill
- 6tTAx6p8JYvkhUq+zEZtDiSrIqX+MRgAdyPai0U8+ZNtVE4ZCfYc96zUB9VUR4fVleGyFM4Y=
-X-Gm-Gg: ASbGnct1IBFwYci/kXL01oLozCRTbyESb8+neR6W+MRSD3UP/YpL+UQ7WTD3g1nX4aH
- iwD1Dx6FFF/IEkpyi/8mICUw+gAi5tJdIdVLGFjEKdQnwpiSQPxchic9MyhgshBnKr6+U5zmDCg
- yKxi0zNA0tCKa/Nud3LJ8dJl1mWNFOJCYuKC6+OdLJ5qcklolWMaPP+VENS+5AtQzV2UcxnChnQ
- AE4tH+Z7sAnKkqgxZ8/WEeFi+skx1ey9IOrwfp5QgAkJfCRQt704ktnq3pLVWj/WrTFSbNAfQdL
- WCOZQVROGWQWqf4a2z6q60wV5TjWLO8cfLjvgGUoQSjvGqhJxQRd89Dse4dJ0TLoLOy5vy7Yrsm
- R3fFP6CDsc5udG2NQi43Ru1ve6hk6LdFvHflZiivaF+8IvqdkZVI2
-X-Received: by 2002:ac8:5f4c:0:b0:4b3:1c48:e9ea with SMTP id
- d75a77b69052e-4b31d8445e4mr81606591cf.5.1756806540179; 
- Tue, 02 Sep 2025 02:49:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFZKU4HE2HJogDoRI/mFySjKfrG/0weGrNzkeug/yUx/r/706E/wXqTZfTWe6WraRHbzYq5gg==
-X-Received: by 2002:ac8:5f4c:0:b0:4b3:1c48:e9ea with SMTP id
- d75a77b69052e-4b31d8445e4mr81606321cf.5.1756806539674; 
- Tue, 02 Sep 2025 02:48:59 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-337f5075c85sm3350441fa.50.2025.09.02.02.48.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 02:48:58 -0700 (PDT)
-Date: Tue, 2 Sep 2025 12:48:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 2/6] dt-bindings: display/msm: dp-controller:
- document QCS8300 compatible
-Message-ID: <tvdbil5fhgntj6wx235ihum6dxy673ekdlpmv2qath5r2o7f3l@jynol3ns7uxb>
-References: <20250901-qcs8300_mdss-v10-0-87cab7e48479@oss.qualcomm.com>
- <20250901-qcs8300_mdss-v10-2-87cab7e48479@oss.qualcomm.com>
- <20250902-speedy-overjoyed-dove-edf2ee@kuoka>
- <fe2867dd-50a6-42d8-92b0-0e29fa7691ee@kernel.org>
- <e59fca7a-4145-4aab-80a5-8305f935e8d4@oss.qualcomm.com>
+Received: from OSPPR02CU001.outbound.protection.outlook.com
+ (mail-norwayeastazolkn19013081.outbound.protection.outlook.com
+ [52.103.51.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6D310E645
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 09:51:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PNOsGMx53nwsfWey7JfMWGArDkncc4paznKWPtQyzoF0dRuF4orJX0xEel0kEK0bL1ZZ+ZcG7ojWr6q171btutCtAM4aaEuKzKpGjNiBpt6ufTFF9J/cFAykoBxRgXyEzkuTlYp9FzLVnUOAA9P+r19cRnkcbAWkqkHJegtcmsIkNdH+Bp2H/UX0QewKcyoFidJYty/5TX0AeKUwlRDJMCQ2zg0j0xne1kHl5f1qDeQU/OjVM2sMYDWZfFjI3NjCntaS5pl7RaxNl/aiUj25n/QB4DvZpt057QJ8lCDl003Kgs5BkT+4chUlAs8U717OPjJmIVY/PMNi47Pvp+UHwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ou+ejlbwKEycOi5pbYhqsHOOTXpcajXPOBZgjTIwuVE=;
+ b=ct/Tsw92T2bc+0b0VTvNeK4ZK3Nbxy1nXZKK9q8HiBNeW52lS2DTgsZ5SXSBy5ueQ91xSD1Cg7hBzrgO9L5cj5QJi9aTgfOD+trm+RqhwPGpHHkL0+/andsOXw209Dlxr7PIkQ1dOfQmKw+SQKyKzRvKzYr8LgQS0t6m4nA/50B+f0HTAJ5sHS80x8YM6Hz+XZXSKEPep/ENxB1OIlZZ+Fk9UzfJAtkimPxy8axVzk7bqP8oKWk9N57td4V90yhjlsP1drF7+FgqZdhyd5t/n0ngxe5gBGtVxUZI68Ybo+R33zW9CxYYABF8URyg8e3Myb9VbM3GIDs3qe9JpDlP+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ou+ejlbwKEycOi5pbYhqsHOOTXpcajXPOBZgjTIwuVE=;
+ b=N4KlK53KcL7xyWcYDW/c/xQ3o9KcGXLlGJXfskeIvr73YhcVD0YcneT0pMuHg85dj2vvxCjGpcpkYIzz1VhDnhizhxmXAlx7eP7WSVlwRVPBNIHecXNcpyMRL+eBnedGOQwe5U5nqAuZa4GjtJcDhYpY7jzFHnMC33ccaGDbkIDUJAMhP2/u6UFQ+xcmDBI2NpaVmeMsJRPIMIUxjAKPc/0A4UfmUEzI6oxHpINU2ptbXs6n4hT2EbMcwBtBpgqshey0WaJisyloXPo4jWJtkhE5EuXTvGq8TugVDB2gk89r2BE8QfeQKRB5IV8OGvMG3xj6tQxRDFrfNETcZlkXpA==
+Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:175::17)
+ by DU0P189MB2372.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:47c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Tue, 2 Sep
+ 2025 09:51:42 +0000
+Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5756:694d:1641:3b13]) by AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5756:694d:1641:3b13%4]) with mapi id 15.20.9073.026; Tue, 2 Sep 2025
+ 09:51:42 +0000
+Message-ID: <AM7P189MB10091286D1F4DF0E43D42510E306A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+Date: Tue, 2 Sep 2025 11:51:40 +0200
+User-Agent: Mozilla Thunderbird
+To: neil.armstrong@linaro.org
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ andersson@kernel.org, andrzej.hajda@intel.com, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, kishon@kernel.org,
+ konradybcio@kernel.org, krzk+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, rfoss@kernel.org,
+ robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de, vkoul@kernel.org
+References: <20250902-topic-x1e80100-hdmi-v2-1-f4ccf0ef79ab@linaro.org>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: bridge: simple: document the
+ Realtek RTD2171 DP-to-HDMI bridge
+Content-Language: en-US
+From: Maud Spierings <maud_spierings@hotmail.com>
+In-Reply-To: <20250902-topic-x1e80100-hdmi-v2-1-f4ccf0ef79ab@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P190CA0063.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:656::14) To AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:175::17)
+X-Microsoft-Original-Message-ID: <61c63fa6-ed5a-4527-8993-1aab87ef3a94@hotmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e59fca7a-4145-4aab-80a5-8305f935e8d4@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAyMDAyNCBTYWx0ZWRfXzoH2Z15nHck4
- pNUEj27fcyWvf057TdVLc1oCgU7gi8aLuGNtIi4Y420iWv/THrrVp2NLqmhRFxqL5i7hwOZVk+F
- 8uDFHuxyQyE4htUWqVBLsOeTHOXRP/YcsUywLH+nnIuciHCpCoWyYcGjnpLCG70YwlRBfN9K5gD
- vZq7hPxXJDSzLdI9A0AA2NCbJhj0kAQSBXgwtWIzVBwioeQ1AwxZgRSwQ7pJlI99SB3WUoPN/Dr
- CYWqn2Vu5c1T0datCoAKNeRScXV8cZJYvac6TURGPfI7sfeNHuF9UTsPbQl9gsNq/RxIl2LNgaV
- sGgVCRa6oTli2uVhmcnUExk0dTab8Vw0pxaBWI21oTo9R3RA7yEjac/39BIR9wceGjKQqSgc7Ag
- bYXFIQoC
-X-Authority-Analysis: v=2.4 cv=WKh/XmsR c=1 sm=1 tr=0 ts=68b6bd8d cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=lf_M6NTgIIccHnlT_YMA:9
- a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: WFVSQM5strgHysiflk3dbqW5nTJJVX5b
-X-Proofpoint-ORIG-GUID: WFVSQM5strgHysiflk3dbqW5nTJJVX5b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_03,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 adultscore=0
- spamscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509020024
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7P189MB1009:EE_|DU0P189MB2372:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2aedb500-aeab-4fca-4c29-08ddea065178
+X-MS-Exchange-SLBlob-MailProps: iS5pQZgsAQAQzPBsqL0qQYWYJhuVqIOi7Ibv0XfYq88sG79TTKYJ76VPBjhCbykGrNf/iZLDnw3d6OAgD+tPsa3E8suhNlYeYDUHl/okvqO3eWLuUQ0gJ//XTkPMryrsY+zqqFFJ+p7nkZT2KE5yyE/I7ta/nQcioFqQGF2UW1Ob3wHqIotceVrsP3KhW2ICa5RBiqpfi/DAVYplnFsqu0kAdQ+TTcWfwwAVMrL0BjV/foSReyRnVfS11whxANhpbnW6q9NisbW6Ojw1L5H/KLpb2s0tA4thkAmgSx9f7vEBc+NAEJu2HCHXJlgPoFz82Af89sGMMsmrYVs2tm+YhTJQyfluDCTuD2Ih2ck4rcBPyqvx44MFGlkx29wYfC0jueG1IbYDHqYS0H9Nr3xaPklBWxRLmr6yTnx+2otk1um5X6Vmr1p9XwxJTnC59k5b9GL5ChP9cE4F3nORGmSkF3qfhHPHJQydzZzREIxyhQfwuyo1TOwPpmxRQG4akA+1LQB9pOZ/t58Iuq0RePvwkO3yNm/afKDKXa74vD/KXlE3BeksFms2qYKrbJ2/lAFC+I3ZxlRghy9EYXJ8dfDCFc0r3n0XdaBBYn6n+Jet8vHByFtsHqAtqi0Wie+MRGfwH1wbfJcbxjmxDEFEcj7OsiKmtE34On8Pf02XvuGaaHG77Tsee/b+KNApodpHCs97/wTGQ8kxAsQkd83FQUmI0waDPS/zlh8WRR9X3594ov86svsR5nBuKg6DvcjGhghqUJY3WdGh/fGi45id4DExOjJ63Qsc9uRLFOOlXGJWdU3WbW86197pNu0je5VNan3J
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|461199028|6090799003|23021999003|15080799012|8060799015|19110799012|5072599009|1602099012|51005399003|40105399003|440099028|4302099013|3412199025|10035399007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VFNKSXNTMDNrcFd5bW5XU0ZjNDRJL3BSM0Y3N1N4WTY4Ky9IditzQXhiMk5j?=
+ =?utf-8?B?eGU0QW5MVFFIMFZRaThReFNHWHl0c1JSYjBXU0htWE8vNzNocUdWVzFkSklL?=
+ =?utf-8?B?eXZZUlk4RC9Ucy9IZ2dSb29MMFpGdnBvaUhXZkJieWtkaWQ5cFY4NTNpQzR4?=
+ =?utf-8?B?NmpXNUwyckNMSUxjaUlMSjF5Z2tUZGtKTEd6aUR4dERNOWlQNlprcXZ0dmR1?=
+ =?utf-8?B?bnE5TE1CenQrMmhUK20zTGg3MVZ3UWc1SjFCK3AwV1ZyQjZpK2VnTGtuaXdt?=
+ =?utf-8?B?NndvdWNYcENRcGlpbTJjYWYycW1HQ0NncGV6VVRvMDcxRlhWVnFWOUZzMUJo?=
+ =?utf-8?B?eURkcXZ0em5wdGVsOWlyakpuakk2cW45U1ArNVR3ZEFwNTYraEV3QVdXNnl3?=
+ =?utf-8?B?S2xaK2hlZVFzc05qcVFmTERwVjRqOHJWRmhIeTd1eDBzdWQ1dlR4bThCSllk?=
+ =?utf-8?B?TWZXT2hFSXFFSURrb3dpdWNPdkM1a21UMlZqa0xtS2ZTbG9aTm44a0dFaGlM?=
+ =?utf-8?B?VGU5RjkzZ0VqUGNoeVZHRm9FdXo0Q1BKQzNpVy9nTUNwUFIyMWdCVS9CaEhW?=
+ =?utf-8?B?L3M3SWZOcnhBT3djSVZ2RnJpK1dFQW1NcGdVVjBlOXZJSWFydjZFVUt0OEc2?=
+ =?utf-8?B?WUhLWC9xclZzTmNDcEJrR1FWS0ZSazQ2bVdCY3VETUFGV0hFeGl4c2pzZzM4?=
+ =?utf-8?B?QkdHQThBT1B3b09KOUJKeEljYUN3VVVVOGt5SlBkYVArNldxNUFPTE5Bc3BP?=
+ =?utf-8?B?a21NZklrVUg1anlTZW5McEl2YjdFRW5rVDF1RmowcFRlQktKNjF2MUdxS2JO?=
+ =?utf-8?B?c2M5MkVYamVLTlVDdXRhZnNoNmkrem5vbmtoS2Nwb0VsL00zZTFnR2hocmFO?=
+ =?utf-8?B?RzczVGtPaW9ndGg5QlRRNldQOGFhbGhjTFliWFkzdFg2djc3blE1TDN2eXk1?=
+ =?utf-8?B?SGtoR3hmaDdZeGlIaXh5TDIyWEZ4UWJsaDk1aWkyeEJQLzZ1eFE4MzVJaVlP?=
+ =?utf-8?B?TEVWRGIwTDBxaVUxRVlST29MUVM2L2RUYVIxUUlCOWpoOW1TZVRXYzRVMkdF?=
+ =?utf-8?B?ZDZWeFFSVTZiblV1N1hPMEtoeGVzdDE1bm1kMUh3RytmUEhadVpmRm5FV3I4?=
+ =?utf-8?B?TGNhU1VmZVRjU3o0eTdBMVg3dVc3N254eU5PdGNYYmQ4MWJEckNBZWxOQTZ5?=
+ =?utf-8?B?a0JCMjByTkdqYks3L1lvV0tKTTNYK0NTTXNvckFwQm9HbFhGYW9idlByV3dI?=
+ =?utf-8?B?bHhNVE53aUd0OURneHpVVmI3THgyZDJsNjNteSs2VEc4VmcyT1RZNWo3NXRw?=
+ =?utf-8?B?MDFaV3kram0zcXVIUkpZOVlpQ1RjeURodDRYRXM4N2JBMHZBa2ZRRmRVa0Vh?=
+ =?utf-8?B?NFRDY0tpK2FmMFMwNDBmZit2ejJJd1RuUlFWM0lTNWVRaE9EVDBTZHlFMXFt?=
+ =?utf-8?B?RVBEdE03Uk84Yk5UZUdlaG15WUF0cXdaNFNUV3V2VDR1Vk9tcExiSFl0UGh3?=
+ =?utf-8?B?cEtKQ1lLWC9LeEtxVUVudHBLY3lEUGMvRXRBSXlDcUFsR2tML2hPY3VZQ1lq?=
+ =?utf-8?B?Z1JUdmVBRDdVcDZzbEVXM0twRThHeU9Wd1N6S1ZhQ2dvd3JNUHFJYVRaSEt2?=
+ =?utf-8?B?L09iU1I1b2VGQTVvUmlsbVB2V1lhWXdHQmhpaDROeVlwdyt0MVd2Uk9uRXdV?=
+ =?utf-8?B?Tmp1SGxuRVhGNHZaZnl1YStPYm4xUjV4TEZ4bVp4VnRVUXRPOXVUSnE2ditk?=
+ =?utf-8?B?N3pQNmJyck1YRXJRTUFEWUdCSTdZdnNaM1lXRWlua2lyOWNSWFIrcFlFdU9a?=
+ =?utf-8?B?RjZ4VTRsU2ljcWFTSjlEUT09?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHB5cmFCazJwZTRkcXo1b0VXUWVIUmUyck1wT1M0WTAwbVA5V3ZOZ09DMG1s?=
+ =?utf-8?B?ME8wZzU4bUJ5VGRHWlg2Z3Z5OGJVcFVTZ0lzOFJzMUkwVG5UQkRXN0JjS1NL?=
+ =?utf-8?B?V0pWSXRnYU8zNXFqRy9SQzdTNmd0Q1RHb1FWbDRBSTlxR2FjbVpabis1T1JS?=
+ =?utf-8?B?OUVVQkhhL3pHQS9IeFpoeVZVS1h5Tk1BK1V0djlZQ0p1L3dCQ3NBKzhhNlY3?=
+ =?utf-8?B?VUFqajhTTkt4QkZqTFp0TldpN2JyWVVGSEsvSlljNVpqdWQzTlY5ZGUxbm1W?=
+ =?utf-8?B?SWQ0R2N5Q05UelExRlA1ZGRxNUVZZEQ4b0RpNERqUG40N1ZLeWtXOXAzcUVr?=
+ =?utf-8?B?NGlZMkN4SWJaakJ0YW1XL2x5TXFRYytJSHpGYnJacW5zbWt2RmZmR1l1dUhS?=
+ =?utf-8?B?S3hJWkVUSFVKcjAyVitOeXYwcTdpMzlVcjl1TTJxWGRpVDlrVmU2QzNUQWN6?=
+ =?utf-8?B?QUZXZGtqRnJXVU0rak9hUTRDUEdCMUR3QUpHSjd3Z0xXd0dnemIvNUIyajBa?=
+ =?utf-8?B?UGdwR1QrbHZ2OEtpd1BFb1lHYXRiTGxydVdIbU9WZlEzMlVaL3pYaWJLM0h1?=
+ =?utf-8?B?eC9mRGhjalhGWkcwRkcyUGxhK3NqeFg0QWFHMnRaWWMxU2t5ZFZNTHhHN2RU?=
+ =?utf-8?B?RGNPUmFLcjhzZVpwanlONUJNdjVEN0JLQktzOWhITkRCREN4N1B6cVVBM20y?=
+ =?utf-8?B?TTRRU3FxdVA2MUliVElPSTBidVIyQ0F3WDRxbjFKWTM3RkNUb3JuNWtEN1A0?=
+ =?utf-8?B?OER4TnJzU01BUDNnVnVEdGJpN1U5ZUtlSTQxZU1hUDV3OTBjeGlzejRPVHQ3?=
+ =?utf-8?B?ZXVtMUJ0UFd0ekJZZ3loWEdoNGVjRkFGekt3T0FNS1kzS0JDc21kd29qdFdh?=
+ =?utf-8?B?cElEOWw0ZlVycnU5eDdPUnErNGFRTXRYSjcwR2IzMk92b3AyYmM3bTJoZWM4?=
+ =?utf-8?B?U1lYaHVHUWxOcnh1b2RMaHBndGFGeW5qM3EwSGQzVTljb3V3Y01BVVlDNEp1?=
+ =?utf-8?B?djU1OUZmd1lHMUMvYU91T1V0TmowbnloSFBJblM3cGtmOG1QajVwYm9jVWVL?=
+ =?utf-8?B?cFNrM3NPcVdVUFI2ZDM4NDRCWE9QRGpDK2R1YkQ0WHlLbTdqaXVJenk4b29F?=
+ =?utf-8?B?OE9mWml4UlYwcEs5N3JJMGdMTmhoMTY5U2FmSXlSSnYzQjBFdDlZczhZTjVY?=
+ =?utf-8?B?eGkxMzc2UjFCeUVjbWdaRENaVm5xeGo2bHBQWGE4dTU5ZVpaaDFFalZ5d3ZH?=
+ =?utf-8?B?eTBzNzlLbk9UUjJvbCtyNXVDU2VsMG8xNzdZSGdGcC9TRkNZWUYxZ2JXcjV2?=
+ =?utf-8?B?S0VLcUwyNG5WeGgzYlFvYnpHZWdUOU9UbitZZDEwdGdubDIrQWJBNlpHUGZo?=
+ =?utf-8?B?SGNUYzNGTGMwVHhlM0RwVjZjcXVGdjFObHhUSWhiLzhsblA5NCtPV05kRlYv?=
+ =?utf-8?B?aEgvSDFPZmtrOE9Qd25YTmN1RDI1WmljcEwzSDRJSk5DRXVjYldGOGRoNGIz?=
+ =?utf-8?B?NEdITjg5ZXRqR0dGb2xIUXRNMkZoYno0K0Uwd21jNmkzeWFCNnQ1MVk4M202?=
+ =?utf-8?B?TWtsMXpndmc0enN5VU15ZjM5L0JqQW5lMlpEdXl6blJtV1pCMGlxT2traE1G?=
+ =?utf-8?B?Y0Y2V3lzbllaanhTUHVJRnV4SDVxMEVDeFBIeHN4YjMyRlZ3MGZOQ09aK2FB?=
+ =?utf-8?B?VkFYZnNwMUhiL2NYakVIbkRGNTZNdmJ1ZlNXOXI1bEo4MWhCSjZwMEdWaisz?=
+ =?utf-8?Q?rrgHnZ8Lhl7QreuqanO37gj/Kb7a9u4/X4oodKr?=
+X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-2ef4d.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2aedb500-aeab-4fca-4c29-08ddea065178
+X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2025 09:51:42.4545 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2372
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,55 +158,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 03:42:55PM +0800, Yongxing Mou wrote:
-> 
-> 
-> On 9/2/2025 2:41 PM, Krzysztof Kozlowski wrote:
-> > On 02/09/2025 08:38, Krzysztof Kozlowski wrote:
-> > > On Mon, Sep 01, 2025 at 05:57:30PM +0800, Yongxing Mou wrote:
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            enum:
-> > > > +              # QCS8300 only has one DP controller that supports 4
-> > > > +              # streams MST.
-> > > > +              - qcom,qcs8300-dp
-> > > > +    then:
-> > > > +      properties:
-> > > > +        reg:
-> > > > +          minItems: 9
-> > > > +          maxItems: 9
-> > > > +        clocks:
-> > > > +          minItems: 8
-> > > > +          maxItems: 8
-> > > 
-> > > Clocks have only five items, reg has 5. At least in my next from few
-> > > days ago.
-> > > 
-> > > Nothing explains any patchset dependencies, so this makes reviewing more
-> > > difficult than it should be.
-> > OK, I found the dependency in cover letter (I was looking at wrong cover
-> > letter), but the dependency does not have relevant clock changes, so
-> > this is still wrong.
-> > 
-> Hi, https://lore.kernel.org/all/20250829-dp_mst_bindings-v7-7-2b268a43917b@oss.qualcomm.com/
-> dp-controller.yaml descriptions for regs and clks have been added. Compare
-> with SA8775P, QCS8300 don't have DP1 controller which supports 2 streams
-> MST, so its minItems and maxItems clocks is 8. > I suggest to slow down with
-> this patchset. It's v10 already with
-> > simultaneous other changes and two (!!!) dependencies.
-> > Sorry for that, will wait until the dependencies become stable before
-> updating the patch.> I don't know how I am supposed to review this.
+Hello Neil,
 
-Please fix you email client. This is garbled. It mixes your text and
-Krzysztof's on the same line.
-
-> > 
-> > Best regards,
-> > Krzysztof
+> The Realtek RTD2171 chipset is a transparent DisplayPort 1.4 to
+> HDMI 2.0 bridge.
 > 
+> This chipset is usually found in USB-C To HDMI Adapters and Docks,
+> or laptops to provide HDMI display output.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> index 43cf4df9811a5897843685727a49fd5a90096391..003a1c934f863864400d689cd784990cbc1de3de 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> @@ -28,6 +28,7 @@ properties:
+>        - enum:
+>            - adi,adv7123
+>            - dumb-vga-dac
+> +          - realtek,rtd2171
+>            - ti,opa362
+>            - ti,ths8134
+>            - ti,ths8135
+> 
+> -- 
+> 2.34.1
 
--- 
-With best wishes
-Dmitry
+I think this has to be rebased on the latest next since [1] got merged. 
+I think we also need to consider maybe using a fallback compatible, 
+because I think there is going to be a couple of simple DP->HDMI bridges 
+on the mailing list.
+
+Link: 
+https://lore.kernel.org/all/20250822063959.692098-6-andyshrk@163.com/ [1]
+
+Kind regards,
+Maud
