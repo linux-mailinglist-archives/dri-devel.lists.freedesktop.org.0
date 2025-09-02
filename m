@@ -2,88 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89E0B3F5F2
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C68B3F5F6
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 08:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1508E10E5BE;
-	Tue,  2 Sep 2025 06:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACBA10E193;
+	Tue,  2 Sep 2025 06:53:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IZLXKAwe";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Pw9os50Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABDA10E5BC
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:53:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E722410E193
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 06:53:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756796013;
+ s=mimecast20190719; t=1756796028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NZyI6w/6fqRYy/xrobheYyAgcn9JhSaHUxE0k6ucra8=;
- b=IZLXKAweS3LWJVlZSFyDwOKHzlYXFLU//GbrmdV/VHTA6J4j56iUCpB80/dC84FVcJoBrD
- Xg9F1NJjjBSbfCfJ04K+NrcJ+Dw/ArgTk4sxZx/hhA1aysLI+a7Li4QA23ViQRyHApsqqq
- 4CRH/wOTKGV61+SShUhNNmPZrvpGbOM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VtYSDKliAMF4YSV3Fmg5d7NwqV2KAp+QFYRiviEsYr8=;
+ b=Pw9os50YiS4QG2xT8F++xiVopvrhpSRiANGr3UEdrQAUksB3NH4s+3PHRO5nC5H6xcWlbA
+ mctZT2yfffqYdy59M54ilL5+0vBGqCYF/Ui+5XAok/VX6N+Zlo2618nUhI/nssbEbZHLw2
+ J/eIH76kAin447DUKIRwzOl9utUTBao=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-sM-eCmq-P1SVw7f8iGgcxw-1; Tue, 02 Sep 2025 02:53:31 -0400
-X-MC-Unique: sM-eCmq-P1SVw7f8iGgcxw-1
-X-Mimecast-MFC-AGG-ID: sM-eCmq-P1SVw7f8iGgcxw_1756796010
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3ce059e3b83so1950548f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:53:31 -0700 (PDT)
+ us-mta-451-X-7Ybx01Mh2L7ELYELeKjQ-1; Tue, 02 Sep 2025 02:53:46 -0400
+X-MC-Unique: X-7Ybx01Mh2L7ELYELeKjQ-1
+X-Mimecast-MFC-AGG-ID: X-7Ybx01Mh2L7ELYELeKjQ_1756796026
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3cbe70a7861so3623429f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Sep 2025 23:53:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756796010; x=1757400810;
+ d=1e100.net; s=20230601; t=1756796025; x=1757400825;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NZyI6w/6fqRYy/xrobheYyAgcn9JhSaHUxE0k6ucra8=;
- b=Shrbcqwp8ATU0cl6BFkc5xJ1sX7gz7g6aOEcGKEyNPZgfUvWgendT5kRKvczb+PmQk
- Qy2CunGQc6KDQw6CYtQuTPeQZNRyi6JYurYPqIdujb2nGs1XwlfDMqEXHIayjzEewewV
- R4D7XBqZp3tKyTGF1VH/G/q9SvG0qas31OptnVeDfY1Da5T67wmM+yS5Ew6lJAOVzaPb
- 8xPseoQhAyNjkIH0JF07Gz/5DCoGnNlwzcmtmyANj2/0zjWWxcG743K72QSonklvF5wR
- h3BQD/6YLo9jT8A7ZEGss5vvR4z7TmBsA8bJO96e03HP9nB9Oh16RRfUP0VCdlquGbKh
- GBRA==
-X-Gm-Message-State: AOJu0YyOqsBAxzhXic8L9dpxRtvCZelaHsbzuhH8CgPFU33f0qUSK0YE
- kT18R+sxWxVG5HcEenOmw5jHPE1Mp8PCX4gloecprZdT5m1/z6pg145vT0fCuJgWOpS9Z+5weFQ
- hVIbWOR9elxLapOCCx8G/V+OjyUaczd9NkyIicjJmdTSKZlC42af/wdGspFwjZ1ydwy8TzQ==
-X-Gm-Gg: ASbGnctFzK2KwrkWssafv4Eq/yCpJZ9fwYeNFAU1111UnKZbfMg2wdcr2T2k125pJcS
- fxRjeL+VGRfnVNDLSJf94d+25GLoSeVBVympZBMtFXqLvnkcyMIKpdxEkpWrm/xPS4iMVbkkMnD
- W5Oo93Lis+Wadt17OZzHIUEzd1vAGxWCQJAePivc1Z1IgeqnQExIMs2Zzy8rQThIkelKOEhvGxp
- 9T5ZqQZucSCFvMPvE0L6ZH/2qWnOkJnZvM9ds2ZXQPpz43AW+PG/n3w6ltPIo0wInR9/wpsS3RT
- teauLygrAd/SB3Q7Xqj0YAXr9xpxlrhgH1PruYnM4dvXqjp7ys8se9tPCI3asy1tjfTuo9ix4gu
- //8M=
-X-Received: by 2002:a05:6000:1889:b0:3c6:aa87:d959 with SMTP id
- ffacd0b85a97d-3d1de6aa0damr7976263f8f.26.1756796010439; 
- Mon, 01 Sep 2025 23:53:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfIFJ4xO9xyC7EkyaD/i6Y+E9EgKBI7JF9YhkvT5gR1Uh3Y3zb9Z4sLJWZjgT2nKD+pemo0Q==
-X-Received: by 2002:a05:6000:1889:b0:3c6:aa87:d959 with SMTP id
- ffacd0b85a97d-3d1de6aa0damr7976237f8f.26.1756796010021; 
- Mon, 01 Sep 2025 23:53:30 -0700 (PDT)
+ bh=VtYSDKliAMF4YSV3Fmg5d7NwqV2KAp+QFYRiviEsYr8=;
+ b=GSfXDpL6FUPenIOkQKQioGsInQ3FxKrk2AXCW0J7zw4FH6T2HvTkrMjkXnyj2DJLx3
+ X/FIO4HSw5yguW//e+Obg2muWOPm6r3zZhbUmToUqyr7DEcU9uqA8G2TZ4vYYKneFf1l
+ az0ShZ2qxr4rBMC9Fm73Jn5JV96mtEfasUjfX/rE3Thj5uhFbpZAYp4PpLo7g3yDODHP
+ Lfz8vEm49K9u6EIkLCH34haClr5c4nkwNdQ+Kl6sCK6inF2Y+d4mqi3kzvG9XFfODPDE
+ MNFk7ai+Izhwikpf/ehXTkZ/wJ0U0yocNyt9p3XZts5XFTc9eowAaCQrBqH6tX2NPrQh
+ gUdQ==
+X-Gm-Message-State: AOJu0YyFazMwfiUdYJuGCQYSyu7CTYXw7uLfNpCFpvNInD8g4cYRaXMD
+ uxGzZtK77j6c82xZ5+tw2rld5SeYTizyYpa7u/NqdlEVPrYC04JIPf2yET73h4tLrPYE24cesyR
+ V8l/SY435GUrbBAAnHS4jQZEmMYTNnroxQXpwbGIa5KtWUBABTQoXagbBatAhjVMVUMe++Q==
+X-Gm-Gg: ASbGncsUR1w0SJsr3/k9EocWh7fE+NMPkge0d8XwxYzpIRNHVXe8stwH3UjGtWGmTWh
+ /ofzwsoxk5mYdRZuSRbYibci8xiAAdPdP96hXPxiXlQ9VYOgRK9cI0tBHBuv5NKHsCpONi6W+LV
+ GMuzszKEsMks/+jgo4uaQ69op3GwzcoZLl3Qtagfap+1RbdxoA977mrc7BUUOWh1JZHYIXZYGIr
+ IeIVu/+6Xw/eTzgRgA3VK2ZqQF52wqHqj2hmWWMcd6eez0ZDxwCJpoYIuLPX0CG6xNLLU7oEnze
+ YU4xFmex8F0YZdMZMZi9NYyuKRB5Q0Fh6OtS4rnDbvQ4cE+GdGlyGwe8RS8zU94tBFzXlfpOFXn
+ V88Q=
+X-Received: by 2002:a05:6000:290d:b0:3cf:3f1:acdd with SMTP id
+ ffacd0b85a97d-3d1dcb781ffmr7639608f8f.17.1756796025595; 
+ Mon, 01 Sep 2025 23:53:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqtotuhXqw2fXwiRGY72PxHUWWmEQgAMNZq61fSLTtblJ6VLzAKWnmsS+JTP+Flk56kOVAgQ==
+X-Received: by 2002:a05:6000:290d:b0:3cf:3f1:acdd with SMTP id
+ ffacd0b85a97d-3d1dcb781ffmr7639596f8f.17.1756796025209; 
+ Mon, 01 Sep 2025 23:53:45 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
  ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3d0a7691340sm17366990f8f.39.2025.09.01.23.53.29
+ 5b1f17b1804b1-45b7e886619sm182235045e9.15.2025.09.01.23.53.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Sep 2025 23:53:29 -0700 (PDT)
-Message-ID: <43bc6737-1349-4de1-9278-83904d03410a@redhat.com>
-Date: Tue, 2 Sep 2025 08:53:28 +0200
+ Mon, 01 Sep 2025 23:53:44 -0700 (PDT)
+Message-ID: <88d0a9d5-06e8-408b-9bd3-9daf57de0065@redhat.com>
+Date: Tue, 2 Sep 2025 08:53:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] drm/ast: Move DRAM info next to its only user
+Subject: Re: [PATCH v2 6/6] drm/ast: Put AST_DRAM_ constants into enum
+ ast_dram_layout
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org
 References: <20250826065032.344412-1-tzimmermann@suse.de>
- <20250826065032.344412-6-tzimmermann@suse.de>
+ <20250826065032.344412-7-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250826065032.344412-6-tzimmermann@suse.de>
+In-Reply-To: <20250826065032.344412-7-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cNq1jO5TaBysvKdOpj23NBNqNgOlzKdF4OyHDTUeB8A_1756796010
+X-Mimecast-MFC-PROC-ID: zbBD9KPnB2cdS6QyBsWnwm-99RoFZgH2U5ibV-XMhlo_1756796026
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -104,213 +105,113 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/08/2025 08:49, Thomas Zimmermann wrote:
-> The only place in the ast driver that uses the DRAM type is the
-> P2A DRAM initialization for Gen2 and Gen3 of the chip. Condense
-> the code in ast_get_dram_info() to exactly this use case and move
-> it into the Gen's custom source file. Remove the field dram_type
-> from struct ast_device.
-> 
-> The AST_DRAM_ constants are also used in Gen4 POST helpers, but
-> independently from the dram_type field. No changes there.
+> The AST_DRAM_ constants belong together, so put them in an enum
+> type. Rename type and variables to 'drm_layout', as there's already
+> another DRAM type in the ast driver (AST_DDR2, AST_DDR3).
 > 
 
 Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
+> v2:
+> - avoid compiler warning with switch default (Dan)
+> 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_2100.c | 47 +++++++++++++++++--
->   drivers/gpu/drm/ast/ast_drv.h  |  2 -
->   drivers/gpu/drm/ast/ast_main.c | 83 ----------------------------------
->   3 files changed, 44 insertions(+), 88 deletions(-)
+>   drivers/gpu/drm/ast/ast_2100.c | 21 ++++++++++-----------
+>   drivers/gpu/drm/ast/ast_drv.h  | 16 +++++++++-------
+>   2 files changed, 19 insertions(+), 18 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_2100.c b/drivers/gpu/drm/ast/ast_2100.c
-> index 477ee15eff5d..44c33dd050eb 100644
+> index 44c33dd050eb..91541c8eaff7 100644
 > --- a/drivers/gpu/drm/ast/ast_2100.c
 > +++ b/drivers/gpu/drm/ast/ast_2100.c
-> @@ -31,6 +31,38 @@
->   #include "ast_drv.h"
->   #include "ast_post.h"
->   
-> +/*
-> + * DRAM type
-> + */
-> +
-> +static int ast_2100_get_dram_type_p2a(struct ast_device *ast)
-> +{
-> +	u32 mcr_cfg;
-> +	int dram_type;
-> +
-> +	ast_write32(ast, 0xf004, 0x1e6e0000);
-> +	ast_write32(ast, 0xf000, 0x1);
-> +	mcr_cfg = ast_read32(ast, 0x10004);
-> +
-> +	switch (mcr_cfg & 0x0c) {
-> +	case 0:
-> +	case 4:
-> +		dram_type = AST_DRAM_512Mx16;
-> +		break;
-> +	case 8:
-> +		if (mcr_cfg & 0x40)
-> +			dram_type = AST_DRAM_1Gx16;
-> +		else
-> +			dram_type = AST_DRAM_512Mx32;
-> +		break;
-> +	case 0xc:
-> +		dram_type = AST_DRAM_1Gx32;
-> +		break;
-> +	}
-> +
-> +	return dram_type;
-> +}
-> +
->   /*
->    * POST
+> @@ -35,10 +35,10 @@
+>    * DRAM type
 >    */
-> @@ -266,6 +298,9 @@ static void ast_post_chip_2100(struct ast_device *ast)
+>   
+> -static int ast_2100_get_dram_type_p2a(struct ast_device *ast)
+> +static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
+>   {
+>   	u32 mcr_cfg;
+> -	int dram_type;
+> +	enum ast_dram_layout dram_layout;
+>   
+>   	ast_write32(ast, 0xf004, 0x1e6e0000);
+>   	ast_write32(ast, 0xf000, 0x1);
+> @@ -47,20 +47,21 @@ static int ast_2100_get_dram_type_p2a(struct ast_device *ast)
+>   	switch (mcr_cfg & 0x0c) {
+>   	case 0:
+>   	case 4:
+> -		dram_type = AST_DRAM_512Mx16;
+> +	default:
+> +		dram_layout = AST_DRAM_512Mx16;
+>   		break;
+>   	case 8:
+>   		if (mcr_cfg & 0x40)
+> -			dram_type = AST_DRAM_1Gx16;
+> +			dram_layout = AST_DRAM_1Gx16;
+>   		else
+> -			dram_type = AST_DRAM_512Mx32;
+> +			dram_layout = AST_DRAM_512Mx32;
+>   		break;
+>   	case 0xc:
+> -		dram_type = AST_DRAM_1Gx32;
+> +		dram_layout = AST_DRAM_1Gx32;
+>   		break;
+>   	}
+>   
+> -	return dram_type;
+> +	return dram_layout;
+>   }
+>   
+>   /*
+> @@ -298,9 +299,7 @@ static void ast_post_chip_2100(struct ast_device *ast)
 >   	u8 j;
 >   	u32 data, temp, i;
 >   	const struct ast_dramstruct *dram_reg_info;
-> +	int dram_type;
-> +
-> +	dram_type = ast_2100_get_dram_type_p2a(ast);
+> -	int dram_type;
+> -
+> -	dram_type = ast_2100_get_dram_type_p2a(ast);
+> +	enum ast_dram_layout dram_layout  = ast_2100_get_dram_layout_p2a(ast);
 >   
 >   	j = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
 >   
-> @@ -292,11 +327,17 @@ static void ast_post_chip_2100(struct ast_device *ast)
+> @@ -327,7 +326,7 @@ static void ast_post_chip_2100(struct ast_device *ast)
 >   				for (i = 0; i < 15; i++)
 >   					udelay(dram_reg_info->data);
 >   			} else if (AST_DRAMSTRUCT_IS(dram_reg_info, DRAM_TYPE)) {
-> -				data = dram_reg_info->data;
-> -				if (ast->dram_type == AST_DRAM_1Gx16)
-> +				switch (dram_type) {
-> +				case AST_DRAM_1Gx16:
+> -				switch (dram_type) {
+> +				switch (dram_layout) {
+>   				case AST_DRAM_1Gx16:
 >   					data = 0x00000d89;
-> -				else if (ast->dram_type == AST_DRAM_1Gx32)
-> +					break;
-> +				case AST_DRAM_1Gx32:
->   					data = 0x00000c8d;
-> +					break;
-> +				default:
-> +					data = dram_reg_info->data;
-> +					break;
-> +				};
->   
->   				temp = ast_read32(ast, 0x12070);
->   				temp &= 0xc;
+>   					break;
 > diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index c9c933b5a70d..4c29ae9fb511 100644
+> index 4c29ae9fb511..c15aef014f69 100644
 > --- a/drivers/gpu/drm/ast/ast_drv.h
 > +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -172,8 +172,6 @@ struct ast_device {
->   	enum ast_config_mode config_mode;
->   	enum ast_chip chip;
+> @@ -98,13 +98,15 @@ enum ast_config_mode {
+>   	ast_use_defaults
+>   };
 >   
-> -	uint32_t dram_type;
-> -
->   	void __iomem	*vram;
->   	unsigned long	vram_base;
->   	unsigned long	vram_size;
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 41ff880cfdec..3eea6a6cdacd 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -210,85 +210,6 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
->   	drm_info(dev, "Using %s\n", info_str[ast->tx_chip]);
->   }
+> -#define AST_DRAM_512Mx16 0
+> -#define AST_DRAM_1Gx16   1
+> -#define AST_DRAM_512Mx32 2
+> -#define AST_DRAM_1Gx32   3
+> -#define AST_DRAM_2Gx16   6
+> -#define AST_DRAM_4Gx16   7
+> -#define AST_DRAM_8Gx16   8
+> +enum ast_dram_layout {
+> +	AST_DRAM_512Mx16 = 0,
+> +	AST_DRAM_1Gx16 = 1,
+> +	AST_DRAM_512Mx32 = 2,
+> +	AST_DRAM_1Gx32 = 3,
+> +	AST_DRAM_2Gx16 = 6,
+> +	AST_DRAM_4Gx16 = 7,
+> +	AST_DRAM_8Gx16 = 8,
+> +};
 >   
-> -static int ast_get_dram_info(struct ast_device *ast)
-> -{
-> -	struct drm_device *dev = &ast->base;
-> -	struct device_node *np = dev->dev->of_node;
-> -	uint32_t mcr_cfg;
-> -
-> -	switch (ast->config_mode) {
-> -	case ast_use_dt:
-> -		/*
-> -		 * If some properties are missing, use reasonable
-> -		 * defaults for GEN5
-> -		 */
-> -		if (of_property_read_u32(np, "aspeed,mcr-configuration", &mcr_cfg))
-> -			mcr_cfg = 0x00000577;
-> -		break;
-> -	case ast_use_p2a:
-> -		ast_write32(ast, 0xf004, 0x1e6e0000);
-> -		ast_write32(ast, 0xf000, 0x1);
-> -		mcr_cfg = ast_read32(ast, 0x10004);
-> -		break;
-> -	case ast_use_defaults:
-> -	default:
-> -		ast->dram_type = AST_DRAM_1Gx16;
-> -		return 0;
-> -	}
-> -
-> -	if (IS_AST_GEN6(ast)) {
-> -		switch (mcr_cfg & 0x03) {
-> -		case 0:
-> -			ast->dram_type = AST_DRAM_1Gx16;
-> -			break;
-> -		default:
-> -		case 1:
-> -			ast->dram_type = AST_DRAM_2Gx16;
-> -			break;
-> -		case 2:
-> -			ast->dram_type = AST_DRAM_4Gx16;
-> -			break;
-> -		case 3:
-> -			ast->dram_type = AST_DRAM_8Gx16;
-> -			break;
-> -		}
-> -	} else if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast)) {
-> -		switch (mcr_cfg & 0x03) {
-> -		case 0:
-> -			ast->dram_type = AST_DRAM_512Mx16;
-> -			break;
-> -		default:
-> -		case 1:
-> -			ast->dram_type = AST_DRAM_1Gx16;
-> -			break;
-> -		case 2:
-> -			ast->dram_type = AST_DRAM_2Gx16;
-> -			break;
-> -		case 3:
-> -			ast->dram_type = AST_DRAM_4Gx16;
-> -			break;
-> -		}
-> -	} else {
-> -		switch (mcr_cfg & 0x0c) {
-> -		case 0:
-> -		case 4:
-> -			ast->dram_type = AST_DRAM_512Mx16;
-> -			break;
-> -		case 8:
-> -			if (mcr_cfg & 0x40)
-> -				ast->dram_type = AST_DRAM_1Gx16;
-> -			else
-> -				ast->dram_type = AST_DRAM_512Mx32;
-> -			break;
-> -		case 0xc:
-> -			ast->dram_type = AST_DRAM_1Gx32;
-> -			break;
-> -		}
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->   struct drm_device *ast_device_create(struct pci_dev *pdev,
->   				     const struct drm_driver *drv,
->   				     enum ast_chip chip,
-> @@ -311,10 +232,6 @@ struct drm_device *ast_device_create(struct pci_dev *pdev,
->   	ast->regs = regs;
->   	ast->ioregs = ioregs;
->   
-> -	ret = ast_get_dram_info(ast);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
->   	ast_detect_tx_chip(ast, need_post);
->   	switch (ast->tx_chip) {
->   	case AST_TX_ASTDP:
+>   /*
+>    * Hardware cursor
 
