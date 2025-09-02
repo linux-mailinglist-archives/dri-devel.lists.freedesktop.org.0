@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36604B3F6F0
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A98B3F745
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 09:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D34A10E5C7;
-	Tue,  2 Sep 2025 07:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF1E10E5B1;
+	Tue,  2 Sep 2025 07:59:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h518x410";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NbcPLt/k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A6C10E5C7;
- Tue,  2 Sep 2025 07:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756799275; x=1788335275;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=o68v916sPAiuOhaNozX1VyweCY+o1fn91JZbl3pkZ2I=;
- b=h518x410k57/g3sYagjRzNj1KYUfKNSek7we+6RdlusZDytB5jpGcq/V
- 7cjMN4cIpuY0ZfW2mU/5ivWG0l123jbZhJgi+nBe7mWcYFbTQ9DXNf7as
- EXn9R2z7u1V3EOg+W/YX+K7zOKQtSz4LU8uYlyS8jIxezg9nZDEc/KDzY
- v3ZbKqTOyWZIOAheIaYjmwZ03L0PVEp0+68Ewseeijw2IRSJYc6H8PLbN
- GMvJerSbv6CjFTfCQ+aDaMMAc/a4Lq0w9jW158+zYxnqm79IGg1BCxon2
- J3+RK70nBotLCiBxycLVVFVXQoLSY6VlkunjrVs+3hwmKy2duQqwn1gX+ w==;
-X-CSE-ConnectionGUID: qqWynVs5Q1eaJB/G0PglEA==
-X-CSE-MsgGUID: nKEgYJSQS5eo82eTLDIfcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="81641737"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="81641737"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2025 00:47:55 -0700
-X-CSE-ConnectionGUID: VyzGpOQxQT6V3AIxixVbrQ==
-X-CSE-MsgGUID: WlS2Xg+UTeykqhAqimAZFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; d="scan'208";a="194850769"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa002.fm.intel.com with ESMTP; 02 Sep 2025 00:47:50 -0700
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 02 Sep 2025 13:17:55 +0530
-Subject: [PATCH v4 4/4] drm/i915/display: Error codes for async flip failures
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73BAC10E5C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 07:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=wJ61FIB/NmPV7dswnNYnMoUac/R593vmjpM+oAD5/gE=; b=NbcPLt/kcNxKZuGOZ1NxUhKfUy
+ eyIJiAUbh0Pv9Y/rUPDndpT4OWbCOyeMxCJAZ/KpmJv4UBrrwSc0+bkPmQnfdPd6k8GVdgXL6SlqC
+ X79vT0hJ+vkzbC0kGTthKy6DOgOUM7m6nkBjKhdiwLb2g4ZkwWoujfTVR1nK8CrIHVKjosbHPwQrl
+ 3t4qWtWQuneOdGgwDG5587KaY/kcqxzwdjXcYNN5Bl7MgfLeCDmtbZ9d7tqLSwe3fqoRE/oI98cRx
+ P2rwl+gVYVyvMCYT3HYFaphqZJF6Mtogzmk71V+VTunFiI2J0ZIXyTqLgFKYMXLHGVTTvM0HbWt/8
+ EsZgXyiA==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1utLvA-005bRr-Kw; Tue, 02 Sep 2025 09:59:16 +0200
+Message-ID: <b9f7a493-5611-4450-a26a-10b03d1dc313@igalia.com>
+Date: Tue, 2 Sep 2025 08:59:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-atomic-v4-4-a97b4bed969b@intel.com>
-References: <20250902-atomic-v4-0-a97b4bed969b@intel.com>
-In-Reply-To: <20250902-atomic-v4-0-a97b4bed969b@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org, 
- harry.wentland@amd.com, uma.shankar@intel.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched: Fix racy access to
+ drm_sched_entity.dependency
+To: phasta@kernel.org,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250901124032.1955-1-pierre-eric.pelloux-prayer@amd.com>
+ <da59f28c7d8b3d83833aa0494b3b198335cf588f.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <da59f28c7d8b3d83833aa0494b3b198335cf588f.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,88 +68,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For failures in async flip atomic check/commit path return user readable
-error codes in struct drm_atomic_state.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_display.c | 31 +++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+On 02/09/2025 08:27, Philipp Stanner wrote:
+> On Mon, 2025-09-01 at 14:40 +0200, Pierre-Eric Pelloux-Prayer wrote:
+>> The drm_sched_job_unschedulable trace point can access
+>> entity->dependency after it was cleared by the callback
+>> installed in drm_sched_entity_add_dependency_cb, causing:
+>>
+>> BUG: kernel NULL pointer dereference, address: 0000000000000020
+>> [...]
+>> Workqueue: comp_1.1.0 drm_sched_run_job_work [gpu_sched]
+>> RIP: 0010:trace_event_raw_event_drm_sched_job_unschedulable+0x70/0xd0 [gpu_sched]
+>>
+>> To fix this we either need to keep a reference to the fence before
+>> setting up the callbacks, or move the trace_drm_sched_job_unschedulable
+>> calls into drm_sched_entity_add_dependency_cb where they can be
+>> done earlier.
+>>
+>> Fixes: 76d97c870f29 ("drm/sched: Trace dependencies for GPU jobs")
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> Applied to drm-misc-next
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index c1a3a95c65f0b66c24ddd64f47dfdc67bbde86c9..41b054764fdec37e4d9410fa7fbe62dbcbd3a11f 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -5935,6 +5935,7 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
- 	struct intel_plane_state *new_plane_state;
- 	struct intel_plane *plane;
- 	int i;
-+	char *err_string;
- 
- 	if (!new_crtc_state->uapi.async_flip)
- 		return 0;
-@@ -5947,9 +5948,13 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
- 	}
- 
- 	if (intel_crtc_needs_modeset(new_crtc_state)) {
--		drm_dbg_kms(display->drm,
--			    "[CRTC:%d:%s] modeset required\n",
--			    crtc->base.base.id, crtc->base.name);
-+		err_string = "requires full modeset";
-+		drm_dbg_kms(display->drm, "[CRTC:%d:%s] %s\n",
-+			    crtc->base.base.id, crtc->base.name,
-+			    err_string);
-+		drm_mode_atomic_add_error_msg(state->base.error_code,
-+					      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
-+					      err_string);
- 		return -EINVAL;
- 	}
- 
-@@ -6001,6 +6006,7 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 	const struct intel_plane_state *new_plane_state, *old_plane_state;
- 	struct intel_plane *plane;
- 	int i;
-+	char *err_string;
- 
- 	old_crtc_state = intel_atomic_get_old_crtc_state(state, crtc);
- 	new_crtc_state = intel_atomic_get_new_crtc_state(state, crtc);
-@@ -6016,9 +6022,13 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 	}
- 
- 	if (intel_crtc_needs_modeset(new_crtc_state)) {
--		drm_dbg_kms(display->drm,
--			    "[CRTC:%d:%s] modeset required\n",
--			    crtc->base.base.id, crtc->base.name);
-+		err_string = "requires full modeset";
-+		drm_dbg_kms(display->drm, "[CRTC:%d:%s] %s\n",
-+			    crtc->base.base.id, crtc->base.name,
-+			    err_string);
-+		drm_mode_atomic_add_error_msg(state->base.error_code,
-+					      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
-+					      err_string);
- 		return -EINVAL;
- 	}
- 
-@@ -6056,11 +6066,16 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
- 
- 		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->format->format,
- 						new_plane_state->hw.fb->modifier)) {
-+			err_string = "modifier does not support async flip";
- 			drm_dbg_kms(display->drm,
--				    "[PLANE:%d:%s] pixel format %p4cc / modifier 0x%llx does not support async flip\n",
-+				    "[PLANE:%d:%s] pixel format %p4cc / 0x%llx %s\n",
- 				    plane->base.base.id, plane->base.name,
- 				    &new_plane_state->hw.fb->format->format,
--				    new_plane_state->hw.fb->modifier);
-+				    new_plane_state->hw.fb->modifier,
-+				    err_string);
-+			drm_mode_atomic_add_error_msg(state->base.error_code,
-+						      DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPP,
-+						      err_string);
- 			return -EINVAL;
- 		}
- 
+Shouldn't it have been drm-misc-fixes?
 
--- 
-2.25.1
+Regards,
+
+Tvrtko
+
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++----
+>>   1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 8867b95ab089..3d06f72531ba 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -391,7 +391,8 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
+>>    * Add a callback to the current dependency of the entity to wake up the
+>>    * scheduler when the entity becomes available.
+>>    */
+>> -static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>> +static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity,
+>> +					       struct drm_sched_job *sched_job)
+>>   {
+>>   	struct drm_gpu_scheduler *sched = entity->rq->sched;
+>>   	struct dma_fence *fence = entity->dependency;
+>> @@ -421,6 +422,10 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>   		entity->dependency = fence;
+>>   	}
+>>   
+>> +	if (trace_drm_sched_job_unschedulable_enabled() &&
+>> +	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &entity->dependency->flags))
+>> +		trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
+>> +
+>>   	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
+>>   				    drm_sched_entity_wakeup))
+>>   		return true;
+>> @@ -461,10 +466,8 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>   
+>>   	while ((entity->dependency =
+>>   			drm_sched_job_dependency(sched_job, entity))) {
+>> -		if (drm_sched_entity_add_dependency_cb(entity)) {
+>> -			trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
+>> +		if (drm_sched_entity_add_dependency_cb(entity, sched_job))
+>>   			return NULL;
+>> -		}
+>>   	}
+>>   
+>>   	/* skip jobs from entity that marked guilty */
+> 
 
