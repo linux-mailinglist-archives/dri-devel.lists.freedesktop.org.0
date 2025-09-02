@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A01EB40E87
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 22:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF18B40E94
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Sep 2025 22:35:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9C910E02A;
-	Tue,  2 Sep 2025 20:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B1610E08F;
+	Tue,  2 Sep 2025 20:35:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hBkpiwO/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Hu9s8WWj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D9410E02A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 20:22:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCFE10E08F
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Sep 2025 20:35:31 +0000 (UTC)
 Received: from pendragon.ideasonboard.com
  (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DE083B63;
- Tue,  2 Sep 2025 22:21:24 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2034DC6A;
+ Tue,  2 Sep 2025 22:34:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1756844485;
- bh=KHA3OTYDrxohM+F5nBqSD1koWav84WhhtxYj8tGqRLk=;
+ s=mail; t=1756845262;
+ bh=oKC01OtfUqVxBPjjD52SBxO26J4xj2x2R8r3Xfr7SX0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hBkpiwO/WE/7uKBGJ0uPvqn2BWlR0kQGt9VKcqI22pYOVr7TFhum2lSMa5CoaqOym
- EPAWs+FZfsrV8d8WFdEOgAnUujqQoTaFjIYjvYYjC79c3ZtCIwDR6BTyt1Q/d4ZRLX
- VO7BaWfDyIaGPuAXLkRnNrtKzMqX3OajnjNL23EM=
-Date: Tue, 2 Sep 2025 22:22:12 +0200
+ b=Hu9s8WWjBpZAhOwGudwrTZvXbmjlgOxdz1rP6FwjDXfMh4djwhlIFUB6hKrBQ+qFV
+ LvuKdlOr7vBWLglXdB2AOUIJ9A78Ic80KDyiK4EzQHFhTW9j8kcoJxd94amOdW/qgm
+ Shgh45JS+kQdyfxHkzPn6JujqCXfyVY4cGoUxKh8=
+Date: Tue, 2 Sep 2025 22:35:09 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
@@ -40,15 +40,14 @@ Cc: Maxime Ripard <mripard@kernel.org>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/29] drm/bridge: Implement atomic_print_state
-Message-ID: <20250902202212.GU13448@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 07/29] drm/atomic: Implement drm_atomic_print_old_state
+Message-ID: <20250902203509.GV13448@pendragon.ideasonboard.com>
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-6-14ad5315da3f@kernel.org>
- <056b0335-f104-4b67-9882-6beaecd21c76@suse.de>
+ <20250902-drm-state-readout-v1-7-14ad5315da3f@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <056b0335-f104-4b67-9882-6beaecd21c76@suse.de>
+In-Reply-To: <20250902-drm-state-readout-v1-7-14ad5315da3f@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +63,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 03:22:40PM +0200, Thomas Zimmermann wrote:
-> Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> > Bridges have some fields in their state worth printing, but we don't
-> > provide an atomic_print_state implementation to show those fields.
-> >
-> > Let's do so.
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >   drivers/gpu/drm/drm_bridge.c | 18 ++++++++++++++++++
-> >   1 file changed, 18 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index dd439d55177a867acb7ab73c02182bada44d93c9..e803dfd8fd5aae9c16931445213df04d8715b9f6 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -370,13 +370,31 @@ drm_bridge_atomic_destroy_priv_state(struct drm_private_obj *obj,
-> >   	struct drm_bridge *bridge = drm_priv_to_bridge(obj);
-> >   
-> >   	bridge->funcs->atomic_destroy_state(bridge, state);
-> >   }
-> >   
-> > +static void
-> > +drm_bridge_atomic_print_priv_state(struct drm_printer *p,
-> > +				   const struct drm_private_state *s)
-> > +{
-> > +	const struct drm_bridge_state *state =
-> > +		container_of_const(s, struct drm_bridge_state, base);
+Hi Maxime,
+
+Thank you for the patch.
+
+On Tue, Sep 02, 2025 at 10:32:35AM +0200, Maxime Ripard wrote:
+> We currently have a helper to print the new states associated to a
+> drm_atomic_state, but we don't have a variant to print the old state.
 > 
-> Maybe adopt drm_priv_to_bridge_state() to accept const pointers?
+> It's somewhat expected, since we almost never care about what the new
+> state looks like when we commit a new state, but we're about to change
+> that.
 > 
-> https://elixir.bootlin.com/linux/v6.16.4/source/include/drm/drm_atomic.h#L1236
-
-container_of_const() can helper, but drm_priv_to_bridge_state() will
-need to be turned into a macro.
-
-> > +	struct drm_bridge *bridge = drm_priv_to_bridge(s->obj);
-> > +
-> > +	drm_printf(p, "bridge: %s", drm_get_connector_type_name(bridge->type));
-
-It would be nice to identify the bridge more precisely, but bridges have
-no object ID :-/ The raw pointer may not be very useful. I wonder if we
-should give an object ID to drm_private_obj instances, even if we don't
-expose them to userspace. That's not a topic for this series of course.
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> > +	drm_printf(p, "\tinput bus configuration:");
-> > +	drm_printf(p, "\t\tcode: %04x", state->input_bus_cfg.format);
-> > +	drm_printf(p, "\t\tflags: %08x", state->input_bus_cfg.flags);
-> > +	drm_printf(p, "\toutput bus configuration:");
-> > +	drm_printf(p, "\t\tcode: %04x", state->output_bus_cfg.format);
-> > +	drm_printf(p, "\t\tflags: %08x", state->output_bus_cfg.flags);
-> > +}
-> > +
-> >   static const struct drm_private_state_funcs drm_bridge_priv_state_funcs = {
-> >   	.atomic_duplicate_state = drm_bridge_atomic_duplicate_priv_state,
-> >   	.atomic_destroy_state = drm_bridge_atomic_destroy_priv_state,
-> > +	.atomic_print_state = drm_bridge_atomic_print_priv_state,
-> >   };
-> >   
-> >   static bool drm_bridge_is_atomic(struct drm_bridge *bridge)
-> >   {
-> >   	return bridge->funcs->atomic_reset != NULL;
-> >
+> ---
+>  drivers/gpu/drm/drm_atomic.c        | 45 +++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_crtc_internal.h |  2 ++
+>  2 files changed, 47 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 9b198610791d19c7fd276ca59264a961d21caf43..38f2b2633fa992b3543e8c425c7faeab1ce69765 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1875,10 +1875,55 @@ void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+>  	for_each_new_private_obj_in_state(state, obj, obj_state, i)
+>  		drm_atomic_private_obj_print_state(p, obj_state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_print_new_state);
+>  
+> +/**
+> + * drm_atomic_print_old_state - prints drm atomic state
+> + * @state: atomic configuration to check
+> + * @p: drm printer
+> + *
+> + * This functions prints the drm atomic state snapshot using the drm printer
+> + * which is passed to it. This snapshot can be used for debugging purposes.
+> + *
+> + * Note that this function looks into the old state objects and hence its not
+> + * safe to be used after the call to drm_atomic_helper_commit_hw_done().
+> + */
+> +void drm_atomic_print_old_state(const struct drm_atomic_state *state,
+> +		struct drm_printer *p)
+> +{
+> +	struct drm_plane *plane;
+> +	struct drm_plane_state *plane_state;
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_connector *connector;
+> +	struct drm_connector_state *connector_state;
+> +	struct drm_private_obj *obj;
+> +	struct drm_private_state *obj_state;
+> +	int i;
+> +
+> +	if (!p) {
+> +		drm_err(state->dev, "invalid drm printer\n");
+> +		return;
+> +	}
+> +
+> +	drm_dbg_atomic(state->dev, "checking %p\n", state);
+> +
+> +	for_each_old_plane_in_state(state, plane, plane_state, i)
+> +		drm_atomic_plane_print_state(p, plane_state);
+> +
+> +	for_each_old_crtc_in_state(state, crtc, crtc_state, i)
+> +		drm_atomic_crtc_print_state(p, crtc_state);
+> +
+> +	for_each_old_connector_in_state(state, connector, connector_state, i)
+> +		drm_atomic_connector_print_state(p, connector_state);
+> +
+> +	for_each_old_private_obj_in_state(state, obj, obj_state, i)
+> +		drm_atomic_private_obj_print_state(p, obj_state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_print_old_state);
+> +
+>  static void __drm_state_dump(struct drm_device *dev, struct drm_printer *p,
+>  			     bool take_locks)
+>  {
+>  	struct drm_mode_config *config = &dev->mode_config;
+>  	struct drm_plane *plane;
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index 89706aa8232fc0b2830af67c7588985a29653299..a8139fda1a1015c2ac8d8af3b12c5ac0b00cfc1a 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -249,10 +249,12 @@ int __drm_atomic_helper_disable_plane(struct drm_plane *plane,
+>  int __drm_atomic_helper_set_config(struct drm_mode_set *set,
+>  				   struct drm_atomic_state *state);
+>  
+>  void drm_atomic_print_new_state(const struct drm_atomic_state *state,
+>  		struct drm_printer *p);
+> +void drm_atomic_print_old_state(const struct drm_atomic_state *state,
+> +				struct drm_printer *p);
+>  
+>  /* drm_atomic_uapi.c */
+>  int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
+>  				     struct drm_connector *connector,
+>  				     int mode);
 
 -- 
 Regards,
