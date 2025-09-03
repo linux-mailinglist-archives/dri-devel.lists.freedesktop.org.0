@@ -2,40 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83F6B42375
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7D2B423AD
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:28:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B336D10E14C;
-	Wed,  3 Sep 2025 14:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B241710E8AD;
+	Wed,  3 Sep 2025 14:28:45 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kcDRuFBV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5749610E14C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 14:22:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7515714BF;
- Wed,  3 Sep 2025 07:21:57 -0700 (PDT)
-Received: from [10.1.39.32] (e122027.cambridge.arm.com [10.1.39.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D969B3F6A8;
- Wed,  3 Sep 2025 07:22:03 -0700 (PDT)
-Message-ID: <1ecc0221-ad51-49e9-b2a5-87e0675c5c10@arm.com>
-Date: Wed, 3 Sep 2025 15:22:01 +0100
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F363C10E8A7;
+ Wed,  3 Sep 2025 14:28:43 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-24ca270d700so27025ad.0; 
+ Wed, 03 Sep 2025 07:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756909723; x=1757514523; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cOhxeIFjpjrMf7aOEWMhCzpTvgFLShuhckx1Q3/cIMk=;
+ b=kcDRuFBV+fKp+vu8XHyumIuW2vxezZ8NINDsoGdaflark47SR01oF977kDXqquDoEA
+ e9pRUjprDH3tjesyKwMqnUIRxO1DgJ12vtrZODPP8OK1XHlhWV9gZUVIBU3JZLkVozWq
+ 8eUjRx3P7srxVvetzIRXw2RvGNZt+69sYhJBbcuiUUjcboy18ySuB06ScswQyzd48l1y
+ F5vU+e42kEdX9jUwiiPOurQKgLV5WTRHcDVxu12ejR0RSIhANpWP1Cs0yEfrSeEPNULe
+ Znx670mCSYmBd3R02qrjsA3OAVDRnW7K4wSIedrkq66YvBkCDXoNFrOaTx1b8ZY30Oc3
+ hj8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756909723; x=1757514523;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cOhxeIFjpjrMf7aOEWMhCzpTvgFLShuhckx1Q3/cIMk=;
+ b=KUD4Ywbknjp2yA0OOA5Uzdx4mVS8JW6mkpZXh/Q+LqGAgcVZ66Hj/P4SX82psRFHw+
+ 9N1yOiUaEhczWaz6DBbb6p9s/O9XLDHlpl6AyQGxtVxio1BtOQbTHoY634K+JqrMfPHi
+ wzjmrFhENnaWTFZBVLP57XjqSJYnIKfnnqztuNeztXwOqBtmIEUhvnkypFOlny+Dad5o
+ Wp3lzwpcjRpeOOHfZGVgKSKBcb4ubaeVTFBnKmzJ9oHna7agA4GSEO6RzmHT22rRV5Nf
+ 8sL7m25/Djo/bJmKiatt7q/M8TAPkfGNUL+LcbClbhq7p0ibayve65pSXgIVz4uF9rVJ
+ 56ug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUj0xdb+Z7oDjWqYcZRCV5irEio80Cy7wLE1RLYSZhYDhXOQX2PrKu+PqO53BksSwZFTHTehoExClsO@lists.freedesktop.org,
+ AJvYcCVEcZm3f0ErmU4QD/ebxQFLS7ORw+oR0s+sc9zoUssEWgAH7QItgs5lQzCzkc1bli6G4gdjVU8L@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaezuJvLej/OjD7L9qbeXa6WjLwKdXA39dbzfgfOrDIW/DNR7W
+ TRpA3coZYadJ2zJxeh7OMDc8kJLixF62JQYBXlAkhflhtXv+xzNYSPMW7COLl7dZZ3i4Jf5atCu
+ lRdQFs9DuqTUkPxkhOWzAeB/gp9llcxs=
+X-Gm-Gg: ASbGncs+TOZT25Uzga7e66fKyE3zsUxxYxVWJHm/jQ2xWC+mC12FRoj9uRuUFVHSWLo
+ QSffXtSqn76yY2z6Qku0jHzQ+1az29Q0An3WbabubP+VaI/ftsvhNh6U9ttNyfgtNEe0U+WZCbL
+ QWJuN9hpVmKGJxOt0RW9vHLIYi6lqTqszpOk+c96zLwUacpD43ZqsMNTubMM/v4QvhAb1n3lVIx
+ M3wEjauWH5oYq0NRw==
+X-Google-Smtp-Source: AGHT+IFOnePYb4ywz6jf96HTmrHkdNDdlN7uSd1l6wzq/vofzodwjrS28jTK2c5zjv4zLJIFlbc42+Ai0y70GGbGTP4=
+X-Received: by 2002:a17:902:db03:b0:246:e1ff:b223 with SMTP id
+ d9443c01a7336-2491f1393cemr133123155ad.6.1756909723377; Wed, 03 Sep 2025
+ 07:28:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/panthor: assign unique names to queues
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+References: <20250903082018.2702769-1-colin.i.king@gmail.com>
+ <aLgCkRO8jkzwuxW5@stanley.mountain>
+In-Reply-To: <aLgCkRO8jkzwuxW5@stanley.mountain>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 3 Sep 2025 10:28:30 -0400
+X-Gm-Features: Ac12FXwZEbcPUl-6-Rnd5XZji0oaUsIwWztfkSuPcJ4GcwF8j6e-YBXz3n9gNeg
+Message-ID: <CADnq5_Pkbpezj9p1b335Civb90fGxojyciExZgfAndRF1rUTmQ@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/amdgpu: Fix a less than zero check on a
+ uint32_t struct field
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Colin Ian King <colin.i.king@gmail.com>, Shaoyun Liu <shaoyun.liu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250902200624.428175-1-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250902200624.428175-1-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,172 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/09/2025 21:06, Chia-I Wu wrote:
-> Userspace relies on the ring field of gpu_scheduler tracepoints to
-> identify a drm_gpu_scheduler.  The value of the ring field is taken from
-> sched->name.
-> 
-> Because we typically have multiple schedulers running in parallel in
-> each process, assign unique names to schedulers such that userspace can
-> distinguish them.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Applied.  Thanks!
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Alex
 
-> 
-> ---
-> 
-> v2:
->  - include drm_client_id in the name to be truly unique
->  - remove unnecessary NULL in drm_sched_init_args initialization
->  - reformat to column width 100
-> 
-> v3:
->  - switch to kasprintf for queue name
->    - open to alternatives such as name[48], shorter prefix (e.g.,
->      panthor-q), etc.
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
->  drivers/gpu/drm/panthor/panthor_sched.c | 38 ++++++++++++++++++-------
->  drivers/gpu/drm/panthor/panthor_sched.h |  3 +-
->  3 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 9256806eb6623..be962b1387f03 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1105,7 +1105,7 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  	if (ret)
->  		goto out;
->  
-> -	ret = panthor_group_create(pfile, args, queue_args);
-> +	ret = panthor_group_create(pfile, args, queue_args, file->client_id);
->  	if (ret < 0)
->  		goto out;
->  	args->group_handle = ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ba5dc3e443d9c..b328631c00489 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -360,6 +360,9 @@ struct panthor_queue {
->  	/** @entity: DRM scheduling entity used for this queue. */
->  	struct drm_sched_entity entity;
->  
-> +	/** @name: DRM scheduler name for this queue. */
-> +	char *name;
-> +
->  	/**
->  	 * @remaining_time: Time remaining before the job timeout expires.
->  	 *
-> @@ -901,6 +904,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
->  	if (queue->scheduler.ops)
->  		drm_sched_fini(&queue->scheduler);
->  
-> +	kfree(queue->name);
-> +
->  	panthor_queue_put_syncwait_obj(queue);
->  
->  	panthor_kernel_bo_destroy(queue->ringbuf);
-> @@ -3308,9 +3313,10 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->  
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args,
-> +		   u64 drm_client_id, u32 gid, u32 qid)
->  {
-> -	const struct drm_sched_init_args sched_args = {
-> +	struct drm_sched_init_args sched_args = {
->  		.ops = &panthor_queue_sched_ops,
->  		.submit_wq = group->ptdev->scheduler->wq,
->  		.num_rqs = 1,
-> @@ -3323,7 +3329,6 @@ group_create_queue(struct panthor_group *group,
->  		.credit_limit = args->ringbuf_size / sizeof(u64),
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
->  		.timeout_wq = group->ptdev->reset.wq,
-> -		.name = "panthor-queue",
->  		.dev = group->ptdev->base.dev,
->  	};
->  	struct drm_gpu_scheduler *drm_sched;
-> @@ -3398,6 +3403,15 @@ group_create_queue(struct panthor_group *group,
->  	if (ret)
->  		goto err_free_queue;
->  
-> +	/* assign a unique name */
-> +	queue->name = kasprintf(GFP_KERNEL, "panthor-queue-%llu-%u-%u", drm_client_id, gid, qid);
-> +	if (!queue->name) {
-> +		ret = -ENOMEM;
-> +		goto err_free_queue;
-> +	}
-> +
-> +	sched_args.name = queue->name;
-> +
->  	ret = drm_sched_init(&queue->scheduler, &sched_args);
->  	if (ret)
->  		goto err_free_queue;
-> @@ -3447,7 +3461,8 @@ static void add_group_kbo_sizes(struct panthor_device *ptdev,
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args)
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id)
->  {
->  	struct panthor_device *ptdev = pfile->ptdev;
->  	struct panthor_group_pool *gpool = pfile->groups;
-> @@ -3540,12 +3555,16 @@ int panthor_group_create(struct panthor_file *pfile,
->  	memset(group->syncobjs->kmap, 0,
->  	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
->  
-> +	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> +	if (ret)
-> +		goto err_put_group;
-> +
->  	for (i = 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] = group_create_queue(group, &queue_args[i]);
-> +		group->queues[i] = group_create_queue(group, &queue_args[i], drm_client_id, gid, i);
->  		if (IS_ERR(group->queues[i])) {
->  			ret = PTR_ERR(group->queues[i]);
->  			group->queues[i] = NULL;
-> -			goto err_put_group;
-> +			goto err_erase_gid;
->  		}
->  
->  		group->queue_count++;
-> @@ -3553,10 +3572,6 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	group->idle_queues = GENMASK(group->queue_count - 1, 0);
->  
-> -	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> -	if (ret)
-> -		goto err_put_group;
-> -
->  	mutex_lock(&sched->reset.lock);
->  	if (atomic_read(&sched->reset.in_progress)) {
->  		panthor_group_stop(group);
-> @@ -3575,6 +3590,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	return gid;
->  
-> +err_erase_gid:
-> +	xa_erase(&gpool->xa, gid);
-> +
->  err_put_group:
->  	group_put(group);
->  	return ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-> index 742b0b4ff3a3c..f4a475aa34c0a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.h
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
-> @@ -21,7 +21,8 @@ struct panthor_job;
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args);
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id);
->  int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
->  int panthor_group_get_state(struct panthor_file *pfile,
->  			    struct drm_panthor_group_get_state *get_state);
-
+On Wed, Sep 3, 2025 at 7:24=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> Are you editing your CC list?  The get_maintainer.pl script gives me a
+> longer list.  The most important thing is that you've left off Shaoyun Li=
+u
+> from the Fixes tag.  Added.
+>
+> The kbuild-bot did report this bug on Friday so the AMD folks likely have
+> a patch kicking around on their end, but just haven't sent it out
+> publicly yet?
+> https://lore.kernel.org/all/202508290749.ti6u3cLL-lkp@intel.com/
+>
+> Anyway, the patch is fine.
+>
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+>
+> regards,
+> dan carpenter
