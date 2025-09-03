@@ -2,134 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A08CB4163D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4BAB4162F
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9794F10E1F8;
-	Wed,  3 Sep 2025 07:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8791310E4D6;
+	Wed,  3 Sep 2025 07:20:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oyOczDZP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="etRf+fWn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5538F10E1F8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 07:20:45 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5832PXtt010164
- for <dri-devel@lists.freedesktop.org>; Wed, 3 Sep 2025 07:20:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- sNOAegK5RZAaDE+/8oSO0sUGuuiN9cbKJbWju8HXrOA=; b=oyOczDZPCkqMxGh+
- UXnPsciiheK5On/uHeMaIQqtvIipUcOg8L6Sekz2+RAs+yQWeDWyFzNvfvlNGGG7
- zy6RjX+jr4f1bqyoaCa9XWzhN9k7O/QnpV+qnL8B/TMjI5wMRmBH03i9fMJfaEbh
- 6ex4n4wEP8AyCGnFvsJM1NV9FaHzeqnFIyBiDjAAs1WnbuvPRBRKn78sJ1NGDYbg
- nVE3XWmNVImh04qBPgbjrzhD6z3gUnlUeFd+OCE9Q7kp89hp46WX9YWPPyjVvsjK
- Ii3cOE5hDl9MymeTesisu2ta28w6c9Ja8RRvbYxMbhgyNXfG8g4nys/uZURuNPTN
- Cm28tw==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0ejqp2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 07:20:44 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-7725b77b795so3098374b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 00:20:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756884044; x=1757488844;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sNOAegK5RZAaDE+/8oSO0sUGuuiN9cbKJbWju8HXrOA=;
- b=Q4ijx//scsDtky4Xj4fWmp4NJ+eUp9TQv9m6prU/JtyQBb7mUwFTJvnkQrdEz0yv+8
- 0UaT1uTK691YAyLD5sfzSFcWahMqL+k9ioeWVstcQzTGMqIi1L9OD+ZPccGbbdkOH61h
- 6AusgOf9Mdg4oAEZiOyRpAvKZbnXn1fffueive0t8DMe7tIX3X00cXnvISXNOWTjtO5+
- 2Gj88AZ4YiLISrLqdJhzp0Zc4UTIbFe45wQ5NZIVE7bRT+51hjGD5JL2427DW/vwxyGu
- rBUABrzo8nlvv7GR4KlwwItB62jWr3BTX3+eGipP8tpgE6HTXqmHsiNrk4MyN2+9wuzA
- AXPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKsTEhmC9ToewDQaG74BoWINXYqCRAy1Ggs0FoTClwFSETP5cce5O144hIYsWRC3NswIW35kXqtVI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9mgJPDOMFxu/ibYbBlNdjNb5W3RxEzuqkU6L2xMoMd5YlZlyU
- wQT2e7CUPedQiQ62MpKHus8mfdc9EimQEjyR47gFDFw+bGGE4Prj+rbCxXh0su4GLhbMoSWc2zh
- pjxfhDFueWqDA+LwAdfZWcLI7tvYolo1pq4069W/nY1bKGVNdgg2FQMAJndNZA//BV/t2Wps=
-X-Gm-Gg: ASbGncvyIDfyvO40JJiJZoTllTRKTSdlosOYu70J3MJvQi+EztpCvrvAEzwzCHG2kTk
- vySVYHWzYCB9c9R6ixbCOA7wLnWI7oOJQFFOhd9zd/7xY6Tllx6/KJHIWAr8y07ZuGmb6IkVtLZ
- uRZy83K9Pk9THUBiBE3TtQ3YtMxS4K81Eu9iXW+UZNF4BNWwH0MHlIz/6gE0y8o4ndvSl6U8tjU
- cqcp1plFzUBgDs5wAx+HfspBSMLpwVJXfRtwPzVWjijawRy7slqadOba3tC4FPTesFLk4ffgX19
- qUmpabDRHKTBzVqn9F6rWIQMvPrecQkjqw8yuUvyI1sAbgmqX3MypEfBqg/3yEun
-X-Received: by 2002:a05:6a00:390c:b0:770:fd32:f365 with SMTP id
- d2e1a72fcca58-7723e38a3e1mr17895791b3a.25.1756884043916; 
- Wed, 03 Sep 2025 00:20:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGRoQDPRGyxgvIYbUjcgck6/XvM9wRa3NDYhFbn7RxwJ/4HNb57QPKMIkyegrDJbK2DGorniQ==
-X-Received: by 2002:a05:6a00:390c:b0:770:fd32:f365 with SMTP id
- d2e1a72fcca58-7723e38a3e1mr17895747b3a.25.1756884043467; 
- Wed, 03 Sep 2025 00:20:43 -0700 (PDT)
-Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7722a2b78d7sm15816191b3a.30.2025.09.03.00.20.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Sep 2025 00:20:43 -0700 (PDT)
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Wed, 03 Sep 2025 12:49:56 +0530
-Subject: [PATCH v5 5/5] arm64: dts: qcom: qcs8300-ride: Enable Adreno 623 GPU
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1697110E1FB;
+ Wed,  3 Sep 2025 07:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756884021; x=1788420021;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=PYnQIWbb0enx4xIHdseDEpTf2H9LpmI1OxNIKZw8PPU=;
+ b=etRf+fWn5tytNIgFgm5BUm4nksu/Q/e3Oo3S0NUEYxdYc5NbAUwtwB6r
+ 4w/A7qETMGUusg65OP+xFyki/IfpAOcYnrnBO47CyOLAKHMkUl1O6hKx4
+ 4vjZLmDCBQHqrzdw/ZW0IxeMg7qo22KaFB8AWnx3bUmgiy6OeT3d5ab2w
+ pYhYvjW4kl1alVl3zKiNTCUcPANDb3+iLU3wgyzMqGcobdAi+6Srn8y/8
+ hcWqN8SK28ztYQbhp6LbNsvaXt1wYy7iFdMf9sPvduYSRZvnidVSeicDB
+ uHI1XJqVizjKwbPCbGIiUDbWTIYRYHibrKPPPjdm379huIlBDFICMbOx6 Q==;
+X-CSE-ConnectionGUID: hPjE3qGvS3mx+fRAlZ+INQ==
+X-CSE-MsgGUID: rTGvm7V1RuyAO6ztbC0Sow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59102202"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="59102202"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2025 00:20:20 -0700
+X-CSE-ConnectionGUID: pRBd4LdHT2CFD7FLurmYjA==
+X-CSE-MsgGUID: JJMhAKm4RAawh6JY/BrpIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="175872718"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.246])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Sep 2025 00:20:15 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, xaver.hugl@kde.org, harry.wentland@amd.com,
+ uma.shankar@intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v4 3/4] drm/atomic: Return user readable error in
+ atomic_ioctl
+In-Reply-To: <d8513636-f616-4219-8e46-24376dca7b97@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250902-atomic-v4-0-a97b4bed969b@intel.com>
+ <20250902-atomic-v4-3-a97b4bed969b@intel.com>
+ <b7e82c4736145ccb8d9ba0e1381d7d2f89971563@intel.com>
+ <d8513636-f616-4219-8e46-24376dca7b97@intel.com>
+Date: Wed, 03 Sep 2025 10:20:12 +0300
+Message-ID: <bc6dfb6765b153901c3af5b1c008c8d82f99bdc2@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250903-a623-gpu-support-v5-5-5398585e2981@oss.qualcomm.com>
-References: <20250903-a623-gpu-support-v5-0-5398585e2981@oss.qualcomm.com>
-In-Reply-To: <20250903-a623-gpu-support-v5-0-5398585e2981@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Gaurav Kohli <quic_gkohli@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756884002; l=881;
- i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=0A3WcrkpO6FZwh7gc5vhciObZkq6tlMdmmT7IsLC38U=;
- b=rTUl43YD2qv7+1bHzFpljeux3g04J8jUOBYTxEXptNSUGXRIDHOIu5Pvke32lwwqsxjK05HpP
- ZTLwS2TsLC7DmB40MlfOM2R0Mf43RMtj1u4TbxTldl5q0PyVToGbx+m
-X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-GUID: tTy-0K1Aqp0H8t3IpumtNrTlqaN9SbMP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX6doCbgP0c/A1
- w6GAEG4qR6K/7xvjQQE2MxrIns3SiGgHPATL7CIybNqFHL1Puw8yQ141bekRwoBF8c8iPEGInBa
- cOAEqTD7TZvx77xy11sXvvucIR/ERK+6avK86GQ1Qu4BPam8VIk/doVUbco/o8lONMk72kb1MFP
- mlCP4u2nRx1ZcKdV3QFfBTUwxUfboBF0WICYVUBlUKIQyBgdifVShQSqpbkZHqdG1YwicqIQRjn
- vhYQCCBh0iOmuFY3OLRGahrCel0ZvOgfEpCBk8TmXonHWlvFJx0qTkXmF1DUh0zT5g9H/e3dWSk
- T1pyl1q6wh1WCQ+SxaIHZK0u2ISxLSPa1JNgzhjhHVCaIyF80F8OfMiZA/6pfIpTM1g6fmgIaeF
- dBU/PYu/
-X-Proofpoint-ORIG-GUID: tTy-0K1Aqp0H8t3IpumtNrTlqaN9SbMP
-X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68b7ec4c cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8
- a=VSJZfRLmIhO-6U2h3l8A:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,38 +79,302 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+On Wed, 03 Sep 2025, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+> On 02-09-2025 15:46, Jani Nikula wrote:
+>> On Tue, 02 Sep 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
+>>> Add user readable error codes for failure cases in drm_atomic_ioctl() so
+>>> that user can decode the error code and take corrective measurements.
+>>>
+>>> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_atomic.c      | 23 +++++++----
+>>>   drivers/gpu/drm/drm_atomic_uapi.c | 83 ++++++++++++++++++++++++++++++---------
+>>>   include/drm/drm_atomic.h          | 19 +++++++++
+>>>   3 files changed, 100 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+>>> index cd15cf52f0c9144711da5879da57884674aea9e4..4f6c7e659b362f0887ffcc85dade1122fd30df3d 100644
+>>> --- a/drivers/gpu/drm/drm_atomic.c
+>>> +++ b/drivers/gpu/drm/drm_atomic.c
+>>> @@ -1463,6 +1463,7 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+>>>   	unsigned int requested_crtc = 0;
+>>>   	unsigned int affected_crtc = 0;
+>>>   	int i, ret = 0;
+>>> +	char *err_string;
+>>>   
+>>>   	drm_dbg_atomic(dev, "checking %p\n", state);
+>>>   
+>>> @@ -1511,8 +1512,13 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+>>>   	if (!state->allow_modeset) {
+>>>   		for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+>>>   			if (drm_atomic_crtc_needs_modeset(new_crtc_state)) {
+>>> -				drm_dbg_atomic(dev, "[CRTC:%d:%s] requires full modeset\n",
+>>> -					       crtc->base.id, crtc->name);
+>>> +				err_string = "requires full modeset";
+>> This points a non-const pointer to const data.
+>>
+>> Anyway none of this should require or start a precendent of using local
+>> variables all over the place for the error strings. It's ugly. Ditto
+>> below for all the places.
+>>
+>> If all the places calling drm_mode_atomic_add_error_msg() do debug
+>> logging, maybe that's where the debug logging should be?
+>>
+>>> +				drm_dbg_atomic(dev, "[CRTC:%d:%s] %s\n",
+>>> +					       crtc->base.id, crtc->name, err_string);
+>>> +				drm_mode_atomic_add_error_msg(state->error_code,
+>>> +							      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
+>>> +							      err_string);
+>> I guess you didn't want to follow what Maarten suggested.
+> Yes, felt so, as adding a new function doesnt make much sense just for 
+> filling the struct drm_mode_atomic_err_code.
+>
+> Will remove this function and fill the struct drm_mode_atomic_err_code 
+> in place, thereby the below comment also should be handled.
 
-Enable GPU for qcs8300-ride platform and provide path for zap
-shader.
+Nobody suggested that! Keep the function.
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-index 8c166ead912c589c01d2bc7d13fa1b6892f6252b..c1f4993ee3bff54bba516a3b652e13f730b6353c 100644
---- a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-@@ -295,6 +295,14 @@ queue3 {
- 	};
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/qcs8300/a623_zap.mbn";
-+};
-+
- &pmm8650au_1_gpios {
- 	usb2_en: usb2-en-state {
- 		pins = "gpio7";
+>
+> Thanks and Regards,
+> Arun R Murthy
+> -------------------
+>
+>>
+>>> +
+>>>   				return -EINVAL;
+>> Adding the return is a functional change, and I mentioned it
+>> earlier. Ignoring review is one of the certain ways to stop receiving
+>> review in the future.
+> Will take it out of this series.
+>>>   			}
+>>>   		}
+>>> @@ -1534,11 +1540,14 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+>>>   	 * so compositors know what's going on.
+>>>   	 */
+>>>   	if (affected_crtc != requested_crtc) {
+>>> -		drm_dbg_atomic(dev,
+>>> -			       "driver added CRTC to commit: requested 0x%x, affected 0x%0x\n",
+>>> -			       requested_crtc, affected_crtc);
+>>> -		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets: requested 0x%x, affected 0x%0x\n",
+>>> -		     requested_crtc, affected_crtc);
+>>> +		err_string = "adding CRTC not allowed without modesets";
+>>> +		drm_dbg_atomic(dev, "%s: requested 0x%x, affected 0x%0x\n",
+>>> +			       err_string, requested_crtc, affected_crtc);
+>>> +		drm_mode_atomic_add_error_msg(state->error_code,
+>>> +					      DRM_MODE_ATOMIC_NEED_FULL_MODESET,
+>>> +					      err_string);
+>>> +
+>>> +		return -EINVAL;
+>> Adding the return is a functional change, and I mentioned it earlier.
+> Will take it out of this series.
+>>
+>>>   	}
+>>>   
+>>>   	return 0;
+>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> index 85dbdaa4a2e25878c953b9b41539c8566d55c6d9..60f1b8baebce0db1ce984c8cda56039261b519e8 100644
+>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> @@ -1017,6 +1017,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>>>   	struct drm_mode_object *ref;
+>>>   	u64 old_val;
+>>>   	int ret;
+>>> +	char *err_string;
+>>>   
+>>>   	if (!drm_property_change_valid_get(prop, prop_value, &ref))
+>>>   		return -EINVAL;
+>>> @@ -1058,6 +1059,12 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>>>   			ret = drm_atomic_crtc_get_property(crtc, crtc_state,
+>>>   							   prop, &old_val);
+>>>   			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+>>> +			if (ret) {
+>>> +				err_string = "property change not allowed in async flip";
+>>> +				drm_mode_atomic_add_error_msg(state->error_code,
+>>> +							      DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED,
+>>> +							      err_string);
+>>> +			}
+>>>   			break;
+>>>   		}
+>>>   
+>>> @@ -1096,9 +1103,14 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+>>>   					ret = plane_funcs->atomic_async_check(plane, state, true);
+>>>   
+>>>   				if (ret) {
+>>> +					err_string = "plane does not support async flip";
+>>> +					drm_mode_atomic_add_error_msg(state->error_code,
+>>> +								      DRM_MODE_ATOMIC_ASYNC_NOT_SUPP_PLANE,
+>>> +								      err_string);
+>>>   					drm_dbg_atomic(prop->dev,
+>>> -						       "[PLANE:%d:%s] does not support async flips\n",
+>>> -						       obj->id, plane->name);
+>>> +							"[PLANE:%d:%s] %s\n",
+>>> +						       obj->id, plane->name,
+>>> +						       err_string);
+>>>   					break;
+>>>   				}
+>>>   			}
+>>> @@ -1390,42 +1402,63 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>>   	uint32_t __user *props_ptr = (uint32_t __user *)(unsigned long)(arg->props_ptr);
+>>>   	uint64_t __user *prop_values_ptr = (uint64_t __user *)(unsigned long)(arg->prop_values_ptr);
+>>>   	unsigned int copied_objs, copied_props;
+>>> -	struct drm_atomic_state *state;
+>>> +	struct drm_atomic_state *state = NULL;
+>> Unrelated change.
+> Noted!
+>>
+>>>   	struct drm_modeset_acquire_ctx ctx;
+>>>   	struct drm_out_fence_state *fence_state;
+>>> +	struct drm_mode_atomic_err_code error_code;
+>>> +	struct drm_mode_atomic_err_code __user *error_code_ptr;
+>>>   	int ret = 0;
+>>>   	unsigned int i, j, num_fences;
+>>>   	bool async_flip = false;
+>>> +	char *err_string;
+>>>   
+>>>   	/* disallow for drivers not supporting atomic: */
+>>>   	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
+>>>   		return -EOPNOTSUPP;
+>>>   
+>>> +	if (!arg->reserved)
+>>> +		drm_err(dev, "memory not allocated for drm_atomic error reporting\n");
+>>> +	else
+>>> +		/* update the error code if any error to allow user handling it */
+>>> +		error_code_ptr = (struct drm_mode_atomic_err_code __user *)
+>>> +				 (unsigned long)arg->reserved;
+>>> +
+>>> +	memset(&error_code, 0, sizeof(struct drm_mode_atomic_err_code));
+>>> +
+>>>   	/* disallow for userspace that has not enabled atomic cap (even
+>>>   	 * though this may be a bit overkill, since legacy userspace
+>>>   	 * wouldn't know how to call this ioctl)
+>>>   	 */
+>>>   	if (!file_priv->atomic) {
+>>> +		err_string = "DRM_ATOMIC capability not enabled";
+>> Yeah, just repeating, don't start using this err_string local variable
+>> idea.
+>>
+>>>   		drm_dbg_atomic(dev,
+>>> -			       "commit failed: atomic cap not enabled\n");
+>>> -		return -EINVAL;
+>>> +			       "commit failed: %s\n", err_string);
+>>> +		drm_mode_atomic_add_error_msg(&error_code,
+>>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
+>>> +					      err_string);
+>>> +		ret = -EINVAL;
+>>> +		goto out;
+>>>   	}
+>>>   
+>>>   	if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS) {
+>>> -		drm_dbg_atomic(dev, "commit failed: invalid flag\n");
+>>> -		return -EINVAL;
+>>> -	}
+>>> -
+>>> -	if (arg->reserved) {
+>>> -		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
+>>> -		return -EINVAL;
+>>> +		err_string = "invalid flag";
+>>> +		drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
+>>> +		drm_mode_atomic_add_error_msg(&error_code,
+>>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
+>>> +					      err_string);
+>>> +		ret = -EINVAL;
+>>> +		goto out;
+>>>   	}
+>>>   
+>>>   	if (arg->flags & DRM_MODE_PAGE_FLIP_ASYNC) {
+>>>   		if (!dev->mode_config.async_page_flip) {
+>>> -			drm_dbg_atomic(dev,
+>>> -				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported\n");
+>>> -			return -EINVAL;
+>>> +			err_string = "DRM_MODE_PAGE_FLIP_ASYNC not supported with ATOMIC ioctl";
+>>> +			drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
+>>> +			drm_mode_atomic_add_error_msg(&error_code,
+>>> +						      DRM_MODE_ATOMIC_INVALID_API_USAGE,
+>>> +						      err_string);
+>>> +			ret = -EINVAL;
+>>> +			goto out;
+>>>   		}
+>>>   
+>>>   		async_flip = true;
+>>> @@ -1434,9 +1467,13 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>>   	/* can't test and expect an event at the same time. */
+>>>   	if ((arg->flags & DRM_MODE_ATOMIC_TEST_ONLY) &&
+>>>   			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT)) {
+>>> -		drm_dbg_atomic(dev,
+>>> -			       "commit failed: page-flip event requested with test-only commit\n");
+>>> -		return -EINVAL;
+>>> +		err_string = "page-flip event requested with test-only commit";
+>>> +		drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
+>>> +		drm_mode_atomic_add_error_msg(&error_code,
+>>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
+>>> +					      err_string);
+>>> +		ret = -EINVAL;
+>>> +		goto out;
+>>>   	}
+>>>   
+>>>   	state = drm_atomic_state_alloc(dev);
+>>> @@ -1447,6 +1484,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>>   	state->acquire_ctx = &ctx;
+>>>   	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
+>>>   
+>>> +	state->error_code = &error_code;
+>>> +
+>>>   retry:
+>>>   	copied_objs = 0;
+>>>   	copied_props = 0;
+>>> @@ -1543,6 +1582,14 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>>   	}
+>>>   
+>>>   out:
+>>> +	/* update the error code if any error to allow user handling it */
+>>> +	if (ret < 0 && arg->reserved)
+>>> +		if (copy_to_user(error_code_ptr, &error_code, sizeof(error_code)))
+>>> +			return -EFAULT;
+>>> +
+>>> +	if (!state)
+>>> +		return ret;
+>>> +
+>>>   	complete_signaling(dev, state, fence_state, num_fences, !ret);
+>>>   
+>>>   	if (ret == -EDEADLK) {
+>>> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+>>> index d380001b24b4223baa54dae6c3c43e19dfb1958d..8956b175795128422eefc2bc047b320b80aedc3f 100644
+>>> --- a/include/drm/drm_atomic.h
+>>> +++ b/include/drm/drm_atomic.h
+>>> @@ -1255,4 +1255,23 @@ struct drm_bridge_state *
+>>>   drm_atomic_get_new_bridge_state(const struct drm_atomic_state *state,
+>>>   				struct drm_bridge *bridge);
+>>>   
+>>> +/**
+>>> + * drm_mode_atomic_add_error_msg - function to add error code and error string
+>>> + *
+>>> + * @err_code: pointer to struct drm_mode_atomic_err_code that stores the failure
+>>> + *	      reason
+>>> + * @failure_code: failure code in enum drm_mode_atomic_failure_codes
+>>> + * @failure_string: failure reason string message
+>>> + *
+>>> + * Returns: void
+>>> + */
+>>> +static inline void drm_mode_atomic_add_error_msg(struct drm_mode_atomic_err_code *err_code,
+>>> +						 __u64 failure_code,
+>>> +						 char *failure_string)
+>> So this should be "const char *format, ..." with printf format, with
+>> printf format annotation, to help callers pass in other stuff than just
+>> fixed strings.
+>>
+>> This should be a proper function instead of static inline.
+>>
+>>> +{
+>>> +	err_code->failure_code = failure_code;
+>>> +	strscpy_pad(err_code->failure_string, failure_string,
+>>> +		    strlen(err_code->failure_string));
+>> If the size is fixed, why do we just silently truncate the string? If
+>> the message is for the user, it'll be ugly to emit truncated strings.
+>>
+>>> +}
+>>> +
+>>>   #endif /* DRM_ATOMIC_H_ */
 
 -- 
-2.50.1
-
+Jani Nikula, Intel
