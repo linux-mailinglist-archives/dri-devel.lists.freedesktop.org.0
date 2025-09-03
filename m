@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8047B42C89
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A6AB42C98
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:12:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB9A10E129;
-	Wed,  3 Sep 2025 22:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C609310E29E;
+	Wed,  3 Sep 2025 22:12:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vihblv3W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WcKsLSx+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 481B910E129;
- Wed,  3 Sep 2025 22:09:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 012FB10E28E;
+ Wed,  3 Sep 2025 22:12:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0D0EE402C5;
- Wed,  3 Sep 2025 22:09:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E571C4CEE7;
- Wed,  3 Sep 2025 22:09:04 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 35E166024F;
+ Wed,  3 Sep 2025 22:12:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1830C4CEE7;
+ Wed,  3 Sep 2025 22:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756937344;
- bh=0O+pYvcP6Udtovv6oSsCQqzRCHJe9qRrZ983FZUlqGk=;
+ s=k20201202; t=1756937534;
+ bh=KaTnv84GnPG3OJxBa6o7jmCuAgppgtp0j7SdJLG75nM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Vihblv3Wr8sXx6PoPDj/h2q53qErViSpt0q8TG/MRQMUTwkB01ldFvT+vg1/icXXQ
- 88s5NJrTzI6XEANuUVxx0R+ZSLCqXFx9hYuvgQkvQ6ZHhjaE3xCo2asY8U1tExIc7Y
- j0StWU+VbWx8L+Xhmrg2sdBzTkHVUy/U9UL+F/n4J+/SCaDMd5nxX4jFxmfii3bpz3
- 6bMEEAyKGjqpZyZYO/gNyD3+LYICKHrehJt+oQaKms2JgGFPj3meQcXHDaFwBNR8v+
- DH5eAY8gyGbSXqjCBIAbDChaYKyiTUZf4KHhm6Bs0lm5n3usXkCS1BVh9JU2OfvfXG
- dUSSiWiQXrsNA==
-Date: Wed, 3 Sep 2025 17:09:02 -0500
+ b=WcKsLSx+llJx3DvpAo2w7wlwzqLU8UUZC5P+w+//y96qQ1NTfOx2/9F+QxSaViyVC
+ J9XQKMo4oT+B9lkS9Qud66IFw1UiMVlhCQtBel/NSCANoCw/J/H96As31VTGAaJUrp
+ cchb6zr8813vurLpQvNBwvMnflbvgMklVTaRMeGD+X/taCTGR+GuAVpU+zeE5WPCyn
+ 9LC3C5EV3cF8lXCyS4+SL8pKevF/hrzhsBXzBc2Fj8BpgQ9hzIZ2w/jXFWFNs1IVCw
+ oE8aRbwCpUFfI51wqHhd98fH7S7agP5CvZ7Zbwug/hkmM90lkzwFUT9ejT3VZW5RN5
+ TW77DQ8nY2wHA==
+Date: Wed, 3 Sep 2025 17:12:12 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
- Abel Vesa <abel.vesa@linaro.org>, linux-kernel@vger.kernel.org,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, linux-arm-msm@vger.kernel.org,
+Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Sean Paul <sean@poorly.run>, Dmitry Baryshkov <lumag@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@gmail.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Abel Vesa <abel.vesa@linaro.org>, David Airlie <airlied@gmail.com>,
+ Mahadevan <quic_mahap@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mahadevan <quic_mahap@quicinc.com>, Konrad Dybcio <konradybcio@kernel.org>,
- Simona Vetter <simona@ffwll.ch>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v8 2/9] dt-bindings: display/msm: dp-controller: fix
- fallback for SM6350
-Message-ID: <175693734157.2928047.13961803689697376626.robh@kernel.org>
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v8 3/9] dt-bindings: display/msm: dp-controller: document
+ DP on SM7150
+Message-ID: <175693753228.2942059.6654668767074884756.robh@kernel.org>
 References: <20250903-dp_mst_bindings-v8-0-7526f0311eaa@oss.qualcomm.com>
- <20250903-dp_mst_bindings-v8-2-7526f0311eaa@oss.qualcomm.com>
+ <20250903-dp_mst_bindings-v8-3-7526f0311eaa@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903-dp_mst_bindings-v8-2-7526f0311eaa@oss.qualcomm.com>
+In-Reply-To: <20250903-dp_mst_bindings-v8-3-7526f0311eaa@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,24 +76,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 03 Sep 2025 14:58:13 +0300, Dmitry Baryshkov wrote:
-> Currently SM6350 uses qcom,sm8350-dp as a fallback compatible entry.
-> This works, but adding DP MST support will reveal that this SoC is
-> not fully compatible with SM8350 platform: the former one doesn't
-> provide MST support, while the latter one will get it. DT schema for
-> SM8350 is going to demand MST-related clocks which SM6350 doesn't
-> provide.
+On Wed, 03 Sep 2025 14:58:14 +0300, Dmitry Baryshkov wrote:
+> The qcom,sm7150-dp compatible is documented in schema. Mark DisplayPort
+> controller as compatible with SM8350.
 > 
-> Add new entry for SM6350 with fallback to SC7180 (which belongs to the
-> same generation and also doesn't have MST support). SC7180 has been
-> supported by the Linux kernel long ago (and long before SM8350 support
-> was added).
-> 
-> Fixes: 39086151593a ("dt-bindings: display: msm: dp-controller: document SM6350 compatible")
+> Fixes: 726eded12dd7 ("dt-bindings: display/msm: Add SM7150 MDSS")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/display/msm/dp-controller.yaml     | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml    | 1 +
+>  Documentation/devicetree/bindings/display/msm/qcom,sm7150-mdss.yaml | 6 ++++--
+>  2 files changed, 5 insertions(+), 2 deletions(-)
 > 
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
