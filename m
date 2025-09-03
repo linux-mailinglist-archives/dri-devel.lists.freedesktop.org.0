@@ -2,54 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE6AB42C74
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8047B42C89
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 818CF10E94F;
-	Wed,  3 Sep 2025 22:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB9A10E129;
+	Wed,  3 Sep 2025 22:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IHY5IunM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vihblv3W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC2D10E94F
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 22:03:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481B910E129;
+ Wed,  3 Sep 2025 22:09:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1233E44977;
- Wed,  3 Sep 2025 22:03:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A7DBC4CEF5;
- Wed,  3 Sep 2025 22:03:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 0D0EE402C5;
+ Wed,  3 Sep 2025 22:09:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E571C4CEE7;
+ Wed,  3 Sep 2025 22:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756936994;
- bh=p/Vtnd9ExQcigtXvkp2n8XfYOV0CyJI9pZ18oK00OI4=;
+ s=k20201202; t=1756937344;
+ bh=0O+pYvcP6Udtovv6oSsCQqzRCHJe9qRrZ983FZUlqGk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IHY5IunMb9W5aL4RZhex31VnQbVSXjrttHqnVv5/FUuIG53MvtQGYW687uggHUP36
- zeQtz45hZGXgk0zUFHFGFU0tg3AeB/BUIeJrEllB+c1JVdjT4vIeGyab3I8GgWnGXp
- yQYXjBVEWXFjaZTq8cVxfvG8+StPttUoQztLdwy0FsIu5wMexNy+FtAbDCuXGRL3q2
- MdX7AkITz2ADPA0m6AiM/RQKFeTJF7tmoLCN88razpECpNPZjIckTY8pV8h5RMwEPb
- kkjJXIKPXciUhzsZw56MjSq1gHaBwcUnzWYZ3UiR71UdVbMWh25YZlltfpyO+cYtlF
- IDf+aBcDX0CMg==
-Date: Wed, 3 Sep 2025 17:03:12 -0500
-From: Rob Herring <robh@kernel.org>
-To: Harikrishna Shenoy <h-shenoy@ti.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, krzk+dt@kernel.org, conor+dt@kernel.org,
- sjakhade@cadence.com, yamonkar@cadence.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, devarsht@ti.com, u-kumar1@ti.com,
- s-jain1@ti.com
-Subject: Re: [PATCH v2] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for DSC
-Message-ID: <20250903220312.GA2903503-robh@kernel.org>
-References: <20250903111357.2605199-1-h-shenoy@ti.com>
+ b=Vihblv3Wr8sXx6PoPDj/h2q53qErViSpt0q8TG/MRQMUTwkB01ldFvT+vg1/icXXQ
+ 88s5NJrTzI6XEANuUVxx0R+ZSLCqXFx9hYuvgQkvQ6ZHhjaE3xCo2asY8U1tExIc7Y
+ j0StWU+VbWx8L+Xhmrg2sdBzTkHVUy/U9UL+F/n4J+/SCaDMd5nxX4jFxmfii3bpz3
+ 6bMEEAyKGjqpZyZYO/gNyD3+LYICKHrehJt+oQaKms2JgGFPj3meQcXHDaFwBNR8v+
+ DH5eAY8gyGbSXqjCBIAbDChaYKyiTUZf4KHhm6Bs0lm5n3usXkCS1BVh9JU2OfvfXG
+ dUSSiWiQXrsNA==
+Date: Wed, 3 Sep 2025 17:09:02 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Abel Vesa <abel.vesa@linaro.org>, linux-kernel@vger.kernel.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, linux-arm-msm@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mahadevan <quic_mahap@quicinc.com>, Konrad Dybcio <konradybcio@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v8 2/9] dt-bindings: display/msm: dp-controller: fix
+ fallback for SM6350
+Message-ID: <175693734157.2928047.13961803689697376626.robh@kernel.org>
+References: <20250903-dp_mst_bindings-v8-0-7526f0311eaa@oss.qualcomm.com>
+ <20250903-dp_mst_bindings-v8-2-7526f0311eaa@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903111357.2605199-1-h-shenoy@ti.com>
+In-Reply-To: <20250903-dp_mst_bindings-v8-2-7526f0311eaa@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,66 +73,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 03, 2025 at 04:43:57PM +0530, Harikrishna Shenoy wrote:
-> From: Swapnil Jakhade <sjakhade@cadence.com>
+
+On Wed, 03 Sep 2025 14:58:13 +0300, Dmitry Baryshkov wrote:
+> Currently SM6350 uses qcom,sm8350-dp as a fallback compatible entry.
+> This works, but adding DP MST support will reveal that this SoC is
+> not fully compatible with SM8350 platform: the former one doesn't
+> provide MST support, while the latter one will get it. DT schema for
+> SM8350 is going to demand MST-related clocks which SM6350 doesn't
+> provide.
 > 
-> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
-> DPI/DP bridge.
+> Add new entry for SM6350 with fallback to SC7180 (which belongs to the
+> same generation and also doesn't have MST support). SC7180 has been
+> supported by the Linux kernel long ago (and long before SM8350 support
+> was added).
 > 
-> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+> Fixes: 39086151593a ("dt-bindings: display: msm: dp-controller: document SM6350 compatible")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  .../bindings/display/bridge/cdns,mhdp8546.yaml        | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  .../devicetree/bindings/display/msm/dp-controller.yaml     | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> index c2b369456e4e..6e749c002669 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-> @@ -27,6 +27,8 @@ properties:
->            Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
->        - description:
->            Register block of mhdptx sapb registers.
-> +      - description:
-> +          Register block for mhdptx DSC encoder registers.
->  
->    reg-names:
->      minItems: 1
-> @@ -34,6 +36,7 @@ properties:
->        - const: mhdptx
->        - const: j721e-intg
->        - const: mhdptx-sapb
-> +      - const: mhdptx-dsc
 
-'mhdptx' is redundant. Don't continue that pattern. Just 'dsc'.
-
->  
->    clocks:
->      maxItems: 1
-> @@ -100,18 +103,18 @@ allOf:
->        properties:
->          reg:
->            minItems: 2
-> -          maxItems: 3
-> +          maxItems: 4
->          reg-names:
->            minItems: 2
-> -          maxItems: 3
-> +          maxItems: 4
->      else:
->        properties:
->          reg:
->            minItems: 1
-> -          maxItems: 2
-> +          maxItems: 3
->          reg-names:
->            minItems: 1
-> -          maxItems: 2
-> +          maxItems: 3
-
-Have you tested this works? While it might work for TI with the 
-j721e-intg registers in the middle, it won't work for platforms without 
-them. You're going to have to have 2 lists of reg-names.
-
-Rob
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
