@@ -2,68 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4BAB4162F
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53378B41650
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8791310E4D6;
-	Wed,  3 Sep 2025 07:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA6C10E3D6;
+	Wed,  3 Sep 2025 07:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="etRf+fWn";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qAI2edrI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1697110E1FB;
- Wed,  3 Sep 2025 07:20:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756884021; x=1788420021;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=PYnQIWbb0enx4xIHdseDEpTf2H9LpmI1OxNIKZw8PPU=;
- b=etRf+fWn5tytNIgFgm5BUm4nksu/Q/e3Oo3S0NUEYxdYc5NbAUwtwB6r
- 4w/A7qETMGUusg65OP+xFyki/IfpAOcYnrnBO47CyOLAKHMkUl1O6hKx4
- 4vjZLmDCBQHqrzdw/ZW0IxeMg7qo22KaFB8AWnx3bUmgiy6OeT3d5ab2w
- pYhYvjW4kl1alVl3zKiNTCUcPANDb3+iLU3wgyzMqGcobdAi+6Srn8y/8
- hcWqN8SK28ztYQbhp6LbNsvaXt1wYy7iFdMf9sPvduYSRZvnidVSeicDB
- uHI1XJqVizjKwbPCbGIiUDbWTIYRYHibrKPPPjdm379huIlBDFICMbOx6 Q==;
-X-CSE-ConnectionGUID: hPjE3qGvS3mx+fRAlZ+INQ==
-X-CSE-MsgGUID: rTGvm7V1RuyAO6ztbC0Sow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59102202"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="59102202"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2025 00:20:20 -0700
-X-CSE-ConnectionGUID: pRBd4LdHT2CFD7FLurmYjA==
-X-CSE-MsgGUID: JJMhAKm4RAawh6JY/BrpIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="175872718"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.246])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2025 00:20:15 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, xaver.hugl@kde.org, harry.wentland@amd.com,
- uma.shankar@intel.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v4 3/4] drm/atomic: Return user readable error in
- atomic_ioctl
-In-Reply-To: <d8513636-f616-4219-8e46-24376dca7b97@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250902-atomic-v4-0-a97b4bed969b@intel.com>
- <20250902-atomic-v4-3-a97b4bed969b@intel.com>
- <b7e82c4736145ccb8d9ba0e1381d7d2f89971563@intel.com>
- <d8513636-f616-4219-8e46-24376dca7b97@intel.com>
-Date: Wed, 03 Sep 2025 10:20:12 +0300
-Message-ID: <bc6dfb6765b153901c3af5b1c008c8d82f99bdc2@intel.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2068.outbound.protection.outlook.com [40.107.244.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD0610E1FB;
+ Wed,  3 Sep 2025 07:21:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sVYqTqXYErLsjyZ4dGLvz5LK/Ku5K2MEmyHq2fPl8ShNKiUgX5cbkBWUOOceZJXztl4Cy+ZA6oh1TvYTkAemLdq4v9IngnZLU373TexkOIkdeLLs0LctRKnsQWVUIgpOsntEE7O1tn3uz+feNEPzTuTRroQMn/2Y20+ImB9ESBw5oHqMXRP+f5SY81HRXx81A8gZUf6H7dOyTuCUx8Hsp7vdGe0IF1T5ZMqWMsPNPdfDfz673qrPNKymHFBAJJNp2F9cVqm/ibLV0KclNsopESzzEZk+w8xEnReu0SSV9NTuSw7koMFzx1SGZkKc3Xh2Yd0+1Hdzix/zJmWzKGSrpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qao3MHR0qcFVsnEIL5KMebRYsSj138zi0O/h33cYZiU=;
+ b=YScIBgiGPoy2haLyarDVy3X8NQjBJ0nzP5Ss+iYH8Rj9io9G7lTmQplSi0p9CITeb1Zb/ndlfASIcgPLTVSBfDjKikz16t8Wp5xXC4GSUpYL3EplQ6MvNvnXHS2VmwvJ3FK4lR7bmeSmCK3AZw8d41DBLzh3tT1oBlSJfTgVbkoIKd61OvaE4NJaRVZEqJUizSq/uZ2/UOTiKX3/EpojAiiIkKX7tjIf0nkLf0nOt7AcfAaEhBuhGL5WxD71c/SGOiifuX7swxB4BxO2v9Fjkx2OUtGGd+Q8IuQsuS3u2aFCHqSGt5hMgC8cDDQKKv4F2afDTfUKUnCJ5aAfqKZXYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qao3MHR0qcFVsnEIL5KMebRYsSj138zi0O/h33cYZiU=;
+ b=qAI2edrI4Dg6aT8rdmug9b4xAQD5yCQi4/pwKzA9ZMt9r3V/rkd5gziAO7ZxeKkUAwoe/HI6YRw2enBTUS50McxGiKQzL/o7eg3jwykBl8Ftrwc2BO22krECuzN+TSMSdq/9QrqeCfnEEtzcrFKGsnzvkdCdLxq9pZPMDiL7Ekx1pfs5OoDJueN9qlVBPAsfjRK+In91HXRWmlFHZX2knFw1xh48zKg1VN+mR2XUpk0y/R6WWCAk7pwE27lFb5zCpNELiH/sTVcmp1SayXGxBfEHJLm1PsMPpCO7F4xI5KlKf4Oy95mphH2Y7/KSZDLHHjiCC7CTBD2jjxNViA0NJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DM4PR12MB6566.namprd12.prod.outlook.com (2603:10b6:8:8d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
+ 2025 07:21:52 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.027; Wed, 3 Sep 2025
+ 07:21:52 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 03 Sep 2025 16:21:48 +0900
+Message-Id: <DCIZFT5QJ4DT.1XDNISKTQKK56@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 02/11] gpu: nova-core: move GSP boot code out of
+ `Gpu` constructor
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com>
+ <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
+ <DCIKSL18GE9A.2R4BAGR56YVPF@kernel.org>
+ <DCIZ5VVLACXO.1L0QTYM5YVRQV@nvidia.com>
+In-Reply-To: <DCIZ5VVLACXO.1L0QTYM5YVRQV@nvidia.com>
+X-ClientProxiedBy: OS7PR01CA0208.jpnprd01.prod.outlook.com
+ (2603:1096:604:24a::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM4PR12MB6566:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b085481-956c-460a-6ad1-08ddeaba8d96
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|10070799003|7416014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c2dzSENVcWhhVWJpQ2Y5QUVRaVhtZG5GTlNKK1Blb2VIWWFBamJmbjNUaTRY?=
+ =?utf-8?B?bkJHSFZrdWRUSzRwZnBTbnFNdkVRMWRqNnlUYlJhNVJTNU0zWVRYM1drR1E2?=
+ =?utf-8?B?L1kvRXJPdDVUNW93VUoyK1UrWWJzRDhCVWRnWnQ5Tnp2RC9nWWRnM3dhdXE3?=
+ =?utf-8?B?ekxMeGVXSjdIS25NRy95MS8xMXF6anY0MHMwWWRtQVJNaktmMlFMb2pmc292?=
+ =?utf-8?B?Ulk2MjhSSk5WK2dRZTZ4M2lyaGRJbVh5QWZ4TWEzWFF2SFhBa29XY3FLSGg0?=
+ =?utf-8?B?aXhvNjVZWk14bU0yc25UOS9HZ3UyQmFaWmkzSjhad0tLUXBlWWFGaUd5SkdY?=
+ =?utf-8?B?a3dVbjVkRTVKUzdoMXVEWW92emt2NTZva25WZ0hEWWdrWm0zZ1k2cEpWY2c0?=
+ =?utf-8?B?QUZGUnN5Z1ZXVTlCemNqajNBei9ZdUVsYkQvSGczcFRJMm1COGE5M3RiaEtO?=
+ =?utf-8?B?QUZwT29EbXgrZ1VYcDJOMC9YSU5qN01rOEwxdW9lWjBmZnFtN09icHk0Um1P?=
+ =?utf-8?B?bWoyNTBJTEVKaVZjTVlPZ3duNnlmNWFHWEZQeUdOSEZGTVFlUHhYUzNwYXpE?=
+ =?utf-8?B?a1ArbFhsSVNQRXJVQ21WTHFaQWpaZkJXVW5qRGllYWZrNlFoaVIwelplYlRx?=
+ =?utf-8?B?Z0VsbEMxdWFBZ0lRck5hamJKK09PMis1WmdPQjluclVnOUNHbElSNzBRTStF?=
+ =?utf-8?B?ellMU3FKVXQ5TEJmMG9aUm5sbXNiWDBRa1VIQklsM2ZKbWNNWHhvYnh2UmhZ?=
+ =?utf-8?B?QmEwSk1LSmtRRnB4WnVQRWxrNWl3MHdFYVN3czJFSUxiYnR4a0dZbEg1OXhJ?=
+ =?utf-8?B?SVBmWi9GanZPaUNBSThLMHpTTzU5cWdRNDBvWWxzZ2pDLzZuVmFSNEVnNGxo?=
+ =?utf-8?B?aVZmNFh5L2VyUVBiUm9WWUYycTFyUEJRMnRpZFFyem93clkySk5qMW56U0F4?=
+ =?utf-8?B?VXRORGNOekRXZi9MQ1F2eWFnUmVhcUlJRzRabzc1Umh5MnM5dFMyMkl0VEg5?=
+ =?utf-8?B?eDhTR1lqRkdPYWdsQTZzRDQ5MGduTVd5czFWaUp4WWdiN3hQNXFHSHE0amtJ?=
+ =?utf-8?B?SmFLMFliWTlIa1ZQQ2YzVTBRYkNwaitRUWpFUTlWeE1KV0RiVHJiTmd5NXlq?=
+ =?utf-8?B?V3dCWm1ZOGR4eHdrZ1ZEUjI0YnpXYlh6WGM5SHU3OUxtdmtMZmU3TllBemty?=
+ =?utf-8?B?SzVzMzgwOEVPZS9YVHVTZ1JrQWhMdkN4UWJFYldWM0dPRk91eUxwM1NhUVZk?=
+ =?utf-8?B?QlJtVTJtRm1iSWN2b3FCZWF2WjE4a3ppYUNrQmdYM0JtZDdmb0RMTVF5bFNl?=
+ =?utf-8?B?YTVWVFNKU0FvVXhSbTZtTHpxRW92NVZ5K2hyc1VMcHRBRHpXMFd0WEMvUWNm?=
+ =?utf-8?B?dUlFTDRZblNjNEViMldmMjZUNzhJQXpCVHpOaTJqUDgxUTVBZWQxdFpwUGJF?=
+ =?utf-8?B?WVZoUVRQV2F3b08vNmg5dEJLeU9EWXdaTzR1R2VyZGJtY3VtcGxnK2s4dGhj?=
+ =?utf-8?B?YkE0OUNTUFFvYkdNVDBBNk1mSlo3bGxNMWlBajZsSHoxRFEyUGtLRm4rOTI1?=
+ =?utf-8?B?VmR2TkpzRW9qUGJjZ1NyY05BOEpUMWJDdTBHV09YcWtCc3JuamlFTjk2aExS?=
+ =?utf-8?B?WXRKYzM2c2dQQ0NhK1ptUGpJVVB0RHJudmlVa3UyWlI2NlNqOUswWURaZUFm?=
+ =?utf-8?B?TnBBeEM4YTBtTC9lNmJWZFIvUHNCUFlHY1M3TDBGeVpTRHFaY25wOVBwSVJN?=
+ =?utf-8?B?U2RpWmpKWUZxczJoWE5SSXF1WGgzbWRUb0pJVkxXS0hCbHMvNU1jaWFsS0gv?=
+ =?utf-8?B?c2x5eGlrbXJYbjhrZ2RMNDh4TnlEYW5BTUZpYStTRE9CYmxyaWNvNHE2dzVK?=
+ =?utf-8?B?V1loV3BDME1jQ044N3VxUkordEtPdDFBTUdaV213TkgvWXBYMlpWSHgyRmVU?=
+ =?utf-8?Q?J0LMAcpg8ZE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(10070799003)(7416014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjRCTG1XQlkrb1BlUVp6NkNpeWV3NWRSd2d6dFQ2VFFJMFVBcnJ1WkVLOXIz?=
+ =?utf-8?B?QkZlb2FqQWljdFN0akRZaVFZQmtLMExZNU12Q0t4TXdMZSs1cHVzci9iUzlu?=
+ =?utf-8?B?RVRXSUlPeTJzcm42NVZpRmtGSVhMdGowaGg0TUdpYUxGKy91T2JBS1lBcURt?=
+ =?utf-8?B?czZEOFBUbTdjWElLMTdGb3I4ejVVOCtKY0lIek5iMjR2R2xVTzQzZHpHbnR5?=
+ =?utf-8?B?aXlaY29yeHVidm1pQVhhY0F0c25nU3RuSFJtTFc2d0ZmTUpkMTIvMkwvT0x1?=
+ =?utf-8?B?a0UwbmFxYnpxQ04xR3F2T0wydGJYUHpCS05KRFYyWHB1YnVFU09yS0VhSWxo?=
+ =?utf-8?B?c3NUenhOQWhsclhlMUw5L0hiakdYZ2JjOU1uUzdsVmhra0dERmEvcnN6VkVz?=
+ =?utf-8?B?SWRXYnBkYVJJaHl1aXRWYzI4MnhlZCtvZ09lS3NIZlFjWHM1SGVBQVY1d0pQ?=
+ =?utf-8?B?Q2pjazJObWNaMzFTU1p6Z0dYNnZublg3c3hRYVlYRkNXVVhPSW1tZkhrVWE3?=
+ =?utf-8?B?QzNVWGp2MUlvSm83U3IvV1Q4QytBbnd1M0JQc2xMdjg2d0NUei9ITXEyRWJt?=
+ =?utf-8?B?UEhyZUd0MzRZbFM0anBjTmQxTFlwWHArVG9waXBkRFNZTnZFejNyUThqTUhR?=
+ =?utf-8?B?cGlWbjRIVGtrZjEyUUk4QXBITWhINHJucVQ0RVFCbFRaWEF6RnVRM2p4RkU4?=
+ =?utf-8?B?NHJtUTNsTHh1a1c5S1dNUVg0cmgydXRvVDFxMmFMNjB1MzdrekV0dm95VWd1?=
+ =?utf-8?B?dWYybHJtSDNBZ3pZVWdtR051UXlLbkFnQlJnQmpUeU55d1JFOGRVNU0wakJS?=
+ =?utf-8?B?V1BjeEE1RHNPQlVDSUhhV2dlbVNRNVFiTlZOZ0lldlZDcEwxYXRsMGdjWmdX?=
+ =?utf-8?B?cFFrTlBIaXNGa2RLckJGcE5NS1BlU2hpME0xQkc0Q3dMbDh0SExTZjgyMlVm?=
+ =?utf-8?B?Tm1MTTM4TU5BYURJY0FkYStmb0h4a3V4T3pNZWxoS1VBZjQ5MkZhWVlVWlJi?=
+ =?utf-8?B?QUpjTFpUVE1wWmlzWndmcmswZEVoSFZ2U1gxc01CZFM2SUx6UFBKUlJkZ3RV?=
+ =?utf-8?B?dS9QWEl1ckNlN1JsS2tFT29EV2xCSEdyKytnSC9SMkxUTmlJcWlRUmlDTmJE?=
+ =?utf-8?B?SjhaclBqWmRwVEtiSXdYUXVwcXJnRktoMTlLMWRTcXdLcXV0QkloYzVuNFJ2?=
+ =?utf-8?B?Q1pDNGdKVTl1VUczbVBya05IQTRmeC9IZFIrS2QwazFqNDhYT0JuM0IvOGdI?=
+ =?utf-8?B?MlBsaVlOVnY0d3Y2R1RBWkxITEFKOEExcUJXTlFGSC9yY2x2OUlwbXNIa283?=
+ =?utf-8?B?UnBwUGFqWjhSbDVOalBSNS85M0tTR1Q1L01SNmFScW1xaU1zRk5iaC9GNHBo?=
+ =?utf-8?B?UzdEM05sNlBmaG9wYXJGL3pML3ZqeFJselhOZENiK0RWNmU1UmZ1U1JxYjRK?=
+ =?utf-8?B?MTRtc2JLOGRiSHYwdGlrcUQvdUdXZ05EVzRMOTVDc1MxVEQwSVlOVk13djVY?=
+ =?utf-8?B?cnl3Z1ZiUmswQUJ5MjBOcUVtemVWVitvZ2I0aHJNMm84azV0aU5NUFZLWDAz?=
+ =?utf-8?B?VE9wN2lJTHQ0UGJrN1ovdEdRejIyNzhxdklVaDVzZHBKMXBJWjkzM1MrSHVI?=
+ =?utf-8?B?dXdCTjdmbHRuT2FuUU5neTVhZ2RTd1JlWHVnM2NqYlF2c2ZvS09seEVMZStS?=
+ =?utf-8?B?b2VWVXduZURvQnJtY0F3SGRLdkxGNU8yTVhnNHBqeVB3OWUxK3gwdXJ1Wjht?=
+ =?utf-8?B?aWdwOUh5aHVrd2MwOUhucUh0eXJ3Nng5dWRsRk05RWpqL2JtREdKNnVQN2h2?=
+ =?utf-8?B?U1FqWCtncFZRYWxQOHFOZnRoMXRFSG5mTTN2bk1aVDRyQ1NESmZGak5UcUl4?=
+ =?utf-8?B?K2t1WGhIaFRZbXhuMWVVVmp4YkYvSWl6ZDFvL1ZsOUUyUG1qL1dCQ0VGQjlJ?=
+ =?utf-8?B?eE5sZ3hsYmxoTVRzZkIzRGgvWlJnMnVXMGZyMEgxTldCZG1HT2hmZERHSGF0?=
+ =?utf-8?B?MllPb1krQmowR25tdGNKK0QrUko3MGhjdHhIeGRnZTZFQjd6d2lWbU5PeEsx?=
+ =?utf-8?B?bUkyU0NPWHhmcU5DczdXSEJ5eExoRzVPNDhjNm1CS1dsZ2IyeUtDMFludmNv?=
+ =?utf-8?B?Z1FrUFVCZ00wMERQSXJ1NVBsV1NKOWhTYUZVUzBkSmthN0tsQXgwZ2xiY3l6?=
+ =?utf-8?Q?SoBeiIZkPtyp82hW8Jd/6twRAIvxHlHjuBA6K/FTbq6a?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b085481-956c-460a-6ad1-08ddeaba8d96
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 07:21:51.9475 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LMwKrb1s6jPDurgl6lbT3nUY08Mf1Y0D14KaGLIvNVA9tx/gTU3yrud3FToj1ORISUir4Onw1kT2aR67NxklEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6566
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,302 +181,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Sep 2025, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
-> On 02-09-2025 15:46, Jani Nikula wrote:
->> On Tue, 02 Sep 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
->>> Add user readable error codes for failure cases in drm_atomic_ioctl() so
->>> that user can decode the error code and take corrective measurements.
->>>
->>> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
->>> ---
->>>   drivers/gpu/drm/drm_atomic.c      | 23 +++++++----
->>>   drivers/gpu/drm/drm_atomic_uapi.c | 83 ++++++++++++++++++++++++++++++---------
->>>   include/drm/drm_atomic.h          | 19 +++++++++
->>>   3 files changed, 100 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
->>> index cd15cf52f0c9144711da5879da57884674aea9e4..4f6c7e659b362f0887ffcc85dade1122fd30df3d 100644
->>> --- a/drivers/gpu/drm/drm_atomic.c
->>> +++ b/drivers/gpu/drm/drm_atomic.c
->>> @@ -1463,6 +1463,7 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
->>>   	unsigned int requested_crtc = 0;
->>>   	unsigned int affected_crtc = 0;
->>>   	int i, ret = 0;
->>> +	char *err_string;
->>>   
->>>   	drm_dbg_atomic(dev, "checking %p\n", state);
->>>   
->>> @@ -1511,8 +1512,13 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
->>>   	if (!state->allow_modeset) {
->>>   		for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
->>>   			if (drm_atomic_crtc_needs_modeset(new_crtc_state)) {
->>> -				drm_dbg_atomic(dev, "[CRTC:%d:%s] requires full modeset\n",
->>> -					       crtc->base.id, crtc->name);
->>> +				err_string = "requires full modeset";
->> This points a non-const pointer to const data.
+On Wed Sep 3, 2025 at 4:08 PM JST, Alexandre Courbot wrote:
+> On Wed Sep 3, 2025 at 4:53 AM JST, Danilo Krummrich wrote:
+>> On Tue Sep 2, 2025 at 4:31 PM CEST, Alexandre Courbot wrote:
+>>> diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/dr=
+iver.rs
+>>> index 274989ea1fb4a5e3e6678a08920ddc76d2809ab2..1062014c0a488e959379f00=
+9c2e8029ffaa1e2f8 100644
+>>> --- a/drivers/gpu/nova-core/driver.rs
+>>> +++ b/drivers/gpu/nova-core/driver.rs
+>>> @@ -6,6 +6,8 @@
+>>> =20
+>>>  #[pin_data]
+>>>  pub(crate) struct NovaCore {
+>>> +    // Placeholder for the real `Gsp` object once it is built.
+>>> +    pub(crate) gsp: (),
+>>>      #[pin]
+>>>      pub(crate) gpu: Gpu,
+>>>      _reg: auxiliary::Registration,
+>>> @@ -40,8 +42,14 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdI=
+nfo) -> Result<Pin<KBox<Self
+>>>          )?;
+>>> =20
+>>>          let this =3D KBox::pin_init(
+>>> -            try_pin_init!(Self {
+>>> +            try_pin_init!(&this in Self {
+>>>                  gpu <- Gpu::new(pdev, bar)?,
+>>> +                gsp <- {
+>>> +                    // SAFETY: `this.gpu` is initialized to a valid va=
+lue.
+>>> +                    let gpu =3D unsafe { &(*this.as_ptr()).gpu };
+>>> +
+>>> +                    gpu.start_gsp(pdev)?
+>>> +                },
 >>
->> Anyway none of this should require or start a precendent of using local
->> variables all over the place for the error strings. It's ugly. Ditto
->> below for all the places.
->>
->> If all the places calling drm_mode_atomic_add_error_msg() do debug
->> logging, maybe that's where the debug logging should be?
->>
->>> +				drm_dbg_atomic(dev, "[CRTC:%d:%s] %s\n",
->>> +					       crtc->base.id, crtc->name, err_string);
->>> +				drm_mode_atomic_add_error_msg(state->error_code,
->>> +							      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
->>> +							      err_string);
->> I guess you didn't want to follow what Maarten suggested.
-> Yes, felt so, as adding a new function doesnt make much sense just for 
-> filling the struct drm_mode_atomic_err_code.
+>> Please use pin_chain() [1] for this.
 >
-> Will remove this function and fill the struct drm_mode_atomic_err_code 
-> in place, thereby the below comment also should be handled.
+> Sorry, but I couldn't figure out how I can use pin_chain here (and
+> couldn't find any relevant example in the kernel code either). Can you
+> elaborate a bit?
 
-Nobody suggested that! Keep the function.
-
-
->
-> Thanks and Regards,
-> Arun R Murthy
-> -------------------
->
->>
->>> +
->>>   				return -EINVAL;
->> Adding the return is a functional change, and I mentioned it
->> earlier. Ignoring review is one of the certain ways to stop receiving
->> review in the future.
-> Will take it out of this series.
->>>   			}
->>>   		}
->>> @@ -1534,11 +1540,14 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
->>>   	 * so compositors know what's going on.
->>>   	 */
->>>   	if (affected_crtc != requested_crtc) {
->>> -		drm_dbg_atomic(dev,
->>> -			       "driver added CRTC to commit: requested 0x%x, affected 0x%0x\n",
->>> -			       requested_crtc, affected_crtc);
->>> -		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets: requested 0x%x, affected 0x%0x\n",
->>> -		     requested_crtc, affected_crtc);
->>> +		err_string = "adding CRTC not allowed without modesets";
->>> +		drm_dbg_atomic(dev, "%s: requested 0x%x, affected 0x%0x\n",
->>> +			       err_string, requested_crtc, affected_crtc);
->>> +		drm_mode_atomic_add_error_msg(state->error_code,
->>> +					      DRM_MODE_ATOMIC_NEED_FULL_MODESET,
->>> +					      err_string);
->>> +
->>> +		return -EINVAL;
->> Adding the return is a functional change, and I mentioned it earlier.
-> Will take it out of this series.
->>
->>>   	}
->>>   
->>>   	return 0;
->>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->>> index 85dbdaa4a2e25878c953b9b41539c8566d55c6d9..60f1b8baebce0db1ce984c8cda56039261b519e8 100644
->>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->>> @@ -1017,6 +1017,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->>>   	struct drm_mode_object *ref;
->>>   	u64 old_val;
->>>   	int ret;
->>> +	char *err_string;
->>>   
->>>   	if (!drm_property_change_valid_get(prop, prop_value, &ref))
->>>   		return -EINVAL;
->>> @@ -1058,6 +1059,12 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->>>   			ret = drm_atomic_crtc_get_property(crtc, crtc_state,
->>>   							   prop, &old_val);
->>>   			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
->>> +			if (ret) {
->>> +				err_string = "property change not allowed in async flip";
->>> +				drm_mode_atomic_add_error_msg(state->error_code,
->>> +							      DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED,
->>> +							      err_string);
->>> +			}
->>>   			break;
->>>   		}
->>>   
->>> @@ -1096,9 +1103,14 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->>>   					ret = plane_funcs->atomic_async_check(plane, state, true);
->>>   
->>>   				if (ret) {
->>> +					err_string = "plane does not support async flip";
->>> +					drm_mode_atomic_add_error_msg(state->error_code,
->>> +								      DRM_MODE_ATOMIC_ASYNC_NOT_SUPP_PLANE,
->>> +								      err_string);
->>>   					drm_dbg_atomic(prop->dev,
->>> -						       "[PLANE:%d:%s] does not support async flips\n",
->>> -						       obj->id, plane->name);
->>> +							"[PLANE:%d:%s] %s\n",
->>> +						       obj->id, plane->name,
->>> +						       err_string);
->>>   					break;
->>>   				}
->>>   			}
->>> @@ -1390,42 +1402,63 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->>>   	uint32_t __user *props_ptr = (uint32_t __user *)(unsigned long)(arg->props_ptr);
->>>   	uint64_t __user *prop_values_ptr = (uint64_t __user *)(unsigned long)(arg->prop_values_ptr);
->>>   	unsigned int copied_objs, copied_props;
->>> -	struct drm_atomic_state *state;
->>> +	struct drm_atomic_state *state = NULL;
->> Unrelated change.
-> Noted!
->>
->>>   	struct drm_modeset_acquire_ctx ctx;
->>>   	struct drm_out_fence_state *fence_state;
->>> +	struct drm_mode_atomic_err_code error_code;
->>> +	struct drm_mode_atomic_err_code __user *error_code_ptr;
->>>   	int ret = 0;
->>>   	unsigned int i, j, num_fences;
->>>   	bool async_flip = false;
->>> +	char *err_string;
->>>   
->>>   	/* disallow for drivers not supporting atomic: */
->>>   	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
->>>   		return -EOPNOTSUPP;
->>>   
->>> +	if (!arg->reserved)
->>> +		drm_err(dev, "memory not allocated for drm_atomic error reporting\n");
->>> +	else
->>> +		/* update the error code if any error to allow user handling it */
->>> +		error_code_ptr = (struct drm_mode_atomic_err_code __user *)
->>> +				 (unsigned long)arg->reserved;
->>> +
->>> +	memset(&error_code, 0, sizeof(struct drm_mode_atomic_err_code));
->>> +
->>>   	/* disallow for userspace that has not enabled atomic cap (even
->>>   	 * though this may be a bit overkill, since legacy userspace
->>>   	 * wouldn't know how to call this ioctl)
->>>   	 */
->>>   	if (!file_priv->atomic) {
->>> +		err_string = "DRM_ATOMIC capability not enabled";
->> Yeah, just repeating, don't start using this err_string local variable
->> idea.
->>
->>>   		drm_dbg_atomic(dev,
->>> -			       "commit failed: atomic cap not enabled\n");
->>> -		return -EINVAL;
->>> +			       "commit failed: %s\n", err_string);
->>> +		drm_mode_atomic_add_error_msg(&error_code,
->>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
->>> +					      err_string);
->>> +		ret = -EINVAL;
->>> +		goto out;
->>>   	}
->>>   
->>>   	if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS) {
->>> -		drm_dbg_atomic(dev, "commit failed: invalid flag\n");
->>> -		return -EINVAL;
->>> -	}
->>> -
->>> -	if (arg->reserved) {
->>> -		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
->>> -		return -EINVAL;
->>> +		err_string = "invalid flag";
->>> +		drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
->>> +		drm_mode_atomic_add_error_msg(&error_code,
->>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
->>> +					      err_string);
->>> +		ret = -EINVAL;
->>> +		goto out;
->>>   	}
->>>   
->>>   	if (arg->flags & DRM_MODE_PAGE_FLIP_ASYNC) {
->>>   		if (!dev->mode_config.async_page_flip) {
->>> -			drm_dbg_atomic(dev,
->>> -				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported\n");
->>> -			return -EINVAL;
->>> +			err_string = "DRM_MODE_PAGE_FLIP_ASYNC not supported with ATOMIC ioctl";
->>> +			drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
->>> +			drm_mode_atomic_add_error_msg(&error_code,
->>> +						      DRM_MODE_ATOMIC_INVALID_API_USAGE,
->>> +						      err_string);
->>> +			ret = -EINVAL;
->>> +			goto out;
->>>   		}
->>>   
->>>   		async_flip = true;
->>> @@ -1434,9 +1467,13 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->>>   	/* can't test and expect an event at the same time. */
->>>   	if ((arg->flags & DRM_MODE_ATOMIC_TEST_ONLY) &&
->>>   			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT)) {
->>> -		drm_dbg_atomic(dev,
->>> -			       "commit failed: page-flip event requested with test-only commit\n");
->>> -		return -EINVAL;
->>> +		err_string = "page-flip event requested with test-only commit";
->>> +		drm_dbg_atomic(dev, "commit failed: %s\n", err_string);
->>> +		drm_mode_atomic_add_error_msg(&error_code,
->>> +					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
->>> +					      err_string);
->>> +		ret = -EINVAL;
->>> +		goto out;
->>>   	}
->>>   
->>>   	state = drm_atomic_state_alloc(dev);
->>> @@ -1447,6 +1484,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->>>   	state->acquire_ctx = &ctx;
->>>   	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
->>>   
->>> +	state->error_code = &error_code;
->>> +
->>>   retry:
->>>   	copied_objs = 0;
->>>   	copied_props = 0;
->>> @@ -1543,6 +1582,14 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->>>   	}
->>>   
->>>   out:
->>> +	/* update the error code if any error to allow user handling it */
->>> +	if (ret < 0 && arg->reserved)
->>> +		if (copy_to_user(error_code_ptr, &error_code, sizeof(error_code)))
->>> +			return -EFAULT;
->>> +
->>> +	if (!state)
->>> +		return ret;
->>> +
->>>   	complete_signaling(dev, state, fence_state, num_fences, !ret);
->>>   
->>>   	if (ret == -EDEADLK) {
->>> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
->>> index d380001b24b4223baa54dae6c3c43e19dfb1958d..8956b175795128422eefc2bc047b320b80aedc3f 100644
->>> --- a/include/drm/drm_atomic.h
->>> +++ b/include/drm/drm_atomic.h
->>> @@ -1255,4 +1255,23 @@ struct drm_bridge_state *
->>>   drm_atomic_get_new_bridge_state(const struct drm_atomic_state *state,
->>>   				struct drm_bridge *bridge);
->>>   
->>> +/**
->>> + * drm_mode_atomic_add_error_msg - function to add error code and error string
->>> + *
->>> + * @err_code: pointer to struct drm_mode_atomic_err_code that stores the failure
->>> + *	      reason
->>> + * @failure_code: failure code in enum drm_mode_atomic_failure_codes
->>> + * @failure_string: failure reason string message
->>> + *
->>> + * Returns: void
->>> + */
->>> +static inline void drm_mode_atomic_add_error_msg(struct drm_mode_atomic_err_code *err_code,
->>> +						 __u64 failure_code,
->>> +						 char *failure_string)
->> So this should be "const char *format, ..." with printf format, with
->> printf format annotation, to help callers pass in other stuff than just
->> fixed strings.
->>
->> This should be a proper function instead of static inline.
->>
->>> +{
->>> +	err_code->failure_code = failure_code;
->>> +	strscpy_pad(err_code->failure_string, failure_string,
->>> +		    strlen(err_code->failure_string));
->> If the size is fixed, why do we just silently truncate the string? If
->> the message is for the user, it'll be ugly to emit truncated strings.
->>
->>> +}
->>> +
->>>   #endif /* DRM_ATOMIC_H_ */
-
--- 
-Jani Nikula, Intel
+To be more specific on what I don't get: I see how pin_chain could be
+used to initialize a structure which dependent member can take a
+temporary value (like a pointer set to `null`), but in this case `gsp`
+must be initialized with the result of `start_gsp`, and there is no
+"default" valid value for it meanwhile (I use `()` as its type, but it
+is a temporary placeholder). But maybe I am just misunderstanding
+something about how `pin_chain` can be used.
