@@ -2,146 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1494B42506
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 17:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A66B4251A
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 17:23:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DA810E8B5;
-	Wed,  3 Sep 2025 15:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC6910E8D4;
+	Wed,  3 Sep 2025 15:23:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="LhhDO71P";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mTew4Jh/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11012032.outbound.protection.outlook.com [52.101.66.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1121410E8BB
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 15:23:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mQQFdkb+BEgIbdCwNlurjzz/gAjIkDkO+iET48BP/Twb5rlSS2dzBuoziGqCJ434lMJgcZAl7UVpgY/sZ7jsKnWBG0Ynx8bkwXPobIUAeXJ8IYIBK2NQHNpyRYQzOSwb8jQbEkNyIVlakGkG8wRloBdHmxfQtUB7zs65QjWa//qRaXg/HjSzKtMCpP2lXYPZSNIQa6ATtiYvBGmH/q6JwrMdkQCyhTFS8gDjNV22IUsfHdmydhgTQuUouRKZ0uAvJP/REQYg6qZIOnvwjNBnc8/K5dgEP3rYrv4pZipTbW5dB62WTet/9WOJm/c1tbVkLZ/PaBkwhmEGRJmxzBU+1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1TPMGo4XXWaxn+H2LDyj0gbmOzidg2J/2QgpSt7PXWU=;
- b=C1Rea3Z1nSt26edLwxw6AZOmaR7570IkcaaQOUEf2jhdWUvQFxc+FpG52lwF2TkciTyJFnhWOQ4xFWfMV2vl7Db6sZux+Ne/UCoe5YuF0FE/7uOLmKt4kYbikgpGHq5ldif67KY4WeblWg+2N6KWAb1/zLJwX5rXs5fEQ83X5nBA8dctXyHwUm3oVYK/UB87wrMPL2DjvqSvxj6XAGEmTrqCwGvkxZJZP+p1pQAsmw6F9knMAGqwc5smK62W+MX5CXuEm40xqKSdyxPlVSURCl9PmjfsE0T7mNNwDSiQbbu4Pl0TUKoQSJCNurw9XeR65W6xT3msU0Ohdb8ngtSAJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1TPMGo4XXWaxn+H2LDyj0gbmOzidg2J/2QgpSt7PXWU=;
- b=LhhDO71PoYMMd8h9mPdEg9HX3qcFfDEHFxWc6EPh7HxQkUB5TErDIToHvxf+9AYnRdin3lU2gNMyk4ZeiJPnnVsOZ8c3g4N9GD8Erdmqc5D2CTKvG60evHwDh50LD1Iar5g62eiSlLFk7ePqRPsfkzH2isN5vDxTPrIC/CYEVLJ7O1dpHVyiGYbsG1EDMU7o46XYIJa0PCFl6dQ4rU0xFwEa2iQhq5yPruCnlVceylLFjGngxlYe8xNm7kbHrRKPJy3jNvkeuQzT4EBiYNsuRzvxnDfMWTuuOiWamDt3mYom8i1Gjhk2NVsMgdewRPUdm3iMy+FRl4cZISKhXSJWBg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by AM9PR04MB8874.eurprd04.prod.outlook.com (2603:10a6:20b:409::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.16; Wed, 3 Sep
- 2025 15:23:14 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%7]) with mapi id 15.20.9094.015; Wed, 3 Sep 2025
- 15:23:14 +0000
-Date: Wed, 3 Sep 2025 11:23:05 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: imx@lists.linux.dev, Philipp Zabel <p.zabel@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] dt-bindings: display: imx: Add bindings for
- i.MX94 DCIF
-Message-ID: <aLhdWWKwrwI77v3D@lizhi-Precision-Tower-5810>
-References: <20250903123332.2569241-1-laurentiu.palcu@oss.nxp.com>
- <20250903123332.2569241-5-laurentiu.palcu@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903123332.2569241-5-laurentiu.palcu@oss.nxp.com>
-X-ClientProxiedBy: PH8PR02CA0021.namprd02.prod.outlook.com
- (2603:10b6:510:2d0::28) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BF5610E8B3;
+ Wed,  3 Sep 2025 15:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4MRKQulej780VJfP2ETWJfXfA8Y35D1SCqdJePPKBTw=; b=mTew4Jh/RJBULbtWgapEOZgCm1
+ 91cq91MPcwUWLsa3P6TvUsUHlS5ifplR/vl4g3cUlU8i7wldHVHp2oowJ6gcMaK40QMvH/RR7Z4BC
+ H1eysI07s1DYMb7McxD+HYQSDt+nsyaDYTEtnfhI09MJpNK5OCVbBcs+PQTlKmWEfV1iw/T9ScyUq
+ Mf8fJZDDhVn71a2wQw70ZlQdfdAIVPmhR2p5+0WtsPxlsCSMOq4Cfb6gdF09dl36V0z6Z1iXbEbKo
+ b4ZbisxgBF2P0Y+ICmSOq5qmr2G8RUfM0vr4H6XF+IjMg+i0cKfQdr9psWUwNh427zG3TM0eHKzeq
+ 9zUyMPyg==;
+Received: from [84.66.36.92] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1utpKd-006GYJ-1s; Wed, 03 Sep 2025 17:23:31 +0200
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ intel-xe@lists.freedesktop.org, cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Leo Liu <Leo.Liu@amd.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Rob Clark <robdclark@gmail.com>, Tejun Heo <tj@kernel.org>
+Subject: [RFC v8 00/21] DRM scheduling cgroup controller
+Date: Wed,  3 Sep 2025 16:23:06 +0100
+Message-ID: <20250903152327.66002-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AM9PR04MB8874:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09669b00-f284-41cc-75aa-08ddeafdcccf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|19092799006|52116014|376014|7416014|10070799003|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yE52btZNerESIaqArAxURc0IdSetpLOQZUSRFNuY53KYkWXmEUmCGAIXXZXy?=
- =?us-ascii?Q?X5Nm5q6Iqom9fZDUofXH0Vlq6xnZ+J2J3HalGbPrb7ZlW7joaSOjXAoxiG4w?=
- =?us-ascii?Q?XkOPAvB1y6ZAXn6UjblyXTP1JxOmXDBwx1iRN9dEO4417NE+tdh0sKV9+Vms?=
- =?us-ascii?Q?mo7r0fyNKgYWRvva/bCwGRH6NY1SO10YhhsPohpvElpK6kUbSA2OjWm0nTzb?=
- =?us-ascii?Q?HjczIjt5tCjgbV68vEAW49AcuOeMGaihNkrRgscYjfYW1Hd6qVpqlh4MYUs2?=
- =?us-ascii?Q?l2qOGBYIKGduK+XMWclNKXIGDhy68ZxjEYYa4gMdbZVtCCJHWl8xId2WTAow?=
- =?us-ascii?Q?TVxbGqg4HMCuc6T0LXrlNKk+PpPgBxLyybNc1X+AadfFdqsfihy50T0AnV41?=
- =?us-ascii?Q?tsiDeAXsp0RRLJss5SnH0Ri7Cn5uevoAHCTsfW5v5riOXr//hMVBu+4ZgSDj?=
- =?us-ascii?Q?DPeBsp8sNZwauhgjR43In8P4YrIBdk312cgS0BT7lx2pvfBVI81Qs7h/WCOu?=
- =?us-ascii?Q?dmxqsIOuGea9KcubUOxYmsyFO5uizCklxwzJrj0sEE8MRC1r8pi+kIYeVhhc?=
- =?us-ascii?Q?BLj8I5a3MyDKBx3vq3JzsrqAiH9IuBQVYk2nNHRcA3tzWD+T/npvhQtV/9uN?=
- =?us-ascii?Q?CWkQQFklKeZaTANCQ7fmnOC15Fysam9IEOV/Bqe5ULb6NbQVdyjm1Gxg1Zmz?=
- =?us-ascii?Q?NkwS+RSPPrwXSlQPDW7MpyfpG9CKdvaQ1tC90CqCi1VX2/FvfgEvJusgvQZV?=
- =?us-ascii?Q?bXtnLndMKcxJx/1KhAls28Tf/MLPlYJumGcUXRvPHxvsXEkxUHUEgfsrYGFU?=
- =?us-ascii?Q?eVF6ds+K+kTmuEg79RBnbX/4yyBKNYRuFslLXbfV3Y8bpqzQn2uWLtBeLHzP?=
- =?us-ascii?Q?/kTWBAYTqyQc93E3NGP4pM5+a8Bt0Wy8k3mzHMvvKOfD1nHjuE95Bwz++dD4?=
- =?us-ascii?Q?Q8jXHBEtY7F3WjISogXGF3LhUOjeh1dbAZJmBgAMjRnRYJfX0aPvNzppuqLg?=
- =?us-ascii?Q?0HyW/BrN11SXUxJcEeHV/HoqT0EPQ1/1JPZhKDwxweU1AQXkHQpAYUfA7cIn?=
- =?us-ascii?Q?niBSIvB2Sb8PpoFDoGf7b1kSiUuKVOopQwZu8g5kfaXtDBDgUPKnXBKMoMyz?=
- =?us-ascii?Q?K0z3hZGt3RNCjTOqKQQ7z9MSEQr0VODczdk/xffvZqPWJTH8DOy8K3IhTLzl?=
- =?us-ascii?Q?URPWykhp9cslIvjTBOwme7bp6ygtLMc4+s6ATMSV1FIyflPh41MW5fSNfn5Q?=
- =?us-ascii?Q?G8bsZXFyE1h/i098euUV69CRcv641zMGxNsE3mWJRsJUV7iddS9VuSRa81CH?=
- =?us-ascii?Q?RvkLou/319N6FF22jD7NpfNWkmqw4ORDs5MUB0aEYwwgKRmiTR4oO5/LdK6L?=
- =?us-ascii?Q?ehyJJbSnbRqIf+Yd+8CORA8R2sbn?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXSPRMB0053.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(19092799006)(52116014)(376014)(7416014)(10070799003)(1800799024);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M5vn1E08rx1Ee1ZbRydmfjDcYk+1ODxDySeK9DI2gyuTPUF9gf1KyjUClDq/?=
- =?us-ascii?Q?ZWvWnWATJTmVKtTmPOPOGsIhe1MUWUwsztrwTmV3ePHidCV9alrfL9RcJwsf?=
- =?us-ascii?Q?LhNzEZN5rI5OUIFv0T5murP96QEAAqLXEU3LCueFBzhUchdqZGbpgXMzBibe?=
- =?us-ascii?Q?sredKZmeGTwAizNxjOJ5VzORxtOX4qHCQGuHgtsX+/VKUe85dNuS1eNWxkGJ?=
- =?us-ascii?Q?owCgyEV+P4HGmwnBRGKHQAREPo7qPAdssRy9eK11rLh7djl6VJAObkl1rgST?=
- =?us-ascii?Q?c4JGlgNx+e+LoIcrvVOxK2Pq/DpsEvJH2PCAQrBuKff9E1Fs9XQYkwU0Az7E?=
- =?us-ascii?Q?ttOOfJfJQZpFjZE5MsQz3IcQp/hrmrs41NGBkOWZbLCCRAckHzUkqBagHDit?=
- =?us-ascii?Q?0Hr2IMkH3V1koeX9PoloxY4iD0ZLonDGiOYpCl+eo5p4uU2v6GT09E2zVvwj?=
- =?us-ascii?Q?8USnrT7tdUCC7HoPb6Y0D4XlyqMUoNirF0u3uGGxigZULLTm/b31vYof8DkD?=
- =?us-ascii?Q?mJb4BJophWuYtkEC7w5KIbF5I4p0+5cOEmFK6aoUtHBYtikfGJYIAyNRREqe?=
- =?us-ascii?Q?hEQshR28wwyiZTXAlkUqzdVzv4pZIyTYDvtTqLOBNgnCwPqKpTgqGpBD5++O?=
- =?us-ascii?Q?mjAkRK4CITCUcCzKt4ik9qAi811qyPYFXXFlqMMKyriptRXvjoSUC7qIWS1g?=
- =?us-ascii?Q?5Bg8hJPfG02zeNU/3x/JShxu/W4cL8tXURLrqxNmwVf6OWE4GZfOtZWdMApF?=
- =?us-ascii?Q?98hvQfYSIxLotNCx62ccZexO8JMsqH5e5mzE0JBR+9i9GoB9ezC0+U5Kjz5Z?=
- =?us-ascii?Q?h6szg9i0gGC+S1jDvxRq9d4nFYSVZVtBQBYC8m123QUJyWHkgA64LlB9Vulg?=
- =?us-ascii?Q?A462D+mhUlg2vCJmcbpv+MeBAbdOu2L8cYIhzrLjcfUgaNy6F6F5TTfb02RP?=
- =?us-ascii?Q?CWpYqJBAHcZcMqbqRI1BWvj/tgniKKljq69F7VW03DnEslBLit97Sl7nuxWS?=
- =?us-ascii?Q?zptQdmo1yhaSqxvqLanmpv7yBRwBCUJjOMocmBGEOfZmUW3lwNZYjB1K15yQ?=
- =?us-ascii?Q?TpdfLFlY6e6atfGs7aYH6TD3Af2/alc3kmfbKPETBnB/U3oeS3Z4YNC/X8Du?=
- =?us-ascii?Q?HilPolzGXnnt5/ioaC/FxHRtRKZoMuYkcYVRV1BDLhXklJWfIPddwpFBoumG?=
- =?us-ascii?Q?/puDdKPHBK5tW58cQ9cRuFHWRmqe3z5hJVUgguzdOaKwdTFzJ+PDA93X+ik9?=
- =?us-ascii?Q?sffCkPRYbU+gVf9M3cJ7qidcRIJZnxcGL5BAJD3Ob/ewjL0fPfgfaU0OmG9I?=
- =?us-ascii?Q?3X8BPZUJMCpogCxhAVZcY1csZSqqI1Qd2774Wh4VCqz1gHSq93E0gQjcsbbK?=
- =?us-ascii?Q?s26wqXxfRZNQo6oizjwUErZ6GDiHfp21QKNoSSFPRZOCxsQ7RDEGJyPGHgMH?=
- =?us-ascii?Q?j7NUZ7yNcymnC1GYwi96A0MU4DUSJ3r21BB/ylumANsmAZfJ97rB/A0M8Jzq?=
- =?us-ascii?Q?tyhbZkCFyJBMrUKOIQSVTP0xPVuTk64AK35MWIt9oRt3qlesWRraWUc6EFni?=
- =?us-ascii?Q?Pd9IYCgAZHabHLjkQSdp1xyXRKWc0bnOdObmkQiEE5zj0SXQrFfk5Vmud1GO?=
- =?us-ascii?Q?3ZLni5OfDAuUOk6AkBKmyMSVw0lm7EmHubrdRWWl2o0u?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09669b00-f284-41cc-75aa-08ddeafdcccf
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 15:23:14.2193 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bJTQfKfSyXytzYJCKqIE4r/H7fDXq3jVZo+afkiMViU6tEr1vdxHXONVEJOwooYYwOyEqkl1Ljz8MhknMY7HRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8874
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,120 +68,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 03, 2025 at 03:33:22PM +0300, Laurentiu Palcu wrote:
-> DCIF is the i.MX94 Display Controller Interface which is used to
-> drive a TFT LCD panel or connects to a display interface depending
-> on the chip configuration.
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> ---
->  .../bindings/display/imx/nxp,imx94-dcif.yaml  | 82 +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
-> new file mode 100644
-> index 0000000000000..54419c589ef74
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2025 NXP
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/nxp,imx94-dcif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: i.MX94 Display Control Interface (DCIF)
-> +
-> +maintainers:
-> +  - Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> +
-> +description:
-> +  The Display Control Interface(DCIF) is a system master that fetches graphics
-> +  stored in memory and displays them on a TFT LCD panel or connects to a
-> +  display interface depending on the chip configuration.
-> +
-> +properties:
-> +  compatible:
-> +    const: nxp,imx94-dcif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: CPU domain 0 (controlled by common registers group).
-> +      - description: CPU domain 1 (controlled by background layer registers group).
-> +      - description: CPU domain 2 (controlled by foreground layer registers group).
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: common
-> +      - const: bg_layer
-> +      - const: fg_layer
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb
-> +      - const: axi
-> +      - const: pix
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Display Pixel Interface(DPI) output port
+Hi,
 
-I still suggest ref to
-Documentation/devicetree/bindings/media/video-interfaces.yaml
+This is another respin of this old work^1 which since v7 is a total rewrite and
+completely changes how the control is done.
 
-because it may need set hsync-active, vsync-active, bus-type for some
-special TFT pannel in future.
+Now it builds upon the independent "fair" DRM scheduler work I have been posting
+recently^2. I am including those patches in this series for completeness.
 
-I know driver may not use these now, but binding is descript hardware,
-try best to make it complete.
+-> It also means people only interested into the cgroup portion probably only
+   need to look at the last nine patches.
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
+   And of those nine the last three are examples of how DRM scheduler based
+   DRM drivers can be wired up with the cgroup controller. Simpler version for
+   amdgpu which uses the scheduler for scheduling, and a bit more complicated
+   for a firmware scheduler driver such as Intel xe.
 
-example needn't exactly copy from dts. you can make "reg" by use 32bit
-address, and remove soc layer to keep example simple.
+To illustrate the runtime effects I ran the Unigine Heaven benchmark in
+parallel with the deferredmultisampling Vulkan demo, each in its own cgroup.
+First the scheduling weights were the default 100 and 100 respectively, and we
+look at the GPU utilisation:
 
-Frank
-> +
-> +        display-controller@4b120000 {
-> +            compatible = "nxp,imx94-dcif";
-> +            reg = <0x0 0x4b120000 0x0 0x300000>;
-> +            interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "common", "bg_layer", "fg_layer";
-> +            clocks = <&scmi_clk 69>, <&scmi_clk 70>, <&dispmix_csr 0>;
-> +            clock-names = "apb", "axi", "pix";
-> +            assigned-clocks = <&dispmix_csr 0>;
-> +            assigned-clock-parents = <&ldb_pll_pixel>;
-> +            power-domains = <&scmi_devpd 11>;
-> +
-> +            port {
-> +                dcif_out: endpoint {
-> +                    remote-endpoint = <&ldb_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> --
-> 2.49.0
->
+  https://people.igalia.com/tursulin/drmcgroup-100-100.png
+
+It is about equal or therabout since it oscillates at runtime as the benchmark
+scenes change.
+
+Then we change drm.weight of the deferredmultisampling cgroup to 1:
+
+  https://people.igalia.com/tursulin/drmcgroup-100-1.png
+
+There we see around 75:25 in favour of Unigine Heaven. (Although it also
+oscillates as explained above).
+
+Or another way to show how nicely it works is to run two instances of Unigine
+Heaven in parallel. One can then play with assigning different GPU shares to
+each instance by tweaking the drm.weight control file at runtime. Assuming the
+two benchmarks belong to different cgroups of course.
+
+It is also important to note that the control is not nowhere as precise and
+accurate as with the CPU controller, and that the "fair" DRM scheduler is not
+guaranteed to be fair due limitations of GPU scheduling.
+
+Going into the implementation, since v7 it is much simpler than before since the
+mechanism of time budgets and over-budget signalling is completely gone and
+replaced with notifying clients directly about their assigned relative
+scheduling weights.
+
+This connects really nicely with the fair DRM scheduler RFC since we can simply
+mix in the scheduling weight with the existing scheduling entity priority based
+runtime to vruntime scaling factors.
+
+It also means there is much less code in the controller itself.
+
+Another advantage is that it is really easy to wire up individual drivers which
+use the DRM scheduler in the hardware scheduling mode. Amdgpu support is
+included near the end of the series in the form of two patches adding helpers to
+the DRM scheduler, and one patch wiring up the driver to use them.
+
+For the drivers which use firmware scheduling, such as for example Intel xe, I
+have also provided an example of how they could be wired up. Concretely, we can
+make them track the lowest and highest scheduling weight clients per device, and
+assign low and high scheduling priority to those respectively. Last two patches
+in the series demonstrate exactly that. This cannot provide fine grained weights
+but is effective for basic use cases and does not preclude a smarter
+implementation in the future. (Also note that for the purpose of an RFC the xe
+implementation is not fully complete and requires cgroup weights to be modified
+after DRM clients are opened. Ie. first start clients, then re-configure cgroups
+in order to see the effects.)
+
+On the userspace interface side of things it is the same as before. We have
+drm.weight as an interface, taking integers from 1 to 10000, the same as CPU and
+IO cgroup controllers.
+
+About the use cases, it is the same as before. With this we would be able to run
+a workload in the background and make it compete less with the foreground load.
+Be it explicitly or when integrating with Desktop Environments some of which
+already have cgroup support for tracking foreground vs background windows or
+similar.
+
+I would be really interested if people would attempt to try this out, either
+directly the amdgpu support as provided in the series, or by wiring up other
+drivers.
+
+P.S.
+About the CC list. This is a large series so I will put most people on Cc only
+in the cover letter as a ping of a kind. Who is interested to read more can find
+the series in the archives or in my git repository.
+
+The code is also available at https://gitlab.freedesktop.org/tursulin/kernel/-/tree/drm-sched-cfs?ref_type=heads
+
+1)
+https://lore.kernel.org/dri-devel/20231024160727.282960-1-tvrtko.ursulin@linux.intel.com/
+
+2)
+https://lore.kernel.org/dri-devel/20250425102034.85133-1-tvrtko.ursulin@igalia.com/
+
+v8:
+ * Wired up xe as an example on how firmware schedulers can benefit.
+ * Rebased on top of latest fair DRM scheduler.
+ * Documented the purpose of delayed update weights worker and reduce the delay.
+ * Use cgroup_taskset_for_each_leader().
+ * Use destination group from cgroup_taskset_for_each_leader in drmcs_attach().
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+CC: Leo Liu <Leo.Liu@amd.com>
+Cc: Maíra Canal <mcanal@igalia.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Michal Koutný <mkoutny@suse.com>
+Cc: Michel Dänzer <michel.daenzer@mailbox.org>
+Cc: Philipp Stanner <phasta@kernel.org>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Tejun Heo <tj@kernel.org>
+
+Tvrtko Ursulin (21):
+  drm/sched: Add some scheduling quality unit tests
+  drm/sched: Add some more scheduling quality unit tests
+  drm/sched: Implement RR via FIFO
+  drm/sched: Consolidate entity run queue management
+  drm/sched: Move run queue related code into a separate file
+  drm/sched: Free all finished jobs at once
+  drm/sched: Account entity GPU time
+  drm/sched: Remove idle entity from tree
+  drm/sched: Add fair scheduling policy
+  drm/sched: Break submission patterns with some randomness
+  drm/sched: Remove FIFO and RR and simplify to a single run queue
+  drm/sched: Embed run queue singleton into the scheduler
+  cgroup: Add the DRM cgroup controller
+  cgroup/drm: Track DRM clients per cgroup
+  cgroup/drm: Add scheduling weight callback
+  cgroup/drm: Introduce weight based scheduling control
+  drm/sched: Add helper for tracking entities per client
+  drm/sched: Add helper for DRM cgroup controller weight notifications
+  drm/amdgpu: Register with the DRM scheduling cgroup controller
+  drm/xe: Allow changing GuC scheduling priority
+  drm/xe: Register with the DRM scheduling cgroup controller
+
+ Documentation/admin-guide/cgroup-v2.rst       |  22 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c       |  13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h       |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |   9 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |  27 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       |   8 +-
+ drivers/gpu/drm/drm_file.c                    |  11 +
+ drivers/gpu/drm/scheduler/Makefile            |   2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c      | 168 ++--
+ drivers/gpu/drm/scheduler/sched_fence.c       |   2 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |  86 +-
+ drivers/gpu/drm/scheduler/sched_main.c        | 398 +--------
+ drivers/gpu/drm/scheduler/sched_rq.c          | 356 ++++++++
+ drivers/gpu/drm/scheduler/tests/Makefile      |   3 +-
+ .../gpu/drm/scheduler/tests/tests_scheduler.c | 824 ++++++++++++++++++
+ drivers/gpu/drm/xe/xe_device.c                |  18 +
+ drivers/gpu/drm/xe/xe_device_types.h          |  15 +
+ drivers/gpu/drm/xe/xe_exec_queue.c            |  80 ++
+ drivers/gpu/drm/xe/xe_exec_queue.h            |   5 +
+ drivers/gpu/drm/xe/xe_gpu_scheduler_types.h   |   1 +
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  49 +-
+ drivers/gpu/drm/xe/xe_pm.c                    |   4 +
+ include/drm/drm_drv.h                         |  26 +
+ include/drm/drm_file.h                        |  11 +
+ include/drm/gpu_scheduler.h                   |  75 +-
+ include/linux/cgroup_drm.h                    |  29 +
+ include/linux/cgroup_subsys.h                 |   4 +
+ init/Kconfig                                  |   5 +
+ kernel/cgroup/Makefile                        |   1 +
+ kernel/cgroup/drm.c                           | 443 ++++++++++
+ 34 files changed, 2239 insertions(+), 484 deletions(-)
+ create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+ create mode 100644 include/linux/cgroup_drm.h
+ create mode 100644 kernel/cgroup/drm.c
+
+-- 
+2.48.0
+
