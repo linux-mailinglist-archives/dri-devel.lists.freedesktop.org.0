@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638A3B4290F
+	by mail.lfdr.de (Postfix) with ESMTPS id 8992CB42910
 	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 20:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9365C10E904;
-	Wed,  3 Sep 2025 18:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31FB610E90C;
+	Wed,  3 Sep 2025 18:51:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LpWLyorS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ogaUlsET";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 987ED10E904
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:51:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC1E10E904
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:51:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1756925499;
- bh=acWrMDFnejwlqI3KNK43VsI/uX3cVIlXFTG2g+AY8Vw=;
+ bh=8Z8mjCF+FKwKBL8hPeIwVkjMamf3nUzQplfzpBne/CE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=LpWLyorStxVS8zBAr8IHK0gr3mAJGieGcmqBBlVIeLgPzJM2YQ3OJ5cU4nAzffiVU
- Fp1f/cYgj5Gn2EATi5wI/T+4SAg+/4kb65PwvIv6sC2++YK/TWB9FeY3DijewJ1avf
- zvV5HMZX2uXP6RbxhwJ6LISHRrdw2msuTDBRK3qQcgNFfp6aTEILvxrtt2LhLiEq02
- V9I6nzpkP/6pjsKn/bGsKhZUN1EBHFHpE4tD3WAwT2vNT8z0U6cnEcTPYkIJ03/wc1
- eKjI0JICr9f5nwPAtSoEMfvYkz8y0vSq4ftfakZCuWJ4TZ5eCNrg7aSfDPT4kBLMAN
- eo4q3YS36QLTQ==
+ b=ogaUlsETyB/vRASIhDvfh/x6+jJBP5hPQGTx0DYVvQ4mRIrm4jU0gH60WpvZDUIZq
+ OF50cIb234o8oz6cbEcqPVEqOPjDWwevlElQJo08aqFRHk1AwiT3XiCWCpDcoJNsYP
+ /6eRjbTnxuZjm1KrtpjPMpaZnhWthAGc0lY+ZPzlNzRCaWbt0QxtbEstJOXpd/meap
+ aJ7n4OW9YuWM5aQlsWFqa+Si3sg631K3aMNbNerqtU71l6y2gUho4lg+q5MLUODIhM
+ a3IDkZ+4NizZxXal1/p466MADhZilVaQMKvPjeIXE4fQ0wVbD5WNIwZIPFUQIv5pHW
+ UnNjTWtJKqdxQ==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 0171717E1353;
- Wed,  3 Sep 2025 20:51:38 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id B84AB17E1382;
+ Wed,  3 Sep 2025 20:51:39 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 03 Sep 2025 21:51:02 +0300
-Subject: [PATCH v4 4/6] drm/rockchip: dw_hdmi_qp: Provide CEC IRQ in
+Date: Wed, 03 Sep 2025 21:51:03 +0300
+Subject: [PATCH v4 5/6] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
  dw_hdmi_qp_plat_data
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250903-rk3588-hdmi-cec-v4-4-fa25163c4b08@collabora.com>
+Message-Id: <20250903-rk3588-hdmi-cec-v4-5-fa25163c4b08@collabora.com>
 References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
 In-Reply-To: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -74,30 +74,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support the CEC interface of the DesignWare HDMI QP IP
-block, setup platform data to include the required IRQ number.
+In order to support correct initialization of the timer base in the HDMI
+QP IP block, setup platform data to include the required reference clock
+rate.
+
+While at it, ensure plat_data is zero-initialized in
+dw_hdmi_qp_rockchip_bind().
 
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index a775d89f20fc20e9103ecbac0dcf3db10ba9984f..9191a74a568fb38c2b2ff7ead1e703b3af9addc9 100644
+index 9191a74a568fb38c2b2ff7ead1e703b3af9addc9..931343b072adc05877db9ae867e31a3cd1134e6c 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -525,6 +525,10 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (plat_data.main_irq < 0)
- 		return plat_data.main_irq;
+@@ -429,14 +429,15 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+ 				    void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
++	struct dw_hdmi_qp_plat_data plat_data = {};
+ 	const struct rockchip_hdmi_qp_cfg *cfg;
+-	struct dw_hdmi_qp_plat_data plat_data;
+ 	struct drm_device *drm = data;
+ 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+ 	struct rockchip_hdmi_qp *hdmi;
+ 	struct resource *res;
+ 	struct clk_bulk_data *clks;
++	struct clk *ref_clk;
+ 	int ret, irq, i;
  
-+	plat_data.cec_irq = platform_get_irq_byname(pdev, "cec");
-+	if (plat_data.cec_irq < 0)
-+		return plat_data.cec_irq;
+ 	if (!pdev->dev.of_node)
+@@ -506,6 +507,14 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+ 	if (ret < 0)
+ 		return dev_err_probe(hdmi->dev, ret, "Failed to get clocks\n");
+ 
++	ref_clk = clk_get(hdmi->dev, "ref");
++	if (IS_ERR(ref_clk))
++		return dev_err_probe(hdmi->dev, PTR_ERR(ref_clk),
++				     "Failed to get ref clock\n");
 +
- 	irq = platform_get_irq_byname(pdev, "hpd");
- 	if (irq < 0)
- 		return irq;
++	plat_data.ref_clk_rate = clk_get_rate(ref_clk);
++	clk_put(ref_clk);
++
+ 	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
+ 						    GPIOD_OUT_HIGH);
+ 	if (IS_ERR(hdmi->enable_gpio))
 
 -- 
 2.51.0
