@@ -2,65 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3E1B42194
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 15:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CDAB421E1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 15:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D815110E88F;
-	Wed,  3 Sep 2025 13:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03BD910E0C9;
+	Wed,  3 Sep 2025 13:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="UWzPjg7H";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="C7fAWz/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDCF10E88F;
- Wed,  3 Sep 2025 13:30:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756906205; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nu/jD3iyW8518XgRhqdkMjrEML10/xaiWdOZsb0zfX6pgGP5dCQznFBDOmC4BnPCnoBUeeopfFnRSC/QF3fUwv3NvV5fJSATbR+4x/P6ycPK4AbWrK1TcHUnII1W64kKNGcLX1D11aNiUfNE5L9ZSlvBx6ieNzZdeQ7DICcUPqw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756906205;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=4rdL4BMSJjWrp5Ar1gyiWHdHZrTo81ucFzwVlSGzyt4=; 
- b=X4vRD0WftvUzR7Lx4CVZod9PXp2ClbVKpaidophFVn9AP4Jv8ppQH8xs/+pf220ShBgVQUt+O8mOzU2/muJ1jJ/Xanv/zj3g2u/Gu3U9qis1VBeodaTYGletKpH+TL+QEVHCLmKIfseTy1DaVQCT7NBOtyY2LU+DujHrRYWUYXU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756906205; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=4rdL4BMSJjWrp5Ar1gyiWHdHZrTo81ucFzwVlSGzyt4=;
- b=UWzPjg7H9tY72eLTC7zboCAvOIaBAQa4VHxY+Efo+9xh06o5ZkI4C3lU4KVa5N5T
- RwnX/i0ybunYN4ej8m6r5yX3pDJj/BugHrEafnfjovotMHt7/qLqbUUVeAugHdU1Uis
- b1n7UCjf4mPNJXiIJlSuLjw8nvsr93IJwfK2+c9Q=
-Received: by mx.zohomail.com with SMTPS id 1756906203342831.6629861652933;
- Wed, 3 Sep 2025 06:30:03 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250824135954.2243774-1-joelagnelf@nvidia.com>
-Date: Wed, 3 Sep 2025 10:29:46 -0300
-Cc: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D0E4757B-B26C-49AE-9076-267C0CBC2577@collabora.com>
-References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF9A10E88E
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 13:36:45 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583BFK2I021624
+ for <dri-devel@lists.freedesktop.org>; Wed, 3 Sep 2025 13:36:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ lN8gdknZMrOiQok/7MvQU3sHMt/V6D5KvcciwLonHIE=; b=C7fAWz/rbvK32/ph
+ nAkHjns/kz0KodePUhe9V5KmdHJ5AEnJnJyqRlkMQpyXEMZ6OS1uP0tb9jcmByBh
+ iv4TAlYU1/i3LW8nUal8SkvnEvJK7aqhA4umZZ4DYWdO5/3Kc+fEC0E+sx1pzLwR
+ sIGqboGIVun+G4ER13ZhrKdVqZlcuiBEAmbcRPzm1LW8bJ2pOAxmTq910/s1TnOx
+ Rqmdv3ezfaWdGo2bHT1yPXUm62Qfbo3KbJ1AUFA/enB/5xmPOJje+njoYDPF3W+D
+ D6dCkoOwRbBB2GWqs/KbMQFGvodjMJnFxcAjycmVk72zQB0N4JXjyJb0TXI1yAKa
+ bz6OMw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48utk93n3y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 13:36:44 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b2967fd196so19706911cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 06:36:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756906603; x=1757511403;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lN8gdknZMrOiQok/7MvQU3sHMt/V6D5KvcciwLonHIE=;
+ b=AYtyJre+ZlbpLS7SBI3TFviqFMXaxx8ZXyL3Rzna5CXrYG/pnm74c+6Sw38GIm+Mdy
+ +9tBxaO90JF4/L8O08DoMLgIf1R/k3Laeisvv2XXH53ZBtigEeiEE+Yun7VoY09Coa/G
+ 9/tJ6W1ALK+8A57g/jzubZ70oEgAVfkmmsSAXVFWp/uu/iLBtXW5oKpwr2jm22CoZ6Mn
+ IJ+B/Ppwg2vaQkxnJp8N3fvRk66Kqax0kXHn0MXvIZqWuYTN9mxtg4VoUesdbwPh35CR
+ bLGswt7zdLuwAtgNKoJcJFjkU3Y67KEpdlCQXRNtAKR0h9o5Wt6jCvxOIvschx7ZtUST
+ xneg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWo+x8nMEjDU+Xbtjc+SD9TQGUByQsULEaOTswzeGnY4euddikS3rJ4oW5MuB13UyqHEvD4MYPBfPg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6c8Dc1coBW6coAKTuSOmhKP+6wFvnbs8olvVL0ZEw/75xr1ne
+ ShdRug4sdUEj6idK2GYPysh8drCsQcdep4hhPYPypYrKosBZeCJrqnSvkv6xjPaZlyICCewP4MM
+ lu5KtjqTyCUtJ16xjJa/7RYambBCe241uCcIyS5rQcrzqHAYtUf2A0RIGVx0VcgQ46YUmA2w=
+X-Gm-Gg: ASbGncvXPPO9D8eQa4kXQ6Zkp7ejJywo5hdg+XHl6hfT3GCYLXSSS1w1e0CpnXgcLpu
+ /yfX9MUItGI6oNrYs9BRwImXMsQjMt75rjM5pCAkDBJRoHcmlLqG7HynFMxbBv4F4D3DXQpwkCy
+ LYFfqeV2aUX3W3rPs0J68Tq83PvQKVCysjYvn46PYpkZL0daOfZeLGjC14b+vlwu7XPLybH89OX
+ IRPhP+Bo33LmxSW6WRw3ML3i/zWIibkwYaWNKI2jKpoYPwtHH/OMlzPPjFoFokfdinbZ2qoFUGj
+ e7dYBhnfETunBhx00IPnvqZ28kQKn1weyFi5+2hMdMISYYyLBxZzo5j0Ulm4zRLTQ8XiBLa+/HY
+ 7jl4GBK6Z4hHUUje60A8i7Q==
+X-Received: by 2002:a05:622a:4506:b0:4b3:4590:ab74 with SMTP id
+ d75a77b69052e-4b34590ba5bmr55006941cf.13.1756906603108; 
+ Wed, 03 Sep 2025 06:36:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IErXOAvUamYTNZwdXsoIgSgCVJyJNUAEhsmG6GIw8r9rMGaKeXaF6CVWYD77CBPNPOt2y9/Dg==
+X-Received: by 2002:a05:622a:4506:b0:4b3:4590:ab74 with SMTP id
+ d75a77b69052e-4b34590ba5bmr55006561cf.13.1756906602636; 
+ Wed, 03 Sep 2025 06:36:42 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b0423ed35e4sm805734266b.25.2025.09.03.06.36.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Sep 2025 06:36:42 -0700 (PDT)
+Message-ID: <f169be5a-faa5-4824-861e-27bd2083b9cf@oss.qualcomm.com>
+Date: Wed, 3 Sep 2025 15:36:34 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/6] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Connor Abbott <cwabbott0@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>,
+ Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+References: <20250822-a663-gpu-support-v4-0-97d26bb2144e@oss.qualcomm.com>
+ <20250822-a663-gpu-support-v4-3-97d26bb2144e@oss.qualcomm.com>
+ <f11b778d-eba1-4712-81c7-b83f2cb38b46@oss.qualcomm.com>
+ <exkrgx6rdotfrrsnklsd7zk4ydehsk5vaoevibpqisyq2dwbd4@sa4kgnuexlna>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <exkrgx6rdotfrrsnklsd7zk4ydehsk5vaoevibpqisyq2dwbd4@sa4kgnuexlna>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: j35WiAP6vn0fyhtitTdJ85iihUYyRwuM
+X-Proofpoint-ORIG-GUID: j35WiAP6vn0fyhtitTdJ85iihUYyRwuM
+X-Authority-Analysis: v=2.4 cv=ccnSrmDM c=1 sm=1 tr=0 ts=68b8446c cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=KKAkSRfTAAAA:8 a=azIdKaGB62pXRnNptYYA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDA0MiBTYWx0ZWRfX6BWd2W37lvHU
+ 1pNrL+x7QqNRcZV0fysEBr+sYyI/qKs1YDRFd70UmLPlV4iHbY8rKfTBCwKMK6yfj4nzHmM0xJ8
+ vzm38RvZd3ykKjj1LY4qaZUucr2mGGvj0tMHxJAQ+ZCO4Q1wH4lmDy68bQpgfL/K5FvHo+ORclI
+ RurmsGtHO3HxTtTE3n4zbWJgyzE6R/KwKxaRPEoBU3HfoV286FPwG8b+hvNEdDogLjLiZDXbrQF
+ zT4A31Hx3b0V39V3tKIV7In0C2nSO5vtHjllvSRNWwyTurjDqj48B57VEZfoy5DfplalMZZ99oo
+ 8MKnXymVvInlb7gZNP5RiPHhGJwh6uZBSVAYgQvW6aQ0KdLy0zNOrIgeloRxqIn9vXQHLvwU/4i
+ R3HsEKUS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_07,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300042
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,227 +142,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
+On 9/3/25 2:39 PM, Dmitry Baryshkov wrote:
+> On Wed, Sep 03, 2025 at 02:26:30PM +0200, Konrad Dybcio wrote:
+>> On 8/21/25 8:55 PM, Akhil P Oommen wrote:
+>>> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+>>>
+>>> Add gpu and gmu nodes for sa8775p chipset. As of now all
+>>> SKUs have the same GPU fmax, so there is no requirement of
+>>> speed bin support.
+>>>
+>>> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>  arch/arm64/boot/dts/qcom/lemans.dtsi | 116 +++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 116 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/lemans.dtsi b/arch/arm64/boot/dts/qcom/lemans.dtsi
+>>> index 8ceb59742a9fc6562b2c38731ddabe3a549f7f35..8eac8d4719db9230105ad93ac22287850b6b007c 100644
+>>> --- a/arch/arm64/boot/dts/qcom/lemans.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/lemans.dtsi
+>>> @@ -1097,6 +1097,18 @@ ipcc: mailbox@408000 {
+>>>  			#mbox-cells = <2>;
+>>>  		};
+>>>  
+>>> +		qfprom: efuse@784000 {
+>>> +			compatible = "qcom,sa8775p-qfprom", "qcom,qfprom";
+>>> +			reg = <0x0 0x00784000 0x0 0x2410>;
+>>
+>> len = 0x3000
+>>
+>> [...]
+>>
+>>> +		gmu: gmu@3d6a000 {
+>>> +			compatible = "qcom,adreno-gmu-663.0", "qcom,adreno-gmu";
+>>> +			reg = <0x0 0x03d6a000 0x0 0x34000>,
+>>
+>> This bleeds into GPU_CC, len should be 0x26000
+> 
+> gpucc is in the middle of GMU, see other platforms.
 
-> On 24 Aug 2025, at 10:59, Joel Fernandes <joelagnelf@nvidia.com> =
-wrote:
->=20
-> Add a minimal bitfield library for defining in Rust structures (called
-> bitstruct), similar in concept to bit fields in C structs. This will =
-be used
-> for defining page table entries and other structures in nova-core.
->=20
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
-> drivers/gpu/nova-core/bitstruct.rs | 149 +++++++++++++++++++++++++++++
-> drivers/gpu/nova-core/nova_core.rs |   1 +
-> 2 files changed, 150 insertions(+)
-> create mode 100644 drivers/gpu/nova-core/bitstruct.rs
->=20
-> diff --git a/drivers/gpu/nova-core/bitstruct.rs =
-b/drivers/gpu/nova-core/bitstruct.rs
-> new file mode 100644
-> index 000000000000..661a75da0a9c
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/bitstruct.rs
-> @@ -0,0 +1,149 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// bitstruct.rs =E2=80=94 C-style library for bitfield-packed Rust =
-structures
-> +//
-> +// A library that provides support for defining bit fields in Rust
-> +// structures to circumvent lack of native language support for this.
-> +//
-> +// Similar usage syntax to the register! macro.
-> +
-> +use kernel::prelude::*;
-> +
-> +/// Macro for defining bitfield-packed structures in Rust.
-> +/// The size of the underlying storage type is specified with =
-#[repr(TYPE)].
-> +///
-> +/// # Example (just for illustration)
-> +/// ```rust
-> +/// bitstruct! {
-> +///     #[repr(u64)]
-> +///     pub struct PageTableEntry {
-> +///         0:0       present     as bool,
-> +///         1:1       writable    as bool,
-> +///         11:9      available   as u8,
-> +///         51:12     pfn         as u64,
-> +///         62:52     available2  as u16,
-> +///         63:63     nx          as bool,
-> +///     }
-> +/// }
-> +/// ```
-> +///
-> +/// This generates a struct with methods:
-> +/// - Constructor: `default()` sets all bits to zero.
-> +/// - Field accessors: `present()`, `pfn()`, etc.
-> +/// - Field setters: `set_present()`, `set_pfn()`, etc.
-> +/// - Builder methods: `with_present()`, `with_pfn()`, etc.
+This is not the case here
 
-I think this could use a short example highlighting the builder pattern. =
-It may
-be initially unclear that the methods can be chained, even though the =
-word
-=E2=80=9Cbuilder=E2=80=9D is being used.
-
-> +/// - Raw conversion: `from_raw()`, `into_raw()`
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct {
-> +    (
-> +        #[repr($storage:ty)]
-> +        $vis:vis struct $name:ident {
-> +            $(
-> +                $hi:literal : $lo:literal $field:ident as =
-$field_type:tt
-> +            ),* $(,)?
-> +        }
-> +    ) =3D> {
-> +        #[repr(transparent)]
-> +        #[derive(Copy, Clone, Default)]
-> +        $vis struct $name($storage);
-> +
-> +        impl $name {
-> +            /// Create from raw value
-> +            #[inline(always)]
-> +            $vis const fn from_raw(val: $storage) -> Self {
-> +                Self(val)
-> +            }
-> +
-> +            /// Get raw value
-> +            #[inline(always)]
-> +            $vis const fn into_raw(self) -> $storage {
-> +                self.0
-> +            }
-> +        }
-> +
-> +        impl core::fmt::Debug for $name {
-> +            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> =
-core::fmt::Result {
-> +                write!(f, "{}({:#x})", stringify!($name), self.0)
-> +            }
-> +        }
-> +
-> +        // Generate all field methods
-> +        $(
-> +            bitstruct_field_impl!($vis, $name, $storage, $hi, $lo, =
-$field as $field_type);
-> +        )*
-> +    };
-> +}
-> +
-> +/// Helper to calculate mask for bit fields
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_mask {
-> +    ($hi:literal, $lo:literal, $storage:ty) =3D> {{
-> +        let width =3D ($hi - $lo + 1) as usize;
-> +        let storage_bits =3D 8 * core::mem::size_of::<$storage>();
-> +        if width >=3D storage_bits {
-> +            <$storage>::MAX
-> +        } else {
-> +            ((1 as $storage) << width) - 1
-
-Can=E2=80=99t we have a build_assert here instead?
-
-> +        }
-> +    }};
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_field_impl {
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, =
-$lo:literal, $field:ident as $field_type:tt) =3D> {
-> +        impl $struct_name {
-> +            #[inline(always)]
-> +            $vis const fn $field(&self) -> $field_type {
-> +                let field_val =3D (self.0 >> $lo) & =
-bitstruct_mask!($hi, $lo, $storage);
-> +                bitstruct_cast_value!(field_val, $field_type)
-> +            }
-> +        }
-> +        bitstruct_make_setters!($vis, $struct_name, $storage, $hi, =
-$lo, $field, $field_type);
-> +    };
-> +}
-> +
-> +/// Helper macro to convert extracted value to target type
-> +///
-> +/// Special handling for bool types is required because the `as` =
-keyword
-> +/// cannot be used to convert to bool in Rust. For bool fields, we =
-check
-> +/// if the extracted value is non-zero. For all other types, we use =
-the
-> +/// standard `as` conversion.
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_cast_value {
-> +    ($field_val:expr, bool) =3D> {
-> +        $field_val !=3D 0
-> +    };
-> +    ($field_val:expr, $field_type:tt) =3D> {
-> +        $field_val as $field_type
-> +    };
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_write_bits {
-> +    ($raw:expr, $hi:literal, $lo:literal, $val:expr, $storage:ty) =3D> =
-{{
-> +        let mask =3D bitstruct_mask!($hi, $lo, $storage);
-> +        ($raw & !(mask << $lo)) | ((($val as $storage) & mask) << =
-$lo)
-> +    }};
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_make_setters {
-
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, =
-$lo:literal, $field:ident, $field_type:tt) =3D> {
-> +        ::kernel::macros::paste! {
-> +            impl $struct_name {
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis fn [<set_ $field>](&mut self, val: $field_type) =
-{
-> +                    self.0 =3D bitstruct_write_bits!(self.0, $hi, =
-$lo, val, $storage);
-> +                }
-> +
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis const fn [<with_ $field>](mut self, val: =
-$field_type) -> Self {
-> +                    self.0 =3D bitstruct_write_bits!(self.0, $hi, =
-$lo, val, $storage);
-> +                    self
-> +                }
-> +            }
-> +        }
-> +    };
-> +}
-> diff --git a/drivers/gpu/nova-core/nova_core.rs =
-b/drivers/gpu/nova-core/nova_core.rs
-> index cb2bbb30cba1..54505cad4a73 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -2,6 +2,7 @@
->=20
-> //! Nova Core GPU Driver
->=20
-> +mod bitstruct;
-> mod dma;
-> mod driver;
-> mod falcon;
-> --=20
-> 2.34.1
->=20
->=20
-
-The code itself looks good. Thanks for doing this work, it will be =
-useful for Tyr :)
-
-=E2=80=94 Daniel=
+Konrad
