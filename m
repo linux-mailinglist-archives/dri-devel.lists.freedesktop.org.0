@@ -2,116 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EB8B41157
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 02:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EA7B41171
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 02:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D00310E08E;
-	Wed,  3 Sep 2025 00:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E378410E02E;
+	Wed,  3 Sep 2025 00:46:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fz9aF5pO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q2+hpZkG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC41F10E08E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 00:30:33 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-327ae052173so3717281a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756859433; x=1757464233; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
- b=Fz9aF5pO1tkxd5EAGhiAu+XB/r0zgDBYIcMaYsgSRib6LFXDYOCeRhIc3a2BY66SWt
- npCu6t/XBYmqVb1w4bqlu3dTc8pDVon2aXgc3tyaFTxH6owVcSXoehO8nWkqd17Jj1h5
- kgVpw2ftMDxw+c5hsLscy2O7NUFnN696AmkkbPVUJCFHmXxsxqSGa8Zz3ZVm2b2wfNGG
- JBoeZcelyjxe+lvwRRkurp2HVgRCMnvkYDhu2V3kYEgvNZNN/N4kAD4kAh4GrmWYHNqi
- hCnTVguide3/5gSo9W7ocj/Ptoc1WyD/WfdBQmJHxF4onwnyKz9jHi8s42er0bIzkqMI
- 9b7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756859433; x=1757464233;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
- b=JlU/vpSguiRVjSSyeb6GwTsctcH1xV/oIKoB62KfR31hF+sacUYw9y+0WxCsjVsxQH
- uKE08lCHAUMKoquK7T1/7SQ8LpaU2pqPQChu66Ife6tna3JmMP5OeB9QoBnYIT5r7MQe
- bc4LCySn9cJAV6zqsCsMG5UtapH3cYpCJzpNGNIBtppXJiwaAoghNuhW+GgAYa/QSIVa
- KnUhBt+o2fCE2GeIEA3vb/tQ/JGOmA+/m3SjvjEDWhn8QKPQ9aB4qBgHCM0z2RSe4Ixn
- I6HKWJ78UMx+nrar6ZB3sgOonwK5LVeoStH67ZlGfBkMmF984eKYnz7jd+WgFZi8srHQ
- +7Rw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRAyP/MTAp9ebNEkgCIN8sWnEhbVBFWaCaeE391JfkKNh2t1lAGUn/QxuvNNQlp2Wnwl19ZR5NLFg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxD3B0dcB4zY7gC16yiTVQ+yHE39KoJ9HsplhtCSjQ3ndCruybE
- 8+xYjDEsJtX4q+pRF8a2afaUvHh0pomKbo81sBrlDL9tarZRjHY8uqf2
-X-Gm-Gg: ASbGncvv7OUSBpnwHo1QHbZio5lmYTz6Z2GMXhK3/iXe589Ck/ZVWEOmcO5t5E2vbFg
- ekHVveRjbp2V3X4uSP9nSmWdp06LhqQS1u2XlqJ6xlJeEwI4CrkUI5CURq8rzm4sReBZu0u3wwc
- nQCOZuLFWrGlJjMJeTFAwQXiDRabnV5anQyXmAspqz0x1mXrr6RTxzKqe1cmCccM5v71LA0FooX
- t3bO65aU9eY7x/B+bRYgIDn2sUJMSaD1jFD9lJ5/d/gD1U1yoXrxk2Cq9VvQTUV225YDXkpXJOa
- pruphjxBHrWVjBOGRbMbLgmZZeQzieUSoLWtf4o1pmRyqeUp2m3BZAVbEkhFdlP6HGd0E5Mxw9v
- wnMNB/OovW/HHACwrrA2Kxw==
-X-Google-Smtp-Source: AGHT+IHKuGow4ZFuttu6aoYR+s2VkdzBbs1o2jEf8YSpdi38rlMbKdEgFtFxfdUZ56XgWRNUklItiw==
-X-Received: by 2002:a17:90b:1b12:b0:323:7e80:8818 with SMTP id
- 98e67ed59e1d1-328156e5627mr18724374a91.37.1756859433210; 
- Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-Received: from localhost ([216.228.127.131]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-329e23858ecsm3480217a91.14.2025.09.02.17.30.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Sep 2025 17:30:32 -0700 (PDT)
-Date: Tue, 2 Sep 2025 20:30:30 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
- linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
- macros
-Message-ID: <aLeMJjfhisYSIEph@yury>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626F410E02E
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 00:46:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756860366; x=1788396366;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=b5f4SPDgcSXeVH1wU9IYy52Ijhudx51cDLKHOZ9eYJ4=;
+ b=Q2+hpZkGr5G9e+EYc8kLcnBuk0NlYtzVyJnhSpMOSjUGfhwhttb9Iehm
+ gF999LCNJb4xhZeu4WtERDcroZReNT6D72PiWWx0vA71nP268Fwwi13wm
+ mpCbO5AdKl6OMwCVIC+6C8XUDpSxMeeKhblG4fj8stnfb5Zwa134Sx1fe
+ xOkKhmjyAVGn/YoBgYEhfVkfcCvqzDBoZD6CC6+oy2QVyU2RaQP2bB166
+ 3ZTjVblEOYA9pFUhFmS+i1NuyHy/GHSQhEGYjKmuVIi+VyC57KcuE8N08
+ /gwihyNYeeGV+87VRTDDhk0yTdgCYWKBMVtpPR7f1nPKwkxZY19dgHHpB Q==;
+X-CSE-ConnectionGUID: RPe5vYz2T+O9vaD3PgZfeA==
+X-CSE-MsgGUID: 0zNemOgMTVyhYnGCbJBI1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58376823"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="58376823"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2025 17:46:06 -0700
+X-CSE-ConnectionGUID: CaRhma6qRIea23WPV102FA==
+X-CSE-MsgGUID: 5C/ig5cgRUWHP+URkF25gA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; d="scan'208";a="170717073"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+ by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 17:46:03 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1utbdF-0003Bb-0R;
+ Wed, 03 Sep 2025 00:45:54 +0000
+Date: Wed, 3 Sep 2025 08:44:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ tj@kernel.org, christian.koenig@amd.com,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+ Dave Chinner <david@fromorbit.com>,
+ Waiman Long <longman@redhat.com>, simona@ffwll.ch
+Subject: Re: [PATCH 03/15] ttm/pool: port to list_lru. (v2)
+Message-ID: <202509030849.OExBO13p-lkp@intel.com>
+References: <20250902041024.2040450-4-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+In-Reply-To: <20250902041024.2040450-4-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,41 +75,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:28:20AM +0200, Nicolas Frattaroli wrote:
-> This series was spawned by [1], where I was asked to move every instance
-> of HIWORD_UPDATE et al that I could find to a common macro in the same
-> series that I am introducing said common macro.
-> 
-> The first patch of the series introduces a new header file,
-> hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
-> FIELD_PREP_WM16_CONST. The latter can be used in initializers.
-> 
-> I've cheekily added the hw_bitfield.h header to the BITMAP API section
-> of the MAINTAINERS file.
-> 
-> This macro definition checks that the mask fits, and that the value fits
-> in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
-> so turning off a bit does not require using the mask as a value. Masks
-> are also required to be contiguous, like with FIELD_PREP.
-> 
-> For each definition of such a macro, the driver(s) that used it were
-> evaluated for three different treatments:
->  - full conversion to the new macro, for cases where replacing the
->    implementation of the old macro wouldn't have worked, or where the
->    conversion was trivial. These are the most complex patches in this
->    series, as they sometimes have to pull apart definitions of masks
->    and values due to the new semantics, which require a contiguous
->    mask and shift the value for us.
->  - replacing the implementation of the old macro with an instance of the
->    new macro, done where I felt it made the patch much easier to review
->    because I didn't want to drop a big diff on people.
->  - skipping conversion entirely, usually because the mask is
->    non-constant and it's not trivial to make it constant. Sometimes an
->    added complication is that said non-constant mask is either used in a
->    path where runtime overhead may not be desirable, or in an
->    initializer.
+Hi Dave,
 
-Applied in bitmap-for-next for testing.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Yury
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on linus/master v6.17-rc4]
+[cannot apply to akpm-mm/mm-everything next-20250902]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v4/20250902-130646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20250902041024.2040450-4-airlied%40gmail.com
+patch subject: [PATCH 03/15] ttm/pool: port to list_lru. (v2)
+config: i386-buildonly-randconfig-002-20250903 (https://download.01.org/0day-ci/archive/20250903/202509030849.OExBO13p-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250903/202509030849.OExBO13p-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509030849.OExBO13p-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/drm/ttm/ttm_device.h:31,
+                    from drivers/gpu/drm/ttm/ttm_range_manager.c:32:
+>> include/drm/ttm/ttm_pool.h:57:25: error: field 'pages' has incomplete type
+      57 |         struct list_lru pages;
+         |                         ^~~~~
+
+
+vim +/pages +57 include/drm/ttm/ttm_pool.h
+
+    40	
+    41	/**
+    42	 * struct ttm_pool_type - Pool for a certain memory type
+    43	 *
+    44	 * @pool: the pool we belong to, might be NULL for the global ones
+    45	 * @order: the allocation order our pages have
+    46	 * @caching: the caching type our pages have
+    47	 * @shrinker_list: our place on the global shrinker list
+    48	 * @pages: the lru_list of pages in the pool
+    49	 */
+    50	struct ttm_pool_type {
+    51		struct ttm_pool *pool;
+    52		unsigned int order;
+    53		enum ttm_caching caching;
+    54	
+    55		struct list_head shrinker_list;
+    56	
+  > 57		struct list_lru pages;
+    58	};
+    59	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
