@@ -2,144 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1195DB41E55
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 14:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA2CB41EAF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 14:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE45310E7BE;
-	Wed,  3 Sep 2025 12:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 772B810E202;
+	Wed,  3 Sep 2025 12:18:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="rDKkK4fl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WeKZUD+t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYDPR03CU002.outbound.protection.outlook.com
- (mail-japaneastazon11013060.outbound.protection.outlook.com [52.101.127.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE50010E7BE;
- Wed,  3 Sep 2025 12:06:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CDlIvrqLYRlIMz0LJxz2bmfAzSFz1M3b3RhaPS6MTsxdH/j5bh4O3jjQzIMX7XNCP5kvWsctVqpMwgwxoxsnpVB69hksZ7WFROcknF+Jpwhr7VG4TcnHHN+Gz4ptbO++gHLvPW7DwyiiVEC2Y9Zq+BkOfCSAGTw6FKFaGkfGiJrJ19K1U8I4098J3siLnZmfFJEv3hQbjb6ouRkVaazIvj7lauXSyIShPdGHDZDGPGcvI3N3PeULNQqptfB3SrHguye77bOHGWWB1pcqefZ183EAhZOJJQIbr4JMsKmobrm84QtA9sot//Gyq71XiQ6ZKwlC5AImK6S8UUCiZNfddA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=igYfgTsZpIufJE6VjW0GOI7kI8upEVeT3ZMnx517XQY=;
- b=VO9JuNHZmQ9WlDljLysvGzpxOSa3OhCk6ecluN3WIaqlbuI6/rqW85ZlJqSNFTnUK+vYz4e4Iqw69II8ikWmJmox11cbKjDME55nXNXPx61+KWdxAwS1RyqR7B8qhcui6jw1BGbv5HhsTHetSWusBbmEgHD1VOENO2UuKOuU9/h4ljD8e/ps+UvQ9ClSjzKh3p4T7ITZia3IiaXXJr5SeGhZ9cKkOE5yc46jETQz1uQKV/N+8QGpJgCa7mSFHfnFgdE6E1Cbyy/YFVwbWGKLbybAxUfMJVvQGjmSFHktkFPFrUMrPJAMPUQGYCvxa7biOOh1qW2aC1pcCZFn72OSgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=igYfgTsZpIufJE6VjW0GOI7kI8upEVeT3ZMnx517XQY=;
- b=rDKkK4flTpB2ibOgO4vKakrWMQhiwXg0E5/mZRxbM4zmucmvczGnAzYvr6qjlUu4+WJfyRKEumuljuy2Y78MpAr5fWMlDIyDvO1NVgnAVSkK1N38bQvRld/CfEA+B8v6upWRM4oFGbFp5PBSeEIrAygtFLLeHMjyFBpU1r6Yeyjc+TP6USDWnXLCJ6h7mQvrfQ6lgAZWbPcscUl2Ko73y1fmYFa81m3ejbvWZzmLEjPAEjhzuSOC70XO3/UiqS6vi/9QoE0eBY0rK2lPsZbktJUhIBp4Q37wHvXuIqmr1T8RkS6r5ZzfQRrUpTaAFZTR2/Oit40oGSAYttGNGdkjiA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
- by KL1PR06MB7318.apcprd06.prod.outlook.com (2603:1096:820:144::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 12:06:40 +0000
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6%7]) with mapi id 15.20.9094.016; Wed, 3 Sep 2025
- 12:06:40 +0000
-From: Liao Yuanhong <liaoyuanhong@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Boyuan Zhang <boyuan.zhang@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Leo Liu <leo.liu@amd.com>, "David (Ming Qiang) Wu" <David.Wu3@amd.com>,
- Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>,
- amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
-Subject: [PATCH 6/6] drm/amdgpu/vcn: Remove redundant ternary operators
-Date: Wed,  3 Sep 2025 20:03:50 +0800
-Message-Id: <20250903120449.380087-7-liaoyuanhong@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250903120449.380087-1-liaoyuanhong@vivo.com>
-References: <20250903120449.380087-1-liaoyuanhong@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0293.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::11) To SEZPR06MB5576.apcprd06.prod.outlook.com
- (2603:1096:101:c9::14)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5BC710E078
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 12:18:15 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583BFIXH023837
+ for <dri-devel@lists.freedesktop.org>; Wed, 3 Sep 2025 12:18:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ AutDsvD16EOr0OTgbsZtdjV+hXDkbazkLSfLhhee5as=; b=WeKZUD+tSWL6z40p
+ 46t9ccDzdqNz9IhWmGqyqH5aDLYGYQJK+DPJ48xUKg32UdsD2jGpejoet7Uk2+gO
+ ETQXNDwF2wohwDfUVpr8bqrlIga0Mzi9jSsdrVd5+w0jELoajzvf+WBwH5ryFxVT
+ ZAulzIWcPAtqxA04EEEEavRIfla0Dc6VWQRH/iS3lLKm0McyXimvMwNvxH5YcSiW
+ 4kfq0vPZA3oT2AQA5BoqPbznZm0EC+QHym7j9Z6BxPlh6fJ02Jv3OdedoZPdp9es
+ PKpP30WUABusKrKe9ilMVbWz9sixNw9MGVLNkikYqE6ZAPsvd7tPdoVQzp2NcGs5
+ PSA+6A==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2fkfvf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 12:18:15 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b32dfb5c6fso15574181cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 05:18:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756901894; x=1757506694;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AutDsvD16EOr0OTgbsZtdjV+hXDkbazkLSfLhhee5as=;
+ b=Q2Zp8gxP96dZYZBymvJ7XmZScd+u5BwZDqJMAxzA6s65+Dt0sVJnaoJl0F2XGfSucq
+ Z+JQwmRRsNHRAI5S7ckfW/uY97+IsUT6VpTQLPQGwIvpgOa4kX7Y1KnzZlhrpWU+SgA2
+ TB5CVU4NnNYeKH1kpgdOW3KzRKyH5XsrZJ2IGRUbz7tsTucDfFQKx4Jxt7QK0YXprjlf
+ XslvpMSVvSf9ToKrBVfvRwo4y92bS5trglwwMAjHfVudpR47BYAqxQvJqxj2lWc7ZfSd
+ rDJC/gJPKEw8vAemJly6zpfaeJnenuY6nIdtLdnivwBJv7z6u9FMKEQ9rkHPpBkR0jxT
+ QDMw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEHP24elJV0hweFMz2X2lYBR5ve6Y9Y8/HzEbrg2XWzujqOPdeFvy0B9Rdtbb7c8DxnfF7DVjUjZY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmgN1lBtJ9Di5ogsMo4FivU9KQabnE9fz3N0uCMjDefvB5XtNU
+ mHCITeUcdt62yatEyyg5BXsVH/MCsdRCX+oIp948rDzYM7P4bjk8ECCbvr5SUw1mOywDsZ/CwkJ
+ UC5BLS6CtgPAnLRPtRAszQmQOQ2+3oJ1+wH//BVeZisIvixELM8cQCceeDT5aLv7J7NM6taE=
+X-Gm-Gg: ASbGnctvI6A8gckz/GEDeqLzmNsnFMjJ+53v2MeCTCZJuL2ETW9QhDZABlPvjqGVa3j
+ CQ+FT7qkqrn49KPece77KQ2B4GRwfA8jtc7e38rlPZW1ejsKQynCtbcKgd5igNv/tLc0LrAQ6T/
+ OOmRUJwpZGmZk77bq2xK/5a7i6CRSLN6dAj0e3QpsbVElQTH3cUElp3H033p96MbvkEY+0esBhp
+ /1Vv5RaE4vlSEue/GfDpZfxpVTDE59+t06HRspa5Zx5yyFeTeJqxYmRytHB5fgxkpDPsg9Pnjkg
+ w0NacfMLQEgKxP0T1NsLAuCdsQcRXeVBaPcfNZuGrjHVneOltcl1MZrzUVPURO2edMbUGAN2Wba
+ xOvsUoX8pgLLOMVePFECfiQ==
+X-Received: by 2002:a05:622a:1789:b0:4ab:6d02:c061 with SMTP id
+ d75a77b69052e-4b313e65205mr133752581cf.6.1756901893587; 
+ Wed, 03 Sep 2025 05:18:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHRf8S2c7HLcbCmImimNW5RYrayUocv/8HOkBFVTA7YGJOz+PpskH2Zk0DqGoAc387ucyJKuA==
+X-Received: by 2002:a05:622a:1789:b0:4ab:6d02:c061 with SMTP id
+ d75a77b69052e-4b313e65205mr133752031cf.6.1756901892843; 
+ Wed, 03 Sep 2025 05:18:12 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b041f6fb232sm882398566b.87.2025.09.03.05.18.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Sep 2025 05:18:12 -0700 (PDT)
+Message-ID: <4ac0ff3d-38db-44cc-9e36-44f9e819e96d@oss.qualcomm.com>
+Date: Wed, 3 Sep 2025 14:18:08 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|KL1PR06MB7318:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c92bbb2-ab1e-4b5b-13c1-08ddeae256f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|52116014|366016|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NuAaE8fWpi1iOdglFF/Fhm11CFbBRdcKRNqi82R++iJVCikh9C31qH0QgJX4?=
- =?us-ascii?Q?wjQJkUcCGubYK0vEToUHULhZHZk8FGx6QI+7ehLmmnbQRRUrWgDZrrSDDVKb?=
- =?us-ascii?Q?3j+syEGnMd968kBPTj/5rfgwxPvk0XnHk6iNin5IeGs2eR3uJpBqMBbMZ9pj?=
- =?us-ascii?Q?cy/vGRpPXZAG6aZz7uL9HpvXkejY6Wfyh6kl1SfnARcQT6yN8a3e6J72AU76?=
- =?us-ascii?Q?o9gTBuLRvRAA0GLF5nEjjn8ysUhoCcUaKieWQnW3yh4UNV4ruYlX8T/Cc0qF?=
- =?us-ascii?Q?WD4GpFKYP9q5/uCbwMIzUEfVzq3jJpJnG/Y/Zejn6Sm4QlXC4rX+DQxPQrMX?=
- =?us-ascii?Q?Y8MQCZz9BfKf2a7yfdoD2Mnmqr32q16jB9t14mVlGoQDK9KLH4ofpjZLLcNV?=
- =?us-ascii?Q?WEwleQo/fXPCyRPLUeZAMtE37av++abW52cMnUeINBEWbvBuHnGVCP37TwmV?=
- =?us-ascii?Q?uoZiN8vuW+bykDAjmxp5w/srnkkLCx4H8yUA7iaNokqswoMLDpTOu917xiIq?=
- =?us-ascii?Q?EcaK9NrtyeEWhL6W1EuvpKQnYfaHD8LPeJPgu1MjIm7txkB3nSejh9eUlFlz?=
- =?us-ascii?Q?1sotqjLsxNtrhOKR6nZs3a0M9NLyuyeP5WUaDBkhbxyuJhd3gqQ5V4vCSUha?=
- =?us-ascii?Q?eyzr52XY/iOY0Pj/FXZdNXR5aexhWrv3q46jp/4sdoSYF3toQjnHIFuhv3xm?=
- =?us-ascii?Q?vHJpILKFoLKWUl5VzKuUZnTV7RVa3au9o0bCP4DRuG5Rm7CvevPvSxPuMIMB?=
- =?us-ascii?Q?w5zb2D9YZ74TQsgEG8X5CruqY8WS3vjv3zpv6vfzhRtO6x2bxQ9zFXhqlWfa?=
- =?us-ascii?Q?0MhDXg7J9Q76Pa6C1lGc2glvpdtZAbC+EbNbwaCH86CTpm2JuxQQ2naEsz1j?=
- =?us-ascii?Q?RRfXcXpLnqVUl8x1TQrKita25eXCXgVaURS7Imv+jIplal9n2XeQi+LGav6o?=
- =?us-ascii?Q?ZzS9LrxqSE+IxUuT/l09WZfMciScVKG1G6JcSGpucKq+m5tPIIzdV5ytRNEV?=
- =?us-ascii?Q?WMaPnfi+hMhVA9YwnEeeUQGxsoIX13ZUcKvq/ZAH+faCPSlbXTaHqV8snFKI?=
- =?us-ascii?Q?GvLPLc3D/0T8MBzc6D8gDAL5goIcbMxf0vMuGFYeGtgO4MkIB62wNVAgSan5?=
- =?us-ascii?Q?J7956ju4temO+KWYpQAGCdLDPAPFYJkAdmjwuIECMFtKbzph1cIyt9hoGxdK?=
- =?us-ascii?Q?MPsMrAJD1w+Do1lg3FLxeUpiM2Do15RrvBpf9Un5ch1Q/HUQ0HuK/hm/tisa?=
- =?us-ascii?Q?+X6JCfxOXeJ/P4Fh3WtOuZkKwNDhQVQWEIH62Nh53VSyjwtPnftW4L6OBBJa?=
- =?us-ascii?Q?eLcQJ6mh8o+MVCxhMxjE0H+eGbs7C7UC0jgoEFCzQ0n3lJB1ueaNFOUhboyH?=
- =?us-ascii?Q?0Z+i61InZLLm5eWJNYsnwOOCvdyE2yak+Hj65+Qj2xP5Kd0+vKgNcfvee7OX?=
- =?us-ascii?Q?AiTiswvTh1PrJW2RwJ2w3MAyqoju7VLZR6/C4KQe3L2kK+HjY0aL7GyFSq7T?=
- =?us-ascii?Q?FfGo8rWJmZCBfRg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEZPR06MB5576.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(52116014)(366016)(38350700014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?COlhmnLBHqN5WGDcDdUW+JViM6oBTQYjMewzgq25Qcc4fjeOvxOxHCaesyj3?=
- =?us-ascii?Q?hgjwnAHVSYj7aMmPtqKJUbIOjF8E4/rtW2U8aJA7AAdemzRMfzZhyiuLWDr5?=
- =?us-ascii?Q?DP6K3SSJt3xW7WnE09XfWXnswFUsumvmmbEw4yYD0N48STwmRkFQlkolx5T9?=
- =?us-ascii?Q?1HM7RWXiFdXYmHRnfbayxr4Nn+Mk0qXqunm1p8qbB74g/iIBF5qkTn0lc+2H?=
- =?us-ascii?Q?mlqk5cl6idJF+rExGLCMpJzWtzx9oeDAiiAVP1de08v2Vrd3jMkpnbcOlBh+?=
- =?us-ascii?Q?/R1uRk0d+h+8B/XMvMMgGj58nJLKD5XWtU0cwE3Vw2c/Se/J+YaQ8yFtL8tt?=
- =?us-ascii?Q?R7ByZSiaDGPMzvkuNyyqIWFmqruhTU/gg9AdrIb/BAIMXSiOC61YTX2cQfon?=
- =?us-ascii?Q?Xa2fnDvRKVowbOCciYFQ6AkGHDuD+ulUeSlfX+Bi9g/8XUaaAvQNKzFudTuS?=
- =?us-ascii?Q?nT0zR9NBIVSJgks0OKPDENVlNDfIbx/lNLuV4GI1qHxx4VgW+QFLUOpKW+o6?=
- =?us-ascii?Q?KDkrfeQ8tx4dTK9gVi/IDZUpzep6gpSJJODzWp5luv6pbZuxCI7RVynl+woK?=
- =?us-ascii?Q?B48jUuZRzcTRs/nOPokxPSove1WUdzs4unHO7oF+05faIiY7xLI9bfAkVeVJ?=
- =?us-ascii?Q?Px6qwsPYYnLYKpN9Ek3kKyZvCAn9VpcEl0JTzvMbgROAjGeAxZrobQZ+fZ5Y?=
- =?us-ascii?Q?VteADwtYP74+OZi8o/xxlYL84feeWTgSfTjhHUlD0pYnq7lOJ123tODxcYP+?=
- =?us-ascii?Q?jqWv5wdfo2mMVvPU8m/icqAqK2Hy7gkFBtIXPtqt89TNeSKnMUIOyxHG/S/p?=
- =?us-ascii?Q?ILxhK7Epq5asXgtBItxxZYIH1Quvic7QNlh2GyMmR6jHIjwkv6P3/VNgMhIt?=
- =?us-ascii?Q?CDE6cOtXfj+COcMHmO28NorOabQmvvN6+E1pdPSvs6T5bdZKDHg/t6sm3bBE?=
- =?us-ascii?Q?UU/BaELKam3O2Wvbyb5sFe68ZQhjlQSI0fs7kAyd6yZqvuFDqmzl+prMdLME?=
- =?us-ascii?Q?S8Xhcn8bcjI8/2s34lmAdPyYzg3OPHhn1wpop+Uk51Fp5SsXvV46RZ16tmk0?=
- =?us-ascii?Q?vC9lCCChrzSMlw+gKAiB6Yv5UQ9rvBk/TyTr8v7seqIlrHTAdWmSxOuO1YXZ?=
- =?us-ascii?Q?DJOxYZlGD/QigV2PWspHyL24yO5qqtGNyoZuq5Bd6VhNsvBNNWOSX5aN/ucU?=
- =?us-ascii?Q?l/l829FHR0jnBLiJP6msYKiT2fhtXu5EU8xJ6Egj+5vgUJuoHwiJzNPbA/hb?=
- =?us-ascii?Q?FlooI/4kjMG9zh9/J7oU2o2FIed31LqRJf9t6rshovelc8PGW0XJQiFopyfT?=
- =?us-ascii?Q?WjpZniPEheFmBsaNVgnkTzPferYc60OmZwgoDwTYJVP73A2Gu5qswbR0MzMC?=
- =?us-ascii?Q?7yBLEdMif4SdjtS+bcqNkudQv/etCoxal9Gg31v7MGzvBk9I3aHhBqxe4RXi?=
- =?us-ascii?Q?Rqpfrw5X9/oOffvndfd2RfxqGSsFs2qU/yx6a6wSnu0z1Vdr1/+I+nz4lJAt?=
- =?us-ascii?Q?+63nm0Bq6DGmCfxpNMWHP11SxiR1itAIMnHWN58buvCp5bMGz4mh5ZV+jg+o?=
- =?us-ascii?Q?04379M3o0mQbhNs3UMrwoDCfcDUt4VnIyLF1Ffxu?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c92bbb2-ab1e-4b5b-13c1-08ddeae256f8
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 12:06:40.1350 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YkZ86qb89DSO9ahNm6mkeUqDEXyfDCwF+MWt9GiV2wgcesY+JT5zLJEkJvdAIuVpt7FitzIh5Sw1F8i7uYtEmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB7318
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] arm64: dts: qcom: lemans: Add GPU cooling
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Connor Abbott <cwabbott0@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250822-a663-gpu-support-v4-0-97d26bb2144e@oss.qualcomm.com>
+ <20250822-a663-gpu-support-v4-4-97d26bb2144e@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250822-a663-gpu-support-v4-4-97d26bb2144e@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX8XsXJ1EEfvqS
+ nwnqtdSBeAu5o/D68fUNq+EoVPS6pI+XUiqF0nJ/CxPjYBWGu+t0JcSo4rE0V5WXG/xb8pqH4Jp
+ TA/rRo34rcXJbB9HBuIradwKUxlW5nXrx1PhG2/fJ6/Afws3kZ2A2i3bCpcPuhMBf618IRhmyBS
+ k5xh4Ogd+k2Y7RhazrcJ+ZIA1jWIjlzTmsFZbDvrkU2hIyxpVRWCF+1kIFuFZJ7kZIrxWm4/TVR
+ o0D7JSA9KQpAKjdQ0qlDzs1GNOvDYNHO96xPt1vhH9UFdSaS8o/X/ezNfU21Nw5N2OkMCkzDWMF
+ MvE5YtBzXbh0NrqKi7INAduNoVhu3itQjujox+XQ3SBSBv+xMaPZ1VY5BQjxTdsrwgkQIvrRkTN
+ 4bC1OiC7
+X-Proofpoint-ORIG-GUID: 4N_V3jr0nN5kp34lj1oThnH9D8s3MO21
+X-Proofpoint-GUID: 4N_V3jr0nN5kp34lj1oThnH9D8s3MO21
+X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68b83207 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=R3Qjy7WId1ItUu-RO-4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_06,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,42 +138,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For ternary operators in the form of "a ? true : false", if 'a' itself
-returns a boolean result, the ternary operator can be omitted. Remove
-redundant ternary operators to clean up the code.
+On 8/21/25 8:55 PM, Akhil P Oommen wrote:
+> From: Gaurav Kohli <quic_gkohli@quicinc.com>
+> 
+> Unlike the CPU, the GPU does not throttle its speed automatically when it
+> reaches high temperatures.
+> 
+> Set up GPU cooling by throttling the GPU speed
+> when reaching 105°C.
+> 
+> Signed-off-by: Gaurav Kohli <quic_gkohli@quicinc.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+>  arch/arm64/boot/dts/qcom/lemans.dtsi | 67 +++++++++++++++++++++++++++++-------
+>  1 file changed, 55 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/lemans.dtsi b/arch/arm64/boot/dts/qcom/lemans.dtsi
+> index 8eac8d4719db9230105ad93ac22287850b6b007c..b5d4d07b2fd9c14a6f1cc462c695e864394cade2 100644
+> --- a/arch/arm64/boot/dts/qcom/lemans.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/lemans.dtsi
+> @@ -20,6 +20,7 @@
+>  #include <dt-bindings/power/qcom,rpmhpd.h>
+>  #include <dt-bindings/power/qcom-rpmpd.h>
+>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+> +#include <dt-bindings/thermal/thermal.h>
+>  
+>  / {
+>  	interrupt-parent = <&intc>;
+> @@ -6816,13 +6817,20 @@ trip-point1 {
+>  			};
+>  		};
+>  
+> -		gpuss-0-thermal {
+> +		gpuss0_thermal: gpuss-0-thermal {
 
-Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
----
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+You don't need labels for the thermal zones, just the trip points below
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-index 75c884a8f556..6dbf33b26ee2 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
-@@ -1591,7 +1591,7 @@ static int vcn_v4_0_5_set_clockgating_state(struct amdgpu_ip_block *ip_block,
- 					  enum amd_clockgating_state state)
- {
- 	struct amdgpu_device *adev = ip_block->adev;
--	bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
-+	bool enable = state == AMD_CG_STATE_GATE;
- 	int i;
- 
- 	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-index 455f829b8bb9..536f06b81706 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
-@@ -1311,7 +1311,7 @@ static int vcn_v5_0_0_set_clockgating_state(struct amdgpu_ip_block *ip_block,
- 					  enum amd_clockgating_state state)
- {
- 	struct amdgpu_device *adev = ip_block->adev;
--	bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
-+	bool enable = state == AMD_CG_STATE_GATE;
- 	int i;
- 
- 	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
--- 
-2.34.1
+Konrad
 
