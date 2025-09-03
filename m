@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86988B42CD5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF668B42CDB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 00:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6ADD10E957;
-	Wed,  3 Sep 2025 22:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F155A10E963;
+	Wed,  3 Sep 2025 22:36:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XfB8Lf39";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j6U2zwv+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 787D010E953;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9745810E957;
  Wed,  3 Sep 2025 22:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1756938969; x=1788474969;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QlKuNCAMtPk9JCSXBDnl96Am+2bn0NvDRIGsJ1s4MLo=;
- b=XfB8Lf39j/epDjj7AACYMk1TjeJgewwgi1Tm3r5PtUq1UIH/8NE5H6me
- UozaX37pXFC7IU42QuzCB3JlupkMe3FTDu6g6vCRqjIkmAmSBaH3+JQxM
- olkVD8prhclnI2fD90YIaQvvy4X4gLDfAeZTD6uTMTibTkDGUdMS19U9b
- tborN9qoVmyqQZAs9HovcAzyZJD/13yJN2h1z4Tv5lPw0AvkB9NGu7Aqy
- 2Vi71Woh6JvlFpfd15k9YqeYOIS1B2aU9wBXGsCK73mLXwR6SG/SZJsae
- Z0jV678adrV42Tom5LpolcyVAnR8nAmI0HVYBX2lad2oKxWk7Yf7UHgyZ Q==;
-X-CSE-ConnectionGUID: xiuMweEQQN2pYHYkygnR0g==
-X-CSE-MsgGUID: xlqVPryaQtixStGv798tLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76715636"
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; d="scan'208";a="76715636"
+ bh=N23a+PuXgavJCE6H9G8eSCMVzgH7bDoh51omPtgRjgQ=;
+ b=j6U2zwv+O5HRwHeY+4Karj7BRzV1uy7p6SXQj7h3z06UUEDh9XCwRAhS
+ mCqm6bckS70h7oSUvNH/8SZAC4LHszVMJWkHkC1HFZUp1YylpnuoZOOn9
+ PmLkygEocxqG+r7RWF5Tzo/esY/6KALV3QTBfBUhTLLiOObmWA4ZVDdcX
+ bmg1jv/AvuJ9z/mh0BAkyjzeaDRcmff9Yeoa0/5uP/y5VuUCp54kQAjK2
+ Y5+ziMeG5ZlKQkBnhjKJuK+lGuUDHpZQEAZRKUn1/rsfEbsmv6ifD5J0r
+ kimThbA5wZDGESO53H+tXpjexuuD0EP0YQTdzrkz2zd/abgzx0bigbnL3 w==;
+X-CSE-ConnectionGUID: YKNc2SxsTemDhe02AeDvfQ==
+X-CSE-MsgGUID: YKsor8+nToOlWYOGKFDAAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76715637"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; d="scan'208";a="76715637"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Sep 2025 15:36:08 -0700
-X-CSE-ConnectionGUID: A6ZRnzLLQ5+bMBO2gOJNxw==
-X-CSE-MsgGUID: F4FNOXQZS4OfyYxy6xhTZQ==
+X-CSE-ConnectionGUID: +O1zDa3lQXGYdZ3P5isxYg==
+X-CSE-MsgGUID: z6VXjRuORa+pp3rYCChKUg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; d="scan'208";a="202570673"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; d="scan'208";a="202570676"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Sep 2025 15:36:08 -0700
@@ -45,10 +45,10 @@ From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH v3 2/5] drm/xe/dmabuf: Don't migrate BO to System RAM while
- running in VF mode
-Date: Wed,  3 Sep 2025 15:30:55 -0700
-Message-ID: <20250903223403.1261824-3-vivek.kasireddy@intel.com>
+Subject: [PATCH v3 3/5] drm/xe/pf: Add a helper function to get a VF's backing
+ object in LMEM
+Date: Wed,  3 Sep 2025 15:30:56 -0700
+Message-ID: <20250903223403.1261824-4-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250903223403.1261824-1-vivek.kasireddy@intel.com>
 References: <20250903223403.1261824-1-vivek.kasireddy@intel.com>
@@ -69,59 +69,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the importer has allow_peer2peer set to true, then we can expect that
-it would be able to handle VRAM addresses. Therefore, in this specific
-case and only while running in VF mode, do not migrate the BO to System
-RAM before exporting it.
+To properly import a dmabuf that is associated with a VF (or that
+originates in a Guest VM that includes a VF), we need to know where
+in LMEM the VF's allocated regions exist. Therefore, introduce a
+new helper to return the object that backs the VF's regions in LMEM.
+
+v2:
+- Make the helper return the LMEM object instead of the start address.
 
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/gpu/drm/xe/xe_dma_buf.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 23 ++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-index 346f857f3837..2111faed5f46 100644
---- a/drivers/gpu/drm/xe/xe_dma_buf.c
-+++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-@@ -17,6 +17,7 @@
- #include "xe_bo.h"
- #include "xe_device.h"
- #include "xe_pm.h"
-+#include "xe_sriov.h"
- #include "xe_ttm_vram_mgr.h"
- #include "xe_vm.h"
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+index c8f0320d032f..e01f5b340999 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+@@ -1542,6 +1542,29 @@ u64 xe_gt_sriov_pf_config_get_lmem(struct xe_gt *gt, unsigned int vfid)
+ 	return size;
+ }
  
-@@ -26,8 +27,11 @@ static int xe_dma_buf_attach(struct dma_buf *dmabuf,
- 			     struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
-+	struct xe_bo *bo = gem_to_xe_bo(obj);
-+	struct xe_device *xe = xe_bo_device(bo);
++/**
++ * xe_gt_sriov_pf_config_get_lmem_obj - Get VF's LMEM BO.
++ * @gt: the &xe_gt
++ * @vfid: the VF identifier
++ *
++ * This function can only be called on PF.
++ *
++ * Return: BO that is backing VF's quota in LMEM.
++ */
++struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt,
++						 unsigned int vfid)
++{
++	struct xe_gt_sriov_config *config;
++	struct xe_bo *lmem_obj;
++
++	mutex_lock(xe_gt_sriov_pf_master_mutex(gt));
++	config = pf_pick_vf_config(gt, vfid);
++	lmem_obj = config->lmem_obj;
++	mutex_unlock(xe_gt_sriov_pf_master_mutex(gt));
++
++	return lmem_obj;
++}
++
+ /**
+  * xe_gt_sriov_pf_config_set_lmem - Provision VF with LMEM.
+  * @gt: the &xe_gt (can't be media)
+diff --git a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+index 513e6512a575..bef459003de1 100644
+--- a/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
++++ b/drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h
+@@ -31,6 +31,7 @@ int xe_gt_sriov_pf_config_set_fair_dbs(struct xe_gt *gt, unsigned int vfid, unsi
+ int xe_gt_sriov_pf_config_bulk_set_dbs(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs,
+ 				       u32 num_dbs);
  
- 	if (attach->peer2peer &&
-+	    !IS_SRIOV_VF(xe) &&
- 	    pci_p2pdma_distance(to_pci_dev(obj->dev->dev), attach->dev, false) < 0)
- 		attach->peer2peer = false;
- 
-@@ -51,7 +55,7 @@ static int xe_dma_buf_pin(struct dma_buf_attachment *attach)
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
- 	struct xe_bo *bo = gem_to_xe_bo(obj);
- 	struct xe_device *xe = xe_bo_device(bo);
--	int ret;
-+	int ret = 0;
- 
- 	/*
- 	 * For now only support pinning in TT memory, for two reasons:
-@@ -63,7 +67,8 @@ static int xe_dma_buf_pin(struct dma_buf_attachment *attach)
- 		return -EINVAL;
- 	}
- 
--	ret = xe_bo_migrate(bo, XE_PL_TT);
-+	if (!IS_SRIOV_VF(xe) || !attach->peer2peer)
-+		ret = xe_bo_migrate(bo, XE_PL_TT);
- 	if (ret) {
- 		if (ret != -EINTR && ret != -ERESTARTSYS)
- 			drm_dbg(&xe->drm,
++struct xe_bo *xe_gt_sriov_pf_config_get_lmem_obj(struct xe_gt *gt, unsigned int vfid);
+ u64 xe_gt_sriov_pf_config_get_lmem(struct xe_gt *gt, unsigned int vfid);
+ int xe_gt_sriov_pf_config_set_lmem(struct xe_gt *gt, unsigned int vfid, u64 size);
+ int xe_gt_sriov_pf_config_set_fair_lmem(struct xe_gt *gt, unsigned int vfid, unsigned int num_vfs);
 -- 
 2.50.1
 
