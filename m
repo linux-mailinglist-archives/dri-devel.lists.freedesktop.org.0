@@ -2,97 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B28B423D9
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3DEB423E6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77DC810E8BA;
-	Wed,  3 Sep 2025 14:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8922310E8A7;
+	Wed,  3 Sep 2025 14:41:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QJgYsRw3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Za+jXVME";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
- [209.85.222.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 221CF10E8AC;
- Wed,  3 Sep 2025 14:36:32 +0000 (UTC)
-Received: by mail-ua1-f48.google.com with SMTP id
- a1e0cc1a2514c-89a5569a2e6so52910241.1; 
- Wed, 03 Sep 2025 07:36:32 -0700 (PDT)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B60310E04E;
+ Wed,  3 Sep 2025 14:41:15 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id
+ ada2fe7eead31-52a2bc2c968so186784137.2; 
+ Wed, 03 Sep 2025 07:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756910191; x=1757514991; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756910474; x=1757515274; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FGhbnwELL3vl/Uf5HYqR42UqYFtH5W8LwSd+Jp8CvRE=;
- b=QJgYsRw3atr2b7sfMF3SqYmBAkN4hL7UiawHigrZ4b1iB7Qt6YXQBFjbmX4ZNELPg8
- 7sfaYoum7xKvU+WmrFcpL0YbiTMeScEj98q3hNzPcGUgaOXfmVgbC1LfcvUAnoSvrQnf
- F0wTqGMFVxpSHMbZFHtwNUPHipkOWeWs0cxMkLkvciHrU7hzkRps3NtAfSR25RvcQ/sB
- QcQ0ByrrhndPqeJkt2eJIsxWl1GWhfzcBo56YfNUhFnMS8Rwkn+YwCvjKQvEIl0DH+EW
- SYm5vHYHvhegCzRTTMiQowyzBRDpB37sHMtc0i4JEoSo68oFDLnf1g83S3HSkA98B/t5
- gFvA==
+ bh=yyiEoT+mfYk4CeGhzX31QR1RtE0qWzCxT6Ooec2Q79Q=;
+ b=Za+jXVMEkS+eg3d9iz2JGmWtXfHndJ4Y7zTW7coypkjG124PeGx6orMCSU15+XEi3T
+ soLGCZbNWyq/Eh3yWT3WVYf6+HjMi88rq+ZQxQDG8vjypJVmqBbSDjnlK/XVkCTtTzqU
+ gYys+LAHhQLmlFXVTjze5U1Nx9he7+Ga2cTQY9xarrm6SgKoBnjUVVI8jchc6YqjmsCM
+ 3bXuiMBjFCyM5bd9v94BHCvV62SwKyj8Tw+x9ana/zy41/m+nCJ97XrFEG/PlD0hza2d
+ ARexqNN+Rd17IAmz5kR/duoh91K0Mk7DL1p7djYraCeNLfZwiKcLgOC4osNodjRjpF22
+ 6Myw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756910191; x=1757514991;
+ d=1e100.net; s=20230601; t=1756910474; x=1757515274;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FGhbnwELL3vl/Uf5HYqR42UqYFtH5W8LwSd+Jp8CvRE=;
- b=no/SHBhxs4pUZum2Lj8gS1p1VpmojQbyr1wYntL5Nl7n2ifKfVcpS5lZWDY6uDOyWJ
- b/eLEEWpxy+QmbRnQRGFboStXmCoJxOd1TwPBTDZqvKrIWQxxQ3PsYdSjPz8TWplaZ+y
- ZMmzl8nhQ1aOgCMvDlEVOiZS+Qf2KNBiZkHE4jiY7e9HZ8OSBOz9ZahlgViPrt4gwkM+
- XmpGLDu+7yk+pNeNOzCYoPjNDhyh1e3N8lmp2aA7DZp22PT2JqqGHH8V+kE9iu53HqzH
- ZGFM6a2Rmq9qTNtDrk9g+PBLWOdsucCZ7XP+Y3FCZVh1Js1dQzfbcwaZV0x7qjihYpJN
- hcZA==
+ bh=yyiEoT+mfYk4CeGhzX31QR1RtE0qWzCxT6Ooec2Q79Q=;
+ b=bSHHFclp6iQEbV33HakEp/zOS+2Ub9xNqMX0vECmjE2zCUJofxuquWcVVvL80Il0pd
+ 2asvF5FKFAw6KGjlLzvBsLgcEALZ6e2q9pojzYLvWnWObOjvdW7Xsmwzl8fxqGe8hhwN
+ xv1dRuMk7W1ElkxxcR/0HngPA4MXpkos77C34ICbXiUL7briv2F5VAXqu/OuiA9jn6DG
+ BuoIY1M/Y2nRcZ5GE9APNu1q7QK7Dvcbk82l0rV+vcdtMcvSlnsnspoPcXS0ZFoYeZSX
+ VuDAct5Wtbz+2SnmFwcNGC34YAggYiMGBZFSjsld9CG4o9GKUKzGbbRqHn6tsaXiMf/c
+ wmlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGrieUYIBHDZPmIKRLGbITwjE6wWu4ovC/c7dwGavGDm+/YAFX9zCrC5owcAhhkEcKiUiLbCdO@lists.freedesktop.org,
- AJvYcCWaPv55mLmFdUXJAyKHT1xMAnRU8jEuDWpyhYO6p6pGOmYG8JoV3HApL4Zm/r7zziMeG2Rnb8Cg7z50@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy491JJSZHUviEs0uA7gP+FTTfhSSdu0qhD6Lol47g1K5H3boeq
- MN8quDHzuSC+FEC40S1dA84APz6O9mPE95/nvGzXPksmvtqgQq2q6yK5lUVfun1RrH1w+H4HM3G
- uzEXqF2yXFP/4k1ia/F1iRQO3r1oaoA4=
-X-Gm-Gg: ASbGncuIecxVXBKDLyoa7ba8wOlRpAkCAcrvuPuvVNFDxUEXvlTCMbcJW5LVYlhX4/A
- Qnm1v7gGIypOzcxAX3tsdssVDBRt97XfER/mfWkm+Kzhx9BhQOGMssxikFPdbpheEgV8p70LWe3
- Glbm5sXY/gC41klhODe6yzaD+tjktrd2lUnKqsaed1xPr8GqVkF/ulyrlH7taltvM2tBk4OQwOU
- SJtYCMqA6MO1eReZg==
-X-Google-Smtp-Source: AGHT+IFm0adrFc4rU/J1ttwYt8qUw0pznrd9QgrBFZcQxvvYFdDsElBGg8DoJjvV4xeSkpgmazSYtnBSFjfUCig0xYs=
-X-Received: by 2002:a05:6102:4194:b0:4df:8f09:7d7e with SMTP id
- ada2fe7eead31-52a2e48a219mr2420311137.0.1756910190941; Wed, 03 Sep 2025
- 07:36:30 -0700 (PDT)
+ AJvYcCUCQnjRxDCgkn+DS2aa+YPQvcrzToeWnOLhCdMQWuX/dCfWNJtzHTM7eb3iDwp7nBPYG6hUQT8TK207@lists.freedesktop.org,
+ AJvYcCWPcNWhX9Q3BUIQgLC6zE/oytxENR7j34cCMDEp46dv7sDOfNS9VLzKpcaGvlVZKnNTxE/BoCmv@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1BNuN+cYgkuQ3TB+4bZd383ok7fgERn7e4MG9AH7kZKYIwG3h
+ hIgbqCW/8JDDalePs8XWRLiQp1Vv9JM25g4QOJ19LMt7kYP5VUnciSZxyeHzia9Xaogr61ZVgZ4
+ K/q+7bIff2hBeI68Fh9uQHkMpqdwWthE=
+X-Gm-Gg: ASbGnctyloabfaYDDmKFofWRptxoK2ft0hu7vi9dTOpWukklhr66xc1jQYn6PJoh3Xr
+ P9xQ9JqC2XjGkh/Y24/5X8vg83ImRmmFFhPhq4O53XB/AODI+dM145bArcHGk5+qcG/AlXY7PCj
+ dK5Fm933GACoH7ciaurojDkpTHseun0QOzkccBr7eqgxMEnfa+LkUagz48KfsOzzeIAQKq8ehnS
+ +JPLeLZoM+2IGtxcg==
+X-Google-Smtp-Source: AGHT+IEyh3Y9AxDCa/xdhhqWf1YCQxLzXKwd3gIYOmCkWoy3vTgqsxiRKeS/SpQwqq1y1LWALKzKaX246XyCeC9BWrI=
+X-Received: by 2002:a05:6102:4b8c:b0:525:53c5:e42c with SMTP id
+ ada2fe7eead31-52a333c0215mr2108906137.3.1756910474393; Wed, 03 Sep 2025
+ 07:41:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250903120449.380087-1-liaoyuanhong@vivo.com>
- <3dd20bc8-f258-40f8-9b91-ba3d77ce6bc8@amd.com>
-In-Reply-To: <3dd20bc8-f258-40f8-9b91-ba3d77ce6bc8@amd.com>
+References: <20250903122110.389182-1-rongqianfeng@vivo.com>
+In-Reply-To: <20250903122110.389182-1-rongqianfeng@vivo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 3 Sep 2025 10:36:18 -0400
-X-Gm-Features: Ac12FXz-v0z9Z6me-xY47XILS7Anzn-kObWdZ29MSDWAJozyzgsM0dTrU2x0ST0
-Message-ID: <CADnq5_OipdyBfAufzEghZ2xTxuBTB35Ag47sih95qs=vD5EJ3g@mail.gmail.com>
-Subject: Re: [PATCH 0/6] drm/amdgpu: Remove redundant ternary operators
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Liao Yuanhong <liaoyuanhong@vivo.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
+Date: Wed, 3 Sep 2025 10:41:01 -0400
+X-Gm-Features: Ac12FXzy5Ri8tZm5mbQlpKXXZ-zKYmYlUUy60tQ2sW2evL2L32EL0ptBMza3kj4
+Message-ID: <CADnq5_MtZryr=DEuC7o2bKfEsyRi35=Tnw6ZaaoG84bvKRx5Ag@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon/ci_dpm: Use int type to store negative error
+ codes
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tao Zhou <tao.zhou1@amd.com>, 
- Xiang Liu <xiang.liu@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
- Yang Wang <kevinyang.wang@amd.com>, Victor Skvortsov <victor.skvortsov@amd.com>,
- Colin Ian King <colin.i.king@gmail.com>, Sunil Khatri <sunil.khatri@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Shashank Sharma <shashank.sharma@amd.com>, 
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Prike Liang <Prike.Liang@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, "Jesse.Zhang" <Jesse.Zhang@amd.com>, 
- Felix Kuehling <felix.kuehling@amd.com>, Boyuan Zhang <boyuan.zhang@amd.com>, 
- Kent Russell <kent.russell@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
- Tim Huang <tim.huang@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>, 
- Natalie Vock <natalie.vock@gmx.de>, Candice Li <candice.li@amd.com>, 
- Shaoyun Liu <shaoyun.liu@amd.com>, David Belanger <david.belanger@amd.com>, 
- Emily Deng <Emily.Deng@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>, 
- "David (Ming Qiang) Wu" <David.Wu3@amd.com>, Leo Liu <leo.liu@amd.com>, 
- "Stanley.Yang" <Stanley.Yang@amd.com>, Mangesh Gadre <Mangesh.Gadre@amd.com>, 
- fanhuang <FangSheng.Huang@amd.com>,
- Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,41 +93,55 @@ Applied.  Thanks!
 
 Alex
 
-On Wed, Sep 3, 2025 at 8:49=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
+On Wed, Sep 3, 2025 at 8:59=E2=80=AFAM Qianfeng Rong <rongqianfeng@vivo.com=
+> wrote:
 >
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the enti=
-re series.
+> Change the 'ret' variable in ci_populate_all_graphic_levels()
+> and ci_populate_all_memory_levels() from u32 to int, as it needs to store
+> either negative error codes or zero returned by other functions.
 >
-> On 03.09.25 14:03, Liao Yuanhong wrote:
-> > For ternary operators in the form of "a ? true : false" or
-> > "a ? false : true", if 'a' itself returns a boolean result, the ternary
-> > operator can be omitted. Remove redundant ternary operators to clean up=
- the
-> > code.
-> >
-> > Liao Yuanhong (6):
-> >   drm/amdgpu/amdgpu_cper: Remove redundant ternary operators
-> >   drm/amdgpu/gfx: Remove redundant ternary operators
-> >   drm/amdgpu/gmc: Remove redundant ternary operators
-> >   drm/amdgpu/ih: Remove redundant ternary operators
-> >   drm/amdgpu/jpeg: Remove redundant ternary operators
-> >   drm/amdgpu/vcn: Remove redundant ternary operators
-> >
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cper.c | 2 +-
-> >  drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c   | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c   | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c   | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c   | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c   | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/ih_v6_0.c     | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/ih_v6_1.c     | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/ih_v7_0.c     | 3 +--
-> >  drivers/gpu/drm/amd/amdgpu/jpeg_v4_0_5.c | 2 +-
-> >  drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_0.c | 2 +-
-> >  drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_1.c | 2 +-
-> >  drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c  | 2 +-
-> >  drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c  | 2 +-
-> >  14 files changed, 14 insertions(+), 22 deletions(-)
-> >
+> Storing the negative error codes in unsigned type, doesn't cause an issue
+> at runtime but can be confusing.  Additionally, assigning negative error
+> codes to unsigned type may trigger a GCC warning when the -Wsign-conversi=
+on
+> flag is enabled.
+>
+> No effect on runtime.
+>
+> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+> ---
+>  drivers/gpu/drm/radeon/ci_dpm.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_=
+dpm.c
+> index 7c3a960f486a..1f9f4424055a 100644
+> --- a/drivers/gpu/drm/radeon/ci_dpm.c
+> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
+> @@ -3238,7 +3238,8 @@ static int ci_populate_all_graphic_levels(struct ra=
+deon_device *rdev)
+>         u32 level_array_size =3D sizeof(SMU7_Discrete_GraphicsLevel) *
+>                 SMU7_MAX_LEVELS_GRAPHICS;
+>         SMU7_Discrete_GraphicsLevel *levels =3D pi->smc_state_table.Graph=
+icsLevel;
+> -       u32 i, ret;
+> +       int ret;
+> +       u32 i;
+>
+>         memset(levels, 0, level_array_size);
+>
+> @@ -3285,7 +3286,8 @@ static int ci_populate_all_memory_levels(struct rad=
+eon_device *rdev)
+>         u32 level_array_size =3D sizeof(SMU7_Discrete_MemoryLevel) *
+>                 SMU7_MAX_LEVELS_MEMORY;
+>         SMU7_Discrete_MemoryLevel *levels =3D pi->smc_state_table.MemoryL=
+evel;
+> -       u32 i, ret;
+> +       int ret;
+> +       u32 i;
+>
+>         memset(levels, 0, level_array_size);
+>
+> --
+> 2.34.1
 >
