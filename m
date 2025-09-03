@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB7BB4296F
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 21:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4647DB42986
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 21:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC8FC10E910;
-	Wed,  3 Sep 2025 19:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF2010E104;
+	Wed,  3 Sep 2025 19:11:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Mjqf/1i+";
+	dkim=pass (1024-bit key; unprotected) header.d=crapouillou.net header.i=@crapouillou.net header.b="kjMqKVoZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26FD410E910
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 19:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756926240;
- bh=9Ua+kHD6dZXWFYSTLBnaWhHDHs7De+8cQbEk82diXxY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Mjqf/1i+n2F2T+E2x0S+h/VMNrYClSu5CFnbV+Rp0Y5U+ay1NBWFRhnJi8Jl32NRW
- FVUhJlfRd4kzjpwBnds9OsX1rSCG7kQ9CFgSRP2QPWPAYt9F+NXjAJJz7AKZ0I9hSx
- HjYuZhWAktlwABJIoqFSkTutstdSByr9eP88LUlUGzwpIYEswV/kgRGfYsDJeEWogx
- UW3YlN2Z1KVn2h8J0DhBAFDnzitN841ANZnp7rkLUKdVzhlNxhtNaHW+OsF9TnHoC9
- Ik2GBlPjCNJCXegw/6/TLtZ3h/zpjNmJzP13UcRj+Omdtl6StOpYF6mmhqjM5DKu+f
- YFjyxmRkoITEg==
-Received: from [192.168.1.90] (unknown [82.79.138.60])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D09E17E1283;
- Wed,  3 Sep 2025 21:03:59 +0200 (CEST)
-Message-ID: <80932583-5055-420b-bd92-9ee9ec7d6c1a@collabora.com>
-Date: Wed, 3 Sep 2025 22:03:59 +0300
+X-Greylist: delayed 472 seconds by postgrey-1.36 at gabe;
+ Wed, 03 Sep 2025 19:11:48 UTC
+Received: from aposti.net (aposti.net [185.119.170.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90DAD10E104
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 19:11:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1756926259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wO22lLVpvhTjSt7UiwpTspzXapQo0kN9zAH1RpqwYiw=;
+ b=kjMqKVoZfKGH8zmo0VopBZN8pUi0ENNIfc4SPT/IkSohSZvgG3s9kb1Cdi1mrepDmrgox5
+ eg9cpzMLcv8IMH/CQXeDf3yVx7rYrSGdeOwhqMEi88l5w+IUjpLPkpq3oAL9NF5KDVAEqC
+ TfxdS6tHa8VIHeHdBJki4LROvWvGiiw=
+Message-ID: <e81de8edb1ce674adb6773e89ad25e923ce4c09f.camel@crapouillou.net>
+Subject: Re: [PATCH v2 19/37] drm/ingenic: Switch to
+ drm_atomic_get_new_crtc_state()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org
+Date: Wed, 03 Sep 2025 21:04:16 +0200
+In-Reply-To: <20250902-drm-no-more-existing-state-v2-19-de98fc5f6d66@kernel.org>
+References: <20250902-drm-no-more-existing-state-v2-0-de98fc5f6d66@kernel.org>
+ <20250902-drm-no-more-existing-state-v2-19-de98fc5f6d66@kernel.org>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRU=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] drm/bridge: dw-hdmi-qp: Fixup timer base setup
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com>
- <20250825-rk3588-hdmi-cec-v3-2-95324fb22592@collabora.com>
- <CAPj87rN55DOhWeCU1o0=rOkGbrP4M8v+a6xeB5eboLdCiJ-vzw@mail.gmail.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <CAPj87rN55DOhWeCU1o0=rOkGbrP4M8v+a6xeB5eboLdCiJ-vzw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,44 +71,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+Hi Maxime,
 
-On 8/29/25 6:21 PM, Daniel Stone wrote:
-> Hi Cristian,
-> 
-> On Mon, 25 Aug 2025 at 10:57, Cristian Ciocaltea
-> <cristian.ciocaltea@collabora.com> wrote:
->> @@ -1255,6 +1254,11 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
->>                 return ERR_PTR(-ENODEV);
->>         }
->>
->> +       if (!plat_data->ref_clk_rate) {
->> +               dev_err(dev, "Missing ref_clk rate\n");
->> +               return ERR_PTR(-ENODEV);
->> +       }
-> 
-> This introduces another bisect cliff, as the Rockchip integration
-> isn't added until patch 5/6, meaning together with the previous patch
-> the driver isn't usable between patches 1-5. It would be most sensible
-> I think to keep a default until the users have been fixed up. But
-> maybe a better sequence for this series would be:
-> * dev_err_probe() cleanup (easy, no dependencies)
-> * add refclk to plat_data (populated but unused)
-> * use refclk instead of hardcoded frequency in bridge driver, make it mandatory
-> * add CEC IRQ to plat_data (populated but unused)
-> * add CEC support to driver, probably make it not mandatory to provide
-> CEC IRQ in DT since it doesn't seem required for correct operation?
-> * enable CEC in defconfig
+Le mardi 02 septembre 2025 =C3=A0 11:35 +0200, Maxime Ripard a =C3=A9crit=
+=C2=A0:
+> The ingenic atomic_check implementation uses the deprecated
+> drm_atomic_get_existing_crtc_state() helper.
+>=20
+> This hook is called as part of the global atomic_check, thus before
+> the
+> states are swapped. The existing state thus points to the new state,
+> and
+> we can use drm_atomic_get_new_crtc_state() instead.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Yeah, this is pretty similar to how the initial series looked like.  The
-current sequence follows Heiko's suggestion, which I (still) think it's the
-correct approach.
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 
-Both bisect issues are now fixed in v4:
+and/or:
 
-https://lore.kernel.org/all/20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com/
+Tested-by: Paul Cercueil <paul@crapouillou.net>
 
-Thanks for the review!
+Cheers,
+-Paul
 
-Regards,
-Cristian
+>=20
+> ---
+> To: Paul Cercueil <paul@crapouillou.net>
+> Cc: linux-mips@vger.kernel.org
+> ---
+> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 3 +--
+> =C2=A0drivers/gpu/drm/ingenic/ingenic-ipu.c=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +=
+-
+> =C2=A02 files changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index
+> 9db1ceaed5188a4ef0897280dc72108eb3815b5f..05faed933e5619c796f2a4fa190
+> 6e0eaa029ac68 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -469,12 +469,11 @@ static int
+> ingenic_drm_plane_atomic_check(struct drm_plane *plane,
+> =C2=A0		return 0;
+> =C2=A0
+> =C2=A0	if (priv->soc_info->plane_f0_not_working && plane =3D=3D &priv-
+> >f0)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> -	crtc_state =3D drm_atomic_get_existing_crtc_state(state,
+> -							crtc);
+> +	crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
+> =C2=A0	if (WARN_ON(!crtc_state))
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> =C2=A0	priv_state =3D ingenic_drm_get_priv_state(priv, state);
+> =C2=A0	if (IS_ERR(priv_state))
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> index
+> 2574a4b4d40a2c27cb212114117829d9f6ab3ddb..32638a713241abbd4eaed09f0aa
+> ec2b790650cc9 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+> @@ -578,11 +578,11 @@ static int
+> ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+> =C2=A0	struct ingenic_ipu_private_state *ipu_state;
+> =C2=A0
+> =C2=A0	if (!crtc)
+> =C2=A0		return 0;
+> =C2=A0
+> -	crtc_state =3D drm_atomic_get_existing_crtc_state(state,
+> crtc);
+> +	crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
+> =C2=A0	if (WARN_ON(!crtc_state))
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> =C2=A0	ipu_state =3D ingenic_ipu_get_priv_state(ipu, state);
+> =C2=A0	if (IS_ERR(ipu_state))
