@@ -2,100 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941A9B41681
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:30:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D34B4168D
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 09:31:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E22710E0C2;
-	Wed,  3 Sep 2025 07:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FED810E3E2;
+	Wed,  3 Sep 2025 07:31:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IIvdlpq7";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="RUxiARVC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23EB710E3E2
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 07:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756884628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PXmaQRePHfDReiwofqlEfi0BOpZUaSKRj4v6EH2Y820=;
- b=IIvdlpq7ejhepj0j0C9Z0v5pv0v2PA0pY+fCQfuKUPF6aNYWBaIRy+HdtWYp+h1312wKf7
- ThMZNvn7JPBUvbugWejiJmDWPFQhsw2QdaFvy7Cs3tqTvU7/JGSQNGTbmhQb5QiKZKIzX9
- LeQujyIrRjQB5hfU9ikdRDGQjqAVE0Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-319-1wD0-NqSPOuyZfbq-6oZCA-1; Wed, 03 Sep 2025 03:30:26 -0400
-X-MC-Unique: 1wD0-NqSPOuyZfbq-6oZCA-1
-X-Mimecast-MFC-AGG-ID: 1wD0-NqSPOuyZfbq-6oZCA_1756884626
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45b8f4c2f7fso20844935e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 00:30:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756884626; x=1757489426;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PXmaQRePHfDReiwofqlEfi0BOpZUaSKRj4v6EH2Y820=;
- b=W/jD0lpTVOfc+cDgYNG4nz01SoLGEJhBHsgypBzX7kxXsjSYgKoXcKOkq8NBetk9z0
- kNLwHlEjD5ansas4+rsjHKYG20M7gM8lEmUhI9L84q81qOPpqV3zNVXd889DkM6AxxSY
- VL7s/sCGjJKZHhyBwC4lN5kNAcWV4MYZOrTgmVtwe6ol6TS45UELPSiOPQfXIRmcMx78
- VKkQmkfqwCrlfDyJo5676KCAl3IpIXb51OSndPW1ESnLXKFXFUMVA3xrmtzeg8PlkFFm
- RdnwNTu6FviZwbuLiHquUF1COQY+jiPdVmN6JhEeZIAH94FuKHKXTvF8/5M8RVK/2DGu
- VALw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVApykten9h3lALK52NoAwFm7R4HvPaxsuuyv6+V+Ygxy2ZH1HO8fbYpxo77KehRkp9YwkOqwv7fA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzStnsEamaCdRzpfre4gu/qls+qrX/8aXsGmwBazk9jlzXRP/i5
- kaUSNIMdCoAl1+7bab7Q03NY1V7fxgbmZVPKcBKyngSHekPtjLmmsGDTqBUFoUDbqLP4muZTEg0
- i5qlErE7ABMj73+kyL2rtsg4M1YhLO/eqEfH2PhOM/lqSsAaJ/C1plxIN5evYcFDG8VwW3Q==
-X-Gm-Gg: ASbGncv+TBtI9c5NSKMC0jBU3zZJgHoijbCapPrhF3My1ar+pcON12tVHXfDDHrMaDI
- dJnW9neSpuDZc75VBOdjUXX6xLvPAuQ9Earo9qf2pJldvMNTdBZzr86KlUywtgnIcayMycJVGUr
- o4VGWZUIQXWDHHFqwKUfg0BonBzku9kxHKl+/wJQB4NCsxKW1UjB4kBl2NJoEgmgCLb19UB9A6W
- HocZaVH+ij3UnfovXLRMwpTq6A+wk1hrHMg22nE5hDqCVPbHuj8fYNIgTeduLkagqcPIj42F0xV
- 6OPx6DApO1ovQQqquBel5JjWL2XCPLIec1JH1qxtTR7wXc9urljyBGfGhia6mTEIwdKU+Z0TwZN
- J7iI=
-X-Received: by 2002:a05:600c:1914:b0:45b:8ac2:9759 with SMTP id
- 5b1f17b1804b1-45b8ac29906mr91627905e9.23.1756884625599; 
- Wed, 03 Sep 2025 00:30:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFaVr+3Y4NDc+K+0OyYUG0bUKRoYgq+8faNbeSCpPYw+Mg8KIRDjAtneuQoDPGA1D39j0MUBQ==
-X-Received: by 2002:a05:600c:1914:b0:45b:8ac2:9759 with SMTP id
- 5b1f17b1804b1-45b8ac29906mr91627565e9.23.1756884625164; 
- Wed, 03 Sep 2025 00:30:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b66bbcf19sm183497005e9.4.2025.09.03.00.30.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Sep 2025 00:30:24 -0700 (PDT)
-Message-ID: <533c2197-d7bb-4294-a094-c4f993a5893c@redhat.com>
-Date: Wed, 3 Sep 2025 09:30:23 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71A2510E3E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 07:31:31 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5832g9p6023418;
+ Wed, 3 Sep 2025 07:31:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=E5HtE4RMpmsfEp1lcb08LT
+ JTeUITZxnKersIljv5Md8=; b=RUxiARVCFS9H72RT5P4rBhxJDsETU1bL5C5Cy5
+ DjkSy7xod/PtGxEzc4wpYYquOAyAtIPO3NPNrhMMP1VAadLVwLAjXIJ0fablenAR
+ kIhV+ppd74xeFnHyOnEFaQ+YM0lAS8EU3us4lWi1+dA3c5kbWwvhZ88eXvvqHIn5
+ nQ1lA0aASBwL2+SVnhV06P8IorGWpkZxTkQ83ogJaHAramAB1Oc4cyqCWanCs7zR
+ 7zOHh9Oupv/3XdXJMhcjmgLFZFHg4Jh9iKy3pQ27Ey57rUoMd7F6zUVRQfDE2k7I
+ cc8roXHoTinaH+ZBNacutJNC02h55xY+JXIXZQqKZR384aVw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnpat0x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 Sep 2025 07:31:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5837VMdI023493
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 3 Sep 2025 07:31:22 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Wed, 3 Sep 2025 00:31:17 -0700
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Mukesh Kumar Savaliya
+ <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+Subject: [PATCH v7 0/2] i2c: i2c-qcom-geni: Add Block event interrupt support
+Date: Wed, 3 Sep 2025 13:00:57 +0530
+Message-ID: <20250903073059.2151837-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/panic: Add a kconfig option to dump kunits
- results to png
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250821095228.648156-1-jfalempe@redhat.com>
- <20250821095228.648156-4-jfalempe@redhat.com>
- <923276d2-9240-48bd-95df-13b4e9e23dcd@suse.de>
- <7ff51c5b-939e-47d9-8c3b-3c596565d114@redhat.com>
- <pucvcimuuyz7f7ih7hx7l6bmutarlryvzwiqh7a26bk65ya5sf@uj7agoqm4lm3>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <pucvcimuuyz7f7ih7hx7l6bmutarlryvzwiqh7a26bk65ya5sf@uj7agoqm4lm3>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wM43fZIqHX7blJEFT2iVr-tV0IXiSs3WpCTfWfaTUHU_1756884626
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: bzG9k4Pz0w-s1-FvpdplLWr1H566arna
+X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b7eecb cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=Bp52wIM_v22GRZO56cAA:9
+X-Proofpoint-ORIG-GUID: bzG9k4Pz0w-s1-FvpdplLWr1H566arna
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfX0c/mucaRpwQo
+ MvbJPQYGZJtdWTEu2V8kp4WG/hKDYYvpveylaV0Wz6ip8UPxPrGi07L4N57TL2i2Kk1SjJHdzVD
+ 1ouEo/mo1QiXUmFe2FFIlDrprJVJIixq4kGGyN0pFfLb3BCcVlqasovwmnNuwYk0P3eYqzfLPEo
+ fnQs4SOluxNdfso9r9WYQuI4yQZnlYpjX/VBrN+/9RBSgLvpD6OIkl0egON1EeJntP/XsfoLbdt
+ +JoVe0bFXOBu+TkD4m6fldz5hjO7MQVoKRqqNMe4l2pfYxvUN1bGzmKeTZ0r0lmUACxlyCCySZJ
+ 0H1J3+9iT+P5+5pndEaBMWjpmGHFEFnUSyleYHTOnD1aH5NeCGEmNPmXpEWdtxVz2Psx5T4OQAy
+ BGmnJ5Qn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
+ spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,50 +99,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/09/2025 18:58, Maxime Ripard wrote:
-> On Mon, Sep 01, 2025 at 03:04:26PM +0200, Jocelyn Falempe wrote:
->> On 27/08/2025 12:45, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 21.08.25 um 11:49 schrieb Jocelyn Falempe:
->>>> This is a bit hacky, but very handy if you want to customize the
->>>> panic screen.
->>>> It allows to dump the generated images to the logs, and then a python
->>>> script can convert it to .png files. It makes it easy to check how
->>>> the panic screen will look on different resolutions, without having
->>>> to crash a VM.
->>>> To not pollute the logs, it uses a monochrome framebuffer, compress
->>>> it with zlib, and base64 encode it.
->>>
->>> May I suggest to export the raw image via debugfs? Debugfs can also
->>> export additional information in additional files, such as width/height/
->>> stride/format. This could provide the real/last image on the fly, simply
->>> by reading the files. No workarounds or encodings needed.
->>
->> I'm looking into that. The difficulty is to get the debugfs content outside
->> of the test kernel. As I'm using a uml kernel for testing, I will need a
->> special initrd, and a way to share files with the host.
-> 
-> Yeah, I agree that it's not very practical. If only because the test
-> context doesn't stick around once it's been executed, so you would
-> effectively leak an arbritrarily long buffer with no hope of getting
-> back its memory.
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-I've made a prototype with debugfs, a small ramdisk with busybox, and 
-using hostfs to mount the host filesystem in the uml kernel, and it 
-allows to dump the raw panic buffer easily.
-Even if it's a bit more complex to setup, I think this use case is not 
-really a kunit test, so it's probably better that way.
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
-Let me a few days to clean that up, and I will send a v2 of the kunit 
-tests, and a new series to add a debugfs interface.
+Large I2C transfer can be divided into chunks of messages internally.
+Interrupts are not expected for the messages for which BEI bit set,
+only the last message triggers an interrupt, indicating the completion of
+N messages. This BEI mechanism enhances overall transfer efficiency.
 
-Thanks for your reviews,
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
+
+
+v6 -> v7:
+   - The design has been modified to configure BEI for interrupt
+     generation either:
+     After the last I2C message, if sufficient TREs are available, or
+     After a specific I2C message, when no further TREs are available.
+   - dma_buf and dma_addr for multi descriptor support is changed from
+     static allocation to dynmic allocation.
+   - In i2c_gpi_cb_result function, for multi descriptor case, instead of invoking
+     complete for everry 8 messages completions, changed the logic to Invoke 'complete'
+     for every I2C callback (for submitted I2C messages).
+   - For I2C multi descriptor case, updated 'gi2c_gpi_xfer->dma_buf' and
+     'gi2c_gpi_xfer->dma_addr' for unmappping in geni_i2c_gpi_multi_desc_unmap.
+   - In the GPI driver, passed the flags argumnetr to the gpi_create_i2c_tre function and
+     so avoided using external variables for DMA_PREP_INTERRUPT status.
+   - Updated documentation removed for "struct geni_i2c_dev" as per the review comments.
+
+v5 -> v6:
+   - Instead of using bei_flag, moved the logic to use with DMA
+     supported flags like DMA_PREP_INTERRUPT.
+   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
+     function documentation.
+
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
+
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
+
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
+
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
+
+
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |  11 +-
+ drivers/i2c/busses/i2c-qcom-geni.c | 248 ++++++++++++++++++++++++++---
+ 2 files changed, 233 insertions(+), 26 deletions(-)
 
 -- 
-
-Jocelyn
-
-> 
-> Maxime
+2.34.1
 
