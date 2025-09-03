@@ -2,80 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19893B41CD7
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 13:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 241B9B41D0A
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 13:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0CC10E79E;
-	Wed,  3 Sep 2025 11:14:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51EF10E79D;
+	Wed,  3 Sep 2025 11:28:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kalyoq8L";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="p51vr1Rf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xeKMd0Ne";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p51vr1Rf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xeKMd0Ne";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8687A10E79B;
- Wed,  3 Sep 2025 11:14:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3104744B85;
- Wed,  3 Sep 2025 11:14:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA58C4CEFB;
- Wed,  3 Sep 2025 11:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756898072;
- bh=vm2XwpR6G5MsEs9Dn0NTqtZEBq4V49QV1VyjT2uiFhE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=kalyoq8LVQW7m3mKRob6fOKRe//8tQVSnrsGtI4fcNKOcDAc/PfD9KCXn3KIowLVC
- VsfuNWiPnZYImatY7gJ89l3u9uDxVhbbEnddnYAT+KElOAH2mmVXquFpg5m5NTNYbV
- lEHaYSVlHITD9qR2fWWrlIw5ON7duo6dxtj/8kDhnDtUUfn4iBiM/KFzFWi9BpEGcc
- sNQ/6Uwq+8jaHqoRGWnaAJCOp5Tsq1WYxScT17K6B3cJ8hgZ7sQ3p8ymRvNNyO0sRU
- i3xKVKOB29SoKQonPzRIUP7KdR+UjBGdMtoq7KtijJFN8qvJoZDtJwNVr9vkV6oxB3
- pXmG/OM4XQAyw==
-Received: by mail-ot1-f42.google.com with SMTP id
- 46e09a7af769-74543fea20dso5884785a34.0; 
- Wed, 03 Sep 2025 04:14:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUc1BUgGxCfpr44ACWCz91itAXxfnXLbwiqUd+RaMAkltDmwylSg9v0fmsjAerQXzkDtBDFdlahM7pl@lists.freedesktop.org,
- AJvYcCXfpVWls4OcUb4nAavF+uRh6FeMDUMwMGYWYWTYnKaE/lTD/CkEiUfF5tfE2CG91LC563duW2ei@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQ2sL15C0bEu5ZSSQvOfFTjgIAomCjomqQPduWxavjLraGPfGo
- xjW0mUeQ6WPXiWFVnaeOFuhGbcLBI0qO6mD7SN7qYHYmxJ3gI6pw6N8ebiq3cYR5qRZlM37FmFW
- gxJoRd7LeH/IF0WZTHe9RErHGr+hi7Eo=
-X-Google-Smtp-Source: AGHT+IFYtjUdNN091mPJ/megBC3ceMzIS6ZlVy0m6f3KXcMJbRJK/ufd2TNnsBvKPVbrcFu/dkcLveR5ZqO+tEUHKi0=
-X-Received: by 2002:a05:6830:258f:b0:741:c51c:9d9 with SMTP id
- 46e09a7af769-74569d79ca2mr6941662a34.1.1756898071379; Wed, 03 Sep 2025
- 04:14:31 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB0B10E79D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 11:28:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2263D1F453;
+ Wed,  3 Sep 2025 11:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756898905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=eLsa61RJOmvQ0I1jtLr3LZKuSi58Px0qgR+tcdebDag=;
+ b=p51vr1RfejI/smcNs5Mr9P3sEn36mQC1V5us/AQwAWOKddgyMarTvvSO2qGd1SmMKR3t//
+ Yzp4Pej8pnNfzKQdHJyUmoG9o1R8PYEs8TdFGL5kxlfj8BiVDm3zvkISJqq/58MF6Q8orn
+ COMjd6+fL/ny+AldSIERiKOshGCd1SM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756898905;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=eLsa61RJOmvQ0I1jtLr3LZKuSi58Px0qgR+tcdebDag=;
+ b=xeKMd0NehKz34to+JPk6Lx4LYoNq6OJUwunDhGtmmCwDf4NVgIjCerVh5NK6mh4foLECd/
+ AmzA32A4g6YGMYDA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=p51vr1Rf;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xeKMd0Ne
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756898905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=eLsa61RJOmvQ0I1jtLr3LZKuSi58Px0qgR+tcdebDag=;
+ b=p51vr1RfejI/smcNs5Mr9P3sEn36mQC1V5us/AQwAWOKddgyMarTvvSO2qGd1SmMKR3t//
+ Yzp4Pej8pnNfzKQdHJyUmoG9o1R8PYEs8TdFGL5kxlfj8BiVDm3zvkISJqq/58MF6Q8orn
+ COMjd6+fL/ny+AldSIERiKOshGCd1SM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756898905;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=eLsa61RJOmvQ0I1jtLr3LZKuSi58Px0qgR+tcdebDag=;
+ b=xeKMd0NehKz34to+JPk6Lx4LYoNq6OJUwunDhGtmmCwDf4NVgIjCerVh5NK6mh4foLECd/
+ AmzA32A4g6YGMYDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D233B13888;
+ Wed,  3 Sep 2025 11:28:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id x3kdMlgmuGgLGgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Sep 2025 11:28:24 +0000
+Message-ID: <be9eb10f-f69e-47fa-a2a3-64c14ed0c9d8@suse.de>
+Date: Wed, 3 Sep 2025 13:28:24 +0200
 MIME-Version: 1.0
-References: <20250818020101.3619237-1-superm1@kernel.org>
- <29e61472-5f41-4e76-9b5b-f3e106d6a629@kernel.org>
-In-Reply-To: <29e61472-5f41-4e76-9b5b-f3e106d6a629@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 3 Sep 2025 13:14:18 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hLO5xhmjniO4=rLK1JK9OM8naxXVEGuHUT3cuhRp=Atw@mail.gmail.com>
-X-Gm-Features: Ac12FXzNMS5NRD7LbxBvydgvS_DdIA-2JZ6IFCfa_y9sZ_Fxqc7W0P6m00WI9xA
-Message-ID: <CAJZ5v0hLO5xhmjniO4=rLK1JK9OM8naxXVEGuHUT3cuhRp=Atw@mail.gmail.com>
-Subject: Re: [PATCH v6 00/11] Improvements to S5 power consumption
-To: Mario Limonciello <superm1@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Danilo Krummrich <dakr@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>, 
- "open list:HIBERNATION (aka Software Suspend,
- aka swsusp)" <linux-pm@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>, 
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>, 
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, 
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, 
- Kai-Heng Feng <kaihengf@nvidia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>, 
- Eric Naim <dnaim@cachyos.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] drm/sysfb: Remove double assignment to pointer
+ crtc_state
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250903083106.2703580-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250903083106.2703580-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,redhat.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
+ MID_RHS_MATCH_FROM(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 2263D1F453
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,75 +152,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 3, 2025 at 6:41=E2=80=AFAM Mario Limonciello <superm1@kernel.or=
-g> wrote:
->
-> On 8/17/2025 9:00 PM, Mario Limonciello (AMD) wrote:
-> > A variety of issues both in function and in power consumption have been
-> > raised as a result of devices not being put into a low power state when
-> > the system is powered off.
-> >
-> > There have been some localized changes[1] to PCI core to help these iss=
-ues,
-> > but they have had various downsides.
-> >
-> > This series instead tries to use the S4 flow when the system is being
-> > powered off.  This lines up the behavior with what other operating syst=
-ems
-> > do as well.  If for some reason that fails or is not supported, run the=
-ir
-> > shutdown() callbacks.
-> >
-> > Cc: AceLan Kao <acelan.kao@canonical.com>
-> > Cc: Kai-Heng Feng <kaihengf@nvidia.com>
-> > Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
-> > Cc: Merthan Karaka=C5=9F <m3rthn.k@gmail.com>
-> > Cc: Eric Naim <dnaim@cachyos.org>
-> > ---
-> > v5->v6:
-> >   * Fix for LKP robot issue
-> >   * Some commit message changes
-> >   * Rebase on 6.17-rc2
-> >
-> > Mario Limonciello (AMD) (11):
-> >    PM: Introduce new PMSG_POWEROFF event
-> >    scsi: Add PM_EVENT_POWEROFF into suspend callbacks
-> >    usb: sl811-hcd: Add PM_EVENT_POWEROFF into suspend callbacks
-> >    USB: Pass PMSG_POWEROFF event to suspend_common() for poweroff with =
-S4
-> >      flow
-> >    PCI: PM: Disable device wakeups when halting system through S4 flow
-> >    PCI: PM: Split out code from pci_pm_suspend_noirq() into helper
-> >    PCI: PM: Run bridge power up actions as part of restore phase
-> >    PCI: PM: Use pci_power_manageable() in pci_pm_poweroff_noirq()
-> >    PCI: Put PCIe bridges with downstream devices into D3 at hibernate
-> >    drm/amd: Avoid evicting resources at S5
-> >    PM: Use hibernate flows for system power off
-> >
-> >   drivers/base/power/main.c                  |  7 ++
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  4 +
-> >   drivers/pci/pci-driver.c                   | 99 +++++++++++++++------=
--
-> >   drivers/scsi/mesh.c                        |  1 +
-> >   drivers/scsi/stex.c                        |  1 +
-> >   drivers/usb/core/hcd-pci.c                 | 11 ++-
-> >   drivers/usb/host/sl811-hcd.c               |  1 +
-> >   include/linux/pm.h                         |  5 +-
-> >   include/trace/events/power.h               |  3 +-
-> >   kernel/reboot.c                            |  6 ++
-> >   10 files changed, 103 insertions(+), 35 deletions(-)
-> >
->
-> Rafael, Bjorn,
->
-> Any feedback for this series?
+Hi
 
-I still have the same basic concern as before: It is an intrusive
-change likely to cause regressions to occur.
+Am 03.09.25 um 10:31 schrieb Colin Ian King:
+> The declaration of pointer crtc_state includes an assignment to
+> crtc_state. The double assignment of crtc_state is redundant and
+> can be removed.
+>
+> Fixes: 061963cd9e5b ("drm/sysfb: Blit to CRTC destination format")
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-It also changes the driver ABI quite dramatically because different
-callbacks will now be used for system shutdown and kexec, for example,
-at least on some platforms.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Frankly, I'd like to know Greg's and Danilo's opinions on the direction her=
-e.
+Thanks a lot. I'll merged the patch in the drm-misc.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> index 963c380fea64..ddb4a7523ee6 100644
+> --- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> +++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
+> @@ -238,8 +238,7 @@ void drm_sysfb_plane_helper_atomic_update(struct drm_plane *plane, struct drm_at
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>   	struct drm_framebuffer *fb = plane_state->fb;
+>   	unsigned int dst_pitch = sysfb->fb_pitch;
+> -	struct drm_crtc_state *crtc_state = crtc_state =
+> -		drm_atomic_get_new_crtc_state(state, plane_state->crtc);
+> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, plane_state->crtc);
+>   	struct drm_sysfb_crtc_state *sysfb_crtc_state = to_drm_sysfb_crtc_state(crtc_state);
+>   	const struct drm_format_info *dst_format = sysfb_crtc_state->format;
+>   	struct drm_atomic_helper_damage_iter iter;
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
