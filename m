@@ -2,90 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8C1B42633
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 18:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E12B4264C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 18:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9BC10E164;
-	Wed,  3 Sep 2025 16:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78ACD10E8EB;
+	Wed,  3 Sep 2025 16:12:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fD1tcqbf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MycRYfM8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7CBE10E164
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 16:05:40 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3c46686d1e6so72780f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 09:05:40 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1D3310E8ED
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 16:12:24 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3d2564399a5so66263f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 09:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756915539; x=1757520339; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756915943; x=1757520743; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yLCSap59X655LjRRdRVDlno90QWSbu9XZF5TPpJulw8=;
- b=fD1tcqbf/QgN4OW9AsZhDbFBKG1SPWHL11pmDVMQCKs74/DFphxyERGlrg3sItKIeO
- ISqekCmyTLNn42MSGv8l+yEYP7MY54zv4eB58SqQNduIvjOihw8E6DgLIJV34NoSqBb1
- mXRADjgb3PYrhZKNAkvljX2YFb7KxCi/lGpSxEoospqPK8i6r5hhkHKzBJDF5daTMcfj
- Y7evAIJ/OVa9G0VYM55YFtPkj84Gs8u8qbxFfyAFQc0R5wZzbL2VIJsKn6iJ/oZZB+hb
- 6lmEQjaFKpSqK7GbTHNMxppu47DTCTUYOt3RhLDG8yG8Bz22aao5Sqfe4qGDqvJERctK
- tuSw==
+ bh=mSH3Zacp/f+cickpwsilQ+TYRotewL36J8+/+EeU+iA=;
+ b=MycRYfM8p7k41EaoOrVBNDXNqzSkYYKsxBQOqtNvmR7Us7Qmty7gc80pCLRpIq2n7B
+ w+/dqHZfENUlcdEh+NyxwCJ0JenQ29KUBgepTtInejhpBVuJlloOV4oMMsvxbXXAPr+6
+ iJX6QXUhnZz5wBFZgFlnKuH6Ra+o8TqvS3idZbgpTs0IWGmVqKuuAl7B/BBE+XvrXV/I
+ KW8lQIzwnGd2WUiNwtbHwKZgy/uQTy8Qww0DBq2bCfNuYDwfWNhZ1ARoFlUvAx/+5qxN
+ mGurNJYsd1VKUWmjzBhw5atssLtLGU9W80ASUee7kGQsa4JvUxJTrEjRsqjerKeGcR8k
+ I9dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756915539; x=1757520339;
+ d=1e100.net; s=20230601; t=1756915943; x=1757520743;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yLCSap59X655LjRRdRVDlno90QWSbu9XZF5TPpJulw8=;
- b=skigPhYvpu/yQMKK1u4suVR/10iUmI4rqXlNXqBd6PmU6VUXIL8i3qEOYG39FJA4xX
- ZD3vyzZyROTqu2GLr87+pZK3SKZEEn3l4vAmOlre2+jNl1H0VfYMDzelm7kOMLDbTjXF
- u/+PRyw2PUqvGn3FyNR5RRwyBTUYYW3jgN/BPYXy3uKz9b6HOaygT5778xNTT5VYAwtM
- pxUY+iQbV53qakJaK81YF0Ft7ZqrwvvcqFfJW8lynDIFuCLAW//24fGyy2ZYu5vUvHqc
- Y+8d8iwuUfTVMEuxA/eCmJaFXCaBQmgaMaqj6rYekB3FPLXqtT7JxCK6tmW+kxVHgUii
- I37A==
+ bh=mSH3Zacp/f+cickpwsilQ+TYRotewL36J8+/+EeU+iA=;
+ b=MvxM0CwrBBUeHKAyhKTsrFlgnjE2petiJUGCKKJXJZYehAw0eFWQYpBA2TUH79Fi19
+ yp9NfTJX9DGxcyPuVl/BhV1QGyqZ5BUD3Rcturf2NXypa7vT3yUxrv6aWFeXuKtQSRtR
+ mT6mxqRDA7U0kZbgftaIl6NfkBPvhvMQxz0QHbelx95CZB8rVPXkzEKy5dcbFYcPPwg0
+ QOUU0VzPlRZAS8VblvvBn//dUVdXE0UxAlZIIIQh1yIjMXFnBMYlq/+TSNCh8bIsoVA6
+ ad2qvp4XIVdWsqTfbkn8kJsE97r0IBIv2I3UPf38iFhoZ4ZnffxC43IViSSlb4t2b63P
+ 0w/g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXCuliYR+byt9ZSaf/n507IS/YgYI3kCs5DT9p4y7UYZYWWabwjhFGWJgXjz+huyS/tMQYXNDLJFZc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxI2jyCTFC8eqV4rfYk9ovJdtBLKOAS+xOM54NOJGcmUao4B737
- e2ulFbdFhBqEjziIWCTxH7T17kW+fMMcOb5DtCeYWPr54HUUGA1fVA2H
-X-Gm-Gg: ASbGncuISbe2fMyBvjrgBJcykrOmuF60i1cidh6xl2f5BcFpZ02krd51h/Gffac5n/N
- wy9RSf8mL9ZuqkEkiWctjnvsXBe87P34ikXD3HL+Mi+JVWi9FglRohGbLm2JeGxKftLBi4dU2TU
- LVOVp16MDjg7TeZgZfkZ6BTDcyCPzjsQ2hc0se3/vuasmdgZpNDusQjdxq2RdWjz3QPqZe0oyO5
- 8I/joD5XtlMi+IlbOr2i4j6M8XtLKHVSUjsNqHw/k/IkcmG+QwPn7sRR1UbDnig13Uhlu3rJLvO
- 0kDvLO5swoNrttCiWJ7vQeMT6wa+RAwE8gg0sM9888K46ISoEt0pevlh/ourIeERmOETvY7jeQ4
- +h0wL+sEyzM4lDjjQx4xFkqRFkYma86lZlVXsA7yOzA+I6zLvCQyCtu1JrSI8AQ7vDdrjv8Is/H
- DXlSNIER7Y
-X-Google-Smtp-Source: AGHT+IEK8F7kNjGc7W/OtAYN0SPufkeKfdMjFea1WYfcRndMdqBIHchu0H33lCxAbsFDmGMqVedfpQ==
-X-Received: by 2002:a05:6000:3111:b0:3db:c7aa:2c4a with SMTP id
- ffacd0b85a97d-3dbc7aa304amr3472709f8f.42.1756915538938; 
- Wed, 03 Sep 2025 09:05:38 -0700 (PDT)
+ AJvYcCVbN3kYjtRI4qJG3qOHVaeOTcWdjH7M0rR9lqscyjhyyGeQCFqBj7TnTjrZuQ2TCTeW1Gx/m/W8rQw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4XZXLEOtxXpTzp6nM4DvRzFNy4GHAppi6rCGmHUrtAHahX8rc
+ zH2W9Cns8e9SkvKQa4wHmjRBmcA5R+/v2eyM2AcxljlVNAy1MOlX+Cro
+X-Gm-Gg: ASbGncvf7ck7mvzEFiHwfUzb1Xh6DDhBk2a8hktWp1La8KCRj+/Av5Ne8OLVDykowzL
+ sUqe3OTw2w03cAuUJ/flzeZhR0C1ajnPIHgGlMFydQWvCKOfA/OYDqbaiZSgnoIuxjkvt8wu9ld
+ HxuAaqv8kL4mqu0/035Z0ZSqDAX6ybhOJ9aDu9VF0XEdAt0aHWAkym5qh+k7p5zNyCRaDp3qGd6
+ xNVNnt36SCVsZl1LyDhndNXnr4+ozfcDNCe6DJhJCulIrVzYq0iHJaM/Txt0AcS8/LVIXteGv4C
+ HzpRFrPBwtSXUtLOVyOnVKkCOlZrKFjXMY11fg4w22FrWqw5kzaV2mRMKLiFpafESl97+J2Kh18
+ 3IQCfkFyqzRPg0G+5KWZFIefFdwpZcv1aEN+RJNkHJ6gGanu6jUaBfrAhaXMv9lyG29bGNLwta5
+ Tlv3zPj1RIecU6630PrPY=
+X-Google-Smtp-Source: AGHT+IHY1b3uufepgZb7f9ysqZmKK+/Hd8xA7Sv2qwFfaxBcYfbZY2Np9JxcRK+tnTw30ZuHhEZrcA==
+X-Received: by 2002:a05:6000:2410:b0:3d8:e1de:7e4f with SMTP id
+ ffacd0b85a97d-3d8e1edc849mr6275167f8f.21.1756915943185; 
+ Wed, 03 Sep 2025 09:12:23 -0700 (PDT)
 Received: from orome (p200300e41f1c4d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f1c:4d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3d66b013b7dsm13160799f8f.28.2025.09.03.09.05.36
+ ffacd0b85a97d-3cf34494776sm23960790f8f.61.2025.09.03.09.12.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Sep 2025 09:05:37 -0700 (PDT)
-Date: Wed, 3 Sep 2025 18:05:35 +0200
+ Wed, 03 Sep 2025 09:12:22 -0700 (PDT)
+Date: Wed, 3 Sep 2025 18:12:19 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Frank van der Linden <fvdl@google.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+To: David Hildenbrand <david@redhat.com>
+Cc: Frank van der Linden <fvdl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Brian Starkey <Brian.Starkey@arm.com>, 
  John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Mike Rapoport <rppt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
 Subject: Re: [PATCH 3/9] mm/cma: Allow dynamically creating CMA areas
-Message-ID: <v7zrmrhvemyymq6qamz6wbgzr4cijfe4n76ivwyadmltadlot7@3csy442wfasf>
+Message-ID: <g34tb2ontlnazift3sik5dqs75a7k2bhzo74kknkxoegv4q5vb@jsqo7v6awovf>
 References: <20250902154630.4032984-1-thierry.reding@gmail.com>
  <20250902154630.4032984-4-thierry.reding@gmail.com>
  <CAPTztWa7kcx8bBEJEKvnjcD4v1-eDLVxMd9C10XiBQi4CDLfHg@mail.gmail.com>
+ <e513c127-d4f4-4e93-8d4b-23d1e4fdceb5@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cd2jrjiunyvxx6e3"
+ protocol="application/pgp-signature"; boundary="nfbiwxgfuwekt25w"
 Content-Disposition: inline
-In-Reply-To: <CAPTztWa7kcx8bBEJEKvnjcD4v1-eDLVxMd9C10XiBQi4CDLfHg@mail.gmail.com>
+In-Reply-To: <e513c127-d4f4-4e93-8d4b-23d1e4fdceb5@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,126 +104,93 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---cd2jrjiunyvxx6e3
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--nfbiwxgfuwekt25w
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 Subject: Re: [PATCH 3/9] mm/cma: Allow dynamically creating CMA areas
 MIME-Version: 1.0
 
-On Tue, Sep 02, 2025 at 10:27:01AM -0700, Frank van der Linden wrote:
-> On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding@gma=
-il.com> wrote:
-> >
-> > From: Thierry Reding <treding@nvidia.com>
-> >
-> > There is no technical reason why there should be a limited number of CMA
-> > regions, so extract some code into helpers and use them to create extra
-> > functions (cma_create() and cma_free()) that allow creating and freeing,
-> > respectively, CMA regions dynamically at runtime.
-> >
-> > Note that these dynamically created CMA areas are treated specially and
-> > do not contribute to the number of total CMA pages so that this count
-> > still only applies to the fixed number of CMA areas.
-> >
-> > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > ---
-> >  include/linux/cma.h | 16 ++++++++
-> >  mm/cma.c            | 89 ++++++++++++++++++++++++++++++++++-----------
-> >  2 files changed, 83 insertions(+), 22 deletions(-)
-[...]
-> I agree that supporting dynamic CMA areas would be good. However, by
-> doing it like this, these CMA areas are invisible to the rest of the
-> system. E.g. cma_for_each_area() does not know about them. It seems a
-> bit inconsistent that there will now be some areas that are globally
-> known, and some that are not.
+On Tue, Sep 02, 2025 at 09:04:24PM +0200, David Hildenbrand wrote:
+>=20
+> > > +>> +struct cma *__init cma_create(phys_addr_t base, phys_addr_t size,
+> > > +                             unsigned int order_per_bit, const char =
+*name)
+> > > +{
+> > > +       struct cma *cma;
+> > > +       int ret;
+> > > +
+> > > +       ret =3D cma_check_memory(base, size);
+> > > +       if (ret < 0)
+> > > +               return ERR_PTR(ret);
+> > > +
+> > > +       cma =3D kzalloc(sizeof(*cma), GFP_KERNEL);
+> > > +       if (!cma)
+> > > +               return ERR_PTR(-ENOMEM);
+> > > +
+> > > +       cma_init_area(cma, name, size, order_per_bit);
+> > > +       cma->ranges[0].base_pfn =3D PFN_DOWN(base);
+> > > +       cma->ranges[0].early_pfn =3D PFN_DOWN(base);
+> > > +       cma->ranges[0].count =3D cma->count;
+> > > +       cma->nranges =3D 1;
+> > > +
+> > > +       cma_activate_area(cma);
+> > > +
+> > > +       return cma;
+> > > +}
+> > > +
+> > > +void cma_free(struct cma *cma)
+> > > +{
+> > > +       kfree(cma);
+> > > +}
+> > > --
+> > > 2.50.0
+> >=20
+> >=20
+> > I agree that supporting dynamic CMA areas would be good. However, by
+> > doing it like this, these CMA areas are invisible to the rest of the
+> > system. E.g. cma_for_each_area() does not know about them. It seems a
+> > bit inconsistent that there will now be some areas that are globally
+> > known, and some that are not.
+>=20
+> Yeah, I'm not a fan of that.
+>=20
+> What is the big problem we are trying to solve here? Why do they have to =
+be
+> dynamic, why do they even have to support freeing?
 
-That was kind of the point of this experiment. When I started on this I
-ran into the case where I was running out of predefined CMA areas and as
-I went looking for ways on how to fix this, I realized that there's not
-much reason to keep a global list of these areas. And even less reason
-to limit the number of CMA areas to this predefined list. Very little
-code outside of the core CMA code even uses this.
+Freeing isn't necessarily something that I've needed. It just seemed
+like there wasn't really a good reason not to support it. The current
+implementation here is not sufficient, though, because we'd need to
+properly undo everything that cma_activate_area() does. I think the
+cleanup: block in cma_activate_area() is probably sufficient.
 
-There's one instance of cma_for_each_area() that I don't grok. There's
-another early MMU fixup for CMA areas in 32-bit ARM that. Other than
-that there's a few places where the total CMA page count is shown for
-informational purposes and I don't know how useful that really is
-because totalcma_pages doesn't really track how many pages are used for
-CMA, but pages that could potentially be used for CMA.
-
-And that's about it.
-
-It seems like there are cases where we might really need to globally
-know about some of these areas, specifically ones that are allocated
-very early during boot and then used for very specific purposes.
-
-However, it seems to me like CMA is more universally useful than just
-for these cases and I don't see the usefulness of tracking these more
-generic uses.
-
-> I am being somewhat selfish here, as I have some WIP code that needs
-> the global list :-) But I think the inconsistency is a more general
-> point than just what I want (and the s390 code does use
-> cma_for_each_area()). Maybe you could keep maintaining a global
-> structure containing all areas?
-
-If it's really useful to be able to access all CMA areas, then we could
-easily just add them all to a global linked list upon activation (we may
-still want/need to keep the predefined list around for all those early
-allocation cases). That way we'd get the best of both worlds.
-
-> What do you think are the chances of running out of the global count
-> of areas?
-
-Well, I did run out of CMA areas during the early VPR testing because I
-was initially testing with 16 areas and a different allocation scheme
-that turned out to cause too many resizes in common cases.
-
-However, given that the default is 8 on normal systems (20 on NUMA) and
-is configurable, it means that even with restricting this to 4 for VPR
-doesn't always guarantee that all 4 are available. Again, yes, we could
-keep bumping that number, but why not turn this into something a bit
-more robust where nobody has to know or care about how many there are?
-
-> Also, you say that "these are treated specially and do not contribute
-> to the number of total CMA pages". But, if I'm reading this right, you
-> do call cma_activate_area(), which will do
-> init_cma_reserved_pageblock() for each pageblock in it. Which adjusts
-> the CMA counters for the zone they are in. But your change does not
-> adjust totalcma_pages for dynamically created areas. That seems
-> inconsistent, too.
-
-I was referring to just totalcma_pages that isn't impacted by these
-dynamically allocated regions. This is, again, because I don't see why
-that information would be useful. It's a fairly easy change to update
-that value, so if people prefer that, I can add that.
-
-I don't see an immediate connection between totalcma_pages and
-init_cma_reserved_pageblock(). I thought the latter was primarily useful
-for making sure that the CMA pages can be migrated, which is still
-critical for this use-case.
+The problem that I'm trying to solve is that currently, depending on the
+use-case the kernel configuration needs to be changed and the kernel
+rebuilt in order to support it. However there doesn't seem to be a good
+technical reason for that limitation. The only reason it is this way
+seems to be that, well, it's always been this way.
 
 Thierry
 
---cd2jrjiunyvxx6e3
+--nfbiwxgfuwekt25w
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmi4Z0wACgkQ3SOs138+
-s6HhmA//SMOIdCPTIhm9/2hI6bIiP7AY1j6GdkcEqHRdfrj9+7vySjIRju4hKC3/
-YFfr1tCxniYIMxmH+EBUK8bZT3ul0IYLIAO0WA2a8Tc2MypvKL7bvvo4lf+ecbUE
-Nsu3LO8MVZQTZ2KFR6mFiXKVi4MTs7XD05csQuvxazvHixU+AueWaKsSwhL1YWmK
-yZ14mjJNHFwVJrZ+4Pj4nsmjQw6Qe9D8eZ+d1gXMeTyPg+RJDay+EJBxM7/Vs8Sy
-T0m/UudLZIle+EYXBzhlKyHvkFDuUuutaZaYESuiRvts7iwQnhLYaIheHIj9x2gG
-VC1vjkFeh4RhbB1srxB71CzyJPKbwJ5oIdvnA1kBeDUlPGuFGm1wM+FygAwoKXvR
-HHCF+FaX4H/FeFz0y6z0fkvhfLm+LLuBBuj5KHTCblCLk3cYfVha+Lr4msWjbI4I
-51F8NtxQehBsHWv1F2JOguGRE4lv3svHyb3yuQeJC9SPdN12/2gmY85xnm3knlhB
-hq9a/y2r622vqFwgPTg5kKhBdjIwWf6tdxefR230K+Qw5ypbrNQQoPhFR/4lG2IX
-n/BX8IGEoVCHH7OC3/JfinZyE2td7+xKs/GF81elCfACdkeCRJhL4EWSGVRTI/TP
-3OcUwmEbp+Cr0gdYspxD0nxw7bP5SUuAIZRRBEH1KfamNw5DEcE=
-=TbFN
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmi4aOMACgkQ3SOs138+
+s6EWag//TG8GKL8D+KtYbrfxxwO/AEt7PxS9tKNaQ4uX/W4JVPtJSVqumPpLlATz
+kSWcKAk8uyNWVRifoC26e2FU+eTup+VsLHQK/3g6/EEv0rt/jn5mJWu91ckJuH+N
+nWHOeXCqeuGYN01d2wYby1PZ6Mtvbe6PlBifyLpvoAsUpN1n4HvE1CWu45gZIR5d
+2WqzOWqLtDf4dyhpPKzu3xwXMgms8SyLEY64ulTMjg02QvIFPhJ/EN3VMs20tuX7
+1UBiq4yw7ylaSoKAUdFEB9sOq4tpnoi9YY9fgoMhnCvwP5wZFwKbqYIhfGqzEGWo
+Yad3Oba0P1qxdCFeOabbitgjRtZQO8pJNfGuJImpP4fE8Bz547KcSbcORfZvu16h
+lJENGR4OXALHeSbgAELkUWTBnxAEHs356KGRoIxOarNda5xvFHp9joOODPz5s/j8
+kIeQjrt23Vl4uqqlzr2n8ZwIQY6Whc2OuPnY/1/sKenSXKrqnfTudaRnsPMFQXPQ
+ae+Iq9kecL40EJmZx03IkKwsxZ1dqfr4h0K9cQRa+mj5Xg+1TXfTXfcsaDLiqZeg
+a1sQbf3ZbKYz88yJmRp2UrbJMGkqjnuwvvD2MkLtxqTS2pIl/sUGx/ltZDu592uU
+dfOddTVrqV/MBj0YtLFpU4cFY/4pdIkqP01sN61Bbn+jvYFcceA=
+=8yPm
 -----END PGP SIGNATURE-----
 
---cd2jrjiunyvxx6e3--
+--nfbiwxgfuwekt25w--
