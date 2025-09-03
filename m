@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC869B42C3B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 23:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947E3B42C38
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 23:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4663610E94E;
-	Wed,  3 Sep 2025 21:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEAE10E94B;
+	Wed,  3 Sep 2025 21:54:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="h8pcFQF/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="fTWPIec9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6133910E946;
- Wed,  3 Sep 2025 21:54:43 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2079.outbound.protection.outlook.com [40.107.93.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C043710E94B;
+ Wed,  3 Sep 2025 21:54:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YfXTSp2Kv8WkkPCJhhx0CEEilgXWx8iVZ1/NEt+lYn1IIqJsrP1s1KrUkaxOBoLk4NQeDNVcz3G9X9UHSgzpqt4fJ/KOO5LZxrDfda/wqew7SOihA8tqzmdVxFNWebch+Fu5cdj9dJtbCw2G6KOqm0ZXURjTecELCbxUmsMxfyT2hkn8SBjTsBkzc6zemFhYKeUjqWQen00VcfJmQd+KWRblya3clAeJOuardzareJfyHef6ZGaHRciW93Au24zJLT5Lrt/Gb72KtlCTX660HOC0W1OudZMO/Dg6YoANs6xwqGa1frt/8Dl7KYZKAymfNYWwdULvhCwVT/MWfg9IJQ==
+ b=WoN6V9hwNz/x11/StOiz6LxRG5EqGa+jX6DTs80UvPLg5v3Hrqoh/6uVavv+5kM96PxWOFm7Qb0tdWxwf0WXDLZrj0oVVBUtEjhzPA5Jx+Xvw8/LXuzO3IwPQoWfWv67VMH6oR2gOHldc8QG3R60PU+ggtG2y4HfAuxFPv7yoakXbe7M0t3GVlDPiM6haPSJzevcWVhf65ySeXP0vL5/FgNn/LaeLkRutPQRC2iWBBHRMoNWEhE9CZNews7NcYzym5sKDYFJ2M8XeKm3OKW5wpNe173Sy7U1TcobviEA4GYiu6ZoF6aVY6OV/1i9/q1fh7S513EHeH5IxAWTc3nm0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mNqVMI3dCkNEhp/x5pJyhEVtxtutIwF7FKIT5r03P8s=;
- b=ZkzF87qc9VmOC3KuGks84zp+g7dhdEwtXhMpZQZVfCz2M7R4iDR0ApPXpXlm4tAS5BS0K2J2uH+2ezZ6rl2+hemmBiugVl3n0nY91g2hTMgoxFZzLVW/0R53fNVHLKG78IKAArSHpW11CQx4tIKiKvYeWtYprnIYTywBoti/RJyozTlEjJ6uimxHsgbtolbpPcsNl5Arq9JBaQiryFB+C5/MR1QaWvMkF4YNTTSj9gH1ehE/5fNGwnrvL9xEJ2YvrFC+ruoMpODNUpAZRT4OphR8ePqvKZ5YA/QJvlShMe8O+192a3NZ6qm4cSxHXRVBqWR8Spb1FaPa9uLqksULAQ==
+ bh=uUiRfnXjrPPjrATyci2Okjd34Esox/LB6hUaRyWJrBo=;
+ b=Tz0DvtY71pWlfQNPa09uQ6jEGqFwYcCrm1GJc8RtwJSagJ2sjmpMvhbdD4qxPNg0QEna7zHfaaYl030fFASimpE88yPPJq9aCXxpPs0e0wrlzME9oD/AWsg2xB+iNlsBnZPTkD9VlkyDzfYeNv8o4/QKciVArYFz8/JMXJ7Lwq/nrDrPBkF0clGY61YLwbf/4zoaD06qAAlOUvP3PJEoXFy+prjkXT+Bx9wz/7A57WAnhcTBBP1WBVnOUgr7AT1o8jjCY2cpHE9d7UdyM1XN8VWLUsQNo3ehV3yy+BJmMCNJMxVsDEthYiRxO1EO6CLltJe+vMAapKeNz/8I6lc6Cg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mNqVMI3dCkNEhp/x5pJyhEVtxtutIwF7FKIT5r03P8s=;
- b=h8pcFQF/wthbxyYnP70qR8jS0QQaSDlq7DuL+9rGGXQSCaaAFjy2F7djW6Gfhq5Hbg0WM+7n/QHkKDzVB6cnHNrZK8MUpbfv7oLsrUSlgGIL2zvNxjzodybSuz//1zrgt+7DPlzQ+JL1OVkSam9k/AW84KyeTj3HI91pyYjUOj1tEpCF3lx+fVH+qQoL4og8OUtMLv0C83EzeRUAp/1asstis40VHbMZUwZ3OIoIqx+YwvTmlIlWkIgzIE+YHO2GCCPxgo8Uk7+5O2GK8K2AbuuoeZHN/gJaFnzUruihGHZlPUVcD09v09IxsFwMksydPeKp+k8pph1TQFMJNfgXeQ==
+ bh=uUiRfnXjrPPjrATyci2Okjd34Esox/LB6hUaRyWJrBo=;
+ b=fTWPIec9ZnRFsRGR26kRztzG4htwZM33VntmnKXzREYyg+mgaT5qXQvPo0TJ77bPXjJglBgrJ2IyHlZQrDleSIF7GLTxg/9XpQ0Y0t19nXFtzyFeAt2qRZ0srawHPF6m5QOawsHofyLmth8/PhHBF9D6cFi5ItOavkinswRzaZ2AX6dpTnwBYeKsQX6ca4IH31NemmpUFj4WE4hXWODGYbcMpjULnvU1JIEoFtRFlTQ4ARpehjiFi3UXLPRn6+/7La+rC293QDz5oIEuI1er5hqoV0z+90MQKvNSp1TL5zhaHZg6muTHoOOlBWG65az8FJWJePPTa3BO2I3OWbOUOg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
  by DS2PR12MB9589.namprd12.prod.outlook.com (2603:10b6:8:279::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Wed, 3 Sep
- 2025 21:54:38 +0000
+ 2025 21:54:40 +0000
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
  ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9073.021; Wed, 3 Sep 2025
- 21:54:38 +0000
+ 21:54:39 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  dakr@kernel.org, acourbot@nvidia.com
@@ -59,88 +59,106 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  Elle Rhumsaa <elle@weathered-steel.dev>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: [PATCH v2 3/4] nova-core: bitstruct: Add support for custom visiblity
-Date: Wed,  3 Sep 2025 17:54:27 -0400
-Message-Id: <20250903215428.1296517-4-joelagnelf@nvidia.com>
+Subject: [PATCH v2 4/4] rust: Move register and bitstruct macros out of Nova
+Date: Wed,  3 Sep 2025 17:54:28 -0400
+Message-Id: <20250903215428.1296517-5-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250903215428.1296517-1-joelagnelf@nvidia.com>
 References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR01CA0038.prod.exchangelabs.com (2603:10b6:208:23f::7)
- To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL0PR05CA0026.namprd05.prod.outlook.com
+ (2603:10b6:208:91::36) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS2PR12MB9589:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8c5a2b7-74d8-4169-22e7-08ddeb347a57
+X-MS-Office365-Filtering-Correlation-Id: 49a859a0-0bad-4993-5253-08ddeb347b5b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HbzXuo+//DJQcp7rasYksci1Pht/oqrCh0YHs4tgo0/1D8q8NNHyEYj4hG2v?=
- =?us-ascii?Q?uXFS3x9gnJdO1hDv3KnLK150NXYNRRCElEU5wBoBPb+eyRGkS9JJ7pLDJeXv?=
- =?us-ascii?Q?JDcLKPzxA/sDLloPmc7pCAdot9ELbg19ELkszl87AODMWoKpdMBksCz1xQRL?=
- =?us-ascii?Q?0Xrhpw4u2o+vh93HzlRSo8hxzeFO9/GxkbBvxAmUiKbmBu6W+D0Oh5Mn/v2I?=
- =?us-ascii?Q?PJgayyB4Iltpt3vPCODH/VOzaRqFM3jY4vqnEIdOKaeSerPdF/o0kFhxdD3o?=
- =?us-ascii?Q?3Br21YWAoXOhkHrzLr10YIa4I5o4PEhtRr+m94uvfyY9bAMJJ2JHuLxeSO7T?=
- =?us-ascii?Q?QPVBf/Wje6criR1YCYTXnQPJWLeZKj5AtO8uejWmHMAxZbKghLIdnZgTKcnj?=
- =?us-ascii?Q?Dd0+wFxsHS/P23aauzwia5cEAUA1dPtEmRot4hBmZWnfDL4rbE48+6YVOaWt?=
- =?us-ascii?Q?4ZQSueFCavc3HBVdqZiQTS2K/Olzg9FZCAMmXpfJey2PMo6SAAzBmrzx2qsr?=
- =?us-ascii?Q?HOodJjUoICmDeAZqdRBiQfeY1u67mqzZta/+ZldSKpQgjVXAZslUbD2hlGuL?=
- =?us-ascii?Q?SgIjBi/bUXnCsRgOqla6rBDRBHUuojqUG17Zh6R6k/o1hFZRLHH3DMLa7Y/w?=
- =?us-ascii?Q?IBrY/FPZ4VLBUg6jeD+o+HYLeU0ctuRxkcwuGJiLEVQPAAg+LquNcMUKwhO4?=
- =?us-ascii?Q?MfUZMUJIWG9YyOTef7ntgL30F4UiB5ajZWZQrj8nMSQpbSzm91TOWfUNrcSX?=
- =?us-ascii?Q?IfEsf/6Pk1gujcZ0b/qtJG4yAmM3yl07iMy6jCj1HKKoZ99xzC8QfbXWdNA/?=
- =?us-ascii?Q?mKvDHLgS2vzQMYvoAJN56HYeW16ogQnSIfyGNYCD68B/aQ36nhiC7ZXPu8Cd?=
- =?us-ascii?Q?fGS5+idRb+O5GOQiG0/jImIit0cp8crxowoLiOZrpoJ04IQHJsy1SJSv+PZ9?=
- =?us-ascii?Q?V4e5VroOTNOx93yDPCKG0/00FENKaiGH6mR9Q73KXXqLWKopYq/dDHmN/VxT?=
- =?us-ascii?Q?i9RV8RRxkOYuiM8yZZEFu9o8yO9UR8/8HjIDQweLKWBkAf2tcaY0jtu792UU?=
- =?us-ascii?Q?NphVGc7bVOhJHh5RT8uIQz7tDmyu2+/Bnt9Em0EgUS70SsHByJGvIEAv41VP?=
- =?us-ascii?Q?Kspjshsx7yeYyUfCsFEpL3W623oXLzlx/yYhVVP0ugL2lxyad7BnYM/FuJP2?=
- =?us-ascii?Q?4LRDPRRH4xn6oXmR+JYeKHLVadrABeJ5i9MGGtol0NUUqDmHUSSmI/JqMD5u?=
- =?us-ascii?Q?kRusEjOh2i2xmiQoyKWYsWiFqrSbvx8QRzjbPWgwyd/89wffCR8h1JJwhAZS?=
- =?us-ascii?Q?XROkH5vK1qZA4xWJsmH8HSTaOfpE/NsJV1E8cID2XOzs1xERdg604NBB+ZRy?=
- =?us-ascii?Q?p+rRguKzh7/45ZiL59arkVxBSjmfPADhDro4dOzbzymjbTXqgQ=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UlkvRFp2U3hoYWVUTXpVL09sUmZtTHpZb3lzYTRFWDhXcHFzQUJRUDkzWkpu?=
+ =?utf-8?B?V2prYmhxYUw0N2RDQU53UHIrR1VNdjE2cGg3TTE3V0dPNWpPVFlPRldqcmtX?=
+ =?utf-8?B?VVFyWjc3SHJYcVlEa0lhNU14bEFkcnFib3FsZDdSOWZXa2UwRG9sWnhGTTdq?=
+ =?utf-8?B?UjBxd1VVNlFaWEpESUx5MVlYdStJdXRCT1dpR3puY0ljckR1Yzh6Wk1PNlJ6?=
+ =?utf-8?B?YzcrcytpeDVJd2Y0YkhhMnJ0OWhJUE9RdHdvK1QvZ3hBSXNGbnczbXpmM2FN?=
+ =?utf-8?B?cUU4Z2Y0VTRkTjhCcHg3RGpRQTNsOSsxZHpkSUFYdWtYRmdVMVJiMHFtRHhG?=
+ =?utf-8?B?cFQ1UTlLbDh0RE5sVlNrQ1g0TzcreGlQMXI1bm9vcWNVWkNNOXJjbzVncEkz?=
+ =?utf-8?B?cTFZV3BnQWpvWm9hZlRFM3JsWFRzaTE3MWc3R1hUcEJ3dU42enNsV2ZWT05X?=
+ =?utf-8?B?Tkx0Z0E3UTRJUGEwZHRqTWIydkdxaEVpeDNveGI2Y1FBQUVrdkdIQlUvczV0?=
+ =?utf-8?B?T3hhSFVMM3hpWXhzelpKdXJVYXdDdTlibmhuZmhBM2ExeFJEeUN6OGdjYURw?=
+ =?utf-8?B?aU9sOFdKMW1NaWhOaUJzcEpNcnNJcUZzUGlUZG0zVFkyVFkwS0YzUEZRbDdo?=
+ =?utf-8?B?MlNLaW9jRTNVdmdaTENkbCtIMHVIM0xFVEd6U2lkbzJyZVJubEdsaWYvZldG?=
+ =?utf-8?B?WFYrcTBsUVVUQytyUFZML2N1ejlIVlFVcy9CYm80OWhKMjIxK1ovY2Z0d0N0?=
+ =?utf-8?B?YlpFRFdZUnptMWswL3JWQjBRNW83U1BRcEpWNXJWU0FHeDZqTElwaFY3Y21S?=
+ =?utf-8?B?MU5ZanJmVUlsRWhwOHl4YXpiT1J5M1B2WFErSEU0eDhHeHppN3lNVkxtNElJ?=
+ =?utf-8?B?QTlVTmRVaWJuZWFIR1k1MDdESkZKQ1B3Mno0eVh6blAycEFaTlQzQ0ZiMnlJ?=
+ =?utf-8?B?ZTl3bzFPamMrbXdHMld0aWh1RFMwL3hXRThhZjFvVytUSDZUM2xrN1FxQ1dW?=
+ =?utf-8?B?dmpaK05mbHY3YW9KOVFxY3h0TDk5NHM3enRxZXhmbExEOUZrbVZZTmpaRy9P?=
+ =?utf-8?B?bXhzcllzckZQVUhrbXlPU1lncTAvbnplV0EyVVIrSjdFamdNYzhjblBmTHRo?=
+ =?utf-8?B?c1c4VHlhZlpudk9mWlg4dy9jTGdMYjBjK0JiZWIveEM3SlM1MWVxbSt4L0JW?=
+ =?utf-8?B?Q3haamVlQlJhQ0llejYzck5yR1hRS1N1RXB6aVNUZTZkQTV6TEZsdjRhWXVS?=
+ =?utf-8?B?NVVHb0hPZUxkZU9Jc2F5SVMxaVFWWGRpMEt1alJkeUhJRVpENUZTTFhxUEdN?=
+ =?utf-8?B?a1lPQmtRNWYyVnpDYmZCQzlORWZSbW1tTEVBT2l6bkl1NUJRR1hjSEdxMi9t?=
+ =?utf-8?B?c08velh3UUM0Mi95eENZSEJXdlFPUDByUWk2Tkxmb3I0a0Y2NjRUbmdhZkNJ?=
+ =?utf-8?B?NFluUTVlMVArRzFHS1JXaVhGMExYWm1vVHB0OW54MWJjd3B4RzFsVzhYaFBF?=
+ =?utf-8?B?UEFVNThRZTBYcmUvNTh1aXhPZjhFbUIyMjNwZVd2VWtUejhhZWFSOG5nNXha?=
+ =?utf-8?B?MXFCVlRqaDlQaXNyOHlDSUxLZlQzRy9TZFcrbndmUDQrR0RTUlJwbU5BR29a?=
+ =?utf-8?B?N093ek9pQ2J2ZDJzV2J3QTAyS0JRYmZ5eG95R1E0K1Ztb1VqWkkzSDRzczJL?=
+ =?utf-8?B?WjZTbDM2bjVsWmhRZ2lJa2JKSS9ocmNmWHRSY0Znd1NvRDB1TVc4UkR2b0lp?=
+ =?utf-8?B?UFZpemVhTFpBdFNhT0ZkWldXeDNYZ0JJMFdiNHhZMjNoSDh2UCtwNHV6SWNO?=
+ =?utf-8?B?WUxjWld3WjdsbVdlTVJrUGgzek95TEtnSmdWWm5uM01yR2ZObHhHQ21YL0FK?=
+ =?utf-8?B?VFA0bFp5YUdWRjBxb2JWN3dTUlIwcWJjVW1rOG5WajNRYWVFWC9iUERMcGxQ?=
+ =?utf-8?Q?HeGmDvZLVcw=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tC0LLSTREHTKM5HArnWVG2AbN9jWmrjEv+pYlACcfSlFcm6icdhS65tdREo+?=
- =?us-ascii?Q?Kmv52hFYsGAfzwjDe7p1hFdIOL2Z6HWTQyaOveH8gqaf1eYb4eR74X3KLE/z?=
- =?us-ascii?Q?vsR0vV54I38Fe120bldEqravOQ/7hv78FRYgqtlaBN2/KRzgHoNFQy1w3CVw?=
- =?us-ascii?Q?06SE77ac8yZoapNWavNQ9ARgdCxtHvMFJzCjgSDeL/H98R0nC0O9xEUyeX75?=
- =?us-ascii?Q?zYc+/al5Ho9eN3YmyKBRb7imeWgm5kMb1SO8USUPx+dNyexhYxF4wcuOODCW?=
- =?us-ascii?Q?HFDtDwcR4R5Xt0Fg+JhO40ftG3dGF6WAdGZhHZurustVwFOk+7J9ZX1r8u9V?=
- =?us-ascii?Q?MX2/rW7wDwL3aEmtbmpNb18/l/IZjxNC4gtSoFRkBcxb0ZrHwAaZj0/zvpHG?=
- =?us-ascii?Q?hRfJhSK8fbYuEoVMy3Ng+h1+HSWt092x24CnmY8GSmoUooSO2IhIiSwGBVY7?=
- =?us-ascii?Q?JQiJrAhHojrjEzk5renurrUZwDcJGA4mGel6gAwicqjobJPM3iHCICf4yeV+?=
- =?us-ascii?Q?1jN0Hxwo8qoDe4o9fDJ7ttRgOsD4QTxYpWUj/idQbRWrB8/Wwqsp7OsftHv+?=
- =?us-ascii?Q?OETJQiCr+IMTFl8VMOwgmlYrVB2Tmmlm1dpIDqBb/gUgExL/acPrOMg6ZnQ6?=
- =?us-ascii?Q?HMRuFscZuH96QGLBAK1gac13/RjOH3talOEbzG90xX5fRWGqgxCw2MAxJ9pu?=
- =?us-ascii?Q?jqsN576AEOeDeF1W4SyBpXCenlkywxPSagKdjA1D3Mg6kHJI/CnG/dNZhreT?=
- =?us-ascii?Q?h3PuLnq/hgoym4wlzI3sPDDxo8mFeDY8Cr9wA7nY5HCeZxBvTSpBRJ5UGTjP?=
- =?us-ascii?Q?z967NPtoQy4e/XDzUSrgsmSKxeTTgCLT1rlQFAv8zP8VpvUdcubOJXQ4W+vw?=
- =?us-ascii?Q?Rdv7j1cXgMSsgGrWup3Sf8BEbZNuaYR2yD/msj+A583bS4TKdBB3fkJl+2lj?=
- =?us-ascii?Q?rJB2MAdhdVJ82mB52AFAUyxc5CcfqOyYhA3+v1+vnI3DAQMtw4Bu4T7XsvZY?=
- =?us-ascii?Q?x3lSZ02KplH1qg6GGv7bdstn6E6OqBHX2z49EE9SOFWPU8XqJBwlJM95MFeX?=
- =?us-ascii?Q?eSsGAPIZ8breRBlcFtigMYDikOEvFuE83tvSgEboSEFLtCpseh2BGw9nFyCo?=
- =?us-ascii?Q?74KDskdNdj/am8XZQE7sSiEwYm7k8YZhuuUPJrfKfB7zoUNsRbybGmCOwuSD?=
- =?us-ascii?Q?7cgCVHIQeJJPAEDavL9jG7m6pmg0i82RPoZxGCCICoLb2VcDXJmz/ZweGVqT?=
- =?us-ascii?Q?vaY9N1WMuRUWpOTQhv3Qy7a6E7u5EtLd2BDoka3zoMGxwRfEYUErueeW3hMQ?=
- =?us-ascii?Q?lRvFjYdJSi8SaicUsO+4WjDlBTiySvz6N452gp2k+2CF14Vw+SmCjtlXcBCx?=
- =?us-ascii?Q?WiB+meNsQVHjJ46UFbqjjSdZStdGVl5TfTDFbHKRDM9Y8n18v30XUVNATjy0?=
- =?us-ascii?Q?zkDsbDEWDQAMaoAQCgoEIZl14g/aw7a6xpC6AZJZzfl7NRbnPBU2OgdqVdY3?=
- =?us-ascii?Q?13D4U5OXUZ9/WEbTGyhURx5gbb5tcPwxtzkpkn/82ph4yQa13N5SonIK8GmV?=
- =?us-ascii?Q?RGzrv8Zv0rf1GKj8QAl/+SVFGHovY+4pF0Wvz3Qw?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QitTcXdkSVEwa2ZBUlBaVmEvemxwYnpBRmtJRzVVTWo2WmtPbjlDaU9abjdh?=
+ =?utf-8?B?Z0JMQ0RxRDlobzZocWQ4NGluemJSWUJBdTdUc3pERkdULzVZaFFsRE9rYWR6?=
+ =?utf-8?B?RWQxQ0ZXZE54WStrOXFtOGwzR1daTTQ5Q1lZMG5LdkRSdVZBU3Q2Z2p0cVgr?=
+ =?utf-8?B?WThlcWFNd0QyN1lNWnVHY2ZCVVRWRFI5Yi9rU1RvYzRMWVBEUmR0YzZtYlg0?=
+ =?utf-8?B?MTlJdWI0YzdHc3dYVGw2Y3NEckI1d3lnL0dJMVpQYUtRaHExTXRDNlk5eTQ2?=
+ =?utf-8?B?Z2dvdmozVHRRUkxlc1hhQVRxUzl0dXJzQTFrby8rMVAyclhNNVJ0ZGF5WTJ5?=
+ =?utf-8?B?YjkvaTEzc3A5MGNRM0k4OGxaa0JnOUNLb2FnS25ibG51THN5V2RleEs5WE1Q?=
+ =?utf-8?B?NTBlaUh3dm9WLys1RkpndkNxNkg4TldxVlVrQVZsdWpubC95blR0WHcvZndI?=
+ =?utf-8?B?MnFSejBJSXlNSUUrTGhSN3ZKV3B6Zi94ZlQzTHlPNUhkZEpsblU4V0hDN0pj?=
+ =?utf-8?B?dTRSQkNXOEdNZFNiY3ptelZpS0pCRjZtWm1KKy9XMSsvRkdRVUdjRVBCYi9C?=
+ =?utf-8?B?M2xoamYwTnY4a2g4Q0tFT1lvSVk4WnFCU0c2aHQzdlI5anNqVUhKbnBkYVFo?=
+ =?utf-8?B?elprM1hHeTVMU3Y2cFM3WHg2ZlZsOWlYNUtWNU1KQlQ5QUVVelZnbkd1Zm1X?=
+ =?utf-8?B?YjhIb0M1bHdqUXhUV0VSdVh2eUYxWjg5M0E0STZzS1o0aE1ZaStGeDlKNTlv?=
+ =?utf-8?B?eTFSVW14NjhjVFlqRUkxaVZQaCtNYlZNR0JxVXZSeDVkMFo3THpqUHVielNx?=
+ =?utf-8?B?Mm8rM3oxM1JJdkdRSTdhdTBORndKTkdjTGMvV1BmQmNrTkMwcUFmQUtGeU9n?=
+ =?utf-8?B?a3pDNFI0cXNZcWVkaFUxZlVvSE41R1ZhY3F4NkJYYVNEdThkM1c2Q0J3VEo1?=
+ =?utf-8?B?bHVXTDI1aFFDcU1lOFh6TEd5YkxPU1QwMjBmY0pjNG5wQ0ZYVU9XTU9YSFl5?=
+ =?utf-8?B?bDVQNUxjTkZ0Z3ZqRUpvRXRLUDQ1QVg3NUpaYk53VithZkdvSVBpUHBBeUc4?=
+ =?utf-8?B?dVV1Y01KUUYzeGowR3ZWbTlVNmFMVTFyMzdmT0RhQVUvV1pPQ1ZiTHVocDc1?=
+ =?utf-8?B?K0FBNEtUYmdrT2xIOHhQdytvc1hiZ3hSMlo3Q0tlU3d5elAraXZhdHdVRFlD?=
+ =?utf-8?B?a2pzNjk3Y1p1WVVxTm1ERnMzVWhZN0RPaTV3Q2VzaW9vOTUxS010ajdXaVNv?=
+ =?utf-8?B?SURvallnN09ETVFvT2NIbWcxdVB4WVcva0plaVNnVFQvNkZRQW9NNmRxNzR1?=
+ =?utf-8?B?Q3g1R2lnalFocDdKdzVNblVyS0RmZU5JWVlmaFMranhlTER4WHR1Ym5laHZG?=
+ =?utf-8?B?RlBQbjlBVGM4ZDJ3OHlVcGtGV3BxOVhpaWJBQTVPcTVrWEhhNmVRN3RNZkZv?=
+ =?utf-8?B?b2pKRWpNWm5KcHNpaVgxeXlISWNPLy9meWNuTjNRQUp2by9keURRWFVwcjJW?=
+ =?utf-8?B?Z2YraHNiYVJZWTlIVnBGSkJkU3FWeFNJQjRPS2dYR3psMlorV2hQUjJ5UWhP?=
+ =?utf-8?B?WDVXN2hPeWQ5dnI3dVJHbkttV0xsME8wNWMrL3lISCttbXlWd1VJMlA5d1VK?=
+ =?utf-8?B?U3JCSGtLZUtabVFGc1Z4ODJCNnVJZGRTYVlUd3ZteGZ3bmhBeWtrSU1pUDQy?=
+ =?utf-8?B?cUVGSmtwc3E5OWpDYUhrWXR5c0NHNHhtTVJVRHhXTUNnRWVRV0U3VUVxRTBt?=
+ =?utf-8?B?cXVGMVNrVCs5bFNlbmo0d2hsY0RsTFgzNlFLeVNIUDlSbHl2blpMWmNNTDNR?=
+ =?utf-8?B?SlA1U25JanYzVmI2M09HbGZRUnM1NGNidTJQd1ZMUTZ5M2krVlRVL1dWa0Nh?=
+ =?utf-8?B?UXprMk5pdDNjN1lncmMxQm1SVFhpMFduNDVobG5SU0VvRmk1MlBnMVNzWFMz?=
+ =?utf-8?B?Q1lVQjkwVCtZK1lYbzRUK2JxYWtKbGpDcTdTa3VtczdLQkVWSGJFMTd2eGFW?=
+ =?utf-8?B?UExTSFpKOENIaFl5b2l6bkx5YjgxamxZWktURHN4YnhQMmNBUEgzZlU1SExx?=
+ =?utf-8?B?a0VWTzhrSFBJZ2poblYvTE1jVkVDZmNwWUdZMTE2Z2duUUFSSHlwUHpaaXB2?=
+ =?utf-8?Q?l59nvcuclQNYD9M3fbgPVOkWW?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8c5a2b7-74d8-4169-22e7-08ddeb347a57
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49a859a0-0bad-4993-5253-08ddeb347b5b
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 21:54:38.1510 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 21:54:39.8745 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GrwMvbMfBKV6l5VLiZa+FLj80Y7tUa/3pG/MAYVVS0xmTBV4svFSMd5qy8XjUqVHZcUOAFtVNZN5q3ALy9Wzbw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZchvlpQi10Rt3RoAT6OFv3yPhgue97/jw/29y3yFxT+lvZYznxgEXmwkiqmesEhJkSMh9UErVdFKtSf1E0sb0w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9589
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -157,252 +175,530 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for custom visiblity to allow for users to control visibility
-of the structure and helpers.
+Out of broad need for these macros in Rust, move them out. Several folks
+have shown interest (Nova, Tyr GPU drivers).
+
+bitstruct - defines bitfields in Rust structs similar to C.
+register - support for defining hardware registers and accessors.
 
 Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 ---
- drivers/gpu/nova-core/bitstruct.rs   | 46 ++++++++++++++--------------
- drivers/gpu/nova-core/regs/macros.rs | 16 +++++-----
- 2 files changed, 31 insertions(+), 31 deletions(-)
+ drivers/gpu/nova-core/falcon.rs               |  2 +-
+ drivers/gpu/nova-core/falcon/gsp.rs           |  3 +-
+ drivers/gpu/nova-core/falcon/sec2.rs          |  2 +-
+ drivers/gpu/nova-core/nova_core.rs            |  3 -
+ drivers/gpu/nova-core/regs.rs                 |  5 +-
+ .../nova-core => rust/kernel}/bitstruct.rs    | 31 ++++---
+ rust/kernel/lib.rs                            |  2 +
+ rust/kernel/prelude.rs                        |  2 +
+ .../regs/macros.rs => rust/kernel/register.rs | 92 ++++++++++---------
+ 9 files changed, 74 insertions(+), 68 deletions(-)
+ rename {drivers/gpu/nova-core => rust/kernel}/bitstruct.rs (92%)
+ rename drivers/gpu/nova-core/regs/macros.rs => rust/kernel/register.rs (90%)
 
-diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/bitstruct.rs
-index 068334c86981..1047c5c17e2d 100644
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index be91aac6976a..06da6ce24482 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -7,6 +7,7 @@
+ use kernel::bindings;
+ use kernel::device;
+ use kernel::prelude::*;
++use kernel::register::RegisterBase;
+ use kernel::sync::aref::ARef;
+ use kernel::time::Delta;
+ 
+@@ -14,7 +15,6 @@
+ use crate::driver::Bar0;
+ use crate::gpu::Chipset;
+ use crate::regs;
+-use crate::regs::macros::RegisterBase;
+ use crate::util;
+ 
+ pub(crate) mod gsp;
+diff --git a/drivers/gpu/nova-core/falcon/gsp.rs b/drivers/gpu/nova-core/falcon/gsp.rs
+index f17599cb49fa..9287ab148da8 100644
+--- a/drivers/gpu/nova-core/falcon/gsp.rs
++++ b/drivers/gpu/nova-core/falcon/gsp.rs
+@@ -3,8 +3,9 @@
+ use crate::{
+     driver::Bar0,
+     falcon::{Falcon, FalconEngine, PFalcon2Base, PFalconBase},
+-    regs::{self, macros::RegisterBase},
++    regs,
+ };
++use kernel::register::RegisterBase;
+ 
+ /// Type specifying the `Gsp` falcon engine. Cannot be instantiated.
+ pub(crate) struct Gsp(());
+diff --git a/drivers/gpu/nova-core/falcon/sec2.rs b/drivers/gpu/nova-core/falcon/sec2.rs
+index 815786c8480d..8f7b63b6c2b2 100644
+--- a/drivers/gpu/nova-core/falcon/sec2.rs
++++ b/drivers/gpu/nova-core/falcon/sec2.rs
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+ use crate::falcon::{FalconEngine, PFalcon2Base, PFalconBase};
+-use crate::regs::macros::RegisterBase;
++use kernel::register::RegisterBase;
+ 
+ /// Type specifying the `Sec2` falcon engine. Cannot be instantiated.
+ pub(crate) struct Sec2(());
+diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+index b218a2d42573..cb2bbb30cba1 100644
+--- a/drivers/gpu/nova-core/nova_core.rs
++++ b/drivers/gpu/nova-core/nova_core.rs
+@@ -2,9 +2,6 @@
+ 
+ //! Nova Core GPU Driver
+ 
+-#[macro_use]
+-mod bitstruct;
+-
+ mod dma;
+ mod driver;
+ mod falcon;
+diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+index 206dab2e1335..6d2f20623259 100644
+--- a/drivers/gpu/nova-core/regs.rs
++++ b/drivers/gpu/nova-core/regs.rs
+@@ -4,9 +4,6 @@
+ // but are mapped to types.
+ #![allow(non_camel_case_types)]
+ 
+-#[macro_use]
+-pub(crate) mod macros;
+-
+ use crate::falcon::{
+     DmaTrfCmdSize, FalconCoreRev, FalconCoreRevSubversion, FalconFbifMemType, FalconFbifTarget,
+     FalconModSelAlgo, FalconSecurityModel, PFalcon2Base, PFalconBase, PeregrineCoreSelect,
+@@ -331,6 +328,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+ 
+ pub(crate) mod gm107 {
+     // FUSE
++    use kernel::prelude::*;
+ 
+     register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00021c04 {
+         0:0     display_disabled as bool;
+@@ -339,6 +337,7 @@ pub(crate) mod gm107 {
+ 
+ pub(crate) mod ga100 {
+     // FUSE
++    use kernel::prelude::*;
+ 
+     register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00820c04 {
+         0:0     display_disabled as bool;
+diff --git a/drivers/gpu/nova-core/bitstruct.rs b/rust/kernel/bitstruct.rs
+similarity index 92%
+rename from drivers/gpu/nova-core/bitstruct.rs
+rename to rust/kernel/bitstruct.rs
+index 1047c5c17e2d..06e5435df383 100644
 --- a/drivers/gpu/nova-core/bitstruct.rs
-+++ b/drivers/gpu/nova-core/bitstruct.rs
-@@ -9,7 +9,7 @@
++++ b/rust/kernel/bitstruct.rs
+@@ -1,9 +1,9 @@
+ // SPDX-License-Identifier: GPL-2.0
+-//
+-// bitstruct.rs — Bitfield library for Rust structures
+-//
+-// A library that provides support for defining bit fields in Rust
+-// structures. Also used from things that need bitfields like register macro.
++
++//! Bitfield library for Rust structures
++//!
++//! A library that provides support for defining bit fields in Rust
++//! structures. Also used from things that need bitfields like register macro.
  ///
- /// ```rust
- /// bitstruct! {
--///     struct ControlReg: u32 {
-+///     pub struct ControlReg: u32 {
- ///         3:0       mode        as u8 ?=> Mode;
- ///         7:4       state       as u8 => State;
- ///     }
-@@ -34,21 +34,21 @@
+ /// # Syntax
+ ///
+@@ -32,6 +32,7 @@
+ ///   the result.
+ /// - `as <type> ?=> <try_into_type>` calls `<try_into_type>`'s `TryFrom::<<type>>` implementation
  ///   and returns the result. This is useful with fields for which not all values are valid.
++#[macro_export]
  macro_rules! bitstruct {
      // Main entry point - defines the bitfield struct with fields
--    (struct $name:ident : $storage:ty $(, $comment:literal)? { $($fields:tt)* }) => {
--        bitstruct!(@core $name $storage $(, $comment)? { $($fields)* });
-+    ($vis:vis struct $name:ident : $storage:ty $(, $comment:literal)? { $($fields:tt)* }) => {
-+        bitstruct!(@core $name $vis $storage $(, $comment)? { $($fields)* });
-     };
- 
-     // All rules below are helpers.
- 
-     // Defines the wrapper `$name` type, as well as its relevant implementations (`Debug`,
-     // `Default`, `BitOr`, and conversion to the value type) and field accessor methods.
--    (@core $name:ident $storage:ty $(, $comment:literal)? { $($fields:tt)* }) => {
-+    (@core $name:ident $vis:vis $storage:ty $(, $comment:literal)? { $($fields:tt)* }) => {
-         $(
-         #[doc=$comment]
-         )?
-         #[repr(transparent)]
-         #[derive(Clone, Copy)]
--        pub(crate) struct $name($storage);
-+        $vis struct $name($vis $storage);
- 
-         impl ::core::ops::BitOr for $name {
-             type Output = Self;
-@@ -64,14 +64,14 @@ fn from(val: $name) -> $storage {
-             }
-         }
- 
--        bitstruct!(@fields_dispatcher $name $storage { $($fields)* });
-+        bitstruct!(@fields_dispatcher $name $vis $storage { $($fields)* });
-     };
- 
-     // Captures the fields and passes them to all the implementers that require field information.
-     //
-     // Used to simplify the matching rules for implementers, so they don't need to match the entire
-     // complex fields rule even though they only make use of part of it.
--    (@fields_dispatcher $name:ident $storage:ty {
-+    (@fields_dispatcher $name:ident $vis:vis $storage:ty {
-         $($hi:tt:$lo:tt $field:ident as $type:tt
-             $(?=> $try_into_type:ty)?
-             $(=> $into_type:ty)?
-@@ -80,7 +80,7 @@ fn from(val: $name) -> $storage {
-         )*
-     }
-     ) => {
--        bitstruct!(@field_accessors $name $storage {
-+        bitstruct!(@field_accessors $name $vis $storage {
-             $(
-                 $hi:$lo $field as $type
-                 $(?=> $try_into_type)?
-@@ -95,7 +95,7 @@ fn from(val: $name) -> $storage {
- 
-     // Defines all the field getter/setter methods for `$name`.
-     (
--        @field_accessors $name:ident $storage:ty {
-+        @field_accessors $name:ident $vis:vis $storage:ty {
-         $($hi:tt:$lo:tt $field:ident as $type:tt
-             $(?=> $try_into_type:ty)?
-             $(=> $into_type:ty)?
-@@ -111,7 +111,7 @@ fn from(val: $name) -> $storage {
-         #[allow(dead_code)]
-         impl $name {
-             $(
--            bitstruct!(@field_accessor $name $storage, $hi:$lo $field as $type
-+            bitstruct!(@field_accessor $name $vis $storage, $hi:$lo $field as $type
-                 $(?=> $try_into_type)?
-                 $(=> $into_type)?
-                 $(, $comment)?
-@@ -145,11 +145,11 @@ impl $name {
- 
-     // Catches fields defined as `bool` and convert them into a boolean value.
-     (
--        @field_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool => $into_type:ty
-+        @field_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident as bool => $into_type:ty
-             $(, $comment:literal)?;
-     ) => {
-         bitstruct!(
--            @leaf_accessor $name $storage, $hi:$lo $field
-+            @leaf_accessor $name $vis $storage, $hi:$lo $field
-             { |f| <$into_type>::from(if f != 0 { true } else { false }) }
-             $into_type => $into_type $(, $comment)?;
-         );
-@@ -157,17 +157,17 @@ impl $name {
- 
-     // Shortcut for fields defined as `bool` without the `=>` syntax.
-     (
--        @field_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as bool $(, $comment:literal)?;
-+        @field_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident as bool $(, $comment:literal)?;
-     ) => {
--        bitstruct!(@field_accessor $name $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
-+        bitstruct!(@field_accessor $name $vis $storage, $hi:$lo $field as bool => bool $(, $comment)?;);
-     };
- 
-     // Catches the `?=>` syntax for non-boolean fields.
-     (
--        @field_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt ?=> $try_into_type:ty
-+        @field_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt ?=> $try_into_type:ty
-             $(, $comment:literal)?;
-     ) => {
--        bitstruct!(@leaf_accessor $name $storage, $hi:$lo $field
-+        bitstruct!(@leaf_accessor $name $vis $storage, $hi:$lo $field
-             { |f| <$try_into_type>::try_from(f as $type) } $try_into_type =>
-             ::core::result::Result<
-                 $try_into_type,
-@@ -178,24 +178,24 @@ impl $name {
- 
-     // Catches the `=>` syntax for non-boolean fields.
-     (
--        @field_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt => $into_type:ty
-+        @field_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt => $into_type:ty
-             $(, $comment:literal)?;
-     ) => {
--        bitstruct!(@leaf_accessor $name $storage, $hi:$lo $field
-+        bitstruct!(@leaf_accessor $name $vis $storage, $hi:$lo $field
-             { |f| <$into_type>::from(f as $type) } $into_type => $into_type $(, $comment)?;);
-     };
- 
-     // Shortcut for non-boolean fields defined without the `=>` or `?=>` syntax.
-     (
--        @field_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt
-+        @field_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident as $type:tt
-             $(, $comment:literal)?;
-     ) => {
--        bitstruct!(@field_accessor $name $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
-+        bitstruct!(@field_accessor $name $vis $storage, $hi:$lo $field as $type => $type $(, $comment)?;);
-     };
- 
-     // Generates the accessor methods for a single field.
-     (
--        @leaf_accessor $name:ident $storage:ty, $hi:tt:$lo:tt $field:ident
-+        @leaf_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident
+     ($vis:vis struct $name:ident : $storage:ty $(, $comment:literal)? { $($fields:tt)* }) => {
+@@ -125,7 +126,7 @@ impl $name {
+     (@check_field_bounds $hi:tt:$lo:tt $field:ident as bool) => {
+         #[allow(clippy::eq_op)]
+         const _: () = {
+-            ::kernel::build_assert!(
++            build_assert!(
+                 $hi == $lo,
+                 concat!("boolean field `", stringify!($field), "` covers more than one bit")
+             );
+@@ -136,7 +137,7 @@ impl $name {
+     (@check_field_bounds $hi:tt:$lo:tt $field:ident as $type:tt) => {
+         #[allow(clippy::eq_op)]
+         const _: () = {
+-            ::kernel::build_assert!(
++            build_assert!(
+                 $hi >= $lo,
+                 concat!("field `", stringify!($field), "`'s MSB is smaller than its LSB")
+             );
+@@ -198,15 +199,15 @@ impl $name {
+         @leaf_accessor $name:ident $vis:vis $storage:ty, $hi:tt:$lo:tt $field:ident
              { $process:expr } $to_type:ty => $res_type:ty $(, $comment:literal)?;
      ) => {
-         ::kernel::macros::paste!(
-@@ -218,7 +218,7 @@ impl $name {
-         #[doc=$comment]
+-        ::kernel::macros::paste!(
++        $crate::macros::paste!(
+         const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> = $lo..=$hi;
+         const [<$field:upper _MASK>]: $storage = {
+             // Generate mask for shifting
+             match ::core::mem::size_of::<$storage>() {
+-                1 => ::kernel::bits::genmask_u8($lo..=$hi) as $storage,
+-                2 => ::kernel::bits::genmask_u16($lo..=$hi) as $storage,
+-                4 => ::kernel::bits::genmask_u32($lo..=$hi) as $storage,
+-                8 => ::kernel::bits::genmask_u64($lo..=$hi) as $storage,
++                1 => $crate::bits::genmask_u8($lo..=$hi) as $storage,
++                2 => $crate::bits::genmask_u16($lo..=$hi) as $storage,
++                4 => $crate::bits::genmask_u32($lo..=$hi) as $storage,
++                8 => $crate::bits::genmask_u64($lo..=$hi) as $storage,
+                 _ => <$storage>::MAX
+             }
+         };
+@@ -219,7 +220,7 @@ impl $name {
          )?
          #[inline(always)]
--        pub(crate) fn $field(self) -> $res_type {
-+        $vis fn $field(self) -> $res_type {
-             ::kernel::macros::paste!(
+         $vis fn $field(self) -> $res_type {
+-            ::kernel::macros::paste!(
++            $crate::macros::paste!(
              const MASK: $storage = $name::[<$field:upper _MASK>];
              const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
-@@ -234,7 +234,7 @@ pub(crate) fn $field(self) -> $res_type {
+             );
+@@ -228,7 +229,7 @@ impl $name {
+             $process(field)
+         }
+ 
+-        ::kernel::macros::paste!(
++        $crate::macros::paste!(
+         $(
+         #[doc="Sets the value of this field:"]
          #[doc=$comment]
-         )?
-         #[inline(always)]
--        pub(crate) fn [<set_ $field>](mut self, value: $to_type) -> Self {
-+        $vis fn [<set_ $field>](mut self, value: $to_type) -> Self {
-             const MASK: $storage = $name::[<$field:upper _MASK>];
-             const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
-             let value = (<$storage>::from(value) << SHIFT) & MASK;
-diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
-index bbfeab147c9f..22a53a73b765 100644
+@@ -267,7 +268,7 @@ fn default() -> Self {
+                 #[allow(unused_mut)]
+                 let mut value = Self(Default::default());
+ 
+-                ::kernel::macros::paste!(
++                $crate::macros::paste!(
+                 $(
+                 value.[<set_ $field>](Default::default());
+                 )*
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index c859a8984bae..9c492fa10967 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -64,6 +64,7 @@
+ #[cfg(CONFIG_AUXILIARY_BUS)]
+ pub mod auxiliary;
+ pub mod bits;
++pub mod bitstruct;
+ #[cfg(CONFIG_BLOCK)]
+ pub mod block;
+ pub mod bug;
+@@ -112,6 +113,7 @@
+ pub mod prelude;
+ pub mod print;
+ pub mod rbtree;
++pub mod register;
+ pub mod regulator;
+ pub mod revocable;
+ pub mod security;
+diff --git a/rust/kernel/prelude.rs b/rust/kernel/prelude.rs
+index 25fe97aafd02..a98c7b7ab6af 100644
+--- a/rust/kernel/prelude.rs
++++ b/rust/kernel/prelude.rs
+@@ -39,6 +39,8 @@
+ 
+ pub use super::static_assert;
+ 
++pub use super::{bitstruct, register};
++
+ pub use super::error::{code::*, Error, Result};
+ 
+ pub use super::{str::CStr, ThisModule};
+diff --git a/drivers/gpu/nova-core/regs/macros.rs b/rust/kernel/register.rs
+similarity index 90%
+rename from drivers/gpu/nova-core/regs/macros.rs
+rename to rust/kernel/register.rs
+index 22a53a73b765..1f48c5335e70 100644
 --- a/drivers/gpu/nova-core/regs/macros.rs
-+++ b/drivers/gpu/nova-core/regs/macros.rs
-@@ -284,25 +284,25 @@ pub(crate) trait RegisterBase<T> {
++++ b/rust/kernel/register.rs
+@@ -16,7 +16,8 @@
+ /// The `T` generic argument is used to distinguish which base to use, in case a type provides
+ /// several bases. It is given to the `register!` macro to restrict the use of the register to
+ /// implementors of this particular variant.
+-pub(crate) trait RegisterBase<T> {
++pub trait RegisterBase<T> {
++    /// The base address for the register.
+     const BASE: usize;
+ }
+ 
+@@ -281,6 +282,7 @@ pub(crate) trait RegisterBase<T> {
+ /// # Ok(())
+ /// # }
+ /// ```
++#[macro_export]
  macro_rules! register {
      // Creates a register at a fixed offset of the MMIO space.
      ($name:ident @ $offset:literal $(, $comment:literal)? { $($fields:tt)* } ) => {
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_fixed $name @ $offset);
-     };
+@@ -378,7 +380,7 @@ impl $name {
+             /// Read the register from its address in `io`.
+             #[inline(always)]
+             pub(crate) fn read<const SIZE: usize, T>(io: &T) -> Self where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 Self(io.read32($offset))
+             }
+@@ -386,7 +388,7 @@ pub(crate) fn read<const SIZE: usize, T>(io: &T) -> Self where
+             /// Write the value contained in `self` to the register address in `io`.
+             #[inline(always)]
+             pub(crate) fn write<const SIZE: usize, T>(self, io: &T) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 io.write32(self.0, $offset)
+             }
+@@ -398,7 +400,7 @@ pub(crate) fn alter<const SIZE: usize, T, F>(
+                 io: &T,
+                 f: F,
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 let reg = f(Self::read(io));
+@@ -421,13 +423,13 @@ pub(crate) fn read<const SIZE: usize, T, B>(
+                 #[allow(unused_variables)]
+                 base: &B,
+             ) -> Self where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 const OFFSET: usize = $name::OFFSET;
  
-     // Creates an alias register of fixed offset register `alias` with its own fields.
-     ($name:ident => $alias:ident $(, $comment:literal)? { $($fields:tt)* } ) => {
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_fixed $name @ $alias::OFFSET);
-     };
+                 let value = io.read32(
+-                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
++                    <B as $crate::register::RegisterBase<$base>>::BASE + OFFSET
+                 );
  
-     // Creates a register at a relative offset from a base address provider.
-     ($name:ident @ $base:ty [ $offset:literal ] $(, $comment:literal)? { $($fields:tt)* } ) => {
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_relative $name @ $base [ $offset ]);
-     };
+                 Self(value)
+@@ -442,14 +444,14 @@ pub(crate) fn write<const SIZE: usize, T, B>(
+                 #[allow(unused_variables)]
+                 base: &B,
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 const OFFSET: usize = $name::OFFSET;
  
-     // Creates an alias register of relative offset register `alias` with its own fields.
-     ($name:ident => $base:ty [ $alias:ident ] $(, $comment:literal)? { $($fields:tt)* }) => {
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_relative $name @ $base [ $alias::OFFSET ]);
-     };
+                 io.write32(
+                     self.0,
+-                    <B as crate::regs::macros::RegisterBase<$base>>::BASE + OFFSET
++                    <B as $crate::register::RegisterBase<$base>>::BASE + OFFSET
+                 );
+             }
  
-@@ -313,7 +313,7 @@ macro_rules! register {
+@@ -462,8 +464,8 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
+                 base: &B,
+                 f: F,
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 let reg = f(Self::read(io, base));
+@@ -486,7 +488,7 @@ pub(crate) fn read<const SIZE: usize, T>(
+                 io: &T,
+                 idx: usize,
+             ) -> Self where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 build_assert!(idx < Self::SIZE);
+ 
+@@ -503,7 +505,7 @@ pub(crate) fn write<const SIZE: usize, T>(
+                 io: &T,
+                 idx: usize
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 build_assert!(idx < Self::SIZE);
+ 
+@@ -520,7 +522,7 @@ pub(crate) fn alter<const SIZE: usize, T, F>(
+                 idx: usize,
+                 f: F,
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 let reg = f(Self::read(io, idx));
+@@ -535,13 +537,13 @@ pub(crate) fn alter<const SIZE: usize, T, F>(
+             pub(crate) fn try_read<const SIZE: usize, T>(
+                 io: &T,
+                 idx: usize,
+-            ) -> ::kernel::error::Result<Self> where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++            ) -> $crate::error::Result<Self> where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 if idx < Self::SIZE {
+                     Ok(Self::read(io, idx))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
+ 
+@@ -554,13 +556,13 @@ pub(crate) fn try_write<const SIZE: usize, T>(
+                 self,
+                 io: &T,
+                 idx: usize,
+-            ) -> ::kernel::error::Result where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++            ) -> $crate::error::Result where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+             {
+                 if idx < Self::SIZE {
+                     Ok(self.write(io, idx))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
+ 
+@@ -574,14 +576,14 @@ pub(crate) fn try_alter<const SIZE: usize, T, F>(
+                 io: &T,
+                 idx: usize,
+                 f: F,
+-            ) -> ::kernel::error::Result where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++            ) -> $crate::error::Result where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 if idx < Self::SIZE {
+                     Ok(Self::alter(io, idx, f))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
          }
-     ) => {
-         static_assert!(::core::mem::size_of::<u32>() <= $stride);
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_array $name @ $offset [ $size ; $stride ]);
-     };
+@@ -607,12 +609,12 @@ pub(crate) fn read<const SIZE: usize, T, B>(
+                 base: &B,
+                 idx: usize,
+             ) -> Self where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 build_assert!(idx < Self::SIZE);
  
-@@ -334,7 +334,7 @@ macro_rules! register {
-             $(, $comment:literal)? { $($fields:tt)* }
-     ) => {
-         static_assert!(::core::mem::size_of::<u32>() <= $stride);
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_relative_array $name @ $base [ $offset [ $size ; $stride ] ]);
-     };
+-                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
++                let offset = <B as $crate::register::RegisterBase<$base>>::BASE +
+                     Self::OFFSET + (idx * Self::STRIDE);
+                 let value = io.read32(offset);
  
-@@ -356,7 +356,7 @@ macro_rules! register {
+@@ -629,12 +631,12 @@ pub(crate) fn write<const SIZE: usize, T, B>(
+                 base: &B,
+                 idx: usize
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 build_assert!(idx < Self::SIZE);
+ 
+-                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
++                let offset = <B as $crate::register::RegisterBase<$base>>::BASE +
+                     Self::OFFSET + (idx * Self::STRIDE);
+ 
+                 io.write32(self.0, offset);
+@@ -650,8 +652,8 @@ pub(crate) fn alter<const SIZE: usize, T, B, F>(
+                 idx: usize,
+                 f: F,
+             ) where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 let reg = f(Self::read(io, base, idx));
+@@ -668,14 +670,14 @@ pub(crate) fn try_read<const SIZE: usize, T, B>(
+                 io: &T,
+                 base: &B,
+                 idx: usize,
+-            ) -> ::kernel::error::Result<Self> where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++            ) -> $crate::error::Result<Self> where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 if idx < Self::SIZE {
+                     Ok(Self::read(io, base, idx))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
+ 
+@@ -690,14 +692,14 @@ pub(crate) fn try_write<const SIZE: usize, T, B>(
+                 io: &T,
+                 base: &B,
+                 idx: usize,
+-            ) -> ::kernel::error::Result where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++            ) -> $crate::error::Result where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+             {
+                 if idx < Self::SIZE {
+                     Ok(self.write(io, base, idx))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
+ 
+@@ -713,17 +715,19 @@ pub(crate) fn try_alter<const SIZE: usize, T, B, F>(
+                 base: &B,
+                 idx: usize,
+                 f: F,
+-            ) -> ::kernel::error::Result where
+-                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
+-                B: crate::regs::macros::RegisterBase<$base>,
++            ) -> $crate::error::Result where
++                T: ::core::ops::Deref<Target = $crate::io::Io<SIZE>>,
++                B: $crate::register::RegisterBase<$base>,
+                 F: ::core::ops::FnOnce(Self) -> Self,
+             {
+                 if idx < Self::SIZE {
+                     Ok(Self::alter(io, base, idx, f))
+                 } else {
+-                    Err(EINVAL)
++                    Err($crate::error::code::EINVAL)
+                 }
+             }
          }
-     ) => {
-         static_assert!($idx < $alias::SIZE);
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_relative $name @ $base [ $alias::OFFSET + $idx * $alias::STRIDE ] );
      };
- 
-@@ -365,7 +365,7 @@ macro_rules! register {
-     // to avoid it being interpreted in place of the relative register array alias rule.
-     ($name:ident => $alias:ident [ $idx:expr ] $(, $comment:literal)? { $($fields:tt)* }) => {
-         static_assert!($idx < $alias::SIZE);
--        bitstruct!(struct $name: u32 $(, $comment)? { $($fields)* } );
-+        bitstruct!(pub(crate) struct $name: u32 $(, $comment)? { $($fields)* } );
-         register!(@io_fixed $name @ $alias::OFFSET + $idx * $alias::STRIDE );
-     };
- 
+ }
++
++pub use register;
 -- 
 2.34.1
 
