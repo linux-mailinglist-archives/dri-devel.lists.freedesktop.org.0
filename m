@@ -2,131 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFC7B422D4
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5492B422D6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B254A10E8A5;
-	Wed,  3 Sep 2025 14:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F3510E8A6;
+	Wed,  3 Sep 2025 14:00:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CFVGfxqV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5d/Es24n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D02210E8A5
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 14:00:50 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583Dx6n7019931
- for <dri-devel@lists.freedesktop.org>; Wed, 3 Sep 2025 14:00:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Z6pj88/J3j1NKaodwkNXmQxi
- gRcyLxr517oZ55+1nuk=; b=CFVGfxqVsPqKflGUyxNKOIe0rLvur1zSQf2LpgzV
- +ILbhpQ0vD5AoJ7+LmJFdk6AHSfrSenkwAEsCZ+DbtBU64bsBOwqQF1RWuvTY7u3
- Rbjt+M/eTERLXCzecdEpMLPFnzObwrwUvK7Fj5aBVkGAM8J1/7aeTbKPShBkyjjx
- gpCTHlt4+cUB/nfSH4McgdMVB+jIWPkLI+cvNHkQfoXjt7Y1/YAqddjpM3XlrP1W
- lyhzm7i7qMIFOSy/C+eC+4mrBSuLC8bb/IK2i9qM8pVmNe4sbKEl7TqJnvwtUwyc
- qYaXegb/3vEHbjSe9rSinT5HrTClAeeXJM96kLIjMSNXaA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48utk93qa7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 14:00:49 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70de52d2904so157409436d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 07:00:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756908048; x=1757512848;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Z6pj88/J3j1NKaodwkNXmQxigRcyLxr517oZ55+1nuk=;
- b=RY/yfj7Z6uvEHr9+ufuWVxyvGWTMdw7etEzHWenSBVhCAaeJmxuA9zzIBw/CC0EssH
- OS5B9qgbJ8SNxlkb9iCxxSTi/G2k5x0ow3s98nhxKXh91HK1NCAUj5lIUIRPbVugeIHi
- gKlKCzufWTiTg0VgOPjmjRGQfR5yit20nFpYwsvGzstbR9j/sHt/7pyuIsGBVvw2Vyuj
- sYBE62EMsis5DWZrJ9xbUs9F8rFiv7wG3Vwayvf/QKMbPcNmV7eh72Z2otR2yoHPbE4Z
- Lceia1u1Gmj6mBv/2R2cSC6iddbn3hwS2RDobGonyls5tDjbQWSRKQ9hPLaHF7uFUki/
- gulQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgDR7p700pkKcqUSSS+ymAwcjvW7dHlCWDrPJy8XC2868PUrX+Pe/fB/kfN1IZQ9r/qwauQM2NwDo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWTZ1vyKTVnY6qkemGO9PUIzmvI48VoaQ57GOQ8jWIBfydYEhs
- 0RUKGEElj1t8dM7zbhEKoReeVR4qvo41Ho31KQ2kiksld4NT1tr8+r12Og8sdLAMs4D+KjiRA8S
- 82WjamFA9tbawTihd2OEBonecYxSGZQlSCaQhfCwX/ELKi+kozwnF7dKQ5dVoomYfUAnaCAQ=
-X-Gm-Gg: ASbGncs5pBhJZyTf+ca5wyi4AY6oiE6o5KPhDznis6WiU9Pa6e1m2w7SMMQ80B3WkEF
- HBoyB8mTnWX9+4rdxbKqy7VlseHW21YUl6vMfDqFL8L1fEU7m8BU0cjIIfVipLtqFDxdb0ucWPN
- OFbxlZk6CH0tDsudS0Bx6ifIozp8JDtfclK0pDKHa4BbU7/6mO2WP7LCRz/ZMyRSmTtZ6VjriHm
- PTXjb/gKYm6VVYenWZtVKyNOUyN8rkx0BG5oaEiFv/jjBWQRGAtO9Z2ZL6UVVv/eRWOLiiVPJgo
- gUmaEdue2nkMU7sMh1aer4lYLvQSaSQDx5lv6NQGwbNRAaouVpUTjxEEqAqZUEGEnMnwAYiLW6A
- GajJmHeia4Jzk/A5C/v/zOqEFrSM6CM6+4tJ5G48QKmpXagXxM23i
-X-Received: by 2002:ac8:5e53:0:b0:4b3:48b2:aa9f with SMTP id
- d75a77b69052e-4b348b2b623mr70291541cf.50.1756908045442; 
- Wed, 03 Sep 2025 07:00:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnDnwIQkCmFKK18oDjQbnACoTF/d8n+oT9VNWxZl8INMw0myHrJGeaehADC9LPm5hkCdYKhA==
-X-Received: by 2002:ac8:5e53:0:b0:4b3:48b2:aa9f with SMTP id
- d75a77b69052e-4b348b2b623mr70287801cf.50.1756908041921; 
- Wed, 03 Sep 2025 07:00:41 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-337f4c90454sm10451921fa.18.2025.09.03.07.00.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Sep 2025 07:00:39 -0700 (PDT)
-Date: Wed, 3 Sep 2025 17:00:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2066.outbound.protection.outlook.com [40.107.94.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8563610E8A8
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 14:00:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P4FMf6OpAuSxm1zdvnoXM/7AGo4bv/yp72VvezGjaKDczvGGJJMsZxaqzc3/D7bvKac1UpP7Re/qFTzxjEum433BaoWi3ymq25TRmhG/tlWQMlzrGs39Yko1VKTEx/9opk6mZEzXKwPJ8sxQy7NqKV9w3UhZ8qtuPMA3b7fHSnalYrwLg+cxexHy+4cx1H89sqKVIWWKqvdANP7h8Fft1JgcxkRA45LTRPziVQmfwxetNd/OHaulakfO4V4kfiZqhOyNFDZYQk64heRooHWP5aPusiwoIgcdLYChx3hiMim0daQ8WIJh1wMC4WX2yGbQahET7YbHjLq6MdGhOid4wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8jHNuBBqz2EMWerHyG2Co/nRTa1it6n2SGQ/pC/opkw=;
+ b=xw5n7r/1A1g+66jP9+r3u72VM7b+JkyveZ+oSjyJls+S2QKSsf1COAR2Ni65FdI2+S39hSUIVNeLztnn7yXuAELwlf9oyReKRSuG1OJEH3wz/3y8ln9cmv7qU2BBu9157noyf+VGCyj6Wr7Vv3d4ZnPQ8MQWR/t9YKIsG/I2WwYfUR5eMsc5h7P5C7s7vw5mdffWttOQxyXkXtmY5wZ2G/WKc67t3p8dPkIrp+Umfes/o8QCmWvu9zlPXhIBUNNSkntSJ3KXPX52BHJ0tr7S5nn9y68qTsaxunXvRtarVtL1xvRecMEL+zgGOLBax+H7mIcNnYbhsYjU6jSKXHyuxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8jHNuBBqz2EMWerHyG2Co/nRTa1it6n2SGQ/pC/opkw=;
+ b=5d/Es24nbKY9YIrOCLyYondVeAtbrG1uP+hL9io/ZTxsgJd4O9vUVAcgmIFBTVmvpAcZQcmPMGwG365XirfXyjCsNpLzlfRq6DF7pEp0xnczVq4ARiU0a5uf+9IVl+bn77XBMFItO2vGuUAppAthdsW3+YC1kEZFsAiPbqaJkhw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5969.namprd12.prod.outlook.com (2603:10b6:208:398::7)
+ by SN7PR12MB7154.namprd12.prod.outlook.com (2603:10b6:806:2a5::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.29; Wed, 3 Sep
+ 2025 14:00:49 +0000
+Received: from BL1PR12MB5969.namprd12.prod.outlook.com
+ ([fe80::1ac7:adec:34f4:86d1]) by BL1PR12MB5969.namprd12.prod.outlook.com
+ ([fe80::1ac7:adec:34f4:86d1%5]) with mapi id 15.20.9094.016; Wed, 3 Sep 2025
+ 14:00:48 +0000
+Message-ID: <5d369cbd-50b6-4a99-bece-5df559fa7706@amd.com>
+Date: Wed, 3 Sep 2025 16:00:43 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/11] drm: xlnx: zynqmp: Add support for XV15 & XV20
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-Subject: Re: [PATCH v4 3/6] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
-Message-ID: <t5pxum74q3fwf6wgcbaeaginjvtjfn357pkfswvafsggtmvxfv@jl5qjfhpmmow>
-References: <20250822-a663-gpu-support-v4-0-97d26bb2144e@oss.qualcomm.com>
- <20250822-a663-gpu-support-v4-3-97d26bb2144e@oss.qualcomm.com>
- <f11b778d-eba1-4712-81c7-b83f2cb38b46@oss.qualcomm.com>
- <exkrgx6rdotfrrsnklsd7zk4ydehsk5vaoevibpqisyq2dwbd4@sa4kgnuexlna>
- <f169be5a-faa5-4824-861e-27bd2083b9cf@oss.qualcomm.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+References: <20250425-xilinx-formats-v5-0-c74263231630@ideasonboard.com>
+ <20250425-xilinx-formats-v5-8-c74263231630@ideasonboard.com>
+From: "Sagar, Vishal" <vishal.sagar@amd.com>
+Content-Language: en-US
+In-Reply-To: <20250425-xilinx-formats-v5-8-c74263231630@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DB9PR02CA0009.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9::14) To BL1PR12MB5969.namprd12.prod.outlook.com
+ (2603:10b6:208:398::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f169be5a-faa5-4824-861e-27bd2083b9cf@oss.qualcomm.com>
-X-Proofpoint-GUID: 7e7FjRzaRmXux4E1Ru5q6NqUD27pTL5W
-X-Proofpoint-ORIG-GUID: 7e7FjRzaRmXux4E1Ru5q6NqUD27pTL5W
-X-Authority-Analysis: v=2.4 cv=ccnSrmDM c=1 sm=1 tr=0 ts=68b84a11 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=I_3-zorBrfLWAkoykd4A:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDA0MiBTYWx0ZWRfX+bD+lLMasChe
- rJweSAHLssaVWiMjaqcsSCUpFynWWlXi238wouwZx1EF2+AQYUOCmSghSTj4R3QQYdMtag8IapZ
- sfBPmDDr+v6OKoXGD/a1vZUGPr7kdiT55s77FE/6mn4+fZFCnTbvpGsYA2toiXW89LtBjJ8JqxN
- R6e3YqiTJDanqFhYHD9MLZhOxYNZav57vGE8ppeswcr8lNWnGt54z5ED+5NidWiyMw02eHbbW+a
- k1wSEc387fo8TmOozcEZepUJ0GpYN9ZN4tYeNu4rYchtZtsDSw2G7KP91YXS2KyS3uqlqMH6dQd
- 3jzoR+cnaMvJe+G6XAjQpbRfep14BCBa2Vu8S0DOz5yR9L/lLC53bz2RWAU0rOdfGgI1X7HzVVq
- mRbZzIeD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_07,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300042
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5969:EE_|SN7PR12MB7154:EE_
+X-MS-Office365-Filtering-Correlation-Id: d84d76b7-8e54-420d-8805-08ddeaf248a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3NoWnFMd1FjQjN4eXFwdmk3VFliQXhBM1R6ZmdGbVhiNitpdFIzT2lBbW9x?=
+ =?utf-8?B?NEo5aTFrYi83UHEzamhCNEIvU0t3TXFNTHBpcEhvaW96MUtRSS9EMkVuQjJa?=
+ =?utf-8?B?cCtKN2JBTkRBMHNtUTlMMDhEYkVpdk5TMmlHcDczOE1CcFI4Smc3eWwvRGRO?=
+ =?utf-8?B?TlNCeHpXajFHSkJpcHJFQldSODJVRWRFdjJNdTNQRlg2aTN2RkpVR2ltWTll?=
+ =?utf-8?B?QzJiK04xYXBZS3BvTmpla1U5UDBaSmRlTVM1cjBnalRTckVDb203a05pSjVG?=
+ =?utf-8?B?cks1Y3pSK1BCL25uYTRHWmx2WG9BbWZLQkxKZ2VmWmdLYktyd3NGcS9ER3Nz?=
+ =?utf-8?B?R05WZjlPaXFmc01UNUdOVXQvWmtWTDVIMExPeHRBZkZ2KzRaOVBqS29KVzhN?=
+ =?utf-8?B?Q09hMitTbVlnYy9vektZNHpwOEg2aDZnK28rdzJpeUNObnlCQ3I1Q0xiOG1C?=
+ =?utf-8?B?b21pV1FPME8vQjRlZ0VSVXplaXBVbWlKL2ZvcE1memR5SHR3S0psVExxbUYz?=
+ =?utf-8?B?V1JRcUZIbkdNT3JHejFsMkt2RmR0QVY3VEdIWWlHa1cwQk1FZnd6bnpuWTVk?=
+ =?utf-8?B?M3lNM2E5K09oR3VJUTRKbDIxSjdGbCtWYWtnL2JVbkNGL1AvSUVyd0UyUDAw?=
+ =?utf-8?B?SmpqdTV2dWcyaFl2ZUN0UXRLYVJKYWlVS05OR1RwYmpzZ3AzZ25IUytXclhM?=
+ =?utf-8?B?MldhN1pmcXhEOUFnQWtPVVF4WnFTR2NVYUVUTzVKNTRBaGg4amV5emNoL3Js?=
+ =?utf-8?B?bER1ZmJOMGZWR05hVS9LYjRpV2xDRnRlMDVXd3U0eCs1c2ZVcXVVdFpVK2xB?=
+ =?utf-8?B?SERteFV1aTN2bkRJdjZOM0RzNzhxYkdGZDg2UFM1T28rcERORFNCWFdQUjJ1?=
+ =?utf-8?B?NXd2WWhuVjVqNjF0Yml5RXlFOUw1aVQ2QlV6RmxNME53RStoeUY5Mm0rN1cy?=
+ =?utf-8?B?eXI2VjNBZ0ptNDJReFdSTFhPUE9Cc04zVld3QllsNk9vbjJrUDVKYmltN3lm?=
+ =?utf-8?B?SDdTMW5NbUFQWHlWbWsyR1drMGd6WUhaL0VhS1NEUVlGL2hSdlIxZVFMcmVp?=
+ =?utf-8?B?NFg3SVV5NGFINGpFMjhzMXhsSVZFSGZNZEduZlF3YjRCaGxwbmFWaTBPNFBn?=
+ =?utf-8?B?Z3NkZTlPWkxUWjUydmZacTFOQWNKOVlXQnd0WG5aTi8rVE5lYzFLd1JBSmhZ?=
+ =?utf-8?B?c1FDWnVnSWNETTQ2dU5xODB0alZBcDQ4WmdQKy9mK0gycExQVUxrcTdiMzl4?=
+ =?utf-8?B?OGhFSnF2c1VmWHVtVE5EUm9SWGM3SHIrTzZMKy9mdUlGT3QybGpBYzIrcVhJ?=
+ =?utf-8?B?aUsrOWRJNk9TRlRITG1weHNRK00zcUpiVWZ4eERHbGVQK3cvRVljK29TOTF6?=
+ =?utf-8?B?d0UyelNBS3FockFyeXVrVWoraVpSem1wVXQxTzVDWlZGQ0tPa1M2MHkxZEtp?=
+ =?utf-8?B?dCtCVEJrV1ZBUGRIMytlTG4xOTh0aVhiUEl3a0QvVGE4bnQ0LzNCUDdUSHZO?=
+ =?utf-8?B?SDhkVUU1Z0NOYzlmMDhBZjlDWWNoSFpLdkh4VmpobStURG1LaFFkTUJrWjlx?=
+ =?utf-8?B?Zm1aRDdEZXR4a1NPQThkdzVZekxUbVVEYW9rZk9Edmo1WnRtNU9oeE9XR1F2?=
+ =?utf-8?B?QXp6VkNTWGhVSEkzN0YzVzFqc3NMRnUyT1JIQUZ4QUJNdW5sUHNIeHRGS2ZM?=
+ =?utf-8?B?UFhCZXkvak02aEl4VWRidWh0N3RRVWhEc2o1T0c4eXZjelA2MWZaSDRibE00?=
+ =?utf-8?B?Vzc2L2lkYWFNU0J5SFFCcGxvOHdRVDhTQkcxdWYrOVUwYm5qMVVQN2xkZGJB?=
+ =?utf-8?B?UDEyZmdtaTg3SnVCMjhFZjFsZm1lYlpkVXRuY1lzM2hoQUk4bC9EMmlnRUZy?=
+ =?utf-8?B?VUpEN1VHcWo2azFScG5GUUY2cDNVRXJ3ci9nU1pyQnU5dnIyWktBNThqZGJK?=
+ =?utf-8?Q?fRWWTRx+gAo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5969.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDNMOGNrek1ueGMrMDh5dk9zbjVlZmVsK3hvWFZTVENSQTVETXRHc3IxWERN?=
+ =?utf-8?B?QkNWak13NzBrVXNCOGR5N2hjbU1acG5YL3BiNkV3VjhKUVJkRURkQ3lwTndK?=
+ =?utf-8?B?VytaWHZYS2tKemJOYzF3Zm5VZnNXb0wwSm56QnV5VXZQWUhhdnhxLzh3WnJr?=
+ =?utf-8?B?L1RXS2g3VlM5QXVLM1FUY25hVUxhOWZiTXhZbFBTRTJ4MXJLUXlFclVUcWtn?=
+ =?utf-8?B?aklYcmNtdmdUdFU2QVN3bG5qQTZDQkZDZzh3MHBpNkJMNWxMcCt4bUlveE00?=
+ =?utf-8?B?MHUzQnoybE0zWWJwbW9uaG8rY2V1Y3QydlE5YldocWw4ak9qRk5ndHlaQ3Yw?=
+ =?utf-8?B?UGxxbERPek5jUU1JaHpCeTFocHRQTkpYQzNkYkJZUEhkYkFXTVQwUEFqOU85?=
+ =?utf-8?B?UXN5cTFjdmpGdlBvS1UzWS9LWkduc01VQjRqa3h1T2U2MjVrcEczeU0xU1hu?=
+ =?utf-8?B?SnRpamxHeFdodWZVZXV1elNKaEFOWUZ2S0YrWlBYVjJmMW1QZklBR2xkeUpW?=
+ =?utf-8?B?NW11ZG12OXVvY2oya2FKUTVSVmlITjNLS3NRMkdJUlM1L1ZQR2RvN1FuMUtz?=
+ =?utf-8?B?a2czS0lxNUdZanYvSTlIUzVFZ0hqaldqMVVqbEVUNFo5RmhGS0ZuKzl4MDVp?=
+ =?utf-8?B?L3R1REdRWGczUFpacitUY2QvYnYrblpRNHMwQnVnL2pOTlpRNElhYmdKdnJu?=
+ =?utf-8?B?K0NQS0R4cjluczR2bDJiU200WXgyUVRnblhBT2x6YzE1KzFOZ29Fck1xeCtV?=
+ =?utf-8?B?SlQyN2lvN1l5cSs3OU5scFlaYzYvYXd4WThZN1lrVUFDUUY5NEZxN21GTE53?=
+ =?utf-8?B?ckNqWnV2Q05hZ1lOMmpVMDVwWGlJaFNYZG8wa1JMMXFxalc1YWpNb1RGbzN0?=
+ =?utf-8?B?SDlNVVFZMUkzUzh1M0hOZEFIelIwd2tMWnA3NmJvUDhIUjY2QjBCL014QzIz?=
+ =?utf-8?B?bnVqUGxzdTdScmh5OWxqSTByNld5aHBCSUpkUFFwUzlXQm85Q0d4NmFHMW9E?=
+ =?utf-8?B?R0txN0oreGF1S25NUnFFL3A5WXIzd0lWOUloWFBtMUo3cVQvNUN3MS9WNVd6?=
+ =?utf-8?B?RnNGVnJKTzVMUEhIQ09Sd2hCc0V1M1JVUVovMGo0N3JqWS80NDhEczRXVmFG?=
+ =?utf-8?B?S0pMU0ZMaUlwbGZ0dlRwVHlqM3U2MEZNQVBmODRBREFIWFdJZ3ZvK2xueDI2?=
+ =?utf-8?B?MWFJU05FdE5GalFiTURGWkpaQjJnOXR3VGsvRDh0L3YwekZBU2M1ODNhai93?=
+ =?utf-8?B?UW83MHVmbmlLMHdnZ0Ewejl5TVcvYklPT1lqUUJIcTR3TW5zU0tzbFIySVhE?=
+ =?utf-8?B?dkE3ZTVBclhvWXRxOGNSWGx1OE5iMHFxcCs0ZjlYOUNlRG1PL21kRUZyak8x?=
+ =?utf-8?B?eXNocjdkZlpWS24yc3FrRzE4RkdKMnJtK0hJM21DWkhEYzI5NVBVSkZMRVM3?=
+ =?utf-8?B?VFNuQmM5MjdLUWY4Q0dsMGJaeWZMMlk1dG45eU9oNWN4cU9NeVM3M2F5UVM4?=
+ =?utf-8?B?RDVBaWkvQlBEeC9xUmtwM3RlU0h6RVllNXp3Q3ZNN3JSOGxEeXoyK1RvYXV0?=
+ =?utf-8?B?SWVFRmVnMlBZc1djT1o4REJDRHVPZzA3cVpKeTVkZzVadXFQd2JjNWxjcXZN?=
+ =?utf-8?B?S055QU5MSVBMVm1kMG8rVUhvMHQyOHlNV1orQTJnUTZHeDlwd0ZNRk1DRWdv?=
+ =?utf-8?B?NXZ3d0lRaFo2Wk03MEVhdU1tNXIxalhlaGVSSnIwUTQwdWVmdU1BYWtzUEpu?=
+ =?utf-8?B?VU5aUGpvWGl1Q21wZWxwVlc4QnowZFpUUUdTUG1zM1VCN0lHdWxRbTVuRHQw?=
+ =?utf-8?B?dVY2Q2haTG53QzBzZm92aVdBcFNlUEJneDJ3bUhqMzNtaHlhaFJONDlDaXNV?=
+ =?utf-8?B?aEtxVDlZdFFma2tWU2xaek5kaWNQMDE1VmZERHljWFdiS1JKYlV1a2lVNUNW?=
+ =?utf-8?B?NHhWY3hOSWtNMkZEMXNXMCsvOVBrdWptOFp3MHZJL2lObDNYbk5tQzNyZzdt?=
+ =?utf-8?B?UlBjaStZWklEY3VJREhQTnEyOWNSU0ZUZmplOFhzZEpBRkt0RUwwWHNrb0p5?=
+ =?utf-8?B?cEhRdHN0c1lHVldkUi9md0F6NXpUckR4V0RYNTVUaVFmTWM4VWVjUEZTeTho?=
+ =?utf-8?Q?C7a05A6HCsRKcj/emwiB2VFgs?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d84d76b7-8e54-420d-8805-08ddeaf248a8
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5969.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 14:00:48.5613 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z4DGSlDgRol+vs5y6txiY/TwL78rpI5IgN5I019Z+xu3yr1P/ZhAJ6VL7jSox2vw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7154
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,52 +174,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 03, 2025 at 03:36:34PM +0200, Konrad Dybcio wrote:
-> On 9/3/25 2:39 PM, Dmitry Baryshkov wrote:
-> > On Wed, Sep 03, 2025 at 02:26:30PM +0200, Konrad Dybcio wrote:
-> >> On 8/21/25 8:55 PM, Akhil P Oommen wrote:
-> >>> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> >>>
-> >>> Add gpu and gmu nodes for sa8775p chipset. As of now all
-> >>> SKUs have the same GPU fmax, so there is no requirement of
-> >>> speed bin support.
-> >>>
-> >>> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> >>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> >>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>  arch/arm64/boot/dts/qcom/lemans.dtsi | 116 +++++++++++++++++++++++++++++++++++
-> >>>  1 file changed, 116 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/qcom/lemans.dtsi b/arch/arm64/boot/dts/qcom/lemans.dtsi
-> >>> index 8ceb59742a9fc6562b2c38731ddabe3a549f7f35..8eac8d4719db9230105ad93ac22287850b6b007c 100644
-> >>> --- a/arch/arm64/boot/dts/qcom/lemans.dtsi
-> >>> +++ b/arch/arm64/boot/dts/qcom/lemans.dtsi
-> >>> @@ -1097,6 +1097,18 @@ ipcc: mailbox@408000 {
-> >>>  			#mbox-cells = <2>;
-> >>>  		};
-> >>>  
-> >>> +		qfprom: efuse@784000 {
-> >>> +			compatible = "qcom,sa8775p-qfprom", "qcom,qfprom";
-> >>> +			reg = <0x0 0x00784000 0x0 0x2410>;
-> >>
-> >> len = 0x3000
-> >>
-> >> [...]
-> >>
-> >>> +		gmu: gmu@3d6a000 {
-> >>> +			compatible = "qcom,adreno-gmu-663.0", "qcom,adreno-gmu";
-> >>> +			reg = <0x0 0x03d6a000 0x0 0x34000>,
-> >>
-> >> This bleeds into GPU_CC, len should be 0x26000
-> > 
-> > gpucc is in the middle of GMU, see other platforms.
+Hi Tomi,
+
+Thanks for the patch.
+
+On 4/25/2025 1:01 PM, Tomi Valkeinen wrote:
+> Add support for XV15 & XV20 formats.
 > 
-> This is not the case here
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index b9883ea2d03e..1dc77f2e4262 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -297,6 +297,16 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+>   		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_420,
+>   		.swap		= true,
+>   		.sf		= scaling_factors_888,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_XV15,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_420_10,
+> +		.swap		= false,
+> +		.sf		= scaling_factors_101010,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_XV20,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_10,
+> +		.swap		= false,
+> +		.sf		= scaling_factors_101010,
+>   	},
+>   };
+>   
+> 
 
-Why? I think GPU CC is a part of the GMU by design: GMU accesses GPU CC
-registers directly from the firmware.
+This looks good.
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
+
+Regards
+Vishal Sagar
