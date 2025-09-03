@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE158B420CF
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 15:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF3BB420D0
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 15:18:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218F110E878;
-	Wed,  3 Sep 2025 13:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 738B110E875;
+	Wed,  3 Sep 2025 13:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D8810E875;
- Wed,  3 Sep 2025 13:18:20 +0000 (UTC)
-X-UUID: 7225f52a88c811f0b29709d653e92f7d-20250903
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF9F210E879;
+ Wed,  3 Sep 2025 13:18:23 +0000 (UTC)
+X-UUID: 749e0a6888c811f0b29709d653e92f7d-20250903
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:03d6cce6-2064-47c3-bebb-0dae30991a82, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:592335fb-43af-471c-81cf-7d21aa6b3165, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:ff7be0c6729f0e3faf64acb4b4023c94,
+X-CID-META: VersionHash:6493067, CLOUDID:4fe2850b774750f8430f4353e4afc535,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
@@ -26,17 +26,17 @@ X-CID-META: VersionHash:6493067, CLOUDID:ff7be0c6729f0e3faf64acb4b4023c94,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7225f52a88c811f0b29709d653e92f7d-20250903
+X-UUID: 749e0a6888c811f0b29709d653e92f7d-20250903
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1862006784; Wed, 03 Sep 2025 21:18:13 +0800
+ with ESMTP id 1123542880; Wed, 03 Sep 2025 21:18:17 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 791F1E008FA2;
- Wed,  3 Sep 2025 21:18:13 +0800 (CST)
-X-ns-mid: postfix-68B84015-3074077
+ by mail.kylinos.cn (NSMail) with SMTP id 990A1E008FA2;
+ Wed,  3 Sep 2025 21:18:17 +0800 (CST)
+X-ns-mid: postfix-68B84019-866748
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id AF321E008FA3;
- Wed,  3 Sep 2025 21:18:09 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id 854FDE008FA3;
+ Wed,  3 Sep 2025 21:18:13 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -72,9 +72,9 @@ Cc: Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v4 05/10] PM / devfreq: Use scope-based cleanup helper
-Date: Wed,  3 Sep 2025 21:17:28 +0800
-Message-Id: <20250903131733.57637-6-zhangzihuan@kylinos.cn>
+Subject: [PATCH v4 06/10] drm/i915: Use scope-based cleanup helper
+Date: Wed,  3 Sep 2025 21:17:29 +0800
+Message-Id: <20250903131733.57637-7-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
 References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
@@ -103,120 +103,31 @@ No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 ---
- drivers/devfreq/governor_passive.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_llc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governo=
-r_passive.c
-index 953cf9a1e9f7..a035cf44bdb8 100644
---- a/drivers/devfreq/governor_passive.c
-+++ b/drivers/devfreq/governor_passive.c
-@@ -80,24 +80,23 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
- 	struct devfreq_passive_data *p_data =3D
- 				(struct devfreq_passive_data *)devfreq->data;
- 	struct devfreq_cpu_data *parent_cpu_data;
+diff --git a/drivers/gpu/drm/i915/gt/intel_llc.c b/drivers/gpu/drm/i915/g=
+t/intel_llc.c
+index 1d19c073ba2e..f15e4c0fa54b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_llc.c
++++ b/drivers/gpu/drm/i915/gt/intel_llc.c
+@@ -29,13 +29,11 @@ static struct intel_gt *llc_to_gt(struct intel_llc *l=
+lc)
+=20
+ static unsigned int cpu_max_MHz(void)
+ {
 -	struct cpufreq_policy *policy;
- 	unsigned long cpu, cpu_cur, cpu_min, cpu_max, cpu_percent;
- 	unsigned long dev_min, dev_max;
- 	unsigned long freq =3D 0;
- 	int ret =3D 0;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(0);
+ 	unsigned int max_khz;
 =20
- 	for_each_online_cpu(cpu) {
--		policy =3D cpufreq_cpu_get(cpu);
-+		struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
-+			cpufreq_cpu_get(cpu);
-+
- 		if (!policy) {
- 			ret =3D -EINVAL;
- 			continue;
- 		}
-=20
- 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
--		if (!parent_cpu_data) {
--			cpufreq_cpu_put(policy);
-+		if (!parent_cpu_data)
- 			continue;
--		}
-=20
- 		/* Get target freq via required opps */
- 		cpu_cur =3D parent_cpu_data->cur_freq * HZ_PER_KHZ;
-@@ -106,7 +105,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
- 					devfreq->opp_table, &cpu_cur);
- 		if (freq) {
- 			*target_freq =3D max(freq, *target_freq);
--			cpufreq_cpu_put(policy);
- 			continue;
- 		}
-=20
-@@ -121,7 +119,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
- 		freq =3D dev_min + mult_frac(dev_max - dev_min, cpu_percent, 100);
-=20
- 		*target_freq =3D max(freq, *target_freq);
+-	policy =3D cpufreq_cpu_get(0);
+ 	if (policy) {
+ 		max_khz =3D policy->cpuinfo.max_freq;
 -		cpufreq_cpu_put(policy);
- 	}
-=20
- 	return ret;
-@@ -256,7 +253,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
- 	struct device *dev =3D devfreq->dev.parent;
- 	struct opp_table *opp_table =3D NULL;
- 	struct devfreq_cpu_data *parent_cpu_data;
--	struct cpufreq_policy *policy;
- 	struct device *cpu_dev;
- 	unsigned int cpu;
- 	int ret;
-@@ -273,23 +269,23 @@ static int cpufreq_passive_register_notifier(struct=
- devfreq *devfreq)
- 	}
-=20
- 	for_each_possible_cpu(cpu) {
--		policy =3D cpufreq_cpu_get(cpu);
-+		struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
-+			cpufreq_cpu_get(cpu);
-+
- 		if (!policy) {
- 			ret =3D -EPROBE_DEFER;
- 			goto err;
- 		}
-=20
- 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
--		if (parent_cpu_data) {
--			cpufreq_cpu_put(policy);
-+		if (parent_cpu_data)
- 			continue;
--		}
-=20
- 		parent_cpu_data =3D kzalloc(sizeof(*parent_cpu_data),
- 						GFP_KERNEL);
- 		if (!parent_cpu_data) {
- 			ret =3D -ENOMEM;
--			goto err_put_policy;
-+			goto err;
- 		}
-=20
- 		cpu_dev =3D get_cpu_device(cpu);
-@@ -314,7 +310,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
- 		parent_cpu_data->max_freq =3D policy->cpuinfo.max_freq;
-=20
- 		list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_list);
--		cpufreq_cpu_put(policy);
- 	}
-=20
- 	mutex_lock(&devfreq->lock);
-@@ -327,8 +322,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
-=20
- err_free_cpu_data:
- 	kfree(parent_cpu_data);
--err_put_policy:
--	cpufreq_cpu_put(policy);
- err:
-=20
- 	return ret;
+ 	} else {
+ 		/*
+ 		 * Default to measured freq if none found, PCU will ensure we
 --=20
 2.25.1
 
