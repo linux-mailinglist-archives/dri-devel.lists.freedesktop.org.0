@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F440B42BC0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 23:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9DEB42B95
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 23:13:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBC210E942;
-	Wed,  3 Sep 2025 21:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D5D10E93A;
+	Wed,  3 Sep 2025 21:13:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="kBn7qlht";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="P4/FBjTS";
+	dkim=pass (2048-bit key; unprotected) header.d=mainlining.org header.i=@mainlining.org header.b="FtvtKDQw";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="YjYrLE5Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D1510E93F;
- Wed,  3 Sep 2025 21:22:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0534010E93A;
+ Wed,  3 Sep 2025 21:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1756933748; bh=pveUJp16MjRQhz6zhy7vbHY
- y0M547YSoVVCv8ehmvkk=; b=kBn7qlhtSf6LIjwYOcwA08celt7q22CMUzlRQ2ctDAIf2BBtf9
- vpTbDsh6msOIiX2DzF5QKs7/POJMjb/WzOkXkousGcCa0opJNYNp/NK0kSbwhukxOzO3CyrXkI9
- o2MVU3rmWF4Bfnx2AM20dbHdAMASNlCrP0pyJehJ74vQXMpo51DEo2OKsIc2IvL5A/XvZJmAnAd
- Z7rTmlGVPx73+SHPmMTcND8A6zEC7kKNrQpv/4inOD4zROwpZXO6Wx1Je2rz/0ekimu3O3zg3Cc
- 2e3WSliUC4jdSAMTrkI/D+5MAHK/DJkIZRDRoEOueqWuU4TcVnYEeEO5IuilnNI8wIw==;
+ h=To:Message-Id:Subject:Date:From; t=1756933750; bh=wcjl887H9qoorQWShXf6Wly
+ U3a8kHxCqn+dkIRbrhsg=; b=FtvtKDQwMztThO/YTunD7nGmLxaV0Y9WJ7qmK2JiRpJN25JbEB
+ Gk1T9yYspxn72qrdP2JqvCznk8DSTSRjorTV45H65Ht9PEDNtgSdyIn92x8ju4ZeUb+v4CCRSqZ
+ VU+UbjnT7/NNARK8PBSoIo6EGXNn5RBOTGxi6xEFWPfdOnbvf86RWTkdtLX3cVpueCvrzKM2Y93
+ u2PwLLpwl8pB78BUbAkFR0cNyzIvHx9B0v/Mi2HxIwAD1JfDLi+/gkt0WXHuMPGM31B7r7CvHNG
+ oCLW7Op5X+v7rg8V3tXjCcvgcEEKKeqMHfdN5mZENfm0665Bb9bhgfL96C/TaOPc6Pw==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org;
  c=relaxed/relaxed; 
- h=To:Message-Id:Subject:Date:From; t=1756933748; bh=pveUJp16MjRQhz6zhy7vbHY
- y0M547YSoVVCv8ehmvkk=; b=P4/FBjTSk1EzTgNgDd8HMGWaLMxZmALNtpHt0jVNItw6DymBQd
- b+nw04CVNBOKyR8JGc26v7iYUNT9/SB7zHCQ==;
+ h=To:Message-Id:Subject:Date:From; t=1756933750; bh=wcjl887H9qoorQWShXf6Wly
+ U3a8kHxCqn+dkIRbrhsg=; b=YjYrLE5ZK/ZhRhhImymIjEMjL9eMA0jp0i4N5dOrZS6gTBLIyp
+ ltgM9ndFdyFeJ4FPKmV511O7zD0vLBkib0Bw==;
 From: =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?=
  <barnabas.czeman@mainlining.org>
-Date: Wed, 03 Sep 2025 23:08:23 +0200
-Subject: [PATCH v9 3/7] dt-bindings: firmware: qcom,scm: Add MSM8937
+Date: Wed, 03 Sep 2025 23:08:24 +0200
+Subject: [PATCH v9 4/7] dt-bindings: display/msm/gpu: describe A505 clocks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250903-msm8937-v9-3-a097c91c5801@mainlining.org>
+Message-Id: <20250903-msm8937-v9-4-a097c91c5801@mainlining.org>
 References: <20250903-msm8937-v9-0-a097c91c5801@mainlining.org>
 In-Reply-To: <20250903-msm8937-v9-0-a097c91c5801@mainlining.org>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -72,11 +72,11 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756933738; l=1435;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756933738; l=919;
  i=barnabas.czeman@mainlining.org; s=20240730; h=from:subject:message-id;
- bh=jgIUA7S5MTzF8ypzpfsPU7vq9+59VLflT4M4H52qzJE=;
- b=VN0y4TBDLt6xNUw/0woes930ZX71+JEyxwIdi5f+QgbN7xkN1MXMSO4eFK8oCozcS5TMIIO/E
- oDVczbpirx6DH2D1PXdeCRPEYB/wcG5mwtj1aMqgigu/D6IWEiwPGGV
+ bh=wmw2TX8XeI2jwe+eIPMA5Br3dVaIT7iuD5zo+71Kf2U=;
+ b=Uz9WC47B3vCM325KDBO9wAQFD099MPOErAaXKGECLXC5/1U6aHUfR7bsIIJ6OyPcZJ0yQg0w9
+ 3KtpREUObdUDJM1PmBNHYJn0BLPxd9rYXtt1PozDewj/ustXv7LwK+i
 X-Developer-Key: i=barnabas.czeman@mainlining.org; a=ed25519;
  pk=TWUSIGgwW/Sn4xnX25nw+lszj1AT/A3bzkahn7EhOFc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,42 +94,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible for MSM8937.
+Descirbe A505 clocks it is using same clocks like A506.
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
 ---
- Documentation/devicetree/bindings/firmware/qcom,scm.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/display/msm/gpu.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
-index b913192219e40324c03f4ff1dce955881e7fb3d2..ef97faac7e47c1483f9758d2bb2a13f9c3664177 100644
---- a/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
-+++ b/Documentation/devicetree/bindings/firmware/qcom,scm.yaml
-@@ -36,6 +36,7 @@ properties:
-           - qcom,scm-msm8226
-           - qcom,scm-msm8660
-           - qcom,scm-msm8916
-+          - qcom,scm-msm8937
-           - qcom,scm-msm8953
-           - qcom,scm-msm8960
-           - qcom,scm-msm8974
-@@ -134,6 +135,7 @@ allOf:
-               - qcom,scm-msm8226
-               - qcom,scm-msm8660
-               - qcom,scm-msm8916
-+              - qcom,scm-msm8937
-               - qcom,scm-msm8953
-               - qcom,scm-msm8960
-               - qcom,scm-msm8974
-@@ -177,6 +179,7 @@ allOf:
-               - qcom,scm-mdm9607
-               - qcom,scm-msm8226
-               - qcom,scm-msm8916
-+              - qcom,scm-msm8937
-               - qcom,scm-msm8953
-               - qcom,scm-msm8974
-               - qcom,scm-msm8976
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+index 7ef80f9fac8b2927b2a69100a7f6c729d9d188ab..3696b083e353031a496a1f299d8f373270ca562d 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+@@ -252,7 +252,7 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            pattern: '^qcom,adreno-506\.[0-9]+$'
++            pattern: '^qcom,adreno-50[56]\.[0-9]+$'
+     then:
+       properties:
+         clocks:
 
 -- 
 2.51.0
