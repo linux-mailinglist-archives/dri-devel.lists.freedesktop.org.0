@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3DEB423E6
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB760B42418
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 16:54:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8922310E8A7;
-	Wed,  3 Sep 2025 14:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E0E10E15D;
+	Wed,  3 Sep 2025 14:54:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Za+jXVME";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cOYnk5FL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
- [209.85.217.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B60310E04E;
- Wed,  3 Sep 2025 14:41:15 +0000 (UTC)
-Received: by mail-vs1-f53.google.com with SMTP id
- ada2fe7eead31-52a2bc2c968so186784137.2; 
- Wed, 03 Sep 2025 07:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756910474; x=1757515274; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yyiEoT+mfYk4CeGhzX31QR1RtE0qWzCxT6Ooec2Q79Q=;
- b=Za+jXVMEkS+eg3d9iz2JGmWtXfHndJ4Y7zTW7coypkjG124PeGx6orMCSU15+XEi3T
- soLGCZbNWyq/Eh3yWT3WVYf6+HjMi88rq+ZQxQDG8vjypJVmqBbSDjnlK/XVkCTtTzqU
- gYys+LAHhQLmlFXVTjze5U1Nx9he7+Ga2cTQY9xarrm6SgKoBnjUVVI8jchc6YqjmsCM
- 3bXuiMBjFCyM5bd9v94BHCvV62SwKyj8Tw+x9ana/zy41/m+nCJ97XrFEG/PlD0hza2d
- ARexqNN+Rd17IAmz5kR/duoh91K0Mk7DL1p7djYraCeNLfZwiKcLgOC4osNodjRjpF22
- 6Myw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756910474; x=1757515274;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yyiEoT+mfYk4CeGhzX31QR1RtE0qWzCxT6Ooec2Q79Q=;
- b=bSHHFclp6iQEbV33HakEp/zOS+2Ub9xNqMX0vECmjE2zCUJofxuquWcVVvL80Il0pd
- 2asvF5FKFAw6KGjlLzvBsLgcEALZ6e2q9pojzYLvWnWObOjvdW7Xsmwzl8fxqGe8hhwN
- xv1dRuMk7W1ElkxxcR/0HngPA4MXpkos77C34ICbXiUL7briv2F5VAXqu/OuiA9jn6DG
- BuoIY1M/Y2nRcZ5GE9APNu1q7QK7Dvcbk82l0rV+vcdtMcvSlnsnspoPcXS0ZFoYeZSX
- VuDAct5Wtbz+2SnmFwcNGC34YAggYiMGBZFSjsld9CG4o9GKUKzGbbRqHn6tsaXiMf/c
- wmlQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUCQnjRxDCgkn+DS2aa+YPQvcrzToeWnOLhCdMQWuX/dCfWNJtzHTM7eb3iDwp7nBPYG6hUQT8TK207@lists.freedesktop.org,
- AJvYcCWPcNWhX9Q3BUIQgLC6zE/oytxENR7j34cCMDEp46dv7sDOfNS9VLzKpcaGvlVZKnNTxE/BoCmv@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1BNuN+cYgkuQ3TB+4bZd383ok7fgERn7e4MG9AH7kZKYIwG3h
- hIgbqCW/8JDDalePs8XWRLiQp1Vv9JM25g4QOJ19LMt7kYP5VUnciSZxyeHzia9Xaogr61ZVgZ4
- K/q+7bIff2hBeI68Fh9uQHkMpqdwWthE=
-X-Gm-Gg: ASbGnctyloabfaYDDmKFofWRptxoK2ft0hu7vi9dTOpWukklhr66xc1jQYn6PJoh3Xr
- P9xQ9JqC2XjGkh/Y24/5X8vg83ImRmmFFhPhq4O53XB/AODI+dM145bArcHGk5+qcG/AlXY7PCj
- dK5Fm933GACoH7ciaurojDkpTHseun0QOzkccBr7eqgxMEnfa+LkUagz48KfsOzzeIAQKq8ehnS
- +JPLeLZoM+2IGtxcg==
-X-Google-Smtp-Source: AGHT+IEyh3Y9AxDCa/xdhhqWf1YCQxLzXKwd3gIYOmCkWoy3vTgqsxiRKeS/SpQwqq1y1LWALKzKaX246XyCeC9BWrI=
-X-Received: by 2002:a05:6102:4b8c:b0:525:53c5:e42c with SMTP id
- ada2fe7eead31-52a333c0215mr2108906137.3.1756910474393; Wed, 03 Sep 2025
- 07:41:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250903122110.389182-1-rongqianfeng@vivo.com>
-In-Reply-To: <20250903122110.389182-1-rongqianfeng@vivo.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 3 Sep 2025 10:41:01 -0400
-X-Gm-Features: Ac12FXzy5Ri8tZm5mbQlpKXXZ-zKYmYlUUy60tQ2sW2evL2L32EL0ptBMza3kj4
-Message-ID: <CADnq5_MtZryr=DEuC7o2bKfEsyRi35=Tnw6ZaaoG84bvKRx5Ag@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/ci_dpm: Use int type to store negative error
- codes
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F4010E15D;
+ Wed,  3 Sep 2025 14:54:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D7B3E60255;
+ Wed,  3 Sep 2025 14:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DED0C4CEF0;
+ Wed,  3 Sep 2025 14:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756911243;
+ bh=7dxGcjkVQEaBQwL4M7LziNmEIKiJ5GLHnlBKDFlV1x4=;
+ h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+ b=cOYnk5FLKNlwh9PbZjvvg9kqFbsgBfKkUoUjIFl87XE4B3zWld6UdRWlywX2SnV1/
+ j4Quq4c2Mjixm6/oxIaFuMMm5KNp5Y+a3EtVEA3maIcpQtxmpo3IgDffU9l96ieClU
+ s4nQW7A9gQjfBCdMV9gqLVd4igDUp0zIh9TCDdX1YfKj3qp7IQmUEGgbzNl2DkAE5Z
+ 8QNJ2AJuKi4js9nSBkrFMuenQ/ktrly/VMSdIs8bVVBqOhKJdgx9Lj0e6DOdLPnV2G
+ PyvhG/4RqwBYiPOVP/pKhI+aYCGQMDwUIXsLjaDBfwBZoVvVOtPs95IeTTAhbqqQoW
+ kaf5jPmxdl4ag==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 03 Sep 2025 16:53:57 +0200
+Message-Id: <DCJ9206YBEV2.1ICN4VILLM09J@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v3 02/11] gpu: nova-core: move GSP boot code out of
+ `Gpu` constructor
+References: <20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com>
+ <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
+ <DCIKSL18GE9A.2R4BAGR56YVPF@kernel.org>
+ <DCIZ5VVLACXO.1L0QTYM5YVRQV@nvidia.com>
+ <DCJ0T81CZQ88.6IK6LG0E0R02@kernel.org>
+ <DCJ3R8YQUYK1.3K5BCWHMAEOL7@nvidia.com>
+ <DCJ46WGRUXR8.1GKGGL2568E1X@kernel.org>
+ <DCJ5ZOH6DO2S.8GGF9FABSVNT@nvidia.com>
+In-Reply-To: <DCJ5ZOH6DO2S.8GGF9FABSVNT@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,59 +76,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Wed Sep 3, 2025 at 2:29 PM CEST, Alexandre Courbot wrote:
+> To be honest I am not completely sure about the best layout yet and will
+> need more visibility to understand whether this is optimal. But
+> considering that we want to run the GSP boot process over a built `Gpu`
+> instance, we cannot store the result of said process inside `Gpu` unless
+> we put it inside e.g. an `Option`. But then the variant will always be
+> `Some` after `probe` returns, and yet we will have to perform a match
+> every time we want to access it.
+>
+> The current separation sounds reasonable to me for the time being, with
+> `Gpu` containing purely hardware resources obtained without help from
+> user-space, while `Gsp` is the result of running a bunch of firmwares.
+> An alternative design would be to store `Gpu` inside `Gsp`, but `Gsp`
+> inside `Gpu` is trickier due to the build order. No matter what we do,
+> switching the layout later should be trivial if we don't choose the
+> best one now.
 
-Alex
+Gsp should be part of the Gpu object. The Gpu object represents the entire
+instance of the Gpu, including hardware ressources, firmware runtime state,=
+ etc.
 
-On Wed, Sep 3, 2025 at 8:59=E2=80=AFAM Qianfeng Rong <rongqianfeng@vivo.com=
-> wrote:
+The initialization of the Gsp structure doesn't really need a Gpu structure=
+ to
+be constructed, it needs certain members of the Gpu structure, i.e. order o=
+f
+initialization of the members does matter.
+
+If it makes things more obvious we can always create new types and increase=
+ the
+hierarchy within the Gpu struct itself.
+
+The technical limitation you're facing is always the same, no matter the la=
+yout
+we choose: we need pin-init to provide us references to already initialized
+members.
+
+I will check with Benno in today's Rust call what's the best way to address
+this.
+
+> There is also an easy workaround to the sibling initialization issue,
+> which is to store `Gpu` and `Gsp` behind `Pin<KBox>` - that way we can
+> initialize both outside `try_pin_init!`, at the cost of two more heap
+> allocations over the whole lifetime of the device. If we don't have a
+> proper solution to the problem now, this might be better than using
+> `unsafe` as a temporary solution.
+
+Yeah, this workaround is much easier to implement when they're siblings (le=
+ss
+allocations temporarily), but let's not design things this way because of t=
+hat.
+
+As mentioned above, I will check with Benno today.
+
+> The same workaround could also be used for to `GspFirmware` and its page
+> tables - since `GspFirmware` is temporary and can apparently be
+> discarded after the GSP is booted, this shouldn't be a big issue. This
+> will allow the driver to probe, and we can add TODO items to fix that
+> later if a solution is in sight.
 >
-> Change the 'ret' variable in ci_populate_all_graphic_levels()
-> and ci_populate_all_memory_levels() from u32 to int, as it needs to store
-> either negative error codes or zero returned by other functions.
+>>
+>> I thought the intent was to keep temporary values local to start_gsp() a=
+nd not
+>> store them next to Gpu in the same allocation?
 >
-> Storing the negative error codes in unsigned type, doesn't cause an issue
-> at runtime but can be confusing.  Additionally, assigning negative error
-> codes to unsigned type may trigger a GCC warning when the -Wsign-conversi=
-on
-> flag is enabled.
->
-> No effect on runtime.
->
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
-> ---
->  drivers/gpu/drm/radeon/ci_dpm.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_=
-dpm.c
-> index 7c3a960f486a..1f9f4424055a 100644
-> --- a/drivers/gpu/drm/radeon/ci_dpm.c
-> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
-> @@ -3238,7 +3238,8 @@ static int ci_populate_all_graphic_levels(struct ra=
-deon_device *rdev)
->         u32 level_array_size =3D sizeof(SMU7_Discrete_GraphicsLevel) *
->                 SMU7_MAX_LEVELS_GRAPHICS;
->         SMU7_Discrete_GraphicsLevel *levels =3D pi->smc_state_table.Graph=
-icsLevel;
-> -       u32 i, ret;
-> +       int ret;
-> +       u32 i;
->
->         memset(levels, 0, level_array_size);
->
-> @@ -3285,7 +3286,8 @@ static int ci_populate_all_memory_levels(struct rad=
-eon_device *rdev)
->         u32 level_array_size =3D sizeof(SMU7_Discrete_MemoryLevel) *
->                 SMU7_MAX_LEVELS_MEMORY;
->         SMU7_Discrete_MemoryLevel *levels =3D pi->smc_state_table.MemoryL=
-evel;
-> -       u32 i, ret;
-> +       int ret;
-> +       u32 i;
->
->         memset(levels, 0, level_array_size);
->
-> --
-> 2.34.1
->
+> It is not visible in the current patchset, but `start_gsp` will
+> eventually return the runtime data of the GSP - notably its log buffers
+> and command queue, which are needed to operate it. All the rest (notably
+> the loaded firmwares) will be local to `start_gsp` and discarded upon
+> its return.
+
+Ok, that makes sense, but it should really be part of the Gpu structure.
