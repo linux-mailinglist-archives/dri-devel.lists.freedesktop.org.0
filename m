@@ -2,56 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36FBB41CC0
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 13:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782BDB41CC7
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 13:10:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A44B10E795;
-	Wed,  3 Sep 2025 11:09:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="pzmGJUW5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9B4710E143;
+	Wed,  3 Sep 2025 11:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id C94F310E795
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 11:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=c0
- /SBiSXOOl6HFr+JmOjCWEmu3pstjSyRziH55Av6WA=; b=pzmGJUW5GsUD0zajgM
- 1dLJ5xfepWw+5r6dKHs8FqtSnbSrW6yE4YGJJgieet+W9uNB1cCZPLY2cMlHAziF
- CeAW/sq3nKyZtSTjyQ6nN4BdM4UVJOfciEZrD2to83lqxyMEtbXujEgp3CHn79sV
- nTWuDvNnkqHafHOXA5tRWUOXE=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
- _____wC3ZLuqIbhoXAZsFw--.3268S4; 
- Wed, 03 Sep 2025 19:08:34 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: dmitry.baryshkov@oss.qualcomm.com,
-	heiko@sntech.de
-Cc: mripard@kernel.org, neil.armstrong@linaro.org, andrzej.hajda@intel.com,
- jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de,
- knaerzche@gmail.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v7 2/2] MAINTAINERS: Add entry for Innosilicon hdmi bridge
- library
-Date: Wed,  3 Sep 2025 19:07:39 +0800
-Message-ID: <20250903110825.776807-3-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250903110825.776807-1-andyshrk@163.com>
-References: <20250903110825.776807-1-andyshrk@163.com>
+Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991EC10E143
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 11:10:34 +0000 (UTC)
+Message-ID: <28c94812-0bfb-45ec-bb44-c3dc6e85e5f3@lankhorst.se>
+Date: Wed, 3 Sep 2025 13:10:31 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wC3ZLuqIbhoXAZsFw--.3268S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7GFy8uFyxCFy5Kr17Zr48tFb_yoWfGrX_GF
- 18JrW8Zr4jkFWjy397Ca1fX3sIkw4xtF1fXFn5tws7Jwn8AryDJwn2gryIgr15CF1xGayq
- qayUXF9Ikr13WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0iqXJUUUUU==
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEAO9Xmi4H7lLfwAAsy
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/15] drm/ttm: use gpu mm stats to track gpu memory
+ allocations. (v4)
+To: dri-devel@lists.freedesktop.org
+References: <20250902041024.2040450-1-airlied@gmail.com>
+ <20250902041024.2040450-3-airlied@gmail.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20250902041024.2040450-3-airlied@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,37 +41,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Hey,
 
-Add entry for Innosilicon hdmi bridge library
+Den 2025-09-02 kl. 06:06, skrev Dave Airlie:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This uses the newly introduced per-node gpu tracking stats,
+> to track GPU memory allocated via TTM and reclaimable memory in
+> the TTM page pools.
+> 
+> These stats will be useful later for system information and
+> later when mem cgroups are integrated.
+> 
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: linux-mm@kvack.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> 
+> ---
+> v2: add reclaim parameters and adjust the right counters.
+> v3: drop the nid helper and get it from page.
+> v4: use mod_lruvec_page_state (Shakeel)
+> ---
+>  drivers/gpu/drm/ttm/ttm_pool.c | 21 +++++++++++++++------
+>  1 file changed, 15 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index baf27c70a419..148c7530738d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -150,8 +150,10 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>  
+>  	if (!pool->use_dma_alloc) {
+>  		p = alloc_pages_node(pool->nid, gfp_flags, order);
+> -		if (p)
+> +		if (p) {
+>  			p->private = order;
+> +			mod_lruvec_page_state(p, NR_GPU_ACTIVE, 1 << order);
+> +		}
+>  		return p;
+>  	}
+>  
+> @@ -186,7 +188,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>  
+>  /* Reset the caching and pages of size 1 << order */
+>  static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+> -			       unsigned int order, struct page *p)
+> +			       unsigned int order, struct page *p, bool reclaim)
+>  {
+>  	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+>  	struct ttm_pool_dma *dma;
+> @@ -201,6 +203,8 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+>  #endif
+>  
+>  	if (!pool || !pool->use_dma_alloc) {
+> +		mod_lruvec_page_state(p, reclaim ? NR_GPU_RECLAIM : NR_GPU_ACTIVE,
+> +				      -(1 << order));
+>  		__free_pages(p, order);
+>  		return;
+>  	}
+> @@ -288,6 +292,9 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
+>  	list_add(&p->lru, &pt->pages);
+>  	spin_unlock(&pt->lock);
+>  	atomic_long_add(1 << pt->order, &allocated_pages);
+> +
+> +	mod_lruvec_page_state(p, NR_GPU_ACTIVE, -num_pages);
+> +	mod_lruvec_page_state(p, NR_GPU_RECLAIM, num_pages);
+>  }
+>  
+>  /* Take pages from a specific pool_type, return NULL when nothing available */
+> @@ -299,6 +306,8 @@ static struct page *ttm_pool_type_take(struct ttm_pool_type *pt)
+>  	p = list_first_entry_or_null(&pt->pages, typeof(*p), lru);
+>  	if (p) {
+>  		atomic_long_sub(1 << pt->order, &allocated_pages);
+> +		mod_lruvec_page_state(p, NR_GPU_ACTIVE, (1 << pt->order));
+> +		mod_lruvec_page_state(p, NR_GPU_RECLAIM, -(1 << pt->order));
+>  		list_del(&p->lru);
+>  	}
+>  	spin_unlock(&pt->lock);
+> @@ -331,7 +340,7 @@ static void ttm_pool_type_fini(struct ttm_pool_type *pt)
+>  	spin_unlock(&shrinker_lock);
+>  
+>  	while ((p = ttm_pool_type_take(pt)))
+> -		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
+> +		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p, true);
+>  }
+>  
+>  /* Return the pool_type to use for the given caching and order */
+> @@ -383,7 +392,7 @@ static unsigned int ttm_pool_shrink(void)
+>  
+>  	p = ttm_pool_type_take(pt);
+>  	if (p) {
+> -		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p);
+> +		ttm_pool_free_page(pt->pool, pt->caching, pt->order, p, true);
+>  		num_pages = 1 << pt->order;
+>  	} else {
+>  		num_pages = 0;
+> @@ -475,7 +484,7 @@ static pgoff_t ttm_pool_unmap_and_free(struct ttm_pool *pool, struct page *page,
+>  	if (pt)
+>  		ttm_pool_type_give(pt, page);
+>  	else
+> -		ttm_pool_free_page(pool, caching, order, page);
+> +		ttm_pool_free_page(pool, caching, order, page, false);
+>  
+>  	return nr;
+>  }
+> @@ -780,7 +789,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  	return 0;
+>  
+>  error_free_page:
+> -	ttm_pool_free_page(pool, page_caching, order, p);
+> +	ttm_pool_free_page(pool, page_caching, order, p, false);
+>  
+>  error_free_all:
+>  	if (tt->restore)
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
----
+Looking at the patch, there are 2 users of ttm_pool_free_page, one frees an active page (various error paths), the other during page reclaim at pool teardown and shrinking.
 
-(no changes since v1)
+So perhaps split into ttm_pool_free_active_page() and ttm_pool_reclaim_page()?
 
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 88851907b6725..d4b5eea84cb9f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12085,6 +12085,14 @@ M:	Samuel Holland <samuel@sholland.org>
- S:	Maintained
- F:	drivers/power/supply/ip5xxx_power.c
- 
-+INNOSILICON HDMI BRIDGE DRIVER
-+M:	Andy Yan <andy.yan@rock-chips.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	drivers/gpu/drm/bridge/inno-hdmi.c
-+F:	include/drm/bridge/inno_hdmi.h
-+
- INOTIFY
- M:	Jan Kara <jack@suse.cz>
- R:	Amir Goldstein <amir73il@gmail.com>
--- 
-2.43.0
-
+Kind regards,
+~Maarten Lankhorst
