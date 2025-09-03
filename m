@@ -2,86 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3CAB428FC
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 20:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C1FB4290C
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 20:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64D58989C;
-	Wed,  3 Sep 2025 18:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1968810E1F4;
+	Wed,  3 Sep 2025 18:51:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="M1IEHpys";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WplZt4+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D3E8989C
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:48:52 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-55f76277413so188811e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 11:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1756925331; x=1757530131;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SpKd2275sVbG0K2FZVdjWp6/Z18/FkDT3HL6WWRqaEg=;
- b=M1IEHpysxRlg+Cr0KLlkeRE5tGyMAkUD/qBg+ltSSgVt7fyRh0x2dU9oANI5Hov2RB
- r7iVD54oqntX/cGQQBOlGmUXCBEPI0oXMfRGepQh8ULMhotgQz4lrJSnAbNH/T39uybq
- ojwPDO5IWaoyBV3ZPd3gtAMXtxCehG++qug0dKrh0VtHqyrcLc4x6Z2H6viTBr7efvE4
- QwfEoenrDTTTUzD1e5qSinPtwKKoMT/nCmH/glGVBwkkd3zmGyl3TEx45AXLWGml7509
- AMTFR11kz5KiMGC7YKwKkA181FSwE+zoBpjl0PRyXtmPqi4uEZBjY4vtsV/FpXrGVhge
- ZeUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756925331; x=1757530131;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SpKd2275sVbG0K2FZVdjWp6/Z18/FkDT3HL6WWRqaEg=;
- b=B9QZX1F4swJprB+u/YadWH3Z6ucAt7Wpox98aW+Q3TNWWxI/Zke68KTc3tciO3cOLo
- YJ2nsUkkcBTCNRBqK9hs0D/0p3CLN5B96i8nw/xQ+u0DOYHs1I7pR7DYgmf/ToMM2l9Y
- Zj0tWZQeZBofCMBq+RmNMBJ9N1avVLcoCUG2UAKwkmmYr4sdmoRC236UL119QqfiLyTh
- zUdlP67ZOvvMP+DpYxHCQpE/UDMp0hdEz+e2qbqsN5+iGNL1KBo7RP5oSTdhddstS+l1
- gyuhW6kt3/F9gM9fcwHeCv+akHJS9G9J1P+S9QVw7yX0kWNHcHCfPvEGWKxfLlNgZoT7
- M6BA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkpmrPH1u5ul2qcfY6E6kfCchHgQd67FJ9/x6LDFLnAjACpEYQDNQX4s+AwMqy8PmkTdfY2fdab9A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytIHwzO+d26CRFL2qf48Wt9fEAvJcqNJM5hbto/yYDWUwJDkoZ
- LrLG4RD1JeBnewBwk/U0sSRyJV7HY6InKmXGMox97b5Wyf/uRkjHN07saDdbZE2/EbZOOcYOsw4
- fpB7dtSCOfZNoGAeG4CeBmN5GB2BzaOZQ4efZZKg=
-X-Gm-Gg: ASbGnctUBumfI4KNPq1iysBTIoTg3nqf4wToMxpmtn4qeldlgmH+gbaT4ipTU8GJNAl
- ArH9PmKX++UG5Rv1CgVWYo78cbR0UZa62hLiBg2kPza9afHWnlJmB+Un77QU0dPuiN5Uijswx0o
- 12oZFS7yo6alScW7lwAbZQo/0PvEzjY+SjkMM38BSDeULYn953VL5+c+ErfYam5Qktc63o+17Dd
- d+nIPnaCeiZYxiuj5nv5dC8vHNavMGHFdbZAIRfHUg=
-X-Google-Smtp-Source: AGHT+IF5G/J215zB6F+3YqHgBGUMzaMxIb8FdX2l9xOBS14z2EjkTnAnD4URRw2r/tfzfVxdowvkPYNpzRoqDhW7JLg=
-X-Received: by 2002:a05:6512:660a:b0:55f:595f:9a31 with SMTP id
- 2adb3069b0e04-55f709747b3mr4044420e87.51.1756925330683; Wed, 03 Sep 2025
- 11:48:50 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0A510E0D3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1756925496;
+ bh=W2yIZ1r7+6qnWApJGxqlyhaa17wQLXOaVNluzcmFVhE=;
+ h=From:Subject:Date:To:Cc:From;
+ b=WplZt4+NdVhr6ry32gY6C8TZaOlkCqq6nL4/e3+L7VqxmBwViO7tweg/69LCu9OOS
+ 1ae1uSmiIae+j5GtQWNWwE6IFUtbEBpV0KYgoHPJ6pWY4MILoDyM8YlFsV4vwy1Zrn
+ i2qGtutH52IZe9PBTDC0OYDNt3OjJUDERy/68Ir+rc9vrLOc1y8Jd9UhYlBW/y++2x
+ 9ed33NPS4FCFpx8a+Rsgr8cincngotXD6u7bpT2R2E6J2JTw8eYdTK4w88cAHjqTms
+ ZKzlmtVLctGbsWbpOXdVxYBrmpSfqF96JiwjmDM3/xM0ToF9HGito1+vyuLmaSxOPO
+ Y2s08niMaO5Qg==
+Received: from localhost (unknown [82.79.138.60])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id CE98D17E0199;
+ Wed,  3 Sep 2025 20:51:35 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
+Date: Wed, 03 Sep 2025 21:50:58 +0300
+Message-Id: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
 MIME-Version: 1.0
-References: <20250902154630.4032984-1-thierry.reding@gmail.com>
- <20250902154630.4032984-5-thierry.reding@gmail.com>
- <CANDhNCoM4RFX-QccF7xT=+-tduGj9OZ_8SgrTVyRucMwyVc73Q@mail.gmail.com>
- <e6twhwxi55eesb7xirei7wezzb77qjiji2mccgqlziisjzl3q5@3ny5e6lbgebz>
-In-Reply-To: <e6twhwxi55eesb7xirei7wezzb77qjiji2mccgqlziisjzl3q5@3ny5e6lbgebz>
-From: John Stultz <jstultz@google.com>
-Date: Wed, 3 Sep 2025 11:48:38 -0700
-X-Gm-Features: Ac12FXyfpojM7sYEH_SV5iPkXzxCBmlghsM38HwpGdBEBMQS7yemN51cEMcgCs0
-Message-ID: <CANDhNCrO21O_URa1iHuroOoG-g61DL7uvECTwVxiuitCTi=i4g@mail.gmail.com>
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Add debugfs support
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- "T.J. Mercier" <tjmercier@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABKOuGgC/23NTQrCMBAF4KuUrI2kk4SmrryHuMivDbaNJBKU0
+ rubFkSxLmbxHrxvJpRs9DahQzWhaLNPPowlsF2FdCfHi8XelIyAACcNoTheKRcCd2bwWFtdTgr
+ HgRrHBCqrW7TOP1bxdC658+ke4nN9kOulfVtsY+UaEwzKCGNFQ4g2Rx36XqoQ5V6HAS1ehi+jJ
+ lsDiuFKxZSlTOn6n0E/hgC+NWgxWk6BOQXAW/g15nl+AS6G7G06AQAA
+X-Change-ID: 20250703-rk3588-hdmi-cec-cea8f523df48
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Algea Cao <algea.cao@rock-chips.com>, 
+ Derek Foreman <derek.foreman@collabora.com>, 
+ Daniel Stone <daniels@collabora.com>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,56 +78,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 3, 2025 at 8:38=E2=80=AFAM Thierry Reding <thierry.reding@gmail=
-.com> wrote:
->
-> On Tue, Sep 02, 2025 at 03:37:45PM -0700, John Stultz wrote:
-> > On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding@g=
-mail.com> wrote:
-> > >
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >
-> > > Add a callback to struct dma_heap_ops that heap providers can impleme=
-nt
-> > > to show information about the state of the heap in debugfs. A top-lev=
-el
-> > > directory named "dma_heap" is created in debugfs and individual files
-> > > will be named after the heaps.
-> > >
-> >
-> > I know its debugfs, but this feels a little loosey-goosey as an uAPI.
->
-> Well, the whole point of debugfs is that it's not really an ABI. Nothing
-> should ever rely on the presence of these files.
->
-> > Is there any expected format for the show function?
-> >
-> > What would other dmabuf heaps ideally export via this interface?
->
-> I've thought about this a bit and I'm not sure it makes sense to
-> standardize on this. I think on one hand having a list of buffers
-> exported by the dma-buf heap is probably the lowest common denominator,
-> but then there might be a bunch of other things that are very heap-
-> specific that some heap might want to export.
->
-> > Is there some consistent dma_heap-ish concept for it to justify it
-> > being under a dma_heap directory, and not just an independent debugfs
-> > file for the driver implementing the dmabuf heap?
->
-> Well, I think just the fact that it's a dma-heap would qualify its
-> corresponding debugfs to be in a well-known location. We could of course
-> pick some arbitrary location, but that's just a recipe for chaos because
-> then everybody puts these whereever they want. There's really no
-> standard place for driver-specific debugfs files to go, so putting it
-> into some "subsystem"-specific directory seems like the better option.
+The first patch in the series implements the CEC capability of the
+Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
+This is based on the downstream code, but rewritten on top of the CEC
+helpers added recently to the DRM HDMI connector framework.
 
-Ok, I guess I was thinking if the files are organizationally cohesive
-to be under the dma-heap directory, they ought to have some
-consistency between them.
+The second patch is needed for RK3576 in order to fixup the timer base
+setup according to the actual reference clock rate, which differs
+slightly from RK3588.
 
-But I can see your perspective here that organizing the driver
-specific debug files in a directory helps with folks finding and
-identifying it.
+The following three patches setup platform data with the new information
+expected by the HDMI QP transmitter library, while improving the error
+handling in the probe path.
 
-Thanks for clarifying!
--john
+Please note the CEC helpers were affected by a resource deallocation
+issue which could crash the kernel and freeze the system under certain
+test conditions.  This has been already fixed in v6.17-rc1 via commit
+19920ab98e17 ("drm/display: hdmi-cec-helper: Fix adapter
+unregistration").
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v4:
+- Fixed the bisect-related issues reported by Daniel by implementing
+  the following operations in dw_hdmi_qp_bind():
+  * Disable CEC support when the related IRQ is not available
+  * Set ref_clk_rate to vendor default in case it was not provided by
+    the platform driver
+  * In both scenarios, also print a warning message to highlight the
+    need for fixing the platform driver
+- Simplified dw_hdmi_qp_cec_init() a bit
+  * Removed the now obsolete cec->irq validation test
+  * Removed the superfluous error checking and logging around
+    devm_request_threaded_irq() call (it already handles all that)
+- Collected R-b tags from Daniel
+- Rebased series onto next-20250903
+- Link to v3: https://lore.kernel.org/r/20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com
+
+Changes in v3:
+- Fixup PATCH 1 according to the recent upstream commit 02bb63d1a593
+  ("drm/bridge: Make dp/hdmi_audio_* callback keep the same paramter
+  order with get_modes") which changed the signature of ->hdmi_cec_init()
+  callback of struct drm_bridge_funcs; while at it, also update the
+  copyright section
+- Updated cover letter to indicate that the CEC helpers fix is already
+  available since v6.17-rc1
+- Rebased series onto next-20250825
+- Link to v2: https://lore.kernel.org/r/20250710-rk3588-hdmi-cec-v2-0-f5884be34bc1@collabora.com
+
+Changes in v2:
+- Collected R-b tag from Dmitry
+- Restructured the generic bridge patches to not depend on the
+  platform-specific changes and updated cover letter accordingly (Heiko)
+- Replaced the loop searching for "ref" clock with clk_get() (Maxime)
+- Added new patch "drm/rockchip: dw_hdmi_qp: Improve error handling with
+  dev_err_probe()"
+- Link to v1: https://lore.kernel.org/r/20250704-rk3588-hdmi-cec-v1-0-2bd8de8700cd@collabora.com
+
+---
+Cristian Ciocaltea (6):
+      drm/bridge: dw-hdmi-qp: Add CEC support
+      drm/bridge: dw-hdmi-qp: Fixup timer base setup
+      drm/rockchip: dw_hdmi_qp: Improve error handling with dev_err_probe()
+      drm/rockchip: dw_hdmi_qp: Provide CEC IRQ in dw_hdmi_qp_plat_data
+      drm/rockchip: dw_hdmi_qp: Provide ref clock rate in dw_hdmi_qp_plat_data
+      arm64: defconfig: Enable DW HDMI QP CEC support
+
+ arch/arm64/configs/defconfig                   |   1 +
+ drivers/gpu/drm/bridge/synopsys/Kconfig        |   8 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 224 ++++++++++++++++++++++++-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h   |  14 ++
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c |  77 +++++----
+ include/drm/bridge/dw_hdmi_qp.h                |   2 +
+ 6 files changed, 284 insertions(+), 42 deletions(-)
+---
+base-commit: 5d50cf9f7cf20a17ac469c20a2e07c29c1f6aab7
+change-id: 20250703-rk3588-hdmi-cec-cea8f523df48
+
