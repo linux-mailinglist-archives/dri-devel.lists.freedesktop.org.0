@@ -2,79 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7E1B41840
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 10:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DF4B41860
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 10:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CBC10E47A;
-	Wed,  3 Sep 2025 08:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F408E10E47C;
+	Wed,  3 Sep 2025 08:26:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AMaAgRDX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RhXs/FjG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5A4710E47A;
- Wed,  3 Sep 2025 08:21:06 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3da4c14a5f9so405378f8f.0; 
- Wed, 03 Sep 2025 01:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756887665; x=1757492465; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=V+oQBUiR0fs5f1jGdxGBuHkx9I/qpPK1NnThL15aM4w=;
- b=AMaAgRDXJgpXgIVYf1JkgEqP9XdsmC9n30dWnypt0qYMSwbZexNcjTS5R5s643SMdT
- kqKJt3N8/+I+Z3XwIucowXPTOQWkji6yDMO623RzARxFkweeq4SWrD+hQkb4zg1Rb/R+
- ycUIblpBAigXbUHScBOaZZ9BJp14YksZv9oxpd8iwD3XmvfWJ0pHjzUXBZSZpkqIx+cP
- 76uBaxsCHitEtJ36KFvHI61HnmwumNAdJ/XxkuOaDMXgGa8tcZXcPaufnrw+fZ9Ibm1F
- TOwgOXH6JhlmRLVzV0NSlg58AT/cqKWyFyHXKooH43Jln0MtGzZpOBADvEbRpMkP849r
- UhZg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272D210E47C
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 08:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756887973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RiF4X17MAgeDzab0iosntA9Q/n0cbzxTmlw2m/AGEGE=;
+ b=RhXs/FjGzCq4vQ5tiYj2Kn+D9BIk/ovbNBJRBGjQqqOLZfE+AX7HgUk/P1faeOSzhb4Y+8
+ rMJB0jssbVUIYqnCUFrjtaiF6ynpWpdj4JokJpQuZv0SEfi0o1FD8aLGWbexYg7aAuDKjs
+ I+n5IqeuKh3rYMgFurqESvS5/It2XZw=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-640-p1bK5QajOGmqju4tTVAdgQ-1; Wed, 03 Sep 2025 04:26:11 -0400
+X-MC-Unique: p1bK5QajOGmqju4tTVAdgQ-1
+X-Mimecast-MFC-AGG-ID: p1bK5QajOGmqju4tTVAdgQ_1756887970
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-55f6a61e239so3008938e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 01:26:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756887665; x=1757492465;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=V+oQBUiR0fs5f1jGdxGBuHkx9I/qpPK1NnThL15aM4w=;
- b=qeeQRjuyBW6pjYaTXkT13sXzFbHLKfAOKPopUYJzMbt1CUwSRLEe7LWrOtuKkCnjaJ
- yPsVIfbOSk/pHdsyQJdY1g+4u1NFcVNRMFY/kPrhWKDR6rGiAqvqn6XDeYNVvNg1Ddnr
- GDV8gnD2m0z5aFL4yUEBGro97FzYX7HsWDJ+Uwu2n1SLPbXeEbtIu12BF853t3CS/6Hx
- zrvfuaoRxkTcpdAM1/Xtyh414xCiZQ0YYHeEEfxoxN7lnQiFIU5KxQgG0Fe52bSG+UBA
- sV18h4jlR7QzFf3/ZPxYCNGkNN5TwG+FeYtZYhLvr8SuRJBfpH3c591he8WaJBKR49dx
- yI5g==
+ d=1e100.net; s=20230601; t=1756887970; x=1757492770;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RiF4X17MAgeDzab0iosntA9Q/n0cbzxTmlw2m/AGEGE=;
+ b=Dkzd0mQXlIsZqY3ZOUEwKsAyTMJflK20rxV/NvUjRxelXVgHrxWJZCyDPo++msaoDI
+ IatwJLAJVm8lQ/T6e5gA9Rph4WekuJDucC86JqDpSc5VyEDwxIRPDbeRGQExOQGDnLkU
+ VqWm2JfNCH0Jc+233nm7p84kStwJi7PelJnJjCq5m/aAYIRA1yUjARJ5NV2n3iV+WRyb
+ wsGNFQeZeIRPuyIL2CBR1ziLIawhjQ6PbvSJvB7MItU7pB8AqCzRm+GDuHHSbOrE+vBX
+ HuOhvV4omxHpjzfzR/N87UOvAoufUDSCx2mTu4p4vpO537SYXka+SSGByk+38mOY71ww
+ m69w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/JxTUEl8lyeuanGYx1KPt6jKiP51wQOcMB1HOuKWc5J02aJw7h4ii9quUiWayg25jewNAh4jI@lists.freedesktop.org,
- AJvYcCXk0Uma4++Ns5sMq9QVUnOf8SpovD3eNOCA3pHTfxZa025Rn5gMaRKdD6iTkHfGFEgd87lKOMQFzgms@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUX53NVydm6tYRzee3CGJhXMTNupYwYrkF5Q9mvp/e8/gH2zjM
- LiA+NW9vPggqWSU05HKMbWvpJ2eu7apj4SSI/0DQ3EiaUialkGIWstg66K3PzR+wY4sN1A==
-X-Gm-Gg: ASbGncsRdKaKTmmQptaLdC/Bq4av5zkTa/CQs8X0ckBeyFDb/YoS1QNactIwQgqgWuG
- oipCBao7s/5P1Og/Krg2wx2zwi3Z6BF1L6kqCuUQLCf58NPamYDYc8MRi1QnSg/vyQNk710M2Cv
- bM/MFYTWLUrOheINjeJau1RQ+tERZijIHNfdSo2gJ5xT6wzwKDYx7WUEJpOVYXBuiGJwDaZ9Fum
- hUQUnE8hRuOniy09Cf7NnCWqaQijMTU6SMxJ0aC9uSWKF9b5XE1npNKkvvLAMJ4lz/ZgJvGp8Ju
- 1EABPPDMqQ1g+6U1LJ+VObbwJXQSMtUM+m15J1vFIT3BwVgvFgBHOxvDx0zr60X3kZPBAkMFd9m
- UEexY4Zw6ld26J9+TzMOy
-X-Google-Smtp-Source: AGHT+IEHvf7b/CRSNGcUf7t++ZZJaW7tRGbsmvmOkYlRwH6ByjCb2owYmmiEGN45nff71XkD6CxVgw==
-X-Received: by 2002:a05:6000:420f:b0:3c4:2f45:1503 with SMTP id
- ffacd0b85a97d-3d1b16f0bd5mr14924110f8f.16.1756887665095; 
- Wed, 03 Sep 2025 01:21:05 -0700 (PDT)
-Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3db72983560sm4115452f8f.1.2025.09.03.01.21.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Sep 2025 01:21:04 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/amd/amdgpu: Fix a less than zero check on a
- uint32_t struct field
-Date: Wed,  3 Sep 2025 09:20:18 +0100
-Message-ID: <20250903082018.2702769-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.51.0
+ AJvYcCXiC2RzVrxYtzB00eOkgceGbM3nCMvGfNrbPrejIvvziFr/hr7A9lg0O1Ubj+TzWpW/0yfnB/DTY+8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQdL85DT3TtsXRpQeQhzG/7L8osUlGMOQH96uz95VIt+3IpJxa
+ LiNZo06dgVy47sTdhL2GOHxTPGkv5IbbQHx7YDtT38G/HVIPX/Lp7dmyLWp14G0r++gjju/rTHV
+ nwCS1Ahm5F/edfQ5BoQxTSJsC6jSs6drGTkNOsP2xx6f279AQkjyiPaNasWQ8l2H3DvPm
+X-Gm-Gg: ASbGncukztzJbVMshRkOZt7bJNi88DxyhaeC6o3tnXUFWFJFZgiqoVdvF2MJPqlK6Gj
+ wpmKmgl7Op2Ywq7yhJ4jnuI0jNfAj+tlMsnDPxtpmCgpOPyRiHP2tZYW2X4kQ9bUPxsZxaC1boZ
+ aknRxctqNfTC44yhh8aA6xaQGmFvcvj9Igaofws8tyyF4scuKfOtKNp6B5UeRIN9lxjW2wlHaS4
+ i2kPv6HokF9BZC6dG8+IQtIQ2zW91Dwf01ptwJfAQNoxW9+XnFjEGa/l7+hfTu2yYhQScZ7s8Fr
+ OdDZ98VXNy2m48Lh9OCvIMBVEvIJOjMg5+mwZ58K0TtOamXU0MDKCwRQqx2chTHR8g==
+X-Received: by 2002:a05:6512:6401:b0:55f:4faa:b630 with SMTP id
+ 2adb3069b0e04-55f708b9a35mr3755389e87.24.1756887970179; 
+ Wed, 03 Sep 2025 01:26:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFo/J8D+PycrrERqH27xh2tlYz9vfDI8vGXXWnNGFn0lTfvQ0eYEz+wc2QoktugLroVCaVR9Q==
+X-Received: by 2002:a05:6512:6401:b0:55f:4faa:b630 with SMTP id
+ 2adb3069b0e04-55f708b9a35mr3755384e87.24.1756887969707; 
+ Wed, 03 Sep 2025 01:26:09 -0700 (PDT)
+Received: from [192.168.1.86] (85-23-48-6.bb.dnainternet.fi. [85.23.48.6])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5608ad525d1sm352909e87.139.2025.09.03.01.26.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Sep 2025 01:26:08 -0700 (PDT)
+Message-ID: <ffac73b3-3c2f-402a-beb3-a98ba92c5335@redhat.com>
+Date: Wed, 3 Sep 2025 11:26:08 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v4 05/15] mm/migrate_device: handle partially mapped folios
+ during collection
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250903011900.3657435-1-balbirs@nvidia.com>
+ <20250903011900.3657435-6-balbirs@nvidia.com>
+ <ea6caec5-fd20-444c-b937-6cab61198c46@redhat.com>
+ <6a178e78-9ccd-4845-b4ca-1e84f7d31b91@nvidia.com>
+From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
+In-Reply-To: <6a178e78-9ccd-4845-b4ca-1e84f7d31b91@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: RDhjHJk0pKgqtMPQzDGTge7IlcX44QvSERXKHmZVOg0_1756887970
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,42 +120,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the error check from the call to mes_v12_inv_tlb_convert_hub_id
-is always false because a uint32_t struct field hub_id is being used to
-to perform the less than zero error check. Fix this by using the int
-variable ret to perform the check.
 
-Fixes: 87e65052616c ("drm/amd/amdgpu : Use the MES INV_TLBS API for tlb invalidation on gfx12")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/mes_v12_0.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 9/3/25 09:05, Balbir Singh wrote:
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
-index cd5c966cee95..ff5df28b57ec 100644
---- a/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/mes_v12_0.c
-@@ -899,6 +899,7 @@ static int mes_v12_0_inv_tlbs_pasid(struct amdgpu_mes *mes,
- 				    struct mes_inv_tlbs_pasid_input *input)
- {
- 	union MESAPI__INV_TLBS mes_inv_tlbs;
-+	int ret;
- 
- 	memset(&mes_inv_tlbs, 0, sizeof(mes_inv_tlbs));
- 
-@@ -911,9 +912,10 @@ static int mes_v12_0_inv_tlbs_pasid(struct amdgpu_mes *mes,
- 	mes_inv_tlbs.invalidate_tlbs.inv_sel_id = input->pasid;
- 
- 	/*convert amdgpu_mes_hub_id to mes expected hub_id */
--	mes_inv_tlbs.invalidate_tlbs.hub_id = mes_v12_inv_tlb_convert_hub_id(input->hub_id);
--	if (mes_inv_tlbs.invalidate_tlbs.hub_id < 0)
-+	ret = mes_v12_inv_tlb_convert_hub_id(input->hub_id);
-+	if (ret < 0)
- 		return -EINVAL;
-+	mes_inv_tlbs.invalidate_tlbs.hub_id = ret;
- 	return mes_v12_0_submit_pkt_and_poll_completion(mes, AMDGPU_MES_KIQ_PIPE,
- 			&mes_inv_tlbs, sizeof(mes_inv_tlbs),
- 			offsetof(union MESAPI__INV_TLBS, api_status));
--- 
-2.51.0
+> On 9/3/25 14:40, Mika Penttilä wrote:
+>> Hi,
+>>
+>> On 9/3/25 04:18, Balbir Singh wrote:
+>>
+>>> Extend migrate_vma_collect_pmd() to handle partially mapped large
+>>> folios that require splitting before migration can proceed.
+>>>
+>>> During PTE walk in the collection phase, if a large folio is only
+>>> partially mapped in the migration range, it must be split to ensure
+>>> the folio is correctly migrated.
+>>>
+> <snip>
+>
+>>> +
+>>> +				/*
+>>> +				 * The reason for finding pmd present with a
+>>> +				 * large folio for the pte is partial unmaps.
+>>> +				 * Split the folio now for the migration to be
+>>> +				 * handled correctly
+>>> +				 */
+>> There are other reasons like vma splits for various reasons.
+>>
+> Yes, David had pointed that out as well, I meant to cleanup the comment change
+> "The" to "One", I missed addressing it in the refactor, but easy to do
+
+And of course now you split all mTHPs as well, which is different what we do today
+(ignoring). Splitting might be the right thing to do, but maybe worth mentioning.
+
+> Thanks,
+> Balbir Singh
+>
+--Mika
 
