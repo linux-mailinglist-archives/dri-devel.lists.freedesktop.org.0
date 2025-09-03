@@ -2,130 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6CBB4258D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 17:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B9DB425AE
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 17:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99EA510E8CA;
-	Wed,  3 Sep 2025 15:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E61B10E8CE;
+	Wed,  3 Sep 2025 15:38:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mRKl18PC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="crZ41H40";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E41810E8C9
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 15:33:48 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583Dx2pv019832
- for <dri-devel@lists.freedesktop.org>; Wed, 3 Sep 2025 15:33:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 18o1iHxtl5lTw0Ly+5dz1N5tWp+vbDygIfwrS6qTOYE=; b=mRKl18PCkjiiZrjF
- RK5cDhHOTeFBUGNaLF50985gAUPoKy0UxpWGyefJ/sIymAFf9WdrsZAvBGysKlZL
- ogiYrL67EsG/NDKsyv2D/2YyeA8ZAXXglAo1vppSAZ4KMdVWXVzZP0uFT2kC9njE
- QJkiDe9jZk+J7xcYcUwICfIwE0lMk4sXFh/gXB9jrJMF1KyDr/qu4UlqyRQ/STiQ
- rVh6q10wu9HngwX5Ir35vQ8xCcVWY4BM653n4wK14w7SvJOmJcT75oD6f8ey23UK
- SyGxuNtnf3SMY591WQwDVi2Ng2a8+Vieb1aWog1FVGfwl+yldEo8irqlQUxCv8jP
- Sl6RJg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48utk941mu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 15:33:48 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b32dfb5c6fso95351cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 08:33:47 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A325210E8CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 15:38:11 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45cb5e5e71eso503165e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 08:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756913890; x=1757518690; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=VPbwCRLjCS0JlRjDhk1ZHzDpInRFzDVXs0glfOj9Nmk=;
+ b=crZ41H40GH3H579YJcSxOacXuKeWw1pP8LMBGjlpm4q21XeW92xIxVSmwpBWjmGflm
+ F0yAl+l/q7pj4nZ5e35Ke/l1VSHNkF0uMutC0K9hTKS4aYX9MjzfoKgmb7Z+xbKgSvFe
+ 607yd0MUxtJ9CjP2M8RUSVstY7mN4Kzmr1Z74FWWfL44jx37oYz8iGktZS3n1/8rNHeK
+ 8RmV5jupEeCcb9U2c8NHQ9vOnDRW7gTVAEwawTX+mvEbIdLBSFrkcMApbeVYkIy0C3/f
+ BDnVjswLagXyY77rHxZJ+X5gvlKzZg8b/9JR1Cmh4zsk/DX3uoLt4IRRkUYBwpg95aCy
+ tfLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756913627; x=1757518427;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=18o1iHxtl5lTw0Ly+5dz1N5tWp+vbDygIfwrS6qTOYE=;
- b=s94a7jykEIBqhnM4tlSmcZm6mlTn21nb+DzOg2hbWS52oXGZ5Bu6Kx+h2iuDdocSY8
- GPbnyuUBoR4F3yaGpycDSbbDkQ7bbNq/vN+cOkBhK230du54B/E/vfFXPT3jXKMft+X8
- NnMrL9HU5+JzhLoK60Pzg5o+8FsRfYfNibVAAIsONnS6Gv3JXEaKcawM8xWYoUNgwxtO
- kVl8uv3YNOcn7ktU23vvdwfnXDo2IzhwIseNq24NAqUEs6S33IzUfAVzNfElNNdorH/c
- 3fVr0JirARisUPP86L3Quv4PoOhrmJh+WZKf/XlUp/wZnMNIQLUC3YLJbt4wrw9eOcoS
- fsjA==
+ d=1e100.net; s=20230601; t=1756913890; x=1757518690;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VPbwCRLjCS0JlRjDhk1ZHzDpInRFzDVXs0glfOj9Nmk=;
+ b=eO74tN8AjeVkAS1ZIUOO6GUsIMx4hfxNB+TWCX8Fhd3l44uHPs3aSWr0kCCsZ7Cavx
+ sQg3En7/JaOUkoYUY23oxnZcUgOukMT0zvikf3WoEPrZhxGoTYKzleb3l1EvSZqBtgah
+ lJHgMG5esiwa4FpWevpJDnUNXm/S410kN7MONQa9DdIcPycI+4HhkwSTNG/zHfgyNPq6
+ zyyazgewHT1WOxS0Q9x3WO2tHwovU+sd4g4XToeJdzdgJ6Tpe0vm+wWkCh4SclE8aDT3
+ QaBlj84b+YlTknuC2F+69QqnGejLViyIOFvEQ3IQOda4rhzpIzdQYKcEdGqStUEOZZnA
+ 3M8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8Mx+ELLQbVoivbXzHubT242hT+xrumfKeNfHPGL/bPvJTqY7LBjZUw3eOf5zXs4rg8TWmybt2bm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwoKjUop/UijqhhycQ/eaMLmPXu+vvj7mPcVY9oFqF1rAnOyn4s
- nG9+15vmD4cCIB4/yJaXdSLw/hTZQNjjRIHMXqSodgSFYjpSbQOcTUUs7fnyAXLq2PpLyaF6pkB
- tXjYQqoP46151k7tzvxeuIOwlgzdPpMcOqwFdAWpkxU8E1qF29zz7kmmLfcdEafPD8ahEGgg=
-X-Gm-Gg: ASbGncvj9AQ1DQ48cL9uXZm5E42hMhX9VwcjAF0kIuKDuz6DeXuG5JynQpraae1rXz2
- NxycETJgbWU631Bmk5VKcNqHdFYPNHajVomWhrdx6SqQcJw/p+qTaEdJXqR+5pq6mZHwCcOXJco
- DaGstjdTNFZ517LousP6WxorWtc2JkNnATqCVYaFDxEl4PEdKpWrtt/A2JyCfVdLGtw+g8n2cx9
- yJ0JRZhz9rRYbCBd5ZC5vmvAzFBkcWrwkbfTHwJIPdetdeWQu6ODGBdpNBmqmJGsZHFFcx1sp9j
- os1X30LUHHM8xuzXU7gHSVnVNI8smTl4GHwO2nBdE/wxwV4AT2Jx5GFMNc0HDDnQ6+oHUlob5I5
- 8aVWX861L+HDf5qs39b2YxA==
-X-Received: by 2002:a05:622a:295:b0:4b5:a0fb:599e with SMTP id
- d75a77b69052e-4b5a0fb5d27mr3956011cf.2.1756913626418; 
- Wed, 03 Sep 2025 08:33:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHL1vuGWMGXs2GJGdTf4JnsvsnA4SogcFyon1Ve1Y6vNl70a0aW3lgP59SAzB8uqaJmkyQcnA==
-X-Received: by 2002:a05:622a:295:b0:4b5:a0fb:599e with SMTP id
- d75a77b69052e-4b5a0fb5d27mr3955501cf.2.1756913625820; 
- Wed, 03 Sep 2025 08:33:45 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aff138a8c1dsm1235771166b.99.2025.09.03.08.33.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Sep 2025 08:33:45 -0700 (PDT)
-Message-ID: <f34c72ee-971b-47e8-8d49-6355b2660925@oss.qualcomm.com>
-Date: Wed, 3 Sep 2025 17:33:41 +0200
+ AJvYcCUrh/mPy7jpGM5qASnHAtMETe/teB/QytR8PhtZ+lTPKFiyvVE9qqhUWZdtd5cNeZlpTwKMZj6kK94=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8lYUk2JExAV1GJeKs/pxKkz+8P40UWLmyVjGY7V56UIa6TWoe
+ KDS6ep7p71A0iHk+Ex2iHMRhSsyQK9ugJYZYqzKdnewhJ1hGGeDZa9zz
+X-Gm-Gg: ASbGncsFGWtKg4aU6H1Avy9h/ZnA2acnCOVSswc+wMskl6SSPF2PX5wu+ewOiLNQyKd
+ hKDHAqLjJ9BtOBEdik9dTK7KyRpUAq328EkYCdZg1l1fVpf6fWFTal0uy9CG7Ra2/qqvoTyS5La
+ /YjhoEe03rXbCI3PlLjDowg5c361Ec2mjI2qCcj3lpjVcHYVOd3yVZzPO5NfVIHCx0/deEIbNmi
+ h1xfM+UORzaBop4BkubehfV0aaiHbz9zNDXqjVFoIgwriKxGE//EzWfug4XCYBejOPzv41c+Rf2
+ /jlPye+QcJ0EqSsoBlq4cxNtWO0fJ0EZMnFS4PTLPNj1nRbjUe9E8y2DM4MdKT44k6GfpWN8gFG
+ sZSKlZYrR3VwpRjax3SbL6woxAQn7DBqj5rUCm4pQH+J/bI/YogfgSbjTwA9pQPz2u/g8F4v+DW
+ xAhMVLr0VPKv7RvvNykIU=
+X-Google-Smtp-Source: AGHT+IFJMszbSGSF1PbWonv1NoW4j1E7tepFW666Fw1sEE/F4ZJzmOwpg3R8c/5zqgWpxpRXy3A2Sg==
+X-Received: by 2002:a05:600c:4ec9:b0:45b:7ffa:1bf8 with SMTP id
+ 5b1f17b1804b1-45b934f6a56mr68840825e9.23.1756913889833; 
+ Wed, 03 Sep 2025 08:38:09 -0700 (PDT)
+Received: from orome (p200300e41f1c4d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f1c:4d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b9c234b24sm59432145e9.16.2025.09.03.08.38.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Sep 2025 08:38:08 -0700 (PDT)
+Date: Wed, 3 Sep 2025 17:38:06 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: John Stultz <jstultz@google.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+Subject: Re: [PATCH 4/9] dma-buf: heaps: Add debugfs support
+Message-ID: <e6twhwxi55eesb7xirei7wezzb77qjiji2mccgqlziisjzl3q5@3ny5e6lbgebz>
+References: <20250902154630.4032984-1-thierry.reding@gmail.com>
+ <20250902154630.4032984-5-thierry.reding@gmail.com>
+ <CANDhNCoM4RFX-QccF7xT=+-tduGj9OZ_8SgrTVyRucMwyVc73Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 9/9] arm64: dts: qcom: Add MST pixel streams for
- displayport
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abel.vesa@linaro.org>, Mahadevan <quic_mahap@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250903-dp_mst_bindings-v8-0-7526f0311eaa@oss.qualcomm.com>
- <20250903-dp_mst_bindings-v8-9-7526f0311eaa@oss.qualcomm.com>
- <964a58d4-ddb6-4c98-9283-1769c0f11204@oss.qualcomm.com>
- <rfhqfbx4q3kl35ktzaexjjshzosv4a2tkjthtvo24aoisrdvj7@i63a55qx4mnn>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <rfhqfbx4q3kl35ktzaexjjshzosv4a2tkjthtvo24aoisrdvj7@i63a55qx4mnn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 4Jn1TdbJ4bywrjOVPzuYLIUenVfNy_EH
-X-Proofpoint-ORIG-GUID: 4Jn1TdbJ4bywrjOVPzuYLIUenVfNy_EH
-X-Authority-Analysis: v=2.4 cv=ccnSrmDM c=1 sm=1 tr=0 ts=68b85fdc cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=xrVuZHS62xsaktVfuFIA:9
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDA0MiBTYWx0ZWRfXzOEP/6VUYQjE
- zOs7luS18VKcVEaACv+sni4gt64o6jzWlKCBZm0bw954TQxaXiX9F3PIIN23HIMjyo/TlCmwwy/
- UG2BADkiC1Wf3b+dMVgwCIxpQH9V5dHck6FhPn1OOEOxlidSNuiMqmuECGl+1kn025sP5U1w0O2
- 41vDO+zBa5JvsQ5UTOtDHlXZG9PpBK0CTeOoFkNuex6B6M4360lDWS7D/EpK6p88R/t9E6TwQX5
- PlcmDwZwNvJpWb6l56PRkqnTF6wnIou/AUOnBWByl6ECXpOkfKKTOw48OOIPobmRdecGdwNT36/
- dnlBOslXLtRqWei3kR2+2e4W5R5Fw6b1XahvPHmmchHswAvrAcUQepibTx35KWgOoU5O1yXaUSI
- 65LhOSP0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_08,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300042
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="sulytsn4e2thgtl4"
+Content-Disposition: inline
+In-Reply-To: <CANDhNCoM4RFX-QccF7xT=+-tduGj9OZ_8SgrTVyRucMwyVc73Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,83 +102,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/3/25 3:58 PM, Dmitry Baryshkov wrote:
-> On Wed, Sep 03, 2025 at 03:41:45PM +0200, Konrad Dybcio wrote:
->> On 9/3/25 1:58 PM, Dmitry Baryshkov wrote:
->>> From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->>>
->>> Update Qualcomm DT files in order to declare extra stream pixel clocks
->>> and extra register resources used on these platforms to support
->>> DisplayPort MST.
->>>
->>> The driver will continue to work with the old DTS files as even after
->>> adding MST support the driver will have to support old DTS files which
->>> didn't have MST clocks.
->>>
->>> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> ---
->>
->> [...]
->>
->>> diff --git a/arch/arm64/boot/dts/qcom/sc8180x.dtsi b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
->>> index 70c87c79e1325f4ab4c81f34e99c0b52be4b3810..e6a7248040095077d6f98d632f4e8a1868432445 100644
->>> --- a/arch/arm64/boot/dts/qcom/sc8180x.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sc8180x.dtsi
->>> @@ -3241,16 +3241,20 @@ mdss_dp0: displayport-controller@ae90000 {
->>>  					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
->>>  					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
->>>  					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
->>> -					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
->>> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>,
->>> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
->>>  				clock-names = "core_iface",
->>>  					      "core_aux",
->>>  					      "ctrl_link",
->>>  					      "ctrl_link_iface",
->>> -					      "stream_pixel";
->>> +					      "stream_pixel",
->>> +					      "stream_1_pixel";
->>>  
->>>  				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK_CLK_SRC>,
->>> -						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>;
->>> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK_SRC>,
->>> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
->>>  				assigned-clock-parents = <&usb_prim_qmpphy QMP_USB43DP_DP_LINK_CLK>,
->>> +							 <&usb_prim_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
->>>  							 <&usb_prim_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
->>>  
->>>  				phys = <&usb_prim_qmpphy QMP_USB43DP_DP_PHY>;
->>> @@ -3319,16 +3323,20 @@ mdss_dp1: displayport-controller@ae98000 {
->>>  					 <&dispcc DISP_CC_MDSS_DP_AUX1_CLK>,
->>>  					 <&dispcc DISP_CC_MDSS_DP_LINK1_CLK>,
->>>  					 <&dispcc DISP_CC_MDSS_DP_LINK1_INTF_CLK>,
->>> -					 <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK>;
->>> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK>,
->>> +					 <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK>;
->>>  				clock-names = "core_iface",
->>>  					      "core_aux",
->>>  					      "ctrl_link",
->>>  					      "ctrl_link_iface",
->>> -					      "stream_pixel";
->>> +					      "stream_pixel",
->>> +					      "stream_1_pixel";
->>>  
->>>  				assigned-clocks = <&dispcc DISP_CC_MDSS_DP_LINK1_CLK_SRC>,
->>> -						  <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK_SRC>;
->>> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL2_CLK_SRC>,
->>> +						  <&dispcc DISP_CC_MDSS_DP_PIXEL1_CLK_SRC>;
->>>  				assigned-clock-parents = <&usb_sec_qmpphy QMP_USB43DP_DP_LINK_CLK>,
->>> +							 <&usb_sec_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
->>>  							 <&usb_sec_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
->>
->> Something's not right here
-> 
-> No, it's correct as far as I understand. On this platform INTF3 / PIXEL1
-> is shared between INTF0 / PIXEL and INTF4 / PIXEL2. So it is
-> counterintuitive, but seems to be correct.
 
-Eh, I unfortunately found confirmation for what you said. Hopefully this
-doesn't cause too much extra pain on the driver side
+--sulytsn4e2thgtl4
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 4/9] dma-buf: heaps: Add debugfs support
+MIME-Version: 1.0
 
-Konrad
+On Tue, Sep 02, 2025 at 03:37:45PM -0700, John Stultz wrote:
+> On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding@gma=
+il.com> wrote:
+> >
+> > From: Thierry Reding <treding@nvidia.com>
+> >
+> > Add a callback to struct dma_heap_ops that heap providers can implement
+> > to show information about the state of the heap in debugfs. A top-level
+> > directory named "dma_heap" is created in debugfs and individual files
+> > will be named after the heaps.
+> >
+>=20
+> I know its debugfs, but this feels a little loosey-goosey as an uAPI.
+
+Well, the whole point of debugfs is that it's not really an ABI. Nothing
+should ever rely on the presence of these files.
+
+> Is there any expected format for the show function?
+>=20
+> What would other dmabuf heaps ideally export via this interface?
+
+I've thought about this a bit and I'm not sure it makes sense to
+standardize on this. I think on one hand having a list of buffers
+exported by the dma-buf heap is probably the lowest common denominator,
+but then there might be a bunch of other things that are very heap-
+specific that some heap might want to export.
+
+> Is there some consistent dma_heap-ish concept for it to justify it
+> being under a dma_heap directory, and not just an independent debugfs
+> file for the driver implementing the dmabuf heap?
+
+Well, I think just the fact that it's a dma-heap would qualify its
+corresponding debugfs to be in a well-known location. We could of course
+pick some arbitrary location, but that's just a recipe for chaos because
+then everybody puts these whereever they want. There's really no
+standard place for driver-specific debugfs files to go, so putting it
+into some "subsystem"-specific directory seems like the better option.
+
+Thierry
+
+--sulytsn4e2thgtl4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmi4YNsACgkQ3SOs138+
+s6FLbg//VYHy8TOrGMpDWro/ULEXXUAldaCb7nmtSEpNIXvKqfV5j9D/dcMLpLtY
+LC53YPVnMm9g5c6mZ0w7DfUU5q+qAwCe2mvhA+Fm3UaRF2jMKhD/5LG4rk7ELWsL
+Xb3raJAlnNFO9AHgE7oEwGYjF8q94yEiAZHNO62j1kxJ00CpZCxyG2rie7iaTAMh
+VToay43MFoIv9ulrESaonZk84vL4HzYJZIZXeIgjs+mS0BmFH5fxvCPerNuiG4gf
+Z4N4cCDGWfJ+EYFuMZ3p2pbLivKlTqI3QdihV8BO13OMaADW7vmSPMdDzYSgQ/R9
+KdwIIctBlRpiGYOJCPb83kZFsFXwU4Cvnfc3HJDTjwLwlbIrAFTlPnyhL9eWEeZD
+oD4Jdnf/tHXH9tFJUEZ+cPA8mCHjMrnL3mTItfYILkvaGuZGRRdacy5fyICO0fbv
+xB0k9rSgPfwlafKgaHj3wQD02D1qmGZqATxAVYXu/RT682hMAYX8JJS5ar64fQ35
+esRjjoSdlzaVisao/gog2ThKdoPsThxcMXcM4nHHMfkd+wURKomTszYl8lZGew3Y
+dzUR7jKgI/rPUUUpBD7D+cPzNy5p2JzoQMPoBtKMPOOq6tQ1BXYJgXZtfW8DO1T6
+QgUM6P7kdw0Dce+0PdZOD3TvkpPucxyqZlLA13ZLCYeW8xZKwsk=
+=6VMq
+-----END PGP SIGNATURE-----
+
+--sulytsn4e2thgtl4--
