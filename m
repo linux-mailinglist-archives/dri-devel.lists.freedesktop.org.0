@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8992CB42910
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BC1B42911
 	for <lists+dri-devel@lfdr.de>; Wed,  3 Sep 2025 20:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FB610E90C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE9310E90D;
 	Wed,  3 Sep 2025 18:51:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ogaUlsET";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gf3FK+2V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC1E10E904
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:51:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1479B10E904
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Sep 2025 18:51:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756925499;
- bh=8Z8mjCF+FKwKBL8hPeIwVkjMamf3nUzQplfzpBne/CE=;
+ s=mail; t=1756925500;
+ bh=YnhD0OKVZkq8xMeukg7WRlgfoZMiD/56bfTry9LelCI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ogaUlsETyB/vRASIhDvfh/x6+jJBP5hPQGTx0DYVvQ4mRIrm4jU0gH60WpvZDUIZq
- OF50cIb234o8oz6cbEcqPVEqOPjDWwevlElQJo08aqFRHk1AwiT3XiCWCpDcoJNsYP
- /6eRjbTnxuZjm1KrtpjPMpaZnhWthAGc0lY+ZPzlNzRCaWbt0QxtbEstJOXpd/meap
- aJ7n4OW9YuWM5aQlsWFqa+Si3sg631K3aMNbNerqtU71l6y2gUho4lg+q5MLUODIhM
- a3IDkZ+4NizZxXal1/p466MADhZilVaQMKvPjeIXE4fQ0wVbD5WNIwZIPFUQIv5pHW
- UnNjTWtJKqdxQ==
+ b=gf3FK+2Vp2Hp/DNu0P6ZOfHVs++FmxovFYxyW6oWa9UFCCzgMB7ACqQmE3PGZxA7p
+ uLMyCvM1YR54mi/f/kp4+bjKwBKybEhg+vnRRNYUqFZDn2S77WDnWWGw489DH4rJ8s
+ Oki4oTP9YJRMogXeJa13bSde7zCqf04L3eAAms07w3OADXWqIrVYqm6Dh8xWTr2WcG
+ nzHkcwbxA4iUuTYyj+xo4ODjrlLoj1GVB1CK2DYmQsY75HB9Mdzhn01e9yHssrMcnX
+ 4F/wogylIizz9d1+xG28fZ1015E18mV1w6dm/ExJi21yMV4uiGHUXGVp1INmtMPujX
+ kcUt+qKCRIqdw==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id B84AB17E1382;
- Wed,  3 Sep 2025 20:51:39 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 7F24017E138B;
+ Wed,  3 Sep 2025 20:51:40 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 03 Sep 2025 21:51:03 +0300
-Subject: [PATCH v4 5/6] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
- dw_hdmi_qp_plat_data
+Date: Wed, 03 Sep 2025 21:51:04 +0300
+Subject: [PATCH v4 6/6] arm64: defconfig: Enable DW HDMI QP CEC support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250903-rk3588-hdmi-cec-v4-5-fa25163c4b08@collabora.com>
+Message-Id: <20250903-rk3588-hdmi-cec-v4-6-fa25163c4b08@collabora.com>
 References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
 In-Reply-To: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -57,7 +56,7 @@ To: Sandy Huang <hjc@rock-chips.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,55 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support correct initialization of the timer base in the HDMI
-QP IP block, setup platform data to include the required reference clock
-rate.
+Enable support for the CEC interface of the Synopsys DesignWare HDMI QP
+IP block.
 
-While at it, ensure plat_data is zero-initialized in
-dw_hdmi_qp_rockchip_bind().
+This is used by all boards based on RK3588 & RK3576 SoCs.
 
-Reviewed-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 9191a74a568fb38c2b2ff7ead1e703b3af9addc9..931343b072adc05877db9ae867e31a3cd1134e6c 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -429,14 +429,15 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 				    void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-+	struct dw_hdmi_qp_plat_data plat_data = {};
- 	const struct rockchip_hdmi_qp_cfg *cfg;
--	struct dw_hdmi_qp_plat_data plat_data;
- 	struct drm_device *drm = data;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct rockchip_hdmi_qp *hdmi;
- 	struct resource *res;
- 	struct clk_bulk_data *clks;
-+	struct clk *ref_clk;
- 	int ret, irq, i;
- 
- 	if (!pdev->dev.of_node)
-@@ -506,6 +507,14 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (ret < 0)
- 		return dev_err_probe(hdmi->dev, ret, "Failed to get clocks\n");
- 
-+	ref_clk = clk_get(hdmi->dev, "ref");
-+	if (IS_ERR(ref_clk))
-+		return dev_err_probe(hdmi->dev, PTR_ERR(ref_clk),
-+				     "Failed to get ref clock\n");
-+
-+	plat_data.ref_clk_rate = clk_get_rate(ref_clk);
-+	clk_put(ref_clk);
-+
- 	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
- 						    GPIOD_OUT_HIGH);
- 	if (IS_ERR(hdmi->enable_gpio))
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index acb6807d3461384929e84f4c939fcd00c4b509ae..346ef79c1ddd0a317f0b9a8056c680c29a4e0baf 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -966,6 +966,7 @@ CONFIG_DRM_CDNS_MHDP8546=m
+ CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=m
+ CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
+ CONFIG_DRM_DW_HDMI_CEC=m
++CONFIG_DRM_DW_HDMI_QP_CEC=y
+ CONFIG_DRM_IMX_DCSS=m
+ CONFIG_DRM_V3D=m
+ CONFIG_DRM_VC4=m
 
 -- 
 2.51.0
