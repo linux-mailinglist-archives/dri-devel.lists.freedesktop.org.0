@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E71EB43E42
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950F5B43E57
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7794010EA58;
-	Thu,  4 Sep 2025 14:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA46D10E25B;
+	Thu,  4 Sep 2025 14:14:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GqIBswB/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cC2wRXl8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AD610E25B;
- Thu,  4 Sep 2025 14:12:12 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-248f2da72edso1829005ad.2; 
- Thu, 04 Sep 2025 07:12:12 -0700 (PDT)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+ [209.85.216.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7F110E25B;
+ Thu,  4 Sep 2025 14:14:54 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-32b7e7e81f6so81296a91.0; 
+ Thu, 04 Sep 2025 07:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756995132; x=1757599932; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756995294; x=1757600094; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P76dzonJpjxq5JjtLQXtMWe8/rjM2VxntAZ0iJ6aPUc=;
- b=GqIBswB/fqN90SvHI6TkAf5f1EdVFfFpSy6sKCqT1htP6Tz5mnR7n5FZ8tVDCCaz16
- nKxDTovsugboQQDNCiie5t+BX0g9YdqJD00NNF5Gu5rMaVRNCMeNzV89Ejgh6fSU3RZP
- a5X4mQiCocZG9rJ6ti2+HzDd3UQ7s7HctZKUNcTU9UkRsHLdIJ1hxCPFWhwD7csqnMr9
- Ob6T41tKyTXabQD6POO4zhcm5L/ogxetFyqdwuYSGm+U9nJxS9uQY94d1djrAgv/Ie1w
- kXzVZRDWt7hBUsWxgXUNMVg5jGzDSwgRe95307epW0fOoTnZiuluNTxLpz3rjSbAa80f
- IyjQ==
+ bh=b0xCHn0bUk3RHmh2GHFzu+yYoz5Jb1g0VJrR9c2n01c=;
+ b=cC2wRXl8GSNbU2J1i882ilqSPl3wh1h2ds8FlRYWoD0uegLTK5YJ7tsdOzAl2KaRO7
+ 8WXT9dllVDoGAvO60o+WHpTzS3FOLsGqtr4ge2Bd1hohltFOBNImUbVwyBGVZxLH1iTq
+ MWMw/AgLOxjoeDVkKsUtBiQ3ToMEtcXCzJV+zCrRRFuJ1W6ffQlPGNZFhP3rXuNUIyMj
+ x7XTqIchLEIN7u3cdP0s+fMN5etLuz5TfHACwrZ+ynaJ4oaP3T62k17v7EtMrcpHPwmL
+ jOZEj2KHl5jh1UWpevRDoPV4y9LMDAX78nrqq2KKU8GJRTP41GpWTdg562mY0LNv1obt
+ sQBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756995132; x=1757599932;
+ d=1e100.net; s=20230601; t=1756995294; x=1757600094;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P76dzonJpjxq5JjtLQXtMWe8/rjM2VxntAZ0iJ6aPUc=;
- b=V/q5trmo26k9ZmaTU7WUwxbizRgWVuHdpNdx1H3+MmavpzjecM9rNTYItZBxVl7gvZ
- ZCWO/v+c7cPV76O+W29mD3MNzgcVfCG2xnRy60nIx/KegCRbeDF86r0y1GpneMXN7mXj
- O3XxEmK9K7NrImMYHuS/i5teBEpFiuSQFyQhT0UzkgmG7Rc1zlKcAxNz0z0kfWI2Ra6E
- UiC87iZIWvUOuiRJejiiKUpGTIgDuPxt2x5GVshzH4ACAyC+ZUJV4W7bHCf0zBlNUddg
- GD4qbr3pi5UGMfOeXvvLoy9JNG2yLH2rnoKruqpXg7CsgiGPaeR4TD7altjyjoPuFQ5E
- ukPg==
+ bh=b0xCHn0bUk3RHmh2GHFzu+yYoz5Jb1g0VJrR9c2n01c=;
+ b=EdMQdSmYwKLD8W1XS44sujtAxMIzUrEXbM5TcGzBR2LyJeNWy75R+ashWCTaC/vpmN
+ rwEVS8A1HVkYtBnokxcoSOo1ZnRaVXiIX0+03AQvrp/vOyy1+MGymyfWHP/IxUKo5D7h
+ 36LdcbgfkTD47YbCy6yiZ5klCe/IQY1Bst/gCqD2rG8b1gO0N9VLOmrsCoOv5tsLzruu
+ IscFeda5mAxegGrjHYhx/ZID6+bNrYYG9jWFMEcq30y4YGZRxP4GgdbI272QL2/zC0Cb
+ XjHH0Hg78Y9LuhSoAYtY2Kng/w/1zvegrJ8rxnFqxwOU9hsSGIQWRj8mPz8QSh3BJv5e
+ td0Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUNnDPRH0m/Pgy9DzC+y8kpleCMEQrYb7UGNellCqsKBrYFr99sVHSvalZrm2Rs7wc2yhQuazm9Jd3I@lists.freedesktop.org,
- AJvYcCWPagA6t2wtwbyi2hij32t4egSXzamXX892B/cIyJ/yxxzc7jAJHFlgJPvN+r5tAbKLKeJ4/LsO@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZHxrUUEkoJQ8REKVKjnDRa9pIv2uBNuKq1xIZ0vu6uOwoYk1V
- Z2xsQVGJruHI/SXjp0BJuE6vbqFHLswWhNG7n6O2uwt0JU9X8WTKa+eD/cYYdhMprT3mQDl+wyp
- NVK/A2hE8NjBLk6vO4FpREUa4fDulo28=
-X-Gm-Gg: ASbGnctfOdwoc5Wb27f2dkNAKfr4rS3jRg0zT4WKNYTxWWDN+Jfl92w1Mc+tUdRcsn4
- EnJHClUwkJ8iHpWuNVEQM4zDnS/nykUGKMFVWMxYmtxyPVltU81NvN1fGP+rIqxM+tWV7x5ouGy
- oock7RCCyCA4UyBY+j/kr+L1NJ2CqZHthZWE2Ohzk+L8Jcl4Vn97/gPU5zlmQO9OYj220OgIVIe
- nkr/XU2sdNRXXrejA==
-X-Google-Smtp-Source: AGHT+IEAPIL9oOqiKjaF+AER58IkUXfQBh587o4Kke0xYokY60veibzOrZeGvBUwuW565SUvSnaGad6q2MHI0yFNW/E=
-X-Received: by 2002:a17:902:e885:b0:248:d679:1aa0 with SMTP id
- d9443c01a7336-2491e604f03mr176532205ad.3.1756995131604; Thu, 04 Sep 2025
- 07:12:11 -0700 (PDT)
+ AJvYcCUhdqJED6knRyfHwtA+g9JHpjXtSZkYUVOGL1qj9znJaDH4R3pIpz9QaJLDIRAf5m+KrXYrYBix7QXw@lists.freedesktop.org,
+ AJvYcCWVmDE/TnEl10e8eL+MgbtV8bt0n+t2RAyE1t7PWkzzcQGEZEoHn+gqBbeo+lXgYbvRqtculAzo@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLTwv4WdHt5FpJvKXa0Uo8rsYGFe1pvqwSHUGrnnXS9cqKfVid
+ JmNCDTIP6ivjCrzpuEfqpNET/Eq/gvo2rhN+zX0R4RBZ+4sHc4gZRYzp0V983+E+GFz3jc2xiEj
+ FKYu6sFG6+Qky7/+Z1x2rzr+FKgX0nEo=
+X-Gm-Gg: ASbGncs6hBlZBLrgMcfTzTEf2dhszB1ulYukHBC17qFUpBlgapZBGJh4EHGMAIo/kmH
+ qhtEFgGfs3X5nA3eVdP/7Mn3/A+LCMSYSjbbPLAvEt71+Wxf/4DXbDwEG3zni/yCsQvjxjMqG1m
+ fyMOlHTv3hTIfT+k/N/99pnUoBgigeN4h6annKKxCQiEdqP7BDg7SCIEu3U9WPHnRSK/5Kv1NqJ
+ ClRR8TSaCOw/UNxR4rtbOtFy/0m
+X-Google-Smtp-Source: AGHT+IHY3FHcpQI3y/30onEh0FHloQof42J1vxR31s3RTApweweMvjqY9ReAEMFZe796M1YtxA4JTJC1ZLJLiBFF0Vc=
+X-Received: by 2002:a17:90b:2dcc:b0:329:d47f:c25b with SMTP id
+ 98e67ed59e1d1-329d47fe8f4mr7703925a91.7.1756995293683; Thu, 04 Sep 2025
+ 07:14:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250904082127.271638-1-liaoyuanhong@vivo.com>
- <20250904082127.271638-4-liaoyuanhong@vivo.com>
-In-Reply-To: <20250904082127.271638-4-liaoyuanhong@vivo.com>
+References: <20250904113201.352187-1-liaoyuanhong@vivo.com>
+ <20250904113201.352187-5-liaoyuanhong@vivo.com>
+In-Reply-To: <20250904113201.352187-5-liaoyuanhong@vivo.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 4 Sep 2025 10:11:59 -0400
-X-Gm-Features: Ac12FXxwjjMHeUEY5jR_elix-1Pg7z89-JPeJ8lMyom1ZYENdg-eos4fkcVJR2Q
-Message-ID: <CADnq5_Ppuwsz3RU0nK3nqUapfuSrS3QDQNZXiKxYUgBvLObWag@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/amd/pm/powerplay/smumgr: remove redundant ternary
- operators
+Date: Thu, 4 Sep 2025 10:14:41 -0400
+X-Gm-Features: Ac12FXw5h-JVKiihSXykGZz4Ep2zEIjYnJMnvtC57T25AA1hrZypdJYTR6p1els
+Message-ID: <CADnq5_Mf7xsK3v2r4EKR8crOQ=1WxhvTGNEmQAKLkY3XJuBXpg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/radeon/pm: Remove redundant ternary operators
 To: Liao Yuanhong <liaoyuanhong@vivo.com>
-Cc: Kenneth Feng <kenneth.feng@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- "open list:AMD POWERPLAY AND SWSMU" <amd-gfx@lists.freedesktop.org>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -96,102 +94,35 @@ Applied the series.  Thanks!
 
 Alex
 
-On Thu, Sep 4, 2025 at 4:29=E2=80=AFAM Liao Yuanhong <liaoyuanhong@vivo.com=
+On Thu, Sep 4, 2025 at 7:49=E2=80=AFAM Liao Yuanhong <liaoyuanhong@vivo.com=
 > wrote:
 >
 > For ternary operators in the form of "a ? true : false", if 'a' itself
 > returns a boolean result, the ternary operator can be omitted. Remove
-> redundant ternary operators to clean up the code. Swap variable positions
-> on either side of '=3D=3D' to enhance readability.
+> redundant ternary operators to clean up the code.
 >
 > Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
 > ---
->  drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c      | 5 ++---
->  drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c   | 5 ++---
->  drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c | 5 ++---
->  drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c     | 5 ++---
->  4 files changed, 8 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/radeon/radeon_pm.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c b/driv=
-ers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> index 5e43ad2b2956..d2dbd90bb427 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/fiji_smumgr.c
-> @@ -2540,9 +2540,8 @@ static int fiji_initialize_mc_reg_table(struct pp_h=
-wmgr *hwmgr)
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/=
+radeon_pm.c
+> index b4fb7e70320b..a855a96dd2ea 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -907,8 +907,7 @@ static void radeon_dpm_thermal_work_handler(struct wo=
+rk_struct *work)
 >
->  static bool fiji_is_dpm_running(struct pp_hwmgr *hwmgr)
+>  static bool radeon_dpm_single_display(struct radeon_device *rdev)
 >  {
-> -       return (1 =3D=3D PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> -                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON))
-> -                       ? true : false;
-> +       return PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> +                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON) =3D=3D 1;
->  }
+> -       bool single_display =3D (rdev->pm.dpm.new_active_crtc_count < 2) =
+?
+> -               true : false;
+> +       bool single_display =3D rdev->pm.dpm.new_active_crtc_count < 2;
 >
->  static int fiji_update_dpm_settings(struct pp_hwmgr *hwmgr,
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c b/d=
-rivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-> index 17d2f5bff4a7..1f50f1e74c48 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/iceland_smumgr.c
-> @@ -2655,9 +2655,8 @@ static int iceland_initialize_mc_reg_table(struct p=
-p_hwmgr *hwmgr)
->
->  static bool iceland_is_dpm_running(struct pp_hwmgr *hwmgr)
->  {
-> -       return (1 =3D=3D PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> -                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON))
-> -                       ? true : false;
-> +       return PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> +                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON) =3D=3D 1;
->  }
->
->  const struct pp_smumgr_func iceland_smu_funcs =3D {
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c b=
-/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-> index ff6b563ecbf5..bf6d09572cfc 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/polaris10_smumgr.c
-> @@ -2578,9 +2578,8 @@ static int polaris10_initialize_mc_reg_table(struct=
- pp_hwmgr *hwmgr)
->
->  static bool polaris10_is_dpm_running(struct pp_hwmgr *hwmgr)
->  {
-> -       return (1 =3D=3D PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> -                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON))
-> -                       ? true : false;
-> +       return PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> +                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON) =3D=3D 1;
->  }
->
->  static int polaris10_update_dpm_settings(struct pp_hwmgr *hwmgr,
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c b/dri=
-vers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-> index 6fe6e6abb5d8..2e21f9d066cb 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/tonga_smumgr.c
-> @@ -3139,9 +3139,8 @@ static int tonga_initialize_mc_reg_table(struct pp_=
-hwmgr *hwmgr)
->
->  static bool tonga_is_dpm_running(struct pp_hwmgr *hwmgr)
->  {
-> -       return (1 =3D=3D PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> -                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON))
-> -                       ? true : false;
-> +       return PHM_READ_INDIRECT_FIELD(hwmgr->device,
-> +                       CGS_IND_REG__SMC, FEATURE_STATUS, VOLTAGE_CONTROL=
-LER_ON) =3D=3D 1;
->  }
->
->  static int tonga_update_dpm_settings(struct pp_hwmgr *hwmgr,
+>         /* check if the vblank period is too short to adjust the mclk */
+>         if (single_display && rdev->asic->dpm.vblank_too_short) {
 > --
 > 2.34.1
 >
