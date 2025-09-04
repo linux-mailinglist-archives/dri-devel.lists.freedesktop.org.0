@@ -2,140 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64994B43B60
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C51B43B68
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:21:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B37F010E9F4;
-	Thu,  4 Sep 2025 12:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5D510EA1A;
+	Thu,  4 Sep 2025 12:21:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lF7F4rPW";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="SndjjUac";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2790710E9F4
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 12:20:25 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849X7qb032158
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 12:20:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5K9lLVQuDJ+jtHy71mkQmBdSNzf+tzhKMiiJck53fBU=; b=lF7F4rPWrOffjepL
- rsGbLMBcrr/o0u1vA79M2CB/+mfH5wIj83TWwnJh+F+QRnx3WlwOJGXmt9JB1Zkd
- 2P0xkeVRT2bFXFmBFSZKTH/UYUJUyn4x+bOy/okVY6d17h5B0U06b2zJC8zA37uA
- UBNmqU84QUn7dS6Bxqo0Gf8grPibg8Qt6jBVhF+gx7y1LLByeFw6AMM2BECys6zA
- TeJAqx3wbGlenM4lv4pmV8mWVWjT0CArCYPUy73HXYM1jiM9QjdbLWZnQW2bccaT
- bOFOk/lOnxPTxp6ipcWk1m3AWB10fildxvoYY14Q+N2zlJbD8v4AoACNSLqIR64Y
- EPePRA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnpfje1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 12:20:24 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b3037bd983so4337771cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 05:20:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756988423; x=1757593223;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5K9lLVQuDJ+jtHy71mkQmBdSNzf+tzhKMiiJck53fBU=;
- b=AT0kuinJ3Kta+Yp5eQ7qcDSxxD2RCGYoft/J8Jqi1204gws2/X2NG02JCWQaGC4AEM
- BnJ1cKdWxULWDzp1l7EY39+xng91K2dGYNQeDFGuLb4RKD3l4mKODqyHI3liHNvmXdkc
- HxtcMBSilYZAd3MtIODt1ob7jFdqHkkW49iu5rKrib26B1DVXeDZZ8bWFhRLWh3hLJXE
- KkX+ZEULG3+rOWGDO922Oe5Alo0q7vYQiy491Hrs6RbLxUoUIxrsATEeWgXHaIVOCyUH
- 8uUBaVp3wuLENoxsYuZHmFXWbODjhFvvCogASUH+ML3pk5Bh0k259v0aSZZq5KpOSeCZ
- ouaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUMS7mu74YGk90H/lNGKO6MrC7zN85FCV2B4t7hg2SfCxQ9X4vXoM28qELbJTggms8sUcncnsfbYfg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzOG206PpJAmG049i8KSR9wTlTY6yF0/jmDqKgI/Dtu1RZJhfu
- oJHfgQARhbM3bnaClAK90C75Th6fZ7Jdya9pjPGADRkIF0841OlwiKRW1vUOKmtjmUh0+wvSMzc
- 1UTatv2JXMMPcgm9FrEIlPoHgXu7+yey71K902suK6cZEF5irzHuGQD4RgSzkVGTfcnaU0v0=
-X-Gm-Gg: ASbGncuv0Xbc9rSKHpHyoVA8HM4aIlwQ8juB58sAWSsF/SMmdjFs7ry9qHgsTcMFsNC
- /002JxUvRD5+dMghyGg2NgT61e/Yq38S8zwqPygCioTcxxNg5BYIWD+u+v1VjFfFtVRu6Ko4T+b
- OQSJKEXTOyxpILAb1EdVtfNaXA0q/EKaEPRGxi3v6zD7rj6TbZwQlu6EH0bBn/TZWGJfyDIJrnZ
- awPb7ErtBMr+fOtJzxFmilB4dr+6VsHewnZSYQx0su+o1zuwtQ9CIds/RZVJm3N61E9G7Ww8hdo
- NniiGrO2ptdRHN1l7MahPopXYLTMF0s1BrjwH3VshRcsyXpT6kK+dabJoUyf6Nylt9iEh8C+S/N
- X2+n7iLC2zkCbcUDRwJRqFA==
-X-Received: by 2002:a05:622a:148:b0:4b5:dfdc:1f0c with SMTP id
- d75a77b69052e-4b5dfdc2c5amr6767281cf.12.1756988423071; 
- Thu, 04 Sep 2025 05:20:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEq92zIM2PJ5tnKQijo/OGWPykJlP80988PfhS9zLD8jSYpTvRaC1PomVJTiMQsaS8+adW20A==
-X-Received: by 2002:a05:622a:148:b0:4b5:dfdc:1f0c with SMTP id
- d75a77b69052e-4b5dfdc2c5amr6766811cf.12.1756988422416; 
- Thu, 04 Sep 2025 05:20:22 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b0413ee67a3sm1164960266b.24.2025.09.04.05.20.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Sep 2025 05:20:21 -0700 (PDT)
-Message-ID: <95b40735-367d-4702-b2e6-01c9c5604e5e@oss.qualcomm.com>
-Date: Thu, 4 Sep 2025 14:20:16 +0200
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0CA10EA1A;
+ Thu,  4 Sep 2025 12:21:40 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cHdrK2Whbz9tln;
+ Thu,  4 Sep 2025 14:21:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1756988497; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N9J1O3ytfo0P4VBaS4kMaz2qKZjQjAFNlOY0psjZpuE=;
+ b=SndjjUaceL0QkzdtGUfnlX3lR35ZwKgOxBawGZP/MjlGfYSzEctuM3Rv9Xz0iOLb2Hhg31
+ N2c3yJSWKQJHbUxmgenUGA2YSPc1FQPrWDG4yj5efyqJQihOSSxp2yZ3vu3fbSRyV09qzP
+ oP0GuSSZZvLJvz5GjriJ2rmEa0USyU+V5o7avZuEvVNGV8HfanuCFHDVoimSIe9HoC7UNC
+ X77GUAYVpkLH2DdvyiEoyFWwkEy6lVJZbzjkyZ6wpt8dp5XVxzYHXfINotNrBbNJ5VfPX0
+ JIoWJFAQl1FxamGHojYURzUKGRIBge/fkOMVjavg65A22wipF5QvlT55T1V/3Q==
+Message-ID: <27521eb23cca7c75eb0e0249f1f1a307279a5dff.camel@mailbox.org>
+Subject: Re: [PATCH v2] Revert "drm/nouveau: Remove waitque for sched teardown"
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
+ <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 04 Sep 2025 14:21:32 +0200
+In-Reply-To: <53ec7656-d5d7-460e-a245-0c9598a71f26@amd.com>
+References: <20250901083107.10206-2-phasta@kernel.org>
+ <3407fd9d-68e0-4c45-9761-98ede450bb25@amd.com>
+ <b35506de99be38f560709660b10667ca9f386181.camel@mailbox.org>
+ <53ec7656-d5d7-460e-a245-0c9598a71f26@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 5/7] arm64: dts: qcom: Add initial support for MSM8937
-To: =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
- =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
- Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <lumag@kernel.org>, Rob Clark
- <robin.clark@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Robert Marko <robimarko@gmail.com>, Adam Skladowski
- <a_skl39@protonmail.com>, Sireesh Kodali <sireeshkodali@protonmail.com>,
- Das Srinagesh <quic_gurus@quicinc.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- linux@mainlining.org, Dang Huynh <danct12@riseup.net>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250903-msm8937-v9-0-a097c91c5801@mainlining.org>
- <20250903-msm8937-v9-5-a097c91c5801@mainlining.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250903-msm8937-v9-5-a097c91c5801@mainlining.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: _GnUxC8BWN9jySWvSJ0dZ6B6KuOLsR6y
-X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b98408 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=bBqXziUQAAAA:8 a=EUspDBNiAAAA:8
- a=OuZLqq7tAAAA:8 a=9HHfay7fNgEZ8udxRwkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22 a=BjKv_IHbNJvPKzgot4uq:22 a=AKGiAy9iJ-JzxKVHQNES:22
-X-Proofpoint-ORIG-GUID: _GnUxC8BWN9jySWvSJ0dZ6B6KuOLsR6y
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfX6yWJOrk1J2Ki
- 0n+VFmlL2+rJwrtth37A2wPT3/y75Ie0OZXtll9Ot01QYPT55hAIEaSez8oRYSgEUvEpEMTUxY5
- wA4shUEEwvnzE0fAZ0R+EqBpWmntl+5zxWygt+vM9xaGk5dV46YpPYSC6bycXwfaJApTauSfUJ/
- OWDF0j6oN6EThGvXYNWzZjPPMg1bQhIxHBacdxwlxaf3935TOnjFVlUqIryMyI+t9xUkIuwDm7q
- +JiB2llmhmFGQ5qEtn34i24EE2m4n7LIxAuGpSGdhwXD0XRvLsMPEQcuVBxqE4M7bliKMdfJL+7
- JUt8GW3gSM8oD1m3wcai9a1Pf0Wrj/T8tu2HiioMNLSq0Ox/YMKz6U12fgoXgpt1hs6k/fCjGqB
- u+B4AZcw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_04,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
- spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300001
+X-MBO-RS-META: 91x5maptto5obfsr6rmgp7z4x1yyhiu8
+X-MBO-RS-ID: cc295356d2fe4975c84
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,22 +66,316 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/3/25 11:08 PM, Barnabás Czémán wrote:
-> From: Dang Huynh <danct12@riseup.net>
-> 
-> Add initial support for MSM8937 SoC.
-> 
-> Signed-off-by: Dang Huynh <danct12@riseup.net>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Co-developed-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
-> ---
+On Thu, 2025-09-04 at 13:56 +0200, Christian K=C3=B6nig wrote:
+> On 04.09.25 13:12, Philipp Stanner wrote:
+> > On Thu, 2025-09-04 at 12:27 +0200, Christian K=C3=B6nig wrote:
+> > > On 01.09.25 10:31, Philipp Stanner wrote:
+> > > > This reverts:
+> > > >=20
+> > > > commit bead88002227 ("drm/nouveau: Remove waitque for sched teardow=
+n")
+> > > > commit 5f46f5c7af8c ("drm/nouveau: Add new callback for scheduler t=
+eardown")
+> > > >=20
+> > > > from the drm/sched teardown leak fix series:
+> > > >=20
+> > > > https://lore.kernel.org/dri-devel/20250710125412.128476-2-phasta@ke=
+rnel.org/
+> > > >=20
+> > > > The aforementioned series removed a blocking waitqueue from
+> > > > nouveau_sched_fini(). It was mistakenly assumed that this waitqueue=
+ only
+> > > > prevents jobs from leaking, which the series fixed.
+> > > >=20
+> > > > The waitqueue, however, also guarantees that all VM_BIND related jo=
+bs
+> > > > are finished in order, cleaning up mappings in the GPU's MMU. These=
+ jobs
+> > > > must be executed sequentially. Without the waitqueue, this is no lo=
+nger
+> > > > guaranteed, because entity and scheduler teardown can race with eac=
+h
+> > > > other.
+> > >=20
+> > > That sounds like exactly the kind of issues I tried to catch with the=
+ recent dma_fence changes.
+> >=20
+> > Link? :)
+>=20
+> dma-buf: add warning when dma_fence is signaled from IOCTL
+>=20
+> >=20
+> > >=20
+> > > Going to keep working on that and potentially using this here as blue=
+print for something it should catch.
+> >=20
+> > This is more like a nouveau-specific issue. The problem is that
+> > unmapping mappings in the GPU's MMU must be done in a specific order,
+> > and all the unmappings must be performed, not canceled.
+> >=20
+> > For EXEC jobs, it's perfectly fine to cancel pending jobs, remove the
+> > waitqueue and just rush through drm_sched_fini().
+> >=20
+> > I don't know the issue you're describing, but I don't think a feature
+> > in dma_fence could help with that specific Nouveau problem. dma_fence
+> > can't force the driver to submit jobs in a specific order or to wait
+> > until they're all completed.
+>=20
+> Well the updates are represented by a dma_fence, aren't they?
+>=20
+> So the dma_fence framework could potentially warn if a fence from the sam=
+e context signals out of order.
 
-If the bindings checker is happy, I'm generally happy as well
+Ah yes, it would warn.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+However, in this case, applications would have faulted anyways, making
+the problem obvious. But granted, some warning mechanism for out of
+order signaling would make it easier to find problems.
 
-Konrad
+P.
+
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Gr=C3=BC=C3=9Fe
+> > P.
+> >=20
+> > >=20
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > >=20
+> > > > Revert all patches related to the waitqueue removal.
+> > > >=20
+> > > > Fixes: bead88002227 ("drm/nouveau: Remove waitque for sched teardow=
+n")
+> > > > Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > > ---
+> > > > Changes in v2:
+> > > > =C2=A0 - Don't revert commit 89b2675198ab ("drm/nouveau: Make fence=
+ container helper usable driver-wide")
+> > > > =C2=A0 - Add Fixes-tag
+> > > > ---
+> > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 15 -----------
+> > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.h |=C2=A0 1 -
+> > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_sched.c | 35 ++++++++++------=
+---------
+> > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_sched.h |=C2=A0 9 ++++---
+> > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_uvmm.c=C2=A0 |=C2=A0 8 +++---
+> > > > =C2=A05 files changed, 24 insertions(+), 44 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/=
+drm/nouveau/nouveau_fence.c
+> > > > index 9f345a008717..869d4335c0f4 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > > @@ -240,21 +240,6 @@ nouveau_fence_emit(struct nouveau_fence *fence=
+)
+> > > > =C2=A0	return ret;
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > -void
+> > > > -nouveau_fence_cancel(struct nouveau_fence *fence)
+> > > > -{
+> > > > -	struct nouveau_fence_chan *fctx =3D nouveau_fctx(fence);
+> > > > -	unsigned long flags;
+> > > > -
+> > > > -	spin_lock_irqsave(&fctx->lock, flags);
+> > > > -	if (!dma_fence_is_signaled_locked(&fence->base)) {
+> > > > -		dma_fence_set_error(&fence->base, -ECANCELED);
+> > > > -		if (nouveau_fence_signal(fence))
+> > > > -			nvif_event_block(&fctx->event);
+> > > > -	}
+> > > > -	spin_unlock_irqrestore(&fctx->lock, flags);
+> > > > -}
+> > > > -
+> > > > =C2=A0bool
+> > > > =C2=A0nouveau_fence_done(struct nouveau_fence *fence)
+> > > > =C2=A0{
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/=
+drm/nouveau/nouveau_fence.h
+> > > > index 9957a919bd38..183dd43ecfff 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+> > > > @@ -29,7 +29,6 @@ void nouveau_fence_unref(struct nouveau_fence **)=
+;
+> > > > =C2=A0
+> > > > =C2=A0int=C2=A0 nouveau_fence_emit(struct nouveau_fence *);
+> > > > =C2=A0bool nouveau_fence_done(struct nouveau_fence *);
+> > > > -void nouveau_fence_cancel(struct nouveau_fence *fence);
+> > > > =C2=A0int=C2=A0 nouveau_fence_wait(struct nouveau_fence *, bool laz=
+y, bool intr);
+> > > > =C2=A0int=C2=A0 nouveau_fence_sync(struct nouveau_bo *, struct nouv=
+eau_channel *, bool exclusive, bool intr);
+> > > > =C2=A0
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/=
+drm/nouveau/nouveau_sched.c
+> > > > index 0cc0bc9f9952..e60f7892f5ce 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+> > > > @@ -11,7 +11,6 @@
+> > > > =C2=A0#include "nouveau_exec.h"
+> > > > =C2=A0#include "nouveau_abi16.h"
+> > > > =C2=A0#include "nouveau_sched.h"
+> > > > -#include "nouveau_chan.h"
+> > > > =C2=A0
+> > > > =C2=A0#define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
+> > > > =C2=A0
+> > > > @@ -122,9 +121,11 @@ nouveau_job_done(struct nouveau_job *job)
+> > > > =C2=A0{
+> > > > =C2=A0	struct nouveau_sched *sched =3D job->sched;
+> > > > =C2=A0
+> > > > -	spin_lock(&sched->job_list.lock);
+> > > > +	spin_lock(&sched->job.list.lock);
+> > > > =C2=A0	list_del(&job->entry);
+> > > > -	spin_unlock(&sched->job_list.lock);
+> > > > +	spin_unlock(&sched->job.list.lock);
+> > > > +
+> > > > +	wake_up(&sched->job.wq);
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > =C2=A0void
+> > > > @@ -305,9 +306,9 @@ nouveau_job_submit(struct nouveau_job *job)
+> > > > =C2=A0	}
+> > > > =C2=A0
+> > > > =C2=A0	/* Submit was successful; add the job to the schedulers job =
+list. */
+> > > > -	spin_lock(&sched->job_list.lock);
+> > > > -	list_add(&job->entry, &sched->job_list.head);
+> > > > -	spin_unlock(&sched->job_list.lock);
+> > > > +	spin_lock(&sched->job.list.lock);
+> > > > +	list_add(&job->entry, &sched->job.list.head);
+> > > > +	spin_unlock(&sched->job.list.lock);
+> > > > =C2=A0
+> > > > =C2=A0	drm_sched_job_arm(&job->base);
+> > > > =C2=A0	job->done_fence =3D dma_fence_get(&job->base.s_fence->finish=
+ed);
+> > > > @@ -392,23 +393,10 @@ nouveau_sched_free_job(struct drm_sched_job *=
+sched_job)
+> > > > =C2=A0	nouveau_job_fini(job);
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > -static void
+> > > > -nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
+> > > > -{
+> > > > -	struct nouveau_fence *fence;
+> > > > -	struct nouveau_job *job;
+> > > > -
+> > > > -	job =3D to_nouveau_job(sched_job);
+> > > > -	fence =3D to_nouveau_fence(job->done_fence);
+> > > > -
+> > > > -	nouveau_fence_cancel(fence);
+> > > > -}
+> > > > -
+> > > > =C2=A0static const struct drm_sched_backend_ops nouveau_sched_ops =
+=3D {
+> > > > =C2=A0	.run_job =3D nouveau_sched_run_job,
+> > > > =C2=A0	.timedout_job =3D nouveau_sched_timedout_job,
+> > > > =C2=A0	.free_job =3D nouveau_sched_free_job,
+> > > > -	.cancel_job =3D nouveau_sched_cancel_job,
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > =C2=A0static int
+> > > > @@ -458,8 +446,9 @@ nouveau_sched_init(struct nouveau_sched *sched,=
+ struct nouveau_drm *drm,
+> > > > =C2=A0		goto fail_sched;
+> > > > =C2=A0
+> > > > =C2=A0	mutex_init(&sched->mutex);
+> > > > -	spin_lock_init(&sched->job_list.lock);
+> > > > -	INIT_LIST_HEAD(&sched->job_list.head);
+> > > > +	spin_lock_init(&sched->job.list.lock);
+> > > > +	INIT_LIST_HEAD(&sched->job.list.head);
+> > > > +	init_waitqueue_head(&sched->job.wq);
+> > > > =C2=A0
+> > > > =C2=A0	return 0;
+> > > > =C2=A0
+> > > > @@ -493,12 +482,16 @@ nouveau_sched_create(struct nouveau_sched **p=
+sched, struct nouveau_drm *drm,
+> > > > =C2=A0	return 0;
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > +
+> > > > =C2=A0static void
+> > > > =C2=A0nouveau_sched_fini(struct nouveau_sched *sched)
+> > > > =C2=A0{
+> > > > =C2=A0	struct drm_gpu_scheduler *drm_sched =3D &sched->base;
+> > > > =C2=A0	struct drm_sched_entity *entity =3D &sched->entity;
+> > > > =C2=A0
+> > > > +	rmb(); /* for list_empty to work without lock */
+> > > > +	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
+> > > > +
+> > > > =C2=A0	drm_sched_entity_fini(entity);
+> > > > =C2=A0	drm_sched_fini(drm_sched);
+> > > > =C2=A0
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/=
+drm/nouveau/nouveau_sched.h
+> > > > index b98c3f0bef30..20cd1da8db73 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_sched.h
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+> > > > @@ -103,9 +103,12 @@ struct nouveau_sched {
+> > > > =C2=A0	struct mutex mutex;
+> > > > =C2=A0
+> > > > =C2=A0	struct {
+> > > > -		struct list_head head;
+> > > > -		spinlock_t lock;
+> > > > -	} job_list;
+> > > > +		struct {
+> > > > +			struct list_head head;
+> > > > +			spinlock_t lock;
+> > > > +		} list;
+> > > > +		struct wait_queue_head wq;
+> > > > +	} job;
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > =C2=A0int nouveau_sched_create(struct nouveau_sched **psched, struc=
+t nouveau_drm *drm,
+> > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/d=
+rm/nouveau/nouveau_uvmm.c
+> > > > index d94a85509176..79eefdfd08a2 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> > > > @@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *=
+job, u64 addr, u64 range)
+> > > > =C2=A0	u64 end =3D addr + range;
+> > > > =C2=A0
+> > > > =C2=A0again:
+> > > > -	spin_lock(&sched->job_list.lock);
+> > > > -	list_for_each_entry(__job, &sched->job_list.head, entry) {
+> > > > +	spin_lock(&sched->job.list.lock);
+> > > > +	list_for_each_entry(__job, &sched->job.list.head, entry) {
+> > > > =C2=A0		struct nouveau_uvmm_bind_job *bind_job =3D to_uvmm_bind_job=
+(__job);
+> > > > =C2=A0
+> > > > =C2=A0		list_for_each_op(op, &bind_job->ops) {
+> > > > @@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *=
+job, u64 addr, u64 range)
+> > > > =C2=A0
+> > > > =C2=A0				if (!(end <=3D op_addr || addr >=3D op_end)) {
+> > > > =C2=A0					nouveau_uvmm_bind_job_get(bind_job);
+> > > > -					spin_unlock(&sched->job_list.lock);
+> > > > +					spin_unlock(&sched->job.list.lock);
+> > > > =C2=A0					wait_for_completion(&bind_job->complete);
+> > > > =C2=A0					nouveau_uvmm_bind_job_put(bind_job);
+> > > > =C2=A0					goto again;
+> > > > @@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *=
+job, u64 addr, u64 range)
+> > > > =C2=A0			}
+> > > > =C2=A0		}
+> > > > =C2=A0	}
+> > > > -	spin_unlock(&sched->job_list.lock);
+> > > > +	spin_unlock(&sched->job.list.lock);
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > =C2=A0static int
+> > >=20
+> >=20
+>=20
+
