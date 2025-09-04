@@ -2,78 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9145B42FB5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:22:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3E7B42FB3
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:22:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C61710E3D1;
-	Thu,  4 Sep 2025 02:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE44210E0B5;
+	Thu,  4 Sep 2025 02:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RLSNpFH7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XxpUJ52f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8CA810E3D1
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:22:06 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-61cd3748c6dso912454a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 19:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756952525; x=1757557325; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DXVSLMWASFD03eCh7RAZNIgqIvAhKcab9R9R5MJY7EU=;
- b=RLSNpFH7RCqsGtIPPz203cD69HitUJJm77X+PZMMDdLS3ldqp0cxmPGQYgJTSxXnSk
- QkxTdzxI9FMIxGpXQpuTPlM8sfhm1QgY3uJ32YedZJtn8rZ4KOGRuRNmJ6z3yQkQ+YKp
- ClHN7ovowhn+AFYM9uYYQ82OSCA9aSK/3ysSoiqSVO4lgcaaH2ppZFnUYFhzwlv9tDY6
- t6P3RisArxVGx26YSq0+rrCtPg7kXFrGSXvmp9ar7LiY3nH1iHUFJawlOoub2JWTNBuX
- LWzMhTgAca/FHz0wZudbMSPRlLI94w1f50gb53YCHDL2kndeyfJo8hI5Kx6iPoctV0Fi
- 6u0A==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E686110E0B5
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:22:02 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583N5iVf007669
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 02:22:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=UqDA79vMuQ4DioUE8hancjBP
+ t/X6lnrlS8udMgPwyC4=; b=XxpUJ52fovBMOcvGzxoFCaL4Ohs8e6Fe5+id3dKW
+ 86M1mZdhiZPYEak4mTHcUmJDAnr/5Ja48YnpdAjqlxO927h/MyuNmhU2ZA0TuhQc
+ Uf63oew1YSVi84L+sJ1BhpygvuYIM25U+a9Grj/ZchhrwahYPh9Ac665IaK12Ian
+ 9UOcpCybB8mnqo/gNgUSi8B6oJQJgJhVWqm215j3dx6h8E7Lc0gMwfa/V5tVtGan
+ HOrzAf/ZQFeblPUjGDaUhbPX41G3X/bxP5twah3x6tB2MfF4WwIPzbGUa2R3KhaI
+ SU9sIXSNHQVkj511Ognmwfy3qxO+krWzAQs/tAzQMZD5vw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48w8wy9r17-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 02:22:01 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b4980c96c3so18270281cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 19:22:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756952525; x=1757557325;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DXVSLMWASFD03eCh7RAZNIgqIvAhKcab9R9R5MJY7EU=;
- b=IDBkKjLL2ONZW8qUDRq6mlKUv27FQ36uswuOyIY6203oisFB8dLZtejMpVlFGhG6NP
- +si9n9UOlmb41PuciP8zvFt61WVVDXZzOUu4ipFerJnUfnhueHP9XCjqA82LpGmlSDYG
- 7NDlvrifTCXBjgrkHI3Tc1OJvKRWwmJovtWK69Nnu/L/vZ0vMr1Lb2ikRGAFw1oqDg/C
- 4F9R7/w2Wdkrp4C1QDWk7sYYjXpiOXpgQ6/TjiV7V0PyeHcj0tqa5Av0F4f5DuGBtLbF
- k1J0GpDoE6JUMCb4Z+r/w8NiB1MoUPFimPzuyjz7mixcuIGsl2H59XF93aqKj5V+m+NP
- rTfw==
-X-Gm-Message-State: AOJu0YwBIhgRdNQFWQU7hIRESUeHofkB7whe0D1in68eMMRq6m8FQK0f
- 2xIPPaZxmaFvn5F4Om0k5Xx43QO7MpbDjDEIMx8iGmVd1DUwGcbZoNrrsX5xDAgUiFSwJZFslwa
- 8CAHhPs2bB+DIns4NTvgh+MVJqo53T86cWA==
-X-Gm-Gg: ASbGncur0yi166zPO5mVS3x8cao1iKik4DfECundwWUn75NTAaO+0xX+97sF2xE72am
- n96dRcTyM1PfR6k+A/JUh5gCza6z6LWBma6mQAjdaSKFVMPtC1ZQUn88cVOcHlwImif1ZuLTThl
- bal0UDkTIaiJloYAFl53SW7A8QTa+AbIjCjF5auK2MwJldxW1LZYB2lcvJa92Lm6ZsRP8vTmRU1
- 6pdBA==
-X-Google-Smtp-Source: AGHT+IEcqmtj81HfK+9kHhNiA6AXxxKlsMDqPVXZRpbMNel0k6GBh80LEZ+J24B+dPaLV1bTxSagay7ZwP49Lkj+V20=
-X-Received: by 2002:a17:906:f596:b0:b04:65b4:707 with SMTP id
- a640c23a62f3a-b0465b40b24mr528466666b.13.1756952525112; Wed, 03 Sep 2025
- 19:22:05 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1756952521; x=1757557321;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UqDA79vMuQ4DioUE8hancjBPt/X6lnrlS8udMgPwyC4=;
+ b=QmRK71YYbZLf1wlY8lFyCmVR9IzUVH4tYJQ8aVqB0NFwcehFeGMCAnLHQUanpCb6aW
+ xFLfWf9Gw2DmIN8H+NTuCgd2t4udNPtlssHqWiIU/YLj4U2LtxhRRwxQrc2GxwAChLLM
+ O0P3w9PtIA1gewlepB/D5CwiPZWzcXEOfA2408wSp4SEZdiNoP8Zf+AapN2PjEgH8ofR
+ Li6NCpkqZWzbHt/b4WGyx8mSE+vp07/GLkAWaVixhxqZjeZj/qQ7pnFGFSVHtMD42r2E
+ r7Tm8dm9zZu1eWvAtLaBZF7mWc3SBMqQmO3hWDWkIsC/WoHZtBEbb2OveqFAjKotfa1b
+ LzXg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXy4X1enF35A/Tq1+PLy0sJtQytus4aKfRmA+kFl8NQ3oAS74Km2kopKUC0DewoIS6uGhXYG5VfISU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJg9WOnZlhHtbkEtvm01TPx9iaqmNXbX+WO338UFRbVfREkdkG
+ sqKXBJTXMmL1AcEFNkQpb6l0+tkumz7ZreYrppP4vIEXEvt1sMlRji5+C0ivbkzljUtOm7hR4nB
+ audXIEqv1HTaDBV8Bb0GDy8XHIuaq8ECcZdRRUpfAnv0XnwZOuuhUOdKO6i2bhf7QIZHKO+QksC
+ oKrus=
+X-Gm-Gg: ASbGncsht2Xk8ZPaK67Ay6Cw1Wr2UYACOMAob0kCIDZ6bOUK0NDMrQzbmWwVcnY+nu2
+ FojfjgVOOJyZhe5f2OV+75F0KuP61WcdU8k/IkLW4iPp8Cam/w0A1hejo9xjG4mAsrArprJyUGH
+ LZlhXBQ3Ge/b3eyw5TN+ebOarJPYl7hvecqV2fDzF/EVVGp7/2l1BNL+FBtMZuhggu0Clfk8FXE
+ UTWdvSyqJy1CAmjWCD7xjMfIZnRM91QG9p/hvPF36V4BGo20Z2fFbf4UTwPz4vBAvMALgKVRDeC
+ BmZpNS2RO3W5zJp/CL6CD7C0pKOWVNNkfZKEAlOSdmy5EPFXg12TGXs2OSQD/cYH5nynYJf2ROT
+ ggS43kbyb/3DMYJ8n2Fym/FM42uVx0uqZ3jOHko2nXXbG8Bf8bGe2
+X-Received: by 2002:a05:622a:8c9:b0:4b2:8ac5:27c4 with SMTP id
+ d75a77b69052e-4b31dd7ab57mr235391641cf.79.1756952520692; 
+ Wed, 03 Sep 2025 19:22:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTGQK4o8JOfJXm8YdRgThRFbgc3hvhYcbAu5TkwFenQldv2fSoa+WwUY/vg70G3SHonyTuLw==
+X-Received: by 2002:a05:622a:8c9:b0:4b2:8ac5:27c4 with SMTP id
+ d75a77b69052e-4b31dd7ab57mr235391361cf.79.1756952520189; 
+ Wed, 03 Sep 2025 19:22:00 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5608ad5027esm880943e87.149.2025.09.03.19.21.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Sep 2025 19:21:59 -0700 (PDT)
+Date: Thu, 4 Sep 2025 05:21:57 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: syyang <syyang@lontium.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ yangsunyun1993@gmail.com
+Subject: Re: [PATCH v1 1/2] This patch adds a new device tree binding
+ documentation.
+Message-ID: <lcyori44rm5p35wykk2rb54zbrrpft5c7uibi376jihemkb67w@px3nj72a5hx4>
+References: <20250903123825.1721443-1-syyang@lontium.com>
+ <20250903123825.1721443-2-syyang@lontium.com>
 MIME-Version: 1.0
-References: <20250902041024.2040450-1-airlied@gmail.com>
- <20250902041024.2040450-10-airlied@gmail.com>
- <e1507242-952c-4131-93e1-6af52760b283@amd.com>
-In-Reply-To: <e1507242-952c-4131-93e1-6af52760b283@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 4 Sep 2025 12:21:53 +1000
-X-Gm-Features: Ac12FXwW1MaD_A4-ok2fSvRkEovDekWEGy5dDSEU50r6EOTRHxe79q64hkc2Qto
-Message-ID: <CAPM=9txo88E9y96w1Ti5hXC322HVRDhD18CrmBj8zse8Xx=V4Q@mail.gmail.com>
-Subject: Re: [PATCH 09/15] ttm/pool: initialise the shrinker earlier
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org, 
- Dave Chinner <david@fromorbit.com>, Waiman Long <longman@redhat.com>,
- simona@ffwll.ch
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903123825.1721443-2-syyang@lontium.com>
+X-Authority-Analysis: v=2.4 cv=Ycq95xRf c=1 sm=1 tr=0 ts=68b8f7c9 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=gEfo2CItAAAA:8 a=Kz8-B0t5AAAA:8 a=VwQbUJbxAAAA:8
+ a=zoi4mhQgz1elOlvs71MA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=RuZk68QooNbwfxovefhk:22
+X-Proofpoint-GUID: DWszsm4WcFRSTv8w-IOOyn6TAs5KYp27
+X-Proofpoint-ORIG-GUID: DWszsm4WcFRSTv8w-IOOyn6TAs5KYp27
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAxMDEwMSBTYWx0ZWRfXwwISuFg4uZkN
+ jySTq8yRBW6A6Bb7LTqlGsetJVjq9N71/lqtiNPgXzmKOW/EpkLimDLLL4KOjd3LDJmY59RI4PI
+ N7d9Yn8BN0tOFuqTYiZHMuKNBL1wI7SXgCWCsBYgkLJ8YH185RuwrP1hfAhssqN3uhI0ytbnNmI
+ rG4kjXCWs4txqywfxDHej4gkFUQkHbF3o//AgMphEUx2AVKAN0LdT1r4EMA/dqAZ3kHG/g6LhtG
+ 0YPnxcSwkeGizMHzQWlUTfestVTirI5+8C8DZ+a62/WIMAgywFDfBWAi/QZ5kPh+FNEAA1OBdf9
+ 0GG/rddIdiG952enlS2LTDunZRKu53EmWBviP/3bjYcfd1ZqHW4llMhw4M/QL+KtY3bvlyqAyr3
+ 837XbLtv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_01,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509010101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,81 +129,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 3 Sept 2025 at 00:07, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
->
->
-> On 02.09.25 06:06, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > Later memcg enablement needs the shrinker initialised before the list l=
-ru,
-> > Just move it for now.
->
-> Hui? That should just be the other way around.
->
-> The shrinker depends on the list lru and so needs to come after ttm_pool_=
-type_init() and not before.
+On Wed, Sep 03, 2025 at 05:38:24AM -0700, syyang wrote:
+> - New device tree binding documentation at
+>   Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml
+> 
+> Signed-off-by: syyang <syyang@lontium.com>
 
-list_lru_init_memcg needs to take a registered shrinker as an
-argument, also the shrinker list is locked so this is fine, if we get
-called to shrinker before ttm_pool_type_init happens, shrinker_scan
-will have 0 pools.
+Please fix your Git setup and use your full name in SoB tag and author
+metadata.
 
-Dave.
+> ---
+>  .../display/bridge/lontium,lt9611c.yaml       | 123 ++++++++++++++++++
+>  1 file changed, 123 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml
+> new file mode 100644
+> index 000000000000..e8f204c71a95
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml
+> @@ -0,0 +1,123 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt9611.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Lontium LT9611C 2 Port MIPI to HDMI Bridge
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
 
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> > ---
-> >  drivers/gpu/drm/ttm/ttm_pool.c | 22 +++++++++++-----------
-> >  1 file changed, 11 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_p=
-ool.c
-> > index 9a8b4f824bc1..2c9969de7517 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > @@ -1381,6 +1381,17 @@ int ttm_pool_mgr_init(unsigned long num_pages)
-> >       spin_lock_init(&shrinker_lock);
-> >       INIT_LIST_HEAD(&shrinker_list);
-> >
-> > +     mm_shrinker =3D shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool=
-");
-> > +     if (!mm_shrinker)
-> > +             return -ENOMEM;
-> > +
-> > +     mm_shrinker->count_objects =3D ttm_pool_shrinker_count;
-> > +     mm_shrinker->scan_objects =3D ttm_pool_shrinker_scan;
-> > +     mm_shrinker->batch =3D TTM_SHRINKER_BATCH;
-> > +     mm_shrinker->seeks =3D 1;
-> > +
-> > +     shrinker_register(mm_shrinker);
-> > +
-> >       for (i =3D 0; i < NR_PAGE_ORDERS; ++i) {
-> >               ttm_pool_type_init(&global_write_combined[i], NULL,
-> >                                  ttm_write_combined, i);
-> > @@ -1403,17 +1414,6 @@ int ttm_pool_mgr_init(unsigned long num_pages)
-> >  #endif
-> >  #endif
-> >
-> > -     mm_shrinker =3D shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool=
-");
-> > -     if (!mm_shrinker)
-> > -             return -ENOMEM;
-> > -
-> > -     mm_shrinker->count_objects =3D ttm_pool_shrinker_count;
-> > -     mm_shrinker->scan_objects =3D ttm_pool_shrinker_scan;
-> > -     mm_shrinker->batch =3D TTM_SHRINKER_BATCH;
-> > -     mm_shrinker->seeks =3D 1;
-> > -
-> > -     shrinker_register(mm_shrinker);
-> > -
-> >       return 0;
-> >  }
-> >
->
+Are you sure?
+
+> +
+> +description: |
+> +  The LT9611C are bridge devices which convert DSI to HDMI
+
+Can't you extend the existing lontium,lt9611.yaml?
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - lontium,lt9611c
+> +      - lontium,lt9611uxd
+
+
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active high RESET pin.
+> +
+> +  vdd-supply:
+> +    description: Regulator for 1.2V MIPI phy power.
+> +
+> +  vcc-supply:
+> +    description: Regulator for 3.3V IO power.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Primary MIPI port-1 for MIPI input
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Additional MIPI port-2 for MIPI input, used in combination
+> +          with primary MIPI port-1 to drive higher resolution displays
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          HDMI port for HDMI output
+> +
+> +    required:
+> +      - port@0
+> +      - port@2
+
+All of this totally looks like lontium,lt9611.yaml, except the
+vdd-supply voltage difference.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - vdd-supply
+> +  - vcc-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c10 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      hdmi-bridge@41 {
+> +        compatible = "lontium,lt9611c";
+> +        reg = <0x41>;
+> +        #sound-dai-cells = <0>;
+> +        interrupts-extended = <&pio 128 GPIO_ACTIVE_HIGH>;
+> +        reset-gpios = <&pio 127 GPIO_ACTIVE_HIGH>;
+> +        vdd-supply = <&lt9611_1v2>;
+> +        vcc-supply = <&lt9611_3v3>;
+> +        dsi-lanes = <4>;
+> +        status = "okay";
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +            lt9611_a: endpoint {
+> +              remote-endpoint = <&dsi0_out>;
+> +            };
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            lt9611_b: endpoint {
+> +              remote-endpoint = <&dsi1_out>;
+> +            };
+> +          };
+> +
+> +          port@2 {
+> +            reg = <2>;
+> +            lt9611_out: endpoint {
+> +              remote-endpoint = <&hdmi_con>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+> +
+> -- 
+> 2.25.1
+> 
+
+-- 
+With best wishes
+Dmitry
