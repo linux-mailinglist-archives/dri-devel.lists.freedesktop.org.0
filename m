@@ -2,66 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D363B4305E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 05:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31713B43084
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 05:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A20DC10E227;
-	Thu,  4 Sep 2025 03:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C85810E41F;
+	Thu,  4 Sep 2025 03:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="D4nvps3A";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="hw54BPnu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m32122.qiye.163.com (mail-m32122.qiye.163.com
- [220.197.32.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE89810E227
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 03:19:12 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 21a31a7fe;
- Thu, 4 Sep 2025 11:19:06 +0800 (GMT+08:00)
-Content-Type: multipart/mixed; boundary="------------d57G0lgZVnIWmw0tVtNeChqU"
-Message-ID: <825ff59f-0a97-49a1-a210-a7ee275364bc@rock-chips.com>
-Date: Thu, 4 Sep 2025 11:19:05 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-To: Marek Szyprowski <m.szyprowski@samsung.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
- <20250814104753.195255-1-damon.ding@rock-chips.com>
- <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
- <7cb50c9c-ac41-43b6-8c69-5f184e7c94cf@samsung.com>
- <1ccd3889-5f13-4609-9bd8-2c208e17fc96@rock-chips.com>
- <f2ebfff1-08ab-4f26-98f3-6d6415d58a5e@samsung.com>
- <a5e613ba-b404-40ae-b467-0f6f223f5d4c@rock-chips.com>
- <461daea4-5582-4aa2-bfea-130d2fb93717@samsung.com>
- <46f9137e-402d-4c0f-a224-10520f80c8b4@rock-chips.com>
- <ea57ca6e-4000-49f7-8e0b-899f34b7693a@samsung.com>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02olkn2094.outbound.protection.outlook.com [40.92.43.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09D0710E41F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 03:38:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TCCzwtz1y+c2GHDvTpqI3oT09hvZFAhMnTreqa1pX+oWm+PzXox21cBh6/y+Kbcd/qFaWhqc5XCVUNUb0uOh1q+6Z1v3zSb8JfmIa9YLHTdA7YUi9ktbD4AgCWANCfTv4syrtLKAxeyfJQrCR8QjsPDi/qcj+Gf7lpQI0rDHjRnGWCNBhfXHpxKxVbgNO13KGOdkaCfj1vfNGYBszSVrLt8dAwZ8NuWKpY0vX9caxApC+LCHLa9bsSFpix9jbj+s/oBDl/ypn0/6vTZDUDc3ePFeNJqy0nPld9YpbTlcaME1MeqYx1eJXc5TdXZvYHm0FlAzAKmobL4jMmHI9lAwiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k1aJ0kWupFa7rG6jJgRXP8pgRk1xTg8t8uPXCkW73p4=;
+ b=U1LtRFRyTBcRXhiWfCPi9mvRsjIwT/dHkHL+vR9OkwUnBqedIycFMUta1/Yxns80dtsMQItz3plB2Z9KhLHtr9CU7nCmS7KX+tfsd/rJNPuk22/prjWXiVac0Mm4RHyOpUewTZi1VbKYpL8wAv4WlETP/OBYOUD7jwAp2PXSi9LypOpNb4QA+j/dFmNPVJJS2MAMfJs/iD7ZFpkZP1RrGXrY2CgpaIEHzgDhOsB4lRP/OjJ3qJJ7KjqY+XCycomZnZ1uSQJMsDfnDpTqyV7V3hXCpSZzZJbc+Jn//gQ7LRQzKFKxrlKRsbAx4l/bhx5jZlvCE5A0hYQ5b07w9M7isA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k1aJ0kWupFa7rG6jJgRXP8pgRk1xTg8t8uPXCkW73p4=;
+ b=hw54BPnulOkhpxerTmL+ED52Cmnh5VW6gVagHguwEnaySdi2tnWXCe+sKKsqv2MRp1zLUNXQBH4e5QKTKiR62aUY2sTln6eeGzIIYQqS7+VlJxBso1beQh9lyoPRNvhSUO0FqSOfqQyQtDuWv/+xS66ozdM1eYLM3ByVO+6jSn5T/9aHFrTBHZ1VoLGVRBqFmF0uHEnunpDcG1KHAbEJa6yDQ9iBKtTF1/qpHcmzYc36PWwbx1pjNplKlfkerBGkJsgbSaE1pKJA/K7nbLy8dz1OZ47NamJY/VjeTGIvFQOXsuxgj3q+fA7dfG8nu2R07STl3Qdtkeqguv6VW3cmQw==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by DS0PR02MB10203.namprd02.prod.outlook.com (2603:10b6:8:1ab::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.29; Thu, 4 Sep
+ 2025 03:38:49 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.9052.027; Thu, 4 Sep 2025
+ 03:38:49 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Javier Martinez Canillas <javierm@redhat.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, "louis.chauvet@bootlin.com"
+ <louis.chauvet@bootlin.com>, "drawat.floss@gmail.com"
+ <drawat.floss@gmail.com>, "hamohammed.sa@gmail.com"
+ <hamohammed.sa@gmail.com>, "melissa.srw@gmail.com" <melissa.srw@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH v2 4/4] drm/hypervdrm: Use vblank timer
+Thread-Topic: [PATCH v2 4/4] drm/hypervdrm: Use vblank timer
+Thread-Index: AQHcGzHDDGNCuDCdhk214Z4ciHyQErR/kWAAgABKq4CAAC2WAIACU6eg
+Date: Thu, 4 Sep 2025 03:38:49 +0000
+Message-ID: <SN6PR02MB4157EFAA19227FAFD21E1466D400A@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20250901111241.233875-1-tzimmermann@suse.de>
+ <20250901111241.233875-5-tzimmermann@suse.de>
+ <87a53dfe87.fsf@minerva.mail-host-address-is-not-set>
+ <5cd7f22d-e39a-4d37-8286-0194d6c9a818@suse.de>
+ <877bygg8vb.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <877bygg8vb.fsf@minerva.mail-host-address-is-not-set>
+Accept-Language: en-US
 Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <ea57ca6e-4000-49f7-8e0b-899f34b7693a@samsung.com>
-X-HM-Tid: 0a9912bc2ef803a3kunm1c585b8daea7e
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkNNQ1ZDTUJKSRgZSR1ITxlWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=D4nvps3A9fYL/jQl6+xpUJKtwUf2Ahyh+9wxHSknZkzdbMPsrJtuJsnij2ykt+n4oysFx0m0mCX7V9cfE4VtBrBKpwt2m9NutgKRrkgRJoG8KVYcP63UDBhP8XiRVYgXUTXGl028ggsOD3QUB2lPLhVWIz1+YD2E+qTnJknbSTI=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=LxIQj7w2/mHSnvpBKK9i+kT979AjPrtf+gT7OiIzhcQ=;
- h=date:mime-version:subject:message-id:from;
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|DS0PR02MB10203:EE_
+x-ms-office365-filtering-correlation-id: 1c9c7715-3403-48ac-d621-08ddeb648f78
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|31061999003|13091999003|461199028|15080799012|8062599012|8060799015|19110799012|1602099012|10035399007|40105399003|4302099013|52005399003|440099028|3412199025|102099032;
+x-microsoft-antispam-message-info: =?us-ascii?Q?LYaJYd4zMPXNU27vKZUyA4GiEvL9goXZXnSwRrTMUXBgQ9ra2dwUy0ghWQq4?=
+ =?us-ascii?Q?dMlAbLiNCY4GPI/mbF66qIgP677SYcXbF+LQH1iV4xG5uwBDHF77F8Y468lv?=
+ =?us-ascii?Q?U/iF+2R5QrXXzcb7ZMz7fN8G/eroFWjtbtgEB1UFwZvae8ymoyAYoI/VH3uV?=
+ =?us-ascii?Q?GWnFry06F0jRnGgOsT5o7HwMy5Sqk/ueH4H3ZY3HUylEFn0bI8hnjkVukXqh?=
+ =?us-ascii?Q?LY/yW2kVEOon0MPWFMbsZU0TPyK6vw124i/iTMMBPTT3xcwTLnJvNcuqu53V?=
+ =?us-ascii?Q?EPZ8pxSu12ozaoDz4jsyobu4x14yrwIDic+3IJjQ2Js9gQnM1SdQ3RN0cBlb?=
+ =?us-ascii?Q?nJ4EsQLnKqDfKqgLMtUFlN5WCrlNz6trLlN9favZX5DYlW6txUAtSS7h82nR?=
+ =?us-ascii?Q?pEKdW3nXpyHuAqVjCXuDyOFc6uCXnofe5YkwISjUywEnwYFHQw4+YbKjiKfs?=
+ =?us-ascii?Q?ZGVkBVJowFNMeG2Sa1bRVyte2zsYs6pvmNFRH/h5wmdGQip9GajHsREodUzI?=
+ =?us-ascii?Q?/TaT62xjQ+lLqrl7h5wqFN7PygHSg8Go6NLKa3MkDlEij1HeKouD0tCLpr3j?=
+ =?us-ascii?Q?bY2naiIvGt4yp3CEMomU+u8bQ4bhgVPimvW7U/vSWaX2gRH69UT0SP+7Kr1F?=
+ =?us-ascii?Q?EwICyaeydjd2OaWx41T5Zf0Ez4LlQ91jmWN+s8tDk462X+d1yKKruW0f3rV2?=
+ =?us-ascii?Q?vz5sE/QnxqunHBgG6ValqvWqW/3WF7xDWqs7ZEBUgWEjUUe/IKQwDkymXuN7?=
+ =?us-ascii?Q?Uo7iooKdWxcll5l2xESo4yT6jEzUkaYvu04Rl1gE5RPhheZ5wNmtH+dGUxPk?=
+ =?us-ascii?Q?9G9ncPrXWWTeXusIqNP+uLMJog/100E3htChGkl7DWmch7cQdh/9ZK3TSCvk?=
+ =?us-ascii?Q?N0Br1PXGuZD8a4ouvINrIq4T+ujztDbVJrqvAsqDsY0uQswdKiBI72i6UMQL?=
+ =?us-ascii?Q?cVovqBn5Hou4TpiF+31zUOqHbROF+KcYWTvK/gaSY/y/1sXV3PECGfTWroFz?=
+ =?us-ascii?Q?TG1vUhQZYfVcME7rh2SozIkBYQ9I8qVo5zyOHr37TLLzlRTejTsHkO5SJmrp?=
+ =?us-ascii?Q?79lAPEHC8CafqAwWB74GhbEAgmXip7JApdgxIqUbk+RafHgS6YoNZ/XroMo5?=
+ =?us-ascii?Q?rEGRj/S8neKpnOEcSmDA0Dp6/fRKcRhl3WkIJN6CUd0WHKTSuGqQVAkPzJba?=
+ =?us-ascii?Q?38d2qJgxbnRg50ZfjYSph01GjrrSQOEnE7AREV1yZK7BYIY/zgEnU8WrfbfU?=
+ =?us-ascii?Q?9sBbfYFG3NNBsoUBGUE++QveqeUVWd6SxWQxWMofDhHKcbX0ZAEFg0jpX2aw?=
+ =?us-ascii?Q?vpF22B2QdhU1Jw7Ail56iBwp0SIdnLNI/OR1+9Hy+SUAbw=3D=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?p5O/lFN3IYfTV1VCuSSuCwn+mncPJjGTNtux0RiNLKcJXQ2kZW+iTtpYwTP7?=
+ =?us-ascii?Q?Pmr9yjy94g5hsS6NP3wOZF4++wxg+G31IYniTE3ol48sFXHPLdvM0GQWU4jH?=
+ =?us-ascii?Q?hwznyboVTIY/ITIW2mGFalwWdUdVAKnXkVvdK/9TuYxw5N8HjjSxwb3q8EB6?=
+ =?us-ascii?Q?Wu7QGvonxjRHe7toqiENfeTd9IzpurxHg/LFCz1g9mT2yK2NmAXscOIkJOKa?=
+ =?us-ascii?Q?QZ705DOmnCMgFCZomZ5lfg7Wg9uLXkZEipFKkP4wz3INMeAkAqYqw+eabXWX?=
+ =?us-ascii?Q?sNe5sppSDWye73HZnvW3ldniWZXNGl+BgdtlED31QRKf5UWfpQHDmChzuxp9?=
+ =?us-ascii?Q?XIs5F7BrgaopCFfbLJXX9quexmVasLyimjs2tiDvOMQ6S3CSR+rB3l/CgFk+?=
+ =?us-ascii?Q?dMwF5Ls8uN9kQxRJeR3MBnmOP7VVndlnrSdv5fwKSC30slndWNZvX5JRCpGA?=
+ =?us-ascii?Q?713WyFCVu22UElLGIFYaXdCyj9GDEgUEnVo5WPv3bJzct7osuujZgZR+h+Oc?=
+ =?us-ascii?Q?O4MybbbmzmgUR6vyeD5vk/R1RclYO53+czWsEFJE4RCFFybuyEvOTE/jqbGM?=
+ =?us-ascii?Q?HW0Geyb63wdRGaYC1U3kZB6YBAKIX1hqwGOPMaBfurqJc5Z67IMkw6gs1U45?=
+ =?us-ascii?Q?JkBwPEPM0sNeq5votXD0U8rFaA+LxVQ4/Vtj1eGCZgQYnQOgVQDx61Je/Zvi?=
+ =?us-ascii?Q?7yESNVg8g+rSJxIX8uApC25IgNPYC5veKITWb+9qiOgMQxrZbxj2MHLPPTXS?=
+ =?us-ascii?Q?iA2twfF6TtMwynB8ST+V5IzGOehIlSknyFIJM0ayl4WjIGI5FuqaXgqHHvIB?=
+ =?us-ascii?Q?LmoNY0Quz1DtFm0sFkD1XgsBDtYZdQfKSHfxZZJnUkWTj5y+U6TTi/uAjHC8?=
+ =?us-ascii?Q?YVwlBu7QZaFO//vrVZEx3c5efY/8MGxzQn6gZAsyLKmx1TrcWM6TnEzfXmYS?=
+ =?us-ascii?Q?T2ee109tPRpwXjCig15Pmgctb0ZTDoJ8ikEuFryBHruLUbNSO8lhfZYhH6Vv?=
+ =?us-ascii?Q?zDy9/6P9WMdAyOQQLdkzJP8EocPUSPjwoTsp8gdDdwQuWlHsw0yVLZckTLcX?=
+ =?us-ascii?Q?5cUnoeYhC+kgoTKO4Pf6MTOOi/Zs/F2td7U/TSUK1Vif1YJ3rs+QQoxFqqqz?=
+ =?us-ascii?Q?sMz3Li6ZJASJMI5ecfqVlbjmKl/XHWFGWyivc2uVBTt9X9cS4XrlKrEvS3SZ?=
+ =?us-ascii?Q?siVxyOz1gPy88sKYYaqq49qonuDmjVz+ofYXwaFbwKyOegI2o8AEeoTPMk4?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c9c7715-3403-48ac-d621-08ddeb648f78
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2025 03:38:49.2312 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR02MB10203
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,339 +143,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------d57G0lgZVnIWmw0tVtNeChqU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Javier Martinez Canillas <javierm@redhat.com> Sent: Tuesday, Septembe=
+r 2, 2025 8:41 AM
+>=20
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>=20
+> [...]
+>=20
+> >>
+> >> I'm not familiar with hyperv to know whether is a problem or not for t=
+he
+> >> host to not be notified that the guest display is disabled. But I thou=
+ght
+> >> that should raise this question for the folks familiar with it.
+> >
+> > The feedback I got at
+> > https://lore.kernel.org/dri-devel/SN6PR02MB4157F630284939E084486AFED46F=
+A@SN6PR02MB4157.namprd02.prod.outlook.com/=20
+> > is that the vblank timer solves the problem of excessive CPU consumptio=
+n
+> > on hypervdrm. Ans that's also the observation I had with other drivers.
+> > I guess, telling the host about the disabled display would still make s=
+ense.
+> >
+>=20
+> Yes, I read the other thread you referenced and that's why I said that
+> your patch is correct to solve the issue.
+>=20
+> I just wanted to point out, since it could be that as a follow-up the
+> driver could need its own .atomic_disable instead of using the default
+> drm_crtc_vblank_atomic_disable(). Something like the following maybe:
+>=20
+> +static void hyperv_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+> +                                             struct drm_atomic_state *st=
+ate)
+> +{
+> +       struct hyperv_drm_device *hv =3D to_hv(crtc->dev);
+> +       struct drm_plane *plane =3D &hv->plane;
+> +       struct drm_plane_state *plane_state =3D plane->state;
+> +       struct drm_crtc_state *crtc_state =3D crtc->state;
+> +
+> +       hyperv_hide_hw_ptr(hv->hdev);
+> +       /* Notify the host that the guest display is disabled */
+> +       hyperv_update_situation(hv->hdev, 0,  hv->screen_depth,
+> +                               crtc_state->mode.hdisplay,
+> +                               crtc_state->mode.vdisplay,
+> +                               plane_state->fb->pitches[0]);
+> +
+> +       drm_crtc_vblank_off(crtc);
+> +}
+> +
+>  static const struct drm_crtc_helper_funcs hyperv_crtc_helper_funcs =3D {
+>         .atomic_check =3D drm_crtc_helper_atomic_check,
+>         .atomic_flush =3D drm_crtc_vblank_atomic_flush,
+>         .atomic_enable =3D hyperv_crtc_helper_atomic_enable,
+> -       .atomic_disable =3D drm_crtc_vblank_atomic_disable,
+> +       .atomic_disable =3D hyperv_crtc_helper_atomic_disable,
+>  };
 
-Hi Marek,
+I have some historical expertise in the Hyper-V fbdev driver from
+back when I was a Microsoft employee (I'm now retired). The fbdev
+driver is similar to the DRM driver in that it tells the Hyper-V host
+that the device is "active" during initial setup, but there's never a
+time when the driver tells Hyper-V that the device is "not active".
 
-On 9/1/2025 6:25 PM, Marek Szyprowski wrote:
-> On 01.09.2025 05:41, Damon Ding wrote:
->> On 8/29/2025 4:23 PM, Marek Szyprowski wrote:
->>> On 29.08.2025 10:08, Damon Ding wrote:
->>>> On 8/20/2025 5:20 AM, Marek Szyprowski wrote:
->>>>> On 15.08.2025 04:59, Damon Ding wrote:
->>>>>> On 2025/8/15 5:16, Marek Szyprowski wrote:
->>>>>>> On 14.08.2025 16:33, Marek Szyprowski wrote:
->>>>>>>> On 14.08.2025 12:47, Damon Ding wrote:
->>>>>>>>> PATCH 1 is a small format optimization for struct
->>>>>>>>> analogid_dp_device.
->>>>>>>>> PATCH 2 is to perform mode setting in
->>>>>>>>> &drm_bridge_funcs.atomic_enable.
->>>>>>>>> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
->>>>>>>>> PATCH 7 is to apply the drm_bridge_connector helper.
->>>>>>>>> PATCH 8-10 are to move the panel/bridge parsing to the Analogix
->>>>>>>>> side.
->>>>>>>>> PATCH 11-12 are preparations for apply panel_bridge helper.
->>>>>>>>> PATCH 13 is to apply the panel_bridge helper.
->>>>>>>>
->>>>>>>> This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's
->>>>>>>> Kconfig,
->>>>>>>> so it causes build break:
->>>>>>>>
->>>>>>>> drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to
->>>>>>>> `drm_bridge_connector_init'
->>>>>>>> make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
->>>>>>>>
->>>>>>>> After adding this dependency, the Exynos DP driver stops
->>>>>>>> working. On
->>>>>>>> Samsung Snow Chromebook I observed following issue:
->>>>>>>>
->>>>>>>> [    4.534220] exynos-dp 145b0000.dp-controller: failed to attach
->>>>>>>> following panel or bridge (-16)
->>>>>>>> [    4.543428] exynos-drm exynos-drm: failed to bind
->>>>>>>> 145b0000.dp-controller (ops exynos_dp_ops): -16
->>>>>>>> [    4.551775] exynos-drm exynos-drm: adev bind failed: -16
->>>>>>>> [    4.556559] exynos-dp 145b0000.dp-controller: probe with driver
->>>>>>>> exynos-dp failed with error -16
->>>>>>>>
->>>>>>>> I will investigate details later in the evening.
->>>>>>>
->>>>>>> The failure is caused by trying to add plat_data->next_bridge twice
->>>>>>> (from exynos_dp's .attach callback, and from analogix' ->bind
->>>>>>> callback).
->>>>>>>
->>>>>>>
->>>>>>> Best regards
->>>>>>
->>>>>> I see. The bridge attachment for the next bridge was not well thought
->>>>>> out. It may be better to move panel_bridge addition a little forward
->>>>>> and remove next_bridge attachment on the Analogix side. Then, the
->>>>>> Rockchip side and Exynos side can do their own next_bridge attachment
->>>>>> in &analogix_dp_plat_data.attach() as they want.
->>>>>>
->>>>>> Could you please help test the following modifications(they have been
->>>>>> tested on my RK3588S EVB1 Board) on the Samsung Snow Chromebook? ;-)
->>>>>
->>>>> Assuming that I properly applied the malformed diff, it doesn't solve
->>>>> all the issues. There are no errors reported though, but the display
->>>>> chain doesn't work and no valid mode is reported:
->>>>>
->>>>> # dmesg | grep drm
->>>>> [    3.384992] [drm] Initialized panfrost 1.4.0 for 11800000.gpu on
->>>>> minor 0
->>>>> [    4.487739] [drm] Exynos DRM: using 14400000.fimd device for DMA
->>>>> mapping operations
->>>>> [    4.494202] exynos-drm exynos-drm: bound 14400000.fimd (ops
->>>>> fimd_component_ops)
->>>>> [    4.502374] exynos-drm exynos-drm: bound 14450000.mixer (ops
->>>>> mixer_component_ops)
->>>>> [    4.511930] exynos-drm exynos-drm: bound 145b0000.dp-controller
->>>>> (ops
->>>>> exynos_dp_ops)
->>>>> [    4.518411] exynos-drm exynos-drm: bound 14530000.hdmi (ops
->>>>> hdmi_component_ops)
->>>>> [    4.529628] [drm] Initialized exynos 1.1.0 for exynos-drm on
->>>>> minor 1
->>>>> [    4.657434] exynos-drm exynos-drm: [drm] Cannot find any crtc or
->>>>> sizes
->>>>> [    4.925023] exynos-drm exynos-drm: [drm] Cannot find any crtc or
->>>>> sizes
->>>>>
->>>>> # ./modetest -c -Mexynos
->>>>> Connectors:
->>>>> id      encoder status          name            size (mm)       modes
->>>>>       encoders
->>>>> 69      0       disconnected    LVDS-1          0x0             0
->>>>>         68
->>>>>      props:
->>>>>            1 EDID:
->>>>>                    flags: immutable blob
->>>>>                    blobs:
->>>>>
->>>>>                    value:
->>>>>            2 DPMS:
->>>>>                    flags: enum
->>>>>                    enums: On=0 Standby=1 Suspend=2 Off=3
->>>>>                    value: 0
->>>>>            5 link-status:
->>>>>                    flags: enum
->>>>>                    enums: Good=0 Bad=1
->>>>>                    value: 0
->>>>>            6 non-desktop:
->>>>>                    flags: immutable range
->>>>>                    values: 0 1
->>>>>                    value: 0
->>>>>            4 TILE:
->>>>>                    flags: immutable blob
->>>>>                    blobs:
->>>>>
->>>>>                    value:
->>>>> 71      0       disconnected    HDMI-A-1        0x0             0
->>>>>         70
->>>>>      props:
->>>>>            1 EDID:
->>>>>                    flags: immutable blob
->>>>>                    blobs:
->>>>>
->>>>>                    value:
->>>>>            2 DPMS:
->>>>>                    flags: enum
->>>>>                    enums: On=0 Standby=1 Suspend=2 Off=3
->>>>>                    value: 0
->>>>>            5 link-status:
->>>>>                    flags: enum
->>>>>                    enums: Good=0 Bad=1
->>>>>                    value: 0
->>>>>            6 non-desktop:
->>>>>                    flags: immutable range
->>>>>                    values: 0 1
->>>>>                    value: 0
->>>>>            4 TILE:
->>>>>                    flags: immutable blob
->>>>>                    blobs:
->>>>>
->>>>>                    value:
->>>>>
->>>>>
->>>>> I will investigate details later this week.
->>>>>
->>>>
->>>> Could you please provide the related DTS file for the test? I will
->>>> also try to find out the reason for this unexpected issue. ;-)
->>>
->>> Unfortunately I didn't find enough time to debug this further. The above
->>> log is from Samsung Snow Chromebook,
->>> arch/arm/boot/dts/samsung/exynos5250-snow.dts
->>>
->>>
->>
->> I compare the differences in the following display path before and
->> after this patch series:
->>
->> exynos_dp -> nxp-ptn3460 -> panel "auo,b116xw03"
->>
->> The issue is likely caused by the &drm_connector_funcs.detect()
->> related logic. Before this patch series, the nxp-ptn3460 connector is
->> always connector_status_connected because there is not available
->> &drm_connector_funcs.detect(). After it, the DRM_BRIDGE_OP_DETECT flag
->> make the connection status depend on analogix_dp_bridge_detect().
->>
->> Could you please add the following patches additionally and try again?
->> (Not the final solution, just validation)
->>
->> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> index a93ff8f0a468..355911c47354 100644
->> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> @@ -1491,9 +1491,11 @@ int analogix_dp_bind(struct analogix_dp_device
->> *dp, struct drm_device *drm_dev)
->>                  }
->>          }
->>
->> -       bridge->ops = DRM_BRIDGE_OP_DETECT |
->> -                     DRM_BRIDGE_OP_EDID |
->> +       bridge->ops = DRM_BRIDGE_OP_EDID |
->>                        DRM_BRIDGE_OP_MODES;
->> +       if (drm_bridge_is_panel(dp->plat_data->next_bridge))
->> +               bridge->ops |= DRM_BRIDGE_OP_DETECT;
->> +
->>          bridge->of_node = dp->dev->of_node;
->>          bridge->type = DRM_MODE_CONNECTOR_eDP;
->>          ret = devm_drm_bridge_add(dp->dev, &dp->bridge);
-> 
-> It is better. Now the display panel is detected and reported to
-> userspace, but it looks that something is not properly initialized,
-> because there is garbage instead of the proper picture.
-> 
+I agree that symmetry suggests having disable function that sets
+"active" to 0, but I don't know what the effect would be. I don't know
+if Hyper-V anticipates any circumstances when the driver should tell
+Hyper-V the device is not active. My chances are not good in finding
+someone on the Hyper-V team who could give a definitive answer,
+as it's probably an area that is not under active development. The
+Hyper-V VMBus frame buffer device functionality is what it is, and
+isn't likely to be getting enhancements.
 
-I simulated the display path mentioned above on my RK3588S EVB1 Board.
-To my slight surprise, it displayed normally with the reported connector 
-type DRM_MODE_CONNECTOR_LVDS. ;-)
+I suggest that we assume it's not necessary to add a "disable"
+function, and proceed with Thomas' proposed changes to the Hyper-V
+DRM driver. Adding "disable" now risks breaking something due
+to effects we're unaware of. If in the future the need arises to mark
+the device not active, the "disable" function can be added after
+a clarifying conversation with the Hyper-V team.
 
-The modifications included:
-1.Synchronized the Analogix DP ralated DT configurations with Samsung 
-Snow Chromebook.
-2.Skipped the I2C transfers and GPIO operations in nxp-ptn3460 driver.
-3.Set the EDID to that of eDP Panel LP079QX1-SP0V forcibly.
+If anyone at Microsoft wants to chime in, please do so. :-)
 
-Additionally, I added debug logs to verify whether the functions in 
-ptn3460_bridge_funcs were actually called.
-
-Did you encounter any unexpected logs during your investigation? I'd 
-like to perform additional tests on this issue. :-)
-
-Best regards,
-Damon
-
---------------d57G0lgZVnIWmw0tVtNeChqU
-Content-Type: text/plain; charset=UTF-8;
- name="simulation_for_ptn3460_20250904.patch"
-Content-Disposition: attachment;
- filename="simulation_for_ptn3460_20250904.patch"
-Content-Transfer-Encoding: base64
-
-ZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvcm9ja2NoaXAvcmszNTg4cy1ldmIx
-LXYxMC5kdHMgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OHMtZXZiMS12
-MTAuZHRzCmluZGV4IDBkZjNlODBmMmRkOS4uNTFjZTYzZmNlNmVlIDEwMDY0NAotLS0gYS9h
-cmNoL2FybTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OHMtZXZiMS12MTAuZHRzCisrKyBi
-L2FyY2gvYXJtNjQvYm9vdC9kdHMvcm9ja2NoaXAvcmszNTg4cy1ldmIxLXYxMC5kdHMKQEAg
-LTI2LDYgKzI2LDE4IEBAIGNob3NlbiB7CiAJCXN0ZG91dC1wYXRoID0gInNlcmlhbDI6MTUw
-MDAwMG44IjsKIAl9OwogCisJcGFuZWw6IHBhbmVsIHsKKwkJY29tcGF0aWJsZSA9ICJhdW8s
-YjExNnh3MDMiOworCQlwb3dlci1zdXBwbHkgPSA8JnZjYzN2M19sY2RfZWRwPjsKKwkJYmFj
-a2xpZ2h0ID0gPCZiYWNrbGlnaHQ+OworCisJCXBvcnQgeworCQkJcGFuZWxfaW46IGVuZHBv
-aW50IHsKKwkJCQlyZW1vdGUtZW5kcG9pbnQgPSA8JmJyaWRnZV9vdXQ+OworCQkJfTsKKwkJ
-fTsKKwl9OworCiAJYWRjLWtleXMgewogCQljb21wYXRpYmxlID0gImFkYy1rZXlzIjsKIAkJ
-aW8tY2hhbm5lbHMgPSA8JnNhcmFkYyAxPjsKQEAgLTI0MiwyMSArMjU0LDYgQEAgJmNvbWJw
-aHkyX3BzdSB7CiAmZWRwMCB7CiAJZm9yY2UtaHBkOwogCXN0YXR1cyA9ICJva2F5IjsKLQot
-CWF1eC1idXMgewotCQlwYW5lbCB7Ci0JCQljb21wYXRpYmxlID0gImVkcC1wYW5lbCI7Ci0J
-CQliYWNrbGlnaHQgPSA8JmJhY2tsaWdodD47Ci0JCQlwb3dlci1zdXBwbHkgPSA8JnZjYzN2
-M19sY2RfZWRwPjsKLQkJCW5vLWhwZDsKLQotCQkJcG9ydCB7Ci0JCQkJcGFuZWxfaW5fZWRw
-OiBlbmRwb2ludCB7Ci0JCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmZWRwX291dF9wYW5lbD47
-Ci0JCQkJfTsKLQkJCX07Ci0JCX07Ci0JfTsKIH07CiAKICZlZHAwX2luIHsKQEAgLTI2Niw4
-ICsyNjMsOCBAQCBlZHAwX2luX3ZwMjogZW5kcG9pbnQgewogfTsKIAogJmVkcDBfb3V0IHsK
-LQllZHBfb3V0X3BhbmVsOiBlbmRwb2ludCB7Ci0JCXJlbW90ZS1lbmRwb2ludCA9IDwmcGFu
-ZWxfaW5fZWRwPjsKKwlkcF9vdXQ6IGVuZHBvaW50IHsKKwkJcmVtb3RlLWVuZHBvaW50ID0g
-PCZicmlkZ2VfaW4+OwogCX07CiB9OwogCkBAIC0yOTAsNiArMjg3LDMzIEBAIGVzODM4ODog
-YXVkaW8tY29kZWNAMTEgewogCQlQVkRELXN1cHBseSA9IDwmdmNjXzN2M19zMD47CiAJCSNz
-b3VuZC1kYWktY2VsbHMgPSA8MD47CiAJfTsKKworCXB0bjM0NjA6IGx2ZHMtYnJpZGdlQDIw
-IHsKKwkJY29tcGF0aWJsZSA9ICJueHAscHRuMzQ2MCI7CisJCXJlZyA9IDwweDIwPjsKKwkJ
-ZWRpZC1lbXVsYXRpb24gPSA8NT47CisKKwkJcG9ydHMgeworCQkJI2FkZHJlc3MtY2VsbHMg
-PSA8MT47CisJCQkjc2l6ZS1jZWxscyA9IDwwPjsKKworCQkJcG9ydEAwIHsKKwkJCQlyZWcg
-PSA8MD47CisKKwkJCQlicmlkZ2Vfb3V0OiBlbmRwb2ludCB7CisJCQkJCXJlbW90ZS1lbmRw
-b2ludCA9IDwmcGFuZWxfaW4+OworCQkJCX07CisJCQl9OworCisJCQlwb3J0QDEgeworCQkJ
-CXJlZyA9IDwxPjsKKworCQkJCWJyaWRnZV9pbjogZW5kcG9pbnQgeworCQkJCQlyZW1vdGUt
-ZW5kcG9pbnQgPSA8JmRwX291dD47CisJCQkJfTsKKwkJCX07CisJCX07CisJfTsKIH07CiAK
-ICZpMmM4IHsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgv
-YW5hbG9naXhfZHBfY29yZS5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9h
-bmFsb2dpeF9kcF9jb3JlLmMKaW5kZXggYTkzZmY4ZjBhNDY4Li4zNTU5MTFjNDczNTQgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXhfZHBf
-Y29yZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXhf
-ZHBfY29yZS5jCkBAIC0xNDkxLDkgKzE0OTEsMTEgQEAgaW50IGFuYWxvZ2l4X2RwX2JpbmQo
-c3RydWN0IGFuYWxvZ2l4X2RwX2RldmljZSAqZHAsIHN0cnVjdCBkcm1fZGV2aWNlICpkcm1f
-ZGV2KQogCQl9CiAJfQogCi0JYnJpZGdlLT5vcHMgPSBEUk1fQlJJREdFX09QX0RFVEVDVCB8
-Ci0JCSAgICAgIERSTV9CUklER0VfT1BfRURJRCB8CisJYnJpZGdlLT5vcHMgPSBEUk1fQlJJ
-REdFX09QX0VESUQgfAogCQkgICAgICBEUk1fQlJJREdFX09QX01PREVTOworCWlmIChkcm1f
-YnJpZGdlX2lzX3BhbmVsKGRwLT5wbGF0X2RhdGEtPm5leHRfYnJpZGdlKSkKKwkJYnJpZGdl
-LT5vcHMgfD0gRFJNX0JSSURHRV9PUF9ERVRFQ1Q7CisKIAlicmlkZ2UtPm9mX25vZGUgPSBk
-cC0+ZGV2LT5vZl9ub2RlOwogCWJyaWRnZS0+dHlwZSA9IERSTV9NT0RFX0NPTk5FQ1RPUl9l
-RFA7CiAJcmV0ID0gZGV2bV9kcm1fYnJpZGdlX2FkZChkcC0+ZGV2LCAmZHAtPmJyaWRnZSk7
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL254cC1wdG4zNDYwLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL254cC1wdG4zNDYwLmMKaW5kZXggN2FjYjExZjE2ZGMx
-Li5jYWZiZGNkYTJkMjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvbnhw
-LXB0bjM0NjAuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL254cC1wdG4zNDYwLmMK
-QEAgLTUyLDYgKzUyLDcgQEAgc3RhdGljIGludCBwdG4zNDYwX3JlYWRfYnl0ZXMoc3RydWN0
-IHB0bjM0NjBfYnJpZGdlICpwdG5fYnJpZGdlLCBjaGFyIGFkZHIsCiB7CiAJaW50IHJldDsK
-IAorCXJldHVybiAwOwogCXJldCA9IGkyY19tYXN0ZXJfc2VuZChwdG5fYnJpZGdlLT5jbGll
-bnQsICZhZGRyLCAxKTsKIAlpZiAocmV0IDwgMCkgewogCQlEUk1fRVJST1IoIkZhaWxlZCB0
-byBzZW5kIGkyYyBjb21tYW5kLCByZXQ9JWRcbiIsIHJldCk7CkBAIC05MCw2ICs5MSw3IEBA
-IHN0YXRpYyBpbnQgcHRuMzQ2MF9zZWxlY3RfZWRpZChzdHJ1Y3QgcHRuMzQ2MF9icmlkZ2Ug
-KnB0bl9icmlkZ2UpCiAJaW50IHJldDsKIAljaGFyIHZhbDsKIAorCXJldHVybiAwOwogCS8q
-IExvYWQgdGhlIHNlbGVjdGVkIGVkaWQgaW50byBTUkFNIChhY2Nlc3NlZCBhdCBQVE4zNDYw
-X0VESURfQUREUikgKi8KIAlyZXQgPSBwdG4zNDYwX3dyaXRlX2J5dGUocHRuX2JyaWRnZSwg
-UFROMzQ2MF9FRElEX1NSQU1fTE9BRF9BRERSLAogCQkJcHRuX2JyaWRnZS0+ZWRpZF9lbXVs
-YXRpb24pOwpAQCAtMTUyLDYgKzE1NCwyMSBAQCBzdGF0aWMgdm9pZCBwdG4zNDYwX2Rpc2Fi
-bGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKIAlncGlvZF9zZXRfdmFsdWUocHRuX2Jy
-aWRnZS0+Z3Bpb19wZF9uLCAwKTsKIH0KIAorc3RhdGljIGNvbnN0IHU4IGVkaWRfZGF0YVtd
-ID0geworICAgIDB4MDAsIDB4RkYsIDB4RkYsIDB4RkYsIDB4RkYsIDB4RkYsIDB4RkYsIDB4
-MDAsIDB4MTYsIDB4ODMsCisgICAgMHgwMCwgMHgwMCwgMHgwMCwgMHgwMCwgMHgwMCwgMHgw
-MCwgMHgwNCwgMHgxNywgMHgwMSwgMHgwMCwKKyAgICAweEE1LCAweDEwLCAweDBDLCAweDc4
-LCAweDA2LCAweEVGLCAweDA1LCAweEEzLCAweDU0LCAweDRDLAorICAgIDB4OTksIDB4MjYs
-IDB4MEYsIDB4NTAsIDB4NTQsIDB4MDAsIDB4MDAsIDB4MDAsIDB4MDEsIDB4MDEsCisgICAg
-MHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwgMHgwMSwg
-MHgwMSwKKyAgICAweDAxLCAweDAxLCAweDAxLCAweDAxLCAweEVBLCAweDRFLCAweDAwLCAw
-eDRDLCAweDYwLCAweDAwLAorICAgIDB4MTQsIDB4ODAsIDB4MEMsIDB4MTAsIDB4ODQsIDB4
-MDAsIDB4NzgsIDB4QTAsIDB4MDAsIDB4MDAsCisgICAgMHgwMCwgMHgxOCwgMHgwMCwgMHgw
-MCwgMHgwMCwgMHgxMCwgMHgwMCwgMHgwMCwgMHgwMCwgMHgwMCwKKyAgICAweDAwLCAweDAw
-LCAweDAwLCAweDAwLCAweDAwLCAweDAwLCAweDAwLCAweDAwLCAweDAwLCAweDAwLAorICAg
-IDB4MDAsIDB4MDAsIDB4MDAsIDB4RkUsIDB4MDAsIDB4NEMsIDB4NTAsIDB4MzAsIDB4Mzcs
-IDB4MzksCisgICAgMHg1MSwgMHg1OCwgMHgzMSwgMHgyRCwgMHg1MywgMHg1MCwgMHgzMCwg
-MHg1NiwgMHgwMCwgMHgwMCwKKyAgICAweDAwLCAweEZDLCAweDAwLCAweDQzLCAweDZGLCAw
-eDZDLCAweDZGLCAweDcyLCAweDIwLCAweDRDLAorICAgIDB4NDMsIDB4NDQsIDB4MEEsIDB4
-MjAsIDB4MjAsIDB4MjAsIDB4MDAsIDB4M0YKK307CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ZHJtX2VkaWQgKnB0bjM0NjBfZWRpZF9yZWFkKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2Us
-CiAJCQkJCQlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQpAQCAtMTc4LDcgKzE5
-NSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2VkaWQgKnB0bjM0NjBfZWRpZF9yZWFk
-KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCiAJCWdvdG8gb3V0OwogCX0KIAotCWRybV9l
-ZGlkID0gZHJtX2VkaWRfYWxsb2MoZWRpZCwgRURJRF9MRU5HVEgpOworCWtmcmVlKGVkaWQp
-OworCWRybV9lZGlkID0gZHJtX2VkaWRfYWxsb2MoZWRpZF9kYXRhLCBFRElEX0xFTkdUSCk7
-CiAKIG91dDoKIAlpZiAocG93ZXJfb2ZmKQpAQCAtMjczLDcgKzI5MSw3IEBAIHN0YXRpYyBp
-bnQgcHRuMzQ2MF9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50KQogCXB0bl9icmlk
-Z2UtPnBhbmVsX2JyaWRnZSA9IHBhbmVsX2JyaWRnZTsKIAlwdG5fYnJpZGdlLT5jbGllbnQg
-PSBjbGllbnQ7CiAKLQlwdG5fYnJpZGdlLT5ncGlvX3BkX24gPSBkZXZtX2dwaW9kX2dldCgm
-Y2xpZW50LT5kZXYsICJwb3dlcmRvd24iLAorCXB0bl9icmlkZ2UtPmdwaW9fcGRfbiA9IGRl
-dm1fZ3Bpb2RfZ2V0X29wdGlvbmFsKCZjbGllbnQtPmRldiwgInBvd2VyZG93biIsCiAJCQkJ
-CSAgICAgICBHUElPRF9PVVRfSElHSCk7CiAJaWYgKElTX0VSUihwdG5fYnJpZGdlLT5ncGlv
-X3BkX24pKSB7CiAJCXJldCA9IFBUUl9FUlIocHRuX2JyaWRnZS0+Z3Bpb19wZF9uKTsKQEAg
-LTI4NSw3ICszMDMsNyBAQCBzdGF0aWMgaW50IHB0bjM0NjBfcHJvYmUoc3RydWN0IGkyY19j
-bGllbnQgKmNsaWVudCkKIAkgKiBSZXF1ZXN0IHRoZSByZXNldCBwaW4gbG93IHRvIGF2b2lk
-IHRoZSBicmlkZ2UgYmVpbmcKIAkgKiBpbml0aWFsaXplZCBwcmVtYXR1cmVseQogCSAqLwot
-CXB0bl9icmlkZ2UtPmdwaW9fcnN0X24gPSBkZXZtX2dwaW9kX2dldCgmY2xpZW50LT5kZXYs
-ICJyZXNldCIsCisJcHRuX2JyaWRnZS0+Z3Bpb19yc3RfbiA9IGRldm1fZ3Bpb2RfZ2V0X29w
-dGlvbmFsKCZjbGllbnQtPmRldiwgInJlc2V0IiwKIAkJCQkJCUdQSU9EX09VVF9MT1cpOwog
-CWlmIChJU19FUlIocHRuX2JyaWRnZS0+Z3Bpb19yc3RfbikpIHsKIAkJcmV0ID0gUFRSX0VS
-UihwdG5fYnJpZGdlLT5ncGlvX3JzdF9uKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9leHlub3MvZXh5bm9zX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19k
-cC5jCmluZGV4IDgwYmE3MDBkMjk2NC4uZDA0MjJmOTQwMjQ5IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9l
-eHlub3MvZXh5bm9zX2RwLmMKQEAgLTEwNCw3ICsxMDQsNyBAQCBzdGF0aWMgaW50IGV4eW5v
-c19kcF9icmlkZ2VfYXR0YWNoKHN0cnVjdCBhbmFsb2dpeF9kcF9wbGF0X2RhdGEgKnBsYXRf
-ZGF0YSwKIAkvKiBQcmUtZW1wdCBEUCBjb25uZWN0b3IgY3JlYXRpb24gaWYgdGhlcmUncyBh
-IGJyaWRnZSAqLwogCWlmIChwbGF0X2RhdGEtPm5leHRfYnJpZGdlKSB7CiAJCXJldCA9IGRy
-bV9icmlkZ2VfYXR0YWNoKCZkcC0+ZW5jb2RlciwgcGxhdF9kYXRhLT5uZXh0X2JyaWRnZSwg
-YnJpZGdlLAotCQkJCQkwKTsKKwkJCQkJRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9S
-KTsKIAkJaWYgKHJldCkKIAkJCXJldHVybiByZXQ7CiAJfQo=
-
---------------d57G0lgZVnIWmw0tVtNeChqU--
+Michael
