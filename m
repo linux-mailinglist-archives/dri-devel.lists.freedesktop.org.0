@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADE4B4463E
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 21:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A9FB446BE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 21:51:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A8510EABE;
-	Thu,  4 Sep 2025 19:17:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0D1F10E35C;
+	Thu,  4 Sep 2025 19:51:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BAQ/matM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a86HyaX7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD38910E042
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 19:17:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A4A210E35C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 19:51:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A802760247;
- Thu,  4 Sep 2025 19:17:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D7A5C4CEF0;
- Thu,  4 Sep 2025 19:17:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 90F0B6028B;
+ Thu,  4 Sep 2025 19:51:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B26DC4CEF4;
+ Thu,  4 Sep 2025 19:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757013428;
- bh=4cyZJK5eWDP/Os6zTLIOjZf3POA/Dw2ry2+a0/RupNc=;
+ s=k20201202; t=1757015493;
+ bh=QPZGgKSeK7OkOS6fKJFX6cxsolH+ueRXJKXsFqAwQ14=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BAQ/matM+PqMMACKj9h7Bzj61ss27I49ThmK0YjHCe39lYfGQ4bTj/nu3jK2yREMt
- f0DhoPVqOlFzQ/EhJaQM4pQ8pVn9wfMNHSooHmMXZ55RRgmVxLwZZSGEvYhrpmbpX7
- NS//yBebW+8myAVveojmau8n8ZCLinNGb14vsSzsHmsDvThT/kbVElT7kW1dYarhaU
- uhBuEWdKiC57zM7jfYPh+LmA8LMQm4BuDO/A4Q91offvA8G4S8HiUWusqDfc/I6CX5
- +n8vyQcXDLFtsaXzi0cL7HpoEnVs9vHzzor103Thyfh13/RfZj3LdJiGfb/v56z7lf
- lr99Pg4HaF4bA==
-Date: Thu, 4 Sep 2025 20:17:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Vladimir Yakovlev <vovchkir@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+ b=a86HyaX7buRnOcJQbTWphoKusLKadxi5a9jJw7PwpNQ3M9l3vIQHTOF0YgIW5sQiZ
+ akGp/cU1I/v/aqOIOjbUPQ7ETVtcvNJhjdsFZuJeCwO6HAkDwfzf9RVCCDsh8ZnhJv
+ Z8qz+5d1W81zu0ZtHZBoHKDCKL82XnvEPYXV3cUiCcBbCmfV2bjROl4mbId6BJBGIW
+ cJHsBp4dp0JLVtSPud4SqyJkR63SJ3qCuFMF30dhLxBxkJqss0iwzohKBXTaO3qAEm
+ 9eiTa25I6ahjey24gEKievkWuymc0pN6VDRy72bvVOJ7XAm+m9K0t5HTTMr1QPzfz7
+ k2rDjhYYI+crA==
+Date: Thu, 4 Sep 2025 12:51:27 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add compatible for
- STARRY xr109ai2t
-Message-ID: <20250904-utopia-boggle-3d26664bbbf0@spud>
-References: <20250904002232.322218-1-vovchkir@gmail.com>
- <20250904002232.322218-2-vovchkir@gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Devarsh Thakkar <devarsht@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Cc: dri-devel@lists.freedesktop.org, patches@lists.linux.dev
+Subject: Re: [PATCH] drm/bridge: cdns-dsi: Select VIDEOMODE_HELPERS
+Message-ID: <20250904195127.GA4160085@ax162>
+References: <20250821-cdns-videohelpers-v1-1-853e021908cf@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="sAVWlh9d1DjThvII"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904002232.322218-2-vovchkir@gmail.com>
+In-Reply-To: <20250821-cdns-videohelpers-v1-1-853e021908cf@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,22 +64,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Gentle ping, this seems fairly obvious and it continues to break out
+builds in -next.
 
---sAVWlh9d1DjThvII
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
---sAVWlh9d1DjThvII
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLnlrwAKCRB4tDGHoIJi
-0tUnAP9L1WfnoP9hrgMwAnX4lKp7VleNEjUU2M4rmDu17AJbeAD+IFdcN7Kru1QB
-/l0Hp/v6QSwcBhJgRdTsZPjmhKxNFwg=
-=KRbg
------END PGP SIGNATURE-----
-
---sAVWlh9d1DjThvII--
+On Thu, Aug 21, 2025 at 01:52:12PM -0700, Nathan Chancellor wrote:
+> When no other driver selects CONFIG_VIDEOMODE_HELPERS but
+> CONFIG_DRM_CDNS_DSI is enabled, there is a linker or modpost error:
+> 
+>   ERROR: modpost: "drm_display_mode_to_videomode" [drivers/gpu/drm/bridge/cadence/cdns-dsi.ko] undefined!
+> 
+> Select VIDEOMODE_HELPERS to ensure that this helper function is
+> available to the driver.
+> 
+> Fixes: ce4bc5ca7c1d ("drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/cadence/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
+> index cced81633ddc..f1d8a8a151d8 100644
+> --- a/drivers/gpu/drm/bridge/cadence/Kconfig
+> +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+> @@ -6,6 +6,7 @@ config DRM_CDNS_DSI
+>  	select DRM_PANEL_BRIDGE
+>  	select GENERIC_PHY
+>  	select GENERIC_PHY_MIPI_DPHY
+> +	select VIDEOMODE_HELPERS
+>  	depends on OF
+>  	help
+>  	  Support Cadence DPI to DSI bridge. This is an internal
+> 
+> ---
+> base-commit: 3f13bcc886fc034113cb75cb32b8d9db1216b846
+> change-id: 20250821-cdns-videohelpers-71182a6145bc
+> 
+> Best regards,
+> --  
+> Nathan Chancellor <nathan@kernel.org>
+> 
