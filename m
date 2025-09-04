@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E16B43EDA
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876A1B43EEF
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2952810E258;
-	Thu,  4 Sep 2025 14:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90C010E259;
+	Thu,  4 Sep 2025 14:35:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="P52QP4qk";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="FBd4BEaS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o92AJnVr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44EE310E258
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 14:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1756996419; x=1788532419;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zlqqrNZEiY7IvtFC2IBEJxofiBdzO+GTzrOpSqcb4w8=;
- b=P52QP4qkMRVaEuNKL7UUpLRXF7Xhxjyu2D9vMYrPrpwWpiYBW1z9MdlK
- KZsEFfoTmtw6KkPYFIxLmj8fwDLYhCMnFrRwDGr1cgcJuXkftu7+BUmXt
- mzLcIf7mFrAk1VsQIQp6SJ7eDXpoZPMeloOFM4OLq5cvvAVq1QFZv8wQq
- GvS2lVUm7eOIocowuvs3MfcA8uuVEsj4a/gUpDcV8ZBJ2Haau+d2VCInB
- I7Ll2W7yrIPlHM2PWPzs/SwfAU0jmBm8OytQRu2CeoeOwDRS7OMkRJlVy
- r1jvARY/Wm2jQHT7RbsV4Qg3vRi1Ph/+OfprJ2o4vJWifJihZQsya4LjC A==;
-X-CSE-ConnectionGUID: G8Hed7ClSl6WgvwutzZBuA==
-X-CSE-MsgGUID: 8y9w8OLiQMyZ87BDufx9nQ==
-X-IronPort-AV: E=Sophos;i="6.18,238,1751234400"; d="scan'208";a="46080653"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 04 Sep 2025 16:33:31 +0200
-X-CheckPoint: {68B9A339-15-20CAA7DA-EC9DC758}
-X-MAIL-CPID: 54915AE65B26EEED12B979108A0F4215_0
-X-Control-Analysis: str=0001.0A2D034A.68B9A341.0064, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 8A97E161458; Thu,  4 Sep 2025 16:33:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1756996405;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=zlqqrNZEiY7IvtFC2IBEJxofiBdzO+GTzrOpSqcb4w8=;
- b=FBd4BEaS14MCTqQhaMKyPetyi2HMKe+mCbXS7zgCsuJzNmwMtXYZwLQ4jrwpSLA+PzN2up
- McSGUADKYjEVrHOUtG+izV5tWNXLmvK4mzPVM20q66XHPPqS907HHAzLPXVRhqPXytUvIK
- JuF4tG9AJStDVT/fXSdMFIQqbFTM5JFH7/yW643XqVg2eQDSMjcOSas61VgDFzfUBIFLBS
- o8RilpJVvxV3cxnYihXyXVbTDuF3DDjDLq7QHUzfxBUDTJ4K5VTOx3fAfoKNzVfrlQRQ7a
- FkKux87MuC0Amd7kiIzibz+1yYt/lN5FOFyuEDVMsHr/J5Yz2oHJ5FsT32C6Bw==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v6 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-Date: Thu, 04 Sep 2025 16:33:21 +0200
-Message-ID: <13565586.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-References: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE7710E259;
+ Thu,  4 Sep 2025 14:35:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A12A6601AD;
+ Thu,  4 Sep 2025 14:35:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7651AC4CEF0;
+ Thu,  4 Sep 2025 14:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756996520;
+ bh=8kIGznDy+yBjtOzEZBMp/gYRmqnIWETZTPphA2eOkh8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=o92AJnVroMgO0xyUlw5zPy+0SOqoU8a73BKt5yk4HJ/rA6ZxM/Z4lnFBvkqCTCcUt
+ g55GxGyJ4kUwstKETLKrzHpfRrXg1HXAFoT0g4qT6YMWzAA+sBlDYUwQKIxp3EWIAq
+ qSjq8hUsOGyVnMDYJl6+EUFw/w0owqY6Wo9+MsgUIRgAJ5+NY8nrN2n+lOZRu8+feE
+ eoTkxkplcOyrx0yLVoCoIHziOC/DHMYyRGcfgYBUVwTa4aZJwEGv9m6LNB7YRSjOhS
+ PhPBCM5x3ORKjDJK7txAcwIKaho+KEKGM9LQ5AvnsrOOD6SmUSh3mB3CpmVsRjSDhP
+ EgaYwvQIsFwSQ==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
+ =?UTF-8?q?Otto=20Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Robert Marko <robimarko@gmail.com>,
+ Adam Skladowski <a_skl39@protonmail.com>,
+ Sireesh Kodali <sireeshkodali@protonmail.com>,
+ Das Srinagesh <quic_gurus@quicinc.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ =?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ linux@mainlining.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Daniil Titov <daniilt971@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dang Huynh <danct12@riseup.net>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v9 0/7] Initial support of MSM8937 and Xiaomi
+ Redmi 3S
+Date: Thu,  4 Sep 2025 09:35:13 -0500
+Message-ID: <175699650574.2182703.5262816788916742029.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250903-msm8937-v9-0-a097c91c5801@mainlining.org>
+References: <20250903-msm8937-v9-0-a097c91c5801@mainlining.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,80 +90,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Am Donnerstag, 4. September 2025, 09:05:53 CEST schrieb Shengjiu Wang:
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->=20
-> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
+On Wed, 03 Sep 2025 23:08:20 +0200, Barnabás Czémán wrote:
+> This patch series add initial support for MSM8937 SoC
+> and Xiaomi Redmi 3S (land).
+> 
+> The series is extending the MSM8917 gcc and pinctrl drivers
+> because they are sibling SoCs.
+> MSM8937 have 4 more A53 cores and have one more dsi port then
+> MSM8917.
+> It implements little-big architecture and uses Adreno 505.
+> 
+> [...]
 
-On TQMa8MPxL + MBa8MPxL:
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Applied, thanks!
 
->=20
-> changes in v6:
-> - remove mutex in dw_hdmi_set_sample_iec958()
->=20
-> changes in v5:
-> - add empty line commit message for patch 7
-> - remove blank line in dts node
-> - add component_unbind_all when dw_hdmi_probe return error
->=20
-> changes in v4:
-> - separate dts for soc and board
-> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
-> - add "select DRM_DW_HDMI" to fix build error reported by test robot
-> - remove unnecessary code/definition in pai driver
->=20
-> changes in v3:
-> - add space and 'U' in asoundef.h
-> - add more commit message for binding doc commit
-> - add bitfield.h header for fixing build error
->=20
-> changes in v2:
-> - address some comments on commit messages
-> - add two more commits:
->   add definitions for the bits in IEC958 subframe
->   add API dw_hdmi_set_sample_iec958() for iec958 format
-> - use component helper in hdmi_pai and hdmi_tx driver
-> - use regmap in hdmi_pai driver.
-> - add clocks in binding doc
->=20
-> Shengjiu Wang (7):
->   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
->   ALSA: Add definitions for the bits in IEC958 subframe
->   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
->   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
->     format
->   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
->   arm64: dts: imx8mp: Add hdmi parallel audio interface node
->   arm64: dts: imx8mp-evk: enable hdmi_pai device
->=20
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
->  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
->  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
->  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  16 +-
->  include/drm/bridge/dw_hdmi.h                  |  11 +-
->  include/sound/asoundef.h                      |   9 +
->  12 files changed, 380 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
-8mp-hdmi-pai.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
->=20
->=20
+[3/7] dt-bindings: firmware: qcom,scm: Add MSM8937
+      commit: cf13bed78c90b2c0fc65774e86d564c868fa2a23
 
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
