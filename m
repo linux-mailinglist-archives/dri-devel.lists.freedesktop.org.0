@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191BEB433D8
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 09:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3271CB433E9
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 09:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8C610E98C;
-	Thu,  4 Sep 2025 07:25:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7522310E98D;
+	Thu,  4 Sep 2025 07:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I3CSQtaW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oKcr6dlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D6510E98C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 07:25:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 758604051B;
- Thu,  4 Sep 2025 07:25:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB03AC4CEF0;
- Thu,  4 Sep 2025 07:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756970700;
- bh=g0FuMImBTb4zXFyvNIW7Qc6+EhCzoXvGszP1fCb2DTQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I3CSQtaWLoUBZ85Cvb1X1zBhfnr9t+Mlx6sTaW7ep3CIC2futjzePPUqmfPk6v9Q3
- 7hyDBFdOohOGBjOSv7NYmUiz/q01m8EecwxOGilSwsSSK4cdgjx6DOOJTUoLnnrkXD
- e0WgFviKLo69ikPOJ/vBYz0JPxcHfpMMiemJiGbKXu/ws4+yt3LOW0Qx2DCS3gv+8L
- CxYzje0TKoCaNijozuS+Uhu+deDHwFjdVbb9hAzF7QZqxYFYFRvhZQC058vyGhZvSk
- NRCTbMu7MA6lGlr0YbKBbumnI2POEyid1a7vxYb2Ef2XdgEgttGQjaZqBOzsrPN5qh
- SsKhLz9eDCnXg==
-Date: Thu, 4 Sep 2025 09:24:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: imx@lists.linux.dev, Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/9] dt-bindings: display: imx: Add bindings for
- i.MX94 DCIF
-Message-ID: <20250904-attentive-seagull-of-fantasy-adea9f@kuoka>
-References: <20250903123332.2569241-1-laurentiu.palcu@oss.nxp.com>
- <20250903123332.2569241-5-laurentiu.palcu@oss.nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0EF310E98D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 07:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756970798; x=1788506798;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=i0F5lNteMALrTYDGoDG8/FgXqYsXm7BEOL81RXy5tyg=;
+ b=oKcr6dlCHqyGQcxSC+8KhhM3mmGWsbqDheeG+GkD9zumjcUbiuPi1CoM
+ 177lypMFbfDcKBDaEEJ8zZGDkCv9SY+hk3bp5LvLUkylAUgeMGBR6iPaQ
+ pVnlDkMC4/95VdlM+kpbvIO9f3xzpS4x/mIaaCnnMdVg5K9k10MkAZ65j
+ EiqY13MNlXn8/hnQm7quhsMjfubuo3Z/YccYfbKO0yt+Pq6BswTad6mVZ
+ hcwQhgJfFToBSBzjlspK84S2eFsWyMLVHyl9kPaWWEiopPb2BOjT2/x9I
+ 3jYIhcrndC0XE4wmm8qriUsBTslA8tED/5S7PnZT2rTxTJWm9drD/mDyr g==;
+X-CSE-ConnectionGUID: GObnwnGnTgmcKoeU2C1uFg==
+X-CSE-MsgGUID: avMuOf+uRou1YgQ0t9Astg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76904004"
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; d="scan'208";a="76904004"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2025 00:26:37 -0700
+X-CSE-ConnectionGUID: ugqPuJjGQ0KJvAHfL8p7Sw==
+X-CSE-MsgGUID: hr5BWuCgRvyxd20soLbZ8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; d="scan'208";a="177082159"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.98])
+ ([10.245.244.98])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Sep 2025 00:26:35 -0700
+Message-ID: <4a929eba67199b3fbf92bf3232c64fec444fc3cf.camel@linux.intel.com>
+Subject: Re: [PATCH 4/4] xe: populate buffers before exporting them.
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>
+Date: Thu, 04 Sep 2025 09:26:30 +0200
+In-Reply-To: <20250904021643.2050497-4-airlied@gmail.com>
+References: <20250904021643.2050497-1-airlied@gmail.com>
+ <20250904021643.2050497-4-airlied@gmail.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250903123332.2569241-5-laurentiu.palcu@oss.nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,137 +71,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 03, 2025 at 03:33:22PM +0300, Laurentiu Palcu wrote:
-> DCIF is the i.MX94 Display Controller Interface which is used to
-> drive a TFT LCD panel or connects to a display interface depending
-> on the chip configuration.
+On Thu, 2025-09-04 at 12:16 +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+>=20
+> Before exporting a buffer, make sure it has been populated with
+> pages at least once.
+>=20
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
 
-It looks like you are going to send v5, so:
+Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
-A nit, subject: drop second/last, redundant "bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-Anyway, nothing in the changelog explains dropping tags.
-
-I am not going to do the work twice. Write proper changelogs.
-
-<form letter>
-This is a friendly reminder during the review process.
-
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions of patchset, under or above your Signed-off-by tag, unless
-patch changed significantly (e.g. new properties added to the DT
-bindings). Tag is "received", when provided in a message replied to you
-on the mailing list. Tools like b4 can help here. However, there's no
-need to repost patches *only* to add the tags. The upstream maintainer
-will do that for tags received on the version they apply.
-
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
-
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 > ---
->  .../bindings/display/imx/nxp,imx94-dcif.yaml  | 82 +++++++++++++++++++
->  1 file changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml b/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
-> new file mode 100644
-> index 0000000000000..54419c589ef74
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/nxp,imx94-dcif.yaml
-> @@ -0,0 +1,82 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2025 NXP
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/nxp,imx94-dcif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> =C2=A0drivers/gpu/drm/xe/xe_dma_buf.c | 12 ++++++++++++
+> =C2=A01 file changed, 12 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c
+> b/drivers/gpu/drm/xe/xe_dma_buf.c
+> index 346f857f3837..71b70e17bddd 100644
+> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
+> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+> @@ -191,10 +191,22 @@ struct dma_buf *xe_gem_prime_export(struct
+> drm_gem_object *obj, int flags)
+> =C2=A0{
+> =C2=A0	struct xe_bo *bo =3D gem_to_xe_bo(obj);
+> =C2=A0	struct dma_buf *buf;
+> +	struct ttm_operation_ctx ctx =3D {
+> +		.interruptible =3D true,
+> +		.no_wait_gpu =3D true,
+> +		/* We opt to avoid OOM on system pages allocations
+> */
+> +		.gfp_retry_mayfail =3D true,
+> +		.allow_res_evict =3D false,
+> +	};
+> +	int ret;
+> =C2=A0
+> =C2=A0	if (bo->vm)
+> =C2=A0		return ERR_PTR(-EPERM);
+> =C2=A0
+> +	ret =3D ttm_bo_setup_export(&bo->ttm, &ctx);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 > +
-> +title: i.MX94 Display Control Interface (DCIF)
-> +
-> +maintainers:
-> +  - Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> +
-> +description:
-> +  The Display Control Interface(DCIF) is a system master that fetches graphics
-> +  stored in memory and displays them on a TFT LCD panel or connects to a
-> +  display interface depending on the chip configuration.
-> +
-> +properties:
-> +  compatible:
-> +    const: nxp,imx94-dcif
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: CPU domain 0 (controlled by common registers group).
-> +      - description: CPU domain 1 (controlled by background layer registers group).
-> +      - description: CPU domain 2 (controlled by foreground layer registers group).
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: common
-> +      - const: bg_layer
-> +      - const: fg_layer
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb
-> +      - const: axi
-> +      - const: pix
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Display Pixel Interface(DPI) output port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        display-controller@4b120000 {
-> +            compatible = "nxp,imx94-dcif";
-> +            reg = <0x0 0x4b120000 0x0 0x300000>;
-> +            interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "common", "bg_layer", "fg_layer";
-> +            clocks = <&scmi_clk 69>, <&scmi_clk 70>, <&dispmix_csr 0>;
-> +            clock-names = "apb", "axi", "pix";
-> +            assigned-clocks = <&dispmix_csr 0>;
-> +            assigned-clock-parents = <&ldb_pll_pixel>;
-> +            power-domains = <&scmi_devpd 11>;
-> +
-> +            port {
-> +                dcif_out: endpoint {
-> +                    remote-endpoint = <&ldb_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.49.0
-> 
+> =C2=A0	buf =3D drm_gem_prime_export(obj, flags);
+> =C2=A0	if (!IS_ERR(buf))
+> =C2=A0		buf->ops =3D &xe_dmabuf_ops;
+
