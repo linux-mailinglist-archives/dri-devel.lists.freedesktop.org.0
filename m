@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2085B446EC
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC89AB446F0
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:05:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E54C310EACA;
-	Thu,  4 Sep 2025 20:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4789D10EAC7;
+	Thu,  4 Sep 2025 20:05:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="wKkdMKr+";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ht8buZKJ";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="X6keGGje";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ejXENH9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FBE10EAC7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:04:56 +0000 (UTC)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C690210EAC7
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:04:59 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org
  [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cHr6v3lLTz9tFV;
- Thu,  4 Sep 2025 22:04:55 +0200 (CEST)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cHr6y4HMLz9tB1;
+ Thu,  4 Sep 2025 22:04:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757016295;
+ s=mail20150812; t=1757016298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=laoGGEVO+Nzxj153VQlyUvl8GS6WXFC6jR/xWNH0R9s=;
- b=wKkdMKr+7B0Cy62ni773W4TSsAfK63kketfLjxrrSg/NVj2rchJygMzCU7qNgZRMCOHNrp
- cq3KdHrM1LLejQhNtINYxzCqzGWT58z1sgqiZpm1buZhitvEUxPo6H8MB4BsGSVeX6cDZE
- 5zjlaSJjPXmOWI54b5HwdzV63CpshUeTKjXJtEwYvHL9/CJXEmTCCTQnl+CNl4jS55heTF
- SnZ3rJaLg5ZVy09meDrrzndlE4HMwmx+ghUoJcUMl8qJOz26A9X4dFjycZh3V0XfECjdwe
- NgK4m4hbjXGitYoOZt1RNdhiYp/9KpQDnLQW/qnNrOQEdn8puzveOSEB8QhdlA==
+ bh=Ajgl4VkcAvKSjVnpuARRFDOopjNfFzRrXajmAnDP0g4=;
+ b=X6keGGjel+lKtjCAF2XKf2EdVmHMTrtJI2qc7yUTRfnr+9LyL0cRqgprgV+IuKHUVxGo96
+ IWDY9fCRjikoCIii/GAiOiozzfCGqBai4HVYwiGc60HU6yBWBlvFXpBHr8FrECEN17e6oU
+ nrZySrMXnA8VAXf8o9kRneRgawgbl126Z+9dhjLrMMpsdYHdQg3DBL5+w1NPcv3Gz6rmG6
+ BrMLWNF4AFx+DwKhBMgt7cKKgrvQC9f3d46/hg9YWzyiA6mhxXMlWbyAU6bHSmJ+awxfb8
+ 90fTAc/LvDwTHClDNBUJoE+nY266iAFzoVMMOXRYjunmhzFIr5qdqR+rMUi47Q==
 Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Ht8buZKJ;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ejXENH9q;
  spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
  designates 2001:67c:2050:b231:465::202 as permitted sender)
  smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757016293;
+ s=mail20150812; t=1757016296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=laoGGEVO+Nzxj153VQlyUvl8GS6WXFC6jR/xWNH0R9s=;
- b=Ht8buZKJynSs5acSPh9eLlgf9Aix/WrZj66Nh/zYQ3EG0MymY4YlT8FOXRlZhx74FmFXLT
- 8weQET6B4XP1kVcpHLvjIJ5xWFTv13pgrp/HeoFoKley+NpVPwukE1EtLQu127YTi1P50G
- u+Ak3aTZ0hIveG3TjY0ORgTOuEHRzF6uZkkomg3LeIKljIYzibIF6B6wQzrJxypjC8S1Sl
- VEqLQi07ns84C/JkUW4msY4PF2TlCfGuC5DzCV88hj2eE2DLk8/YFS4JWDjVgYyDO7mcdN
- nFIJvGVEa7gHeKpjYmeCg1eEqG8SsLZN1NZmwWrZRTfysKfZicdhqa1DyoiwQw==
+ bh=Ajgl4VkcAvKSjVnpuARRFDOopjNfFzRrXajmAnDP0g4=;
+ b=ejXENH9qkowuOTQpyYJzNDSF++JA4mGaY3b0XEhUhS42/MJEycKsc6k7wDyzRp+jd1VB7m
+ /2gdmNP+KmkVq2JyYMYEPuXyBmsXYFcemm8cBLg6MqrjxIeVVGoojZrQ9c1bFNdxkSVz50
+ /yGeqyxCWrYZEtla1quz+isubeTXs24ueXkqfwZnFfic1Igosp1cBrGw0Eyxbij+TNkeuJ
+ 7ELni9ZHlJ/PgTxsIsjiQ6JOw5/HpXyB2W/sHetazFDYT0UpvC/gblWdRut4BdFwH1a9AL
+ r6KIOqoJEBotHfo9tJT6Q2fu60HqaIcK6EV87xi2RQS1BR9fmSjpXYzfUuPiRg==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -66,16 +66,16 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/4] arm64: dts: renesas: r8a779g0: Rename dsi-encoder@ to dsi@
-Date: Thu,  4 Sep 2025 22:03:06 +0200
-Message-ID: <20250904200431.168363-2-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 3/4] arm64: dts: renesas: r8a779h0: Rename dsi-encoder@ to dsi@
+Date: Thu,  4 Sep 2025 22:03:07 +0200
+Message-ID: <20250904200431.168363-3-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250904200431.168363-1-marek.vasut+renesas@mailbox.org>
 References: <20250904200431.168363-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: zif16n154yhntpkif6dd91yozr1xs9fx
-X-MBO-RS-ID: e07c121d75dd1735519
-X-Rspamd-Queue-Id: 4cHr6v3lLTz9tFV
+X-MBO-RS-META: 5mkbduokp49hwggqng9sp43kx7pzne5i
+X-MBO-RS-ID: 75d0db906adc813bcf6
+X-Rspamd-Queue-Id: 4cHr6y4HMLz9tB1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,31 +113,22 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 8d9ca30c299c9..4fae063bf91b6 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -2476,7 +2476,7 @@ isp1vin15: endpoint {
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+index ed1eefa3515d8..0f20a2d239834 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+@@ -2144,7 +2144,7 @@ isp1vin15: endpoint {
  			};
  		};
  
 -		dsi0: dsi-encoder@fed80000 {
 +		dsi0: dsi@fed80000 {
- 			compatible = "renesas,r8a779g0-dsi-csi2-tx";
+ 			compatible = "renesas,r8a779h0-dsi-csi2-tx";
  			reg = <0 0xfed80000 0 0x10000>;
  			clocks = <&cpg CPG_MOD 415>,
-@@ -2505,7 +2505,7 @@ port@1 {
- 			};
- 		};
- 
--		dsi1: dsi-encoder@fed90000 {
-+		dsi1: dsi@fed90000 {
- 			compatible = "renesas,r8a779g0-dsi-csi2-tx";
- 			reg = <0 0xfed90000 0 0x10000>;
- 			clocks = <&cpg CPG_MOD 416>,
 -- 
 2.50.1
 
