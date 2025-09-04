@@ -2,171 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F379B43A46
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 13:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302BEB43ADE
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 13:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752F010EA07;
-	Thu,  4 Sep 2025 11:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D50310EA11;
+	Thu,  4 Sep 2025 11:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VwXzKxYy";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uwp8XcfD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E49EB10EA07;
- Thu,  4 Sep 2025 11:33:57 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2918210E240;
+ Thu,  4 Sep 2025 11:56:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mxH16BRJjwh9ApEA6hLGuRBkthU1yFBDpZYfwzrFpqv3WvFbQInfDZvQizA67rne03l6yXcNfuJJgiwiPxMkFjdlbBEPaDdT8GPecpxvSUPyl+JEYOQMjSG7SepmDr1X4wk704IU0/Y7YnS7myKy2bpeZN1SSyCqJuiHhqDm5bkRsxKtcBipaZHcwxeYmnEveQjqq2zracYPLef2fxSi/6sq46wgF6hKgp/6QT2NqmNVEviFItGx/6C+JbMJ21vwhVE3cqzYpuCGjoND9RLn0ieEHCkoogB7frQMrHTQUzXXokIyRqkPnb1ObjQXhGhjEA6F6K41vHLUn4xCUwTLJg==
+ b=bWSWiSrhCChChfMgrBIE3Z2GWiX5G5+dYt0Zgkx1sOjVHlQnJ7SLWA/L3AotcoHznj2zUQf0W1lJ+ouBPgftscvvUKNGOkiaG2irD6Uxb4HyOTW5LXWhaapuE+JySAINxxCnC0LOJH23qOtbeWf6UzZxjbrZA0M+uzNLBC7tISjmR97eIlNt6YaqtP24sQDJPxQk1cik4HNudG1KadZ7q1v6G4OnDmJvr8tfpD5oeqRiX/0uB9is+hZazfweeIjmC7Nm4Amu56Ix0yuGavyjK5B/H0Pdg4X1yAKGYKMMdcsqRsDR3Z8SM5rxRHCNyiwJmxx15RfbhpzypLzH48Zx9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W9E99DCQgpGYJKWAdQRY11M4yIwFG4Kv8Zx8nbhnWrI=;
- b=ZEMmEWWPwQtY90KDvfgOhQLnllvQiqUIfd4yrfz1CkzoWbCIRDs64C8q7dS9aUwqvb3EIbWHGdfdMhcPmD0iZb5Pqyah5nCQew/2xU+rQ/vTPN2n/3XSYdVYz63bQBXmT2GhBfk1/nVchEh1lS/Nvf7tPrLrZl+ZNoEPW85kT2SiA2M8C3ejgsjD0h7t9ohh6+BzBQR4BKfiMk112DS1BK2DbpD5mVM3YU+K8a8xHrV4N+9sh38PgptwEUu4gpvRlT/JXWuOBK1SZnOdiYcSRDI4tdPtHlmWWqFflwfR9T0UDxiXXGOsvMShf9VlBF+oozwt74lbzXcoZcS4rhcoPA==
+ bh=Bd939eV9s+qNo3yQfcoDQd3lYpW696VfitMMaWlVTpY=;
+ b=FJFnmZWnDK41SOfWxqQqsH8KdDtK3MtW+eynbcp7hkK9xlJpeUlLXjEJm7jKARamoCi0udz89OWWrxJdML9bRqrBFJuMGfZgGBHx16OLjK4uf+Y5isQ42TuU2XsAGJqLTOGH9HLeh3kSB32P0SIzdtPvtvgd8+tY5Ok2EDUHVXewaRKhyBnpTc6UNZF4L1PLR1DezY9i0BHzQy4ObQglb5+nga9fxwZTKKfZKFuY4uBVvg2mMoIJY6vIuPdI1hepEIqVzs9oc/5IwGs1Xz4dZ3/21Lbchah5zYT96cbp0erUqepvN/GQ6/kXvU4THZZDPXpE0Ztjy+3dRBrWrReqTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W9E99DCQgpGYJKWAdQRY11M4yIwFG4Kv8Zx8nbhnWrI=;
- b=VwXzKxYyucv3prYqj7Z4/7zPOxGQdOQeXm1sbhceNb3XVyUBUsOdwiraBPYM5ZFnkuZFN/FX6KyJUuwdOwCWDQk4B/y3Ccm1bTpv6n8Czao/cQrrdkv8WkO0qnp/UL+dwGGrU9AAGMH+zWdLp6F03/iMESaHT8WCk6O0kzKorj2L0c8GYp190N44RdrwTJZZw6p3DIWZkmvv98RweYDLOexl4LuElkagnK7zm/1yygQ/iXMVazlxj2qrxM0tLwr+D1gDbTv4DRfjAvr+YLCU0iEFE3FUMylnkRPofrWZKnWpAZh7SDh7dtN9R8B8rzj+jmFIJg8nJJS+XIcgdWIY4w==
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by PH7PR12MB7795.namprd12.prod.outlook.com (2603:10b6:510:278::21)
+ bh=Bd939eV9s+qNo3yQfcoDQd3lYpW696VfitMMaWlVTpY=;
+ b=uwp8XcfDSm8DoMJkkMNeJGRtWT8bpA+l5zreQjcmfhVFf1HnF4vfuZ0h0/AaEBPYBHsBhs+cSDHvIqJvg8IqiigKsU2rjs+1KbkOqql73RXhLCwRcBg/qOGi4+LtsYxZ2RF1v5tbrO6K2Vs7rmHCV5VYb8UI9ECEMpluAidn6k8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB8268.namprd12.prod.outlook.com (2603:10b6:930:6c::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
- 2025 11:33:53 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9073.021; Thu, 4 Sep 2025
- 11:33:53 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-CC: Alexandre Courbot <acourbot@nvidia.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
- <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, =?utf-8?B?QmrDtnJuIFJveSBCYXJvbg==?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>, Alistair
- Popple <apopple@nvidia.com>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "rust-for-linux@vger.kernel.org"
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
-Thread-Topic: [PATCH 1/2] nova-core: Add a library for bitfields in Rust
- structs
-Thread-Index: AQHcFP9mydaUsviYL0KPJ5QjT1cfF7RzNsSAgA5qTACAAMmaAIAAQugAgABIBQY=
-Date: Thu, 4 Sep 2025 11:33:53 +0000
-Message-ID: <DEC556AB-8E6F-475B-AF9F-11973F7A92B1@nvidia.com>
-References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
- <DCBGLCQVD1RF.6V5UT0NQ4GLB@nvidia.com>
- <444ebd64-7a90-46a6-b885-2c114aa59284@nvidia.com>
- <DCJOUO214EXC.32MFBN80VJW3K@nvidia.com>
- <DCJTY0OQFG83.1AX49CQARXCEX@kernel.org>
-In-Reply-To: <DCJTY0OQFG83.1AX49CQARXCEX@kernel.org>
-Accept-Language: en-US
+ 2025 11:56:51 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.017; Thu, 4 Sep 2025
+ 11:56:51 +0000
+Message-ID: <53ec7656-d5d7-460e-a245-0c9598a71f26@amd.com>
+Date: Thu, 4 Sep 2025 13:56:47 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Revert "drm/nouveau: Remove waitque for sched teardown"
+To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250901083107.10206-2-phasta@kernel.org>
+ <3407fd9d-68e0-4c45-9761-98ede450bb25@amd.com>
+ <b35506de99be38f560709660b10667ca9f386181.camel@mailbox.org>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR12MB8059:EE_|PH7PR12MB7795:EE_
-x-ms-office365-filtering-correlation-id: 652fde97-113e-43a6-a875-08ddeba6ed8b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?U1JXOVJGR2dNbVlld3cxUWw0YW1icDVMSktpU3NyczFEMzNvYmFLK0tFT2NT?=
- =?utf-8?B?SmtWMlJ4TVdUK000NXIxK25CT2VGdVZybUNuUUtLRmY2dFQ0Q0t2ZVZ4VjJy?=
- =?utf-8?B?Z0dLQVRIdnFYOWliY3p5ejAvVXFkNmlYTnNtU2pGb1RXZjlRLzBvaGZSRnBm?=
- =?utf-8?B?VEIyaHV5eHIzbjAwSWg0bXhZZ2p0QURWZGNUQVEwSklXTXloVC9RRnVJZFNW?=
- =?utf-8?B?VmJpVzh2VEVVblNzdjV6WkZyNGdXK3QwV3pPZHI0VEFBcVdBR0RDc2dZM2NO?=
- =?utf-8?B?NWRWZFVWYnBKZkRWczIyMkNsVDFXZjhlMVlYM2l5bm53NWgrSFZ2ZEZHYmhu?=
- =?utf-8?B?bFhsU0pkd0ZjSUNHU3dPanhva0dRRUxxR0gyMmZ2TW5xakQxK2tMeGg0MDI5?=
- =?utf-8?B?UDh5V2FkWEE4aUVWcGRaT3JWUzA2ekVRYm15bFVqMHVwUzNnRXJKS0wrWC9M?=
- =?utf-8?B?dFpLbWlwb3ZWNnJMekk2K3U3WHFheGRqbmkzYmppMWFXSEU0YUY5bEdLRExS?=
- =?utf-8?B?RUpTalkrUGNKUys4cEtzTXVNUzZMQ2FGSFl5WGpvam5wQnJvWVRIUGloMjNO?=
- =?utf-8?B?bktLMk1NZzRQbXNjU1VjQjA5bmp4RTBPdHo0bGJ0eHJrMzdoNHVsckpML29w?=
- =?utf-8?B?Vy9HbDl4dnRTSXJPYVVrQUJ1R0NUNkRlcFNhVi94RzkyZ1lRWkFLajNWa24z?=
- =?utf-8?B?Y1R2VVRwYjdXQlBJanNxbWpzNjdTR1hjdHJaQmMwWFZaNldyRlFZdHg2Rk50?=
- =?utf-8?B?THppc2FGODFhcHFJVEpiUE1Ld05QdWhGd0t1N21PV3gxRzBFUnBUZFVHM2xo?=
- =?utf-8?B?dnd5cXVKR3h3T2pJdFpOQXl2V1ZrYjNheEV2d2JNUTVRM3dNa2I2RDlQNlpZ?=
- =?utf-8?B?SEJRS2p1QTdpN2ZEaURYekRCSnNtWDJ4NHZPcTFmanZtOVR4VW1KR0tEV3Ft?=
- =?utf-8?B?NEpQcWkya2ozTnE3aWk5d0lNc0U2NnFQaUt5bXJCU0xMdTUxZnNKV2xLRlVl?=
- =?utf-8?B?TlJ4bVlmQng0RXhSWU85TGdwQTBKY1AwdWtaTVZoM2xlL09aRU9uZjIrcTBP?=
- =?utf-8?B?R3JQRWU4eHRvWGx5ZXhQSGI4WXJNVU9RM1BzdG1zUXhWRGpiNUNCZWJxdkZS?=
- =?utf-8?B?d1piZ3pZT0JBMTVQQXFuTFVKYkdMc3k5cTBvRGkvYStrRTVTQ0ovcHVZejZC?=
- =?utf-8?B?a0o3WUNXR0U3aWt2dFltYUkzOFJOK3RRTEhnakZvbmc4V3lzNVNSRDBaTEg2?=
- =?utf-8?B?bHQ3dnNIUjg2N1RiMGUrcldHK0IwK2J1dTRveWtsenh6RFpTUURwRmVHSUxQ?=
- =?utf-8?B?eWpEV283dytjcklISEZET0FUQ0k0d0lNYUo4S0I3STRDQitqU0tQdEwrSUlm?=
- =?utf-8?B?djdQY29WVERoZk8zTTFBWTI0VUU2bWxvbWxiZFo0YjZHRy9QN082T3drTFB4?=
- =?utf-8?B?NVF4ZnppaEROVEM4RStJcy93ZDRZbjBaZzBXQm43K0JaVW1YaE8wSFExUW5K?=
- =?utf-8?B?NEM4TGFRZzhXUWw4RlVkMHRXOE1DNHpZTUw4R1QxR1JOMGhqNTY1bHYwcnhY?=
- =?utf-8?B?UDcwNU91dEgxb1Q4TFRrbHNhZ3RPZGpya0I1SWppaSt3dHVmVUlnWThIWENB?=
- =?utf-8?B?djB3VGR3c2g2bU4zeU9EOXpLeVVXTkFWNjdKbGZtT3hvVk1pTW5XQTEyVG93?=
- =?utf-8?B?YkJPUDYxZENPcGpwblJLWUtUblRkWWF5NGhBMDF4WjFncXhoZnlRTGtMODdk?=
- =?utf-8?B?UVhrOVViaEJMOHVsNnVkT2Y0ZHVlbXhhVWpkcmc4MFBmZVFPTWVNOUI5dmFY?=
- =?utf-8?B?aDdZYTY1S20wNHZJcGNBc0VUbTNUakVaSXhFU3p3ZHZXMzFxZTczQnBjdmVU?=
- =?utf-8?B?QVBrV0NMSURFaGlOWklWNTJmTm5uNzl4bzNJQjlnVU8wc284bU1VUzdCN3Nx?=
- =?utf-8?B?TTY2alZrNGdVV3M5WHNDV3RZVmdEQkFmWjBSQjdnN3hRM3U5ZUZKK0VndzM4?=
- =?utf-8?B?L0w1cDAvekxRPT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YWFqL3JoNDVySHRlaDM0UlVwVWpRT3RjeVBobFZzK3U5WCtiZ2kyVVpqN2J1?=
- =?utf-8?B?ZnBVZTI3cjBzbXJVTDkrR2VEWW15UStpd1p6NjMvY0RTWFk4eFpVeENscDF6?=
- =?utf-8?B?NjlZTzJUbUpVRERDL2VxSWUzWHVtUUd0OWVrZ0VZUjlGaUZBNE5WakJVVUpa?=
- =?utf-8?B?dG9JVmZibnhyTHJETm1aOEpYYVl6N1JFc3BOakRGcTBUWjlnOGdNclIzTU1l?=
- =?utf-8?B?ZlhmMnhBcXZyREJSdVF0S3pKdWtJL0FzcFRWUGJGV1l0UC9zdDBUVUZFd1NS?=
- =?utf-8?B?bFIwZXMrT3YvY28rSU9ON3JZbDc0YlUvWFdSWFRybTlWaWRWM2pSNWg1SEdv?=
- =?utf-8?B?RzQzMmFpdVBDT1BHdEIrRFZpQnlnUkJ5R292K2h5Rzh1MjNBVzVabnpQeFNH?=
- =?utf-8?B?bmg3bDVJSW4zNEFWMXllaTM2a0NDUWxibXJHQTV4N0xtaHFDc2RhUXB4dnFX?=
- =?utf-8?B?a1BxdTg4Sy83czdRVXc4SkNUOSs0Z3U5alFDWWw3YVh0YkpwM2M3QnpVdmxn?=
- =?utf-8?B?Q2VxT3N2Qytrbm50MlNRdkFlNWlFcDhUS1lqTDYwZnR4ajk5d0E1YnM5SUZp?=
- =?utf-8?B?RTVuUlVFSnM4cENvQUZ3L3lNYjNJOU4wM1dRblFrZWwyY1BKRUEra3puYjFN?=
- =?utf-8?B?Y0xXK1lDQkw5eTcyaDZ3dmRueG1xdU9pY1VXcHp1dWx5b0RmR1oydStSMW9o?=
- =?utf-8?B?K1lGZkNKUm5pNWZVWjNzckhiRDJBZ0thcHpTOFhaNWhvRDViWUVwVmJPSm03?=
- =?utf-8?B?ZXNJUVNqWGJadjhRRllwL0MxeHZnWUpGKzZMRFZUUWw0QmFQN0RDRkozSlds?=
- =?utf-8?B?Ukw1SlVyVktUcG5Ra0NCYk1zbzJEYWY4QnJPb0MxUjhacW9kUWVaZXNITmk3?=
- =?utf-8?B?T3VWQlVyVWE2TUZJSWJXT0tKU2U2ZmZzQnp2TGNqYXNUV3Z0Q2pDeW9ybWQ0?=
- =?utf-8?B?TWx5Y1V2OXZyQnFjMXIwMmhZL0tlUy8rT0VOL0p6c3lRWEdrNFEvT1Bpa1Yz?=
- =?utf-8?B?NEU5RDVFS3JWR1JGZGE2MEo5eUVLaS9UL2VmUVpkbzh5cVNNN0l2eG84OUcw?=
- =?utf-8?B?K3NHSWtIeXRHd1hOdVNwSCtPVkFVSG5NZEJCMVcrL3JhTTMvc1p0Z05IT2tW?=
- =?utf-8?B?THRKTG5KRmJOcW5oSzBCTVpHdklBVFk3S3FpeEM5d0pVbDVSMW0zZE5FbnBs?=
- =?utf-8?B?VXZ4RkNVd0ttZkxJcmVWRCtlSy9MeS9OTEt3d0F1U2Q3V1NXbmJXS0VvVVd1?=
- =?utf-8?B?ajUwSnNsY3ZIYWRIUGtJNmJkOVkxck44ejQxNlRYR045cXNXTkd6OXpUUDUz?=
- =?utf-8?B?QTVpK28rWUxnVklzSzJlZnk2TTY0bzVnNWJxeHR6SW0xTnAybzBmZXdPQXpK?=
- =?utf-8?B?V3BMbjhxd1ZsT3Y5WTZ4cW5zMVBNaEU1WGhWZW5BamlPMFE3UWl4RlZYQk15?=
- =?utf-8?B?cEVyYnlINkVTbDNHR09OQ1lrR1BTQ0ZwQXpGZ1hiYUpSU24ySEFGZEw5czhv?=
- =?utf-8?B?dFQwbWZVZVYzcTUyMkswakFSZHh1VW4ranJiRW1TOHBVK1kzMkpXVkk1QnZK?=
- =?utf-8?B?dmVyNFdpMmUrWkM5WjJuRjBjOXgxSFA5VjRkaWMwaWF2c2JVUVgycnp5Z1Z2?=
- =?utf-8?B?M2J5Zlg2eC9qWTZocm12T2JoYi83dXJZcy9oemxGZ3hORFhTU0FhVEUzaFlz?=
- =?utf-8?B?UUFUaHJVNmo4RkJ1a2ZlYjQxcGVTTzljNTdLai9xZkJtbFBYVm1nbHQrYjVL?=
- =?utf-8?B?M3owVWRZZnNlblpzUWtCWFZlbHFRQ1ZkdGo4aU1hTG1lNXlIWGhPZzIvY21L?=
- =?utf-8?B?enEvSFhHNGxXNUQ4Y0hFaWZkWmt2VXFkTXVodi9nL0Iva08wNXQvdUtaak1D?=
- =?utf-8?B?S1NHTE5qMXVHYmE1VGUycEpzckZVaVN1cnlmelRyVEpwREVnWDVncktHOTQr?=
- =?utf-8?B?L2hSUEtpczVHejdaUk54TTRTWGJtY04rKzhCUWtFaVgrSmNIUCt3MW1iRzht?=
- =?utf-8?B?ZGpxSk5LOGFuK2t3NndITk8xdjlsVWs0Z2lDc0dZYmhMQVlENStHQUN3V1g3?=
- =?utf-8?B?S00yaFp5Umx5QlNDM01PazNIRTlsb3BuZW8vQlh5d3VzY3ozc1dmZHVSSWJq?=
- =?utf-8?Q?QOTwplajvZCS+jRkgRWuy0/7y?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <b35506de99be38f560709660b10667ca9f386181.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0312.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f6::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53a2232e-3f60-4c69-e8e8-08ddebaa2298
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VStCZGNGN1dUVXRQUHZVK05CUGNlbmlYYmdiNklhWmpmT0VQeUQ2d1Z0N05E?=
+ =?utf-8?B?MVozZS9GcG00RG9xWGNKWjRWTUdBZHVZb3Zzc1BuN3VNTHhyd1RpOTVLaElQ?=
+ =?utf-8?B?Ym52UVlXNDBtRGhWeVV4Z2E2d0xHeHRRMy91RVBTU2FlUlVDV0h5a1pXU01x?=
+ =?utf-8?B?Y2JBazY5ZmN1RFBOREtnOGNFTnQxODRVNVlzU2Q1ZWV6Sk1FUmlkV1AxdHF2?=
+ =?utf-8?B?K0l3M2pzdG5ibnMxN2szdWx2dWRYVnJKajJUcFFDVDhQMkVuSFZjdEJHVURB?=
+ =?utf-8?B?NjRQOEUrSEEzK0lhQlcwd1J0cVZueGdlOFpGRVlTZ2ZpOXE2ZVRjcEsyQXg2?=
+ =?utf-8?B?SURSSVY4bVhxbFNSa1pUVGcvMGVCYkxFTWoxVGFOc0p5VDhiNzVjWEdyM0ZD?=
+ =?utf-8?B?Qkx0eXNVSE9td3dTMmx2aWRsOW10ckFNVVZkblZmQUFPNnNDWkpEZWozZHdF?=
+ =?utf-8?B?SXQ2TmpaclVYNXQ5c3ZyczRrMllWQVhyZEt3WlhBakNva0FoQWhwTVl2SXpo?=
+ =?utf-8?B?NXlFekEyZ0RlOXRHMDVkdkhHbTliZkNqWHo4djBVMVZ1Ni9tWnZtY2g5VzNN?=
+ =?utf-8?B?SmFOWmJCaml6dW40ZUtlRFZBQkt5OVp4QmhXTkwwbVNST0VFT09zdVRTcXBi?=
+ =?utf-8?B?bXFxWDZSK2lxeE5CUjhkeDV0WWk0TnJmTmsrQWs2S3pNY0swZTNOc2I4Mi9U?=
+ =?utf-8?B?UUF5aDV0YXMwN0E2RGE4QkF6Uk4rVm9rYkRRb0V1b252V1VrcG9IeFVzSXl5?=
+ =?utf-8?B?ZUNjYUFFVFUwd1NReXhteW9nb0s2TU1kdFZaQnZWQ1E0NHNPRzZLUENUdSt4?=
+ =?utf-8?B?T3p2dHhReVZEODcyVklvWjNaM1lTOWV0Zmw4Nit4Z1M0OFpJQk5pa1daNFg2?=
+ =?utf-8?B?bGdkTmRtdTlKUDJMZXFFWnVycFpTbTRpQjhjY2dlTUZLYXEyTFVveldJa1Rh?=
+ =?utf-8?B?TGl4Mlg1dnd3M0w1M09uOTcxamF2Z1JjbFErMk5lbXYxS0pYazRLUDJjTXlO?=
+ =?utf-8?B?aTBrWWIvV0g4T2FLUEVVdDZ1UTNTMTBKMS9nTUdycmhsSWZhVW9wcm03R3d4?=
+ =?utf-8?B?QXFiaVdGbGF2cm5kUGlkOVZ5UTFJdkxCaGJGRmNCYTUxZ09TWlhDeVArQjdR?=
+ =?utf-8?B?NFYrV3gxREY0aHF2b3hnVUlRNU9vMXo0R3Y5MGpkM2hBQW5MR1VtL0VrSGxl?=
+ =?utf-8?B?Zm92MGwvVjhzOGwxYm1aUlpQWFRXU1Q0TGVDbGU2VmY3L2E1cXFWYVNzNkRl?=
+ =?utf-8?B?Q1BJeE9FQjhPeUJFK2dBeWtWQ0hFb0d4N2VBWDdSVm9uMEJJN0dyNnc3Y1lP?=
+ =?utf-8?B?Ri9hTnhSNkxYWm5ubVBXdlVKamtUYXB0VW9rYXJYQWFyUU5WNlZtSmFicEVQ?=
+ =?utf-8?B?Y3U5YWtwZEdFMTZnRk1UZEl4UG5iMm56UittN0xoZndXTDBDcmhPVEo3K0t3?=
+ =?utf-8?B?MEpvSWVCc2l0RktGQjgvQ3g1VldRd2YxU052RVMydWtGYWtjSnJRRUd1SndU?=
+ =?utf-8?B?L2VGaE01L1pHbWpEOTZPa3EvNnQ0WlVrenlHVUdoZmo3aThRWXk4VldKckY3?=
+ =?utf-8?B?WGUxRGprSTJCbXk1dElPVnhZb3o3Y0hvTytyY1l4KyszbDBHb3BkUTJBWkg1?=
+ =?utf-8?B?TWRWRkpBT0N2bzZ3UEN0VjVReFdOOTNkV1BjMHpUcDlNdThGNnlQTWZCVEN4?=
+ =?utf-8?B?cHVHS0ZFeDVFU0RWUGpjMUx3WXZsQ0dVSW5jM2dpcW1jMWFZUnZWNkFyVjB6?=
+ =?utf-8?B?dDhkSzZOZEd4a244K0Rjdm84UWF0Q1hDT25lU0tGVDI1SWJocERCdHQ3Z25G?=
+ =?utf-8?B?a3pjTklCaDIyRHhkaDJmbXhrUEx1ZEpaWmExa3RCb1BOL3pieThaMVBPSzZT?=
+ =?utf-8?B?L2N4VkZReU1vUnl0ODlLN2NtM1pCcXdPMW1Xb1V1bzVnWkYrYjY2cnFUcmxt?=
+ =?utf-8?Q?jrTLzpgMY10=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDV2b0p2NjhmUWhoWVZJclg1NGF0d3FKOGVXRUhvTWs3SVZadGZjaUdIdTVN?=
+ =?utf-8?B?M2pDMXVDNzJXU1pxd3RGRHpxOENBSlFtaVBrMU9YRFRjV1ZuTjFENFM1N1JL?=
+ =?utf-8?B?L09mZmpTR0Roc3FZeTQ5MXhsaXNnNElLRVgrcjkxU2xidWNtaEFwR2dEY2Mr?=
+ =?utf-8?B?RktuSEs3RWpJNjRENDhJSVVRWFhEMFJxemh3eHVOeUdRbG1tcHZnT0F4c1Yx?=
+ =?utf-8?B?Y1pXRTRtcFp6R0NxdXlZRmRxR0RaNGFKaFd1LzFoR25LZXhDZ2xIcHVKWVJT?=
+ =?utf-8?B?MnAzMTViWG16Zk5hS0tmM1Foa0FaLy8zTVhjSy9SVGVMR0MvN2w1L1Bld2kz?=
+ =?utf-8?B?bldCTmtNUDdvVnJKalp1eERTckZqUTFHSjJTK3VwamRwL0dmaDFIN3NPMVIy?=
+ =?utf-8?B?amk5SUpOZ2g4ZEFrTXhiUmpqNU4wd0MwNjV4VDh1S3ZjSU1XNkdNYVZWOXZK?=
+ =?utf-8?B?VEtNVjBvenMxL1plQXRJU2VXTEMvRHNJek84MjVhVmd2M3k5SEhraENZWTZ2?=
+ =?utf-8?B?TmY0R3hIY240aTVzdDh4NjJUd2Z6cVo5REZvRm0xS1ZZNGlwWlkyQWNOZC92?=
+ =?utf-8?B?NGpMT2lLcVNMaVVqcFczd1hmKy83R2o0YmZ4MXIrNHVLR29YY3NhTEk4a1NZ?=
+ =?utf-8?B?OEJRNDBzZ0hpaWFMZHFCRUZlWVVvRGI2akxFb3hkZnVIZFNNeEZGL2tnSVVU?=
+ =?utf-8?B?RG1Hb0JYT2QvZytXbkkzQlRkQ3lsSWhabHEweTRHcWJPcXB5eFZGaklrSHJB?=
+ =?utf-8?B?ZEpwWGxqM1N3NXJPQndBQ3ErNkx3Sk9WZEdWRDNveThpV0hMSWIxRTB3Z1R5?=
+ =?utf-8?B?Y1FaZ1BHbWFnbzNVZmhZbEgyWkpTMU9kWEFVNmhzVjNOMlVmZHFkYmp0MGNn?=
+ =?utf-8?B?NWE4UEhPb0QrL1pnR242WXNVN3MyNW1QTTlGQ1hEQUlIWDhWbnRRTFBVRVRJ?=
+ =?utf-8?B?UWVDdnZOd2MxYkJqclRWVzZsbjBza3VhV2o2a3BoU1JqMmtBb3p2RkNZL2Rm?=
+ =?utf-8?B?VWcyb08zWkR6MVIzMHlIVEozcGdUNmdabkRyWllaYVZKNjkyM0dFZzFEUnFZ?=
+ =?utf-8?B?ZnRwSSt0WU9BRWZaN0MvRjNJdkF4SVhQZEgzeFJMRVhXcnRZcGJJMFN5RkJ4?=
+ =?utf-8?B?OGVTYVh0SG5kNmxmSVhYN00vWGdZcll2ZHYvMmEyaVlVcnkwV2RZdlRxeGZr?=
+ =?utf-8?B?M2tETUNibzFubGNoWEZQNGswOHk5UjlONXBVNWxobktTdVl3YWprQnIycmp5?=
+ =?utf-8?B?OC9IdXBsTUVmdG40T0NENXRqbncxMmZrb0sydStiUU5sOGNDTTA2dHoxRXdH?=
+ =?utf-8?B?cWFxelhlZWdtQTBibnhWUDRFSjYyNmMxajR1amQweTVxM2tlKzU3d3pkc1RK?=
+ =?utf-8?B?UFd2L3VDdGpDN05HRzBaZEVpa0xXelZEOE5WNm9UaktBYURDaXNlS3BBWHVj?=
+ =?utf-8?B?YU1EZUp6KzRyb2JicTlpNnkyYTUwUWVtczR2bk5tUDc1a052MGpmaDZwQXdE?=
+ =?utf-8?B?ajl2cTRXRGNRQXZ5elJ1UlpRVk5KQUd2VFU2NGlURUdZRWZjODhwcXNXVlhy?=
+ =?utf-8?B?U0ZKUkZsMENqczFueEYyckFaa0s0YnVUNFhoN0ZiTkZtMkdSWlBsNVpYSys5?=
+ =?utf-8?B?aTIxSHUxYmE0dmhkaVJOL2gwdk1LZ0JNTWl1MFk4U014bnVPbXJ4SFB5Vk1L?=
+ =?utf-8?B?a0V3WU9Fc29Yc1RhanBSbjVXcmRhQTIvMjF2RmV0ZXFsbE1LZnBIK1pQZmJ3?=
+ =?utf-8?B?dXFwOTFpOWxicmVaWlBEVGYzR3lVc1paV2Nnb3VrTExKYjhiSFFkdzM1OEpw?=
+ =?utf-8?B?QTd1KzZueEg1UDhLKzFWbzNvOEhxWXV3Y2tYYkc4WUNHV2tZb1l3MFFwMWh5?=
+ =?utf-8?B?cEUxQkdJTnJyNE5uTHFieHNVTzBnUHhHWWY5UktsQ0Njc0JWdERQS1N3WE1p?=
+ =?utf-8?B?NFg0cVd2VHE1dnBPazJpeXVDNkR3dFdzcDRYcE5zT1FlUk90TTBYZ1NkRVBI?=
+ =?utf-8?B?N1YrdjF2dUx4QnFSd1BRU2t2d3NKVThYZHJxMDczYUViYlVuMHUyOFVQNVR6?=
+ =?utf-8?B?Z1lUN0Nkd2tLeWNKSE5rclV1REFQMnBLamtEZXlaVU95VWZ6NklCR1RRVXJv?=
+ =?utf-8?Q?rGG8dltg5wIrXHl2PDIlsUtXO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53a2232e-3f60-4c69-e8e8-08ddebaa2298
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 652fde97-113e-43a6-a875-08ddeba6ed8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2025 11:33:53.8678 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qrRZM2m+VGSBBV6Vk7hWBgFMJ6IEElVufKAUtkA9tRPKLqvhJnbCFGOOQwnDTRUAR8oAS98bEUu1BsE1099K6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7795
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 11:56:51.5310 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w17+xAZmwwvwF0AtaFRz/izR4F/ao6A8k+O80NVfdjLtiLOnz3F5+9sVC18GGLLN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8268
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,49 +166,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gT24gU2VwIDQsIDIwMjUsIGF0IDM6MTbigK9BTSwgRGFuaWxvIEtydW1tcmljaCA8ZGFr
-ckBrZXJuZWwub3JnPiB3cm90ZToNCj4gDQo+IO+7v09uIFRodSBTZXAgNCwgMjAyNSBhdCA1OjE2
-IEFNIENFU1QsIEFsZXhhbmRyZSBDb3VyYm90IHdyb3RlOg0KPj4gT24gVGh1IFNlcCA0LCAyMDI1
-IGF0IDEyOjE1IEFNIEpTVCwgSm9lbCBGZXJuYW5kZXMgd3JvdGU6DQo+PiA8c25pcD4NCj4+Pj4+
-ICt1c2Uga2VybmVsOjpwcmVsdWRlOjoqOw0KPj4+Pj4gKw0KPj4+Pj4gKy8vLyBNYWNybyBmb3Ig
-ZGVmaW5pbmcgYml0ZmllbGQtcGFja2VkIHN0cnVjdHVyZXMgaW4gUnVzdC4NCj4+Pj4+ICsvLy8g
-VGhlIHNpemUgb2YgdGhlIHVuZGVybHlpbmcgc3RvcmFnZSB0eXBlIGlzIHNwZWNpZmllZCB3aXRo
-ICNbcmVwcihUWVBFKV0uDQo+Pj4+PiArLy8vDQo+Pj4+PiArLy8vICMgRXhhbXBsZSAoanVzdCBm
-b3IgaWxsdXN0cmF0aW9uKQ0KPj4+Pj4gKy8vLyBgYGBydXN0DQo+Pj4+PiArLy8vIGJpdHN0cnVj
-dCEgew0KPj4+Pj4gKy8vLyAgICAgI1tyZXByKHU2NCldDQo+Pj4+PiArLy8vICAgICBwdWIgc3Ry
-dWN0IFBhZ2VUYWJsZUVudHJ5IHsNCj4+Pj4+ICsvLy8gICAgICAgICAwOjAgICAgICAgcHJlc2Vu
-dCAgICAgYXMgYm9vbCwNCj4+Pj4+ICsvLy8gICAgICAgICAxOjEgICAgICAgd3JpdGFibGUgICAg
-YXMgYm9vbCwNCj4+Pj4+ICsvLy8gICAgICAgICAxMTo5ICAgICAgYXZhaWxhYmxlICAgYXMgdTgs
-DQo+Pj4+PiArLy8vICAgICAgICAgNTE6MTIgICAgIHBmbiAgICAgICAgIGFzIHU2NCwNCj4+Pj4+
-ICsvLy8gICAgICAgICA2Mjo1MiAgICAgYXZhaWxhYmxlMiAgYXMgdTE2LA0KPj4+Pj4gKy8vLyAg
-ICAgICAgIDYzOjYzICAgICBueCAgICAgICAgICBhcyBib29sLA0KPj4+PiANCj4+Pj4gQSBub3Rl
-IG9uIHN5bnRheDogZm9yIG5vdmEtY29yZSwgd2UgbWF5IHdhbnQgdG8gdXNlIHRoZSBgSDpMYCBu
-b3RhdGlvbiwNCj4+Pj4gYXMgdGhpcyBpcyB3aGF0IE9wZW5STSB1c2VzLCBidXQgaW4gdGhlIGxh
-cmdlciBrZXJuZWwgd2UgbWlnaHQgd2FudCB0bw0KPj4+PiB1c2UgaW5jbHVzaXZlIHJhbmdlcyAo
-YEwuLj1IYCkgYXMgaXQgd2lsbCBsb29rIG1vcmUgbmF0dXJhbCBpbiBSdXN0DQo+Pj4+IGNvZGUg
-KGFuZCBpcyB0aGUgbm90YXRpb24gdGhlIGBiaXRzYCBtb2R1bGUgYWxyZWFkeSB1c2VzKS4NCj4+
-PiANCj4+PiBQZXJoYXBzIGZ1dHVyZSBhZGQtb24gZW5oYW5jZW1lbnQgdG8gaGF2ZSBib3RoIHN5
-bnRheD8gSSdkIGxpa2UgdG8gaW5pdGlhbGx5DQo+Pj4ga2VlcCBIOkwgYW5kIHN0YWJpbGl6ZSB0
-aGUgY29kZSBmaXJzdCwgd2hhdCBkbyB5b3UgdGhpbms/DQo+PiANCj4+IExldCdzIGhhdmUgdGhl
-IGRpc2N1c3Npb24gd2l0aCB0aGUgb3RoZXIgc3Rha2Vob2xkZXJzIChEYW5pZWw/KS4gSSB0aGlu
-aw0KPj4gaW4gTm92YSB3ZSB3YW50IHRvIGtlZXAgdGhlIGBIOkxgIHN5bnRheCwgYXMgaXQgbWF0
-Y2hlcyB3aGF0IHRoZSBPcGVuUk0NCj4+IGhlYWRlcnMgZG8gKHNvIE5vdmEgd291bGQgaGF2ZSBp
-dHMgb3duIGByZWdpc3RlcmAgbWFjcm8gdGhhdCBjYWxscyBpbnRvDQo+PiB0aGUgY29tbW9uIG9u
-ZSwgdHdlYWtpbmcgdGhpbmdzIGFzIGl0IG5lZWRzKS4gQnV0IGluIHRoZSBrZXJuZWwgY3JhdGUg
-d2UNCj4+IHNob3VsZCB1c2Ugc29tZXRoaW5nIGludHVpdGl2ZSBmb3IgZXZlcnlvbmUuDQo+IA0K
-PiBJIGRvbid0IGNhcmUgdG9vIG11Y2ggYWJvdXQgd2hldGhlciBpdCdzIGdvbm5hIGJlIEg6TCBv
-ciBMOkggWzFdLCBidXQgSSBkbyBjYXJlDQo+IGFib3V0IGJlaW5nIGNvbnNpc3RlbnQgdGhyb3Vn
-aG91dCB0aGUga2VybmVsLiBMZXQncyBub3Qgc3RhcnQgdGhlIHByYWN0aWNlIG9mDQo+IHR3aXN0
-aW5nIGtlcm5lbCBBUElzIHRvIE5WXyogc3BlY2lmaWMgQVBJcyB0aGF0IGRpZmZlciBmcm9tIHdo
-YXQgcGVvcGxlIGFyZSB1c2VkDQo+IHRvIHdvcmsgd2l0aCBpbiB0aGUga2VybmVsLg0KPiANCj4g
-WzFdIElmIGl0J3MgZ29ubmEgYmUgSDpMLCBJIHRoaW5rIHdlIHNob3VsZCBhbHNvIGxpc3QgdGhp
-bmdzIGluIHJldmVyc2Ugb3JkZXIsDQo+ICAgIGkuZS46DQo+IA0KPiAgICBwdWIgc3RydWN0IFBh
-Z2VUYWJsZUVudHJ5IHsNCj4gICAgICAgIDYzOjYzICAgICBueCAgICAgICAgICBhcyBib29sLA0K
-PiAgICAgICAgNjI6NTIgICAgIGF2YWlsYWJsZTIgIGFzIHUxNiwNCj4gICAgICAgIDUxOjEyICAg
-ICBwZm4gICAgICAgICBhcyB1NjQsDQo+ICAgICAgICAxMTo5ICAgICAgYXZhaWxhYmxlICAgYXMg
-dTgsDQo+ICAgICAgICAxOjEgICAgICAgd3JpdGFibGUgICAgYXMgYm9vbCwNCj4gICAgICAgIDA6
-MCAgICAgICBwcmVzZW50ICAgICBhcyBib29sLA0KPiAgICB9DQo+IA0KPiBUaGlzIGlzIGFsc28g
-d2hhdCB3b3VsZCBiZSBteSBwcmVmZXJyZWQgc3R5bGUgZm9yIHRoZSBrZXJuZWwgaW4gZ2VuZXJh
-bC4NCg0KU3VyZSwgdGhhdCBvbmx5IG1lYW5zIEkgaGF2ZSB0byBjaGFuZ2UgdGhlIGV4YW1wbGUg
-Y29kZSBzaW5jZSB0aGUNCm1hY3JvIGl0c2VsZiBhbHJlYWR5IHN1cHBvcnRzIHRoYXQuIEkgY2Fu
-IGRvIHRoYXQuDQoNClRoYW5rcy4NCg0KDQoNCg0KDQo+IA0KPiAtIERhbmlsbw0K
+On 04.09.25 13:12, Philipp Stanner wrote:
+> On Thu, 2025-09-04 at 12:27 +0200, Christian König wrote:
+>> On 01.09.25 10:31, Philipp Stanner wrote:
+>>> This reverts:
+>>>
+>>> commit bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
+>>> commit 5f46f5c7af8c ("drm/nouveau: Add new callback for scheduler teardown")
+>>>
+>>> from the drm/sched teardown leak fix series:
+>>>
+>>> https://lore.kernel.org/dri-devel/20250710125412.128476-2-phasta@kernel.org/
+>>>
+>>> The aforementioned series removed a blocking waitqueue from
+>>> nouveau_sched_fini(). It was mistakenly assumed that this waitqueue only
+>>> prevents jobs from leaking, which the series fixed.
+>>>
+>>> The waitqueue, however, also guarantees that all VM_BIND related jobs
+>>> are finished in order, cleaning up mappings in the GPU's MMU. These jobs
+>>> must be executed sequentially. Without the waitqueue, this is no longer
+>>> guaranteed, because entity and scheduler teardown can race with each
+>>> other.
+>>
+>> That sounds like exactly the kind of issues I tried to catch with the recent dma_fence changes.
+> 
+> Link? :)
+
+dma-buf: add warning when dma_fence is signaled from IOCTL
+
+> 
+>>
+>> Going to keep working on that and potentially using this here as blueprint for something it should catch.
+> 
+> This is more like a nouveau-specific issue. The problem is that
+> unmapping mappings in the GPU's MMU must be done in a specific order,
+> and all the unmappings must be performed, not canceled.
+> 
+> For EXEC jobs, it's perfectly fine to cancel pending jobs, remove the
+> waitqueue and just rush through drm_sched_fini().
+> 
+> I don't know the issue you're describing, but I don't think a feature
+> in dma_fence could help with that specific Nouveau problem. dma_fence
+> can't force the driver to submit jobs in a specific order or to wait
+> until they're all completed.
+
+Well the updates are represented by a dma_fence, aren't they?
+
+So the dma_fence framework could potentially warn if a fence from the same context signals out of order.
+
+Regards,
+Christian.
+
+> 
+> Grüße
+> P.
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Revert all patches related to the waitqueue removal.
+>>>
+>>> Fixes: bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
+>>> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>> Changes in v2:
+>>>   - Don't revert commit 89b2675198ab ("drm/nouveau: Make fence container helper usable driver-wide")
+>>>   - Add Fixes-tag
+>>> ---
+>>>  drivers/gpu/drm/nouveau/nouveau_fence.c | 15 -----------
+>>>  drivers/gpu/drm/nouveau/nouveau_fence.h |  1 -
+>>>  drivers/gpu/drm/nouveau/nouveau_sched.c | 35 ++++++++++---------------
+>>>  drivers/gpu/drm/nouveau/nouveau_sched.h |  9 ++++---
+>>>  drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 +++---
+>>>  5 files changed, 24 insertions(+), 44 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> index 9f345a008717..869d4335c0f4 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>>> @@ -240,21 +240,6 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+>>>  	return ret;
+>>>  }
+>>>  
+>>> -void
+>>> -nouveau_fence_cancel(struct nouveau_fence *fence)
+>>> -{
+>>> -	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+>>> -	unsigned long flags;
+>>> -
+>>> -	spin_lock_irqsave(&fctx->lock, flags);
+>>> -	if (!dma_fence_is_signaled_locked(&fence->base)) {
+>>> -		dma_fence_set_error(&fence->base, -ECANCELED);
+>>> -		if (nouveau_fence_signal(fence))
+>>> -			nvif_event_block(&fctx->event);
+>>> -	}
+>>> -	spin_unlock_irqrestore(&fctx->lock, flags);
+>>> -}
+>>> -
+>>>  bool
+>>>  nouveau_fence_done(struct nouveau_fence *fence)
+>>>  {
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+>>> index 9957a919bd38..183dd43ecfff 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+>>> @@ -29,7 +29,6 @@ void nouveau_fence_unref(struct nouveau_fence **);
+>>>  
+>>>  int  nouveau_fence_emit(struct nouveau_fence *);
+>>>  bool nouveau_fence_done(struct nouveau_fence *);
+>>> -void nouveau_fence_cancel(struct nouveau_fence *fence);
+>>>  int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
+>>>  int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, bool exclusive, bool intr);
+>>>  
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> index 0cc0bc9f9952..e60f7892f5ce 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+>>> @@ -11,7 +11,6 @@
+>>>  #include "nouveau_exec.h"
+>>>  #include "nouveau_abi16.h"
+>>>  #include "nouveau_sched.h"
+>>> -#include "nouveau_chan.h"
+>>>  
+>>>  #define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
+>>>  
+>>> @@ -122,9 +121,11 @@ nouveau_job_done(struct nouveau_job *job)
+>>>  {
+>>>  	struct nouveau_sched *sched = job->sched;
+>>>  
+>>> -	spin_lock(&sched->job_list.lock);
+>>> +	spin_lock(&sched->job.list.lock);
+>>>  	list_del(&job->entry);
+>>> -	spin_unlock(&sched->job_list.lock);
+>>> +	spin_unlock(&sched->job.list.lock);
+>>> +
+>>> +	wake_up(&sched->job.wq);
+>>>  }
+>>>  
+>>>  void
+>>> @@ -305,9 +306,9 @@ nouveau_job_submit(struct nouveau_job *job)
+>>>  	}
+>>>  
+>>>  	/* Submit was successful; add the job to the schedulers job list. */
+>>> -	spin_lock(&sched->job_list.lock);
+>>> -	list_add(&job->entry, &sched->job_list.head);
+>>> -	spin_unlock(&sched->job_list.lock);
+>>> +	spin_lock(&sched->job.list.lock);
+>>> +	list_add(&job->entry, &sched->job.list.head);
+>>> +	spin_unlock(&sched->job.list.lock);
+>>>  
+>>>  	drm_sched_job_arm(&job->base);
+>>>  	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
+>>> @@ -392,23 +393,10 @@ nouveau_sched_free_job(struct drm_sched_job *sched_job)
+>>>  	nouveau_job_fini(job);
+>>>  }
+>>>  
+>>> -static void
+>>> -nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
+>>> -{
+>>> -	struct nouveau_fence *fence;
+>>> -	struct nouveau_job *job;
+>>> -
+>>> -	job = to_nouveau_job(sched_job);
+>>> -	fence = to_nouveau_fence(job->done_fence);
+>>> -
+>>> -	nouveau_fence_cancel(fence);
+>>> -}
+>>> -
+>>>  static const struct drm_sched_backend_ops nouveau_sched_ops = {
+>>>  	.run_job = nouveau_sched_run_job,
+>>>  	.timedout_job = nouveau_sched_timedout_job,
+>>>  	.free_job = nouveau_sched_free_job,
+>>> -	.cancel_job = nouveau_sched_cancel_job,
+>>>  };
+>>>  
+>>>  static int
+>>> @@ -458,8 +446,9 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
+>>>  		goto fail_sched;
+>>>  
+>>>  	mutex_init(&sched->mutex);
+>>> -	spin_lock_init(&sched->job_list.lock);
+>>> -	INIT_LIST_HEAD(&sched->job_list.head);
+>>> +	spin_lock_init(&sched->job.list.lock);
+>>> +	INIT_LIST_HEAD(&sched->job.list.head);
+>>> +	init_waitqueue_head(&sched->job.wq);
+>>>  
+>>>  	return 0;
+>>>  
+>>> @@ -493,12 +482,16 @@ nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+>>>  	return 0;
+>>>  }
+>>>  
+>>> +
+>>>  static void
+>>>  nouveau_sched_fini(struct nouveau_sched *sched)
+>>>  {
+>>>  	struct drm_gpu_scheduler *drm_sched = &sched->base;
+>>>  	struct drm_sched_entity *entity = &sched->entity;
+>>>  
+>>> +	rmb(); /* for list_empty to work without lock */
+>>> +	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
+>>> +
+>>>  	drm_sched_entity_fini(entity);
+>>>  	drm_sched_fini(drm_sched);
+>>>  
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
+>>> index b98c3f0bef30..20cd1da8db73 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_sched.h
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
+>>> @@ -103,9 +103,12 @@ struct nouveau_sched {
+>>>  	struct mutex mutex;
+>>>  
+>>>  	struct {
+>>> -		struct list_head head;
+>>> -		spinlock_t lock;
+>>> -	} job_list;
+>>> +		struct {
+>>> +			struct list_head head;
+>>> +			spinlock_t lock;
+>>> +		} list;
+>>> +		struct wait_queue_head wq;
+>>> +	} job;
+>>>  };
+>>>  
+>>>  int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>>> index d94a85509176..79eefdfd08a2 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+>>> @@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+>>>  	u64 end = addr + range;
+>>>  
+>>>  again:
+>>> -	spin_lock(&sched->job_list.lock);
+>>> -	list_for_each_entry(__job, &sched->job_list.head, entry) {
+>>> +	spin_lock(&sched->job.list.lock);
+>>> +	list_for_each_entry(__job, &sched->job.list.head, entry) {
+>>>  		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
+>>>  
+>>>  		list_for_each_op(op, &bind_job->ops) {
+>>> @@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+>>>  
+>>>  				if (!(end <= op_addr || addr >= op_end)) {
+>>>  					nouveau_uvmm_bind_job_get(bind_job);
+>>> -					spin_unlock(&sched->job_list.lock);
+>>> +					spin_unlock(&sched->job.list.lock);
+>>>  					wait_for_completion(&bind_job->complete);
+>>>  					nouveau_uvmm_bind_job_put(bind_job);
+>>>  					goto again;
+>>> @@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
+>>>  			}
+>>>  		}
+>>>  	}
+>>> -	spin_unlock(&sched->job_list.lock);
+>>> +	spin_unlock(&sched->job.list.lock);
+>>>  }
+>>>  
+>>>  static int
+>>
+> 
+
