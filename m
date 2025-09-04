@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F05FB42FCF
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA40BB42FE4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E956510E3D7;
-	Thu,  4 Sep 2025 02:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F86C10E3D9;
+	Thu,  4 Sep 2025 02:43:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="isABCT4L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iCAkafBm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 004E910E3D7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:37:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA2710E3D9;
+ Thu,  4 Sep 2025 02:43:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9BFD040607;
- Thu,  4 Sep 2025 02:37:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37414C4CEE7;
- Thu,  4 Sep 2025 02:37:46 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E7D2F443B3;
+ Thu,  4 Sep 2025 02:43:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B86C4CEE7;
+ Thu,  4 Sep 2025 02:43:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756953466;
- bh=bGGamGC/v1xDdqp+gzyDAlxjoS50x3wJ7xGmH8xSejY=;
+ s=k20201202; t=1756953782;
+ bh=zPXfcP6u5ldvZ0n0AJVf3O40vfM/a3dstYlcI1bi8cU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=isABCT4LgbDKXvqgX2w4ieBibu6DLFXmgb/ktYmZWmX6Fufc8b94+Bm+947LK5xGa
- JSXxGWz421RRHg1wURcSXPxHyAQtcT2vFUNFmvPleoutcUOe8vbzdxMVYcQP4+HdjE
- mjssz7uidKb4BvrODpmx4A4L8vYZ+X8ho2rZaW2/ezzzsz9+OtNVJvaklAbphKMUKe
- 3GtAVpCrRifizDwFD9ndXx+bK/6s/RXzRFqJY3/1LGTauAIpgq8ELXu9G3NFvSzNa0
- fvKb7vifi2xo+LsSPR4WOa24NKgD1oKHUcWvRCFzl7n8DN548t0hST8kd5s9PqtXCs
- EoaWBXkxiTFcQ==
-Date: Wed, 3 Sep 2025 19:36:36 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-crypto@vger.kernel.org
-Subject: Re: [PATCH drm-next v2] drm/bridge: it6505: Use SHA-1 library
- instead of crypto_shash
-Message-ID: <20250904023636.GC1345@sol>
-References: <20250821175613.14717-1-ebiggers@kernel.org>
- <CAGXv+5FxXcJxfCUcX2SY-agbi-sr+btXq2-sDx6quwGF2vu8ew@mail.gmail.com>
+ b=iCAkafBmBXwbyBz65mxgzRKbaJ2jy9doEOh4i669NW6QqmvWF30A76KQuQNzPvbTb
+ mZoVQJcI4e/vFmesyozumwb/xWZ52kUGC8AN4WeQonRBlD8JURgBDtTLvcziZNWbp2
+ LaAbuJAPF+sKB4xHZHOysRb+mmf2/SqCeuYgTIi8aKl4LlRj0url5bR2qlO/oBAWWc
+ KtN1+7NgxKalF0YHIt2pJaRD4uNkRGmggHdRcnYe8oJgTRgoUMd+dfhvk4zOdoKXMR
+ pJcr6amhOTmjZFcqBg6SxzjA+c9WhnexgGsd7bdC3H7mwYUjdhVtHmfHXmEQDfLPsh
+ XmorXH/sYYCXQ==
+Date: Wed, 3 Sep 2025 19:43:02 -0700
+From: Kees Cook <kees@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 3/3] overflow: add range_overflows() and
+ range_end_overflows()
+Message-ID: <202509031942.A1669D10F@keescook>
+References: <20250829174601.2163064-1-jani.nikula@intel.com>
+ <20250829174601.2163064-3-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5FxXcJxfCUcX2SY-agbi-sr+btXq2-sDx6quwGF2vu8ew@mail.gmail.com>
+In-Reply-To: <20250829174601.2163064-3-jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,16 +61,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 04:55:17PM +0200, Chen-Yu Tsai wrote:
-> On Thu, Aug 21, 2025 at 7:56 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > Instead of using the "sha1" crypto_shash, simply call the sha1() library
-> > function.  This is simpler and faster.
-> >
-> > Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+On Fri, Aug 29, 2025 at 08:46:01PM +0300, Jani Nikula wrote:
+> Move the range_overflows() and range_end_overflows() along with the _t
+> variants over from drm/i915 and drm/buddy to overflow.h.
 > 
-> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Cc: linux-hardening@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Thanks.  Can this patch be taken through the drm tree?
+Looks good to me! :)
 
-- Eric
+Reviewed-by: Kees Cook <kees@kernel.org>
+
+-- 
+Kees Cook
