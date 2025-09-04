@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A321B42E60
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 02:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC76B42F94
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21F610E220;
-	Thu,  4 Sep 2025 00:48:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f4a+Hk3X";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2394110E226;
+	Thu,  4 Sep 2025 02:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC29410E220
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 00:48:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9AA3944A9D;
- Thu,  4 Sep 2025 00:48:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9F46C4CEE7;
- Thu,  4 Sep 2025 00:48:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756946929;
- bh=/eZokcjTYsgn7x3TN1nV0vQhMpWaAhi7YQj4lS/oW5w=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=f4a+Hk3XTjiN/mfxv9pyjGmIzHB8EyWE1g9mMRhBYpyErEFM2eLS2RLCNLZ9m+flb
- usBL3tioZb1jmbnGl2cnprJzZgY+7pXdM1pTdJM/l7LSADXMr8lVMlXEjMiGbORW+l
- ylL1uOUITFWfR5Vf2cQlWFj287PPpY3SnuOoIUMARaFXEEbDEiJfG2mlCm55uL15H7
- EeIpGd0/dS2PeLYfhNQl8FVow1ttEyNVHftFywOVWIkdDwukIuF755hy2naOdqX4iN
- mT+GB2IWk5KvmNBlsutFJjAZgnVXN8wIkBAU7y8uonErOB31WtsIKKO8H9zXSHUUsF
- U/aLizS4FgT5Q==
-Date: Wed, 3 Sep 2025 17:48:47 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Meghana Malladi <m-malladi@ti.com>
-Cc: <namcao@linutronix.de>, <jacob.e.keller@intel.com>,
- <christian.koenig@amd.com>, <sumit.semwal@linaro.org>, <sdf@fomichev.me>,
- <john.fastabend@gmail.com>, <hawk@kernel.org>, <daniel@iogearbox.net>,
- <ast@kernel.org>, <pabeni@redhat.com>, <edumazet@google.com>,
- <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
- <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-Subject: Re: [PATCH net-next v2 1/6] net: ti: icssg-prueth: Add functions to
- create and destroy Rx/Tx queues
-Message-ID: <20250903174847.5d8d1c9f@kernel.org>
-In-Reply-To: <20250901100227.1150567-2-m-malladi@ti.com>
-References: <20250901100227.1150567-1-m-malladi@ti.com>
- <20250901100227.1150567-2-m-malladi@ti.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6005310E224
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:16:56 +0000 (UTC)
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-peRf7BoQMp-NHaayXs0uXg-1; Wed,
+ 03 Sep 2025 22:16:51 -0400
+X-MC-Unique: peRf7BoQMp-NHaayXs0uXg-1
+X-Mimecast-MFC-AGG-ID: peRf7BoQMp-NHaayXs0uXg_1756952210
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 871A319560AD; Thu,  4 Sep 2025 02:16:50 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.67.32.135])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 394A21800452; Thu,  4 Sep 2025 02:16:46 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH 1/4] ttm/bo: add an API to populate a bo before exporting.
+Date: Thu,  4 Sep 2025 12:16:39 +1000
+Message-ID: <20250904021643.2050497-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yHtC7jTsqEj7JTAX2qwa95bzQZfZetnePkc9BLurysk_1756952210
+X-Mimecast-Originator: gmail.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,40 +61,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 1 Sep 2025 15:32:22 +0530 Meghana Malladi wrote:
->  	if (!emac->xdpi.prog && !prog)
->  		return 0;
->  
-> -	WRITE_ONCE(emac->xdp_prog, prog);
-> +	if (netif_running(emac->ndev)) {
-> +		prueth_destroy_txq(emac);
-> +		prueth_destroy_rxq(emac);
-> +	}
-> +
-> +	old_prog = xchg(&emac->xdp_prog, prog);
-> +	if (old_prog)
-> +		bpf_prog_put(old_prog);
-> +
-> +	if (netif_running(emac->ndev)) {
-> +		ret = prueth_create_rxq(emac);
+From: Dave Airlie <airlied@redhat.com>
 
-shutting the device down and freeing all rx memory for reconfig is not
-okay. If the system is low on memory the Rx buffer allocations may fail
-and system may drop off the network. You must either pre-allocate or
-avoid freeing the memory, and just restart the queues.
+While discussing cgroups we noticed a problem where you could export
+a BO to a dma-buf without having it ever being backed or accounted for.
 
-> +		if (ret) {
-> +			netdev_err(emac->ndev, "Failed to create RX queue: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = prueth_create_txq(emac);
-> +		if (ret) {
-> +			netdev_err(emac->ndev, "Failed to create TX queue: %d\n", ret);
-> +			prueth_destroy_rxq(emac);
-> +			emac->xdp_prog = NULL;
-> +			return ret;
-> +		}
-> +	}
->  
->  	xdp_attachment_setup(&emac->xdpi, bpf);
+This meant in low memory situations or eventually with cgroups, a
+lower privledged process might cause the compositor to try and allocate
+a lot of memory on it's behalf and this could fail. At least make
+sure the exporter has managed to allocate the RAM at least once
+before exporting the object.
+
+This only applies currently to TTM_PL_SYSTEM objects, because
+GTT objects get populated on first validate, and VRAM doesn't
+use TT.
+
+Reviewed-by: Christian Koenig <christian.koenig@amd.com>
+Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 15 +++++++++++++++
+ include/drm/ttm/ttm_bo.h     |  2 ++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 273757974b9f..a815c7478d3f 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -1284,3 +1284,18 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
+ =09return 0;
+ }
+ EXPORT_SYMBOL(ttm_bo_populate);
++
++int ttm_bo_setup_export(struct ttm_buffer_object *bo,
++=09=09=09struct ttm_operation_ctx *ctx)
++{
++=09int ret;
++
++=09ret =3D ttm_bo_reserve(bo, false, false, NULL);
++=09if (ret !=3D 0)
++=09=09return ret;
++
++=09ret =3D ttm_bo_populate(bo, bo->resource->placement & TTM_PL_FLAG_MEMCG=
+, ctx);
++=09ttm_bo_unreserve(bo);
++=09return ret;
++}
++EXPORT_SYMBOL(ttm_bo_setup_export);
+diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+index c33b3667ae76..cdc9f5d1b420 100644
+--- a/include/drm/ttm/ttm_bo.h
++++ b/include/drm/ttm/ttm_bo.h
+@@ -473,6 +473,8 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
+ int ttm_bo_populate(struct ttm_buffer_object *bo,
+ =09=09    bool memcg_account,
+ =09=09    struct ttm_operation_ctx *ctx);
++int ttm_bo_setup_export(struct ttm_buffer_object *bo,
++=09=09=09struct ttm_operation_ctx *ctx);
+=20
+ /* Driver LRU walk helpers initially targeted for shrinking. */
+=20
+--=20
+2.50.1
+
