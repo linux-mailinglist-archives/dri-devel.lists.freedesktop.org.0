@@ -2,71 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4BCB43E00
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B1BB43E14
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 16:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA2610EA4B;
-	Thu,  4 Sep 2025 14:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD1810EA50;
+	Thu,  4 Sep 2025 14:07:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RflE5jop";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cPN79l0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0A010EA4D
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 14:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756994691;
- bh=6QoSyBbdtINchh/KfpXAbLxJBZNAu4kUO37s+5VC3OE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=RflE5jopt5njlxGhDC3AQjyRyIPKw9BYjyVeuh8p3sZ4CxUB4DnPdESkuwkbUnwEk
- r+f7FY7ipdHcA6nC1BMelz2e5gJVvDPGOWSXh2MUzsU7IRS4yoX9eQRFX2aRkVW9Eo
- Zwz/C+PWPmLRiHE/jc9a4VqOElzxRM/FLuT/8hEYYd1iDtMfrMHLF51RfElfCbnfNF
- +bgFxnfkWCFFqFWYI+Jileitn5LjWNWYHXSKp0kiFfqE+6qLwXYdVyRUhnpGmjbumr
- kFK4IO9FVT4zOfEC0RfrLOl1Yt3inf1x8FWvzfj+QQppSoZlpsnvO4jfDQTb+D2l+m
- Cta+AbMlTIrsw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8088E17E03B8;
- Thu,  4 Sep 2025 16:04:50 +0200 (CEST)
-Date: Thu, 4 Sep 2025 16:04:45 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley
- <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Fabio Estevam
- <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, Steven Price
- <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev
-Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
-Message-ID: <20250904160445.1671f140@fedora>
-In-Reply-To: <7d4e773b-64ac-49ce-8d8b-7a39c353d18f@mailbox.org>
-References: <20250321200625.132494-1-marex@denx.de>
- <20250321200625.132494-5-marex@denx.de>
- <20250324094333.7afb17a1@collabora.com>
- <c1de2afb-3559-4fbb-b13b-2373175b420b@denx.de>
- <20250325084349.344a0f11@collabora.com>
- <7aadf355-edf0-46fc-b969-65c3789375ca@denx.de>
- <20250325153507.61d82e39@collabora.com>
- <4c06aef3-a254-437c-aa15-8e3eb7bf5951@denx.de>
- <20250325155231.0d1b1000@collabora.com>
- <838a0c6b-845b-428d-86b3-1480e5b8080f@mailbox.org>
- <20250904082224.113d0cd1@fedora>
- <7d4e773b-64ac-49ce-8d8b-7a39c353d18f@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE60710EA4D;
+ Thu,  4 Sep 2025 14:07:31 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-24602f6d8b6so1960605ad.1; 
+ Thu, 04 Sep 2025 07:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756994851; x=1757599651; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JXF7lUGlzoUNaaSeGTJ59Qfx95myet4lfZdU71qhW/c=;
+ b=cPN79l0b3ymKhArFl6siwwd1MBa7ImX7X3jBm5kyLTMQ4+o3bLX/9y10+F2YEFBkdh
+ niUgddbmZLceUIGyYLMz0Fchr2rt2L6DNnpK+S0IRrBawz37dWnUhjbDie+/RC+po0pK
+ EcLLlnMDL62se+Ssw6WjCtBXnysqItF0lZMOq7JrhYrdpbZQdj/H9jCraQ2RM4ZzGYzN
+ No9mpMLnVvCsNsso4tGSe0e8ctegAaCeL5O0xWiYej+Mn4vk4DFynUTFTBpaJzxBSPwk
+ +AHaSMYTjI+tCRhuqytyxjSuDg+8YHFnjhGGjTj2xgfgDH/8Rw7xe/X85aAPedpzNpDU
+ Dlug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756994851; x=1757599651;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JXF7lUGlzoUNaaSeGTJ59Qfx95myet4lfZdU71qhW/c=;
+ b=Emt1YA8r9f07yNpG/OivWPMi6Ucu8afEZNCRkJL6Y3MdXbKo30kLy128fT2oomb/1q
+ 2tKQEynDmsMWh/zgu4E0CtmM/gryGBw5oaBzudKU5cmSIw0OYLJmZFH7cBBMzOjLmbNy
+ SxzmwCM0MbOSnv04bjr0a9OHWFrTPGoCbV8RKEwPfQtwAmufxixH0qSyBAi8XXlh1U7H
+ 3i+OUgHfwWoYcJqtWJGQzH3orxDCq2hVh4jRWKBLyeumM3HelrKBQdL9nWk11Ml00hMV
+ G0+xGp+9dxzNn2gyW0zrljZYUICwWpIMpRkFNPcE32jQxbyd0FyBmDIS/BL6g4rDo3Z5
+ 3K/g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6oKsnFaHMZcqjGm2Q7fj/SvifBg/Y+FLIUEWyWywBIrk/1koSDH2m24Gcnr2ehMTFV13A0KqdFHvv@lists.freedesktop.org,
+ AJvYcCXgQU6L2I//6TpPhxTqgS44ZeYfftPk+CNb62bGvukfX2/6tkUWvX86tyYZKlQgG/74r3janv3x@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwffOqMXjX1oeZJDsoTPzlGzgLZtBIp7GAADmM/IfMA/3EKOU8N
+ SO2qEFhcYtnuUrcYXffiv7lxBmsazjqv7zfrwzySvRjPr2Pupwf1vPB3F5r2lb6mycKqlWlIAq0
+ 8rn7H5bImwr8oHf/JaFJb3wzZhApS7lo=
+X-Gm-Gg: ASbGnctE/8Q1vDO4DCKMhsJ4Jz+TQAEUX2uBimIQt1Mz83z4rstlr8bwQ5KH73wIuSt
+ xhDB0u4gZuZlH7a73MiWfwOcpYtYvnyN+m4pJHqAFdKO1+jp4Yp2oxDq/PUNMBuGmi7t0BLhOnV
+ sGyRL+1dkoG6eXUm42xPuB40xC7H5Mpea+jXBSmJxX4wlSFOPCtkxlRrXiF9h0kdzKsrjmdFYx3
+ D3OPjweV3bMF2Zpnw==
+X-Google-Smtp-Source: AGHT+IH3MY/OTockoauDSyOp/l19fy2ykBd3RlTZfyNT0ABfjsmLAysxtPRcG50Q0m4OIHq4m+LRitinGGXWpfoiUgE=
+X-Received: by 2002:a17:903:22d1:b0:248:8a31:bf6f with SMTP id
+ d9443c01a7336-2491eadb922mr166015585ad.4.1756994851019; Thu, 04 Sep 2025
+ 07:07:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250904123646.464028-1-rongqianfeng@vivo.com>
+In-Reply-To: <20250904123646.464028-1-rongqianfeng@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 4 Sep 2025 10:07:19 -0400
+X-Gm-Features: Ac12FXykgD4aIBzDItZHcqzk1vdrpEvCwQuABoCP0-tmsZGt2PPBgJYPMj3ZoqA
+Message-ID: <CADnq5_N=hQH9OGp2GfdPeOq7V2B_UX0VCDQ-XcTDroy-WHRmyQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdkfd: Fix error code sign for EINVAL in svm_ioctl()
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Philip Yang <Philip.Yang@amd.com>, 
+ Alex Sierra <alex.sierra@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,34 +90,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Sep 2025 15:49:31 +0200
-Marek Vasut <marek.vasut@mailbox.org> wrote:
+Applied.  Thanks!
 
-> >> I suspect the extra soft reset I did before "un-halted" the GPU and
-> >> allowed it to proceed.  
-> > 
-> > Hm, not quite. I mean, you still need to explicitly boot the MCU after
-> > a reset, which is what the write to MCU_CONTROL [1] does. What the
-> > soft-reset does though, is reset all GPU blocks, including the MCU.
-> > This means the MCU starts from a fresh state when you reach [1].  
-> 
-> I have a feeling the write to MCU_CONTROL does nothing in my case.
+Alex
 
-I believe it does, otherwise you wouldn't be able to kick the MCU
-and get things working until the first runtime suspend happens. I gut
-feeling is that there's something fishy in the FW or SoC integration
-that causes the FW HALT request to put the MCU/GPU in a bad state
-preventing further MCU_CONTROL(AUTO_START) from functioning correctly
-after that point.
-
-> 
-> Is there some way to probe the MCU state before/after setting GLB_HALT, 
-> and also before/after the MCU_CONTROL write, using 
-> gpu_read()/gpu_write() register operations, to find out what is going on 
-> with the MCU at each point ?
-
-Yes, there's an MCU_STATUS register [1].
-
-[1]https://elixir.bootlin.com/linux/v6.16.4/source/drivers/gpu/drm/panthor/panthor_fw.c#L1045
-
-
+On Thu, Sep 4, 2025 at 8:54=E2=80=AFAM Qianfeng Rong <rongqianfeng@vivo.com=
+> wrote:
+>
+> Use negative error code -EINVAL instead of positive EINVAL in the default
+> case of svm_ioctl() to conform to Linux kernel error code conventions.
+>
+> Fixes: 42de677f7999 ("drm/amdkfd: register svm range")
+> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/a=
+mdkfd/kfd_svm.c
+> index 521c14c7a789..68ba239b2e5d 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> @@ -4261,7 +4261,7 @@ svm_ioctl(struct kfd_process *p, enum kfd_ioctl_svm=
+_op op, uint64_t start,
+>                 r =3D svm_range_get_attr(p, mm, start, size, nattrs, attr=
+s);
+>                 break;
+>         default:
+> -               r =3D EINVAL;
+> +               r =3D -EINVAL;
+>                 break;
+>         }
+>
+> --
+> 2.34.1
+>
