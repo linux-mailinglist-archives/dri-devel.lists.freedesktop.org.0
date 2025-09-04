@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF300B444C5
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 19:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA20BB444C4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 19:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB3410EAA1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39C7C10EAAD;
 	Thu,  4 Sep 2025 17:50:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="nWC3uH1n";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="GNVGV9g/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE8510EAAD
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86CF110EAAD
  for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 17:50:44 +0000 (UTC)
-Received: from relay12 (localhost [127.0.0.1])
- by relay12.grserver.gr (Proxmox) with ESMTP id E1A12BDBEB;
- Thu,  4 Sep 2025 20:50:42 +0300 (EEST)
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+ by relay11.grserver.gr (Proxmox) with ESMTP id 5FC62C83C3;
+ Thu,  4 Sep 2025 20:50:43 +0300 (EEST)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay12.grserver.gr (Proxmox) with ESMTPS id 8C4AABDBE7;
- Thu,  4 Sep 2025 20:50:41 +0300 (EEST)
+ by relay11.grserver.gr (Proxmox) with ESMTPS id 00EFFC83D4;
+ Thu,  4 Sep 2025 20:50:43 +0300 (EEST)
 Received: from antheas-z13 (unknown [37.96.55.21])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id 171FE1FD140;
- Thu,  4 Sep 2025 20:50:40 +0300 (EEST)
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id A31311FD14D;
+ Thu,  4 Sep 2025 20:50:41 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1757008241;
- bh=nKshma+41R2VnZjmtFPHpn6vXQUNYkHqiSJJOxkcbb0=; h=From:To:Subject;
- b=nWC3uH1n4xbGfFIoMoHpoIq1mN84NBa37cnOH1hDXbMbP1j8o1kb3SAy9ZLWC2BvG
- cGX1o2ejAfouz1YKUFqCAL0h6GUTPD1qwO+dU7WSdGVlIb4RW/wxXxQ80mZk8SQxrC
- E+YE/HeLJiBgfhgixtXGrUumqn5xamV3SiZC6suPdirH/zav7pOLeVEJ3upYpWwQVI
- 0em3V7/3+m4ijdam5lWRmwwjb2jL9Fb6oIon9tq6dZTVg4neS8FcrRdKa0JaOFhOXM
- 2FeB/GfYXK147piR1LrVd2YJOgw6HMSXWyFu0QE5On2TX0pVsKCZ2cD7O0Ze+t4ya6
- WOBIzZYaD/lgA==
+ s=default; t=1757008242;
+ bh=OfnR+WHwEoXTr+6OSdeoYm2XPL1+cyV+dJHo0zlMnD0=; h=From:To:Subject;
+ b=GNVGV9g/ure7gnjB+Pdg4LCeqMSTxrxE6Vc/CN37JB668lNKsG8SPWcD81KYQOnaK
+ N52qfq2mG8dmbCfgUuyfez4B+hRX7GBfM4Cz6V5Lm9hDWx8ViO7jmfoSvIpJ4ZkyOC
+ P6ncbjUZomFY2uZxKbYThTk0sOi8e5eI+m1qY3qpTv9P0ZnvK8JTRv40o9nF4/Z90b
+ pbZjKBXugElnr6xkgOG9tB5t60d5kpcA6urM9xK+DjcAvx+pBDFhHCPFFHh4c712gU
+ Qb5D9gBIN6d3FEMFU5KxKZ/y+ncGdyPRJEOMccISux9AMJarKvqsoILtEefmHMO6fc
+ dUWgesB/ALzQA==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 37.96.55.21) smtp.mailfrom=lkml@antheas.dev
  smtp.helo=antheas-z13
@@ -48,16 +48,15 @@ Cc: linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, philm@manjaro.org,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1 07/10] drm: panel-orientation-quirks: Add OneXPlayer G1
- variants
-Date: Thu,  4 Sep 2025 19:50:22 +0200
-Message-ID: <20250904175025.3249650-8-lkml@antheas.dev>
+Subject: [PATCH v1 08/10] drm: panel-orientation-quirks: Add GPD Win Max (2021)
+Date: Thu,  4 Sep 2025 19:50:23 +0200
+Message-ID: <20250904175025.3249650-9-lkml@antheas.dev>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250904175025.3249650-1-lkml@antheas.dev>
 References: <20250904175025.3249650-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <175700824119.2009417.11190019530648349422@linux3247.grserver.gr>
+X-PPP-Message-ID: <175700824267.2009457.17215964093686136802@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -76,37 +75,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add quirks for the new clamshell device OneXPlayer G1 for both AMD
-and Intel. The device has a 1600x2560p 144hz LCD panel.
+Right side up, DSI-1, 800x1280 screen.
 
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 6f5ce26a84b7..e7a2c5b59d28 100644
+index e7a2c5b59d28..75a8c4532434 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -558,6 +558,18 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1Pro"),
+@@ -327,6 +327,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-01"),
  		},
- 		.driver_data = (void *)&lcd1080x1920_leftside_up,
-+	}, {	/* OneXPlayer OneXFly G1 AMD */
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* GPD Win Max (2021) */
 +		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 A"),
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-03"),
 +		},
-+		.driver_data = (void *)&lcd1600x2560_leftside_up,
-+	}, {	/* OneXPlayer OneXFly G1 Intel */
-+		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 i"),
-+		},
-+		.driver_data = (void *)&lcd1600x2560_leftside_up,
- 	}, {	/* OrangePi Neo */
- 		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/*
+ 		 * GPD Pocket, note that the DMI data is less generic then
+ 		 * it seems, devices with a board-vendor of "AMI Corporation"
 -- 
 2.51.0
 
