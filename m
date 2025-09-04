@@ -2,119 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5095CB448A1
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 23:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C009B448A6
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 23:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A65610EAEC;
-	Thu,  4 Sep 2025 21:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA8A510EAED;
+	Thu,  4 Sep 2025 21:35:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mdqixAeo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LoF8ywxW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7221D10EAEA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 21:35:23 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584Iapda023895
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 21:35:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1XSGHjK5H5x+hvh6MnHParrtMNDsdad7xw0PkjMbZ+g=; b=mdqixAeoCJkWbooj
- iV81lDSVcjKJFNLnue60LYvsuNufsVhkyrkaHuZjCQ6xdYNP0O0KXjdv9VSrg0/Y
- 2U46AT+05RG7V4DeTZRgeoss2aKXORmiJ4Apy79wl7F1DhF1jUfQLRjU5aiN8+EY
- 8iOhu7ngq99teEifZeWsPCbYCe/Ow7tt710HQu6FDbfMfV6htbPCgfNXasAwRtYZ
- OEa4srooUnaggtqJ+z6gYfZHNtB7slNFqhoA2PL2fVx5SYXD6fniBIyhfbIesPX+
- SYYWl3K4zlwSwj0RUJWjJzlu6Q8biP0dNmLR2tUn4FF1+45ELwPLftvheg1mu9Od
- /9Nlsg==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2frsx5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 21:35:22 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-32972a6db98so2027039a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 14:35:22 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 845D710EAED;
+ Thu,  4 Sep 2025 21:35:41 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-e96d65194c1so1555688276.1; 
+ Thu, 04 Sep 2025 14:35:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757021740; x=1757626540; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IvCBV4RAVElTtuBlztSRnmNbm0dDQBJMrO8cYnccOd4=;
+ b=LoF8ywxWC9uS2UXabimVoj3BT7GldhkU9K1PZnEP3Yzzx6K3KWf/HQ0xy8LbRxGJ7v
+ /muTCROlMnesyY71Fo/9U+rwBpHq5sgVh37/zPC0SMCw40GpRJvMIr8nOG9TdKBaOevY
+ UhryFtFk8GIxcSUaGxjRkHr1AGCuelhQbbA2PGiU4vEv16SCIl1klsxnrcaW4mvYwMTH
+ 9275KywuupTc66mPKOOEB95RHa2j7GK0QF9EGzN3bpA8iygxjIerRQ2TRTjk52cWf7fV
+ DNKNGCuimNAcOYFCqTyLP9B2OW04toL66Wrp8Hx+Jk8D7XToFagflS8N2fhVYF9CSfiS
+ TOXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757021715; x=1757626515;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1757021740; x=1757626540;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1XSGHjK5H5x+hvh6MnHParrtMNDsdad7xw0PkjMbZ+g=;
- b=gNor0eyXntMELrb6WIoqKdOY1xzGDUEMRHAqdHlAzhBGcAh+8DEwKDTace9Ua32Jym
- AJ0gIUbe9Cu9cjz1V7/h/E2koGheRDneqbNESPpmO/GApj9CHZ9eMB0XyPiRIJMpST7N
- R75d2pXy8KLAIyXUyVkxaAsy6/ld2jn/kQBzPgp9ZavPnzKbwlwQZzBQCjK+vD2pm7MV
- guR1iABz412OSs8j79bSyJ8v5pCHtJzrlBXOEs+O9qB6MOiUWMzaYa8GFJPYk70g5ePK
- XOFd5WWjb4bAnXCfwb66QokBqzF2Ipa/M8IO8J7t6HuptNPGqY36y8nzAhu0AMQO45bA
- B0Sw==
+ bh=IvCBV4RAVElTtuBlztSRnmNbm0dDQBJMrO8cYnccOd4=;
+ b=GFc4LxsLbhTqLNMapvTHrpBaeRhrErjQNBd2ZA+1kCuKwu6XFDhcEW6hn6iB7paNa1
+ nPtzANGGKIohBrnEbyIemk+x6UVwzbp/Zd787Bkn8toxVTWbB/MFnz6BHOscb1WD6fGg
+ 9cbKlazAl5SmIqm2JCzj9F8ELm2EV/c8Ul9OVZO6VinBkVi1L1Ne49LIniU9H36bwwnF
+ /FgXMpopmBxPKTRodBazrFVFdvg9rlKZKlxIm4r+vmpcnl7ey+iPqcp+N0ID7+Q+1eSb
+ wbR5eRE4v677tG60rTZGPxVGhagbLxpRbuoODrYGAfEyDALVx9ofwOUemjhgaXQuO7dV
+ /Ecw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWEF9pO+oZ5KzgSF3/N6SSw2UDhfpAMERU7CJrry3+/O1E4gIdeg4HfFb7tv6/QvhW2rgmxlyThn4c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8V4VwGKYdHi0o82sN2K0nJs4tFSvfTplqBUmViQhQY6OHlkUv
- k1LplmTUPP4xxDaMQzaBYvs8sxg9QHe/ivgCvJoz/kfNYoZIJt0yn0kQ7UgxJ9jn94kIBrvcTaK
- 69P5qHSiVNBlYFsLez87ZTt8HM/i7k2WsDEhBXWVH4S3ycBV04DhJBGGCPlGhDq3qghFIvd4=
-X-Gm-Gg: ASbGnctX3oYxiVCebtiDbU8twWQn46jrQjYSLhSC65r0QfGeLwFr9391JIFbYdFq2jT
- aO51WKbkW8ky6UJREjmarxvhfMKszhPTJcGPcgpROfSVvvx80Sens51NnPUDCstitOa7LFHD5TG
- dw1O/d13N5xnIxH7UEIakTU1aUCvI8FWDZ4MStw/zGhP99f/2D/ZPiOO8P+dg54qgzB+pJk0omK
- CO9D3WmMXCxgLGrSHGWUhv6PCi4eRwmycXI9+ZjVhDAKjvTgc/EIGnifE6ltAR9UIUXqck1z/FM
- 9tU0U0E/gALeXc/M4CNcWV/Zrz4445JD9CT1MOT7SNl/Xf8hDTQaTTTO8+yEfOsSD+ctdNHUa1U
- oRxEzcZP6R3ahMEQzy4fu3Q==
-X-Received: by 2002:a17:903:2383:b0:246:570:2d9a with SMTP id
- d9443c01a7336-24944b1fc6emr283192315ad.59.1757021714797; 
- Thu, 04 Sep 2025 14:35:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEp3igpntYcHLO4XqweUiLyIuxXfhO1KED/bu92vbMqGflTJz2eGcJkzb2pbmcEUuUIo7WMCQ==
-X-Received: by 2002:a17:903:2383:b0:246:570:2d9a with SMTP id
- d9443c01a7336-24944b1fc6emr283191985ad.59.1757021714309; 
- Thu, 04 Sep 2025 14:35:14 -0700 (PDT)
-Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCVqqbuQGAN+2mBdOTlWoDSI7w9hgJJIBIJzRh0yG8JWgz40cllrEpVt2H4//JOGDjUdo915ytOHOQ==@lists.freedesktop.org,
+ AJvYcCWrhaS/OdzMJ9OzGQwN8W8qrS2HQ001rlOkn21JDGtGvzCg1iahD4oyjIq2K/kbXkYrzScu2Fjkl4Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxyuIFaFMnMAalJs9Li0hftbJpwGjGrydrfPFA3NlUQ3IFL+cyu
+ EFxGtemYPNx5WXuLb5sgoMLWv5FzhFiCLTvrXabrRiPRAKXSykCW2oGZ
+X-Gm-Gg: ASbGncv87zdhecx0bRTb8apnZ1Z3PrrF7cD+e4edLYAg2Xw31JLTgAuymRNlkRzPNGL
+ 5jAVSTbgcf6S4WUeeUj9QY7CND7K0R0FyWih0L0uI7nPvtptu9+szi81ITAFZ9kROcX+8O1u8Vw
+ CPhFXg2uBSsyAg0yVKcdwbSsQMj+O+od8V4DOR4WjUW5hHPZ7gChh9ewkx/mxwGd1phXMBPeVOP
+ 8jixGmsXzSEZxdDvMZ0XZISY2eO+p3mCAv144RZk7OvaS5mViHps8ez55YLZw0A85KY7w0PGDaQ
+ nBA7bwAMEGvOWhE78bL3Xnol5JsMzPanyeIf8BCXUoKSZ/Gm/eyeFRT6V8NDjQMMz4KZGnTQhxd
+ KGo/DHfDwrvoSoSSg8YGT1w==
+X-Google-Smtp-Source: AGHT+IGcjNZusnsLiR6R1wgbKQBrEhDGHmeQUz60B2AGaGgy+2NRFtq0i4WitkyqZVH+hfJ5zflfxw==
+X-Received: by 2002:a05:690e:424c:b0:5f3:319c:fec6 with SMTP id
+ 956f58d0204a3-60175b91dfcmr3275590d50.11.1757021740093; 
+ Thu, 04 Sep 2025 14:35:40 -0700 (PDT)
+Received: from localhost ([2601:347:100:5ea0:1218:85e4:58ab:e67f])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24ccd76e157sm22652365ad.107.2025.09.04.14.35.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Sep 2025 14:35:13 -0700 (PDT)
-Message-ID: <c80e6933-8985-4da4-8498-66cedaa87b1f@oss.qualcomm.com>
-Date: Thu, 4 Sep 2025 14:35:14 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/12] drm/msm/disp: set num_planes and fetch_mode in
- INTERLEAVED_RGB_FMT
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ 956f58d0204a3-5ff8ef2b4cdsm1726511d50.7.2025.09.04.14.35.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Sep 2025 14:35:39 -0700 (PDT)
+Date: Thu, 4 Sep 2025 17:35:38 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250705-dpu-formats-v1-0-40f0bb31b8c8@oss.qualcomm.com>
- <20250705-dpu-formats-v1-2-40f0bb31b8c8@oss.qualcomm.com>
-Content-Language: en-US
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-In-Reply-To: <20250705-dpu-formats-v1-2-40f0bb31b8c8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX0osthSivAUI6
- xXgnKFCwdz7qy/3imMjkCRupZ197mLYTqMegsdZYp0YjW4CHgkqHoeCHyJUrSA2Uq4zuBaawX+K
- xHebh1vGH7wx7U6VCkrZ9X2GLj3Q4a8uIybyXFssLALr2niNg1TJpOEVNHsoBW3kwJ1NAfip6/C
- RSoqYPCZKnCTjsdCmXdaS66uRb3JEaP6sjND1nJvpRFpol91GfpiurvBVnF7mKwhB1oaZ/MQGvg
- AMuHHAs2Eak6DSkqaqQytVi9p2g4FroQtJAwEZ2BS/0d7xd59tdPqclPGI7o8fVtBcDZTUgFHhA
- MW0+cxHfug34cGb9M0ttlyZDcIRDhcgV151fP6mBEZ95LMx2ARNXd7tI/GM7mSDu6MSGAqyRYE/
- ++ueAAzY
-X-Proofpoint-ORIG-GUID: m4-YDzpbTIfsSNd9pX7JHcBBZt5D4Gh6
-X-Proofpoint-GUID: m4-YDzpbTIfsSNd9pX7JHcBBZt5D4Gh6
-X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68ba061a cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=2YQhiLfsl84BKudLmi8A:9
- a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_07,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
+Message-ID: <aLoGKilQPupPQkd2@yury>
+References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250824135954.2243774-1-joelagnelf@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,300 +100,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Joel,
 
+(Thanks to John for referencing this.)
 
-On 7/4/2025 7:47 PM, Dmitry Baryshkov wrote:
-> All interleaved RGB formats use only 1 plane and MDP_FETCH_LINEAR.
-> Specify num_planes and fetch_mode directly in the macro and remove
-> unused parameters.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+On Sun, Aug 24, 2025 at 09:59:52AM -0400, Joel Fernandes wrote:
+> Add a minimal bitfield library for defining in Rust structures (called
+> bitstruct), similar in concept to bit fields in C structs.
 
-Reviewed-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+So maybe name it bitfield? 
+
+> This will be used
+> for defining page table entries and other structures in nova-core.
+
+I think this is understatement, and this will find a broader use. :)
+
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+
+I agree with the others that this bitstruct is worth to live in core
+directory. I just merged bitmap wrapper in rust/kernel/bitmap.rs, and
+I think this one should go in rust/kernel/bitstruct.rs (or bitfield.rs?).
+
+Can you please consider this change for v2, and also add the new file in
+BITOPS API record in MAINTAINERS?
+
+A couple nits inline.
+
+Thanks,
+Yury
 
 > ---
->   drivers/gpu/drm/msm/disp/mdp_format.c | 114 ++++++++++++----------------------
->   1 file changed, 39 insertions(+), 75 deletions(-)
+>  drivers/gpu/nova-core/bitstruct.rs | 149 +++++++++++++++++++++++++++++
+>  drivers/gpu/nova-core/nova_core.rs |   1 +
+>  2 files changed, 150 insertions(+)
+>  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp_format.c b/drivers/gpu/drm/msm/disp/mdp_format.c
-> index eebedb1a2636e76996cf82847b7d391cb67b0941..26be35572fd2ee7456401aa525cc36025bc52ee4 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp_format.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp_format.c
-> @@ -67,7 +67,7 @@ static struct csc_cfg csc_convert[CSC_MAX] = {
->   #define MDP_TILE_HEIGHT_NV12	8
->   
->   #define INTERLEAVED_RGB_FMT(fmt, a, r, g, b, e0, e1, e2, e3, uc, alpha,   \
-> -bp, flg, fm, np)                                                          \
-> +bp, flg)                                                                  \
->   {                                                                         \
->   	.pixel_format = DRM_FORMAT_ ## fmt,                               \
->   	.fetch_type = MDP_PLANE_INTERLEAVED,                              \
-> @@ -80,9 +80,9 @@ bp, flg, fm, np)                                                          \
->   	.chroma_sample = CHROMA_FULL,                                     \
->   	.unpack_count = uc,                                               \
->   	.bpp = bp,                                                        \
-> -	.fetch_mode = fm,                                                 \
-> +	.fetch_mode = MDP_FETCH_LINEAR,                                   \
->   	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT | flg,                      \
-> -	.num_planes = np,                                                 \
-> +	.num_planes = 1,                                                  \
->   	.tile_height = MDP_TILE_HEIGHT_DEFAULT                            \
->   }
->   
-> @@ -228,218 +228,182 @@ static const struct msm_format mdp_formats[] = {
->   	INTERLEAVED_RGB_FMT(ARGB8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		true, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(ABGR8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		true, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(XBGR8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		false, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBA8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		true, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRA8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		true, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRX8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		false, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(XRGB8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		false, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBX8888,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		false, 4, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGB888,
->   		0, BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, 0, 3,
-> -		false, 3, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 3, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGR888,
->   		0, BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, 0, 3,
-> -		false, 3, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 3, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGB565,
->   		0, BPC5, BPC6, BPC5,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, 0, 3,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGR565,
->   		0, BPC5, BPC6, BPC5,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, 0, 3,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(ARGB1555,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(ABGR1555,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBA5551,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRA5551,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(XRGB1555,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(XBGR1555,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBX5551,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRX5551,
->   		BPC1A, BPC5, BPC5, BPC5,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(ARGB4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(ABGR4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBA4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRA4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		true, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(XRGB4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(XBGR4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(RGBX4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRX4444,
->   		BPC4A, BPC4, BPC4, BPC4,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		false, 2, 0,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 2, 0),
->   
->   	INTERLEAVED_RGB_FMT(BGRA1010102,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		true, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(RGBA1010102,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		true, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(ABGR2101010,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		true, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(ARGB2101010,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		true, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		true, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(XRGB2101010,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C3_ALPHA, 4,
-> -		false, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(BGRX1010102,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C2_R_Cr, C0_G_Y, C1_B_Cb, 4,
-> -		false, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(XBGR2101010,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C3_ALPHA, 4,
-> -		false, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, MSM_FORMAT_FLAG_DX),
->   
->   	INTERLEAVED_RGB_FMT(RGBX1010102,
->   		BPC8A, BPC8, BPC8, BPC8,
->   		C3_ALPHA, C1_B_Cb, C0_G_Y, C2_R_Cr, 4,
-> -		false, 4, MSM_FORMAT_FLAG_DX,
-> -		MDP_FETCH_LINEAR, 1),
-> +		false, 4, MSM_FORMAT_FLAG_DX),
->   
->   	/* --- RGB formats above / YUV formats below this line --- */
->   
-> 
+> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/bitstruct.rs
+> new file mode 100644
+> index 000000000000..661a75da0a9c
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/bitstruct.rs
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// bitstruct.rs — C-style library for bitfield-packed Rust structures
+> +//
+> +// A library that provides support for defining bit fields in Rust
+> +// structures to circumvent lack of native language support for this.
+> +//
+> +// Similar usage syntax to the register! macro.
+> +
+> +use kernel::prelude::*;
+> +
+> +/// Macro for defining bitfield-packed structures in Rust.
+> +/// The size of the underlying storage type is specified with #[repr(TYPE)].
+> +///
+> +/// # Example (just for illustration)
+> +/// ```rust
+> +/// bitstruct! {
+> +///     #[repr(u64)]
+> +///     pub struct PageTableEntry {
+> +///         0:0       present     as bool,
+> +///         1:1       writable    as bool,
+> +///         11:9      available   as u8,
+> +///         51:12     pfn         as u64,
+> +///         62:52     available2  as u16,
+> +///         63:63     nx          as bool,
+> +///     }
+> +/// }
 
+Is it possible to create overlapping fields? Should we allow that?
+(I guess yes.) Does your machinery handle it correctly now?
+
+If the answer is yes, can you add a test for it?
+
+> +/// ```
+> +///
+> +/// This generates a struct with methods:
+> +/// - Constructor: `default()` sets all bits to zero.
+> +/// - Field accessors: `present()`, `pfn()`, etc.
+> +/// - Field setters: `set_present()`, `set_pfn()`, etc.
+> +/// - Builder methods: `with_present()`, `with_pfn()`, etc.
+> +/// - Raw conversion: `from_raw()`, `into_raw()`
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct {
+> +    (
+> +        #[repr($storage:ty)]
+> +        $vis:vis struct $name:ident {
+> +            $(
+> +                $hi:literal : $lo:literal $field:ident as $field_type:tt
+> +            ),* $(,)?
+> +        }
+> +    ) => {
+> +        #[repr(transparent)]
+> +        #[derive(Copy, Clone, Default)]
+> +        $vis struct $name($storage);
+> +
+> +        impl $name {
+> +            /// Create from raw value
+> +            #[inline(always)]
+> +            $vis const fn from_raw(val: $storage) -> Self {
+> +                Self(val)
+> +            }
+> +
+> +            /// Get raw value
+> +            #[inline(always)]
+> +            $vis const fn into_raw(self) -> $storage {
+> +                self.0
+> +            }
+> +        }
+> +
+> +        impl core::fmt::Debug for $name {
+> +            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+> +                write!(f, "{}({:#x})", stringify!($name), self.0)
+> +            }
+> +        }
+> +
+> +        // Generate all field methods
+> +        $(
+> +            bitstruct_field_impl!($vis, $name, $storage, $hi, $lo, $field as $field_type);
+> +        )*
+> +    };
+> +}
+> +
+> +/// Helper to calculate mask for bit fields
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_mask {
+> +    ($hi:literal, $lo:literal, $storage:ty) => {{
+> +        let width = ($hi - $lo + 1) as usize;
+> +        let storage_bits = 8 * core::mem::size_of::<$storage>();
+
+Does this '8' mean BITS_PER_BYTE? If so, we've got BITS_PER_TYPE() macro. Can
+you use it here?
+
+> +        if width >= storage_bits {
+> +            <$storage>::MAX
+
+This is an attempt to make an out-of-boundary access. Maybe print a
+warning or similar? 
+
+I actually think that if user wants to make an out-of-boundary access,
+the best thing we can do is to keep the memory untouched. So, maybe
+return None here, or 0, and make sure that the upper code doesn't
+access it?
+
+> +        } else {
+> +            ((1 as $storage) << width) - 1
+> +        }
+> +    }};
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_field_impl {
+> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident as $field_type:tt) => {
+> +        impl $struct_name {
+> +            #[inline(always)]
+> +            $vis const fn $field(&self) -> $field_type {
+> +                let field_val = (self.0 >> $lo) & bitstruct_mask!($hi, $lo, $storage);
+> +                bitstruct_cast_value!(field_val, $field_type)
+> +            }
+> +        }
+> +        bitstruct_make_setters!($vis, $struct_name, $storage, $hi, $lo, $field, $field_type);
+> +    };
+> +}
+> +
+> +/// Helper macro to convert extracted value to target type
+> +///
+> +/// Special handling for bool types is required because the `as` keyword
+> +/// cannot be used to convert to bool in Rust. For bool fields, we check
+> +/// if the extracted value is non-zero. For all other types, we use the
+> +/// standard `as` conversion.
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_cast_value {
+> +    ($field_val:expr, bool) => {
+> +        $field_val != 0
+> +    };
+> +    ($field_val:expr, $field_type:tt) => {
+> +        $field_val as $field_type
+> +    };
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_write_bits {
+> +    ($raw:expr, $hi:literal, $lo:literal, $val:expr, $storage:ty) => {{
+> +        let mask = bitstruct_mask!($hi, $lo, $storage);
+> +        ($raw & !(mask << $lo)) | ((($val as $storage) & mask) << $lo)
+> +    }};
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_make_setters {
+> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident, $field_type:tt) => {
+> +        ::kernel::macros::paste! {
+> +            impl $struct_name {
+> +                #[inline(always)]
+> +                #[allow(dead_code)]
+> +                $vis fn [<set_ $field>](&mut self, val: $field_type) {
+> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
+> +                }
+> +
+> +                #[inline(always)]
+> +                #[allow(dead_code)]
+> +                $vis const fn [<with_ $field>](mut self, val: $field_type) -> Self {
+> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
+> +                    self
+> +                }
+> +            }
+> +        }
+> +    };
+> +}
+> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+> index cb2bbb30cba1..54505cad4a73 100644
+> --- a/drivers/gpu/nova-core/nova_core.rs
+> +++ b/drivers/gpu/nova-core/nova_core.rs
+> @@ -2,6 +2,7 @@
+>  
+>  //! Nova Core GPU Driver
+>  
+> +mod bitstruct;
+>  mod dma;
+>  mod driver;
+>  mod falcon;
+> -- 
+> 2.34.1
+> 
