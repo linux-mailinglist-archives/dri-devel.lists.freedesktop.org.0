@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8277B47837
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7EAB47839
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC5810E43C;
-	Sat,  6 Sep 2025 22:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0B910E440;
+	Sat,  6 Sep 2025 22:50:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="lkwn5rHT";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="mEgIevQQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF55D10E350
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:09:21 +0000 (UTC)
-Message-ID: <cc56d7ae-3db1-4a66-a37e-9f158f48fcc1@manjaro.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4005710E350
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:09:32 +0000 (UTC)
+Message-ID: <5682ab63-d979-4be9-952e-82b00ca9d796@manjaro.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1757009360;
+ t=1757009370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9c7bQ62LJgjsodas2YkaiakkM4FUOlpkIS38WMP95RY=;
- b=lkwn5rHTQUEiBEjeECfS7kOkJ/45tehiee9Ceh0NNCwq4tA+L7OjQw4baLu+fVxz3DEl/Z
- se2xwfHn/BtSybyQFP+VubAOmXk7QryCYPtGX7L0MoCJhKwdQPIG5xg9rBs2c/fOd8ZHAX
- sDF3KdqGkiZP/hz7ld9zI4sgNQQAOVFr3bApxM2YwKLCJbV67abXNzJXUOVq5IhSHtjlR4
- sU+tMExWHwwuoJO4nahLXzssWnEu7DNyGIr2VkUMfTqZ9pMtpmYMUlqtkYZK/7jIvR6qGy
- n7sv7EnwPoZCRj9ORJExL6RWQ7qdPSDd4w8VARZP0zDD+5w4uDjUjMFjOdhOLQ==
-Date: Thu, 4 Sep 2025 20:09:20 +0200
+ bh=Euv4No74X68IhkaDokRPif19XB+//dlC/qMiC9ds8aA=;
+ b=mEgIevQQx+kvAMKZFLTxqWbBYOC6e3mcwi5MRc5jw45F4V0WAY2DtDU1VuCj9sjYJnfVWN
+ vLs6/3kSKvNVsjHriQsdbFoi+tv+hHAfpphkXeL1nT4MHjoxnFMb/lsm8KITAF8XljqYiW
+ YrRH3ivCTGglyU/cgoeCX3IfITVL9Y8CPIA4Pn5LNKzDU9KIJ/pwTBUXnSSkimFdZ3fowE
+ QB4Tgoke3kUE2WC6/hmP1g+fRJ0mWpyz1yohHD7dNufJ2kGkGoCcdWnwurae5rk48Kd7X0
+ 1Ugmu4GFC8sWL9Z2uJA+0r22e+Y89+kqSE4ZKbTBY/Du0aYmf6UtW8fI0K4WVw==
+Date: Thu, 4 Sep 2025 20:09:30 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 08/10] drm: panel-orientation-quirks: Add GPD Win Max
- (2021)
+Subject: Re: [PATCH v1 09/10] drm: panel-orientation-quirks: Add GPD Pocket 4
 To: Antheas Kapenekakis <lkml@antheas.dev>, dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250904175025.3249650-1-lkml@antheas.dev>
- <20250904175025.3249650-9-lkml@antheas.dev>
+ <20250904175025.3249650-10-lkml@antheas.dev>
 Content-Language: en-US
 From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
 Organization: Manjaro Community
-In-Reply-To: <20250904175025.3249650-9-lkml@antheas.dev>
+In-Reply-To: <20250904175025.3249650-10-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
@@ -64,7 +63,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/4/25 19:50, Antheas Kapenekakis wrote:
-> Right side up, DSI-1, 800x1280 screen.
+> The GPD Pocket 4 is a mini laptop replacement with a portrait
+> 2k panel. Add a quirk for it.
 > 
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
@@ -72,22 +72,22 @@ On 9/4/25 19:50, Antheas Kapenekakis wrote:
 >   1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index e7a2c5b59d28..75a8c4532434 100644
+> index 75a8c4532434..5f896d6e4090 100644
 > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -327,6 +327,12 @@ static const struct dmi_system_id orientation_data[] = {
->   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-01"),
+> @@ -388,6 +388,12 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1617-01")
 >   		},
->   		.driver_data = (void *)&lcd800x1280_rightside_up,
-> +	}, {	/* GPD Win Max (2021) */
+>   		.driver_data = (void *)&lcd1080x1920_rightside_up,
+> +	}, {	/* GPD Pocket 4 */
 > +		.matches = {
 > +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-03"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1628-04"),
 > +		},
-> +		.driver_data = (void *)&lcd800x1280_rightside_up,
->   	}, {	/*
->   		 * GPD Pocket, note that the DMI data is less generic then
->   		 * it seems, devices with a board-vendor of "AMI Corporation"
+> +		.driver_data = (void *)&lcd1600x2560_rightside_up,
+>   	}, {	/* I.T.Works TW891 */
+>   		.matches = {
+>   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
 
 Reviewed-by: Philip Müller <philm@manjaro.org>
 
