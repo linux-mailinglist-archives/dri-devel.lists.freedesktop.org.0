@@ -2,83 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE66B4781C
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2113CB43A0A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 13:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C45F10E412;
-	Sat,  6 Sep 2025 22:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40B8F10E9BD;
+	Thu,  4 Sep 2025 11:27:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TLvW2506";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="SgN3yfhV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A82510E9FF
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 11:27:14 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id
- ca18e2360f4ac-88432e2975cso36678839f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 04:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756985234; x=1757590034; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7Omu2iDAjQIOjKg0DmAgEj8ICa8iVBrvJA7lXUZP/Pg=;
- b=TLvW2506isQH1XSF0B9mu0cnd0+dlDe7+SoE8a4toMQ+Q7tJwjm75GyXyMUdWuYTWk
- h5GU3XQuNXf07YcNQBi4ZHdAdYB0ECxOFGLeuPeCxbM6pshnztx1GbtXEFm7dW8yFW4I
- 90qCVCkulWBMxLENljLDDq5YoU3RM6KrAUwqDyt7LFkgyGOF6rF8w9L7m/Vy0jzbe6Is
- r/94LZBGx5Dn0kyik0Nf3dFwoc4L5olJdI/Q4LxWoyejH2DOdulkTz+A3VUDc58PTaQ4
- +ec3Y/Fw9I4UpZFqrUQM67DXFeiTRr1IaMoDKoODHybEHH2w89POyBDWkM8SOlQt0496
- /D6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756985234; x=1757590034;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7Omu2iDAjQIOjKg0DmAgEj8ICa8iVBrvJA7lXUZP/Pg=;
- b=qvUUXEz/UgRmUCrmk/yKbFN2CYnISRSkRjhcb33W2jRGd5mwsrW/mxB2/gDpaRXdW8
- +UF049QTNiFSs8dGLIAs+sedDh+CiT4Y1ts+wIimH0GYA1zR+ubZD7zKM2mzWAb1ldKZ
- acZMb9K0cDiZnnCC70sWTeoMww2g6guQa7BsxMNPBsm3FaKTr0wvIXHgD0wPet+8Voi/
- 2xHjHZZzx9+9+BNBlYC8rpxTftk13Q+DSybgR2nMxlKvLXMkW1pZAvF2J+P9eOz80b5V
- pSX9TMl4ELi0pZyeZQw0qtZyDhiQkiUatt2gG0fXZsTOHLZR4W3Vh6JEEpLcERcCpiAV
- ALkw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVuI4UoJ2vmSHprvzHdQRUoG2ZlqPZlwiJWaB8Fop55dTcGKmA+Yh9WbjAREpUZdiZ1j0q49AHsiYo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNe8rQCoGP5x9vGorUdEdmktj1OId58ujpcWegr5Jw1muEzYvT
- aJqkj6zPYlMeUM5Tb1l/sDo1JY6eXBtsh3B4sBqj+/2aZrMlyVUiRqId+ifiRp6ZmV7v5uI18xM
- gcwK9SbtcMq53HK5u+l6KJT8hThWjJVg=
-X-Gm-Gg: ASbGnctHB4TZD9JyDbiYKzMvDIvzmEBc1lZQPH22Pqi6DF1jCnlo0sccQYMULPiOfZV
- 6mWPZktG8qa9kUHu25f9kGZoC0OFJubMtziiMXGwrwe9HaxDZu8Y5wEdOHtHEGMX2Qw4sw4eEKZ
- yLO+c2jI7/e+u1lnI6TismnfiXxvONznzQh5jxE6q54gPsCYu4oVpc2J+xGsqwX/L5dfZZL6Ayx
- jQgRzA=
-X-Google-Smtp-Source: AGHT+IGwTHBUyBBmLkqWjAslRacNLUyP6rwDJEvQxuZzahg0BV3R26YS068p5u2POX62gnoxSFbFHAKFousXuOi5eqE=
-X-Received: by 2002:a05:6e02:1a0e:b0:3f0:2c49:936d with SMTP id
- e9e14a558f8ab-3f400284d15mr144126505ab.12.1756985233526; Thu, 04 Sep 2025
- 04:27:13 -0700 (PDT)
+Received: from TYDPR03CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11013010.outbound.protection.outlook.com [52.101.127.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6038F10E9BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 11:27:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZwhrM6fMmX9o2bwm81lbefwUp215C1FukfFNYh7md2HHHOlHTv5H0Kg5vR6xciA5TOB2UXfGcoURnZCoNWNIWsEdipf1yPc/8K7qbId+B3LQjC6+OatlcKKV+dhHt6jlNTyxI/19A7QirP+o84+K1BwV6LNEJXhjTmyn49Sb+d6QDXBFwhnXBtCkaV11SmmK1Y0IiD1j/Wu/kR0E80WJrNAsAom+i9jFYLe/MERM9sk4v+QCp9KiZRvSWYQaHIgirhxicq5ImeOMDgxjUAWcBkr3XlzaxBJl2EZILGf9KfSNACD3MNuwGLnyqkIJ/26XgboTt6CetTZEQumZVjvCSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iye3zsAfvK8RkMz9QDdDmrigsbbx3eclSPK38+Wt0i8=;
+ b=azI40+/WV4olYsd4wRG3BlvBafR3ZQjMBfSsIN+iepAyU9DZd9ZkfIqX6B5kh5u+MXJzStWTl4NaUQ5lFThD0TISKnk9fZbJ3vReWIzVKP6hdVtjnOrZ457JpnbB3xr50BpovdqKED8QLlXdoOk/TDPtXNZ5L/KG3Zu2HdRurrxBMQNSKxj8BAM1C2D9P+LX2/BYbLmXOqFZYRymYLGnsx3dcUhAtE6miYK/0jbzG2gffAzwKtNayF3DfFczpmsjcEnhz2tpP3ekweOcNPTYIHw86BOo30dpBbwaDQXTJmWGoMHUxwOx+Ui7zfOPmygizB8FH0c0gc28U+dQVYOFKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iye3zsAfvK8RkMz9QDdDmrigsbbx3eclSPK38+Wt0i8=;
+ b=SgN3yfhVBpWDneNSvKOv41/5iyCGLH+sx5yDiw0cw5A1HKVVojpveVjoRZSSZBRANU86KDIBD4cWpQnEoxWu3eZ0yVzG7YazSHbIxFI41u64jozyhQOTB3YCnD4kz+XQ6udUOScWpDAel0x2EYWzxTI+HSiW2BP+cbQVdFstBtb8Zr3DhtPNsuM76zc56mUgaYdBQIwJkJEbaQELlVb+m4CJHSVXssrlnmk/5M6S8BhPGIh3pHvcNOT44UvLq9r5Rth+0xOFyJU10rjfOlpccT6pyshxhfrpC1SjW+Dqy9gvyoCx+iiCYREwDFA/Hl/fncj4aIu0OrIrTteifPQVaw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
+ by TYZPR06MB7063.apcprd06.prod.outlook.com (2603:1096:405:40::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Thu, 4 Sep
+ 2025 11:27:49 +0000
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6%7]) with mapi id 15.20.9094.016; Thu, 4 Sep 2025
+ 11:27:49 +0000
+From: Liao Yuanhong <liaoyuanhong@vivo.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR STI),
+ linux-kernel@vger.kernel.org (open list)
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
+Subject: [PATCH] drm/sti: Remove redundant ternary operators
+Date: Thu,  4 Sep 2025 19:27:38 +0800
+Message-Id: <20250904112738.350652-1-liaoyuanhong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYWPR01CA0007.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::12) To SEZPR06MB5576.apcprd06.prod.outlook.com
+ (2603:1096:101:c9::14)
 MIME-Version: 1.0
-References: <175691717884.2393851.6340903042726389490.robh@kernel.org>
- <20250904022524.1748587-1-syyang@lontium.com>
- <042523f7-2b75-4a04-8e0b-d1019ab84987@kernel.org>
- <CAFQXuNZpLBP3=MGmRRpwJu43ZtkNhrTzh8kOwFgKy20rqFiG7Q@mail.gmail.com>
- <20250904-aromatic-loon-of-honeydew-f7861e@kuoka>
-In-Reply-To: <20250904-aromatic-loon-of-honeydew-f7861e@kuoka>
-From: =?UTF-8?B?5p2o5a2Z6L+Q?= <yangsunyun1993@gmail.com>
-Date: Thu, 4 Sep 2025 19:27:02 +0800
-X-Gm-Features: Ac12FXwy1IO1UhmsmetaaHLdUnL-i9ZgD2TthvXT1YzMwKP3in7ctBXaHrxoB9c
-Message-ID: <CAFQXuNaR+Y+PZG5h0_ETSs+hsepj6uUb2-ogZSNPT_C0JwGWDw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] This patch adds a new device tree binding
- documentation.
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: syyang <syyang@lontium.com>, robh@kernel.org,
- Laurent.pinchart@ideasonboard.com, 
- andrzej.hajda@intel.com, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
- krzk+dt@kernel.org, linux-kernel@vger.kernel.org, neil.armstrong@linaro.org, 
- rfoss@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 06 Sep 2025 22:49:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|TYZPR06MB7063:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8209b2f8-c6eb-426d-1300-08ddeba61400
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|52116014|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2bd9LKbbQcxpFLG9XUo4KmWK460qqgHJVzEDKE3maQQT+Dn4gHq4kX+b+ehg?=
+ =?us-ascii?Q?aq78tTDrwYrPpnHuSuAQ4Ih4EcRvuL96B8SsGe8omRirEbCo+nEaW+eT9yFx?=
+ =?us-ascii?Q?wmjUxEv/OZrPwNBq96Lnlv23rUKvW6nacBJVLlQunuIpBIepYpasI6TuZFBX?=
+ =?us-ascii?Q?Ahq0Rrw6ArhAgwIeGFDeopUpQkfYRWbmnr0CGzMdNxHmHK790hqKYw5Pd/lV?=
+ =?us-ascii?Q?dkIj+h3ZLj4oLHZfth066ked5LyC5HfRP4pj8HD8fw7nWMtEdtJVn7KQrYQ9?=
+ =?us-ascii?Q?exMcQsGZKR/W85JSzVrS+E4tOsjjtk1BsSiqlRznXhZOwTkb+DxJOWgvPF1k?=
+ =?us-ascii?Q?qwvy9X+iVmIU1qO6WBROFL8QZrPJavZgWxEvDTj2/G4WB2u6bj8OZfTCwUgb?=
+ =?us-ascii?Q?TQieahdG2tj0lxTwOu9FRYnJDvdkasqw93foit0E4aH+eAYkeYrO717hj1Co?=
+ =?us-ascii?Q?I9HzMsY0kX159bAmUtK95rlyrBSoxmFT8jfsnvnLP5Qawd04tbtcx+qVeYuE?=
+ =?us-ascii?Q?//cd5QUtBXz/mzo2/9yv8T6WpgWq2VKFLnE1YWtncY0swQHp8ya8xX6RH5zB?=
+ =?us-ascii?Q?YQoaOmIj0UAQSopkQXE31OlbJjItPELYLVFhARdhqHpXKRSuPkNqweRC9ebz?=
+ =?us-ascii?Q?4lJTo5+2Fhid3XHSivs/2sAUwap95o63i34N4BXIZ9xH4g5ltsbhu9IggIqr?=
+ =?us-ascii?Q?x36tAuLKdI4SR9fDOE1Lvzjtw6N+p9krsXypnujDaqlX9aErEJWGmMvzRQSI?=
+ =?us-ascii?Q?/1MWhPROTBiiVKa0mh3t2jebwhHEM5P1WRqxArtRsQQ6O84JLrPZ+icg18V4?=
+ =?us-ascii?Q?9zMsNqHPsOQnGIU1AdCfe9LYuaYzWRZkaAw8055OiKHmftGdYl8Csy7kS+Fs?=
+ =?us-ascii?Q?vPpsj8/gfHWIsBwIF5CxXQ98b60p/tpMNtajqJVX/PbGrW3RLz9G70WVQEyV?=
+ =?us-ascii?Q?6BVGCN7eMXsBFmhmw1YiB3K5nfTXPauhdzAlCqZsSoh9LVAjOyl33R/dC0bC?=
+ =?us-ascii?Q?NB4NNf2C3+pr4Dh4fk0kJj3mBCnn97CceLCzLwfFdVcKgESHcURiWVrRE3ed?=
+ =?us-ascii?Q?gHDXlxdghYxEvbRI9oh/aD98fDdCd9hQebHpsT8Uwrs2dIYrDHCXDpCpR605?=
+ =?us-ascii?Q?Z3EWEDEaPx8yuBCSXIDVWCOFTxSAA0CqunS53Myo5r9u+1gtFA/ywM8woK4j?=
+ =?us-ascii?Q?ncoq7YZtFu5ih5k9JlmdFFFlH1K7+RvE+0B7BXQNDsK4svvRXLh5Uxwaxf6y?=
+ =?us-ascii?Q?Vt5kKo1+oFJWF4mF9vBBoCSUBgudKBetjFuH7dpDR8tTIIWfKY9DuX0tbGpy?=
+ =?us-ascii?Q?TpR0zdOWzevB2iWCn6rqasucTzokIdZWwsfaJQx/8xZleh1I5tppsBro8JEq?=
+ =?us-ascii?Q?U2+wAEv38C5/UNWYOlnLSYK8B6g8IxJygC6+VoeMtJG5KEKVDVlNgp7m20sL?=
+ =?us-ascii?Q?4qsjN29Jy1c63aEsvA4hkpViyk1fFCrfkZl7fTC6n4cngRKIssJp8g=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB5576.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A7eCsqihOKM2em5U4gpr9dsY7d/1y9gxyZHuyhxpE9/N/6tW0aHJ5uuRC4jA?=
+ =?us-ascii?Q?dRsA1t+iS5hO5cV7q5Bn5DI4NC1MO4PM35rh/D5LGP5CxFPPZSEHvFaB0YeG?=
+ =?us-ascii?Q?CYdJ6+M7esN3Yp5QbMKywnBH540IP87appshsp4epqF9/dr9+cQGjjAKZIxi?=
+ =?us-ascii?Q?2eYzTgXN00h7fU9YbJfS04CXPnZ41KBIs9+znknnxof2hDkiuyC0yF0PH0ML?=
+ =?us-ascii?Q?VRgHIzmfx6dcKEFJTw8FvLDpljw0GbDaFdGAZPaFNHp8uq7jXzjXxtaloH8L?=
+ =?us-ascii?Q?mSsu7Jqcz2mAJTu7HL4tbP1lgFAKNwFBvxzmDPcz+jzNtUR1j7D8OdFJBMam?=
+ =?us-ascii?Q?iriRzOdhG1WZVAAar5l122XBrOPyjRszAwNFbgRIdOmXRR+8fyEzZtkpshD/?=
+ =?us-ascii?Q?eDgwW0yf7HbYXpJW/rBRVtwOy4ZhuMQJoiSBczU7ejBDUdT7ir7RhukZEH3f?=
+ =?us-ascii?Q?FZkSvBTCwcI0PiT20xl0AGbTuxw7d5TmJ7NHJEqD3Pf96UN+OOPrBnYGk+gO?=
+ =?us-ascii?Q?J8AkB64b42IgTtOgtbrN+wqJKIhgLokxijXbY22MZtZRBz1AXOqRjzcsm5Ac?=
+ =?us-ascii?Q?153ETqCKYFCsNbNdhTCWFjuaJtyrWPp1sx3DUqaZLgtlWUl1bfIGcTn8g5rh?=
+ =?us-ascii?Q?LO6L//Q1YcTfz2Hj0GYHPMBAG47kiXyJEuUPxLkp/XMvIZFP7Bt6guKF9jw2?=
+ =?us-ascii?Q?kArLhF/tD1ak0P226O3XE7rwdAzQ6AfnwhrivwGsKsR5FOad1CWZek0a2jkH?=
+ =?us-ascii?Q?GP2vaI7UkPFmPnRkYLwUWqlhANUgWDctpLrZths2VOKrCt+jSOYJaecGDwi2?=
+ =?us-ascii?Q?gmloQieWJKyW1IkFE/Fcrki9WNGGoLd7Srm8JGqh9G4RHFGxroLSutG7eL4T?=
+ =?us-ascii?Q?DoQ+ULGr9O4tV1wiSxv5dFbI0On33SqVnUqgGTfIvTSAnHz7EnI9NG9qx/9k?=
+ =?us-ascii?Q?igsavs4qCSmJPd2VXXGJLzltZ62OrD7zE84LJPqKtzkY3xF2lEjbkD8PHrFr?=
+ =?us-ascii?Q?WNbhappuZUiiET/Cj9PR7l+rOg9MY29/OUPkm5/s4YofhKIF+igA+ra48aUq?=
+ =?us-ascii?Q?btz9jcqg5LDBZMf2Cxbebv+hNVjmrzOJVDmgai8etwu3FmjXdWc+w7nUELGy?=
+ =?us-ascii?Q?L5/QMIXyETQ+uyVJ734i0EE/YN+o1DFlbmdxnh/mpVfmEGfS4PCRqk69R3oG?=
+ =?us-ascii?Q?e1P2QWAUziT6SzQvPj0ktj49pOUUBJwy/xa50lH797/Cf90cddkgNmMR8sSp?=
+ =?us-ascii?Q?+Q1ChE72EgVy6SvFwS2XcKPcDoaOJO9sWh5dIFSQsfLrvjxUoyQqQmK95hOA?=
+ =?us-ascii?Q?+deAo08XyF5m6jo+HKQOfY4tREa3y66Kq8/Umn/kly1cKt2YJTQ3vce3qnWl?=
+ =?us-ascii?Q?Sc3vPDex3yNujDGRYkNdWE4KuMEkCg/Njrfu23EfPzcIhFExbsWI9zQFAhkY?=
+ =?us-ascii?Q?LiHqmdOwYgn0PyByjKwu1ROG/HB7IUNAsfF34iDjvTM4jNJdVaa2om6mt2yg?=
+ =?us-ascii?Q?RsHNsdjhoyeiK1cJIN5BDpI/S0Aift7KbKq/L/qMW2BOmkt9CyiM4q9hE5Fw?=
+ =?us-ascii?Q?swhthJa4OD25+xxknWZkAMe3X6DvUlE7VYdPNi4/?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8209b2f8-c6eb-426d-1300-08ddeba61400
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 11:27:49.2088 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S8PBd9nI6OVoDu4qbtGK6V9G7IvgCrlor8a774llqeXzr6IHzwpUTHY9rRqfMD62CrN0Rsr2wEpLfLj2ikZLkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB7063
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,157 +150,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof Kozlowski <krzk@kernel.org> =E4=BA=8E2025=E5=B9=B49=E6=9C=884=E6=
-=97=A5=E5=91=A8=E5=9B=9B 16:26=E5=86=99=E9=81=93=EF=BC=9A
+For ternary operators in the form of "a ? true : false", if 'a' itself
+returns a boolean result, the ternary operator can be omitted. Remove
+redundant ternary operators to clean up the code.
 
->
-> On Thu, Sep 04, 2025 at 04:08:30PM +0800, =E6=9D=A8=E5=AD=99=E8=BF=90 wro=
-te:
-> > > > +
-> > > > +description: |
-> > >
-> > > Do not need '|' unless you need to preserve formatting.
-> > >
-> > Both lontium,lt9211.yaml and lontium,lt9611.yaml use "|", so please
-> > confirm if they need to be removed.
->
-> Add code which is needed, not code which you found somewhere. Why '|' is
-> needed here?
->
- '|' It feels more comfortable to me to write the description text
-after a line break.  '|'  When there's only one line of description
-text, it can be omitted.
+Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+---
+ drivers/gpu/drm/sti/sti_hqvdp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> >
-> > > > +  The LT9611C are bridge devices which convert DSI to HDMI
-> > >
-> > > Why this cannot be added to lt9611 binding? Commit msg should clearly
-> > > answer that.
-> > >
-> > The lt9611 and lt9611c are chips of different specifications, and
-> > their related parameters are different.
-> > The VDD-supply of lt9611c is 1.2V; the vdd-supply of lt9611uxc is also
-> > 1.2V, while the vdd-supply of lt9611 is 1.8V.
-> > Now lt9611 and lt9611uxc are connected together. I'm not sure if this
-> > is a problem.
-> > If this lt9611c can also be bound to lt9611, and if you think it's
-> > okay, then I have no problem.
->
-> It is not a problem.
->
+diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
+index 03684062309b..b76606e9a82d 100644
+--- a/drivers/gpu/drm/sti/sti_hqvdp.c
++++ b/drivers/gpu/drm/sti/sti_hqvdp.c
+@@ -744,7 +744,7 @@ static bool sti_hqvdp_check_hw_scaling(struct sti_hqvdp *hqvdp,
+ 
+ 	inv_zy = DIV_ROUND_UP(src_h, dst_h);
+ 
+-	return (inv_zy <= lfw) ? true : false;
++	return inv_zy <= lfw;
+ }
+ 
+ /**
+-- 
+2.34.1
 
-Do you think it can be merged with lt9611 and lt9611uxc?
-
-
-> >
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - lontium,lt9611c
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  "#sound-dai-cells":
-> > >
-> > > Missing dai-common ref.
-> > >
-> > I don't understand .   I referred to:
-> > Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-> >
->
->
-> You call this device a DAI, so your binding should reference dai-common
-> schema, like every other one. You can check simple codecs for examples.
->
-i will fix , thks
-
-> > > > +    const: 0
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  reset-gpios:
-> > > > +    maxItems: 1
-> > > > +    description: GPIO connected to active high RESET pin.
-> > > > +
-> > > > +  vdd-supply:
-> > > > +    description: Regulator for 1.2V MIPI phy power.
-> > > > +
-> > > > +  vcc-supply:
-> > > > +    description: Regulator for 3.3V IO power.
-> > > > +
-> > > > +  ports:
-> > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > +
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > +        description:
-> > > > +          Primary MIPI port-1 for MIPI input
-> > > > +
-> > > > +      port@1:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > +        description:
-> > > > +          Additional MIPI port-2 for MIPI input, used in combinati=
-on
-> > > > +          with primary MIPI port-1 to drive higher resolution disp=
-lays
-> > > > +
-> > > > +      port@2:
-> > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > +        description:
-> > > > +          HDMI port for HDMI output
-> > > > +
-> > > > +    required:
-> > > > +      - port@0
-> > > > +      - port@2
-> > > > +
-> > > > +required:
-> > > > +  - compatible
-> > > > +  - reg
-> > > > +  - interrupts
-> > > > +  - vdd-supply
-> > > > +  - vcc-supply
-> > > > +  - ports
-> > > > +
-> > > > +additionalProperties: false
-> > > > +
-> > > > +examples:
-> > > > +  - |
-> > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > > +
-> > > > +    i2c10 {
-> > > > +      #address-cells =3D <1>;
-> > > > +      #size-cells =3D <0>;
-> > > > +
-> > > > +      hdmi-bridge@41 {
-> > > > +        compatible =3D "lontium,lt9611c";
-> > > > +        reg =3D <0x41>;
-> > > > +        #sound-dai-cells =3D <0>;
-> > > > +        interrupts-extended =3D <&pio 128 GPIO_ACTIVE_HIGH>;
-> > > > +        reset-gpios =3D <&pio 127 GPIO_ACTIVE_HIGH>;
-> > > > +        vdd-supply =3D <&lt9611_1v2>;
-> > > > +        vcc-supply =3D <&lt9611_3v3>;
-> > > > +        status =3D "okay";
-> > >
-> > > Nope, drop.
-> > >
-> > remove  status =3D "okay"  ?
->
-> Yes. Instead of asking me, you can try to think about possibilities.
-> Ask yourself yourself - why do you need it here? What changes if you
-> have it? What changes if you drop it? Why reviewer asks for it - maybe
-> there is something behind. That way you will learn more about this.
->
-> I suggest to go through the slides of my OSSE25 talk about DT for
-> beginners.
->
-thanks,
-
-> Best regards,
-> Krzysztof
->
