@@ -2,118 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DA4B44A2F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 01:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D0DB44A34
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 01:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 925FA10EAFA;
-	Thu,  4 Sep 2025 23:07:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C5810EAF8;
+	Thu,  4 Sep 2025 23:07:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sggjo2rn";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="iqWjeYP1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C718910EAF8
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 23:07:08 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IPksE032158
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 23:07:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VQxgtvqlq0HzxRDkP5I5PrVUOxES5Rbtim81FxX4br8=; b=Sggjo2rnmTJNkjGq
- S46CyRNFro+vFR8zL2uwM4EP7SArfGwrsatiZ+jzKxuktCM/uN2TgeAR6JIfzCbn
- dACUqifR102jbX+Udb6eoSWuOT0K+GCiE5ZA/jvrtvC7B//z7hWyy838KV+TzwwR
- IXW1TYw1ZlhnACSRS26O6G1vV21IUCFZ8pf+NJEA6dou/uZ5kHQzPOUJEuDFvVO4
- KtQ83P8eZ0UpEWixZPB0hhmcF13o5FSZjxIdFHG8wQeYU5w+YaoN9Or/X1ZO76rY
- 2pnM5V1LvQuLh0hkQwuLZ0faqxoo8E1rrcM03dT9RwetUKNQbRTnz/mYWAAKw+M/
- 5M4IMw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnphahm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 23:07:07 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-244570600a1so19880305ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 16:07:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757027227; x=1757632027;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VQxgtvqlq0HzxRDkP5I5PrVUOxES5Rbtim81FxX4br8=;
- b=P3HXppTTOxU8IO2/ZDKft+4JjFsQ7vbEcJUAMU7QySu6NrpfjrzR6ZOxM3tdM1S2eT
- bUzJot0D5HuAglujmsBxwk8yEE39ewGKS/p/IevqP/Modfne0BOYY3C9YgJ2AAUxw8kX
- 9JKsxg12m9oGN5jYuWhBW8HMeKG2nWasU3I6HtZebuMvMfIwmBaal//07kLmY/fInTu+
- LDCD+t8BlzEQiSRF+kpWfGKCjIlqIiGhtmKEGdsdFgcXEHjjIVJTl4MQrLFnR2XPoChQ
- BuTTjqeFqiGdADKMiQRjI9rvIEbNWQdak120qUEgEjR819VsOlHVRuvDnKHToW77DSQp
- JBxQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUgCIXtZdoX43cBGiNAAfpl3XQOVB3ChmBfk8tBO9s4R8QomX3i6GOVbqJS3M5dptgpQhp2l++K+jM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdHsemF9CFKpr25WpsXgA4dhc8zu0Q0+FQZCAAYMFqcviPAJNX
- 2ZB8FWOCpMmFIQzViBnBmXX2ybS2ms/g43CfNKulPTakZfKRHgy0xCWXdLIGAvI0tjqwhhRP46x
- FFZPtEflPwjTF3v7/Ljv2+7Yhb29f10PGlZrIIAgfr1V2ZtwB7hpknHyIrQMM9PB+73dwd8A=
-X-Gm-Gg: ASbGncvuD/fD1CveKSkG7S/MiZGj1bDvN2QXHcsGCNBKrkwHeBNLB0/6Zy6de9Wwsi+
- BkFs/8ZCEa7Ub7DLOQnpFmxRyNWJfeSMX0+fgXyxemYjEf+bxtFHYB7WOA1seK3fLAiVhS8ARyd
- dVEQGv6HYz4cw4EYq+hUr8jeX7cYebDH08TObb/3hg3vixaQmRpzcWFtDjdeZa42Y1paScvuRDm
- 8K8UnflTM8KGDhhNgqdje8/mC8wtOwoeKWm27A7HlkSHRYYJrWJZmuYqnSJ4LsiWcXsEO0wxcx+
- rXzqtGRngheNDafE5M9CG7jwicOlPmS3TBzRlCV1FFxve0i/1MwgH6miU5nMsfwF5nKenLgURDZ
- EcfxTcf4M/VgpKhUIWwlxhw==
-X-Received: by 2002:a17:903:244f:b0:246:cf6a:f010 with SMTP id
- d9443c01a7336-24cedfa9098mr16776745ad.13.1757027226473; 
- Thu, 04 Sep 2025 16:07:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG3a9adXc+OPNFqInEjRcz8beQaf9/kI61UkTE5l3c0GN008HPPd0XCUECzEsnDCx8AkRCd9A==
-X-Received: by 2002:a17:903:244f:b0:246:cf6a:f010 with SMTP id
- d9443c01a7336-24cedfa9098mr16776305ad.13.1757027225874; 
- Thu, 04 Sep 2025 16:07:05 -0700 (PDT)
-Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24cb28c3110sm38258035ad.120.2025.09.04.16.07.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Sep 2025 16:07:05 -0700 (PDT)
-Message-ID: <1865e8a7-9d9d-4671-8429-bff121ab6ac4@oss.qualcomm.com>
-Date: Thu, 4 Sep 2025 16:07:05 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96B810EAF8
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 23:07:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UrhCP7p3KBZF+R/4uZKfMW90e9MJGUdmAKVmK0UP6rm9PRrst83+wi/pH2zRwq5X3ADTGLGGP0KpSa9BD+Svodch6l2xJEqfDk4XqEExZadoOQQOhTwWghmXPxYk1bek+9Hbj4266KBmn/F9811ttoOGSKm2mcq1jTDP/oobwMmGQVVuR/kBmOuxw+frXlYYLbBjqnxPi02K2uCpul683QXqiOBgBbBp6x345233Utj8g2EhlH6asSZB4kSWTzjA57bBEz7PzegCFF1XSI/2+/LsxABcgL8JF4M7wtamzuGEbGrE/enpzLTrqRsek0Semz//PAU1W9S+s8Ocn/4h2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ft8kdowHlIjGH7kMRtIbUmYbmF8v6L+VZgUSy9JqQvY=;
+ b=lgY1QnIsGyeD4H0kMx48olLrVAgnkm35zAihnqpMWnaoAdSfBQlWCe5WksZ30/ccZs5r01Lgp8WHWc1MnMJLraSNdK2fZtiX2TkKJ7lYflpH6zlNCLcw86jwL54XljTiqrDZEYYh1TIlVFqfl7OojpRuk5YOMQEVkCg0DY7vU9twTzt8+DTl5HzTVWwzUtc2ZV8L2tLFt81G2y6APmXS9h5ejUl9ECp/abIhsX47YjvuVD0No6fV4etxRPoxrTGs5c62zBimUEB7hzbb8Br3ZbXLbKG58ZRcSVXKj4+MTGYpwCzkafBY9wwG96u1xCeitsH3kQq2T5x6pPYTp2B0Lw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ft8kdowHlIjGH7kMRtIbUmYbmF8v6L+VZgUSy9JqQvY=;
+ b=iqWjeYP1fd0FAFQa2LaiKvaj/TS/FS9nCf81DNZrgb4+EQ7oi4NYCN5JtIjs1g9x3y0AnW8oeMM8HAL4B1xgDSrQ2M6briTolT3dgp53Y7QerZD8trCeQGJ/Qe/EzXvmKZt+7TNhBx8ixccv8nSkGqQDZ9hEGBlFCDlCtRhO860=
+Received: from PH0PR07CA0056.namprd07.prod.outlook.com (2603:10b6:510:e::31)
+ by BN7PPF8FCE094C0.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6d8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
+ 2025 23:07:31 +0000
+Received: from CO1PEPF000044FD.namprd21.prod.outlook.com
+ (2603:10b6:510:e:cafe::9e) by PH0PR07CA0056.outlook.office365.com
+ (2603:10b6:510:e::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.19 via Frontend Transport; Thu,
+ 4 Sep 2025 23:07:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1PEPF000044FD.mail.protection.outlook.com (10.167.241.203) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9115.0 via Frontend Transport; Thu, 4 Sep 2025 23:07:30 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 4 Sep
+ 2025 18:07:30 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Thu, 4 Sep
+ 2025 16:07:30 -0700
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 4 Sep 2025 18:07:29 -0500
+Message-ID: <8a1a1d26-c49d-b1e6-0164-32eee95db501@amd.com>
+Date: Thu, 4 Sep 2025 16:07:29 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/12] drm/msm/disp: pull in common YUV format parameters
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250705-dpu-formats-v1-0-40f0bb31b8c8@oss.qualcomm.com>
- <20250705-dpu-formats-v1-6-40f0bb31b8c8@oss.qualcomm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] MAINTAINERS: Update Min Ma's email for AMD XDNA driver
 Content-Language: en-US
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-In-Reply-To: <20250705-dpu-formats-v1-6-40f0bb31b8c8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: bTEj3iWVZUVbqkIJgsZ8efITFNIDex9k
-X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68ba1b9b cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=NxCvQ7sPRDO8UjZhUV8A:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: bTEj3iWVZUVbqkIJgsZ8efITFNIDex9k
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfXz4vLYOMilLF2
- apVyPRNOBGWt9D/leG/QPa0apszGbEB+xiuplkBzjfwgjPraiUvk6B2mSaRbriQGD88fhx6HS1s
- pYnhN6hkJbrH0LzfuUpqL73x7cc1Qp9Gk2bu3tEMXakalyifpfwrtebuJFe1EIHuNYA59wXc3PZ
- v/tK8i7ELwi4rnKwcCrgwRSohoRMLWRCc71AzGAqSHsmQ5guDjUpMNq+w2l7Goc2oeWPq/eND/o
- hf0+XgqlpdmJd+5Z/l14lOfsU0XJPsj84E7HZcP1w6YWk9mUzmvTtK1xwsrTIUrACN21odCgCf+
- A/xv9nuC3ZADocHPU8ICT2UTkePWdzIYz/37DFjaIbGXlhHtb550hzqsVqrWTv3xG1vvP6ogKpo
- mBn477Zz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_08,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
- spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300001
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, <jacek.lawrynowicz@linux.intel.com>,
+ <linux-kernel@vger.kernel.org>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, Min Ma <mamin506@gmail.com>
+References: <dc0227cb-7e02-10c6-9790-2e2331ddfd6e@amd.com>
+ <20250831001228.592-1-mamin506@gmail.com>
+ <67138df3-115d-94cb-005f-84f6f56f5986@amd.com>
+ <b2cb52b1-9bcc-b77a-ed9b-cf3dbaea1a71@amd.com>
+ <igd27jsm2nmdqm6z6mvdgbe4nx4j2xiv4ki43q4637mvx2an2d@6i4phi3cpx2r>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <igd27jsm2nmdqm6z6mvdgbe4nx4j2xiv4ki43q4637mvx2an2d@6i4phi3cpx2r>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FD:EE_|BN7PPF8FCE094C0:EE_
+X-MS-Office365-Filtering-Correlation-Id: e9747513-e5aa-48e9-bca5-08ddec07d33e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|376014|36860700013|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UFJvVWhVUjR5dk1UN2xmVWhsU3p5RnZLNWwvampmSjg3bCswYUNpOWYzTW9V?=
+ =?utf-8?B?Vk56andvNGtyNk5LajFVcGt5OE5Kdjh4allEUzR0cDBTUEs5Z1gycVFvV1pS?=
+ =?utf-8?B?cnprWkR6WWp1ZEEzaTludzdXMzNrUzZ5R2Fkd1dmdkxuTzRYK3pZdS9oU3Vp?=
+ =?utf-8?B?U0ZYelhaUXp3MVBIOC93T2Z2WnhhSDZFa0FkRlVhSTdUNkxYUnhmaVRVOS9h?=
+ =?utf-8?B?TUVEc0ROZUdpeE1iWjJKWEhlWnZMNzV4dTFJbkEyM2lDQ2YxZ284WVNIRVA4?=
+ =?utf-8?B?WFhaUjI2N0VRODNqbHIvMkNnK2NHaS9DSXV2WjR5WHBOZURvazJhYzdlVVRS?=
+ =?utf-8?B?djNHSXV4Ni9WWllPb241MUdobHlOTkliQUVmYUF6cVFMVXEzZ3p0enE1SU5K?=
+ =?utf-8?B?dkdhTlFFSG0rVXpxZ0dlbUpaSjlWWVBvL1BSYVpndUk4R2RnSmF2dU9ha2V4?=
+ =?utf-8?B?aEhIMkljSkN5alVnMEQ0NDBsMjE0OVpnRDd4b3V1VnlZdHEvVklZNjlxTXlQ?=
+ =?utf-8?B?Z2t4OGxwVzc3a0RLT004c0UyYk9RQndmd1czcHBJK3htUExGblZmeG9IY0Vj?=
+ =?utf-8?B?MXZUTHgwYWdPUi81REJNa0NoVFRrc2tsWUxTSHc4d01ySDhWck96emtxVDRR?=
+ =?utf-8?B?VVJkbmU2QXR3cWJ0MkFLMTl3dXdrZGRiV3lobkdPTUlzd2YwYjJ3TmF5aUp4?=
+ =?utf-8?B?Z3JDRDltOSsrUUE5NXJqVUo2WXVzSVY4bFRHQkZVaVY4cjlUWDN1QldPdDVH?=
+ =?utf-8?B?cUhQRHhlM1hJa0lITWwvRkw3WmJxM28vYkZWMnk3MW9tYVlWbndRWGxic2k3?=
+ =?utf-8?B?MTRNZEZ6ZkZaN1NyQ3lNcXRpVDBScVAxT1dpeVlTWXNPbnVaRy94ZzBGenBa?=
+ =?utf-8?B?NmVQcm91aTd2KzhiU01ZN1lZN3FDdVRDbm5IalQ3aGRxYU5KUkZiZG56ZHpp?=
+ =?utf-8?B?clRrZ2lWT2F4TFVjZGh0Z2NoMDJKa1pnbk5oTnU3OUtVSU5uT2Zhc2s1NUR5?=
+ =?utf-8?B?SnpsMGw0SlVNYStkalhDZEVxSXI4bnVpT0JLZENRZ0VUZ2RhTUtyWlFhaG5p?=
+ =?utf-8?B?R2dtUURwakxuNDM0aUxIVy93bWcvYjVHVlRZN3pDTlBzdVkzUHpFS3ozTkR0?=
+ =?utf-8?B?cmdmb3psR0RoK2I5VWNtdllDZ0RTNGhzQTlwbTBrL1EvNTdLeUVpTHNGNE1t?=
+ =?utf-8?B?TWd6Um5WSmVQY0hhQjUrTFR3aE9RaUNGTWdxci9XQUtTeEZWMTB6dzQ1MWVE?=
+ =?utf-8?B?Vjl6Q0Z1VmUzWGJZb0VlY1JzcHU1S1B1WmFpSDBiUkFrNmRiVWdCUWtmeGxQ?=
+ =?utf-8?B?dVFtNEVmQ1ZYTXhYZFhrUlgrai8zRURMTTFrbXRqMlpQQnpLRWN2QmtXYncr?=
+ =?utf-8?B?SGtYaVlRdWtxQTRqcTh1MFl5Zy93ZXJ4NHc5QUpyVXlpcENaMGNmaFJ5aitQ?=
+ =?utf-8?B?dFZ6YnNoOWZONC96TnVCNGNtK3o3SSszSnF5MUFycnRQbStFblIydVIwQVBv?=
+ =?utf-8?B?OFE4eXdmT0J6V0FNOFhVUllkUWpmb3ZIUDNBQVNZeHNPRnByL0YwTTBoaUxZ?=
+ =?utf-8?B?alpLa3RTSnlDVFZvYjNDL0F2NmF3Zkl4RHA0Yk5vRjZiV0hUSlBxakY5Z3Zw?=
+ =?utf-8?B?ZmdIbFRIb1doaGhESFVoRVN6K1VmbXhnVWpKeDZEK2IzeTBXZ0pBQWZ2NUZC?=
+ =?utf-8?B?NXVMZE5wQmxMRVViQWNNckVQSTB5M2VnM1plTWo1eUEyQjdEWTJYbWhsU1pO?=
+ =?utf-8?B?REtONjlZZ1VyUVJSbzlSZktnM2JnYml4NEZYOEZsMmFEbjJBbHBaY2FkZk1a?=
+ =?utf-8?B?NHBLUXpmVEV1UnVnK3B1clQ0b1pSTEErSlI3YzNqb1NsdWE1Y1YxQ0Q4eDFh?=
+ =?utf-8?B?dEpYZTc4UDMyMTRESVhKdnlxdkpUSEplRmdWSnhSRXp1c2FqazZhQzQxcFZx?=
+ =?utf-8?B?eHArSUI5QlBSYmxKcEpYMlFHdDN0T3lNMWdSektRcDkvWVhTUGtINjR1VFRo?=
+ =?utf-8?B?OG84a1BGbWVBPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 23:07:30.8083 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9747513-e5aa-48e9-bca5-08ddec07d33e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FD.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF8FCE094C0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,240 +153,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks. Applied to drm-misc-next
 
-
-On 7/4/2025 7:47 PM, Dmitry Baryshkov wrote:
-> Pull common params of YUV formats into corresponding macro definitions,
-> simplifying format table.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-
-> ---
->   drivers/gpu/drm/msm/disp/mdp_format.c | 120 ++++++++++++++++------------------
->   1 file changed, 56 insertions(+), 64 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp_format.c b/drivers/gpu/drm/msm/disp/mdp_format.c
-> index d577b3d53fbebced63792b5c65f50dd45211c8ea..900b2de252a6eb2eac3d0670f1aaa77f7520fd77 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp_format.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp_format.c
-> @@ -244,27 +244,27 @@ static struct csc_cfg csc_convert[CSC_MAX] = {
->   	.tile_height = MDP_TILE_HEIGHT_UBWC,                              \
->   }
->   
-> -#define INTERLEAVED_YUV_FMT(fmt, a, r, g, b, e0, e1, e2, e3,              \
-> -alpha, chroma, count, bp, flg, fm, np)                                    \
-> +#define INTERLEAVED_YUV_FMT(fmt, bp, r, g, b, e0, e1, e2, e3, chroma)     \
->   {                                                                         \
->   	.pixel_format = DRM_FORMAT_ ## fmt,                               \
->   	.fetch_type = MDP_PLANE_INTERLEAVED,                              \
-> -	.alpha_enable = alpha,                                            \
-> +	.alpha_enable = false,                                            \
->   	.element = { (e0), (e1), (e2), (e3)},                             \
->   	.bpc_g_y = g,                                                     \
->   	.bpc_b_cb = b,                                                    \
->   	.bpc_r_cr = r,                                                    \
-> -	.bpc_a = a,                                                       \
-> +	.bpc_a = 0,                                                       \
->   	.chroma_sample = chroma,                                          \
-> -	.unpack_count = count,                                            \
-> +	.unpack_count = 4,                                                \
->   	.bpp = bp,                                                        \
-> -	.fetch_mode = fm,                                                 \
-> -	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT | flg,                      \
-> -	.num_planes = np,                                                 \
-> +	.fetch_mode = MDP_FETCH_LINEAR,                                   \
-> +	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT |                           \
-> +		 MSM_FORMAT_FLAG_YUV,                                     \
-> +	.num_planes = 1,                                                  \
->   	.tile_height = MDP_TILE_HEIGHT_DEFAULT                            \
->   }
->   
-> -#define PSEUDO_YUV_FMT(fmt, a, r, g, b, e0, e1, chroma, flg, fm, np)      \
-> +#define PSEUDO_YUV_FMT(fmt, r, g, b, e0, e1, chroma)                      \
->   {                                                                         \
->   	.pixel_format = DRM_FORMAT_ ## fmt,                               \
->   	.fetch_type = MDP_PLANE_PSEUDO_PLANAR,                            \
-> @@ -273,13 +273,14 @@ alpha, chroma, count, bp, flg, fm, np)                                    \
->   	.bpc_g_y = g,                                                     \
->   	.bpc_b_cb = b,                                                    \
->   	.bpc_r_cr = r,                                                    \
-> -	.bpc_a = a,                                                       \
-> +	.bpc_a = 0,                                                       \
->   	.chroma_sample = chroma,                                          \
->   	.unpack_count = 2,                                                \
->   	.bpp = 2,                                                         \
-> -	.fetch_mode = fm,                                                 \
-> -	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT | flg,                      \
-> -	.num_planes = np,                                                 \
-> +	.fetch_mode = MDP_FETCH_LINEAR,                                   \
-> +	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT |                           \
-> +		 MSM_FORMAT_FLAG_YUV,                                     \
-> +	.num_planes = 2,                                                  \
->   	.tile_height = MDP_TILE_HEIGHT_DEFAULT                            \
->   }
->   
-> @@ -303,7 +304,7 @@ flg, fm, np, th)                                                          \
->   	.tile_height = th                                                 \
->   }
->   
-> -#define PSEUDO_YUV_FMT_LOOSE(fmt, a, r, g, b, e0, e1, chroma, flg, fm, np)\
-> +#define PSEUDO_YUV_FMT_LOOSE(fmt, r, g, b, e0, e1, chroma)                \
->   {                                                                         \
->   	.pixel_format = DRM_FORMAT_ ## fmt,                               \
->   	.fetch_type = MDP_PLANE_PSEUDO_PLANAR,                            \
-> @@ -312,13 +313,15 @@ flg, fm, np, th)                                                          \
->   	.bpc_g_y = g,                                                     \
->   	.bpc_b_cb = b,                                                    \
->   	.bpc_r_cr = r,                                                    \
-> -	.bpc_a = a,                                                       \
-> +	.bpc_a = 0,                                                       \
->   	.chroma_sample = chroma,                                          \
->   	.unpack_count = 2,                                                \
->   	.bpp = 2,                                                         \
-> -	.fetch_mode = fm,                                                 \
-> -	.flags = MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB | flg,                  \
-> -	.num_planes = np,                                                 \
-> +	.fetch_mode = MDP_FETCH_LINEAR,                                   \
-> +	.flags = MSM_FORMAT_FLAG_UNPACK_ALIGN_MSB |                       \
-> +		 MSM_FORMAT_FLAG_DX |                                     \
-> +		 MSM_FORMAT_FLAG_YUV,                                     \
-> +	.num_planes = 2,                                                  \
->   	.tile_height = MDP_TILE_HEIGHT_DEFAULT                            \
->   }
->   
-> @@ -342,23 +345,23 @@ flg, fm, np, th)                                                          \
->   	.tile_height = th                                                 \
->   }
->   
-> -#define PLANAR_YUV_FMT(fmt, a, r, g, b, e0, e1, e2, alpha, chroma, bp,    \
-> -flg, fm, np)                                                      \
-> +#define PLANAR_YUV_FMT(fmt, bp, r, g, b, e0, e1, e2, chroma)              \
->   {                                                                         \
->   	.pixel_format = DRM_FORMAT_ ## fmt,                               \
->   	.fetch_type = MDP_PLANE_PLANAR,                                   \
-> -	.alpha_enable = alpha,                                            \
-> +	.alpha_enable = false,                                            \
->   	.element = { (e0), (e1), (e2), 0 },                               \
->   	.bpc_g_y = g,                                                     \
->   	.bpc_b_cb = b,                                                    \
->   	.bpc_r_cr = r,                                                    \
-> -	.bpc_a = a,                                                       \
-> +	.bpc_a = 0,                                                       \
->   	.chroma_sample = chroma,                                          \
->   	.unpack_count = 1,                                                \
->   	.bpp = bp,                                                        \
-> -	.fetch_mode = fm,                                                 \
-> -	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT | flg,                      \
-> -	.num_planes = np,                                                 \
-> +	.fetch_mode = MDP_FETCH_LINEAR,                                   \
-> +	.flags = MSM_FORMAT_FLAG_UNPACK_TIGHT |                           \
-> +		 MSM_FORMAT_FLAG_YUV,                                     \
-> +	.num_planes = 3,                                                  \
->   	.tile_height = MDP_TILE_HEIGHT_DEFAULT                            \
->   }
->   
-> @@ -511,72 +514,61 @@ static const struct msm_format mdp_formats[] = {
->   
->   	/* 2 plane YUV */
->   	PSEUDO_YUV_FMT(NV12,
-> -		0, BPC8, BPC8, BPC8,
-> +		BPC8, BPC8, BPC8,
->   		C1_B_Cb, C2_R_Cr,
-> -		CHROMA_420, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 2),
-> +		CHROMA_420),
->   
->   	PSEUDO_YUV_FMT(NV21,
-> -		0, BPC8, BPC8, BPC8,
-> +		BPC8, BPC8, BPC8,
->   		C2_R_Cr, C1_B_Cb,
-> -		CHROMA_420, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 2),
-> +		CHROMA_420),
->   
->   	PSEUDO_YUV_FMT(NV16,
-> -		0, BPC8, BPC8, BPC8,
-> +		BPC8, BPC8, BPC8,
->   		C1_B_Cb, C2_R_Cr,
-> -		CHROMA_H2V1, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 2),
-> +		CHROMA_H2V1),
->   
->   	PSEUDO_YUV_FMT(NV61,
-> -		0, BPC8, BPC8, BPC8,
-> +		BPC8, BPC8, BPC8,
->   		C2_R_Cr, C1_B_Cb,
-> -		CHROMA_H2V1, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 2),
-> +		CHROMA_H2V1),
->   
->   	PSEUDO_YUV_FMT_LOOSE(P010,
-> -		0, BPC8, BPC8, BPC8,
-> +		BPC8, BPC8, BPC8,
->   		C1_B_Cb, C2_R_Cr,
-> -		CHROMA_420, MSM_FORMAT_FLAG_DX | MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 2),
-> +		CHROMA_420),
->   
->   	/* 1 plane YUV */
-> -	INTERLEAVED_YUV_FMT(VYUY,
-> -		0, BPC8, BPC8, BPC8,
-> +	INTERLEAVED_YUV_FMT(VYUY, 2,
-> +		BPC8, BPC8, BPC8,
->   		C2_R_Cr, C0_G_Y, C1_B_Cb, C0_G_Y,
-> -		false, CHROMA_H2V1, 4, 2, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 1),
-> +		CHROMA_H2V1),
->   
-> -	INTERLEAVED_YUV_FMT(UYVY,
-> -		0, BPC8, BPC8, BPC8,
-> +	INTERLEAVED_YUV_FMT(UYVY, 2,
-> +		BPC8, BPC8, BPC8,
->   		C1_B_Cb, C0_G_Y, C2_R_Cr, C0_G_Y,
-> -		false, CHROMA_H2V1, 4, 2, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 1),
-> +		CHROMA_H2V1),
->   
-> -	INTERLEAVED_YUV_FMT(YUYV,
-> -		0, BPC8, BPC8, BPC8,
-> +	INTERLEAVED_YUV_FMT(YUYV, 2,
-> +		BPC8, BPC8, BPC8,
->   		C0_G_Y, C1_B_Cb, C0_G_Y, C2_R_Cr,
-> -		false, CHROMA_H2V1, 4, 2, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 1),
-> +		CHROMA_H2V1),
->   
-> -	INTERLEAVED_YUV_FMT(YVYU,
-> -		0, BPC8, BPC8, BPC8,
-> +	INTERLEAVED_YUV_FMT(YVYU, 2,
-> +		BPC8, BPC8, BPC8,
->   		C0_G_Y, C2_R_Cr, C0_G_Y, C1_B_Cb,
-> -		false, CHROMA_H2V1, 4, 2, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 1),
-> +		CHROMA_H2V1),
->   
->   	/* 3 plane YUV */
-> -	PLANAR_YUV_FMT(YUV420,
-> -		0, BPC8, BPC8, BPC8,
-> +	PLANAR_YUV_FMT(YUV420, 1,
-> +		BPC8, BPC8, BPC8,
->   		C2_R_Cr, C1_B_Cb, C0_G_Y,
-> -		false, CHROMA_420, 1, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 3),
-> +		CHROMA_420),
->   
-> -	PLANAR_YUV_FMT(YVU420,
-> -		0, BPC8, BPC8, BPC8,
-> +	PLANAR_YUV_FMT(YVU420, 1,
-> +		BPC8, BPC8, BPC8,
->   		C1_B_Cb, C2_R_Cr, C0_G_Y,
-> -		false, CHROMA_420, 1, MSM_FORMAT_FLAG_YUV,
-> -		MDP_FETCH_LINEAR, 3),
-> +		CHROMA_420),
->   };
->   
->   /*
-> 
-
+On 9/4/25 10:50, Lucas De Marchi wrote:
+> On Thu, Sep 04, 2025 at 10:15:42AM -0700, Lizhi Hou wrote:
+>> Hi Lucas
+>>
+>> I got a dim error when applying this patch. Could you take a look? 
+>> Maybe there is not a maintainer for MAINTAINERS? :)
+>
+> Yes. A little bit worse than that:
+> https://gitlab.freedesktop.org/drm/maintainer-tools/-/merge_requests/83
+>
+> For now, please use `dim -f ...` to bypass this error.
+>
+> Lucas De Marchi
+>
+>>
+>> dim: ERROR: a12586e4e737 ("MAINTAINERS: Update Min Ma's email for AMD 
+>> XDNA driver"): Mandatory Maintainer Acked-by missing., aborting
+>>
+>> Thanks,
+>>
+>> Lizhi
+>>
+>> On 9/2/25 12:47, Lizhi Hou wrote:
+>>> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>>>
+>>> On 8/30/25 17:12, Min Ma wrote:
+>>>> I recently left AMD and would like to continue participating in
+>>>> the review and maintenance of the XDNA driver using my personal
+>>>> email address.
+>>>>
+>>>> Signed-off-by: Min Ma <mamin506@gmail.com>
+>>>> ---
+>>>>   MAINTAINERS | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 10850512c118..6eefa494000c 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -1231,7 +1231,7 @@ F:    drivers/spi/spi-amd.c
+>>>>   F:    drivers/spi/spi-amd.h
+>>>>     AMD XDNA DRIVER
+>>>> -M:    Min Ma <min.ma@amd.com>
+>>>> +M:    Min Ma <mamin506@gmail.com>
+>>>>   M:    Lizhi Hou <lizhi.hou@amd.com>
+>>>>   L:    dri-devel@lists.freedesktop.org
+>>>>   S:    Supported
