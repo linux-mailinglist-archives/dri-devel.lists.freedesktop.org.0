@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AD8B44276
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 18:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270E0B442A5
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 18:26:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF1410E071;
-	Thu,  4 Sep 2025 16:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5127E10EA95;
+	Thu,  4 Sep 2025 16:26:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="YnoKmLxf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j9/dJnO/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E21C810E071
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 16:16:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757002602; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VHMYafhZFE2pstJbX0WhsvQVHtyyyFgCvVKQ3nO5Ilwy5s9+qiXR6/NDUee9kV/Xvm0I0whyov8yvtNAyNJtZBFfrbljwKTBHvYRJv3xvNzenqQ8WXYCgfbqJN/DDbVWqT9QFwCQ2d62Dwx1/Q6DJ8G5s2NyruqN9vF/JHoFzVg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757002602;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=FIqcoPZSc1O3/JVIvRpHNLeM+xtMfjWtg6IHGtGPB9M=; 
- b=VktHaoNE3ghG/Rp38dGH3zb2IAwEqWaLlhG9Cc6g9zkJfXNJj95tMUg7FHJRCFY+SH7OENHpmRFDAZJgFFKIP9XttaBJz+872H2rok1RlPOhRhZnfEf8ZVhPFOyja9qStx3i7rDOEeoFYI4WCUbxnw3tVr3EmrMDwaAQiM3Zwv8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757002602; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=FIqcoPZSc1O3/JVIvRpHNLeM+xtMfjWtg6IHGtGPB9M=;
- b=YnoKmLxfdFea7bkc4g6zROBrQB6TPG/6gccwAfRJBqq63fbKnvn+XO0mwnkkEg0n
- nY9dly0GuhXtCrUhHj6SY1h4DSldODjdCbAFLnKuIitBP8/W8owMowpz3NyiZ1mrhXn
- rtxgaCn8cuE0HX6vquorJXulozUSTbc9dnxekLhg=
-Received: by mx.zohomail.com with SMTPS id 1757002600009698.7115522639169;
- Thu, 4 Sep 2025 09:16:40 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 12/14] rust: Add dma_buf stub bindings
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250829224116.477990-13-lyude@redhat.com>
-Date: Thu, 4 Sep 2025 13:16:22 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Xiangfei Ding <dingxiangfei2009@gmail.com>,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b <linux-media"@vger.kernel.org (ope>),
-	"moderated list:DMA BUFFER SHARING  FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b <linaro-mm-sig"@lists.linaro.org (mod>)
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <88013821-0710-4B52-B622-3BAB429A6254@collabora.com>
-References: <20250829224116.477990-1-lyude@redhat.com>
- <20250829224116.477990-13-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4457310EA95
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 16:26:45 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-45dd16c484dso6200055e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 09:26:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757003204; x=1757608004; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=7Zmn33NQED22wCKZ1Y3FA6Co5AVovjnCCeYLb4pKYh0=;
+ b=j9/dJnO/rMT5HZO8yNlxqmpnswELuoQ10sLQdBolTqTTpxHlZKXvz0dG9o9ILLMlUz
+ hDj6Aryu8Bp0vRHx8DIfDI7omfNT5UtMRHoORpDCjR3PNri5HQGJORaesSkgWDRetN6J
+ novOvsxrtXU2k2XjPBNRMOH5/sfZDUpHhwcIGpTkNxkG3FCh3V4YRHmPiEyFzcqkt857
+ E8o+/v0uDQLSptHygPhchGeTwROjVVx9tbdRo4g6x+xADzD2mZa4wi+/czZOF5w8cKns
+ 5M39EGKBeAXJudi0a2ArK2Oa8V3fVCC8VajAgGQxuEK/OeFrKjWXxuGEYfnWnk8Uhqub
+ 4GPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757003204; x=1757608004;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7Zmn33NQED22wCKZ1Y3FA6Co5AVovjnCCeYLb4pKYh0=;
+ b=ZvmE2I6JVnEf6x8PCYGK8afeClEMisFrJxax75FJxF8Mi8tuHlIvbxsL3SICuQjLpE
+ TNTcLBkPRI+dxYNqOr/l5tuILiKcf2JEEdQJND9y7rq1uutksa5RY2JM5JSCuhMdvBDK
+ 4/7/6OGfC5Og5ULoRmbG7dB/inj9GBz3/DYSlP6i8+OVfrj1ya89eixF1o1QKZg0daRN
+ NciAibIoNUxE3FxFmcMXPyk8+4CECqEGJxyJGgxeolmWe54zR9QBWP0C7bWqE37/Bzfl
+ pcW4sYa0i5ze93zrJOvngaeyS++IvgVTSQtQ3YhOBtE5WC05pUaXVLzuu4/al78g2uAf
+ qxjg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWc2xdd+ndnYKo2cqvjVek97+3LKBwSvqsKCYXLFjC2NRkfCqJ2yU1YGdR0hAJ8L1AlZj3ShCf3Mw8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/3Sy8JpQSm+878ib2Pt9z1WWfJl2GZt6g23PjA8q3T1tkSUIk
+ eASTaMeJEV9VmU5xNdOxpVQQL6ftAy/0WA7HvNqD5X1bZSsq9pSBC/Wx
+X-Gm-Gg: ASbGncs1xvCzdDwxmRNxe6GVJeTrq/iAJEutfml0kRrwuq50fHvfY5TX+AgssMs+2ve
+ eN6wPg/AboE6nHl+IQxy+r9GytQVIR6BA8zcOChvGfog/3e2bmq9bUj0NzI9KtnuekY9MQTx8dm
+ OiyX2A0csUomnrTzm3408uxRjuM3yJ34tXba9Ebj5hfQ7XVHjxEVJi+WzHMC0SLh/CQYN1CNOgJ
+ II4Po6m9fCgew/vX62V1tuUHDTmV2ShE3dHxSdYxGmM28j+luh6/6PIs3XrMLkpoF3y9XLQE0a/
+ KrCxjGuvl05V/x66/OIJa5d/JlLMvmshkRidAs6ICEGrlD3764wPWDaHAl8owCgE8Pr8x+MHsZm
+ BV3oJLm20ObU1PDxkVdNSea0q+fDYBPjPafVKgvwC9fytwjES7wrdQLNdzcP6+pTlaQ6gHdfIlZ
+ qZkKA=
+X-Google-Smtp-Source: AGHT+IGqRoVDL/YvIJCa0D9yyjvv5hQCjZTKHgi7GaUWRGYH3wr2Fe9WEMFB2BkUiphy8qATn7bWNg==
+X-Received: by 2002:a05:600c:1389:b0:45b:47e1:ef71 with SMTP id
+ 5b1f17b1804b1-45b85599151mr139128775e9.36.1757003203459; 
+ Thu, 04 Sep 2025 09:26:43 -0700 (PDT)
+Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194?
+ ([2001:861:3385:e20:6384:4cf:52c5:3194])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45cb687fe4esm68126895e9.23.2025.09.04.09.26.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 Sep 2025 09:26:42 -0700 (PDT)
+Message-ID: <b9433a38-f948-4e16-b7e5-0c2537f7fe0e@gmail.com>
+Date: Thu, 4 Sep 2025 18:26:41 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sti: Remove redundant ternary operators
+To: Liao Yuanhong <liaoyuanhong@vivo.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "open list:DRM DRIVERS FOR STI" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250904112738.350652-1-liaoyuanhong@vivo.com>
+Content-Language: en-US, fr
+From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
+In-Reply-To: <20250904112738.350652-1-liaoyuanhong@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,96 +99,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-> On 29 Aug 2025, at 19:35, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> In order to implement the gem export callback, we need a type to =
-represent
-> struct dma_buf. So - this commit introduces a set of stub bindings for
-> dma_buf. These bindings provide a ref-counted DmaBuf object, but don't
-> currently implement any functionality for using the DmaBuf.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->=20
+Le 04/09/2025 à 13:27, Liao Yuanhong a écrit :
+> For ternary operators in the form of "a ? true : false", if 'a' itself
+> returns a boolean result, the ternary operator can be omitted. Remove
+> redundant ternary operators to clean up the code.
+> 
+> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
 > ---
-> V3:
-> * Rename as_ref() to from_raw()
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/kernel/dma_buf.rs | 40 ++++++++++++++++++++++++++++++++++++++++
-> rust/kernel/lib.rs     |  1 +
-> 2 files changed, 41 insertions(+)
-> create mode 100644 rust/kernel/dma_buf.rs
->=20
-> diff --git a/rust/kernel/dma_buf.rs b/rust/kernel/dma_buf.rs
-> new file mode 100644
-> index 0000000000000..a66829afcd129
-> --- /dev/null
-> +++ b/rust/kernel/dma_buf.rs
-> @@ -0,0 +1,40 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! DMA buffer API
 
-Missing period?
+Hi,
 
-> +//!
-> +//! C header: =
-[`include/linux/dma-buf.h`](srctree/include/linux/dma-buf.h)
-> +
-> +use bindings;
-> +use kernel::types::*;
-> +
-> +/// A DMA buffer object.
-> +///
-> +/// # Invariants
-> +///
-> +/// The data layout of this type is equivalent to that of `struct =
-dma_buf`.
-> +#[repr(transparent)]
-> +pub struct DmaBuf(Opaque<bindings::dma_buf>);
-> +
-> +// SAFETY: `struct dma_buf` is thread-safe
-> +unsafe impl Send for DmaBuf {}
-> +// SAFETY: `struct dma_buf` is thread-safe
-> +unsafe impl Sync for DmaBuf {}
-> +
-> +#[expect(unused)]
-> +impl DmaBuf {
-> +    /// Convert from a `*mut bindings::dma_buf` to a [`DmaBuf`].
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// The caller guarantees that `self_ptr` points to a valid =
-initialized `struct dma_buf` for the
-> +    /// duration of the lifetime of `'a`, and promises to not violate =
-rust's data aliasing rules
-> +    /// using the reference provided by this function.
-> +    pub(crate) unsafe fn from_raw<'a>(self_ptr: *mut =
-bindings::dma_buf) -> &'a Self {
-> +        // SAFETY: Our data layout is equivalent to `dma_buf` .
-> +        unsafe { &*self_ptr.cast() }
-> +    }
-> +
-> +    pub(crate) fn as_raw(&self) -> *mut bindings::dma_buf {
-> +        self.0.get()
-> +    }
-> +}
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index fcffc3988a903..59242d83efe21 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -81,6 +81,7 @@
-> pub mod device_id;
-> pub mod devres;
-> pub mod dma;
-> +pub mod dma_buf;
-> pub mod driver;
-> #[cfg(CONFIG_DRM =3D "y")]
-> pub mod drm;
-> --=20
-> 2.50.0
->=20
+Acked-by: Raphaël Gallais-Pou <rgallaispou@gmail.com>
 
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-
+Thanks,
+Best regards,
+Raphaël
