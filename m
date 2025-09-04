@@ -2,128 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2738FB43B6F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A771B43BBC
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E8D10EA34;
-	Thu,  4 Sep 2025 12:24:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E32BB10E013;
+	Thu,  4 Sep 2025 12:37:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="hDNDwMru";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nwHa/7xp";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="GV6j6M/m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from flow-a3-smtp.messagingengine.com
- (flow-a3-smtp.messagingengine.com [103.168.172.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E2810EA25
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 12:24:28 +0000 (UTC)
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
- by mailflow.phl.internal (Postfix) with ESMTP id 91B7A138030E;
- Thu,  4 Sep 2025 08:24:27 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-12.internal (MEProxy); Thu, 04 Sep 2025 08:24:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1756988667; x=1756995867; bh=8U7GdOjxhs
- TzAyM8D4u5BI8G2Xd1f8HkMUIoKDmyl7w=; b=hDNDwMrunWW+ZSBiQCae5O6HdM
- rHIzrk1w93POFvUtWhk8/PTcjfDQw70b/bAYalCtI2CEx2Jf3r36xMTLqz9CDIHu
- HZcPpZPQ+saIaP0ny4IDb8U+Rt3hJOO0nBCCwBQG1znzCFlMcLqF43sj3v5cxi5F
- JrUfDaG0n1YTh8zUbpL1UxNYnnzVf7SsFPCIxwfijVgSkmuLxLS3N65UfaS6exGA
- ADh5LalaVXZoXMFdoF1Z1f55no4+j5lcUJw0Jasq3jj0uF9M2iWqQlJ4iQPxmKgW
- bJR0slNQsYWBDyjz0B2oPnJfmGr+7Cs2dBc6c3jMcMe8lqkFrYcT3BVZQUFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1756988667; x=1756995867; bh=8U7GdOjxhsTzAyM8D4u5BI8G2Xd1f8HkMUI
- oKDmyl7w=; b=nwHa/7xpjU32Z0Hf4NkHRGrhCI9S0+o+3GkFeLYaD4BO4ahSIiE
- AzfgjNUTcHpC8m5rkhEaZpprVmEahYBL4a3IXs7TKP7uSms2vaqjFv/7OVT1+BrN
- HiMWeD78WUeyUOqv6Ut+wjdDFtN7PwBIpxpp77y9j/hfwsM5M40bJShcazAq2Nfj
- vU0k0733ZUqRn1WSn2lEKneSOFqnM5iYPhEZMUh5lh5NYIX7eFe8AmPGcP1UL9Oo
- NpVS0IuWh+DjWJNqzDnp+c3xE7dELMyc/KjBBuMsB0ith0KURGCxVQ8t1hCBLsHq
- Nw/5Zqgh0Zq1JjITNRJNb43qV+z/R/mJORA==
-X-ME-Sender: <xms:-YS5aPp7-Q-PJ75oKwTPe0FcPwMF6CU7PPlMZUYvafzhxITyOuiNQQ>
- <xme:-YS5aNw42Jh_uRF-Vh88T3KVyMb5UDEtsSugx0zRywWFbbhkl6SwQIyf9iLELaMQ5
- m338mmu0yL4v5o3LG8>
-X-ME-Received: <xmr:-YS5aHydJs3sY-GK3oCbvAHsOkngOP2IJEXL3-Xsm7VL-Gn688r9we0YV-V5onScvbN07mdHctJXOIr-NeHO4ekZlmvdoAv7z3Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdeitdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- epfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhnvgcuifhr
- uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpefgvdffve
- elgedujeeffeehheekheelheefgfejffeftedugeethfeuudefheefteenucevlhhushht
- vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnh
- gvthdpnhgspghrtghpthhtohepieefpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
- pehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhvvghnsehkvghrnhgvlh
- drohhrghdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgt
- phhtthhopehnvggrlhesghhomhhprgdruggvvhdprhgtphhtthhopehkrhiikhdoughtse
- hkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdho
- rhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoheprh
- grfhgrvghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehvihhrvghshhdrkhhumhgr
- rheslhhinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:-YS5aFL5RENaptCIz0BuOu7c20yv3c3vvpf0r7dw-JaCLTja_Bz-qQ>
- <xmx:-YS5aMhqfqjJDjwhEwdZLnuYL-XJITqjWEtj1CN62kOs7Lr-e1ARig>
- <xmx:-YS5aLmrOIowpLzSrzFmFlJi5IwpCHBFCji4UnFHC3LawjtEN9XozQ>
- <xmx:-YS5aBjdESh3CesfnA5BUM2uF_YS4jSIK-ieYu5ywQQcEQrIsgMdmQ>
- <xmx:-4S5aHzTvFrOsjIChzaXkMhnpIzOEDH0ImtlmNuExND3IUGhmeRiqy8O>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Sep 2025 08:24:24 -0400 (EDT)
-Date: Thu, 4 Sep 2025 14:24:23 +0200
-From: Janne Grunau <j@jannau.net>
-To: Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Neal Gompa <neal@gompa.dev>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,	Hector Martin <marcan@marcan.st>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>,	Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>,	Robin Murphy <robin.murphy@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>,	Andi Shyti <andi.shyti@kernel.org>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from SEYPR02CU001.outbound.protection.outlook.com
+ (mail-koreacentralazon11013033.outbound.protection.outlook.com
+ [40.107.44.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF0810E013;
+ Thu,  4 Sep 2025 12:37:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wKOdLK14yrlKIIQj8eYuKzHqfmbBIKXQDaj+bJ+UzvXS4ep0h5m7VvdGNhNzsaQeuNxy6O301E+E+I0NA5CIe7cZTz7cd4HdKPDKXD1iP9sSdVnf9wKdJ4ikxw4N6Qn+nAyJmihPu2GmpM4YouQfumF4anMoMNVE5/P6HBzUUP1tDf12D1LKKR4wzNto81mnk7TIJquDPdfwKaSnoURF3+VSkn4ASv2je1COLFi+PaPrvQ51HRmT5noy8WqT2qASp2+En8Q0vYP+r3UyW6mIPcQw6NSAVfSrC5ex6QO4GXmqSira/A57Xn7MvOh/9rz3jUMA/OZhEq6dCCuCdMwR3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=06TFSUO/2S/BCeA732LX7xVRcqaRcj5HL+oHeCIT+m0=;
+ b=mbMqxBuO/NoFe8zhAUdZmvzYWL3n4zIcRg300twwheXlIvo/XC2QZcmJ5fcrdz+zZP//yCgZ+k5jkkMir/ZTmL3j8hXFesCUZSH/oEKranEqkMf12fakw+NtIZNe/CmvQWiT2XRzNojONwOCJOb2nFyBkRuQ2OVocae1hQQbCN3MlTj+XFlf9qwWUqkx7qPd3p8zsdCB66WUSR0yUzeB6dyIBVQ3lyzRLW4OD+mWekjrD9QVuMaY0jFm0DAEt63VxOZPJFryHSG5sCY+hB1+wJ0xBpIkA6h304mBnA5mNxVO1dbcwxA01O8qyGDwpoiN1AzZIzElOO5syNqujImIig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=06TFSUO/2S/BCeA732LX7xVRcqaRcj5HL+oHeCIT+m0=;
+ b=GV6j6M/m9hDMiCbt1XQIZfxpy2Btkt3U0wfMpGo/0ak3pwkI5QXZoveJiKSiqAIueNEN9TCaNJO+XVqPX3A4OCGqceDRNgf3vo/M+LxRAKL0bTDkDaHbR8OabxLXZYcfvuYStEagJ+p8AE3zyM29ijxZ+7j/pc9/5DayEQKpMQgphqsginyJmLGrrz+pY83VFSWIpQOldsaLYG9781FS3+e410uvtzsjSH8lPcZWHH+nzqSa/QzgzfVrpMtjRUMyOVrqikorTzYbzIxCyQ8jF1JlDdAlS5trKlSnhvl5gY0j5pN+Ptifv0BMe+BpwkbqxiFfSuQTjcsN/J+Mt43OcQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ PUZPR06MB5885.apcprd06.prod.outlook.com (2603:1096:301:110::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Thu, 4 Sep
+ 2025 12:36:56 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9094.017; Thu, 4 Sep 2025
+ 12:36:56 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Michael Turquette <mturquette@baylibre.com>,
- Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>,	Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>,	Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,	devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,	linux-pm@vger.kernel.org,
- iommu@lists.linux.dev,	linux-gpio@vger.kernel.org,
- linux-i2c@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- linux-bluetooth@vger.kernel.org,	linux-wireless@vger.kernel.org,
- linux-pwm@vger.kernel.org,	linux-watchdog@vger.kernel.org,
- linux-clk@vger.kernel.org,	dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org,	linux-spi@vger.kernel.org,
- linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250904122423.GB89417@robin.jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250829195119.GA1206685-robh@kernel.org>
- <20250830071620.GD204299@robin.jannau.net>
- <20250902194528.GA1014943-robh@kernel.org>
+ Philip Yang <Philip.Yang@amd.com>, Alex Sierra <alex.sierra@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: [PATCH] drm/amdkfd: Fix error code sign for EINVAL in svm_ioctl()
+Date: Thu,  4 Sep 2025 20:36:46 +0800
+Message-Id: <20250904123646.464028-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0029.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::20) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250902194528.GA1014943-robh@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|PUZPR06MB5885:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99324071-0d21-467e-8da2-08ddebafbc07
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|52116014|7416014|1800799024|376014|921020|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LC7ZTiQpNdi3iIcTjUfsWJHeR+KMn0g2OaTl3Ojjqy2bgyQXYaRjU+XRrsxK?=
+ =?us-ascii?Q?VqMCD18pL/OMA83udrfwyTEgc2E8wS54F36I1df8mh7UZhp/Wqt5j3f9mS/g?=
+ =?us-ascii?Q?fpH8ConfilxevBcituu1dJYJwgHBbrU9dzVO7t7jdHu1wHj0kwyet7w9E4kF?=
+ =?us-ascii?Q?qbRSyn8VGd4uf40+efmXCP63TP6QGQj04IJ4Sy2DrFiES3UMrL7pXK+5gtRq?=
+ =?us-ascii?Q?BrkyG8dwkemcgUc8KFVUobCm+raiSOvaEHfsV61Ap8iWX8+3OUbEmpElF+Zk?=
+ =?us-ascii?Q?6HaBtqY2HQCMSM6btHTRVMuBY68m8XZjogBaCbWfWNKofnhiUHKyKdbq9TCg?=
+ =?us-ascii?Q?mVXiouPz8kVHZetdEeFPKVZQBQOpwcc5iEkBcOcI1+vCal3/bYaH7SLt/cwV?=
+ =?us-ascii?Q?XN4R2BUD6Y3C0gGrM4bjn+Nerwj49OfUwiHbSciLj4ZX37ZJI2l/YPReLJJy?=
+ =?us-ascii?Q?8X3iHvi9fWWpmu+/2aJUNgWFN6ogyle3+f7rM4KjBmUtEEgQLENbjGJ0IJIO?=
+ =?us-ascii?Q?pdPdf1bFVZpNCtRf/Pblkaw8b1Z8Qv8BbanpAGFevj4zYRXtBpV9QIhM/5kW?=
+ =?us-ascii?Q?nXI7FdqTbEFqPwgsXQ1udrKr9J2RXkjgC0dCvherSlHC1Lnkpnnx/9amAwSi?=
+ =?us-ascii?Q?EnpSqpXLF0xSYpbX7sG7KLPxqXZsahEeiQco8HV3d8LvR2IPFS2+KWExlUwd?=
+ =?us-ascii?Q?5UHABEHHe2Uwki2WGTR2vA/5wYKJKTpoGtx3kvZoQv3HyYyMV4WEX6bi6/ri?=
+ =?us-ascii?Q?DtDf26BOxkv4E8izGYhN7k5CfzqDgpIxIOBH3MsQSuYtYEM0BzygIgR1Dsjv?=
+ =?us-ascii?Q?CpXjeTw9iZ4LrljalH/Z1DWB3AW+9NbqfkwFKJg0Ap+5l8B4Z/AHbBXJ/ltC?=
+ =?us-ascii?Q?zPCxFYxOZ5QAPVCi2tMV5Lo7E3XIRCrUqqvUJhzm2idl+PdFQq/0H3Mvk6pX?=
+ =?us-ascii?Q?e5HYTm+mtfFpmUSjbzAZvXwtR0TyHe8LnIvHfh2LOUtS9ZmoqFk2MSmY3C13?=
+ =?us-ascii?Q?1zIpxZ6k9+vHFl9U70mgYYbu+RzVUGoxR71Z7Rd/tnmdpeRou6Y+hgPIzlcn?=
+ =?us-ascii?Q?LyUmwgQq70vuShNaSBT4+UcG4avLl3R+tEdlVnqH0g2XzPgtgUjLvKSOue9o?=
+ =?us-ascii?Q?jVpvTvKLBIviEvKrdq0YNxn2hF+L2TSC49cm/wlBxCc3ellvftuYbxTHgu0n?=
+ =?us-ascii?Q?ghhCiXHWNL35szPol2KE74NYDPMVBXqQE5WqjL4GZreePxCMfWavtYl6hVDN?=
+ =?us-ascii?Q?GhbH+5RmSC3ykJt+gnw2lpMxTE+Ny78lhOG1nc0+mIFoJ+FOHpUYdhdFesky?=
+ =?us-ascii?Q?2IYstw2fQCvIMsYqGAzUX9MGTglmmBuEdj7lz3P09eI6Hz2IS4UDGNENazgF?=
+ =?us-ascii?Q?ecAt2vyPEjbw/QO8Q0HfTeJyYxYv110wi6AfCV4yiPuBgICFwOgWlhl2W9Fz?=
+ =?us-ascii?Q?VAZdmA9LP7UDsMJhwJqU5rbFu0gm4ih0yeQC44VH5eN6bJmZWt/lB3GDj0os?=
+ =?us-ascii?Q?KZT8QmaobgGctTA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(52116014)(7416014)(1800799024)(376014)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YCEBpbeGUDO3JJ8Kl7l6SM1lJJPv7WFritmvwCjCIGRhq1xmQpmfpD/WNfHY?=
+ =?us-ascii?Q?m56Wr90a9EEbjpFqE326IaFaGaZhCLn0WpEwdmWCjQZAkF2OOHO42rFFy3oP?=
+ =?us-ascii?Q?qgUuOYohjCANA9YLXezcAWjU9jSp0PY+MnK0Uj7uzfKFL+0DnL/lHNXmNBmP?=
+ =?us-ascii?Q?LlqJNppSVtPvJOu8WK3uVMVtU2b+ao4YlyqKqOIvFQ3QcPW6byTug4K8zV6Q?=
+ =?us-ascii?Q?nZWOrUBRxOQ+NE8GW9p/TekSnCiYB3yH0rlgldgA6cF4xZ1lnroX7lrsdoO2?=
+ =?us-ascii?Q?aklEPbh1fZAdZ41rWb2mRBr/RJZGIEPDX/Gs6b1XeHgDkKB4bXNXes0Swv88?=
+ =?us-ascii?Q?sJ8orv7CVrCp+tctmATvUf8Fke1PsJiWK2WNFu5f7vV5yPBNPbL6REiFWjEW?=
+ =?us-ascii?Q?5ao1g33NoskydKGaORvHy+Y4HrLIojU8wkpAtNKSH9HVBk072xsVJ+rAkeU4?=
+ =?us-ascii?Q?zqfpuG6mSz3ECHyZ9miOOrgGDufglxQF2J0c0ORoJP/P7z12wovDN7rDBBwh?=
+ =?us-ascii?Q?tVK7RItcFDCucQUvw156f+D3uheLfrjWx4cFlgm3aPEiTG7btgM7/7/jp2tc?=
+ =?us-ascii?Q?FeKzsQC4kjFS5bF2GAuchHdL9xpQSiOks0y0C5zCjV5DPOB/SMDL+bX+dVpg?=
+ =?us-ascii?Q?yDLuYGrxzoKchvNceSVsDY8MaQxWq9XDJEYqHS/kVxUMf8QDRe8xxVmMICX9?=
+ =?us-ascii?Q?4BMQTueUF2EiYoB67LizPzgsdOS0dzugBgIMlLIic35CxGxOAD5HuHtSCj1E?=
+ =?us-ascii?Q?PcTvfaS1eHtNeF7NteMCEGf9nl5W9pbuig9nwXM5VJSXic3vJnCBShfCeexV?=
+ =?us-ascii?Q?QSQ6RorCpXgZ/zmEqGNC3YYO9J3cM4YUJAo5zk2we7qgg1VwPv8Zftb8ekAk?=
+ =?us-ascii?Q?qmtT7uUAw1bH5yUiqYLmnJBCu3yAt7jGtFZZO1dX58jmC8NZrIFNyNkJbJu3?=
+ =?us-ascii?Q?wfvQgH8ja0Jrb2e6iX9vciio0PgteXIpJ2aZuiRmX6IFmzniT3UOcXM3ZZEu?=
+ =?us-ascii?Q?2cZILFEg7SPpJF3b4P8BjeMD6rGpOC/uHrs7SJG3V/0VzkZ8LOUmnxXPT6rL?=
+ =?us-ascii?Q?8Hol33z8SHrB8xjmslcCXeTEk23A4q5d3SY9p3lt9zL8FS0s+cP6jDoa/ASI?=
+ =?us-ascii?Q?mGrpwtmznj7+uIeq8pBmiSuxg7Y3HACHCMcMBWuCO04+t+ka2fIOtHzK+oW6?=
+ =?us-ascii?Q?CSQnUun/6l/McxJBeJ83mW/PT1+tFtV9mq3rmqC3CN75n4yGfqDGkXToTQMz?=
+ =?us-ascii?Q?isHv35BMIuqwoCAqU5OVbPBev/frZaAg063KPLPBqIr8suQ5FNxlLt9RbqSo?=
+ =?us-ascii?Q?3rRiKxG9TcNmC990YF7JmN5oCRnap1AUJGLcfejGDd1eoO/0aPhOKcXW3ha6?=
+ =?us-ascii?Q?RKxnpmuJUnEVMdPexWXOc+1qaNf03eNXEwTrYmueR1cSny4JGmxTt4cZWclP?=
+ =?us-ascii?Q?qqpPBHc8BcwP5I9Lprz3Jl5Aneinn1aTFhueSR1dUH8/5EOjTb0Xw7uFGME3?=
+ =?us-ascii?Q?Nli+ODBq0+b0P9U9D7Sd0O2maNPqDwBBhUco8iH2avnlGnUdDZTpog9IvT5K?=
+ =?us-ascii?Q?KMgfRxKFqau74c0VbvjhDe6MmOBmEAisq9W+htN6?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99324071-0d21-467e-8da2-08ddebafbc07
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 12:36:56.5547 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jI2GDMh5WTtVYWF9TzEjFckK0dMbRVbVZYuVSdwWyKVSLoUAeJUQrxB/caCUx/TMoC/UA9sUyXAknoh6DY2D5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5885
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,57 +151,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 02, 2025 at 02:54:34PM -0500, Rob Herring wrote:
-> On Sat, Aug 30, 2025 at 09:16:20AM +0200, Janne Grunau wrote:
-> > On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
-> > > On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> > > > This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> > > > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> > > > follow design of the t600x family so copy the structure of SoC *.dtsi
-> > > > files.
+Use negative error code -EINVAL instead of positive EINVAL in the default
+case of svm_ioctl() to conform to Linux kernel error code conventions.
 
-...
+Fixes: 42de677f7999 ("drm/amdkfd: register svm range")
+Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > > After discussion with the devicetree maintainers we agreed to not extend
-> > > > lists with the generic compatibles anymore [1]. Instead either the first
-> > > > compatible SoC or t8103 is used as fallback compatible supported by the
-> > > > drivers. t8103 is used as default since most drivers and bindings were
-> > > > initially written for M1 based devices.
-> > > 
-> > > An issue here is any OS without the compatibles added to the drivers 
-> > > won't work. Does that matter here? Soon as you need any new drivers or 
-> > > significant driver changes it won't. The compatible additions could be 
-> > > backported to stable. They aren't really any different than new PCI IDs 
-> > > which get backported.
-> > 
-> > I don't think backporting the driver compatible additions to stable
-> > linux is very useful. It is only relevant for t602x devices and the only
-> > way to interact with them is the serial console. The T602x PCIe support
-> > added in v6.16 requires dart changes (the posted 4th level io page table
-> > support) to be useful. After that PCIe ethernet works so there is a
-> > practical way to interact with t602x systems. So there are probably zero
-> > user of upstream linux on those devices 
-> > I'm more concerned about other projects already supporting t602x
-> > devices. At least u-boot and OpenBSD will be affected by this. As short
-> > term solution m1n1 will add the generic compatibles [1] temporarily.
-> > I think keeping this roughly for a year should allow to add the
-> > compatibles and wait for "fixed" releases of those projects.
-> > I'll send fixes for u-boot once the binding changes are reviewed.
-> 
-> Honestly, at least in the cases where the generic compatible works for 
-> every chip so far, I'd just stick with it. The issue with generic 
-> compatibles is more that you don't really know if things are going to be 
-> the same or not. And most of the time, the h/w ends up changing.
-> 
-> If you want to keep it like this since you've already done it, then for 
-> all the binding patches:
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index 521c14c7a789..68ba239b2e5d 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -4261,7 +4261,7 @@ svm_ioctl(struct kfd_process *p, enum kfd_ioctl_svm_op op, uint64_t start,
+ 		r = svm_range_get_attr(p, mm, start, size, nattrs, attrs);
+ 		break;
+ 	default:
+-		r = EINVAL;
++		r = -EINVAL;
+ 		break;
+ 	}
+ 
+-- 
+2.34.1
 
-Let's keep with this series. I still have a branch with dt-binding
-changes using the generic compatibles but let's keep this approach to
-confusion and duplicate review work.
-
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
-Thanks
-
-Janne
