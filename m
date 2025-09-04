@@ -2,68 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0F2B43D79
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 15:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC10B43D81
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 15:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0286610EA47;
-	Thu,  4 Sep 2025 13:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3537010EA52;
+	Thu,  4 Sep 2025 13:43:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="EqDhF7bJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SfLBNwul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF7310EA44;
- Thu,  4 Sep 2025 13:43:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756993394; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=EM5RoJlDfidcoH0iXxABuN7m3OYlKGT+wnqNJELtbqkq7Bqy7YpsWx5iTdIimV/o5iOi3eYqpRJ8vVnjSpQ4AM7AzRFoDztrgj7bebQQxtOEPD+K6RJUs1QnnY64OUtKxuWPM5UWftPyD33C7V7g67OGJh+IjrKF+Wea+sSpjO8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756993394;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=v/CGpSbTX1swAaII5MzvS161EteBjkwE/loRHMWcMrE=; 
- b=U3YK7nZm/bLjgDIxJubCTzRmhy5p13IsMKb0SruW0+Q5V//rs0TIDsyGg/FosfP0M8VZF0rWLsY+uKB88ujPhF0SRNXoPB0s/1jCFX1gU/fYMoKiXsEka0p01Cq+91pmNw5NW30d6TfXFOSs9IFIunaEIWBfCrf3Xf0QH0qrNCE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756993394; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=v/CGpSbTX1swAaII5MzvS161EteBjkwE/loRHMWcMrE=;
- b=EqDhF7bJLuQAElm1IsjDZdxHLUV9Jb4oCgW/HpVLvppQ+9QJnyzs7qNzq0oQkPdZ
- JNQ+tyjOgj5tB7VBcCmVWuUTRKRgsT1Kru3tliFQk4r1zAatMwCa7NwQgZw8OGu+t9s
- k4WRNWnpFFmYc/cWSE90dqPgclkYNAS4CAzUGeeE=
-Received: by mx.zohomail.com with SMTPS id 1756993391488147.0851196413604;
- Thu, 4 Sep 2025 06:43:11 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 09/14] rust: gem: Introduce DriverObject::Args
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250829224116.477990-10-lyude@redhat.com>
-Date: Thu, 4 Sep 2025 10:42:55 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A1E10EA54
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 13:43:57 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849XN6P032388
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 13:43:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=2glEwf25BhBn22EfU2RgmB2K
+ pr+UPvjpjFbd0WLfYLk=; b=SfLBNwulePti93rH0/aneWsCdnYXKsLO6rjNRc3a
+ l296k5oxt2aEN724wrVb3e3YyMKdw7rqbuEmEyaDn4kIitFBuv5DNIbjywYVoTOi
+ o6Kt/Ev5RGQtuLn5rTcIoG3AJZCWWP9f/HSfWlu+TAI8xxTyaAKEdejbi17hNp7h
+ dguK3cZNUKWyfbE58+O60e7x6ghUMes7H9Eg3Bj7iWx95qJ+eS9UkUnPa1g72+AD
+ FyCh5Is+I5tB3OPZ0q1zQtbCtALUCL2ITkPlyLuvkslaOYnlkSjDvzQYRF2j4G8t
+ xD6e8XawIvSEig2bPgVjks3vMZ1PyYNc+0gXlGIiSFJB0w==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnpfse7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 13:43:56 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b339e7d107so23823181cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 06:43:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756993436; x=1757598236;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2glEwf25BhBn22EfU2RgmB2Kpr+UPvjpjFbd0WLfYLk=;
+ b=Bd2RB2E3AJYJNVtENFqF9jMKBuOXA9r+B3tU0GW9e89pvnXjwGea8dRzpeFsPm/JIj
+ RU91L4CZXFpYiK3hDqBRjSMZqsW3m1i9OJmyxvD1Ni5r6cVsMrEXygQ8v0Xl6OynZsHx
+ QVpxtxO4oXJXaFuxJfCwhXfjOsXQ8PRa65qQvTVkPzKgzNlcYgxaCZrkRwJ6U9UeMWyP
+ Gqno38IwX5JxPwq/rHviPZrTw1tUmRBcJfS+IMhbI/coYHlcjVD3KDUk0gGrtu4OY9al
+ I08Dxuf9Bjx82nuIurYHxB3ZynQ25VJAEiLrgdyf7piPVARkcA76tz8C7tSm9DUlMYGQ
+ nT+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5fMk+QMEeN87OVuA9fh0cbtCvutQKaHwCDBQi1ae5TbGeUbqqfuH1sTiijw1KSOT8j67M0lQbQME=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjrrUGrLmWXQIDkFthAQSV5YzxwBHBUGdQzUrxGN4XXDQ7A1XN
+ I5d+CkEnGMO2WH24rBHuF2dh9KQ0Zcv8lw+JC/7eu+9VKKCMGYF01c/WAJC02rlDF6fTahpOPUI
+ 0YbRRaXlrPAwnuROjrZXPBzni017W1jene3WAsKYHqERLYfpyVEczwG3GZF1iKQHToNUmPUs=
+X-Gm-Gg: ASbGncvOX2//uMTwF151GhRRXrfHG/zHWwfBQbwaw+S3mzDPJGzj31viCJ8GDQst/3G
+ JaTdOjwjfn1fKFheZrkKZkedHtT+fUegdijSIVsxnRtmNSrxhsElbhzcPKyBOmGc23N/C9njzbI
+ KM29nplqkACh7f6zNbjjp2HO0DLHwENLyQlfNQjf5lisUYKV1qeF4ymrNM7Hxhep9SSFv6lLnfd
+ Vi7QWpqRr1B6UNdXzCAL7XpkvgNaSbZdEr6V6+bhJMsbEXNpcmFPawunAstdu4bpGe8m+q/srIH
+ G1UZyiyjgWcpLtZ5vCxWDpXcdv2A7T9vYnEk17HvNAGnH2zN/8s1tLcQ3BRfFffE+wXmt1jQ2yf
+ ByDc3tcZUncPfdkZEHocWXr1CjyHsV18GTz+O5JVjq7lEoGTM/ufJ
+X-Received: by 2002:a05:622a:8c9:b0:4b2:a8d9:8683 with SMTP id
+ d75a77b69052e-4b31dcd66e8mr252983101cf.53.1756993435608; 
+ Thu, 04 Sep 2025 06:43:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH390JIg6ufBo3mdh8M7wnVIbtdqeUgFOXqUz/fvQ0dn7b22yTZGY91BOUB7sk585pcqQx+eA==
+X-Received: by 2002:a05:622a:8c9:b0:4b2:a8d9:8683 with SMTP id
+ d75a77b69052e-4b31dcd66e8mr252982531cf.53.1756993434991; 
+ Thu, 04 Sep 2025 06:43:54 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5608ace81a7sm1199096e87.74.2025.09.04.06.43.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Sep 2025 06:43:54 -0700 (PDT)
+Date: Thu, 4 Sep 2025 16:43:52 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Asahi Lina <lina+kernel@asahilina.net>,
- "open list:DRM DRIVER FOR NVIDIA GPUS [RUST]" <nouveau@lists.freedesktop.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <91A174DE-B7A1-4F35-ADAB-39873B17A3D4@collabora.com>
-References: <20250829224116.477990-1-lyude@redhat.com>
- <20250829224116.477990-10-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 2/6] dt-bindings: display/msm: dp-controller:
+ document QCS8300 compatible
+Message-ID: <p2okyfwfl23bip65koaqezlvhyo3z47bnugojcieuspr37xc7b@s3qwgbqmts4l>
+References: <20250904-qcs8300_mdss-v11-0-bc8761964d76@oss.qualcomm.com>
+ <20250904-qcs8300_mdss-v11-2-bc8761964d76@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904-qcs8300_mdss-v11-2-bc8761964d76@oss.qualcomm.com>
+X-Proofpoint-GUID: F_ieI5222gjlWJ0rSCkatk2R-ZWZlzV3
+X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b9979c cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=EGIftIUl1-O6pfvt0j4A:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: F_ieI5222gjlWJ0rSCkatk2R-ZWZlzV3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfX2xB8f2lbsTlb
+ Pezqz3+hZumHcYa+8dGAgNz5L8MtYw/nK+TZlmGBVwAveZe4zRzSwVxkTscvbhakBQG+1Ux/TDT
+ tdeVlOMSE7DNcNOTEpLt1knOVjU5jbViRiSsZkOuKww1CfTpwcJt/pXUpkjY4Rw0DLaNyW6++2M
+ 1+lgJoYlJBN9elqIsXvuieavoZtA9oRu0iDKu42fVPHCL9dXBpoN0UsrArWpxLNcobYhJRUaT40
+ yDnPXTi+qot9s0E+a42YGOmwWk+qvM2iqLh2T++Msz06Ekm+laZr+eVYBTX3L0ntwD3osgn0NuH
+ fV1dvrDJBVff7f+4VZpcXcwZYoR3jzkAcIyROEAHBgur7fhACtvGtq6nPLX9VgDFib4u7xcidxd
+ rtPXqRbE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-04_05,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
+ spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,231 +139,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> On 29 Aug 2025, at 19:35, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> This is an associated type that may be used in order to specify a =
-data-type
-> to pass to gem objects when construction them, allowing for drivers to =
-more
-
-This doesn=E2=80=99t read very well IMHO.
-
-> easily initialize their private-data for gem objects.
-
-nit: I think that "private data" doesn=E2=80=99t need a hyphen?
-
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
->=20
+On Thu, Sep 04, 2025 at 03:22:37PM +0800, Yongxing Mou wrote:
+> Add compatible string for the DisplayPort controller found on the
+> Qualcomm QCS8300 SoC.
+> 
+> The Qualcomm QCS8300 platform comes with one DisplayPort controller
+> that supports 4 MST streams.
+> 
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
-> V3:
-> * s/BaseDriverObject/DriverObject/
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> drivers/gpu/drm/nova/gem.rs |  5 ++-
-> rust/kernel/drm/gem/mod.rs  | 75 +++++++++++++++++++++++++++++++++----
-> 2 files changed, 71 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
-> index 10e3053f1a246..015cb56061a56 100644
-> --- a/drivers/gpu/drm/nova/gem.rs
-> +++ b/drivers/gpu/drm/nova/gem.rs
-> @@ -19,8 +19,9 @@ pub(crate) struct NovaObject {}
-> impl gem::DriverObject for NovaObject {
->     type Driver =3D NovaDriver;
->     type Object =3D gem::Object<Self>;
-> +    type Args =3D ();
->=20
-> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, =
-Error> {
-> +    fn new(_dev: &NovaDevice, _size: usize, _args: Self::Args) -> =
-impl PinInit<Self, Error> {
->         try_pin_init!(NovaObject {})
->     }
-> }
-> @@ -34,7 +35,7 @@ pub(crate) fn new(dev: &NovaDevice, size: usize) -> =
-Result<ARef<gem::Object<Self
->             return Err(EINVAL);
->         }
->=20
-> -        gem::Object::new(dev, aligned_size)
-> +        gem::Object::new(dev, aligned_size, ())
->     }
->=20
->     /// Look up a GEM object handle for a `File` and return an =
-`ObjectRef` for it.
-> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-> index f901d4263ee87..fe6ff3762a504 100644
-> --- a/rust/kernel/drm/gem/mod.rs
-> +++ b/rust/kernel/drm/gem/mod.rs
-> @@ -6,13 +6,14 @@
->=20
-> use crate::{
->     alloc::flags::*,
-> -    bindings, drm,
-> +    bindings,
->     drm::driver::{AllocImpl, AllocOps},
-> +    drm::{self, private::Sealed},
->     error::{to_result, Result},
->     prelude::*,
->     types::{ARef, AlwaysRefCounted, Opaque},
-> };
-> -use core::{ops::Deref, ptr::NonNull};
-> +use core::{marker::PhantomData, ops::Deref, ptr::NonNull};
->=20
-> /// A type alias for retrieving a [`Driver`]s [`DriverFile`] =
-implementation from its
-> /// [`DriverObject`] implementation.
-> @@ -21,6 +22,26 @@
-> /// [`DriverFile`]: drm::file::DriverFile
-> pub type DriverFile<T> =3D drm::File<<<T as DriverObject>::Driver as =
-drm::Driver>::File>;
->=20
-> +/// A helper macro for implementing AsRef<OpaqueObject<=E2=80=A6>>
-> +macro_rules! impl_as_opaque {
-> +    ($type:ty where $tparam:ident : $tparam_trait:ident) =3D> {
-> +        impl<D, $tparam> =
-core::convert::AsRef<kernel::drm::gem::OpaqueObject<D>> for $type
-> +        where
-> +            D: kernel::drm::driver::Driver,
-> +            Self: kernel::drm::gem::DriverObject<Driver =3D D>,
-> +            Self: kernel::drm::gem::IntoGEMObject,
-> +            $tparam: $tparam_trait,
-> +        {
-> +            fn as_ref(&self) -> &kernel::drm::gem::OpaqueObject<D> {
-> +                // SAFETY: This cast is safe via our type invariant.
-> +                unsafe { &*((self.as_raw().cast_const()).cast()) }
-> +            }
-> +        }
-> +    };
-> +}
-> +
-> +pub(crate) use impl_as_opaque;
-> +
-> /// GEM object functions, which must be implemented by drivers.
-> pub trait DriverObject: Sync + Send + Sized {
->     /// Parent `Driver` for this object.
-> @@ -29,8 +50,15 @@ pub trait DriverObject: Sync + Send + Sized {
->     /// The GEM object type that will be passed to various callbacks.
->     type Object: AllocImpl;
->=20
-> +    /// The data type to use for passing arguments to =
-[`BaseDriverObject::new`].
-> +    type Args;
-> +
->     /// Create a new driver data object for a GEM object of a given =
-size.
-> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl =
-PinInit<Self, Error>;
-> +    fn new(
-> +        dev: &drm::Device<Self::Driver>,
-> +        size: usize,
-> +        args: Self::Args,
-> +    ) -> impl PinInit<Self, Error>;
->=20
->     /// Open a new handle to an existing object, associated with a =
-File.
->     fn open(_obj: &Self::Object, _file: &DriverFile<Self>) -> Result {
-> @@ -42,7 +70,7 @@ fn close(_obj: &Self::Object, _file: =
-&DriverFile<Self>) {}
-> }
->=20
-> /// Trait that represents a GEM object subtype
-> -pub trait IntoGEMObject: Sized + super::private::Sealed + =
-AlwaysRefCounted {
-> +pub trait IntoGEMObject: Sized + Sealed + AlwaysRefCounted {
->     /// Returns a reference to the raw `drm_gem_object` structure, =
-which must be valid as long as
->     /// this owning object is valid.
->     fn as_raw(&self) -> *mut bindings::drm_gem_object;
-> @@ -233,11 +261,11 @@ impl<T: DriverObject> Object<T> {
->     };
->=20
->     /// Create a new GEM object.
-> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> =
-Result<ARef<Self>> {
-> +    pub fn new(dev: &drm::Device<T::Driver>, size: usize, args: =
-T::Args) -> Result<ARef<Self>> {
->         let obj: Pin<KBox<Self>> =3D KBox::pin_init(
->             try_pin_init!(Self {
->                 obj: Opaque::new(bindings::drm_gem_object::default()),
-> -                data <- T::new(dev, size),
-> +                data <- T::new(dev, size, args),
->                 // INVARIANT: The drm subsystem guarantees that the =
-`struct drm_device` will live
->                 // as long as the GEM object lives.
->                 dev: dev.into(),
-> @@ -289,7 +317,7 @@ extern "C" fn free_callback(obj: *mut =
-bindings::drm_gem_object) {
->     }
-> }
->=20
-> -impl<T: DriverObject> super::private::Sealed for Object<T> {}
-> +impl<T: DriverObject> Sealed for Object<T> {}
->=20
-> impl<T: DriverObject> Deref for Object<T> {
->     type Target =3D T;
-> @@ -313,6 +341,39 @@ impl<T: DriverObject> AllocImpl for Object<T> {
->     };
-> }
->=20
-> +impl_as_opaque!(Object<T> where T: DriverObject);
-> +
-> +/// A GEM object whose private-data layout is not known.
-> +///
-> +/// Not all GEM objects are created equal, and subsequently drivers =
-may occasionally need to deal
-> +/// with situations where they are working with a GEM object but have =
-no knowledge of its
-> +/// private-data layout.
-> +///
-> +/// It may be used just like a normal [`Object`], with the exception =
-that it cannot access
-> +/// driver-private data.
-> +///
-> +/// # Invariant
-> +///
-> +/// Via `#[repr(transparent)]`, this type is guaranteed to have an =
-identical data layout to
-> +/// `struct drm_gem_object`.
-> +#[repr(transparent)]
-> +pub struct OpaqueObject<T: =
-drm::Driver>(Opaque<bindings::drm_gem_object>, PhantomData<T>);
+>  .../bindings/display/msm/dp-controller.yaml        | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index aeb4e4f36044a0ff1e78ad47b867e232b21df509..ad08fd11588c45698f7e63ecc3218a749fc8ca67 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -18,6 +18,7 @@ properties:
+>    compatible:
+>      oneOf:
+>        - enum:
+> +          - qcom,qcs8300-dp
 
-I=E2=80=99m not sure whether this belongs in this patch.
+Can we use fallback to qcom,sa8775p-dp instead of declaring a completely
+new one?
 
-I agree with the motivation, but where exactly is this used for now? I =
-don't
-see it being passed in a callback, for example. The only way to get one =
-would
-be through as_ref() IIUC, but who would call this and why?
+>            - qcom,sa8775p-dp
+>            - qcom,sc7180-dp
+>            - qcom,sc7280-dp
+> @@ -195,6 +196,7 @@ allOf:
+>            compatible:
+>              contains:
+>                enum:
+> +                - qcom,qcs8300-dp
+>                  - qcom,sa8775p-dp
+>                  - qcom,x1e80100-dp
+>        then:
+> @@ -295,6 +297,26 @@ allOf:
+>            minItems: 6
+>            maxItems: 8
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              # QCS8300 only has one DP controller that supports 4
+> +              # streams MST.
+> +              - qcom,qcs8300-dp
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 9
+> +          maxItems: 9
+> +        clocks:
+> +          minItems: 8
+> +          maxItems: 8
+> +        clocks-names:
+> +          minItems: 8
+> +          maxItems: 8
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> 
+> -- 
+> 2.34.1
+> 
 
-> +
-> +impl<T: drm::Driver> IntoGEMObject for OpaqueObject<T> {
-> +    unsafe fn from_raw<'a>(self_ptr: *mut bindings::drm_gem_object) =
--> &'a Self {
-> +        // SAFETY:
-> +        // - This cast is safe via our type invariant.
-> +        // - `self_ptr` is guaranteed to be a valid pointer to a gem =
-object by our safety contract.
-> +        unsafe { &*self_ptr.cast::<Self>().cast_const() }
-> +    }
-> +
-> +    fn as_raw(&self) -> *mut bindings::drm_gem_object {
-> +        self.0.get()
-> +    }
-> +}
-> +
-> +impl<D: drm::Driver> Sealed for OpaqueObject<D> {}
-> +
-> pub(super) const fn create_fops() -> bindings::file_operations {
->     // SAFETY: As by the type invariant, it is safe to initialize =
-`bindings::file_operations`
->     // zeroed.
-> --=20
-> 2.50.0
->=20
-
+-- 
+With best wishes
+Dmitry
