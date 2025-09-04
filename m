@@ -2,116 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BA9B4300F
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD487B43019
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 04:57:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC8210E3E5;
-	Thu,  4 Sep 2025 02:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC49D10E3E6;
+	Thu,  4 Sep 2025 02:57:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IpsrypyU";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="o4ZCeWXk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB8610E3E5
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:53:33 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5841NQGk000375
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 02:53:33 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7DB10E3E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 02:57:11 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5840Non8004993
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 02:57:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=kz2067FEvooqYvy9DSICdzYN
- TfnwpZYpelzCotnzoz8=; b=IpsrypyUlNRH7nXE944fUy03canvDd/KcmnUss2X
- E+C5hF93+o3GGb2xXk9SVJmOHTJ0WEs6tjrryViKh8F9lYpHwE4OogXxjc2i1qDW
- PWruF+7BUPT6/q9MttQaNEt75woWC7SqCz9OsA+YbNbEXn5In/4Jkn/PTjPhL/k9
- HOYZo35OSna008awsXsdKoDVt5JD2LqwN3+WZZ+XiyZWDgYP1OO0O1CPjKlKBjNa
- uDpRpuZOuai+M5989NdjoNye3LVW5zJxQ3bSydq8Xqh7no0PKM8CgA0IVAC63+sd
- He8SkR0sZEWTStJ1D4x3ESzfZ5AgkOZsD5Ui6z+u2vwnLw==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ush35tcx-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bzEaXoQF+ag+J0SJOs2QiLzRINVuYknBIfuTABhdTUs=; b=o4ZCeWXk7vL3saQo
+ rCJrW2+Bd1AfaXntGnvhFqNZV8rNGURkPnyhZ5Afq/+qqbbo1ptziuuxo97Oxr0C
+ MKu/WVF8gIdHdqhV6QM7P0fjoYluHGAEfgtV7WbzunVIoImS7eVhB1KuCs0m2R8T
+ GbWmdbwbk3hMZjbxq/GcxGXKxr8sTJJE0MxeRYi+1/Dn0sbxu8aAnem7qjuLVbXv
+ 1I4gehKLWlhJ5AtF9agegWFmay9wknyF6IiqfqYXc1yVByzeKxVN5EQvLhspHc6v
+ wAJoG32m5TENZ0O19bjTTVearrKvO0lEJtnGySLhaKRY8b/jl1PwvBWTRpx+bQnL
+ 5E2pJA==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ur8s605v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 02:53:33 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-71ff3e1256cso8853936d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 19:53:33 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 02:57:10 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-329c76f70cbso480861a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 19:57:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756954412; x=1757559212;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kz2067FEvooqYvy9DSICdzYNTfnwpZYpelzCotnzoz8=;
- b=lQCUXO4SMfSiwHo1gNxOas+iwykrrzM2vblJN73rzw4AdKoWqXZg+clKpoV42bckjG
- iiyE9nMYR4qGt7TK15NqGK/xQ8eTp/cinrlY+5DfEwvvkwB97oXeTk0FoG5vn0fBmw4U
- SLcG/cYPAZ1D9L3gW7DZhcC/NIbxDz97Lc8Bs9miWU2hLXp7ZiYqqtK08+EVLo7GzWXY
- 2coutSg7sfb+SXtaFen2JQd0RRi/VOZPQgEPBDPySLGwp8YD+uCDsVJYLlaxXQB7bnzW
- LKPV+xgEw80KEUiZdSH8MOLySOwEYfYnjzWzVdc+rrawofJgnGcoUPdl1hkx5/2VLOD5
- H+kQ==
+ d=1e100.net; s=20230601; t=1756954630; x=1757559430;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bzEaXoQF+ag+J0SJOs2QiLzRINVuYknBIfuTABhdTUs=;
+ b=ccxAwpKpI5wLwcp4dZpnld1WJ1SRnfUfSmYTLWM9XPVNm+9Aw16LaTMtjy8eUj6J0a
+ qnHYqKD+eaKxXcm+g/fhVe3dcvUdQVLYtTHfrCSh/C4LVie12Lvl0gPe5fRpadhuOy/3
+ LLFiGus81hhqT/W6FgyvnmR3rMBuP4bTZFCsudMNw7iAr00tfJ7J85/lM5rys6fB1N03
+ Msx6KV5LhDUxjEUXzUqXvtndLcPtOEN3mdVAXn0TcxVtPvrTKWTpCc50SloXZLvTruQs
+ hT8yWL+RYZAYe2RnKRkKP1WmUQeo8x2TRvKA78APx+RMWZVwDe2cHCvbB4ZroKb1lNyH
+ WyYQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIEmUTGXenAACv18g1pdpG9o/DvjmT+TeXPCKwS9WAGxpQzq5pjl/QOd7S3FnEExfw1ma9apWOveI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/di/xXbN5CtAcLW1UcXYI3iKr5Qbdu4NNey1ti8JG/JhUN528
- jHaOlSBEsUrZ1pbmISt+Z71nyfUKkIXhGcbhaxiuKuB+c+jIPfx7Ymh4M0wkhMOnUdSAnJZ4AQu
- CdJGX2MUgO3/pwXegkRVHCyG9eMZ7whbFqTrIT844o4AdKpDqakml6YFbzXH44F43UALfOjo=
-X-Gm-Gg: ASbGnct9pQppLRvKS9otXg3pymhfBp2qpZXceoPRSqq+ekyW65krt5n0fsaMWdFNTMQ
- a9QOOsWP+JgKf3IJAllpfz6e+9cJ+FLNQT4ZxxjYC9CZ5nYzZdMLcCBz5Qo3+PZy+zIgaAIz6IM
- DgpQj05BWPVAWypJLKyOjY/XfEKbksXo37fPhZiU+2IS0yMN4P27KwHiKEUAuebeKA4E7oywOyW
- dH/efLTD8APL66nHre0/QC+9g6lyN3xKpfr75pPbIXZXeYHV3iSDu1/UedpnwM9k258tIVBLW7j
- VcbBoPv5/TvnhkwZ8LKx0KYMJTVrHnDGUV7Tk3OVmg9cIeUBn7BGq5LDf76mR+RCGJjO7CI6UAM
- JKvKW5ZABTvEu15MMYlrMdiH1aO+oKlaUS+/wa3lU4vzrNhxnarfb
-X-Received: by 2002:a05:6214:493:b0:70f:a42b:1b57 with SMTP id
- 6a1803df08f44-70fac966ba0mr176699116d6.66.1756954411805; 
- Wed, 03 Sep 2025 19:53:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IErmfuA4/8yRamEwLKE6ZwFL2tSW6JHiK7PGA76/AjLA3gD6SEd/CJbWJkPBSrDcwZ6CONrSw==
-X-Received: by 2002:a05:6214:493:b0:70f:a42b:1b57 with SMTP id
- 6a1803df08f44-70fac966ba0mr176698946d6.66.1756954411361; 
- Wed, 03 Sep 2025 19:53:31 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ab90ce8sm888972e87.35.2025.09.03.19.53.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Sep 2025 19:53:30 -0700 (PDT)
-Date: Thu, 4 Sep 2025 05:53:28 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: syyang <syyang@lontium.com>
-Cc: robh@kernel.org, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, neil.armstrong@linaro.org,
- rfoss@kernel.org, yangsunyun1993@gmail.com
-Subject: Re: [PATCH v2 1/2] This patch adds a new device tree binding
- documentation.
-Message-ID: <hgesm7qvkwutv46jqhulua2oycgeiwgvpnrqsynxm67zk5qjcc@bemou6qybefi>
-References: <175691717884.2393851.6340903042726389490.robh@kernel.org>
- <20250904022524.1748587-1-syyang@lontium.com>
+ AJvYcCU5+TqJ00t9AjU4h32IE9jqM+iog5aaEykQzre6gXtVgCv49eIjTAh1CQSZAwH2ZyIZo2lG4436HVY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwONBmpIzJ95d3h5RFmzxy72crUIYgGVFbIf/BV8y3RXIdSPlzP
+ W7fW+595cH6Yh57qZOpOVOrmoHcEV9anY4ykfNFMZS040QmWUfmHfCsI2OwulzbE5x+zCPPoNWw
+ ZV2cm59ge2BoDMubfY0DpPtKG+6qjHSOjrB8QOqB6bVfBkmZ7VRoH6kBca0w0QzArEdbI4SBStt
+ nQzDI5jpgkT/4EKWKdKnm2gSSTXRupMpczObGfrZKirshvVA==
+X-Gm-Gg: ASbGncuK6wgoGLWbZyzG/J6yG2ifMMF7Evq3hc8rJ0KxVcMrjxvu/jbjQN8xx8rodU+
+ IiN1fliT57Gs49g/K6G3NkjFdjmKQ5/Dlhb7BwhRGQ7RN/Wl3TSY3keOjUWin4hxexSIW2yzxWs
+ 0sn7Q8Bp75kkvMjWZVLmAhUslrqDZYpzI10Wx2HYNNqPOVQ80m/jjH
+X-Received: by 2002:a17:90b:518c:b0:329:e703:d00b with SMTP id
+ 98e67ed59e1d1-329e703d645mr10321010a91.19.1756954629727; 
+ Wed, 03 Sep 2025 19:57:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHOCPdzFNzraiWHbGuHEoBM1QvtTU0Nb0FFJzX0uW97BnqhL/gBuv33SiRgGl4vDEi8Sr3AnsPHLBpMRXmEtAg=
+X-Received: by 2002:a17:90b:518c:b0:329:e703:d00b with SMTP id
+ 98e67ed59e1d1-329e703d645mr10320975a91.19.1756954629213; Wed, 03 Sep 2025
+ 19:57:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904022524.1748587-1-syyang@lontium.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX2SvzuZDxO35C
- vpDDAsYBacxsND/onzrH86A86G0DRky5PWn4kzLatjOuDunRhVmdPYebKqsdshGkSlBdW6I0bOU
- W7oBOl0MhmiGCP/KIpacx+IiBhiReZr8wJWKopGMl/R1fCaNTYgz7QUQDNdYaNdSK5Io5gNUBW6
- s6n0wIt63H6wMvHkASwW1OA2TXQ02Dq7q0BgN1ZE01ZYXSiA9QRViIoJ19n3sssQjLjj9edtVUI
- 7x8hD3pgMSZYmO97SQJb3W0d3Z4eu/JeFIF+tTZyJWT9Skr/GsbOHp/l1RgUneFWidCf05XdYB/
- tp+iNinv/nfiz8s5uYplAhdeQ9z6rfqaZ8piOfvDttWdZ6x0BrVsrZBGIsD4YnrGCkJCB7sXCgD
- 6A/1TbuT
-X-Proofpoint-ORIG-GUID: R9wd9UVMtDUpd33auwhm5RHstNSUrUQb
-X-Proofpoint-GUID: R9wd9UVMtDUpd33auwhm5RHstNSUrUQb
-X-Authority-Analysis: v=2.4 cv=M9NNKzws c=1 sm=1 tr=0 ts=68b8ff2d cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=Kz8-B0t5AAAA:8 a=YfVmvpBeDdD2EIU_UzEA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=RuZk68QooNbwfxovefhk:22
+References: <20250903123825.1721443-1-syyang@lontium.com>
+ <20250903123825.1721443-2-syyang@lontium.com>
+ <lcyori44rm5p35wykk2rb54zbrrpft5c7uibi376jihemkb67w@px3nj72a5hx4>
+ <CAFQXuNYKcGHyWLD5hjj24CrbaXzkaKsLU4R2vmhYaryQArA_yQ@mail.gmail.com>
+In-Reply-To: <CAFQXuNYKcGHyWLD5hjj24CrbaXzkaKsLU4R2vmhYaryQArA_yQ@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Thu, 4 Sep 2025 05:56:57 +0300
+X-Gm-Features: Ac12FXwqpLK0wU-JoT7FAo_2ssmdmZOCvHkhkCqIZn8qnoojkUv60OwC5s_f_Yg
+Message-ID: <CAO9ioeVUtmVjdxyykTXysQwdUx8iKLqrsU=yehR-pPtvk_QEFw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] This patch adds a new device tree binding
+ documentation.
+To: =?UTF-8?B?5p2o5a2Z6L+Q?= <yangsunyun1993@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAxOSBTYWx0ZWRfXwcGcdBXK0pAq
+ eN4oXNDG7GlgtKlvq5Wg06S5zyqMKChQQ25OcoD/qmNCgh1bIbsr6rSR3wTW4ghf7VYL6QWBIK6
+ 0rwwwCKieCRW75EQlOtfhBeoEJeiVnNpKC9JnDb525nLvEwvQjRriAbqX2LCpp/QhAKjhuxqplp
+ znnGjd9YWm3v3VBFaQc/ZcR9Mew4CLDBWU2tAinYIJmqfr7Sb8kl8aVvxYaScKoL++Uqg2isgVP
+ J/29hlHm0CiZ6MkoX1IEAB64Et6R1svRg7Kgqpctddjg9/NUC6APg7AujYo5TZb8ERZhm+JItVQ
+ iGSoBOymvXavY3x/lwQiCPbMMia33VhCaOnXFg1HgoNr8IBW2/0yubxEq1jtX0qTC8R165XrS36
+ CcJQ9ARr
+X-Proofpoint-GUID: cFUR7Pr7eN7Iv9Z3flQkL9Wk6W28_coL
+X-Proofpoint-ORIG-GUID: cFUR7Pr7eN7Iv9Z3flQkL9Wk6W28_coL
+X-Authority-Analysis: v=2.4 cv=PNkP+eqC c=1 sm=1 tr=0 ts=68b90006 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
+ a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Kz8-B0t5AAAA:8
+ a=yqK20mq1EwIQVBnv59QA:9 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+ a=RuZk68QooNbwfxovefhk:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-04_01,2025-08-28_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300032
+ spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300019
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,25 +126,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 03, 2025 at 07:25:24PM -0700, syyang wrote:
-> Fix device tree binding validation errors reported by Rob Herring.
-> 
-> v2:
-> - Fixed $id field to match actual filename (lontium,lt9611c.yaml)
-> - build pass
-> 
-> Thanks to Rob Herring for the review and feedback.
+On Thu, 4 Sept 2025 at 05:39, =E6=9D=A8=E5=AD=99=E8=BF=90 <yangsunyun1993@g=
+mail.com> wrote:
+>
+> thanks Dmitry baryshkov:
+>
+> 1. Please fix your Git setup and use your full name in SoB tag and author=
+ metadata.
+>      ->  i will fix.
+>
+> 2. +maintainers:
+>      +  - Rob Herring <robh@kernel.org>
+>          Are you sure?
+>
+>      -> I'm not sure. I need to do some research.
+>
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=
+=B49=E6=9C=884=E6=97=A5=E5=91=A8=E5=9B=9B 10:22=E5=86=99=E9=81=93=EF=BC=9A
+>>
+>> On Wed, Sep 03, 2025 at 05:38:24AM -0700, syyang wrote:
+>> > - New device tree binding documentation at
+>> >   Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yam=
+l
+>> >
+>> > Signed-off-by: syyang <syyang@lontium.com>
 
-Read Documentation/process/submitting-patches.rst
+Please:
+- Don't use HTML email
+- Don't reply off-list
+- Don't top-post
 
-> 
-> Signed-off-by: syyang <syyang@lontium.com>
-> ---
->  .../display/bridge/lontium,lt9611c.yaml       | 121 ++++++++++++++++++
->  1 file changed, 121 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9611c.yaml
-> 
+>>
+>> Please fix your Git setup and use your full name in SoB tag and author
+>> metadata.
 
--- 
+
+
+--=20
 With best wishes
 Dmitry
