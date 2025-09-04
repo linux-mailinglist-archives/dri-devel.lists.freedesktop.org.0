@@ -2,84 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346A7B438EB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A62B43900
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA8610E244;
-	Thu,  4 Sep 2025 10:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5354310E9A7;
+	Thu,  4 Sep 2025 10:40:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="hjGLJSjZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CED610E244;
- Thu,  4 Sep 2025 10:38:11 +0000 (UTC)
-X-UUID: 3d5fbc1e897b11f0b29709d653e92f7d-20250904
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:300f2fa7-17a5-4d38-96a3-11fd4189ac0a, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:8818228a5c537eaf9504e99b0c50a8d8,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
- -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
- AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 3d5fbc1e897b11f0b29709d653e92f7d-20250904
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
- (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1160067433; Thu, 04 Sep 2025 18:38:05 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 93A19E008FA5;
- Thu,  4 Sep 2025 18:38:04 +0800 (CST)
-X-ns-mid: postfix-68B96C0C-3265371312
-Received: from [172.25.120.24] (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 0174FE008FA2;
- Thu,  4 Sep 2025 18:37:54 +0800 (CST)
-Message-ID: <52e322e5-2dd4-488c-a98e-3a4018f0c323@kylinos.cn>
-Date: Thu, 4 Sep 2025 18:37:54 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] powercap: dtpm_cpu: Use scope-based cleanup
- helper
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
- <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
- <20250903131733.57637-8-zhangzihuan@kylinos.cn>
- <CAJZ5v0hirWzWZiLbAXPWB58SQv3CAW95iHLnsqs=i2twVCcmwg@mail.gmail.com>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <CAJZ5v0hirWzWZiLbAXPWB58SQv3CAW95iHLnsqs=i2twVCcmwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F3310E9DB
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 10:40:26 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-3df3e935ec8so507347f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 03:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1756982425; x=1757587225;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=o6y2QOBZu14x36SZiIQblNfOse9Z30SqsU6mw32en+A=;
+ b=hjGLJSjZt/qdFQzKrl+iLCHnvBaLr/Ru7F+mYeajPQqOVlQx9Esp+OOeqnS5FjbWCh
+ XnP6Rsni1CKvhLS9N+rKo+8f4nRo4weqzJcn+RjLaqWvCDc+h8E72tqOt7VvjbeaFNMO
+ 6XYeaEoD1RQFh+Xstr3jINuAvbjFtMvFRkkhzOIA04JjoEnPKgrjjaSIeSYPTkzCROfn
+ awws5I9QL6Gh2i2OEZpT29NcDw6L0FK4Pj9S52A80fy2r+sL84rYQCW0qxgtTY5SoIhe
+ OsKzpRw+iHQ1Kko8A7+1DRLSzxp93obkYDPgJ7WbfmsPKzJEQKRwSuXQlLOnpmRlOXqs
+ kTDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756982425; x=1757587225;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=o6y2QOBZu14x36SZiIQblNfOse9Z30SqsU6mw32en+A=;
+ b=tefck+QHRWwFsZSvASJ48m4X2yI2K1jA8k5jBZrffHQGRLRRqK2Z1ktrJPra3ZViX8
+ RzwFEUDj0pifmM+2WtPE1eQva7qT2C4+zevPxsoleaz9bRxYa5ox/4sL7z7zGm5FyjUb
+ 1u9G0j4MSjF7fNsvequloXeJb/NmZjsr72U4bzien/1pDOXZ8EtqdBxjbOPrQamPyPa0
+ 5YLxYkA0cG4HI/AImPLzKjIwwKrekupCIRsVRHlRYtwLq8e3AkVKTKUSr7B8H/EHgdIX
+ w1uBxHWeGoJhaWfLLPkJ3J9cfIQpEkb5vlh8OMfIoZufXFszYBvQFZO0bgL9X2n134EE
+ 14iQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWISaFQHQaw1ltLURSwnMBwW6p0o25xSp3UWMNL8vPpwkxF1rxwDSJvNr0HYFk5kkWROYm5WR2E0+0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzx67ga2VK0+dt/Of4ZsyjPKnOaRpT1N5M+Xpxlm+xGxsJP2xEV
+ e7/Y3LWakagtKsTeNvKqo0mqyodJFVPf7FGSX4P2INuUy4136SBoTmgpqfikfhyKbYULoC+e30v
+ clZcMTrFdw9/84jp6cg==
+X-Google-Smtp-Source: AGHT+IF9yvAHvKVOXXpEFHka86WFsWc+ojWObCx+xIgC+kdLnrHsvwSPcYjH86gfddOM2J9YtQ9wDriAn1Gd+jI=
+X-Received: from wrbfu17.prod.google.com
+ ([2002:a05:6000:25f1:b0:3e1:aeb6:bd24])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:420c:b0:3d6:212b:9ae2 with SMTP id
+ ffacd0b85a97d-3d6212b9f09mr13611267f8f.63.1756982425153; 
+ Thu, 04 Sep 2025 03:40:25 -0700 (PDT)
+Date: Thu, 4 Sep 2025 10:40:24 +0000
+In-Reply-To: <20250901202850.208116-1-dakr@kernel.org>
+Mime-Version: 1.0
+References: <20250901202850.208116-1-dakr@kernel.org>
+Message-ID: <aLlsmNzp_KardLUt@google.com>
+Subject: Re: [PATCH] MAINTAINERS: Add drm-rust tree for Rust DRM drivers and
+ infrastructure
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, acourbot@nvidia.com, 
+ daniel.almeida@collabora.com, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,123 +84,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Sep 01, 2025 at 10:26:39PM +0200, Danilo Krummrich wrote:
+> Multiple DRM Rust drivers (e.g. nova-core, nova-drm, Tyr, rvkms) are in
+> development, with at least Nova and (soon) Tyr already upstream. Having a
+> shared tree will ease and accelerate development, since all drivers can
+> consume new infrastructure in the same release cycle.
+> 
+> This includes infrastructure shared with other subsystem trees (e.g. Rust
+> or driver-core). By consolidating in drm-rust, we avoid adding extra
+> burden to drm-misc maintainers, e.g. dealing with cross-tree topic
+> branches.
+> 
+> The drm-misc tree is not a good fit for this stage of development, since
+> its documented scope is small drivers with occasional large series.
+> 
+> Rust drivers in development upstream, however, regularly involve large
+> patch series, new infrastructure, and shared topic branches, which may
+> not align well with drm-misc at this stage.
+> 
+> The drm-rust tree may not be a permanent solution. Once the core Rust,
+> DRM, and KMS infrastructure have stabilized, drivers and infrastructure
+> changes are expected to transition into drm-misc or standalone driver
+> trees respectively. Until then, drm-rust provides a dedicated place to
+> coordinate development without disrupting existing workflows too much.
+> 
+> Cc: Alice Ryhl <aliceryhl@google.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Alexandre Courbot <acourbot@nvidia.com>
+> Cc: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
+>  MAINTAINERS | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fe168477caa4..1cd6597c7f1d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8079,7 +8079,6 @@ F:	Documentation/devicetree/bindings/gpu/
+>  F:	Documentation/gpu/
+>  F:	drivers/gpu/drm/
+>  F:	drivers/gpu/vga/
+> -F:	rust/kernel/drm/
+>  F:	include/drm/drm
+>  F:	include/linux/vga*
+>  F:	include/uapi/drm/
+> @@ -8096,6 +8095,16 @@ X:	drivers/gpu/drm/radeon/
+>  X:	drivers/gpu/drm/tegra/
+>  X:	drivers/gpu/drm/xe/
+>  
+> +DRM DRIVERS AND COMMON INFRASTRUCTURE [RUST]
+> +M:	Danilo Krummrich <dakr@kernel.org>
+> +M:	Alice Ryhl <aliceryhl@google.com>
+> +S:	Supported
+> +W:	https://drm.pages.freedesktop.org/maintainer-tools/drm-rust.html
 
-=E5=9C=A8 2025/9/3 21:45, Rafael J. Wysocki =E5=86=99=E9=81=93:
-> On Wed, Sep 3, 2025 at 3:18=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylino=
-s.cn> wrote:
->> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
->> annotation for policy references. This reduces the risk of reference
->> counting mistakes and aligns the code with the latest kernel style.
->>
->> No functional change intended.
->>
->> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
->> ---
->>   drivers/powercap/dtpm_cpu.c | 30 +++++++++++-------------------
->>   1 file changed, 11 insertions(+), 19 deletions(-)
->>
->> diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu.c
->> index 99390ec1481f..f76594185fa2 100644
->> --- a/drivers/powercap/dtpm_cpu.c
->> +++ b/drivers/powercap/dtpm_cpu.c
->> @@ -144,19 +144,17 @@ static int update_pd_power_uw(struct dtpm *dtpm)
->>   static void pd_release(struct dtpm *dtpm)
->>   {
->>          struct dtpm_cpu *dtpm_cpu =3D to_dtpm_cpu(dtpm);
->> -       struct cpufreq_policy *policy;
->>
->>          if (freq_qos_request_active(&dtpm_cpu->qos_req))
->>                  freq_qos_remove_request(&dtpm_cpu->qos_req);
->>
->> -       policy =3D cpufreq_cpu_get(dtpm_cpu->cpu);
->> -       if (policy) {
->> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
->> +               cpufreq_cpu_get(dtpm_cpu->cpu);
->> +
->> +       if (policy)
->>                  for_each_cpu(dtpm_cpu->cpu, policy->related_cpus)
->>                          per_cpu(dtpm_per_cpu, dtpm_cpu->cpu) =3D NULL=
-;
->>
->> -               cpufreq_cpu_put(policy);
->> -       }
->> -
->>          kfree(dtpm_cpu);
->>   }
->>
->> @@ -192,7 +190,6 @@ static int cpuhp_dtpm_cpu_online(unsigned int cpu)
->>   static int __dtpm_cpu_setup(int cpu, struct dtpm *parent)
->>   {
->>          struct dtpm_cpu *dtpm_cpu;
->> -       struct cpufreq_policy *policy;
->>          struct em_perf_state *table;
->>          struct em_perf_domain *pd;
->>          char name[CPUFREQ_NAME_LEN];
->> @@ -202,21 +199,19 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm=
- *parent)
->>          if (dtpm_cpu)
->>                  return 0;
->>
->> -       policy =3D cpufreq_cpu_get(cpu);
->> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
->> +               cpufreq_cpu_get(cpu);
->> +
->>          if (!policy)
->>                  return 0;
->>
->>          pd =3D em_cpu_get(cpu);
->> -       if (!pd || em_is_artificial(pd)) {
->> -               ret =3D -EINVAL;
->> -               goto release_policy;
->> -       }
->> +       if (!pd || em_is_artificial(pd))
->> +               return -EINVAL;
->>
->>          dtpm_cpu =3D kzalloc(sizeof(*dtpm_cpu), GFP_KERNEL);
->> -       if (!dtpm_cpu) {
->> -               ret =3D -ENOMEM;
->> -               goto release_policy;
->> -       }
->> +       if (!dtpm_cpu)
->> +               return -ENOMEM;
->>
->>          dtpm_init(&dtpm_cpu->dtpm, &dtpm_ops);
->>          dtpm_cpu->cpu =3D cpu;
->> @@ -239,7 +234,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *=
-parent)
->>          if (ret < 0)
->>                  goto out_dtpm_unregister;
-> So this change kind of goes against another recommendation given in cle=
-anup.h:
->
->   * Lastly, given that the benefit of cleanup helpers is removal of
->   * "goto", and that the "goto" statement can jump between scopes, the
->   * expectation is that usage of "goto" and cleanup helpers is never
->   * mixed in the same function. I.e. for a given routine, convert all
->   * resources that need a "goto" cleanup to scope-based cleanup, or
->   * convert none of them.
+It looks like the right path is:
+https://drm.pages.freedesktop.org/maintainer-tools/repositories/drm-rust.html
 
-
-Should I replace all the memory allocation cleanups here with `__free`?
-That would allow us to drop all the `goto`s, but since this function has
-quite a few of them, I=E2=80=99m concerned it might introduce new issues.=
- What=E2=80=99s
-your recommendation?
-
-Thanks!
-
->> -       cpufreq_cpu_put(policy);
->>          return 0;
->>
->>   out_dtpm_unregister:
->> @@ -251,8 +245,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *=
-parent)
->>                  per_cpu(dtpm_per_cpu, cpu) =3D NULL;
->>          kfree(dtpm_cpu);
->>
->> -release_policy:
->> -       cpufreq_cpu_put(policy);
->>          return ret;
->>   }
->>
->> --
+Alice
