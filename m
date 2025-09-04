@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7C4B47838
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8277B47837
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B348F10E43E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC5810E43C;
 	Sat,  6 Sep 2025 22:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="Zo2m9vfO";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="lkwn5rHT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0FE110E350
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:09:08 +0000 (UTC)
-Message-ID: <7e709a39-45ae-499b-bafd-706489e180e9@manjaro.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF55D10E350
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:09:21 +0000 (UTC)
+Message-ID: <cc56d7ae-3db1-4a66-a37e-9f158f48fcc1@manjaro.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1757009347;
+ t=1757009360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q1t3DdUHbRL7Z4Mgfcjt/Br8K22doewpd3l5EF3Tt8g=;
- b=Zo2m9vfOCmKZMkOFA97DRsKy/uUVMlZyO1s8ehhyPT44/UNZzdRO384nxe5PUEOCYnU+Hv
- idchhuhBKg6xcAbFtq9OYRqxh8GPUqxEW+ghxwpjF31ehxd4kaTRJpDvp3s/oetvWcTw2Z
- cbqeL6qIhxEKt4fCEdmDMS1D1Wl4nvsD2GVxk9atlhyP75HnU45WAebvTjA2ZjetJ6cQhz
- CPml+HHksowaVuug1IuY7dHwp4uqPvV/K3j1abiKDyGfd2jzTRlWvTIC0VanBeR1j7NKz1
- NmTdOhFktyAZ+VvgC6weTT4Xc0yVZMP9p5GsbLCnHYnd7a9sARwN57AmeZf9mQ==
-Date: Thu, 4 Sep 2025 20:09:06 +0200
+ bh=9c7bQ62LJgjsodas2YkaiakkM4FUOlpkIS38WMP95RY=;
+ b=lkwn5rHTQUEiBEjeECfS7kOkJ/45tehiee9Ceh0NNCwq4tA+L7OjQw4baLu+fVxz3DEl/Z
+ se2xwfHn/BtSybyQFP+VubAOmXk7QryCYPtGX7L0MoCJhKwdQPIG5xg9rBs2c/fOd8ZHAX
+ sDF3KdqGkiZP/hz7ld9zI4sgNQQAOVFr3bApxM2YwKLCJbV67abXNzJXUOVq5IhSHtjlR4
+ sU+tMExWHwwuoJO4nahLXzssWnEu7DNyGIr2VkUMfTqZ9pMtpmYMUlqtkYZK/7jIvR6qGy
+ n7sv7EnwPoZCRj9ORJExL6RWQ7qdPSDd4w8VARZP0zDD+5w4uDjUjMFjOdhOLQ==
+Date: Thu, 4 Sep 2025 20:09:20 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 06/10] drm: panel-orientation-quirks: Add OneXPlayer F1
- variants
+Subject: Re: [PATCH v1 08/10] drm: panel-orientation-quirks: Add GPD Win Max
+ (2021)
 To: Antheas Kapenekakis <lkml@antheas.dev>, dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250904175025.3249650-1-lkml@antheas.dev>
- <20250904175025.3249650-7-lkml@antheas.dev>
+ <20250904175025.3249650-9-lkml@antheas.dev>
 Content-Language: en-US
 From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
 Organization: Manjaro Community
-In-Reply-To: <20250904175025.3249650-7-lkml@antheas.dev>
+In-Reply-To: <20250904175025.3249650-9-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
@@ -64,45 +64,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/4/25 19:50, Antheas Kapenekakis wrote:
-> The OneXPlayer F1Pro has a 144hz 1920x1080 portrait OLED panel.
-> Add a quirk to correct the panel portrait orientation. In addition,
-> it comes with a red limited edition variant in the Chinese market,
-> so add that as well. Then, add the 8840U non-pro variant as well.
+> Right side up, DSI-1, 800x1280 screen.
 > 
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
->   drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+>   drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 0c0fe66e94ad..6f5ce26a84b7 100644
+> index e7a2c5b59d28..75a8c4532434 100644
 > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -540,6 +540,24 @@ static const struct dmi_system_id orientation_data[] = {
->   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro EVA-02"),
+> @@ -327,6 +327,12 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-01"),
 >   		},
->   		.driver_data = (void *)&lcd1600x2560_leftside_up,
-> +	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) LE Red variant */
+>   		.driver_data = (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* GPD Win Max (2021) */
 > +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 EVA-02"),
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1619-03"),
 > +		},
-> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
-> +	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) Hawk Point */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1 OLED"),
-> +		},
-> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
-> +	}, {	/* OneXPlayer OneXFly F1 Pro (OLED) Strix Point */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER F1Pro"),
-> +		},
-> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
->   	}, {	/* OrangePi Neo */
->   		.matches = {
->   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+> +		.driver_data = (void *)&lcd800x1280_rightside_up,
+>   	}, {	/*
+>   		 * GPD Pocket, note that the DMI data is less generic then
+>   		 * it seems, devices with a board-vendor of "AMI Corporation"
 
 Reviewed-by: Philip Müller <philm@manjaro.org>
 
