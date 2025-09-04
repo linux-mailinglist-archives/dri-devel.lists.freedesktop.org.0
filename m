@@ -2,119 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD73B44A5E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 01:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDA5B44A8E
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 01:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D905C10EAFC;
-	Thu,  4 Sep 2025 23:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC9910E288;
+	Thu,  4 Sep 2025 23:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A9h/gTcS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qmme+sIo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BCD10E347
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 23:19:40 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584INSdJ007609
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 23:19:40 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD9910E288
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 23:48:31 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IoPh6023000
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 23:48:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GjXzmroxVc7W3pRobSL6XDJ/1WKmFcemVZ9/sKNXNgc=; b=A9h/gTcSU2NuNCH2
- f1Tc56bfvcRiCZecECQ/zqj7hAH6fNGp4QD2icBNHfp2+t3ZzVJyPwMRiUiG6XEE
- J+iOCoKfSgMMCe+pYlBPcUBEpmH5VNiOzm6S+TjicLprMP3MLh/in+18l0uY/pwW
- OkjB9Tme+J0hlriHHZdl8tCvpQU/x8jJvperowKG/+hOHWz7AVYkvqG7djqo/Ofc
- lCxanKnv2gJI4JobWYoQqw3v8+xgd3nJdDCxbrxLJxE+3ZH5XM2bQ3IMEE8QChwX
- hFng7MS0y5whtaDVEmzhgfdvjCpSn/6hC+Zpvr4WwESeJXzphEibAqhSX/OeHy1G
- 8Cm3MA==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ura912uc-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=1hFrW2tCyaPS8qm9cBW3XS4K
+ eJB96G/QpNSDirWrlko=; b=Qmme+sIohc8NdQu3MsiTwf41dHFazz/ksTqlhs07
+ XAvg6aBe++8kBcViHxKjklyyuwVpi0vbnSsr1ZdGSPhegx/pgNOgRBRF45DQgjHv
+ ytjELEWpLLoaKKSJMsWAzsPP38HO4Y+bJ9Tc8s1v9OD/SzJ+kFQV9YiA0b4z8Y3Q
+ FHCqdIQ5UyrJy2ZaN3oWZ0Ygsxxss+31jZcymMiEortEsFvfEteRGtJ38syXW0Yu
+ QPwqgpB13RMbrXnMN/UShR5yng6/xWgrpZrg2nXo5vjCHJs8FAcZHff1CN6/MxWr
+ mqLd7A5MJ+n4CIBHA2+L3OWGQriinekWjMA0i9fW8Oh+ug==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0esbpy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 23:19:40 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-7725a76dcb4so1881052b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 16:19:39 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 23:48:30 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b3aac677e1so14852051cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 16:48:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757027979; x=1757632779;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GjXzmroxVc7W3pRobSL6XDJ/1WKmFcemVZ9/sKNXNgc=;
- b=V1rLuKemVqu59v6h/meipUP/ThYn5Ma/qGzQXT0aBn2KTADcQZzoFB5HieVxZwvkO6
- MORDXyzDSY7blmmZHPtg1vEaP0GI2hM1RgCyBUuDCXJfvmP4vQEP0anXtadz0/XFU5mA
- HmppXuvz49PACEhXeDAzvfciHsz51iyVIF6BolZxgSesLdzNI8JXA2QWKX7mLBFXwW3U
- p+Z+dYezef+gJRkYYHpA2PTD+EuyN9uYYz6uiiHxkzdRcoHJIOxxD843T5HijwP5ysg1
- Ft9hRtoghiRhUiZ1pxzfbOoZEWwQSllctOFH+teAc6xwZjuE7ZPrBdmYm16+DTxeOYTH
- 6dRA==
+ d=1e100.net; s=20230601; t=1757029709; x=1757634509;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1hFrW2tCyaPS8qm9cBW3XS4KeJB96G/QpNSDirWrlko=;
+ b=VnfPUhK3YputxTvT1lUFmpjGrP4U7w9rM2CXcJcpgRVXGo5w9OQ8igzvo4DoGEGoUi
+ 3uZ/Ap8SiJY26N7hmkrbOdLtQH3ywRVMCJio5LBJ7QgKGOmSHIvfZWOfIjK68q5VV+1a
+ qqULvfrOn0VftJ/+oKkzfnwd+fP+vp9YqXDWrTVQG824N0LiADvlgKolwjIKNxdGIBkI
+ WKSF16Fi+ygoqQ6Wo4HaNTYJUMMqbvMdvU6m+HTOICYEU9gtKDTNuoPwg0jA/+GvYYbw
+ dof70R75nF+xbQlV+1+hNf7+fkN5btk3i8oi7oavrTQmOZ8jcy0nZgWUFMHSH75jteds
+ 5v2Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXARF2YgZUuOl6jB4wlLdM/mhMhvqRJh0k8OgOLJJuV3Iq+vpZA5yUPun/zG0B0h3tc6ghovSUfpik=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9VUwUEtLd42BSsS80eTcbR65L2rqLHA2OMjH+XVw+bIT7U+lP
- +qTQHDYMYmJ4Ur4ugS7AlRT7b+aDFEAoBeQMXQQTtfIl5tYxztLpHFKU6FK/HjhS8yrF0vZt71c
- eM6s7wxk64WWiRLvVIWTB7fBFYmoK9VKo7SXnAZBSMh/iGJCa7Zv3i792oXPX5+VzvqCnjrk=
-X-Gm-Gg: ASbGncto0lvZ/SjTItA4j0hMH0l4yhtXXKJuKFZtm/Im/xlVWd447cqEw5StLtb6O9U
- dnz9y1j9K/8153zICGc9fBeRVHTcwu8wDcvE4m+aX9k+7hbw3+XLzrytlWAcykZo9rqEcN2ytx1
- ns3tUl4feqGIrVUKy6vZ8Va70OKg6ySC+/eDqdVBKPjaQeaZXYIyniHckNiX58zaHOC+2IfwKHE
- TmKriIgv1hBTnjmU/TGqtysDCEjXVN5AOlrigbMr+EAsrOqOFMxM1J80IWi3a/mPyMh8lTFBzPc
- fR2xroMnJ+Bok/CcyROibhYE8YTzxZEUHoXfYIn4afcJ9hA7lRo6FIXp/WxTehrfXvFZCnjWYBc
- 3n1kgfIU/j1szKRYflZuErQ==
-X-Received: by 2002:a05:6a20:a122:b0:248:7e43:b6b8 with SMTP id
- adf61e73a8af0-24e7d6d06a1mr1953607637.3.1757027978785; 
- Thu, 04 Sep 2025 16:19:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFrHCCGVk/XlfrJjM6BYUjkw3Vbu+2UMzqA2nRl5Xh8C+tfH4Qk8it3kQKN3uatJyzD/U8qDA==
-X-Received: by 2002:a05:6a20:a122:b0:248:7e43:b6b8 with SMTP id
- adf61e73a8af0-24e7d6d06a1mr1953575637.3.1757027978303; 
- Thu, 04 Sep 2025 16:19:38 -0700 (PDT)
-Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCW7J6uhIdUlCxR6Mw0IYZv+Z22WrRJAQkcY/7epSOPIMf6Fo4BL0CNy7cHfXx35CNCqzAla5wIPgY8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzT8HKdIHXVaNNJEL+Wgc3Jw2t4YQM2AVTfoKAzRq/sPwzZ+npm
+ 83n0acu6jPjQbfXuSBXw38zJ9fQ8selqlwvyK4jjFt7c4QkN+IsiyDrp1Q0MpcSQHD7IZSw+STl
+ ir6aKmG8rHId+zGHA7r9s1WMfEJk5e+GUkUrDCIh/L9GoOmCn1V3dA/KH2f97ZeSpWHICPfM=
+X-Gm-Gg: ASbGncsvEmXpgo3ZhZ2NYuXJZk/O73B1FN00Eqr9eb7fSYkw4MMagVt6wjr1UxUF0G1
+ UxU6ZXhB0LS4UnSUxOR9P/tRcxIZLgvtGj3UDDSi86ZJ/C9x+QQJ9vyrEbmSFFUwReOoy2T+fnj
+ YZurz68EBaIQEo14jsQsQADnfhqhf2aSFK5cMoS4FYf8hhrRBAJpX64UcQ7OV/lRqPMW2U41l7D
+ i4TZ6u9LNblOjeRxa50g80rk5ueiZ7Otl/P5/K3XNjfVjuptbnfoC8X82sywhUxJigoFRRsTPsS
+ 0S3GiLjlD0nyUWRXbKeCG24gEyqa+kWizLbHWqeHDz55TJ10HRXvfriidL+ZH0kLqQIj9vKLzM3
+ RsWZNqrJDwX7ALkLzlLjhSNpYno90eFpWf7vfa5qX3lOSHDaTDcuV
+X-Received: by 2002:a05:6214:d89:b0:71d:9d4c:192a with SMTP id
+ 6a1803df08f44-71d9d4c3057mr102311246d6.36.1757029709102; 
+ Thu, 04 Sep 2025 16:48:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGyjZe+NSX9mpYQeP9HfjJmgNoHuKa4eYSD2icUNBITBoWtqUVLeB7F2OOeEL/Zt7cpc6XQw==
+X-Received: by 2002:a05:6214:d89:b0:71d:9d4c:192a with SMTP id
+ 6a1803df08f44-71d9d4c3057mr102310786d6.36.1757029708573; 
+ Thu, 04 Sep 2025 16:48:28 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32b8ba6e145sm3378630a91.22.2025.09.04.16.19.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Sep 2025 16:19:37 -0700 (PDT)
-Message-ID: <29ae5bb3-092a-48fb-9d47-f23c92ac4616@oss.qualcomm.com>
-Date: Thu, 4 Sep 2025 16:19:37 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/12] drm/msm/dpu: drop redundant num_planes assignment
- in _dpu_format_populate_plane_sizes*()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+ 2adb3069b0e04-5608ab5c151sm1515072e87.2.2025.09.04.16.48.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Sep 2025 16:48:26 -0700 (PDT)
+Date: Fri, 5 Sep 2025 02:48:23 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250705-dpu-formats-v1-0-40f0bb31b8c8@oss.qualcomm.com>
- <20250705-dpu-formats-v1-10-40f0bb31b8c8@oss.qualcomm.com>
-Content-Language: en-US
-From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-In-Reply-To: <20250705-dpu-formats-v1-10-40f0bb31b8c8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: -cJn7yn4m2q8MqLKaSXEFh-oTxzgaqgK
-X-Proofpoint-GUID: -cJn7yn4m2q8MqLKaSXEFh-oTxzgaqgK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyMCBTYWx0ZWRfX5HHrLjxB56Nf
- SzcF2D5lm2zF8w+PB+FtH/oRt6EvcNOwqabd0o5KlXHeIge6iAOifzW5AmMoN4L8KyxhQMK8uPP
- VKrm0wPyUt4RxAneoMkCCukwEuWH6Wym/qUA72eMLAcr0bMcPlRr/csb7z2P9V7b0oQsUfhWGQ7
- GMF+UoAmfzJCK8/eg1Yt2xkYlvOOOoz/2vOPLpWPQBfwIEaERqryKZ3ya/Bb97z5HEG767cK+Ek
- UitED4du8alSOup3S5muVzIs+VsO1195cTqqhrMzl4k74e617kKhLkgQbTb0W7/PT0Av4ZC1oKz
- LrxELLDQRN0F5wp1s57JUW/SK//Tk5l2lUNSrj4ENQoXrwMdLBDjjBhDChY2/o1WkFA1s63NdLj
- 6jrz4xDr
-X-Authority-Analysis: v=2.4 cv=VNndn8PX c=1 sm=1 tr=0 ts=68ba1e8c cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=MRz67vdl03j5fkBFI1YA:9
- a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Algea Cao <algea.cao@rock-chips.com>,
+ Derek Foreman <derek.foreman@collabora.com>,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 0/6] Add HDMI CEC support to Rockchip RK3588/RK3576 SoCs
+Message-ID: <ncmsmxdcvhj4jec6wmqf5abrb7nijx7ac2i33tvvcc2prljez3@uks2cb6aunnx>
+References: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903-rk3588-hdmi-cec-v4-0-fa25163c4b08@collabora.com>
+X-Proofpoint-GUID: kDa0GSOp2aWRWB3jpqMZxDDKo18bxdFC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX1pqy4w8cbJ8s
+ QLYC1r1eB5aN5V7F/F+CPOKw83QUlgSY7SFhPElnB1q+CcYNpXQWD20og2kPXMRzGZEai+j1fnz
+ vMYc7xBL1t8nG0yjL0MvM0Z9fQGUAS9qOof3jhbvFlWStkAoQwbX7eUrHSyyV+h9baOT3IoFogG
+ bFksYuAGZfWeOcscJwBMlMjU7ygRP0hpSvWXW5pR9xOZwbIyq3S8VDuQzxHyGpP9OAeser5lUMx
+ mBYGrHUuyKlx+/BA9PXjvppTgUl0W6TZGJnPOV2hY2t1x28pRTpQYCY2G0NMsR9DZmoIPapyPOO
+ qKu5BoN0fjO9n0+D7fgdIGee1L7eM1cEB7rY8A2qLpwIkwRT7VXvABdx302gXUXxN9DGkejpZds
+ 77aYnKhm
+X-Proofpoint-ORIG-GUID: kDa0GSOp2aWRWB3jpqMZxDDKo18bxdFC
+X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68ba254e cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=QX4gbG5DAAAA:8 a=Q_aPI2XdcSPthaebfpMA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=AbAUZ8qAyYyZVLSsDulk:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-04_08,2025-09-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300020
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,82 +137,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 7/4/2025 7:47 PM, Dmitry Baryshkov wrote:
-> Drop redundant layout->num_planes assignments, using the value assigned
-> from the formats table. RGB UBWC formats need special handling: they use
-> two planes (per the format table), but the uAPI defines plane[1] as
-> empty.
+On Wed, Sep 03, 2025 at 09:50:58PM +0300, Cristian Ciocaltea wrote:
+> The first patch in the series implements the CEC capability of the
+> Synopsys DesignWare HDMI QP TX controller found in RK3588 & RK3576 Socs.
+> This is based on the downstream code, but rewritten on top of the CEC
+> helpers added recently to the DRM HDMI connector framework.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 11 +++--------
->   1 file changed, 3 insertions(+), 8 deletions(-)
+> The second patch is needed for RK3576 in order to fixup the timer base
+> setup according to the actual reference clock rate, which differs
+> slightly from RK3588.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> index 195a6b7c4075eef40e7a5d0fee208168421cee35..e1fb7fd3b0b97a38880bc80aec26003d65a3a310 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> @@ -110,7 +110,6 @@ static int _dpu_format_populate_plane_sizes_ubwc(
->   		uint32_t y_meta_scanlines = 0;
->   		uint32_t uv_meta_scanlines = 0;
->   
-> -		layout->num_planes = 2;
->   		layout->plane_pitch[0] = VENUS_Y_STRIDE(color, fb->width);
->   		y_sclines = VENUS_Y_SCANLINES(color, fb->height);
->   		layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
-> @@ -124,7 +123,6 @@ static int _dpu_format_populate_plane_sizes_ubwc(
->   		if (!meta)
->   			return 0;
->   
-> -		layout->num_planes += 2;
->   		layout->plane_pitch[2] = VENUS_Y_META_STRIDE(color, fb->width);
->   		y_meta_scanlines = VENUS_Y_META_SCANLINES(color, fb->height);
->   		layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
-> @@ -138,8 +136,6 @@ static int _dpu_format_populate_plane_sizes_ubwc(
->   	} else {
->   		uint32_t rgb_scanlines, rgb_meta_scanlines;
->   
-> -		layout->num_planes = 1;
-> -
->   		layout->plane_pitch[0] = VENUS_RGB_STRIDE(color, fb->width);
->   		rgb_scanlines = VENUS_RGB_SCANLINES(color, fb->height);
->   		layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
-> @@ -148,7 +144,9 @@ static int _dpu_format_populate_plane_sizes_ubwc(
->   		if (!meta)
->   			return 0;
->   
-> -		layout->num_planes += 2;
-> +		/* uAPI leaves plane[1] empty and plane[2] as meta */
-> +		layout->num_planes += 1;
-> +
->   		layout->plane_pitch[2] = VENUS_RGB_META_STRIDE(color, fb->width);
->   		rgb_meta_scanlines = VENUS_RGB_META_SCANLINES(color, fb->height);
->   		layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
-> @@ -167,7 +165,6 @@ static int _dpu_format_populate_plane_sizes_linear(
->   
->   	/* Due to memset above, only need to set planes of interest */
->   	if (fmt->fetch_type == MDP_PLANE_INTERLEAVED) {
-> -		layout->num_planes = 1;
->   		layout->plane_size[0] = fb->width * fb->height * fmt->bpp;
->   		layout->plane_pitch[0] = fb->width * fmt->bpp;
->   	} else {
-> @@ -194,12 +191,10 @@ static int _dpu_format_populate_plane_sizes_linear(
->   				(fb->height / v_subsample);
->   
->   		if (fmt->fetch_type == MDP_PLANE_PSEUDO_PLANAR) {
-> -			layout->num_planes = 2;
->   			layout->plane_size[1] *= 2;
->   			layout->plane_pitch[1] *= 2;
->   		} else {
->   			/* planar */
-> -			layout->num_planes = 3;
->   			layout->plane_size[2] = layout->plane_size[1];
->   			layout->plane_pitch[2] = layout->plane_pitch[1];
->   		}
+> The following three patches setup platform data with the new information
+> expected by the HDMI QP transmitter library, while improving the error
+> handling in the probe path.
 > 
+> Please note the CEC helpers were affected by a resource deallocation
+> issue which could crash the kernel and freeze the system under certain
+> test conditions.  This has been already fixed in v6.17-rc1 via commit
+> 19920ab98e17 ("drm/display: hdmi-cec-helper: Fix adapter
+> unregistration").
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
+Cristian, I'm sorry for almost off-topic, but as you are working on this
+driver: would it be possible to support HDMI (vendor-specific) and SPD
+InfoFrames in the dw-hdmi-qp driver?
+
+-- 
+With best wishes
+Dmitry
