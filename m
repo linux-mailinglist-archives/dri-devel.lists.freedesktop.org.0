@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED016B44062
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 17:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95BC0B4408A
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 17:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48F9910EA78;
-	Thu,  4 Sep 2025 15:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8AC510EA81;
+	Thu,  4 Sep 2025 15:26:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="U7Y5JcbY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cybdKSYt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA96E10EA78
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 15:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756999225;
- bh=lVG6RUOs/vuQiBSENy+Q+/Zs0wuP4CpZcsQ73d+Pss8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=U7Y5JcbY2K+IP0RMcFoAhMxwWToXwsmZAUBPqSUOj9V997aSIGUmbeK0y6imQs3Mq
- /yPGz/VKDcqdAlxxChCXdUDccQSCCrYO4CdLPYL4kBDnGqqnjlpchyf4QFdGbXfcpA
- s2cd5lGAV2Um5SV545DCTXRIJJPXvwOKFonzwsvH+mZSWKpDK5FZOkP+2ew0Rs5nHg
- wBtisdLnWdyT4UFDT1tBM9hQcvR5sfg7iZ7U/DEdUKx0NHagcfrDeXuT8Q/itWCbBc
- QjAgvmjtx5TS18EhBtX3mi52zUojjACKwpZnC5uobBoTUFImGh4oXZDLVVJa6ZGyBI
- cv54/J3WQod/w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A057617E04D6;
- Thu,  4 Sep 2025 17:20:24 +0200 (CEST)
-Date: Thu, 4 Sep 2025 17:20:19 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Peng Fan <peng.fan@nxp.com>, linux-arm-kernel@lists.infradead.org, Conor
- Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>, Fabio
- Estevam <festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Sebastian Reichel <sre@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>, Steven Price
- <steven.price@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev
-Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
-Message-ID: <20250904172019.58e5f589@fedora>
-In-Reply-To: <36298ed9-05e4-4871-8e99-dfe814342c29@mailbox.org>
-References: <20250321200625.132494-1-marex@denx.de>
- <20250321200625.132494-5-marex@denx.de>
- <20250324094333.7afb17a1@collabora.com>
- <c1de2afb-3559-4fbb-b13b-2373175b420b@denx.de>
- <20250325084349.344a0f11@collabora.com>
- <7aadf355-edf0-46fc-b969-65c3789375ca@denx.de>
- <20250325153507.61d82e39@collabora.com>
- <4c06aef3-a254-437c-aa15-8e3eb7bf5951@denx.de>
- <20250325155231.0d1b1000@collabora.com>
- <838a0c6b-845b-428d-86b3-1480e5b8080f@mailbox.org>
- <20250904082224.113d0cd1@fedora>
- <7d4e773b-64ac-49ce-8d8b-7a39c353d18f@mailbox.org>
- <20250904160445.1671f140@fedora>
- <36298ed9-05e4-4871-8e99-dfe814342c29@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E18D910EA81;
+ Thu,  4 Sep 2025 15:26:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 89D31448DA;
+ Thu,  4 Sep 2025 15:26:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC7D9C4CEF0;
+ Thu,  4 Sep 2025 15:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756999588;
+ bh=PSc5DK1B9G+iAjYe0HflYSjg6jgkmR4XOYpbOFtdYUo=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=cybdKSYtVxA8b3G46WsjOfw8b98/Wj3ymFs9XAK9lCsTwRklq2550wFfYW0lpAcot
+ 5M8KmCpkTHhUeacCNX/XocfMua5Sl8nFgeOukC2phqbnSxOjWvmjgMRU2Mtb0pO/lc
+ /kApV2wDSBmEmZ8ot670x238hdw8kIhJfbuPbq1z91KzlTWGm8k6TdJ0sWRtglZfx6
+ f6EbSem9y4O4db9B+D23j/1cOgyYrWy4/eHg+iI42IZxufsVzRTiYwbTUxkdimw7Hh
+ QYfzOQ8DTmk9k+eZVe6iG2TKKCqrjr9ItKjgU9QIBfkBL6xUNBBai3b1gsjfvii1pI
+ yxlJkck0LGHJg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Sep 2025 17:26:24 +0200
+Message-Id: <DCK4DE2L5AM3.37W6EMRHC4RES@kernel.org>
+Subject: Re: [PATCH] MAINTAINERS: Add drm-rust tree for Rust DRM drivers and
+ infrastructure
+Cc: <airlied@gmail.com>, <simona@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <acourbot@nvidia.com>,
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Jani Nikula" <jani.nikula@linux.intel.com>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250901202850.208116-1-dakr@kernel.org>
+ <aLlsmNzp_KardLUt@google.com>
+ <08632fbd-1984-44ff-a6e1-bd9e39bbea97@kernel.org>
+In-Reply-To: <08632fbd-1984-44ff-a6e1-bd9e39bbea97@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,40 +64,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Sep 2025 16:54:38 +0200
-Marek Vasut <marek.vasut@mailbox.org> wrote:
+On Thu Sep 4, 2025 at 1:09 PM CEST, Danilo Krummrich wrote:
+> I think we should get the same redirect, so the links in MAINTAINERS are
+> consistent with each other.
 
-> On 9/4/25 4:04 PM, Boris Brezillon wrote:
-> 
-> Hello Boris,
-> 
-> >>>> I suspect the extra soft reset I did before "un-halted" the GPU and
-> >>>> allowed it to proceed.  
-> >>>
-> >>> Hm, not quite. I mean, you still need to explicitly boot the MCU after
-> >>> a reset, which is what the write to MCU_CONTROL [1] does. What the
-> >>> soft-reset does though, is reset all GPU blocks, including the MCU.
-> >>> This means the MCU starts from a fresh state when you reach [1].  
-> >>
-> >> I have a feeling the write to MCU_CONTROL does nothing in my case.  
-> > 
-> > I believe it does, otherwise you wouldn't be able to kick the MCU
-> > and get things working until the first runtime suspend happens. I gut
-> > feeling is that there's something fishy in the FW or SoC integration
-> > that causes the FW HALT request to put the MCU/GPU in a bad state
-> > preventing further MCU_CONTROL(AUTO_START) from functioning correctly
-> > after that point.  
-> 
-> I wonder who at NXP could chime in ... Peng, do you know ?
-> 
-> >> Is there some way to probe the MCU state before/after setting GLB_HALT,
-> >> and also before/after the MCU_CONTROL write, using
-> >> gpu_read()/gpu_write() register operations, to find out what is going on
-> >> with the MCU at each point ?  
-> > 
-> > Yes, there's an MCU_STATUS register [1].  
-> Is that the only register I can use , or is there something more 
-> detailed ? This register only returns values 0..3 which is not very 
-> informative.
-
-Not that I'm aware.
+https://gitlab.freedesktop.org/drm/maintainer-tools/-/merge_requests/89
