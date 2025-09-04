@@ -2,92 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA2AB43B07
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942F5B43B13
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 14:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C322310E240;
-	Thu,  4 Sep 2025 12:07:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD5010EA0B;
+	Thu,  4 Sep 2025 12:09:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DesOhI2b";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Doy2IVcQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07AA610E240
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 12:07:03 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-45b7da4101fso3307355e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 05:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756987622; x=1757592422; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PLld95qjRcnXUupD3eIzFa+wkQsC9TBTtZNr9c2tK1s=;
- b=DesOhI2bBs5Ez52auRDaCYHhyZmv3ifZoYqKMkGRt6ELTaPqcQgi/HTl20IsStSmiw
- 3p1GooZ2rVQ/m7kvkiqy54V0pBOlsU5HaCj4o8xWLyg0gtL0VlZEadNaY81ibAlcEsl7
- y3oZnrhRqkrwp9CADZeRSVyvYO+R5kYx7Nd9+Pe3DFOB7CEB4vTposNGTnog7TCRTaBa
- g8LcY/pJfuuV4qKV8aI6QMixFNZKA5OFbZo2PuES/bBXOtuaJ4GwYrziDpdIH1IyaBFd
- b0D/3M6944dDhzMhYJmwG9snDelJQDKzs7en3WkYRcLIYzSiRoSw9hK3II1zAdnJIWnW
- 8LuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756987622; x=1757592422;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PLld95qjRcnXUupD3eIzFa+wkQsC9TBTtZNr9c2tK1s=;
- b=GRtCTyCjXtGwsPv9mcS1op/btsV1y3PoU6TYmyp4c/sGW4kUYjzrsJQCBtvY3nn0ZI
- DhbA7YG1rDWjnTYbJzJz60xfTHb/T7KLUzWoNfp94pWxFwc/WFVN+n20cRu32ZX67RFs
- PZ0G9umlEjFBfXAnvRsiQjXm22rtuI8gznPNk3d/zaCqK0btfsk9aOTnigxOW/Get37S
- 5NMV58SFfepuf7d2X+56cHramVX0JNqNDVP+6rJ73rjDeu15RkC/zybGV39mUd8YsPbm
- +sVHyG6m8rFH9034XoVxjTzkk0K4CeC1qt4i2fmIOisQ96kycLygt+iVcyerFmpCr/7E
- MtjQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXymSvi3hLe+lzNakE+5GIuLQPZiAtICQewdMrZNC+pozM0862txkXOpFPFIE1jngS4hnhxyTfQA1M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzID1OkRnbiEW2GEsomNVuRnMwC1/ikoNdnB2s8EKjQNOkLkFm2
- fNtZiAeLKvDVm2Az69bOav0XFdRI1R5GrC2DPHJ3/1iGGgYnpP1pXl80
-X-Gm-Gg: ASbGncvUxfXZ7TFRic+YttoJxsgBOmd4lWr04asDiU9nbwqMvsIRI2ClkBZOu+53Lcp
- htmD9sKrgFnee4L6H2Ib2oJVVA59Oob9L0+PFYJNO4gyi8+Hf/nEH2ZgnKvoNg99dxTfT8oT8hn
- Gy/7xKrUh1obJrSe7RydtK1y24b2oBk3PW+qOX2J8rMSmPw2GXIfGKdTgho+yDgqZwyamtrZ+qy
- os2Nph/nFGwMFUKDi8+xhIjG+OqZJwzlVPjJ62p54DOCaTBNzVckaF0xRsrGvxZ4lBzyo5+8sRd
- K42wC6bOdQsKJlF9zeEPWdxPXl/btYj9Fu0oX4yvVn9yYRsbi0CelLjJz09ZGra6CG1JE6apLGo
- ZdGXs1Co6cOxWlVpPvPaZUaXCi5AEcFSOEEYuRBrUsYuspMIKqBp598qLlEmf2bwuqZcl74OxWI
- iycHJX5zCB
-X-Google-Smtp-Source: AGHT+IG59eYhocU/Hh7asCkInZg6kFlAG3r0FLBdaakyF5gvjtdvhWnDUh6z/r89PFN/6r5wlaCujQ==
-X-Received: by 2002:adf:a406:0:b0:3e1:7964:2c17 with SMTP id
- ffacd0b85a97d-3e17964361cmr922214f8f.62.1756987622170; 
- Thu, 04 Sep 2025 05:07:02 -0700 (PDT)
-Received: from orome (p200300e41f1c4d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1c:4d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3df4fd372c1sm5436504f8f.29.2025.09.04.05.07.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Sep 2025 05:07:00 -0700 (PDT)
-Date: Thu, 4 Sep 2025 14:06:58 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Frank van der Linden <fvdl@google.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
- Mike Rapoport <rppt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Subject: Re: [PATCH 3/9] mm/cma: Allow dynamically creating CMA areas
-Message-ID: <zmsn3bdqj2eclrm3xehnp27u57orqiq74ki2qn6aahpiamp4sn@wgalbnbpzmr4>
-References: <20250902154630.4032984-1-thierry.reding@gmail.com>
- <20250902154630.4032984-4-thierry.reding@gmail.com>
- <CAPTztWa7kcx8bBEJEKvnjcD4v1-eDLVxMd9C10XiBQi4CDLfHg@mail.gmail.com>
- <v7zrmrhvemyymq6qamz6wbgzr4cijfe4n76ivwyadmltadlot7@3csy442wfasf>
- <CAPTztWZJqzbR7Y6jE6NM1qQOumYz-ckzSfGDfUcsgMVU7SBb0Q@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8F610E9F4;
+ Thu,  4 Sep 2025 12:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Zq0zttv8W9LftJSDoTWI4vEahxxZ/eDadaO2lGU9frI=; b=Doy2IVcQPHNkqDcO8iZuikICP4
+ jkpIXDdn4+zROswF5n31UFc9JSxN735+O/84PZPd/Z0rUnNx9ySQV4Gh0xJzoCXNYSg80Cz7E245H
+ fruFNdhBk150qROe486hg/IygRQTiNOAymr6xRT9Unr2fr1Ts9FZ3fiNKa34lwlyuJVJdTHyXuBCY
+ fFd3oqajvwbQyPXp71P8dHJ/ANLuhM3Encjvvxbdqk2U3g+rRr5GWaJv1ne/mv9xk1tcXW64JT4Cn
+ bva1scV3a68EdytM8cobyaelkuOXX6NjEPj6JlIDJNpyVUVjJcWIGMhCZq04bVJ7XAai0t/d+d1QD
+ CfxyRKxQ==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uu8lt-006lVT-Iu; Thu, 04 Sep 2025 14:08:57 +0200
+Message-ID: <58866bb5-9fee-4709-9350-70b978feaed4@igalia.com>
+Date: Thu, 4 Sep 2025 13:08:56 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dxmjpjrjb5ukagg6"
-Content-Disposition: inline
-In-Reply-To: <CAPTztWZJqzbR7Y6jE6NM1qQOumYz-ckzSfGDfUcsgMVU7SBb0Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 21/21] drm/xe: Register with the DRM scheduling cgroup
+ controller
+To: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ intel-xe@lists.freedesktop.org, cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250903152327.66002-1-tvrtko.ursulin@igalia.com>
+ <20250903152327.66002-22-tvrtko.ursulin@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250903152327.66002-22-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,155 +65,287 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dxmjpjrjb5ukagg6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/9] mm/cma: Allow dynamically creating CMA areas
-MIME-Version: 1.0
+On 03/09/2025 16:23, Tvrtko Ursulin wrote:
+> Wire up the scheduling weight notification into the driver.
+> 
+> DRM cgroup controller will notify the driver of scheduling weights for
+> each DRM client, which the driver will map into the three GuC scheduling
+> priorities by giving the lowest weight client the low priority, and
+> respectively the highest one high. The other clients will not be changed
+> as will not be the ones which have individually specified a priority other
+> than normal.
+> 
+> The priority changes are done from a delayed worker to coalesce
+> potentially numerous updates and also to allow taking the mutexes from a
+> callback which runs with preemption disabled.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+>   drivers/gpu/drm/xe/xe_device.c       | 18 +++++++
+>   drivers/gpu/drm/xe/xe_device_types.h | 15 ++++++
+>   drivers/gpu/drm/xe/xe_exec_queue.c   | 80 ++++++++++++++++++++++++++++
+>   drivers/gpu/drm/xe/xe_exec_queue.h   |  5 ++
+>   drivers/gpu/drm/xe/xe_guc_submit.c   |  8 ++-
+>   drivers/gpu/drm/xe/xe_pm.c           |  4 ++
+>   6 files changed, 129 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 9e2952c9c06a..9fef10c50868 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -112,6 +112,10 @@ static int xe_file_open(struct drm_device *dev, struct drm_file *file)
+>   		put_task_struct(task);
+>   	}
+>   
+> +#ifdef CONFIG_CGROUP_DRM
+> +	xef->cg.prio = XE_EXEC_QUEUE_PRIORITY_NORMAL; // TODO: inherit current cgroup priority
+> +#endif
 
-On Wed, Sep 03, 2025 at 09:41:18AM -0700, Frank van der Linden wrote:
-> On Wed, Sep 3, 2025 at 9:05=E2=80=AFAM Thierry Reding <thierry.reding@gma=
-il.com> wrote:
-> >
-> > On Tue, Sep 02, 2025 at 10:27:01AM -0700, Frank van der Linden wrote:
-> > > On Tue, Sep 2, 2025 at 8:46=E2=80=AFAM Thierry Reding <thierry.reding=
-@gmail.com> wrote:
-> > > >
-> > > > From: Thierry Reding <treding@nvidia.com>
-> > > >
-> > > > There is no technical reason why there should be a limited number o=
-f CMA
-> > > > regions, so extract some code into helpers and use them to create e=
-xtra
-> > > > functions (cma_create() and cma_free()) that allow creating and fre=
-eing,
-> > > > respectively, CMA regions dynamically at runtime.
-> > > >
-> > > > Note that these dynamically created CMA areas are treated specially=
- and
-> > > > do not contribute to the number of total CMA pages so that this cou=
-nt
-> > > > still only applies to the fixed number of CMA areas.
-> > > >
-> > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > > > ---
-> > > >  include/linux/cma.h | 16 ++++++++
-> > > >  mm/cma.c            | 89 ++++++++++++++++++++++++++++++++++-------=
-----
-> > > >  2 files changed, 83 insertions(+), 22 deletions(-)
-> > [...]
-> > > I agree that supporting dynamic CMA areas would be good. However, by
-> > > doing it like this, these CMA areas are invisible to the rest of the
-> > > system. E.g. cma_for_each_area() does not know about them. It seems a
-> > > bit inconsistent that there will now be some areas that are globally
-> > > known, and some that are not.
-> >
-> > That was kind of the point of this experiment. When I started on this I
-> > ran into the case where I was running out of predefined CMA areas and as
-> > I went looking for ways on how to fix this, I realized that there's not
-> > much reason to keep a global list of these areas. And even less reason
-> > to limit the number of CMA areas to this predefined list. Very little
-> > code outside of the core CMA code even uses this.
-> >
-> > There's one instance of cma_for_each_area() that I don't grok. There's
-> > another early MMU fixup for CMA areas in 32-bit ARM that. Other than
-> > that there's a few places where the total CMA page count is shown for
-> > informational purposes and I don't know how useful that really is
-> > because totalcma_pages doesn't really track how many pages are used for
-> > CMA, but pages that could potentially be used for CMA.
-> >
-> > And that's about it.
-> >
-> > It seems like there are cases where we might really need to globally
-> > know about some of these areas, specifically ones that are allocated
-> > very early during boot and then used for very specific purposes.
-> >
-> > However, it seems to me like CMA is more universally useful than just
-> > for these cases and I don't see the usefulness of tracking these more
-> > generic uses.
-> >
-> > > I am being somewhat selfish here, as I have some WIP code that needs
-> > > the global list :-) But I think the inconsistency is a more general
-> > > point than just what I want (and the s390 code does use
-> > > cma_for_each_area()). Maybe you could keep maintaining a global
-> > > structure containing all areas?
-> >
-> > If it's really useful to be able to access all CMA areas, then we could
-> > easily just add them all to a global linked list upon activation (we may
-> > still want/need to keep the predefined list around for all those early
-> > allocation cases). That way we'd get the best of both worlds.
-> >
-> > > What do you think are the chances of running out of the global count
-> > > of areas?
-> >
-> > Well, I did run out of CMA areas during the early VPR testing because I
-> > was initially testing with 16 areas and a different allocation scheme
-> > that turned out to cause too many resizes in common cases.
-> >
-> > However, given that the default is 8 on normal systems (20 on NUMA) and
-> > is configurable, it means that even with restricting this to 4 for VPR
-> > doesn't always guarantee that all 4 are available. Again, yes, we could
-> > keep bumping that number, but why not turn this into something a bit
-> > more robust where nobody has to know or care about how many there are?
-> >
-> > > Also, you say that "these are treated specially and do not contribute
-> > > to the number of total CMA pages". But, if I'm reading this right, you
-> > > do call cma_activate_area(), which will do
-> > > init_cma_reserved_pageblock() for each pageblock in it. Which adjusts
-> > > the CMA counters for the zone they are in. But your change does not
-> > > adjust totalcma_pages for dynamically created areas. That seems
-> > > inconsistent, too.
-> >
-> > I was referring to just totalcma_pages that isn't impacted by these
-> > dynamically allocated regions. This is, again, because I don't see why
-> > that information would be useful. It's a fairly easy change to update
-> > that value, so if people prefer that, I can add that.
-> >
-> > I don't see an immediate connection between totalcma_pages and
-> > init_cma_reserved_pageblock(). I thought the latter was primarily useful
-> > for making sure that the CMA pages can be migrated, which is still
-> > critical for this use-case.
->=20
-> My comment was about statistics, they would be inconsistent after your
-> change. E.g. currently, totalcma_pages is equal to the sum of CMA
-> pages in each zone. But that would no longer be true, and applications
-> / administrators looking at those statistics might see the
-> inconsistency (between meminfo and vmstat) and wonder what's going on.
-> It seems best to keep those numbers in sync.
->=20
-> In general, I think it's fine to support dynamic allocation, and I
-> agree with your arguments that it doesn't seem right to set the number
-> of CMA areas via a config option. I would just like there to be a
-> canonical way to find all CMA areas.
+For the record from the updated branch this TODO is addressed like this:
 
-Okay, so judging by your and David's feedback, it sounds like I should
-add a bit of code to track dynamically allocated areas within a global
-list, along with the existing predefined regions and keep totalcma_pages
-updated so that the global view is consistent.
+#ifdef CONFIG_CGROUP_DRM
+	/*
+	 * Set the initial values to valid ones but note that both will get set
+	 * and updated as the DRM core will soon notify the cgroup controller
+	 * that the new client has entered the group via
+	 * drmcgroup_client_open(). That in turn will trigger the weight
+	 * notifications and then xe_drm_cgroup_notify_weight() will update both
+	 * shortly.
+	 */
+	atomic_set(&xef->cg.weight, CGROUP_WEIGHT_DFL);
+	xef->cg.prio = XE_EXEC_QUEUE_PRIORITY_NORMAL;
+#endif
 
-I'll look into that. Thanks for the feedback.
+Regards,
 
-Thierry
+Tvrtko
 
---dxmjpjrjb5ukagg6
-Content-Type: application/pgp-signature; name="signature.asc"
+> +
+>   	return 0;
+>   }
+>   
+> @@ -368,6 +372,12 @@ static const struct file_operations xe_driver_fops = {
+>   	.fop_flags = FOP_UNSIGNED_OFFSET,
+>   };
+>   
+> +#ifdef CONFIG_CGROUP_DRM
+> +static const struct drm_cgroup_ops xe_drm_cgroup_ops = {
+> +	.notify_weight = xe_drm_cgroup_notify_weight,
+> +};
+> +#endif
+> +
+>   static struct drm_driver driver = {
+>   	/* Don't use MTRRs here; the Xserver or userspace app should
+>   	 * deal with them for Intel hardware.
+> @@ -386,6 +396,10 @@ static struct drm_driver driver = {
+>   #ifdef CONFIG_PROC_FS
+>   	.show_fdinfo = xe_drm_client_fdinfo,
+>   #endif
+> +
+> +#ifdef CONFIG_CGROUP_DRM
+> +	.cg_ops = &xe_drm_cgroup_ops,
+> +#endif
+>   	.ioctls = xe_ioctls,
+>   	.num_ioctls = ARRAY_SIZE(xe_ioctls),
+>   	.fops = &xe_driver_fops,
+> @@ -500,6 +514,10 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
+>   	if (err)
+>   		goto err;
+>   
+> +#ifdef CONFIG_CGROUP_DRM
+> +	INIT_DELAYED_WORK(&xe->cg.work, xe_drm_cgroup_work);
+> +#endif
+> +
+>   	return xe;
+>   
+>   err:
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 092004d14db2..dbc65a4aa08d 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -19,6 +19,7 @@
+>   #include "xe_oa_types.h"
+>   #include "xe_platform_types.h"
+>   #include "xe_pmu_types.h"
+> +#include "xe_exec_queue_types.h"
+>   #include "xe_pt_types.h"
+>   #include "xe_sriov_pf_types.h"
+>   #include "xe_sriov_types.h"
+> @@ -34,6 +35,7 @@
+>   struct dram_info;
+>   struct intel_display;
+>   struct intel_dg_nvm_dev;
+> +struct xe_file;
+>   struct xe_ggtt;
+>   struct xe_i2c;
+>   struct xe_pat_ops;
+> @@ -624,6 +626,12 @@ struct xe_device {
+>   		unsigned int czclk_freq;
+>   	};
+>   #endif
+> +
+> +#ifdef CONFIG_CGROUP_DRM
+> +	struct {
+> +		struct delayed_work	work;
+> +	} cg;
+> +#endif
+>   };
+>   
+>   /**
+> @@ -685,6 +693,13 @@ struct xe_file {
+>   
+>   	/** @refcount: ref count of this xe file */
+>   	struct kref refcount;
+> +
+> +#ifdef CONFIG_CGROUP_DRM
+> +	struct {
+> +		atomic_t weight;
+> +		enum xe_exec_queue_priority prio;
+> +	} cg;
+> +#endif
+>   };
+>   
+>   #endif
+> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+> index 063c89d981e5..2f072d2a0117 100644
+> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
+> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+> @@ -1139,3 +1139,83 @@ void xe_exec_queue_jobs_ring_restore(struct xe_exec_queue *q)
+>   	}
+>   	spin_unlock(&sched->base.job_list_lock);
+>   }
+> +
+> +#ifdef CONFIG_CGROUP_DRM
+> +void xe_drm_cgroup_work(struct work_struct *work)
+> +{
+> +	struct xe_device *xe = container_of(work, typeof(*xe), cg.work.work);
+> +	unsigned int weight, min = UINT_MAX, max = 0;
+> +	struct drm_device *dev = &xe->drm;
+> +	struct drm_file *file;
+> +	struct xe_file *xef;
+> +
+> +	mutex_lock(&dev->filelist_mutex);
+> +
+> +	list_for_each_entry(file, &dev->filelist, lhead) {
+> +		xef = to_xe_file(file);
+> +		weight = atomic_read(&xef->cg.weight);
+> +
+> +		if (!weight)
+> +			continue;
+> +
+> +		if (weight < min)
+> +			min = weight;
+> +
+> +		if (weight > max)
+> +			max = weight;
+> +	}
+> +
+> +	list_for_each_entry(file, &dev->filelist, lhead) {
+> +		enum xe_exec_queue_priority new_prio;
+> +		struct xe_exec_queue *q;
+> +		unsigned long i;
+> +
+> +		xef = to_xe_file(file);
+> +		weight = atomic_read(&xef->cg.weight);
+> +
+> +		if (max == min)
+> +			new_prio = XE_EXEC_QUEUE_PRIORITY_NORMAL;
+> +		else if (weight == max)
+> +			new_prio = XE_EXEC_QUEUE_PRIORITY_HIGH;
+> +		else if (weight == min)
+> +			new_prio = XE_EXEC_QUEUE_PRIORITY_LOW;
+> +		else
+> +			new_prio = XE_EXEC_QUEUE_PRIORITY_NORMAL;
+> +
+> +		if (new_prio == xef->cg.prio)
+> +			continue;
+> +
+> +		mutex_lock(&xef->exec_queue.lock);
+> +		xa_for_each(&xef->exec_queue.xa, i, q) {
+> +			if (q->sched_props.priority !=
+> +			    XE_EXEC_QUEUE_PRIORITY_NORMAL)
+> +				continue;
+> +
+> +			xe_exec_queue_get(q);
+> +			mutex_unlock(&xef->exec_queue.lock);
+> +
+> +			q->ops->set_priority(q, new_prio);
+> +
+> +			mutex_lock(&xef->exec_queue.lock);
+> +			xe_exec_queue_put(q);
+> +		}
+> +		mutex_unlock(&xef->exec_queue.lock);
+> +
+> +		xef->cg.prio = new_prio;
+> +	}
+> +
+> +	mutex_unlock(&dev->filelist_mutex);
+> +}
+> +
+> +void xe_drm_cgroup_notify_weight(struct drm_file *file_priv,
+> +				 unsigned int weight)
+> +{
+> +	struct xe_file *xef = to_xe_file(file_priv);
+> +	struct xe_device *xe = xef->xe;
+> +
+> +	atomic_set(&xef->cg.weight, weight);
+> +
+> +	queue_delayed_work(system_unbound_wq, &xe->cg.work,
+> +			   msecs_to_jiffies(100));
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.h b/drivers/gpu/drm/xe/xe_exec_queue.h
+> index 15ec852e7f7e..5f6b42c74086 100644
+> --- a/drivers/gpu/drm/xe/xe_exec_queue.h
+> +++ b/drivers/gpu/drm/xe/xe_exec_queue.h
+> @@ -95,4 +95,9 @@ int xe_exec_queue_contexts_hwsp_rebase(struct xe_exec_queue *q, void *scratch);
+>   void xe_exec_queue_jobs_ring_restore(struct xe_exec_queue *q);
+>   
+>   struct xe_lrc *xe_exec_queue_lrc(struct xe_exec_queue *q);
+> +
+> +void xe_drm_cgroup_notify_weight(struct drm_file *file_priv,
+> +				 unsigned int weight);
+> +void xe_drm_cgroup_work(struct work_struct *work);
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+> index 86daf6f4728f..df1252f4cd62 100644
+> --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+> +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+> @@ -427,13 +427,19 @@ static const int xe_exec_queue_prio_to_guc[] = {
+>   static void init_policies(struct xe_guc *guc, struct xe_exec_queue *q)
+>   {
+>   	struct exec_queue_policy policy;
+> -	enum xe_exec_queue_priority prio = q->sched_props.priority;
+> +	enum xe_exec_queue_priority prio;
+>   	u32 timeslice_us = q->sched_props.timeslice_us;
+>   	u32 slpc_exec_queue_freq_req = 0;
+>   	u32 preempt_timeout_us = q->sched_props.preempt_timeout_us;
+>   
+>   	xe_gt_assert(guc_to_gt(guc), exec_queue_registered(q));
+>   
+> +	prio = q->sched_props.priority;
+> +#ifdef CONFIG_CGROUP_DRM
+> +	if (prio == XE_EXEC_QUEUE_PRIORITY_NORMAL && q->xef)
+> +		prio = q->xef->cg.prio;
+> +#endif
+> +
+>   	if (q->flags & EXEC_QUEUE_FLAG_LOW_LATENCY)
+>   		slpc_exec_queue_freq_req |= SLPC_CTX_FREQ_REQ_IS_COMPUTE;
+>   
+> diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
+> index a2e85030b7f4..67291f19213b 100644
+> --- a/drivers/gpu/drm/xe/xe_pm.c
+> +++ b/drivers/gpu/drm/xe/xe_pm.c
+> @@ -124,6 +124,10 @@ int xe_pm_suspend(struct xe_device *xe)
+>   	drm_dbg(&xe->drm, "Suspending device\n");
+>   	trace_xe_pm_suspend(xe, __builtin_return_address(0));
+>   
+> +#ifdef CONFIG_CGROUP_DRM
+> +	cancel_delayed_work_sync(&xe->cg.work);
+> +#endif
+> +
+>   	err = xe_pxp_pm_suspend(xe->pxp);
+>   	if (err)
+>   		goto err;
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmi5gOIACgkQ3SOs138+
-s6HoXw//XNrWJmAMVCgR+fCzlx0zoU4zdXoaxEp6EQWJKYjG//X6xi10kqOs2jVR
-uu5knOytKBYAZxrbGlElM3YDTUvN62voCXi2dgvDZ53e0xVNnz+JbhGvA4FRpqU4
-57ax3pJqEz4nWK7WnYrovlUSwMEPyzXb8KiRydUchOAr/QQfaCQKP1+HUgjsNsi0
-0JgzT2LrmkZJvzpYS1gK7Kyb7hnGh620lWwILWeiB8Y9XvtuktdxcuTqvt3hp3TF
-d8WHkQgF591iqMllbP1UFBd4zh852n3wuS/NutP4F2xH87BvkL+Az3uo4oAkqRW5
-ihpe1fdjufRrSa8j4he62obtU3HQUFzXH+1nktOYrN+NGtqvRm6FJGjbg9MgAN+J
-NeEn2yAIbCOT7Xhv/tAPSlB86nJVG3mmbWkfzVQhMdkeQrrTOkE7WHVH8YsDKF0x
-fEnOR+NpJ5NAe74DupV116N6YvFBd7Za9uHVPW4Xue+vqShxRl0H3/mIpmZg0JHf
-La8GRnYptVZoHP7YncT7rIFLmvBwf98uE+jUpHPrYbnrvBoXzECCg9higjZ/6faY
-X+rx5NUc6BRVTVncIvdiKwTR/g/F/9fFBAlDx3ie4MEJgtL6yvEIuCyw58N3X/uu
-UZmj3uvPk4sZILsIZO7+65qLprdN/o+T1UBAL8aWUo7bSNflcKw=
-=jDv8
------END PGP SIGNATURE-----
-
---dxmjpjrjb5ukagg6--
