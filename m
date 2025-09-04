@@ -2,121 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26E7B436B1
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 11:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BC4B436AC
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 11:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B921010E9C5;
-	Thu,  4 Sep 2025 09:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7055510E9BF;
+	Thu,  4 Sep 2025 09:09:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="l5rXadrg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lzhL83/c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cJL2fP6S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PfDDhUI0";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="CH+DRb0D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4743310E9A3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 09:09:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A147A34057;
- Thu,  4 Sep 2025 09:09:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756976975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=v0GGp7T1negfA7vsLHrRnB07bIv9wOI6Gd067Vl/9eM=;
- b=l5rXadrgdBdd6XYUCUDL17gs7L0E8KmxzKgI3o4JE18xLcvRgxtYengCXfVWIcC8KJAtSv
- aEhDcwxQ52XqvGY1lw1AeFhHAS7WZqgCrVgUkIj6I0VonnkO84Yu+zChUu6l5vw4ohIcua
- 8H9XXV0yi6orusKszvgsH6v2v3/7SeA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756976975;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=v0GGp7T1negfA7vsLHrRnB07bIv9wOI6Gd067Vl/9eM=;
- b=lzhL83/cxyySUDlGUAUn68Vzz49OtqaW/Ny7CyCNT7Q3U9a3RjiLQhSFQBrPfum83EGhtO
- LfLzrOMJJPGGdhCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cJL2fP6S;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PfDDhUI0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1756976974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=v0GGp7T1negfA7vsLHrRnB07bIv9wOI6Gd067Vl/9eM=;
- b=cJL2fP6SI0oxGMO7SRqJOLy6q42jZ5+swtxxZnCD2SjKBiXvvX0gYU5Hx7+r0zlll7cccR
- jBSbx8G1wcxS0VYmvNfJ3mH5S/MP+7Mc/tmyitL/QdY/x3qYZVk/xBmj4PmjOucbFu2CwK
- 5k54S/z4zKItsjpa4X7O6ApwW1a0hKI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1756976974;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=v0GGp7T1negfA7vsLHrRnB07bIv9wOI6Gd067Vl/9eM=;
- b=PfDDhUI0z0hrbK+3mIpeMx+I7Hc3Z6G0QqgY2iFNMgwEZLVo6A0V9/JKkuqJZLCK5091dT
- wdQw52AMJ29U1VAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DE4513675;
- Thu,  4 Sep 2025 09:09:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id urPqDU5XuWjJFQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 04 Sep 2025 09:09:34 +0000
-Date: Thu, 4 Sep 2025 11:09:32 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next
-Message-ID: <20250904090932.GA193997@linux.fritz.box>
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11013039.outbound.protection.outlook.com
+ [52.101.83.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE9AF10E9BF
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 09:09:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nQ21X4isaYwEHIc+L547YbeaNtgA88A3vGHHvkUDY152m0gHH8x6wsy90snHokwU/FBkhzdsnR6EsE0vlketux4XyL6O4KKJqXWuXziVeKGsaaNkPDcjL7BDVFFp5GrsT4mIHvgl9s85JlOMEJNI7TUml6QH1+vseMyzJmgPJSH/hXuDafMrWqFdjF8NqmQR6YANVwfNDEJXw/bZHl3Wpmcm1r9zBg+I1dL5CqnOB1BrUpN1HmDNYDPT2SHmM2qZjvirqK+duOSNJQfFgpPWaaySI8yl+jcjRBs2rxefMVrS9Q4agV6x+dotbWc/Ni0vxDotAzvU8/7CyXmS2zsV5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FkVxXGpneA0F6KITkRptj9Guss5XZosRe4l/x75JiaM=;
+ b=EyRQF+0Z6rHCMKZ4vP9rgHkS75wcJGFyGK4cH3jtWMpT3bFfHRuZKrlnnConM7G49/61acRwJKFPwwErQ0vVxuBOzwmvM3NydUUKKTw61JHmnEwTEaewMFT9cXbdZnom84Ie1vVQIpfd52MH61tjfKOr1I9jr3rRVT7JFCvUn/pGzN0fv8VCc22fh8+kpFRmYdP/QeZcR9X2Ft+DCBx2fvIqXycAap9Hi4xAGmbPenCRx5c3LOH0dOwZP0CniAdgLzN+UhfZP9GeMnfvGP12VqnOD0biJ6eZ7G/jifCXiM+1hwWs8oN1pm2E4qIYAuC0b437TqcYjMg8psDML+oz9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FkVxXGpneA0F6KITkRptj9Guss5XZosRe4l/x75JiaM=;
+ b=CH+DRb0D3k2+3RS1fFViakwZwUwmJaylkCSl3ESKNbnMo8Fv63oWm+gyVK4F+p3EpgNI9dDZVWNGhdZjinoC4hgWJqh6y8729k5nbtUO7AZHma0SICF1HMivO/9OXYi3JdBFIouYht2jZqjNVkzGQ9S9WuwCwrvEJjrtvppf5hktwc503zomxLHAaSeicC+2CCOmzNE2XJpA5vBJci27kUOL7xRINe/fyhP1NYF3WBsItnrOr8JCxLM/czMAnVb8ZrqHiw3xvl7lvcd+Ap6FZ/a9iqkIr0CCVkbOsQeP5bQE+ZyTmJ/APQfX8Vzw5hXCWwlG6uoSxSy+WOWQeE3ISA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VE1PR04MB7455.eurprd04.prod.outlook.com (2603:10a6:800:1a1::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Thu, 4 Sep
+ 2025 09:08:59 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.9094.017; Thu, 4 Sep 2025
+ 09:08:59 +0000
+From: Liu Ying <victor.liu@nxp.com>
+Date: Thu, 04 Sep 2025 17:10:02 +0800
+Subject: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific infoframe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
+X-B4-Tracking: v=1; b=H4sIAGlXuWgC/x3NQQrCMBBG4auUWTuQxFjRq4iLkM7ovzApEymF0
+ rs3dPlt3tuoiUEaPYeNTBY01NLhLwPlbyofYUzdFFy4uYeLjP8YxisvUqZq3GbJUGRG0aqWfsI
+ pRRd81Oj1Tj0zmyjWc/F67/sBgZXYEHIAAAA=
+X-Change-ID: 20250904-it6263-vendor-specific-infoframe-aa40214f41f7
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Liu Ying <victor.liu@nxp.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SG2PR01CA0146.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:8f::26) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A147A34057
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; MISSING_XM_UA(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim]
-X-Spam-Score: -4.51
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VE1PR04MB7455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21659e8d-ebce-4c83-886e-08ddeb92aee1
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|1800799024|366016|52116014|7416014|376014|921020|38350700014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WTROUGlzK2YzMzNzUHJxUlpsU0lIaGxncmxqZlg3enNaejFFRisyZHJoOHRK?=
+ =?utf-8?B?ejV1YldSL3BvR1owcW1USDIvQ2F2cjNJWStTcnI4Qlp0REwyYUp1MTl1ay9H?=
+ =?utf-8?B?QzJieW5zWUZTb29NOXJmamgxb2tkNnB4QjJsbVVDT1RxQmRiQnJXMGpyMzRq?=
+ =?utf-8?B?TEhZWlkyaDhzY3VER2dTc2xGVEFybjdEWXNQQk9mekdROWthTmZWZStFVkZs?=
+ =?utf-8?B?SEc2OG13YXBoZ3diWlFSTWttY056QU5kMGk2TmpDK2MzaEgycUlwbWsybklz?=
+ =?utf-8?B?UVJVRURESjI0V1R1d20rUWhURm12bmlKMWF0VnRFQjVVWVdBQ2ZKRzR0eWNt?=
+ =?utf-8?B?aVN2aEYya2JMNi85NW1NVmpJb3JYQ3cydk9ITjVDMGhTNTU3U0JaZjdWVi9O?=
+ =?utf-8?B?NGVZN2pxcVVIOVJhUThxTEVhd1U2UnNKamJYWHFhL29lL05VelJmMnRxVVZ0?=
+ =?utf-8?B?U3pENUhTVnpadWhRaXA2a3oyaFdFd0pnNWxZK215N25aMTB4ZWxGdUI5UWo0?=
+ =?utf-8?B?WmxIOFNnMXFRZDE3bU5iOWh4WFNxcVlFcUt6b0pUMHV6Sm8ra01RUnJTc0RG?=
+ =?utf-8?B?NHMvTktnQXFEaEFlWHFyekdBWGtSSUNlWmRKQ3hmS3lsMXNlRjlsdlVpUGFo?=
+ =?utf-8?B?S01FWnU4NmE1TWpaQUpPbHJvZDZMM2JtUlU5Wk9jSng4c2Z2czQ1S2M5ckN0?=
+ =?utf-8?B?L1RRQm4wSmdRdnBtWDhnekd1cTkyRU5rVGZNUHU3V0VPcmF3TGQrbVIyRDdz?=
+ =?utf-8?B?aW5KeU9CUWQ3cTl4WHFCQWF2c3N3NEVia1RvMnMwWmg0MGpLMWZ5c1Yxd3JV?=
+ =?utf-8?B?KzJ3RWtKaC9iemQ5NjJTTmgwTVNmTEJxZU10Q085K0JoYktEZjlrOUtKSSsz?=
+ =?utf-8?B?aEt5YkNzdGRhcDdiOGZTdFlrRVVVNjNBN3RiSGdMOVJPSE95QkRmQnRXZ3J2?=
+ =?utf-8?B?UXRiZVlSQU1XVjZ5NWJPaWdqa2t5NWVJajRVMDNiWW9qcEUvbSt5SzczdUVl?=
+ =?utf-8?B?aTlkUExzcm1BLzNwUnlBSjhZK21tRVJxTG5UOHFEdDlXWjRNNXNHVUxTeDJk?=
+ =?utf-8?B?VkIyTG5IR3J6ZzNwcklLVFVGYktZb1F2TDdKZUZnVHhwUktHVm1vVndPSVRw?=
+ =?utf-8?B?YUVid0c3SG9WTURFUEJLYmtHbzBxcUQyY2Zxd0kwWVRuYndidFAwQlhqWDNJ?=
+ =?utf-8?B?dWdOMWxvV0J3NkJRMGtHMXdaSVY2Ym5oT1NzWUkrdTNKMXBHb3U1eEZVdC9h?=
+ =?utf-8?B?ZGdvVlhzYkljRzh5ME5nMmEybEhUc2FFcUM1OVBiKzQrTnB4WTUrWUJMZS9J?=
+ =?utf-8?B?aytSWThhQ3RXMHRSSjNSQ0Q4RDFsY3Vha0ROWmtUVTh3TFBqLy9CMVZLTHgz?=
+ =?utf-8?B?dXBWcW9kTHYvT1k4eVREMjRYSy9GVSszZm9BdUJFWTgvU3czMmZ5OEI4Wisr?=
+ =?utf-8?B?ZDNvUFpTdzAyc2VWRkQwRUZZRmxtWnlJS05YRTBsOVJtcDZCMGRJZjVGeExI?=
+ =?utf-8?B?eFJQQVdxUml2enE2QzFaVlFlNUFudVNObytwTitmMnhEQVZPVXdCVm9zblM1?=
+ =?utf-8?B?MWpTVFM4N3FNVTArSkNCN1NTV2FLUEdjZEZ2QzFidDBmd2xXazUzSWxsM3BV?=
+ =?utf-8?B?emY1TWV0b3o0MWJXbVRKQ1lRQ2E1cXlod084eFZOWDBFZm1zV0dySnRqdEpC?=
+ =?utf-8?B?L2NaTTNDWERtRVVjN2xGcjh2ejlGSER3eCt5cWxIVmJLM3o4T3lkUThRVElr?=
+ =?utf-8?B?SDJJY2hXTEhqRE5OZVRpd1p1bk9pcVMzYXdtWGRINHNLK21JU2tJcHoxNmtu?=
+ =?utf-8?B?alJsdmFFZkVKMGQrL2UxdUNJWVdna1ovaVNZMEhwTFB3bDljUC80SkpseEdL?=
+ =?utf-8?B?TUU2N2RKU2gwUkdFbm9ISEhLRlNqZUhBMzdZNGtkZHpqZlQvTXVFZXFqVkcz?=
+ =?utf-8?B?N2tRQ3hPWCtyRjdtaG9mNnVnSzc1TitwUjY5WlVSOUhxbXRrMXZ0TWh4Tzd5?=
+ =?utf-8?Q?Pra7bQNJx0Jw6nAoHiMuh1+Eig2M6g=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(1800799024)(366016)(52116014)(7416014)(376014)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWxTNEgrSk81R1VLS25SVjAzRlZXK2w1NEI1WE9FMFViM0FUTGFhTzZnZ1pk?=
+ =?utf-8?B?R0NQNkRWOGJCL0JxUEEvMFQvNDlLSERrN0sxNTl2T09sV2VoV3lsOXNmMUg4?=
+ =?utf-8?B?WGQvL3AyWGlLS0xQSHBPckZTc0x2dXhielU2RTZTVWpWRjAzc2o2cUdPKzZv?=
+ =?utf-8?B?eEFuV002L1NsSWZvaDA2eVRsd28wU3Y3Z3BmdjFJWnIyYmZRSWh0SzJMOFlM?=
+ =?utf-8?B?eHkzTVVDUGxZQVpuQTF3SXJVbDlnS25MNU54amNpT29CajF0VHhNd1p0dXlI?=
+ =?utf-8?B?anBLcTV1cVcyWlR2dzNtY2JvVnNSVGdVWWFhdkVSTUdZK3VUNEZNWGdiZFRL?=
+ =?utf-8?B?SWlxTnZoQ3NjVTFLOVFpYzVGYlpIdnhoTHljTUdFMlFvd2lPa05paTUycUVB?=
+ =?utf-8?B?NzA1b2tTSzVsS2NpSGpFT0VLV3VtbFBIQ0d5bG5GZnM4dTJ5Sm9jdnZTSm8x?=
+ =?utf-8?B?Z3cvTndCRGJJSkdWVVorM2l4Wk96VnBDL3R4YmVCZGQvYVV6Yk9TckdiMHJH?=
+ =?utf-8?B?NFJHSVhJekdidENPNkxIWTAxTUx6WCtwak5INlYxVm1qMk53UnFKeTBld0Nz?=
+ =?utf-8?B?T3RFbnBGWDM2L0pUK1JQOWRsYXFpSmR2NTF1akNXWC9lOHlsalo4L1hhbWpK?=
+ =?utf-8?B?cERDNDdqeU43d0xQSFJFQkVETmxxNlFsYjdqSU9Oc3UwOGVSNyt3d2VpMXFD?=
+ =?utf-8?B?WHMzdFFvaE5ReDk0TmFpcGN4RjBtVDM0K0RrcWZZSldOYU5FZkRJalI0NGEv?=
+ =?utf-8?B?ZlFOVE03OHpNekpFUFBCRFlLejVCK3BITytxM1Jka1V4VzVTckhBWnc5N3lv?=
+ =?utf-8?B?eDdGNGxnTEFWQ3pLZEpUR1N6bVVOdEcwWm1ScXNET3Z4TUZoZHZYWi8vMlF3?=
+ =?utf-8?B?blRXRkJSSW42c0NCRE9Mb2xUWHgyWHM4UjZtK0hZQklyL0wxb2R0VS9NQ1ZZ?=
+ =?utf-8?B?SVJkZXZDZ0MyUHhtV2E0V284WXA0WVBBOWdPOU1BZys1cXNrNHVLRmNuMW9w?=
+ =?utf-8?B?Q2prUTlEdG13N0tQL0ZNeFBkaklSYjBSeU1ObjBCbTczUzN4ZFBDajR5Z2lK?=
+ =?utf-8?B?ZGVvWm9NWVlkWVBTTlBvYUtFend1N0ZXb1FSUEd6WUh3QlZqOTVLbDNiWWFM?=
+ =?utf-8?B?UWhDcmpqc1RYbzA1N3hsbkU1SUpzeTE0SzZSbmdmaEErd2VVT05reWZuV3lI?=
+ =?utf-8?B?QVYybnVYd2orWlRmRGx6RDdqTnBnVG80c1F6NW5jYmJ6dTRma3RQYWdsUXpr?=
+ =?utf-8?B?dy9QcUtGK25ieXlvSFNtMVFXcFlvWDRFNWRDbER1OUNRS1ozNkJyMFBMbDVY?=
+ =?utf-8?B?M2lwUjN2TDFuT1UyaWxhc0drUmZ0UStiMURtMnMzNTduSXFyVGJ5RGQxclN5?=
+ =?utf-8?B?b2x2SkpRYlNXbzhiK3FyWFRIUGd2eGxNU1dGV3JMZy9nalRnL3NWSFZ6NHJQ?=
+ =?utf-8?B?ZngyeW03cmU2RjdwbTZTSHBtY2hYL0hCbFNIM3FSa0FYQ3YrdEUxZ2RIUERF?=
+ =?utf-8?B?WTdsVDMwMzh4dVJ0cVFLYitsVDhYUUhzQmdzdkZBRkFKN2t0NHdLYU11UlJZ?=
+ =?utf-8?B?dVdybWNFbjZ6OXBYYTZZRlg4dmRiMHNMTHIyTXVXRlpscmRXaElDUHI5WU9n?=
+ =?utf-8?B?R0RFd0EzSHJFU1lqQjIyNzUyYSs3bkxQY2hlMFd6bEFyTVhvWWNGdXgwSnVQ?=
+ =?utf-8?B?Q290dHIwZnVXNDdJcGpmMEwva2hLNk5xWlZRWXlYMm9mRHlQTzg5Mlo0R3U5?=
+ =?utf-8?B?ZnJVcndTdE94UWIvUVkvUWdqd2hJaHUwYVF6U2lYRnhUbUx1WTJmNm5OV3dS?=
+ =?utf-8?B?ZlowL21aaTg3c2ZXRnN1VDBnUXhhUzQ3VFRGbVFNVkJzZGNac052cmN5cGJx?=
+ =?utf-8?B?anhybmV5U2xVTXgvVjZtdHVVMXI5S1dKRmMvVC9BWFBVaHJ0WGRQNWgwcWtp?=
+ =?utf-8?B?bFQzNTAxeXh1bzhNOUNhQzAyMzByVkl3QkhPQ2hWSzU4ZmtpVjV1Ulh2ZlJr?=
+ =?utf-8?B?MkExMVY0amE0TWpVd1k1Nkg5T0psdXJ1YmFQQlEwMTBvYjZ5ZzZqT1pHd1Y2?=
+ =?utf-8?B?bVUxYk9Yd1ArZDIrb204TnljcFFOMmpjSmZST1IzcXBPbDA4cHFEVW9PSFlq?=
+ =?utf-8?Q?AIEfKeXkD7DZyePh6ZNc9f5iw?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21659e8d-ebce-4c83-886e-08ddeb92aee1
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 09:08:59.0385 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xXr9I936u0pYlPmDOjLOxUTFGpgmwj2kFdppvYIasn/8kNg0SplZ8/yeBcZ553l1n7ga1dV5TS6ERztVM46ILw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7455
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,437 +175,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
-
-here's the drm-misc-next PR for this week. Many smaller fixes and
-improvements throughout the DRM code.
-
-Best regards
-Thomas
-
-drm-misc-next-2025-09-04:
-drm-misc-next for v6.18:
-
-Cross-subsystem Changes:
-
-- Update a number of DT bindings for STM32MP25 Arm SoC
-
-Core Changes:
-
-gem:
-- Simplify locking for GPUVM
-
-panel-backlight-quirks:
-- Add additional quirks for EDID, DMI, brightness
-
-sched:
-- Fix race condition in trace code
-- Clean up
-
-sysfb:
-- Clean up
-
-Driver Changes:
-
-amdgpu:
-- Give kernel jobs a unique id for better tracing
-
-amdxdna:
-- Improve error reporting
-
-bridge:
-- Improve ref counting on bridge management
-- adv7511: Provide SPD and HDMI infoframes
-- it6505: Replace crypto_shash with sha()
-- synopsys: Add support for DW DPTX Controller plus DT bindings
-
-gud:
-- Replace simple-KMS pipe with regular atomic helpers
-
-imagination:
-- Improve power management
-- Add support for TH1520 GPU
-- Support Risc-V architectures
-
-ivpu:
-- Clean up
-
-nouveau:
-- Improve error reporting
-
-panthor:
-- Fail VM bind if BO has offset
-- Clean up
-
-rcar-du:
-- Make number of lanes configurable
-
-rockchip:
-- Add support for RK3588 DPTX output
-
-rocket:
-- Use kfree() and sizeof() correctly
-- Test DMA status
-- Clean up
-
-sitronix:
-- st7571-i2c: Add support for inverted displays and 2-bit grayscale
-- Clean up
-
-stm:
-- ltdc: Add support support for STM32MP257F-EV1 plus DT bindings
-
-tidss:
-- Convert to kernel's FIELD_ macros
-
-v3d:
-- Improve job management and locking
-The following changes since commit 5c76c794bf29399394ebacaa5af8436b8bed0d46:
-
-  HID: i2c-hid: Fix test in i2c_hid_core_register_panel_follower() (2025-08-27 16:35:20 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-09-04
-
-for you to fetch changes up to 2a1eea8fd601db4c52f0d14f8871663b7b052c91:
-
-  drm/sysfb: Remove double assignment to pointer crtc_state (2025-09-04 09:26:39 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for v6.18:
-
-Cross-subsystem Changes:
-
-- Update a number of DT bindings for STM32MP25 Arm SoC
-
-Core Changes:
-
-gem:
-- Simplify locking for GPUVM
-
-panel-backlight-quirks:
-- Add additional quirks for EDID, DMI, brightness
-
-sched:
-- Fix race condition in trace code
-- Clean up
-
-sysfb:
-- Clean up
-
-Driver Changes:
-
-amdgpu:
-- Give kernel jobs a unique id for better tracing
-
-amdxdna:
-- Improve error reporting
-
-bridge:
-- Improve ref counting on bridge management
-- adv7511: Provide SPD and HDMI infoframes
-- it6505: Replace crypto_shash with sha()
-- synopsys: Add support for DW DPTX Controller plus DT bindings
-
-gud:
-- Replace simple-KMS pipe with regular atomic helpers
-
-imagination:
-- Improve power management
-- Add support for TH1520 GPU
-- Support Risc-V architectures
-
-ivpu:
-- Clean up
-
-nouveau:
-- Improve error reporting
-
-panthor:
-- Fail VM bind if BO has offset
-- Clean up
-
-rcar-du:
-- Make number of lanes configurable
-
-rockchip:
-- Add support for RK3588 DPTX output
-
-rocket:
-- Use kfree() and sizeof() correctly
-- Test DMA status
-- Clean up
-
-sitronix:
-- st7571-i2c: Add support for inverted displays and 2-bit grayscale
-- Clean up
-
-stm:
-- ltdc: Add support support for STM32MP257F-EV1 plus DT bindings
-
-tidss:
-- Convert to kernel's FIELD_ macros
-
-v3d:
-- Improve job management and locking
-
-----------------------------------------------------------------
-Alice Ryhl (3):
-      drm_gem: add mutex to drm_gem_object.gpuva
-      panthor: use drm_gem_object.gpuva.lock instead of gpuva_list_lock
-      gpuvm: remove gem.gpuva.lock_dep_map
-
-Andy Yan (4):
-      dt-bindings: display: rockchip: Add schema for RK3588 DPTX Controller
-      drm/bridge: synopsys: Add DW DPTX Controller support library
-      drm/rockchip: Add RK3588 DPTX output support
-      MAINTAINERS: Add entry for DW DPTX Controller bridge
-
-Antheas Kapenekakis (6):
-      drm: panel-backlight-quirks: Make EDID match optional
-      drm: panel-backlight-quirks: Convert brightness quirk to generic structure
-      drm: panel-backlight-quirks: Add secondary DMI match
-      drm: panel-backlight-quirks: Add brightness mask quirk
-      drm: panel-backlight-quirks: Add Steam Deck brightness quirk
-      drm: panel-backlight-quirks: Log applied panel brightness quirks
-
-Brigham Campbell (1):
-      accel/rocket: Fix usages of kfree() and sizeof()
-
-Chen Ni (1):
-      drm/vesadrm: Remove unneeded semicolon
-
-Chia-I Wu (1):
-      drm/panthor: check bo offset alignment in vm bind
-
-Colin Ian King (1):
-      drm/sysfb: Remove double assignment to pointer crtc_state
-
-Dan Carpenter (1):
-      accel/rocket: Fix some error checking in rocket_core_init()
-
-Danilo Krummrich (1):
-      drm/test: drm_exec: use kzalloc() to allocate GEM objects
-
-Dmitry Baryshkov (1):
-      drm/bridge: adv7511: provide SPD and HDMI infoframes
-
-Eric Biggers (1):
-      drm/bridge: it6505: Use SHA-1 library instead of crypto_shash
-
-Heiko Stuebner (3):
-      accel/rocket: Fix indentation of Kconfig entry
-      accel/rocket: Depend on DRM_ACCEL not just DRM
-      accel/rocket: Check the correct DMA irq status to warn about
-
-Jacek Lawrynowicz (2):
-      accel/ivpu: Remove unused PLL_CONFIG_DEFAULT
-      accel/ivpu: Make function parameter names consistent
-
-Javier Martinez Canillas (1):
-      drm/sitronix/st7571-i2c: Make st7571_panel_data variables static const
-
-Liao Yuanhong (3):
-      drm/sched/tests: Remove redundant header files
-      drm/nouveau: Replace redundant return value judgment with PTR_ERR_OR_ZERO()
-      drm/ssd130x: Remove the use of dev_err_probe()
-
-Luca Ceresoli (7):
-      drm/debugfs: bridges_show: show refcount
-      list: add list_last_entry_or_null()
-      drm/bridge: add drm_bridge_chain_get_last_bridge()
-      drm/bridge: imx93-mipi-dsi: use drm_bridge_chain_get_last_bridge()
-      drm/omapdrm: use drm_bridge_chain_get_last_bridge()
-      drm/bridge: add drm_bridge_is_last()
-      drm/display: bridge_connector: use drm_bridge_is_last()
-
-Lukas Bulwahn (1):
-      MAINTAINERS: adjust file entry in DRM ACCEL DRIVER FOR ROCKCHIP NPU
-
-Marcus Folkesson (6):
-      drm/st7571-i2c: correct pixel data format description
-      dt-bindings: display: sitronix,st7571: add optional inverted property
-      dt-bindings: display: sitronix,st7567: add optional inverted property
-      drm/st7571-i2c: add support for inverted pixel format
-      drm/format-helper: introduce drm_fb_xrgb8888_to_gray2()
-      drm/st7571-i2c: add support for 2bit grayscale for XRGB8888
-
-Marek Vasut (1):
-      drm/rcar-du: dsi: Fix 1/2/3 lane support
-
-Maxime Ripard (14):
-      drm/tidss: dispc: Remove unused OVR_REG_GET
-      drm/tidss: dispc: Convert accessors to macros
-      drm/tidss: dispc: Switch to GENMASK instead of FLD_MASK
-      drm/tidss: dispc: Get rid of FLD_VAL
-      drm/tidss: dispc: Get rid of FLD_GET
-      drm/tidss: dispc: Get rid of FLD_MOD
-      drm/tidss: dispc: Switch REG_GET to using a mask
-      drm/tidss: dispc: Switch REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch VID_REG_GET to using a mask
-      drm/tidss: dispc: Switch VID_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch VP_REG_GET to using a mask
-      drm/tidss: dispc: Switch VP_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch OVR_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Define field masks being used
-
-Maíra Canal (6):
-      drm/v3d: Store a pointer to `struct v3d_file_priv` inside each job
-      drm/v3d: Store the active job inside the queue's state
-      drm/v3d: Replace a global spinlock with a per-queue spinlock
-      drm/v3d: Address race-condition between per-fd GPU stats and fd release
-      drm/v3d: Synchronous operations can't timeout
-      drm/v3d: Protect per-fd reset counter against fd release
-
-Michal Wilczynski (3):
-      drm/imagination: Use pwrseq for TH1520 GPU power management
-      dt-bindings: gpu: img,powervr-rogue: Add TH1520 GPU support
-      drm/imagination: Enable PowerVR driver for RISC-V
-
-Nathan Chancellor (1):
-      drm/tidss: dispc: Explicitly include bitfield.h
-
-Philipp Stanner (1):
-      drm/sched: Document race condition in drm_sched_fini()
-
-Pierre-Eric Pelloux-Prayer (2):
-      drm/amdgpu: give each kernel job a unique id
-      drm/sched: Fix racy access to drm_sched_entity.dependency
-
-Qianfeng Rong (1):
-      accel/amdxdna: Use int instead of u32 to store error codes
-
-Raphael Gallais-Pou (6):
-      dt-bindings: display: st: add two new compatibles to LTDC device
-      dt-bindings: display: st,stm32-ltdc: add access-controllers property
-      dt-bindings: display: st: add new compatible to LVDS device
-      dt-bindings: display: st,stm32mp25-lvds: add access-controllers property
-      dt-bindings: display: st,stm32mp25-lvds: add power-domains property
-      dt-bindings: arm: stm32: add required #clock-cells property
-
-Ruben Wauters (1):
-      drm/gud: Replace simple display pipe with DRM atomic helpers
-
-Steven Price (1):
-      drm/panthor: Simplify mmu_hw_do_operation_locked
-
-Tvrtko Ursulin (1):
-      drm/sched: Remove mention of indirect buffers
-
-Yannick Fertre (2):
-      drm/stm: ltdc: support new hardware version for STM32MP25 SoC
-      drm/stm: ltdc: handle lvds pixel clock
-
- .../bindings/arm/stm32/st,stm32-syscon.yaml        |   31 +-
- .../bindings/display/rockchip/rockchip,dw-dp.yaml  |  150 ++
- .../bindings/display/sitronix,st7567.yaml          |    5 +
- .../bindings/display/sitronix,st7571.yaml          |    5 +
- .../devicetree/bindings/display/st,stm32-ltdc.yaml |   55 +-
- .../bindings/display/st,stm32mp25-lvds.yaml        |   13 +-
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   49 +-
- MAINTAINERS                                        |   10 +-
- drivers/accel/amdxdna/aie2_ctx.c                   |    6 +-
- drivers/accel/ivpu/ivpu_fw.h                       |    2 +-
- drivers/accel/ivpu/ivpu_hw_btrs.c                  |    3 +-
- drivers/accel/ivpu/ivpu_hw_btrs.h                  |    2 +-
- drivers/accel/rocket/Kconfig                       |   16 +-
- drivers/accel/rocket/rocket_core.c                 |    2 +-
- drivers/accel/rocket/rocket_job.c                  |    9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c            |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.h            |   19 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   28 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c            |    3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |    8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |    6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c         |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |   12 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c              |    6 +-
- drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c              |    6 +-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |    3 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   31 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |    5 +
- drivers/gpu/drm/bridge/Kconfig                     |    3 +-
- drivers/gpu/drm/bridge/adv7511/adv7511.h           |    6 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   30 +
- drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c        |   12 +-
- drivers/gpu/drm/bridge/ite-it6505.c                |   33 +-
- drivers/gpu/drm/bridge/synopsys/Kconfig            |    7 +
- drivers/gpu/drm/bridge/synopsys/Makefile           |    1 +
- drivers/gpu/drm/bridge/synopsys/dw-dp.c            | 2095 ++++++++++++++++++++
- drivers/gpu/drm/display/drm_bridge_connector.c     |    5 +-
- drivers/gpu/drm/drm_bridge.c                       |    3 +
- drivers/gpu/drm/drm_format_helper.c                |  108 +
- drivers/gpu/drm/drm_gem.c                          |    2 +
- drivers/gpu/drm/drm_gpuvm.c                        |   30 +-
- drivers/gpu/drm/drm_panel_backlight_quirks.c       |  115 +-
- drivers/gpu/drm/gud/gud_connector.c                |   25 +-
- drivers/gpu/drm/gud/gud_drv.c                      |   52 +-
- drivers/gpu/drm/gud/gud_internal.h                 |   13 +-
- drivers/gpu/drm/gud/gud_pipe.c                     |   64 +-
- drivers/gpu/drm/imagination/Kconfig                |    3 +-
- drivers/gpu/drm/imagination/pvr_device.c           |   22 +-
- drivers/gpu/drm/imagination/pvr_device.h           |   17 +
- drivers/gpu/drm/imagination/pvr_drv.c              |   23 +-
- drivers/gpu/drm/imagination/pvr_power.c            |  168 +-
- drivers/gpu/drm/imagination/pvr_power.h            |   15 +
- drivers/gpu/drm/nouveau/nouveau_platform.c         |    5 +-
- drivers/gpu/drm/omapdrm/omap_drv.c                 |    6 +-
- drivers/gpu/drm/panthor/panthor_gem.c              |    3 -
- drivers/gpu/drm/panthor/panthor_gem.h              |   12 -
- drivers/gpu/drm/panthor/panthor_mmu.c              |   82 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |    5 +-
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |    8 +-
- drivers/gpu/drm/rockchip/Kconfig                   |    9 +
- drivers/gpu/drm/rockchip/Makefile                  |    1 +
- drivers/gpu/drm/rockchip/dw_dp-rockchip.c          |  150 ++
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |    1 +
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |    1 +
- drivers/gpu/drm/scheduler/sched_entity.c           |   25 +-
- drivers/gpu/drm/scheduler/sched_main.c             |   16 +
- drivers/gpu/drm/scheduler/tests/sched_tests.h      |    1 -
- drivers/gpu/drm/sitronix/st7571-i2c.c              |   45 +-
- drivers/gpu/drm/solomon/ssd130x-spi.c              |    3 +-
- drivers/gpu/drm/stm/drv.c                          |   12 +-
- drivers/gpu/drm/stm/ltdc.c                         |   58 +-
- drivers/gpu/drm/stm/ltdc.h                         |    6 +
- drivers/gpu/drm/sysfb/drm_sysfb_modeset.c          |    3 +-
- drivers/gpu/drm/sysfb/vesadrm.c                    |    2 +-
- drivers/gpu/drm/tests/drm_exec_test.c              |   22 +-
- drivers/gpu/drm/tidss/tidss_dispc.c                |  298 +--
- drivers/gpu/drm/tidss/tidss_dispc_regs.h           |   76 +
- drivers/gpu/drm/v3d/v3d_drv.c                      |   14 +-
- drivers/gpu/drm/v3d/v3d_drv.h                      |   22 +-
- drivers/gpu/drm/v3d/v3d_fence.c                    |   11 +-
- drivers/gpu/drm/v3d/v3d_gem.c                      |   10 +-
- drivers/gpu/drm/v3d/v3d_irq.c                      |   68 +-
- drivers/gpu/drm/v3d/v3d_sched.c                    |   85 +-
- drivers/gpu/drm/v3d/v3d_submit.c                   |    2 +-
- include/drm/bridge/dw_dp.h                         |   20 +
- include/drm/drm_bridge.h                           |   23 +
- include/drm/drm_format_helper.h                    |    4 +
- include/drm/drm_gem.h                              |   51 +-
- include/drm/drm_gpuvm.h                            |   30 +-
- include/drm/drm_utils.h                            |    8 +-
- include/linux/list.h                               |   14 +
- 99 files changed, 3877 insertions(+), 706 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
- create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
- create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
- create mode 100644 include/drm/bridge/dw_dp.h
-
+IT6263 supports HDMI vendor specific infoframe.  The infoframe header
+and payload are configurable via NULL packet registers.  The infoframe
+is enabled and disabled via PKT_NULL_CTRL register.  Add the HDMI vendor
+specific infoframe support.
+
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
+ drivers/gpu/drm/bridge/ite-it6263.c | 72 ++++++++++++++++++++++++++-----------
+ 1 file changed, 52 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
+index cf813672b4ffb8ab5c524c6414ee7b414cebc018..0cc5e44b325afe177e0da41cdce753407cec51e7 100644
+--- a/drivers/gpu/drm/bridge/ite-it6263.c
++++ b/drivers/gpu/drm/bridge/ite-it6263.c
+@@ -146,6 +146,7 @@
+ #define  HDMI_COLOR_DEPTH_24		FIELD_PREP(HDMI_COLOR_DEPTH, 4)
+ 
+ #define HDMI_REG_PKT_GENERAL_CTRL	0xc6
++#define HDMI_REG_PKT_NULL_CTRL		0xc9
+ #define HDMI_REG_AVI_INFOFRM_CTRL	0xcd
+ #define  ENABLE_PKT			BIT(0)
+ #define  REPEAT_PKT			BIT(1)
+@@ -154,6 +155,14 @@
+  * 3) HDMI register bank1: 0x130 ~ 0x1ff (HDMI packet registers)
+  */
+ 
++/* NULL packet registers */
++/* Header Byte(HB): n = 0 ~ 2 */
++#define HDMI_REG_PKT_HB(n)		(0x138 + (n))
++/* Packet Byte(PB): n = 0 ~ 27(HDMI_MAX_INFOFRAME_SIZE), n = 0 for checksum */
++#define HDMI_REG_PKT_PB(n)		(0x13b + (n))
++#define HDMI_PKT_HB_PB_CHUNK_SIZE	\
++	(HDMI_REG_PKT_PB(HDMI_MAX_INFOFRAME_SIZE) - HDMI_REG_PKT_HB(0) + 1)
++
+ /* AVI packet registers */
+ #define HDMI_REG_AVI_DB1		0x158
+ #define HDMI_REG_AVI_DB2		0x159
+@@ -224,7 +233,9 @@ static bool it6263_hdmi_writeable_reg(struct device *dev, unsigned int reg)
+ 	case HDMI_REG_HDMI_MODE:
+ 	case HDMI_REG_GCP:
+ 	case HDMI_REG_PKT_GENERAL_CTRL:
++	case HDMI_REG_PKT_NULL_CTRL:
+ 	case HDMI_REG_AVI_INFOFRM_CTRL:
++	case HDMI_REG_PKT_HB(0) ... HDMI_REG_PKT_PB(HDMI_MAX_INFOFRAME_SIZE):
+ 	case HDMI_REG_AVI_DB1:
+ 	case HDMI_REG_AVI_DB2:
+ 	case HDMI_REG_AVI_DB3:
+@@ -755,10 +766,16 @@ static int it6263_hdmi_clear_infoframe(struct drm_bridge *bridge,
+ {
+ 	struct it6263 *it = bridge_to_it6263(bridge);
+ 
+-	if (type == HDMI_INFOFRAME_TYPE_AVI)
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_AVI:
+ 		regmap_write(it->hdmi_regmap, HDMI_REG_AVI_INFOFRM_CTRL, 0);
+-	else
++		break;
++	case HDMI_INFOFRAME_TYPE_VENDOR:
++		regmap_write(it->hdmi_regmap, HDMI_REG_PKT_NULL_CTRL, 0);
++		break;
++	default:
+ 		dev_dbg(it->dev, "unsupported HDMI infoframe 0x%x\n", type);
++	}
+ 
+ 	return 0;
+ }
+@@ -770,27 +787,42 @@ static int it6263_hdmi_write_infoframe(struct drm_bridge *bridge,
+ 	struct it6263 *it = bridge_to_it6263(bridge);
+ 	struct regmap *regmap = it->hdmi_regmap;
+ 
+-	if (type != HDMI_INFOFRAME_TYPE_AVI) {
++	switch (type) {
++	case HDMI_INFOFRAME_TYPE_AVI:
++		/* write the first AVI infoframe data byte chunk(DB1-DB5) */
++		regmap_bulk_write(regmap, HDMI_REG_AVI_DB1,
++				  &buffer[HDMI_INFOFRAME_HEADER_SIZE],
++				  HDMI_AVI_DB_CHUNK1_SIZE);
++
++		/* write the second AVI infoframe data byte chunk(DB6-DB13) */
++		regmap_bulk_write(regmap, HDMI_REG_AVI_DB6,
++				  &buffer[HDMI_INFOFRAME_HEADER_SIZE +
++					  HDMI_AVI_DB_CHUNK1_SIZE],
++				  HDMI_AVI_DB_CHUNK2_SIZE);
++
++		/* write checksum */
++		regmap_write(regmap, HDMI_REG_AVI_CSUM, buffer[3]);
++
++		regmap_write(regmap, HDMI_REG_AVI_INFOFRM_CTRL,
++			     ENABLE_PKT | REPEAT_PKT);
++		break;
++	case HDMI_INFOFRAME_TYPE_VENDOR:
++		const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
++
++		/* clear NULL packet registers due to undefined default value */
++		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0),
++				  zero_bulk, sizeof(zero_bulk));
++
++		/* write header and payload */
++		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0), buffer, len);
++
++		regmap_write(regmap, HDMI_REG_PKT_NULL_CTRL,
++			     ENABLE_PKT | REPEAT_PKT);
++		break;
++	default:
+ 		dev_dbg(it->dev, "unsupported HDMI infoframe 0x%x\n", type);
+-		return 0;
+ 	}
+ 
+-	/* write the first AVI infoframe data byte chunk(DB1-DB5) */
+-	regmap_bulk_write(regmap, HDMI_REG_AVI_DB1,
+-			  &buffer[HDMI_INFOFRAME_HEADER_SIZE],
+-			  HDMI_AVI_DB_CHUNK1_SIZE);
+-
+-	/* write the second AVI infoframe data byte chunk(DB6-DB13) */
+-	regmap_bulk_write(regmap, HDMI_REG_AVI_DB6,
+-			  &buffer[HDMI_INFOFRAME_HEADER_SIZE +
+-				  HDMI_AVI_DB_CHUNK1_SIZE],
+-			  HDMI_AVI_DB_CHUNK2_SIZE);
+-
+-	/* write checksum */
+-	regmap_write(regmap, HDMI_REG_AVI_CSUM, buffer[3]);
+-
+-	regmap_write(regmap, HDMI_REG_AVI_INFOFRM_CTRL, ENABLE_PKT | REPEAT_PKT);
+-
+ 	return 0;
+ }
+ 
+
+---
+base-commit: 4ac65880ebca1b68495bd8704263b26c050ac010
+change-id: 20250904-it6263-vendor-specific-infoframe-aa40214f41f7
+
+Best regards,
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Liu Ying <victor.liu@nxp.com>
+
