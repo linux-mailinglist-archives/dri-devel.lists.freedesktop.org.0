@@ -2,38 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A723B438E3
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346A7B438EB
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:38:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A3E10E9AA;
-	Thu,  4 Sep 2025 10:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA8610E244;
+	Thu,  4 Sep 2025 10:38:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B107110E244;
- Thu,  4 Sep 2025 10:36:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D84321756;
- Thu,  4 Sep 2025 03:36:05 -0700 (PDT)
-Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19C653F63F;
- Thu,  4 Sep 2025 03:36:12 -0700 (PDT)
-Date: Thu, 4 Sep 2025 11:36:09 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Chen-Yu Tsai
- <wens@csie.org>, linux-sunxi <linux-sunxi@lists.linux.dev>
-Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
-Message-ID: <20250904113609.18c39d38@donnerap>
-In-Reply-To: <CAH9NwWepSZnBP7tot9it_bDEbSC14PrMePz+fBtHfHz4ikLDYA@mail.gmail.com>
-References: <20250904002924.2bc63b73@minigeek.lan>
- <CAH9NwWepSZnBP7tot9it_bDEbSC14PrMePz+fBtHfHz4ikLDYA@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CED610E244;
+ Thu,  4 Sep 2025 10:38:11 +0000 (UTC)
+X-UUID: 3d5fbc1e897b11f0b29709d653e92f7d-20250904
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:300f2fa7-17a5-4d38-96a3-11fd4189ac0a, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:8818228a5c537eaf9504e99b0c50a8d8,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+ -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+ AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 3d5fbc1e897b11f0b29709d653e92f7d-20250904
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1160067433; Thu, 04 Sep 2025 18:38:05 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 93A19E008FA5;
+ Thu,  4 Sep 2025 18:38:04 +0800 (CST)
+X-ns-mid: postfix-68B96C0C-3265371312
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 0174FE008FA2;
+ Thu,  4 Sep 2025 18:37:54 +0800 (CST)
+Message-ID: <52e322e5-2dd4-488c-a98e-3a4018f0c323@kylinos.cn>
+Date: Thu, 4 Sep 2025 18:37:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/10] powercap: dtpm_cpu: Use scope-based cleanup
+ helper
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
+ <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
+ <20250903131733.57637-8-zhangzihuan@kylinos.cn>
+ <CAJZ5v0hirWzWZiLbAXPWB58SQv3CAW95iHLnsqs=i2twVCcmwg@mail.gmail.com>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <CAJZ5v0hirWzWZiLbAXPWB58SQv3CAW95iHLnsqs=i2twVCcmwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,79 +95,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Sep 2025 12:10:30 +0200
-Christian Gmeiner <christian.gmeiner@gmail.com> wrote:
 
-> Hi
->=20
-> >
-> > the Allwinner A523/A527/T527 family of SoCs feature a Vivante
-> > "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
-> > See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
-> > row labelled "NPU" indicates which model has the IP. We suspect it's
-> > all the same die, with the NPU selectively fused off on some packages.
-> >
-> > Board vendors seem to use multiple SKUs of the SoC on the same board,
-> > so it's hard to say which particular board has the NPU or not. We
-> > figured that on unsupported SoCs all the NPU registers read as 0,
-> > though, so were wondering if that could be considered as a bail-out
-> > check for the driver?
-> > At the moment I get this, on a SoC with a disabled NPU:
-> > [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
-> > [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
-> > [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
-> > [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
-> > [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000=
-000
-> >
-> > Chen-Yu got this on his board featuring the NPU:
-> >     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
-> >
-> > If I get the code correctly, then etnaviv_gpu_init() correctly detects
-> > the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
-> > etnaviv_drv.c then somewhat ignores this, since it keeps looking for mo=
-re
-> > GPUs, and fails to notice that *none* showed up:
-> > /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
-> > =20
->=20
-> Looks fine to me - no wrong behavior.
->=20
-> > Quick questions:
-> > - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
-> >   registers) an invalid ID, so we can use that to detect those disabled
-> >   NPUs? If not, can any other register used to check this? The whole
-> >   block seems to be RAZ/WI when the NPU is disabled.
-> >
-> > - Would it be acceptable to change the logic to error out of the
-> >   driver's init or probe routine when no GPU/NPU has been found, at
-> >   best with a proper error message? As it stands at the moment, the
-> >   driver is loaded, but of course nothing is usable, so it keeps
-> >   confusing users.
-> > =20
->=20
-> From an application standpoint, it=E2=80=99s not confusing since there is=
- no etnaviv
-> device to interact with. The user might wonder about the kernel messages,
-> but that=E2=80=99s actually caused by an incorrect device tree. If the So=
-C doesn=E2=80=99t
-> have an NPU, it shouldn=E2=80=99t be enabled in the DTS.
+=E5=9C=A8 2025/9/3 21:45, Rafael J. Wysocki =E5=86=99=E9=81=93:
+> On Wed, Sep 3, 2025 at 3:18=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylino=
+s.cn> wrote:
+>> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
+>> annotation for policy references. This reduces the risk of reference
+>> counting mistakes and aligns the code with the latest kernel style.
+>>
+>> No functional change intended.
+>>
+>> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+>> ---
+>>   drivers/powercap/dtpm_cpu.c | 30 +++++++++++-------------------
+>>   1 file changed, 11 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu.c
+>> index 99390ec1481f..f76594185fa2 100644
+>> --- a/drivers/powercap/dtpm_cpu.c
+>> +++ b/drivers/powercap/dtpm_cpu.c
+>> @@ -144,19 +144,17 @@ static int update_pd_power_uw(struct dtpm *dtpm)
+>>   static void pd_release(struct dtpm *dtpm)
+>>   {
+>>          struct dtpm_cpu *dtpm_cpu =3D to_dtpm_cpu(dtpm);
+>> -       struct cpufreq_policy *policy;
+>>
+>>          if (freq_qos_request_active(&dtpm_cpu->qos_req))
+>>                  freq_qos_remove_request(&dtpm_cpu->qos_req);
+>>
+>> -       policy =3D cpufreq_cpu_get(dtpm_cpu->cpu);
+>> -       if (policy) {
+>> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
+>> +               cpufreq_cpu_get(dtpm_cpu->cpu);
+>> +
+>> +       if (policy)
+>>                  for_each_cpu(dtpm_cpu->cpu, policy->related_cpus)
+>>                          per_cpu(dtpm_per_cpu, dtpm_cpu->cpu) =3D NULL=
+;
+>>
+>> -               cpufreq_cpu_put(policy);
+>> -       }
+>> -
+>>          kfree(dtpm_cpu);
+>>   }
+>>
+>> @@ -192,7 +190,6 @@ static int cpuhp_dtpm_cpu_online(unsigned int cpu)
+>>   static int __dtpm_cpu_setup(int cpu, struct dtpm *parent)
+>>   {
+>>          struct dtpm_cpu *dtpm_cpu;
+>> -       struct cpufreq_policy *policy;
+>>          struct em_perf_state *table;
+>>          struct em_perf_domain *pd;
+>>          char name[CPUFREQ_NAME_LEN];
+>> @@ -202,21 +199,19 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm=
+ *parent)
+>>          if (dtpm_cpu)
+>>                  return 0;
+>>
+>> -       policy =3D cpufreq_cpu_get(cpu);
+>> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
+>> +               cpufreq_cpu_get(cpu);
+>> +
+>>          if (!policy)
+>>                  return 0;
+>>
+>>          pd =3D em_cpu_get(cpu);
+>> -       if (!pd || em_is_artificial(pd)) {
+>> -               ret =3D -EINVAL;
+>> -               goto release_policy;
+>> -       }
+>> +       if (!pd || em_is_artificial(pd))
+>> +               return -EINVAL;
+>>
+>>          dtpm_cpu =3D kzalloc(sizeof(*dtpm_cpu), GFP_KERNEL);
+>> -       if (!dtpm_cpu) {
+>> -               ret =3D -ENOMEM;
+>> -               goto release_policy;
+>> -       }
+>> +       if (!dtpm_cpu)
+>> +               return -ENOMEM;
+>>
+>>          dtpm_init(&dtpm_cpu->dtpm, &dtpm_ops);
+>>          dtpm_cpu->cpu =3D cpu;
+>> @@ -239,7 +234,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *=
+parent)
+>>          if (ret < 0)
+>>                  goto out_dtpm_unregister;
+> So this change kind of goes against another recommendation given in cle=
+anup.h:
+>
+>   * Lastly, given that the benefit of cleanup helpers is removal of
+>   * "goto", and that the "goto" statement can jump between scopes, the
+>   * expectation is that usage of "goto" and cleanup helpers is never
+>   * mixed in the same function. I.e. for a given routine, convert all
+>   * resources that need a "goto" cleanup to scope-based cleanup, or
+>   * convert none of them.
 
-You have a point there, but as I mentioned above, that sounds tricky to
-do: I have two boards that looks otherwise identical, but one has an A527,
-the other an T527. And still both don't have the NPU, since only some
-T527s feature it. So putting this on the user to use the right DT (or
-U-Boot defconfig) does not sound very nice.
 
-And in contrast to many other devices described in DTs, we *can* safely
-detect the existence of this NPU: each of the SoCs have all the clock
-gates and resets, and accesses to the MMIO frame do not fault - and the
-kernel code apparently can cope with this situation already. So yeah, we
-could smear something into U-Boot, to put a status =3D "disabled"; in there,
-but I would like to avoid that, especially if the kernel is almost there
-already.
+Should I replace all the memory allocation cleanups here with `__free`?
+That would allow us to drop all the `goto`s, but since this function has
+quite a few of them, I=E2=80=99m concerned it might introduce new issues.=
+ What=E2=80=99s
+your recommendation?
 
-Cheers,
-Andre
+Thanks!
 
-=20
+>> -       cpufreq_cpu_put(policy);
+>>          return 0;
+>>
+>>   out_dtpm_unregister:
+>> @@ -251,8 +245,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *=
+parent)
+>>                  per_cpu(dtpm_per_cpu, cpu) =3D NULL;
+>>          kfree(dtpm_cpu);
+>>
+>> -release_policy:
+>> -       cpufreq_cpu_put(policy);
+>>          return ret;
+>>   }
+>>
+>> --
