@@ -2,153 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAA9B438B6
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08757B438CA
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 12:34:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 672AC10E23E;
-	Thu,  4 Sep 2025 10:27:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A176010E9C1;
+	Thu,  4 Sep 2025 10:34:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MqEsJ7O4";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BZ33Nyb7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tJNyZPZF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DLSY+xem";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YU7pnVb7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8035210E23E;
- Thu,  4 Sep 2025 10:27:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WAmXUftxUlnHIsub6aqDB+WDCxFwKGGc/HavSX3NmjyosBJLQAO/HEpzQjUOeyrzT1OQdFU4k5PUEjZkBcrCZISWPz3EZPN1jI9xQwfeRFT+phqPYyJZrFt27ISBNWPxlm9WKr+kFGT6Oi3UVML9CH2Gsp5Di0r8BSlusuAWpC9q0hHVg/YIybYYY88c9B2vhhrKKEYqoqqMCJdp61Ww2C24mTR0fk0cY0VPG5SCnw2zzNsLOamegbSqRo6VS3TMTqSjalxUGy/bR1/gKxWEzFsbd0lCpYeRm/lSSOrO3a6bEob6MyGo0xxVXYq1FfnGCrbcB4NP2Zdg0/eI7aDRkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=khIne0JjcMvWOTr1/4VeF23kNPFRfG5jkYoZDjrQ/AI=;
- b=GFs9wQTWy3nNKCvgUxKbcfMg4EMqc0K6Ross4AW+3l/Hpno/IQPcVU9StlbxFhDSQ7mu8UED6wMq8bGH9ibzkBdHY7fvjUU3Via3H3l2ZHe6TvTbriHxWWwU065JV8MO05iL9jn5zp3L8g9qcOgp2UsqRtMNHpH6sFwcKFkrp8XCPh2aH7pIqKdQLAo/iUZ6k65RZ0tXCQT+Kr4VIZnTJSTV7dT+GJboUHK6tj95VHhEk+jamOAy82gA3sMobv6gS49EWwBXnYNDw09NoG5mjIh+4EQLfRbdtWCeXrBrdNxMvBH3Kjz/Ha37A7NZPCRpqwDHKVXp3WLo8BPO5Dodow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=khIne0JjcMvWOTr1/4VeF23kNPFRfG5jkYoZDjrQ/AI=;
- b=MqEsJ7O49NTQF/pMHQFla3WiatUmz6tQbSUHEjmFnbtv/phwrtSzpwwPxK2aCduledlMB/hZrM+V2QfO1OjPCGjazuW21ZsS8LygLNkFFAGY19xMW8ZWJXBGCghXZpo/MTl4f37Da3uDKuAFZz/szR5M476xPvdHU91vVORHBB4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9341.namprd12.prod.outlook.com (2603:10b6:610:1cd::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.16; Thu, 4 Sep
- 2025 10:27:29 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.017; Thu, 4 Sep 2025
- 10:27:29 +0000
-Message-ID: <3407fd9d-68e0-4c45-9761-98ede450bb25@amd.com>
-Date: Thu, 4 Sep 2025 12:27:23 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Revert "drm/nouveau: Remove waitque for sched teardown"
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250901083107.10206-2-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250901083107.10206-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0225.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e4::17) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19CFA10E9A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 10:34:39 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6DAA65CEE2;
+ Thu,  4 Sep 2025 10:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756982078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Y4ipAFmGJ0K+dhO5JpbyYbduF0UHf8YxDbZF6xXhAus=;
+ b=BZ33Nyb7LGmMd8wC4rxN53RydQ8hr2eI+1T6iBQ+3SncN9RIM0Xmc59dQin+OkyfUj/Ypx
+ 3OakUYPB/l0Onr/3EXSX35az2VwH1CZjUOQD3Dlo6u9XEsj7Z1KFWxzXCbz1iCizjUJbWm
+ cgXHuZpQEchcki5bG2gkGCZyLKwgums=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756982078;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Y4ipAFmGJ0K+dhO5JpbyYbduF0UHf8YxDbZF6xXhAus=;
+ b=tJNyZPZFIjWa05RHMEeTx6JBpcWZvh7gPcNUfHgFhLm4W7gbfYFirhDJIKzSorsjPqcqRG
+ 8tdYjicJzt68TpDw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DLSY+xem;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YU7pnVb7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1756982077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Y4ipAFmGJ0K+dhO5JpbyYbduF0UHf8YxDbZF6xXhAus=;
+ b=DLSY+xemDDwKjGjHo/rTx6JAqMicLgtiLnLQJhIpuyw6CN+n1nVVMmEsHOH3cv0hpQDeZx
+ 4svD9j6NSpUBMix/GnRz5Tt3npiQeAcHlYDkpTPNWVkHevzrmSQeXeXK79ajXy3rurzyQx
+ cvfgWX5vJl2cAlSGAWyvNOvvrN0KZL0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1756982077;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Y4ipAFmGJ0K+dhO5JpbyYbduF0UHf8YxDbZF6xXhAus=;
+ b=YU7pnVb7PyxNC1uYcK0P/nnBI0P3WJzHgThqFx4fZDIEUTRRbq6s1LYktxyDuZStPxtURO
+ n3egIGDDLk1830CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF88A13675;
+ Thu,  4 Sep 2025 10:34:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Wy3PODxruWiCMAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 04 Sep 2025 10:34:36 +0000
+Message-ID: <250116b5-4339-4608-99ba-9c0dba489dc4@suse.de>
+Date: Thu, 4 Sep 2025 12:34:36 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9341:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b77a947-d445-403b-b2eb-08ddeb9da67e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WXNPRVZJWEt1THE2RCtBY3dwaEE3YnUyUi9zNE1wRHU3M2xsVmtlRGZ3Z0Rj?=
- =?utf-8?B?YXRYTVQxTGt5Q1BQQ3MvM3JRNWQwOENlNTVaZnhQSWRYTW9OL082RXlRNFBS?=
- =?utf-8?B?bk4xeVJBZ0c0d1loeHFKejRsZ3BibUk2amcvbHlqaS9lMTdxT1Q0YlZzY3M4?=
- =?utf-8?B?OXgzT0lhcy8zYkxKWXdEN214MkV1NEVYcWFOSDNFMURpVFVWVEI0bTNOMGR4?=
- =?utf-8?B?RmN4d0JwTjREM2tIRmdxa2FOU3NZdDhIN1MwakVrRHlySUFZZzZPU0JIalUv?=
- =?utf-8?B?TmhLcXk3em82a0FFL1p0V09lUHVBdTB5QVJkZlVJQnJVVGdsZlE4MTVhcDBX?=
- =?utf-8?B?b1JpdEJYOU1yVXFxbmZHRXpQTUJTTGgrMXFpSEhZUk1rUTJvVkw3VjM4UTEw?=
- =?utf-8?B?V0Y0MlgwNzFTNXJpeWZic09BeWdvUWVpVEtueWFmS05aeDJsQjZ0d3VSM3FM?=
- =?utf-8?B?T3VML2NwQ2pLNFdtdnFub0hrbTFtRFhIbWVQRytONDJSL2lKOXVQZEhLclUw?=
- =?utf-8?B?ZTlIM3N4d1A4NSs0ckxaMDJaOVpNV1U0S1FNV3NKWDRTYytoQ2pvakJKMXhR?=
- =?utf-8?B?WUxQcUFKVnNlVmhneWVYL0oxR2NsZWl3YWkwTEh3ajR5VGFHc1NrazFrZmRo?=
- =?utf-8?B?bkxKb3BwZ1FWWHlxZlJza1Y0ck5GYVRWcG90RHRoaVFhR1hoelY3T0s4UHdR?=
- =?utf-8?B?ZjVTYWh3dmNjSlN0ZEdCSmJkditIK3ZoWlhZU3h2ZDBkenFYQloxVk1XWHQx?=
- =?utf-8?B?bzFBQkt4ZkVJVFpFbTRIQUJtekxYUFBvTThBQjF1ZG1kK081MWw4dllsdlRu?=
- =?utf-8?B?WEs5UUpyRUdYWjl4WE10M1JjWGJSaUt3OWlXRjdQbnIvcTd0L3dKbzFvK245?=
- =?utf-8?B?THJTSER1c2JkTTBlYlBpTmhuRUV6L1lOem5odHJ1c1c2L1B2RUNnZXBOdHdk?=
- =?utf-8?B?OVJmUVJQSEcxeWZHZlNXTE5oR2Ztd2NFUE4rbUNEYk5uL3I2clVIT0xxSHUz?=
- =?utf-8?B?Mkh2NkNDQWJtUFdrL3dPSWpNZGtLaVZOYjJ4cTlkd2k4TWRRSkF6ZHB2RDdG?=
- =?utf-8?B?YTNhRUs1bWw3YjllTG5yYWl1ZThBWXZsSEZGMnhWWExJTEIrNTI0TkkxMkNU?=
- =?utf-8?B?VnR2ZVp5R3RJZmdyRUFmKyt2T2w4R3REZzd5S1JuVEdYakFRUkpsMFBFZk1n?=
- =?utf-8?B?MFdENXIybU04eXBISzF2NlRZKzhtL0FOTWhwM21mOEwvN016QzdZSGRiVWJn?=
- =?utf-8?B?ZWVpNThheTZLcW9jZGlDbmplUERyS0RxRDlYd0MvYWk4NE1VMlJrY09IbmFw?=
- =?utf-8?B?TlZmeTZMYUlqWHQ5aitsMEYreFY0Z0FXc2tZVzVCNVd3a3VIRVpueHZuQTRv?=
- =?utf-8?B?bkxOckpWVXNHOUxzenJTWUF6cjRnNDlpWDZURFZEQUUyVFNGOFQ5RGdMenBm?=
- =?utf-8?B?RTZpWWtpWHQzd2ZxNFRndkFaTEg4a1MzRHlYb3lzOTlUY3JWR2o4TE1Uam9F?=
- =?utf-8?B?aFZLalExdTNybGNlbEp1cklpVGJnenIxMGpYSkdBa3J0R2k3Y2dUd1JQRTVT?=
- =?utf-8?B?TnRtWCtRNzE4RTJOb1BpelpXSnR3R1NEclY3dGtTeWNvRDg0U1ZueVN6K0xa?=
- =?utf-8?B?MWI0eWZQL09EZmNKN2VieEdudzEzdzZmaHRkcUp1Vjc1N2ZxbzUyd2Z3Nncv?=
- =?utf-8?B?REVGTGE5cmFReWhSN0E1OXpFYjVDSjd3N0xtTG93TFZVSzdwZlM5N1VvVkI0?=
- =?utf-8?B?eURLdnhZTmNjSGh2cUlFVUNLWVpFUFFmNmFBYVhEQXp2WFYyWVRQSnlyUlJL?=
- =?utf-8?B?UnlkMFVWbC9VWkwzTVNnUDJTdDVOK2NhU2RoTE4rQjlwS3BWVzlyVVpuaWlu?=
- =?utf-8?B?bk45OE1uK3RqOS92ckUzc3FWYlhjVzhFdzcwcldBUDkzanBSTzN2b1pnaHhU?=
- =?utf-8?Q?Y61BlvsL3Tg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?alUxY0ZVM0lPMTZ2bG9zVXQzZkd2eElsc3BZb0h3aFQ2VS9EVVFsQmlnNjZ3?=
- =?utf-8?B?WlBJWXpnL3MxbC9CcFQ0VS9UQ2k4YjZ2VVZKSklZVWtrTGppZXU5S1JreDFS?=
- =?utf-8?B?VmwwTnU5VlExTGYzY3VzL1ZmSGdLUmZYZEJhaG1ZMnNYcEF5SzNNbzFpcm1J?=
- =?utf-8?B?VmMrZWc3azBqcThqNHZPRVZvQnBkUGRBcDBjSzZnbzhqQmswN0FDN3ZvQkxT?=
- =?utf-8?B?YVdGTjRmT3FsdFJJQUwyMXFFdlZDanNsMG5ydDZqTG04bUZCcExyOGR6UHZD?=
- =?utf-8?B?Mm1SZXFRT3EySG95bDdBTkRXdnBxbFpYY1lVVkNoVDlaYmZDM3VWMStsMTNM?=
- =?utf-8?B?RzJYaVdlbkV2VjFXa1NCYVQyZUw2UklaRGJNSUl2YlFlRWhOWVhDOCtMSTdF?=
- =?utf-8?B?SDBxUDdIY1ovcktxYVZGN0VHWG5FeWZUTFBRNDNrbXlDTFEzeVY4MkJ0eVJR?=
- =?utf-8?B?S1dvU2xRdmpQY2luMTFEUHVnUWMvRGZYcFFhWDB1R1d6U0dKQ3NxU1VQeEpW?=
- =?utf-8?B?VzBERnM1K2FiMExuT1dOUWMrakcreFZuakptZU9zYjJENjNJaG9PbkI0VUg1?=
- =?utf-8?B?T2lQMXFXNFRiazlPWEJRUVJrQUF3WEJ6TDMwdGZsQXF1Z1RJVHZ3UWpTMWFT?=
- =?utf-8?B?eXQ3NlZmNFRrTlNOWHhHa1NtNThqYkl5eXJsNVcvZkplWXFUWjYxQzNZMUs0?=
- =?utf-8?B?MEEya0hEaDlpTDd6dnVZRzFOd2wyYnRpdGtMd2hPZHgxcW5ZQmVsVkkrNTFB?=
- =?utf-8?B?ZUZHUi9UaldGN09tOHpSN0VLbm4vam9FM1VleHZEUEFpVzJLMnBlM2pqbG5p?=
- =?utf-8?B?UTBwQkxYQlRaR3FCdUEvd2wrWTc1ajRNSnYxT3FneHNIemkyRldraGdua09N?=
- =?utf-8?B?QTJnRU1zbTdOa1VITnpKY1ppenJkUHlJL0dPQVFFZ1NXWXpnNnhYNGI1ODNX?=
- =?utf-8?B?bGF4MG0xdzFkVHdNeDFCYzNhMXJrU3ZEVFFwMTNVeE9FcFMrRlBGeWJvYWlW?=
- =?utf-8?B?eENDZmtmNWpwMVdqQlR0ZEF1VkJmeG1neVNVcStST2J0c0JaR0FVTzB4SDN5?=
- =?utf-8?B?MGxLWTh0a01yWi9ydDkrTk03U0tEQlMyZlBnSXlBOGNJb0RTTDRQRWZ2TzJz?=
- =?utf-8?B?QXJJNUpNZlJGZThiQ0UxRUd5TVdGS1c5Q2FFVmk3bHdiWW9wVGVmWURBYk9Z?=
- =?utf-8?B?bUNUNG9GSGE1azlVQWhETjg0YzhrRUhjQ2ZQdld5QmNVMVJHempFV2pycUNN?=
- =?utf-8?B?S0srMklhWVBvd2pkOUl4WUt6dlUxelA3T2JTdTdnaUNJRDdYVEE0SHViUk95?=
- =?utf-8?B?SlJFNHlnS2hQTkZrRHhZZ1NSTTV0djA0bFF5SVpha1FGY1hic2ZlUzZZZ0I2?=
- =?utf-8?B?MUpVS2l1aSsxRnh4aXFlWnVSejZ1NzE1cTNxcmg3S2hORWVhZUh1a1NNbEQv?=
- =?utf-8?B?ZDhBMWxlSTVESm4xUGlPUE1qZ05wZW1uMlVRM2kzTlVMVVJSZ2crSjhGeUhO?=
- =?utf-8?B?K2VMdjBQcEJMN05tU2dDN2hIZ0lMdzY5clpLZC9uNlJzWkxUTnA5Z3F3bnFO?=
- =?utf-8?B?VTRYU0w3KzlqVDhmLzZzaVBuSHMyc0JTWXpuZ0VjcnhnN1FzNnNzYkJTN3pV?=
- =?utf-8?B?YjJtRmNxRVlXZEV2SHZnaDhVaXBNZkhMRjFWVGdUYi9QeHBRTzltcUg1UDZn?=
- =?utf-8?B?ZGJwd2Z0SGVwejhlMFJNMm1nVHByWWlVRU01enN1M1pNR0tma3hRNTZqV3hI?=
- =?utf-8?B?b2duNlNBVHRGenlvYXBhOU1hcXk0aDNkcG9wVjh4aFFyWWdMMUxXQTFJOTNo?=
- =?utf-8?B?SmVtNG1RRm83THFoYmJxR2V3YTFOenBVeDM4bTlmeHhjeUdkZ3ZrbEhOZGFS?=
- =?utf-8?B?MmY1OEw0VnNsY21MQXdsRjdDNHdqMlMvVERQNTU3Tm9wVm1TamtRcU5FR1dp?=
- =?utf-8?B?NWpGUVQ5OVFSU2hibzVKdzl2M3l3SEJkdmhzbFdZUGhLaGJxUFV3Q0xud085?=
- =?utf-8?B?eWRibGtQTDdTU0ZQZWhROGM5Q3RwVlRHK01RMFVYa3R3bHhjeHo1M0JzY0NX?=
- =?utf-8?B?V3F1MStxS3hBa053U2lVdkF6c3pmcUNiUjlnbkowSFY3TmRyVloyRm1MRUZM?=
- =?utf-8?Q?aMxKpQD9lD9EMsBWdQ5Ts6SvR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b77a947-d445-403b-b2eb-08ddeb9da67e
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 10:27:29.5807 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SdFO69xYSCgYSFKsK/WfuLYwOelbIatDMNnoKTUe8sSdYBPjWwCTT5SKU2LPNDDq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9341
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] drm: tiny: Add support for Mayqueen Pixpaper e-ink
+ panel
+To: LiangCheng Wang <zaq14760@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wig Cheng <onlywig@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250902-drm-v5-0-d77c678c4ae3@gmail.com>
+ <20250902-drm-v5-3-d77c678c4ae3@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250902-drm-v5-3-d77c678c4ae3@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TAGGED_RCPT(0.00)[dt];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,kernel.org,linux.intel.com,ffwll.ch,linaro.org,amd.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+ RCVD_COUNT_TWO(0.00)[2]; DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 6DAA65CEE2
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,232 +159,1275 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.09.25 10:31, Philipp Stanner wrote:
-> This reverts:
-> 
-> commit bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
-> commit 5f46f5c7af8c ("drm/nouveau: Add new callback for scheduler teardown")
-> 
-> from the drm/sched teardown leak fix series:
-> 
-> https://lore.kernel.org/dri-devel/20250710125412.128476-2-phasta@kernel.org/
-> 
-> The aforementioned series removed a blocking waitqueue from
-> nouveau_sched_fini(). It was mistakenly assumed that this waitqueue only
-> prevents jobs from leaking, which the series fixed.
-> 
-> The waitqueue, however, also guarantees that all VM_BIND related jobs
-> are finished in order, cleaning up mappings in the GPU's MMU. These jobs
-> must be executed sequentially. Without the waitqueue, this is no longer
-> guaranteed, because entity and scheduler teardown can race with each
-> other.
+Hi
 
-That sounds like exactly the kind of issues I tried to catch with the recent dma_fence changes.
+Am 02.09.25 um 08:53 schrieb LiangCheng Wang:
+> Introduce a DRM driver for the Mayqueen Pixpaper e-ink display panel,
+> which is controlled via SPI. The driver supports a 122x250 resolution
+> display with XRGB8888 format.
+>
+> Also, add a MAINTAINERS entry for the Pixpaper driver.
+>
+> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 
-Going to keep working on that and potentially using this here as blueprint for something it should catch.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Regards,
-Christian.
+Thank you so much for the driver. I will merge the series into 
+drm-misc-next soon.
 
-> 
-> Revert all patches related to the waitqueue removal.
-> 
-> Fixes: bead88002227 ("drm/nouveau: Remove waitque for sched teardown")
-> Suggested-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Best regards
+Thomas
+
+
 > ---
-> Changes in v2:
->   - Don't revert commit 89b2675198ab ("drm/nouveau: Make fence container helper usable driver-wide")
->   - Add Fixes-tag
-> ---
->  drivers/gpu/drm/nouveau/nouveau_fence.c | 15 -----------
->  drivers/gpu/drm/nouveau/nouveau_fence.h |  1 -
->  drivers/gpu/drm/nouveau/nouveau_sched.c | 35 ++++++++++---------------
->  drivers/gpu/drm/nouveau/nouveau_sched.h |  9 ++++---
->  drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 +++---
->  5 files changed, 24 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index 9f345a008717..869d4335c0f4 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -240,21 +240,6 @@ nouveau_fence_emit(struct nouveau_fence *fence)
->  	return ret;
->  }
->  
-> -void
-> -nouveau_fence_cancel(struct nouveau_fence *fence)
-> -{
-> -	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(&fctx->lock, flags);
-> -	if (!dma_fence_is_signaled_locked(&fence->base)) {
-> -		dma_fence_set_error(&fence->base, -ECANCELED);
-> -		if (nouveau_fence_signal(fence))
-> -			nvif_event_block(&fctx->event);
-> -	}
-> -	spin_unlock_irqrestore(&fctx->lock, flags);
-> -}
-> -
->  bool
->  nouveau_fence_done(struct nouveau_fence *fence)
->  {
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> index 9957a919bd38..183dd43ecfff 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-> @@ -29,7 +29,6 @@ void nouveau_fence_unref(struct nouveau_fence **);
->  
->  int  nouveau_fence_emit(struct nouveau_fence *);
->  bool nouveau_fence_done(struct nouveau_fence *);
-> -void nouveau_fence_cancel(struct nouveau_fence *fence);
->  int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
->  int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, bool exclusive, bool intr);
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> index 0cc0bc9f9952..e60f7892f5ce 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
-> @@ -11,7 +11,6 @@
->  #include "nouveau_exec.h"
->  #include "nouveau_abi16.h"
->  #include "nouveau_sched.h"
-> -#include "nouveau_chan.h"
->  
->  #define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
->  
-> @@ -122,9 +121,11 @@ nouveau_job_done(struct nouveau_job *job)
->  {
->  	struct nouveau_sched *sched = job->sched;
->  
-> -	spin_lock(&sched->job_list.lock);
-> +	spin_lock(&sched->job.list.lock);
->  	list_del(&job->entry);
-> -	spin_unlock(&sched->job_list.lock);
-> +	spin_unlock(&sched->job.list.lock);
+>   MAINTAINERS                     |    7 +
+>   drivers/gpu/drm/tiny/Kconfig    |   15 +
+>   drivers/gpu/drm/tiny/Makefile   |    1 +
+>   drivers/gpu/drm/tiny/pixpaper.c | 1171 +++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 1194 insertions(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6dcfbd11efef87927041f5cf58d70633dbb4b18d..790bc2d0b34fc08e9f73c9caa1e6ddada57d07ac 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7866,6 +7866,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	Documentation/devicetree/bindings/display/repaper.txt
+>   F:	drivers/gpu/drm/tiny/repaper.c
+>   
+> +DRM DRIVER FOR PIXPAPER E-INK PANEL
+> +M:	LiangCheng Wang <zaq14760@gmail.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
+> +F:	drivers/gpu/drm/tiny/pixpaper.c
 > +
-> +	wake_up(&sched->job.wq);
->  }
->  
->  void
-> @@ -305,9 +306,9 @@ nouveau_job_submit(struct nouveau_job *job)
->  	}
->  
->  	/* Submit was successful; add the job to the schedulers job list. */
-> -	spin_lock(&sched->job_list.lock);
-> -	list_add(&job->entry, &sched->job_list.head);
-> -	spin_unlock(&sched->job_list.lock);
-> +	spin_lock(&sched->job.list.lock);
-> +	list_add(&job->entry, &sched->job.list.head);
-> +	spin_unlock(&sched->job.list.lock);
->  
->  	drm_sched_job_arm(&job->base);
->  	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-> @@ -392,23 +393,10 @@ nouveau_sched_free_job(struct drm_sched_job *sched_job)
->  	nouveau_job_fini(job);
->  }
->  
-> -static void
-> -nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
-> -{
-> -	struct nouveau_fence *fence;
-> -	struct nouveau_job *job;
-> -
-> -	job = to_nouveau_job(sched_job);
-> -	fence = to_nouveau_fence(job->done_fence);
-> -
-> -	nouveau_fence_cancel(fence);
-> -}
-> -
->  static const struct drm_sched_backend_ops nouveau_sched_ops = {
->  	.run_job = nouveau_sched_run_job,
->  	.timedout_job = nouveau_sched_timedout_job,
->  	.free_job = nouveau_sched_free_job,
-> -	.cancel_job = nouveau_sched_cancel_job,
->  };
->  
->  static int
-> @@ -458,8 +446,9 @@ nouveau_sched_init(struct nouveau_sched *sched, struct nouveau_drm *drm,
->  		goto fail_sched;
->  
->  	mutex_init(&sched->mutex);
-> -	spin_lock_init(&sched->job_list.lock);
-> -	INIT_LIST_HEAD(&sched->job_list.head);
-> +	spin_lock_init(&sched->job.list.lock);
-> +	INIT_LIST_HEAD(&sched->job.list.head);
-> +	init_waitqueue_head(&sched->job.wq);
->  
->  	return 0;
->  
-> @@ -493,12 +482,16 @@ nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
->  	return 0;
->  }
->  
+>   DRM DRIVER FOR QEMU'S CIRRUS DEVICE
+>   M:	Dave Airlie <airlied@redhat.com>
+>   M:	Gerd Hoffmann <kraxel@redhat.com>
+> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
+> index 06e54694a7f2fe1649e1886f039926b24f698e0d..94a5bf61a115929640022128e20c723ab7c0e735 100644
+> --- a/drivers/gpu/drm/tiny/Kconfig
+> +++ b/drivers/gpu/drm/tiny/Kconfig
+> @@ -82,6 +82,21 @@ config DRM_PANEL_MIPI_DBI
+>   	  https://github.com/notro/panel-mipi-dbi/wiki.
+>   	  To compile this driver as a module, choose M here.
+>   
+> +config DRM_PIXPAPER
+> +        tristate "DRM support for PIXPAPER display panels"
+> +        depends on DRM && SPI
+> +        select DRM_CLIENT_SELECTION
+> +        select DRM_GEM_DMA_HELPER
+> +        select DRM_KMS_HELPER
+> +        help
+> +	  DRM driver for the Mayqueen Pixpaper e-ink display panel.
 > +
->  static void
->  nouveau_sched_fini(struct nouveau_sched *sched)
->  {
->  	struct drm_gpu_scheduler *drm_sched = &sched->base;
->  	struct drm_sched_entity *entity = &sched->entity;
->  
-> +	rmb(); /* for list_empty to work without lock */
-> +	wait_event(sched->job.wq, list_empty(&sched->job.list.head));
+> +	  This driver supports small e-paper displays connected over SPI,
+> +	  with a resolution of 122x250 and XRGB8888 framebuffer format.
+> +	  It is intended for low-power embedded applications.
 > +
->  	drm_sched_entity_fini(entity);
->  	drm_sched_fini(drm_sched);
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.h b/drivers/gpu/drm/nouveau/nouveau_sched.h
-> index b98c3f0bef30..20cd1da8db73 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_sched.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_sched.h
-> @@ -103,9 +103,12 @@ struct nouveau_sched {
->  	struct mutex mutex;
->  
->  	struct {
-> -		struct list_head head;
-> -		spinlock_t lock;
-> -	} job_list;
-> +		struct {
-> +			struct list_head head;
-> +			spinlock_t lock;
-> +		} list;
-> +		struct wait_queue_head wq;
-> +	} job;
->  };
->  
->  int nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> index d94a85509176..79eefdfd08a2 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> @@ -1019,8 +1019,8 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
->  	u64 end = addr + range;
->  
->  again:
-> -	spin_lock(&sched->job_list.lock);
-> -	list_for_each_entry(__job, &sched->job_list.head, entry) {
-> +	spin_lock(&sched->job.list.lock);
-> +	list_for_each_entry(__job, &sched->job.list.head, entry) {
->  		struct nouveau_uvmm_bind_job *bind_job = to_uvmm_bind_job(__job);
->  
->  		list_for_each_op(op, &bind_job->ops) {
-> @@ -1030,7 +1030,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
->  
->  				if (!(end <= op_addr || addr >= op_end)) {
->  					nouveau_uvmm_bind_job_get(bind_job);
-> -					spin_unlock(&sched->job_list.lock);
-> +					spin_unlock(&sched->job.list.lock);
->  					wait_for_completion(&bind_job->complete);
->  					nouveau_uvmm_bind_job_put(bind_job);
->  					goto again;
-> @@ -1038,7 +1038,7 @@ bind_validate_map_sparse(struct nouveau_job *job, u64 addr, u64 range)
->  			}
->  		}
->  	}
-> -	spin_unlock(&sched->job_list.lock);
-> +	spin_unlock(&sched->job.list.lock);
->  }
->  
->  static int
+> +	  If M is selected, the module will be built as pixpaper.ko.
+> +
+>   config TINYDRM_HX8357D
+>   	tristate "DRM support for HX8357D display panels"
+>   	depends on DRM && SPI
+> diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
+> index 4a9ff61ec25420e2c0a648c04eaab7ca25dd5407..48d30bf6152f979404ac1004174587823a30109e 100644
+> --- a/drivers/gpu/drm/tiny/Makefile
+> +++ b/drivers/gpu/drm/tiny/Makefile
+> @@ -6,6 +6,7 @@ obj-$(CONFIG_DRM_BOCHS)			+= bochs.o
+>   obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus-qemu.o
+>   obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
+>   obj-$(CONFIG_DRM_PANEL_MIPI_DBI)	+= panel-mipi-dbi.o
+> +obj-$(CONFIG_DRM_PIXPAPER)              += pixpaper.o
+>   obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
+>   obj-$(CONFIG_TINYDRM_ILI9163)		+= ili9163.o
+>   obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
+> diff --git a/drivers/gpu/drm/tiny/pixpaper.c b/drivers/gpu/drm/tiny/pixpaper.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..80ac8af1ba280483d3d210f10f5143441764ee94
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tiny/pixpaper.c
+> @@ -0,0 +1,1171 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DRM driver for PIXPAPER e-ink panel
+> + *
+> + * Author: LiangCheng Wang <zaq14760@gmail.com>,
+> + */
+> +#include <linux/delay.h>
+> +#include <linux/module.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include <drm/clients/drm_client_setup.h>
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fbdev_shmem.h>
+> +#include <drm/drm_framebuffer.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_shmem_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_probe_helper.h>
+> +
+> +/*
+> + * Note on Undocumented Commands/Registers:
+> + *
+> + * Several commands and register parameters defined in this header are not
+> + * documented in the datasheet. Their values and usage have been derived
+> + * through analysis of existing userspace example programs.
+> + *
+> + * These 'unknown' definitions are crucial for the proper initialization
+> + * and stable operation of the panel. Modifying these values without
+> + * thorough understanding may lead to display anomalies, panel damage,
+> + * or unexpected behavior.
+> + */
+> +
+> +/* Command definitions */
+> +#define PIXPAPER_CMD_PANEL_SETTING 0x00	/* R00H: Panel settings */
+> +#define PIXPAPER_CMD_POWER_SETTING 0x01	/* R01H: Power settings */
+> +#define PIXPAPER_CMD_POWER_OFF 0x02		/* R02H: Power off */
+> +#define PIXPAPER_CMD_POWER_OFF_SEQUENCE 0x03	/* R03H: Power off sequence */
+> +#define PIXPAPER_CMD_POWER_ON 0x04		/* R04H: Power on */
+> +#define PIXPAPER_CMD_BOOSTER_SOFT_START 0x06	/* R06H: Booster soft start */
+> +#define PIXPAPER_CMD_DEEP_SLEEP 0x07		/* R07H: Deep sleep */
+> +#define PIXPAPER_CMD_DATA_START_TRANSMISSION 0x10
+> +/* R10H: Data transmission start */
+> +#define PIXPAPER_CMD_DISPLAY_REFRESH 0x12	/* R12H: Display refresh */
+> +#define PIXPAPER_CMD_PLL_CONTROL 0x30		/* R30H: PLL control */
+> +#define PIXPAPER_CMD_TEMP_SENSOR_CALIB 0x41
+> +/* R41H: Temperature sensor calibration */
+> +#define PIXPAPER_CMD_UNKNOWN_4D 0x4D		/* R4DH: Unknown command */
+> +#define PIXPAPER_CMD_VCOM_INTERVAL 0x50	/* R50H: VCOM interval */
+> +#define PIXPAPER_CMD_UNKNOWN_60 0x60		/* R60H: Unknown command */
+> +#define PIXPAPER_CMD_RESOLUTION_SETTING 0x61	/* R61H: Resolution settings */
+> +#define PIXPAPER_CMD_GATE_SOURCE_START 0x65	/* R65H: Gate/source start */
+> +#define PIXPAPER_CMD_UNKNOWN_B4 0xB4		/* RB4H: Unknown command */
+> +#define PIXPAPER_CMD_UNKNOWN_B5 0xB5		/* RB5H: Unknown command */
+> +#define PIXPAPER_CMD_UNKNOWN_E0 0xE0		/* RE0H: Unknown command */
+> +#define PIXPAPER_CMD_POWER_SAVING 0xE3		/* RE3H: Power saving */
+> +#define PIXPAPER_CMD_UNKNOWN_E7 0xE7		/* RE7H: Unknown command */
+> +#define PIXPAPER_CMD_UNKNOWN_E9 0xE9		/* RE9H: Unknown command */
+> +
+> +/* R00H PSR - First Parameter */
+> +#define PIXPAPER_PSR_RST_N BIT(0)
+> +/* Bit 0: RST_N, 1=no effect (default), 0=reset with booster OFF */
+> +#define PIXPAPER_PSR_SHD_N BIT(1)
+> +/* Bit 1: SHD_N, 1=booster ON (default), 0=booster OFF */
+> +#define PIXPAPER_PSR_SHL BIT(2)
+> +/* Bit 2: SHL, 1=shift right (default), 0=shift left */
+> +#define PIXPAPER_PSR_UD BIT(3)
+> +/* Bit 3: UD, 1=scan up (default), 0=scan down */
+> +#define PIXPAPER_PSR_PST_MODE BIT(5)
+> +/* Bit 5: PST_MODE, 0=frame scanning (default), 1=external */
+> +#define PIXPAPER_PSR_RES_MASK (3 << 6)
+> +/* Bits 7-6: RES[1:0], resolution setting */
+> +#define PIXPAPER_PSR_RES_176x296 (0x0 << 6)	/* 00: 176x296 */
+> +#define PIXPAPER_PSR_RES_128x296 (0x1 << 6)	/* 01: 128x296 */
+> +#define PIXPAPER_PSR_RES_128x250 (0x2 << 6)	/* 10: 128x250 */
+> +#define PIXPAPER_PSR_RES_112x204 (0x3 << 6)	/* 11: 112x204 */
+> +#define PIXPAPER_PSR_CONFIG                                           \
+> +	(PIXPAPER_PSR_RST_N | PIXPAPER_PSR_SHD_N | PIXPAPER_PSR_SHL | \
+> +	 PIXPAPER_PSR_UD)
+> +/* 0x0F: Default settings, resolution set by R61H */
+> +
+> +/* R00H PSR - Second Parameter */
+> +#define PIXPAPER_PSR2_VC_LUTZ \
+> +	(1 << 0) /* Bit 0: VC_LUTZ, 1=VCOM float after refresh (default), 0=no effect */
+> +#define PIXPAPER_PSR2_NORG \
+> +	(1 << 1) /* Bit 1: NORG, 1=VCOM to GND before power off, 0=no effect (default) */
+> +#define PIXPAPER_PSR2_TIEG \
+> +	(1 << 2) /* Bit 2: TIEG, 1=VGN to GND on power off, 0=no effect (default) */
+> +#define PIXPAPER_PSR2_TS_AUTO \
+> +	(1 << 3) /* Bit 3: TS_AUTO, 1=sensor on RST_N low to high (default), 0=on booster */
+> +#define PIXPAPER_PSR2_VCMZ \
+> +	(1 << 4) /* Bit 4: VCMZ, 1=VCOM always floating, 0=no effect (default) */
+> +#define PIXPAPER_PSR2_FOPT \
+> +	(1 << 5) /* Bit 5: FOPT, 0=scan 1 frame (default), 1=no scan, HiZ */
+> +#define PIXPAPER_PSR_CONFIG2     \
+> +	(PIXPAPER_PSR2_VC_LUTZ | \
+> +	 PIXPAPER_PSR2_TS_AUTO) /* 0x09: Default VCOM and temp sensor settings */
+> +
+> +/* R01H PWR - Power Setting Register */
+> +/* First Parameter */
+> +#define PIXPAPER_PWR_VDG_EN \
+> +	(1 << 0) /* Bit 0: VDG_EN, 1=internal DCDC for VGP/VGN (default), 0=external */
+> +#define PIXPAPER_PWR_VDS_EN \
+> +	(1 << 1) /* Bit 1: VDS_EN, 1=internal regulator for VSP/VSN (default), 0=external */
+> +#define PIXPAPER_PWR_VSC_EN \
+> +	(1 << 2) /* Bit 2: VSC_EN, 1=internal regulator for VSPL (default), 0=external */
+> +#define PIXPAPER_PWR_V_MODE \
+> +	(1 << 3) /* Bit 3: V_MODE, 0=Mode0 (default), 1=Mode1 */
+> +#define PIXPAPER_PWR_CONFIG1                         \
+> +	(PIXPAPER_PWR_VDG_EN | PIXPAPER_PWR_VDS_EN | \
+> +	 PIXPAPER_PWR_VSC_EN) /* 0x07: Internal power for VGP/VGN, VSP/VSN, VSPL */
+> +
+> +/* Second Parameter */
+> +#define PIXPAPER_PWR_VGPN_MASK \
+> +	(3 << 0) /* Bits 1-0: VGPN, VGP/VGN voltage levels */
+> +#define PIXPAPER_PWR_VGPN_20V (0x0 << 0) /* 00: VGP=20V, VGN=-20V (default) */
+> +#define PIXPAPER_PWR_VGPN_17V (0x1 << 0) /* 01: VGP=17V, VGN=-17V */
+> +#define PIXPAPER_PWR_VGPN_15V (0x2 << 0) /* 10: VGP=15V, VGN=-15V */
+> +#define PIXPAPER_PWR_VGPN_10V (0x3 << 0) /* 11: VGP=10V, VGN=-10V */
+> +#define PIXPAPER_PWR_CONFIG2 PIXPAPER_PWR_VGPN_20V /* 0x00: VGP=20V, VGN=-20V */
+> +
+> +/* Third, Fourth, Sixth Parameters (VSP_1, VSPL_0, VSPL_1) */
+> +#define PIXPAPER_PWR_VSP_8_2V 0x22 /* VSP_1/VSPL_1: 8.2V (34 decimal) */
+> +#define PIXPAPER_PWR_VSPL_15V 0x78 /* VSPL_0: 15V (120 decimal) */
+> +
+> +/* Fifth Parameter (VSN_1) */
+> +#define PIXPAPER_PWR_VSN_4V 0x0A /* VSN_1: -4V (10 decimal) */
+> +
+> +/* R03H PFS - Power Off Sequence Setting Register */
+> +/* First Parameter */
+> +#define PIXPAPER_PFS_T_VDS_OFF_MASK \
+> +	(3 << 0) /* Bits 1-0: T_VDS_OFF, VSP/VSN power-off sequence */
+> +#define PIXPAPER_PFS_T_VDS_OFF_20MS (0x0 << 0) /* 00: 20 ms (default) */
+> +#define PIXPAPER_PFS_T_VDS_OFF_40MS (0x1 << 0) /* 01: 40 ms */
+> +#define PIXPAPER_PFS_T_VDS_OFF_60MS (0x2 << 0) /* 10: 60 ms */
+> +#define PIXPAPER_PFS_T_VDS_OFF_80MS (0x3 << 0) /* 11: 80 ms */
+> +#define PIXPAPER_PFS_T_VDPG_OFF_MASK \
+> +	(3 << 4) /* Bits 5-4: T_VDPG_OFF, VGP/VGN power-off sequence */
+> +#define PIXPAPER_PFS_T_VDPG_OFF_20MS (0x0 << 4) /* 00: 20 ms (default) */
+> +#define PIXPAPER_PFS_T_VDPG_OFF_40MS (0x1 << 4) /* 01: 40 ms */
+> +#define PIXPAPER_PFS_T_VDPG_OFF_60MS (0x2 << 4) /* 10: 60 ms */
+> +#define PIXPAPER_PFS_T_VDPG_OFF_80MS (0x3 << 4) /* 11: 80 ms */
+> +#define PIXPAPER_PFS_CONFIG1           \
+> +	(PIXPAPER_PFS_T_VDS_OFF_20MS | \
+> +	 PIXPAPER_PFS_T_VDPG_OFF_20MS) /* 0x10: Default 20 ms for VSP/VSN and VGP/VGN */
+> +
+> +/* Second Parameter */
+> +#define PIXPAPER_PFS_VGP_EXT_MASK \
+> +	(0xF << 0) /* Bits 3-0: VGP_EXT, VGP extension time */
+> +#define PIXPAPER_PFS_VGP_EXT_0MS (0x0 << 0) /* 0000: 0 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_500MS (0x1 << 0) /* 0001: 500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_1000MS (0x2 << 0) /* 0010: 1000 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_1500MS (0x3 << 0) /* 0011: 1500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_2000MS (0x4 << 0) /* 0100: 2000 ms (default) */
+> +#define PIXPAPER_PFS_VGP_EXT_2500MS (0x5 << 0) /* 0101: 2500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_3000MS (0x6 << 0) /* 0110: 3000 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_3500MS (0x7 << 0) /* 0111: 3500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_4000MS (0x8 << 0) /* 1000: 4000 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_4500MS (0x9 << 0) /* 1001: 4500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_5000MS (0xA << 0) /* 1010: 5000 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_5500MS (0xB << 0) /* 1011: 5500 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_6000MS (0xC << 0) /* 1100: 6000 ms */
+> +#define PIXPAPER_PFS_VGP_EXT_6500MS (0xD << 0) /* 1101: 6500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_MASK \
+> +	(0xF << 4) /* Bits 7-4: VGP_LEN, VGP at 10V during power-off */
+> +#define PIXPAPER_PFS_VGP_LEN_0MS (0x0 << 4) /* 0000: 0 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_500MS (0x1 << 4) /* 0001: 500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_1000MS (0x2 << 4) /* 0010: 1000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_1500MS (0x3 << 4) /* 0011: 1500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_2000MS (0x4 << 4) /* 0100: 2000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_2500MS (0x5 << 4) /* 0101: 2500 ms (default) */
+> +#define PIXPAPER_PFS_VGP_LEN_3000MS (0x6 << 4) /* 0110: 3000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_3500MS (0x7 << 4) /* 0111: 3500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_4000MS (0x8 << 4) /* 1000: 4000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_4500MS (0x9 << 4) /* 1001: 4500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_5000MS (0xA << 4) /* 1010: 5000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_5500MS (0xB << 4) /* 1011: 5500 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_6000MS (0xC << 4) /* 1100: 6000 ms */
+> +#define PIXPAPER_PFS_VGP_LEN_6500MS (0xD << 4) /* 1101: 6500 ms */
+> +#define PIXPAPER_PFS_CONFIG2           \
+> +	(PIXPAPER_PFS_VGP_EXT_1000MS | \
+> +	 PIXPAPER_PFS_VGP_LEN_2500MS) /* 0x54: VGP extension 1000 ms, VGP at 10V for 2500 ms */
+> +
+> +/* Third Parameter */
+> +#define PIXPAPER_PFS_XON_LEN_MASK \
+> +	(0xF << 0) /* Bits 3-0: XON_LEN, XON enable time */
+> +#define PIXPAPER_PFS_XON_LEN_0MS (0x0 << 0) /* 0000: 0 ms */
+> +#define PIXPAPER_PFS_XON_LEN_500MS (0x1 << 0) /* 0001: 500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_1000MS (0x2 << 0) /* 0010: 1000 ms */
+> +#define PIXPAPER_PFS_XON_LEN_1500MS (0x3 << 0) /* 0011: 1500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_2000MS (0x4 << 0) /* 0100: 2000 ms (default) */
+> +#define PIXPAPER_PFS_XON_LEN_2500MS (0x5 << 0) /* 0101: 2500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_3000MS (0x6 << 0) /* 0110: 3000 ms */
+> +#define PIXPAPER_PFS_XON_LEN_3500MS (0x7 << 0) /* 0111: 3500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_4000MS (0x8 << 0) /* 1000: 4000 ms */
+> +#define PIXPAPER_PFS_XON_LEN_4500MS (0x9 << 0) /* 1001: 4500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_5000MS (0xA << 0) /* 1010: 5000 ms */
+> +#define PIXPAPER_PFS_XON_LEN_5500MS (0xB << 0) /* 1011: 5500 ms */
+> +#define PIXPAPER_PFS_XON_LEN_6000MS (0xC << 0) /* 1100: 6000 ms */
+> +#define PIXPAPER_PFS_XON_DLY_MASK \
+> +	(0xF << 4) /* Bits 7-4: XON_DLY, XON delay time */
+> +#define PIXPAPER_PFS_XON_DLY_0MS (0x0 << 4) /* 0000: 0 ms */
+> +#define PIXPAPER_PFS_XON_DLY_500MS (0x1 << 4) /* 0001: 500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_1000MS (0x2 << 4) /* 0010: 1000 ms */
+> +#define PIXPAPER_PFS_XON_DLY_1500MS (0x3 << 4) /* 0011: 1500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_2000MS (0x4 << 4) /* 0100: 2000 ms (default) */
+> +#define PIXPAPER_PFS_XON_DLY_2500MS (0x5 << 4) /* 0101: 2500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_3000MS (0x6 << 4) /* 0110: 3000 ms */
+> +#define PIXPAPER_PFS_XON_DLY_3500MS (0x7 << 4) /* 0111: 3500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_4000MS (0x8 << 4) /* 1000: 4000 ms */
+> +#define PIXPAPER_PFS_XON_DLY_4500MS (0x9 << 4) /* 1001: 4500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_5000MS (0xA << 4) /* 1010: 5000 ms */
+> +#define PIXPAPER_PFS_XON_DLY_5500MS (0xB << 4) /* 1011: 5500 ms */
+> +#define PIXPAPER_PFS_XON_DLY_6000MS (0xC << 4) /* 1100: 6000 ms */
+> +#define PIXPAPER_PFS_CONFIG3           \
+> +	(PIXPAPER_PFS_XON_LEN_2000MS | \
+> +	 PIXPAPER_PFS_XON_DLY_2000MS) /* 0x44: XON enable and delay at 2000 ms */
+> +
+> +/* R06H BTST - Booster Soft Start Command */
+> +/* First Parameter */
+> +#define PIXPAPER_BTST_PHA_SFT_MASK \
+> +	(3 << 0) /* Bits 1-0: PHA_SFT, soft start period for phase A */
+> +#define PIXPAPER_BTST_PHA_SFT_10MS (0x0 << 0) /* 00: 10 ms (default) */
+> +#define PIXPAPER_BTST_PHA_SFT_20MS (0x1 << 0) /* 01: 20 ms */
+> +#define PIXPAPER_BTST_PHA_SFT_30MS (0x2 << 0) /* 10: 30 ms */
+> +#define PIXPAPER_BTST_PHA_SFT_40MS (0x3 << 0) /* 11: 40 ms */
+> +#define PIXPAPER_BTST_PHB_SFT_MASK \
+> +	(3 << 2) /* Bits 3-2: PHB_SFT, soft start period for phase B */
+> +#define PIXPAPER_BTST_PHB_SFT_10MS (0x0 << 2) /* 00: 10 ms (default) */
+> +#define PIXPAPER_BTST_PHB_SFT_20MS (0x1 << 2) /* 01: 20 ms */
+> +#define PIXPAPER_BTST_PHB_SFT_30MS (0x2 << 2) /* 10: 30 ms */
+> +#define PIXPAPER_BTST_PHB_SFT_40MS (0x3 << 2) /* 11: 40 ms */
+> +#define PIXPAPER_BTST_CONFIG1         \
+> +	(PIXPAPER_BTST_PHA_SFT_40MS | \
+> +	 PIXPAPER_BTST_PHB_SFT_40MS) /* 0x0F: 40 ms for phase A and B */
+> +
+> +/* Second to Seventh Parameters (Driving Strength or Minimum OFF Time) */
+> +#define PIXPAPER_BTST_CONFIG2 0x0A /* Strength11 */
+> +#define PIXPAPER_BTST_CONFIG3 0x2F /* Period48 */
+> +#define PIXPAPER_BTST_CONFIG4 0x25 /* Strength38 */
+> +#define PIXPAPER_BTST_CONFIG5 0x22 /* Period35 */
+> +#define PIXPAPER_BTST_CONFIG6 0x2E /* Strength47 */
+> +#define PIXPAPER_BTST_CONFIG7 0x21 /* Period34 */
+> +
+> +/* R12H: DRF (Display Refresh) */
+> +#define PIXPAPER_DRF_VCOM_AC 0x00 /* AC VCOM: VCOM follows LUTC (default) */
+> +#define PIXPAPER_DRF_VCOM_DC 0x01 /* DC VCOM: VCOM fixed to VCOMDC */
+> +
+> +/* R30H PLL - PLL Control Register */
+> +/* First Parameter */
+> +#define PIXPAPER_PLL_FR_MASK (0x7 << 0) /* Bits 2-0: FR, frame rate */
+> +#define PIXPAPER_PLL_FR_12_5HZ (0x0 << 0) /* 000: 12.5 Hz */
+> +#define PIXPAPER_PLL_FR_25HZ (0x1 << 0)	/* 001: 25 Hz */
+> +#define PIXPAPER_PLL_FR_50HZ (0x2 << 0) /* 010: 50 Hz (default) */
+> +#define PIXPAPER_PLL_FR_65HZ (0x3 << 0) /* 011: 65 Hz */
+> +#define PIXPAPER_PLL_FR_75HZ (0x4 << 0) /* 100: 75 Hz */
+> +#define PIXPAPER_PLL_FR_85HZ (0x5 << 0) /* 101: 85 Hz */
+> +#define PIXPAPER_PLL_FR_100HZ (0x6 << 0) /* 110: 100 Hz */
+> +#define PIXPAPER_PLL_FR_120HZ (0x7 << 0) /* 111: 120 Hz */
+> +#define PIXPAPER_PLL_DFR \
+> +	(1 << 3) /* Bit 3: Dynamic frame rate, 0=disabled (default), 1=enabled */
+> +#define PIXPAPER_PLL_CONFIG \
+> +	(PIXPAPER_PLL_FR_50HZ) /* 0x02: 50 Hz, dynamic frame rate disabled */
+> +
+> +/* R41H TSE - Temperature Sensor Calibration Register */
+> +/* First Parameter */
+> +#define PIXPAPER_TSE_TO_MASK \
+> +	(0xF << 0) /* Bits 3-0: TO[3:0], temperature offset */
+> +#define PIXPAPER_TSE_TO_POS_0C (0x0 << 0) /* 0000: +0°C (default) */
+> +#define PIXPAPER_TSE_TO_POS_0_5C (0x1 << 0) /* 0001: +0.5°C */
+> +#define PIXPAPER_TSE_TO_POS_1C (0x2 << 0) /* 0010: +1°C */
+> +#define PIXPAPER_TSE_TO_POS_1_5C (0x3 << 0) /* 0011: +1.5°C */
+> +#define PIXPAPER_TSE_TO_POS_2C (0x4 << 0) /* 0100: +2°C */
+> +#define PIXPAPER_TSE_TO_POS_2_5C (0x5 << 0) /* 0101: +2.5°C */
+> +#define PIXPAPER_TSE_TO_POS_3C (0x6 << 0) /* 0110: +3°C */
+> +#define PIXPAPER_TSE_TO_POS_3_5C (0x7 << 0) /* 0111: +3.5°C */
+> +#define PIXPAPER_TSE_TO_NEG_4C (0x8 << 0) /* 1000: -4°C */
+> +#define PIXPAPER_TSE_TO_NEG_3_5C (0x9 << 0) /* 1001: -3.5°C */
+> +#define PIXPAPER_TSE_TO_NEG_3C (0xA << 0) /* 1010: -3°C */
+> +#define PIXPAPER_TSE_TO_NEG_2_5C (0xB << 0) /* 1011: -2.5°C */
+> +#define PIXPAPER_TSE_TO_NEG_2C (0xC << 0) /* 1100: -2°C */
+> +#define PIXPAPER_TSE_TO_NEG_1_5C (0xD << 0) /* 1101: -1.5°C */
+> +#define PIXPAPER_TSE_TO_NEG_1C (0xE << 0) /* 1110: -1°C */
+> +#define PIXPAPER_TSE_TO_NEG_0_5C (0xF << 0) /* 1111: -0.5°C */
+> +#define PIXPAPER_TSE_TO_FINE_MASK \
+> +	(0x3 << 4) /* Bits 5-4: TO[5:4], fine adjustment for positive offsets */
+> +#define PIXPAPER_TSE_TO_FINE_0C (0x0 << 4) /* 00: +0.0°C (default) */
+> +#define PIXPAPER_TSE_TO_FINE_0_25C (0x1 << 4) /* 01: +0.25°C */
+> +#define PIXPAPER_TSE_ENABLE \
+> +	(0 << 7) /* Bit 7: TSE, 0=internal sensor enabled (default), 1=disabled (external) */
+> +#define PIXPAPER_TSE_DISABLE \
+> +	(1 << 7) /* Bit 7: TSE, 1=internal sensor disabled, use external */
+> +#define PIXPAPER_TSE_CONFIG                                 \
+> +	(PIXPAPER_TSE_TO_POS_0C | PIXPAPER_TSE_TO_FINE_0C | \
+> +	 PIXPAPER_TSE_ENABLE) /* 0x00: Internal sensor enabled, +0°C offset */
+> +
+> +/* R4DH */
+> +#define PIXPAPER_UNKNOWN_4D_CONFIG \
+> +	0x78 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* R50H CDI - VCOM and DATA Interval Setting Register */
+> +/* First Parameter */
+> +#define PIXPAPER_CDI_INTERVAL_MASK \
+> +	(0xF << 0) /* Bits 3-0: CDI[3:0], VCOM and data interval (hsync) */
+> +#define PIXPAPER_CDI_17_HSYNC (0x0 << 0) /* 0000: 17 hsync */
+> +#define PIXPAPER_CDI_16_HSYNC (0x1 << 0) /* 0001: 16 hsync */
+> +#define PIXPAPER_CDI_15_HSYNC (0x2 << 0) /* 0010: 15 hsync */
+> +#define PIXPAPER_CDI_14_HSYNC (0x3 << 0) /* 0011: 14 hsync */
+> +#define PIXPAPER_CDI_13_HSYNC (0x4 << 0) /* 0100: 13 hsync */
+> +#define PIXPAPER_CDI_12_HSYNC (0x5 << 0) /* 0101: 12 hsync */
+> +#define PIXPAPER_CDI_11_HSYNC (0x6 << 0) /* 0110: 11 hsync */
+> +#define PIXPAPER_CDI_10_HSYNC (0x7 << 0) /* 0111: 10 hsync (default) */
+> +#define PIXPAPER_CDI_9_HSYNC (0x8 << 0) /* 1000: 9 hsync */
+> +#define PIXPAPER_CDI_8_HSYNC (0x9 << 0) /* 1001: 8 hsync */
+> +#define PIXPAPER_CDI_7_HSYNC (0xA << 0) /* 1010: 7 hsync */
+> +#define PIXPAPER_CDI_6_HSYNC (0xB << 0) /* 1011: 6 hsync */
+> +#define PIXPAPER_CDI_5_HSYNC (0xC << 0) /* 1100: 5 hsync */
+> +#define PIXPAPER_CDI_4_HSYNC (0xD << 0) /* 1101: 4 hsync */
+> +#define PIXPAPER_CDI_3_HSYNC (0xE << 0) /* 1110: 3 hsync */
+> +#define PIXPAPER_CDI_2_HSYNC (0xF << 0) /* 1111: 2 hsync */
+> +#define PIXPAPER_CDI_DDX \
+> +	(1 << 4) /* Bit 4: DDX, 0=grayscale mapping 0, 1=grayscale mapping 1 (default) */
+> +#define PIXPAPER_CDI_VBD_MASK \
+> +	(0x7 << 5) /* Bits 7-5: VBD[2:0], border data selection */
+> +#define PIXPAPER_CDI_VBD_FLOAT (0x0 << 5) /* 000: Floating (DDX=0 or 1) */
+> +#define PIXPAPER_CDI_VBD_GRAY3_DDX0 \
+> +	(0x1 << 5) /* 001: Gray3 (border_buf=011) when DDX=0 */
+> +#define PIXPAPER_CDI_VBD_GRAY2_DDX0 \
+> +	(0x2 << 5) /* 010: Gray2 (border_buf=010) when DDX=0 */
+> +#define PIXPAPER_CDI_VBD_GRAY1_DDX0 \
+> +	(0x3 << 5) /* 011: Gray1 (border_buf=001) when DDX=0 */
+> +#define PIXPAPER_CDI_VBD_GRAY0_DDX0 \
+> +	(0x4 << 5) /* 100: Gray0 (border_buf=000) when DDX=0 */
+> +#define PIXPAPER_CDI_VBD_GRAY0_DDX1 \
+> +	(0x0 << 5) /* 000: Gray0 (border_buf=000) when DDX=1 */
+> +#define PIXPAPER_CDI_VBD_GRAY1_DDX1 \
+> +	(0x1 << 5) /* 001: Gray1 (border_buf=001) when DDX=1 */
+> +#define PIXPAPER_CDI_VBD_GRAY2_DDX1 \
+> +	(0x2 << 5) /* 010: Gray2 (border_buf=010) when DDX=1 */
+> +#define PIXPAPER_CDI_VBD_GRAY3_DDX1 \
+> +	(0x3 << 5) /* 011: Gray3 (border_buf=011) when DDX=1 */
+> +#define PIXPAPER_CDI_VBD_FLOAT_DDX1 (0x4 << 5) /* 100: Floating when DDX=1 */
+> +#define PIXPAPER_CDI_CONFIG                         \
+> +	(PIXPAPER_CDI_10_HSYNC | PIXPAPER_CDI_DDX | \
+> +	 PIXPAPER_CDI_VBD_GRAY1_DDX1) /* 0x37: 10 hsync, DDX=1, border Gray1 */
+> +
+> +/* R60H */
+> +#define PIXPAPER_UNKNOWN_60_CONFIG1 \
+> +	0x02 /* This value is essential for initialization, derived from userspace examples. */
+> +#define PIXPAPER_UNKNOWN_60_CONFIG2 \
+> +	0x02 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* R61H TRES - Resolution Setting Register */
+> +#define PIXPAPER_TRES_HRES_H                  \
+> +	((PIXPAPER_PANEL_BUFFER_WIDTH >> 8) & \
+> +	 0xFF) /* HRES[9:8]: High byte of horizontal resolution (128) */
+> +#define PIXPAPER_TRES_HRES_L           \
+> +	(PIXPAPER_PANEL_BUFFER_WIDTH & \
+> +	 0xFF) /* HRES[7:0]: Low byte of horizontal resolution (128 = 0x80) */
+> +#define PIXPAPER_TRES_VRES_H      \
+> +	((PIXPAPER_HEIGHT >> 8) & \
+> +	 0xFF) /* VRES[9:8]: High byte of vertical resolution (250) */
+> +#define PIXPAPER_TRES_VRES_L \
+> +	(PIXPAPER_HEIGHT &   \
+> +	 0xFF) /* VRES[7:0]: Low byte of vertical resolution (250 = 0xFA) */
+> +
+> +/* R65H GSST - Gate/Source Start Setting Register */
+> +#define PIXPAPER_GSST_S_START 0x00 /* S_Start[7:0]: First source line (S0) */
+> +#define PIXPAPER_GSST_RESERVED 0x00 /* Reserved byte */
+> +#define PIXPAPER_GSST_G_START_H \
+> +	0x00 /* G_Start[8]: High bit of first gate line (G0) */
+> +#define PIXPAPER_GSST_G_START_L \
+> +	0x00 /* G_Start[7:0]: Low byte of first gate line (G0) */
+> +
+> +/* RB4H */
+> +#define PIXPAPER_UNKNOWN_B4_CONFIG \
+> +	0xD0 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* RB5H */
+> +#define PIXPAPER_UNKNOWN_B5_CONFIG \
+> +	0x03 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* RE0H */
+> +#define PIXPAPER_UNKNOWN_E0_CONFIG \
+> +	0x00 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* RE3H PWS - Power Saving Register */
+> +/* First Parameter */
+> +#define PIXPAPER_PWS_VCOM_W_MASK \
+> +	(0xF                     \
+> +	 << 4) /* Bits 7-4: VCOM_W[3:0], VCOM power-saving width (line periods) */
+> +#define PIXPAPER_PWS_VCOM_W_0 (0x0 << 4) /* 0000: 0 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_1 (0x1 << 4) /* 0001: 1 line period */
+> +#define PIXPAPER_PWS_VCOM_W_2 (0x2 << 4) /* 0010: 2 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_3 (0x3 << 4) /* 0011: 3 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_4 (0x4 << 4) /* 0100: 4 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_5 (0x5 << 4) /* 0101: 5 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_6 (0x6 << 4) /* 0110: 6 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_7 (0x7 << 4) /* 0111: 7 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_8 (0x8 << 4) /* 1000: 8 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_9 (0x9 << 4) /* 1001: 9 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_10 (0xA << 4) /* 1010: 10 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_11 (0xB << 4) /* 1011: 11 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_12 (0xC << 4) /* 1100: 12 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_13 (0xD << 4) /* 1101: 13 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_14 (0xE << 4) /* 1110: 14 line periods */
+> +#define PIXPAPER_PWS_VCOM_W_15 (0xF << 4) /* 1111: 15 line periods */
+> +#define PIXPAPER_PWS_SD_W_MASK \
+> +	(0xF << 0) /* Bits 3-0: SD_W[3:0], source power-saving width (660 ns units) */
+> +#define PIXPAPER_PWS_SD_W_0 (0x0 << 0) /* 0000: 0 ns */
+> +#define PIXPAPER_PWS_SD_W_1 (0x1 << 0) /* 0001: 660 ns */
+> +#define PIXPAPER_PWS_SD_W_2 (0x2 << 0) /* 0010: 1320 ns */
+> +#define PIXPAPER_PWS_SD_W_3 (0x3 << 0) /* 0011: 1980 ns */
+> +#define PIXPAPER_PWS_SD_W_4 (0x4 << 0) /* 0100: 2640 ns */
+> +#define PIXPAPER_PWS_SD_W_5 (0x5 << 0) /* 0101: 3300 ns */
+> +#define PIXPAPER_PWS_SD_W_6 (0x6 << 0) /* 0110: 3960 ns */
+> +#define PIXPAPER_PWS_SD_W_7 (0x7 << 0) /* 0111: 4620 ns */
+> +#define PIXPAPER_PWS_SD_W_8 (0x8 << 0) /* 1000: 5280 ns */
+> +#define PIXPAPER_PWS_SD_W_9 (0x9 << 0) /* 1001: 5940 ns */
+> +#define PIXPAPER_PWS_SD_W_10 (0xA << 0) /* 1010: 6600 ns */
+> +#define PIXPAPER_PWS_SD_W_11 (0xB << 0) /* 1011: 7260 ns */
+> +#define PIXPAPER_PWS_SD_W_12 (0xC << 0) /* 1100: 7920 ns */
+> +#define PIXPAPER_PWS_SD_W_13 (0xD << 0) /* 1101: 8580 ns */
+> +#define PIXPAPER_PWS_SD_W_14 (0xE << 0) /* 1110: 9240 ns */
+> +#define PIXPAPER_PWS_SD_W_15 (0xF << 0) /* 1111: 9900 ns */
+> +#define PIXPAPER_PWS_CONFIG      \
+> +	(PIXPAPER_PWS_VCOM_W_2 | \
+> +	 PIXPAPER_PWS_SD_W_2) /* 0x22: VCOM 2 line periods (160 µs), source 1320 ns */
+> +
+> +/* RE7H */
+> +#define PIXPAPER_UNKNOWN_E7_CONFIG \
+> +	0x1C /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +/* RE9H */
+> +#define PIXPAPER_UNKNOWN_E9_CONFIG \
+> +	0x01 /* This value is essential for initialization, derived from userspace examples. */
+> +
+> +MODULE_IMPORT_NS("DMA_BUF");
+> +
+> +/*
+> + * The panel has a visible resolution of 122x250.
+> + * However, the controller requires the horizontal resolution to be aligned to 128 pixels.
+> + * No porch or sync timing values are provided in the datasheet, so we define minimal
+> + * placeholder values to satisfy the DRM framework.
+> + */
+> +
+> +/* Panel visible resolution */
+> +#define PIXPAPER_WIDTH           122
+> +#define PIXPAPER_HEIGHT          250
+> +
+> +/* Controller requires 128 horizontal pixels total (for memory alignment) */
+> +#define PIXPAPER_HTOTAL          128
+> +#define PIXPAPER_HFP             2
+> +#define PIXPAPER_HSYNC           2
+> +#define PIXPAPER_HBP             (PIXPAPER_HTOTAL - PIXPAPER_WIDTH - PIXPAPER_HFP - PIXPAPER_HSYNC)
+> +
+> +/*
+> + * According to the datasheet, the total vertical blanking must be 55 lines,
+> + * regardless of how the vertical back porch is set.
+> + * Here we allocate VFP=2, VSYNC=2, and VBP=51 to sum up to 55 lines.
+> + * Total vertical lines = 250 (visible) + 55 (blanking) = 305.
+> + */
+> +#define PIXPAPER_VTOTAL  (250 + 55)
+> +#define PIXPAPER_VFP     2
+> +#define PIXPAPER_VSYNC   2
+> +#define PIXPAPER_VBP     (55 - PIXPAPER_VFP - PIXPAPER_VSYNC)
+> +
+> +/*
+> + * Pixel clock calculation:
+> + * pixel_clock = htotal * vtotal * refresh_rate
+> + *             = 128 * 305 * 50
+> + *             = 1,952,000 Hz = 1952 kHz
+> + */
+> +#define PIXPAPER_PIXEL_CLOCK     1952
+> +
+> +#define PIXPAPER_WIDTH_MM        24    /* approximate from 23.7046mm */
+> +#define PIXPAPER_HEIGHT_MM       49    /* approximate from 48.55mm */
+> +
+> +#define PIXPAPER_SPI_BITS_PER_WORD	8
+> +#define PIXPAPER_SPI_SPEED_DEFAULT      1000000
+> +
+> +#define PIXPAPER_PANEL_BUFFER_WIDTH	128
+> +#define PIXPAPER_PANEL_BUFFER_TWO_BYTES_PER_ROW (PIXPAPER_PANEL_BUFFER_WIDTH / 4)
+> +
+> +#define PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL		60
+> +#define PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL		200
+> +#define PIXPAPER_COLOR_THRESHOLD_YELLOW_MIN_GREEN	180
+> +
+> +struct pixpaper_error_ctx {
+> +	int errno_code;
+> +};
+> +
+> +struct pixpaper_panel {
+> +	struct drm_device drm;
+> +	struct drm_plane plane;
+> +	struct drm_crtc crtc;
+> +	struct drm_encoder encoder;
+> +	struct drm_connector connector;
+> +
+> +	struct spi_device *spi;
+> +	struct gpio_desc *reset;
+> +	struct gpio_desc *busy;
+> +	struct gpio_desc *dc;
+> +};
+> +
+> +static inline struct pixpaper_panel *to_pixpaper_panel(struct drm_device *drm)
+> +{
+> +	return container_of(drm, struct pixpaper_panel, drm);
+> +}
+> +
+> +static void pixpaper_wait_for_panel(struct pixpaper_panel *panel)
+> +{
+> +	unsigned int timeout_ms = 10000;
+> +	unsigned long timeout_jiffies = jiffies + msecs_to_jiffies(timeout_ms);
+> +
+> +	usleep_range(1000, 1500);
+> +	while (gpiod_get_value_cansleep(panel->busy) != 1) {
+> +		if (time_after(jiffies, timeout_jiffies)) {
+> +			drm_warn(&panel->drm, "Busy wait timed out\n");
+> +			return;
+> +		}
+> +		usleep_range(100, 200);
+> +	}
+> +}
+> +
+> +static void pixpaper_spi_sync(struct spi_device *spi, struct spi_message *msg,
+> +			      struct pixpaper_error_ctx *err)
+> +{
+> +	if (err->errno_code)
+> +		return;
+> +
+> +	int ret = spi_sync(spi, msg);
+> +
+> +	if (ret < 0)
+> +		err->errno_code = ret;
+> +}
+> +
+> +static void pixpaper_send_cmd(struct pixpaper_panel *panel, u8 cmd,
+> +			      struct pixpaper_error_ctx *err)
+> +{
+> +	if (err->errno_code)
+> +		return;
+> +
+> +	struct spi_transfer xfer = {
+> +		.tx_buf = &cmd,
+> +		.len = 1,
+> +	};
+> +	struct spi_message msg;
+> +
+> +	spi_message_init(&msg);
+> +	spi_message_add_tail(&xfer, &msg);
+> +
+> +	gpiod_set_value_cansleep(panel->dc, 0);
+> +	usleep_range(1, 5);
+> +	pixpaper_spi_sync(panel->spi, &msg, err);
+> +}
+> +
+> +static void pixpaper_send_data(struct pixpaper_panel *panel, u8 data,
+> +			       struct pixpaper_error_ctx *err)
+> +{
+> +	if (err->errno_code)
+> +		return;
+> +
+> +	struct spi_transfer xfer = {
+> +		.tx_buf = &data,
+> +		.len = 1,
+> +	};
+> +	struct spi_message msg;
+> +
+> +	spi_message_init(&msg);
+> +	spi_message_add_tail(&xfer, &msg);
+> +
+> +	gpiod_set_value_cansleep(panel->dc, 1);
+> +	usleep_range(1, 5);
+> +	pixpaper_spi_sync(panel->spi, &msg, err);
+> +}
+> +
+> +static int pixpaper_panel_hw_init(struct pixpaper_panel *panel)
+> +{
+> +	struct pixpaper_error_ctx err = { .errno_code = 0 };
+> +
+> +	gpiod_set_value_cansleep(panel->reset, 0);
+> +	msleep(50);
+> +	gpiod_set_value_cansleep(panel->reset, 1);
+> +	msleep(50);
+> +
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_4D, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_4D_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_PANEL_SETTING, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PSR_CONFIG, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PSR_CONFIG2, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SETTING, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_CONFIG1, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_CONFIG2, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_VSP_8_2V, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_VSPL_15V, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_VSN_4V, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWR_VSP_8_2V, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_OFF_SEQUENCE, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG1, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG2, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PFS_CONFIG3, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_BOOSTER_SOFT_START, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG1, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG2, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG3, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG4, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG5, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG6, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_BTST_CONFIG7, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_PLL_CONTROL, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PLL_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_TEMP_SENSOR_CALIB, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_TSE_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_VCOM_INTERVAL, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_CDI_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_60, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_60_CONFIG1, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_60_CONFIG2, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_RESOLUTION_SETTING, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_TRES_HRES_H, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_TRES_HRES_L, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_TRES_VRES_H, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_TRES_VRES_L, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_GATE_SOURCE_START, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_GSST_S_START, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_GSST_RESERVED, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_GSST_G_START_H, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_GSST_G_START_L, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E7, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E7_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_SAVING, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_PWS_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E0, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E0_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B4, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_B4_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_B5, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_B5_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_UNKNOWN_E9, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_UNKNOWN_E9_CONFIG, &err);
+> +	if (err.errno_code)
+> +		goto init_fail;
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	return 0;
+> +
+> +init_fail:
+> +	drm_err(&panel->drm, "Hardware initialization failed (err=%d)\n",
+> +		err.errno_code);
+> +	return err.errno_code;
+> +}
+> +
+> +/*
+> + * Convert framebuffer pixels to 2-bit e-paper format:
+> + *   00 - White
+> + *   01 - Black
+> + *   10 - Yellow
+> + *   11 - Red
+> + */
+> +static u8 pack_pixels_to_byte(__le32 *src_pixels, int i, int j,
+> +			      struct drm_framebuffer *fb)
+> +{
+> +	u8 packed_byte = 0;
+> +	int k;
+> +
+> +	for (k = 0; k < 4; k++) {
+> +		int current_pixel_x = j * 4 + k;
+> +		u8 two_bit_val;
+> +
+> +		if (current_pixel_x < PIXPAPER_WIDTH) {
+> +			u32 pixel_offset =
+> +				(i * (fb->pitches[0] / 4)) + current_pixel_x;
+> +			u32 pixel = le32_to_cpu(src_pixels[pixel_offset]);
+> +			u32 r = (pixel >> 16) & 0xFF;
+> +			u32 g = (pixel >> 8) & 0xFF;
+> +			u32 b = pixel & 0xFF;
+> +
+> +			if (r < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL &&
+> +			    g < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL &&
+> +			    b < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL) {
+> +				two_bit_val = 0b00;
+> +			} else if (r > PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL &&
+> +				   g > PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL &&
+> +				   b > PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL) {
+> +				two_bit_val = 0b01;
+> +			} else if (r > PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL &&
+> +				   g < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL &&
+> +				   b < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL) {
+> +				two_bit_val = 0b11;
+> +			} else if (r > PIXPAPER_COLOR_THRESHOLD_HIGH_CHANNEL &&
+> +				   g > PIXPAPER_COLOR_THRESHOLD_YELLOW_MIN_GREEN &&
+> +				   b < PIXPAPER_COLOR_THRESHOLD_LOW_CHANNEL) {
+> +				two_bit_val = 0b10;
+> +			} else {
+> +				two_bit_val = 0b01;
+> +			}
+> +		} else {
+> +			two_bit_val = 0b01;
+> +		}
+> +
+> +		packed_byte |= two_bit_val << ((3 - k) * 2);
+> +	}
+> +
+> +	return packed_byte;
+> +}
+> +
+> +static int pixpaper_plane_helper_atomic_check(struct drm_plane *plane,
+> +					      struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *new_plane_state =
+> +		drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_crtc *new_crtc = new_plane_state->crtc;
+> +	struct drm_crtc_state *new_crtc_state = NULL;
+> +	int ret;
+> +
+> +	if (new_crtc)
+> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_crtc);
+> +
+> +	ret = drm_atomic_helper_check_plane_state(new_plane_state,
+> +						  new_crtc_state, DRM_PLANE_NO_SCALING,
+> +						  DRM_PLANE_NO_SCALING, false, false);
+> +	if (ret)
+> +		return ret;
+> +	else if (!new_plane_state->visible)
+> +		return 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int pixpaper_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> +					     struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state =
+> +		drm_atomic_get_new_crtc_state(state, crtc);
+> +
+> +	if (!crtc_state->enable)
+> +		return 0;
+> +
+> +	return drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+> +}
+> +
+> +static void pixpaper_crtc_atomic_enable(struct drm_crtc *crtc,
+> +					struct drm_atomic_state *state)
+> +{
+> +	struct pixpaper_panel *panel = to_pixpaper_panel(crtc->dev);
+> +	struct drm_device *drm = &panel->drm;
+> +	int idx;
+> +	struct pixpaper_error_ctx err = { .errno_code = 0 };
+> +
+> +	if (!drm_dev_enter(drm, &idx))
+> +		return;
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_ON, &err);
+> +	if (err.errno_code) {
+> +		drm_err_once(drm, "Failed to send PON command: %d\n",
+> +			err.errno_code);
+> +		goto exit_drm_dev;
+> +	}
+> +
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	drm_dbg(drm, "Panel enabled and powered on\n");
+> +
+> +exit_drm_dev:
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static void pixpaper_crtc_atomic_disable(struct drm_crtc *crtc,
+> +					 struct drm_atomic_state *state)
+> +{
+> +	struct pixpaper_panel *panel = to_pixpaper_panel(crtc->dev);
+> +	struct drm_device *drm = &panel->drm;
+> +	struct pixpaper_error_ctx err = { .errno_code = 0 };
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(drm, &idx))
+> +		return;
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_OFF, &err);
+> +	if (err.errno_code) {
+> +		drm_err_once(drm, "Failed to send POF command: %d\n",
+> +			err.errno_code);
+> +		goto exit_drm_dev;
+> +	}
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	drm_dbg(drm, "Panel disabled\n");
+> +
+> +exit_drm_dev:
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static void pixpaper_plane_atomic_update(struct drm_plane *plane,
+> +					 struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *plane_state =
+> +		drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_shadow_plane_state *shadow_plane_state =
+> +		to_drm_shadow_plane_state(plane_state);
+> +	struct drm_crtc *crtc = plane_state->crtc;
+> +	struct pixpaper_panel *panel = to_pixpaper_panel(crtc->dev);
+> +
+> +	struct drm_device *drm = &panel->drm;
+> +	struct drm_framebuffer *fb = plane_state->fb;
+> +	struct iosys_map map = shadow_plane_state->data[0];
+> +	void *vaddr = map.vaddr;
+> +	int i, j, idx;
+> +	__le32 *src_pixels = NULL;
+> +	struct pixpaper_error_ctx err = { .errno_code = 0 };
+> +
+> +	if (!drm_dev_enter(drm, &idx))
+> +		return;
+> +
+> +	drm_dbg(drm, "Starting frame update (phys=%dx%d, buf_w=%d)\n",
+> +		PIXPAPER_WIDTH, PIXPAPER_HEIGHT, PIXPAPER_PANEL_BUFFER_WIDTH);
+> +
+> +	if (!fb || !plane_state->visible) {
+> +		drm_err_once(drm,
+> +			"No framebuffer or plane not visible, skipping update\n");
+> +		goto update_cleanup;
+> +	}
+> +
+> +	src_pixels = (__le32 *)vaddr;
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_DATA_START_TRANSMISSION, &err);
+> +	if (err.errno_code)
+> +		goto update_cleanup;
+> +
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	for (i = 0; i < PIXPAPER_HEIGHT; i++) {
+> +		for (j = 0; j < PIXPAPER_PANEL_BUFFER_TWO_BYTES_PER_ROW; j++) {
+> +			u8 packed_byte =
+> +				pack_pixels_to_byte(src_pixels, i, j, fb);
+> +
+> +			pixpaper_wait_for_panel(panel);
+> +			pixpaper_send_data(panel, packed_byte, &err);
+> +		}
+> +	}
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_POWER_ON, &err);
+> +	if (err.errno_code) {
+> +		drm_err_once(drm, "Failed to send PON command: %d\n",
+> +			err.errno_code);
+> +		goto update_cleanup;
+> +	}
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +	pixpaper_send_cmd(panel, PIXPAPER_CMD_DISPLAY_REFRESH, &err);
+> +	pixpaper_send_data(panel, PIXPAPER_DRF_VCOM_AC, &err);
+> +	if (err.errno_code) {
+> +		drm_err_once(drm, "Failed sending data after DRF: %d\n",
+> +			err.errno_code);
+> +		goto update_cleanup;
+> +	}
+> +	pixpaper_wait_for_panel(panel);
+> +
+> +update_cleanup:
+> +	if (err.errno_code && err.errno_code != -ETIMEDOUT)
+> +		drm_err_once(drm, "Frame update function failed with error %d\n",
+> +			err.errno_code);
+> +
+> +	drm_dev_exit(idx);
+> +}
+> +
+> +static const struct drm_display_mode pixpaper_mode = {
+> +	.clock = PIXPAPER_PIXEL_CLOCK,
+> +	.hdisplay = PIXPAPER_WIDTH,
+> +	.hsync_start = PIXPAPER_WIDTH + PIXPAPER_HFP,
+> +	.hsync_end = PIXPAPER_WIDTH + PIXPAPER_HFP + PIXPAPER_HSYNC,
+> +	.htotal = PIXPAPER_HTOTAL,
+> +	.vdisplay = PIXPAPER_HEIGHT,
+> +	.vsync_start = PIXPAPER_HEIGHT + PIXPAPER_VFP,
+> +	.vsync_end = PIXPAPER_HEIGHT + PIXPAPER_VFP + PIXPAPER_VSYNC,
+> +	.vtotal = PIXPAPER_VTOTAL,
+> +	.width_mm = PIXPAPER_WIDTH_MM,
+> +	.height_mm = PIXPAPER_HEIGHT_MM,
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static int pixpaper_connector_get_modes(struct drm_connector *connector)
+> +{
+> +	return drm_connector_helper_get_modes_fixed(connector, &pixpaper_mode);
+> +}
+> +
+> +static const struct drm_plane_funcs pixpaper_plane_funcs = {
+> +	.update_plane = drm_atomic_helper_update_plane,
+> +	.disable_plane = drm_atomic_helper_disable_plane,
+> +	.destroy = drm_plane_cleanup,
+> +	DRM_GEM_SHADOW_PLANE_FUNCS,
+> +};
+> +
+> +static const struct drm_plane_helper_funcs pixpaper_plane_helper_funcs = {
+> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> +	.atomic_check = pixpaper_plane_helper_atomic_check,
+> +	.atomic_update = pixpaper_plane_atomic_update,
+> +};
+> +
+> +static const struct drm_crtc_funcs pixpaper_crtc_funcs = {
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.destroy = drm_crtc_cleanup,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +};
+> +
+> +static int pixpaper_mode_valid(struct drm_crtc *crtc,
+> +			       const struct drm_display_mode *mode)
+> +{
+> +	if (mode->hdisplay == PIXPAPER_WIDTH &&
+> +	    mode->vdisplay == PIXPAPER_HEIGHT) {
+> +		return MODE_OK;
+> +	}
+> +	return MODE_BAD;
+> +}
+> +
+> +static const struct drm_crtc_helper_funcs pixpaper_crtc_helper_funcs = {
+> +	.mode_valid = pixpaper_mode_valid,
+> +	.atomic_check = pixpaper_crtc_helper_atomic_check,
+> +	.atomic_enable = pixpaper_crtc_atomic_enable,
+> +	.atomic_disable = pixpaper_crtc_atomic_disable,
+> +};
+> +
+> +static const struct drm_encoder_funcs pixpaper_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+> +static const struct drm_connector_funcs pixpaper_connector_funcs = {
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = drm_connector_cleanup,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static const struct drm_connector_helper_funcs pixpaper_connector_helper_funcs = {
+> +	.get_modes = pixpaper_connector_get_modes,
+> +};
+> +
+> +DEFINE_DRM_GEM_FOPS(pixpaper_fops);
+> +
+> +static struct drm_driver pixpaper_drm_driver = {
+> +	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	.fops = &pixpaper_fops,
+> +	.name = "pixpaper",
+> +	.desc = "DRM driver for PIXPAPER e-ink",
+> +	.major = 1,
+> +	.minor = 0,
+> +	DRM_GEM_SHMEM_DRIVER_OPS,
+> +	DRM_FBDEV_SHMEM_DRIVER_OPS,
+> +};
+> +
+> +static const struct drm_mode_config_funcs pixpaper_mode_config_funcs = {
+> +	.fb_create = drm_gem_fb_create_with_dirty,
+> +	.atomic_check = drm_atomic_helper_check,
+> +	.atomic_commit = drm_atomic_helper_commit,
+> +};
+> +
+> +static int pixpaper_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct pixpaper_panel *panel;
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	panel = devm_drm_dev_alloc(dev, &pixpaper_drm_driver,
+> +				   struct pixpaper_panel, drm);
+> +	if (IS_ERR(panel))
+> +		return PTR_ERR(panel);
+> +
+> +	drm = &panel->drm;
+> +	panel->spi = spi;
+> +	spi_set_drvdata(spi, panel);
+> +
+> +	spi->mode = SPI_MODE_0;
+> +	spi->bits_per_word = PIXPAPER_SPI_BITS_PER_WORD;
+> +
+> +	if (!spi->max_speed_hz) {
+> +		drm_warn(drm,
+> +			 "spi-max-frequency not specified in DT, using default %u Hz\n",
+> +			 PIXPAPER_SPI_SPEED_DEFAULT);
+> +		spi->max_speed_hz = PIXPAPER_SPI_SPEED_DEFAULT;
+> +	}
+> +
+> +	ret = spi_setup(spi);
+> +	if (ret < 0) {
+> +		drm_err(drm, "SPI setup failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (!dev->dma_mask)
+> +		dev->dma_mask = &dev->coherent_dma_mask;
+> +	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+> +	if (ret) {
+> +		drm_err(drm, "Failed to set DMA mask: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	panel->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(panel->reset))
+> +		return PTR_ERR(panel->reset);
+> +
+> +	panel->busy = devm_gpiod_get(dev, "busy", GPIOD_IN);
+> +	if (IS_ERR(panel->busy))
+> +		return PTR_ERR(panel->busy);
+> +
+> +	panel->dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(panel->dc))
+> +		return PTR_ERR(panel->dc);
+> +
+> +	ret = pixpaper_panel_hw_init(panel);
+> +	if (ret) {
+> +		drm_err(drm, "Panel hardware initialization failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = drmm_mode_config_init(drm);
+> +	if (ret)
+> +		return ret;
+> +	drm->mode_config.funcs = &pixpaper_mode_config_funcs;
+> +	drm->mode_config.min_width = PIXPAPER_WIDTH;
+> +	drm->mode_config.max_width = PIXPAPER_WIDTH;
+> +	drm->mode_config.min_height = PIXPAPER_HEIGHT;
+> +	drm->mode_config.max_height = PIXPAPER_HEIGHT;
+> +
+> +	ret = drm_universal_plane_init(drm, &panel->plane, 1,
+> +				       &pixpaper_plane_funcs,
+> +				       (const uint32_t[]){ DRM_FORMAT_XRGB8888 },
+> +				       1, NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+> +	if (ret)
+> +		return ret;
+> +	drm_plane_helper_add(&panel->plane, &pixpaper_plane_helper_funcs);
+> +
+> +	ret = drm_crtc_init_with_planes(drm, &panel->crtc, &panel->plane, NULL,
+> +					&pixpaper_crtc_funcs, NULL);
+> +	if (ret)
+> +		return ret;
+> +	drm_crtc_helper_add(&panel->crtc, &pixpaper_crtc_helper_funcs);
+> +
+> +	ret = drm_encoder_init(drm, &panel->encoder, &pixpaper_encoder_funcs,
+> +			       DRM_MODE_ENCODER_NONE, NULL);
+> +	if (ret)
+> +		return ret;
+> +	panel->encoder.possible_crtcs = drm_crtc_mask(&panel->crtc);
+> +
+> +	ret = drm_connector_init(drm, &panel->connector,
+> +				 &pixpaper_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_SPI);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_connector_helper_add(&panel->connector,
+> +				 &pixpaper_connector_helper_funcs);
+> +	drm_connector_attach_encoder(&panel->connector, &panel->encoder);
+> +
+> +	drm_mode_config_reset(drm);
+> +
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_client_setup(drm, NULL);
+> +
+> +	return 0;
+> +}
+> +
+> +static void pixpaper_remove(struct spi_device *spi)
+> +{
+> +	struct pixpaper_panel *panel = spi_get_drvdata(spi);
+> +
+> +	if (!panel)
+> +		return;
+> +
+> +	drm_dev_unplug(&panel->drm);
+> +	drm_atomic_helper_shutdown(&panel->drm);
+> +}
+> +
+> +static const struct spi_device_id pixpaper_ids[] = { { "pixpaper", 0 }, {} };
+> +MODULE_DEVICE_TABLE(spi, pixpaper_ids);
+> +
+> +static const struct of_device_id pixpaper_dt_ids[] = {
+> +	{ .compatible = "mayqueen,pixpaper" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, pixpaper_dt_ids);
+> +
+> +static struct spi_driver pixpaper_spi_driver = {
+> +	.driver = {
+> +		.name = "pixpaper",
+> +		.of_match_table = pixpaper_dt_ids,
+> +	},
+> +	.id_table = pixpaper_ids,
+> +	.probe = pixpaper_probe,
+> +	.remove = pixpaper_remove,
+> +};
+> +
+> +module_spi_driver(pixpaper_spi_driver);
+> +
+> +MODULE_AUTHOR("LiangCheng Wang");
+> +MODULE_DESCRIPTION("DRM SPI driver for PIXPAPER e-ink panel");
+> +MODULE_LICENSE("GPL");
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
