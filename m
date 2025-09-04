@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC89AB446F0
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028D0B446F3
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:05:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4789D10EAC7;
-	Thu,  4 Sep 2025 20:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 396D610EAD1;
+	Thu,  4 Sep 2025 20:05:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="X6keGGje";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ejXENH9q";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="scEoM5kE";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mZ3kdp8r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C690210EAC7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:04:59 +0000 (UTC)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA6AE10EACD
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:05:03 +0000 (UTC)
 Received: from smtp202.mailbox.org (smtp202.mailbox.org
  [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cHr6y4HMLz9tB1;
- Thu,  4 Sep 2025 22:04:58 +0200 (CEST)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cHr714Cqdz9tNg;
+ Thu,  4 Sep 2025 22:05:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757016298;
+ s=mail20150812; t=1757016301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ajgl4VkcAvKSjVnpuARRFDOopjNfFzRrXajmAnDP0g4=;
- b=X6keGGjel+lKtjCAF2XKf2EdVmHMTrtJI2qc7yUTRfnr+9LyL0cRqgprgV+IuKHUVxGo96
- IWDY9fCRjikoCIii/GAiOiozzfCGqBai4HVYwiGc60HU6yBWBlvFXpBHr8FrECEN17e6oU
- nrZySrMXnA8VAXf8o9kRneRgawgbl126Z+9dhjLrMMpsdYHdQg3DBL5+w1NPcv3Gz6rmG6
- BrMLWNF4AFx+DwKhBMgt7cKKgrvQC9f3d46/hg9YWzyiA6mhxXMlWbyAU6bHSmJ+awxfb8
- 90fTAc/LvDwTHClDNBUJoE+nY266iAFzoVMMOXRYjunmhzFIr5qdqR+rMUi47Q==
+ bh=wxrn1xPJXjVzjC6eiOM9+qgIFPLs1DYtRf+UTTdmbuA=;
+ b=scEoM5kEKoU33XYZBy4HohcKw6x2DVLWAJRGUa75UzrYSetwsUmMkcIkt3LQPrK+ZxBJlS
+ iNkCu7T7SaAfvX3Lf2SvEj3BUaxMlZtJ93jqjcJbu2ylGG3Th8g/mb0GmtJhq6/H1wQnsX
+ 22Z9/Trkiufy29vMw4BdxEbFqfr9SbgHVF5CNxYPLuyfLvtpHzxDLiNt7eMp4sYTajNF9f
+ r7AimCVNaJZr4mc2N0Udx5Ho8fr+1VKZL8+iFGWanQXM2ahvt/7KpAUgnQeb3r7qBPRB1w
+ 0ppMb5iJZMV2HFtSUPmK0Tk0yEZv5P+fnuBh2UCMDu0w/WtVrHzKGTtd9NW00A==
 Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=ejXENH9q;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=mZ3kdp8r;
  spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
  designates 2001:67c:2050:b231:465::202 as permitted sender)
  smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757016296;
+ s=mail20150812; t=1757016299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ajgl4VkcAvKSjVnpuARRFDOopjNfFzRrXajmAnDP0g4=;
- b=ejXENH9qkowuOTQpyYJzNDSF++JA4mGaY3b0XEhUhS42/MJEycKsc6k7wDyzRp+jd1VB7m
- /2gdmNP+KmkVq2JyYMYEPuXyBmsXYFcemm8cBLg6MqrjxIeVVGoojZrQ9c1bFNdxkSVz50
- /yGeqyxCWrYZEtla1quz+isubeTXs24ueXkqfwZnFfic1Igosp1cBrGw0Eyxbij+TNkeuJ
- 7ELni9ZHlJ/PgTxsIsjiQ6JOw5/HpXyB2W/sHetazFDYT0UpvC/gblWdRut4BdFwH1a9AL
- r6KIOqoJEBotHfo9tJT6Q2fu60HqaIcK6EV87xi2RQS1BR9fmSjpXYzfUuPiRg==
+ bh=wxrn1xPJXjVzjC6eiOM9+qgIFPLs1DYtRf+UTTdmbuA=;
+ b=mZ3kdp8rOtZe2kNIT/MoDTxLy/nhzngoVbACCe7DXBKVsrNATERldm+Mrx/rex1bXd3aIL
+ 799fPEcjFEkZcEzGE8W40HLs5yc0k8AVa/3ML/CJRrmx0AGvCORltqQ9IqZjjup6L5dqEM
+ AZzY1M1iO56cDG9Uo7k2vj7OnWw+eIXVzVpEI/TyMp1gm2IIva9c1sD38WWmoenfdebVGy
+ znq5aAfF2cIvJvFyUfEETGpthZUmjOna9UP7A66dkxC0dMjNGsPbqTGfQCqn9HvYrbkQTU
+ +Z1VP1O5WXDQDuirvqxBE/RJt7Edy39QOSCgfwsY6yUeZ5D4bgcBzVpIo7JT2g==
 To: linux-arm-kernel@lists.infradead.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -66,16 +66,17 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 3/4] arm64: dts: renesas: r8a779h0: Rename dsi-encoder@ to dsi@
-Date: Thu,  4 Sep 2025 22:03:07 +0200
-Message-ID: <20250904200431.168363-3-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 4/4] dt-bindings: display: bridge: renesas,
+ dsi-csi2-tx: Allow panel@ subnode
+Date: Thu,  4 Sep 2025 22:03:08 +0200
+Message-ID: <20250904200431.168363-4-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20250904200431.168363-1-marek.vasut+renesas@mailbox.org>
 References: <20250904200431.168363-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 5mkbduokp49hwggqng9sp43kx7pzne5i
-X-MBO-RS-ID: 75d0db906adc813bcf6
-X-Rspamd-Queue-Id: 4cHr6y4HMLz9tB1
+X-MBO-RS-META: fenskp44gq75nsuwf4tpwxqtz5nw9hky
+X-MBO-RS-ID: 9f8996e81f69a55848b
+X-Rspamd-Queue-Id: 4cHr714Cqdz9tNg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,9 +92,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename dsi-encoder@ node to dsi@ node to follow node name pattern
-in Documentation/devicetree/bindings/display/dsi-controller.yaml .
-No functional change.
+This controller can have both bridges and panels connected to it. In
+order to describe panels properly in DT, pull in dsi-controller.yaml
+and disallow only unevaluatedProperties, because the panel node is
+optional. Include example binding with panel.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -113,22 +115,91 @@ Cc: devicetree@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
+ 1 file changed, 51 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index ed1eefa3515d8..0f20a2d239834 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -2144,7 +2144,7 @@ isp1vin15: endpoint {
- 			};
- 		};
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+index c167795c63f64..f663bc6a6f831 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+@@ -14,6 +14,9 @@ description: |
+   R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
+   to four data lanes.
  
--		dsi0: dsi-encoder@fed80000 {
-+		dsi0: dsi@fed80000 {
- 			compatible = "renesas,r8a779h0-dsi-csi2-tx";
- 			reg = <0 0xfed80000 0 0x10000>;
- 			clocks = <&cpg CPG_MOD 415>,
++allOf:
++  - $ref: /schemas/display/dsi-controller.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -80,14 +83,14 @@ required:
+   - resets
+   - ports
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+     #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
+     #include <dt-bindings/power/r8a779a0-sysc.h>
+ 
+-    dsi0: dsi-encoder@fed80000 {
++    dsi0: dsi@fed80000 {
+         compatible = "renesas,r8a779a0-dsi-csi2-tx";
+         reg = <0xfed80000 0x10000>;
+         power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+@@ -117,4 +120,50 @@ examples:
+             };
+         };
+     };
++
++  - |
++    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
++    #include <dt-bindings/power/r8a779g0-sysc.h>
++
++    dsi1: dsi@fed80000 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        compatible = "renesas,r8a779g0-dsi-csi2-tx";
++        reg = <0xfed80000 0x10000>;
++        clocks = <&cpg CPG_MOD 415>,
++                 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
++                 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
++        clock-names = "fck", "dsi", "pll";
++        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++        resets = <&cpg 415>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++            };
++
++            port@1 {
++                reg = <1>;
++
++                dsi0port1_out: endpoint {
++                    remote-endpoint = <&panel_in>;
++                    data-lanes = <1 2>;
++                };
++            };
++        };
++
++        panel@0 {
++            reg = <0>;
++            compatible = "raspberrypi,dsi-7inch";
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0port1_out>;
++                };
++            };
++        };
++    };
+ ...
 -- 
 2.50.1
 
