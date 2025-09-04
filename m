@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D968FB4783A
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1668B47832
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:50:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2526910E42A;
-	Sat,  6 Sep 2025 22:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4348110E436;
+	Sat,  6 Sep 2025 22:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="IGmGETWD";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="g2r89ozd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E476610E350
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:08:29 +0000 (UTC)
-Message-ID: <799e763c-8f1f-4d4b-8aca-94c416871f65@manjaro.org>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72BB210E350
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 18:08:39 +0000 (UTC)
+Message-ID: <ccd7d35a-df35-4f25-8054-2ec492ed9f41@manjaro.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
- t=1757009308;
+ t=1757009318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ESwECSRa5+yZuW0lPSnfO/0go7wcxVcfexfShM/7fac=;
- b=IGmGETWDUVyk5CMfeoP63n9L1QSwAJfr8SosdYjUOnknuJQ3r1Hfd0RkVPXvNxz4+Raa5I
- r0tTMTwnEzV7lJTEdyetXkIoT0GBTqx4GUUKNuoswHrFrPcTKS4ERtjtzlRiWdFctoT+E1
- MGBIO5yzqqvEw8l5gWt075YEqBPzqq0fZAwZJd9HAVsYBfqxyFhCVxEvP4tCAaJoah+xjM
- hBCrnceHSgvw9jofHgcc99Rf2gcqj0p8jViNBB6u2AF9Xp2lRpkfHJMmTvKOturkdA1wGq
- pndXsUMkbY49kHsi0YJ/hwEkG6+2SeG8SbsQ4IakMAm8j57QXtq8tTEYVXXSZQ==
-Date: Thu, 4 Sep 2025 20:08:27 +0200
+ bh=B0cnBWyJN1QPMITmAyr8Pt/R6PFfcydx2o0hexaY03k=;
+ b=g2r89ozdJeOjRNPwVkuX2UBBFbcvCObwiIUrn2ObcOC+4SgjQwNhlcz8c2KpqUefUe7ofl
+ Cnce36KDK0NJzKQcHerr/5Kb8l9VGcrC8Ez7dReEWBUTPLjk0+O8PBZQLBcI6bTlVN/mxS
+ zLSSXWhLPtlwbqKksG6o/OgWouPNPHjuMGjEH/mx2tm83SvBBKN3tsFYQBoqDT3yk9CZla
+ Eb+Nbuoq7CRFyhYxAugmA7l5oci35O1VnbnD+u0xO4pugDRFd7w0Fl1nF2pcC9QU46C2/J
+ kt1fQmg/OHh9zBd+zy6yRTjUvWUIpjs59ajUUiN+P14yMGUUoAuury6czbHPTw==
+Date: Thu, 4 Sep 2025 20:08:37 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 04/10] drm: panel-orientation-quirks: Add OneXPlayer X1
- variants
+Subject: Re: [PATCH v1 05/10] drm: panel-orientation-quirks: Add OneXPlayer X1
+ Mini variants
 To: Antheas Kapenekakis <lkml@antheas.dev>, dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250904175025.3249650-1-lkml@antheas.dev>
- <20250904175025.3249650-5-lkml@antheas.dev>
+ <20250904175025.3249650-6-lkml@antheas.dev>
 Content-Language: en-US
 From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
 Organization: Manjaro Community
-In-Reply-To: <20250904175025.3249650-5-lkml@antheas.dev>
+In-Reply-To: <20250904175025.3249650-6-lkml@antheas.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Authentication-Results: ORIGINATING;
@@ -64,50 +64,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 9/4/25 19:50, Antheas Kapenekakis wrote:
-> The OneXPlayer X1 series features a 2k 10.95 display with a portrait
-> orientation. Add quirks to set the panel orientation to portrait mode
-> to the Intel, AMD, and EVA-02 variants.
+> The OneXPlayer X1 mini features a 2k 8.8 display with a portrait
+> orientation. The Pro is a CPU refresh. Add quirks to set the panel
+> orientation to portrait mode. There is no Intel variant.
 > 
 > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
->   .../gpu/drm/drm_panel_orientation_quirks.c    | 24 +++++++++++++++++++
->   1 file changed, 24 insertions(+)
+>   drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index 0ea06f928f79..378a3f692952 100644
+> index 378a3f692952..0c0fe66e94ad 100644
 > --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 > +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -504,6 +504,30 @@ static const struct dmi_system_id orientation_data[] = {
->   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+> @@ -516,6 +516,18 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 i"),
 >   		},
->   		.driver_data = (void *)&lcd1200x1920_leftside_up,
-> +	}, {	/* OneXPlayer X1 AMD */
+>   		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OneXPlayer X1 mini (AMD) */
 > +		.matches = {
 > +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 A"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 mini"),
 > +		},
 > +		.driver_data = (void *)&lcd1600x2560_leftside_up,
-> +	}, {	/* OneXPlayer X1 Intel */
+> +	}, {	/* OneXPlayer X1 mini pro (AMD Strix Point) */
 > +		.matches = {
 > +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1 i"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Mini Pro"),
 > +		},
 > +		.driver_data = (void *)&lcd1600x2560_leftside_up,
-> +	}, {	/* OneXPlayer X1 AMD Strix Point */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro"),
-> +		},
-> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
-> +	}, {	/* OneXPlayer X1Pro EVA variant with Intel */
-> +		.matches = {
-> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER X1Pro EVA-02"),
-> +		},
-> +		.driver_data = (void *)&lcd1600x2560_leftside_up,
->   	}, {	/* OrangePi Neo */
+>   	}, {	/* OneXPlayer X1 AMD Strix Point */
 >   		.matches = {
->   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+>   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
 
 Reviewed-by: Philip Müller <philm@manjaro.org>
 
