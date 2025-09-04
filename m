@@ -2,124 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99305B4473D
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB1AB44740
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 22:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 400B210EAD0;
-	Thu,  4 Sep 2025 20:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B75B10E08D;
+	Thu,  4 Sep 2025 20:24:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gIx24vXp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BqHSy9Tw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B66E210EAD0
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:23:34 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IM9gu031829
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 20:23:34 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC30310E08D
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 20:24:12 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584HeQxi032207
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Sep 2025 20:24:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=BhjhLn4p+fVTddeDOV5N535S
- l5j76d//X2bYh+lMLPs=; b=gIx24vXpFsSdYeFUk+FTmMF+B4fWHQdBzPmDn1LF
- SRJUli3nCxV50BpDCX1zqobOq32MoATgytI0qIMpMYtk2fVfWbJt86zys1vlIheb
- cViV+E2xviNdFDXLMdfK5WCGZvLlid0xsRG7K5iXiF5UFcVUm24gEW95xzMjDGRW
- 4Dm/0Gh8RYXspRMoJL1mMXKXSc3otG7CWOmIjLz35eYjeNYSprPo1S2ybgR1Glcu
- xXNh275dxJHD5kI8+rxFACAbl1Mu6aV2Vw9A/WEm16IK2D6DI+HehFjC6Ki6etoS
- rPBFtMlReVhhyvGq1l9pAYY3qknNvEyGFz3E4pUS/uTblg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urw08v47-1
+ :references:subject:to; s=qcppdkim1; bh=eElUMenQajMKFKHmEfgJg4SM
+ sc0hDo+dAtFtkPy6FKg=; b=BqHSy9TwmUNCS+2hyRbQjKWBBAcxa2ubVOWxnBWK
+ 7gZoHSE4hu1kNDYv8vSqmVAuE9uvfW8FN2phAzBrLQZwSijnaDeoEDsFPA2ZZvTd
+ E5yj7RgFs90Px/bbyJCXRBPf1LIpYbjBLgubBoy894iE0FLkatBREyRMgDNijktO
+ K5K3rGvwmrBe/ZlPHYn3A+L99jAb7enbznYqflBWukpo85QPYxwMvEWvCDs7SBWq
+ 5KbBHrNZOMeWZo7j96s600VmuUNlhSVecattxn4zCirDAUBjZ2hvNfXuj8aJ6Fcc
+ OEgH7+GduPwKurE4A4lpx0QREynnMJkWiKrgQBht9ijeyg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnpgygh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 20:23:33 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-718cb6230afso25646106d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 13:23:33 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 20:24:11 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-720408622c3so21359646d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 13:24:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757017413; x=1757622213;
+ d=1e100.net; s=20230601; t=1757017451; x=1757622251;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BhjhLn4p+fVTddeDOV5N535Sl5j76d//X2bYh+lMLPs=;
- b=kuyJkdzoZ09rsOeFi2ZACaLdv3GxePBI2ISGOJb9PY07zDIllb1d5Q7azHMB5Thhry
- 381mmhDnpabvN6ZPbyVxzldTvjZ9AJEEjPbX8J8M9odZNnH90a6VQpywhMUy2nsHAOH0
- 21Hlw0Z8s61TATmh0zz6Y6itNb8bRR3s+4VV62Yg3PkazRoCGjbf+aYX3ovZYpEO7FK7
- vtnWbTa3bIJhlOk67HzkgOLAajw8xlnAL21Gc/2Th3p8mkiB2S2f41MWVzfT33CWP9dk
- pEfobVJ36dFTRmdMsNqv3Ma2LgCjY66Bvj+3PVMZe38yvoQmxmnJwXSIPpRcZSO4j+qz
- IQbA==
+ bh=eElUMenQajMKFKHmEfgJg4SMsc0hDo+dAtFtkPy6FKg=;
+ b=xIbwYFM29j2uQqmdxC3+hKihgaUm5cfk5yTPFw2D12VJb9JZhgtllqd/mc9Ik9eSeP
+ uevAq34tgEOtmNWKCxrSgw/p9OJzlqkEd1wvj3tFxDNvWpP3dZ1CSDPOptOX4VdiQvfG
+ hrPPH/UhSKL2Z90CwyUTNGCGpQ4Dqmr05UtyPMIjZuma7sK5LMHibt29dOFLrcD5RgcO
+ lWX611s6loFfD2eSaS9eoiyGsOM7YV98WHdnWUnqE92/BTnWvYGtR6p6EboxZ/CYUqFy
+ nXqYskzTLDG0v6iknC3eEJj5ms/B5/K3rNCMP0ioCvk1vLu13N4VukFh8No3RCzG45S4
+ EXMg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWDBCdczKsuksi1kJXghkesndP4togFEhjjyX6D4Vb7XBcmsk/IMVUc6JC/5jebj7qNrmuyBzePxns=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZinQDkDId0mjfaNJf/PBTlZJgNN83cBdYEKkjhbiBp7DVBcnt
- HWhMkE8X5OmKqpFQ5gx5d68F5wxBGMkBhwKv7VNroYKa9tTSjiFoc1SxoGbRzw+fPmb6hYSAWvP
- P1dZ4IEO/DJ1tr4zgDvKqkJlx0Tz+EB2NZYMItwFNm1To7vYUXVI2VLpf2jEk+kcRcARNcbU=
-X-Gm-Gg: ASbGncuZ+9fu1HrDNvMLDmaPoI4TK7K7RGdqsW9zZsx+VuHv1xSHAqFidod2eCbGTyE
- tTlUlwN1efS+VSYHQomU1XAsVcm7FyQJABK+onngcVo+vCsMFiqD3DyRw5S7IuObMppWnz0Af62
- X8XgvZSNBN44AAb9rzZteYo505ATXGBIHBGJ1Ln+9cTx0JEc+eL0xLbqgAYe7sA1v4Br4epTVrU
- W357i0KdbUIBzrscIVSoECc6b47TIedGK56/C8GPE8dk4VGUSeBRymX9z3c4OfbBkLH6fgU/+1R
- aLNAnNAETGYkWb3eYlnWk+mHZ7n546dP+aRz2AeIGGBoLqxbAowAtwFwqDHrDffkJTFTAh4XJ3H
- wYy6GD8n5u1JCMhixqNlREg+VWu4GsZZOudp5U85NpBdnJ3pfJFOm
-X-Received: by 2002:a05:6214:40e:b0:709:6582:86d8 with SMTP id
- 6a1803df08f44-70fac789c6amr237886086d6.21.1757017412570; 
- Thu, 04 Sep 2025 13:23:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7DTtrjAmMG4+SbOuJLgcfs9oxMwNnEiEQAc0Pfy9/m+t6Z1n1hx4a3Nf6n68AGum0eX+41w==
-X-Received: by 2002:a05:6214:40e:b0:709:6582:86d8 with SMTP id
- 6a1803df08f44-70fac789c6amr237885516d6.21.1757017411833; 
- Thu, 04 Sep 2025 13:23:31 -0700 (PDT)
+ AJvYcCUPULYjawt5Z2aPSHDoSyNbMhokzjfgiyNp1EzAAP1po3Hthf2kAj+xHXUabp7gh7DA9JtXqyedo3k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEbsl7+OZlFSpqNSR9Tiw0doBSA4hAIk4EFvo3picvcAzDGWiV
+ 12/+oHS9RnQru3yxXad/EErWWzIF0vypeJ+NA3D5wNVOsWJL5neoxAe9vlWbuSW5tzCoXqM3jG+
+ 4PfUH+Z2ASbvYCVseIHu/EUarQq+eO4P8e9hlyAMoYch6YiXRk1f1IMzhn46P1OOIpJPvN50=
+X-Gm-Gg: ASbGncs8TzCFsDWPYPVUtgTpLH7MRKVX9PzpnbdkEgD8+kDjPGOOeTPmY0BcIyMIYOa
+ CilX7HgOrnA/SaOVZ+cOtcWKwDqRwZeyfDcK12bmJTddaHOjG2ArFyuBC8h6UL3UP1I5SdGEmuA
+ ClV0tbSR+FwKS/+Ox2LGE3dToHVLknfHqrWCtQnMSZn2E1eHo6S9ln5KSF2lebFNHUPPFsyTepi
+ 8bfluKc/XjWhMO1Ii57cbt4IIk+1q9L9nzaan/xwWcQ7M9kHb4tz+qxb2rfZXgPviUFPV24s3s9
+ kLKhtpesHLBOUeGPWguBuQ33L8Rb8rtY6rOeKnpwBKAO1MgOh7ta7J2EYFoGAcRQaPQDPNb5Wpq
+ SZsvjEWEhmEJ7C50+ND0KstSIlAFbgBcQysHZEkb6qkpED37nowKc
+X-Received: by 2002:a05:6214:400c:b0:70d:fd01:992d with SMTP id
+ 6a1803df08f44-70fac73d452mr234244906d6.16.1757017450929; 
+ Thu, 04 Sep 2025 13:24:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEEOYSlodY7ZwXlWkX917XlXU/4KfFSD9zZ55jDeSqB3xRKphER8n42jI5hC2HlLwTZYFa5kw==
+X-Received: by 2002:a05:6214:400c:b0:70d:fd01:992d with SMTP id
+ 6a1803df08f44-70fac73d452mr234244476d6.16.1757017450284; 
+ Thu, 04 Sep 2025 13:24:10 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ab5c0acsm1437638e87.16.2025.09.04.13.23.30
+ 2adb3069b0e04-5608ad121acsm1370936e87.118.2025.09.04.13.24.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Sep 2025 13:23:30 -0700 (PDT)
-Date: Thu, 4 Sep 2025 23:23:29 +0300
+ Thu, 04 Sep 2025 13:24:09 -0700 (PDT)
+Date: Thu, 4 Sep 2025 23:24:08 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
- Allow panel@ subnode
-Message-ID: <lecx2cs5durkwq4at4w32bgak3s7tsxfmj6fzvyxhfjud4zljm@25aijm4rlhmg>
-References: <20250904200431.168363-1-marek.vasut+renesas@mailbox.org>
- <20250904200431.168363-4-marek.vasut+renesas@mailbox.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Devarsh Thakkar <devarsht@ti.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev
+Subject: Re: [PATCH] drm/bridge: cdns-dsi: Select VIDEOMODE_HELPERS
+Message-ID: <pbtpeuu2t6iwlhyszf4utsjg5jgx7aawoisuitszbeww2xb5hn@revzgv5mfhgr>
+References: <20250821-cdns-videohelpers-v1-1-853e021908cf@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250904200431.168363-4-marek.vasut+renesas@mailbox.org>
-X-Proofpoint-GUID: 0NBeAsXrSLljHQ9Vyu5UKC1BCqpR_vCL
-X-Proofpoint-ORIG-GUID: 0NBeAsXrSLljHQ9Vyu5UKC1BCqpR_vCL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNyBTYWx0ZWRfXxT7QqtM5gAZ5
- 718ysElXug72UWs5RKJAuMIh7IHUlUupb3AYFoxKgNbIRY7VYBNT/rFL8DHDa+9St+ifMKxUEfn
- T6XsuyFF+drjgUwO7wVzgNDDAYQmasYntNM+nJ91Z2ql7R1gqT+VDxrx9aLIjrz50ARttKax670
- FT5SmYCY/kiPk8WNUcMtB7yWic+W1sCS8Fp89vJyVdSjsmKk2LjtS70+Dy1v4atCKZWk6sW+k/T
- NNnMprEuNq8JU0FLhqqj8ArEr685hlnAVsM47+HO/QX3FPHRJ55HhvLNM+U1A5J2iFo+WNlUIKo
- tpgi0RB4ruxKRc61ym23N1ISDQ95tfREfLuLVIkcLzbt7d9dcubg9e9YGMdjotAtgCiSXPnZSWZ
- WuGfFrPe
-X-Authority-Analysis: v=2.4 cv=NrDRc9dJ c=1 sm=1 tr=0 ts=68b9f545 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=b3CbU_ItAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
- a=P1BnusSwAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8 a=HSFmO_Wm-5cOy6Hx3LcA:9
- a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=Rv2g8BkzVjQTVhhssdqe:22
- a=D0XLA9XvdZm18NrgonBM:22 a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20250821-cdns-videohelpers-v1-1-853e021908cf@kernel.org>
+X-Proofpoint-GUID: 13-jswO3W7Y9KgL5J56adtv-s3YYnVdU
+X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b9f56b cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=GyFj89KpxmL9ovfeiVUA:9
+ a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: 13-jswO3W7Y9KgL5J56adtv-s3YYnVdU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfXwS2kpgS162Bh
+ 3ThkCRwK9zHK0druBwqMlxMCm0y79rXuzCV2JUwzmQs//ZC4koXu/2i3Iy62yeVf3VvyMSO45Cm
+ Pet30e+HLv9bJTklIO8wMTktpuS2OxZ9jbQj0cKU4sn3weerDQAhcxWLEtIEHbHHVhaLr5c3fCa
+ aEF4mRJUTxu8ccYaalQSCaj/slcyrGIOUv0mQGOBrEZtQ2Ip1OefHIfUfIiRFvy1r26RPq6dVH7
+ otHyKENwN+60wDrK263/gk1U73Sc5MLf189aiR64b6NUJGMIIgkhFfQlXQUfkIg4Y294nIWpWSI
+ lfygigMhahGAEp7JIPTPQQVs465EV8izUvW464eFvs8nAY0spvyUjHA/+vPNSbKTG0y4tUykroS
+ 2mcwBtWL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_07,2025-09-04_01,2025-03-28_01
+ definitions=2025-09-04_06,2025-09-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 classifier=typeunknown
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
+ spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300027
+ engine=8.19.0-2507300000 definitions=main-2508300001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,124 +129,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 04, 2025 at 10:03:08PM +0200, Marek Vasut wrote:
-> This controller can have both bridges and panels connected to it. In
-> order to describe panels properly in DT, pull in dsi-controller.yaml
-> and disallow only unevaluatedProperties, because the panel node is
-> optional. Include example binding with panel.
+On Thu, Aug 21, 2025 at 01:52:12PM -0700, Nathan Chancellor wrote:
+> When no other driver selects CONFIG_VIDEOMODE_HELPERS but
+> CONFIG_DRM_CDNS_DSI is enabled, there is a linker or modpost error:
 > 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>   ERROR: modpost: "drm_display_mode_to_videomode" [drivers/gpu/drm/bridge/cadence/cdns-dsi.ko] undefined!
+> 
+> Select VIDEOMODE_HELPERS to ensure that this helper function is
+> available to the driver.
+> 
+> Fixes: ce4bc5ca7c1d ("drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
->  1 file changed, 51 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/bridge/cadence/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> index c167795c63f64..f663bc6a6f831 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> @@ -14,6 +14,9 @@ description: |
->    R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
->    to four data lanes.
->  
-> +allOf:
-> +  - $ref: /schemas/display/dsi-controller.yaml#
-> +
->  properties:
->    compatible:
->      enum:
-> @@ -80,14 +83,14 @@ required:
->    - resets
->    - ports
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
->  examples:
->    - |
->      #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
->      #include <dt-bindings/power/r8a779a0-sysc.h>
->  
-> -    dsi0: dsi-encoder@fed80000 {
-> +    dsi0: dsi@fed80000 {
 
-As you are touching this, you can drop the label too.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
->          compatible = "renesas,r8a779a0-dsi-csi2-tx";
->          reg = <0xfed80000 0x10000>;
->          power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> @@ -117,4 +120,50 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
-> +    #include <dt-bindings/power/r8a779g0-sysc.h>
-> +
-> +    dsi1: dsi@fed80000 {
-
-No need for the label (dsi1:)
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        compatible = "renesas,r8a779g0-dsi-csi2-tx";
-> +        reg = <0xfed80000 0x10000>;
-> +        clocks = <&cpg CPG_MOD 415>,
-> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-> +        clock-names = "fck", "dsi", "pll";
-> +        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +        resets = <&cpg 415>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                dsi0port1_out: endpoint {
-> +                    remote-endpoint = <&panel_in>;
-> +                    data-lanes = <1 2>;
-> +                };
-> +            };
-> +        };
-> +
-> +        panel@0 {
-> +            reg = <0>;
-> +            compatible = "raspberrypi,dsi-7inch";
-> +
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint = <&dsi0port1_out>;
-> +                };
-> +            };
-> +        };
-> +    };
->  ...
-> -- 
-> 2.50.1
-> 
 
 -- 
 With best wishes
