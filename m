@@ -2,55 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7A1B47814
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15816B430B4
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 05:58:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AFD10E40B;
-	Sat,  6 Sep 2025 22:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5A9910E02C;
+	Thu,  4 Sep 2025 03:58:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O0YEV7pw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 963 seconds by postgrey-1.36 at gabe;
- Thu, 04 Sep 2025 04:10:11 UTC
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3166D10E964
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 04:10:10 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4cHQTN4HjBzPqgK;
- Thu,  4 Sep 2025 11:49:28 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 3C2D6140109;
- Thu,  4 Sep 2025 11:54:05 +0800 (CST)
-Received: from kwepemn200010.china.huawei.com (7.202.194.133) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 4 Sep 2025 11:54:05 +0800
-Received: from huawei.com (10.44.142.84) by kwepemn200010.china.huawei.com
- (7.202.194.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 4 Sep
- 2025 11:54:04 +0800
-From: Qi Xi <xiqi2@huawei.com>
-To: <bobo.shaobowang@huawei.com>, <xiqi2@huawei.com>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
- <lyude@redhat.com>, <luca.ceresoli@bootlin.com>, <andy.yan@rock-chips.com>,
- <viro@zeniv.linux.org.uk>, <mordan@ispras.ru>, <amishin@t-argos.ru>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: bridge: cdns-mhdp8546: Fix missing mutex unlock on error
- path
-Date: Thu, 4 Sep 2025 11:44:47 +0800
-Message-ID: <20250904034447.665427-1-xiqi2@huawei.com>
-X-Mailer: git-send-email 2.33.0
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4050D10E02C
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 03:58:36 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-248ff4403b9so5758275ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Sep 2025 20:58:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1756958316; x=1757563116;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vdcVC7EGsc3p5AhbAck6hSHkD/WxcPvPTOs/rsi4Pyk=;
+ b=O0YEV7pwrdZTNlWWXGLnJoy+YkN6wgQs196nOJOZJ60GizkkXNdsuYpzBm2/k8iR1M
+ 5I+r+hYDWQMJ9liLlQ295BpI+P+S6A8MhJ4uvifUmiS6fasUckMNWAqEXu7KRo9rkWf9
+ fl6fAAgWdL662IKIq43v4O1MP2mnfEk4UFTu8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756958316; x=1757563116;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vdcVC7EGsc3p5AhbAck6hSHkD/WxcPvPTOs/rsi4Pyk=;
+ b=KaWfbuiqFjgHAU/9kCQaeGKEFtraXkwmctlZZV16qcCaQE36jurNgAYy9OzXj86bOT
+ qdr0NBca1ADccBJMC83D2ngS3zxXce6QGbKkpII8OwkECMquyys0pNz/+AdsrjnCneaR
+ id24uOKkyJZdgQ68yJbfe5aZ1+9q06xkTQiF/vEyVZ3L55GeW1WtaNzzDYhDtQ178OcM
+ L6SMTkFbe9fOWo3+HeOMq+zVQetMJ+TUc1kUxRfbtLiFXWG+MdNc9u9BrpQdp9j0kM+Q
+ cI5Ht29VNDlOEXZ6ygBauqfDYTkeZoB3BarJdhaZAs+MAxywDPKQgi6NVz6vC/bqTsiH
+ p+RA==
+X-Gm-Message-State: AOJu0Yyvk2LI1pPSweqN63Oth1YOa9oFxoCsHawA62jSHaZPwKZc6vzy
+ XXFwHF7R1AVsRiICs7v4EMlzFgWjkiLkKRLUOW0E2b96QayMNouRQfWacIbjVKAgWg==
+X-Gm-Gg: ASbGncsRto817OD3I+6JV+kjg+qFeV0uf3MzhHtIE/zUyqlSrJcaDDyU4NoUIfZ6qXC
+ 1oCM7gqM2DHMv3Ftflk7hiowlYm057I1oxfeVGY33udk1NP+3zmBxzlzZotp3DJv6vyaR92RtVA
+ vMQDStUNrjsSHI21PbAWbCl/UL78yWFLutw7LRM+4QPO+ZzsbYmoXE9bmvqTXM9HMjnUW3etwoT
+ ucOQXLDgYa3XUQ3SM15x8rUw4ZiBDdTb7N4AbWAj0uhKfFVr4YFhSepdQpxbjFF95dngZyD3/Za
+ QPumKT4NShoA+tBo1dHKNtqlVVAkiHcoVYFUjYPgWBYzv/BRBZCDUG0zxCQ/Pc+w3rzJdhHpR8s
+ dGl9XCTaAz02QzOh40pDFIIPzbFjZLH8rAJT306vKWbGx1J+agGDJ+pG1ZjOm5+MjqSCjPvt1Km
+ RGdU2DydlGbym1Sg==
+X-Google-Smtp-Source: AGHT+IFqjpDEL+NZxw/zBYdqqN1met/cuuCeIu/YOCgUar+yk4gMXjjK8G9vvtXW5yAKilSqQDIh9Q==
+X-Received: by 2002:a17:903:37c4:b0:246:cb10:6e2f with SMTP id
+ d9443c01a7336-24944907804mr238303175ad.26.1756958315783; 
+ Wed, 03 Sep 2025 20:58:35 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com
+ ([2a00:79e0:201d:8:3c2b:f8f3:78fe:d80f])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24cb28c3126sm16707405ad.65.2025.09.03.20.58.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Sep 2025 20:58:35 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Eric Biggers <ebiggers@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ linux-crypto@vger.kernel.org
+In-Reply-To: <20250821175613.14717-1-ebiggers@kernel.org>
+References: <20250821175613.14717-1-ebiggers@kernel.org>
+Subject: Re: [PATCH drm-next v2] drm/bridge: it6505: Use SHA-1 library
+ instead of crypto_shash
+Message-Id: <175695831382.1322876.17900015503262535191.b4-ty@chromium.org>
+Date: Thu, 04 Sep 2025 11:58:33 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.44.142.84]
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemn200010.china.huawei.com (7.202.194.133)
-X-Mailman-Approved-At: Sat, 06 Sep 2025 22:49:11 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,33 +92,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing mutex unlock before returning from the error path in
-cdns_mhdp_atomic_enable().
 
-Fixes: 935a92a1c400 ("drm: bridge: cdns-mhdp8546: Fix possible null pointer dereference")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Qi Xi <xiqi2@huawei.com>
----
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Thu, 21 Aug 2025 13:56:13 -0400, Eric Biggers wrote:
+> Instead of using the "sha1" crypto_shash, simply call the sha1() library
+> function.  This is simpler and faster.
+> 
+> 
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index a614d1384f71..38726ae1bf15 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1984,8 +1984,10 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
- 	mhdp_state = to_cdns_mhdp_bridge_state(new_state);
- 
- 	mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
--	if (!mhdp_state->current_mode)
--		return;
-+	if (!mhdp_state->current_mode) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
- 
- 	drm_mode_set_name(mhdp_state->current_mode);
- 
+Applied, thanks!
+
+[1/1] drm/bridge: it6505: Use SHA-1 library instead of crypto_shash
+      commit: e339a73737d365dc88e1994d561112ef2c21ad88
+
+Best regards,
 -- 
-2.33.0
+Chen-Yu Tsai <wenst@chromium.org>
 
