@@ -2,147 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9B6B43364
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 09:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A838B4336D
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Sep 2025 09:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A0710E986;
-	Thu,  4 Sep 2025 07:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE2C510E987;
+	Thu,  4 Sep 2025 07:08:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="J7Z4Ycl1";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="NH7GAz86";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com
- (mail-westeuropeazon11011003.outbound.protection.outlook.com [52.101.70.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 166D910E986
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Sep 2025 07:07:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BDWdlnUJ5hqlGfRGpi5daaC433qfaeAlQWjAjDMwlNJvxEsC9v4DKHYfmcIMXnmru99bAB0DyXnbQvBa6JKZV2rFjwfHdNNLF3NNX/YacjjN40Fa1cYC4vj0oNbjz7TemRX+wo27+komzNzggDWMrVtIsuSIwnl9wl7j0WrMQyodhlxpeppgwXupv9DBkRptKoM/fPiBHdmeEpXVurVS1qmA44q7/urDRn7YNzYwUbSjKJN75rHbJ+lM7zZAstXCSErXND14+PPBDpK8G3ZRuhCwd5K2mRkMDcjKt6isxE+1TCG+sFoXHbvOmfbRjlUaCUSDOI5ihWPMb3aaCJOBIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rdo/z73Npt9ybPywP2lr9lHgy1PcfMNqlyiU6OtRDJE=;
- b=Xta86cjZjkYAHxvh5tAstRLQ4AjmBZmZNyKBfjus+rGB5xbfR8nvGEJD/EodBxIndNWwk8JtwQMbcU3dV0MhFcW7YSI0kwr01sOdgoSumwFJDVdSFdieRMATe7NbEL9m3j1quA4COYnM8mNp59KVBz/HpDq9fn8OMtrtz4/wtrpPMD7F5K/+nM4qnG7AfOuaiYaSh0R119TG6XsFoPzWDDqn9EDiLZfKzkvBaJPADa87+wiq+4DXnd5r79o2wTv1Ldz4yMgYdKlGWnKPKyd8Pu5LvOzwVjBkQRSCSsbLwU8+OUxjNuN9D8q/K171BUvrPFAjzPLTQzUo9gHmr3ZBqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rdo/z73Npt9ybPywP2lr9lHgy1PcfMNqlyiU6OtRDJE=;
- b=J7Z4Ycl1D8pkUFAxCgN7x5/MLF6SWA6HbsZw6DUmGqRWR+xjnV0y6IO1zcFzxqHgQo9t/j1kFEQH4lWzUsD4YMMz+mQv0VTayMQSSAol+HTfhEdBSlii0PEll390lhF5pt5LKVPVjuMz1y4FTlVMMzqHXm++WeT5wYr1cLUCp5sXdVZTk70vMMej6ghd9QWzkiEg20GhLSNm+47IzFlz+rCcas/f7gU9ZmCZZyGwFLfkA+YpaLOc+XVwuVUGUua1YtZE8eBc1ylvxG9PAYHZ6AbEAd2R5B3vDeeJYsaQd5anVsaNLaIFM5MEfkMymT5inNLMtB53Ct0hKvoXBhHNbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DB8PR04MB7002.eurprd04.prod.outlook.com (2603:10a6:10:119::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
- 2025 07:07:33 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%6]) with mapi id 15.20.9094.016; Thu, 4 Sep 2025
- 07:07:32 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org
-Subject: [PATCH v6 7/7] arm64: dts: imx8mp-evk: enable hdmi_pai device
-Date: Thu,  4 Sep 2025 15:06:00 +0800
-Message-Id: <20250904070600.1361165-8-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-References: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0016.apcprd04.prod.outlook.com
- (2603:1096:4:197::7) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 441AA10E987;
+ Thu,  4 Sep 2025 07:08:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756969689; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=GL62wGC45A2lfwNmxK3TvV+dA8GVYqqoCli0Vfbho9/hiqN6gwieBzshVdY7q7+XiGwf1Anv720UQLPoGHZ5DSXO/uiU1s3mFSLx9WFuyWQ3STE9rLvm45R6yTextg2fFw6d9TLf8Sus+9EbrIDXTXGELJyE9Bk/f//mZGGPE7M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1756969689;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=; 
+ b=ewN3dqtbOAl9ZapX4b0yMP4Sem5lMGn1cG1tVX9b0bkWPv5d5xC86bF0WN279Xlh8ZA1puhbM2vO6GrBvcL/F3AB7Ny+/JGEMC7vN74V9h08y4gukyqoR3dh+kZ50PfWrybuOj7HRyDAw0ZPTuXHWjIHlhdoEQZFt/38WpYKpBs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756969689; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=U92wAadGlZGVk5xT5ZZbqnMlSjqsBe3r1oVXLxvdA00=;
+ b=NH7GAz864YOPnmwGKqID7Dk4LrahqybEbzr6AYVqgt5aGhbdtm3D4O7YKv+9dcBk
+ 9UZlYPWCSr1qoprBDkgKvAT8Qy3LM5RZuz20rE4ocO+ZsXnzUaijXuHDsHVt6PJCZUO
+ CWE0FOfPHG6WOkkeb5oJVVo+Xf7A9I7tKcWfVBNAUyIogOVBlfDk1LiEJ/Gm342qmQb
+ VhR7FO73FSg/oSeGU1i+v0qd041ti3DbW9ybpYY6Gvw7+yaWuLduZ/NDLkmJ1XBOnjc
+ s+5PV7T3S2nki1p08A4AfQkzFbhsJJUVoGjpjmjY4iuhbb+RadaRvaKI1z7Dk0qCqn5
+ AfkiSt4NLA==
+Received: by mx.zohomail.com with SMTPS id 17569696873581023.1645151047042;
+ Thu, 4 Sep 2025 00:08:07 -0700 (PDT)
+Message-ID: <d660ad830b5c1fcafd398049897ab1acd68c5dca.camel@icenowy.me>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Andre Przywara <andre.przywara@arm.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>
+Date: Thu, 04 Sep 2025 15:08:02 +0800
+In-Reply-To: <20250904002924.2bc63b73@minigeek.lan>
+References: <20250904002924.2bc63b73@minigeek.lan>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DB8PR04MB7002:EE_
-X-MS-Office365-Filtering-Correlation-Id: 443c3bae-4e48-449a-068c-08ddeb81b7ea
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|19092799006|7416014|376014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vnOApbFddLNvBtjT+nX9mX0Bezg0LYHN/X0sw4y1OgC2b2jMta/UvRHnFdjY?=
- =?us-ascii?Q?RQGj5qVdxwfdshlb/Mt/TLHApzlyDO4i7T4lZ8hRv2rIQIyV7XEh2hCkVS5A?=
- =?us-ascii?Q?o34GOvXPyQtauA4WopfCZCHxC7Fdgi/KjV4YWSNJT0TrbW9NCz8mLCUday2G?=
- =?us-ascii?Q?5af9JcDNEZCko7Gyy7Lrv8W3a8g0zE2ejU0pzYT/YMhah3HsG/WFAB0dXWn5?=
- =?us-ascii?Q?8nqXQ8PxVtl3wth0wnUhSW8lu4cc5fuDLgB8rm7WFjm1ouc4HXpmEZPfhOV9?=
- =?us-ascii?Q?iV3wIVxzPSrHc4N1DJHzf1a/tYGCQBnUwebkC/BCn2HGmatB4CJFMsMpIgDF?=
- =?us-ascii?Q?3oFI5KrY/I60KE3gIkcWA2naRP5hNnaaRa4XNDO2bGLeR7hxpUrFWio4/pUA?=
- =?us-ascii?Q?LxUR3ak8zKTrrHWYlZEVbpGRXB5Xp04tcanS0i3h5FdJt+Z5+pumFfyio1XE?=
- =?us-ascii?Q?g4jTLhfqXJCFOd9tQ0UBLp7JlHlByjCnu9ghq3JIsHi7DFO4yKQxzw86g+Zu?=
- =?us-ascii?Q?9j4idmdpQtF3M0KD0PM5ET6wDodWzS2tPXhFwfXQ3nk8zLNc9xzssHV1oOcA?=
- =?us-ascii?Q?hAtkAIgW6qUkpup0y/hUq1f/WptaplMUgRx72H+CdgfAQw6FuArINqu7uNWQ?=
- =?us-ascii?Q?/IsaFf0yv3XN91UR0vFZI2AuTIf1kkGABxLj5ArDU36RinNuLrtf/kI8wQHy?=
- =?us-ascii?Q?v1mgUfZtNFoNlLBkZ2UsMEVyADAGXxPS5eTgSOSHkAvr607ZKcWulR9qmZ/W?=
- =?us-ascii?Q?m/jptEUjCOm5iX4O8X0qcyBJrv3ybVed9bttHAPMbUV2hWSsmHw9CMZkogUd?=
- =?us-ascii?Q?+HSskhFD6sb7rb/uvPh09swDlZm+EPdWa4d5W8VaaipoC0yvS2SeS4Vwj5gP?=
- =?us-ascii?Q?fMKnqmkZc6C2E8XXepJYBNZC+RZw9/bwNHH5Uc8z6dxWjHj7WMgKNpDzojS6?=
- =?us-ascii?Q?osWkRCThWD/cg38pCj1oFtrKldQ5oXo1b8vwfI119/ThmlSo1w8zFmFk1a/h?=
- =?us-ascii?Q?mgeDOxC+rPMl9QEZirmTWiPZJYm6TlE1unuOhrDEOS5rP8Uej/jFwXdX5BPM?=
- =?us-ascii?Q?eOX5h3xySvoFBGLQMsUqfzsUXjCeyVFugvUT9ThaJ9ukdOFE5gfE9fSs24/c?=
- =?us-ascii?Q?CipNjc5gWJeBkUjOLn0MnZHYTTM0PVACZ84c56OiFl6jeZT7KcSMr7yFd+wd?=
- =?us-ascii?Q?EA3Mm0YwcMPIkDuZWFr0wFrmL6qI/YJUxT6hGsXA167DyR5BTxNyhdG+h3ek?=
- =?us-ascii?Q?M437mefCSpvimKOciOYnlBrCLFwKL8ke66l0jDoHe7ape3SsBgzHd/OCOm9H?=
- =?us-ascii?Q?S95AziyvV1ZtjlM3LF7k+LhmoKmQ2clj8gjhObwiUHJdy0IFBKa0MHlK5nyw?=
- =?us-ascii?Q?ZPZB7vv+pIFyhZA7bLZXHm/jOetHk/TR/IBxDgXidRxGyYLYBGmOiOq3N9Et?=
- =?us-ascii?Q?vmlENu1D7BrFf8g1z9ntCyrpxr5nV/iYGQ9nKSrdocMZ1NLUx7WtEqyfqdtS?=
- =?us-ascii?Q?hEcu9xijLUBO5SY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR04MB7044.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(52116014)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0UpX53JQLY0qA7N31LBnmRL+LIRQgsTEBXnRVqorLM+S5Kutrc9ocW7WU954?=
- =?us-ascii?Q?pRYD9E0c9wL4qpHdymQzb107fKwTscLDxq2OShifEmy+y113jZrmdMHdQ9Xr?=
- =?us-ascii?Q?ClT3OgSIEb1rr/Ia38KNJelcJtIDIBmRmMGqemhQwMvYwEdm3O31xUrv9lsu?=
- =?us-ascii?Q?lJRsGDOXTSkMUKDVleFBV9P9bG2mJa5x6XuXDCT3N2Nk4Q7ZPIjy6R+eJ29S?=
- =?us-ascii?Q?A0yuwMqY71TH3PiiE8CgonyQAhtsoq91I55VrDf8r/tiAwc/7LQFQd9B43qM?=
- =?us-ascii?Q?5FWK74TbmLY77DIYVkrCoUYybZHxDLVW0yemoqTJecvxDKa6l9hsHpo9351Z?=
- =?us-ascii?Q?rdkpicWFsx+lVucS591hp6I7znQGzxFNX0b2g6+zDqDLWxGpATVWwsKkmGDx?=
- =?us-ascii?Q?C9s9SuxSI93ZOcXb0TdtzwZLEuT0Oog73lOQ7qluiMrJIjTSjvS5DoS+cg54?=
- =?us-ascii?Q?tTvVpcLQ9FPSnDRAjdBheL5O4JGXNJqZWD54daau4CQsX9ZRNCbEblHy9tYV?=
- =?us-ascii?Q?gmSXYdNy+++lv/2NtDoQY4lvzHzXzVJ7fQ3QONS9V8kEWZjDkwNd1BoBOeT4?=
- =?us-ascii?Q?UE9hjneNb7butcJpslgDz2xvX/lOVRHyPiBqDpx9HPh0DuOpUY2Y5peGVNva?=
- =?us-ascii?Q?SSty9sUvG9tJ++GSLdsEMsGiPAu1RUw4ZL/0CvWGk/5DzPvg7MmD5+RMOvXs?=
- =?us-ascii?Q?1uuQUR0HXKg0uLHx8TEcUvkFrBqBg/Z0vVdgqezTagBqmw2wGueOJn9mfnQV?=
- =?us-ascii?Q?iAjQfonMr7WMRtLRzLyJboDhs+W0Ae+et90plYPfOaSptsRVTWjImFHG/JsD?=
- =?us-ascii?Q?mfXsLV1TK7ty4hGJXheaKqZZfwLQPYQWsjifdQauRq1/ivyele00ZJO2nCRZ?=
- =?us-ascii?Q?dRJKJMGS9VAOa04XTLY0fFI3h37c1YAI+7+ilRu8ZEBsD4F+u/Nwj7lhS6xP?=
- =?us-ascii?Q?RC5qu97dKN4L2HAKCUa293n6yhrHrg8fpSAw8vSAbAbemrOD5P8Tt1lDBqyP?=
- =?us-ascii?Q?4eoo06dyZ4ugh9OQ37TMzJ+2Nh6zo8Vdsbmk1TUtLlnltAbwJp3lYzChB/vA?=
- =?us-ascii?Q?9quojIhaQipdzu6yE2LgE4HBmjKxJ9Mvhfg2OmVtiONntf/un4b9Fok24S/x?=
- =?us-ascii?Q?CUbv4zWXV5H5jSY4O+ku83NZr1eUBZgjo7U42GWSH2HGrt6s/rqpHYDi4wMX?=
- =?us-ascii?Q?n3ZLi0idyfvnjw+c33wUlICZwQ/ygp5rxI20Fk7Q3NWpLBFx7umuiDZwGRD1?=
- =?us-ascii?Q?QuUbfWWmL+1jnRtwLZQfA5gsYL4zqGhlhKMdhNZDt8z00VLDnE91EaHVtNMr?=
- =?us-ascii?Q?T19AnMFVGxazuHNyKN3TbdAix30Wvj+/8C4+0FpHXaQ4GnOAzjKU57VlcA92?=
- =?us-ascii?Q?g2RaEB8b0vkE8I/pCNPSPOAhmJyRDxc8tLANp7VXchg53QiCOdMpqm/JMTuM?=
- =?us-ascii?Q?tKC+jZDYMEexnCy4yxBAurfWoASZg0X4uXn0BhqZJU1racjoTFla4WMtPBaR?=
- =?us-ascii?Q?13/VTMjdwqgp8ExSaLHuhZLSuglwrNIKq/nv0CMTMvBX2wI+w2BOg2v25UiK?=
- =?us-ascii?Q?vYH3Ad00Z3w0kWM/Zc5/s6CG32Bw6cxKt3Hk/U7Z?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 443c3bae-4e48-449a-068c-08ddeb81b7ea
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 07:07:32.8552 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N4qjN7bzLUYALlAxtCaeZMQMoD1iobBFoJ6wctoqLq2JtjfGLI4I2tQ/gFZfMAjGcZLxXIQ3b2EM6PDqXFTxRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7002
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,32 +72,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable hdmi_pai device.
+=E5=9C=A8 2025-09-04=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 00:29 +0100=EF=BC=
+=8CAndre Przywara=E5=86=99=E9=81=93=EF=BC=9A
+> Hi,
+>=20
+> the Allwinner A523/A527/T527 family of SoCs feature a Vivante
+> "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
+> See https://linux-sunxi.org/A523#Family_of_sun55iw3=C2=A0for a table, the
+> row labelled "NPU" indicates which model has the IP. We suspect it's
+> all the same die, with the NPU selectively fused off on some
+> packages.
+>=20
+> Board vendors seem to use multiple SKUs of the SoC on the same board,
 
-Aud2htx module, hdmi_pai and hdmi controller compose the hdmi audio
-pipeline.
+In the case of Amlogic things, they seem to provide different DT's, see
+arch/arm64/boot/dts/amlogic/meson-g12b-a311d-bananapi-m2s.dts and
+arch/arm64/boot/dts/amlogic/meson-g12b-s922x-bananapi-m2s.dts ; the
+A311D is NPU-equipped SKU. (Although I don't know why they included
+different DTSI's and then still enable &npu node in a311d variant of
+board DT)
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-index 3730792daf50..20c400766ea8 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-@@ -442,6 +442,10 @@ &flexcan2 {
- 	status = "disabled";/* can2 pin conflict with pdm */
- };
- 
-+&hdmi_pai {
-+	status = "okay";
-+};
-+
- &hdmi_pvi {
- 	status = "okay";
- };
--- 
-2.34.1
+> so it's hard to say which particular board has the NPU or not. We
+> figured that on unsupported SoCs all the NPU registers read as 0,
+> though, so were wondering if that could be considered as a bail-out
+> check for the driver?
+> At the moment I get this, on a SoC with a disabled NPU:
+> [=C2=A0=C2=A0=C2=A0 1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu=
+_ops)
+> [=C2=A0=C2=A0=C2=A0 1.683849] etnaviv-gpu 7122000.npu: model: GC0, revisi=
+on: 0
+> [=C2=A0=C2=A0=C2=A0 1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
+> [=C2=A0=C2=A0=C2=A0 1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv=
+ on minor 0
+> [=C2=A0=C2=A0=C2=A0 1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, =
+mask:
+> 0x00000000
+>=20
+> Chen-Yu got this on his board featuring the NPU:
+> =C2=A0=C2=A0=C2=A0 etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
+>=20
+> If I get the code correctly, then etnaviv_gpu_init() correctly
+> detects
+> the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
+> etnaviv_drv.c then somewhat ignores this, since it keeps looking for
+> more
+> GPUs, and fails to notice that *none* showed up:
+> /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
+>=20
+> Quick questions:
+> - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
+> =C2=A0 registers) an invalid ID, so we can use that to detect those
+> disabled
+> =C2=A0 NPUs? If not, can any other register used to check this? The whole
+> =C2=A0 block seems to be RAZ/WI when the NPU is disabled.
+>=20
+> - Would it be acceptable to change the logic to error out of the
+> =C2=A0 driver's init or probe routine when no GPU/NPU has been found, at
+> =C2=A0 best with a proper error message? As it stands at the moment, the
+> =C2=A0 driver is loaded, but of course nothing is usable, so it keeps
+> =C2=A0 confusing users.
+>=20
+> Happy to provide a patch, but just wanted to test the waters.
+>=20
+> Cheers,
+> Andre
 
