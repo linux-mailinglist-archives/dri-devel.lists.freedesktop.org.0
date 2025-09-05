@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF73B44AED
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 02:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35339B47813
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4242210E352;
-	Fri,  5 Sep 2025 00:41:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="EECBtM+Z";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE5A10E40A;
+	Sat,  6 Sep 2025 22:49:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4454810E352
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 00:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=o3UeHALX5qoweamPMaS1MOo62sjLt4Ear2JoA1tXdH0=; b=E
- ECBtM+ZATaxWbyo9uZnjjX3AKb4hqsFf0zL5yMq5SoZWgTY965YSmppEKkp6pfaG
- fGVYxVGHmyue5oNIpEw6Yu5Y/FT3d22STvwQDQtdu3eJ5qt/v5hrau9kyGz3d7GR
- s5pPO6llYsERiAngQVOpxAJeynKwS6h8jME6fgvesk=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-101 (Coremail) ; Fri, 5 Sep 2025 08:40:31 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 5 Sep 2025 08:40:31 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: heiko@sntech.de, mripard@kernel.org, neil.armstrong@linaro.org,
- andrzej.hajda@intel.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de,
- knaerzche@gmail.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH v7 1/2] drm/rockchip: inno-hdmi: Convert to drm bridge
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <u72vkfojufgvuqwuqpvgvnip3wogpgdcuc7bn46zo3bp7ogbu5@fmqotgyahrsn>
-References: <20250903110825.776807-1-andyshrk@163.com>
- <20250903110825.776807-2-andyshrk@163.com>
- <u72vkfojufgvuqwuqpvgvnip3wogpgdcuc7bn46zo3bp7ogbu5@fmqotgyahrsn>
-X-NTES-SC: AL_Qu2eBfyYvUAo5yKQYOkfmUgWjuw/WsG1v/Ul1YBSP556jCvp5SMHf3ZKHULs//mXIjigrBiNQDVU1+VTT7d4brIxhOSmkMWZwxSDEf8Xx9R1wg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+X-Greylist: delayed 1084 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Sep 2025 03:10:54 UTC
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+ [45.249.212.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C32B10E365
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 03:10:54 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+ by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4cJ19W1VlYzKHMv7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 10:52:47 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+ by mail.maildlp.com (Postfix) with ESMTP id 2CE271A1B7C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 10:52:47 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.104.67])
+ by APP4 (Coremail) with SMTP id gCh0CgAncY18ULpou6m7BQ--.37022S4;
+ Fri, 05 Sep 2025 10:52:46 +0800 (CST)
+From: Zizhi Wo <wozizhi@huaweicloud.com>
+To: deller@gmx.de, tzimmermann@suse.de, lee@kernel.org, jani.nikula@intel.com,
+ oushixiong@kylinos.cn, soci@c64.rulez.org
+Cc: linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, yangerkun@huawei.com,
+ wozizhi@huaweicloud.com
+Subject: [PATCH] fbdev: Delay the setting of fbcon_ops to fix KASAN issues
+Date: Fri,  5 Sep 2025 10:43:40 +0800
+Message-Id: <20250905024340.337521-1-wozizhi@huaweicloud.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Message-ID: <786c050a.6d2.1991751593e.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZSgvCgDnb8Z_MbpoklIpAA--.133W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwy-Xmi6K7+O6wADs+
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgAncY18ULpou6m7BQ--.37022S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxArWkurWUXr4rAryfGw47twb_yoWrArWDpF
+ yYkry2q3Z8tw45C3W3Xw45WF4rX3ZrJry7ua97ta4YgFy3uFW8W34kJFyUuFWrur97Jry8
+ Xw1DtrW8GFWDuw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+ 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+ zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
+ 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
+ CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfUonmRUUUUU
+X-CM-SenderInfo: pzr2x6tkl6x35dzhxuhorxvhhfrp/
+X-Mailman-Approved-At: Sat, 06 Sep 2025 22:49:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,82 +70,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIERtaXRyee+8jAoKQXQgMjAyNS0wOS0wNSAwODowNTowNiwgIkRtaXRyeSBCYXJ5c2hr
-b3YiIDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+IHdyb3RlOgo+T24gV2VkLCBT
-ZXAgMDMsIDIwMjUgYXQgMDc6MDc6MzhQTSArMDgwMCwgQW5keSBZYW4gd3JvdGU6Cj4+IEZyb206
-IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gCj4+IENvbnZlcnQgaXQgdG8g
-ZHJtIGJyaWRnZSBkcml2ZXIsIGl0IHdpbGwgYmUgY29udmVuaWVudCBmb3IgdXMgdG8KPj4gbWln
-cmF0ZSB0aGUgY29ubmVjdG9yIHBhcnQgdG8gdGhlIGRpc3BsYXkgZHJpdmVyIGxhdGVyLgo+PiAK
-Pj4gU2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+PiAK
-Pj4gLS0tCj4+IAo+PiBDaGFuZ2VzIGluIHY3Ogo+PiAtIFJlYmFzZSBvbiBsYXRlc3QgZHJtLW1p
-c2MtbmV4dAo+PiAKPj4gQ2hhbmdlcyBpbiB2NjoKPj4gLSBSZWJhc2Ugb24gbGF0ZXN0IGRybS1t
-aXNjLW5leHQKPj4gLSBMaW5rIHRvIFY1OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1y
-b2NrY2hpcC8yMDI1MDUxMjEyNDYxNS4yODQ4NzMxLTEtYW5keXNocmtAMTYzLmNvbS8KPj4gCj4+
-IENoYW5nZXMgaW4gdjU6Cj4+IC0gU3BsaXQgY2xlYW51cCBjb2RlIHRvIHNlcGVyYXRlIHBhdGNo
-Cj4+IC0gU3dpdGNoIHRvIGRldm1fZHJtX2JyaWRnZV9hbGxvYygpIEFQSQo+PiAtIExpbmsgdG8g
-VjQ6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNDIyMDcwNDU1
-LjQzMjY2Ni0xLWFuZHlzaHJrQDE2My5jb20vCj4+IAo+PiBDaGFuZ2VzIGluIHY0Ogo+PiAtIERv
-IG5vdCBzdG9yZSBjb2xvcmltZXRyeSB3aXRoaW4gaW5ub19oZG1pIHN0cnVjdAo+PiAtIExpbmsg
-dG8gVjM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNDAyMTIz
-MTUwLjIzODIzNC0xLWFuZHlzaHJrQDE2My5jb20vCj4+IAo+PiBDaGFuZ2VzIGluIHYzOgo+PiAt
-IEZpcnN0IGluY2x1ZGVkIGluIHYzCj4+IC0gTGluayB0byBWMjogaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvZHJpLWRldmVsLzIwMjUwMzI1MTMyOTQ0LjE3MTExMS0xLWFuZHlzaHJrQDE2My5jb20v
-Cj4+IAo+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAgICAgICAgICAgICAgIHwg
-ICA3ICsKPj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUgICAgICAgICAgICAgICB8
-ICAgMSArCj4+ICAuLi4vaW5ub19oZG1pLmMgPT4gYnJpZGdlL2lubm8taGRtaS5jfSAgICAgICAg
-fCA1MDIgKysrKystLS0tLS0tLS0tLS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2Nv
-bmZpZyAgICAgICAgICAgICAgfCAgIDEgKwo+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL01h
-a2VmaWxlICAgICAgICAgICAgIHwgICAyICstCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-aW5ub19oZG1pLXJvY2tjaGlwLmMgfCAxODggKysrKysrKwo+PiAgaW5jbHVkZS9kcm0vYnJpZGdl
-L2lubm9faGRtaS5oICAgICAgICAgICAgICAgIHwgIDMzICsrCj4+ICA3IGZpbGVzIGNoYW5nZWQs
-IDM2NiBpbnNlcnRpb25zKCspLCAzNjggZGVsZXRpb25zKC0pCj4+ICByZW5hbWUgZHJpdmVycy9n
-cHUvZHJtL3tyb2NrY2hpcC9pbm5vX2hkbWkuYyA9PiBicmlkZ2UvaW5uby1oZG1pLmN9ICg2OSUp
-Cj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRt
-aS1yb2NrY2hpcC5jCj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9kcm0vYnJpZGdlL2lu
-bm9faGRtaS5oCj4+IAo+PiBAQCAtNjM3LDE0ICs1ODQsMTMgQEAgc3RhdGljIHZvaWQgaW5ub19o
-ZG1pX2luaXRfaHcoc3RydWN0IGlubm9faGRtaSAqaGRtaSkKPj4gIAloZG1pX21vZGIoaGRtaSwg
-SERNSV9TVEFUVVMsIG1fTUFTS19JTlRfSE9UUExVRywgdl9NQVNLX0lOVF9IT1RQTFVHKDEpKTsK
-Pj4gIH0KPj4gIAo+PiAtc3RhdGljIGludCBpbm5vX2hkbWlfZGlzYWJsZV9mcmFtZShzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+PiAtCQkJCSAgIGVudW0gaGRtaV9pbmZvZnJhbWVf
-dHlwZSB0eXBlKQo+PiArc3RhdGljIGludCBpbm5vX2hkbWlfYnJpZGdlX2NsZWFyX2luZm9mcmFt
-ZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+PiArCQkJCQkgICAgZW51bSBoZG1pX2luZm9m
-cmFtZV90eXBlIHR5cGUpCj4+ICB7Cj4+IC0Jc3RydWN0IGlubm9faGRtaSAqaGRtaSA9IGNvbm5l
-Y3Rvcl90b19pbm5vX2hkbWkoY29ubmVjdG9yKTsKPj4gKwlzdHJ1Y3QgaW5ub19oZG1pICpoZG1p
-ID0gYnJpZGdlX3RvX2lubm9faGRtaShicmlkZ2UpOwo+PiAgCj4+ICAJaWYgKHR5cGUgIT0gSERN
-SV9JTkZPRlJBTUVfVFlQRV9BVkkpIHsKPj4gLQkJZHJtX2Vycihjb25uZWN0b3ItPmRldiwKPj4g
-LQkJCSJVbnN1cHBvcnRlZCBpbmZvZnJhbWUgdHlwZTogJXVcbiIsIHR5cGUpOwo+PiArCQlkcm1f
-ZXJyKGJyaWRnZS0+ZGV2LCAiVW5zdXBwb3J0ZWQgaW5mb2ZyYW1lIHR5cGU6ICV1XG4iLCB0eXBl
-KTsKPj4gIAkJcmV0dXJuIDA7Cj4+ICAJfQo+PiAgCj4+IEBAIC02NTMsMjAgKzU5OSwxOSBAQCBz
-dGF0aWMgaW50IGlubm9faGRtaV9kaXNhYmxlX2ZyYW1lKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
-b25uZWN0b3IsCj4+ICAJcmV0dXJuIDA7Cj4+ICB9Cj4+ICAKPj4gLXN0YXRpYyBpbnQgaW5ub19o
-ZG1pX3VwbG9hZF9mcmFtZShzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+PiAtCQkJ
-CSAgZW51bSBoZG1pX2luZm9mcmFtZV90eXBlIHR5cGUsCj4+IC0JCQkJICBjb25zdCB1OCAqYnVm
-ZmVyLCBzaXplX3QgbGVuKQo+PiArc3RhdGljIGludCBpbm5vX2hkbWlfYnJpZGdlX3dyaXRlX2lu
-Zm9mcmFtZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+PiArCQkJCQkgICAgZW51bSBoZG1p
-X2luZm9mcmFtZV90eXBlIHR5cGUsCj4+ICsJCQkJCSAgICBjb25zdCB1OCAqYnVmZmVyLCBzaXpl
-X3QgbGVuKQo+PiAgewo+PiAtCXN0cnVjdCBpbm5vX2hkbWkgKmhkbWkgPSBjb25uZWN0b3JfdG9f
-aW5ub19oZG1pKGNvbm5lY3Rvcik7Cj4+ICsJc3RydWN0IGlubm9faGRtaSAqaGRtaSA9IGJyaWRn
-ZV90b19pbm5vX2hkbWkoYnJpZGdlKTsKPj4gIAlzc2l6ZV90IGk7Cj4+ICAKPj4gIAlpZiAodHlw
-ZSAhPSBIRE1JX0lORk9GUkFNRV9UWVBFX0FWSSkgewo+PiAtCQlkcm1fZXJyKGNvbm5lY3Rvci0+
-ZGV2LAo+PiAtCQkJIlVuc3VwcG9ydGVkIGluZm9mcmFtZSB0eXBlOiAldVxuIiwgdHlwZSk7Cj4+
-ICsJCWRybV9lcnIoYnJpZGdlLT5kZXYsICJVbnN1cHBvcnRlZCBpbmZvZnJhbWUgdHlwZTogJXVc
-biIsIHR5cGUpOwo+PiAgCQlyZXR1cm4gMDsKPj4gIAl9Cj4+ICAKPj4gLQlpbm5vX2hkbWlfZGlz
-YWJsZV9mcmFtZShjb25uZWN0b3IsIHR5cGUpOwo+PiArCWlubm9faGRtaV9icmlkZ2VfY2xlYXJf
-aW5mb2ZyYW1lKGJyaWRnZSwgdHlwZSk7Cj4+ICAKPj4gIAlmb3IgKGkgPSAwOyBpIDwgbGVuOyBp
-KyspCj4+ICAJCWhkbWlfd3JpdGViKGhkbWksIEhETUlfQ09OVFJPTF9QQUNLRVRfQUREUiArIGks
-IGJ1ZmZlcltpXSk7Cj4KPkl0J3Mgbm90IGFuIGlzc3VlIGZvciB0aGlzIHBhdGNoIChhbmQgSSB0
-aGluayBpdCBjYW4gYmUgZml4ZWQgYWZ0ZXIgdGhpcwo+c2VyaWVzIGlzIG1lcmdlZCkuIEkgdG9v
-ayBhIHF1aWNrIGdsYW5jZSBhdCBmcmFtZSBwcm9ncmFtbWluZy4gSXQgZmVlbHMKPmxpa2UgdGhl
-IGNsZWFyX2luZm9mcmFtZSBzaG91bGQgYmUgcG9raW5nIGF0IHJlZ2lzdGVycyAweDljIC8gMHg5
-ZC4gQW5kCj53cml0ZV9pbmZvZnJhbWUgdGhlbiBjYW4gc3VwcG9ydCBIRE1JLCBTUEQgYW5kIEF1
-ZGlvIGluZm9mcmFtZXMgaW4KPmFkZGl0aW9uIHRvIHRoZSBBVkkuIEkgZG9uJ3QgaGF2ZSBoYXJk
-d2FyZSB0byBleHBlcmltZW50IChub3IgdGltZSA6LSkpLAo+YnV0IHdvdWxkIHRoZXJlIGJlIGEg
-Y2hhbmNlIHRvIGltcHJvdmUgdGhpcz8KCk9rYXksIEknbGwga2VlcCB5b3VyIHN1Z2dlc3Rpb25z
-IGluIG1pbmQgYW5kIGxvb2sgZm9yIGFuIG9wcG9ydHVuaXR5IHRvIHRyeSB0aGVtIG91dCBsYXRl
-ci4gClRoZSBoYXJkd2FyZSBmb3IgdGhpcyBib2FyZCBpcyBpbmRlZWQgdmVyeSBzY2FyY2UgYXQg
-dGhlIG1vbWVudOKAlEkgcHV0IGluIGEgbG90IG9mIGVmZm9ydCBqdXN0CnRvIGdldCBteSBoYW5k
-cyBvbiBvbmUuIFRoZSBtYWluIHJlYXNvbiBJJ20gbW9kaWZ5aW5nIHRoaXMgY29kZSBpcyB0byBj
-b252ZXJ0IGFsbCBvZiBSb2NrY2hpcCdzCmRpc3BsYXkgaW50ZXJmYWNlIGRyaXZlcnMgaW50byBi
-cmlkZ2UgbW9kZSwgd2hpY2ggd2lsbCBtYWtlIGl0IGVhc2llciB0byBzZXBhcmF0ZSB0aGUgY29u
-bmVjdG9yCnBhcnQgaW50byB0aGUgZGlzcGxheSBkcml2ZXIgc2lkZSBpbiB0aGUgZnV0dXJlLgoK
-VGhhbmsgeW91IGFsd2F5cy4KCgoKPgo+LS0gCj5XaXRoIGJlc3Qgd2lzaGVzCj5EbWl0cnkK
+[BUG]
+Recently, we encountered a KASAN warning as follows:
+
+kasan_report+0xaf/0xe0 mm/kasan/report.c:588
+fb_pad_aligned_buffer+0x12f/0x150 drivers/video/fbdev/core/fbmem.c:116
+ccw_putcs_aligned drivers/video/fbdev/core/fbcon_ccw.c:119 [inline]
+ccw_putcs+0x9ac/0xbb0 drivers/video/fbdev/core/fbcon_ccw.c:175
+fbcon_putcs+0x329/0x3f0 drivers/video/fbdev/core/fbcon.c:1297
+do_update_region+0x3de/0x670 drivers/tty/vt/vt.c:623
+invert_screen+0x1de/0x600 drivers/tty/vt/vt.c:748
+highlight drivers/tty/vt/selection.c:57 [inline]
+clear_selection+0x5e/0x70 drivers/tty/vt/selection.c:81
+vc_do_resize+0xc8e/0xf40 drivers/tty/vt/vt.c:1206
+fbcon_modechanged+0x489/0x7a0 drivers/video/fbdev/core/fbcon.c:2705
+fbcon_set_all_vcs+0x1e0/0x600 drivers/video/fbdev/core/fbcon.c:2752
+fbcon_rotate_all drivers/video/fbdev/core/fbcon.c:250 [inline]
+...
+
+reproduce[probabilistic, depending on the width and height of vc_font, as
+well as the value of "p" in do_update_region()]:
+1) echo 2 > /sys/devices/virtual/graphics/fbcon/rotate_all
+2) echo 3 > /sys/devices/virtual/graphics/fbcon/rotate_all
+
+[CAUSE]
+The root cause is that fbcon_modechanged() first sets the current rotate's
+corresponding ops. Subsequently, during vc_resize(), it may trigger
+clear_selection(), and in fbcon_putcs->ccw_putcs[rotate=3], this can result
+in an out-of-bounds access to "src". This happens because ops->fontbuffer
+is reallocated in fbcon_rotate_font():
+1) When rotate=2, its size is (width + 7) / 8 * height
+2) When rotate=3, its size is (height + 7) / 8 * width
+
+And the call to fbcon_rotate_font() occurs after clear_selection(). In
+other words, the fontbuffer is allocated using the size calculated from the
+previous rotation[2], but before reallocating it with the new size,
+con_putcs is already using the new rotation[3]:
+
+rotate_all_store
+ fbcon_rotate_all
+  fbcon_set_all_vcs
+   fbcon_modechanged
+   ...
+    fbcon_set_rotate
+     fbcon_rotate_ccw
+      ops->putcs = ccw_putcs // set rotate 3 ops
+    vc_resize
+    ...
+     clear_selection
+      highlight
+      ...
+       do_update_region
+	fbcon_putcs
+	 ccw_putcs_aligned
+	  src = ops->fontbuffer + (scr_readw(s--) & charmask)*cellsize
+	  fb_pad_aligned_buffer----[src KASAN!!!]
+       update_screen
+        redraw_screen
+	 fbcon_switch
+	  fbcon_rotate_font
+	   dst = kmalloc_array(len, d_cellsize, GFP_KERNEL)
+	   ops->fontbuffer = dst
+
+[FIX]
+Considering that when the rotation changes, clear_selection() should clear
+the previously selected region and not consider the new rotation yet.
+Therefore, the assignment to fbcon_ops for the newly set rotate can be
+postponed to fbcon_rotate_font(), since the fontbuffer is regenerated
+there. To avoid affecting other code paths, fbcon_set_rotate() will
+temporarily continue assigning fbcon_ops based on cur_rotate not rotate.
+
+Signed-off-by: Zizhi Wo <wozizhi@huaweicloud.com>
+---
+ drivers/video/fbdev/core/fbcon_rotate.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/core/fbcon_rotate.c b/drivers/video/fbdev/core/fbcon_rotate.c
+index ec3c883400f7..d76446da24d4 100644
+--- a/drivers/video/fbdev/core/fbcon_rotate.c
++++ b/drivers/video/fbdev/core/fbcon_rotate.c
+@@ -70,6 +70,7 @@ static int fbcon_rotate_font(struct fb_info *info, struct vc_data *vc)
+ 			src += s_cellsize;
+ 			dst += d_cellsize;
+ 		}
++		fbcon_rotate_ud(ops);
+ 		break;
+ 	case FB_ROTATE_CW:
+ 		for (i = len; i--; ) {
+@@ -78,6 +79,7 @@ static int fbcon_rotate_font(struct fb_info *info, struct vc_data *vc)
+ 			src += s_cellsize;
+ 			dst += d_cellsize;
+ 		}
++		fbcon_rotate_cw(ops);
+ 		break;
+ 	case FB_ROTATE_CCW:
+ 		for (i = len; i--; ) {
+@@ -86,6 +88,7 @@ static int fbcon_rotate_font(struct fb_info *info, struct vc_data *vc)
+ 			src += s_cellsize;
+ 			dst += d_cellsize;
+ 		}
++		fbcon_rotate_ccw(ops);
+ 		break;
+ 	}
+ 
+@@ -97,7 +100,7 @@ void fbcon_set_rotate(struct fbcon_ops *ops)
+ {
+ 	ops->rotate_font = fbcon_rotate_font;
+ 
+-	switch(ops->rotate) {
++	switch (ops->cur_rotate) {
+ 	case FB_ROTATE_CW:
+ 		fbcon_rotate_cw(ops);
+ 		break;
+-- 
+2.39.2
+
