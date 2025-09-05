@@ -2,91 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4B4B4590C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 15:32:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200F4B45948
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 15:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5613E10E300;
-	Fri,  5 Sep 2025 13:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFB910E0CC;
+	Fri,  5 Sep 2025 13:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YDLPRfxE";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="bxLavD/a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACE3E10E300;
- Fri,  5 Sep 2025 13:32:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5284C44CB7;
- Fri,  5 Sep 2025 13:32:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 114C8C4CEFB;
- Fri,  5 Sep 2025 13:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757079131;
- bh=8jAcdpkwkSpwOdJxvwA2Vj7xEHXguZJ+MKwk0qNCAa4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=YDLPRfxE+TA2Q55nxy+S45umyans+pDRvwbObVt0bW3hJ3GKjbxPrVlX07NomP+MM
- gilJHDzfgmGFOcAFu0+loSilTzpkeDO9g9x8k2BAevsNOqWlkswrDpHfRJW58By2gZ
- h5T2iOat+XnnhSD9UwBeQ3xYHCYi7jaP+GtkcpXBdqab/ccFdCeVstKHtgcieR/3QH
- +KRTayLgDC1M/LhwjwPtXIccD6HoAsAvaea3u1dA7qTzCEzjxT3V+HO3EHQdCVNDFU
- /St9BM0FbaHx4JdEUTHAM1R9DDj8M5cKZD+5HIpQks7AUiitM6xvVlMUYXsHzcS8lI
- bWTNhY8srV4ig==
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-746d3fd3a04so1376746a34.1; 
- Fri, 05 Sep 2025 06:32:11 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com
+ [209.85.219.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F34F10E0CC
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 13:39:40 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-e9e87d98ce1so324314276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 06:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1757079579;
+ x=1757684379; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QS92WKR70glXKDxwb7gpv6vYCrnQlNSeR6V3mFeP7Fo=;
+ b=bxLavD/a/kNfH/J6TvNkuECBJArKj5pt/o+LZdPOKXJCv0XrhAQWD1Zvdvj0ef1rwV
+ 37Xmi24kiRhpoAksALyRbBDu4X+KwT3JzwRKI26j9bBJ9w8ZE2YqYsP6gm5z3gnYmWwy
+ 8DwLRlTQcdvk+y5RV3kPBFMPJUPCmvLet9jxAF8tl7LMEWTE4b8Bd7u5RPj8Vcur7K+L
+ 4e4I/e8SVQa9ZvDwTY/VEb5j0xeQeQrcJaPuhenkONZBPlIZ9cjH+SGQbrRAl87YBeUq
+ bAbXnBB76CAiAdxPM3SaBG8EAf7knCVsZ53Vg0Vu07EVoFXoFSyyHtCqYVnT/AdO+f4+
+ yzAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757079579; x=1757684379;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QS92WKR70glXKDxwb7gpv6vYCrnQlNSeR6V3mFeP7Fo=;
+ b=cQ2ngJq8aVr90Mwk42If4S87ZM3b0WROByNvA+njxs/U7cS2Uft6mA+fa5gdTm6fJ5
+ Kb7pjIjUeWGte959b9ROH5eSrfFURr3DzvEC81uNmphGGZX0OMURA6qXrgAvBhO7TVfY
+ NBW3Kts3FDoHsyMBN+gYv08EWXPftmXGi0dQmXoDNadqTaFFqvNviWVPuZCFCaY49RUn
+ 4p0skic51T8L8wvwVV3Wo3wmpl9n6xc2SUu1WI3YEt4ux+a4ygGJCmTU9H3y4Kl1GRyP
+ EFvL1PcuI8g+AJHjb2H3kzW0S3EQHfba9zvouHSOs/VowCBCQDxKPqe/SeD3pvAd86uJ
+ N96w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2Vh3Pvo2T1l28mnE0xnGqeYkIee4VZ3pqroT7e869/jT+aM7CqFi5Bcq5TsPaP/XYoduaGNyDRbxs@lists.freedesktop.org,
- AJvYcCWyLNSbSp0Bkp+qkQoDmEtPdEMgRgojhgjKZO0uzCl2qjUWUuBcUB+eRiqh6pzXnVd+7K+rmZGCVmY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQ70mq1P5mpvelXVInwT+kBH9ew7hHKpFoNl1e9GF1/Q69vGLi
- VesLBKcITd4yB5CYZymwcbBt3aJQIGaslPQLdLc5b0MDrPqYU44fgC53iyUsMMa33W3NJQLVH+S
- IxHRHom9/qUXZwt20KRuVhMCXn0REetM=
-X-Google-Smtp-Source: AGHT+IFnE56n2ZWY3m6GFquWJS3R+4zyRWG4mn/x7Tvk/fQPvR7/F7IjMN/5eFQpLDwVxaDdPh5JX7KANJsrFqH4mJc=
-X-Received: by 2002:a05:6830:378e:b0:741:a5f0:bc82 with SMTP id
- 46e09a7af769-74569e53d0dmr13231613a34.17.1757079130135; Fri, 05 Sep 2025
- 06:32:10 -0700 (PDT)
+ AJvYcCWok4bIbKybAhvw4JYXYvVtc9zZfZZTa7xHlKVNdODwUqw2WCWdcpX1wPmnBU4VMrSeDvE1P/ZSn6U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxayJ+MO5H0kmtdJBJlDQ8z8Z/YJLUJcb6Catu1vi5nX+SuOdBA
+ hn094YijtG/7Tpbb77Q7flex7KuipT1ZVGFVqCJi9ILHbmMC/AxyBuEBnosS6Zr9kVIeqXj1U6/
+ eTsMa6u68Tg==
+X-Gm-Gg: ASbGncsnEMxPz4lHStkunuLV4ZCjEz2Glei8Nf62APodRMPmr+EDdvjTrKiRPAuI2B/
+ hMKwDF1hTMuCgPUtdC1NQXhMXS7FROMb4E952x7LsjS/TOdH34d+W/GBnER6u55Yfz9ntBqkIMu
+ /jjHF6yfTd5k6lKWAFSpxO+joPuZG2bN1k59ykzotW6mrVV7oSNOCs+r/77Bw1cvZd1VMd0jbSX
+ XQW/Ombr/h1R6LJ/9RX1Zd/TfCaBfHvlIcBeY7NLdNWRubBAlDdOnM8KTJ83UMbW9kGLO9rxltq
+ ROlXicGOnAcfQQJCtPaYxs5MmDRaeKvD+UPUI6ygcRtCb6+cIXuaVJJts55ixDF/xuMH2oI10YD
+ rxGvhjhxfhDzj/T+oSCg+pASGJ+kT8ukuLTwGliK+gaoLCdX0gKZqbSDK5kR4kV65PQ==
+X-Google-Smtp-Source: AGHT+IGNxalRq+eM3xy0mAcejLgzjiVVQKlj6O41Qx6TwdwAwhyZpPGTEzwteivQfodXMjONrYr2tA==
+X-Received: by 2002:a05:6902:2491:b0:e9d:6c55:b932 with SMTP id
+ 3f1490d57ef6-e9d6c55bb99mr6666813276.5.1757079579252; 
+ Fri, 05 Sep 2025 06:39:39 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
+ [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
+ 3f1490d57ef6-e9bbe05caf7sm3094422276.18.2025.09.05.06.39.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Sep 2025 06:39:37 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-e96d8722c6eso2350194276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 06:39:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhXYSmVSa2+V0EJ+dr8qF8+q/qi0tPaeewAtErkE6Psb9rL/Y2s41MQTZyuiASy7uVHqBN6V2hnAs=@lists.freedesktop.org
+X-Received: by 2002:a05:690e:15d3:b0:5fc:1baf:eaf8 with SMTP id
+ 956f58d0204a3-6017609e045mr4653419d50.13.1757079577439; Fri, 05 Sep 2025
+ 06:39:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250905132413.1376220-1-zhangzihuan@kylinos.cn>
- <20250905132413.1376220-4-zhangzihuan@kylinos.cn>
-In-Reply-To: <20250905132413.1376220-4-zhangzihuan@kylinos.cn>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 5 Sep 2025 15:31:58 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jdJZ2upvE4KzDnc59KpMX+oqYbq=ZW=SXfwvjBctMj3Q@mail.gmail.com>
-X-Gm-Features: Ac12FXwR6ToJkYo5xTTss3xr-Ox8ITso59X_uvklZva98cFgnVHnG6meS0I7mt8
-Message-ID: <CAJZ5v0jdJZ2upvE4KzDnc59KpMX+oqYbq=ZW=SXfwvjBctMj3Q@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] cpufreq: intel_pstate: Use scope-based cleanup
- helper
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Ben Horgan <ben.horgan@arm.com>, 
- zhenglifeng <zhenglifeng1@huawei.com>, Zhang Rui <rui.zhang@intel.com>, 
- Len Brown <lenb@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, 
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>, 
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, 
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250822134348.6819-1-pierre-eric.pelloux-prayer@amd.com>
+ <20250822134348.6819-2-pierre-eric.pelloux-prayer@amd.com>
+ <abb776bc-5b13-4db7-9421-59259119b859@ursulin.net>
+In-Reply-To: <abb776bc-5b13-4db7-9421-59259119b859@ursulin.net>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Fri, 5 Sep 2025 15:39:25 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBi9i3SKbWKsbkzX+pZcaa=UggwE=b5Yh19A+Wf3OM7QA@mail.gmail.com>
+X-Gm-Features: Ac12FXzX5ADfZYxyJV2zTT7vkoFYEHBEAkT5kW_j772qczG1lJB5zDw-0vxN7ZY
+Message-ID: <CAAObsKBi9i3SKbWKsbkzX+pZcaa=UggwE=b5Yh19A+Wf3OM7QA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] drm/sched: limit sched score update to jobs change
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,133 +112,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 5, 2025 at 3:24=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylinos.cn=
-> wrote:
+On Mon, Sep 1, 2025 at 11:20=E2=80=AFAM Tvrtko Ursulin <tursulin@ursulin.ne=
+t> wrote:
 >
-> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
-> annotation for policy references. This reduces the risk of reference
-> counting mistakes and aligns the code with the latest kernel style.
 >
-> No functional change intended.
 >
-> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> + Tomeu and Oded
+>
+> On 22/08/2025 14:43, Pierre-Eric Pelloux-Prayer wrote:
+> > Currently, the scheduler score is incremented when a job is pushed to a=
+n
+> > entity and when an entity is attached to the scheduler.
+> >
+> > This leads to some bad scheduling decision where the score value is
+> > largely made of idle entities.
+> >
+> > For instance, a scenario with 2 schedulers and where 10 entities submit
+> > a single job, then do nothing, each scheduler will probably end up with
+> > a score of 5.
+> > Now, 5 userspace apps exit, so their entities will be dropped. In
+> > the worst case, these apps' entities where all attached to the same
+> > scheduler and we end up with score=3D5 (the 5 remaining entities) and
+> > score=3D0, despite the 2 schedulers being idle.
+> > When new entities show up, they will all select the second scheduler
+> > based on its low score value, instead of alternating between the 2.
+> >
+> > Some amdgpu rings depended on this feature, but the previous commit
+> > implemented the same thing in amdgpu directly so it can be safely
+> > removed from drm/sched.
+> >
+> > Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@a=
+md.com>
+> > ---
+> >   drivers/gpu/drm/scheduler/sched_main.c | 2 --
+> >   1 file changed, 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> > index 5a550fd76bf0..e6d232a8ec58 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -206,7 +206,6 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *r=
+q,
+> >       if (!list_empty(&entity->list))
+> >               return;
+> >
+> > -     atomic_inc(rq->sched->score);
+> >       list_add_tail(&entity->list, &rq->entities);
+> >   }
+> >
+> > @@ -228,7 +227,6 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq=
+ *rq,
+> >
+> >       spin_lock(&rq->lock);
+> >
+> > -     atomic_dec(rq->sched->score);
+> >       list_del_init(&entity->list);
+> >
+> >       if (rq->current_entity =3D=3D entity)
+>
+> LGTM.
+>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>
+> Only detail is, I did a revisit of the scheduler users and it looks like
+> the new rocket driver is the only one other than amdgpu which passes a
+> list of more than one scheduler to drm_sched_entity_init. I don't
+> *think* it would be affected though. It would still pick the least
+> loaded (based on active jobs) scheduler at job submit time. Unless there
+> is some hidden behaviour in that driver where it would be important to
+> consider number of entities too. Anyway, it would be good for rocket
+> driver to double-check and ack.
 
-No, sorry.  I've already said that this isn't going to work:
 
-https://lore.kernel.org/linux-pm/CAJZ5v0gN1T5woSF0tO=3DTbAh+2-sWzxFjWyDbB7w=
-G2TFCOU01iQ@mail.gmail.com/
+Hello,
 
-so why are you resending it?
+thanks for pinging. I think it should be fine for Rocket.
 
-And making changes to it in the process without saying what they are?
+Acked-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Please stop adding confusion.
+Regards,
 
-> ---
->  drivers/cpufreq/intel_pstate.c | 59 +++++++++++++++++++---------------
->  1 file changed, 33 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstat=
-e.c
-> index f366d35c5840..0b54e08f9447 100644
-> --- a/drivers/cpufreq/intel_pstate.c
-> +++ b/drivers/cpufreq/intel_pstate.c
-> @@ -1502,9 +1502,8 @@ static void __intel_pstate_update_max_freq(struct c=
-pufreq_policy *policy,
->
->  static bool intel_pstate_update_max_freq(struct cpudata *cpudata)
->  {
-> -       struct cpufreq_policy *policy __free(put_cpufreq_policy);
-> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpuf=
-req_cpu_get(cpudata->cpu);
->
-> -       policy =3D cpufreq_cpu_get(cpudata->cpu);
->         if (!policy)
->                 return false;
->
-> @@ -1695,41 +1694,49 @@ static ssize_t store_no_turbo(struct kobject *a, =
-struct kobj_attribute *b,
->         return count;
->  }
->
-> -static void update_qos_request(enum freq_qos_req_type type)
-> +static bool intel_pstate_cpufreq_update_limits(int cpu, enum freq_qos_re=
-q_type type)
->  {
->         struct freq_qos_request *req;
-> -       struct cpufreq_policy *policy;
-> -       int i;
-> +       unsigned int freq, perf_pct;
-> +       struct cpudata *data =3D all_cpu_data[cpu];
-> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpuf=
-req_cpu_get(cpu);
->
-> -       for_each_possible_cpu(i) {
-> -               struct cpudata *cpu =3D all_cpu_data[i];
-> -               unsigned int freq, perf_pct;
-> +       if (!policy)
-> +               return false;
->
-> -               policy =3D cpufreq_cpu_get(i);
-> -               if (!policy)
-> -                       continue;
-> +       req =3D policy->driver_data;
->
-> -               req =3D policy->driver_data;
-> -               cpufreq_cpu_put(policy);
-> +       if (!req)
-> +               return false;
->
-> -               if (!req)
-> -                       continue;
-> +       if (hwp_active)
-> +               intel_pstate_get_hwp_cap(data);
->
-> -               if (hwp_active)
-> -                       intel_pstate_get_hwp_cap(cpu);
-> +       if (type =3D=3D FREQ_QOS_MIN) {
-> +               perf_pct =3D global.min_perf_pct;
-> +       } else {
-> +               req++;
-> +               perf_pct =3D global.max_perf_pct;
-> +       }
->
-> -               if (type =3D=3D FREQ_QOS_MIN) {
-> -                       perf_pct =3D global.min_perf_pct;
-> -               } else {
-> -                       req++;
-> -                       perf_pct =3D global.max_perf_pct;
-> -               }
-> +       freq =3D DIV_ROUND_UP(data->pstate.turbo_freq * perf_pct, 100);
->
-> -               freq =3D DIV_ROUND_UP(cpu->pstate.turbo_freq * perf_pct, =
-100);
-> +       if (freq_qos_update_request(req, freq) < 0)
-> +               pr_warn("Failed to update freq constraint: CPU%d\n", cpu)=
-;
->
-> -               if (freq_qos_update_request(req, freq) < 0)
-> -                       pr_warn("Failed to update freq constraint: CPU%d\=
-n", i);
-> +       return true;
-> +}
-> +
-> +
-> +static void update_qos_request(enum freq_qos_req_type type)
-> +{
-> +       int i;
-> +
-> +       for_each_possible_cpu(i) {
-> +               if (!intel_pstate_cpufreq_update_limits(i, type))
-> +                       continue;
->         }
-> +
->  }
->
->  static ssize_t store_max_perf_pct(struct kobject *a, struct kobj_attribu=
-te *b,
-> --
-> 2.25.1
->
->
+Tomeu
