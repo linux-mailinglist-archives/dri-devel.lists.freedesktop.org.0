@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CD4B4780D
+	by mail.lfdr.de (Postfix) with ESMTPS id DE59DB4780A
 	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202FD10E3FF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE3B10E404;
 	Sat,  6 Sep 2025 22:45:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=weathered-steel.dev header.i=@weathered-steel.dev header.b="OoTQx7nv";
+	dkim=pass (2048-bit key; unprotected) header.d=weathered-steel.dev header.i=@weathered-steel.dev header.b="FKc0V9r8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-106110.protonmail.ch (mail-106110.protonmail.ch
- [79.135.106.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E22410E02B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 22:22:41 +0000 (UTC)
+Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
+ [109.224.244.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D042810E298
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 22:23:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weathered-steel.dev;
- s=protonmail3; t=1757110953; x=1757370153;
+ s=protonmail3; t=1757111012; x=1757370212;
  bh=0krcnuYf+HRb0KjbYvjUYhVudHL1dFh9Fxl804g3Gyg=;
  h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:From:To:
  Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=OoTQx7nvROXMbGTTMKr2KrB9vMeZGUs8NF/QGckVlupEa8uHVv0sdpk7svn7KU+rw
- +X+q0csk8oM2g/AjCBXU9WziWapJV9LCHcDaj3qy1OOOswBQnPvDQxNQKDvEOrKbTN
- /FOmQPgYfqFZspIdGAmQz2iJCzkAreNOnsONqq6m8/C9SRT5pocHqRj6MhHo+Pp0+7
- N+XWT4DHMXYAEZ/N82k3y6phwxDo4NJPOBM0Uzx2/MQ8j0Js8ueemRWSjPwUWUVLtu
- CzB3Kdy+lLBX/daRDnYcM7axuQqN9Cb1tJLkKAnhtqzczN5dg4RzpdP1Kv4HbLjmWY
- Vef9J0lru9SLw==
-X-Pm-Submission-Id: 4cJW7B25rPz1DDYP
-Date: Fri, 5 Sep 2025 22:22:27 +0000
+ b=FKc0V9r8DkBZlfaeTdcnu+waSImO9OA4s/NxVmAAVzhGu/5HQMSHgxmrZ9qspsqAl
+ 1e4s8M5kv7vlwPutmWW5Ga4kT5zl2Cgen29IBsv0g4TXMUblb0k97rXsytHUQ+FPm4
+ YKzFzmM2yYo/5375B8E/K0zKDNuxPT7Y93XDC8B/iOtSXK1cCiujNG5Kok9h2/kjhJ
+ 0zYZuDqopIDqjQoO4BcHXp+huS6avvrsjrnXsS0oPMknrqMVeBYXQHor0xX8rVQSkZ
+ Mc86iYbGR3g3dhV6fR5DQ8Z3N9g3Hbm3UV4GDzAwJjA8uRrvWJhrnimXXbQzjzeKqZ
+ e2fkd3bOSRq+A==
+X-Pm-Submission-Id: 4cJW8L3s0Gz1DDLf
+Date: Fri, 5 Sep 2025 22:23:27 +0000
 From: Elle Rhumsaa <elle@weathered-steel.dev>
 To: Joel Fernandes <joelagnelf@nvidia.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -47,7 +47,7 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 3/4] nova-core: bitstruct: Add support for custom
  visiblity
-Message-ID: <aLtio1FbGy9Qx9rL@archiso>
+Message-ID: <aLti3zYjOD-OGFQQ@archiso>
 References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
  <20250903215428.1296517-4-joelagnelf@nvidia.com>
 MIME-Version: 1.0
