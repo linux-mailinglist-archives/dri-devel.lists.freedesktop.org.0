@@ -2,114 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AA0B4503E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 09:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD95B4782C
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:49:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E724F10E184;
-	Fri,  5 Sep 2025 07:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206D810E42B;
+	Sat,  6 Sep 2025 22:49:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SwDLRLYN";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="VLo7EdG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EEC10E2C7
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 07:51:11 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-6188b5ae1e8so2511902a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 00:51:11 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C04BF10E2C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 07:51:24 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2445806df50so16644215ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 00:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757058670; x=1757663470; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=8Fek3hgFv14ByAC4ENYyA/aKvGhAef+q+BWE8UMW+V8=;
- b=SwDLRLYNTF7TNxdlZjQgOvo+x3rxctw/MdsIALUelMu1e2MsUR6rkZbQNJYeoy5rgA
- bRlLi9T3oQE2uUS0azuLpLwPfeS97iTuucZ8ZofIIcDJRqDfoNJg8LSQqgTSaXDy421f
- kak9rs1zgVW7cMkn7QVoBjB/wV6VEgAZwMJowGCGii1Kyme4wP6ZCfkpWPtP8oyhzEVA
- Si+8QsLl67A/U6gAjQwJdB9Dbd1VivckDUq4YIjpArexX6QWg0rNQSQN4AXYRXsbIDM2
- 1YVL+MpquZn9az7McsrFx284rNwhrFyhEh0qOBowo4+mjj4zEPXsDztdUoCWCeE74qJr
- M+uA==
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1757058684; x=1757663484; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EmbtEG9uQFz4Rx7fC2dkFqmrRnvHSDqPi/yrxENahzQ=;
+ b=VLo7EdG5Jezy5llF5suCkL/+A0t0NoubOnm70fjgc//GdjjBO9WdduLR05RPgRITcL
+ emjrmIBqvp7w2a9xjGod6CumnnSzvp3kBaiLageFfHpx6Znqi3j4KkDXRZ8AALLgkBvz
+ R1V1213KN9EmW4w/2L5SKmE+uSVRC2Q5Iyg9hDDY1leULXthGkDYrwpJllo6+AvA6AMR
+ o7qJUgwQcMMzQCYliV3PkVrJg0VYbutsXpBzT7gaMt2LSdIxzjgJ0j6hU57mrwnpzJqI
+ IqWG6DHTTsJ/+3+ePEXV8nNzZUJ7vULfwO46QoaBhuTHT/Tm2giEte/jSqa1Cka1PrbD
+ u2yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757058670; x=1757663470;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=8Fek3hgFv14ByAC4ENYyA/aKvGhAef+q+BWE8UMW+V8=;
- b=msMgfo1YixSvAEYagjuinzjOcwo57gAZlGjDVnaTM1dGJ8hmGCv9ZB1L8o60SGzKsP
- JAbxeYX88gxcPE2+o7o+E0yi4x3qE5ubDZjsIkEXJULNieBEXLUiP12DdSclBDjWuPkt
- TIzvMIDS0A80gQeqrDZFMSGNWSKdkyf4z4gUkK0WEbef+FMZpiN8vZ9OyQWGyQ1epGcX
- B4Nc46QhkA1mbxwRDzff2KsDxts2Has+ddN3FbNYrQrmaTd1AfoHpOrb2y0ucPlMDDha
- PkFLpFmaxnKKHf3RG/jka5fs/jkFuebleEEOXTUi/leKrAVphpxFNCAFat+KzMEfqb7c
- 0UpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNRay5WIz897vQ33eFZWzy73iQ2WoYoJCJl6fmRvJEMpQkkf2ex2gvm//2ELXDYNzSyI7r2jZKTjU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywt7SflwhHPwg9gcNnp81hM/8ds0tDSoI4aeFTXQnD6iZvtjBLP
- 5RrdfOYEpVbejIllG0RKmiAREJIzi0mtE8pc+zFQuU4eALWMhiMH+tinNSHQWfxttm0=
-X-Gm-Gg: ASbGncvBpC/bARL6CKJ+1aBlICVb+OWwlyBC+90fTyEw09xPh2pm/mE0hbhEQq5IbdK
- 6QOONqS5GYyiTUpPiNPzrBp31EeoUrdSrJXi3zYnBTTXtwJDBLK3fWtLKUMtYGdY5K1uw8ZqDSO
- YkFZbp2WyRnyV1/wjOb0TQok43Yz0HHwywhKA7LCGtwG6LTEMYBydcwjrhbCjeGQ6eVXsptR5Ch
- 37rMaOfkXbg3twCoSdOUKyPXDeEaUMYg6lwSjtVznDyGuOQlxb0Mn1M5sl+bgQTHF9ZhR+qoz0c
- qSZ1NJq8lFDNVlJKs3qdMWV2rvMntJHWP3eQbhHMSJxmEZ7GrdlUFORlI/4EzdSl/LLMRYSZeg3
- TqGIEq26WsUYZA0mw4c0znWrDXqqKIGMFsG1JRWtpilRE
-X-Google-Smtp-Source: AGHT+IFgzgqr54lyZk759VB+wCuCumNakupjTyV8q7KH49ewQeYz3V4LPh1SGAWQQZu32+3dH/7N+w==
-X-Received: by 2002:a17:907:da9:b0:b04:7880:3e88 with SMTP id
- a640c23a62f3a-b04788056a3mr725297266b.18.1757058669532; 
- Fri, 05 Sep 2025 00:51:09 -0700 (PDT)
-Received: from [192.168.7.190] ([212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b042fcae867sm1132057866b.58.2025.09.05.00.51.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Sep 2025 00:51:09 -0700 (PDT)
-Message-ID: <a0d85f06-a87b-40f6-a74a-27b148f309fd@linaro.org>
-Date: Fri, 5 Sep 2025 09:51:08 +0200
+ d=1e100.net; s=20230601; t=1757058684; x=1757663484;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EmbtEG9uQFz4Rx7fC2dkFqmrRnvHSDqPi/yrxENahzQ=;
+ b=culmyTk2dedKwHH9uQ9ybQOatuky3KVgjREab2f7AQ8mbEliAZpLT0YLjoGT6aUlrX
+ 8APoMeDo8PsxkXmHzBsQglVEsZaXGvR3RlrkLKtMl9RuOFC52ZvnlS7pJveddgbp6xFJ
+ 8iDDLilxV0eW779G6nCNMC86dnpOjDinJWm/Ey0f7e9PN0Gdp6jgIt0hjKt4HdFB+75C
+ PZfep8Ebv84JrZGPl6+Vp90teiTq70tvTBdB718RbCoX3GxAvbgPR8wgpD2pLzVvPmEG
+ C3aKKFtx3dsgE6i+FhRMpawQqCHASMW9uOeWLLSw1p5v84/o4nCp+gQzAurmdfLBsUPE
+ vBoQ==
+X-Gm-Message-State: AOJu0Yyei6u+M3EYOIiKijpYjTBEZ6cLdFzQpDhFXWWnyI9Fx+XB0oTk
+ iqGeQAUy4TTAGMPkWAgxYihvbXVXsRGrRN4iBYOKrWm4TllXEaLOLOVh73Elgj1BJ4s=
+X-Gm-Gg: ASbGncuA53Lkue45nFEUuZA0bSzDHEEx4QNr8Y+dWEXd9v6F+Xgu2MCLQSQKuz+MCy2
+ pDRIAO1Z4ndVp47OWDVMxEXUQS2Re8SdaV1Dazcy6eDMODItV0DK3BKtv+xmY8bLUjoWUDotI67
+ wzG2c/UZbx2a6/i3L1JSw1cfdmDlWhbb1OSAwVWdxvPFTwoDaOGebVI4QCqEXwAefDSz+cKpzyB
+ ioXTx4MD9mfQIsGP9uyTQ5+bi1OcfAQJCEX6nXBuZHW5q9PwhHGVm1Wu0p+9mkJ85EjdeWil6ls
+ SWyJ/vOwtl084bgEshsKYlc47amlYEQhTxI7qlicdlBTW0jljRvWInkSh216RvmDplWe39pW2vm
+ mZivxsrkmnREcbuQou5YTFmZWr+8FEcR7zRPrpxX0zFLgq8ZRNR5XWcOB9oHzI0LD0eVSGLIjQc
+ 6DwTYaieyXseTjV8XoR1b371vvxZeWW0R0z5Jl0/8FRrkxEzQhkcBt
+X-Google-Smtp-Source: AGHT+IF0p4cn6WRBxaoe5Z8jzNmgbLxmxgFiMAZ4T0EJmL3ifwXRqn7/4bFP3GWMvTGOqD2sRt28zQ==
+X-Received: by 2002:a17:902:f790:b0:24c:ba67:95 with SMTP id
+ d9443c01a7336-24cba67045fmr63934665ad.9.1757058684132; 
+ Fri, 05 Sep 2025 00:51:24 -0700 (PDT)
+Received: from ubuntu.huaqin.com (202.60.225.076.static.cyberec.com.
+ [202.60.225.76]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24df9e881casm6943695ad.62.2025.09.05.00.51.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Sep 2025 00:51:23 -0700 (PDT)
+From: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
+To: dianders@chromium.org, neil.armstrong@linaro.org,
+ jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
+Subject: [PATCH v2] drm/panel-edp: Add edp panels used by mt8189 chromebooks
+Date: Fri,  5 Sep 2025 15:51:14 +0800
+Message-Id: <20250905075114.1351267-1-wuzhongtian@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] dt-bindings: ili9881c: Allow port subnode
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 06 Sep 2025 22:49:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,45 +86,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/09/2025 22:01, Marek Vasut wrote:
-> The ILI9881C is a DSI panel, which can be tied to a DSI controller
-> using OF graph port/endpoint. Allow the port subnode in the binding.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->   .../devicetree/bindings/display/panel/ilitek,ili9881c.yaml       | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> index 434cc6af9c954..cf0aa996e072d 100644
-> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9881c.yaml
-> @@ -30,6 +30,7 @@ properties:
->       maxItems: 1
->   
->     backlight: true
-> +  port: true
->     power-supply: true
->     reset-gpios: true
->     rotation: true
+Add a few generic edp panels used by mt8189 chromebooks. For
+BOE-NV140WUM-N44 V8.2 , the enable timing required 80ms. For
+CSW-MNE007QB3-1, the hpd_absent timing rquired 80ms, the enable timing
+required 50ms, the disable timing required 50ms. For CSW-MNE007QS3-6,
+the enable timing required 50ms. For CMN-N140JCA-ELK, the enable timing
+required 80ms and disable timing required 50ms.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+BOE NV140WUM-N44 V8.2
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 09 e5 6a 0a 00 00 00 00
+2e 20 01 04 a5 1e 13 78 03 fb f5 96 5d 5a 91 29
+1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 61 40 80 04 71 b0 3c 40 30 20
+36 00 2d bc 10 00 00 1a 81 33 80 04 71 b0 3c 40
+30 20 36 00 2d bc 10 00 00 1a 00 00 00 fd 00 28
+3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 56 31 34 30 57 55 4d 2d 4e 34 34 0a 01 7c
+
+02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+
+CSW MNE007QB3-1:
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0e 77 6e 14 00 00 00 00
+00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
+36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
+30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
+00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 69
+
+70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
+5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
+20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
+00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
+ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+
+CSW MNE007QS3-6:
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0e 77 3f 14 00 00 00 00
+00 22 01 04 a5 1e 13 78 03 2c c5 94 5c 59 95 29
+1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
+36 00 2e bd 10 00 00 1a 88 31 80 c8 70 b0 2e 40
+30 20 36 00 2e bd 10 00 00 1a 00 00 00 fd 00 28
+3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fc
+00 4d 4e 45 30 30 37 51 53 33 2d 36 0a 20 01 80
+
+70 20 79 02 00 81 00 14 74 1a 00 00 03 01 28 3c
+00 00 00 00 00 00 3c 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 9e 90
+
+CMN N140JCA-ELK:
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0d ae 41 14 00 00 00 00
+25 21 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
+1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
+a6 00 2d bc 10 00 00 18 35 30 80 a0 70 b0 24 40
+30 20 a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 31 34 30 4a 43 41 2d 45 4c 4b 0a 20 01 14
+
+02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+
+Signed-off-by: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 9a56e208cbdd..6a27c0214dbe 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1828,6 +1828,13 @@ static const struct panel_delay delay_50_500_e200_d200_po2e335 = {
+ 	.powered_on_to_enable = 335,
+ };
+ 
++static const struct panel_delay delay_80_500_e50_d50 = {
++	.hpd_absent = 80,
++	.unprepare = 500,
++	.enable = 50,
++	.disable = 50,
++};
++
+ #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
+ { \
+ 	.ident = { \
+@@ -1949,6 +1956,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV116WHM-A4D"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0d73, &delay_200_500_e80, "NE140WUM-N6S"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a6a, &delay_200_500_e80, "NV140WUM-N44 V8.2"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1130, &delay_200_500_e50, "N116BGE-EB2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
+@@ -1978,6 +1986,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d6, &delay_200_500_e80_d50, "N140BGA-EA4"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N160JCE-ELL"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1441, &delay_200_500_e80_d50, "N140JCA-ELK"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_p2e200, "MNC207QS1-1"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_p2e200, "MNE007JA1-2"),
+@@ -1987,6 +1996,8 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1448, &delay_200_500_e50, "MNE007QS3-7"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1457, &delay_80_500_e80_p2e200, "MNE007QS3-8"),
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MNE007QB3-1"),
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x143f, &delay_200_500_e50, "MNE007QS3-6"),
+ 
+ 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
+ 
+-- 
+2.34.1
+
