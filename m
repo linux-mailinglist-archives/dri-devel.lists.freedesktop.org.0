@@ -2,95 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C2EB4575C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 14:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFE3B45834
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 14:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6BD10EB95;
-	Fri,  5 Sep 2025 12:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9164C10EB9B;
+	Fri,  5 Sep 2025 12:52:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="1pvENmBo";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="LiRyhKSD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA45010EB94
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 12:11:39 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-3e5190bcba1so1178f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 05:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1757074298; x=1757679098;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=rlxAeSfJx82pksd3I0ixRoBKWGI7viD6A795f500XFc=;
- b=1pvENmBohtA3p0LlnFRLjDxqUApBiyFu6VzXJ9OlbEAU1OVbY0H6qH1bupKjJVpdW+
- tJZwIRvetTmj110h14dwQNSa8LojYcd2+X1DbQB6b6WmmZaBrgaJ9lVAPVZFH2lOp9if
- ipRzys+lSZtPBDqBv7WUhRyRU981dW1exUh4/PN1U27nQ8hkDOK6CEo5KdZR+99rpqqT
- G001vLneHgMFXP2dgwhxmNjQkzR+W86fMTnNxFSeISffnksRvgs6FK9Kj+O3O01FyGHD
- B3G3g66v+UxFXb26AJc4T//YsRD9k0s7JlOonajYGKxqdQYHmmh/UpyjQDZveetf6MHj
- F5OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757074298; x=1757679098;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rlxAeSfJx82pksd3I0ixRoBKWGI7viD6A795f500XFc=;
- b=YCz5aRYcakuihDaM3NcHms60M+7ulE7T9M/oNTuDt2tJILalkjrIZdWPKmmHTttJUP
- syf+yl0n/QUbKEwAtwmk6PVyJrmSzDLHLihYMrUJGEmjTHHG80cqAj6U3Usz5odLdSSR
- W2Ck4O9ywpYR7FDMB4Bf4+pgCXYQoinxHlRxLlvNQyxkXnyqyCEzbFj+vKVni1H9RH6h
- uo1CYrt/icZPKJHqB0shBhiYJ5hVq2TrKUG+sue1Tci6kA+jTv1d/c0Qrdaa5yVDRlir
- p+lscPzc3S1wlLYq0e4puVdKhrGoMUICygQqz3Xz5KQ66UUkfXJ0yIs+gZXbHu18d+C/
- OZUw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWf9W9a+MtLqa3opvQ/q4ybh8QnEL5KCCDCctaZSycZjr/+Pk0aEOEBR2pKw1xG6NhSZrASWFtCcWM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzHz+/ftTYHpDeBppwegZx155NUZkbQdJ80jRNBPYdwwjaXzUx
- KzaxKUB05OKg6/9nCuOk8tmHTTu7sdseZQvxtb64pZLz/kOl6B+6+eh8Uv8OaJKLH5Om/2igATd
- zBndwAfHvrA0ga/+lIQ==
-X-Google-Smtp-Source: AGHT+IG8jYGvzO4xJ5XE6YjDlUyoq7XkUoX06psrVfvh6sWFTCcB4r+O6TwY74/lyIP1l3hTEjNDm+Em6qNSRZg=
-X-Received: from wrml12.prod.google.com ([2002:adf:e58c:0:b0:3d5:28fd:8822])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2008:b0:3e4:e4e:343c with SMTP id
- ffacd0b85a97d-3e40e4e3a79mr1309181f8f.31.1757074298331; 
- Fri, 05 Sep 2025 05:11:38 -0700 (PDT)
-Date: Fri, 05 Sep 2025 12:11:29 +0000
-In-Reply-To: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
-Mime-Version: 1.0
-References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
- fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9037; i=aliceryhl@google.com; 
- h=from:subject:message-id;
- bh=s2GWvmQHUwyjohU1GP99f3t5sldgnhLD+nr53UBS7jk=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBoutN24be3/jGNmEoz+LMXQuVQHZUNhQi1vI/sM
- vYnnqGZy56JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaLrTdgAKCRAEWL7uWMY5
- RnFLD/4rxL4E5zD6NMkjopiwv+rIBm+fmYOSzbi9ShMG5wEXGT4QaQJ+TE+y3VvWuCZOh3JDa+C
- /QgvOypoW/eu9nRIWFJBqv4IOHI95WV5lkqr7IA0UGuXUY/Zg/Gcy0wWj4xWigAZa6jw/mpNToU
- +W8LpBpz8qYuUzY/bpjDLndzUDrym7j18IZ8b/zayd8x2Il+/Zjdal4o0CH0UXH/avk+5Fsiiz+
- JtLFl8SSJEzVtweaL7x06H7+/yIN5ReqckjUv4ivszj6THkoi/iyCyBOtHu/sFkTY7+gVAS24Ak
- Jv2cOSuEdMOiJ88XgijiMFOfnw3WWW+ZiiT3Akk+lMiohEPanm7/pcJezQhDIljbkljNTewf7Ny
- vaQhnVKdAkqr4wh0eXJkAdj9E7JAK0UpyuZ7JpcjGSygEsPS5wVM7gGnWfOWd54RIQqIB5Tybua
- ZTshg2aOXcrpt8Fac24t45e00wSuhFCK3W6WMfu88bXG0IlJF2mhKNiUrxQ+IwEJekwKQHvhqLo
- uRmIvBykWbMPCn6fsX2w2CdtN5lYHA4xy1uzcv66t3kBpbDeJQ57/U3EGrZOQGOUj+Rl8EOTjYH
- tsSLFgPM+0nsr+KOl8x8hfwbfYVKw71Ou6ywZvfBIfFwFD6AyMMvCqv7To3iHeu82gUkEZ3NYS+
- ywfT3BM2QDRI5Yg==
-X-Mailer: b4 0.14.2
-Message-ID: <20250905-vmbo-defer-v1-2-7ae1a382b674@google.com>
-Subject: [PATCH 2/2] panthor: use drm_gpuva_unlink_defer()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2062.outbound.protection.outlook.com [40.107.102.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89CE210E106;
+ Fri,  5 Sep 2025 12:52:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jW3NyO8MbF8KTuA8EQNRzbqUN6S4EbgZOdNAWwp5pye+4IXD/XAClQ3Q3Ug4O1i3mmBMeBBfrBKmO6TRQ1tIv5p9v6hgV6wotrU0AQ7NlKJ6XMJ+55Hvrcogm8FggkLyvQMerqlUbILSm+EU+uqDP8DGTJiUtNJ7TXRFTYcf0PrcJuvhGy+znug+hQDpnR1F0ckjQsz1ZUvBHH1geayffJYkjB6FtLLBS37FS91jwnLVyjkSaFDydO12svOxzBoxFe5u65emGo8DY3jOyMt1a4Mp+Jxi74UIpLZrTuQaWJ/vLvt80n90rc2UxE9vJ1Vbdg5b1rq2MRSiPGKMfQ3cVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yhxJpOU9qAzxzOobqSyZ76LgSAHy3Zrrlr9kweZUyjE=;
+ b=k1N1Fwa56x7Tety+B8LghhkraS6vWaQhJ2zMYGiT+PfFvWpr9a2P7u44+8aFCWHlzVJ6cerEARLazjLGeoaICgcEfEryR9tm4dVB5MvdhpVmIRYn24Wk2Tqef2x6kDdwS6vsrz+MQC862ALU0nN3QZmsc0evVkdUTewWz1m47+/Xs+u+vE3BdJyo8PfNAaIEwVL9Z+gI8CAKo+ml0o2UR9SYLLlQCMv8isMRLMYc6JmbmwMOoP1FE939Mx2mWObrPmf06xX9/5fYYucdtKF88Zn3RbGmFX/PjRYGTMGfIdeQTCyFLZDlKagVG7Yq4JmrBEKyCYNMDkMsoH9MtAXbUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yhxJpOU9qAzxzOobqSyZ76LgSAHy3Zrrlr9kweZUyjE=;
+ b=LiRyhKSDvDCa0V+am8A0DJm57v/Rz9P1pdYqPi7ljl5eqrmG66Z+FMRhcCAJ3WSZTgQDCI7kOW39aVrh6hDtM2T7Ql0tVGmktyFZqh1fnyJqAzAgS28HeGSthbXjOExHahdG0y7kas/Bp8flDBd0uhwf4hbkXLZ5OoxBveiHJdQ=
+Received: from SA1PR12MB8144.namprd12.prod.outlook.com (2603:10b6:806:337::15)
+ by DS7PR12MB6360.namprd12.prod.outlook.com (2603:10b6:8:93::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Fri, 5 Sep
+ 2025 12:52:39 +0000
+Received: from SA1PR12MB8144.namprd12.prod.outlook.com
+ ([fe80::fb96:ddab:e63d:a523]) by SA1PR12MB8144.namprd12.prod.outlook.com
+ ([fe80::fb96:ddab:e63d:a523%4]) with mapi id 15.20.9073.026; Fri, 5 Sep 2025
+ 12:52:38 +0000
+From: "Francis, David" <David.Francis@amd.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Arvind Yadav <Arvind.Yadav@amd.com>, "Sharma, Shashank"
+ <Shashank.Sharma@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Subject: Re: [PATCH next] drm/amdgpu: Fix error codes if copy_to_user() fails
+Thread-Topic: [PATCH next] drm/amdgpu: Fix error codes if copy_to_user() fails
+Thread-Index: AQHcHc361Y235ORiHEiR12qTqjp4SLSEjA0y
+Date: Fri, 5 Sep 2025 12:52:38 +0000
+Message-ID: <SA1PR12MB814473BD381D10C842F30422EF03A@SA1PR12MB8144.namprd12.prod.outlook.com>
+References: <aLnhaU9cLeAdim7J@stanley.mountain>
+In-Reply-To: <aLnhaU9cLeAdim7J@stanley.mountain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-09-05T12:52:38.564Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution
+ Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=1;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR12MB8144:EE_|DS7PR12MB6360:EE_
+x-ms-office365-filtering-correlation-id: 8b811822-b19c-4884-f1e8-08ddec7b1847
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|366016|38070700018|8096899003|7053199007; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?LhrH20DRYj1EtJg/wQWbw25gWCYiOA+ftr5gWSaiByyj3jt0Cu0NK9N2n+zs?=
+ =?us-ascii?Q?TiF5MvYQpiIuG7gmtvjaugunoTwAymNVxpTqlnOtuuAT5opH6U82HcD3mxXy?=
+ =?us-ascii?Q?PjosKhy4CUoU+prr1LuaLO49sxbGnCKLqfOo0NYiMQvxXvdGREANsObtXVPA?=
+ =?us-ascii?Q?dQJ42JK/hXI44H2Scj/sIUyofTkhN8WOy8Um0QFXyyy9bNStpoASrRImDIS4?=
+ =?us-ascii?Q?BT1Y7el3kE1nQdjh1YZRm+5VByFwcL/dRmc8nf+sx7DzwHE8TxtasfZ8IE+v?=
+ =?us-ascii?Q?9LzkTsZ6WFWGzkbnEEsS5nukzaxFuWXtSgo5AGsRCLEGKdSEMgS5jFMMXdE3?=
+ =?us-ascii?Q?brRgMnGfBlTL85Wfx06XASXQvGarRtdo6Z1nqKmmC94Fb650PRsqd+/T1NWc?=
+ =?us-ascii?Q?W6r3xwFCikLkH83yVmj5XLMB3XIZBVEGMYIgsZO+i11bs2UZGC/ojR01aUUL?=
+ =?us-ascii?Q?U1yozg3R4K0vdLG8IqGa+GCzzcNEHg03CHvjXJRskGTaMPGBesB0TCtNS3AR?=
+ =?us-ascii?Q?cJEwna05Ey9t+hEA/Gfpfal5EE6oMymJ6dc2PzyYz9UwYnhKcCnlJoTgJTgG?=
+ =?us-ascii?Q?NRo6xeGsWxOWFpsWDCStyLXGbguVvDevdMlDQobR+E24OxnqkAFGw0AoC0Zg?=
+ =?us-ascii?Q?7C56Xa7sB9P3/PkHk/ApQcVynAJVirvYSiNvSnOx1P0W2hS8DoylN3nnyVL2?=
+ =?us-ascii?Q?2T+h8Rxt4BEB8e/ff3ZYAb2nc2238Bqvt8gM343m6Uch6pMinxzpiKiIpFY9?=
+ =?us-ascii?Q?rUpx+EHfvIACSaxXuvYAwY2RqyONLc4E572QFts9KNI7ObsnRwe9wASh8alu?=
+ =?us-ascii?Q?cYXxDsDWWyfGeD0rVXkSTXFnnWJzTB+GbJqLPDmGqHacLBMUynuj0dw6r7q+?=
+ =?us-ascii?Q?BZrqX6Ar50lnlSMYT+pI/CO+Pdj75TfX9BEJi4jd6elC8uNfWW3ojm95Dn1M?=
+ =?us-ascii?Q?Vg4UGl2j6vi5UuVLmYLV0f2AH8X7Xpg6XP5LB3imH15XjbGO7tZ5cnSj7dEA?=
+ =?us-ascii?Q?hJwbyLoQMCMPK4FzGruphigKM9OVbxQeOezQGA/PPmVpMG87AxJGpEn66e1S?=
+ =?us-ascii?Q?xEDXV2l0AIi/Sz1MzPBWZtMMVljMKbMnb908+LuPZz5DlqzinqVbMjNK6mj6?=
+ =?us-ascii?Q?IuBslT5SQJkfq7Rl+QP8GWop56FbFoCsT+HImsjbIDTE7z04XSVSB5xdvHik?=
+ =?us-ascii?Q?skmLgPww0viwdxLbLr4BT8eAVf79lYFxzF3LgGVtoza5+l1xl+FIngQUKSGe?=
+ =?us-ascii?Q?pi2hlY5IrK1LX8DkiwcrkAhMuBjl/J6xfp8AqPCUoY7XNgxyELzD8wezLpmK?=
+ =?us-ascii?Q?ahng2aC3SZJDQp9X7y+DYSEmWr9W0tnUvnZbmtBdwrIvnhLmIFn8iyENSRD8?=
+ =?us-ascii?Q?SEDN8UxlNhvjflnePwF2IrXhDIhoL1WfCNeoN2yFyKtFOJEfaSdSec6Gj2pG?=
+ =?us-ascii?Q?eAE14swpzOEh28b+vi5H0U25HtsT1tBWbkyRCG4vJLTof4MqUeP45Q=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR12MB8144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(38070700018)(8096899003)(7053199007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Q+FR0DHj4CQkEybBmg0bESaBbfQXVa1u9hrTxukvFHecKfk1mtGAeLjIEZ+n?=
+ =?us-ascii?Q?JpeNzUKzDm5GQFatuIb4dZRUGUy2vfQ+Hk7+sNaDA8oTo/ybw6uShYgnpUKN?=
+ =?us-ascii?Q?TaTTZvHzGdMjZjznn8Vh8Yj1KNfUqXopxHPLUFYYiLV7Fx8fcf0QciZ8qRC3?=
+ =?us-ascii?Q?2Tmd/Ma63ExPNO/gVAbEWXxrpxSdZiuB/mcF/n/IX+a2UjWQWI1RcO3ur5y6?=
+ =?us-ascii?Q?XMmvoPpC9bTLdlpcIl6GsACzEVrssWTS/+L5+piQvF6qnA0PXuRRb9+I7olh?=
+ =?us-ascii?Q?6nxlG7kCs+maD+dBKPw3pc6X6azvgF7q5bl+deBvm/dM6IvKp9unZ8VUkRiX?=
+ =?us-ascii?Q?WGP39tg0Gmu5UvXZ7idf5FGcr/asNLZnr+Y85/Z6VnQTuUvFmUkVMie96elz?=
+ =?us-ascii?Q?UN9RBemHXVoANUs9W8vljQQXY1fwqIrUV9xreBuYGl6g6M/U0HmoOxzk9ONO?=
+ =?us-ascii?Q?k/J+DENN0CoRCJT8EQZ8ozMH1aOWIJsZcnz1U14wk8JBZJM7imSVN/pVcWPE?=
+ =?us-ascii?Q?NbL6zGhqcW9UCVmgOWZrmILyPlBoqdY+S8wU374PhJXD9eYDC22+DZwxRtZs?=
+ =?us-ascii?Q?Pp4gymUhU0LNavdVMOroWQztC5qzZXezkSkEkA1rmGlZMQCCKFPqvB0lnA+u?=
+ =?us-ascii?Q?ONk85VVW6fxLufxD5ol1+XKJmWLaz/6+isu5Rm0EPQXq3kZKcn5ZhEqsI49S?=
+ =?us-ascii?Q?Z5/8/SKhQbDI6gUjYs2JVaEGHJvc8GBC/xriH5+Vj9V52umbu2pDb46Vi3p7?=
+ =?us-ascii?Q?aD7Epvd918C9X90t/tolkS0s9mvvktGuw65VIQUB+X5NJcZzmvpIdlZC+h26?=
+ =?us-ascii?Q?GyZJVSZgEPfaO25ljBn3E4gR/9IrAPx0SkgTNRpC26qMzO/pL1MIxrXJE9xU?=
+ =?us-ascii?Q?ozgCQ2maiGzkKic5QLZnvvd1c4xACJ7JO7M9bohBQN4ZfMihXr6XxpRQESrh?=
+ =?us-ascii?Q?cjdWz8SKjRQ69pW2pEhl9QPYEvtfk7UTMeo2GQsLH3XnDvxXmWefzZgrRA0i?=
+ =?us-ascii?Q?zhqXvf6SzybDm3UQrr39s9s0kTNKr18LJce1O5MvrMUKc14+ORFBU+zEpkd+?=
+ =?us-ascii?Q?zV5baJZ57aoYbfNyi85ZVluRljIxuSgHimU35qvsnTPJMP10/0BbFmUL0XHb?=
+ =?us-ascii?Q?FjhEhes+Gs5YTXLsmNZvCW/0hGtSzVdvvFMYKZct912ac23v6YylSuFtEQ44?=
+ =?us-ascii?Q?qcGlat5mM96y2gXaS62IEk4frrRXlM9fK45tTunaZMj/rV7o5sZLb0wsZpCE?=
+ =?us-ascii?Q?zhlLZ+stQRzexhdX87CWVgKVqoFUC9iRXqieodvqWLFYtTkcdOmtPch8juC0?=
+ =?us-ascii?Q?H1GteVyzM5FDpxsX9WjepuIXRJDXURJNLp5wgC+3aWa1z3F5TINL8wpxLx1G?=
+ =?us-ascii?Q?X6HdY+HcJ7fv2Tk90GJzq/RK+/CO4Rg0LhGnl5XY7iOQZdMxbW29iKiPKH4v?=
+ =?us-ascii?Q?9qC0l6BOf27eQhQXnq3ZXL7bLpBNH4FrVQwWx+mMAN9V2ha3DrdLTtONkgZf?=
+ =?us-ascii?Q?O7A5kNnnxX+pmrApQZfVt36ogl2u00RvWHVgGhhkmvNt2XMNZ/EGxCSsMjGN?=
+ =?us-ascii?Q?7DtKMjWtl+0zPNvuVAU=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_SA1PR12MB814473BD381D10C842F30422EF03ASA1PR12MB8144namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB8144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b811822-b19c-4884-f1e8-08ddec7b1847
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2025 12:52:38.8497 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: B5oD79tvHrQLhyMr4onKOfHxVFLsgKRZf/I9d2UoxPOF1VjzvKoIvO/I1LwOWrZ+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6360
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,258 +161,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of manually deferring cleanup of vm_bos, use the new GPUVM
-infrastructure for doing so.
+--_000_SA1PR12MB814473BD381D10C842F30422EF03ASA1PR12MB8144namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-To avoid manual management of vm_bo refcounts, the panthor_vma_link()
-and panthor_vma_unlink() methods are changed to get and put a vm_bo
-refcount on the vm_bo. This simplifies the code a lot. I preserved the
-behavior where panthor_gpuva_sm_step_map() drops the refcount right away
-rather than letting panthor_vm_cleanup_op_ctx() do it later.
+[AMD Official Use Only - AMD Internal Distribution Only]
 
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+Whoops. Yep, story checks out.
+
+This is
+Reviewed-By: David Francis <David.Francis@amd.com>
+________________________________
+From: Dan Carpenter <dan.carpenter@linaro.org>
+Sent: Thursday, September 4, 2025 2:58 PM
+To: Francis, David <David.Francis@amd.com>
+Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Chri=
+stian.Koenig@amd.com>; David Airlie <airlied@gmail.com>; Simona Vetter <sim=
+ona@ffwll.ch>; Arvind Yadav <Arvind.Yadav@amd.com>; Sharma, Shashank <Shash=
+ank.Sharma@amd.com>; Thomas Zimmermann <tzimmermann@suse.de>; amd-gfx@lists=
+.freedesktop.org <amd-gfx@lists.freedesktop.org>; dri-devel@lists.freedeskt=
+op.org <dri-devel@lists.freedesktop.org>; linux-kernel@vger.kernel.org <lin=
+ux-kernel@vger.kernel.org>; kernel-janitors@vger.kernel.org <kernel-janitor=
+s@vger.kernel.org>
+Subject: [PATCH next] drm/amdgpu: Fix error codes if copy_to_user() fails
+
+The copy_to_user() function returns the number of bytes that it wasn't
+able to copy, but we should return -EFAULT to the user.
+
+Fixes: 4d82724f7f2b ("drm/amdgpu: Add mapping info option for GEM_OP ioctl"=
+)
+Fixes: f9db1fc52ceb ("drm/amdgpu: Add ioctl to get all gem handles for a pr=
+ocess")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 112 ++++++----------------------------
- 1 file changed, 18 insertions(+), 94 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 6dec4354e3789d17c5a87fc8de3bc86764b804bc..4922da0b106aec2bdf657ce4c596acb9c63797ce 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -181,20 +181,6 @@ struct panthor_vm_op_ctx {
- 		u64 range;
- 	} va;
- 
--	/**
--	 * @returned_vmas: List of panthor_vma objects returned after a VM operation.
--	 *
--	 * For unmap operations, this will contain all VMAs that were covered by the
--	 * specified VA range.
--	 *
--	 * For map operations, this will contain all VMAs that previously mapped to
--	 * the specified VA range.
--	 *
--	 * Those VMAs, and the resources they point to will be released as part of
--	 * the op_ctx cleanup operation.
--	 */
--	struct list_head returned_vmas;
--
- 	/** @map: Fields specific to a map operation. */
- 	struct {
- 		/** @map.vm_bo: Buffer object to map. */
-@@ -1081,47 +1067,18 @@ void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *va_node)
- 	mutex_unlock(&vm->mm_lock);
- }
- 
--static void panthor_vm_bo_put(struct drm_gpuvm_bo *vm_bo)
-+static void panthor_vm_bo_free(struct drm_gpuvm_bo *vm_bo)
- {
- 	struct panthor_gem_object *bo = to_panthor_bo(vm_bo->obj);
--	struct drm_gpuvm *vm = vm_bo->vm;
--	bool unpin;
--
--	/* We must retain the GEM before calling drm_gpuvm_bo_put(),
--	 * otherwise the mutex might be destroyed while we hold it.
--	 * Same goes for the VM, since we take the VM resv lock.
--	 */
--	drm_gem_object_get(&bo->base.base);
--	drm_gpuvm_get(vm);
--
--	/* We take the resv lock to protect against concurrent accesses to the
--	 * gpuvm evicted/extobj lists that are modified in
--	 * drm_gpuvm_bo_destroy(), which is called if drm_gpuvm_bo_put()
--	 * releases sthe last vm_bo reference.
--	 * We take the BO GPUVA list lock to protect the vm_bo removal from the
--	 * GEM vm_bo list.
--	 */
--	dma_resv_lock(drm_gpuvm_resv(vm), NULL);
--	mutex_lock(&bo->base.base.gpuva.lock);
--	unpin = drm_gpuvm_bo_put(vm_bo);
--	mutex_unlock(&bo->base.base.gpuva.lock);
--	dma_resv_unlock(drm_gpuvm_resv(vm));
- 
--	/* If the vm_bo object was destroyed, release the pin reference that
--	 * was hold by this object.
--	 */
--	if (unpin && !drm_gem_is_imported(&bo->base.base))
-+	if (!drm_gem_is_imported(&bo->base.base))
- 		drm_gem_shmem_unpin(&bo->base);
--
--	drm_gpuvm_put(vm);
--	drm_gem_object_put(&bo->base.base);
-+	kfree(vm_bo);
- }
- 
- static void panthor_vm_cleanup_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 				      struct panthor_vm *vm)
- {
--	struct panthor_vma *vma, *tmp_vma;
--
- 	u32 remaining_pt_count = op_ctx->rsvd_page_tables.count -
- 				 op_ctx->rsvd_page_tables.ptr;
- 
-@@ -1134,16 +1091,12 @@ static void panthor_vm_cleanup_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 	kfree(op_ctx->rsvd_page_tables.pages);
- 
- 	if (op_ctx->map.vm_bo)
--		panthor_vm_bo_put(op_ctx->map.vm_bo);
-+		drm_gpuvm_bo_put_deferred(op_ctx->map.vm_bo);
- 
- 	for (u32 i = 0; i < ARRAY_SIZE(op_ctx->preallocated_vmas); i++)
- 		kfree(op_ctx->preallocated_vmas[i]);
- 
--	list_for_each_entry_safe(vma, tmp_vma, &op_ctx->returned_vmas, node) {
--		list_del(&vma->node);
--		panthor_vm_bo_put(vma->base.vm_bo);
--		kfree(vma);
--	}
-+	drm_gpuvm_bo_deferred_cleanup(&vm->base);
- }
- 
- static struct panthor_vma *
-@@ -1232,7 +1185,6 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 		return -EINVAL;
- 
- 	memset(op_ctx, 0, sizeof(*op_ctx));
--	INIT_LIST_HEAD(&op_ctx->returned_vmas);
- 	op_ctx->flags = flags;
- 	op_ctx->va.range = size;
- 	op_ctx->va.addr = va;
-@@ -1243,7 +1195,9 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 
- 	if (!drm_gem_is_imported(&bo->base.base)) {
- 		/* Pre-reserve the BO pages, so the map operation doesn't have to
--		 * allocate.
-+		 * allocate. This pin is dropped in panthor_vm_bo_free(), so
-+		 * once we call drm_gpuvm_bo_create(), GPUVM will take care of
-+		 * dropping the pin for us.
- 		 */
- 		ret = drm_gem_shmem_pin(&bo->base);
- 		if (ret)
-@@ -1263,9 +1217,6 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 
- 	preallocated_vm_bo = drm_gpuvm_bo_create(&vm->base, &bo->base.base);
- 	if (!preallocated_vm_bo) {
--		if (!drm_gem_is_imported(&bo->base.base))
--			drm_gem_shmem_unpin(&bo->base);
--
- 		ret = -ENOMEM;
- 		goto err_cleanup;
- 	}
-@@ -1282,16 +1233,6 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 	mutex_unlock(&bo->base.base.gpuva.lock);
- 	dma_resv_unlock(panthor_vm_resv(vm));
- 
--	/* If the a vm_bo for this <VM,BO> combination exists, it already
--	 * retains a pin ref, and we can release the one we took earlier.
--	 *
--	 * If our pre-allocated vm_bo is picked, it now retains the pin ref,
--	 * which will be released in panthor_vm_bo_put().
--	 */
--	if (preallocated_vm_bo != op_ctx->map.vm_bo &&
--	    !drm_gem_is_imported(&bo->base.base))
--		drm_gem_shmem_unpin(&bo->base);
--
- 	op_ctx->map.bo_offset = offset;
- 
- 	/* L1, L2 and L3 page tables.
-@@ -1339,7 +1280,6 @@ static int panthor_vm_prepare_unmap_op_ctx(struct panthor_vm_op_ctx *op_ctx,
- 	int ret;
- 
- 	memset(op_ctx, 0, sizeof(*op_ctx));
--	INIT_LIST_HEAD(&op_ctx->returned_vmas);
- 	op_ctx->va.range = size;
- 	op_ctx->va.addr = va;
- 	op_ctx->flags = DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP;
-@@ -1387,7 +1327,6 @@ static void panthor_vm_prepare_sync_only_op_ctx(struct panthor_vm_op_ctx *op_ctx
- 						struct panthor_vm *vm)
- {
- 	memset(op_ctx, 0, sizeof(*op_ctx));
--	INIT_LIST_HEAD(&op_ctx->returned_vmas);
- 	op_ctx->flags = DRM_PANTHOR_VM_BIND_OP_TYPE_SYNC_ONLY;
- }
- 
-@@ -2033,26 +1972,12 @@ static void panthor_vma_link(struct panthor_vm *vm,
- 
- 	mutex_lock(&bo->base.base.gpuva.lock);
- 	drm_gpuva_link(&vma->base, vm_bo);
--	drm_WARN_ON(&vm->ptdev->base, drm_gpuvm_bo_put(vm_bo));
- 	mutex_unlock(&bo->base.base.gpuva.lock);
- }
- 
--static void panthor_vma_unlink(struct panthor_vm *vm,
--			       struct panthor_vma *vma)
-+static void panthor_vma_unlink(struct panthor_vma *vma)
- {
--	struct panthor_gem_object *bo = to_panthor_bo(vma->base.gem.obj);
--	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_get(vma->base.vm_bo);
--
--	mutex_lock(&bo->base.base.gpuva.lock);
--	drm_gpuva_unlink(&vma->base);
--	mutex_unlock(&bo->base.base.gpuva.lock);
--
--	/* drm_gpuva_unlink() release the vm_bo, but we manually retained it
--	 * when entering this function, so we can implement deferred VMA
--	 * destruction. Re-assign it here.
--	 */
--	vma->base.vm_bo = vm_bo;
--	list_add_tail(&vma->node, &vm->op_ctx->returned_vmas);
-+	drm_gpuva_unlink_defer(&vma->base);
- }
- 
- static void panthor_vma_init(struct panthor_vma *vma, u32 flags)
-@@ -2084,12 +2009,12 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
- 	if (ret)
- 		return ret;
- 
--	/* Ref owned by the mapping now, clear the obj field so we don't release the
--	 * pinning/obj ref behind GPUVA's back.
--	 */
- 	drm_gpuva_map(&vm->base, &vma->base, &op->map);
- 	panthor_vma_link(vm, vma, op_ctx->map.vm_bo);
-+
-+	drm_gpuvm_bo_put_deferred(op_ctx->map.vm_bo);
- 	op_ctx->map.vm_bo = NULL;
-+
- 	return 0;
- }
- 
-@@ -2128,16 +2053,14 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
- 		 * owned by the old mapping which will be released when this
- 		 * mapping is destroyed, we need to grab a ref here.
- 		 */
--		panthor_vma_link(vm, prev_vma,
--				 drm_gpuvm_bo_get(op->remap.unmap->va->vm_bo));
-+		panthor_vma_link(vm, prev_vma, op->remap.unmap->va->vm_bo);
- 	}
- 
- 	if (next_vma) {
--		panthor_vma_link(vm, next_vma,
--				 drm_gpuvm_bo_get(op->remap.unmap->va->vm_bo));
-+		panthor_vma_link(vm, next_vma, op->remap.unmap->va->vm_bo);
- 	}
- 
--	panthor_vma_unlink(vm, unmap_vma);
-+	panthor_vma_unlink(unmap_vma);
- 	return 0;
- }
- 
-@@ -2154,12 +2077,13 @@ static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
- 		return ret;
- 
- 	drm_gpuva_unmap(&op->unmap);
--	panthor_vma_unlink(vm, unmap_vma);
-+	panthor_vma_unlink(unmap_vma);
- 	return 0;
- }
- 
- static const struct drm_gpuvm_ops panthor_gpuvm_ops = {
- 	.vm_free = panthor_vm_free,
-+	.vm_bo_free = panthor_vm_bo_free,
- 	.sm_step_map = panthor_gpuva_sm_step_map,
- 	.sm_step_remap = panthor_gpuva_sm_step_remap,
- 	.sm_step_unmap = panthor_gpuva_sm_step_unmap,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_gem.c
+index 63eb75a579ce..2b58bc805374 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -1067,7 +1067,8 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void =
+*data,
+                 drm_exec_fini(&exec);
 
--- 
-2.51.0.355.g5224444f11-goog
+                 if (num_mappings > 0 && num_mappings <=3D args->num_entrie=
+s)
+-                       r =3D copy_to_user(u64_to_user_ptr(args->value), vm=
+_entries, num_mappings * sizeof(*vm_entries));
++                       if (copy_to_user(u64_to_user_ptr(args->value), vm_e=
+ntries, num_mappings * sizeof(*vm_entries)))
++                               r =3D -EFAULT;
 
+                 args->num_entries =3D num_mappings;
+
+@@ -1159,7 +1160,8 @@ int amdgpu_gem_list_handles_ioctl(struct drm_device *=
+dev, void *data,
+         args->num_entries =3D bo_index;
+
+         if (!ret)
+-               ret =3D copy_to_user(u64_to_user_ptr(args->entries), bo_ent=
+ries, num_bos * sizeof(*bo_entries));
++               if (copy_to_user(u64_to_user_ptr(args->entries), bo_entries=
+, num_bos * sizeof(*bo_entries)))
++                       ret =3D -EFAULT;
+
+         kvfree(bo_entries);
+
+--
+2.47.2
+
+
+--_000_SA1PR12MB814473BD381D10C842F30422EF03ASA1PR12MB8144namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"text-align: left; margin-left: 5pt; =
+font-family: Calibri; font-size: 10pt; color: rgb(0, 0, 255);">
+[AMD Official Use Only - AMD Internal Distribution Only]</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+Whoops. Yep, story checks out.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);" clas=
+s=3D"elementToProof">
+This is<br>
+Reviewed-By: David Francis &lt;David.Francis@amd.com&gt;</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Dan Carpenter &lt;dan=
+.carpenter@linaro.org&gt;<br>
+<b>Sent:</b> Thursday, September 4, 2025 2:58 PM<br>
+<b>To:</b> Francis, David &lt;David.Francis@amd.com&gt;<br>
+<b>Cc:</b> Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Koenig, Ch=
+ristian &lt;Christian.Koenig@amd.com&gt;; David Airlie &lt;airlied@gmail.co=
+m&gt;; Simona Vetter &lt;simona@ffwll.ch&gt;; Arvind Yadav &lt;Arvind.Yadav=
+@amd.com&gt;; Sharma, Shashank &lt;Shashank.Sharma@amd.com&gt;; Thomas
+ Zimmermann &lt;tzimmermann@suse.de&gt;; amd-gfx@lists.freedesktop.org &lt;=
+amd-gfx@lists.freedesktop.org&gt;; dri-devel@lists.freedesktop.org &lt;dri-=
+devel@lists.freedesktop.org&gt;; linux-kernel@vger.kernel.org &lt;linux-ker=
+nel@vger.kernel.org&gt;; kernel-janitors@vger.kernel.org
+ &lt;kernel-janitors@vger.kernel.org&gt;<br>
+<b>Subject:</b> [PATCH next] drm/amdgpu: Fix error codes if copy_to_user() =
+fails</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">The copy_to_user() function returns the number of =
+bytes that it wasn't<br>
+able to copy, but we should return -EFAULT to the user.<br>
+<br>
+Fixes: 4d82724f7f2b (&quot;drm/amdgpu: Add mapping info option for GEM_OP i=
+octl&quot;)<br>
+Fixes: f9db1fc52ceb (&quot;drm/amdgpu: Add ioctl to get all gem handles for=
+ a process&quot;)<br>
+Signed-off-by: Dan Carpenter &lt;dan.carpenter@linaro.org&gt;<br>
+---<br>
+&nbsp;drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 6 ++++--<br>
+&nbsp;1 file changed, 4 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_gem.c<br>
+index 63eb75a579ce..2b58bc805374 100644<br>
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c<br>
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c<br>
+@@ -1067,7 +1067,8 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void =
+*data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; drm_exec_fini(&amp;exec);<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; if (num_mappings &gt; 0 &amp;&amp; num_mappings &lt;=
+=3D args-&gt;num_entries)<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r =3D copy_to_us=
+er(u64_to_user_ptr(args-&gt;value), vm_entries, num_mappings * sizeof(*vm_e=
+ntries));<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (copy_to_user=
+(u64_to_user_ptr(args-&gt;value), vm_entries, num_mappings * sizeof(*vm_ent=
+ries)))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r =3D -EFAULT;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; args-&gt;num_entries =3D num_mappings;<br>
+&nbsp;<br>
+@@ -1159,7 +1160,8 @@ int amdgpu_gem_list_handles_ioctl(struct drm_device *=
+dev, void *data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; args-&gt;num_entries =3D b=
+o_index;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ret)<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; ret =3D copy_to_user(u64_to_user_ptr(args-&gt;entries), bo_entri=
+es, num_bos * sizeof(*bo_entries));<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; if (copy_to_user(u64_to_user_ptr(args-&gt;entries), bo_entries, =
+num_bos * sizeof(*bo_entries)))<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ret =3D -EFAULT;=
+<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kvfree(bo_entries);<br>
+&nbsp;<br>
+-- <br>
+2.47.2<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_SA1PR12MB814473BD381D10C842F30422EF03ASA1PR12MB8144namp_--
