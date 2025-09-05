@@ -2,61 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F09B47806
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7914BB45F3D
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 18:50:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB1610E3FC;
-	Sat,  6 Sep 2025 22:45:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE99510E35D;
+	Fri,  5 Sep 2025 16:50:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="ZDtmlhPR";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="maMH/SiF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 31730 seconds by postgrey-1.36 at gabe;
- Fri, 05 Sep 2025 16:49:00 UTC
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5C2810E2FE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 16:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757090938; x=1757350138;
- bh=diSf69d2oQ1dS0WKoCbUPJHHMv6KOh1u+FVVXuJwOm4=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=ZDtmlhPROSqmOV/mM031irz4iMovwT/6c7BOlqR8Ko2upeeW6TEn7SntMw6fDzaw8
- qufJU7PvggauiQcOyjOrAzI3yS0QA+BYNuhcttRDGzTEZYXgriOgCZFO9/CrS7NmZ+
- vXeKW9lqxZ+c3FpKAnk5Rma4s0PIGZiCMtfP6yX3xK1uF2N500A8YyW6RI/xmeQJdf
- qzNR9dUL01iA1IZweZBwvtK64Ut0sdcFweynzR2gYabOjj/aXkPKVwdTEnqmnE/PVX
- Ztjcj1wPNky8uIsZSli6Y15XQYQXj9yTb8wy3xxlafgksyozXDcE7IVGZPqEJ4Z7PX
- I+EfDtxPPFVJQ==
-Date: Fri, 05 Sep 2025 16:48:52 +0000
-To: Rob Herring <robh@kernel.org>
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: leds: commonize leds property
-Message-ID: <Lm6PLaup84KHzhxYTbsrQIbEeQpc6dj65aLkLFvOx7QwvuXS9ON53Csa2v6LBp4hd9iIQilvGhXqx4kXv4cfqgYUeA49vrVdWJw-fNMLu2Y=@vinarskis.com>
-In-Reply-To: <20250905152404.GB953718-robh@kernel.org>
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
- <20250905-leds-v2-2-ed8f66f56da8@vinarskis.com>
- <20250905152404.GB953718-robh@kernel.org>
-Feedback-ID: 158356072:user:proton
-X-Pm-Message-ID: 8506bc237e49fba276022028e967299c197ecd38
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 473FE10E35D
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 16:50:02 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 585G11Oc024267
+ for <dri-devel@lists.freedesktop.org>; Fri, 5 Sep 2025 16:50:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=9XYNERtBPOO9KHd6gblQiOck
+ lBdNp7mI+kJcs2pzXbI=; b=maMH/SiF0k3R7jr9nOPmMR0ubPcAuKDxdq4fVOFn
+ V2apm33QIUGTulrASzHPfpDDGiP/QSltqZuky/aDNjsiqcbioaJnZXImmxc3WEvC
+ PfpNU1emhbpxn5DjkvGKPEe7XUovPdPKlru9LAwRmyzewmRhIlrdq0jgxIaDjH2v
+ MERFbkYhm4cRNfaEY4/wYWIXwQftPtDxf4V0k9hWw3t6r+O/AUPnm38XpQdOsmjs
+ wJUGDRB4RvD7XFx/90PO03QBTWk2XJeu8GWgte6nP0C/ZQKvVUf5HUQSilU1KzOS
+ iQWmS+faD2pNOS9gBgUgN3Tj3DQ5lYZWdf6QRshuQd/D5A==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2fuq4e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 16:50:01 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b32d323297so52116271cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 09:50:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757091000; x=1757695800;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9XYNERtBPOO9KHd6gblQiOcklBdNp7mI+kJcs2pzXbI=;
+ b=GmdkfGV5kytuQPJ870ypKkaesAPMSGMRY/+owvyppOMd0u+pw3tbEovhVeBKqYykko
+ oW5zG6akGqNLZcLaS8k52ZW/Oq0eV9L2H6mM/u/dCFMBJig941HJSV1jhwQQBqK/kjN0
+ e/E5frLew5sCZkj9zukDPCZg3JgHq5pe78588MoSBWl0fqzdg6tEtP2sDCx/HG1R03RU
+ F0qrloKivTr35roARHktDGiMqrZChUpEAt5VAxloockVaZpHkc4MB3TtEBQXocINn0Fd
+ AjjnQ8XIqZZHQnnanBxq5zjYYTdk4qfjPpUyZIq0LXF2EJWYaAE8i7moCVAwLLDta+oZ
+ Xcqg==
+X-Gm-Message-State: AOJu0YyCotmnO6RuMiEvNx+8rTvap1MJyp4OwH7YXSjsDWTDpC6xfmpL
+ LYKyIzhF8bj5jg9bzJ7nXPrWaKmMbgAGif10zsRuciVqlr6I79WyQamx0DfEMlGfEFLfTVAqM6k
+ suiQisVhIGruYk+VwQaq+o2CRm3uRb6FiQ10ImgpuL2Yd+D9eMVfhK2EUjPs1FKy15xM/KD8=
+X-Gm-Gg: ASbGncvt5OD28tMMcSU4tIU+00DXTyXGsijkuaLSXlt8/ccl7TQ790QhdJtjpzWnWKK
+ l2knrZJlp2d9xAgN0SRDTFljXbJPuYBdbzWuNrorCWnjgWX7JINyinO5Xc0Q1iU79XDiaMg78vQ
+ OkzeoM3E8rpgqh1w8w6FHFBK7XRK8ptS4ooCh0OcyKVDcNRf7K14tpQBpx4Ijn7WYsA2yu+Omws
+ 2xuV3qZKQ/qbj5d0pEz6F031hvmx9FxJ/kjcbeeTLWAdUQiWqDLB6qP11NiB5lfJF76ReBi0DSs
+ Cz0vxyA807iS4ohq+HUhtAjGXLC+O8nNbF4FgBhEh1LvJZyZbOVDg/36wNvQciVGNzqQo5kyP79
+ VmuO1ETYv/S2+XHwbLGuQESfENoFzpAZKZnUmI1M45/xiJKzNJElD
+X-Received: by 2002:a05:622a:1988:b0:4b0:da90:d7d with SMTP id
+ d75a77b69052e-4b31d80c426mr223970781cf.3.1757091000042; 
+ Fri, 05 Sep 2025 09:50:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESUiemXAgecIsqgg/wr+NsF/v1aaJddqDM6nMppXNbjeqxcZ2N1fHPzDKjQPw3tbxAbO/V/Q==
+X-Received: by 2002:a05:622a:1988:b0:4b0:da90:d7d with SMTP id
+ d75a77b69052e-4b31d80c426mr223970501cf.3.1757090999302; 
+ Fri, 05 Sep 2025 09:49:59 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5608acfcd18sm1861710e87.108.2025.09.05.09.49.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Sep 2025 09:49:58 -0700 (PDT)
+Date: Fri, 5 Sep 2025 19:49:56 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tests: make sure drm_client_modeset tests are enabled
+Message-ID: <voexthncfmefgr37xx57jf35h72s2zjc4wyn2dujyhtouq3tr2@xux57zdqov4m>
+References: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sat, 06 Sep 2025 22:45:39 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX2BWSwPhxkzHE
+ jQ/AtMIYaq6mHKGER5mNxUNap4QF31Wsp/wlkZlH4srwaBhLY/QMz1MRNhrSEWzwQOGwNMRhkzq
+ h/SjubDi+6q6aZeK1rxL6+6VYX/VcLyq0plBHrJZ5R/YWUBdeELXjIcyXIutP7gYDYmwcYPpvwm
+ wwSi6MBDnozmXxGH2g45e/nyMFPBRgSunKRju7ml7KxheDGJh37FOpK/543W3RIfBtPaICedX9I
+ uhVZfUroSfQyjmeyotcJ4ebt19AmIGx2BS6avNU4R42CSDJIUYLLbJv62aIct05V7V6LxuxRvH/
+ gFXWYQ3yHiOX8cTVlpqIEOJVC5rpGInDYVFr9MyNety36BvOx/YG98UIy7wzNO9i7calWMSc8tz
+ Sye/qpCa
+X-Proofpoint-ORIG-GUID: _salSpFLGbZkyi5ZnoskQ_rSRkFZE_wk
+X-Proofpoint-GUID: _salSpFLGbZkyi5ZnoskQ_rSRkFZE_wk
+X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68bb14b9 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=F7yDxb397TplVcg9Gk0A:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_05,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,139 +121,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Aug 21, 2025 at 02:25:06PM +0300, Dmitry Baryshkov wrote:
+> Default config for UML (x86_64) doesn't include any driver which
+> supports DRM_CLIENT_SELECTION, which makes drm_client_modeset disabled
+> (and correspondingly tests for that module are not executed too).
+> 
+> Enable DRM_VKMS and DRM_FBDEV_EMULATION in order to be able to run DRM
+> client modesetting tests.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/tests/.kunitconfig | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
+Gracious ping
 
-
-
-
-On Friday, September 5th, 2025 at 17:24, Rob Herring <robh@kernel.org> wrot=
-e:
-
->=20
->=20
-> On Fri, Sep 05, 2025 at 09:59:30AM +0200, Aleksandrs Vinarskis wrote:
->=20
-> > A number of existing schemas use 'leds' property to provide
-> > phandle-array of LED(s) to the consumer. Additionally, with the
-> > upcoming privacy-led support in device-tree, v4l2 subnode could be a
-> > LED consumer, meaning that all camera sensors should support 'leds'
-> > and 'led-names' property via common 'video-interface-devices.yaml'.
-> >=20
-> > To avoid dublication, commonize 'leds' property from existing schemas
-> > to newly introduced 'led-consumer.yaml'.
-> >=20
-> > Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
-> > ---
-> > .../devicetree/bindings/leds/backlight/led-backlight.yaml | 7 +------
-> > Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml | 6 +=
------
-> > .../devicetree/bindings/media/video-interface-devices.yaml | 3 +++
-> > 3 files changed, 5 insertions(+), 11 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backl=
-ight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.=
-yaml
-> > index f5554da6bc6c73e94c4a2c32b150b28351b25f16..5e19b4376715eeb05cb7892=
-55db209ed27f8822f 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.ya=
-ml
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.ya=
-ml
-> > @@ -18,17 +18,12 @@ description:
-> >=20
-> > allOf:
-> > - $ref: common.yaml#
-> > + - $ref: /schemas/leds/leds-consumer.yaml#
->=20
->=20
-> Drop.
->=20
-> > properties:
-> > compatible:
-> > const: led-backlight
-> >=20
-> > - leds:
-> > - description: A list of LED nodes
-> > - $ref: /schemas/types.yaml#/definitions/phandle-array
-> > - items:
-> > - maxItems: 1
->=20
->=20
-> You need to keep the property here:
->=20
-> leds: true
->=20
-> > -
-> > required:
-> > - compatible
-> > - leds
-> > diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicol=
-or.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > index 8ed059a5a724f68389a1d0c4396c85b9ccb2d9af..b4f326e8822a3bf452b22f5=
-b9fa7189696f760a4 100644
-> > --- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-> > @@ -17,16 +17,12 @@ properties:
-> > compatible:
-> > const: leds-group-multicolor
-> >=20
-> > - leds:
-> > - description:
-> > - An aray of monochromatic leds
-> > - $ref: /schemas/types.yaml#/definitions/phandle-array
-> > -
-> > required:
-> > - leds
-> >=20
-> > allOf:
-> > - $ref: leds-class-multicolor.yaml#
-> > + - $ref: /schemas/leds/leds-consumer.yaml#
->=20
->=20
->=20
-> Same comments in this one.
->=20
-> > unevaluatedProperties: false
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/video-interface-de=
-vices.yaml b/Documentation/devicetree/bindings/media/video-interface-device=
-s.yaml
-> > index cf7712ad297c01c946fa4dfdaf9a21646e125099..1e25cea0ff71da2cfd1c7c4=
-642713199f3542c0a 100644
-> > --- a/Documentation/devicetree/bindings/media/video-interface-devices.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/media/video-interface-devices.y=
-aml
-> > @@ -10,6 +10,9 @@ maintainers:
-> > - Jacopo Mondi jacopo@jmondi.org
-> > - Sakari Ailus sakari.ailus@linux.intel.com
-> >=20
-> > +allOf:
-> > + - $ref: /schemas/leds/leds-consumer.yaml#
->=20
->=20
-> This can be dropped. The user still has to define how many entries and
-> what the values of led-names are.
-
-Hmm, but where should it be added then? If I just drop it, MIPI camera sche=
-mas which are based on 'video-interface-devices.yaml' and have 'unevaluated=
-Properties: false' throw warnings because 'leds' was not expected. Includin=
-g the example in 'led-consumer.yaml' as found by your bot (because of patch=
- order your bot only run on 1/4, adding this very change fixes it).
-In this case, v4l2 subnode is the LED user, which is some camera. It seems =
-most/all of these cameras are based on this binding, so instead of adding n=
-ew led related properties to all of them, I thought this is a good common p=
-lace for it... Shall I add #entries and available options for 'led-names' h=
-ere to make it complete?
-
-Thanks,
-Alex
-
->=20
-> > +
-> > properties:
-> > flash-leds:
-> > $ref: /schemas/types.yaml#/definitions/phandle-array
-> >=20
-> > --
-> > 2.48.1
+-- 
+With best wishes
+Dmitry
