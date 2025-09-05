@@ -2,92 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D10B463CB
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 21:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5237B463D3
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 21:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA6D10EC38;
-	Fri,  5 Sep 2025 19:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3018E10E360;
+	Fri,  5 Sep 2025 19:41:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZqXRFlbg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="T5p+kZV0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EEC10E059;
- Fri,  5 Sep 2025 19:40:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 82FE1602A5;
- Fri,  5 Sep 2025 19:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225FBC4CEF8;
- Fri,  5 Sep 2025 19:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757101204;
- bh=EW5E1DsoS/eP0Xpaway7kFwsFpD+pL719m9UghXWG4E=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZqXRFlbgP5QwPcBxU6eNLL/08iwuclbpMhHj5f112VJ0D0CRs+uAOZZt9/eSU+oYH
- FOKxLZNfYfeCUuY691CYi9oaDczKB9oJxUx3sRU+YTC0hMmU7aj7i6icx+GswFUP2R
- IFwTEwP7LFbGxUg/I7SAjo0DENXd43ZHbeobRhQywFakWAs9/enQGWBOfoAuIelFBb
- wogoGak56kUdv1oV5wP9PLMDQRhAVNRB8Qk4NYGffSXcIWD99Y+pR+l0VNOqodu/Yf
- 429lN+Si30NngrGAeTbmA/uuc+3zujKhmh+809qGxXm2EsqsYlM68fd6X/hgvyGAM6
- l4P6r3BqgQXRw==
-Received: by mail-ot1-f49.google.com with SMTP id
- 46e09a7af769-74526ca79c2so1127781a34.3; 
- Fri, 05 Sep 2025 12:40:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUksI33Wr+SbC1xtOhcr2uh8B94ZGG/UBhJw/nudcvUUHTxbGrkyu9CZLBxbxXmjsQbLMjfsBSsjc=@lists.freedesktop.org,
- AJvYcCXddkJUrZPAqPhcgzt5Y9recQ9khv5YuApdyR/WB6Vm1EZZS70wwmSOocK5Zm+IpCD7U8/nv1/yRA4B@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPEgMFZxtShw6LOwJRp+FADOtWCKpdz6drvK9nP1ffLMrMtzaG
- 0uV9O1mhsJXiIkL06ArLYDvgpLsd8c6jr4z+c0H3LF42i9O8nEmgtyzvaOHFcqjpzpPIIer9Hhg
- 7K0fb4gvONSPAO9VZsTvO1FUGHmLNk8E=
-X-Google-Smtp-Source: AGHT+IEWhcvcPUmMTXw08ZtZH4mqK1uKC0R7GjcFC8PVlsyyD61c2ek06n5Ch8ecLJvX8w2zR6AjPrAE5CMEF+OJ57Q=
-X-Received: by 2002:a05:6830:700a:b0:74b:f9de:34dd with SMTP id
- 46e09a7af769-74bf9de3edfmr235939a34.15.1757101203180; Fri, 05 Sep 2025
- 12:40:03 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2078.outbound.protection.outlook.com [40.107.244.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF1310E360
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 19:41:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JMGQre2NeOWLgvKYa3kto9zdaI6hk4Ifc6FOwqNBcj1HDc6BWm9J/rSB0d1lsIiJM53IMczntxr4qphQgSCR4gYho1BBIusi0guXglJONqMgnV9LStU7hgIeuQXeI3EcSUTfOm6U8C5kuSIiKYaQP/yJDgc3tHHjxaaXQcEq1ZDxpvf1BHBkOFUcJrM5TmCiRuie87P2jz2tRj7AbgVPkFCDBCKmSKdQdgeu+TFrzc3ywbMs/RvPfjYezymFJ6zmDko9A/p3UJizn+M/UDTxdU9QuVk7knXQ1bxxgQbuWPq6+MHeC4rcu0WbyAA5tF2kVNo0c1vuV9s3n6ciHO11Aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TaJLFsL7SJNBSxArsA8FzmfBwN8i3Y4OIRMyN4sMru0=;
+ b=qMDXBkcKQ5+v6bnDQvl5Wx2us0tUAoS96QkD1PNKYyKH39NYmW71eBVWQEAV+AEmHfEILhCVGdy3AFqaPmi4+6PLac+8QHn38I2ihBeaDDFn6n+bq4Yw1I0SC/pQs0sX14MZqaY8UTaBgKsJEoKIQGY+by/HDLHwxXbWp+ngyEIRy5QhNmdZjqfEiJYRD9aIZ92XrVYVjDebRBGn1av2wAtgJvdv9qQBK3uTlR0yEQjl6L0M0k7w0xNS/KPQEceJ+lpUEc6yDIODf4XJHe2MizC5XcVEIggCCygd3XTiYbewT/gmjUN7T7cUYQSmCu4tP5bmI2tgnAutq+7MP9mimg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TaJLFsL7SJNBSxArsA8FzmfBwN8i3Y4OIRMyN4sMru0=;
+ b=T5p+kZV0mFkhdhWB7eWjHnct7zTrV5xJnzAHKOEkXy+Fhj3EoRd3HJ9qq3Kd4yLOi39YEN8mYy2XpVOmnwpEKQXfLDFTBZ35WFRzD4FCpfL8XgwBqJRhEoGqq5jWSSxc7J7LYjJZHGqO/+AzBaZBb7XWxpMs/3w0EE9R3/IvLCI=
+Received: from SJ2PR07CA0014.namprd07.prod.outlook.com (2603:10b6:a03:505::7)
+ by CY8PR12MB7634.namprd12.prod.outlook.com (2603:10b6:930:9d::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Fri, 5 Sep
+ 2025 19:41:40 +0000
+Received: from MWH0EPF000989EB.namprd02.prod.outlook.com
+ (2603:10b6:a03:505:cafe::59) by SJ2PR07CA0014.outlook.office365.com
+ (2603:10b6:a03:505::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.20 via Frontend Transport; Fri,
+ 5 Sep 2025 19:41:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ MWH0EPF000989EB.mail.protection.outlook.com (10.167.241.138) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9094.14 via Frontend Transport; Fri, 5 Sep 2025 19:41:39 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 5 Sep
+ 2025 14:41:39 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Fri, 5 Sep
+ 2025 12:41:38 -0700
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Fri, 5 Sep 2025 14:41:38 -0500
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Call dma_buf_vmap_unlocked() for imported
+ object
+Date: Fri, 5 Sep 2025 12:41:36 -0700
+Message-ID: <20250905194136.2644350-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20250905132413.1376220-1-zhangzihuan@kylinos.cn>
- <20250905132413.1376220-5-zhangzihuan@kylinos.cn>
-In-Reply-To: <20250905132413.1376220-5-zhangzihuan@kylinos.cn>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 5 Sep 2025 21:39:52 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jvskvxgUhxKJLN89A+s7Mruz1_tewHZfKgC7sUGLi9cw@mail.gmail.com>
-X-Gm-Features: Ac12FXws29Av_URAHgjbe1keBVsNp0-87UjpP4EeoBVUVvSgtWfWbkUI32D7vRk
-Message-ID: <CAJZ5v0jvskvxgUhxKJLN89A+s7Mruz1_tewHZfKgC7sUGLi9cw@mail.gmail.com>
-Subject: Re: [PATCH v5 4/6] PM / devfreq: Use scope-based cleanup helper
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Ben Horgan <ben.horgan@arm.com>, 
- zhenglifeng <zhenglifeng1@huawei.com>, Zhang Rui <rui.zhang@intel.com>, 
- Len Brown <lenb@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, 
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>, 
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, 
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989EB:EE_|CY8PR12MB7634:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77dccc72-b893-4b9e-a31d-08ddecb43be6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9BD/rWjq8bizrCDJzcrAaGwMceGoQjkENx+kLEbQGs0M9fFTg8VHAD5OOj+2?=
+ =?us-ascii?Q?mntglhjKtG18LVRgSX3zkeLZ4gk2nMVzi4ql29ypnLsw+oA5HB4BuEbwAZCN?=
+ =?us-ascii?Q?ZXAoMNWDSNVCdkJRhbksczMML4qim2+RcyLu5mFXohguFLLj6HLxNjsKaQp7?=
+ =?us-ascii?Q?SLWxgoO29D6rD4s3FXlrS9MGy7sX9hkcnpBJ+LvyQ5359g7TI+2WweNR5Rao?=
+ =?us-ascii?Q?O36mcgD98FIBMdmTlp5I71NJKWs0Lvn95CJvU0Ji3YPuC3YLagDEDuMxeU8J?=
+ =?us-ascii?Q?rVojCLXjW/cMyi7UI7CQIpVE0asftNIBszNKPdo+Yy6zgilB+wHDZtpuLY50?=
+ =?us-ascii?Q?XrzNQya8I1l6fAXErqlnmK199Sj79lyZJXL91UfwA3tLs4uNeAxCzqqt1URy?=
+ =?us-ascii?Q?okgold0/2SulpZpjpjfl+mxZQicryi+LeuXbkcr9pz2vQgTDhBTf2vlOTy9u?=
+ =?us-ascii?Q?zinhUhVe5/lGGNaRD68d2fwdjbgvSAQAp31k/4xX6isfh3RKtJkWKGFPfjx2?=
+ =?us-ascii?Q?77x50tu89xN2v2K6R4ABh9MsZseFkU1oH1JL7X+c+HWo0tYXXdjDWnKaQsQP?=
+ =?us-ascii?Q?YrgKcHejoZMzyeQHapbaqQWBAGTVxCNECcZtvHFjfGRu0UK60hoJy4uskVyK?=
+ =?us-ascii?Q?opLLwyROfBFQX23xm2YMBE7lEjf+Dw2FI/hwH3o8WLlaqZf0++tHD98oXXT6?=
+ =?us-ascii?Q?EMyR0NYOrA4YzCdu2EyWmBeHQhXJT+D2UFyGrnzpGV+xttmo2R3Qh/SD/Zip?=
+ =?us-ascii?Q?aYANtF+tSKlb4tKMrhsmZB2/pXp2Fe2qSkdhv1o35l0CJ7nWsUyybD7Rgxtw?=
+ =?us-ascii?Q?tAT5pXZXAwzqoQ5z47HeD+fYVtKcTN23tAD0cRy4y395fWUZxX3B75lyLjyX?=
+ =?us-ascii?Q?basBKo8v89lph2OAKsI8vSbcyPi6VR8Yc29gMOhb0UoZs5xwjv1VhISPfVHd?=
+ =?us-ascii?Q?T4hatx6KA15soWl+WpK9+hVFWesapPv4x4Ave7FPWPHj4qWZ4g3Rhu7NOPzm?=
+ =?us-ascii?Q?EBZrjuoCt+33F7RyG6DvCKGPcl/AWqxKc+hB7WS5pUnzSlzQt24zrSi+05OV?=
+ =?us-ascii?Q?OCOFSpjO6wl2K5lxkqpBcYTmHbJ1VEDwZtDnpjR3WUS/2qoq6upHID9f9qLp?=
+ =?us-ascii?Q?WeKok22tRPVsQge2lk+XkSjOi6aXFqsH+SwV3aM+jg1I8SDgsOl9zR0X0piA?=
+ =?us-ascii?Q?DIUBIF2PnrVlY8du5YwdMAMky9Iluhm80mTdEwvv8MjuhuHExh9rYY95LHRT?=
+ =?us-ascii?Q?OuunKgkODVeq6mD8p9tUKiifwIGpwt0FqzPpZ5dv3E+mFIrGFk+qaTuOECMU?=
+ =?us-ascii?Q?F5YgL3zo2e/0YgfHptzDdNYtuLCS7Htp9FqbUMeV6ci2ZpJ5hXf01SSWTD57?=
+ =?us-ascii?Q?ZzkpkvlioJj+uvtSacRSz+Vv12E7/KXzcjPfEGCpogYEtymiHdpio0qMtLKT?=
+ =?us-ascii?Q?HKAy2jsUj9AHvfQHP0crGZYsfPRvuG75cmG1k+yWghXKe3KaiVpCbUj1qrBw?=
+ =?us-ascii?Q?22/3ZV928oO8uXTv58tnnqBLYkH14VfoDu2O?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 19:41:39.8384 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77dccc72-b893-4b9e-a31d-08ddecb43be6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989EB.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7634
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,179 +138,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 5, 2025 at 3:25=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylinos.cn=
-> wrote:
->
-> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
-> annotation for policy references. This reduces the risk of reference
-> counting mistakes and aligns the code with the latest kernel style.
->
-> No functional change intended.
->
-> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-> ---
->  drivers/devfreq/governor_passive.c | 60 +++++++++++-------------------
->  1 file changed, 22 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governo=
-r_passive.c
-> index 953cf9a1e9f7..5afaea39377e 100644
-> --- a/drivers/devfreq/governor_passive.c
-> +++ b/drivers/devfreq/governor_passive.c
-> @@ -80,24 +80,23 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
->         struct devfreq_passive_data *p_data =3D
->                                 (struct devfreq_passive_data *)devfreq->d=
-ata;
->         struct devfreq_cpu_data *parent_cpu_data;
-> -       struct cpufreq_policy *policy;
->         unsigned long cpu, cpu_cur, cpu_min, cpu_max, cpu_percent;
->         unsigned long dev_min, dev_max;
->         unsigned long freq =3D 0;
->         int ret =3D 0;
->
->         for_each_online_cpu(cpu) {
+In amdxdna_gem_obj_vmap(), calling dma_buf_vmap() triggers a kernel
+warning if LOCKDEP is enabled. So for imported object, use
+dma_buf_vmap_unlocked(). Then, use drm_gem_vmap() for other objects.
+The similar change applies to vunmap code.
 
-I'd rather move the code in this loop to a separate function in the
-first place and then do a __free()-based simplification of it.  I'd
-suggest doing each step in a separate patch to avoid mistakes.
+Fixes: bd72d4acda10 ("accel/amdxdna: Support user space allocated buffer")
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/amdxdna_gem.c | 38 +++++++++++------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
 
-> -               policy =3D cpufreq_cpu_get(cpu);
-> +               struct cpufreq_policy *policy __free(put_cpufreq_policy) =
-=3D
-> +                       cpufreq_cpu_get(cpu);
-> +
->                 if (!policy) {
->                         ret =3D -EINVAL;
->                         continue;
->                 }
->
->                 parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
-> -               if (!parent_cpu_data) {
-> -                       cpufreq_cpu_put(policy);
-> +               if (!parent_cpu_data)
->                         continue;
-> -               }
->
->                 /* Get target freq via required opps */
->                 cpu_cur =3D parent_cpu_data->cur_freq * HZ_PER_KHZ;
-> @@ -106,7 +105,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
->                                         devfreq->opp_table, &cpu_cur);
->                 if (freq) {
->                         *target_freq =3D max(freq, *target_freq);
-> -                       cpufreq_cpu_put(policy);
->                         continue;
->                 }
->
-> @@ -121,7 +119,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
->                 freq =3D dev_min + mult_frac(dev_max - dev_min, cpu_perce=
-nt, 100);
->
->                 *target_freq =3D max(freq, *target_freq);
-> -               cpufreq_cpu_put(policy);
->         }
->
->         return ret;
-> @@ -255,8 +252,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
->                         =3D (struct devfreq_passive_data *)devfreq->data;
->         struct device *dev =3D devfreq->dev.parent;
->         struct opp_table *opp_table =3D NULL;
-> -       struct devfreq_cpu_data *parent_cpu_data;
-> -       struct cpufreq_policy *policy;
->         struct device *cpu_dev;
->         unsigned int cpu;
->         int ret;
-> @@ -273,37 +268,34 @@ static int cpufreq_passive_register_notifier(struct=
- devfreq *devfreq)
->         }
->
->         for_each_possible_cpu(cpu) {
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+index d407a36eb412..50950be189ae 100644
+--- a/drivers/accel/amdxdna/amdxdna_gem.c
++++ b/drivers/accel/amdxdna/amdxdna_gem.c
+@@ -392,35 +392,25 @@ static const struct dma_buf_ops amdxdna_dmabuf_ops = {
+ 	.vunmap = drm_gem_dmabuf_vunmap,
+ };
+ 
+-static int amdxdna_gem_obj_vmap(struct drm_gem_object *obj, struct iosys_map *map)
++static int amdxdna_gem_obj_vmap(struct amdxdna_gem_obj *abo, struct iosys_map *map)
+ {
+-	struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
+-
+ 	iosys_map_clear(map);
+ 
+-	dma_resv_assert_held(obj->resv);
+-
+ 	if (is_import_bo(abo))
+-		dma_buf_vmap(abo->dma_buf, map);
+-	else
+-		drm_gem_shmem_object_vmap(obj, map);
+-
+-	if (!map->vaddr)
+-		return -ENOMEM;
++		return dma_buf_vmap_unlocked(abo->dma_buf, map);
+ 
+-	return 0;
++	return drm_gem_vmap(to_gobj(abo), map);
+ }
+ 
+-static void amdxdna_gem_obj_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
++static void amdxdna_gem_obj_vunmap(struct amdxdna_gem_obj *abo, struct iosys_map *map)
+ {
+-	struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
+-
+-	dma_resv_assert_held(obj->resv);
++	if (iosys_map_is_null(map))
++		return;
+ 
+ 	if (is_import_bo(abo))
+-		dma_buf_vunmap(abo->dma_buf, map);
+-	else
+-		drm_gem_shmem_object_vunmap(obj, map);
++		return dma_buf_vunmap_unlocked(abo->dma_buf, map);
++
++	return drm_gem_vunmap(to_gobj(abo), map);
+ }
+ 
+ static struct dma_buf *amdxdna_gem_prime_export(struct drm_gem_object *gobj, int flags)
+@@ -468,7 +458,7 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
+ 	if (abo->type == AMDXDNA_BO_DEV_HEAP)
+ 		drm_mm_takedown(&abo->mm);
+ 
+-	drm_gem_vunmap(gobj, &map);
++	amdxdna_gem_obj_vunmap(abo, &map);
+ 	mutex_destroy(&abo->lock);
+ 
+ 	if (is_import_bo(abo)) {
+@@ -489,8 +479,8 @@ static const struct drm_gem_object_funcs amdxdna_gem_shmem_funcs = {
+ 	.pin = drm_gem_shmem_object_pin,
+ 	.unpin = drm_gem_shmem_object_unpin,
+ 	.get_sg_table = drm_gem_shmem_object_get_sg_table,
+-	.vmap = amdxdna_gem_obj_vmap,
+-	.vunmap = amdxdna_gem_obj_vunmap,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = amdxdna_gem_obj_mmap,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ 	.export = amdxdna_gem_prime_export,
+@@ -692,7 +682,7 @@ amdxdna_drm_create_dev_heap(struct drm_device *dev,
+ 	abo->mem.dev_addr = client->xdna->dev_info->dev_mem_base;
+ 	drm_mm_init(&abo->mm, abo->mem.dev_addr, abo->mem.size);
+ 
+-	ret = drm_gem_vmap(to_gobj(abo), &map);
++	ret = amdxdna_gem_obj_vmap(abo, &map);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Vmap heap bo failed, ret %d", ret);
+ 		goto release_obj;
+@@ -770,7 +760,7 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
+ 	abo->type = AMDXDNA_BO_CMD;
+ 	abo->client = filp->driver_priv;
+ 
+-	ret = drm_gem_vmap(to_gobj(abo), &map);
++	ret = amdxdna_gem_obj_vmap(abo, &map);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
+ 		goto release_obj;
+-- 
+2.34.1
 
-And analogously here.  I'd use separate two patches for updating this code.
-
-> -               policy =3D cpufreq_cpu_get(cpu);
-> -               if (!policy) {
-> -                       ret =3D -EPROBE_DEFER;
-> -                       goto err;
-> -               }
-> +               struct cpufreq_policy *policy __free(put_cpufreq_policy) =
-=3D
-> +                       cpufreq_cpu_get(cpu);
->
-> -               parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
-> -               if (parent_cpu_data) {
-> -                       cpufreq_cpu_put(policy);
-> +               if (!policy)
-> +                       return -EPROBE_DEFER;
-> +
-> +               struct devfreq_cpu_data *initial_parent_cpu_data =3D
-> +                       get_parent_cpu_data(p_data, policy);
-> +
-> +               if (initial_parent_cpu_data)
->                         continue;
-> -               }
->
-> -               parent_cpu_data =3D kzalloc(sizeof(*parent_cpu_data),
-> -                                               GFP_KERNEL);
-> -               if (!parent_cpu_data) {
-> -                       ret =3D -ENOMEM;
-> -                       goto err_put_policy;
-> -               }
-> +               struct devfreq_cpu_data *parent_cpu_data __free(kfree) =
-=3D
-> +                       kzalloc(sizeof(*parent_cpu_data), GFP_KERNEL);
-> +
-> +               if (!parent_cpu_data)
-> +                       return -ENOMEM;
->
->                 cpu_dev =3D get_cpu_device(cpu);
->                 if (!cpu_dev) {
->                         dev_err(dev, "failed to get cpu device\n");
-> -                       ret =3D -ENODEV;
-> -                       goto err_free_cpu_data;
-> +                       return -ENODEV;
->                 }
->
->                 opp_table =3D dev_pm_opp_get_opp_table(cpu_dev);
->                 if (IS_ERR(opp_table)) {
->                         dev_err(dev, "failed to get opp_table of cpu%d\n"=
-, cpu);
-> -                       ret =3D PTR_ERR(opp_table);
-> -                       goto err_free_cpu_data;
-> +                       return PTR_ERR(opp_table);
->                 }
->
->                 parent_cpu_data->dev =3D cpu_dev;
-> @@ -313,8 +305,8 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
->                 parent_cpu_data->min_freq =3D policy->cpuinfo.min_freq;
->                 parent_cpu_data->max_freq =3D policy->cpuinfo.max_freq;
->
-> -               list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_l=
-ist);
-> -               cpufreq_cpu_put(policy);
-> +               list_add_tail(&(no_free_ptr(parent_cpu_data)->node,
-> +                       &p_data->cpu_data_list);
->         }
->
->         mutex_lock(&devfreq->lock);
-> @@ -324,14 +316,6 @@ static int cpufreq_passive_register_notifier(struct =
-devfreq *devfreq)
->                 dev_err(dev, "failed to update the frequency\n");
->
->         return ret;
-> -
-> -err_free_cpu_data:
-> -       kfree(parent_cpu_data);
-> -err_put_policy:
-> -       cpufreq_cpu_put(policy);
-> -err:
-> -
-> -       return ret;
->  }
->
->  static int devfreq_passive_notifier_call(struct notifier_block *nb,
-> --
