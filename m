@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686E5B466CE
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 00:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBE3B466E6
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 01:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9446610E02B;
-	Fri,  5 Sep 2025 22:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F7F10EC6A;
+	Fri,  5 Sep 2025 23:01:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TcAR77h4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FKhh4N0Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EABA10E02B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 22:47:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5AEB10EC62;
+ Fri,  5 Sep 2025 23:01:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6A070601AA;
- Fri,  5 Sep 2025 22:47:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B005C4CEF1;
- Fri,  5 Sep 2025 22:47:37 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CBCC2601AA;
+ Fri,  5 Sep 2025 23:01:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CEDC4CEF1;
+ Fri,  5 Sep 2025 23:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757112460;
- bh=tGd46iQZ4DRbpvmkNmCnAZN6AsD9LicfdvyOISy1Mw4=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=TcAR77h4nbsHt3U50oejIjGSj8BdrAIgFlSpDcx5NiYDyXpLea7shRMuTA609gocg
- u9S6lrMd3bUWK76TBOgERnUWkorsz9Wovc3lehCAtg2NSfDovhYa2Ho11Qn0o8MaHp
- wFkQz2NlQtk61Y7D+m7/8/VTDSZRK2y2z0Ewl62j/FwG45YPA5CdZD5bhSC5jWoo0l
- 1DCw1wM9dSSG+7SGCocKZr5yqhGbDh4lKYEUDQR8i/3c9aJ93B8aU9jRlWKXzuK8ku
- VsYKvmq4jL5s5CcsBNaJC64l/Ru45zCJ9NzYznJ8Z4W7QAbbfnuul28DgCUsapwhF6
- zKGo7P4oLHQHQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 06 Sep 2025 00:47:36 +0200
-Message-Id: <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org>
-Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Cc: "Boris Brezillon" <boris.brezillon@collabora.com>, "Matthew Brost"
- <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Steven Price"
- <steven.price@arm.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Liviu Dudau" <liviu.dudau@arm.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
- <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
- <20250905152505.005a610d@fedora>
- <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
-In-Reply-To: <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
+ s=k20201202; t=1757113280;
+ bh=+lhopyxIHPkimkHLqjBagKsowbxPduHdhl1alB5XIHw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FKhh4N0YC7rktiPdXEfXclWanEDKYne9TN6cdcuCjqPCtcq4Rn0r96yLuECJbiw+4
+ LjwCnjQtLBAm0edveUnCZZYiNonj/7aqKLJr2wGtnUHH+scBK/7r7JUigttXLAScDm
+ pXeFnpIPvL1/rZKX9LdznwwDYBYkDL4/X0Q74Dlpx/NmySnEYO46ImCPWzvWXVlUfn
+ 7nKQ1fERSefzbF0N9pUOtT2Ew99OpHStRZ+01KHKpecJw2kFIukduhp+K3hQulq8o0
+ 47VhyxuU+d72ralUlgkhIgcgxiZyD9aQX9YFUuu3Ep7hq8BTDKfbNp6DFssdME8qWg
+ uTEId8/MJZDQg==
+Date: Fri, 5 Sep 2025 16:00:06 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
+Message-ID: <20250905230006.GA1776@sol>
+References: <20250901150359.867252-1-david@redhat.com>
+ <20250901150359.867252-20-david@redhat.com>
+ <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,83 +83,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Sep 5, 2025 at 8:18 PM CEST, Alice Ryhl wrote:
-> On Fri, Sep 5, 2025 at 3:25=E2=80=AFPM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
->> On Fri, 05 Sep 2025 12:11:28 +0000
->> Alice Ryhl <aliceryhl@google.com> wrote:
->> > +static bool
->> > +drm_gpuvm_bo_is_dead(struct drm_gpuvm_bo *vm_bo)
->> > +{
->> > +     return !kref_read(&vm_bo->kref);
->>
->> I'm not too sure I like the idea of [ab]using vm_bo::kref to defer the
->> vm_bo release. I get why it's done like that, but I'm wondering why we
->> don't defer the release of drm_gpuva objects instead (which is really
->> what's being released in va_unlink()). I can imagine drivers wanting to
->> attach resources to the gpuva that can't be released in the
->> dma-signalling path in the future, and if we're doing that at the gpuva
->> level, we also get rid of this kref dance, since the va will hold a
->> vm_bo ref until it's destroyed.
->>
->> Any particular reason you went for vm_bo destruction deferral instead
->> of gpuva?
->
-> All of the things that were unsafe to release in the signalling path
-> were tied to the vm_bo, so that is why I went for vm_bo cleanup.
-> Another advantage is that it lets us use the same deferred logic for
-> the vm_bo_put() call that drops the refcount from vm_bo_obtain().
->
-> Of course if gpuvas might have resources that need deferred cleanup,
-> that might change the situation somewhat.
+On Fri, Sep 05, 2025 at 08:41:23AM +0200, David Hildenbrand wrote:
+> On 01.09.25 17:03, David Hildenbrand wrote:
+> > We can just cleanup the code by calculating the #refs earlier,
+> > so we can just inline what remains of record_subpages().
+> > 
+> > Calculate the number of references/pages ahead of times, and record them
+> > only once all our tests passed.
+> > 
+> > Signed-off-by: David Hildenbrand <david@redhat.com>
+> > ---
+> >   mm/gup.c | 25 ++++++++-----------------
+> >   1 file changed, 8 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/mm/gup.c b/mm/gup.c
+> > index c10cd969c1a3b..f0f4d1a68e094 100644
+> > --- a/mm/gup.c
+> > +++ b/mm/gup.c
+> > @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
+> >   #ifdef CONFIG_MMU
+> >   #ifdef CONFIG_HAVE_GUP_FAST
+> > -static int record_subpages(struct page *page, unsigned long sz,
+> > -			   unsigned long addr, unsigned long end,
+> > -			   struct page **pages)
+> > -{
+> > -	int nr;
+> > -
+> > -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
+> > -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
+> > -		pages[nr] = page++;
+> > -
+> > -	return nr;
+> > -}
+> > -
+> >   /**
+> >    * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
+> >    * @page:  pointer to page to be grabbed
+> > @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+> >   	if (pmd_special(orig))
+> >   		return 0;
+> > -	page = pmd_page(orig);
+> > -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
+> > +	refs = (end - addr) >> PAGE_SHIFT;
+> > +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+> >   	folio = try_grab_folio_fast(page, refs, flags);
+> >   	if (!folio)
+> > @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+> >   	}
+> >   	*nr += refs;
+> > +	for (; refs; refs--)
+> > +		*(pages++) = page++;
+> >   	folio_set_referenced(folio);
+> >   	return 1;
+> >   }
+> > @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+> >   	if (pud_special(orig))
+> >   		return 0;
+> > -	page = pud_page(orig);
+> > -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
+> > +	refs = (end - addr) >> PAGE_SHIFT;
+> > +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> >   	folio = try_grab_folio_fast(page, refs, flags);
+> >   	if (!folio)
+> > @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+> >   	}
+> >   	*nr += refs;
+> > +	for (; refs; refs--)
+> > +		*(pages++) = page++;
+> >   	folio_set_referenced(folio);
+> >   	return 1;
+> >   }
+> 
+> Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
+> pages pointer, getting rid of the "*nr" parameter.
+> 
+> For the time being, the following should do the trick:
+> 
+> commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
+> Author: David Hildenbrand <david@redhat.com>
+> Date:   Fri Sep 5 08:38:43 2025 +0200
+> 
+>     fixup: mm/gup: remove record_subpages()
+>     pages is not adjusted by the caller, but idnexed by existing *nr.
+>     Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 010fe56f6e132..22420f2069ee1 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>                 return 0;
+>         }
+> +       pages += *nr;
+>         *nr += refs;
+>         for (; refs; refs--)
+>                 *(pages++) = page++;
+> @@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
+>                 return 0;
+>         }
+> +       pages += *nr;
+>         *nr += refs;
+>         for (; refs; refs--)
+>                 *(pages++) = page++;
 
-I think we want to track PT(E) allocations, or rather reference counts of p=
-age
-table structures carried by the drm_gpuva, but we don't need to release the=
-m on
-drm_gpuva_unlink(), which is where we drop the reference count of the vm_bo=
-.
+Can this get folded in soon?  This bug is causing crashes in AF_ALG too.
 
-Deferring drm_gpuva_unlink() isn't really an option I think, the GEMs list =
-of
-VM_BOs and the VM_BOs list of VAs is usually used in ttm_device_funcs::move=
- to
-map or unmap all VAs associated with a GEM object.
+Thanks,
 
-I think PT(E) reference counts etc. should be rather released when the drm_=
-gpuva
-is freed, i.e. page table allocations can be bound to the lifetime of a
-drm_gpuva. Given that, I think that eventually we'll need a cleanup list fo=
-r
-those as well, since once they're removed from the VM tree (in the fence
-signalling critical path), we loose access otherwise.
-
->> > +static void
->> > +drm_gpuvm_bo_defer_locked(struct kref *kref)
->> > +{
->> > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_gpu=
-vm_bo,
->> > +                                               kref);
->> > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
->> > +
->> > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
->> > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
->> > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
->> > +     }
->> > +
->> > +     list_del(&vm_bo->list.entry.gem);
->> > +     mutex_unlock(&vm_bo->obj->gpuva.lock);
->>
->> I got tricked by this implicit unlock, and the conditional unlocks it
->> creates in drm_gpuva_unlink_defer(). Honestly, I'd rather see this
->> unlocked moved to drm_gpuva_unlink_defer() and a conditional unlock
->> added to drm_gpuvm_bo_put_deferred(), because it's easier to reason
->> about when the lock/unlock calls are in the same function
->> (kref_put_mutex() being the equivalent of a conditional lock).
->
-> Ok. I followed the docs of kref_put_mutex() that say to unlock it from
-> the function.
-
-Yes, please keep it the way it is, I don't want to deviate from what is
-documented and everyone else does. Besides that, I also think it's a little
-less error prone.
+- Eric
