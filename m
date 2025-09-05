@@ -2,84 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C9FB44C1C
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 05:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84873B44C35
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 05:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABE810EB10;
-	Fri,  5 Sep 2025 03:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C020D10EB0E;
+	Fri,  5 Sep 2025 03:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fYr2ufq/";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qs/3W087";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2899710EB14
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 03:08:13 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-336ce4a8bfcso14348941fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 20:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1757041691; x=1757646491;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z7VEF8fsQ16/5eguTcUya9i8sN0CVWScInMAqvxe2C0=;
- b=fYr2ufq/mc/GKzAfyhKdR1lAwnlgI9O+b2yHbUuaTP30HfCal/Nq/U6d69ZAb8yPv6
- t0uvMYRht2YaG07hshT0w4+hbKH4+ko4orsykuXh4VoU0Q9AafGSIs08Hp4dLyLq/YSQ
- putUQdLT4Efxir8/fJ9k+VXu15D2cBZ5SETTs=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0C8410EB0C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 03:23:00 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IvMVB022450
+ for <dri-devel@lists.freedesktop.org>; Fri, 5 Sep 2025 03:23:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Nc/Me6JhWACWqZ3Seo6sntz583zORBKIxRCpmiza2Ms=; b=Qs/3W0873vuIK9d0
+ LH0HYmRvSGG2ZAEFn8tQJt3jl0Hn0ZahdX/l9RUSs9fwrwcKbVTIFV1Xn+i//T8i
+ jywulvtR1dr2Iz4XZjeMGfJ6ujsL1IQJsGqUGjWyDryqaFOqlwu6Ykaof6pJDeQZ
+ A9EBOaPuO1yq0RxA4zAV5fv8QWoOW+VRVcydTjQaAZbrpP5tfU9H/H05m53Sjl2m
+ nddQaLFx+n1wMnbgyt88sUuX95nE96VZRgM2He/Mg68qb9MjLOxGo3Yx5AycXKpX
+ 1oxAt4HhPziZ2m5fDm81fc1wY4rk3EdS3nr+7L6yUPak2Q/pk3U7sPPDoX2ksL4x
+ 2VeHgg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48utk99gdu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 03:23:00 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-24cba71c71fso13945825ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 20:23:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757041691; x=1757646491;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1757042579; x=1757647379;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=z7VEF8fsQ16/5eguTcUya9i8sN0CVWScInMAqvxe2C0=;
- b=g4jDhAMFf+IpQ8A+qLTCkOhvhJD3zCHvnpzAFlDjqlCTabzikuXXKfdFyFUeDkHMOQ
- RSzfvlMS6D+7fDY412SChfhtsrQPDqf53p/MOXsAykbUHD1ydPyFKMAMUDT9DdSwnSSU
- LQVNlE0a+2HgWoh6pTJlmrGD6JM3OvZd7MO7w4YpZ3WQ8Cyoy1uMZEPEeFpJ79UxL27e
- qnrkjyPy3uComzEmR7kh9ftCZ8xdWweY4DyqfFg7cJUMKqNTTHxfTy6n1qQRDw43KC/F
- 0CxnCbh2mFPjgO9GLFhK3CR9cxJY8IraDVsG6n7Xc/qLI8EFb96NrTzXEeaSvgY0WWb9
- QzVQ==
+ bh=Nc/Me6JhWACWqZ3Seo6sntz583zORBKIxRCpmiza2Ms=;
+ b=CKCCgAIOaz68VvkrTws1ly92EY8+5ijCdoD5LaqdtjoYH5VROq9nxRuaIwDBLPQy6R
+ qE1gvBDVUX0AkREtFSZ0A90AdyRHMa2rLfd24IZYAOMO9Tuai+tydVAGO4G6oCC45G5X
+ nUbsGaTun4vQ4+qRJggWoeBMPMiKo6RnS8RTSpMldAuJB2DZ+UWJMs43duHLqM+84Jxs
+ GP2Bqpe4iKlnHc5wNVGguMBLLZDeZSUFcWk3ED5zpBAkEBrZqsROgu89cfb1GYQks5r2
+ igOo28ZPOTjXHVkqurYqcZrwe7kpgmjSlYf5B29MB1WRl51KlhqKo2kSlpLPGYsrhHv8
+ ASQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUdHRChtmNBhJO++0VUmeHqkmyJJPyWRHFm8oIJMxCTFlKIy729cJ7x2UYKfqROtBtQbQCgt3V+Vsg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFcud1pues+rGo8iT8By1p+Nb90AilAjG8UpkLDRBiTaHoFJGE
- p+1tsVCzsucj+DntPL7HOT5f0Lxrsvp0kzDJlDd7gGxfWn7WkMy2dYrsUnGa6kyAMdLyhs3b0Ar
- pFT8ONo9B/jXWrPT1NCLmO2a6jWCC8UE7JHKpwmgJ
-X-Gm-Gg: ASbGnctyv2Z6wAJCNQEK12zAv6aMadN3EmVOlCXerGTaLxhtmh1G9GgldtK8En9jnfo
- aCELuYlJyYPFfrwRVub6zJ+X4GoLHCB4TXvCjf1042au3W72hjE97SuULhPnwruYSAiwUH9iy/Y
- Z1/8u/K9/xZpoQpM4Gq15n4DoHKyiv1IWmNBn4/KVeXCGr7uUbKx6VCSPMTAl9djXAGK3OmDVFn
- U7HNkw6hUlprWVo/LT/MYi4IE3mq9s28gkuO3goQE35nfLK
-X-Google-Smtp-Source: AGHT+IGldyHuDYkPWivf90sba85mlu8jLhfEVWhM+CRAtZ5kcPdD6IcKM+CLluf3aDGmO4+qEneV9QzpuYa7Bir4LF8=
-X-Received: by 2002:a05:651c:1107:10b0:338:5ec:1dda with SMTP id
- 38308e7fff4ca-33805ec1e2cmr23475841fa.9.1757041691297; Thu, 04 Sep 2025
- 20:08:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250903225504.542268-1-olvaffe@gmail.com>
- <5820885.GXAFRqVoOG@workhorse>
-In-Reply-To: <5820885.GXAFRqVoOG@workhorse>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 5 Sep 2025 11:08:00 +0800
-X-Gm-Features: Ac12FXw182raft1JJYOZIoO33KVRrFPcguj33C1FCebFdDsYEFHlJ4j0UxQM7o4
-Message-ID: <CAGXv+5EbEDG3sZjo9BDv_8-HhLNNTH4DLZ3ibvdcsULXgkzjYg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/2] drm/panthor: initial mt8196 support
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
+ AJvYcCWQk6rTT9DKcMOPqmczDV3Wj9+/Vnu1hiEfDOeMwYBJfr1hjXPftm2n43ion1oXXx1IEceKvrDVVfo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3nPg9SsJR6c+Piftc94FdqwSfTJqdXZbl1XGLkA/tXS4ZeOF+
+ CLBaMvUWUoLel4SGVlpsx76IgxgdTrl/frzusMZMUD0xr2wWbqojlRAnzuTIuSfQ/6T/Byq/CN/
+ /nVjWPWPeG67dL/Ox50Mn18S+EqEciambJNbWnfrkZ1fKwO4QkMAm4mw0Pmh+QBIeAIxRU7c=
+X-Gm-Gg: ASbGncu1DhXYJrUlXnDEME9r1enZR3LA7WX1+aCXoQa2OMlM9dtEtn07nn7qlmb3RbQ
+ J2B8E1GlC+ykxN7k+UEE5Mq2SLXXnfl5BzYSWs+U0WXlk/eN0PAnXBTWWsDKfEqa6Y1VHO7dokN
+ 91WJVGwVW7gfTs2O50fLCT1A+0FWmjjMA8sulnB6rvFD5CXEXNLUWfnB+s973Pgk+drx79tSM+o
+ Xr2ozP77N/qp0gAn1Cq++ga2OgA2sCG5E66cGIkvuGd4quuuw75Vs5I95i+uzBmOBMy7YRv5SO/
+ onmG8y+MQv0isADHhoXMvrfNFRbdQFYOLQfL+qjd0x7lB3nbNpwRiVHSZS20VG1I3CE=
+X-Received: by 2002:a17:903:234a:b0:248:cd0b:3426 with SMTP id
+ d9443c01a7336-24944a460c6mr319747415ad.20.1757042579416; 
+ Thu, 04 Sep 2025 20:22:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFyydly+6Q3+za/vErI3NFaHpvIdVdkzEH2JljFFmfwcLO7aiqxAf3LzU16QOySCFRu0OmPvg==
+X-Received: by 2002:a17:903:234a:b0:248:cd0b:3426 with SMTP id
+ d9443c01a7336-24944a460c6mr319746945ad.20.1757042578960; 
+ Thu, 04 Sep 2025 20:22:58 -0700 (PDT)
+Received: from cse-cd01-lnx.qualcomm.com ([114.94.8.21])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24c92eb0898sm56355105ad.77.2025.09.04.20.22.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Sep 2025 20:22:58 -0700 (PDT)
+From: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Chia-I Wu <olvaffe@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v11 5/6] drm/msm: mdss: Add QCS8300 support
+Date: Fri,  5 Sep 2025 11:22:48 +0800
+Message-Id: <20250904-qcs8300_mdss-v11-5-b6b6a67a1719@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250904-qcs8300_mdss-v11-0-b6b6a67a1719@oss.qualcomm.com>
+References: <20250904-qcs8300_mdss-v11-0-b6b6a67a1719@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756974526; l=1044;
+ i=yongxing.mou@oss.qualcomm.com; s=20241121; h=from:subject:message-id;
+ bh=xP+KCWOk9SNxzFjMtHR6U06UR7/RbmmfOmVurK6QZow=;
+ b=Z884TyiVMh6z4n5Eo05hhTpvKy7488klciNK+fDHB2Ltr4fouFJ4gaQDdAtbKOSCIOIfHQHS8
+ Mg1w9ymL1zAAM2uX/f3ppo/qQHnXn2O+lwMidxWAVricDecApUAL0aJ
+X-Developer-Key: i=yongxing.mou@oss.qualcomm.com; a=ed25519;
+ pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: ydSijUfFEErrzP0_1fl5xBqq4r6KaHsm
+X-Proofpoint-ORIG-GUID: ydSijUfFEErrzP0_1fl5xBqq4r6KaHsm
+X-Authority-Analysis: v=2.4 cv=ccnSrmDM c=1 sm=1 tr=0 ts=68ba5794 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=VHyea80QRMuD3TjLfpgA:9
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDA0MiBTYWx0ZWRfX2I733U0EsVNk
+ p1nTJTFAzcMozmYqO5m78PF2NtrnezwM2WUwqoeHpH1cSTZx+DKbMTBmmYlyM4X80OZ24oegPCe
+ 4PxEfg/uJoL7406xw6PZh89Nr4oWMpORLj7fpXX9QoJve/fORaKcRnMV3O6Avl6B2I7NG3K+dNs
+ 36Ai25e+jHIuTGOuZ/VPVoBohEmK2py9QDc9ZLJhXQVbm8KqYBRYxNoTlUGI8d3Uhd5ZRQ5Gmvg
+ Y0QFHCpuj4U7iG1U0DffxYRm0kmG7nSXS46sUJZ++b4yFyN8NY2cTwqc3SsJEqLr5m1+nNcucF5
+ j8dwaCUhNYORtubPtQtNrQGszYI8SQ83w4gax7IPt/9sHL7Bbu6iRfxInMAGcmnjQ9p0Qgq1Bb5
+ +qr3MLlj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_01,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300042
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,96 +145,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 4, 2025 at 7:20=E2=80=AFPM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> Hi,
->
-> On Thursday, 4 September 2025 00:55:02 Central European Summer Time Chia-=
-I Wu wrote:
-> > MediaTek MT8196 has Mali-G925-Immortalis, for which panthor gained
-> > support recently. But the soc also requires custom ASN hash to be
-> > enabled. This series introduces panthor_soc_data for per-soc data and
-> > uses it to enable custom ASN hash on MT8196.
-> >
-> > The clk/regulator provider on MT8196 is GPUEB, whose driver[1] needs to
-> > be cleaned up and upstreamed separately.
->
-> I'm currently working on this, I'm at a functional 800 LoC driver vs the
-> more than 30k LoC of the downstream... thing. I intend to send it in as
-> an RFC once the clock stuff lands, and I get some responses wrt to
-> figuring out what's still missing from linux-next aside from the DT to
-> get basic boot working so that I don't send in something that I
-> accidentally shredded during a rebase without noticing.
->
-> Cleaning up the downstream driver is a fool's errand, it's like 6?
-> separate drivers, with lots of global state (and no locking), without
-> using the common clock framework, and relying on abusing -supply DT
-> properties to force a certain probe order to make all the race
-> conditions it would otherwise have turn out fine. A lot of it is
-> code that seems dead, or wrappers wrapping wrappers that have nothing
-> to do with how the hardware actually works.
->
-> My solution adds a small mailbox driver for the GPUEB, and also adds
-> a new module that lives in the panthor tree and registers itself with
-> panthor's devfreq stuff to be a "devfreq provider". The motivation
-> for making it devfreq instead of a clock+regulator provider is that
-> the GPUEB seems to have several quite devfreq-like parts to it that
-> I am not yet using, namely setting a job completion target time and
-> several methods of limiting performance.
->
-> As it stands it can set the OPP, but boosting above 1.43 GHz does
-> not seem to stick. The boosting stuff may be done by the four or
-> five other ways it has to set some frequency target.
->
-> I'm hoping I can send this in maybe next week or the week after. If
-> things remain blocked by then it'll be compile-tested in its current
-> form only and lack some clock stuff.
+Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
 
-I suggest posting them when you think they are ready, and not wait for
-the clk patches to land. The review is going a bit slower than I expected
-and Stephen usually just picks up the patches towards the end of the
-cycles anyway.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/msm_mdss.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-ChenYu
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index 2d0e3e784c044db8ac0c478446d211a982cf0350..db2f0064eb72e8a990ff4806f60be74d3ff8dfa9 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -555,6 +555,7 @@ static const struct of_device_id mdss_dt_match[] = {
+ 	{ .compatible = "qcom,mdss", .data = &data_153k6 },
+ 	{ .compatible = "qcom,msm8998-mdss", .data = &data_76k8 },
+ 	{ .compatible = "qcom,qcm2290-mdss", .data = &data_76k8 },
++	{ .compatible = "qcom,qcs8300-mdss", .data = &data_74k },
+ 	{ .compatible = "qcom,sa8775p-mdss", .data = &data_74k },
+ 	{ .compatible = "qcom,sar2130p-mdss", .data = &data_74k },
+ 	{ .compatible = "qcom,sdm670-mdss", .data = &data_76k8 },
 
-> Kind regards,
-> Nicolas Frattaroli
->
-> >
-> > This initial support also lacks support for some hw configs. On some
-> > configs, panthor is expected to query a mask from efuse to mask out
-> > unavailable shader cores from ptdev->gpu_info.shader_present. This
-> > requires extending panthor_soc_data with a callback to read the mask.
-> >
-> > This is an RFC because the dependent drivers are not ready yet. But I
-> > would like to gather opinions on having panthor_soc_data for
-> > soc-specific data and having CONFIG_DRM_PANTHOR_SOC_MT8196 for
-> > soc-specific code.
-> >
-> > [1] https://gitlab.freedesktop.org/olv/kernel/-/commit/170d5fc90f817dc9=
-0bde54b32872c59cf5c77779
-> >
-> > Chia-I Wu (2):
-> >   dt-bindings: gpu: mali-valhall-csf: add MediaTek MT8196 compatible
-> >   drm/panthor: add initial mt8196 support
-> >
-> >  .../bindings/gpu/arm,mali-valhall-csf.yaml    |  1 +
-> >  drivers/gpu/drm/panthor/Kconfig               |  6 +++++
-> >  drivers/gpu/drm/panthor/Makefile              |  2 ++
-> >  drivers/gpu/drm/panthor/panthor_device.c      |  2 ++
-> >  drivers/gpu/drm/panthor/panthor_device.h      |  4 +++
-> >  drivers/gpu/drm/panthor/panthor_drv.c         |  4 +++
-> >  drivers/gpu/drm/panthor/panthor_gpu.c         | 26 ++++++++++++++++++-
-> >  drivers/gpu/drm/panthor/panthor_regs.h        |  4 +++
-> >  drivers/gpu/drm/panthor/panthor_soc.h         | 26 +++++++++++++++++++
-> >  drivers/gpu/drm/panthor/panthor_soc_mt8196.c  |  9 +++++++
-> >  10 files changed, 83 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/gpu/drm/panthor/panthor_soc.h
-> >  create mode 100644 drivers/gpu/drm/panthor/panthor_soc_mt8196.c
-> >
-> >
->
->
->
->
+-- 
+2.34.1
+
