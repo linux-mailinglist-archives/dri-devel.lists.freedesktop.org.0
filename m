@@ -2,85 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0509AB4505F
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 09:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DD9B47805
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 00:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB0F10EB36;
-	Fri,  5 Sep 2025 07:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB63510E3F9;
+	Sat,  6 Sep 2025 22:45:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="JOQD/D9E";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5894910EB36;
- Fri,  5 Sep 2025 07:54:33 +0000 (UTC)
-X-UUID: 8b7cd9b08a2d11f0b29709d653e92f7d-20250905
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:b8911e54-e0aa-40d7-9e56-019791a9cc88, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:1038342e134dfa48eabc61cf9e37c597,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
- -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
- AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 8b7cd9b08a2d11f0b29709d653e92f7d-20250905
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
- (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1912680162; Fri, 05 Sep 2025 15:54:26 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 49564E008FA7;
- Fri,  5 Sep 2025 15:54:26 +0800 (CST)
-X-ns-mid: postfix-68BA9732-140429547
-Received: from [172.25.120.24] (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 33213E008FA4;
- Fri,  5 Sep 2025 15:54:22 +0800 (CST)
-Message-ID: <2ccca29e-4d5f-44fa-bfc8-d77c659bc9f3@kylinos.cn>
-Date: Fri, 5 Sep 2025 15:54:21 +0800
+Received: from mail-244102.protonmail.ch (mail-244102.protonmail.ch
+ [109.224.244.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26F210EB37
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 08:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+ s=protonmail; t=1757059210; x=1757318410;
+ bh=TKLUfGH8uv3WLk2SOPxFiRNjJURmOMHDoaZeUzdLiOs=;
+ h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
+ Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=JOQD/D9Et30KnY8JwuEIwpaQHwFLtBFnWWCN6ak9KOYk2pjw4OyrVEsZXHm0WhXxo
+ IxCB8k28ZVSTNkDiFFlmMt+wIkk6i306RgMQnuvXYYVMxi1vXovM3T8uPxkmR0/CTN
+ 6uaDjJPr5kvs7DR+k+Wl9qJj3yN3/PRk3e7phsrjk198586Ye9Sj4h1FOGcYCCS7Up
+ mJSCCIHtCVHG4sw3XaeYO9paRD0DIATQaIct4eruYaz6BQXoMzctwj+zxAoYfxZb5H
+ w/p+QVzhb5IcWV+AiLzFyRYS+C2l69McwbCbP96wya76u1SN0AInvi55ThTyXWYdXP
+ ls/jvkJCI6L6Q==
+X-Pm-Submission-Id: 4cJ8080fKzz2ScWY
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Date: Fri, 05 Sep 2025 09:59:31 +0200
+Subject: [PATCH v2 3/4] leds: led-class: Add devicetree support to
+ led_get()
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/10] thermal/drivers/ti-soc-thermal: Use scope-based
- cleanup helper
-To: Andreas Kemnade <andreas@kemnade.info>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Alim Akhtar
- <alim.akhtar@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
- <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
- <20250903131733.57637-10-zhangzihuan@kylinos.cn>
- <20250905085726.2bc6fcb4@akair>
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-In-Reply-To: <20250905085726.2bc6fcb4@akair>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
+References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
+In-Reply-To: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Aleksandrs Vinarskis <alex@vinarskis.com>, 
+ Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2846; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=q4BZRBIPBJ3imnNcJBChAehI+qOXxd1Xc7eYB34jKo0=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBm7ZtS/ku/L05jXe15Y9c+f/171HP/OSgiKxjL0x6tr6
+ 1WtXf6+o5SFQYyLQVZMkaX7z9e0rkVz1zJc1/gGM4eVCWQIAxenAExk5XSGf5pWrnd+TLlbUfbR
+ Xu1MdIj46oXztyadC5wyrf37SefTigsZGa4Jq80+MeVfUP4j349Cq2qnWfve+OAqtmpjZ8B240c
+ XKlkA
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+X-Mailman-Approved-At: Sat, 06 Sep 2025 22:45:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,78 +81,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Hans de Goede <hansg@kernel.org>
 
-=E5=9C=A8 2025/9/5 14:57, Andreas Kemnade =E5=86=99=E9=81=93:
-> Am Wed,  3 Sep 2025 21:17:32 +0800
-> schrieb Zihuan Zhang <zhangzihuan@kylinos.cn>:
->
->> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
->> annotation for policy references. This reduces the risk of reference
->> counting mistakes and aligns the code with the latest kernel style.
->>
->> No functional change intended.
->>
->> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
->> ---
->>   drivers/thermal/ti-soc-thermal/ti-thermal-common.c | 13 ++++--------=
--
->>   1 file changed, 4 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c b/driv=
-ers/thermal/ti-soc-thermal/ti-thermal-common.c
->> index 0cf0826b805a..37d06468913a 100644
->> --- a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
->> +++ b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
->> @@ -27,7 +27,6 @@
->>  =20
->>   /* common data structures */
->>   struct ti_thermal_data {
->> -	struct cpufreq_policy *policy;
->>   	struct thermal_zone_device *ti_thermal;
->>   	struct thermal_zone_device *pcb_tz;
->>   	struct thermal_cooling_device *cool_dev;
->> @@ -218,6 +217,7 @@ int ti_thermal_register_cpu_cooling(struct ti_band=
-gap *bgp, int id)
->>   {
->>   	struct ti_thermal_data *data;
->>   	struct device_node *np =3D bgp->dev->of_node;
->> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq=
-_cpu_get(0);
->>  =20
-> this looks as it changes the lifecycle from the device lifetime to just
-> this function...
+Add 'name' argument to of_led_get() such that it can lookup LEDs in
+devicetree by either name or index.
 
+And use this modified function to add devicetree support to the generic
+(non devicetree specific) [devm_]led_get() function.
 
-I thought policy was only used in this function, so I moved it here.
+This uses the standard devicetree pattern of adding a -names string array
+to map names to the indexes for an array of resources.
 
-Thanks for clarifying the lifecycle issue.
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Lee Jones <lee@kernel.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Hans de Goede <hansg@kernel.org>
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+ drivers/leds/led-class.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
->>   	/*
->>   	 * We are assuming here that if one deploys the zone
->> @@ -234,19 +234,17 @@ int ti_thermal_register_cpu_cooling(struct ti_ba=
-ndgap *bgp, int id)
->>   	if (!data)
->>   		return -EINVAL;
->>  =20
->> -	data->policy =3D cpufreq_cpu_get(0);
->> -	if (!data->policy) {
->> +	if (!policy) {
->>   		pr_debug("%s: CPUFreq policy not found\n", __func__);
->>   		return -EPROBE_DEFER;
->>   	}
->>  =20
->>   	/* Register cooling device */
->> -	data->cool_dev =3D cpufreq_cooling_register(data->policy);
->> +	data->cool_dev =3D cpufreq_cooling_register(policy);
-> and it is passed on to something living beyond this function. I see no
-> _get(policy) in cpufreq_cooling_register().
-> Am I missing something?
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 15633fbf3c166aa4f521774d245f6399a642bced..982eb4c1aac998e85b104d7cba26e786ca62056f 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -252,15 +252,23 @@ static const struct class leds_class = {
+  * of_led_get() - request a LED device via the LED framework
+  * @np: device node to get the LED device from
+  * @index: the index of the LED
++ * @name: the name of the LED used to map it to its function, if present
+  *
+  * Returns the LED device parsed from the phandle specified in the "leds"
+  * property of a device tree node or a negative error-code on failure.
+  */
+-static struct led_classdev *of_led_get(struct device_node *np, int index)
++static struct led_classdev *of_led_get(struct device_node *np, int index,
++				       const char *name)
+ {
+ 	struct device *led_dev;
+ 	struct device_node *led_node;
+ 
++	/*
++	 * For named LEDs, first look up the name in the "led-names" property.
++	 * If it cannot be found, then of_parse_phandle() will propagate the error.
++	 */
++	if (name)
++		index = of_property_match_string(np, "led-names", name);
+ 	led_node = of_parse_phandle(np, "leds", index);
+ 	if (!led_node)
+ 		return ERR_PTR(-ENOENT);
+@@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+ 	if (!dev)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	led = of_led_get(dev->of_node, index);
++	led = of_led_get(dev->of_node, index, NULL);
+ 	if (IS_ERR(led))
+ 		return led;
+ 
+@@ -342,9 +350,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+ struct led_classdev *led_get(struct device *dev, char *con_id)
+ {
+ 	struct led_lookup_data *lookup;
++	struct led_classdev *led_cdev;
+ 	const char *provider = NULL;
+ 	struct device *led_dev;
+ 
++	if (dev->of_node) {
++		led_cdev = of_led_get(dev->of_node, -1, con_id);
++		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
++			return led_cdev;
++	}
++
+ 	mutex_lock(&leds_lookup_lock);
+ 	list_for_each_entry(lookup, &leds_lookup_list, list) {
+ 		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
 
-This indeed causes a problem.
+-- 
+2.48.1
 
-Sure,=C2=A0 I will drop the patchset.
-
-Thanks!
-
-> Regards,
-> Andreas
