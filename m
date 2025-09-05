@@ -2,89 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123A1B453DF
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 11:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B35B453F7
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 12:01:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75BB810EB61;
-	Fri,  5 Sep 2025 09:58:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ebQxaQjd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5558210E2CF;
+	Fri,  5 Sep 2025 10:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6403710EB61
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 09:58:49 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-b049bd81ce5so84365866b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 02:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757066328; x=1757671128; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
- b=ebQxaQjd/veHmueiHIbjpSI0zaZOp67AWk4rgMjUV30SEBlA3iHN4zzDxwSpJd5DAh
- L9Y9wzJvMX2WUgME/hGiQ5ej1ML1mcoRlmLxIJ1R2J/TLbVoF1iLAJ+A9K6p1KN43lzr
- owF+1KOXQkP69CGga7usvaTIgDOJMf8P4vtDGo1GCMeeS9SHwm11EX6T2nP1Ktx6z2nj
- kG/S165xKLiJ5XfiPMrlZZagmsFHB3kNS5MLyGT2iEnBIu8UDVH+8v+Ghpd8pcX9+tkr
- seHelfX5ikkyEJN57M+1onHV7z5u/Skb9MpkRCXyNlWy4MDh5tP2/FxI98kmPfkp8LZn
- ofOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757066328; x=1757671128;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
- b=TajBaOMHKeEtrzy2hF2r0pcXNpbNbquQzvPRV0duJu/aqNt2mqGw8zGyDymmW2V/jA
- xZ1bVMihmmWQIzJ+NzKbnCACp6FTGVkAuHgezMH98bu+k7ZZ03qQDk+tQG/SIKpio+0A
- /z0xPex0IOSVuMPifngDObQy9owu/Ls15Y8aRzd5fAJGzlMPS8ZUPbhbnnjdfTymo40J
- UovOz136vsZ8fc2EhGeHJqKu4lhnzVw8mqiSVNq5hc6qHF5wUvzF2S7BGCQPivsUUlTf
- AOzKiXLl6C9hrB8vp0jEZlv79N3hOH9Q1CvgyboW7m9iwLvD8PxavHaLxxf+pD6ooTAH
- ryfQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWw4UUqvzmylt81+jMqG96gBLO47nz9x3nnUN4xjiCeVzk1BdKKMFcXP/K6Rsy7nWFbWAkUKNgcG2c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJuzytZg3pEufEqJwdgYjiz4Zute8FvOn9BVJ6LA2U/SrupSA6
- Ix6V+cTu1a2Q7BfNHi/XYULEeMV/wuryCbWXVDpB5nvHOvD7t6M/4i1Fzr4iPxCblG/a6yGzbiW
- bwjSX6HKYiZ3QMC8tCNn6mNi15HsbxaI=
-X-Gm-Gg: ASbGncvRGClQEHW9vVriTrScozUexQ+EUR4drerwJQs1t3QftNxypwEfxTIbHt0r5+M
- Pa3HzxtX/vW1+dr7FjvgHX4k9GDcErmPJuUH4EdAaWmK2SxNOberssJiq2aKx0Rtku8NcI6Ia0J
- gpe88HQxDYzO9/wS2FxIOjjoRqqhjJoEUbAwkAQQtjdHqjAIgsrH/P3sFLsWVFVvL0J12i6kATz
- gvKPHiNh1btaMjeAFyU
-X-Google-Smtp-Source: AGHT+IG+T0I2sVJ76wcpIaEPBSRBiZu3omKGiXauTUn6MdjpxAu1nCa0lZ8hdCy65HkLKv48pMVIExJVfsOtu7NoIlE=
-X-Received: by 2002:a17:906:b24e:b0:afd:eb4f:d5d2 with SMTP id
- a640c23a62f3a-b04931b6715mr244720966b.31.1757066327695; Fri, 05 Sep 2025
- 02:58:47 -0700 (PDT)
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80B7F10E2CF;
+ Fri,  5 Sep 2025 10:01:38 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cJBg91Jm0z6JBRj;
+ Fri,  5 Sep 2025 18:00:37 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+ by mail.maildlp.com (Postfix) with ESMTPS id 8815E140145;
+ Fri,  5 Sep 2025 18:01:35 +0800 (CST)
+Received: from localhost (10.203.177.15) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 5 Sep
+ 2025 12:01:33 +0200
+Date: Fri, 5 Sep 2025 11:01:32 +0100
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>
+CC: "Rafael J . wysocki" <rafael@kernel.org>, Viresh Kumar
+ <viresh.kumar@linaro.org>, Catalin Marinas <catalin.marinas@arm.com>, "Will
+ Deacon" <will@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko
+ Ursulin <tursulin@ursulin.net>, "David Airlie" <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>, Eduardo
+ Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, Ben Horgan
+ <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>, Zhang Rui
+ <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>, Lukasz Luba
+ <lukasz.luba@arm.com>, "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
+ <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>, "Sumit Gupta"
+ <sumitg@nvidia.com>, Prasanna Kumar T S M <ptsm@linux.microsoft.com>, Sudeep
+ Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
+ <linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+ <linuxppc-dev@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <imx@lists.linux.dev>, <linux-omap@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 05/10] PM / devfreq: Use scope-based cleanup helper
+Message-ID: <20250905110132.00003987@huawei.com>
+In-Reply-To: <20250903131733.57637-6-zhangzihuan@kylinos.cn>
+References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
+ <20250903131733.57637-6-zhangzihuan@kylinos.cn>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
- <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
-In-Reply-To: <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 5 Sep 2025 12:58:11 +0300
-X-Gm-Features: Ac12FXxgVWw8at73QOgiZhDzD-M5RC_p2kCHNqId-Qnd1EcmDzHOPtVe7B7RZ5s
-Message-ID: <CAHp75VfSoDHX-zy3Kdk0=oBA64mKddXqHh7v6RwfzRJo8Az_1A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] leds: led-class: Add devicetree support to
- led_get()
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.203.177.15]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,34 +79,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 5, 2025 at 11:00=E2=80=AFAM Aleksandrs Vinarskis <alex@vinarski=
-s.com> wrote:
+On Wed,  3 Sep 2025 21:17:28 +0800
+Zihuan Zhang <zhangzihuan@kylinos.cn> wrote:
 
-> Add 'name' argument to of_led_get() such that it can lookup LEDs in
-> devicetree by either name or index.
->
-> And use this modified function to add devicetree support to the generic
-> (non devicetree specific) [devm_]led_get() function.
->
-> This uses the standard devicetree pattern of adding a -names string array
-> to map names to the indexes for an array of resources.
+> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
+> annotation for policy references. This reduces the risk of reference
+> counting mistakes and aligns the code with the latest kernel style.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 
-...
+This falls into the mess of mixing gotos with cleanup.h usage.
 
-> +       if (dev->of_node) {
+The guidance in cleanup.h IIRC say don't do this.  It isn't (I think) buggy here
+but it does make things harder to reason about and generally removes
+the point of doing __free.  So I think if you are going to do this one
+you need to do it fully which is a little more complex.
+Need to deal with parent_cpu_data which isn't that hard.
 
-This check is not needed.
+If you mix the two, Linus may get grumpy!
 
-Currently of_led_get() returns -ENOENT if the np is NULL or index is
-invalid (negative value).
-Same will be with the added index search as in case of error it will
-hold a negative value.
+> ---
+>  drivers/devfreq/governor_passive.c | 25 +++++++++----------------
+>  1 file changed, 9 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governor_passive.c
+> index 953cf9a1e9f7..a035cf44bdb8 100644
+> --- a/drivers/devfreq/governor_passive.c
+> +++ b/drivers/devfreq/governor_passive.c
 
-> +               led_cdev =3D of_led_get(dev->of_node, -1, con_id);
-> +               if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) !=3D -ENOENT)
-> +                       return led_cdev;
-> +       }
+> @@ -256,7 +253,6 @@ static int cpufreq_passive_register_notifier(struct devfreq *devfreq)
+>  	struct device *dev = devfreq->dev.parent;
+>  	struct opp_table *opp_table = NULL;
+>  	struct devfreq_cpu_data *parent_cpu_data;
+> -	struct cpufreq_policy *policy;
+>  	struct device *cpu_dev;
+>  	unsigned int cpu;
+>  	int ret;
+> @@ -273,23 +269,23 @@ static int cpufreq_passive_register_notifier(struct devfreq *devfreq)
+>  	}
+>  
+>  	for_each_possible_cpu(cpu) {
+> -		policy = cpufreq_cpu_get(cpu);
+> +		struct cpufreq_policy *policy __free(put_cpufreq_policy) =
+> +			cpufreq_cpu_get(cpu);
+> +
+>  		if (!policy) {
+>  			ret = -EPROBE_DEFER;
+>  			goto err;
+Return directly here (and after changes below, in all error paths.
+>  		}
+>  
+>  		parent_cpu_data = get_parent_cpu_data(p_data, policy);
+> -		if (parent_cpu_data) {
+> -			cpufreq_cpu_put(policy);
+> +		if (parent_cpu_data)
+>  			continue;
+This is the first use of parent_cpu_data. If it's set at this point
+we don't use it at all.  So step 1. Rename this to split this
+use from the one that follows.
 
---=20
-With Best Regards,
-Andy Shevchenko
+
+> -		}
+>  
+>  		parent_cpu_data = kzalloc(sizeof(*parent_cpu_data),
+>  						GFP_KERNEL);
+This one needs to be
+		struct devfreq_cpu_data *parent_cpu_data __free(kfree) =
+			kzalloc(sizeof(*parent_cpu_data), GFP_KERNEL);
+
+		
+>  		if (!parent_cpu_data) {
+>  			ret = -ENOMEM;
+> -			goto err_put_policy;
+> +			goto err;
+>  		}
+>  
+>  		cpu_dev = get_cpu_device(cpu);
+> @@ -314,7 +310,6 @@ static int cpufreq_passive_register_notifier(struct devfreq *devfreq)
+>  		parent_cpu_data->max_freq = policy->cpuinfo.max_freq;
+>  
+>  		list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_list);
+
+then here we need to ensure we don't free parent_cpu_data. Hence
+
+		list_add_tail(&(no_free_ptr(parent_cpu_data)->node,
+			      &p_data->cpu_data_list);
+
+That that point we have passed ownership of the data to the list.
+
+> -		cpufreq_cpu_put(policy);
+>  	}
+>  
+>  	mutex_lock(&devfreq->lock);
+> @@ -327,8 +322,6 @@ static int cpufreq_passive_register_notifier(struct devfreq *devfreq)
+>  
+>  err_free_cpu_data:
+>  	kfree(parent_cpu_data);
+And all this error block goes away.
+
+> -err_put_policy:
+> -	cpufreq_cpu_put(policy);
+>  err:
+>  
+>  	return ret;
+
