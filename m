@@ -2,162 +2,196 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC94EB45689
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 13:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3B1B456B6
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 13:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26BB510EB8D;
-	Fri,  5 Sep 2025 11:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B0B810EB8E;
+	Fri,  5 Sep 2025 11:43:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SAtz4rNY";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="xO0Fp2Kq";
+	dkim=pass (1024-bit key; unprotected) header.d=stmicroelectronics.onmicrosoft.com header.i=@stmicroelectronics.onmicrosoft.com header.b="PQ8Ointt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A39C10EB8D
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 11:38:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757072319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=luQGhz3W9bQvvWBMkQH/XO40AxL9T26r0ebxy/p3+ys=;
- b=SAtz4rNYr7w0xIU/eORxNcydcn09buyBgdrIjsws6k4FTEKWITdv/RG7E8PisbwcxKQk27
- VTA02f7eYOvqG7RR7RmsTkN8/7MvUpN5OOpWpbc8bwPhFjpteMggqxLXE42DYXsVyP3l/X
- ddDE10dEkaZiHq9pSW+k0TH0VBdA598=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-g2567TryPpu8Qxhrvc7XhQ-1; Fri, 05 Sep 2025 07:38:38 -0400
-X-MC-Unique: g2567TryPpu8Qxhrvc7XhQ-1
-X-Mimecast-MFC-AGG-ID: g2567TryPpu8Qxhrvc7XhQ_1757072317
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-45b9912a07dso11269315e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 04:38:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757072317; x=1757677117;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=luQGhz3W9bQvvWBMkQH/XO40AxL9T26r0ebxy/p3+ys=;
- b=Jlak9E5dpTawTibhu0iM+U6oSnd6cUNO/s74JLurOWte4kWaZdFmLUGZE+jvLeEUhN
- 74aP+ofzPueKywraaZeXzPKKuLzPAm0UtqC17tfJI3GzkzdeUfzSO3potTGwXbD1Jd3h
- 1TIJ/b50tO2eQW25RP8ojwBQoKUiL0m3FMFvYA98i/OHIlo7AKzPModarw/lAccGjRDZ
- rOnP3CP3nHOrzXWTC8avB7czDBGcIVVSOIlvkY8Pdm0ym46u8O379EQCwhIt6RMmOw3V
- 0LmkxSeVn9mIoC6Y5cM89lI/5KS23gxAdhzLu5xfeZSkwl8fCFTCm0bVFG2sofGFy0ci
- lHvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX77Hqi0alAYCy4dIyBJIbrZDU+93xPrHOPEyCfcqJb/DhmVHKxQswi+rLblf9y8Ah1W5WOGeL8x1A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybBi8GEr1i+npPzJSFrO/D8Yo2NpSg3UAR3vLaM9cOWk4g7fTD
- yhsI0Q3XuJ6ZICOWJuiMu8Mtt4PXOub10IKvE0wUDo9aRkDv8iT6mJMZvrXWSFVjsDwGB4p1E/P
- vP4OAOzx5UnuLTbGmCSNrhQ6SzLt+b/SyaB/EXvUMOCehcvpyEB5GpTE97WI9cYnZKpTERQ==
-X-Gm-Gg: ASbGnctm9Ht/jzEHLxdJOBKCHRUmCtR+V6Z6TcWZZU/FUff8nRRZD9V/uIZyStxYRs2
- wZ0WHWc4YHp+CG51ot8z85Pafu1xwN4dy9uwhDGHMHnIRdu3OR/j24kl9I99DDWCz02g0lQ8aZE
- LRbBSiQ0McUgLR1Au3crEt3azfloXDNNU30z1GI7RGugETGpM7fD6YnZNvxNrBwBu5oNXrBHbFm
- yRo/YLQpeFToV3PVhIegMwjdQ1x3I3L6DTQQyWjbzqDUi/ifqqLyxjHpX5WfvauH4xC2Hgah6zx
- N6VctkxCS+hr90SYreo13qCIYeyG1/eEXJaFVBeZ3O1CGBE2AOZ3LjpHRArJ/S8+595fT27jcaN
- A36XFs6SRYX80C1upaQCnrP2FlqzEZe/eed+qm655fRxHuBy5h7TZ5Rp6
-X-Received: by 2002:a05:6000:1789:b0:3e0:43f0:b7b6 with SMTP id
- ffacd0b85a97d-3e043f0be07mr5028700f8f.52.1757072316773; 
- Fri, 05 Sep 2025 04:38:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFo8MNleTLRHLacoeKcQ93i9Gk8ZDv5dPOPJ5nfQMIibIGfmFimYQBfp9bCIqgP6uhYUdcj5w==
-X-Received: by 2002:a05:6000:1789:b0:3e0:43f0:b7b6 with SMTP id
- ffacd0b85a97d-3e043f0be07mr5028644f8f.52.1757072316181; 
- Fri, 05 Sep 2025 04:38:36 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4d:e00:298:59cc:2514:52?
- (p200300d82f4d0e00029859cc25140052.dip0.t-ipconnect.de.
- [2003:d8:2f4d:e00:298:59cc:2514:52])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45dda2021dfsm19061165e9.24.2025.09.05.04.38.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Sep 2025 04:38:34 -0700 (PDT)
-Message-ID: <9fe9f8c7-f59d-4a4b-9668-d3cd2c5a5fc9@redhat.com>
-Date: Fri, 5 Sep 2025 13:38:32 +0200
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5E2610EB8E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 11:43:01 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 585BHhgd019505;
+ Fri, 5 Sep 2025 13:42:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ +Vp0ZHMDZ97NkjEO2PeHQOjhIYzMjldaYFs1fFWzdKM=; b=xO0Fp2Kqcl7z+e8t
+ tkYG/lOMbSYDn/G18ukPVCEAu1hR8R6YOkqZKMD+YaHFQ4H7GwKYoYpCZaojNCY9
+ h2KFTedP8gemfoR8+eUs2TWge0GNTZBJChCU1CvYRijs80+gpKBbXfNHNpu92mpk
+ S9XCiuCt4im5xr+sK7fh/7LsWJsRhSX+3IzaHZxOBVgs0SIO1+jrBza3dRRqM/JM
+ cRbE2qxQNzMj4m7iZ8VYSKyENy9Iz1hYcC2CbQlPJDnBIK2b4SDMFfa3u5UNEFEH
+ UIEC4P864NcLx2Y/bc+wJbc0eE5iyQtOwIBqMyyRBj9Mm8Ss/XHZxlM9BLnKF+Lu
+ NbFBHQ==
+Received: from am0pr02cu008.outbound.protection.outlook.com
+ (mail-westeuropeazon11013057.outbound.protection.outlook.com [52.101.72.57])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48urmxttt6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 Sep 2025 13:42:42 +0200 (MEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pj6j3KZBN7UTrn6G9XeHl2e0CmbDsmZ5k7pDiTfYcQ75CPGpA3SWRzBiUk4aYQPXfDGvrQsBDcTKpnqtI3R8iCvJB7m5iUdVTf1hx85DA1l+fpCbN4tmne8RX5yrY/GyoTsAGxOdbtY9irolKwrPX1JXefkSoXhPbHA4taMlUDmUBz/Z91nlGFAGXYblolf8AdklwJk+n5RPz/AbVjm8y3mcLo3faA6gcUfCQhO45/gTn3n9DFgWaHEudM+1PbuX9ieG4r0qCfjairXcBHLRcsB1Ck5P42c16Q2yHBPPhXH1IwSnLtNEwzZwRO2S43nQx9av+C3bV2fIVgUAmqIfwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+Vp0ZHMDZ97NkjEO2PeHQOjhIYzMjldaYFs1fFWzdKM=;
+ b=MZKoUGjMHryl9Q6zPbIdJr6Xw1ujMem9gzVQwa77Pxp3ha88qJYa/cwY5K60vpZrDPITMAzSDtKPI4meXy6FMI5b+j9yHQ5pRiT4Z4euBcrhpqLyV82Xz6yh4Q4cHanwHYkG2UNBozWSNeysSUue84BWC2aMNYkO80GqbRHvvZuB6OV3a+TTTAuzrzkxMQykKZV//i3vx7JXNHd5elHam62IMgd8MPW5zcBPATbD0oDAOS1lmHJFMBuBS2LiDJ5DZgN6ZbTTZLzHNpyozYz/LhsANVSgXQPtUSGzGH/FdRTKj1pjGF2TKI8wnFFbGh6AzDHGColGnJEnosuZ56jP2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.43) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stmicroelectronics.onmicrosoft.com;
+ s=selector2-stmicroelectronics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+Vp0ZHMDZ97NkjEO2PeHQOjhIYzMjldaYFs1fFWzdKM=;
+ b=PQ8Ointtw8ViJj8gGZ6N7XY7ctq6yTU2azLDMyD6tx32LgWPuMSNTWWRPHrCUUQm8coMyw1a/CWXy5akLPf6xdPZAgAmv1DVfDEsLkf8Ok2RT90QjHE12/4nb0sfmKs7O3jPraKtJv12y+PI4UEZijCND4XNRcp0hkaQ67aoGj0=
+Received: from AM0PR02CA0174.eurprd02.prod.outlook.com (2603:10a6:20b:28e::11)
+ by VE1PR10MB3950.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:162::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Fri, 5 Sep
+ 2025 11:42:40 +0000
+Received: from AM4PEPF00027A63.eurprd04.prod.outlook.com
+ (2603:10a6:20b:28e:cafe::93) by AM0PR02CA0174.outlook.office365.com
+ (2603:10a6:20b:28e::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.20 via Frontend Transport; Fri,
+ 5 Sep 2025 11:42:40 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.43)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.43 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.43; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.43) by
+ AM4PEPF00027A63.mail.protection.outlook.com (10.167.16.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9094.14 via Frontend Transport; Fri, 5 Sep 2025 11:42:39 +0000
+Received: from SHFDAG1NODE2.st.com (10.75.129.70) by smtpO365.st.com
+ (10.250.44.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Fri, 5 Sep
+ 2025 13:40:21 +0200
+Received: from [10.130.74.180] (10.130.74.180) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Fri, 5 Sep
+ 2025 13:42:38 +0200
+Message-ID: <d49741bd-b5de-4765-be24-bc0274eee3e3@foss.st.com>
+Date: Fri, 5 Sep 2025 13:42:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-20-david@redhat.com>
- <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
- <b7544f6d-beac-46af-aa43-27da6d96467e@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <b7544f6d-beac-46af-aa43-27da6d96467e@lucifer.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: bRcKzxJWruGUS4vTSsAZLR91Rn2ChqT7A0YvpXcVISw_1757072317
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH] dt-bindings: panel: lvds: Append edt,etml0700z8dha in
+ panel-lvds
+To: Conor Dooley <conor@kernel.org>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Thierry Reding
+ <thierry.reding@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20250829-drm-misc-next-v1-1-fedb48cf50dd@foss.st.com>
+ <20250829-geek-unearned-786928b128af@spud>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20250829-geek-unearned-786928b128af@spud>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.130.74.180]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00027A63:EE_|VE1PR10MB3950:EE_
+X-MS-Office365-Filtering-Correlation-Id: 290586ea-4a7e-4ec3-97be-08ddec715189
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZXpyMEoxZ1I0eGx4Skx0UFZkRXVQNDVZbThIR3VTSVlVYzEwaFByQm91VUF2?=
+ =?utf-8?B?SG9TR1RubFJuRzNBQjQ0VW1acGpCbUk3RE51OGc2SERZb1doYng1eE9USnc1?=
+ =?utf-8?B?dUhtYyt6RnMzQktBSk8yVjBTMnFXSk4zQzV3WWE4eGVNcjlFTll6MnhXZm5n?=
+ =?utf-8?B?MGhPTThoK1lNdzFCN0Njeld2Q2VMclQ3TEtsRW5qRnJleGVDQ1ljT0JuRUp2?=
+ =?utf-8?B?dUtqZEFWdnhmckx0bDkwZXFzdUlhQlZCVVJPR1ZhVFVRVVdIbngvZHBlM1FG?=
+ =?utf-8?B?eHB2TFh1ZTJ4OUJsZkhqM3A0cllwSUhsdExLdEZnU1loY1hJWXlVYU9zRlN3?=
+ =?utf-8?B?VHp6RlhwZ09tOWxLL2tRS0pTY0UvWTJSRU9LVldLNHlENUZoMXo5cmNqTUl5?=
+ =?utf-8?B?aURwUm93TDFSOUN6ZDRuQnBTYzl5QXQvQmZSQTdxMFMxajU1ZFZZdFNKdWFV?=
+ =?utf-8?B?bUtjRWY1b1I4ZE5ITFVBNHZZaFV3ME5scEJtakFXakhDVWlPdEhSQzNFUGdi?=
+ =?utf-8?B?WjM4MUI3SW5Db1cvRmtWV2Q4elRsVDJKVnA3ZDViUThOd3l4NXRDTWZpOUhP?=
+ =?utf-8?B?NVNKK0pFRmI5SVFWbVIrTGRYdUQxOEhxbWpDdXFLM05RVU8zeGdiRTVLbW13?=
+ =?utf-8?B?b1NNYWJIS2dmMFhNNHlWbURPTkIzaC9hVS9hNUpRRWZ2YUVvcE1rMnNsTjBT?=
+ =?utf-8?B?VGg4L0RMVTRBUTRrRERSaldhSXlQdUJaQ0QyWUtVTWM5UUlPSWdHQjVFREgr?=
+ =?utf-8?B?UkVPYTNaZzVpcHdpU2VZZkw4L3VRQnFFOUhMWVFnc05mYVhLMVpvYkR2Z2th?=
+ =?utf-8?B?eGc3ZjhMZnB4cDRsMW5JYWtlVXlGbnNSaCtNWHR3cTg5RisxZHdvUFMzcnk3?=
+ =?utf-8?B?YVdVUU51MWRyajhJb2RpMzNCMUtKU1NnU2dZWVpCbXg5RjBYQmVDT0lMMGNW?=
+ =?utf-8?B?RFpoZ2pTZHd3Y1hTM3ozTXUwRnhNcVRIQVV1T0dHTngwTVhLYlIxa1dDdzBk?=
+ =?utf-8?B?ZUNzY283MDdRVDlqUTJWUWdRbXUxNXFwTTFEQW5wT1FralJTN0k4K3Y1RC9a?=
+ =?utf-8?B?SHlaSWxrR2l3WDNJK25uM2FzK2NvTnhJbVlBMXNGY3hpSEJLOG1xQWNYeXc1?=
+ =?utf-8?B?SEtpODBaTHlRWDFGenhQSGgvZkNmYi9Od2plQnYvRVNnSVgrb3ZDOUMvbWR0?=
+ =?utf-8?B?elZxb2t6aUk2Um1GOEkrd2l4R2pTTlZhVEF1dUlhdTFrWHdDWnNOcUxTeTlB?=
+ =?utf-8?B?bUdabmFqRDFYUTE1aERMeGpWaEFIR0Q4Z1N4bCt1ZjJreGNOOVdqaTVsUGk0?=
+ =?utf-8?B?TlBwREd1azNucVJtT0lwRmh6STlzUEZ0VEJod2VGVXM3OGgyWGpKUnFxSkEr?=
+ =?utf-8?B?TzhDaTdKL2J0WXVWazZIVVVNTVRXVDVCWWN5d05vMlJhYWdxS1hNQUV2TTln?=
+ =?utf-8?B?eEVWWmdkSWdrb0JuN0crRkFza1N2TmtycE5ibXFIUjFpQWFvOEtBTmhVK2J2?=
+ =?utf-8?B?Ukp3ajRkN2V2UlpIaDhIVG0xdmQ5SWhONTNZbHUyTjN2K3lvRkcvZ3d5UG5P?=
+ =?utf-8?B?Z1pDSDFYQzN4SEU2Y2R6Rzd2SmhUUnhXSGNrQld4MDRsaEgvU3BMNWxkNVFn?=
+ =?utf-8?B?Q25ta21WZW9GWWVkeDNaNm1tOFJScVJ3amFKVzk1V3JQUUtEL0hYenVnODNm?=
+ =?utf-8?B?clJyZW0wR1c5TDZkbVRSSGE5bXZqRzJ4enZwODdsZFkya1p4d2pvbGp0ejl4?=
+ =?utf-8?B?T3hBbDFWYXhiT3RMcGpLOVZBUjBtRmdOR1BXeUJuSDkyM09FckNsV2w2QWxS?=
+ =?utf-8?B?RnlFallTWFlQMUhmbG1yOVRZUkVXQzZpS1E1d0ZiaSs1YzFmeU55T1RabHpj?=
+ =?utf-8?B?WGFTdXBudWl5MUxaMnZ6YzNEOTBMMVM1MWtUMG40eEZwRk1CVTk2QXF3L2lV?=
+ =?utf-8?B?bkJmYzBQdVZVQXZHWW05TVZKV3paOXJYdGt6N29XK2h0K1l0YTNCakU5WU5j?=
+ =?utf-8?B?UVpwRmpFeDE2eWZKdlF1T3NhSlJQSmZiVzRtNnpiV3ZrTlNtaEpob3VhUUJw?=
+ =?utf-8?Q?CmEQem?=
+X-Forefront-Antispam-Report: CIP:164.130.1.43; CTRY:IT; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:smtpO365.st.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 11:42:39.9050 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 290586ea-4a7e-4ec3-97be-08ddec715189
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f; Ip=[164.130.1.43];
+ Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A63.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR10MB3950
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNSBTYWx0ZWRfX2r1LZ7NB2n44
+ qnuc3GRT7D0BHMYR+edInrkljLGjKyKV9dP2zZ+06W2Di4cpDcHulpZbWyxxaYjmbmRK4T6Dt29
+ Bd5xTYus3FQUOblOosccL1R20jAF9GiGrOCot1Yxv3SN7XLJeahsrh/b4ixJgwTdScK/Vtlgplv
+ uELSpCg2DN9MerVNwMdD+6XFrANcqFmqFpM1o/6+Hl0RRBuOJ3+7uHoSL4bHuzel1yVxF3fCM6h
+ MPDP4aD9sMfYE8p4sWzcahbfJu/0VwuYoCSfDPjqMRACDUDYxP/RvDVwCYaMoQG1/AMNnmLKLeG
+ R/km/qgV5RFSIUmDAx+L4NSOcA0rK6uheDipp2Lu/MniQQ7vBgGGTFzxlej5hZDazHrLK142G/M
+ N9h7NPxk
+X-Authority-Analysis: v=2.4 cv=dqLbC0g4 c=1 sm=1 tr=0 ts=68baccb2 cx=c_pps
+ a=kHNPgcXsDGUk78CmhPaQ1g==:117 a=peP7VJn1Wk7OJvVWh4ABVQ==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=h8e1o3o8w34MuCiiGQrqVE4VwXA=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=XKbaJabmtZkA:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=FUbXzq8tPBIA:10 a=XYAwZIGsAAAA:8
+ a=vmFAgxZJNHDd3Og3P0MA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=2twJjXCMuRUA:10 a=E8ToXWR_bxluHZ7gmE-Z:22
+X-Proofpoint-ORIG-GUID: wmVbhYQ_Tszl0146C1Qi8E0luHQnpvsc
+X-Proofpoint-GUID: wmVbhYQ_Tszl0146C1Qi8E0luHQnpvsc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-05_03,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ suspectscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0
+ spamscore=0 clxscore=1011 classifier=typeunknown authscore=0 authtc=
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,145 +207,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.09.25 13:34, Lorenzo Stoakes wrote:
-> On Fri, Sep 05, 2025 at 08:41:23AM +0200, David Hildenbrand wrote:
->> On 01.09.25 17:03, David Hildenbrand wrote:
->>> We can just cleanup the code by calculating the #refs earlier,
->>> so we can just inline what remains of record_subpages().
->>>
->>> Calculate the number of references/pages ahead of times, and record them
->>> only once all our tests passed.
->>>
->>> Signed-off-by: David Hildenbrand <david@redhat.com>
-> 
-> So strange I thought I looked at this...!
-> 
->>> ---
->>>    mm/gup.c | 25 ++++++++-----------------
->>>    1 file changed, 8 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/mm/gup.c b/mm/gup.c
->>> index c10cd969c1a3b..f0f4d1a68e094 100644
->>> --- a/mm/gup.c
->>> +++ b/mm/gup.c
->>> @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
->>>    #ifdef CONFIG_MMU
->>>    #ifdef CONFIG_HAVE_GUP_FAST
->>> -static int record_subpages(struct page *page, unsigned long sz,
->>> -			   unsigned long addr, unsigned long end,
->>> -			   struct page **pages)
->>> -{
->>> -	int nr;
->>> -
->>> -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
->>> -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
->>> -		pages[nr] = page++;
->>> -
->>> -	return nr;
->>> -}
->>> -
->>>    /**
->>>     * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
->>>     * @page:  pointer to page to be grabbed
->>> @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->>>    	if (pmd_special(orig))
->>>    		return 0;
->>> -	page = pmd_page(orig);
->>> -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
->>> +	refs = (end - addr) >> PAGE_SHIFT;
->>> +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
->>>    	folio = try_grab_folio_fast(page, refs, flags);
->>>    	if (!folio)
->>> @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->>>    	}
->>>    	*nr += refs;
->>> +	for (; refs; refs--)
->>> +		*(pages++) = page++;
->>>    	folio_set_referenced(folio);
->>>    	return 1;
->>>    }
->>> @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->>>    	if (pud_special(orig))
->>>    		return 0;
->>> -	page = pud_page(orig);
->>> -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
->>> +	refs = (end - addr) >> PAGE_SHIFT;
->>> +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
->>>    	folio = try_grab_folio_fast(page, refs, flags);
->>>    	if (!folio)
->>> @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->>>    	}
->>>    	*nr += refs;
->>> +	for (; refs; refs--)
->>> +		*(pages++) = page++;
->>>    	folio_set_referenced(folio);
->>>    	return 1;
->>>    }
->>
->> Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
->> pages pointer, getting rid of the "*nr" parameter.
->>
->> For the time being, the following should do the trick:
->>
->> commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
->> Author: David Hildenbrand <david@redhat.com>
->> Date:   Fri Sep 5 08:38:43 2025 +0200
->>
->>      fixup: mm/gup: remove record_subpages()
->>      pages is not adjusted by the caller, but idnexed by existing *nr.
->>      Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> diff --git a/mm/gup.c b/mm/gup.c
->> index 010fe56f6e132..22420f2069ee1 100644
->> --- a/mm/gup.c
->> +++ b/mm/gup.c
->> @@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->>                  return 0;
->>          }
->> +       pages += *nr;
->>          *nr += refs;
->>          for (; refs; refs--)
->>                  *(pages++) = page++;
->> @@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->>                  return 0;
->>          }
->> +       pages += *nr;
->>          *nr += refs;
->>          for (; refs; refs--)
->>                  *(pages++) = page++;
-> 
-> This looks correct.
-> 
-> But.
-> 
-> This is VERY nasty. Before we'd call record_subpages() with pages + *nr, where
-> it was clear we were offsetting by this, now we're making things imo way more
-> confusing.
-> 
-> This makes me less in love with this approach to be honest.
-> 
-> But perhaps it's the least worst thing for now until we can do a bigger
-> refactor...
-> 
-> So since this seems correct to me, and for the sake of moving things forward
-> (was this one patch dropped from mm-new or does mm-new just have an old version?
-> Confused):
-> 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> 
-> For this patch obviously with the fix applied.
-> 
-> But can we PLEASE revisit this :)
 
-Yeah, I already asked someone internally if he would have time to do 
-some refactorings in mm/gup.c.
 
-If that won't work out I shall do it at some point (and the same time 
-reworking follow_page_mask() to just consume the array as well like gup 
-does)
+On 8/29/25 17:14, Conor Dooley wrote:
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
--- 
-Cheers
+Hi,
 
-David / dhildenb
+Applied to drm-misc-next.
 
+Thanks,
+
+Best regards,
+Raphaël
