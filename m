@@ -2,91 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895D7B46483
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 22:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85BC9B46494
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 22:29:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9A1610E1B5;
-	Fri,  5 Sep 2025 20:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F00C610EC41;
+	Fri,  5 Sep 2025 20:29:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uIKc5zt2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jgXJkEIn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E2710E1B5;
- Fri,  5 Sep 2025 20:17:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0BC27602A9;
- Fri,  5 Sep 2025 20:17:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ED8AC4CEFF;
- Fri,  5 Sep 2025 20:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757103458;
- bh=VCWnUGzPf6mLuDmms/YZCG2llaFLvKJwA1gnXCCbRdk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=uIKc5zt24/XZwP7JYEqTfBfFRmX6Wk9YHD8HxEi0IvUGCXmYhq0zMpSm8supQ0Fb5
- iJGS/xoCTwpWx6B21zvCyX58JiG6wKZeHnfKV9PrzdFD8g77UCWMhwV/+VxR8kAvlQ
- yPVyT4akXZx6QFmh+sC2ZrMWYx9v4XhPjX4ZqEzVtRypqr58ssUWkgaJb/JjbHDIS4
- Q06psN5PW+ZumYVyodesqKh7Uj5j1bR2yhf3Z/vTbdtMhbmMxPQZsd1C7tcDa8a8kX
- RxRMOqOPKJoPYzcqOhn1uU/Cd9d8rzzAEwXshP6QHtlDLuGvIqnZfJzgThdRl7C/Wq
- nxK2iLAKYjwYQ==
-Received: by mail-oo1-f41.google.com with SMTP id
- 006d021491bc7-61bd4ad64c7so801133eaf.0; 
- Fri, 05 Sep 2025 13:17:38 -0700 (PDT)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+ [209.85.217.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D719E10EC41
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 20:29:08 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id
+ ada2fe7eead31-530cf611a7eso974761137.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 13:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757104147; x=1757708947; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WRYdzv2yLfwIl3yvxCdZmpVjhYDMK6+sb3jbu48r2xw=;
+ b=jgXJkEIn/wRWHoyk/uHxFdUivpdoNJrgow7lca2Z9tOloOScw6p6MTLAE/5nT47I5J
+ mRNuXumXWltIAraHu8BvlMvmFOpAbtgwE4/RVLpAuSiZHk9hvXIVJsCltC0/UKznQ39W
+ x4J4zLQo6xLzfWu5x1LnP54UTgA92+kyE/Q8IDNjiAGGq0zhuUQ0qnq+bONZTM8UMyP2
+ Cwt1nmgnBboaCEnvyubBc4DfdzDEL0AzDCiwgdiqnZnMusqCiJHmiF/BKdhKx9mUyQmy
+ vYKurGcmCq35X8jfmEhZYoxQfs7vTLdHhOexnqICP9cbHE0t7lALFwY6vkI0t/JXxDXf
+ i6og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757104147; x=1757708947;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WRYdzv2yLfwIl3yvxCdZmpVjhYDMK6+sb3jbu48r2xw=;
+ b=s99TPhr6OV443D28tmM9WKDUgkn3PnC2JmXcwO1AMcXXCIpOqdBw7DN9IFK1BNZcyM
+ SHXQjU7wJV4iAz++fF9TtcqAHEQ2CGYjDQ4pUx505XfGRkFF2MLyUbNqFbUOD+cu/Hjm
+ o9W6Ag5P9cUD7LSN3WwxT+snLyMMejCEgN5umhSFZin8QRd0Wq9db1FcUp+cRGO/eTOU
+ fN9TZTLT/Z/03mqKlvXp4c0Wi/Hbgeno3kIqfteBUQfQ33rVvWnYlkpUgHGJvw4Na6qx
+ Ns8JTWtO/6g/HM6PH6VsNLy5pr7D2V6CLYuZt8k9csRlATZA/P/B4ybGwaLEPd+a8JS7
+ Q85Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmzQtB3YhrAl7J+DyruGg1/scbBpkMzpHyC7fC58B/LP6mO33Mex+ywG7/ZOxMDuGdZKJmUXBHXGKw@lists.freedesktop.org,
- AJvYcCWB4qb8Vox29IHq4wU0k68iNVV2ytlUnTUrMNOVgQJ3ox0pUQ8XwU89o48gj2O3NWkEex4gUNJm9AY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx51oCKcht6KN8lThHCR18BmSaw7aiP5YJzuFuMCI0UiREYEagl
- KMnsFfZiRg+WlioRXELeWtiX3j3k8O1FcF5ww2ULIyzmlXPCSC2gHKSUShS/JPPkBfScxaAupcM
- LhWJHmmniwqUCyCm2W6X5lJl4PXtjWCw=
-X-Google-Smtp-Source: AGHT+IEfq1HNckIyyDDXquy0XLtyGZg1XWmotG9HdXFUDIR4D+v0h/9IrUo3g6diO4+f6WOXTRuaooZELa2e+VnSV5o=
-X-Received: by 2002:a05:6820:809:b0:61f:f932:8d64 with SMTP id
- 006d021491bc7-61ff9329264mr2455383eaf.1.1757103457768; Fri, 05 Sep 2025
- 13:17:37 -0700 (PDT)
+ AJvYcCVup4mUU+r3BZa73GLSXDEAu7rpVI5lJLVzwgWcW0ihJq24AYvNvo8pu2xv9jzDvwDZB3uB8IltKQM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzRsowJJuAtB6n+QHQeVYwSwEhZ6H3QcRIGOuobnB0eqXK4tmXC
+ sRrfQ+S9q0n+pAh381xNwNtyPkLg+G18iWCtVBS8atJgnf2mGUFQvHHmRFwnQhgB5OmHOCUvgVv
+ WxZZwwO+PrZcZAP4i/qO1OH8o4TeHSw0=
+X-Gm-Gg: ASbGnct1k1L6r3g7ft0qukkgs6iYQdrx84vJajc8pkep0MD59AADl7pwkAMiwRuxiy4
+ Q/Ofn2PpzssFaQU/fkQAMpSIOVBvY+v9owttQJmGyvgGB0Ddx4+cTZjM7osjGz6n6ezssAt10eG
+ nz+8vE+Hfi9jQvD9vmo98ca4gh+w1mBMpqNB7XOzj5cf6ZfmsM1M7DDhChAXvyJVz5h41MiJBgK
+ YhFFwFu65l4muhf1A==
+X-Google-Smtp-Source: AGHT+IHLSvJaZfMeUcdGrvlV/zH2BNv6jVe/NLyK9DH4UMQ+m7FQAP82CV7ckcxxGuAOoTuxkp531KXZ1ncTj66uGwM=
+X-Received: by 2002:a05:6102:f0e:b0:52a:f858:14a6 with SMTP id
+ ada2fe7eead31-53d0ce6b73amr100443137.11.1757104147552; Fri, 05 Sep 2025
+ 13:29:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250905132413.1376220-1-zhangzihuan@kylinos.cn>
- <20250905132413.1376220-3-zhangzihuan@kylinos.cn>
-In-Reply-To: <20250905132413.1376220-3-zhangzihuan@kylinos.cn>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 5 Sep 2025 22:17:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iTdgM5BBi2ysiJxfA2c=MQ0fjLsEvVct9stxomvEe=4Q@mail.gmail.com>
-X-Gm-Features: Ac12FXw3PBjsIjj4AtBsEfmKTR7PfZEmevzc6Jwe0zbtA2TuWwqukJr66Nf1sL8
-Message-ID: <CAJZ5v0iTdgM5BBi2ysiJxfA2c=MQ0fjLsEvVct9stxomvEe=4Q@mail.gmail.com>
-Subject: Re: [PATCH v5 2/6] ACPI: processor: thermal: Use scope-based cleanup
- helper
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Cc: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Michael Ellerman <mpe@ellerman.id.au>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Ben Horgan <ben.horgan@arm.com>, 
- zhenglifeng <zhenglifeng1@huawei.com>, Zhang Rui <rui.zhang@intel.com>, 
- Len Brown <lenb@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, 
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>, 
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>, 
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org, 
- linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250830235838.58067-1-21cnbao@gmail.com>
+ <CANDhNCqcoR3USLG0Ys2WBQmEdS0u6gdaHGCVsftMk3OC5Vhjpw@mail.gmail.com>
+In-Reply-To: <CANDhNCqcoR3USLG0Ys2WBQmEdS0u6gdaHGCVsftMk3OC5Vhjpw@mail.gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Sat, 6 Sep 2025 04:28:56 +0800
+X-Gm-Features: Ac12FXxSvETwT5SBYpmX3Lewm2vmP7y6oHoeUDfaqLEOtqhI45SlH7AV_3VHTQg
+Message-ID: <CAGsJ_4wMn490tJgSOseA+6UMOdUuyPUT=Sy==FUYkRnHxQ8Afg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: system_heap: use larger contiguous mappings
+ instead of per-page mmap
+To: John Stultz <jstultz@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ zhengtangquan@oppo.com, Barry Song <v-songbaohua@oppo.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,122 +92,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 5, 2025 at 3:24=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylinos.cn=
-> wrote:
+On Thu, Sep 4, 2025 at 8:07=E2=80=AFAM John Stultz <jstultz@google.com> wro=
+te:
 >
-> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
-> annotation for policy references. This reduces the risk of reference
-> counting mistakes and aligns the code with the latest kernel style.
+> On Sat, Aug 30, 2025 at 4:58=E2=80=AFPM Barry Song <21cnbao@gmail.com> wr=
+ote:
+> >
+> > From: Barry Song <v-songbaohua@oppo.com>
+> >
+> > We can allocate high-order pages, but mapping them one by
+> > one is inefficient. This patch changes the code to map
+> > as large a chunk as possible. The code looks somewhat
+> > complicated mainly because supporting mmap with a
+> > non-zero offset is a bit tricky.
+> >
+> > Using the micro-benchmark below, we see that mmap becomes
+> > 3.5X faster:
+> ...
 >
-> No functional change intended.
+> It's been awhile since I've done mm things, so take it with a pinch of
+> salt, but this seems reasonable to me.
 >
-> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-> ---
->  drivers/acpi/processor_thermal.c | 52 +++++++++++++++++---------------
->  1 file changed, 27 insertions(+), 25 deletions(-)
+> Though, one thought below...
 >
-> diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_th=
-ermal.c
-> index 1219adb11ab9..460713d1414a 100644
-> --- a/drivers/acpi/processor_thermal.c
-> +++ b/drivers/acpi/processor_thermal.c
-> @@ -62,19 +62,14 @@ static int phys_package_first_cpu(int cpu)
->         return 0;
->  }
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
+s/system_heap.c
+> > index bbe7881f1360..4c782fe33fd4 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -186,20 +186,35 @@ static int system_heap_mmap(struct dma_buf *dmabu=
+f, struct vm_area_struct *vma)
+> >         struct system_heap_buffer *buffer =3D dmabuf->priv;
+> >         struct sg_table *table =3D &buffer->sg_table;
+> >         unsigned long addr =3D vma->vm_start;
+> > -       struct sg_page_iter piter;
+> > -       int ret;
+> > +       unsigned long pgoff =3D vma->vm_pgoff;
+> > +       struct scatterlist *sg;
+> > +       int i, ret;
+> > +
+> > +       for_each_sgtable_sg(table, sg, i) {
+> > +               unsigned long n =3D sg->length >> PAGE_SHIFT;
+> >
+> > -       for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+> > -               struct page *page =3D sg_page_iter_page(&piter);
+> > +               if (pgoff < n)
+> > +                       break;
+> > +               pgoff -=3D n;
+> > +       }
+> > +
+> > +       for (; sg && addr < vma->vm_end; sg =3D sg_next(sg)) {
+> > +               unsigned long n =3D (sg->length >> PAGE_SHIFT) - pgoff;
+> > +               struct page *page =3D sg_page(sg) + pgoff;
+> > +               unsigned long size =3D n << PAGE_SHIFT;
+> > +
+> > +               if (addr + size > vma->vm_end)
+> > +                       size =3D vma->vm_end - addr;
+> >
+> > -               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page), P=
+AGE_SIZE,
+> > -                                     vma->vm_page_prot);
+> > +               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page),
+> > +                               size, vma->vm_page_prot);
 >
-> -static int cpu_has_cpufreq(unsigned int cpu)
-> +static bool cpu_has_cpufreq(unsigned int cpu)
->  {
-> -       struct cpufreq_policy *policy;
-> -
->         if (!acpi_processor_cpufreq_init)
->                 return 0;
->
-> -       policy =3D cpufreq_cpu_get(cpu);
-> -       if (policy) {
-> -               cpufreq_cpu_put(policy);
-> -               return 1;
-> -       }
-> -       return 0;
-> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpuf=
-req_cpu_get(cpu);
-> +
-> +       return policy !=3D NULL;
->  }
->
->  static int cpufreq_get_max_state(unsigned int cpu)
+> It feels like this sort of mapping loop for higher order pages
+> wouldn't be a unique pattern to just this code.  Would this be better
+> worked into a helper so it would be more generally usable?
 
-The changes above are fine and can be sent as a separate patch.
+Another case is vmap, but that would require extending vmap_sg and
+related code, with little chance to share code with mmap. It also seems
+hard to find other drivers that use mmap with sg. If it turns out that
+others are making similar changes, we could ask to extract our current
+modifications into a common helper.
 
-> @@ -93,12 +88,31 @@ static int cpufreq_get_cur_state(unsigned int cpu)
->         return reduction_step(cpu);
->  }
 >
-> +static bool cpufreq_update_thermal_limit(unsigned int cpu, struct acpi_p=
-rocessor *pr)
-> +{
-> +       unsigned long max_freq;
-> +       int ret;
-> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpuf=
-req_cpu_get(cpu);
-> +
-> +       if (!policy)
-> +               return false;
-> +
-> +       max_freq =3D (policy->cpuinfo.max_freq *
-> +               (100 - reduction_step(cpu) * cpufreq_thermal_reduction_pc=
-tg)) / 100;
-> +
-> +       ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
-> +       if (ret < 0) {
-> +               pr_warn("Failed to update thermal freq constraint: CPU%d =
-(%d)\n",
-> +         pr->id, ret);
-> +       }
+> Otherwise,
+> Acked-by: John Stultz <jstultz@google.com>
 
-But this silently fixes a bug in the original code which needs to be
-documented with a Fixes: tag (and it would be better to fix the bug
-separately before the using the __free()-based cleanup TBH) and
-introduces some whitespace breakage.
+Thanks!
 
-> +
-> +       return true;
-> +}
-> +
->  static int cpufreq_set_cur_state(unsigned int cpu, int state)
->  {
-> -       struct cpufreq_policy *policy;
->         struct acpi_processor *pr;
-> -       unsigned long max_freq;
-> -       int i, ret;
-> +       int i;
 >
->         if (!cpu_has_cpufreq(cpu))
->                 return 0;
-> @@ -120,20 +134,8 @@ static int cpufreq_set_cur_state(unsigned int cpu, i=
-nt state)
->                 if (unlikely(!freq_qos_request_active(&pr->thermal_req)))
->                         continue;
->
-> -               policy =3D cpufreq_cpu_get(i);
-> -               if (!policy)
-> +               if (!cpufreq_update_thermal_limit(i, pr))
->                         return -EINVAL;
-> -
-> -               max_freq =3D (policy->cpuinfo.max_freq *
-> -                           (100 - reduction_step(i) * cpufreq_thermal_re=
-duction_pctg)) / 100;
-> -
-> -               cpufreq_cpu_put(policy);
-> -
-> -               ret =3D freq_qos_update_request(&pr->thermal_req, max_fre=
-q);
-> -               if (ret < 0) {
-> -                       pr_warn("Failed to update thermal freq constraint=
-: CPU%d (%d)\n",
-> -                               pr->id, ret);
-> -               }
->         }
->         return 0;
->  }
-> --
+
+Best regards,
+Barry
