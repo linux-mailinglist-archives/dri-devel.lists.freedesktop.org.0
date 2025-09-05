@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B76B45412
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 12:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 573A4B45441
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 12:14:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1570610EB65;
-	Fri,  5 Sep 2025 10:05:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E225410EB68;
+	Fri,  5 Sep 2025 10:14:42 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="O5F5DqGC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BF610EB65;
- Fri,  5 Sep 2025 10:05:56 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.231])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4cJBhn0xyXz6L5ly;
- Fri,  5 Sep 2025 18:02:01 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id 03F6A1402CB;
- Fri,  5 Sep 2025 18:05:55 +0800 (CST)
-Received: from localhost (10.203.177.15) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 5 Sep
- 2025 12:05:53 +0200
-Date: Fri, 5 Sep 2025 11:05:51 +0100
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>
-CC: "Rafael J . wysocki" <rafael@kernel.org>, Viresh Kumar
- <viresh.kumar@linaro.org>, Catalin Marinas <catalin.marinas@arm.com>, "Will
- Deacon" <will@kernel.org>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Michael Ellerman <mpe@ellerman.id.au>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Thierry Reding <thierry.reding@gmail.com>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko
- Ursulin <tursulin@ursulin.net>, "David Airlie" <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>, Eduardo
- Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, Ben Horgan
- <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>, Zhang Rui
- <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>, Lukasz Luba
- <lukasz.luba@arm.com>, "Pengutronix Kernel Team" <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
- <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>, "Sumit Gupta"
- <sumitg@nvidia.com>, Prasanna Kumar T S M <ptsm@linux.microsoft.com>, Sudeep
- Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
- <linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
- <linuxppc-dev@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <imx@lists.linux.dev>, <linux-omap@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 08/10] thermal: imx: Use scope-based cleanup helper
-Message-ID: <20250905110551.00006588@huawei.com>
-In-Reply-To: <20250903131733.57637-9-zhangzihuan@kylinos.cn>
-References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
- <20250903131733.57637-9-zhangzihuan@kylinos.cn>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A8E10EB68;
+ Fri,  5 Sep 2025 10:14:40 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 84CDF40E016E; 
+ Fri,  5 Sep 2025 10:14:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+ header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+ by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 3sLuUFXyEEJq; Fri,  5 Sep 2025 10:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+ t=1757067272; bh=sRVEq78yhQX8mJR2jOK3VXC8p7w5NsQwrzj6XNVd9Kk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O5F5DqGCSXLzXfMyz2ZOlaefPXa/T4kku2ojaVLjSJW8qcOoEvt7dhNgHdfH3C8pD
+ 4tjyzrmGsfGYCcJ57pUVqRGfx02+I/nSMkXrW+GX3KVq42y+Dze5CiXRCkVpDHVjDz
+ 2N2B9MuufaBqwYDu7eYA2F8nv1EM2R0KRdhDfel1lh4AUi7AAHr0tS7QzmyRLuZWLp
+ +dOVJYOmhtComKpbUAORMez25F4TJ0yjHxMSR2X750FXHMr3wyiC9OFbnXWTpKtcJQ
+ z1sP/PPzwxSwFRVo9IKMlIeHPnYgToDJAol9AatRKLyM5Bj2YPVla2qqoRkeeK/NGy
+ 02CrRh/YbHKHO95kVWi7ivyizdtBaLs9azQmkDnmT5vVp7lpsd1bb+ssEISwl1eEwu
+ is5o5djyizpelfLeMf4lYjYsWH3wnfsFwzVFDq19XF7f3pOgS6F8Qc0Qy7ySmXhAh2
+ 1LtXwFP3FOGT5w7yyUi5iYtbUaRzY04uvehZLfhMTGaPolDlTiQFKvF8Asnyyw5mlz
+ kt1qCd3ERXNp8B2BYnCheX4E+mo4EU0hYRpG02Z0J48col/cwrXiJo9GiK2BKv5GhX
+ VBHK6lNXnrD/SfLneraum6RaQneqiBpODAVRmzUEIVe8trnSWV5Q+3kAikE5LhGIBZ
+ 7oVl4MCHihvho2vagYkKrh/E=
+Received: from zn.tnic (p5de8ed27.dip0.t-ipconnect.de [93.232.237.39])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (No client certificate requested)
+ by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id
+ C5F4040E00DE; Fri,  5 Sep 2025 10:14:29 +0000 (UTC)
+Date: Fri, 5 Sep 2025 12:14:22 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/radeon: use dev_warn_once() in CS parsers
+Message-ID: <20250905101422.GAaLq3_kDePySD36Ma@fat_crate.local>
+References: <20250902165332.2388864-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.203.177.15]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250902165332.2388864-1-alexander.deucher@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,70 +70,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  3 Sep 2025 21:17:31 +0800
-Zihuan Zhang <zhangzihuan@kylinos.cn> wrote:
-
-> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
-> annotation for policy references. This reduces the risk of reference
-> counting mistakes and aligns the code with the latest kernel style.
+On Tue, Sep 02, 2025 at 12:53:32PM -0400, Alex Deucher wrote:
+> Older GPUs did not support memory protection, so the kernel
+> driver would validate the command submissions (CS) from userspace
+> to avoid the GPU accessing any memory it shouldn't.
 > 
-> No functional change intended.
+> Change any error messages in that validatio to dev_warn_once() to
+> avoid spamming the kernel log in the event of a bad CS.  If users
+> see any of these messages they should report them to the user space
+> component, which in most cases is mesa
+> (https://gitlab.freedesktop.org/mesa/mesa/-/issues).
 > 
-> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-
-This radically changes the lifetime of the reference to policy.
-If that is valid, then I'd expect a lot more description of why!
-
+> Cc: Borislav Petkov (AMD) <bp@alien8.de>
+> Link: https://lore.kernel.org/r/20250829171655.GBaLHgh3VOvuM1UfJg@fat_crate.local
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 > ---
->  drivers/thermal/imx_thermal.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
-> index 38c993d1bcb3..cd1d9d419275 100644
-> --- a/drivers/thermal/imx_thermal.c
-> +++ b/drivers/thermal/imx_thermal.c
-> @@ -201,7 +201,6 @@ static struct thermal_soc_data thermal_imx7d_data = {
->  
->  struct imx_thermal_data {
->  	struct device *dev;
-> -	struct cpufreq_policy *policy;
->  	struct thermal_zone_device *tz;
->  	struct thermal_cooling_device *cdev;
->  	struct regmap *tempmon;
-> @@ -541,22 +540,20 @@ MODULE_DEVICE_TABLE(of, of_imx_thermal_match);
->  static int imx_thermal_register_legacy_cooling(struct imx_thermal_data *data)
->  {
->  	struct device_node *np;
-> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(0);
->  	int ret = 0;
->  
-> -	data->policy = cpufreq_cpu_get(0);
-> -	if (!data->policy) {
-> +	if (!policy) {
->  		pr_debug("%s: CPUFreq policy not found\n", __func__);
->  		return -EPROBE_DEFER;
->  	}
->  
-> -	np = of_get_cpu_node(data->policy->cpu, NULL);
-> +	np = of_get_cpu_node(policy->cpu, NULL);
->  
->  	if (!np || !of_property_present(np, "#cooling-cells")) {
-> -		data->cdev = cpufreq_cooling_register(data->policy);
-> -		if (IS_ERR(data->cdev)) {
-> +		data->cdev = cpufreq_cooling_register(policy);
-> +		if (IS_ERR(data->cdev))
->  			ret = PTR_ERR(data->cdev);
-> -			cpufreq_cpu_put(data->policy);
-> -		}
->  	}
->  
->  	of_node_put(np);
-> @@ -567,7 +564,6 @@ static int imx_thermal_register_legacy_cooling(struct imx_thermal_data *data)
->  static void imx_thermal_unregister_legacy_cooling(struct imx_thermal_data *data)
->  {
->  	cpufreq_cooling_unregister(data->cdev);
-> -	cpufreq_cpu_put(data->policy);
->  }
->  
->  #else
+>  drivers/gpu/drm/radeon/evergreen_cs.c | 520 +++++++++++++-------------
+>  drivers/gpu/drm/radeon/r100.c         | 215 +++++------
+>  drivers/gpu/drm/radeon/r200.c         |  34 +-
+>  drivers/gpu/drm/radeon/r300.c         |  66 ++--
+>  drivers/gpu/drm/radeon/r600_cs.c      | 445 +++++++++++-----------
+>  drivers/gpu/drm/radeon/radeon_cs.c    |   2 +-
+>  6 files changed, 648 insertions(+), 634 deletions(-)
 
+Btw, now that I had to reboot the workstation, I thought I'll apply yours to
+test it. You've missed one spot, see below. :-)
+
+With that additional debug added, I see now:
+
+[   25.877593] radeon 0000:1d:00.0: vbo resource seems too big (524289) for the bo (524288)
+
+which looks like some buffer limits mis-counting. The bo is obviously of 1^19
+buffer size while one of those "size" and "offset" things are off by one.
+
+If anyone wants to debug, the program which causes this is conky version:
+1.11.6-2 in debian. It starts spewing the warnings when I start it and since
+it.
+
+Thx.
+
+---
+diff --git a/drivers/gpu/drm/radeon/evergreen_cs.c b/drivers/gpu/drm/radeon/evergreen_cs.c
+index d49e59626e39..1162cb5d75ed 100644
+--- a/drivers/gpu/drm/radeon/evergreen_cs.c
++++ b/drivers/gpu/drm/radeon/evergreen_cs.c
+@@ -2418,7 +2418,8 @@ static int evergreen_packet3_check(struct radeon_cs_parser *p,
+ 				size = radeon_get_ib_value(p, idx+1+(i*8)+1);
+ 				if (p->rdev && (size + offset) > radeon_bo_size(reloc->robj)) {
+ 					/* force size to size of the buffer */
+-					dev_warn_ratelimited(p->dev, "vbo resource seems too big for the bo\n");
++					dev_warn_once(p->dev, "vbo resource seems too big (%d) for the bo (%ld)\n",
++						      size + offset, radeon_bo_size(reloc->robj));
+ 					ib[idx+1+(i*8)+1] = radeon_bo_size(reloc->robj) - offset;
+ 				}
+ 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
