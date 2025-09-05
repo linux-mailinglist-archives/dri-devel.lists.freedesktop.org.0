@@ -2,68 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90E7B46531
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 23:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53935B4654A
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 23:15:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04DA710EC51;
-	Fri,  5 Sep 2025 21:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B0110EC67;
+	Fri,  5 Sep 2025 21:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OUhiTyiG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TWvEoZeE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04B1710EC51
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 21:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757106550; x=1788642550;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Q4/Hy3I/j5BNl0X6z2Pxo3w50TkPZNmdARahvFuu1ZQ=;
- b=OUhiTyiGsWxhmX78IdDcEfhA14iXvJKCeyZvneladrfIQAPwhXlNczEJ
- F3OhGaN9YPvns4hNLMrIEYE0J6E5NtJPl0s/ZbA7bnlUpPbig/JH+XByW
- ieJbXNltStB1h/cApb/4HnIe1znHoq7RCdjt1u/ihMumQw1b63SJNG/Pg
- wjKiHo8D0DHAmx8Gzd5yKtB41kL3tZwtZlFDfIcOOXRQnY/9bojTqFAwv
- nNVnNpnkJ6bjV0G4qqI4btkHlyqObe8BgGDrDzgcTs/uiBjY+px3+NURH
- ZhYTIp+WITLzUiT0nTmf6LdTclK1JiCf95OYIXyknIoco5AWrBJ33/UJx g==;
-X-CSE-ConnectionGUID: W/X0fhBFQo+ViwmWxwSrZQ==
-X-CSE-MsgGUID: zUtWKa1FR6+5ERmU0wK9BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59531469"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="59531469"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Sep 2025 14:09:10 -0700
-X-CSE-ConnectionGUID: VOWIU12ASdy49fjY+iID5g==
-X-CSE-MsgGUID: 1Ts5C591QMqIbNOwjdMlSQ==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
- by fmviesa003.fm.intel.com with ESMTP; 05 Sep 2025 14:09:05 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uudg7-0000rF-1I;
- Fri, 05 Sep 2025 21:09:03 +0000
-Date: Sat, 6 Sep 2025 05:08:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific
- infoframe
-Message-ID: <202509060412.LmXs40Rg-lkp@intel.com>
-References: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7673C10EC46;
+ Fri,  5 Sep 2025 21:15:32 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 4B5711A0DC8;
+ Fri,  5 Sep 2025 21:15:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 066BC6060B;
+ Fri,  5 Sep 2025 21:15:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9EC41102F27C5; 
+ Fri,  5 Sep 2025 23:15:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1757106929; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
+ bh=BzF69i8sbsV4lHhMGJFDV0kULvsuOaaNGSx928va4PQ=;
+ b=TWvEoZeEoOT6wH092I3ZUStRLUzYTVzALG9QlbXYsl8XSZyduJ0n7+cN5j0xNzkn576Yvv
+ 8Y1ktU4lftXn7wKshiVwTWkuZ7zMbTObazX15NXT4yGLc/JqUY2fd3jdSmypv5Jc1/B2pG
+ fGftNkteL50Mp7mXkG9nwdjDjhk6F18Nnqoyw/wIsQsQxrL2hBw6jYqweexeSBYQB3xcKY
+ dccx7pNvh9KJFtK/etQjfnluTd7lyclUrY2QaQiYe65zZcCzQrTw3en6OX3s/Eiv9bOaTw
+ L6HycEYIEFXHJvTI116bURJey5xQpz1YgceE8bmTwGGCibs3Wz27dy8PQCkj6g==
+Message-ID: <0c8f0331-13a8-492c-980e-3af17ecf0fdc@bootlin.com>
+Date: Fri, 5 Sep 2025 23:15:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 14/58] dyndbg: hoist classmap-filter-by-modname up to
+ ddebug_add_module
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+ jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com,
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org,
+ robdclark@gmail.com, groeck@google.com, yanivt@google.com,
+ bleung@google.com, quic_saipraka@quicinc.com, will@kernel.org,
+ catalin.marinas@arm.com, quic_psodagud@quicinc.com, maz@kernel.org,
+ arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, mingo@redhat.com
+References: <20250803035816.603405-1-jim.cromie@gmail.com>
+ <20250803035816.603405-15-jim.cromie@gmail.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
+ 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
+ hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
+ jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
+ DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
+ bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
+ deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
+ lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
+ ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
+ WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
+ dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
+ CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJod7hIBQkJ0gcjAAoJEOwY
+ g/VeC0ClghwP/RQeixyghRVZEQtZO5/UsHkNkRRUWeVF9EoFXqFFnWqh4XXKos242btk5+Ew
+ +OThuqDx9iLhLJLUc8XXuVw6rbJEP5j5+z0jI40e7Y+kVWCli/O2H/CrK98mGWwicBPEzrDD
+ 4EfRgD0MeQ9fo2XJ3Iv+XiiZaBFQIKMAEynYdbqECIXxuzAnofhq2PcCrjZmqThwu8jHSc55
+ KwdknZU3aEKSrTYiCIRrsHHi1N6vwiTZ098zL1efw7u0Q8rcqxHu3OWNIAeKHkozsMy9yo1h
+ h3Yc7CA1PrKDGcywuY4MrV726/0VlrWcypYOCM1XG+/4ezIChYizpAiBNlAmd7witTK0d2HT
+ UNSZF8KAOQRlHsIPrkA5qLr94OrFHYx6Ek07zS8LmVTtHricbYxFAXnQ5WbugNSE0uwRyrL/
+ Kies5F0Sst2PcVYguoWcHfoNxes6OeU3xDmzclnpYQTanIU7SBzWXB1fr5WgHF7SAcAVxPY8
+ wAlJBe+zMeA6oWidrd1u37eaEhHfpKX38J1VaSDTNRE+4SPQ+hKGDuMrDn0mXfcqR5wO7n1Z
+ Q6uhKj3k6SJNksAWh1u13NP0DRS6rpRllvGWIyp+653R03NN8TE9JNRWAtSqoGvsiryhQyCE
+ FlPOsv6+Ed/5a4dfLcO1qScJwiuP/XjFHAaWFK9RoOX52lR4zsFNBGCG6KUBEADZhvm9TZ25
+ JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
+ mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
+ Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
+ JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
+ n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
+ tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
+ GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
+ Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
+ movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
+ OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
+ 9V4LQKUFAmh3uH8FCQnSA1kCQMF0IAQZAQgAHRYhBE+PuD++eDwxDFBZBCCtLsZbECziBQJg
+ huilAAoJECCtLsZbECziB8YQAJwDRdU16xtUjK+zlImknL7pyysfjLLbfegZyVfY/ulwKWzn
+ nCJXrLAK1FpdYWPO1iaSVCJ5pn/Or6lS5QO0Fmj3mtQ/bQTnqBhXZcUHXxZh56RPAfl3Z3+P
+ 77rSIcTFZMH6yAwS/cIQaKRQGPuJoxfYq1oHWT0r7crp3H+zUpbE4KUWRskRX+2Z6rtNrwuL
+ K1Az1vjJjnnS3MLSkQR4VwsVejWbkpwlq5icCquU5Vjjw0WkVR32gBl/8/OnegSz7Of/zMrY
+ 8GtlkIPoCGtui1HLuKsTl6KaHFywWbX4wbm5+dpBRYetFhdW4WG+RKipnyMY+A8SkWivg2NH
+ Jf88wuCVDtLmyeS8pyvcu6fjhrJtcQer/UVPNbaQ6HqQUcUU49sy/W+gkowjOuYOgNL7EA23
+ 8trs7CkLKUKAXq32gcdNMZ8B/C19hluJ6kLroUN78m39AvCQhd4ih5JLU7jqsl0ZYbaQe2FQ
+ z64htRtpElbwCQmnM/UzPtOJ5H/2M7hg95Sb20YvmQ/bLI23MWKVyg56jHU1IU0A/P7M9yi9
+ WbEBpIMZxLOFBUlWWTzE+JvyDh+cjyoncaPvHLDwP13PGEJHYMgWZkvzgSc3tGP6ThUgZjsz
+ 9xW/EvzWOVswYwREyZv3oK5r3PVE6+IYDUd7aBsc5ynqqYs27eemuV4bw8tlCRDsGIP1XgtA
+ pT1zD/0dT+clFbGoCMaIQ5qXypYoO0DYLmBD1aFjJy1YLsS1SCzuwROy4qWWaFMNBoDMF2cY
+ D+XbM+C/4XBS8/wruAUrr+8RSbABBI/rfiVmqv0gPQWDm676V8iMDgyyvMG2DotMjnG/Dfxj
+ w9WVnQUs/kQSPD8GZCZZ3AcycFmxN24ibGHo4zC947VKR5ZYdFHknX+Dt92TdNDkmoBg2CEm
+ 9S2Skki9Pwyvb/21zCYq/o4pRMfKmQgpF2LT2m51rdtmNg9oj9F4+BJUmkgyNxMyGEA1V1jM
+ xQaVX4mRY61O4CimPByUDp2EH2VaEr2rEwvHszaWqFJdSQE8hdSDc4cqhik7rznNBjwgZAzq
+ cefLctAVnKjasfKEWp0VhgkIVB8/Sos4S8YaG4qbeGviSfIQJ2GO1Vd9WQ2n1XGth3cY2Qwk
+ dIo13GCFJF7b6y0J13bm+siRpPZQ3aOda7pn07GXqREjFsfq5gF04/9am5x/haehPse2yzcP
+ wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
+ gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
+ kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
+In-Reply-To: <20250803035816.603405-15-jim.cromie@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,83 +127,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4ac65880ebca1b68495bd8704263b26c050ac010]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Ying/drm-bridge-ite-it6263-Support-HDMI-vendor-specific-infoframe/20250904-171143
-base:   4ac65880ebca1b68495bd8704263b26c050ac010
-patch link:    https://lore.kernel.org/r/20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634%40nxp.com
-patch subject: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific infoframe
-config: i386-buildonly-randconfig-001-20250906 (https://download.01.org/0day-ci/archive/20250906/202509060412.LmXs40Rg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250906/202509060412.LmXs40Rg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509060412.LmXs40Rg-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/bridge/ite-it6263.c:810:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     810 |                 const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
-         |                 ^
-   1 warning generated.
 
 
-vim +810 drivers/gpu/drm/bridge/ite-it6263.c
+Le 03/08/2025 à 05:57, Jim Cromie a écrit :
+> The body of ddebug_attach_module_classes() is dominated by a
+> code-block that finds the contiguous subrange of classmaps matching on
+> modname, and saves it into the ddebug_table's info record.
+> 
+> Implement this block in a macro to accommodate different component
+> vectors in the "box" (as named in the for_subvec macro).
+> 
+> And hoist its invocation out of ddebug_attach_module_classes() up into
+> ddebug_add_module().  This moves the filtering step up closer to
+> dynamic_debug_init(), which effectively does the same for builtin
+> pr_debug descriptors; segmenting them into subranges by modname.
+> 
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> ---
+>   lib/dynamic_debug.c | 56 ++++++++++++++++++++++++++-------------------
+>   1 file changed, 32 insertions(+), 24 deletions(-)
+> 
+> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+> index 53ce282554266..bbbdb8aba0716 100644
+> --- a/lib/dynamic_debug.c
+> +++ b/lib/dynamic_debug.c
+> @@ -161,8 +161,8 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+>   }
+>   
+>   static struct _ddebug_class_map *ddebug_find_valid_class(struct ddebug_table const *dt,
+> -							const char *class_string,
+> -							int *class_id)
+> +							 const char *class_string,
+> +							 int *class_id)
+>   {
+>   	struct _ddebug_class_map *map;
+>   	int i, idx;
+> @@ -1224,30 +1224,34 @@ static const struct proc_ops proc_fops = {
+>   
+>   static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug_info *di)
+>   {
+> -	struct _ddebug_class_map *cm;
+> -	int i, nc = 0;
+> -
+> -	/*
+> -	 * Find this module's classmaps in a subrange/wholerange of
+> -	 * the builtin/modular classmap vector/section.  Save the start
+> -	 * and length of the subrange at its edges.
+> -	 */
+> -	for_subvec(i, cm, di, maps) {
+> -		if (!strcmp(cm->mod_name, dt->mod_name)) {
+> -			if (!nc) {
+> -				v2pr_info("start subrange, class[%d]: module:%s base:%d len:%d ty:%d\n",
+> -					  i, cm->mod_name, cm->base, cm->length, cm->map_type);
+> -				dt->info.maps.start = cm;
+> -			}
+> -			nc++;
+> -		}
+> -	}
+> -	if (nc) {
+> -		dt->info.maps.len = nc;
+> -		vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+> -	}
+> +	vpr_info("module:%s attached %d classes\n", dt->mod_name, dt->info.maps.len);
+>   }
+>   
+> +/*
+> + * Walk the @_box->@_vec member, over @_vec.start[0..len], and find
+> + * the contiguous subrange of elements matching on ->mod_name.  Copy
+> + * the subrange into @_dst.  This depends on vars defd by caller.
+> + *
+> + * @_i:   caller provided counter var, init'd by macro
+> + * @_sp:  cursor into @_vec.
+> + * @_box: contains member named @_vec
+> + * @_vec: an array-ref, with: .start .len fields.
+> + * @_dst: an array-ref: to remember the module's subrange
 
-   782	
-   783	static int it6263_hdmi_write_infoframe(struct drm_bridge *bridge,
-   784					       enum hdmi_infoframe_type type,
-   785					       const u8 *buffer, size_t len)
-   786	{
-   787		struct it6263 *it = bridge_to_it6263(bridge);
-   788		struct regmap *regmap = it->hdmi_regmap;
-   789	
-   790		switch (type) {
-   791		case HDMI_INFOFRAME_TYPE_AVI:
-   792			/* write the first AVI infoframe data byte chunk(DB1-DB5) */
-   793			regmap_bulk_write(regmap, HDMI_REG_AVI_DB1,
-   794					  &buffer[HDMI_INFOFRAME_HEADER_SIZE],
-   795					  HDMI_AVI_DB_CHUNK1_SIZE);
-   796	
-   797			/* write the second AVI infoframe data byte chunk(DB6-DB13) */
-   798			regmap_bulk_write(regmap, HDMI_REG_AVI_DB6,
-   799					  &buffer[HDMI_INFOFRAME_HEADER_SIZE +
-   800						  HDMI_AVI_DB_CHUNK1_SIZE],
-   801					  HDMI_AVI_DB_CHUNK2_SIZE);
-   802	
-   803			/* write checksum */
-   804			regmap_write(regmap, HDMI_REG_AVI_CSUM, buffer[3]);
-   805	
-   806			regmap_write(regmap, HDMI_REG_AVI_INFOFRM_CTRL,
-   807				     ENABLE_PKT | REPEAT_PKT);
-   808			break;
-   809		case HDMI_INFOFRAME_TYPE_VENDOR:
- > 810			const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
-   811	
-   812			/* clear NULL packet registers due to undefined default value */
-   813			regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0),
-   814					  zero_bulk, sizeof(zero_bulk));
-   815	
-   816			/* write header and payload */
-   817			regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0), buffer, len);
-   818	
-   819			regmap_write(regmap, HDMI_REG_PKT_NULL_CTRL,
-   820				     ENABLE_PKT | REPEAT_PKT);
-   821			break;
-   822		default:
-   823			dev_dbg(it->dev, "unsupported HDMI infoframe 0x%x\n", type);
-   824		}
-   825	
-   826		return 0;
-   827	}
-   828	
+Can you change to:
+
+@_dst: an array-rf: to remember the module's subrange, with: .info.@_vec 
+.mod_name fields
+
+With this: Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+> + */
+> +#define dd_mark_vector_subrange(_i, _dst, _sp, _box, _vec) ({		\
+> +	int nc = 0;							\
+> +	for_subvec(_i, _sp, _box, _vec) {				\
+> +		if (!strcmp((_sp)->mod_name, (_dst)->mod_name)) {	\
+> +			if (!nc++)					\
+> +				(_dst)->info._vec.start = (_sp);	\
+> +		} else {						\
+> +			if (nc)						\
+> +				break; /* end of consecutive matches */ \
+> +		}							\
+> +	}								\
+> +	(_dst)->info._vec.len = nc;					\
+> +})
+> +
+>   /*
+>    * Allocate a new ddebug_table for the given module
+>    * and add it to the global list.
+> @@ -1255,6 +1259,8 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt, struct _ddebug
+>   static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   {
+>   	struct ddebug_table *dt;
+> +	struct _ddebug_class_map *cm;
+> +	int i;
+>   
+>   	if (!di->descs.len)
+>   		return 0;
+> @@ -1277,6 +1283,8 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+>   
+>   	INIT_LIST_HEAD(&dt->link);
+>   
+> +	dd_mark_vector_subrange(i, dt, cm, di, maps);
+> +
+>   	if (di->maps.len)
+>   		ddebug_attach_module_classes(dt, di);
+>   
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
