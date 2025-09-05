@@ -2,133 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58B2B44ADE
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 02:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF73B44AED
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 02:41:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC42A10E290;
-	Fri,  5 Sep 2025 00:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4242210E352;
+	Fri,  5 Sep 2025 00:41:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CmoBVaOW";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="EECBtM+Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A41510E290
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 00:39:13 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584IK1SV023218
- for <dri-devel@lists.freedesktop.org>; Fri, 5 Sep 2025 00:39:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ra9GluSXfhMlHZ2ACIpc5GR7mvUKtMwIaWiKkZbOwVY=; b=CmoBVaOWsvaUWwyX
- Ur0wrPYC4AipxzjvoRExW9VbSJbovPTvzHSiLANjH9GfjItEI7AMThPxYCQXYAVy
- fO4OeGNM256nexMaYz5FwBgkT9eMGfY43rBLXI8Bky4gE7SqTlstmsDfR0Czj4EO
- Yr9Ea/RoEnFZQwFf4emVkwioo7G28a7E9UuoPE32+gaHD/Rka4Gx5S/8wTQEm07Y
- W09GeMAteG5p1ekvPmh47z5xiA5m2Jr3kKeJP6tWqpWVXed8F657ZPOpvsoAKNL7
- tfrSul9fTu3NIsI58o9N3gI5D5usDNuYjduGLOjQMsjrkTOkE/+2l9uEUX75HgHX
- lhchtA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0esedk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Sep 2025 00:39:12 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b5d58d226cso32841671cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 17:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757032751; x=1757637551;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ra9GluSXfhMlHZ2ACIpc5GR7mvUKtMwIaWiKkZbOwVY=;
- b=vlrETMoTqzPIQBWcpv7eI3Dolt4vd4C0ED/h0fk0X4LJuWKH7+ukEw9XqwZlucuzoA
- 7FSMsKou2Yqt422+RhJMKsFBE6pu6MI6SlxlQoPacNXcXlzJvrHKAaI+hA2EtV5hXcra
- JYu6Hk0oPNVBWwnQVmJbhG5J7gOHx008Q214qnTxXP9YGJkvD3ocfpU5iwtrA5FY2zCe
- xox7OqkTCiovWmEedrHFzqj/9A7Ap3pvholb2Vt462ndvSF36ctNKS3lCWrhSpM0FX2X
- dto62YE54gmePQrEA09J8UzETsXLg6Uvx6OQqDod+LSnt+PXqIlptJKWGJJM5Cyo+dKI
- d3eg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXD45d10MYfhIQStCaHIp9g2sKAXbqadqgM+tc5aPDp8Ev3LAqoQPhTuKHAX6AflZnAN43vNDrPLhU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+dZCskQJ2vDuBMwMF7OL11UbjGVRYD7DD+o3nIFljjXS+Ux11
- YFkQHx3exRhrgkUM89U7cO341ykrZt4O+ZgR+36CB/zdMfJN/n48CV+dugQoIYv56WlspM3/g4T
- +nJugalitKm8YYUC3jrttX5+oVPvlDY2LIvT6Uj/cFu8GD8vLDl/HhbXFPNhc0BW3pgslS2cgt4
- jkzCw=
-X-Gm-Gg: ASbGnctE2o43UlxLJc+YKDKOVHpTSJ6BsQC68OR+BOSnykyHxfUxfNJJlFMlrjghMwQ
- S/xlSmeCN7FJ0XQCNYayzwq2eCkWiNjtgutel4CCSyg24MxCHnLL+ja99XSbPvwQI9493DTJW8V
- bboWkjmDT6XN1LZutJXWqvko9RkPt/gptvg3d7Baa7Q895CLD4N+KDSINoGmd0LmB+uTgN1/uXK
- 23E6CdsDkeYtOXI9Miq2hEo6wElD1VWL+f61xyxMmq7SdWdq/7SmmC+Paeb1X+lzViUP8z1k0yX
- kJ89XknZZIMRhqKS6Tno/85fjf2UHrnm0KCQEKSeqwVSavTyrLm8M28habNLoBimdOFFBOWqG8C
- 6DH8aZHehvwp5+HNWpjdzGwajbFDWNqgrIeBkVKwg0ebdjAPm01nN
-X-Received: by 2002:a05:622a:4207:b0:4af:1535:6b53 with SMTP id
- d75a77b69052e-4b31da3b2a0mr222825981cf.54.1757032751051; 
- Thu, 04 Sep 2025 17:39:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGS3wnGT8ACgxrTqpQD8+qzTZ6t5n5H43QqgEg9VQB/rUpomSgmUzUzHoGTcB143SkCSuf93g==
-X-Received: by 2002:a05:622a:4207:b0:4af:1535:6b53 with SMTP id
- d75a77b69052e-4b31da3b2a0mr222825811cf.54.1757032750618; 
- Thu, 04 Sep 2025 17:39:10 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608acfd938sm1510059e87.109.2025.09.04.17.39.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Sep 2025 17:39:08 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 05 Sep 2025 03:38:41 +0300
-Subject: [PATCH v2 12/12] drm/msm/dpu: use standard functions in
- _dpu_format_populate_plane_sizes_ubwc()
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4454810E352
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 00:41:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=o3UeHALX5qoweamPMaS1MOo62sjLt4Ear2JoA1tXdH0=; b=E
+ ECBtM+ZATaxWbyo9uZnjjX3AKb4hqsFf0zL5yMq5SoZWgTY965YSmppEKkp6pfaG
+ fGVYxVGHmyue5oNIpEw6Yu5Y/FT3d22STvwQDQtdu3eJ5qt/v5hrau9kyGz3d7GR
+ s5pPO6llYsERiAngQVOpxAJeynKwS6h8jME6fgvesk=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-101 (Coremail) ; Fri, 5 Sep 2025 08:40:31 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 5 Sep 2025 08:40:31 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Cc: heiko@sntech.de, mripard@kernel.org, neil.armstrong@linaro.org,
+ andrzej.hajda@intel.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de,
+ knaerzche@gmail.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH v7 1/2] drm/rockchip: inno-hdmi: Convert to drm bridge
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <u72vkfojufgvuqwuqpvgvnip3wogpgdcuc7bn46zo3bp7ogbu5@fmqotgyahrsn>
+References: <20250903110825.776807-1-andyshrk@163.com>
+ <20250903110825.776807-2-andyshrk@163.com>
+ <u72vkfojufgvuqwuqpvgvnip3wogpgdcuc7bn46zo3bp7ogbu5@fmqotgyahrsn>
+X-NTES-SC: AL_Qu2eBfyYvUAo5yKQYOkfmUgWjuw/WsG1v/Ul1YBSP556jCvp5SMHf3ZKHULs//mXIjigrBiNQDVU1+VTT7d4brIxhOSmkMWZwxSDEf8Xx9R1wg==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-dpu-formats-v2-12-7a674028c048@oss.qualcomm.com>
-References: <20250905-dpu-formats-v2-0-7a674028c048@oss.qualcomm.com>
-In-Reply-To: <20250905-dpu-formats-v2-0-7a674028c048@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5431;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=lGlOq21wJXxPf5qd4HfAzqrvugD2QrjsunL1xmnHE9s=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoujEKK92PZaXMEwacZH5/xSig59AgXXb3CmkPc
- fjelgfuBvKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaLoxCgAKCRCLPIo+Aiko
- 1TJbB/4r1O0t6fCeOk0Vjk5icw3t2tBKMN1g91Yubw5n3bIrgtCaaAj4eaBV0LGNLTrZQusxc2K
- Hw4mgODdktXjaQGdz3iQhL0wJyVXyQ19phnBcb6Y19aHwqZiiwqZ6JjfY6wgtBTZUYTgR9VzrL4
- TOkX8fsQmUcnphqOBgw7Hxn8/Sf7bBt6XRCQom6nKnZL+T9CMPCgl6cw7wVQy24Cbkwl8HArcL9
- vStylSVaxxlS+ykE/3IIxofD1eC262/fLFak/ohr8oKogkQ8P5GQsRetJ1lx9I8PIdFfc9BcQOj
- zhu4MFrmQ7SLnRgwqs10szN6IRd66kqr5s+ES0wJ4yW8eRSE
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: aqaPJE5fmLmDP91Db8LRLwBTDCUyUgAB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfX1JqgnIGmBj0u
- k8UnjYsn8kkTRPu19o8oMNgVTfVsu+XUmdfwcF583UsOSgeobaCIskyNYYyfe8CQtLah7T271Pi
- SAjjQEpMoNGOEisKHjufWUkc7LbUY3cVr90PS30MVn/TugJ25glOCbUg2LQuZyoHgNkFMYNjH/q
- 0kbd5MqWWWS6O3VVm1qkRK1L963Q8MQzTxhiz4FUfGV+Z944zPi5wU0wABSYNaPnanB1hPyl2XM
- n1th+L4tt/7UB1u4tc9s8YqW9+X6DOLj3V1KMpxoHnRQahduS18cfkMfTVWZQ/b5GZ4SIkFkmRr
- mcd79iIoFTbTn4LdAMfYpnJ6mVvZqmGu0YArsU3tqnyJalHjVXiMhNRyEYHepfBG8axwqYBft53
- YF9nkIdn
-X-Proofpoint-ORIG-GUID: aqaPJE5fmLmDP91Db8LRLwBTDCUyUgAB
-X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68ba3130 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=7bqH7Blup1pqkekdm3wA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_08,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
+Message-ID: <786c050a.6d2.1991751593e.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: ZSgvCgDnb8Z_MbpoklIpAA--.133W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwy-Xmi6K7+O6wADs+
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,136 +67,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The _dpu_format_populate_plane_sizes_ubwc() used MSM_MEDIA_ALIGN() and
-MSM_MEDIA_ROUNDUP(), macros inherited from the previous implementation,
-msm_media_info.h. Replace them with the standard Linux macros,
-round_up() and DIV_ROUND_UP() respectively.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 63 +++++++++++++----------------
- 1 file changed, 27 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-index da1870ce7680899759d09caa01050eeb9844a484..6e8883dbfad439a3b3f07b6fe9337820048fc2eb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-@@ -10,16 +10,6 @@
- #include "dpu_kms.h"
- #include "dpu_formats.h"
- 
--#ifndef MSM_MEDIA_ALIGN
--#define MSM_MEDIA_ALIGN(__sz, __align) (((__align) & ((__align) - 1)) ?\
--	((((__sz) + (__align) - 1) / (__align)) * (__align)) :\
--	(((__sz) + (__align) - 1) & (~((__align) - 1))))
--#endif
--
--#ifndef MSM_MEDIA_ROUNDUP
--#define MSM_MEDIA_ROUNDUP(__sz, __r) (((__sz) + ((__r) - 1)) / (__r))
--#endif
--
- #define DPU_UBWC_PLANE_SIZE_ALIGNMENT	4096
- 
- /*
-@@ -78,56 +68,57 @@ static int _dpu_format_populate_plane_sizes_ubwc(
- 
- 		if (MSM_FORMAT_IS_DX(fmt)) {
- 			if (fmt->flags & MSM_FORMAT_FLAG_UNPACK_TIGHT) {
--				stride = MSM_MEDIA_ALIGN(fb->width, 192);
--				stride = MSM_MEDIA_ALIGN(stride * 4 / 3, 256);
-+				/* can't use round_up() here because 192 is NPoT */
-+				stride = roundup(fb->width, 192);
-+				stride = round_up(stride * 4 / 3, 256);
- 				y_tile_width = 48;
- 			} else {
--				stride = MSM_MEDIA_ALIGN(fb->width * 2, 256);
-+				stride = round_up(fb->width * 2, 256);
- 				y_tile_width = 32;
- 			}
- 
--			sclines = MSM_MEDIA_ALIGN(fb->height, 16);
-+			sclines = round_up(fb->height, 16);
- 			y_tile_height = 4;
- 		} else {
--			stride = MSM_MEDIA_ALIGN(fb->width, 128);
-+			stride = round_up(fb->width, 128);
- 			y_tile_width = 32;
- 
--			sclines = MSM_MEDIA_ALIGN(fb->height, 32);
-+			sclines = round_up(fb->height, 32);
- 			y_tile_height = 8;
- 		}
- 
- 		layout->plane_pitch[0] = stride;
--		layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
-+		layout->plane_size[0] = round_up(layout->plane_pitch[0] *
- 			sclines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 
- 		layout->plane_pitch[1] = stride;
--		layout->plane_size[1] = MSM_MEDIA_ALIGN(layout->plane_pitch[1] *
-+		layout->plane_size[1] = round_up(layout->plane_pitch[1] *
- 			sclines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 
- 		if (!meta)
- 			return 0;
- 
--		y_meta_stride = MSM_MEDIA_ROUNDUP(fb->width, y_tile_width);
--		layout->plane_pitch[2] = MSM_MEDIA_ALIGN(y_meta_stride, 64);
-+		y_meta_stride = DIV_ROUND_UP(fb->width, y_tile_width);
-+		layout->plane_pitch[2] = round_up(y_meta_stride, 64);
- 
--		y_meta_scanlines = MSM_MEDIA_ROUNDUP(fb->height, y_tile_height);
--		y_meta_scanlines = MSM_MEDIA_ALIGN(y_meta_scanlines, 16);
--		layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
-+		y_meta_scanlines = DIV_ROUND_UP(fb->height, y_tile_height);
-+		y_meta_scanlines = round_up(y_meta_scanlines, 16);
-+		layout->plane_size[2] = round_up(layout->plane_pitch[2] *
- 			y_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 
--		uv_meta_stride = MSM_MEDIA_ROUNDUP((fb->width+1)>>1, y_tile_width / 2);
--		layout->plane_pitch[3] = MSM_MEDIA_ALIGN(uv_meta_stride, 64);
-+		uv_meta_stride = DIV_ROUND_UP((fb->width+1)>>1, y_tile_width / 2);
-+		layout->plane_pitch[3] = round_up(uv_meta_stride, 64);
- 
--		uv_meta_scanlines = MSM_MEDIA_ROUNDUP((fb->height+1)>>1, y_tile_height);
--		uv_meta_scanlines = MSM_MEDIA_ALIGN(uv_meta_scanlines, 16);
--		layout->plane_size[3] = MSM_MEDIA_ALIGN(layout->plane_pitch[3] *
-+		uv_meta_scanlines = DIV_ROUND_UP((fb->height+1)>>1, y_tile_height);
-+		uv_meta_scanlines = round_up(uv_meta_scanlines, 16);
-+		layout->plane_size[3] = round_up(layout->plane_pitch[3] *
- 			uv_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 	} else {
- 		unsigned int rgb_scanlines, rgb_meta_scanlines, rgb_meta_stride;
- 
--		layout->plane_pitch[0] = MSM_MEDIA_ALIGN(fb->width * fmt->bpp, 256);
--		rgb_scanlines = MSM_MEDIA_ALIGN(fb->height, 16);
--		layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
-+		layout->plane_pitch[0] = round_up(fb->width * fmt->bpp, 256);
-+		rgb_scanlines = round_up(fb->height, 16);
-+		layout->plane_size[0] = round_up(layout->plane_pitch[0] *
- 			rgb_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 
- 		if (!meta)
-@@ -136,13 +127,13 @@ static int _dpu_format_populate_plane_sizes_ubwc(
- 		/* uAPI leaves plane[1] empty and plane[2] as meta */
- 		layout->num_planes += 1;
- 
--		rgb_meta_stride = MSM_MEDIA_ROUNDUP(fb->width, 16);
--		layout->plane_pitch[2] = MSM_MEDIA_ALIGN(rgb_meta_stride, 64);
-+		rgb_meta_stride = DIV_ROUND_UP(fb->width, 16);
-+		layout->plane_pitch[2] = round_up(rgb_meta_stride, 64);
- 
--		rgb_meta_scanlines = MSM_MEDIA_ROUNDUP(fb->height, 4);
--		rgb_meta_scanlines = MSM_MEDIA_ALIGN(rgb_meta_scanlines, 16);
-+		rgb_meta_scanlines = DIV_ROUND_UP(fb->height, 4);
-+		rgb_meta_scanlines = round_up(rgb_meta_scanlines, 16);
- 
--		layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
-+		layout->plane_size[2] = round_up(layout->plane_pitch[2] *
- 			rgb_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
- 	}
- 
-
--- 
-2.47.2
-
+CkhlbGxvIERtaXRyee+8jAoKQXQgMjAyNS0wOS0wNSAwODowNTowNiwgIkRtaXRyeSBCYXJ5c2hr
+b3YiIDxkbWl0cnkuYmFyeXNoa292QG9zcy5xdWFsY29tbS5jb20+IHdyb3RlOgo+T24gV2VkLCBT
+ZXAgMDMsIDIwMjUgYXQgMDc6MDc6MzhQTSArMDgwMCwgQW5keSBZYW4gd3JvdGU6Cj4+IEZyb206
+IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gCj4+IENvbnZlcnQgaXQgdG8g
+ZHJtIGJyaWRnZSBkcml2ZXIsIGl0IHdpbGwgYmUgY29udmVuaWVudCBmb3IgdXMgdG8KPj4gbWln
+cmF0ZSB0aGUgY29ubmVjdG9yIHBhcnQgdG8gdGhlIGRpc3BsYXkgZHJpdmVyIGxhdGVyLgo+PiAK
+Pj4gU2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+PiAK
+Pj4gLS0tCj4+IAo+PiBDaGFuZ2VzIGluIHY3Ogo+PiAtIFJlYmFzZSBvbiBsYXRlc3QgZHJtLW1p
+c2MtbmV4dAo+PiAKPj4gQ2hhbmdlcyBpbiB2NjoKPj4gLSBSZWJhc2Ugb24gbGF0ZXN0IGRybS1t
+aXNjLW5leHQKPj4gLSBMaW5rIHRvIFY1OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1y
+b2NrY2hpcC8yMDI1MDUxMjEyNDYxNS4yODQ4NzMxLTEtYW5keXNocmtAMTYzLmNvbS8KPj4gCj4+
+IENoYW5nZXMgaW4gdjU6Cj4+IC0gU3BsaXQgY2xlYW51cCBjb2RlIHRvIHNlcGVyYXRlIHBhdGNo
+Cj4+IC0gU3dpdGNoIHRvIGRldm1fZHJtX2JyaWRnZV9hbGxvYygpIEFQSQo+PiAtIExpbmsgdG8g
+VjQ6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNDIyMDcwNDU1
+LjQzMjY2Ni0xLWFuZHlzaHJrQDE2My5jb20vCj4+IAo+PiBDaGFuZ2VzIGluIHY0Ogo+PiAtIERv
+IG5vdCBzdG9yZSBjb2xvcmltZXRyeSB3aXRoaW4gaW5ub19oZG1pIHN0cnVjdAo+PiAtIExpbmsg
+dG8gVjM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNDAyMTIz
+MTUwLjIzODIzNC0xLWFuZHlzaHJrQDE2My5jb20vCj4+IAo+PiBDaGFuZ2VzIGluIHYzOgo+PiAt
+IEZpcnN0IGluY2x1ZGVkIGluIHYzCj4+IC0gTGluayB0byBWMjogaHR0cHM6Ly9sb3JlLmtlcm5l
+bC5vcmcvZHJpLWRldmVsLzIwMjUwMzI1MTMyOTQ0LjE3MTExMS0xLWFuZHlzaHJrQDE2My5jb20v
+Cj4+IAo+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAgICAgICAgICAgICAgIHwg
+ICA3ICsKPj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUgICAgICAgICAgICAgICB8
+ICAgMSArCj4+ICAuLi4vaW5ub19oZG1pLmMgPT4gYnJpZGdlL2lubm8taGRtaS5jfSAgICAgICAg
+fCA1MDIgKysrKystLS0tLS0tLS0tLS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvS2Nv
+bmZpZyAgICAgICAgICAgICAgfCAgIDEgKwo+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL01h
+a2VmaWxlICAgICAgICAgICAgIHwgICAyICstCj4+ICBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+aW5ub19oZG1pLXJvY2tjaGlwLmMgfCAxODggKysrKysrKwo+PiAgaW5jbHVkZS9kcm0vYnJpZGdl
+L2lubm9faGRtaS5oICAgICAgICAgICAgICAgIHwgIDMzICsrCj4+ICA3IGZpbGVzIGNoYW5nZWQs
+IDM2NiBpbnNlcnRpb25zKCspLCAzNjggZGVsZXRpb25zKC0pCj4+ICByZW5hbWUgZHJpdmVycy9n
+cHUvZHJtL3tyb2NrY2hpcC9pbm5vX2hkbWkuYyA9PiBicmlkZ2UvaW5uby1oZG1pLmN9ICg2OSUp
+Cj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRt
+aS1yb2NrY2hpcC5jCj4+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS9kcm0vYnJpZGdlL2lu
+bm9faGRtaS5oCj4+IAo+PiBAQCAtNjM3LDE0ICs1ODQsMTMgQEAgc3RhdGljIHZvaWQgaW5ub19o
+ZG1pX2luaXRfaHcoc3RydWN0IGlubm9faGRtaSAqaGRtaSkKPj4gIAloZG1pX21vZGIoaGRtaSwg
+SERNSV9TVEFUVVMsIG1fTUFTS19JTlRfSE9UUExVRywgdl9NQVNLX0lOVF9IT1RQTFVHKDEpKTsK
+Pj4gIH0KPj4gIAo+PiAtc3RhdGljIGludCBpbm5vX2hkbWlfZGlzYWJsZV9mcmFtZShzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+PiAtCQkJCSAgIGVudW0gaGRtaV9pbmZvZnJhbWVf
+dHlwZSB0eXBlKQo+PiArc3RhdGljIGludCBpbm5vX2hkbWlfYnJpZGdlX2NsZWFyX2luZm9mcmFt
+ZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+PiArCQkJCQkgICAgZW51bSBoZG1pX2luZm9m
+cmFtZV90eXBlIHR5cGUpCj4+ICB7Cj4+IC0Jc3RydWN0IGlubm9faGRtaSAqaGRtaSA9IGNvbm5l
+Y3Rvcl90b19pbm5vX2hkbWkoY29ubmVjdG9yKTsKPj4gKwlzdHJ1Y3QgaW5ub19oZG1pICpoZG1p
+ID0gYnJpZGdlX3RvX2lubm9faGRtaShicmlkZ2UpOwo+PiAgCj4+ICAJaWYgKHR5cGUgIT0gSERN
+SV9JTkZPRlJBTUVfVFlQRV9BVkkpIHsKPj4gLQkJZHJtX2Vycihjb25uZWN0b3ItPmRldiwKPj4g
+LQkJCSJVbnN1cHBvcnRlZCBpbmZvZnJhbWUgdHlwZTogJXVcbiIsIHR5cGUpOwo+PiArCQlkcm1f
+ZXJyKGJyaWRnZS0+ZGV2LCAiVW5zdXBwb3J0ZWQgaW5mb2ZyYW1lIHR5cGU6ICV1XG4iLCB0eXBl
+KTsKPj4gIAkJcmV0dXJuIDA7Cj4+ICAJfQo+PiAgCj4+IEBAIC02NTMsMjAgKzU5OSwxOSBAQCBz
+dGF0aWMgaW50IGlubm9faGRtaV9kaXNhYmxlX2ZyYW1lKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IsCj4+ICAJcmV0dXJuIDA7Cj4+ICB9Cj4+ICAKPj4gLXN0YXRpYyBpbnQgaW5ub19o
+ZG1pX3VwbG9hZF9mcmFtZShzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+PiAtCQkJ
+CSAgZW51bSBoZG1pX2luZm9mcmFtZV90eXBlIHR5cGUsCj4+IC0JCQkJICBjb25zdCB1OCAqYnVm
+ZmVyLCBzaXplX3QgbGVuKQo+PiArc3RhdGljIGludCBpbm5vX2hkbWlfYnJpZGdlX3dyaXRlX2lu
+Zm9mcmFtZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+PiArCQkJCQkgICAgZW51bSBoZG1p
+X2luZm9mcmFtZV90eXBlIHR5cGUsCj4+ICsJCQkJCSAgICBjb25zdCB1OCAqYnVmZmVyLCBzaXpl
+X3QgbGVuKQo+PiAgewo+PiAtCXN0cnVjdCBpbm5vX2hkbWkgKmhkbWkgPSBjb25uZWN0b3JfdG9f
+aW5ub19oZG1pKGNvbm5lY3Rvcik7Cj4+ICsJc3RydWN0IGlubm9faGRtaSAqaGRtaSA9IGJyaWRn
+ZV90b19pbm5vX2hkbWkoYnJpZGdlKTsKPj4gIAlzc2l6ZV90IGk7Cj4+ICAKPj4gIAlpZiAodHlw
+ZSAhPSBIRE1JX0lORk9GUkFNRV9UWVBFX0FWSSkgewo+PiAtCQlkcm1fZXJyKGNvbm5lY3Rvci0+
+ZGV2LAo+PiAtCQkJIlVuc3VwcG9ydGVkIGluZm9mcmFtZSB0eXBlOiAldVxuIiwgdHlwZSk7Cj4+
+ICsJCWRybV9lcnIoYnJpZGdlLT5kZXYsICJVbnN1cHBvcnRlZCBpbmZvZnJhbWUgdHlwZTogJXVc
+biIsIHR5cGUpOwo+PiAgCQlyZXR1cm4gMDsKPj4gIAl9Cj4+ICAKPj4gLQlpbm5vX2hkbWlfZGlz
+YWJsZV9mcmFtZShjb25uZWN0b3IsIHR5cGUpOwo+PiArCWlubm9faGRtaV9icmlkZ2VfY2xlYXJf
+aW5mb2ZyYW1lKGJyaWRnZSwgdHlwZSk7Cj4+ICAKPj4gIAlmb3IgKGkgPSAwOyBpIDwgbGVuOyBp
+KyspCj4+ICAJCWhkbWlfd3JpdGViKGhkbWksIEhETUlfQ09OVFJPTF9QQUNLRVRfQUREUiArIGks
+IGJ1ZmZlcltpXSk7Cj4KPkl0J3Mgbm90IGFuIGlzc3VlIGZvciB0aGlzIHBhdGNoIChhbmQgSSB0
+aGluayBpdCBjYW4gYmUgZml4ZWQgYWZ0ZXIgdGhpcwo+c2VyaWVzIGlzIG1lcmdlZCkuIEkgdG9v
+ayBhIHF1aWNrIGdsYW5jZSBhdCBmcmFtZSBwcm9ncmFtbWluZy4gSXQgZmVlbHMKPmxpa2UgdGhl
+IGNsZWFyX2luZm9mcmFtZSBzaG91bGQgYmUgcG9raW5nIGF0IHJlZ2lzdGVycyAweDljIC8gMHg5
+ZC4gQW5kCj53cml0ZV9pbmZvZnJhbWUgdGhlbiBjYW4gc3VwcG9ydCBIRE1JLCBTUEQgYW5kIEF1
+ZGlvIGluZm9mcmFtZXMgaW4KPmFkZGl0aW9uIHRvIHRoZSBBVkkuIEkgZG9uJ3QgaGF2ZSBoYXJk
+d2FyZSB0byBleHBlcmltZW50IChub3IgdGltZSA6LSkpLAo+YnV0IHdvdWxkIHRoZXJlIGJlIGEg
+Y2hhbmNlIHRvIGltcHJvdmUgdGhpcz8KCk9rYXksIEknbGwga2VlcCB5b3VyIHN1Z2dlc3Rpb25z
+IGluIG1pbmQgYW5kIGxvb2sgZm9yIGFuIG9wcG9ydHVuaXR5IHRvIHRyeSB0aGVtIG91dCBsYXRl
+ci4gClRoZSBoYXJkd2FyZSBmb3IgdGhpcyBib2FyZCBpcyBpbmRlZWQgdmVyeSBzY2FyY2UgYXQg
+dGhlIG1vbWVudOKAlEkgcHV0IGluIGEgbG90IG9mIGVmZm9ydCBqdXN0CnRvIGdldCBteSBoYW5k
+cyBvbiBvbmUuIFRoZSBtYWluIHJlYXNvbiBJJ20gbW9kaWZ5aW5nIHRoaXMgY29kZSBpcyB0byBj
+b252ZXJ0IGFsbCBvZiBSb2NrY2hpcCdzCmRpc3BsYXkgaW50ZXJmYWNlIGRyaXZlcnMgaW50byBi
+cmlkZ2UgbW9kZSwgd2hpY2ggd2lsbCBtYWtlIGl0IGVhc2llciB0byBzZXBhcmF0ZSB0aGUgY29u
+bmVjdG9yCnBhcnQgaW50byB0aGUgZGlzcGxheSBkcml2ZXIgc2lkZSBpbiB0aGUgZnV0dXJlLgoK
+VGhhbmsgeW91IGFsd2F5cy4KCgoKPgo+LS0gCj5XaXRoIGJlc3Qgd2lzaGVzCj5EbWl0cnkK
