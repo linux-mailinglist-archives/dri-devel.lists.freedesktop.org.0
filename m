@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B095B44C94
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 06:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF50B44CA1
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 06:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B7CB10E2B2;
-	Fri,  5 Sep 2025 04:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9967910EB15;
+	Fri,  5 Sep 2025 04:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bl+X/SuG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JDiGD3HO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6ECC10E2B2
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 04:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757045245; x=1788581245;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4ik2CJTqkP7JyZGKZODFZYdcNPSHjRkjR5R+MPvEcCo=;
- b=bl+X/SuG80+n1Shi6YV3z6wNVopFVmjAAoSZAQIR7R9hTcvcJzFpbLkn
- YmnufhvT/SjXDaHNl/GcBAZ0eZjZH1Kp3O1DWzNExTGiY7EcUCkUl+JSs
- CX1q88aRdaAUO9OgWj0Rf+M2Zc/TuePvq/OnVtWGsQUJ3IykDD19GmjoD
- ODfZYKprRAREcx28B9P0uxkaTyFJKo9IxkTng0/oB2Oadg+lyYzPvu2Rj
- hCRG75/lieahx2L0r4gL00QZaoQ41qIgw7zBJ31LpWAFCnvM7e0vqdip+
- y6ag9RdzjdD15Dfd0sm3hL7F+ccjCrI5PjyoNRSWXXwmH7/KGaRtwjH95 Q==;
-X-CSE-ConnectionGUID: YGcU+PeMSj2wNr4fk44YRA==
-X-CSE-MsgGUID: ybcCafo1QeOwITgrbynseg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="70773230"
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; d="scan'208";a="70773230"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2025 21:07:24 -0700
-X-CSE-ConnectionGUID: UzhF1ARWTg+dFKBwSb3SZQ==
-X-CSE-MsgGUID: SZdZEBhnTWOI4Prh+5yVeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; d="scan'208";a="195723838"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
- by fmviesa002.fm.intel.com with ESMTP; 04 Sep 2025 21:07:20 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uuNjJ-00001H-2e;
- Fri, 05 Sep 2025 04:07:17 +0000
-Date: Fri, 5 Sep 2025 12:06:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- David Hildenbrand <david@redhat.com>,
- Mike Rapoport <rppt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 5/9] dma-buf: heaps: Add support for Tegra VPR
-Message-ID: <202509051132.C0y3nq6E-lkp@intel.com>
-References: <20250902154630.4032984-6-thierry.reding@gmail.com>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0053510EB15
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 04:13:05 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-b0475ce7f41so329345766b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Sep 2025 21:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757045584; x=1757650384; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KrWnGnxa3ZyzmRkYI/9k6bgQOkZyS8I4F7Ovw9oMlQU=;
+ b=JDiGD3HOVVpIOQPOKSF+Iwz9yjYLc5dQKFc0RA6M7FN4NhQaAl+EcB292WQj9BFChA
+ XfopCcW6pT8saNrxzPOvo2cw1MJqcWTanW+9kUspQoAq3OF2EhSs3aB4lqzOrvpB+Vo5
+ yk7qOkpARAMWQtEMCVyOuez036SdBu6vXsvVj9JZWU5tMbxdH64te1Riq/GeIWZXDpT6
+ KAWKix+W46cT127/gQXWI8/0Kfg69hzWS/JtbbdJBvQELBgw0ihHZ9CC3z6WZlDq0uE4
+ mLA2xcdhFx1NeSnDVHe8fKL1RTQnnEB+h4Hvx6wD8o5YvN88OoIvGq9pIFDyOX2efRS1
+ rkBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757045584; x=1757650384;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KrWnGnxa3ZyzmRkYI/9k6bgQOkZyS8I4F7Ovw9oMlQU=;
+ b=QBwwIlC54WmdFEZuGZvi9XxTowKwJEyKiBFZLBHkk6zm8QUgalMYmKwuVj48Kqqe6R
+ WqGM0LUvbU1yL0x6Ei7K3C34tM1UBs1mvvad+mXwwNf9ndQq8ZNAKrLmBq+e22bxpJWH
+ zWetroveoXQxej5aNd7EMOTNmmh16Omri+mxTHrKAjXFTyQ0iF1L5WyreKRhf0of88b7
+ 4VQdLtECiCw86MfAtZGB50vp359sMKpB+af3s+8PUot6PNFC/EX/5NqFPz5FG3+B/78T
+ T4amPMpTxqgoyDn+MesFyE9b/8QP2LZaQxpDAy35d5aUfJll/9GPHwqZrqaPi4zY9ZGZ
+ M0Pg==
+X-Gm-Message-State: AOJu0Yzk/LSzHvORK9TKqWZk1x9Gg8fYWdB7N3KQr2Hvad6EivjWFuas
+ oNGRkmW2B5IvXjVxCblgWbdo31sRYodFwPF1QJbUqzc9Wr8joGqCAfVt19FVhkzXD0hJoQeWyy6
+ /K76d1PLw6JFDgFBwyUYUDZgWPwrcXLR/J8a/
+X-Gm-Gg: ASbGncv2CRICBzOKjsEhC0cfwg2bMOVFCEZxY8q54hcKzSvlrZcMuTFrq7f/Pg5E4GE
+ SYUqPbAXkYAFAShVCVF7A0PzVMsTGXOEmStX5VPo1uYeUjs8hS5BYxE4VVYIiocwdpEvLW46nGP
+ n/OTLhA8dSfC3t92ITFRwR74ONFqUzlFuXEOZa6sXnhdRtirP70vg2fAXHUWf9Z59nAkYs9pfJB
+ MQy8WDOeQl2eHYIed0EBVc17FA=
+X-Google-Smtp-Source: AGHT+IEGYPmHKSHEICSzF+d8fZa9yfkbd7BcogyVCTDPOqRiOrrEPpLDzglQacZqaoB1+90R1sj1QHtFClLH0IlvIec=
+X-Received: by 2002:a17:907:3f13:b0:b04:830f:822d with SMTP id
+ a640c23a62f3a-b04830fb950mr457621766b.63.1757045584035; Thu, 04 Sep 2025
+ 21:13:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902154630.4032984-6-thierry.reding@gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 5 Sep 2025 14:12:52 +1000
+X-Gm-Features: Ac12FXzUJUH7iKinFb4_on0LQunMxw-L-dNUA679WdcIPzHioIDA3Nj8jaClEvc
+Message-ID: <CAPM=9txcDaRBOKZEWzAcDsdT=APUzcSicYA=-fno+52zGz0bOA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.17-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,127 +79,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thierry,
+Hi Linus,
 
-kernel test robot noticed the following build warnings:
+Weekly drm fixes roundup, nouveau has two fixes for fence/irq racing
+problems that should fix a bunch of instability in userspace.
+Otherwise amdgpu along with some single fixes to bridge, xe, ivpu.
+Looks about usual for this time in the release.
 
-[auto build test WARNING on next-20250902]
-[also build test WARNING on v6.17-rc4]
-[cannot apply to robh/for-next akpm-mm/mm-everything tegra/for-next linus/master v6.17-rc4 v6.17-rc3 v6.17-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Regards,
+Dave.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Reding/dt-bindings-reserved-memory-Document-Tegra-VPR/20250902-235038
-base:   next-20250902
-patch link:    https://lore.kernel.org/r/20250902154630.4032984-6-thierry.reding%40gmail.com
-patch subject: [PATCH 5/9] dma-buf: heaps: Add support for Tegra VPR
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250905/202509051132.C0y3nq6E-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509051132.C0y3nq6E-lkp@intel.com/reproduce)
+drm-fixes-2025-09-05:
+drm fixes for 6.17-rc5
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509051132.C0y3nq6E-lkp@intel.com/
+scheduler:
+- fix race in unschedulable tracepoint
 
-All warnings (new ones prefixed by >>):
+bridge:
+- ti-sn65dsi86: fix REFCLK setting
 
-   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_protect_pages':
-   drivers/dma-buf/heaps/tegra-vpr.c:192:21: error: implicit declaration of function '__ptep_get'; did you mean 'ptep_get'? [-Werror=implicit-function-declaration]
-     192 |         pte_t pte = __ptep_get(ptep);
-         |                     ^~~~~~~~~~
-         |                     ptep_get
-   drivers/dma-buf/heaps/tegra-vpr.c:192:21: error: invalid initializer
-   drivers/dma-buf/heaps/tegra-vpr.c:194:15: error: implicit declaration of function 'clear_pte_bit'; did you mean 'clear_ptes'? [-Werror=implicit-function-declaration]
-     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
-         |               ^~~~~~~~~~~~~
-         |               clear_ptes
-   In file included from arch/x86/include/asm/paravirt_types.h:11,
-                    from arch/x86/include/asm/ptrace.h:175,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:59,
-                    from include/linux/thread_info.h:60,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from include/linux/debugfs.h:15,
-                    from drivers/dma-buf/heaps/tegra-vpr.c:12:
-   drivers/dma-buf/heaps/tegra-vpr.c:194:43: error: 'PROT_NORMAL' undeclared (first use in this function)
-     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
-         |                                           ^~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
-     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
-         |                                                ^
-   drivers/dma-buf/heaps/tegra-vpr.c:194:43: note: each undeclared identifier is reported only once for each function it appears in
-     194 |         pte = clear_pte_bit(pte, __pgprot(PROT_NORMAL));
-         |                                           ^~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
-     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
-         |                                                ^
-   drivers/dma-buf/heaps/tegra-vpr.c:195:15: error: implicit declaration of function 'set_pte_bit'; did you mean 'set_pte_at'? [-Werror=implicit-function-declaration]
-     195 |         pte = set_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
-         |               ^~~~~~~~~~~
-         |               set_pte_at
-   drivers/dma-buf/heaps/tegra-vpr.c:195:41: error: 'PROT_DEVICE_nGnRnE' undeclared (first use in this function)
-     195 |         pte = set_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
-         |                                         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
-     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
-         |                                                ^
-   drivers/dma-buf/heaps/tegra-vpr.c:197:9: error: implicit declaration of function '__set_pte'; did you mean 'set_pte'? [-Werror=implicit-function-declaration]
-     197 |         __set_pte(ptep, pte);
-         |         ^~~~~~~~~
-         |         set_pte
-   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_unprotect_pages':
-   drivers/dma-buf/heaps/tegra-vpr.c:205:21: error: invalid initializer
-     205 |         pte_t pte = __ptep_get(ptep);
-         |                     ^~~~~~~~~~
-   drivers/dma-buf/heaps/tegra-vpr.c:207:43: error: 'PROT_DEVICE_nGnRnE' undeclared (first use in this function)
-     207 |         pte = clear_pte_bit(pte, __pgprot(PROT_DEVICE_nGnRnE));
-         |                                           ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
-     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
-         |                                                ^
-   drivers/dma-buf/heaps/tegra-vpr.c:208:41: error: 'PROT_NORMAL' undeclared (first use in this function)
-     208 |         pte = set_pte_bit(pte, __pgprot(PROT_NORMAL));
-         |                                         ^~~~~~~~~~~
-   arch/x86/include/asm/pgtable_types.h:202:48: note: in definition of macro '__pgprot'
-     202 | #define __pgprot(x)             ((pgprot_t) { (x) } )
-         |                                                ^
-   drivers/dma-buf/heaps/tegra-vpr.c: In function 'tegra_vpr_add_heap':
->> drivers/dma-buf/heaps/tegra-vpr.c:8:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-       8 | #define pr_fmt(fmt) "tegra-vpr: " fmt
-         |                     ^~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'pr_fmt'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
-     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:636:9: note: in expansion of macro 'dynamic_pr_debug'
-     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/dma-buf/heaps/tegra-vpr.c:715:17: note: in expansion of macro 'pr_debug'
-     715 |                 pr_debug("  %2u: %pap-%pap (%lu MiB)\n", i, &start, &end,
-         |                 ^~~~~~~~
-   cc1: some warnings being treated as errors
+xe:
+- Fix incorrect migration of backed-up object to VRAM
 
+amdgpu:
+- UserQ fixes
+- MES 11 fix
+- eDP/LVDS fix
+- Fix non-DC audio clean up
+- Fix duplicate cursor issue
+- Fix error path in PSP init
 
-vim +8 drivers/dma-buf/heaps/tegra-vpr.c
+nouveau:
+- fix nonstall interrupt handling
+- fix race on fence vs irq emission
+- update MAINTAINERS entry
 
-   > 8	#define pr_fmt(fmt) "tegra-vpr: " fmt
-     9	
+ivpu:
+- prevent recovery work during device remove
+The following changes since commit b320789d6883cc00ac78ce83bccbfe7ed58afcf0=
+:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Linux 6.17-rc4 (2025-08-31 15:33:07 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-09-05
+
+for you to fetch changes up to 8b556ddeee8da9420699ce221b6267f395e7d72b:
+
+  Merge tag 'amd-drm-fixes-6.17-2025-09-03' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2025-09-05
+08:06:34 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.17-rc5
+
+scheduler:
+- fix race in unschedulable tracepoint
+
+bridge:
+- ti-sn65dsi86: fix REFCLK setting
+
+xe:
+- Fix incorrect migration of backed-up object to VRAM
+
+amdgpu:
+- UserQ fixes
+- MES 11 fix
+- eDP/LVDS fix
+- Fix non-DC audio clean up
+- Fix duplicate cursor issue
+- Fix error path in PSP init
+
+nouveau:
+- fix nonstall interrupt handling
+- fix race on fence vs irq emission
+- update MAINTAINERS entry
+
+ivpu:
+- prevent recovery work during device remove
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amdgpu/mes11: make MES_MISC_OP_CHANGE_CONFIG failure non-fatal
+      drm/amdgpu: drop hw access in non-DC audio fini
+
+Colin Ian King (1):
+      drm/amd/amdgpu: Fix missing error return on kzalloc failure
+
+Dave Airlie (4):
+      nouveau: fix disabling the nonstall irq due to storm code
+      Merge tag 'drm-misc-fixes-2025-09-03' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-09-03' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.17-2025-09-03' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Faith Ekstrand (1):
+      nouveau: Membar before between semaphore writes and the interrupt
+
+Ivan Lipski (1):
+      drm/amd/display: Clear the CUR_ENABLE register on DCN314 w/out DPP PG
+
+James Jones (1):
+      MAINTAINERS: Update git entry for nouveau
+
+Jesse.Zhang (1):
+      drm/amdgpu/sdma: bump firmware version checks for user queue support
+
+Karol Wachowski (1):
+      accel/ivpu: Prevent recovery work from being queued during device rem=
+oval
+
+Mario Limonciello (1):
+      drm/amd: Re-enable common modes for eDP and LVDS
+
+Michael Walle (1):
+      drm/bridge: ti-sn65dsi86: fix REFCLK setting
+
+Pierre-Eric Pelloux-Prayer (1):
+      drm/sched: Fix racy access to drm_sched_entity.dependency
+
+Thomas Hellstr=C3=B6m (1):
+      drm/xe: Fix incorrect migration of backed-up object to VRAM
+
+ MAINTAINERS                                        |  2 +-
+ drivers/accel/ivpu/ivpu_drv.c                      |  2 +-
+ drivers/accel/ivpu/ivpu_pm.c                       |  4 +-
+ drivers/accel/ivpu/ivpu_pm.h                       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  2 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c             |  5 --
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c             |  5 --
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c              |  5 --
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c              |  5 --
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  5 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c             |  6 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  3 +-
+ .../gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp.c   |  9 +++
+ .../gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp.h   |  2 +
+ .../gpu/drm/amd/display/dc/dpp/dcn30/dcn30_dpp.c   |  1 +
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.c  | 72 ++++++++++++++++++
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_hwseq.h  |  2 +
+ .../drm/amd/display/dc/hwss/dcn314/dcn314_init.c   |  1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h        |  3 +
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              | 11 +++
+ drivers/gpu/drm/nouveau/gv100_fence.c              |  7 +-
+ .../gpu/drm/nouveau/include/nvhw/class/clc36f.h    | 85 ++++++++++++++++++=
+++++
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c    |  2 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga100.c   | 23 ++++--
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c   |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h    |  2 +
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fifo.c |  1 +
+ drivers/gpu/drm/scheduler/sched_entity.c           | 11 ++-
+ drivers/gpu/drm/xe/xe_bo.c                         |  3 +-
+ 29 files changed, 234 insertions(+), 48 deletions(-)
