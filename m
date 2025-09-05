@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBE3B466E6
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 01:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0357B466F4
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 01:02:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21F7F10EC6A;
-	Fri,  5 Sep 2025 23:01:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 144B510EC66;
+	Fri,  5 Sep 2025 23:02:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FKhh4N0Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gJR8Peuy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5AEB10EC62;
- Fri,  5 Sep 2025 23:01:21 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E81310EC66
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 23:02:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CBCC2601AA;
- Fri,  5 Sep 2025 23:01:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2CEDC4CEF1;
- Fri,  5 Sep 2025 23:01:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E0BF44022F;
+ Fri,  5 Sep 2025 23:02:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E75C4CEF1;
+ Fri,  5 Sep 2025 23:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757113280;
- bh=+lhopyxIHPkimkHLqjBagKsowbxPduHdhl1alB5XIHw=;
+ s=k20201202; t=1757113329;
+ bh=A+4/RdKySax+tzp4GDPn4PRAlrr/cIuU7Wohf04Emrs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FKhh4N0YC7rktiPdXEfXclWanEDKYne9TN6cdcuCjqPCtcq4Rn0r96yLuECJbiw+4
- LjwCnjQtLBAm0edveUnCZZYiNonj/7aqKLJr2wGtnUHH+scBK/7r7JUigttXLAScDm
- pXeFnpIPvL1/rZKX9LdznwwDYBYkDL4/X0Q74Dlpx/NmySnEYO46ImCPWzvWXVlUfn
- 7nKQ1fERSefzbF0N9pUOtT2Ew99OpHStRZ+01KHKpecJw2kFIukduhp+K3hQulq8o0
- 47VhyxuU+d72ralUlgkhIgcgxiZyD9aQX9YFUuu3Ep7hq8BTDKfbNp6DFssdME8qWg
- uTEId8/MJZDQg==
-Date: Fri, 5 Sep 2025 16:00:06 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>,
- Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
- io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-Message-ID: <20250905230006.GA1776@sol>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-20-david@redhat.com>
- <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
+ b=gJR8Peuy40MtGwzANFz9PbLYWO6HTL+KwUXl8BCSi3g9DFIXW1L3UKNH1X+545mdM
+ DP18sjIqbsM+dpCD7qMLBv2lsN1pwS7Xr/aMDqEGbEM6zrWV+fedBKT1WlBcE/Tq0u
+ 14NyYaGYukxn9wgLr7ImvCh8+xLcOBn+WIhQjg0JpENWRqzEOaxb2lhwNWB2WgSU9X
+ 6L+Nm8e65pDvfx3wXoDhOjGp0KodUbF9kV9y+RPjs8lTVA8e6SN3r4yQoON+DeBqpT
+ Wsc4tjSK5EMpUwxbzyS/TLQ+RMqybcObpGQECFOpyVU/v4+KbjMmMBpnosefcpaF8f
+ PP4fAYdYBqsxg==
+Date: Fri, 5 Sep 2025 18:02:09 -0500
+From: Rob Herring <robh@kernel.org>
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacopo Mondi <jacopo@jmondi.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: leds: commonize leds property
+Message-ID: <20250905230209.GA1423697-robh@kernel.org>
+References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
+ <20250905-leds-v2-2-ed8f66f56da8@vinarskis.com>
+ <20250905152404.GB953718-robh@kernel.org>
+ <Lm6PLaup84KHzhxYTbsrQIbEeQpc6dj65aLkLFvOx7QwvuXS9ON53Csa2v6LBp4hd9iIQilvGhXqx4kXv4cfqgYUeA49vrVdWJw-fNMLu2Y=@vinarskis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5090355d-546a-4d06-99e1-064354d156b5@redhat.com>
+In-Reply-To: <Lm6PLaup84KHzhxYTbsrQIbEeQpc6dj65aLkLFvOx7QwvuXS9ON53Csa2v6LBp4hd9iIQilvGhXqx4kXv4cfqgYUeA49vrVdWJw-fNMLu2Y=@vinarskis.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,111 +73,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 05, 2025 at 08:41:23AM +0200, David Hildenbrand wrote:
-> On 01.09.25 17:03, David Hildenbrand wrote:
-> > We can just cleanup the code by calculating the #refs earlier,
-> > so we can just inline what remains of record_subpages().
+On Fri, Sep 05, 2025 at 04:48:52PM +0000, Aleksandrs Vinarskis wrote:
+> On Friday, September 5th, 2025 at 17:24, Rob Herring <robh@kernel.org> wrote:
+> 
 > > 
-> > Calculate the number of references/pages ahead of times, and record them
-> > only once all our tests passed.
 > > 
-> > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > ---
-> >   mm/gup.c | 25 ++++++++-----------------
-> >   1 file changed, 8 insertions(+), 17 deletions(-)
+> > On Fri, Sep 05, 2025 at 09:59:30AM +0200, Aleksandrs Vinarskis wrote:
 > > 
-> > diff --git a/mm/gup.c b/mm/gup.c
-> > index c10cd969c1a3b..f0f4d1a68e094 100644
-> > --- a/mm/gup.c
-> > +++ b/mm/gup.c
-> > @@ -484,19 +484,6 @@ static inline void mm_set_has_pinned_flag(struct mm_struct *mm)
-> >   #ifdef CONFIG_MMU
-> >   #ifdef CONFIG_HAVE_GUP_FAST
-> > -static int record_subpages(struct page *page, unsigned long sz,
-> > -			   unsigned long addr, unsigned long end,
-> > -			   struct page **pages)
-> > -{
-> > -	int nr;
-> > -
-> > -	page += (addr & (sz - 1)) >> PAGE_SHIFT;
-> > -	for (nr = 0; addr != end; nr++, addr += PAGE_SIZE)
-> > -		pages[nr] = page++;
-> > -
-> > -	return nr;
-> > -}
-> > -
-> >   /**
-> >    * try_grab_folio_fast() - Attempt to get or pin a folio in fast path.
-> >    * @page:  pointer to page to be grabbed
-> > @@ -2967,8 +2954,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-> >   	if (pmd_special(orig))
-> >   		return 0;
-> > -	page = pmd_page(orig);
-> > -	refs = record_subpages(page, PMD_SIZE, addr, end, pages + *nr);
-> > +	refs = (end - addr) >> PAGE_SHIFT;
-> > +	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> >   	folio = try_grab_folio_fast(page, refs, flags);
-> >   	if (!folio)
-> > @@ -2989,6 +2976,8 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-> >   	}
-> >   	*nr += refs;
-> > +	for (; refs; refs--)
-> > +		*(pages++) = page++;
-> >   	folio_set_referenced(folio);
-> >   	return 1;
-> >   }
-> > @@ -3007,8 +2996,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-> >   	if (pud_special(orig))
-> >   		return 0;
-> > -	page = pud_page(orig);
-> > -	refs = record_subpages(page, PUD_SIZE, addr, end, pages + *nr);
-> > +	refs = (end - addr) >> PAGE_SHIFT;
-> > +	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
-> >   	folio = try_grab_folio_fast(page, refs, flags);
-> >   	if (!folio)
-> > @@ -3030,6 +3019,8 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-> >   	}
-> >   	*nr += refs;
-> > +	for (; refs; refs--)
-> > +		*(pages++) = page++;
-> >   	folio_set_referenced(folio);
-> >   	return 1;
-> >   }
+> > > A number of existing schemas use 'leds' property to provide
+> > > phandle-array of LED(s) to the consumer. Additionally, with the
+> > > upcoming privacy-led support in device-tree, v4l2 subnode could be a
+> > > LED consumer, meaning that all camera sensors should support 'leds'
+> > > and 'led-names' property via common 'video-interface-devices.yaml'.
+> > > 
+> > > To avoid dublication, commonize 'leds' property from existing schemas
+> > > to newly introduced 'led-consumer.yaml'.
+> > > 
+> > > Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
+> > > ---
+> > > .../devicetree/bindings/leds/backlight/led-backlight.yaml | 7 +------
+> > > Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml | 6 +-----
+> > > .../devicetree/bindings/media/video-interface-devices.yaml | 3 +++
+> > > 3 files changed, 5 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> > > index f5554da6bc6c73e94c4a2c32b150b28351b25f16..5e19b4376715eeb05cb789255db209ed27f8822f 100644
+> > > --- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> > > +++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+> > > @@ -18,17 +18,12 @@ description:
+> > > 
+> > > allOf:
+> > > - $ref: common.yaml#
+> > > + - $ref: /schemas/leds/leds-consumer.yaml#
+> > 
+> > 
+> > Drop.
+> > 
+> > > properties:
+> > > compatible:
+> > > const: led-backlight
+> > > 
+> > > - leds:
+> > > - description: A list of LED nodes
+> > > - $ref: /schemas/types.yaml#/definitions/phandle-array
+> > > - items:
+> > > - maxItems: 1
+> > 
+> > 
+> > You need to keep the property here:
+> > 
+> > leds: true
+> > 
+> > > -
+> > > required:
+> > > - compatible
+> > > - leds
+> > > diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> > > index 8ed059a5a724f68389a1d0c4396c85b9ccb2d9af..b4f326e8822a3bf452b22f5b9fa7189696f760a4 100644
+> > > --- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> > > +++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+> > > @@ -17,16 +17,12 @@ properties:
+> > > compatible:
+> > > const: leds-group-multicolor
+> > > 
+> > > - leds:
+> > > - description:
+> > > - An aray of monochromatic leds
+> > > - $ref: /schemas/types.yaml#/definitions/phandle-array
+> > > -
+> > > required:
+> > > - leds
+> > > 
+> > > allOf:
+> > > - $ref: leds-class-multicolor.yaml#
+> > > + - $ref: /schemas/leds/leds-consumer.yaml#
+> > 
+> > 
+> > 
+> > Same comments in this one.
+> > 
+> > > unevaluatedProperties: false
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> > > index cf7712ad297c01c946fa4dfdaf9a21646e125099..1e25cea0ff71da2cfd1c7c4642713199f3542c0a 100644
+> > > --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> > > @@ -10,6 +10,9 @@ maintainers:
+> > > - Jacopo Mondi jacopo@jmondi.org
+> > > - Sakari Ailus sakari.ailus@linux.intel.com
+> > > 
+> > > +allOf:
+> > > + - $ref: /schemas/leds/leds-consumer.yaml#
+> > 
+> > 
+> > This can be dropped. The user still has to define how many entries and
+> > what the values of led-names are.
 > 
-> Okay, this code is nasty. We should rework this code to just return the nr and receive a the proper
-> pages pointer, getting rid of the "*nr" parameter.
-> 
-> For the time being, the following should do the trick:
-> 
-> commit bfd07c995814354f6b66c5b6a72e96a7aa9fb73b (HEAD -> nth_page)
-> Author: David Hildenbrand <david@redhat.com>
-> Date:   Fri Sep 5 08:38:43 2025 +0200
-> 
->     fixup: mm/gup: remove record_subpages()
->     pages is not adjusted by the caller, but idnexed by existing *nr.
->     Signed-off-by: David Hildenbrand <david@redhat.com>
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 010fe56f6e132..22420f2069ee1 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -2981,6 +2981,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
->                 return 0;
->         }
-> +       pages += *nr;
->         *nr += refs;
->         for (; refs; refs--)
->                 *(pages++) = page++;
-> @@ -3024,6 +3025,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
->                 return 0;
->         }
-> +       pages += *nr;
->         *nr += refs;
->         for (; refs; refs--)
->                 *(pages++) = page++;
+> Hmm, but where should it be added then? If I just drop it, MIPI 
+> camera schemas which are based on 'video-interface-devices.yaml' and 
+> have 'unevaluatedProperties: false' throw warnings because 'leds' was 
+> not expected. Including the example in 'led-consumer.yaml' as found 
+> by your bot (because of patch order your bot only run on 1/4, adding 
+> this very change fixes it).
 
-Can this get folded in soon?  This bug is causing crashes in AF_ALG too.
+> In this case, v4l2 subnode is the LED user, which is some camera. It 
+> seems most/all of these cameras are based on this binding, so instead 
+> of adding new led related properties to all of them, I thought this 
+> is a good common place for it... Shall I add #entries and available 
+> options for 'led-names' here to make it complete?
 
-Thanks,
+Every camera doesn't have the same LEDs, so you have to define exactly 
+what's there for each one. If you want to do it in 
+video-interface-devices.yanl, then you are standardizing it for 
+everyone. Maybe that's fine? If so, you need something like:
 
-- Eric
+leds:
+  minItems: 1
+  maxItems: 2
+
+led-names:
+  items:
+    enum:
+      - flash
+      - privacy
+
+Rob
