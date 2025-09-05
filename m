@@ -2,50 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA82B45042
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 09:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7563B4502B
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 09:45:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 997C410E2C7;
-	Fri,  5 Sep 2025 07:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6C510EB2A;
+	Fri,  5 Sep 2025 07:45:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE9B10E2C7
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 07:51:38 +0000 (UTC)
-Received: from localhost (unknown [124.16.138.129])
- by APP-05 (Coremail) with SMTP id zQCowABX+hOAlrpolMXCAA--.35359S2;
- Fri, 05 Sep 2025 15:51:28 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: airlied@redhat.com, tzimmermann@suse.de, jfalempe@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] drm/ast: ast_2100: Remove unneeded semicolon
-Date: Fri,  5 Sep 2025 15:37:12 +0800
-Message-Id: <20250905073712.3791260-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B087310EB2A;
+ Fri,  5 Sep 2025 07:45:06 +0000 (UTC)
+X-UUID: 397b25d28a2c11f0b29709d653e92f7d-20250905
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:f87db68f-3c30-403e-8904-d7166b6f16d2, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:07aa7fe718078e46c5eacd4bb0c408a3,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+ -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+ AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 397b25d28a2c11f0b29709d653e92f7d-20250905
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 541260558; Fri, 05 Sep 2025 15:44:59 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 29A5AE008FA4;
+ Fri,  5 Sep 2025 15:44:59 +0800 (CST)
+X-ns-mid: postfix-68BA94FA-497226507
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 27E5DE008FA3;
+ Fri,  5 Sep 2025 15:44:40 +0800 (CST)
+Message-ID: <11bcb7cb-2169-479f-9247-a48e48e9c54e@kylinos.cn>
+Date: Fri, 5 Sep 2025 15:44:39 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABX+hOAlrpolMXCAA--.35359S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFWDuF4rXw4DXFWDCF1Utrb_yoWxurg_C3
- W8Ww4fXr98AFyqgr1ayw45ur1qyrs0vws3uayjgFZ3K3sFvr4UX34xur4UXw13uF1xXF9x
- J3W8WF15A3Z3KjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbTxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
- 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
- cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
- ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMx
- C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
- wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
- vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v2
- 0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
- W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbS_M3UUUUU==
-X-Originating-IP: [124.16.138.129]
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/10] powercap: dtpm_cpu: Use scope-based cleanup
+ helper
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
+ <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250903131733.57637-1-zhangzihuan@kylinos.cn>
+ <20250903131733.57637-8-zhangzihuan@kylinos.cn>
+ <CAJZ5v0hirWzWZiLbAXPWB58SQv3CAW95iHLnsqs=i2twVCcmwg@mail.gmail.com>
+ <52e322e5-2dd4-488c-a98e-3a4018f0c323@kylinos.cn>
+ <CAJZ5v0g__9g_dfA3=4GVi351f4CKBegKkW9nU81j+Qu=2Hfg1Q@mail.gmail.com>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <CAJZ5v0g__9g_dfA3=4GVi351f4CKBegKkW9nU81j+Qu=2Hfg1Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,27 +96,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
-semantic patch at scripts/coccinelle/misc/semicolon.cocci.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/gpu/drm/ast/ast_2100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+=E5=9C=A8 2025/9/4 21:17, Rafael J. Wysocki =E5=86=99=E9=81=93:
+> On Thu, Sep 4, 2025 at 12:38=E2=80=AFPM Zihuan Zhang <zhangzihuan@kylin=
+os.cn> wrote:
+>>
+>> =E5=9C=A8 2025/9/3 21:45, Rafael J. Wysocki =E5=86=99=E9=81=93:
+>>> On Wed, Sep 3, 2025 at 3:18=E2=80=AFPM Zihuan Zhang <zhangzihuan@kyli=
+nos.cn> wrote:
+>>>> Replace the manual cpufreq_cpu_put() with __free(put_cpufreq_policy)
+>>>> annotation for policy references. This reduces the risk of reference
+>>>> counting mistakes and aligns the code with the latest kernel style.
+>>>>
+>>>> No functional change intended.
+>>>>
+>>>> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+>>>> ---
+>>>>    drivers/powercap/dtpm_cpu.c | 30 +++++++++++-------------------
+>>>>    1 file changed, 11 insertions(+), 19 deletions(-)
+>>>>
+>>>> diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu=
+.c
+>>>> index 99390ec1481f..f76594185fa2 100644
+>>>> --- a/drivers/powercap/dtpm_cpu.c
+>>>> +++ b/drivers/powercap/dtpm_cpu.c
+>>>> @@ -144,19 +144,17 @@ static int update_pd_power_uw(struct dtpm *dtp=
+m)
+>>>>    static void pd_release(struct dtpm *dtpm)
+>>>>    {
+>>>>           struct dtpm_cpu *dtpm_cpu =3D to_dtpm_cpu(dtpm);
+>>>> -       struct cpufreq_policy *policy;
+>>>>
+>>>>           if (freq_qos_request_active(&dtpm_cpu->qos_req))
+>>>>                   freq_qos_remove_request(&dtpm_cpu->qos_req);
+>>>>
+>>>> -       policy =3D cpufreq_cpu_get(dtpm_cpu->cpu);
+>>>> -       if (policy) {
+>>>> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
+>>>> +               cpufreq_cpu_get(dtpm_cpu->cpu);
+>>>> +
+>>>> +       if (policy)
+>>>>                   for_each_cpu(dtpm_cpu->cpu, policy->related_cpus)
+>>>>                           per_cpu(dtpm_per_cpu, dtpm_cpu->cpu) =3D N=
+ULL;
+>>>>
+>>>> -               cpufreq_cpu_put(policy);
+>>>> -       }
+>>>> -
+>>>>           kfree(dtpm_cpu);
+>>>>    }
+>>>>
+>>>> @@ -192,7 +190,6 @@ static int cpuhp_dtpm_cpu_online(unsigned int cp=
+u)
+>>>>    static int __dtpm_cpu_setup(int cpu, struct dtpm *parent)
+>>>>    {
+>>>>           struct dtpm_cpu *dtpm_cpu;
+>>>> -       struct cpufreq_policy *policy;
+>>>>           struct em_perf_state *table;
+>>>>           struct em_perf_domain *pd;
+>>>>           char name[CPUFREQ_NAME_LEN];
+>>>> @@ -202,21 +199,19 @@ static int __dtpm_cpu_setup(int cpu, struct dt=
+pm *parent)
+>>>>           if (dtpm_cpu)
+>>>>                   return 0;
+>>>>
+>>>> -       policy =3D cpufreq_cpu_get(cpu);
+>>>> +       struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
+>>>> +               cpufreq_cpu_get(cpu);
+>>>> +
+>>>>           if (!policy)
+>>>>                   return 0;
+>>>>
+>>>>           pd =3D em_cpu_get(cpu);
+>>>> -       if (!pd || em_is_artificial(pd)) {
+>>>> -               ret =3D -EINVAL;
+>>>> -               goto release_policy;
+>>>> -       }
+>>>> +       if (!pd || em_is_artificial(pd))
+>>>> +               return -EINVAL;
+>>>>
+>>>>           dtpm_cpu =3D kzalloc(sizeof(*dtpm_cpu), GFP_KERNEL);
+>>>> -       if (!dtpm_cpu) {
+>>>> -               ret =3D -ENOMEM;
+>>>> -               goto release_policy;
+>>>> -       }
+>>>> +       if (!dtpm_cpu)
+>>>> +               return -ENOMEM;
+>>>>
+>>>>           dtpm_init(&dtpm_cpu->dtpm, &dtpm_ops);
+>>>>           dtpm_cpu->cpu =3D cpu;
+>>>> @@ -239,7 +234,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm=
+ *parent)
+>>>>           if (ret < 0)
+>>>>                   goto out_dtpm_unregister;
+>>> So this change kind of goes against another recommendation given in c=
+leanup.h:
+>>>
+>>>    * Lastly, given that the benefit of cleanup helpers is removal of
+>>>    * "goto", and that the "goto" statement can jump between scopes, t=
+he
+>>>    * expectation is that usage of "goto" and cleanup helpers is never
+>>>    * mixed in the same function. I.e. for a given routine, convert al=
+l
+>>>    * resources that need a "goto" cleanup to scope-based cleanup, or
+>>>    * convert none of them.
+>>
+>> Should I replace all the memory allocation cleanups here with `__free`=
+?
+>> That would allow us to drop all the `goto`s, but since this function h=
+as
+>> quite a few of them, I=E2=80=99m concerned it might introduce new issu=
+es. What=E2=80=99s
+>> your recommendation?
+> Frankly, don't use __free() in this code at all, at least for the time =
+being.
+>
+> There is a problem with dropping the reference to policy at the end of
+> __dtpm_cpu_setup() because that policy may be subsequently indirectly
+> used in set_pd_power_limit() which calls
+> freq_qos_update_request(&dtpm_cpu->qos_req, freq) and
+> dtpm_cpu->qos_req->qos is policy->constraints, so using it will cause
+> policy->constraints to be dereferenced in freq_qos_apply() which will
+> crash and burn if the policy goes away in the meantime.  So AFAICS
+> __dtpm_cpu_setup() shouldn't call cpufreq_cpu_put() at all and the
+> policy should be released in pd_release() without acquiring a new
+> reference to it.
+>
 
-diff --git a/drivers/gpu/drm/ast/ast_2100.c b/drivers/gpu/drm/ast/ast_2100.c
-index 91541c8eaff7..829e3b8b0d19 100644
---- a/drivers/gpu/drm/ast/ast_2100.c
-+++ b/drivers/gpu/drm/ast/ast_2100.c
-@@ -336,7 +336,7 @@ static void ast_post_chip_2100(struct ast_device *ast)
- 				default:
- 					data = dram_reg_info->data;
- 					break;
--				};
-+				}
- 
- 				temp = ast_read32(ast, 0x12070);
- 				temp &= 0xc;
--- 
-2.25.1
+Thanks a lot for the detailed explanation!
 
