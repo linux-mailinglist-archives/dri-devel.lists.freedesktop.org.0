@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC17B4626D
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 20:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B74DB46275
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 20:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C2410EC29;
-	Fri,  5 Sep 2025 18:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D700110EC2C;
+	Fri,  5 Sep 2025 18:41:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dSKc8NVc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qCIlkDyE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDB210EC29
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 18:41:03 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDAB810EC2C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 18:41:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 23A2143C5B;
- Fri,  5 Sep 2025 18:41:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0543EC4CEF1;
- Fri,  5 Sep 2025 18:40:59 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C79626029F;
+ Fri,  5 Sep 2025 18:41:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7463EC4CEF4;
+ Fri,  5 Sep 2025 18:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757097663;
- bh=tPD/4gTqPC5pDHvLRJFLCSZXmAYarY7iaOLMnBlun2Y=;
+ s=k20201202; t=1757097707;
+ bh=WeIi89SnQNGL1h0wUByw5oTYq2pGLFI5/okk2z2uiNY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dSKc8NVcXJTAtpE1KLM6abj/quuwlm8FkqpWbg7nlVLG86vhV2MxzwRTg/pBV+0Oe
- 02QCqPk1RT35RO3Qyw/RanSMC4U/7fIa2BFaLkyxrfxPVVNKSfjMWmML90dum6q2i6
- JFWRKJ7X+Vplh6ZTKRYiguqZ/5FmjEbEZOGbFjuzS/Y8nUYyefWx0hojErplcmlWKW
- j7DgLT897jBGh9ygWH3DNlYDU/n3YfOMjD95/TKzyzaGvTlgmc9gEDGPPnOU62mrO8
- KhQN82r+0omH3qpYuDyfYNx2SFIh+6TufkH5t8EutIwNhlGZS3DIFJnz6NAhv617Cv
- IsiZ9DXB5Ja8g==
-Date: Fri, 5 Sep 2025 19:40:57 +0100
+ b=qCIlkDyErCLZHaLujkCIP5Sjwzjevn4YLIshmhPJ4GhqLkw14x4zNw7KtMWf7uaB1
+ 26PTyKLassS7U109RQy40I5zHqBwOTy1jYameg+UJXRe5NOlLOFeBCIes+hLU36N7P
+ /Fr/QRfeI6nNqfAKCm/PtOlZX10w1fRRE7OG4MmdXlzYXck02g0f4UiB3LKx9uLnv0
+ LFbT0qLFaKmpZwZbszPhaIk2684dpe8tvmlPKnPoL3IbWCHUz1uJyRlTV0XTbzxP4+
+ z8ol1YCajtUQUx9Z6XllhsamNncyT+OGy6PXoPnGSiIXRmPxBFOavaEpgCZMmT2Ici
+ 90aXSvmgobHlA==
+Date: Fri, 5 Sep 2025 19:41:42 +0100
 From: Conor Dooley <conor@kernel.org>
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
@@ -44,15 +44,14 @@ Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
  Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: ili9881c: Document 5" Raspberry Pi
- 720x1280
-Message-ID: <20250905-lumpiness-elixir-d29599d3063b@spud>
-References: <20250904200238.168307-1-marek.vasut+renesas@mailbox.org>
+Subject: Re: [PATCH] dt-bindings: ili9881c: Allow port subnode
+Message-ID: <20250905-uncorrupt-stream-c8dec3b86d66@spud>
+References: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fsKq9MF9ZFFMAYqq"
+ protocol="application/pgp-signature"; boundary="FVrm5AoPyokpwu95"
 Content-Disposition: inline
-In-Reply-To: <20250904200238.168307-1-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250904200130.168263-1-marek.vasut+renesas@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,27 +68,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---fsKq9MF9ZFFMAYqq
+--FVrm5AoPyokpwu95
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 04, 2025 at 10:01:54PM +0200, Marek Vasut wrote:
-> Document the 5" Raspberry Pi 720x1280 DSI panel based on ili9881.
+On Thu, Sep 04, 2025 at 10:01:08PM +0200, Marek Vasut wrote:
+> The ILI9881C is a DSI panel, which can be tied to a DSI controller
+> using OF graph port/endpoint. Allow the port subnode in the binding.
 >=20
 > Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---fsKq9MF9ZFFMAYqq
+--FVrm5AoPyokpwu95
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsuuQAKCRB4tDGHoIJi
-0l54AP9ctqrqVd/7tPhoamoK/SxixmiA0Bral8abDxCWaTONPQD/Q7OMeI63GIiW
-B3pE9QDCTvlrqe2rhoidFetRCA458wM=
-=pPH8
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaLsu5gAKCRB4tDGHoIJi
+0hSEAP4/qmZ7UvMGCy1vid0r+6oo/ExhIo6I+mAIWegcOfW1lQEA75NLP0m9asCZ
+p4qFonDTerxvGlSyGD+ZhOB3ayeqKwI=
+=bLcv
 -----END PGP SIGNATURE-----
 
---fsKq9MF9ZFFMAYqq--
+--FVrm5AoPyokpwu95--
