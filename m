@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4575B458B8
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 15:24:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0AEB458BA
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 15:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B373110EBA4;
-	Fri,  5 Sep 2025 13:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A0510E362;
+	Fri,  5 Sep 2025 13:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D4A10E2E4;
- Fri,  5 Sep 2025 13:24:36 +0000 (UTC)
-X-UUID: a92db2a88a5b11f0b29709d653e92f7d-20250905
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66F10EBA1;
+ Fri,  5 Sep 2025 13:24:39 +0000 (UTC)
+X-UUID: ab7f0e948a5b11f0b29709d653e92f7d-20250905
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:db943cde-bbe0-429d-b0bf-a43728169e5f, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:4b2060ab-e5d6-4d05-9c5f-b1ce0c1d23cf, IP:0,
  U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:6493067, CLOUDID:daa3cd9fa204e6c6d28bd15663a324ed,
+ RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:6493067, CLOUDID:1052e2a43a89a6a3ff62207c016cfdeb,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
@@ -26,17 +26,17 @@ X-CID-META: VersionHash:6493067, CLOUDID:daa3cd9fa204e6c6d28bd15663a324ed,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: a92db2a88a5b11f0b29709d653e92f7d-20250905
+X-UUID: ab7f0e948a5b11f0b29709d653e92f7d-20250905
 Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
  (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1872443980; Fri, 05 Sep 2025 21:24:33 +0800
+ with ESMTP id 659114040; Fri, 05 Sep 2025 21:24:37 +0800
 Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 0113AE008FA3;
- Fri,  5 Sep 2025 21:24:33 +0800 (CST)
-X-ns-mid: postfix-68BAE490-8197312
+ by mail.kylinos.cn (NSMail) with SMTP id D9FE4E008FA3;
+ Fri,  5 Sep 2025 21:24:36 +0800 (CST)
+X-ns-mid: postfix-68BAE494-7144943
 Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id 1F7DBE008FA4;
- Fri,  5 Sep 2025 21:24:29 +0800 (CST)
+ by mail.kylinos.cn (NSMail) with ESMTPA id 0A8E7E008FA7;
+ Fri,  5 Sep 2025 21:24:32 +0800 (CST)
 From: Zihuan Zhang <zhangzihuan@kylinos.cn>
 To: "Rafael J . wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>,
@@ -73,9 +73,10 @@ Cc: Ben Horgan <ben.horgan@arm.com>, zhenglifeng <zhenglifeng1@huawei.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
  Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v5 1/6] arm64: topology: Use scope-based cleanup helper
-Date: Fri,  5 Sep 2025 21:24:08 +0800
-Message-Id: <20250905132413.1376220-2-zhangzihuan@kylinos.cn>
+Subject: [PATCH v5 2/6] ACPI: processor: thermal: Use scope-based cleanup
+ helper
+Date: Fri,  5 Sep 2025 21:24:09 +0800
+Message-Id: <20250905132413.1376220-3-zhangzihuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250905132413.1376220-1-zhangzihuan@kylinos.cn>
 References: <20250905132413.1376220-1-zhangzihuan@kylinos.cn>
@@ -103,51 +104,101 @@ counting mistakes and aligns the code with the latest kernel style.
 No functional change intended.
 
 Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- arch/arm64/kernel/topology.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/acpi/processor_thermal.c | 52 +++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-index 5d07ee85bdae..07e2f5b5ade0 100644
---- a/arch/arm64/kernel/topology.c
-+++ b/arch/arm64/kernel/topology.c
-@@ -307,30 +307,27 @@ int arch_freq_get_on_cpu(int cpu)
- 		 */
- 		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
- 		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_E=
-XP_MS))) {
--			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
-+			struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D
-+				cpufreq_cpu_get(info->opp_cpu);
- 			int ref_cpu;
+diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_th=
+ermal.c
+index 1219adb11ab9..460713d1414a 100644
+--- a/drivers/acpi/processor_thermal.c
++++ b/drivers/acpi/processor_thermal.c
+@@ -62,19 +62,14 @@ static int phys_package_first_cpu(int cpu)
+ 	return 0;
+ }
 =20
- 			if (!policy)
- 				return -EINVAL;
-=20
- 			if (!cpumask_intersects(policy->related_cpus,
--						housekeeping_cpumask(HK_TYPE_TICK))) {
--				cpufreq_cpu_put(policy);
-+						housekeeping_cpumask(HK_TYPE_TICK)))
- 				return -EOPNOTSUPP;
--			}
-=20
- 			for_each_cpu_wrap(ref_cpu, policy->cpus, cpu + 1) {
- 				if (ref_cpu =3D=3D start_cpu) {
- 					/* Prevent verifying same CPU twice */
- 					ref_cpu =3D nr_cpu_ids;
--					break;
-+					return -EAGAIN;
- 				}
- 				if (!idle_cpu(ref_cpu))
- 					break;
- 			}
-=20
--			cpufreq_cpu_put(policy);
+-static int cpu_has_cpufreq(unsigned int cpu)
++static bool cpu_has_cpufreq(unsigned int cpu)
+ {
+-	struct cpufreq_policy *policy;
 -
- 			if (ref_cpu >=3D nr_cpu_ids)
- 				/* No alternative to pull info from */
- 				return -EAGAIN;
+ 	if (!acpi_processor_cpufreq_init)
+ 		return 0;
+=20
+-	policy =3D cpufreq_cpu_get(cpu);
+-	if (policy) {
+-		cpufreq_cpu_put(policy);
+-		return 1;
+-	}
+-	return 0;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(cpu);
++
++	return policy !=3D NULL;
+ }
+=20
+ static int cpufreq_get_max_state(unsigned int cpu)
+@@ -93,12 +88,31 @@ static int cpufreq_get_cur_state(unsigned int cpu)
+ 	return reduction_step(cpu);
+ }
+=20
++static bool cpufreq_update_thermal_limit(unsigned int cpu, struct acpi_p=
+rocessor *pr)
++{
++	unsigned long max_freq;
++	int ret;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(cpu);
++
++	if (!policy)
++		return false;
++
++	max_freq =3D (policy->cpuinfo.max_freq *
++		(100 - reduction_step(cpu) * cpufreq_thermal_reduction_pctg)) / 100;
++
++	ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
++	if (ret < 0) {
++		pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
++	  pr->id, ret);
++	}
++
++	return true;
++}
++
+ static int cpufreq_set_cur_state(unsigned int cpu, int state)
+ {
+-	struct cpufreq_policy *policy;
+ 	struct acpi_processor *pr;
+-	unsigned long max_freq;
+-	int i, ret;
++	int i;
+=20
+ 	if (!cpu_has_cpufreq(cpu))
+ 		return 0;
+@@ -120,20 +134,8 @@ static int cpufreq_set_cur_state(unsigned int cpu, i=
+nt state)
+ 		if (unlikely(!freq_qos_request_active(&pr->thermal_req)))
+ 			continue;
+=20
+-		policy =3D cpufreq_cpu_get(i);
+-		if (!policy)
++		if (!cpufreq_update_thermal_limit(i, pr))
+ 			return -EINVAL;
+-
+-		max_freq =3D (policy->cpuinfo.max_freq *
+-			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100=
+;
+-
+-		cpufreq_cpu_put(policy);
+-
+-		ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
+-		if (ret < 0) {
+-			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
+-				pr->id, ret);
+-		}
+ 	}
+ 	return 0;
+ }
 --=20
 2.25.1
 
