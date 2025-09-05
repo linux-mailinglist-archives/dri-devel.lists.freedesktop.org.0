@@ -2,131 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E1DB44D93
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 07:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A4BB44DA9
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Sep 2025 07:45:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 638B010E135;
-	Fri,  5 Sep 2025 05:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31C8510EB1F;
+	Fri,  5 Sep 2025 05:45:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="QTNBJdFA";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="dFpVAml2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11olkn2100.outbound.protection.outlook.com [40.92.18.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 464F610E135
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 05:35:48 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com
+ (mail-francesouthazon11011036.outbound.protection.outlook.com
+ [40.107.130.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0E510EB1F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Sep 2025 05:45:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CaAtrdT+4NpJyxQcfLr3eAQGaBWPVOZBR1lFNm0gkep+OmbCcV8hL60j+SAXV8HHJFQhlzPey2pQcZM9r0jsRuYxN9ZBzyS7bEi6sKSM2iYM2ftWWmdtFrK559BvpulddaXrcFoLGuEMoWpdFImO7vhLUuAsFHfqYspY3oJ1TrgRTMAo4Q20JLmsOvzAUVvAQpwSpltdRzmO5ynBjdnhxgv/c38Yn6erPFqM+4yoGICLZjNFwJkrKKyztWe5CvdsXwCWzjGSH69v3nrys54L86FuN2XONjXucZaMIO6IQOfMqwOy9abMqm7p51BbWhyUdswetS2VOHjWIPV0mPi6eA==
+ b=uNtpwQw8Ol5j7utF4rfcDz2bAnia4Zz9OiQY5v7tR1PS7vOE3BiYhdX1bp/xrDSwfXCXZw4jbDp0iMrKDDUlsddG4OIOZmBtBMCQ9hYW8AGwd4r3IE21eUei84K7tdTJWXQEiYdtlZOg6tzynL7VxDlPnp252EwBlyWttuTtgLhBuJrFwDHseHs286xtSbp/OF9pYkujBgqhM4D74AFmQaYngnIpKhImmFLMBnsiNXR2qIWSCi2nvaYtjEQnewgS8Y2aLD0pSNMOxIgjLehlNLzfZCqRqn7wDKkDcZ9rGZ0h+brzRStabIKPQuSGA23gfoaiP5MsbDgyv2kqQSTVPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g9MlCbHTD1U/6PGP0z42U+JL9ZYDSrIr+7vGKmtp3kw=;
- b=Z7QjVePnTzshvbIUSmSknGAKq87RXNjEv0VRHpBZpRewVLWEEkOEB88QnBSnR+8DLXu/MInJtYvXFT1ITpFzWEjtSLAU+LmLmJfKfXHJ5+1TAYlWyJg2xwL5VrSOFfpOgXHCBSqbwdZ/5svsTeAYOCJCFYpPVdoWSI/QNIKgvI0fXJZIKkIPDZz+unyi+iRuP+uvP0AFcqUG02e08O3sppak9YWvLSFDlp85C4jBuRDDQGxvUiDuAuIDUzc5I2dUX/Zcflb8t+FqheOneJcHjh71WfaeWftBs85Y3ffxmKJKj8vHGYJ8w3eiV8rPLNR7NvseRx0OxS3xrokx419kXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=geDtwz2bdIjehCl+cPq6Kkh42W6ImDs7az96EcxMwOs=;
+ b=Alok9xMg2zHnM0s0dKJq/KvXoLbI4OQ3FS3uWzxpnVp/tjbgcizM4Uz8f7j8pgb1Ga+hAO9QUuRInrXnHeDDMVfJQJj0rhKYJhgSnRz/AJtu17+IenN2lJlsm711kQnOtDnxPT3SM14TwBgpm8edJ5Rr+DeVvvTBD9a0hSPOzrQo316a8+V4+liZMIXEAeUbvrHuwb2JhBF6nsuE5eTaimojFf9UHvkzrTY7zfH9/9ljfNsrzwwlFJKC6qFJarPGr/YyIf+F8+LRz1/suWHlWVgFkhMfDq1Ht7vaFrkeknOZqRomftu4Ll91WOOPyQ0X/vvR99ePcE6GnUutCOhCVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g9MlCbHTD1U/6PGP0z42U+JL9ZYDSrIr+7vGKmtp3kw=;
- b=QTNBJdFAu5uY7tn2iv5N4GGDED83IN0G5mq0+mtc7YBLdHe1YkXHwQn17gij9OlqOrDb7loWNaDHheGSSJzcMR8+BZc7+lGTvoAJVnZypPl+gl32Lk9I1iPGfrPRiAsTMh09H7l7w6mgLNggsaZKFd/ZObG5QKaY47OLd/oWGnVFVwBYqFmIqBqpsrfi5UCHQ/st4DfMAgkOUgw/uxewKQMFhfHWG2+yVL2SFyaydDkhyMdO6ww0apjO2h0z2AneFzyuH0IybNi4WANqqPGgtQ2UkRUb4i6YDcnGDp+Mtb6DbcEK3l81l3ZunZlYRw4ypRloUysHHw2B1odaJmHmhQ==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by MN6PR02MB10630.namprd02.prod.outlook.com (2603:10b6:208:4f4::5)
+ bh=geDtwz2bdIjehCl+cPq6Kkh42W6ImDs7az96EcxMwOs=;
+ b=dFpVAml2W4voL7MJJ7lQG218NDfDJR8VT0K1aVHewbOss4DkyKFWHALLEQinWZqKDINGgLOQgHtOB5I5jRm/MjWDTY1DkmhW3y07ENYlImymPRHk8yGHx2osASQfV/h4qQKZMsJy9aOWlCbPiIootc68FdQ9G3nVfYF7TzKXbqT7SxB1QmDOoQTnhCprbHL33C82gtyzsHt+M7awRsWAFJv/ORPuGjnhXLrACyWYBVt64h34tfhZw/7zE2xxAwQ4K9TDhCmYwUowR3IrXWLKZK3a8P20lLn9p3Wghl0vlnWMggai464CgySA6zSCkyfGQqWQHZw4yAkhJq0VcNRmhw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS1PR04MB9698.eurprd04.prod.outlook.com (2603:10a6:20b:481::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.29; Fri, 5 Sep
- 2025 05:35:39 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.9052.027; Fri, 5 Sep 2025
- 05:35:39 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "louis.chauvet@bootlin.com"
- <louis.chauvet@bootlin.com>, "drawat.floss@gmail.com"
- <drawat.floss@gmail.com>, "hamohammed.sa@gmail.com"
- <hamohammed.sa@gmail.com>, "melissa.srw@gmail.com" <melissa.srw@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "lyude@redhat.com" <lyude@redhat.com>, "javierm@redhat.com"
- <javierm@redhat.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v3 0/4] drm: Add vblank timers for devices without
- interrupts
-Thread-Topic: [PATCH v3 0/4] drm: Add vblank timers for devices without
- interrupts
-Thread-Index: AQHcHay/1LhJS9Qt20a/N81nkOUA8bSED7IA
-Date: Fri, 5 Sep 2025 05:35:39 +0000
-Message-ID: <SN6PR02MB4157E793515BE2B63615AD92D403A@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20250904145806.430568-1-tzimmermann@suse.de>
-In-Reply-To: <20250904145806.430568-1-tzimmermann@suse.de>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Fri, 5 Sep
+ 2025 05:45:26 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.9094.017; Fri, 5 Sep 2025
+ 05:45:26 +0000
+Message-ID: <023ae7ec-77a5-412f-bef5-105350561354@nxp.com>
+Date: Fri, 5 Sep 2025 13:46:56 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific
+ infoframe
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
+ <6i7eyxajmelu3x4ckvwifmizln6jzybt6ykpwlefna3k3noop4@e5zdvzor24fn>
+From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|MN6PR02MB10630:EE_
-x-ms-office365-filtering-correlation-id: e82cbfab-b62d-465c-2f1e-08ddec3e0c23
-x-microsoft-antispam: BCL:0;
- ARA:14566002|15080799012|461199028|13091999003|8060799015|19110799012|8062599012|31061999003|1602099012|40105399003|440099028|3412199025|4302099013|10035399007|102099032;
-x-microsoft-antispam-message-info: =?us-ascii?Q?utP15nYZm/9jV6f052lgP4afDRcRh7gNTUaGNcyuIoy2zfC6sAQVDAjoXVL/?=
- =?us-ascii?Q?XjKv7BtELxjY4O+V5BHsEvfkKe6tylAFIRg86pQqaAfN78hByY/YYvH05EhZ?=
- =?us-ascii?Q?NfbcMlbjLczEyYIUop9DLp6f5q5hc1lXHgn56MUsU0reGlbwRd+xgrIlaDh7?=
- =?us-ascii?Q?LmSr1QKtlaj5FHT5Qxo4NWuhpSvuHg5uPYnJwIcAcfPZooSP2TMXMtY1g7YA?=
- =?us-ascii?Q?U4uvXRwqznFa0gu6Lh++xqCpIjX+P40P30sGE+i9rl2rrlHUNBQ9KUAUWwEc?=
- =?us-ascii?Q?QkotqaAPxEyYfdSSLNXwg133jvNrsT9VobWvOtKpbaLytyaigd7MWzIH8kTT?=
- =?us-ascii?Q?3foZ5/oXMU0o9lMVQpYUku0NeSbAsh8uOshUHtdIEFkUXhPUEVhcc3aVLXNy?=
- =?us-ascii?Q?iM9Soy55oAT60qc6Okb5bdVThMU16JLoWuj2OtByeBb+Aub8IuCywvF9Sn2s?=
- =?us-ascii?Q?xw/1VlrSZv1tCNPSNfbM7w+8+VkJJIXpkRqSkroK0b3PnvQtFqr+mjjtwXT4?=
- =?us-ascii?Q?Dz4j03ViCaxMGUytGi+XGTdtJPHbYtmAYKaQUMtNt8RyqUR2iMEXhyLHlt1N?=
- =?us-ascii?Q?Qea1XX3BJNyhTXsOPAnPLas5wPiWJiPtAS6qqWfEvpwgjFaeXp6wqk2KbIDx?=
- =?us-ascii?Q?tx8zKa1Dj1Jm256C2+x0fG/O1Axi9x/Njp7wdrm4ukhB+tpHSuFAdq8dI6qY?=
- =?us-ascii?Q?haXpQDQsMsRW7FSygK174MOu/3W3j+yfP3VbwWNwsTYHvyYnqTLiw0j/WdlU?=
- =?us-ascii?Q?WlJlrowjLkwvQpaI+mNUeJAdADeLZL2bOQYu0LOCN4eUvUJskV5ngiWqGkm1?=
- =?us-ascii?Q?0S3F9nR4kLdZyoet3z8KFzt89SOz/dXw0cJS+N+8L8eLwfFOmL7HMeKapOwZ?=
- =?us-ascii?Q?/6NxFAuLoM0fLpq9DQizwWdm75QgFNZiz9b5qoXv0STN2V+t4jzXK4XNowgI?=
- =?us-ascii?Q?5zcn5zRbuqhcmK9CjBoqvJ5wyhya6OSRVoZYpEvH8kBKkK5zE6qRl8z2cAqe?=
- =?us-ascii?Q?OXi2rRz7S3UD/Ud045saqIHVc8sasy8IWJUIJrPa27P+1ARXX3DMC0TqM3eF?=
- =?us-ascii?Q?gnr+kfCYesjpygx97q6mHLOXjgqwXPu/fb0n8pSvdJ0Hj6j+dCxjU/jqgYrM?=
- =?us-ascii?Q?WQiUGdMsyK1GywbfVXR4zXMe3Ea3ttZpz15GrJCTHfJDNRnxioGENrQjwpgT?=
- =?us-ascii?Q?/RfXGMI2xSSR/zMg3EWEJGO2vlDnDcLhfDQM0fLVlFtYBgZmd7SKCw9pJVX+?=
- =?us-ascii?Q?RIwVpkxUbYKqebBby8wP?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JpunazQfSTKiFoLctf8d4LKsBrQdPiTV4JLusvyR9KswC6bzBxHE5EPhoDaE?=
- =?us-ascii?Q?l67emYwKCWjFCLLGleL0eFvYHAUlddZ0zkfcxEtg6a9ZpxuR5aoIFuCMA8WZ?=
- =?us-ascii?Q?xvjIrC0N1timcU1WNNm6tncX/WrYPyensrvcjEER2fP6o0zefslNs5JicULR?=
- =?us-ascii?Q?T5riDdzPjUCaf2bPen/xGGtsrbftVGDI3tIxXp8yu4VJG9cXQbajgw5UWCYV?=
- =?us-ascii?Q?JJcM1ghQcWzrC/ZTVPhvDLwunovBgD/yBW3bs3xDRq4Jav1GUj+ZecKtxpmm?=
- =?us-ascii?Q?88zVxo+sJON0P9YUjt863hpbwTefz9T9q2tGoQS+rVShuhgy21eqp1SSm/MZ?=
- =?us-ascii?Q?xIlIzkPCPj2ygJxRGqxIo7P8lF4ev2FAlxXeT0b7/V4iNneZ3JKDZFSG7z45?=
- =?us-ascii?Q?ji+Xi2ctpx/F2vUwCOk2rdnrPD03Qhl88Rdss37dbPun1D/1MTnGwSHB8W4t?=
- =?us-ascii?Q?gHK0VCYycn+sdDD75lE8jAyCG99HHUHffbX6L5fGc8MnUQK/cffCt2ymBG9R?=
- =?us-ascii?Q?MyHqgSSlQd//OFO5/nqfaphuxFodWcTKfIxI2/525bf7CttzFJoO7BDN/ZVC?=
- =?us-ascii?Q?1phMSAirB1d6BkALyfjhHYqnZ4HM1SdQxD6v2L7CiF3EzZXEbLt+lLlsc17b?=
- =?us-ascii?Q?Slrty8khXwT0jrQSLVTYzXwkjog7Gwvbl6qKOvNxyoMpsUazIFYnwlj4VKbH?=
- =?us-ascii?Q?wvLUnNqIAyujLhNfzhKc0wE7mCYXDOae5tn0jRTBvaOBe8hCVV4FVlItkrOK?=
- =?us-ascii?Q?vWf1QsK93PgHwYq8Dnyei08zXF694m8XdfAVQZHR2ccmpg3tFPY5Z6qV5VJ6?=
- =?us-ascii?Q?snFQJOVZB3PYtqPsMEH4mIGV4+rnPyibDZ2crKaTvx9da7IbqtPz7CdUd3EF?=
- =?us-ascii?Q?scVPBmQJ7cenqUswlaTaIylg8fs6nT+jbPP3az/h067R6cUu1CPBpAQEKF0e?=
- =?us-ascii?Q?caEK94qd6Q+XnUt+3SDp6qLr2zQZOa4WZgNGe7i3f+/ISsdGRVKTqVxlQS+7?=
- =?us-ascii?Q?7vfy9CRG2Mkzxxp7H5fkSLiPC58nuKCKTxpOfbkWHoQXo5/I7cY1H6Oipb9u?=
- =?us-ascii?Q?rZXO970VdFFZjvqffafJNYDu+ypiby5TEcmldzkpnpqKVrXhgBS+PZQjrl56?=
- =?us-ascii?Q?2jFzITsfQOCJiIeZoszcL5TouTiF3PGtE9yclFvSWw59+aSp1kf9+o/Y0iyG?=
- =?us-ascii?Q?dPV10KsUjAQcKfimxFcYTRTqx0nnqIiVud9nfO8s+iew6ghfgUtwO98KS2I?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <6i7eyxajmelu3x4ckvwifmizln6jzybt6ykpwlefna3k3noop4@e5zdvzor24fn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0007.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS1PR04MB9698:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb4f235a-4372-4c54-3645-08ddec3f69c8
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|19092799006|366016; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SnhzMlVBOEJZMklBUDZDQ0tFYmdQZ2hpRXVqL0U3S0hTVnp0VFRtc3VMRzZO?=
+ =?utf-8?B?NktrZWVsTnRsejJNWUlsNWN5YmY2c1YwU0lOTllwdnBvY1hQemVuRC9hVitW?=
+ =?utf-8?B?ayt0M09pcDI2R0NKMzZSdFNRYU1PRitaelhKc3pydXIrblo5WkFaOTA0akVM?=
+ =?utf-8?B?byt2TVdFWUFpSnJWODgzL3hsYmtyNW9nRG8vOERUK2Q2UzJLYS9pdysvTkRp?=
+ =?utf-8?B?V2RIaHVvOHA1N2dvUTF4a0pQOW9xUTBpNG9FRGVUVFE1QVJWVStURlVSZUF1?=
+ =?utf-8?B?L2VWVThaQWVYUDdTNlNUd2V3SFRCMXIwWjFSd1QrMXQxR1VQZzB2Z2NnVzlJ?=
+ =?utf-8?B?YWhKVXNnajVyNndVbWlDeEZkYnhzWkJncVpJMVVobDA4ODQ4eXptSjB6L3E1?=
+ =?utf-8?B?N29uTnB2eFZ6aHJPUnpNRFBKUzlIY2laNmEra1FpbUtmV1dYTG83RndaWU10?=
+ =?utf-8?B?bVpNSGxIb28yZjBjb1V0Q2JoWkJ6Z1VRZ2xBS2g5WERTOW11Nyt4c0VmbHRW?=
+ =?utf-8?B?VUp1Wm8zWnR5MlNrSDEyMGI3TXhUQWwvS0NHOXRvYlVvUWMxZXV4K0xTV2lm?=
+ =?utf-8?B?UTBvOFhSNEJ6UmpXbUJjallQODg1Yis0S05OdCtLbWdlbkhDdElhZzI5Ritp?=
+ =?utf-8?B?ZHVZLzJXYkFvdHliQ0Jaa0NLQUJ6TGFPSzZaSnFPSUVnTThKTWE0MlY2ZzJX?=
+ =?utf-8?B?VGRyc3RrQzFGZXdsUnFwcWxkWkdOcmN4M0ZlTnlUaVp1S3ZGS0RsOUpOOFBJ?=
+ =?utf-8?B?WW5IN1RQRDhZQVd2RWhzNUpIa3luVkhyaUJXemRreEhMeTY4REEvUzRCK2lu?=
+ =?utf-8?B?ZjdkWlpJZWNlU2pyRlFwV2dhNFJRdnI4bG8vMXh3TnQvZFRUNnE4M3dFd2JV?=
+ =?utf-8?B?RVduQmZZRmx1ZjNhVG5rM3N4T2xGRklTN0ZsbFI3c1lVQktsMWxMVDdBZFh1?=
+ =?utf-8?B?YzhqRXY3WEFZcUhZQUE4Ymt0NnZQSjk3WkFnc3F3c2lNZFI3QlQ2NWtsUlVY?=
+ =?utf-8?B?Sy83UU1LU2NScXM1b2F2TEJrY2N5Umw4MDdsMldFZUZsUFRkYkI0dnNDM0Mv?=
+ =?utf-8?B?SGV1TmRjSEpBNmlLOW5VRHljWkFDQ2w0eVBxbjBsVEt1VzhPbE1nNkhUeDMx?=
+ =?utf-8?B?NU8vNENUcjJZbGhsbndLK28rcFZEOVVqYUZvRGYzVVdDS1haUERPVFcxT2x1?=
+ =?utf-8?B?cGtVNERlb2VhNnNTRzBuaEZwK3JWWG56MDFPS3B2elJUVHVUb2dRcHlpNUk3?=
+ =?utf-8?B?WmNjRmlnME84TmIwMGZhNGYvbFdlazVNQUl5MTdsWmZBRXFWZ1Faa0xWTmI0?=
+ =?utf-8?B?WC85c0MzQkt6NFVFOVl1RVhrcjFnemFOUE1INW1wbHJRelVWNHBWRDJMYVB3?=
+ =?utf-8?B?bEg3amwzT25Id0dndnNyZlFOK3pNOFpyZnd2dDczUmF5Mkg0NXd1SHlFeGJh?=
+ =?utf-8?B?Y1FDQ2Yxd2RVWEU3ZGhhUU5mM09pa3JTbVovRElOMENOOERsU29iakEzcElI?=
+ =?utf-8?B?MFpIOXV5UlRZVUZxY2ltUTRnVGZVWTVpNnNKYktQQkpBTWFnMWdYWjJiQXhD?=
+ =?utf-8?B?c2NRMlUyeWlScHBZZk51c1hKNW9JcGVuU1ZoYlhLc1BHbW4vY0pLVEJXLzU3?=
+ =?utf-8?B?UFNrbzZvWHJQcXV5KzdIOEhYaUFmcis5OHRGNFNKRW1TTTN1SFl0cVpkUTI2?=
+ =?utf-8?B?enNOdWxrM29FenRNMEcyWUIwek1oQlgzMzdrMzY1Yk1RdUJpVUdhWURyM2xR?=
+ =?utf-8?B?Sjk2ZlVKZms2QStqdDYzT05qYnJxRFhoMFdRQnFlQitVWHhpeTErbGFZazRN?=
+ =?utf-8?Q?6Ad67JxRX7nh5o11V46JP/GrFs0EZ1aMqSQKw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(19092799006)(366016); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2dBbG9nNytzS2k2N3hHSmRUVU1jMTFYUGNQMVB6YXNKUkxuajdwTFBmazZD?=
+ =?utf-8?B?UktJUFZ3a1ZCL05MRHh0SllvNzFzbWRsOHNib0dXNTFvSkFOYS9iYjNEcEIx?=
+ =?utf-8?B?U0IwN2hrU3hIWFhRZ1VzNkllU2RDdUhJeEJ6Syt5a0NsOXJiYzRCODd6Y2Qz?=
+ =?utf-8?B?MTVlUkVSQzA3a1hjY2FjK2xmWlZ1WFU3N2t3YVJ1bWFWN2dUZlI3WGJOWHp4?=
+ =?utf-8?B?OUN0d0xOR2JhQUV5SDZYdVJ2WW5zNFFjTmpMTGJMdVVxME54b3FLK1RSTU1j?=
+ =?utf-8?B?b2R0YkQ5dzZNb0dTQ2FXMitOanRqVEJ4ajdCdk1YazZydGJZVGM1c0xGOXB4?=
+ =?utf-8?B?andvc2pvamJYZHhwOWJIaW5USCs0WjNiV1lBdTYwaEQxN21zN2Vwd0k1MUcy?=
+ =?utf-8?B?bjcweWNTeXBWK1dJS3BKQ2c4M2ZFQ3VqWVowbnlXRWxLM21pcEtENTRaalFw?=
+ =?utf-8?B?eCtFWnllR3lxdkhwTGkxQkQ5TWcxb3A2MnN5Q2FjTWZFRkNSSnZ4RWhLWGZE?=
+ =?utf-8?B?dWF6cGJYOFdTSUduVmtPNVMrWXZCazF0ZXNhSExFZlNaSm9GUG1kT0xhT2x1?=
+ =?utf-8?B?L25TS0Y4MVdOc0tZUG8ybmx6Skxtc25icjQybTBEK0VDQU4zZjFBZ1pGR1Fi?=
+ =?utf-8?B?aFo0NXB4MnpCbGZLdm4rUzcvRG9idXQ5dkV0R0RqeThKVGVlMVNXdGNWZ01V?=
+ =?utf-8?B?L3RTcEs5YlIwSzVpV1lhRmtmZTJ1SGVUQ01LZCtwZFpCRFZWS0s3NGM0NmlI?=
+ =?utf-8?B?bEVrSzhNaSs3bnhXNXVURm5HVFZubG1RVTBmV0xucnc1ZGxSL2dqTFZGQS9m?=
+ =?utf-8?B?b1hWbHhiVDJ6aWtzMGpkcmxBNkFxNE9pRnNLZExGRURTNE9HM3JmQWhrZkxt?=
+ =?utf-8?B?REZvblg1bUYrcTVNbVlkWlBCVVY3dC9mTDN4RWJhMkJTbTJxTHphbmh6UytJ?=
+ =?utf-8?B?MVFGaVBqUTF0cjc2bFNKYXF1OWJObVc0NFBreXVCeFVkQ1lCSVNPWVdQazR2?=
+ =?utf-8?B?bWJybDg0VFZBT1JRdHVNU2tzMkFwdVhwRmREUzI4MzlMUzFEcHF6UnlPUkhl?=
+ =?utf-8?B?L1pKRlpIU2dsTFhzTXRVNFI4ZFZTakRHT29saGxKam5CanBDalVOTFMySy9J?=
+ =?utf-8?B?TXQyalJzUXZvdUVkMmZxdkdscTN4T3hIK2NnODM5MnRUWTJGTjlGOXREcFZq?=
+ =?utf-8?B?eWpJaUhUbXp6QXJGcHd3eGk0R2pPd3BtL0hROWFVRldPeDJhRmpyZ2FOeExF?=
+ =?utf-8?B?TktjK3JsOHY0RVRaUis2SEtJWjhMTUNTOXdMUXlQeDJCSWVOeVp1U3hHaFdk?=
+ =?utf-8?B?QktWWDE0SlB4MlROTCtJWVV4SlYvYUo2RUFSZk4vRGozd3htUTlZQnMzZFF0?=
+ =?utf-8?B?dzRER0g2a1NQOGpVZUdTak9VUWtnUjgwNWpYV2dFbEJRaEI2ZXkzTlllOEhh?=
+ =?utf-8?B?Qmg3Q242dEpFemxhMVVkSTZ5ZGs4M2hsWlJnNUxYbVVPVk53ZFZGKzZDMmY2?=
+ =?utf-8?B?Yjd5Wm01RVJyMjlUR2F3SGJjMXdhMnZIeWc1R2ZvK3FPTTFSL1NVT0NQRDd0?=
+ =?utf-8?B?V0RpR1ltUWFoSkFnNUU5cTU5bCtuRm4yaXEyYkd5TENqbG5yYUVEN0VPTHIz?=
+ =?utf-8?B?MGZUbG5hbTQ5THZmZTFvbStkdmVNRFEyWi92NWtoQzlaN1lZYmZqUG0yWVdL?=
+ =?utf-8?B?MDRoTzkyQUdmMjlnaXFvNnQ4MUlvTzZTOHl0VjJBRWM0c3RGZ0VMalRqRmtw?=
+ =?utf-8?B?cjlwTHFBQjdGaGVHL295cXY2ZUNhaCswWU5kVFRydWk1SDBGWDJuL1NDbnVC?=
+ =?utf-8?B?Z0xrWFJVRCsrdUozQjZoL3d5U0VnT0ZHNXNMUlI5SXIwMFhpdldwRXpHajk0?=
+ =?utf-8?B?Q1UvRVU3K1VWZHJQVkROeUh6VnVML3BCOHAvK202VFhKWEk2cUpzaXN0T0pJ?=
+ =?utf-8?B?ZDJ1NTREaktpaFdXVk9wYW9wNGtvaUNGL283Q0FYeGN2OXhWb2JOaXlEenY3?=
+ =?utf-8?B?MVZaa3VwUzZuemp0ODNYL3ZwWVdadmVjUHVDdzdERmRsemhHaGVUa2NCVGRw?=
+ =?utf-8?B?RW5PdXVDOU9hSDVqSHNvK2Fyemsrc2w0ZEk4QjRqRko5bjBOY0hlRjZuN0RJ?=
+ =?utf-8?Q?n2d+Qi1N3d+cW6NhWubbZfoI8?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb4f235a-4372-4c54-3645-08ddec3f69c8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e82cbfab-b62d-465c-2f1e-08ddec3e0c23
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2025 05:35:39.1806 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR02MB10630
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2025 05:45:26.6278 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ALvVyg06FgzBQum3ZXfjzIyfAiUxgaM+JfgavJr7Sx0ZxDZc5qlza7Qfbw+5+jx+2dSKwJJzUG9I00lMQUjF2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9698
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,67 +173,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Thursday, September 4, =
-2025 7:56 AM
->=20
-> Compositors often depend on vblanks to limit their display-update
-> rate. Without, they see vblank events ASAP, which breaks the rate-
-> limit feature. This creates high CPU overhead. It is especially a
-> problem with virtual devices with fast framebuffer access.
->=20
-> The series moves vkms' vblank timer to DRM and converts the hyperv
-> DRM driver. An earlier version of this series contains examples of
-> other updated drivers. In principle, any DRM driver without vblank
-> hardware can use the timer.
+On 09/05/2025, Dmitry Baryshkov wrote:
+> On Thu, Sep 04, 2025 at 05:10:02PM +0800, Liu Ying wrote:
+>> IT6263 supports HDMI vendor specific infoframe.  The infoframe header
+>> and payload are configurable via NULL packet registers.  The infoframe
+>> is enabled and disabled via PKT_NULL_CTRL register.  Add the HDMI vendor
+>> specific infoframe support.
+>>
+>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>> ---
+>>  drivers/gpu/drm/bridge/ite-it6263.c | 72 ++++++++++++++++++++++++++-----------
+>>  1 file changed, 52 insertions(+), 20 deletions(-)
+>>
+>> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+>> +		const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
+>> +
+>> +		/* clear NULL packet registers due to undefined default value */
+>> +		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0),
+>> +				  zero_bulk, sizeof(zero_bulk));
+> 
+> What if you move this to the probe function? Then there will be no need
+> to write those registers each time the infoframe is being written.
 
-I've tested this patch set in a Hyper-V guest against the linux-next2025082=
-9
-kernel. All looks good. Results and perf are the same as reported here [4].
-So far I haven't seen the "vblank timer overrun" error, which is consistent
-with the changes you made since my earlier testing. I'll keep running this
-test kernel for a while to see if anything anomalous occurs.
+Good idea.  But looking at drm_hdmi_vendor_infoframe_from_display_mode(),
+hdmi_vendor_infoframe_length() and hdmi_vendor_infoframe_pack_only(), the
+payload length could be changed in runtime according to display mode's VIC
+and flags(see DRM_MODE_FLAG_3D_MASK).  And, IT6263 supports HDMI1.4a 3D
+formats according to it's product information[1].  So, it makes sense to
+clear HDMI_REG_PKT_PB(5) and HDMI_REG_PKT_PB(6) here which map to ptr[8]
+and ptr[9] in hdmi_vendor_infoframe_pack_only().  For v2, I'd move the
+NULL packet registers bulk write to it6263_hdmi_config()(i.e., it6263_probe())
+and write zero to HDMI_REG_PKT_PB(5) and HDMI_REG_PKT_PB(6) here.
 
-For Patches 1, 2, and 4 of the series on a Hyper-V guest,
+What do you think?
 
-Tested-by: Michael Kelley <mhklinux@outlook.com>
+[1] www.ite.com.tw/en/product/cate1/IT6263
 
-[4] https://lore.kernel.org/dri-devel/20250523161522.409504-1-mhklinux@outl=
-ook.com/T/#m2e288dddaf7b3c025bbbf88da4b4c39e7aa950a7
+> 
+> LGTM otherwise.
+> 
+>> +
+>> +		/* write header and payload */
+>> +		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0), buffer, len);
+>> +
+>> +		regmap_write(regmap, HDMI_REG_PKT_NULL_CTRL,
+>> +			     ENABLE_PKT | REPEAT_PKT);
+>> +		break;
+> 
 
->=20
-> The series has been motivated by a recent discussion about hypervdrm [1]
-> and other long-standing bug reports. [2][3]
->=20
-> v3:
-> - fix deadlock (Ville, Lyude)
-> v2:
-> - rework interfaces
->=20
-> [1] https://lore.kernel.org/dri-devel/20250523161522.409504-1-mhklinux@ou=
-tlook.com/T/#ma2ebb52b60bfb0325879349377738fadcd7cb7ef
-> [2] https://bugzilla.suse.com/show_bug.cgi?id=3D1189174
-> [3] https://invent.kde.org/plasma/kwin/-/merge_requests/1229#note_284606
->=20
-> Thomas Zimmermann (4):
->   drm/vblank: Add vblank timer
->   drm/vblank: Add CRTC helpers for simple use cases
->   drm/vkms: Convert to DRM's vblank timer
->   drm/hypervdrm: Use vblank timer
->=20
->  Documentation/gpu/drm-kms-helpers.rst       |  12 ++
->  drivers/gpu/drm/Makefile                    |   3 +-
->  drivers/gpu/drm/drm_vblank.c                | 161 +++++++++++++++++-
->  drivers/gpu/drm/drm_vblank_helper.c         | 176 ++++++++++++++++++++
->  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  11 ++
->  drivers/gpu/drm/vkms/vkms_crtc.c            |  83 +--------
->  drivers/gpu/drm/vkms/vkms_drv.h             |   2 -
->  include/drm/drm_modeset_helper_vtables.h    |  12 ++
->  include/drm/drm_vblank.h                    |  32 ++++
->  include/drm/drm_vblank_helper.h             |  56 +++++++
->  10 files changed, 467 insertions(+), 81 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_vblank_helper.c
->  create mode 100644 include/drm/drm_vblank_helper.h
->=20
-> --
-> 2.50.1
-
+-- 
+Regards,
+Liu Ying
