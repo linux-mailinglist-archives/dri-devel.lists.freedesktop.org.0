@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CF2B46DB0
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E33B46DAC
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F72B10E377;
-	Sat,  6 Sep 2025 13:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5904E10E373;
+	Sat,  6 Sep 2025 13:17:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XkCfEvvW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JFE/otUK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F78010E0F9
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:17:17 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5608d792558so3470104e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:17:17 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A57E210E373
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:17:18 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-560880bb751so3116668e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757164636; x=1757769436; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757164637; x=1757769437; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4wpKL/VW2mP4lPVTNMBZP3xn93sk8skKfMbrLSoiJVc=;
- b=XkCfEvvW6W83mEJH0X/o5GThlOfbddeGXDIL10jwjCccIf2O88WBwyvjtuf0XTEOB8
- /Vokbbb2pHS+KYPHCj7DAH9WUrJQFoq3+mngqkJVb2/0uyaUdxgpLpWdGKdlpZGGvR4n
- jppl8QXpx/PsBlzNrUSM30s0k3r6GSiE9c+v2H3hOWDugYknJEDP0kSi7Z6KG6MB/JaK
- W+OYuv2IRY5Xs+mKAdpcPm10W2vtQbvGLLty3LJujuOa3iax1Ta38RnSr4sef9e1FVMw
- oZIz776UD7eX8200O4OvcJjWhlHxpO+xMFHAJTvVtnm3Q898XNT+gmPYsuQvAEP3wiY/
- oiDg==
+ bh=Cwcex3lGNThFvVtHDavDxMhxsou2FIVI5X6A3gfDqZg=;
+ b=JFE/otUK9sWvMHcPC0pDfm2QTkfvgzmQ0ZRlzWE6NG4LnjwXl79WY+Nu5xJbuhabv4
+ wl/fA1nD5dKOUNJFqSxxdF7o4HbvDS+BLaGTRSw2ied4prrYA+mCuELhbvRuiklNRBJQ
+ VlNPKPa7xRpnrc4lEjIOx1jlUWdfE3xMDNpTSLH7V2ag+QVHMWFlbbUEyLW+BT1ab1Rr
+ bt/6dBQy48WuTTSWZvwlVRq4AKXnI8JIY/CV+ETk9GJxKeF1QerPYYFTiGaxWa0inXO2
+ bE+rnKvj2gSA6QuMFjtHLXsq+ST6/YfUNUnee9b1Q2FiKfqH6rAaBlKcHzdYRD0g7Fb4
+ bLkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757164636; x=1757769436;
+ d=1e100.net; s=20230601; t=1757164637; x=1757769437;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4wpKL/VW2mP4lPVTNMBZP3xn93sk8skKfMbrLSoiJVc=;
- b=F9+nz3GJICrCMKkuGqWx3lfySEUMj2mpBHCM1vatOouOL5qCrMebZdZetq/Saihbjm
- p5hj4SvlhoRUPGwU8xa9qMqbJ/8B7AIS9hFmi8h3JPgyjfKPepXintUJvPjT59VYqs8Y
- B2xmwbVwEPomTchvIepB12y1UHnY3vhIf4wQplJALKq4BFgpjGY5h1xOUPMLoLXtEEBI
- JlikmN4v5MCqpzTDQbXROVT4zFBd+8LMsiT7zoibOeUXsBsJeq44K9uz4L0g+ceindDz
- yTSMSuB7aPPuf6eZCP4lHBRBqXxypBOWnzpLzgRO52B5EEbBdibJMkxqqR0vrRo2uMSK
- E6qA==
+ bh=Cwcex3lGNThFvVtHDavDxMhxsou2FIVI5X6A3gfDqZg=;
+ b=aeLDWQvwd1/8gUWD+B1aEkprF1LGrpxMr+oKKqrkyFrzwhkmGdpWJ6Jb+tojeAs0CJ
+ Bzi0sfAzNE+IxpVmLW9ZDezwzDOSBAIlT5IqVb2fUj1nfrhii0VcnwgE+wVJbWYbouPW
+ Cx/QeQKzrD3w4bMG4vUyqS2fNuCzHnPOavBMi62/3lGZkTg20Sy9LZfI/UUjBLkE2FCu
+ NnTZ/LdMvEvOh8p42Ge/WtI2cN12DYQxYsy9Pv2kBvpSKrM9503HSkP4X+/GKZtAwybz
+ 6D4azJXpzi5CM3w2cdaQ/Wntv7VPZ0b3SzsgJeSAr/ltu1UAmqNM9inTXte8e38LThqb
+ e19Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDAnZ+A/C7VslsWQAthOhkchWgf2MMh3aYOdj2L5dRjIEIPAMWvhih3bUL3aUVHG4XlcF/fqsSu78=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBCHal9E7fPn5N6Z7ymH+SAVLOHDn4YjcvYyzrzpnU34bkhc7B
- 12lfhQ5j8I+/3iCt6NhIQmh9vuKwVUIlyn3rUdu/vEEPI668sMQK46+W
-X-Gm-Gg: ASbGncvF4wx/1Nav++Lwcr4GbpGAMlQBuFPYO1bc6Z83BkdlSVgT01Uz8C/9khhbZIs
- fOjU/hBr35JF2L9UeZ6gEF2yL+q+OyTQa9vLPPmHjKAh/PqMrkuNNEyS0++L8/c2zN9/VNRC2tH
- Dys7Zi2NO2doTbB0w4gY5ksqIVSeLGS88GhUDr2I7IyEgG4tbDw8rQopQWLfZFwmpytgl9Qj1EL
- WTzXECv4kYx6WS0PChiaGq9UmE/V4nO7DVsxG4Zpd1DaXveR2z0p/wLIu2IJnwHuCH4w1d+uPY/
- oVHdoimsIegreLByBmBmjQ+yP0Y31CkzS3oHrIamVwj9+BQBzkyzwN2ADCN/y5/y6YUS1QTrN/Q
- Xdy2UFlGvhzPLVdd9Uss4HuHKzF/iLQxlgfg=
-X-Google-Smtp-Source: AGHT+IF4vcK+yMCzXEsm/lgvHaUClNHtNWTSnCt3HxCxB3oDHp+2TiZa9QXeqNeqFvnHYqhQnPQXSw==
-X-Received: by 2002:a05:6512:ea0:b0:55f:4b12:755b with SMTP id
- 2adb3069b0e04-5625f53609amr549635e87.20.1757164635374; 
- Sat, 06 Sep 2025 06:17:15 -0700 (PDT)
+ AJvYcCU5ivg1Hr8oNNvEKwztc2hGGgztdlvf6BsyOhT9gVl3dqohbetN6uZd+xKohoB0s6okVfcJY8i75bU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yza/yJpWTLUByZRzEC0icbeE8/czfgrOVupU+PvHRF8ff+1R6Nf
+ xLaIdqOf0WgDD5fpqdIXRZr2lsE8fjwtXfbYZcX3A0mlWTqwwUj6CCTG
+X-Gm-Gg: ASbGncvzEcJpR/NCPmrJgJiiPCQI/3k8YXS157DQfw9mK+6Lw+NERxHIopdKNGz/v50
+ cxtpTFsCnJVSOytC8MR4CB4GR2BYnz0fSMb9/fjr3RzWLJ6wmt4+o3SpJcUuNAtPasCj7sUh//t
+ LLrW0a7zI3Rdr/rHu2MjpUmZgTrstLSs77LZbwwI+9jPyW/mXoHq7+PhF6N7VBLyVZyeGWRd9OY
+ Fs1S16VsbKG6KI4q0OLZR1m/l1e2X4IL0muv2ozBoQPSFx9BtNlPdmwGmexTvScG4nbxANyEAE3
+ U4vPUGiHgJkV9jDwOeLix+Mw/hK4syaBBi3xiH0j96tz2aKHkOlFYY25p1bxZnT6O1VA8o2YZZS
+ tpaIkLi67g9rtmQ==
+X-Google-Smtp-Source: AGHT+IHaBWtUTN4oNt10o28YH9lKMsefOT21qBqek24oDY599RFNNoiDQYJiZcamp5R2jY4qvM95jw==
+X-Received: by 2002:a05:6512:6404:b0:55f:44b8:1ed5 with SMTP id
+ 2adb3069b0e04-56262e1b19emr508168e87.39.1757164636617; 
+ Sat, 06 Sep 2025 06:17:16 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ad44f8fsm2312647e87.137.2025.09.06.06.17.14
+ 2adb3069b0e04-5608ad44f8fsm2312647e87.137.2025.09.06.06.17.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Sep 2025 06:17:15 -0700 (PDT)
+ Sat, 06 Sep 2025 06:17:16 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -76,9 +76,10 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/4] clk: tegra20: reparent dsi clock to pll_d_out0
-Date: Sat,  6 Sep 2025 16:16:52 +0300
-Message-ID: <20250906131655.239340-2-clamor95@gmail.com>
+Subject: [PATCH v2 2/4] gpu/drm: tegra: dsi: move prepare function at the top
+ of encoder enable
+Date: Sat,  6 Sep 2025 16:16:53 +0300
+Message-ID: <20250906131655.239340-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250906131655.239340-1-clamor95@gmail.com>
 References: <20250906131655.239340-1-clamor95@gmail.com>
@@ -99,30 +100,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reparent DSI clock to PLLD_OUT0 instead of directly descend from PLLD.
+The tegra_dsi_prepare function performs hardware setup and should be
+called before any register readings or there will be a risk of device
+hangup on register access. To avoid this situation, tegra_dsi_prepare must
+be called at the beginning of tegra_dsi_encoder_enable.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/clk/tegra/clk-tegra20.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/dsi.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
-index bf9a9f8ddf62..9160f27a6cf0 100644
---- a/drivers/clk/tegra/clk-tegra20.c
-+++ b/drivers/clk/tegra/clk-tegra20.c
-@@ -801,9 +801,9 @@ static void __init tegra20_periph_clk_init(void)
- 	clks[TEGRA20_CLK_MC] = clk;
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 278bf2c85524..8e80c7efe8b4 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -914,6 +914,12 @@ static void tegra_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	u32 value;
+ 	int err;
  
- 	/* dsi */
--	clk = tegra_clk_register_periph_gate("dsi", "pll_d", 0, clk_base, 0,
--				    48, periph_clk_enb_refcnt);
--	clk_register_clkdev(clk, NULL, "dsi");
-+	clk = tegra_clk_register_periph_gate("dsi", "pll_d_out0", 0,
-+					     clk_base, 0, TEGRA20_CLK_DSI,
-+					     periph_clk_enb_refcnt);
- 	clks[TEGRA20_CLK_DSI] = clk;
++	err = tegra_dsi_prepare(dsi);
++	if (err < 0) {
++		dev_err(dsi->dev, "failed to prepare: %d\n", err);
++		return;
++	}
++
+ 	/* If the bootloader enabled DSI it needs to be disabled
+ 	 * in order for the panel initialization commands to be
+ 	 * properly sent.
+@@ -923,12 +929,6 @@ static void tegra_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	if (value & DSI_POWER_CONTROL_ENABLE)
+ 		tegra_dsi_disable(dsi);
  
- 	/* csus */
+-	err = tegra_dsi_prepare(dsi);
+-	if (err < 0) {
+-		dev_err(dsi->dev, "failed to prepare: %d\n", err);
+-		return;
+-	}
+-
+ 	state = tegra_dsi_get_state(dsi);
+ 
+ 	tegra_dsi_set_timeout(dsi, state->bclk, state->vrefresh);
 -- 
 2.48.1
 
