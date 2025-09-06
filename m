@@ -2,121 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2143AB476C7
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 21:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F292B476DB
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 21:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4867910E05E;
-	Sat,  6 Sep 2025 19:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0CCA10E178;
+	Sat,  6 Sep 2025 19:17:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T/QNNA34";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PRmMeziJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6549410E05E
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 19:08:40 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 586DBGOD027873
- for <dri-devel@lists.freedesktop.org>; Sat, 6 Sep 2025 19:08:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hpuRj8cMaFi7F8+GiXH5kkLiGalrpmEGijsR/b2FsOY=; b=T/QNNA34UXV+oc4U
- zg/44aeJB6/7Un3krZfISTO2zQl6xjPkV3AMRNP6VrqycF27kA7PSkk5LRrXNhWU
- fKuJBMWuC+aYN6TI6q8PNAcZg7UhmWmgm4JoJZwqqkmjFfNhUXcENCKWxABzITFR
- 3nU2+f1r+m1nAbl3uHHHs6+GVNga1Le5t+dRpm0EGMKqHIVoAXnJGwD87BWPOnDz
- qYgGP23CQopguDDJDzNwspEyl7maCLcXDz1P48BuJmqx3WMxv8IzfecC3Gyj0H5+
- uuU/odbe7JyWp+Cd+N06dqjdlh36VhmEyce0oxOXM6qBc+xUaFox0+EgjKs+hbwN
- OpTUfQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490d6392cp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 19:08:39 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b5f112dafeso41760001cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 12:08:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757185718; x=1757790518;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hpuRj8cMaFi7F8+GiXH5kkLiGalrpmEGijsR/b2FsOY=;
- b=KNbUfrtH51Hd8KtVutzenQoJ/LuAoLJct8QQmO8OqjForDzongnJUqx7VRl5ZBiBl4
- OJUgJaWxZz5lQI8582t1CqTFbvJJBCbAqhpxBhjYmrv3bggQ7k7I4KoL/uYHDGh+f2BV
- ERJw57892iJPm5dbxL+p9ibvUsBl4XE4WRMsLGF3DMCYQx94sT/nl+vwAvMxo/Q3pjQE
- Pa7yJi1KTrmNorunGovu3JQyKJLuj3U5YVHpmXhhgnY0PcAwEYlmsg3TRV2wqUUkMWS2
- xqoQaJeHag3oJdLnLBOj/uixlYw8Br6TJWBZ7E4TxQ9/OZ/pnt84J4qUcyslanzRmjpp
- DB8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWw1LpnDJk5nIC6WVz0rtfw+jsNJXXfNoZEjILUnyjdsFSMwgYBdKfcrSnSSCIxRrdq1J+GU89x0fM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/anrOBJbBvQsCQonXzywlLvZEsvTmVBp7fL90kUlx3kqB0eIA
- 4O581vmpgr/VOhX5P5BllY9WmkFjk9DRPGuHqNwimop28qiqCKyIqX35YLc8+JaaMSMJRUMe0Np
- ZQUpgMyoF6fQ1cDHmHxKw8QXKaDoHD3QpDXemTOJTUeMkhjXq2PIOpkV2tW3QnrwzVf8KgCg=
-X-Gm-Gg: ASbGncs9txukXJF+kcfh3yi7Fo02A3ERdKH6Y7FMNU2PhpdN2fp/RwC96qRrH8X6kDj
- aIUoiTyqUGukgz7ZN7PMuC9z8JUKCTKbpja3HqBPznj+hLKd/ioENelQ7MoYZmksPEaNTzk/m+q
- rA9Z0MfwydnQYqiWyBeVhg2aw05j25w9mgSbmwVJyx0g2VnesuhdSxB04YZ9i25YxtK4S3xIgrq
- 94b9wKKhsm2XwQozmyxDFz+6LKUYcJo9fa7/ZgA3dirQZo/sk50YnEvoH7M+/f83ZeM8H/Wk0EP
- LZxPUBQJcPHC+6Li2T4ef8r41Zjt4uB/31KbqmeUtqCdjpKrrKp4lVKLWklMCfxN6HzzYADoMr1
- Xm3dpx0AOPFK8gaaYNqcNP9p4mlUPQj6oX0n8YrmRTRQZifdv+Idj
-X-Received: by 2002:a05:622a:15c8:b0:4b3:50b0:d80 with SMTP id
- d75a77b69052e-4b5f8569a7bmr30141761cf.57.1757185718448; 
- Sat, 06 Sep 2025 12:08:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBHVkE+CeoTO/j4tRuQhgwEhDnLJtNxMuvyvwILGNlEC4co/sjVDfyLwdcTLZ4+MKJhjWWLA==
-X-Received: by 2002:a05:622a:15c8:b0:4b3:50b0:d80 with SMTP id
- d75a77b69052e-4b5f8569a7bmr30141421cf.57.1757185717959; 
- Sat, 06 Sep 2025 12:08:37 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56340b91bfesm204716e87.22.2025.09.06.12.08.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Sep 2025 12:08:37 -0700 (PDT)
-Date: Sat, 6 Sep 2025 22:08:35 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm/panel: visionox-rm69299: Fix clock frequency
- for SHIFT6mq
-Message-ID: <ba7y3qcuzkx7hinxraimuem6xnrrfxbj3giz56nq5qbmg76uno@kr6dezsumy2s>
-References: <20250906-shift6mq-panel-v2-0-aa5e585d8717@sigxcpu.org>
- <20250906-shift6mq-panel-v2-1-aa5e585d8717@sigxcpu.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFAC10E0E9
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 19:17:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id ABB4060376;
+ Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C21C4CEE7;
+ Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757186268;
+ bh=PKtVETpt3iAueUyOAHaFirlCACUUZHxID9Y/hmP47vQ=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=PRmMeziJu1HlJ53s8cvAtqN3495uZxs/Jtw+3b/wl/tpByw8ltRq0GtkKT5oNdf+C
+ TAPPZz4RcsGIf/NRUAbhLQ1RSKhHGo5C/s6RGcWQE/PKHndd2wjq1zei3fsjuYZt5+
+ /FxHE04rv5z6gL73pOHTaHTdlXmCUpjihD9LfZFQMUecsAMq/3zSKISSdOJQxTCN3f
+ 4Gw5xhCv7blWlgh30jQ+SKks6wMMmRv7JcZkwuBNy6dCHZBlWltomYuPA1N4Xy687k
+ lv4lhcd9mWTWgfRbJ0jk8MKkaJeRUwkodnUSY+8hO/LuGvKxnmLYLtAH8FJfzD1M7P
+ mYZfDluqIseqQ==
+Date: Sat, 06 Sep 2025 14:17:47 -0500
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250906-shift6mq-panel-v2-1-aa5e585d8717@sigxcpu.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyOSBTYWx0ZWRfX8YYQel/B2KOh
- 0HK0YaLX2s/FvBLwOTcofsydjKsxRTCW5/uEcHVfxUbM1A285fDQkpwSNGDyeU+1+JYNSVSszNW
- dMEllBJEMPICfRi1p3zwuQDiktMVtB1RH3R42TGXB5bqeEzBry/nXpw5mZ6pMrO21b7SXuOWFiZ
- Vniay/F9YJ8GLlwpNXpJv3UvuNVTee6dYhSn+xuC6plGmfGGwZM2HYEgO1ERl3NAIxgV08cKXFU
- FVJsJgVE9B53w6gk/qQ8icvEPI8hNYMxFD+LVXTB9TcbCvt0wDwc0p7PZWZBcitaltRSKxzsGsv
- X2O53eTAoE1suKccuyb4T2Q7X9InBz6ijZClbvW2dZzkevC0k09Z0aso6EYzBS3yTFBehyvcniN
- ZHHb2rLI
-X-Proofpoint-GUID: 1WNQB2t1w2tAUMKRhxot_yp2ACXnJxfc
-X-Proofpoint-ORIG-GUID: 1WNQB2t1w2tAUMKRhxot_yp2ACXnJxfc
-X-Authority-Analysis: v=2.4 cv=DYgXqutW c=1 sm=1 tr=0 ts=68bc86b7 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=ze386MxoAAAA:8 a=KKAkSRfTAAAA:8 a=4ZTaGgF3X-K9GTDKzvQA:9
- a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=dawVfQjAaf238kedN5IG:22
- a=iBZjaW-pnkserzjvUTHh:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-06_06,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 adultscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509060029
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>, 
+ =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Thierry Reding <treding@nvidia.com>, linux-clk@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Dmitry Osipenko <digetx@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>, linux-tegra@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+In-Reply-To: <20250906135345.241229-5-clamor95@gmail.com>
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-5-clamor95@gmail.com>
+Message-Id: <175718505408.1618397.11958757465445078243.robh@kernel.org>
+Subject: Re: [PATCH v2 04/23] dt-bindings: display: tegra: document Tegra30
+ VI and VIP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,38 +78,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 06, 2025 at 05:17:25PM +0200, Guido Günther wrote:
-> Make the clock frequency match what the sdm845 downstream kernel
-> uses. Otherwise the panel stays black.
+
+On Sat, 06 Sep 2025 16:53:25 +0300, Svyatoslav Ryhel wrote:
+> Existing Parallel VI interface schema for Tegra20 is fully compatible with
+> Tegra30; hence, lets reuse it by setting fallback for Tegra30.
 > 
-> Fixes: 783334f366b18 ("drm/panel: visionox-rm69299: support the variant found in the SHIFT6mq")
-> Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Adjust existing VI schema to reflect that Tegra20 VI is compatible with
+> Tegra30 by setting a fallback for Tegra30. Additionally, switch to using
+> an enum instead of list of const.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> index 909c280eab1fb408a713d84051a1afbb252c45e8..e65697ce6f51c7d64b786da18cf44b16de5d6919 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> @@ -247,7 +247,7 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
->  };
->  
->  static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
-> -	.clock = 158695,
-> +	.clock = 149360,
-
-clock = (2160 + 8 + 4 + 4) * (1080 + 26 + 2 + 36) * 60 / 1000 ?
-
->  	.hdisplay = 1080,
->  	.hsync_start = 1080 + 26,
->  	.hsync_end = 1080 + 26 + 2,
-> 
-> -- 
-> 2.51.0
+>  .../display/tegra/nvidia,tegra20-vi.yaml      | 19 ++++++++++++-------
+>  .../display/tegra/nvidia,tegra20-vip.yaml     |  9 +++++++--
+>  2 files changed, 19 insertions(+), 9 deletions(-)
 > 
 
--- 
-With best wishes
-Dmitry
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: 'anyOf' conditional failed, one must be fixed:
+	'one0f' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: Additional properties are not allowed ('one0f' was unexpected)
+	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250906135345.241229-5-clamor95@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
