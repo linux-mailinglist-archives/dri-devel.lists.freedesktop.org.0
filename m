@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD697B46F4B
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01666B46F4C
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D34610E36B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4935910E381;
 	Sat,  6 Sep 2025 13:54:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RU+VBIsi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g8a1REhf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64F8A10E36B
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:24 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-560888dc903so508767e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:24 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17EE10E383
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:25 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-55f720ffe34so3952908e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757166863; x=1757771663; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757166864; x=1757771664; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6vTlXJ0ADIeGEtY5cxRTfOE3Fzno1hN3qUAjTXoRk9Q=;
- b=RU+VBIsiM1OaIOTIGzu7ECCqRr+wqTJEjVjZRYtXjNzyYIkakCOBC5BWChq6KSVF7b
- 8HoV/ZBHH9Q1g0U4PfBDrpFU7IIcckgJd8L92IS5C3AnsKVH4L05U0rCtlH1h03wAmRz
- ePQR3AA1t/RTzBJuMIPOLraPBK9UzxqXrhgRGOs3vmYQosAw+7flfAYKch+C3qB3hpLr
- V110wCOejPxFwqqBxp+y0RAV2+wl9nGVBifqCox423bOOWyLC3nQqC7v5+gCXgnySGAd
- gkKTfGlrED+urZEGnc2svoXW1oAKFuCsT5wAh1BYvdXUJV4iArNWSQClXI7r8Qph4boi
- 456Q==
+ bh=0rFbfOnw0ovhU07hOjO5egRNR9/9PjyUG+9rcYSQ22M=;
+ b=g8a1REhfnyhtfdfIEIpPHmwxhun7HAExsT8E+U0pGSXsFAGSpJkA5FMMRsxXnFN6B2
+ Z7jQo+W+el8taZmBimsqn3qZvyOW8f6cwoEgO32ep7AXUFfoZUl8Clc8IO81wRM+Bi/Q
+ H+zw+0wE6t1h8Zwk3d2QU/4SFYSAvrOuB4f9lNTKDBmVcXVIazcwZQRqrOFTz3c8Oo8i
+ 05QzRhGHB0QVjN08rgYr7aD8kj4bmxbpIxzmPA0dF2B7IAMrZlNllOd/5y+ujZ0GxqoR
+ HeDPJpDthSdNhI5bEL5FgzmS9zbHKPskxm4v3u+pKXqZU5+MlQ+N7Hv3ULtEyKDKq3ey
+ xdeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757166863; x=1757771663;
+ d=1e100.net; s=20230601; t=1757166864; x=1757771664;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6vTlXJ0ADIeGEtY5cxRTfOE3Fzno1hN3qUAjTXoRk9Q=;
- b=G6GOM29SE/fR4W8nL0EtNwyOy575QdupWg1y0hXRlC9aLBBVeHKsYAihTcPPWyckXj
- +9bSJNuctIcyA+MLSmO4LGBjEDfUOSaXUI+D6+BDGWlgIsCxYa1d1mIyslw7Z2Lv43TH
- iXSHyiuX2y02XwvCJG+cWHz57D6H2uEX9o8s4pD5FyqpyuNXwjwNeoxhRpDUBAT6Qs5W
- M/Y9e/dnHreFTVjTA0ST1oYNghjU2rV7jAdjUN1pDfbqCbCkGSqrVMpEpPKgmO86C73z
- IVaTx1rxOnbV6vI5MzpOerFMkyIbXSv107eD5fAfmZHELc0Ksu6cIzoF38YRABDp0a8C
- 0qJQ==
-X-Gm-Message-State: AOJu0YzXWJALGddGz/qvxIsNcVzl5Hb+lao35m+7QlO5ZXzD7exI2uvZ
- Ih2dsNsPvAlFPbg8U2QEbSYXJjTpkunl8qsKpIxgGI88nu9ZovXNjmn6
-X-Gm-Gg: ASbGncsw3SQoKSGih4eNcGZHdSEHOgkMQPpdwNRSqdH8jNFBj8lnozDPVnTLAtQ4Gwu
- EBAAz54o76o2CynH93ckf043zCMI7Sbv5byqAZ250WK/3PQolNY6y/HPpKQMlXgYLXl7CN1Jhta
- eNeTYBC1TPcgAxLbW6kjmx+14630J5T22EKV9DKyNNc7JOGIXhADQVC5q2EnX9KxWhe/iX/gl3D
- esm5Hsz0WsnAhKFij/gKTnITbn4fbDUDK+AQVVas1X5T0BMCAE8lsI6G3WD+4AX5yc11xYrfYYs
- zX7UW08jY6vMfmV4Sl0qP4LRghnRMLgNmCQ0mT8uAG3t5eDrsgjlTiLPht55pMtR2Rj7iC85rOt
- 7JH3pcxVpDBO1gA==
-X-Google-Smtp-Source: AGHT+IHwDEExXcShBRr7iwUZKOVrNMOfF2rMEiTh8K8LE2hhdC+VYvqxYCvbDotc3PEX8XolwsvD6w==
-X-Received: by 2002:a05:6512:138a:b0:55e:990:fff3 with SMTP id
- 2adb3069b0e04-562648219famr575340e87.53.1757166862562; 
- Sat, 06 Sep 2025 06:54:22 -0700 (PDT)
+ bh=0rFbfOnw0ovhU07hOjO5egRNR9/9PjyUG+9rcYSQ22M=;
+ b=AG6SgQcI7w0eDk37BXxXl3yNbN2BsKahXbdg1vF4myxaFnbxyhXiX35A5YUSxASZuS
+ gxwRaKJp9GoiRyBMTcVgfkDo5MhfKPqu01T2EJZoJQu/hPlKkB3uRUyEz0SV2hc9kC01
+ phOFvvJSSukOspOELVtO5SbfFayL2RIXifrifMs4db19J+KOKnV5oO9XmE2RNwjga2mk
+ /gP+KwWvYiZsINwBEenWx/W/CQp0VxQBE669YY4lqgzdJdxdUrMlE2h1jCXS/IvHoDZV
+ mzmnXvs5DPS+Kv8lr6bJgFlZuGbly7UFqUNwPnXdBm1IZmoz5ZNjhCVtPHSJFHtlxiTf
+ bKvg==
+X-Gm-Message-State: AOJu0YxcLKYB2nDUvHOJcpoXqwCfCwKdGQtmeTHY1w9AYjSiQSjPWjJ0
+ XuCXpNnp5eKriiaMBrM1PpOI+PrOjzIj5pWss3bbdlpv/hekxPoXGcenQtYfsg==
+X-Gm-Gg: ASbGncsFB4xTIMTCejbjKJLXp/5z9Azw0xTrZwfTOrlR/HE1rAzEIrvmyxq3LiyELsT
+ aqTmlOg8hp+yptRA59mRvFSrWFUwiHMqQLTN82Kkv3FpUYPNYKt5JxXzutNr11yx79fpxrVssat
+ LXfrLb7fZ04+sKN3xaNkQjBlHfUe+JNDbSIos5nPH3rt0BIj9hgPQ83zJEuYtnIbzefh7a6NoV2
+ wPegolsKhOgPrP6HtcB4zAZ/3Ar6SV6JUCiSFHEFIXpQM/qK50YX0tHgB3mWFPF5TdFyJEvezqR
+ 6jI/d2MPSsFrWWlA4ncKtBFH24sxaj6L8f6SqjseWzhczOAyQ/1rcpY1044NXyebOUL0sY0Z0dW
+ xKQaoSyKLBxKnOg==
+X-Google-Smtp-Source: AGHT+IGLEI0q+3ulE2AcGy+vQLvJcnyT7yWeDJ/WZ3nBnLMGXX3O9kNd1Z42W2XvmsQg5afDS7/KKg==
+X-Received: by 2002:a05:6512:b05:b0:55f:4072:d34b with SMTP id
+ 2adb3069b0e04-562761985b5mr636622e87.25.1757166864108; 
+ Sat, 06 Sep 2025 06:54:24 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.21
+ 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Sep 2025 06:54:22 -0700 (PDT)
+ Sat, 06 Sep 2025 06:54:23 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -83,10 +83,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v2 13/23] staging: media: tegra-video: csi: move
- avdd-dsi-csi-supply from VI to CSI
-Date: Sat,  6 Sep 2025 16:53:34 +0300
-Message-ID: <20250906135345.241229-14-clamor95@gmail.com>
+Subject: [PATCH v2 14/23] staging: media: tegra-video: tegra20: set correct
+ maximum width and height
+Date: Sat,  6 Sep 2025 16:53:35 +0300
+Message-ID: <20250906135345.241229-15-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250906135345.241229-1-clamor95@gmail.com>
 References: <20250906135345.241229-1-clamor95@gmail.com>
@@ -107,166 +107,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The avdd-dsi-csi-supply is CSI power supply not VI, hence move it to
-proper place.
+Maximum width and height for Tegra20 and Tegra30 is determined by
+respective register field, rounded down to factor of 2, which is 8191U
+rounded down to 8190U.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 19 ++++++++++++++++++-
- drivers/staging/media/tegra-video/vi.c  | 23 ++---------------------
- drivers/staging/media/tegra-video/vi.h  |  2 --
- include/linux/tegra-csi.h               |  2 ++
- 4 files changed, 22 insertions(+), 24 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index c848e4ab51ac..1677eb51ec21 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -710,6 +710,8 @@ static int __maybe_unused csi_runtime_suspend(struct device *dev)
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index 461593c49594..3dc26f5552eb 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -24,11 +24,10 @@
  
- 	clk_bulk_disable_unprepare(csi->soc->num_clks, csi->clks);
+ #define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
  
-+	regulator_disable(csi->vdd);
-+
- 	return 0;
- }
+-/* This are just good-sense numbers. The actual min/max is not documented. */
+ #define TEGRA20_MIN_WIDTH	32U
++#define TEGRA20_MAX_WIDTH	8190U
+ #define TEGRA20_MIN_HEIGHT	32U
+-#define TEGRA20_MAX_WIDTH	2048U
+-#define TEGRA20_MAX_HEIGHT	2048U
++#define TEGRA20_MAX_HEIGHT	8190U
  
-@@ -718,13 +720,23 @@ static int __maybe_unused csi_runtime_resume(struct device *dev)
- 	struct tegra_csi *csi = dev_get_drvdata(dev);
- 	int ret;
- 
-+	ret = regulator_enable(csi->vdd);
-+	if (ret) {
-+		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
-+		return ret;
-+	}
-+
- 	ret = clk_bulk_prepare_enable(csi->soc->num_clks, csi->clks);
- 	if (ret < 0) {
- 		dev_err(csi->dev, "failed to enable clocks: %d\n", ret);
--		return ret;
-+		goto disable_vdd;
- 	}
- 
- 	return 0;
-+
-+disable_vdd:
-+	regulator_disable(csi->vdd);
-+	return ret;
- }
- 
- static int tegra_csi_init(struct host1x_client *client)
-@@ -802,6 +814,11 @@ static int tegra_csi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	csi->vdd = devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
-+	if (IS_ERR(csi->vdd))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(csi->vdd),
-+				     "failed to get VDD supply");
-+
- 	if (!pdev->dev.pm_domain) {
- 		ret = -ENOENT;
- 		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 2deb615547be..05af718b3cdf 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1405,29 +1405,19 @@ static int __maybe_unused vi_runtime_resume(struct device *dev)
- 	struct tegra_vi *vi = dev_get_drvdata(dev);
- 	int ret;
- 
--	ret = regulator_enable(vi->vdd);
--	if (ret) {
--		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
--		return ret;
--	}
--
- 	ret = clk_set_rate(vi->clk, vi->soc->vi_max_clk_hz);
- 	if (ret) {
- 		dev_err(dev, "failed to set vi clock rate: %d\n", ret);
--		goto disable_vdd;
-+		return ret;
- 	}
- 
- 	ret = clk_prepare_enable(vi->clk);
- 	if (ret) {
- 		dev_err(dev, "failed to enable vi clock: %d\n", ret);
--		goto disable_vdd;
-+		return ret;
- 	}
- 
- 	return 0;
--
--disable_vdd:
--	regulator_disable(vi->vdd);
--	return ret;
- }
- 
- static int __maybe_unused vi_runtime_suspend(struct device *dev)
-@@ -1436,8 +1426,6 @@ static int __maybe_unused vi_runtime_suspend(struct device *dev)
- 
- 	clk_disable_unprepare(vi->clk);
- 
--	regulator_disable(vi->vdd);
--
- 	return 0;
- }
- 
-@@ -1882,13 +1870,6 @@ static int tegra_vi_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	vi->vdd = devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
--	if (IS_ERR(vi->vdd)) {
--		ret = PTR_ERR(vi->vdd);
--		dev_err(&pdev->dev, "failed to get VDD supply: %d\n", ret);
--		return ret;
--	}
--
- 	if (!pdev->dev.pm_domain) {
- 		ret = -ENOENT;
- 		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 64655ac1b41f..367667adf745 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -93,7 +93,6 @@ struct tegra_vi_soc {
-  * @client: host1x_client struct
-  * @iomem: register base
-  * @clk: main clock for VI block
-- * @vdd: vdd regulator for VI hardware, normally it is avdd_dsi_csi
-  * @soc: pointer to SoC data structure
-  * @ops: vi operations
-  * @vi_chans: list head for VI channels
-@@ -103,7 +102,6 @@ struct tegra_vi {
- 	struct host1x_client client;
- 	void __iomem *iomem;
- 	struct clk *clk;
--	struct regulator *vdd;
- 	const struct tegra_vi_soc *soc;
- 	const struct tegra_vi_ops *ops;
- 	struct list_head vi_chans;
-diff --git a/include/linux/tegra-csi.h b/include/linux/tegra-csi.h
-index b47f48ef7115..85c74e22a0cb 100644
---- a/include/linux/tegra-csi.h
-+++ b/include/linux/tegra-csi.h
-@@ -139,6 +139,7 @@ struct tegra_csi_soc {
-  * @client: host1x_client struct
-  * @iomem: register base
-  * @clks: clock for CSI and CIL
-+ * @vdd: vdd regulator for CSI hardware, usually avdd_dsi_csi
-  * @soc: pointer to SoC data structure
-  * @ops: csi operations
-  * @mipi_ops: MIPI calibration operations
-@@ -150,6 +151,7 @@ struct tegra_csi {
- 	struct host1x_client client;
- 	void __iomem *iomem;
- 	struct clk_bulk_data *clks;
-+	struct regulator *vdd;
- 	const struct tegra_csi_soc *soc;
- 	const struct tegra_csi_ops *ops;
- 	const struct tegra_mipi_ops *mipi_ops;
+ /* --------------------------------------------------------------------------
+  * Registers
 -- 
 2.48.1
 
