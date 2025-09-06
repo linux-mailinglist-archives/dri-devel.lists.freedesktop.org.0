@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAFFB46F35
+	by mail.lfdr.de (Postfix) with ESMTPS id 694D4B46F36
 	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:54:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95FF110E37F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB6710E380;
 	Sat,  6 Sep 2025 13:54:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LnSgA9sH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CVbKr4xF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
  [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76F9C10E37C
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C76E10E37F
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:15 +0000 (UTC)
 Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-55f72452a8eso3602893e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:13 -0700 (PDT)
+ 2adb3069b0e04-55f753ec672so3404520e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757166852; x=1757771652; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757166853; x=1757771653; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oNnZ9HXiG4U5oHkge6rfZLR0dPMVP9tD5A0n1Dg/8XI=;
- b=LnSgA9sHdXKyiHOtdCMksbDeJ7cdSHGTaXgm62AMpnV9d1Gb2YsTcBuPl0A0s2VAqT
- 5QRWYRBcK5hL58SVPMb34xpPG0DTCnCec3joWzX/NGIeO4l9NrZ0mm6EtSdOmZP6FBIz
- jGgWCO1UzjR6fR+lwRszKyqdBtsOPPwBR0BlG1KUkibfPMp0htGL6m2pebRGRA+AwuxV
- UEaiDuZnS5X67ZzZlA0jDmJyGTbbV+QsDkcUZKb3OVnIW+p9ndeFAd/WqfLURurhMezf
- p4Hw+Vvk+PKwR8J1U5k4U7S4QcN6MXlx7kmjjiwF0NHSkW6gepRkRzdKgi6hl9K2Lo7j
- ANFw==
+ bh=srN5K9aEte+IHJ7do+e8te0vwtoLo2YE64UbrpcA8GY=;
+ b=CVbKr4xFa9MfookHhSuRTN9v6g5rxiVcjGUrZGuOC3gI/B4MIQw+Pi5N4TIVKGlX9n
+ YcJxbc9Oh2Izod7mDLBhho2cCjPD94IL7elOTDEhPWAqfLtCbY1VppOokt9HZ35SkDzg
+ OLtsPZaq5P1YdTarI72AOHCdEuHdtUbdMERcHi2OECsudZKT0SWa6b/ZDIfAW6owskDi
+ NUkqgPiCpxWfizR+FFD1XTGJWpP5RP3KmkWp98lMzVwAubY01q2/x1vF2/LSIwsK7lfP
+ ycCWzBSyy+oFsff02Kf5IuSeZ0bj2oFprQYp4SR0zUnZ14KM7RrG3A9xnIkSnHUe5+uF
+ ZHFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757166852; x=1757771652;
+ d=1e100.net; s=20230601; t=1757166853; x=1757771653;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oNnZ9HXiG4U5oHkge6rfZLR0dPMVP9tD5A0n1Dg/8XI=;
- b=YSG01ld/zMz/oQSATxYKBwVJ/Rcc7k+HkeY1F3p0zXx3UsHnnPv1YbM7GM5/dSXcmu
- FXEWDKqgu+YQ2UIWRAev89+/GFhk3rOhgGo+PnincyPvKoaj8/8e1kLZT35opW74h+Oo
- A8E8OM5QzSjfp/5AoivnxzsAVtw4R4rkifBXk9blxBQklOAJ+jBugL7DGb7FZU4qxki5
- CeUqBvdQo7/tr23QFSSEJCh6XIU93CvHqpGB1Ho0jPEuaFeF0J0ZZ2hQWUA2Ns3VJ1/F
- rj5IBFHC1HWMHrDARpH9ZoEEt1kqVvC3W4OLELmHmWjcnwabxxgVp0ANo3GHopB+B19E
- AQDg==
-X-Gm-Message-State: AOJu0YyFv2sw0lRpx6PqEltQHDcYTq/Pv0FXg2QPUxnuHU30iEfupI/3
- asAyIKMVkPNni32x8xKGTP0ncd7FyYWy3qeu4XOib4FWfQvwZJhvIYSg
-X-Gm-Gg: ASbGncsdKTkIHTnYel4x1/TuTcC5MxzNWdE7smYOkGApqNNBRYBj1jVBMnUfC2g4ahL
- QAQ+l7xd5nBencT9qjdSJkjzrOELW360TdnKqUZ+GFiK0mSKesTgVDhvs8IO0dVXkvcZUxqQ1T+
- 92j/hbbbTsb+O0j7UnAchKiuvA/j+oEmN+fxqdmgV33IocmEF7xTtMVw5NpR8qXovdMt4ivggVz
- YHTWhVyE7sZSCqBhi0weNMTn4uUVGgf4JxEcAtVy5eBiNoDc33t4SYyloa5yK1faPIuBO1YjJ9X
- O77LoTwYVvMhBt7TTL0KSkiN5KHwxqSbeWIFZ9DyvnZJSazrztw5mwc8qDSELFx5uVyjM4L3GbS
- gwC7DR++xMcMTPljIkMay1jiM
-X-Google-Smtp-Source: AGHT+IFNdBjIXq5sYz1MCdAhWLRCrwcVaq6AC94sETsLdKECpgkyBPhg/M7G3wdyhSPEeg7Mdr0rBQ==
-X-Received: by 2002:a05:6512:1390:b0:55f:6eed:7805 with SMTP id
- 2adb3069b0e04-56261313e4amr564548e87.2.1757166851621; 
- Sat, 06 Sep 2025 06:54:11 -0700 (PDT)
+ bh=srN5K9aEte+IHJ7do+e8te0vwtoLo2YE64UbrpcA8GY=;
+ b=kg25HUjGJHfWH7emkVVd8TI92JqaNyXnP9F1v5ljv2YfiUc6sIzBhh6DQYjsCq0BEI
+ xiSARknBJjWkj6eOFO7bLBrGMXUOWtMrtofOPdcOPdzQACS44+XOBvgkTyHMLYUoqc2W
+ 5ACti+fB2hXa8NJybW2lucKE5mMAL9cri/pJjbZa9kIj4eVKDICETat2E2mH7nvzQRqP
+ aBBUkoS9MjPuibouttDlfjplAUcUk14Ukfq70hrJf0dH1HF+yLh+Lk+yoyiimFBQH6ul
+ dKRKcZRi4I03x34ZQtbj3NSbWiYf5asuU9OxgcFY4o9i/Hiv7c9XTnuA3m2EDBibbV1d
+ xRZA==
+X-Gm-Message-State: AOJu0Yz6OD58CT5mY9YNis1S0jk8XizMa/YWmEika5SbPIef6EFIWv4f
+ oAmZih0F0SR2RJiYJ+q+XXZepTlwaXq5FIuVr7HfqhjW2t+CXob3cvBR
+X-Gm-Gg: ASbGncv8gepf/LjPzmw24t8FrvPciA/YhU9hBBDtDEJPza3ocr/X25N72GoHIVlq8Sw
+ o6jYYm4CiaiYzRHtcqf2ZsJo3EituL9HrJPC1Je3ryRNIx6ufnA18yATWrleV3fb7ZZFwHP3vUq
+ khqFUCh7Uk4r/JEk5TP5uxouO+jr7q0WiS+mIuLK9tyT5zrScAOZ9N5e9MfGeeJ2ueV1Toy3X9b
+ k/8yjG90VKobw/LkPD3SeTvfco/p2gU+2p+SlgKvPR6lI7lgLymqPP81NZoGYUBmlPLkeNbQGrB
+ GPrsSoUi4GrazVLs8y/swqZ6DSc9AS9t6I9vm1QKno8P1EoVA3cum9OxxcSewJkdeP3ASlPezMc
+ 7z+RojBiU2jJumfsdrFmknSfR
+X-Google-Smtp-Source: AGHT+IGCt2eHiwI1aZznp5qV4unVuJPYb6+RIXeJ7Ssqv7sSVpNp64yWTQMgPLJorRM1xtlStCmyhw==
+X-Received: by 2002:a05:6512:39d6:b0:55f:391b:54df with SMTP id
+ 2adb3069b0e04-562618e1854mr654591e87.47.1757166853171; 
+ Sat, 06 Sep 2025 06:54:13 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.10
+ 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Sep 2025 06:54:11 -0700 (PDT)
+ Sat, 06 Sep 2025 06:54:12 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -83,10 +83,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v2 06/23] staging: media: tegra-video: vi: adjust
- get_selection op check
-Date: Sat,  6 Sep 2025 16:53:27 +0300
-Message-ID: <20250906135345.241229-7-clamor95@gmail.com>
+Subject: [PATCH v2 07/23] staging: media: tegra-video: vi: add flip controls
+ only if no source controls are provided
+Date: Sat,  6 Sep 2025 16:53:28 +0300
+Message-ID: <20250906135345.241229-8-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250906135345.241229-1-clamor95@gmail.com>
 References: <20250906135345.241229-1-clamor95@gmail.com>
@@ -107,36 +107,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Get_selection operation may be implemented only for sink pad and may
-return error code. Set try_crop to 0 instead of returning error.
+Add HFLIP and VFLIP from SoC only if camera sensor does not provide those
+controls.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 7c44a3448588..856b7c18b551 100644
+index 856b7c18b551..90473729b546 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -476,15 +476,11 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 	fse.code = fmtinfo->code;
- 	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
- 	if (ret) {
--		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
-+		if (!v4l2_subdev_has_op(subdev, pad, get_selection) ||
-+		    v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel)) {
- 			try_crop->width = 0;
- 			try_crop->height = 0;
- 		} else {
--			ret = v4l2_subdev_call(subdev, pad, get_selection,
--					       NULL, &sdsel);
--			if (ret)
--				return -EINVAL;
--
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
- 		}
+@@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 	}
+ #else
+ 	struct v4l2_subdev *subdev;
++	struct v4l2_ctrl *hflip, *vflip;
+ 
+ 	/* custom control */
+ 	v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl, NULL);
+@@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 		return ret;
+ 	}
+ 
+-	if (chan->vi->soc->has_h_v_flip) {
++	hflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
++	if (chan->vi->soc->has_h_v_flip && !hflip)
+ 		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+-		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	}
+ 
++	vflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
++	if (chan->vi->soc->has_h_v_flip && !vflip)
++		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+ #endif
+ 
+ 	/* setup the controls */
 -- 
 2.48.1
 
