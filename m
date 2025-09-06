@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80DEB46F45
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B97FB46F48
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Sep 2025 15:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD10010E386;
-	Sat,  6 Sep 2025 13:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830F310E387;
+	Sat,  6 Sep 2025 13:54:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OGhu1emq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Mn1ZYVCa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D4710E381
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:21 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-55f6f7edf45so3094642e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:21 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A6310E36B
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Sep 2025 13:54:22 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-55f7ad815ceso3350137e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Sep 2025 06:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757166860; x=1757771660; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757166861; x=1757771661; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3WIdATCDvQMnbdC21C7QVK0YJMHWri/9rANxhXm72f4=;
- b=OGhu1emqmuHdEjF780OoF/Qm7fk8czegoHJfJ1UVvcZSapKWbpTIwcgJuu+U0GGh2j
- j3QiDQ1pyEW4PdwRR8tgBxEYo/Q67Mc12Cg0W4ej/1ti9HyhpcUtafmGnB6Er2DidU7d
- HAEwXKWROeRCeVDu0yd+LIkHlsHtl5HDkUHK5RuKOGSuiWhlaIAS3/iNXIZuZfHQs2C0
- RQqQsTKGR90FVzybGhNOw/gtf/3iB+DPUxBQqa2/+9enKLyb2xMXVFOLkJOhNw2ooMrR
- cUG/2Q9Lw0h/3YXyxMWODQNYuK607gBaTH7vdML1YpNjFzKBvZVoZKr9EHif2eBsBgNo
- 0ymQ==
+ bh=2IxAZoNFqRXhhMhpvmVHUSqaQIDxBjYcwMBDTUotPdE=;
+ b=Mn1ZYVCa+n6i+FZiZZfJ6lr0CYD6LRGdOXuTKDCecKjvuijZ4iwgsLqWdfVllxStec
+ wbsH4VAvycuqMJD0SLCo2Y5zyu6h5UiK8Z+CynJuLySTSXHa+EpFIe2QfhYDt9qs9YTh
+ bNcU4zhEDVYeTizc3VbHSqywM0425bMhVJvCHKctcL4ZM+2KtzBobcPdcO5wHKY8GF/i
+ x6Ogd/U6Lpz/eRZxI58MLMLuI+2ParvCKkeVnI98dFm2RmCES06pmRxzWe9XV24K4deZ
+ fUmsX7M+IT/hgl3Gc6OStkbnLbGADrYetqZvpVaF8O804qdZTlJiNlSKc1iEAPWqX0kZ
+ VWLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757166860; x=1757771660;
+ d=1e100.net; s=20230601; t=1757166861; x=1757771661;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3WIdATCDvQMnbdC21C7QVK0YJMHWri/9rANxhXm72f4=;
- b=s2UFvwSJy02xhVT0G7qPgXW4jCmBullAj9pu6rCMDbYjwPK/FCxKVg+UYU0s/sXxcU
- Dl425c7IKIICIJafPVaj8TVnBCi71Dz5h1BikvhfYegyzAujJvot0aY8nNOizAGJion+
- o2LkkGVKoGC6H3e9lnNvd7jjEpaktSEHAltLMpvqEbTlc4HkKieBifL0SgAclCjER5Lz
- s8kG2TM4bZbeb8bSz6av4g27nSzXLfoM9WBfadeGzNQPFze0JaUWb231209+r6c4yLH6
- 6IfllbfZ+lJ0lntsdpGsS4VwFeb3trKxXsoDNESTAfyFgj+YjyTibZnypJXQ+F3+8H9u
- H1+w==
-X-Gm-Message-State: AOJu0YyUb8ysygSC86kjdVykUeIjpg8tybaGHCU+sIBDebwskeEruySx
- ErGGXY49VdZQncOpdQnQbOrVJacXHt20zbHfYn7dx/xld3XYA2Uwycdj
-X-Gm-Gg: ASbGnctz1H4uT1hF8tWN4gJVPWZAKadONoT/++x7JQeAyRCqs55FvByZJtN9SEbwlgC
- afU5JD9CT7xF5o44iCcKCNlz1dbarXLaZIMn3e43qJJ9QcECvANQ2CNDVCUB0xWF5vvStRE+opR
- xruRQeBnfrlyKpg3xldx7U9PTQlipt5CUpoZ/PA7ghzbZa89/DYPSEDa7zibh/9s09Utm/odLNp
- Kj8ikrCv2VbGEDGpw1giqrMwS5D3jY/PIGNTt1GFbjYKuqSMFZMbMYFm2u+CR0dpjIloOol7UGg
- uVJm1JzbINSmAhL9PS4EA5ENxzlGl6gdh7fs6qM/8stHHmPiY6cOuVt2ylAHo+o+0KSGMmkQQU7
- O6hxzBbiRGQekBctlO4PeJ8dMS2AbeDzY404=
-X-Google-Smtp-Source: AGHT+IFNwfE5WsBiCnMDmHHRkAwMlu0XKdppumOKmQdJeOPj17Tc0h1VteTrfL9JbG9gfpAEqTCYzQ==
-X-Received: by 2002:a05:6512:6404:b0:55f:6902:c9f0 with SMTP id
- 2adb3069b0e04-5626310bdccmr579045e87.43.1757166859396; 
- Sat, 06 Sep 2025 06:54:19 -0700 (PDT)
+ bh=2IxAZoNFqRXhhMhpvmVHUSqaQIDxBjYcwMBDTUotPdE=;
+ b=Ee+M3zZhqD9Efy5s2e9l/BPvyMFD5AcujaPfYCOrorbwawsOVKxlHMD9qIIeCy//F5
+ ugf19WTResDvr3i71A6LAiK2G5juYPc5igP9Hze/rg1AARhRRTafxD5jDVGHnzI00vLi
+ hdRBZiV4MONRx4xYcuz0W5iIazEY+nhpIXYt1fP8NTdSR9xyl9X9q5zcw17ZpnxZDUeR
+ JfseMp5vgGEFsT+kwuGIDlwd4EamR8/rgiAhYZwnFT2E9sp0lRvELZI2FSmo/DEsEXcb
+ t/Tn53GYC+tIA8kpu+CSs+7gwJsJum00QGfLsclQTsb+0V7qj57q8LE5uUj2wD3lGlh7
+ ji8A==
+X-Gm-Message-State: AOJu0YzcQDdw9+CcWMRoIgqkwq6BwO75WMZkf/30lLsirxo1ERjJLACS
+ Vquw4IbULkQtJigvEgPyrJI9HoKvMQyWEnz3gsC0mQOl1NnoxCyX4QR3
+X-Gm-Gg: ASbGncvklS1PdPqECdE1QAXeuknOMsmg2EekD/ZU83Ym86uO9tfiCj4UWnNqRFvTt6d
+ iYC58+ioB5njtG0qzTVM/LE6CJG+egwTLay3zK8cj0oUErFQDFPwRkOr9/XNSVe1q1XoR75hmiH
+ 06oCVsVrC2FSpSJ9V5sMvhcA8Bs0bBtEq/RovahgHa8vQTBItbN/BEiZS7GbsQl279C7wqEKO6x
+ CVMzqKFHy/OSq23CcyD0ZjlB4CtwxVcgSavMvWyetlfESfPL1sA2Z/4RuF82J64ae4Y8EM3eSBP
+ 6LSBlClWujnxaO6AbpKiN3AB+UPvn16VAsxMZcYg9F1PPOFioKsxblhp+bUs2OJYV+0ug3eIn7i
+ 6R1JQx/IP+Nf7Pg==
+X-Google-Smtp-Source: AGHT+IHrlNGovAefOUdofD05VkXnyiP4PSuVmL1cFj3ZUmCUQ6U8TDmFSCBGRpnbBAUWYquvhaaN4g==
+X-Received: by 2002:a05:6512:39c3:b0:55f:6a5e:36a6 with SMTP id
+ 2adb3069b0e04-5625ffc7e17mr829513e87.17.1757166860926; 
+ Sat, 06 Sep 2025 06:54:20 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.17
+ 2adb3069b0e04-5608ace9c65sm2357467e87.85.2025.09.06.06.54.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 Sep 2025 06:54:19 -0700 (PDT)
+ Sat, 06 Sep 2025 06:54:20 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -83,10 +83,10 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v2 11/23] staging: media: tegra-video: csi: add a check to
- tegra_channel_get_remote_csi_subdev
-Date: Sat,  6 Sep 2025 16:53:32 +0300
-Message-ID: <20250906135345.241229-12-clamor95@gmail.com>
+Subject: [PATCH v2 12/23] dt-bindings: display: tegra: move
+ avdd-dsi-csi-supply from VI to CSI
+Date: Sat,  6 Sep 2025 16:53:33 +0300
+Message-ID: <20250906135345.241229-13-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250906135345.241229-1-clamor95@gmail.com>
 References: <20250906135345.241229-1-clamor95@gmail.com>
@@ -107,67 +107,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default tegra_channel_get_remote_csi_subdev returns next device in pipe
-assuming it is CSI but in case of Tegra20 and Tegra30 it can also be VIP
-or even HOST. Lets check if returned device is actually CSI by comparing
-subdevice operations.
+The avdd-dsi-csi-supply is CSI power supply, it has nothing to do with VI,
+like same supply is used with DSI and has nothing to do with DC. Move it
+to correct place.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 16 ++++++++++++++++
- drivers/staging/media/tegra-video/vi.c  | 12 ------------
- 2 files changed, 16 insertions(+), 12 deletions(-)
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 ---
+ .../devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 3d1d5e1615c2..c848e4ab51ac 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -445,6 +445,22 @@ static const struct v4l2_subdev_ops tegra_csi_ops = {
- 	.pad    = &tegra_csi_pad_ops,
- };
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+index dd67d4162884..bb138277d5e8 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+@@ -75,9 +75,6 @@ properties:
+   ranges:
+     maxItems: 1
  
-+struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
-+{
-+	struct media_pad *pad;
-+	struct v4l2_subdev *subdev;
-+
-+	pad = media_pad_remote_pad_first(&chan->pad);
-+	if (!pad)
-+		return NULL;
-+
-+	subdev = media_entity_to_v4l2_subdev(pad->entity);
-+	if (!subdev)
-+		return NULL;
-+
-+	return subdev->ops == &tegra_csi_ops ? subdev : NULL;
-+}
-+
- static int tegra_csi_channel_alloc(struct tegra_csi *csi,
- 				   struct device_node *node,
- 				   unsigned int port_num, unsigned int lanes,
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 90473729b546..2deb615547be 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -160,18 +160,6 @@ static void tegra_channel_buffer_queue(struct vb2_buffer *vb)
- 	wake_up_interruptible(&chan->start_wait);
- }
+-  avdd-dsi-csi-supply:
+-    description: DSI/CSI power supply. Must supply 1.2 V.
+-
+   vip:
+     $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
  
--struct v4l2_subdev *
--tegra_channel_get_remote_csi_subdev(struct tegra_vi_channel *chan)
--{
--	struct media_pad *pad;
--
--	pad = media_pad_remote_pad_first(&chan->pad);
--	if (!pad)
--		return NULL;
--
--	return media_entity_to_v4l2_subdev(pad->entity);
--}
--
- /*
-  * Walk up the chain until the initial source (e.g. image sensor)
-  */
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+index fa07a40d1004..37f6129c9c92 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+@@ -37,6 +37,9 @@ properties:
+       - const: cile
+       - const: csi_tpg
+ 
++  avdd-dsi-csi-supply:
++    description: DSI/CSI power supply. Must supply 1.2 V.
++
+   power-domains:
+     maxItems: 1
+ 
 -- 
 2.48.1
 
