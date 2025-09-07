@@ -2,84 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCA9B48109
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 00:30:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B44B4850C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442F110E05D;
-	Sun,  7 Sep 2025 22:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B7710E1CF;
+	Mon,  8 Sep 2025 07:25:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YYPmAtqv";
+	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="K8LcTonE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA4910E05D
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 22:30:07 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-24c95f20117so10477985ad.3
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 15:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757284207; x=1757889007; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YiYQFvOAi/L3rfcO0B8Dn3oJyiTeX8xkf4kbnG9dX4Q=;
- b=YYPmAtqve36O8CuqmusvLjKbHxA8P3O0iZffIBiSAW8qyIvtvX9mI93AltITXl7q2H
- kJ4G1uj5E/oVixYYPT49/WOO6Y7HeJfE8DxwmJ8gTI8HtptEq1NV71+8lmNrrEHObht0
- j+1g6RDDqXsMYTLfRCW7GmJPCfab8g1Q0py2DcqJIHwWAh1d9vTd2FpUD6gzz0Ch+Crx
- V65XOTycQUiFZgcFbmiFBWBlwu6ZLOfSwKlLwE/NB6LS7qKswrO0x+jqhwaBhe9i7aTK
- iQFcDS5qZPcH8wDaMeEndL2lc+VWreDc4wK9mohCgQdQ0qN0OWszvruKJc9xHjMf287K
- 7RbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757284207; x=1757889007;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YiYQFvOAi/L3rfcO0B8Dn3oJyiTeX8xkf4kbnG9dX4Q=;
- b=iT1ToLkQXkp3X0YRKlar4aijgM7T0oD2DnB5pbITTBuE35+p//y12PYHTIqVRkJXfP
- WzqTwD/9iEqfgDoCpyxwKAEZb5gO8xyxMPPHHMNmDNEfQiPVsklRFt6UYLOZkzXtNY5U
- mGRm6DdNCxM8fG2BPmLZfScTNRuOuoyZmicGl1xRnwC5c9UpEWq23lapMC4YQhK+/QTS
- W+BA5hzX6eNkBwRsHZcWGLGU0x2TvaOlnSI6+DYpl/HsZCxShUFlpMTbsMCIQAF5Q0XN
- JHFEBo61SUMl3Q9238v2Uj4SrPqMlNwqRapI/QDs+RG2yKOyAPW4pqao3ODdaGbvnpxB
- iRiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVdl5IuYaeSBtKK8Df0Gr9KpmuB74qcYCTQMWqfOS+36izBY/XItcxK+aguuKUGSRCM5GmTpMBCa4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzdf9ZyCshyM5tzLzthOAK24f14soFRtpBC0KQjgNXbmO+4opUn
- 8roqgsiIcgvr+sc7y7yab84mg9hw7+n+p4ss5s9HTP1bFHgpHyPFyRxHY20l9EweUbCRCZBLCfE
- 7IlRNnsprS5wjn+f/xTubCvl3rfMD4KQ=
-X-Gm-Gg: ASbGncs92tNTQ3oZWE3ZO1gFcrfMVeAG5fAy2Fxgp3VY9XRTROJvmQOmgy86EsHFYfc
- TcE6NxrzjSEQfBVm4JRERhAoymnSdnSr8p/FG0mauxM6mh3sysoEB7hHXyZC3q4OnUi4EBNLjGX
- R5GbFv/xodSndeRsvirVjVQL9Y08EKSIP/PU+eIsGtMu8jOA7oz1wRrXZptzrKCSIKwgX3OtR3d
- zkm+XFrOWIq7GGLdaukoip/wnwPvPOW21lnirK2LIKQKhrPBs7Fa9RvzjQMo35fgZStmDbswEZF
- i8aS4+9SIXwRnGsDYk0+ODRlEg==
-X-Google-Smtp-Source: AGHT+IEJXHXVeEXiUuxDDtDL+F2z+Li35l5mEMwus84iNqmeDyb9GLSYacR9e0Qf9AaGo8FSywEfNdNTn/METasbJfo=
-X-Received: by 2002:a17:902:ce83:b0:24c:b881:201 with SMTP id
- d9443c01a7336-251757ba959mr44510665ad.9.1757284206873; Sun, 07 Sep 2025
- 15:30:06 -0700 (PDT)
+Received: from mail-244102.protonmail.ch (mail-244102.protonmail.ch
+ [109.224.244.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA2310E1E8
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 23:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+ s=protonmail; t=1757287096; x=1757546296;
+ bh=E8FRq9d04k6YYbAmL36bn60thwFzL/SsLK8ZOEggcFE=;
+ h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+ Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=K8LcTonEyRrDL6rilzK5+auaZbIX+ZvrF/aZpkI22wFAWucu5YVFFTJpgfeF1sUE0
+ jvD5ipo7+6negfyQKk7BrMNgWctMtq0icu8wAo3h9xFm4Kf58z6gEP84lX4qLp+az5
+ lMQ6yVtkJl+QucVcAcvDnQneJW182pz072iMv6eFmPEixhFmq/UUbekFN6PNOCQDPT
+ X0G2K6j/rzSgDX+qXPbi4HW66W6ZukDqNMf57xfXQZFTcXF7d/xo0R2eFPjoRfWYTu
+ 07ZZfKq62KXnEjBH9Vq64IpFvBBPv1/j6b3RBqvtcXQ4mpmgaQxivmnhcXyAe9+xiX
+ dq98rf6EbziKQ==
+X-Pm-Submission-Id: 4cKmGZ61Bxz1DF4H
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Subject: [PATCH v3 0/4] leds: privacy-led support for devicetree
+Date: Mon, 08 Sep 2025 01:18:02 +0200
+Message-Id: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 MIME-Version: 1.0
-References: <20250730130716.3278285-1-ojeda@kernel.org>
-In-Reply-To: <20250730130716.3278285-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 8 Sep 2025 00:29:54 +0200
-X-Gm-Features: AS18NWDiFBEztBvhh545-DHfsVGSBiVzynGVpEdm2_GOyJiuoW_17RumQHpRyQ4
-Message-ID: <CANiq72=gYXqcXyVK1vq36Y6ofv4QQiLLgnAY=zhFVV8CGYuziw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix broken `srctree/` links and warn about them
-To: Miguel Ojeda <ojeda@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- rust-for-linux@vger.kernel.org, 
- linux-block@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKoSvmgC/12MQQ7CIBBFr9LMWgxQoejKexgXCFM7UVvDGKJpe
+ ndp48J0+X7+eyMwJkKGQzVCwkxMQ1+g3lQQOt9fUVAsDFpqI/dSiztGFsGq4JrGx+gklOszYUv
+ vJXM6F+6IX0P6LNWs5nUVyEpIsfO1QqWNbuzlmKn3iW/E2zA8YI5k/S+an6iLiNG11rbGRu/W4
+ jRNX3fY3brVAAAA
+X-Change-ID: 20250902-leds-c61c877add80
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2779; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=k8iX8f1s+IR8AvU1agIi/j65Y7bAoHiH3WV53x45EE4=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBn7hDboOuU/Y7Bm/5y71XeXBfdSc5V2Vi/Ow+FbL5qZv
+ e48qqneUcrCIMbFICumyNL952ta16K5axmua3yDmcPKBDKEgYtTACaytoXhn96TVc9UZy/TC2La
+ fNx82s47pzXi7plIH1RhO+Nycu+K52cYGeYbHT5ebGvptf1JsyOfAGNretiVtbK30qpnTL35MX6
+ eKw8A
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+X-Mailman-Approved-At: Mon, 08 Sep 2025 07:25:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,17 +82,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 30, 2025 at 3:07=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> This fixes a handful of broken links and introduces a warning to
-> prevent them from happening in the future.
+Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+LEDs has landed, but the DT part was left out. Introduce missing
+dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+enable privacy-led on Lenovo Thinkpad x13s.
 
-Applied to `rust-next` -- thanks everyone!
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+mostly use MIPI cameras, this feature becomes more desired. Original
+rebased patch is still working as expected (with respective DT changes)
+on Dell XPS 9345.
 
-I added Cc: stable@vger.kernel.org on the fixes.
+Changelog to original series:
+- Pick RFC patch, pick R-by, drop RFC-related commit message part
+- Add new DT binding to describe generic LED consumer properties
+- Rebase and test on X1E laptop
 
-Andreas/Boqun: if you don't want the block fix, please shout!
+[1] https://lore.kernel.org/all/20230120114524.408368-6-hdegoede@redhat.com/
 
-Cheers,
-Miguel
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+---
+Changes in v3:
+- Drop unnecessary 'dev->of_node' check by Andy
+- Keep 'panic-indicator;' in DT by Konrad
+- Fix property/property-name order by Konrad
+- Add missing 'led-names' enum definition for video devices by Rob
+- Add oneOf to 'leds' to avoid conflict with nodes of same name by Rob
+- Link to v2: https://lore.kernel.org/r/20250905-leds-v2-0-ed8f66f56da8@vinarskis.com
+
+Changes in v2:
+- Fixed mailing issue
+- Fixed wrong R-by, add my missing sign-off
+- Elaborated cover letter/commits descriptions to better describe why
+  this is needed, and why trigger-source could not be used instead
+- dt-bindings: expanded schema description, fixed s/phandle/phandle-array/,
+  expanded the example
+- dt-bindings: added patch to commonize 'leds' from other schemas
+- leds: dropped wrapper, dropped exporting of private functions
+- dts: added patch to utilize privacy-led on Lenovo Thinkpad x13s
+- Link to v1: https://lore.kernel.org/all/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com/
+
+---
+Aleksandrs Vinarskis (3):
+      dt-bindings: leds: add generic LED consumer documentation
+      dt-bindings: leds: commonize leds property
+      arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+
+Hans de Goede (1):
+      leds: led-class: Add devicetree support to led_get()
+
+ .../bindings/leds/backlight/led-backlight.yaml     |  6 +-
+ .../devicetree/bindings/leds/leds-consumer.yaml    | 89 ++++++++++++++++++++++
+ .../bindings/leds/leds-group-multicolor.yaml       |  5 +-
+ .../bindings/media/video-interface-devices.yaml    |  8 ++
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  8 +-
+ drivers/leds/led-class.c                           | 17 ++++-
+ 6 files changed, 118 insertions(+), 15 deletions(-)
+---
+base-commit: 3db46a82d467bd23d9ebc473d872a865785299d8
+change-id: 20250902-leds-c61c877add80
+
+Best regards,
+-- 
+Aleksandrs Vinarskis <alex@vinarskis.com>
+
