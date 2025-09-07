@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8EFB4850B
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 703AAB4850E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185E210E1DA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081B810E1D3;
 	Mon,  8 Sep 2025 07:25:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="GIB2EsRh";
+	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="aC4h2Z1D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
- [109.224.244.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C29810E249
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 23:18:24 +0000 (UTC)
+X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
+ Sun, 07 Sep 2025 23:24:22 UTC
+Received: from mail-106109.protonmail.ch (mail-106109.protonmail.ch
+ [79.135.106.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F248310E249
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 23:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757287098; x=1757546298;
- bh=G5wfHuR5Ni6mkr7vlY10NwZv17+YPvp6/bhVfUx8fmY=;
+ s=protonmail; t=1757287099; x=1757546299;
+ bh=m8uu3f2om0ehU8+WF4ls+SioKYV8FyIDb8bJA/kvdf4=;
  h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
  Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=GIB2EsRhlV8vmBMmFPTgDyzXJbBmWgiPqKkJXpGu6c2W2aqs54JFTXmbFTT4W5b/3
- tkSCZEKRzYq/EP0dLimaJfO8HD0/KSm4Z1cSO7ljimL9mj/gMG3zWPBHJKpnWMcNsM
- x9lsW5HZfejdjJrwR4V10n2U5H1fKr8e7JIRSFimCJseh139SivutqbYhmEhBOWstk
- nNZn6t+TDa2eg3NNQ0DCnHcz2ejeg/5nDQ9iypsunewbJZNtuPvcngpq7VL3hlguhe
- Pzj/SY5Rgx5p6nl1CrK03+Ci/2A3Pb6Kz9h+2Phi5VGeYV7PIY3O/3PojxLoenG3Rd
- zApXiK3v5AlMA==
-X-Pm-Submission-Id: 4cKmGc3phGz1DF4K
+ b=aC4h2Z1Dhyz3ecbn62NbT4efSAyZgPUA7nGKYjCM/MHCubPuc8ZgvNdgD7AmdrXvN
+ nox1qVmCLGYnpfQ7hg3quQUTFquRuIR863T22O/cpgJIuZ4ugtuYRbUiTSvWwP7dzu
+ Ur0eJpDGLG8LMA10p7DvnP7bRobpAoWSLw0P8DQCaeJJ9zdoRlqFyQ+iFvfYiGgmxq
+ RjO+Gr73zS9ru87z7l/mcBswEWXzI/Ra+yhU/TWXdXa700Z9vOxTTXEfpb/lnYs+Lo
+ 1c52bmkP4aZUAS6BJLPEF22z3UHAmgMfYt0G4YYHwcOykQNQsdMTuuM6pvXE6Nzy1P
+ 0P4oIT/fx6HkA==
+X-Pm-Submission-Id: 4cKmGf2ggLz1DF4H
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Mon, 08 Sep 2025 01:18:03 +0200
-Subject: [PATCH v3 1/4] dt-bindings: leds: add generic LED consumer
- documentation
+Date: Mon, 08 Sep 2025 01:18:04 +0200
+Subject: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-leds-v3-1-5944dc400668@vinarskis.com>
+Message-Id: <20250908-leds-v3-2-5944dc400668@vinarskis.com>
 References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 In-Reply-To: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
@@ -55,12 +56,12 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3355; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=lA2QBNyFzlfroElsH/5o9X8nJsuBowAAhH88dd9l8Ps=;
- b=kA0DAAoW7a5xog9QAxAByyZiAGi+ErWiECneuhqcwXxifTl533t9DXrlE55CDJVNQEWQfuBsg
- 4h1BAAWCgAdFiEEi/z1Zoqina0A1yj27a5xog9QAxAFAmi+ErUACgkQ7a5xog9QAxBMvAD9EL04
- Gi4Gqq+jcFyXgmAD3rA80birf0Z3KNzNtbN5gZ0BAN4D1Whrd466mj1N+Gxvs94p42Vh0hPg7ps
- escQgk+IP
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2868; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=s+EPK0JKM0Hb9Ko/RlfZn+9aGDfCgguChkOaX7vEQXs=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBn7hLY23RD0f8ebnTXhvB5rrsre3TLWnEmfmV6vOlsSd
+ CdOqGlqRykLgxgXg6yYIkv3n69pXYvmrmW4rvENZg4rE8gQBi5OAZhI5kuG//Ee2lOfXead0X7l
+ YtTP+O8M85vZmC9tehRzTtuBy0ty5yNGhr3LHplv/bhr41e5OcZBc040sTWf+WtgYOq85O7k5Ok
+ TH7ECAA==
 X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
  fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 X-Mailman-Approved-At: Mon, 08 Sep 2025 07:25:13 +0000
@@ -79,114 +80,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce common generic led consumer binding, where consumer defines
-led(s) by phandle, as opposed to trigger-source binding where the
-trigger source is defined in led itself.
+A number of existing schemas use 'leds' property to provide
+phandle-array of LED(s) to the consumer. Additionally, with the
+upcoming privacy-led support in device-tree, v4l2 subnode could be a
+LED consumer, meaning that all camera sensors should support 'leds'
+and 'led-names' property via common 'video-interface-devices.yaml'.
 
-Add already used in some schemas 'leds' parameter which expects
-phandle-array. Additionally, introduce 'led-names' which could be used
-by consumers to map LED devices to their respective functions.
+To avoid dublication, commonize 'leds' property from existing schemas
+to newly introduced 'led-consumer.yaml'.
 
 Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- .../devicetree/bindings/leds/leds-consumer.yaml    | 89 ++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ .../devicetree/bindings/leds/backlight/led-backlight.yaml         | 6 +-----
+ Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml | 5 +----
+ .../devicetree/bindings/media/video-interface-devices.yaml        | 8 ++++++++
+ 3 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..d50a3850f6336e9e3a52eb1374e36ea50de27f47
---- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Common leds consumer
-+
-+maintainers:
-+  - Aleksandrs Vinarskis <alex@vinarskis.com>
-+
-+description:
-+  Some LED defined in DT are required by other DT consumers, for example
-+  v4l2 subnode may require privacy or flash LED. Unlike trigger-source
-+  approach which is typically used as 'soft' binding, referencing LED
-+  devices by phandle makes things simpler when 'hard' binding is desired.
-+
-+  Document LED properties that its consumers may define.
-+
-+select: true
-+
-+properties:
+diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+index f5554da6bc6c73e94c4a2c32b150b28351b25f16..8fc5af8f27f9eb95b88eeeee32ad4774f5f21106 100644
+--- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
++++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
+@@ -23,11 +23,7 @@ properties:
+   compatible:
+     const: led-backlight
+ 
+-  leds:
+-    description: A list of LED nodes
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    items:
+-      maxItems: 1
++  leds: true
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+index 8ed059a5a724f68389a1d0c4396c85b9ccb2d9af..5c9cfa39396b0ba89830e520ade108bfd1a3f12e 100644
+--- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
++++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
+@@ -17,10 +17,7 @@ properties:
+   compatible:
+     const: leds-group-multicolor
+ 
+-  leds:
+-    description:
+-      An aray of monochromatic leds
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
++  leds: true
+ 
+ required:
+   - leds
+diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+index cf7712ad297c01c946fa4dfdaf9a21646e125099..703bbc9960dd6bc68baff4f300c77813f5ccd37f 100644
+--- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
++++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
+@@ -17,6 +17,14 @@ properties:
+       An array of phandles, each referring to a flash LED, a sub-node of the LED
+       driver device node.
+ 
 +  leds:
-+    oneOf:
-+      - type: object
-+      - $ref: /schemas/types.yaml#/definitions/phandle-array
-+        description:
-+          A list of LED device(s) required by a particular consumer.
-+        items:
-+          maxItems: 1
++    minItems: 1
++    maxItems: 1
 +
 +  led-names:
-+    description:
-+      A list of device name(s). Used to map LED devices to their respective
-+      functions, when consumer requires more than one LED.
++    enum:
++      - privacy-led
 +
-+additionalProperties: true
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/leds/common.h>
-+
-+    leds {
-+        compatible = "gpio-leds";
-+
-+        privacy_led: privacy-led {
-+            color = <LED_COLOR_ID_RED>;
-+            default-state = "off";
-+            function = LED_FUNCTION_INDICATOR;
-+            gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
-+        };
-+    };
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      camera@36 {
-+        compatible = "ovti,ov02c10";
-+        reg = <0x36>;
-+
-+        reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&cam_rgb_default>;
-+
-+        leds = <&privacy_led>;
-+        led-names = "privacy-led";
-+
-+        clocks = <&ov02e10_clk>;
-+
-+        assigned-clocks = <&ov02e10_clk>;
-+        assigned-clock-rates = <19200000>;
-+
-+        avdd-supply = <&vreg_l7b_2p8>;
-+        dvdd-supply = <&vreg_l7b_2p8>;
-+        dovdd-supply = <&vreg_cam_1p8>;
-+
-+        port {
-+          ov02e10_ep: endpoint {
-+            data-lanes = <1 2>;
-+            link-frequencies = /bits/ 64 <400000000>;
-+            remote-endpoint = <&csiphy4_ep>;
-+          };
-+        };
-+      };
-+    };
-+
-+...
+   lens-focus:
+     $ref: /schemas/types.yaml#/definitions/phandle
+     description:
 
 -- 
 2.48.1
