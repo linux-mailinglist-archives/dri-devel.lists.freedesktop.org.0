@@ -2,121 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1F1B47A93
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 12:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0550B47ABC
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 13:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB5A810E1AC;
-	Sun,  7 Sep 2025 10:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30BDA10E1A9;
+	Sun,  7 Sep 2025 11:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HcHGEupK";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bxKRsmEs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25CCC10E1A9
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 10:57:47 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5879L8NW001590
- for <dri-devel@lists.freedesktop.org>; Sun, 7 Sep 2025 10:57:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Utiwmvf7x+ib9aisS1Pi13DrFz7GSmiEyGwpkMiTHUI=; b=HcHGEupKcXYaoVUc
- QoJz2YXnCAJB6vwcxdVSqlUcYD9PyqGiHfH/BPE31XTRUDQfzpQJoI9IEPOEJhDj
- UrEOzbgoLxuK+2V1pqipwvVQ6/2oHylhtzNoklEGJpFBzFT6Kfhnoe0XmwmwbUtD
- LIgE+FGlDcvebMANa5dSwvRIV/F0/XAO2jBpQ94RMTIUwUeyaAQF2hXPPy4nRUb+
- cDG71JBruJnAXI6cHa9+YeI8B08IcwU2C5Bj+95CLCj6ybR+22QUp6DtXfqouRn2
- zc4lem4XcQUCKgtlfLs4Awdc1sE2ing+r2QjJYl0sZRP5dHXjJ+VhF1GV0+9vW4z
- pcYYiw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490dqfswek-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 10:57:46 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-72108a28f05so140552526d6.3
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 03:57:46 -0700 (PDT)
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D32AB10E1A9
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 11:15:22 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-3e04ea95c6cso1715135f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 04:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1757243721; x=1757848521;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=qYE7Mdh99/9rzNVteX8mWuWywSt6JxH5pN7ISK0g0K0=;
+ b=bxKRsmEs7Uaybslj+6DVWsKE6SJLGbwAtb4kEPWoGBLmdFdJ7u1JNGx86JgX3dvRdq
+ IjnwYg1+ehTnywz19BZk6fXi2j1a+lt+S80nSFKwqb9ERGrKPKocoIxlmF30OlWJIrui
+ gv1ZPq7bHep/iZWwYdj0qH4cGAlu6jNX6rRjBCOF/LWEQCECAaII2UHv/4D1xlKeo9d+
+ bZxVkKYuCmFKhK2S2QGR11SoQ2qM96TVgKmpDSR8HVvRBQRv04XIG7iG8xww9ixjNJBL
+ yp4mYW7cKY7e+7MuQFgzo+jkYN9Wb1TVynDS7KJq0Z2JYC9BvmyLU2JmC8CcRnWkcDzU
+ oI+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757242665; x=1757847465;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Utiwmvf7x+ib9aisS1Pi13DrFz7GSmiEyGwpkMiTHUI=;
- b=lTdOp6lvHExF9mtHxTQXEe67SvQyHGl39t54B3r23BXQcHyi0sWKSklOEF8/4dMR8v
- qxDNiPJSbYlJU0WdtXO925kEbsIkIXd0bRBwprsqtIvwxPxTONtah3irw717aOPV99j6
- fPkARSULltYcAE8vjH7xpHQWpMYNLabLnrURW4qISztu7sB9S7wB1h9ekrAYlYwMpwBr
- T5SjV9B537OBgJOYxwsIUQKIy6DfB6plhrmh2PfQWFh/vBt/pHif/ZCET8XnC+dtf0I9
- 2r6k5t/NU4Del4OzfRxaz9Fap1UkSDRF+xGtW40u+uiZuQAo00YJWlu180NN+fMVEQil
- 9FYw==
+ d=1e100.net; s=20230601; t=1757243721; x=1757848521;
+ h=content-transfer-encoding:cc:to:from:subject:message-id:references
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=qYE7Mdh99/9rzNVteX8mWuWywSt6JxH5pN7ISK0g0K0=;
+ b=p/snOcXJOLACeua/hcln4KRJRA8e/impoffdCVEUXJ1x5iPmq2HTLeh4KKj7BL4aKG
+ 2JS/hQEfFdJ0Cj3G4w1QXXNF/zXM4PrmrHksRykQTkEGad5brLtvv/H5RhZwW/AZsonY
+ sbREnCH4QjlyNmsm86Z04yBKsm55nF8Bua/zmnC5Iq4k3IxSzWddnjDZFDso7HB6zmH5
+ 6T98AtoqYuHi+GpnnBOV1o4g6IDD1c4xR5egEEGPVFbLT2nsTOdrrao9Z6WP0JVumgRJ
+ bICuX/TYZZcLKEnIzrAYgwulblVOchRX0Qdwet0hi4NJMjrVarti2annzYAHpuhrEnkD
+ 2Psw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmf2LgkP+Zs7nIvQkFcRcVmwSI8bYIpj4uel838cjyU63qR33uk3ZFh0T/mceNzeMfyYR8nFcz/Jc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBqeiM9ie1GbIW5eqcjT9xV3cA5i5ho64AMEPCWznXQxvY9S/t
- n9jPvBxkjxf0puJXQqOcl6X7sHDxL7A8pS9dBu+ofsawbXhs6enUjgXL6IXt/lYii0QPuz+08/8
- kVnTybqOH1WvkVqjATpBRylJ4bs+jkyyR/ifr+7B6BI/mxt7KdZGFDu9viQ2epT9eC9M8Gw4=
-X-Gm-Gg: ASbGncsBwL3yyyi9LqentfucVCK/FGWjxb+Fp3s+Dz5g28/44+mqBO5pPuxhp3vlU2J
- bVHXe8uID4e8mQPPXBisBjE7qUwKQtTctte/Bke7rjJHkPV9gX8DmRG7wfhjjE87sDnKL84UJ3F
- 2EQGphJ0TC213ipZSVuxvO1wP8wRuIPpFT46n/fwrd2EX4H/54pcRdZjbU9V7+9DcjAP5Gye89O
- A4Gjir89llDjrZtSuPNTYT74SHf9v6yoohY/Tu7OkrL+aRWvIKDjLNosKSukLD0NTjbVa16Spia
- 7hCJLoezSM2ZP5WlUaAdD1U/FOC6e64aI90U5vuwaXPuh6Ja8/id3toyV9YyOjzge9BgLnR16vx
- D+LWoW/KDRt+xM8xKL/qWcemvkhB5nhXr87cKNu96Kgzy6YJ+DzBb
-X-Received: by 2002:a05:6214:e48:b0:70f:a8a4:e987 with SMTP id
- 6a1803df08f44-7393ca985e0mr52736906d6.44.1757242664780; 
- Sun, 07 Sep 2025 03:57:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGH67snNXBDbOrGPpeIUXj3nTtQsTDZBXe0/FNWFzMKo22DEE8TPYZk+Wta8WeNkI8sjpu08A==
-X-Received: by 2002:a05:6214:e48:b0:70f:a8a4:e987 with SMTP id
- 6a1803df08f44-7393ca985e0mr52736756d6.44.1757242664396; 
- Sun, 07 Sep 2025 03:57:44 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5608ad4e2e3sm2850443e87.147.2025.09.07.03.57.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 Sep 2025 03:57:43 -0700 (PDT)
-Date: Sun, 7 Sep 2025 13:57:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <robdclark@gmail.com>
-Cc: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ryan Eatmon <reatmon@ti.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: Re: [PATCH v2] drivers: gpu: drm: msm: registers: improve
- reproducibility
-Message-ID: <eoqcx4cjrfuf5a447c62ydrrvxncbya5iw3jgpvfdeijp6be6v@goctbvocjywa>
-References: <20250524-binrep-v2-1-09040177218e@oss.qualcomm.com>
- <6mgmrqmixjdftpjz2hvwjnsyh3wwylxuaih7yez2mdgjpcp3l2@zjr4ai6kkjxn>
- <CAF6AEGvJnSiyUJvBPusBZ+mriiP_vRiAgZnTyLSseu8Sdf9PXA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF6AEGvJnSiyUJvBPusBZ+mriiP_vRiAgZnTyLSseu8Sdf9PXA@mail.gmail.com>
-X-Proofpoint-ORIG-GUID: LULMaWG67s9SBRPuJtDbTpKeRoC2EtmB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzNSBTYWx0ZWRfX4M2h3oh1CirP
- F96PLz0polBdvyN17P8U7KFwmdA7eiVqBQ3YfaBbLUzt+B+No42SbF3YYBJTUJMX6MB41HJBv+T
- eHpt1heYZ7H4WME1hW+FNv/ijX6Qn465ZNyRbijB+topXHgYvSLFqGfxTnkBi2+UMVtOevCNn5Y
- cpSOK+tG8mybYB6QYFHdyrWzfptGR5gk9a9GMkU0MxmJn2ycReexBWIk+fWi9NFwoOPxS/vIKVf
- UYnqYC9TrbS3qNvkMogiKIGmAsNH1U+kqTWA86EtGalysFr5sZJ4Y733S8EuKp+2xsDVtd+ALbS
- 0/eLgsjGXQSBxyG7ZXOaCVTHcaaE6nOFygGw5JjSVXNTvaUQr7Pb+MsmZNTWW/b3CDp+behIS/4
- luE3uJNi
-X-Proofpoint-GUID: LULMaWG67s9SBRPuJtDbTpKeRoC2EtmB
-X-Authority-Analysis: v=2.4 cv=N8UpF39B c=1 sm=1 tr=0 ts=68bd652a cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=iGHA9ds3AAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=sozttTNsAAAA:8 a=pGLkceISAAAA:8 a=-TsAvhh9eNYMg2Gy3vkA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-07_03,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060035
+ AJvYcCXzP8Artihxuew0RIyX8yuSrcoyBox2rtea1SxQ6bWAbxlT7cFOS6/zAzFAv9wQpC9R2MK4F8rVhm8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyq7OL2TxOAP+A9bE6R5EAGFv+RaubcgnkdBKNDnOwWCoCB661I
+ 785LObQ+PzeTlwwWIVsacFxyDU2aPYAKXdLnTRGkUQcoe2Hvg3EpORgT2BsIyKXq7mh2RD+yc9Y
+ F+1dRhxHtXIlf5oFiPA==
+X-Google-Smtp-Source: AGHT+IHuEDNEPXu7Dy3DfM2a1VFFRo/E10YKm/lyBx1r925AHGa8w+aVHbPsl0A4UzCnXWHx+qBEECQh0lFq/dc=
+X-Received: from wmc24.prod.google.com ([2002:a05:600c:6018:b0:45b:79d1:abcb])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:5f92:0:b0:3d7:2284:b20 with SMTP id
+ ffacd0b85a97d-3e641e3cd77mr2638780f8f.3.1757243721320; 
+ Sun, 07 Sep 2025 04:15:21 -0700 (PDT)
+Date: Sun, 7 Sep 2025 11:15:20 +0000
+In-Reply-To: <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org>
+Mime-Version: 1.0
+References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
+ <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
+ <20250905152505.005a610d@fedora>
+ <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
+ <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org>
+Message-ID: <aL1pSFB9iBsfHFM_@google.com>
+Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,61 +93,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 06, 2025 at 04:24:29PM -0700, Rob Clark wrote:
-> On Sat, May 24, 2025 at 10:15 AM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+On Sat, Sep 06, 2025 at 12:47:36AM +0200, Danilo Krummrich wrote:
+> On Fri Sep 5, 2025 at 8:18 PM CEST, Alice Ryhl wrote:
+> > On Fri, Sep 5, 2025 at 3:25=E2=80=AFPM Boris Brezillon
+> > <boris.brezillon@collabora.com> wrote:
+> >> On Fri, 05 Sep 2025 12:11:28 +0000
+> >> Alice Ryhl <aliceryhl@google.com> wrote:
+> >> > +static bool
+> >> > +drm_gpuvm_bo_is_dead(struct drm_gpuvm_bo *vm_bo)
+> >> > +{
+> >> > +     return !kref_read(&vm_bo->kref);
+> >>
+> >> I'm not too sure I like the idea of [ab]using vm_bo::kref to defer the
+> >> vm_bo release. I get why it's done like that, but I'm wondering why we
+> >> don't defer the release of drm_gpuva objects instead (which is really
+> >> what's being released in va_unlink()). I can imagine drivers wanting t=
+o
+> >> attach resources to the gpuva that can't be released in the
+> >> dma-signalling path in the future, and if we're doing that at the gpuv=
+a
+> >> level, we also get rid of this kref dance, since the va will hold a
+> >> vm_bo ref until it's destroyed.
+> >>
+> >> Any particular reason you went for vm_bo destruction deferral instead
+> >> of gpuva?
 > >
-> > On Sat, May 24, 2025 at 09:25:37PM +0530, Viswanath Kraleti wrote:
-> > > From: Ryan Eatmon <reatmon@ti.com>
-> > >
-> > > The files generated by gen_header.py capture the source path to the
-> > > input files and the date.  While that can be informative, it varies
-> > > based on where and when the kernel was built as the full path is
-> > > captured.
-> > >
-> > > Since all of the files that this tool is run on is under the drivers
-> > > directory, this modifies the application to strip all of the path before
-> > > drivers.  Additionally it prints <stripped> instead of the date.
-> > >
-> > > Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
-> > > ---
-> > > The files generated by gen_header.py include the source path to the
-> > > input files and the build date. While this information can be useful,
-> > > it inadvertently exposes build system configuration details in the
-> > > binaries. This hinders binary reproducibility, as the output will
-> > > vary if the build environment changes.
-> > >
-> > > This change was originally submitted to the linux-yocto-dev kernel [1]
-> > > to address binary reproducibility QA errors. However, the fix is generic
-> > > enough to be applicable to the mainline kernel and would benefit other
-> > > distributions as well. So proposing it here for broader inclusion.
-> > >
-> > > [1] https://git.yoctoproject.org/linux-yocto-dev/commit/?id=f36faf0f9f8d8f5b4c43a68e5c6bd83a62253140
-> > > ---
-> > > Changes in v2:
-> > > - Corrected author id
-> > > - Link to v1: https://lore.kernel.org/r/20250523-binrep-v1-1-c3a446518847@oss.qualcomm.com
-> > > ---
-> > >  drivers/gpu/drm/msm/registers/gen_header.py | 8 +++++---
-> > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > >
+> > All of the things that were unsafe to release in the signalling path
+> > were tied to the vm_bo, so that is why I went for vm_bo cleanup.
+> > Another advantage is that it lets us use the same deferred logic for
+> > the vm_bo_put() call that drops the refcount from vm_bo_obtain().
 > >
-> > Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >
-> > Rob, WDYT?
-> 
-> I'm revisiting this one, in the context of trying to re-sync
-> gen_header.py with mesa.. but it is only changing the contents of
-> comments, so it's not quite clear to me how this ends up mattering for
-> binary reproducibility.
-> 
-> That said, since the generated files are no longer checked in to mesa
-> or the kernel, we could probably just drop all of this if it mattered.
+> > Of course if gpuvas might have resources that need deferred cleanup,
+> > that might change the situation somewhat.
+>=20
+> I think we want to track PT(E) allocations, or rather reference counts of=
+ page
+> table structures carried by the drm_gpuva, but we don't need to release t=
+hem on
+> drm_gpuva_unlink(), which is where we drop the reference count of the vm_=
+bo.
+>=20
+> Deferring drm_gpuva_unlink() isn't really an option I think, the GEMs lis=
+t of
+> VM_BOs and the VM_BOs list of VAs is usually used in ttm_device_funcs::mo=
+ve to
+> map or unmap all VAs associated with a GEM object.
+>=20
+> I think PT(E) reference counts etc. should be rather released when the dr=
+m_gpuva
+> is freed, i.e. page table allocations can be bound to the lifetime of a
+> drm_gpuva. Given that, I think that eventually we'll need a cleanup list =
+for
+> those as well, since once they're removed from the VM tree (in the fence
+> signalling critical path), we loose access otherwise.
 
-SGTM.
+Hmm. Another more conceptual issue with deferring gpuva is that
+"immediate mode" is defined as having the GPUVM match the GPU's actual
+address space at all times, which deferred gpuva cleanup would go
+against.
 
--- 
-With best wishes
-Dmitry
+Deferring vm_bo cleanup doesn't have this issue because even though the
+vm_bo isn't kfreed immediately, all GPUVM apis still treat it as-if it
+isn't there anymore.
+
+> >> > +static void
+> >> > +drm_gpuvm_bo_defer_locked(struct kref *kref)
+> >> > +{
+> >> > +     struct drm_gpuvm_bo *vm_bo =3D container_of(kref, struct drm_g=
+puvm_bo,
+> >> > +                                               kref);
+> >> > +     struct drm_gpuvm *gpuvm =3D vm_bo->vm;
+> >> > +
+> >> > +     if (!drm_gpuvm_resv_protected(gpuvm)) {
+> >> > +             drm_gpuvm_bo_list_del(vm_bo, extobj, true);
+> >> > +             drm_gpuvm_bo_list_del(vm_bo, evict, true);
+> >> > +     }
+> >> > +
+> >> > +     list_del(&vm_bo->list.entry.gem);
+> >> > +     mutex_unlock(&vm_bo->obj->gpuva.lock);
+> >>
+> >> I got tricked by this implicit unlock, and the conditional unlocks it
+> >> creates in drm_gpuva_unlink_defer(). Honestly, I'd rather see this
+> >> unlocked moved to drm_gpuva_unlink_defer() and a conditional unlock
+> >> added to drm_gpuvm_bo_put_deferred(), because it's easier to reason
+> >> about when the lock/unlock calls are in the same function
+> >> (kref_put_mutex() being the equivalent of a conditional lock).
+> >
+> > Ok. I followed the docs of kref_put_mutex() that say to unlock it from
+> > the function.
+>=20
+> Yes, please keep it the way it is, I don't want to deviate from what is
+> documented and everyone else does. Besides that, I also think it's a litt=
+le
+> less error prone.
+
+I gave it a try:
+
+bool
+drm_gpuvm_bo_put_deferred(struct drm_gpuvm_bo *vm_bo)
+{
+	drm_WARN_ON(vm_bo->vm->drm, !drm_gpuvm_immediate_mode(vm_bo->vm));
+
+	if (!vm_bo)
+		return false;
+
+	if (kref_put_mutex(&vm_bo->kref, drm_gpuvm_bo_defer_locked,
+			   &vm_bo->obj->gpuva.lock)) {
+		/*
+		 * It's important that the GEM stays alive for the duration in which
+		 * drm_gpuvm_bo_defer_locked() holds the mutex, but the instant we add
+		 * the vm_bo to bo_defer, another thread might call
+		 * drm_gpuvm_bo_deferred_cleanup() and put the GEM. For this reason, we
+		 * add the vm_bo to bo_defer *after* releasing the GEM's mutex.
+		 */
+		mutex_unlock(&vm_bo->obj->gpuva.lock);
+		drm_gpuvm_bo_list_add(vm_bo, bo_defer, true);
+		return true;
+	}
+
+	return false;
+}
+
+void
+drm_gpuva_unlink_defer(struct drm_gpuva *va)
+{
+	struct drm_gem_object *obj =3D va->gem.obj;
+	struct drm_gpuvm_bo *vm_bo =3D va->vm_bo;
+	bool should_defer_bo;
+
+	if (unlikely(!obj))
+		return;
+
+	drm_WARN_ON(vm_bo->vm->drm, !drm_gpuvm_immediate_mode(vm_bo->vm));
+
+	mutex_lock(&obj->gpuva.lock);
+	list_del_init(&va->gem.entry);
+
+	/*
+	 * This is drm_gpuvm_bo_put_deferred() slightly modified since we
+	 * already hold the mutex. It's important that we add the vm_bo to
+	 * bo_defer after releasing the mutex for the same reason as in
+	 * drm_gpuvm_bo_put_deferred().
+	 */
+	should_defer_bo =3D kref_put(&vm_bo->kref, drm_gpuvm_bo_defer_locked);
+	mutex_unlock(&obj->gpuva.lock);
+	if (should_defer_bo)
+		drm_gpuvm_bo_list_add(vm_bo, bo_defer, true);
+
+	va->vm_bo =3D NULL;
+}
+
+I do think it looks relatively nice like this, particularly
+drm_gpuva_unlink_defer(). But that's also the one not using
+kref_put_mutex().
+
+Alice
