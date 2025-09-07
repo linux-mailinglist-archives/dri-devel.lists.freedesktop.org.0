@@ -2,90 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F452B47CC6
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 20:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163E4B47CD2
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 20:25:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB6B10E0F3;
-	Sun,  7 Sep 2025 18:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4742F10E064;
+	Sun,  7 Sep 2025 18:25:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nbm57BH/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZFSTt8Wz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 778E710E0F3;
- Sun,  7 Sep 2025 18:15:03 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-24b157ba91bso8778435ad.3; 
- Sun, 07 Sep 2025 11:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757268903; x=1757873703; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=so7tAPulNJoJZMuWiKPDBzUnu5rjpYZ5RN5Pr7FZmqc=;
- b=Nbm57BH/ncVgovAQ8XW8SXr9T3MA+V2JfcQlJQCsnzG/3RyQ/7vS8Lan5HyCY2E4Jq
- OQai6apoHDfhr+S2zbIDJz7inYNaQC6maBlVQzu07O176T3wm+gtfSSvo7PiT8Ckx4pE
- 9FmRcLB7OHzpaqFt0veLxCcQ3J4fy14EKviug+5DEOX4hY2qcT0AMJM/YDvusB63bkxw
- 0CmXY0JKJ1wdUR3z4pxU/UJRI9px8++w1H9gDh0so1XOIwkKWV/sWXmIhE5oo3k4L2xP
- mKVmUdoSlxY92tTyLMJdd3vKSHgP4FMDlUOE7B9fasBJHIRaERPIxOdk4F9KXTYlNo3C
- Q6TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757268903; x=1757873703;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=so7tAPulNJoJZMuWiKPDBzUnu5rjpYZ5RN5Pr7FZmqc=;
- b=F8lS6Qg/WWeb0IoGD8WdiSIEX2eyeP5ufWwyxBk4MdrIr9eiP44ASNbK8zkPwXbJ6e
- A56EBpctQg8HH7OmjU3hagBagHpmR+3qZLXrgdLKd3dLqTGJx5vmzlh3WOnPFZrLvDCU
- q3naV4VWXycLKY189dd+pCu1rf6BbcXbq2cKwRUAUHh6kTK7MyoQyXoTMSXIazai2cnc
- EcO3+8UVFD0bt+4PGhZDmSxyMFSIK39nRcONL6NLg/PY1jUrQNEL8Z9VpNyxxDGx0dmx
- DTarbNsC+r0dcvnLE8KmNvVpMUvTIbqXROcSUwhvijuYlcq2Y6PRM8SJgL7Y0ytsVsLr
- zL7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVn1yNnYFfanO29+9h/fi9qGevYQgSy/ZvryOajQJ1o6XGVL6AQUAbQJ7N0hmorpnPMh4OGwrTL2w==@lists.freedesktop.org,
- AJvYcCWfLXX5EET5R2d6l4izY467lQgYxhFHnoHYiXL23cxvViPbWpENhXpJSva8wnev4NsHzNueF/avnXA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUUzUQzWOnky7rwYU+YTBTbawRIHX8nGYRj1HsgFD8t0OvMVjz
- 4tPsyBDTv4aZseJcyEAJtsuo9UcyQTmbIJXW6m9krlYrIk+ULsAunvzN77RSemOUSbwdliDTknv
- 9BizQvUoIyeRU2+z+bu0yRosO5nzu1+s=
-X-Gm-Gg: ASbGnctbUdJ6CXQXRJ3gVENYM50CtX41zj2ehWL++DJlexeFku7zT2BO/lfI5k0t3yL
- oItesg+o6q/67nabYZENfPj/9Ku+ROjIV1okzKRk6qpheo2IwAG3gBShgQ0wK42gjLEIjMBQ71E
- 3+DbISr2F4aGyYOKze8frxEYS4HUNSVtnvSvYbh4yoNYJKVTItalv/oLLQeYjqN7iP5v+AujPCG
- bZRlgOCKGw3uxHZkGS/FJjgMXlplATHO3So+nWA6cKj5IgzDpEEqG6YrT3wRL9ziInrCwafYHcG
- Mp07c0ULuQ43ep59g3G0k+727mzdds0z07h7
-X-Google-Smtp-Source: AGHT+IEFi+yiD6pVt8xzykvdhNR8iAoTqSIP3/VvCtQxgaxGbdva/bQu0Po7Zl81J3iNwIzpTh79xZ2zh37yiiaAZ/4=
-X-Received: by 2002:a17:902:f644:b0:24b:1421:bbf8 with SMTP id
- d9443c01a7336-2516697f1d8mr44536825ad.0.1757268902784; Sun, 07 Sep 2025
- 11:15:02 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD53710E064
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 18:25:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B0F7E6020A;
+ Sun,  7 Sep 2025 18:25:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2ABC4CEF0;
+ Sun,  7 Sep 2025 18:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757269551;
+ bh=+sPc4sDK0wQ3cmQOVkoJCkycDz+H3zqsPZnLmuVLGP0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZFSTt8WzBlU+uDrfxX7pbDbhYtk1O+2qUpgrIi4l2CNZmuIceUTKRQnvYHAkdHc+b
+ L7GcHRr0bhRYiEnqbS5cTcfhWii6UYrdf9C5VjlD5lCmlCnmsleEOwwp4/P8C+2bOV
+ TrajnyZaNT5/9ZTadAqZ0IQJkd1dHt3VI40EyRfpgkJpB4csIhxnV9twM4jBVOlWgM
+ 0MPtFYDwUDmC7YwH1ZMWzA/GwFTiIEMU8XIJ33Fcag6v66i8aJ4Vq/4ommEmxPT6eO
+ tl+PZqGY5RxsvMQpoL/SxJu+QS06GSpPh34281hNk60GrU7YmGNn2efN+ZSffPPU3F
+ N5f0hH7C0KN2A==
+Message-ID: <d4b0a933-a623-4a67-8898-d7c35604bb16@kernel.org>
+Date: Sun, 7 Sep 2025 20:25:42 +0200
 MIME-Version: 1.0
-References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
- <20250903215428.1296517-5-joelagnelf@nvidia.com>
-In-Reply-To: <20250903215428.1296517-5-joelagnelf@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 7 Sep 2025 20:14:49 +0200
-X-Gm-Features: AS18NWDG9a3NtPqmPD6xE-rs6EheOTI3-aJP7xdVXVOvHjupVzwUtV7enM1PPPs
-Message-ID: <CANiq72mx7NA1KD5fw98kba+3oENHW44QXVGO1VmvPPUKin2LPg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] rust: Move register and bitstruct macros out of
- Nova
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- dakr@kernel.org, acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/23] dt-bindings: clock: tegra30: Add IDs for CSI pad
+ clocks
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Mikko Perttunen
+ <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, 
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>, 
- Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?=
+ <jonasschwoebel@yahoo.de>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-3-clamor95@gmail.com>
+ <20250907-arboreal-aquatic-gopher-686643@kuoka>
+ <CAPVz0n0obwSFDup2n9R9SQNsOZw1Dm0G=2ifv=D7zyw=89+uYQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAPVz0n0obwSFDup2n9R9SQNsOZw1Dm0G=2ifv=D7zyw=89+uYQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,36 +123,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
+On 07/09/2025 11:43, Svyatoslav Ryhel wrote:
+> нд, 7 вер. 2025 р. о 12:34 Krzysztof Kozlowski <krzk@kernel.org> пише:
+>>
+>> On Sat, Sep 06, 2025 at 04:53:23PM +0300, Svyatoslav Ryhel wrote:
+>>> Tegra30 has CSI pad clock enable bits embedded into PLLD/PLLD2 registers.
+>>> Add ids for these clocks. Additionally, move TEGRA30_CLK_CLK_MAX into
+>>> clk-tegra30 source.
+>>>
+>>> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+>>> ---
+>>>  drivers/clk/tegra/clk-tegra30.c         | 1 +
+>>>  include/dt-bindings/clock/tegra30-car.h | 3 ++-
+>>>  2 files changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+>>> index ca367184e185..ca738bc64615 100644
+>>> --- a/drivers/clk/tegra/clk-tegra30.c
+>>> +++ b/drivers/clk/tegra/clk-tegra30.c
+>>> @@ -53,6 +53,7 @@
+>>>  #define SYSTEM_CLK_RATE 0x030
+>>>
+>>>  #define TEGRA30_CLK_PERIPH_BANKS     5
+>>> +#define TEGRA30_CLK_CLK_MAX          311
+>>
+>> Unused define drop.
+>>
+> 
+> Specify, your comment is not clear.
+> 
+>> Also, don't mix bindings and drivers. You cannot create such
+>> dependencies.
+> 
+> I literally did what you told me to do! TEGRA30_CLK_CLK_MAX was
+> removed from binding, but it is used by the driver, so how you propose
 
-I didn't check the macros, but a couple nits I noticed in this patch
-in particular given it moved it to `kernel`...
 
-On Wed, Sep 3, 2025 at 11:54=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
->
-> +//! A library that provides support for defining bit fields in Rust
+I missed that you remove here old CLK_MAX... well, you did it quite
+different than all other cases leading to driver-binding dependency.
+Really, I thought you will just fix it immediately after my feedback and
+then new bindings come later, just like we did for every other SoC.
 
-What about just "Support for defining bit fields in ..." or similar?
+> to handle this without redefining TEGRA30_CLK_CLK_MAX and breaking
+> build with missing TEGRA30_CLK_CLK_MAX?
+There is really no problem there and if you put here at least some
+effort you would see how everyone else did it - add define to the driver
+in cleanup series, month ago or so and then change bindings.
 
-> +//! structures. Also used from things that need bitfields like register =
-macro.
+Fine to do it that way
 
-The "register macro" part sounds like it should be formatted with
-Markdown plus an intra-doc link.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> -            ::kernel::build_assert!(
-> +            build_assert!(
 
-Is this path unqualified for some reason? Does it mean the user needs
-to have imported the prelude?
 
-> +pub use super::{bitstruct, register};
-
-Please justify in the commit message why we want them in the prelude,
-e.g. are they expected to be common? Does it simplify some code? etc.
-
-Thanks!
-
-Cheers,
-Miguel
+Best regards,
+Krzysztof
