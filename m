@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703AAB4850E
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEFEB48511
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081B810E1D3;
-	Mon,  8 Sep 2025 07:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 765AF10E470;
+	Mon,  8 Sep 2025 07:25:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="aC4h2Z1D";
+	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="fFcoMM0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
- Sun, 07 Sep 2025 23:24:22 UTC
-Received: from mail-106109.protonmail.ch (mail-106109.protonmail.ch
- [79.135.106.109])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F248310E249
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 23:24:22 +0000 (UTC)
+Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4EF10E1E8
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 23:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757287099; x=1757546299;
- bh=m8uu3f2om0ehU8+WF4ls+SioKYV8FyIDb8bJA/kvdf4=;
+ s=protonmail; t=1757287101; x=1757546301;
+ bh=amlesrrCjtNi/rMOXRLaP/ew+FLiQjpAjiXhBIB6iFo=;
  h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
  Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=aC4h2Z1Dhyz3ecbn62NbT4efSAyZgPUA7nGKYjCM/MHCubPuc8ZgvNdgD7AmdrXvN
- nox1qVmCLGYnpfQ7hg3quQUTFquRuIR863T22O/cpgJIuZ4ugtuYRbUiTSvWwP7dzu
- Ur0eJpDGLG8LMA10p7DvnP7bRobpAoWSLw0P8DQCaeJJ9zdoRlqFyQ+iFvfYiGgmxq
- RjO+Gr73zS9ru87z7l/mcBswEWXzI/Ra+yhU/TWXdXa700Z9vOxTTXEfpb/lnYs+Lo
- 1c52bmkP4aZUAS6BJLPEF22z3UHAmgMfYt0G4YYHwcOykQNQsdMTuuM6pvXE6Nzy1P
- 0P4oIT/fx6HkA==
-X-Pm-Submission-Id: 4cKmGf2ggLz1DF4H
+ b=fFcoMM0XKPtJJ46dEL/+YEsq0X/FnE7vPNGCFnQA+gM7JYF94hM0lcPgp2ERFnJQ0
+ E/9idkFSQuKDDcJMHwpQoHTibsncrDwJ8tHhjhofwC1XH5OoOKV3CBE/OOzgXJKKBR
+ kMZfQLFJtSdNi7x/QXtuuhZiybJZL/y3fye0+q4lppns6ZbEsblpJcenyS9p3wTDfY
+ gpQbJ/MuTYGNAZ73xQu5rZbodIqcYnvL6otH5MMnb4g86ZijzdJ2njWMx6aO1ZYyyJ
+ MGjrkT6xIsIMrw9/9lh2u0Qsd6PPT0SxLW8K6soQdEbw+h5S9YbdoP8ch0DHZs/h3j
+ yHuRS1zU6fZSQ==
+X-Pm-Submission-Id: 4cKmGg4JL6z1DF4M
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Mon, 08 Sep 2025 01:18:04 +0200
-Subject: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
+Date: Mon, 08 Sep 2025 01:18:05 +0200
+Subject: [PATCH v3 3/4] leds: led-class: Add devicetree support to
+ led_get()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-leds-v3-2-5944dc400668@vinarskis.com>
+Message-Id: <20250908-leds-v3-3-5944dc400668@vinarskis.com>
 References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 In-Reply-To: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
 To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
@@ -54,14 +52,15 @@ To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
 Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org
+ linux-arm-msm@vger.kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2868; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=s+EPK0JKM0Hb9Ko/RlfZn+9aGDfCgguChkOaX7vEQXs=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBn7hLY23RD0f8ebnTXhvB5rrsre3TLWnEmfmV6vOlsSd
- CdOqGlqRykLgxgXg6yYIkv3n69pXYvmrmW4rvENZg4rE8gQBi5OAZhI5kuG//Ee2lOfXead0X7l
- YtTP+O8M85vZmC9tehRzTtuBy0ty5yNGhr3LHplv/bhr41e5OcZBc040sTWf+WtgYOq85O7k5Ok
- TH7ECAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2813; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=YlfJ62d/o3pOGGQtdA6W03es+ClzT+tk2OK+jve8yPw=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBn7hLaxxj/h7Fn/7odZW9xhI8+HdRu8xKdF8jMa5Vof3
+ 6hvv/FvRykLgxgXg6yYIkv3n69pXYvmrmW4rvENZg4rE8gQBi5OAZjI9X5GhuMFoQvLD7EfyJwt
+ 0t2xJK91cm5q0ouvvHcen0xN+jNT0pCRYc+qa44PjGVfPWZ7+uyDr4brTRHuh30nTRr3/nyoM+d
+ 1CB8A
 X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
  fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 X-Mailman-Approved-At: Mon, 08 Sep 2025 07:25:13 +0000
@@ -80,74 +79,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A number of existing schemas use 'leds' property to provide
-phandle-array of LED(s) to the consumer. Additionally, with the
-upcoming privacy-led support in device-tree, v4l2 subnode could be a
-LED consumer, meaning that all camera sensors should support 'leds'
-and 'led-names' property via common 'video-interface-devices.yaml'.
+From: Hans de Goede <hansg@kernel.org>
 
-To avoid dublication, commonize 'leds' property from existing schemas
-to newly introduced 'led-consumer.yaml'.
+Add 'name' argument to of_led_get() such that it can lookup LEDs in
+devicetree by either name or index.
 
+And use this modified function to add devicetree support to the generic
+(non devicetree specific) [devm_]led_get() function.
+
+This uses the standard devicetree pattern of adding a -names string array
+to map names to the indexes for an array of resources.
+
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Lee Jones <lee@kernel.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Hans de Goede <hansg@kernel.org>
 Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- .../devicetree/bindings/leds/backlight/led-backlight.yaml         | 6 +-----
- Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml | 5 +----
- .../devicetree/bindings/media/video-interface-devices.yaml        | 8 ++++++++
- 3 files changed, 10 insertions(+), 9 deletions(-)
+ drivers/leds/led-class.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-index f5554da6bc6c73e94c4a2c32b150b28351b25f16..8fc5af8f27f9eb95b88eeeee32ad4774f5f21106 100644
---- a/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/led-backlight.yaml
-@@ -23,11 +23,7 @@ properties:
-   compatible:
-     const: led-backlight
+diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
+--- a/drivers/leds/led-class.c
++++ b/drivers/leds/led-class.c
+@@ -252,15 +252,23 @@ static const struct class leds_class = {
+  * of_led_get() - request a LED device via the LED framework
+  * @np: device node to get the LED device from
+  * @index: the index of the LED
++ * @name: the name of the LED used to map it to its function, if present
+  *
+  * Returns the LED device parsed from the phandle specified in the "leds"
+  * property of a device tree node or a negative error-code on failure.
+  */
+-static struct led_classdev *of_led_get(struct device_node *np, int index)
++static struct led_classdev *of_led_get(struct device_node *np, int index,
++				       const char *name)
+ {
+ 	struct device *led_dev;
+ 	struct device_node *led_node;
  
--  leds:
--    description: A list of LED nodes
--    $ref: /schemas/types.yaml#/definitions/phandle-array
--    items:
--      maxItems: 1
-+  leds: true
++	/*
++	 * For named LEDs, first look up the name in the "led-names" property.
++	 * If it cannot be found, then of_parse_phandle() will propagate the error.
++	 */
++	if (name)
++		index = of_property_match_string(np, "led-names", name);
+ 	led_node = of_parse_phandle(np, "leds", index);
+ 	if (!led_node)
+ 		return ERR_PTR(-ENOENT);
+@@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+ 	if (!dev)
+ 		return ERR_PTR(-EINVAL);
  
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-index 8ed059a5a724f68389a1d0c4396c85b9ccb2d9af..5c9cfa39396b0ba89830e520ade108bfd1a3f12e 100644
---- a/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-+++ b/Documentation/devicetree/bindings/leds/leds-group-multicolor.yaml
-@@ -17,10 +17,7 @@ properties:
-   compatible:
-     const: leds-group-multicolor
+-	led = of_led_get(dev->of_node, index);
++	led = of_led_get(dev->of_node, index, NULL);
+ 	if (IS_ERR(led))
+ 		return led;
  
--  leds:
--    description:
--      An aray of monochromatic leds
--    $ref: /schemas/types.yaml#/definitions/phandle-array
-+  leds: true
+@@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+ struct led_classdev *led_get(struct device *dev, char *con_id)
+ {
+ 	struct led_lookup_data *lookup;
++	struct led_classdev *led_cdev;
+ 	const char *provider = NULL;
+ 	struct device *led_dev;
  
- required:
-   - leds
-diff --git a/Documentation/devicetree/bindings/media/video-interface-devices.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-index cf7712ad297c01c946fa4dfdaf9a21646e125099..703bbc9960dd6bc68baff4f300c77813f5ccd37f 100644
---- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-+++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-@@ -17,6 +17,14 @@ properties:
-       An array of phandles, each referring to a flash LED, a sub-node of the LED
-       driver device node.
- 
-+  leds:
-+    minItems: 1
-+    maxItems: 1
++	led_cdev = of_led_get(dev->of_node, -1, con_id);
++	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
++		return led_cdev;
 +
-+  led-names:
-+    enum:
-+      - privacy-led
-+
-   lens-focus:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
+ 	mutex_lock(&leds_lookup_lock);
+ 	list_for_each_entry(lookup, &leds_lookup_list, list) {
+ 		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
 
 -- 
 2.48.1
