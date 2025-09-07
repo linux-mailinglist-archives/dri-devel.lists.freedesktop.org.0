@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604F9B47AEB
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 13:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9F9B47AF5
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 13:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 379C510E1AD;
-	Sun,  7 Sep 2025 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9E610E1B3;
+	Sun,  7 Sep 2025 11:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="gTHys59t";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="ljtiOSqf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JFfoml2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E05DC10E1AD
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 11:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1757244185; bh=HigEj1cXFEUCAKS6b1IzogY9piyG2OdqelU9X709n7c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gTHys59taCZyg7omUl4ZHsFebUuKDaN2zPpJrtChsc5wEaI5UrRD7/vXef5h3hxD2
- GBW6pHGsbLHws7hF5k71R3XvKAhkLaLIGgeByGP7G1mpSsHaA8/cZ7uEHI/hf+e+KW
- z4RaTdj6Tn9ztSk58LPGtjPXdU6LFAXyoHQQEdX63OnHzKqgWfXzdJ8Tpj2zjgK4Te
- XW1PYI/aWe7NEvS036upRY3jgY1R9xVoAo3PJhcf3MR/uvLCWjQqhxbHEDIEJCZ3Ur
- /hYPeMEVxMvqHnJWGOlV4OvV4tFPeJCA92l+TLMB2jGvkvogedfTEnBICOStCXXbli
- Y673alkYSN86Q==
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 57932FB04;
- Sun,  7 Sep 2025 13:23:05 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dJfWR9cpiJyv; Sun,  7 Sep 2025 13:23:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1757244183; bh=HigEj1cXFEUCAKS6b1IzogY9piyG2OdqelU9X709n7c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ljtiOSqfHUULLDkVc0ByzsACZCM9Zm4ajIY1JgU/gmytkFQce6+ZU8hJQyepPgxSx
- Ie895IGzPJ1yl5+z6DT7of0XxwDAXpDO9L7niW1yxWU36vXnKrwr3fLylKiO+Et4xX
- 0zA3zUV3rTjC0H1ltNr8OyXF/szlgAjQfvxG1guQr6CjzsY+WLdO5nYvNEbgA+X4wq
- NJRM1v62vIqjUeNIiPtrTDrOOtJaQIExWmR8y8lxLh0qdU9JLRRmVVzwLMzyB/Junf
- bZs8QLaMQF5rRjwl20QJRm+Q1i1YSv7ZmNPqr2CPpBL0eQjn2evjLPIEZqvwhAJI8c
- WtlXXLc7f+BLQ==
-Date: Sun, 7 Sep 2025 13:23:01 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm/panel: visionox-rm69299: Fix clock frequency
- for SHIFT6mq
-Message-ID: <aL1rFVaVCxIVaLWm@quark2.heme.sigxcpu.org>
-References: <20250906-shift6mq-panel-v2-0-aa5e585d8717@sigxcpu.org>
- <20250906-shift6mq-panel-v2-1-aa5e585d8717@sigxcpu.org>
- <ba7y3qcuzkx7hinxraimuem6xnrrfxbj3giz56nq5qbmg76uno@kr6dezsumy2s>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba7y3qcuzkx7hinxraimuem6xnrrfxbj3giz56nq5qbmg76uno@kr6dezsumy2s>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22C6510E1B3
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Sep 2025 11:28:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2DCD0601F6;
+ Sun,  7 Sep 2025 11:28:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36DFC4CEF0;
+ Sun,  7 Sep 2025 11:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757244489;
+ bh=tBG3qsUhXJSETVKTnGc2g6fSFH/QzlIYxavO6aoOa1M=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=JFfoml2LK+FLkLBhQ6TeAIwaLtvX50ijXDIBd14KVq1tnhMxdiZCDILg1QxM+VdoI
+ OV4ILaYrM2+yOfYBtJGT+8YMkC2jQ0KjY3whS4WUeqQlaT/SkiqL3LJauvbQLIvWQ+
+ qBYo/znhWNl9mD117ZNsURq0lvRlObWoWb7UHxbWHms0at8DV9a1UssGrPDIud5XQ/
+ t4IR57hDPiirVkd/rVi5tacXyMEgROF/rvKPNzpF7GS9QlcNr6q6oKjfrs2ZKdovb0
+ 51b2DU04dQ0OWQqtGN+p+MvWpcE/pc+plOK/kVd5g0s/zNEk/o6sZMFDeWxKpzCKUM
+ aj8uj6GiuuP0Q==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 07 Sep 2025 13:28:05 +0200
+Message-Id: <DCMJ6K06T63T.2UBTM1RL4YJ0A@kernel.org>
+Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
+Cc: "Boris Brezillon" <boris.brezillon@collabora.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Steven Price"
+ <steven.price@arm.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Liviu Dudau" <liviu.dudau@arm.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
+ <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
+ <20250905152505.005a610d@fedora>
+ <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
+ <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org> <aL1pSFB9iBsfHFM_@google.com>
+In-Reply-To: <aL1pSFB9iBsfHFM_@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,49 +68,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-On Sat, Sep 06, 2025 at 10:08:35PM +0300, Dmitry Baryshkov wrote:
-> On Sat, Sep 06, 2025 at 05:17:25PM +0200, Guido Günther wrote:
-> > Make the clock frequency match what the sdm845 downstream kernel
-> > uses. Otherwise the panel stays black.
-> > 
-> > Fixes: 783334f366b18 ("drm/panel: visionox-rm69299: support the variant found in the SHIFT6mq")
-> > Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > ---
-> >  drivers/gpu/drm/panel/panel-visionox-rm69299.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> > index 909c280eab1fb408a713d84051a1afbb252c45e8..e65697ce6f51c7d64b786da18cf44b16de5d6919 100644
-> > --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> > +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> > @@ -247,7 +247,7 @@ static const struct drm_display_mode visionox_rm69299_1080x2248_60hz = {
-> >  };
-> >  
-> >  static const struct drm_display_mode visionox_rm69299_1080x2160_60hz = {
-> > -	.clock = 158695,
-> > +	.clock = 149360,
-> 
-> clock = (2160 + 8 + 4 + 4) * (1080 + 26 + 2 + 36) * 60 / 1000 ?
+On Sun Sep 7, 2025 at 1:15 PM CEST, Alice Ryhl wrote:
+> On Sat, Sep 06, 2025 at 12:47:36AM +0200, Danilo Krummrich wrote:
+>> On Fri Sep 5, 2025 at 8:18 PM CEST, Alice Ryhl wrote:
+>> > On Fri, Sep 5, 2025 at 3:25=E2=80=AFPM Boris Brezillon
+>> > <boris.brezillon@collabora.com> wrote:
+>> >> On Fri, 05 Sep 2025 12:11:28 +0000
+>> >> Alice Ryhl <aliceryhl@google.com> wrote:
+>> >> > +static bool
+>> >> > +drm_gpuvm_bo_is_dead(struct drm_gpuvm_bo *vm_bo)
+>> >> > +{
+>> >> > +     return !kref_read(&vm_bo->kref);
+>> >>
+>> >> I'm not too sure I like the idea of [ab]using vm_bo::kref to defer th=
+e
+>> >> vm_bo release. I get why it's done like that, but I'm wondering why w=
+e
+>> >> don't defer the release of drm_gpuva objects instead (which is really
+>> >> what's being released in va_unlink()). I can imagine drivers wanting =
+to
+>> >> attach resources to the gpuva that can't be released in the
+>> >> dma-signalling path in the future, and if we're doing that at the gpu=
+va
+>> >> level, we also get rid of this kref dance, since the va will hold a
+>> >> vm_bo ref until it's destroyed.
+>> >>
+>> >> Any particular reason you went for vm_bo destruction deferral instead
+>> >> of gpuva?
+>> >
+>> > All of the things that were unsafe to release in the signalling path
+>> > were tied to the vm_bo, so that is why I went for vm_bo cleanup.
+>> > Another advantage is that it lets us use the same deferred logic for
+>> > the vm_bo_put() call that drops the refcount from vm_bo_obtain().
+>> >
+>> > Of course if gpuvas might have resources that need deferred cleanup,
+>> > that might change the situation somewhat.
+>>=20
+>> I think we want to track PT(E) allocations, or rather reference counts o=
+f page
+>> table structures carried by the drm_gpuva, but we don't need to release =
+them on
+>> drm_gpuva_unlink(), which is where we drop the reference count of the vm=
+_bo.
+>>=20
+>> Deferring drm_gpuva_unlink() isn't really an option I think, the GEMs li=
+st of
+>> VM_BOs and the VM_BOs list of VAs is usually used in ttm_device_funcs::m=
+ove to
+>> map or unmap all VAs associated with a GEM object.
+>>=20
+>> I think PT(E) reference counts etc. should be rather released when the d=
+rm_gpuva
+>> is freed, i.e. page table allocations can be bound to the lifetime of a
+>> drm_gpuva. Given that, I think that eventually we'll need a cleanup list=
+ for
+>> those as well, since once they're removed from the VM tree (in the fence
+>> signalling critical path), we loose access otherwise.
+>
+> Hmm. Another more conceptual issue with deferring gpuva is that
+> "immediate mode" is defined as having the GPUVM match the GPU's actual
+> address space at all times, which deferred gpuva cleanup would go
+> against.
 
-IIRC I was asked to use the resulting clock rather then the clock
-formula in another driver a while back but I like that variant better
-too, will change in v3.
+Depends on what "deferred gpuva cleanup" means.
 
-Thanks,
- -- Guido
+What needs to happen in the run_job() is drm_gpuva_unlink() and
+drm_gpuva_unmap(). Freeing the drm_gpuva, inluding releasing the assoiciate=
+d
+driver specific resources, can be deferred.
 
-> 
-> >  	.hdisplay = 1080,
-> >  	.hsync_start = 1080 + 26,
-> >  	.hsync_end = 1080 + 26 + 2,
-> > 
-> > -- 
-> > 2.51.0
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+> Deferring vm_bo cleanup doesn't have this issue because even though the
+> vm_bo isn't kfreed immediately, all GPUVM apis still treat it as-if it
+> isn't there anymore.
