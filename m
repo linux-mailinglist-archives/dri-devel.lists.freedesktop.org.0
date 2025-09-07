@@ -2,178 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF107B4791B
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 07:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4A7B47C28
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Sep 2025 18:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C71910E00C;
-	Sun,  7 Sep 2025 05:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D5089CAC;
+	Sun,  7 Sep 2025 16:04:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="GJCW+3DS";
+	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="IMbPcnBt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2049.outbound.protection.outlook.com [40.107.223.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E73C10E00C;
- Sun,  7 Sep 2025 05:14:31 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com
+ (mail-westeuropeazolkn19013012.outbound.protection.outlook.com
+ [52.103.33.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE02D10E175;
+ Sun,  7 Sep 2025 06:10:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yUBsZoa48ubr5UfQCm1JGG4S8RpaYQuK3qinFtfTVoIyblstuFvs1UtepWrL6qmhVxym1pIpbEsbMAvn8OLpFtnGKLdFRogzsXju1CrLLfxBypz+Hkszu+T6TOwyetB17oSLAcgJzki+fDcVYN+oiTtl/ehsF6gZlXmpmGbHNSDpgD44y8PNgeLafTwUoVPHuULARbhwZIgo3c8tKzUiTcLIbjk9SxJ0Ts4DKpyC1PPtY5Ts15C7DoSWyHHrOZcmwjhmNkBgLbdBHDWKr41d/hH0Iq4wl03K3165j0jxtSFnMsVtfLQLsKI5Op+VEBMmGm8nEPF6cEUtHrz9CFbJvw==
+ b=WkQWjg4JY9Dbr9jDXBx8osJlb7yJ1EgmAHPMgnHHOXe7o/PPbVuRNaAbDZekq7LMxfkf1cYptK5BDaE+yti32cgFhQmlXIsSVHvQ4sXaDTN9fS8uqNU+755a4u829UFhwwNwx4USpMYRQgeQDMFC021HlcHgt6jDm4IF/WmTlrWXRWt26X+R9Lij98ZBiVew53QKSk+faEqoLPtCXfpTduUajJKtDs/0OjVA4nqCvW5rj5rcRXpW6rE3EbiKPOR/eGs6cZHaSRnRqRNi6X/keVCnYw2DWpKUvkbToU9kpI/GhX0U1ORbG4lOW447xawN+Tse71lbyqrkFCMPqNHQCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZBp52V91Gxr27f7RudT0aNk9Xj8vFIecZ5YmKsPh8yA=;
- b=GGSMAlpnRrdP4a44ktU29+KpniQMk+UW6Gda+8KCQog3qwPiGbBpp73s+/BJXgR5l5bJpq0nocNaVsitWzZ27gkvAs7+LxMqwmYUV2xlKVIBVq5LtnfXWkMzSe/DZQIkP8OYzgKltBhzt4+fC0FDtL1N5BxRrHQ6eiPyq6WPHX7Mw70yooOKJZYN8RX93Z/eXOoJCFvUeMmcLM1q/RmGzGzlKZ0t8Hie845b//12OtmTUXi4bBsLE8ZzjltETh8kwzNO/DLMfeCGMi39ZmzVvGlWny5kJms7IhwCe7n+ssvUIfmauKp8Nas/sp0t4pEIwgYbDOC5YTUN1q3j61eICw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=N/WqvDl9L2FDsC5IvsSUcaa3QqelfDTYK4MzY5dl/6k=;
+ b=JFDDJjdnQbi4/Q3icBh4NktxtOzg+YvrTjrOaJDoWayVR48NNjuoeGl9agYQSqwn/WgtunM5p/cVthU8E4TKAODKFcU2ypKlbO5PTCAbZfyqejYrsOwZI4xVOscYfuImVMYRLvNONpfVEUE66XWiK4vqp6sctVDdhV1D36NNjBOj05Kq26KEqSZy6E8hnWS7gqgFnoSwnWdPhSkTep6bSm9I/BLGCxgximCW5fVsK43vjpz4keeHDK+Rbv2c6KLsWqszuzzu+b1WRrN6rc5zNohfOz0OreIL3XF/PQPPdmOH6B3kI+pIkiGOSlpJgJt//9TaEJwe7dF2yhwZF6Q2+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZBp52V91Gxr27f7RudT0aNk9Xj8vFIecZ5YmKsPh8yA=;
- b=GJCW+3DSmriH1MADLp7VlsqRk2CVBWqYaaZCnkrNj9TbrTt6BEgQdv1kl/bPCLxxWONcA5b3HSE64EHr5tjCu6yjJpMegbjJgswtpzQdoqLvQOiiujYIZT3K0YBRTycLIXZ6Ou7WG3XMLHyTM/e0/txaULr9tJCar2wjSGunmmp/paDLnohvQsoxjL2yYEpwgWaCnYt3R61pMuTiBf7SZU14mP6PbMIiMe96MNr5AzKQ1lYjYeivnO3lExo92w7ONdvD0naIzzrKG43FmjQU26Y1sHC7eistWEzdn2W5ldnyprC9DRSDIom6a/g/qJD3t2BQfO6vC9HdWZQheuBdjg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com (2603:10b6:408:14f::7)
- by DS5PPFDF2DDE6CD.namprd12.prod.outlook.com (2603:10b6:f:fc00::665)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Sun, 7 Sep
- 2025 05:14:26 +0000
-Received: from LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4]) by LV2PR12MB5968.namprd12.prod.outlook.com
- ([fe80::e6dd:1206:6677:f9c4%6]) with mapi id 15.20.9094.016; Sun, 7 Sep 2025
- 05:14:25 +0000
-Message-ID: <0a28adde-acaf-4d55-96ba-c32d6113285f@nvidia.com>
-Date: Sat, 6 Sep 2025 22:14:19 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
- Zi Yan <ziy@nvidia.com>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-20-david@redhat.com>
- <016307ba-427d-4646-8e4d-1ffefd2c1968@nvidia.com>
- <85e760cf-b994-40db-8d13-221feee55c60@redhat.com>
+ bh=N/WqvDl9L2FDsC5IvsSUcaa3QqelfDTYK4MzY5dl/6k=;
+ b=IMbPcnBtnyWD3EpJ6fu3iQFSAbn20+Ov32IF2fP969+jWzNKxC0zzuwwtwRTE7m5HBsmPUFJiX1NwBzSfzfA6l6nWU1Ftq0X7PusrCMycODjwLqtJjobSP4xuKPO/u6RIcSF4EXIPbYUFqXipJ+BMKxbZyKehrCRhOhRks8CPiQYdpMYcIRfnykyk+bWyx2BeJXwMYLVav7t/ksAUozMvWr7BfQiMbtXKHS25km8oXMpRtstnYePn6mfzCK0/uWm4IW4lI00kv9svkkcQ/NDCXNZSPo4J8xCYTwsgj8NVyT8wXnEMuuIs1Iwz7bH3QVRvDBytS06REa8KbxNfe5ocQ==
+Received: from DU0P190MB2445.EURP190.PROD.OUTLOOK.COM (2603:10a6:10:5a5::8) by
+ AS8P190MB1032.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:2e7::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9094.19; Sun, 7 Sep 2025 06:10:38 +0000
+Received: from DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+ ([fe80::5dcd:351e:4e91:2380]) by DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+ ([fe80::5dcd:351e:4e91:2380%5]) with mapi id 15.20.9094.018; Sun, 7 Sep 2025
+ 06:10:38 +0000
+From: Muhammed Subair <msubair@hotmail.com>
+To: Andre Przywara <andre.przywara@arm.com>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+CC: "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
+ "l.stach@pengutronix.de" <l.stach@pengutronix.de>,
+ "linux+etnaviv@armlinux.org.uk" <linux+etnaviv@armlinux.org.uk>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-sunxi
+ <linux-sunxi@lists.linux.dev>, Chen-Yu Tsai <wens@csie.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
+Thread-Topic: Re: drm/etnaviv: detecting disabled Vivante GPU?
+Thread-Index: AdwftZRL4V/ycwT/ShypPIPQ1UB47Q==
+Date: Sun, 7 Sep 2025 06:10:38 +0000
+Message-ID: <DU0P190MB2445D1343E4FF538B0AA1E29BC0DA@DU0P190MB2445.EURP190.PROD.OUTLOOK.COM>
+Accept-Language: en-US
 Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <85e760cf-b994-40db-8d13-221feee55c60@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0048.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::23) To LV2PR12MB5968.namprd12.prod.outlook.com
- (2603:10b6:408:14f::7)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU0P190MB2445:EE_|AS8P190MB1032:EE_
+x-ms-office365-filtering-correlation-id: 487c60d2-7b14-45f6-efd3-08ddedd543fc
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|31061999003|15080799012|15030799006|461199028|8062599012|8060799015|19110799012|4295299021|51005399003|3412199025|40105399003|440099028|10035399007|102099032|12091999003;
+x-microsoft-antispam-message-info: =?Windows-1252?Q?Qw39ytonmtLYi7KYUawF+KQYJaenRRNrNE0aLsleRDrJxA2PUqukRMm/?=
+ =?Windows-1252?Q?YScVcchy5ki0pDaww/ZKABJO8ASfPEKMWQ8f93J+FtCRW1y2NfN42fru?=
+ =?Windows-1252?Q?qGONJSJoQPIAGumSc1clTSl+Y8+OdsaCIj+lJQGdsFyzzYnI/hQ8XAuC?=
+ =?Windows-1252?Q?a+nzUOu45qtNoPMtWEfFMHDrpwsq2C60dLXF8On9YPSo/2uwrCzbTUUC?=
+ =?Windows-1252?Q?p+MYo/nvDWtmLUnlLAT9/aUheI/sKK+qvkjGd2Hf0HNdIb/EcEbQChx7?=
+ =?Windows-1252?Q?k6zZKd5j93Dg9gdaGVh33ZZp0mOqHUwcnBLWsjL6qX91zLTJgZyxIGZ7?=
+ =?Windows-1252?Q?hDbupcPnSNuXrraJaB9H7y1iJQufKDuoBf4Duc2X5D931gfZ04EB3Pid?=
+ =?Windows-1252?Q?7zZqAs3pGkQ2gwRfKY4pkye9N60qrSdnzR+3Wp1g1XBGCqLQiQVp0t/Q?=
+ =?Windows-1252?Q?qcqI2uPEn5T0i989q4/u2Ys46BGu733sN8CJtTZxPj1eJAlgrUgj0TpD?=
+ =?Windows-1252?Q?mr1cu+TfsIDM22qkh67CDnLra2/I2aNO/KUHFTDffgN2GPDZLk2bUliM?=
+ =?Windows-1252?Q?UkCQxENM2vmsuUSz3IEWOYwC2rLsEgK09heA/40Apsiif9cpvLH8TNM0?=
+ =?Windows-1252?Q?V0OvJilNO+kb1cXCzOI9mSAHdLXD0dwMvEuK2thQ33NcLHIJ1Jh7amJM?=
+ =?Windows-1252?Q?vfZShtd54PPKzqefu8aLkdGcPazmacp6mxOQh+gD/3zDp2yCpp3VXAvG?=
+ =?Windows-1252?Q?uqTJUB4bnDxDQxt8kUv2f6IrAY7S0aMV5J+ZiyyaFLbydOf+PV8inFMm?=
+ =?Windows-1252?Q?vZXlDdRjJg8FMyFEK6YBP6Gd6fuzs5gH74ccRounB6Ejx5yvOlqNBBoO?=
+ =?Windows-1252?Q?3dh9skE/RVK5WwY9Czb5xcUPWupl9D5g8pKhZ6sgi9cgaSqVOvNEdfC8?=
+ =?Windows-1252?Q?4WZgF+RG1mvp0PSB2L45KKGixVXz3RAhyh3dK3r8SGdU+08jzK+0onzX?=
+ =?Windows-1252?Q?e0IIMkkfhSPSDzNYWPUlNzXdk5v7M0Fli3pXPlKinIpwmvQIqCvIkVNn?=
+ =?Windows-1252?Q?lZGodV71YkzirvlHwwcGUiMzjZYe68nJvyCklDLUfgAshMV6D+fzTaML?=
+ =?Windows-1252?Q?6F4hujv1gbhLkQAqMKgP/70pzvVpV+cXheF7P6NlHa/LF4fSas7Sddnn?=
+ =?Windows-1252?Q?eql7JSajv4MgPBuYaFn4neWgTc/bZ3YjWBsu9ohEPKoEJWEeb4qhnUe4?=
+ =?Windows-1252?Q?b9UKmQ/rV5HRU9oEa5pRBpayjqZSxJnNM65FcUDIJV9ljRpm8Pr95KrD?=
+ =?Windows-1252?Q?9M9+308ikjue3Cdbi/Q5Ll9mExGJxKTnPhUVAoOJ5sNhNLbx?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?jDJTdkWWo7v05u+TnbrPriPY9IhIOmjQe1gL8IfNJv00NjbwIhQEdn7q?=
+ =?Windows-1252?Q?Ebp9sh1y9gYIF3Czz74Cq/ScCOGNTNVxY6zcAqxkn+P+P2HKvCetPvNQ?=
+ =?Windows-1252?Q?rbbih2Nrq5ho6kqvgXUN51TW+B7fQwTWdxyez9o3SP8z5r6aZfq2Mm6d?=
+ =?Windows-1252?Q?TtQlhfGUjKpF3und9utOcZDWzyy8f8Kf5gXl1Bq7qZyj3zXqkqpnvSFm?=
+ =?Windows-1252?Q?bWAnaZW33FHoF2tom0svTqJCuYLonGkGk5Zc3/I5XL+UEZASU8pN7w3t?=
+ =?Windows-1252?Q?eCjOGrAc5DDUbpGJVDSkFAxuNLTv1C2Dcxy8NVoDPH2V1bwa8Fe7xae2?=
+ =?Windows-1252?Q?e7VgpFcUR3HfFZEfHhtE6I4bUv4NtQBq0MU7RvofIU6uGY8WJySTS4g/?=
+ =?Windows-1252?Q?Xe0zN+ey6zi+7EIuHKfcN+91LzkIRRjFMTO6MfhXMTqGwtvWiCVaXSgL?=
+ =?Windows-1252?Q?4l3cdcK4s2UtXm+g9/ay4rh4/NmF+0dbcbgx5BOcKeuFUn8b7TOZZ/Do?=
+ =?Windows-1252?Q?RQZF8R6ECXcuutVP1RwZbN8CQmB1h1pybq5eEqSpbOxQDEMdh6WPuQtZ?=
+ =?Windows-1252?Q?RXG7lnMdUqxMa2n1bQXHys+J7harmm8JpXpLZV2tusFnki34/ZcjpxqU?=
+ =?Windows-1252?Q?Q0eoSFGkq/a0oSIhk64UOFgaUM5S4IV+LYzUzkHw1t0S5OmtILaDIVUX?=
+ =?Windows-1252?Q?6VyBd09eC9n3GBNe7G+4zTNvbAtsafQ1AK8HsVVrMcAaQbduJTLCfF//?=
+ =?Windows-1252?Q?tNSVivFaoYY8hFhYsIo5dLq0u0lWqto6WD7oeoPITKJHIwbiclMyPsko?=
+ =?Windows-1252?Q?rvAwxVLaZ0MU4plaCFHo8TaEWPxHlaUp5gTXLqg8eWGN59PNxAWZqgF9?=
+ =?Windows-1252?Q?y0lLLCrx+HsEBU8lGyeKRMoK16itf6grMbxuxSeLb2EHsCHLSoriubx2?=
+ =?Windows-1252?Q?OlwgVc7c2WWxwEOnuPAqLEHxNiqBRK6J/bw4RYwND5FaQoGG5SsLJBbw?=
+ =?Windows-1252?Q?q1ikfaPata3LYlDbdx3+qMJ70qu4/sIfeNtXywn9Ph2H61G/7xAKZxFZ?=
+ =?Windows-1252?Q?PJpeWehA1jaogNGya5BIRfe4yV5sh2RC/u51lqifChMQ80kEWEtS0pBG?=
+ =?Windows-1252?Q?TPvY5hab+ksKGligWqUH3TVwcYlgeKiWO2dh+Vsi87c5ZEUlmmKf0I3w?=
+ =?Windows-1252?Q?gXnpSVDQUs9yW+FySb/vY2FmAsMIjYLxiFzlx/xLIxuejYktVSA/LMFh?=
+ =?Windows-1252?Q?y3lEjki5ztrD/IjSMLfDPbd8m6/UEn4HEfyzbsR2H9792f1VDfBnQXJa?=
+ =?Windows-1252?Q?jIRitw=3D=3D?=
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5968:EE_|DS5PPFDF2DDE6CD:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89b9ab1e-80e3-48bd-897d-08ddedcd6976
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|376014|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N3VhS0huWjQ4a3lsVHYzQ0ZwUFpBUjlPQjE2VXV6aS8zdmFuZzZLajVkaXpz?=
- =?utf-8?B?bEpMMWxBZ1BOWVU3QjZRaVpkNFA2dFdMTXJ0VmJCc0tSYmJTd1ZSQjhWS0NR?=
- =?utf-8?B?L2JCYU5wYXhNU2tweXhzcFUwQlVkSTgwQjRaSCsxUWdwSHpvU1NqYWo3eWlN?=
- =?utf-8?B?YWphSzhUcWxUU1dsY2VtdDdvZmRHRC92Sk1nSmZCeW1tTFQ3YUVia0pxZGtv?=
- =?utf-8?B?aTRMa2hmMEYzVEZTejRBck5nSXdWb2tHbnNaOWkyMDNmV1FTWUNYNVRHMmFw?=
- =?utf-8?B?cUJmdGM5WmJDTk1SWkREeTlUR2E5cFpRTjFDTHdkSFRLZ3FNNFVXQmtyMnZY?=
- =?utf-8?B?MlZCS1JScTJPWWNjaWRnYSt3STA1Nm94bGorSHlkZ05iM1RrQmNVaFRzRjM2?=
- =?utf-8?B?b0s5MnUwV0w4RVArdXVLcmFtUW9JT0VORFpqbEFOYnROZDQ0Uk1idHNnSnZQ?=
- =?utf-8?B?TzdIVHZpRExrMFRjV2Y0YUtKU0NJRnRxR3hhbHIxQ0RmNG1rczd1NWtDWVZs?=
- =?utf-8?B?ZTdJQTZGSmFHczhaWHRCVjVQWjdiVnA3MW9wdXNPQVp6djJVU3lFTTcybFNo?=
- =?utf-8?B?UFNHTkg3Z2RCZEYyTVVFSUVna2thM3Jwd3hZYkFuUm1oZlFtUDRnRTZxVGVq?=
- =?utf-8?B?N1ZDVjk0UE9seTRvTmxDTVYrUFJ0Uy9yV2xROEliWk51eEtDdXU0Z3pYWXJp?=
- =?utf-8?B?anBGUkt5bnRwSFo2a2ljNmVxTEIwKys2T2lQSFhwTkQrdkVvY2hxU0VUWThS?=
- =?utf-8?B?OHgweUV2elJuR2VmYU1kb0VBRHNnYXpyODFueFEzSktNQUNMTnRzTkRKbDdP?=
- =?utf-8?B?RlBvWGVvMm1uV0tlcmc4cTlRMllKTGYvUEpmMmVVTTNnWFJrMjhMSlRtNzBG?=
- =?utf-8?B?ZDArTVhwaHJZdXVoOXhFYXA1QVJRWFRJd1NkTnBmdngrWGxnVWNhUUVSUmov?=
- =?utf-8?B?K1RLQnNvQUM2NzM0WE1ONzNjUzdFeUl2RjB1NmFVRDR6VlJLTHpMdTNlOHNB?=
- =?utf-8?B?SVNXa05oOUw2UDhkWWZmZmpLd215c3lubnphcWUrMHpKSkxSR21MOEJDMllY?=
- =?utf-8?B?aWFVbEd2cnc4WGhkcEdMTnJKaVFBNHl0YVBVV0FxclZEb0JoVjlEV1AxNHFh?=
- =?utf-8?B?Kzh5d1JQcmNoRmlpalRrc2ljTGtKQVc2aUJJdlZML1pGVVVCZTByTGFFWW5N?=
- =?utf-8?B?eTRIOE5Nb2Y3OGFucVZSVGtMaW5xeHdwV0tad1E4cE9GUk12MDJOU0w1U25N?=
- =?utf-8?B?dDgrdzZWbUd4VjFXZTk1OFZMZmxMbi93cXp5c0Z2UHBWOXc3OHpJUEhCOHFQ?=
- =?utf-8?B?MUk5RG5DeWs1MXVLOHE5TTRCMkl3cXFTRHA0WWxxNWhVV0gwa3phRitqTlNC?=
- =?utf-8?B?c2pTdlpFdW9wblI3c3AyYmQrNDFvNWFYT0dzM3YwRnZXUk9SUHFEUTJqM1pp?=
- =?utf-8?B?M1FJRUVVOWpEd1hTOWYwUjAzVjJpcnlNZkhWTnhIdGJ4NzhlTGJIK2NabTgv?=
- =?utf-8?B?OGxGNUQ0cU43UTZuNXErdGVnanJuTEd2M0VFaTlDNzJOZXQwOTVYQ2tkWnlO?=
- =?utf-8?B?K0cyMEFKUGFzL1R2ZXlYLzVRbWpTNUZMeU5qSGVVYXpCOTV5OFcrdlFrL0JT?=
- =?utf-8?B?cEFROEViM1JtN3FySDd4b0xJbXpyemgyN0x6QmkxYWpZUlprU3VMR0oyYlVQ?=
- =?utf-8?B?M1FNY1lpVjhhYmlhVVl3U1JBTUJ4SjFVOUdURFZDVm1RdFB2Q1hMS0lCeEY4?=
- =?utf-8?B?NUtsMjNRa0NQUHJHU1MvMURkK3BEcEEzY0ZUcDBjR1N1Qit6RTJHU1kreEVr?=
- =?utf-8?B?MUxxZW11V1JCSGR2R0w0RTRzNENkeEc5dGtFWDZKanBZaGNGVDBsL0VjdzQy?=
- =?utf-8?B?U0FKMWs2N3lqR2txMkI0Sm5kMEdkeGpSN3U1dDhHZzg4Qnc9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5968.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(376014)(7416014)(366016)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2FmbGhrTlFWREJvWjdCU1VYNHgya0haRTlqdUtTa0c0Z2VPbG4rS3NOQ3VP?=
- =?utf-8?B?aTc3dURUbGo5WXg3ZXNRWEJQVWdabGRxOWw4R2RUS3UwczltdmtmdnZlUlRz?=
- =?utf-8?B?OVp6R3NaazB0RXVzZUxHTld4Ny9jU3BxMWd2ZVF6YlFhV2lYQnVrK3orK2pZ?=
- =?utf-8?B?aWMvOFN2UG1DTDVZaDFtUVVkQ3pRV08yTVNYRTdkMTIvbTB1OWh0Sm1HMCs3?=
- =?utf-8?B?WUpNTnVkSytmdHZmOVZvR2tVbTNxQjlkb29xZnB1bzhObzliaU84UG92RW9E?=
- =?utf-8?B?M0lzeXUvYnpkelJiQk1zLzhWazN1dThSN0JnRzkyQWZMSVdnMjY3cnViQjhZ?=
- =?utf-8?B?QkhxUVpFZHpGRDRObnkzbTA5QnJlMlhnaXYrSCtWMXBQZ0V2MktGVTJhbTRn?=
- =?utf-8?B?bGJFeU5EUlpPVGwyd3hxc0JSa3ZOUTh3NmxZdkkrOUZRVUR4ck0zVTh4dzlY?=
- =?utf-8?B?YTdUTXBtZHhMdUQxRzJwdDB1YmFiRUQ0YzFCa0JjQ08zU1V4N0tVUGJjTmVo?=
- =?utf-8?B?RE5JTUV5VFlOaVlTMEFzaU03UitTVnprSXZoOWxwU0doN0ZsK0JCRlJMaitY?=
- =?utf-8?B?UmFHeXV0ekg3QVZoNENJaEc2QjQ5WUpaMWp5bTBwMnllTGs1Z20xZ0x3a0Fs?=
- =?utf-8?B?Q2NKblU2NUVEV0lqQjZBUUYzN0w0RE9kUk9ySlM2eDVqTG1ERzlTOWUzMjJj?=
- =?utf-8?B?M0JrZXN1MmxoU1RLNFZMK0pwLzA3NHdCUTNmazZJM01zYTcrNGsrYXNIZWVM?=
- =?utf-8?B?TlBlT245aDZ1VHlVcVlDdUxEMWw2QXRNU1BFVW5UajduclBnenMrNXBRNUMr?=
- =?utf-8?B?NWFyQ3FsVzhuNGNmSnY1Mi9ISndPWjliWW0rS0xJc2V5QzVKSTRvalA2aFUw?=
- =?utf-8?B?SE1KTkVpTEVFQmtKUTg2VmkvbXF2L1NLdFBMRzNDS1I2MDAwKzZuZmtzd1FV?=
- =?utf-8?B?TjhreGszMlJkdFJyK3RRbnpQZ0RxVzEranZVNS9kRmNQUHIzNzBNNWVOUHVi?=
- =?utf-8?B?RGYyVU9qVStQQXUzR0lYaXlKOENCV0RWOFVDT1dOZ01tRGNRdHhVazNKKzdB?=
- =?utf-8?B?Q25OT3FaNThIV3RWVmVDV0paV2FJU01sb3IwTTVrRzZEaWRzY3pBUmJlRit1?=
- =?utf-8?B?MmhJbmp4ajI5OENiYTNra2RlaEZjRmhiRmFPVDZZdGN6YUFyc1N1MDlrVlJ2?=
- =?utf-8?B?TnpqdWJpVWxyRTFXN09MSDMvUUdjZ1lrdGZhN2xEeldEQjRGRjA1RWV4cGdS?=
- =?utf-8?B?eTBMZWRFU3NLMnYrTXdTMGFEbXI2V2M1SU1KZVVIVGF0dFkxV0xMNmdWNWhF?=
- =?utf-8?B?dDBUZ0l1Mm4zU3Y1UWR0dnVsWExuL0Z2bHVEQ21ML09TWlgwQXJRTzhaQTJr?=
- =?utf-8?B?SDVvQ001cFV1NmdNaGF0ZUJneEFlam1zWlAwY0lzTWVjelEzNnFscGhZbGtv?=
- =?utf-8?B?S0crbnF2MDc3U1QxLy9WS1ZvSUdqc0cyK2wyWk9mRnZXWGIxaGE5WWFwbWlZ?=
- =?utf-8?B?UjNMT0hIQTRhUHV3MFNVVFNjSEtmbklKamVzMDZpOVdNRGdnNG8wbVpKakdo?=
- =?utf-8?B?eXpGaDZobXM5NWVTZnY2VUcvN1dJek1YT0w1UFduazVqOUR2RjVHQ3lZOG5E?=
- =?utf-8?B?cHhzSHpmeXBQYmEvTHNEdWlFVjVtdTFoMzZpVVVZaGxQc2oxNUt4bFBIT0do?=
- =?utf-8?B?SEhDMDRJK2NHOUZpaVNqWkxxNFF1WkNRTlZ5amJhcXBIS1BDYzVhcnVVNUI0?=
- =?utf-8?B?Vy9vOWFWWG1HcHNOWEtCRHR5L2JqM2drU2pFSHZmcVJ0Wm53Q1NGdktNMDl1?=
- =?utf-8?B?dU9VUUdMaldtdkQyVTJRLysvR3ZKZHZmem85alRmUGtzSlQxZlFOdkZHVlJy?=
- =?utf-8?B?OHBkYTZ4OWdia2tXTXk5dE5EZkdTQVNrSmc5QXlDNUdDU1BQbmo2c3ZaNEY1?=
- =?utf-8?B?YTBlelUxU0F3Z2h5alpQNUdkM3pwNDFwSHRkV2lUbWIrTUVscVljeUVlbUsy?=
- =?utf-8?B?eWkwdDF1Vk5uUDB6N1pDU2UzSVVoZXUvU2JWRjhTK0NMZFppUzhLbEgrTkUy?=
- =?utf-8?B?NXo3KzBPdkFPNXpTSUZaY0R4Z2hMbkZpaXhpeWxCbzVhWExlZUtxUmM5T0Ri?=
- =?utf-8?B?NmNoNmZJdXZTRU04OGRJWjhMU1FDZTZDUGlhVHRxYm8zZzRVQWtQamFCdm41?=
- =?utf-8?B?a1E9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89b9ab1e-80e3-48bd-897d-08ddedcd6976
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5968.namprd12.prod.outlook.com
+X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-e6540.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2025 05:14:25.2162 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nMH9E6FIAuGh537ODX0TA1FL8Y+H+9s2oVS0wOHG+o0yolAQXZ6PgvaRmfySFg15SGYvEm2Bjkc1N1v56jE8Fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFDF2DDE6CD
+X-MS-Exchange-CrossTenant-AuthSource: DU0P190MB2445.EURP190.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 487c60d2-7b14-45f6-efd3-08ddedd543fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2025 06:10:38.0871 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P190MB1032
+X-Mailman-Approved-At: Sun, 07 Sep 2025 16:04:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,246 +141,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/5/25 11:56 PM, David Hildenbrand wrote:
-> On 06.09.25 03:05, John Hubbard wrote:
->> On 9/1/25 8:03 AM, David Hildenbrand wrote:
-...> Well, there is a lot I dislike about record_subpages() to go back 
-there.
-> Starting with "as Willy keeps explaining, the concept of subpages do
-> not exist and ending with "why do we fill out the array even on failure".
-> 
-> :)
-
-I am also very glad to see the entire concept of subpages disappear.
-
->>
->> Now it's been returned to it's original, cryptic form.
->>
-> 
-> The code in the caller was so uncryptic that both me and Lorenzo missed
-> that magical addition. :P
-> 
->> Just my take on it, for whatever that's worth. :)
-> 
-> As always, appreciated.
-> 
-> I could of course keep the simple loop in some "record_folio_pages"
-> function and clean up what I dislike about record_subpages().
-> 
-> But I much rather want the call chain to be cleaned up instead, if 
-> possible.
-> 
-
-Right! The primary way that record_subpages() helped was in showing
-what was going on: a function call helps a lot to self-document,
-sometimes.
-
-> 
-> Roughly, what I am thinking (limiting it to pte+pmd case) about is the 
-> following:
-
-The code below looks much cleaner, that's great!
-
-thanks,
--- 
-John Hubbard
-
-> 
-> 
->  From d6d6d21dbf435d8030782a627175e36e6c7b2dfb Mon Sep 17 00:00:00 2001
-> From: David Hildenbrand <david@redhat.com>
-> Date: Sat, 6 Sep 2025 08:33:42 +0200
-> Subject: [PATCH] tmp
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   mm/gup.c | 79 ++++++++++++++++++++++++++------------------------------
->   1 file changed, 36 insertions(+), 43 deletions(-)
-> 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index 22420f2069ee1..98907ead749c0 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -2845,12 +2845,11 @@ static void __maybe_unused 
-> gup_fast_undo_dev_pagemap(int *nr, int nr_start,
->    * also check pmd here to make sure pmd doesn't change (corresponds to
->    * pmdp_collapse_flush() in the THP collapse code path).
->    */
-> -static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-> -        unsigned long end, unsigned int flags, struct page **pages,
-> -        int *nr)
-> +static unsigned long gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, 
-> unsigned long addr,
-> +        unsigned long end, unsigned int flags, struct page **pages)
->   {
->       struct dev_pagemap *pgmap = NULL;
-> -    int ret = 0;
-> +    unsigned long nr_pages = 0;
->       pte_t *ptep, *ptem;
-> 
->       ptem = ptep = pte_offset_map(&pmd, addr);
-> @@ -2908,24 +2907,20 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t 
-> *pmdp, unsigned long addr,
->            * details.
->            */
->           if (flags & FOLL_PIN) {
-> -            ret = arch_make_folio_accessible(folio);
-> -            if (ret) {
-> +            if (arch_make_folio_accessible(folio)) {
->                   gup_put_folio(folio, 1, flags);
->                   goto pte_unmap;
->               }
->           }
->           folio_set_referenced(folio);
-> -        pages[*nr] = page;
-> -        (*nr)++;
-> +        pages[nr_pages++] = page;
->       } while (ptep++, addr += PAGE_SIZE, addr != end);
-> 
-> -    ret = 1;
-> -
->   pte_unmap:
->       if (pgmap)
->           put_dev_pagemap(pgmap);
->       pte_unmap(ptem);
-> -    return ret;
-> +    return nr_pages;
->   }
->   #else
-> 
-> @@ -2938,21 +2933,24 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t 
-> *pmdp, unsigned long addr,
->    * get_user_pages_fast_only implementation that can pin pages. Thus 
-> it's still
->    * useful to have gup_fast_pmd_leaf even if we can't operate on ptes.
->    */
-> -static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
-> -        unsigned long end, unsigned int flags, struct page **pages,
-> -        int *nr)
-> +static unsigned long gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, 
-> unsigned long addr,
-> +        unsigned long end, unsigned int flags, struct page **pages)
->   {
->       return 0;
->   }
->   #endif /* CONFIG_ARCH_HAS_PTE_SPECIAL */
-> 
-> -static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
-> -        unsigned long end, unsigned int flags, struct page **pages,
-> -        int *nr)
-> +static unsigned long gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, 
-> unsigned long addr,
-> +        unsigned long end, unsigned int flags, struct page **pages)
->   {
-> +    const unsigned long nr_pages = (end - addr) >> PAGE_SHIFT;
->       struct page *page;
->       struct folio *folio;
-> -    int refs;
-> +    unsigned long i;
-> +
-> +    /* See gup_fast_pte_range() */
-> +    if (pmd_protnone(orig))
-> +        return 0;
-> 
->       if (!pmd_access_permitted(orig, flags & FOLL_WRITE))
->           return 0;
-> @@ -2960,33 +2958,30 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t 
-> *pmdp, unsigned long addr,
->       if (pmd_special(orig))
->           return 0;
-> 
-> -    refs = (end - addr) >> PAGE_SHIFT;
->       page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> 
-> -    folio = try_grab_folio_fast(page, refs, flags);
-> +    folio = try_grab_folio_fast(page, nr_pages, flags);
->       if (!folio)
->           return 0;
-> 
->       if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
-> -        gup_put_folio(folio, refs, flags);
-> +        gup_put_folio(folio, nr_pages, flags);
->           return 0;
->       }
-> 
->       if (!gup_fast_folio_allowed(folio, flags)) {
-> -        gup_put_folio(folio, refs, flags);
-> +        gup_put_folio(folio, nr_pages, flags);
->           return 0;
->       }
->       if (!pmd_write(orig) && gup_must_unshare(NULL, flags, &folio- 
->  >page)) {
-> -        gup_put_folio(folio, refs, flags);
-> +        gup_put_folio(folio, nr_pages, flags);
->           return 0;
->       }
-> 
-> -    pages += *nr;
-> -    *nr += refs;
-> -    for (; refs; refs--)
-> +    for (i = 0; i < nr_pages; i++)
->           *(pages++) = page++;
->       folio_set_referenced(folio);
-> -    return 1;
-> +    return nr_pages;
->   }
-> 
->   static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp, unsigned long addr,
-> @@ -3033,11 +3028,11 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t 
-> *pudp, unsigned long addr,
->       return 1;
->   }
-> 
-> -static int gup_fast_pmd_range(pud_t *pudp, pud_t pud, unsigned long addr,
-> -        unsigned long end, unsigned int flags, struct page **pages,
-> -        int *nr)
-> +static unsigned long gup_fast_pmd_range(pud_t *pudp, pud_t pud, 
-> unsigned long addr,
-> +        unsigned long end, unsigned int flags, struct page **pages)
->   {
-> -    unsigned long next;
-> +    unsigned long cur_nr_pages, next;
-> +    unsigned long nr_pages = 0;
->       pmd_t *pmdp;
-> 
->       pmdp = pmd_offset_lockless(pudp, pud, addr);
-> @@ -3046,23 +3041,21 @@ static int gup_fast_pmd_range(pud_t *pudp, pud_t 
-> pud, unsigned long addr,
-> 
->           next = pmd_addr_end(addr, end);
->           if (!pmd_present(pmd))
-> -            return 0;
-> +            break;
-> 
-> -        if (unlikely(pmd_leaf(pmd))) {
-> -            /* See gup_fast_pte_range() */
-> -            if (pmd_protnone(pmd))
-> -                return 0;
-> +        if (unlikely(pmd_leaf(pmd)))
-> +            cur_nr_pages = gup_fast_pmd_leaf(pmd, pmdp, addr, next, 
-> flags, pages);
-> +        else
-> +            cur_nr_pages = gup_fast_pte_range(pmd, pmdp, addr, next, 
-> flags, pages);
-> 
-> -            if (!gup_fast_pmd_leaf(pmd, pmdp, addr, next, flags,
-> -                pages, nr))
-> -                return 0;
-> +        nr_pages += cur_nr_pages;
-> +        pages += cur_nr_pages;
-> 
-> -        } else if (!gup_fast_pte_range(pmd, pmdp, addr, next, flags,
-> -                           pages, nr))
-> -            return 0;
-> +        if (nr_pages != (next - addr) >> PAGE_SIZE)
-> +            break;
->       } while (pmdp++, addr = next, addr != end);
-> 
-> -    return 1;
-> +    return nr_pages;
->   }
-> 
->   static int gup_fast_pud_range(p4d_t *p4dp, p4d_t p4d, unsigned long addr,
-
-
-
+Hello=0A=
+=0A=
+The board I have is A527 , and the legacy (5.15.147)  kernel detecting npu =
+as shown below,=0A=
+However https://linux-sunxi.org/A523#Family_of_sun55iw3 shows that there is=
+ no npu, not sure whether information is correct in this link.=0A=
+=0A=
+[   13.887892] npu[106][106] vipcore, platform device compatible=3Dallwinne=
+r,npu=0A=
+[   13.890322] npu[106][106] vipcore, platform driver device=3D0xffffff80c1=
+a11c10=0A=
+[   13.890394] npu[106][106] vipcore irq number is 116.=0A=
+[   13.890471] vipcore 7122000.npu: supply npu not found, using dummy regul=
+ator=0A=
+[   13.892589] npu[106][106] NPU Use VF3, use freq 696=0A=
+[   13.892754] npu[106][106] Get NPU Regulator Control FAIL!=0A=
+[   13.892766] npu[106][106] Want set npu vol(1000000) now vol(-22)=0A=
+[   13.938664] npu[106][106] core_0, request irqline=3D116, name=3Dvipcore_=
+0=0A=
+[   13.938889] npu[106][106] vipcore, allocate page for video memory, size:=
+ 0x2000000bytes=0A=
+[   13.938900] npu[106][106] vipcore, video memory heap size is more than 4=
+Mbyte,only can allocate 4M byte from page=0A=
+[   13.938948] npu[106][106] vipcore, cpu_physical=3D0x10cc00000, vip_physi=
+cal=3D0x10cc00000, vip_memsize=3D0x400000=0A=
+[   13.940230] npu[106][106] VIPLite driver version 1.13.0.0-AW-2023-01-09=
+=0A=
+[   25.090905] sunxi:sunxi_pd_test-0.pd-npu-test:[WARN]: runtime_suspend di=
+sable clock=0A=
+=0A=
+While with new patches in upstream 6.17.rc4 shows below ,=0A=
+=0A=
+# dmesg | grep  7122000 =0A=
+[   21.988215] etnaviv-gpu 7122000.npu: probe with driver etnaviv-gpu faile=
+d with error -110=0A=
+[   21.988173] etnaviv-gpu 7122000.npu: deferred probe timeout, ignoring de=
+pendency=0A=
+[   21.988215] etnaviv-gpu 7122000.npu: probe with driver etnaviv-gpu faile=
+d with error -110=0A=
+=0A=
+Have the full source code and schematic, happy to provide any support requi=
+red.=0A=
+=0A=
+Subair=0A=
+=0A=
+* Re: drm/etnaviv: detecting disabled Vivante GPU?=0A=
+  2025-09-04 10:10 ` Christian Gmeiner=0A=
+@ 2025-09-04 10:36   ` Andre Przywara=0A=
+  0 siblings, 0 replies; 4+ messages in thread=0A=
+From: Andre Przywara @ 2025-09-04 10:36 UTC (permalink / raw)=0A=
+  To: Christian Gmeiner=0A=
+  Cc: Lucas Stach, Russell King, etnaviv, dri-devel, linux-kernel,=0A=
+	Chen-Yu Tsai, linux-sunxi=0A=
+=0A=
+On Thu, 4 Sep 2025 12:10:30 +0200=0A=
+Christian Gmeiner  wrote:=0A=
+=0A=
+&gt; Hi=0A=
+&gt; =0A=
+&gt; &gt;=0A=
+&gt; &gt; the Allwinner A523/A527/T527 family of SoCs feature a Vivante=0A=
+&gt; &gt; "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.=0A=
+&gt; &gt; See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, =
+the=0A=
+&gt; &gt; row labelled "NPU" indicates which model has the IP. We suspect i=
+t's=0A=
+&gt; &gt; all the same die, with the NPU selectively fused off on some pack=
+ages.=0A=
+&gt; &gt;=0A=
+&gt; &gt; Board vendors seem to use multiple SKUs of the SoC on the same bo=
+ard,=0A=
+&gt; &gt; so it's hard to say which particular board has the NPU or not. We=
+=0A=
+&gt; &gt; figured that on unsupported SoCs all the NPU registers read as 0,=
+=0A=
+&gt; &gt; though, so were wondering if that could be considered as a bail-o=
+ut=0A=
+&gt; &gt; check for the driver?=0A=
+&gt; &gt; At the moment I get this, on a SoC with a disabled NPU:=0A=
+&gt; &gt; [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)=
+=0A=
+&gt; &gt; [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0=
+=0A=
+&gt; &gt; [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model=0A=
+&gt; &gt; [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on min=
+or 0=0A=
+&gt; &gt; [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0=
+x00000000=0A=
+&gt; &gt;=0A=
+&gt; &gt; Chen-Yu got this on his board featuring the NPU:=0A=
+&gt; &gt;     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003=0A=
+&gt; &gt;=0A=
+&gt; &gt; If I get the code correctly, then etnaviv_gpu_init() correctly de=
+tects=0A=
+&gt; &gt; the "unsupported" GPU model, and returns -ENXIO, but load_gpu() i=
+n=0A=
+&gt; &gt; etnaviv_drv.c then somewhat ignores this, since it keeps looking =
+for more=0A=
+&gt; &gt; GPUs, and fails to notice that *none* showed up:=0A=
+&gt; &gt; /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.=0A=
+&gt; &gt;  =0A=
+&gt; =0A=
+&gt; Looks fine to me - no wrong behavior.=0A=
+&gt; =0A=
+&gt; &gt; Quick questions:=0A=
+&gt; &gt; - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID=
+=0A=
+&gt; &gt;   registers) an invalid ID, so we can use that to detect those di=
+sabled=0A=
+&gt; &gt;   NPUs? If not, can any other register used to check this? The wh=
+ole=0A=
+&gt; &gt;   block seems to be RAZ/WI when the NPU is disabled.=0A=
+&gt; &gt;=0A=
+&gt; &gt; - Would it be acceptable to change the logic to error out of the=
+=0A=
+&gt; &gt;   driver's init or probe routine when no GPU/NPU has been found, =
+at=0A=
+&gt; &gt;   best with a proper error message? As it stands at the moment, t=
+he=0A=
+&gt; &gt;   driver is loaded, but of course nothing is usable, so it keeps=
+=0A=
+&gt; &gt;   confusing users.=0A=
+&gt; &gt;  =0A=
+&gt; =0A=
+&gt; From an application standpoint, it=92s not confusing since there is no=
+ etnaviv=0A=
+&gt; device to interact with. The user might wonder about the kernel messag=
+es,=0A=
+&gt; but that=92s actually caused by an incorrect device tree. If the SoC d=
+oesn=92t=0A=
+&gt; have an NPU, it shouldn=92t be enabled in the DTS.=0A=
+=0A=
+You have a point there, but as I mentioned above, that sounds tricky to=0A=
+do: I have two boards that looks otherwise identical, but one has an A527,=
+=0A=
+the other an T527. And still both don't have the NPU, since only some=0A=
+T527s feature it. So putting this on the user to use the right DT (or=0A=
+U-Boot defconfig) does not sound very nice.=0A=
+=0A=
+And in contrast to many other devices described in DTs, we *can* safely=0A=
+detect the existence of this NPU: each of the SoCs have all the clock=0A=
+gates and resets, and accesses to the MMIO frame do not fault - and the=0A=
+kernel code apparently can cope with this situation already. So yeah, we=0A=
+could smear something into U-Boot, to put a status =3D "disabled"; in there=
+,=0A=
+but I would like to avoid that, especially if the kernel is almost there=0A=
+already.=0A=
+=0A=
+Cheers,=0A=
+Andre=0A=
