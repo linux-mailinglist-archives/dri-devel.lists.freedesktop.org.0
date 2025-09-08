@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA814B49C6A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB20B49CB1
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 00:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27D8410E5F5;
-	Mon,  8 Sep 2025 21:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 908E210E296;
+	Mon,  8 Sep 2025 22:07:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H6u59PSM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dej9KWEk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A65810E5F4;
- Mon,  8 Sep 2025 21:52:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1803340015;
- Mon,  8 Sep 2025 21:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F265BC4CEF1;
- Mon,  8 Sep 2025 21:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757368356;
- bh=UjtDIvZYjEWZH3kRKI9614LSSjakj2QKhQXXNwaBl8E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=H6u59PSMlbvOILddp3WNHEOz866E9hf3I8aIPPd/b3tAl9UOaJ9JqB9nXZmNPWEyC
- ZBfwsiyRjOL2HFWv/wd4w7kdVGXizhaEUVFi3xTW22Pm2gm5qTyPKy3Ghmx3KmFl1Z
- mGvtUlmCct7ht3TYjNYWupt4vz5mkafScBDxTZQRfU6aPm65zbqHL5ZZi1ZUZooYzL
- RWa7RoSe2SVBeEuWpMK5o72EPxJPrCc67Qd+LhJrKVHtB+CqoD1OOt7st7hAN5+4kR
- h6j55QnMspz2Pk83fm0TsoRwvGdPH2oPQ4Vh4UtwdtgH6+2huzP5yFbtNTWBho5EWO
- wYx3jQwCsiFHQ==
-Message-ID: <f33c93cd-92c6-49c9-aa83-9f46841c5879@kernel.org>
-Date: Mon, 8 Sep 2025 16:52:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B578310E296
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 22:07:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1757369228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JkoTyeNf/GPBdyB+JgS1FXgnD5G8Br7KbPR2/Egwx+w=;
+ b=dej9KWEk/WAAi9wj+fi5OgTdb5OQMReZOKuYzhy/l93rcinxoqQ3zWDOQ8MyHcsxkLXBHC
+ MFGSYxokIlgRZVqu7k8wMDLDrFP3IjsxT6H3L4PSHzinMlHOCsLea3nLVei/LI7m25tsPA
+ AB1XiCQhwbaV8rrZD0Wsg9XXOqhe/uw=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-195-Mvf5fWX7O8KXB7tTI2FKdQ-1; Mon,
+ 08 Sep 2025 18:07:05 -0400
+X-MC-Unique: Mvf5fWX7O8KXB7tTI2FKdQ-1
+X-Mimecast-MFC-AGG-ID: Mvf5fWX7O8KXB7tTI2FKdQ_1757369223
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C8702195608C; Mon,  8 Sep 2025 22:07:02 +0000 (UTC)
+Received: from chopper.redhat.com (unknown [10.22.64.41])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 80E871800452; Mon,  8 Sep 2025 22:06:59 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 0/2] rust/drm: Remove blanket AlwaysRefCounted impl for gem
+Date: Mon,  8 Sep 2025 18:04:43 -0400
+Message-ID: <20250908220657.165715-1-lyude@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 09/11] PCI: Put PCIe bridges with downstream devices
- into D3 at hibernate
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
- <linux-pm@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- Eric Naim <dnaim@cachyos.org>, Denis Benato <benato.denis96@gmail.com>
-References: <20250908215031.GA1467002@bhelgaas>
-Content-Language: en-US
-From: "Mario Limonciello (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20250908215031.GA1467002@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,25 +72,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series simply drops an blanket implementation of
+AlwaysRefCounted for gem objects, which would cause issues if any other
+additional blanket implementations of AlwaysRefCounted were present
+within the same rust crate. While we're at it, we also introduce a macro
+in lieu of being able to use a blanket implementation.
+
+Lyude Paul (2):
+  Partially revert "rust: drm: gem: Implement AlwaysRefCounted for all
+    gem objects automatically"
+  rust/drm: Add gem::impl_aref_for_gem_obj!
+
+ rust/kernel/drm/gem/mod.rs | 59 +++++++++++++++++++++++++-------------
+ 1 file changed, 39 insertions(+), 20 deletions(-)
 
 
-On 9/8/2025 4:50 PM, Bjorn Helgaas wrote:
-> On Sun, Aug 17, 2025 at 09:00:59PM -0500, Mario Limonciello (AMD) wrote:
->> For the suspend flow PCIe bridges that have downstream devices are put into
->> the appropriate low power state (D3hot or D3cold depending upon specific
->> devices). For the hibernate flow, PCIe bridges with downstream devices
->> stay in D0 however. This can lead to PCIe bridges that are remained
->> powered on needlessly during hibernate.
-> 
-> s/are remained/remain/ I guess?
-
-Yeah, I'll adjust.
-
-> 
->> Adjust the pci_pm_poweroff_noirq() to follow the same flow as
->> pci_pm_suspend_noirq() by using pci_pm_suspend_noirq_common().
->>
->> This introduces a functional change that the hibernate flow will now
->> call pci_save_state() and unless bus PM is skipped will also set
->> the PCIe device into an unknown state.
+base-commit: 6b35936f058d0cb9171c7be1424b62017b874913
+-- 
+2.51.0
 
