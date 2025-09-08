@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4B5B49021
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC49B49069
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:54:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A64610E51A;
-	Mon,  8 Sep 2025 13:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A3D10E52F;
+	Mon,  8 Sep 2025 13:54:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dzYUrE+u";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M7DrKFw7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402EE10E51A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:49:09 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DEEF43A28;
- Mon,  8 Sep 2025 13:49:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1757339348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kiPoiA09kCRQsZO7G/mkcjC5y5kAdNXv8UqvN5aY7o8=;
- b=dzYUrE+uGmhjenuz7HJfAvbMQsuLUTbU4ysJxkdgOVoOjyqf+NeUXng1TE52/+LXkpWhSm
- THN5L/9Rd48psOcOa1aM7s/sePVKzd0scSzBgKIMHFm4C/C9JrsZOAEBX3LvoNJKEZoOQt
- 2DvKfuxOtYhGd2fnSN0c9HryDMZ6cDAC3jRB4paaPNUC9HpUMOgWoaG75PMcrv9IiYclDl
- pKBE0D8VuY0EOKYRY0uYJ97SxBJ+qidu2cJex0VNG8cbN8nWzOOY24JIO/eAPT9plYT/kG
- hqQqNXt2dTvBsiASaQfTT8Q5fDP/oScHudyYn19C3SQVs052Vz5qG9TZ7olihQ==
-Date: Mon, 8 Sep 2025 15:49:06 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-Message-ID: <20250908154906.16693078@booty>
-In-Reply-To: <20250827-charming-arcane-stingray-cfb8b6@houat>
-References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
- <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
- <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
- <20250820131302.6a2da5ef@booty>
- <20250827-charming-arcane-stingray-cfb8b6@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B825D10E52E
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:54:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757339681; x=1788875681;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=iN2/lQ++ZDF+izGUll/I6adfFDW2jaPw93X0MLkqja8=;
+ b=M7DrKFw73fi3e4Q+fmsjEKYrPsZe3dqLpCeVaR3yhfdwCb28dcIP23nD
+ bhBiv+NayXh6Q2JEEpn7EioiVdofuR/qJjINmj6CuqFKxdiR7YS1xNIYM
+ hQLxv1ExYHkTtz519KyTg4iELWw0XMKe47UlXxyAuL3voNnvikmjuGi8n
+ xIYzoFiDrTdZq2zYqbn/5n5bHfZNxRHwq1g139PAHpYiTbKONO57CP0Bu
+ LQuK3rMmKuc1viLGjXcnHiM2OuYL0Yz50O7whgedQYNwg6Qxh6dJvr86Q
+ 4wKLLca3YIgGaRcC0LgqfO2YDUTwBlon+fdxGxQA5vsGtxiR2beHzwh/f Q==;
+X-CSE-ConnectionGUID: Qojdc7jwQD63Lr25AcsFSA==
+X-CSE-MsgGUID: HDBLq2W+QqKM52ytyM7HCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="58636167"
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; d="scan'208";a="58636167"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2025 06:54:41 -0700
+X-CSE-ConnectionGUID: RhE2Gfh7QSOyr/2x3p+/xA==
+X-CSE-MsgGUID: IG9biy9DRrG4F1E2IYMzFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; d="scan'208";a="173254002"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.204])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2025 06:54:38 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Zilin Guan <zilin@seu.edu.cn>, maarten.lankhorst@linux.intel.com
+Cc: mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn, Zilin Guan
+ <zilin@seu.edu.cn>
+Subject: Re: [PATCH] drm: Use kvmemdup/kvfree for EDID data
+In-Reply-To: <20250905151156.844758-1-zilin@seu.edu.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250905151156.844758-1-zilin@seu.edu.cn>
+Date: Mon, 08 Sep 2025 16:54:35 +0300
+Message-ID: <2040b1e245eb0166079ff985c52775e9ade9eab5@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeeilecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejfedtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegheffjeffkeduhfekkeelgfejueehkeffleehjefgieejheeileektddthfejtdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghro
- hdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,82 +71,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+On Fri, 05 Sep 2025, Zilin Guan <zilin@seu.edu.cn> wrote:
+> The drm_edid_alloc() function uses kmemdup() to copy raw EDID data,
+> which can be loaded from firmware. A problem exists because the firmware
+> subsystem uses vfree() to release its data buffer. This implies the
+> buffer may be allocated with vmalloc() and can thus be larger than
+> kmalloc() typically supports. Since kmemdup() uses kmalloc() internally,
+> attempting to duplicate a large, vmalloc'd EDID buffer can lead to an
+> allocation failure.
 
-On Wed, 27 Aug 2025 09:46:03 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+Real world EDIDs are usually under 1 kB and if the user provides a much
+bigger EDID via the firmware loader it's okay to fail at the allocation
+time.
 
-> On Wed, Aug 20, 2025 at 01:13:02PM +0200, Luca Ceresoli wrote:
-> > Hello Maxime,
-> > 
-> > On Tue, 19 Aug 2025 14:29:32 +0200
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2c_client *client)
-> > > >  {
-> > > >  	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
-> > > >  
-> > > > +	drm_bridge_unplug(&ctx->bridge);
-> > > >  	drm_bridge_remove(&ctx->bridge);    
-> > > 
-> > > Shouldn't we merge drm_bridge_unplug with the release part of
-> > > devm_drm_bridge_alloc?  
-> > 
-> > I'm not sure I got what you are suggesting here, sorry.
-> > 
-> > Do you mean that __devm_drm_bridge_alloc() should add a devres action
-> > to call drm_bridge_unplug(), so the unplug is called implicitly and
-> > does not need to be called explicitly by all drivers?  
-> 
-> Yes
-> 
-> > If that's what you mean, I don't think that would work. Unless I'm
-> > missing something, devres actions are always invoked just after the
-> > driver .remove callback.  
-> 
-> Yes, they are called in reverse order of registration, after remove.
-> 
-> > But we need to call drm_bridge_unplug() at the beginning (or just
-> > before) .remove, at least for drivers that need to do something in
-> > .remove that cannot be done by devm.
-> > 
-> > In pseudocode:
-> > 
-> > mybridge_remove()
-> > {
-> >   drm_bridge_unplug(); <-- explicit call as in my patch
-> >   xyz_disable();
-> >   drm_bridge_unplug(); <-- implicitly done by devres
-> > }
-> > 
-> > We want xyz_disable() to be done after drm_bridge_unplug(), so other
-> > code paths using drm_bridge_enter/exit() won't mess with xyz.  
-> 
-> It's not clear to me why doing it before xyz_disable() is important
-> here? If anything, it would prevent from disabling the hardware for
-> example, even though you still have your memory mapping, clocks, power
-> domains, regulators, etc. to properly disable it.
-> 
-> You're still correct that it's a bad idea though because we want to do
-> it before we start freeing all those, so it needs to execute as the
-> before the devm actions ...
-> 
-> > devres actions cannot be added to be executed _before_ .remove, AFAIK.  
-> 
-> ... and we can't do that either.
+BR,
+Jani.
 
-I understand your words as "the drm_bridge_unplug() is OK where it is,
-your patch is OK in this respect". Correct?
-
-So if this is correct, and my reply on the devres cleanups is also
-correct (other reply in this thread), that means the whole patch is OK.
-
-Let me know if I'm wrong. :-)
-
-Best regards,
-Luca
+>
+> To fix this mismatch and robustly handle EDID data of any size, this
+> patch replaces kmemdup() with kvmemdup(). The kvmemdup() function is
+> designed for this scenario, as it can safely handle a vmalloc'd source
+> and choose an appropriate allocator for the destination. The corresponding
+> free calls are therefore updated to kvfree().
+>
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index e2e85345aa9a..97142bfc45ad 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2530,13 +2530,13 @@ const struct drm_edid *drm_edid_alloc(const void *edid, size_t size)
+>  	if (!edid || !size || size < EDID_LENGTH)
+>  		return NULL;
+>  
+> -	edid = kmemdup(edid, size, GFP_KERNEL);
+> +	edid = kvmemdup(edid, size, GFP_KERNEL);
+>  	if (!edid)
+>  		return NULL;
+>  
+>  	drm_edid = _drm_edid_alloc(edid, size);
+>  	if (!drm_edid)
+> -		kfree(edid);
+> +		kvfree(edid);
+>  
+>  	return drm_edid;
+>  }
+> @@ -2568,7 +2568,7 @@ void drm_edid_free(const struct drm_edid *drm_edid)
+>  	if (!drm_edid)
+>  		return;
+>  
+> -	kfree(drm_edid->edid);
+> +	kvfree(drm_edid->edid);
+>  	kfree(drm_edid);
+>  }
+>  EXPORT_SYMBOL(drm_edid_free);
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Jani Nikula, Intel
