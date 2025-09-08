@@ -2,75 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81656B50133
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 17:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ABAB48FFA
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69EF610E797;
-	Tue,  9 Sep 2025 15:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79FF110E20F;
+	Mon,  8 Sep 2025 13:45:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="DKXGzQ4J";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZAYTtaB9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
- Mon, 08 Sep 2025 13:48:12 UTC
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9DAD10E511;
- Mon,  8 Sep 2025 13:48:12 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 588Dc8Qw3874616;
- Mon, 8 Sep 2025 08:38:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757338688;
- bh=awQQu3rGBPmoT6Z/hGfapL01e4DEGu0HstmwbMkPvLU=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=DKXGzQ4JZXj5nh9aw1efczKmxuluwqOTnBdNNu1xswTJAuf+9OdClDg6tBuz6yiuP
- ipsnzqWWCdbPDcHiEqX9hSKo7jNzc5uFA3ghINlV3d+5/58NXWd5D5jKVQ9FoI2e3L
- 037rlkYGHHWE4lyXMzCAIL3CHQz56skk9ZQdXtic=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 588Dc7r93806024
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 8 Sep 2025 08:38:07 -0500
-Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
- Sep 2025 08:38:07 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.2562.20; Mon, 8 Sep
- 2025 08:38:07 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 8 Sep 2025 08:38:07 -0500
-Received: from [128.247.81.40] (dtmz023nlv.dhcp.ti.com [128.247.81.40])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 588Dc7Ch973710;
- Mon, 8 Sep 2025 08:38:07 -0500
-Message-ID: <51cdf832-95a2-47bf-bc27-d43097883701@ti.com>
-Date: Mon, 8 Sep 2025 08:38:07 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E63A10E20F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:45:29 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588BI8Hs013554
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 13:45:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=esqnV4GgtEbrquLS/zK5rW3W
+ tt7Z1gs3taNjcse55BA=; b=ZAYTtaB9Y7SMyW3MEsYa9Jw4FcBylLtuUJgggnT1
+ ggSBjKQSPM0bXafiZrmUzWnhTeDn/elXOFafxMai3AEAY/kDCKHX+MBKB8G3DTBX
+ 6L3JeQM9UJFDd8i9sHQc5H5BnSv/a35X3UP8bEwN63u8E9Ci+V12IaNx3mmrhCNv
+ cM0IA7wrC+tWa/DrMDlLdScyBmtmsSlRQjLjNSMjc1GCmXrwxmM7uKbXVkuoVEbE
+ CxU30u7LffSpJh+V7iKVEVU0tZWX79nGews7Bfu4qQnMA04l4zl+P3SfICmk14uE
+ hv0GFp4UNlNkeuLjD5Ui40WyB+CPsZn+nTG1unjwpxj0jA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491qhdsjyw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 13:45:28 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b5f9673e56so64373471cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:45:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757339127; x=1757943927;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=esqnV4GgtEbrquLS/zK5rW3Wtt7Z1gs3taNjcse55BA=;
+ b=C4iWLOdpj8ed36CFQrLNlAF+pvWSoTHJC6krQJF8pVYnlyHSyvbFStj/KeWDSZA5bT
+ cdryvAwG/DPziEjZ9b7KZrkpHPX3AvsKoB1+HxngbsDFCMRXFgkKiiSWgrnPyqKyLBgF
+ b+bgMxf0vrk4RT/XHfJkY5UVAjJl/kEfTkZXDDBec0kqnNSlOJHcqIV2rRIFwlvsrv2E
+ g/PZIhzFE0b2PckwI+0vxc42L+jex1Uf2wLNx3KLp3BDMSjYar9TNhwmNzpkp7rpDdT6
+ SHnx6gDSFpWFJKOx2PduapnKvE9374/t5xy8jYeJ4/W40U6QPD60vgZPs7r1NAtUgIDj
+ 3SXQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUThKi169yLO1mzCul0luJRWcM2CjithJbkrp7p7tSoXe9E4obgpyKid7lcnRdaa9JkbVqeeYofs0k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwM2Vz73diNAcWRBXsv4nyk7pL1tsegLNC/JoGOspvniFuDDbVq
+ RUaIWhwJKMUXsHBW6gG1Opq0G8sA3X94mvNT0cJWhWLteweuZQVdqYZfO90xrAA8Za+aoCLRf7P
+ bt0sF5jqjQ0MHgvw9OohE1lPwRJU56IAHaL58ZuR1wZFfWPyyCXmzTZqLQnAtXwKe/tZ8j7w=
+X-Gm-Gg: ASbGncuUMY2MoY1kf8ml/tqMzT9OkYhMAJNDgqQw6nPiQ763vluUKYbpPwlwqb8BVAP
+ kVd7Tu9LlcWbcIxpteMJr5hxP9nTJMO5h0ABlXh/ce+FTiCldohzFR5qsOflyBOK7/clOZtDtkI
+ OXJLn1nG8ojcFW35XohG5uglrp3aSqxxQS91n+d+BgQfTEqePUm7cMmdZpb3pad5KwDyDxRBbzT
+ Y3UC2sd+f/6VGi/kDx5oE9onNnfXeRDuJNLTrOc9G7g5PTqX5xz1MAY2y3/0C6MDxx1e1qMj8hT
+ 1sRY0yvTQpYFv1/hK6Q8jdAgj64KEZ4QHhOHgz3dJZd3xFMJj5gZ87+em4QhPC0bFkO8XcK1DEB
+ nrBqnrmeIDYWX3duQHDMOTMEdt7ndgpSpyZ+9Kb9E2Bg2U1AdWv1j
+X-Received: by 2002:a05:622a:289:b0:4b5:e9bb:846e with SMTP id
+ d75a77b69052e-4b5f83a51d3mr96781731cf.21.1757339126998; 
+ Mon, 08 Sep 2025 06:45:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6pGd+MdXBZbW1TIlirM87MxAFCUjEO+5IJdJhKbmEgdqD6cBDX43lwroMqHuWkohubp2b/Q==
+X-Received: by 2002:a05:622a:289:b0:4b5:e9bb:846e with SMTP id
+ d75a77b69052e-4b5f83a51d3mr96781021cf.21.1757339126299; 
+ Mon, 08 Sep 2025 06:45:26 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-337f5032aaesm32757861fa.37.2025.09.08.06.45.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 06:45:25 -0700 (PDT)
+Date: Mon, 8 Sep 2025 16:45:23 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maud Spierings <maud_spierings@hotmail.com>
+Cc: neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
+ airlied@gmail.com, andersson@kernel.org, andrzej.hajda@intel.com,
+ conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se, kishon@kernel.org, konradybcio@kernel.org,
+ krzk+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ rfoss@kernel.org, robh@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de, vkoul@kernel.org
+Subject: Re: [PATCH v3 2/5] drm/bridge: simple: add Realtek RTD2171
+ DP-to-HDMI bridge
+Message-ID: <u3qwrzwcr4knq7ueinws3siz2frugbkj75r5zp6i7qmkhnyauf@lrmiqhtbgzfj>
+References: <20250908-topic-x1e80100-hdmi-v3-2-c53b0f2bc2fb@linaro.org>
+ <AM7P189MB100924E3244B953F0EA6D462E30CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drivers: gpu: drm: msm: registers: improve
- reproducibility
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-CC: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <20250524-binrep-v2-1-09040177218e@oss.qualcomm.com>
- <6mgmrqmixjdftpjz2hvwjnsyh3wwylxuaih7yez2mdgjpcp3l2@zjr4ai6kkjxn>
- <CAF6AEGvJnSiyUJvBPusBZ+mriiP_vRiAgZnTyLSseu8Sdf9PXA@mail.gmail.com>
-Content-Language: en-US
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <CAF6AEGvJnSiyUJvBPusBZ+mriiP_vRiAgZnTyLSseu8Sdf9PXA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-Mailman-Approved-At: Tue, 09 Sep 2025 15:29:21 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM7P189MB100924E3244B953F0EA6D462E30CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+X-Proofpoint-GUID: dtq01FntQqnBEjIWHOyzih9bSFbHDk04
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDAzNCBTYWx0ZWRfXzSnq8716FmmO
+ VlPHuD4wbETnfl0jnYHVRA+V34cdHNypjZrG0sRcuUGmz4q5x9uEKDMpQeRSOeaOGnUUdD2Srg7
+ pUDUie2/mSgSPoPQeGOnWbD3jEkn3PUD/k1S8AZNybuqQiTN+DO1oBackwkTQrGox5mR4URrsv8
+ PU92yTNBM2kLtrwkCEhr7PNAtEo9BQ8njxZgkzdxm8eevxMMapQ3SuYN9Gzd5qGOol0eJGl2fT6
+ 6b1yHOA8ZjB0Rs3MnjadrpcSOgBLxoBSEt9cXXL76C8BqV0+o1Ij+wzGNDvcJATOM42MvsOsaKO
+ kaa7497vh8Sp2dH6Q5EGnXp7Cs3jdPd9VkV+GPaZJYB6EIvfxoTTwlvZIwGpbALpR6APSs11roc
+ QGf2kwd8
+X-Authority-Analysis: v=2.4 cv=YOCfyQGx c=1 sm=1 tr=0 ts=68beddf8 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=XwVbCjRl897ke_8r9AsA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: dtq01FntQqnBEjIWHOyzih9bSFbHDk04
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_04,2025-09-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080034
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,82 +131,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/6/2025 6:24 PM, Rob Clark wrote:
-> On Sat, May 24, 2025 at 10:15 AM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
->>
->> On Sat, May 24, 2025 at 09:25:37PM +0530, Viswanath Kraleti wrote:
->>> From: Ryan Eatmon <reatmon@ti.com>
->>>
->>> The files generated by gen_header.py capture the source path to the
->>> input files and the date.  While that can be informative, it varies
->>> based on where and when the kernel was built as the full path is
->>> captured.
->>>
->>> Since all of the files that this tool is run on is under the drivers
->>> directory, this modifies the application to strip all of the path before
->>> drivers.  Additionally it prints <stripped> instead of the date.
->>>
->>> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
->>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>> Signed-off-by: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
->>> ---
->>> The files generated by gen_header.py include the source path to the
->>> input files and the build date. While this information can be useful,
->>> it inadvertently exposes build system configuration details in the
->>> binaries. This hinders binary reproducibility, as the output will
->>> vary if the build environment changes.
->>>
->>> This change was originally submitted to the linux-yocto-dev kernel [1]
->>> to address binary reproducibility QA errors. However, the fix is generic
->>> enough to be applicable to the mainline kernel and would benefit other
->>> distributions as well. So proposing it here for broader inclusion.
->>>
->>> [1] https://git.yoctoproject.org/linux-yocto-dev/commit/?id=f36faf0f9f8d8f5b4c43a68e5c6bd83a62253140
->>> ---
->>> Changes in v2:
->>> - Corrected author id
->>> - Link to v1: https://lore.kernel.org/r/20250523-binrep-v1-1-c3a446518847@oss.qualcomm.com
->>> ---
->>>   drivers/gpu/drm/msm/registers/gen_header.py | 8 +++++---
->>>   1 file changed, 5 insertions(+), 3 deletions(-)
->>>
->>
->> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>
->> Rob, WDYT?
+On Mon, Sep 08, 2025 at 03:35:23PM +0200, Maud Spierings wrote:
+> Hello Neil,
 > 
-> I'm revisiting this one, in the context of trying to re-sync
-> gen_header.py with mesa.. but it is only changing the contents of
-> comments, so it's not quite clear to me how this ends up mattering for
-> binary reproducibility.
-
-The reason it matters is that for Yocto, the generated header file is 
-identified as a file that needs to be installed into the sysroot.  All 
-files going into the sysroot are checked to make sure they do not 
-contain dates and/or paths to the build directory contained within. 
-Since this is a generated header file that is included in the sysroot we 
-needed to strip out the path and date.
-
-The idea for the reproducible builds are that the same files on a 
-different a machine at a different time should produce 100% identical 
-files.  Including paths and dates violates that tenet.
-
-Hope that helps explain why we needed this.  So long as the 
-gen_header.py is being called to generate header files then we need to 
-maintain the reproducible aspect.
-
-
-> That said, since the generated files are no longer checked in to mesa
-> or the kernel, we could probably just drop all of this if it mattered.
+> > Add support for the transparent Realtek RTD2171 DP-to-HDMI bridge.
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> > ---
+> >  drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+> > index 1f16d568bcc4e0fb56c763244389e6fecbcb2231..e4d0bc2200f8632bcc883102c89c270a17c68d0c 100644
+> > --- a/drivers/gpu/drm/bridge/simple-bridge.c
+> > +++ b/drivers/gpu/drm/bridge/simple-bridge.c
+> > @@ -266,6 +266,11 @@ static const struct of_device_id simple_bridge_match[] = {
+> >  		.data = &(const struct simple_bridge_info) {
+> >  			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
+> >  		},
+> > +	}, {
+> > +		.compatible = "realtek,rtd2171",
+> > +		.data = &(const struct simple_bridge_info) {
+> > +			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
+> > +		},
+> >  	}, {
+> >  		.compatible = "ti,opa362",
+> >  		.data = &(const struct simple_bridge_info) {
+> > 
+> > -- 
+> > 2.34.1
 > 
-> BR,
-> -R
+> I would like to ask again if it may not be a better idea to introduce a
+> fallback compatible, once this patchseries lands I will be adding the
+
+I'd say, that's not a good idea. We usually don't have fully datasheets
+for those bridges, so we can't be sure that there are no strapping pins
+/ other GPIO controls.
+
+> parade,ps185hdm. I don't know how many other variants there are that are
+> just simple dp->hdmi bridges that don't require anything other than the
+> connector type set to HDMIA. The Thinkbook 16 and zenbook a14 both have HDMI
+> connectors, likely with simple bridges too.
+> 
+> Kind regards,
+> Maud
 
 -- 
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
-
+With best wishes
+Dmitry
