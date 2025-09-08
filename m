@@ -2,88 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B52BB48510
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695B5B482CC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 05:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17AFC10E1DD;
-	Mon,  8 Sep 2025 07:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E90010E3AD;
+	Mon,  8 Sep 2025 03:12:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KnhA1DE6";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HyIWzaQp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03ABA10E040
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 01:15:04 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id
- e9e14a558f8ab-3f65fc9b073so43266955ab.1
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 18:15:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757294104; x=1757898904; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3+tkzswrapgR/dTsqQ2m3nGst/xjQe0rpu8h5I2gUJc=;
- b=KnhA1DE65lsg5cMg6B7ltNF+lPPY3vChe02KMR1lLjBBHPZ5Rnu3qY3qA7uR1ErYfv
- wtKW09JWhb1nQx5QZ5snxZWV4ZBJRS3mONmElAMzRHAZ0HzAZdzNXT5nGrDcEklg4zvG
- OhaQ9cXsJnnud+OQAW67F20fsL4bzAnOfAZVbKtFN86gK+XdQddVWj8XZm1siH84S+gZ
- 9VSGGG+7acw2E/Vj8juGpi/e96u3wWs4JR16pWtGRMqfifutvbvPo+MBmaaKp/VwpZrI
- 5nO0sKeVpEzwRUyxjcC5v9Fj8s8y17EcVORkJVXNIEgwj86wr5zh9TCLtLdY5bhMhA8T
- 2aCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757294104; x=1757898904;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3+tkzswrapgR/dTsqQ2m3nGst/xjQe0rpu8h5I2gUJc=;
- b=KbmxsmBYKxuu4AAYMRgCxquDx6x6+xIRTkyI1c2FT+pyyWyRtg8Bzv+sUX3yRZjr9X
- uWLBlQlOTx8NMs7ig39lki1DpFrQkqaUG8wzg228OKenzs4y+jv7RNh+LEqxdfSeKwBC
- conJr5BHM+8VIJNBiDXFR0P2G6l6fRAgmznTVNFWUMqpcBkjVVrWETtn58LzYTo9Bri+
- 8ZL49B3Esxt6XkomACvkSfomdxfV7b1sSc41dYNHo0E9VOTc6wyTW2KffDYVpFOYbsh/
- +t9xRgsnbMfmA+JByD+iCeBUqSNphN8oL/ljdtEe1TT9X7kh7KGlGBhJq+zMU3Lt/zvh
- NpeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpRjSM8qwHvbAZsyASWptRWi+nx2FJNcG1zSzNMUeQt4hqxKx6KHPetD4w6fFN8OxW/t7/xG4+c/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwL7XyehSQX/dpOvpgO+7cKIq/KZIL2hAMqU9q7EzTew+OwDoAa
- +iVV6ulnyLRWrKejdd/vOnJdIWxtose2jan60vQU4r6zMl2HkK50XiICSMDznBA/ryC/IM/Al8y
- /s8uoMHHhujlBcex+p/jXH23xytX6MPE=
-X-Gm-Gg: ASbGncuL3IZqOgTGR5DY6C7drp0HOiqzLfkOYc0TJDjOxd+gNXkq/vnNiJvMmB9Mq69
- AddK6cXXBKSKtP79z2A9XfJjCOAaruoDGEF22LmsDUiuZ3X72nfsSk+xDNG3iWa/yAuziTZgG+j
- CSsBKaIK3WkYTPpfjs3y5deVdvZLN65iuAzvmeEvydkfTlgYLqsCWo3/BJHnDSDB2tkwmAa6cor
- LURHi4=
-X-Google-Smtp-Source: AGHT+IGCzNtDdcTIjk3YHf6PYBrzcTsEkAwN/He/H1kEd/P0IrQQ3wvmVpZ7FffYNSbribuhhyfTeTLpNI+r0FnmXJ8=
-X-Received: by 2002:a05:6e02:1605:b0:3ed:8fef:f855 with SMTP id
- e9e14a558f8ab-3fd877827f6mr95214095ab.26.1757294103735; Sun, 07 Sep 2025
- 18:15:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250903123825.1721443-1-syyang@lontium.com>
- <20250903123825.1721443-3-syyang@lontium.com>
- <24rahlm4kkob7knapdxxnjixye3khx3nv2425y4kkirat4lmam@gjey7zqsnzks>
- <CAFQXuNZUfAJe4QEDfi+-1N99xO0_z5_Omnsn_-SXr2QPtvdL_g@mail.gmail.com>
- <7cyypk5j7o5fglmibshg45iysffpdl75m6rqvv4b5zntfevhiz@zlt7ybuzkvrg>
- <CAFQXuNb+Eq6KPFvsnmGvn7KKjn4WRtMy1x4pn4ZvZoQ-_S_fYQ@mail.gmail.com>
- <d3e3b838-26fa-491e-8c4f-63a1693f2391@linaro.org>
- <CAFQXuNbZfnySYmizY2=PJGLkk38WHOYbVcbPTRZvgY7bFdK8yg@mail.gmail.com>
- <zv7twvfxlira5wmg4zwk6kgkldgdiesgqzjky4733lp2us2hmx@tohls6czl3wz>
-In-Reply-To: <zv7twvfxlira5wmg4zwk6kgkldgdiesgqzjky4733lp2us2hmx@tohls6czl3wz>
-From: =?UTF-8?B?5p2o5a2Z6L+Q?= <yangsunyun1993@gmail.com>
-Date: Mon, 8 Sep 2025 09:14:51 +0800
-X-Gm-Features: Ac12FXzTbwajMxg_nAOij4ahFseJuHB8oy3QA60h5prxACC-Ryd33JDiCP3ZO4Q
-Message-ID: <CAFQXuNa7z=RHtbx6zrtGGDK4dpa++m_BPxTNj8iemLkxYPP_zA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] This patch adds a new DRM bridge driver for the
- Lontium LT9611C chip.
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, syyang <syyang@lontium.com>,
- robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com, 
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- xmzhu@lontium.com, llzhang@lontium.com, rlyu@lontium.com, xbpeng@lontium.com
-Content-Type: text/plain; charset="UTF-8"
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB2C10E090;
+ Mon,  8 Sep 2025 03:12:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CnA7GBibdljm86wYjIcAhU7TMn2JyIYZrSasZPuju3hVdkz0/S9h4up+XHS4T3LqjcNYeufeG3V8dhYP4Xyv2Fvp2maOvTr5xp09EDVLiTX7ugFXFZs7NPVlq/qmh00RdO7PUQS3/hDyfAc6uGz3G9j3PxIh1S76znR0gCj8cTtKQcSYl717o3VnU4j5OSuJdPTW8/ZKVATA+GR0lCaNl00yPoyvycbn2AjLFxYlizTbfU+Y486gL/PruJhnhW1v9k2F+sm5yMPRwcbHlE9dhc8gAoJpMAGaa97CeRAXX5XLMLA+0QohWOu3j5XbBy/Dj4s7xK0gKJgFbVng6rcx7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZWg81h18GeKKj115LuFYt6rhpSFonz0k5QtZRpAn+2M=;
+ b=smI9IZ8blGcExKpkR27Sm+PZlFyP2mFMy+7+I+VDnT8hdFMNWYllsSlYDJtPNUW1M28QCb8efUggOGvWCrsp8gfqiZVBbQOVFsyPmR37YWWOqCbxA2vq7QBBadQIxSbrhOQmVfUF8CPTtSNuuuwbbdqYU8rBDJbVY68906XjnyMtM9WzYcZBrHDBDy0OTv8l5VltpEtf0anIfkCLybVI6Yv7zdXp2BRNE6YHtOZAstHOdY5N+kMvJMGl5hWOQBt9xmMTyCplRHncqTssp4eqUw7zqPwTp4cRjRo74IbIe9+4nYxVuAm+TKXmu/ffwDZCOUzvkBOmKfuaM3MeE+zKPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZWg81h18GeKKj115LuFYt6rhpSFonz0k5QtZRpAn+2M=;
+ b=HyIWzaQpDhBtv8R3V0U13n/3SY7KzKQo6NveBhWxVZPLhGFUYCQQcAqWLBCXIc/kTcZnzN7lPuyTu1FdvmpS792/cnoSRt7F11DTwVn9BYyd22HWA0j2fX2orumeSoM2tHcS0mfiyEi1z1G8VIlTsyvwAyTjyo2TZyhyCZ7Pz6TYId8nmcOmQrmOEiplxOEUJmsPUqwOlDHg4XOR1Nj3kiNl/nVxzchkz2xL7i9I/REdZtxKpalh8VlKlkT/mvLv+oKGFBbyO9SCoUw+9oKHns3SFa71zebgMTEuxv1gZEK4uneQRI4ceL8LYblNMpiV5pKqfKz3lP527r8skGTagQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SJ2PR12MB8160.namprd12.prod.outlook.com (2603:10b6:a03:4af::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Mon, 8 Sep
+ 2025 03:12:26 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.018; Mon, 8 Sep 2025
+ 03:12:26 +0000
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 08 Sep 2025 07:25:13 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 08 Sep 2025 12:12:20 +0900
+Message-Id: <DCN39JCF1DIJ.3JESSN7N9WJBP@nvidia.com>
+Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v2 1/4] nova-core: bitstruct: Move bitfield-specific
+ code from register! into new macro
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <dakr@kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
+ <20250903215428.1296517-2-joelagnelf@nvidia.com>
+In-Reply-To: <20250903215428.1296517-2-joelagnelf@nvidia.com>
+X-ClientProxiedBy: TYCPR01CA0186.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b0::9) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SJ2PR12MB8160:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5dce6a2c-8433-4a28-339d-08ddee858863
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|366016|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VnRDdjVNTjloeUpIdEl0ZUREbHkydEdoN2xpK2pEZGJ2TUJUZ2RJZlpBaVJT?=
+ =?utf-8?B?WkVzM01jRGF4Q2M4ZUwxbUg1L0hjd3ZKYjIzcWVGRDQ0UFpnOGY1azR0K2Ex?=
+ =?utf-8?B?Q01lVytpK0t2bFhhOEZNb0RJSjVtRlhCcWY5OXg1NHFuR3JuTkNnRVU2azZQ?=
+ =?utf-8?B?dzNFYVBycTlINGNrVmZwUUxVL3haOGVrRkpxczZxMXAwZ28xOTNEeDdpSnY1?=
+ =?utf-8?B?K1AzUVhwY0EvRFR2V2d0NzVHTHJEUThsdE8rRVZmQ3NwZVE1ckZ2amp0YlJQ?=
+ =?utf-8?B?LytaVGdqZkVnZjhiT0RmVmhLTWdGbzZxMk9lY01Da3pIeUNQNDBjQ2ErN0Er?=
+ =?utf-8?B?dmJ3L2hGbGdwcFRhNkkvclkzUzQ0dnhZeTZLTDhJQlQ5M3I4SjBvRSs5S3JW?=
+ =?utf-8?B?a1FNUHBKS050b1hxcW92dmRvaVppNVA0OUw3d2ZWTk1sbjdVdHg3ekhZMGZW?=
+ =?utf-8?B?V1Z0V0FZWlhVWDNQS0VlVHFyaWZRZG8yMHdNNHJVcC84bUJRSWxweGVzSG5j?=
+ =?utf-8?B?anJuK0M3Q1ZuQ1M2akZtUWpEZTg3RUoybXJnYXI0VXZYaXpWb1NVQjhEL3N2?=
+ =?utf-8?B?YlhDcENkMFJXL0ZDMUkxRHhOQjVvVVRUYlprMFJpR2tQdVRyRnRZSjdtcVgr?=
+ =?utf-8?B?bFBHK2NtSTR0U1JESWIzR1JXT2tERDd0V29jeGRPbDd1bG13NFJvNVlCMTlt?=
+ =?utf-8?B?S0Y2aHdVa0QrOUQ3ZUVXWG9pYzNVNm91eVFjc092b3lMUjBmbkFpVVZQVFdi?=
+ =?utf-8?B?ZWF5SzJndGdNTFVhYmRQR2dxdVQ1ZVRrc0JERFZPakpFbjBHMDVBdzFDVFEy?=
+ =?utf-8?B?TGNLbVRFYjNRcnFJU0pBamtLZFd1U1JodDF2M2FwNmEzSm14YmQ2b21zQnVX?=
+ =?utf-8?B?enR5SGNFZ2JKN25UVjlrWnZNbXZnTk5PUE5Ea1ZwMkV5Z1hmZzRxQUFsZFR2?=
+ =?utf-8?B?Zm9zVGdjbmlqK1d6bUpLc2huWXkvZ1M4UkFtOFhEeEdIWloxVHhyOTFKZ0dO?=
+ =?utf-8?B?QlRuZDZwcnJBVWpGYzZ1dDJjTFMyeDBjL1R1MlBRbndMdkFtMERaSVc3bGd2?=
+ =?utf-8?B?VUNXRUlkb2dwTldkMVdUL0M2NW4zR0pjY2x2OEtzRjRMczB5VVRueXNFOHlO?=
+ =?utf-8?B?cWhsYmtaejdaZy9JeThaUFFLd0l6VDB2Z3Z2MHI0QTVWSVBzUnJUNjI4b0xJ?=
+ =?utf-8?B?NHdFbEFRQlEvL3oySGpaNnBLN3RsaG1KekJnR3VJNHhNVWtXUjZYQUhZaHl5?=
+ =?utf-8?B?S1c5djhFZWRqRERhNEdYU1oxbGYxcG1NVUNYR2JQaTAyVjUzR3ZBQUlkSEto?=
+ =?utf-8?B?RFBSNFZnSDU5U1hKT2Ria1lKeVREYTQ3SkJvbURXS2R4WVNZVzNlQ1FiUFUy?=
+ =?utf-8?B?bytUVXZoY0dQdnlaRTBPYUhYQXJsU0NGR0FQR1NvMnl1ODRXZ1Y2Wnp3WVp6?=
+ =?utf-8?B?d2NEaWlnVkFralc0WWlsaDYxN1VCTUtQanRqaUZQQURsaUFEa2dSaHlrajJB?=
+ =?utf-8?B?ZDJuWHNva2hTMjNieC85SHpBWExCSUhVT1VBWm16bktESE9ybk1WWVB3WVlp?=
+ =?utf-8?B?VW1Jb0R1d2lUSlViazJvcGRyU3BpNDZvdkVuckVpalYvNkdrS1dKZmMwSUN3?=
+ =?utf-8?B?dUNvK0V4Q3NZdW5UcFk3NG0yYmZrc2h1eWJhSTlXR2l2MDRhMURaWWZMcEZ5?=
+ =?utf-8?B?YlJ0bGtLWnoxQWNTYkZSTEFoK0VWRXhWUm1lMUloUUtlS0FRSWx3NTd6cEpI?=
+ =?utf-8?B?TDRLaWtpRlVoVHFRRXlzbDl1L1YyQXVvakkwUU45S0V1cWJYNytCYkVkWWJQ?=
+ =?utf-8?B?R3pwN2FNaVl2YUFZRHpCRFgwS1dYTkdlSllaMGtmMFFOZWY1TjBHTVRZNU9i?=
+ =?utf-8?B?dDIwRkNybHFYcFdYL3cxaEV5MVE0bHZJM0lWWjZQVitoaVZyR2dQMmY0VmJI?=
+ =?utf-8?Q?KDaxg35RTPU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzQ2T2hCNllKZFR1SDlWRGlSb0ZqdzBvWlM3ODdmVzFTdVhIYThkeDUyWUI4?=
+ =?utf-8?B?UUlTL3ZOOS9uVmRBWC9GdUx2dDhYTEQwMW1ZUTNmU2VKTGJVZzZyOStJQW1z?=
+ =?utf-8?B?QlNXTGlLT3YxT0dNTlpSazRVN0lGRGplUG1XQVZKeG5weUs5UHZOQVVQYS8y?=
+ =?utf-8?B?SGlqajJzQkI5RG94Q2NqZ0ZZTXBDWm1ROGczeFFPMGNGYktZeXpVKzQ1bzkz?=
+ =?utf-8?B?VDdBZ2hlU3lhdFF0QkpCeUh6VFZzYlRIVW9Vc1psV0dqUXplaXIrbEtFZ005?=
+ =?utf-8?B?YThUY2xwRkJDRGIyZ0pTbXlGamRSU3lsdnlhNkxVSjhwSGM2UkFEQnFIT0Qx?=
+ =?utf-8?B?M0tob0Jkb3hVenV4V3E4bTcrRXpjbkdrU0xoU1JqMjU0MXFOakphQjc5SS9W?=
+ =?utf-8?B?dUtIdzRhK2IrbHdNRUpNWlQ3SEZJVm1vSk96bkhWanJiVkEwS0dzL0dlR3lV?=
+ =?utf-8?B?Q1Nocll1TTZySzBlMzBVMVFOaHFVbC9RTC9SRHpwd29CZ3BCNWZyK1dkY2xL?=
+ =?utf-8?B?RWlHc2hHSU1aNFhTdEgrS0dqTllDbWFGazY5NmZjUTFEZkZXVDN6YkRXUEZV?=
+ =?utf-8?B?bTRJWFVlL240eTVpMTViQ2xnajgvRWVzZVR1T3V3VU1YWlU3WHpLa2lMZ3Vq?=
+ =?utf-8?B?ZWFYSnNBZVVqUmo3ak1MTElEM2ZOQVBuSDcxMURNZFBCeW5WeitsVlVmYTI1?=
+ =?utf-8?B?SCszRXJOT25rWGFWNElCdkZ0YXJhbzZhS1hIS2tiK2pUc2Vra3U3c1VrRlVL?=
+ =?utf-8?B?K1pkaE4xbFBwQ2RRME1xNXU5TE9ncmtoRFF1elNaeWplZVUwOHVvdWQ3dzFU?=
+ =?utf-8?B?YWZKZ2NiMUIwR0FEUjl1M040d3F6MjZKbGdvUkl4c3BTZTR3Y1kxeHplbjNI?=
+ =?utf-8?B?RUplMUVhVi94cCtWYnhmY1FqYnc4U1BINlZpM1lya09OQ2xGL21COVRFTXFp?=
+ =?utf-8?B?ZTBKazREaURtdkN0ZnpzMmc0M1hpZ3BML29HTXBhbFI4WnhKZU12ME1BYTRl?=
+ =?utf-8?B?YjBiQzlmZzU5bUtKWmZ3ZFpVQ0ErMFQrSjVVVk9KRC9sdWN3elJCaE5QT25Y?=
+ =?utf-8?B?Qi9ERWJSTEswcE9mNkY5aW5FWkV3dkpOZEQ1ZUhqUGtha09nY0UxemFXL2Vw?=
+ =?utf-8?B?MWVjT3cyN040Zit1dTlZVVRxT3lKNGR4WWFhNEUrVTFjV2N5V0NIRGg5cnc0?=
+ =?utf-8?B?bGVFT1g5M2lzdjF2VUJhVG9NVHRwcG1UWmlHR0RlWDRRUzJhRy9hSWRucElN?=
+ =?utf-8?B?ZkZnbGVjT3lJL2dFY3k3NmRWVEg1bVB6Ykg2U0d0TW4xSVN2OWc4a0w2cm1K?=
+ =?utf-8?B?QWlpWlErUGJWbHROVTdxK2dmUnFjeHQ0LzJKSnRnQi9pTG9weHdLbXRsYkxv?=
+ =?utf-8?B?aHlBbVlQVkpjTWFUN0RnV2taNE13RXpac21hZmRpdTd1a3BCUVlJamRwVzNl?=
+ =?utf-8?B?ekxGNnVjcnl2WERxZ0F5UlNoTFpDR21QQnM3QnFoeDlod1ZqSGlTY0VVdUVO?=
+ =?utf-8?B?SithOFJ6VTdPM2cvSWZwb1QvSVg5bVFiTkE4dVFrblMzR0V0NC8rd0hXQWJn?=
+ =?utf-8?B?RXZ4WlR1aXFWVmdxUHhqcUpUZkdzUGMrRm4wa0V2UHAyZkNMcnlUazRBZkRj?=
+ =?utf-8?B?V3RzaktLT0MvWHFXamtGNzRNNzYrbmpNUno3Z1hEU1RBb0Z0N0VWNnErR0NQ?=
+ =?utf-8?B?MWlDYk5SL1BjeXF5dGNMbDg2ZlU0Q09wbEFLYXVNakFhMW1iUkxyNGJTdDFm?=
+ =?utf-8?B?NzlDQkhLZnlOdlZyWGs4U1R5ZjJRYTRJc1lxOXJUbGcrU080bEJiZ2NWbkZ5?=
+ =?utf-8?B?T0tGOGhjVFZtWGo0a1ZjTmkvYklkeWRXTEFWd1U1WUNDa1VibTdER2FCQTVu?=
+ =?utf-8?B?Q1RIR0V5SW8wdXZhOUxKd0dZVTc2NXNzUDVGQXJvd1JuTlFmMDJtUXh3dDQ1?=
+ =?utf-8?B?dlJBRXBLaXpyeHI0OXVxZGtmVmJhalUrNk5sY3dVcmNjSzlucWFnUTExaWZD?=
+ =?utf-8?B?emdicUhWaXBnSUZBdVNIMVV5UlNQSERmT1c5aXZKYWdELy9KUUxKWjlPR1A4?=
+ =?utf-8?B?NFh4eGswQmRsUm1seWdHWHg4YnExcDNhajFNVnkyWHlrYjU5R21LRzZmaS9j?=
+ =?utf-8?B?ZGtra1hYLzB0TlU4NTZkL1NFdWRia2srWlN5bXdIUExCNWtmVzBQbTRvTEFU?=
+ =?utf-8?Q?x+jvUTXkXmBX2AB0a/RtQR0VmnsPOBk8b1pslpuWAiZh?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dce6a2c-8433-4a28-339d-08ddee858863
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 03:12:25.8404 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UMhpIga1antKNiiAd1MaT6Akq719qIQYTeMxQyuMh35ozSRHCRIHfBOKVG/vTaLOwPqdLPJYIYo3mJd3GgVPVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,149 +180,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=E5=B9=B4=
-9=E6=9C=885=E6=97=A5=E5=91=A8=E4=BA=94 22:24=E5=86=99=E9=81=93=EF=BC=9A
+On Thu Sep 4, 2025 at 6:54 AM JST, Joel Fernandes wrote:
+> The bitfield-specific into new macro. This will be used to define
+> structs with bitfields, similar to C language.
 >
-> On Fri, Sep 05, 2025 at 04:58:59PM +0800, =E6=9D=A8=E5=AD=99=E8=BF=90 wro=
-te:
-> > HI=EF=BC=8C
-> >
-> > As a vendors , we have begun to attempt to contribute to the Linux,
-> > and we are very willing to do so.
-> > there are still many rules that we don't understand and need to learn.
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/bitstruct.rs   | 271 +++++++++++++++++++++++++++
+>  drivers/gpu/nova-core/nova_core.rs   |   3 +
+>  drivers/gpu/nova-core/regs/macros.rs | 247 +-----------------------
+>  3 files changed, 282 insertions(+), 239 deletions(-)
+>  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
 >
-> Not top-posting and trimming your emails would be nice things to learn
-> too.
->
-> > <neil.armstrong@linaro.org> =E4=BA=8E2025=E5=B9=B49=E6=9C=885=E6=97=A5=
-=E5=91=A8=E4=BA=94 16:10=E5=86=99=E9=81=93=EF=BC=9A
-> > > On 05/09/2025 04:55, =E6=9D=A8=E5=AD=99=E8=BF=90 wrote:
-> > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2025=
-=E5=B9=B49=E6=9C=884=E6=97=A5=E5=91=A8=E5=9B=9B 22:39=E5=86=99=E9=81=93=EF=
-=BC=9A
-> > > >> On Thu, Sep 04, 2025 at 06:48:13PM +0800, =E6=9D=A8=E5=AD=99=E8=BF=
-=90 wrote:
-> > > >>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E202=
-5=E5=B9=B49=E6=9C=884=E6=97=A5=E5=91=A8=E5=9B=9B 10:52=E5=86=99=E9=81=93=EF=
-=BC=9A
-> > > >>>> On Wed, Sep 03, 2025 at 05:38:25AM -0700, syyang wrote:
->
-> > > >>>>> +     }
-> > > >>>>> +
-> > > >>>>> +     if (lt9611c->bridge_added) {
-> > > >>>>> +             drm_bridge_remove(&lt9611c->bridge);
-> > > >>>>> +             lt9611c->bridge_added =3D false;
-> > > >>>>> +             dev_err(dev, "DRM bridge removed\n");
-> > > >>>>> +     }
-> > > >>>>> +
-> > > >>>>> +     if (lt9611c->regulators_enabled) {
-> > > >>>>> +             regulator_bulk_disable(ARRAY_SIZE(lt9611c->suppli=
-es), lt9611c->supplies);
-> > > >>>>> +             lt9611c->regulators_enabled =3D false;
-> > > >>>>> +             dev_err(dev, "regulators disabled\n");
-> > > >>>>> +     }
-> > > >>>>> +
-> > > >>>>> +     if (lt9611c->audio_pdev)
-> > > >>>>> +             lt9611c_audio_exit(lt9611c);
-> > > >>>>> +
-> > > >>>>> +     if (lt9611c->fw) {
-> > > >>>>
-> > > >>>> You definitely don't need firmware when the bridge is up and run=
-ning.
-> > > >>>>
-> > > >>> The previous text has already described the working logic of the =
-firmware.
-> > > >>
-> > > >> It's another topic: you are storing the firmware in memory while t=
-he
-> > > >> driver is bound. It's not necessary. You can release it after upda=
-ting
-> > > >> it on the chip.
-> > > >>
-> > > > I understand what you mean.
-> > > > Based on the above conversation, your intention is that when the
-> > > > customer needs to upgrade the firmware, they should modify the
-> > > > comparison conditions of the version, then compile and burn the
-> > > > kernel, and then perform the firmware upgrade, just like the LT9611=
-UXC
-> > > > driver. Instead of loading the firmware every time.
-> > > > My design intention is to avoid the need for recompiling the driver
-> > > > when upgrading. Instead, a file named "LT9611C.bin" can be directly
-> > > > sent to the "/lib/firmware" directory via scp. Then you can either
-> > > > perform a reboot for the upgrade or execute the command manually fo=
-r
-> > > > the upgrade.
-> > > > Perhaps you are suggesting that we could follow the design approach=
- of
-> > > > the LT9611UXC driver?
-> > >
-> > > Yes no need to rebuild, just use sysfs to trigger an update.
-> > >
-> > I think you haven't attempted to understand the intention behind my des=
-ign.
-> >
-> > If during the debugging process, the customer discovers that a certain
-> > parameter in the chip's firmware is not suitable for the current
-> > situation, then he requests a perfect firmware from our company to be
-> > updated onto the chip.
->
-> That's fine.
->
-> >
-> > When there are hundreds or tens of thousands of devices that need to
-> > be updated, simply use sysfs to trigger the update. It is a very bad
-> > thing.
->
-> Delivering updates to devices it off-topic here. You can use SWUpdate,
-> Mender or any other system to deliver updates and to trigger the
-> firmware reflash afterwards.
->
-> > If you want to use version number comparison as the upgrade condition
-> > like in lt9611uxc.c, then the customer will need to modify the version
-> > number comparison condition and rebuild the driver. This method is not
-> > as simple as the one I have designed.
->
-> Well, no. If there is a firmware update, it should be shared to
-> linux-firmware and then everybody can benefit from it.
->
-> Think about one company using your chip in their SoM or compute module
-> and then another company integrating that module into their design?
-> Who will contact you? Or a company selling devkits with your chip.
->
-> Having per-customer firmware is a nightmare for developers and for
-> integrators.
->
+> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/b=
+itstruct.rs
+> new file mode 100644
+> index 000000000000..1dd9edab7d07
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/bitstruct.rs
+> @@ -0,0 +1,271 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// bitstruct.rs =E2=80=94 Bitfield library for Rust structures
+> +//
+> +// A library that provides support for defining bit fields in Rust
+> +// structures. Also used from things that need bitfields like register m=
+acro.
+> +///
+> +/// # Syntax
+> +///
+> +/// ```rust
+> +/// bitstruct! {
+> +///     struct ControlReg {
 
-We are a company that sells our own developed chips. After other
-platform design companies purchase our chips, they will design their
-platforms based on the hardware schematic of our chips. During this
-process, they must contact us. We will communicate about the design
-opinions of the platform, the configuration of parameters, and the use
-of custom firmware. We cannot provide a common firmware. This is
-determined by the characteristics of the chips.
+The `struct` naming here looks a bit confusing to me - as of this patch,
+this is a u32, right? And eventually these types will be limited to primiti=
+ve types,
+so why not just `ControlReg: u32 {` ?
 
-> > > >>>>> +
-> > > >>>>> +     lt9611c->kthread =3D kthread_run(lt9611c_main, lt9611c, "=
-lt9611c");
-> > > >>>>
-> > > >>>> Why do you need extra kthread for that???
-> > > >
-> > > > Upgrading the firmware takes time. execute it sequentially in the
-> > > > probe function, it will block the system boot.
-> > > > Using the kthread method will not block the system boot.
-> > >
-> > > Just follow the drivers/gpu/drm/bridge/lontium-lt9611uxc.c way to do =
-this.
-> > >
-> > In fact, I think the method in lontium-lt9611uxc.c is a very bad one.
-> > My clients often encounter situations where the system gets blocked
-> > during the firmware upgrade process, and they have no idea what has
-> > happened.
->
-> Patches are welcome, please help us by improving LT9611UXC support :-)
->
-> E.g. it would be nice to control InfoFrames or YUV output capabilities.
->
-> --
-> With best wishes
-> Dmitry
+> +///         3:0       mode        as u8 ?=3D> Mode;
+> +///         7:4       state       as u8 =3D> State;
+> +///     }
+> +/// }
+> +/// ```
+
+As this will move to the kernel crate, it is particularly important to
+make sure that this example can compile and run - so please provide
+simple definitions for `Mode` and `State` to make sure the kunit tests
+will pass after patch 4 (in the current state I'm pretty sure they won't).
+
+> +///
+> +/// This generates a struct with:
+> +/// - Field accessors: `mode()`, `state()`, etc.
+> +/// - Field setters: `set_mode()`, `set_state()`, etc. (supports builder=
+ pattern).
+> +/// - Debug and Default implementations
+> +///
+> +/// The field setters can be used with the builder pattern, example:
+> +/// ControlReg::default().set_mode(mode).set_state(state);
+> +///
+> +/// Fields are defined as follows:
+> +///
+> +/// - `as <type>` simply returns the field value casted to <type>, typic=
+ally `u32`, `u16`, `u8` or
+> +///   `bool`. Note that `bool` fields must have a range of 1 bit.
+> +/// - `as <type> =3D> <into_type>` calls `<into_type>`'s `From::<<type>>=
+` implementation and returns
+> +///   the result.
+> +/// - `as <type> ?=3D> <try_into_type>` calls `<try_into_type>`'s `TryFr=
+om::<<type>>` implementation
+> +///   and returns the result. This is useful with fields for which not a=
+ll values are valid.
+
+Can you remove the related documentation from `register!` and replace it
+with a sentence like "Please look at the [`bitstruct`] macro for the
+complete syntax of fields definitions"? This will ensure we don't have
+to update the documentation twice if/when the syntax gets updated.
+
+The rest of the patch is a perfect move (with a few renames) of the
+internal rules from one macro to the other, which makes it really easy
+to review. Thanks for doing this!
