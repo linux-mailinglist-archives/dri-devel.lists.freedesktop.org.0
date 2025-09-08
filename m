@@ -2,65 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C030DB488A4
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 11:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A63B488C0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 11:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADEEC10E10C;
-	Mon,  8 Sep 2025 09:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD66710E4A7;
+	Mon,  8 Sep 2025 09:41:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pLVc7lYw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UZV7q01N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A251910E10C
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 09:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757324239;
- bh=WlJblooR4r8w7l/04ljXstHrZImkNxyr3pKUtvaZN8I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pLVc7lYw4/8zHpqX2uEat5I3jva1TgXMaKqpWRCq+odrPSlNNEiE686aGQxoTod0e
- +gFQv8Nge63beMhhXGIutalzJLe6uS7m5Gf6fO7oGDdB7MGe37ZyIKhVHu3dw6md7q
- +pAevO8WZMVcGk1Po57wU2H8AxHfEKG2mcaSuzsGnSve4IO9/LwpIu3VSmEYI2Re4K
- 5DevsulsOCNYWLcr2t241CuqoY+1mQh2Frl3FPtRO4pnBdBjGuB1ruZcCZAdv/U8UH
- kJ0a0W2pQWQzf15imPosSYIXkHqa5/iiw2NvQ9AkCP0esgIyVBzT/E6wYrp2QioDca
- fsL8HSonYCQOg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8C28117E0EB8;
- Mon,  8 Sep 2025 11:37:18 +0200 (CEST)
-Date: Mon, 8 Sep 2025 11:37:13 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?="
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20250908113713.34e57f16@fedora>
-In-Reply-To: <aL6TJYRmWIkQXujj@google.com>
-References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
- <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
- <20250905152505.005a610d@fedora>
- <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
- <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org>
- <aL1pSFB9iBsfHFM_@google.com>
- <DCMJ6K06T63T.2UBTM1RL4YJ0A@kernel.org>
- <aL1u_YxOkuj1kIq6@google.com> <20250908091140.44856fde@fedora>
- <aL6TJYRmWIkQXujj@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0389D10E4A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 09:41:14 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5888xWFn007791
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 09:41:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=rLkopAvHXNphSnNL8Z6qcCho
+ LeEnmUgrVO2Bksqi2ZI=; b=UZV7q01NFl3HrCaOGPeNLl9/sd0YyL2tsbFBCDG/
+ OvV/R7T+mpU8C+krsVbxsCpK1s+sAbIOcAwVHiuaNfLVLMpawirpaaqDPAEoo3mH
+ qRlV34rW0uREu6xbb5UXUpOp7Y8itOg8qYDp4HJjKf8Va0VEXqOvp01/YPQwMYMw
+ ztiqJBY3AK0hYXjhrhgBwLHAkIZIE+PSa/te1Hoi2swzq+H27ZJc1Tyz9se+a23T
+ 0MJrY+mCEs444APJcr1FfTxKOfbhvtKtYn6+8ytOVpFzSYgqaNXB8Bz3rob2VcZ7
+ 1mQgJxqxP/gTq+xQ8pV+6Vwx0FP15FVU2w/lUOwvDdY7qw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8c3y2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:41:13 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b6090aeaacso29912931cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 02:41:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757324473; x=1757929273;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rLkopAvHXNphSnNL8Z6qcChoLeEnmUgrVO2Bksqi2ZI=;
+ b=gmNdJ8iC6axfjJiaD4Soke5LQF4mRo/VT/PCbsX6UHABPlzYcGf/hfIJUnqI5Pvxdc
+ VBX1aX4ZAUW9EdnUnHYHAzSbFl0nfgMr8W83bJO++Vnpn4ihsWUJP/XTYnO6yzrZXt3G
+ At7mqdLwrSgVjmpKLQQccTliRQfXaljayDzAkh/Se7MGxU+P1dIzNtZcM7rpi1q/l04/
+ xMNblBlr2zqR8JcXB3EqXGGqTE5hGMFq6dwI70vjAfzQ46+D2p2Uu2jHSOFCkj5VC7fO
+ PwTZzTSDzN/KoIp0kGDau1m5jaAgLJCR+SmqG+CvQ5MGhWOpJneH8cv3Gsze/att40XV
+ t/yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvj+ePC1viNJKRhKtXFQlcwPfPGXFQaJelfA+nzw1tJ4USUJpo19LqnOHJ2A6wICS7jk2skSfPQuU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCBPf3Brdf+I18QL0lUATHS99CyOF++RwYh6ZOjdhQmQZZfXGp
+ 4l57JVf2Q/bvHgy7FtRYva4X+ZrsUpzWDiZ/BfDFjvymygzn0aa2QvWGaZno9JR0mPr+kvsOOfH
+ +ROJKr9FWFL//hFCa6tR0rmY7RSx45TQ8U3O0ZHBbaCZtU/EU1EEvQtkSQJY59elfcsFxIyg=
+X-Gm-Gg: ASbGncuFNzWxJ/Olvwiy9a2LYuHApBaDn27VsvA/CFhM0VmYxwaMRSBhtosKZoWkBIm
+ T8ljPyM54LT9u+y6yzI2C102/v1hvbF+Ol/7owZ5ixDKu/rovhBOWM19z/RxKlhIXl7ixfjpIVZ
+ 2/w90X9bz8rwL6P1ChwNO7PfwHWefQybCm+DgEzt+0t/YiXsK92S8sqvlZJ/b9vWTbVqU0iaO4I
+ 5bB8JPy2aYEnRO7pqG018O6fKIIcZUKgLsdFmdnljwI96BOnBEn+0cm6SCHqdOrIoKFfd9/6qUv
+ +ZfKKkX3FY5uFlsAPlMyjNLJ+XrUfgk74aJU35jGPopCtc+rtQzEngl3yvwUaK6ntSjL5IKWvLs
+ PCgPPOvzQ9fimr0Ao5hHZ4BfV7TJTUkFUPCKLOhY0l3OczwOh51sv
+X-Received: by 2002:a05:622a:408f:b0:4b2:eeed:6a17 with SMTP id
+ d75a77b69052e-4b5f844db32mr72591011cf.46.1757324472869; 
+ Mon, 08 Sep 2025 02:41:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IED6yA4XaMS5YnDRmXOE5SImaTO28AEqye57aEqOauBtVGl5BLAOdUCTQLQCqvscMVaIInAYw==
+X-Received: by 2002:a05:622a:408f:b0:4b2:eeed:6a17 with SMTP id
+ d75a77b69052e-4b5f844db32mr72590761cf.46.1757324472225; 
+ Mon, 08 Sep 2025 02:41:12 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-337f50328fcsm32853551fa.40.2025.09.08.02.41.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 02:41:10 -0700 (PDT)
+Date: Mon, 8 Sep 2025 12:41:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 2/3] misc: fastrpc: Update context ID mask for polling
+ mode support
+Message-ID: <rszs7ttr6eibkzwfykrtokua37lxpeph6lq5t5c2rwemahghcr@zicxvouknr2n>
+References: <20250901053336.3939595-1-ekansh.gupta@oss.qualcomm.com>
+ <20250901053336.3939595-3-ekansh.gupta@oss.qualcomm.com>
+ <dqkd4jxzrn4l6notk45udbapcan7icph5lpaoccgenm53kt4me@n7sv2rnf37im>
+ <7250915d-4611-4f81-a46d-b85e76185aae@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7250915d-4611-4f81-a46d-b85e76185aae@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX28wUQVpQC8iQ
+ OakE1VhYmU95+wMKhm/VRjVau/2NhQju5egCfPiuYe596p+mMjRfH3GP0huKlTfTYIXQhMf4Vur
+ ZrgTlCL7x4FbjeuPp9PNOHlQR9l1eJtaxsw/f9xzYmNF2rGeEhNMxUsYq5+p3gZayJLqixrQZO4
+ ujBKfzZ1ZQoXXXOQuKS9wjneKbmEmf8uTfa4MlYEcxsvhQPiOrhIS4gGf07P12YpMTVhjHcWDxW
+ tkzoLBHfMD2LZjXVDh/0g+THrSW8uCayj65ZEnXmWvNp8lpz47rVoD5T445nQYSsE04I/rJfABv
+ 5/KYzt7WnHrdds9c66g4563zT/q7bpjpc66yOmDbMAb5nx07NpZx6/Rq21+LW4aztjJqnGhHMFR
+ E1gRDNF4
+X-Proofpoint-ORIG-GUID: C0koslX4MNUaoE4P5NH54f2kiBzhuuG4
+X-Proofpoint-GUID: C0koslX4MNUaoE4P5NH54f2kiBzhuuG4
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68bea4b9 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=wZnQ8fNWVwIMS66gRYUA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_03,2025-09-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,86 +127,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 8 Sep 2025 08:26:13 +0000
-Alice Ryhl <aliceryhl@google.com> wrote:
-
-> On Mon, Sep 08, 2025 at 09:11:40AM +0200, Boris Brezillon wrote:
-> > Hi Alice,
-> > 
-> > On Sun, 7 Sep 2025 11:39:41 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> >   
-> > > Yeah I guess we could have unlink remove the gpuva, but then allow the
-> > > end-user to attach the gpuva to a list of gpuvas to kfree deferred. That
-> > > way, the drm_gpuva_unlink() is not deferred but any resources it has can
-> > > be.  
-> > 
-> > This ^.
-> >   
-> > > 
-> > > Of course, this approach also makes deferred gpuva cleanup somewhat
-> > > orthogonal to this patch.  
-> > 
-> > Well, yes and no, because if you go for gpuva deferred cleanup, you
-> > don't really need the fancy kref_put() you have in this patch, it's
-> > just a regular vm_bo_put() that's called in the deferred gpuva path on
-> > the vm_bo attached to the gpuva being released.  
+On Mon, Sep 08, 2025 at 10:42:10AM +0530, Ekansh Gupta wrote:
 > 
-> Ok, so what you suggest is that on gpuva_unlink() we remove the gpuva
-> from the vm_bo's list, but then instead of putting the vm_bo's refcount,
-> we add the gpuva to a list, and in the deferred cleanup codepath we
-> iterate gpuvas and drop vm_bo refcounts *at that point*. Is that
-> understood correctly?
-
-Yes, that's what I'm suggesting.
-
 > 
-> That means we don't immediately remove the vm_bo from the gem.gpuva
-> list, but the gpuva list in the vm_bo will be empty. I guess you already
-> have to handle such vm_bos anyway since you can already have an empty
-> vm_bo in between vm_bo_obtain() and the first call to gpuva_link().
+> On 9/2/2025 9:42 AM, Dmitry Baryshkov wrote:
+> > On Mon, Sep 01, 2025 at 11:03:35AM +0530, Ekansh Gupta wrote:
+> >> Current fastrpc message context uses a 12-bit mask where the upper
+> >> 8 bits are context ID from idr_alloc_cyclic and the lower 4 bits
+> >> represent PD type. This design works for normal fastrpc calls but
+> > FastRPC (here and in several other places).
+> Ack.
+> >
+> >> doesn't work as expected for polling mode. To enable polling mode
+> >> support from DSP(DSP writes to poll memory), DSP expects a 16-bit
+> >> context where the upper 8 bits are context ID, the lower 4 bits are
+> >> PD type and the 5th bit from the end denotes async mode(not yet
+> >> upstreamed). If this bit is set, DSP disables polling. With the
+> >> current design, odd context IDs set this bit, causing DSP to skip
+> >> poll memory updates.
+> > This looks like a description of a bugfix. In such a case, move it to
+> > the start of the series, add necessary tatgs and change commit message
+> > accordingly.
+> I'm not sure if it could be called a bug fix as there is no problem with existing mask.
+> The problem is seen only when polling mode is added.
+
+This sounds like a perfect part of the commit message.
+
+> >
+> >> Update the context mask to ensure a hole
+> >> which won't get populated, ensuring polling mode works as expected.
+> >>
+> >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> >> ---
+> >>  drivers/misc/fastrpc.c | 8 ++++----
+> >>  1 file changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >> index 0991ac487192..57e118de6e4a 100644
+> >> --- a/drivers/misc/fastrpc.c
+> >> +++ b/drivers/misc/fastrpc.c
+> >> @@ -37,7 +37,7 @@
+> >>  #define FASTRPC_CTX_MAX (256)
+> >>  #define FASTRPC_INIT_HANDLE	1
+> >>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
+> >> -#define FASTRPC_CTXID_MASK (0xFF0)
+> >> +#define FASTRPC_CTXID_MASK (0xFF00)
+> >>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
+> >>  #define INIT_FILE_NAMELEN_MAX (128)
+> >>  #define FASTRPC_DEVICE_NAME	"fastrpc"
+> >> @@ -487,7 +487,7 @@ static void fastrpc_context_free(struct kref *ref)
+> >>  		fastrpc_buf_free(ctx->buf);
+> >>  
+> >>  	spin_lock_irqsave(&cctx->lock, flags);
+> >> -	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
+> >> +	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 8);
+> > #define magic value
+> Ack.
+> >
+> >>  	spin_unlock_irqrestore(&cctx->lock, flags);
+> >>  
+> >>  	kfree(ctx->maps);
+> >> @@ -623,7 +623,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+> >>  		spin_unlock_irqrestore(&cctx->lock, flags);
+> >>  		goto err_idr;
+> >>  	}
+> >> -	ctx->ctxid = ret << 4;
+> >> +	ctx->ctxid = ret << 8;
+> >>  	spin_unlock_irqrestore(&cctx->lock, flags);
+> >>  
+> >>  	kref_init(&ctx->refcount);
+> >> @@ -2449,7 +2449,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+> >>  	if (len < sizeof(*rsp))
+> >>  		return -EINVAL;
+> >>  
+> >> -	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 4);
+> >> +	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 8);
+> >>  
+> >>  	spin_lock_irqsave(&cctx->lock, flags);
+> >>  	ctx = idr_find(&cctx->ctx_idr, ctxid);
+> >> -- 
+> >> 2.34.1
+> >>
 > 
-> One disadvantage is that we might end up preparing or unevicting a GEM
-> object that doesn't have any VAs left, which the current approach
-> avoids.
 
-Fair enough, though, as you said, the unnecessary ::prepare() already
-exists in the "queue-map-operation" path, because the object is added
-to the extobj list as soon as vm_bo_obtain() is called, not at _map()
-time. This being said, I don't know if it really matters in practice,
-because:
-
-1. if buffer eviction happens too often, the system will already suffer
-   from the constant swapout/swapin already, it's not a single buffer
-   that's going to make a difference
-2. hopefully the buffer will be gone before the next job is submitted
-   most of the time
-3. we can flush the gpuva destruction list before preparing/unevicting
-   GEM objects, so we don't end up processing vm_bos that no longer
-   exist. Actually, I think this step is good to have regardless
-   of what we decide here, because the less elements we have to iterate
-   the better, and in the submit path, we've already acquired all
-   GEM locks to do that cleanup, so we're probably better off doing it
-   right away.
-
-> 
-> > > One annoying part is that we don't have an gpuvm ops operation for
-> > > freeing gpuva, and if we add one for this, it would *only* be used in
-> > > this case as most drivers explicitly kfree gpuvas, which could be
-> > > confusing for end-users.  
-> > 
-> > Also not sure ::vm_bo_free() was meant to be used like that. It was for
-> > drivers that need to control the drm_gpuvm_bo allocation, not those
-> > that rely on the default implementation (kmalloc). Given how things
-> > are described in the the doc, it feels weird to have a ::vm_bo_free()
-> > without ::vm_bo_alloc(). So, if we decide to go this way (which I'm
-> > still not convinced we should, given ultimately we might want to defer
-> > gpuvas cleanup), the ::vm_bo_free() doc should be extended to cover
-> > this 'deferred vm_bo free' case.  
-> 
-> I can implement vm_bo_alloc() too, but I think it seems like a pretty
-> natural way to use vm_bo_free().
-
-Not necessarily saying we should have a vm_bo_alloc(), just saying it
-feels weird as it is now because of the asymmetry and how things are
-described in the doc.
+-- 
+With best wishes
+Dmitry
