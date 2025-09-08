@@ -2,53 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67AAB485DA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C0AB48606
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:48:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5FB510E1F6;
-	Mon,  8 Sep 2025 07:43:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DF2810E1F7;
+	Mon,  8 Sep 2025 07:48:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PgMKbJo5";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qSbXvvIn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D442010E1F6
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 07:43:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC66910E1F7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 07:48:09 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 769BF10BE;
- Mon,  8 Sep 2025 09:41:53 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E18DC10BE;
+ Mon,  8 Sep 2025 09:46:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1757317314;
- bh=aq1GphbLDS1fcntK2JdbgxWD0wmRSOBaD+tKq0T0kQs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=PgMKbJo5LvUZ7g1akl7sJ2qkbhdmT35+8gPZL5wMY2UpwEiKXYHwCQP+EExQ6zxeQ
- z1/wXJtrgirSBOYQbaIV/XAAJX59ZMFfab+N9nLCKR2wxIb1vkeciAUhIW1Q2jwW4b
- FqROF0zKV2m1YJGjnV0X8owWywJPZKMGQWHa8enE=
-Message-ID: <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
-Date: Mon, 8 Sep 2025 10:43:02 +0300
+ s=mail; t=1757317616;
+ bh=fw0GZaENDtUEAvtFVzh5du3HYpg4W4U4Cujgei/Jc5Y=;
+ h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+ b=qSbXvvInGWVRXv+ftlHRAGuPlnNjGK1U8INatc+WxhmuuzdVD1EWYouDdmK9WGvrb
+ 3dQ5DvzZFaG3NeTBgAlthvMykhpkfS+2H0ZR6ZcMp1IrB3l+G86Yuz0RQnFodl/tT4
+ RJJvahPC8DRLR+RcDH2EllSnc662G/1q99lTlSx4=
+Message-ID: <038e14c4-7d13-4b43-aeb0-ef4c463cec0a@ideasonboard.com>
+Date: Mon, 8 Sep 2025 10:48:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
- Allow panel@ subnode
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
- <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+Subject: Re: [PATCH] drm/tidss: Update Videoport SYNC LOST IRQ bit
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+References: <20250903100929.2598626-1-h-shenoy@ti.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+Cc: jyri.sarha@iki.fi, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, bparrot@ti.com,
+ sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20250903100929.2598626-1-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,122 +103,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 05/09/2025 00:01, Marek Vasut wrote:
-> This controller can have both bridges and panels connected to it. In
-> order to describe panels properly in DT, pull in dsi-controller.yaml
-> and disallow only unevaluatedProperties, because the panel node is
-> optional. Include example binding with panel.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: Drop the dsi0: and dsi1: controller labels
-> ---
->  .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 ++++++++++++++++++-
->  1 file changed, 51 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> index c167795c63f64..51d685ed82891 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-> @@ -14,6 +14,9 @@ description: |
->    R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2 mode, with up
->    to four data lanes.
->  
-> +allOf:
-> +  - $ref: /schemas/display/dsi-controller.yaml#
-> +
+On 03/09/2025 13:09, Harikrishna Shenoy wrote:
+> Update VP SYNC LOST Bit as per register description for
+> DSS0_COMMON_VP_IRQENABLE_0 give in TRM.
 
-Did you try with a bridge? dsi-controller.yaml only allows a panel. I
-think I discussed this with someone not long ago, but I couldn't find
-any patch sent for that.
+You need to explain what issue is this bug causing, and how does the
+behavior change here.
 
  Tomi
 
->  properties:
->    compatible:
->      enum:
-> @@ -80,14 +83,14 @@ required:
->    - resets
->    - ports
+> Link:https://www.ti.com/lit/zip/spruil1/SPRUIL_DRA829_TDA4VM
+> Table 12-597. DSS0_COMMON_VP_IRQENABLE_0
+> 
+> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
+> 
+> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_irq.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
+> index dd61f645f662..0194010a7fff 100644
+> --- a/drivers/gpu/drm/tidss/tidss_irq.h
+> +++ b/drivers/gpu/drm/tidss/tidss_irq.h
+> @@ -53,7 +53,7 @@ static inline dispc_irq_t DSS_IRQ_PLANE_MASK(u32 plane)
+>  #define DSS_IRQ_VP_FRAME_DONE(ch)	DSS_IRQ_VP_BIT((ch), 0)
+>  #define DSS_IRQ_VP_VSYNC_EVEN(ch)	DSS_IRQ_VP_BIT((ch), 1)
+>  #define DSS_IRQ_VP_VSYNC_ODD(ch)	DSS_IRQ_VP_BIT((ch), 2)
+> -#define DSS_IRQ_VP_SYNC_LOST(ch)	DSS_IRQ_VP_BIT((ch), 3)
+> +#define DSS_IRQ_VP_SYNC_LOST(ch)	DSS_IRQ_VP_BIT((ch), 4)
 >  
-> -additionalProperties: false
-> +unevaluatedProperties: false
+>  #define DSS_IRQ_PLANE_FIFO_UNDERFLOW(plane)	DSS_IRQ_PLANE_BIT((plane), 0)
 >  
->  examples:
->    - |
->      #include <dt-bindings/clock/r8a779a0-cpg-mssr.h>
->      #include <dt-bindings/power/r8a779a0-sysc.h>
->  
-> -    dsi0: dsi-encoder@fed80000 {
-> +    dsi@fed80000 {
->          compatible = "renesas,r8a779a0-dsi-csi2-tx";
->          reg = <0xfed80000 0x10000>;
->          power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> @@ -117,4 +120,50 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
-> +    #include <dt-bindings/power/r8a779g0-sysc.h>
-> +
-> +    dsi@fed80000 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        compatible = "renesas,r8a779g0-dsi-csi2-tx";
-> +        reg = <0xfed80000 0x10000>;
-> +        clocks = <&cpg CPG_MOD 415>,
-> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIEXT>,
-> +                 <&cpg CPG_CORE R8A779G0_CLK_DSIREF>;
-> +        clock-names = "fck", "dsi", "pll";
-> +        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-> +        resets = <&cpg 415>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                dsi0port1_out: endpoint {
-> +                    remote-endpoint = <&panel_in>;
-> +                    data-lanes = <1 2>;
-> +                };
-> +            };
-> +        };
-> +
-> +        panel@0 {
-> +            reg = <0>;
-> +            compatible = "raspberrypi,dsi-7inch";
-> +
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint = <&dsi0port1_out>;
-> +                };
-> +            };
-> +        };
-> +    };
->  ...
 
