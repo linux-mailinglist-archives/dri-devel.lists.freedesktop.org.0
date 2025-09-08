@@ -2,137 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E444B49821
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 20:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754BCB49867
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 20:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFB310E5A6;
-	Mon,  8 Sep 2025 18:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF6210E5A9;
+	Mon,  8 Sep 2025 18:36:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZLPjW9l4";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UhaQwwTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2040.outbound.protection.outlook.com [40.107.243.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F73910E5A6
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 18:19:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hMImVgui98o6ThbgU+O1GhZ6uBUZsRIOB+PAR6mBbhcpsnyfxXfThjtDnqyZgyev0nW90Vo7rmaCFUh71s9sWhauNZT35TZA44Nj+eJOyefQbMPjsJY5QwLhsE+jZaJAnXi6uGpj644f/XH9KKXkVRGKf8qnYoKxqStOM7HFxLVUMcuQ1mt6VeE69aYaRCPNsJoq/hlNACse9DAeelX9wSA3Y7E9Qaft4ffnV+GQKWua8srQ+DYQBks7bycljCT49VQO3k0hLISTfRT+B2hfGz5+rGL68lrPdNF+7Nnk3RQPaFDy9ZWgRpW4i6H4jCAlXtz08tP7hdMBQG00YTlMyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xfSG7i+wSoREv0ObIn/EYAlQNJFfGQ9Pvh0rVNq7734=;
- b=XQXmO9sPzVQuFbkuefJ6ObB0Wh7RkOkWWjmteFVeCiC+8WfWLUypItLCxKIds7ZC5B/4mucwZl15zWz0OxIotxl/01vs3yt8YVE6e7nQa7RlxGWxZFbIPYsoGeVzuE3Yy/s5EhSh2oVzIkmp8DHMZFSUfb7cT3qD+gAIshzF74Pks0KGNWrffEm1l2UT8WX9LdL+ZvdobrcwBhDmRmSU5YS9fRKyZ78s+j+svCM7QpOVYizpCZhPAA+N9ECNVqydM35MrTro9s0KK2DU9kJTzygBG2P4vggQL+T8fNU/HaV5KaIzBtefZCd3Dx81UeGFZAhRmo6JNyXXKbUaZCaUkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xfSG7i+wSoREv0ObIn/EYAlQNJFfGQ9Pvh0rVNq7734=;
- b=ZLPjW9l4V5iK+pt8DZe0a+HGt3qMs04/AUZtYTNOL92uABphKyWcjH0MIjWtXVYefQK2SjSyzA7gHu9KuQXVOLTn65cDtkvzATWPoSHoiBvo5lthGE6vAW1IMtdouMdkGSr1fxCzoPPKLDOAYddItAl6Jy1TmLFlaYLY8vhKalI=
-Received: from SJ0PR05CA0018.namprd05.prod.outlook.com (2603:10b6:a03:33b::23)
- by LV8PR12MB9205.namprd12.prod.outlook.com (2603:10b6:408:191::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
- 2025 18:19:35 +0000
-Received: from SN1PEPF0002529F.namprd05.prod.outlook.com
- (2603:10b6:a03:33b:cafe::fc) by SJ0PR05CA0018.outlook.office365.com
- (2603:10b6:a03:33b::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.13 via Frontend Transport; Mon,
- 8 Sep 2025 18:19:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002529F.mail.protection.outlook.com (10.167.242.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Mon, 8 Sep 2025 18:19:34 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Mon, 8 Sep
- 2025 11:19:34 -0700
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 8 Sep
- 2025 13:19:34 -0500
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 8 Sep 2025 11:19:33 -0700
-Message-ID: <3a4cf9a7-d2ec-2c4d-fb9b-5beac251e86f@amd.com>
-Date: Mon, 8 Sep 2025 11:19:33 -0700
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E310C10E5A9
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 18:36:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757356580; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=cdVYgURB89dbHupAw4KMy46mfFbhabKB0fbmHFBgRBvBYvTtSQExrU1sKpfkpjcx1w/YUJ8oV4j9+YhGcpEjW7Zwj1jsW1OKgfubHjb4G2koqFAxMLoVYAz8Ccw0+lylg0YO1Htsg+KdPOqoubvi0rri2cAvyirq77JW+Ay5MYc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1757356580;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=; 
+ b=lw0+9hG76wtgGAX2WMoklsJubSvxRXKF08iwS28xRKhrNx1q6Cy5o04wQBEzwFoYCfg3NXiHFcSLuWgyv23G8QKMtYdPesUVladZMLFYZLSp6+nayixftZ6vLJb3H28vG8XCLQdinZhZxABbk/hAEKpPDM5kWMqp0o6B9ah+w94=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757356580; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=;
+ b=UhaQwwTja7SFF9hVLfmnIc1Nk3Ao2vojsdkFkQ1NSXggwHTHU8YksUOjnlk+k/dQ
+ Zo810evf7Bf1W1IQVDWhYK4GEiE3z9tw0FTs6kDO5JCJJ8/no4Jni8fjICCwkBC3Oo8
+ n7wmxd995Nc2uwbGBP5jZdIa+Dk2ftPoB1SA5g1U=
+Received: by mx.zohomail.com with SMTPS id 1757356577657388.2831972624366;
+ Mon, 8 Sep 2025 11:36:17 -0700 (PDT)
+Message-ID: <79baaa0a-7cc4-44f0-bf71-38aff550b177@collabora.com>
+Date: Mon, 8 Sep 2025 15:35:58 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [bug report] accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/14] media: dt-bindings: Convert MediaTek mt8173-vpu
+ bindings to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-3-ariel.dalessandro@collabora.com>
+ <20250821-piquant-rapid-bear-8cedc0@kuoka>
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <dri-devel@lists.freedesktop.org>
-References: <aL56ZCLyl3tLQM1e@stanley.mountain>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <aL56ZCLyl3tLQM1e@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-piquant-rapid-bear-8cedc0@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002529F:EE_|LV8PR12MB9205:EE_
-X-MS-Office365-Filtering-Correlation-Id: b96b9091-8597-48e5-8d5c-08ddef04437b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QjJzV3B3TGdzRWp5TlhDTnBJZ29jSGtyQmpZdGxWNVBQMjF5LzNLa1UrWHVy?=
- =?utf-8?B?ZENMK1pjOEdFdGcwUzl1R2dLaE9mdDF3dy9iOURYbnY0SjhUZ0R6cW94UE9H?=
- =?utf-8?B?QkFZeVJLVDdjaVV6VUQ1RnUxSThOZnJUc1ZIQVlCUHovRjlkQzQ0b09JS3V6?=
- =?utf-8?B?cVZ5OVNQTjRwUlBOYlJ3bURCWmQ5K1o3SmNWS0lQUmdOZkcvNUE5Q2xXNnFY?=
- =?utf-8?B?MGxSQVhlb29YRkJDV1FjMS9yaVlVT1k1dFF1SHgxVXFmcUhHMmsrSnV5SVlT?=
- =?utf-8?B?ckFsVnZHVjNXSytsQW9MemhXQmFraThUd1FmSWZmVkpBSDlrajhrOWVhTk5V?=
- =?utf-8?B?UFNTdHM4bDRPTldXYkpjWWU1WC91bEJCTlJjaklsRHlpcTRqeWpMb3dFb2li?=
- =?utf-8?B?MUNKT0lsT2tHV2hZaUFQYXFBQW5vaStGNzJkdWxQT09FZ2xiT1ZzOUduUTBp?=
- =?utf-8?B?bjhhamxEc1c2Q0RpcW8zRWY2SCs2a2R6REsvdHIvZUVJbUMrMEFQRXhFOVo4?=
- =?utf-8?B?WjJYOG5SVWtqNzJacFo1cHl3QUtsRmhKWGtXd1lxTGNTWnN6dk5FZU9HSVBI?=
- =?utf-8?B?ZjBhbGhPR05hbXlqTTRUSHVKa1M4OTliUFcrMGVBM1dRUXQrVWk1VXdWdDlG?=
- =?utf-8?B?Q1ZLM1RVZ3pqMkhaZkVYL1ZkMkJ2dDBvKzhUMlJ6aW4rYXFvakpPcmJteklu?=
- =?utf-8?B?elAzQVdFUW82YWJYMFpOSVNIYmNBUXpTeVBLamtkZ0ZHcHpUYUdtS0p0QjFk?=
- =?utf-8?B?alBCTXpFM2lqcm0wZ3prdmZBdDVoUDk4K01SbEVSSllPNllwQ3BuR3dCYlFE?=
- =?utf-8?B?WFVwNVBqUTVsSHdUMlRuWUFSZVpmOS9BelhKYysvdEZDdXMvb21raUlReDJT?=
- =?utf-8?B?M2pVbG9wVVF6bm9GNmoyaUZyMEt0Mkw3aEhQeXphN0pPU3NmQU4yRUhFcWp2?=
- =?utf-8?B?TTJPRG5VWWJCTWtyeDY0ZktEaXp4RWRpTXNzbTlBOVpIcm9GbjdYL2dKdk5Z?=
- =?utf-8?B?VWZOdVlNV2tLSTl5MmowUFY5anZ0Sm5hRDk0NlduTEVnYStNTlRrQmNMZWov?=
- =?utf-8?B?eVdDME42MWt4TG5Nb2ZSeVdjMnBFa0VLWjhHenIwVkdVbUtpT1loZnRNZEpC?=
- =?utf-8?B?ZVEvd0NOdnJPeGlOKzI0OG9OcysxYnlpTDJmZGllMXFhSFl6ZVJobkdidEZ0?=
- =?utf-8?B?MzNteVROMExMQmRiSC84MTBtbGtscURLWWNSYkYrVzk3cVVsOFBIcDhiYUxy?=
- =?utf-8?B?TFBoYklXRXYzMXpuRS9ueGViN1hJT2RVNzJIaDhpc1JzdnlHUWphWDVUZzJO?=
- =?utf-8?B?cE5ENmI3NjdWS1lzQ1U1dXZ3a0dacEVZL1RMTkNQbjdza1l5NW4ybkgvOXhM?=
- =?utf-8?B?Szd1Z0J3U1ZBWk9EWFJNcGxtMllnOXNmZEFXN3BscjFTWDhQQUU4OUp3R0Fm?=
- =?utf-8?B?a2VBSmRFZTljRlpxYzRxSm5DSFdITWpSbFAxeCtyRGcxUFpTc3FzK3Nobytx?=
- =?utf-8?B?NVp2c01ieEpDcTJ0YkNJd2dRdFNrdGxKZzVibTRDS2F4RXpRb0p3c1lYM2o2?=
- =?utf-8?B?WXNZQ21MMDAwakJwbjQwb09rcXRUa2NTeUgzL0RmbGxvNWg1T1dGN1g5bjBD?=
- =?utf-8?B?MjIwZTVwZjZ6a29UQlBQRVRzelNkNERHa0hNRndhWTI2MlhIOENwSXlwRENW?=
- =?utf-8?B?UW9uT1l3S2JoWnZ2elEyNnVtNGhiZ3NJWDNaa3lJZ2tlY0tYS3R4ZGRWcm5N?=
- =?utf-8?B?RjBqK3B3M0xKSTYxbFpsNGdoUGRVZTdJN2ZaVzhzUkZrUExMTk1vSjRtU0l1?=
- =?utf-8?B?RGVkalR1cVRFN3pWTFc5ZzlTT2NMaXAxTHMzMm9pV2VPVHlDQnd2QkR0TUxZ?=
- =?utf-8?B?anlwNFJndzRQV0JCRkZyT1NBRi9helNVRDE3aGlHYVcyMXJGVllkOHprNVZz?=
- =?utf-8?B?RlNOU29yRnRxK2pwK2p0dURNN1hUNUMrMy9ZVlZaRHZUZkhSZzYvVGFSQksy?=
- =?utf-8?B?aFVTUTBoQzRHMDVrU1c3TTFxb25RMUJDb2hZa201djNoVFI3cTlaeWt1dGx0?=
- =?utf-8?Q?qSPWqs?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 18:19:34.6903 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b96b9091-8597-48e5-8d5c-08ddef04437b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002529F.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9205
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,82 +88,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Krzysztof,
 
-On 9/7/25 23:40, Dan Carpenter wrote:
-> Hello Lizhi Hou,
->
-> Commit 2f509fe6a42c ("accel/amdxdna: Add ioctl
-> DRM_IOCTL_AMDXDNA_GET_ARRAY") from Sep 2, 2025 (linux-next), leads to
-> the following (UNPUBLISHED) Smatch static checker warning:
->
-> 	drivers/accel/amdxdna/aie2_pci.c:904 aie2_query_ctx_status_array()
-> 	warn: potential user controlled sizeof overflow
-> 	'args->num_element * args->element_size' '1-u32max(user) * 1-u32max(user)'
->
-> drivers/accel/amdxdna/aie2_pci.c
->      891 static int aie2_query_ctx_status_array(struct amdxdna_client *client,
->      892                                        struct amdxdna_drm_get_array *args)
->      893 {
->      894         struct amdxdna_drm_get_array array_args;
->      895         struct amdxdna_dev *xdna = client->xdna;
->      896         struct amdxdna_client *tmp_client;
->      897         int ret;
->      898
->      899         drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->      900
->      901         array_args.element_size = min(args->element_size,
->      902                                       sizeof(struct amdxdna_drm_hwctx_entry));
->
-> Instead of min() here we should just return -EINVAL if they are !=.
+On 8/21/25 3:47 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:50PM -0300, Ariel D'Alessandro wrote:
+>> Convert the existing text-based DT bindings for Mediatek MT8173 Video Processor
+>> Unit to a YAML schema.
+> 
+> DT schema, not YAML. Don't say YAML at all, neither here nor in subject.
 
-The request element_size from runtime tools can be smaller or bigger 
-than sizeof(struct amdxdna_drm_hwctx_entry).
+Ack.
 
-If element_size is smaller, element_size bytes will be copied to user space.
+> 
+> Also looks not wrapped...
 
-If it is bigger, sizeof(struct amdxdna_drm_hwctx_entry) bytes will be 
-copied.
+Ack.
 
-And the actual element size and number of element will be returned to 
-userspace.
+> 
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   .../bindings/media/mediatek,mt8173-vpu.yaml   | 76 +++++++++++++++++++
+>>   .../bindings/media/mediatek-vpu.txt           | 31 --------
+>>   2 files changed, 76 insertions(+), 31 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vpu.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>> new file mode 100644
+>> index 0000000000000..44f5d7cc44042
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>> @@ -0,0 +1,76 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-vpu.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Mediatek MT8173 Video Processor Unit
+>> +
+>> +maintainers:
+>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> +
+>> +description:
+>> +  Video Processor Unit is a HW video controller. It controls HW Codec including
+>> +  H.264/VP8/VP9 Decode, H.264/VP8 Encode and Image Processor (scale/rotate/color convert).
+> 
+> Please wrap code according to the preferred limit expressed in Kernel
+> coding style (checkpatch is not a coding style description, but only a
+> tool).  However don't wrap blindly (see Kernel coding style).
 
->
->
->      903         array_args.buffer = args->buffer;
-> --> 904         array_args.num_element = args->num_element * args->element_size /
->                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> These are both u32 values controlled by the user so this is an integer
-> overflow bug.  Security bug.
+Thanks for the comment. Wrapped to 80 column width.
 
-This will not cause an issue. array_args.num_element is considered as 
-user control as well.
+> 
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: mediatek,mt8173-vpu
+>> +
+>> +  reg:
+>> +    minItems: 2
+> 
+> No, from where do you get such syntax?
 
-If it is too big, the actual number of active hwctx will be returned.
+IIUC, what you mean is s/minItems/maxItems.
 
-It is better to put a reasonable limitation. I would add a check 
-(args->num_element < 1K && args->element_size < 4K). Will this fix the 
-smatch warning?
+> 
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: tcm
+>> +      - const: cfg_reg
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: main
+>> +
+>> +  memory-region:
+>> +    description:
+>> +      phandle to a node describing reserved memory used by VPU
+>> +      (see bindings/reserved-memory/reserved-memory.txt)
+> 
+> Drop, redundant description.
 
+Ack.
 
-Thanks,
+Thanks a lot!
 
-Lizhi
+-- 
+Ariel D'Alessandro
+Software Engineer
 
->
->      905                                 array_args.element_size;
->      906         list_for_each_entry(tmp_client, &xdna->client_list, node) {
->      907                 ret = amdxdna_hwctx_walk(tmp_client, &array_args,
->      908                                          aie2_hwctx_status_cb);
->      909                 if (ret)
->      910                         break;
->      911         }
->      912
->      913         args->element_size = array_args.element_size;
->      914         args->num_element = (u32)((array_args.buffer - args->buffer) /
->      915                                   args->element_size);
->      916
->      917         return ret;
->      918 }
->
-> regards,
-> dan carpenter
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
