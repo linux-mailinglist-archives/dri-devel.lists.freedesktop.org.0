@@ -2,73 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD4B48E42
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 14:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D96B48E88
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9AF10E519;
-	Mon,  8 Sep 2025 12:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F016510E521;
+	Mon,  8 Sep 2025 13:04:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="FE/1NCZ/";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ro4eO/7x";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TtXaoU7b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D1510E517
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 12:55:32 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cL6Pb2tXmz9t2F;
- Mon,  8 Sep 2025 14:55:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757336131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yRG2aT1HvLNlP84gvZXfdNfs7QVzon3rkDgX1JN5RmA=;
- b=FE/1NCZ/xuruaAdb7u06boqhNLaQ6MJC5hUTkz/8pgq3rRiYxWocpHQvbKbMciRizyTnQg
- O5n5V4oPaYjnztbXiA393PGANv9B2/nxVEzG9tYLfGaHxN1IDamwl1ORyJ1BeSjygIy1wo
- nbw3ubswKSyvbCTJTnUeLNFszUL+kltoXXuGgGZaL2jPQXzGVY2ao82RPRXKu5DzDGv3Dz
- pBPalNAnGfOm5Uw80p/H+qh4jF/Jra2Q4IezSzTuLxN/K2XQ2Jx6Y9NPQkuJ7c/3/mXdAS
- 0kpwGafcT4XK9MOJKtIp7vch/lewiUqkzqt0ZaIPleq8soOxWkgemupPA+JErw==
-Message-ID: <546b08d8-eb18-41eb-9fbf-4539a621ee5d@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1757336129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yRG2aT1HvLNlP84gvZXfdNfs7QVzon3rkDgX1JN5RmA=;
- b=Ro4eO/7xZYnELe8jxADNs78pH056mM4QIK+4O2bKpVeF3z2l4p5bh+/qGmxUjeuvuAQyIc
- 1tn5V8xLgYR7k3U4/6jAHFrPVUPTDKK2fvGRCxQWgfWgSwjNgAWyTtNBjPyCvn7DyKhR0y
- 6v6QkJFYGev+qpdnMggZO2fR2105u6mbw7PQKj2blc92ccbyqbGLaf/2kaTSKX/+3ukJun
- 7lpkfOkV2npmeKkyRT9bTYBjeL4J8zPKC50byInabIHAVS6zLN3vW/anqxhW01JAEzClI2
- xr4tdm4Vq2nzXdwCrf1Qol4lTik8MgB977Ka+d/dVwLzM3hqBkcqqYqBOl2tyg==
-Date: Mon, 8 Sep 2025 14:55:26 +0200
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC86F10E521
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:04:26 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-45dcff2f313so26316295e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1757336665; x=1757941465; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=F+BmpLQdceYRG7RY6FfRDG60NShGiPldYqA/h5za8sM=;
+ b=TtXaoU7bFg0w7xeJAM1mHLcEuvtFI3Cl2qHE0AFD6Yqu8KfQXH1AXU7GiQYxSia67E
+ 5Y/aSqGvOkxfjN1nmDcfDb/zJOLAXPd/nDIMFkeH2r2d6gV0EX9zhsKjAUnxIlYgQZdj
+ bkUPSCHmed+clmywweIMlTax/BjO6Cive1GlznpdBJY/pfztxdsU39Smv79BFM90mfv0
+ l6Fv0Rwwg5d28LhcGMmdztiZ8W7iuzZdHRcsnpv/orqJpqAf7q9vs5HnLiDbuyCpQ62X
+ TtD9hpRyYMPZnjEfZeSXviPEpyv0UYMDPmt0Gz/g+37RLwI7tKJE2QURP+6xiKSKHAGa
+ LxGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757336665; x=1757941465;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F+BmpLQdceYRG7RY6FfRDG60NShGiPldYqA/h5za8sM=;
+ b=doGZCXhytop2RTr3ppfkETtTVtv4yoQEb6DepvXgBNLYzbmhudE6p27yrFUh7HJg2P
+ 1+xhzdUefRW2WbXeedgGgsXgr2Jq2mP9qbPwr8KXArK7biRMw9c9xKRN7EyaNZR9PQQ1
+ 8hbohiQWrvNHnXHQ2wx5giQmbxOd7abvQd0v5hmq1oEicG+8lh0MXKIUPkablyyhjvSU
+ 9sulDDH+8C9U0iuxhKZEx9wg8XTE+UkNZkgNVySRnKwgFSVbxoQ0x81MTCiUYB3b0Sp6
+ RdUzND3U6lumG1lWYC2jnJogxQUysDsd7P04V2WB1xhZkW8S9oyG961MI0JtFYHAIjbc
+ fSXg==
+X-Gm-Message-State: AOJu0Ywr8R/n7bW+HBqIsPWESJy3fK5Y9TARIYXmGuQmV7Tbsht952m/
+ ASKhFJoC5vv5mYr0q7q96B6w56B19lFShUQzRN9j0cIedbH3zK52gjf8tUeGLHHE4X8=
+X-Gm-Gg: ASbGncuptHZzgtaAFl5RbzNAGrn3s0L++GiY3YZxyys4pWaGGGdwrhKBWbMLyg9dzXO
+ dWqsOlry1lyUaCO7qQxadh2694GDwNCJEUHEgz4/ZSkvCTXla9C/87MW/zBGlToy4cluzXfUBzs
+ /qJirXkxcEJtERWv0ZBBFqCRAqcnFeUF9+99mbrEcG2ZHSOJzvXOhGyptwwYXMqEQklAKJJk0ub
+ sbhMArpU3F3Hn8weZ01gVk1cGaSRKyR/ZY92GOlRAhvLmXlZkJ1E6Ab4bCbpmWk3RkvxcV4BF3I
+ js8ROvre5fHbJ9mokP9LrXdgGUUQONYR0bp5qpHd84k2kK6PffHk2cmi+jceT8SYhPDYAeb9EDA
+ TYRn3kB1E+S1wiJtvjLWiFeExa76+g/kk1GhdZ3oca8Xp1BYF6EOUDg==
+X-Google-Smtp-Source: AGHT+IGTXRp8nBogkgIlcEf9RUlMXZE1MYZ7qwfcb5uuGBnjJTSjf3Iluna5GLbfmKKFomw1sOdvFQ==
+X-Received: by 2002:a05:600c:3b25:b0:45b:9a41:5d58 with SMTP id
+ 5b1f17b1804b1-45dddea60cbmr64611275e9.4.1757336665015; 
+ Mon, 08 Sep 2025 06:04:25 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45dd6891d23sm145632475e9.4.2025.09.08.06.04.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 06:04:24 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v3 0/5] arm64: qcom: x1e78100-lenovo-thinkpad-t14s: add
+ support for HDMI output
+Date: Mon, 08 Sep 2025 15:04:17 +0200
+Message-Id: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/rcar-du: dsi: Implement DSI command support
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250831190507.327848-1-marek.vasut+renesas@mailbox.org>
- <52a285d6-45bd-4ec2-a70b-8d0efe377780@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <52a285d6-45bd-4ec2-a70b-8d0efe377780@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: dc96d6d5afe63086f6c
-X-MBO-RS-META: or5wu7jiojd4ayax3ckj14io4mu5m9h1
+X-B4-Tracking: v=1; b=H4sIAFHUvmgC/33NTQrCMBCG4auUrI1M0lYTV95DXOS3HdCmJCVUS
+ u9u2o0I4vL9YJ5ZSHIRXSKXaiHRZUwYhhL1oSKmV0PnKNrShANvQXBGpzCioTNzAhgA7e0Taa1
+ tq1ttuZUnUi7H6DzOu3q7l+4xTSG+9ieZbet/LzMK1LNGWdnU4IS4PnBQMRxD7MgGZv5BJPDfC
+ N+QxhgPzp+l0l/Iuq5vVuxBq/wAAAA=
+X-Change-ID: 20250821-topic-x1e80100-hdmi-3bd5b5bd2d96
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2716;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=GJhPHTORzQeMZdAUCocINlbQeRuM3KT1od1O9w0/Xmo=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBovtRVDMVGgxHzLejb7eBbyoFwp6E4YEQMRKPg72/U
+ Rwjh/ruJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaL7UVQAKCRB33NvayMhJ0VxID/
+ 4wFkdgfYu9J7loTdKrRz5TqNDd63WB1xnl/W4hVSu2QdX9wb2jyH6rUY37phQY9rtVycGyJTzy4cnd
+ bi2OjtCN2t5VD8MJF2QB6RTWRYeGqRu4Rturr3w/3WcTHwlJ854MSYrHL2hppI1f8bZyB6wqswekus
+ xYvmd2waH5jU0iXp1rLwrCdBphUPyvJylV8oSUb3kyIcZjNbgmjUpIuBSZIkBekeYsesIh8s3Il5zg
+ oRiIcBFWFJA8XLfk4Q+Rva2EWkGskG1obCzljpnJDspCLDirzii4iD19ShH59aTy7dJu36GdP7/Qsa
+ ISdwycHc7lETEQ7dzSF14MzvjAzSB5fDCqhA7eny3MpxBperELbkHibfuDBClM4cT7u7wT4H0jwh0U
+ EHwpwuOgpCH7CM4z4nqMmOKlwUy8hZursraRsi2sFYghdAKSJKOK95FakAnAYIcTDPRNDcNNdACV4j
+ mMhQ4hD3ZW0YNJbhQ+PVu+9XT7Qw+eBcueBCBbTZJVj5Za25jgprIzt8y85t6nv6yz3nAkUAM8dNC0
+ ACpUhXWFsEKTVcFO+3wmtS5pPNqWOww0dSqma3wv4kx1s0LeU/ZKSbdWR9fPnVjnLXQno4onht+nvJ
+ f9JXE2dW/js9wgGCRf5Z3Ca4GV19HstrNjpQYFXQ7mQtwZDhH+hhVM9dOVCg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,23 +120,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/8/25 8:55 AM, Tomi Valkeinen wrote:
-> Hi,
+The Thinkpad T14s embeds a transparent 4lanes DP->HDMI transceiver
+connected to the third QMP Combo PHY 4 lanes.
 
-Hello Tomi,
+The QMP USB3/DP Combo PHY hosts an USB3 phy and a DP PHY on top
+of a combo glue to route either lanes to the 4 shared physical lanes.
 
-> On 31/08/2025 22:04, Marek Vasut wrote:
->> Implement support for DSI command transfer. Transmission of both Short
->> Packet and Long Packet is implemented, so is command transmission to
->> request response from peripheral device and transmission of non-read
->> command with BTA.
->>
->> The AXI memory access mode is currently not implemented, each transfer
->> is performed purely using controller register interface. Short Packet
->> transfer can transfer up to 2 Bytes of data, Long Packet transfer can
->> transfer up to 16 Bytes of data.
->>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> 
-> Looks good to me, pushing to drm-misc-next.
-Thank you
+The routing of the lanes can be:
+- 2 DP + 2 USB3
+- 4 DP
+- 2 USB3
+
+We need be able to specify the lanes mapping to DisplayPort
+and/or USB3 peripherals when not connected to a Type-C complex.
+
+Add the documentation for data-lanes in the out endpoints amd
+use those in the driver to setup the right PHY mode and
+orientation.
+
+Finally Add all the data routing in DT, disable mode switching and specify
+the QMP Combo PHY should be in DP-Only mode to route the 4 lanes to
+the underlying DP phy.
+
+Depends on:
+- [1] https://lore.kernel.org/all/20250902-topic-sm8x50-fix-qmp-usb43dp-usb-switch-v1-1-5b4a51c8c5a8@linaro.org/
+- [2] https://lore.kernel.org/all/20250807-topic-4ln_dp_respin-v4-0-43272d6eca92@oss.qualcomm.com/
+- [3] https://lore.kernel.org/all/20250822-topic-x1e80100-4lanes-v3-0-5363acad9e32@linaro.org/
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v3:
+- Move the static lanes mapping in data-lanes in the out endpoints
+	- new bindings
+	- new drivewr implementation
+	- new DT layout
+- rebased on next, fixed simple bridge rebase
+- added link frequencies for dp2
+- Link to v2: https://lore.kernel.org/r/20250902-topic-x1e80100-hdmi-v2-0-f4ccf0ef79ab@linaro.org
+
+Changes in v2:
+- Model the HDMI transceiver as a simple bridge
+- Switch to a static lanes mapping property
+- Link to v1: https://lore.kernel.org/r/20250821-topic-x1e80100-hdmi-v1-0-f14ad9430e88@linaro.org
+
+---
+Neil Armstrong (5):
+      dt-bindings: display: bridge: simple: document the Realtek RTD2171 DP-to-HDMI bridge
+      drm/bridge: simple: add Realtek RTD2171 DP-to-HDMI bridge
+      dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Document lanes mapping when not using in USB-C complex
+      phy: qcom: qmp-combo: get the USB3 & DisplayPort lanes mapping from DT
+      arm64: dts: qcom: x1e78100-lenovo-thinkpad-t14s: add HDMI nodes
+
+ .../bindings/display/bridge/simple-bridge.yaml     |   1 +
+ .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         |  59 ++++++++-
+ .../dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi    |  82 +++++++++++++
+ drivers/gpu/drm/bridge/simple-bridge.c             |   5 +
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c          | 132 +++++++++++++++++++--
+ 5 files changed, 270 insertions(+), 9 deletions(-)
+---
+base-commit: 947efd54a86984b5f7dee9cf18c1ee82ec0361a2
+change-id: 20250821-topic-x1e80100-hdmi-3bd5b5bd2d96
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
