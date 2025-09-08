@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816A2B49C61
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA814B49C6A
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D658F10E5EE;
-	Mon,  8 Sep 2025 21:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D8410E5F5;
+	Mon,  8 Sep 2025 21:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d2EcAQI4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H6u59PSM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA15110E5EE;
- Mon,  8 Sep 2025 21:51:20 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A65810E5F4;
+ Mon,  8 Sep 2025 21:52:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id ED56B60140;
- Mon,  8 Sep 2025 21:51:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2D15C4CEF1;
- Mon,  8 Sep 2025 21:51:16 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1803340015;
+ Mon,  8 Sep 2025 21:52:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F265BC4CEF1;
+ Mon,  8 Sep 2025 21:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757368279;
- bh=W8758e9YAd06up1Ixs7nyG1LeD8H6uoYeow7ODyD6Oc=;
+ s=k20201202; t=1757368356;
+ bh=UjtDIvZYjEWZH3kRKI9614LSSjakj2QKhQXXNwaBl8E=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=d2EcAQI4KXEVgjerAEUfLsLydRmwA3nSZ4X8z8N+0q5k8MGiIr/VeIwtECZF64r+X
- Mj8+4jpOkjUOxHizq4jmjeZWrqIUV2MoBwzw8M9xtgQXwUQ/CcsMPo+thChSrqq/l/
- iV3npnfzqFLd0Mz6VBLJC4tWrzw30KLLOUEb6LU/mmg/OdBBSUUAAp4YiY441TmYd8
- 717UX5ZY2qgqaNGWNbGCTNxB33yGjZDcp8oYXw8abs8FmVxA4NeFbmtRQ+fo7rhb2E
- OrUrmkmeM+q9qC0eT2ReR6x26yKcWaZ6V0mNaDL5hP1ga3Z85lQIIweUvPWaRnZF19
- 0ic7Totx4haXQ==
-Message-ID: <077f4b06-9c54-4289-ab8c-2bf6e29086dc@kernel.org>
-Date: Mon, 8 Sep 2025 16:51:15 -0500
+ b=H6u59PSMlbvOILddp3WNHEOz866E9hf3I8aIPPd/b3tAl9UOaJ9JqB9nXZmNPWEyC
+ ZBfwsiyRjOL2HFWv/wd4w7kdVGXizhaEUVFi3xTW22Pm2gm5qTyPKy3Ghmx3KmFl1Z
+ mGvtUlmCct7ht3TYjNYWupt4vz5mkafScBDxTZQRfU6aPm65zbqHL5ZZi1ZUZooYzL
+ RWa7RoSe2SVBeEuWpMK5o72EPxJPrCc67Qd+LhJrKVHtB+CqoD1OOt7st7hAN5+4kR
+ h6j55QnMspz2Pk83fm0TsoRwvGdPH2oPQ4Vh4UtwdtgH6+2huzP5yFbtNTWBho5EWO
+ wYx3jQwCsiFHQ==
+Message-ID: <f33c93cd-92c6-49c9-aa83-9f46841c5879@kernel.org>
+Date: Mon, 8 Sep 2025 16:52:33 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 05/11] PCI: PM: Disable device wakeups when halting
- system through S4 flow
+Subject: Re: [PATCH v6 09/11] PCI: Put PCIe bridges with downstream devices
+ into D3 at hibernate
 To: Bjorn Helgaas <helgaas@kernel.org>
 Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>, Pavel Machek <pavel@kernel.org>,
@@ -56,13 +56,13 @@ Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
  AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
  Mark Pearson <mpearson-lenovo@squebb.ca>,
  =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- Eric Naim <dnaim@cachyos.org>
-References: <20250908213436.GA1465429@bhelgaas>
+ Eric Naim <dnaim@cachyos.org>, Denis Benato <benato.denis96@gmail.com>
+References: <20250908215031.GA1467002@bhelgaas>
 Content-Language: en-US
 From: "Mario Limonciello (kernel.org)" <superm1@kernel.org>
-In-Reply-To: <20250908213436.GA1465429@bhelgaas>
+In-Reply-To: <20250908215031.GA1467002@bhelgaas>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,100 +80,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 9/8/2025 4:34 PM, Bjorn Helgaas wrote:
-> In subject, s|PCI: PM:|PCI/PM:| to follow previous practice.
+On 9/8/2025 4:50 PM, Bjorn Helgaas wrote:
+> On Sun, Aug 17, 2025 at 09:00:59PM -0500, Mario Limonciello (AMD) wrote:
+>> For the suspend flow PCIe bridges that have downstream devices are put into
+>> the appropriate low power state (D3hot or D3cold depending upon specific
+>> devices). For the hibernate flow, PCIe bridges with downstream devices
+>> stay in D0 however. This can lead to PCIe bridges that are remained
+>> powered on needlessly during hibernate.
+> 
+> s/are remained/remain/ I guess?
 
-👍
+Yeah, I'll adjust.
 
 > 
-> On Sun, Aug 17, 2025 at 09:00:55PM -0500, Mario Limonciello (AMD) wrote:
->> PCI devices can be programmed as a wakeup source from low power states
->> by sysfs.  However when using the S4 flow to go into S5 these wakeup
->> sources should be disabled to avoid what users would perceive as
->> spurious wakeup events.
-> 
-> Is the "can be programmed vis sysfs" part relevant here?
-
-No, I can drop that part of the sentence.
-
-> 
-> I think S4 and S5 are ACPI sleep states not applicable to all
-> platforms.  Is it relevant that we got here via ACPI?
-
-But a non-ACPI system would still run the exact same callbacks for 
-hibernation wouldn't it?
-
-In general you can 's,S4,hibernation,; s,s5,shutdown,' and it would be 
-accurate.
-> 
-> I assume non-ACPI systems can also exercise this path.  Is there a way
-> to describe this scenario in a way that would apply to all systems?
-> 
-> I'm not sure what "using the S4 flow to go in to S5" means.
-
-It means to run the hibernate related device callbacks instead of the 
-shutdown related device callbacks.
-
-I suppose anywhere in the series that is not ACPI specific (besides this 
-patch) I should clarify this as well.
-
-> 
-> It would be nice to have a spec reference or some sort of rationale
-> for the requirement to disable all wakeup sources in SYSTEM_HALT and
-> SYSTEM_POWER_OFF.
-
-I didn't observe it in the PCI path, but I did see that in USB that if 
-you leave them enabled they stay enabled when the system is shutdown.
-For example if a USB mouse was connected and a wakeup source it could 
-wakeup from S5 too.
-
-So this patch was aiming for congruence between the two subsystems.
-
-I would hypothesize that means that a dock could wake a system from S5 
-on a hotplug event, which I don't believe is intended behavior.
-
-> 
->> Tested-by: Eric Naim <dnaim@cachyos.org>
->> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
->> ---
->> v5:
->>   * Re-order
->>   * Add tags
->> v4:
->>   * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
->> ---
->>   drivers/pci/pci-driver.c | 4 ++++
->>   1 file changed, 4 insertions(+)
+>> Adjust the pci_pm_poweroff_noirq() to follow the same flow as
+>> pci_pm_suspend_noirq() by using pci_pm_suspend_noirq_common().
 >>
->> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
->> index 63665240ae87f..f201d298d7173 100644
->> --- a/drivers/pci/pci-driver.c
->> +++ b/drivers/pci/pci-driver.c
->> @@ -1139,6 +1139,10 @@ static int pci_pm_poweroff(struct device *dev)
->>   	struct pci_dev *pci_dev = to_pci_dev(dev);
->>   	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
->>   
->> +	if (device_may_wakeup(dev) &&
->> +	    (system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF))
->> +		device_set_wakeup_enable(dev, false);
-> 
-> I guess the suggestion is that we can't wake up at all from
-> SYSTEM_HALT or SYSTEM_POWER_OFF?  Would both be considered S5?
-
-Correct.
-
-> 
-> Does this mean we need a physical power button push to start up again?
-> I guess ACPI r6.5, sec 16.1.5 kind of suggests that: "hardware does
-> allow a transition to S0 due to power button press or a Remote Start."
-
-Correct.
-
-> 
->>   	if (pci_has_legacy_pm_support(pci_dev))
->>   		return pci_legacy_suspend(dev, PMSG_HIBERNATE);
->>   
->> -- 
->> 2.43.0
->>
+>> This introduces a functional change that the hibernate flow will now
+>> call pci_save_state() and unless bus PM is skipped will also set
+>> the PCIe device into an unknown state.
 
