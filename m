@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DA2B490FE
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 16:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EA6B490FC
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 16:15:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A852010E538;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7537810E528;
 	Mon,  8 Sep 2025 14:15:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DIZiuZDG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KFSdKDSs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B07210E528
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B37110E538
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 14:15:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2E4AD6013B;
+ by tor.source.kernel.org (Postfix) with ESMTP id 3F125601A4;
+ Mon,  8 Sep 2025 14:15:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28C4C4CEF1;
  Mon,  8 Sep 2025 14:15:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF55BC4CEF1;
- Mon,  8 Sep 2025 14:15:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757340924;
- bh=QgIpB2jfHW0N/3Ci98KVnbv9d6yCAvYXaqlVmdKTBHk=;
+ s=k20201202; t=1757340925;
+ bh=h6Qry5FC98QS7Us6GZ3WJl94irnInyNVErTrv3usnxA=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=DIZiuZDGYoJHcsR2Jifa2jIRwnPxYLGVcFW5UIdYOBBalGNeqiNi+/WOnau7DGh58
- 7zzHk1P6OoRJGgwLntsdRvDkDIeddkVlChPBWXay2fCwBOA+JEbe+no6FVwIec1Fps
- ihmEFdwfYQUaiTX4fb371HwP4Q2ZLQD8QLRCGyaWZYCjJYFh5NRCD/OZN0lsgXjST8
- JujregcFKLVtyQx38ammLCqL6HnquKDvHLQ1quE8VifSndlN/OoO0wEkErbxkckliw
- HIaAvfaEr8qeXaj+unWhN0l52yFr9C8oAhzPhIPgs27HeVAsv3JolSq6DGNrtqtJbc
- 7z+hQfRAzGPuA==
-Date: Mon, 08 Sep 2025 09:15:24 -0500
+ b=KFSdKDSseC+nvewrqp6aRmdLOAqtxbu5vDa/ojMk7gz2w3RgBcOeq+Mi5ibIXw75c
+ B4jiwl/CjacSdJ71MywD3wUq9zdPXAz//JlKnG4ae/XIta6H4T+OcPp+gjHDgz03sf
+ EJUr38/jpBv+mScdnONUNyYcS9WbMgwf9zhUgaYfnJ0BisU0fl0wRGf9WTLJ5bFlPx
+ Fic4XoKLvzGMYgl5g+WmfvhflBKJ/ZRDt+O3RwB0wyTNj62F2F2/TZ0MqNSbNE0YOO
+ bN2oskl4Vq+1qpJMj6IOcVh19Nmd97i//lBvx6da2J+x0TIN1/Wyv9CeBGLZpexm0p
+ +iIxCh/mgF8LA==
+Date: Mon, 08 Sep 2025 09:15:25 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Jacopo Mondi <jacopo@jmondi.org>, Hans de Goede <hansg@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- linux-kernel@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>, 
- dri-devel@lists.freedesktop.org, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
- linux-leds@vger.kernel.org, Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Daniel Thompson <danielt@kernel.org>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-In-Reply-To: <20250908-leds-v3-1-5944dc400668@vinarskis.com>
-References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
- <20250908-leds-v3-1-5944dc400668@vinarskis.com>
-Message-Id: <175734087835.1809005.14330068317471966084.robh@kernel.org>
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: add generic LED consumer
- documentation
+Cc: andrzej.hajda@intel.com, linux-kernel@vger.kernel.org, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, u-kumar1@ti.com, 
+ devarsht@ti.com, krzk+dt@kernel.org, sjakhade@cadence.com, jonas@kwiboo.se, 
+ tzimmermann@suse.de, jernej.skrabec@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com, 
+ dri-devel@lists.freedesktop.org, s-jain1@ti.com, yamonkar@cadence.com, 
+ devicetree@vger.kernel.org, Laurent.pinchart@ideasonboard.com, 
+ conor+dt@kernel.org, mripard@kernel.org
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+In-Reply-To: <20250908054609.1113360-1-h-shenoy@ti.com>
+References: <20250908054609.1113360-1-h-shenoy@ti.com>
+Message-Id: <175734087919.1809101.10556288924860708163.robh@kernel.org>
+Subject: Re: [PATCH v3] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for DSC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,19 +65,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 08 Sep 2025 01:18:03 +0200, Aleksandrs Vinarskis wrote:
-> Introduce common generic led consumer binding, where consumer defines
-> led(s) by phandle, as opposed to trigger-source binding where the
-> trigger source is defined in led itself.
+On Mon, 08 Sep 2025 11:16:09 +0530, Harikrishna Shenoy wrote:
+> From: Swapnil Jakhade <sjakhade@cadence.com>
 > 
-> Add already used in some schemas 'leds' parameter which expects
-> phandle-array. Additionally, introduce 'led-names' which could be used
-> by consumers to map LED devices to their respective functions.
+> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+> DPI/DP bridge.
 > 
-> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
+> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 > ---
->  .../devicetree/bindings/leds/leds-consumer.yaml    | 89 ++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
+> Changelog v2 --> v3:
+> -Update the name of dsc register block.
+> -Add the reg-name list in conditional based on compatible.
+> Link to v2- https://lore.kernel.org/all/20250903111357.2605199-1-h-shenoy@ti.com/
+> 
+>  .../display/bridge/cdns,mhdp8546.yaml         | 20 +++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -92,12 +88,16 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/leds-consumer.example.dtb: camera@36 (ovti,ov02c10): Unevaluated properties are not allowed ('led-names', 'leds' were unexpected)
-	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02e10.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml: allOf:0:else:properties:reg-names: {'minItems': 1, 'maxItems': 3, 'items': [{'const': 'mhdptx'}, {'const': 'mhdptx-sapb'}, {'const': 'dsc'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml: allOf:0:then:properties:reg-names: {'minItems': 2, 'maxItems': 4, 'items': [{'const': 'mhdptx'}, {'const': 'j721e-intg'}, {'const': 'mhdptx-sapb'}, {'const': 'dsc'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250908-leds-v3-1-5944dc400668@vinarskis.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250908054609.1113360-1-h-shenoy@ti.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
