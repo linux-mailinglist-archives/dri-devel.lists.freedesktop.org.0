@@ -2,92 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CCBB4949C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 18:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CF0B494E4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 18:15:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0FA110E17E;
-	Mon,  8 Sep 2025 16:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE01810E18B;
+	Mon,  8 Sep 2025 16:15:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="coqkE+gC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YGR+v37m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 029DE10E17E
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 16:01:14 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2570bf6050bso7336845ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1757347273; x=1757952073;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XDUqzdcg17KtqKCQYpEmkhfy4yLIsN7gEnd2+8GZlgk=;
- b=coqkE+gCP3G0un1FCZYYNm8iY3JlR3KNNkikExhaqRiS9PBjrpDLbIHyJdthKNCxAc
- cqc+/Q8ZXS9jSbpTw/YdHlH9yBmqiQcuFtw/orKT84Ab8K+j+KwTR/NkWcHTUsMNhvRN
- 2toZOOoOPCnsdfzJBzcdvL8fbTsGaywmK4TK0=
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 185B210E55C
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 16:15:44 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588FxPv2002481
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 16:15:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ W+lj6aPfl5dZoF2x7IkapYfFT13SWsFtQnlB9wrJWSQ=; b=YGR+v37mAwfyFLEH
+ Q83puvX9IsZF23SzkmHh9E+TQPhJU0gl1gbDB8JchzRVG19xB1z2u9kEBwbhBqdP
+ DiKdmftSYEPBSdwiMtFdv4WduYNk/KNwqdZRqns3oqAr49I2maswNVw3HXKYtuJc
+ 3A7A50ZUpoVni/CqgeutrJ7RLj0J48pHKlJVLKzk8a4OiqXKcQUfmrZDkhtUPH+J
+ yeOlFB8k5UGhOw7XmbpTM43WChS/ESBav/5YEa+PbVQvDDiR9yA+CbSPMfFxKHkI
+ tzU6NIDmTFSPuG731azwV5UDqGAyesSyn3v7M98pUcJeJ7Ikj4udPOX9dIa0xbJn
+ vvRXUw==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8d7r7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 16:15:43 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-32b58eeb874so4296709a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:15:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757347273; x=1757952073;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XDUqzdcg17KtqKCQYpEmkhfy4yLIsN7gEnd2+8GZlgk=;
- b=HChxIeqcsgcISkJOAbIzduFyt/hTbE24kpWYGaBbHo/w4KKQ6DCpwvYIqkhntOkMsY
- EVl5Ms74tz/ACBVWyZO5P2S0Ta14xaZDJwRAEM4nW35FZLKXGOtBJwdDxDabz/0dbH1N
- ZaRUvZNi+QM+CNy18WefkGvQu9gEPoK0ajIryj2aTK7OGdkOEORAHSIkl7f5HW5vcr6i
- r+1T+Q/IvAGSvUzGRn0cIPsluBIW297gwuw9AY7nI0CTspuRHoOVlDCMX35ihV0kRd6E
- 6abQCxp0XCsfdEeH0MLArwXD7/i6EqcSE+FjoFMG2da0gMR4V0fX/W4CyjwwNHSx+GWi
- UsjQ==
+ d=1e100.net; s=20230601; t=1757348142; x=1757952942;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W+lj6aPfl5dZoF2x7IkapYfFT13SWsFtQnlB9wrJWSQ=;
+ b=VHDT1rHiHHrQy8zHDhUZN/mgkqukR+DgxMl/Ae0Mk3t+GtWKPgsTop1t27ONElL65z
+ qpH6RvR8pjJ0fBKtg5zzpB09oJjMyqINS5i1Sluf5453DcPgr416vjqwFpzq0dDHhMOG
+ F4WgVJzn+uhQg45f+7xAXdphcP6BVq6cLlIi4Et6c+HpDx3LTquMs40+jFQuW2uiVDXb
+ cHXgmipLuT0yEKS5UdyIH/CDRVsyI8AjVOGrOG5eSClhRFd444fH9KYt+11mZCsSN7hJ
+ qcddXpT+6CZuRlX5uH91539zkMD9JSCU6QAW2c/UG2A97AFUm7shcbaqi+AKw3Z500w0
+ oyyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV0P+D57g5Yi5xG3SBiDMxLIB/ZKGKUbzTS4OtbHcDFSmtEQfsKpfbd6+OhaV0Zs5yLPPoba4n4hoI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSTAO5JgfacoEHNLW8IDj/ccEx64vSF2EjXfcGKhfeacRmBGY8
- WNuaihVesZkerhR1JRKRu/EmKbCWJgTTOQGtBcsEJoJ0/MtHgqcGQm8Z+AhF4XiKA55qnnBGYN0
- /B4Y=
-X-Gm-Gg: ASbGnctGfVXM2UCFuLp2BIsr+bc4GuR4m7QDVg2SnhQIoOXhAlp9Vn/Se25H+TV3FJX
- EcvJcw1hq2jLoV+7Ihs/HRPrY6xCKwOzbSfQEkl3lrG34Td7nXMQfD8BzCm5gfQgR98jDsQ0P5a
- CotnPICH5Qx0zz/ypf5N8lzB39AGW++Y+WoW5ta+VUeQwMHwgurmIUPEPClJ2QKu3avWAS2uA6b
- vHzVBxnBqobP/BCOwqwiIV0vgV3wnH1XL6Zeqcy4ufEskU+KXq/G7Ax9t1DxW++rF9UPi4veS3u
- jO1gqOaBbgsmOUQ31u/u+wNVUmuZED0GXt/P4gyFhsF1oF/xkyJfhmLM8a+8OLgySJLWVl6RAAO
- otI9FJez/FeyRo1rgNCwbV0/NhZEek1pfxFsl5auX7fE+PYs3aXzQr+qKeSbYZCwhHnrkGDriDE
- wp
-X-Google-Smtp-Source: AGHT+IFqd4FrKSJWS8dh4vAu9CmXpbQJEeYeHmHdXtkw2NogBFafmZYehzcP1T9q9y/qZPJDZuHNvw==
-X-Received: by 2002:a17:903:40c5:b0:249:308:353 with SMTP id
- d9443c01a7336-25173ea19fbmr104250975ad.41.1757347272611; 
- Mon, 08 Sep 2025 09:01:12 -0700 (PDT)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com.
- [209.85.214.180]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24c8e94b34esm148745295ad.94.2025.09.08.09.01.10
- for <dri-devel@lists.freedesktop.org>
+ AJvYcCVbF1Lo2+7MY/QETfFTnnM+qMJRf13KaOTLgL5AWLnXZFubeMH4aw8Izjb1Rz00wfUrhV/HNG2JB+I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUsJ0p/5FJrPh7ISGM0HF+cRIZiisOwRLy1bDI6iRsOw2RauqT
+ pCrBHQLNI/gNaXd65q5ePFcubViysINr9MnbBVybwPfzWc9i1plvpnO1LArUtrl7RBLPtcfT/hL
+ II84VY6hFsyu5tOAYUpe+dQkdj3c0fdHvHUlVXWeV3NtZmdoS6l4Ejis/1fT7QjfsrCPLAsJmen
+ 54sdA=
+X-Gm-Gg: ASbGncsPsl9rKf4IIA/46e1lFUDZiogXEzzy69h0IWKtiXY5OGQuZ9kuc8nYnMEnk2B
+ yo7uO96mXMgPMQckeADkqO1a/EQ5BJeRywKK6BnTFnfSbeAYsD+XcSoyVNeAPuu8CZVyxTgYGlA
+ +WVPheTxaulJtLVCat8GZeX/+kketynp5gMNHmpG+hEVdLbmiW2LoTkKAkzXZ35v2L+YRAVgImo
+ AM2TiqFLKxIocpNgaBRgUXuUcDmLb029Det1ym7UsS1TxLer9ICjW4uYAV1SwtP7GQfuXf72iED
+ l3SFdYZRp6T57kBHZM3G0kLgJA4GS30CtFHdakudyO9i7Sa6HXak4BdTvpkVlg==
+X-Received: by 2002:a17:90b:48d2:b0:32b:cba3:6361 with SMTP id
+ 98e67ed59e1d1-32d43f76b78mr10340167a91.26.1757348141351; 
+ Mon, 08 Sep 2025 09:15:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHZF1OPxZnSURBZkaB/X4pj0b/Fs/TUocy/fiORRAwfDENjJPxq3DAYNP2im4uK6ps4zcHOGQ==
+X-Received: by 2002:a17:90b:48d2:b0:32b:cba3:6361 with SMTP id
+ 98e67ed59e1d1-32d43f76b78mr10340134a91.26.1757348140791; 
+ Mon, 08 Sep 2025 09:15:40 -0700 (PDT)
+Received: from [10.91.118.43] ([202.46.23.19])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-32b948d5471sm6213558a91.3.2025.09.08.09.15.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Sep 2025 09:01:11 -0700 (PDT)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-244582738b5so37976035ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:01:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXldJPkiowQ9qqx0I0FM8inbR45WcrVnHnPfXnOlm9eISYLI7cCW+s0thQq7oMRP4sp5oCCM7vw/KQ=@lists.freedesktop.org
-X-Received: by 2002:a17:902:ec8e:b0:24c:cca1:7cfc with SMTP id
- d9443c01a7336-251761680f7mr126471995ad.59.1757347269705; Mon, 08 Sep 2025
- 09:01:09 -0700 (PDT)
+ Mon, 08 Sep 2025 09:15:40 -0700 (PDT)
+Message-ID: <ae32a704-025d-443f-bc03-fd8c6e5d3acd@oss.qualcomm.com>
+Date: Mon, 8 Sep 2025 21:45:33 +0530
 MIME-Version: 1.0
-References: <20250908063732.764289-1-wuzhongtian@huaqin.corp-partner.google.com>
-In-Reply-To: <20250908063732.764289-1-wuzhongtian@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 8 Sep 2025 09:00:56 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
-X-Gm-Features: Ac12FXxPVHg-eiaA8fURwy48KzU3M4U1RJrwAg8wF2uEv9ufhRs9yYWmoT3IaoQ
-Message-ID: <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/panel-edp: Add 4 more panels needed by mt8189
- Chromebooks
-To: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/16] drm/msm/adreno: Add fenced regwrite support
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250908-ifpc-support-v2-0-631b1080bf91@oss.qualcomm.com>
+ <20250908-ifpc-support-v2-7-631b1080bf91@oss.qualcomm.com>
+ <59ac7827-6258-4268-8b71-4cbcbad859db@oss.qualcomm.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <59ac7827-6258-4268-8b71-4cbcbad859db@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX7n9D36XH2gNz
+ 5cs3i2r+T1STknoYbDDEUsxcUe4GzkwzivD1B6mFtd4/7myKjMa0nAL5FunVX7SqU0Hn/0sKaks
+ b75ACdbz8UU+kXazT36YCI0Ze7HF4UQ6VlG7OLaBc5lHW3GoqNbEnYL+2NzTYblRRSuwmU3FhAa
+ KBZvlOQKYsHGQoqAmJ+TSHA2P+7ebPwIeEJZWibff3Y9kc3QSrTtfhaEd39DcNU+Gu66if53R7n
+ Vm4eLxBDd/GOymS3mukmIYKSY9fGftpiYDbz7Ud2AaQN7c1i/gZnFIcAUObXHL28wTbmNGfLLH1
+ wtRrY4L3+w7VyC+DVrX15LHbRlX52HQQCD9s0fcvObzLVV2sYH3hU15IVrt7/gv/QFIx6oxmWRQ
+ kqiNcmvb
+X-Proofpoint-ORIG-GUID: Qp_jRwXyNJe9NSSTRWmT4JCQSwdLBDDv
+X-Proofpoint-GUID: Qp_jRwXyNJe9NSSTRWmT4JCQSwdLBDDv
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68bf012f cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=Npwa9MXoYRiG9O3kBDcA:9
+ a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,122 +133,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 9/8/2025 9:07 PM, Konrad Dybcio wrote:
+> On 9/8/25 10:27 AM, Akhil P Oommen wrote:
+>> There are some special registers which are accessible even when GX power
+>> domain is collapsed during an IFPC sleep. Accessing these registers
+>> wakes up GPU from power collapse and allow programming these registers
+>> without additional handshake with GMU. This patch adds support for this
+>> special register write sequence.
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 80 ++++++++++++++++++++++++++++++-
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
+>>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 20 ++++----
+>>  3 files changed, 90 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index 45dd5fd1c2bfcb0a01b71a326c7d95b0f9496d99..a63dad80ef461da45d5c41a042ed4f19d8282ef5 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -16,6 +16,84 @@
+>>  
+>>  #define GPU_PAS_ID 13
+>>  
+>> +static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 value, u32 status, u32 mask)
+>> +{
+>> +	/* Success if !writedropped0/1 */
+>> +	if (!(status & mask))
+>> +		return true;
+>> +
+>> +	udelay(10);
+>> +
+>> +	/* Try to update fenced register again */
+>> +	gpu_write(gpu, offset, value);
+>> +
+>> +	/* We can't do a posted write here because the power domain could be
+>> +	 * in collapse state. So use the heaviest barrier instead
+>> +	 */
+>> +	mb();
+>> +	return false;
+>> +}
+>> +
+>> +static int fenced_write(struct a6xx_gpu *a6xx_gpu, u32 offset, u32 value, u32 mask)
+>> +{
+>> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+>> +	struct msm_gpu *gpu = &adreno_gpu->base;
+>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>> +	u32 status;
+>> +
+>> +	gpu_write(gpu, offset, value);
+>> +
+>> +	/* Nothing else to be done in the case of no-GMU */
+>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>> +		return 0;
+>> +
+>> +	/* We can't do a posted write here because the power domain could be
+>> +	 * in collapse state. So use the heaviest barrier instead
+>> +	 */
+> 
+> I'm not sure I follow - what's the relationship between the write being
+> posted and the power domain being collapsed (i.e. the hw not being
+> powered on)?
+> 
+> Are you trying to get rid of the delay that could happen between this
+> write leaving the CPU and arriving at the GPU (which would then be
+> woken up), so that the 1ms poll below has greater chance to succeed
+> because of how these "special registers" work?
 
-On Sun, Sep 7, 2025 at 11:37=E2=80=AFPM Zhongtian Wu
-<wuzhongtian@huaqin.corp-partner.google.com> wrote:
->
-> Add a few generic edp panels used by mt8189 chromebooks. For
-> BOE-NV140WUM-N44 , the enable timing required 80ms. For
-> CSW-MNE007QB3-1, the hpd_absent timing rquired 80ms, the enable timing
-> required 50ms, the disable timing required 50ms. For CSW-MNE007QS3-6,
-> the enable timing required 50ms. For CMN-N140JCA-ELK, the enable timing
-> required 80ms and disable timing required 50ms.
->
-> BOE NV140WUM-N44 V8.2
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 09 e5 6a 0a 00 00 00 00
-> 2e 20 01 04 a5 1e 13 78 03 fb f5 96 5d 5a 91 29
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 61 40 80 04 71 b0 3c 40 30 20
-> 36 00 2d bc 10 00 00 1a 81 33 80 04 71 b0 3c 40
-> 30 20 36 00 2d bc 10 00 00 1a 00 00 00 fd 00 28
-> 3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 56 31 34 30 57 55 4d 2d 4e 34 34 0a 01 7c
->
-> 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
->
-> CSW MNE007QB3-1:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 0e 77 6e 14 00 00 00 00
-> 00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-> 36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
-> 30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
-> 3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 69
->
-> 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
-> 00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
-> 5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
-> 20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
-> 00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
-> ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
->
-> CSW MNE007QS3-6:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 0e 77 3f 14 00 00 00 00
-> 00 22 01 04 a5 1e 13 78 03 2c c5 94 5c 59 95 29
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
-> 36 00 2e bd 10 00 00 1a 88 31 80 c8 70 b0 2e 40
-> 30 20 36 00 2e bd 10 00 00 1a 00 00 00 fd 00 28
-> 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 4d 4e 45 30 30 37 51 53 33 2d 36 0a 20 01 80
->
-> 70 20 79 02 00 81 00 14 74 1a 00 00 03 01 28 3c
-> 00 00 00 00 00 00 3c 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 9e 90
->
-> CMN N140JCA-ELK:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 0d ae 41 14 00 00 00 00
-> 25 21 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-> a6 00 2d bc 10 00 00 18 35 30 80 a0 70 b0 24 40
-> 30 20 a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28
-> 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 31 34 30 4a 43 41 2d 45 4c 4b 0a 20 01 14
->
-> 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
+We should strictly ensure that the GX register write is posted first (it
+could be posted to the hw or dropped by the fence hw). Otherwise the
+fence status register (in CX domain) might incorrectly report that the
+register write went through. Ideally, we should do a posted write here,
+but we can't do that due to IFPC. A full barrier (DSB SY) will ensure
+this ordering requirement.
 
-Note that I hadn't actually provided my Reviewed-by tag on your
-previous version, so you shouldn't have included it here. Even if I
-responded to the patch, the Reviewed-by tag means that I've happy with
-it and I did not provide that on your previous version.
+Another motivation here is to align closely with the downstream sequence
+which uses a similar barrier. It will be a super painful debug if this
+sequence miss a register write.
 
-...in this particular case it turns out that I _am_ happy with the
-current version, but you should have still let me say that and not
-added the tag yourself...
+-Akhil.
 
-...hmmm, and then I tried to apply your patch and it didn't apply
-cleanly. :( Please post your patches for edp-panel against
-drm-misc-next. This makes it so I don't need to manually fix things
-up... I've fixed it up myself this time, but next time I'll ask you to
-send a new version.
+> 
+> Konrad
 
-In any case, I've gone ahead and pushed it to drm-misc-next:
-
-
-[1/1] drm/panel-edp: Add 4 more panels needed by mt8189 Chromebooks
-      commit: 490b30fbaca2abbd6afa8bdc7e2df329b5d82412
