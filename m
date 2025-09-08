@@ -2,118 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD321B490B5
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 16:07:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBBFB490E8
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 16:12:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11BC910E0C1;
-	Mon,  8 Sep 2025 14:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7993610E53B;
+	Mon,  8 Sep 2025 14:12:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V9hENwSJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PNVAm3e/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E94C710E0C1
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 14:07:26 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-45dd7b15a64so27524935e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 07:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757340445; x=1757945245; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Rdc/gAsQZ6uhaHdORjf30XQWPTkhf47P6Ih3PEktLz0=;
- b=V9hENwSJcPxDcGK8/88fHJ6dp69fsr3LEI4e2tFZfPG8C9f86jFRse1nh65rtPuawC
- FfB5g/7E8PzWb1mk5xgs8f+yIePhCYOPdgm8wdmt3pq5+gNuYqoodc36lLfvSY8GsgO2
- wjfEvJILynwoyAcPO2THvV96tZ82GWDoR34J7bu6PkkKwZmuWgBc5Z5+4XEPBY/1FbVi
- 6uT0GsC+Pan470VZMMgeQcMgIWh84cpaXfaIFKX1NMVxNP3Apdrn72dR+VzRatdkstBb
- 57cXRnQsDzyOOuuBqYe6NQxuDw+jLxHwGvWb+kMJnPVWXPinW1Lfe609wILyiFQjPHXJ
- JbFA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A3710E538
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 14:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1757340751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fPEM/6vsiAl702X9lBvcgrhIXEUzSqlwkstVlu6sD9Y=;
+ b=PNVAm3e//ZO60cPbmEBOGqEXSP3IbLjtE2+XscaUJ5vqXZsxpeeQ4sU5ltXRJJ7HCLma9Q
+ 6Q921IWendv7dPPCIiZU4HS/tFqIW9NQ/FSfzvbg4fI1+Vg4PyrYRDQqppS4ygFiVlmQv4
+ u/0nul3qTpQNMOyA9e0b3RFOtbsvIek=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-14I4-wpKMJ6ZaRdxtswVWw-1; Mon, 08 Sep 2025 10:12:30 -0400
+X-MC-Unique: 14I4-wpKMJ6ZaRdxtswVWw-1
+X-Mimecast-MFC-AGG-ID: 14I4-wpKMJ6ZaRdxtswVWw_1757340746
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-32b58dd475eso4533596a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 07:12:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757340445; x=1757945245;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Rdc/gAsQZ6uhaHdORjf30XQWPTkhf47P6Ih3PEktLz0=;
- b=AwFPKxloJKKKDQR4KAxpCRGFXkjiaPE0Wxw10mPTzKeaYqtqxJSzvEKf3nICqeAr0D
- nBVd5RHhXsfWwaktGmgVeyzpaYq3mjS5lVNxRgCaIPALbnmXZXnzfsh9/IQovuM+hIqU
- AZERW0I51upkN4J2mEsUu0lvPjHwcAiXtrmTxPccD1w5vxuoQCXMLBFdr9Q90F+koDW9
- EhS0Lr3n2OlUjTlDuFbr9s3srtegt9J3o1VPOu4UeDLp87No1CCE/l7DwYqqqJvD85za
- uoygifYNOvyGcUuU8WbF/XIJTsvuBfL2HwKfVFzOHn5noTxvPEy6iILwqhTP/n6U/iYi
- 4AsQ==
+ d=1e100.net; s=20230601; t=1757340746; x=1757945546;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fPEM/6vsiAl702X9lBvcgrhIXEUzSqlwkstVlu6sD9Y=;
+ b=M9mh5EA0s/XV0RwzKdTCy+yZlrWrhbbfMirSnYNrVPoxYwpGl10bCOyzDyZ1lpfON0
+ a/6vyDiBlK2nSPt5A0ne2k4A7Jt4G8DtfsG6+Ffvz/vqWwqjdX23C8g8EdhCtFfh+fyn
+ gazwKPlonKsqp0QafDnDUSoQuwkmtpCIs3AQhWcty/IdJk/mMWY9cfeSDFSXndboRha5
+ xkZl1qR87qmXWXNn7EjkXIO27kO0gNgYVEmaC/ylNYJhST1vNbsDk6dJbb8/7FN38ZRV
+ YImfsAUEeeUXrXOk8paCQMJ3LwldutAx5VX16Uj2AjCUDJdG5Im3r2UMmz0UEShdacki
+ TRzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvXp9idoTXQx9cHxGOS/iGOV4hP/09ly/leuFuuoIYETQp1VG/df9oajLhjrsQVq9cEv6ZmaIcjV0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwhAWbde+DYeLKIEP4INDcdRPKD8tqD3Fd3X9fDZChbNdKVd9YT
- 97JeCMcwa4TZedpV4BKDzF0sHJ4QQ41AbCUf+CkPFUKiSw5kJfKR+OH4GH4Ty/a3OEk=
-X-Gm-Gg: ASbGncs5CgrSbHPCVKZ9zGk3AvUeEvn+hmvKtF4cdcaDsCnh+WRwdxtcCA7X9sjJB1b
- 09eq0s9OdGTQJAqrp7i3ROGeEOf8HdyAZDwbOXeO+/ndoKxERr7SQtxeCYfi9f2qQJx6l95Bwqe
- WofoLjyZGdx1YhZYWSpyjEQI1NQgb9wVQ4XwCUFe/TZiaJ5bFatsii8ZhllOXgaW8af0MdI0+1i
- B8xjwLeA4qx5Obzs0vkreIzv/Wfi42mcpgneJJtU5oHTb9dFGeuoguklZswgUG7mzEWGZU7dpqv
- nae7pD+2mYeaUoF3yOeKDUw6Fsan4dIgFPIlbD6Red/ZNa3qqct2sAVxEAF9Mv2OAJ1snSYAujq
- M9m156wYbtqS5X62lU4JxfKrXfEOHDxEibil4a7wlFgsEHS+ZPCqZ6vwoocTwA2HQZQBR7uEzQn
- eCyGJ3QgsWzg==
-X-Google-Smtp-Source: AGHT+IFgaJMZWp+yGKsLkm2e55jSKRrdRQJMjkwsfeyTYzu9PP+AiFfrM1Y4iCzAOP2g1/eX7se7mQ==
-X-Received: by 2002:a05:600c:c0c5:b0:45d:e531:99df with SMTP id
- 5b1f17b1804b1-45de64869d9mr26259825e9.3.1757340443694; 
- Mon, 08 Sep 2025 07:07:23 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:61c1:5d31:4427:381b?
- ([2a01:e0a:3d9:2080:61c1:5d31:4427:381b])
+ AJvYcCW028VN0f1IpmkRsKHPxBPNMby6F10V/ZayVx0qBsS/iLXOB+KwRkPw8xiWqHnYEq48B8M4ioCgaAY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywn/vsvGx8knfa33CXeomo7bmVdvORKqj5aezYNmN+qn4ahuxPt
+ ovKDbsJ33hCvxL/Aqwk+aBk8KpiI1LpOybdXfsq+9eZGr6vFrkDE/UIqpru8Zh8xhUMGgmmcpNX
+ oEsbq6R1W9qMuj8iCuYE4bX2RpckNkfwz0wX7U5U3nwRdQOaZf7PdWI1DzMtGmGn97zRydQ==
+X-Gm-Gg: ASbGnctT8VYAtqAHZn8Cl8HERgP7mX6mA5zE6CSumwneJ+x/CiPhwdld0Wf8PeAVHVF
+ 8wN38+AOCuZ8E64HG/KjKVxUEjG1NSD3UldQXXMMjN5J9b0zJQtkkKACFGLgP0NHTjpivANmTF5
+ ua3Yv4PRpdBTw486gfoNVQ94waDU7nRcJBSqoVTjyQL/DgAgKGS6dahB/+h3QIM/onP2ylSwG32
+ XbEIXGCVv3NPi2SACZK9Zk17s0aElGWirqry+4AjjfK8sdrUv8MNlSp9s1Mre0iF0UDBo1aVCLk
+ K/12P/DaTkzSgKF3mkyAQUlGZFabWefI9mo=
+X-Received: by 2002:a17:90b:4c12:b0:329:f110:fe9e with SMTP id
+ 98e67ed59e1d1-32d43f5bc76mr11240823a91.17.1757340746448; 
+ Mon, 08 Sep 2025 07:12:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHpoq0ydxeRV3bqT1pPZ0asQ1BYD8GDn9+GYnc0QJIZ3/e+Jo6uQtsHmaaVuWuQ1Ptp5qrMOA==
+X-Received: by 2002:a17:90b:4c12:b0:329:f110:fe9e with SMTP id
+ 98e67ed59e1d1-32d43f5bc76mr11240780a91.17.1757340746005; 
+ Mon, 08 Sep 2025 07:12:26 -0700 (PDT)
+Received: from zeus ([2405:6580:83a0:7600:6e93:a15a:9134:ae1f])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45c6faad9cfsm266392505e9.0.2025.09.08.07.07.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Sep 2025 07:07:23 -0700 (PDT)
-Message-ID: <a0d8f2de-2456-4f18-b901-e8b003eece44@linaro.org>
-Date: Mon, 8 Sep 2025 16:07:22 +0200
+ 98e67ed59e1d1-32d89f32ebfsm2937596a91.0.2025.09.08.07.12.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 07:12:25 -0700 (PDT)
+From: Ryosuke Yasuoka <ryasuoka@redhat.com>
+To: zack.rusin@broadcom.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, ian.forbes@broadcom.com, jfalempe@redhat.com
+Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>,
+ bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH drm-misc-next v2 0/1] add drm_panic_support for vmwgfx-stdu
+Date: Mon,  8 Sep 2025 23:11:33 +0900
+Message-ID: <20250908141152.221291-1-ryasuoka@redhat.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v3 2/5] drm/bridge: simple: add Realtek RTD2171 DP-to-HDMI
- bridge
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Maud Spierings <maud_spierings@hotmail.com>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- andersson@kernel.org, andrzej.hajda@intel.com, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jernej.skrabec@gmail.com, jonas@kwiboo.se, kishon@kernel.org,
- konradybcio@kernel.org, krzk+dt@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, rfoss@kernel.org,
- robh@kernel.org, simona@ffwll.ch, tzimmermann@suse.de, vkoul@kernel.org
-References: <20250908-topic-x1e80100-hdmi-v3-2-c53b0f2bc2fb@linaro.org>
- <AM7P189MB100924E3244B953F0EA6D462E30CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
- <u3qwrzwcr4knq7ueinws3siz2frugbkj75r5zp6i7qmkhnyauf@lrmiqhtbgzfj>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <u3qwrzwcr4knq7ueinws3siz2frugbkj75r5zp6i7qmkhnyauf@lrmiqhtbgzfj>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BSfP_ioqHeJyBrP5U1vd9XHdgYiHrtfFURvb7LP0QQY_1757340746
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,63 +97,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add drm_panic support for stdu in vmwgfx. This patch was tested in 
+a VM with VMSVGA on Virtual Box.
 
-On 08/09/2025 15:45, Dmitry Baryshkov wrote:
-> On Mon, Sep 08, 2025 at 03:35:23PM +0200, Maud Spierings wrote:
->> Hello Neil,
->>
->>> Add support for the transparent Realtek RTD2171 DP-to-HDMI bridge.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>>   drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
->>> index 1f16d568bcc4e0fb56c763244389e6fecbcb2231..e4d0bc2200f8632bcc883102c89c270a17c68d0c 100644
->>> --- a/drivers/gpu/drm/bridge/simple-bridge.c
->>> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
->>> @@ -266,6 +266,11 @@ static const struct of_device_id simple_bridge_match[] = {
->>>   		.data = &(const struct simple_bridge_info) {
->>>   			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
->>>   		},
->>> +	}, {
->>> +		.compatible = "realtek,rtd2171",
->>> +		.data = &(const struct simple_bridge_info) {
->>> +			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
->>> +		},
->>>   	}, {
->>>   		.compatible = "ti,opa362",
->>>   		.data = &(const struct simple_bridge_info) {
->>>
->>> -- 
->>> 2.34.1
->>
->> I would like to ask again if it may not be a better idea to introduce a
->> fallback compatible, once this patchseries lands I will be adding the
-> 
-> I'd say, that's not a good idea. We usually don't have fully datasheets
-> for those bridges, so we can't be sure that there are no strapping pins
-> / other GPIO controls.
-> 
->> parade,ps185hdm. I don't know how many other variants there are that are
->> just simple dp->hdmi bridges that don't require anything other than the
->> connector type set to HDMIA. The Thinkbook 16 and zenbook a14 both have HDMI
->> connectors, likely with simple bridges too.
+I got 2 type of suggestions from reviewers:
+1. Write the panic screen to guest_memory_bo and send dirty/flush
+command
+2. Write it to VRAM directly and then switch back to legacy mode
 
-Sorry for the late reply, yes I have the same position, they are simple bridge
-until we found out it's not the case...
+Since option 2 is simpler than another one and ldu might be able
+to re-use some codes if ldu supports drm_panic, I re-write this
+v2 patch with option 2.
 
-Neil
+Ryosuke Yasuoka (1):
+  drm/vmwgfx: add drm_panic support for stdu
 
->>
->> Kind regards,
->> Maud
-> 
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c  | 73 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  | 18 +++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  |  9 ++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h  |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c  | 43 ++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 34 +++++++++++++
+ 6 files changed, 178 insertions(+)
+
+
+base-commit: 306c8959b5fdfdc3900aebe4e56257a349f5765f
+-- 
+2.51.0
 
