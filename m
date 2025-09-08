@@ -2,108 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4660EB48677
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 10:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A91B486DB
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 10:26:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B78410E04F;
-	Mon,  8 Sep 2025 08:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D91C10E105;
+	Mon,  8 Sep 2025 08:26:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fiK51BCV";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bGIc93kA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594FF10E04F
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 08:18:25 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 5FD304E40C5B;
- Mon,  8 Sep 2025 08:18:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 377966061A;
- Mon,  8 Sep 2025 08:18:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 98BE6102F1C66; 
- Mon,  8 Sep 2025 10:18:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1757319502; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=/GrDt8XmFBTa2dcvBPiDo9rdT2AmBKeqDUG/8YvTfQQ=;
- b=fiK51BCVEh2IJ+zxyOMpclw+0RsOo7Vp4oqG/HZkHqBmYUtuB7SgIDFQCSOzmhPXjcLABz
- g+HqHxtWfCqM2TZ50lAd/blryX45u3n3iIUpgrpnXU4VLm+rr8/T4okcVOHRHBHhPrf0lV
- HJRbSGQR+7jIIEQQ5QEKpFff4c/dvUbUYRODFi4u1NHW1R9zXMafg2B7E9J0nBhghyVQyf
- /PWWWreGRJ7PgySikkBL63X3LkTmhDd+voie63Om9fWPgKCYWc6X+LhQZZR9eYSWs3HB+y
- UcMxi6YC5/DH3sn14/cw7NcpDGjMNJ0K5ipFj8MYPugNONF1g4xFySJUtHnaxg==
-Message-ID: <48b9ee80-bf97-4973-a11f-270b41364081@bootlin.com>
-Date: Mon, 8 Sep 2025 10:18:13 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tests: make sure drm_client_modeset tests are enabled
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9D610E105
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 08:26:15 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-45b99c18484so17099445e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 01:26:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1757319974; x=1757924774;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OnHARbdkEp4PUIEXLxBi52Eid01cJA5Jgk1L/pOVvBU=;
+ b=bGIc93kAdex7f8PoX95MtgXjpt+yWNuw6s3+JlKemLr0Ora19hgvFAKG5d9g9ee/aq
+ JzUYShosM286wypQdym7FmomaHu/lGxt3APS1tUCKPma7+94Mj74buhXS9E7hwpBwiR1
+ 1u5kaP9QmVc0UKRE2gmGuJilkP7ZkhyMe41I2pUtxnmzDt3IK3b4GZXn0yJuK3XeZ5qJ
+ vmEX0GHShyLoy1R9uzJXZlkqEEI4ITUzkal7bW/69WFSoDFA+ieMlp7sZPh2GCF2mdaG
+ tnGlS4bN78FUgmc/Wwb2d2smEsuIoJ1QNoWu7uxlAtlnhoHKWRxqUcsT3afAftqtKT5e
+ we4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757319974; x=1757924774;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OnHARbdkEp4PUIEXLxBi52Eid01cJA5Jgk1L/pOVvBU=;
+ b=K7X7GvvTF4uJD7ZWYHjTQeTVPdUomeedfZoIDPHh0V+UEInSeeCusHUEBm9VFCZas2
+ XkAZ5TyDie+Bldb0HJcgBOzJ1Z34q/apxCZl02sa6NPf2ZETEY7qHPxnm6nXzxqp6Oye
+ ZYd5528Jx5MKZtnjW8n1Sqf/Ay0pCxveW0HRYxPG2j1AfErAx82peoNyLTSY4djB0CC6
+ VMRVNfZPcvWKIG1mvtjI4NrdfTpUXD0z5m9L2xYbCPAqbNktWXJv/rdwlF3M8zVNaMQb
+ A99L1hxdEHw3fmY80v7NNRiVGo+11DQypG5eRUDWvyr3cMWYfVsJcrmRZrex2qohD6Ya
+ Jxzw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNyZAzwpgd+GptnadcPRNvmeVt8buLrrvUJf5h/f52IAECo5N5BqtqcHJ+Htto4P+kDDpKhBZHsk4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1EyMx1di599OULwry++K6E8dNpJil1Zs/VSekMzSvhJ6qoCqE
+ mLumIZG5W+TJoN6jqnCKRHNB/b2LrP0RfyheMN7FCpazVeVEItbuRqdMjKs2lpczKjPGlVRt66f
+ Ru5UEwPL9Qo7zaByM5w==
+X-Google-Smtp-Source: AGHT+IHmAGS9iw5p+qpRXfi08CMknpisf8y9SJ/Rv5N3Oluu+SFLgdV4jan6x32Afnezxx99GFjYRiK5SIRpfUE=
+X-Received: from wmon9.prod.google.com ([2002:a05:600c:4649:b0:45d:d1dd:6750])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1d24:b0:45b:7185:9e5 with SMTP id
+ 5b1f17b1804b1-45dea7a561dmr4688775e9.5.1757319974085; 
+ Mon, 08 Sep 2025 01:26:14 -0700 (PDT)
+Date: Mon, 8 Sep 2025 08:26:13 +0000
+In-Reply-To: <20250908091140.44856fde@fedora>
+Mime-Version: 1.0
+References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
+ <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
+ <20250905152505.005a610d@fedora>
+ <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
+ <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org> <aL1pSFB9iBsfHFM_@google.com>
+ <DCMJ6K06T63T.2UBTM1RL4YJ0A@kernel.org> <aL1u_YxOkuj1kIq6@google.com>
+ <20250908091140.44856fde@fedora>
+Message-ID: <aL6TJYRmWIkQXujj@google.com>
+Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
+From: Alice Ryhl <aliceryhl@google.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,43 +92,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 21/08/2025 à 13:25, Dmitry Baryshkov a écrit :
-> Default config for UML (x86_64) doesn't include any driver which
-> supports DRM_CLIENT_SELECTION, which makes drm_client_modeset disabled
-> (and correspondingly tests for that module are not executed too).
+On Mon, Sep 08, 2025 at 09:11:40AM +0200, Boris Brezillon wrote:
+> Hi Alice,
 > 
-> Enable DRM_VKMS and DRM_FBDEV_EMULATION in order to be able to run DRM
-> client modesetting tests.
+> On Sun, 7 Sep 2025 11:39:41 +0000
+> Alice Ryhl <aliceryhl@google.com> wrote:
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
-> ---
->   drivers/gpu/drm/tests/.kunitconfig | 2 ++
->   1 file changed, 2 insertions(+)
+> > Yeah I guess we could have unlink remove the gpuva, but then allow the
+> > end-user to attach the gpuva to a list of gpuvas to kfree deferred. That
+> > way, the drm_gpuva_unlink() is not deferred but any resources it has can
+> > be.
 > 
-> diff --git a/drivers/gpu/drm/tests/.kunitconfig b/drivers/gpu/drm/tests/.kunitconfig
-> index 6ec04b4c979d45a082a5fb078b81346e1f60b0d2..5be8e71f45d5c3588ca67f117e4c44b995153f63 100644
-> --- a/drivers/gpu/drm/tests/.kunitconfig
-> +++ b/drivers/gpu/drm/tests/.kunitconfig
-> @@ -1,3 +1,5 @@
->   CONFIG_KUNIT=y
->   CONFIG_DRM=y
-> +CONFIG_DRM_VKMS=y
-> +CONFIG_DRM_FBDEV_EMULATION=y
->   CONFIG_DRM_KUNIT_TEST=y
+> This ^.
 > 
-> ---
-> base-commit: c8cea4371e5eca30cda8660aabb337747dabc51d
-> change-id: 20250821-drm-client-tests-32657432c103
+> > 
+> > Of course, this approach also makes deferred gpuva cleanup somewhat
+> > orthogonal to this patch.
 > 
-> Best regards,
+> Well, yes and no, because if you go for gpuva deferred cleanup, you
+> don't really need the fancy kref_put() you have in this patch, it's
+> just a regular vm_bo_put() that's called in the deferred gpuva path on
+> the vm_bo attached to the gpuva being released.
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Ok, so what you suggest is that on gpuva_unlink() we remove the gpuva
+from the vm_bo's list, but then instead of putting the vm_bo's refcount,
+we add the gpuva to a list, and in the deferred cleanup codepath we
+iterate gpuvas and drop vm_bo refcounts *at that point*. Is that
+understood correctly?
 
+That means we don't immediately remove the vm_bo from the gem.gpuva
+list, but the gpuva list in the vm_bo will be empty. I guess you already
+have to handle such vm_bos anyway since you can already have an empty
+vm_bo in between vm_bo_obtain() and the first call to gpuva_link().
+
+One disadvantage is that we might end up preparing or unevicting a GEM
+object that doesn't have any VAs left, which the current approach
+avoids.
+
+> > One annoying part is that we don't have an gpuvm ops operation for
+> > freeing gpuva, and if we add one for this, it would *only* be used in
+> > this case as most drivers explicitly kfree gpuvas, which could be
+> > confusing for end-users.
+> 
+> Also not sure ::vm_bo_free() was meant to be used like that. It was for
+> drivers that need to control the drm_gpuvm_bo allocation, not those
+> that rely on the default implementation (kmalloc). Given how things
+> are described in the the doc, it feels weird to have a ::vm_bo_free()
+> without ::vm_bo_alloc(). So, if we decide to go this way (which I'm
+> still not convinced we should, given ultimately we might want to defer
+> gpuvas cleanup), the ::vm_bo_free() doc should be extended to cover
+> this 'deferred vm_bo free' case.
+
+I can implement vm_bo_alloc() too, but I think it seems like a pretty
+natural way to use vm_bo_free().
+
+Alice
