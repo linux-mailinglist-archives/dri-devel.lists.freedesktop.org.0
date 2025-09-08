@@ -2,64 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47836B484D4
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E4FB484F6
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 09:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 094DC10E06E;
-	Mon,  8 Sep 2025 07:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E46AA10E091;
+	Mon,  8 Sep 2025 07:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jh/FZUGB";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IZfEPaaI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D03CA10E06E
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 07:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757315506;
- bh=Of78UZh64IZN2D+3zi6NAhV8bopsYtrVBUXbZLFLOuw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=jh/FZUGBFSm7nf8WfKZUADT/s3C4xpz4FcYbhkkvkyB2kuBQH7o8PBPNfJvOXWW+S
- lhREUPWp1BucMpHD8aNW2KjUXCJi8skCE6Gu3C/hYRipR84Cjn3gMIWgMtI5oAMlfU
- Yh3cd5qp9Eply6j5U/6+EmMW8dVeZcqguZ9GYou1Vwt7yE687sbsSrWlvhuNF0XMAU
- MJgIoD8nZUfWks1mdxBFs9EUzdMnDqIeBTM6zBY57NHtaqkdGqEHXyjyyj8GWDpdhx
- 9hu5BO96NTBSWO879cHcC282K7VmRoYwkFL/+RxEDTb1OJ50/80SCrpD6Rp4K13bx8
- NsLxbWVkv66rg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 92FFD17E0100;
- Mon,  8 Sep 2025 09:11:45 +0200 (CEST)
-Date: Mon, 8 Sep 2025 09:11:40 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?="
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20250908091140.44856fde@fedora>
-In-Reply-To: <aL1u_YxOkuj1kIq6@google.com>
-References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
- <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
- <20250905152505.005a610d@fedora>
- <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
- <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org>
- <aL1pSFB9iBsfHFM_@google.com>
- <DCMJ6K06T63T.2UBTM1RL4YJ0A@kernel.org>
- <aL1u_YxOkuj1kIq6@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A734710E091
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 07:20:06 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 587LsCbs013497
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 07:20:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VWcKtvk8mFvfLmI00zGKSgzDw0tbzl3o6sU4GJfPEyg=; b=IZfEPaaIDN1l1x7T
+ TnF1MTF+bRDRHQxbUua0ygSd0wlAkRtC3j1WrZRPaExv+OwbqMdE64KkYmn+QCQs
+ RC8rVme6YhJB1Hsy68yssndvDzHpyAbOSHNpkcueZqfCvgAp1TCD6aebERni0Vez
+ zWkLr6RkuDPBvmWRSah/ywQzw+d8Q4/IXKDBhwuyan4zzz9L38g1ImRJNbFjJP0R
+ JdXCKEHEAxF0011/Igk+GEy0NopfLO5xRLSi+2te9Gk+E5pXGakkpxQVMkYaLuf4
+ 4jjhtJ4wLrzgfXVQB26W8Ftgje8vJJ3UEpFTKgPRpKudOlUI31Skz60BoDTdUcho
+ ll7Dgw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490cj0kmpn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 07:20:05 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b5eb710c8eso7425431cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 00:20:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757316005; x=1757920805;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VWcKtvk8mFvfLmI00zGKSgzDw0tbzl3o6sU4GJfPEyg=;
+ b=VBR+CUMwSHVDgN80ifesjj3ynBhIHt6ctb7K8tzp8xR4Z5dV5UOl+OHIjKahXL4n8x
+ qi50tfqE/TmFELhEy+rt8K2QqYOajvqccgFUtBfJ7Cc+ShyvlhTQX/JRnmmKRGBVullJ
+ 9WpOGkS03R4jazMq10BHhiSiYsyloVoLqDqIijH/QByMdHCQnPFFIiF+FXEjI+jL0G2Y
+ siwWIe6NSujUMLVisFzaSx1l0MkEmgG0HsZ+4begF3E50XUUkBhTBJ+wRN9YAJthht7m
+ PkY8thwRO4Yj9uy7fY+pcq5rMoJA0ddGzweUu2llYU3BSrzPHmZl5XWo5I+NgtfCsiW/
+ dPaQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWyWYwkWKe1l9YMyquU9wJg9TS+J0ZFezKgn1F6cprQzKQjN46nPZsTPNn1vkyUE2WuxU9h6HVRrx4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyB1vOYYDb0LlQkqeRfL1OPDIOEM+VOySnpKhLuVhcbJGR8EDVv
+ 0liqu8GXPA5lmGHYNUmcYWd2R/POpeIHb8qTR8Cl2EYkIIUAUCI2qgsOx6MUwYY7O4YYLoYTfUz
+ y7hUdEi+WhfwKRm/A1Fzt3SeFy+d2g+DUM5ATD1N+HBUEAltIR68JNVvyIu4HTveigGMTZ3g=
+X-Gm-Gg: ASbGnctZNi+XquTQ9qNMe1V1pGpFK3pp2Ps016iTKkCx0v+bjxtNQQqJatS21coulwz
+ S6mvFEzGAooDLEnFAzw/Qcn8w3OZzBTBCrT/ec3Qy8pkti4ky0D4zYJtUB9hN7v/osKfHRbBq/e
+ 8mJ4Mjv6AFmaS/4MAvX06jGtIkPjr8u94tDFdO5FpmebZedMIxKRYiPW9P3uFQfpLXy7Tt1Vx1r
+ hxXz6UW1k9NvDoqy0CbFc6Zy/NEe5CMpMEcQ6cylUWQ+MVdGdHCvv7gRGO9OU8KAUfVr1yaNEjM
+ TvjBtm/fEExhJElDXYdkMPu39dzcSZjJpqzvzBvVMin4enxlBeI5cJec2duEqVAzEBjyMzAoYZl
+ 8Xy0GT0Ntc9OacyOgYVN73g==
+X-Received: by 2002:ac8:5dd1:0:b0:4b2:d8e5:b6e3 with SMTP id
+ d75a77b69052e-4b5f8445af1mr48142071cf.1.1757316004480; 
+ Mon, 08 Sep 2025 00:20:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH4+QiJyueOpHGD01U7ZGb5pGulY2uWYz7NY7jH/9d6NejQbnMKqPQkDJBKht2O5pECh1Hjng==
+X-Received: by 2002:ac8:5dd1:0:b0:4b2:d8e5:b6e3 with SMTP id
+ d75a77b69052e-4b5f8445af1mr48141961cf.1.1757316003978; 
+ Mon, 08 Sep 2025 00:20:03 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b0409bf055esm2172292466b.85.2025.09.08.00.20.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Sep 2025 00:20:03 -0700 (PDT)
+Message-ID: <0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com>
+Date: Mon, 8 Sep 2025 09:20:00 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
+To: Aleksandrs Vinarskis <alex@vinarskis.com>,
+ Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
+ <20250908-leds-v3-2-5944dc400668@vinarskis.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250908-leds-v3-2-5944dc400668@vinarskis.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: wlizea1E2p5xiWZCNrqr6FSnUpENi1rG
+X-Proofpoint-GUID: wlizea1E2p5xiWZCNrqr6FSnUpENi1rG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNCBTYWx0ZWRfX/5ID7s004ljT
+ E4A2LaJSw393r8qX8H9DnaHLEGIyy2XzCAlDiF41HHvPBAfeM7wOS9wYed9mW/G4eJ7jsYTp3Wj
+ 74dl1pXWOhU18hNdZuouQnDnmQQGW2TWh6bwAcPzWtNdOwLPltcy7r80jhA2R6muV5e/SQ5mF2o
+ sYybH8RAFddQWCg0QObd2A38DJXnw/5ZHMezOdhup3iowjr+aYreS3cI9ZoaqmP/FvuwagDH7wv
+ 91RCz6fXiaIYfJ1eUpVBzClb36vh3pfjZYMtaTjQMGL1XnVejK59Hk9Zr0zJUTPkam9tK4s56fo
+ VxC3vILZpr+YtgHg2yJNDw8bQ+0H0AbuVDuNIVfrQUfHMJFF3vrhhzX12sOL444TEHoxUxfdJbq
+ ykYWXjRz
+X-Authority-Analysis: v=2.4 cv=QeFmvtbv c=1 sm=1 tr=0 ts=68be83a5 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=I76Qk8w-AAAA:8 a=zDPauhyOtcwAXlC7rdQA:9
+ a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10 a=kacYvNCVWA4VmyqE58fU:22
+ a=vUPM0Wvl0xcrLs4nqPIT:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_02,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,120 +136,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alice,
+On 9/8/25 1:18 AM, Aleksandrs Vinarskis wrote:
+> A number of existing schemas use 'leds' property to provide
+> phandle-array of LED(s) to the consumer. Additionally, with the
+> upcoming privacy-led support in device-tree, v4l2 subnode could be a
+> LED consumer, meaning that all camera sensors should support 'leds'
+> and 'led-names' property via common 'video-interface-devices.yaml'.
+> 
+> To avoid dublication, commonize 'leds' property from existing schemas
+> to newly introduced 'led-consumer.yaml'.
+> 
+> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> ---
 
-On Sun, 7 Sep 2025 11:39:41 +0000
-Alice Ryhl <aliceryhl@google.com> wrote:
+[...]
 
-> On Sun, Sep 07, 2025 at 01:28:05PM +0200, Danilo Krummrich wrote:
-> > On Sun Sep 7, 2025 at 1:15 PM CEST, Alice Ryhl wrote: =20
-> > > On Sat, Sep 06, 2025 at 12:47:36AM +0200, Danilo Krummrich wrote: =20
-> > >> On Fri Sep 5, 2025 at 8:18 PM CEST, Alice Ryhl wrote: =20
-> > >> > On Fri, Sep 5, 2025 at 3:25=E2=80=AFPM Boris Brezillon
-> > >> > <boris.brezillon@collabora.com> wrote: =20
-> > >> >> On Fri, 05 Sep 2025 12:11:28 +0000
-> > >> >> Alice Ryhl <aliceryhl@google.com> wrote: =20
-> > >> >> > +static bool
-> > >> >> > +drm_gpuvm_bo_is_dead(struct drm_gpuvm_bo *vm_bo)
-> > >> >> > +{
-> > >> >> > +     return !kref_read(&vm_bo->kref); =20
-> > >> >>
-> > >> >> I'm not too sure I like the idea of [ab]using vm_bo::kref to defe=
-r the
-> > >> >> vm_bo release. I get why it's done like that, but I'm wondering w=
-hy we
-> > >> >> don't defer the release of drm_gpuva objects instead (which is re=
-ally
-> > >> >> what's being released in va_unlink()). I can imagine drivers want=
-ing to
-> > >> >> attach resources to the gpuva that can't be released in the
-> > >> >> dma-signalling path in the future, and if we're doing that at the=
- gpuva
-> > >> >> level, we also get rid of this kref dance, since the va will hold=
- a
-> > >> >> vm_bo ref until it's destroyed.
-> > >> >>
-> > >> >> Any particular reason you went for vm_bo destruction deferral ins=
-tead
-> > >> >> of gpuva? =20
-> > >> >
-> > >> > All of the things that were unsafe to release in the signalling pa=
-th
-> > >> > were tied to the vm_bo, so that is why I went for vm_bo cleanup.
-> > >> > Another advantage is that it lets us use the same deferred logic f=
-or
-> > >> > the vm_bo_put() call that drops the refcount from vm_bo_obtain().
-> > >> >
-> > >> > Of course if gpuvas might have resources that need deferred cleanu=
-p,
-> > >> > that might change the situation somewhat. =20
-> > >>=20
-> > >> I think we want to track PT(E) allocations, or rather reference coun=
-ts of page
-> > >> table structures carried by the drm_gpuva, but we don't need to rele=
-ase them on
-> > >> drm_gpuva_unlink(), which is where we drop the reference count of th=
-e vm_bo.
-> > >>=20
-> > >> Deferring drm_gpuva_unlink() isn't really an option I think, the GEM=
-s list of
-> > >> VM_BOs and the VM_BOs list of VAs is usually used in ttm_device_func=
-s::move to
-> > >> map or unmap all VAs associated with a GEM object.
-> > >>=20
-> > >> I think PT(E) reference counts etc. should be rather released when t=
-he drm_gpuva
-> > >> is freed, i.e. page table allocations can be bound to the lifetime o=
-f a
-> > >> drm_gpuva. Given that, I think that eventually we'll need a cleanup =
-list for
-> > >> those as well, since once they're removed from the VM tree (in the f=
-ence
-> > >> signalling critical path), we loose access otherwise. =20
-> > >
-> > > Hmm. Another more conceptual issue with deferring gpuva is that
-> > > "immediate mode" is defined as having the GPUVM match the GPU's actual
-> > > address space at all times, which deferred gpuva cleanup would go
-> > > against. =20
-> >=20
-> > Depends on what "deferred gpuva cleanup" means.
-> >=20
-> > What needs to happen in the run_job() is drm_gpuva_unlink() and
-> > drm_gpuva_unmap(). Freeing the drm_gpuva, inluding releasing the assoic=
-iated
-> > driver specific resources, can be deferred. =20
->=20
-> Yeah I guess we could have unlink remove the gpuva, but then allow the
-> end-user to attach the gpuva to a list of gpuvas to kfree deferred. That
-> way, the drm_gpuva_unlink() is not deferred but any resources it has can
-> be.
+>  
+> +  leds:
+> +    minItems: 1
+> +    maxItems: 1
 
-This ^.
+My brain compiler suggests this will throw a warning (minItems should
+be redundant in this case)
+> +
+> +  led-names:
+> +    enum:
+> +      - privacy-led
 
->=20
-> Of course, this approach also makes deferred gpuva cleanup somewhat
-> orthogonal to this patch.
+Nit: "privacy" makes more sense without the suffix, as we inherently
+know this is supposed to be an LED
 
-Well, yes and no, because if you go for gpuva deferred cleanup, you
-don't really need the fancy kref_put() you have in this patch, it's
-just a regular vm_bo_put() that's called in the deferred gpuva path on
-the vm_bo attached to the gpuva being released.
-
->=20
-> One annoying part is that we don't have an gpuvm ops operation for
-> freeing gpuva, and if we add one for this, it would *only* be used in
-> this case as most drivers explicitly kfree gpuvas, which could be
-> confusing for end-users.
-
-Also not sure ::vm_bo_free() was meant to be used like that. It was for
-drivers that need to control the drm_gpuvm_bo allocation, not those
-that rely on the default implementation (kmalloc). Given how things
-are described in the the doc, it feels weird to have a ::vm_bo_free()
-without ::vm_bo_alloc(). So, if we decide to go this way (which I'm
-still not convinced we should, given ultimately we might want to defer
-gpuvas cleanup), the ::vm_bo_free() doc should be extended to cover
-this 'deferred vm_bo free' case.
-
-Regards,
-
-Boris
+Konrad
