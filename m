@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D96B48E88
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CA5B48E8A
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F016510E521;
-	Mon,  8 Sep 2025 13:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7648610E522;
+	Mon,  8 Sep 2025 13:04:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TtXaoU7b";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lAOvUEo+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC86F10E521
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:04:26 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-45dcff2f313so26316295e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:04:26 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B33510E521
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:04:27 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-45dd5e24d16so29228455e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757336665; x=1757941465; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=F+BmpLQdceYRG7RY6FfRDG60NShGiPldYqA/h5za8sM=;
- b=TtXaoU7bFg0w7xeJAM1mHLcEuvtFI3Cl2qHE0AFD6Yqu8KfQXH1AXU7GiQYxSia67E
- 5Y/aSqGvOkxfjN1nmDcfDb/zJOLAXPd/nDIMFkeH2r2d6gV0EX9zhsKjAUnxIlYgQZdj
- bkUPSCHmed+clmywweIMlTax/BjO6Cive1GlznpdBJY/pfztxdsU39Smv79BFM90mfv0
- l6Fv0Rwwg5d28LhcGMmdztiZ8W7iuzZdHRcsnpv/orqJpqAf7q9vs5HnLiDbuyCpQ62X
- TtD9hpRyYMPZnjEfZeSXviPEpyv0UYMDPmt0Gz/g+37RLwI7tKJE2QURP+6xiKSKHAGa
- LxGA==
+ d=linaro.org; s=google; t=1757336666; x=1757941466; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=2GDdn26faX8+Rd19RRlHwI66hY8ZBEzdxwGwtCXn4n8=;
+ b=lAOvUEo+3gLw8/Y/3CE0TWPGOnPJK4H3dVcayikc43EjonHcgKLUCE0h/XABY1ea/p
+ jzSi5GCZxQ8a/YsS5KpWRObFBG0M7H7dt4dXYyjKWu3Wo+pOzoK5++nwviPlUp1dzotg
+ r/utOqjul0s2LV6eGci8zimkZYog2Qh54J8+FXP0ObSuOsYlvimDP5z96IVRKC53qE6R
+ q274D8QFs1cbNqM01RE0MmgAOQPlsRVBHg8E3OTfZlIwalVkveP99qOI0/pikbPTk7Fb
+ cIJgyoZK4uC/FopBvo2UD7OBuoIO6QrVkJHhvQpsgz6avHJD23lTf/+QSoCyVpEg9ukO
+ 8x4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757336665; x=1757941465;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F+BmpLQdceYRG7RY6FfRDG60NShGiPldYqA/h5za8sM=;
- b=doGZCXhytop2RTr3ppfkETtTVtv4yoQEb6DepvXgBNLYzbmhudE6p27yrFUh7HJg2P
- 1+xhzdUefRW2WbXeedgGgsXgr2Jq2mP9qbPwr8KXArK7biRMw9c9xKRN7EyaNZR9PQQ1
- 8hbohiQWrvNHnXHQ2wx5giQmbxOd7abvQd0v5hmq1oEicG+8lh0MXKIUPkablyyhjvSU
- 9sulDDH+8C9U0iuxhKZEx9wg8XTE+UkNZkgNVySRnKwgFSVbxoQ0x81MTCiUYB3b0Sp6
- RdUzND3U6lumG1lWYC2jnJogxQUysDsd7P04V2WB1xhZkW8S9oyG961MI0JtFYHAIjbc
- fSXg==
-X-Gm-Message-State: AOJu0Ywr8R/n7bW+HBqIsPWESJy3fK5Y9TARIYXmGuQmV7Tbsht952m/
- ASKhFJoC5vv5mYr0q7q96B6w56B19lFShUQzRN9j0cIedbH3zK52gjf8tUeGLHHE4X8=
-X-Gm-Gg: ASbGncuptHZzgtaAFl5RbzNAGrn3s0L++GiY3YZxyys4pWaGGGdwrhKBWbMLyg9dzXO
- dWqsOlry1lyUaCO7qQxadh2694GDwNCJEUHEgz4/ZSkvCTXla9C/87MW/zBGlToy4cluzXfUBzs
- /qJirXkxcEJtERWv0ZBBFqCRAqcnFeUF9+99mbrEcG2ZHSOJzvXOhGyptwwYXMqEQklAKJJk0ub
- sbhMArpU3F3Hn8weZ01gVk1cGaSRKyR/ZY92GOlRAhvLmXlZkJ1E6Ab4bCbpmWk3RkvxcV4BF3I
- js8ROvre5fHbJ9mokP9LrXdgGUUQONYR0bp5qpHd84k2kK6PffHk2cmi+jceT8SYhPDYAeb9EDA
- TYRn3kB1E+S1wiJtvjLWiFeExa76+g/kk1GhdZ3oca8Xp1BYF6EOUDg==
-X-Google-Smtp-Source: AGHT+IGTXRp8nBogkgIlcEf9RUlMXZE1MYZ7qwfcb5uuGBnjJTSjf3Iluna5GLbfmKKFomw1sOdvFQ==
-X-Received: by 2002:a05:600c:3b25:b0:45b:9a41:5d58 with SMTP id
- 5b1f17b1804b1-45dddea60cbmr64611275e9.4.1757336665015; 
+ d=1e100.net; s=20230601; t=1757336666; x=1757941466;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2GDdn26faX8+Rd19RRlHwI66hY8ZBEzdxwGwtCXn4n8=;
+ b=L/72KAR4Se7qxPyGDoZ4g7eGKJQqf+UCTwfq/VYrygWJR2XmIbQpeYzGX7lp672FH1
+ fPbkdPvv4JD/R1b4QhlCirqxiq8BYIpH3f5rvrN6mKBzqnsW4LgrG8wfQ2b47DVxlaIO
+ 9BpFXSYxSWtQGyoQ/71Naaa0J0VVapWN9ujQZna0fRBhddqajfu/feTqUp0dvEtVgkl5
+ mdZYtZWVHHPO8LBXckIMZ/UDAGLHmV7AUOm3EE7dxLLzKHiyLwG1/oiiY/rhix7yr0Es
+ GD5vd3ibCGyetmcWTKcbfaRlrwcfGk4Adl7H4Ti09vQ3xSoKVy+Q8IO2SCFWPgQnDzHl
+ icgQ==
+X-Gm-Message-State: AOJu0YxSUVCELlcm0gqe9mFAT8qUQwzixzdKDItZkeov10YM2lKWbqc1
+ Q1a+xXXNsHj2P1nQ5TvzY5HKQy1BC36ez8IZRgvZUayVk0yOY3A2t/nZGtxyGYy/Mzo=
+X-Gm-Gg: ASbGncsW1ybYM2pIwLW8F745Ex/Xs1h+LuEy5hkJ0rrzeDsmrcHXM9wHloWA3sssmhY
+ l3uxuUJhSdlxEk4lLzMnevlHA+PJ5qME2RJPd5jWjdxNHhDP0c94xR5xY99XAWM/YqjI7/gDWmH
+ rc0PtcBIvNBtzs1IV/3siDoGkeeiu6yaHFehhIUf3StGLXF1+qEi6FXJ1VSLF2EDQ3M6MfIDo2r
+ uKJWkR5g4XPrTYOIPCRYuTuAHuh0tVyYveiXUpNhw9zJhO4WPbymqoJd47Z8Xpkqcm43WZrF4OJ
+ kp9ofgrFlGQMDZtKnirNG1RdzfwN3r+9B/JHYj5Fd6JiK4+1dy44BwcU+2Y6Ie6OkjCWQ71nnq3
+ ORSWxTYMN4CSovDDW9Kmzpk2VhdzGajYPKyaHOGk2o3RaS1xHKF/KNg==
+X-Google-Smtp-Source: AGHT+IE+QQMsvXfniwarXtFZkCcmmT2rZk6Fee10DBHIU433hV2b4Xz5UNo3Gvh1D6s/nDMeM1UWiQ==
+X-Received: by 2002:a05:600c:4f03:b0:45d:e54b:fa29 with SMTP id
+ 5b1f17b1804b1-45de8e21be6mr18156375e9.14.1757336665980; 
  Mon, 08 Sep 2025 06:04:25 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45dd6891d23sm145632475e9.4.2025.09.08.06.04.24
+ 5b1f17b1804b1-45dd6891d23sm145632475e9.4.2025.09.08.06.04.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Sep 2025 06:04:24 -0700 (PDT)
+ Mon, 08 Sep 2025 06:04:25 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v3 0/5] arm64: qcom: x1e78100-lenovo-thinkpad-t14s: add
- support for HDMI output
-Date: Mon, 08 Sep 2025 15:04:17 +0200
-Message-Id: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
+Date: Mon, 08 Sep 2025 15:04:18 +0200
+Subject: [PATCH v3 1/5] dt-bindings: display: bridge: simple: document the
+ Realtek RTD2171 DP-to-HDMI bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFHUvmgC/33NTQrCMBCG4auUrI1M0lYTV95DXOS3HdCmJCVUS
- u9u2o0I4vL9YJ5ZSHIRXSKXaiHRZUwYhhL1oSKmV0PnKNrShANvQXBGpzCioTNzAhgA7e0Taa1
- tq1ttuZUnUi7H6DzOu3q7l+4xTSG+9ieZbet/LzMK1LNGWdnU4IS4PnBQMRxD7MgGZv5BJPDfC
- N+QxhgPzp+l0l/Iuq5vVuxBq/wAAAA=
-X-Change-ID: 20250821-topic-x1e80100-hdmi-3bd5b5bd2d96
+Message-Id: <20250908-topic-x1e80100-hdmi-v3-1-c53b0f2bc2fb@linaro.org>
+References: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
+In-Reply-To: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -86,23 +83,22 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-phy@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2716;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1066;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=GJhPHTORzQeMZdAUCocINlbQeRuM3KT1od1O9w0/Xmo=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBovtRVDMVGgxHzLejb7eBbyoFwp6E4YEQMRKPg72/U
- Rwjh/ruJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaL7UVQAKCRB33NvayMhJ0VxID/
- 4wFkdgfYu9J7loTdKrRz5TqNDd63WB1xnl/W4hVSu2QdX9wb2jyH6rUY37phQY9rtVycGyJTzy4cnd
- bi2OjtCN2t5VD8MJF2QB6RTWRYeGqRu4Rturr3w/3WcTHwlJ854MSYrHL2hppI1f8bZyB6wqswekus
- xYvmd2waH5jU0iXp1rLwrCdBphUPyvJylV8oSUb3kyIcZjNbgmjUpIuBSZIkBekeYsesIh8s3Il5zg
- oRiIcBFWFJA8XLfk4Q+Rva2EWkGskG1obCzljpnJDspCLDirzii4iD19ShH59aTy7dJu36GdP7/Qsa
- ISdwycHc7lETEQ7dzSF14MzvjAzSB5fDCqhA7eny3MpxBperELbkHibfuDBClM4cT7u7wT4H0jwh0U
- EHwpwuOgpCH7CM4z4nqMmOKlwUy8hZursraRsi2sFYghdAKSJKOK95FakAnAYIcTDPRNDcNNdACV4j
- mMhQ4hD3ZW0YNJbhQ+PVu+9XT7Qw+eBcueBCBbTZJVj5Za25jgprIzt8y85t6nv6yz3nAkUAM8dNC0
- ACpUhXWFsEKTVcFO+3wmtS5pPNqWOww0dSqma3wv4kx1s0LeU/ZKSbdWR9fPnVjnLXQno4onht+nvJ
- f9JXE2dW/js9wgGCRf5Z3Ca4GV19HstrNjpQYFXQ7mQtwZDhH+hhVM9dOVCg==
+ bh=z7PAuGtYNvNlORz36aPmSnF79TimixozQax/x4u5xJA=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBovtRV0EWZ3GTngV+VZoqNOfxTMbRfZ7L5uMzyt+BQ
+ Gcxw7xWJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaL7UVQAKCRB33NvayMhJ0bWGD/
+ 9FmFWdexA2fU+CtWIWKbFIwMNtPEpiwf9clzEvPTLk1asoldTXFdDdKzIqNt2UImqiqUFDoOcmXw9t
+ gIsk4GdSeV+bFCJgNSDKS+ThVbkQ27MBqv1iG8vZLattjMV4QG6Gc3XTPr5CDWOzg1p4BcXzKz5m5T
+ Z73ct5hdeSi9ZQEaoehnuS3RC2+0P1MwQtKOR9mvUb/Nv6PcNjr6QR7ITS6hNczvmuPJQlF7iWuW5p
+ Wu+KIBDIiMOwtM9ShXzTLo5gRbY9Q3VsC/LXusa6s2qolctz4pQLoiE61Gn8RxbMpQA2Gl5DPwrloU
+ 0Nu1bbUVlgKrGwSEQ7YN/MqzWV0nN/8su7VChcF26g6yhxcTfibRYw7O3+bOzob6IAQz2JMco8dLTS
+ knda27GBDE3ODLhBmsMBvfdPcDIVrdunRQzXUY0wbp0lPiI2FguqNxUUQHEEIu+vWyC4uEEYjDhw0W
+ 3deHkxjR5FZdpZNuKxBCkVSMhXGiZ7NBe/eY4LP62g6fuCjtLqkMA9F/CCq3RlV1scYO9UMI/a1RMW
+ 0JaH5uUXxE91HoAeVxZAv+v85t7ibs02J9/7oR+FAcLYp51VBgFuhV4TEEn+4jHhKJLKU/pKJaa9jj
+ 4Ozwu1O+JQcG7aMdmLl9jqU/yt1XqxL0uKfgeLrHYxygloky0Zp2auM7SE1A==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,68 +116,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Thinkpad T14s embeds a transparent 4lanes DP->HDMI transceiver
-connected to the third QMP Combo PHY 4 lanes.
+The Realtek RTD2171 chipset is a transparent DisplayPort 1.4 to
+HDMI 2.0 bridge.
 
-The QMP USB3/DP Combo PHY hosts an USB3 phy and a DP PHY on top
-of a combo glue to route either lanes to the 4 shared physical lanes.
+This chipset is usually found in USB-C To HDMI Adapters and Docks,
+or laptops to provide HDMI display output.
 
-The routing of the lanes can be:
-- 2 DP + 2 USB3
-- 4 DP
-- 2 USB3
-
-We need be able to specify the lanes mapping to DisplayPort
-and/or USB3 peripherals when not connected to a Type-C complex.
-
-Add the documentation for data-lanes in the out endpoints amd
-use those in the driver to setup the right PHY mode and
-orientation.
-
-Finally Add all the data routing in DT, disable mode switching and specify
-the QMP Combo PHY should be in DP-Only mode to route the 4 lanes to
-the underlying DP phy.
-
-Depends on:
-- [1] https://lore.kernel.org/all/20250902-topic-sm8x50-fix-qmp-usb43dp-usb-switch-v1-1-5b4a51c8c5a8@linaro.org/
-- [2] https://lore.kernel.org/all/20250807-topic-4ln_dp_respin-v4-0-43272d6eca92@oss.qualcomm.com/
-- [3] https://lore.kernel.org/all/20250822-topic-x1e80100-4lanes-v3-0-5363acad9e32@linaro.org/
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
-Changes in v3:
-- Move the static lanes mapping in data-lanes in the out endpoints
-	- new bindings
-	- new drivewr implementation
-	- new DT layout
-- rebased on next, fixed simple bridge rebase
-- added link frequencies for dp2
-- Link to v2: https://lore.kernel.org/r/20250902-topic-x1e80100-hdmi-v2-0-f4ccf0ef79ab@linaro.org
+ Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Changes in v2:
-- Model the HDMI transceiver as a simple bridge
-- Switch to a static lanes mapping property
-- Link to v1: https://lore.kernel.org/r/20250821-topic-x1e80100-hdmi-v1-0-f14ad9430e88@linaro.org
+diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+index 421f99ca42d9b75ba1963493d36fc89fa9d8252c..9ef587d4650602699efac634c5466eb2e8aafecd 100644
+--- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+@@ -29,6 +29,7 @@ properties:
+           - adi,adv7123
+           - dumb-vga-dac
+           - radxa,ra620
++          - realtek,rtd2171
+           - ti,opa362
+           - ti,ths8134
+           - ti,ths8135
 
----
-Neil Armstrong (5):
-      dt-bindings: display: bridge: simple: document the Realtek RTD2171 DP-to-HDMI bridge
-      drm/bridge: simple: add Realtek RTD2171 DP-to-HDMI bridge
-      dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Document lanes mapping when not using in USB-C complex
-      phy: qcom: qmp-combo: get the USB3 & DisplayPort lanes mapping from DT
-      arm64: dts: qcom: x1e78100-lenovo-thinkpad-t14s: add HDMI nodes
-
- .../bindings/display/bridge/simple-bridge.yaml     |   1 +
- .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         |  59 ++++++++-
- .../dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi    |  82 +++++++++++++
- drivers/gpu/drm/bridge/simple-bridge.c             |   5 +
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c          | 132 +++++++++++++++++++--
- 5 files changed, 270 insertions(+), 9 deletions(-)
----
-base-commit: 947efd54a86984b5f7dee9cf18c1ee82ec0361a2
-change-id: 20250821-topic-x1e80100-hdmi-3bd5b5bd2d96
-
-Best regards,
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
 
