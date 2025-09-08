@@ -2,44 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FE5B48A04
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 12:22:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77F1B48A80
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 12:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBC210E4B8;
-	Mon,  8 Sep 2025 10:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA3A10E205;
+	Mon,  8 Sep 2025 10:47:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="SMZawYYS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cK780S4h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
- [91.218.175.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93ED10E4B8
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 10:22:29 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1757326947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=dEhcnr2X+qmyqAXr9sSFjDSvggs46vsUK8XfBne8efQ=;
- b=SMZawYYS+/zNrE0nb81PkQV+BiPtH5ixsQ9VmkXV0JWIuXLf0Uf7AszQfq0pCx+AeVrJGj
- VWSrT0kT9/Cwe8Rtk317gwih9WrzxTXH3mhijO7jmN5sa7Y4Sx9AeSr1v2ZsqyMeBf1UIs
- 6VxQRWIQTqSpbVm0/NSbZoshD1OhRNI=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] drm: Use strscpy() instead of strscpy_pad()
-Date: Mon,  8 Sep 2025 12:22:16 +0200
-Message-ID: <20250908102217.3725-1-thorsten.blum@linux.dev>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 061B910E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 10:47:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757328430; x=1788864430;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=rwRIMaQjDUrsFv5+b76riH0+0sz3qVkQrVlJXYlUaTo=;
+ b=cK780S4hm5iH/NQnne1pHyf8Pnw3f0VfP2ovkwEd9hJHTkPLFYLDHPf+
+ P7uzCopsKjm3cfKS/Mhp9JPoMLQnBSVlufhRxTb+X9kgGqzxWSEEP6imf
+ 3E0uz0AdvnADn0s2gwh6+pHzCYUrl+ujubygGivsLtaV/0CtlYbCnke7J
+ AWGHp0UDV2C4jjcxwKm5gM3amHOXdJqt9/7YSa4sEaGuKQGwQ34U8zoy8
+ xaKwCgPBqRaIOZj+RND6TwDt/3gSsANqVBOW2U6FhcO6zHC6uzOIhZGKH
+ EKwaznnozbLHaQLuELV7Xi39GTqAMJsHD4OmQOj5NpDAUKV9AJNJ2Fryj A==;
+X-CSE-ConnectionGUID: 2V+SR53WR/iLxq4XlIrjyQ==
+X-CSE-MsgGUID: 1/KfkiqIR/eMC0PRcHfdcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11546"; a="63408483"
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; d="scan'208";a="63408483"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2025 03:47:09 -0700
+X-CSE-ConnectionGUID: Ip4uDhsqSuuBXarMsAOqeQ==
+X-CSE-MsgGUID: 2x2OfDQdR86nFipbd6g4XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,248,1751266800"; d="scan'208";a="173550305"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.204])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2025 03:47:05 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Liao Yuanhong <liaoyuanhong@vivo.com>, Zhenyu Wang
+ <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Nitin Gote
+ <nitin.r.gote@intel.com>, Luca Coelho <luciano.coelho@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
+Subject: Re: [PATCH] drm/i915/gvt: Remove redundant ternary operators
+In-Reply-To: <20250904112644.350512-1-liaoyuanhong@vivo.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250904112644.350512-1-liaoyuanhong@vivo.com>
+Date: Mon, 08 Sep 2025 13:47:02 +0300
+Message-ID: <35ac1aad8feb977017d1d1a6eea86ed3754d8646@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kzalloc() already zero-initializes the destination buffers, making
-strscpy() sufficient for safely copying the names. The additional
-NUL-padding performed by strscpy_pad() is unnecessary.
+On Thu, 04 Sep 2025, Liao Yuanhong <liaoyuanhong@vivo.com> wrote:
+> For ternary operators in the form of "a ? false : true", if 'a' itself
+> returns a boolean result, the ternary operator can be omitted. Remove
+> redundant ternary operators to clean up the code.
+>
+> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
 
-If the destination buffer has a fixed length, strscpy() automatically
-determines its size using sizeof() when the argument is omitted. This
-makes the explicit size arguments unnecessary.
+Pushed to drm-intel-next, thanks for the patch.
 
-No functional changes intended.
+BR,
+Jani.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- drivers/gpu/drm/drm_property.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-index 596272149a35..47f2891f3f06 100644
---- a/drivers/gpu/drm/drm_property.c
-+++ b/drivers/gpu/drm/drm_property.c
-@@ -128,7 +128,7 @@ struct drm_property *drm_property_create(struct drm_device *dev,
- 	property->num_values = num_values;
- 	INIT_LIST_HEAD(&property->enum_list);
- 
--	strscpy_pad(property->name, name, DRM_PROP_NAME_LEN);
-+	strscpy(property->name, name);
- 
- 	list_add_tail(&property->head, &dev->mode_config.property_list);
- 
-@@ -421,7 +421,7 @@ int drm_property_add_enum(struct drm_property *property,
- 	if (!prop_enum)
- 		return -ENOMEM;
- 
--	strscpy_pad(prop_enum->name, name, DRM_PROP_NAME_LEN);
-+	strscpy(prop_enum->name, name);
- 	prop_enum->value = value;
- 
- 	property->values[index] = value;
+> ---
+>  drivers/gpu/drm/i915/gvt/cmd_parser.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+> index a91e23c22ea1..d432fdd69833 100644
+> --- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
+> +++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+> @@ -1921,7 +1921,7 @@ static int perform_bb_shadow(struct parser_exec_state *s)
+>  	if (!bb)
+>  		return -ENOMEM;
+>  
+> -	bb->ppgtt = (s->buf_addr_type == GTT_BUFFER) ? false : true;
+> +	bb->ppgtt = s->buf_addr_type != GTT_BUFFER;
+>  
+>  	/*
+>  	 * The start_offset stores the batch buffer's start gma's
+
 -- 
-2.51.0
-
+Jani Nikula, Intel
