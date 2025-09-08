@@ -2,81 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A91B486DB
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 10:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300ADB486E9
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 10:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D91C10E105;
-	Mon,  8 Sep 2025 08:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 673B810E3E1;
+	Mon,  8 Sep 2025 08:27:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bGIc93kA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZAHkHQUV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9D610E105
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 08:26:15 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-45b99c18484so17099445e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 01:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1757319974; x=1757924774;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=OnHARbdkEp4PUIEXLxBi52Eid01cJA5Jgk1L/pOVvBU=;
- b=bGIc93kAdex7f8PoX95MtgXjpt+yWNuw6s3+JlKemLr0Ora19hgvFAKG5d9g9ee/aq
- JzUYShosM286wypQdym7FmomaHu/lGxt3APS1tUCKPma7+94Mj74buhXS9E7hwpBwiR1
- 1u5kaP9QmVc0UKRE2gmGuJilkP7ZkhyMe41I2pUtxnmzDt3IK3b4GZXn0yJuK3XeZ5qJ
- vmEX0GHShyLoy1R9uzJXZlkqEEI4ITUzkal7bW/69WFSoDFA+ieMlp7sZPh2GCF2mdaG
- tnGlS4bN78FUgmc/Wwb2d2smEsuIoJ1QNoWu7uxlAtlnhoHKWRxqUcsT3afAftqtKT5e
- we4w==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7913B10E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 08:27:24 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 587LRE2Q006866
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 08:27:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=s0HdkjLRf4rWFHG8fw/KFe
+ 35He2ooBJYXRAeELbJy0Y=; b=ZAHkHQUV78RJbC4YOWYTKrUh+QVpBk/f+3ozph
+ +yhCXryjieBw/LUqnJFcpSrRVF9BXt5r262GgEJ2ZHG4u0FlrF3YFpUtw5cJg5OJ
+ fCzwyERGFdbEmcBXcw8bM1b2T4VqIU+P3WmwFlxSolWQPIi7cbJXySe6v224Uu0b
+ TMHEC5tfNx5j4ic2nwAIFFGhg8SMLc8QkKJLKFkI2/APVG0jxwcYN3I5iCAqJj47
+ jMhdXT8PNecCwQH7fF03+99LybjfPGMGi9jKozsKT5eNrZ6h4xBbugGZn7rrQk8/
+ 2FxSOQoUzyKiXT8Y/zz5lrOfX96Q6cs531yooPLspFldgK0g==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8btp3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 08:27:23 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-7725b4273acso8985934b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 01:27:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757319974; x=1757924774;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OnHARbdkEp4PUIEXLxBi52Eid01cJA5Jgk1L/pOVvBU=;
- b=K7X7GvvTF4uJD7ZWYHjTQeTVPdUomeedfZoIDPHh0V+UEInSeeCusHUEBm9VFCZas2
- XkAZ5TyDie+Bldb0HJcgBOzJ1Z34q/apxCZl02sa6NPf2ZETEY7qHPxnm6nXzxqp6Oye
- ZYd5528Jx5MKZtnjW8n1Sqf/Ay0pCxveW0HRYxPG2j1AfErAx82peoNyLTSY4djB0CC6
- VMRVNfZPcvWKIG1mvtjI4NrdfTpUXD0z5m9L2xYbCPAqbNktWXJv/rdwlF3M8zVNaMQb
- A99L1hxdEHw3fmY80v7NNRiVGo+11DQypG5eRUDWvyr3cMWYfVsJcrmRZrex2qohD6Ya
- Jxzw==
+ d=1e100.net; s=20230601; t=1757320042; x=1757924842;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s0HdkjLRf4rWFHG8fw/KFe35He2ooBJYXRAeELbJy0Y=;
+ b=wfTEvPUzXT1YgOHvflH5K0bGqSiulAbZb8ctEm1xv72hvXIY3IMPDtxIBE/IILjbB1
+ guQb09HXyY2BXiOsyMl2Aodb309XtjKmo4huUyAxCIZ6VaCycSINZ+duq/ojD/paJjFY
+ VBewZYWh4huMTgPx9L8bBrCmk+4+LjH7RPDN9an0FjejUIvPZroVRXgEQhsBBoalzDB+
+ MtA9e26H2t1438dcjvkIAXyCgLTGP9ePP/GIQj7s4cp7qZDFUkly1inhjUfg7LXyyr7Z
+ tepPbq8XQKogGRGLs16MTmd3avADa3JO8hFCyrzjNMMQqhIoiGyPwjLobGJc9Nm5H0dv
+ CU1w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNyZAzwpgd+GptnadcPRNvmeVt8buLrrvUJf5h/f52IAECo5N5BqtqcHJ+Htto4P+kDDpKhBZHsk4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1EyMx1di599OULwry++K6E8dNpJil1Zs/VSekMzSvhJ6qoCqE
- mLumIZG5W+TJoN6jqnCKRHNB/b2LrP0RfyheMN7FCpazVeVEItbuRqdMjKs2lpczKjPGlVRt66f
- Ru5UEwPL9Qo7zaByM5w==
-X-Google-Smtp-Source: AGHT+IHmAGS9iw5p+qpRXfi08CMknpisf8y9SJ/Rv5N3Oluu+SFLgdV4jan6x32Afnezxx99GFjYRiK5SIRpfUE=
-X-Received: from wmon9.prod.google.com ([2002:a05:600c:4649:b0:45d:d1dd:6750])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1d24:b0:45b:7185:9e5 with SMTP id
- 5b1f17b1804b1-45dea7a561dmr4688775e9.5.1757319974085; 
- Mon, 08 Sep 2025 01:26:14 -0700 (PDT)
-Date: Mon, 8 Sep 2025 08:26:13 +0000
-In-Reply-To: <20250908091140.44856fde@fedora>
-Mime-Version: 1.0
-References: <20250905-vmbo-defer-v1-0-7ae1a382b674@google.com>
- <20250905-vmbo-defer-v1-1-7ae1a382b674@google.com>
- <20250905152505.005a610d@fedora>
- <CAH5fLghgqv0mNYf8r-rdeBaCGxYsdkBouqgo_ohx3DYHwpcZRQ@mail.gmail.com>
- <DCL8DQV23FIZ.KJ74UQ9YOFZV@kernel.org> <aL1pSFB9iBsfHFM_@google.com>
- <DCMJ6K06T63T.2UBTM1RL4YJ0A@kernel.org> <aL1u_YxOkuj1kIq6@google.com>
- <20250908091140.44856fde@fedora>
-Message-ID: <aL6TJYRmWIkQXujj@google.com>
-Subject: Re: [PATCH 1/2] drm/gpuvm: add deferred vm_bo cleanup
-From: Alice Ryhl <aliceryhl@google.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+ AJvYcCVJ/y+GYWnNtvbfTmkqzg5uwDwoP1TdClbfYVmujrKBpxArn0Dj1I82UEbCqHGG0FCGnJsmlSvHGec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHEJ8XoKaOug8k6xrh1FEUpmiPbdIYwaPqCnw6/teP0wcWNTNJ
+ k3PYSv6v4HemMNpy/BvuXLAuZ9fplXhMf5TxZa/cVrXRw31U5hgCDyPyMLfAegB4SMd9zLguyk/
+ 35/5UrhY7lJqg/c7rCR+kUPTBQ48JhS+esQimH9UsTdUeSJddWlbCPbzx+7At3oE3a4sDy54=
+X-Gm-Gg: ASbGncsdvJNjqAG4sZNs21ZXzOx5t5AukIRbt5Ndu2kHmfzRh9f6S/gE5eNpug9E6yH
+ mxrY21BsCXABS2t7QQuc0xKVZ3oXIiTvyab1zvXUFtUMX81FHAL/4Ed/QFGAENpC2NXZ/Q4nftM
+ 7e6x8W/TqSadR6kjrkuu9bK0kd0zweAjfsUqC0YquQbOwibLiaTKoYYvU9G4yls5aPBjUNA9BE+
+ ZSmwoS/MU39s3if3XCHk1tLmoSXR+JFl5WipUDuWrrC3tqGsRHXISfdPM+Ku9AnIymD42pPUYB0
+ WUkHVKgqBJosOopGJ0ccWAivQ2mskITnILP9cxAydvp5oW3o2OEYSksfYh2wxPOE
+X-Received: by 2002:a05:6a20:9151:b0:246:3a6:3e62 with SMTP id
+ adf61e73a8af0-2533fab6f41mr11097706637.24.1757320041912; 
+ Mon, 08 Sep 2025 01:27:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTu6FUJWMDyx42YFJIOanrZsIeCjqwwjeQS99oYxeMrv4GV1H/SJVyxH58y7tccyCgdXQuag==
+X-Received: by 2002:a05:6a20:9151:b0:246:3a6:3e62 with SMTP id
+ adf61e73a8af0-2533fab6f41mr11097666637.24.1757320041412; 
+ Mon, 08 Sep 2025 01:27:21 -0700 (PDT)
+Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7722a26bc9csm29157523b3a.18.2025.09.08.01.27.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 01:27:21 -0700 (PDT)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: [PATCH v2 00/16] drm/msm: Support for Inter Frame Power Collapse
+ (IFPC) feature
+Date: Mon, 08 Sep 2025 13:56:53 +0530
+Message-Id: <20250908-ifpc-support-v2-0-631b1080bf91@oss.qualcomm.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE2TvmgC/1WOyw6DIBBFf8XMuhgeiq2r/kfjAhArSS0ISNoY/
+ 72oq24mOZM7584KQXujA7TFCl4nE4x9Z6CXAtQo3k+NTJ8ZKKYVoYQjMziFwuKc9RExecWEN5L
+ VjEI+cV4P5nPoHt3JXs9LtsZzCVIEjZSdJhPbIvGSNMirCvbwaEK0/nu8ksiRzq01bij+b00EY
+ XRjVSNELZXs+d2GUM6LeO3iMg/otm37AewTYvPcAAAA
+X-Change-ID: 20241216-ifpc-support-3b80167b3532
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757320036; l=3999;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=HOqcvWr0rv3WcAg+DTG1pbJ/S3XKe3NEf3UHxczsHq8=;
+ b=tzHepRDApKgq5JJQo9Ne4wWNomu5jVbmaMEEEsd3Ysy12/oclkgRhp6BVffPayXxbWrew0RRl
+ ezHC51sUE/CBopYK5qwpNvRerf3JydryUdyrNpeFn1Qtvhe++B9Xv9p
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfXzg0Ku4kh/hO8
+ EFFpll76M8XmJ9PKzEEiSF61nihUTySzr/1gD+/6wcBPS6LrbEni8EZ8vWXaysKz6WhkehJLKut
+ hgyTQ9WuE5tNJyuHgZA6JpgVCLHksKBuZDycAZ3IpYqzXWw4OsZDJ/7JmlrJSNKotvwED0Mbj0h
+ AhM417RaJKd8WgHy3gxI0qiSwVoUPsJ5bXQPJER0+48HWBQEVhWYE0JuKc+8gY1VaTcUrEYpUc8
+ wRqOllCMGGylSsedkAof4/7NGupynMU1gP17CBSZ/9k/vwI4B38iIU6M5mbg4t2tXShbrqyanz1
+ y+zndjk9w1ocuXZnhmYEv0mJQiPj5TRxa1r0K+RGMk3LFu40C1GhH9ToO6LVahQmEBdpcJad0iL
+ tsnM+II7
+X-Proofpoint-ORIG-GUID: rQ_SFt9Nsfd1feaOXikNzQCMcHJCnE7a
+X-Proofpoint-GUID: rQ_SFt9Nsfd1feaOXikNzQCMcHJCnE7a
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68be936b cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=tVI0ZWmoAAAA:8 a=pGLkceISAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8
+ a=sLhxGqmu1eV7p1u-_mQA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+ a=-BPWgnxRz2uhmvdm1NTO:22 a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_02,2025-09-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,58 +142,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 08, 2025 at 09:11:40AM +0200, Boris Brezillon wrote:
-> Hi Alice,
-> 
-> On Sun, 7 Sep 2025 11:39:41 +0000
-> Alice Ryhl <aliceryhl@google.com> wrote:
-> 
-> > Yeah I guess we could have unlink remove the gpuva, but then allow the
-> > end-user to attach the gpuva to a list of gpuvas to kfree deferred. That
-> > way, the drm_gpuva_unlink() is not deferred but any resources it has can
-> > be.
-> 
-> This ^.
-> 
-> > 
-> > Of course, this approach also makes deferred gpuva cleanup somewhat
-> > orthogonal to this patch.
-> 
-> Well, yes and no, because if you go for gpuva deferred cleanup, you
-> don't really need the fancy kref_put() you have in this patch, it's
-> just a regular vm_bo_put() that's called in the deferred gpuva path on
-> the vm_bo attached to the gpuva being released.
+This patch series introduces the IFPC feature to the DRM-MSM driver for
+Adreno GPUs. IFPC enables GMU to quickly transition GPU into a low power
+state when idle and quickly resume gpu to active state upon workload
+submission, hence the name 'Inter Frame Power Collapse'. Since the KMD is
+unaware of these transitions, it must perform a handshake with the
+hardware (eg: fenced_write, OOB signaling etc) before accessing registers
+in the GX power domain.
 
-Ok, so what you suggest is that on gpuva_unlink() we remove the gpuva
-from the vm_bo's list, but then instead of putting the vm_bo's refcount,
-we add the gpuva to a list, and in the deferred cleanup codepath we
-iterate gpuvas and drop vm_bo refcounts *at that point*. Is that
-understood correctly?
+Initial patches address a few existing issues that were not exposed in the
+absence of IFPC. Rest of the patches are additional changes required for
+IFPC. This series adds the necessary restore register list for X1-85/A750
+GPUs and enables IFPC support for them.
 
-That means we don't immediately remove the vm_bo from the gem.gpuva
-list, but the gpuva list in the vm_bo will be empty. I guess you already
-have to handle such vm_bos anyway since you can already have an empty
-vm_bo in between vm_bo_obtain() and the first call to gpuva_link().
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Sean Paul <sean@poorly.run>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Antonino Maniscalco <antomani103@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Antonino Maniscalco <antomani103@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
 
-One disadvantage is that we might end up preparing or unevicting a GEM
-object that doesn't have any VAs left, which the current approach
-avoids.
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+---
+Changes in v2:
+- Elaborate commit text and add Fixes tags (Dmitry/Konrad)
+- Document GMU_IDLE_STATE_RESERVED (Konrad)
+- Add a memory barrier in fenced_write
+- Move an error print in fenced_write to after polling
+- %s/set_keepalive_vote/a6xx[gpu|preempt]_keepalive_vote (Dmitry)
+- Add an "unlikely()" to read_gmu_ao_counter() (Konrad/Rob)
+- Define IFPC_LONG_HYST to document a magic number
+- Add a new patch to enable IFPC on A750 GPU (Neil/Antonino)
+- Drop patch 12 & 17 from v1 revision
+- Link to v1: https://lore.kernel.org/r/20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com
 
-> > One annoying part is that we don't have an gpuvm ops operation for
-> > freeing gpuva, and if we add one for this, it would *only* be used in
-> > this case as most drivers explicitly kfree gpuvas, which could be
-> > confusing for end-users.
-> 
-> Also not sure ::vm_bo_free() was meant to be used like that. It was for
-> drivers that need to control the drm_gpuvm_bo allocation, not those
-> that rely on the default implementation (kmalloc). Given how things
-> are described in the the doc, it feels weird to have a ::vm_bo_free()
-> without ::vm_bo_alloc(). So, if we decide to go this way (which I'm
-> still not convinced we should, given ultimately we might want to defer
-> gpuvas cleanup), the ::vm_bo_free() doc should be extended to cover
-> this 'deferred vm_bo free' case.
+---
+Akhil P Oommen (16):
+      drm/msm: Update GMU register xml
+      drm/msm: a6xx: Fix gx_is_on check for a7x family
+      drm/msm/a6xx: Poll additional DRV status
+      drm/msm/a6xx: Fix PDC sleep sequence
+      drm/msm: a6xx: Refactor a6xx_sptprac_enable()
+      drm/msm: Add an ftrace for gpu register access
+      drm/msm/adreno: Add fenced regwrite support
+      drm/msm/a6xx: Set Keep-alive votes to block IFPC
+      drm/msm/a6xx: Switch to GMU AO counter
+      drm/msm/a6xx: Poll AHB fence status in GPU IRQ handler
+      drm/msm: Add support for IFPC
+      drm/msm/a6xx: Fix hangcheck for IFPC
+      drm/msm/adreno: Disable IFPC when sysprof is active
+      drm/msm/a6xx: Make crashstate capture IFPC safe
+      drm/msm/a6xx: Enable IFPC on Adreno X1-85
+      drm/msm/a6xx: Enable IFPC on A750 GPU
 
-I can implement vm_bo_alloc() too, but I think it seems like a pretty
-natural way to use vm_bo_free().
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c         |  71 ++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c             | 105 ++++++++--
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h             |  14 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c             | 221 ++++++++++++++++++----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h             |   3 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c       |  10 +-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c             |  34 +++-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c         |  40 +++-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h           |   1 +
+ drivers/gpu/drm/msm/msm_gpu.h                     |   9 +
+ drivers/gpu/drm/msm/msm_gpu_trace.h               |  12 ++
+ drivers/gpu/drm/msm/msm_submitqueue.c             |   4 +
+ drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml |  11 ++
+ 13 files changed, 459 insertions(+), 76 deletions(-)
+---
+base-commit: 5cc61f86dff464a63b6a6e4758f26557fda4d494
+change-id: 20241216-ifpc-support-3b80167b3532
 
-Alice
+Best regards,
+-- 
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
+
