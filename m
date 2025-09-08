@@ -2,146 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEABB48EBA
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A584AB48D16
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 14:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3A310E523;
-	Mon,  8 Sep 2025 13:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC2110E4DC;
+	Mon,  8 Sep 2025 12:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xfUPBzcX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Swqd8fr0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xfUPBzcX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Swqd8fr0";
+	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="ksu2QDhs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F5B10E536
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:08:16 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0CC062054B;
- Mon,  8 Sep 2025 13:08:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1757336893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PcNK9AmJLp4CZh+dPOGK/vGBOn5CmKUDmZtd4SUgMfI=;
- b=xfUPBzcXAi79soJwGHM5aPgYwvCB1tFlfAgb9zGxJjZzptLYMchduOihTfcZNxc9n92LE6
- +55J9MgbgoEk2EIDTymgx+yAax+qK8pUQMR8wyc8r4e/aNeax5oPVu/3pSYkHbyTn3eeik
- 4L5Xj+Jk6Rf8Z6vZx9pB1cPhDe76HWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1757336893;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PcNK9AmJLp4CZh+dPOGK/vGBOn5CmKUDmZtd4SUgMfI=;
- b=Swqd8fr08K8Yw4WPafS/pnaI5n+4m27JKaK9CoZt4EIJTI7ABfrvTTvcMUxHKgPu7VNCit
- DDtH7cw7zabri2Dw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xfUPBzcX;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Swqd8fr0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1757336893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PcNK9AmJLp4CZh+dPOGK/vGBOn5CmKUDmZtd4SUgMfI=;
- b=xfUPBzcXAi79soJwGHM5aPgYwvCB1tFlfAgb9zGxJjZzptLYMchduOihTfcZNxc9n92LE6
- +55J9MgbgoEk2EIDTymgx+yAax+qK8pUQMR8wyc8r4e/aNeax5oPVu/3pSYkHbyTn3eeik
- 4L5Xj+Jk6Rf8Z6vZx9pB1cPhDe76HWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1757336893;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PcNK9AmJLp4CZh+dPOGK/vGBOn5CmKUDmZtd4SUgMfI=;
- b=Swqd8fr08K8Yw4WPafS/pnaI5n+4m27JKaK9CoZt4EIJTI7ABfrvTTvcMUxHKgPu7VNCit
- DDtH7cw7zabri2Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6A0A13946;
- Mon,  8 Sep 2025 13:08:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Vej0MjzVvmgjMQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Sep 2025 13:08:12 +0000
-Message-ID: <60f8cfc8-ccc0-4a55-bce5-7ab30c3ae1c1@suse.de>
-Date: Mon, 8 Sep 2025 15:08:12 +0200
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C25110E4DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 12:15:32 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-329e47dfa3eso3837129a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 05:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=estudante.ufscar.br; s=google; t=1757333732; x=1757938532;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ia+hUZJmf8zZI+6M/t/ltEWDdM46PEHluVyll3CzdAc=;
+ b=ksu2QDhsVh7TBWPE4QF5+FZ26mPLSdm/lFv+WDD+pfWC0wayibkZROrWo1nVq85hAU
+ uVQQNynwwJLoBwIfyJSh8PC83TMGjrCas90UekWEmSdfF6avaLHH/puxj9ncDydNXAE4
+ 9dW3FjM83moOnvCD9Vtbp9U2OlSjQB+cNHbGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757333732; x=1757938532;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ia+hUZJmf8zZI+6M/t/ltEWDdM46PEHluVyll3CzdAc=;
+ b=wrCUv0jKlsb1FrI3BipQRlkxk8lUm+0K45GNeibvXfrK1bHplcReSC1dBHT7IxYhEh
+ q9fgDCKopJ8+nPpS127skMwwVSFav4UUmr+mPwNaizyj+HnnsydknG4rKC/XtjLhNcKC
+ W7WM3TuTKgr+ehH36D6d/6bvu3r4/8NwXe4FWOQv6+IAs41nWbZ/vuV9XIqHZfGOxaqC
+ 4ebpIxJWsMX0DrC2ij51J9Mn1fesFhhOJPluaU+W9DW786azfX4vmOuWqjl20GJpdk5C
+ s5WFb2dH7NrcnGEM82tIYnoSs09WF7hlznmDwNIUxvLTVhgREP9w4LdZJH9UtyzRP4Rc
+ ILig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVwLwqWXHjNQuYzKOzJIfVuNfQY0VmysUn829XSq9pmK6ep9hl8noUygL2tqXVnceDqBYqUJqKSByE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFLIQZUe+k/7eEIxR0nKtHIi7s8aBLviyiP4faMoStGxzQ+hDu
+ vKBBGr9TtQhicq48ANC72SfsNTxwrXsuhbdU3rtMLfMWwhtiIvGfVbSC3KYr6GzzzA0=
+X-Gm-Gg: ASbGncsYIG86t2zk13VoGh4qP+Te29KQtGVaarkvpy9JzAGyBO+b8bG9iIZ+VkdhtLk
+ nrC2eKvwI+Z3S4Kk3skfrIl3t4ZniO5ti8wqjEJC2RRBXMOxhYNAKqUgSi/HDzoeOFsFsMfqcDT
+ jlA+7ZyU0i2E9ISKpbbC90LKAzWOxjhBA7JChptfL5L/tE3P1/eNhXRk1LhtZwBhF70jEBD9hdr
+ OISmhPz5tOrz1jObsbDll4HF8mO8Tq6Xy7SQrW6MjOcpYSsVeulC37M+OuaNUAMzcsXMiCrWLKA
+ qH/le5DC4qg5dANHFq/cuyXNAiwWtv0iC3n8hiDlrtk1oLbNLacPgQoa/jRAIPW6/3Hhbyok8RH
+ wFUFNg87cVjiyCbq3hUU1iSPfs+TVWz76AWB+1Fqnk/U=
+X-Google-Smtp-Source: AGHT+IHWQhozhXLN2meL9w+JEoU34rofGsCii6kWqAWU/UOMV2gqycJDmTFFq6m+MamT1Bm7R0YdaQ==
+X-Received: by 2002:a17:90b:3812:b0:329:87b8:9fc6 with SMTP id
+ 98e67ed59e1d1-32d43f2b307mr11492435a91.16.1757333731665; 
+ Mon, 08 Sep 2025 05:15:31 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:4a5:943d::1709])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-772306a1870sm28345188b3a.75.2025.09.08.05.15.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 05:15:31 -0700 (PDT)
+From: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+To: rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, simona@ffwll.ch, airlied@gmail.com,
+ tursulin@ursulin.net
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+Subject: [PATCH 0/9 v4] drm/i915: Remove legacy struct_mutex usage
+Date: Mon,  8 Sep 2025 09:15:08 -0400
+Message-ID: <20250908131518.36625-1-luiz.mello@estudante.ufscar.br>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] fbcon: Pass struct fbcon to callbacks in struct
- fbcon_bitops
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: simona@ffwll.ch, deller@gmx.de, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250818104655.235001-1-tzimmermann@suse.de>
- <20250818104655.235001-7-tzimmermann@suse.de>
- <20250905190004.GB361827@ravnborg.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250905190004.GB361827@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 0CC062054B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- ARC_NA(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmx.de];
- FREEMAIL_CC(0.00)[ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,31 +87,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+This patch series completes the long-standing effort to eliminate usage
+of the legacy struct_mutex from i915 driver.
 
-Am 05.09.25 um 21:00 schrieb Sam Ravnborg:
-> On Mon, Aug 18, 2025 at 12:36:41PM +0200, Thomas Zimmermann wrote:
->> The callbacks in struct fbcon_bitops are for struct fbcon. Pass an
->> instance to the callbacks; instead of the respective struct fb_info.
-> This looks looks like a pointless change.
-> All the operations requires fb_info and needs to pcik it anyway.
+Historically, struct_mutex was used to serialize access to global driver
+state across the DRM subsystem. Over time, it has been gradually
+replaced by more fine-grained and localized locking mechanism. The i915
+driver was the last remaining user of this lock, and even there, its
+usage had become redundant or outdated.
 
-Yeah, it's in preparation of a later change. As I already had the patch 
-ready, i submitted it. I'll drop it now and re-submit when it's required.
+Specifically, the mutex was only still used in two places: i915_irq.c
+and intel_guc_log.c. In both cases, the lock could either be removed or
+replaced with a more appropriate lock.
 
-Best regards
-Thomas
+This series performs the following steps:
 
->
-> 	Sam
+* Moves struct_mutex from drm_device to drm_i915_private, since i915 was
+  its only remaining user.
+* Removes or replaces all remaining uses of struct_mutex in i915 driver.
+* Updates or removes comments referring to struct_mutex to prevent
+  future confusion.
+* Deletes the lock entirely from the i915 driver once no longer in use.
+* Cleans up the corresponding TODO entry in Documentation/gpu/todo.rst
+  and comments about struct_mutex in Documentation/gpu/i915.rst.
+
+Some additional notes:
+
+* In intel_guc_log.c, a missing destructor for a lock was identified.
+  Since the series introduces a new lock in that area, this issue was
+  addressed first, to the two locks do not lack memory in kernel.
+
+* Comments referencing struct_mutex were spread across various parts of
+  i915 codebase. To improve clarity, they were cleaned up across three
+  separate patches.
+
+The only remianig reference to struct_mutex is in a comment in
+i915_gem_execbuffer.c, inside the eb_relocate_vma() function. It was
+kept because the intended locking mechanism for that case is unclear.
+
+Changes since v1:
+* Rebased onto latest drm-tip as requested for CI compatibility
+* No changes to code/content
+
+Changes since v2:
+* Rebased onto tip/drm-tip
+* Correct code formatting
+
+Changes since v3:
+* In patch 8, the previous version only removed the mutex_init and 
+mutex_destroy calls, but left the struct_mutex variable itself behind.
+This revision fixes that by fully removing struct_mutex.
+
+Luiz Otavio Mello (9):
+  drm/i915: Move struct_mutex to drm_i915_private
+  drm/i915: Remove struct_mutex in i915_irq.c
+  drm/i915: Change mutex initialization in intel_guc_log
+  drm/i915: Replace struct_mutex in intel_guc_log
+  drm/i915/gem: Clean-up outdated struct_mutex comments
+  drm/i915/display: Remove outdated struct_mutex comments
+  drm/i915: Clean-up outdated struct_mutex comments
+  drm/i915: Drop unused struct_mutex from drm_i915_private
+  drm/i915: Remove todo and comments about struct_mutex
+
+ Documentation/gpu/i915.rst                    |  7 ------
+ Documentation/gpu/todo.rst                    | 25 -------------------
+ drivers/gpu/drm/drm_drv.c                     |  2 --
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  6 +----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  4 +--
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  4 +--
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  8 +++---
+ drivers/gpu/drm/i915/gt/intel_reset_types.h   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 12 ++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  8 ++++++
+ drivers/gpu/drm/i915/i915_drv.h               | 14 +++++++++--
+ drivers/gpu/drm/i915/i915_gem.c               |  3 +--
+ drivers/gpu/drm/i915/i915_irq.c               |  6 -----
+ include/drm/drm_device.h                      | 10 --------
+ 15 files changed, 41 insertions(+), 72 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+2.50.1
 
