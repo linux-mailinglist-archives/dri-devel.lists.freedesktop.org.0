@@ -2,132 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5DCB4962A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 18:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCA4B49678
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 19:05:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDBB10E1A4;
-	Mon,  8 Sep 2025 16:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650BE10E05A;
+	Mon,  8 Sep 2025 17:05:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FFkVSiPl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Db+Dbe3/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0271610E1A4
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 16:51:26 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588GBu53004401
- for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 16:51:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- S/+zeaYd116Dx15iEiK9NuMeAKSenvu/yLAwNz8B5ro=; b=FFkVSiPlnxM8h3/b
- rEEV/CO6t6tA2zW3Qil+GtG5629F+DtJu/Yde8JrJxvi6rESeWwM5mjRwvaI7E7E
- Wjae2gvABnRVJCgi6Cn/Dr2C2d3gC3EFkOzfFDwvWbT0bVIF0dViFaW3zdOvaOvC
- TgqS0EAplQFnKS+JzaVZTl7A2MSO3O7NIjtn5BR+u2yP3AU5WZJCbK196H3X1vsw
- Gk/gxaNZAptvm7HCLlaUTOV44xggH/+jni8ZWTQg3cUsYgwi6+MpRujQrN5KclDx
- ZmthR6/qaU5pKTURdNwbQXhPQA2X5qoFqG9dn/mxgkWPDUQ7Pwk6LrPjU+KTS+ns
- 3cT3Jg==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490c9j5f47-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 16:51:25 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b4fa4be5063so3469273a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:51:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757350284; x=1757955084;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S/+zeaYd116Dx15iEiK9NuMeAKSenvu/yLAwNz8B5ro=;
- b=bXtb7mPkoyt9//Ozruu7qpeGYSzZmkIFwheOeiIUnXb5znzcX3AmeOGEUR4kvexM9W
- wT0BZS5Zrtez09YYjNPZnd9zZ4yuz807WC/Qf3p/p9ReW+jc5vNkzeXr40fMCHCv7KaZ
- Bc5KaeqdWEGkw9wez5P9tskomYDVWhW47yP0Xl9VoyczYxSsHJz1wcxG9IIniA97V/hi
- sGltH0jEXWb9HfU4CIr3LbkJaW9NSqvZPGMqrGKl4CN5VOfsfKDTHH8cYKeAOpxpN5oc
- y9WqF23ksNW7i6YRnX7pik3Pz78rwqMJ/NCFBn3wa3D+72bD431JkejUnvs6J7fwHEUO
- LQ+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3+poKwQ6Dq4qDNRgUnRnTkv/mvQJWy7QWcrXp+yBYqbE0Y+EFMdR58//BNwUoE034n1TOamw8srQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhN6cygc9hZJXs8oEIgKSj7RrR21Cknwjil1PrMdjCI1n60PF7
- JwDqgVKzEEO+qs/QlOrkVrEeVkwpjTIBILU0UTZZAy/2XwfpcIMsLXv6Xs2f1BHKwbBqPYClvj7
- bd1y6O5Y2xvcvdP4iuytd7uyN8DUetRx6QXDPck3bNtp1U9fiuiuDwC7ALp003XR0E0WxLbo=
-X-Gm-Gg: ASbGncsRexjja3bGhS/7W7iQLugRmGdlj5qtfd2tl4KXTPYY5AuqQLlg/Sz5PtsHtEm
- pWkh+VpYJhQSkg3+k76oNPhHCZ7Vgkch/baRCCqaeR1YMPrN/euDfvV18LhuZcEKJ8Jh/O/Xoeh
- bdIpx8QVJdGJpn2PPIHbpNBb71OWSR1qYmPrzEDdwDLZHee5dmSjeErg+Bn+BzA4LxDnbLB8dmw
- EQ/ImIwtN2opOeoN0Lgn/NeUQTn9CekD6+Rzw1VQUcIF80mquGlZJVeJCoN3kjRJyd74ll+Jv9S
- Lk/GGuQlNmZgoxPU+EACYW/k2jV/QlEZCzme5nFhs2ALipGWZQUfTc2JnYvtkw==
-X-Received: by 2002:a17:90b:4ac9:b0:32c:923d:b832 with SMTP id
- 98e67ed59e1d1-32d43f60885mr12205934a91.23.1757350284380; 
- Mon, 08 Sep 2025 09:51:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHoTXxdRyvNWH6SrIRGKc106RSjdLehTELZS2revNCY8iV1PAXoSzB7fP1pZgGc2alNIfxrIw==
-X-Received: by 2002:a17:90b:4ac9:b0:32c:923d:b832 with SMTP id
- 98e67ed59e1d1-32d43f60885mr12205893a91.23.1757350283756; 
- Mon, 08 Sep 2025 09:51:23 -0700 (PDT)
-Received: from [10.91.118.43] ([202.46.23.19])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32b94a3fa06sm5216758a91.9.2025.09.08.09.51.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Sep 2025 09:51:23 -0700 (PDT)
-Message-ID: <e4d3e195-8d62-48bc-902d-b42fdbe9a3bd@oss.qualcomm.com>
-Date: Mon, 8 Sep 2025 22:21:17 +0530
-MIME-Version: 1.0
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F5C10E05A;
+ Mon,  8 Sep 2025 17:05:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CXCWZgpvBXy9ipR0nliHT93X8tGzAREFhSu08IUsGfOP2paEOxV4e1+nuxalDiNbHwywsXVG+TBQzmcaSO9rBFt6iw9OSLXnBuyaNYmrdbrjDmITJRJlqvOTy3++Za4q7syrj1utEM1OwW70HGegZ5uXa6bFYjeumz719Lrgad9tRaTXFx+R7um/ZCxzCD8Gfy2RUM61BAgx/NFCExy+9XaMxLCz+y5I9xdyHiKr73HKssk56u5NKOkpBlirNE8SyhEcpL7gXE1Ea7VO+wsRWBydw278f3say2wzqRIEKgej9FpsMdKR4dC00Aj8eLViQSDo1GmSJXSfOQ+qZlcULw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E1bUyYjTu7YoCaGBXaKJMS0+O9ZPNG2O0yv6E/b/Z6g=;
+ b=ArENNDM/W+wDIjWJRdxE3wpEVABhWry1j35u83BX0YzLnEeNqlK21eYBWdWGcWPsB07iRLEbKLXanAcZ4TzOTYHY998k5+8dk5UKBOE1QSraEdSTdDxHOscnMrwB3sNoOuXlwSDbZH+TBxsKqZrGI7GPZRXodY2nEfTTprcHBhFuUeHIZUdNPFy0qcK7Wp9GdaPNDZAkZUcKK1oSfJFs3E42ha8kmoG8cdjn6xv4uEiXE68Lk51B9FN3krdv1fDMrumD10xy4TeFT+vvHYtqo0D4MBmmwPt06X+bibmK7vSciohMNqW5xRegtlfN2SCuxgHJN/MiFNNm82qwoFAcRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1bUyYjTu7YoCaGBXaKJMS0+O9ZPNG2O0yv6E/b/Z6g=;
+ b=Db+Dbe3/LIGiVc4dF2ES6lTnDYlMuNYRiuWky4ls0IIhgefSV+mpxJSUkMCANkvMShgtHpHCLM+jKi+lHlX2JUoK3GGgrEK1PWT3fB37UBywPF7pAFemF8w7/u48MSV+C7ObfHwrYBeYqg2SddH6dzyb4r+/wN8YMyCr5ePqQTA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by LV2PR12MB5870.namprd12.prod.outlook.com (2603:10b6:408:175::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
+ 2025 17:05:09 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%6]) with mapi id 15.20.9094.021; Mon, 8 Sep 2025
+ 17:05:08 +0000
+Message-ID: <c28df8a2-9ec1-41d0-afe4-4ee047290d27@amd.com>
+Date: Mon, 8 Sep 2025 11:05:05 -0600
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm: adreno: a6xx: enable GMU bandwidth voting for
- x1e80100 GPU
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250725-topic-x1e80100-gpu-bwvote-v2-1-58d2fbb6a127@linaro.org>
- <e7ddfe18-d2c7-4201-a271-81be7c814011@oss.qualcomm.com>
- <33442cc4-a205-46a8-a2b8-5c85c236c8d4@oss.qualcomm.com>
- <b4f283ce-5be1-4d2f-82e2-e9c3be22a37f@oss.qualcomm.com>
- <269506b6-f51b-45cc-b7cc-7ad0e5ceea47@linaro.org>
- <1727374d-0461-4442-ab35-9acb8ef7f666@oss.qualcomm.com>
- <df007b41-5c3d-4c69-81b9-27155485ccf9@oss.qualcomm.com>
- <pxigrjxtizcrhn4l25ph4yh4runebintfp4swqfiewfq5hqceo@g5cy3mdgjir5>
- <77db4861-4868-4110-8c31-eb2045ddbf4b@oss.qualcomm.com>
- <4fa44ec5-2792-45e3-af87-b3e4d2ed5d86@oss.qualcomm.com>
- <dad0a37f-38b7-48b4-983d-fba265bc66f1@oss.qualcomm.com>
- <f00dffa0-11d2-4e88-9770-c34682f770ff@linaro.org>
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] drm/amd/display: Optimize reserved time candidates
+ sorting using standard sort()
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, austin.zheng@amd.com,
+ jun.lei@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: zaeem.mohamed@amd.com, wenjing.liu@amd.com, chiahsuan.chung@amd.com,
+ Natanel.Roizenman@amd.com, Daniel.Sa@amd.com, jserv@ccns.ncku.edu.tw,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250824182359.142050-1-visitorckw@gmail.com>
+ <20250824182359.142050-2-visitorckw@gmail.com>
 Content-Language: en-US
-In-Reply-To: <f00dffa0-11d2-4e88-9770-c34682f770ff@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyMiBTYWx0ZWRfX66l1Omk9QKK1
- g8bw4xf0hHvSTI/Pe92PjAnHs+yhhR/AC1xsJzKzrGH/hdBWVP5REjNp8Yk3kkC9Y2Sxth+jVhF
- ejZ6T7jgR7eIOE1TE8uwXfscO2uERR23tPUhJnA5XZlKMeDMZUud5eH+2//MVMlkTv9norZ/GHq
- lrJkUdsP5xWWcfUmKSKE8ffoIHpy+7d/k14AmkoApEQc5aAa8xSFV1fJEHZV1GuWN5hQu8ehgvo
- W5Ls0nRX8trgCzSKWsjWxcWNrmIORjXqkNhZcA5oLvKI63ishBDsu33CVUCfaFWB2ZNWU6KlaO4
- QeEOJoWwgCrx/SYg7/1zXX3/KNuoQP+T7aUeqtcyW1lWlIzQdhSyXusTSKhdlctp4nZOpyRvpWF
- VUXHpmi0
-X-Proofpoint-ORIG-GUID: PRI6PYxSsh783SkGKxWq23lk6_sftYrY
-X-Authority-Analysis: v=2.4 cv=PpOTbxM3 c=1 sm=1 tr=0 ts=68bf098d cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=KKAkSRfTAAAA:8 a=tOSjwr6CXn1eiJSsW0AA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: PRI6PYxSsh783SkGKxWq23lk6_sftYrY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_06,2025-09-08_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 spamscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060022
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250824182359.142050-2-visitorckw@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0100.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::15) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|LV2PR12MB5870:EE_
+X-MS-Office365-Filtering-Correlation-Id: b66f567f-d9e6-4646-40fa-08ddeef9dd4c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bFd4YUFpdHI5bVRlVURXdnQvb1ZqUGx0ZzZEdFJnQkRmcnRpQmNiN21oczRp?=
+ =?utf-8?B?NldrdFZRRDQyaVVLUmRaRlNZVVcwcWNQSE55VWcwTkhoMHI4NEkwd1l3WmZH?=
+ =?utf-8?B?K29QeVpQK2hrYXlxQ0NxaG5GK3U3c0x3RGhTM2hkVVZQZDU4eXErVGd2dk5r?=
+ =?utf-8?B?NGQ2c25hY3docXVlV3RwUG54d2piYm1kdGdFZ3J4dVgyL3prTGpoWElCWEpV?=
+ =?utf-8?B?azJzb1ZwY1BncDdoWHFoSlN2aWZOcjJCMjVZL3lPSlQwem1BR2trc21sTUpn?=
+ =?utf-8?B?YkxNQm5ZajNBbGdCeUVEUFAvNkQ4cmVkbWdYQTlFdjdQSkJqUGdEb1dzWFA3?=
+ =?utf-8?B?cms1ZmlXMEhMQXRLVlNRZ2M2OGV3VUM1L3dEOWV1TzlOb0VzNGhiWTF2b1pC?=
+ =?utf-8?B?MU1RRm9tY0dNdWVTNGQ3L0hrdnZJSnlsbmZFQU9xZHI5MTJVeGFPM01xSzN4?=
+ =?utf-8?B?VW1hZHhRb3VNRUk2NUYzZmNMWEF5YTd6M2t1aGZBeXRhbmJkdlIvbkFTdW9Y?=
+ =?utf-8?B?R1ppN0swaXYvWVQ3aWMzMnIxSnVycEVLVmZyNWJGYzRwcjNOYTN6MnI4Z29K?=
+ =?utf-8?B?aGpsR0dWTWZ6SEVFN2wzSEVOQTJxL1RPUlY4bW1LaExQdDZ0L01pSUJ1alNW?=
+ =?utf-8?B?eDUvYjVPQ01yeEFnY3ZPbXhaVkFBZUx2YStWbFUzRTNUc1FpMjJjZ0huKys2?=
+ =?utf-8?B?UjBrZlhYR0hUSS9iZlMzQTVGdCtlZkpOeGVFQ0hlZ0hWQjN0WjNZNEtDYkwz?=
+ =?utf-8?B?R0I4bXhrdjB1N0ttOEV2RVpJRndjV3JOMHlUbEtsZHJxRzJaM1FWZThLeWZN?=
+ =?utf-8?B?MXY3ME12RWZFRWErN29BejUyeDlDNUZHMmtJVWVrQmdkRWUrNjUyMnhVWFI1?=
+ =?utf-8?B?NzU0TzR6alZvdloxY3RzL0NKMHE0UGE5WFpvMkJaeFNWa3lZRlhXNlY3VWov?=
+ =?utf-8?B?b0c2MXh2UGZFeUNsNkxPYWRhNlRRUmc1blAzZ2doZENnbGU0VHN6Nng5UVhQ?=
+ =?utf-8?B?d1k4Ymk5dWNXdjZOQlVBRlM3S2s4akQzUTFOR1I3eXd2OXBkeHdZeXVuYnBY?=
+ =?utf-8?B?L251R2lMUUEyOWhNMGFDZXQzK2dXaTM3aWFiaGo0VzlNZW9CZTBsR1VScHkw?=
+ =?utf-8?B?ejIvYmhYOXkvcEVGUnlPOCtxZzhGR2czcXhtdmwzVU93S2pkN3V4UzJETVNF?=
+ =?utf-8?B?ZXlWSlI1UEdZTHB6SndVLzBGaDh5eWhTYlBqQ3JiK3J3eTVNbkxueHlMQVUx?=
+ =?utf-8?B?eXpIMzdNUEVsd09qWkZxMHFBWFlkQW9OS2Y4Y2ZabEdtY1JUL2xzbjY3aTBr?=
+ =?utf-8?B?dEJnTzdLTnN0ZE1zOHZkeVEvd3ZKdU05bUJ3WDcyZmVRbTlVcXAzeUZ4Zmlz?=
+ =?utf-8?B?NzdzN0s3ZXowMk5VdVo3a3U3Yk1tQklCaUFKaVFrOVZYRjdDVzhuZ00rdkda?=
+ =?utf-8?B?MlNOMHJqb0RYWXJlYU56SDlXUHZRRmQxSUNSa2V4QXVGUU40VkFmdDF3Tkpk?=
+ =?utf-8?B?S3gyaTVlendPNVVQdzNRS2xJM2hTWDFvZnhHbVlZS0JEeWROMTF3aElsZTd0?=
+ =?utf-8?B?WEc3OE9RSFU3blpzY3RvREs5WVVjdVdXUWV6eUdFLzVNUFFXWGx4YkI1U3lM?=
+ =?utf-8?B?L2FxZG1mNG9uK1VLU1REOCt1UFJCMmlWUmxDd3U0cjBqL1d6ekNkMGdvRFR6?=
+ =?utf-8?B?M3FReUdnSnpoK2V0TUNqd0c5M2Z6TXRveXNLTFg4QzBveHJqbUFuQlpkZXVY?=
+ =?utf-8?B?VEIxcGxleGNUeFptdEVUT2N3MVh2ZHA4MnFqUUZCOW9uYlhSaVZxd1FYUDZy?=
+ =?utf-8?B?VVNNRVhvbDFVZ1VoTFl6NG1HbFAwc01vVk5SQVhWM2t3RGdtaWpsQzNIQ3RJ?=
+ =?utf-8?B?Vm4xRkpjbWRXdlZHaEFXbzBrNnRzWUtycGp2b0J3VXZzNllvNWJKbE9rd2Mv?=
+ =?utf-8?B?aDZuTVN2YlVXcUpjYThqZ1BES1hKTlFiOWZoWE55SW0vb3d6YmlQVytxUEpM?=
+ =?utf-8?B?bmI4K04yVmZnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(921020)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2NzWENlRkZnNGQxU3R0TUozYllSOEExdkhycGZlUmxIblBCTDZpbVprTG5Q?=
+ =?utf-8?B?dzdVS2pkeEFLYkhDd3EvTUpQUlhkMHVldW12TEloODVvaS9mL0hhbGdSbnRW?=
+ =?utf-8?B?cjhPM0M2RWlwRWlBcnU1MmlTa04zMlU4dWNCMUR2SzU4MlphVzFVaSt5ODRD?=
+ =?utf-8?B?RUxxa0Q5VnJERGgzQThrVVJWU3FuNE5PVFN4eTNLOEsySlkrdXFXZG54V2Vm?=
+ =?utf-8?B?TVBQb3c1b3hVclhja0UvbXRCNm9CWEh5VnBvOVdEc0lJL01mbmVkUHZJZ0Rm?=
+ =?utf-8?B?UmtGNnpFdDZHeERXdysvSzFnY29rZFVYNkJ4UEtSa1cwUVpwQ1FMMnJyTGhO?=
+ =?utf-8?B?N0k4c2JTb0FWRnFTQzBBUWhxWjBCRjZrWVFDWkdwMnZNN0gxUU52aTR1M2VK?=
+ =?utf-8?B?SDNyd3dqOFpkTWpvRGE0N3RwNFFURklsMWlSK1VldVhZVFVoVXpUeHZBQ25L?=
+ =?utf-8?B?enBydDd1djhTTkxzZ0NlanYvQWV3MjVEWW9nSDRCdmltUURvYi9pOEoxL09Z?=
+ =?utf-8?B?bFJ4VWxjZWQzb3RlMHg3ZUhpQW9RcFNveXVENUlMZFBUYVYvVTBwdGNjRXpX?=
+ =?utf-8?B?Z0VTN2lKR0tobWpJYlZrSXB2YkJTemoxWFpJb21oeWZxKzlKeXBjc24zRWtT?=
+ =?utf-8?B?bHJ1ZG1HV3c0MGlQZzE2ZUwxbHR0eHVxRWRtandtRzFIN25ZMk1ZS1dLZTM5?=
+ =?utf-8?B?VEVVelZaRk1sbFdUMlZwV1N4YThWQXBEOHdaNFkzZjBkVkljaVJSWmk1QUt1?=
+ =?utf-8?B?ZW9aaEVJSHA4WjhXbHZOUDhyVWFhSk1hT3R5UENUaUtlSDlkSU1WeUZ3T09G?=
+ =?utf-8?B?MEhDV2V3MUxwanN5RGNwN1dqTElvTU5tRHBmTzdOV0RPVEpSMDRXTkUrVERr?=
+ =?utf-8?B?TVJsd1NGMk9MTmJWVG5jb3F5R1RHM0hMT2hseDlNbnNBNlcyTU5QS2JoWGVn?=
+ =?utf-8?B?SnNiNkZZN2JnYnNVaDBXZ1BVVTVnU2lYM3ZRdWhEOVRhdkcySFIrajBaTUsr?=
+ =?utf-8?B?M0t3UFpwWUl4Q01uWWM5Mkd0MW9BSmRvZlphclk5dUFQRytQWVlHMWcvejNx?=
+ =?utf-8?B?VUdkTEdYMU1BVER0anFpUUFhMW5JMHU2eGNSZUFhbnNVdEFhS01GMnFjZUxl?=
+ =?utf-8?B?OFNaeXRHWmIreWJDV2RjQVpQYkN4blRKYVlZSy9NUEdmMy93b2MyelFBNm9X?=
+ =?utf-8?B?U00zekJNYWNJQzZybjNnMURndVpieHpFQmIwcVdRUWhuZjJzYTMyOGJmVVE5?=
+ =?utf-8?B?aldlL1JDRUFjL0dERDUrT2VpdWkvNUxJcWg3N21PV21UMWRvdkxzYThjSTJu?=
+ =?utf-8?B?Z3c4aTFWV3YrMVJiZjkvbjlReUlKWFR4bnpCUldCbXpiVzM5dkljWHl0Zkd5?=
+ =?utf-8?B?YVJNWnhRZjdTcm1JbVRMZEdQcisxNFlIM2hyS3BONTM3a0pBb2ZNUE43ZWpq?=
+ =?utf-8?B?MGpTZWVkdHdPaVE5a0xtdUlIdEd1eEhjbjJIQ0hON2tNMXRsSkZoaEhtYmFY?=
+ =?utf-8?B?cDZyV1RyTWlXU1FRZ001QWplYUxBRHVxUGR1TkNTVXZTT0s5aE15bHl0eXZZ?=
+ =?utf-8?B?OVVPWk5YZ1MrSEkwczlrTnkrSVpzYWhnbnh0bEcxckZFY1BaRjl2Y3pSQW40?=
+ =?utf-8?B?NEJRTWxqalhDb2dBb0hBRWUyWGxyeGdDcTZFWnIzSVJKMmZzQXp4ekFpWWZV?=
+ =?utf-8?B?VXdIVFJES3Nib20xbys3YnlTYitvdTUvczFUSmtxWXlHV0JUaGNIZXl3Qk9q?=
+ =?utf-8?B?a2xwRG5PQ1hLYitwbHpsWmJuZVlmSEV6VFE3MnZyY2F0SnZueHkxeXl4UFFo?=
+ =?utf-8?B?NnovME1wZjQ1Q1ZiY2g2aFAzOGtpWjlyUTJyV3FuTi9uTUJFRm1Sa2FyZ1BL?=
+ =?utf-8?B?Y2NIQTU2S0tsLzFUWmluUElGZmlGeDl1SE9YN1lLVEFvcUxDS0t4eFNwYXQr?=
+ =?utf-8?B?dnNXRGlhclhjN1M5eG1oQStKcENwbXg4ZUNpUWJwZlNtQmcxeElPUTJXN0pt?=
+ =?utf-8?B?MW5lRVd5Umx2K2ZLNWtidzNtT1N4cUZNMVlRaDUxN2VtNjNabEd3Ly9WVGNz?=
+ =?utf-8?B?eFFQYkpVakZVODhlUDRNeFEyWElibkFCZU5wbjhTNDlaeGR4NjVGUnlBUktO?=
+ =?utf-8?Q?tSYBXHEN6+7TvOsp1HayEoLs2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b66f567f-d9e6-4646-40fa-08ddeef9dd4c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 17:05:08.7361 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I8k2xmUkuHMcjqnYjHKNRN5Rt+yjfdPitwXV5vdCEI7bxJkJQqvrTF1z2fDH9A3qPsY+0yaNyqUfWcj54hbKdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5870
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,126 +172,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/8/2025 10:03 PM, Neil Armstrong wrote:
-> On 08/09/2025 18:29, Akhil P Oommen wrote:
->> On 9/8/2025 9:52 PM, Konrad Dybcio wrote:
->>> On 8/18/25 9:17 AM, Akhil P Oommen wrote:
->>>> On 8/16/2025 3:45 AM, Dmitry Baryshkov wrote:
->>>>> On Thu, Aug 14, 2025 at 07:52:13PM +0200, Konrad Dybcio wrote:
->>>>>> On 8/14/25 6:38 PM, Akhil P Oommen wrote:
->>>>>>> On 8/14/2025 7:56 PM, Neil Armstrong wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> On 14/08/2025 13:22, Konrad Dybcio wrote:
->>>>>>>>> On 8/14/25 1:21 PM, Konrad Dybcio wrote:
->>>>>>>>>> On 7/31/25 12:19 PM, Konrad Dybcio wrote:
->>>>>>>>>>> On 7/25/25 10:35 AM, Neil Armstrong wrote:
->>>>>>>>>>>> The Adreno GPU Management Unit (GMU) can also scale DDR
->>>>>>>>>>>> Bandwidth
->>>>>>>>>>>> along
->>>>>>>>>>>> the Frequency and Power Domain level, but by default we
->>>>>>>>>>>> leave the
->>>>>>>>>>>> OPP core scale the interconnect ddr path.
->>>>>>>>>>>>
->>>>>>>>>>>> Declare the Bus Control Modules (BCMs) and the corresponding
->>>>>>>>>>>> parameters
->>>>>>>>>>>> in the GPU info struct to allow the GMU to vote for the
->>>>>>>>>>>> bandwidth.
->>>>>>>>>>>>
->>>>>>>>>>>> Reviewed-by: Dmitry Baryshkov
->>>>>>>>>>>> <dmitry.baryshkov@oss.qualcomm.com>
->>>>>>>>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>>>>>>>> ---
->>>>>>>>>>>> Changes in v2:
->>>>>>>>>>>> - Used proper ACV perfmode bit/freq
->>>>>>>>>>>> - Link to v1: https://lore.kernel.org/r/20250721-topic-
->>>>>>>>>>>> x1e80100-
->>>>>>>>>>>> gpu-bwvote-v1-1-946619b0f73a@linaro.org
->>>>>>>>>>>> ---
->>>>>>>>>>>>    drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 11 +++++++++++
->>>>>>>>>>>>    1 file changed, 11 insertions(+)
->>>>>>>>>>>>
->>>>>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/
->>>>>>>>>>>> drivers/
->>>>>>>>>>>> gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>>>> index
->>>>>>>>>>>> 00e1afd46b81546eec03e22cda9e9a604f6f3b60..892f98b1f2ae582268adebd758437ff60456cdd5 100644
->>>>>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>>>>>>>>> @@ -1440,6 +1440,17 @@ static const struct adreno_info
->>>>>>>>>>>> a7xx_gpus[] = {
->>>>>>>>>>>>                .pwrup_reglist = &a7xx_pwrup_reglist,
->>>>>>>>>>>>                .gmu_chipid = 0x7050001,
->>>>>>>>>>>>                .gmu_cgc_mode = 0x00020202,
->>>>>>>>>>>> +            .bcms = (const struct a6xx_bcm[]) {
->>>>>>>>>>>> +                { .name = "SH0", .buswidth = 16 },
->>>>>>>>>>>> +                { .name = "MC0", .buswidth = 4 },
->>>>>>>>>>>> +                {
->>>>>>>>>>>> +                    .name = "ACV",
->>>>>>>>>>>> +                    .fixed = true,
->>>>>>>>>>>> +                    .perfmode = BIT(3),
->>>>>>>>>>>> +                    .perfmode_bw = 16500000,
->>>>>>>>>>>
->>>>>>>>>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>>>>>>>>
->>>>>>>>>> Actually no, BIT(3) is for the CPU (OS), GPU should use BIT(2)
->>>>>>>
->>>>>>> You are right that BIT(2) is GPU specific, but that support was
->>>>>>> commercialized from A7XX_GEN3. Anyway, the Win KMD uses BIT(2),
->>>>>>> so lets
->>>>>>> use that in Linux too.
->>>>>>>
->>>>>>> I know some docs show BIT(2) support, but lets not bring in untested
->>>>>>> configurations.
->>>>>>
->>>>>> Eh, then let's get the docs fixed if you don't trust them because
->>>>>> we can't
->>>>>> work like that..
->>>>>>
->>>>>> FWIW this is information from per-platform RPMh cmd-db data
->>>>>
->>>>> If it comes from cmd-db, then we should be requesting it from the
->>>>> cmd-db
->>>>> driver rather than hardcoding it here.
->>>
->>> No, what I meant is that there is a piece of configuration that reflects
->>> what goes into cmd-db as its compiled and that's where I found that
->>> information
->>>
->>>>
->>>> Not really. This should be under the control of GPU driver.
->>>> BIT(3) is correct for X1E.
->>>
->>> BIT(3) is for APPS, see the interconnect driver which also uses it.
->>> This will create conflicts and may cause unvotes when some other
->>> driver requests perf_mode through the ICC API, but the GPU is sitting
->>> idle.
-> 
-> Yeah gpu will vote via it's own bcm drv interface and they will be
-> agregated in the rpmh.
-> 
-> It's basically the whole point of this gpu bandwidth voting via gmu.
-> 
->>
->> No. GPU vote goes via a different DRV. So it is independent. Anyway, I
->> checked this further earlier. X1E platform doesn't implement any
->> perfmode vote. So both BIT(3) and BIT(2) are no-op and are ignored by
->> AOSS. ICC driver's vote too should be no-op on X1E.
-> 
-> So I can drop the ACV bcm or it's a compat for other SoCs ?
 
-Lets leave it as it is just to keep it consistent. There is no harm.
 
--Akhil
- >
-> Neil
+On 8/24/25 12:23, Kuan-Wei Chiu wrote:
+> Replace the custom bubble sort used for sorting reserved time
+> candidates in with the kernel's standard sort() helper. The previous
+> code had O(N^2) time complexity, while the generic kernel sort runs in
+> O(N log N). This improves efficiency and removes the need for a local
+> sorting implementation, while keeping functionality unchanged.
 > 
->>
->> -Akhil.
->>
->>>
->>> Konrad
->>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+> Compile test only.
 > 
-L
+>   .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c   | 23 +++++++++++--------
+>   1 file changed, 13 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> index e763c8e45da8..2b13a5e88917 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> @@ -2,19 +2,21 @@
+>   //
+>   // Copyright 2024 Advanced Micro Devices, Inc.
+>   
+> +#include <linux/sort.h>
+> +
+
+Thanks for working on this, but this file is shared with another OS and 
+it is not possible to replace sort function with Linux-only sort.
+
+>   #include "dml2_pmo_factory.h"
+>   #include "dml2_pmo_dcn3.h"
+>   
+> -static void sort(double *list_a, int list_a_size)
+> +static int cmp_double(const void *a, const void *b)
+>   {
+> -	// For all elements b[i] in list_b[]
+> -	for (int i = 0; i < list_a_size - 1; i++) {
+> -		// Find the first element of list_a that's larger than b[i]
+> -		for (int j = i; j < list_a_size - 1; j++) {
+> -			if (list_a[j] > list_a[j + 1])
+> -				swap(list_a[j], list_a[j + 1]);
+> -		}
+> -	}
+> +	double da = *(const double *)a;
+> +	double db = *(const double *)b;
+> +
+> +	if (da < db)
+> +		return -1;
+> +	if (da > db)
+> +		return 1;
+> +	return 0;
+>   }
+>   
+>   static double get_max_reserved_time_on_all_planes_with_stream_index(struct display_configuation_with_meta *config, unsigned int stream_index)
+> @@ -634,7 +636,8 @@ bool pmo_dcn3_init_for_pstate_support(struct dml2_pmo_init_for_pstate_support_in
+>   
+>   		// Finally sort the array of candidates
+>   		sort(pmo->scratch.pmo_dcn3.reserved_time_candidates[stream_index],
+> -			pmo->scratch.pmo_dcn3.reserved_time_candidates_count[stream_index]);
+> +		     pmo->scratch.pmo_dcn3.reserved_time_candidates_count[stream_index],
+> +		     sizeof(double), cmp_double, NULL);
+>   
+>   		remove_duplicates(pmo->scratch.pmo_dcn3.reserved_time_candidates[stream_index],
+>   			&pmo->scratch.pmo_dcn3.reserved_time_candidates_count[stream_index]);
 
