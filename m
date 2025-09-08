@@ -2,77 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C98DB499B7
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 21:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D583EB499B5
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 21:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBE6610E230;
-	Mon,  8 Sep 2025 19:19:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MDQHe4Dq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A322210E1F4;
+	Mon,  8 Sep 2025 19:19:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9DD10E230
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 19:19:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757359161; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SR21xJbjuheCmpRO47GHS8daLjO4bieeiZzmtZ1cpc55VPRfVg548p5JS7agjhBhxNyqLOj4aSq+sv4fBoBAFwinz+AErAYyDnm9dFMD1lYZFLK2nGxh32KU9UBpnwa4JOgAkGhXXZk1Ezt/EytGOrIDKz/fJ1yBYOqSVdPDvEQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757359161;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=WKomwiWRLnM4IVkNJXgsDxoTaoxCuRYCEVpcC0hexTc=; 
- b=htmAjoNLy5CO05zAuH6G9LKsksKbRORMRlY2ga//3IUV8oR1JzNf+k84WVaUN8L2BLKsKIhlEp5YQ3KZB1vW4nlER4kFzE9gNteCx4wTgatNBcVznKJb5H1OLhHsmd7Rx2SXOPvHQ6Ssw5cfdqXuwJAAJJ/8DSbGxjiAwoM21VE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757359161; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=WKomwiWRLnM4IVkNJXgsDxoTaoxCuRYCEVpcC0hexTc=;
- b=MDQHe4Dqfppv+jVMwZnyFuAG2uAH30HHHO82FejqVc2iciJuMenfzAvgyXzq4Uui
- 4cmxT8BC0FYcgwWgEs3oRnI/N4M6nE/u/LHyPhm0wpuYeXoPlqRJqe/erXnbU3QzXJ8
- v3SChD6qsHNwSMzyTd0ri4Nf8MkPaF09mbhQTE+8=
-Received: by mx.zohomail.com with SMTPS id 175735915950243.97346092425232;
- Mon, 8 Sep 2025 12:19:19 -0700 (PDT)
-Message-ID: <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
-Date: Mon, 8 Sep 2025 16:19:03 -0300
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com
+ [209.85.166.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A0310E1F4
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 19:19:28 +0000 (UTC)
+Received: by mail-il1-f208.google.com with SMTP id
+ e9e14a558f8ab-40f97299233so4477735ab.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 12:19:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757359168; x=1757963968;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GS51yBm+KZpy05gOITF+TyPHlJCUTXtwtV3UCcoHVHI=;
+ b=b7TH9kotkus1WBzXr5mHgEbHebQKelMWEGEVrxFK75aeCmq7zIWPpwUSWSK7nYBcQu
+ JVC19cE+Kd4pP1Zi23f4bNAXoclZclg+0IclynIcUjMVzBzg7s4gp5H4JjqknWr07M9G
+ Uy5H/Q7PzQJilL+KF4nAEFgZYNy1r2h8w10g7+MxP/qfCshfmI0jwDwa/tT6R2XEFj2x
+ DACW3EdvJ6vZ8gfh/tWnfYPyNwbnocT5doDYqghA5y403Ph/MCVIYURNKU05hCAFSWmN
+ /fWjjf11ppj6iyCD76gS4yD+Qlv33V3PHOC5r1OU2AuSyasCbHyhAuI202ImOj9upE62
+ HLZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBxmx1JeGppir0sfP6uMnpn2MQNtHHrZOVtE6Jq2nieBuRFs9Eqb9etdtB2kZFrOvD/Tz4/FQibz4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/FTHc5VywFRSJzp7NVtgMZBbH8dxczBV1nLBRH01RbR7yttzF
+ Nr/KYDd6RipAW5DWrffMiijGwEGG7clZPyYsNdbuFBRYlYQ7yrJBgAtIbMVYdJm1nrxr00Qtn6P
+ yAk+MA7Ot6DFV3BwnjVNGMvg5uevBq0G2FlMf1h2X5ABUaeVUpWHpztjjgtY=
+X-Google-Smtp-Source: AGHT+IEES7IE7iRjJaxYjfY8EtJaJrjfyO12oDu3Dxea0hsbmIRzW3W9wfliz6N4OT7EukOeIr7wEqRT3bnbv1mqF8q806YnN/Vc
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
- assigned-clocks/rates properties
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-4-ariel.dalessandro@collabora.com>
- <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-Received: by 2002:a05:6e02:2194:b0:40e:fe2a:b321 with SMTP id
+ e9e14a558f8ab-40efe2ab529mr12939775ab.15.1757359168014; Mon, 08 Sep 2025
+ 12:19:28 -0700 (PDT)
+Date: Mon, 08 Sep 2025 12:19:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68bf2c3f.050a0220.192772.0884.GAE@google.com>
+Subject: [syzbot] [fbdev?] KASAN: vmalloc-out-of-bounds Write in imageblit (5)
+From: syzbot <syzbot+48b0652a95834717f190@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, simona@ffwll.ch, 
+ soci@c64.rulez.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,60 +62,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof,
+Hello,
 
-On 8/21/25 3:43 AM, Krzysztof Kozlowski wrote:
-> On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
->> Current, the DT bindings for MediaTek mmsys controller is missing the
->> assigned-clocks and assigned-clocks-rates properties. Add these and
-> 
-> No, they do not miss them. I don't understand why you are adding these.
+syzbot found the following issue on:
 
-The reason I added these is due to the following check error:
+HEAD commit:    76eeb9b8de98 Linux 6.17-rc5
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14379562580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e0bea6c0b97a2002
+dashboard link: https://syzkaller.appspot.com/bug?extid=48b0652a95834717f190
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
 
-$ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
-   DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-[...]
-arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000 
-(mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do 
-not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: 
-http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> 
->> update the example as well.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> index 3f4262e93c789..d045d366eb8e2 100644
->> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
->> @@ -68,6 +68,12 @@ properties:
->>         of the power controller specified by phandle. See
->>         Documentation/devicetree/bindings/power/power-domain.yaml for details.
->>   
->> +  assigned-clocks:
->> +    maxItems: 1
->> +
->> +  assigned-clock-rates:
->> +    maxItems: 1
->> +
-> 
-> Drop both, completely redundant and not actually in the scope of the binding.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b2c9b90de8ba/disk-76eeb9b8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/dd1bcf1fd25e/vmlinux-76eeb9b8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/dc7e94f5dffb/bzImage-76eeb9b8.xz
 
-Ack. Will fix accordingly in v2 based on the discussion above.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+48b0652a95834717f190@syzkaller.appspotmail.com
 
-Thanks!
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in fb_write_offset drivers/video/fbdev/core/sysmem.h:30 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_bitmap_2ppw drivers/video/fbdev/core/fb_imageblit.h:364 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_bitmap_imageblit drivers/video/fbdev/core/fb_imageblit.h:462 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_imageblit drivers/video/fbdev/core/fb_imageblit.h:492 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in sys_imageblit+0x1a6f/0x1e60 drivers/video/fbdev/core/sysimgblt.c:24
+Write of size 8 at addr ffffc90003649000 by task syz.1.259/7231
 
--- 
-Ariel D'Alessandro
-Software Engineer
+CPU: 0 UID: 0 PID: 7231 Comm: syz.1.259 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xcd/0x630 mm/kasan/report.c:482
+ kasan_report+0xe0/0x110 mm/kasan/report.c:595
+ fb_write_offset drivers/video/fbdev/core/sysmem.h:30 [inline]
+ fb_bitmap_2ppw drivers/video/fbdev/core/fb_imageblit.h:364 [inline]
+ fb_bitmap_imageblit drivers/video/fbdev/core/fb_imageblit.h:462 [inline]
+ fb_imageblit drivers/video/fbdev/core/fb_imageblit.h:492 [inline]
+ sys_imageblit+0x1a6f/0x1e60 drivers/video/fbdev/core/sysimgblt.c:24
+ drm_fbdev_shmem_defio_imageblit+0x20/0x130 drivers/gpu/drm/drm_fbdev_shmem.c:38
+ bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:138 [inline]
+ bit_putcs+0x90f/0xde0 drivers/video/fbdev/core/bitblit.c:187
+ fbcon_putcs+0x384/0x4a0 drivers/video/fbdev/core/fbcon.c:1327
+ do_update_region+0x2e6/0x3f0 drivers/tty/vt/vt.c:627
+ update_region+0xc1/0x160 drivers/tty/vt/vt.c:641
+ vcs_write+0x7c7/0xdb0 drivers/tty/vt/vc_screen.c:698
+ vfs_write+0x29d/0x11d0 fs/read_write.c:684
+ ksys_write+0x12a/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x490 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7effcbf8ebe9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007effccda6038 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007effcc1c6270 RCX: 00007effcbf8ebe9
+RDX: 000000000000ffd8 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: 00007effcc011e19 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007effcc1c6308 R14: 00007effcc1c6270 R15: 00007ffd4fcb0c08
+ </TASK>
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+The buggy address belongs to a 0-page vmalloc region starting at 0xffffc90003349000 allocated at drm_gem_shmem_vmap_locked+0x561/0x7e0 drivers/gpu/drm/drm_gem_shmem_helper.c:371
+Memory state around the buggy address:
+ ffffc90003648f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffc90003648f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffffc90003649000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+                   ^
+ ffffc90003649080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc90003649100: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+==================================================================
 
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
