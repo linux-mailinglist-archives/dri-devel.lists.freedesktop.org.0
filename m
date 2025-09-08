@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4449B483BD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 07:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BB4B483C4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 07:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22AA210E07C;
-	Mon,  8 Sep 2025 05:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 446A010E1F0;
+	Mon,  8 Sep 2025 05:49:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="HZIZUfgx";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="P/OTpD7K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49D6A10E07C
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 05:46:37 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5885kIoT4177018;
- Mon, 8 Sep 2025 00:46:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757310378;
- bh=6JUrHOaCwdFcfKI+71eVuDBjCs4fIIRwLXH05PdzWro=;
- h=From:To:CC:Subject:Date;
- b=HZIZUfgx9/+2hXStkyI1e5YjwCa3Gs5R5Uyn2z5QugAWvNVK76VxdUpFjA12cA9Cn
- wUI326LFYvARVpLuJ185dmmI8GXWZWoHwCs98vqx3AjmJmrx7IQ6/PAO//kCtSd+cX
- AiQCOqBGt83MauU2GQ8PoowVNtDS1Gfwe756ZnkY=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5885kHCb2775068
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 8 Sep 2025 00:46:17 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
- Sep 2025 00:46:16 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 8 Sep 2025 00:46:16 -0500
-Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5885k960075469;
- Mon, 8 Sep 2025 00:46:10 -0500
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <sjakhade@cadence.com>, <yamonkar@cadence.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
- <s-jain1@ti.com>
-CC: <h-shenoy@ti.com>
-Subject: [PATCH v3] dt-bindings: drm/bridge: MHDP8546 bridge binding changes
- for DSC
-Date: Mon, 8 Sep 2025 11:16:09 +0530
-Message-ID: <20250908054609.1113360-1-h-shenoy@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 266ED10E1F0;
+ Mon,  8 Sep 2025 05:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1757310555;
+ bh=u02UJ6ZXh3NmyEBtqPxpp2cMxmC0q9X+OV3aGctYjEg=;
+ h=Date:From:To:Cc:Subject:From;
+ b=P/OTpD7KrgvJ9gk0JlMAt2qEjr21n22+Kv1HHal1xqpa4utamE6CdEWtsn4+/O7KH
+ cICZK3ZzFU/Kj+O1i6RGQ62Jf432YCYY84up3p15aQm+R75SUBWy53B5B1sCT0fklj
+ WazGohXOCm9+jTSSw//vjxghUMlod/TVQl1zWW6RFNAoJ/eecrfiGI3esM5HCreNkM
+ xHt/VFPSq8Wjs4I5niewlDSOtDHYFM0M+dr1GS8540hemrWSn5jG10zyNu3Gb6ZG+g
+ +jSRFVp+TgdmoEtifZcxZVZkGVv6Wy5RVLEulF4H0ZtYBMns50VmUjmd10S6QOylke
+ HW63AAJrQMyFg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4cKwxk3gTrz4w2S;
+ Mon,  8 Sep 2025 15:49:14 +1000 (AEST)
+Date: Mon, 8 Sep 2025 15:49:13 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Rob Herring <robh@kernel.org>, Mark Brown <broonie@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Nick Li <nick.li@foursemi.com>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Wig Cheng <onlywig@gmail.com>
+Subject: linux-next: manual merge of the devicetree tree with the sound-asoc
+ and drm-misc trees
+Message-ID: <20250908154913.5fb9ae9c@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: multipart/signed; boundary="Sig_/OX4/p=OXFtBgv3h7kG9jnVV";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,75 +61,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Swapnil Jakhade <sjakhade@cadence.com>
+--Sig_/OX4/p=OXFtBgv3h7kG9jnVV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Add binding changes for DSC(Display Stream Compression) in the MHDP8546
-DPI/DP bridge.
+Hi all,
 
-Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
----
-Changelog v2 --> v3:
--Update the name of dsc register block.
--Add the reg-name list in conditional based on compatible.
-Link to v2- https://lore.kernel.org/all/20250903111357.2605199-1-h-shenoy@ti.com/
+Today's linux-next merge of the devicetree tree got a conflict in:
 
- .../display/bridge/cdns,mhdp8546.yaml         | 20 +++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+  Documentation/devicetree/bindings/vendor-prefixes.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-index c2b369456e4e..eb51f9595da8 100644
---- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-@@ -27,6 +27,8 @@ properties:
-           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-       - description:
-           Register block of mhdptx sapb registers.
-+      - description:
-+          Register block for mhdptx DSC encoder registers.
- 
-   reg-names:
-     minItems: 1
-@@ -34,6 +36,7 @@ properties:
-       - const: mhdptx
-       - const: j721e-intg
-       - const: mhdptx-sapb
-+      - const: dsc
- 
-   clocks:
-     maxItems: 1
-@@ -100,18 +103,27 @@ allOf:
-       properties:
-         reg:
-           minItems: 2
--          maxItems: 3
-+          maxItems: 4
-         reg-names:
-           minItems: 2
--          maxItems: 3
-+          maxItems: 4
-+          items:
-+            - const: mhdptx
-+            - const: j721e-intg
-+            - const: mhdptx-sapb
-+            - const: dsc
-     else:
-       properties:
-         reg:
-           minItems: 1
--          maxItems: 2
-+          maxItems: 3
-         reg-names:
-           minItems: 1
--          maxItems: 2
-+          maxItems: 3
-+          items:
-+            - const: mhdptx
-+            - const: mhdptx-sapb
-+            - const: dsc
- 
- required:
-   - compatible
--- 
-2.34.1
+between commits:
 
+  243167e96939 ("dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semico=
+nductor Co.,Ltd")
+  09b26dce32f0 ("dt-bindings: vendor-prefixes: Add Mayqueen name")
+
+from the sound-asoc and drm-misc trees and commit:
+
+  4ed46073274a ("dt-bindings: vendor-prefixes: Add undocumented vendor pref=
+ixes")
+
+from the devicetree tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc Documentation/devicetree/bindings/vendor-prefixes.yaml
+index dcf82d972037,0f5273123650..000000000000
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@@ -560,8 -568,8 +576,10 @@@ patternProperties
+      description: FocalTech Systems Co.,Ltd
+    "^forlinx,.*":
+      description: Baoding Forlinx Embedded Technology Co., Ltd.
+ +  "^foursemi,.*":
+ +    description: Shanghai FourSemi Semiconductor Co.,Ltd.
++   "^foxlink,.*":
++     description: Foxlink Group
+    "^freebox,.*":
+      description: Freebox SAS
+    "^freecom,.*":
+@@@ -943,8 -955,8 +967,10 @@@
+      description: Maxim Integrated Products
+    "^maxlinear,.*":
+      description: MaxLinear Inc.
++   "^maxtor,.*":
++     description: Maxtor Corporation
+ +  "^mayqueen,.*":
+ +    description: Mayqueen Technologies Ltd.
+    "^mbvl,.*":
+      description: Mobiveil Inc.
+    "^mcube,.*":
+
+--Sig_/OX4/p=OXFtBgv3h7kG9jnVV
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmi+blkACgkQAVBC80lX
+0Gy9eQf/WAaQO4uhlb73zuSy+mJ47ng+u3d0GTkf3d4rXfReg1sNQnjrAbXf101b
+/FwKmQe9Z/4a+/zjSxUj/Vmb/ns4V74C7++d0Wnw5f+FptyqW5Fwdcbpml3tJc3W
+lK9UZCJFAKGSCCUhRayO/plqTaalUeWiLr5NQe9YrfAA6+KpxdrUvMWfCjJR5Alm
+OPJRoo5n1Sy+Y/cFZ/Iluc2MUF9ARAaH49A6xPoBK+f2tAuOxJSnCBI+05eXEc2G
+Jv2lo9gTA2Zlm+/O6I5NIpCIz9afEVgOTBlQvrHVTktU5C/XLtBcB2d6BCi7t6mB
+ZbKUws7+hTkxIPhpqx+J+JX/5oU7+g==
+=zHgE
+-----END PGP SIGNATURE-----
+
+--Sig_/OX4/p=OXFtBgv3h7kG9jnVV--
