@@ -2,168 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAAEB48C68
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 13:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4160B48CD0
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 14:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32AD110E4D0;
-	Mon,  8 Sep 2025 11:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94CBC10E4D7;
+	Mon,  8 Sep 2025 12:05:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="aVu5h5wC";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="enOSjJUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2053.outbound.protection.outlook.com [40.107.101.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03E0A10E4D0;
- Mon,  8 Sep 2025 11:43:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p0S1fZ1oObwjbgR9vZ4CQp1eciMd5Ehc0KVLtPx78UEic3TfF5ScDn6iB2UhYQMKwRM0hPaOMT1o1dsbpVGuZCOoVGPj5wc9jCMvC1Z6+F7wHgbofIlzDmxj+/HgA5jfyPgH9F0KmcQJ5yb0EZ1Bw2rSx5RNvVprpRkJBb1ja4KL35LAcJZOb562p6LjVhQFv9luwaSmYg9cG0DsY5IcXu7bt+vqBMU5qcSsHMXEyyIwtkFyHIL8jnqHn9mQei+F0zK1sYaHbwdZH6ugF4/t3EFpyTlFCFflsfN/vqewRX6gg85cChLrhd4nILe1xGjt0idvqJ3eKUfoCj7pTfV9tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ufezDUiQlSwSUmW31CqVL2aNj9s39nfDiRkW3sKCzyU=;
- b=cvbFB2ZDjL3umI9wGJ7HCMiKDw/FLWGdk5ciH6o0ybdW3DA6DXaSu8XOxorrYAo4KlOMk1PhrNFwCIuPB4cLC2OdN/uIbgZs0K+nrI878ES9YdYc/gVT678VocgPOELh799CADoy1zkF3rXz27nIaZvAapbwxKiMgNRu3h2fJFJwZzZjkJVF/099u5HMITqHDbComakbUn6IW0wdNIS6NiGuRJcZifdOTdP6BfjsoJUCJkRQ6cAYFuEh8FymaKF/VXv+VZqx15I3mx2VP1r0GFuIRH4ZPAd356/QeoGjX+RIWlFdgbm89X3jr+Ltfn3Huw/ryDjqylSF7HbTGyJIVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ufezDUiQlSwSUmW31CqVL2aNj9s39nfDiRkW3sKCzyU=;
- b=aVu5h5wCVKzSnOUySq2TJPVj/pnFvgTOrs+6gBMw9B536JINtyiN3+0k5XDWDpj6jIWBukt90DXbEp6cQNxmdhOSAV6VTPwXsEHzJa9eDgmK3MusMizqnTXcchxZN8Ed0ViOrGgSE9Ky7YbjVKXj4PRGwlwich+g8h6Yed+nI2AI/pW6WqrxA1NXpvlrAzDxgysdrnjbAIktU78Pppwq9ZaL4e9+kMdh/2nnuOoPwBAn2zaooNEeMvwO76COGEAKDcWJJMLec8+MKDm6KWSKHs5KlJFf7eNow7CT4Hx7Rb4Qhf+3mYZin/3FHy2/x1X3/7/eMBBgp/e0vdFGTdFh0Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MN0PR12MB6343.namprd12.prod.outlook.com (2603:10b6:208:3c0::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Mon, 8 Sep
- 2025 11:43:00 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.018; Mon, 8 Sep 2025
- 11:43:00 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Sep 2025 20:42:56 +0900
-Message-Id: <DCNE4H8KT8B8.20Z8SOHSGB5AD@nvidia.com>
-Cc: <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Nouveau"
- <nouveau-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH 04/10] gpu: nova-core: Add a slice-buffer (sbuffer)
- datastructure
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Alistair Popple" <apopple@nvidia.com>, "Alice Ryhl" <aliceryhl@google.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250827082015.959430-1-apopple@nvidia.com>
- <20250827082015.959430-5-apopple@nvidia.com> <aL1kbG0YYy0FQCGM@google.com>
- <kxriy5tmcdpbop674gt55tmcfsvdy52dnw6dw6svemj4a52dtf@xhvjfrcjxbgw>
-In-Reply-To: <kxriy5tmcdpbop674gt55tmcfsvdy52dnw6dw6svemj4a52dtf@xhvjfrcjxbgw>
-X-ClientProxiedBy: TY4PR01CA0077.jpnprd01.prod.outlook.com
- (2603:1096:405:36c::6) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC33410E4D7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 12:05:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757333114; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Fwi8FJOl6mvelR+XqWpeg0MkcWyKjt9sal7ACIe4cUfDfR0xjaWqAwhNsyPa+9hf4Y8CghW1tV5Et2Rm0ZpwEZ++juzARRJw5ohVeHcdjMnOVdbQhN6mIOf9yKgKeO9WmYqXkB+0Z1AXPuM1OF6H0YYSQtVrxGDEG/wvnYYCajI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1757333114;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=I9rZ3d8EMRlGLHfWRe9wMpV16pDXMhWX5ESo3BO7/WA=; 
+ b=WnXggBoOh0ucK1WGPTro59OrVuZ1/qvF3oGDjLmTp2x6wA36/fDCUgisKK/53HB4SB7Z1gQ8gO3h5UGHYVPGT+uXRBRPjM7ii5prDJ7bdTP5lv1VCZsQsymxxhEavmGrv27w/16JJIE3I+Uc1lVBjff7wJTdasqIfcPi0+LlxYE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757333114; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=I9rZ3d8EMRlGLHfWRe9wMpV16pDXMhWX5ESo3BO7/WA=;
+ b=enOSjJUicizZ4eADZz53gBldVW80SHGJER79glDLzB0j4qALuUS6nrUge64Wk1LM
+ AihHTD1HaAHt7sAhTG4UKcDXDICMq3Ze2goYEIXgvfZc+P9LLIp988DQ2620fFg13lO
+ SbYM3SG8vCnkLF4VKrBdBSiq0dTPiYcsYWSThr08=
+Received: by mx.zohomail.com with SMTPS id 1757333112565883.1464946521103;
+ Mon, 8 Sep 2025 05:05:12 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH RFC 05/10] mailbox: add MediaTek GPUEB IPI mailbox
+Date: Mon, 08 Sep 2025 14:05:05 +0200
+Message-ID: <7865698.EvYhyI6sBW@workhorse>
+In-Reply-To: <27159dc0-96f1-4d99-bf5e-cda0f9c7d307@collabora.com>
+References: <20250905-mt8196-gpufreq-v1-0-7b6c2d6be221@collabora.com>
+ <20250905-mt8196-gpufreq-v1-5-7b6c2d6be221@collabora.com>
+ <27159dc0-96f1-4d99-bf5e-cda0f9c7d307@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB6343:EE_
-X-MS-Office365-Filtering-Correlation-Id: 802570d3-3376-49cf-4dc5-08ddeeccdc98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|366016|376014|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NHEvZ2dzWmY1Y3RyZDk4TkN4dlRPNmxhVzNObGR4YXRsUEpFSWQ5WkJKY3h0?=
- =?utf-8?B?L2RmRjhYSExBY2dMQU44cDlRdlhlak9YTUd3TFJDYWN4U1IyTXd0RVFFR0pa?=
- =?utf-8?B?eVlzUDgrZUdYMUQ0NnFNdnlFWVNrQ0syVmhDcVVQeHlyZ3A1aFIzTCtvaGVC?=
- =?utf-8?B?STllN0EwdWoxckM3Z0JvaGFVYUhsVEFrYndEd3Q3cFJKZkNZRHNVRGNUUkhm?=
- =?utf-8?B?ZmNHMm56U0RFbzRZTmRHQVZhZUZxMC9BdVlReU9nK01BNlp4Ym5YV1JuM0tS?=
- =?utf-8?B?OTVpZFplQ0FmUEErTG8wVnUwSk1NaFFMc2d5eFFLTDZLQWJNajBnUlRlWHg1?=
- =?utf-8?B?Yml2cGlyVnlRWGpybUczcTdsRGsreDA4L3lISTF3ZlVBTkRqU1NlNS92Qnpx?=
- =?utf-8?B?YUROdkREODBxUEJrWE8wbkNlRUlHTGwvZDFJUVRvc1ZtMTFabUc3SkFDdE05?=
- =?utf-8?B?bjJSVFh0c25DZnlQSlhsZnZsc0tUVEVWMmo0RXoyZE93M1gxMkhQVjBkMEh3?=
- =?utf-8?B?aC8zMHpad1ZoclhOMCt2dXJJUU0yazFvaDd3R3J4Tzd3bXBnRUlzM3FSVTY0?=
- =?utf-8?B?ZVpsV3NXSDhCakRoN1JDb3NURjB5dzkyaWFHOXZoSnlYTEY4OXZlaDZjSkhR?=
- =?utf-8?B?LzQ5Ri9sY2VwRHFBaDFnWXhWaXd0TlhxblFlSHA2dHVmMG1XQlA2Mmk3R0E4?=
- =?utf-8?B?cTRyU0FYMzRBNnlYbk1kcE5Ib1R3eDJhM1c1UmwyaGZrVnhEeEJZMGVIeEgz?=
- =?utf-8?B?ckNpNTNPdlEyUDhvZ2UyNlJPcVpGWnZBSkVXYjhUSlY4MkxxamIyZVVxcTRt?=
- =?utf-8?B?TEhyYmNlR0l3c2R4STZqYnd4UllGa09tVkhtNlhKVGdFb21qOVN6Vk9LYm1Z?=
- =?utf-8?B?NGs0c3M1bktIQnZCL2FXQVRnejhwY0R3RWVMUGxsdENJVVhFUjRRbW1UWnJj?=
- =?utf-8?B?bVpBYmxCSFlPU1c5bHE0UFhZM2c2THZtMUZ1OHdGSXgzZkEvYXlTN1ZBa2V5?=
- =?utf-8?B?cVJpeXpJVXF5ZFdWRXJucGhsR01jUUhIaStBOXczNC9ySGo4RGxSemZZcXNq?=
- =?utf-8?B?TUtCNkl6eUFMbnR2VGJVbzZFQ0I0SVFtd2pLVlpHaSs1MFh2UDlPODg3ZGpT?=
- =?utf-8?B?MWh3dXJ5SWhjeEY2elorL1hvM2NMeURMZnlheXpPaHpvRkhGTmVTNzlGb1dz?=
- =?utf-8?B?MElEZ3BLVjdjS3B5RS9CVDY2QXdrdmVsUnl0ZTZIUHFRY3lVNURWNnFMSCtF?=
- =?utf-8?B?bmJnbHZqN1Q4K2ZRNmlOY3Y3cVZONkFCeGxKM053TU5jcWJoYUMvVm84ejBE?=
- =?utf-8?B?bng4TVBYTThpL2NOK1ozUkdMeEZmMTJmSTZ6MDQ0TXRnKzJNTnd2NGlNWDda?=
- =?utf-8?B?TVBFa3ZMWWxZeUNVeG9Ya0IvYVBCQTU4VnFjcGtsV05mZDVWcFZ2V1pJdFZ4?=
- =?utf-8?B?Ti95dUpLOUJMTHltTkJPMEN0VWFIZkFXakRXVm93aXJUQ2Q1OUhseUppSlpw?=
- =?utf-8?B?V1Y0ZGtGR3hsUmhocVVsM0tyOE9kR1VjOGpSYzFBbVFpeVpkaTN2RHRQeEho?=
- =?utf-8?B?VTVkOHpXSTZRTUJzeTZ4dnZrOFV6V1VMNVNSelJqbmJ0dGlJTEdWNXNUc0tJ?=
- =?utf-8?B?MExZcTNFRk9iZVR1SEtQUnJWenNiMHFXZHdEN3NCaHN0MU5Jc3JEM2F3TFYx?=
- =?utf-8?B?Q212QVZpUDA4N2ptL0FFUFlsZnZyeXRua1hwcVR5Q3NLdENnWkFJcWJJbDRC?=
- =?utf-8?B?T1Q3dEZTVnlmd0hJbHRjSHdOOWlmYzRoZnJVb2dpSlNwWWRVemlwNGYzbkRk?=
- =?utf-8?B?Z0Nhak8yMUhtOVQ5SDVPeFR5STI0MnJOb3VvNzVYSElkb3N6RVovNWJmWllB?=
- =?utf-8?B?dlZzUlJzSDkxdzN3MVpjK1I0bEVzVEdKMTlwbW42VUlzME9OZkRiZWljRlRG?=
- =?utf-8?Q?dvzWSHjYXLs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjlpbWhYVTdibzNZNzlKSjFDc2wrRFdNOE1acnFXTEtqQUMrKy84ei8ybWVs?=
- =?utf-8?B?QzZOTU9TN2cwcTBsYy9wWE1FRHdrYk90VVFvYnNVRnFRZVpoUWtva3VhbVlU?=
- =?utf-8?B?TjA0MHc0VmZsWG9YbkhsSVVjcktXeVlHeFY3U0VkMThrWExnMk1HVkN1N0Jm?=
- =?utf-8?B?cmxuWkRjYkNyNWxNOFJIUml0YmE2bTN2ZVgyVnltZm92S2pmL1c4QXFqVU9j?=
- =?utf-8?B?Wk5KVDRxOVlYOWZSWjJRY0czakMxaUJqK3JZZFBUaC9Ga0gwaUpUY1czMWpP?=
- =?utf-8?B?R3RZNEF0SkFxbW5pYUNkcGJLekk2M0k2YVQyYWJ2enJncEg2R25EOWpqb21O?=
- =?utf-8?B?aHJtaXR5bC9ZR0FDVWxOa3RHZk4yQ0VkTVdDT1pkUGNYUDhYYXBqSzVVTm16?=
- =?utf-8?B?VGRYU3ZZdzZac0tSVlZMTjhjc1p6RU4yWUowTnBaWHV5UlhpNjdwZ0ZpZG5N?=
- =?utf-8?B?enBIZElwTGw4ekIvdFZrYTk0NGgxSmtVM2loNVFsRmpicldkQ2NncjNDelA4?=
- =?utf-8?B?YUdvUFhvZ1lMT0FQZU1sVGdka1lxREcxY3o3cXpvcE0zK0kyd0pBMDFvNmhH?=
- =?utf-8?B?c0w1SkN5T2FnRnJmekpSZUIxYzEwTFBxNjh0UHF1YWtTZEQyYWwvbEZTYmtB?=
- =?utf-8?B?ck5uYVNpUUpySDBnaHlneWx3WFh2UU80d08zeFEyeWxuQ0VpYUJVUUhNckhE?=
- =?utf-8?B?bFRmMFFpNDBDUndpeEllanIzODlhbnZZWGFTZ0ZhYzNXQllhR1NtM0toN3dy?=
- =?utf-8?B?L1BlSlhaNmh2b3dNVnZMMEx2L1VCcjZJaGMxbjZCeWwvOXZ2UjUyaDZVbmRF?=
- =?utf-8?B?M0dGUFNxRzdhK0FYSjEyTFJkMHFhV000eXl1YzFpSDQvbVNTakFhUEtxSjlJ?=
- =?utf-8?B?a1VvZWRaMVU3bGxqTWxhWUNxY1MxeDhveFNsVXRPcnF2dFRoTWpCRXhON3Y3?=
- =?utf-8?B?MVZaRGJCRlZneTcvaGhtYWt5bExoUFZhY2hMdHgyYTNndnFFU1NKSmlpWld1?=
- =?utf-8?B?WlpOZWROeHV6YUt4cGgvcStiOWxTNVpjTzhqM0ZxcHNqeTh0L29xUXJTdjh4?=
- =?utf-8?B?TUVGcmtsbUNuaXE2bGZPQmRpeTBZN3JYTEp4VzV4Nm5kZWZwdHVWOEJGSlVZ?=
- =?utf-8?B?SWNYbE1aY0EzWHpuQnJWU2Q5a2UxRERFZjZtWFNCSFY3VHdianAzdTd2UTJX?=
- =?utf-8?B?QkJCSmlCTENFZzJ6N3JrZndhcjlHeTRjUXV0Z0lmMEF2bm8ybkMwRmFudDZX?=
- =?utf-8?B?SzhtWGoxYXBuYXloRlNLMk9IR3VXWFV5QmdtelVIUGtDZDdocHRhTWZxTmth?=
- =?utf-8?B?SXpoU2c2RGV1K3VzaEczdWRyRmR6bHdnU2d2cWhQWXdXdWwwTUZCeVBYRnhI?=
- =?utf-8?B?SWE5dExzWDRHaGx3NVoraXdWZ3VHS0ZpWnlJZWY3YzZlbEpBTms2ck1jaS90?=
- =?utf-8?B?YjRGY016cmJqVGFtbHBlaERpVTk1dkFzSThFQ2dEL2ZUMFJqV1lOZVVVcUI4?=
- =?utf-8?B?Ky9zN1BLdzVuNlo5a2MxQTNJa3N6Ym10Z0YzNEtqV21PRkFKVEZja3Y2VEpJ?=
- =?utf-8?B?b3FTelFodUc0VE5aNDNSakUvNTh0Q3Nkc2VaUUMyanNONERLOFl5L3pic3Zy?=
- =?utf-8?B?eEtxR0J2Y3V3WGlFTlpmV0laMG14SlQyMDdZeDBhNGdyV1VDOUpPZlZCTHdK?=
- =?utf-8?B?djVIQXpRbjk5UWFSNEFzTUZhZnJLbXY4RytlUjBHaE1WUDF0cXFDekFyUjh6?=
- =?utf-8?B?Z2I3SG9SbGtFWkxsaDd4czA4aFVVYmNtQzE4SVNJOUNlak94L1FEQmxHblBp?=
- =?utf-8?B?UUhGMVE4ZE14MmVIK29NTlM0ZXNJQkpCeC84YURKMEhSWXkxTlgxNjMvWnBQ?=
- =?utf-8?B?a1pCYUprY2dZVE5IKzFVS0VKY21xRk9nYmVsdVUyNWJ5R1pOZUgzR0RXRmVx?=
- =?utf-8?B?K1ZkZ0FQT0dlMGYrdE02M0NJajEyYmJzcStGMFdaOVZSaVhMdWpvei9kY0Yy?=
- =?utf-8?B?ZEloNjlOSWRyaU5ST3VXaitQdVFLRmxYb3BzdGx5R2Vnakp2ajZqVjlzWU9K?=
- =?utf-8?B?T1NsQnM4dWRRR3dqb01YWEJaMFREUXkyNkVWNEhlL1V1Y0pIOEtyMkVnT2li?=
- =?utf-8?B?NitVbVRBUmR2WGNHZ3VETVRIWHJUSmJGc0NwY3lUQVp1dVJIRDVxb2ZDMTFM?=
- =?utf-8?Q?P3flOkNoJu9NlDojYu0xmnUB9E6OxJ0fKZuHE9miwIjm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 802570d3-3376-49cf-4dc5-08ddeeccdc98
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 11:43:00.0010 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TVpBwUn8wTBah5kTHD5ttG/Ch/vkSJhkAeuv9yX8ydzWtMDvcnHNxjZh24Akz2RDtscTISiuzQDc3riQ7wZxoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6343
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,42 +81,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Sep 8, 2025 at 8:31 PM JST, Alistair Popple wrote:
-> On 2025-09-07 at 20:54 +1000, Alice Ryhl <aliceryhl@google.com> wrote...
->> On Wed, Aug 27, 2025 at 06:20:01PM +1000, Alistair Popple wrote:
->> > From: Joel Fernandes <joelagnelf@nvidia.com>
->> >=20
->> > A data structure that can be used to write across multiple slices whic=
-h
->> > may be out of order in memory. This lets SBuffer user correctly and
->> > safely write out of memory order, without error-prone tracking of
->> > pointers/offsets.
->> >=20
->> >  let mut buf1 =3D [0u8; 3];
->> >  let mut buf2 =3D [0u8; 5];
->> >  let mut sbuffer =3D SBuffer::new([&mut buf1[..], &mut buf2[..]]);
->> >=20
->> >  let data =3D b"hellowo";
->> >  let result =3D sbuffer.write(data);
->> >=20
->> > An internal conversion of gsp.rs to use this resulted in a nice -ve de=
-lta:
->> > gsp.rs: 37 insertions(+), 99 deletions(-)
->> >=20
->> > Co-developed-by: Alistair Popple <apopple@nvidia.com>
->> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
->> > Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->>=20
->> This seems like duplication of the logic in rust/kernel/iov_iter.rs [1].
->
-> Conceptually I guess there is some overlap. The thing that's different he=
-re
-> is we don't have any C version of the iovec struct or iov_iter, and AFAIC=
-T [1]
-> doesn't provide any way of creating one from within Rust code.
+On Monday, 8 September 2025 12:06:01 Central European Summer Time AngeloGioacchino Del Regno wrote:
+> Il 05/09/25 12:23, Nicolas Frattaroli ha scritto:
+> > The MT8196 SoC uses an embedded MCU to control frequencies and power of
+> > the GPU. This controller is referred to as "GPUEB".
+> > 
+> > It communicates to the application processor, among other ways, through
+> > a mailbox.
+> > 
+> > The mailbox exposes one interrupt, which appears to only be fired when a
+> > response is received, rather than a transaction is completed. For us,
+> > this means we unfortunately need to poll for txdone.
+> > 
+> > The mailbox also requires the EB clock to be on when touching any of the
+> > mailbox registers.
+> > 
+> > Add a simple driver for it based on the common mailbox framework.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> 
+> Only a few nits in this, check below.
+> 
+> [...]
+> > +
+> > +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *data)
+> > +{
+> > +	struct mtk_gpueb_mbox *ebm = dev_get_drvdata(chan->mbox->dev);
+> > +	unsigned int *num = chan->con_priv;
+> > +	int i;
+> 
+> int i, j;
+> 
+> > +	u32 *values = data;
+> > +
+> > +	if (*num >= ebm->v->num_channels)
+> > +		return -ECHRNG;
+> > +
+> > +	if (!ebm->v->channels[*num].no_response &&
+> > +	    atomic_read(&ebm->rx_status[*num]))
+> > +		return -EBUSY;
+> > +
+> > +	writel(BIT(*num), ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
+> > +
+> > +	/*
+> > +	 * We don't want any fancy nonsense, just write the 32-bit values in
+> > +	 * order. memcpy_toio/__iowrite32_copy don't work here, because fancy.
+> > +	 */
+> > +	for (i = 0; i < ebm->v->channels[*num].tx_len; i += 4) {
+> 
+> Just use an additional `j` index, so that you can avoid division.
 
-Yup, I was about to ask as well - I am not familiar with the C API, but
-how can we use it from Rust, using e.g. a pair of slices as the data
-source/destination? I see that `struct iovec` also has `__user` marker
-for its base, which hints to me that it is not designed to work with
-kernel data?
+The `/ 4` division here is equivalent to a `>> 2` which comes free with
+almost every instruction on arm64, I don't think having two separate
+indices makes the code any clearer? Unless I misunderstand how you'd
+want me to use j here.
+
+Like this?
+
+  j = 0;
+  for (i = 0; i < ebm->v->channels[*num].tx_len; i += 4) {
+    writel(values[j++], ebm->mbox_mmio + ebm->v->channels[*num].tx_offset + i);
+  }
+
+This makes the relationship between the values index and i less clear. (And
+in my rendition, assumes the reader knows how postincrement works, but I
+think assuming people know C is fine.)
+
+> [...]
+>
+> > +
+> > +	ebm->clk = devm_clk_get_enabled(ebm->dev, NULL);
+> > +	if (IS_ERR(ebm->clk))
+> > +		return dev_err_probe(ebm->dev, PTR_ERR(ebm->clk),
+> > +				     "Failed to get 'eb' clock\n");
+> > +
+> > +	ebm->mbox_mmio = devm_platform_ioremap_resource_byname(pdev, "mbox");
+> 
+> I'd say that "chan" and "ctl" are more descriptive as resource names, but then,
+> do we really need to search by name?
+
+In the binding, it was proposed to change "mbox" to something like "data",
+which is fine by me, and to drop the "mbox" prefix of "ctl".
+
+> 
+> Doing that by index is also an option, as you can write the MMIO names and their
+> full description in the bindings instead.
+
+Yeah in the driver I think I'll switch to doing indices until some second
+compatible forces us to actually rely on names because it adds a bunch of
+other ranges.
+
+> [...]
+
+thanks for the feedback, assume that anything I didn't directly respond
+to will be fixed in the next revision.
+
+Kind regards,
+Nicolas Frattaroli
+
+
