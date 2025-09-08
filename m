@@ -2,169 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD7AB49B25
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 22:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86346B49B46
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 22:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D96C10E5D5;
-	Mon,  8 Sep 2025 20:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED63510E179;
+	Mon,  8 Sep 2025 20:56:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n4mnkBW8";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rW1t4T7I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2075.outbound.protection.outlook.com [40.107.220.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFE1810E5D5;
- Mon,  8 Sep 2025 20:40:42 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A45410E179
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 20:56:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UnDM1mF3sM+qk5pbeTLZXxRoVWpUKlO0mo5JFOvUZRKSoy7ewTzVUO47r2EBEsB4SgVXU8213yCrp+SsDKYL50vx9eAm/0RONKy1RJxlcRCqyrdzKM7ImdBOr5pUsC4RDRIIswTKtsKD+a/zUl6j7VkwGLnk5HyYR9ibM70WW1A5z4SvNHhN0CUMpEuHga2DsJ9N+cy369yfauTjykwW+9MZKcSjq9OMa4xpoETUM4cm1dkxtNXgo+35QIYp587uAjT6gzy7VxnLyZgZ8otkhcuR+jDsHC3t5mJRbpSPr/9RQVhk8RL/x7UqXof0T18fi3Aj/WpCPyDAvQTkv0jSBA==
+ b=xhIID6B7hQzYa6fr8QLtXhqUQQjj0ZS6Gs0fjibXw0ixdE/un/pmg/sfyBeiTymshU2huGDkNEfO1jxdo/ncCr6ETa9H9BKMQF8kNPKPjttlm5lFaoC3S5nvIbPBlWbusFcSNmJxNA6rI5Sk7uCsRZoRlt+VJGH0F9U2CMovr1cQsPVLpIwFmNbfdz63Mdytcbdm7vxIAeX2Q7ETLykOw451ZnlsB/t76u5USTBqwXZ1qx5XHM1ZDpogjsf2K8Sa/ikRLVaHt+pql9d4z7KCvSfBao7o3D0Uyz6OM6RWuEaM2x0beWINm3D5QZh56zlvuBpr+BTd8Fv1yuQKWP7Q1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mk986eQfPKOKKpNS3BnIpV+owt7ZNgyfehvMKEtVF/c=;
- b=tNw1yC7jjK1BJj5fnxHWWMCBg5atsQZrKTJqGYIvgJbu6Lmcpt9oVT+Zqjpv7oG1Dhm2EXs1SslXYMZpOV4/VOuuWKPuLrClSF2gUfHV1/RysSEQtfBA1SGV2T2XzfvBU8GNipZWefGRSlgBLWzuDaY40h4oMYZ6jA9Y4ygq1pr49vd8tCfECUk2FVDiEA0Ql7GBFa56tWUnuqDYEuW+ut+DRfhUYepwtvcdKUj4UfZS3cor3kHvBSHH2dydidZuuFTk4Gba15RPEMbc5wi11DHqxsWKJ7AQYk0Mo3Bdgl4pSfgtx+RPAZbqouGMAX0IClDKEOw+AbW2BEcP4edXSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=xbTu+oQ6ZIvksXI4m8nQTW7j+Hg28IlVr/G6wp6hp+8=;
+ b=yZW+ZqtVTW+nD2H19yuYm7Mc2sMHCaOTeVABpmFIM/yq7DDUwsX7Cd+R8XdOrYZ6qvzX2Clb1VYUgs3FGk20BFyAbMUTOeBo5S6vCosfoTU94r/pmd3aWzPq3qomTgZCki1jiK2jwe5xwO8q4TOSPFlOGA5aTmr0LBAA5T2VzrN8B/RrcAlsXJN6R3iOMB3Bd7npqxtv5tHuvHPriQZSN3tXP5IC1wu5XF83tctEHlcEKIvuK13UpAm9fO0QNx1GhE5GT7Oz+zC62X+3P6OdOGHYI6QVZYPoRBoMNQvlclnfITJko9T55PBYJIK3o1iqkuYRMEeGQ81gsUvmgZ/Ipw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mk986eQfPKOKKpNS3BnIpV+owt7ZNgyfehvMKEtVF/c=;
- b=n4mnkBW8vpv303aPmQCQBnzEQryiobOuHVt/kms1hQP8wf7lMdyYHmdWWtNEkhFpMGELBdWpiMyAKpedHuxShjvyVnNq+Tcif5p1udqrcz5kKbOUzTEHeqpIGxWUuPon55dItcnNERPE2skl2oJRn0AurJmLxvDzN9yoiJZQkR7etIanRzkKDzhl4KTqNjZgzPsmBUl3/iVnfF2qafj4xwq5HSJsE5d6f4w6c4zmY29aD0IY7yuHlAM2rVbNCfJcI4a6TcWOfWbudky+3uP4oHxlK2r/2ySB3CZt3o8yHlIRDy6C7eHuyr5gZvNOxe1brg44l3GolIlOFKTXXHSwBg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7SPRMB0080.namprd12.prod.outlook.com (2603:10b6:510:271::6)
- by MW4PR12MB5643.namprd12.prod.outlook.com (2603:10b6:303:188::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Mon, 8 Sep
- 2025 20:40:39 +0000
-Received: from PH7SPRMB0080.namprd12.prod.outlook.com
- ([fe80::b6c2:2d58:b9c4:8a3a]) by PH7SPRMB0080.namprd12.prod.outlook.com
- ([fe80::b6c2:2d58:b9c4:8a3a%2]) with mapi id 15.20.9094.021; Mon, 8 Sep 2025
- 20:40:38 +0000
-Message-ID: <c31f96aa-d050-46ee-8d73-2e8c36559faa@nvidia.com>
-Date: Mon, 8 Sep 2025 16:40:34 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] rust: Move register and bitstruct macros out of
- Nova
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
- <20250903215428.1296517-5-joelagnelf@nvidia.com>
- <CANiq72mx7NA1KD5fw98kba+3oENHW44QXVGO1VmvPPUKin2LPg@mail.gmail.com>
- <a2c990ff-e05c-4d09-aaeb-5a2fc16ecb77@nvidia.com>
- <CANiq72=S-HnREWAK+8kcJkPabPHSzuKD4k7251+Zw-b9==0-zA@mail.gmail.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <CANiq72=S-HnREWAK+8kcJkPabPHSzuKD4k7251+Zw-b9==0-zA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0855.namprd03.prod.outlook.com
- (2603:10b6:408:13d::20) To PH7SPRMB0080.namprd12.prod.outlook.com
- (2603:10b6:510:271::6)
+ bh=xbTu+oQ6ZIvksXI4m8nQTW7j+Hg28IlVr/G6wp6hp+8=;
+ b=rW1t4T7IWo84XU+eVNFGbgCO9flyK1Oe8YaGLtGhCN+S7nOOCHHWYEgyVY2aXOsP6klItPBXKhQ4RyAP7Ep/flL55yxYxPslEmhHKfOyZ7zVriVvdXcfUr3XoMWVjd0d2pt+Y6prVCMxh+cpZgCI4S/+CAvA/hw3pEsIsftwOAU=
+Received: from BL1PR13CA0158.namprd13.prod.outlook.com (2603:10b6:208:2bd::13)
+ by IA0PR12MB7749.namprd12.prod.outlook.com (2603:10b6:208:432::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 8 Sep
+ 2025 20:56:21 +0000
+Received: from BN1PEPF00004683.namprd03.prod.outlook.com
+ (2603:10b6:208:2bd:cafe::8e) by BL1PR13CA0158.outlook.office365.com
+ (2603:10b6:208:2bd::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.15 via Frontend Transport; Mon,
+ 8 Sep 2025 20:56:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN1PEPF00004683.mail.protection.outlook.com (10.167.243.89) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9115.13 via Frontend Transport; Mon, 8 Sep 2025 20:56:19 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 8 Sep
+ 2025 13:56:19 -0700
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 8 Sep
+ 2025 13:56:18 -0700
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Mon, 8 Sep 2025 13:56:18 -0700
+Message-ID: <3f88c63c-f810-e2fa-2517-66fe358a3411@amd.com>
+Date: Mon, 8 Sep 2025 13:56:18 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [bug report] accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: <dri-devel@lists.freedesktop.org>
+References: <aL56ZCLyl3tLQM1e@stanley.mountain>
+ <3a4cf9a7-d2ec-2c4d-fb9b-5beac251e86f@amd.com>
+ <aL845xEFWNzq4_2A@stanley.mountain>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <aL845xEFWNzq4_2A@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7SPRMB0080:EE_|MW4PR12MB5643:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7b38f0a-0acf-4344-8a21-08ddef17f868
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004683:EE_|IA0PR12MB7749:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29b8776c-1cd7-4170-bc5b-08ddef1a2914
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODdEZE1vWDlsMmZQTlFDcFo1dGM3R0xlTGhCc3h0Rzl2eDZQallDcnBYanUx?=
- =?utf-8?B?eUVrK2xPaURSSnZSSHhmMGlsZDYrQ1JaZjhLU3NDekFnRWlNM2RKY2NEL3Nj?=
- =?utf-8?B?Nzl3RFhtelU0NnZneGNvSlYyUE9USWluUnJxYjVnWnkzUDBZbHRhNHFMMUtm?=
- =?utf-8?B?djR2dFlRbkduQldUY09YOU0xQnBOUTdleXdaRDlEM2N1MnljblpQTGFxbEd4?=
- =?utf-8?B?VEttOFpsY1pydkdmLzNnTmFMcUpJUUd6U01FVXBrSjFRSnMyY0hLcEhqYnFC?=
- =?utf-8?B?WXNCc3laQ1owV1pyVzFSRiswUkd1NVZVZFVjUXZjdHQ4dmM2SHhKK0tUSUlx?=
- =?utf-8?B?L1gvMVo4bU5TK1RUdWdQZnRSNks5KzdSMnpKZmFQeWdKaWUyVDg3dFZkaUpZ?=
- =?utf-8?B?NnBoWUYxdmFzTWR6OTh1dkVRSVpBY2dhVjNFTHo2YkVvendNOVBCSmhmalc5?=
- =?utf-8?B?UmpyMjRQTVZWOUNRcnR1ZmxZTVJ6aWNUYTI5d0szRDMxNGtPb0haY3JyOUhJ?=
- =?utf-8?B?Vi9Tak51RDBHaHhOTHZuaDF4dVJnQnFmTGNsM3F1UG9iRnFYSFg4R1ptWXIz?=
- =?utf-8?B?MCtJK1RCS2dPM212UE1rMUlVcC9nWTJXQlNXZ3Q4Sy81cDRVU2E3R080OTNW?=
- =?utf-8?B?Y3FpMkNCNStZZHNmTEVheXE4d3JQZFVtZFp4SGFvdWdoZUk5TzNBazFqMEJ0?=
- =?utf-8?B?dHdLNXUvR3dQV2dvUDZxbXFqWUJuUk5hWHA3S3dKbVNMNHY4OFUyMlIxZ3Bo?=
- =?utf-8?B?MnowTDBMQ3V3blNLWlhlTFNPKzh5WFNoaHl5SG1VaWdPVWxLV3Y5SkpnR2wy?=
- =?utf-8?B?MTdSMmlGWXZZSHZaNDBWR3lZOUtVRkFqRWJWSmhGUEJzbDlFL01DeHgwcmQr?=
- =?utf-8?B?cjZYM1hSMWFnWExVcExoZVNFQlZiMEtWYnVnb3lVdWdHSXZqbGpxaXRXbXdZ?=
- =?utf-8?B?dEpWenJkazJTc1JMVk1XY0dXakJZRHN5ZnpicXFUNUZnYnA0T1pnb2l6TWIr?=
- =?utf-8?B?NE1tVk90akVPYXEwdW5iYkszNXZrdGlrMklYU2dnSmJRUzRCVFdwd296RWNI?=
- =?utf-8?B?aWZOSUFqeW5GOGdPMjVpMzFMVmVDZkhjdVA4dnI0d0hvQWFvcWp6aEpsOTNw?=
- =?utf-8?B?Ulg3MmlBTnRReXllalNSZVEyRENtMVdmTmpkaUtFSmJDS3FwaDN6b0JnelMr?=
- =?utf-8?B?SkRHZmhXRU5Cb2p2dTE5UjY2eUFIVXd3bGZoV05saVNlWWtmK2lTOHY1Y2Fm?=
- =?utf-8?B?aktFS3hScVY3VUd5MklpOEc4aWZSM295VXhLRTNVeDBibHQ5Vk5hOVQ4eEVU?=
- =?utf-8?B?dHFGekxCbHRKSm9CV3ZQVjR4M1k0NEViQks3R1NKZ0p5MDFld0gvZmdFZTNQ?=
- =?utf-8?B?MjFBWi9qSHV4YVQ1WmltbGlvVDgrc2IwdHFmbEsyQ244MnRuQTUwY2R3M3l4?=
- =?utf-8?B?UElSSGNxSWR6QWRTRWxIMnJjY3hiWE51c1NreHFmbjN6dG0zUGcyM2x3anhV?=
- =?utf-8?B?VUNobEZEOWZ6NmZWVkhaclNuUTVpdEE2Y2NRSHArWUE4NHRQT2dkVjhwSGh4?=
- =?utf-8?B?VGpnbTIzZU8vT3BCZTMxS1hxSGRidDhnT1d4OG15bitESm1LYWIrdTZKa2U1?=
- =?utf-8?B?MUpqdEtvTjN4OUdvZGxvL2VEbnc2QndKcXQvRTJCeUhtdSsrb1RFSkRaUWkr?=
- =?utf-8?B?T21qR1kwWGljeks3c0ZQWUlQYW04a1gvS2Vsa2w5MG9yK0NCa2M1ZU5hSUNa?=
- =?utf-8?B?bWt2anhyMkhhZ0RxeEJEUkdVZXJkYThRK2NUSzBuaTAxcThRSytzb1lZM1d6?=
- =?utf-8?B?cnZsZW5jQmJzVGJaV2g4UW1vN1BZdDZqOVFSMnNSMkFVUGJtTXMzdjBBbWZY?=
- =?utf-8?B?MHRnd1l2MHZtMW52K1lub2w1UUtpT1RXVkg3YTZmZkNJQngxWTlndk05T1ZL?=
- =?utf-8?Q?duH5QKhWGSw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7SPRMB0080.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OE1maVJ0bHU5b3JrK1RSL1dYa3lCT0N6ci84djd1bEZ6ZUhTZnZQc09ZSk1Q?=
- =?utf-8?B?cDVVVytJWEx0K2VUZ2EwVHFWVE1SNERjZHh6TTBaY09Ic2NuTFJhTjdiY3o1?=
- =?utf-8?B?a2dBS3FBZ0NxcWt5c3VnY0FCOWdnbCtsY2p4eTZOUVBGUitBVkpmZlYrQWs3?=
- =?utf-8?B?ajk4eEpOcXBldm0yeVBlOFdjUThvb2NCMXR3b1MyOXlQRDczclhNcmxjQmk3?=
- =?utf-8?B?UDR1ckxzK2VucURSZlNGbzBMZytmM3kzS1o2amdkd3RQMHo5dFRzbzk1ZlJy?=
- =?utf-8?B?RWl3a0FSR0V2WTd1RzE5a1IyWDB6d25RbEU3ckswaDFHNlV0cnN4YWliU2Q3?=
- =?utf-8?B?WllveFQ5OXJaQkZsTGVTcWd2Y1ZIRGZEVHA1dkhRSTIxclhUV0dTMG1TdkUv?=
- =?utf-8?B?NEkrOWZLY0YxTkNCZ1ZSSG82RDVXdTZadjVqcm9rWjhiN0xpSTVlRm4xVG5L?=
- =?utf-8?B?bjhJR3Z4QXpsQWhKNGNYOFhIUkpEOG5hdFIzb21sVm9oUkw0bW5WYXNFaXpF?=
- =?utf-8?B?YmkzTjlvTDZKdlJyd1Jqa0lqUDAwZlpvaDJXajdnSGxyZWlqZmFXTEE5bVpX?=
- =?utf-8?B?ekEva2oyQ3JDVG1RdmFvRVVKNTJwbmNGUXNCUWIwUVcrZEk4U1N3R3hqRlZL?=
- =?utf-8?B?akdlMGE3M3cxT2lMRTBuN292VXZuQWFFZW5RTS92a1FybjZaTlJWMjRNcGlN?=
- =?utf-8?B?endxQVBGWS9maDhCOGNvM0JMK0crSEtaUEFLc1VLMWVWR2gvOWl1Z0wxMzli?=
- =?utf-8?B?dFFPNDh4MmNNMml6a0NZUGVPSGxadFAwbHg0dG11eC91RVBXU2lGT2VtTUc4?=
- =?utf-8?B?T2l1bWluMjczeUtpQmhhOG9XNUpqNEltWDQ0QlI4bVhaZGsydTVzSkNEOFZk?=
- =?utf-8?B?M091WG9GWmw1TGRhSVp3Q0VJVGI4cDBRWHhpNzBlZUgyUVZLU0lxeWRCOEJO?=
- =?utf-8?B?L3REOEt5ZWVOUUVxcDRQWEpjTXJMT2dPamxLZW81OE5tbVlpT3FreDdseW03?=
- =?utf-8?B?VkNZQklmNkdrOCtLTXRwUndLME5hblNBTzlPQ2dmWUpiTUJqTm8yUHpFMFhL?=
- =?utf-8?B?RWpwNXMwaEtXOHZZWFpIdnhwTm9PL3BJUXJWSEpqZGNRNml3N1d2YXlXaCtB?=
- =?utf-8?B?VTBzZElxQ2tPWkxsZmk3M1JlaUJZcjR3NXRTa0ZFQVh6YTM4eXh3RWZqMDBk?=
- =?utf-8?B?SjJtOEdPbExNOHU1UVczdWVNcWY0dTZONzdnU0VzcGQxMW9NeENINzhFM0tE?=
- =?utf-8?B?cmdrdlJteUU2UjMwdzVRUERNcEc4cFh1ektybHhLK09SbWNDajZxV2VRQk95?=
- =?utf-8?B?WGFMU2FGUWVRUGd1ZCtFTDdYTi9OOFlvRGVyQlg2aVRUeXdueEZXUnU2ZXRu?=
- =?utf-8?B?VlV1QTgxRElSYzdSTG4ySDB3MGdoWFU5bFlHdzZ1ZlRGbm1jczlpNW1uVmly?=
- =?utf-8?B?N1UwbXB0V096ZEp4ZVRMTmJHZ0pEYjMxd1BiRzg5akdaVHp4SFJzeHhwdmhS?=
- =?utf-8?B?Z2J3NTdGRTNYRjZpWFd3Q0xaTVd5dnBJS1NqaS9MUUkxRy9TVXJaa1ViMllB?=
- =?utf-8?B?NGNhdFd1eU0rblVUT2xwaU41WEFNQ20wU3Axcmdtb0licjhUd01IUDkwbCta?=
- =?utf-8?B?dHRvZjNYUjZubEhuV1Myb0FlZlpGTmdFTWRYVGM4L3daS3VUbitEZU5tYVUv?=
- =?utf-8?B?a0hDUkxBQ0x2ZE85aGpqamZCMHZLOS9CQ0xxMnhkRVVUczNRTnpUaFpZQkw2?=
- =?utf-8?B?dXh1WFlabTUzclMrUjVMWlRNQk9mK0tkSWppbWNrOHhuQ3pJbm9qRy9XN2RH?=
- =?utf-8?B?bDM5dDZ2Nkl5WDN0Skpva2pBMDF6N0tsaTlmMzVMejlzUElqUmQ2UnRnNDQ3?=
- =?utf-8?B?Nkw1NWVEN1o2YWxTaDV1TFBYNFBGQkZiOU5pNzMxUWZMVTlpbmtVVmQ0RzZZ?=
- =?utf-8?B?NjJkRkc1Y3FCTUp2T1N6Y2MzT2o1b2Q0bWlzbXAwNkRUWmpWS3pIVXZlQUVZ?=
- =?utf-8?B?M25yVTVVRWp2RS9SbHAzb3VoNXhnTHJjcEpwWDFyRitxT2NHRlJzVktqWWlZ?=
- =?utf-8?B?RjR5c1VTYmQyWlQ3REs4VXROMHE0QzI3dGdWNFVleDJ0Tks0UHNsckNET3Qv?=
- =?utf-8?Q?EhQWk3IX1XLRxLYEE4yIvK+ZU?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7b38f0a-0acf-4344-8a21-08ddef17f868
-X-MS-Exchange-CrossTenant-AuthSource: PH7SPRMB0080.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 20:40:38.8616 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rdq2zGr7pvWkHwQIb1O99gkXiaSy6BTMgaoHl6jhYbkUJPwjgyh4m0e7Re62cH3yggsHU0Cl5kDefH2tD1WkXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5643
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q3NPdjh4Z3k1NFhEckRIUTlSb0NjSlprKzM0VHpUMW9qM3NQdk9adllrMXpD?=
+ =?utf-8?B?Rjc0akg4dFkrWVJkQmxqODhVSGVkVjFHTDI4VkllS2Q1d1VIM05mYkcwUnJZ?=
+ =?utf-8?B?b0c3eXZCRFI4TkFYQjA1THJ3MmQrRVI5N1FKSGMyVDFQKzN3eklpRU1hb1hO?=
+ =?utf-8?B?N1NzR3R5eU94RmlsTnFKKytZTzBOWFNQQ1l0RzRUS0dGTmhKY21sTEczZXp3?=
+ =?utf-8?B?eDhFZlJTZm9GTjY0ZHMrdnVuaXZSV0x3WWx5M0xvUmg5Yy9BSFltMlowRGFW?=
+ =?utf-8?B?THVxUlIrV1NYMUtOKytzYnppSkRVZWtlVXdnN25YVzhTc2VzRXhUdEtQbVht?=
+ =?utf-8?B?bzU4YlZLMkFNbTJ3dWZlL09ET1ljQTM3aU14T1BnVzlSSnk4d2h2RGVxRlBR?=
+ =?utf-8?B?QzdJSXFxM3JlOVRKT3ZyRnUzSSsyeVdNM2U4aWx2d0YraGZpM09FZUpCYXZl?=
+ =?utf-8?B?cmc0OHlWMkxjTHltVk11T0pIeGU3QjV5cmZPODBJM203dXhPWm5UZ2NnakE2?=
+ =?utf-8?B?Y0ZJL25xeFJQR0RLbUQzKzRYOXJ4NFBXcXBkQ0lteFdSYVdHYnVuRWczTlRm?=
+ =?utf-8?B?R0NOQjY4UmFRcWk3cE1jN3hKbU9vWG5GRkw3V2dVYk52Yng3V2hSTTgzQ2Rl?=
+ =?utf-8?B?aFdFZU9MbHFKWWdMN2VzbW15ajM5U1NzUFNxQTVNV3lKNFA3SUpEeVE4MjN5?=
+ =?utf-8?B?VEh2V29WeDlNbDJnNGRtb3BKMWNLdVVMNVBKWXdsZG9NdjNqN29wUG5PSWhm?=
+ =?utf-8?B?SGlmMEM5VnMyeVVZWFhRSXMzRmZLWGREcHloTEFsK1F5cTZzOVBCdkpZN0xn?=
+ =?utf-8?B?Mjc1YkUrdXNydG9kMlpUM1ZqVkNwT3FMcDdPMGoza3NDUlhJU1MyQWVGZ0xk?=
+ =?utf-8?B?NkRGWlM0S0dhampqeGRSTTZBYVF5THp5VXM1Si8rTmdMQlRNOXJEK0xsWHFL?=
+ =?utf-8?B?SXRaaVJMWUI4d1hrUU83OE9Kc0o4cmpSZURmcnhlTHlJZXE2VlFaaVBTcUVw?=
+ =?utf-8?B?K1AxVy9JMjQzdFhmemJidGx5WGZiU2Mxb2tPaUxwdHlFVEs4WEc1VjFVU25i?=
+ =?utf-8?B?c0tYWitpNGgyL29SdHRsK3VCbDVYVFM1RGNRM21Vc0RzZUJBU3Z3K2U1dVlO?=
+ =?utf-8?B?QmlDUXBXLzRkMllWKzhDYWpJV2tmTVpHM0ltMFdPUVhpOGRKWitORDU2L1ZL?=
+ =?utf-8?B?ZHpVL3B2R1AwbWxRdi9vRFJqMEl3QTZGdEw0MlVheDJjbGQ1OGJjSXN6VnBD?=
+ =?utf-8?B?eWMrUUowaWZETEZSc1lFN2o1THJkc2ZseWJoYzVYR2RBNEVtZktsUzQ1MGRD?=
+ =?utf-8?B?YnNBVWJIYkxpVG9abTk2bEhWNVh1ME5JRXZrSlFpUkZlNnlUNm1TeTF1THhN?=
+ =?utf-8?B?Q2ZCL2dNZDY0NDZjTWFBMFhyMHg1OWIxcE1DWEVseGFnTWxaMVFTZUdyS0U4?=
+ =?utf-8?B?NURaMVowMGMyOG9mTVE5elpIMEl2a2RMY1FTVlBFd0t6T2xxQ2F6U1lQWTRh?=
+ =?utf-8?B?WGREaXFMT2FXYkNRQ2phVmVxblMxRnFFVmI4amRQdzA4YzcrVWhJZ0ZCRVhS?=
+ =?utf-8?B?c2k3UHlqNGtScit3bUpwMGtXRzZ1ZHdsWTlnQnJoV1VWN2p0SndVMjAzb3Zp?=
+ =?utf-8?B?L01PSFpxTThjcnloS1VsTW5WYnExKzdybXdGcDdFOXN1N1cxckN2dldWSjVY?=
+ =?utf-8?B?b1ExVXJKTTVLZzBsc3QxR0lJcWV2ZjJXUnA2N255Z0syVTJxN09QRlFWZGVt?=
+ =?utf-8?B?NDcyalppMDVDeWZkYkZFY0Ria1NVQ0VsUzh5TC9xQUhoSWFXNnB0cDZsVDFu?=
+ =?utf-8?B?YStKeURFQk03eXczUG1EcHBTMVA3R2JoRXpDNjhuK2dpK2xvQnU1VHJQTWx1?=
+ =?utf-8?B?aUxET1V2Q1hWakIrU2dqcFh2ZHZOdURyN1dkekZ4c3RVeDl6TmQvK05YbHo0?=
+ =?utf-8?B?VitORnlZVVJkWUhreWsvSk93Mi92QTZhSTZoOUdFNlVGd1lXcU05VGtNWnR5?=
+ =?utf-8?B?OTUrcVRxRzRnZXRQRnB5VWlCczJoUE9CVkF2U1M3b0xYQ2ExQTVwSmIzK05z?=
+ =?utf-8?Q?f3a5yK?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 20:56:19.3465 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29b8776c-1cd7-4170-bc5b-08ddef1a2914
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00004683.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7749
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,34 +151,100 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 9/8/2025 2:39 PM, Miguel Ojeda wrote:
-> On Mon, Sep 8, 2025 at 7:06 PM Joel Fernandes <joelagnelf@nvidia.com> wrote:
+On 9/8/25 13:13, Dan Carpenter wrote:
+> On Mon, Sep 08, 2025 at 11:19:33AM -0700, Lizhi Hou wrote:
+>> On 9/7/25 23:40, Dan Carpenter wrote:
+>>> Hello Lizhi Hou,
+>>>
+>>> Commit 2f509fe6a42c ("accel/amdxdna: Add ioctl
+>>> DRM_IOCTL_AMDXDNA_GET_ARRAY") from Sep 2, 2025 (linux-next), leads to
+>>> the following (UNPUBLISHED) Smatch static checker warning:
+>>>
+>>> 	drivers/accel/amdxdna/aie2_pci.c:904 aie2_query_ctx_status_array()
+>>> 	warn: potential user controlled sizeof overflow
+>>> 	'args->num_element * args->element_size' '1-u32max(user) * 1-u32max(user)'
+>>>
+>>> drivers/accel/amdxdna/aie2_pci.c
+>>>       891 static int aie2_query_ctx_status_array(struct amdxdna_client *client,
+>>>       892                                        struct amdxdna_drm_get_array *args)
+>>>       893 {
+>>>       894         struct amdxdna_drm_get_array array_args;
+>>>       895         struct amdxdna_dev *xdna = client->xdna;
+>>>       896         struct amdxdna_client *tmp_client;
+>>>       897         int ret;
+>>>       898
+>>>       899         drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+>>>       900
+>>>       901         array_args.element_size = min(args->element_size,
+>>>       902                                       sizeof(struct amdxdna_drm_hwctx_entry));
+>>>
+>>> Instead of min() here we should just return -EINVAL if they are !=.
+>> The request element_size from runtime tools can be smaller or bigger than
+>> sizeof(struct amdxdna_drm_hwctx_entry).
 >>
->> The issue I ran into is, without adding it to prelude, the users of register!
->> macro will have to import both bitfield! and register! macros explictly, even
->> though they're only using register!. I tried to make it work without adding to
->> prelude, but couldn't:
+>> If element_size is smaller, element_size bytes will be copied to user space.
 >>
->>   use kernel::{bitfield, register};
+>> If it is bigger, sizeof(struct amdxdna_drm_hwctx_entry) bytes will be
+>> copied.
 >>
->> Also not adding it to prelude, means register! macro has to invoke bitfield with
->> $crate prefixed  ($crate::bitfield).
-> 
-> I am not sure I follow -- macros should use qualified paths in general
-> so that they assume as little as possible from the calling
-> environment.
-> 
-> It should work without the prelude -- what didn't work?
+>> And the actual element size and number of element will be returned to
+>> userspace.
+>>
+> This is a new API.  We should be strict about what kind of inputs we
+> allow so that if we want to in the future we can change it without
+> breaking things.
+>
+> Supplying a larger value is not useful at all.  We should return -EINVAL
+> for that.
+>
+> I'm guessing userspace already takes advantage of passing a smaller
+> value but it's not documented why this is required.  My guess is that
+> maybe at times at times we just want the ->context_id or something?
+> Maybe the first three members of the struct?
 
-Ah, I guess my intent was to not use the qualified path. But that's better than
-the users having to import prelude. Ok, thanks! - I will try this out.
+This ioctl is to show hwctx information by user space tools. It happens 
+multiple times that more information needs to be shown by adding new 
+field to the end of this structure. So the protocol is as below.
 
- - Joel
+     Assumptions:
 
-> 
-> Thanks!
-> 
-> Cheers,
-> Miguel
+          sizeof structure v1 < sizeof structure v2
 
+          Tool v1 and driver v1 are compiled with structure v1
+
+          Tool v2 and driver v2 are compiled with structure v2
+
+     1) Tool v2 can run with driver v1 (request element_size > structure 
+size), the new added data field in structure v2 will not be shown in 
+this case. The tool v2 would not force user to upgrade driver  in this case.
+
+     2) Tool v1 can run with driver v2 (request element_size < structure 
+size).
+
+
+Thanks,
+
+Lizhi
+
+>
+>>>
+>>>       903         array_args.buffer = args->buffer;
+>>> --> 904         array_args.num_element = args->num_element * args->element_size /
+>>>                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>>> These are both u32 values controlled by the user so this is an integer
+>>> overflow bug.  Security bug.
+>> This will not cause an issue. array_args.num_element is considered as user
+>> control as well.
+> That's true.
+>
+>> If it is too big, the actual number of active hwctx will be returned.
+>>
+>> It is better to put a reasonable limitation. I would add a check
+>> (args->num_element < 1K && args->element_size < 4K). Will this fix the
+>> smatch warning?
+>>
+> Yes.  Anything which prevents an integer oveflow is sufficient.  Thanks!
+>
+> regards,
+> dan carpenter
+>
