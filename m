@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2B7B49C08
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95D3B49C18
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:37:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51F610E5E4;
-	Mon,  8 Sep 2025 21:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B0410E5E7;
+	Mon,  8 Sep 2025 21:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KG0xsGVK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="EKgB4i5Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F24010E2A0;
- Mon,  8 Sep 2025 21:34:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1BDA360140;
- Mon,  8 Sep 2025 21:34:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95884C4CEF1;
- Mon,  8 Sep 2025 21:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757367277;
- bh=NzbMSMpQ4f3Do6KUVa9pmwGpe4Sd68+LnHSAddc02hc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=KG0xsGVKP50g/2MEAKc7sN+1zhMxdzclu/RHx9bMUgGoudP8nnKRnjTGCvWakiHcD
- 7BhxiVTC6Xp/z989LDquWV9Mqeppxh8onBPSxzNPfFi29SBSOmyvb17FABTwAshXqa
- pfRK2KiQ1GzMrYFZLhZFEcd+vQ5OQx1EOaHKahYYZWahdltSQDUS70YkkRyA5uqDhg
- NQ+tiTpyReOIBucvYBR86yByR8r2tWIzuHishUj92EgsVC8pcxC53NrnFtSOLaViZo
- 9s7opjqTUVpPIxAgNzXNUP6kVgIcE2AQGGdPA8X9cgOLETH5L5lx6WVFIEHiioBIzq
- ZEYlJbuyV5RfA==
-Date: Mon, 8 Sep 2025 16:34:36 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "open list:HIBERNATION (aka Software Suspend,
- aka swsusp)" <linux-pm@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- Merthan =?utf-8?Q?Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- Eric Naim <dnaim@cachyos.org>
-Subject: Re: [PATCH v6 05/11] PCI: PM: Disable device wakeups when halting
- system through S4 flow
-Message-ID: <20250908213436.GA1465429@bhelgaas>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1E2010E5E7;
+ Mon,  8 Sep 2025 21:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1AtuB/LujT3vSX0rRZe+ZwqGxLhE/7kKDf8v5+5hGxk=; b=EKgB4i5QznFldmy5eJUYovwV0m
+ 0E3WKl/59Uf1t1HpSIT8HSfCbfcldMF/qwNQ+wNA9kIsrtYstJ7Ecm5LJDB/p6ZvVQ77eTbLfha8x
+ jwIL7uUnBMVyd7tMTqLsEEzkAaWwiP/paAQUy1URHAq825MMkhIJGmg3jhYXD8XM/8rv6SrkJ7Hch
+ VU7bV0iSsq5G7G8/2wn+un+n+n7HZ1IeXOP0QM1u4+b347cqfTu/em2BaNVhCObluTsv4vndgEFHm
+ w6VzP+djH4/YKI0NGvmK632gtFJEzuCj/tr89YRSA3mRan5gWsVAxbdKLdrP/DH7YbZj5FMPAz8Qb
+ 4YtrXyuA==;
+Received: from [189.6.12.239] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uvjXn-008gza-1F; Mon, 08 Sep 2025 23:36:59 +0200
+Date: Mon, 8 Sep 2025 18:36:12 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Matthew Schwartz <matthew.schwartz@linux.dev>
+Cc: Matthew Schwartz <mattschwartz@gwmail.gwu.edu>, 
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>, "Wentland,
+ Harry" <Harry.Wentland@amd.com>, 
+ "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>, airlied@gmail.com,
+ simona@ffwll.ch, 
+ "Hung, Alex" <Alex.Hung@amd.com>, "Liu, Charlene" <Charlene.Liu@amd.com>, 
+ Ivan Lipski <ivan.lipski@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH] Revert "drm/amd/display: limit clear_update_flags to
+ dcn32 and above"
+Message-ID: <5ntmr5pekfsq2eavqeb5yhs2m7dvb7nm2plwlodzlf3c5lcfza@v6qgoe5l6ysu>
+References: <bb4099a70c2a8c78ef07d5fb6a8f0d3b@igalia.com>
+ <55467ebe-42c8-4387-9a61-aa60b3a84053@amd.com>
+ <BA28247C-9779-4C4C-A8E3-ACF57BEF1521@gwmail.gwu.edu>
+ <67169725b87e02cc8fdc19be5fc7df59@igalia.com>
+ <CAD9O9Dq=dAsMs5a3VzgSvLwfuYYhkARDFBXyWUy+yktEZv5WbQ@mail.gmail.com>
+ <bdfc8786-d4b8-4391-a4d4-c5fe06020802@igalia.com>
+ <CAD9O9DqxJQyAJM=po4yDbAC=hHK2pi12qTVYeb+ar_GenGpMnw@mail.gmail.com>
+ <478eb8175779f03a399f7d933614e14c@igalia.com>
+ <8d859c5f-2551-4624-a9b8-a816f1809feb@linux.dev>
+ <801d0d97e7cdd1eb3b845347ccb5ddbf@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250818020101.3619237-6-superm1@kernel.org>
+In-Reply-To: <801d0d97e7cdd1eb3b845347ccb5ddbf@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,62 +77,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In subject, s|PCI: PM:|PCI/PM:| to follow previous practice.
-
-On Sun, Aug 17, 2025 at 09:00:55PM -0500, Mario Limonciello (AMD) wrote:
-> PCI devices can be programmed as a wakeup source from low power states
-> by sysfs.  However when using the S4 flow to go into S5 these wakeup
-> sources should be disabled to avoid what users would perceive as
-> spurious wakeup events.
-
-Is the "can be programmed vis sysfs" part relevant here?
-
-I think S4 and S5 are ACPI sleep states not applicable to all
-platforms.  Is it relevant that we got here via ACPI?
-
-I assume non-ACPI systems can also exercise this path.  Is there a way
-to describe this scenario in a way that would apply to all systems?
-
-I'm not sure what "using the S4 flow to go in to S5" means.
-
-It would be nice to have a spec reference or some sort of rationale
-for the requirement to disable all wakeup sources in SYSTEM_HALT and
-SYSTEM_POWER_OFF.
-
-> Tested-by: Eric Naim <dnaim@cachyos.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> ---
-> v5:
->  * Re-order
->  * Add tags
-> v4:
->  * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
-> ---
->  drivers/pci/pci-driver.c | 4 ++++
->  1 file changed, 4 insertions(+)
+On 07/18, Melissa Wen wrote:
+> On 18-07-2025 00:51, Matthew Schwartz wrote:
+> [...]
 > 
-> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-> index 63665240ae87f..f201d298d7173 100644
-> --- a/drivers/pci/pci-driver.c
-> +++ b/drivers/pci/pci-driver.c
-> @@ -1139,6 +1139,10 @@ static int pci_pm_poweroff(struct device *dev)
->  	struct pci_dev *pci_dev = to_pci_dev(dev);
->  	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
->  
-> +	if (device_may_wakeup(dev) &&
-> +	    (system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF))
-> +		device_set_wakeup_enable(dev, false);
-
-I guess the suggestion is that we can't wake up at all from
-SYSTEM_HALT or SYSTEM_POWER_OFF?  Would both be considered S5?
-
-Does this mean we need a physical power button push to start up again?
-I guess ACPI r6.5, sec 16.1.5 kind of suggests that: "hardware does
-allow a transition to S0 due to power button press or a Remote Start."
-
->  	if (pci_has_legacy_pm_support(pci_dev))
->  		return pci_legacy_suspend(dev, PMSG_HIBERNATE);
->  
-> -- 
-> 2.43.0
+> In short, there is a chance that you are not seeing those glitches
+> because there are no changes in the pipe split when transitioning
+> between 1-2 overlay planes in your hw, but the split happens on steam
+> deck for some reasons. I don't know how the driver decides whether or
+> not to split pipes.
 > 
+> That said, if AMD prefers to go with an exception for steam deck, better
+> if this situation is documented.
+
+Resuming this discussion as we shared many findings here...
+
+Looks like not only Steam Deck in DCN3+ family is affected by those
+glitches on overlay planes, DCN3.02 seems to have similar issue, as just
+reported by:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues/4559
+
+So I think we must rethink the steam-deck-expection approach proposed
+by:
+
+https://gitlab.freedesktop.org/agd5f/linux/-/commit/11262624508d14583ebc7744145a38da67dab192
+
+Melissa
+
+> 
+> Steam Deck still needs the clear_update_flags() because it uses plane
+> color caps and therefore sets multiple update flags, and some glitches
+> appear when transitioning from 2 planes (with pipe split) to 3 planes
+> (no pipe split). It might be related to minimal transition machinery.
+> 
+> Thank you for all inputs.
+> 
+> Melissa
