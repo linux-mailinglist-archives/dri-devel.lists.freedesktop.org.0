@@ -2,67 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DF2B49B8C
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF36B49BA6
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20E0610E21A;
-	Mon,  8 Sep 2025 21:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA7710E207;
+	Mon,  8 Sep 2025 21:14:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Ip98w3po";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IV5j6zDZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-74.smtpout.orange.fr
- [80.12.242.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5289110E207
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 21:09:15 +0000 (UTC)
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
- by smtp.orange.fr with ESMTPA
- id vj6puzqdeoTLUvj6puozOR; Mon, 08 Sep 2025 23:09:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1757365753;
- bh=6ltswrdyQEQpMWiYuSVRDKy5ajUU0upafr0DRYZj5dU=;
- h=Message-ID:Date:MIME-Version:Subject:From:To;
- b=Ip98w3po82tDFo78WFreoHDqqSTKQUvoEDNszK2zWi2rPiCt36agSQ7A+d4ZvaSwP
- RamEvrAl303pcRErS0TjhS5RHHA6iZh1+gQFULZB4LPDlN6GQkKqpR25DMe4h4xHc+
- 5RKsqzcnWD5B2tj8gbMs467I/v47QnQV5QSnh7TXb+5fliGMc4NinF060yTtb7QGzG
- DglYg7jNHH6qr3PNyWaGhASvBsDuHa0poldyMxkZZNIC3Un7MzxkFR1ZCVXJKCav6K
- PkWFuHBzk0GpBkZfbbkSvQDRC0e42JJd9EGFhKs16fNEWSn/bvGwXuv1HhZDuS1UTG
- Ali2P3MY8035g==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 08 Sep 2025 23:09:13 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <78c764b8-44cf-4db5-88e7-807a85954518@wanadoo.fr>
-Date: Mon, 8 Sep 2025 23:09:07 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F073210E207
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 21:14:45 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 588Hog5J008162
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 21:14:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=gGFqDPUT3FFdS1GHQLN/aMib
+ +ITPMyd8yB8R5vRfLy0=; b=IV5j6zDZg1Tozh4mtrTUk91Pr/3XOjeFLYI+/c8Y
+ e1unaMz5dXDEKp3qW7SNnu/cKVsjZXDvgBP8bX3fFsY1DqwHkqeQIDlw8vLlBmf/
+ cuiRawgBccD+zL5fU+XDbI/StBHngxyzHRvsWZXkwC5gO1ciYoYBnYgPJESBh6rR
+ mlOD28sM6WzFV3EQfZXkTcqhZB1fmR0VALWrEdK0ZUddzLU5m7cBUJI8Ix4Izt07
+ EXD/FpK31o/TTI8oriCpoLbaAPCFOQ97nenKfrhZNT5kvsJXg34/3bWgkU+02vbK
+ 9vdN0s8Lgr+4wUDa18ZNBeuj6sLQ3OaoPs/7tgeOz743Ww==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490cj0ny63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 21:14:44 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b5e91fb101so141872441cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 14:14:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757366084; x=1757970884;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gGFqDPUT3FFdS1GHQLN/aMib+ITPMyd8yB8R5vRfLy0=;
+ b=RbGCo67ZQn1GZmswpNmQ8XvFLm7UwLoVvYztXH1AJyVrvscnNsvNi0oKP8rxHUghDc
+ weNspHu1nGnYXAWwXiCE5SsU2HYNHHFCBnIzggNc2H5j/rhhjNONFwOt4+RyRRE2Ky94
+ uSjdMUaAYwvqX0Naw57wM/R6+woAfz5f/mzqn4kV9PWJMezg+5ggjZTjG43IKPwc9KcQ
+ bmwe/zxwPRkP8lRTq/4Q1Cj2/K0wgNFfHLhwftG0LCkCxy31dmls5ieMKOqMYQyLtYRk
+ BWrIbqTvqWTGqAEWqqVCgCVRzettxiuQQ5/UA9kVHvAE3lRt/Lj1LgnpbpJsC6kmfuTH
+ gHIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUtMf7FJU3Dmlr1Cx6zky515Cd5yhCxa8iK26EjEcdKIz/KBqMz3cnUOzHTGmgiDo0NkDf4RUdqpus=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3wVYNbMG0Txc9FOj8Ui3zxj0F3xfVyLYIIThOTql2Qq8GpjOS
+ XLmU2NCP5XUSeOmhJc4mfEL4XnqX3QwWNfC1YQeN1TyV96sBvQy0zrunX+RIns8PW4SZjK3KyVp
+ O8ZQdhB7KkXkjU/zDHP0xK0YQYad5W3TDIvHPDX6x7zEpcC9fJSQIj/4eAZ7dZ7UTpS/tI+0=
+X-Gm-Gg: ASbGnct4IR0wDU+Cax0wcRS8Ymn70TTbziDcruqQXraRsVA2ZpRwKdHOaiTLh8YL0iD
+ AxgPV59aHONWKvs227uZ7DzcLyXoafnBfG90vutBQbU18Rv4ELnNsq8R/S61tfXIfm2CPd6JCPI
+ ul9iNXizaCzdmpFbMTZEtYPE6ofIQvk3x8LmhrX10XHbj9zm095/vHYhEhR69y1mTZdHb0CFsHI
+ 5gfstRNob1sEEuxuyMzlIvPl9kB0Jv+q+hQstZEE66zMwComYcMAiKridTHFReYssyVF7TYPNk5
+ zVKyO0LLlO5HVODmoa7id3yZqZXDmnGUpXC8CewahEHAB1Im8mGed1r1RnFJjSQVhDlmjNl1bHr
+ SscrZ2WVF5q0vL4qYpusHmztHVS+agZblNsB/P6y7DVbSqbQ5znbp
+X-Received: by 2002:a05:622a:48a:b0:4b3:552:27a9 with SMTP id
+ d75a77b69052e-4b5f84650aemr96693281cf.58.1757366084153; 
+ Mon, 08 Sep 2025 14:14:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH0oVHFI5EIDxHYHpoWD6bO+otPWX2dmEW+dVE7ydmDEbNxbxrGRzABsbieuc3+w78vdOnHmg==
+X-Received: by 2002:a05:622a:48a:b0:4b3:552:27a9 with SMTP id
+ d75a77b69052e-4b5f84650aemr96693011cf.58.1757366083658; 
+ Mon, 08 Sep 2025 14:14:43 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5681795da99sm21668e87.76.2025.09.08.14.14.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Sep 2025 14:14:42 -0700 (PDT)
+Date: Tue, 9 Sep 2025 00:14:40 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v3 3/5] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy:
+ Document lanes mapping when not using in USB-C complex
+Message-ID: <7dzfcuvr45h4iailtjutqjev7lofoqu7w6ob77gehgmy7mctpk@k7oob4wj3c7a>
+References: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
+ <20250908-topic-x1e80100-hdmi-v3-3-c53b0f2bc2fb@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
-References: <20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com>
- <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-To: "dmitry.baryshkov@oss.qualcomm.com >> Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Cc: abhinav.kumar@linux.dev, airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, geert+renesas@glider.be,
- harry.wentland@amd.com, jani.nikula@linux.intel.com,
- jessica.zhang@oss.qualcomm.com, kernel-list@raspberrypi.com,
- kieran.bingham+renesas@ideasonboard.com,
- laurent.pinchart+renesas@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- liviu.dudau@arm.com, louis.chauvet@bootlin.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
- marijn.suijten@somainline.org, mcanal@igalia.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, sean@poorly.run, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com, suraj.kandpal@intel.com,
- tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de
-In-Reply-To: <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250908-topic-x1e80100-hdmi-v3-3-c53b0f2bc2fb@linaro.org>
+X-Proofpoint-ORIG-GUID: kWaDLSXFIqZkaarQDvfPHnVUxvRO6sSz
+X-Proofpoint-GUID: kWaDLSXFIqZkaarQDvfPHnVUxvRO6sSz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNCBTYWx0ZWRfXzSOYY8LZW94D
+ IMSLviy65mD8bicBRTIeoVEpSsU+t9liyyk/ED+gwFdK0uQzXyb+g67T0AZbBr3zuIpl9Ai0bn/
+ 51eCNLm0gVXudOIU+Pynlrp5QKyfmM3OtORQpdlZs/D/hM6cdlog+Hv/KGCdCoRJyOBzLFewEi5
+ VWMVgNYE2I2YRknqq0+J87rATYgyXjbZl7tCrtjGSFgPxgOXapJlfg7R+4kQvPTYrBiZH+TL0Jx
+ dEY9D9O1uzBGHo+qSbmjJvVmGYGsRXcg41EcuZw8fFlK5QsT4mqyYLxqu0HnRXFdD7ID1+k+dZ8
+ Kls5FPlMYTslKSoEDbh9XV8s5sP4jb14dGkpmNtt+/+fUSX53YAlekzh7aVkpVSPcR6IX9x9WnE
+ f+C1srpC
+X-Authority-Analysis: v=2.4 cv=QeFmvtbv c=1 sm=1 tr=0 ts=68bf4745 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=MealuuOmK2OQarRwPrkA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,61 +136,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 19/08/2025 à 22:32, Dmitry Baryshkov a écrit :
-> Use drmm_plain_encoder_alloc() to allocate simple encoder and
-> drmm_writeback_connector_init() in order to initialize writeback
-> connector instance.
+On Mon, Sep 08, 2025 at 03:04:20PM +0200, Neil Armstrong wrote:
+> The QMP USB3/DP Combo PHY hosts an USB3 phy and a DP PHY on top
+> of a combo glue to route either lanes to the 4 shared physical lanes.
 > 
-> Reviewed-by: Louis Chauvet <louis.chauvet-LDxbnhwyfcJBDgjK7y7TUQ@public.gmane.org>
-> Reviewed-by: Suraj Kandpal <suraj.kandpal-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Reviewed-by: Jessica Zhang <jessica.zhang-5oFBVzJwu8Ry9aJCnZT0Uw@public.gmane.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov-5oFBVzJwu8Ry9aJCnZT0Uw@public.gmane.org>
+> The routing of the lanes can be:
+> - 2 DP + 2 USB3
+> - 4 DP
+> - 2 USB3
+> 
+> The layout of the lanes was designed to be mapped and swapped
+> related to the USB-C Power Delivery negociation, so it supports
+> a finite set of mappings inherited by the USB-C Altmode layouts.
+> 
+> Nevertheless those QMP Comby PHY can be used to drive a DisplayPort
+> connector, DP->HDMI bridge, USB3 A Connector, etc... without
+> an USB-C connector and no PD events.
+> 
+> Document the data-lanes on numbered port@0 out endpoints,
+> allowing us to document the lanes mapping to DisplayPort
+> and/or USB3 connectors/peripherals.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
+>  .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         | 59 +++++++++++++++++++++-
+>  1 file changed, 58 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
->   static const struct drm_connector_funcs dpu_wb_conn_funcs = {
->   	.reset = drm_atomic_helper_connector_reset,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->   };
-> @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
->   
->   	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
->   
-> -	/* DPU initializes the encoder and sets it up completely for writeback
-> -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
-> -	 * to initialize the writeback connector
-> -	 */
-> -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
-> -			&dpu_wb_conn_funcs, format_list, num_formats);
-> +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
-> +					   &dpu_wb_conn_funcs, enc,
-> +					   format_list, num_formats);
->   
->   	if (!rc)
->   		dpu_wb_conn->wb_enc = enc;
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> index 5005514d7c3a1e4a8893883497fd204bc04e12be..51e0d0983091af0b8a5170ac34a05ab0acc435a3 100644
+> --- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> @@ -81,10 +81,67 @@ properties:
+>  
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+> +
+>      properties:
+>        port@0:
+> -        $ref: /schemas/graph.yaml#/properties/port
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>          description: Output endpoint of the PHY
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +          endpoint@0:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            description: Display Port Output lanes of the PHY when used with static mapping
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> +                minItems: 2
+
+Nit: DP can work in a 1-lane mode. Do we nned to support that in the PHY?
+
+> +                maxItems: 4
+> +                oneOf:
+> +                  - items: # DisplayPort 2 lanes, normal orientation
+> +                      - const: 0
+> +                      - const: 1
+> +                  - items: # DisplayPort 2 lanes, flipped orientation
+> +                      - const: 3
+> +                      - const: 2
+> +                  - items: # DisplayPort 4 lanes, normal orientation
+> +                      - const: 0
+> +                      - const: 1
+> +                      - const: 2
+> +                      - const: 3
+> +                  - items: # DisplayPort 4 lanes, flipped orientation
+> +                      - const: 3
+> +                      - const: 2
+> +                      - const: 1
+> +                      - const: 0
+> +            required:
+> +              - data-lanes
+> +
+> +          endpoint@1:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            description: USB Output lanes of the PHY when used with static mapping
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> +                minItems: 2
+> +                oneOf:
+> +                  - items: # USB3, normal orientation
+> +                      - const: 1
+> +                      - const: 0
+> +                  - items: # USB3, flipped orientation
+> +                      - const: 2
+> +                      - const: 3
+> +
+> +            required:
+> +              - data-lanes
+>  
+>        port@1:
+>          $ref: /schemas/graph.yaml#/properties/port
+> 
+> -- 
+> 2.34.1
 > 
 
-dpu_wb_conn is allocated a few lines above using devm_kzalloc().
-
-Based on [1], mixing devm_ and drmm_ is not safe and can lead to a uaf.
-
-Is it correct here?
-If the explanation at [1] is correct, then &dpu_wb_conn->base would 
-point to some released memory, IIUC.
-
-
-just my 2c.
-
-CJ
-
-[1]: 
-https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/xe/xe_hwmon.c?id=3a13c2de442d6bfaef9c102cd1092e6cae22b753
+-- 
+With best wishes
+Dmitry
