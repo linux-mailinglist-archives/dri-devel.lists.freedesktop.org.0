@@ -2,43 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441CDB49BAF
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A70B49BC2
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 23:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A76E210E5D8;
-	Mon,  8 Sep 2025 21:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF04810E203;
+	Mon,  8 Sep 2025 21:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="SZVNXgjb";
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="TtV3oWv6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
- [91.218.175.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8185D10E5D8
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 21:16:47 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1757366205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=QZs1MddN1kGIVjCYk+noKB3uCgeYjjNDvqCYGlqZzmg=;
- b=SZVNXgjb9TnYg2XcQ9CFKP0Qu82TKnE8YlVs6g7p/R22Jgq8Qo+SV+ZfhhqZpjaZqo0qNZ
- /R0b/0VH1oYOuCXUORdj8Dfm56YLe4zAzueii2cJh9+BVjt6/zY/l1tOeZVQS2U33/oBMt
- SzkZIe7g6277KvWd5pyPN44fgBO8zyk=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: Replace kzalloc + copy_from_user with memdup_user
-Date: Mon,  8 Sep 2025 23:15:54 +0200
-Message-ID: <20250908211559.519892-1-thorsten.blum@linux.dev>
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEF210E203
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 21:21:30 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-b043a33b060so774171066b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 14:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1757366489;
+ x=1757971289; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eoNTJMKU9iOlrWl+MFmGasFoGj85suUe9BA2fsfDCVM=;
+ b=TtV3oWv6apgYABcSgHFNu+6y258U7nSgA7hBuXculYW4UwvIy2e2ioLVRzRV2POF4p
+ OTbNqX8bpMuPH7B+ssizmPz4sXITFVR5sQIe2nfWNddPDjuOb1BR/Pa/JqulBaSp8QHp
+ cwGNjSS+raclxyGoQGwe+3KmqaTSy72hpa5Ib8+WNhBpN8f6MOT6gtWtdzZQ/mfr/TnY
+ t2YlZrBBJfNeuRAzPAiQVuT/Ux8CD/4SK3f5avbAHaHA93czO61UIFjXXW6uu5QkqyOQ
+ nKwh69YHgMCZPB7mVDJWoXTHCEanDVKq3fpwWSND621kDyO/+Eu+G331C3NEFJir/qPi
+ a47A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757366489; x=1757971289;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eoNTJMKU9iOlrWl+MFmGasFoGj85suUe9BA2fsfDCVM=;
+ b=PRoMnbW7LDOfcdHH+vfoTz7DimsWfTRtTI15K3ACJYsIUrnD/hX4LkadzshRR8FOaw
+ QA8R0caAGYp5NHMgtguWRqgIhsIqFakpUyLuoY3Z5Vq0i6xcUZvGcSiUrw7QW+Lk8mmI
+ GR6ZudDliPR+Pfm/ae27WMPo8sLqG/3W/azdCMN60V46YI3o5d8Rrdoey8BmvmBovL61
+ qFsjRDQAKvyqTMrtqdE/2KE7W0AyI1OJxc5z1+N0gLscDfIvOIonJUc+1/AaA+s4T64H
+ +s+7nQLgCgXIsNWzZfW2lMZtND7Ex/CHpOA2OrNsy975Q4S8zmb3PnNoUcaOYAMwiRww
+ 1bWA==
+X-Gm-Message-State: AOJu0Yz3MdbBFvbNMlOOfFNf3Z3oauaYYb+bHwvRYpFuPULexirUJXOQ
+ bbLTUO7OI/Q701nBd5bBY1KCqi1lEe/1+kUsfq4N22xglnN4iVEHsHyI0/VKBerY3ML8vwi2vre
+ K/k7naElE0Z7oPbD4wugfDoErVRqdG8MGElPERBtdCg==
+X-Gm-Gg: ASbGncvyZaMgWlvPRPRHBfDgATGerOGkFsPAPZRzBdyB+wqItP6Vw6kfeci95l4cSkN
+ 0yA6ZdE4xeQvMsxJFXT6CKuXSm0q7miGDtCgKLei59NE3xcLGfRSaXa9f0S2ihcn9aAh3/vftzq
+ tYW24c9z1fvj0q6n/s0jUpN5ex6sxpfNmE7teN4SFmuqIHkFUDHcqMB/RvqUTBpR2tZ2XLP0XLK
+ lAoBCYmSv5SZM/c7fU=
+X-Google-Smtp-Source: AGHT+IH9SgiC3aVido2/N3XUr78h4QxbX+QTjJxuowVtNq1Ulr0lG4061PcI4Mlbk8tHASgcwtQ9iWL8bMNPlHCJx/U=
+X-Received: by 2002:a17:907:d8b:b0:afe:7909:f42a with SMTP id
+ a640c23a62f3a-b04b1714531mr871159366b.51.1757366488564; Mon, 08 Sep 2025
+ 14:21:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250829021633.1674524-1-airlied@gmail.com>
+ <CAAgWFh0QgCe3MMExMkJqdRBj5NqDrJ7zq6eaQ-Yszm2xFaqRpQ@mail.gmail.com>
+ <CAPM=9twR-NFDnZUPy4WO8dte5wii+Wq+GTJxZaLDJRifYsMYDg@mail.gmail.com>
+In-Reply-To: <CAPM=9twR-NFDnZUPy4WO8dte5wii+Wq+GTJxZaLDJRifYsMYDg@mail.gmail.com>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Mon, 8 Sep 2025 17:21:02 -0400
+X-Gm-Features: Ac12FXx7t9gI0ziNtm8oa1gkQg-8QJMhnpIna0JQI1IJ_9poC6WMReylPpnE6zE
+Message-ID: <CAAgWFh1aT37aTDUzXQhRbzV1Ha8Jz3PeKu4_PhsakFDBg4drkg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nouveau: fix disabling the nonstall irq due to storm
+ code. (v2)
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ dakr@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,55 +86,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace kzalloc() followed by copy_from_user() with memdup_user() to
-improve and simplify ta_if_load_debugfs_write() and
-ta_if_invoke_debugfs_write().
+On Mon, Sep 1, 2025 at 4:52=E2=80=AFPM Dave Airlie <airlied@gmail.com> wrot=
+e:
+>
+> On Tue, 2 Sept 2025 at 04:18, M Henning <mhenning@darkrefraction.com> wro=
+te:
+> > Maybe we should also do this for older GPUs? eg. perhaps we should
+> > also update gf100_fifo_nonstall_allow / gf100_fifo_nonstall_block ?
+>
+> Those actually turn off the irq at the hardware, and therefore
+> shouldn't hit the allowed path check, not touching that without
+> someone showing it's broken.
+>
+> Dave.
 
-No functional changes intended.
-
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-index 38face981c3e..6e8aad91bcd3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-@@ -171,13 +171,9 @@ static ssize_t ta_if_load_debugfs_write(struct file *fp, const char *buf, size_t
- 
- 	copy_pos += sizeof(uint32_t);
- 
--	ta_bin = kzalloc(ta_bin_len, GFP_KERNEL);
--	if (!ta_bin)
--		return -ENOMEM;
--	if (copy_from_user((void *)ta_bin, &buf[copy_pos], ta_bin_len)) {
--		ret = -EFAULT;
--		goto err_free_bin;
--	}
-+	ta_bin = memdup_user(&buf[copy_pos], ta_bin_len);
-+	if (IS_ERR(ta_bin))
-+		return PTR_ERR(ta_bin);
- 
- 	/* Set TA context and functions */
- 	set_ta_context_funcs(psp, ta_type, &context);
-@@ -327,13 +323,9 @@ static ssize_t ta_if_invoke_debugfs_write(struct file *fp, const char *buf, size
- 		return -EFAULT;
- 	copy_pos += sizeof(uint32_t);
- 
--	shared_buf = kzalloc(shared_buf_len, GFP_KERNEL);
--	if (!shared_buf)
--		return -ENOMEM;
--	if (copy_from_user((void *)shared_buf, &buf[copy_pos], shared_buf_len)) {
--		ret = -EFAULT;
--		goto err_free_shared_buf;
--	}
-+	shared_buf = memdup_user(&buf[copy_pos], shared_buf_len);
-+	if (IS_ERR(shared_buf))
-+		return PTR_ERR(shared_buf);
- 
- 	set_ta_context_funcs(psp, ta_type, &context);
- 
--- 
-2.51.0
-
+I did some testing on kepler and it looks like it is broken. I can
+reproduce the Talos + transfer queue issue there easily. I wrote
+https://gitlab.freedesktop.org/mhenning/linux/-/commit/b3ef72898ae2bf19cf58=
+7b8679d193c9570ddb05
+to fix the membar half of the issue but that still doesn't load Talos
+with a transfer queue, which means that we either need to apply this
+fix (nouveau: fix disabling the nonstall irq due to storm code) for
+kepler and probably all the other gens, or there's yet another bug
+lurking somewhere.
