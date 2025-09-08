@@ -2,115 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AE8B48397
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 07:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781FFB483A3
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 07:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8650810E0D2;
-	Mon,  8 Sep 2025 05:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA5610E0FC;
+	Mon,  8 Sep 2025 05:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g424Npyj";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="dRycS3Vd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735CB10E0D2
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 05:26:07 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 587Lu3lh023900
- for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 05:26:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- DcVLuODCpHT9DZQ4iAOI1YeR5daI/UPfmFpZv7882EQ=; b=g424NpyjYygfoSwp
- t2Yu4LasKbPWnGUJDBXNuRQ+sM3ZflaBvurYGCQftdnli5Xn0nR/kOGVkmSOCsZq
- x/o4d/k+RCes4FPxiFb7Mu4i6RS8fE6f55kD1ObHC369NNP71OqtrcJGvdCh4t5R
- OwnQrb6fcuEw11OZOB8ms2UBU8MCBDJcnGZLgM6fLgNeoNrrDc80Qo7q1xw5WoJA
- y5ejfeDNGpF13dhWkhAcmi9m+6/JAjAfWXYI8enhD3hzJwHIZzT/GmrQtvZIBy71
- U0MH8BeKatOkdUEcBJuEibeZNtxs7+OwHnclhH74qg/6/5EsCvw4BxujfzRJ8cQ3
- gBlJKA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e8a37af-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 05:26:06 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-32bbacf6512so5480493a91.1
- for <dri-devel@lists.freedesktop.org>; Sun, 07 Sep 2025 22:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757309166; x=1757913966;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DcVLuODCpHT9DZQ4iAOI1YeR5daI/UPfmFpZv7882EQ=;
- b=QfI4hL0JjJODVwiZGu49LSOuN0Y3Jv/uFAAoUyazCTc2i8WS3UP2kMh/nK9LyPbGC9
- HUVZyZQMYa0dTx5Jhk/Jv/o9Megn8Hnrpwok4n5hUIU5VVJoZaq+aDq8iNAzQ0+l1XoL
- bHRY+vqvCjNjSHUIx66DbH6sJnA/Nzu6+HPIiTD7RrxtrKKhD1PIWtSkh4cDrBEWLksO
- Q+8ip0/FYz83dXoDCl1QeQiM2iEDnqsoyy2p4HNb7vGlGaoNJTq+0Sxm5nFuQcSlyc9x
- NXgSw3mmGeXd/bqWWMOMFDGQO8cYBjX03jAIM0B7ro6L3qtK0zd92Agj3HQer8+7eNPb
- C+Qg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpvTwgFPPkr6K3vEXeWmZiG+kYnlJctX5sPsxYVlKaIeYcvBdpu/iri1TpBcwFe8XFOhoqHmL4POQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjH2PCqqXmi4tgjMwsiCgjkWU6DShNeggA/U+/LBsaqcVeanDQ
- 0Zg3djN5pHLfvpkx+w2aGgcLS7z7Oc6y4uAecunczPXix19VHp+6OBG7B8PAw7Mg7r7AX48oNwV
- BSxKwgzGYFtadh4tpUJz0rMUhSq1fgWqs2yyWFYh/tE7K5X40YpWUQfeRn5RL4/sRFeJjtVI=
-X-Gm-Gg: ASbGnctG1yFwdNgzLPECvVlptG+msufdNhuWICMAZxmhamcxNVd0rl14fD9FGos4Abv
- Q5Q3HCFuR8Zj62EOjNdQqh/b2VJntvOWEYP1O+t6xRcvxC7Vmsh4RU7QDG965Olg7FMLCOnjQ3N
- sikqYJe+cSupQHmlAAYdjWxw4KaOfifnzdBHB2I+vHQs9r9ILB4z4dVfKlLCuy+PiQ4NdvcHeoW
- FhguDnxuoSBkF65qpQkviFQDbnfjCfGeLsCUCZEsUm2U/MtaFOmEuC5k/HuFy8GpQahUeBfE5YT
- gLHZHCpl2JJzF/vYFEdRQ2Kfm8bJtB15uAZ5TOofJYH1tZ74PyeX1v94EneEuxSZQXv8KFU=
-X-Received: by 2002:a17:90b:1d4c:b0:32b:70a7:16d4 with SMTP id
- 98e67ed59e1d1-32d43f8f992mr10343398a91.17.1757309165832; 
- Sun, 07 Sep 2025 22:26:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfQIdemlD57I/dkTQtU0E2j971uVJ/dwYkgbbvqR2qALG9A+MdzdpTk4MueXTBGMRoBs7E1A==
-X-Received: by 2002:a17:90b:1d4c:b0:32b:70a7:16d4 with SMTP id
- 98e67ed59e1d1-32d43f8f992mr10343369a91.17.1757309165301; 
- Sun, 07 Sep 2025 22:26:05 -0700 (PDT)
-Received: from [10.206.107.125] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-327daeebe16sm29779170a91.26.2025.09.07.22.26.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 07 Sep 2025 22:26:04 -0700 (PDT)
-Message-ID: <1f5daa38-51c6-4546-a9e3-3a91f7b3fc5b@oss.qualcomm.com>
-Date: Mon, 8 Sep 2025 10:56:00 +0530
-MIME-Version: 1.0
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011005.outbound.protection.outlook.com [52.101.70.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA66110E0FC
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 05:37:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cTRL+hJzO+ER1Tib/hPTlJgskYI0SmV8Pg9Je9nVeBA6D2jIqWtzX2ImXySozztEVN0kBDchE1oZ5TnFGC+qPmFoBhUEQ7s2EbElDNMvHc1f6eIaPWIoPGVx9Dwlo34QGcQJ+cO0oS5eN9wMfgZvQgmRkqpo2ITMUZopdKc7kRa7lX71qfL0Kk2ShVsrLoQpEKiqhwgymrdx4eSwseaBmP1yn1KJ1kS5OYgDOi+4bWd41ie40PMdEAKDg2Vnfx/nXWYcKlmRW+R125qxLEIIadTpxeO1f3ChRTyirhL+ZGbgFWbe1LUpg+PnT0GrDhgM7JVi4yIyWl9mHgfgnZgaEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kEDqqyoxJnhwuelrNW4MYMBD4K/sBbdo3F4zbFOTqoU=;
+ b=o90ePOhyqFPb5HJ8n6p+RHXdl4yQnxxD8pt0++FJTnhxBQueezIjLw77uwpDJ9RcDZgwa7EPClxXDsd7FsJgGVe0xtspPOu2aChQqDbFwKiNxFBonbkjIWMvv0hYsfyjYSok1f0M6COQQ9ocjSV3XXwfIRwWSnTIPbaHLZ1S43VBynLfDfpMNVa47iAmm40xmz2ptw/+zoCZtuQDHTR/nac+ZfOkbadc4ND+GmqKgUHyWXBVbXsnRDlykBsKPDoqHNjmh5HIz/56ag5ohhjppKmNQTaPlD73fxLItxAiWOYjhUJlaNClNoSZrkWlFQ78Q7YDJR57GbwYEuudvj5fdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kEDqqyoxJnhwuelrNW4MYMBD4K/sBbdo3F4zbFOTqoU=;
+ b=dRycS3VdjmDSF0EwIQLKgpniFnSYRj9QA8EFUjzD74qy1MxghYSXPGFJF3amogVDD5F28XXjN+1WMvQzDwtdiAZ3QSJt0ZkKK93iwhkuJInbwEa+7nB2ZGxndmsi4juR9IiUF6x+pK62Z3IcxXgXkr5HKB8yIxy4iYLwJV4zWSdtEEvU41hq610u23W7wr+h8nv419/dYFeI8oQZa5QMwYa/lFnfVCeKO3Ng4M/AMm5ICjUcEjwMf+eeHxayF1p7RHZaFbrKqgJ/eXkgt/CLKsmGfOhiQG1bPrnqszssvC+RE8Z6Xpj7XHqEnwUfznVhuN+RhdQOx1q6gz8/UclX7w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by GVXPR04MB10246.eurprd04.prod.outlook.com (2603:10a6:150:1be::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.14; Mon, 8 Sep
+ 2025 05:37:11 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%5]) with mapi id 15.20.9115.010; Mon, 8 Sep 2025
+ 05:37:10 +0000
+Message-ID: <e16998f9-80a8-492c-b294-d4e7038ec3fc@nxp.com>
+Date: Mon, 8 Sep 2025 13:38:42 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] misc: fastrpc: Add polling mode support for
- fastRPC driver
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support HDMI vendor specific
+ infoframe
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de
-References: <20250901053336.3939595-1-ekansh.gupta@oss.qualcomm.com>
- <20250901053336.3939595-4-ekansh.gupta@oss.qualcomm.com>
- <hqbazo62hdfwgxoevzkchfddvjpr2ttp7wltpkoooou5anongs@5ncpjec3egjh>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250904-it6263-vendor-specific-infoframe-v1-1-6efe6545b634@nxp.com>
+ <6i7eyxajmelu3x4ckvwifmizln6jzybt6ykpwlefna3k3noop4@e5zdvzor24fn>
+ <023ae7ec-77a5-412f-bef5-105350561354@nxp.com>
+ <jaqzhm6oi6emkpqrysdgxppfndge46x5hsarczplboyfaw7p26@o5nr7xvtrxp4>
+From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <hqbazo62hdfwgxoevzkchfddvjpr2ttp7wltpkoooou5anongs@5ncpjec3egjh>
+In-Reply-To: <jaqzhm6oi6emkpqrysdgxppfndge46x5hsarczplboyfaw7p26@o5nr7xvtrxp4>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=H7Dbw/Yi c=1 sm=1 tr=0 ts=68be68ee cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=n5CWrXbSiRi7pyfJxhkA:9
- a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: pVQ8S1k4u7A9H4uQoTIgmn-IJbNrFakc
-X-Proofpoint-ORIG-GUID: pVQ8S1k4u7A9H4uQoTIgmn-IJbNrFakc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOSBTYWx0ZWRfXwWSqDQPx5I9c
- jwY0B2VspkKuuStx2lK4yBZy/E7Qxvd2+b3xUI/KmL8ET89OYQMJvPyOXAwtrUb/k6K1XkIq4Ty
- LJMFZ1p5NlmQPzmzZhCDumbiZZHChsKB0s2dP5Rc6Y6fuUZf1OLwuEGOto7Ub+bXdPV9TrK1Uzf
- Bk2yfDtnZVv6tswEGp2gVCM7ZUK1MgGvBhOxIP2uYnUOzMQnFT8R5jnYfhKSZGJxDGGGPif/4Pq
- h+FiQr868waemL0+PwgQsQT09fpD381WrFL4sF3Yeh+Fr08M7aGDAIHBSEr0mkKzEcnlO77GHn6
- 39jqxeBPhXFzLvVebOuaEPe88BT5AAss007JI4115AKoSqYBJ4zL5BNTDQpNxTb9ncRWqvXTN6h
- FBQ/VJrE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_01,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060039
+X-ClientProxiedBy: SG2PR06CA0249.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::33) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GVXPR04MB10246:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c1659f0-5e9e-419d-1c67-08ddee99c183
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|1800799024|366016|376014|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cmpJK2RmQ0JBRmE2UXkrN0ZwNGk4akU1T3ZqKzRjdmFKaVVwek5VV2k4ZHYx?=
+ =?utf-8?B?T0RwRHpTU3RZNHZsV1hkYTJUbFU5VXgvRXRQamZUWThDUzZSRHhhUDNBUHli?=
+ =?utf-8?B?WmVvb3dZUDYra3Fkb0ZrUDFsWUJZZ3lhUnlxb2VFOFppdFEvdzAzT1ZqL3hO?=
+ =?utf-8?B?Y09KSkRRZVpXcjZsdis1NThCK0JHSE55QStLcXg1U05tUTR5ZVhiVDBtaFZD?=
+ =?utf-8?B?TkdmNXZEY3JpZTROMVdWc2c5NHNRejVQQzhIT3dMbE1hb2tjY3pBUFROanNU?=
+ =?utf-8?B?SWJ3cmNtMXBkcURENUJKNk9zMzZTcFRYdHduSUZUVldGQkRmVk9xTmZqWDZt?=
+ =?utf-8?B?U0k0dkRVSEg4dFB6Zk1qS1VvM1NRTUdtdHV0d3RPNWNObXFLT2VrYmFqZHFU?=
+ =?utf-8?B?aVBTWGh3WVN1N3hzNVlodHAxZ1JEb2Iwd1ZEUS9tOXczUFpycW1Genp6QkZu?=
+ =?utf-8?B?S0ZZODlvdFZuZDFhL3ExYXNFNkVYOFFPU2hJVGVnN2RaV2UxYm93c1JMSUlw?=
+ =?utf-8?B?c0RLNkkxanV1eEtSQkJNbG5qYWo2VjBoY3gwRHI2djNqRG5jTmVURUx4UEdS?=
+ =?utf-8?B?ZWd6dUVaSUIyV3kxdVA0V3krWHB1Nmh5aXZSclRkSlhOVFRGMG1VOWVMdHg0?=
+ =?utf-8?B?aU8yVjZLWlppS0xzeTg1UThYMC9JdEFDY0RqUEg1Wm9RNFpwa2FRR1ovM1RF?=
+ =?utf-8?B?Y3ByY1NtQnRtaXVmeDExY3pMTTVLZ1ZWMkdlWFZCOTAycE9NY0kwY1NuaDdK?=
+ =?utf-8?B?Q2RmZ01PY0xpZitXUi8wVUNKN0w0YWlzaVRUL3V6cm1NYVBMVDVSc1VnZTAv?=
+ =?utf-8?B?Y1FHY1BWUWxWZDg2MTE2b0VObzh1VEFqUWgzU3N3QW5rM3JoQVhsdVBRU2Rj?=
+ =?utf-8?B?R1l4cUdVQVRmTFhXbHNTV09qd1R6dFU1alcrTEZXZmtCZnkzdFJhNnpIUkIy?=
+ =?utf-8?B?SzllL0dQMkNYNkpVQ3lMTGRoOXZHZjZSWjBqOTNkT2YybDk3TGhURjBIUmF6?=
+ =?utf-8?B?YTZHSmJjVjhEMm1ldCtDMjFFNy81WjNZcXVCNW9Fc29QdFFPaFk3RlVzdDc2?=
+ =?utf-8?B?T0RJZ2NwaVhnUUdsKzhXOUIrUjZGYTh5QklzQlNkTUVOV2szaE1aM0xSeFFj?=
+ =?utf-8?B?bzNIMVZBdlNiaHFCb3RzSzlxaWlzaThQUWpSd2UvVUJpd0JISmNPRVh2c1Nt?=
+ =?utf-8?B?c1V2RmZmaXpOalhYdWtlMmhUcmUrYW9FSG5vcGh6MmMvNm12UlJjMnZjb2Qw?=
+ =?utf-8?B?Y05XUGFVRDNJT2p6RkNhdUpLb3BsYi9xMU14MXY2MXh0VkhZdVJGWEdtSmRx?=
+ =?utf-8?B?em9DU1N2T01aZUhqMTNYMG1ZYWV4NWNRWkZjcWtndGVrK0ZmSTRlSHNJd2l3?=
+ =?utf-8?B?SHMyb1Q5MTMvbUpVbVlweGJjMEdTYmFJZmZJL2VMWnQ1VjdZakprbzltMVZR?=
+ =?utf-8?B?U0tBeE1WaXVhYkNMSWlydVQyYzRoSnZLWDBMRzNJM3hIT09LL1JlZXpCa0hQ?=
+ =?utf-8?B?RG9CbnJPRFAxYjB1OFBYYkJweHdVOUhCd1B2SjFnY3JnanRDSVVUZDhHWTdk?=
+ =?utf-8?B?U2VNVjErMEI3ZE9CWWpyR2k2b29wbXFyOU1BcXJ1WTB4RndZV0tGWW9Kd0VN?=
+ =?utf-8?B?MlpZYm5ST203Slh2VW5Hb05TVk51NmdzL0lEUm9PQllmVklDZmY5ZlViazN1?=
+ =?utf-8?B?dmIzaElXdklpTEtHbllHUy9XeG1GbDB3UTNwbEF5VkwwTXpWL0JjOExYc3Ax?=
+ =?utf-8?B?VzZtRm5DUWhZWUkwc1Q3VEhPTW1FM01ta21GRGRFUDVnL1I0eUpKZExRQ0N5?=
+ =?utf-8?Q?4YrYyxqveUVqsF2IQGvfnWDRk2f8u6bjq9YPg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(1800799024)(366016)(376014)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0JDbisxNCtHeFBqWmdWTUJpaEU4c0FJK0syRnBPV1ViV0xucGcrZVpDYlZj?=
+ =?utf-8?B?VmFiOTFjQjFSalJuQzVieDhVK1pmMm5XU0xrelJHd0Y3SzRLeCszLzNXT3d1?=
+ =?utf-8?B?Q2hpS1N6dUpoY2pZb1Q5M0t5M2tSaDA1c0V4dndjUXJJZXJmc3NPcys2cnE3?=
+ =?utf-8?B?aXdTUFVtM2krdXc5emhKMVhRNzFiTEk3NzdBY1VhUm1SN3VJK2JxVWJSNEV6?=
+ =?utf-8?B?Q2FwdUVqc2FiQmJzeHExdWUxOWpsMzZqa1pzem04d0xjdGVYV3A5dEE5a3Fj?=
+ =?utf-8?B?QkRCTDhQQjYzV0VhbE1XOStydUYweXkwOVB3S3ZIK05aaHZJbXJBeHNjSVkz?=
+ =?utf-8?B?b3NDaVFyUXAwNmxWcHg4YVRnYlJRS2Z3MkNCR2liTlV1VWFreWZqK1dXUStx?=
+ =?utf-8?B?NXp2SG9FT01FUmhBL0pMYXZML3dBRytEb2ROaFB0dTNzZStDcnJOQmFFaGlU?=
+ =?utf-8?B?UzlKdk9BdmtLNmd5dUxscm85OUxad0Vna0MwZk5qUDFKMFR4MkR6am80NTNE?=
+ =?utf-8?B?UVgwNS82RGRzZTZDbG9RalowY1hJRk9YOUZDS0hSeTlOOVFVRFNYaWxuZWxY?=
+ =?utf-8?B?QS9tQjcwQnYwR2ljWFJmUkNqQ3A4VEFGbTdvY2lUc0dEeDJQSklBcmhGajZm?=
+ =?utf-8?B?SVBQK21McjJoV0puYzl6b0M1V3V1NEo5emRTcVR6TllCRXJRSGJKWlhwMm1Y?=
+ =?utf-8?B?UllhZStNYzFlMk9DS3BKSXBCNklpVnRlVjN0a3k3d3hTWDRDQTc5RGwxWjJE?=
+ =?utf-8?B?amJ3OUhPZzFrVGNSbHUzNEJ4c3R2UTFPeVMwdmJYSXR5MlZBWVVhRy9PTGVi?=
+ =?utf-8?B?a3BnSXVKeElqekNRWFVHWXNYREJiVzZZSTFhUEdscjhVWkF3WDZ1elU1VXlq?=
+ =?utf-8?B?YTRMWFhmUnpZcHpzSVhrUW1kYUl5RFV3VVV0d0hDaGl3Zk1CMURaMEVpQkJi?=
+ =?utf-8?B?dXJsR01vNjhiN1JJREowRnRlbENyMDlVb3U5UkExWnFwMWVDMkFmanFSOFFB?=
+ =?utf-8?B?ZXFkVUphT1RYNVBsMUR5YkEyaHY1MVNJWmozV2VlT2FUSlQ0Q3NTVzVzVmJB?=
+ =?utf-8?B?YzN1YnN1U3VtcUw3NU10ZnVxMTFDeTkwVFRCdnJYL2hQUFZTNFplR1BZdFpB?=
+ =?utf-8?B?WEtDT0o0YTBhN2Q1NzdLTi90RUF3aHBSVGNKL2llY3NRc0U4eEVNalIxazFm?=
+ =?utf-8?B?V3Y1UGRHV2djeWhjbXhET1owZjZzVjRHcVNNdXRFNTBTNGlEZTE2UlcwOW5m?=
+ =?utf-8?B?emx4NVFKeXdRNmFLOHFOSjQ5TVpTOFJJQjRTby94c2tLWTVzNFdQTHk0eXZw?=
+ =?utf-8?B?Wk5PVjByMkRYaXI2WEhxUEVwME1rYWltT2Y4eTdvNWxuSHAvTGhEQkJ3TEs4?=
+ =?utf-8?B?YjJjYnV6RUY0Q2NwSHBBalVMTXgvVTljcEFYa0RGMDNEMUpvenJHVEhXcmNM?=
+ =?utf-8?B?U08vKzFMbzZwcmRJOHV1amdqaWx3amJRNWNQMjBaOXYrdHZMK1VQbkVKM0Yv?=
+ =?utf-8?B?ZTlOUlh6L1FTcHpEUWEwODF2SjVaMHc0RzhmWmtoR2o4TUlUQVBkOS9UV1k2?=
+ =?utf-8?B?N1UvR0FEWkpvNHNOM3RwWXlzRFd4NVYraWJMZldsWU85djhFd2M2NkJlN0pq?=
+ =?utf-8?B?dXROSzhTdXo0Qk9XWkZRdG9hTGlIeUl4Q3QzV0ZkZjd4Mm9rd0dzK1ZBNEh1?=
+ =?utf-8?B?bEVLL1hFWm1LeUhMTFg2dkhLZ3pGVVJYYVk1TUZQODVENDNSU1NoL0RzT25s?=
+ =?utf-8?B?YUIxNVczNmtTd05uUTdIRlErTm52TjRSVGNTOFhtOWtaUk1LdHJqZ2hqd2ti?=
+ =?utf-8?B?Ui9PTU56ajR4Q2pUU2svUk12MUxXaHhDMTQ0U09aR2xEOHdwelZSdmcxR0J3?=
+ =?utf-8?B?L01jVERLeEUxNldmM1owUkRrallWWk9zYVhvZE0xcjFWV1hocUpLZERiaDNJ?=
+ =?utf-8?B?aC82TUJFSzJIS0VucTJ1enJzNnY1NklIUU4vNlI5YWExM0h6SHRQWTFvb0xh?=
+ =?utf-8?B?TWJjRXVtZjdKUnJOMGtmVFZuNFpjVG56QVFDc3Z1SHNzVEhndzVoaXNzVmtT?=
+ =?utf-8?B?dXk2NHBoaVI2aDQ2WjhhWDI4eGFJcWFEYWlsTUhkRE5oN1IxbThwejlaaDVx?=
+ =?utf-8?Q?5d+f7r8lIN+U42qEjYxxD7qZ/?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c1659f0-5e9e-419d-1c67-08ddee99c183
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 05:37:10.5565 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: za81eltcUMLQx/9F4rWPqT5UoE6sh7n8HRuyWYq5bmR8pQeqRBv71ydUw1pEK5OvJ4nwDQGaEld6zHSS/9y/Ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10246
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,263 +173,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/2/2025 2:51 PM, Dmitry Baryshkov wrote:
-> On Mon, Sep 01, 2025 at 11:03:36AM +0530, Ekansh Gupta wrote:
->> For any remote call to DSP, after sending an invocation message,
->> fastRPC driver waits for glink response and during this time the
->> CPU can go into low power modes. This adds latency to overall fastrpc
->> call as CPU wakeup and scheduling latencies are included.  Adding a
-> s/Adding/Add/, see Documentation/process/submitting-patches.rst
-Ack.
->
->> polling mode support with which fastRPC driver will poll continuously
->> on a memory after sending a message to remote subsystem which will
->> eliminate CPU wakeup and scheduling latencies and reduce fastRPC
->> overhead.
-> Describe your design decisions: when it is enabled, why, etc.
-Yes, also planning to enable it from userspace in v2 due to power consumption
-concerns.
->
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>  drivers/misc/fastrpc.c | 121 ++++++++++++++++++++++++++++++++++++++---
->>  1 file changed, 114 insertions(+), 7 deletions(-)
+On 09/05/2025, Dmitry Baryshkov wrote:
+> On Fri, Sep 05, 2025 at 01:46:56PM +0800, Liu Ying wrote:
+>> On 09/05/2025, Dmitry Baryshkov wrote:
+>>> On Thu, Sep 04, 2025 at 05:10:02PM +0800, Liu Ying wrote:
+>>>> IT6263 supports HDMI vendor specific infoframe.  The infoframe header
+>>>> and payload are configurable via NULL packet registers.  The infoframe
+>>>> is enabled and disabled via PKT_NULL_CTRL register.  Add the HDMI vendor
+>>>> specific infoframe support.
+>>>>
+>>>> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+>>>> ---
+>>>>  drivers/gpu/drm/bridge/ite-it6263.c | 72 ++++++++++++++++++++++++++-----------
+>>>>  1 file changed, 52 insertions(+), 20 deletions(-)
+>>>>
+>>>> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+>>>> +		const char zero_bulk[HDMI_PKT_HB_PB_CHUNK_SIZE] = { };
+>>>> +
+>>>> +		/* clear NULL packet registers due to undefined default value */
+>>>> +		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0),
+>>>> +				  zero_bulk, sizeof(zero_bulk));
+>>>
+>>> What if you move this to the probe function? Then there will be no need
+>>> to write those registers each time the infoframe is being written.
 >>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index 57e118de6e4a..939a3e3d29e2 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -22,6 +22,8 @@
->>  #include <linux/firmware/qcom/qcom_scm.h>
->>  #include <uapi/misc/fastrpc.h>
->>  #include <linux/of_reserved_mem.h>
->> +#include <linux/compiler.h>
->> +#include <linux/iopoll.h>
->>  
->>  #define ADSP_DOMAIN_ID (0)
->>  #define MDSP_DOMAIN_ID (1)
->> @@ -37,6 +39,7 @@
->>  #define FASTRPC_CTX_MAX (256)
->>  #define FASTRPC_INIT_HANDLE	1
->>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
->> +#define FASTRPC_MAX_STATIC_HANDLE (20)
-> What is this?
-Static handles in FastRPC refer to handles that are statically defined and
-associated with modules in the DSP image at build time, rather than being
-dynamically created or loaded at runtime. These are typically used for
-system-level services or core module.
+>> Good idea.  But looking at drm_hdmi_vendor_infoframe_from_display_mode(),
+>> hdmi_vendor_infoframe_length() and hdmi_vendor_infoframe_pack_only(), the
+>> payload length could be changed in runtime according to display mode's VIC
+>> and flags(see DRM_MODE_FLAG_3D_MASK).  And, IT6263 supports HDMI1.4a 3D
+>> formats according to it's product information[1].  So, it makes sense to
+>> clear HDMI_REG_PKT_PB(5) and HDMI_REG_PKT_PB(6) here which map to ptr[8]
+>> and ptr[9] in hdmi_vendor_infoframe_pack_only().  For v2, I'd move the
+>> NULL packet registers bulk write to it6263_hdmi_config()(i.e., it6263_probe())
+>> and write zero to HDMI_REG_PKT_PB(5) and HDMI_REG_PKT_PB(6) here.
+> 
+> Then you don't even need to write zeroes in probe(). Just write
+> something like:
+> 
+> regmap_bulk_write(regmap, HDMI_REG_PKT_HB(len), zero_bulk, FRAMESIZE-len);
+> 
+> But as a note: I don't think other drivers zero out packet memory. I
+> think it's expected that displays ignore the frame after the 'len'
+> bytes.
 
-Defined this to limit the polling mode only for user calls.
+Then I'd choose not to zero out any packet memory since it turns out at
+least for my setup that the vendor specific infoframe can be captured by
+HDMI analyzer without doing that(HDMI analyzer does show leftover random
+packet data).
 
->
->>  #define FASTRPC_CTXID_MASK (0xFF00)
->>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->>  #define INIT_FILE_NAMELEN_MAX (128)
->> @@ -105,6 +108,20 @@
->>  
->>  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>  
->> +/* Poll response number from remote processor for call completion */
->> +#define FASTRPC_POLL_RESPONSE (0xdecaf)
->> +
->> +/* Polling mode timeout limit */
->> +#define FASTRPC_POLL_MAX_TIMEOUT_US (10000)
->> +
->> +/* Response types supported for RPC calls */
->> +enum fastrpc_response_flags {
->> +	/* normal job completion glink response */
->> +	NORMAL_RESPONSE = 0,
->> +	/* process updates poll memory instead of glink response */
->> +	POLL_MODE = 1,
->> +};
-> bool is_polled;
->
-> OR
->
-> unsigned long is_polled : 1;
->
->> +
->>  struct fastrpc_phy_page {
->>  	u64 addr;		/* physical address */
->>  	u64 size;		/* size of contiguous region */
->> @@ -235,8 +252,14 @@ struct fastrpc_invoke_ctx {
->>  	u32 sc;
->>  	u64 *fdlist;
->>  	u32 *crc;
->> +	/* Poll memory that DSP updates */
->> +	u32 *poll;
->>  	u64 ctxid;
->>  	u64 msg_sz;
->> +	/* work done status flag */
->> +	bool is_work_done;
->> +	/* response flags from remote processor */
->> +	enum fastrpc_response_flags rsp_flags;
->>  	struct kref refcount;
->>  	struct list_head node; /* list of ctxs */
->>  	struct completion work;
->> @@ -891,7 +914,8 @@ static int fastrpc_get_meta_size(struct fastrpc_invoke_ctx *ctx)
->>  		sizeof(struct fastrpc_invoke_buf) +
->>  		sizeof(struct fastrpc_phy_page)) * ctx->nscalars +
->>  		sizeof(u64) * FASTRPC_MAX_FDLIST +
->> -		sizeof(u32) * FASTRPC_MAX_CRCLIST;
->> +		sizeof(u32) * FASTRPC_MAX_CRCLIST +
->> +		sizeof(u32);
->>  
->>  	return size;
->>  }
->> @@ -987,6 +1011,8 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
->>  	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
->>  	pages = fastrpc_phy_page_start(list, ctx->nscalars);
->>  	ctx->fdlist = (u64 *)(pages + ctx->nscalars);
->> +	ctx->crc = (u32 *)(ctx->fdlist + FASTRPC_MAX_FDLIST);
-> Why?
-DSP considers the poll memory to be at the end of metadata buffer. The contents
-of metadata are in the order as added in fastrpc_get_meta_size
->
->> +	ctx->poll = (u32 *)(ctx->crc + FASTRPC_MAX_CRCLIST);
->>  	args = (uintptr_t)ctx->buf->virt + metalen;
->>  	rlen = pkt_size - metalen;
->>  	ctx->rpra = rpra;
->> @@ -1155,6 +1181,83 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
->>  
->>  }
->>  
->> +static inline u32 fastrpc_poll_op(void *p)
->> +{
->> +	struct fastrpc_invoke_ctx *ctx = p;
->> +
->> +	dma_rmb();
->> +	return READ_ONCE(*ctx->poll);
-> Is this enough? Is the write by the DSP side going to invalidate the
-> cache for this memory location? Think about older platforms which
-> usually don't have dma-coherent property in the DSP / FastRPC nodes.
-Yes, DSP will take care of invalidating the cache after writing to this memory.
->
->> +}
->> +
->> +static int poll_for_remote_response(struct fastrpc_invoke_ctx *ctx)
->> +{
->> +	u32 val;
->> +	int ret;
->> +
->> +	/*
->> +	 * Poll until DSP writes FASTRPC_POLL_RESPONSE into *ctx->poll
->> +	 * or until another path marks the work done.
->> +	 */
->> +	ret = read_poll_timeout_atomic(fastrpc_poll_op, val,
->> +				       (val == FASTRPC_POLL_RESPONSE) ||
->> +				       ctx->is_work_done, 1,
->> +				       FASTRPC_POLL_MAX_TIMEOUT_US, false, ctx);
->> +
->> +	if (!ret && val == FASTRPC_POLL_RESPONSE) {
->> +		ctx->is_work_done = true;
->> +		ctx->retval = 0;
->> +	}
->> +
->> +	if (ret == -ETIMEDOUT)
->> +		ret = -EIO;
->> +
->> +	return ret;
->> +}
->> +
->> +static inline int fastrpc_wait_for_response(struct fastrpc_invoke_ctx *ctx,
->> +					    u32 kernel)
->> +{
->> +	int err = 0;
->> +
->> +	if (kernel) {
->> +		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
->> +			err = -ETIMEDOUT;
->> +	} else {
->> +		err = wait_for_completion_interruptible(&ctx->work);
->> +	}
->> +
->> +	return err;
->> +}
->> +
->> +static int fastrpc_wait_for_completion(struct fastrpc_invoke_ctx *ctx,
->> +				       u32 kernel)
->> +{
->> +	int err;
->> +
->> +	do {
->> +		switch (ctx->rsp_flags) {
->> +		case NORMAL_RESPONSE:
->> +			err = fastrpc_wait_for_response(ctx, kernel);
->> +			if (err || ctx->is_work_done)
->> +				return err;
->> +			break;
->> +		case POLL_MODE:
->> +			err = poll_for_remote_response(ctx);
->> +			/* If polling timed out, move to normal response mode */
->> +			if (err)
->> +				ctx->rsp_flags = NORMAL_RESPONSE;
->> +			break;
->> +		default:
-> What kind of response type can it be? Have you had checked for the flag
-> being set, you wouldn't have a false possibility of having another
-> response type.
-Sorry, couldn't exactly understand your point here. Are you suggesting that as the
-rsp_flags is getting set by the driver itself, there isn't a possibility of having any
-unsupported response type?
->
->> +			err = -EBADR;
->> +			dev_dbg(ctx->fl->sctx->dev,
->> +				"unsupported response type:0x%x\n", ctx->rsp_flags);
->> +			break;
->> +		}
->> +	} while (!ctx->is_work_done);
->> +
->> +	return err;
->> +}
->> +
->>  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->>  				   u32 handle, u32 sc,
->>  				   struct fastrpc_invoke_args *args)
->> @@ -1190,16 +1293,19 @@ static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->>  	if (err)
->>  		goto bail;
->>  
->> -	if (kernel) {
->> -		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
->> -			err = -ETIMEDOUT;
->> -	} else {
->> -		err = wait_for_completion_interruptible(&ctx->work);
->> -	}
->> +	if (handle > FASTRPC_MAX_STATIC_HANDLE && fl->pd == USER_PD)
->> +		ctx->rsp_flags = POLL_MODE;
-> This definitely needs to be explained.
-Ack.
-
-Thanks for the review.
-
-//Ekansh
->
->>  
->> +	err = fastrpc_wait_for_completion(ctx, kernel);
->>  	if (err)
->>  		goto bail;
->>  
->> +	if (!ctx->is_work_done) {
->> +		err = -ETIMEDOUT;
->> +		dev_dbg(fl->sctx->dev, "Invalid workdone state for handle 0x%x, sc 0x%x\n",
->> +			handle, sc);
->> +		goto bail;
->> +	}
->>  	/* make sure that all memory writes by DSP are seen by CPU */
->>  	dma_rmb();
->>  	/* populate all the output buffers with results */
->> @@ -2462,6 +2568,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->>  
->>  	ctx->retval = rsp->retval;
->>  	complete(&ctx->work);
->> +	ctx->is_work_done = true;
->>  
->>  	/*
->>  	 * The DMA buffer associated with the context cannot be freed in
+> 
+>>
+>> What do you think?
+>>
+>> [1] http://www.ite.com.tw/en/product/cate1/IT6263
+>>
+>>>
+>>> LGTM otherwise.
+>>>
+>>>> +
+>>>> +		/* write header and payload */
+>>>> +		regmap_bulk_write(regmap, HDMI_REG_PKT_HB(0), buffer, len);
+>>>> +
+>>>> +		regmap_write(regmap, HDMI_REG_PKT_NULL_CTRL,
+>>>> +			     ENABLE_PKT | REPEAT_PKT);
+>>>> +		break;
+>>>
+>>
 >> -- 
->> 2.34.1
->>
+>> Regards,
+>> Liu Ying
+> 
 
+
+-- 
+Regards,
+Liu Ying
