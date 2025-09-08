@@ -2,63 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71D3B49B1D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 22:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FCBB49B23
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 22:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249DD10E5CE;
-	Mon,  8 Sep 2025 20:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A30D810E5CF;
+	Mon,  8 Sep 2025 20:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WWTssvmM";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="d10K6DCm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1FA010E5CE
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 20:32:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 904FC60051
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 20:32:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F5C2C4CEF7
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 20:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757363547;
- bh=rkOn2dIZGwZCf9InNZJrjdEW0VLvsH0HqrJe6wnGwsg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=WWTssvmMUsLI2ECnK+9z97SBnoDjEr+TGi87fpZDKKsxMs4PP78JgjS4ukfUtL2vY
- qqQk91l+ocWoA/O67AA28BiTxCd3WP7oIIGoPV6Nwih7UjZUL9Lz6FfUd0rkdHl8JD
- yiCX6xDZC1qXEqZwDgzFP4tqCOu0XwjBIYed3XQJqrWkb+uKzzNvXxTlkmL2wSU+E1
- dVW6+28ATjzvtHTt4I1AD795VwQaBKITituz9cFGk4qsAEm23wjkl7MO6VThSnGcqt
- uWFPHetWd/cLyxCs3mLTB2qgS3E7GTJEnci7V0jP0CcvFR7j5Lmgzpcj3llEQsTsup
- WEiHaLKcG4GBw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3590AC41612; Mon,  8 Sep 2025 20:32:27 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220553] Suspend to mem fails on rx5600xt (regression in 6.16.2)
-Date: Mon, 08 Sep 2025 20:32:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rbmccav@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cf_bisect_commit cf_kernel_version cf_regression
-Message-ID: <bug-220553-2300-GYH6QrXFhU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220553-2300@https.bugzilla.kernel.org/>
-References: <bug-220553-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com
+ [95.215.58.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07EC910E5CF
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 20:36:32 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1757363789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GNHJ0bIbs+9uwV2RFN4E26x/2ypGovp+e5ynogemSoo=;
+ b=d10K6DCmMivJpleOcmGAuPHmwT78mZdsoxJxppDSl9YvYo3iIduFstbkpjHlAy+2V0kMOA
+ vzVTTumtIaHU3gvl4i1xVyG/tLCfN/vrr5WEPU05R/pK92TPKf3pMAEsVelxzjJEDQVfXn
+ j7FvgcvW8fxfgCQsKSe4xd4ptddJ0r8=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Koby Elbaz <koby.elbaz@intel.com>,
+ Konstantin Sinyuk <konstantin.sinyuk@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] accel/habanalabs: Replace kmalloc_array + copy_from_user with
+ memdup_array_user
+Date: Mon,  8 Sep 2025 22:35:37 +0200
+Message-ID: <20250908203540.475303-1-thorsten.blum@linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +57,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220553
+Replace kmalloc_array() followed by copy_from_user() with
+memdup_array_user() to improve and simplify cs_ioctl_engine_cores(),
+cs_ioctl_engines(), and hl_multi_cs_wait_ioctl().
 
-rbmccav@gmail.com changed:
+Remove the unused variable 'size_to_copy' from hl_multi_cs_wait_ioctl().
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Bisected commit-id|                            |8345a71fc54b
-     Kernel Version|                            |6.16.2
-         Regression|No                          |Yes
+No functional changes intended.
 
---=20
-You may reply to this email to add a comment.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ .../habanalabs/common/command_submission.c    | 34 +++++--------------
+ 1 file changed, 9 insertions(+), 25 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
+index dee487724918..a5e339eb7a4f 100644
+--- a/drivers/accel/habanalabs/common/command_submission.c
++++ b/drivers/accel/habanalabs/common/command_submission.c
+@@ -2481,14 +2481,10 @@ static int cs_ioctl_engine_cores(struct hl_fpriv *hpriv, u64 engine_cores,
+ 	}
+ 
+ 	engine_cores_arr = (void __user *) (uintptr_t) engine_cores;
+-	cores = kmalloc_array(num_engine_cores, sizeof(u32), GFP_KERNEL);
+-	if (!cores)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(cores, engine_cores_arr, num_engine_cores * sizeof(u32))) {
++	cores = memdup_array_user(engine_cores_arr, num_engine_cores, sizeof(u32));
++	if (IS_ERR(cores)) {
+ 		dev_err(hdev->dev, "Failed to copy core-ids array from user\n");
+-		kfree(cores);
+-		return -EFAULT;
++		return PTR_ERR(cores);
+ 	}
+ 
+ 	rc = hdev->asic_funcs->set_engine_cores(hdev, cores, num_engine_cores, core_command);
+@@ -2523,14 +2519,10 @@ static int cs_ioctl_engines(struct hl_fpriv *hpriv, u64 engines_arr_user_addr,
+ 	}
+ 
+ 	engines_arr = (void __user *) (uintptr_t) engines_arr_user_addr;
+-	engines = kmalloc_array(num_engines, sizeof(u32), GFP_KERNEL);
+-	if (!engines)
+-		return -ENOMEM;
+-
+-	if (copy_from_user(engines, engines_arr, num_engines * sizeof(u32))) {
++	engines = memdup_array_user(engines_arr, num_engines, sizeof(u32));
++	if (IS_ERR(engines)) {
+ 		dev_err(hdev->dev, "Failed to copy engine-ids array from user\n");
+-		kfree(engines);
+-		return -EFAULT;
++		return PTR_ERR(engines);
+ 	}
+ 
+ 	rc = hdev->asic_funcs->set_engines(hdev, engines, num_engines, command);
+@@ -3013,7 +3005,6 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 	struct hl_ctx *ctx = hpriv->ctx;
+ 	struct hl_fence **fence_arr;
+ 	void __user *seq_arr;
+-	u32 size_to_copy;
+ 	u64 *cs_seq_arr;
+ 	u8 seq_arr_len;
+ 	int rc, i;
+@@ -3037,19 +3028,12 @@ static int hl_multi_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 		return -EINVAL;
+ 	}
+ 
+-	/* allocate memory for sequence array */
+-	cs_seq_arr =
+-		kmalloc_array(seq_arr_len, sizeof(*cs_seq_arr), GFP_KERNEL);
+-	if (!cs_seq_arr)
+-		return -ENOMEM;
+-
+ 	/* copy CS sequence array from user */
+ 	seq_arr = (void __user *) (uintptr_t) args->in.seq;
+-	size_to_copy = seq_arr_len * sizeof(*cs_seq_arr);
+-	if (copy_from_user(cs_seq_arr, seq_arr, size_to_copy)) {
++	cs_seq_arr = memdup_array_user(seq_arr, seq_arr_len, sizeof(*cs_seq_arr));
++	if (IS_ERR(cs_seq_arr)) {
+ 		dev_err(hdev->dev, "Failed to copy multi-cs sequence array from user\n");
+-		rc = -EFAULT;
+-		goto free_seq_arr;
++		return PTR_ERR(cs_seq_arr);
+ 	}
+ 
+ 	/* allocate array for the fences */
+-- 
+2.51.0
+
