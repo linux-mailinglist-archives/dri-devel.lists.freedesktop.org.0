@@ -2,75 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A22B49344
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 17:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC784B493B4
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 17:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3412F10E556;
-	Mon,  8 Sep 2025 15:28:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F3610E172;
+	Mon,  8 Sep 2025 15:38:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PsNHM3XM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GFIdD8hN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3412910E556;
- Mon,  8 Sep 2025 15:28:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3E59360054;
- Mon,  8 Sep 2025 15:28:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A6FC4CEF1;
- Mon,  8 Sep 2025 15:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757345319;
- bh=Do6afPicQEb4NL8JqQTOF9ldvaOz/50hXlHx8t3d/Vk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PsNHM3XMtszyc0MR1l+7nz70Pbv2C2OaoFSsE5TqVi1L0TWseb3dm8FxU4bOhGA4x
- K4Pbr34ZZu4GjLSy0wcBOLtbTfSDZ2sZXwcW4q/GMOmsbSZpLzPh3VE05cQHN1bvx6
- 51Gz7lPPEfDUpWjzsa4c4LUlGmtD5Yh+xRUZwAvoz2gdSvkS4s3poGD4jvdFCM3JbR
- k937DQwE3qDKhikqJJbGzJuWzvxXLe1oyvTjXmvEVG3yc5Fy+l/qJEMutidM5xegfs
- 8U0ArRBNo11ISeeVjRQuNSccclJrtzFk1VDZN9ty2Mo1sIkDvMoHTI/K2PNGM65fEw
- HzowuB88dAXMA==
-Date: Mon, 8 Sep 2025 16:28:28 +0100
-From: Mark Brown <broonie@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>,
- Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
- io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: Re: [PATCH v2 19/37] mm/gup: remove record_subpages()
-Message-ID: <e8428944-e2ef-4785-b0c2-d4896b291cb1@sirena.org.uk>
-References: <20250901150359.867252-1-david@redhat.com>
- <20250901150359.867252-20-david@redhat.com>
- <f5032553-9ec0-494c-8689-0e3a6a73853c@sirena.org.uk>
- <83d3ef61-abc7-458d-b6ea-20094eeff6cd@redhat.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8B710E172
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 15:38:05 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5888xWrB007791
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Sep 2025 15:38:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7VfDo+K2YxkxcNLtYJDXPL/1mkJcb89EfTCTUVk46hQ=; b=GFIdD8hN8FyF4bNq
+ dhcqYmW+iPIZ8TBq67UlEy0/8yzA3wwwpTrRyxIPuKOEergP7gnMI0zpbK/dn29f
+ XRqI7AbVN8X2shw6sNLMD/hNfk/37wp2yktw8PqpDnEJ+CHz+tAX+NK9hKxUE/iX
+ Kr+pkHyJSI6G7+xZ0d9oljO+hlnTjrVP3RZJdx+KAHb5Wy0Qoo5PvDrYBP1CjupA
+ SsTpnwpGbRKas8Ag+0PqeB+SX/1deC9XXir53r5AfC1C3MEhkFeKQBffcu9Ydqv0
+ gcS5sXoIN5Op9wOfZIvAEuhjF+sMleHovORE50aHAyTAUXWIR1EO+MLGC7xvkljz
+ dQJwjg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8d2n8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 15:38:04 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b5f15a5f3dso6676171cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 08:38:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757345884; x=1757950684;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7VfDo+K2YxkxcNLtYJDXPL/1mkJcb89EfTCTUVk46hQ=;
+ b=KPUOgeJXkAgpjmZ1f4VKpYcQeMV3HI00pvzuRYx0rrthwCrxYnSW2qIf6YEKjcYGc3
+ XaEyEIM1XHVIqZ0QUfJqEKH+vJcEpn1ef4s/jb0MAmytYizrY50bwkyl17hdo2EX0fev
+ H1/nOLgqp6GTe0o65EmoQXDL8hx2vAM59LTrgedUnsGdLiARGS7e1QfRETLG12b+Itt2
+ O/IRW6naUGiUbf1ZSRAVhYWi8MFLkd/BUB9W2ZqA9yKdGgLZ6pqF68u2W5t4F8TFcW8j
+ tzsfVlrdTHoxfVJ6ra4zGcT9X9Kwq0dotTsOHsPG7j/4Cu5es8fmmjl+FQmQgoPBVAo/
+ BH7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUV0I0kDafjjDrbhsLUM9hmXFYQ0Sn0GYppowtr9syeMWywRc2quJvpz+hQz/+ulhmQ5b8DTNK4XpM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2EyBOcfMUQQWHvVcvt6F3l+8GEJWnTNaz/bKihDvZK5VUFH3C
+ 9Lq/xOJXWfPY+VnYft3VFOkpVT0eL3khtM57Dej+9lwWlFcmzJAtP4vdRAalT7H//rVb9bElceF
+ Uxz5RKd1wsjI2IJ9kgMbSHN5lZ/YyEoICrq6srWBagedzhCb2/XI26Nml4qR9+ZvtDILt+8o=
+X-Gm-Gg: ASbGncsBAxlJSt5lXx386VjqDVHCiefJv3TyiNQi4/TyKX9Ac9+s3K3GEmlPfwHFXgQ
+ SO3fU7fDP1g2C6q5uDrwDUYf1Ez5tMP0YtOX+RQXYqfvUFHrSj/J2wWYTPLSYZj8Yue/niOqyHW
+ 2RH3hPME6a/kLtiwiYPPL58JSJeejw36Gmd/M17KbQ8KdkSIvevtpdE3Og5FmLEy9fjQuOT8hxa
+ hBuFBM9j0X82ykPzOv/DskjyLT8qGlgRlee+G0ufKS/z6QGpV4CVvBnwqd1slj6ac3kDJ7RkV8K
+ wotX9GS2rWYg0Go8I63rDEK0B2VQMOWjvUUc0yWKEztwsfzS1tNyfl0zBw7IOHM86WBkp2JSk2S
+ FzHZVjqutx4hx0nh5Vwegww==
+X-Received: by 2002:a05:622a:1787:b0:4b3:4590:ab6d with SMTP id
+ d75a77b69052e-4b5f848d05bmr58304601cf.7.1757345883533; 
+ Mon, 08 Sep 2025 08:38:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFcsvpKBaQ4jCcWP5NtvuePywTOTY5oNYfv92gdyrYQkqbJJAvrzNLEIVI6ZIbznl8lDhI5wA==
+X-Received: by 2002:a05:622a:1787:b0:4b3:4590:ab6d with SMTP id
+ d75a77b69052e-4b5f848d05bmr58304161cf.7.1757345882765; 
+ Mon, 08 Sep 2025 08:38:02 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aff0d9b1b53sm2408307666b.96.2025.09.08.08.38.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Sep 2025 08:38:02 -0700 (PDT)
+Message-ID: <59ac7827-6258-4268-8b71-4cbcbad859db@oss.qualcomm.com>
+Date: Mon, 8 Sep 2025 17:37:59 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="DHpSdvAG938A2yDi"
-Content-Disposition: inline
-In-Reply-To: <83d3ef61-abc7-458d-b6ea-20094eeff6cd@redhat.com>
-X-Cookie: Air is water with holes in it.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/16] drm/msm/adreno: Add fenced regwrite support
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250908-ifpc-support-v2-0-631b1080bf91@oss.qualcomm.com>
+ <20250908-ifpc-support-v2-7-631b1080bf91@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250908-ifpc-support-v2-7-631b1080bf91@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX4HWZZcYFuOT7
+ mwcqcnzWQ7IFB+CYefH5VFZ+PEh0rU1iGTkzQ+hIp+lTpM9d5q7MMkL5stJZJyDiT3yQHb2Xm3E
+ rps8+814slEEj1uWyvidgtQnTImPiYARrYNg5p8JcoAEzow28krkNNJ7Yfg3stcexuXOfsYMfoF
+ m53HLXAJ6dZqtrjt7M5kAmjnpVitdxUwIZCRwPG2YRzJk7wxbloDh4+GviRo2BPYzGepOhHHd8N
+ 7OxVAX/b565RjyOIddPeM1O7OVQmoUpaG7tsBOZrgBNuUIP49K7wr6B8ei6idBc7wXM6TxGXLhv
+ 8TINCLSPiDpZspNctqkEsOxS7JV0b9I6936vPMQBPiC3hBx/TY4v0c+In64OK3wroBDDZbuX9C+
+ XAoBHdtA
+X-Proofpoint-ORIG-GUID: 9akUxtAr0ZMlchBr4d_OLC3ejE-W0TAp
+X-Proofpoint-GUID: 9akUxtAr0ZMlchBr4d_OLC3ejE-W0TAp
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68bef85c cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=sRrLox2IjJLVq2cxUxUA:9
+ a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_05,2025-09-08_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,36 +132,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/8/25 10:27 AM, Akhil P Oommen wrote:
+> There are some special registers which are accessible even when GX power
+> domain is collapsed during an IFPC sleep. Accessing these registers
+> wakes up GPU from power collapse and allow programming these registers
+> without additional handshake with GMU. This patch adds support for this
+> special register write sequence.
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 80 ++++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 20 ++++----
+>  3 files changed, 90 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 45dd5fd1c2bfcb0a01b71a326c7d95b0f9496d99..a63dad80ef461da45d5c41a042ed4f19d8282ef5 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -16,6 +16,84 @@
+>  
+>  #define GPU_PAS_ID 13
+>  
+> +static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 value, u32 status, u32 mask)
+> +{
+> +	/* Success if !writedropped0/1 */
+> +	if (!(status & mask))
+> +		return true;
+> +
+> +	udelay(10);
+> +
+> +	/* Try to update fenced register again */
+> +	gpu_write(gpu, offset, value);
+> +
+> +	/* We can't do a posted write here because the power domain could be
+> +	 * in collapse state. So use the heaviest barrier instead
+> +	 */
+> +	mb();
+> +	return false;
+> +}
+> +
+> +static int fenced_write(struct a6xx_gpu *a6xx_gpu, u32 offset, u32 value, u32 mask)
+> +{
+> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> +	struct msm_gpu *gpu = &adreno_gpu->base;
+> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+> +	u32 status;
+> +
+> +	gpu_write(gpu, offset, value);
+> +
+> +	/* Nothing else to be done in the case of no-GMU */
+> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+> +		return 0;
+> +
+> +	/* We can't do a posted write here because the power domain could be
+> +	 * in collapse state. So use the heaviest barrier instead
+> +	 */
 
---DHpSdvAG938A2yDi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I'm not sure I follow - what's the relationship between the write being
+posted and the power domain being collapsed (i.e. the hw not being
+powered on)?
 
-On Mon, Sep 08, 2025 at 05:22:24PM +0200, David Hildenbrand wrote:
-> On 08.09.25 17:16, Mark Brown wrote:
+Are you trying to get rid of the delay that could happen between this
+write leaving the CPU and arriving at the GPU (which would then be
+woken up), so that the 1ms poll below has greater chance to succeed
+because of how these "special registers" work?
 
-> > I'm seeing failures in kselftest-mm in -next on at least Raspberry Pi 4
-> > and Orion O6 which bisect to this patch.  I'm seeing a NULL pointer
-
-> On which -next label are you on? next-20250908 should no longer have that
-> commit.
-
-Ah, sorry - it was Friday's -next but I only saw the report this
-morning.  Sorry for the noise.
-
---DHpSdvAG938A2yDi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi+9hwACgkQJNaLcl1U
-h9Dbtgf+Lll52kCjsemPK6UaH7DQkWfZmHDqtHqLwe5SzgAfSeqnhQgasjG5jMSv
-Nx5981jPRrpwjz/cI58x/+7VGV4mHF331CfuGkvW9jVYKznATgc/3x877cxjQPYg
-I0fxXcE59j2a4VQrjcWqpuF0unCRYckVgvCsxK0iBkltPEMKR6iqf1xBECY8ofae
-HYKT9ows31m6zoR1t0ed+9WHQqIH9nlo9gPcNJm6Vw2vMSwDBa5BuQv3MIIyOFq3
-9MutZOCRam8c+vwt91HNCNUP85vbnHqG+eZCecu4Y2rVwHaENgW7ayTBrmb1OQ4G
-cd9uBVEvCzE0tE1Rm7r+1srw8xc6vg==
-=z4uX
------END PGP SIGNATURE-----
-
---DHpSdvAG938A2yDi--
+Konrad
