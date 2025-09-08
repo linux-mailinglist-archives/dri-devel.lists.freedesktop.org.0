@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAE4B48E8D
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B2AB48E8F
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 15:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA0010E529;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35EC10E52B;
 	Mon,  8 Sep 2025 13:04:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sp4uxTUZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GKJ/PTZI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B43910E523
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:04:29 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-45b9814efbcso36001055e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:04:29 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC7710E526
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 13:04:30 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-45de60d39b7so6951635e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 06:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757336668; x=1757941468; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1757336669; x=1757941469; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=w3lH/JWdCi466yT+Udujas8igi6yje6X10bcnQeYQ7U=;
- b=sp4uxTUZGNgTpQ8DzvqKULPQWEiREbOkSlrGJlI0Fs2erypFcxs3/sdOJZusmeq/ez
- lrSmpKRWK/HKseE8KyLpCSbFehge+O/qndeZS5AaOwLnhKSrNAOk3AoFYfsQDjeUra4I
- qqvMUvaXu4x9+IKk1YWZFwlNUgQqnjBuC23xV9RnsC94OrCGoWwgXzUq7bx6QkcqXez6
- e4Bcy2l7+V+OyS37/Nuy6aNbXNNMJMJvIc/98ouWjFCKhN3DdnWaQKwTfJg0dQoquitJ
- 490hAEpOhPYGnTg39yDLY7jvjdk1AOfmi7bHTO3tLnyGzPE65f7RtRoVuTfcjbmnYicQ
- 5z8w==
+ :reply-to; bh=6hVFR7tlfJ4rwCckjFd0RFg5PR9+fm+hwaJJl+Zp7RE=;
+ b=GKJ/PTZIB5TRL8LbWxpbDsLjENMXYMrolh7N6ShE4SVzUQoEqmxgQaGyRk9oovCjhP
+ IVc+JOENLhQWysRsYiibsjc0x7wmAyW8QVjvL/C8OMJwNHzZvh1FC6r5uuhDZbILwu/J
+ fOJZ7kCOE106I6wS/ZOOdBGBSMhri2wDKC/SoZHYwLvbznTVoxngRbxorOAEU2RFrgaO
+ tF/w1D8c2EfyUHiExmoNUQqK17R/8J0J0xt3xfLV7kV5s3exmZO8zyt/66W8Npl6HU+g
+ Ds2zHKK4EsyQ1v7gIzbsjjOYmR4aN8x0mD/7OHwzgLITnK/S/W+p5iIf0v/8JO6nT3AS
+ AKVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757336668; x=1757941468;
+ d=1e100.net; s=20230601; t=1757336669; x=1757941469;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w3lH/JWdCi466yT+Udujas8igi6yje6X10bcnQeYQ7U=;
- b=tqnAmuFqDC5iDrrXWiQG2V0JbY101C0F5oF2Fwgwz8D0nAORyKrFm/4kTr1LoiE2gE
- sXDvfXVMtlU8pvpNiPmAgXEDW/DpoR9BKaRmETlp9SJ2J0CzwkSIRa1X8YNoFLPZ1Iwv
- 6YzHedN/lhYQb0w+3nKE1kcDD/kWFuMtt+YBqDqJhfc+DZqqBb/3sFpSFW+oxys8uygP
- 5miJtLQyyupo0rs9oL1KPVy6LRLmNMSU/5Y3E/xK6YZPG0uZR6lmbaTeK8CRtV4ZMjvo
- O46wPRF69je926yXjuLoh9dImew3of01iRdfKZ77A4I2DCE5Ka6m9EZeBrHvLMoVZdS8
- PXMA==
-X-Gm-Message-State: AOJu0YxDWcN8DpiCUe+XOrTJ8AcC0O54RH0w6AcqBddzjNTOXe26hHvd
- b9JN7EMmBFmSDHe7xABOxg6k5EWcWKPB5G2Yzqz+UoA08Sxy98TwXAS9tEzoOPKGTLI=
-X-Gm-Gg: ASbGnctw8tyEJ/rFuh9Lty9ddvDQSWJu41GJRfDlVQutc90UHr0JzXWUBm+ehzf2Hxa
- VVqgkOZgzlkFZPt/ttL3ngCniP/rlspXJHcaAFqHyds7EOx4HugCSijOyxu04lMbUNdVVX/mLx5
- tT4PW4kf5RKGc1cNiGNKK1mSOiYO1wwXvEtwj+BqrGJk0CkzQF3L6C4MME6TnRGbFS3+oAmZ0L4
- +bD9XQAojxghVfz3Wr2Yu4IQNiAbjERGBcj5lFzflB6SZg4LDVuUU9m4n/6aDWOw/Ch8Tat2syf
- PngVCi1ao/zyYC58aTw1FzRzcCyIfgEssc8rfhbESD8SSqGLpFGyP4lJH/3Zio5Oz/cdUU/ldQ8
- wDBNlw8wILA5FEHS5AWonyFtEa+JKa7ISenzdcR0lLvKG9vZt68XAIw==
-X-Google-Smtp-Source: AGHT+IEoCJMvrySbDq5jyk5RqjV0NPwALftNDE3q+qWzdFdOy/QBMsqqG1w+PllPiaKresF5LY8s5A==
-X-Received: by 2002:a5d:5f42:0:b0:3bd:13d6:6c21 with SMTP id
- ffacd0b85a97d-3e2fa64c720mr11205775f8f.0.1757336667919; 
- Mon, 08 Sep 2025 06:04:27 -0700 (PDT)
+ bh=6hVFR7tlfJ4rwCckjFd0RFg5PR9+fm+hwaJJl+Zp7RE=;
+ b=Bh5PS1fSbVLWPis0n/bcou6IjHzDCNOwizfkZk1phGYBLESKsAppG/DQTuIyqc13Pn
+ gsy3ogUvoL6PfDrhqxv779FX8tJWXDcDl0Hz6zxLmaHu/Gtu+J8VsGTCGE/oqvuBNr3R
+ OjiwyQsAUyQlv03qHfdQi5Fq8WbAblbVeqouie89vekbDJQvtHdK29Gb9zi/r3Cseoyv
+ kzBwCtizdGVyp1ChVOTzSbS3SiP2hcaHYSishSf6NLOo8GPlz8oLztSRY0ZS+Yr++p7S
+ rYAywv+LwJ+Yo+2m6AUgnue9l3s0Pfm5IP8bogHUt7jYnEvKRaV0xr9l7uMDsgJG5R1f
+ UBjg==
+X-Gm-Message-State: AOJu0YwYOTh8uE8p/gA9lkywLWs2HDQ6zRuYV/8jIJ0HO5qsi32Q93Hk
+ vNSA5quZCWuHyroKHEUO24/kNXhlJwmKwmf/yfjaaMUh3aKgHJEmteww5dyAZiSl43w=
+X-Gm-Gg: ASbGncsXeR1E50LnFiIQtqzW6BX9k4r/6qDd6L+YQUXO40G24Qy5sMkkPRSJsGfCifs
+ Qy9zQ4sdTpPQsriftm4ArRPMN7OL0Z0pZsPHMzo3XDDiLvsmObMGA2F8snR8mbHvhkeT/TBYbKj
+ l/lzU0INUmQzUaDuNYoLJLYX7VJ7sHFhn3L3upexZ5XZ+lAgtizgEcqCsONg1mPBYiHWDuCXHKm
+ Vyk08S8y/k7uznhlh8DgmBrBFs04AASi88aXSRiG5q1r/gRSJ/I6/sfap+kwa8XIKH+1eEdPRDk
+ /d2QPF8lao+7koQqIkXTP7y52VHLmlZEPrfHKjc3LTw/FXvapmUZC0IdBBuboMmOQhK0v7/LciY
+ W0OEUbJlhrDN4n3JnGVj9uBgCfRUJJdqnlKJrjyRfKTE=
+X-Google-Smtp-Source: AGHT+IF6rpGHIQqohS9lzYVCz3pQ7EeM5njM+scjW7GHsTFOc2+YN9gxLQmujK0s7N4N9Z14XbFXDQ==
+X-Received: by 2002:a05:600c:358a:b0:45b:9322:43fc with SMTP id
+ 5b1f17b1804b1-45ddded6b98mr60937485e9.29.1757336668917; 
+ Mon, 08 Sep 2025 06:04:28 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45dd6891d23sm145632475e9.4.2025.09.08.06.04.27
+ 5b1f17b1804b1-45dd6891d23sm145632475e9.4.2025.09.08.06.04.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Sep 2025 06:04:27 -0700 (PDT)
+ Mon, 08 Sep 2025 06:04:28 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 08 Sep 2025 15:04:20 +0200
-Subject: [PATCH v3 3/5] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy:
- Document lanes mapping when not using in USB-C complex
+Date: Mon, 08 Sep 2025 15:04:21 +0200
+Subject: [PATCH v3 4/5] phy: qcom: qmp-combo: get the USB3 & DisplayPort
+ lanes mapping from DT
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250908-topic-x1e80100-hdmi-v3-3-c53b0f2bc2fb@linaro.org>
+Message-Id: <20250908-topic-x1e80100-hdmi-v3-4-c53b0f2bc2fb@linaro.org>
 References: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
 In-Reply-To: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
@@ -84,20 +84,20 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-phy@lists.infradead.org, Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3818;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5803;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=l4jGjPnr6kkCLH/MgyK2xCnnHwY9L5KdNaTbIaLUKls=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBovtRWHuZlAgozjbJFii6xfRJsDGdI6qiUd5eBIkOO
- gHg1sbqJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaL7UVgAKCRB33NvayMhJ0VO0D/
- wN1IoFM+6iDMczeX69C67hBvvLtrQstZFRcQP2yOXqNzF+BNoOKcHNvVJwlesJ/bhhkmogtc/gYBG5
- 4XN3Nh8lpDkzzH0uHemVY143GefTfB9r2huYqAUa9QQS+PHrWvDRPrsZnTlkqgim9ETpSWSY5XaaY3
- H75bzT+NVggBudkNCaMUgqU5MTzpuftNb3q80bQDgNCuzrKdNCwqtGGQ+4GGBKYJvXI/TMHT9tb88A
- zk9Qg7hq0kDunLwjNODM8+iMRPqDsi9VenmJUejjO/4Qv0Id4+4c8SXMx7xNDCGcdmy4X2PhUD+/vZ
- tuBuhdooBoUTXuL1IsBaqtg40K9EUY+pwAlTGfZr4WROgsgdmJ8o+VMsdj8bC3fGxTSAo7d/0H1gpG
- fI9wHZbMZkgvxbFhCWedjMDD0lRymsX9FR6z67Kg24aW7df04l62Sinpn7G+v9f7CwdtqY2z3RruP2
- prGrPv1UHPtK0RYzkdBO8ZNpO82TRCla3tvI79pzi4BQLnM+BkqLiz9IL2/phpG6YpG+GDThG3E4EI
- bUnLnZdlap7QuzJ8beN0t3zc5VHCQo/FN0qn0pJpBow49cDWzRVgbHrJr5i52VwvkUhge/6+4782Nk
- Mrd94O2dUWbZKQtUnToaTfid3nnf2bZZOL0lei1dE1+cP+ZQaM7bYHHRczxg==
+ bh=lOUHhuJduyd4uVL3cdLjbnnx7qqWeLxF7qvYd0HnxIo=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBovtRXFe7zxBwluA3jvmm4gOBQteCg0RDZ+ZE5pQde
+ sVco1pWJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaL7UVwAKCRB33NvayMhJ0QBHD/
+ 4sPNXHxrN6EZYj8eY+ad2W5jKQqfW73Syl5NqdPrSaEnMVQ51QkdM++uGuTof+3Z4lK+NzCtHncnoc
+ YnlRcw6Ww+hrzwyLoch8mBSHBxujd+nyYgREAq6u9+zE5F22HfD4hlCJAxMJbKO5AxnNKD42tcxlfb
+ uDvR/P968VaYOnbwQEuhj1lfwXXWIBce9pfBstsRMKL0xCmSDruSB+2Lg/OXlgHXm5uQ5vJ/xO1irN
+ AM2/lR+bXnHYD6jfW7fMHBnyrOYmVZChDpTDuw90ma/LYPjAYTtIFY/ElNkvr3XwxEOUWf3xIPS8g2
+ O4KqI7z2GG9pKglCS/yChRcBq7iOI/LnCNvmsNcS9hjOw/Z4ydXSqBQYResJPLBhxVDwbkNQzh8Fxx
+ 4wj5c3d0p1XoVgIVQpADzFJUc583sA0a+3qhSusdHT9mZamqdO3+2sQz1gmOERol+oMb/Il+aahINK
+ SdiKM0lXcUCoryjZvoHmXyD3SoKXtRlDEq1DexAgrijjj9rqyAHmJGuVTpVpi6RoEF2eGktiTgo/mX
+ GYyg0KV98TF6Av5eEGmDF1in850fJHAW3Sd9RvTuXSZkN/D7oNDZ4QksOcNbWZ5QLnh9q8B9TGI5pZ
+ 334QiQfnZVqGPHgoo16ns3m0pa+CyKNU1VPjcb9hFE+omsIIcnyP8K8Ez8ZQ==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,96 +123,183 @@ The routing of the lanes can be:
 - 4 DP
 - 2 USB3
 
-The layout of the lanes was designed to be mapped and swapped
-related to the USB-C Power Delivery negociation, so it supports
-a finite set of mappings inherited by the USB-C Altmode layouts.
+Get the lanes mapping from DT and stop registering the USB-C
+muxes in favor of a static mode and orientation detemined
+by the lanes mapping.
 
-Nevertheless those QMP Comby PHY can be used to drive a DisplayPort
-connector, DP->HDMI bridge, USB3 A Connector, etc... without
-an USB-C connector and no PD events.
-
-Document the data-lanes on numbered port@0 out endpoints,
-allowing us to document the lanes mapping to DisplayPort
-and/or USB3 connectors/peripherals.
+This allows supporting boards with direct connection of USB3 and
+DisplayPort lanes to the QMP Combo PHY lanes, not using the
+USB-C Altmode feature.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         | 59 +++++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 132 ++++++++++++++++++++++++++++--
+ 1 file changed, 124 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
-index 5005514d7c3a1e4a8893883497fd204bc04e12be..51e0d0983091af0b8a5170ac34a05ab0acc435a3 100644
---- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
-@@ -81,10 +81,67 @@ properties:
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index 7b5af30f1d028c592500e723ecd27b54ed554709..f3f91a69dc8b81e049cd06f7ab4f04baf57776cd 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -13,6 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
++#include <linux/of_graph.h>
+ #include <linux/phy/phy.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+@@ -1744,6 +1745,21 @@ static const u8 qmp_dp_v6_pre_emphasis_hbr_rbr[4][4] = {
+ 	{ 0x22, 0xff, 0xff, 0xff }
+ };
  
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
++static const u32 usb3_data_lane_mapping[][2] = {
++	[TYPEC_ORIENTATION_NORMAL] = { 1, 0 },
++	[TYPEC_ORIENTATION_REVERSE] = { 2, 3 },
++};
 +
-     properties:
-       port@0:
--        $ref: /schemas/graph.yaml#/properties/port
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-         description: Output endpoint of the PHY
-+        unevaluatedProperties: false
++static const u32 dp_2_data_lanes_mapping[][2] = {
++	[TYPEC_ORIENTATION_NORMAL] = { 0, 1 },
++	[TYPEC_ORIENTATION_REVERSE] = { 3, 2 },
++};
 +
-+        properties:
-+          endpoint:
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            unevaluatedProperties: false
++static const u32 dp_4_data_lanes_mapping[][4] = {
++	[TYPEC_ORIENTATION_NORMAL] = { 0, 1, 2, 3 },
++	[TYPEC_ORIENTATION_REVERSE] = { 3, 2, 1, 0 },
++};
 +
-+          endpoint@0:
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            description: Display Port Output lanes of the PHY when used with static mapping
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                $ref: /schemas/types.yaml#/definitions/uint32-array
-+                minItems: 2
-+                maxItems: 4
-+                oneOf:
-+                  - items: # DisplayPort 2 lanes, normal orientation
-+                      - const: 0
-+                      - const: 1
-+                  - items: # DisplayPort 2 lanes, flipped orientation
-+                      - const: 3
-+                      - const: 2
-+                  - items: # DisplayPort 4 lanes, normal orientation
-+                      - const: 0
-+                      - const: 1
-+                      - const: 2
-+                      - const: 3
-+                  - items: # DisplayPort 4 lanes, flipped orientation
-+                      - const: 3
-+                      - const: 2
-+                      - const: 1
-+                      - const: 0
-+            required:
-+              - data-lanes
-+
-+          endpoint@1:
-+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+            description: USB Output lanes of the PHY when used with static mapping
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                $ref: /schemas/types.yaml#/definitions/uint32-array
-+                minItems: 2
-+                oneOf:
-+                  - items: # USB3, normal orientation
-+                      - const: 1
-+                      - const: 0
-+                  - items: # USB3, flipped orientation
-+                      - const: 2
-+                      - const: 3
-+
-+            required:
-+              - data-lanes
+ struct qmp_combo;
  
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
+ struct qmp_combo_offsets {
+@@ -4167,9 +4183,114 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_node_put;
+ 
+-	ret = qmp_combo_typec_register(qmp);
+-	if (ret)
+-		goto err_node_put;
++	qmp->qmpphy_mode = QMPPHY_MODE_USB3DP;
++
++	if (of_find_property(dev->of_node, "mode-switch", NULL) ||
++	    of_find_property(dev->of_node, "orientation-switch", NULL)) {
++		ret = qmp_combo_typec_register(qmp);
++		if (ret)
++			goto err_node_put;
++	} else {
++		enum typec_orientation usb3_orientation = TYPEC_ORIENTATION_NONE;
++		enum typec_orientation dp_orientation = TYPEC_ORIENTATION_NONE;
++		struct device_node *usb3_ep, *dp_ep;
++		u32 data_lanes[4];
++		int count, i;
++
++		usb3_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
++		dp_ep = of_graph_get_endpoint_by_regs(dev->of_node, 0, 1);
++
++		if (usb3_ep) {
++			ret = of_property_count_u32_elems(usb3_ep, "data-lanes");
++			if (ret == -EINVAL)
++				/* Property isn't here, ignore property */
++				goto usb3_mapping_done;
++			if (ret < 0)
++				goto err_node_put;
++
++			count = ret;
++			if (count != 2)
++				/* Property size is invalid, ignore property */
++				goto usb3_mapping_done;
++
++			ret = of_property_read_u32_array(usb3_ep, "data-lanes", data_lanes, count);
++			if (ret)
++				goto err_node_put;
++
++			for (i = TYPEC_ORIENTATION_NORMAL; i <= TYPEC_ORIENTATION_REVERSE; i++)
++				if (!memcmp(data_lanes, usb3_data_lane_mapping[i], sizeof(u32) * 2))
++					break;
++
++			if (i >= TYPEC_ORIENTATION_REVERSE)
++				/* Property value is invalid, ignore property */
++				goto usb3_mapping_done;
++
++			usb3_orientation = i;
++		}
++
++usb3_mapping_done:
++		of_node_put(usb3_ep);
++
++		if (dp_ep) {
++			ret = of_property_count_u32_elems(dp_ep, "data-lanes");
++			if (ret == -EINVAL)
++				/* Property isn't here, ignore property */
++				goto dp_mapping_done;
++			if (ret < 0)
++				goto err_node_put;
++
++			count = ret;
++			if (count != 2 && count != 4)
++				/* Property size is invalid, ignore property */
++				goto dp_mapping_done;
++
++			ret = of_property_read_u32_array(dp_ep, "data-lanes", data_lanes, count);
++
++			if (ret)
++				goto err_node_put;
++
++			for (i = TYPEC_ORIENTATION_NORMAL; i <= TYPEC_ORIENTATION_REVERSE; i++) {
++				switch (count) {
++				case 2:
++					ret = memcmp(data_lanes, dp_2_data_lanes_mapping[i],
++						      sizeof(u32) * count);
++					break;
++				case 4:
++					ret = memcmp(data_lanes, dp_4_data_lanes_mapping[i],
++						     sizeof(u32) * count);
++					break;
++				}
++
++				if (!ret)
++					break;
++			}
++
++			if (i >= TYPEC_ORIENTATION_REVERSE)
++				/* Property value is invalid, ignore property */
++				goto dp_mapping_done;
++
++			dp_orientation = i;
++		}
++
++dp_mapping_done:
++		of_node_put(dp_ep);
++
++		if (dp_orientation == TYPEC_ORIENTATION_NONE &&
++		    usb3_orientation != TYPEC_ORIENTATION_NONE) {
++			qmp->qmpphy_mode = QMPPHY_MODE_USB3_ONLY;
++			qmp->orientation = usb3_orientation;
++		} else if (usb3_orientation == TYPEC_ORIENTATION_NONE &&
++			 dp_orientation != TYPEC_ORIENTATION_NONE) {
++			qmp->qmpphy_mode = QMPPHY_MODE_DP_ONLY;
++			qmp->orientation = dp_orientation;
++		} else if (dp_orientation != TYPEC_ORIENTATION_NONE &&
++			 dp_orientation == usb3_orientation) {
++			qmp->qmpphy_mode = QMPPHY_MODE_USB3DP;
++			qmp->orientation = dp_orientation;
++		} else {
++			dev_warn(dev, "unable to determine orientation & mode from data-lanes");
++		}
++	}
+ 
+ 	ret = drm_aux_bridge_register(dev);
+ 	if (ret)
+@@ -4189,11 +4310,6 @@ static int qmp_combo_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_node_put;
+ 
+-	/*
+-	 * The hw default is USB3_ONLY, but USB3+DP mode lets us more easily
+-	 * check both sub-blocks' init tables for blunders at probe time.
+-	 */
+-	qmp->qmpphy_mode = QMPPHY_MODE_USB3DP;
+ 
+ 	qmp->usb_phy = devm_phy_create(dev, usb_np, &qmp_combo_usb_phy_ops);
+ 	if (IS_ERR(qmp->usb_phy)) {
 
 -- 
 2.34.1
