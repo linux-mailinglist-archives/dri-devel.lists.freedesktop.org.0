@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8598B48D98
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 14:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057ABB48DC1
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 14:39:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520E610E504;
-	Mon,  8 Sep 2025 12:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7E10E4F7;
+	Mon,  8 Sep 2025 12:39:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="K0tO+RKv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ufv6Hcx6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F1810E504
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 12:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757334842;
- bh=C5fSnNKxeY3RHoKZlxT9QiIlEbKodP31EJG0RmKqlQE=;
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71FED10E4F7;
+ Mon,  8 Sep 2025 12:39:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5D63D60051;
+ Mon,  8 Sep 2025 12:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D710C4CEF1;
+ Mon,  8 Sep 2025 12:39:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757335150;
+ bh=Kmgj7JQ2MfTOSMke4wzOHnSg8Sksyl64nAuAQ+DhI4A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K0tO+RKvONw47Vb6DcOEq59vOaCyXmscg2CA4ZtFGWOr+kOsn4z5I6Y/5nye3nj5x
- LIQkCsADIKbTfKmWxugl7PUUoE9k9GjU9lG1U/TNHHiQyEpODpCLEtTWaC8t08F2mA
- NnY19Wqro/E/f0txJMaaq/7V795XW556Rj5x9EMcQBbPeczz/5llghCZkN3fKWwKpS
- wjyc2NZCzrswtqgj+5E4Ez+IyKbPzRI7BMpLdHC29gq5MkPbzDAEHq/CYCtltk/kJB
- 4MWA28eIrhWlADVINLGFtj3ZOwWeuLeaVQL+j+0AZ2aJMPiO/uQiIIH63uvoWvsRHY
- sW/q6swCEb7zA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8847717E0199;
- Mon,  8 Sep 2025 14:34:01 +0200 (CEST)
-Message-ID: <c03e55a0-0d82-4e07-86cc-9738066df45b@collabora.com>
-Date: Mon, 8 Sep 2025 14:34:00 +0200
+ b=Ufv6Hcx6jWD5AxW92cK+ljuNUfSXKHnQZv3kXveaEsZj/qc477qtV8lnGeC+yl2LV
+ RS+Xs28IVJiEsEENic3DIoEPQdZSHhAU4cy+TktV0KVy4p51YIFXAv1grFur5A4cuH
+ 6bQZcKwbFMBzc6sdl3QoFscqqxGb0GSshxGjTLYgZ5ZSGs+wSs4Anmp+mAqfz/3G43
+ d2i25P5YPiPUgIUQnhTbmOJCWuiJLaNYNMsOWex5ofVrrPe+JZ78aYrYUP0jSNG4sY
+ WuOYdOOajtBz008C++gHVHO1nJV3AOOUYzXAxps+DjP5BGGjNMGuX5Ral+AlLsdZhH
+ w1T2hkMKtFUDQ==
+Message-ID: <af78dfb4-de61-4b8c-a131-cf39a4c3c4b0@kernel.org>
+Date: Mon, 8 Sep 2025 07:39:07 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 05/10] mailbox: add MediaTek GPUEB IPI mailbox
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250905-mt8196-gpufreq-v1-0-7b6c2d6be221@collabora.com>
- <20250905-mt8196-gpufreq-v1-5-7b6c2d6be221@collabora.com>
- <27159dc0-96f1-4d99-bf5e-cda0f9c7d307@collabora.com>
- <7865698.EvYhyI6sBW@workhorse>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v6 RESEND 00/11] Improvements to S5 power consumption
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
+ <linux-pm@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>
+References: <20250906143642.2590808-1-superm1@kernel.org>
+ <2025090852-coma-tycoon-9f37@gregkh>
 Content-Language: en-US
-In-Reply-To: <7865698.EvYhyI6sBW@workhorse>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <2025090852-coma-tycoon-9f37@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,112 +77,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/09/25 14:05, Nicolas Frattaroli ha scritto:
-> On Monday, 8 September 2025 12:06:01 Central European Summer Time AngeloGioacchino Del Regno wrote:
->> Il 05/09/25 12:23, Nicolas Frattaroli ha scritto:
->>> The MT8196 SoC uses an embedded MCU to control frequencies and power of
->>> the GPU. This controller is referred to as "GPUEB".
->>>
->>> It communicates to the application processor, among other ways, through
->>> a mailbox.
->>>
->>> The mailbox exposes one interrupt, which appears to only be fired when a
->>> response is received, rather than a transaction is completed. For us,
->>> this means we unfortunately need to poll for txdone.
->>>
->>> The mailbox also requires the EB clock to be on when touching any of the
->>> mailbox registers.
->>>
->>> Add a simple driver for it based on the common mailbox framework.
->>>
->>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>
->> Only a few nits in this, check below.
->>
->> [...]
->>> +
->>> +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *data)
->>> +{
->>> +	struct mtk_gpueb_mbox *ebm = dev_get_drvdata(chan->mbox->dev);
->>> +	unsigned int *num = chan->con_priv;
->>> +	int i;
->>
->> int i, j;
->>
->>> +	u32 *values = data;
->>> +
->>> +	if (*num >= ebm->v->num_channels)
->>> +		return -ECHRNG;
->>> +
->>> +	if (!ebm->v->channels[*num].no_response &&
->>> +	    atomic_read(&ebm->rx_status[*num]))
->>> +		return -EBUSY;
->>> +
->>> +	writel(BIT(*num), ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
->>> +
->>> +	/*
->>> +	 * We don't want any fancy nonsense, just write the 32-bit values in
->>> +	 * order. memcpy_toio/__iowrite32_copy don't work here, because fancy.
->>> +	 */
->>> +	for (i = 0; i < ebm->v->channels[*num].tx_len; i += 4) {
->>
->> Just use an additional `j` index, so that you can avoid division.
-> 
-> The `/ 4` division here is equivalent to a `>> 2` which comes free with
-> almost every instruction on arm64, I don't think having two separate
-> indices makes the code any clearer?
 
-> Unless I misunderstand how you'd
-> want me to use j here.
-> 
-> Like this?
-> 
->    j = 0;
->    for (i = 0; i < ebm->v->channels[*num].tx_len; i += 4) {
->      writel(values[j++], ebm->mbox_mmio + ebm->v->channels[*num].tx_offset + i);
->    }
-> 
-> This makes the relationship between the values index and i less clear. (And
-> in my rendition, assumes the reader knows how postincrement works, but I
-> think assuming people know C is fine.)
 
-I guess assuming people know that compilers will auto-optimize that is okay then.
+On 9/8/25 4:19 AM, Greg Kroah-Hartman wrote:
+> On Sat, Sep 06, 2025 at 09:36:31AM -0500, Mario Limonciello (AMD) wrote:
+>> A variety of issues both in function and in power consumption have been
+>> raised as a result of devices not being put into a low power state when
+>> the system is powered off.
+>>
+>> There have been some localized changes[1] to PCI core to help these issues,
+>> but they have had various downsides.
+>>
+>> This series instead tries to use the S4 flow when the system is being
+>> powered off.  This lines up the behavior with what other operating systems
+>> do as well.  If for some reason that fails or is not supported, run their
+>> shutdown() callbacks.
+>>
+>> Cc: AceLan Kao <acelan.kao@canonical.com>
+>> Cc: Kai-Heng Feng <kaihengf@nvidia.com>
+>> Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
+>> Cc: Merthan Karakaş <m3rthn.k@gmail.com>
+>> Cc: Eric Naim <dnaim@cachyos.org>
+>> ---
+>> v6 RESEND:
+>>   * Resent because Greg said he was ignoring it and would like the whole
+>>     series to be able to review.
+> 
+> Messy, but wow, I'll trust you all that this actually works properly.
 
-> 
->> [...]
->>
->>> +
->>> +	ebm->clk = devm_clk_get_enabled(ebm->dev, NULL);
->>> +	if (IS_ERR(ebm->clk))
->>> +		return dev_err_probe(ebm->dev, PTR_ERR(ebm->clk),
->>> +				     "Failed to get 'eb' clock\n");
->>> +
->>> +	ebm->mbox_mmio = devm_platform_ioremap_resource_byname(pdev, "mbox");
->>
->> I'd say that "chan" and "ctl" are more descriptive as resource names, but then,
->> do we really need to search by name?
-> 
-> In the binding, it was proposed to change "mbox" to something like "data",
-> which is fine by me, and to drop the "mbox" prefix of "ctl".
+Yes; I double checked from a UART log all devices (now) went to correct 
+state and from power measurement hardware the respective drop in power.
+
+I will note I have a sampling bias of hardware being x86 AMD hardware.
+Some of the testers of the series also tested Intel hardware which had 
+similar power consumption problem, and I know there were improvements 
+there too.
+
+We probably will have to wait for linux-next for non-x86 hardware coverage.
+> No objections from me, but I don't want my ack on this as I don't know
+> how to maintain it :)
 > 
 
-Heh, didn't see that comment. data and ctl are also fine for me, go with those :-)
+I mean - if all goes well even a failed S4 flow should fall back to old 
+path shutdown.  I *did contrive some failures* in an earlier version of 
+the series and confirmed in the UART log it emitted the printk that it 
+was falling back to shutdown.
 
->>
->> Doing that by index is also an option, as you can write the MMIO names and their
->> full description in the bindings instead.
-> 
-> Yeah in the driver I think I'll switch to doing indices until some second
-> compatible forces us to actually rely on names because it adds a bunch of
-> other ranges.
-> 
->> [...]
-> 
-> thanks for the feedback, assume that anything I didn't directly respond
-> to will be fixed in the next revision.
+I had two ideas that maybe could help for regression risk though:
+1) I could add a shutdown= kernel parameter.  I'm not sure what words to 
+use for the two paths but the idea would be if someone had a shutdown 
+failure they could isolate if it's due to this by adding the parameter.
 
-Perfect.
-
-Cheers,
-Angelo
+2) I could make a Documentation/ file explaining some examples how to 
+get the shutdown log saved to pstore in case they don't have a UART 
+available.
 
