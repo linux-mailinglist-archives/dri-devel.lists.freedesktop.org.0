@@ -2,79 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980DAB49456
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 17:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CCBB4949C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Sep 2025 18:01:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 239A610E15E;
-	Mon,  8 Sep 2025 15:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0FA110E17E;
+	Mon,  8 Sep 2025 16:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bbmc5oG0";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="coqkE+gC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB08E10E15D
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 15:55:01 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-3296a9d17d3so309870a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 08:55:01 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029DE10E17E
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Sep 2025 16:01:14 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2570bf6050bso7336845ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757346901; x=1757951701; darn=lists.freedesktop.org;
+ d=chromium.org; s=google; t=1757347273; x=1757952073;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ncy8rMYMPoo6qD4OwV7z755Sx/k/Cp6xU0Sc/P4F2ss=;
- b=bbmc5oG0w45v+gbUCrnjiNv301fTjQcCuCnQriN+JE0wxjsMpHXf2co7dWpHMBkVeW
- EeGtv4NatnJvScYri/loeLEKTtdNvl58Cmnc09smK8IE+oh6nl7sKy6o4ZpYMUeZn3Or
- lCw4GC0a6Af0/RNQXmXxFpy5VQJfFtVo0qOREIOiHJvb5SxsR5VHXmA1mlBgeoOhwhSF
- 5aHWzHf0QQHIeLzuXuRPpFxcbfcAMOBb6z27zGxC3HWjo7U72+4nbaQzPSMAXrZ0rDwS
- aeWE53PuC0Qbo8grCV/M6dIgsVqgLiqtvn8QsKWO9hVKQxkprVNjXEUde4DMC/FOjfye
- Te9g==
+ bh=XDUqzdcg17KtqKCQYpEmkhfy4yLIsN7gEnd2+8GZlgk=;
+ b=coqkE+gCP3G0un1FCZYYNm8iY3JlR3KNNkikExhaqRiS9PBjrpDLbIHyJdthKNCxAc
+ cqc+/Q8ZXS9jSbpTw/YdHlH9yBmqiQcuFtw/orKT84Ab8K+j+KwTR/NkWcHTUsMNhvRN
+ 2toZOOoOPCnsdfzJBzcdvL8fbTsGaywmK4TK0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757346901; x=1757951701;
+ d=1e100.net; s=20230601; t=1757347273; x=1757952073;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ncy8rMYMPoo6qD4OwV7z755Sx/k/Cp6xU0Sc/P4F2ss=;
- b=iB+9ppnV/AHl7P1a3qK6QAZuYMy8K9UIB538/RTr2LxIgz2Tbh/dZ5s9GMhJy5KbpQ
- RUTio+EXlU5NWtplh1CHkFC5QsMI2s+lX5I/CI/TBLBlR9GrsGCa4Ky0g/knm+IglVbP
- KVpox5ywiFYGPggO8JKikb94+sPf8F/oFj4HHMcTAKRBntk6m8AR6tj9nklgP5SfY4Nj
- cvk4ZTT9AE5Ei3Bmb26tayOrAVad5CLSRIDqkJWw4XmGm/3oMxECU6gJb8Tto5aQw5NU
- o2FDE+AVJfw7SrqOP2qw4yVHFs6g8KRt6Pp78lAS6EdtVXHeqtaCuM6ayajacKdVEZhc
- 8UnQ==
+ bh=XDUqzdcg17KtqKCQYpEmkhfy4yLIsN7gEnd2+8GZlgk=;
+ b=HChxIeqcsgcISkJOAbIzduFyt/hTbE24kpWYGaBbHo/w4KKQ6DCpwvYIqkhntOkMsY
+ EVl5Ms74tz/ACBVWyZO5P2S0Ta14xaZDJwRAEM4nW35FZLKXGOtBJwdDxDabz/0dbH1N
+ ZaRUvZNi+QM+CNy18WefkGvQu9gEPoK0ajIryj2aTK7OGdkOEORAHSIkl7f5HW5vcr6i
+ r+1T+Q/IvAGSvUzGRn0cIPsluBIW297gwuw9AY7nI0CTspuRHoOVlDCMX35ihV0kRd6E
+ 6abQCxp0XCsfdEeH0MLArwXD7/i6EqcSE+FjoFMG2da0gMR4V0fX/W4CyjwwNHSx+GWi
+ UsjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUlNXEU6c8FT+4iJ9J/pXlaKurxEve7Vm4uhzERE/jJ+dsXxflYznOZKu55wxiNulopmJ45YIYh7g0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzY3iLgLuIhmVlJCCwLxA/SzE+gKtgbRjlVtqJsTEsfP8PhsCdc
- ebXwT1DVsPxpyNCmyHD3Ow668Vt0Ouz8uj5RAi7CwWltndGmhovKS4lbr5Xg3pqdzeM0EgiIt4I
- DcEpqlZ9EQ49KWkN86Ga4V30lkGbbXIY=
-X-Gm-Gg: ASbGncs5JdAlnN9VE/JFaZ++08k9GQcwQZj6bJnJkIVONy09nxGKv7vSwsj6nGCKzM4
- 0KPq4ltYWWNOqZ9Bju1Ra9NPaOMSk97JOkZhwNk+LLFE1Y7b5owQDJYbHdL6AvOZd3xfq/1B1VI
- xFKghJdQlDXy47iux+Y+RF+a13XMIvlWayC2vy/iVvgRj+jNHCMNaLu5MM5DxB75cF5FahTJeeQ
- Ujj7SG2+HXEU4vbAQ==
-X-Google-Smtp-Source: AGHT+IGZSQ5JJVv+TntNrNjXPczNaBQa/rBlW+/B4duhLKucX8M6mTF04KFFT56z8aAM798hVCMz9iyyyiTT/FE7BWQ=
-X-Received: by 2002:a17:90b:38cb:b0:32b:dcef:f65f with SMTP id
- 98e67ed59e1d1-32d43f772e8mr6052003a91.3.1757346901055; Mon, 08 Sep 2025
- 08:55:01 -0700 (PDT)
+ AJvYcCV0P+D57g5Yi5xG3SBiDMxLIB/ZKGKUbzTS4OtbHcDFSmtEQfsKpfbd6+OhaV0Zs5yLPPoba4n4hoI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwSTAO5JgfacoEHNLW8IDj/ccEx64vSF2EjXfcGKhfeacRmBGY8
+ WNuaihVesZkerhR1JRKRu/EmKbCWJgTTOQGtBcsEJoJ0/MtHgqcGQm8Z+AhF4XiKA55qnnBGYN0
+ /B4Y=
+X-Gm-Gg: ASbGnctGfVXM2UCFuLp2BIsr+bc4GuR4m7QDVg2SnhQIoOXhAlp9Vn/Se25H+TV3FJX
+ EcvJcw1hq2jLoV+7Ihs/HRPrY6xCKwOzbSfQEkl3lrG34Td7nXMQfD8BzCm5gfQgR98jDsQ0P5a
+ CotnPICH5Qx0zz/ypf5N8lzB39AGW++Y+WoW5ta+VUeQwMHwgurmIUPEPClJ2QKu3avWAS2uA6b
+ vHzVBxnBqobP/BCOwqwiIV0vgV3wnH1XL6Zeqcy4ufEskU+KXq/G7Ax9t1DxW++rF9UPi4veS3u
+ jO1gqOaBbgsmOUQ31u/u+wNVUmuZED0GXt/P4gyFhsF1oF/xkyJfhmLM8a+8OLgySJLWVl6RAAO
+ otI9FJez/FeyRo1rgNCwbV0/NhZEek1pfxFsl5auX7fE+PYs3aXzQr+qKeSbYZCwhHnrkGDriDE
+ wp
+X-Google-Smtp-Source: AGHT+IFqd4FrKSJWS8dh4vAu9CmXpbQJEeYeHmHdXtkw2NogBFafmZYehzcP1T9q9y/qZPJDZuHNvw==
+X-Received: by 2002:a17:903:40c5:b0:249:308:353 with SMTP id
+ d9443c01a7336-25173ea19fbmr104250975ad.41.1757347272611; 
+ Mon, 08 Sep 2025 09:01:12 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com.
+ [209.85.214.180]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-24c8e94b34esm148745295ad.94.2025.09.08.09.01.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Sep 2025 09:01:11 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-244582738b5so37976035ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 09:01:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXldJPkiowQ9qqx0I0FM8inbR45WcrVnHnPfXnOlm9eISYLI7cCW+s0thQq7oMRP4sp5oCCM7vw/KQ=@lists.freedesktop.org
+X-Received: by 2002:a17:902:ec8e:b0:24c:cca1:7cfc with SMTP id
+ d9443c01a7336-251761680f7mr126471995ad.59.1757347269705; Mon, 08 Sep 2025
+ 09:01:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250908-ifpc-support-v2-0-631b1080bf91@oss.qualcomm.com>
- <20250908-ifpc-support-v2-7-631b1080bf91@oss.qualcomm.com>
-In-Reply-To: <20250908-ifpc-support-v2-7-631b1080bf91@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Mon, 8 Sep 2025 11:54:49 -0400
-X-Gm-Features: Ac12FXwZh4Knfa5C5jRkwC4PMADG3bi9JxMMu92KfaQYtzGrloYElebo2U4Ct24
-Message-ID: <CACu1E7H_K0WbWsHDqD44YfyMvc9bfZon-Tx75LkBFqWdG2YZ=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 07/16] drm/msm/adreno: Add fenced regwrite support
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Antonino Maniscalco <antomani103@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+References: <20250908063732.764289-1-wuzhongtian@huaqin.corp-partner.google.com>
+In-Reply-To: <20250908063732.764289-1-wuzhongtian@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 8 Sep 2025 09:00:56 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
+X-Gm-Features: Ac12FXxPVHg-eiaA8fURwy48KzU3M4U1RJrwAg8wF2uEv9ufhRs9yYWmoT3IaoQ
+Message-ID: <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/panel-edp: Add 4 more panels needed by mt8189
+ Chromebooks
+To: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,244 +103,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 8, 2025 at 4:27=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qualcomm=
-.com> wrote:
->
-> There are some special registers which are accessible even when GX power
-> domain is collapsed during an IFPC sleep. Accessing these registers
-> wakes up GPU from power collapse and allow programming these registers
-> without additional handshake with GMU. This patch adds support for this
-> special register write sequence.
->
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 80 +++++++++++++++++++++++++=
-+++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 20 ++++----
->  3 files changed, 90 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 45dd5fd1c2bfcb0a01b71a326c7d95b0f9496d99..a63dad80ef461da45d5c41a04=
-2ed4f19d8282ef5 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -16,6 +16,84 @@
->
->  #define GPU_PAS_ID 13
->
-> +static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 valu=
-e, u32 status, u32 mask)
-> +{
-> +       /* Success if !writedropped0/1 */
-> +       if (!(status & mask))
-> +               return true;
-> +
-> +       udelay(10);
-> +
-> +       /* Try to update fenced register again */
-> +       gpu_write(gpu, offset, value);
-> +
-> +       /* We can't do a posted write here because the power domain could=
- be
-> +        * in collapse state. So use the heaviest barrier instead
-> +        */
-> +       mb();
-> +       return false;
-> +}
-> +
-> +static int fenced_write(struct a6xx_gpu *a6xx_gpu, u32 offset, u32 value=
-, u32 mask)
-> +{
-> +       struct adreno_gpu *adreno_gpu =3D &a6xx_gpu->base;
-> +       struct msm_gpu *gpu =3D &adreno_gpu->base;
-> +       struct a6xx_gmu *gmu =3D &a6xx_gpu->gmu;
-> +       u32 status;
-> +
-> +       gpu_write(gpu, offset, value);
-> +
-> +       /* Nothing else to be done in the case of no-GMU */
-> +       if (adreno_has_gmu_wrapper(adreno_gpu))
-> +               return 0;
-> +
-> +       /* We can't do a posted write here because the power domain could=
- be
-> +        * in collapse state. So use the heaviest barrier instead
-> +        */
-> +       mb();
-> +
-> +       if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
-> +                       fence_status_check(gpu, offset, value, status, ma=
-sk), 0, 1000))
-> +               return 0;
-> +
-> +       /* Try again for another 1ms before failing */
-> +       gpu_write(gpu, offset, value);
-> +       mb();
-> +
-> +       if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
-> +                       fence_status_check(gpu, offset, value, status, ma=
-sk), 0, 1000)) {
-> +               /*
-> +                * The 'delay' warning is here because the pause to print=
- this
-> +                * warning will allow gpu to move to power collapse which
-> +                * defeats the purpose of continuous polling for 2 ms
-> +                */
-> +               dev_err_ratelimited(gmu->dev, "delay in fenced register w=
-rite (0x%x)\n",
-> +                               offset);
-> +               return 0;
-> +       }
-> +
-> +       dev_err_ratelimited(gmu->dev, "fenced register write (0x%x) fail\=
-n",
-> +                       offset);
-> +
-> +       return -ETIMEDOUT;
-> +}
-> +
-> +int a6xx_fenced_write(struct a6xx_gpu *a6xx_gpu, u32 offset, u64 value, =
-u32 mask, bool is_64b)
-> +{
-> +       int ret;
-> +
-> +       ret =3D fenced_write(a6xx_gpu, offset, lower_32_bits(value), mask=
-);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (!is_64b)
-> +               return 0;
-> +
-> +       ret =3D fenced_write(a6xx_gpu, offset + 1, upper_32_bits(value), =
-mask);
-> +
-> +       return ret;
-> +}
-> +
->  static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
->  {
->         struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> @@ -86,7 +164,7 @@ static void a6xx_flush(struct msm_gpu *gpu, struct msm=
-_ringbuffer *ring)
->         /* Update HW if this is the current ring and we are not in preemp=
-t*/
->         if (!a6xx_in_preempt(a6xx_gpu)) {
->                 if (a6xx_gpu->cur_ring =3D=3D ring)
-> -                       gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-> +                       a6xx_fenced_write(a6xx_gpu, REG_A6XX_CP_RB_WPTR, =
-wptr, BIT(0), false);
->                 else
->                         ring->restore_wptr =3D true;
->         } else {
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.h
-> index 6e71f617fc3d0d564e51650dfed63a18f31042ac..e736c59d566b3fcf8c62a2124=
-94e3b110c09caa9 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -295,5 +295,6 @@ int a6xx_gpu_state_put(struct msm_gpu_state *state);
->
->  void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, =
-bool gx_off);
->  void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert);
-> +int a6xx_fenced_write(struct a6xx_gpu *gpu, u32 offset, u64 value, u32 m=
-ask, bool is_64b);
+Hi,
 
-"mask" makes it sound like it's the mask for a masked write, which it
-isn't. At least in the public API I'd name it something more explicit
-like "fence_status_mask". Also it would be nice to add defines like
-GMU_FENCE_STATUS_WPTR/CONTEXT_SWITCH to make the parameter values in
-callsites less magical. Finally, this might be personal preference,
-but it's not immediately obvious what the "true"/"false" in callsites
-mean, so it would make users clearer to add a separate
-"a6xx_fenced_write64" and make 64-bit reg writes use that instead of
-is_64b.
+On Sun, Sep 7, 2025 at 11:37=E2=80=AFPM Zhongtian Wu
+<wuzhongtian@huaqin.corp-partner.google.com> wrote:
+>
+> Add a few generic edp panels used by mt8189 chromebooks. For
+> BOE-NV140WUM-N44 , the enable timing required 80ms. For
+> CSW-MNE007QB3-1, the hpd_absent timing rquired 80ms, the enable timing
+> required 50ms, the disable timing required 50ms. For CSW-MNE007QS3-6,
+> the enable timing required 50ms. For CMN-N140JCA-ELK, the enable timing
+> required 80ms and disable timing required 50ms.
+>
+> BOE NV140WUM-N44 V8.2
+> edid-decode (hex):
+>
+> 00 ff ff ff ff ff ff 00 09 e5 6a 0a 00 00 00 00
+> 2e 20 01 04 a5 1e 13 78 03 fb f5 96 5d 5a 91 29
+> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 61 40 80 04 71 b0 3c 40 30 20
+> 36 00 2d bc 10 00 00 1a 81 33 80 04 71 b0 3c 40
+> 30 20 36 00 2d bc 10 00 00 1a 00 00 00 fd 00 28
+> 3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+> 00 4e 56 31 34 30 57 55 4d 2d 4e 34 34 0a 01 7c
+>
+> 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+>
+> CSW MNE007QB3-1:
+> edid-decode (hex):
+>
+> 00 ff ff ff ff ff ff 00 0e 77 6e 14 00 00 00 00
+> 00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
+> 36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
+> 30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+> 3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
+> 00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 69
+>
+> 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+> 00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
+> 5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
+> 20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
+> 00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
+> ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+>
+> CSW MNE007QS3-6:
+> edid-decode (hex):
+>
+> 00 ff ff ff ff ff ff 00 0e 77 3f 14 00 00 00 00
+> 00 22 01 04 a5 1e 13 78 03 2c c5 94 5c 59 95 29
+> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
+> 36 00 2e bd 10 00 00 1a 88 31 80 c8 70 b0 2e 40
+> 30 20 36 00 2e bd 10 00 00 1a 00 00 00 fd 00 28
+> 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fc
+> 00 4d 4e 45 30 30 37 51 53 33 2d 36 0a 20 01 80
+>
+> 70 20 79 02 00 81 00 14 74 1a 00 00 03 01 28 3c
+> 00 00 00 00 00 00 3c 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 9e 90
+>
+> CMN N140JCA-ELK:
+> edid-decode (hex):
+>
+> 00 ff ff ff ff ff ff 00 0d ae 41 14 00 00 00 00
+> 25 21 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
+> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
+> a6 00 2d bc 10 00 00 18 35 30 80 a0 70 b0 24 40
+> 30 20 a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+> 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+> 00 4e 31 34 30 4a 43 41 2d 45 4c 4b 0a 20 01 14
+>
+> 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
 
-Connor
+Note that I hadn't actually provided my Reviewed-by tag on your
+previous version, so you shouldn't have included it here. Even if I
+responded to the patch, the Reviewed-by tag means that I've happy with
+it and I did not provide that on your previous version.
 
->
->  #endif /* __A6XX_GPU_H__ */
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/=
-msm/adreno/a6xx_preempt.c
-> index 6a12a35dabff1e64aae8440c2a8c88f5feb4803e..10625ffbc4cfc26edc36efcf1=
-1dbb4efd55ab3e0 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
-> @@ -41,7 +41,7 @@ static inline void set_preempt_state(struct a6xx_gpu *g=
-pu,
->  }
->
->  /* Write the most recent wptr for the given ring into the hardware */
-> -static inline void update_wptr(struct msm_gpu *gpu, struct msm_ringbuffe=
-r *ring)
-> +static inline void update_wptr(struct a6xx_gpu *a6xx_gpu, struct msm_rin=
-gbuffer *ring)
->  {
->         unsigned long flags;
->         uint32_t wptr;
-> @@ -51,7 +51,7 @@ static inline void update_wptr(struct msm_gpu *gpu, str=
-uct msm_ringbuffer *ring)
->         if (ring->restore_wptr) {
->                 wptr =3D get_wptr(ring);
->
-> -               gpu_write(gpu, REG_A6XX_CP_RB_WPTR, wptr);
-> +               a6xx_fenced_write(a6xx_gpu, REG_A6XX_CP_RB_WPTR, wptr, BI=
-T(0), false);
->
->                 ring->restore_wptr =3D false;
->         }
-> @@ -172,7 +172,7 @@ void a6xx_preempt_irq(struct msm_gpu *gpu)
->
->         set_preempt_state(a6xx_gpu, PREEMPT_FINISH);
->
-> -       update_wptr(gpu, a6xx_gpu->cur_ring);
-> +       update_wptr(a6xx_gpu, a6xx_gpu->cur_ring);
->
->         set_preempt_state(a6xx_gpu, PREEMPT_NONE);
->
-> @@ -268,7 +268,7 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->          */
->         if (!ring || (a6xx_gpu->cur_ring =3D=3D ring)) {
->                 set_preempt_state(a6xx_gpu, PREEMPT_FINISH);
-> -               update_wptr(gpu, a6xx_gpu->cur_ring);
-> +               update_wptr(a6xx_gpu, a6xx_gpu->cur_ring);
->                 set_preempt_state(a6xx_gpu, PREEMPT_NONE);
->                 spin_unlock_irqrestore(&a6xx_gpu->eval_lock, flags);
->                 return;
-> @@ -302,13 +302,13 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->
->         spin_unlock_irqrestore(&ring->preempt_lock, flags);
->
-> -       gpu_write64(gpu,
-> -               REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO,
-> -               a6xx_gpu->preempt_smmu_iova[ring->id]);
-> +       a6xx_fenced_write(a6xx_gpu,
-> +               REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO, a6xx_gpu->preempt_s=
-mmu_iova[ring->id],
-> +               BIT(1), true);
->
-> -       gpu_write64(gpu,
-> +       a6xx_fenced_write(a6xx_gpu,
->                 REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR,
-> -               a6xx_gpu->preempt_iova[ring->id]);
-> +               a6xx_gpu->preempt_iova[ring->id], BIT(1), true);
->
->         a6xx_gpu->next_ring =3D ring;
->
-> @@ -328,7 +328,7 @@ void a6xx_preempt_trigger(struct msm_gpu *gpu)
->         set_preempt_state(a6xx_gpu, PREEMPT_TRIGGERED);
->
->         /* Trigger the preemption */
-> -       gpu_write(gpu, REG_A6XX_CP_CONTEXT_SWITCH_CNTL, cntl);
-> +       a6xx_fenced_write(a6xx_gpu, REG_A6XX_CP_CONTEXT_SWITCH_CNTL, cntl=
-, BIT(1), false);
->  }
->
->  static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
->
-> --
-> 2.50.1
->
+...in this particular case it turns out that I _am_ happy with the
+current version, but you should have still let me say that and not
+added the tag yourself...
+
+...hmmm, and then I tried to apply your patch and it didn't apply
+cleanly. :( Please post your patches for edp-panel against
+drm-misc-next. This makes it so I don't need to manually fix things
+up... I've fixed it up myself this time, but next time I'll ask you to
+send a new version.
+
+In any case, I've gone ahead and pushed it to drm-misc-next:
+
+
+[1/1] drm/panel-edp: Add 4 more panels needed by mt8189 Chromebooks
+      commit: 490b30fbaca2abbd6afa8bdc7e2df329b5d82412
