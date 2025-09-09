@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCC4B4FDFD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:49:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A214DB4FE1F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:52:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D967910E760;
-	Tue,  9 Sep 2025 13:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06FD810E778;
+	Tue,  9 Sep 2025 13:52:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GUNS3aBv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m4P90aeS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59FDF10E760
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:49:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4BC0A60224;
- Tue,  9 Sep 2025 13:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2CAC4CEF7;
- Tue,  9 Sep 2025 13:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757425764;
- bh=49gZNr2H7kccNqE5XR78ZGc2FVHa7pQDJF9bw7z2c/Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GUNS3aBv17s4mfY42cI+aghlpnercgKfmDtnImYtucNS6mqCKtDfNjOg7amxH+TCK
- lcRE+yACfehHA02LBH75TsHgCypy4X7IrXAltdoQE1cU+5/lT/mA6gHsaxgtTnb13f
- M2UTl1+Lq722rHyS6+Ti0VxP+8qZk+dOau/p9c2RMWfY78/iVUO2mzjsLyG6DLb12X
- ocIzKXKbBHI9TBREkqbp1DPYZNq4GU6GIPzALkARqLgs+PPfAdwldPFrV/44sYB6DM
- ykflOQV27hBIj8dmdVDne81ZDm2DHnJLUWiGMnW57Tl6x1WVcoQEL3UdT8IZrpFW2T
- N1nep5yJQq4EA==
-Date: Tue, 9 Sep 2025 15:49:22 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
- Pengutronix <kernel@pengutronix.de>, linux-pwm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
- with sane defaults
-Message-ID: <7zae3uaz5wdk2ktmg44aqdnfjglklqujtktslvlye3ssd3xvbv@qwwjiip6kgfo>
-References: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
- <n6rltuxqwybh2mwzz3hxi3tzix2c7q3mbovscobzzmkj6puo6w@gc3qnchjlagq>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C971810E77C
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:52:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757425945; x=1788961945;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=cB60dTH36cJn6bhj7LO4fYyxsqTwnBK5gWYnVm8iKcc=;
+ b=m4P90aeSp08u2fdRRTzZbaPXCgG5GZnLqdywp6JvJyJujpNIHP7Z/Iie
+ rg9IuvwhB7YpR4Z3xE2gM7QGdjDT9ob9VVDTGaU/zADm6f2yjO2vVuhsi
+ oN7ANv7s4idN6NgyKG31qyakYo2FopV+t/HZ2468KWzviG8oFWvkmKj1a
+ UC0tcxPehyCBqTlvc/EcJtq0X8CbzfB0lpqMU7/biPfhrX92TFI0YRa4e
+ mkIlPtn8nEunvO3axkssCce59cOETwGgiZhR4Kateahd4PY/b0oCch1CO
+ 1cJvYwc+fWUVXrkQMRWeJ1ASAQvdE1hIoKFUhKr2u4j+txE3O/RW6CHak w==;
+X-CSE-ConnectionGUID: ZfUxaLFjT7S/cEAxrKvVJQ==
+X-CSE-MsgGUID: pQ2pQieURN2FccvotjdhzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63540498"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="63540498"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2025 06:52:24 -0700
+X-CSE-ConnectionGUID: uOtQ303AQT+UUb7RYD4Arg==
+X-CSE-MsgGUID: emVJJelAQGC2XlamoX9law==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="177148881"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.181])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2025 06:52:22 -0700
+Date: Tue, 9 Sep 2025 16:52:18 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org
+Subject: Re: [PATCH v3 37/39] drm/ingenic: crtc: Switch to
+ ingenic_drm_get_new_priv_state()
+Message-ID: <aMAxEjIJOvxmOj2D@intel.com>
+References: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
+ <20250909-drm-no-more-existing-state-v3-37-1c7a7d960c33@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d5ajcr2dlqwa72tk"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <n6rltuxqwybh2mwzz3hxi3tzix2c7q3mbovscobzzmkj6puo6w@gc3qnchjlagq>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250909-drm-no-more-existing-state-v3-37-1c7a7d960c33@kernel.org>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,108 +78,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 09, 2025 at 01:27:56PM +0200, Maxime Ripard wrote:
+> The ingenic CRTC atomic_enable() implementation will indirectly call
+> drm_atomic_get_private_obj_state() through ingenic_drm_get_priv_state().
+> 
+> drm_atomic_get_private_obj_state() will either return the new state for
+> the object in the global state if it exists, or will allocate a new one
+> and add it to the global state.
+> 
+> atomic_enable() however isn't allowed to modify the global state. So
+> what the implementation should use is the
+> drm_atomic_get_new_private_obj_state() helper to get the new state for
+> the CRTC, without performing an extra allocation.
+> 
+> The ingenic driver has a wrapper around that helper with
+> ingenic_drm_get_new_priv_state(), so let's use that instead.
+> 
+> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 
+> ---
+> To: Paul Cercueil <paul@crapouillou.net>
+> Cc: linux-mips@vger.kernel.org
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 05faed933e5619c796f2a4fa1906e0eaa029ac68..a1b641d63fc500dc169d0b0e22f93168c343a242 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -245,11 +245,11 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>  {
+>  	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
+>  	struct ingenic_drm_private_state *priv_state;
+>  	unsigned int next_id;
+>  
+> -	priv_state = ingenic_drm_get_priv_state(priv, state);
+> +	priv_state = ingenic_drm_get_new_priv_state(priv, state);
+>  	if (WARN_ON(IS_ERR(priv_state)))
 
---d5ajcr2dlqwa72tk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
- with sane defaults
-MIME-Version: 1.0
+get_new_state() will never return an error pointer. It's either
+a valid pointer or NULL.
 
-Hello Michael,
+To me it looks like this could potentially be NULL here as the
+get_pvi_state() call is done from the plane .atomic_check()
+whereas this gets called for the crtc. So if the plane is
+disabled there might not be any private state included in the
+commit.
 
-On Fri, Aug 01, 2025 at 08:32:20AM +0200, Uwe Kleine-K=F6nig wrote:
-> Hallo Michael,
->=20
-> On Thu, Jul 31, 2025 at 10:47:18AM +0200, Michael Grzeschik wrote:
-> > diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight=
-/pwm_bl.c
-> > index 237d3d3f3bb1a..5924e0b9f01e7 100644
-> > --- a/drivers/video/backlight/pwm_bl.c
-> > +++ b/drivers/video/backlight/pwm_bl.c
-> > @@ -518,13 +518,6 @@ static int pwm_backlight_probe(struct platform_dev=
-ice *pdev)
-> >  	if (!state.period && (data->pwm_period_ns > 0))
-> >  		state.period =3D data->pwm_period_ns;
-> > =20
-> > -	ret =3D pwm_apply_might_sleep(pb->pwm, &state);
-> > -	if (ret) {
-> > -		dev_err_probe(&pdev->dev, ret,
-> > -			      "failed to apply initial PWM state");
-> > -		goto err_alloc;
-> > -	}
-> > -
-> >  	memset(&props, 0, sizeof(struct backlight_properties));
-> > =20
-> >  	if (data->levels) {
-> > @@ -582,6 +575,15 @@ static int pwm_backlight_probe(struct platform_dev=
-ice *pdev)
-> >  	pb->lth_brightness =3D data->lth_brightness * (div_u64(state.period,
-> >  				pb->scale));
-> > =20
-> > +	state.duty_cycle =3D compute_duty_cycle(pb, data->dft_brightness, &st=
-ate);
-> > +
-> > +	ret =3D pwm_apply_might_sleep(pb->pwm, &state);
-> > +	if (ret) {
-> > +		dev_err_probe(&pdev->dev, ret,
-> > +			      "failed to apply initial PWM state");
-> > +		goto err_alloc;
-> > +	}
-> > +
->=20
-> I wonder why the PWM is updated at all in .probe(). Wouldn't it be the
-> natural thing to keep the PWM configured as it was (in its reset default
-> state or how the bootloader set it up)?
->=20
-> Orthogonal to your change, while looking at the driver I wondered about:
->=20
->         bl =3D backlight_device_register(dev_name(&pdev->dev), &pdev->dev=
-, pb,
->                                        &pwm_backlight_ops, &props);
->         if (IS_ERR(bl)) {
->                 ret =3D dev_err_probe(&pdev->dev, PTR_ERR(bl),
->                                     "failed to register backlight\n");
->                 goto err_alloc;
->         }
->=20
->         if (data->dft_brightness > data->max_brightness) {
->                 dev_warn(&pdev->dev,
->                          "invalid default brightness level: %u, using %u\=
-n",
->                          data->dft_brightness, data->max_brightness);
->                 data->dft_brightness =3D data->max_brightness;
->         }
->=20
->         bl->props.brightness =3D data->dft_brightness;
->         bl->props.power =3D pwm_backlight_initial_power_state(pb);
->         backlight_update_status(bl);
->=20
-> Shoudn't setting data->dft_brightness, bl->props.brightness and
-> bl->props.power better happen before backlight_device_register()? Also
-> calling backlight_update_status() after backlight_device_register()
-> seems wrong to me, I'd claim the backend driver shouldn't call that.
+Not sure how this driver/hardware is supposed to work so not
+sure what the proper fix for that is...
 
-Do you intend to work on this orthogonal feedback? If not, I'll put it
-on my todo list.
+>  		return;
+>  
+>  	/* Set addresses of our DMA descriptor chains */
+>  	next_id = priv_state->use_palette ? HWDESC_PALETTE : 0;
+> 
+> -- 
+> 2.50.1
 
-Best regards
-Uwe
-
---d5ajcr2dlqwa72tk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjAMFsACgkQj4D7WH0S
-/k4BWQgAuXV/ULnAxDCQ3VIqXyMJPZ9q/2BOe6oUyBZUls9TN9oBBE97kCYQT03v
-nY/10hGSr8Pf3XZ/VJfXQX7LCV/Scc0U0Ufz2Pwtb01s7zERx4SgBlHW9k/a4IB8
-UQ/BmYixfkuQoVFsNhjzgsyzR0Yul5abMKBwWme86iu3L4PWWzs0Nt8p0otOV5Yw
-HabxoMBQTTVx2MvK8u9tWB3xkinIzXxVDowWKB7FR7kQpcoCxy6XJnAI0BSwDvNV
-8YywwiaiNGdecrHj0vBDY7yTPiiT8BKAi1H3SiwFdn3cO//lnhbqzNHntPQ1N67V
-ZoGfcECUaGfqJL2w5nsRXewnLty7qA==
-=YVsb
------END PGP SIGNATURE-----
-
---d5ajcr2dlqwa72tk--
+-- 
+Ville Syrjälä
+Intel
