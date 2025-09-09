@@ -2,58 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75525B4FB8F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 14:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70BEB4FBAC
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 14:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D648510E6F3;
-	Tue,  9 Sep 2025 12:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA2910E251;
+	Tue,  9 Sep 2025 12:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c4X4uqyv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZbzKiCSB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tw9itUrg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qmJUvxJL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ILUMtr8i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F9D10E6F3
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 12:44:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 702876022C;
- Tue,  9 Sep 2025 12:44:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F702C4CEFA;
- Tue,  9 Sep 2025 12:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757421878;
- bh=G038WdmGog4EOZkMKmHCh7lB80pDgiLXpw68xAADWy0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c4X4uqyvlp6gUsJ4r2eTVIpmXLfsAakB6LGSEO4rASOOqjyuijntUOt0spXPjEEcT
- b7PR10UZdAQM02yy0+sfuP+i1oDEcN7w8QWQbecb/MMUbY8F6bF4ZWFqLIh3uF0OVU
- tNuZA7/l57HjJvY85c2UBdr2yU9Y9REW5KghwrERmAuyGweHt9a6eryhsduhKltIik
- gt5jXrdYjcBGIaYRysVGXP1MVj61kG3QCXJhfxn4mdGKPeoEFaurJ8dXrX7PhnM3V7
- uM9YJcr2/xtvkr0aZ8Jg0GLn1+II+S7Iu+23aFwAamSQdoz+jtMBxtASiXJBBFx4nb
- xB7PGDv1VYdXg==
-Date: Tue, 9 Sep 2025 14:44:35 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/29] drm/atomic: Implement drm_atomic_print_old_state
-Message-ID: <20250909-visionary-unyielding-loon-b214d4@houat>
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-7-14ad5315da3f@kernel.org>
- <42e891ee-87b8-448e-a0c7-4f3e3b790556@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5511710E251
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 12:49:05 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EAFED20C91;
+ Tue,  9 Sep 2025 12:49:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757422144; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=qYaTzJuYbbm4BqbCL9GhBQDSJqv2Cy4NQB/DONIo1Gk=;
+ b=ZbzKiCSBICcQ2Sr0jrdb+ZuzhYtnQqcYFxVQBkOkOp8qti1xYgyd0DvB3m2dtnUnWR3TBl
+ 1U/NIt9RuyNQ/do5FPdKJflL2QCipNe1lbc2pUdXTSDcxxuJ9OK6SPJ5qsKXLaEmQT4l5g
+ tbKgYe2XMkRsRNm7s3sewFRWu68pX+E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757422144;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=qYaTzJuYbbm4BqbCL9GhBQDSJqv2Cy4NQB/DONIo1Gk=;
+ b=Tw9itUrgd1/aoUuzIRff0G2jSWilrMY3c7p88b6lpwOEJtirnz1lhC/SMlb18V0qchOjQp
+ ce7crL4LoiB1bPAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qmJUvxJL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ILUMtr8i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757422143; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=qYaTzJuYbbm4BqbCL9GhBQDSJqv2Cy4NQB/DONIo1Gk=;
+ b=qmJUvxJL87aMUj28eD971Eq2MnDuwOoDDfyPf0N0lV4+ScKTPhuwYE8Ic+2J3ciNdp5eDr
+ /cd2A9lsqtcr0AdVqnBm4NoFPtNzO+Fc0QYuBm5MK4Cw2ebuC+516puEJNH/c1QapYEQbe
+ es1b50+sLM13vrwTGoqFUgMiGYFvHM4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757422143;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=qYaTzJuYbbm4BqbCL9GhBQDSJqv2Cy4NQB/DONIo1Gk=;
+ b=ILUMtr8i5+jGisRgLDvm71Dj+u7p9hVVC7mDOkOkaOK3X6EhXJZRne0bGuIrlcc8hEdzmc
+ XyEyi+IQ7ekiN0Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7E0F1388C;
+ Tue,  9 Sep 2025 12:49:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mnBaKz8iwGilUAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Sep 2025 12:49:03 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: sam@ravnborg.org,
+	simona@ffwll.ch,
+	deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/5] fbcon: Move bitops callbacks into separate struct
+Date: Tue,  9 Sep 2025 14:44:40 +0200
+Message-ID: <20250909124616.143365-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="523zrlvehmcdve4w"
-Content-Disposition: inline
-In-Reply-To: <42e891ee-87b8-448e-a0c7-4f3e3b790556@suse.de>
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: EAFED20C91
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[ravnborg.org,ffwll.ch,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +116,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Instances of fbcon use a number callbacks to support tile-based
+drawing or console rotation. The fields are writeable in struct
+fbcon_ops. Each case; unrotated, various rotated and tile-based
+drawing; uses a set of related calbacks. Updating these 'bitops'
+at runtime is spread throughout various helper functions.
 
---523zrlvehmcdve4w
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 07/29] drm/atomic: Implement drm_atomic_print_old_state
-MIME-Version: 1.0
+This series puts related callbacks into dedicated instances of the
+new type struct fbcon_bitops. Changing the callbacks at runtime
+then only requires to pick the correct instance. It further allows
+the various struct fbcon_bitops' to be declared 'static const', which
+makes them write-protected at runtime.
 
-Hi Thomas,
+v2:
+- rename struct fbcon_ops to struct fbcon_par
+- drop patch 6
 
-On Tue, Sep 02, 2025 at 03:26:49PM +0200, Thomas Zimmermann wrote:
-> Am 02.09.25 um 10:32 schrieb Maxime Ripard:
-> > We currently have a helper to print the new states associated to a
-> > drm_atomic_state, but we don't have a variant to print the old state.
-> >=20
-> > It's somewhat expected, since we almost never care about what the new
-> > state looks like when we commit a new state, but we're about to change
-> > that.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
->=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Thomas Zimmermann (5):
+  fbcon: Fix empty lines in fbcon.h
+  fbcon: Rename struct fbcon_ops to struct fbcon_par
+  fbcon: Set rotate_font callback with related callbacks
+  fbcon: Move fbcon callbacks into struct fbcon_bitops
+  fbcon: Streamline setting rotated/unrotated bitops
 
-Thanks!
+ drivers/video/fbdev/core/bitblit.c      | 122 +++----
+ drivers/video/fbdev/core/fbcon.c        | 459 ++++++++++++------------
+ drivers/video/fbdev/core/fbcon.h        |  17 +-
+ drivers/video/fbdev/core/fbcon_ccw.c    | 151 ++++----
+ drivers/video/fbdev/core/fbcon_cw.c     | 151 ++++----
+ drivers/video/fbdev/core/fbcon_rotate.c |  47 +--
+ drivers/video/fbdev/core/fbcon_rotate.h |  18 +-
+ drivers/video/fbdev/core/fbcon_ud.c     | 167 ++++-----
+ drivers/video/fbdev/core/softcursor.c   |  18 +-
+ drivers/video/fbdev/core/tileblit.c     |  32 +-
+ 10 files changed, 604 insertions(+), 578 deletions(-)
 
-> I assume something later in the series uses this code?
+-- 
+2.51.0
 
-Yeah, the readout code calls it to print the state that was built from
-the hardware state.
-
-Maxime
-
---523zrlvehmcdve4w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMAhLgAKCRAnX84Zoj2+
-dsJGAYCBTlTkqCHclm5b+I28vqbLA3bm50x5sHbJsN+hVR8xn8a97ufHx9J1M9ss
-g6yAMp4Bf2dsrNnKywO5o0l9amNLMh4RswJ0TNueZPOuRpfQamBueGlqrspsG1Zj
-1ZaZney8ew==
-=a6zA
------END PGP SIGNATURE-----
-
---523zrlvehmcdve4w--
