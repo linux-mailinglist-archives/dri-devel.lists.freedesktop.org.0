@@ -2,176 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D73B4FFBE
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BAEB4FFBF
 	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 16:43:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2486B10E748;
-	Tue,  9 Sep 2025 14:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D12210E746;
+	Tue,  9 Sep 2025 14:43:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oK0ywa0m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b/H9+Vt+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C2A10E746;
- Tue,  9 Sep 2025 14:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757428989; x=1788964989;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=RzhRi1e5HLaKtIaUbijEfUeMbA+h3UZ9l664Rlu4RFE=;
- b=oK0ywa0mHJTNm212DySZEUfGAtxjIXeds77cn6s3RSqjNQK0aV/W5+VI
- 4VH3ERMg/gX4dgzl9Sss9VE/bOMAVTrP7G33nSBlQCyCh0K71dwAHShr3
- wWv/KpRwtQLedH6Oln8b1WLiEfg94U3wZSzwXPG1itn4Fzdlvjw/2Z4sN
- pb2Ki6Wl5I+fbnwdQyWHtN3i7S6nyAQbWfG/Vw2Pvmre0X653/JD3HjoI
- uRhE9qw/auePbxaLYRk6BV67XIOuFxHYZYX7NNH2ByFUjc6L1ED7CB4Mz
- kgmGI7/+fi9DZELVbZTrzNp5uZ5+xBDfjOCthvrA9R3xzoXoFMRnKwUus A==;
-X-CSE-ConnectionGUID: 5lvaoPhiRPixyNbksUESdg==
-X-CSE-MsgGUID: 2zdkTPgaRr+7t2IBRMLUfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="47287293"
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="47287293"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2025 07:43:09 -0700
-X-CSE-ConnectionGUID: L8uKPx7QSwWBsRaVUdy8fw==
-X-CSE-MsgGUID: T+4P070wRVKju4q9oHtOnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="172270969"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2025 07:43:09 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 9 Sep 2025 07:43:08 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Tue, 9 Sep 2025 07:43:08 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.72) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 9 Sep 2025 07:43:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XDkCXY05fJTqXgGsBw2xEeN3PVTRVJ/igIIC1LxJe349TevLpwXpBt0l/402rnlufHiUwf9VLqzkQ7pK3cYSduAAuUlB6q13FSkaaKjosagNnaDMQdu1T0l4NC7aQcc7M0ibBA815rDLUGBRAkn66rffvdO9s3WsDPi831NOIwqDPySf47FOtXGERFlogkhDmpzBv5+/TwVaSIawAp1lSSVREABErDiBxZnYjow6tjt7zmdcG200l4NIsYLeXcFHut085BVrNoPsCyCNDAIV6hEz3dTtWLRiXojbeZA4CoVF4U1jDKEyJkCXKgkFfB5jCyvdLeprxjAIBVIaDq7diQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D7EeMEBRyxTXtEabyaqLR5/+ztZYDX+Doq5etY6FlKM=;
- b=pSS4lQRWQA0S90WdI75z1C9eZ8KzJK9T7C9GKkQpZwfnstR7BZhNOT6qbnRkPYF11rTGNQyFKc+6f2qFbiRupB8h/NHLmIjELUNhqi31jAy6yeCwzlkZFKOAfUcn7yoL5L+SHejnEkGmAITtDU2V2vTfBQlcS0hUyoqLCG4TYIbXG/+WPSVHT7wq7m7JbdEjC0xP4LsfWDO6Brko/yjU5Zt4bpcQATkqnxYWzU0+1RoB3WHcj24x6hvNvSrj2ydBN/Ks3MvbJhC9CIYzvRhoUAtN30wkmYcaej7k7/qJFO3K+0avuNYOxarBMfATRD0JdEDQdnXM3PXZVI9LiSHv9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by DS7PR11MB8808.namprd11.prod.outlook.com (2603:10b6:8:257::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Tue, 9 Sep
- 2025 14:43:05 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
- 14:43:05 +0000
-Date: Tue, 9 Sep 2025 09:43:02 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: "Usyskin, Alexander" <alexander.usyskin@intel.com>
-CC: "Nilawar, Badal" <badal.nilawar@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Gupta,
- Anshuman" <anshuman.gupta@intel.com>, "Vivi, Rodrigo"
- <rodrigo.vivi@intel.com>, "gregkh@linuxfoundation.org"
- <gregkh@linuxfoundation.org>, "Ceraolo Spurio, Daniele"
- <daniele.ceraolospurio@intel.com>, "mika.westerberg@linux.intel.com"
- <mika.westerberg@linux.intel.com>, "Poosa, Karthik" <karthik.poosa@intel.com>
-Subject: Re: [PATCH v9 2/9] mei: late_bind: add late binding component driver
-Message-ID: <wuy7xx57puqytyigl2fbosluckauxikgdvcrdvtubbob6olvyl@wlbsiuquprep>
-References: <20250905154953.3974335-1-badal.nilawar@intel.com>
- <20250905154953.3974335-3-badal.nilawar@intel.com>
- <tbflj3r6picnz7pzhiz77gzhrdnmfxlruhtas4rfrvm27dapss@3wqf4dd2lmsx>
- <CY5PR11MB63665FAB1FE8D8CBE17C31CEED0FA@CY5PR11MB6366.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CY5PR11MB63665FAB1FE8D8CBE17C31CEED0FA@CY5PR11MB6366.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BYAPR04CA0027.namprd04.prod.outlook.com
- (2603:10b6:a03:40::40) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F26110E751
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 14:43:16 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45b9814efbcso44205745e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 07:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757428994; x=1758033794; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3y69VaX35J/tfEjI7DpVu56Yu7jJMxF1+Xj/X73Q42E=;
+ b=b/H9+Vt+i29ubu3YgNxxVOIa6aNy3sAG1P6g5NofUuiMXz/amo9w5iNg6gQFwz+ClT
+ oPMbzbY14xTlJ9ltnxiDtNo9/ethvPxauCGVFUWJRr/IU/nCz4eSgGd24YTw+fRgULy9
+ MvGbvp6P1Js9SMzU1Rx0jxBP0z9sQH6FXdSv6guxJq185KaR9UBDOIksImuroD/ocUkB
+ w2YfqSSdKj7UdLEwdm1/IOLR+GagpRRTGn2PIYmRdRkYWoxU7S63LNERzfXyVztbU9e7
+ 453nCIWxSP9b/iIywo/tM8jQ074NnVhKwLjFEsz4QVwdDpzTy1EgNqQ+KJNRD+0IEnUP
+ gkew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757428994; x=1758033794;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3y69VaX35J/tfEjI7DpVu56Yu7jJMxF1+Xj/X73Q42E=;
+ b=f4HtG0ZgEiTPQENhu0BZ/ftveDTvSYFxWbteiy9pr9bBxOWiT816kXG10Lh3JlDskd
+ tsy72Sjoyiyeji+L+JVgPtTygwcirhH4nCAoux+ieftRIY1Z1Q1DK1PRXfKLScf3NTd/
+ 91WRKL0G1RxvQoTK8tQJnXUFBwUF8O74EkGiXvF+f/Ps9/WpdS3ulihy6iTG1d57CDqT
+ 0GUyJXLG/cLIZeZK90G843P5htJ4sII2H0UC6t2l4Gh0YObrNNg3V6Koea69vXXAeSJr
+ y8GG+10FXMWpvTfZpXmUtLXmdPite+xkLBvkTli2RddnpndU0D+ip9t8TLI+TxiT+F2T
+ ePCw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUVo6mpuA0GZrhLfHDosjAAt7Z1b+6OnzhzJX4weN7i4ZN1xNm9lMGCk9QdqFVpa9qFPRhtzfTjcI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJqm2eg3pby9yHTVkEPVha/abOQkLGh5IsG//OyAHwFYtUavW5
+ Ce+8Hz/eJx6ML3vfQdaT68lkTrkAUSNoGoq3mXrUDVRft4rc3Amcqb/i
+X-Gm-Gg: ASbGnctZGwkOUp0QBL8vnKihfErJ+A9Rg8qSK+Y1m2sn14Ay9SvX+dlSj9ReJCDoFKn
+ aAlKRZ3NOJrmF0TPJc4KXga8O/3hL1aH+wurycwycdGU4WvbyfwYZ0WUCDWeIarFsndAvB+Adt2
+ 4DsjH6HlG4WpjpjDiI3oIWuEsghmose7uf32pICWLSpOONytE+4mVeRjMbwhMYxTUjHs/s0NDEt
+ NMD7QzUKilynSRvbXQZ8jJTS5aJESejut6wHfjfBJCjK2IPvJ4qp874tkbd+wTqvumBJNMp14Yv
+ /OHgUUC72iBKZF9DpwltMkuo4rfWzeBOXVZxKmwb2z/0EQYIJHspbphAMPxkVpnXQWrjNe9UiZM
+ VGug8A1K5kncYsflMwhnWQ1Xewk7KdTs75C4XKeIsojjZ8Vc=
+X-Google-Smtp-Source: AGHT+IF9ORFPvzGJSMSR7GF5Tcdz3Pbfg9EiS+7gC8YRMl/MiDe36BGdMt/BesPGUW4sFQ6iTqqm1A==
+X-Received: by 2002:a5d:5847:0:b0:3d8:3560:59f4 with SMTP id
+ ffacd0b85a97d-3e304826643mr14543347f8f.15.1757428993985; 
+ Tue, 09 Sep 2025 07:43:13 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:1512:4200:1d99:fe9c:a858:d06a])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45decf8759esm43088525e9.23.2025.09.09.07.43.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 07:43:13 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: rename ttm_bo_put to _fini v3
+Date: Tue,  9 Sep 2025 16:43:11 +0200
+Message-ID: <20250909144311.1927-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DS7PR11MB8808:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18159c85-fff7-42e0-960a-08ddefaf2f97
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|27256017;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5gDY1LcElEuO0CBdXMtYUF+z38y6VtcITEfCrdhO3OXg+vI2Vh3zjR1CQq6c?=
- =?us-ascii?Q?Jg2/8mT08cnefxadkYyccep/nEQJ1B/679ucIAqtRX+2kv47G6DyRn3icCE3?=
- =?us-ascii?Q?ZiL+sXF7GMwdprFzYE8FXEFcfNOmW9SaUPZLqSA2NEIiJqAKhIwC+mkJ1mHR?=
- =?us-ascii?Q?NpfTpdag0oMUKuYYiviecRzR295m8rl0gJXSQNeT7hMg642bYAO5z+0cezaP?=
- =?us-ascii?Q?P3Bo6O0sikgocVT3Mx57CWlksMgsa6VBYYF7Mgwc08Y05WStO6b/L8RCkCaQ?=
- =?us-ascii?Q?kV4JExzzilYdRr7qqlPzFmvI6PSdJ4XgezzOi4OeCQf9UQ42/M6kq+NKYKIy?=
- =?us-ascii?Q?wF9BkL2mn01Kb9N3cGCb6UCEr8HykOYsUeFSELIxz9JuMvBGLcTB753f1OxD?=
- =?us-ascii?Q?JQpLuzAJslgKE08d6x0Le/8b69mkBHCP4cvLDnrZ0CzIUDf4ffLkjulIOMJQ?=
- =?us-ascii?Q?dTGS3VA2rocUQKgRWz0ySxj1a7CpDhkwnWRA98MRoBwn/JnY3VcyIzu8pc0r?=
- =?us-ascii?Q?OWQ/pejsqR6Vw0azixP2AIKHH18DaKd/r9RdsRsHZzIjm2yGbm7GidmfqHOi?=
- =?us-ascii?Q?WxL1ZEiLbFUTvzLMu8CoK5sHFKlEVkpexOkP7D8U/m6sfu6DFO841pkyh9hu?=
- =?us-ascii?Q?8k/A2SdXSX2aUjULQc2CnkRDMVENCtWYxyHVsQR/ddaZhePhJy0pnYqC2Xm6?=
- =?us-ascii?Q?snUb3qNFyedxVNXscmGu9qtKD4FtNtNdk5Ld5+61AzvFNTxNi82lGN74SLs+?=
- =?us-ascii?Q?tXLGjPKNiK0gdjWe5Dm1fEiz975fzfyb9S6tptWIbWei4OQptm58zG37Vi9j?=
- =?us-ascii?Q?xCwUqvuaxmHWTBCXPBCz3EgVO2m6jSXG8MWGQqGv+JrsfSzl1tBi1B/hkSVt?=
- =?us-ascii?Q?5aVhi20Me8BluQn93VaTsnqn4L/j3wpScpvqsIQMwIofnaNDGp7Ce+GvklW+?=
- =?us-ascii?Q?SMcp4oLpn1AcdR4aXRwdtGt5WPPcyDGXtWoA6OsMP27LR9kbxiwoNQZ+2R66?=
- =?us-ascii?Q?g6PByOP8FTkCbYnT/jFDjdLP4TXDeP0kRheremWWvIgp5FWY3N4drzWmt55t?=
- =?us-ascii?Q?oCbEBWl9TmN7faFqI7XqlDoxEW0QBTElSPcvLyMOVNUeHSO9up0lj7Iy07iw?=
- =?us-ascii?Q?bVfyYC/YFI9RrwHvuTaLNQ5/b9LNwbJFRuAt9lI6FOn9SMNGKl1OvOPbtuA8?=
- =?us-ascii?Q?eWtdwt3qhO4cF9cTT28s1Qh+Rweq8YQ9qGsb/fcXIOQRYkqpelgsKPaeGjPf?=
- =?us-ascii?Q?EyZga4gGRsOrqm8xrKKjMtB9j8CHcPwGC6MnBGxS2VQkvCIiroHsKSQcYx24?=
- =?us-ascii?Q?aNaXytJ9I92l6lbQwRX5hVDgb2SyruMfzJYTtxfKZRGOOJZWvN5KxAb8YyuV?=
- =?us-ascii?Q?6rb5ffAk22pJsDswV2cFCgBd/EY8Vps+0sUTo9Zz/SA777olG21BGlBVWznK?=
- =?us-ascii?Q?WjkZFOVCVE/OqXQIktBDWUPyN0mzqZxREvzel8nOwtGk3x3rUyXqDQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(27256017); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VP+AazWAGsMwKcMNOsuRAXAn8rhHNRbtsFSbz2BoB5dgMihzDS+YwdzmUMOZ?=
- =?us-ascii?Q?3IgrijzK/N4YeWVHys9pAPLGUY+oaAfWcnC1R5HMMgeyHEVB3vPPwPL9E/p8?=
- =?us-ascii?Q?MhrHpYxJalJmHj3lLb4kv+YxQdpYa1GGxWyu/qacmmRpM0Ax9gcvPGWoeO5e?=
- =?us-ascii?Q?Vmt+Q+vMn27gVEvfLKfy6NDZAKwWRlmCv6nHvyyH6bEREy7bZPA+t7NzO6Om?=
- =?us-ascii?Q?96THttyQuBkVYvIfc1fR55HuOC13/r1UldXZ5RZivKx662G5CiJLKqH5xa6y?=
- =?us-ascii?Q?vsnbj592RR865YM3ohL1FhtgpQiqKN8ruwFhz8sn3i/X6nXV3ngoEl2ms7B2?=
- =?us-ascii?Q?grhnhLo0oI6T7XHyeRWdK24y57Uvk8m5WIeuMwXnPpW5/UmjG7hGIw7H1bOL?=
- =?us-ascii?Q?jpptJhYrdXlUMJaZyunoKH9H/FMwJxNckjxS+b8EN4CNCpGLFMShDXIeH3D7?=
- =?us-ascii?Q?jRrF3sd1sFCPE5wCZY6RnUe3oJblREAoE296ZJ7LHT68OdeNi4PYnjxo6sTW?=
- =?us-ascii?Q?E70OAA/aMmJxre+uDffx1OsoQfXApJEz//7bwm29WXQwdmkjjap1EmkCgYhr?=
- =?us-ascii?Q?ba5vqdylwi2B2Sq08FyKjBr1NovE+jkOb8H1hHS5VMgOnMqPbU3XhQUUyFUg?=
- =?us-ascii?Q?6k6LtqcwGe7HkDqnwnb++8HtKMmfdDbr5BQlzH/O1od2It5pJB/rvCSMwpsB?=
- =?us-ascii?Q?7bJ0hqVWXa+ZTvF5qDfiRJduDSe5+qSh3rI4p/XzYRkvSfL9wUZp26IjOXRR?=
- =?us-ascii?Q?d24liBMMl3BO4jREW5D1WOb3WuagpYSyqaF8eEIusOjB/L8IhDwLoWAJC+Bc?=
- =?us-ascii?Q?XT5AVm2fba3hZnw23s7WD2v9SymaFGAUjn1Ob+wECv+cku35S1Vvv6LL/c7a?=
- =?us-ascii?Q?YRMah7aOqIljyKT6BB27hnb9YO3NSPYgtM3YoIjEYxbSbLWwVNxVFaiDHKP1?=
- =?us-ascii?Q?9+wqimD2WPh3W1VFjVgS4bzxdyNLn2fRExsz08fxT+w4YXgJId8WgOWjZBaZ?=
- =?us-ascii?Q?vgIEQOAVIAjbdeERW9cjKYZfxUDJnWCy4dA3/wUMu+XeS4SrvQieRDVKmM95?=
- =?us-ascii?Q?tPxjlBBxtRR3mXsNSpEFnI5ZNscHxjCSQo1tdGiZpKZTzmF4tB+kt2UMvP5o?=
- =?us-ascii?Q?+mgWzera7zD1gtalRv/0KE2DEgnBbrXzDr9EyUnj/ypT8N17OqHnGacFu4R0?=
- =?us-ascii?Q?IquDUa5TZjqXHN/AhFl9UYmPlm3cEihqaLD8RTd4eXZ9pdl0Hwe2zqE8XRKp?=
- =?us-ascii?Q?jyV3kL3Zm25XsWZ+GrZ8i4XiODB75q2QixXXVmXBCtEeiIYhrUPSfJStiqB+?=
- =?us-ascii?Q?66obgQyV9R7hVDocuanufxxvo5q/mTQlq7/AYHeZZXhMDP1GnJX8UfPn4Hx9?=
- =?us-ascii?Q?HYxghkeXphhYK4CjW6uoVpdQbjjfoiFmhVmb0gAcD6u3LxTHy58Uk1tvl5kO?=
- =?us-ascii?Q?xmQArc8QCqPX7ixY27DgVc+JDaH1TloACnvPs5eJgy47eR/4yrKdkc/9pIL/?=
- =?us-ascii?Q?MVZ7zC/aMgCqkgD/0gm+ahjKEUIghcqviPljr9cY8r/pF0+S6N2y4JcepHMR?=
- =?us-ascii?Q?E7nFE+A1zl62IZF5BvMIP8Ggxs3rlzfBlpSMRfo0nIECeqQ5maj1C65PF74z?=
- =?us-ascii?Q?+g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18159c85-fff7-42e0-960a-08ddefaf2f97
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 14:43:05.4998 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /o4dWKRhra5Lez70c8z8dyQ6BHvu6xfuCgF9mMcMho4GHqWF4BLWgfeIihx9ctAIZ993HkAhLthOrLpVd+p3Lo+AkL2nfD+cTRMW4nIKSbQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8808
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,52 +87,510 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 09, 2025 at 04:50:41AM +0000, Usyskin, Alexander wrote:
->> >+static int mei_lb_component_match(struct device *dev, int subcomponent,
->> >+				  void *data)
->> >+{
->> >+	/*
->> >+	 * This function checks if requester is Intel %PCI_CLASS_DISPLAY_VGA
->> or
->> >+	 * %PCI_CLASS_DISPLAY_OTHER device, and checks if the requester is
->> the
->> >+	 * grand parent of mei_if i.e. late bind MEI device
->> >+	 */
->> >+	struct device *base = data;
->> >+	struct pci_dev *pdev;
->> >+
->> >+	if (!dev)
->> >+		return 0;
->> >+
->> >+	if (!dev_is_pci(dev))
->> >+		return 0;
->> >+
->> >+	pdev = to_pci_dev(dev);
->> >+
->> >+	if (pdev->vendor != PCI_VENDOR_ID_INTEL)
->> >+		return 0;
->> >+
->> >+	if (pdev->class != (PCI_CLASS_DISPLAY_VGA << 8) &&
->> >+	    pdev->class != (PCI_CLASS_DISPLAY_OTHER << 8))
->>
->> this doesn't seem right, we should allow other PCI classes. AFAICS this
->> check could just be removed and just leave the INTEL_COMPONENT_LB below
->> to protect for component match
->>
->> Lucas De Marchi
->>
->
->The subcomponent is unique only in its own instance of the component framework.
->Or I'm wrong here?
->We have to ensure that we have Intel display device, not any other device to
->subcomponent check to work correctly.
+Give TTM BOs a separate cleanup function.
 
-We are matching by child-parent relationship + the component id. So you
-have both the mei device and another pci device that added that specific
-subcomponent and both need to have a common parent. Thinking about
-another device that would match the parent-child relationship:  audio,
-but audio doesn't add that.
+No funktional change, but the next step in removing the TTM BO reference
+counting and replacing it with the GEM object reference counting.
 
-what scenario would cause a false match that I'm not seeing?
+v2: move the code around a bit to make it clearer what's happening
+v3: fix nouveau_bo_fini as well
 
-Lucas De Marchi
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c         |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  4 +-
+ drivers/gpu/drm/loongson/lsdc_gem.c           |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bo.h          |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.c         |  2 +-
+ drivers/gpu/drm/qxl/qxl_gem.c                 |  2 +-
+ drivers/gpu/drm/radeon/radeon_gem.c           |  2 +-
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 12 ++--
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 60 +++++++++----------
+ drivers/gpu/drm/ttm/ttm_bo.c                  | 15 +++--
+ drivers/gpu/drm/ttm/ttm_bo_internal.h         |  2 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |  2 +-
+ drivers/gpu/drm/xe/xe_bo.c                    |  2 +-
+ include/drm/ttm/ttm_bo.h                      |  2 +-
+ 15 files changed, 59 insertions(+), 58 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index 6626a6e64ff5..0a5b204086f3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -198,7 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+ 	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
+ 
+ 	amdgpu_hmm_unregister(aobj);
+-	ttm_bo_put(&aobj->tbo);
++	ttm_bo_fini(&aobj->tbo);
+ }
+ 
+ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index b04cde4a60e7..90760d0ca071 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -107,7 +107,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+ 
+ static void drm_gem_vram_cleanup(struct drm_gem_vram_object *gbo)
+ {
+-	/* We got here via ttm_bo_put(), which means that the
++	/* We got here via ttm_bo_fini(), which means that the
+ 	 * TTM buffer object in 'bo' has already been cleaned
+ 	 * up; only release the GEM object.
+ 	 */
+@@ -234,11 +234,11 @@ EXPORT_SYMBOL(drm_gem_vram_create);
+  * drm_gem_vram_put() - Releases a reference to a VRAM-backed GEM object
+  * @gbo:	the GEM VRAM object
+  *
+- * See ttm_bo_put() for more information.
++ * See ttm_bo_fini() for more information.
+  */
+ void drm_gem_vram_put(struct drm_gem_vram_object *gbo)
+ {
+-	ttm_bo_put(&gbo->bo);
++	ttm_bo_fini(&gbo->bo);
+ }
+ EXPORT_SYMBOL(drm_gem_vram_put);
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 1f4814968868..57bb111d65da 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1029,7 +1029,7 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+ {
+ 	GEM_BUG_ON(!obj->ttm.created);
+ 
+-	ttm_bo_put(i915_gem_to_ttm(obj));
++	ttm_bo_fini(i915_gem_to_ttm(obj));
+ }
+ 
+ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+@@ -1325,7 +1325,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 * If this function fails, it will call the destructor, but
+ 	 * our caller still owns the object. So no freeing in the
+ 	 * destructor until obj->ttm.created is true.
+-	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
++	 * Similarly, in delayed_destroy, we can't call ttm_bo_fini()
+ 	 * until successful initialization.
+ 	 */
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), bo_type,
+diff --git a/drivers/gpu/drm/loongson/lsdc_gem.c b/drivers/gpu/drm/loongson/lsdc_gem.c
+index a720d8f53209..22d0eced95da 100644
+--- a/drivers/gpu/drm/loongson/lsdc_gem.c
++++ b/drivers/gpu/drm/loongson/lsdc_gem.c
+@@ -57,7 +57,7 @@ static void lsdc_gem_object_free(struct drm_gem_object *obj)
+ 	struct ttm_buffer_object *tbo = to_ttm_bo(obj);
+ 
+ 	if (tbo)
+-		ttm_bo_put(tbo);
++		ttm_bo_fini(tbo);
+ }
+ 
+ static int lsdc_gem_object_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
+index d59fd12268b9..6c26beeb427f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.h
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
+@@ -57,7 +57,7 @@ nouveau_bo(struct ttm_buffer_object *bo)
+ static inline void
+ nouveau_bo_fini(struct nouveau_bo *bo)
+ {
+-	ttm_bo_put(&bo->bo);
++	ttm_bo_fini(&bo->bo);
+ }
+ 
+ extern struct ttm_device_funcs nouveau_bo_driver;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 690e10fbf0bd..395d92ab6271 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -87,7 +87,7 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
+ 		return;
+ 	}
+ 
+-	ttm_bo_put(&nvbo->bo);
++	ttm_bo_fini(&nvbo->bo);
+ 
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+diff --git a/drivers/gpu/drm/qxl/qxl_gem.c b/drivers/gpu/drm/qxl/qxl_gem.c
+index fc5e3763c359..d26043424e95 100644
+--- a/drivers/gpu/drm/qxl/qxl_gem.c
++++ b/drivers/gpu/drm/qxl/qxl_gem.c
+@@ -39,7 +39,7 @@ void qxl_gem_object_free(struct drm_gem_object *gobj)
+ 	qxl_surface_evict(qdev, qobj, false);
+ 
+ 	tbo = &qobj->tbo;
+-	ttm_bo_put(tbo);
++	ttm_bo_fini(tbo);
+ }
+ 
+ int qxl_gem_object_create(struct qxl_device *qdev, int size,
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index f86773f3db20..18ca1bcfd2f9 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -86,7 +86,7 @@ static void radeon_gem_object_free(struct drm_gem_object *gobj)
+ 
+ 	if (robj) {
+ 		radeon_mn_unregister(robj);
+-		ttm_bo_put(&robj->tbo);
++		ttm_bo_fini(&robj->tbo);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+index 6c77550c51af..5426b435f702 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+@@ -379,7 +379,7 @@ static void ttm_bo_unreserve_bulk(struct kunit *test)
+ 	dma_resv_fini(resv);
+ }
+ 
+-static void ttm_bo_put_basic(struct kunit *test)
++static void ttm_bo_fini_basic(struct kunit *test)
+ {
+ 	struct ttm_test_devices *priv = test->priv;
+ 	struct ttm_buffer_object *bo;
+@@ -410,7 +410,7 @@ static void ttm_bo_put_basic(struct kunit *test)
+ 	dma_resv_unlock(bo->base.resv);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static const char *mock_name(struct dma_fence *f)
+@@ -423,7 +423,7 @@ static const struct dma_fence_ops mock_fence_ops = {
+ 	.get_timeline_name = mock_name,
+ };
+ 
+-static void ttm_bo_put_shared_resv(struct kunit *test)
++static void ttm_bo_fini_shared_resv(struct kunit *test)
+ {
+ 	struct ttm_test_devices *priv = test->priv;
+ 	struct ttm_buffer_object *bo;
+@@ -463,7 +463,7 @@ static void ttm_bo_put_shared_resv(struct kunit *test)
+ 	bo->type = ttm_bo_type_device;
+ 	bo->base.resv = external_resv;
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static void ttm_bo_pin_basic(struct kunit *test)
+@@ -616,8 +616,8 @@ static struct kunit_case ttm_bo_test_cases[] = {
+ 	KUNIT_CASE(ttm_bo_unreserve_basic),
+ 	KUNIT_CASE(ttm_bo_unreserve_pinned),
+ 	KUNIT_CASE(ttm_bo_unreserve_bulk),
+-	KUNIT_CASE(ttm_bo_put_basic),
+-	KUNIT_CASE(ttm_bo_put_shared_resv),
++	KUNIT_CASE(ttm_bo_fini_basic),
++	KUNIT_CASE(ttm_bo_fini_shared_resv),
+ 	KUNIT_CASE(ttm_bo_pin_basic),
+ 	KUNIT_CASE(ttm_bo_pin_unpin_resource),
+ 	KUNIT_CASE(ttm_bo_multiple_pin_one_unpin),
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+index 1bcc67977f48..3a1eef83190c 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+@@ -144,7 +144,7 @@ static void ttm_bo_init_reserved_sys_man(struct kunit *test)
+ 				  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
+ 
+ 	ttm_resource_free(bo, &bo->resource);
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static void ttm_bo_init_reserved_mock_man(struct kunit *test)
+@@ -186,7 +186,7 @@ static void ttm_bo_init_reserved_mock_man(struct kunit *test)
+ 				  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
+ 
+ 	ttm_resource_free(bo, &bo->resource);
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ }
+ 
+@@ -221,7 +221,7 @@ static void ttm_bo_init_reserved_resv(struct kunit *test)
+ 	KUNIT_EXPECT_PTR_EQ(test, bo->base.resv, &resv);
+ 
+ 	ttm_resource_free(bo, &bo->resource);
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static void ttm_bo_validate_basic(struct kunit *test)
+@@ -265,7 +265,7 @@ static void ttm_bo_validate_basic(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bo->resource->placement,
+ 			DRM_BUDDY_TOPDOWN_ALLOCATION);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+ }
+ 
+@@ -292,7 +292,7 @@ static void ttm_bo_validate_invalid_placement(struct kunit *test)
+ 
+ 	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static void ttm_bo_validate_failed_alloc(struct kunit *test)
+@@ -321,7 +321,7 @@ static void ttm_bo_validate_failed_alloc(struct kunit *test)
+ 
+ 	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	ttm_bad_manager_fini(priv->ttm_dev, mem_type);
+ }
+ 
+@@ -353,7 +353,7 @@ static void ttm_bo_validate_pinned(struct kunit *test)
+ 	ttm_bo_unpin(bo);
+ 	dma_resv_unlock(bo->base.resv);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static const struct ttm_bo_validate_test_case ttm_mem_type_cases[] = {
+@@ -403,7 +403,7 @@ static void ttm_bo_validate_same_placement(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+ 	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, 0);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 
+ 	if (params->mem_type != TTM_PL_SYSTEM)
+ 		ttm_mock_manager_fini(priv->ttm_dev, params->mem_type);
+@@ -452,7 +452,7 @@ static void ttm_bo_validate_busy_placement(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
+ 	KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo->priority]));
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	ttm_bad_manager_fini(priv->ttm_dev, fst_mem);
+ 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+ }
+@@ -495,7 +495,7 @@ static void ttm_bo_validate_multihop(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2);
+ 	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, final_mem);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
+ 	ttm_mock_manager_fini(priv->ttm_dev, tmp_mem);
+@@ -567,7 +567,7 @@ static void ttm_bo_validate_no_placement_signaled(struct kunit *test)
+ 		KUNIT_ASSERT_TRUE(test, flags & TTM_TT_FLAG_ZERO_ALLOC);
+ 	}
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static int threaded_dma_resv_signal(void *arg)
+@@ -635,7 +635,7 @@ static void ttm_bo_validate_no_placement_not_signaled(struct kunit *test)
+ 	/* Make sure we have an idle object at this point */
+ 	dma_resv_wait_timeout(bo->base.resv, usage, false, MAX_SCHEDULE_TIMEOUT);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ }
+ 
+ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
+@@ -668,7 +668,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, mem_type);
+ 	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	dma_fence_put(man->move);
+ }
+ 
+@@ -753,7 +753,7 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+ 	else
+ 		KUNIT_EXPECT_EQ(test, bo->resource->mem_type, fst_mem);
+ 
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo);
+ 	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
+ 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+ }
+@@ -807,8 +807,8 @@ static void ttm_bo_validate_happy_evict(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bos[1].resource->mem_type, mem_type);
+ 
+ 	for (i = 0; i < bo_no; i++)
+-		ttm_bo_put(&bos[i]);
+-	ttm_bo_put(bo_val);
++		ttm_bo_fini(&bos[i]);
++	ttm_bo_fini(bo_val);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
+@@ -852,12 +852,12 @@ static void ttm_bo_validate_all_pinned_evict(struct kunit *test)
+ 
+ 	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
+ 
+-	ttm_bo_put(bo_small);
++	ttm_bo_fini(bo_small);
+ 
+ 	ttm_bo_reserve(bo_big, false, false, NULL);
+ 	ttm_bo_unpin(bo_big);
+ 	dma_resv_unlock(bo_big->base.resv);
+-	ttm_bo_put(bo_big);
++	ttm_bo_fini(bo_big);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
+@@ -916,13 +916,13 @@ static void ttm_bo_validate_allowed_only_evict(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bo_evictable->resource->mem_type, mem_type_evict);
+ 	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2 + BO_SIZE);
+ 
+-	ttm_bo_put(bo);
+-	ttm_bo_put(bo_evictable);
++	ttm_bo_fini(bo);
++	ttm_bo_fini(bo_evictable);
+ 
+ 	ttm_bo_reserve(bo_pinned, false, false, NULL);
+ 	ttm_bo_unpin(bo_pinned);
+ 	dma_resv_unlock(bo_pinned->base.resv);
+-	ttm_bo_put(bo_pinned);
++	ttm_bo_fini(bo_pinned);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
+@@ -973,8 +973,8 @@ static void ttm_bo_validate_deleted_evict(struct kunit *test)
+ 	KUNIT_EXPECT_NULL(test, bo_big->ttm);
+ 	KUNIT_EXPECT_NULL(test, bo_big->resource);
+ 
+-	ttm_bo_put(bo_small);
+-	ttm_bo_put(bo_big);
++	ttm_bo_fini(bo_small);
++	ttm_bo_fini(bo_big);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ }
+ 
+@@ -1025,8 +1025,8 @@ static void ttm_bo_validate_busy_domain_evict(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, bo_init->resource->mem_type, mem_type);
+ 	KUNIT_EXPECT_NULL(test, bo_val->resource);
+ 
+-	ttm_bo_put(bo_init);
+-	ttm_bo_put(bo_val);
++	ttm_bo_fini(bo_init);
++	ttm_bo_fini(bo_val);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ 	ttm_bad_manager_fini(priv->ttm_dev, mem_type_evict);
+@@ -1070,8 +1070,8 @@ static void ttm_bo_validate_evict_gutting(struct kunit *test)
+ 	KUNIT_ASSERT_NULL(test, bo_evict->resource);
+ 	KUNIT_ASSERT_TRUE(test, bo_evict->ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC);
+ 
+-	ttm_bo_put(bo_evict);
+-	ttm_bo_put(bo);
++	ttm_bo_fini(bo_evict);
++	ttm_bo_fini(bo);
+ 
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ }
+@@ -1128,9 +1128,9 @@ static void ttm_bo_validate_recrusive_evict(struct kunit *test)
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+ 	ttm_mock_manager_fini(priv->ttm_dev, mem_type_evict);
+ 
+-	ttm_bo_put(bo_val);
+-	ttm_bo_put(bo_tt);
+-	ttm_bo_put(bo_mock);
++	ttm_bo_fini(bo_val);
++	ttm_bo_fini(bo_tt);
++	ttm_bo_fini(bo_mock);
+ }
+ 
+ static struct kunit_case ttm_bo_validate_test_cases[] = {
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index f4d9e68b21e7..9c9e132558d4 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -318,18 +318,17 @@ static void ttm_bo_release(struct kref *kref)
+ 	bo->destroy(bo);
+ }
+ 
+-/**
+- * ttm_bo_put
+- *
+- * @bo: The buffer object.
+- *
+- * Unreference a buffer object.
+- */
++/* TODO: remove! */
+ void ttm_bo_put(struct ttm_buffer_object *bo)
+ {
+ 	kref_put(&bo->kref, ttm_bo_release);
+ }
+-EXPORT_SYMBOL(ttm_bo_put);
++
++void ttm_bo_fini(struct ttm_buffer_object *bo)
++{
++	ttm_bo_put(bo);
++}
++EXPORT_SYMBOL(ttm_bo_fini);
+ 
+ static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
+ 				     struct ttm_operation_ctx *ctx,
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_internal.h b/drivers/gpu/drm/ttm/ttm_bo_internal.h
+index 9d8b747a34db..e0d48eac74b0 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_internal.h
++++ b/drivers/gpu/drm/ttm/ttm_bo_internal.h
+@@ -55,4 +55,6 @@ ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
+ 	return bo;
+ }
+ 
++void ttm_bo_put(struct ttm_buffer_object *bo);
++
+ #endif
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index eedf1fe60be7..39f8c46550c2 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -37,7 +37,7 @@ static void vmw_gem_object_free(struct drm_gem_object *gobj)
+ {
+ 	struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gobj);
+ 	if (bo)
+-		ttm_bo_put(bo);
++		ttm_bo_fini(bo);
+ }
+ 
+ static int vmw_gem_object_open(struct drm_gem_object *obj,
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 18f27da47a36..8830f0142881 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -1668,7 +1668,7 @@ static void xe_gem_object_free(struct drm_gem_object *obj)
+ 	 * refcount directly if needed.
+ 	 */
+ 	__xe_bo_vunmap(gem_to_xe_bo(obj));
+-	ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
++	ttm_bo_fini(container_of(obj, struct ttm_buffer_object, base));
+ }
+ 
+ static void xe_gem_object_close(struct drm_gem_object *obj,
+diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+index 479b7ed075c0..da5c2e4971dc 100644
+--- a/include/drm/ttm/ttm_bo.h
++++ b/include/drm/ttm/ttm_bo.h
+@@ -391,7 +391,7 @@ int ttm_bo_wait_ctx(struct ttm_buffer_object *bo,
+ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 		    struct ttm_placement *placement,
+ 		    struct ttm_operation_ctx *ctx);
+-void ttm_bo_put(struct ttm_buffer_object *bo);
++void ttm_bo_fini(struct ttm_buffer_object *bo);
+ void ttm_bo_set_bulk_move(struct ttm_buffer_object *bo,
+ 			  struct ttm_lru_bulk_move *bulk);
+ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+-- 
+2.43.0
+
