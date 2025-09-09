@@ -2,74 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDF1B50F5A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D674CB50F53
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:28:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7604210E86D;
-	Wed, 10 Sep 2025 07:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD4510E868;
+	Wed, 10 Sep 2025 07:28:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fGvxGJRb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UvoenBvS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8315910E263
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 16:53:17 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-45decc9e83eso11133245e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 09:53:17 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C04B10E263
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 16:53:18 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-45de56a042dso18000905e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 09:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757436796; x=1758041596; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757436797; x=1758041597; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=p94vhBpn6I1H1gadXz17+U2dyfmeO5CYxkWEWa6pquY=;
- b=fGvxGJRbLS5aFTT2Qt3l/elque0own8fHr9xxdEOlwE9NmxpjFakNMsjZ+jE2GS7Un
- WQuX1lihTMSSJ4JGAJbw08MHIuVBlL9xo4e5NQY9/pZhJkk6O/mLV5ODBWglMZrqthzc
- glRqvlDY8lcg+kYC/8JhI6s3dc8CYqevV2Xp9WvzyR7b96/fZz17zIuOCyQ8vV92PtfA
- AGLJJDecH1iVxroAna+lU/AHE/fNAZqh5nhQpFzU6q9P1/YRh6kWhNqnS2rP6OC/Ks9y
- IS1O0ffBft2cAAxdFRbsU4DH1LaSP6AfSdgoiyPiN4iDUjgW8cLZNWNwk3WMGC6XDHbX
- OU7g==
+ :reply-to; bh=m97kyP3HTS70kAnw3EPRct0ZUapkHpzYxU+r81cO+AM=;
+ b=UvoenBvS6W0qMoTuQrnXxlIIySDKFPnvV7MKNdxOtgQH9AdizJvB0PpN86aRFHLvJt
+ iwYVyZMlkFo8VguS9rb3pLp4nAeiqsZ2C5PMHYycXLuM0jWwbrXSEmGfY4oLexw8G0jl
+ 3B7wDFNeK7cK3OpMZ39d3EqD3ZerS8PIOUDK0JomaFUJ99ZBASCftbInzQBVdpiSVORi
+ arh5t9Mh4yZec7gtsnC/BOKFC7eyGlGykFuzA/J2c6VDwARXB5QTJvq9acgIhC4Mv9kv
+ pqRb5WyMBUxgZ2b9iDkugatgcPE94y2c4fNWbhfd4cmbU3iw+HkGNU4Ci/Ul/6mJe5Dj
+ ghAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757436796; x=1758041596;
+ d=1e100.net; s=20230601; t=1757436797; x=1758041597;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p94vhBpn6I1H1gadXz17+U2dyfmeO5CYxkWEWa6pquY=;
- b=mext+XwWr3LJuifbsL7RECVXdgTkZRQhwU7C9Xrr4wvKHmFb3jJzOyVWG0yw9r7q/Y
- XpKbg+QulpXEjJcnGmhNA7f54k8BNrOGiTDZugE7Za3sSFbuuDvTAOHg2UcXFTZ0yT8c
- m0tbulwEhdoUJMMpX2/3vBPpU5myQCY/5S4PJxxgY5W/QPs2oQzWiYTO4A3aNufE+gLL
- VVGYp6vKaGJdPOLMMNtLYU/TP2+h0XElkNe/Bptu8RicYmHwrrzC94PiOETMpmsGwf30
- 1frbb10hO6dxfndu3edd1z3T5qjxoEhFwMQbuUbB2s03uXyE1wlFpzACYM6MaZuny7nU
- FxIg==
+ bh=m97kyP3HTS70kAnw3EPRct0ZUapkHpzYxU+r81cO+AM=;
+ b=qzUFCYW81dJZZnPZIJM+nI6QIO6X4p4BQS5fHB5m8GyqeRq1/sui1rnfySPsH2CtBV
+ JSj4KNzYa/586jTUan96fUh+kuR/e1s0dtEfMLenPthM4Mfa7WiGg8l0ReAQkcTpgw5j
+ ry9dUONSHvhOADP5G5KG8gBKXb+h3ie788wjixVCmIa2j5POYcMte+0fS9zl2RSIOtjR
+ X7jx+E9PMylm6hE2UZPg9cmvTf6R+7oscMK/DgpmPeIWTYcyVdA6r73cpYPCPzcCKts3
+ 4lO/slCdGW4rTzlJ1qxmMHbF8l4eVb5tsVSxuaDWAkY4GHDfOGHavCjyy1RkgUITMK3q
+ vGng==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVKtN5lAzvcr7wOvKJFE4pGRLP/esegm+kpUBvmRsTkIhK/34jFFAZU4o+0muwO/ueaiyiNTzzfXoY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxQPO7JbABpLsCzuLYe5brLP9nS+hsEgcZtalFVz4+Rk/tgpZVY
- Lut6xAMo3XrxP4Kvdhd3Xq7cyEAU1OJ8yRSpiAQHm9/5YkgHn/QivpeGqfrEvg==
-X-Gm-Gg: ASbGncsYmiqhaOruRGLlnC+JF2SuHahxuTCW9CL2rr1xOS1F2bJ+xqZijCHhfWGF6Rl
- RQi+CPf4UJiLfbF17eD7G59pm4El5ZzstLSrxBmddbcivMYzovFs54svYINN+zQmWippCXJjOke
- 9yCE7zNRn5ehLicCW4rcz8MJJt/2cXR/UjcYSjfm0Fd7pnzg3jTmB/J1Y28x92iniFjPS3acgjO
- wYOjo4R+VJhZWOBBDvZtGtTR8T6znjF3kVBfRyNQVvBrorjyRGH9aXS28PJyClb3p3jey28QIFl
- /LYK66K2fxtQmHGObSmGbSMOQKaW1b0VZt6FtP6It2CkjULxVVh0aBIGLt3NuGyN7pe0T//DiGU
- HDBJYyuJGL6e8wD3CGtMI3G04SHWZi3SLOCXeBuMPkZCx+sMMNirbscsJiVrFYh9iyC+EH4rgUU
- w=
-X-Google-Smtp-Source: AGHT+IEF+jsF9Ep1sxBSIPUi8j40DLrBGK1qvHYFTtZX1Y9LF80IpzZJEcXp+w18dvnss1B8AiANuw==
-X-Received: by 2002:a05:600c:4fcd:b0:45b:8822:d6c4 with SMTP id
- 5b1f17b1804b1-45dddee600dmr125529755e9.33.1757436795745; 
- Tue, 09 Sep 2025 09:53:15 -0700 (PDT)
+ AJvYcCUd+fsiA4PiDi5mCjA5haKXThdS7PmL4arPBaCbPiYq7m6D4jsqVyj2Nr1qVFM0Sqj8qszIawp8EGY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVD7dtVchht8ohHL+m6ZhTv3BNmzmU+piDrHGHsVVpsIuQUFzE
+ MS1Y/OspXocYQFwYFtld4WxxTud9g4riTAx8tlrdxH9LYbgBSSLDbNgt
+X-Gm-Gg: ASbGnctSgJrzP4uzrjIuDK6DCF2t2/naYi86aL1wkMcOYOFltjSLG6XyJFWFu3DRSdx
+ lP+kTFtz+kxgvA7pboKrFeFcC7QioNYuU2Aa3CebK2ZBfYX7i2Nx6su7nD/tBaDZJGwdnKaFu6+
+ xnBdur6r33cJATBUrVfvq9CIh0udggFxgi/b6rf6FsBQXhP6uWPju7HZBxZDmK/DFyoYf2dACkj
+ IqA59C1IESOD2zHCYOHKeH+YD7f0VVgvkSZAX3L6wYrULnVYMEK2FkndTvUpbJftbLa6fBIhULs
+ NWpii7dEVxG9CO9Ou9eJyL0PQkDcwOKnMvOjvNdZH4X6TrT1IrubjrfxMfcesL6r64323flMOC6
+ pMIgaW5kU4t58Gq2q89hknywI2y7bNXFR7RlzOadKHXYGmNBiQjuXYBHsvvB/kBNC
+X-Google-Smtp-Source: AGHT+IEqBRl9J8D3sxXoUKww47Xb7qU0+nNIVTgF1/LB1fSoYc69LlXxBvnR0fTOpf1FSeIqKxSZEQ==
+X-Received: by 2002:a05:600c:a08c:b0:45b:8a0e:cda9 with SMTP id
+ 5b1f17b1804b1-45dddf22ecdmr100621285e9.2.1757436796956; 
+ Tue, 09 Sep 2025 09:53:16 -0700 (PDT)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.138.131])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b9ab7c7dbsm314379085e9.11.2025.09.09.09.53.14
+ 5b1f17b1804b1-45b9ab7c7dbsm314379085e9.11.2025.09.09.09.53.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 09:53:15 -0700 (PDT)
+ Tue, 09 Sep 2025 09:53:16 -0700 (PDT)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Tue, 09 Sep 2025 18:52:44 +0200
-Subject: [PATCH v2 2/3] dt-bindings: display: sitronix,st7920: Add DT
- schema
+Date: Tue, 09 Sep 2025 18:52:45 +0200
+Subject: [PATCH v2 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250909-st7920-v2-2-409f4890fb5f@gmail.com>
+Message-Id: <20250909-st7920-v2-3-409f4890fb5f@gmail.com>
 References: <20250909-st7920-v2-0-409f4890fb5f@gmail.com>
 In-Reply-To: <20250909-st7920-v2-0-409f4890fb5f@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -98,71 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding for Sitronix ST7920 display.
+Add Iker as ST7920 driver maintainer.
 
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 ---
- .../bindings/display/sitronix,st7920.yaml          | 52 ++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7920.yaml b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..f08869c48a634cdb2a9e6fb33a0510cd1a407970
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7920.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/sitronix,st7920.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5ddf37f0acc960039422ef988cadfa7176972fc5..79b8a277e38b55ebcff05450d6c565c0d87c6b51 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7861,6 +7861,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+ F:	drivers/gpu/drm/sitronix/st7735r.c
+ 
++DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
++M:	Iker Pedrosa <ikerpedrosam@gmail.com>
++S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	Documentation/devicetree/bindings/display/sitronix,st7920.yaml
++F:	drivers/gpu/drm/sitronix/st7920.c
 +
-+title: Sitronix ST7920 LCD Display Controllers
-+
-+maintainers:
-+  - Iker Pedrosa <ikerpedrosam@gmail.com>
-+
-+description:
-+  The Sitronix ST7920 is a controller for monochrome dot-matrix graphical LCDs,
-+  most commonly used for 128x64 pixel displays.
-+
-+properties:
-+  compatible:
-+    const: sitronix,st7920
-+
-+  reg:
-+    description: The chip-select number for the device on the SPI bus.
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 600000
-+
-+required:
-+  - compatible
-+  - reg
-+  - spi-max-frequency
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    // Example: ST7920 connected to an SPI bus
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        display@0 {
-+            compatible = "sitronix,st7920";
-+            reg = <0>;
-+            spi-max-frequency = <600000>;
-+            spi-cs-high;
-+        };
-+    };
+ DRM DRIVER FOR SOLOMON SSD130X OLED DISPLAYS
+ M:	Javier Martinez Canillas <javierm@redhat.com>
+ S:	Maintained
 
 -- 
 2.51.0
