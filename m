@@ -2,128 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33604B4A6E7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8EDB4A772
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B51810E676;
-	Tue,  9 Sep 2025 09:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51ECE10E1AA;
+	Tue,  9 Sep 2025 09:21:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="j91VP4Gv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hooskbmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5331E10E676
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 09:12:13 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5896SeDO007486
- for <dri-devel@lists.freedesktop.org>; Tue, 9 Sep 2025 09:12:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 7/LZ7jld6Mn4TzxL+e3wR4fKEsF+dhJ3GAlByrhuIjw=; b=j91VP4GvonjXVqJG
- g7UJdf4R4krV5SI1hisRHQTgpAYDp99pUNmaH0VbNzRwikm4gD+lpc/O97k/rzaZ
- ldmX0ZDowjWc8kfCWE2m6WJoUqn7gM8RWHgHbMlXcJ+ZoyJYcNUozb/gAWa3ys6E
- xQJA91IUsus+fR4iYRPl7qWpOpSfp6ut6oIJbGYYeopXtVI6IQjHVme9nJRTOck3
- Bc7TSKCQavDYO8j1+qu+zLdk0sHDEDq9C90RRR1XuXUW+yj2pZTx5rQypvKhiEPc
- fMH03JwEx6Q8l5+DjRi9+rhY6OUHB7Rl4JQZwS34qhVLbA8/NARnpTmQI/Golbfx
- TJDfeQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490cj0qmu4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 09:12:12 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b6023952f6so11622081cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 02:12:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757409131; x=1758013931;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7/LZ7jld6Mn4TzxL+e3wR4fKEsF+dhJ3GAlByrhuIjw=;
- b=C5OCVVxeojDVSkgT6dviOc6CwgzYvvAlaZ9y7FbSZF5VpkuU8m2PEPPXWilOVqN2/L
- gyI03KnH2TW+LxblJPevpcGg5isGIZKvBnGVUfdLQjJcC/AZt1iSdZ8KY8lD2eCn5XxB
- XrfEQ5bxNEUj3ShGsgeONiMk8nYguMNZ+I7LDLLVUwond8LXUhl2Zj84hUyGroy2ml5d
- Y56Je54FVTrs8+y3Cw7z/cmYpaV3JxOf59K7fgwOKDd8VvdwX1hBYj5no/bZeQZah9PG
- 593A5xu3D6s8p7lhF2oaz0ritOCD9bp74XxpsnObCzzJ1O65cNS1sO32AQkDCjnYhf6H
- QqXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWP7p6FoYKU7YpCCMkTHtyOtylbKzv0NIoeP1okpPSeH+eW5NrrKqg8bR50B+Wzew2IOWJzm3gY03E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqtTXATNLrkWEw18FpYusuHIO2zh84WgiNHqokHOo7xcwD98Fc
- DhOwfjYpz1frE0fcWnL49GPpee27JeTWlso2OHZls1IbId4O4lsDMDl7FpJvBt2G/5uAv03BnOF
- tqrTnrRORj3lQcQRePfgcgsh75Z2TjhZZ+qZ+f17R7zS1kQJ3JCv4kmgn/xAV9bCcH45K2pE=
-X-Gm-Gg: ASbGncvf18i+YKkMl/EMuyLLBAv+FL5sqFRaLCzm7PviVc3Z+XHsamS9eCHRfCAxm3d
- V82Pqy57rNaXpbJ8s79rXJIzEx9a9oxVLmzT9z9j2hZRShwm0kQDIzLzwkIiCPymBFnLaxbvR1u
- 63h+MoiPJeELov6t0skYtHHrlDhNaAZ8bL/wl5MpNRFWbMlYhx28Oaw8Ph5t0OhkRhZEVY9Sq3t
- rY25tV8m6qRRNwbGdtmtivHG/LLMRDWexAmTyUws8/TFa/GzjXayNZ7W0kIkTXhVp1ELwbccT0x
- Ny0D6Audixt7+DNc7zh7H0E7+tcC8hN7md3AzMsdVaeOELPj2/zbWVbI9xou7vy/CU+ISid/QqE
- eNK9gABOW3cGnGdWU2eqX/A==
-X-Received: by 2002:a05:622a:199a:b0:4ab:6d02:c061 with SMTP id
- d75a77b69052e-4b5f847af12mr81429391cf.6.1757409131404; 
- Tue, 09 Sep 2025 02:12:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGT8WcnSygf6bNTgYYy0/PkzY2w1a4gXks9/FKqoCWfWHg07YtEpBTM6SSkzd5fxyaeTOsD6w==
-X-Received: by 2002:a05:622a:199a:b0:4ab:6d02:c061 with SMTP id
- d75a77b69052e-4b5f847af12mr81429211cf.6.1757409130769; 
- Tue, 09 Sep 2025 02:12:10 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b047373afcesm1359797266b.57.2025.09.09.02.12.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Sep 2025 02:12:10 -0700 (PDT)
-Message-ID: <25df0f78-68a0-4459-a5a1-eb035b0a5395@oss.qualcomm.com>
-Date: Tue, 9 Sep 2025 11:12:06 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC1F310E1AA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 09:21:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C55E260224;
+ Tue,  9 Sep 2025 09:21:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F1AC4CEF4;
+ Tue,  9 Sep 2025 09:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757409675;
+ bh=+fjZF0QJCtGrNgwDrzLzgfzno6BjOTwzlpPUW4bFHxA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hooskbmT9NXIM5er/vkbZ83teoaLKRtTVsqQOdgZs2T0MtkdmKAvFQfoqCdOR4NrT
+ y29cBS7c00Rzf6Qfuz3M5UWgvmW5Qk+0EfonnR250/WuKcvWw2RnSWEg9MRmnyvHFs
+ OorBYvXmKyzBWno52fsSddvh/fJVaWpKzR8qPEE8nhz1bBFe+E7c9GptiJyTMxw84k
+ wQOH6qzBDX0gn2Yay0gfebf7+IPDEu3AuNBCiOoHhlEdLhdo+jn8GLrGyjkmczKEkx
+ tdc9xfJTnyxaY+GoxM2zOX9Tyl9KYi4iLo9xYADnQaMwsxgsVTg0vwUAbZQ/NqMABg
+ +8bq+ocHLxQug==
+Content-Type: multipart/mixed; boundary="------------Ks5pXm1R52GZGS5sYHOnm0Kr"
+Message-ID: <bde582df-9522-48ae-9d84-fa3751c4a06d@kernel.org>
+Date: Tue, 9 Sep 2025 11:21:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/6] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-References: <20250909-a663-gpu-support-v5-0-761fa0a876bf@oss.qualcomm.com>
- <20250909-a663-gpu-support-v5-3-761fa0a876bf@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250909-a663-gpu-support-v5-3-761fa0a876bf@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: cR-wAFDiqPTTQSZvuURDayuJJn0HqXLe
-X-Proofpoint-GUID: cR-wAFDiqPTTQSZvuURDayuJJn0HqXLe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNCBTYWx0ZWRfXxtTTWIi/kW3V
- IaBHdcPj/nJRb+YsgNHWxn2tWzWObQWMkNcJBXFsfpPtyqwT3NP78Cz0vfYbZ79CM6qDRVZcduK
- YZK6lZnxvXOXP9RDFXEQXk5LCxjI/o/n8NFMRIWusmvUFP+nSs+3WLcz6Uc9RcMkWagLWVlww1o
- +MleF/ugOn1YZw4R84b4Q6VoLTd9qUfjAIGvICxlMeRPKTDsjyGpmfc/NKOlgo1CkO/hP71EKbo
- K3dFeSNWpprWXfDyW9udNWDAZ9xvAPh+090Yewlz3QvQoT436qsDSk87/0rGK1ZhEsgLYDWWpwo
- o1Ftn/Qh3YztjQK7n0xEhhqF5fUwTwle3uqA08e76r7qPsw10E/jsrT6PWRNNJYIqxBegaF4TVC
- Zw5FdOzf
-X-Authority-Analysis: v=2.4 cv=QeFmvtbv c=1 sm=1 tr=0 ts=68bfef6c cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=bBjZtXtOduL1R7AEkPMA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
- bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509060024
+Subject: Re: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
+To: Rob Herring <robh@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Aleksandrs Vinarskis <alex@vinarskis.com>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+ Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
+ <20250908-leds-v3-2-5944dc400668@vinarskis.com>
+ <0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com>
+ <046b289d-b6a5-45f9-88b1-090e2ab7c95d@kernel.org>
+ <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
+ <20250908222247.GA1943768-robh@kernel.org>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250908222247.GA1943768-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,20 +76,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/8/25 9:39 PM, Akhil P Oommen wrote:
-> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+This is a multi-part message in MIME format.
+--------------Ks5pXm1R52GZGS5sYHOnm0Kr
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi All,
+
+On 9-Sep-25 12:22 AM, Rob Herring wrote:
+> On Mon, Sep 08, 2025 at 09:36:39AM +0200, Konrad Dybcio wrote:
+>> On 9/8/25 9:33 AM, Hans de Goede wrote:
+>>> Hi,
+>>>
+>>> On 8-Sep-25 09:20, Konrad Dybcio wrote:
+>>>> On 9/8/25 1:18 AM, Aleksandrs Vinarskis wrote:
+>>>>> A number of existing schemas use 'leds' property to provide
+>>>>> phandle-array of LED(s) to the consumer. Additionally, with the
+>>>>> upcoming privacy-led support in device-tree, v4l2 subnode could be a
+>>>>> LED consumer, meaning that all camera sensors should support 'leds'
+>>>>> and 'led-names' property via common 'video-interface-devices.yaml'.
+>>>>>
+>>>>> To avoid dublication, commonize 'leds' property from existing schemas
+>>>>> to newly introduced 'led-consumer.yaml'.
+>>>>>
+>>>>> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+>>>>> ---
+>>>>
+>>>> [...]
+>>>>
+>>>>>  
+>>>>> +  leds:
+>>>>> +    minItems: 1
+>>>>> +    maxItems: 1
+>>>>
+>>>> My brain compiler suggests this will throw a warning (minItems should
+>>>> be redundant in this case)
+>>>>> +
+>>>>> +  led-names:
+>>>>> +    enum:
+>>>>> +      - privacy-led
+>>>>
+>>>> Nit: "privacy" makes more sense without the suffix, as we inherently
+>>>> know this is supposed to be an LED
+>>>
+>>> Note "privacy-led" as name is already used on the x86/ACPI side and
+>>> the code consuming this will be shared.
+>>>
+>>> With that said if there is a strong preference for going with just
+>>> "privacy" the x86 side can be adjusted since the provider-info is
+>>> generated through a LED lookup table on the x86/ACPI side. So we can
+>>> just modify both the lookup table generation as well as the already
+>>> existing led_get(dev, "privacy-led") call to use just "privacy"
+>>> without problems.
+>>
+>> In that case, it may be cleaner to just go with what we have today
+>> (unless the dt maintainers have stronger opinions)
 > 
-> Add gpu and gmu nodes for sa8775p chipset. Also, add the speedbin
-> qfprom node and wire it up with GPU node.
-> 
-> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> Well, I do, but I guess it's fine. Please don't add the suffix on the 
+> rest and add a comment for why it's there.
 
-None of my comments on v4 were addressed (we agreed to drop the
-GMU MMIO range one but others still stand)
+As mentioned dropping the "-led" suffix is no big deal for the ACPI
+side and if we don't want the suffix then IMHO we should just drop
+it rather then making an exception here.
 
-https://lore.kernel.org/all/f11b778d-eba1-4712-81c7-b83f2cb38b46@oss.qualcomm.com/
+Attached are 2 patches which drop the suffix on the ACPI side.
 
-Konrad
+If people agree with dropping the suffix I'll officially submit these
+upstream.
+
+Regards,
+
+Hans
+
+--------------Ks5pXm1R52GZGS5sYHOnm0Kr
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-platform-x86-int3472-Use-privacy-as-con_id-for-the-L.patch"
+Content-Disposition: attachment;
+ filename*0="0001-platform-x86-int3472-Use-privacy-as-con_id-for-the-L.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSBkOThkNjBiMGI4YzEzZmMzZWE2NTE1OTI2NWMyMWM3YmIzNTllNjA1IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoYW5zZ0BrZXJuZWwub3Jn
+PgpEYXRlOiBUdWUsIDkgU2VwIDIwMjUgMTE6MDk6MzcgKzAyMDAKU3ViamVjdDogW1BBVENI
+IDEvMl0gcGxhdGZvcm0veDg2OiBpbnQzNDcyOiBVc2UgInByaXZhY3kiIGFzIGNvbl9pZCBm
+b3IgdGhlCiBMRUQgbG9va3VwCgpEdXJpbmcgRFQtYmluZGluZyByZXZpZXcgZm9yIGV4dGVu
+ZGluZyB0aGUgVjRMMiBjYW1lcmEgc2Vuc29yIHByaXZhY3kgTEVECnN1cHBvcnQgdG8gc3lz
+dGVtcyB1c2luZyBkZXZpY2V0cmVlLCBpdCBoYXMgY29tZSB1cCB0aGF0IGhhdmluZyBhICIt
+bGVkIgpzdWZmaXggZm9yIHRoZSBMRUQgbmFtZSAvIGNvbl9pZCBpcyB1bmRlc2lyYWJsZSBz
+aW5jZSBpdCBhbHJlYWR5IGlzIGNsZWFyCnRoYXQgaXQgaXMgYSBMRUQuCgpEcm9wIHRoZSAi
+LWxlZCIgc3VmZml4IGZyb20gdGhlIHByaXZhY3kgTEVEJ3MgbG9va3VwIHRhYmxlIGNvbl9p
+ZC4KClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhhbnNnQGtlcm5lbC5vcmc+Ci0t
+LQpOb3RlIHRoaXMgbmVlZHMgdG8gYmUgbWVyZ2VkIGluIHRoZSBzYW1lIGtlcm5lbCBjeWNs
+ZSBhcyB0aGUgbWF0Y2hpbmcKIm1lZGlhOiB2NGwyLXN1YmRldjogVXNlICJwcml2YWN5IiBh
+cyBjb25faWQgd2hlbiBnZXR0aW5nIHRoZSBwcml2YWN5IExFRCIKcGF0Y2guCi0tLQogZHJp
+dmVycy9wbGF0Zm9ybS94ODYvaW50ZWwvaW50MzQ3Mi9sZWQuYyB8IDIgKy0KIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvcGxhdGZvcm0veDg2L2ludGVsL2ludDM0NzIvbGVkLmMgYi9kcml2ZXJzL3BsYXRm
+b3JtL3g4Ni9pbnRlbC9pbnQzNDcyL2xlZC5jCmluZGV4IGYxZDZkN2IwY2I3NS4uYjFkODRi
+OTY4MTEyIDEwMDY0NAotLS0gYS9kcml2ZXJzL3BsYXRmb3JtL3g4Ni9pbnRlbC9pbnQzNDcy
+L2xlZC5jCisrKyBiL2RyaXZlcnMvcGxhdGZvcm0veDg2L2ludGVsL2ludDM0NzIvbGVkLmMK
+QEAgLTQzLDcgKzQzLDcgQEAgaW50IHNrbF9pbnQzNDcyX3JlZ2lzdGVyX3BsZWQoc3RydWN0
+IGludDM0NzJfZGlzY3JldGVfZGV2aWNlICppbnQzNDcyLCBzdHJ1Y3QgZ3AKIAogCWludDM0
+NzItPnBsZWQubG9va3VwLnByb3ZpZGVyID0gaW50MzQ3Mi0+cGxlZC5uYW1lOwogCWludDM0
+NzItPnBsZWQubG9va3VwLmRldl9pZCA9IGludDM0NzItPnNlbnNvcl9uYW1lOwotCWludDM0
+NzItPnBsZWQubG9va3VwLmNvbl9pZCA9ICJwcml2YWN5LWxlZCI7CisJaW50MzQ3Mi0+cGxl
+ZC5sb29rdXAuY29uX2lkID0gInByaXZhY3kiOwogCWxlZF9hZGRfbG9va3VwKCZpbnQzNDcy
+LT5wbGVkLmxvb2t1cCk7CiAKIAlyZXR1cm4gMDsKLS0gCjIuNTEuMAoK
+--------------Ks5pXm1R52GZGS5sYHOnm0Kr
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0002-media-v4l2-subdev-Use-privacy-as-con_id-when-getting.patch"
+Content-Disposition: attachment;
+ filename*0="0002-media-v4l2-subdev-Use-privacy-as-con_id-when-getting.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSAwMmRjZTNlZWMzNGNkOGI4OTRmYzVmZWYwMDlhNmUzMDJmNThjMmYzIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoYW5zZ0BrZXJuZWwub3Jn
+PgpEYXRlOiBUdWUsIDkgU2VwIDIwMjUgMTE6MTQ6MzQgKzAyMDAKU3ViamVjdDogW1BBVENI
+IDIvMl0gbWVkaWE6IHY0bDItc3ViZGV2OiBVc2UgInByaXZhY3kiIGFzIGNvbl9pZCB3aGVu
+IGdldHRpbmcKIHRoZSBwcml2YWN5IExFRAoKRHVyaW5nIERULWJpbmRpbmcgcmV2aWV3IGZv
+ciBleHRlbmRpbmcgdGhlIFY0TDIgY2FtZXJhIHNlbnNvciBwcml2YWN5IExFRApzdXBwb3J0
+IHRvIHN5c3RlbXMgdXNpbmcgZGV2aWNldHJlZSwgaXQgaGFzIGNvbWUgdXAgdGhhdCBoYXZp
+bmcgYSAiLWxlZCIKc3VmZml4IGZvciB0aGUgTEVEIG5hbWUgLyBjb25faWQgaXMgdW5kZXNp
+cmFibGUgc2luY2UgaXQgYWxyZWFkeSBpcyBjbGVhcgp0aGF0IGl0IGlzIGEgTEVELgoKRHJv
+cCB0aGUgIi1sZWQiIHN1ZmZpeCBmcm9tIHRoZSBjb25faWQgYXJndW1lbnQgdG8gbGVkX2dl
+dCgpLgoKU2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGFuc2dAa2VybmVsLm9yZz4K
+LS0tCk5vdGUgdGhpcyBuZWVkcyB0byBiZSBtZXJnZWQgaW4gdGhlIHNhbWUga2VybmVsIGN5
+Y2xlIGFzIHRoZSBtYXRjaGluZwoicGxhdGZvcm0veDg2OiBpbnQzNDcyOiBVc2UgInByaXZh
+Y3kiIGFzIGNvbl9pZCBmb3IgdGhlIExFRCBsb29rdXAiCnBhdGNoLgotLS0KIGRyaXZlcnMv
+bWVkaWEvdjRsMi1jb3JlL3Y0bDItc3ViZGV2LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL21l
+ZGlhL3Y0bDItY29yZS92NGwyLXN1YmRldi5jIGIvZHJpdmVycy9tZWRpYS92NGwyLWNvcmUv
+djRsMi1zdWJkZXYuYwppbmRleCAxMTNlYjc0ZWI3YzEuLmJhYmNjMTEyMDM1NCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9tZWRpYS92NGwyLWNvcmUvdjRsMi1zdWJkZXYuYworKysgYi9kcml2
+ZXJzL21lZGlhL3Y0bDItY29yZS92NGwyLXN1YmRldi5jCkBAIC0yNjAyLDcgKzI2MDIsNyBA
+QCBFWFBPUlRfU1lNQk9MX0dQTCh2NGwyX3N1YmRldl9pc19zdHJlYW1pbmcpOwogaW50IHY0
+bDJfc3ViZGV2X2dldF9wcml2YWN5X2xlZChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkKQogewog
+I2lmIElTX1JFQUNIQUJMRShDT05GSUdfTEVEU19DTEFTUykKLQlzZC0+cHJpdmFjeV9sZWQg
+PSBsZWRfZ2V0KHNkLT5kZXYsICJwcml2YWN5LWxlZCIpOworCXNkLT5wcml2YWN5X2xlZCA9
+IGxlZF9nZXQoc2QtPmRldiwgInByaXZhY3kiKTsKIAlpZiAoSVNfRVJSKHNkLT5wcml2YWN5
+X2xlZCkgJiYgUFRSX0VSUihzZC0+cHJpdmFjeV9sZWQpICE9IC1FTk9FTlQpCiAJCXJldHVy
+biBkZXZfZXJyX3Byb2JlKHNkLT5kZXYsIFBUUl9FUlIoc2QtPnByaXZhY3lfbGVkKSwKIAkJ
+CQkgICAgICJnZXR0aW5nIHByaXZhY3kgTEVEXG4iKTsKLS0gCjIuNTEuMAoK
+
+--------------Ks5pXm1R52GZGS5sYHOnm0Kr--
