@@ -2,128 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CFDB4ACE5
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 13:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93B3B4AD4C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 14:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8EB10E6DB;
-	Tue,  9 Sep 2025 11:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 022E110E6D9;
+	Tue,  9 Sep 2025 12:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kkHnUUMQ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EiwjHNzo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2060.outbound.protection.outlook.com [40.107.212.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497BF10E6E2;
- Tue,  9 Sep 2025 11:53:12 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D54510E6D5;
+ Tue,  9 Sep 2025 12:04:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MPXe4dLjTSxIlohVAtxegyF3aVPvKIfHDNrk0TqDlu3Ez9GiuAeM4H/PI50rO7xBO4XsvDkTSJQ/sZNUScrOKDg81HX5gZqDjX0NauSuLz5EW1SyXpPCp9/sMwtHLTu7c3dBsH5ulda6+eKRLa8VvFxFg3WGb02S6Q8l9cN77XOn5T1HuG2Ah0zYTXddrFHm9AdMjOrdP5Wc+TJdBsDPRgLDXM1a7YRKBZ+ZHHq0TqOJRmrYpJCHkTA2BzX8/LTttxqcyjgLe6msLYZ4dPNnHWDfNA9/HzlGGm72pafN9O8Z7kl+UTzYSZE9RcTvgK0J77wRY8nkbVR5tkCQTLi7Yg==
+ b=vByXJ2pWcJGDPKejxJJIpoez0awgqjPX0TGcb6KpLhFWZJLifFc03jugUGMvSI5oN0FykBTHdrmAWztztGRYvlSo/paCZa9FscTR5i/mxZ3BkUmjIHJfA5fzNu5iv49yIESSJo9ETTvZ966OT4fbvd25G8+VCuKl3TnjwF9UiBt0ED44fVrc4+BpDw2DPJqb6bNp9VckJzAiSaHIJNeBk0lsbwkhwV7K7lwYMPouRr56T87caJaK5vn12/AaT+xY49NneRc7UPkKcof4hMXq7rhT/g7BS9sb6OlwiT3mESPbYqkkxVYI3xKk80JJn//zPgmp+ZD+BoCXB30YJ8IVZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AaO2TSbV2cSfE+O6WnDquomBLyaI6Cp/1o1rrMiZ/ls=;
- b=diIlZ4XCqVqOhC2SytIEX++stuVm+P/OQNS5iM6O1m+K29zqH12UES+Jf/+uoWSAMwuc9GQlG+Zib2hM3Vk1gEbR8Bs710Ty8BAwiGoET4U/a9QvPk2QMH6I0rfg/x/utvLstdsga5uwYrapMH5W/EgL7bZw1ejGuxJldzbU3b5Bq2ekDvnd/Ef1o5FASfoXqPpwK1Rbcq3zRZDBklx8AXhmLTqZOZM/rlbypK3waAJTo2ot4PG4Hogo50iGbCeyjcDIHzxObsHP1KH/i4ab4Ln+1eol4rBE0GijSoRXqmJWzYTvpFC0jRgpXZzb8Bx1A+X+p7spBhJmfti3ZfUCpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=kdf74tiPhOAPZ4Q75XrdlD4eYdsu8zgqcvlSj1r4vsc=;
+ b=XqFqFODcyWrvs3xNDYxvDquP8wDMnfhGunn/U0p7XfELyicnVArpNcoEEAjkxgpvG+lY20rgtD0ALPJ9DpX3xwwenrV7koW5+EgWeQvmFj8mHMRNMrdigNaYbek4nPYhM7E0W57qHozDCOaao2vAMhfVF43Fy0YYH8Zgt+E7mf7Kl0UaS9sHtNPb+Vqab7DnLuvfNDFFZqMgWTS8bkccXnqu7kbYGV2sIpgb4aASLzU4HH9xV+aoRv90uzcvsrOP4Otx4wi2IwsoDAu5ZXzp51AlYElqJsbX26HSvxKmijJA5laX6VIOJ/C0OOomzYlndJUEOcXI7aWanAH50q0J6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AaO2TSbV2cSfE+O6WnDquomBLyaI6Cp/1o1rrMiZ/ls=;
- b=kkHnUUMQ11NC4tmO6gCHbtMT1sZKpfhLnVTqwMi5lZUV88Nfi164pjb+JeOoiQ29qzpgG7O+8capEoppXuqOiC6vuLChLYxijJJtFxjjxvUkF8q+7MbzR5vtxruKygb/sE1T0tozN1jnl2tl2HCsQXZLoTnLOXAnRcWeBpbcS1Q=
-Received: from SJ0PR03CA0202.namprd03.prod.outlook.com (2603:10b6:a03:2ef::27)
- by DS0PR12MB9039.namprd12.prod.outlook.com (2603:10b6:8:de::21) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=kdf74tiPhOAPZ4Q75XrdlD4eYdsu8zgqcvlSj1r4vsc=;
+ b=EiwjHNzoP0kJfdkJYiWcwtA+3yqmTjfj71cCwxOB+PNK53aq5LJymLHYCmf4FvcBw6KVJxOoy8LE+0htCcAJZ35m4fYtOShnt8pqkkpU27Ay/BwWvMRsQLgX7hi6eqj986dGwL2SnEbkh5bg0jML4E9D1qVjApPzX7j3r6CkurM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB6910.namprd12.prod.outlook.com (2603:10b6:806:262::21)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 9 Sep
- 2025 11:53:07 +0000
-Received: from MWH0EPF000971E7.namprd02.prod.outlook.com
- (2603:10b6:a03:2ef:cafe::39) by SJ0PR03CA0202.outlook.office365.com
- (2603:10b6:a03:2ef::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9094.22 via Frontend Transport; Tue,
- 9 Sep 2025 11:53:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000971E7.mail.protection.outlook.com (10.167.243.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Tue, 9 Sep 2025 11:53:07 +0000
-Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 9 Sep
- 2025 04:53:03 -0700
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <christian.koenig@amd.com>, <matthew.auld@intel.com>,
- <jani.nikula@linux.intel.com>, <peterz@infradead.org>,
- <samuel.pitoiset@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>
-CC: <alexander.deucher@amd.com>, Arunpravin Paneer Selvam
- <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH v6 3/3] drm/buddy: Add KUnit tests for allocator performance
- under fragmentation
-Date: Tue, 9 Sep 2025 17:22:37 +0530
-Message-ID: <20250909115237.2644-3-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250909115237.2644-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20250909115237.2644-1-Arunpravin.PaneerSelvam@amd.com>
+ 2025 12:04:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
+ 12:04:38 +0000
+Message-ID: <6f6841a7-57bd-49de-9b55-b5b0514a2749@amd.com>
+Date: Tue, 9 Sep 2025 14:04:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] drm/buddy: Optimize free block management with RB
+ tree
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ matthew.auld@intel.com, jani.nikula@linux.intel.com, peterz@infradead.org,
+ samuel.pitoiset@gmail.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, stable@vger.kernel.org
+References: <20250909095621.489833-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250909095621.489833-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1P221CA0036.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:5b5::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E7:EE_|DS0PR12MB9039:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0655216-8aa9-4b51-1e54-08ddef97711e
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB6910:EE_
+X-MS-Office365-Filtering-Correlation-Id: aca461ac-7ba8-49d6-cb79-08ddef990cb6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|376014|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wB4CG7pw/HMdpQ8R3XEgThi7Ryl8wc7gYjPX1ijUVDE4L6ij5KwxTVGPrEOu?=
- =?us-ascii?Q?5adSWOhiWqc1/QVZBxOZ9ivVR/JfsCT10yuM93TGPwAKi+URmtWkRAFAozLS?=
- =?us-ascii?Q?S94HIND7A3fwNyNShhnyrpv+DDQzZMVMvTEh11hQvmzFfsRnjYgTiYH97mYw?=
- =?us-ascii?Q?PWIg8GsgfGrdhlSDiNv/q+fRbTM77kotywfI2wlwnDzdPH0q8aRTBajo6aNe?=
- =?us-ascii?Q?ul7zX+zRBTCoXOWTNWA0dNeFdO4vbi6cNSI31J7+Ya8gbhd3Cg71p00kmU+5?=
- =?us-ascii?Q?TeCz6qe72wXFe1uCi8r2GWmhxET9NoBRljZa4arajkcD50CSoBES0WlGkJVS?=
- =?us-ascii?Q?D0O/FJLiswGAmIkQytMxKmXMEYokwT7CKDsm3/QWZOVD0fCq4jrMkMzW1YqF?=
- =?us-ascii?Q?rT7i7NB7QGrN5Vlbc+FGMxCQQ++7KzoYlzKvrE105Vj0ytE0+wLF+c0BOSNG?=
- =?us-ascii?Q?0mCXqqsYA5CRQrpMrcGUzpucZLIXWAcRscECSINsa9LYU30FyPmBBh7oxmFz?=
- =?us-ascii?Q?NjUKJRLG/J8l1j6Lv4J0u00V8D6mfc67IRRauNqmk9jbmouJ+4fBcTP/XYgm?=
- =?us-ascii?Q?aV+ippx3BG2l4FunjdfgVkI4PX6he6jZgYK6kJjzp2piPvfmUXzi/Uuk8E4s?=
- =?us-ascii?Q?xNnSIerXaeelY+cVqg7+tFZgnDtOtjD13U6WcSqA0n3ZR29eHAkdMQH38XJf?=
- =?us-ascii?Q?y+uDwTvfM9of7IP+2FM26Q4AEdB/jjyMy4KeQc9cjvJrX5FxznRw2+Lq0x7Y?=
- =?us-ascii?Q?p760b6wNUaBdqFBOHWwVnUOBrZhpnAMm1ZjJvP3ImXrMUCoDaQyin33ssm6U?=
- =?us-ascii?Q?LZdG5eubRqzxw/hAu619TkuxTWubJXS5ty8t/tB9v1hlK+8KffM6gw5V9wMX?=
- =?us-ascii?Q?cLJC+KdUmX4bRIV3lwfLZ+Edidorxvjl5aEz4VCi0VBvuirAAK1daCqWkIkU?=
- =?us-ascii?Q?DEDS8s9P3iPFrqmcndI2CcfGRxW/1Pn8JkM5WJudoo7GtBXOjcSM+rTM6K/B?=
- =?us-ascii?Q?cUGYza+PxqtvhpAy8uM+wl7TMNTsuYTAlzOZH5mQ5O4IY/XdAZQ5iMUf9D/J?=
- =?us-ascii?Q?xbNrDnfgTlhGz1rxNVKdAgcIt4xHqCy09QZ7XCNhQ59Rhh8XJC+Z5c6gJRft?=
- =?us-ascii?Q?IPhMtwhFDkwnkxCvEkvxrnPAERDP/kfjDkwlWL8koBuQ6LZVbM6Ddp/qaJhb?=
- =?us-ascii?Q?WoNCD+16w5en/zr7lpkzpgcOGYs961zCeR3KvIiO17osVEF9PzyyEG1VJp8v?=
- =?us-ascii?Q?DWQo1Yj7RgN+TZheQH3RmMnXq3KaKd1ckJvwpwBUIXyoVzPIJ+VBUiJRNcyn?=
- =?us-ascii?Q?csJY1+N/G3H+QxG8Zds8vdzuo5J/QFDYYqGV8Zs8O+EpcAwyLugQDc2ek0HX?=
- =?us-ascii?Q?EPogoAiTboC5+6XrLVPIH3K8+2UJ1yQa57UOBn+8cdf2j56mxs0y2Y7OkTUF?=
- =?us-ascii?Q?OVAmh1+txSY9eds6mFeeVpnqCi9GyjppgcYgaHK0zlBmDQPLVEMmYdbXR7LN?=
- =?us-ascii?Q?V71uQkS82mgMKmegPHI5UsVdVWax8dkRSOsT?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SXF1VnVZZGxsekU2dm10RzJTMFVDUndka1lYNHdxRVFzUVpoVm1CcEZNNTFU?=
+ =?utf-8?B?QkNqdG5EcW9jemhoYWIzenhDc3A3cTZqQm9FeWlvTWtvMkJhbS8xdS8xMjZH?=
+ =?utf-8?B?dHVBa3l3a1QwL0JXSXhpNWlHOGxpeTZyWjhMMTNxY0xvN2dZUG12VjdBVlY5?=
+ =?utf-8?B?Y2hiaHVidld1RU9NeWJJMXdraHE2MW9ydjJNY3Z6dnkyTW5nL0RFWm9VTUwy?=
+ =?utf-8?B?dTV2Mit3YXgvblVJQWhzeEEwMHVub0p2RDBsTGtDc0NRNktwdHl3MWxOeldV?=
+ =?utf-8?B?WXBvQXozVUFJeEpWcVVaZE1qY1Q3UDVCbWlJNHpvSWZBN25wWHo1K0tFTXJU?=
+ =?utf-8?B?SGR6OWI1ZkRBRjFaVHIreHFoSWNzSk56bkhCNjhmMnpER3pmZUxEeTFSMkR0?=
+ =?utf-8?B?Z0lvZnVvd3AveCtPanYrMHdFaU5yQjl3dy80RmdiWlZ0ZVN0dS85N3Y0Y1Vq?=
+ =?utf-8?B?SURxNXlJQ3hFNDRidUNET0ljdWRHbndKdEdiNmpkbFNnYVR1Mk1hdXlvNld5?=
+ =?utf-8?B?d0VybUl1c1BuTUdiZW14ekNJOEFnVG50NWRiT0F2UHNlQVlKRENjZTZWaGND?=
+ =?utf-8?B?VmVRV3Q5YlNNaE1Fc2hhVHZhWFE3ZjgrcnhaWGlBMURkVFVzSzZZL25NTW9R?=
+ =?utf-8?B?Ti9KYmFmSjNqVFhkS3FLZTlHZk5RS0FLYnI3YU5tSTljY2VmSFBqaDRIR3pZ?=
+ =?utf-8?B?SGRVU2E2NzlmT21PcmhYNmEwam8ySzVpYW1JQWdSNHd3a1h4M29JVDlNZDRF?=
+ =?utf-8?B?d2tqdmw3Si9tak1ORjRvMTJyZ0hYOHZzV0E1Z1IyWWJSRERBekZ6NFRoTDlr?=
+ =?utf-8?B?d3JocnF1bVZHeDhWQ1hLMGdjdEJPUWFnMnQ0VGZqT255Q2kvbDZUT2ErWXFn?=
+ =?utf-8?B?ZU1qdHFrU2Q3NkhvZmhEWDhaZkZCMHB2Tm5ObTRrMkdYditna1BFdFNOUnpx?=
+ =?utf-8?B?ZVMxZ3FaaVhlVEJ1MnU1WEpNVW0wZTEzQWZRZDZ6N1EyUFBDTm1qeXhzcmM0?=
+ =?utf-8?B?TFNFb1UrUmo5M3dIRzlVK0k4N0ZkNzVUSUdaZThPeEk4eCthSFJrbE8vdS9R?=
+ =?utf-8?B?eVdFc3FoR1kwYzhUMVdXdkpmaHlrdjVSR1dtcE5pNkt2TS9xRVFMQ1VMcCtW?=
+ =?utf-8?B?MEFYWGg0VEZBZndYTExEZzU0dDVndnU1KzRyRkluTURqajZneTFmUmJKa2Rw?=
+ =?utf-8?B?dGtlaXcvYkh0YmFycEtISjlreXg3a2oxaHphZ1hXa1lXbjArVFF2MThCRk9j?=
+ =?utf-8?B?MHZRQVVYRGw5RDVGVDY3anpBYXpzbDAwYVY3b0pvdEQvQ0piempZczM5Q2d3?=
+ =?utf-8?B?UnhicmgybW04UFhaSzY5aXlPMkdMVmljU1lLV283aFNFOVlYdUdGTEhaNFlk?=
+ =?utf-8?B?TUFqUUZSM01UeTBjMTBsTElQcThTSzZxMjNhZ3JqcEZiVjViZnczbGx5dnpy?=
+ =?utf-8?B?NEdxUng4TDNsSHJxNVliQnNtemFES2ovd1RJWEE3R0VMa0lFQTZadnp6RlYy?=
+ =?utf-8?B?b0F5OUNWZlBZTnMvMlg1citaZ0ZGWVhPVG1zNHp3U2NQS0lOdnlueE1KZndn?=
+ =?utf-8?B?UlYrb0NDUit6dysrWHhtWUFRUFRFdkR3Qk80UkxQbytxREFBeElWaUgxWmU5?=
+ =?utf-8?B?YXR2S2hGM0JielZqZHlGUGMyMk5qdmRGd2o2MlZSL28yRnh2T0NYWW5BMFpS?=
+ =?utf-8?B?bXl3eTBKYmxXdGdpd3hoZjQvOHNHak1oaHRkZ2YwdWtnZU9pMCtKelZJdFh1?=
+ =?utf-8?B?YndFWXBhMktxR2g2OUlEb0s3b1h4b0hoZWFtbTRDUzVOK1VTNU5yVzlISmxx?=
+ =?utf-8?B?K213VjdRdUhQZzUyelZBVC9jNHdvTlg4WmUzMk5zbGFVbVVrRnZnYmt2NlpP?=
+ =?utf-8?B?ZWxkVFlRNTVrZ2RRQThlY01ra0ptcUlOYUZvck5OR0daNXNKUHhlN29jYnNC?=
+ =?utf-8?Q?uFhF2mbsvf0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sy9ycmI5c2lXQ1ZucnF3OXlLK0FzLzliV0dqaldnUFk0dWh6L25BNjlmWWJB?=
+ =?utf-8?B?cCtVakNPYUpnVlMvaVN5ZGFvNVF4QXBWSDZsZmJmdE10RXl1KzRvTUM2T2M4?=
+ =?utf-8?B?N2FPdERHOWZHbUZTNHliT2FBTTh6cFJzMjdMdm1zWDlFeDA2ZE96REtHZGVk?=
+ =?utf-8?B?K2ZGK3h2eXBXS0Z0MytaT2R2OW5hVmFYNldORG05Vm9pVmU0bzVZcXZETXRa?=
+ =?utf-8?B?WjRTS2NBU21TNmxyZlQzc0JEVzg2Tjd5QVM2bm1RS1EyUGMvOTY5L21tdXd2?=
+ =?utf-8?B?YjM4VENGK2k0bTNqMXcybFNKWHZpemdORGZwUGgxRUpia0JQL1A3d0diRGVC?=
+ =?utf-8?B?ZWtaMDQ0UGdUUlIva0pMVDNzUStHYWRUc3RMcFh3Q2c2MU1FV2xURnRNN1pE?=
+ =?utf-8?B?STVVSVNoTjUrVjlYcVBTb1VVZkQwQjhlZTNLRXRTdjRGUTYybnJ1MXR4dkJ5?=
+ =?utf-8?B?Vmh1Ni9NRDRCTWV5anl1WXpBZ0hZenlIYnlJWXpCVmovTmtpMHYzUjJ4K2xt?=
+ =?utf-8?B?Q0F6dWRURFo0UDQ2cEkxaG95cmhUQnMzemxWY0l5QVlmZ3Rvc2RrWVdIcjBM?=
+ =?utf-8?B?OHA4Q21YcjM3UmxGeitIclo1enc3S0FrbnZMbG9VQ0UvbjNVcVhXdVQ1ZEtY?=
+ =?utf-8?B?VXhKWVRwUThNTHdFVDZSYm5nZEswMmIyYkpMakgwc21Yclh6WFVOdlc2NTRp?=
+ =?utf-8?B?TW5UZE4zQURxTzdCRE1KTjNucjV1NFJtQU8yRTNzUEpCSTF4OFJ4VG9qVkJh?=
+ =?utf-8?B?N2V0bHFhT1I0dVE2bkJBVCttTU11ZHFTUmJDcmdLTjRUeVo4cWNDSDZPS2lN?=
+ =?utf-8?B?YjdqZ1FBS212MXQ5QTRQanl3TU1kRmticnhsUU5ib0xmYmE1QnNGcjVIWkc0?=
+ =?utf-8?B?NzFPbSs4Q2JIRThCSXE5OGZCb3JwZ3RkN1FaSU9nSXc1ZGREQjRBT2RsWTgy?=
+ =?utf-8?B?Y1Q4TFZwY2tqbmFkQ1Mrd21ueUFzQmRsMVBycVI0WVhFOTRuRU8zdklzL3Az?=
+ =?utf-8?B?ajIxbFM2RmQrdm5yNytFcWE3QStJdHREL2pjUTNkajdTaEVNZ1Q5cjBBdmt0?=
+ =?utf-8?B?NVNGcHNQU05FQ3NJZzMxeHFOMWljaThyY3dIK0pVV2tZQlJjdGdzQ1JyN05R?=
+ =?utf-8?B?YVVlRXdZakYvUFYwQTFOaWtCOFIwaittVUFZOXJ3a1VsOWx0S0tKUDIzRnlW?=
+ =?utf-8?B?NkxzT2lBOHBVUG4zU0daV3pQVE1ScGNlclk1Zy9TdzRaRS9JUnExNHIrbVR3?=
+ =?utf-8?B?eDFsd2c1Qm9tczRqMWdCcktBRGpRek9uVk1XcTAxVDRmbTRWUVdNaXdtRG8r?=
+ =?utf-8?B?c3d1R2NlL0lsOXJ6VFNXVTVXRmlqWURGbmxRY0YyNFIxbUZESkc4Zm9TVFJW?=
+ =?utf-8?B?L2JTUHNBMEgySmdFRGt5aVZWTk9rdlZFcVdsb010a1VaWWEvMHdObFBQZVkr?=
+ =?utf-8?B?dmJKWlZWTnRROTRubnFwbWNvSTJ6WDllNUNPYkFuVFBpYlN6UnNVL3VNeFRi?=
+ =?utf-8?B?VUNzOVI1WmxHellZVEFUWHVqeGtienFYa2F0T3hFNmhUdjBRUEdDbFpPbTRU?=
+ =?utf-8?B?c0lvbUU3WThzRUlkYXpRbmlxVWhGdDFMeXhPeVNqSWhSZWVnekQxV2EzdGVB?=
+ =?utf-8?B?WFE1dGJpNDcyY2grUExJTVhpODJ2N1NYMHVVbzNJYzFJRUZNbCswMHVVeVlX?=
+ =?utf-8?B?UnpEVEx4blNEV25BR1BuVlM5TVB1a1VxakN2Rk1wbm82WE5YdmpDbUl4MXFZ?=
+ =?utf-8?B?QzZWcXlWZE1FTTBaemRHWTNFMVkvSjd2YlBVZEc0aUJKYi9MRzFVNVpUUUVj?=
+ =?utf-8?B?RnpYa1oyZmZTR3p3b0NYTjdvUk9TN2tiK1dHNmJiMnNXQTNHM0dFTkJuZkdZ?=
+ =?utf-8?B?RHdhdTl1UDd4WWdWSC8wM2JLY0tuS2RrZHJGTUdkRnQzMTh3UnNQc1I1ZVhy?=
+ =?utf-8?B?UWN2VTBpOVpoZ0hDMm9HM1BzdmZQRnJBbm01ZnR0VWw1NkVKV1QvVDFNQXlm?=
+ =?utf-8?B?NHNaRkY2bEJ2eEdTbWwrSlZmbGdHNTczWENRcDg3bTdKRUdwRDIyMXdGNGls?=
+ =?utf-8?B?My96eDRzbjFhd0RWUkc0U3dmRS9ablBhYVdicUVWTDR6SWMza0kwYjJkVE1X?=
+ =?utf-8?Q?nMmwpJ20NX3ixaBev3yxygTDd?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 11:53:07.2042 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0655216-8aa9-4b51-1e54-08ddef97711e
+X-MS-Exchange-CrossTenant-Network-Message-Id: aca461ac-7ba8-49d6-cb79-08ddef990cb6
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 12:04:38.0664 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E7.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9039
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L8WQTGIl0ktysYXpVwihctD91IapJ5qCfH8FFuGmytGw4jzOuI8nSGkyuyPRgPTa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6910
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,157 +166,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KUnit test cases that create severe memory fragmentation and
-measure allocation/free performance.
+Hi Arun,
 
-The tests simulate two scenarios -
+On 09.09.25 11:56, Arunpravin Paneer Selvam wrote:
+[SNIP]
 
-1. Allocation under severe fragmentation
-   - Allocate the entire 4 GiB space as 8 KiB blocks with 64 KiB alignment,
-     split them into two groups and free with mixed flags to block coalescing.
-   - Repeatedly allocate and free 64 KiB blocks while timing the loop.
-   - Freelist runtime: 76475 ms(76.5 seconds), soft-lockup triggered.
-     RB-tree runtime: 186 ms.
+> +/**
+> + * rbtree_for_each_entry_safe - iterate in-order over rb_root safe against removal
+> + *
+> + * @pos:	the 'type *' to use as a loop cursor
+> + * @n:		another 'type *' to use as temporary storage
+> + * @root:	'rb_root *' of the rbtree
+> + * @member:	the name of the rb_node field within 'type'
+> + */
+> +#define rbtree_for_each_entry_safe(pos, n, root, member) \
+> +	for ((pos) = rb_entry_safe(rb_first(root), typeof(*(pos)), member), \
+> +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL; \
+> +	     (pos); \
+> +	     (pos) = (n), \
+> +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL)
 
-2. Reverse free order under fragmentation
-   - Create a similarly fragmented space, free half the blocks, reverse
-     the order of the remainder, and release them with the cleared flag.
-   - Freelist runtime: 85620 ms(85.6 seconds).
-     RB-tree runtime: 114 ms.
+As far as I know exactly that operation does not work on an R/B tree.
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/drm/tests/drm_buddy_test.c | 110 +++++++++++++++++++++++++
- 1 file changed, 110 insertions(+)
+See the _safe() variants of the for_each_ macros are usually used to iterate over a container while being able to remove entries.
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index 7a0e523651f0..19b49fb6ec19 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -21,6 +21,115 @@ static inline u64 get_size(int order, u64 chunk_size)
- 	return (1 << order) * chunk_size;
- }
- 
-+static void drm_test_buddy_fragmentation_performance(struct kunit *test)
-+{
-+	const unsigned long max_acceptable_time_ms = 1000;
-+	struct drm_buddy_block *block, *tmp;
-+	int num_blocks, i, ret, count = 0;
-+	LIST_HEAD(allocated_blocks);
-+	unsigned long elapsed_ms;
-+	LIST_HEAD(reverse_list);
-+	LIST_HEAD(test_blocks);
-+	LIST_HEAD(clear_list);
-+	LIST_HEAD(dirty_list);
-+	LIST_HEAD(free_list);
-+	struct drm_buddy mm;
-+	u64 mm_size = SZ_4G;
-+	ktime_t start, end;
-+
-+	/*
-+	 * Allocation under severe fragmentation
-+	 *
-+	 * Create severe fragmentation by allocating the entire 4 GiB address space
-+	 * as tiny 8 KiB blocks but forcing a 64 KiB alignment. The resulting pattern
-+	 * leaves many scattered holes. Split the allocations into two groups and
-+	 * return them with different flags to block coalescing, then repeatedly
-+	 * allocate and free 64 KiB blocks while timing the loop. This stresses how
-+	 * quickly the allocator can satisfy larger, aligned requests from a pool of
-+	 * highly fragmented space.
-+	 */
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_init(&mm, mm_size, SZ_4K),
-+			       "buddy_init failed\n");
-+
-+	num_blocks = mm_size / SZ_64K;
-+
-+	start = ktime_get();
-+	/* Allocate with maximum fragmentation - 8K blocks with 64K alignment */
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
-+								    &allocated_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_8K);
-+
-+	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
-+		if (count % 4 == 0 || count % 4 == 3)
-+			list_move_tail(&block->link, &clear_list);
-+		else
-+			list_move_tail(&block->link, &dirty_list);
-+		count++;
-+	}
-+
-+	/* Free with different flags to ensure no coalescing */
-+	drm_buddy_free_list(&mm, &clear_list, DRM_BUDDY_CLEARED);
-+	drm_buddy_free_list(&mm, &dirty_list, 0);
-+
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_64K, SZ_64K,
-+								    &test_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_64K);
-+	drm_buddy_free_list(&mm, &test_blocks, 0);
-+
-+	end = ktime_get();
-+	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
-+	/* Performance validation */
-+	KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
-+			    "Fragmented allocation took %lu ms (max acceptable: %lu ms)",
-+			    elapsed_ms, max_acceptable_time_ms);
-+	drm_buddy_fini(&mm);
-+
-+	/*
-+	 * Reverse free order under fragmentation
-+	 *
-+	 * Construct a fragmented 4 GiB space by allocating every 8 KiB block with
-+	 * 64 KiB alignment, creating a dense scatter of small regions. Half of the
-+	 * blocks are selectively freed to form sparse gaps, while the remaining
-+	 * allocations are preserved, reordered in reverse, and released back with
-+	 * the cleared flag. This models a pathological reverse-ordered free pattern
-+	 * and measures how quickly the allocator can merge and reclaim space when
-+	 * deallocation occurs in the opposite order of allocation, exposing the
-+	 * cost difference between a linear freelist scan and an ordered tree lookup.
-+	 */
-+	ret = drm_buddy_init(&mm, mm_size, SZ_4K);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	start = ktime_get();
-+	/* Allocate maximum fragmentation */
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_64K,
-+								    &allocated_blocks, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_8K);
-+
-+	list_for_each_entry_safe(block, tmp, &allocated_blocks, link) {
-+		if (count % 2 == 0)
-+			list_move_tail(&block->link, &free_list);
-+		count++;
-+	}
-+	drm_buddy_free_list(&mm, &free_list, DRM_BUDDY_CLEARED);
-+
-+	list_for_each_entry_safe_reverse(block, tmp, &allocated_blocks, link)
-+		list_move(&block->link, &reverse_list);
-+	drm_buddy_free_list(&mm, &reverse_list, DRM_BUDDY_CLEARED);
-+
-+	end = ktime_get();
-+	elapsed_ms = ktime_to_ms(ktime_sub(end, start));
-+
-+	/* Performance validation */
-+	KUNIT_EXPECT_LT_MSG(test, elapsed_ms, max_acceptable_time_ms,
-+			    "Reverse-ordered free took %lu ms (max acceptable: %lu ms)",
-+			    elapsed_ms, max_acceptable_time_ms);
-+
-+	drm_buddy_fini(&mm);
-+}
-+
- static void drm_test_buddy_alloc_range_bias(struct kunit *test)
- {
- 	u32 mm_size, size, ps, bias_size, bias_start, bias_end, bias_rem;
-@@ -772,6 +881,7 @@ static struct kunit_case drm_buddy_tests[] = {
- 	KUNIT_CASE(drm_test_buddy_alloc_contiguous),
- 	KUNIT_CASE(drm_test_buddy_alloc_clear),
- 	KUNIT_CASE(drm_test_buddy_alloc_range_bias),
-+	KUNIT_CASE(drm_test_buddy_fragmentation_performance),
- 	{}
- };
- 
--- 
-2.34.1
+But because of the potential re-balance storing just the next entry is not sufficient for an R/B tree to do that as far as I know.
+
+Please explain how exactly you want to use this macro.
+
+Regards,
+Christian.
+
+
+> +
+> +/**
+> + * rbtree_reverse_for_each_entry_safe - iterate in reverse in-order over rb_root
+> + * safe against removal
+> + *
+> + * @pos:	the struct type * to use as a loop cursor.
+> + * @n:		another struct type * to use as temporary storage.
+> + * @root:	pointer to struct rb_root to iterate.
+> + * @member:	name of the rb_node field within the struct.
+> + */
+> +#define rbtree_reverse_for_each_entry_safe(pos, n, root, member) \
+> +	for ((pos) = rb_entry_safe(rb_last(root), typeof(*(pos)), member), \
+> +	     (n) = (pos) ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*(pos)), member) : NULL; \
+> +	     (pos); \
+> +	     (pos) = (n), \
+> +	     (n) = (pos) ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*(pos)), member) : NULL)
+> +
+>  /**
+>   * rbtree_postorder_for_each_entry_safe - iterate in post-order over rb_root of
+>   * given type allowing the backing memory of @pos to be invalidated
+> 
+> base-commit: 7156602d56e5ad689ae11e03680ab6326238b5e3
 
