@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93314B4ABC8
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 13:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E2FB4ABC9
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 13:28:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E800110E6AB;
-	Tue,  9 Sep 2025 11:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC2F10E6AD;
+	Tue,  9 Sep 2025 11:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZW9zCuV+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k2V2zEKN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6003E10E6AB
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 11:27:59 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE46510E6AC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 11:28:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 37E6944A3F;
- Tue,  9 Sep 2025 11:27:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8864C4CEF7;
- Tue,  9 Sep 2025 11:27:58 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 69B5C60224;
+ Tue,  9 Sep 2025 11:28:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B45A4C4CEF4;
+ Tue,  9 Sep 2025 11:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757417279;
- bh=TWqbTPy6g3aOt25SgCaZ8dS8gLPyJMdGLzlQDGrCUWw=;
+ s=k20201202; t=1757417282;
+ bh=vG/tHPWQjICG4+eoxMTR03E32chQ5y3jmjZmJY6WKtw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ZW9zCuV+9fBISUnxmzx3pqduZaOe9J0I8tObC0cSiNR44DqWzAY6OMaJva4DgcwpZ
- X7wb5JpibwiQxHZNpWQdDegJafp99SYwpRzUpcHyTzAA+hmrB6RRf0ILT8V3j289Tt
- A+Da04n80uYbyh9GK8F8guEdfZn0VGdCfYywbM1uYa69zNKK/m76mSOOcnGlUmdJIa
- 2BUd3yYh2xo+AYiGgwfbLm9Y9wUE6Kabedt4MmBYXNgj5H7xsMc9UChhvQ61wEh7lD
- jR5zx2maTAaijCI1Cpk9YQpha5X/fXvDLJVjied2+1NwP8kCtCFc4f6z6GsubXBbpK
- OtX33+PaOkvLQ==
+ b=k2V2zEKNqc+MB5R1++HHYHfzkIu9FyPLDWVtHNiasj5/9rpvpeCKMJa85cBeBL2fU
+ crNhIbxOxT0CADS4rSOtblPTWFAVSO/iHLXN8j5WkrsNt9FJg9CRyMZZYVsyT9ce17
+ kYkXZUBBzuICeiXDnuCQOLjmBagSR8ELCiQ2xxXLN23ukAFrHMSaeDFePpqIgDI6oe
+ x1XLFqfptgGWMVuXOr7HMVotdeWeD552gcheI9qVWoUoRrjpeCzzO7uA4BidVPB036
+ V2ULhmEMGTTbyDLZK3umB2o3z5wFCRxRJTNFnb2GGYXfcl1TkSaA44W8Qvw8uBQ4PI
+ s66NcAP3veDew==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 09 Sep 2025 13:27:22 +0200
-Subject: [PATCH v3 03/39] drm/atomic: Document __drm_connectors_state state
- pointer
+Date: Tue, 09 Sep 2025 13:27:23 +0200
+Subject: [PATCH v3 04/39] drm/atomic: Convert
+ __drm_atomic_get_current_plane_state() to modern accessor
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250909-drm-no-more-existing-state-v3-3-1c7a7d960c33@kernel.org>
+Message-Id: <20250909-drm-no-more-existing-state-v3-4-1c7a7d960c33@kernel.org>
 References: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
 In-Reply-To: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1708; i=mripard@kernel.org;
- h=from:subject:message-id; bh=TWqbTPy6g3aOt25SgCaZ8dS8gLPyJMdGLzlQDGrCUWw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkH+JWkP73cZmXZEPGvWadvlue7I5OmL1kctaCrInXyh
- 8Y1xfsOd0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJXFzFWF8mqqbKzua6JnLf
- 1sMnJ+xo9E/hmfJ+XcaC2zK3GgU55osIu7942WIcfyCEiW//tT1HHjLWF23unmB+f+Ong6cNtLO
- O6rRoJQUcCk9a37FaLi/Rx25et4v24tO/ub2eTLrkfqpl7w57AA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3784; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=vG/tHPWQjICG4+eoxMTR03E32chQ5y3jmjZmJY6WKtw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkH+JV9uNj2hck+ytMvO1bfwW027ahow1+e7/w/15/5c
+ 96gz2Jfx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIgXWM9a7Rp1Os1hgWXuUK
+ KI6Tf2T2+rlv68Qzs/ZzHtXPKJfYru/Wt4HTlklGkE37b5WUfPInxobP8ldt7+2v////5ZcwkT7
+ 97zvmPOVY5vZ66uxL7wvdH01eLzmdf+eaNYXZ/Yvb1Hu6FBkA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,52 +69,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the old and new state pointers are somewhat self-explanatory, the
-state pointer and its relation to the other two really isn't.
+The __drm_atomic_get_current_plane_state() function tries to get and
+return the existing plane state, and if it doesn't exist returns the one
+stored in the drm_plane->state field.
 
-Now that we've cleaned up everything and it isn't used in any
-modesetting path, we can document what it's still useful for: to free
-the right state when we free the global state.
+Using the current nomenclature, it tries to get the existing plane state
+with an ad-hoc implementation of drm_atomic_get_existing_plane_state(),
+and falls back to either the old or new plane state, depending on
+whether it is called before or after drm_atomic_helper_swap_state().
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+The existing plane state itself is deprecated, because it also changes
+when swapping states from the new state to the old state.
+
+Fortunately for us, we can simplify things. Indeed,
+__drm_atomic_get_current_plane_state() is only used in two macros:
+intel_atomic_crtc_state_for_each_plane_state and
+drm_atomic_crtc_state_for_each_plane_state().
+
+The intel variant is only used through the intel_wm_compute() function
+that is only ever called in intel_crtc_atomic_check().
+
+The generic variant is more widely used, and can be found in the malidp,
+msm, tegra and vc4 drivers. All of these call sites though are during
+atomic_check(), so we end up in the same situation than Intel's.
+
+Thus, we only ever use the existing state as the new state, and
+plane->state is always going to be the old state. Any plane isn't
+guaranteed to be part of the state though, so we can't rely on
+drm_atomic_get_old_plane_state() and we still need to use plane->state.
+
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ include/drm/drm_atomic.h | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 321c866d5b0a46df7a9adbbf5e4cabd1ff987aad..798d33b50ef7497ce938ce3dbabee32487dda2d6 100644
+index 798d33b50ef7497ce938ce3dbabee32487dda2d6..82e74d9444c4fa7f02ee0e472c8c68f7bc44cc6a 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -180,11 +180,26 @@ struct __drm_crtcs_state {
- 	u64 last_vblank_count;
- };
+@@ -789,15 +789,15 @@ drm_atomic_get_new_connector_state(const struct drm_atomic_state *state,
+ /**
+  * __drm_atomic_get_current_plane_state - get current plane state
+  * @state: global atomic state object
+  * @plane: plane to grab
+  *
+- * This function returns the plane state for the given plane, either from
+- * @state, or if the plane isn't part of the atomic state update, from @plane.
+- * This is useful in atomic check callbacks, when drivers need to peek at, but
+- * not change, state of other planes, since it avoids threading an error code
+- * back up the call chain.
++ * This function returns the plane state for the given plane, either the
++ * new plane state from @state, or if the plane isn't part of the atomic
++ * state update, from @plane. This is useful in atomic check callbacks,
++ * when drivers need to peek at, but not change, state of other planes,
++ * since it avoids threading an error code back up the call chain.
+  *
+  * WARNING:
+  *
+  * Note that this function is in general unsafe since it doesn't check for the
+  * required locking for access state structures. Drivers must ensure that it is
+@@ -814,13 +814,19 @@ drm_atomic_get_new_connector_state(const struct drm_atomic_state *state,
+  */
+ static inline const struct drm_plane_state *
+ __drm_atomic_get_current_plane_state(const struct drm_atomic_state *state,
+ 				     struct drm_plane *plane)
+ {
+-	if (state->planes[drm_plane_index(plane)].state)
+-		return state->planes[drm_plane_index(plane)].state;
++	struct drm_plane_state *plane_state;
  
- struct __drm_connnectors_state {
- 	struct drm_connector *ptr;
--	struct drm_connector_state *state, *old_state, *new_state;
++	plane_state = drm_atomic_get_new_plane_state(state, plane);
++	if (plane_state)
++		return plane_state;
 +
-+	/**
-+	 * @state:
-+	 *
-+	 * Used to track the @drm_connector_state we will need to free
-+	 * when tearing down the associated &drm_atomic_state.
-+	 *
-+	 * Before a commit, and the call to
-+	 * drm_atomic_helper_swap_state() in particular, it points to
-+	 * the same state than @new_state. After a commit, it points to
-+	 * the same state than @old_state.
++	/*
++	 * If the plane isn't part of the state, fallback to the currently active one.
 +	 */
-+	struct drm_connector_state *state;
-+
-+	struct drm_connector_state *old_state, *new_state;
-+
- 	/**
- 	 * @out_fence_ptr:
- 	 *
- 	 * User-provided pointer which the kernel uses to return a sync_file
- 	 * file descriptor. Used by writeback connectors to signal completion of
+ 	return plane->state;
+ }
+ 
+ int __must_check
+ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
 
 -- 
 2.50.1
