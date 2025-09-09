@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA444B50359
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 18:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C8B50F5D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:28:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0B9E10E7AF;
-	Tue,  9 Sep 2025 16:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A3510E873;
+	Wed, 10 Sep 2025 07:28:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UdSgX1nH";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RMD74kV8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD6310E263
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 16:56:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 251BC441FC;
- Tue,  9 Sep 2025 16:56:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA42C4CEF8;
- Tue,  9 Sep 2025 16:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757437003;
- bh=+r8mDA4yCkz2ncRANEB55SO7yWNFR6rNQqrLvvJyUZQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UdSgX1nHM0h+DGszo8LEfSvtH6HX4Fvhat9I04nfz2X95jYFW67ar/ho2cIvvEK0x
- mfDHom8P1x01fUtsJDdfOHrUYtwynjhhE5uOx2ekZAvOQ3OTNnruzYN8JhhPPt0XhU
- ZCRbdtvDRVFc8n0lKUEC+DJRvWJiSupdMTpGJ7XMkgGFd/mWNh+eeWI/I6dg4IwJNY
- NI3NvPkVUXMau5Zr3JouEo4KLi1XcpKadxCRGtDVcFGMrc77rLnyL4LL6d5paLwr4r
- gGq9WiQr//pT1vo10cQ0zUOnVOArMpF3FpQhyF+sj+cT8BRUxLrFvvnLVC5TkG68rf
- 7oyzk/13kYkNg==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- Sibi Sankar <quic_sibis@quicinc.com>,
- Rajendra Nayak <quic_rjendra@quicinc.com>, Xilin Wu <wuxilin123@gmail.com>,
- Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
- Srinivas Kandagatla <srini@kernel.org>,
- Christopher Obbard <christopher.obbard@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
- devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Konrad Dybcio <quic_kdybcio@quicinc.com>
-Subject: Re: [PATCH v7] arm64: dts: qcom: x1e78100-t14s-oled: Add eDP panel
-Date: Tue,  9 Sep 2025 11:56:30 -0500
-Message-ID: <175743699546.2735486.13197597490732571884.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250814-wip-obbardc-qcom-t14s-oled-panel-v7-1-89966ae886a3@linaro.org>
-References: <20250814-wip-obbardc-qcom-t14s-oled-panel-v7-1-89966ae886a3@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AD5F710E263
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 16:57:29 +0000 (UTC)
+Received: from
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+ (linux.microsoft.com [13.77.154.182])
+ by linux.microsoft.com (Postfix) with ESMTPSA id E2D7F2119CB4;
+ Tue,  9 Sep 2025 09:57:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E2D7F2119CB4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1757437048;
+ bh=lme8K4Nr1+yoqaz7H6lvUNp0A2O6Va0RIFe2JGydUTE=;
+ h=From:To:Subject:Date:From;
+ b=RMD74kV8g9ic+OtmzX19t+LcdSJGDKWM+owfdL/97U9Rv2f17n/HsuVdRDK6OM4OG
+ hfscUIZphxW4NztwU18/7Y96smpq2BtQ86ZSLWuhmyIQt8XLwnqjGi7QvFo4hNSD1J
+ ipB3HSpms4C9ET8HhqVHPDC1oXI2wBW+8h4LwogU=
+From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, drawat.floss@gmail.com,
+ kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, deller@gmx.de, arnd@arndb.de, soci@c64.rulez.org,
+ rdunlap@infradead.org, gonzalo.silvalde@gmail.com,
+ bartosz.golaszewski@linaro.org, mhklinux@outlook.com,
+ ssengar@linux.microsoft.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+Subject: [RFC 0/3] fbdev: remove Hyper-V framebuffer driver
+Date: Tue,  9 Sep 2025 09:57:24 -0700
+Message-Id: <1757437044-2170-1-git-send-email-ptsm@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Spam-Status: No, score=-2.0 required=2.1 tests=BAYES_00,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+ version=3.4.0
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+X-Mailman-Approved-At: Wed, 10 Sep 2025 07:28:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,18 +63,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series removes the Hyper-V framebuffer driver. The Hyper-V DRM
+driver is available since kernel version 5.14 and provides full KMS
+support along with fbdev emulation via the DRM fbdev helpers. This makes
+the hyperv_fb driver redundant. So remove hyperv_fb driver.
 
-On Thu, 14 Aug 2025 21:16:19 +0100, Christopher Obbard wrote:
-> Add the Samsung ATNA40YK20 eDP panel to the device tree for the
-> Snapdragon T14s OLED model.
-> 
-> 
+Prasanna Kumar T S M (3):
+  drivers: video: fbdev: Remove hyperv_fb driver
+  drm: hyprev: Remove reference to hyperv_fb driver
+  drivers: hv: vmbus_drv: Remove reference to hpyerv_fb
 
-Applied, thanks!
+ MAINTAINERS                               |    1 -
+ drivers/gpu/drm/Kconfig                   |    3 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_proto.c |   15 +-
+ drivers/hv/vmbus_drv.c                    |    4 +-
+ drivers/video/fbdev/Kconfig               |    8 -
+ drivers/video/fbdev/Makefile              |    1 -
+ drivers/video/fbdev/hyperv_fb.c           | 1386 ---------------------
+ 7 files changed, 8 insertions(+), 1410 deletions(-)
+ delete mode 100644 drivers/video/fbdev/hyperv_fb.c
 
-[1/1] arm64: dts: qcom: x1e78100-t14s-oled: Add eDP panel
-      commit: e696e7aa439f1134ca5f91d6c86b332b72e57d9c
+--
+2.49.0
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
