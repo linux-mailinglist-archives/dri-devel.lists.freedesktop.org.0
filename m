@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41285B4A638
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 10:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52269B4A6A3
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:07:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D08E10E10A;
-	Tue,  9 Sep 2025 08:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8166310E23A;
+	Tue,  9 Sep 2025 09:07:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="uEu9gw6B";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B8oCIwTM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB6710E23A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 08:58:56 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5898wVh8252869;
- Tue, 9 Sep 2025 03:58:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757408311;
- bh=0d7t8ytG1KYXMuk/O6rae+6WjEMPs0v0Joex6Yfs+1A=;
- h=Date:Subject:To:References:From:In-Reply-To;
- b=uEu9gw6BPWlTNhXTT4D6LNiGVy5VuQ7L4xsHXc5dtUjVoh4Eckel/qqz4SN/xNRAV
- C7zegZFBQddRgmy0XDd6qbuKrk6IYbX3fMuSnHcKxVLt1hw2lD9yypTjD54UkEeH9a
- Kxme6pcHt0udMcvDAp3iPGdN3iwbnrLwnHh8q2Zc=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5898wVuH3036821
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 9 Sep 2025 03:58:31 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 9
- Sep 2025 03:58:30 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 9 Sep 2025 03:58:30 -0500
-Received: from [172.24.233.62] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.233.62])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5898wQPo2383855;
- Tue, 9 Sep 2025 03:58:27 -0500
-Message-ID: <0b6587e1-b0ae-4580-9ed9-f4c8b8c9378e@ti.com>
-Date: Tue, 9 Sep 2025 14:28:26 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF0ED10E23A;
+ Tue,  9 Sep 2025 09:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757408829; x=1788944829;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rdNdT4h2Oc0EFRwt8g29KfZMzwaT30SW5hT7WinTgZc=;
+ b=B8oCIwTMzRUf0FPyUP4hSjRMErb0kE10mrJPqFDVImKEsqIydotVbTMW
+ ZfB1gdneiQUWw3S7a7D7XmEk9w/8ynTC6CWACWgMyzdevm9WOoAA/F0mM
+ ApPfAU9eOXGhhqwNUhAibK+R7Z2+MM+FceiUPXO5e6iKML3qF8v1k0sdS
+ ylVPU5yH5UWlJBUeXbXZEyT3uCkUB9j8Al662/oi8z/EN0kNoKFhTmY0Q
+ S8lPxzriATBA1DQlzr8jvNY3ufnLWGbvAXAVHrSq+8sIlEnbtrYLv8P3a
+ 6J77qPEZbWRhbZwvZjObIY0Ypla5w9O35U4wBcVXkEG5EWGk8iFe/368T w==;
+X-CSE-ConnectionGUID: 6R6aeuQ/TLmUSIojtiKQhQ==
+X-CSE-MsgGUID: bgSlu5r9QCqsPxLUAhqrZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="85132626"
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="85132626"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2025 02:06:54 -0700
+X-CSE-ConnectionGUID: MXhyCgWXSiW/Ha1acc3yeQ==
+X-CSE-MsgGUID: HPemkfdXQ6S/I13Cl3D7cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="172628932"
+Received: from intel-s2600wft.iind.intel.com ([10.223.26.143])
+ by fmviesa007.fm.intel.com with ESMTP; 09 Sep 2025 02:06:53 -0700
+From: S Sebinraj <s.sebinraj@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: jeevaka.badrappan@intel.com,
+	S Sebinraj <s.sebinraj@intel.com>
+Subject: [PATCH v2 0/2] drm: Add GPU frequency tracepoint
+Date: Tue,  9 Sep 2025 14:29:17 +0530
+Message-Id: <20250909085919.168658-1-s.sebinraj@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tidss: Update Videoport SYNC LOST IRQ bit
-To: Harikrishna Shenoy <h-shenoy@ti.com>, <jyri.sarha@iki.fi>,
- <tomi.valkeinen@ideasonboard.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <bparrot@ti.com>, <sam@ravnborg.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250903100929.2598626-1-h-shenoy@ti.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20250903100929.2598626-1-h-shenoy@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,69 +66,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hari,
+Add a GPU frequency tracepoint at the DRM subsystem level.
+Integrates with the Xe PMU to provide frequency tracing.
 
-On 03/09/25 15:39, Harikrishna Shenoy wrote:
-> Update VP SYNC LOST Bit as per register description for
-> DSS0_COMMON_VP_IRQENABLE_0 give in TRM.
-> 
-> Link:https://www.ti.com/lit/zip/spruil1/SPRUIL_DRA829_TDA4VM
-> Table 12-597. DSS0_COMMON_VP_IRQENABLE_0
-> 
-> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
-> 
-> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_irq.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_irq.h b/drivers/gpu/drm/tidss/tidss_irq.h
-> index dd61f645f662..0194010a7fff 100644
-> --- a/drivers/gpu/drm/tidss/tidss_irq.h
-> +++ b/drivers/gpu/drm/tidss/tidss_irq.h
-> @@ -53,7 +53,7 @@ static inline dispc_irq_t DSS_IRQ_PLANE_MASK(u32 plane)
->   #define DSS_IRQ_VP_FRAME_DONE(ch)	DSS_IRQ_VP_BIT((ch), 0)
->   #define DSS_IRQ_VP_VSYNC_EVEN(ch)	DSS_IRQ_VP_BIT((ch), 1)
->   #define DSS_IRQ_VP_VSYNC_ODD(ch)	DSS_IRQ_VP_BIT((ch), 2)
-> -#define DSS_IRQ_VP_SYNC_LOST(ch)	DSS_IRQ_VP_BIT((ch), 3)
-> +#define DSS_IRQ_VP_SYNC_LOST(ch)	DSS_IRQ_VP_BIT((ch), 4)
+The tracepoint is exposed at:
+ /sys/kernel/debug/tracing/events/power/gpu_frequency
 
-I think DSS_IRQ_VP_BIT((ch), 3) is correct only. As we discussed, above 
-bits correspond to virtual mask that driver is using as mentioned in the 
-comment :
+ Format: {unsigned int state, unsigned int gpu_id}
+ - state: GPU frequency in KHz
+ - gpu_id: GPU clock domain identifier
 
-/
-  * 
+S Sebinraj (2):
+  drm: Add GPU frequency tracepoint at DRM level
+  drm/xe: Add DRM GPU frequency tracepoint to Xe
 
-  * bit group |dev|wb |mrg0|mrg1|mrg2|mrg3|plane0-3| <unused> | 
+ drivers/gpu/drm/Kconfig                   | 11 ++++++
+ drivers/gpu/drm/Makefile                  |  1 +
+ drivers/gpu/drm/drm_gpu_frequency_trace.c | 16 ++++++++
+ drivers/gpu/drm/drm_gpu_frequency_trace.h | 47 +++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_gpu_freq_trace.h    | 14 +++++++
+ drivers/gpu/drm/xe/xe_pmu.c               | 26 ++++++++++++-
+ drivers/gpu/drm/xe/xe_pmu_types.h         |  4 ++
+ 7 files changed, 117 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_gpu_frequency_trace.c
+ create mode 100644 drivers/gpu/drm/drm_gpu_frequency_trace.h
+ create mode 100644 drivers/gpu/drm/xe/xe_gpu_freq_trace.h
 
-  * bit use   |D  |fou|FEOL|FEOL|FEOL|FEOL|  UUUU  |          | 
-
-  * bit number|0  |1-3|4-7 |8-11|  12-19  | 20-23  |  24-31   | 
-
-  *
-/
-
-Furthermore, it gives correct value per the above table when sync lost 
-occurs :
-[ 2245.588346] tidss 30220000.dss: CRTC1 SYNC LOST: (irq 800)
-
-Hence, NACK for this patch.
-
-Regards
-Devarsh
-
-
-
-
-
-
-
-
-
-
-
->   
->   #define DSS_IRQ_PLANE_FIFO_UNDERFLOW(plane)	DSS_IRQ_PLANE_BIT((plane), 0)
->   
+-- 
+2.34.1
 
