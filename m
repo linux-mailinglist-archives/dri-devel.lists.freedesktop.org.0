@@ -2,67 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64661B4A6D1
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B53B4A6CE
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E7B10E671;
-	Tue,  9 Sep 2025 09:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C9010E66B;
+	Tue,  9 Sep 2025 09:09:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="qUQwkFQS";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q36jG4Q5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D403C10E670
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 09:09:46 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58999LTC255473;
- Tue, 9 Sep 2025 04:09:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757408961;
- bh=7PfiPykHsTbwLkTcmOnffcGjkDy3xo0UuxzokO5rkK8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=qUQwkFQSiB0KBTjNs6hjtkqRwRmiAD3mJvTqIg9aqF4xooBrOe6mc8bIr3TsMT2x5
- o9EC8h2b8TgSav6Oy+8X7ktzo5UfxA5oPRvFZdsBf6up7Z6sYvYWEUkpFyU/El6KSa
- pddDL8IMn4MiRld32bkewqMuyGMcV3tjbLQ4wpnk=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58999Kfe247942
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 9 Sep 2025 04:09:21 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 9
- Sep 2025 04:09:20 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 9 Sep 2025 04:09:20 -0500
-Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58998Pkw2399851;
- Tue, 9 Sep 2025 04:09:13 -0500
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
- <andy.yan@rock-chips.com>, <mordan@ispras.ru>, <linux@treblig.org>,
- <viro@zeniv.linux.org.uk>, <aradhya.bhatia@linux.dev>,
- <javierm@redhat.com>, <tomi.valkeinen@ideasonboard.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devarsht@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>
-CC: <lyude@redhat.com>, <luca.ceresoli@bootlin.com>
-Subject: [PATCH v6 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP
- state in bridge atomic check
-Date: Tue, 9 Sep 2025 14:38:24 +0530
-Message-ID: <20250909090824.1655537-7-h-shenoy@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250909090824.1655537-1-h-shenoy@ti.com>
-References: <20250909090824.1655537-1-h-shenoy@ti.com>
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE3810E66B;
+ Tue,  9 Sep 2025 09:09:40 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-7725de6b57dso6158663b3a.0; 
+ Tue, 09 Sep 2025 02:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757408980; x=1758013780; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kqPc2XyEx7hJaGX2RHm1jVlEm9h0J3/vXED5Ck3jL34=;
+ b=Q36jG4Q5C5Zzwyo6PROQhxJOR2bucCt93eu5Ugzmc6kRsSzLFLfAyguPwepx6OtNX7
+ JSkskIXOcTwr8UixpPOs2inKsm8bhKTTZ7oQ6Vm7QsgNfsOsgA+IzH3rY/KyD7u+np/h
+ D8irLU3LGLskqpxJ8tQzJ7bppF4TW1EJUfyzstzUKuFYp1j5K+xlD3pEvVS5TWkevuuc
+ wykzepotqD6Qj3n+1Gs59gqWrtumSnSy1TKVfPFMsyl/dWXpBkXXLfVgWXt+03MTu4xS
+ x0tyKe/tgnI+ZtaLWgD8QVUqzpzR83bygF2byppecxSOMLlh6/Uf2FS0ekFbew67Cyn+
+ 1kHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757408980; x=1758013780;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kqPc2XyEx7hJaGX2RHm1jVlEm9h0J3/vXED5Ck3jL34=;
+ b=fMyYKjfTK1TGFnPUU+j8uGTCduirCjq0UD5WKwvJtIFW0nRffKOIBGWnCPn6O7jIb4
+ hoYTq7fDU12fO64AiqvxN/JDPQlmENj5cz1MNj8D8TMCpmzs1Vm3DVgDBPBqccj22kEQ
+ DSqtb9lvXbhlxSq963Rhh9rt7taKVLIgaAnXdS3h5uimkxriyzVJt/hIGpt9KIXdTMfZ
+ wn1EUl93X4JeUI2YyRvOVMIF/l5acuiZK95vLvXgu6ShUdaXmrRYR+ms/0SLl1i5BVYL
+ Zoy/8T/1RpeBxKUt0olfCqV1nCEer6HRhzAjQgqVQJTVc5JPIh8bVptrt9pGGciAixr9
+ GP9A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWJpU098XEDfNsZbwaaOqR17VDaYCGXSo6e3ZCTzrbgvwZ2DgIPtjNc19N5QsOUxHBYXxQOfijF@lists.freedesktop.org,
+ AJvYcCWXlnRWSyTySBKB0RcLXqQZOZYeWAmzb8mIyK8S6/4eiVT84R8wNsZd/VB3Zdq+7CXyJ2BftDnWdMYc@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjpWdBPsRm9QCTtbkIMo4daygmSuFamKuxMPh90bmpuaHGdjsF
+ pMD2CRg2LB0ZzwB+kxXqhLB6I/5475iM8pilF5TCitWWNtFfaO0vA+so
+X-Gm-Gg: ASbGncubHENIHKe/DsTitUU0beFttqbdttr8NhFn6nwq70bmp52TnL1JByBT3oYgiiQ
+ DAvAQDgoN9T88+egvhkZ5LUBiUCnSpSHvEMhRoodPi32EfxrLdWGt2D5258dgCz7RhXJ1EQ8END
+ Q/iALeER9tJGVFLAJweGOb9I+bdBpww0b+OXmOUER2FOJejEgxuFp9aMnzDctoUO4tBzOcfLxKQ
+ aNlsHFqvLOLKV3oEWAgrcL0W5vVmd5nCciebsywDSWu/n+PGcM5q1w0Y28QdcLeCvmsDD2u4bB8
+ FjblTOLS3hINc66Beb0Feye0+x9+/bCkzPY5K3SB+5H9+egj9i6M7HNDLcBkRgz0/QotDPJ2Lvg
+ tckFkQ9NqD4rO2cJqZn2NkW/Vk2hAW1FIut2ciAvUPWqrN0CCwuFy0IsLZF0oBI9ajnKc+FI=
+X-Google-Smtp-Source: AGHT+IGLMvgR09TtpXV6LHI+sqDFZWwyxmCEyzU7IJEVMiPIwQK0Li50mUmwwWRucDIt6KYIn3TMog==
+X-Received: by 2002:a05:6a00:2191:b0:76b:f7af:c47d with SMTP id
+ d2e1a72fcca58-7742dd60109mr14646722b3a.4.1757408980074; 
+ Tue, 09 Sep 2025 02:09:40 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-774660e4dcfsm1469549b3a.18.2025.09.09.02.09.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 02:09:39 -0700 (PDT)
+Date: Tue, 9 Sep 2025 17:09:35 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>, austin.zheng@amd.com, jun.lei@amd.com,
+ harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ zaeem.mohamed@amd.com, wenjing.liu@amd.com, chiahsuan.chung@amd.com,
+ Natanel.Roizenman@amd.com, Daniel.Sa@amd.com,
+ jserv@ccns.ncku.edu.tw, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/amd/display: Optimize reserved time candidates
+ sorting using standard sort()
+Message-ID: <aL/uz16tMybHTeYD@visitorckw-System-Product-Name>
+References: <20250824182359.142050-1-visitorckw@gmail.com>
+ <20250824182359.142050-2-visitorckw@gmail.com>
+ <c28df8a2-9ec1-41d0-afe4-4ee047290d27@amd.com>
+ <655a009a-0b69-4e11-949e-ff0f47b424d5@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <655a009a-0b69-4e11-949e-ff0f47b424d5@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,56 +100,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have DBANC framework and legacy connector functions removed,
-handle the HDCP disabling in bridge atomic check rather than in connector
-atomic check previously.
+On Mon, Sep 08, 2025 at 07:35:08PM +0200, Christian König wrote:
+> On 08.09.25 19:05, Alex Hung wrote:
+> > 
+> > 
+> > On 8/24/25 12:23, Kuan-Wei Chiu wrote:
+> >> Replace the custom bubble sort used for sorting reserved time
+> >> candidates in with the kernel's standard sort() helper. The previous
+> >> code had O(N^2) time complexity, while the generic kernel sort runs in
+> >> O(N log N). This improves efficiency and removes the need for a local
+> >> sorting implementation, while keeping functionality unchanged.
+> >>
+> >> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> >> ---
+> >> Compile test only.
+> >>
+> >>   .../dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c   | 23 +++++++++++--------
+> >>   1 file changed, 13 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> >> index e763c8e45da8..2b13a5e88917 100644
+> >> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> >> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
+> >> @@ -2,19 +2,21 @@
+> >>   //
+> >>   // Copyright 2024 Advanced Micro Devices, Inc.
+> >>   +#include <linux/sort.h>
+> >> +
+> > 
+> > Thanks for working on this, but this file is shared with another OS and it is not possible to replace sort function with Linux-only sort.
+> 
+> That's not a valid argument. Linux code must be solely written for Linux, you can't reject a valid patch because it breaks sharing code with other operating systems.
+> 
+Hi Alex and Christian,
 
-Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
----
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Thanks for your feedback.
+Based on the discussion, I plan to keep this patch in my v2.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 4fb1db3e030c..af41b2908a74 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1960,6 +1960,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- {
- 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
- 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
-+	struct drm_connector_state *old_state, *new_state;
-+	struct drm_atomic_state *state = crtc_state->state;
-+	struct drm_connector *conn = mhdp->connector;
-+	u64 old_cp, new_cp;
- 
- 	mutex_lock(&mhdp->link_mutex);
- 
-@@ -1979,6 +1983,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- 	if (mhdp->info)
- 		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
- 
-+	if (conn && mhdp->hdcp_supported) {
-+		old_state = drm_atomic_get_old_connector_state(state, conn);
-+		new_state = drm_atomic_get_new_connector_state(state, conn);
-+		old_cp = old_state->content_protection;
-+		new_cp = new_state->content_protection;
-+
-+		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
-+		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-+			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
-+			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
-+			crtc_state->mode_changed = true;
-+		}
-+
-+		if (!new_state->crtc) {
-+			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
-+				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
-+		}
-+	}
-+
- 	mutex_unlock(&mhdp->link_mutex);
- 	return 0;
- }
--- 
-2.34.1
+Regards,
+Kuan-Wei
 
