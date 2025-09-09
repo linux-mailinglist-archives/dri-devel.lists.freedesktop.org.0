@@ -2,80 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFE4B49F15
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 04:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D04B50141
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 17:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6D110E0DB;
-	Tue,  9 Sep 2025 02:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13FC410E7A8;
+	Tue,  9 Sep 2025 15:29:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QpbMo+2M";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="uTNMEaJm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49A8210E0DB
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 02:19:11 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-b0449b1b56eso740736766b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 19:19:11 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0746810E605
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 02:28:28 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3c6abcfd142so2470290f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 19:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757384350; x=1757989150; darn=lists.freedesktop.org;
+ d=google.com; s=20230601; t=1757384906; x=1757989706;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UvRPKCJK+kNCgeqO86d67tqhHi9R/WWb/GxxGuL8x0w=;
- b=QpbMo+2M3qTju2s/i7KeBDWny+j0c5CCk1HGNawfG+36DmT3AT1ZVj5ngrbjojVFvP
- fYbPIO8py+dWF3wVw6HNLwR1v1WRSXSmHcMk9anMO+3Oz9TBotTXvVWErbMZf9s3eAmL
- SMWsMNDhWBOMVesQlOUofP2kb+s8X2YaSNCaA9uQCPedgmPfcyLRWi8qZSgxUq6a/o2Z
- CfQ7TEXD5OWeUhvcY/olu9sm2ZQQelY+kpJcLnW9txJ0XBBYElSG3CBbTO70wT2KIkAA
- J8WTLrd6DgHmXLm9qzY9Tdm5Gl0/R3ew6taZQEFC6FTVAKJgqjGK3InSwLj42hqsDBMC
- IZ1A==
+ bh=PJBOD8IkKU8HrE1Azq7n6vDJNYZogNLJnaPVYbnTp3Y=;
+ b=uTNMEaJmdior3WUxics1zTMxqZ8hS8LVajvH5RxyrV8/NTT6u5cjup+zf0w3FHZzLx
+ YIZzzPXpV5Qkg1GD2c6q0pf+lu3cdAyQXr/gl6SP+0MS5JYbqhH5o6oYKUZEGaJAvkFz
+ 2AX/Jr/javRZduUispJbCoW71PALwwM13t5i9jNhkC5y+QSp0u8ADia34Jgtm2jc5ebh
+ 202tJ4BFLRkBNHP3ByOHjcOlyt+YumF3MHl9HdanQPGnmJLvQflIvYUoIKUO+JMS9BLZ
+ NZtUd16OjN8EPCCsyTkb3yRngB9OGJxuk1pZHCiEXfUcNSV7+WRj4U7J9iRFAP2vOzcJ
+ T9lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757384350; x=1757989150;
+ d=1e100.net; s=20230601; t=1757384906; x=1757989706;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UvRPKCJK+kNCgeqO86d67tqhHi9R/WWb/GxxGuL8x0w=;
- b=PQNGIu+0zf7Ql+wV3gjyWGMgNDiDuEExrTfEWACT4xKOKGa8BpAiwwu/wL0TUIx7Vw
- UVgD5IOEh2iYZqnUyRp8ZG2sUcjJdPlYP8Gsw9rre7LkNFizZqNVInj7qU1hcmJsXGFI
- 2ne7vyawz2z69DmMEyItMJItDE70LtLKKYg9Wmf9+rBVT6B3qnUSR22N3QdAw4nQacIR
- iRpbR3YWZXhfGnYZSqP5NS9VSQ4xs+Kv66xXrCSfWTvKrguFTDC6Iuuc2iLN8p4OYLfu
- vnmX9C2T/o2EkpZGaAGnjmF8TA5njQ6OAEYYDGVNSlqDTK83SRKiA8a6SPx8E2/tpd3k
- W0Cg==
-X-Gm-Message-State: AOJu0YyQly0MoEBzOcioNdEeR1Z/uZk2vZGcxUD5HIGtueV8br/afyHn
- /eBc3/Xx6KTn7p3r+amEkvsEOJytpZk8tZ8O3nXOyXG0ZCAS0fVJO9jJ5cb1bmIbj5JVZ9XZSSh
- F1ZZJOnGmHbPR2xFGCORsgPN+tWssFAY=
-X-Gm-Gg: ASbGncuBPirDT43v5qfpftuaLailzJls0++32wFppIMQRYDaRxqBf7RDPtVmzpbPcgE
- wVsdcLiCrMjK2tIb6xn4cAaj/LZYrP1bX+FsjxnB4EkOybvmWmgzGmQU/Yw1lwVz/q6yBk+v7dQ
- /nhdr59VhU6U8X7De6SuCo2GrP59iWW6JFEkE9bsGlSFp2M+ZPkzOeE6viRed99lmuLKBVS41KM
- caA7A==
-X-Google-Smtp-Source: AGHT+IF0ojGfLsVbNe2EXxxIANSe+zd3BuP0PWTFJD+VmQrDZcvpCqFTs1wan4o9XVQtoEf8UmOwBUP1Pb9fXf0w0AU=
-X-Received: by 2002:a17:906:6d4:b0:b07:6538:4dc5 with SMTP id
- a640c23a62f3a-b076538667dmr149881366b.64.1757384349488; Mon, 08 Sep 2025
- 19:19:09 -0700 (PDT)
+ bh=PJBOD8IkKU8HrE1Azq7n6vDJNYZogNLJnaPVYbnTp3Y=;
+ b=vYHF0szO9br1PxEhNZ613gX4BmSCS4dYPnwMYsecj77n+YJkTBhmdNRewTwdf0ypHf
+ WFQJayPwedC/QR/2PKA8ZFLWRATO5bPvLZiG0ibGrDBr8UfLAw3jUrFgV2e1rX1nNvGx
+ SZY5olSsZvB8sW8X/kdhLrxUFyTjHcRrQtGA1uwjU2yKZfhVklZBO4IceCEwcj68KEmb
+ o1fgShVTCxeJmt+TB3x1ffmBBPxqSCMPbVtpuaIfwaOwpyNh553PTCMf3Wxeym4MLCsO
+ Gqhh0tfJcoqBKQs8XPEIHqNrJotabZlYO5n/t9gHmIBzIpX8PreTvdTzHFduy0+kqmJr
+ DWhA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKJYFPKtFRh7pK6HPXNnVIh8iX9RiEBD+o4if3JMB0kvP1W091D8YnIeyXAPfVkxNQGNvThrepAWk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymCyz7C4XeCv5Fn9S2Ye6PnK4etdLdRyFqBPOBUiljyYLKjRY6
+ RQ/An1jfBwhYZQcIVydt6vPaF1BUaeHABwDfwLfDCLyyWlo1hK3FnqfAJiGf+cyQiUoxqaQvHYk
+ xlxLGDZ3xd8AKXymHDU/J92q2vON2O7DWY2LmNQ33Bg==
+X-Gm-Gg: ASbGncsWxpKpVQ9s4/vRNZnQYLtFelomoWzxL/3BcVsq1O8V9ZAItv6DkvA5GbCzZ9/
+ dEHHAAi2hkSlS1AbgEVEHapKNurT/+5aEjqCy7ckhMnWxPP30+ip7ntgyIxi5Wr/irfZSt3IvT2
+ NVabkBVX1k2DgKgSne/u9rf++L/s3aGlmRRMpy/wDSh/PWJgAUL3GJ3sQK4hxTGP1EetQdJxjxQ
+ vE2f/av/+kVtNYsbw==
+X-Google-Smtp-Source: AGHT+IHwYp6SYclYWSmS86XGBCa6NT9PSPqdtZTxIkstcBCzdrCYANuM1MAFZPIHdfMtTnGEKjXegHkRsnzEOQniwLY=
+X-Received: by 2002:a05:6000:4022:b0:3db:b975:dba with SMTP id
+ ffacd0b85a97d-3e64bfd7047mr7586750f8f.63.1757384906453; Mon, 08 Sep 2025
+ 19:28:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250902041024.2040450-1-airlied@gmail.com>
- <20250902041024.2040450-12-airlied@gmail.com>
- <4e462912-64de-461c-8c4b-204e6f58dde8@amd.com>
- <CAPM=9txiApDK8riR3TH3gM2V0pVwGBD5WobbXv2_bfoH+wsgSw@mail.gmail.com>
- <f4d04144-d8e7-4d4e-81a9-65e1fcef26fd@amd.com>
-In-Reply-To: <f4d04144-d8e7-4d4e-81a9-65e1fcef26fd@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 9 Sep 2025 12:18:57 +1000
-X-Gm-Features: Ac12FXxS3xUS5G2sDvkGWbEQ-36qve91eBxiVAMCJmoW1HsflS2lot9U-Pu8uuI
-Message-ID: <CAPM=9txzf8OfyQ79X29iC0s_QqaNVPfPsAFbRw056Zsjvb2iTg@mail.gmail.com>
-Subject: Re: [PATCH 11/15] ttm/pool: enable memcg tracking and shrinker. (v2)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, tj@kernel.org, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Muchun Song <muchun.song@linux.dev>, cgroups@vger.kernel.org, 
- Dave Chinner <david@fromorbit.com>, Waiman Long <longman@redhat.com>,
- simona@ffwll.ch
+References: <20250908063732.764289-1-wuzhongtian@huaqin.corp-partner.google.com>
+ <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
+In-Reply-To: <CAD=FV=U5CYQ8x7jya6y=eqEY4Zi87unrRTKfexEahVeBXMD5yA@mail.gmail.com>
+From: zhongtian wu <wuzhongtian@huaqin.corp-partner.google.com>
+Date: Tue, 9 Sep 2025 10:28:15 +0800
+X-Gm-Features: AS18NWCuU7K2tEuEd2T-9GEjCvDBJJZJYM3vHjpBXuI_N6ttFf3FBPcENRzWUMY
+Message-ID: <CAJUL2LNw6y2-za2ghLO3LYynbTf0KuR4_owJqSb8Ec8FJ61WzQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/panel-edp: Add 4 more panels needed by mt8189
+ Chromebooks
+To: Doug Anderson <dianders@chromium.org>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 09 Sep 2025 15:29:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,90 +90,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 4 Sept 2025 at 21:30, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
+Hi Doug,
+
+I'm very sorry for my incorrect operation and thank you for your
+support and corrections.
+
+On Tue, Sep 9, 2025 at 12:01=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
 >
-> On 04.09.25 04:25, Dave Airlie wrote:
-> > On Wed, 3 Sept 2025 at 00:23, Christian K=C3=B6nig <christian.koenig@am=
-d.com> wrote:
-> >>
-> >> On 02.09.25 06:06, Dave Airlie wrote:
-> >>> From: Dave Airlie <airlied@redhat.com>
-> >>>
-> >>> This enables all the backend code to use the list lru in memcg mode,
-> >>> and set the shrinker to be memcg aware.
-> >>>
-> >>> It adds the loop case for when pooled pages end up being reparented
-> >>> to a higher memcg group, that newer memcg can search for them there
-> >>> and take them back.
-> >>
-> >> I can only repeat that as far as I can see that makes no sense at all.
-> >>
-> >> This just enables stealing pages from the page pool per cgroup and won=
-'t give them back if another cgroup runs into a low memery situation.
-> >>
-> >> Maybe Thomas and the XE guys have an use case for that, but as far as =
-I can see that behavior is not something we would ever want.
+> Hi,
+>
+> On Sun, Sep 7, 2025 at 11:37=E2=80=AFPM Zhongtian Wu
+> <wuzhongtian@huaqin.corp-partner.google.com> wrote:
 > >
-> > This is what I'd want for a desktop use case at least, if we have a
-> > top level cgroup then logged in user cgroups, each user will own their
-> > own uncached pages pool and not cause side effects to other users. If
-> > they finish running their pool will get give to the parent.
+> > Add a few generic edp panels used by mt8189 chromebooks. For
+> > BOE-NV140WUM-N44 , the enable timing required 80ms. For
+> > CSW-MNE007QB3-1, the hpd_absent timing rquired 80ms, the enable timing
+> > required 50ms, the disable timing required 50ms. For CSW-MNE007QS3-6,
+> > the enable timing required 50ms. For CMN-N140JCA-ELK, the enable timing
+> > required 80ms and disable timing required 50ms.
 > >
-> > Any new pool will get pages from the parent, and manage them itself.
+> > BOE NV140WUM-N44 V8.2
+> > edid-decode (hex):
 > >
-> > This is also what cgroup developers have said makes the most sense for
-> > containerisation here, one cgroup allocator should not be able to
-> > cause shrink work for another cgroup unnecessarily.
+> > 00 ff ff ff ff ff ff 00 09 e5 6a 0a 00 00 00 00
+> > 2e 20 01 04 a5 1e 13 78 03 fb f5 96 5d 5a 91 29
+> > 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 61 40 80 04 71 b0 3c 40 30 20
+> > 36 00 2d bc 10 00 00 1a 81 33 80 04 71 b0 3c 40
+> > 30 20 36 00 2d bc 10 00 00 1a 00 00 00 fd 00 28
+> > 3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+> > 00 4e 56 31 34 30 57 55 4d 2d 4e 34 34 0a 01 7c
+> >
+> > 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+> >
+> > CSW MNE007QB3-1:
+> > edid-decode (hex):
+> >
+> > 00 ff ff ff ff ff ff 00 0e 77 6e 14 00 00 00 00
+> > 00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+> > 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
+> > 36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
+> > 30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+> > 3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
+> > 00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 69
+> >
+> > 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+> > 00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
+> > 5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
+> > 20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
+> > 00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
+> > ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+> >
+> > CSW MNE007QS3-6:
+> > edid-decode (hex):
+> >
+> > 00 ff ff ff ff ff ff 00 0e 77 3f 14 00 00 00 00
+> > 00 22 01 04 a5 1e 13 78 03 2c c5 94 5c 59 95 29
+> > 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
+> > 36 00 2e bd 10 00 00 1a 88 31 80 c8 70 b0 2e 40
+> > 30 20 36 00 2e bd 10 00 00 1a 00 00 00 fd 00 28
+> > 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fc
+> > 00 4d 4e 45 30 30 37 51 53 33 2d 36 0a 20 01 80
+> >
+> > 70 20 79 02 00 81 00 14 74 1a 00 00 03 01 28 3c
+> > 00 00 00 00 00 00 3c 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 9e 90
+> >
+> > CMN N140JCA-ELK:
+> > edid-decode (hex):
+> >
+> > 00 ff ff ff ff ff ff 00 0d ae 41 14 00 00 00 00
+> > 25 21 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
+> > 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
+> > a6 00 2d bc 10 00 00 18 35 30 80 a0 70 b0 24 40
+> > 30 20 a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+> > 3c 4b 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe
+> > 00 4e 31 34 30 4a 43 41 2d 45 4c 4b 0a 20 01 14
+> >
+> > 02 03 0d 00 68 1a 00 00 01 01 28 3c 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> > Signed-off-by: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com=
 >
-> The key point is i915 is doing the exact same thing completely without a =
-pool and with *MUCH* less overhead.
 >
-> Together with Thomas I've implemented that approach for TTM as WIP patch =
-and on a Ryzen 7 page faulting becomes nearly ten times faster.
+> Note that I hadn't actually provided my Reviewed-by tag on your
+> previous version, so you shouldn't have included it here. Even if I
+> responded to the patch, the Reviewed-by tag means that I've happy with
+> it and I did not provide that on your previous version.
 >
-> The problem is that the PAT and other legacy handling is like two decades=
- old now and it seems like nobody can remember how it is actually supposed =
-to work.
+> ...in this particular case it turns out that I _am_ happy with the
+> current version, but you should have still let me say that and not
+> added the tag yourself...
 >
-> See this patch here for example as well:
+> ...hmmm, and then I tried to apply your patch and it didn't apply
+> cleanly. :( Please post your patches for edp-panel against
+> drm-misc-next. This makes it so I don't need to manually fix things
+> up... I've fixed it up myself this time, but next time I'll ask you to
+> send a new version.
 >
-> commit 9542ada803198e6eba29d3289abb39ea82047b92
-> Author: Suresh Siddha <suresh.b.siddha@intel.com>
-> Date:   Wed Sep 24 08:53:33 2008 -0700
+> In any case, I've gone ahead and pushed it to drm-misc-next:
 >
->     x86: track memtype for RAM in page struct
 >
->     Track the memtype for RAM pages in page struct instead of using the
->     memtype list. This avoids the explosion in the number of entries in
->     memtype list (of the order of 20,000 with AGP) and makes the PAT
->     tracking simpler.
->
->     We are using PG_arch_1 bit in page->flags.
->
->     We still use the memtype list for non RAM pages.
->
->     Signed-off-by: Suresh Siddha <suresh.b.siddha@intel.com>
->     Signed-off-by: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
->     Signed-off-by: Ingo Molnar <mingo@elte.hu>
->
-> So we absolutely *do* have a page flag to indicate the cached vs uncached=
- status, it's just that we can't allocate those pages in TTM for some reaso=
-n. I'm still digging up what part is missing here.
->
-> What I want to avoid is that we created UAPI or at least specific behavio=
-r people then start to rely upon. That would make it much more problematic =
-to remove the pool in the long term.
-
-Okay, how about we land the first set of patches to move over to
-list_lru at least,
-
-The patches up ttm/pool: track allocated_pages per numa node. If I can
-get r-b on those I think we should land those.
-
-Then we try and figure out how to do this without pools, and just land
-memcg with no uncached pools support. However we still have to handle
-dma pages for certain scenarios and I think they may suffer from the
-same problem, but just less one we care about.
-
-Dave.
+> [1/1] drm/panel-edp: Add 4 more panels needed by mt8189 Chromebooks
+>       commit: 490b30fbaca2abbd6afa8bdc7e2df329b5d82412
