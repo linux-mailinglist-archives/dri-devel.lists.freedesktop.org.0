@@ -2,49 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6184FB50F60
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F01CB50391
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 19:00:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82D6710E871;
-	Wed, 10 Sep 2025 07:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E7110E7BF;
+	Tue,  9 Sep 2025 17:00:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="IseFGEPG";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="M7PQYC0K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id B3BAC10E263
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 16:58:59 +0000 (UTC)
-Received: from
- linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
- (linux.microsoft.com [13.77.154.182])
- by linux.microsoft.com (Postfix) with ESMTPSA id 364DC211427B;
- Tue,  9 Sep 2025 09:58:59 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 364DC211427B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1757437139;
- bh=Pv/oU1LXiNBnw2C4KJ3lYYcVnQdW+CH48yjRQgrC+L4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IseFGEPGEssiCZUsSfUqVkDwtO0KMmulp8IPNNysyZ8DCurpGQBRJzhAkkpas8MHA
- lemlmVu6EUk6jMKQj1yxU9fVbi0xJzsMQK5OKJ7e/7r80M6fwQnaMS3jJjETAr3gxu
- 8qwnn+/6D2oLsZOkkzYA1HMwhzmbwekVtpjzkTMY=
-From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, drawat.floss@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, ptsm@linux.microsoft.com
-Subject: [RFC 2/3] drm/hyperv: Remove reference to hyperv_fb driver
-Date: Tue,  9 Sep 2025 09:58:49 -0700
-Message-Id: <1757437129-2612-1-git-send-email-ptsm@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <E2D7F2119CB4>
-References: <E2D7F2119CB4>
-X-Spam-Status: No, score=-2.0 required=2.1 tests=BAYES_00,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
- version=3.4.0
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
-X-Mailman-Approved-At: Wed, 10 Sep 2025 07:28:23 +0000
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF1B10E263;
+ Tue,  9 Sep 2025 17:00:12 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cLqnP0cD7z9sqy;
+ Tue,  9 Sep 2025 19:00:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1757437209;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8C0W0SKWXcWn5s8zylmFoekpERTUlNapTG1su6iUWPE=;
+ b=M7PQYC0KJ7ZTpsiCivEMtqWEYpZzwIu6qRgTil1nq6k2JZiuEJwhHQcrpfxtKnMsGEs/qv
+ CuAOJ0YGCRXXuDy3Fwa29l+Dz1ClbvbDzgvV1tyqrz13mWEhn3c/xfEvjkrRCHzNxJO0s/
+ J1pajVOoI+b6D2WlDyeqa+Fm9dLq8XXnozAhtThdMz+xBgx/N8EJzmzLAh54eOGMPh8iz3
+ LHRe2Hbdwb30NHgHgg3ljHAzwRff95n3UQ27IjEjOAqJ47Z41Dl839SNzX19nUP43NqtD5
+ nvW906emnD3uGZAbvkaWeGIpHz80vYygxZwc9JGhkUTFcVdG8AcOzATZTXJNgw==
+Message-ID: <fc135a6e-fe79-4fc0-b3aa-c110cc3676eb@mailbox.org>
+Date: Tue, 9 Sep 2025 19:00:04 +0200
+MIME-Version: 1.0
+Subject: Re: evergreen_packet3_check:... radeon 0000:1d:00.0: vbo resource
+ seems too big for the bo
+To: Alex Deucher <alexdeucher@gmail.com>, Borislav Petkov <bp@alien8.de>
+Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <CADnq5_Oqonrth+5T-83dnFBZ67GvykkPt-9aUepJd+fUMwnupw@mail.gmail.com>
+ <20250829194044.GCaLICPKJcGJRYdSfO@fat_crate.local>
+ <20250829204840.GEaLISKGTwuScnDF8Y@fat_crate.local>
+ <CADnq5_MbpYmC2PSyOr0gQk7F8mVz0-LG3dZtUZS2HhV8LTgDww@mail.gmail.com>
+ <20250830174810.GAaLM5WkiFc2BtQ6kW@fat_crate.local>
+ <51ae551b-6708-4fcd-84f9-fc1400f02427@mailbox.org>
+ <20250901101011.GAaLVxA_Ax0R-Wy2IX@fat_crate.local>
+ <2764782f-d411-4142-aa56-f1af0968ecd5@mailbox.org>
+ <20250908180022.GHaL8Zto-PsVsPa0e0@fat_crate.local>
+ <63b7c020-e589-4644-887e-3922af939009@mailbox.org>
+ <20250909161648.GAaMBS8ERsvv3NbJoF@fat_crate.local>
+ <CADnq5_MOazXJ4tUNa5uMdkWY7ZCu70M49yG00JsNHB-FO7XNvA@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <CADnq5_MOazXJ4tUNa5uMdkWY7ZCu70M49yG00JsNHB-FO7XNvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: f727388cebe6545a786
+X-MBO-RS-META: aibpfeh4fjwqfimh8zxpqmezdjpfjagx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +77,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove hyperv_fb references as the driver is removed.
+On 09.09.25 18:21, Alex Deucher wrote:
+> On Tue, Sep 9, 2025 at 12:17 PM Borislav Petkov <bp@alien8.de> wrote:
+>> On Tue, Sep 09, 2025 at 10:43:47AM +0200, Michel Dänzer wrote:
+>>> Then the developer needs to tell the user how to enable the debugging output
+>>> and get it to them. That's pretty standard.
+>>
+>> *IF* the user even notices anything. As said earlier, it didn't cause any
+>> anomalies on my machine besides flooding dmesg. Which I look at for obvious
+>> reasons but users probably don't.
+> 
+> Right.  I think there needs to be something otherwise no one will notice at all.
 
-Signed-off-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
----
- drivers/gpu/drm/Kconfig                   |  3 +--
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c | 15 +++++----------
- 2 files changed, 6 insertions(+), 12 deletions(-)
+I concede that in this specific case, dev_warn_once might be the best compromise.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index f7ea8e895c0c..a39e5171f107 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -405,8 +405,7 @@ config DRM_HYPERV
- 	help
- 	 This is a KMS driver for Hyper-V synthetic video device. Choose this
- 	 option if you would like to enable drm driver for Hyper-V virtual
--	 machine. Unselect Hyper-V framebuffer driver (CONFIG_FB_HYPERV) so
--	 that DRM driver is used by default.
-+	 machine.
- 
- 	 If M is selected the module will be called hyperv_drm.
- 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index 013a7829182d..051ecc526832 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -1,8 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Copyright 2021 Microsoft
-- *
-- * Portions of this code is derived from hyperv_fb.c
-  */
- 
- #include <linux/hyperv.h>
-@@ -304,16 +302,13 @@ int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
-  * but the Hyper-V host still draws a point as an extra mouse pointer,
-  * which is unwanted, especially when Xorg is running.
-  *
-- * The hyperv_fb driver uses synthvid_send_ptr() to hide the unwanted
-- * pointer, by setting msg.ptr_pos.is_visible = 1 and setting the
-- * msg.ptr_shape.data. Note: setting msg.ptr_pos.is_visible to 0 doesn't
-+ * Hide the unwanted pointer, by setting msg.ptr_pos.is_visible = 1 and setting
-+ * the msg.ptr_shape.data. Note: setting msg.ptr_pos.is_visible to 0 doesn't
-  * work in tests.
-  *
-- * Copy synthvid_send_ptr() to hyperv_drm and rename it to
-- * hyperv_hide_hw_ptr(). Note: hyperv_hide_hw_ptr() is also called in the
-- * handler of the SYNTHVID_FEATURE_CHANGE event, otherwise the host still
-- * draws an extra unwanted mouse pointer after the VM Connection window is
-- * closed and reopened.
-+ * The hyperv_hide_hw_ptr() is also called in the handler of the
-+ * SYNTHVID_FEATURE_CHANGE event, otherwise the host still draws an extra
-+ * unwanted mouse pointer after the VM Connection window is closed and reopened.
-  */
- int hyperv_hide_hw_ptr(struct hv_device *hdev)
- {
+(More to come in a follow-up to Alex's corresponding patch for the other similar log messages in this file)
+
+
 -- 
-2.49.0
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
