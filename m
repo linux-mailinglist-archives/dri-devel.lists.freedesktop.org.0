@@ -2,87 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C52B4A3E4
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 09:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A9DB4A40A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 09:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE4F10E644;
-	Tue,  9 Sep 2025 07:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABB610E163;
+	Tue,  9 Sep 2025 07:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GogxzaWC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VzCWfsQ+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECFE310E648
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 07:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757403558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fAKUDqp9B42xLRKoQ1q6HPvlaG3y/KW0AuPqPz6MER0=;
- b=GogxzaWCPqOimdDnLxD8MoiLOakbeZcMurlRYzeMu22prQIza9IAjWFdK7+SUyq6q5JUoS
- o2BztCnyvNwCC9S+nJtksQhs1bp8P8y//1foY2MC3yhqqcX1g7QFl1jQAw3hNNtrroIdcw
- l9j/CApDmO91S4GDD/38/dEH5z8iueA=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-AL6SW_0fNjaPki-XUBTqlQ-1; Tue, 09 Sep 2025 03:39:16 -0400
-X-MC-Unique: AL6SW_0fNjaPki-XUBTqlQ-1
-X-Mimecast-MFC-AGG-ID: AL6SW_0fNjaPki-XUBTqlQ_1757403556
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-24458345f5dso74602835ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 00:39:16 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88AE210E163
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 07:43:13 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-55f74c6d316so2793540e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 00:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757403792; x=1758008592; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=P6ceq16OHTEiiK/PjlkFm8FKdw71IR8b/dY6PTnCU7s=;
+ b=VzCWfsQ+KpcNJZ3xNiBWiD/k3tXr7sA0wcSrlfPfmLn5Mj85VWQpCFRGjyZfufYNj/
+ e1ume2K8GHK0sHOhx3ACoir4uaVrHyIq1I+U2jLb1ZOFBZo77HexaBZpGetL/jdvaqNV
+ dfdhcUkiZpgjwj3E8ati1BpyC7RLZL+w2VwxSOu2ih1P9zvI4T2dV1hYxVe8MI6YRyX1
+ hgxx6XiHa9bcSNGTLOGkyMtE2OYsyImXZxLyFO9w3WrYvNIELdxyJgu3GtPTXHGm0C+O
+ QD3OfsP5RMAihkva1BhxYZXGnmK/IzkU2AueLs047DNCkyLjfudxTt0L3imYIOaK8EXa
+ C5gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757403555; x=1758008355;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fAKUDqp9B42xLRKoQ1q6HPvlaG3y/KW0AuPqPz6MER0=;
- b=eX9AwKgKelWWx0fk4JcmyUEmtSXTbUbafH7kJQ7YQcIMoVxDSe1Src/rFWR+vKyItz
- eOn2YtnXKMulMIdSQBHL0BkIHjbm9r6Su/0OtCLuQEVDv3azN51i1qatQe27sodTUe+u
- DPt41Jr2is689ehr1t1II9a6a7+tvrkIrDxZIND/YfUWCmJcsMSb7oueB9mZekAE/WE1
- YIGTqffjbgqhXG+0RAhfyWhcZYxlCR4V5Wv3XP7tRwdTnOZ6/idMzZawm+po86+tgths
- KzIlJE7VuGxr4rmkb34oF6Rq4elFfdx+FMRCVFEfjG/4lqxJcwkZS0u2m5nToWheK8pq
- vhxg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaWYezFESlOxDqEKc+jE24c+wWTZ1DG7WD491l2uu55w7N1p4Npm8s6CzPXBk0wP+gQ1oguHYmHGs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw781HyATYPv0xeAli63btQ7ZTXE/Xrq+KFYSssAw2nBG1Zk9Jd
- sUwEFHBL9CeZr3FShKVLCI4BIaYgKXCs2tEvf37N/CiuY7XAEvLmcgBwslnpzHkPQPGOowK36yj
- HgE8j4HY1nZl5UyoP5x5hp4iMcEy56ZpW2bD4P/EkIx5ILNOA2HNBieKu/zc2Yq+E7aGdz22uOL
- rZg5kiYz7SjisUnmSmNgAnT8b1KdOn7J4qT4bkjWGPCfO/1JO6Sc9F
-X-Gm-Gg: ASbGncsrJyaSqwJO0+8S41rrNvTf7LEfMArAyZWgR6SQMeSOnq0Lwow+yWhysiUVOPt
- 1Jvf1i10PnKbrZtRJAtAj6JDT7OiHkPm3AMTOlj92UkZZDiC9vLNhBm974k/OcrWbXmbEDg22Tk
- AMZUBuZh6++yCLBT/c4nY=
-X-Received: by 2002:a17:903:22c4:b0:24a:aca0:7cfd with SMTP id
- d9443c01a7336-2516e97ee9emr149034175ad.18.1757403555596; 
- Tue, 09 Sep 2025 00:39:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFws9UMff+lYUWjk7dlv8T0Vfle1aaCxV2ydo6Ckwkr11EIgvutJ3JTdfzRrO9sh5080jxOijCYRHiWesES14k=
-X-Received: by 2002:a17:903:22c4:b0:24a:aca0:7cfd with SMTP id
- d9443c01a7336-2516e97ee9emr149033815ad.18.1757403555217; Tue, 09 Sep 2025
- 00:39:15 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1757403792; x=1758008592;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=P6ceq16OHTEiiK/PjlkFm8FKdw71IR8b/dY6PTnCU7s=;
+ b=WHNOaWWAybP82ZccGNil3ladVPQ3CexUPUo5QXMZCkzpxksm5NQmOtHjzXdRbZ2cUj
+ vP4Fkxo5wt2Tq0OpYxkASg55x/jBhV/Qt7wFduVtwfJT3OSlejw5mKqHgA3LlQspibCz
+ nAJ5ZQrMexbPkMSAW6JK3XAfQWwbEAbos8bALxPpspyNSDmOxuX3wG8B+T5C4ZRBgFm4
+ IAc6VDwx3e0xSBHNCCo99YtC5xKY3yQqdEpAVsFZ96Va1WjW90IcLNOMVNwhw7oOBeAv
+ Mq+J240AXRRXEYpNZG8INM4pVbPxCWFPHgJGsl8yY9So3HNzxguo+J5chnml+92u+qGK
+ +ieQ==
+X-Gm-Message-State: AOJu0YwlTh1I9ZmiNljijEUGoFL7C9psBiAz+aNbsq06061fMUUrCj/L
+ ZcKwNzfga9VEMUSqLrwGjWguYo2g1TbAijnNG5n+vDZG3XWVFMy1P9On
+X-Gm-Gg: ASbGnctaQhw0kmoanB3nIU3kpc7bg6u7N+p7YGPxDQ4Ri45i1j5jgepwubWQgIrp8Oe
+ f4sn8GGK4sDLgSs3vVK9RwVppqZ4hzNCncNY6L4IwQXE83dX1VU5nzW5jGlTM+8ojZTeCBcSIxd
+ 36CMu9mDynyGZyUt/o95soSgY96h0Fv9AXKi8Xor/YSkCEOkMfVK6pb/9eaxfxYoPnLKxMSG0aB
+ L4VnYeCiTMkLVXuPNxCGzKkGFC09B1wI3Bi71r1qzvVnq50xrDuR1WGGi3ir9zQEWruAybeuO1I
+ UWY75JrnS9EmBwgpEIl+HcDAyTr9r5UlNa0+oXzr7yeUnF8cZY1hm8AeBLZk5Wo1YUqhkPIdogC
+ dHIA11IVFy8FzjHsURwKJM472
+X-Google-Smtp-Source: AGHT+IFRi8AmkKYGEhg38SBSKdEs7PaUtZBlmSb8cC+BpN+GQNvSNoh0wZG/sjIP4r8/trgOcysyLg==
+X-Received: by 2002:a05:6512:b8f:b0:55f:71d2:e5be with SMTP id
+ 2adb3069b0e04-56264821195mr3031702e87.52.1757403791713; 
+ Tue, 09 Sep 2025 00:43:11 -0700 (PDT)
+Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5681795d633sm333731e87.68.2025.09.09.00.43.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 00:43:11 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/1] video: backlight: lp855x_bl: set correct eprom start
+ for LP8556
+Date: Tue,  9 Sep 2025 10:43:03 +0300
+Message-ID: <20250909074304.92135-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250904021643.2050497-1-airlied@gmail.com>
- <DCO3EPQXQSUL.2XUR07VDP2Q38@kernel.org>
-In-Reply-To: <DCO3EPQXQSUL.2XUR07VDP2Q38@kernel.org>
-From: David Airlie <airlied@redhat.com>
-Date: Tue, 9 Sep 2025 17:39:03 +1000
-X-Gm-Features: Ac12FXyjIQ0qOrbbH4fghQY0RT-bCeGwqRXV7o-Bt5agSu5xwejaQ2q5EkKz5jk
-Message-ID: <CAMwc25qsD2qtLzPmWR-U1AOg_zs+oGPrDotPjUXRVSvmCGEGSw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ttm/bo: add an API to populate a bo before exporting.
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Christian Koenig <christian.koenig@amd.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, 
- dri-devel <dri-devel-bounces@lists.freedesktop.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RIe0gcyp69bbj5eKIF-I7t1DgPJBinI2cKgGXQJQ5PA_1757403556
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,27 +85,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 9, 2025 at 5:31=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> On Thu Sep 4, 2025 at 4:16 AM CEST, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > While discussing cgroups we noticed a problem where you could export
-> > a BO to a dma-buf without having it ever being backed or accounted for.
-> >
-> > This meant in low memory situations or eventually with cgroups, a
-> > lower privledged process might cause the compositor to try and allocate
-> > a lot of memory on it's behalf and this could fail. At least make
-> > sure the exporter has managed to allocate the RAM at least once
-> > before exporting the object.
->
-> The below use of TTM_PL_FLAG_MEMCG suggests that this goes on top of your=
- cgroup
-> patch series. However, wouldn't a similar change make sense regardless?
+According to datasheet LP8556s eprom region starts at 0x98, not 0xA0.
+Adjust start value in the driver accordingly.
 
-Indeed, I just rebased it onto misc-next and dropped that parameter today.
+Svyatoslav Ryhel (1):
+  video: backlight: lp855x_bl: set correct eprom start for LP8556
 
-Dave.
->
+ drivers/video/backlight/lp855x_bl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.48.1
 
