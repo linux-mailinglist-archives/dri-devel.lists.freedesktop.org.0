@@ -2,49 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAC0B4A38F
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 09:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E241FB4A39A
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 09:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AFB10E053;
-	Tue,  9 Sep 2025 07:31:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A78E10E641;
+	Tue,  9 Sep 2025 07:33:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ihVwoE6q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D+qtqmN8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1904810E053;
- Tue,  9 Sep 2025 07:31:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 150746019D;
- Tue,  9 Sep 2025 07:31:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A815C4CEF4;
- Tue,  9 Sep 2025 07:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757403109;
- bh=axBiV+zvocF8Tr1Scfnkshx6gVsJC4rKDNByqo36RTo=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=ihVwoE6qkU73bAn/FVsjlbibLiJ/Wk5A/JT1lOK1O+Cq9dw3h7d9v/r61fQ7sReox
- CbuVYd6l5Lqzdgb/xSSFrWrAEkJG9kfTTOJUYhZEYrc6bhsblvkkRYxKy8NDFjnOFT
- AwzEJoJPrxF+s45EdEdGXWX3LGkcU1o+Haa9gvNI9tOmHtMdpQvArM5SBnes11ZH80
- v6DSozVnCMje1Yt/IDcoi7m7ahF3J7W8UVEo5S5KpDnZLpFc68PR25GHjABdr+qv+l
- ULNoPxIm8+ixkQLNCs5l4dUtnZWS37vWZ9AvJl0hHdvonBnoLbaoWGCgel3PstT8JE
- +/EKj9XsezBgg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Sep 2025 09:31:46 +0200
-Message-Id: <DCO3EPQXQSUL.2XUR07VDP2Q38@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>, "Dave Airlie" <airlied@redhat.com>,
- "Christian Koenig" <christian.koenig@amd.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "dri-devel"
- <dri-devel-bounces@lists.freedesktop.org>
-To: "Dave Airlie" <airlied@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 1/4] ttm/bo: add an API to populate a bo before exporting.
-References: <20250904021643.2050497-1-airlied@gmail.com>
-In-Reply-To: <20250904021643.2050497-1-airlied@gmail.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7372610E650
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 07:33:57 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-55f6186cc17so4747315e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 00:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757403236; x=1758008036; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xq6lrwqlKY7jmEcraWEq2ZZGATych6Aj+/2wtksXo/4=;
+ b=D+qtqmN8yaUuueyWmAWUBkpCsnLWwfUXEyabqp57BOokG2cGrp723frMaknp3Xsx4C
+ SvFVUb3rI6kPDnjnjogUdW17AovUQ4xe4XOvC6GdJcb3pl5z+NMNFlYnX+bxcFxUSOLE
+ 8ivYg0UFk6ifYT0hUrAgSPJgxyarjYAA3K7t6GKZ84ikciree1b54aYm1gGO4Nd372Wr
+ UY7u4Hnos5zXfSdSqVT/YORQSObFAH1Q9dEuqkqWas+q1SxjwjvaOcl8IEnpyOBkbPvj
+ QO7HgE3eHstV1yU+eT/y3z2uObGmPoJOMdkiANho6caG1go6fMm4P5CwWlOhEGClJS4h
+ sADw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757403236; x=1758008036;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xq6lrwqlKY7jmEcraWEq2ZZGATych6Aj+/2wtksXo/4=;
+ b=mC9nMtVi5hrLav9giw3TIHzNbD6MbnxaSr0IcMJ2d2avocAh8LChEf6ghbUjHsCUuK
+ XM99dsN0Gumck9gGjc8tlFBIyK+iZbBZ/QPO6IjJcLUcQoqawOBbLilEvp0ZDITBc0Xb
+ RtFyFpRl3vaIj1+4oNU/ykSIG7AUDIEqdCisnRC8CnCX5Tq86O+UoiyMCXum+1bxk6U7
+ 5p/lGY9VzSP7PhSQvLHo/m5VGHapeUAsLIStaaQAl7J6jVeUQX4ZaWO+6VqZflHehses
+ K8w+z3VLW04cC25qtTqJzZptEvTZj06ScwpEHdR2BH/gdW6nF/2ff+magIH3tREyoGBi
+ IIxA==
+X-Gm-Message-State: AOJu0YwO0gM+AFxftiiiRm6xi9ue4efBmoPqSbY3MLZ7z8kp8d+BOhXU
+ tABqpF24JfsQbLuYcGPZXe6YDokqNVfVA9JQTBGTNGJ4ET8HMcR29Qz3
+X-Gm-Gg: ASbGncskyh0+z13rqssZqoyZmjiJS3+B8ZNaclqBiJug6umgrwwy2c8TGJjyN3G3RKY
+ qu4FvHr5JL9MwUFN+zR0O1+ijMWkKHrLZkz+KFs32b9vmQysFgO65i9VvezMwrXkUB0arzqFsEO
+ j0kHNR+RSoHpa89bseqLKYnLWTZ4MrvXG5u0S6AIt/s6GUbC5Otzf4mvsxj4GiMP0q6KITi8AFM
+ 0P4lM9g6hZRXBzSFxvZN1smmwOhW6uz2xQLSbiyP3bgERhAzodaY4CKQ/faAZyi45ybOrKWQ0Sb
+ QgOip++rgklDZ7x8+KqxEyURjTG1ErE4vGThb5B6gM1gA4C6VEEEcW8fmphFeVP3+94HkBF4vuj
+ 0FHbJ9OToUj95YIWPcttkCXgi
+X-Google-Smtp-Source: AGHT+IGjMMjfkQ0CKqDPHSfr3u5gr4MAKDQeP3g72Tz6X/H7nTPmWyuKEWbcJLScvZ8uzCudkkqSXQ==
+X-Received: by 2002:a05:6512:b90:b0:55f:3996:4f82 with SMTP id
+ 2adb3069b0e04-56261314783mr3256215e87.1.1757403235364; 
+ Tue, 09 Sep 2025 00:33:55 -0700 (PDT)
+Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-337f4c91a6bsm37542721fa.21.2025.09.09.00.33.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 00:33:55 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] tegra: dsi: improvements for video mode ganged panels
+Date: Tue,  9 Sep 2025 10:33:33 +0300
+Message-ID: <20250909073335.91531-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,18 +87,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Sep 4, 2025 at 4:16 AM CEST, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
->
-> While discussing cgroups we noticed a problem where you could export
-> a BO to a dma-buf without having it ever being backed or accounted for.
->
-> This meant in low memory situations or eventually with cgroups, a
-> lower privledged process might cause the compositor to try and allocate
-> a lot of memory on it's behalf and this could fail. At least make
-> sure the exporter has managed to allocate the RAM at least once
-> before exporting the object.
+Expand SOL delay and packet parameters calculations to include video mode
+ganged panels. At the moment only command mode ganged panels are supported.
 
-The below use of TTM_PL_FLAG_MEMCG suggests that this goes on top of your c=
-group
-patch series. However, wouldn't a similar change make sense regardless?
+Svyatoslav Ryhel (2):
+  gpu/drm: tegra: dsi: make SOL delay calculation mode independent
+  gpu/drm: tegra: dsi: calculate packet parameters for video mode
+
+ drivers/gpu/drm/tegra/dsi.c | 54 ++++++++++++++++++-------------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
+
+-- 
+2.48.1
+
