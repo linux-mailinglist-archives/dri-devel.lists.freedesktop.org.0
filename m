@@ -2,171 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA9DB49F48
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 04:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2B5B4A00B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 05:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDF610E224;
-	Tue,  9 Sep 2025 02:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF9D10E3D1;
+	Tue,  9 Sep 2025 03:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="D+n66EC8";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="ZiMR22zL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BFD10E224;
- Tue,  9 Sep 2025 02:37:22 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12olkn2073.outbound.protection.outlook.com [40.92.21.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9112C10E3D1
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 03:29:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rQreQfxk71WRZC0V6WdS7sCeb7TMZmihbXpFRP6zkP8Pbk5PKN+DxnnAu7QNEgNfDTYvfBkezn1dytne0Yn+6ZZHfqmfJLunucalER76jgLoo5jPVlkLHFtoqWuBJC+ZQa/UMfuxV9Y/NGGrxtlzbSgJY9+SFP9kXWXZVy+ta695MW73IllN37am1qlGOGTqJjA+pkpkd1Uk+lUAoIs6sKmQyM5drFRY7iGaau76vjwiqMnSJOCz7CCVJgbFhE3htDhD6rA0gB9MNgxwM0gTeC561Rje4PY3G3WaQsPTohRaQv1hJaBFFX6M5mbujCAhkdQvhuIQZ1F3ylpJDIITSQ==
+ b=tgQ4OYmvOfzquK7nII1wrfSFKFfc8m3uvZpSzVXlNVL8jpekuF7t2563lTJZeYxDgTmdR+5lMYHoovLYPRQaGl6BIZCHnCqm9INxs1qGCb0DoCIDhn+8cnkGhV9vAXjmVLPv4tsSpPtxwRzDBE87Zsh+Ws+M7ciAS/PTyYKNZJnAW6dfeTDyR2sewUDzgqWvJEt4ByTfTDf2XSNWFNBko3CBGIdSxFDidJvRp7Zc3II6GnKcHvz8OiFXaRea52K/3PEVxj8tcdk05ZFdGS9YWvFNsF7dXHLaQqpPUV6bsvTmDM8BYB7+bZilL8LZTi5IyBZcEBDnm3yL2BBDa8qJDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1X314vZYGN6ib3CTCGhvqGHaPnaltbJCUkT2kDY8uFM=;
- b=QwlSp3RMkrWqVFqLpT5Kv6f9lnq1Gh3/yBLEvwvPJDMjae5Sl1y2D7Oh4Dwp7rjJGbo5XZbcN0Su6sTBk6MDIO/9FZ7bAzT858AgOchMN1U7j5sEbAKIF7wax4ifktq2aNO63uj8u86tseVGwNTMLlmBva3fe87hp7vpLaVduGx/y2mwmx0HVrZMjJp+rl5Bpx5S1ON6fCq0xyLNrofrj/bPvTw74mu7pTWRGlDspOv0fvtLSt1Lvx/dFyAERy2BMqQTGdtwshoALCfoHD4hQ/XgcUfSVzqflV5QpvVlMtcdrwKxGEf65jQdxEDvtf19l1/JREwdc7MSpjQAnQfSvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=LbZjLUKtzbCa37ICqJCVUfarpT+QPqqYI3swZRbRClI=;
+ b=vl9AYcyxn6HwoP1nOagx6DJ1HLLBMtexL4iNdzpZkekFZ8pWCcl3cOMluWZNbdybQWFyyKudDB57fHPqxx7bcZDffiImKLKcqCWIpWm0jYeowBDJVIBGJlMivyz+ly9JGH+0bv9LbwvicjoWli4czlcQsLScw8v4WmQOMn0CDAnK/8CkGLe7PxwZSZct5AEGKTClr+MUS7HOTmlRvNf474azxD/7546vfBFiigzEG4nZVXidcH5S2JNjjmINVzUDx5Z91RdKuHwQeymZCp5fMktEZexvr+pUt05i50wGT4F/+SndcynbRmHoaNVuz67PZ8hw/SGiyEBzsYJFw6vHMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1X314vZYGN6ib3CTCGhvqGHaPnaltbJCUkT2kDY8uFM=;
- b=D+n66EC8KUD0U5gmsVNW9agKF7CmqZls+AwLS3gGdMdOHn41OaSrazqxb19AMRJSosxyPafc84hQRAspPAhn3Uul3kC5XMByt4GlSwUyJzFRuTB3QkxfVmqkewlomoxpy/fVrs8qv+++VYa8UAw+tDIEuh3cUcTnhsQcJBvxVGlfwn7ioYqNyy0AJYCcNXg7dQCnkL5ehqt88pR1cFCPO0mmnfRH6RmW9fGfgxG/CxYLRmLI2CoiDUx3SuGJUFK10o50khjvyDZfqdyA8Ugtkk9dIy0H4fbYUbzr5gfAWsMF/DlFb9w+2Ms4JsSKhF6aImVPPxDem0/yTSIjNMb1QA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by DS7PR12MB6286.namprd12.prod.outlook.com (2603:10b6:8:95::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Tue, 9 Sep
- 2025 02:37:18 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
- 02:37:18 +0000
+ bh=LbZjLUKtzbCa37ICqJCVUfarpT+QPqqYI3swZRbRClI=;
+ b=ZiMR22zLknGHRLX5KspDHiEXCky4pwhLeXENOAaljfeIKXFm8HyLbHzhkngp0OS+//dLtq8qD6LT+I2xuNdcigDGFV7Ze1Q+FP9JPhw6XMyy+OJENJ8+LFFPEiJqqiGChfkTPkuSNcT4b3b5+xpJvLAWcJK/B0R2YW0VroyLMUmmLydaa2xMSHlzPs1tH4yhKx5Ke2sb10hsfghD6cQ2Kyy5kBByJhAuetv9EtCFpMafIzmN8izizjgi6uLNqhAwommKxpl6UdK++/l7dwqpdSMW+S1vHOp/6NdESElhV2W1y/9NmkmSzwGVGrPO+OLXK7RnQ+E2qYjYAV2AKisaYw==
+Received: from BN7PR02MB4148.namprd02.prod.outlook.com (2603:10b6:406:f6::17)
+ by CO1PR02MB8856.namprd02.prod.outlook.com (2603:10b6:303:15b::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.30; Tue, 9 Sep
+ 2025 03:29:23 +0000
+Received: from BN7PR02MB4148.namprd02.prod.outlook.com
+ ([fe80::6007:d1a1:bcf9:58ef]) by BN7PR02MB4148.namprd02.prod.outlook.com
+ ([fe80::6007:d1a1:bcf9:58ef%4]) with mapi id 15.20.9094.018; Tue, 9 Sep 2025
+ 03:29:23 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, "louis.chauvet@bootlin.com"
+ <louis.chauvet@bootlin.com>, "drawat.floss@gmail.com"
+ <drawat.floss@gmail.com>, "hamohammed.sa@gmail.com"
+ <hamohammed.sa@gmail.com>, "melissa.srw@gmail.com" <melissa.srw@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "lyude@redhat.com" <lyude@redhat.com>, "javierm@redhat.com"
+ <javierm@redhat.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH v3 0/4] drm: Add vblank timers for devices without
+ interrupts
+Thread-Topic: [PATCH v3 0/4] drm: Add vblank timers for devices without
+ interrupts
+Thread-Index: AQHcHay/1LhJS9Qt20a/N81nkOUA8bSED7IAgAYnyGA=
+Date: Tue, 9 Sep 2025 03:29:23 +0000
+Message-ID: <BN7PR02MB4148E80C13605F6EAD2B0A03D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
+References: <20250904145806.430568-1-tzimmermann@suse.de>
+ <SN6PR02MB4157E793515BE2B63615AD92D403A@SN6PR02MB4157.namprd02.prod.outlook.com>
+In-Reply-To: <SN6PR02MB4157E793515BE2B63615AD92D403A@SN6PR02MB4157.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN7PR02MB4148:EE_|CO1PR02MB8856:EE_
+x-ms-office365-filtering-correlation-id: 529bd116-7402-4e4f-8292-08ddef51123a
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|31061999003|19110799012|15080799012|8062599012|8060799015|461199028|13091999003|1602099012|10035399007|40105399003|3412199025|53005399003|4302099013|440099028|102099032;
+x-microsoft-antispam-message-info: =?us-ascii?Q?QxAjhd3BD3laAd0x9SQplXXl11xmi05YbC3oUdqAMcsqwRYQjxMfnWzoYpYL?=
+ =?us-ascii?Q?ioKbJbTdZiNOVlj3S179kKicdP8Q/4mZU3yEHzbWBd5MZexJtsTCu0kpMQdU?=
+ =?us-ascii?Q?a8YSsJH5Ojuyj1IS2m3rAB3nwUkvfaURu2bD1ZeOsrHMa5bZtkQfhP1h2O+y?=
+ =?us-ascii?Q?j4QPphY2hLS9BWLQBGvprNw+tAQbritl+WR46BKEMzofSLr9eHLTu1KugYwm?=
+ =?us-ascii?Q?arczZsG6/lXVsCByNtUzo7GvdzZ70WsU52ZljPg3rFlOL/LQAE1v2K9o6EHq?=
+ =?us-ascii?Q?xds1e5xziDA1QSQJpZa6mRz8XeuN/Xw0Z7DvkG5oChVi3waZmaFUqJaiFLN2?=
+ =?us-ascii?Q?3d4c4pxebDFyyLvi15xXExB/USj2W0asLBM8zW5I/O7/v0Mn7dRaT5cNRMvQ?=
+ =?us-ascii?Q?gHO0WAhatqE0U4BvcQuA0Nvlf3Z6PObZuiFq4YJ0BzlAw659j2UDsiEV9Rzn?=
+ =?us-ascii?Q?R2pMRjEO5BGb4v0x8BTYi830r8LI7ISXgEcQlDoXkMQpmrbix5b5qRMyXa8I?=
+ =?us-ascii?Q?H7iY09ZMz4Xg8PVyC6F1Z53bI/gWG3yomFcL/gdWzxmegAihGIUkrw9D1GNp?=
+ =?us-ascii?Q?gGPI6ZAYg3FimFgY9uPaofUAB45wUxPIwsyBvkBXJ+K2jsLtzVuIBVbzZ4E5?=
+ =?us-ascii?Q?c4Q/s+Xfos9u4Q/KKtu2Lmiw6ZhYRk6cNXWCoUVibMq2ph4PIutppTra8BBC?=
+ =?us-ascii?Q?Tj0aYRlVggpVdVdOr9OWYl830KCGGJJdShe+g2K3gRE2XHD/oDdvqXc/XH3S?=
+ =?us-ascii?Q?W0YF5Q6SSOQ/5Bi6PS5qxSeumG07N+DgDUrz6RxCqr0+4wPlN2u+R67kz9pA?=
+ =?us-ascii?Q?bXnBq5NgVdTBquBofvKazF5p4AOpGWkrhBsdPEt4UPRmYfWzzkq9fDQE8SDW?=
+ =?us-ascii?Q?H0iowvlMWTesx5auUJpqfBaoWWc28YyAIybGktZZkiWylv8Rr62m/T+3SNr6?=
+ =?us-ascii?Q?2p9qCc+g3xJtZ3/dFccQB/UnIu3daWRGLsyAPJX3NwoRYL/d14eKnlxZz6CQ?=
+ =?us-ascii?Q?auGI+mM7snQRtWJJPs58Usgnns67TR0eTSjRBS3gDn1c5icBz14Hcs90Td+R?=
+ =?us-ascii?Q?z/lpRwjQobp9j6rmWWNKhVZVPpxdpEvJumxNVM6oQzS2eGQa007t4eOmY5cH?=
+ =?us-ascii?Q?voa7u9bRlTjpnRfb2feikgpH/+5ImL96BPv9rSz5fioefc1IYN6UyL1C3Ha3?=
+ =?us-ascii?Q?F9pyvK7sv/BLrPMTyw02XC+cWRDsdmMwhrT1bOLe2xQY5E5qGCfksoQ/+dRi?=
+ =?us-ascii?Q?bbvIUgp2mexHASTpHyrdor+cC6jafxvbRLa6bo6zEui4VAz+yAXdpJ4OX1Zy?=
+ =?us-ascii?Q?PMA=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Qn31BnIlVnasVTM3t6JW+Em/wncn7jAkMyJPvHA9PhHYxLXJfxozptC94KCG?=
+ =?us-ascii?Q?CbyOtFvR9wCS9KDtHcJjrlGiQL+QA4t1nZzFw4oA9ylCIpB7vu4qTjshaH3J?=
+ =?us-ascii?Q?v2cG2XKSoJKVwqLw5S95Ytol4quBt8ykErLP1wonCUMSV7U8NdEpvlnE9CL+?=
+ =?us-ascii?Q?PkjFzABbO4/+98t6tAeK1dNmVXOV30isoPWMQAHfEGSKRpkTQdWOZ0Lt26Eu?=
+ =?us-ascii?Q?o0OXVaT/S2MV7yiKHJYZtO19UcE38s9/4gLKvCKgL1Xh8a63O70tHohgdCAb?=
+ =?us-ascii?Q?b7oBb0Sj5xMBBh8m0hTjrBpAiyYNZ4ll+OcphO2awrhZEfQk8dhZAWbQfuG0?=
+ =?us-ascii?Q?j6dQhQ8YOy67ZQ4nKcbiJ865JpOeSmIPZcF2yJrYtbxUX+NzhAFkT/+EHKzH?=
+ =?us-ascii?Q?pym2SUlcBPtblpqSn+SY79f+lBQ2+cnFcfHf7CGlydaEG1P9G6izyj2M26wi?=
+ =?us-ascii?Q?5WbZFEokemO2x4+iRDuEc4+/nsb8mzmwCdB4Et0ffGccksoEIkkXvKuBYmvw?=
+ =?us-ascii?Q?f31F2RCS2ymsy8dQuBNtdrU919MjWwwxXasiSMIt1RQgdQzpoaBAZ4RnD59g?=
+ =?us-ascii?Q?0BQrPhuXBVys5bv7U4wp0H9/dvdoTVW+frqJ2BwfvQvwFrjDe7L2mIAtnTvr?=
+ =?us-ascii?Q?tTdMGy6gyId1WaNY1gCBgYQBIjqimbb6JGhI8Us1j2id3uQ8/9m6I/GqFyxu?=
+ =?us-ascii?Q?tKYJpLqmbXFgw9nur5P0d7OsBFahODtMfRyyO3ImyWkbhaPkrfGvH9lFQWYB?=
+ =?us-ascii?Q?VtReKQEckpKuRPMkt+CrPt9OWTLUJKFLA8ej/hOCgWkVU61O5U2TSCpb07qQ?=
+ =?us-ascii?Q?VTivVUKXbniGlM2niL5yIQanFzAzmGa+fD3Wqy+fCL7CftYB5AdogQTLRYjq?=
+ =?us-ascii?Q?7HpivuvaeA0CyLhs7x5XMeSLrqdg0+y5pmyz1g6893V9cxKKs+xHpoC1+JzC?=
+ =?us-ascii?Q?NoUwbi9fJBWI9dyc4x73JLlzXGgmA/HAQifZ72D3sLc7DeEctyeg09pNxHyz?=
+ =?us-ascii?Q?blug+Hi6QnC/7A1YYL8V4t92GDvv0QAn/wH7/BwwPngFojw3ETnonOrXIk/N?=
+ =?us-ascii?Q?hagJTcZqy27jmjzPGcE39Kk9GlQSvKFw8naHgwnPj6d7iZeW8KNfUkKe4ICE?=
+ =?us-ascii?Q?tniylf6VAMsweoTFGlsyWBScPPKwo3BCKFZctitOvpJrWQQHr/Jb7Mj45Djf?=
+ =?us-ascii?Q?l9AeAh+PT7XG3+Pmx81d3sgHTllnmLGZC1Iv18sYjDMQ2abSwd1PHTnnKJU?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Sep 2025 11:37:15 +0900
-Message-Id: <DCNX57PKVO6C.2MYEGBZ26OQ59@nvidia.com>
-Cc: "Alistair Popple" <apopple@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 1/4] nova-core: bitstruct: Move bitfield-specific
- code from register! into new macro
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <dakr@kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250903215428.1296517-1-joelagnelf@nvidia.com>
- <20250903215428.1296517-2-joelagnelf@nvidia.com>
- <DCN39JCF1DIJ.3JESSN7N9WJBP@nvidia.com>
- <3ef9e2c2-560e-4b58-96f8-a6db4236fe0e@nvidia.com>
-In-Reply-To: <3ef9e2c2-560e-4b58-96f8-a6db4236fe0e@nvidia.com>
-X-ClientProxiedBy: OS0P286CA0010.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:9c::15) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS7PR12MB6286:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b059eed-095e-4992-2e6a-08ddef49cbb5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|366016|10070799003|7416014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SnkxdE9qdGp6RzBQTnZEOXR0WCtnSHNUUHBMTjI3WDNXbEpVVmYvWFlQS09R?=
- =?utf-8?B?YnBYZ3puOWRkelRZWVc5cDZ5My9KWTJKRW9CbTMyMVpMYUxTbkN2TW5oa3k4?=
- =?utf-8?B?VFpjR0hiQmx0b3JPZVd5dncrR3B4RmdIZzcwT25iWEdYRE9xckVXdjdQSUJN?=
- =?utf-8?B?b1ZySm0wZTFodElodGNxbHlPRmprbC9HVDI1ZFJWS2p3ZUYzaFFKSGFleUJj?=
- =?utf-8?B?cG13WnFVSWZNb3FGTXVOdXlOZTlKM2E4ZXRlYlNzNTRWRFFHL2R1QW1ibnlR?=
- =?utf-8?B?bnVHc3hXMEZNcFBmR2g1RjVpZ2xVME5oTm9wOFV3djA4cTZOVjc1ZGR0cWNk?=
- =?utf-8?B?Ty9FdzJCSnpkSkorcjJEMmhycm9INHBVVzl5RUNPRVdwbDM2S1Nhb1IzdzVk?=
- =?utf-8?B?ZHpxYmtJTUc0ZWtYQm5UbGNnUTdFbnMyVkIwZ0ozYU5rN0pwdXIvQXN3d2k1?=
- =?utf-8?B?VXdHRnlEZ08wRzV1SkdZVUFmVE1wWUxCTVA1WnZJaXhHd05KSlFvK3JiNXh3?=
- =?utf-8?B?bEkrRnNjUitwSW1jdUVoRWhPMGNtREdvcTZSRnlUdmVhRFQ0L29HM28yck1v?=
- =?utf-8?B?V3FZNjJybVBkaTYwTUZVa0w0OStnMXY2ajArenl4ZmtqazBHendNM29MZE1y?=
- =?utf-8?B?SUc3clZpbFhwSXZ6SnBwRjNjaExiamR3TGZMY29kUlBkQktPenE1d1lRdVVD?=
- =?utf-8?B?bm9lZWkyRWdQaVQ1a0ZvQXI0d0FzdHlHbHgrSmJ6TXkyNkVvM1A2M1B6Y253?=
- =?utf-8?B?OXJYQ1liQitFOHVJUFJJNGNDN0R5T0djMitSR04ybnd5eXNIUDkzMkttSlky?=
- =?utf-8?B?ZkF5REJBaFpoOHhHOXJEelZTZERqRSsxN1pmeDh2U2ZQTGJEMGJKb2FQT3RW?=
- =?utf-8?B?L2lqYmlpVXBHRFkwUEVQdmxHdTJ5RGRuOHZTOVVLeUFQT2ZYVk9uLzZsMERX?=
- =?utf-8?B?SUJFMVNJelJteGNzdG4zamlLYTVwY3N4dnEwTGVGNW9aMEdIZUdPeVM2eXhi?=
- =?utf-8?B?Qk0xdzBJNVcxUXlXU0JSV2hEbWJoWi9SSG9hM054VlU4ZXNkRGp4TG9Dd1Nj?=
- =?utf-8?B?bUx3TEI4QWtaS1I3Y2hoZ0M0azJMbVdLOVhyZzVzY2poaUF3Z3h5TE8xNm5V?=
- =?utf-8?B?OWlROENhM0pvaXplcko4bEptUVlkSTVLTTBMbEVrQk1XQTRReEx5N01rcjhj?=
- =?utf-8?B?aG1VeVJlT1BBeTlIM2I4bHp3QVcwNjZUSnRXUDFLcEoxcUxyeXRseWNxNTB4?=
- =?utf-8?B?aXJFSkM1TGx2Z2ZNY2tieHdYVENmMGM1bExBUHNNNWowM2ozajF1SGJMQjFw?=
- =?utf-8?B?OGxVYm5pRXU1VjBiTFhMRkhJdldIa3ovMkdlZGNxcWo5eGxtUHphVGhjeTBU?=
- =?utf-8?B?clFRMHBnaWJFeW1UK3lnL1hXZ0hUNkJRSlQ0bktqRTNrYytjVmNlUHBhMjVV?=
- =?utf-8?B?cTd4b0VhRFE2RGVKSmtxQ0QrTHdWVGwzbHVnSXFNM0lYYnFlUEdnWUNVbXN3?=
- =?utf-8?B?dXJGVTRYeEpEVzlsUDU4MEtLM29OR0VwWnllelNGTVNCWElzK2dWM0ZDaHNx?=
- =?utf-8?B?MjMza3JDNmJqaUpuckU3aGR5NmgyNTdMWmF3TnNFdC80bTllUldyZFlyb0Qv?=
- =?utf-8?B?N3dDa3NNZ3Zwc09XenEzRWY2bUdiNzZXTkRJTXNoWE5OMHFvcFVBdEdrL1Q1?=
- =?utf-8?B?OVJxTEhuaVZLeTZJamNGZit3V09Ibnl3RTUyanJoSjRwLzFzd0pNRUNHVVA3?=
- =?utf-8?B?Z2lvbXM0dWpiOTZmekZTdDdHRkFjVHpQQ0xZZUN6YmZybUNBem1JZnhFUEFm?=
- =?utf-8?B?V2lVcy9QUUx0VTJqN0x1WUpBaFdmaVFwUmhTS1NpbXBjNGhWYnNPaXc3VmNw?=
- =?utf-8?B?SWtGUmJSOVl6aUw4dVYvcE9QdmxFYnJ0UUlaeDlIY1I3MDc5cTNyeUUzVDR2?=
- =?utf-8?Q?fgjt+0TAJzE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(10070799003)(7416014)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVh2emRyMms4SjUyK1I5S3loNkxtMUV1RzBkVmY0eElsRlpZbmVXRVYzN0M0?=
- =?utf-8?B?UEhTZ0p3MVRvYzNoSUMzMDhZMGUvd2JNMjljY2dGTkxnSW84QmNPT1lrSnAx?=
- =?utf-8?B?d2hRbFUxV3RnQXdKVk1oQTJ1a0NrdFZTS2VGKzNVL2FXTi9aeHFDWEVuNHNQ?=
- =?utf-8?B?K3VMd3FIRk0xTEtQcDdCanFwQU01b0ttcDdzUWZtZnVYNUY5bVFaMXp5WHFo?=
- =?utf-8?B?SllPZXFLM05QbmxpalJZSzMrMjk5U2tBZ0NmMU0rajg3YUdTVGM3R0NXKy84?=
- =?utf-8?B?Ym5rSThobFZodVNmQnFwSWEvdzlVaVVEdTVnaDhsbTJMQUVYdVRvQUlwL2xo?=
- =?utf-8?B?RGxacDViV1VhY2pTU0RMK2VpaGVpaUVuTHdRdXZSdWtMSWQvMEp5dlJNdW8v?=
- =?utf-8?B?d2hOS3dQUFY2WUJwelhPK243Tk9hU2FrR2VaZE8yM0RrN3pmblF6NVRNOHhj?=
- =?utf-8?B?NUxORnQ5WkNkTWZtSm9RVjdBeTFBS1N1ZGwvUVVObFpNNi9ZOTBmKzVXUk4v?=
- =?utf-8?B?UzFPMEFnbURJZ0lKRkVGQmJOMEJ0V3dTa3N0WkpYaTd5bUN6ZDZTUmZIeWJ0?=
- =?utf-8?B?Slh6M0dRbDZWWTZvbXFhVWN4QzNrODRveEpKNFZZZWNwcWpzRTduRDAreS9E?=
- =?utf-8?B?RmMrU1Q0Y0J5aXQ5MnZyZHRkRThySmh5SHRDOXJycXE3SFZNSVVIb0hOWGJX?=
- =?utf-8?B?dCtYUEdRUmxxc1dwdEdKdEp3YjBrYmcvOHJsRFNrSlFMU0xpc0NiaUVVdi9V?=
- =?utf-8?B?d0hxS0NyK1NHQU9kR0o1TnpHWG12OStJMWovQlArdDNtR0pBallKNGxZQktt?=
- =?utf-8?B?V3YrSmxZSllUYXJBb1JGWnFUVkp2T2xqYXhwUzRCeThPLzlVMDVQaDh3WU9P?=
- =?utf-8?B?R2tpT1J3YTdVUnFBZVgxS08vb1dUdURXdWY0SHpDZ3ZPUVAxbTdBL2RkNkRm?=
- =?utf-8?B?U2lycHlXSWFicVJHbERXRENZZU9xZmV5Mmt5R0lKeW4xODg5Ky82cXUzZkhW?=
- =?utf-8?B?M0hKeElZa0RTalRNNlBIK0hFL2QrQUhvRWR6MnFNMk5ZbVk4WWxKWGdNOXJ5?=
- =?utf-8?B?NU0xLzRMcXIyZFdDOHVxM1FtVDZNMVdsOWhjWkczWlFYVTR3Ujc0QzAxbjdT?=
- =?utf-8?B?NUsvVWc2OS9YVUJaOG1objMvbHlpc2kyMSs5QnVyZzBTSU5iNndBUzQ1NnR1?=
- =?utf-8?B?ZGRVdkVaa2tPTHNhaXRZNWZUSVhLdVp0UVRXYkp4NURpMFRxV2hLTXBTbFhX?=
- =?utf-8?B?bGI5Rk5rcm9QR1lwbkVjTUZnRmxZbzYyTUF2Y1l0QXdRNTRIbzQ3cmJsQ0hK?=
- =?utf-8?B?R2pHaGNQbkhrYWdmNVc0RXpROXBTVmFrN1ZPaElaai9pekxDMFFDekNiV2Nq?=
- =?utf-8?B?a20ydDZaRjFlV29HT0o5WFhqeE9xbTRJY0Vlc2ZoV3ZvQUtyWEhkaytPUVB3?=
- =?utf-8?B?eEZ0cjd4Y1A2dE9pN01MNHlLN0lubm1uSWZSUUJuNW5LRmQxSTh2ZXBEV1NF?=
- =?utf-8?B?SmM4UGoxRHlJRkI3V1JPVS9sNld3OHRybWs3S0RtUHZFZGs1ejhnNEVadFAy?=
- =?utf-8?B?ODFhMUg2REhoK1FzT004cGozTTBjamdIaXZUTXpEQ1QrMWxxN3A5NktkTlF5?=
- =?utf-8?B?YmgzVnNGcExSdkhUUElVY01CNWxPRUtlV2dFUllhdE9RZlBhM1V3VlFYMnVN?=
- =?utf-8?B?QkxINzlHWnhnQzl2dWppOXk0a3VHTW1hdU1ENFNMaHF4ejNUOVFzbHhEbmdl?=
- =?utf-8?B?cG5ENnorbEgxVHlHQ2tBZVRabUo1SHhZTGN1YXJxdHBndjZaSU9zZFJwV0lk?=
- =?utf-8?B?YmJwMW03VDdCcXZXTkdSTmtKTE5URWFPKzhneFZrRjgwLzFQNUVxUE9zTU1p?=
- =?utf-8?B?MkxocTgwVFppQ2R3ek9TMVNTMjIyQ3phelE2SHIvVXVtZGcxR09ScjdSa0NV?=
- =?utf-8?B?Q0wyVHd1azNLRlFmY3B1TW9GZVliak16WjgrK2RNQ3pCbTI5SHk5bElIb0sz?=
- =?utf-8?B?ZUNuaXkzTTl0a1h1cHRqNXk5bEs0djVaY0VqOVdaWVZCZnhDWEdxajhodTBX?=
- =?utf-8?B?bDZxNm1KcU5lWW4xUjdnUXlab1pEN1VCL2ZLVm1QY3ZoQ2p0QkNQZGVMaHBS?=
- =?utf-8?B?K0tjY2VLUmF5bDlVSURCNDFQMjFFd0RuK0gwenJuSk5LRDRtd29DN1MzNUd4?=
- =?utf-8?Q?LqEB/7N+a7/Xn3Vh4sGp1qyemQnHNsTvVlokh1kzbUXz?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b059eed-095e-4992-2e6a-08ddef49cbb5
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 02:37:18.7872 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7oBGKS7rjhp07i90xXRdRQvclFmJTW7JytSpKRHId+xhckCZmJmUNB2BIjX6JGCXncQYnWxJZ0HJWgARIzX70g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6286
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4148.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 529bd116-7402-4e4f-8292-08ddef51123a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2025 03:29:23.3641 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR02MB8856
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,80 +144,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Sep 9, 2025 at 2:16 AM JST, Joel Fernandes wrote:
-> Hi Alex,
->
-> On 9/7/2025 11:12 PM, Alexandre Courbot wrote:
->> On Thu Sep 4, 2025 at 6:54 AM JST, Joel Fernandes wrote:
->>> The bitfield-specific into new macro. This will be used to define
->>> structs with bitfields, similar to C language.
->>>
->>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->>> ---
->>>  drivers/gpu/nova-core/bitstruct.rs   | 271 +++++++++++++++++++++++++++
->>>  drivers/gpu/nova-core/nova_core.rs   |   3 +
->>>  drivers/gpu/nova-core/regs/macros.rs | 247 +-----------------------
->>>  3 files changed, 282 insertions(+), 239 deletions(-)
->>>  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
->>>
->>> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core=
-/bitstruct.rs
->>> new file mode 100644
->>> index 000000000000..1dd9edab7d07
->>> --- /dev/null
->>> +++ b/drivers/gpu/nova-core/bitstruct.rs
->>> @@ -0,0 +1,271 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +//
->>> +// bitstruct.rs =E2=80=94 Bitfield library for Rust structures
->>> +//
->>> +// A library that provides support for defining bit fields in Rust
->>> +// structures. Also used from things that need bitfields like register=
- macro.
->>> +///
->>> +/// # Syntax
->>> +///
->>> +/// ```rust
->>> +/// bitstruct! {
->>> +///     struct ControlReg {
->>=20
->> The `struct` naming here looks a bit confusing to me - as of this patch,
->> this is a u32, right? And eventually these types will be limited to prim=
-itive types,
->> so why not just `ControlReg: u32 {` ?
->
-> This is done in a later patch. This patch is only code movement, in later=
- patch
-> we add precisely the syntax you're describing when we add storage types, =
-and
-> update the register! macro. In this patch bitstruct is only u32.
+From: Michael Kelley Sent: Thursday, September 4, 2025 10:36 PM
+>=20
+> From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Thursday, September 4=
+, 2025 7:56 AM
+> >
+> > Compositors often depend on vblanks to limit their display-update
+> > rate. Without, they see vblank events ASAP, which breaks the rate-
+> > limit feature. This creates high CPU overhead. It is especially a
+> > problem with virtual devices with fast framebuffer access.
+> >
+> > The series moves vkms' vblank timer to DRM and converts the hyperv
+> > DRM driver. An earlier version of this series contains examples of
+> > other updated drivers. In principle, any DRM driver without vblank
+> > hardware can use the timer.
+>=20
+> I've tested this patch set in a Hyper-V guest against the linux-next20250=
+829
+> kernel. All looks good. Results and perf are the same as reported here [4=
+].
+> So far I haven't seen the "vblank timer overrun" error, which is consiste=
+nt
+> with the changes you made since my earlier testing. I'll keep running thi=
+s
+> test kernel for a while to see if anything anomalous occurs.
 
-My point was, is the `struct` keyword needed at all? Isn't it a bit
-confusing since these types are technically not Rust structs?
+As I continued to run with this patch set, I got a single occurrence of thi=
+s
+WARN_ON. I can't associate it with any particular action as I didn't notice
+it until well after it occurred.
 
-I agree the `: u32` can be introduced later, the original `register!`
-macro did not specify any type information so there is indeed no reason
-to add it in this patch.
+[213730.719364] ------------[ cut here ]------------
+[213730.719423] hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] drm_=
+WARN_ON(!ktime_compare(*vblank_time, vblank->time))
+[213730.719522] WARNING: drivers/gpu/drm/drm_vblank.c:2309 at drm_crtc_vbla=
+nk_get_vblank_timeout+0x90/0xb0 [drm], CPU#4: kworker/4:0/7172
+[213730.719871] Modules linked in: nls_iso8859_1(E) dm_multipath(E) scsi_dh=
+_rdac(E) scsi_dh_emc(E) scsi_dh_alua(E) binfmt_misc(E) intel_rapl_msr(E) in=
+tel_rapl_common(E) rapl(E) hyperv_fb(E) cfbfillrect(E) cfbimgblt(E) fb_io_f=
+ops(E) serio_raw(E) cfbcopyarea(E) hv_balloon(E) joydev(E) mac_hid(E) sch_f=
+q_codel(E) msr(E) ramoops(E) reed_solomon(E) efi_pstore(E) autofs4(E) btrfs=
+(E) blake2b_generic(E) raid10(E) raid456(E) async_raid6_recov(E) async_memc=
+py(E) async_pq(E) async_xor(E) async_tx(E) xor(E) raid6_pq(E) raid1(E) raid=
+0(E) hyperv_drm(E) drm_client_lib(E) drm_shmem_helper(E) syscopyarea(E) sys=
+fillrect(E) sysimgblt(E) fb_sys_fops(E) drm_kms_helper(E) drm(E) drm_panel_=
+orientation_quirks(E) fb(E) hid_generic(E) hid_hyperv(E) lcd(E) hid(E) hv_s=
+torvsc(E) ledtrig_backlight(E) hyperv_keyboard(E) hv_netvsc(E) hv_utils(E) =
+scsi_transport_fc(E) ghash_clmulni_intel(E) hv_vmbus(E) aesni_intel(E)
+[213730.720514] CPU: 4 UID: 0 PID: 7172 Comm: kworker/4:0 Kdump: loaded Tai=
+nted: G            E       6.17.0-rc3-next-20250829+ #3 PREEMPT(voluntary)
+[213730.723220] Tainted: [E]=3DUNSIGNED_MODULE
+[213730.724452] Hardware name: Microsoft Corporation Virtual Machine/Virtua=
+l Machine, BIOS Hyper-V UEFI Release v4.1 11/21/2024
+[213730.724993] Workqueue: events drm_fb_helper_damage_work [drm_kms_helper=
+]
+[213730.725491] RIP: 0010:drm_crtc_vblank_get_vblank_timeout+0x90/0xb0 [drm=
+]
+[213730.726082] Code: 8b 7f 08 4c 8b 67 50 4d 85 e4 74 33 e8 99 b6 7f c7 48=
+ c7 c1 60 e8 93 c0 4c 89 e2 48 c7 c7 b5 25 94 c0 48 89 c6 e8 00 06 e3 c6 <0=
+f> 0b eb c0 e8 07 f6 f1 c6 48 89 03 5b 41 5c 5d c3 cc cc cc cc 4c
+[213730.726506] RSP: 0018:ffffbba54e0efc00 EFLAGS: 00010282
+[213730.726692] RAX: 0000000000000000 RBX: ffffbba54e0efc78 RCX: 0000000000=
+000027
+[213730.726899] RDX: ffff954f07d1cec8 RSI: 0000000000000001 RDI: ffff954f07=
+d1cec0
+[213730.727094] RBP: ffffbba54e0efc10 R08: 0000000000000000 R09: ffffbba54e=
+0efa70
+[213730.727280] R10: ffffbba54e0efa68 R11: ffffffff88d4c748 R12: ffff954e01=
+0a4cc0
+[213730.727456] R13: 0000000000000000 R14: ffff954e20070d80 R15: ffff954e25=
+1002c8
+[213730.727636] FS:  0000000000000000(0000) GS:ffff954f7e938000(0000) knlGS=
+:0000000000000000
+[213730.727834] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[213730.728009] CR2: 00007fe11629d010 CR3: 000000011f843004 CR4: 0000000000=
+b70ef0
+[213730.728186] Call Trace:
+[213730.728359]  <TASK>
+[213730.728511]  drm_crtc_vblank_helper_get_vblank_timestamp_from_timer+0x1=
+5/0x20 [drm_kms_helper]
+[213730.728674]  drm_crtc_get_last_vbltimestamp+0x55/0x90 [drm]
+[213730.728864]  drm_crtc_next_vblank_start+0x4e/0x90 [drm]
+[213730.729043]  drm_atomic_helper_wait_for_fences+0x7c/0x1e0 [drm_kms_help=
+er]
+[213730.729196]  drm_atomic_helper_commit+0xa1/0x160 [drm_kms_helper]
+[213730.729335]  drm_atomic_commit+0xb0/0xe0 [drm]
+[213730.729481]  ? __pfx___drm_printfn_info+0x10/0x10 [drm]
+[213730.729643]  drm_atomic_helper_dirtyfb+0x1aa/0x280 [drm_kms_helper]
+[213730.729800]  drm_fbdev_shmem_helper_fb_dirty+0x4c/0xb0 [drm_shmem_helpe=
+r]
+[213730.729939]  drm_fb_helper_damage_work+0x8d/0x170 [drm_kms_helper]
+[213730.730071]  process_one_work+0x19c/0x3f0
+[213730.730204]  worker_thread+0x2c3/0x3d0
+[213730.730332]  kthread+0x116/0x230
+[213730.730459]  ? __pfx_worker_thread+0x10/0x10
+[213730.730580]  ? _raw_spin_unlock_irq+0x12/0x40
+[213730.730744]  ? __pfx_kthread+0x10/0x10
+[213730.730898]  ret_from_fork+0xec/0x130
+[213730.731027]  ? __pfx_kthread+0x10/0x10
+[213730.731152]  ret_from_fork_asm+0x1a/0x30
+[213730.731277]  </TASK>
+[213730.731396] ---[ end trace 0000000000000000 ]---
 
->
->>=20
->>> +///         3:0       mode        as u8 ?=3D> Mode;
->>> +///         7:4       state       as u8 =3D> State;
->>> +///     }
->>> +/// }
->>> +/// ```
->>=20
->> As this will move to the kernel crate, it is particularly important to
->> make sure that this example can compile and run - so please provide
->> simple definitions for `Mode` and `State` to make sure the kunit tests
->> will pass after patch 4 (in the current state I'm pretty sure they won't=
-).
->
-> Good catch. This will blow up the example though. I will change it to no_=
-run
-> like the register! macro did if that's Ok.
+>=20
+> For Patches 1, 2, and 4 of the series on a Hyper-V guest,
+>=20
+> Tested-by: Michael Kelley <mhklinux@outlook.com>
+>=20
+> [4] https://lore.kernel.org/dri-devel/20250523161522.409504-1-
+> mhklinux@outlook.com/T/#m2e288dddaf7b3c025bbbf88da4b4c39e7aa950a7
+>=20
+> >
+> > The series has been motivated by a recent discussion about hypervdrm [1=
+]
+> > and other long-standing bug reports. [2][3]
+> >
+> > v3:
+> > - fix deadlock (Ville, Lyude)
+> > v2:
+> > - rework interfaces
+> >
+> > [1] https://lore.kernel.org/dri-devel/20250523161522.409504-1-
+> mhklinux@outlook.com/T/#ma2ebb52b60bfb0325879349377738fadcd7cb7ef
+> > [2] https://bugzilla.suse.com/show_bug.cgi?id=3D1189174
+> > [3] https://invent.kde.org/plasma/kwin/-/merge_requests/1229#note_28460=
+6
+> >
+> > Thomas Zimmermann (4):
+> >   drm/vblank: Add vblank timer
+> >   drm/vblank: Add CRTC helpers for simple use cases
+> >   drm/vkms: Convert to DRM's vblank timer
+> >   drm/hypervdrm: Use vblank timer
+> >
+> >  Documentation/gpu/drm-kms-helpers.rst       |  12 ++
+> >  drivers/gpu/drm/Makefile                    |   3 +-
+> >  drivers/gpu/drm/drm_vblank.c                | 161 +++++++++++++++++-
+> >  drivers/gpu/drm/drm_vblank_helper.c         | 176 ++++++++++++++++++++
+> >  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  11 ++
+> >  drivers/gpu/drm/vkms/vkms_crtc.c            |  83 +--------
+> >  drivers/gpu/drm/vkms/vkms_drv.h             |   2 -
+> >  include/drm/drm_modeset_helper_vtables.h    |  12 ++
+> >  include/drm/drm_vblank.h                    |  32 ++++
+> >  include/drm/drm_vblank_helper.h             |  56 +++++++
+> >  10 files changed, 467 insertions(+), 81 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/drm_vblank_helper.c
+> >  create mode 100644 include/drm/drm_vblank_helper.h
+> >
+> > --
+> > 2.50.1
 
-If you reduce `State` to 1 bit and change its type to `bool`, and limit
-`Mode` to two or three variants, the example should remain short. I
-think it is valuable to provide a complete working example here as the
-syntax is not obvious at first sight.
