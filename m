@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398FCB4FE7D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 16:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897EDB500F0
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 17:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1E510E76E;
-	Tue,  9 Sep 2025 14:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F88310E798;
+	Tue,  9 Sep 2025 15:22:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2oVwkHmm";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="K3+M3w31";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0D110E76E
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 14:00:33 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 00BE41A09D3;
- Tue,  9 Sep 2025 14:00:32 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CBB2060630;
- Tue,  9 Sep 2025 14:00:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 43F53102F2869; 
- Tue,  9 Sep 2025 15:59:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1757426430; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=zkJmRVq9X8+VfiFiVFtH9/Lec29ID9JWmA+hQsicr58=;
- b=2oVwkHmmv7BPojJAfKrt3kpqZHFkobdQn8anhwZSjXXexsdPrYY0mb7Qd7mBXNP0+Hapf3
- yhbr01kdvGhPUnJVydECZxvOjMOZ22EB4oGlROtG5GDizZqbxlInomoz4VDLblZH6Jo6MJ
- uf/J94TIXU28ydjh7K+23kOyqAvPQbkiXWGLNb4N5BJCQvKks4eqfqP+WILRUICQqn8DFn
- UPAtrrFT9hJ91MV6PcuvB9rq3+w/L/dlYv8eElWnKfYRwjxhRhIMM9uh60Ehhiz9mxrkm6
- DIR6A29G2WyJddjlr9Y/P/Xe1TdaqXIpUVpCeZ8iACM02lGh/cYbz1sFzv+iVA==
-Date: Tue, 9 Sep 2025 15:59:50 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Qi Xi <xiqi2@huawei.com>
-Cc: <bobo.shaobowang@huawei.com>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
- <lyude@redhat.com>, <andy.yan@rock-chips.com>, <viro@zeniv.linux.org.uk>,
- <mordan@ispras.ru>, <amishin@t-argos.ru>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: bridge: cdns-mhdp8546: Fix missing mutex unlock on
- error path
-Message-ID: <20250909155950.0e15ec6c@booty>
-In-Reply-To: <20250904034447.665427-1-xiqi2@huawei.com>
-References: <20250904034447.665427-1-xiqi2@huawei.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3BE410E78D;
+ Tue,  9 Sep 2025 15:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=2bJb9r9WRkh2TAMgOyJeg6yuzlP1Z0g5WcvmBSdw5jw=; b=K3+M3w31oZcBuYI9a7tM1Wo4ID
+ BPiBqB+/2QDy58bY7Sc9535axphYxgvKiFquwU0TlajgwlRtUwRspA0xVmD9BAHJLz/l+jeRZjyjR
+ Unw1uOLgfY+EjPa0Itj9WptPWEi19neifkYJniy3Wf2hlEbdwOSuG2acrNEVToC0OeJ1sZs5T1nnK
+ gXGBKfpb0jyqvC2yHxEbiNlRGTIi8PdJLlcATpL1HoYOoKskBQ4MjK5mFv/WtG5JC72p01/TzMbra
+ BkITS1U0QdkexZxcKSJB91r2uD2hrSHqab+CbXgy+JPrmtyOmqb15KRnsWDBSvIaUTLwYUljo7s4o
+ cH/Dx2Kw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1uw0Aa-00000005OZD-2Xxf; Tue, 09 Sep 2025 15:22:09 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 3D7323002EB; Tue, 09 Sep 2025 16:05:19 +0200 (CEST)
+Date: Tue, 9 Sep 2025 16:05:19 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ matthew.auld@intel.com, jani.nikula@linux.intel.com,
+ samuel.pitoiset@gmail.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, alexander.deucher@amd.com,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] drm/buddy: Optimize free block management with RB
+ tree
+Message-ID: <20250909140519.GK4067720@noisy.programming.kicks-ass.net>
+References: <20250909095621.489833-1-Arunpravin.PaneerSelvam@amd.com>
+ <6f6841a7-57bd-49de-9b55-b5b0514a2749@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6f6841a7-57bd-49de-9b55-b5b0514a2749@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +65,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Qi Xi,
-
-On Thu, 4 Sep 2025 11:44:47 +0800
-Qi Xi <xiqi2@huawei.com> wrote:
-
-> Add missing mutex unlock before returning from the error path in
-> cdns_mhdp_atomic_enable().
+On Tue, Sep 09, 2025 at 02:04:30PM +0200, Christian König wrote:
+> Hi Arun,
 > 
-> Fixes: 935a92a1c400 ("drm: bridge: cdns-mhdp8546: Fix possible null pointer dereference")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+> On 09.09.25 11:56, Arunpravin Paneer Selvam wrote:
+> [SNIP]
+> 
+> > +/**
+> > + * rbtree_for_each_entry_safe - iterate in-order over rb_root safe against removal
+> > + *
+> > + * @pos:	the 'type *' to use as a loop cursor
+> > + * @n:		another 'type *' to use as temporary storage
+> > + * @root:	'rb_root *' of the rbtree
+> > + * @member:	the name of the rb_node field within 'type'
+> > + */
+> > +#define rbtree_for_each_entry_safe(pos, n, root, member) \
+> > +	for ((pos) = rb_entry_safe(rb_first(root), typeof(*(pos)), member), \
+> > +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL; \
+> > +	     (pos); \
+> > +	     (pos) = (n), \
+> > +	     (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL)
+> 
+> As far as I know exactly that operation does not work on an R/B tree.
+> 
+> See the _safe() variants of the for_each_ macros are usually used to iterate over a container while being able to remove entries.
+> 
+> But because of the potential re-balance storing just the next entry is not sufficient for an R/B tree to do that as far as I know.
+> 
+> Please explain how exactly you want to use this macro.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+So I don't much like these iterators; I've said so before. Either we
+should introduce a properly threaded rb-tree (where the NULL child
+pointers encode a linked list), or simply keep a list_head next to the
+rb_node and use that.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+The rb_{next,prev}() things are O(ln n), in the worst case they do a
+full traversal up the tree and a full traversal down the other branch.
+
+That said; given 'next' will remain an existing node, only the 'pos'
+node gets removed, rb_next() will still work correctly, even in the face
+of rebalance.
+
+
