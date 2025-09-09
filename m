@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280F2B50620
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 21:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF4DB50623
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 21:17:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB1C10E7D4;
-	Tue,  9 Sep 2025 19:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606F310E7E6;
+	Tue,  9 Sep 2025 19:17:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BZPx17BJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RSkozw1g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92CA210E7E7;
- Tue,  9 Sep 2025 19:17:02 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3843010E7E1;
+ Tue,  9 Sep 2025 19:17:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0D1BE60244;
- Tue,  9 Sep 2025 19:17:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BBBC4CEFB;
- Tue,  9 Sep 2025 19:16:59 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 200CB4379C;
+ Tue,  9 Sep 2025 19:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB4B2C4CEF4;
+ Tue,  9 Sep 2025 19:17:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757445421;
- bh=3S7JR1J0KLdyO8pzE3T0jrrcCJZbmsNBb/5yq5sNZ4o=;
+ s=k20201202; t=1757445424;
+ bh=gVzxOE/pl/exM5/3ViV8ssmW6tGDSsp+WYKa5FxPoEY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BZPx17BJcjBtzqBfOofygLJoWjpryBLy94iyWDVTJSc8fSyZi1iutt9KOs0CbXhrG
- 7jssnzrLaHsKm97Lf9k5rgwk6N7g1wO9731N4Gs3rPcMqoRUk3KajLbdo2nWl/o0M9
- l3HX2gAaU3K/QdryeGaiTuldFFZVidaOofVTTtNib2rtu1AO1QAUugqpzx8bB0RAwW
- eMDOOrtfPAK77qaLWHFEFbd4miURqNtXQxBdxjghk12LSq6ch5K5tAgX6LsfjalByW
- ykvqikgi65r3/Qh915xzVpkpw8PJCCBvlzp/41fKSIahKgSgIgis6c8cKLvitBSzkh
- G9cUzIBziEYSw==
+ b=RSkozw1g/nG+tUtkLwJcR5YP+2XwvAU++L0WUndrrz/c+jjIsjZLVcIdlHQHNZyg2
+ il0Xe+pJk7IP0kyenCv5oitFAZB3uHCGXuQHm6eqP21QvXCOIr6y7y99FYK2r0Loa5
+ /qfrvRMe2yAZDoN+IVzyENwZU+bpO5HxzRu08huVBQr/zmBi27gIPHhHwN82UrNXbg
+ a/RMIiLygBst9XuqPL0YYkYuE+NzoS9sQD5NHiYvd//Wn87YYFnkGvmrsLgPnnwZpJ
+ ws4lbjKAoOEzhCJ53lPNJOPQCRSixjZEkaTd6I44jjftM4WyFq77QM6pPyaU7ex/7k
+ y3uBQcISsATrg==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -52,16 +52,15 @@ Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
  =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
  Eric Naim <dnaim@cachyos.org>,
  "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- Denis Benato <benato.denis96@gmail.com>
-Subject: [PATCH v7 11/12] PM: Use hibernate flows for system power off
-Date: Tue,  9 Sep 2025 14:16:18 -0500
-Message-ID: <20250909191619.2580169-12-superm1@kernel.org>
+ "Mario Limonciello (AMD)" <superm1@kernel.org>
+Subject: [PATCH v7 12/12] Documentation: power: Add document on debugging
+ shutdown hangs
+Date: Tue,  9 Sep 2025 14:16:19 -0500
+Message-ID: <20250909191619.2580169-13-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250909191619.2580169-1-superm1@kernel.org>
 References: <20250909191619.2580169-1-superm1@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,76 +77,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the system is powered off the kernel will call device_shutdown()
-which will issue callbacks into PCI core to wake up a device and call
-it's shutdown() callback.  This will leave devices in ACPI D0 which can
-cause some devices to misbehave with spurious wakeups and also leave some
-devices on which will consume power needlessly.
+The kernel will attempt hibernation callbacks before shutdown callbacks.
+If there is any problem with this, ideally a UART log should be captured
+to debug the problem.  However if one isn't available users can use the
+pstore functionality to retrieve logs.  Add a document explaining how
+this works.
 
-The issue won't happen if the device is in D3 before system shutdown, so
-putting device to low power state before shutdown solves the issue.
-
-ACPI Spec 6.5, "7.4.2.5 System \_S4 State" says "Devices states are
-compatible with the current Power Resource states. In other words, all
-devices are in the D3 state when the system state is S4."
-
-The following "7.4.2.6 System \_S5 State (Soft Off)" states "The S5
-state is similar to the S4 state except that OSPM does not save any
-context." so it's safe to assume devices should be at D3 for S5.
-
-To accomplish this, use the PMSG_POWEROFF event to call all the device
-hibernate callbacks when the kernel is compiled with hibernate support.
-If compiled without hibernate support or hibernate fails fall back into
-the previous shutdown flow.
-
-Cc: AceLan Kao <acelan.kao@canonical.com>
-Cc: Kai-Heng Feng <kaihengf@nvidia.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Merthan Karakaş <m3rthn.k@gmail.com>
-Tested-by: Eric Naim <dnaim@cachyos.org>
-Tested-by: Denis Benato <benato.denis96@gmail.com>
-Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/
-Link: https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 ---
-v5:
- * split to multiple commits, re-order
-v4:
- * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
-v3:
- * Add new PMSG_POWEROFF and PM_EVENT_POWEROFF which alias to poweroff
-   callbacks
- * Don't try to cleanup on dpm_suspend_start() or dpm_suspend_end() failures
-   Jump right into normal shutdown flow instead.
- * https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/T/#me6db0fb946e3d604a8f3d455128844ed802c82bb
+v7:
+ * New patch
 ---
- kernel/reboot.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/power/index.rst              |  1 +
+ Documentation/power/shutdown-debugging.rst | 55 ++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 Documentation/power/shutdown-debugging.rst
 
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index ec087827c85cd..c8835f8e5f271 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -13,6 +13,7 @@
- #include <linux/kexec.h>
- #include <linux/kmod.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/pm.h>
- #include <linux/reboot.h>
- #include <linux/suspend.h>
- #include <linux/syscalls.h>
-@@ -305,6 +306,11 @@ static void kernel_shutdown_prepare(enum system_states state)
- 		(state == SYSTEM_HALT) ? SYS_HALT : SYS_POWER_OFF, NULL);
- 	system_state = state;
- 	usermodehelper_disable();
-+#ifdef CONFIG_HIBERNATE_CALLBACKS
-+	if (!dpm_suspend_start(PMSG_POWEROFF) && !dpm_suspend_end(PMSG_POWEROFF))
-+		return;
-+	pr_emerg("Failed to power off devices, using shutdown instead.\n");
-+#endif
- 	device_shutdown();
- }
- /**
+diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
+index a0f5244fb4279..ea70633d9ce6c 100644
+--- a/Documentation/power/index.rst
++++ b/Documentation/power/index.rst
+@@ -19,6 +19,7 @@ Power Management
+     power_supply_class
+     runtime_pm
+     s2ram
++    shutdown-debugging
+     suspend-and-cpuhotplug
+     suspend-and-interrupts
+     swsusp-and-swap-files
+diff --git a/Documentation/power/shutdown-debugging.rst b/Documentation/power/shutdown-debugging.rst
+new file mode 100644
+index 0000000000000..d4bf12000c1cd
+--- /dev/null
++++ b/Documentation/power/shutdown-debugging.rst
+@@ -0,0 +1,55 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Debugging Kernel Shutdown Hangs with pstore
+++++++++++++++++++++++++++++++++++++++++++++
++
++Overview
++========
++When the system is shut down to either a halt or power off, the kernel will
++attempt to run hibernation calls for all devices. If this fails, the kernel will
++fall back to shutdown callbacks. If this process fails and the system hangs
++the kernel logs will need to be retrieved to debug the issue.
++
++On systems that have a UART available, it is best to configure the kernel to use
++this UART for kernel console output.
++
++If a UART isn't available, the ``pstore`` subsystem provides a mechanism to
++persist this data across a system reset, allowing it to be retrieved on the next
++boot.
++
++Kernel Configuration
++====================
++To enable ``pstore`` and enable saving kernel ring buffer logs, set the
++following kernel configuration options:
++
++* ``CONFIG_PSTORE=y``
++* ``CONFIG_PSTORE_CONSOLE=y``
++
++Additionally, enable a backend to store the data. Depending upon your platform
++some options include:
++
++* ``CONFIG_EFI_VARS_PSTORE=y``
++* ``CONFIG_PSTORE_RAM=y``
++* ``CONFIG_PSTORE_FIRMWARE=y``
++* ``CONFIG_PSTORE_BLK=y``
++
++Kernel Command-line Parameters
++==============================
++Add these parameters to your kernel command line:
++
++* ``printk.always_kmsg_dump=Y``
++	* Forces the kernel to dump the entire message buffer to pstore during
++		shutdown
++* ``efi_pstore.pstore_disable=N``
++	* For EFI-based systems, ensures the EFI backend is active
++
++Userspace Interaction and Log Retrieval
++=======================================
++On the next boot after a hang, pstore logs will be available in the pstore
++filesystem (``/sys/fs/pstore``) and can be retrieved by userspace.
++
++On systemd systems, the ``systemd-pstore`` service will help do the following:
++
++#. Locate pstore data in ``/sys/fs/pstore``
++#. Read and save it to ``/var/lib/systemd/pstore``
++#. Clear pstore data for the next event
 -- 
 2.43.0
 
