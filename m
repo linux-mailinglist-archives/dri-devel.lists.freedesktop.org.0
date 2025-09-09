@@ -2,90 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACFDB50487
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 19:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C5CB50512
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 20:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0505410E33B;
-	Tue,  9 Sep 2025 17:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF58010E038;
+	Tue,  9 Sep 2025 18:15:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="LkiUW7MN";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="dVOpm72r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M94ZSGLN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a3-smtp.messagingengine.com
- (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A31110E33B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 17:36:13 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
- by mailfout.phl.internal (Postfix) with ESMTP id D4E59EC00AC;
- Tue,  9 Sep 2025 13:30:44 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Tue, 09 Sep 2025 13:30:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1757439044;
- x=1757525444; bh=kcBtm0PRVjFv0BFCQVR8WhttvH8Rf5tckVmKNixBbcs=; b=
- LkiUW7MNBvByPHtEROBNaKsur9l4syMqehF6v/DFhuGzu5AhfCwJYpTzxoh+UvsN
- ZttrM6f7is8cdHWp4skw1LlN/3cxPpL7Sc0FXFo86DFxJGb/6UXFMZcxxNukQNoO
- ieTpksAymFAvaJA6eUgzvyRSkNNmncwJA3xSV45aTZjUTi/iyK/PzvoOfvj+iSN6
- OcwuZuMN2GuLkTN6eLZRpzfdEKKNpAXmzsusBISaNXIMnsqu4R6BtJJ1LqcqL8GQ
- 5EB2xGWwA8pzOtakSTTgWrrEEt43VG1/W/k9Rj07/XW26k6lnBdHuG1uCBiGz+wa
- o1NaZ9gFo65VHwxSUSOlAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757439044; x=
- 1757525444; bh=kcBtm0PRVjFv0BFCQVR8WhttvH8Rf5tckVmKNixBbcs=; b=d
- VOpm72rr5CrKaSMNT98LuKZxY481oR1c1MrLZ1k2jIhMcVzy8Iq/I0fuBpoPDQGk
- 22UivKHmATUqbiP/aH3whH5Qral3FfrIVzqxasSBIZj3PlfsBCXaJMdYQol9TX/8
- qMyY+zZUGn14LL33QjYeAjCyi9nAPa0YZXe4cfKb8II2JzZ697U19b6iGCwL457G
- DyesNWhmns0ATYtTgf11hBeTuDiaHAkD9OK8i5009pS7tWb5PrIgWxrdnT4EJBKc
- 9Z7UVyQihSoLXcXvv97v6jnUG6sLUkreHfDouC6VVh3wShXe34rvskcPXm5ip6u4
- uea+TEkNUD7LMzCC/+RRQ==
-X-ME-Sender: <xms:RGTAaAH7EwqFDwC51Dh7B5l_yJSzzNsd9e7nfih46dEmN3eEHGlOZw>
- <xme:RGTAaJXh5sjajJlRiDNmzRmwR7LF4BBvm-9RvkKhuumxDz_oNAJMB9hepETIBub1u
- FPvsmwA0otEkmFO9OE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvuddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
- uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
- hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
- esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdp
- rhgtphhtthhopehsohgtihestgeigedrrhhulhgviidrohhrghdprhgtphhtthhopehsih
- hmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepuggvlhhlvghrsehgmhigrdguvgdp
- rhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprd
- horhhgpdhrtghpthhtohepuggrnhhivghlrdhprghlmhgvrhesshhonhihrdgtohhmpdhr
- tghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvg
-X-ME-Proxy: <xmx:RGTAaEN_EYlqVER37uTRkH8CglEAwRkzyvlN7KlSUe1DrTTBMa7E6Q>
- <xmx:RGTAaCXYlY76vQlv48zV_79QpIU7pY8jtJymxifR9aAX_xoaUkJxuA>
- <xmx:RGTAaA1K6Ky2LMn7TeQbC9D3mQuPIaWQf2DTTqDiNmsuhvHfAfYqTw>
- <xmx:RGTAaIoRr8bhvTWo1-VwGvTGYQtFtnwiJAfbcoasqkHe_V8Zb7vKHw>
- <xmx:RGTAaND-tHPsfk7vxLeKWP83YybZE8QvVb2W2Foyc2-ojnaBGeUTo2QV>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 9D4A3700069; Tue,  9 Sep 2025 13:30:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4609B10E038
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 18:15:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 440696022D
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 18:15:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E8257C4CEF8
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 18:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757441745;
+ bh=22acnxYgc8ITuL6nlr3XbLvhut7NnhmnXC5q51DvWE4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=M94ZSGLNSsZ6jqU/HNXFyorHwkjLhJ0oeBWgtgdPbdLFj50B1v//c7WNmDNNu3qAw
+ mHLGZpggoP0zV31bQASBE/VAoBTq4DLhDukvm+8j0jGe1SpX/GI2hZUEzkpNe0ZZQa
+ nesurotlDu6amHkw4Qpfx20ruauXh/d8CvFG9npJBneD/PfPBDxWDJSWVspXhj3SpE
+ OZ91MQfNcgY4Tn2jWn/c4jHAheR3KylW7I1I099PHzs9uDx3wNPUqYwK5S741hL5p8
+ xaQLrbyZqUqivrY5+NeL9GPaytcj94Vwcfd33hmU1Yt6E/HP2egQnslc0VmqV5dQvK
+ 6meBBRCjhsv/A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id DEBE7C41612; Tue,  9 Sep 2025 18:15:45 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220554] Display powers off after every update.
+Date: Tue, 09 Sep 2025 18:15:45 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220554-2300-bHB0CmOT4C@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220554-2300@https.bugzilla.kernel.org/>
+References: <bug-220554-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-ThreadId: Ar21wg06fiH3
-Date: Tue, 09 Sep 2025 19:30:10 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>, 
- "Simona Vetter" <simona@ffwll.ch>, soci@c64.rulez.org
-Cc: daniel.palmer@sony.com, dri-devel@lists.freedesktop.org
-Message-Id: <5932fd76-d4ad-4357-a9dc-1e464d689e75@app.fastmail.com>
-In-Reply-To: <20250909132047.152612-3-tzimmermann@suse.de>
-References: <20250909132047.152612-1-tzimmermann@suse.de>
- <20250909132047.152612-3-tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] fbdev: Turn FB_MODE_HELPERS into an internal config
- option
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,11 +74,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 9, 2025, at 15:19, Thomas Zimmermann wrote:
-> Several fbdev drivers select FB_MODE_HELPER in the Kconfig. The
-> setting controls some helper fucntions and has no meaning to the
-> user. Make it an internal option.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220554
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please bisect:
+
+https://docs.kernel.org/admin-guide/bug-bisect.html
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
