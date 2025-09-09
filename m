@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC48B4A40B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 09:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68345B4A46C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 10:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40D9410E63F;
-	Tue,  9 Sep 2025 07:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB96F10E151;
+	Tue,  9 Sep 2025 08:01:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ey45sGgx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rEynhRL8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83E6410E163
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 07:43:14 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-55f76454f69so4971438e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 00:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757403793; x=1758008593; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AS7VNoPE31hVbngNYKGN2vb4znQT5BywBU8nWd9Q2tk=;
- b=Ey45sGgxHNahueHzGs/BXAL20du36MOPAoRaeDMF4t2GL/YkLY/Sa0j+TCKwC8fiS9
- MQmqt1oWDKjYQQ1I4lJVlHFd4QVxX3/GC9MaHms17ThXdVfosJdiGlMX2R19XdL1Q913
- eeCS0C+vBSz07t3X5nGrTe+5ez4/yIlnLacWWeP9EN/5kY2yFlDOtAzpH0Kppok3aph1
- aabmNhMXetOy6DH/qvdbFPd429S2N/z3OVdcojUxAKhqRjPIVBnCjaD2DW714IXLYcml
- eiu8+QrimXFXrXksO7SRQCs3VcLCapq7ZQ6JRWTROUtdjlmmwkl9SleIKcecSFb4N05s
- bm8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757403793; x=1758008593;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AS7VNoPE31hVbngNYKGN2vb4znQT5BywBU8nWd9Q2tk=;
- b=ekyol+ZrN9ST/CfI38wT4aWYtnMUWhrt+D9JHKpdeI8S0RHAfLPaZfJeau7mkCt9og
- J/PiIQVsr4m9owFxFclZGSwi+4QJN9khHFZuVuWf58rR8Sd0zSqPJfSOFlSBj6ai8gxQ
- OAGeRfQQZtK6XOnL/fAfkpoQsCgM/Vm18f3wihoIgoJSR3V/c3NtpBW44AWKzXunqipI
- 9zrNYGAUEksS2s2kryjTYv9cZT7I+ETArLiFthYf7T8aORVTUFWl35DtfBWYA3I6N2PB
- G3QvJC/bRWlPt49QIfcLxzjCwmCX8PGZLb/104Xza7e9jzSqhdq8MeS7l2lm0supuDQx
- mmtQ==
-X-Gm-Message-State: AOJu0YytiPsi/M0YeOogWq8fj9IfCXuINJV+Y116cUuuO/ZoJFXFygUG
- ecSL+v2Cvhb8KMuN1dagbCyPWpcYtxVTJ2Q4Fm7KWjXthPA7xyRff9dN
-X-Gm-Gg: ASbGncsa5eP2BqpStHd3sjswvDT97mHj2l3SMUCvpeNk0VpbHDcEONQZGELX98r8UwM
- YEoKtLnefDV+vv8ECiz9qTCUNNaTV1N+QLAf2oZTyiG4q3fOKh3jZf3GerBLOhkpUv4/DhTZWOC
- JBbKBstbeItb3wGHTcV4Lxa+esUm7+GDYtuz8IXoTQUhGGlfJJkhwfX/sT3FWH9Lq2MSHrnv+mW
- 0mPPIrYZ5wDpB9E+K4HDDzbh7InV8M2Zsu+9h9IAYwS02IfPkIPTUier1zHubZWaHcUJB0tDuMt
- xhhQbspw0PCnClg85ReEsSSosR3LjZsGAFKD0KuLTT/tqs8AIzpzwkpmq36wbRRROLYX9EriQvE
- 4NGRpsDRhWKnGjy75SJwsm7KUn2AFdpE9t+I=
-X-Google-Smtp-Source: AGHT+IFVQZHqLjAbCZi2TcAKzcKwotgrbVRy+JcaKxU5U4GsAo4FHGFmFmjOR5+4JFXb0wcxlhDOtQ==
-X-Received: by 2002:a05:6512:3a8a:b0:55f:3ef4:a0f0 with SMTP id
- 2adb3069b0e04-5625fed2778mr3793700e87.24.1757403792554; 
- Tue, 09 Sep 2025 00:43:12 -0700 (PDT)
-Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5681795d633sm333731e87.68.2025.09.09.00.43.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 00:43:12 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1] video: backlight: lp855x_bl: set correct eprom start
- for LP8556
-Date: Tue,  9 Sep 2025 10:43:04 +0300
-Message-ID: <20250909074304.92135-2-clamor95@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250909074304.92135-1-clamor95@gmail.com>
-References: <20250909074304.92135-1-clamor95@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9043610E151
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 08:01:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B170B6013A;
+ Tue,  9 Sep 2025 08:01:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B78DC4CEF4;
+ Tue,  9 Sep 2025 08:01:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757404895;
+ bh=bcZVfOq80qu/TOnn+urm5zcjgjtAMvg5UbHv0Vn5SEs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rEynhRL8qtfRJ4RO/BOjwkiwy94MggKyZxp0l6x5fbvLP60OmqT7vk15aWOgVy5kl
+ D7zMtbswcgpxQkylG1OgUcVIpNqsNuxjwLruQNOyWJIzTORsOphve171gBsBg7G3Ft
+ BsmJkmn9n8HZimHPs6OZPKo8r3E1eBBlsTQ3IW8DhkKAbrEzTMKgl2qdL3namjr6oZ
+ Yzdkk/X7L3y80l3Lqe8nL2oyjMNuwWu5yJTUK94PxHWuu4YkwKM1Bvdr2LfLMIIm0u
+ QAQ7mUKGP8ZPAOBkYMnA5OTV/sABm3Z8IFlKo63EpEFKErMabi5zv1fBNFX5MvsO/U
+ dJSy+2VWseRYw==
+Date: Tue, 9 Sep 2025 10:01:32 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/3] drm/panic: Add a kconfig option to dump kunits
+ results to png
+Message-ID: <20250909-terrestrial-straight-piculet-c43bd6@houat>
+References: <20250821095228.648156-1-jfalempe@redhat.com>
+ <20250821095228.648156-4-jfalempe@redhat.com>
+ <923276d2-9240-48bd-95df-13b4e9e23dcd@suse.de>
+ <7ff51c5b-939e-47d9-8c3b-3c596565d114@redhat.com>
+ <pucvcimuuyz7f7ih7hx7l6bmutarlryvzwiqh7a26bk65ya5sf@uj7agoqm4lm3>
+ <533c2197-d7bb-4294-a094-c4f993a5893c@redhat.com>
+ <20250903-benevolent-boobook-of-wholeness-e631f9@penduick>
+ <a8af8630-043f-4bdf-af77-8f02f992f221@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="o6d4z2qt3pvcr4ev"
+Content-Disposition: inline
+In-Reply-To: <a8af8630-043f-4bdf-af77-8f02f992f221@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,27 +69,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to LP8556 datasheet eprom region starts at 0x98 so adjust value
-in the driver accordingly.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/video/backlight/lp855x_bl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--o6d4z2qt3pvcr4ev
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 3/3] drm/panic: Add a kconfig option to dump kunits
+ results to png
+MIME-Version: 1.0
 
-diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
-index 7075bfab59c4..d191560ce285 100644
---- a/drivers/video/backlight/lp855x_bl.c
-+++ b/drivers/video/backlight/lp855x_bl.c
-@@ -22,7 +22,7 @@
- #define LP855X_DEVICE_CTRL		0x01
- #define LP855X_EEPROM_START		0xA0
- #define LP855X_EEPROM_END		0xA7
--#define LP8556_EPROM_START		0xA0
-+#define LP8556_EPROM_START		0x98
- #define LP8556_EPROM_END		0xAF
- 
- /* LP8555/7 Registers */
--- 
-2.48.1
+On Mon, Sep 08, 2025 at 10:55:17AM +0200, Jocelyn Falempe wrote:
+> On 03/09/2025 10:19, Maxime Ripard wrote:
+> > On Wed, Sep 03, 2025 at 09:30:23AM +0200, Jocelyn Falempe wrote:
+> > > On 02/09/2025 18:58, Maxime Ripard wrote:
+> > > > On Mon, Sep 01, 2025 at 03:04:26PM +0200, Jocelyn Falempe wrote:
+> > > > > On 27/08/2025 12:45, Thomas Zimmermann wrote:
+> > > > > > Hi
+> > > > > >=20
+> > > > > > Am 21.08.25 um 11:49 schrieb Jocelyn Falempe:
+> > > > > > > This is a bit hacky, but very handy if you want to customize =
+the
+> > > > > > > panic screen.
+> > > > > > > It allows to dump the generated images to the logs, and then =
+a python
+> > > > > > > script can convert it to .png files. It makes it easy to chec=
+k how
+> > > > > > > the panic screen will look on different resolutions, without =
+having
+> > > > > > > to crash a VM.
+> > > > > > > To not pollute the logs, it uses a monochrome framebuffer, co=
+mpress
+> > > > > > > it with zlib, and base64 encode it.
+> > > > > >=20
+> > > > > > May I suggest to export the raw image via debugfs? Debugfs can =
+also
+> > > > > > export additional information in additional files, such as widt=
+h/height/
+> > > > > > stride/format. This could provide the real/last image on the fl=
+y, simply
+> > > > > > by reading the files. No workarounds or encodings needed.
+> > > > >=20
+> > > > > I'm looking into that. The difficulty is to get the debugfs conte=
+nt outside
+> > > > > of the test kernel. As I'm using a uml kernel for testing, I will=
+ need a
+> > > > > special initrd, and a way to share files with the host.
+> > > >=20
+> > > > Yeah, I agree that it's not very practical. If only because the test
+> > > > context doesn't stick around once it's been executed, so you would
+> > > > effectively leak an arbritrarily long buffer with no hope of getting
+> > > > back its memory.
+> > >=20
+> > > I've made a prototype with debugfs, a small ramdisk with busybox, and=
+ using
+> > > hostfs to mount the host filesystem in the uml kernel, and it allows =
+to dump
+> > > the raw panic buffer easily.
+> > > Even if it's a bit more complex to setup, I think this use case is not
+> > > really a kunit test, so it's probably better that way.
+> > >=20
+> > > Let me a few days to clean that up, and I will send a v2 of the kunit=
+ tests,
+> > > and a new series to add a debugfs interface.
+> > >=20
+> > > Thanks for your reviews,
+> >=20
+> > We also have to think about how it's going to be shipped and used. If
+> > your debugfs integration has to be disabled everytime we're running
+> > kunit through uml, qemu, and in CI (because we can't retrieve the
+> > result), on a live system (because it would leak memory indefinitely),
+> > how is it useful?
+>=20
+> There is already a kconfig for this:
+> CONFIG_DRM_PANIC_DEBUG
+>=20
+> Also I have an implementation that doesn't leak memory. (memory is freed
+> when the debugfs file is closed).
 
+So, if userspace completely ignores it, you still leak it.
+
+> It's also more flexible, as you can change the parameters, and test any
+> color format, and check the binary result.
+>
+> I think the goal of this is not to test for regression, but to help build=
+ing
+> a new panic screen.
+>=20
+> >=20
+> > The diagnostic lines are part of the test result, are in the logs, and
+> > can be distributed. You're having all those problems solved already,
+> > without having any additional work to do.
+>=20
+> I feel sending an image through log is not really efficient, and I don't
+> want to pollute all the CI with that.
+
+Then maybe we should just ignore that part of your series for now. But
+having a framebuffer lingering around in the system is a no-go for me.
+
+Maxime
+
+--o6d4z2qt3pvcr4ev
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaL/e3AAKCRAnX84Zoj2+
+dqa9AX9CSd77qO/zlLhEcfLt73HTXykkutqLOtMcqS+DkcFeWRIU3WcytY4PPbZI
+t3wfqAABgKNiQjdb/kmueqmI0k5Z7TkHESfwUoUnUbIKHhtaakfM5Raj7uwqDwaW
+uKA8AoxpPQ==
+=r/32
+-----END PGP SIGNATURE-----
+
+--o6d4z2qt3pvcr4ev--
