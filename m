@@ -2,64 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EDBB4A173
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 07:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9B7B4A1D3
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 08:13:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC0C10E056;
-	Tue,  9 Sep 2025 05:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA7D10E61A;
+	Tue,  9 Sep 2025 06:13:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ClG7FGkY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ffwc3j5V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A560810E056
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 05:46:49 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5895kVxH217479;
- Tue, 9 Sep 2025 00:46:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757396791;
- bh=yjJby7j9yt/5+ggjhTawrBW65UMydPYpCjdJvSOfSss=;
- h=From:To:CC:Subject:Date;
- b=ClG7FGkYrrZ+zYbEBaa27ZHWY53bSj6x0WAKPrKB+OqR6v3IKWTbAEww1RcLTzc79
- SZ8zgidrlJtYLfNYTM2RTb0sGuBzDTdwOvy6OzgMUsxOIsbZXub8W0xhNVjP2IPjm1
- gqowYtuBss3nCqdJ179D1rq4NFzAHX4pICsg2A44=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5895kU4E3553049
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 9 Sep 2025 00:46:30 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 9
- Sep 2025 00:46:29 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 9 Sep 2025 00:46:30 -0500
-Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5895kMi32114917;
- Tue, 9 Sep 2025 00:46:23 -0500
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <sjakhade@cadence.com>, <yamonkar@cadence.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
- <s-jain1@ti.com>
-CC: <h-shenoy@ti.com>
-Subject: [PATCH v4] dt-bindings: drm/bridge: MHDP8546 bridge binding changes
- for DSC
-Date: Tue, 9 Sep 2025 11:16:22 +0530
-Message-ID: <20250909054622.1439487-1-h-shenoy@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF5810E61A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 06:13:33 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-30cceb749d7so2393023fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 23:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757398412; x=1758003212; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DXrI7PvCxHkgf8fm11dhQ1A5D6jcjkNuuD5QqQGHEhU=;
+ b=ffwc3j5V/sdZACA4dhr6i8V7/tGECqa1nhH+0IB8FSP4/b0MF34+iNPw/Y2L3uVHDH
+ hR+geRS47QJEBOMfVWDd+KpuEIhVQO+yjHJmnPIBnti4eTYNFr7Jfn7BAKqscBKD7fl8
+ aG8Y01HGnVo9wMseDxtx2nJ3yVST8szHslADaz7HXgYxHdWdw/nqQEdf7sr+dd2C0fvQ
+ 6AYE4whvB2ow73R/slUwAMQ9KRz8r5FcFB0Rqp+ttpifd0Ia7u4R5169hxQSganrirc0
+ Bgot8AqDGAUBEPZv8zhi03o6ST/bwuqaLXvE1Klp4q+p6A5Iv+uj9ryZFXoFBIpYKj2Q
+ VxhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757398412; x=1758003212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DXrI7PvCxHkgf8fm11dhQ1A5D6jcjkNuuD5QqQGHEhU=;
+ b=oqsTQGxpji/24p3f7WD/CcycR1E74TSCGOvAicBj85H1GLIA2iVrn6uEj0YpYYKaFa
+ zcLJv23A8zxsFBg+OppvbzTMa10YvDR5FIiZH+iRhqYCjzgxZ5rnBNiEX7JBnMNsUWoD
+ 9aLVAddoWrn1nX2BD2SZvdRp8T9Xh9XJo/fNtrFWtcqqXmlT7e6dGkzojylDOonOLrwF
+ rxZURMUIjgFwOib6ZTsWfyEVa1bDKP6d/8J+nTl0CJoVl/4ep3hrWwD/ZR8+uSk8w8Eu
+ ql52N+qlmBO021ZZ9R2ogpODCEcFwwfEcz3up8WOiw8BiJncIyr5tAnGlFlWyFCDhHGs
+ ajvw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXerRXAYIVBbNnXQYiXaMQHDrh9kUBsD4pr3JeRbmCUk5ZVCnTC9NjMvEpdbNr6qRp3h2/yWL2Yg1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyte9Scxph09BvOZeWvRPxqEq5RZcAgHVeZkcPSMH9ytyvDUrBd
+ WB6uMrn94qqRdLTuO1QWya1rIYJNMwfUC1Jz0m2JV5eeYxmKwSNpt4m/EDNlDME0Z//Pic0j0Lv
+ ZAZJ829Z8CNSffErFsTLAR78hTF1BINQ=
+X-Gm-Gg: ASbGncvBFm6sXZv2/Hx+oqVrtpT5KAqLwz6U2e8Fg20lAGOYXqND0oi6Fr3IJPsPAbG
+ IXGaiT3L9hYlLVzyqmcboRXMelV1ZypFNTIF9HZF1JmpMSnugYRKwicPBePUU8tLrl5Aj7h/Fzw
+ XCwa10x7OWch9UyiBDmkjd6boPkprCV4iqsSd3EbO9Ne6k2I/PRU8kHUGvt564Ywcca4yb04T1a
+ Up6EmXYY++KURxC
+X-Google-Smtp-Source: AGHT+IHLoM0ZHzdeZ9/+Lrh3NPZ3lfnlNkLLjJ0yH2NqVB0tjM1FQ/XmAZgCJy8lsmtymkBrDxmM9HYw8grb//kBLF8=
+X-Received: by 2002:a05:6870:972c:b0:315:9da9:ec7e with SMTP id
+ 586e51a60fabf-32264e29024mr3609942fac.42.1757398412369; Mon, 08 Sep 2025
+ 23:13:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250904121157.395128-1-tzimmermann@suse.de>
+In-Reply-To: <20250904121157.395128-1-tzimmermann@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Tue, 9 Sep 2025 08:13:20 +0200
+X-Gm-Features: Ac12FXxrz5x_tlRFxgiMqLgS4y-_CqU9mqrpv-ViyEO7Y3yY-DKQnRFpo9QVQoc
+Message-ID: <CAMeQTsZKfvpjTb9TyYomU2ySe_h5c35NCNDOoVfyvHq6Kp_ASQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Do not clear framebuffer GEM objects during
+ cleanup
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,74 +85,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Swapnil Jakhade <sjakhade@cadence.com>
+On Thu, Sep 4, 2025 at 2:14=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Gma500 unnecessarily clears the framebuffer's GEM-object pointer
+> before calling drm_framebuffer_cleanup(). Remove this code to make
+> gma500 consistent with the rest of the drivers.
+>
+> The change is cosmetic, as drm_framebuffer_cleanup() does not
+> touch the object pointer on gma500.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Add binding changes for DSC(Display Stream Compression) in the MHDP8546
-DPI/DP bridge.
+Hi Thomas, looks good.
+Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
----
-Changelog v3 -> v4:
--Remove maxItems as item list is mentioned for reg-names, resolves 
-dt_bindings_check warning.
-Log link- <https://gist.github.com/h-shenoy/5391ea514bb58a6cba3f39248d20916b>
-Link to v3- https://lore.kernel.org/all/20250908054609.1113360-1-h-shenoy@ti.com/
 
- .../bindings/display/bridge/cdns,mhdp8546.yaml | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-index c2b369456e4e..b40630de6d89 100644
---- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
-@@ -27,6 +27,8 @@ properties:
-           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
-       - description:
-           Register block of mhdptx sapb registers.
-+      - description:
-+          Register block for mhdptx DSC encoder registers.
- 
-   reg-names:
-     minItems: 1
-@@ -34,6 +36,7 @@ properties:
-       - const: mhdptx
-       - const: j721e-intg
-       - const: mhdptx-sapb
-+      - const: dsc
- 
-   clocks:
-     maxItems: 1
-@@ -100,18 +103,25 @@ allOf:
-       properties:
-         reg:
-           minItems: 2
--          maxItems: 3
-+          maxItems: 4
-         reg-names:
-           minItems: 2
--          maxItems: 3
-+          items:
-+            - const: mhdptx
-+            - const: j721e-intg
-+            - const: mhdptx-sapb
-+            - const: dsc
-     else:
-       properties:
-         reg:
-           minItems: 1
--          maxItems: 2
-+          maxItems: 3
-         reg-names:
-           minItems: 1
--          maxItems: 2
-+          items:
-+            - const: mhdptx
-+            - const: mhdptx-sapb
-+            - const: dsc
- 
- required:
-   - compatible
--- 
-2.34.1
-
+> ---
+> This change was first tested and submitted as part of the patch at
+> https://lore.kernel.org/dri-devel/20250704085541.28165-1-tzimmermann@suse=
+.de/ .
+> It didn't get merged because it wasn't strictly required for that fix.
+> ---
+>  drivers/gpu/drm/gma500/fbdev.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbde=
+v.c
+> index 4a37136f90f4..32d31e5f5f1a 100644
+> --- a/drivers/gpu/drm/gma500/fbdev.c
+> +++ b/drivers/gpu/drm/gma500/fbdev.c
+> @@ -120,7 +120,6 @@ static void psb_fbdev_fb_destroy(struct fb_info *info=
+)
+>         drm_fb_helper_fini(fb_helper);
+>
+>         drm_framebuffer_unregister_private(fb);
+> -       fb->obj[0] =3D NULL;
+>         drm_framebuffer_cleanup(fb);
+>         kfree(fb);
+>
+> @@ -245,7 +244,6 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper=
+ *fb_helper,
+>
+>  err_drm_framebuffer_unregister_private:
+>         drm_framebuffer_unregister_private(fb);
+> -       fb->obj[0] =3D NULL;
+>         drm_framebuffer_cleanup(fb);
+>         kfree(fb);
+>  err_drm_gem_object_put:
+> --
+> 2.50.1
+>
