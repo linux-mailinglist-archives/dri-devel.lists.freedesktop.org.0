@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3764DB4FEC7
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 16:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F4EB4FECB
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 16:07:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB8210E779;
-	Tue,  9 Sep 2025 14:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF13310E787;
+	Tue,  9 Sep 2025 14:07:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="c4e4QqGA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cu8H1Qvl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6092D10E779;
- Tue,  9 Sep 2025 14:07:16 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2046.outbound.protection.outlook.com [40.107.220.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7962910E783;
+ Tue,  9 Sep 2025 14:07:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MAiq2SPYDwWqj5kfzQwxF0G5Fpul687kS+KxBnHzTv+x6CNFx5c8mGf9Uf50Vftwu4/PQE455ZtO+ECfspa0SzLCmJxhlOP2mQiC83f0g5mJgiMeBQUW0F06LVik1ADMTv8MR2BbMo8EKlhz9rUzlAaJlq9rHvDijo9ef19RC83xzHeo5/GEHrSvDQntdSOV+kPUT4PUSNjMzIqFolwNfU4ZlqZmU0YrYa5ivSgftF19bc1aSQMM6Ux9pXnkY9lOahpI3SrPka8jZPshhV9Kog3WBMcX+thPXgM1nfz42p9CFQjvpZgetduginULr23f457XUVra3ISYwExWTfJnqQ==
+ b=GUw3Q/73EWUroqajj4RjglGF5YawzQLHIQ1ks5TPoK4ReYPH/i28+dBGVv8RRzY8+g8zBp3pLPhKM4KyRCdb5ePe2xbf4sEgoFhlo5s0pDIWbc2/WJZfGScqFilt1X23nDBGWZr/Mwl41hJktvkDvz8fibvdZyRRES3jBoB+FHCOD/YjJUY+piUVPlEKbCXlBRwUZ+X3/3fTU6Brb13DvOW9SHeog8AFW0k5jcASfEP5o2E/WCjEOsp8xyiYJ7Zj/WuDWZhOqDruPos3T/RUeeaTxEtCeH74Eg1Bo9uYgif8cu8PTeIhpNCsZkrxHcTrY4yOxvixHVjDZU2W78wHqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/oTkzzQkMQDEW8c6STwFRNckeRpx00U/OqHymbkgmI0=;
- b=nKFmv5HZUIWOA8K5hnedNLLZVVOhu8GCDKLtQVVwPbkFKxZ7oUdmGl8kRn5GdD/UZ80szw0OpruanWHxTZ9s/fg8IZmlwLUA/YcLED5/wd1uoj/PdUfQs+Ednx+lQsFc5a8+d+5Nitj19dtHEE6Pj3amXlbX20KTs7nja4H3NPj8iuoOEpdcfgIF89DdIhk6GhuUxP90y6A+3+2F87O2WAKYzqaGyE1/6fS4Geu+WxlKX/V/W4W2Z7NEa+lyUIH+BcE2iCUeTKrIHC81NSevW2aV3HSF9qwwtUhNpVE4UgAdHb8kBEo3VemqvqyJ9yjFynlIWk1eaei5elg8d2/tbQ==
+ bh=C9TrtTDWc0iSPah/mlCZYNHSofK91gmVZP6upWbt0wk=;
+ b=zMZ6Yy4nnnHzlAk/OOE3asMxHAJ2lbatmW8cC+iuFL06S5232Nlyzr3CzPAPMXioTU2CTxzhV0KJtCtah4fWxzFr7vXMw4RRuWv/TCzJBmMQEpRnjnK/Z0ZkPXVhSgwJYXsiyBNvZTpDIc6GdYTkwaPJnygzgUSuFNuv47AQlQo3/YF9bUoADhgRk/MM80tCgE4LWXXGRpZIxjyb8//lQWTKbC6JrXzvvjVpqXymAFo9OjVSjMgaEu5R4jRcLymSEMgoZBEL9/iAiSe4pOGa0isMmvtYruD+JPZIhFElogenUTg+3oyZ2u+e9PN3X/J6Hnk3kG/Fe9OLelmL36JzZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/oTkzzQkMQDEW8c6STwFRNckeRpx00U/OqHymbkgmI0=;
- b=c4e4QqGAkN75FpSsBAFmStkSwUaQVHlkAftH0cu/m4q71Z9Un9wB75i0JjaD21gJOWzC165nVtDsEWOwXWHowjl2RNmR+DpKo9Zd0xxjCn3cevOV4PsOVuCHBnDANQGg7VW1yZ107dPdm+l2w0x6asKA8bNMWVPwmdGY5ojQE5E3HVhGE8HAwHKswONvcdjdvJAGIi7cUHWZaFV8gq7uIzwr28I6vt5ztZEUubscHEV5NN6kd3fZ9hV4QzOrtU8OJ3uw/1gEt6WcXOrFhaT/GoiV+z6Bx6h+gUWK5QGDQFd0tTz5hEAOjx1DA96c9i+adGqEBWElu/+xZN6E5vn8OQ==
+ bh=C9TrtTDWc0iSPah/mlCZYNHSofK91gmVZP6upWbt0wk=;
+ b=Cu8H1QvlAEHFCq83pEAXE0oyFCI2ngJIU104YH4SyFm0LDlzgRQKVd6ovcZvLA4YDHpDPMpl1dfgs5ZGt2AvqMnhfT9CBHvVUj7IsWhNHAJE2+rebjtA4iIhIGzLB6CpIBytx0XDoY6BgwuwghkbueXPznMBOHiqMfDAcNTjSRT65sSqrEi+wvmm89802jigBhd/Ts17Yh3rc/8lEhf37pxoEZhP5ecIJiQgkSu7jyQg9Q317DweKePJFqB+kt4uUTsevnMvo+wpKkYcVgPq583ymslaRHnXeHwBf6VpxqioKIPYMpNvAv7wjt4NycFQRHiLVOiGR9vNACmvTBKcIw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by SN7PR12MB7978.namprd12.prod.outlook.com (2603:10b6:806:34b::9)
- with Microsoft SMTP Server (version=TLS1_2,
+ by CYYPR12MB8653.namprd12.prod.outlook.com (2603:10b6:930:c5::9) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 9 Sep
- 2025 14:07:12 +0000
+ 2025 14:07:14 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
- 14:07:05 +0000
+ 14:07:13 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Tue, 09 Sep 2025 23:06:41 +0900
-Subject: [PATCH v4 05/11] gpu: nova-core: firmware: add support for common
- firmware header
+Date: Tue, 09 Sep 2025 23:06:42 +0900
+Subject: [PATCH v4 06/11] gpu: nova-core: firmware: process Booter and
+ patch its signature
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250909-nova_firmware-v4-5-4dcb433d5fee@nvidia.com>
+Message-Id: <20250909-nova_firmware-v4-6-4dcb433d5fee@nvidia.com>
 References: <20250909-nova_firmware-v4-0-4dcb433d5fee@nvidia.com>
 In-Reply-To: <20250909-nova_firmware-v4-0-4dcb433d5fee@nvidia.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -66,103 +66,103 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: TYCP286CA0146.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31b::11) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYWPR01CA0046.jpnprd01.prod.outlook.com
+ (2603:1096:400:17f::10) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SN7PR12MB7978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bee48c6-9814-40f5-c4a1-08ddefaa282d
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CYYPR12MB8653:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd92bff2-4cad-4985-2a9b-08ddefaa2a37
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TXhkem4rN0dUcHArRzVvZGQwRlV5V2F0NXRsSm9RUENlNHdpOEZobTlnYkFV?=
- =?utf-8?B?YkNpU2pNN3JqeDM1OFBVZXZXSThFVVRGQkE5b29FQ0NYNGhRaS9sQTY5bzl0?=
- =?utf-8?B?SEJtaUl0eG52RzkyR1poWTZBd0t3dmxFRTFBQ1ZjVEtXbE5TTHdERmRyMGVh?=
- =?utf-8?B?SVlCSW9NMVltc3hFNUtlY1d1aVBDT2NaS3kxY3RjNW5PRFJnRTAwWWs4NWpa?=
- =?utf-8?B?UVJRanZ2RldsMXZuNW9Hb2lvMnRSOEZLV25RRjZ0aUZZeUZrWVI4VStTS1Rh?=
- =?utf-8?B?OUVId1hhRTVGWGFjVGlpUmhVbzB1T01XTlBCZXdrTlRxeC95MmZHTjNaeTdy?=
- =?utf-8?B?QlN4TEtCN1JXUG5WamJueWZaMHAxQVBXQ2JucFlSZ3M3TFFNVnRoQnZHdzhW?=
- =?utf-8?B?T3JDeGFRZTV5SVV4cTEyb2ZlVitVS3k0YXNWTS9HL1dGalFPNlUwcjlyMHBO?=
- =?utf-8?B?RUptbzg1L2JVN0ZJR1Vhdmd3UnNBNU9pVkpwM2dWcjcxb2dma2h0U0JsRXpr?=
- =?utf-8?B?aEllZDVNK3RKVDBxUlJLRElIcG9rZFkwUC9Mb1pUaGNQMkRrODdJdXByN002?=
- =?utf-8?B?MkxobGNWdURMOFdrUUFMMnpqek83NzRmQUlSYnNlVkt0MXBPQU1uWis2NmRo?=
- =?utf-8?B?dXU3ZnBkTVlxN1NyQzRDUzcxcDVWS1lMTUlIeXZZL2t4dS9WM3ZYVURpNUlp?=
- =?utf-8?B?UWl5Rzh4YzJVVkEwSzhFa2lKc0JxSDIwNm9YU0N4VjhhNG1VSTBhNEJHNDNt?=
- =?utf-8?B?V0twUTlKbThWVDJxcXZ3M0RjbWNoVHZoT3c0c2M4cllwNEI3SENsVW5kU3c1?=
- =?utf-8?B?bjMyRi90VlBoSVNFbm1nMXZtdjdqR2QvYjdQc2J2YVdHY1NXdlByZlQyY3NB?=
- =?utf-8?B?Uk5hMmNVSTNPVlBHb3ptckxzNFcvZHJBSy9uV0VMcFc0cit2cER2cDY0VVpY?=
- =?utf-8?B?cnYzbmJ5WWNiQmtITC9vL1JzeU1FakxQQ2pWQmdOSm9YeDJVb0dnNjl5RFcx?=
- =?utf-8?B?dXhEN3Eva3U2aHp6dTRqM3NScjVmWG9ZNTgrQzB3bEQvZWxzcTU1R3JCalNw?=
- =?utf-8?B?cWs3cXc1NmgxcFg1ZWhoSW1WMkVJaGxUVk54WTdmZXVBVkloSkxwVlU2VVpT?=
- =?utf-8?B?bXNoaFJ1ZHpYZXdFcWVQb0YvbkZIaElwV01VQW9vOHFFVnhMeHNnYmhnMVN3?=
- =?utf-8?B?MkFFWjh6d0ExSmZhT1JhaUFQaEIzbGl5bGZSMHBJeGxwbnFySXZsbTZEbDZH?=
- =?utf-8?B?ZENKOU9MbW9OWXZicXYzWGhrZHlTZHFqUWo2MitkSE5wdGtYcVdRdUhOd0hQ?=
- =?utf-8?B?a3luS05CcTllU3dBZHFFazU0eEY0MlRGdFJCNVYyVGxGdFM1bVBUQ3RWN3Y5?=
- =?utf-8?B?aDhyUzFESERxNjNZdFhJRzlxdnU2cHdUY0RpNWdsWE9oeUszZzVWTEt6QUkx?=
- =?utf-8?B?c3BIMlh6UjFKNEwxb0RNNHhNS2h5WDdMYklNWHlmb2hFVm5xaGNubDdxS09s?=
- =?utf-8?B?QWhDcHNBSG5BT2Z6a0pub1BhQ21EN0xNb2pVQ1VIK0hRcFFxd0QyR1dOYnNm?=
- =?utf-8?B?SitzMERKaFpIR0ZnWWhpbkl0ZmNsbzNHUWE4ZUxzSURZRm95YU95TVFneW4z?=
- =?utf-8?B?SkZrNDl1YTF2SHhDR3AxWFVVZ2N1bVQ4TEpBaGRZb1BaUXoyWWtBL0dWRU9v?=
- =?utf-8?B?TlpMQ0ZNalI0YUl0cnM5aG1Vc3liY3pRN3E0TjRIQnVYQ1ZhVlU4YjZBS2Rn?=
- =?utf-8?B?dWhhSlpib1BFdXNHRU9ES1JqdWRoK0VGNXcwYzRNWEFzZnVBQTViL2tmd25s?=
- =?utf-8?B?VzRuejNZZWNLK2gvZHI3MFNxaUZjaG5EZ25TaFlwWlhXNjJvZXd1V1pBTVU3?=
- =?utf-8?B?NEN3SnZCdXhqSmU1ZGd4ajlrVHFhekhYME9yMm5hdDNZNkNKaCtjalJXTE5K?=
- =?utf-8?B?THI3cnpYNHAwVDZRQmJ4dUgrSm1oMkhBYzNqakRDbm0rQzkyS2RDZENPR0xo?=
- =?utf-8?B?b2FXUEM5TnNnPT0=?=
+ ARA:13230040|1800799024|10070799003|366016|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sm9adHF3V0swZEFSU0hZQlJ1eXArMXgxTE5CZ1d5dlNFNldTK1IvWlA4a0xi?=
+ =?utf-8?B?QkNtWHZadTFPNlNncENycHVDUXN5NTVkOThRQmZxWVFKL1d2NFV5S0w4aWlr?=
+ =?utf-8?B?dGlSK2hEbGRhbmRuaDNWbmZIOVd1QUtybkwxK3RIU2ZNOWwwaUhVWDlRd202?=
+ =?utf-8?B?YnJmWUN5QXJ3cXZhR1A4RDlMMVFjTVhjNXp4TmcvNXEvNEpKdExtWmpmZFhC?=
+ =?utf-8?B?MlZWZEhCYzdRdG9ndWFMTHByelpCakM2OVlRK2hxZm14VXh2OVk5Y3ZXbHoz?=
+ =?utf-8?B?NkxVU2lzVEJlU2x0N0kycFkyVHZVakJXZy9EQnhFSU1WNU02bDdPSmpURkpH?=
+ =?utf-8?B?VnRubjJmS1hnRk85bWVESmxsaXk5amlqUFdSeFhNUWJwQUVWTFpsNHkvVFhp?=
+ =?utf-8?B?MmZ4ZE1HaEx3bmVndGx6UmZ5L1NYTHMrWE1aNXowQmtDWkltTnJ2TU4vcGsy?=
+ =?utf-8?B?ZDZYUEJaNXBwMXVRdFJjK2J5ZUg2emFBOVBHdTZmMVZnZmViMG9KLzFucHpS?=
+ =?utf-8?B?R0NaUng0OFppUlBUUUp5cTh6T3REZnVjRU5CUllGcWFQMjBqazVzNC9rUEtU?=
+ =?utf-8?B?T3BvOHNuTG9OZTFGMkpGRVRIbU0xTFNUVlE4Wkg0WGNKRXg0WlB1MjM3MTZm?=
+ =?utf-8?B?UVFzZis2S0dEZVJIUm5WWTFkWENvWG1mV08rN0lFQmpRcllhaVhsWmJ4a2pu?=
+ =?utf-8?B?bHBlVnE3VEQxYWs1cnRJM0RLTUVYMDZnMlZiL1JOeFc1azF2eWI3dU9GdEJV?=
+ =?utf-8?B?UE1LSjJ5YUV0UkhBRnYrenJnakwzWDE1Um15bkN2Sk1uOVBoOE9kTFdZeTJq?=
+ =?utf-8?B?dW1Gb2xsMHVPZ1FkbG5ZbHdrZXZBOXlpcGY2WDJaT0VEdHJHNlFPWlJ6UU91?=
+ =?utf-8?B?SFlOTlBoNnBXVVozMTRWaU9VVmhKakRnNWs5Q29KRG1FVk03SlZYczAxMnAx?=
+ =?utf-8?B?RHY0LzRBOEZJNWpUbVQ3NHNNS0plazlUSEo3dktmT1BhMnpFSTlQQlRMbThl?=
+ =?utf-8?B?VlRMQ0dMYXRndHpudTIvazRWb2xKVCtvaWJjU2M1bXZRVzJSblF3OGZsRy91?=
+ =?utf-8?B?c3BqZ2xlblQ4bThSa3hoeVFyTDh5ci9pSzdxSHlKT2hYdTF6dW0zUjNTRzV1?=
+ =?utf-8?B?MU1ESG8wU1crb3BKQ0p4YmxaNWV5c3puTU5sd2xIU1ZkNXlWVndJYm10a2tr?=
+ =?utf-8?B?SWx4QjRGTmh6UjRqSWUrZUVoTVhUVncxNjNjbDlCamh2Z3B4dDdDbXoxREtP?=
+ =?utf-8?B?dVB4dzFpaVVtTWpQV0lrcVhxdERWUzdXa1RNSnFTc0VuYVJxVEtQNFlidDhl?=
+ =?utf-8?B?TllRYUtWZzdPL2o0eEQ4MVArMUUrVEI3ZzJmN0ZjQnNxcHRudUw0bWl5MWll?=
+ =?utf-8?B?L0FqaUJXdG5DbjdrMnc4YzRxSDhlMERNTmZDQjM5bjdNWEJRSmJyUWZQRW1F?=
+ =?utf-8?B?UkxVQ1RNRmNrRWZpelZhVVhHMS9aeVB2Vkh0NG9sM29aSmFBNTVUWHljNWww?=
+ =?utf-8?B?N25vam5jdFV1bHExNVB6blBVdXg3aDMzOCtJQ0NHQ2NIREVzVFVVeFowOUxM?=
+ =?utf-8?B?UU5BNGhtWHBsdkdLUFUzWlBjdVNBNVNNSGR0Mm5zemZsSS9Rc1RBNFhQYnVG?=
+ =?utf-8?B?Ykp5WnJJUHdxb2M2UUVkM1dYMEhlNjIrRzBZaW9YRWZ6aS9SMUI5SElQVU9N?=
+ =?utf-8?B?UGdqODNjc2lBTzh2TnZIMG1pbGlaelQ4ZWV2WUlPbjRPcFN0WlJLcVhRcjJM?=
+ =?utf-8?B?SVJ0SUc0b2w1ZVY3SGc1UjhMUUNuOXhlOGxkd3VLeTdCTnQySENGU3ZNZUtC?=
+ =?utf-8?B?Z0liaW14Y2hjSENUWTZUaFMwYmRXMDFERmJzZXZTUkMrQk9LcXRCUlpxdUdp?=
+ =?utf-8?B?dE5SSEF0Q3dyUzd1YmdzWGg1VE51WUw1czNwQ3h2bklHdS9DaTB5emdPd2lN?=
+ =?utf-8?B?ZFFmdml6NmRYMCswbW9HWWdxZmYzRVRxZ21OR2Z1STkwQnoxc1hTNWV5emNG?=
+ =?utf-8?B?emhxbHFhTCtBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020);
+ SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1JxYnQ1Z0t4c2tOWE5ZZXUyNnNtTE1PdEF4OEo4V3JnUEtVa0hQZHA4SlBw?=
- =?utf-8?B?M1J2Qk1hRm5SWHU4Z0xVM25ITEE1RnhTdjNpQmpJUk1aTlphQ1dtRXcvVGFj?=
- =?utf-8?B?QXExMkdQSkxreHI0Q00rbjhsTlhjTDNvMWdpckJWZ2l6c1VpdnF0VlNtdnhM?=
- =?utf-8?B?ME1KQ3hJS2Y2MjNOOUU1TWNNTWU0Q0RSUWppZVdVeTlSQ29XcmZkYjJQSFVC?=
- =?utf-8?B?T0FZZGllTVNFU0V5TnI3OU5kVzQyY2MzRXJ6RjdhT21WVHUvdmlWT3AwS1N1?=
- =?utf-8?B?TWpnSEp0alFKclZIWjRTNWNTRE9ua2NzVzZPRXBpUVl6TVY0WlROWnA1N3hC?=
- =?utf-8?B?eUR6aWg4QnM4ei96cW5GUGdOM0dMQXJVVjFYQ0FQVTl0TkpQUXA0anJocFow?=
- =?utf-8?B?em1Vc01SNkxXMjUvditzQmZyWE5McTVvSlZGRGZ5V3Q2aFhienBCdTJPbXhp?=
- =?utf-8?B?YW4zQXp3STZtcklvTEMyQ2kxZEkzY2VTZE1RUmZsSGxYenZOYWlqb0MxdXcx?=
- =?utf-8?B?dnZWTkxKT1BLci9jdFF1dWo0bGp2SkZ2bDU5KzdoVHE3QVJqQ0NHOUR3T0xR?=
- =?utf-8?B?UDc2TklRa3hXZmhRVFlCNlc0MmhVQnBLcVBBVDBod1VLQ2pEbm5pRlg2RnVi?=
- =?utf-8?B?MzRMNlNmRlpsZVZ2c2NYMUF4NU02WC9lVnI3NVVkbDZuWUJQdDBEcG1aQjEx?=
- =?utf-8?B?WHdIeUFmSm9kNUhlazdiVk9qSEFkQU83L1QwV1liZ2hhYmFzT2NlMFFqV0RK?=
- =?utf-8?B?RTcvUnhzS0tONU9FZHRRUmRLbkFKeVlVQjA5K01JUUlmQmgxOVJVc0FpcURM?=
- =?utf-8?B?amk0SENTc3VpMk1aTXZZYlFMMW52b0lCWmwvZ1hTNGMyL1VjcVUwMjdLRXdt?=
- =?utf-8?B?dkptSC85WVRUdTN4ekdvMldSOEN0OUtYbFJDcVIvYjY3NTJScTJXRTIyWkJ5?=
- =?utf-8?B?aVhFZkxOQ1oxc29yT2pqeXV5VzB2YmRFeXRLMmt0NXhESXlkR25iVFVzWUw1?=
- =?utf-8?B?T3dYRU9rTVBoUlBJb3JZZ1V4R21mUHlYalBRVktoUlFnNENuaUZqRFJIRnMx?=
- =?utf-8?B?RkpuRlJMNnAvZXZNVDNhVHNueHJTcUc3TTRWTFdGNFhFZ3FSenlzQ1NPdU4z?=
- =?utf-8?B?c3pVQnpMZERkdDl1SFc0cloyUURjQ0NOM1R5ZUFFNS9yTEFwWmdmaTU0ckgz?=
- =?utf-8?B?QkNncjBtbXJTbXVEZ3AzZXo3U2lFV3Fxc3RrOTBmQUE3aWhIMStMZ2x1dVA0?=
- =?utf-8?B?djM5djQydmlFTlJ3Q2h4WVJ0UndyMlluL0pzamZBQ0lhcnRTR3d3dXRldE9y?=
- =?utf-8?B?SEJpSFJZR1ZPWUl5TVR5K0dQYThrOTRKZFJkbUkwS1Q2SFNIa3g2Qjc4ZFBw?=
- =?utf-8?B?OTdpUm80QUhQZUpuNTh3RG5GY0Jlc2dXVlM2czA1L3NibVdQU0dNd0JyVHZB?=
- =?utf-8?B?Sm1aVlJvcWFBMFhYVm4wa2d4b3pxYk04TUFxTWJTdFJCYWRya3k1bjFYb0JC?=
- =?utf-8?B?VHpQeTUwbklrdXhPZ3dJYzRid3p5d2FZQXVGVXpvcFdjUkFoNnRnWW1FME1X?=
- =?utf-8?B?aUJBQUZRUDZ2SzhHMUpIYjRQU3VVazVkNlBqdHBNZHVNQUsrYnJXUURBazdM?=
- =?utf-8?B?UC83UHJML3gvbkJHUWRqTE9rdm9RRDFqTmFmT2hmM1ZjL3k5cGFBdWtUR3Fk?=
- =?utf-8?B?bVFRbVZQRTh0MjR4WFo1RlR3ZmhtYThCdUVMNGwzaXBVRG9LbWVjZndlZGRE?=
- =?utf-8?B?enRZd2swYzZrUElaKzd3M3JyK0k1OXJVWUZjOGtmbEJxT2xkSHpwaFo5eHFC?=
- =?utf-8?B?c1paUVEwRWdlVkRNYTJnciszY1Uvd3FUNFhhaTNZODM0ajNCbDlMVWg4alpw?=
- =?utf-8?B?RnNYNkF0K2FLRjh6OXhLdVZEejY1RzR4NUxhUFJhVi9iWGEyUUdTZGlwSG4x?=
- =?utf-8?B?Y0NyRWtLTU5vOVVZL2Z5c2s1a1RQSGVtNHFTeFFmZzJVOWNCTVNLd3d1NGsv?=
- =?utf-8?B?SFBVQkRHc2Vza1hyeHArVnBOdjkzdkFzODE2d3dQdU54cFVWM2dUM2d3OGhD?=
- =?utf-8?B?SlNSWnI5WWFjZTYrZTJFR3ZDeG1rUFdLQkJoZUc5SEovMHYzb1VlMXJrZTU1?=
- =?utf-8?B?L3ZVR3QwNzRMRWMweWk4QUJudmh2eDFUMGRoTXQ0UlVFWER6aU56V25YbmF6?=
- =?utf-8?Q?6RvLe/Oa8otwaJY/tkd1FVKtEoLlbIpSfFZi+OEutP2/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGs0UGQ3OU5aNkVuRjE1cGNkNkF1V3lPZ1pNdlQ0L2lBc21jaEdvamJUV1da?=
+ =?utf-8?B?WUpjSTJWWEtiNm5aUUU3elR1aUF3QjVFVnNVTVpGVm1BYnZyWGZ1ZzRXNDcy?=
+ =?utf-8?B?K0Q1bVh6cWl4VHROQXpDbit4UitobXo3bG5YalJ3L09RTFdBNjV0YWExYkRE?=
+ =?utf-8?B?cUp0QnN2VC9RWmY3K29CZitTZXIxTjJiOFc4ZlNwQitBVTNDQUt1dm5YQks0?=
+ =?utf-8?B?MUUyVFJpQWdrdkY2bmRQVmRTbFRLOGhJeEEyck1MYW1SZFVOa0ZqTkRoVGVp?=
+ =?utf-8?B?b3EwN3lVV0VlN3lvNWVuUXh4dktabkp4cm0yMTVMemlqdDRyajJ6Qmpsbkh6?=
+ =?utf-8?B?a0lZekpsK240aW40WmlqenMwWlhvcXI4NjBnSkVua3IwcHN0NlJHVFhmWEZG?=
+ =?utf-8?B?ZmZkMFovQVJLbXJLcHM1K1lrc0xsU1lkbEViazJjVkVqZU5NYTI0b1Fwa3hX?=
+ =?utf-8?B?cFFjKzNCRk5wVUozb1c4N2tDK3ZrdzUrT3laVis2MUd2NWtjdW43eXRBWkpo?=
+ =?utf-8?B?dlBVQWhDZWxWK0NzMHloR0E2MjA4UmhadHdWZ2RwRXFHNm9CWXB5ZXYrWG45?=
+ =?utf-8?B?YS9LeFFiMzljUTFRN2FvRzBkbVBQOWdqTk5UWWNyZTIxTTNBNGtOWmVBaVc1?=
+ =?utf-8?B?OTd4UEFKQU9tL0RaVVBSa3dmaG8wR3JPYkF6dHY4YjYyRXVuMEIyRGhGVEdx?=
+ =?utf-8?B?aEN5V214RHlLY0lQNkY0Mi8rZjhldGNMeXVobVBaWlE5MExtVDh1VkFlSERa?=
+ =?utf-8?B?cjhTbnUzM1NQa3NNM3BsVWRHdlZYcG4vdHN1Ti9BVzI1ZkU5SUgzMWszb3N2?=
+ =?utf-8?B?VHhIS09WSEk4c0xzSjlESUJMYkhLaVd0QnlobWEveGpPOTlLYmRCUm9SZktr?=
+ =?utf-8?B?Mkg2RnVKSE5nSnFsdC9UUk04Z2RUOHRFOGc4VFY1cy9LcysvWkN3eUJScFR5?=
+ =?utf-8?B?OHFJOXdrVVdyL3N3U1MwcWNRVVNvRFdJQkNvMTRVd0RsblMrTm5QRXhzdjVF?=
+ =?utf-8?B?dUl3MEJEbmI3U0RPbG0rRTVLb09janhGSWR0b2JJY3hyNS8vdmxkQ21mRmtp?=
+ =?utf-8?B?b1JZcWhFNjd0WVdQMGJ0cnFYdkVZR2UyOWYrWWQyRWNQbE9rOFZDNTRhVnhH?=
+ =?utf-8?B?YWw3Ky9lb0pkNzdHenZ5bEZ3UU4zRVlTekxnTXV0NFV1TGNLMU1aK1NOZmZs?=
+ =?utf-8?B?b3ZEUzRkaXZWREhYZGQyTVlwY0x6K25JVHJWMTJ1VnZLaTJVS2xGajBvMGxM?=
+ =?utf-8?B?dENrYVJlblh1SFBFVURUVkRhYkFocGM4T09welg2cldqaFVsaHFJZ0dkTVhk?=
+ =?utf-8?B?WHR2RWNDbHhKbDQydjd5aE8rYXNiaHhxbFVuNlZ6SFZyWXBqU1hwVzRhNnEv?=
+ =?utf-8?B?UEFvTzM2WEdpckVuZTB3ck4xVERFUnZKTXZVcGh1NUtsVG5hb3B0Sk1EcW1r?=
+ =?utf-8?B?Rm94RTM5WmpSYXd4ODA4OEpBSkpRemY5NFluUXhnc1gyRjVWMmk3WTlITTlm?=
+ =?utf-8?B?TWZvQ1RlR2NPTmdvS3VLN0ZnK0k0YVAvTWpIRW1zUnpudk1kTmd6VlI3OUdt?=
+ =?utf-8?B?U214d0xDemxHMnd2OG93czI0M2w1UlRmK1NVcDEvSUJLWlp0ejFBWjN0bFMy?=
+ =?utf-8?B?bG41MVBhaVo2N0tOVUgzdGN0OERNOWRoK1Y1TmZESi9mSGJDT1hnOC9qdHdp?=
+ =?utf-8?B?Rk5SRFovR0ozNGxXVlA1SEUxanpwSVRHaTY1QlZ3b1YzVWppQjlRUXRReVpQ?=
+ =?utf-8?B?UXNqbmhtd2w4dVVUYWQrQW5vS1FkeFlUalFTdlZ4WkovOVV0TnR2N2Ftak1J?=
+ =?utf-8?B?OCtPQXlNdmhxWkF1VC92dWkydmJnRDJjeWV3WXNFMkdmNlBWYVRSbmhRRG90?=
+ =?utf-8?B?NUVpV1g3VnNCTW9YVi9zYVVjQzVVSFRmNStvZ1VuaEFZcEtSMVI5RENJYnpW?=
+ =?utf-8?B?YzFmWC9FMFNhUUk5djJHNFppYWNnREhpSlNXM3FzbUZWaitvTmI2MW1hZ05P?=
+ =?utf-8?B?Vkp1Z044bnVVVHpsa1ZmNmFYMDlTaGhvcmh1TUZoYnFhLzNXZWNPeFEzclVZ?=
+ =?utf-8?B?Y0t1S0l4elVaenFtNkFDTEhMbE9ZcTFLRFA4L092UGd1b1ZBcFRMQVVqZ2Zx?=
+ =?utf-8?B?YlRyT0JseEJ3aFc1L3VKeGpLK0FSQ2crVUMwRWxDWWk5MjRWUWU2SEtkM2U5?=
+ =?utf-8?Q?yIWfNgvl/pgersA/McrSvqldrIeqaVkXC4WQgmg6ye5w?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bee48c6-9814-40f5-c4a1-08ddefaa282d
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd92bff2-4cad-4985-2a9b-08ddefaa2a37
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 14:07:05.5106 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 14:07:08.9383 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B+3hTfqnSUHEAED4EDjibjVq5/6slBO2nfkliy/2nBNo2QP4GJZ2a0LZI+QoPG45FJPNX9oM+ha3a9ezp4OZhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7978
+X-MS-Exchange-CrossTenant-UserPrincipalName: bkUqgSxSUmVuy+EAI7dwHyqqXg74WmaNBfQhprPLUc8k5g1iG33DJKYKJUEK4IsW4tusrwYG01gry5quoEDVcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8653
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,100 +178,508 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several firmware files loaded from userspace feature a common header
-that describes their payload. Add basic support for it so subsequent
-patches can leverage it.
+The Booter signed firmware is an essential part of bringing up the GSP
+on Turing and Ampere. It is loaded on the sec2 falcon core and is
+responsible for loading and running the RISC-V GSP bootloader into the
+GSP core.
+
+Add support for parsing the Booter firmware loaded from userspace, patch
+its signatures, and store it into a form that is ready to be loaded and
+executed on the sec2 falcon.
+
+Then, move the Booter instance from the `Firmware` struct to the
+`start_gsp` method since it doesn't need to be kept after the GSP is
+booted.
+
+We do not run Booter yet, as its own payload (the GSP bootloader and
+firmware image) still need to be prepared.
 
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/firmware.rs | 62 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ drivers/gpu/nova-core/falcon.rs          |   4 +-
+ drivers/gpu/nova-core/firmware.rs        |   6 +-
+ drivers/gpu/nova-core/firmware/booter.rs | 375 +++++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/gpu.rs             |  12 +-
+ 4 files changed, 389 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 4e8654d294a2205ac6f0b05b6da8d959a415ced1..32b685c8757b1106084577c2cc7d5ef6056c1c64 100644
---- a/drivers/gpu/nova-core/firmware.rs
-+++ b/drivers/gpu/nova-core/firmware.rs
-@@ -4,11 +4,13 @@
- //! to be loaded into a given execution unit.
- 
- use core::marker::PhantomData;
-+use core::mem::size_of;
- 
- use kernel::device;
- use kernel::firmware;
- use kernel::prelude::*;
- use kernel::str::CString;
-+use kernel::transmute::FromBytes;
- 
- use crate::dma::DmaObject;
- use crate::falcon::FalconFirmware;
-@@ -156,6 +158,66 @@ fn no_patch_signature(self) -> FirmwareDmaObject<F, Signed> {
-     }
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index b16207e7242fe1ac26b8552575b8b4e52f34cf6a..37e6298195e49a9a29e81226abe16cd410c9adbc 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -293,7 +293,7 @@ pub(crate) trait FalconEngine:
  }
  
-+/// Header common to most firmware files.
+ /// Represents a portion of the firmware to be loaded into a particular memory (e.g. IMEM or DMEM).
+-#[derive(Debug)]
++#[derive(Debug, Clone)]
+ pub(crate) struct FalconLoadTarget {
+     /// Offset from the start of the source object to copy from.
+     pub(crate) src_start: u32,
+@@ -304,7 +304,7 @@ pub(crate) struct FalconLoadTarget {
+ }
+ 
+ /// Parameters for the falcon boot ROM.
+-#[derive(Debug)]
++#[derive(Debug, Clone)]
+ pub(crate) struct FalconBromParams {
+     /// Offset in `DMEM`` of the firmware's signature.
+     pub(crate) pkc_data_offset: u32,
+diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
+index 32b685c8757b1106084577c2cc7d5ef6056c1c64..d954b1e98fda82c44f87d2103e31fa717c392d79 100644
+--- a/drivers/gpu/nova-core/firmware.rs
++++ b/drivers/gpu/nova-core/firmware.rs
+@@ -17,6 +17,7 @@
+ use crate::gpu;
+ use crate::gpu::Chipset;
+ 
++pub(crate) mod booter;
+ pub(crate) mod fwsec;
+ 
+ pub(crate) const FIRMWARE_VERSION: &str = "535.113.01";
+@@ -37,8 +38,6 @@ fn request_nv_firmware(
+ /// Structure encapsulating the firmware blobs required for the GPU to operate.
+ #[expect(dead_code)]
+ pub(crate) struct Firmware {
+-    booter_load: firmware::Firmware,
+-    booter_unload: firmware::Firmware,
+     bootloader: firmware::Firmware,
+     gsp: firmware::Firmware,
+ }
+@@ -48,8 +47,6 @@ pub(crate) fn new(dev: &device::Device, chipset: Chipset, ver: &str) -> Result<F
+         let request = |name| request_nv_firmware(dev, chipset, name, ver);
+ 
+         Ok(Firmware {
+-            booter_load: request("booter_load")?,
+-            booter_unload: request("booter_unload")?,
+             bootloader: request("bootloader")?,
+             gsp: request("gsp")?,
+         })
+@@ -185,7 +182,6 @@ struct BinFirmware<'a> {
+     fw: &'a [u8],
+ }
+ 
+-#[expect(dead_code)]
+ impl<'a> BinFirmware<'a> {
+     /// Interpret `fw` as a firmware image starting with a [`BinHdr`], and returns the
+     /// corresponding [`BinFirmware`] that can be used to extract its payload.
+diff --git a/drivers/gpu/nova-core/firmware/booter.rs b/drivers/gpu/nova-core/firmware/booter.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a4cd9c84bea75b68565778841e78a20cdec9333e
+--- /dev/null
++++ b/drivers/gpu/nova-core/firmware/booter.rs
+@@ -0,0 +1,375 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Support for loading and patching the `Booter` firmware. `Booter` is a Heavy Secured firmware
++//! running on [`Sec2`], that is used on Turing/Ampere to load the GSP firmware into the GSP falcon
++//! (and optionally unload it through a separate firmware image).
++
++use core::marker::PhantomData;
++use core::mem::size_of;
++use core::ops::Deref;
++
++use kernel::device;
++use kernel::prelude::*;
++use kernel::transmute::FromBytes;
++
++use crate::dma::DmaObject;
++use crate::driver::Bar0;
++use crate::falcon::sec2::Sec2;
++use crate::falcon::{Falcon, FalconBromParams, FalconFirmware, FalconLoadParams, FalconLoadTarget};
++use crate::firmware::{BinFirmware, FirmwareDmaObject, FirmwareSignature, Signed, Unsigned};
++use crate::gpu::Chipset;
++
++/// Local convenience function to return a copy of `S` by reinterpreting the bytes starting at
++/// `offset` in `slice`.
++fn frombytes_at<S: FromBytes + Sized>(slice: &[u8], offset: usize) -> Result<S> {
++    slice
++        .get(offset..offset + size_of::<S>())
++        .and_then(S::from_bytes_copy)
++        .ok_or(EINVAL)
++}
++
++/// Heavy-Secured firmware header.
++///
++/// Such firmwares have an application-specific payload that needs to be patched with a given
++/// signature.
 +#[repr(C)]
 +#[derive(Debug, Clone)]
-+struct BinHdr {
-+    /// Magic number, must be `0x10de`.
-+    bin_magic: u32,
-+    /// Version of the header.
-+    bin_ver: u32,
-+    /// Size in bytes of the binary (to be ignored).
-+    bin_size: u32,
-+    /// Offset of the start of the application-specific header.
++struct HsHeaderV2 {
++    /// Offset to the start of the signatures.
++    sig_prod_offset: u32,
++    /// Size in bytes of the signatures.
++    sig_prod_size: u32,
++    /// Offset to a `u32` containing the location at which to patch the signature in the microcode
++    /// image.
++    patch_loc_offset: u32,
++    /// Offset to a `u32` containing the index of the signature to patch.
++    patch_sig_offset: u32,
++    /// Start offset to the signature metadata.
++    meta_data_offset: u32,
++    /// Size in bytes of the signature metadata.
++    meta_data_size: u32,
++    /// Offset to a `u32` containing the number of signatures in the signatures section.
++    num_sig_offset: u32,
++    /// Offset of the application-specific header.
 +    header_offset: u32,
-+    /// Offset of the start of the data payload.
-+    data_offset: u32,
-+    /// Size in bytes of the data payload.
-+    data_size: u32,
++    /// Size in bytes of the application-specific header.
++    header_size: u32,
 +}
 +
 +// SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
-+unsafe impl FromBytes for BinHdr {}
++unsafe impl FromBytes for HsHeaderV2 {}
 +
-+// A firmware blob starting with a `BinHdr`.
-+struct BinFirmware<'a> {
-+    hdr: BinHdr,
++/// Heavy-Secured Firmware image container.
++///
++/// This provides convenient access to the fields of [`HsHeaderV2`] that are actually indices to
++/// read from in the firmware data.
++struct HsFirmwareV2<'a> {
++    hdr: HsHeaderV2,
 +    fw: &'a [u8],
 +}
 +
-+#[expect(dead_code)]
-+impl<'a> BinFirmware<'a> {
-+    /// Interpret `fw` as a firmware image starting with a [`BinHdr`], and returns the
-+    /// corresponding [`BinFirmware`] that can be used to extract its payload.
-+    fn new(fw: &'a firmware::Firmware) -> Result<Self> {
-+        const BIN_MAGIC: u32 = 0x10de;
-+        let fw = fw.data();
-+
-+        fw.get(0..size_of::<BinHdr>())
-+            // Extract header.
-+            .and_then(BinHdr::from_bytes_copy)
-+            // Validate header.
-+            .and_then(|hdr| {
-+                if hdr.bin_magic == BIN_MAGIC {
-+                    Some(hdr)
-+                } else {
-+                    None
-+                }
-+            })
-+            .map(|hdr| Self { hdr, fw })
-+            .ok_or(EINVAL)
++impl<'a> HsFirmwareV2<'a> {
++    /// Interprets the header of `bin_fw` as a [`HsHeaderV2`] and returns an instance of
++    /// `HsFirmwareV2` for further parsing.
++    ///
++    /// Fails if the header pointed at by `bin_fw` is not within the bounds of the firmware image.
++    fn new(bin_fw: &BinFirmware<'a>) -> Result<Self> {
++        frombytes_at::<HsHeaderV2>(bin_fw.fw, bin_fw.hdr.header_offset as usize)
++            .map(|hdr| Self { hdr, fw: bin_fw.fw })
 +    }
 +
-+    /// Returns the data payload of the firmware, or `None` if the data range is out of bounds of
-+    /// the firmware image.
-+    fn data(&self) -> Option<&[u8]> {
-+        let fw_start = self.hdr.data_offset as usize;
-+        let fw_size = self.hdr.data_size as usize;
++    /// Returns the location at which the signatures should be patched in the microcode image.
++    ///
++    /// Fails if the offset of the patch location is outside the bounds of the firmware
++    /// image.
++    fn patch_location(&self) -> Result<u32> {
++        frombytes_at::<u32>(self.fw, self.hdr.patch_loc_offset as usize)
++    }
 +
-+        self.fw.get(fw_start..fw_start + fw_size)
++    /// Returns an iterator to the signatures of the firmware. The iterator can be empty if the
++    /// firmware is unsigned.
++    ///
++    /// Fails if the pointed signatures are outside the bounds of the firmware image.
++    fn signatures_iter(&'a self) -> Result<impl Iterator<Item = BooterSignature<'a>>> {
++        let num_sig = frombytes_at::<u32>(self.fw, self.hdr.num_sig_offset as usize)?;
++        let iter = match self.hdr.sig_prod_size.checked_div(num_sig) {
++            // If there are no signatures, return an iterator that will yield zero elements.
++            None => (&[] as &[u8]).chunks_exact(1),
++            Some(sig_size) => {
++                let patch_sig = frombytes_at::<u32>(self.fw, self.hdr.patch_sig_offset as usize)?;
++                let signatures_start = (self.hdr.sig_prod_offset + patch_sig) as usize;
++
++                self.fw
++                    // Get signatures range.
++                    .get(signatures_start..signatures_start + self.hdr.sig_prod_size as usize)
++                    .ok_or(EINVAL)?
++                    .chunks_exact(sig_size as usize)
++            }
++        };
++
++        // Map the byte slices into signatures.
++        Ok(iter.map(BooterSignature))
 +    }
 +}
 +
- pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilder<N>);
++/// Signature parameters, as defined in the firmware.
++#[repr(C)]
++struct HsSignatureParams {
++    /// Fuse version to use.
++    fuse_ver: u32,
++    /// Mask of engine IDs this firmware applies to.
++    engine_id_mask: u32,
++    /// ID of the microcode.
++    ucode_id: u32,
++}
++
++// SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
++unsafe impl FromBytes for HsSignatureParams {}
++
++impl HsSignatureParams {
++    /// Returns the signature parameters contained in `hs_fw`.
++    ///
++    /// Fails if the meta data parameter of `hs_fw` is outside the bounds of the firmware image, or
++    /// if its size doesn't match that of [`HsSignatureParams`].
++    fn new(hs_fw: &HsFirmwareV2<'_>) -> Result<Self> {
++        let start = hs_fw.hdr.meta_data_offset as usize;
++        let end = start
++            .checked_add(hs_fw.hdr.meta_data_size as usize)
++            .ok_or(EINVAL)?;
++
++        hs_fw
++            .fw
++            .get(start..end)
++            .and_then(Self::from_bytes_copy)
++            .ok_or(EINVAL)
++    }
++}
++
++/// Header for code and data load offsets.
++#[repr(C)]
++#[derive(Debug, Clone)]
++struct HsLoadHeaderV2 {
++    // Offset at which the code starts.
++    os_code_offset: u32,
++    // Total size of the code, for all apps.
++    os_code_size: u32,
++    // Offset at which the data starts.
++    os_data_offset: u32,
++    // Size of the data.
++    os_data_size: u32,
++    // Number of apps following this header. Each app is described by a [`HsLoadHeaderV2App`].
++    num_apps: u32,
++}
++
++// SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
++unsafe impl FromBytes for HsLoadHeaderV2 {}
++
++impl HsLoadHeaderV2 {
++    /// Returns the load header contained in `hs_fw`.
++    ///
++    /// Fails if the header pointed at by `hs_fw` is not within the bounds of the firmware image.
++    fn new(hs_fw: &HsFirmwareV2<'_>) -> Result<Self> {
++        frombytes_at::<Self>(hs_fw.fw, hs_fw.hdr.header_offset as usize)
++    }
++}
++
++/// Header for app code loader.
++#[repr(C)]
++#[derive(Debug, Clone)]
++struct HsLoadHeaderV2App {
++    /// Offset at which to load the app code.
++    offset: u32,
++    /// Length in bytes of the app code.
++    len: u32,
++}
++
++// SAFETY: all bit patterns are valid for this type, and it doesn't use interior mutability.
++unsafe impl FromBytes for HsLoadHeaderV2App {}
++
++impl HsLoadHeaderV2App {
++    /// Returns the [`HsLoadHeaderV2App`] for app `idx` of `hs_fw`.
++    ///
++    /// Fails if `idx` is larger than the number of apps declared in `hs_fw`, or if the header is
++    /// not within the bounds of the firmware image.
++    fn new(hs_fw: &HsFirmwareV2<'_>, idx: u32) -> Result<Self> {
++        let load_hdr = HsLoadHeaderV2::new(hs_fw)?;
++        if idx >= load_hdr.num_apps {
++            Err(EINVAL)
++        } else {
++            frombytes_at::<Self>(
++                hs_fw.fw,
++                (hs_fw.hdr.header_offset as usize)
++                    // Skip the load header...
++                    .checked_add(size_of::<HsLoadHeaderV2>())
++                    // ... and jump to app header `idx`.
++                    .and_then(|offset| {
++                        offset.checked_add((idx as usize).checked_mul(size_of::<Self>())?)
++                    })
++                    .ok_or(EINVAL)?,
++            )
++        }
++    }
++}
++
++/// Signature for Booter firmware. Their size is encoded into the header and not known a compile
++/// time, so we just wrap a byte slices on which we can implement [`FirmwareSignature`].
++struct BooterSignature<'a>(&'a [u8]);
++
++impl<'a> AsRef<[u8]> for BooterSignature<'a> {
++    fn as_ref(&self) -> &[u8] {
++        self.0
++    }
++}
++
++impl<'a> FirmwareSignature<BooterFirmware> for BooterSignature<'a> {}
++
++/// The `Booter` loader firmware, responsible for loading the GSP.
++pub(crate) struct BooterFirmware {
++    // Load parameters for `IMEM` falcon memory.
++    imem_load_target: FalconLoadTarget,
++    // Load parameters for `DMEM` falcon memory.
++    dmem_load_target: FalconLoadTarget,
++    // BROM falcon parameters.
++    brom_params: FalconBromParams,
++    // Device-mapped firmware image.
++    ucode: FirmwareDmaObject<Self, Signed>,
++}
++
++impl FirmwareDmaObject<BooterFirmware, Unsigned> {
++    fn new_booter(dev: &device::Device<device::Bound>, data: &[u8]) -> Result<Self> {
++        DmaObject::from_data(dev, data).map(|ucode| Self(ucode, PhantomData))
++    }
++}
++
++#[derive(Copy, Clone, Debug, PartialEq)]
++pub(crate) enum BooterKind {
++    Loader,
++    #[expect(unused)]
++    Unloader,
++}
++
++impl BooterFirmware {
++    /// Parses the Booter firmware contained in `fw`, and patches the correct signature so it is
++    /// ready to be loaded and run on `falcon`.
++    pub(crate) fn new(
++        dev: &device::Device<device::Bound>,
++        kind: BooterKind,
++        chipset: Chipset,
++        ver: &str,
++        falcon: &Falcon<<Self as FalconFirmware>::Target>,
++        bar: &Bar0,
++    ) -> Result<Self> {
++        let fw_name = match kind {
++            BooterKind::Loader => "booter_load",
++            BooterKind::Unloader => "booter_unload",
++        };
++        let fw = super::request_nv_firmware(dev, chipset, fw_name, ver)?;
++        let bin_fw = BinFirmware::new(&fw)?;
++
++        // The binary firmware embeds a Heavy-Secured firmware.
++        let hs_fw = HsFirmwareV2::new(&bin_fw)?;
++
++        // The Heavy-Secured firmware embeds a firmware load descriptor.
++        let load_hdr = HsLoadHeaderV2::new(&hs_fw)?;
++
++        // Offset in `ucode` where to patch the signature.
++        let patch_loc = hs_fw.patch_location()?;
++
++        let sig_params = HsSignatureParams::new(&hs_fw)?;
++        let brom_params = FalconBromParams {
++            // `load_hdr.os_data_offset` is an absolute index, but `pkc_data_offset` is from the
++            // signature patch location.
++            pkc_data_offset: patch_loc
++                .checked_sub(load_hdr.os_data_offset)
++                .ok_or(EINVAL)?,
++            engine_id_mask: u16::try_from(sig_params.engine_id_mask).map_err(|_| EINVAL)?,
++            ucode_id: u8::try_from(sig_params.ucode_id).map_err(|_| EINVAL)?,
++        };
++        let app0 = HsLoadHeaderV2App::new(&hs_fw, 0)?;
++
++        // Object containing the firmware microcode to be signature-patched.
++        let ucode = bin_fw
++            .data()
++            .ok_or(EINVAL)
++            .and_then(|data| FirmwareDmaObject::<Self, _>::new_booter(dev, data))?;
++
++        let ucode_signed = {
++            let mut signatures = hs_fw.signatures_iter()?.peekable();
++
++            if signatures.peek().is_none() {
++                // If there are no signatures, then the firmware is unsigned.
++                ucode.no_patch_signature()
++            } else {
++                // Obtain the version from the fuse register, and extract the corresponding
++                // signature.
++                let reg_fuse_version = falcon.signature_reg_fuse_version(
++                    bar,
++                    brom_params.engine_id_mask,
++                    brom_params.ucode_id,
++                )?;
++
++                // `0` means the last signature should be used.
++                const FUSE_VERSION_USE_LAST_SIG: u32 = 0;
++                let signature = match reg_fuse_version {
++                    FUSE_VERSION_USE_LAST_SIG => signatures.last(),
++                    // Otherwise hardware fuse version needs to be subtracted to obtain the index.
++                    reg_fuse_version => {
++                        let Some(idx) = sig_params.fuse_ver.checked_sub(reg_fuse_version) else {
++                            dev_err!(dev, "invalid fuse version for Booter firmware\n");
++                            return Err(EINVAL);
++                        };
++                        signatures.nth(idx as usize)
++                    }
++                }
++                .ok_or(EINVAL)?;
++
++                ucode.patch_signature(&signature, patch_loc as usize)?
++            }
++        };
++
++        Ok(Self {
++            imem_load_target: FalconLoadTarget {
++                src_start: app0.offset,
++                dst_start: 0,
++                len: app0.len,
++            },
++            dmem_load_target: FalconLoadTarget {
++                src_start: load_hdr.os_data_offset,
++                dst_start: 0,
++                len: load_hdr.os_data_size,
++            },
++            brom_params,
++            ucode: ucode_signed,
++        })
++    }
++}
++
++impl FalconLoadParams for BooterFirmware {
++    fn imem_load_params(&self) -> FalconLoadTarget {
++        self.imem_load_target.clone()
++    }
++
++    fn dmem_load_params(&self) -> FalconLoadTarget {
++        self.dmem_load_target.clone()
++    }
++
++    fn brom_params(&self) -> FalconBromParams {
++        self.brom_params.clone()
++    }
++
++    fn boot_addr(&self) -> u32 {
++        self.imem_load_target.src_start
++    }
++}
++
++impl Deref for BooterFirmware {
++    type Target = DmaObject;
++
++    fn deref(&self) -> &Self::Target {
++        &self.ucode.0
++    }
++}
++
++impl FalconFirmware for BooterFirmware {
++    type Target = Sec2;
++}
+diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+index 444beda52a4166e7052e980231dd870237354c3a..53fadbeea7b611712ca343af71bcdc01f1005673 100644
+--- a/drivers/gpu/nova-core/gpu.rs
++++ b/drivers/gpu/nova-core/gpu.rs
+@@ -6,6 +6,7 @@
+ use crate::falcon::{gsp::Gsp, sec2::Sec2, Falcon};
+ use crate::fb::FbLayout;
+ use crate::fb::SysmemFlush;
++use crate::firmware::booter::{BooterFirmware, BooterKind};
+ use crate::firmware::fwsec::{FwsecCommand, FwsecFirmware};
+ use crate::firmware::{Firmware, FIRMWARE_VERSION};
+ use crate::gfw;
+@@ -275,7 +276,7 @@ pub(crate) fn start_gsp(
+         bar: &Bar0,
+         chipset: Chipset,
+         gsp_falcon: &Falcon<Gsp>,
+-        _sec2_falcon: &Falcon<Sec2>,
++        sec2_falcon: &Falcon<Sec2>,
+     ) -> Result<()> {
+         let dev = pdev.as_ref();
  
- impl<const N: usize> ModInfoBuilder<N> {
+@@ -286,6 +287,15 @@ pub(crate) fn start_gsp(
+ 
+         Self::run_fwsec_frts(dev, bar, gsp_falcon, &bios, &fb_layout)?;
+ 
++        let _booter_loader = BooterFirmware::new(
++            dev,
++            BooterKind::Loader,
++            chipset,
++            FIRMWARE_VERSION,
++            sec2_falcon,
++            bar,
++        )?;
++
+         Ok(())
+     }
+ 
 
 -- 
 2.51.0
