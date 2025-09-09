@@ -2,87 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC96CB4A6DD
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33604B4A6E7
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 11:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20E2110E670;
-	Tue,  9 Sep 2025 09:10:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B51810E676;
+	Tue,  9 Sep 2025 09:12:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A80mEWMc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="j91VP4Gv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B453F10E670;
- Tue,  9 Sep 2025 09:10:52 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-76e4f2e4c40so4174639b3a.2; 
- Tue, 09 Sep 2025 02:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757409052; x=1758013852; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CrZUr9P7TcE3YFVIZvDzSstHd9MmX3+aTHo5NK6edbE=;
- b=A80mEWMcT/hTVDPMbIkSyvS0hxdFtDnmjpdNT74V35lTip9YUZE/ViuGzyTY0Ecf4l
- kH2f9c+MC9BjAXQv2zPmxNM6/qAcucPVHPzEkOaMThoyebWuQ2qOMWtK52DjtpzDsNJt
- rXgmVNTDVE4BBeL5UCRFMJ/uJxU5KPbsZbEnDLX+5AYT9DRkxU/LqVOs8lvA8x7NsAtz
- vrFvWad+eVNY3EbnHXTTn1lppO3zNfBGkPAXcLk94xhBaJ0QA1GfftZBHGC2E1K5O8N9
- R73yuvIFYlTskyFHIgViiGK2K1YCanr7CBCJTwFYoDE1pIlJFNju/CWr0JvsZM/gjz6Z
- AGIA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5331E10E676
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 09:12:13 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5896SeDO007486
+ for <dri-devel@lists.freedesktop.org>; Tue, 9 Sep 2025 09:12:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7/LZ7jld6Mn4TzxL+e3wR4fKEsF+dhJ3GAlByrhuIjw=; b=j91VP4GvonjXVqJG
+ g7UJdf4R4krV5SI1hisRHQTgpAYDp99pUNmaH0VbNzRwikm4gD+lpc/O97k/rzaZ
+ ldmX0ZDowjWc8kfCWE2m6WJoUqn7gM8RWHgHbMlXcJ+ZoyJYcNUozb/gAWa3ys6E
+ xQJA91IUsus+fR4iYRPl7qWpOpSfp6ut6oIJbGYYeopXtVI6IQjHVme9nJRTOck3
+ Bc7TSKCQavDYO8j1+qu+zLdk0sHDEDq9C90RRR1XuXUW+yj2pZTx5rQypvKhiEPc
+ fMH03JwEx6Q8l5+DjRi9+rhY6OUHB7Rl4JQZwS34qhVLbA8/NARnpTmQI/Golbfx
+ TJDfeQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490cj0qmu4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 09:12:12 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b6023952f6so11622081cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 02:12:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757409052; x=1758013852;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CrZUr9P7TcE3YFVIZvDzSstHd9MmX3+aTHo5NK6edbE=;
- b=UNOdqEo7xeqNCydQPJlNMtjamgt2PrNlnIMymL9rs+p6JOYSYQsr07JK2yQrjJkq9b
- 5SD2ftV2LEBQ5Ih/SLe2zp5swqre14egKnMNGUPPontHlyCzRBIVgJGmsJzCXGUk5r2z
- bUlUgGco6U4bSmN/c4FLxS3TxCUq/57Z2vxRxAYskwr4CDPPvimbnMICCaRAGEHNVZQC
- wZmJ/j3BNtL2K+zOepTfPRnkJ7dFSVJQ5yMJ7hxYJvAM15Hegyy5s+Rw/LIaDCqbm9Wp
- FmkJn3bEz7xF30ytYe/nZnXocIqPQq6XujdQQiQMa8sqXsDOx74Tt6ZfvC8lCjnOiySO
- T+Tg==
+ d=1e100.net; s=20230601; t=1757409131; x=1758013931;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7/LZ7jld6Mn4TzxL+e3wR4fKEsF+dhJ3GAlByrhuIjw=;
+ b=C5OCVVxeojDVSkgT6dviOc6CwgzYvvAlaZ9y7FbSZF5VpkuU8m2PEPPXWilOVqN2/L
+ gyI03KnH2TW+LxblJPevpcGg5isGIZKvBnGVUfdLQjJcC/AZt1iSdZ8KY8lD2eCn5XxB
+ XrfEQ5bxNEUj3ShGsgeONiMk8nYguMNZ+I7LDLLVUwond8LXUhl2Zj84hUyGroy2ml5d
+ Y56Je54FVTrs8+y3Cw7z/cmYpaV3JxOf59K7fgwOKDd8VvdwX1hBYj5no/bZeQZah9PG
+ 593A5xu3D6s8p7lhF2oaz0ritOCD9bp74XxpsnObCzzJ1O65cNS1sO32AQkDCjnYhf6H
+ QqXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVp2irJtdd/TBT2b7PEp8VI65Rhb8UlySK3ekOnRpl+Y8sTq/sii3XH7GdUcGVtiA5XotSkphTA@lists.freedesktop.org,
- AJvYcCWup4Oj8Rb59Z6TDS6z/a9BVP7u8U4cuG3fjLTlmtxZEB1latfpfsKD8B5+hHoYFXEBIrbhSzd4jsUF@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpCSEkhrdh0Gldw4T9irbDVVg7PSlGZzjEMit6GthkKl9piQmu
- zrJZa7m4UlNtbDk84kvS/eL2AVXrgakvL49BGTCPYxLhALoWP526ppuv
-X-Gm-Gg: ASbGncupc9WgRFp/qM6oyQvqajlxUAd75GgBjXQJqoSlVgWFJgaosFVIczp2JIkFwCN
- Rm5Z5A+gaY26FW/CFbyUSDu7E38mKdN4sdUfUY0VfkAnAQbwrSMVJARk7jlAg3wPmh0p3tUbjyh
- ErpbE1j59h3X5NOwarNU7DN7717nsuSdfIwdBw3wj+BGpIdCiy5DpjKGmHCNWcTPaDiU4AYU9Fl
- mfgpGCdx+cVnWYGVitIcyrUh7Xo7qfpdOiZkARK+0H4RxOLNJ5OHCUK7Q9dOOM2EQzsKskXWRGJ
- j2HrcpF3eKRN45LaJ2iaXx26IDSbh6NfcUICwNo/aVfZPsqZanAS+yIZpPRwhkDF5PhtijKG2GE
- WRyhSaHzMWlKzTrhhKVfJ/aojblLHKxBEIdUEz3GYfp3Nmx1f3+9pW0GRGIXx
-X-Google-Smtp-Source: AGHT+IG55otu4hEX5eJB5CsZDymIFIL4KDTOYyBrId2Avk8r9GKQj3jKXMv0L2jkldFhnG9/lPdGGA==
-X-Received: by 2002:a05:6a00:84c:b0:772:3f03:f3f4 with SMTP id
- d2e1a72fcca58-7742dd52bfcmr14841662b3a.14.1757409052123; 
- Tue, 09 Sep 2025 02:10:52 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-774661247cdsm1448905b3a.33.2025.09.09.02.10.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 02:10:51 -0700 (PDT)
-Date: Tue, 9 Sep 2025 17:10:47 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: austin.zheng@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- Aurabindo Pillai <Aurabindo.Pillai@amd.com>, zaeem.mohamed@amd.com,
- wenjing.liu@amd.com, chiahsuan.chung@amd.com,
- Natanel.Roizenman@amd.com, Daniel.Sa@amd.com,
- jserv@ccns.ncku.edu.tw, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/amd/display: Optimize remove_duplicates() from
- O(N^2) to O(N)
-Message-ID: <aL/vF2Q075yTzUqP@visitorckw-System-Product-Name>
-References: <20250824182359.142050-1-visitorckw@gmail.com>
- <20250824182359.142050-3-visitorckw@gmail.com>
- <0ed3fa16-9e0d-4f8d-ac22-c9f6b541ae8b@amd.com>
+ AJvYcCWP7p6FoYKU7YpCCMkTHtyOtylbKzv0NIoeP1okpPSeH+eW5NrrKqg8bR50B+Wzew2IOWJzm3gY03E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqtTXATNLrkWEw18FpYusuHIO2zh84WgiNHqokHOo7xcwD98Fc
+ DhOwfjYpz1frE0fcWnL49GPpee27JeTWlso2OHZls1IbId4O4lsDMDl7FpJvBt2G/5uAv03BnOF
+ tqrTnrRORj3lQcQRePfgcgsh75Z2TjhZZ+qZ+f17R7zS1kQJ3JCv4kmgn/xAV9bCcH45K2pE=
+X-Gm-Gg: ASbGncvf18i+YKkMl/EMuyLLBAv+FL5sqFRaLCzm7PviVc3Z+XHsamS9eCHRfCAxm3d
+ V82Pqy57rNaXpbJ8s79rXJIzEx9a9oxVLmzT9z9j2hZRShwm0kQDIzLzwkIiCPymBFnLaxbvR1u
+ 63h+MoiPJeELov6t0skYtHHrlDhNaAZ8bL/wl5MpNRFWbMlYhx28Oaw8Ph5t0OhkRhZEVY9Sq3t
+ rY25tV8m6qRRNwbGdtmtivHG/LLMRDWexAmTyUws8/TFa/GzjXayNZ7W0kIkTXhVp1ELwbccT0x
+ Ny0D6Audixt7+DNc7zh7H0E7+tcC8hN7md3AzMsdVaeOELPj2/zbWVbI9xou7vy/CU+ISid/QqE
+ eNK9gABOW3cGnGdWU2eqX/A==
+X-Received: by 2002:a05:622a:199a:b0:4ab:6d02:c061 with SMTP id
+ d75a77b69052e-4b5f847af12mr81429391cf.6.1757409131404; 
+ Tue, 09 Sep 2025 02:12:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGT8WcnSygf6bNTgYYy0/PkzY2w1a4gXks9/FKqoCWfWHg07YtEpBTM6SSkzd5fxyaeTOsD6w==
+X-Received: by 2002:a05:622a:199a:b0:4ab:6d02:c061 with SMTP id
+ d75a77b69052e-4b5f847af12mr81429211cf.6.1757409130769; 
+ Tue, 09 Sep 2025 02:12:10 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b047373afcesm1359797266b.57.2025.09.09.02.12.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 Sep 2025 02:12:10 -0700 (PDT)
+Message-ID: <25df0f78-68a0-4459-a5a1-eb035b0a5395@oss.qualcomm.com>
+Date: Tue, 9 Sep 2025 11:12:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0ed3fa16-9e0d-4f8d-ac22-c9f6b541ae8b@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/6] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Connor Abbott <cwabbott0@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+References: <20250909-a663-gpu-support-v5-0-761fa0a876bf@oss.qualcomm.com>
+ <20250909-a663-gpu-support-v5-3-761fa0a876bf@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250909-a663-gpu-support-v5-3-761fa0a876bf@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: cR-wAFDiqPTTQSZvuURDayuJJn0HqXLe
+X-Proofpoint-GUID: cR-wAFDiqPTTQSZvuURDayuJJn0HqXLe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNCBTYWx0ZWRfXxtTTWIi/kW3V
+ IaBHdcPj/nJRb+YsgNHWxn2tWzWObQWMkNcJBXFsfpPtyqwT3NP78Cz0vfYbZ79CM6qDRVZcduK
+ YZK6lZnxvXOXP9RDFXEQXk5LCxjI/o/n8NFMRIWusmvUFP+nSs+3WLcz6Uc9RcMkWagLWVlww1o
+ +MleF/ugOn1YZw4R84b4Q6VoLTd9qUfjAIGvICxlMeRPKTDsjyGpmfc/NKOlgo1CkO/hP71EKbo
+ K3dFeSNWpprWXfDyW9udNWDAZ9xvAPh+090Yewlz3QvQoT436qsDSk87/0rGK1ZhEsgLYDWWpwo
+ o1Ftn/Qh3YztjQK7n0xEhhqF5fUwTwle3uqA08e76r7qPsw10E/jsrT6PWRNNJYIqxBegaF4TVC
+ Zw5FdOzf
+X-Authority-Analysis: v=2.4 cv=QeFmvtbv c=1 sm=1 tr=0 ts=68bfef6c cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=bBjZtXtOduL1R7AEkPMA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,84 +139,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 08, 2025 at 11:10:30AM -0600, Alex Hung wrote:
+On 9/8/25 9:39 PM, Akhil P Oommen wrote:
+> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
 > 
+> Add gpu and gmu nodes for sa8775p chipset. Also, add the speedbin
+> qfprom node and wire it up with GPU node.
 > 
-> On 8/24/25 12:23, Kuan-Wei Chiu wrote:
-> > Replace the previous O(N^2) implementation of remove_duplicates() in
-> > with a O(N) version using a fast/slow pointer approach. The new version
-> > keeps only the first occurrence of each element and compacts the array
-> > in place, improving efficiency without changing functionality.
-> > 
-> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > ---
-> > Verified correctness using the following simple unit test:
-> > 
-> > double arr1[] = {1,1,2,2,3}; int size1=5;
-> > remove_duplicates(arr1,&size1);
-> > assert(size1==3 && arr1[0]==1 && arr1[1]==2 && arr1[2]==3);
-> > 
-> > double arr2[] = {1,2,3}; int size2=3;
-> > remove_duplicates(arr2,&size2);
-> > assert(size2==3 && arr2[0]==1 && arr2[1]==2 && arr2[2]==3);
-> > 
-> > double arr3[] = {5,5,5,5}; int size3=4;
-> > remove_duplicates(arr3,&size3);
-> > assert(size3==1 && arr3[0]==5);
-> > 
-> > double arr4[] = {}; int size4=0;
-> > remove_duplicates(arr4,&size4);
-> > assert(size4==0);
-> > 
-> >   .../dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c | 18 ++++++++----------
-> >   1 file changed, 8 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
-> > index 2b13a5e88917..5100e0e7af42 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_dcn3.c
-> > @@ -50,18 +50,16 @@ static void set_reserved_time_on_all_planes_with_stream_index(struct display_con
-> >   static void remove_duplicates(double *list_a, int *list_a_size)
-> >   {
-> > -	int cur_element = 0;
-> > -	// For all elements b[i] in list_b[]
-> > -	while (cur_element < *list_a_size - 1) {
-> > -		if (list_a[cur_element] == list_a[cur_element + 1]) {
-> > -			for (int j = cur_element + 1; j < *list_a_size - 1; j++) {
-> > -				list_a[j] = list_a[j + 1];
-> > -			}
-> > -			*list_a_size = *list_a_size - 1;
-> > -		} else {
-> > -			cur_element++;
-> > +	int j = 0;
-> > +
-> > +	for (int i = 1; i < *list_a_size; i++) {
-> > +		if (list_a[j] != list_a[i]) {
-> > +			j++;
-> > +			list_a[j] = list_a[i];
-> >   		}
-> >   	}
-> > +
-> > +	*list_a_size = j + 1;
-> 
-> A corner case needs fixing:
-> 
-> When input *list_a_size is zero, it will be updated to 1, unlike the
-> original code. Maybe a early return when *list_a_size is zero?
-> 
-I noticed this issue while running my simple unit test.
-I forgot to squash the fixup patch before submitting.
-Sorry about that.
-I'll send a v2 shortly.
+> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Regards,
-Kuan-Wei
+None of my comments on v4 were addressed (we agreed to drop the
+GMU MMIO range one but others still stand)
 
-> Hi Aurabindo,
-> 
-> Do you have other comments or other concerns?
-> 
-> 
-> >   }
-> >   static bool increase_mpc_combine_factor(unsigned int *mpc_combine_factor, unsigned int limit)
-> 
+https://lore.kernel.org/all/f11b778d-eba1-4712-81c7-b83f2cb38b46@oss.qualcomm.com/
+
+Konrad
