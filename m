@@ -2,86 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ABAB4FE62
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0868B4FE6C
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECCB110E756;
-	Tue,  9 Sep 2025 13:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4877410E76B;
+	Tue,  9 Sep 2025 13:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="Oc36FKc6";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="e3RVKHfI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC3B10E75F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:58:11 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-45dd513f4ecso34921675e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:58:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1757426290; x=1758031090;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=L1erJz90J76ySmnYtMS2wXpRKHX+DN1TSKlm4TYg6Yg=;
- b=Oc36FKc6RydblOdoc4dS4SiyPOFHkG14zcJPb26vABS2kjO1G5BjVRn5XPsbuMw5zW
- LSBaui4NYnh1JFVHDBXCNJlDNhQRmrTsc3PlVui3DUfAdTf0u/EDnfNqHOeOVPTsrW59
- jf7w5xy5uwE1IXD18gduCq21tpdyXu9has/N3S729JUpWtVQRWb4NycUEsJ4wRVVz3Ck
- JLcxk+EaU5MF4QdEj/5wIdGUMZUtX/knPxkJNjjgwU1wd3kgDv3K5KCGhYBxpMFWCZEU
- SYAYG1mf2pmYIfUsSj4XdzljH5fgwJPyAZ289uGnTZmlzOKbpNqlwGDMcBYTyAc8LdEb
- s5Xw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 974EA10E769
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:59:01 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5899LUek020161
+ for <dri-devel@lists.freedesktop.org>; Tue, 9 Sep 2025 13:59:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=+e+m2eXxsaETI5+DzIMa5RUB
+ HZ/+khiBv1BzAFhU+3c=; b=e3RVKHfIvyKU1oDik0Wo+ZvycmTxqZqJHGYPKKBY
+ v1JnjNrQVxXdzu7H8EJwamY+kGanlkNCRKdEik3p5xmIEa9//LUW2xvByoJbPLdp
+ rnVsrUMj4utvHOJUivDreQNssmyZ+itk0sIvg5WDL2+kwQYoC6uzhJcTF3AFuaVb
+ 0E0t09mHBPZdH4weIT0+3iYnyJDO+rzv/Qmu0F4b/GE0ezdGX8/WzERGlUKNqRNB
+ 5g9zeb/TimgZb0Q4KM2cParKdLhq4L7cj0UK0k5lmENxLF+m/cOVBSHWnG6K+9qn
+ b8kxuZzuRLUzlOUB6yfD5qWB2cSYNJlOLe+DVvwzE9wjBQ==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc24eed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 13:59:00 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-70d7c7e972eso122435726d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:59:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757426290; x=1758031090;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=L1erJz90J76ySmnYtMS2wXpRKHX+DN1TSKlm4TYg6Yg=;
- b=W2X3uuGK9wm8EguAtPTPW0u4PUvnLq7e1jDMZZsR0ZjcCNIBzlnUgScKguOU0jSFWP
- vHWjEPT8hr1VVVLjHcumN4xmmdmjEqi6LBt8Oeqk0Wp7aXld75OHPh2AQYJ9reBWf1/O
- iS+vUyopUlbxyjjmE6sgTsUDdpNHNftedK+a5r+hPJNwo0IdavQD1MRkGotfBzeQnLZE
- Q/jK1AazvOwqw3l3T/Haf51xib4RKb5tCOQLG+29saoiz43njx7rYJ7DHoWFcI8vbwAJ
- chaM2OUIPStMKyyWDnlZDAEb4mx+NXDkC2jZ/YJD/q4WfnZdvNjtStxBIux2j9yKOKwi
- LgQQ==
+ d=1e100.net; s=20230601; t=1757426340; x=1758031140;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+e+m2eXxsaETI5+DzIMa5RUBHZ/+khiBv1BzAFhU+3c=;
+ b=Y5UzC0y/9iEb9kgpp6zNKcv5gNbLhNRHURRlQo/yDvQNM4ikUnJRh+XAGkAMIrRxwG
+ FqE05I1HTqnMLDPNcj77EI81HtKwkNgUVk9JTkrYlrXrAKN+M3gagkEVF94xCmPAZBvl
+ hafEQGQ/bWSvpBYuuWejSTQa3rd3Zkn4d8BoGiwyC/ksOzuL7UGvzWrOIKSXmVF2a4V/
+ lj4ZPd6JmQteqQGWp+FoAXBnkLrqhwarVr8JQvXp9fkw/T0D9jVtoHdt336XIoVfL0we
+ myO/k8VUlaMCzrkA/EonDk1JxtCGZa5HRNbt133+GE94I3m8S1Lw5FvmzSXYMksJ7qV+
+ 6J5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUo4lG/Tp7Lugil7uiZbDHhNpJQTVSNZKVvJ/SUVKkVx/w86qPOS1SEra34rgHYrdMyH2e8UmxM3E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsWcZTlbjsaBn+xVgDOQ5Dn3aBEidLLfU0eb38ometdk0dhS1g
- YEqZak3tAreBf1zJavjIgGm8I9ntBb1PvUaEYvLXVEyHlmKFzxnUddXrdLUIbyES/q8=
-X-Gm-Gg: ASbGnct4U7p/pfrKHnrhy4Oa+niz1ej1fSji4JXbTts9laF61pdpOLYB5TR/GbaYjkx
- CykP58zWX0to0yNx6EOj0cTPyv2Y3W24r5eKSR/0EythqmUYizmY9By6yTYO9sKJrgMC8GS9a1O
- B1VHDd/npSjg5GLSgN7KMaOcY09+gFwrCtWVVr41+0pQt55VQ07tSyhC4n20LZwgViflIWIk1PV
- HV0fNwqI265x1ayQ71UNsmIvcuKN8Vfmm/65AgT0MsL74nXV3/HksE+HzTz28atWOThZG1EOxns
- v++L7BSsFjl4bNMztHQ27LA/4QyKfnqZgjhKJAmqVkLVI4ZOikrXJsWgXe/OT5IDMdJR8Qw7676
- l/GVHNKsXeWDgJWmNB+I7P46079PgaIO633o=
-X-Google-Smtp-Source: AGHT+IFYXDY1SQ0ZFRSPcY9QHcjRh3Bp7EqgCV1JDxOPQrTaCQxW4RHJgBrU4TI7SUJ4ejwHTfrLcQ==
-X-Received: by 2002:a05:600c:1c97:b0:45d:e54b:fa0c with SMTP id
- 5b1f17b1804b1-45de54bfc44mr95898835e9.17.1757426289864; 
- Tue, 09 Sep 2025 06:58:09 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
+ AJvYcCUM69oKtnuOu8u1FyjGPlBqBDDBU6HSJQ0hkPTymmgcrV98BedFsHzJqtZipZWuJF/HI5sNYb4Tyxs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLzRkvaQv8drEWMt+/CkN8qTVZqbL3BgZ17yqiOcN4qSsiZOuQ
+ 47xlaz784Ra43tZShK77SZ4TrOrlk8dxaWz0D30ypiFDsw6dNf/0OqvL6AFKZpR7dKVjkG7JuSX
+ 4+LXBtvxsTd65RGnoPdFifPr7pb4b5wy/hpMEF34sbtGhaZz/uSQABPwkCMQFG9xu1ZLkchU=
+X-Gm-Gg: ASbGncvIV8OHKYvK8TWj/J3RDuXUnWTXyyLcY3+IpUOaoW8Nm2Dw14SQKJOblQ8k16v
+ HK9A7eFRq1sgVvVdz1bxoQYsD/6+u4RW8UqtEOz/PyGKZGond78LwkHbQTeS6bkcripe0sxDSZM
+ fkJsxGynFz/rSvActapMakJ2RMaocCe4LfxvGzGj/EkWRCOoz/k0yruAe0Ng5uPnuefnKZVdwl+
+ dY2Oc30tPmnebXbFTAlKW1+5c6wg2FRXcMexkcj3l92sw2XwXG+wSyLd88tQJCfaeYOBJzS5Z76
+ /lpOhUITlCBnfeWG89ea6xTRRqP1+WNirqUvGv/BovRvMlnInioTW12RjERJaax6MwBHPgWKmSl
+ 5z2rAGjx2Arxa6ecaQj8l8a/D6V7F5tCDXhmOZPwAA2kph+MiaIb/
+X-Received: by 2002:a05:6214:e6e:b0:72b:f322:6817 with SMTP id
+ 6a1803df08f44-7391f30353dmr118890626d6.10.1757426339780; 
+ Tue, 09 Sep 2025 06:58:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGx+dFgHWJPMSKPSEn7vDY6bmN0vj3HU50MJCOT7V8BOnFjo1dHoOhzTqahq+CmW1jyx6u1HA==
+X-Received: by 2002:a05:6214:e6e:b0:72b:f322:6817 with SMTP id
+ 6a1803df08f44-7391f30353dmr118890216d6.10.1757426339166; 
+ Tue, 09 Sep 2025 06:58:59 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45df16a749fsm20689425e9.19.2025.09.09.06.58.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Sep 2025 06:58:08 -0700 (PDT)
-Message-ID: <cca02540-d499-41b4-988c-dd2f1ce64b1e@ursulin.net>
-Date: Tue, 9 Sep 2025 14:58:07 +0100
+ 2adb3069b0e04-5680c424fb2sm548560e87.11.2025.09.09.06.58.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 06:58:58 -0700 (PDT)
+Date: Tue, 9 Sep 2025 16:58:56 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v3 3/5] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy:
+ Document lanes mapping when not using in USB-C complex
+Message-ID: <dpidjyofawtrmci5lu72gdnwxxws57sw55cxxedkhsq2dryohm@cdxjwnros57y>
+References: <20250908-topic-x1e80100-hdmi-v3-0-c53b0f2bc2fb@linaro.org>
+ <20250908-topic-x1e80100-hdmi-v3-3-c53b0f2bc2fb@linaro.org>
+ <7dzfcuvr45h4iailtjutqjev7lofoqu7w6ob77gehgmy7mctpk@k7oob4wj3c7a>
+ <14d58c6d-ca20-4349-8031-9906a4539fef@linaro.org>
+ <c25kbb65aijgolxjzunydvhupt774pfmbcz5lvfvl5f74rrxtr@vboh347gdvdp>
+ <da984d8f-85ae-44cf-8de4-208bfc9e292d@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9 v4] drm/i915: Move struct_mutex to drm_i915_private
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- simona@ffwll.ch, airlied@gmail.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, mairacanal@riseup.net
-References: <20250908131518.36625-1-luiz.mello@estudante.ufscar.br>
- <20250908131518.36625-2-luiz.mello@estudante.ufscar.br>
- <b6c5dc00-ecbc-4654-9d0e-efe8d2ae36e4@ursulin.net>
- <aMAwAlp_zm4bis4x@intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <aMAwAlp_zm4bis4x@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da984d8f-85ae-44cf-8de4-208bfc9e292d@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c032a4 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=r0EWWIcaWpoI38bJcbMA:9 a=CjuIK1q_8ugA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 8F23-57OqXIQ7IgUZHRXRnjiubCgfBpr
+X-Proofpoint-GUID: 8F23-57OqXIQ7IgUZHRXRnjiubCgfBpr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX+Gd9pJXZ0LJi
+ qkRG0M7XtfE7TDxNxfztle44Ne6O8wvHIxylspfWAAoIwxIQsqpvqFWSrM9wWCUsEUPVi7D9Jrt
+ tOsQNPs+S+vDcRv+BJ9XEfQcIH35Sl2zkiCYgRYT0cltSeAYuzdYxStFtZN9z22hHKKEEElq2WP
+ SNdrWUxp2HF/gS7rtxuA8ftae7doMi6alLvobAZt0+ZXhWKMcbo1jB7HqPTclMFF538QfB0mXlv
+ TwffUIsDpJqYFpXc19ViuxhIxUuV8Y2R4bTuWr/psRlOth82qVvebWAYNo9lGnt/+0sYapcQ2+7
+ 1X/mK+fr2n+KaB0/PZgCswO6bWGkbHGrLP8qTSep4wIXW471MOJNyfbdUZogmPJkeYbkMc33HVZ
+ e5WKiIWO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-09_02,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,176 +141,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 09/09/2025 14:47, Rodrigo Vivi wrote:
-> On Mon, Sep 08, 2025 at 02:32:28PM +0100, Tvrtko Ursulin wrote:
->>
->> On 08/09/2025 14:15, Luiz Otavio Mello wrote:
->>> Move legacy BKL struct_mutex from drm_device to drm_i915_private, which
->>> is the last remaining user.
->>>
->>> Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
->>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> ---
->>>    drivers/gpu/drm/drm_drv.c                  |  2 --
->>>    drivers/gpu/drm/i915/gt/uc/intel_guc_log.c |  4 ++--
->>>    drivers/gpu/drm/i915/i915_driver.c         |  2 ++
->>>    drivers/gpu/drm/i915/i915_drv.h            | 11 +++++++++++
->>>    drivers/gpu/drm/i915/i915_irq.c            |  4 ++--
->>>    include/drm/drm_device.h                   | 10 ----------
->>>    6 files changed, 17 insertions(+), 16 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>> index cdd591b11488..ad3aee354ba3 100644
->>> --- a/drivers/gpu/drm/drm_drv.c
->>> +++ b/drivers/gpu/drm/drm_drv.c
->>> @@ -694,7 +694,6 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
->>>    	mutex_destroy(&dev->master_mutex);
->>>    	mutex_destroy(&dev->clientlist_mutex);
->>>    	mutex_destroy(&dev->filelist_mutex);
->>> -	mutex_destroy(&dev->struct_mutex);
->>>    }
->>>    static int drm_dev_init(struct drm_device *dev,
->>> @@ -735,7 +734,6 @@ static int drm_dev_init(struct drm_device *dev,
->>>    	INIT_LIST_HEAD(&dev->vblank_event_list);
->>>    	spin_lock_init(&dev->event_lock);
->>> -	mutex_init(&dev->struct_mutex);
->>>    	mutex_init(&dev->filelist_mutex);
->>>    	mutex_init(&dev->clientlist_mutex);
->>>    	mutex_init(&dev->master_mutex);
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->>> index 09a64f224c49..65ffcaeee4b9 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->>> @@ -677,7 +677,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
->>>    	if (level < GUC_LOG_LEVEL_DISABLED || level > GUC_LOG_LEVEL_MAX)
->>>    		return -EINVAL;
->>> -	mutex_lock(&i915->drm.struct_mutex);
->>> +	mutex_lock(&i915->struct_mutex);
->>>    	if (log->level == level)
->>>    		goto out_unlock;
->>> @@ -695,7 +695,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
->>>    	log->level = level;
->>>    out_unlock:
->>> -	mutex_unlock(&i915->drm.struct_mutex);
->>> +	mutex_unlock(&i915->struct_mutex);
->>>    	return ret;
->>>    }
->>> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
->>> index c6263c6d3384..d1559fd8ad3d 100644
->>> --- a/drivers/gpu/drm/i915/i915_driver.c
->>> +++ b/drivers/gpu/drm/i915/i915_driver.c
->>> @@ -233,6 +233,7 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
->>>    	intel_sbi_init(display);
->>>    	vlv_iosf_sb_init(dev_priv);
->>> +	mutex_init(&dev_priv->struct_mutex);
->>>    	mutex_init(&dev_priv->sb_lock);
->>>    	i915_memcpy_init_early(dev_priv);
->>> @@ -291,6 +292,7 @@ static void i915_driver_late_release(struct drm_i915_private *dev_priv)
->>>    	i915_workqueues_cleanup(dev_priv);
->>>    	mutex_destroy(&dev_priv->sb_lock);
->>> +	mutex_destroy(&dev_priv->struct_mutex);
->>>    	vlv_iosf_sb_fini(dev_priv);
->>>    	intel_sbi_fini(display);
->>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->>> index 4e4e89746aa6..15f66a7d496d 100644
->>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>> @@ -222,6 +222,17 @@ struct drm_i915_private {
->>>    	bool irqs_enabled;
->>> +	/*
->>> +	 * Currently, struct_mutex is only used by the i915 driver as a replacement
->>> +	 * for BKL.
->>
->> It's not a replacement for the BKL (i915 does not use the "good old" BKL
->> since who knows when), but just a mutex (ab)used by the GuC logging and IVB
->> parity interrupt work.
->>
->> At least the comment should be improved, or even better, if not too much
->> work, consider splitting into two separate mutexes. One could probably live
->> in the i915->l3_parity and other in struct intel_guc_log.
->>
->> [comes back later]
->>
->> Never mind, I see that by the end of the series you get exactly there. I'd
->> say series is a bit churny and typically you wouldn't be adding and changing
->> so much just to remove it, but I can live with it in this instance.
+On Tue, Sep 09, 2025 at 01:21:19PM +0200, Konrad Dybcio wrote:
+> On 9/9/25 1:16 PM, Dmitry Baryshkov wrote:
+> > On Tue, Sep 09, 2025 at 09:14:49AM +0200, Neil Armstrong wrote:
+> >> On 08/09/2025 23:14, Dmitry Baryshkov wrote:
+> >>> On Mon, Sep 08, 2025 at 03:04:20PM +0200, Neil Armstrong wrote:
+> >>>> The QMP USB3/DP Combo PHY hosts an USB3 phy and a DP PHY on top
+> >>>> of a combo glue to route either lanes to the 4 shared physical lanes.
+> >>>>
+> >>>> The routing of the lanes can be:
+> >>>> - 2 DP + 2 USB3
+> >>>> - 4 DP
+> >>>> - 2 USB3
+> >>>>
+> >>>> The layout of the lanes was designed to be mapped and swapped
+> >>>> related to the USB-C Power Delivery negociation, so it supports
+> >>>> a finite set of mappings inherited by the USB-C Altmode layouts.
+> >>>>
+> >>>> Nevertheless those QMP Comby PHY can be used to drive a DisplayPort
+> >>>> connector, DP->HDMI bridge, USB3 A Connector, etc... without
+> >>>> an USB-C connector and no PD events.
+> >>>>
+> >>>> Document the data-lanes on numbered port@0 out endpoints,
+> >>>> allowing us to document the lanes mapping to DisplayPort
+> >>>> and/or USB3 connectors/peripherals.
+> >>>>
+> >>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> >>>> ---
+> >>>>   .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml         | 59 +++++++++++++++++++++-
+> >>>>   1 file changed, 58 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> >>>> index 5005514d7c3a1e4a8893883497fd204bc04e12be..51e0d0983091af0b8a5170ac34a05ab0acc435a3 100644
+> >>>> --- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> >>>> +++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+> >>>> @@ -81,10 +81,67 @@ properties:
+> >>>>     ports:
+> >>>>       $ref: /schemas/graph.yaml#/properties/ports
+> >>>> +
+> >>>>       properties:
+> >>>>         port@0:
+> >>>> -        $ref: /schemas/graph.yaml#/properties/port
+> >>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> >>>>           description: Output endpoint of the PHY
+> >>>> +        unevaluatedProperties: false
+> >>>> +
+> >>>> +        properties:
+> >>>> +          endpoint:
+> >>>> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> >>>> +            unevaluatedProperties: false
+> >>>> +
+> >>>> +          endpoint@0:
+> >>>> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> >>>> +            description: Display Port Output lanes of the PHY when used with static mapping
+> >>>> +            unevaluatedProperties: false
+> >>>> +
+> >>>> +            properties:
+> >>>> +              data-lanes:
+> >>>> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> >>>> +                minItems: 2
+> >>>
+> >>> Nit: DP can work in a 1-lane mode. Do we nned to support that in the PHY?
+> >>
+> >> So the PHY already supports 1-lane, but the QMP Combo only supports
+> >> mapping 2+2 or 4, but nevetheless we can still decscribe 1 lane in DT
+> >> int both in & out endpoint and still should work fine.
+> >>
+> >> Do you think this should be done now ?
+> > 
+> > Do we support it in the PHY hardware?
 > 
-> Yeap, I had made same comment and got to the same conclusion.
-> 
-> Can I get your ack Tvrtko so I gen merge the gem/gt related patches in this
-> series through drm-intel-next? or do you prefer to take this to gt-next?
+> I don't think the PHY cares if it's 1 or 2 lanes
 
-Yes, that is fine by me.
+I think so too. So maybe we shouldn't list 1 lane separately here.
 
-Regards,
-
-Tvrtko
-
-> 
-> I have confirmed that this version is the same one that I had submitted to
-> CI and got positive results.
-> 
-> We just need to add the missing acks from Thomas in the both patches
-> touching drm files.
-> 
-> Thanks,
-> Rodrigo.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +	 *
->>> +	 * For this reason, it is no longer part of struct drm_device.
->>> +	 */
->>> +	struct mutex struct_mutex;
->>> +
->>> +	/* LPT/WPT IOSF sideband protection */
->>> +	struct mutex sbi_lock;
->>> +
->>>    	/* VLV/CHV IOSF sideband */
->>>    	struct {
->>>    		struct mutex lock; /* protect sideband access */
->>> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
->>> index 191ed8bb1d9c..cdfb09464134 100644
->>> --- a/drivers/gpu/drm/i915/i915_irq.c
->>> +++ b/drivers/gpu/drm/i915/i915_irq.c
->>> @@ -167,7 +167,7 @@ static void ivb_parity_work(struct work_struct *work)
->>>    	 * In order to prevent a get/put style interface, acquire struct mutex
->>>    	 * any time we access those registers.
->>>    	 */
->>> -	mutex_lock(&dev_priv->drm.struct_mutex);
->>> +	mutex_lock(&dev_priv->struct_mutex);
->>>    	/* If we've screwed up tracking, just let the interrupt fire again */
->>>    	if (drm_WARN_ON(&dev_priv->drm, !dev_priv->l3_parity.which_slice))
->>> @@ -225,7 +225,7 @@ static void ivb_parity_work(struct work_struct *work)
->>>    	gen5_gt_enable_irq(gt, GT_PARITY_ERROR(dev_priv));
->>>    	spin_unlock_irq(gt->irq_lock);
->>> -	mutex_unlock(&dev_priv->drm.struct_mutex);
->>> +	mutex_unlock(&dev_priv->struct_mutex);
->>>    }
->>>    static irqreturn_t valleyview_irq_handler(int irq, void *arg)
->>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->>> index a33aedd5e9ec..016df5529d46 100644
->>> --- a/include/drm/drm_device.h
->>> +++ b/include/drm/drm_device.h
->>> @@ -188,16 +188,6 @@ struct drm_device {
->>>    	/** @unique: Unique name of the device */
->>>    	char *unique;
->>> -	/**
->>> -	 * @struct_mutex:
->>> -	 *
->>> -	 * Lock for others (not &drm_minor.master and &drm_file.is_master)
->>> -	 *
->>> -	 * TODO: This lock used to be the BKL of the DRM subsystem. Move the
->>> -	 *       lock into i915, which is the only remaining user.
->>> -	 */
->>> -	struct mutex struct_mutex;
->>> -
->>>    	/**
->>>    	 * @master_mutex:
->>>    	 *
->>
-
+-- 
+With best wishes
+Dmitry
