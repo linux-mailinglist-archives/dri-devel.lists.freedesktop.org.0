@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3B7B4FD74
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACC0B4FD7B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:39:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2841C10E744;
-	Tue,  9 Sep 2025 13:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69610E250;
+	Tue,  9 Sep 2025 13:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UppggZ7L";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Eqms/uCr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B59810E744
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:39:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757425153; x=1788961153;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=G1YWknukSgFVvObigngVHnHpzeP2fXGCBKhsmC0D2aU=;
- b=UppggZ7LDCBrCoEoQqKL/LqvNvr2Ss/fAqQRWWbXqFPuk3tjlCJP16Ej
- RkkJPSosxlewYS2c+QpTcF/cKJwKrXoddcehSsp2Y4lHnaO2SjMNXKh66
- k2SduILhHb8juPIhDgQOjICnGyOyAVYhXZ+IHtrU2McIwCTlXyMF2jm2U
- 2PmuE7xwYjWzng2xLCEJKKrQ0eRWv8uZA2LPhVrOWGiM4Ap2BNJTrU0M4
- /toajb1s/GqUujwRUEp16BvgusipX1o4X9TaEmRcbVlqIn0QiP21z0ss8
- 54w/l9F5qI79tkjdUqdKavC4f3drtJ62FDl7FEwnjuwpWozJjyDjGLWJM g==;
-X-CSE-ConnectionGUID: i8lt/SQ5S7G+u+yj5i468Q==
-X-CSE-MsgGUID: o+xtYoZ9Q1Co6ZhHdIBDWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="71126244"
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="71126244"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2025 06:39:13 -0700
-X-CSE-ConnectionGUID: ynpV/gVkQbi5g9TnkYwE+Q==
-X-CSE-MsgGUID: R4QO1tRoS366vb0Wtoc+QA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="172363755"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.244.181])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2025 06:39:10 -0700
-Date: Tue, 9 Sep 2025 16:39:07 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com
+ [209.85.218.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA73310E250
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:39:41 +0000 (UTC)
+Received: by mail-ej1-f74.google.com with SMTP id
+ a640c23a62f3a-b0419841db9so382965066b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1757425180; x=1758029980;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=S/cWSKApgCqU8gCN90/R56WkIagNeujRN6OKwQyz0bk=;
+ b=Eqms/uCr/kiJEAFWYnKDrdxBTkCdhsEYfnJdHs0uIY60usQ0ScBSybZQ8SBAOkak75
+ RXLEDFYvSmw5hJyzoQ+9i5OvFbA5Cejs9PjEECFB0T21J0qQup8K9MHNOxjAN89xjInO
+ S+KiMaVw3Nd35oJGVlBSt8YGWT3L897HZYm2h00XSXtlmkmzfHS7t4jj+uhNRsjk/JJr
+ uCgaLsXdodlw2LUUeOfZp6L0HDualldba8vGHrGvoqf1U2npOlTGlps8wf+SqvrybIgz
+ lRvhe2LNE2sdTeLkaFEnemdaP904LIV5FO+abWBLRX10U9m0Urr4jFYE3ZqGGr1bx3JW
+ zKyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757425180; x=1758029980;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S/cWSKApgCqU8gCN90/R56WkIagNeujRN6OKwQyz0bk=;
+ b=asGZgf+y668/R0A4lLrOBXyKeOyyePfo9zyrU8SM5pyKOeyAituJpw6xUCgAhA4daM
+ FcohBzfLSWk9C7haSZj1hFjQXRIQQkus3qLNsdsk08Vyof9NO1ntufQI1LjzYXb3dEGo
+ jroqDYwSs5h0eqIQybDKLnqFXGg7vKbep91pg7eevR/f1eIj/29S5yiTsFDZiqyqbeGr
+ fOoS+ZfiTkPDGf37hTshlyZNpO6/CzzkFx2LtyvK9zikG0hqzhDCKk79XBqkuiKB1mPA
+ w5Ud+sc91fJuJXM/f6LIMX1kFT0aVsms1JKpuevaLKzudRUWSDoJYcybo5ERc/6/V7LO
+ ftpw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrivDbx4KsOuITvjRc2TPqsQIXihTZLono/paH22R7FMPdX30bCCi3wTTBfPo+i9AaJP0k1gK1M98=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyesjfYmI5DkzLQD77yeynEurvYWruwf30ZsPqMJqm4SJWJO9hU
+ 5GqZajzQBG+S6V1hmSxhXIFwIx85WgT5d9x6EM4W/bHqpkbuHFHiyZ7qHa/1WuZSk3cU8MM8EF4
+ kUhpiOo1ZNbqjTN6ZEw==
+X-Google-Smtp-Source: AGHT+IFklFVheyARxR3qqSDXvhkKe8XA6XwiuCSVTGag3JTwA8+KX1InqMPhxPHUjqN8oInLSi0RtsKFDfniBqE=
+X-Received: from ejcre10.prod.google.com ([2002:a17:907:a2ca:b0:b04:4fb2:458b])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:d8d:b0:b04:33a1:7f11 with SMTP id
+ a640c23a62f3a-b04b1459913mr1134074866b.26.1757425179999; 
+ Tue, 09 Sep 2025 06:39:39 -0700 (PDT)
+Date: Tue, 9 Sep 2025 13:39:39 +0000
+In-Reply-To: <20250909-vmbo-defer-v2-1-9835d7349089@google.com>
+Mime-Version: 1.0
+References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
+ <20250909-vmbo-defer-v2-1-9835d7349089@google.com>
+Message-ID: <aMAuGy6Rc55mkqCW@google.com>
+Subject: Re: [PATCH v2 1/2] drm/gpuvm: add deferred vm_bo cleanup
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH v3 13/39] drm/armada: Drop always true condition in
- atomic_check
-Message-ID: <aMAt-_CheWl5XGNF@intel.com>
-References: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
- <20250909-drm-no-more-existing-state-v3-13-1c7a7d960c33@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250909-drm-no-more-existing-state-v3-13-1c7a7d960c33@kernel.org>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +87,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 09, 2025 at 01:27:32PM +0200, Maxime Ripard wrote:
-> The drm_atomic_state pointer passed to atomic_check is always valid, so
-> checking if it's NULL or not is pointless. Remove the check.
+On Tue, Sep 09, 2025 at 01:36:22PM +0000, Alice Ryhl wrote:
+> When using GPUVM in immediate mode, it is necessary to call
+> drm_gpuvm_unlink() from the fence signalling critical path. However,
+> unlink may call drm_gpuvm_bo_put(), which causes some challenges:
 > 
-> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> 1. drm_gpuvm_bo_put() often requires you to take resv locks, which you
+>    can't do from the fence signalling critical path.
+> 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often going
+>    to be unsafe to call from the fence signalling critical path.
 > 
-> ---
-> To: Russell King <linux@armlinux.org.uk>
-> ---
->  drivers/gpu/drm/armada/armada_plane.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
+> To solve these issues, add a deferred version of drm_gpuvm_unlink() that
+> adds the vm_bo to a deferred cleanup list, and then clean it up later.
 > 
-> diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
-> index cc47c032dbc151a463cbd0b0d048c74c2828f253..976b6a271c912421e3fec7525f77234e73a74212 100644
-> --- a/drivers/gpu/drm/armada/armada_plane.c
-> +++ b/drivers/gpu/drm/armada/armada_plane.c
-> @@ -83,25 +83,20 @@ int armada_drm_plane_atomic_check(struct drm_plane *plane,
->  {
->  	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->  										 plane);
->  	struct armada_plane_state *st = to_armada_plane_state(new_plane_state);
->  	struct drm_crtc *crtc = new_plane_state->crtc;
-> -	struct drm_crtc_state *crtc_state;
-> +	struct drm_crtc_state *crtc_state =
-> +		drm_atomic_get_existing_crtc_state(state, crtc);
-
-new_plane_state->crtc might be NULL here.
-
->  	bool interlace;
->  	int ret;
->  
->  	if (!new_plane_state->fb || WARN_ON(!new_plane_state->crtc)) {
->  		new_plane_state->visible = false;
->  		return 0;
->  	}
->  
-
-Here we know it's not NULL.
-
-> -	if (state)
-> -		crtc_state = drm_atomic_get_existing_crtc_state(state,
-> -								crtc);
-> -	else
-> -		crtc_state = crtc->state;
-> -
->  	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
->  						  0,
->  						  INT_MAX, true, false);
->  	if (ret)
->  		return ret;
+> The new methods take the GEMs GPUVA lock internally rather than letting
+> the caller do it because it also needs to perform an operation after
+> releasing the mutex again. This is to prevent freeing the GEM while
+> holding the mutex (more info as comments in the patch). This means that
+> the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
 > 
-> -- 
-> 2.50.1
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
--- 
-Ville Syrjälä
-Intel
+I'm not sure if we came to a conclusion on the gpuva defer stuff on v1,
+but I found a less confusing way to implement the locking. Please check
+it out.
+
+Alice
