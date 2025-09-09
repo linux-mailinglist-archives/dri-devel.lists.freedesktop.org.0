@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACC0B4FD7B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E66B4FD8E
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69610E250;
-	Tue,  9 Sep 2025 13:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 177C710E749;
+	Tue,  9 Sep 2025 13:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Eqms/uCr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WW7uhxoV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com
- [209.85.218.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA73310E250
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:39:41 +0000 (UTC)
-Received: by mail-ej1-f74.google.com with SMTP id
- a640c23a62f3a-b0419841db9so382965066b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1757425180; x=1758029980;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=S/cWSKApgCqU8gCN90/R56WkIagNeujRN6OKwQyz0bk=;
- b=Eqms/uCr/kiJEAFWYnKDrdxBTkCdhsEYfnJdHs0uIY60usQ0ScBSybZQ8SBAOkak75
- RXLEDFYvSmw5hJyzoQ+9i5OvFbA5Cejs9PjEECFB0T21J0qQup8K9MHNOxjAN89xjInO
- S+KiMaVw3Nd35oJGVlBSt8YGWT3L897HZYm2h00XSXtlmkmzfHS7t4jj+uhNRsjk/JJr
- uCgaLsXdodlw2LUUeOfZp6L0HDualldba8vGHrGvoqf1U2npOlTGlps8wf+SqvrybIgz
- lRvhe2LNE2sdTeLkaFEnemdaP904LIV5FO+abWBLRX10U9m0Urr4jFYE3ZqGGr1bx3JW
- zKyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757425180; x=1758029980;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S/cWSKApgCqU8gCN90/R56WkIagNeujRN6OKwQyz0bk=;
- b=asGZgf+y668/R0A4lLrOBXyKeOyyePfo9zyrU8SM5pyKOeyAituJpw6xUCgAhA4daM
- FcohBzfLSWk9C7haSZj1hFjQXRIQQkus3qLNsdsk08Vyof9NO1ntufQI1LjzYXb3dEGo
- jroqDYwSs5h0eqIQybDKLnqFXGg7vKbep91pg7eevR/f1eIj/29S5yiTsFDZiqyqbeGr
- fOoS+ZfiTkPDGf37hTshlyZNpO6/CzzkFx2LtyvK9zikG0hqzhDCKk79XBqkuiKB1mPA
- w5Ud+sc91fJuJXM/f6LIMX1kFT0aVsms1JKpuevaLKzudRUWSDoJYcybo5ERc/6/V7LO
- ftpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrivDbx4KsOuITvjRc2TPqsQIXihTZLono/paH22R7FMPdX30bCCi3wTTBfPo+i9AaJP0k1gK1M98=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyesjfYmI5DkzLQD77yeynEurvYWruwf30ZsPqMJqm4SJWJO9hU
- 5GqZajzQBG+S6V1hmSxhXIFwIx85WgT5d9x6EM4W/bHqpkbuHFHiyZ7qHa/1WuZSk3cU8MM8EF4
- kUhpiOo1ZNbqjTN6ZEw==
-X-Google-Smtp-Source: AGHT+IFklFVheyARxR3qqSDXvhkKe8XA6XwiuCSVTGag3JTwA8+KX1InqMPhxPHUjqN8oInLSi0RtsKFDfniBqE=
-X-Received: from ejcre10.prod.google.com ([2002:a17:907:a2ca:b0:b04:4fb2:458b])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:d8d:b0:b04:33a1:7f11 with SMTP id
- a640c23a62f3a-b04b1459913mr1134074866b.26.1757425179999; 
- Tue, 09 Sep 2025 06:39:39 -0700 (PDT)
-Date: Tue, 9 Sep 2025 13:39:39 +0000
-In-Reply-To: <20250909-vmbo-defer-v2-1-9835d7349089@google.com>
-Mime-Version: 1.0
-References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
- <20250909-vmbo-defer-v2-1-9835d7349089@google.com>
-Message-ID: <aMAuGy6Rc55mkqCW@google.com>
-Subject: Re: [PATCH v2 1/2] drm/gpuvm: add deferred vm_bo cleanup
-From: Alice Ryhl <aliceryhl@google.com>
-To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA5610E750;
+ Tue,  9 Sep 2025 13:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757425243; x=1788961243;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=TOKivSYM8AaGjR0sjfOBNZldzL9uNMrmIjNBs/jU5RA=;
+ b=WW7uhxoVB7QPgwqIb+11dZUg0iX6qtQ0iWtJrvQMt8RIs4+W5NNnxVAV
+ iim+eGH+JPHm3NP8Dghn1kUDSOg+RthFrpvh2wP7pDG80hMi9IZJ7vZce
+ hHLdrNkpyTbZX0rMOQFDyxrNEb5mXwlcAjQOL2F7ppTYlQCqNjczb9YtC
+ jJ6d//FQk+h7u+pl6uK34uE+ZQUCovAKsz94VkddglZt++zp5ea3H7Iyu
+ YvIkfuvYjb2b2Kcn7IH941RifvTznm+6uldur2aMcSFmwsPoE9xjlC2nU
+ B87i3VGKcSgqCb556cuBpVwPDNRpCpR/NRw6n7mlbh5X+d6P291vP29QU Q==;
+X-CSE-ConnectionGUID: o5OG+VBPRSGKT+NRs/6Ibw==
+X-CSE-MsgGUID: hsxG12lSRw+zE3qOiaT0/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59854824"
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="59854824"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2025 06:40:43 -0700
+X-CSE-ConnectionGUID: d5jyn5U6RTqDwtadbZsjtg==
+X-CSE-MsgGUID: 3dTjMfjGQGi/s8TDcuomyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="204075081"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2025 06:40:42 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/xe/hwmon: Use devm_mutex_init()
+Date: Tue,  9 Sep 2025 06:40:26 -0700
+Message-ID: <175742518952.1517056.6092120545087383831.b4-ty@intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <989e96369e9e1f8a44b816962917ec76877c912d.1757252520.git.christophe.jaillet@wanadoo.fr>
+References: <989e96369e9e1f8a44b816962917ec76877c912d.1757252520.git.christophe.jaillet@wanadoo.fr>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,29 +73,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 09, 2025 at 01:36:22PM +0000, Alice Ryhl wrote:
-> When using GPUVM in immediate mode, it is necessary to call
-> drm_gpuvm_unlink() from the fence signalling critical path. However,
-> unlink may call drm_gpuvm_bo_put(), which causes some challenges:
-> 
-> 1. drm_gpuvm_bo_put() often requires you to take resv locks, which you
->    can't do from the fence signalling critical path.
-> 2. drm_gpuvm_bo_put() calls drm_gem_object_put(), which is often going
->    to be unsafe to call from the fence signalling critical path.
-> 
-> To solve these issues, add a deferred version of drm_gpuvm_unlink() that
-> adds the vm_bo to a deferred cleanup list, and then clean it up later.
-> 
-> The new methods take the GEMs GPUVA lock internally rather than letting
-> the caller do it because it also needs to perform an operation after
-> releasing the mutex again. This is to prevent freeing the GEM while
-> holding the mutex (more info as comments in the patch). This means that
-> the new methods can only be used with DRM_GPUVM_IMMEDIATE_MODE.
-> 
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-I'm not sure if we came to a conclusion on the gpuva defer stuff on v1,
-but I found a less confusing way to implement the locking. Please check
-it out.
+On Sun, 07 Sep 2025 15:42:17 +0200, Christophe JAILLET wrote:
+> Use devm_mutex_init() instead of hand-writing it.
+> 
+> This saves some LoC, improves readability and saves some space in the
+> generated .o file.
+> 
+> Before:
+> ======
+>    text	   data	    bss	    dec	    hex	filename
+>   36884	  10296	     64	  47244	   b88c	drivers/gpu/drm/xe/xe_hwmon.o
+> 
+> [...]
 
-Alice
+Applied to drm-xe-next, thanks!
+
+[1/1] drm/xe/hwmon: Use devm_mutex_init()
+      commit: 7b77941724628e6171a286edbf04d67a1f1c1459
+
+Best regards,
+-- 
+Lucas De Marchi
+
