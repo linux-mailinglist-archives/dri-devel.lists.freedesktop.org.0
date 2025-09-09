@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5930B4A260
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 08:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC71FB4A261
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 08:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD7810E629;
-	Tue,  9 Sep 2025 06:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F4D10E62E;
+	Tue,  9 Sep 2025 06:38:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DP9hRtGf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eCT7NEgF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3F410E635
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 06:38:00 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-24c89867a17so51349485ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 23:38:00 -0700 (PDT)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1B8710E630
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 06:37:59 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-772481b2329so5436436b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Sep 2025 23:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757399880; x=1758004680; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HJiukvQMYchQJB9oFovtwsPeen/LDiO7bwNq5dPromA=;
- b=DP9hRtGf/Eq2TAj3Jw1zsqCemLdtuGfiNNUrRMsw/MperKWPsJHq4kpfywyH0DuUpN
- xYAMLCnYlj73V12fGjFG6fSQoZt2MBUoiwIl4DmcybiHpBEsrGscXuIdkFmY9ywMNzW0
- lfCz8uMxM6aEsaMhhxvUw7kXTAV8qWFYGzbix6kJL92IZ1hhvHpVkoEwcgPi4PwPRtnM
- xpQvJ7ax0OqrtUcBNtK7hgGIssJ2Tzhp9QNhPbOB3/Q7njqUiF7xjgjv4MSqw1M+7lQg
- YDO6TIsPHFxtZDIp67nU5oxkPMCHjiyvvm8U2gL1yibMo70fed7GMe5R5ESxChQvuur3
- NSkw==
+ d=gmail.com; s=20230601; t=1757399879; x=1758004679; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zgXaASlXjGFVjUJ/ZBrWtnsm4G9IgZXSsCGm5rp0YN4=;
+ b=eCT7NEgFu2Xgrqs6kMrrdfFgOb4av6jGbw7bpwFy8SvVRN7C4mX92WqfDNKQOB5vPb
+ OOLGkQT1R7mcEFP/BHbJwxtxtwHQGUG9H5tl4lHLBdCIHRLzvltUze51RAp28jaZJJrY
+ F1P/nSRhsQXncIwRBwtRunYvF5Fwlkyc439gp1Rxp2fHQU2YRsNRzsA+GLR+Wfpzbtvn
+ 7Q3tP9qe7h0RsQylpDqjfw3P9Wwcglun/0r22kdjiyCsNtTiRUfUinmiWLESiHwKeVNw
+ SrXKTTQ7swpotHIBz2Y25feYao36HFuF0Ijx6SA1f/Slg9ui3qxAl2p9iFVCbciXlS9N
+ wU0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757399880; x=1758004680;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HJiukvQMYchQJB9oFovtwsPeen/LDiO7bwNq5dPromA=;
- b=eZHAv+oGGUsvAnseCE70ebwh2cLkIU37FNB8KWLDjOgwyXGmibPyE7rz6QfwSwgE6H
- bMQPC4p8OcrGdmvGSJsNdbIg7jl3bP1pkoOvmEAhg04PFn7ZhB4XNdrNc1t6qkTZ82Rz
- 6h3RmswEcTB2rNMqAxc8HxI4KwZr3XZ5jxwmqfCrtv9ltE1IWFdUoscGlikCT8Myoveb
- CROQMvkV5IUk4EWu7SQ3315wq22fKlLlj1iV/lBV+MXS7axMl2OLCf2qHd3OETKhwyPO
- xMcdmIKPKrNIhc3J6035GcnmfDCQ5XwWMNr5QpwGJa40uUi7PhCkFbh2l0OU7eccCZqN
- msfg==
+ d=1e100.net; s=20230601; t=1757399879; x=1758004679;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zgXaASlXjGFVjUJ/ZBrWtnsm4G9IgZXSsCGm5rp0YN4=;
+ b=jv4JWKvhu/feMhlLLZidgKKP6uETBmRMUAWAw1PJcWXCsW06f/+XVAWkZe5RYbiFwi
+ AM22RI2gyCNXYjn2VmJuWyp7pgxaUpUyPzOqUX4grDGUrqoMwyZZ95FQHyAQr5QrKDL5
+ w1wioozPjIf82uu6nNI+RtLbdjQgQVKtbYx/9425GuqO0OyPUNpOlJnb7xPw7MO0lp5E
+ 1Ciy03RI91eMXU+knYm/RSI/Vh07AYtNKOlG53H5Jjkm21tPq1OzJf3YAt3bDax701NU
+ 3Jod+JwDEDoJgd38lotlp5G5fywxBmtitf5v0U8V/5+93FTHTXbVsaEjBlwqjLDQcRzO
+ 9/8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXA+o4xvtH12A56KsGA+DQz9NudJD4RYuVFRXTmN2KjmduEKt5HLgPfj05kNZ3xXtAiwigYUnxN5vo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxD88vh0MvmKHTPLfwz79w3DdirvAj3PK5kb5OhiedsbFye91da
- XOJOv2YqIy/JFKTjLQXhdoAdGY5H3hsBzo0Q5UI0e1B2zYN2qgOgmyO2
-X-Gm-Gg: ASbGncsag4SvnItqhKQnyAIgJMY8vR3h+yS+efbmN+/cK1X5ygIxM8S4LaPHTyTtT0a
- gWw8ymu3vD0o8FwM+wSBhTkF8YK1YzWDZRMXckpMKZ9EZUk5JSnB1RUwgam7b2oQgbpbz0102mb
- mjWH4IhOrrLCZ7iYeYyi/sojYPz+49pMZENwFniTqRQyik4hDLPcS/ezkNBYHmgcXcPk5rtrOk/
- dz0k3PUXCAT07ARDUH0G78kuy2jVkvBcph+VN8IbaN7BS4CJ8QzoFMYI4zdKPSB9777BYKR5Fjx
- J2+gfABkNecSavYI2wj2Uc/GhFR+NGvmYprFHX8GcnZGXT0bu7x5uCoBlZo/uF7VRySKg/QY9B2
- r6D+Hrv3Elyq7LEmvgakR8eFSqGduaNV9WRLh
-X-Google-Smtp-Source: AGHT+IFotQUFwQ0lDMECPT4okq9EM0mj1zKB3mE36lhz+JWVRbzizXv+ZEreuSwiB9QKkN0vzAYNcw==
-X-Received: by 2002:a17:902:ea09:b0:246:7a43:3f84 with SMTP id
- d9443c01a7336-2516d33d4ebmr152795015ad.5.1757399879430; 
+ AJvYcCWcO9YwbdM4OgESCVDCBZEVnFx9O5uLSbGU7CDPHA8YnFF8XdfBSIvNa98949G73j5KrPRF2nlOYms=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx62ySHYvrOQf25E34D6Fa4RzDHHksD6wIuebuRsCi92K8KawMg
+ AAaIRQ81sMADwNjUBxYCBO/VryDwaXREiBXCIEcNe5SM8oTyAyEyWgnQaGFHZItE
+X-Gm-Gg: ASbGncu+cRkZJVQyhkqUJlTHJkFyY3tlL1SsAeL34nld2xzPHzg+SAVGVbTzH6y2yX7
+ gJPEJbjawlD02XNXAc7AFchaLBrn9F+rlyYkVven4IggC88XPKQJojj0AduLMitM0+yJOOyGYqY
+ OvsvygZIW9l5hHBoyLXo/pCuqGcYBOFpgfGcS/Z7smJHmae8nq5iHmS/KxK2B3aPhxdVCKyyuic
+ WFm1MutLzBoE0gRcAXB+Id+qoPfpbqeuWRE/A+wyjRZTUgpqzVZQib6tpsRvoR/mp67Wpsan6/j
+ vnWRsTpGBi9C4x1JjACmgEc3EkHecr9WhdxOI70jjmUns+UXNLwu8r6emwYt7RQxVQRWr4y0JOZ
+ BPKGVJfQHs3og+TaQdBJ+yRTDWx5hSKyDNv5S
+X-Google-Smtp-Source: AGHT+IG6+uKhAARr7UhkwbpUZaECdPB7dPFA+WM5GrddjHbis2bBcSqGfb34MVFU/2f1IDfS0fsxGQ==
+X-Received: by 2002:a05:6a00:1a8f:b0:772:2850:783d with SMTP id
+ d2e1a72fcca58-7742dedf06emr13704013b3a.22.1757399879056; 
  Mon, 08 Sep 2025 23:37:59 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24903724b94sm299653805ad.35.2025.09.08.23.37.58
+ d2e1a72fcca58-77466290d84sm975093b3a.65.2025.09.08.23.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 08 Sep 2025 23:37:58 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 1C2AD4206923; Tue, 09 Sep 2025 13:37:56 +0700 (WIB)
+ id 49A9C41FA3A4; Tue, 09 Sep 2025 13:37:56 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -69,17 +70,20 @@ To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
  Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 0/3] Documentation: fbcon: formatting cleanup and improvements
-Date: Tue,  9 Sep 2025 13:37:40 +0700
-Message-ID: <20250909063744.30053-1-bagasdotme@gmail.com>
+Subject: [PATCH 1/3] Documentation: fbcon: Add boot options and
+ attach/detach/unload section headings
+Date: Tue,  9 Sep 2025 13:37:41 +0700
+Message-ID: <20250909063744.30053-2-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250909063744.30053-1-bagasdotme@gmail.com>
+References: <20250909063744.30053-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=659; i=bagasdotme@gmail.com;
- h=from:subject; bh=pfVPxDxt9WcZWPqzB85AUj4avLsvCa8ghrZrU5R+vBk=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn7Tx20iWWJjb/lWBh8I1FUi3Guacrjs6uD9i9I019af
- tpCU0Wlo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABORyGb4n3z/yTEjjXcT+Vv+
- Xljb/Dg67vzpPRs1ys24ltkvtzayq2X4K2ixfbfWP88tBZvtPlSHWTg/m3lcer2I9ko59VUiS6/
- 2cQMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1183; i=bagasdotme@gmail.com;
+ h=from:subject; bh=7KhPgY9CNs+EyWne3MtjBbauIv/3NliTxGyLPRrBtVk=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBn7Tx0s7WQpKWwo33WmoaP/l4nBEv9vbeycaUnb5V3+s
+ 2zmPMHWUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIn49jP84V5aYP3wy4o9nyNb
+ Zdti/25iObrHI4fx3oeHJQI6P2sv8jMy3GPlYzxz01k2cKGpS9rPqjKeHZ+WS93f7HxvZef/TbY
+ FrAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -98,26 +102,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+These last two enumerated sections headings are in normal paragraphs,
+making both sections merged into "Loading" section instead.
 
-Here are reST formatting cleanup and improvements for fbcon documentation.
-The shortlog below should be self-explanatory.
+Add the headings.
 
-This series is based on docs-next tree.
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/fb/fbcon.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Enjoy!
-
-Bagas Sanjaya (3):
-  Documentation: fbcon: Add boot options and attach/detach/unload
-    section headings
-  Documentation: fbcon: Reindent 8th step of attach/detach/unload
-  Documentation: fbcon: Use admonition directives
-
- Documentation/fb/fbcon.rst | 42 ++++++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
-
-
-base-commit: 7e5a0fe4e8ae2eb341f8ebbee2b24231a58fc28b
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index 212f7003cfbab2..b9ddc145aa9f6a 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -74,6 +74,7 @@ Possible scenarios:
+ 	 over the console.
+ 
+ C. Boot options
++===============
+ 
+ 	 The framebuffer console has several, largely unknown, boot options
+ 	 that can change its behavior.
+@@ -172,7 +173,8 @@ C. Boot options
+ 	The value 'n' overrides the number of bootup logos. 0 disables the
+ 	logo, and -1 gives the default which is the number of online CPUs.
+ 
+-C. Attaching, Detaching and Unloading
++D. Attaching, Detaching and Unloading
++=====================================
+ 
+ Before going on to how to attach, detach and unload the framebuffer console, an
+ illustration of the dependencies may help.
 -- 
 An old man doll... just what I always wanted! - Clara
 
