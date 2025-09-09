@@ -2,78 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007BBB4FC0A
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D03B4FC31
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:17:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA3110E707;
-	Tue,  9 Sep 2025 13:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE2210E24A;
+	Tue,  9 Sep 2025 13:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nnIZyyT9";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="v7/iAwDt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90E0F10E705
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:06:33 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-24498e93b8fso11005325ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:06:33 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A13E10E24A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:17:00 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3e5190bca95so2004222f8f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757423193; x=1758027993; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TCRhKSwPG7CAUIvZCPIlLSCZ3YprR/xiUPz/bvHEoWk=;
- b=nnIZyyT9Ce657fehbZ8fCiyYSe0EVoSMwlDo36kvqafnNhRFpdfcRWMHSqbHowGilf
- D84M0z011aRLuODgWDsuFjkP7K38lJyIKet/zgw+cit0uJKL2gJ13AIRZTWTg4VJAD9L
- WWnD1SWtmD6GogZFrdWP5ls0fWy0v7SmvEpvF1EMumIpqnhV0z0GouSDAWodyY/KFt3w
- uaJf4jCSRw2mR00yQtan+CBaZxNJOf4HxDheJRgS42ct9Ygb2iXgYr2lCLlK/BiW5kZy
- 70bgs9n08kCodzdpDcUVPAWAd4LhDZzDOkiv8oVQe3xn7B03dOT8cmugMkSNuSHcYj93
- LwWg==
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1757423819; x=1758028619;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fdo9zUh3cC7JZ4YMFIK1It9t13duwlrpE1xo6oVXcCI=;
+ b=v7/iAwDtfm+sZzoWY+8/dar9ehaRZx867ux4Kkywe6KAWlqD5IonclzMEOMyFnRkUR
+ 8yVLfvsnFXZschQyOrJsY9vwHDAh4V1dCA8DVfPy+kQMqY4sTulA9L6H5ffDeXNnp17B
+ w8bA9LWXniYYFU53xHi7KRXaouznxY4mof738WekVp4k/3dwwq29+lS6J4w0ESarAi6i
+ rr2RKvBgWDFvgHYZqrUULLDAmGHNA6v4nUX02yh866K0IReuJLUe/WztBs+l05bdgfXd
+ SQY0836U2GOhQNuZbGyldkl91OVWI3Bc2IJkH/AUpVcb5iOaDe1hXbLuoIpT4K8NIk2R
+ sTmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757423193; x=1758027993;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TCRhKSwPG7CAUIvZCPIlLSCZ3YprR/xiUPz/bvHEoWk=;
- b=TZ2EB1xbJspzObHsCKEybKSz+ZsK0OQpLShSrVeymYdxaX7LYpn+siAVramsl94AJM
- 0rR+vJQT6bIjCewayyw3dvTfOTF3GgFg5JBwcSc/3NmovPzufBVfxsNfy1JMfXuvhSys
- 3Lxcl+KLqCnNlSglbTNOhmLhat58u57ZUiTDhv0HzCuCW1UXRnpNK/VURkeGmSte5LGj
- n8UrfbNDj/Js6nzD2Lrst/ff2i5SGz+vRh0+ftYcvlSrhKVzQ0M82S4aqdb73M5wJdCl
- NsfChpj+ui/MQuRwvBo+jvyiGw5hmQOeRXYrQFHKZARVVh7GLPtgLXq1YuSQEjFq2spF
- azJA==
+ d=1e100.net; s=20230601; t=1757423819; x=1758028619;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fdo9zUh3cC7JZ4YMFIK1It9t13duwlrpE1xo6oVXcCI=;
+ b=oqzIs/LfzbXDujlb5Kp3Ca8t/V+tN4WXGpZTasDBMwqanRItHI13KW8tXSHf6CfRX2
+ zsTImSq1Ap8F+KT5R+9u70m3ZofJCUtPTZgG957fIeI+sVj65SetSxJc+FuX4f01ET3r
+ 4xw8fa9cc1k5JJ8YR8h+AY9Zp4ILi085KvZGEYVGARlSsgqcwcjtvJ8TyCayEJNVqxss
+ yCBH6WAYvUxHPDXbZjZk7S2Ed/Tv0+E1bcLSm+UzfVfnqZke+PyAplF135CBii7+1XGc
+ CRTJEtOH+sWSUBxLEyFkVuRAiDj3z0EUEMIGisWnrbjT7zUG0WW/xt6xTPRjI69utDA+
+ 7GWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUREsoqlA1/4NpUK8EtIA8yg1MpENZemxYJViY6ZbGhDkSlzU7pfD8dI+5e2LUeJWFJ9LWM0RPwhUY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzI9CHU++bKfA4meC58iE6W2F6Es9cppXmy+Kmax4YotevFGTho
- kQWy766o1vZZVQ92g5TLVmP2uwmCgBoAVIwGIr4QLr9wDy2MvGBVwTFI1atS8k8TNAvLehc2xJB
- mLHMr5Zt6VWneU9WG1oS66543CLsO0JM=
-X-Gm-Gg: ASbGnctpfohWRtxiWSXFfOD2MBVcnlNOV56fQGkLViq9KtViMODhbzJ9876S7MdPpJJ
- 6N2MpbhD9MBrYX/cHYTUZtU2J91+fR36/tSyJrMeL+RPC19ts78YyXT3gNF2ahbDFuDv0mop/Wa
- OzXeqJlFApjgn3q7AceoPBUU8bjjbb6xaXf9NrAY7odFnjuGy35OlOjALotKTcaPYtSrrkeIQu3
- /XYMSI=
-X-Google-Smtp-Source: AGHT+IHa8baY6Pl1flgTs6pP2dTZu9WNTAlY3N3JvHJNZ3zkp6rEoHwCNUfHmb5TxMZbd3mIXJZz9XbwZBZNyfQuoI8=
-X-Received: by 2002:a17:902:8ec5:b0:24d:5f38:ab67 with SMTP id
- d9443c01a7336-2517653b8f5mr64653695ad.11.1757423192955; Tue, 09 Sep 2025
- 06:06:32 -0700 (PDT)
+ AJvYcCV0tKNqpXMxTL48E2KD9HlFAkd4YsOfRCG7Po3MeIAaOqEti6agvxaGEAtBgN41iHs7YLCBzDkMX28=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvaWwDCqJ9Mh8RPygp4fo1XvtsxPX3UV6ohSTj4bnNZnQi5eWJ
+ 0bR2oYSPWvgAtZjyGSyIRA689WS1VZ4uZedOfRX6zPD/psUKhbgyYD261o4x9EdWn0A=
+X-Gm-Gg: ASbGncswkjzmPscbDKgvNk//qNLFZyQYKQHwTqIVSn+3/LPHAf8pfv2DrdSLMGbn8+Z
+ cu5sKwOgOMNr8S9kJ0D4WhSRqQNKz0pdKKEC9No1ZawcesST/PXwUeXqd/FQ0G/uveMkwS54I9s
+ zBYYv9ddw+kiCoQQf2yiB/gJO0yndtQ75w5JZQreddftcUAJc7eD/ZA/kuSzq63sVfyGH1BAEHz
+ bJS1CIthU70wsXLWnUD6rZ7NQBgGIXlpDudptA8gwZjCVkaqyWKyz24Niuj911Tt5Zjx/Lof7yY
+ WZPYkgI67jPMtV0YmdjLEazUkmufSlJfhOsGxgxX0gx0YtdINGPIz6K6VR2ux/HLGpzW6amHGWE
+ 7WJvyuiATW1HGIl9p8rV4iH3X84hLh0HKrVkB0uYqn/KRnTrgwUxvOFn9Hgdd5j5c
+X-Google-Smtp-Source: AGHT+IFhCowW9gu1/w93obIiBVf6Vuc4ShjzL0HEHZ6PJqdOO6o5Jz7iReA+oY0Aa+n+lLDZfcOsfA==
+X-Received: by 2002:a05:6000:4211:b0:3e5:d2f1:403d with SMTP id
+ ffacd0b85a97d-3e6440ef05fmr11560309f8f.36.1757423818701; 
+ Tue, 09 Sep 2025 06:16:58 -0700 (PDT)
+Received: from localhost
+ (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de.
+ [2003:f6:5f06:ab04::1b9]) by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3e7532f90e6sm2066036f8f.6.2025.09.09.06.16.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 06:16:57 -0700 (PDT)
+Date: Tue, 9 Sep 2025 15:16:56 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Daniel Thompson <daniel@riscstar.com>, 
+ Flavio Suligoi <f.suligoi@asem.it>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 2/2] backlight: mp3309c: Initialize backlight properties
+ without memset
+Message-ID: <d3mnxjbtek2q4465xgje2orjbzmbrkcicapal4apiqk3hc3hbq@3jp4yytvtmfc>
+References: <cover.1751361465.git.u.kleine-koenig@baylibre.com>
+ <14514a1b0d3df6438aa10bb74f1c4fc2367d9987.1751361465.git.u.kleine-koenig@baylibre.com>
+ <aKLvaP55PIVhyFSc@aspen.lan> <20250902103632.GH2163762@google.com>
 MIME-Version: 1.0
-References: <20250908213156.565861-2-thorsten.blum@linux.dev>
-In-Reply-To: <20250908213156.565861-2-thorsten.blum@linux.dev>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 9 Sep 2025 09:06:21 -0400
-X-Gm-Features: Ac12FXwSeHW2KQ319aeqOCaDVZwYWCXWouptpaWLQeAEdAJOVtD4BE9k9jsqKMo
-Message-ID: <CADnq5_PwxJ5ErFrMzAo1ocK=rQi81G9iLMPpPM9T51_txrp3yg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: Replace kzalloc + copy_from_user with
- memdup_user
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dbmzc4rcf7ixa6l5"
+Content-Disposition: inline
+In-Reply-To: <20250902103632.GH2163762@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,60 +97,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  thanks!
 
-Alex
+--dbmzc4rcf7ixa6l5
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] backlight: mp3309c: Initialize backlight properties
+ without memset
+MIME-Version: 1.0
 
-On Mon, Sep 8, 2025 at 5:49=E2=80=AFPM Thorsten Blum <thorsten.blum@linux.d=
-ev> wrote:
->
-> Replace kzalloc() followed by copy_from_user() with memdup_user() to
-> improve and simplify kfd_ioctl_set_cu_mask().
->
-> Return early if an error occurs and remove the obsolete 'out' label.
->
-> No functional changes intended.
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/a=
-md/amdkfd/kfd_chardev.c
-> index 828a9ceef1e7..5d58a7bf309a 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -521,15 +521,10 @@ static int kfd_ioctl_set_cu_mask(struct file *filp,=
- struct kfd_process *p,
->                 cu_mask_size =3D sizeof(uint32_t) * (max_num_cus/32);
->         }
->
-> -       minfo.cu_mask.ptr =3D kzalloc(cu_mask_size, GFP_KERNEL);
-> -       if (!minfo.cu_mask.ptr)
-> -               return -ENOMEM;
-> -
-> -       retval =3D copy_from_user(minfo.cu_mask.ptr, cu_mask_ptr, cu_mask=
-_size);
-> -       if (retval) {
-> +       minfo.cu_mask.ptr =3D memdup_user(cu_mask_ptr, cu_mask_size);
-> +       if (IS_ERR(minfo.cu_mask.ptr)) {
->                 pr_debug("Could not copy CU mask from userspace");
-> -               retval =3D -EFAULT;
-> -               goto out;
-> +               return PTR_ERR(minfo.cu_mask.ptr);
->         }
->
->         mutex_lock(&p->mutex);
-> @@ -538,7 +533,6 @@ static int kfd_ioctl_set_cu_mask(struct file *filp, s=
-truct kfd_process *p,
->
->         mutex_unlock(&p->mutex);
->
-> -out:
->         kfree(minfo.cu_mask.ptr);
->         return retval;
->  }
-> --
-> 2.51.0
->
+On Tue, Sep 02, 2025 at 11:36:32AM +0100, Lee Jones wrote:
+> On Mon, 18 Aug 2025, Daniel Thompson wrote:
+>=20
+> > On Tue, Jul 01, 2025 at 11:22:37AM +0200, Uwe Kleine-K=F6nig wrote:
+> > > Assigning values to a struct using a compound literal (since C99) also
+> > > guarantees that all unspecified struct members are empty-initialized,=
+ so
+> > > it properly replaces the memset to zero.
+> > >
+> > > The code looks a bit nicer and more idiomatic (though that might be
+> > > subjective?). The resulting binary is a bit smaller. On ARCH=3Darm wi=
+th
+> > > an allnoconfig + minimal changes to enable the mp3309c driver the
+> > > difference is 12 bytes.
+> > >
+> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+> >=20
+> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+>=20
+> Looks like you cannot send tags from non-related email accounts:
+>=20
+> NOTE: some trailers ignored due to from/email mismatches:
+>     ! Trailer: Reviewed-by: "Daniel Thompson (RISCstar)" <danielt@kernel.=
+org>
+>      Msg From: Daniel Thompson <daniel@riscstar.com>
+>=20
+> I'll add the tags manually this time.
+
+FTR: The email address *or* the real name has to match the From: line to
+make b4 happy.
+
+Best regards
+Uwe
+
+--dbmzc4rcf7ixa6l5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjAKL4ACgkQj4D7WH0S
+/k5BrQf+JX3ho13wgiKmkcJ0Tjb0+y2mxhAU2VHfSxu0jGL6GsKb00SZXQ7/bQ0y
+FpqkmXr91kb5uhg5pOQL0D6W3OxwLRFLf4XfOL84TaAHintXN8gMBOsJA+Pn9iIA
+5rqGHhO7dT4zJt9SmdGVn7f9VBu2qdvo4wpf/tvzlIcYTYFGD8W/giikgRQcJcI3
+Hb3zRDIrRZWcNfHoN7yGFYC13iL2PyRFns/eyw+YqzCud+fHvfHbWV89l8LEzNod
+iwlF/fHCaSa7fqG154A0PgXPyF3ltgNwwi0RUNiwAtX/i0WcZrWYMavCTToq+SgE
+KrERYvE7oOdpFcIJNmXdRWQYyeDDZQ==
+=qQ6Z
+-----END PGP SIGNATURE-----
+
+--dbmzc4rcf7ixa6l5--
