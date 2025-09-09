@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83A7B49E14
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 02:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97103B49E50
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 02:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D56BA10E2A9;
-	Tue,  9 Sep 2025 00:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C2210E337;
+	Tue,  9 Sep 2025 00:49:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R1mlSOC1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DEjAnFvV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7189F10E218;
- Tue,  9 Sep 2025 00:36:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA7110E337
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 00:49:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8BBB5601B0;
- Tue,  9 Sep 2025 00:36:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7AAC4AF09;
- Tue,  9 Sep 2025 00:36:35 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 4941B60140;
+ Tue,  9 Sep 2025 00:49:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BB6C4CEF1;
+ Tue,  9 Sep 2025 00:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757378195;
- bh=Uok9CjbesSYK3ohcsag5t7XUC+DHX/La43yUddfR6ZU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=R1mlSOC1zIqUJ/ypd4bdckQG/BsCEdFAyG8e7B8p9xzQrUbYt5RmxXEUizpf3GGZJ
- YyuFGdEfASVRL9u6PyXTl0YOr5RVldJoLcqgh03wERTOhcRVdYPUP7zt3W7XO2fsqX
- PwGP3x0ZO0eJb8HCptkU+B4ilpHfKV1ytt//q3cOKyIGfznEodU6hx1xGqxa39jzvh
- 7xBsCKEgaA7pDaXbJV4jkQvYKYnQwLmB1UhkgqrLqTzxmGsVVG/wuqnlHpsYFdUpZx
- btKFz5670ky3/4K1vJyoikkvhch3dU9WRAm2cz1hdScAPPDCo2oxJJjFOg0qPMCXha
- ubEOofevbMkEg==
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-afcb7a16441so758699566b.2; 
- Mon, 08 Sep 2025 17:36:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHtPBV+oxu8l4yElkMkyBSBneaESRGvVl1dyGB3ZULkmS8+/Ad+Cfc/9PajoLGN3ZdFMZiFy5y18TU@lists.freedesktop.org,
- AJvYcCUysdjVv8MuvcbHTdXgExJBYpU0jmoT+C95u3V0oXqUgWsyRjrCjvlUzu2nlwwR5KYNZcCyZvUm@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxi6L2PM/e9g8Jfb+YURapaWq4/qWwMHGuLTrn2/PMVBFvJm7dE
- mKcBc4GGjLSTiAeKR7awURpwCsEdGRbyZAmbxUan0vRrL++UkYQzUXr9c0KG8JOYDKzTW7jwC/w
- aIuW4ARwH6mkyFVvfgpuR3ipC1ZGsBAo=
-X-Google-Smtp-Source: AGHT+IF9MNT9kUYVDyI7G7dOeR2X5rkbSvsOCALtswIel9/537ksCvevAUIPUYflHXcqGv3z+TpTCjUeGlaoZ55Ocsc=
-X-Received: by 2002:a17:907:7202:b0:afe:23e9:2b4d with SMTP id
- a640c23a62f3a-b04b16f07camr906872966b.43.1757378193778; Mon, 08 Sep 2025
- 17:36:33 -0700 (PDT)
+ s=k20201202; t=1757378980;
+ bh=LQdIjGA0RNJfpAshsgQiaTl641ej9IcHvJemsA2HaVc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DEjAnFvVJV70t+cqG1zPZc4VDEw9jZdRlv2CZ/TQ7EMJDgLhMY9aOixn3O9fXn3pg
+ rxycI98+T+nYtMg+ZZcx+/AystCGSWx24HU1WlQb1tgtlPEKHxiJTq97+cTueyysPI
+ 5I3TZeQ/YUoGGJP1cjGO9re3wn7pcxjoJijO/4W9AHJRT0IstYHGHVStUDW/F7L70Y
+ 43Htj9vxSPdhFgAvtbCuER+ORqS0ywMiOsa3qtsUeVpIUkf0FdGXvEmzSGJzCY7dro
+ l7qzALqD3DkbHZFA9YC/b+vjGjpxZNOzYK9HOs7QRkFsqNV4e5bF9+o3MNWAmvHhaL
+ J3UbkZ9LK/L5g==
+Date: Mon, 8 Sep 2025 19:49:39 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-staging@lists.linux.dev,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-tegra@vger.kernel.org, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ linux-kernel@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-clk@vger.kernel.org, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <treding@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>
+Subject: Re: [PATCH v2 12/23] dt-bindings: display: tegra: move
+ avdd-dsi-csi-supply from VI to CSI
+Message-ID: <175737897848.2324392.4970104076561451474.robh@kernel.org>
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-13-clamor95@gmail.com>
 MIME-Version: 1.0
-References: <20250825085211.34396-1-xry111@xry111.site>
-In-Reply-To: <20250825085211.34396-1-xry111@xry111.site>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 9 Sep 2025 08:36:21 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4fUyeXN19i1zgtmiPcDFTK2YhTKKFxq88+m+7kiN7wBQ@mail.gmail.com>
-X-Gm-Features: Ac12FXx2eWqMWWcgoL0rNhOz0pSpfln-psGlimWc6rSDPf-voN-aHE-6M820Ido
-Message-ID: <CAAhV-H4fUyeXN19i1zgtmiPcDFTK2YhTKKFxq88+m+7kiN7wBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display/dml2: Guard
- dml21_map_dc_state_into_dml_display_cfg with DC_FP_START
-To: Xi Ruoyao <xry111@xry111.site>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- amd-gfx@lists.freedesktop.org, WANG Xuerui <kernel@xen0n.name>, 
- Mingcong Bai <jeffbai@aosc.io>, dri-devel@lists.freedesktop.org, 
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Asiacn <710187964@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250906135345.241229-13-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,76 +78,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 4:54=E2=80=AFPM Xi Ruoyao <xry111@xry111.site> wrot=
-e:
->
-> dml21_map_dc_state_into_dml_display_cfg calls (the call is usually
-> inlined by the compiler) populate_dml21_surface_config_from_plane_state
-> and populate_dml21_plane_config_from_plane_state which may use FPU.  In
-> a x86-64 build:
->
->     $ objdump --disassemble=3Ddml21_map_dc_state_into_dml_display_cfg \
->     > drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.=
-o |
->     > grep %xmm -c
->     63
->
-> Thus it needs to be guarded with DC_FP_START.  But we must note that the
-> current code quality of the in-kernel FPU use in AMD dml2 is very much
-> problematic: we are actually calling DC_FP_START in dml21_wrapper.c
-> here, and this translation unit is built with CC_FLAGS_FPU.  Strictly
-> speaking this does not make any sense: with CC_FLAGS_FPU the compiler is
-> allowed to generate FPU uses anywhere in the translated code, perhaps
-> out of the DC_FP_START guard.  This problematic pattern also occurs in
-> at least dml2_wrapper.c, dcn35_fpu.c, and dcn351_fpu.c.  Thus we really
-> need a careful audit and refactor for the in-kernel FPU uses, and this
-> patch is simply whacking a mole.  However per the reporter, whacking
-> this mole is enough to make a 9060XT "just work."
->
-> Reported-by: Asiacn <710187964@qq.com>
-> Link: https://github.com/loongson-community/discussions/issues/102
-> Tested-by: Asiacn <710187964@qq.com>
-> Signed-off-by: Xi Ruoyao <xry111@xry111.site>
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
 
+On Sat, 06 Sep 2025 16:53:33 +0300, Svyatoslav Ryhel wrote:
+> The avdd-dsi-csi-supply is CSI power supply, it has nothing to do with VI,
+> like same supply is used with DSI and has nothing to do with DC. Move it
+> to correct place.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c b/=
-drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> index 03de3cf06ae5..059ede6ff256 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_wrapper.c
-> @@ -224,7 +224,9 @@ static bool dml21_mode_check_and_programming(const st=
-ruct dc *in_dc, struct dc_s
->         dml_ctx->config.svp_pstate.callbacks.release_phantom_streams_and_=
-planes(in_dc, context);
->
->         /* Populate stream, plane mappings and other fields in display co=
-nfig. */
-> +       DC_FP_START();
->         result =3D dml21_map_dc_state_into_dml_display_cfg(in_dc, context=
-, dml_ctx);
-> +       DC_FP_END();
->         if (!result)
->                 return false;
->
-> @@ -279,7 +281,9 @@ static bool dml21_check_mode_support(const struct dc =
-*in_dc, struct dc_state *co
->         dml_ctx->config.svp_pstate.callbacks.release_phantom_streams_and_=
-planes(in_dc, context);
->
->         mode_support->dml2_instance =3D dml_init->dml2_instance;
-> +       DC_FP_START();
->         dml21_map_dc_state_into_dml_display_cfg(in_dc, context, dml_ctx);
-> +       DC_FP_END();
->         dml_ctx->v21.mode_programming.dml2_instance->scratch.build_mode_p=
-rogramming_locals.mode_programming_params.programming =3D dml_ctx->v21.mode=
-_programming.programming;
->         DC_FP_START();
->         is_supported =3D dml2_check_mode_supported(mode_support);
-> --
-> 2.51.0
->
->
+>  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 ---
+>  .../devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml | 3 +++
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
