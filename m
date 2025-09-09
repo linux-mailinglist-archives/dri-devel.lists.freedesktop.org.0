@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CB6B4ABCB
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 13:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4339EB4ABCE
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 13:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1538A10E6B1;
-	Tue,  9 Sep 2025 11:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D6E10E6B2;
+	Tue,  9 Sep 2025 11:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W24bISGN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H5gMkvSy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70F1210E697
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 11:28:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A4CB10E6B2
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 11:28:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E42A66022E;
- Tue,  9 Sep 2025 11:28:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A8A4C4CEF4;
- Tue,  9 Sep 2025 11:28:07 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A579A6021E;
+ Tue,  9 Sep 2025 11:28:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFCB7C4CEF7;
+ Tue,  9 Sep 2025 11:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757417287;
- bh=UiS9eGDzLJAdk4nBDkEEBCWb+nak6KQQAsDK1lE1TsA=;
+ s=k20201202; t=1757417290;
+ bh=bVkKLNjeLVsN48sZMryE2q75MdZSzeJj9+aV8Zff0Jg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=W24bISGNfCoTWl+p1WVrJ7EKhybLispJPOQ2ANmnaWCI9rDGrn0IDeU9MskvVsQ26
- 9C8guT2j3xG48+it0B41Sicchwvz7PXTqE4fauBQiiOL2jKvBRd+pD47+ujBea0xlr
- /R2WpiM2cUIezu/Siz+Fddb03ZzRr57V8Zgg5dqeNx3fv//iPcEY94/eZSzf51Uuym
- Hyl7Vm3JLF5C3pWnRLIZ9vSqIN3s5ajy3OLTZklPjw1iWyDlyHnQz2KmC9f1syRKrV
- tHlZOq6vqjYGU/uf9ZQZAjVYcl7l+VsIsQnVUj9uaHLjm4opwxNXJynl9EWIaJgo0N
- DOfI3+V+4Q+lQ==
+ b=H5gMkvSyrFx3l1zLF5YxNyF4Z3J9IsGsRDyJQrrKlsx6c6lLJ2bfdsGZW3/v7Kl2Y
+ koQ3jb6ruknYO/Qr/f81nLP+nD8eS7QeqXx9yRHwB8meWQo/V8x6/I/hV0gPf3JMmM
+ a7xrKBC+OM4RPY2H9xyqWAI9PZnbZ8U/LHi3BhwmAYAFHJwq1hf+bWOoE/95D9vzIN
+ SBfe24KY/F/B5V1KGd92sPTnwLUdXerW4FAz1ynlxpi/YRzBS1jZ7XJL8+Mcj59GUn
+ 4AOSvhu5rUUW9llo4RKAgFq1LaL+IK7hwy9LqJOvLWslsfx9ZluSzK2EqdHlIlbimb
+ BBo+Tzle+T+2w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 09 Sep 2025 13:27:25 +0200
-Subject: [PATCH v3 06/39] drm/vkms: Convert vkms_crtc_atomic_check() to use
- new plane state
+Date: Tue, 09 Sep 2025 13:27:26 +0200
+Subject: [PATCH v3 07/39] drm/tilcdc: crtc: Use
+ drm_atomic_helper_check_crtc_primary_plane()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250909-drm-no-more-existing-state-v3-6-1c7a7d960c33@kernel.org>
+Message-Id: <20250909-drm-no-more-existing-state-v3-7-1c7a7d960c33@kernel.org>
 References: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
 In-Reply-To: <20250909-drm-no-more-existing-state-v3-0-1c7a7d960c33@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2023; i=mripard@kernel.org;
- h=from:subject:message-id; bh=UiS9eGDzLJAdk4nBDkEEBCWb+nak6KQQAsDK1lE1TsA=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkH+FXWX7YWZDp7q/fG6eNfLkk/FBZLExU8flv77pNP7
- z9yB06u7JjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATuSXBWB8zzWjO0XfGWb/e
- usbtrJMviJuS6LMzMUFS5/KVyZdei5TyhQovNcg45ii+LyiR1SgznLFhD39Azu7Hj8LeBhhusiv
- 8EsinulT22y7zh49dd56+3p96xP6Yau7PXYHrOq59S/wRtG0CAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1551; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=bVkKLNjeLVsN48sZMryE2q75MdZSzeJj9+aV8Zff0Jg=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkH+FXjqt0OPGmTOdEs7Lr3Znzpr81P4zQusj52WzvTl
+ 8fyNItCx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjI9A7Gho8PBJPUHup5RP9u
+ YXtxiGWH0sbs6beW+u2aw1Jd/eTljYMP6neV/Akwldr34HqoZft7L8Y6s4secj+nnH/t0iF/aH6
+ z+YpFsQv2TJYscvvxwmd7Ymd38z+eZ6b/5QN2OTRoLH07TYkHAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,57 +71,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vkms_crtc_atomic_check() function calls the deprecated
-drm_atomic_get_existing_plane_state() helper for its internal mode
-checking logic.
+In the tilcdc_crtc_atomic_check(), the tilcdc driver hand-crafts its own
+implementation of drm_atomic_helper_check_crtc_primary_plane(). And it
+does so by accessing the state pointer in drm_atomic_state->planes which
+is deprecated.
 
-During atomic_check, the existing state is the new state and
-drm_atomic_get_existing_plane_state() can thus be replaced by
-drm_atomic_get_new_plane_state().
+Let's use the right helper here.
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Melissa Wen <melissa.srw@gmail.com>
+To: Jyri Sarha <jyri.sarha@iki.fi>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/vkms/vkms_crtc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index e60573e0f3e9510252e1f198b00e28bcc7987620..48237f32ac3b8f78b1495e8fbcc630be863ec7e4 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -183,11 +183,11 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 	ret = drm_atomic_add_affected_planes(crtc_state->state, crtc);
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index b5f60b2b2d0e72ae8ec0f3f4e5e85bc5004e6e5b..5718d9d83a49f38081aabbc9860847bdc83cf773 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -674,18 +674,11 @@ static int tilcdc_crtc_atomic_check(struct drm_crtc *crtc,
+ 									  crtc);
+ 	/* If we are not active we don't care */
+ 	if (!crtc_state->active)
+ 		return 0;
  
- 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
--		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
-+		plane_state = drm_atomic_get_new_plane_state(crtc_state->state, plane);
- 		WARN_ON(!plane_state);
+-	if (state->planes[0].ptr != crtc->primary ||
+-	    state->planes[0].state == NULL ||
+-	    state->planes[0].state->crtc != crtc) {
+-		dev_dbg(crtc->dev->dev, "CRTC primary plane must be present");
+-		return -EINVAL;
+-	}
+-
+-	return 0;
++	return drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+ }
  
- 		if (!plane_state->visible)
- 			continue;
- 
-@@ -199,11 +199,11 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 		return -ENOMEM;
- 	vkms_state->num_active_planes = i;
- 
- 	i = 0;
- 	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
--		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state, plane);
-+		plane_state = drm_atomic_get_new_plane_state(crtc_state->state, plane);
- 
- 		if (!plane_state->visible)
- 			continue;
- 
- 		vkms_state->active_planes[i++] =
+ static int tilcdc_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
 
 -- 
 2.50.1
