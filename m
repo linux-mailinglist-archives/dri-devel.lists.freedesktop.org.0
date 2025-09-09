@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373DDB4A966
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 12:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9947B4A96E
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 12:07:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83C6C10E68E;
-	Tue,  9 Sep 2025 10:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2D210E694;
+	Tue,  9 Sep 2025 10:07:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bAXuRzG0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GfwsI6ZH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E807410E691;
- Tue,  9 Sep 2025 10:07:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322A510E691;
+ Tue,  9 Sep 2025 10:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757412454; x=1788948454;
+ t=1757412463; x=1788948463;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kAHzqBWs57x1zqCtgtn5EIT4rdB2eYLh4+g/CF9id6Q=;
- b=bAXuRzG0uzAuEPy6EjZuO5Skltpc+QO15lDswt5fh7EWvMlDfyzRaAhu
- H1njB3EuyC9ausPxngvNQAp2MJKV/lzcF9Rl9kAQqf0YV21b+hT7KLOwl
- MggL81N73biecaeKq3y1onhQPcqGBBKdgPHPq8xuBVXqUdSoZVgwy+SaA
- PoHv7guKU2TXoiIaogYsJjI5EhctDPMegexAwrmJ0QRq3qrvFiBGWNkI8
- y2FEKx+fh/aI+P8a2c7W1YgOciskJ3fkhFbArKo3SVNGMb5g5C7YI84Xr
- dZ+UsY/pXIfTSgOL811lLEIM/uJs8veS9O0N/UcpGs3t+JLdLuEnOx759 g==;
-X-CSE-ConnectionGUID: HmpEkXG2QQKaxPFfhfNG9g==
-X-CSE-MsgGUID: FDpTp2GuRH6JOkaxi0jBuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="58730149"
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="58730149"
+ bh=mxwlnKRfsYwmrttvfnUC36y7M5y4JSvpLuDNPSeGJFQ=;
+ b=GfwsI6ZHUSS4MjIRO0s++bazmE2DlQ63sDoeQXP6zVA5xdn3sfLyxfXM
+ GvL5UuwW5RqdHWkc4JQJgbHdG7+T57CKa/b/6bWg7AG/Lrb0QhVXdwCXX
+ eQTgTCWTWMEw4L0KLHgRMUuHplVLjyD+8euiab/0u42KztrMEnBIAQu8T
+ hsTQHH/gEyUxmOfU2SsEALFoSrhWPHnnVc9tDKfJiv6nYhCEV/aZ1BoYl
+ vJt2ONvj4scC5Sa0t9hiBZVZh8ys7g9LS1kE4dHKE323CAoEm8YpFjdcI
+ JkCDje0aHui1kLoh5jzBjYUQEDxb15l6/ba/qqLahdGzaFQWYNTkFje0z Q==;
+X-CSE-ConnectionGUID: G5F43QjMSueh+WkgKO/D8g==
+X-CSE-MsgGUID: lTuw+Dl9Rq2lCmIATyrsLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="58730186"
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="58730186"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2025 03:07:33 -0700
-X-CSE-ConnectionGUID: xHEVuOXiTzSUcbW6ppK6pQ==
-X-CSE-MsgGUID: jx6YrBl1RYiOaDLXtUbOnQ==
+ 09 Sep 2025 03:07:42 -0700
+X-CSE-ConnectionGUID: h/qB4lPeSF20iM1EQfQCjg==
+X-CSE-MsgGUID: JcHth2VqRn6ckRKEmayY5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="172915407"
+X-IronPort-AV: E=Sophos;i="6.18,251,1751266800"; d="scan'208";a="172915431"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa007.jf.intel.com with ESMTP; 09 Sep 2025 03:07:23 -0700
+ by orviesa007.jf.intel.com with ESMTP; 09 Sep 2025 03:07:33 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  tomi.valkeinen+renesas@ideasonboard.com,
  kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Date: Tue,  9 Sep 2025 15:36:44 +0530
-Message-Id: <20250909100649.1509696-3-suraj.kandpal@intel.com>
+Subject: [PATCH 3/7] drm: writeback: Modify drm_writeback_queue_job params
+Date: Tue,  9 Sep 2025 15:36:45 +0530
+Message-Id: <20250909100649.1509696-4-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250909100649.1509696-1-suraj.kandpal@intel.com>
 References: <20250909100649.1509696-1-suraj.kandpal@intel.com>
@@ -81,224 +81,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now with drm_writeback_connector moved to drm_connector it makes
-more sense use drm_connector as an argument rather than drm_connector.
-The writeback connector can easily be derived from drm_connector.
+Move to using drm_connector structure instead of drm_writeback_connector
+since this now writeback resides within drm_connector.
+This helps make sure drivers change drm_writeback_connector
+using helpers provided by drm core.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c |  2 +-
- .../drm/arm/display/komeda/komeda_wb_connector.c |  5 +----
- drivers/gpu/drm/arm/malidp_mw.c                  |  2 +-
- drivers/gpu/drm/drm_writeback.c                  | 16 ++++++++--------
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c    |  2 +-
- .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c  |  3 +--
- drivers/gpu/drm/vc4/vc4_txp.c                    |  2 +-
- drivers/gpu/drm/vkms/vkms_writeback.c            |  4 ++--
- include/drm/drm_writeback.h                      |  4 ++--
- 9 files changed, 18 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 5 ++---
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c    | 2 +-
+ drivers/gpu/drm/arm/malidp_mw.c                     | 3 +--
+ drivers/gpu/drm/drm_writeback.c                     | 7 +++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 4 ++--
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                       | 2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c               | 3 +--
+ include/drm/drm_writeback.h                         | 2 +-
+ 9 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-index 8fea29720989..84a9c1d2bd8e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-@@ -204,7 +204,7 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
- 
- 	drm_connector_helper_add(&wbcon->base, &amdgpu_dm_wb_conn_helper_funcs);
- 
--	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base.writeback,
-+	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base,
- 					    &amdgpu_dm_wb_connector_funcs,
- 					    encoder,
- 					    amdgpu_dm_wb_formats,
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-index 69822b9be574..d3dd07491630 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-@@ -135,7 +135,6 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index d4628dadf55a..4aaa7d233f4a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9990,7 +9990,6 @@ static void dm_set_writeback(struct amdgpu_display_manager *dm,
+ 			      struct drm_connector *connector,
+ 			      struct drm_connector_state *new_con_state)
  {
- 	struct komeda_dev *mdev = kms->base.dev_private;
- 	struct komeda_wb_connector *kwb_conn;
--	struct drm_writeback_connector *wb_conn;
- 	struct drm_display_info *info;
- 	struct drm_encoder *encoder;
+-	struct drm_writeback_connector *wb_conn = drm_connector_to_writeback(connector);
+ 	struct amdgpu_device *adev = dm->adev;
+ 	struct amdgpu_crtc *acrtc;
+ 	struct dc_writeback_info *wb_info;
+@@ -10080,8 +10079,8 @@ static void dm_set_writeback(struct amdgpu_display_manager *dm,
+ 	dc_stream_add_writeback(dm->dc, crtc_state->stream, wb_info);
  
-@@ -151,8 +150,6 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
- 
- 	kwb_conn->wb_layer = kcrtc->master->wb_layer;
- 
--	wb_conn = &kwb_conn->base.writeback;
--
- 	formats = komeda_get_layer_fourcc_list(&mdev->fmt_tbl,
- 					       kwb_conn->wb_layer->layer_type,
- 					       &n_formats);
-@@ -170,7 +167,7 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
- 
- 	encoder->possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
- 
--	err = drmm_writeback_connector_init(&kms->base, wb_conn,
-+	err = drmm_writeback_connector_init(&kms->base, &kwb_conn->base,
- 					    &komeda_wb_connector_funcs,
- 					    encoder,
- 					    formats, n_formats);
-diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-index ea03cb98bfb4..a36a4c86a99e 100644
---- a/drivers/gpu/drm/arm/malidp_mw.c
-+++ b/drivers/gpu/drm/arm/malidp_mw.c
-@@ -228,7 +228,7 @@ int malidp_mw_connector_init(struct drm_device *drm)
- 
- 	encoder->possible_crtcs = 1 << drm_crtc_index(&malidp->crtc);
- 
--	ret = drmm_writeback_connector_init(drm, &malidp->mw_connector.writeback,
-+	ret = drmm_writeback_connector_init(drm, &malidp->mw_connector,
- 					    &malidp_mw_connector_funcs,
- 					    encoder,
- 					    formats, n_formats);
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index 7d6410b5b48d..c7cb4673eedb 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -242,7 +242,7 @@ static int __drm_writeback_connector_init(struct drm_device *dev,
-  * a custom encoder
-  *
-  * @dev: DRM device
-- * @wb_connector: Writeback connector to initialize
-+ * @connector: Drm connector which contains the writeback connector to initialize
-  * @enc: handle to the already initialized drm encoder
-  * @con_funcs: Connector funcs vtable
-  * @formats: Array of supported pixel formats for the writeback engine
-@@ -267,13 +267,13 @@ static int __drm_writeback_connector_init(struct drm_device *dev,
-  * Returns: 0 on success, or a negative error code
-  */
- int drm_writeback_connector_init(struct drm_device *dev,
--				 struct drm_writeback_connector *wb_connector,
-+				 struct drm_connector *connector,
- 				 const struct drm_connector_funcs *con_funcs,
- 				 struct drm_encoder *enc,
- 				 const u32 *formats, int n_formats)
- {
--	struct drm_connector *connector =
--		drm_writeback_to_connector(wb_connector);
-+	struct drm_writeback_connector *wb_connector =
-+		drm_connector_to_writeback(connector);
- 	int ret;
- 
- 	ret = drm_connector_init(dev, connector, con_funcs,
-@@ -322,7 +322,7 @@ static void drm_writeback_connector_cleanup(struct drm_device *dev,
-  * a custom encoder
-  *
-  * @dev: DRM device
-- * @wb_connector: Writeback connector to initialize
-+ * @connector: Drm connector containing the writeback connector to initialize
-  * @con_funcs: Connector funcs vtable
-  * @enc: Encoder to connect this writeback connector
-  * @formats: Array of supported pixel formats for the writeback engine
-@@ -338,13 +338,13 @@ static void drm_writeback_connector_cleanup(struct drm_device *dev,
-  * Returns: 0 on success, or a negative error code
-  */
- int drmm_writeback_connector_init(struct drm_device *dev,
--				  struct drm_writeback_connector *wb_connector,
-+				  struct drm_connector *connector,
- 				  const struct drm_connector_funcs *con_funcs,
- 				  struct drm_encoder *enc,
- 				  const u32 *formats, int n_formats)
- {
--	struct drm_connector *connector =
--		drm_writeback_to_connector(wb_connector);
-+	struct drm_writeback_connector *wb_connector =
-+		drm_connector_to_writeback(connector);
- 	int ret;
- 
- 	ret = drmm_connector_init(dev, connector, con_funcs,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-index 49412d2ed9aa..8d29e09952c5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-@@ -132,7 +132,7 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
- 
- 	drm_connector_helper_add(&dpu_wb_conn->base, &dpu_wb_conn_helper_funcs);
- 
--	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base.writeback,
-+	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
- 					   &dpu_wb_conn_funcs, enc,
- 					   format_list, num_formats);
- 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-index 186efe019891..fe6764620739 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-@@ -203,7 +203,6 @@ static const u32 writeback_formats[] = {
- int rcar_du_writeback_init(struct rcar_du_device *rcdu,
- 			   struct rcar_du_crtc *rcrtc)
- {
--	struct drm_writeback_connector *wb_conn = &rcrtc->writeback.writeback;
- 	struct drm_encoder *encoder;
- 
- 	encoder = drmm_plain_encoder_alloc(&rcdu->ddev, NULL,
-@@ -218,7 +217,7 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
- 	drm_connector_helper_add(&rcrtc->writeback,
- 				 &rcar_du_wb_conn_helper_funcs);
- 
--	return drmm_writeback_connector_init(&rcdu->ddev, wb_conn,
-+	return drmm_writeback_connector_init(&rcdu->ddev, &rcrtc->writeback,
- 					     &rcar_du_wb_conn_funcs,
- 					     encoder,
- 					     writeback_formats,
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 2428807e9714..a53e3aa41f63 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -600,7 +600,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 
- 	drm_connector_helper_add(&txp->connector,
- 				 &vc4_txp_connector_helper_funcs);
--	ret = drmm_writeback_connector_init(drm, &txp->connector.writeback,
-+	ret = drmm_writeback_connector_init(drm, &txp->connector,
- 					    &vc4_txp_connector_funcs,
- 					    encoder,
- 					    drm_fmts, ARRAY_SIZE(drm_fmts));
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 6b4d1c4a1830..d897a83e3b36 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -169,7 +169,6 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
- int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
- 				    struct vkms_output *vkms_output)
- {
--	struct drm_writeback_connector *wb = &vkms_output->wb_connector.writeback;
- 	int ret;
- 
- 	ret = drmm_encoder_init(&vkmsdev->drm, &vkms_output->wb_encoder,
-@@ -182,7 +181,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
- 
- 	drm_connector_helper_add(&vkms_output->wb_connector, &vkms_wb_conn_helper_funcs);
- 
--	return drmm_writeback_connector_init(&vkmsdev->drm, wb,
-+	return drmm_writeback_connector_init(&vkmsdev->drm,
-+					     &vkms_output->wb_connector,
- 					     &vkms_wb_connector_funcs,
- 					     &vkms_output->wb_encoder,
- 					     vkms_wb_formats,
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index 2a52b6761797..f789aa773616 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -84,13 +84,13 @@ drm_connector_to_writeback(struct drm_connector *connector)
+ 	acrtc->wb_pending = true;
+-	acrtc->wb_conn = wb_conn;
+-	drm_writeback_queue_job(wb_conn, new_con_state);
++	acrtc->wb_conn = drm_connector_to_writeback(connector);
++	drm_writeback_queue_job(connector, new_con_state);
  }
  
- int drm_writeback_connector_init(struct drm_device *dev,
--				 struct drm_writeback_connector *wb_connector,
-+				 struct drm_connector *connector,
- 				 const struct drm_connector_funcs *con_funcs,
- 				 struct drm_encoder *enc,
- 				 const u32 *formats, int n_formats);
+ /**
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 1c2ba6eeb0e5..b3f1d3ca23aa 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -268,7 +268,7 @@ komeda_crtc_do_flush(struct drm_crtc *crtc,
  
- int drmm_writeback_connector_init(struct drm_device *dev,
--				  struct drm_writeback_connector *wb_connector,
-+				  struct drm_connector *connector,
- 				  const struct drm_connector_funcs *con_funcs,
- 				  struct drm_encoder *enc,
- 				  const u32 *formats, int n_formats);
+ 	conn_st = wb_conn ? wb_conn->base.state : NULL;
+ 	if (conn_st && conn_st->writeback_job)
+-		drm_writeback_queue_job(&wb_conn->base.writeback, conn_st);
++		drm_writeback_queue_job(&wb_conn->base, conn_st);
+ 
+ 	/* step 2: notify the HW to kickoff the update */
+ 	mdev->funcs->flush(mdev, master->id, kcrtc_st->active_pipes);
+diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+index a36a4c86a99e..5d3eceae4651 100644
+--- a/drivers/gpu/drm/arm/malidp_mw.c
++++ b/drivers/gpu/drm/arm/malidp_mw.c
+@@ -243,7 +243,6 @@ void malidp_mw_atomic_commit(struct drm_device *drm,
+ 			     struct drm_atomic_state *old_state)
+ {
+ 	struct malidp_drm *malidp = drm_to_malidp(drm);
+-	struct drm_writeback_connector *mw_conn = &malidp->mw_connector.writeback;
+ 	struct drm_connector_state *conn_state = malidp->mw_connector.state;
+ 	struct malidp_hw_device *hwdev = malidp->dev;
+ 	struct malidp_mw_connector_state *mw_state;
+@@ -263,7 +262,7 @@ void malidp_mw_atomic_commit(struct drm_device *drm,
+ 				     &mw_state->addrs[0],
+ 				     mw_state->format);
+ 
+-		drm_writeback_queue_job(mw_conn, conn_state);
++		drm_writeback_queue_job(&malidp->mw_connector, conn_state);
+ 		hwdev->hw->enable_memwrite(hwdev, mw_state->addrs,
+ 					   mw_state->pitches, mw_state->n_planes,
+ 					   fb->width, fb->height, mw_state->format,
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index c7cb4673eedb..02c8bffcca11 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -407,7 +407,8 @@ EXPORT_SYMBOL(drm_writeback_prepare_job);
+ 
+ /**
+  * drm_writeback_queue_job - Queue a writeback job for later signalling
+- * @wb_connector: The writeback connector to queue a job on
++ * @connector: The drm connector  which contains the writeback connector to
++ * queue a job on
+  * @conn_state: The connector state containing the job to queue
+  *
+  * This function adds the job contained in @conn_state to the job_queue for a
+@@ -424,9 +425,11 @@ EXPORT_SYMBOL(drm_writeback_prepare_job);
+  *
+  * See also: drm_writeback_signal_completion()
+  */
+-void drm_writeback_queue_job(struct drm_writeback_connector *wb_connector,
++void drm_writeback_queue_job(struct drm_connector *connector,
+ 			     struct drm_connector_state *conn_state)
+ {
++	struct drm_writeback_connector *wb_connector =
++		drm_connector_to_writeback(connector);
+ 	struct drm_writeback_job *job;
+ 	unsigned long flags;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index 0e60c1ac07c5..32db3e248a4d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -485,11 +485,11 @@ static void dpu_encoder_phys_wb_prepare_for_kickoff(
+ 	}
+ 
+ 	drm_conn =
+-		container_of(wb_enc->wb_conn, struct drm_connector, writeback);
++		drm_writeback_to_connector(wb_enc->wb_conn);
+ 	state = drm_conn->state;
+ 
+ 	if (wb_enc->wb_conn && wb_enc->wb_job)
+-		drm_writeback_queue_job(wb_enc->wb_conn, state);
++		drm_writeback_queue_job(drm_conn, state);
+ 
+ 	dpu_encoder_phys_wb_setup(phys_enc);
+ 
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+index fe6764620739..4e8fa7a5bc32 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+@@ -248,7 +248,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+ 		cfg->mem[i] = sg_dma_address(rjob->sg_tables[i].sgl)
+ 			    + fb->offsets[i];
+ 
+-	drm_writeback_queue_job(&rcrtc->writeback.writeback, state);
++	drm_writeback_queue_job(&rcrtc->writeback, state);
+ }
+ 
+ void rcar_du_writeback_complete(struct rcar_du_crtc *rcrtc)
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index a53e3aa41f63..8afd1a50ab98 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -356,7 +356,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 
+ 	TXP_WRITE(TXP_DST_CTRL, ctrl);
+ 
+-	drm_writeback_queue_job(&txp->connector.writeback, conn_state);
++	drm_writeback_queue_job(&txp->connector, conn_state);
+ 
+ 	drm_dev_exit(idx);
+ }
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index d897a83e3b36..28d361517a55 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -130,7 +130,6 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+ 											 conn);
+ 	struct vkms_output *output = drm_crtc_to_vkms_output(connector_state->crtc);
+-	struct drm_writeback_connector *wb_conn = &output->wb_connector.writeback;
+ 	struct drm_connector_state *conn_state = output->wb_connector.state;
+ 	struct vkms_crtc_state *crtc_state = output->composer_state;
+ 	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+@@ -152,7 +151,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	crtc_state->active_writeback = active_wb;
+ 	crtc_state->wb_pending = true;
+ 	spin_unlock_irq(&output->composer_lock);
+-	drm_writeback_queue_job(wb_conn, connector_state);
++	drm_writeback_queue_job(&output->wb_connector, connector_state);
+ 	active_wb->pixel_write = get_pixel_write_function(wb_format);
+ 	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
+ 	drm_rect_init(&wb_frame_info->dst, 0, 0, crtc_width, crtc_height);
+diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+index f789aa773616..a814b33cbb53 100644
+--- a/include/drm/drm_writeback.h
++++ b/include/drm/drm_writeback.h
+@@ -100,7 +100,7 @@ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+ 
+ int drm_writeback_prepare_job(struct drm_writeback_job *job);
+ 
+-void drm_writeback_queue_job(struct drm_writeback_connector *wb_connector,
++void drm_writeback_queue_job(struct drm_connector *wb_connector,
+ 			     struct drm_connector_state *conn_state);
+ 
+ void drm_writeback_cleanup_job(struct drm_writeback_job *job);
 -- 
 2.34.1
 
