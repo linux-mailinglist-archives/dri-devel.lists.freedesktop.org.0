@@ -2,86 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D03B4FC31
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CAE7B4FCAE
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 15:23:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE2210E24A;
-	Tue,  9 Sep 2025 13:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF2E10E731;
+	Tue,  9 Sep 2025 13:23:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="v7/iAwDt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Xgj9F4KL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HWnXNunt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xgj9F4KL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HWnXNunt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A13E10E24A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:17:00 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3e5190bca95so2004222f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 06:17:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1757423819; x=1758028619;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fdo9zUh3cC7JZ4YMFIK1It9t13duwlrpE1xo6oVXcCI=;
- b=v7/iAwDtfm+sZzoWY+8/dar9ehaRZx867ux4Kkywe6KAWlqD5IonclzMEOMyFnRkUR
- 8yVLfvsnFXZschQyOrJsY9vwHDAh4V1dCA8DVfPy+kQMqY4sTulA9L6H5ffDeXNnp17B
- w8bA9LWXniYYFU53xHi7KRXaouznxY4mof738WekVp4k/3dwwq29+lS6J4w0ESarAi6i
- rr2RKvBgWDFvgHYZqrUULLDAmGHNA6v4nUX02yh866K0IReuJLUe/WztBs+l05bdgfXd
- SQY0836U2GOhQNuZbGyldkl91OVWI3Bc2IJkH/AUpVcb5iOaDe1hXbLuoIpT4K8NIk2R
- sTmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757423819; x=1758028619;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fdo9zUh3cC7JZ4YMFIK1It9t13duwlrpE1xo6oVXcCI=;
- b=oqzIs/LfzbXDujlb5Kp3Ca8t/V+tN4WXGpZTasDBMwqanRItHI13KW8tXSHf6CfRX2
- zsTImSq1Ap8F+KT5R+9u70m3ZofJCUtPTZgG957fIeI+sVj65SetSxJc+FuX4f01ET3r
- 4xw8fa9cc1k5JJ8YR8h+AY9Zp4ILi085KvZGEYVGARlSsgqcwcjtvJ8TyCayEJNVqxss
- yCBH6WAYvUxHPDXbZjZk7S2Ed/Tv0+E1bcLSm+UzfVfnqZke+PyAplF135CBii7+1XGc
- CRTJEtOH+sWSUBxLEyFkVuRAiDj3z0EUEMIGisWnrbjT7zUG0WW/xt6xTPRjI69utDA+
- 7GWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0tKNqpXMxTL48E2KD9HlFAkd4YsOfRCG7Po3MeIAaOqEti6agvxaGEAtBgN41iHs7YLCBzDkMX28=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvaWwDCqJ9Mh8RPygp4fo1XvtsxPX3UV6ohSTj4bnNZnQi5eWJ
- 0bR2oYSPWvgAtZjyGSyIRA689WS1VZ4uZedOfRX6zPD/psUKhbgyYD261o4x9EdWn0A=
-X-Gm-Gg: ASbGncswkjzmPscbDKgvNk//qNLFZyQYKQHwTqIVSn+3/LPHAf8pfv2DrdSLMGbn8+Z
- cu5sKwOgOMNr8S9kJ0D4WhSRqQNKz0pdKKEC9No1ZawcesST/PXwUeXqd/FQ0G/uveMkwS54I9s
- zBYYv9ddw+kiCoQQf2yiB/gJO0yndtQ75w5JZQreddftcUAJc7eD/ZA/kuSzq63sVfyGH1BAEHz
- bJS1CIthU70wsXLWnUD6rZ7NQBgGIXlpDudptA8gwZjCVkaqyWKyz24Niuj911Tt5Zjx/Lof7yY
- WZPYkgI67jPMtV0YmdjLEazUkmufSlJfhOsGxgxX0gx0YtdINGPIz6K6VR2ux/HLGpzW6amHGWE
- 7WJvyuiATW1HGIl9p8rV4iH3X84hLh0HKrVkB0uYqn/KRnTrgwUxvOFn9Hgdd5j5c
-X-Google-Smtp-Source: AGHT+IFhCowW9gu1/w93obIiBVf6Vuc4ShjzL0HEHZ6PJqdOO6o5Jz7iReA+oY0Aa+n+lLDZfcOsfA==
-X-Received: by 2002:a05:6000:4211:b0:3e5:d2f1:403d with SMTP id
- ffacd0b85a97d-3e6440ef05fmr11560309f8f.36.1757423818701; 
- Tue, 09 Sep 2025 06:16:58 -0700 (PDT)
-Received: from localhost
- (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de.
- [2003:f6:5f06:ab04::1b9]) by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3e7532f90e6sm2066036f8f.6.2025.09.09.06.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 06:16:57 -0700 (PDT)
-Date: Tue, 9 Sep 2025 15:16:56 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Daniel Thompson <daniel@riscstar.com>, 
- Flavio Suligoi <f.suligoi@asem.it>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 2/2] backlight: mp3309c: Initialize backlight properties
- without memset
-Message-ID: <d3mnxjbtek2q4465xgje2orjbzmbrkcicapal4apiqk3hc3hbq@3jp4yytvtmfc>
-References: <cover.1751361465.git.u.kleine-koenig@baylibre.com>
- <14514a1b0d3df6438aa10bb74f1c4fc2367d9987.1751361465.git.u.kleine-koenig@baylibre.com>
- <aKLvaP55PIVhyFSc@aspen.lan> <20250902103632.GH2163762@google.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7EED10E730
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 13:23:36 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 17A245CD42;
+ Tue,  9 Sep 2025 13:23:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757424215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IUc8AjzQRApggW4uIo9PqIWujxmpyBtKzPWA/Vpo8n0=;
+ b=Xgj9F4KLEByZU789Lqeaf3ai+D94EcMSqdp09hyg1nSSQsJjiE5aaXXxj/S8yCbmE9kXKH
+ O+L+6Jp3NiA9zzdr2UV8sEU80KGhm+1vRwnjXSw74hBKIRg1Lr1wKTw9+a1N5CbtMjh2w6
+ DNPDssX5zSaxmEqPKeQdFvv1V0wm4d8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757424215;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IUc8AjzQRApggW4uIo9PqIWujxmpyBtKzPWA/Vpo8n0=;
+ b=HWnXNuntdCoR1kpUK91DaS+HewmosP8uCYceCom+Wz+pM3cgrjGVv5CD0lD/cm7aRtW5zF
+ oDr0FjmUy6nUppCQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xgj9F4KL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HWnXNunt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757424215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IUc8AjzQRApggW4uIo9PqIWujxmpyBtKzPWA/Vpo8n0=;
+ b=Xgj9F4KLEByZU789Lqeaf3ai+D94EcMSqdp09hyg1nSSQsJjiE5aaXXxj/S8yCbmE9kXKH
+ O+L+6Jp3NiA9zzdr2UV8sEU80KGhm+1vRwnjXSw74hBKIRg1Lr1wKTw9+a1N5CbtMjh2w6
+ DNPDssX5zSaxmEqPKeQdFvv1V0wm4d8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757424215;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=IUc8AjzQRApggW4uIo9PqIWujxmpyBtKzPWA/Vpo8n0=;
+ b=HWnXNuntdCoR1kpUK91DaS+HewmosP8uCYceCom+Wz+pM3cgrjGVv5CD0lD/cm7aRtW5zF
+ oDr0FjmUy6nUppCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB7951365E;
+ Tue,  9 Sep 2025 13:23:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ctdCMFYqwGgmXAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Sep 2025 13:23:34 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	simona@ffwll.ch,
+	arnd@arndb.de,
+	soci@c64.rulez.org
+Cc: daniel.palmer@sony.com, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/2] fbdev: Simple fixes to Kconfig dependencies
+Date: Tue,  9 Sep 2025 15:19:29 +0200
+Message-ID: <20250909132047.152612-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dbmzc4rcf7ixa6l5"
-Content-Disposition: inline
-In-Reply-To: <20250902103632.GH2163762@google.com>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmx.de,ffwll.ch,arndb.de,c64.rulez.org];
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[7]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmx.de]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 17A245CD42
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,62 +116,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix some of the dependencies within fbdev to follow best practices.
 
---dbmzc4rcf7ixa6l5
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] backlight: mp3309c: Initialize backlight properties
- without memset
-MIME-Version: 1.0
+Thomas Zimmermann (2):
+  fbdev: Make drivers depend on FB_TILEBLITTING
+  fbdev: Turn FB_MODE_HELPERS into an internal config option
 
-On Tue, Sep 02, 2025 at 11:36:32AM +0100, Lee Jones wrote:
-> On Mon, 18 Aug 2025, Daniel Thompson wrote:
->=20
-> > On Tue, Jul 01, 2025 at 11:22:37AM +0200, Uwe Kleine-K=F6nig wrote:
-> > > Assigning values to a struct using a compound literal (since C99) also
-> > > guarantees that all unspecified struct members are empty-initialized,=
- so
-> > > it properly replaces the memset to zero.
-> > >
-> > > The code looks a bit nicer and more idiomatic (though that might be
-> > > subjective?). The resulting binary is a bit smaller. On ARCH=3Darm wi=
-th
-> > > an allnoconfig + minimal changes to enable the mp3309c driver the
-> > > difference is 12 bytes.
-> > >
-> > > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> >=20
-> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
->=20
-> Looks like you cannot send tags from non-related email accounts:
->=20
-> NOTE: some trailers ignored due to from/email mismatches:
->     ! Trailer: Reviewed-by: "Daniel Thompson (RISCstar)" <danielt@kernel.=
-org>
->      Msg From: Daniel Thompson <daniel@riscstar.com>
->=20
-> I'll add the tags manually this time.
+ drivers/video/fbdev/Kconfig      | 8 ++++----
+ drivers/video/fbdev/core/Kconfig | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-FTR: The email address *or* the real name has to match the From: line to
-make b4 happy.
+-- 
+2.51.0
 
-Best regards
-Uwe
-
---dbmzc4rcf7ixa6l5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjAKL4ACgkQj4D7WH0S
-/k5BrQf+JX3ho13wgiKmkcJ0Tjb0+y2mxhAU2VHfSxu0jGL6GsKb00SZXQ7/bQ0y
-FpqkmXr91kb5uhg5pOQL0D6W3OxwLRFLf4XfOL84TaAHintXN8gMBOsJA+Pn9iIA
-5rqGHhO7dT4zJt9SmdGVn7f9VBu2qdvo4wpf/tvzlIcYTYFGD8W/giikgRQcJcI3
-Hb3zRDIrRZWcNfHoN7yGFYC13iL2PyRFns/eyw+YqzCud+fHvfHbWV89l8LEzNod
-iwlF/fHCaSa7fqG154A0PgXPyF3ltgNwwi0RUNiwAtX/i0WcZrWYMavCTToq+SgE
-KrERYvE7oOdpFcIJNmXdRWQYyeDDZQ==
-=qQ6Z
------END PGP SIGNATURE-----
-
---dbmzc4rcf7ixa6l5--
