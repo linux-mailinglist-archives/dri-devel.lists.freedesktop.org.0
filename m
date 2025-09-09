@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF17B4A28D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 08:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C41EB4A29F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Sep 2025 08:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4107F10E62F;
-	Tue,  9 Sep 2025 06:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3881110E632;
+	Tue,  9 Sep 2025 06:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M8+l34Mo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="udV7d3KO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0E4A10E62F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 06:45:40 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 000194E408F2;
- Tue,  9 Sep 2025 06:45:38 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id BFE3C60630;
- Tue,  9 Sep 2025 06:45:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 7BCA0102F278B; 
- Tue,  9 Sep 2025 08:45:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1757400337; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=c+1ehdd+8N66l95N/Q+fuTsgvbjN0WNAF1sdZEAjwYE=;
- b=M8+l34MoEkgGknKQan9JbXuLxsAHbbfLMrX9lhOin7732JbDPvwFas8RcRnigWEcn2wuQw
- VtKlcK8WjnbfNnhepYUSd2Cae0MTX94OUkkO4SrYMfn+W7yC2F/d3pAQBniLY5NqTVz1fB
- 6RrPUwnRaSP+HFQkoWMDCF17o7cf4yCmnS7nUOpTZJegrB2KnK1R7FwiF0MCjergD/HL8x
- IczudxJeJ4Mhw8oTBJsn0oVyjBsSvX/dtHwbppYm/+09mDTv8Gk65wEtN9FGZFw1P7xAkK
- RAlUjnfzpNbjqyLxLPi0pZEhR5Cjfc2ajOtiY62DIMsr+OhczBfp2mBOUsK3Nw==
-Date: Tue, 9 Sep 2025 08:45:21 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
- Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 13/19] staging: media: tegra-video: tegra20: set VI
- HW revision
-Message-ID: <20250909084103.60de1cd6@booty>
-In-Reply-To: <CAPVz0n2m4U-7G14Jhnsm41qsj0FVo39bdJ=f8kAm=+uxZyM0xw@mail.gmail.com>
-References: <20250819121631.84280-1-clamor95@gmail.com>
- <20250819121631.84280-14-clamor95@gmail.com>
- <20250905180837.35547304@booty>
- <CAPVz0n2m4U-7G14Jhnsm41qsj0FVo39bdJ=f8kAm=+uxZyM0xw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13A910E632
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 06:51:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D6B1C6014D;
+ Tue,  9 Sep 2025 06:51:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291F4C4CEF4;
+ Tue,  9 Sep 2025 06:51:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757400669;
+ bh=dEhaNOFe5hZ9BuvAC6bmw2D5j4Ebrv+Z9/LJd5JPtXQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=udV7d3KO1FnnsMnSZRQxqzpHf3rIOfF3mP2vhTG2U8LJK03VAj0qNCUlBjTr9eEIr
+ Xvj3ufW3dY9ubqJjXlI1erP72R2TNFZ8Kvw4RVu7b6HF915YOkZgNJMrTZl+3mJsRD
+ YuUfQ3s/Tz6iQxHu2sPPRaKVMCbMt/Rw1B2lg+joX4gOgWODgX+uhiV9gLVCnkSfWX
+ vfQUgTZ2P+ssO30zc4T9rMWP5F7hSf/LnGDZ3uYZe5+4Zeghx0lTvTxM/JS7L5i8TM
+ Zj5YiASiQGaHsft+REfgonCeiaFpTkC/09Hu+aQtgo4EYYAlQ2WVNwGhY+b0DKkC4r
+ VnMf8UC4gR8xw==
+Date: Tue, 9 Sep 2025 08:51:06 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Swamil Jain <s-jain1@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, h-shenoy@ti.com, 
+ devarsht@ti.com, vigneshr@ti.com, praneeth@ti.com, u-kumar1@ti.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jyri.sarha@iki.fi, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, aradhya.bhatia@linux.dev
+Subject: Re: [PATCH v5 2/3] drm/tidss: Remove max_pclk_khz from tidss display
+ features
+Message-ID: <20250909-noisy-elated-quetzal-07ec4e@houat>
+References: <20250819192113.2420396-1-s-jain1@ti.com>
+ <20250819192113.2420396-3-s-jain1@ti.com>
+ <b95b60c3-5988-4238-a8d4-73bd8bbf8779@ideasonboard.com>
+ <20250827-illegal-splendid-coyote-aff8cc@houat>
+ <c3488e85-5cf0-4c97-85c3-64f4c2f5c9c5@ideasonboard.com>
+ <c7f6958f-2c05-4887-88fa-a36bba3c73b6@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="efm7yhyu5x5ojivu"
+Content-Disposition: inline
+In-Reply-To: <c7f6958f-2c05-4887-88fa-a36bba3c73b6@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +68,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Svyatoslav,
 
-On Fri, 5 Sep 2025 19:11:06 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+--efm7yhyu5x5ojivu
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/3] drm/tidss: Remove max_pclk_khz from tidss display
+ features
+MIME-Version: 1.0
 
-> =D0=BF=D1=82, 5 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 19:08 Luc=
-a Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Tue, 19 Aug 2025 15:16:25 +0300
-> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-> > =20
-> > > Tegra20, Tegra30 and Tegra114 have VI revision 1. =20
-> >
-> > Why? You should mention the reason in the commit message.
-> > =20
+On Wed, Sep 03, 2025 at 02:08:28PM +0530, Swamil Jain wrote:
+> Hi Tomi, Maxime,
 >=20
-> Because TRM states that Tegra20, Tegra30 and Tegra114 have VI revision
-> 1, Tegra124 has VI revision 2 and Tegra210 has VI revision 3 (which is
-> set in tegra210.c btw).
+> On 8/27/25 15:19, Tomi Valkeinen wrote:
+> > Hi,
+> >=20
+> > On 27/08/2025 12:27, Maxime Ripard wrote:
+> > > On Wed, Aug 27, 2025 at 11:49:22AM +0300, Tomi Valkeinen wrote:
+> > > > On 19/08/2025 22:21, Swamil Jain wrote:
+> > > > > From: Jayesh Choudhary <j-choudhary@ti.com>
+> > > > >=20
+> > > > > TIDSS hardware by itself does not have variable max_pclk for each=
+ VP.
+> > > > > The maximum pixel clock is determined by the limiting factor betw=
+een
+> > > > > the functional clock and the PLL (parent to the VP/pixel clock).
+> > > >=20
+> > > > Hmm, this is actually not in the driver, is it? We're not limiting =
+the
+> > > > pclk based on the fclk.
+> > > >=20
+> > > > > The limitation that has been modeled till now comes from the clock
+> > > > > (PLL can only be programmed to a particular max value). Instead of
+> > > > > putting it as a constant field in dispc_features, we can query the
+> > > > > DM to see if requested clock can be set or not and use it in
+> > > > > mode_valid().
+> > > > >=20
+> > > > > Replace constant "max_pclk_khz" in dispc_features with
+> > > > > max_successful_rate and max_attempted_rate, both of these in
+> > > > > tidss_device structure would be modified in runtime. In mode_vali=
+d()
+> > > > > call, check if a best frequency match for mode clock can be found=
+ or
+> > > > > not using "clk_round_rate()". Based on that, propagate
+> > > > > max_successful_rate and max_attempted_rate and query DM again onl=
+y if
+> > > > > the requested mode clock is greater than max_attempted_rate. (As =
+the
+> > > > > preferred display mode is usually the max resolution, driver ends=
+ up
+> > > > > checking the highest clock the first time itself which is used in
+> > > > > subsequent checks).
+> > > > >=20
+> > > > > Since TIDSS display controller provides clock tolerance of 5%, we=
+ use
+> > > > > this while checking the max_successful_rate. Also, move up
+> > > > > "dispc_pclk_diff()" before it is called.
+> > > > >=20
+> > > > > This will make the existing compatibles reusable if DSS features =
+are
+> > > > > same across two SoCs with the only difference being the pixel clo=
+ck.
+> > > > >=20
+> > > > > Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+> > > > > Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+> > > > > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> > > > > Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> > > > > ---
+> > > > >   drivers/gpu/drm/tidss/tidss_dispc.c | 85 +++++++++++++---------=
+-------
+> > > > >   drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+> > > > >   drivers/gpu/drm/tidss/tidss_drv.h   | 11 +++-
+> > > > >   3 files changed, 47 insertions(+), 50 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/dr=
+m/tidss/tidss_dispc.c
+> > > > > index c0277fa36425..c2c0fe0d4a0f 100644
+> > > > > --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> > > > > +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> > > > > @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_C=
+OMMON_REG_TABLE_LEN] =3D {
+> > > > >   const struct dispc_features dispc_k2g_feats =3D {
+> > > > >   	.min_pclk_khz =3D 4375,
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_DPI] =3D 150000,
+> > > > > -	},
+> > > > > -
+> > > > >   	/*
+> > > > >   	 * XXX According TRM the RGB input buffer width up to 2560 sho=
+uld
+> > > > >   	 *     work on 3 taps, but in practice it only works up to 128=
+0.
+> > > > > @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DIS=
+PC_COMMON_REG_TABLE_LEN] =3D {
+> > > > >   };
+> > > > >   const struct dispc_features dispc_am65x_feats =3D {
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_DPI] =3D 165000,
+> > > > > -		[DISPC_VP_OLDI_AM65X] =3D 165000,
+> > > > > -	},
+> > > > > -
+> > > > >   	.scaling =3D {
+> > > > >   		.in_width_max_5tap_rgb =3D 1280,
+> > > > >   		.in_width_max_3tap_rgb =3D 2560,
+> > > > > @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DIS=
+PC_COMMON_REG_TABLE_LEN] =3D {
+> > > > >   };
+> > > > >   const struct dispc_features dispc_j721e_feats =3D {
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_DPI] =3D 170000,
+> > > > > -		[DISPC_VP_INTERNAL] =3D 600000,
+> > > > > -	},
+> > > > > -
+> > > > >   	.scaling =3D {
+> > > > >   		.in_width_max_5tap_rgb =3D 2048,
+> > > > >   		.in_width_max_3tap_rgb =3D 4096,
+> > > > > @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feat=
+s =3D {
+> > > > >   };
+> > > > >   const struct dispc_features dispc_am625_feats =3D {
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_DPI] =3D 165000,
+> > > > > -		[DISPC_VP_INTERNAL] =3D 170000,
+> > > > > -	},
+> > > > > -
+> > > > >   	.scaling =3D {
+> > > > >   		.in_width_max_5tap_rgb =3D 1280,
+> > > > >   		.in_width_max_3tap_rgb =3D 2560,
+> > > > > @@ -376,15 +357,6 @@ const struct dispc_features dispc_am625_feat=
+s =3D {
+> > > > >   };
+> > > > >   const struct dispc_features dispc_am62a7_feats =3D {
+> > > > > -	/*
+> > > > > -	 * if the code reaches dispc_mode_valid with VP1,
+> > > > > -	 * it should return MODE_BAD.
+> > > > > -	 */
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_TIED_OFF] =3D 0,
+> > > > > -		[DISPC_VP_DPI] =3D 165000,
+> > > > > -	},
+> > > > > -
+> > > > >   	.scaling =3D {
+> > > > >   		.in_width_max_5tap_rgb =3D 1280,
+> > > > >   		.in_width_max_3tap_rgb =3D 2560,
+> > > > > @@ -441,10 +413,6 @@ const struct dispc_features dispc_am62a7_fea=
+ts =3D {
+> > > > >   };
+> > > > >   const struct dispc_features dispc_am62l_feats =3D {
+> > > > > -	.max_pclk_khz =3D {
+> > > > > -		[DISPC_VP_DPI] =3D 165000,
+> > > > > -	},
+> > > > > -
+> > > > >   	.subrev =3D DISPC_AM62L,
+> > > > >   	.common =3D "common",
+> > > > > @@ -1347,25 +1315,57 @@ static void dispc_vp_set_default_color(st=
+ruct dispc_device *dispc,
+> > > > >   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+> > > > >   }
+> > > > > +/*
+> > > > > + * Calculate the percentage difference between the requested pix=
+el clock rate
+> > > > > + * and the effective rate resulting from calculating the clock d=
+ivider value.
+> > > > > + */
+> > > > > +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long r=
+eal_rate)
+> > > > > +{
+> > > > > +	int r =3D rate / 100, rr =3D real_rate / 100;
+> > > > > +
+> > > > > +	return (unsigned int)(abs(((rr - r) * 100) / r));
+> > > > > +}
+> > > > > +
+> > > > > +static int check_pixel_clock(struct dispc_device *dispc,
+> > > > > +			     u32 hw_videoport, unsigned long clock)
+> > > > > +{
+> > > > > +	unsigned long round_clock;
+> > > > > +
+> > > > > +	if (dispc->tidss->is_ext_vp_clk[hw_videoport])
+> > > > > +		return 0;
+> > > > > +
+> > > > > +	if (clock <=3D dispc->tidss->max_successful_rate[hw_videoport])
+> > > > > +		return 0;
+> > > > > +
+> > > > > +	if (clock < dispc->tidss->max_attempted_rate[hw_videoport])
+> > > > > +		return -EINVAL;
+> > > > > +
+> > > > > +	round_clock =3D clk_round_rate(dispc->vp_clk[hw_videoport], clo=
+ck);
+> > > > > +
+> > > > > +	if (dispc_pclk_diff(clock, round_clock) > 5)
+> > > > > +		return -EINVAL;
+> > > > > +
+> > > > > +	dispc->tidss->max_successful_rate[hw_videoport] =3D round_clock;
+> > > > > +	dispc->tidss->max_attempted_rate[hw_videoport] =3D clock;
+> > > >=20
+> > > > I still don't think this logic is sound. This is trying to find the
+> > > > maximum clock rate, and optimize by avoiding the calls to
+> > > > clk_round_rate() if possible. That makes sense.
+> > > >=20
+> > > > But checking for the 5% tolerance breaks it, in my opinion. If we f=
+ind
+> > > > out that the PLL can do, say, 100M, but we need pclk of 90M, the cu=
+rrent
+> > > > maximum is still the 100M, isn't it?
+> > >=20
+> > > 5% is pretty large indeed. We've been using .5% in multiple drivers a=
+nd
+> > > it proved to be pretty ok. I would advise you tu use it too.
+> >=20
+> > The 5% comes from OMAP DSS, where we had to do pixel clock with a few
+> > dividers and multipliers. The rates were quite coarse, and we ended up
+> > having quite a large tolerance.
+> >=20
+> > I think with tidss, we always have a PLL we control, so we should always
+> > have very exact clocks. So I'm fine with dropping it to .5%. However,
+> > this patch and series is about removing the a-bit-too-hardcoded VP clk
+> > max rate code in the driver, so I would leave everything else to another
+> > series.
+> >=20
+> > > It's not clear to me why avoiding a clk_round_rate() call is something
+> > > worth doing though?
+> >=20
+> > Hard to say if it's worth doing, someone should make some perf tests.
+> > However, afaik, the calls do go to the firmware, so it involves
+> > inter-processor calls. On OMAP DSS checking the clock rates was slow, as
+> > it involved lots of iterating with dividers and multipliers. Perhaps
+> > it's much faster here.
+> >=20
+> > > Even caching the maximum rate you have been able to reach before is
+> > > pretty fragile: if the PLL changes its rate, or if a sibling clock has
+> > > set some limits on what the PLL can do, your maximum isn't relevant
+> > > anymore.
+> >=20
+> > You're right, although afaik it should not happen with TI's SoCs. We
+> > would be in trouble anyway if that were the case (e.g. someone starts
+> > the camera, and suddenly we can't support 1080p anymore).
+> >=20
+> > > in other words, what's wrong with simply calling clk_round_rate() and
+> > > checking if it's within a .5% deviation?
+> >=20
+> > This started with discussions how to replace the hardcoded max VP clock
+> > rate (used to quickly weed out impossible rates), which in reality was
+> > actually PLL max clock rate. We don't know the PLL max rate, and can't
+> > query it, so this approach was taken.
+> >=20
+> > > At the very least, this should be explained in comments or the commit
+> > > message.
+> >=20
+> > I agree.
+> >=20
+> > Swamil, can you do some perf tests with clk_round_rate()? If it's fast
+> > (enough), it will simplify the driver.
 >=20
-> > But I don't see hw_revision used in the series, so unless I missed
-> > something you should drop this patch.
+> Average execution time is around 112 us.
+> Trace file including the execution time for clk_round_rate():
+> https://gist.github.com/swamiljain/2abe86982cdeba1d69223d2d525e0cb6
+> It is better to reduce calls to clk_round_rate().
 
-My point was rather that the hw revision is not used in the series, not
-quite about the value itself. I was missing it is exposed by MC, so
-this is fine.
+But why?
 
-Luca
+100us is ridiculously small in that context. Even assuming you have like
+10 modes, we're in the millisecond order of magnitude. Assuming no
+contention on the bus, it's about the same than reading the EDIDs.
+Hotplug pulses in HDMI take 100 *milli* seconds. Sync time is in
+seconds.
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Unless you have a real world benchmark that shows that it's too slow,
+you shouldn't care. And if you do have that benchmark, it should be
+fixed for all drivers.
 
+Either way, you don't need your caching logic in the tidss driver.
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Maxime
+
+--efm7yhyu5x5ojivu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaL/OWgAKCRAnX84Zoj2+
+dgjQAYDASiHSeQ6PUlLPJnqcAUifPiM18n4jyXbY6PH8Q0hS1Q9YcD1ezlRRVjGY
+15ELZF4BgP9yd4bLBK3zqS3BSc0sfu8Bovg2AAzSOweL0ovMcDsfAKzgkn2ai13v
+GE8PGdSYhw==
+=8r1A
+-----END PGP SIGNATURE-----
+
+--efm7yhyu5x5ojivu--
