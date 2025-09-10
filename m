@@ -2,76 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59021B51DAD
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF076B51B4E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:18:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0BDF10E968;
-	Wed, 10 Sep 2025 16:29:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE8D10E948;
+	Wed, 10 Sep 2025 15:18:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i3bHVD+0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ahGOrzwu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA08D10E947
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:17:32 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-4b61161c35cso52537701cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757517452; x=1758122252; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=C1mzq7QAamyCDgZjqIwsPENWf0k+ggNwYSd/FkLWnRs=;
- b=i3bHVD+0fUbmwjMlHWh+zn9AHF7RKJkk68GkMpY8WWUZTrjb0rHGfVAzimtrXoSqqp
- C7nUhf54pTXjeGMgWVxONYP13597YxuFH3fMiFIS4L3dJg6TzvdfNIfZzjjEovDCgCP8
- wqfCA9yoN5IYZnliBFXyzUsIzHlqiSifdG8oQpG7CkEYCrwCnz4lS6V8g8Urbu+xouKI
- bfoCt9/mxJ5LBt7fA1Jc0hny9B57K1RwkzOz2932wtp9ZkOsMUfNQod3eHhEIs1gBp98
- l5Q4zZbJ3KKreEAHhsxv34ugv1J6xFcgVYAgXtxmrq/gnx6kM1FgXP+nV1EHY7IIFWtG
- C4Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757517452; x=1758122252;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=C1mzq7QAamyCDgZjqIwsPENWf0k+ggNwYSd/FkLWnRs=;
- b=k1ED0PQfZynU9lpiVnBZ4/ZzVNTyQZLCTz0g2w/Mu2kitnxWsxOoaM/thohCOr0NrY
- eybFKZCsk0wg1zzvFMubRVm4S3cbJtrUApaahP4ArovKgI6zCaL/KtwVofBPcL3NUksG
- HZTdOH7rhJTNnWioPG5xQ5ucU7HP2enuXQh5SqlKJjLRUn+wtj/Eir/EOqlRDFateb+s
- guZgnaO5ib9PmGl+DXZ1+zfY7luLOZJu65sMc8JJAg9HlPYcBiJuKsEUbPwDPwBr9idN
- qM75yj+orQMpaYKk4KDDJrV76afAUCcSxU3z6O7L7JbSeHefmrRHqZrPhzGGvb8Nhqoy
- 0r5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXdsHmbJ/mmyiOcFPfESrrfxzVvOBHezDvtL7q/vQ5YI3ZXATMS5t7zHIfVymSeqTV1PH/KIesKNQY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0Ij1C/D3c9dWbsPxl97TugOEyk/De6wayINNKRk1mJMh6ju2R
- OqIJY1kRYCgXblh+Bjuz4adWqJkPvSqzO1fQwXfsQ0slY97+T+gZzbEfV9k9WqqcjRZwlN/D2Ko
- I54H738F/AUDH3OTWFT/muDGNon0arCk=
-X-Gm-Gg: ASbGncv7HaBB9G2Bnk1jr6CO5LAFNbf5KLrIDB6pL7R9HcF4VL5iHLLfNKOY4a5AvXy
- /qXAqaQWxWYhDVftcXoLHi0BKAXfld/7tFVgR9gA3kekIK1y8MmiRvbJcnJPDE6CGQnQA6Qefe0
- U2YjnapJxtUwg3pJ5KlI4cNmrB5TZdR2ZSE+EcAz+UC0X6MPk6DXxJ8vrKGj5zHVVRaL+X6Wp9B
- f9uwDoYqyj/spYO
-X-Google-Smtp-Source: AGHT+IEn8qLkTWj3W7cFUn0zV2zlgKzDIbStPJ8mNqM9yeK3nj1hkEfb6zWsFfNBsnId52FU4XUstuGirGgUZY2sHX0=
-X-Received: by 2002:a05:622a:180a:b0:4b4:3788:baae with SMTP id
- d75a77b69052e-4b5f844743cmr179099701cf.43.1757517450398; Wed, 10 Sep 2025
- 08:17:30 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02B5B10E946;
+ Wed, 10 Sep 2025 15:18:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1D32A601A8;
+ Wed, 10 Sep 2025 15:18:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBF3C4CEEB;
+ Wed, 10 Sep 2025 15:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757517517;
+ bh=0uSCp23NvXz2hqHp/yS8FBYbn/cdIneP8YL/ZnCmcUk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=ahGOrzwuhX9CBWzkao0VsZrDeUgXAGaATsukNto6O3QzeHDmkfiuxJvh+6DPAin2B
+ 1HC5a3v3pW1bS8mc4JaKFZVhsOxsb74sDYfEfwV+Uh3DY36qvJmMA6Rz0nxAz2aoUw
+ 5hoVr0rgmmHjir7QvWrodXujPsN70tleBK9gUAodzR7anFALHxkjrDKOQEirFI7/m/
+ qp2zMCcToTXnu/HDkCBizXniqC7ZCnNFGt1AMGAUr1t2GOov9qIdDorDNFTouT2V6Q
+ pLXvsFeyOkxuP20BDSIFiADuqwuH6TyxaEGEOx9Fp+3v/0RjSBUCN0M74v0gA5TfTs
+ CkUfNTyNFNkWA==
+Date: Wed, 10 Sep 2025 10:18:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend,
+ aka swsusp)" <linux-pm@vger.kernel.org>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Merthan =?utf-8?Q?Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ Denis Benato <benato.denis96@gmail.com>
+Subject: Re: [PATCH v7 11/12] PM: Use hibernate flows for system power off
+Message-ID: <20250910151836.GA1536103@bhelgaas>
 MIME-Version: 1.0
-From: Vicente Bergas <vicencb@gmail.com>
-Date: Wed, 10 Sep 2025 17:17:19 +0200
-X-Gm-Features: Ac12FXxyvwjkGBqU5CGnwwYoBL_GhGR4Pi-bYCMRWWnvxg2lK5-1tJY_LVyPzDg
-Message-ID: <CAAMcf8BfxMJx+5ttEXx0kONP2OYWSLFqEYF6rfVBKoRg5TKZzQ@mail.gmail.com>
-Subject: Re: [PATCH v13 3/4] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-To: aradhya.bhatia@linux.dev
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
- alexander.sverdlin@siemens.com, andrzej.hajda@intel.com, devarsht@ti.com, 
- dri-devel <dri-devel@lists.freedesktop.org>, j-choudhary@ti.com, 
- jernej.skrabec@gmail.com, Jonas Karlman <jonas@kwiboo.se>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, lumag@kernel.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- neil.armstrong@linaro.org, nm@ti.com, rfoss@kernel.org, simona@ffwll.ch, 
- tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de, vigneshr@ti.com
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 10 Sep 2025 16:29:53 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250909191619.2580169-12-superm1@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,20 +77,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-this patch causes a regression. It has been reported in
-https://bugzilla.kernel.org/show_bug.cgi?id=220554
+On Tue, Sep 09, 2025 at 02:16:18PM -0500, Mario Limonciello (AMD) wrote:
+> When the system is powered off the kernel will call device_shutdown()
+> which will issue callbacks into PCI core to wake up a device and call
+> it's shutdown() callback.  This will leave devices in ACPI D0 which can
+> cause some devices to misbehave with spurious wakeups and also leave some
+> devices on which will consume power needlessly.
 
-It affects the gru/kevin platform (arm64,RK3399) with the Panfrost DRM driver.
+The connection between this change and spurious wakeups seems pretty
+tenuous.  If we don't want wakeups, powering off the device seems like
+a sledgehammer approach.
 
-When it boots in console mode, the blinking of the cursor keeps the display on.
-If it is turned off via /sys/class/graphics/fbcon/cursor_blink, then
-the display briefly shows each key press presented on screen for less
-than one second and then powers off.
+s/it's/its/
 
-When starting the graphical mode (wayland), if there are no
-applications drawing on the screen, the only way to keep the display
-on is by continuously moving the mouse.
+> The issue won't happen if the device is in D3 before system shutdown, so
+> putting device to low power state before shutdown solves the issue.
+> 
+> ACPI Spec 6.5, "7.4.2.5 System \_S4 State" says "Devices states are
+> compatible with the current Power Resource states. In other words, all
+> devices are in the D3 state when the system state is S4."
 
-Regards,
-  Vicente.
+Re patch 05/12, also interesting that this section mentions "devices
+that are enabled to wake the system and that can do so from their
+device state in S4 can initiate a hardware event that transitions the
+system state to S0."
+
+So it looks like wakeup from S4 should work in at least some cases.
+
+> The following "7.4.2.6 System \_S5 State (Soft Off)" states "The S5
+> state is similar to the S4 state except that OSPM does not save any
+> context." so it's safe to assume devices should be at D3 for S5.
+> 
+> To accomplish this, use the PMSG_POWEROFF event to call all the device
+> hibernate callbacks when the kernel is compiled with hibernate support.
+> If compiled without hibernate support or hibernate fails fall back into
+> the previous shutdown flow.
+> 
+> Cc: AceLan Kao <acelan.kao@canonical.com>
+> Cc: Kai-Heng Feng <kaihengf@nvidia.com>
+> Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
+> Cc: Merthan Karakaş <m3rthn.k@gmail.com>
+> Tested-by: Eric Naim <dnaim@cachyos.org>
+> Tested-by: Denis Benato <benato.denis96@gmail.com>
+> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/
+> Link: https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> ---
+> v5:
+>  * split to multiple commits, re-order
+> v4:
+>  * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
+> v3:
+>  * Add new PMSG_POWEROFF and PM_EVENT_POWEROFF which alias to poweroff
+>    callbacks
+>  * Don't try to cleanup on dpm_suspend_start() or dpm_suspend_end() failures
+>    Jump right into normal shutdown flow instead.
+>  * https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/T/#me6db0fb946e3d604a8f3d455128844ed802c82bb
+> ---
+>  kernel/reboot.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index ec087827c85cd..c8835f8e5f271 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/kexec.h>
+>  #include <linux/kmod.h>
+>  #include <linux/kmsg_dump.h>
+> +#include <linux/pm.h>
+>  #include <linux/reboot.h>
+>  #include <linux/suspend.h>
+>  #include <linux/syscalls.h>
+> @@ -305,6 +306,11 @@ static void kernel_shutdown_prepare(enum system_states state)
+>  		(state == SYSTEM_HALT) ? SYS_HALT : SYS_POWER_OFF, NULL);
+>  	system_state = state;
+>  	usermodehelper_disable();
+> +#ifdef CONFIG_HIBERNATE_CALLBACKS
+> +	if (!dpm_suspend_start(PMSG_POWEROFF) && !dpm_suspend_end(PMSG_POWEROFF))
+> +		return;
+> +	pr_emerg("Failed to power off devices, using shutdown instead.\n");
+> +#endif
+>  	device_shutdown();
+>  }
+>  /**
+> -- 
+> 2.43.0
+> 
