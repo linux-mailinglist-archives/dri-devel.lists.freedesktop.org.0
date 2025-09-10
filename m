@@ -2,80 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BC9B51F16
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A543B51F5B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA7010E992;
-	Wed, 10 Sep 2025 17:38:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0571010E2FE;
+	Wed, 10 Sep 2025 17:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mfs0XGga";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MuZPrEFi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7243410E992
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:38:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 39C6244BD8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:38:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F0AC113CF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757525917;
- bh=/maRrN03GREpqejLxXVtvRXFXTXkAYd7s3DzF3MkSA0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Mfs0XGgaE4FfWKqeDbTYcU010yi1fQCKbvrt6OWWm9esUIZompP/ajtnwFgNohD76
- ShfgQvk+QyHq4rhJlVQpHSZ/Lu4H3v5bve+nj8tiZ5nWeLcBB9K5eHUCZNnN1tDtGS
- UmLvPPy6/fFE1Zzp8IJwA3oixl2kKT92E8INA4siuOSrPNTPmpR4RgzrjoDIn+Pbxl
- DojEs6RPprS4Sd+J38sTaCpFjDzxyPc5PyTz8GyKw3cjznQPwjzxzJm2EWsrKmAa4K
- bDHco9AtrUyeXEmmec9M9dRVy8ggwW4FFCUoe6QptZNNE+eCVH5vIRf95LamHJBpiE
- XcThL1V+bnmEA==
-Received: by mail-oo1-f47.google.com with SMTP id
- 006d021491bc7-61bf9ef4cc0so4131940eaf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:38:36 -0700 (PDT)
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com
+ [74.125.224.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAA910E2FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:47:44 +0000 (UTC)
+Received: by mail-yx1-f44.google.com with SMTP id
+ 956f58d0204a3-60f45afcc50so1256638d50.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757526463; x=1758131263; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
+ b=MuZPrEFi0021m39FwgcJXz6WiVO5qJJHtStaRdCb0BWrcf8o71Kp/ylBOR4UlZYoVJ
+ cya4JLizcRmqoSGxOlJ4gfxyvXJabJ0S26VgbI0/bR0loPS+vcYD12c1X3eKt563XKoy
+ h7QQMkuzVPrXVqy+abM7hjrmLbpDmc3lK1UY2m6IBa8g86e3+CAdZLdlbOpPxHUN00W8
+ iUM0QC4ciYz2vPGTvyBsbud3Fw7Zr7sX//JVcMqzt6LP8OBI8a09yihHe+WikrCFZ8SF
+ 6H4pGOnQSOTLdU6dwWydknf+qGl5lHtWQLqoLu72UJg9asSD9WWhsXDbn0aXea/OjRgd
+ /4yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757526463; x=1758131263;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
+ b=w1OjgAm3E4vYlYxY1J++8Tx84aVAz/sCWGjzyYZyd3TRzRBygP2whXwIxGuqM7w5BR
+ ob/3MIf6ECJH2Hpuq+k0u3XdGwa9mfZH5VZC4oOziFcim93kTzu1tOUyKCgHSeH70+br
+ LS9Leh9sZc7wM1r6KHYkmI349WGYYAPo4uaHAY3Zs2ejcv5Zrt1GgbtKBNJpO3A3i+cE
+ ilPhGMFTPGruK1ewrw8xF8GPADgU7DHNdDnOpXZOBqKkTNYQR1st0t5lyrMq/AIZPe3G
+ 6PJbGz/a7ahu+++SRGs25IOuntuZKhiKZ01fFZMT0Y5/99y+Nj4rDYDmpRPE6Bxk0CYH
+ AlAg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8503arsr9ZfvGka640KC8jBCZ0hr4Tfnpv0xx855lbRJW5PL+3/4vpjLPjUc0s6lotGbNFOhUIMs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTe/wMAI7emuVXmVUkv2L4SIasisUaNMIe90YWR6sB0KZuiJLs
- Ynz+R1fY9C33nMZR6lInQLfoicjmLwJtpve/RShbK9Rs1bWua6Cb319S2Q2kFMZUQ+wgnMLs/S/
- 3p2Lg7PYmyBostt8j+X2yCiGomd+QrTs=
-X-Google-Smtp-Source: AGHT+IGHCt4j1R4FaC3Lmj2Z0gXRtZrpcrYqlzpLE4lKDo55KW3cWbFI81cNR/IODEnBUt82RlGcoSR69Iy2e6L8enw=
-X-Received: by 2002:a05:6820:221e:b0:61f:f777:8e61 with SMTP id
- 006d021491bc7-62178aad31fmr6849169eaf.8.1757525916115; Wed, 10 Sep 2025
- 10:38:36 -0700 (PDT)
+ AJvYcCWRK4FYlDo68mhu3qLLMwfHadG3gc/mkKGESaq0qIkmzVo8U+lOmRH9/wt9/EjSgt9acmYrpFjMmjI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/K75P1RgxPw90X7keh79DWVru4N1SQ3g+PAJJe7AxmuK8ksEg
+ xR4DqwFq7F3VbBBwITcQiihLm9k8MvI4MM+4Fn1m6TAG5hdXo2Y3h2q8dRDagQjyNSwO5qB2mBD
+ k7PgdViCBOKJ8COq1ecpDk8TP7/xGi4qAduZ0uss=
+X-Gm-Gg: ASbGncuubuGBKblyHd0S8YMu/XFHg7JfpsbbTEy3sn1/8LYKjuMbpHRIuihI4J7b9ln
+ 73tHH0E30LOvgY6SE2FUV91zBucCIEz7lMVsdYjv/WBwGrjJAab8cVl43yw2nNJzPpNY5LfJf35
+ Vrq8OdgvdtGMVxOzVxRvxFKVH5NpaAgatDJiWHTS6jzJuOLzKAAHul6IB9Q1RsUF2sPF8bJ2rqH
+ 4mHl8IR
+X-Google-Smtp-Source: AGHT+IHxqld34a90SEM7ZlyhxBZvKGmf9aZideR0Sg0xlweL+lpFqlqovs0nnqC44Do1K8CC6oK2kjmZ56tu8gmw1Tg=
+X-Received: by 2002:a05:690e:430e:b0:5fc:541b:cea3 with SMTP id
+ 956f58d0204a3-6102135dfeemr9750495d50.2.1757526462993; Wed, 10 Sep 2025
+ 10:47:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250910171132.GA1541776@bhelgaas>
- <0bb2cb92-0d31-4e42-b6ef-2cc3fdf0df40@kernel.org>
-In-Reply-To: <0bb2cb92-0d31-4e42-b6ef-2cc3fdf0df40@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 10 Sep 2025 19:38:25 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0g5GPhRkQjo-Z6gmcP7f6dsFthbaO+DT2=SnsDawi_3HA@mail.gmail.com>
-X-Gm-Features: Ac12FXz69VCkP7reTy_nIeLgfD-T8DfWoDH6oE-W2ZngcIbPfm1dm4_CpZRhoRs
-Message-ID: <CAJZ5v0g5GPhRkQjo-Z6gmcP7f6dsFthbaO+DT2=SnsDawi_3HA@mail.gmail.com>
-Subject: Re: [PATCH v7 05/12] PCI/PM: Disable device wakeups when halting or
- powering off system
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Pavel Machek <pavel@kernel.org>,
- Len Brown <lenb@kernel.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>, 
- "open list:HIBERNATION (aka Software Suspend,
- aka swsusp)" <linux-pm@vger.kernel.org>, 
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>, 
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>, 
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, 
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, 
- Kai-Heng Feng <kaihengf@nvidia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>, 
- Eric Naim <dnaim@cachyos.org>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>
+References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+ <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
+ <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
+In-Reply-To: <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
+From: Steev Klimaszewski <threeway@gmail.com>
+Date: Wed, 10 Sep 2025 12:47:32 -0500
+X-Gm-Features: Ac12FXwyR3KsW504KghsIm6qGTQ8W8fmNLhinJPGzylKTRxTbEJk3t0TSqYGRWY
+Message-ID: <CAOvMTZhmacxPsM3GcLL9cNq-1BonkwycYKY=hwtVXTz5UF_LYQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
+ privacy indicator
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Andy Shevchenko <andy.shevchenko@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,87 +100,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 10, 2025 at 7:24=E2=80=AFPM Mario Limonciello <superm1@kernel.o=
-rg> wrote:
->
-> On 9/10/25 12:11 PM, Bjorn Helgaas wrote:
-> > On Wed, Sep 10, 2025 at 11:52:00AM -0500, Mario Limonciello wrote:
-> >> On 9/10/25 10:06 AM, Bjorn Helgaas wrote:
-> >>> On Tue, Sep 09, 2025 at 02:16:12PM -0500, Mario Limonciello (AMD) wro=
-te:
-> >>>> PCI devices can be configured as wakeup sources from low power state=
-s.
-> >>>> However, when the system is halting or powering off such wakeups are
-> >>>> not expected and may lead to spurious behavior.
-> >>>
-> >>> I'm a little unclear on the nomenclature for these low power states,
-> >>> so I think it would be helpful to connect to the user action, e.g.,
-> >>> suspend/hibernate/etc, and the ACPI state, e.g.,
-> >>>
-> >>>     ... when the system is hibernating (e.g., transitioning to ACPI S=
-4
-> >>>     and halting) or powering off (e.g., transitioning to ACPI S5 soft
-> >>>     off), such wakeups are not expected ...
-> >>
-> >> I will try to firm it up in the commit message.  But yes you're gettin=
-g the
-> >> intent, having a wakeup occur at S5 would be unexpected, and would lik=
-ely
-> >> change semantics of what people "think" powering off a machine means.
-> >>
-> >>> When I suspend or power off my laptop from the GUI user interface, I
-> >>> want to know if keyboard or mouse activity will resume or if I need t=
-o
-> >>> press the power button.
-> >>
-> >> The way the kernel is set up today you get a single wakeup sysfs file =
-for a
-> >> device and that wakeup file means 3 things:
-> >> * abort the process of entering a suspend state or hibernate
-> >> * wake up the machine from a suspend state
-> >> * wake up the machine from hibernate
-> >>
-> >>>> ACPI r6.5, section 16.1.5 notes:
-> >>>>
-> >>>>       "Hardware does allow a transition to S0 due to power button pr=
-ess
-> >>>>        or a Remote Start."
-> >>>
-> >>> Important to note here that sec 16.1.5 is specifically for "S5
-> >>> Soft Off State".
-> >>>
-> >>> S4 is a sleeping state and presumably sec 16.1.6 ("Transitioning
-> >>> from the Working to the Sleeping State") applies.  That section
-> >>> mentions wakeup devices, so it's not obvious to me that PCI device
-> >>> wakeup should be disabled for S4.
-> >>
-> >> It actually /shouldn't/ be disabled for S4 - it should only be
-> >> disabled for S5.
-> >>
-> >> Are you implying a bug in the flow?  I didn't think there was one:
-> >>
-> >> During entering hibernate the poweroff() call will have system_state
-> >> =3D SYSTEM_SUSPEND so wakeups would be enabled.
-> >>
-> >> For powering off the system using hibernate flows poweroff() call
-> >> would have system_state =3D SYSTEM_HALT or SYSTEM_POWER_OFF.
-> >
-> > OK.  I assumed that since you check for two states (SYSTEM_HALT or
-> > SYSTEM_POWER_OFF), one must be hibernate (ending up in S4?) and the
-> > other a soft power off (ending up in S5?).
-> >
-> > But it sounds like there are two ways to power off.  I'm just confused
-> > about the correspondence between hibernate, soft poweroff, S4, S5,
-> > SYSTEM_HALT, and SYSTEM_POWER_OFF.
-> >
-> > *Do* both SYSTEM_HALT and SYSTEM_POWER_OFF lead to S5 on an ACPI
-> > system?  If so, what's the difference between them?
->
-> The two functions are kernel_halt() and kernel_power_off().
->
-> And looking again, Ahhhh!  kernel_power_off() is the only thing that
-> actually leads to machine_power_off().  Halt just stops the CPUs.
->
-> I think we should only be using the hibernate flows for SYSTEM_POWER_OFF.
+Hi Aleksandrs,
 
-That's correct.
+On Wed, Sep 10, 2025 at 12:04=E2=80=AFPM Steev Klimaszewski <threeway@gmail=
+.com> wrote:
+>
+> Hi Aleksandrs,
+>
+> On Wed, Sep 10, 2025 at 7:01=E2=80=AFAM Aleksandrs Vinarskis <alex@vinars=
+kis.com> wrote:
+> >
+> > Leverage newly introduced 'leds' and 'led-names' properties to pass
+> > indicator's phandle and function to v4l2 subnode. The latter supports
+> > privacy led since couple of years ago under 'privacy-led' designation.
+> > Unlike initially proposed trigger-source based approach, this solution
+> > cannot be easily bypassed from userspace, thus reducing privacy
+> > concerns.
+> >
+> > Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> > ---
+> >  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++---=
+-
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts=
+ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> > index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4f=
+ec8c1d1f20ee525bc 100644
+> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> > @@ -83,14 +83,11 @@ leds {
+> >                 pinctrl-names =3D "default";
+> >                 pinctrl-0 =3D <&cam_indicator_en>;
+> >
+> > -               led-camera-indicator {
+> > -                       label =3D "white:camera-indicator";
+> > +               privacy_led: privacy-led {
+>
+> Should this now be privacy_led: privacy { ?
+>
+> >                         function =3D LED_FUNCTION_INDICATOR;
+> >                         color =3D <LED_COLOR_ID_WHITE>;
+> >                         gpios =3D <&tlmm 28 GPIO_ACTIVE_HIGH>;
+> > -                       linux,default-trigger =3D "none";
+> >                         default-state =3D "off";
+> > -                       /* Reuse as a panic indicator until we get a "c=
+amera on" trigger */
+> >                         panic-indicator;
+> >                 };
+> >         };
+> > @@ -685,6 +682,9 @@ camera@10 {
+> >                 pinctrl-names =3D "default";
+> >                 pinctrl-0 =3D <&cam_rgb_default>;
+> >
+> > +               leds =3D <&privacy_led>;
+> > +               led-names =3D "privacy";
+> > +
+> >                 clocks =3D <&camcc CAMCC_MCLK3_CLK>;
+> >
+> >                 orientation =3D <0>;      /* Front facing */
+> >
+> > --
+> > 2.48.1
+> >
+>
+> v5 does not turn the led on here on my X13s whereas v3 did (and v4 was
+> not tested)
+
+From IRC conversations, the issue was not having
+https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org
+applied - with this prerequisite, v5 works here
+
+Tested-by: Steev Klimaszewski <threeway@gmail.com>
