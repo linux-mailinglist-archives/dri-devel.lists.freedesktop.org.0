@@ -2,133 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31C2B51BAC
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:32:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74333B51BD2
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1C610E946;
-	Wed, 10 Sep 2025 15:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5BF10E94D;
+	Wed, 10 Sep 2025 15:36:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="M2pY150G";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lK6diZpp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C6010E94E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:32:09 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgTAC004009
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:32:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- +lQ+oYNt3WeGVVFIvjUy2y179TQJ656VsJ9sQPc6/zk=; b=M2pY150GjX/MSr10
- fpKXKUJ2RfzoEJUzI0bN215ZKEEThP+l6mwDM2zm4KRQmk0tajMRxKFtVQOaFNeq
- E7S8iEMvI4FtNwQiFT+CI4qUA0Qp70FydLHo59IBo9hCSbW7S2G/ZG9No3ZHTexz
- y/e7UlJfecgIM2DI9nHCN+gNW6VlNXVr4DggN8GHi+dk5KxgsoGLS/OAjNpAv5K7
- 1MneM6hxiK+mZqJ0qBuJtZD5RMnfTA/aKXNcf+hfB94psLdYHFTOW2iqvZfTuZXv
- 4Ty7jAkSyYixwaW+Eayn5GyxoFe350q/obHdJKocIJkKCv1d1i0wfkq1DcIhRKEb
- X0KmtQ==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490bwscere-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:32:09 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id
- 71dfb90a1353d-544b3b6ae70so3511633e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:32:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757518328; x=1758123128;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+lQ+oYNt3WeGVVFIvjUy2y179TQJ656VsJ9sQPc6/zk=;
- b=sQH6AA4T9tw/TovWvJGDFE6HoLao60NUKLtPOy75zVldI2XHulBJ1Lj5OdyAAfpJ2h
- WaHnT5c99KTRqFKWvLA0zdIkbjihy1TrMq/KllqVCUU0qsXv58+qEbGXeTMc8EPh+ucq
- rUwBQXt9P4eVL4cOfjyK6sj135yQQsnoHBu8vEza3SjucMEquiuLdu+uibLbLPuiIGIj
- K7lGsNccNKslc+Wozp0eMM+fsRjlcK7eb7jJkx/yHM6TjwPedlh9wDOu6ORxYGn/5q8I
- vWPItEjVQKPDGEg8BaMmV8zlkf8aMWkvuFlUoeZs6f/ozoRTGTnzizhGCyqVmr8ajAzO
- 7n7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX21mwC3aDoDiwV17PJ5Xp1N5L3WjQLa3jfdxi0fgGXT11nqjDfG/r85Tp0Zct7JB2VPKwX0XPghQE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxtaf9m40YjVGwjfUrHzik4/DsAPy96xhJNMaELQHszsJzmdWdV
- nrs8Z40uaWPkFNPGR7Nrz8qGQwRQj4rA+aTXi7Rhl2F7IP+3h2d1xNWuP6cOuGN7qX5VD6B5S7t
- xzuj6rv/RLY7urEu4B8Rw55cNLkV78BekbqqDtqv8+MfKWMf/Cuq6Txqhv29ZIFOqO1HsX6g=
-X-Gm-Gg: ASbGnctEWFlrVArO3qrkajPB+tHOEQWkfNGfgAYHKMq76yhV2Nonm91pNu8v7Ehqt3e
- sHn5L5U4wITVuI7SA3nsIDvm+ygdX1krl8XhYUhwAKVyVCtkb1TnVqvbnLJ4wdJxYGHwGHjqzBg
- 3uArK58+twLhd6bfRo5KiIvkP/1Fxhy4WKgpgJnzflsZSDbFAGLQhySLDAqpV69pTGdN8MTapVo
- cEXnxeZx/Oi5yx0myKH7GkruMx4Lcc1vLfeDHYg5NnWUG0NuKfjjz2DW1UsDEstf8zxQTCmsxQd
- YqdG4r2HMJvQ7pIPaE+cDEQWLqgpLEErpVMWUmLEo6496A4qH4EGR0r6+KDf4GO98HT/h3fllcz
- Vxroe5WAvcnwUciRoUKJj3i14AM7nwRCXYmiRf9U2D0gbm95mXCVZ
-X-Received: by 2002:a05:6122:250d:b0:543:e955:d5fa with SMTP id
- 71dfb90a1353d-5471d655e55mr4220306e0c.0.1757518327067; 
- Wed, 10 Sep 2025 08:32:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE/UH50wdrBGFR5Q3r5dgsOMEP45qmCh9JfN+fdHiiP/fiLQJRmv2nniCeeSVJR551+wmA8jQ==
-X-Received: by 2002:a05:6122:250d:b0:543:e955:d5fa with SMTP id
- 71dfb90a1353d-5471d655e55mr4220207e0c.0.1757518326248; 
- Wed, 10 Sep 2025 08:32:06 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-337f50328fcsm44301751fa.40.2025.09.10.08.32.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Sep 2025 08:32:04 -0700 (PDT)
-Date: Wed, 10 Sep 2025 18:32:02 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: abhinav.kumar@linux.dev, airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, geert+renesas@glider.be,
- harry.wentland@amd.com, jani.nikula@linux.intel.com,
- jessica.zhang@oss.qualcomm.com, kernel-list@raspberrypi.com,
- kieran.bingham+renesas@ideasonboard.com,
- laurent.pinchart+renesas@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, liviu.dudau@arm.com,
- louis.chauvet@bootlin.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
- marijn.suijten@somainline.org, mcanal@igalia.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, sean@poorly.run, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com, suraj.kandpal@intel.com,
- tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de
-Subject: Re: [PATCH v3 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
-Message-ID: <elql7sqecqlik7shmgvpgnghgapzp5oe4mf4vlklx4ml6z5664@f5mw6g4fvjff>
-References: <20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com>
- <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
- <78c764b8-44cf-4db5-88e7-807a85954518@wanadoo.fr>
- <zw23hgjduxgijown52jyiomungxx4cjyv63qixtnx5nbm3w7xb@2yy65777ydnj>
- <654e04e3-d80e-4d34-a1a0-21f66d43875b@wanadoo.fr>
- <75tzn4xg2k2zxdqko4b3xsplbtnolhrxzbowisdqogoo2qhfkl@szr3ar5dg5zd>
- <ae40f623-4cfc-4a49-9eed-affb08efdfd1@wanadoo.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C34A10E94D;
+ Wed, 10 Sep 2025 15:36:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nWJQacv6BLzeCtp2RP9NENk6cP7WOdj+uwW37zaWUKc9/QIZ+3zt1Jy05okGEdWXHdL+rq/u2IHpt+mr/GQmefHoSfCHcLG5r6MOPNx2iWkgwkM1dFh6wSyKCLQor4AWU3nkQoQMFWKez8w5Ow8ifZTgs+FiRcHo3EBFy/2GImPLUoTtjn5NxTsvX9PjPb+oyeqc4xeWPwzKpkdJfL9NRQz54rZdhh/yZGneG4QXssBKEGrmz7F6jc6sgsmaSK2kk2z2XaSoEPDkayZuApQ/1jdy/j+O7Bh66Hl2bRdqn6LBIlVr8jCJ7xgxUmvOdUmR1gq1vTRCIsEziNkcvrEY7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CZkGr6Zz8sbdA63GxfBUDvwy3dolF+Dz++/3GJqR1/s=;
+ b=ZYP0OeR6M/yTZTj/Y8TcD9mGuEPab7R3nhysKjjGj9q2zi9XAhKroZj1wAmEjfEI1gcj3jqUVDvPpMXqy6NKsGfWlYCv1nONpT+idOri/NhA8x3J765osNcnPVooutU6XwOQQwJfNajVxqKdFSGNI/Nk/ousv95A/YFNhovR1P7mUjwSpESe8mB1RMSZbsNebQKHZ+A2Y5AK2CD1phfJZxpEN2mQqpbYq8VswwR0KhBkvjn65iARrUk7h1aw5VcQ/I4KdWy80WCuIBQe4wODqIP4TDY5xM1mAjYB1zxZhcKnVzZdPZsd6KOvcoUHHH3F5rb2klLHCmWTbLm8YE4Afw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CZkGr6Zz8sbdA63GxfBUDvwy3dolF+Dz++/3GJqR1/s=;
+ b=lK6diZppqOPNDcOs5YfMqhrcZUbYZThlpv4dd5a+Q8ShXM2jTFc0Nurr6A8oLLRfQI5EkrYqDevByJ20kHVWrgf2fwvRPmbz/cbNQ3sEZigmWy5Bv4kzzwoFwd5Neszctumkbxzth8tPR6ue9pd7AvNhw2xSSSEw6VaOIv/xSZs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by MN2PR12MB4304.namprd12.prod.outlook.com (2603:10b6:208:1d0::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 15:36:34 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 15:36:34 +0000
+Message-ID: <4fb75026-5af0-4fbb-9caf-039674543278@amd.com>
+Date: Wed, 10 Sep 2025 10:36:29 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 11/12] PM: Use hibernate flows for system power off
+To: Bjorn Helgaas <helgaas@kernel.org>,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
+ <linux-pm@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>, "Guilherme G . Piccoli"
+ <gpiccoli@igalia.com>, Denis Benato <benato.denis96@gmail.com>
+References: <20250910151836.GA1536103@bhelgaas>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20250910151836.GA1536103@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae40f623-4cfc-4a49-9eed-affb08efdfd1@wanadoo.fr>
-X-Proofpoint-ORIG-GUID: TURJBlBh29lZZiwDRal9rX1MSepwKx8G
-X-Proofpoint-GUID: TURJBlBh29lZZiwDRal9rX1MSepwKx8G
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfXwxRFoEfnY1R9
- x4wtBcDc4UcxyZ1y87+hRP6PJUrw6q9dM518k/yOstWdDx/QIjkXbNAAgy9lhQQo1zy3Cm2l6Pl
- h8BKN1rpoVmxe5ACZR3SHjKqq6saeuN/5ZME9hTExv5sV+GaVU8tzZupHpD5RMZel2lU1XJCqeL
- BFuQrHQrZ58DFvVBP237Vhig4ZvT+g/udOeMtbpyu59M3VAx+aBD+MSZFnMAmQDAK/u9A1bjD3o
- xWstYIucANsqq3zpHFwYkb7pV4g0c1IN5mws+qv73JH6QH9MlEBYhRDJ0AM9nH2mxGnITfxL8fu
- HaiTHph/pQF5U3Mgpkrc2NBpXu62O+hlJ87JO1ArAi9IWBmLaYQWFp5y/JsQKVETCvyt7qy0B5S
- Eh1Ve7Ee
-X-Authority-Analysis: v=2.4 cv=G4kcE8k5 c=1 sm=1 tr=0 ts=68c199f9 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=P-IC7800AAAA:8 a=VwQbUJbxAAAA:8 a=TSbVqHtbAAAA:8
- a=AbdpToo3CINEX3bgUq4A:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
- a=tNoRWFLymzeba-QzToBc:22 a=d3PnA9EDa4IxuAV0gXij:22 a=NJcUIoPEKLAEIzHnl83t:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_02,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 adultscore=0 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
+X-ClientProxiedBy: DM6PR11CA0021.namprd11.prod.outlook.com
+ (2603:10b6:5:190::34) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN2PR12MB4304:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1657040a-be39-4544-2bcd-08ddf07fd258
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N2JzR1M4VnJMQXpoVC9lZDlvRTlYd2gza1k5QWN4SUhEZ2FEOFBROWRGU3Uw?=
+ =?utf-8?B?TWVDd1dRSzVkMHA1S0ZwazlhZ1F4UExhaFozczZRcFBPbzVWaUZHdVpaUjB4?=
+ =?utf-8?B?WHowZ0ZkTEhPdXlHWXZKTlJlSWVnaHFVZ2Q5OENmYlJ0OUZ3eS96dWk0dklQ?=
+ =?utf-8?B?OHBidFcrV1RHTENtUkMrazhRM09hNkZVa2NUVTl2b1ZMVC9xYVlKTm9yd3BE?=
+ =?utf-8?B?NVhabGsrcnlQVlpCS01TS3llWjBWOEJPbDJrcWQybnIyL1RKb0d4Y2NKZFhs?=
+ =?utf-8?B?eklxWUFxMGxHNDh5a005MW16MmN5V2RjZkdwWW9PZXBiZFRSZE9Kb2M4Q0RP?=
+ =?utf-8?B?MjZoWVVuWEtyQjV5UTY3UU5VMGJWR3d4cDEvNUZRTW5OMDFGMU15blJVUEtz?=
+ =?utf-8?B?ZFBrdkNuRDYyak56TjlRcDRaVm94M0NoYTE0YmYxK2dFb2lGZXpxV1BieXVv?=
+ =?utf-8?B?THNpMjNXR2IzS0gyZ0Y2VCtGNmFHTys3L25Qa3h3cUV3TEorRGN6Tit6alFa?=
+ =?utf-8?B?ZnVVQm1mS2N0V2ZCMUlzaXkzWWRhd2o4TDNnMXJ6RmFRVUp1V0I5TkV2U1dH?=
+ =?utf-8?B?VkdtcVdaMU43bVZoV1BFbSs2VjBGNU1MYnZrMDFBSXJDemlwdkV2Tk9UY0RP?=
+ =?utf-8?B?dGFXb1NjSVU1K1dOaXh2aEpkYUpTNmdlTHd2WFNrSG54c2R3TFZaZEhvOC94?=
+ =?utf-8?B?ZkVwM3dhK01kTGcrMkRGNmF5WEFNVTZPSGZFenVMNFBZVFhCQXYzeTZ2RUF2?=
+ =?utf-8?B?ajFIQ3lOMkgrTDV2bGE2SFpocCtJdlBoOU5RTS8rR0pGTFVHNVN0bTdkQ2U0?=
+ =?utf-8?B?RnhzcFIvbGE4L2k1NWliLzc3aENkTittRTBXbGJwZTlaYUdwSDAzMWRVcFVh?=
+ =?utf-8?B?U3oxOTlmNE5leDlOYjRCejE0VHhEWDVlMTJkT1NMV1IrVGk2ZHVzYUh4Q0s5?=
+ =?utf-8?B?K0F1ZStnTWxUUTlITHJkZUZKRjVwQldNUEFRdlYrSTRqWE1PdjY0cEJ0TXgy?=
+ =?utf-8?B?NDJFcVVERjR3OEJLdnZ5RGoxdUpPVG5QVWJkVk9uYTYrWEtDNFFwQ1JJWjdr?=
+ =?utf-8?B?bFRlZjM3T1hOYk8xd1NFWlM0eWdSb0tSS1NHQzY1SDl0alVURldCTHpiN3dv?=
+ =?utf-8?B?b1pobWoxcVBrL0VpY2lYUmdDaGJTNnhRcjNia05NblZtV0JkbERJWFhxSER4?=
+ =?utf-8?B?WHlNSHhYRzNpS25TbTZlMnpaSk9EZmM2dEdKVDZiMENmSVlodzgxUUEvclNP?=
+ =?utf-8?B?Szljb3lOSzdkMTNvb0JPVytYZXoyRlFxc0plSkdHbzdRd3BZWHVKc1dpZTlN?=
+ =?utf-8?B?N2oxZHB4MVk1RjNmb3lwZFBtRzNRcGRTaDBnZ2hRYVdEZmRVUWNRaDZXTlo5?=
+ =?utf-8?B?ZnBpcmYxaTc2NEYxMkswOTRQV0Y4dWNsVlpEeUdLb0hJMXFZUFN0TGhXSFBL?=
+ =?utf-8?B?YlhnV253dW1sOC81Y1NFcko2TUNqNVZEd3E3ZmVGOXlBWFF5Z3RzZ3p2Z1pO?=
+ =?utf-8?B?Z3VrL2ZPUVJHTGc3ZWpUbkNEMjcySVpnWC9GcUpWSFR0Nlk0dXFXRlFxY2cx?=
+ =?utf-8?B?NFg1UkhKaVd1czVZSGxHUkZ4T2g5WGFyOC9uYitIUldmNU8wVVRYeFAxZEhi?=
+ =?utf-8?B?YkxzVGJZelZDcVMvNHIwOHEycGhFMHpoOEZWTlJ4cUVpbEZUc0lVY0R5c1Z5?=
+ =?utf-8?B?bmpSNS82QVZDV2tLbXB1dDFMNDAyNHVaeGNWTjFCWTdYNXBmczJoSmVxeUJ3?=
+ =?utf-8?B?Ym5mSjJ4am5BaWE2K3gxYUlxZ3NtMXVPRGtCdzhEUG9zNGtPODlsQVBVQkV2?=
+ =?utf-8?B?eG1Pd25nYmc3ZnE5U0p2NnNtRTBBbTNaa1VaZFpPQ3d6bDJIRFBGczBieHdI?=
+ =?utf-8?Q?jQ7Ec6H/ACr19?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(13003099007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjExK2tHUXFkNjJON1JtMkUyV0tQNmcvN3pHNFdYZU5WMHQ2TXRxZzhhaEI5?=
+ =?utf-8?B?NTdqYXAzV25NZXR2NHB2N2t2enBhdzg4ZDkwb1l2SmF0VlgvNWpORm1sdkxu?=
+ =?utf-8?B?Nng3dGI4RzBoZnFYSXlDankwWGs2WVB0MjIvUzY4VWhaRENXVElzdjExbzJD?=
+ =?utf-8?B?Y0RCREdIdTNZbjI3ZjQrcWIxckZOb1RZb1dmdFVyQkIzd2xXc0pDcDdCMWdp?=
+ =?utf-8?B?Ui9aVmEvM1hCV0Rkb0FGZStDb0FoRlo3amN0WjhwTzhxeGx2eWNnaUhxMW9I?=
+ =?utf-8?B?WUxHSVBCQ3FPb0ZZZjhncyt4M0NFYVMyNkt5T09zTEZORlBScTFlUmtYbEVw?=
+ =?utf-8?B?L1oyK2NBMSt5OFhRaVowZHZqRVpLNUdOOXpLVDk2SHFMeENhdzdCaTcrUUVV?=
+ =?utf-8?B?MkJqdHNYMGhPV0dHalVkVGJQZ3phMGdGdUdEeENXMCt5emNwanQrTlVMcjJP?=
+ =?utf-8?B?eVJvSWN6b3JGbWw2MVNtUzF3QXlQV29HLzd6L29wLy8zZHZEV2c3RFhuQ3NV?=
+ =?utf-8?B?RXV2NW40aXhKZDRMSEwvWHN3NVNYNElsRGxiSEdCNDFnUEhyWHlXSHRjTUJ3?=
+ =?utf-8?B?R2I2RlBBUFhkR0Z1T2VaalZPbnE3MlV3STQyQzg1RnJ5ajRlV2ZiQmNWYVla?=
+ =?utf-8?B?SDJTcm1lYkt6WEJ0emlvMUNldEErR2JIMURISU96M3BKd3FLZXJ6SDlwc1Fu?=
+ =?utf-8?B?ak1LZFI4bFluNzgwVE9lejZwZHU5SHpFQklVZlVBYnE3UWZ1UWZ5bXBqQ1VJ?=
+ =?utf-8?B?ZEpuenp2NFg0NVk1TlFldUVETlJTazRVUEhzbVZ1SlR3Tnk2SlRwL2JYN3cv?=
+ =?utf-8?B?VTYvUkM1dG9hMjBIMGhPRzhjaC9hZUQxQW5XZzNBQ1B5WG9OUzlvaGo0OTRO?=
+ =?utf-8?B?Smd3N3FpWDdVR3Zia2dGS2llN0QxMWJaMDdxSkNYaTZxbC9zZFJhLzQ1ZkVW?=
+ =?utf-8?B?YXBTYUV2QldWd0dXcWpKMmNmd1FwVSttTUVBUG0vdFlnWmRTN3ZmdmVvYk96?=
+ =?utf-8?B?M3d3RkVHcE1tZmY0dnlTc3ludkUrbWR3QTM0ZFkrWSttLzdsUkkyRFUwYitH?=
+ =?utf-8?B?T1BNei9WYWJLRTB5dFNxMCtjbW9VRmdjYlFQVnVwdlgrUTRUNWxIYmNpb0lD?=
+ =?utf-8?B?c2pNUkhCUXlvSXIxS2JSSVZpYTFiTjBCUkxtSDBtZXB0QXFtRXQ1cEdYREZE?=
+ =?utf-8?B?MDUvbTNPQlFqMVB5WHJ6czJIT1diSVlVWE9NK2d6RWdteVUrYlRuTFVjakhz?=
+ =?utf-8?B?V01vdFJjSGdzb3RoTUt0MG1IVExINVZBaVlWV0lpc2VyZWV4TnpvbW4zYkFj?=
+ =?utf-8?B?b3V6cWZlWC9YNVhjRzF3MGdZQWFhZVYxOVo2dkxTNjRzd3RJODZTZ3hYdDE2?=
+ =?utf-8?B?MjVqSXR5ZUdPUEhSaXpEZzhWZmNHNXhrY2JkU2JYNmFjNVJ2OFF3Q2VEN2Iv?=
+ =?utf-8?B?Q3BMWTA0NVdoUTRKUWVwemg3T1pNZnVLbXVEanM0aW9maG1VT3I4THVaVTUw?=
+ =?utf-8?B?YS9ud01GVlZGRG1tUkh5VjdLT1lWdmhCbldPa0t3NFA1Zm1yVkNhQTdDZ2dZ?=
+ =?utf-8?B?RjdVTExFaGxwY3pxQzZja1BnVGcwN2F2VW5PWmlpa0hYMThyanZNY1NCeVhY?=
+ =?utf-8?B?eTVmM2hOOXY0RW8rQnozRnhZQ3dZTE9nZmg4RTVQcTZKamhMN1pESXFCUFZu?=
+ =?utf-8?B?WFVxRTZJaWx2YU9aVlZUT0k2bEVXVUVkYmZJYXFoc1BYZElYeFdxVDljbi9B?=
+ =?utf-8?B?OStMZWY1bU15WU9MdVhRMjNVbUFQZGZ4YXlvUlJCNlpkQWVhYmszNnlSbjFv?=
+ =?utf-8?B?QkhnZ0JJam9sL3JqTXkvRTFRZllXcUJ2cVdncmpkSUlrOUtGMXBqSXhoQmxW?=
+ =?utf-8?B?eE5UNW9INzRsY1RRRkhVSk83WWJQZDJ4aEJhek5TMGoyUDNhbWJiZG81U2oy?=
+ =?utf-8?B?Zkh0NXptR1MyWnA4WitKS2JDVzcxWVFWTlBFck9FYjVTcndNVkR1aytDdjA1?=
+ =?utf-8?B?b0ZpRkVGcWxXclQwWENLdDFNeEpHUnhYVmhsRVZaRzd4M3JQVFFCTS9JL3VJ?=
+ =?utf-8?B?VFhTcDE1b0RyczQ3V2NNbXM5NHo5Q0svRW05Q3hQMzRibmNPWDBsSFpmbUln?=
+ =?utf-8?Q?dBJN99Qh1uwfO1l7V5X03t5Dr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1657040a-be39-4544-2bcd-08ddf07fd258
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 15:36:34.2649 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /tNAF8eB8DtxB/snnIZZe9vCR03VNogdnOL9/LVl4kpv9DZmde+kO5wvY2BVmMVP1ROqP6G8N7bqtekC8P8LzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4304
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,101 +183,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 10, 2025 at 07:32:51AM +0200, Christophe JAILLET wrote:
-> Le 10/09/2025 ‡ 05:47, Dmitry Baryshkov a Ècrit†:
-> > On Mon, Sep 08, 2025 at 11:38:44PM +0200, Christophe JAILLET wrote:
-> > > Le 08/09/2025 ‡ 23:26, Dmitry Baryshkov a Ècrit†:
-> > > > On Mon, Sep 08, 2025 at 11:09:07PM +0200, Christophe JAILLET wrote:
-> > > > > Le 19/08/2025 ‡ 22:32, Dmitry Baryshkov a Ècrit†:
-> > > > > > Use drmm_plain_encoder_alloc() to allocate simple encoder and
-> > > > > > drmm_writeback_connector_init() in order to initialize writeback
-> > > > > > connector instance.
-> > > > > > 
-> > > > > > Reviewed-by: Louis Chauvet <louis.chauvet-LDxbnhwyfcJBDgjK7y7TUQ-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > > > > > Reviewed-by: Suraj Kandpal <suraj.kandpal-ral2JQCrhuEAvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > > > > > Reviewed-by: Jessica Zhang <jessica.zhang-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > > > > > ---
-> > > > > >     drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
-> > > > > >     1 file changed, 3 insertions(+), 7 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> > > > > > index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
-> > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-> > > > > > @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
-> > > > > >     static const struct drm_connector_funcs dpu_wb_conn_funcs = {
-> > > > > >     	.reset = drm_atomic_helper_connector_reset,
-> > > > > >     	.fill_modes = drm_helper_probe_single_connector_modes,
-> > > > > > -	.destroy = drm_connector_cleanup,
-> > > > > >     	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> > > > > >     	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> > > > > >     };
-> > > > > > @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
-> > > > > >     	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
-> > > > > > -	/* DPU initializes the encoder and sets it up completely for writeback
-> > > > > > -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
-> > > > > > -	 * to initialize the writeback connector
-> > > > > > -	 */
-> > > > > > -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
-> > > > > > -			&dpu_wb_conn_funcs, format_list, num_formats);
-> > > > > > +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
-> > > > > > +					   &dpu_wb_conn_funcs, enc,
-> > > > > > +					   format_list, num_formats);
-> > > > > >     	if (!rc)
-> > > > > >     		dpu_wb_conn->wb_enc = enc;
-> > > > > > 
-> > > > > 
-> > > > > dpu_wb_conn is allocated a few lines above using devm_kzalloc().
-> > > > 
-> > > > That's a valid point, thanks!
-> > > 
-> > > I've not analyzed in details all the patches of the serie, but at least
-> > > patch 2/8 and 6/8 seems to have the same pattern.
-> > 
-> > Not quite, 2/8 and 6/8 use drmm_kzalloc(), it is fine to be used with
-> > drmm_writeback_connector_init(). This one is indeed incorrect.
-> > 
+On 9/10/25 10:18 AM, Bjorn Helgaas wrote:
+> On Tue, Sep 09, 2025 at 02:16:18PM -0500, Mario Limonciello (AMD) wrote:
+>> When the system is powered off the kernel will call device_shutdown()
+>> which will issue callbacks into PCI core to wake up a device and call
+>> it's shutdown() callback.  This will leave devices in ACPI D0 which can
+>> cause some devices to misbehave with spurious wakeups and also leave some
+>> devices on which will consume power needlessly.
 > 
-> Hmm, for patch 2/8, I looked at the source, not what was changes by your
-> patch... Sorry. :(
-> 
-> For 6/8, I agree with you.
-> 
-> For patch 1/8, I think there is a issue too, becasue of [1], IIUC.
+> The connection between this change and spurious wakeups seems pretty
+> tenuous.  If we don't want wakeups, powering off the device seems like
+> a sledgehammer approach.
 
-There is a different issue then. It's a memory leak inside the AMD
-driver (since the memory for WB connector will not be kfree()'d by
-anything).
+It seems I'm confusing the issue the intent of the series by mentioning 
+wakeups here.  The reason that they were mentioned is my series and Kai 
+Heng's series merged and they fixed his issue too which AER caused a 
+spurious wakeup [1].
+
+My main focus for the series is power consumption.
+
+Link: 
+https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/ 
+[1]
 
 > 
-> CJ
-> 
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.17-rc5/source/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5257
-> 
-> > > 
-> > > CJ
-> > > 
-> > > > 
-> > > > > 
-> > > > > Based on [1], mixing devm_ and drmm_ is not safe and can lead to a uaf.
-> > > > > 
-> > > > > Is it correct here?
-> > > > > If the explanation at [1] is correct, then &dpu_wb_conn->base would point to
-> > > > > some released memory, IIUC.
-> > > > > 
-> > > > > 
-> > > > > just my 2c.
-> > > > > 
-> > > > > CJ
-> > > > > 
-> > > > > [1]: https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/xe/xe_hwmon.c?id=3a13c2de442d6bfaef9c102cd1092e6cae22b753
-> > > > 
-> > > 
-> > 
-> 
+> s/it's/its/
 
--- 
-With best wishes
-Dmitry
+üëç
+
+> 
+>> The issue won't happen if the device is in D3 before system shutdown, so
+>> putting device to low power state before shutdown solves the issue.
+>>
+>> ACPI Spec 6.5, "7.4.2.5 System \_S4 State" says "Devices states are
+>> compatible with the current Power Resource states. In other words, all
+>> devices are in the D3 state when the system state is S4."
+> 
+> Re patch 05/12, also interesting that this section mentions "devices
+> that are enabled to wake the system and that can do so from their
+> device state in S4 can initiate a hardware event that transitions the
+> system state to S0."
+> 
+> So it looks like wakeup from S4 should work in at least some cases.
+
+Yes; Wake-ups do work from S4.
+
+> 
+>> The following "7.4.2.6 System \_S5 State (Soft Off)" states "The S5
+>> state is similar to the S4 state except that OSPM does not save any
+>> context." so it's safe to assume devices should be at D3 for S5.
+>>
+>> To accomplish this, use the PMSG_POWEROFF event to call all the device
+>> hibernate callbacks when the kernel is compiled with hibernate support.
+>> If compiled without hibernate support or hibernate fails fall back into
+>> the previous shutdown flow.
+>>
+>> Cc: AceLan Kao <acelan.kao@canonical.com>
+>> Cc: Kai-Heng Feng <kaihengf@nvidia.com>
+>> Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
+>> Cc: Merthan Karaka≈ü <m3rthn.k@gmail.com>
+>> Tested-by: Eric Naim <dnaim@cachyos.org>
+>> Tested-by: Denis Benato <benato.denis96@gmail.com>
+>> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/
+>> Link: https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> ---
+>> v5:
+>>   * split to multiple commits, re-order
+>> v4:
+>>   * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
+>> v3:
+>>   * Add new PMSG_POWEROFF and PM_EVENT_POWEROFF which alias to poweroff
+>>     callbacks
+>>   * Don't try to cleanup on dpm_suspend_start() or dpm_suspend_end() failures
+>>     Jump right into normal shutdown flow instead.
+>>   * https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/T/#me6db0fb946e3d604a8f3d455128844ed802c82bb
+>> ---
+>>   kernel/reboot.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/kernel/reboot.c b/kernel/reboot.c
+>> index ec087827c85cd..c8835f8e5f271 100644
+>> --- a/kernel/reboot.c
+>> +++ b/kernel/reboot.c
+>> @@ -13,6 +13,7 @@
+>>   #include <linux/kexec.h>
+>>   #include <linux/kmod.h>
+>>   #include <linux/kmsg_dump.h>
+>> +#include <linux/pm.h>
+>>   #include <linux/reboot.h>
+>>   #include <linux/suspend.h>
+>>   #include <linux/syscalls.h>
+>> @@ -305,6 +306,11 @@ static void kernel_shutdown_prepare(enum system_states state)
+>>   		(state == SYSTEM_HALT) ? SYS_HALT : SYS_POWER_OFF, NULL);
+>>   	system_state = state;
+>>   	usermodehelper_disable();
+>> +#ifdef CONFIG_HIBERNATE_CALLBACKS
+>> +	if (!dpm_suspend_start(PMSG_POWEROFF) && !dpm_suspend_end(PMSG_POWEROFF))
+>> +		return;
+>> +	pr_emerg("Failed to power off devices, using shutdown instead.\n");
+>> +#endif
+>>   	device_shutdown();
+>>   }
+>>   /**
+>> -- 
+>> 2.43.0
+>>
+
