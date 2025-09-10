@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B05CB518C9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8189AB518C5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0D410E2DF;
-	Wed, 10 Sep 2025 14:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A11610E0CC;
+	Wed, 10 Sep 2025 14:04:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="IHYKNoZY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TuiKFF0x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E775B10E2DF
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 14:05:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757513088; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VEkyJDxuAQfVsvKhIxBruPEvS+E+Faq6lkb8StCuTHDG4il/MJXRcIahNdDe1K9l5asGM6fNcHpp2dATLpTDdixJydv1Eav7Ciq7KRQ57d64AIcR9G9MzobjDNJWa735TFRzENggkAWdoogP0hXnRRQvmnhic10HgfMoJOI0qqw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757513088;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=; 
- b=P9BxtulcIUGD/6FoPkulfuuR84JV4Ri/6txauWEhPar814ZnGKTiquSh/essihNHEQbflrG4B1II2xYvbvqlCLvtwTc27q7uJsa6RzH4frCk8k+iYr2hMphCwl+2BMJFaXmesNFLrkU20dt2cWy9mIGCBaIpcPsipJH3cRPNWPM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757513088; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=;
- b=IHYKNoZY4zf4ISQCHWYEleElg0zyYX0fAY3flK0zslYU4qZregRMacfv+qxcfwpQ
- 1x+1iaYapTxzAjxF38sg0OhTVRo1GLDfKW55tsC3QwJKNIhZiomEvEjFNt5Ia3ldCpT
- ecLwFY4c1qFjQXhURNFG3nBQQ/aFvg2+LOYp7AEA=
-Received: by mx.zohomail.com with SMTPS id 1757513084822538.2895524618148;
- Wed, 10 Sep 2025 07:04:44 -0700 (PDT)
-Message-ID: <28049fe0-0ae7-4b40-9f95-1513e317547f@collabora.com>
-Date: Wed, 10 Sep 2025 11:04:29 -0300
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAE210E0CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 14:04:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CDD87405BF;
+ Wed, 10 Sep 2025 14:04:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3187EC4CEEB;
+ Wed, 10 Sep 2025 14:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757513082;
+ bh=ATU9dgy3b9wKc6pd3WupmwqCzZ6dSzE/gRNOxa3liac=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TuiKFF0xpk3X+MqrLNA03Tjd1x7v08zWrg8CB705EqXfVLqhv1ZU2Ln5ps8FJ2urP
+ AGqAFuOSOGb8STcC55uqzD0UIEP8JWC/4CLb0P9N4aclCYyrn/OOZ1+hp60YOkTgSc
+ TUlKmrIHN8yMXDvlcoqzaiPUONcGjDxGuWRYU68yjidvQ6tGir9Xik11UVsvZ+BJMK
+ szC/U6TDZjv2hd7VhHMac5tpyicmF9Tokzf+TpT2+cf+4xfrcJS/MU3A/lYOvyavBR
+ 7Y4Tpy6PRR8/1fmo6FU0C7WmwADq3pTv72jCG4gaLLFTvKOeEd8jkkEZ2yP3TWs3Vs
+ +ZEYZO68uYkbg==
+Message-ID: <b44ca395-102e-4780-949d-9d656ba18ec0@kernel.org>
+Date: Wed, 10 Sep 2025 16:04:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 07/14] dt-bindings: display: mediatek,ufoe: Add
- mediatek,gce-client-reg property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-8-ariel.dalessandro@collabora.com>
- <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
+Subject: Re: [PATCH v3] rust: drm: Introduce the Tyr driver for Arm Mali GPUs
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Daniel Stone <daniels@collabora.com>, Rob Herring <robh@kernel.org>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Carsten Haitzler <carsten.haitzler@foss.arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Ashley Smith <ashley.smith@collabora.com>,
+ Steven Price <steven.price@arm.com>, Jeffrey Vander Stoep
+ <jeffv@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, kernel@collabora.com
+References: <20250910-tyr-v3-1-dba3bc2ae623@collabora.com>
+From: Danilo Krummrich <dakr@kernel.org>
 Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20250910-tyr-v3-1-dba3bc2ae623@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,62 +75,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof,
+On 9/10/25 3:51 PM, Daniel Almeida wrote:
+> diff --git a/drivers/gpu/drm/tyr/Kconfig b/drivers/gpu/drm/tyr/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..de910b2cba3a48e0b238eb0f66279758c02dfb6f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tyr/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0 or MIT
+> +
+> +config DRM_TYR
+> +	tristate "Tyr (Rust DRM support for ARM Mali CSF-based GPUs)"
+> +	depends on DRM=y
+> +	depends on RUST
+> +	depends on ARM || ARM64 || COMPILE_TEST
+> +	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
 
-On 8/21/25 3:50 AM, Krzysztof Kozlowski wrote:
-> On Wed, Aug 20, 2025 at 02:12:55PM -0300, Ariel D'Alessandro wrote:
->> Current, the DT bindings for Mediatek UFOe (Unified Frame Optimization
->> engine) is missing the mediatek,gce-client-reg property. Add it and
-> 
-> Why is it missing? If the binding is complete, it cannot be missing...
+For the Nova drivers I did add
 
-Due to the following error:
+	default n
 
-$ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
-   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-   DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-[...]
-arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: ufoe@1401a000 
-(mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does not match 
-any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: 
-http://devicetree.org/schemas/display/mediatek/mediatek,ufoe.yaml#
+as long as the driver is work in progress.
 
-> 
->> update the example as well.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../bindings/display/mediatek/mediatek,ufoe.yaml      | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> index 61a5e22effbf2..ecb4c0359fec3 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> @@ -64,6 +64,14 @@ properties:
->>         - port@0
->>         - port@1
->>   
->> +  mediatek,gce-client-reg:
->> +    description: The register of client driver can be configured by gce with
->> +      4 arguments defined in this property, such as phandle of gce, subsys id,
->> +      register offset and size. Each GCE subsys id is mapping to a client
-> 
-> Don't explain what DT syntax is. We all know, so that's completely
-> redundant description. Explain the purpose. Explain Arguments with sechema - items.
+> +	help
+> +	  Rust DRM driver for ARM Mali CSF-based GPUs.
+> +
+> +	  This driver is for Mali (or Immortalis) Valhall Gxxx GPUs.
+> +
+> +	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
+> +	  be supported with the panfrost driver as they are not CSF GPUs.
+> +
+> +	  if M is selected, the module will be called tyr.
 
-Although I agree with your suggestions, this is exactly how the rest of 
-the Mediatek DT bindings describe this node. This patch is based on the 
-other +20 files, which describe the node in the same way.
+I also did add
 
-Regards,
+	This driver is work in progress and may not be functional.
 
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
-
+to make it clear what people will get.
