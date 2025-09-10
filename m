@@ -2,173 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03931B50CEA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 06:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2766AB50D00
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 07:10:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A02510E2AD;
-	Wed, 10 Sep 2025 04:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECBD10E2BB;
+	Wed, 10 Sep 2025 05:10:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="K4feRcNt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k0VRfI/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9232610E2AD;
- Wed, 10 Sep 2025 04:48:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GYgt5rOfdUMBXxrNbAy67KCAYcmRuK38B/U/2L46m/MGwkYX7OlfDmRrbt1V1sdSlpHFAA8vUYwg0JpoMzV0cJ8wwp1mOjQRAItxJsjdHeW1vXa0sA15sGHK/8gGPA8mmgFclYpX8Olh8WwEaXk6xpRz7fACrHSPKqt0XCY6ZCZkSdb5GuEUZpTPqZFjSKTUFVCXww2+vxei8fuPedkU5j5njcpAV5hcSIOdvgiImegHslCNqnFDZPWfpauXfHAa5RxONo3mF3ZwFNSp0Zl9Sdlc/10jDiBbovH6g25Mo1Q8+gd4utySuCb0K4VLlkgEyDXR/+K2m1xBWf4EJ5F2gA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hb8qMDcX5mac49JzlYe/056oZSj0xgXVD881WAENCGU=;
- b=IBheaKUdTsMM+cKuuemRh8Aj2yQbMfSraG0odNJ0F7mS4Z5lquChj4Ytk7YH9V+MlIQNVzB+cgyypqo9RMYvJf57zEMSBQATtl0aH5FmNVk0NK+eWYwcHa2jyivedWo39QYBA/87ntCHEcQUIDEtlxy6qL7RyXJ3ZRm9cu3ZrpEXgMgxqQABulfoMRR3Jf6kwRyomokg+PyHhGvzIVvSIq2JXUSP5zsxnipR36L1ku4Fhq3YONVzooifvgBYbMgMTsg2YRvm4ehau2sA7D4KQzAn++ggx/B1LGqgK+87xI/Dlk9GcukkTVcYkEPf1YRK4JT2dL9ORkpCrNVuYoSoUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hb8qMDcX5mac49JzlYe/056oZSj0xgXVD881WAENCGU=;
- b=K4feRcNtWQS+nJnDtwOOLXNRr9M7SyDlO/jQcrZICSRouTGXwTIQxkn+55FSavajz1cBMllrIphBTrcgbLewrInlYfg2m8fOVfkzP8eJ3q0eNNsDgiqA5XhIC9UcVz4i6HUtvwmHNXVfrKnOK1gq4eeqgaKtMF1Izk9zJqHNuzBEHK5qVJQFGPChDbqfXjalPIWSHFYqQUDLU1pZuXdwVsiuZsdW1nlph/2NEG+47tpH06kqcxNhza4GrDSw7f9v21hqJkKwkLvkqUJRFu9rG5rs03cQjffmmxAGe4jf62ddWvT/uBxe4sjDT51tgT9zPDdvjZ7/ceWsLchKA4eFsA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH3PR12MB8993.namprd12.prod.outlook.com (2603:10b6:610:17b::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 04:48:16 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 04:48:16 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 10 Sep 2025 13:48:12 +0900
-Message-Id: <DCOUK0Z4YV6M.2R0CFE57DY5CR@nvidia.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
- Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 02/11] gpu: nova-core: move GSP boot code out of
- `Gpu` constructor
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com>
- <20250902-nova_firmware-v3-2-56854d9c5398@nvidia.com>
- <843554b1-f4c5-43f5-a23b-583339708bea@kernel.org>
- <DCIZ79KKSSF1.25NJT5ZWR3OOS@nvidia.com>
- <DCJ0UA7KM9AP.OGO7EJB4ORQP@kernel.org>
- <DCOBWF0EZLHF.3FFVAB16SJ3FW@nvidia.com>
- <DCOCL398HXDH.3QH9U6UGGIUP1@kernel.org>
-In-Reply-To: <DCOCL398HXDH.3QH9U6UGGIUP1@kernel.org>
-X-ClientProxiedBy: TYCP286CA0120.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::20) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BE810E2BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 05:10:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 865C9449BA;
+ Wed, 10 Sep 2025 05:10:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F09CC4CEF0;
+ Wed, 10 Sep 2025 05:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757481036;
+ bh=ulCUV9C314YyKs41QAMn/UMnFxanovaasff/UpI/TOQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k0VRfI/eBLgnnLJDoUyKp7UdMKK4uCmQn3bNaxcBp3XozJTav9RY4MqaOhgcANnB4
+ MKzVhwgelj9u7aClS2zuvQKMQpyI6YcGctQ6L2SKdPjhyHBuoiuVXPs+KR2GDyyiw7
+ fpRXtj38s9AWaTZg4RZ4ylryPFcJYp/+YehVTE8ST8WwHYDfpvaMvwX4KhQOl7/eUK
+ EMTAPQVRQ1RhmYRrBkDtsI1IaLt9pA+UXgIhecqYW2IglKPtkWbHYlVBMzQwEiQGzQ
+ ZVEceLcbGP6qm/sMLk1yofNTyAT9BEiSpA1ZK+jGkBH+CLqzI4NBvSiWTyCKCVcSQx
+ urs8rtkyIJiHA==
+Date: Wed, 10 Sep 2025 10:40:15 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuldeep Singh <quic_kuldsing@quicinc.com>,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v10 00/11] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+Message-ID: <aMEINycp24DG6KXO@sumit-X1>
+References: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-0-20b17855ef31@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8993:EE_
-X-MS-Office365-Filtering-Correlation-Id: 041a90b3-8b90-496f-4b59-08ddf025416d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|10070799003|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmpqdHZLUGhuS1UzMFBIL1dkZzBicmdmWE1SOTFJWmdyajZzSEFoZHpxMW9W?=
- =?utf-8?B?Rkk1S0ZCWXp0VVdjbklkOXZBSXdLazRrUmMwdlRDZnUxaW4vUUM0NXBsZWlx?=
- =?utf-8?B?dTJoclB6RC9mVFkyRWZOblRkYzl1bWh4VUVxakgrWXBLckpMSU1CUm5PdkFZ?=
- =?utf-8?B?bW5VckhhT0M0aytMMEJFTjEyUHo4TmY4eXBSSTVleng4a1lLbnIrcEpKSEtG?=
- =?utf-8?B?M1JwMEE3dVVBbjE2ZU5HSFlHQ3gxcEJBYmc1Z3J3djJVOVBzUUduanpvbWZV?=
- =?utf-8?B?QUd5dnptbm9BenBiSFU5RkN5eUxuaHNZL0VCRHErajhENklzZGhEUk5teGFw?=
- =?utf-8?B?RllCdGIwRENTNTRDa1B0TStjMmlFN0crWTh2eGU0ZjUzZlVPVjlKWlhWQTBs?=
- =?utf-8?B?QmoxMGlEQ3U4dEl0ai9EK1NJWjNKSFJpKythQlV6L2hSZlJ2ekZEaGJuRitL?=
- =?utf-8?B?RTNvTHRSZGlwd0ZvcXhBUG1rb2R3MDdvdGdXemRWRnRXdWRZcFpGWjFNbnNm?=
- =?utf-8?B?ODUvT3A3KzJxRnF3Q3ZDVVJvY0dOa25vYnlaZEtnOUFuNTBqQ3FuRmxzYytj?=
- =?utf-8?B?TmJqOG80NUNLeisyNkZFY1R6RjhnWXQ2c0VYV3ExSlFmM2lya3ZYL3FhVGdp?=
- =?utf-8?B?VXdrMExCRFJWREI5RzJ2N0N6YjVPb082bkNwcDZidmdJdWJQOURDZndweEVI?=
- =?utf-8?B?UlViY2VpTmw5Zlo1TXN4Ty84TW5wQ0oweFdFODFMRFRDdC9VOUtVMzFsaFhM?=
- =?utf-8?B?eDNPa2xCdlNHNkN3OEh2WGdFZmlnbnhMZCtRdEJPZTU1UXlXaUwzRGd4Rzhm?=
- =?utf-8?B?OUc0VVZLci82VUxvc1VqUGJhYmFTd2gvdWY3cGRyMEh2azJ0cWYrQktUVUI5?=
- =?utf-8?B?eUhyaGpaZHc1QnJSNFVRV21EQVhPcVlUaUF0TjFDYjU3bTNqM2Y1MGxINEw2?=
- =?utf-8?B?eldyTjB4VllMYUttajlxWTJYN1hIK3pOWUhrVjh0UVB3UXBvL09sZVZHckps?=
- =?utf-8?B?bWhFSktKUUZnNjFSL1dHMFlIM3VENndEN1Q3SmUwREVjV2o1SklEME5aQUxK?=
- =?utf-8?B?cWozUWpHNmsxWGd3c3lkcVFqcjROWEtGVjU4djRBdFR2RC9kVWJNK3ZDRTdi?=
- =?utf-8?B?SUhHS3kwNHFyeTB6a3pBVmE5UExiQWdCY1VCTmhReGNFc3lETkRZakxmdEVk?=
- =?utf-8?B?YXRlUFdyMXhTVFNLT1JJM1NmMjdsTWZFUlczZng3em4zTmw0dklldmV0K09Y?=
- =?utf-8?B?eG9aa3BqTHVuTWVSMVRGVWN1QkpLR2EzV1grZ2k0MHRrWm5tMGxWeGZOZjhY?=
- =?utf-8?B?eGZ0NGpPVDhnN2krSHZNL0ZNT204c1JiUEVBcW1veXpwVG5YdExvOENxMmVZ?=
- =?utf-8?B?SUNaQ1hEMkttR0dLenRmMjhrcWw0YUw4TXhFSnhQdGdsVWlacE9qS245VUx6?=
- =?utf-8?B?eS9hZVo4bVNiT2U0YTl0Q0FJWFd5YVA3Z1BidHNNVW1aN3kyT2FKakxBM1ZS?=
- =?utf-8?B?eWVjam9TUGJ4L2FVVXJoUTVmNVZDdWt0YklISmw4aXk1TXpjbTlwOUhDc29E?=
- =?utf-8?B?RmIvSEFTNlQ1cTdMRTJBdGl4MStDRHZBQ2ovOTVKb2hOaVRiYkNQelBWRWgx?=
- =?utf-8?B?eDFnZVJ6MWUrdEpRSVAvWVl5dksrZlhKY1Q2S1UzZ0hKSnd1cE1yQlJFUmti?=
- =?utf-8?B?c0NXVE9QS3hBdmdYMklpY0xhdnl4MWQwTHRLc3lpNTZQWHpWWWlURFA2bk1a?=
- =?utf-8?B?TjZHMFVjTVBGQmc4SEZZcE9Rbmo1QXRyU1Zvbk1wTG1yQ1FhZVFGSTZ5UTY1?=
- =?utf-8?B?RDBTc3dzNEtpeVlCTlBIbjN0VXhCbFlxcHFZUnQyQ1g0LzFHM01SN3hDYWJG?=
- =?utf-8?B?UTd3Z3hTTGZBRHVaL3VLcFBqRzZJRmN4SDRzNFdoS1ZXbTZ4TWF6amU5UFIy?=
- =?utf-8?Q?h2Fsprsh+PY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(10070799003)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDlqVDR1Y3BodGcya08vWmh4R3UrRWQyYzNmZ0lCOEpUbUZuZlNaQ244NUpq?=
- =?utf-8?B?SU1PdDh0QWZwY2N4OGNFbUVhVUpiUUcxY21ETGZsTFRORlFLRDlPTjRncVpP?=
- =?utf-8?B?QXB6eUljcFdKcnZ2SFgxMUNEL202YXJvVklyb1BQc29vQVZPRm1IbGxpTzBL?=
- =?utf-8?B?UnNuL1NwakVxQzhUdDR1bmg4UnhhTXVJOERuei83RTEwYWoxK2EyWEhSVi9E?=
- =?utf-8?B?VVZvWUphQ1pxbnpoRmVQK3ZGcndMb1FYaTEzQ09Hb2tydDZUdjNLalVZVklz?=
- =?utf-8?B?ZUZGZ3cxZnBtRkY0RTVsT3BrL3JScjVpR05YdEQzYnpQWUZoT0U2aDNvWSsr?=
- =?utf-8?B?dDRZZjRtYnlVQ0pCM2p4b1JtWHFiRlByZHh2M0lPQ01idTdHOG9kc0hObjdW?=
- =?utf-8?B?TGVRVHhUZEdndXpNekozRnNhTEU3QWVKVldRbHZuQU8yTTFBVnRWWHd6K3dj?=
- =?utf-8?B?NVYwL0tVVUdRU0h1SG5YUG11Y0srV09QUlpQRStVZHEzOXl3NnBaaWNGNW05?=
- =?utf-8?B?b0ZjVCtDRi9FK2tSWGhYZ3hhMEUxMVdSTGVqK1pQcG80SHNMcmgrU1FDalVR?=
- =?utf-8?B?eUhXQmptbDRZdGoyd3Q4SVpwazJQWVJDSmhrUWs3czdibWR1eFM4bFUwQTBP?=
- =?utf-8?B?VU53dUErN29rbjZYUi9zalU4bmRlZ29IdU0vUVRpaDNVS0pXZkNuSWtsa3Jr?=
- =?utf-8?B?N2JrYjBBUGQ0ZWpmd05Cd2x4RFJJN2ozSHozSjBKanBKQkNjLzQ2MzBlbjR3?=
- =?utf-8?B?dk0wVG9aNjhsTGc3ck02Ulp3VjdsZGpIaVQ5OWYvTklGc21ySjVyZjhJV1FF?=
- =?utf-8?B?NW5Jb1BSRmplOWE1Um5ZYUJnYWRpcVFMYkk2a2E4UUVWZEdnRGJNZzV0Njcw?=
- =?utf-8?B?bzU3Q0UyaTdTTzBqWDN3QmZ6dFVkZzluSGVBaWZaQjJPeURVNzU1YnRLem1r?=
- =?utf-8?B?b0RMMURxVjE3Mzl3Nk1yZ0RsUXl2THZ2UW1NdlZpS0p1WlBoTHdyNS92QnB0?=
- =?utf-8?B?bEJJbE1Cc0xlOFlZL0ZacjFJamU4ZnU3ZnVuWXFMYndobmpVNjdrMmpId3ky?=
- =?utf-8?B?QU13cGNqVHR2Z2MrMUZwMnl1c2hldEo3Qi83OFpyZkpnOFpBS1BqVWdIbmNS?=
- =?utf-8?B?MDVtSEMreXVoNnRJWEFEMGJTSVBCZERBUHNYMGtudWdCR3BWdEp6clZYdnpI?=
- =?utf-8?B?RGptMVZURDVrRFRYMktDUmtDRVVMSUtGK24wb1dwQmw1VXhmQ2VuWWovOTdu?=
- =?utf-8?B?cXl2dHA0a0s0dzQ3cDZLZy9QRzhmNTJWNU5XMkNjVjZjYjJjOUpuTHNqQTZa?=
- =?utf-8?B?eVQ1elRyRWlJUDFOV3FlUHlBZjkyVWk4c1dsdmNwSWlkbWFOeldxZ3k4YW1z?=
- =?utf-8?B?ZkVrWnhvWkx1L29kK0YvMFR4N3VWWXp1MndqUkJWdzR2cHVJT3NxNmthL2Rj?=
- =?utf-8?B?Ungvby9TZHJwYUxVQ2FSUVVYUlNlcHhKRWR6VG5RMm16RzJOM0tjVjc1ZFhQ?=
- =?utf-8?B?NFM1T0xCMkZnL3JFK0VGemVRUDlxSWVNVnJIUElhclpLWUg3L3R1YVJKdUNJ?=
- =?utf-8?B?Sm9yMVdVNmtQMDIyR3NMRHZYaE5rTEJmM0I3SGZMczlJK1JFYjNIWFRyOXhB?=
- =?utf-8?B?bFlwM0Z6Qi9jWDlKSnc4OGtoN3QwRnZEcm1XK1JzZFNwWkEvN0xxbTJCU2tt?=
- =?utf-8?B?bENXcEd1b3N2YWFEMHNmV2s4TFNZZFBIMDhzSlpyUFJhUmM4Q1A0RnllbFJK?=
- =?utf-8?B?SDdISTFMS2xwNVBKU2dTbnlvT0NqMXc4VnIvaEJwS3VpRDlJYjVGRDFMNFBy?=
- =?utf-8?B?Yk1BdWtTaHIvWGNFbENRUk9BTENpRmpUZFRJK29JOVZOWU54aU82NzM0RUhV?=
- =?utf-8?B?K2JodmhEcE40eEVUVTZqcTNJMDQ5WVRvLytQZlkyR1Z4ZEFCV3VDZGozM0dG?=
- =?utf-8?B?d05aTGdJbWxxZkJBeE5raWMrdjNsNk5jZGI1VUFab1AwdkV6Sm5GVmlCR2wx?=
- =?utf-8?B?cy81S3F0NW1BV25VeXhQN09qTW5HZnQrMGVWWEdRa0NpaXFQc1R5MTd3VTEx?=
- =?utf-8?B?T0J1ZnVDa3BvbkxqWGYwa01oaUZRVXJzbm9mUG5GcndYWFpOOGpUNytUSGth?=
- =?utf-8?B?THdQYUtCVGxSd1BzTzd2VEJXeE4zQU8wYitzcDdHQWlTTkpWckE1VURrUFRW?=
- =?utf-8?Q?X8swVbY80yq9huTxAsvTCDKdIkKNTh9ZKOF7fhENDfcm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 041a90b3-8b90-496f-4b59-08ddf025416d
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 04:48:16.0625 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W1GQrVAYpIc/aSQxcx6TqKe1811EGfHG4VP2B6HWqmjBhEZkDnF9Iz3C/yr1uz455oHBsoGurvD4dRbEHTuK/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8993
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-0-20b17855ef31@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,112 +71,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Sep 9, 2025 at 11:43 PM JST, Danilo Krummrich wrote:
-> On Tue Sep 9, 2025 at 4:11 PM CEST, Alexandre Courbot wrote:
->> On Wed Sep 3, 2025 at 5:27 PM JST, Danilo Krummrich wrote:
->>> On Wed Sep 3, 2025 at 9:10 AM CEST, Alexandre Courbot wrote:
->>>> On Wed Sep 3, 2025 at 8:12 AM JST, Danilo Krummrich wrote:
->>>>> On 9/2/25 4:31 PM, Alexandre Courbot wrote:
->>>>>>       pub(crate) fn new(
->>>>>>           pdev: &pci::Device<device::Bound>,
->>>>>>           devres_bar: Arc<Devres<Bar0>>,
->>>>>
->>>>> The diff is hiding it, but with this patch we should also make sure t=
-hat this=20
->>>>> returns impl PinInit<Self, Error> rather than Result<impl PinInit<Sel=
-f>.
->>>>>
->>>>> I think this should be possible now.
->>>>
->>>> There is still code that can return errors (falcon creation, etc) - do
->>>> you mean that we should move it into the pin initializer and turn it
->>>> into a `try_pin_init`?
->>>
->>> Yeah, that would be better practice, if it doesn't work out for a good =
-reason
->>> we can also fall back to Result<impl PinInit<Self, Error>, but we shoul=
-d at
->>> least try to avoid it.
->>
->> I tried but could not do it in a way that is satisfying. The problem is
->> that `Gpu::new` receives a `Arc<Devres<Bar0>>`, which we need to
->> `access` in order to do anything useful with it. If we first store it
->> into the `Gpu` structure, then every subsequent member needs to `access`
->> it in its own code block in order to perform their own initialization.
->> This is quite cumbersome.
->>
->> If there is a way to obtain the `Bar0` once after the `bar` member of
->> `Gpu` is initialized, and then use that instance with each remaining
->> member, then that problem would go away but I am not aware of such a
->> thing.
->
-> What about this?
->
-> 	impl Gpu {
-> 	    pub(crate) fn new<'a>(
-> 	        dev: &'a Device<Bound>,
-> 	        bar: &'a Bar0
-> 	        devres_bar: Arc<Devres<Bar0>>,
-> 	    ) -> impl PinInit<Self, Error> + 'a {
-> 	        try_pin_init(Self {
-> 	            bar: devres_bar,
-> 	            spec: Spec::new(bar)?,
-> 	            gsp_falcon: Falcon::<Gsp>::new(dev, spec.chipset)?,
-> 	            sec2_falcon: Falcon::<Sec2>::new(dev, spec.chipset)?,
-> 	            sysmem_flush: SysmemFlush::register(dev, bar, spec.chipset)?
-> 	            gsp <- Gsp::new(gsp_falcon, sec2_falcon, sysmem_flush)?,
-> 	        })
-> 	    }
-> 	}
+Hi Amir,
 
-It does work. The bizareness of passing the `bar` twice aside, here is
-what it looks like when I got it to compile:
+On Tue, Sep 09, 2025 at 05:11:02PM -0700, Amirreza Zarrabi wrote:
+> This patch series introduces a Trusted Execution Environment (TEE)
+> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+> and services to run securely. It uses an object-based interface, where
+> each service is an object with sets of operations. Clients can invoke
+> these operations on objects, which can generate results, including other
+> objects. For example, an object can load a TA and return another object
+> that represents the loaded TA, allowing access to its services.
+> 
+> Kernel and userspace services are also available to QTEE through a
+> similar approach. QTEE makes callback requests that are converted into
+> object invocations. These objects can represent services within the
+> kernel or userspace process.
+> 
+> Note: This patch series focuses on QTEE objects and userspace services.
+> 
+> Linux already provides a TEE subsystem, which is described in [1]. The
+> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
+> can be used by userspace to talk to a TEE backend driver. We extend the
+> Linux TEE subsystem to understand object parameters and an ioctl call so
+> client can invoke objects in QTEE:
+> 
+>   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
+>   - TEE_IOC_OBJECT_INVOKE
+> 
+> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
+> used for invoking services in the userspace process by QTEE.
+> 
+> The TEE backend driver uses the QTEE Transport Message to communicate
+> with QTEE. Interactions through the object INVOKE interface are
+> translated into QTEE messages. Likewise, object invocations from QTEE
+> for userspace objects are converted into SEND/RECV ioctl calls to
+> supplicants.
+> 
+> The details of QTEE Transport Message to communicate with QTEE is
+> available in [PATCH 12/12] Documentation: tee: Add Qualcomm TEE driver.
+> 
+> You can run basic tests with following steps:
+> git clone https://github.com/quic/quic-teec.git
+> cd quic-teec
+> mkdir build
+> cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
+> 
+> https://github.com/quic/quic-teec/blob/main/README.md lists dependencies
+> needed to build the above.
+> 
+> More comprehensive tests are availabe at
+> https://github.com/qualcomm/minkipc.
+> 
+> root@qcom-armv8a:~# qtee_supplicant &
+> root@qcom-armv8a:~# qtee_supplicant: process entry PPID = 378
+> Total listener services to start = 4
+> Opening CRequestTABuffer_open
+> Path /data/
+> register_service ::Opening CRegisterTABufCBO_UID
+> Calling TAbufCBO Register
+> QTEE_SUPPLICANT RUNNING
+>  
+> root@qcom-armv8a:~# smcinvoke_client -c /data 1
+> Run callback obj test...
+> Load /data/tzecotestapp.mbn, size 52192, buf 0x1e44ba0.
+> System Time: 2024-02-27 17:26:31
+> PASSED - Callback tests with Buffer inputs.
+> PASSED - Callback tests with Remote and Callback object inputs.
+> PASSED - Callback tests with Memory Object inputs.
+> TEST PASSED!
+> root@qcom-armv8a:~#
+> root@qcom-armv8a:~# smcinvoke_client -m /data 1
+> Run memory obj test...
+> Load /data/tzecotestapp.mbn, size 52192, buf 0x26cafba0.
+> System Time: 2024-02-27 17:26:39
+> PASSED - Single Memory Object access Test.
+> PASSED - Two Memory Object access Test.
+> TEST PASSED!
+> 
+> This series has been tested for QTEE object invocations, including
+> loading a TA, requesting services from the TA, memory sharing, and
+> handling callback requests to a supplicant.
+> 
+> Tested platforms: sm8650-mtp, sm8550-qrd, sm8650-qrd, sm8650-hdk
+> 
+> [1] https://www.kernel.org/doc/Documentation/tee.txt
+> 
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> 
+> Changes in v10:
+> - Remove all loggings in qcom_scm_qtee_init().
+> - Reorder patches.
+> - Link to v9:
+>   https://lore.kernel.org/r/20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-0-a2af23f132d5@oss.qualcomm.com
 
-    pub(crate) fn new<'a>(
-        pdev: &'a pci::Device<device::Bound>,
-        devres_bar: Arc<Devres<Bar0>>,
-        bar: &'a Bar0,
-    ) -> impl PinInit<Self, Error> + 'a {
-        try_pin_init!(Self {
-            spec: Spec::new(bar).inspect(|spec| {
-                dev_info!(
-                    pdev.as_ref(),
-                    "NVIDIA (Chipset: {}, Architecture: {:?}, Revision: {})=
-\n",
-                    spec.chipset,
-                    spec.chipset.arch(),
-                    spec.revision
-                );
-            })?,
+It's still not rebased on top of linux-next and have merge conflicts,
+see my comments here [1].
 
-            sysmem_flush: SysmemFlush::register(pdev.as_ref(), bar, spec.ch=
-ipset)?,
+[1] https://lore.kernel.org/all/aL_MCagNVIDXW0wp@sumit-X1/
 
-            gsp_falcon: Falcon::<Gsp>::new(
-                pdev.as_ref(),
-                spec.chipset,
-                bar,
-                spec.chipset > Chipset::GA100,
-            )
-            .inspect(|falcon| falcon.clear_swgen0_intr(bar))?,
+-Sumit
 
-            sec2_falcon: Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, b=
-ar, true)?,
-
-            gsp: Self::start_gsp(pdev, bar, spec.chipset, gsp_falcon, sec2_=
-falcon)?,
-
-            bar: devres_bar,
-        })
-    }
-
-The wait for GFW initialization had to be moved to `probe`, but that's
-fine IMO. I do however find the code less readable in this form, less
-editable as well. And LSP seems lost, so I don't get any syntax
-highlighting in the `try_pin_init` block.
-
-Fundamentally, this changes the method from a fallible method returning
-a non-fallible initializer into a non-fallible method returning a
-fallible initializer. I'm ok with that, and maybe this new form will
-encourage us to keep this method short, which is what we want, but other
-than that what benefit are we getting from this change?
+> 
+> Changes in v9:
+> - Remove unnecessary logging in qcom_scm_probe().
+> - Replace the platform_device_alloc()/add() sequence with
+>   platform_device_register_data().
+> - Fixed sparse warning.
+> - Fixed documentation typo.
+> - Link to v8:
+>   https://lore.kernel.org/r/20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-0-7066680f138a@oss.qualcomm.com
+> 
+> Changes in v8:
+> - Check if arguments to qcom_scm_qtee_invoke_smc() and
+>   qcom_scm_qtee_callback_response() are NULL.
+> - Add CPU_BIG_ENDIAN as a dependency to Kconfig.
+> - Fixed kernel bot errors.
+> - Link to v7:
+>   https://lore.kernel.org/r/20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com
+> 
+> Changes in v7:
+> - Updated copyrights.
+> - Updated Acked-by: tags.
+> - Fixed kernel bot errors.
+> - Link to v6:
+>   https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-0-697fb7d41c36@oss.qualcomm.com
+> 
+> Changes in v6:
+> - Relocate QTEE version into the driver's main service structure.
+> - Simplfies qcomtee_objref_to_arg() and qcomtee_objref_from_arg().
+> - Enhanced the return logic of qcomtee_object_do_invoke_internal().
+> - Improve comments and remove redundant checks.
+> - Improve helpers in qcomtee_msh.h to use GENMASK() and FIELD_GET().
+> - updated Tested-by:, Acked-by:, and Reviewed-by: tags
+> - Link to v5:
+>   https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com
+> 
+> Changes in v5:
+> - Remove references to kernel services and public APIs.
+> - Support auto detection for failing devices (e.g., RB1, RB4).
+> - Add helpers for obtaining client environment and service objects.
+> - Query the QTEE version and print it.
+> - Move remaining static variables, including the object table, to struct
+>   qcomtee.
+> - Update TEE_MAX_ARG_SIZE to 4096.
+> - Add a dependancy to QCOM_TZMEM_MODE_SHMBRIDGE in Kconfig
+> - Reorganize code by removing release.c and qcom_scm.c.
+> - Add more error messages and improve comments.
+> - updated Tested-by:, Acked-by:, and Reviewed-by: tags
+> - Link to v4: https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com
+> 
+> Changes in v4:
+> - Move teedev_ctx_get/put and tee_device_get/put to tee_core.h.
+> - Rename object to id in struct tee_ioctl_object_invoke_arg.
+> - Replace spinlock with mutex for qtee_objects_idr.
+> - Move qcomtee_object_get to qcomtee_user/memobj_param_to_object.
+> - More code cleanup following the comments.
+> - Cleanup documentations.
+> - Update MAINTAINERS file.
+> - Link to v3: https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com
+> 
+> Changes in v3:
+> - Export shm_bridge create/delete APIs.
+> - Enable support for QTEE memory objects.
+> - Update the memory management code to use the TEE subsystem for all
+>   allocations using the pool.
+> - Move all driver states into the driver's main service struct.
+> - Add more documentations.
+> - Link to v2: https://lore.kernel.org/r/20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com
+> 
+> Changes in v2:
+> - Clean up commit messages and comments.
+> - Use better names such as ubuf instead of membuf or QCOMTEE prefix
+>   instead of QCOM_TEE, or names that are more consistent with other
+>   TEE-backend drivers such as qcomtee_context_data instead of
+>   qcom_tee_context.
+> - Drop the DTS patch and instantiate the device from the scm driver.
+> - Use a single structure for all driver's internal states.
+> - Drop srcu primitives and use the existing mutex for synchronization
+>   between the supplicant and QTEE.
+> - Directly use tee_context to track the lifetime of qcomtee_context_data.
+> - Add close_context() to be called when the user closes the tee_context.
+> - Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
+> 
+> Changes in v1:
+> - It is a complete rewrite to utilize the TEE subsystem.
+> - Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
+> 
+> ---
+> Amirreza Zarrabi (11):
+>       firmware: qcom: tzmem: export shm_bridge create/delete
+>       firmware: qcom: scm: add support for object invocation
+>       tee: allow a driver to allocate a tee_device without a pool
+>       tee: add close_context to TEE driver operation
+>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+>       tee: increase TEE_MAX_ARG_SIZE to 4096
+>       tee: add Qualcomm TEE driver
+>       tee: qcom: add primordial object
+>       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
+>       Documentation: tee: Add Qualcomm TEE driver
+> 
+>  Documentation/tee/index.rst              |   1 +
+>  Documentation/tee/qtee.rst               |  96 ++++
+>  MAINTAINERS                              |   7 +
+>  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
+>  drivers/firmware/qcom/qcom_scm.h         |   7 +
+>  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
+>  drivers/tee/Kconfig                      |   1 +
+>  drivers/tee/Makefile                     |   1 +
+>  drivers/tee/qcomtee/Kconfig              |  12 +
+>  drivers/tee/qcomtee/Makefile             |   9 +
+>  drivers/tee/qcomtee/async.c              | 182 ++++++
+>  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
+>  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
+>  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
+>  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
+>  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
+>  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
+>  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
+>  drivers/tee/qcomtee/shm.c                | 150 +++++
+>  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
+>  drivers/tee/tee_core.c                   | 127 ++++-
+>  drivers/tee/tee_private.h                |   6 -
+>  include/linux/firmware/qcom/qcom_scm.h   |   6 +
+>  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
+>  include/linux/tee_core.h                 |  54 +-
+>  include/linux/tee_drv.h                  |  12 +
+>  include/uapi/linux/tee.h                 |  56 +-
+>  27 files changed, 4410 insertions(+), 28 deletions(-)
+> ---
+> base-commit: 33bcf93b9a6b028758105680f8b538a31bc563cf
+> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+> 
+> Best regards,
+> -- 
+> Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> 
