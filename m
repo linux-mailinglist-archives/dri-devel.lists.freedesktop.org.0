@@ -2,68 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BF7B51ED6
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DC8B51F0D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE27F10E98C;
-	Wed, 10 Sep 2025 17:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601FA10E990;
+	Wed, 10 Sep 2025 17:36:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IaFCKbV8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fu/xfUkb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5C710E188;
- Wed, 10 Sep 2025 17:24:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDBE10E98D;
+ Wed, 10 Sep 2025 17:36:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2B2C444198;
- Wed, 10 Sep 2025 17:24:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDA5C4CEEB;
- Wed, 10 Sep 2025 17:24:30 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 46DBD43C10;
+ Wed, 10 Sep 2025 17:36:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2592DC4CEFA;
+ Wed, 10 Sep 2025 17:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757525072;
- bh=1IdKMoeb2R+xnIWdnO7rRaMblx2EnlGCpTsdLPuakQM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IaFCKbV81ZeaLR3AD5rUkKSYgXSVzQVcu9fg8JUs10Fq0M7K22m2AbssN0bP1q6Ux
- B6rCHuW3lfqsdW4bib8qfmqLO56KZGiYD5A5cVINpNmOAsbHhw5G115+3oHcsLHfnb
- i5zEbnRZGnzxhc3OVdJVVTLWIhsMcMtH7l21By5E23FkdULVegygSNCSK+ijas9uiy
- bDmf0B+MF82+JdaCthE501HqOmx9AtUJpCvQJ2yNu/bzldJWzYbJM/rO1KT9Ca2kMz
- 6qfF3QG9IJYbXXJDYoKLjoXS8u8PunK0sQQq6K9X3EvjtNy52w0TRvV7aIZHzO3Bcy
- jfwyKi4rfvltg==
-Message-ID: <0bb2cb92-0d31-4e42-b6ef-2cc3fdf0df40@kernel.org>
-Date: Wed, 10 Sep 2025 12:24:29 -0500
+ s=k20201202; t=1757525769;
+ bh=FA4UCgBFAqpptgI6K6i1JTSsVOvQMM2hst5UCjHh9g4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fu/xfUkbgE34Fd2/E910IqX7omjoyicBz6RDbf58O2XQQ1gLhNRNMAwKzhAEdcBBi
+ Ivryfx9p2FDsTa9GEKCsGo2KdVg4rCSvnk2ZnsC9Q+ubtaDY9i1CePDkM8UNXRKIPi
+ qhMCez0u61bwaeGd0riAod/zhecM5KPPW8AnEGwEFDEfX7d2KHECa6EnXB6brIQVK8
+ CVhiC+kOvCOcC5VSim0gg/cKtv4oUYdeVmYYCNpin6SiofjSXjw+9VWsDZf4ZiJxv7
+ uYUuvPqMpzuOS69Ew1Uju4XJOh+AtHLc5dAnvay+6pu27G1+RCg4+JYe+t1iAxds7H
+ IL3rY1/CJs83Q==
+Received: by mail-oo1-f53.google.com with SMTP id
+ 006d021491bc7-62177052206so2190063eaf.1; 
+ Wed, 10 Sep 2025 10:36:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUjOr9ZfljQurWtMOnCMkOPwvjwyNHITnWzGxeeaLbHRvLsJg+lUmrhYQwLvEWOTdxe5zW7XNnsdOVP@lists.freedesktop.org,
+ AJvYcCVSr+K60Yn+fzAlfJS8ivuoOJ1o2bfsydfutF7gLrkFrXJkaa/GOhMyK23S0RSZ+ONqpauohz6n@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5/lkphPJJOabEYQqsYZJma/PitV8Pyq/vTlUgDs0xsPbuNEcf
+ BMUiGz3Ivz53HYsAaH1sY1EdIkLN+gm74BRLi5QOl7CLTtgeYX74t9sFR3XOW92Uoa3l7EUYEfS
+ vRZ4flKX+HPriFVK1VOqb4j/OgLfmP1Y=
+X-Google-Smtp-Source: AGHT+IGqRDSNbWbYnkbSbxdVN3DMQjV/YyqRZRbIFNwtq9fMgeLfUQYHbLnAVcBuexhHKoy0HWJ6kgMj3bmeFA8AHIY=
+X-Received: by 2002:a05:6820:2289:b0:61f:f4fa:6d1 with SMTP id
+ 006d021491bc7-62178a9cffcmr6797601eaf.8.1757525768372; Wed, 10 Sep 2025
+ 10:36:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 05/12] PCI/PM: Disable device wakeups when halting or
- powering off system
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+References: <20250909191619.2580169-1-superm1@kernel.org>
+ <20250909191619.2580169-7-superm1@kernel.org>
+In-Reply-To: <20250909191619.2580169-7-superm1@kernel.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 10 Sep 2025 19:35:57 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jZ7hhAY99VmkFwAOdh__qEJF8DJnsz5c1L2vq5yo11bQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyxUagwTReSbqlVJ9A9fdbWKaPIeI6ktCaW0WEPYN3USXhrTzbLXvzoC7g
+Message-ID: <CAJZ5v0jZ7hhAY99VmkFwAOdh__qEJF8DJnsz5c1L2vq5yo11bQ@mail.gmail.com>
+Subject: Re: [PATCH v7 06/12] PCI/PM: Split out code from
+ pci_pm_suspend_noirq() into helper
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, 
  "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
- <linux-pm@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, 
+ "open list:HIBERNATION (aka Software Suspend,
+ aka swsusp)" <linux-pm@vger.kernel.org>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>, 
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>, 
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, 
  "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ AceLan Kao <acelan.kao@canonical.com>, 
+ Kai-Heng Feng <kaihengf@nvidia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>, 
  Eric Naim <dnaim@cachyos.org>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>
-References: <20250910171132.GA1541776@bhelgaas>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250910171132.GA1541776@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,116 +92,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/25 12:11 PM, Bjorn Helgaas wrote:
-> On Wed, Sep 10, 2025 at 11:52:00AM -0500, Mario Limonciello wrote:
->> On 9/10/25 10:06 AM, Bjorn Helgaas wrote:
->>> On Tue, Sep 09, 2025 at 02:16:12PM -0500, Mario Limonciello (AMD) wrote:
->>>> PCI devices can be configured as wakeup sources from low power states.
->>>> However, when the system is halting or powering off such wakeups are
->>>> not expected and may lead to spurious behavior.
->>>
->>> I'm a little unclear on the nomenclature for these low power states,
->>> so I think it would be helpful to connect to the user action, e.g.,
->>> suspend/hibernate/etc, and the ACPI state, e.g.,
->>>
->>>     ... when the system is hibernating (e.g., transitioning to ACPI S4
->>>     and halting) or powering off (e.g., transitioning to ACPI S5 soft
->>>     off), such wakeups are not expected ...
->>
->> I will try to firm it up in the commit message.  But yes you're getting the
->> intent, having a wakeup occur at S5 would be unexpected, and would likely
->> change semantics of what people "think" powering off a machine means.
->>
->>> When I suspend or power off my laptop from the GUI user interface, I
->>> want to know if keyboard or mouse activity will resume or if I need to
->>> press the power button.
->>
->> The way the kernel is set up today you get a single wakeup sysfs file for a
->> device and that wakeup file means 3 things:
->> * abort the process of entering a suspend state or hibernate
->> * wake up the machine from a suspend state
->> * wake up the machine from hibernate
->>
->>>> ACPI r6.5, section 16.1.5 notes:
->>>>
->>>>       "Hardware does allow a transition to S0 due to power button press
->>>>        or a Remote Start."
->>>
->>> Important to note here that sec 16.1.5 is specifically for "S5
->>> Soft Off State".
->>>
->>> S4 is a sleeping state and presumably sec 16.1.6 ("Transitioning
->>> from the Working to the Sleeping State") applies.  That section
->>> mentions wakeup devices, so it's not obvious to me that PCI device
->>> wakeup should be disabled for S4.
->>
->> It actually /shouldn't/ be disabled for S4 - it should only be
->> disabled for S5.
->>
->> Are you implying a bug in the flow?  I didn't think there was one:
->>
->> During entering hibernate the poweroff() call will have system_state
->> = SYSTEM_SUSPEND so wakeups would be enabled.
->>
->> For powering off the system using hibernate flows poweroff() call
->> would have system_state = SYSTEM_HALT or SYSTEM_POWER_OFF.
-> 
-> OK.  I assumed that since you check for two states (SYSTEM_HALT or
-> SYSTEM_POWER_OFF), one must be hibernate (ending up in S4?) and the
-> other a soft power off (ending up in S5?).
-> 
-> But it sounds like there are two ways to power off.  I'm just confused
-> about the correspondence between hibernate, soft poweroff, S4, S5,
-> SYSTEM_HALT, and SYSTEM_POWER_OFF.
-> 
-> *Do* both SYSTEM_HALT and SYSTEM_POWER_OFF lead to S5 on an ACPI
-> system?  If so, what's the difference between them?
+On Tue, Sep 9, 2025 at 9:16=E2=80=AFPM Mario Limonciello (AMD)
+<superm1@kernel.org> wrote:
+>
+> In order to unify suspend and hibernate codepaths without code duplicatio=
+n
+> the common code should be in common helpers.  Move it from
+> pci_pm_suspend_noirq() into a helper.  No intended functional changes.
 
-The two functions are kernel_halt() and kernel_power_off().
+You should say why you need/want to unify the suspend and hibernate
+codepaths because this is kind of relevant for this patch.
 
-And looking again, Ahhhh!  kernel_power_off() is the only thing that 
-actually leads to machine_power_off().  Halt just stops the CPUs.
+It isn't entirely valid to use suspend-specific code in the
+hibernate/power down code paths.
 
-I think we should only be using the hibernate flows for SYSTEM_POWER_OFF.
+Also, I'd consider reordering the series so that this patch goes
+immediately before patch [9/12] in which the new function is used for
+the first time.
 
-This has implications for a lot of the patches.  Thanks a lot for 
-pointing this out. I'll walk the series again and change accordingly.
+> Tested-by: Eric Naim <dnaim@cachyos.org>
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> ---
+> v7:
+>  * Reword title
+> v5:
+>  * Split from earlier patches
+>  * Add tags
+> v4:
+>  * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@ker=
+nel.org/
+> ---
+>  drivers/pci/pci-driver.c | 81 +++++++++++++++++++++++++---------------
+>  1 file changed, 51 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+> index f201d298d7173..571a3809f163a 100644
+> --- a/drivers/pci/pci-driver.c
+> +++ b/drivers/pci/pci-driver.c
+> @@ -762,6 +762,54 @@ static void pci_pm_complete(struct device *dev)
+>
+>  #endif /* !CONFIG_PM_SLEEP */
+>
+> +#if defined(CONFIG_SUSPEND)
+> +/**
+> + * pci_pm_suspend_noirq_common
+> + * @pci_dev: pci device
+> + * @skip_bus_pm: pointer to a boolean indicating whether to skip bus PM
+> + *
+> + * Prepare the device to go into a low power state by saving state and
+> + * deciding whether to skip bus PM.
+> + *
+> + */
+> +static void pci_pm_suspend_noirq_common(struct pci_dev *pci_dev, bool *s=
+kip_bus_pm)
 
-> 
->>>> This implies that wakeups from PCI devices should not be relied upon
->>>> in these states. To align with this expectation and avoid unintended
->>>> wakeups, disable device wakeup capability during these transitions.
->>>>
->>>> Tested-by: Eric Naim <dnaim@cachyos.org>
->>>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
->>>> ---
->>>> v7:
->>>>    * Reword title
->>>>    * Reword commit
->>>> v5:
->>>>    * Re-order
->>>>    * Add tags
->>>> v4:
->>>>    * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
->>>> ---
->>>>    drivers/pci/pci-driver.c | 4 ++++
->>>>    1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
->>>> index 63665240ae87f..f201d298d7173 100644
->>>> --- a/drivers/pci/pci-driver.c
->>>> +++ b/drivers/pci/pci-driver.c
->>>> @@ -1139,6 +1139,10 @@ static int pci_pm_poweroff(struct device *dev)
->>>>    	struct pci_dev *pci_dev = to_pci_dev(dev);
->>>>    	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
->>>> +	if (device_may_wakeup(dev) &&
->>>> +	    (system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF))
->>>> +		device_set_wakeup_enable(dev, false);
->>>> +
->>>>    	if (pci_has_legacy_pm_support(pci_dev))
->>>>    		return pci_legacy_suspend(dev, PMSG_HIBERNATE);
->>>> -- 
->>>> 2.43.0
->>>>
->>
+I guess you want to propagate pci_dev->skip_bus_pm to the parent
+bridge if set for pci_dev in the hibernation code path so that bridges
+can go into D3hot/cold in that case.
 
+Fair enough, but I'd give the common function a somewhat less neutral
+name, like for example pci_pm_noirq_prepare_to_sleep().
+
+> +{
+> +       if (!pci_dev->state_saved) {
+> +               pci_save_state(pci_dev);
+> +
+> +               /*
+> +                * If the device is a bridge with a child in D0 below it,
+> +                * it needs to stay in D0, so check skip_bus_pm to avoid
+> +                * putting it into a low-power state in that case.
+> +                */
+> +               if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev=
+))
+> +                       pci_prepare_to_sleep(pci_dev);
+> +       }
+> +
+> +       pci_dbg(pci_dev, "PCI PM: Sleep power state: %s\n",
+> +               pci_power_name(pci_dev->current_state));
+> +
+> +       if (pci_dev->current_state =3D=3D PCI_D0) {
+> +               pci_dev->skip_bus_pm =3D true;
+> +               /*
+> +                * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if =
+any
+> +                * downstream device is in D0, so avoid changing the powe=
+r state
+> +                * of the parent bridge by setting the skip_bus_pm flag f=
+or it.
+> +                */
+> +               if (pci_dev->bus->self)
+> +                       pci_dev->bus->self->skip_bus_pm =3D true;
+> +       }
+> +
+> +       if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
+
+And pm_suspend_no_platform() is suspend-specific and in the
+hibernation/power down cases it is always false because the platform
+is going to take over.
+
+This means that *skip_bus_pm will not be updated in those cases, so
+why do you need it in this function in the first place?
+
+> +               pci_dbg(pci_dev, "PCI PM: Skipped\n");
+> +               *skip_bus_pm =3D true;
+> +               return;
+> +       }
+> +
+> +       pci_pm_set_unknown_state(pci_dev);
+
+So this should stay outside the common part I think.
+
+> +}
+> +#endif /* CONFIG_SUSPEND */
+> +
+>  #ifdef CONFIG_SUSPEND
+>  static void pcie_pme_root_status_cleanup(struct pci_dev *pci_dev)
+>  {
+> @@ -851,6 +899,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
+>  {
+>         struct pci_dev *pci_dev =3D to_pci_dev(dev);
+>         const struct dev_pm_ops *pm =3D dev->driver ? dev->driver->pm : N=
+ULL;
+> +       bool skip_bus_pm =3D false;
+
+And it doesn't look like this variable is necessary after all.
+
+>
+>         if (dev_pm_skip_suspend(dev))
+>                 return 0;
+> @@ -881,38 +930,10 @@ static int pci_pm_suspend_noirq(struct device *dev)
+>                 }
+>         }
+>
+> -       if (!pci_dev->state_saved) {
+> -               pci_save_state(pci_dev);
+> -
+> -               /*
+> -                * If the device is a bridge with a child in D0 below it,
+> -                * it needs to stay in D0, so check skip_bus_pm to avoid
+> -                * putting it into a low-power state in that case.
+> -                */
+> -               if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev=
+))
+> -                       pci_prepare_to_sleep(pci_dev);
+> -       }
+> -
+> -       pci_dbg(pci_dev, "PCI PM: Suspend power state: %s\n",
+> -               pci_power_name(pci_dev->current_state));
+> +       pci_pm_suspend_noirq_common(pci_dev, &skip_bus_pm);
+>
+> -       if (pci_dev->current_state =3D=3D PCI_D0) {
+> -               pci_dev->skip_bus_pm =3D true;
+> -               /*
+> -                * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if =
+any
+> -                * downstream device is in D0, so avoid changing the powe=
+r state
+> -                * of the parent bridge by setting the skip_bus_pm flag f=
+or it.
+> -                */
+> -               if (pci_dev->bus->self)
+> -                       pci_dev->bus->self->skip_bus_pm =3D true;
+> -       }
+> -
+> -       if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
+> -               pci_dbg(pci_dev, "PCI PM: Skipped\n");
+> +       if (skip_bus_pm)
+>                 goto Fixup;
+> -       }
+> -
+> -       pci_pm_set_unknown_state(pci_dev);
+>
+>         /*
+>          * Some BIOSes from ASUS have a bug: If a USB EHCI host controlle=
+r's
+> --
