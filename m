@@ -2,39 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C8CB5145A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00872B5146E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:49:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A446410E8C4;
-	Wed, 10 Sep 2025 10:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48EAE10E8D0;
+	Wed, 10 Sep 2025 10:49:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uRKNmgeh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D423B10E8C4;
- Wed, 10 Sep 2025 10:48:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41F8B16F8;
- Wed, 10 Sep 2025 03:48:15 -0700 (PDT)
-Received: from donnerap (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 67B503F66E;
- Wed, 10 Sep 2025 03:48:22 -0700 (PDT)
-Date: Wed, 10 Sep 2025 11:48:19 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- <etnaviv@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi
- <linux-sunxi@lists.linux.dev>
-Subject: Re: drm/etnaviv: detecting disabled Vivante GPU?
-Message-ID: <20250910114819.00dfe07a@donnerap>
-In-Reply-To: <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
-References: <20250904002924.2bc63b73@minigeek.lan>
- <8192c4d04f1640f140a8f2cb43e694a7476bb0ca.camel@pengutronix.de>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D5210E8CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:49:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C6431601FA;
+ Wed, 10 Sep 2025 10:49:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CB89C4CEF5;
+ Wed, 10 Sep 2025 10:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757501391;
+ bh=1scGAYzK3UFwbg234OVlTstFWXGW6ME6pu6GwUoQ1r0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uRKNmgehtOqqARDUabC1auDom7ANnkYT9fw8gllzC4yBAjy92hqe4B1kQ1hbOGtnY
+ ibnvZNihGxFI2wR5WuDYo7pnWXUbWGL/gmBhqvmhEPbnCdU22Xcb87faim2ZiR/PaI
+ Cxh4petA/DJ9kwcqoUzubfnxYoYVOeCVNkfS8TaMeg87Iy58fy+HRE6mQBGecLouJi
+ gPk/ffAd7V80RFIdTFzDjyi2rP8lHbzzc1sw5H7bExh0kei5qmnZn11WwwngYhuCP1
+ 2TPcU3OHTMJiqV7sZT/kRpinrG7K/YYVmDU3XtcXNKLo7R0oVIl27FowM+lnQ01GOO
+ TtuTCfFRU+SVw==
+Date: Wed, 10 Sep 2025 12:49:48 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/3] drm/panic: Add a drm_panic/draw_test in debugfs
+Message-ID: <20250910-astute-vole-of-kindness-c6f6ce@houat>
+References: <20250908090341.762049-1-jfalempe@redhat.com>
+ <20250908090341.762049-4-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="szadnobu3vqjke5f"
+Content-Disposition: inline
+In-Reply-To: <20250908090341.762049-4-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,86 +61,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Sep 2025 09:28:19 +0200
-Lucas Stach <l.stach@pengutronix.de> wrote:
 
-> Hi Andre,
-> 
-> Am Donnerstag, dem 04.09.2025 um 00:29 +0100 schrieb Andre Przywara:
-> > Hi,
-> > 
-> > the Allwinner A523/A527/T527 family of SoCs feature a Vivante
-> > "VIP9000"(?) NPU, though it seems to be disabled on many SKUs.
-> > See https://linux-sunxi.org/A523#Family_of_sun55iw3 for a table, the
-> > row labelled "NPU" indicates which model has the IP. We suspect it's
-> > all the same die, with the NPU selectively fused off on some packages.
-> > 
-> > Board vendors seem to use multiple SKUs of the SoC on the same board,
-> > so it's hard to say which particular board has the NPU or not. We
-> > figured that on unsupported SoCs all the NPU registers read as 0,
-> > though, so were wondering if that could be considered as a bail-out
-> > check for the driver?
-> > At the moment I get this, on a SoC with a disabled NPU:
-> > [    1.677612] etnaviv etnaviv: bound 7122000.npu (ops gpu_ops)
-> > [    1.683849] etnaviv-gpu 7122000.npu: model: GC0, revision: 0
-> > [    1.690020] etnaviv-gpu 7122000.npu: Unknown GPU model
-> > [    1.696145] [drm] Initialized etnaviv 1.4.0 for etnaviv on minor 0
-> > [    1.953053] etnaviv-gpu 7122000.npu: GPU not yet idle, mask: 0x00000000
-> > 
-> > Chen-Yu got this on his board featuring the NPU:
-> >     etnaviv-gpu 7122000.npu: model: GC9000, revision: 9003
-> > 
-> > If I get the code correctly, then etnaviv_gpu_init() correctly detects
-> > the "unsupported" GPU model, and returns -ENXIO, but load_gpu() in
-> > etnaviv_drv.c then somewhat ignores this, since it keeps looking for more
-> > GPUs, and fails to notice that *none* showed up:
-> > /sys/kernel/debug/dri/etnaviv/gpu is empty in my case.
-> > 
-> > Quick questions:
-> > - Is reading 0 from VIVS_HI_CHIP_IDENTITY (or any other of the ID
-> >   registers) an invalid ID, so we can use that to detect those disabled
-> >   NPUs? If not, can any other register used to check this? The whole
-> >   block seems to be RAZ/WI when the NPU is disabled.
-> >   
-> Yes, 0 is not a valid core ID.
+--szadnobu3vqjke5f
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] drm/panic: Add a drm_panic/draw_test in debugfs
+MIME-Version: 1.0
 
-Ah, thanks, that helps to identify the situation (see below).
+Hi,
 
-> > - Would it be acceptable to change the logic to error out of the
-> >   driver's init or probe routine when no GPU/NPU has been found, at
-> >   best with a proper error message? As it stands at the moment, the
-> >   driver is loaded, but of course nothing is usable, so it keeps
-> >   confusing users.  
-> 
-> Yes, I think it would be fine to not expose the DRM device at all if no
-> usable GPU core has been found.
-> 
-> However, I think it would still be good if your bootloader would fix up
-> the DT to avoid probing the driver at all if possible. It may work on
-> your system but access to a disabled GPU MMIO is not RAZ/WI everywhere.
+On Mon, Sep 08, 2025 at 11:00:31AM +0200, Jocelyn Falempe wrote:
+> This adds a new drm_panic/draw_test file in debugfs.
+> This file allows to test the panic screen rendering at different
+> resolution and pixel format.
+> It's useful only for kernel developers that want to create or
+> customize a panic screen.
+>=20
+> If you want to check the result at 1024x768 using XRGB8888:
+>=20
+> cd /sys/kernel/debug/drm_panic/
+> exec 3<> draw_test
+> echo 1024x768:XR24 >&3
+> cat <&3 > ~/panic_screen.raw
+> exec 3<&-
+>=20
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-Yes, I agree, Allwinner is "nice" by using RAZ/WI if possible, but indeed
-most other platforms SERROR out when touching an address without a device.
+I see what you meant in your previous version, and I misunderstood what
+you were saying, sorry.
 
-> On i.MX8M* we have a similar situation with disabled peripherals. There
-> the bootloader can detect which peripherals are active by looking at
-> the SoC fuses and fixes up the DT status property accordingly. Not sure
-> if you may have something similar on the Allwinner.
+> v2:
+>  * Use debugfs instead of sending the framebuffer through the kunit logs.=
+ (Thomas Zimmermann).
+>=20
+>  drivers/gpu/drm/Kconfig     |   2 +
+>  drivers/gpu/drm/drm_panic.c | 117 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 119 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index f7ea8e895c0c..0d3146070d9c 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -83,6 +83,8 @@ config DRM_PANIC_DEBUG
+>  	  Add dri/[device]/drm_panic_plane_x in the kernel debugfs, to force the
+>  	  panic handler to write the panic message to this plane scanout buffer.
+>  	  This is unsafe and should not be enabled on a production build.
+> +	  Also adds a drm_panic/draw_test file in debugfs, to easily test the
+> +	  panic screen rendering.
+>  	  If in doubt, say "N".
+> =20
+>  config DRM_PANIC_SCREEN
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index d89812ff1935..0c01d6067eab 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -873,6 +873,7 @@ static void drm_panic(struct kmsg_dumper *dumper, str=
+uct kmsg_dump_detail *detai
+>   */
+>  #ifdef CONFIG_DRM_PANIC_DEBUG
+>  #include <linux/debugfs.h>
+> +#include <linux/vmalloc.h>
+> =20
+>  static ssize_t debugfs_trigger_write(struct file *file, const char __use=
+r *user_buf,
+>  				     size_t count, loff_t *ppos)
+> @@ -901,8 +902,122 @@ static void debugfs_register_plane(struct drm_plane=
+ *plane, int index)
+>  	debugfs_create_file(fname, 0200, plane->dev->debugfs_root,
+>  			    plane, &dbg_drm_panic_ops);
+>  }
+> +
+> +/*
+> + * Draw test interface
+> + * This can be used to check the panic screen at any resolution/pixel fo=
+rmat.
+> + * The framebuffer memory is freed when the file is closed, so use this =
+sh
+> + * script to write the parameters and read the result without closing th=
+e file.
+> + * cd /sys/kernel/debug/drm_panic/
+> + * exec 3<> draw_test
+> + * echo 1024x768:XR24 >&3
+> + * cat <&3 > ~/panic_screen.raw
+> + * exec 3<&-
+> + */
 
-We have code for DT patching in U-Boot, and use that already for some
-Allwinner boards. I don't know if we can identify the actual fuse used. We
-could use the SoC package identifier (first word of the SID eFUSE device,
-cf. the second row in here [1]), but that would require maintenance, as new
-IDs will show up, and we don't know every single one even now.
-Another method would be to just ungate the clock and de-assert the reset,
-then read the NPU ID register (0x18?) to see if it's zero or not. Probably
-the most robust, but involves a bit more code, as we probably would need
-some pseudo-device to fetch those reset/clock details from the DT.
+This should be documented properly, and I'm also kind of wondering how
+that would fit in the larger testing ecosystem.
 
-I guess the current situation works as well, for now, but I will look at a
-U-Boot patch, just wanted to check if we can avoid that.
+Ie, how can someone that just starts contributing to Linux, or is
+setting up a CI platform, can have that test running.
 
-Cheers,
-Andre
+kunit is great for that, kselftests to some extent too, but I'm not sure
+an ad-hoc interface is.
 
+Unless we create IGT tests for it too maybe?
 
+Maxime
+
+--szadnobu3vqjke5f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFXyAAKCRAnX84Zoj2+
+dunxAXoD/kd6NxYE7g0sLGTeai0rI+buW7iXgUXOw4+dMG2ZK2K7uCjj9LJiQwaz
+bTPx8+QBf2q+pKsyVxyWG0ny+ZSnetRJWKMN8+fXCxf6ORHE9MWP/nXFSn5Zga4y
+zds9rfAwQw==
+=9+Uw
+-----END PGP SIGNATURE-----
+
+--szadnobu3vqjke5f--
