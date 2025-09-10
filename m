@@ -2,124 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDB3B52316
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 22:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A771B52328
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 22:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C21B210E1B5;
-	Wed, 10 Sep 2025 20:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B12A310E9E1;
+	Wed, 10 Sep 2025 20:58:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hXDapsa8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X/aaX0WF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE9E710E1B5
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:55:19 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgFs6021203
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:55:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=u053Z73zkai4Xa8yTebTvs2P
- Y20porEuaLkDE+bAlMY=; b=hXDapsa8K+egvdzRMaEhilqeP0yTemicIzJ0URnN
- wgwkvRdsBx3kxYKkiQ3s1OSx/KfUXHO0+Xmx3ndGS9iJmP79m5ufXz8HUQ2Ub00W
- utwmBv2RzHjZgjgiMd5RCs6cqzRxOjqk5hXRjudiGAvfOIbVX0qt2YZcC9oQMO2v
- 9+Hv7SD7QbmaWyHwArB7ep33Xqu/dZeSn9oXyKrAdEkpPo9XCq4hXo8CnuFfgmxv
- uMgRHDw2kKWIeGc4ZqWfh6Jq7uvvmyRZVqdCzGAbnhDvHI9MTNHrEvRNi3RJd89e
- oyPv6e9Jpsmz/SO/UIj+MdQ3i6R/4KwFA2hPNrFgeNvUYw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490by959fm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:55:18 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b5f818eea9so1354741cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:55:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757537715; x=1758142515;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 694A410E9E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:58:05 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-325006ff07eso632289a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757537885; x=1758142685; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=u053Z73zkai4Xa8yTebTvs2PY20porEuaLkDE+bAlMY=;
- b=oOTB0PVeWtGxJfmFaJMBxThbSYFbXgFEh4jfvj+b5y9n6a7z+kZ3uLn+0hUATiJSFZ
- NDTd1qvQj8npFiLeIOzCHUXRtyHvlwML5PwcF3wVIih9MN3Dn3R/j16J/Xe/SEYyJ4zA
- uO5FWNO/1MdKIGB9Vv2w7Nd3d/S7Weo7ncYa4arHClWgPK6eDRB5Z4NAnt5pDdRgsq/M
- eY1Vxyn8S9CAymNXsSOgr4AF/FFkMjSzu2/oiWooYQ7KhnPrTzk3wQaKmcXMiiD6j1HQ
- iMwhg5O97kMsXXOCUfal9eo8QT3h8YbewnGw4VlJJshAoNHkQ4ysUHBFSHBEO9TpcVL+
- U2Bw==
+ bh=BxoYv6ear/flR5rAr5c7A/wGu93sOLIbo2XqrISjEys=;
+ b=X/aaX0WFGcT8WqlnOHCjAaNPEddhWowfbJ7wDt8wWXmTo2nSXK6JW6YiUM9YBTu05N
+ GRABE7F5Jiuq3u5f4h0dANNuSRPV1Z6zy0VxgvbjZAVvWre4KJKm9vo4DVki0vXbb13M
+ obScn7TCWBhuvUW3rELr08skDLVX7zB9oYdIAy/M+R7OtJ4CVLsG7rnBUkWlypZdoNcv
+ dJb0bZOOS5TqXa9fGiNorlTWDodptTRUwzF4+dm3wGFwGb+uR5P3/QN23pIF8UiTbIOp
+ 0OI2ITCJKDCqh5nnkpjlU6Cyq41GXa+rUUox67lES0qEoIIHhGopTIDBlaoo4/31u9Qu
+ m8zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757537885; x=1758142685;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BxoYv6ear/flR5rAr5c7A/wGu93sOLIbo2XqrISjEys=;
+ b=SOwmkuFTBMJXB14BHi5z544O3MnRoXauOrh+Cx+6RG7i5NaTEEdW2v5rzx+hvYFEk8
+ 5B6pe4jrWKeVeybO33lPo1wbHm9rJjhVSz4fEBHEwsWrGw5jiUdt+TcNjFX+ZMD+Lrux
+ f3KJAdDwgXE8/qHQJqgJMvZGe2HuoqP2ZkzsSSKAVA6BHyH9T54BlCuCWxZmbUlpRJ1C
+ S9WgME2N71VebSDD3v2BkNa9xEpWd41wQIECYAms3/KWSdUkDB+CxAzYoHqvO3zG0QEL
+ WiXTQ7btrQhnfgjvuLc2dQVHuARQpSMxFQNqs02ikd2nr3jmxSdUf5Iy2ZDkVnH2GG9U
+ 7OZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXqPepzTqLjtjKpdvS0K7LPZajWW3tHuqM6w16CUntD/hAr3AdSTU/ZfTW2NSep6kSS5RX+kIr5U0g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZ5e/8vyUyORP92OIs2woVMpr79Qt+qoK8Di8B3sbJ98gXiv/E
- 6OEQjvGGqaqsseaEZ4FftgG4luGIzxwOpi/USAXlbMIFhvF0NQOO4KvmUObXYlh1xlL8ZJjX4U6
- kVQIiuDUemJm98FiEmcQImCyCl6S0hZJYMik/YhHXd9VqsRL8hI9i5BJb6jpK1GL+bejL52s=
-X-Gm-Gg: ASbGncsuZZ+hVTU8MQm7t/KvlrVB2Pt7ytfMNNFTCGef4ApiVasQ5STkkuaay7ncABT
- 2a5nTTkPUWCzGCweqBh1Q1WjRy9e4LGgLrKJ8WqdtflrqfwVKvS03+h0tEzhWl/e+Nd9mdiS39B
- KoVuYmGxm2iute3bnGosb0GmXZ/7zQ6NRIyjVzjzlMhaCWUFSmYLsCNBvW/Je9SMtFEVCW0/3Eg
- NnpgAv+DztfTdnAszwwTicmLMbMKY8DunQjLWgYWzsXCrE5p44U9rn8b2z5pPHxNzhNeTUOiGb2
- X6G8CSrMpEMc6nLn2GcM7uovyw3FWAV4aiQP1hLjMMVYNfiQyAUF8PWZU7RCBnIqHoubw+zmJIT
- vxHDIqfI0njCVxV8Mk2/UK3XKEdAZxyhoOQSb62oWzG2E+nOUf+JR
-X-Received: by 2002:a05:622a:17c3:b0:4b5:e606:dc0d with SMTP id
- d75a77b69052e-4b5f8464f56mr172407881cf.64.1757537714487; 
- Wed, 10 Sep 2025 13:55:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEuuiI0Sq3dAwccCIQjFGmfMsKB4O9JNHlu6WabCdhUocfd0ddszBa/a1EYJO1myy3iU8qHCg==
-X-Received: by 2002:a05:622a:17c3:b0:4b5:e606:dc0d with SMTP id
- d75a77b69052e-4b5f8464f56mr172407211cf.64.1757537713811; 
- Wed, 10 Sep 2025 13:55:13 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-337f50332cdsm47364151fa.36.2025.09.10.13.55.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Sep 2025 13:55:13 -0700 (PDT)
-Date: Wed, 10 Sep 2025 23:55:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Jonathan Marek <jonathan@marek.ca>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/4] drm/msm: Assorted fixes and changes
-Message-ID: <7vs4f2cofte5jkvoh2dzd6hm7pwqaiz4holt7fosjo5uwsavrb@oigtd3lozmgt>
-References: <20250911-assorted-sept-1-v2-0-a8bf1ee20792@oss.qualcomm.com>
+ AJvYcCW5r4hJ4WX5+ntBwkTG1ipDkSBOakGkNW2MCgYN/kUquXrBarsixOnVQsiY7BzQ9mnlbYhUtX8oHZ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNh2fco/2Xv0SuEpvqwhojmV4BxVoK6O+MCBta8+sjnuG0WtJC
+ Or+EdHcAyPoyj0cj6eLx1giEV2KPWF32OY5f7OQ4OoDp5ghQOv1L972cqmja36GuX5ueHjCb3pC
+ xelKPMMlZQ6CpS6G1Bc+31x0PQdFFGvk=
+X-Gm-Gg: ASbGncuvbAIYeaaAYa5Kuch0uTMIMlKk/TQ/xCYqy9xMeRfFZxvJNHcBlKb1y5du/av
+ I5NYQa3FeuaHoZejKf5+aQ/zGOKfdmsIRLk3xgsHmzetQZaafBkKV35r0Itt3mcx2tALWNEr7uK
+ 415qhCzir316l/3EkiUdwj7EfmkeimFkJ3u4UmJtFCVSsRYQyJ+ANj/IVIiEAZVXzFJV1qjRedl
+ KYDYY6w6xARtMcHi1jJ2ve/I+wKRrubbaWUQLC9GGqgin1T0HNEa4LiinOSKzLR/mLAgLZPiBOU
+ N/FXLRuqwnVAXG3ZFsdxAsCB0efCIeXq+S+K
+X-Google-Smtp-Source: AGHT+IHOtyqVloSPxzWiVhs1DHE+nqj8s6NxjWWTZ+mliqirt76YYBTxY96SyGIZl1OENRfeSA3lt8/1dOvRBF8z1YY=
+X-Received: by 2002:a17:90b:4a92:b0:32b:87ef:5faa with SMTP id
+ 98e67ed59e1d1-32d43f91aadmr12103792a91.4.1757537884710; Wed, 10 Sep 2025
+ 13:58:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911-assorted-sept-1-v2-0-a8bf1ee20792@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Yv8PR5YX c=1 sm=1 tr=0 ts=68c1e5b6 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ui4H84HzkJsvguT1G-cA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-GUID: sW9rj46rmWXlvCI1Rxc9WxuPz-Cfy--6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfX/ppRhxKnYVQT
- pKfsUTL54vflwcdmQXmeuQztTJ5jnbjvsZ/hj8JgVKXDrKleoaxfdj77x42s0WFOEXbKfCn5mqJ
- nNqYEMpgupjnL8+wq2IWYwzrx7KaDjwisnn1+d8U71G1uX2jfA/4lf3tiZ/r9rN1fdfaiic67v4
- YZ67Wv30MMstT9adrOjsWx+Skp4KDFAI5Po1/Q+vSJC419bQ3ik7cwcYdPLDImIQ4HgLXZBJsqD
- +tlbydhMBTro0TvD6WZDYglgvXdGpspSdwVRwdYyjfcrZniWUW4imDqTUTUbVEiaGzTAWzqITzs
- 4so9sPI7w72gfgCi3T6dFTVijCQsUdepA3sJ5aFlCLN8C+xJjIAWxFtNoYGds+jFW7r9OoGoN45
- 6OV8re9c
-X-Proofpoint-ORIG-GUID: sW9rj46rmWXlvCI1Rxc9WxuPz-Cfy--6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
+References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
+ <20250826-nova_firmware-v2-2-93566252fe3a@nvidia.com>
+ <9adb92d4-6063-4032-bf76-f98dcfe2c824@nvidia.com>
+ <DCD2VJ1WJW2O.VM7E4PD3DFYO@nvidia.com>
+ <CANiq72=nGbziZCKt=AneE_vXw76i=+td0dSVfbOJ8kJ9eYHw9w@mail.gmail.com>
+ <DCOVRI3TVJBN.3OGDSK8HW74LL@nvidia.com>
+ <CANiq72n-q0vdzp=Tb=brue+BMoNYdCTKsqcMYUsvKgvu9ZqGoQ@mail.gmail.com>
+ <DCP66O4WE3CE.3P5ZHC9P62LOZ@nvidia.com>
+In-Reply-To: <DCP66O4WE3CE.3P5ZHC9P62LOZ@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 10 Sep 2025 22:57:51 +0200
+X-Gm-Features: AS18NWDK5sDVUBXgL53C4CuHgNvckurg2KJki-Oyxxcp6gSr_EFeu2funPREjNc
+Message-ID: <CANiq72=2VhHBZbTL7mdF9C+eBabft8rpP0_8FjxKi2d_2ZMbCQ@mail.gmail.com>
+Subject: Re: Implicit panics (was: [PATCH v2 2/8] gpu: nova-core: firmware:
+ add support for common firmware header)
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,40 +106,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 02:14:03AM +0530, Akhil P Oommen wrote:
-> A few changes and fixes that were lying in my stack.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
+On Wed, Sep 10, 2025 at 3:55=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> The only two options are either allowing user-space to crash the kernel
+> through a module with a missing bound check, or letting it tamper with
 
-Wink-wink
+So we are definitely not aiming to allow that on purpose, i.e. I know
+you said "missing", but just to clarify: they would of course be
+considered a bug, just like hitting similar facilities in C code.
 
-> - Link to v1: https://lore.kernel.org/r/20250902-assorted-sept-1-v1-0-f3ec9baed513@oss.qualcomm.com
-> 
-> ---
-> Akhil P Oommen (4):
->       drm/msm: Fix bootup splat with separate_gpu_drm modparam
->       drm/msm/a6xx: Fix GMU firmware parser
->       drm/msm/adreno: Add a modparam to skip GPU
->       drm/msm/a6xx: Add a comment to acd_probe()
-> 
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  9 ++++++++-
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 13 +++++++++++++
->  drivers/gpu/drm/msm/msm_drv.c              |  1 +
->  include/drm/drm_drv.h                      |  3 ++-
->  4 files changed, 24 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 5cc61f86dff464a63b6a6e4758f26557fda4d494
-> change-id: 20250901-assorted-sept-1-5556f15236b8
-> 
-> Best regards,
-> -- 
-> Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> 
+(In general, if we get into the situation where we can actually crash
+the kernel from userspace, that is a CVE with the current rules
+(modulo exceptional cases, e.g. the recent discussion about debugging
+tools, for instance), regardless of whether it was due to a Rust panic
+or not.)
 
--- 
-With best wishes
-Dmitry
+The Rust panic is, as you say, the last line of defense, attempting to
+limit the damage. I think that is worth it for at least some users
+that want it (like cloud providers) and some parts of the kernel.
+Sometimes it can be worse, though, i.e. perhaps the OOB or the
+overflow was not actually a "big issue" "in practice" for a particular
+case.
+
+I think it will likely depend on the kind of code we are talking about
+-- not all panics are the same, and not all code is the same. For
+random modules, for instance, yes, we should definitely prevent
+developers from writing panics as much as possible (or not at all);
+the same way we try to prevent them from writing unsafe code -- after
+all, panicking operations and unsafe code are both an statement that
+we are sure "something cannot happen".
+
+So the more we prevent APIs that do not need to rely on panicking (nor
+unsafe code) on drivers etc., the better.
+
+I also think forcing to have no panics at all (i.e. globally) would
+force us to handle way more truly impossible cases than C does
+(unsafely so), which isn't great and has downsides too (increased
+complexity, for one, which can also lead to more bugs). And we don't
+want to go memory unsafe for all those either (I mean, it could be an
+option, but I wouldn't recommend it, and it would still be a bug if
+hit). So for certain cases panicking may be a reasonable option in
+practice -- that is where I wanted us to get more experience to know
+how we fare vs. C here and thus the data request.
+
+It will also depend on what upstream Rust can give us (more on that
+below). For instance, having an enforced way with carve-outs that need
+to be annotated would at least make it stand out to reviewers and make
+developers think thrice.
+
+> Thanks, these are great directions to explore. I see that some thinking
+> has already been done on this, do we have a bug or tracking issue so I
+> can catch up with the discussions that have already taken place?
+
+In general, I do my best to track this kind of thing in the issues
+linked from issue #2 ("Rust features" in this case:
+https://github.com/Rust-for-Linux/linux/issues/354), and you can see
+some pointers for the overflow part. For no panics there is also an
+entry for a long time, but I don't think there has been any "deep"
+discussion on it -- I mean between Rust and the kernel (there are of
+course discussions in upstream Rust, and there also have been in our
+side in the mailing list). I just added a couple recent pointers, I
+can look for more.
+
+In that meeting I mentioned with them, I raised this a month or two
+ago, and I did so today too, and mentioned that you wanted to discuss
+it in LPC. If you (or e.g. someone from NVIDIA) have time to work on
+this, including in upstream Rust (e.g. writing an RFC, implementing an
+experiment...), then please let me know. They are open to the
+possibility of having a Rust project goal for the next round on no
+panics (2026H1), so it is a good chance to move things forward. We had
+today a discussion on potential forms it could take (an attribute on a
+function, guaranteed or not, escape hatches or not, lints, an enforced
+comment, Klint, the report-and-continue feature...) and related
+ongoing efforts (having a `nopanic` effect, `target_feature(enable
+=3D`...).
+
+I hope that helps, and thanks!
+
+Cheers,
+Miguel
