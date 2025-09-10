@@ -2,160 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BE3B51936
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE39B51957
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:29:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A383C10E2F5;
-	Wed, 10 Sep 2025 14:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B833410E927;
+	Wed, 10 Sep 2025 14:29:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jnKAQg2z";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xV2KzPTR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVU4KNuQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xV2KzPTR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVU4KNuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2069.outbound.protection.outlook.com [40.107.223.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7BE310E2ED;
- Wed, 10 Sep 2025 14:23:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cNxjRZE7o6+0pBX3pvy5u9hFrjuG+HlcPUY7xINQoyrTgg59QZq0LVZ5c4oUa+Zh/XJ5V2MJzj3+z1/hfyJ/Zk4zJd6QaS9u5DwVUKBqhwkUdRwjW0gHKM2FYqmtdjctWhx6Y5sPfbAbG9nW8oEdopwC4lM6qTA8DVSGDW9tykbtrwpb9i/9NOzC6E2pXFCrygAPVreq/n/Mu6b1o297yF12lXSlCI2XmeHjZEKUXqC7jivsWP/moUCpF7C38YBU2mAybtYiR1giIXkvwDmAPHFhKeHr29dzVtbY8r46vSLIu3rLzZUhJ6N2mrb7EF0PjgtSbKOBcjG494vg/tm1+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FcLOTz+B0i1ZgMPIWCA802m4pfmTDxJz94NbNa3ofy0=;
- b=AMiRuh+J8VB6auMHujktvj8O4+3mhS+sH6Z33sXzzsrPNMLMTu2IPLlOwPz61cE4LKwbxVa3mOpIsCrGopfLC+1w7l0XwEWxAlN0USP6SlCdfE65FdGcplDbUxA8SHpjlzej3l2sEMhPXuI/kMgELGEgpSQXJiokztO0qMhzcTZ9KJl+DT9HEzDQzdzXB+YC20vZJUnxlzQG/rRIl9LMocOx+5iYPIzBcbRgSwzpbkXOmcnJaHvZY90pro47muKI4Sh2MpDJqIJqdqfxBoA/SyF5g5WxWfh6F9b5pmTwFskiWBveOiV9oVr8dbPqycik2mTErCnlz6v/ORO2wAtobg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FcLOTz+B0i1ZgMPIWCA802m4pfmTDxJz94NbNa3ofy0=;
- b=jnKAQg2zIQAQzYocmWGbYsDIVU5JXWkqdxtbTOPhy4ZDAdbyvOy0uputEYBC2p3mEfsobRkYNsuEEMbMEKyohymBtDBeeoxz2wOA5aS3pVFbSAyPvgadY+NH9cc/RFYuf/Es+usGSTDKcer0JhqUB0wpBzW79DZJn6xK3GIFY68=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB8316.namprd12.prod.outlook.com (2603:10b6:930:7a::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 14:23:00 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 14:23:00 +0000
-Message-ID: <12f56eda-a6a5-47bf-b89e-0cfa8443a439@amd.com>
-Date: Wed, 10 Sep 2025 16:22:53 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] drm/buddy: Optimize free block management with RB
- tree
-To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: matthew.auld@intel.com, jani.nikula@linux.intel.com,
- samuel.pitoiset@gmail.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, alexander.deucher@amd.com,
- stable@vger.kernel.org
-References: <20250909095621.489833-1-Arunpravin.PaneerSelvam@amd.com>
- <6f6841a7-57bd-49de-9b55-b5b0514a2749@amd.com>
- <20250909140519.GK4067720@noisy.programming.kicks-ass.net>
- <106c1a36-c104-4eb8-b928-d11b8ca9b599@amd.com>
- <fcbf6ae8-f9ab-4723-8df4-16d2f0f62c3f@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <fcbf6ae8-f9ab-4723-8df4-16d2f0f62c3f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0313.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f6::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3221610E927
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 14:29:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B7EA734F76;
+ Wed, 10 Sep 2025 14:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757514539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=STEYXq0PiTKCTbYq+9bwR8FuphZ7UPvu2jna0DsGEw4=;
+ b=xV2KzPTRVVNzC6JCCySbL+g7FSoQ93jem2phEHSK2Zg06B31CXhuMNw3E4mBXwX1YW+fYw
+ KtXL3FubtbfWxu4+MB5qmKZwxge24zPss0cnWnJ9kSerhGvOPCrD7LgdNEljH9CUe0dTtN
+ g3VtMSGZQQOSIQNxvFJq3sRmc1deSzI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757514539;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=STEYXq0PiTKCTbYq+9bwR8FuphZ7UPvu2jna0DsGEw4=;
+ b=fVU4KNuQWZyZ8VW7qTgSGxcnVEld56dVZmrrcmM4+C4TVjuM1bCOwkAjO1+FbxWPcC0mbI
+ yLB7d1e5JgInH3Dg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xV2KzPTR;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fVU4KNuQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757514539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=STEYXq0PiTKCTbYq+9bwR8FuphZ7UPvu2jna0DsGEw4=;
+ b=xV2KzPTRVVNzC6JCCySbL+g7FSoQ93jem2phEHSK2Zg06B31CXhuMNw3E4mBXwX1YW+fYw
+ KtXL3FubtbfWxu4+MB5qmKZwxge24zPss0cnWnJ9kSerhGvOPCrD7LgdNEljH9CUe0dTtN
+ g3VtMSGZQQOSIQNxvFJq3sRmc1deSzI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757514539;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=STEYXq0PiTKCTbYq+9bwR8FuphZ7UPvu2jna0DsGEw4=;
+ b=fVU4KNuQWZyZ8VW7qTgSGxcnVEld56dVZmrrcmM4+C4TVjuM1bCOwkAjO1+FbxWPcC0mbI
+ yLB7d1e5JgInH3Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C92013310;
+ Wed, 10 Sep 2025 14:28:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id iRCaDCuLwWieIwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 10 Sep 2025 14:28:59 +0000
+Message-ID: <02f7455e-d1b3-414b-a4cb-27b9353a4034@suse.de>
+Date: Wed, 10 Sep 2025 16:28:57 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8316:EE_
-X-MS-Office365-Filtering-Correlation-Id: caa399af-3c16-4d66-b599-08ddf0758b53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTIwS1M1c2l5ZXlDZFlOTGdERlhhVUdmSmF5bW9URmJUZmQ4Qk5YTjN6K2lR?=
- =?utf-8?B?Z29SNkppSzNXTFdiZ1pOamVwUWZiYjUxUTE5R012YWdiTmxUZDRua1YrOGh3?=
- =?utf-8?B?VUQ3SGhyK01oU2V3NVN0RkJUNzY0c2dTWHpZS3JCT0hmMmkxTGY5MFVQTDJj?=
- =?utf-8?B?S3I5bzc5SHVZMkMya1N6YVg2UEI2NmJOWFBqeUpDTlNWRUZzNjZkay9aRlVi?=
- =?utf-8?B?a25YMFh6YlBOR2tFUUNzMm9BV2hZWVN6OHQxV3VIZTl0K3Z6OFZHeEV3S0E5?=
- =?utf-8?B?WFpGa2V0NXVKVHBYd0EzNGNXaEU0cisvSHlMT0xMY0wwRktRSUZjSFUrZVQ0?=
- =?utf-8?B?clIzSHV5eEpBeTZ6OWIrQVNMQkpzQnFVYnd6Rjd1Ukc3RkRXVEpIUllHazBZ?=
- =?utf-8?B?eU51bHhjMFpRb3Rucm9UUUNyT1BNMU1FWC9DalRIZXV4dFJaYzlrdFU1aWZV?=
- =?utf-8?B?aHovL2szTmY1NTc0b2VGODhVUEJuZlg2VS9GTEZoMFBFUG5aVk4yRWdEVTFT?=
- =?utf-8?B?bXNDLzMrT3NxeXZDMEF4T2pKbG51RkVnc3JKblg2QzJWVVRvT3Q1ejBvWXFj?=
- =?utf-8?B?bUhxS3U4VVMyWmZqcW1vZUpkdkJrR3FaSGZIdE9CK0VvSXpPVTJGVVBKd0JS?=
- =?utf-8?B?WTZsaDRDc0htVVF2YTZJUkRlTytzK0ZNMUFqWWVLQVA3L0RVaUlLMzEwRzdV?=
- =?utf-8?B?SFFnYjJHOGg3TlFWS2lsQk9RUTNmZE44cnp6N05LR2ZnUFYvWUNuKy9zOTAx?=
- =?utf-8?B?MlVmUVJtZGR3d3N3akx3QlZNWFhXZmJqVDhGMFkrbVptVEtSTlMwbDZIcFN6?=
- =?utf-8?B?NXpPcll4dUNDZWxzSisxb1IyQzlZK3hWdFhyNnR1emFkUzZWSFUvTzdlY1F3?=
- =?utf-8?B?eVRIeEliaWxwakV2WStGZ0xJZ1kvUXo2a0NZYzZPVmZwYlpoMi9oTEs3SVhx?=
- =?utf-8?B?L2dFRzU4bSs1SytlVE1PWFNISHVhNjdWQ1hsZTlMNUlQVXJlYkorL1VGNmV6?=
- =?utf-8?B?bXBveHBVM1duQU5KWFlZWXJXOGRmZkU4T3RTc2Y5ZDNQZXF0N3BZQzBMck93?=
- =?utf-8?B?c2ZyMTFTVVpneGovS1V1VXZwR21pa0tNR0N4UlJDTWdrSmtDQzhCZEc3S2JD?=
- =?utf-8?B?QS9MUkc0Zjd0VG1GdzNtRkxZL0FDZ3NndzNJcVJVaUpwdXUwZ0VTQW1TbSt2?=
- =?utf-8?B?a3FPNE1YU3lKVEY3SlNQTVYyK001SW1TYXRnVnphbmdPcHVPMWswL1RZZHcw?=
- =?utf-8?B?STRZdmhWbkJUUU1hQWZTYm03bHM5dHFxRUZicTdqcmE0TnVmNnViRjhUNWVZ?=
- =?utf-8?B?OGcwT01CckhraXcrWElYYWJoSnlXUE9UWUhUclRxWVdmdTNSRUo1dG8xdEpx?=
- =?utf-8?B?YUtLSUdpZi9NZFZvRlVJOEcyK0FqTkxkd2lCOWZoc2lwa1hIUlVTYVloVnZW?=
- =?utf-8?B?M0RUaUNXVm84WXJFbWVtTlc0T3RrOVpDeklTeU1vV2xXNjN6YlpMZkQ4WDN5?=
- =?utf-8?B?OTdEMUsyN3lGZWZPMWgwbFYrVVlnSU5HeDg4bDlmTis2bWZnN2xEUVBjbEZZ?=
- =?utf-8?B?b0RjSmxrd0lBK2dWUFRvR1JEbERIM0llb0RxK25kcmNvQ2pURFR3WEFRSEEv?=
- =?utf-8?B?SmJ0b05lVzQ5MGFhYTFzTUhnNEZIQkdpQzV5RVFhNS9aSVpUNSthdHMwREtz?=
- =?utf-8?B?SmNpeXJ0Q3E1NzRTUWR4ZmlpdjRPZTU3WWJ2Z2ROREZ2b1J6VVFEVUNPb25h?=
- =?utf-8?B?VlM1OEpRSjFWV1VPTCs1NUl0dUN3S1h4bTVGcXdjc1E1M2dXSzV3OHo4MmZO?=
- =?utf-8?B?emQzamZTZkgwdEpwaXBLcWt5T2NhalN3UDZCaTRpbjNnam5sRmNSUlNuMWZs?=
- =?utf-8?B?NVVWNmdDMzVwWE41aVE3RDhDVzRldStkRURDdWdQdFhFcW1hTWVsOUdJbUlq?=
- =?utf-8?Q?Cs4ktkfBBiQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkMvakM0UW1UaElFSE5nTlROemtJL2tZQzd6WFRxNHZhWkp6V0MySXVnZlpC?=
- =?utf-8?B?Ty9ML3ptMzQ0RTltdTBiWWVEM1E3cEhUWXlqb2piZ3o3L0VhdkExZXdPZjN3?=
- =?utf-8?B?eU84cDdBV0tRMnFlSmtKUzFUdmQ0REVKVEdzTE4xOFhBb1VKOTl0aytOWFR0?=
- =?utf-8?B?aEx2V0dlcytzVWltamdLS0YvQ2MvSlFlWmo2REhMd25SMGx6Z0wyOGp3TGNF?=
- =?utf-8?B?bmVjbVphaVl2cmdUam5PSWpnZUpNS2V2SExWQmZTcVdBaGdlVTZ1eTErY1dO?=
- =?utf-8?B?ZGRiUDkweitJQWMyNXNRRjFnTWtGMjk5ZkFPOHpTbkRja1ozVGZLOVdBOEtH?=
- =?utf-8?B?UTNjTmtzdXV4L2pFdm1sSWx3bUpYVFBKaEFBSko4djJJSmpaUGdieDlSY2Y2?=
- =?utf-8?B?TlVCQVJoUkxzRFFzaWFsN1ROeTI3Q1lBbHE5RTBadWtjS0RqTVFRdVJtdW5K?=
- =?utf-8?B?RlJQM2tOM0lvUHZKc3JvWDkvU1VhVjFPNjNuWnF1MS9GSVdOMU5WbmM0SnpQ?=
- =?utf-8?B?bFNGaHl3Q2lhVlF3NlQxTDNsakF4T0J2bnh1TnpwWnhiVHRqbjZPMFJlZ0Ix?=
- =?utf-8?B?VHpYeVdEeEtpNERsRUg4eHVwZExrMUM1dyszVUxoOW1QckZHOUg5TmlMb0xu?=
- =?utf-8?B?V2ZSK015UlArWmVUSXhaNjdaLzBjUVNVaGpoeTZHbHE1LzJCL05zQ3RrTzhT?=
- =?utf-8?B?RlZTZW1yVDlSNnIzdDNaNGdKV1lLc0pVWW1pOExYQ1VsV2tlK3J6VFQ5ZWg0?=
- =?utf-8?B?VWxNYkpDUSt1MlowNUhheEhReEFFejhOWCtYNDlOSTNERG9uNHdiNzNJOG9w?=
- =?utf-8?B?dEdkWFc1ZU9ERW1yNDMyY3BaRVVuallrV29CQlZSS2dBM2xnVnptWnRNSzRl?=
- =?utf-8?B?ZlY2ZWlYYjZBT0pndGJnOXdReUtmNUlHbXZvY3RzcGpZeCtEK2p2UEh6eVhB?=
- =?utf-8?B?RERsejVoYWtPc25nQzc4WWlqOXVNbXRYeUJiaHlRd3RqQi8rUGlGakZvbXFZ?=
- =?utf-8?B?NklDRWhhK2ZnNENNVno4d3lQa3Fza0MzS1Y3dGp1QUF5RlZEQnFhY3lRVXFu?=
- =?utf-8?B?Y3VaejNLSXVWbTc2a05EM3lZeGloUmpJMEt2emswSjFyMnovT1ZBTEdFblow?=
- =?utf-8?B?Um9ZQ2kwdWsrR2dhb0kwYmZjSTdLS052bkZFdnBXTVZYTEYwQndkcHlPOU9n?=
- =?utf-8?B?YXJjMXZtNGtPUi9rR1NZK3RFVHdxRzJIOHQ1SitZWko5MWZOV20xbmdKYjZ1?=
- =?utf-8?B?QldtOVE0R1hHSDFNQjlGK2xBTzd2VU0zUStYZ05idXdlY3pFdHN1blprcXlU?=
- =?utf-8?B?OEprdVNIV25DSktaa3dFS204MHF6eVZQV1VMOElNOEZMRjRpbnkyVm51UVpa?=
- =?utf-8?B?cGp2UzZ2NmlGVEdOeTNJOC9rZmMweEtGN0Q5ZTBsYldzVUhvODZyWlF3RjNB?=
- =?utf-8?B?amllRXVtQlBQWGNhbCtrMy9XMXFxbENxVDFVaFpsVkVqMW1GaHdoQzhlcHhZ?=
- =?utf-8?B?TmlmUzFtUUU1TnExanpVRFNkdjNKM0tzVzZldittcUVjRmFXTTlldWF6Q2l4?=
- =?utf-8?B?bFlkMFpkcjVzWHJhQU91SU9IWXVPOGlGY2NtdVZRU0k5cGpGbFUzSGdOZTVT?=
- =?utf-8?B?Q3dNSmpiR3dmOHZQd2RWMTZFQVVZSGhoK0JmT3hMY0hiMFVxamJpWm9SMjZj?=
- =?utf-8?B?VGo4aElsSDRFNXlJZTQ2QVZ3M0JCNnY1ZmdXU2ZBaEhqTkJiaWdVTTNEVHlD?=
- =?utf-8?B?VzZNZjF5VkQ5ZUl5NUxiYm5UdWlKN1IwcXppUFM3aXJtNlJOalJ4c0VrdVVV?=
- =?utf-8?B?aS9iNUtyVmgwTkd3RzBUR2poS2pGUjNBelNEV3R2TysvekhDc0hhMXNjeXR1?=
- =?utf-8?B?S015N3UzNGNBZ1pLOHBhVWEzRmNFQkNMaExKUVdQWEo2M1c1M1pjZkl2dTJt?=
- =?utf-8?B?elN6dnlTZHpsOW1JcUNGM3psQUYwNy9PSUZUdUhNUXZxUXFVbWhIeGdWckhW?=
- =?utf-8?B?Ly8wMEJDeWtmV0ptSzVzZysrSk5OV0tJaEEvUTB2N3ZVVTIwRzA5QUcwTnhv?=
- =?utf-8?B?T2E0aVVYYTVMQmYxYXJUVzJzbXBtN3VHeGE0aGVYUmNLMWYvbWtrYndFT3lm?=
- =?utf-8?Q?E80YOFW8t605WpcYnE0D4yn0B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caa399af-3c16-4d66-b599-08ddf0758b53
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 14:22:59.9269 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CHJdRuQvnhLo0tTnQM7jhhzSDzDSJsM3BakVw3q3z3NBZj46Twl6b4Ii2WXC2Q8h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8316
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 4/4] DRM: Add a new 'boot_display' attribute
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>
+References: <20250811162606.587759-1-superm1@kernel.org>
+ <20250811162606.587759-5-superm1@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250811162606.587759-5-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[kernel.org,gmail.com,google.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCPT_COUNT_TWELVE(0.00)[13]; MIME_TRACE(0.00)[0:+];
+ TO_DN_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, gitlab.freedesktop.org:url, suse.de:mid,
+ suse.de:dkim, suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: B7EA734F76
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,95 +161,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.09.25 14:37, Arunpravin Paneer Selvam wrote:
-> Hi Christian,
-> 
-> On 9/9/2025 9:55 PM, Christian König wrote:
->> On 09.09.25 16:05, Peter Zijlstra wrote:
->>> On Tue, Sep 09, 2025 at 02:04:30PM +0200, Christian König wrote:
->>>> Hi Arun,
->>>>
->>>> On 09.09.25 11:56, Arunpravin Paneer Selvam wrote:
->>>> [SNIP]
->>>>
->>>>> +/**
->>>>> + * rbtree_for_each_entry_safe - iterate in-order over rb_root safe against removal
->>>>> + *
->>>>> + * @pos:    the 'type *' to use as a loop cursor
->>>>> + * @n:        another 'type *' to use as temporary storage
->>>>> + * @root:    'rb_root *' of the rbtree
->>>>> + * @member:    the name of the rb_node field within 'type'
->>>>> + */
->>>>> +#define rbtree_for_each_entry_safe(pos, n, root, member) \
->>>>> +    for ((pos) = rb_entry_safe(rb_first(root), typeof(*(pos)), member), \
->>>>> +         (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL; \
->>>>> +         (pos); \
->>>>> +         (pos) = (n), \
->>>>> +         (n) = (pos) ? rb_entry_safe(rb_next(&(pos)->member), typeof(*(pos)), member) : NULL)
->>>> As far as I know exactly that operation does not work on an R/B tree.
->>>>
->>>> See the _safe() variants of the for_each_ macros are usually used to iterate over a container while being able to remove entries.
->>>>
->>>> But because of the potential re-balance storing just the next entry is not sufficient for an R/B tree to do that as far as I know.
->>>>
->>>> Please explain how exactly you want to use this macro.
-> Thanks for the pointer, yes, this will not work on RB tree. We need a reverse safe variant for use in the force_merge() function similar to the
-> list_for_each_entry_safe_reverse() macro in list.h. The reason is that in force_merge(), we remove the block from the free tree before invoking
-> drm_buddy_free(), which merges and frees buddy blocks to form a larger block.
->>> So I don't much like these iterators; I've said so before. Either we
->>> should introduce a properly threaded rb-tree (where the NULL child
->>> pointers encode a linked list), or simply keep a list_head next to the
->>> rb_node and use that.
->> I agree, something is clearly fishy here.
->>
->>> The rb_{next,prev}() things are O(ln n), in the worst case they do a
->>> full traversal up the tree and a full traversal down the other branch.
->> Yeah from the logic that is exactly what is supposed to happen in the __force_merge() function.
->>
->> The question is rather why does that function exists in the first place? The operation doesn't look logical to me.
->>
->> For drm_buddy_reset_clear() and drm_buddy_fini() we should use rbtree_postorder_for_each_entry_safe() instead.
->>
->> And during normal allocation __force_merge() should never be used.
-> In normal allocation, the force_merge() function is used when no free blocks of the requested order are available. In such cases,
-> smaller blocks must be merged on demand to satisfy the allocation. Mainly, this does not involve traversing the entire tree to
-> merge all blocks, but only merging as needed. For example, if the requested order is 6, and the minimum order is 5, drm_buddy_alloc_blocks()
-> will first attempt to allocate an order-6 block. If none are available, it will try to allocate two order-5 blocks. If those are also unavailable, it will
-> invoke force_merge() to merge lower order blocks (4, 3, 2, 1, 0) in order to coalesce into a higher-order block of order 5.
 
-Yeah and exactly that is what should never be necessary in the first place.
 
-The idea of a buddy allocator is that blocks are merged when they are freed and not on demand.
+Am 11.08.25 um 18:26 schrieb Mario Limonciello (AMD):
+> On systems with multiple GPUs there can be uncertainty which GPU is the
+> primary one used to drive the display at bootup. In some desktop
+> environments this can lead to increased power consumption because
+> secondary GPUs may be used for rendering and never go to a low power
+> state. In order to disambiguate this add a new sysfs attribute
+> 'boot_display' that uses the output of video_is_primary_device() to
+> populate whether the PCI device was used for driving the display.
+>
+> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
+> Acked-by: Manivannan Sadhasivam <mani@kernel.org>
+> Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/issues/23
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-The only use case for the force_merge() I can see is when cleared blocks are merged with non-cleared ones, but that is orthogonal to the discussion here.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> 
-> In drm_buddy_fini(), force_merge() is called to ensure all blocks are merged before tearing down the allocator. This guarantees that all
-> mm->roots are freed and not held by the driver at shutdown. If any blocks remain allocated, drm_buddy_fini() will issue a warning.
-> 
-> In drm_buddy_reset_clear(), which is invoked at device suspend/resume, it is an ideal place to call force_merge(). This ensures that all
-> possible blocks are merged before resetting the clear state, thereby reducing fragmentation and improving allocation efficiency after resume.
+> ---
+> v10:
+>   * Rebase on 6.17-rc1
+>   * Drop Thomas' tag, as this is now in a totally different subsystem
+>     (although same code)
+>   * Squash "Adjust visibility of boot_display attribute instead of creation"
+>   * Squash "PCI: Move boot display attribute to DRM"
+> ---
+>   Documentation/ABI/testing/sysfs-class-drm |  8 +++++
+>   drivers/gpu/drm/drm_sysfs.c               | 41 +++++++++++++++++++++++
+>   2 files changed, 49 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-class-drm
+>
+> diff --git a/Documentation/ABI/testing/sysfs-class-drm b/Documentation/ABI/testing/sysfs-class-drm
+> new file mode 100644
+> index 0000000000000..d23fed5e29a74
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-class-drm
+> @@ -0,0 +1,8 @@
+> +What:		/sys/class/drm/.../boot_display
+> +Date:		January 2026
+> +Contact:	Linux DRI developers <dri-devel@vger.kernel.org>
+> +Description:
+> +		This file indicates that displays connected to the device were
+> +		used to display the boot sequence.  If a display connected to
+> +		the device was used to display the boot sequence the file will
+> +		be present and contain "1".
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index a455c56dbbeb7..b01ffa4d65098 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -18,6 +18,7 @@
+>   #include <linux/gfp.h>
+>   #include <linux/i2c.h>
+>   #include <linux/kdev_t.h>
+> +#include <linux/pci.h>
+>   #include <linux/property.h>
+>   #include <linux/slab.h>
+>   
+> @@ -30,6 +31,8 @@
+>   #include <drm/drm_property.h>
+>   #include <drm/drm_sysfs.h>
+>   
+> +#include <asm/video.h>
+> +
+>   #include "drm_internal.h"
+>   #include "drm_crtc_internal.h"
+>   
+> @@ -508,6 +511,43 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
+>   }
+>   EXPORT_SYMBOL(drm_sysfs_connector_property_event);
+>   
+> +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
+> +				 char *buf)
+> +{
+> +	return sysfs_emit(buf, "1\n");
+> +}
+> +static DEVICE_ATTR_RO(boot_display);
+> +
+> +static struct attribute *display_attrs[] = {
+> +	&dev_attr_boot_display.attr,
+> +	NULL
+> +};
+> +
+> +static umode_t boot_display_visible(struct kobject *kobj,
+> +				    struct attribute *a, int n)
+> +{
+> +	struct device *dev = kobj_to_dev(kobj)->parent;
+> +
+> +	if (dev_is_pci(dev)) {
+> +		struct pci_dev *pdev = to_pci_dev(dev);
+> +
+> +		if (video_is_primary_device(&pdev->dev))
+> +			return a->mode;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct attribute_group display_attr_group = {
+> +	.attrs = display_attrs,
+> +	.is_visible = boot_display_visible,
+> +};
+> +
+> +static const struct attribute_group *card_dev_groups[] = {
+> +	&display_attr_group,
+> +	NULL
+> +};
+> +
+>   struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+>   {
+>   	const char *minor_str;
+> @@ -531,6 +571,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+>   
+>   		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
+>   		kdev->class = drm_class;
+> +		kdev->groups = card_dev_groups;
+>   		kdev->type = &drm_sysfs_device_minor;
+>   	}
+>   
 
-That's where rbtree_postorder_for_each_entry_safe() should be used.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> I tried using this rbtree_postorder_for_each_entry_safe() macro in the force_merge() and it works, but we also a need a reverse variant
-> since in normal allocation we dont want to disturb the lower addresses.
-
-I don't get what you mean here.
-
-Regards,
-Christian.
-
-> 
-> Thanks,
-> Arun.
->>
->>> That said; given 'next' will remain an existing node, only the 'pos'
->>> node gets removed, rb_next() will still work correctly, even in the face
->>> of rebalance.
->> Good to know!
->>
->> Regards,
->> Christian.
-> 
 
