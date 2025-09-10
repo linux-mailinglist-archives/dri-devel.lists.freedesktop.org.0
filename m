@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4481BB50B57
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E1EB50B4D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B8D910E836;
-	Wed, 10 Sep 2025 02:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253F510E831;
+	Wed, 10 Sep 2025 02:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bJVZdO7I";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jjIBGLF6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7923710E831
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 342DA10E82C
  for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 02:44:08 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-772488c78bcso6176086b3a.1
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-2570bf605b1so30274745ad.2
  for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 19:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1757472248; x=1758077048; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2kNx/lgQaweLHCKpOd5HxLBg5NtnJ9f3nOi2hx/97zs=;
- b=bJVZdO7ITPA8Ophtsdk2pZq2274HQ1ib/Fzs9/fEHccBzn3fnAZygE/77GvHjlVFai
- cqwOZCDgvVEQTUW5aFBZA8xWZFVSgNVcfRk+zewiwdnxSx1qB1ptIOJGAivFJ0ZuJw3d
- 9+grVocDeezYH6mMTpIIfVzTytXu3ruhgqlI9dWQiX95A1xI36LIGU+3IgZug/tZew0y
- qeEBqppUUT5H6jm3cagV1fOQveYp0XFC4gXq2GqQo1POpm/yhF/rfH7kU+dJIo+fly8v
- ql6hOFcTK+bD+bDreModjSvyDAtg4g11vxxDF3GebSf/KEbsMTtAh2uFge7ZTL9EN9P7
- Nlug==
+ bh=BATnrPttTGOeKRCCT0K3V4HzIU9KTE8stAVBRczt2LY=;
+ b=jjIBGLF6hAqAbp/Y9XuPHWadQkCY4W2h68MCEsjmo3kOiDt9QiZO/bIQEtn1U6EoXz
+ GhSb933gD0pRqhw5y+HIDZHDuA3XM3wziRSdHtMsePmOVFeMgXKTQYvVx8boPeRywNRD
+ OvWyMAQegC5oeeFCaORGarJP3SdQmvEGENo8b+xLUIMsyR4QTUYBubh/6nKRiV0jI+AP
+ P1JQZ8VXv/fcuE8ipvZWfgWlKmCUHXnrH5q8CzXRBkd5BwTeyLcySOkmkAHbw/dW0BGC
+ 3TN35ERboJl72Ey38HqpF8NAhaM7XfFhzTUuHlRtKZ3ifk6KPcLYSjB4N61HzoBU8+SR
+ OYcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1757472248; x=1758077048;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2kNx/lgQaweLHCKpOd5HxLBg5NtnJ9f3nOi2hx/97zs=;
- b=oblFyxUy0HNmfztqmKN7gFUjuH72ehXAtubPQJn7z9adHe0zfM9iNx78C5zy/VSZ/h
- Kb5MG+PPfvE3Cwj1TGyT0oEduTxVSYmIUnTqM3DUHjiAffuThsi8ldlXkQP0u7cDn/Rc
- NzHHhtoFizlIEiZekoixtbrI6nM4ktVK/k0E6zfR0aRlMEyWYfouanhd3NtSrYo0IcSB
- 5SrwifjodrUdQFuK6K7H9oSZdNy4kQ8VpcxSieiNg2ZYMeDEls+0VWE6Fot6sLU2cxRU
- h7zGY4hgaRl9pjphikQVDhbz4eLlAFPuVrH7cS2fT8w/uD0me7tqPVopRDmDv4lOsRVC
- w3Bw==
+ bh=BATnrPttTGOeKRCCT0K3V4HzIU9KTE8stAVBRczt2LY=;
+ b=S2PujhrQscGAMstQFRyUC+6S8qOZtR+UBfLFUeqWQL+g5xHrQTS3HVnu0btQMTXpoC
+ j3QOmK+9iZ/T75r2psmeDl4gE6LeGkmpqjEqSdXcOOzncXJWp8iFJxp/bR35oW007BqO
+ O6yeAL5CoEjGCpOZwIUtPXXJG/ty4tca5gfMQEilLuZlq2Gi2hILRCGeLAZ79AmFuDFX
+ mRTHFMCKC+4QpVPwBRXZCNuM3n4mhYR/kAuVZ+pj0kf2ACS/Zn/hjv8cMLKXi/pTaezv
+ k68dwwOsxSfE1LqQzddANtynBtSUuFu/t6EHcw0ieQ2inUt5zLGJYrEz0T9V8Kx/UBK6
+ OH/Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVIRf9q2wZs1t9KAbwv6F+nZwacjxCaRxJANbkZ9Ff1LQgyV3dyIufCCu5Y3u8mYwRCyigz/sunnco=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjyCZXtHAxjs5Z5aQNpacp90jbQ5E8aChfxPZmlwubr1W1FVG9
- nd2B4z+8JBDuNBMgjAaY1XfBjRTeSw/Mcm5qn+/LIuM4fBTXPLwPCuI/
-X-Gm-Gg: ASbGncsLZCfgqVa1TiKkA52U2wnnaCahdlE2VyYAvpnf+rbL5t9XBlGkPfWdftikALs
- 5sgvAMlrv0nDIXpaxrvR2pVjPSpXUfU2BRQLdF/z2Apisxp/b8XjWbZHj/w8qy8y+W9xBSMsLp0
- CsObsDh21vb+bUdmBtw/go2wjU0itM2oqSo59whN+wXjqQrxXa4o+UU/EhtKzG0SGUnc9gUNAMu
- CxSabT8w1svjmSJQWvMm2GrBQy6SLRW2Tyi6AiDVPa1U/a42pJRTDzG8pEwdXyjNNGPHMEhJm0y
- RJi38RfRjEUbqFMNyvPwIL1z8M/edPzK57KfMlFGr89ClXqXTIf0ghuxxzI9TC5Yu8wU8MEGP5j
- MeP7H3mEipNkpKw/L5CETCF85RA==
-X-Google-Smtp-Source: AGHT+IEyED1mSm10/nBWu/PDugDe2kHeGr2B1Dlm/0Mxg3VMmmsn8EtrKKBRn8Kt1DMp+jVk5SErrA==
-X-Received: by 2002:a05:6a21:998d:b0:24e:e270:2f5d with SMTP id
- adf61e73a8af0-2534547a6fbmr21436774637.43.1757472247740; 
+ AJvYcCXLDuYQH+Ipczrnfn/2UOZD2rFMXTiKrBw192VNWkCqWb5/h7ZkYwnTW4MTkB5qlKHn8Ns0I6egmbQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlPt9IPueIB2ByElqjHmyOPO+khuwCsQcYJGqrTdr6io4b9Qnt
+ kITUwoZ8XhoKf25X4NSYG0OdjzPkU0a5Fwuh88kD2iUUePMQnjRsK+A0
+X-Gm-Gg: ASbGncvXn5UckXRHShgd+K1ZyNXSFWFDCiCKMOkpf2hFGcPWC1LDHz9DN9+QQp69yR9
+ Ml6diLVozx6G24WPxii87jNhGLTGdupnAP1x5kHnYAF6rv2h21OOUJKr5WAXw2TMdFmCmW8A0Ut
+ JYWz0oV8H1gPW2KJMzTcUbA2s4qq9KFhH0zN+vGKDRDJk/eQauTk5hH42CCYI583lyQ6Do0dr5P
+ tCTzw/us6nbmX44CHXB5U9iluEchV+fFj2oj43tFAApmRm3aehOWFlYT2Lh8Jc2Jthfs0Rm8klW
+ sGhnjaC2eNh/uPcoWC5WNXr1ALw06naVlgDX9fGEBOFa2PCrW1443UERRj7u3iB/uhEc78EUNTV
+ 3OR8p4I2SS5pCr1+mracurpWGuEJLMo9UhOa2
+X-Google-Smtp-Source: AGHT+IFT6YbUc/m0qKUsx2gIlS1cyHwFE/YTWi5ShK7yx8zu8toS/bxgvdpLpOBm2BAA4mGAvmnSyA==
+X-Received: by 2002:a17:902:d501:b0:24e:3cf2:2457 with SMTP id
+ d9443c01a7336-2516e69aee6mr211563725ad.24.1757472247632; 
  Tue, 09 Sep 2025 19:44:07 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b548a6bbc9fsm1061117a12.43.2025.09.09.19.44.00
+ d2e1a72fcca58-774662ef781sm3491871b3a.90.2025.09.09.19.44.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 09 Sep 2025 19:44:03 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id 999D241BEA9D; Wed, 10 Sep 2025 09:43:52 +0700 (WIB)
+ id AD39841BEA9E; Wed, 10 Sep 2025 09:43:52 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,19 +140,19 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Masahiro Yamada <masahiroy@kernel.org>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 07/13] Documentation: kasan: Use internal link to kunit
-Date: Wed, 10 Sep 2025 09:43:22 +0700
-Message-ID: <20250910024328.17911-8-bagasdotme@gmail.com>
+Subject: [PATCH v2 08/13] Documentation: gpu: Use internal link to kunit
+Date: Wed, 10 Sep 2025 09:43:23 +0700
+Message-ID: <20250910024328.17911-9-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250910024328.17911-1-bagasdotme@gmail.com>
 References: <20250910024328.17911-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=bagasdotme@gmail.com;
- h=from:subject; bh=yEY9P3BA6E4kqaGTHyjuJlgmOOGj2m2ZOET4fPd8xcs=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHnihdUeC/XH99x9zD0/p/z/9z+OvEiwfuXjriUbHJw
- 5Al4fDvwo5SFgYxLgZZMUWWSYl8Tad3GYlcaF/rCDOHlQlkCAMXpwBMpGYSI8Phu5uLfVhjJryT
- C+XOkO/82KnH+HRZtlehgA+3hxWLXwPDX5ny7U3LZzLMPNBzWixMoIP59nkt/0fGhV4ZjM5rXH1
- d+AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1173; i=bagasdotme@gmail.com;
+ h=from:subject; bh=WOOeaeuC9/RH4phIV+H+QiLxF/prahARBSHjeoa181M=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHnijZrvnhN9eJ1+LvAp2zslcUft9O2uC6e1HKcd4J/
+ rFLDLiudJSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiyg8Y/lmtiNJu8EtVbugK
+ fub0kTH31Gy3pLdrgoTZz7qUXricksHI8GebzZaeM9lhFZ8KFVTdJ9stibqczP1vypfAmIZda2d
+ 1MwIA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -171,27 +171,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use internal linking to KUnit documentation.
+Use internal linking to kunit documentation.
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/dev-tools/kasan.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ Documentation/gpu/todo.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-index 0a1418ab72fdfc..c0896d55c97af8 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -562,7 +562,5 @@ There are a few ways to run the KASAN tests.
-    With ``CONFIG_KUNIT`` and ``CONFIG_KASAN_KUNIT_TEST`` built-in, it is also
-    possible to use ``kunit_tool`` to see the results of KUnit tests in a more
-    readable way. This will not print the KASAN reports of the tests that passed.
--   See `KUnit documentation <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
--   for more up-to-date information on ``kunit_tool``.
--
--.. _KUnit: https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
-+   See :doc:`KUnit documentation <kunit/index>` for more up-to-date information
-+   on ``kunit_tool``.
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index be8637da3fe950..efe9393f260ae2 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -655,9 +655,9 @@ Better Testing
+ Add unit tests using the Kernel Unit Testing (KUnit) framework
+ --------------------------------------------------------------
+ 
+-The `KUnit <https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html>`_
+-provides a common framework for unit tests within the Linux kernel. Having a
+-test suite would allow to identify regressions earlier.
++The :doc:`KUnit </dev-tools/kunit/index>` provides a common framework for unit
++tests within the Linux kernel. Having a test suite would allow to identify
++regressions earlier.
+ 
+ A good candidate for the first unit tests are the format-conversion helpers in
+ ``drm_format_helper.c``.
 -- 
 An old man doll... just what I always wanted! - Clara
 
