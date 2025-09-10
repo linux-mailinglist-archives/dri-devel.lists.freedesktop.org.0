@@ -2,89 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A543B51F5B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A27B51F63
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 19:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0571010E2FE;
-	Wed, 10 Sep 2025 17:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5291910E9A6;
+	Wed, 10 Sep 2025 17:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MuZPrEFi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IH4SbEcd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com
- [74.125.224.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAA910E2FE
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:47:44 +0000 (UTC)
-Received: by mail-yx1-f44.google.com with SMTP id
- 956f58d0204a3-60f45afcc50so1256638d50.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:47:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757526463; x=1758131263; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
- b=MuZPrEFi0021m39FwgcJXz6WiVO5qJJHtStaRdCb0BWrcf8o71Kp/ylBOR4UlZYoVJ
- cya4JLizcRmqoSGxOlJ4gfxyvXJabJ0S26VgbI0/bR0loPS+vcYD12c1X3eKt563XKoy
- h7QQMkuzVPrXVqy+abM7hjrmLbpDmc3lK1UY2m6IBa8g86e3+CAdZLdlbOpPxHUN00W8
- iUM0QC4ciYz2vPGTvyBsbud3Fw7Zr7sX//JVcMqzt6LP8OBI8a09yihHe+WikrCFZ8SF
- 6H4pGOnQSOTLdU6dwWydknf+qGl5lHtWQLqoLu72UJg9asSD9WWhsXDbn0aXea/OjRgd
- /4yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757526463; x=1758131263;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=043TJq6hpWw8pYqx0PWm3cQzQQkOF8ixWKwRpDFzK+o=;
- b=w1OjgAm3E4vYlYxY1J++8Tx84aVAz/sCWGjzyYZyd3TRzRBygP2whXwIxGuqM7w5BR
- ob/3MIf6ECJH2Hpuq+k0u3XdGwa9mfZH5VZC4oOziFcim93kTzu1tOUyKCgHSeH70+br
- LS9Leh9sZc7wM1r6KHYkmI349WGYYAPo4uaHAY3Zs2ejcv5Zrt1GgbtKBNJpO3A3i+cE
- ilPhGMFTPGruK1ewrw8xF8GPADgU7DHNdDnOpXZOBqKkTNYQR1st0t5lyrMq/AIZPe3G
- 6PJbGz/a7ahu+++SRGs25IOuntuZKhiKZ01fFZMT0Y5/99y+Nj4rDYDmpRPE6Bxk0CYH
- AlAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRK4FYlDo68mhu3qLLMwfHadG3gc/mkKGESaq0qIkmzVo8U+lOmRH9/wt9/EjSgt9acmYrpFjMmjI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/K75P1RgxPw90X7keh79DWVru4N1SQ3g+PAJJe7AxmuK8ksEg
- xR4DqwFq7F3VbBBwITcQiihLm9k8MvI4MM+4Fn1m6TAG5hdXo2Y3h2q8dRDagQjyNSwO5qB2mBD
- k7PgdViCBOKJ8COq1ecpDk8TP7/xGi4qAduZ0uss=
-X-Gm-Gg: ASbGncuubuGBKblyHd0S8YMu/XFHg7JfpsbbTEy3sn1/8LYKjuMbpHRIuihI4J7b9ln
- 73tHH0E30LOvgY6SE2FUV91zBucCIEz7lMVsdYjv/WBwGrjJAab8cVl43yw2nNJzPpNY5LfJf35
- Vrq8OdgvdtGMVxOzVxRvxFKVH5NpaAgatDJiWHTS6jzJuOLzKAAHul6IB9Q1RsUF2sPF8bJ2rqH
- 4mHl8IR
-X-Google-Smtp-Source: AGHT+IHxqld34a90SEM7ZlyhxBZvKGmf9aZideR0Sg0xlweL+lpFqlqovs0nnqC44Do1K8CC6oK2kjmZ56tu8gmw1Tg=
-X-Received: by 2002:a05:690e:430e:b0:5fc:541b:cea3 with SMTP id
- 956f58d0204a3-6102135dfeemr9750495d50.2.1757526462993; Wed, 10 Sep 2025
- 10:47:42 -0700 (PDT)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7678E10E9A6;
+ Wed, 10 Sep 2025 17:48:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 26EA34456B;
+ Wed, 10 Sep 2025 17:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CF5CC4CEF7;
+ Wed, 10 Sep 2025 17:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757526502;
+ bh=0ztWwTmDi2ZzwzQNUAOEIl2hbr5ojTLDzSuY2PO0wsk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IH4SbEcdWEveaRhNvmgsmIMFByRp6rVXdwbu5/4JZNVyZRuSBFNkPE9iYzP8mVCch
+ yusciDeKotqoa7woikSAdDXU1fddbSkewujMT+vE7wekHh3peOaJXK3pc5H5xMwKXh
+ wYOWC2mTTbUCx+qY+D+jiLKqRuZ/J6zmZq2xN3t+ISmu00BrBcgAYKG2+CpTZ0I8T0
+ O/Bx6Zp/hAWrUgFhXZHjWQhDhgbqlHNIfUzucWPfHnwEehmQpMQmptpAUzpAGsConZ
+ f/Gs8x+aBLlJ6xE2mXPxxka8AwqC/koFc/4EkzPZ56Q08lxfe8xMLVKUfAAz+jn13U
+ cng9KhikfgNKQ==
+Message-ID: <9332e17e-380b-42cc-b078-7c5d9d09d798@kernel.org>
+Date: Wed, 10 Sep 2025 12:48:19 -0500
 MIME-Version: 1.0
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
- <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
- <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
-In-Reply-To: <CAOvMTZhxJ3atv62ui5+ahNKV1vb7JXnwwm4xxvg5p=o5p2HnDQ@mail.gmail.com>
-From: Steev Klimaszewski <threeway@gmail.com>
-Date: Wed, 10 Sep 2025 12:47:32 -0500
-X-Gm-Features: Ac12FXwyR3KsW504KghsIm6qGTQ8W8fmNLhinJPGzylKTRxTbEJk3t0TSqYGRWY
-Message-ID: <CAOvMTZhmacxPsM3GcLL9cNq-1BonkwycYKY=hwtVXTz5UF_LYQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 01/12] PM: Introduce new PMSG_POWEROFF event
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
+ <linux-pm@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>, "Guilherme G . Piccoli" <gpiccoli@igalia.com>
+References: <20250909191619.2580169-1-superm1@kernel.org>
+ <20250909191619.2580169-2-superm1@kernel.org>
+ <CAJZ5v0i6+UaTHDnJE6z-VFuJrXbmfiAr7Gs=z9-xaX9mS7NqGA@mail.gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <CAJZ5v0i6+UaTHDnJE6z-VFuJrXbmfiAr7Gs=z9-xaX9mS7NqGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,75 +78,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Aleksandrs,
+On 9/10/25 8:58 AM, Rafael J. Wysocki wrote:
+> On Tue, Sep 9, 2025 at 9:16 PM Mario Limonciello (AMD)
+> <superm1@kernel.org> wrote:
+>>
+>> PMSG_POWEROFF will be used for the PM core to allow differentiating between
+>> a hibernation or shutdown sequence when re-using callbacks.
+>>
+>> This event should not have wakeups enabled
+> 
+> Why?
+> 
+> It surely is valid to wake up the system while it is being powered
+> off, especially in the hibernation case.
 
-On Wed, Sep 10, 2025 at 12:04=E2=80=AFPM Steev Klimaszewski <threeway@gmail=
-.com> wrote:
->
-> Hi Aleksandrs,
->
-> On Wed, Sep 10, 2025 at 7:01=E2=80=AFAM Aleksandrs Vinarskis <alex@vinars=
-kis.com> wrote:
-> >
-> > Leverage newly introduced 'leds' and 'led-names' properties to pass
-> > indicator's phandle and function to v4l2 subnode. The latter supports
-> > privacy led since couple of years ago under 'privacy-led' designation.
-> > Unlike initially proposed trigger-source based approach, this solution
-> > cannot be easily bypassed from userspace, thus reducing privacy
-> > concerns.
-> >
-> > Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
-> > ---
-> >  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++---=
--
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts=
- b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4f=
-ec8c1d1f20ee525bc 100644
-> > --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-> > @@ -83,14 +83,11 @@ leds {
-> >                 pinctrl-names =3D "default";
-> >                 pinctrl-0 =3D <&cam_indicator_en>;
-> >
-> > -               led-camera-indicator {
-> > -                       label =3D "white:camera-indicator";
-> > +               privacy_led: privacy-led {
->
-> Should this now be privacy_led: privacy { ?
->
-> >                         function =3D LED_FUNCTION_INDICATOR;
-> >                         color =3D <LED_COLOR_ID_WHITE>;
-> >                         gpios =3D <&tlmm 28 GPIO_ACTIVE_HIGH>;
-> > -                       linux,default-trigger =3D "none";
-> >                         default-state =3D "off";
-> > -                       /* Reuse as a panic indicator until we get a "c=
-amera on" trigger */
-> >                         panic-indicator;
-> >                 };
-> >         };
-> > @@ -685,6 +682,9 @@ camera@10 {
-> >                 pinctrl-names =3D "default";
-> >                 pinctrl-0 =3D <&cam_rgb_default>;
-> >
-> > +               leds =3D <&privacy_led>;
-> > +               led-names =3D "privacy";
-> > +
-> >                 clocks =3D <&camcc CAMCC_MCLK3_CLK>;
-> >
-> >                 orientation =3D <0>;      /* Front facing */
-> >
-> > --
-> > 2.48.1
-> >
->
-> v5 does not turn the led on here on my X13s whereas v3 did (and v4 was
-> not tested)
+In the hibernation case - yes you want wakeups.
 
-From IRC conversations, the issue was not having
-https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org
-applied - with this prerequisite, v5 works here
+But in what is perceived as powering off the machine it's not expected 
+that you would have wakeups.
 
-Tested-by: Steev Klimaszewski <threeway@gmail.com>
+If I have a USB mouse connected and set as a wakeup source, I can click 
+the mouse and the machine wakes up.  A user wouldn't expect that happens 
+with a powered off machine.
+
+That's certainly not how it works today at least.
+> 
+> The "poweroff" transition is generally not recoverable, however, so it
+> may be better to complete it and trigger a reboot if wakeup has been
+> signaled.
+
+Hmm, I'm not sure about that.  Back to hypothesizing on the USB mouse case:
+If I'm entering suspend, the mouse is an enabled wakeup source and I'm 
+moving the mouse the suspend should be aborted.
+
+But if I requested the machine to be powered off and and I clicked the 
+mouse while powering off that would be an "aborted power off?.
+Wouldn't that be really counterintuitive to reboot instead?
+
+IE as a user you expect that pressing the power button gets you an off 
+machine, not a different result based on other activity.
+
+> 
+>> so update PMSG_NO_WAKEUP() to match it as well.
+> 
+> No, please.
+> 
+>> Tested-by: Eric Naim <dnaim@cachyos.org>
+>> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+>> ---
+>> v7:
+>>   * Reword commit
+>> v5:
+>>   * Re-order and split
+>>   * Add tags
+>> v4:
+>>   * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
+>> ---
+>>   drivers/base/power/main.c    | 7 +++++++
+>>   include/linux/pm.h           | 5 ++++-
+>>   include/trace/events/power.h | 3 ++-
+>>   3 files changed, 13 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+>> index 2ea6e05e6ec90..86661c94e8cef 100644
+>> --- a/drivers/base/power/main.c
+>> +++ b/drivers/base/power/main.c
+>> @@ -99,6 +99,8 @@ static const char *pm_verb(int event)
+>>                  return "restore";
+>>          case PM_EVENT_RECOVER:
+>>                  return "recover";
+>> +       case PM_EVENT_POWEROFF:
+>> +               return "poweroff";
+>>          default:
+>>                  return "(unknown PM event)";
+>>          }
+>> @@ -369,6 +371,7 @@ static pm_callback_t pm_op(const struct dev_pm_ops *ops, pm_message_t state)
+>>          case PM_EVENT_FREEZE:
+>>          case PM_EVENT_QUIESCE:
+>>                  return ops->freeze;
+>> +       case PM_EVENT_POWEROFF:
+>>          case PM_EVENT_HIBERNATE:
+>>                  return ops->poweroff;
+>>          case PM_EVENT_THAW:
+>> @@ -403,6 +406,7 @@ static pm_callback_t pm_late_early_op(const struct dev_pm_ops *ops,
+>>          case PM_EVENT_FREEZE:
+>>          case PM_EVENT_QUIESCE:
+>>                  return ops->freeze_late;
+>> +       case PM_EVENT_POWEROFF:
+>>          case PM_EVENT_HIBERNATE:
+>>                  return ops->poweroff_late;
+>>          case PM_EVENT_THAW:
+>> @@ -437,6 +441,7 @@ static pm_callback_t pm_noirq_op(const struct dev_pm_ops *ops, pm_message_t stat
+>>          case PM_EVENT_FREEZE:
+>>          case PM_EVENT_QUIESCE:
+>>                  return ops->freeze_noirq;
+>> +       case PM_EVENT_POWEROFF:
+>>          case PM_EVENT_HIBERNATE:
+>>                  return ops->poweroff_noirq;
+>>          case PM_EVENT_THAW:
+>> @@ -1370,6 +1375,8 @@ static pm_message_t resume_event(pm_message_t sleep_state)
+>>                  return PMSG_RECOVER;
+>>          case PM_EVENT_HIBERNATE:
+>>                  return PMSG_RESTORE;
+>> +       case PM_EVENT_POWEROFF:
+>> +               return PMSG_ON;
+>>          }
+>>          return PMSG_ON;
+>>   }
+>> diff --git a/include/linux/pm.h b/include/linux/pm.h
+>> index cc7b2dc28574c..892bd93f13dad 100644
+>> --- a/include/linux/pm.h
+>> +++ b/include/linux/pm.h
+>> @@ -507,6 +507,7 @@ const struct dev_pm_ops name = { \
+>>    * RECOVER     Creation of a hibernation image or restoration of the main
+>>    *             memory contents from a hibernation image has failed, call
+>>    *             ->thaw() and ->complete() for all devices.
+>> + * POWEROFF    System will poweroff, call ->poweroff() for all devices.
+>>    *
+>>    * The following PM_EVENT_ messages are defined for internal use by
+>>    * kernel subsystems.  They are never issued by the PM core.
+>> @@ -537,6 +538,7 @@ const struct dev_pm_ops name = { \
+>>   #define PM_EVENT_USER          0x0100
+>>   #define PM_EVENT_REMOTE                0x0200
+>>   #define PM_EVENT_AUTO          0x0400
+>> +#define PM_EVENT_POWEROFF      0x0800
+>>
+>>   #define PM_EVENT_SLEEP         (PM_EVENT_SUSPEND | PM_EVENT_HIBERNATE)
+>>   #define PM_EVENT_USER_SUSPEND  (PM_EVENT_USER | PM_EVENT_SUSPEND)
+>> @@ -551,6 +553,7 @@ const struct dev_pm_ops name = { \
+>>   #define PMSG_QUIESCE   ((struct pm_message){ .event = PM_EVENT_QUIESCE, })
+>>   #define PMSG_SUSPEND   ((struct pm_message){ .event = PM_EVENT_SUSPEND, })
+>>   #define PMSG_HIBERNATE ((struct pm_message){ .event = PM_EVENT_HIBERNATE, })
+>> +#define PMSG_POWEROFF  ((struct pm_message){ .event = PM_EVENT_POWEROFF, })
+>>   #define PMSG_RESUME    ((struct pm_message){ .event = PM_EVENT_RESUME, })
+>>   #define PMSG_THAW      ((struct pm_message){ .event = PM_EVENT_THAW, })
+>>   #define PMSG_RESTORE   ((struct pm_message){ .event = PM_EVENT_RESTORE, })
+>> @@ -568,7 +571,7 @@ const struct dev_pm_ops name = { \
+>>
+>>   #define PMSG_IS_AUTO(msg)      (((msg).event & PM_EVENT_AUTO) != 0)
+>>   #define PMSG_NO_WAKEUP(msg)    (((msg).event & \
+>> -                               (PM_EVENT_FREEZE | PM_EVENT_QUIESCE)) != 0)
+>> +                               (PM_EVENT_FREEZE | PM_EVENT_QUIESCE | PM_EVENT_POWEROFF)) != 0)
+>>   /*
+>>    * Device run-time power management status.
+>>    *
+>> diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+>> index 82904291c2b81..370f8df2fdb4b 100644
+>> --- a/include/trace/events/power.h
+>> +++ b/include/trace/events/power.h
+>> @@ -179,7 +179,8 @@ TRACE_EVENT(pstate_sample,
+>>                  { PM_EVENT_HIBERNATE, "hibernate" }, \
+>>                  { PM_EVENT_THAW, "thaw" }, \
+>>                  { PM_EVENT_RESTORE, "restore" }, \
+>> -               { PM_EVENT_RECOVER, "recover" })
+>> +               { PM_EVENT_RECOVER, "recover" }, \
+>> +               { PM_EVENT_POWEROFF, "poweroff" })
+>>
+>>   DEFINE_EVENT(cpu, cpu_frequency,
+>>
+>> --
+>> 2.43.0
+>>
+
