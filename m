@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D47AB5108D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 10:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E456B510BD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 10:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F07010E896;
-	Wed, 10 Sep 2025 08:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9439610E898;
+	Wed, 10 Sep 2025 08:12:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CX1/coYv";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="bMYmS2Kd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA3E010E896
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:08:42 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58A88LvL095414;
- Wed, 10 Sep 2025 03:08:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757491702;
- bh=ISe2QleZokgkYclvuW677FsPG22emPPyU0CtFKxyG/I=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=CX1/coYvASgXaFrtPzzVUj3SLn/KBnUykHzIEw3PLeChZhoKMSyHvAU3N4cu25SC3
- xZPpFLo3ZQ5V6/Z3qH/aRMN1r5RgLNY0aZbUQKcrJ5pTrEpAUujSLPhMTTLjr3fjvX
- eqWo6DJlVh4babVK9Sd8Aw0Zcsea9Qa8HCFaPCLE=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58A88Lsa3773653
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 10 Sep 2025 03:08:21 -0500
-Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
- Sep 2025 03:08:20 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 10 Sep 2025 03:08:20 -0500
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58A88DcL171472;
- Wed, 10 Sep 2025 03:08:14 -0500
-Message-ID: <a04ded27-a3b2-4290-9084-70d302f77381@ti.com>
-Date: Wed, 10 Sep 2025 13:38:13 +0530
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9636110E184;
+ Wed, 10 Sep 2025 08:12:22 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cMD1v1kJfz9t4r;
+ Wed, 10 Sep 2025 10:12:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1757491939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PPU1gnuOMTGg9FkDyjniyY5pLjGLZv6fX6GCHXIwK70=;
+ b=bMYmS2Kdr2emLC7seKLyBbqkP++utFB7nXCzcbvNeVLNBxZvNbFK0S0LotGPzGI7fL5J2q
+ kV0rq6MHv92XcKeFdwPt8dsO+FJw7eozHOYkrosHCl343cLCDY5s8dWnqLR+gceb4ff9CA
+ EQwj/lVntuXPvPKJtgSCSIudfZzzz+wMO3wr/w/acwgllc09J9chSok4t7pCuJFp6kR3pL
+ Eq7y/G1EIDbZHZyPUh4SQSD32Zkyo9Xj57YNk1LXtxl2TbRQops/aRXPWaljrM1GdWyMsR
+ YBUg32Rr1Gi6EDf+hSvrq6BqMpGJVUvjNnsPGyD5QWxmo0Ys1euUIcoG3+b8aw==
+Message-ID: <0671680b-842f-4771-ade5-2485c9a91356@mailbox.org>
+Date: Wed, 10 Sep 2025 10:12:16 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] dt-bindings: drm/bridge: MHDP8546 bridge binding
- changes for DSC
-To: Rob Herring <robh@kernel.org>
-CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <sjakhade@cadence.com>, <yamonkar@cadence.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
- <s-jain1@ti.com>
-References: <20250909054622.1439487-1-h-shenoy@ti.com>
- <20250910023608.GA3662482-robh@kernel.org>
-Content-Language: en-US
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-In-Reply-To: <20250910023608.GA3662482-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Subject: Re: evergreen_packet3_check:... radeon 0000:1d:00.0: vbo resource
+ seems too big for the bo
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>, Borislav Petkov <bp@alien8.de>
+Cc: amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <CADnq5_Oqonrth+5T-83dnFBZ67GvykkPt-9aUepJd+fUMwnupw@mail.gmail.com>
+ <20250829194044.GCaLICPKJcGJRYdSfO@fat_crate.local>
+ <20250829204840.GEaLISKGTwuScnDF8Y@fat_crate.local>
+ <CADnq5_MbpYmC2PSyOr0gQk7F8mVz0-LG3dZtUZS2HhV8LTgDww@mail.gmail.com>
+ <20250830174810.GAaLM5WkiFc2BtQ6kW@fat_crate.local>
+ <51ae551b-6708-4fcd-84f9-fc1400f02427@mailbox.org>
+ <20250901101011.GAaLVxA_Ax0R-Wy2IX@fat_crate.local>
+ <2764782f-d411-4142-aa56-f1af0968ecd5@mailbox.org>
+ <20250908180022.GHaL8Zto-PsVsPa0e0@fat_crate.local>
+ <63b7c020-e589-4644-887e-3922af939009@mailbox.org>
+ <20250909161648.GAaMBS8ERsvv3NbJoF@fat_crate.local>
+ <CADnq5_MOazXJ4tUNa5uMdkWY7ZCu70M49yG00JsNHB-FO7XNvA@mail.gmail.com>
+ <45c973ea-22b5-4df2-8b34-a64d48cdecb2@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <45c973ea-22b5-4df2-8b34-a64d48cdecb2@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: e72a39f9b2a02435d57
+X-MBO-RS-META: fnhwu5eyhh1rqp7fb9izdhffnppc7xe4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +78,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10.09.25 10:02, Christian König wrote:
+> On 09.09.25 18:21, Alex Deucher wrote:
+>> On Tue, Sep 9, 2025 at 12:17 PM Borislav Petkov <bp@alien8.de> wrote:
+>>>
+>>> On Tue, Sep 09, 2025 at 10:43:47AM +0200, Michel Dänzer wrote:
+>>>> Then the developer needs to tell the user how to enable the debugging output
+>>>> and get it to them. That's pretty standard.
+>>>
+>>> *IF* the user even notices anything. As said earlier, it didn't cause any
+>>> anomalies on my machine besides flooding dmesg. Which I look at for obvious
+>>> reasons but users probably don't.
+>>
+>> Right.  I think there needs to be something otherwise no one will notice at all.
+> 
+> Well doesn't the cause of the warning result in corrupted rendering?
 
-On 9/10/25 08:06, Rob Herring wrote:
-> On Tue, Sep 09, 2025 at 11:16:22AM +0530, Harikrishna Shenoy wrote:
->> From: Swapnil Jakhade <sjakhade@cadence.com>
->>
->> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
->> DPI/DP bridge.
->>
->> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
->> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
->> ---
->> Changelog v3 -> v4:
->> -Remove maxItems as item list is mentioned for reg-names, resolves
->> dt_bindings_check warning.
->> Log link- <https://gist.github.com/h-shenoy/5391ea514bb58a6cba3f39248d20916b>
->> Link to v3- https://lore.kernel.org/all/20250908054609.1113360-1-h-shenoy@ti.com/
->>
->>   .../bindings/display/bridge/cdns,mhdp8546.yaml | 18 ++++++++++++++----
->>   1 file changed, 14 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> index c2b369456e4e..b40630de6d89 100644
->> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
->> @@ -27,6 +27,8 @@ properties:
->>             Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
->>         - description:
->>             Register block of mhdptx sapb registers.
->> +      - description:
->> +          Register block for mhdptx DSC encoder registers.
->>   
->>     reg-names:
->>       minItems: 1
->> @@ -34,6 +36,7 @@ properties:
->>         - const: mhdptx
->>         - const: j721e-intg
->>         - const: mhdptx-sapb
->> +      - const: dsc
->>   
->>     clocks:
->>       maxItems: 1
->> @@ -100,18 +103,25 @@ allOf:
->>         properties:
->>           reg:
->>             minItems: 2
->> -          maxItems: 3
->> +          maxItems: 4
->>           reg-names:
->>             minItems: 2
->> -          maxItems: 3
->> +          items:
->> +            - const: mhdptx
->> +            - const: j721e-intg
->> +            - const: mhdptx-sapb
->> +            - const: dsc
->>       else:
->>         properties:
->>           reg:
->>             minItems: 1
->> -          maxItems: 2
->> +          maxItems: 3
->>           reg-names:
->>             minItems: 1
->> -          maxItems: 2
->> +          items:
->> +            - const: mhdptx
->> +            - const: mhdptx-sapb
->> +            - const: dsc
-> Still obviously not tested with a DT having this. Because this
-> contradicts the top-level schema. Both cannot be true.
->
-> Rob
-Will update and test with the other compatible on some dummy dt and 
-share logs
+Per https://gitlab.freedesktop.org/mesa/mesa/-/issues/13838#note_3088335 it would result in one dropped vertex, which might be hard to notice. That's why I agree that in this specific case, not logging anything by default might have resulted in the issue taking much longer to be discovered (if ever).
+
+(A potential counter argument being: If it's not noticeable, does the kernel need to log anything about it by default?)
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
