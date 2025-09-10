@@ -2,51 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351E1B51ADE
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E68B51B32
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4F0210E942;
-	Wed, 10 Sep 2025 15:07:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC96D10E279;
+	Wed, 10 Sep 2025 15:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DgnE+HzF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="p5Fq26fY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6234610E942
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:07:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 82149601A8;
- Wed, 10 Sep 2025 15:07:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDA4C4CEEB;
- Wed, 10 Sep 2025 15:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757516853;
- bh=umxHN0eSqhWGYImhBQzS1cHIh4vrTZ/y67rXoJWxDJE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DgnE+HzF4jsYdoJvzQQmArzEeAF8hOnexC6z7f9yZs3esjDd916767upJxvCjl8LW
- U0AQfZEescGT4PbF2LvrnNB1yyShHOlPWBPMuVOnalW/MlDEQ74+W+ZWBvH3S/YgqO
- 0pmmMJyWC1qerXbM+OYXNGx3xy+4XufahXq7D+b1b68srydRB5mIYXBGC6DQxGm6Jx
- WT2tnuEj96CEbrPqawb7l4Gl3x+bzoehX06l6UFjs4GYAGkbVDWeW//HfBn46saLPV
- 93Mh4g2tMAsBt+m+ZwHGOXXkTCqnni+zvYW9yHNmaA/R6SC2EI0nSSViEMGm1LksPl
- pdwsN0dnaYosA==
-Message-ID: <0f358cc9-c8cf-4fd9-80d5-b524cc5b6c3c@kernel.org>
-Date: Wed, 10 Sep 2025 17:07:29 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68FA910E279
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:16:31 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgPGx003828
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:16:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=kKm0FaL1IsnsJ1lRYNU+N3Fz
+ JdUYvVMh5dXRjU0QCk8=; b=p5Fq26fYWFQBv4jsqwoICAN3BPzWKiJ1nDETM99M
+ qYaJAlGyDaaHmKO1z93fcVW5AWkmOt1ObtdBYRcfscs2Dt3fBbzvs/SnkRo7Ifc7
+ 7qQs49X1iUmV7tciI/bLswt8v/1P0apmUMCxq2pWlPemmfz0K+EN1BqxZmDlcNZl
+ bLdSmNTQrd3J1EQJDwspX2Q9ESFL4yeilX8M+0j6cs5FnriK3LpIIxOF/IS2qvFW
+ h2XMguo7EqCiriV+JKtDR6nQZ029MA6bgpufcFu2wyf6OrdEfBOOq63E4qNt7jkc
+ OXyLqkyUxTB3D9koO2CbE2l2L4cEK+a9ar/TSU1vg9bq9Q==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490dqg42st-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:16:30 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id
+ a1e0cc1a2514c-892460241e3so10043591241.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:16:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757517389; x=1758122189;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kKm0FaL1IsnsJ1lRYNU+N3FzJdUYvVMh5dXRjU0QCk8=;
+ b=kpbHC9AxwRXdKXvX33twV9VUnVM03c5GMn0f9Z0mj5Hyapq7P0U7vw7cGGZdO3Vkqq
+ OD2zduIQZK0VPrs9E9aP1tFIbgDYYWwRE/hRsueSnZ+G/b4yTW9DKDfW9dXtTqZeKT82
+ Mdq1NkgspC0tpZ9jH/BgKaPrNeXicc/ddAMF8IuFbM25iIwmhOvKHWXvLiFgvz2hL31g
+ 5WLzlf51bSrKXfl+xxL3VSC0QIMnVc7v3c06AVCoGACvErEFlRzsk/jjbB+fUmfCWzur
+ gXkttQ1hilzumvvVBb3tQSP3SLeMo/3CwxrRbwjoazsXwW8r2z7oy/1VQoGZ5mdaM0MM
+ dtug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW5FLZTPHly+m7M2IJfsTezu4DqncXq49fpHIdnzep4TVUam390p9uw3lnhOtLqm3jr2uXuVrA6/to=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMStbXDl37emXoK55tTZ3HTxIa3q2C47uEmxgz/jd2MU7SNkUc
+ yRzSS7TlbLiWJonRdD6zPhfQwNfK3/Z3LdniZcnVLx0CTRTwOfUllg+QMesbiEVnkc7RXhnb0eY
+ YLxqmsbpdJE3yH7PVv1prSFvcpa6Qsek6is7DhD2a3sXe9dIACh8usvITRZ1ZtN7lPFbNgv4=
+X-Gm-Gg: ASbGncvG1xYbz6hGlV/6oVlWJBSbk8+anEd6lR/qEZ5SDaAXRtBFth26A1HH67mgirp
+ BM3vDO7YQVFg/JSwX5yy9k0JykitrGRf90s53zAm68pGWnqPAGEmfoywyp4hEasabjquGy+HBG8
+ DNn1o4FuUuMqaOPh3rLqaGk5omtW4BqVXRrYIS7fPVelq7K3WgVByJS9wFEGSjjLqkVEl/r2vTG
+ OW6ycMFivvBLJ0WmB4XW259/76lt34mczjJRZ1w7E+sMbPu/jkhvElkcWSXoBHwaJ6pqQiQ0lMg
+ eff0rmk7u7lZj0VJXJx7+I7ajxQLMcRDhnsLm1KkjiP79sCwAedQGSRuRN5MSuU66JPuZVc5uGL
+ wgWPBt3OVqTfUGFiorlqzIMJUjr5SC4Xday03sDgkFrZXl7yLvaha
+X-Received: by 2002:a05:6122:2a42:b0:543:6ff8:d6d7 with SMTP id
+ 71dfb90a1353d-5472a0088bfmr5155455e0c.1.1757517388995; 
+ Wed, 10 Sep 2025 08:16:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEV+Ok0B9ImEfUJn+5MDsBCd0a1EnbrepGzoV/kCIfMR/JnpVKik3JbAUvvY8M2wWHlz+5tjQ==
+X-Received: by 2002:a05:6122:2a42:b0:543:6ff8:d6d7 with SMTP id
+ 71dfb90a1353d-5472a0088bfmr5155361e0c.1.1757517388194; 
+ Wed, 10 Sep 2025 08:16:28 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5680c4246c2sm1301330e87.17.2025.09.10.08.16.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Sep 2025 08:16:27 -0700 (PDT)
+Date: Wed, 10 Sep 2025 18:16:25 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fbdev/simplefb: Fix use after free in
- simplefb_detach_genpds()
-To: Janne Grunau <j@jannau.net>, Helge Deller <deller@gmx.de>,
- Thierry Reding <treding@nvidia.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Daniel Huhardeaux <tech@tootai.net>,
- stable@vger.kernel.org
-References: <20250908-simplefb-genpd-uaf-v2-1-f88a0d9d880f@jannau.net>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250908-simplefb-genpd-uaf-v2-1-f88a0d9d880f@jannau.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250910-furry-singing-axolotl-9aceac@houat>
+X-Proofpoint-ORIG-GUID: W5vcHBM2xJsLrsUEOfhKaQ8leSy49VD_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzNSBTYWx0ZWRfX01bQrONjxHZd
+ hzYKbfz19gEQdBBpGVsOwiEY66Wc94Dbm7Sc4LFlyQn5+Ic0V6lz5eHqlcq2FFMsTrls2nL3Av+
+ cmMDejmUJoTV/jQp6zfbxbQFLZiURs4ggzaTOZMd6vVgp2kRHs6aOI8tTeYpTTSR6ucqDgutnzE
+ 0Wh+d0ni0AN0GP7/O+NphIsqzegp/oEv2aozEXO/ZQLt+EX0bsCF/QatEjERTy2LZkLwPHWujJc
+ NNlFfS0OERP7ksXfLXqyJyu2wff9azc0/NU+Zes6+OQLNskG5P9LJD6hJWtZsoOWQi3woO8pHjh
+ 6T1LqXe3VZuRCg5pJsDciXQyLI4Lh5Ami1cq3DQm220Z7K0NjzWKoAhunMD0CgrBbcOvT/YFJsA
+ FHV3jOvn
+X-Proofpoint-GUID: W5vcHBM2xJsLrsUEOfhKaQ8leSy49VD_
+X-Authority-Analysis: v=2.4 cv=N8UpF39B c=1 sm=1 tr=0 ts=68c1964e cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=8AirrxEcAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8
+ a=Hspkq7dj2dKET-HI0ioA:9 a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22
+ a=ST-jHhOKWsTCqRlWije3:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_02,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060035
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,195 +148,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Janne,
-
-On 8-Sep-25 11:23 PM, Janne Grunau wrote:
-> The pm_domain cleanup can not be devres managed as it uses struct
-> simplefb_par which is allocated within struct fb_info by
-> framebuffer_alloc(). This allocation is explicitly freed by
-> unregister_framebuffer() in simplefb_remove().
-> Devres managed cleanup runs after the device remove call and thus can no
-> longer access struct simplefb_par.
-> Call simplefb_detach_genpds() explicitly from simplefb_destroy() like
-> the cleanup functions for clocks and regulators.
+On Wed, Sep 10, 2025 at 01:03:47PM +0200, Maxime Ripard wrote:
+> On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
+> > Currently DRM framework expects that the HDMI connector driver supports
+> > all infoframe types: it generates the data as required and calls into
+> > the driver to program all of them, letting the driver to soft-fail if
+> > the infoframe is unsupported. This has a major drawback on userspace
+> > API: the framework also registers debugfs files for all Infoframe types,
+> > possibly surprising the users when infoframe is visible in the debugfs
+> > file, but it is not visible on the wire. Drivers are also expected to
+> > return success even for unsuppoted InfoFrame types.
+> > 
+> > Let drivers declare that they support only a subset of infoframes,
+> > creating a more consistent interface. Make the affected drivers return
+> > -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which are
+> > not supported.
+> > 
+> > Acked-by: Liu Ying <victor.liu@nxp.com>
+> > Acked-by: Daniel Stone <daniels@collabora.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > 
-> Fixes an use after free on M2 Mac mini during
-> aperture_remove_conflicting_devices() using the downstream asahi kernel
-> with Debian's kernel config. For unknown reasons this started to
-> consistently dereference an invalid pointer in v6.16.3 based kernels.
+> Again, I still believe that it's a bad idea, goes against what the spec
+> states, and the framework was meant to be.
 
-Thank you for your patch.
+Please correct me if I'm wrong. The specs (HDMI & CEA) define several
+infoframes and whether we should be sending them. If I'm reading it
+correctrly, CEA spec explicitly says 'If the Source supports the
+transmission of [foo] InfoFrame..." (6.4 - AVI, 6.6 - Audio, 6.7 MPEG,
+6.9 - DRM). For other InfoFrames (6.5 SPD, 6.8 NTSC VBI) it just defines
+that sending those frames is optional.
 
-This patch seems to miss adding a simplefb_detach_genpds()
-on error-exit from simplefb_probe() after a successful
-simplefb_attach_genpds() call ?
+We can't even infer support for InfoFrames from the Source features.
+E.g. CEA 6.6.1 defines a case when digital audio is allowed to be sent,
+without sending Audio InfoFrame.
 
-Regards,
-
-Hans
-
-
-
+As we will be getting more and more features, some of the InfoFrames
+or data packets will be 'good to have, but not required'.
 
 > 
-> [    6.736134] BUG: KASAN: slab-use-after-free in simplefb_detach_genpds+0x58/0x220
-> [    6.743545] Read of size 4 at addr ffff8000304743f0 by task (udev-worker)/227
-> [    6.750697]
-> [    6.752182] CPU: 6 UID: 0 PID: 227 Comm: (udev-worker) Tainted: G S                  6.16.3-asahi+ #16 PREEMPTLAZY
-> [    6.752186] Tainted: [S]=CPU_OUT_OF_SPEC
-> [    6.752187] Hardware name: Apple Mac mini (M2, 2023) (DT)
-> [    6.752189] Call trace:
-> [    6.752190]  show_stack+0x34/0x98 (C)
-> [    6.752194]  dump_stack_lvl+0x60/0x80
-> [    6.752197]  print_report+0x17c/0x4d8
-> [    6.752201]  kasan_report+0xb4/0x100
-> [    6.752206]  __asan_report_load4_noabort+0x20/0x30
-> [    6.752209]  simplefb_detach_genpds+0x58/0x220
-> [    6.752213]  devm_action_release+0x50/0x98
-> [    6.752216]  release_nodes+0xd0/0x2c8
-> [    6.752219]  devres_release_all+0xfc/0x178
-> [    6.752221]  device_unbind_cleanup+0x28/0x168
-> [    6.752224]  device_release_driver_internal+0x34c/0x470
-> [    6.752228]  device_release_driver+0x20/0x38
-> [    6.752231]  bus_remove_device+0x1b0/0x380
-> [    6.752234]  device_del+0x314/0x820
-> [    6.752238]  platform_device_del+0x3c/0x1e8
-> [    6.752242]  platform_device_unregister+0x20/0x50
-> [    6.752246]  aperture_detach_platform_device+0x1c/0x30
-> [    6.752250]  aperture_detach_devices+0x16c/0x290
-> [    6.752253]  aperture_remove_conflicting_devices+0x34/0x50
-> ...
-> [    6.752343]
-> [    6.967409] Allocated by task 62:
-> [    6.970724]  kasan_save_stack+0x3c/0x70
-> [    6.974560]  kasan_save_track+0x20/0x40
-> [    6.978397]  kasan_save_alloc_info+0x40/0x58
-> [    6.982670]  __kasan_kmalloc+0xd4/0xd8
-> [    6.986420]  __kmalloc_noprof+0x194/0x540
-> [    6.990432]  framebuffer_alloc+0xc8/0x130
-> [    6.994444]  simplefb_probe+0x258/0x2378
-> ...
-> [    7.054356]
-> [    7.055838] Freed by task 227:
-> [    7.058891]  kasan_save_stack+0x3c/0x70
-> [    7.062727]  kasan_save_track+0x20/0x40
-> [    7.066565]  kasan_save_free_info+0x4c/0x80
-> [    7.070751]  __kasan_slab_free+0x6c/0xa0
-> [    7.074675]  kfree+0x10c/0x380
-> [    7.077727]  framebuffer_release+0x5c/0x90
-> [    7.081826]  simplefb_destroy+0x1b4/0x2c0
-> [    7.085837]  put_fb_info+0x98/0x100
-> [    7.089326]  unregister_framebuffer+0x178/0x320
-> [    7.093861]  simplefb_remove+0x3c/0x60
-> [    7.097611]  platform_remove+0x60/0x98
-> [    7.101361]  device_remove+0xb8/0x160
-> [    7.105024]  device_release_driver_internal+0x2fc/0x470
-> [    7.110256]  device_release_driver+0x20/0x38
-> [    7.114529]  bus_remove_device+0x1b0/0x380
-> [    7.118628]  device_del+0x314/0x820
-> [    7.122116]  platform_device_del+0x3c/0x1e8
-> [    7.126302]  platform_device_unregister+0x20/0x50
-> [    7.131012]  aperture_detach_platform_device+0x1c/0x30
-> [    7.136157]  aperture_detach_devices+0x16c/0x290
-> [    7.140779]  aperture_remove_conflicting_devices+0x34/0x50
-> ...
-> 
-> Reported-by: Daniel Huhardeaux <tech@tootai.net>
-> Cc: stable@vger.kernel.org
-> Fixes: 92a511a568e44 ("fbdev/simplefb: Add support for generic power-domains")
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Changes in v2:
-> - reworked change due to missed use of `par->num_genpds` before setting
->   it. Missed in testing due to FB_SIMPLE vs. SYSFB_SIMPLEFB.
-> - Link to v1: https://lore.kernel.org/r/20250901-simplefb-genpd-uaf-v1-1-0d9f3a34c4dc@jannau.net
-> ---
->  drivers/video/fbdev/simplefb.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-> index 1893815dc67f4c1403eea42c0e10a7ead4d96ba9..2f3e5449509d1824a3d26f73e103af82d56d558a 100644
-> --- a/drivers/video/fbdev/simplefb.c
-> +++ b/drivers/video/fbdev/simplefb.c
-> @@ -93,6 +93,7 @@ struct simplefb_par {
->  
->  static void simplefb_clocks_destroy(struct simplefb_par *par);
->  static void simplefb_regulators_destroy(struct simplefb_par *par);
-> +static void simplefb_detach_genpds(void *res);
->  
->  /*
->   * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
-> @@ -105,6 +106,7 @@ static void simplefb_destroy(struct fb_info *info)
->  
->  	simplefb_regulators_destroy(info->par);
->  	simplefb_clocks_destroy(info->par);
-> +	simplefb_detach_genpds(info->par);
->  	if (info->screen_base)
->  		iounmap(info->screen_base);
->  
-> @@ -451,7 +453,7 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
->  				  struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> -	unsigned int i;
-> +	unsigned int i, num_genpds;
->  	int err;
->  
->  	err = of_count_phandle_with_args(dev->of_node, "power-domains",
-> @@ -465,26 +467,33 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
->  		return err;
->  	}
->  
-> -	par->num_genpds = err;
-> +	num_genpds = err;
->  
->  	/*
->  	 * Single power-domain devices are handled by the driver core, so
->  	 * nothing to do here.
->  	 */
-> -	if (par->num_genpds <= 1)
-> +	if (num_genpds <= 1)
->  		return 0;
->  
-> -	par->genpds = devm_kcalloc(dev, par->num_genpds, sizeof(*par->genpds),
-> +	par->genpds = devm_kcalloc(dev, num_genpds, sizeof(*par->genpds),
->  				   GFP_KERNEL);
->  	if (!par->genpds)
->  		return -ENOMEM;
->  
-> -	par->genpd_links = devm_kcalloc(dev, par->num_genpds,
-> +	par->genpd_links = devm_kcalloc(dev, num_genpds,
->  					sizeof(*par->genpd_links),
->  					GFP_KERNEL);
->  	if (!par->genpd_links)
->  		return -ENOMEM;
->  
-> +	/*
-> +	 * Set par->num_genpds only after genpds and genpd_links are allocated
-> +	 * to exit early from simplefb_detach_genpds() without full
-> +	 * initialisation.
-> +	 */
-> +	par->num_genpds = num_genpds;
-> +
->  	for (i = 0; i < par->num_genpds; i++) {
->  		par->genpds[i] = dev_pm_domain_attach_by_id(dev, i);
->  		if (IS_ERR(par->genpds[i])) {
-> @@ -506,9 +515,10 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
->  			dev_warn(dev, "failed to link power-domain %u\n", i);
->  	}
->  
-> -	return devm_add_action_or_reset(dev, simplefb_detach_genpds, par);
-> +	return 0;
->  }
->  #else
-> +static void simplefb_detach_genpds(void *res) { }
->  static int simplefb_attach_genpds(struct simplefb_par *par,
->  				  struct platform_device *pdev)
->  {
-> 
-> ---
-> base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-> change-id: 20250901-simplefb-genpd-uaf-352704761a29
-> 
-> Best regards,
+> So, no, sorry. That's still a no for me. Please stop sending that patch
 
+Oops :-)
+
+> unless we have a discussion about it and you convince me that it's
+> actually something that we'd need.
+
+My main concern is that the drivers should not opt-out of the features.
+E.g. if we start supporting ISRC packets or MPEG or NTSC VBI InfoFrames
+(yes, stupid examples), it should not be required to go through all the
+drivers, making sure that they disable those. Instead the DRM framework
+should be able to make decisions like:
+
+- The driver supports SPD and the VSDB defines SPD, enable this
+  InfoFrame (BTW, this needs to be done anyway, we should not be sending
+  SPD if it's not defined in VSDB, if I read it correctly).
+
+- The driver hints that the pixel data has only 10 meaninful bits of
+  data per component (e.g. out of 12 for DeepColor 36), the Sink has
+  HF-VSDB, send HF-VSIF.
+
+- The driver has enabled 3D stereo mode, but it doesn't declare support
+  for HF-VSIF. Send only H14b-VSIF.
+
+Similarly (no, I don't have these on my TODO list, these are just
+examples):
+- The driver defines support for NTSC VBI, register a VBI device.
+
+- The driver defines support for ISRC packets, register ISRC-related
+  properties.
+
+- The driver defines support for MPEG Source InfoFrame, provide a way
+  for media players to report frame type and bit rate.
+
+- The driver provides limited support for Extended HDR DM InfoFrames,
+  select the correct frame type according to driver capabilities.
+
+Without the 'supported' information we should change atomic_check()
+functions to set infoframe->set to false for all unsupported InfoFrames
+_and_ go through all the drivers again each time we add support for a
+feature (e.g. after adding HF-VSIF support).
+
+-- 
+With best wishes
+Dmitry
