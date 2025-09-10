@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D89BB51CCC
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:01:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C18B51D92
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F58B10E95A;
-	Wed, 10 Sep 2025 16:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5CA410E16D;
+	Wed, 10 Sep 2025 16:25:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NNi7LZBV";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="QzkQ1Lc6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE74010E95A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 16:01:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757520086; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=R5DDqmabhsADtMQCa2PEdFT6F6wXS9UD/gGmpLywYcPrMKfhq88xNdBkGb8waBzjsKLkauIkTZ7z1RrkRmx77yxGkMbmt4pn6EQY273AbNRYhBkKrWQsQCCodV5fCFt+Cj1jRCQZhj/po422gXn04MM32CEJaiiCea5eXeOEiD0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757520086;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=; 
- b=R1Oct9/K0pgrsE6ekil11c92iYphWLbg1NfznTSVdecOiUThXFJD1HAwSAGsj1jCTP4WnUmmCJzdJmNTcxwzCvtPBuwMVx9tq3arn6K65HuQ6uowbNLYIFAbsWPnMc5xk99S9/1Prfjkr5wM34P6crUTigUGLLtUVHH32uXx5Zw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757520085; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=;
- b=NNi7LZBVPN/l/xAW+MYrNHuVhd3P5biETVJMrjrMGhoO7Szh7a/eXWCGKVyejaWg
- AUU46rWM9rcHy4fqDfkLmO5jQ3oCB1ppq9L7YS+VbG/zh9hiHS+HkbgMig99r/4Z2TX
- wYz1HTF4q2uewOLrLqy2+D5+3paLJyIyf7EEXJJk=
-Received: by mx.zohomail.com with SMTPS id 1757520082828908.8305273727573;
- Wed, 10 Sep 2025 09:01:22 -0700 (PDT)
-Message-ID: <7523752e-eb7b-4211-84f2-33916c39ee2b@collabora.com>
-Date: Wed, 10 Sep 2025 13:01:07 -0300
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CCF10E16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 16:25:47 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 8CB6B25B19;
+ Wed, 10 Sep 2025 18:25:45 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id KKyL2TSpdQ30; Wed, 10 Sep 2025 18:25:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1757521544; bh=yxsZly4e4NNU/BnRyZTfCx+kf32JMESOMXhbZsii9A8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=QzkQ1Lc6ExLEV1/UmoYpaz5DQ71e9J9VxxTTkjjG8Qx3SduHlePv6WK4cb5E+o7cC
+ jqzp40ctssOgp1/HPhaadt3gm69iXskPEkhRD6rMCjXYi+X3rApjYV5av0mrUGeW8s
+ WyZ3c72njeDfFUs7x8NnbW24U8ze9Bp2kiEFXouA8av6Lk6cEdZcroVL5qqftbKchw
+ ZZKEI27gp5M4utH6NJgLSvjspwWc5gIVo7NOjJL4t3aC1rpNXQlrw7SF3yKY/0bcd8
+ 9yYUJAaudozmVkfGdUQCpcLU2GgEVCHmjfkT5Ptg9Db3SD+bjfUFDCp5D/1CTDqr0K
+ N87zpNJJM+fuA==
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
- MIP4 Touchscreen to YAML
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, edumazet@google.com,
- flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
- jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
- kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
- lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-14-ariel.dalessandro@collabora.com>
- <CACRpkdbpKqKyebADj0xPFq3g0biPh-vm4d6C3sd8r0URyfyYRg@mail.gmail.com>
- <caguo7ud4dapb4yupeq2x4ocwoh4dt5nedwjsyuqsaratugcgz@ozajhsqwfzq6>
- <CACRpkdZRHQ6vuchN8x8d0uPCVMPPHOdBVWiUhzFJNs2paHGbYw@mail.gmail.com>
- <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Date: Wed, 10 Sep 2025 16:25:40 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v5 0/2] Support for Synaptics TDDI series panels
+In-Reply-To: <20250820-panel-synaptics-tddi-v5-0-d4e3fd4987c6@disroot.org>
+References: <20250820-panel-synaptics-tddi-v5-0-d4e3fd4987c6@disroot.org>
+Message-ID: <38e3a32db8402c1cbf3dc2fdf9f04ac3@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,60 +67,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Krzysztof, all,
+Hi,
 
-On 9/9/25 3:56 AM, Krzysztof Kozlowski wrote:
-> On 05/09/2025 13:33, Linus Walleij wrote:
->> On Fri, Sep 5, 2025 at 12:02 PM Dmitry Torokhov
->> <dmitry.torokhov@gmail.com> wrote:
->>> On Thu, Aug 21, 2025 at 01:56:24PM +0200, Linus Walleij wrote:
->>>> Hi Ariel,
->>>>
->>>> thanks for your patch!
->>>>
->>>> On Wed, Aug 20, 2025 at 7:17 PM Ariel D'Alessandro
->>>> <ariel.dalessandro@collabora.com> wrote:
->>>>
->>>>> +  ce-gpios:
->>>>> +    description: GPIO connected to the CE (chip enable) pin of the chip
->>>>> +    maxItems: 1
->>>>
->>>> Mention that this should always have the flag GPIO_ACTIVE_HIGH
->>>> as this is required by the hardware.
->>>>
->>>> Unfortunately we have no YAML syntax for enforcing flags :/
->>>
->>> Theoretically there can be an inverter on the line, so from the AP point
->>> of view the line is active low while from the peripheral POV the pin is
->>> active high...
->>
->> Yes, I think someone even proposed adding inverters to the
->> device tree and was nixed.
+Bumping to collect some reviews on this series. Thanks!
+
+On 2025-08-20 14:24, Kaustabh Chakraborty wrote:
+> Synaptics' Touch and Display Driver Integration (TDDI) technology [1]
+> employs a single chip for both touchscreen and display capabilities.
+> Such designs reportedly help reducing costs and power consumption.
 > 
-> It's not about DT, it's about board design - you can (almost?) always
-> invert the logical signal, so this should match what hardware requires
-> plus any inverter on the board.
+> Although the touchscreens, which are powered by Synaptics'
+> Register-Mapped Interface 4 (RMI4) touch protocol via I2C or SPI have
+> driver support in the kernel, the MIPI DSI display panels don't.
 > 
+> This series introduces a rudimentary driver for controlling said 
+> display
+> panels, which supports TD4101 and TD4300 panels.
 > 
->>
->> It's a matter of phrasing I would say:
->>
->> "Mention that this should nominally have the flag GPIO_ACTIVE_HIGH
+> [1] https://www.synaptics.com/technology/display-integration
 > 
-> No, please do not, it is wrong. If hardware requires active high, then
-> just say this is active high. But the actual GPIO flag depends on the
-> board design if signal is inverted.
-
-After the discussion from this thread, will mark it a "active high" in 
-the property description for v2.
-
-Thanks,
-
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
-
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+> Changes in v5:
+> - added missing Reviewed-by tag from Krzysztof in [v3 1/2]
+> - Link to v4: 
+> https://lore.kernel.org/r/20250819-panel-synaptics-tddi-v4-0-448f466d16a6@disroot.org
+> 
+> Changes in v4:
+> - utilized drm_connector_helper_get_modes_fixed() (dmitry.baryshkov)
+> - constified backlight properties (dmitry.baryshkov)
+> - Link to v3: 
+> https://lore.kernel.org/r/20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org
+> 
+> Changes in v3:
+> - fixed various dt_binding_check errors (robh's bot)
+> - adjusted commit description of [v2 1/2] (robh)
+> - utilized devm_drm_panel_alloc() and devm_regulator_bulk_get_const()
+> - Link to v2: 
+> https://lore.kernel.org/r/20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org
+> 
+> Changes in v2:
+> - fixed various dt_binding_check errors (conor)
+> - did s/tddi_update_brightness/tddi_update_status
+> - added check for panel enable in tddi_update_status()
+> - used backlight_get_brightness() in appropriate places
+> - Link to v1: 
+> https://lore.kernel.org/r/20250612-panel-synaptics-tddi-v1-0-dfb8a425f76c@disroot.org
+> 
+> ---
+> Kaustabh Chakraborty (2):
+>       dt-bindings: display: panel: document Synaptics TDDI panel
+>       drm: panel: add support for Synaptics TDDI series DSI panels
+> 
+>  .../display/panel/synaptics,td4300-panel.yaml      |  89 +++++++
+>  drivers/gpu/drm/panel/Kconfig                      |  11 +
+>  drivers/gpu/drm/panel/Makefile                     |   1 +
+>  drivers/gpu/drm/panel/panel-synaptics-tddi.c       | 276 
+> +++++++++++++++++++++
+>  4 files changed, 377 insertions(+)
+> ---
+> base-commit: 5303936d609e09665deda94eaedf26a0e5c3a087
+> change-id: 20250523-panel-synaptics-tddi-0b0b3f07f814
+> 
+> Best regards,
+> --
+> Kaustabh Chakraborty <kauschluss@disroot.org>
