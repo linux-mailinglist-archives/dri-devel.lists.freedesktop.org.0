@@ -2,127 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1964B5173A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E5B5174A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372E210E91C;
-	Wed, 10 Sep 2025 12:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4DF10E0E7;
+	Wed, 10 Sep 2025 12:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eb/iU509";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ll8SGZQ4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5324C10E0E7
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:48:48 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgbjc013924
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:48:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 2hLzDCHQ287+835m55C/xeetdRQfkul00hmOXMYpJPE=; b=eb/iU509PSQTrGCB
- gdxgseS4bxmqf6d5tCf6/BZIv7GJhIiXcJ7IDFYc1VPr0rVPsBaZoFxQckC6ChUO
- 8xrxv+71kRnFabbee08/GiUHWb5FIYLLyzEJsb0MFYUZmL/r4FXK0l5oRoiQk4UG
- H1gn7e0SKV37BmH6ssECSBzyWkgnA4Z2UBH6GHV6gQ+Ikfx31PEOlQHbWPxlEQMw
- 8XveI8/zo+/rblh0B+Fc5HRAwfRRs2qobZBldpVhJIoLzlq4BUlPzNWVRmsoeSs3
- tbCgv858lHWRhFV3vDyJF1UbWr6b3LbJHfM05+5NMoeddvMGdQbXLrqTX8qBRUak
- 4apKKw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e8abs2f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:48:47 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b613a54072so9908621cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 05:48:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757508526; x=1758113326;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2hLzDCHQ287+835m55C/xeetdRQfkul00hmOXMYpJPE=;
- b=fOlWNs3m4MH+/UNgKUA3Ecfz4oz7npBHtwRkUy5dfalN/IhmtMSK08fjLiWonHJEiU
- +RFeIZlM5xKbgxaedd1BsN80wm+HKAAa54Nvl7/QB15KhBUcYNUzU1cOpXUCG8QE0Oq7
- coRQmXaj4SBGNeGMgDZAg5Ufq2gHAwclIBN4p3XDrkWE6F2OQHZMtfNTpuLehzDQL0gn
- thUatX3KS7i3e9YFHG+VkLXKuWjnvLbZT59vsJiPv8WhlB/TM2ifUkV6dqE8NRVB1IY6
- 3kTKFco2i7egiKMY7Qy0cQJ4EVu1lCM2Sl8+RzWgDnBNfCsxaci8K1+NNDSVtMuG1m4W
- jUbg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVfitYQc8HW0Nw4CTi/GM33xvh98TjdhNxruNtiweWGxcsteLcdzz9U8pIqfCJFCJ4D8fB26IHeEAA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxv930iRULbWFaCJAB8WijsH9UsTOtUuZ3KOeSNRk88SyP/ywcX
- 9wbEaU2cfAcN+VLzl46kJQNidtF7GRl60rUAOI9STif4Z1DNQ6WSRkWyNbosomSHraXMGiXoOsp
- FpxZRN8DBvqAFtRcqTyGvTM1wymXg9up/JERqPptJtrfpH0bdYiBJjT2AfnyGyX8/lVOm8Ik=
-X-Gm-Gg: ASbGncuSNTTMxW5E0EZJ057qa6r3yoZXKl8Q9OCBJpopyQstoBD8LrnZpTO6k3lkAAe
- A9vw3/t+4//MAJ/txAVITenkIIZ/Xg7VF+2DnXs02CP2+VgjHRxjJMVMa6W05FjtIBNEEwl+Vuq
- BMsO/sid4RK0zO8UlogAFEG8tUXgflZbVICA147618zed7Su6LWmv6A2uvtA39eXeiV/HyBy+UP
- BJqA9Q2Hyhar6nZKCtpDZ+yNElDFpWlj7rEqsK19EJTF5ETeh5anI70GUjim3hU/yNnLA87NPrF
- Dl51Dh63iEfKx6DcNQdJ05CFyHrxGObD9CEw1Le12hN3bck0ShpnweY7e20BF/Fr49K/MM+2lIj
- eRiwiEz4G7RE4HMfymswL3Q==
-X-Received: by 2002:a05:622a:19a7:b0:4b4:9070:f27e with SMTP id
- d75a77b69052e-4b5f826059cmr106840651cf.0.1757508525862; 
- Wed, 10 Sep 2025 05:48:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFQJJlCuiyW/pcIWNAfk0Cxu+p3Dd7IMOZXLW6sjV+Sj7pqR7+0vV4WzKU91XkLNccK+WxwgQ==
-X-Received: by 2002:a05:622a:19a7:b0:4b4:9070:f27e with SMTP id
- d75a77b69052e-4b5f826059cmr106840241cf.0.1757508524991; 
- Wed, 10 Sep 2025 05:48:44 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b0783049ecbsm163687966b.8.2025.09.10.05.48.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 Sep 2025 05:48:44 -0700 (PDT)
-Message-ID: <9463ba5b-f305-47f4-854e-2ba0dd41bb32@oss.qualcomm.com>
-Date: Wed, 10 Sep 2025 14:48:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/6] arm64: dts: qcom: sa8775p: Add gpu and gmu nodes
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2C110E0E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vHa0D6e5fm4HCttM7/wCRJl6kL0YvpXLTJm/65qzJVc=; b=Ll8SGZQ4AYXN0DJB5L0ClmVOLH
+ FIFet8WD5kFiiD7TdJ+ugeeIHvtY23PzxjTYAtSQQ4JYLmWdRlk4PCnKPMPf72B7QejJYqgzveU1o
+ 1smsZeNU6RG3mJ5buct1aP0Go/MPRxhMLUag5t+OEXFU2ebrrHsRZHOaXvvQ87r8cgX4Geuh2CoOa
+ qbN5gcxdVSkTus2y12reb3FzbzwelBP2CQ9oNrkyD8IGgaXVD0KPZKSlx51wTX831gebAYb1nXEqj
+ 9MEKrMaiuoZajyHYGHEOqrwrzzaOXvsvS2/Am/vcaNHlleHf74wMeeEZqiDg3Yi0crwNd4a59gAq2
+ /JnjjAtg==;
+Received: from 179-125-86-100-dinamico.pombonet.net.br ([179.125.86.100]
+ helo=quatroqueijos.cascardo.eti.br)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uwKJA-009OZO-Aw; Wed, 10 Sep 2025 14:52:21 +0200
+Date: Wed, 10 Sep 2025 09:52:13 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: Gaurav Kohli <quic_gkohli@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-References: <20250910-a663-gpu-support-v6-0-5da15827b249@oss.qualcomm.com>
- <20250910-a663-gpu-support-v6-3-5da15827b249@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250910-a663-gpu-support-v6-3-5da15827b249@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=H7Dbw/Yi c=1 sm=1 tr=0 ts=68c173af cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=KKAkSRfTAAAA:8 a=EGTmXSwiq2C_3XJcCkUA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: qPlSa72Le5vn3ZKzxyfu69lFd305PD6T
-X-Proofpoint-ORIG-GUID: qPlSa72Le5vn3ZKzxyfu69lFd305PD6T
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOSBTYWx0ZWRfX/8zISpaGb40J
- YxoKXQGkn84ffiHyj46gDJzdsG1/5NRUo9nlRkF6kHGkNNT3J5rJzRwWAWJcDXZIbflb0zdCSmn
- +GyTWQRO98wjIn0lJAy1DJD4x/Z23v3ZcO0LrO6RUTDsSqUTvGIHtecJcS+2rsG5b7XFevdpma1
- lAgC/51fV88VqLt/rTtETTkYZuTpcAtcVSWUlhIsWcKDe0MBxZiKiVxtuWcZvWowceIlhNLNq/i
- egJ/mjRN7BQ2DzTVBKXT/n7gWTDS2gJevxdpq/Sf3TkagZAfbzmB8Xhc6vkTpPER8zu+Ua3VxcQ
- SgdNVSwcXBZ7XMIdkDgqNTXE/3CtChP/Ziayc0kb5FRkU1d2DxLsxokZ7DQvXXQzNz6JuibiXqJ
- a5nj324B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_01,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
- clxscore=1015 suspectscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060039
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH] drm: ttm: do not direct reclaim when allocating high
+ order pages
+Message-ID: <aMF0fe7CIVD-8zVo@quatroqueijos.cascardo.eti.br>
+References: <20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com>
+ <e79a134b-89de-4da1-b64b-b890227fce8a@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e79a134b-89de-4da1-b64b-b890227fce8a@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,39 +69,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/25 1:25 PM, Akhil P Oommen wrote:
-> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
+On Wed, Sep 10, 2025 at 02:11:58PM +0200, Christian König wrote:
+> On 10.09.25 13:59, Thadeu Lima de Souza Cascardo wrote:
+> > When the TTM pool tries to allocate new pages, it stats with max order. If
+> > there are no pages ready in the system, the page allocator will start
+> > reclaim. If direct reclaim fails, the allocator will reduce the order until
+> > it gets all the pages it wants with whatever order the allocator succeeds
+> > to reclaim.
+> > 
+> > However, while the allocator is reclaiming, lower order pages might be
+> > available, which would work just fine for the pool allocator. Doing direct
+> > reclaim just introduces latency in allocating memory.
+> > 
+> > The system should still start reclaiming in the background with kswapd, but
+> > the pool allocator should try to allocate a lower order page instead of
+> > directly reclaiming.
+> > 
+> > If not even a order-1 page is available, the TTM pool allocator will
+> > eventually get to start allocating order-0 pages, at which point it should
+> > and will directly reclaim.
 > 
-> Add gpu and gmu nodes for sa8775p chipset. Also, add the speedbin
-> qfprom node and wire it up with GPU node.
+> Yeah that was discussed before quite a bit but at least for AMD GPUs that is absolutely not something we should do.
 > 
-> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> The performance difference between using high and low order pages can be up to 30%. So the added extra latency is just vital for good performance.
+> 
+> We could of course make that depend on the HW you use if it isn't necessary for some other GPU, but at least both NVidia and Intel seem to have pretty much the same HW restrictions.
+> 
+> NVidia has been working on extending this to even use 1GiB pages to reduce the TLB overhead even further.
+> 
+> Regards,
+> Christian.
+> 
 
-[...]
+But if the system cannot reclaim or is working hard on reclaiming, it will
+not allocate that page and the pool allocator will resort to lower order
+pages anyway.
 
-> +		gmu: gmu@3d6a000 {
-> +			compatible = "qcom,adreno-gmu-663.0", "qcom,adreno-gmu";
-> +			reg = <0x0 0x03d6a000 0x0 0x34000>,
-> +			      <0x0 0x03de0000 0x0 0x10000>,
-> +			      <0x0 0x0b290000 0x0 0x10000>;
-> +			reg-names = "gmu", "rscc", "gmu_pdc";
-> +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "hfi", "gmu";
-> +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_CXO_CLK>,
-> +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gpucc GPU_CC_AHB_CLK>,
-> +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
+In case the system has pages available, it will use them. I think there is
+a balance here and I find this one is reasonable. If the system is not
+under pressure, it will allocate those higher order pages, as expected.
 
-Akhil mentioned offline that having this clock under the GMU node
-is a hw team recommendation that's rather platform-specific
+I can look into the behavior when the system might be fragmented, but I
+still believe that the pool is offering such a protection by keeping those
+higher order pages around. It is when the system is under memory presure
+that we need to resort to lower order pages.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+What we are seeing here is on a low memory (4GiB) single node system with
+an APU, that it will have lots of latencies trying to allocate memory by
+doing direct reclaim trying to allocate order-10 pages, which will fail and
+down it goes until it gets to order-4 or order-3. With this change, we
+don't see those latencies anymore and memory pressure goes down as well.
 
-Konrad
+Cascardo.
+
+> 
+> > 
+> > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> > ---
+> >  drivers/gpu/drm/ttm/ttm_pool.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> > index baf27c70a4193a121fbc8b4e67cd6feb4c612b85..6124a53cd15634c833bce379093b557d2a2660fd 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > @@ -144,9 +144,11 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+> >  	 * Mapping pages directly into an userspace process and calling
+> >  	 * put_page() on a TTM allocated page is illegal.
+> >  	 */
+> > -	if (order)
+> > +	if (order) {
+> >  		gfp_flags |= __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN |
+> >  			__GFP_THISNODE;
+> > +		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
+> > +	}
+> >  
+> >  	if (!pool->use_dma_alloc) {
+> >  		p = alloc_pages_node(pool->nid, gfp_flags, order);
+> > 
+> > ---
+> > base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+> > change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
+> > 
+> > Best regards,
+> 
