@@ -2,159 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE44B517FF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 15:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03F6B51827
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 15:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C7710E91E;
-	Wed, 10 Sep 2025 13:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD78810E91F;
+	Wed, 10 Sep 2025 13:43:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Dm5RiJu5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CMj36H+T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2044.outbound.protection.outlook.com [40.107.100.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B2110E91E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:34:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f+k8+zmvqXg1jN4/36FrAlp2ub6lLBUVNzUnrUVvI3uMKxYE3ET+Frz7vLV7zGOQkrbgEZWl74qcc7SPCmt9jAbSyf2HYukvppUIRO+wXpOiXbrYWr9kb2G745ha1S4h7qTvIEMoGXFFRnVtM8UKHFsiqGtYGK4UM6KJQoWiN4MMqcLliQ/BMLYw8Oqf4O8DB5bQE6v04+hdbzJmTjh6nL7jm7zRaV4+zpCaEEKhp+l8tCBFf74ngFtYT2dHy6fMCqLmOE19CMi9j7V7IMDeNupskdemYOfQu5UGZNmbH9+bRhrc98otyiMVNX01x4b9IFRlMP3unMhhe3Wew1BEsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qhgVw/gq+8JHNm6RuZ600k3erndaLKHO64EIabLHGr0=;
- b=CEj7Pcpo+vQAkPr/QXBj5BcS/YYHdPZ+4q0cvWhOtCDKo4gKi/v01maMGYa2gzfPOEzGZShPTaMVyS4KXbrr67oaqPXhFYwrlGmCClc6tHE1r9RPk9xYfN22m+tZQnxw9YqVRxqWv3BLkw/p4NU96XvgGtjICIKlTPCCXjlw5F1Qe8CS0Lu2SPUTl8llPKD0L9OEYiNWgnTwBj408zNm7PvbDwdZJ7jkhVaDRogu/ZPD1rujuQR1salKEkNval985ivu8cZSvDR3z/na1DuWBl3tyxiZlknpkfg0494w0RfQOBxt96wUw7NbrA2KlWWJxEhOpdqZdMZKedvEUOWiaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qhgVw/gq+8JHNm6RuZ600k3erndaLKHO64EIabLHGr0=;
- b=Dm5RiJu5WU85xYx4EMvWF2ifvjVaQr3tgUvH6ozpXcfobfxSQMtAReeJLi1jwWS/LESz9j8lpHpKvsq+o4dhaAukuSnf8HbX84kiDjAjx7I9auLg/gSGrTH5tGLNeBIgHY4wol2G2Owu/xD5Mk+FiU0dWSlzcakLKKEm1cB+LTo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN2PR12MB4110.namprd12.prod.outlook.com (2603:10b6:208:1dd::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 13:34:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 13:34:47 +0000
-Message-ID: <bcad0da8-a7c9-44b6-97f8-8dfc01acfc73@amd.com>
-Date: Wed, 10 Sep 2025 15:34:38 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: ttm: do not direct reclaim when allocating high
- order pages
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6478810E91F
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:43:18 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ACgWC0012107
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:43:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=5nQ4xWao/W1S9JuuivQg6TVz
+ V1TXFvvS01+Hu/ewF2o=; b=CMj36H+TbjJBbjGtUj0Ww+XkCiSfcr453ccD4RI3
+ hTtPq14K7WLeczHyI3OgAOvTURohBosbgyEm6KyyTR1RRzEjx7OtROVcxmf8UQLP
+ 0VKsVvp8OptJoxAa45jIjayw4Rwpnz5wXobNCFeoYDLZb3nZdYV95mTZUZwToUDO
+ qW/9hCsr/xLIau/U8M2P76aKr/mPj0RtK5OTWevRpYpqqqYNkJCG3pQOJxM0n6oG
+ UrIwfu6uMWp5ZqJjKH3ssj53PvqM6DXgXBWp2n3qp1ab9yS+3PK3cuzipo0xtLJR
+ kdomeuFiz78IGAYiv5uzR7f4OsOvt7AbGymNwg/318RmmA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490cj0uy3k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:43:17 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8078f1bc588so1808038985a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 06:43:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757511796; x=1758116596;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5nQ4xWao/W1S9JuuivQg6TVzV1TXFvvS01+Hu/ewF2o=;
+ b=tcxwKMIGD2x8IE49FNJqpUnOuLSJKiIVfxPUtEG0DS2xvgyyR1ykaQReDoSVQhsAb2
+ PK9AdKBD5OmXa+ZEwenNaChrKZsJKC1JKO52r/GO9ZAgCl56aPdQe4+Df+QGF0NKA+rI
+ 1dTF3rDN/jX6Bb2hFT17Yq2M2DI3TPvR/hUkovABBln3WOn94IWGwYtJ4T3+E0lQBgiT
+ GpujwNg+fxz/MfFWvyH0f8p0FZPcxJwmxxDgpaCEQvTRwE3TfBBmKVT9DtoD1kswXNSC
+ n8Bnf0Rg/VoN+mkwMxh//h4EhupbZ1k6BFNZGTay+4B/8xrAxeVIakJK3bSEu5KJrJnN
+ DXNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQg03hVh5qaTOVgnGLh1gHL42XvdG3qbw0YZ0oJnIyd2wNJ7mN+enjdD3OyKHJRi/lL1iX/Befu94=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQVJoKf7E1v/gyrHI3rjiWq5mbmDZiqPIY2JXXfowupetnDt6Z
+ f2yJVMr2x6TUXKRiLeUVDndaGlEvwUnWZS7nGB56nwd2oMKGLW38z7Dw9/SuPGvlcanoWkuv2Eg
+ FGfNaUbyfwcjW/fzOcd+J9yCVsYbN47WBKBu8DVuIXP1wlr6NEfxPl0h+wx/c/yCkQRCO1uI=
+X-Gm-Gg: ASbGncuWDwCFPvzb69PTwaMptSKEI/S4h9QGCJp77yc4AYNncaQD2i3Q9OgKoRrqgqC
+ TqAUm65dgcJsVHnuN9s8W3H7kLSiD7M0TRqAxrZ4xi5YIjRSLv7zBfeFEgOVxk7JNJPNCMuNxXl
+ nUuYo1rddPRM6glogvQqKNH++xmUKJ12jXScrGBdPHl1ikcRR5ocxcOW3HDSo3Gkw2dHllYc09c
+ 4PNYbW5HgwwS8fe51e5N6GWNMo+rP5k70UFx97efY8qprKvP6ZUOfIJHgDVMAcYOnTBfqyZ2ys1
+ 3rwXrH7itDtZ14R9bTbKwxThh3xOrmvogAoVRe6er+Glh98fa+QzDsLSVSpq5IShbezVkpNNf1O
+ EDKzOCNiLdx656N0v9Wp5rqrAn14KKYz/Sks2h1nZF4/33c9s6Z/h
+X-Received: by 2002:ad4:5945:0:b0:70d:cc1b:68d8 with SMTP id
+ 6a1803df08f44-73946e7c091mr163021906d6.60.1757511796377; 
+ Wed, 10 Sep 2025 06:43:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG6PHZIhUDI560woSHXbXEfXTfCiGlJ/BbPfkyDjwFSiQx7owU5WH313TRjCymTd7ql0gFT6Q==
+X-Received: by 2002:ad4:5945:0:b0:70d:cc1b:68d8 with SMTP id
+ 6a1803df08f44-73946e7c091mr163021196d6.60.1757511795562; 
+ Wed, 10 Sep 2025 06:43:15 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-337f4c4ed3csm43091651fa.4.2025.09.10.06.43.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Sep 2025 06:43:14 -0700 (PDT)
+Date: Wed, 10 Sep 2025 16:43:12 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com>
- <e79a134b-89de-4da1-b64b-b890227fce8a@amd.com>
- <aMF0fe7CIVD-8zVo@quatroqueijos.cascardo.eti.br>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aMF0fe7CIVD-8zVo@quatroqueijos.cascardo.eti.br>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0076.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 10/10] drm/display: hdmi-audio: warn if HDMI connector
+ doesn't support Audio IF
+Message-ID: <zjfnbabmnpopxy3r2dbpiiuhspoapc4mvpkha6bfses2mf6gpi@tmp4konlmimh>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-10-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-magic-natural-saluki-4aca9d@houat>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4110:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25ba64d9-576b-4e5a-26f4-08ddf06ecf55
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cFNJVWVvZElPQnJRSkZFQ25BS1Fkc2czUHJFQUdJL3BCTmtwN3lMdmh2TlBQ?=
- =?utf-8?B?YTYvazZ1dmJESDdWZUZTTG5Ic21Ja1ZQMkhZNE1BUTYrN09VNXV3aWdxN1Fo?=
- =?utf-8?B?TVpKM0Q3Q2N2a0x6OFJ1bU5meUhaYzlhU1owMW9VbDRVOVN5Q0hSZXhlUHRp?=
- =?utf-8?B?N2FOSUFScEpkdDI3YXEyOExPdnc2OVVKdnl3a3JyMHB3eXJ4TTJEZkNPQ2Yv?=
- =?utf-8?B?RUVsQ1pwamZ0YWxpWnZvWkpob0haQkp0eHEwMEQ5M1pqNUVmV21vSHY5UEVm?=
- =?utf-8?B?VkFpOU10M2UxenJ1VzJ3N2w0eGh0c1dVdjJOenJ0cWNKdjNrYjJVSEthVHpq?=
- =?utf-8?B?c1FBQTRuVXpOTENjb3gwTnVDM0RKYVJsL3U4NDh4TzA4QnRwaHZQSld5czRN?=
- =?utf-8?B?bTZWZ0RRUmtkUUJreTZTd1Zwdlo0dTQ0TEczdXU4azliY2YwRDhLdDBleWxJ?=
- =?utf-8?B?VHhIUmxTaER1cGNmK1UyaXJvT25YS0twVW15Q09hamN0R0FRajNaRXQzaTBj?=
- =?utf-8?B?bS9yVjY2M1dPSFdIK0xFVVBjMlo3ZlFjMzVDVFNpc1hLU3JUSFM1ODd0NDZs?=
- =?utf-8?B?NUtwaHYvQ2ZObW5ITUR6TWpsNC9zQW9LRVdvdlNNQmdNTi9BLzZXMDRUTCtz?=
- =?utf-8?B?cVpQeG9ndVRzcHRCczVnbzQxK213VVNtd0lLaExzNTRZeldHQUZhZ2tYeklX?=
- =?utf-8?B?Q3ZGWkZuQ2dNMGxSb3BjU1c0RUtUaTNkSGxzSFlvY0dYL3RGbEoxWmR1Uks0?=
- =?utf-8?B?RU4zY2ZNTDRoY0pnY1pjT0NhWVplWTlpbkFKSms4U2xhRnUzRVFiTWhqWmJn?=
- =?utf-8?B?bEQ2eE5PaVEzcUg2UWpxMytiYU0wWlRHNVoxVERqY2lnbittS2Z3eEdoOS9N?=
- =?utf-8?B?cDRZNUlWcEdTTENLcGQwcThVY2U3OU1MZFE4M2lUM0UwQ2kzb0ZCd1BkNC9k?=
- =?utf-8?B?NE1PQVJCYUtjN2R6NFRmTWpNZS9IVTVwSHAzLzFURTYyVzZTZUJIZ1k4MTR0?=
- =?utf-8?B?cUtKM1djejFKYXByWTRCQjlDdXNnNG5oSCtXNDFsTGMxS1UzTEFncEw5NHNk?=
- =?utf-8?B?Qy9VZFFLeDJXUysrWEM1WXlxWEcrTnpHaXIvUUFoVTNuRTZPem9NVnRPeHIr?=
- =?utf-8?B?WklXSnAyUld1a2VwWlBUenNYY00rYmxKOUJweDZwbWozMlpoMmZTaUlPSjJw?=
- =?utf-8?B?NTViMUZFc1p4TmJsNHU5ZTdsblFKZ2NRZC9GMG9iZFNnWHNpMHpYZHdxdHJp?=
- =?utf-8?B?WERteUJMT1dCc3BKS2gzMkhBSWE3Z3BXYm5uaDdzbDlBUTluZkl4NnprMDhS?=
- =?utf-8?B?VC9mcG1vQ0N2YVBOclpRR0wvSnNuckFJQ0ViOHhzVC8vRmJqVXB3WldicWxE?=
- =?utf-8?B?SlFaQnFYbW9zVWNON1k2a3JxekhBRTh3TGduM2RSWW5hUnBONklXc01jUFFn?=
- =?utf-8?B?UzRVckZ5TFBZY2hWSkR4Sk9OdWNtMTBkRGtndkhXK0xuZDRxdHBZckpkUFBC?=
- =?utf-8?B?MFlmWXhPem16U29Kb1lmMStBQ0VpY2Jxa1ZxSXBtUVJvZzMwSDBBUzAxZU9G?=
- =?utf-8?B?dGlNc2grV1RuN2VCNXp5SzJKMmUwdHZZSnBtZVI2a1ZGTThzMmRKT01ybGNF?=
- =?utf-8?B?dGtQdDVhcFRSbjhaL1dyamNXWGtOZFozMVVhdklRTnM1bkEyVm5QVEhCd25N?=
- =?utf-8?B?cDhIclFSejFCeGppZVBxZVV2a0lQVmNhTEpzb2tPdUdTR3FMT3lTdDhtdnBB?=
- =?utf-8?B?dlNndFYxcVFQSktWSTJseGlJeWwyM0Exd0xocXdsbjZDZjJ3ck9ENC9KejFS?=
- =?utf-8?B?M3ZsVGNNVUcvWDhuL1dtRFF6V0xnRkRORTZwRDhkbDE0cDFKaXZhbDU1WkJM?=
- =?utf-8?B?cXJaakl3L3FDRVJUZWRSeUhCMlNWc1ljalRoZmwrU3hJR0xwNFpKbDFCRXNv?=
- =?utf-8?Q?7q7CzWDh17o=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2xMUkl6SnVvNHpadlpGeVgyQXc1TENTcWJWa3IrcTd3WGJ3ZWRTQTlDWGpU?=
- =?utf-8?B?VlcvaTNzU2NTd09haVNGalpPaFVWVTVraVFsLzBPVDJ0Q2lpaUIwTEVUeWFO?=
- =?utf-8?B?K3hZSmkwNXZ2REx6R2JpS2NQTlptWlVUMmc3aDlsNWVyamJhVzFVdVN0b0FR?=
- =?utf-8?B?b2xvcHhUclp0R0lHUnlQRmI1dzM3M3l0QlUzZENCY3pqTnBaVmdQc0JYRExJ?=
- =?utf-8?B?aFF4VlhaeUxCZFhPZWpBdkFLMkpwbXo2dC8zYWN4elduaEl3aDdXNXFTQUZs?=
- =?utf-8?B?WFAycWNER2hycnFYS1ZZRElqTWFGVTdLVWl2MWd2NzE3dG5xbHNrVG9ob1ZP?=
- =?utf-8?B?YzRuNTU0ZnFYUk5aZFhGcjdCK2tyejN0NVlxZm9wWEFwbUMzRThzSVZNRjZ4?=
- =?utf-8?B?ZjV6SjVCZkxUZzN6dmJrTU5ZUzhqdkNjU2Z5TDhvVWl3a2YweHpGdGhXVGY3?=
- =?utf-8?B?SFpBTEVOeElvT043b0R3ZEZBL005WHpwUTYvZkx5dTRlS0pqVmtLUWxPcVRF?=
- =?utf-8?B?eEFxZmU0SUtNYkNKaGJ5YXAwc1plQnprL0Z6dldlM1Evd0F4Tk94TlBFN3po?=
- =?utf-8?B?Z2VEY1pZeGdmck1oQ3NPZDhkZGk2REFVOHgzZ0xiY0l4MlpGZ2JpcGtrMkp1?=
- =?utf-8?B?MzVualh4N1M4QzNqUm5KUVVZcHR2Uk5sMmpUSDU2L1BTcm14Yk9uQ05yaHRE?=
- =?utf-8?B?aHdDOG44akIwZTRqaVExZjNqTGU5QmgyeDBJK0lRazlxWERDTzJTbk90NC92?=
- =?utf-8?B?SHBHUlBMcGp6alBCR0JRSll5QXZjbDJ0ajM3dDJqVzFKWDBtUWtLdFg4aGxh?=
- =?utf-8?B?RVJWSTNTS2l6RDE5RVhmbWRucFZ6NUpLakUzMzRudXlIMlZrTXQ2anBJWkVY?=
- =?utf-8?B?djQzUWhxcFdTZi8yM0F4b3FWRjlzK2ZsdCsxck14UXp1Tm53VXcwaW5nUnhR?=
- =?utf-8?B?UVo4amwxWlA1Y2hrY0QzL0t4ZExOR3B0R29wRlUvaDJ1V3Y2V0gwRnU3S2pi?=
- =?utf-8?B?dW5tb2I5VDFPZ05XSjhVN29DWEhBNGRianJLWTRMdFU0VmZ2bG45UGdDMlkr?=
- =?utf-8?B?bmhKaFVBN2Y0eXQ5K3l0WVFKNllWVTAvY0xPcWpubU9PMUJjSUZpeG5MMC9q?=
- =?utf-8?B?aXd6cVVKVnJRbHUybGYyci93WG9vbXVhZDJyVnpTTlpPQzNHamhxVzJuNXlH?=
- =?utf-8?B?dGtwRHZhS204MmZLSExodlJTb3JrclFhK01tZlp0OUJrc3hpaXJqbGJPRnRY?=
- =?utf-8?B?VWYzOWRaQVNtSk9PYW5sbWVPOGFCUFI5bmVOVExwNUhyc0N5YzdqdEdXbkVX?=
- =?utf-8?B?Z25OUDFZNDQ1UXB6MHhCTHpVQVBneXhtM0ZFdGlIRk1xZUMxSHJ0bUhQRWk1?=
- =?utf-8?B?azB5TTVhSjIrSlJZeEoyQVhvb056bmY0OFVpeGt5S1pCN1pMenVMcTNNbG1h?=
- =?utf-8?B?VWlVODNOZGhCZE50UHowdWEyYWh5VXltV3MrcnNveUhZeWUvOGtYQTUvZHA2?=
- =?utf-8?B?aVFKY1kyYjdOb2pUVkpxYjlkZ0FCeVcwZ2h2MDBzTExvN2lOV3BwNDJkcTdK?=
- =?utf-8?B?VHYyNVBEOWpoemFxVjVhSWhrSzRyWFViTktuNkc0akpYc2hRcjJ3U08xV20r?=
- =?utf-8?B?Q3BlVTZ5bTc0ODFnZVFzNVhBT2llL29xMDJ5VkRaRnlxMm42WUdaTmFIZ014?=
- =?utf-8?B?S3BiaE0veE1FOUNzVTBheWp3VWF3OHIrbEIxVkoxS05kdGFKYWx5aEFDcWd6?=
- =?utf-8?B?c2ppQldMQ1c4NjFtbTdUVExBMEl1UnZmM3Z1YnU4UXd6QTMrMXhKS0dRMmtK?=
- =?utf-8?B?QVdJbWx4NU1GWlNkZXNNS3dlTUZPMWNGYlZNMEtpd25jdmRrMzNaNHJMcXFY?=
- =?utf-8?B?N3duY1BzNEZEMXkrc3dvT2VmZExtVWFVKzNtMmpXaEFKTTRNaVBGOEFRVHRu?=
- =?utf-8?B?bG0wQ1JCVVdUV2V4bmdVZ25xK2grY0pwMnJOdG54bkpMdExVVmlEMjZja1Rq?=
- =?utf-8?B?OTd4R1VxUGVzUXVzcTNhNjVRdG82MVl1R3dUODdteHlkd1V0RDEwMXJjTzcr?=
- =?utf-8?B?TmVvUTBLZ1daMVB0S3Myck5zd3EwNmdlcmV5Tmc0ZGtCQUF6UG50K3dMWkRY?=
- =?utf-8?Q?TWF2J5S/a6vrxeBc3mazVqFTI?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25ba64d9-576b-4e5a-26f4-08ddf06ecf55
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 13:34:47.3996 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZTgsXeTHVShHNjI2uq0+DRuZwFil+YZl8vZWTCChCP3W99WYN6gb9ydKEt9cErmn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250910-magic-natural-saluki-4aca9d@houat>
+X-Proofpoint-ORIG-GUID: p2vMplOJy7Yi5qnBx3BpXncZzW61CXqs
+X-Proofpoint-GUID: p2vMplOJy7Yi5qnBx3BpXncZzW61CXqs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyNCBTYWx0ZWRfX62EsLAicET2x
+ Zz5QwSTrEtPWD/tgSliQKfQuUZNFKczhOF4IDuxRydKXIg1JVqUcoe5YyQQ9hcwFhF4CO0jN4ae
+ U/0rWFtTXnGq/bxmKjhBRjPAHs4irhUBrCeGfFrP+/bNBdttZJDCfU5n++hKRgxeNsIjdJaiLwg
+ gl5eyVhblnpmP2N7abAbEIzmBlDTco3nLfxai+agFarLMTXOWpGziAgmlVaQsSREwbg04dIZYod
+ DsCFzChLTOk0OAqOrCd73EmrBYDUiMEAyosKshaXguHPti1KGWGbz7N7DrEe7LTbLZjrOCjxW5A
+ ONlBJM33MYAtxPwd9UTFCYFi3IVJxocb14TEsfCAH0aaJyzg2EYys8CgxOjK2EAcOFMvidokBxB
+ /oE/rliD
+X-Authority-Analysis: v=2.4 cv=QeFmvtbv c=1 sm=1 tr=0 ts=68c18075 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8
+ a=41mUuBG4nv7vr-MJPacA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_02,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 spamscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,105 +148,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.09.25 14:52, Thadeu Lima de Souza Cascardo wrote:
-> On Wed, Sep 10, 2025 at 02:11:58PM +0200, Christian König wrote:
->> On 10.09.25 13:59, Thadeu Lima de Souza Cascardo wrote:
->>> When the TTM pool tries to allocate new pages, it stats with max order. If
->>> there are no pages ready in the system, the page allocator will start
->>> reclaim. If direct reclaim fails, the allocator will reduce the order until
->>> it gets all the pages it wants with whatever order the allocator succeeds
->>> to reclaim.
->>>
->>> However, while the allocator is reclaiming, lower order pages might be
->>> available, which would work just fine for the pool allocator. Doing direct
->>> reclaim just introduces latency in allocating memory.
->>>
->>> The system should still start reclaiming in the background with kswapd, but
->>> the pool allocator should try to allocate a lower order page instead of
->>> directly reclaiming.
->>>
->>> If not even a order-1 page is available, the TTM pool allocator will
->>> eventually get to start allocating order-0 pages, at which point it should
->>> and will directly reclaim.
->>
->> Yeah that was discussed before quite a bit but at least for AMD GPUs that is absolutely not something we should do.
->>
->> The performance difference between using high and low order pages can be up to 30%. So the added extra latency is just vital for good performance.
->>
->> We could of course make that depend on the HW you use if it isn't necessary for some other GPU, but at least both NVidia and Intel seem to have pretty much the same HW restrictions.
->>
->> NVidia has been working on extending this to even use 1GiB pages to reduce the TLB overhead even further.
->>
->> Regards,
->> Christian.
->>
+On Wed, Sep 10, 2025 at 01:05:47PM +0200, Maxime Ripard wrote:
+> On Tue, Sep 09, 2025 at 05:52:08PM +0300, Dmitry Baryshkov wrote:
+> > Sending Audio InfoFrames is mandatory for getting audio to work over the
+> > HDMI link. Warn if the driver requests HDMI audio support for the HDMI
+> > connector, but there is no support for Audio InfoFrames.
+> > 
+> > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> > Acked-by: Daniel Stone <daniels@collabora.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> > index 7d78b02c144621de528b40b1425f25e465edd1ae..35e0e79cb683a68af813344aa86c154c3a5531fe 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> > @@ -10,6 +10,7 @@
+> >  
+> >  #include <drm/drm_connector.h>
+> >  #include <drm/drm_device.h>
+> > +#include <drm/drm_print.h>
+> >  #include <drm/display/drm_hdmi_audio_helper.h>
+> >  
+> >  #include <sound/hdmi-codec.h>
+> > @@ -178,6 +179,17 @@ int drm_connector_hdmi_audio_init(struct drm_connector *connector,
+> >  	    !funcs->shutdown)
+> >  		return -EINVAL;
+> >  
+> > +	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> > +	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
+> > +		unsigned long supported_infoframes =
+> > +			connector->hdmi.supported_infoframes;
+> > +
+> > +		if (supported_infoframes &&
+> > +		    !(supported_infoframes & DRM_CONNECTOR_INFOFRAME_AUDIO))
+> > +			drm_warn(connector->dev, "HDMI Audio with no support for Audio InfoFrames\n");
+> > +	}
+> > +
+> > +
 > 
-> But if the system cannot reclaim or is working hard on reclaiming, it will
-> not allocate that page and the pool allocator will resort to lower order
-> pages anyway.
-> 
-> In case the system has pages available, it will use them. I think there is
-> a balance here and I find this one is reasonable. If the system is not
-> under pressure, it will allocate those higher order pages, as expected.
+> That's not what I suggested. What I suggested was that we tould check
+> the return code of write_infoframe, and warn if it is set by the
+> framework, but returns EOPNOTSUPP.
 
-Well that is not even remotely correct.
+I see, I misunderstood you then. I will respond to the comment at patch
+1.
 
-We have seen all kind of problems with this, especially on Fedora were automatic de-fragmentation is disabled by default.
 
-The result is that an use case which causes strong memory fragmentation massively affects the performance of later running GPU based applications even when reclaim is enabled.
-
-Disabling this would massively worsen the problem. Falling back to lower order pages is basically just a workaround to avoid the OOM killer under heavy memory fragmentation.
-
-> I can look into the behavior when the system might be fragmented, but I
-> still believe that the pool is offering such a protection by keeping those
-> higher order pages around. It is when the system is under memory presure
-> that we need to resort to lower order pages.
->
-> What we are seeing here is on a low memory (4GiB) single node system with
-> an APU, that it will have lots of latencies trying to allocate memory by
-> doing direct reclaim trying to allocate order-10 pages, which will fail and
-> down it goes until it gets to order-4 or order-3. With this change, we
-> don't see those latencies anymore and memory pressure goes down as well.
-
-Yeah and that you see memory pressure going down is a clear indicator that something is going wrong here.
-
-If this is for an AMD based GPU then that is an absolutely clear no-go from my side.
-
-Regards,
-Christian.
-
-> 
-> Cascardo.
-> 
->>
->>>
->>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
->>> ---
->>>  drivers/gpu/drm/ttm/ttm_pool.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
->>> index baf27c70a4193a121fbc8b4e67cd6feb4c612b85..6124a53cd15634c833bce379093b557d2a2660fd 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->>> @@ -144,9 +144,11 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
->>>  	 * Mapping pages directly into an userspace process and calling
->>>  	 * put_page() on a TTM allocated page is illegal.
->>>  	 */
->>> -	if (order)
->>> +	if (order) {
->>>  		gfp_flags |= __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN |
->>>  			__GFP_THISNODE;
->>> +		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
->>> +	}
->>>  
->>>  	if (!pool->use_dma_alloc) {
->>>  		p = alloc_pages_node(pool->nid, gfp_flags, order);
->>>
->>> ---
->>> base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
->>> change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
->>>
->>> Best regards,
->>
-
+-- 
+With best wishes
+Dmitry
