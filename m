@@ -2,184 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0584CB5204A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 20:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A71B5208D
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 21:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2302310E114;
-	Wed, 10 Sep 2025 18:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00A2610E9BF;
+	Wed, 10 Sep 2025 19:02:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=keysight.com header.i=@keysight.com header.b="MSAM+c55";
-	dkim=pass (1024-bit key; unprotected) header.d=keysight.com header.i=@keysight.com header.b="UvQ3pWIc";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HTP62Ha6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-003cac01.pphosted.com (mx0a-003cac01.pphosted.com
- [205.220.161.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE8A10E114
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 18:34:54 +0000 (UTC)
-Received: from pps.filterd (m0187214.ppops.net [127.0.0.1])
- by mx0b-003cac01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ABk7Ga029729;
- Wed, 10 Sep 2025 11:34:37 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=keysight.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=ppfeb2020; bh=
- YEYpVie+/YCB8wmKsmRi3A74g1hhWkixVCeCbcFu+7Q=; b=MSAM+c557dESH9tu
- vKQJ6RxgTQ+rWoJR0KvZ4MMTMWTBLAmEY5dV+q9U9+ZazdlF+8FYG+eKvZb7+Vqz
- aNCihK6Y1MTrM5rrCkfXSEKIog/CTtOB2hRXAhCAluBcGdwIDlHWoCR55XypS8w2
- /C7j/Vr3Ysh8tXO7eIPXdi1kPUt3VEy5lvnjdDYoBzOyzB0yHgw6HfIuYDzZwlSL
- BTSPTg6nT+nrv/A3IhtwSx/V1u/TxwvNg0mwZyG7NQEv4Q/nFSiOFxp2gizGINQB
- bd3qIuYUaf8Z6a1dDT/pRtpeTRksS7fYXJQtWsvIZrwhImY8zx2PcR2p3ACcz3W7
- OfKYTg==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
- by mx0b-003cac01.pphosted.com (PPS) with ESMTPS id 4938b48wf5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 Sep 2025 11:34:36 -0700 (PDT)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2043.outbound.protection.outlook.com [40.107.101.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 504A510E9BF;
+ Wed, 10 Sep 2025 19:02:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eBJ+YfsQXRm4d9L/jIB2UHgLju4jGrfcFJcw+NnBkMB8aNTVRVFChSRO+d1kd7o+u/Gx6oloH1qt0TJb2N4Op+N6MNdNWc5XGPtbL/FBTDrcvYEa0EBd+WYT6JfzBXsoOtNsOY2vtXPdNqIxDvE1C/WdrpOcQ0SfXZAA65JHNYkzoOD+h6bKykNg4KY9sGPl3yfAAc3D+s3d8AlDyaw8GurfimBED5AKjhksemm6mJ+h0j7piy9yaI8253X/wZtgnWEjTIjTSeqXo1Fy9eF8RqCzpXW99gEmACpOuuli5HMDl+WDCVzTvRJVQYD3UmHgeNfIHzZErdz+dPyTVZbyxw==
+ b=L4Z8RWBAZ4QyiJlIvz++w6TqOcBu/lq5oNo1kqH+uQJ7tg6WCbsOtsgz0pulo05u5oZoEliOCw5mCyScy3WmUeQ44hLx7AhvCsNb8tDJtqXpykgmb6yQVsY8HVfbtPV1f6ZqBtf6uNbOWFyh5YeI8w5XsJodRbxf0o5wlJNE8wvNlRQ/9Qogvml437JGrOkWeyIY6DU2UqETar1JIGVt9XVXtXCazGwcd8nIt1bGKgraoFfB865hVfq3dr4pEgSQqIcoWfMQUJYIRIBQlg3es8JFjM0AMPaAJUFV6o9OdYZluGoeonz1DLtA/lMqGvvy9Ofyjs3tuQHjfxOJ2eR/hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YEYpVie+/YCB8wmKsmRi3A74g1hhWkixVCeCbcFu+7Q=;
- b=J8H2j3WnnqbPe/SoG8N5T2axd0+nsfgqiqRPl4ob/CPDXNSaZ6Mvs7AfE4jruABARR66BoGY1F2WDD0sQrSID5TZy6Ikj2KzpA/vwBaKS01Fvut4uf25CLi/AILNwvnAMl3saQp+kXNLcPiKBGD/uG9XnfynzDxLdQiZbmEyxF0qmYN/ED0uFaiRkcFYLzze/KLlJvMTDAzuJ176JXNLl8VbEHhV9mYZMQnctbQrUeA8ww5S/clHK9fZs3fhB8zx3jngWTXidLF/8tt+UY17bOsBgMDSnDXRriVL7ZidvsegI+b7gMP5U7D4nBQZwQ6FjGZhy9UfeovTtfwaAiTduw==
+ bh=/rqh3Djh4LytdRXzGS64KyeCOozy9NC89Tq5fRSBPus=;
+ b=PCBDbFIAXlEHYtE9zZtdTTNq2eoJROXrkalcPBuR66zY/k48K6WesZjJ4DgFNQqVN8aCLZTM9KtbhbU7F0VGuuOe15PPWCMyNwiWJ0tCugPj0udcQoK5Ci8yg+VYekXzYkXcBiJUXskn+I5J3pZPb2KnrVpLptrBCDWr8JsxXLsIQsPoVC+i9uZAY4KucPckpoyZmxM/4yo1QXfXe0zusVkxlrc/vejrCjqKcwfQ/ZH/MXlEOZ6AxiDhEw3q6UKizAsBppuTfM7KRMNGrwaAfNgSTGPG/VeHuq3wjf24OKhU8n8XOc73fgGkNPbB4FcHqkBMMLvgaYwR9njWgN8SEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=keysight.com; dmarc=pass action=none header.from=keysight.com;
- dkim=pass header.d=keysight.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=keysight.com;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YEYpVie+/YCB8wmKsmRi3A74g1hhWkixVCeCbcFu+7Q=;
- b=UvQ3pWIcjby3Y/QsEjQtTUd11sWBXq4bOnxMcgE90k69M+Mdt+LD2gRtNsSCni+uJH18ylmAXzw1GrhnbXTOY3eIT8dFuZyzBN0KNlXNd/8ppmsPNkXOY4I5USWRUvy3wjDblj3P4+JIrWJti/q3Ew5fxhuBp/bXIa5OYtrmgL8=
-Received: from DS0PR17MB6128.namprd17.prod.outlook.com (2603:10b6:8:c3::20) by
- PH0PR17MB4878.namprd17.prod.outlook.com (2603:10b6:510:8c::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.22; Wed, 10 Sep 2025 18:34:34 +0000
-Received: from DS0PR17MB6128.namprd17.prod.outlook.com
- ([fe80::e5ad:766b:1f5d:e7a9]) by DS0PR17MB6128.namprd17.prod.outlook.com
- ([fe80::e5ad:766b:1f5d:e7a9%6]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 18:34:33 +0000
-From: John Ripple <john.ripple@keysight.com>
-To: john.ripple@keysight.com
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- andrzej.hajda@intel.com, blake.vermeer@keysight.com,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- jernej.skrabec@gmail.com, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- matt_laubhan@keysight.com, mripard@kernel.org,
- neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de
-Subject: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort mode
- with HPD
-Date: Wed, 10 Sep 2025 12:33:52 -0600
-Message-ID: <20250910183353.2045339-1-john.ripple@keysight.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250908203627.3750794-1-john.ripple@keysight.com>
-References: <20250908203627.3750794-1-john.ripple@keysight.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CYXPR02CA0096.namprd02.prod.outlook.com
- (2603:10b6:930:ce::7) To DS0PR17MB6128.namprd17.prod.outlook.com
- (2603:10b6:8:c3::20)
+ bh=/rqh3Djh4LytdRXzGS64KyeCOozy9NC89Tq5fRSBPus=;
+ b=HTP62Ha6Y10WvFAbrOdKXTIOPwgjHclrJK3ytE79Ha3Zdzou7YIDECsK2tcySw7nvyzRFg1mBEMAJow31T+qklXUJmFotwwJNBA5W6Nh4HLHcJhqZjtK+HutmnHhk3z2aDlhCHiC2sWWDLWUzxJccp4udAwCNLSek1WcwIyoeoJkz+I1q00pJZFlLFJPTya/nFK25rIoz5poIcxCmYxyhl8+GTdsK1xGQ/uIvxA2v8jNcx6MeoypYhgwRjfk83OxCoDnm/xr/pjTJcSYrT48wTxSO6n+ke3IGKQJTfrSngrvNCnF1LgfaoYq+YdbPBODdMBmsYfUB2Khw1UDUhZEug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by LV3PR12MB9166.namprd12.prod.outlook.com (2603:10b6:408:19c::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 19:02:42 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 19:02:41 +0000
+Date: Wed, 10 Sep 2025 15:02:39 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org, acourbot@nvidia.com,
+ Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Daniel Almeida <daniel.almeida@collabora.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Subject: Re: [PATCH] rust: pci: add PCI interrupt allocation and management
+ support
+Message-ID: <20250910190239.GA727765@joelbox2>
+References: <20250910035415.381753-1-joelagnelf@nvidia.com>
+ <DCOZMX59W82I.1AH7XVW3RUX2D@kernel.org>
+ <20250910180955.GA598866@joelbox2>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250910180955.GA598866@joelbox2>
+X-ClientProxiedBy: BN6PR17CA0029.namprd17.prod.outlook.com
+ (2603:10b6:405:75::18) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR17MB6128:EE_|PH0PR17MB4878:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33a0c718-490b-4868-cc57-08ddf098afef
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|LV3PR12MB9166:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d0bf4f4-05a0-418d-307c-08ddf09c9e37
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?l987TwR5LhuQuGtNZLYlQRnrgR740sX95B/jwq37Dlx9juxZ2mCk2FcmcmkN?=
- =?us-ascii?Q?HSWOV363Q84/jOkJIzfATE4XPOIKl8biYXxi+ZmPzjCMJ+hgEHIWuPCxkdU9?=
- =?us-ascii?Q?lPyxAJzZMyL9uT29l5n9bkXFMEQRCPg0XDkwGxVQJh1djzedwR2mRc6X2US2?=
- =?us-ascii?Q?lm+3RXyp49MOj6xMSNnYTZC7UB/gICnSa8B0qjIfFzFGJWpo4KY9IdjbrXW+?=
- =?us-ascii?Q?pQQ/egZTedG84DYvJfzLyVmeOe8aZGaBTcioljk5KvSwPHAs/hepSx4ADSJC?=
- =?us-ascii?Q?PRduer67PSAUfAJ2hyLVc9sQTO75ds9yaR12s/TsXGIaX9U9pz0cwyYVwTX3?=
- =?us-ascii?Q?bAuMhU3lrTPJb1E3G0yBvR14r9D1Lp9MM6xZFRcquCwoyl0fzGR0fFmGs3SA?=
- =?us-ascii?Q?iaBxQYOkAAeY8FRsWNg29YsW7DLWjrMBZOJy0Sg/mIRvrFxKtnVPSdLoeAa6?=
- =?us-ascii?Q?V6AGjv2UFhcA4sDvtadp0hXhuBSrhyaxTD957RQ2fLjNFi/qVJ08gl3QwtFO?=
- =?us-ascii?Q?cE86uN3l5+y8ulNMDL5Mfjy1pjHGxGM/EmXuztsEZ8Eb0HgB+K7fDpPL/H3m?=
- =?us-ascii?Q?64IwkC75y8WQhd48op2nXEI04ph/O8hmLImKDy5QaylIm8Tlzf0P0xYZP37x?=
- =?us-ascii?Q?LvBiT9xAvMizHw/0tGwvSk4Y9nMW3i6ib8uImB6FZPni+yKmgXYxZhDPmBIf?=
- =?us-ascii?Q?qOhhMNSit6DViW6XAgOtwPtasvZkcVX7SLmBek5xkxkSPi16CB8ahum+Yvg7?=
- =?us-ascii?Q?jvslv5XkW4uzpk4//bAlXso7Mcm8W8dU6pZdW4ANj2zPfBKeqd9p1zVbSV7M?=
- =?us-ascii?Q?aZpG4meQ/Pk8v6vFUg28xh9TDYYld4e81h8VyjopUTfMVH0VVvI09tCK/mI+?=
- =?us-ascii?Q?wHc0xPbU1hzCIpPihdUFCHb5gZzmYLWitseO9nXTfX4+i27WHiijWRjn1QCe?=
- =?us-ascii?Q?3Mk2AwdBLdZJnPiHExaUWnxvlFXtyQ2fHOJQSx0tZJkZUYKBFFyJE63Nsjhp?=
- =?us-ascii?Q?QvxisEUdXbhiCzVmlOJqYIerHocYOmh5eno5muZRWd0IKYvcDVX2VVqdSNW3?=
- =?us-ascii?Q?DZU1VAQ/iY4nd5Y0JgjNn21FaCx0sfWFwb57Si/e+tD7XLlOcGwct3dgB30M?=
- =?us-ascii?Q?o201zDEu3WjJnkmt1eEGlJMNo7ALNo6ZQ8X37FowWhnUV/mq/BMSDVCZhkHJ?=
- =?us-ascii?Q?QUGC6fjtIRGhCNIq3q04GELZ0rnVk3k5BA+xzJPpc40tkN1NKMY/VbP5XWiw?=
- =?us-ascii?Q?qaG8tb4/K3b5pHfDEuG0sNAtTCtvvgg/mNKU2K89w8YluPhGiFAhQaDVSaBe?=
- =?us-ascii?Q?I+euFA6YAXPem//n5EqXIvBn+ueK93GQ/SP6UQh0Psj7UyrQLW9xR5Cn7Gfm?=
- =?us-ascii?Q?+MajSheIeZA3XsSYhlUfZaeQKZ3+1wn5BHf3X/1+ogMC/ZRnavWFCTFtz4jt?=
- =?us-ascii?Q?OEp5Ei4p4gs=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BQ5oMK/DY7Jnbr+BQo+VqN9ZPPIX4XWLOGmROmNTr0QulzPzfJfN4Kq8FfJG?=
+ =?us-ascii?Q?fz8JSwFkJvNOQI9cccKMioZfnB76vc/Y/PUayKmwVUrJY/FeaIdwvak5nXZ7?=
+ =?us-ascii?Q?6Y6nKb8/MhUhlDMeIzwzR2B29XCgJ8flWu2XbTLBNEpzkWxkvZt1qtV0dnGl?=
+ =?us-ascii?Q?jzQ3HF1iNoOTXn1X4nsydtbA4N/ax/7NmX+2VWrrprRHBtNPab3heQhoSjXf?=
+ =?us-ascii?Q?3b3b//MeCLcsHmAzsVWSbpetBrbDEvwXY8RvQtztgnmjfmtDOju6JJBt7UmR?=
+ =?us-ascii?Q?xD15B7ErAxBx+i1iKXeKwkRq8NPLsrS4XphDR8pW7Goenx57S+ZuB7FV99mh?=
+ =?us-ascii?Q?DB3sCAhBut3xOHi19bm4aIGiC1m9GjNbxmS9Cf9qA+YnsaOhI5ajmc+8n/4q?=
+ =?us-ascii?Q?JM9NyExVZSmofIn3N+AZtT439YQf7KxZyS/2nkuCjo4kw/OfmCbc6Jb1VPOF?=
+ =?us-ascii?Q?ZmjH6j5qnfGNDOJESC9dl/89erpCHtYtuUAluHIU6JzAI5nCW22BsCR35qWX?=
+ =?us-ascii?Q?OTvKPrvj6uS62t/oaLcjnLJNa4sqifSdTYcfSJVeYWGC/q9t+M4ZSmpwxWNx?=
+ =?us-ascii?Q?58bXrfz68hvj+Rcrbsav3CneN/rtkv//2suAz02LM9NZYuXAHL8p5F/JfFiB?=
+ =?us-ascii?Q?R6SHMylU40DYt52jsE84pJNZHFavP/EWa2Idf7UbA03BdVTk7ECJjZtzw6tB?=
+ =?us-ascii?Q?b4xeawTK/15Q53cTNFjBBxLqjkBVZw75tQYVTdRWT2j/yJeAPwxfcDDmGfqP?=
+ =?us-ascii?Q?O15KDBKgd4Tdp2VKFSDZEBr8Fc1L522WuIJ2Jy1EGqBTOyglHWvvXcmvioCf?=
+ =?us-ascii?Q?W5BEtZ9QXJgkb1KCl/VacUGeSBF8EYy9U39A/33Za9a2poU/JgubrSGhUi6y?=
+ =?us-ascii?Q?aNIaoLXnqrdu5d6BsRrOrLftghO4Mck+Y8dNDMZmqEeQyfrCzV1QwylQRulM?=
+ =?us-ascii?Q?+wphAFfoj5e6PePmjFgPXSecWFhvEYZsR0K0226lEBZN/tekcbyjXlmAorJO?=
+ =?us-ascii?Q?Xx9jJTaRBsBnFAvOoJSVif+wnIPJMvU+m6B9PNTiqv06SBccQuWPXn8xNs8d?=
+ =?us-ascii?Q?Ek4s3UuBgsXQI6sdpNS2b+Pzc5LpEMHTx9KBo6Miwuby6KzxXB1TfYzwwyz5?=
+ =?us-ascii?Q?0YgKE9HqijpGKhOp4j2jDxUmaYUYpuj+0KL/uBLnHblfl4G73VWfOcsXKOho?=
+ =?us-ascii?Q?6EZHI2auNA7gNv+Dtlcf3G0x5CB0eb55bw4vhYn1FtjAaU7sTQQiexb9ZUuH?=
+ =?us-ascii?Q?nmeBhC3/05est/IVGzb3j0yoF33iij6+ltlI7WknomRM7vmi8suNOZTT8DWC?=
+ =?us-ascii?Q?izFR9lsaGWAK9o2CzEAgfHU7NAwTsNNuZu4IyNP9YGCoEPLdYgIz5ZfbQ6IH?=
+ =?us-ascii?Q?JKMmHz/tLHdOCqO00gnMe2hf/jiIhETjKxSa7uECPhj5joMm4e6DkU6vuHL1?=
+ =?us-ascii?Q?iinUEG8DF1Y=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR17MB6128.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aHzBiekeCX8KwwRPtTV8DUfTro5o2KJ9HWSCPwIhUVqRRXeqR0KeLErRb4cx?=
- =?us-ascii?Q?yHyRw8xJwkKsW3wrrFsE/f7verwK7w/IOoqzGkMCYFmRY/lCTWxTnu706b/e?=
- =?us-ascii?Q?97PeVeoCfMUaXEygt9sy8dX+z60lsmDijpjhgwcwwNy5wiR0QvYJxZdjbUH0?=
- =?us-ascii?Q?xJGfvizNQmBP6nyjaTjS8hMPPJlQfkHooNJRyGkt425p5lfvTHrCsG2Jjmrt?=
- =?us-ascii?Q?iKYr/SBgpQr0QwsSxsTCfNMmdWD+Oe/Vo0NWhPC1Ddbrke9YEhFIM4Lywx6g?=
- =?us-ascii?Q?ufyF079uAzd36fb0NPl0qj3GyHmA0pWCNN/ptWKQ4+JmT/6uufXmP3+CDNV0?=
- =?us-ascii?Q?FuV4PiUNlFNq1F3tAqLbO5BDqzHXoJ3JFz8zh/aRF7il8jGEJw9AY1AYUFZE?=
- =?us-ascii?Q?o4hdhB4E8+Sc4YkIeJS2AGFYPV1mLfs1ZzX/5Zjp9L7WOr2rVn1sMXkWX8Wd?=
- =?us-ascii?Q?oTPlI8YIAskHl3SLFB+9HdLlG3EMEIpjXs0i787fNcCoLoEMPWH14tbBVH/j?=
- =?us-ascii?Q?o9W9HTnSi6DOuXss3uq6swWqpuTuJDH/xfPSfCVILtz6RsyBAIj6LYCuQZnp?=
- =?us-ascii?Q?OQrALxEyzUo6pw83gVSPtkenXJ5VgxC5XpnJMk3tK8RTOP5aZWEY75YibnwG?=
- =?us-ascii?Q?EFNbwkgylY678oc5xhJm5MgoALo2MbXJFZ2OWJkDrU4ielcqDyMyOAKuDhZ8?=
- =?us-ascii?Q?XTvR28uXeHIemghT84V7cA46VmQ8f6vpJ+bRJZm+9H9KFbvETHPo13fShKsB?=
- =?us-ascii?Q?mlgxCysJ04mBCaRrL0mMDJHryBAeq6HgeTDeuXXbwS9fuEUjeo/KrcSBifaQ?=
- =?us-ascii?Q?Pqk8Tg1j8bXYin9fBZEW0CCkX753qOpVit9K7aRoY7UKdHYAZV/+rFThI8ag?=
- =?us-ascii?Q?BJmXyJaSBXaDdEAa2BWrKj0xQugGLZZVykpj/XCXqMOJNASBex1Fhx/4AXCT?=
- =?us-ascii?Q?8AwC0WzPFViWzosd8/TFd5CdQzfs2y98+lU5ezFfMzUWQkal2VUZ2J3rqrT9?=
- =?us-ascii?Q?8cQn5rjrP1T0hBjTP3NozrpXZNkz+EES9U4pDpxrIhacr2Qv46+u9OOdyAsc?=
- =?us-ascii?Q?ROLc4wAk6BPIAy4JVkH4yiVfFpzmGXFGIixZfThTwGoMdyxUL94oFzhpRUO0?=
- =?us-ascii?Q?NAlOjf1OJLO+5yL3mrljVBnp3Bh00Ziw5hy+O9WdgHmVffqH53JmW78bYbE/?=
- =?us-ascii?Q?Hzeq/fsNcNOnz6Hf9KVVuVmX5TNz7PN5JZrE3JTUg6EFUso0iyamuz4YkLg/?=
- =?us-ascii?Q?XgybUm6J+10uKEFog7o+Ge/3XQIpzximv5aDOForBy/Typss0zKhdXHeb/Fg?=
- =?us-ascii?Q?B2KWStMQv7aY+fcPvs67TDZKw4dIQoVP3+TF2FDHdu5V2wy2tjOBxkmMxgQT?=
- =?us-ascii?Q?12VMmtMO6T0xkGXLghr7Ed7IpbOVZV89z04yszcdn/kG001qIQOSFyYfN40J?=
- =?us-ascii?Q?yDu9JrQ0bHXQPia6ESiiNDNssSH2/Dij39vAedhdQvydFZ3KmaZAVOdnSqfl?=
- =?us-ascii?Q?9rrzvrsIWyDI5Qbc6ew/pd4m8f+y0mgKiMQfNCDPQrGKEkZv+qpjLsm04pFD?=
- =?us-ascii?Q?KnNJBOScnuB9g0gk4tHB2y5aPOCH9pbTHomiwzfbzpYfdjc4ROUbBdy2U4vZ?=
- =?us-ascii?Q?3g=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: lEB2efKU7qoQrtOiXo1BN5V182NOAeC3oEaGseZkGdK3Eoid2n+xwr2+djf86sojbZwu58KN+A0nx+K/XgTIQOPtFDpl+mHLCVGF6DuAqydgzEEmBkHnFmhMhNIR/ogUgq6JJkL0iViLMoPhVkdry2E1CRiwqVAlclkflimp5xCIEaYlFO5bNPEqghA/v19fVxQVxk3L34IfWapjDSQP++69CUXKeRqr1LZd6TMaVeCnmdomp1fh1XJxUDNiildhMKPREBE8GtusUDld1IbcY/zzLT2NqR8rTfsP04enjRUt9tZkXZMP/19MMbkhUlxo5SxC4a4RM9wOkM0n/7urRxGvtPuegUNf1lCYHa/k5uNnOmeDFUVY/HAE6k/bEc70USLskD7wPp1RFT7+b9nhy+527VkB70SmGvLjWo/EDS3YuJQvwG/6DZ9luhSnpzG2TVS22BdXQcQ4Vc+HNKD5Vx8xeuBib8moOcfLAXcGgd6s1ZtloJIemsdR8/1UfHkb/AVh2N5MuONrSgb2D0ts9Go58Nf9BbXPmg4Ol0MeZTEbScbo5/KXaJELxabvcccZf7bGjiLmbv72XQrVshad+xh7mIeLTlNMdwWPCM3y0QogvHriKeYpS6hd1jzF156L
-X-OriginatorOrg: keysight.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33a0c718-490b-4868-cc57-08ddf098afef
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR17MB6128.namprd17.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gwjJYoM1PkJ0abFlcvKtzOzSjgibJsMvYuMQU1zkg3XoJaSgQNGj4b9+JKs5?=
+ =?us-ascii?Q?jeGP7+O8stFy2GS84BJ5TIbO7Z/gjI1VjvKb9oskl/zaqxZXhXkDO23zE7I1?=
+ =?us-ascii?Q?dZ5NwtejbwLSSZD/B79ZZpEiPGJ3a5p+VbNa3jpq1qKpls0y43eES7c0E4Lw?=
+ =?us-ascii?Q?V2STFcN8PFPAQT+vWPLLJbYGLdKBVZi9jY6sJF6MUfwUNiza4orBZ9qBBCSf?=
+ =?us-ascii?Q?RjS5gE+r0s5kz169fIBZDo5FCsxiAiO8gaY1fNIABuG9kAooFHoiWnQrtARu?=
+ =?us-ascii?Q?ckw0HHaFchdeiUzbdUN6W49uCi6VOKorO/MEYScRRLZe8zLTGAh1awkaEAUw?=
+ =?us-ascii?Q?9KWJmcfIKplZV1qVnx51gDN6kuqA7+YDaaTlu6Hjdtqqmn5IN60dsfTtpsK8?=
+ =?us-ascii?Q?t8T3O+ipVAmOc1pXKnojJrDusrhdlrwMThgzJ/akcjvVlMsAsbTeP7gfwHz/?=
+ =?us-ascii?Q?+eTXHVuIuL3wtkARZjK/+5UaLIWpQ7+PVtyw9vSW3Ga9kA9WavJ/zeESix8w?=
+ =?us-ascii?Q?5C3gO1/3xeSSDycOau5Qd18A3TPTuKctvrsYNHmUBAqrzkszxyu5k7q5x9oN?=
+ =?us-ascii?Q?MXRTccd5nTNfaHR3n7aZ3k2O8r1tnSpGeffrwbO+1mZ9L5oVVQrfoe2f40xk?=
+ =?us-ascii?Q?NMVYjzmJrxNVTITnewJBOK63tQI/sBBf6WM8+714y7m4UBr7GCCbBd9oIDq8?=
+ =?us-ascii?Q?6E2US8YH1Re7gukYK8+9N9sQRhubu+TRR7lXxaQ6uAeEnhlCqTQZBAOvZFIT?=
+ =?us-ascii?Q?K8sd0aNoMIgxSVWuBoVSnFFZSTF9hPlLRBJxCecXn2kjIAOIxHtql/eO4fyr?=
+ =?us-ascii?Q?ljyai1KO1qbUJixpZRHkUZSxHhQSXrMjTniEoe0eNGDiV8G6qX8eNu4pdwQU?=
+ =?us-ascii?Q?1025+wNi5WAkFwr8BYofrH/2+y6Vfx087H1sIRS/xfOiYMN0dtHURfazalmr?=
+ =?us-ascii?Q?xhSNm1K7UOZp23ScA/78qoycUB3TFAaZPWpz7Lv2iyDYVtO8wDd5qKxdPTiq?=
+ =?us-ascii?Q?IpSwRcZ93ZTwqFfON07sweocYZ5E/AEQa8Y7XlYqH6fgHtWfcBJnaed9SMty?=
+ =?us-ascii?Q?TqSNzo6uNregMWO5Yu04TNt7V9e0+t8DYJ40oeBntdaCxQCd2od/dFOKZ+RM?=
+ =?us-ascii?Q?FPTIbr7j03tQBTPQ5aUhMhMs2ubWjHdZNzITKmPuoitmjp08ZLnbKPZkQ32u?=
+ =?us-ascii?Q?MyjveA+493yel7+sLlU6n43CjyRK5LJrvf9HBH4c3w/SoR4QsQ22en1O/3Bz?=
+ =?us-ascii?Q?ixq6QexicBjIQ52BaKPTNzoQ6LxiiT0DjEr6hUTeizUVM8OQAtxqol7/DZzK?=
+ =?us-ascii?Q?JOJfduSH1Uqlnj+4YpQj23THZjSObvWTeJYogdjfALsWL/DHYiZB2loqhPCr?=
+ =?us-ascii?Q?T/oHLRyYPJV7PxSxY1jrXXRzeIWXIvZuadP5Rv1QIsf3IoeBfJXduMgFItzN?=
+ =?us-ascii?Q?hFORVo1JCqDBCmNIZW+jtPWIKiuWt9JlF4X8vSYi2+2Jr+YCJ4AkQ1yMn3Jt?=
+ =?us-ascii?Q?CC8cxyFGxhlv8shGgbEFCWG6WTcl6qw+C80/boVRLvjvawLhWZBJ4cimT7gV?=
+ =?us-ascii?Q?ekstVn7WnTzJkDbTn2Mo/Zf67Vgcg1GDaM/kHJDv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d0bf4f4-05a0-418d-307c-08ddf09c9e37
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 18:34:33.7619 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 19:02:41.8632 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 63545f27-3232-4d74-a44d-cdd457063402
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +ahIzlcUBKOlFihDkX0k1rK+S7s2baYurCzngT0MtjWZcRbuxI6eWLSgrSRYCqqdGwg6bWMLCwmIW5IG5LgbVo5+85BtdMFa2CorHJ07yvY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR17MB4878
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEwMDEwMiBTYWx0ZWRfX3MWug17kPtlN
- vzdZEoSZVv1/UaIRGAOcNfCXVoYl3xgB/KeNmF7pxYt3WqKGGEWCHyVZHuq4YXtYaQ9BP/vKOip
- Xap67O+l35UR9UyVAISMfcPqdLewOW0GtGGjAfiHXgPqOp7n0BaMKycG93/RppRHaxcunD6ggfu
- X9hZl9bcmHpGBqwloFTJGVLW3FuLW2i6G8A9rQNFvotSv+oHJG22FcPm9OfavgPc2WXJmxaCEso
- DmhWlEpfiSCKoDNnbBVEpnH8hA0gKx3mclEPaxrK7BSiZibrYmJu3+4M+o+oUPNxRwXBfExuHuH
- NbGgGVddHtLWsv4DAXSHIqA+BDtz1OkzlknB1dlNB4IjcFTN96q3r2ydnOATPqz9WCV16f9Kmx3
- eVRuiiBG
-X-Proofpoint-GUID: vlhaCQ-OG6g-M9Jcx4fxKTz1zFJLlVi-
-X-Authority-Analysis: v=2.4 cv=Lcc86ifi c=1 sm=1 tr=0 ts=68c1c4bc cx=c_pps
- a=XbCLgsAEGm7m6p89S+a4Ww==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10 a=vu2TTH8h0NUA:10 a=F6MVbVVLAAAA:8
- a=MBzh4j0jN5ipS1elumoA:9 a=6mxfPxaA-CAxv1z-Kq-J:22
-X-Proofpoint-ORIG-GUID: vlhaCQ-OG6g-M9Jcx4fxKTz1zFJLlVi-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_03,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 spamscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509100102
+X-MS-Exchange-CrossTenant-UserPrincipalName: MZbigEarG2NdnXiDxH/DGEYfCAwGWTIpt+R8tAuGc2ShUDk2+7POM4vXm+GQPZB13rlN9NhbaZ9+l3Hw+BzEVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,238 +159,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DisplayPort to the bridge, which entails the following:
-- Get and use an interrupt for HPD;
-- Properly clear all status bits in the interrupt handler;
+On Wed, Sep 10, 2025 at 02:09:55PM -0400, Joel Fernandes wrote:
+[...] 
+> > > +    /// Allocate IRQ vectors for this PCI device.
+> > > +    ///
+> > > +    /// Allocates between `min_vecs` and `max_vecs` interrupt vectors for the device.
+> > > +    /// The allocation will use MSI-X, MSI, or legacy interrupts based on the `irq_types`
+> > > +    /// parameter and hardware capabilities. When multiple types are specified, the kernel
+> > > +    /// will try them in order of preference: MSI-X first, then MSI, then legacy interrupts.
+> > > +    /// This is called during driver probe.
+> > > +    ///
+> > > +    /// # Arguments
+> > > +    ///
+> > > +    /// * `min_vecs` - Minimum number of vectors required
+> > > +    /// * `max_vecs` - Maximum number of vectors to allocate
+> > > +    /// * `irq_types` - Types of interrupts that can be used
+> > > +    ///
+> > > +    /// # Returns
+> > > +    ///
+> > > +    /// Returns the number of vectors successfully allocated, or an error if the allocation
+> > > +    /// fails or cannot meet the minimum requirement.
+> > > +    ///
+> > > +    /// # Examples
+> > > +    ///
+> > > +    /// ```
+> > > +    /// // Allocate using any available interrupt type in the order mentioned above.
+> > > +    /// let nvecs = dev.alloc_irq_vectors(1, 32, IrqTypes::all())?;
+> > > +    ///
+> > > +    /// // Allocate MSI or MSI-X only (no legacy interrupts)
+> > > +    /// let msi_only = IrqTypes::default()
+> > > +    ///     .with(IrqType::Msi)
+> > > +    ///     .with(IrqType::MsiX);
+> > > +    /// let nvecs = dev.alloc_irq_vectors(4, 16, msi_only)?;
+> > > +    /// ```
+> > > +    pub fn alloc_irq_vectors(
+> > > +        &self,
+> > > +        min_vecs: u32,
+> > > +        max_vecs: u32,
+> > > +        irq_types: IrqTypes,
+> > > +    ) -> Result<u32> {
+> > > +        // SAFETY: `self.as_raw` is guaranteed to be a pointer to a valid `struct pci_dev`.
+> > > +        // `pci_alloc_irq_vectors` internally validates all parameters and returns error codes.
+> > > +        let ret = unsafe {
+> > > +            bindings::pci_alloc_irq_vectors(self.as_raw(), min_vecs, max_vecs, irq_types.raw())
+> > > +        };
+> > > +
+> > > +        to_result(ret)?;
+> > > +        Ok(ret as u32)
+> > > +    }
+> > 
+> > This is only valid to be called from the Core context, as it modifies internal
+> > fields of the inner struct device.
+> 
+> It is called from core context, the diff format confuses.
+> > 
+> > Also, it would be nice if it would return a new type that can serve as argument
+> > for irq_vector(), such that we don't have to rely on random integers.
+> 
+> Makes sense, I will do that.
+> 
+By the way, the "ret" value returned by pci_alloc_irq_vectors() is the number
+of vectors, not the vector index. So basically there are 3 numbers that mean
+different things:
+1. Number of vectors (as returned by alloc_irq_vectors).
+2. Index of a vector (passed to pci_irq_vector).
+3. The Linux IRQ number (passed to request_irq).
 
-Signed-off-by: John Ripple <john.ripple@keysight.com>
----
-V1 -> V2: Cleaned up coding style and addressed review comments
-V2 -> V3:
-- Removed unused HPD IRQs
-- Added mutex around HPD enable/disable and IRQ handler.
-- Cleaned up error handling and variable declarations
-- Only enable IRQs if the i2c client has an IRQ
-- Moved IRQ_EN to ti_sn65dsi86_resume()
-- Created ti_sn65dsi86_read_u8() helper function
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 126 ++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+And your point is well taken, in fact even in current code there is
+ambiguity: irq_vector() accepts a vector index, where as request_irq()
+accepts a Linux IRQ number, which are different numbers. I can try to clean
+that up as well but let me know if you had any other thoughts. In fact, I
+think Device<device::Bound>::request_irq() pci should just accept IrqRequest?
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index ae0d08e5e960..da1508c14145 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -106,10 +106,21 @@
- #define SN_PWM_EN_INV_REG			0xA5
- #define  SN_PWM_INV_MASK			BIT(0)
- #define  SN_PWM_EN_MASK				BIT(1)
-+
-+#define SN_IRQ_EN_REG				0xE0
-+#define  IRQ_EN					BIT(0)
-+
-+#define SN_IRQ_EVENTS_EN_REG			0xE6
-+#define  HPD_INSERTION_EN			BIT(1)
-+#define  HPD_REMOVAL_EN				BIT(2)
-+
- #define SN_AUX_CMD_STATUS_REG			0xF4
- #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
- #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
- #define  AUX_IRQ_STATUS_NAT_I2C_FAIL		BIT(6)
-+#define SN_IRQ_STATUS_REG			0xF5
-+#define  HPD_REMOVAL_STATUS			BIT(2)
-+#define  HPD_INSERTION_STATUS			BIT(1)
- 
- #define MIN_DSI_CLK_FREQ_MHZ	40
- 
-@@ -153,6 +164,8 @@
-  * @ln_polrs:     Value for the 4-bit LN_POLRS field of SN_ENH_FRAME_REG.
-  * @comms_enabled: If true then communication over the aux channel is enabled.
-  * @comms_mutex:   Protects modification of comms_enabled.
-+ * @hpd_enabled:   If true then HPD events are enabled.
-+ * @hpd_mutex:     Protects modification of hpd_enabled.
-  *
-  * @gchip:        If we expose our GPIOs, this is used.
-  * @gchip_output: A cache of whether we've set GPIOs to output.  This
-@@ -190,7 +203,9 @@ struct ti_sn65dsi86 {
- 	u8				ln_assign;
- 	u8				ln_polrs;
- 	bool				comms_enabled;
-+	bool				hpd_enabled;
- 	struct mutex			comms_mutex;
-+	struct mutex			hpd_mutex;
- 
- #if defined(CONFIG_OF_GPIO)
- 	struct gpio_chip		gchip;
-@@ -221,6 +236,23 @@ static const struct regmap_config ti_sn65dsi86_regmap_config = {
- 	.max_register = 0xFF,
- };
- 
-+static int ti_sn65dsi86_read_u8(struct ti_sn65dsi86 *pdata, unsigned int reg,
-+			     u8 *val)
-+{
-+	int ret;
-+	unsigned int reg_val;
-+
-+	ret = regmap_read(pdata->regmap, reg, &reg_val);
-+	if (ret) {
-+		dev_err(pdata->dev, "fail to read raw reg %#x: %d\n",
-+			reg, ret);
-+		return ret;
-+	}
-+	*val = (u8)reg_val;
-+
-+	return 0;
-+}
-+
- static int __maybe_unused ti_sn65dsi86_read_u16(struct ti_sn65dsi86 *pdata,
- 						unsigned int reg, u16 *val)
- {
-@@ -379,6 +411,7 @@ static void ti_sn65dsi86_disable_comms(struct ti_sn65dsi86 *pdata)
- static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
- {
- 	struct ti_sn65dsi86 *pdata = dev_get_drvdata(dev);
-+	const struct i2c_client *client = to_i2c_client(pdata->dev);
- 	int ret;
- 
- 	ret = regulator_bulk_enable(SN_REGULATOR_SUPPLY_NUM, pdata->supplies);
-@@ -413,6 +446,13 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
- 	if (pdata->refclk)
- 		ti_sn65dsi86_enable_comms(pdata, NULL);
- 
-+	if (client->irq) {
-+		ret = regmap_update_bits(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN,
-+			IRQ_EN);
-+		if (ret)
-+			pr_err("Failed to enable IRQ events: %d\n", ret);
-+	}
-+
- 	return ret;
- }
- 
-@@ -1211,6 +1251,9 @@ static void ti_sn65dsi86_debugfs_init(struct drm_bridge *bridge, struct dentry *
- static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	const struct i2c_client *client = to_i2c_client(pdata->dev);
-+	int ret;
-+	unsigned int val;
- 
- 	/*
- 	 * Device needs to be powered on before reading the HPD state
-@@ -1219,11 +1262,32 @@ static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
- 	 */
- 
- 	pm_runtime_get_sync(pdata->dev);
-+
-+	mutex_lock(&pdata->hpd_mutex);
-+	if (client->irq) {
-+		/* Enable HPD events. */
-+		val = HPD_REMOVAL_EN | HPD_INSERTION_EN;
-+		ret = regmap_update_bits(pdata->regmap, SN_IRQ_EVENTS_EN_REG, val, val);
-+		if (ret)
-+			pr_err("Failed to enable HPD events: %d\n", ret);
-+	}
-+	pdata->hpd_enabled = true;
-+	mutex_unlock(&pdata->hpd_mutex);
- }
- 
- static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	const struct i2c_client *client = to_i2c_client(pdata->dev);
-+
-+	mutex_lock(&pdata->hpd_mutex);
-+	pdata->hpd_enabled = false;
-+	if (client->irq) {
-+		/* Disable HPD events. */
-+		regmap_write(pdata->regmap, SN_IRQ_EVENTS_EN_REG, 0);
-+		regmap_update_bits(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN, 0);
-+	}
-+	mutex_unlock(&pdata->hpd_mutex);
- 
- 	pm_runtime_put_autosuspend(pdata->dev);
- }
-@@ -1309,6 +1373,44 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn65dsi86 *pdata)
- 	return 0;
- }
- 
-+static irqreturn_t ti_sn_bridge_interrupt(int irq, void *private)
-+{
-+	struct ti_sn65dsi86 *pdata = private;
-+	struct drm_device *dev = pdata->bridge.dev;
-+	u8 status;
-+	int ret;
-+	bool hpd_event = false;
-+
-+	mutex_lock(&pdata->hpd_mutex);
-+	if (!pdata->hpd_enabled) {
-+		mutex_unlock(&pdata->hpd_mutex);
-+		return IRQ_HANDLED;
-+	}
-+
-+	ret = ti_sn65dsi86_read_u8(pdata, SN_IRQ_STATUS_REG, &status);
-+	if (ret)
-+		pr_err("Failed to read IRQ status: %d\n", ret);
-+	else
-+		hpd_event = status & (HPD_REMOVAL_STATUS | HPD_INSERTION_STATUS);
-+
-+	if (status) {
-+		drm_dbg(dev, "(SN_IRQ_STATUS_REG = %#x)\n", status);
-+		ret = regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, status);
-+		if (ret)
-+			pr_err("Failed to clear IRQ status: %d\n", ret);
-+	} else {
-+		mutex_unlock(&pdata->hpd_mutex);
-+		return IRQ_NONE;
-+	}
-+
-+	/* Only send the HPD event if we are bound with a device. */
-+	if (dev && hpd_event)
-+		drm_kms_helper_hotplug_event(dev);
-+	mutex_unlock(&pdata->hpd_mutex);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 			      const struct auxiliary_device_id *id)
- {
-@@ -1931,6 +2033,8 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
- 	dev_set_drvdata(dev, pdata);
- 	pdata->dev = dev;
- 
-+	mutex_init(&pdata->hpd_mutex);
-+
- 	mutex_init(&pdata->comms_mutex);
- 
- 	pdata->regmap = devm_regmap_init_i2c(client,
-@@ -1971,6 +2075,28 @@ static int ti_sn65dsi86_probe(struct i2c_client *client)
- 	if (strncmp(id_buf, "68ISD   ", ARRAY_SIZE(id_buf)))
- 		return dev_err_probe(dev, -EOPNOTSUPP, "unsupported device id\n");
- 
-+	if (client->irq) {
-+		ret = devm_request_threaded_irq(pdata->dev, client->irq, NULL,
-+						ti_sn_bridge_interrupt,
-+						IRQF_TRIGGER_RISING |
-+						IRQF_TRIGGER_FALLING |
-+						IRQF_ONESHOT,
-+						"ti_sn65dsi86", pdata);
-+
-+		if (ret) {
-+			return dev_err_probe(dev, ret,
-+					     "failed to request interrupt\n");
-+		}
-+
-+		/*
-+		 * Cleaning status register at probe is needed because if the irq is
-+		 * already high, the rising/falling condition will never occur
-+		 */
-+		ret = regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, 0xFF);
-+		if (ret)
-+			pr_warn("Failed to clear IRQ initial state: %d\n", ret);
-+	}
-+
- 	/*
- 	 * Break ourselves up into a collection of aux devices. The only real
- 	 * motiviation here is to solve the chicken-and-egg problem of probe
+thanks,
+
+ - Joel
+
