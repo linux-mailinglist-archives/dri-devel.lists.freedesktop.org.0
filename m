@@ -2,95 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEB0B508F8
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 00:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810DAB5099A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 02:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF56410E815;
-	Tue,  9 Sep 2025 22:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D1D10E280;
+	Wed, 10 Sep 2025 00:11:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="BNOwdgpw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XI1T7lHy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C8510E815
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Sep 2025 22:44:35 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-24c9a399346so46704405ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 15:44:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1757457874; x=1758062674;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z4yfBU9AYetve95lMaxYZGTwSsv9zgxSypdrW9Vf/Ik=;
- b=BNOwdgpwM2xh9alkDPFl65xPQ/aB2hCHWRxMF0FmTdYz95OTfGP/wy2rvPWZcD4wWO
- skJMmizvX/ybvwu85Yv1Xmv/Kr1FeC6fapPHUX0PFxy8CjDXhyCK68ThOlAYbC6+3JAT
- BPLI0kLJbqGMru12g6uMGIFaY4/TO/yDIkgQ4=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F116F10E280
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 00:11:17 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 589IAYsY002301
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 00:11:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=jFpVoHgd0Kv1eDQsqTgiYA
+ sqE3K27Ovfdi+4AyDrDPc=; b=XI1T7lHyTAWs8BzJdvkRrP8RHC3k6im8O+2ho+
+ vNMfna8i+sWzy+UHW/m8yOLVXbgjOGR8KpVcgdoDYMh9lu4NP7b3oX0gSq+2xXiz
+ GeqztB/JUAhHEnXvEov5e081xBG3egn096/mz+r7JyZpqsBmJEdPuHzLGoacjAS7
+ dfyY2Ojl2aQI3kQC1Db+uagYrgZQjVn7oGKNoGEkwvUdpmSiMv8toUaZP4ftB6v1
+ 3VXRsqEYIe8Xg65lGJ8eNU97fp5gyLdNXDW4ci0wkCiVh1ZaJu9Durhf4bpAZrKo
+ rop9vkpj5MPt3oJYrRDFO92lPPtbqGYqJMYkZa5oFlqMVhzA==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490dqg1ug7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 00:11:17 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-2507ae2fa99so99892705ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 17:11:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757457874; x=1758062674;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z4yfBU9AYetve95lMaxYZGTwSsv9zgxSypdrW9Vf/Ik=;
- b=vMxm1gzMMWFf02sXSWxQ/MEcg2dsOGaC+yDE7+KPSn1l92lbsObVYEKehFM92hpAWr
- rqPujy3W1dSdSWr7oiXOFo6wmxiR40cGvi8/I4jmeqgAGOTr6dQ/OwYyWaw985VndpCg
- 01AhBz8bpBK9wAMOpVY6wxyuOvG7BYBl08HKOsy0xVg3wVsfb62lxng6mfq2BKozy5eY
- V9td/8DLRhhB9bdjbPpMjnRUqpNMMtUWtSGaLBw0HR2ulUkqRg+tUXK526yiFHQV91bf
- YQATkjrDuzF9hzI7dT51BSNS0Wazajo5oAZspLwpWfne97cw5NyPihZPAglIL6CH8hd9
- cZzg==
+ d=1e100.net; s=20230601; t=1757463076; x=1758067876;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jFpVoHgd0Kv1eDQsqTgiYAsqE3K27Ovfdi+4AyDrDPc=;
+ b=C2WmXNteFclzT3O7eLuPOfkF/lcwuF7YL/r/LLEX4OJWw0VOeKqxxZVV6DYi9uVIaZ
+ 0q8CsNbV3VngO8inXm83F9eTSSwljfFF7MZkwNlK6q0WyDTZUzlDRYv3PLOasffxZ8Fd
+ oaoRyzS+cqYP5OtMT8twwlv2RgX9SMkQyS8q/t1LamhtJmVNVcX1LUgV0pXxDrY/H4Xx
+ vbobs2WUlt5fMPfQXWwItwGRuaZY9ZmxE0CLbwVjgrTGfSPL/tzgta5vyQuJnATL/phd
+ Efak4OZe8so41mLmiqc56Vnu3RimXhDsu5pkfTEmNpT70Z4ffhoY/lFNbh+19+p/AtF0
+ 6Glg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVA65UcZ96v+uOPaQDVH5gZ79R+GDddEmNniR4jXCbdECv7U4E8o+1cPlsRJ8o8zUf44O4NzXb2cs4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxS+s4qzIPrh9Y+IebfgzIhCZTyON3D8Ylja0eXtsmU3FfXYBwX
- /dc/d0OsP70d6C7zdwrLl04Qqjl5xE4ztj6LaCcK+ejYaYSiPIMj5H8ypMb+2cvoDrGVp/q/jgQ
- O3oo=
-X-Gm-Gg: ASbGncsts5sM8LoA5q8eBivZKK3+xN5qVMh8bw+PTET2X6qjNjl1XJnOhgKtCHwFgml
- LwKIYu9m0EPZBSMt+ZqM+tc1v+U1XFlVaS0ny06bzBMWjjqwYPDN95NsxTuDfYVpOiGfhORvrBb
- 60fjfRtqFiTEfgYnHa+iZj5+/Zy3mfmOQ/g2RKS5eeR7joQiIDJFUBk66Csrtd7M8aICxgf8Sxx
- 3QbvvR66/yoHuAN7F4Z+lIYdvN9tyXvxMY4yKf1N4+dsX6OUb97DOUGSc/EcULsY2/CzBJQPlR6
- h0lc8FEwc50V42J4XCF4Jn0bDObFHwyUTUPWK4hJ5RHovhnGAEl+MEQOlzemklPuNJ1ogyYTpvj
- z0ffYkdBNoooxSoV/8/Y1BaQ6S8gdWydu0+DIITskbxNoc5npWeH4O6x/LAPFlFhx4QD2ryGXUo
- Pz
-X-Google-Smtp-Source: AGHT+IHpxlVdmW0VyG0eXbLr25fm9tDSMYe59bk12fXaMTKDXJqfYZLumZKk5JuxB3q6ZH4T560wzg==
-X-Received: by 2002:a17:902:ea04:b0:248:79d4:93bb with SMTP id
- d9443c01a7336-25170c44cf6mr209677105ad.31.1757457874410; 
- Tue, 09 Sep 2025 15:44:34 -0700 (PDT)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com.
- [209.85.215.173]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-25a27422bd0sm8185145ad.16.2025.09.09.15.44.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Sep 2025 15:44:32 -0700 (PDT)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-b4d118e13a1so4104264a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 15:44:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0OCrNN69gaV4c3vIW4AnoqhGJT4t1RpcyEUT3ZV7QpmsHDRi02/0VK5NbS3r2Ei9hYcNdB1JBQoc=@lists.freedesktop.org
-X-Received: by 2002:a17:903:b0e:b0:249:f16:f086 with SMTP id
- d9443c01a7336-251718dbaf3mr161248035ad.42.1757457871970; Tue, 09 Sep 2025
- 15:44:31 -0700 (PDT)
+ AJvYcCVGLDyMsdaU7v7NLKNRm6+GgVrfYLTRoT7q65k2ZMLsOUWIfe+eP9l3xv9RNVuV1uSuI+w2ZOiU1Vk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyOWYPH5KpfYkQPIBhrLFqZTHOOIZfWwRCD5JterKdueQMLxwo
+ lSSH7CMityUG/fhOJv6tbpn6GeDWJ7K7UMb8i+ZMmU58LsNmQU2JYzNXol8ifLOvwp+Z8NBUqp0
+ Nv/kscI834ZgyeNMSmE6dSDYE2I4hsMUaJVER/AoB5ZOvNvSPGODV+qWVlOGzIxwGobnw5sV8n8
+ lfs5V+
+X-Gm-Gg: ASbGncuwJYaP1EqZ+laDXmt4HUVjnyTtosRT184XllwE459bAKCYFAXdjefRjQsmUAc
+ T38kzER+D6LPAHz2EOd+qj6uxxHV7RRtBh9rENiGu1twugjDn4zpow4R+NO9YaQTfTXb2uBVhNa
+ s8fhrNJS65FgXCOhxQl7iStXwZZTSvrhSLtyTJVUXzfkx7wRdUfWg8fEtZr1VsW6d1C2ODNp+LB
+ M5EfF3ZwjBHQ8HXddmo4+3kDN0CvUVccVn4nnlu+z04u0MhC1HPs/li/tVGmzUzkEwnnKIN2Rfc
+ RytEmDBNHahgUgwWEshfZ9486apE/8LFpkPQWwig0ZY+t6GMEAnSdxYi8I62I/V82uk3hGx46ou
+ JeveLWTMg/EnzpAHiENg8y3A=
+X-Received: by 2002:a17:903:19e5:b0:24d:6f65:7a91 with SMTP id
+ d9443c01a7336-25171cbfe5emr195303845ad.29.1757463076245; 
+ Tue, 09 Sep 2025 17:11:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHiBOCGrjDfaQx3eQmuWGjbM8k6kUSKqmsXf9ORqS92+AWuiEPW/gTySpMQGnWREBEdVe36gA==
+X-Received: by 2002:a17:903:19e5:b0:24d:6f65:7a91 with SMTP id
+ d9443c01a7336-25171cbfe5emr195303465ad.29.1757463075571; 
+ Tue, 09 Sep 2025 17:11:15 -0700 (PDT)
+Received: from hu-azarrabi-lv.qualcomm.com (Global_NAT1.qualcomm.com.
+ [129.46.96.20]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-32dab6bb655sm1285672a91.10.2025.09.09.17.11.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Sep 2025 17:11:15 -0700 (PDT)
+From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Subject: [PATCH v10 00/11] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+Date: Tue, 09 Sep 2025 17:11:02 -0700
+Message-Id: <20250909-qcom-tee-using-tee-ss-without-mem-obj-v10-0-20b17855ef31@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <CAD=FV=XWhDtFWegUUeACxcrSTFh7kbmwVFy3sioboh2fgk3Evw@mail.gmail.com>
- <20250909193641.236527-1-john.ripple@keysight.com>
-In-Reply-To: <20250909193641.236527-1-john.ripple@keysight.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 9 Sep 2025 15:44:19 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WwYYQ67j9vTV-xYLcALPN3J3nj56PvEOOhMQ1T3sqJuQ@mail.gmail.com>
-X-Gm-Features: Ac12FXw1reTwaSFLkM9n4dHmDjCjlmvWRm6UTmr6JNR-KB3ItUYGPK10m1cxbG8
-Message-ID: <CAD=FV=WwYYQ67j9vTV-xYLcALPN3J3nj56PvEOOhMQ1T3sqJuQ@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/bridge: ti-sn65dsi86: Add support for DisplayPort
- mode with HPD
-To: John Ripple <john.ripple@keysight.com>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
- andrzej.hajda@intel.com, blake.vermeer@keysight.com, 
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- matt_laubhan@keysight.com, mripard@kernel.org, neil.armstrong@linaro.org, 
- rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABfCwGgC/5XRwWrEIBAG4FdZcq7LOBo1Pe17lB6M0V1LkzQxS
+ VuWffdOFkoKbcBexBmc7xfmWiQ/Rp+Kx8O1GP0SU+w7Kjg8HAp3sd3Zs9hQo0BAyelgg+tbNnn
+ P5hS78/2WEnuP06WfJ9b6lvX1CxMKnVJCQom6IOtt9CF+3IOenqm+xDT14+c9d+Fr978JC2fAQ
+ gnoA3APXJ2GObrYuSONF2vGgt8uvcp3kVystLeugUbI8NsVmytQ57qCXB1kqUELNNic+pSOw2x
+ fabzdcLnhEk0uLglXlkuhJFjl6h283PASVS5eEk7L8QKR11BXO7jacM1FLq7Wn1c61LqR3Am1g
+ +sNNzx7l5pw57XlVmtpQOzg5geOkIubdaGglDIQuDB2B682vAKei1eEW7QBBdnYlH/gt9vtC5g
+ lmYzAAwAA
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuldeep Singh <quic_kuldsing@quicinc.com>,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+X-Mailer: b4 0.13.0
+X-Proofpoint-ORIG-GUID: 1MedmRDoKPaAQ6IinCNS5RkpLvHW_vCw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzNSBTYWx0ZWRfX6T+I0KFhbwqw
+ jr+bJJwahGDWmRpMc6acFPjPlG67Zms0EFbWmEnruIphXUSJBdnK0LOE7x/JguBl4RYxhzrjSp3
+ uXJ5YXbFTevt5p1n0/YDDAeV/XyCnlmr2KpWuz5TIeQR56xC88S+TA/6Zm+y/O/W99IG3xDVuph
+ HGXM8zCH6IhDj4mv5UA05F+6eT+kRT9k+DdyAicZq3vZtiBkoulNlMudd4DQH1AdT8LwfZcXsOo
+ cAhaMD8Pr4ahBIQTioXlwU6NhWKQZvOpIyhGcc6bZGcFGYtPWBQwMNRvWT1ZA/Yd3jVTWdxX1nZ
+ 9onPAzpRvC9BUhs3KpaCh8eneXePtfSvzhynG0Sn37pGFKdw3CbRibULrkKbRh2lP7ooINcp1XW
+ itkF+25o
+X-Proofpoint-GUID: 1MedmRDoKPaAQ6IinCNS5RkpLvHW_vCw
+X-Authority-Analysis: v=2.4 cv=N8UpF39B c=1 sm=1 tr=0 ts=68c0c225 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=hlSAHII3iifkWu_GNqkA:9
+ a=D8jLBtTEXUNSpw3P:21 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-09_03,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060035
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,119 +142,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This patch series introduces a Trusted Execution Environment (TEE)
+driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+and services to run securely. It uses an object-based interface, where
+each service is an object with sets of operations. Clients can invoke
+these operations on objects, which can generate results, including other
+objects. For example, an object can load a TA and return another object
+that represents the loaded TA, allowing access to its services.
 
-On Tue, Sep 9, 2025 at 12:36=E2=80=AFPM John Ripple <john.ripple@keysight.c=
-om> wrote:
->
-> Hi,
->
-> >> +static int ti_sn65dsi86_read(struct ti_sn65dsi86 *pdata, unsigned int=
- reg,
-> >> +                            unsigned int *val)
-> >
-> >This is reading a byte, right? So "val" should be an "u8 *". Yeah,
-> >that means you need a local variable to adjust for the generic regmap
-> >call, but it makes a cleaner and more obvious API to the users in this
-> >file.
->
-> The regmap_read function takes in an "unsigned int *" as the "val"
-> parameter and I'm using it to return u32 values (which could probably
-> be u8 instead). Would it be better to leave this as the more generic
-> int type or change it to u8 so its more specific to this driver?
-> If this function gets used elsewhere in this file at some point, I'm
-> not sure everything that could be read would be single bytes.
+Kernel and userspace services are also available to QTEE through a
+similar approach. QTEE makes callback requests that are converted into
+object invocations. These objects can represent services within the
+kernel or userspace process.
 
-Sure, the "regmap_read" takes "unsigned int *" because it's a generic
-API. ...but we initialize the regmap API with:
+Note: This patch series focuses on QTEE objects and userspace services.
 
-  .reg_bits =3D 8,
-  .val_bits =3D 8,
+Linux already provides a TEE subsystem, which is described in [1]. The
+tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
+can be used by userspace to talk to a TEE backend driver. We extend the
+Linux TEE subsystem to understand object parameters and an ioctl call so
+client can invoke objects in QTEE:
 
-In other words, each read/write is 8-byte AKA 1 byte. So you're not
-returning 32-bit values, but 8-bit values.
+  - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
+  - TEE_IOC_OBJECT_INVOKE
 
-There's already a 16-bit version of this function:
-ti_sn65dsi86_read_u16(). Reading that function and yours next to each
-other makes it seem (at first glance) like yours is returning 32-bits.
-It's not. It would be much more documenting showing that it returns
-8-bits. If we need a 32-bit version for some reason we'll have to
-actually write that up.
+The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
+used for invoking services in the userspace process by QTEE.
 
+The TEE backend driver uses the QTEE Transport Message to communicate
+with QTEE. Interactions through the object INVOKE interface are
+translated into QTEE messages. Likewise, object invocations from QTEE
+for userspace objects are converted into SEND/RECV ioctl calls to
+supplicants.
 
-> >> @@ -1219,12 +1246,28 @@ static void ti_sn_bridge_hpd_enable(struct drm=
-_bridge *bridge)
-> >>          */
-> >>
-> >>         pm_runtime_get_sync(pdata->dev);
-> >> +
-> >> +       /* Enable HPD and PLL events. */
-> >> +       regmap_write(pdata->regmap, SN_IRQ_EVENTS_EN_REG,
-> >> +                    PLL_UNLOCK_EN |
-> >> +                    HPD_REPLUG_EN |
-> >> +                    HPD_REMOVAL_EN |
-> >> +                    HPD_INSERTION_EN |
-> >> +                    IRQ_HPD_EN);
-> >
-> >* Shouldn't this be `regmap_update_bits()` to just update the bits
-> >related to HPD?
-> >
-> >* why enable "PLL_UNLOCK_EN" when you don't handle it?
-> >
-> >* I also don't think your IRQ handler handles "replug" and "irq_hpd",
-> >right? So you shouldn't enable those either?
->
-> The IRQ_HPD_EN documentation said:
-> "When IRQ_EN and IRQ_HPD_EN is enabled, the DSIx6 will assert the
-> IRQ whenever the eDP generates a IRQ_HPD event. An IRQ_HPD event
-> is defined as a change from INSERTION state to the IRQ_HPD state."
->
-> I thought that meant the IRQ_HPD_EN needed to be enabled to get any irqs,
-> but when I tried removing the IRQ_HPD_EN and it doesn't seem to change
-> anything, so I'm not sure what the documentation is trying to say.
+The details of QTEE Transport Message to communicate with QTEE is
+available in [PATCH 12/12] Documentation: tee: Add Qualcomm TEE driver.
 
-IRQ_HPD is defined in the spec. It's basically an "attention"
-interrupt from the panel to ti-sn65dsi86. It (and replug) are a
-temporary deassertion of HPD while a display is connected.
+You can run basic tests with following steps:
+git clone https://github.com/quic/quic-teec.git
+cd quic-teec
+mkdir build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
 
-See "Figure 17. HPD State Diagram" for a description of all these
-things. Note that the min/max values there are (I think) because
-sn65dsi86's HPD timings are implemented by a very inaccurate ring
-oscillator.
+https://github.com/quic/quic-teec/blob/main/README.md lists dependencies
+needed to build the above.
 
-If you see that "replug" or "irq_hpd" are needed then your interrupt
-handler should do something with them.
+More comprehensive tests are availabe at
+https://github.com/qualcomm/minkipc.
 
+root@qcom-armv8a:~# qtee_supplicant &
+root@qcom-armv8a:~# qtee_supplicant: process entry PPID = 378
+Total listener services to start = 4
+Opening CRequestTABuffer_open
+Path /data/
+register_service ::Opening CRegisterTABufCBO_UID
+Calling TAbufCBO Register
+QTEE_SUPPLICANT RUNNING
+ 
+root@qcom-armv8a:~# smcinvoke_client -c /data 1
+Run callback obj test...
+Load /data/tzecotestapp.mbn, size 52192, buf 0x1e44ba0.
+System Time: 2024-02-27 17:26:31
+PASSED - Callback tests with Buffer inputs.
+PASSED - Callback tests with Remote and Callback object inputs.
+PASSED - Callback tests with Memory Object inputs.
+TEST PASSED!
+root@qcom-armv8a:~#
+root@qcom-armv8a:~# smcinvoke_client -m /data 1
+Run memory obj test...
+Load /data/tzecotestapp.mbn, size 52192, buf 0x26cafba0.
+System Time: 2024-02-27 17:26:39
+PASSED - Single Memory Object access Test.
+PASSED - Two Memory Object access Test.
+TEST PASSED!
 
-> >> @@ -1309,6 +1352,32 @@ static int ti_sn_bridge_parse_dsi_host(struct t=
-i_sn65dsi86 *pdata)
-> >>         return 0;
-> >>  }
-> >>
-> >> +static irqreturn_t ti_sn_bridge_interrupt(int irq, void *private)
-> >> +{
-> >> +       struct ti_sn65dsi86 *pdata =3D private;
-> >> +       struct drm_device *dev =3D pdata->bridge.dev;
-> >
-> >I'm unsure if accessing "dev" here without any sort of locking is
-> >safe... It feels like, in theory, "detach" could be called and race
-> >with the IRQ handler? Maybe you need a spinlock to be sure?
->
-> I tested a spinlock added to the ti-sn65dsi86 structure that gets used
-> in the ti_sn_bridge_detach and ti_sn_bridge_interrupt functions and it
-> seems to work. Is there another spinlock created somewhere that I could
-> use instead? Is using the spin lock in the interrupt and detach functions
-> the correct way to do it?
+This series has been tested for QTEE object invocations, including
+loading a TA, requesting services from the TA, memory sharing, and
+handling callback requests to a supplicant.
 
-In this case you could probably use a mutex since you're running a
-threaded IRQ handler and sleeping is allowed. You could probably
-create a new mutex for this case.
+Tested platforms: sm8650-mtp, sm8550-qrd, sm8650-qrd, sm8650-hdk
 
-I assume you'd need some sort of boolean variable instead of just
-checking if "bridge.dev" is non-NULL? "bridge.dev" is set by the DRM
-core before your attach is called (and cleared after detach). Maybe
-just have a boolean about whether HPD is enabled and only send the
-event if HPD is enabled? Then use the mutex to protect access to that
-boolean between the IRQ handler and the HPD enable/disable code?
+[1] https://www.kernel.org/doc/Documentation/tee.txt
 
--Doug
+Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+
+Changes in v10:
+- Remove all loggings in qcom_scm_qtee_init().
+- Reorder patches.
+- Link to v9:
+  https://lore.kernel.org/r/20250901-qcom-tee-using-tee-ss-without-mem-obj-v9-0-a2af23f132d5@oss.qualcomm.com
+
+Changes in v9:
+- Remove unnecessary logging in qcom_scm_probe().
+- Replace the platform_device_alloc()/add() sequence with
+  platform_device_register_data().
+- Fixed sparse warning.
+- Fixed documentation typo.
+- Link to v8:
+  https://lore.kernel.org/r/20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-0-7066680f138a@oss.qualcomm.com
+
+Changes in v8:
+- Check if arguments to qcom_scm_qtee_invoke_smc() and
+  qcom_scm_qtee_callback_response() are NULL.
+- Add CPU_BIG_ENDIAN as a dependency to Kconfig.
+- Fixed kernel bot errors.
+- Link to v7:
+  https://lore.kernel.org/r/20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com
+
+Changes in v7:
+- Updated copyrights.
+- Updated Acked-by: tags.
+- Fixed kernel bot errors.
+- Link to v6:
+  https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-0-697fb7d41c36@oss.qualcomm.com
+
+Changes in v6:
+- Relocate QTEE version into the driver's main service structure.
+- Simplfies qcomtee_objref_to_arg() and qcomtee_objref_from_arg().
+- Enhanced the return logic of qcomtee_object_do_invoke_internal().
+- Improve comments and remove redundant checks.
+- Improve helpers in qcomtee_msh.h to use GENMASK() and FIELD_GET().
+- updated Tested-by:, Acked-by:, and Reviewed-by: tags
+- Link to v5:
+  https://lore.kernel.org/r/20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com
+
+Changes in v5:
+- Remove references to kernel services and public APIs.
+- Support auto detection for failing devices (e.g., RB1, RB4).
+- Add helpers for obtaining client environment and service objects.
+- Query the QTEE version and print it.
+- Move remaining static variables, including the object table, to struct
+  qcomtee.
+- Update TEE_MAX_ARG_SIZE to 4096.
+- Add a dependancy to QCOM_TZMEM_MODE_SHMBRIDGE in Kconfig
+- Reorganize code by removing release.c and qcom_scm.c.
+- Add more error messages and improve comments.
+- updated Tested-by:, Acked-by:, and Reviewed-by: tags
+- Link to v4: https://lore.kernel.org/r/20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com
+
+Changes in v4:
+- Move teedev_ctx_get/put and tee_device_get/put to tee_core.h.
+- Rename object to id in struct tee_ioctl_object_invoke_arg.
+- Replace spinlock with mutex for qtee_objects_idr.
+- Move qcomtee_object_get to qcomtee_user/memobj_param_to_object.
+- More code cleanup following the comments.
+- Cleanup documentations.
+- Update MAINTAINERS file.
+- Link to v3: https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com
+
+Changes in v3:
+- Export shm_bridge create/delete APIs.
+- Enable support for QTEE memory objects.
+- Update the memory management code to use the TEE subsystem for all
+  allocations using the pool.
+- Move all driver states into the driver's main service struct.
+- Add more documentations.
+- Link to v2: https://lore.kernel.org/r/20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com
+
+Changes in v2:
+- Clean up commit messages and comments.
+- Use better names such as ubuf instead of membuf or QCOMTEE prefix
+  instead of QCOM_TEE, or names that are more consistent with other
+  TEE-backend drivers such as qcomtee_context_data instead of
+  qcom_tee_context.
+- Drop the DTS patch and instantiate the device from the scm driver.
+- Use a single structure for all driver's internal states.
+- Drop srcu primitives and use the existing mutex for synchronization
+  between the supplicant and QTEE.
+- Directly use tee_context to track the lifetime of qcomtee_context_data.
+- Add close_context() to be called when the user closes the tee_context.
+- Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
+
+Changes in v1:
+- It is a complete rewrite to utilize the TEE subsystem.
+- Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
+
+---
+Amirreza Zarrabi (11):
+      firmware: qcom: tzmem: export shm_bridge create/delete
+      firmware: qcom: scm: add support for object invocation
+      tee: allow a driver to allocate a tee_device without a pool
+      tee: add close_context to TEE driver operation
+      tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+      tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+      tee: increase TEE_MAX_ARG_SIZE to 4096
+      tee: add Qualcomm TEE driver
+      tee: qcom: add primordial object
+      tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
+      Documentation: tee: Add Qualcomm TEE driver
+
+ Documentation/tee/index.rst              |   1 +
+ Documentation/tee/qtee.rst               |  96 ++++
+ MAINTAINERS                              |   7 +
+ drivers/firmware/qcom/qcom_scm.c         | 119 ++++
+ drivers/firmware/qcom/qcom_scm.h         |   7 +
+ drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
+ drivers/tee/Kconfig                      |   1 +
+ drivers/tee/Makefile                     |   1 +
+ drivers/tee/qcomtee/Kconfig              |  12 +
+ drivers/tee/qcomtee/Makefile             |   9 +
+ drivers/tee/qcomtee/async.c              | 182 ++++++
+ drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
+ drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
+ drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
+ drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
+ drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
+ drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
+ drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
+ drivers/tee/qcomtee/shm.c                | 150 +++++
+ drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
+ drivers/tee/tee_core.c                   | 127 ++++-
+ drivers/tee/tee_private.h                |   6 -
+ include/linux/firmware/qcom/qcom_scm.h   |   6 +
+ include/linux/firmware/qcom/qcom_tzmem.h |  15 +
+ include/linux/tee_core.h                 |  54 +-
+ include/linux/tee_drv.h                  |  12 +
+ include/uapi/linux/tee.h                 |  56 +-
+ 27 files changed, 4410 insertions(+), 28 deletions(-)
+---
+base-commit: 33bcf93b9a6b028758105680f8b538a31bc563cf
+change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+
+Best regards,
+-- 
+Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+
