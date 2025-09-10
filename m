@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15688B5165B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBB5B5165C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:01:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B82810E900;
-	Wed, 10 Sep 2025 12:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B630510E904;
+	Wed, 10 Sep 2025 12:01:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="YOQTzDwf";
+	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="nxKIfJms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-43170.protonmail.ch (mail-43170.protonmail.ch
- [185.70.43.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 221F010E900
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:01:33 +0000 (UTC)
+Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch
+ [185.70.43.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC5E10E903
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757505690; x=1757764890;
- bh=amlesrrCjtNi/rMOXRLaP/ew+FLiQjpAjiXhBIB6iFo=;
+ s=protonmail; t=1757505693; x=1757764893;
+ bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
  h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
  Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=YOQTzDwfVpD/gqjhjBmhI/Xf37NlZC9uEXyALze5c/VZkehDZLDcHyMkdzdXr0FP4
- qSmKBs9DV0XeShRuTfy/zSgYFYt/ns4U9naG3ANyJlEV1dXGHRFN+BYbDEI4ybWXq5
- 3C+juG/M6V0+DsFjWAr7hyuEogymBiTle+SQCrEkTjTsMAbzTbzmuYHnXzVr7YmXWi
- ZpTSykU5FPRzfZrSiTA7hVdrPoOsa58/Fu3jzDF5XKxpTiLGwsP+5yAMqYQz2CrW9R
- KbdZlJM6LjuAw3zoYl/E2z6lgr2r7S8LxHREFiq/ZvNHvnvg6XbrDLpdySrgG5tbmg
- LYf8MZUv2wNuQ==
-X-Pm-Submission-Id: 4cMK6H4k7Vz2ScCy
+ b=nxKIfJms1/EPDF2HS5xwwb92MGQcXOgW2xAGSYKO/aN/nXCtVgdV3Enh+sRkKQUCW
+ GJKVFanLebo5nyF8tsDPxP1ZcVI7WkSVHgCdJ24MF70Jgfj415Q68R6DMCv6/DXkRV
+ 621U8c31AWGcuCDgahqmXkLmctcUaynRXqFKJTrXtEvOwpMGKzjesvdHy0EgwhIHOR
+ 7+oNt9iwzgFR3DuHD57ZitUZokapfRDD8/hnyw4C98CSHb/7o/Vb792ZawfF9K5t6c
+ iFulP+8RheD46veqhco7YwO7VdCyJ4v/ArX+4evMd1H55kzMxZsiOtJfcRbIBs82Q9
+ uaY5OE7SPUUIw==
+X-Pm-Submission-Id: 4cMK6L5h8sz2ScCs
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 14:01:10 +0200
-Subject: [PATCH v5 3/4] leds: led-class: Add devicetree support to
- led_get()
+Date: Wed, 10 Sep 2025 14:01:11 +0200
+Subject: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
+ privacy indicator
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
+Message-Id: <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
 References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
 In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
 To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
@@ -55,15 +55,14 @@ Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Aleksandrs Vinarskis <alex@vinarskis.com>, 
- Linus Walleij <linus.walleij@linaro.org>
+ Aleksandrs Vinarskis <alex@vinarskis.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2813; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=YlfJ62d/o3pOGGQtdA6W03es+ClzT+tk2OK+jve8yPw=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHMya88djY7L3Se+PD7UJznNYpNX44ZlU9v/a6WJF8k
- 8D5oNM/OkpZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEQpwY/ko3tBfrmlj5W0eV
- vuo83uPwUGvSRMHshgf5E4/pcYaU7WNk+NgssO13nfQBl1fCIZ85X/7edIlZZ3tCzKu3rCev1Lh
- HsQIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHMyZI+928Yv/w+vEmlnVHGMUzT96w4z3xpjjAf0fiw
+ iVm4VeVOkpZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEonYzMry5dl/8gPvelMuL
+ ZLWYY9kOrpq5e/+lqzohM8uP/ZuRVOjKyHCOm938QuKrFRNtdtgKT1mwYN7krlWSkpJ53VV+hR9
+ ipHgB
 X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
  fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,79 +80,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hansg@kernel.org>
+Leverage newly introduced 'leds' and 'led-names' properties to pass
+indicator's phandle and function to v4l2 subnode. The latter supports
+privacy led since couple of years ago under 'privacy-led' designation.
+Unlike initially proposed trigger-source based approach, this solution
+cannot be easily bypassed from userspace, thus reducing privacy
+concerns.
 
-Add 'name' argument to of_led_get() such that it can lookup LEDs in
-devicetree by either name or index.
-
-And use this modified function to add devicetree support to the generic
-(non devicetree specific) [devm_]led_get() function.
-
-This uses the standard devicetree pattern of adding a -names string array
-to map names to the indexes for an array of resources.
-
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Lee Jones <lee@kernel.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Hans de Goede <hansg@kernel.org>
 Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- drivers/leds/led-class.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -252,15 +252,23 @@ static const struct class leds_class = {
-  * of_led_get() - request a LED device via the LED framework
-  * @np: device node to get the LED device from
-  * @index: the index of the LED
-+ * @name: the name of the LED used to map it to its function, if present
-  *
-  * Returns the LED device parsed from the phandle specified in the "leds"
-  * property of a device tree node or a negative error-code on failure.
-  */
--static struct led_classdev *of_led_get(struct device_node *np, int index)
-+static struct led_classdev *of_led_get(struct device_node *np, int index,
-+				       const char *name)
- {
- 	struct device *led_dev;
- 	struct device_node *led_node;
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+@@ -83,14 +83,11 @@ leds {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_indicator_en>;
  
-+	/*
-+	 * For named LEDs, first look up the name in the "led-names" property.
-+	 * If it cannot be found, then of_parse_phandle() will propagate the error.
-+	 */
-+	if (name)
-+		index = of_property_match_string(np, "led-names", name);
- 	led_node = of_parse_phandle(np, "leds", index);
- 	if (!led_node)
- 		return ERR_PTR(-ENOENT);
-@@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
- 	if (!dev)
- 		return ERR_PTR(-EINVAL);
+-		led-camera-indicator {
+-			label = "white:camera-indicator";
++		privacy_led: privacy-led {
+ 			function = LED_FUNCTION_INDICATOR;
+ 			color = <LED_COLOR_ID_WHITE>;
+ 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "none";
+ 			default-state = "off";
+-			/* Reuse as a panic indicator until we get a "camera on" trigger */
+ 			panic-indicator;
+ 		};
+ 	};
+@@ -685,6 +682,9 @@ camera@10 {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_rgb_default>;
  
--	led = of_led_get(dev->of_node, index);
-+	led = of_led_get(dev->of_node, index, NULL);
- 	if (IS_ERR(led))
- 		return led;
- 
-@@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
- struct led_classdev *led_get(struct device *dev, char *con_id)
- {
- 	struct led_lookup_data *lookup;
-+	struct led_classdev *led_cdev;
- 	const char *provider = NULL;
- 	struct device *led_dev;
- 
-+	led_cdev = of_led_get(dev->of_node, -1, con_id);
-+	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
-+		return led_cdev;
++		leds = <&privacy_led>;
++		led-names = "privacy";
 +
- 	mutex_lock(&leds_lookup_lock);
- 	list_for_each_entry(lookup, &leds_lookup_list, list) {
- 		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+ 		clocks = <&camcc CAMCC_MCLK3_CLK>;
+ 
+ 		orientation = <0>;	/* Front facing */
 
 -- 
 2.48.1
