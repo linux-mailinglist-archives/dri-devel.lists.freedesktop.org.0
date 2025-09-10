@@ -2,37 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD62B51408
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B86B512F2
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 11:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3008E10E8C0;
-	Wed, 10 Sep 2025 10:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E6110E35A;
+	Wed, 10 Sep 2025 09:43:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="cuRXfXXn";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bregans-1.gladserv.net (bregans-1.gladserv.net [185.128.211.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B9410E2C9
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:28:22 +0000 (UTC)
-From: Brett A C Sheffield <bacs@librecast.net>
-To: stable@vger.kernel.org
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Murad Masimov <m.masimov@mt-integration.ru>,
- Yongzhen Zhang <zhangyongzhen@kylinos.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Brett A C Sheffield <bacs@librecast.net>
-Subject: [PATCH 1/1] Revert "fbdev: Disable sysfb device registration when
- removing conflicting FBs"
-Date: Wed, 10 Sep 2025 09:38:03 +0000
-Message-ID: <20250910095124.6213-5-bacs@librecast.net>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20250910095124.6213-3-bacs@librecast.net>
-References: <20250910095124.6213-3-bacs@librecast.net>
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1F1A10E35A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 09:43:35 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58A9grHe034436;
+ Wed, 10 Sep 2025 04:42:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1757497373;
+ bh=dyv3kFridXyExxHMMNoTnDYngAzvq7DH8iZrAUtCx80=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=cuRXfXXn9f6MkdZzQEJCUKOrYBK4ijUoxBfeGdRQT9wanwswoJbwQ5OrAK67QtiyH
+ 22tf7sa6HGa7OzXV3i8XiR9ICXbhVTlO6F1hd9hq24uuzE7c1q/YZQbTg96n7r9c1I
+ 917KWvtQs+SEmlalQA4P6+gMQmN2jmjCaZAR689Q=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58A9grpj280139
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 10 Sep 2025 04:42:53 -0500
+Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
+ Sep 2025 04:42:52 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 10 Sep 2025 04:42:52 -0500
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58A9giAJ287029;
+ Wed, 10 Sep 2025 04:42:45 -0500
+Message-ID: <a8a0af57-7576-41fe-b5a3-474a06d9de88@ti.com>
+Date: Wed, 10 Sep 2025 15:12:44 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 10 Sep 2025 10:30:10 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Set the
+ mhdp connector earlier in atomic_enable()
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
+ <andy.yan@rock-chips.com>, <linux@treblig.org>,
+ <viro@zeniv.linux.org.uk>, <aradhya.bhatia@linux.dev>,
+ <javierm@redhat.com>, <tomi.valkeinen@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devarsht@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>,
+ <lyude@redhat.com>, <luca.ceresoli@bootlin.com>
+References: <20250909090824.1655537-1-h-shenoy@ti.com>
+ <20250909090824.1655537-4-h-shenoy@ti.com>
+ <bnydasal33cfzwddq6djfjgfb6viavpfpkuks5j7mpmvihckui@o7jvkwmskcuf>
+Content-Language: en-US
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+In-Reply-To: <bnydasal33cfzwddq6djfjgfb6viavpfpkuks5j7mpmvihckui@o7jvkwmskcuf>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,51 +82,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 13d28e0c79cbf69fc6f145767af66905586c1249.
 
-Commit ee7a69aa38d8 ("fbdev: Disable sysfb device registration when
-removing conflicting FBs") was backported to 5.15.y LTS. This causes a
-regression where all virtual consoles stop responding during boot at:
+On 9/9/25 19:44, Dmitry Baryshkov wrote:
+> On Tue, Sep 09, 2025 at 02:38:21PM +0530, Harikrishna Shenoy wrote:
+>> From: Jayesh Choudhary <j-choudhary@ti.com>
+>>
+>> In case if we get errors in cdns_mhdp_link_up() or cdns_mhdp_reg_read()
+>> in atomic_enable, we will go to cdns_mhdp_modeset_retry_fn() and will hit
+>> NULL pointer while trying to access the mutex. We need the connector to
+>> be set before that. Unlike in legacy !(DBANC) cases, we do not have
+>> connector initialised in bridge_attach(). So set the mhdp->connector
+>> in atomic_enable() earlier to avoid possible NULL pointer.
+>>
+>> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> ---
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++----------
+>>   1 file changed, 10 insertions(+), 10 deletions(-)
+> It looks like you should reorder your commits: first apply the DBANC
+> fixes, then drop support for !DBANC.
 
-"Populating /dev with existing devices through uevents ..."
+Before dropping !DBANC support, we can't change the connector to pointer 
+cleanly
 
-Reverting the commit fixes the regression.
+by cleanly I mean,the driver should be build correctly after applying 
+each commit.
 
-Signed-off-by: Brett A C Sheffield <bacs@librecast.net>
----
- drivers/video/fbdev/core/fbmem.c | 12 ------------
- 1 file changed, 12 deletions(-)
+So, if the patches which fixes the bug of NULL pointer de reference due 
+to DBNAC
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index d938c31e8f90..3b52ddfe0350 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -19,7 +19,6 @@
- #include <linux/kernel.h>
- #include <linux/major.h>
- #include <linux/slab.h>
--#include <linux/sysfb.h>
- #include <linux/mm.h>
- #include <linux/mman.h>
- #include <linux/vt.h>
-@@ -1795,17 +1794,6 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
- 		do_free = true;
- 	}
- 
--	/*
--	 * If a driver asked to unregister a platform device registered by
--	 * sysfb, then can be assumed that this is a driver for a display
--	 * that is set up by the system firmware and has a generic driver.
--	 *
--	 * Drivers for devices that don't have a generic driver will never
--	 * ask for this, so let's assume that a real driver for the display
--	 * was already probed and prevent sysfb to register devices later.
--	 */
--	sysfb_disable();
--
- 	mutex_lock(&registration_lock);
- 	do_remove_conflicting_framebuffers(a, name, primary);
- 	mutex_unlock(&registration_lock);
--- 
-2.49.1
+are applied before dropping the code related to !DBANC code will result 
+in build failure.
 
+Hence the sequencing of commits.
+
+>
