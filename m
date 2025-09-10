@@ -2,185 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490B5B5246D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 01:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC21B52470
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 01:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5316710E9CC;
-	Wed, 10 Sep 2025 23:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7542010E19E;
+	Wed, 10 Sep 2025 23:08:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C1C8R2nK";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="aan31kPx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28DC810E02B;
- Wed, 10 Sep 2025 23:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757545587; x=1789081587;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=GHsFqUqP19fCcV7VGF3EHytEhAYq1sANdKch8erUyz8=;
- b=C1C8R2nKP9MH0E5srQoslVX1gESflCnN4b80ILe7qvqYENEy//ceSOzF
- +ofqvrSZ+s1kenW3768xjR+rs7AuoW4T9PjpsS3GkiLKvn6+qtJXbSRBV
- aFhZJdgKtmsbZdetqDxFxZZXa4KkL5KqRZku/QyYoBHH6GsTZ7oOcJ3Og
- X3pG8ikxFC/whYLepYW05uSwg7v0FlPk3CWIMzI5cpnydSWZN6ZFNorIp
- jG8jNKM7zfvTH+5Un7q6HSIaXZtmjrtxos2xzboJyUckOm4vH9K29PZVb
- UlZWhi6U3zkIGNwrLb0NLFKM8YqnOfFBRfQ1cPWqAL7zGLfWRo05tU7MH g==;
-X-CSE-ConnectionGUID: 612nfJDJT7KenNTp/Eajaw==
-X-CSE-MsgGUID: HVJWu32ERs24yt6s/+md8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70966886"
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; d="scan'208";a="70966886"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2025 16:06:26 -0700
-X-CSE-ConnectionGUID: Lfqbga1HSvyZvegHf2CVoQ==
-X-CSE-MsgGUID: fha2l+usQXy9SdJ7pN+lLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,255,1751266800"; d="scan'208";a="173106176"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2025 16:06:26 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 16:06:25 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Wed, 10 Sep 2025 16:06:25 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.67)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 16:06:25 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637CB10E19E;
+ Wed, 10 Sep 2025 23:08:53 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M6tFsYWb2yA7KaF/mHyBxgqxlquvddBExbKhLStjN0jjEWCEckezTjCDxKqXf1pXXuJ5jjfBxQFk4sYYsofOYdPufd495+9pa60/CvkLcSNcUhnTZ9OcOOdVPPOOaYTcixXLHIdd7+JvgcfL03kCKFlSy6lEwOYl4Ul21jTx4Bl12HXtzfKrs7jjYGOz9ObzxLMFtaDR4DMQFQy0yNj4P+TjsIPfKpLNQ42uGQQkMQdvG6ZA2C15b/PUkzLoZ4h/fN2Uuxxs9r0NQTcxS6SpEsxhrgX+90gCQVQDi9lgOcSBSWoC/XzZ1GsqFxs6abZ4Puq5oR4fBAuPZWIyH5SVPw==
+ b=Wv6+D8EsWy14zq9Mwudk7KyjD0CU17htVgysZaz569pVULy4V9k3Vv24llvChz1DUXm1c4h/adOLKh2nmZrdU0ZAkHwAD5QJW4A5D04sUsAxsh8fkV1iaWvaW1op9n7UW/wRjzi8ESW2E5tyxfJSiVSH497v5koMZU02JbKp4kp2vTTacN/oZO9RE25ixGtvmut27ybFwGRbjgUDHAxBfwe8WzcJqinR7tQ0QAsfmTJPMcJGiHqJTaXH6XHr3My5nO3UvS+XKSccsTz5bAE/J2733zzrmnOcfHnI2k9O1PvrJLJ90s30OA6QUmbAWWFfE7rXtuDrValKJyRYL8GxQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HdDtnBNYer/LtPE0EknLuBSAAGzbWxPdj3Mxg4LJudM=;
- b=lwCykBHY8YL9lbR0tqH0DCRdGX3STzg5HmTai8gyFD1c3ejNID/aqSv2ta0Hlu/WumXzVnNHOHosXE2qHvI7tt3EgjORQY0MZpNcPni5d4TMd2wXBCvZjxFtWqsTq9VATmZ4laDSZ7/bKDrr0KaYvBtNJxFrpf/KJdXNrnDAmuCDW+0Y6tr3YHhwQi6yUzafTxoAWMKKNTMMdXUFyFqaLsHrJQ5SNMgXLwJmah+ZfhAna+1gJrz0PgpVw1D7K7fQipXtuj8CDN9NXkdRpTnir9epUmJIE5+jWwW6tG3VQj09mV5+a/stL2lHv75c2ySP7YMEqAd05PyOpXpT1ZoXoA==
+ bh=5gEGaZP8W9sX+CuC782g5akSE1b+SXTajtT7T2l0K4o=;
+ b=OE7wHppNvcMRay8lQKtqnCJyrxm5rlQLMvGQ9TBfKuyowzVWBCKz0agH7DEcjyHmHlfjJ5lObf5fZCPcld5rw8BzQ+0uml/2CnKsRu5e5UB7+swwyfzweEwCycnBp2x3FcZqAxwy8iMbFCniSFlS+V/8TITQx/+Ci+EQBkBFr6kl3s9VULgNs/fRYA9ewGlqW2aZmpZLPdQ+HGkLvYEjSjROOxu9KygUsagseoSoWxk05Q+AqqdVRlsiA9viP3yiByXVUtKTod2pH/ga1uOKXAVXi/7zyDL/YcfpsWv79ZofO4+wfA3ZO5e6O3QqJHDyvUcCyWx52qVyVL7eZfSZOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5gEGaZP8W9sX+CuC782g5akSE1b+SXTajtT7T2l0K4o=;
+ b=aan31kPxAp4V8ptKGamT616P9QO38C5LKN0tNchv8CdcfLd/CdBPMgIYFa22yTK4BS8QaxV8GV2NcMQN5IoZQcvO5xL4Z3QrcjxHzXqJwYyMpyTQkogujfi5Cf+iqv2HK9I9Xndgj6++YLOb+lprXMyff0sphxqnT5E1A/hWRv0xxdnWN6HxtSuJArUU5KWGjzv2MecT2a7LbDWHfZvaVb5I0SH6/Sxj+Xs2waoZLYh5TetM/rYDw1/UbRmgwYvfgTKyhFu+IgTHp94fqU/1PfPNnWEZt/X1kvbykz32evz5sQdHlzZ13y0ZmRZwTkWSO/IKlvuZRit1dA/v0nRGzA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
- by DS4PPF2AD6B04BA.namprd11.prod.outlook.com (2603:10b6:f:fc02::16)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by IA1PR12MB9031.namprd12.prod.outlook.com (2603:10b6:208:3f9::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 23:06:21 +0000
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e]) by IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e%4]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 23:06:20 +0000
-Message-ID: <5e38ae5a-49e9-4b38-8ecc-0450b3c5e167@intel.com>
-Date: Wed, 10 Sep 2025 19:06:18 -0400
+ 2025 23:08:47 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 23:08:47 +0000
+Message-ID: <bbd6c5f8-8ad2-4dac-a3a4-b08de52f187b@nvidia.com>
+Date: Wed, 10 Sep 2025 19:08:43 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/i915/guc: Add synchronization on interrupt enable
- flag
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: Andi Shyti <andi.shyti@kernel.org>
-References: <20250902151419.231828-1-zhanjun.dong@intel.com>
- <96ea5929-1254-4b36-8d7d-f63cc769a756@intel.com>
+Subject: Re: [PATCH v3 5/5] rust: Add KUNIT tests for bitfield
+To: Yury Norov <yury.norov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org, acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
+References: <20250909212039.227221-1-joelagnelf@nvidia.com>
+ <20250909212039.227221-6-joelagnelf@nvidia.com> <aMDq2ln1ivFol_Db@yury>
 Content-Language: en-US
-From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
-In-Reply-To: <96ea5929-1254-4b36-8d7d-f63cc769a756@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0193.namprd03.prod.outlook.com
- (2603:10b6:303:b8::18) To IA1PR11MB8200.namprd11.prod.outlook.com
- (2603:10b6:208:454::6)
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aMDq2ln1ivFol_Db@yury>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0444.namprd13.prod.outlook.com
+ (2603:10b6:208:2c3::29) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|DS4PPF2AD6B04BA:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2009bc76-7508-438d-7964-08ddf0bea7d6
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|IA1PR12MB9031:EE_
+X-MS-Office365-Filtering-Correlation-Id: a69bfd1b-d6b7-45b8-1dae-08ddf0beff4c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b1dpV1dlYXNZRnBEVy9oRkFLYVE4YThMcmZha2NBQTFpb1VmSnpaSTl3VXd5?=
- =?utf-8?B?a2VGemZJTEVnZ2J3R2NWVGNJeEMxZE0wbzlOREZjNmVFU2MxS1V1K1J2MXBP?=
- =?utf-8?B?MkJTRkdZY3NNSE5yS1M1c3hlS1pvb09IakVlTDIwOXo4ZkM3N1pHQkl2SVpF?=
- =?utf-8?B?V2MvdHF1cS9SMS81UU5udXpRdmxlSG1SNjZIK3BKTHg2SlJVMnBETDJkRzBP?=
- =?utf-8?B?VlpCK0lESDdmcTErVTRhWDUzcms2TG9OUWRDYndHbVhCRnJ4TGsveEhncU93?=
- =?utf-8?B?enhLTmJKazNMWi80Y0NKYS85OWQyNENQaUtsZS9XTm85Lyt3WFNodFJzdUg4?=
- =?utf-8?B?ZTE2bHNuSEVaci93aTh4MCtRbGx3cEIrS0VOTUF0N2MvL0JzRGRnc2pIRXFL?=
- =?utf-8?B?QVpJYWhYd1JhUHN1b09UcVdLREp1OXVmV0RtU3NpOUhxUkFzaGpNek9FREI2?=
- =?utf-8?B?ZGpLamJvWnpQdmxMbEhPcnIzNGZZQXk4T2FWR1BPYzZURW1tUmZ3WFVpNVY1?=
- =?utf-8?B?KzJQRDFWNTl5MzBZUXdaelRYRHlqQ2dMN2pKVUk3TG5RYTNFMlRUWEtkS0lk?=
- =?utf-8?B?YUUxVnpUOFJpOW1hc3YxNlk5dHRwTXpjVzVWRGhhdStzUWhNV0lzaUdMSkQr?=
- =?utf-8?B?b2MzUGVwYlZUS0lUUEQ3ekwySm5VVWdtajRaQ1FFMElGWXVmcHdjQTJHU3h4?=
- =?utf-8?B?cSswVzBBMzgzUW5mRXlWSGpuMENSL2xPTGlWTmpJSGJ1YnlsUGdieExVUEdC?=
- =?utf-8?B?NmEwNnBhL0RybDFsV0FhMEU0ZUhFNFRxOS9XNnRnNlBFWFFQSWNFaEZTbk53?=
- =?utf-8?B?MitYQXViS25BVVZYcnc4cEEzUk1XUWlVa1FPaStlTW9zQ2JZWWhwS3BRdWh5?=
- =?utf-8?B?SHNWdkFWTUcxSlIvWlpjVWVWVm1PU1Zrb3labmtoWGZnb2xuTzd5TWtYbDRL?=
- =?utf-8?B?R2hYNVNraXpZMmFpQUdwSnp0S3p4enprUzNCRlVEVC9HaDU3cHlGVmlreWIr?=
- =?utf-8?B?L3dCRDdLNm1kbVpUd1NpT3ZPS2RuTUdUaFF6QzN6NkV3NVp0UityT1RudHRw?=
- =?utf-8?B?SlhYNWVjdU0wcE1BQk5NREV6bXpLNlNUSzAveEg4UnpKL1pwcExaSGg4UmRS?=
- =?utf-8?B?cDRWVzNYTGlNbFVnNFd2VE92dGI0SnVXQUpzaE1UdVVIWjVCMStMN215YlYz?=
- =?utf-8?B?QStTb2lac2liUHRMVndHd2Y2dVZDSTdOVGI0aW8rY2U1dGVjYmg0V3BNUE5T?=
- =?utf-8?B?U0h1dXdpdmxqczVEOHF3RDM1RDEwZHl4UUtmUDQzd2ZtQlg5YmFpc2dHTk9V?=
- =?utf-8?B?MzA0Z2NKbS8rN0pzd3lrNWo3QVJpM3owQ3lwMXlIaTBjOWw1VlJxNlR2UjBS?=
- =?utf-8?B?Mml3aUhqSHBjWjdnZjErUVNVUldXSW5wdEJKeHZhc2d2Sk9PaW1mcnNoSE9R?=
- =?utf-8?B?eUVjSDl2c3ZweWtabnpjUVE0YlJ4T3M3RHl6K0RPNXBXWnJoYXlkQTJ3WjdJ?=
- =?utf-8?B?UUY5aFZBRGlieGN0VVQ4Tk1Rc091NkpNT1RrYzZBZmtxMGkyUmlkRm9UVXhz?=
- =?utf-8?B?dzcyUVBheTFUWlZjVVYzWUkvWk9sQWpPZjNOanczYks0U0ZBZ0tqSHZ1eUNo?=
- =?utf-8?B?SURYblJ1QVFLam01dU1CbFBTUThkZlVuNWNuOFpCYmo1dkYrTUEwVU5XRm1I?=
- =?utf-8?B?VDZEUG1kaHpYMGIxaHRVK1FlWnhSV3U2NXpXb2FYdExpWDBPRlpubEU3V3ln?=
- =?utf-8?B?cHRFWWZzanlLOGNmOFBvRTlJbFRZTnQyRi9JUkM4V0VJRS9KbysyY2UyVitl?=
- =?utf-8?Q?x5eE00p7A2pjwHLLOunclkPNxm17OJJap4wtk=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VlplTGpiWWxhWkl4YzByN3RtQXcrdyt3bE5ucEdSc2labDJST0g3NUs0QnFt?=
+ =?utf-8?B?K3RVTW5LcU9tQVNtVkpNNUVBd1doUzVGdzNIa3FKS1ZpcWdrNCtySXBtbWVh?=
+ =?utf-8?B?dFNtVlR5OFFPYXUveWRCYWhVRTBWMmp2bGF3ZUwwY3BBbGNzeXhlTTU5Q24y?=
+ =?utf-8?B?NlhnUjNRU09RSGpoVW53ZHY3UkhmcU5ZUE12cE5yVk0xelQ0QisvTHRuakkr?=
+ =?utf-8?B?enFJNmwyTGF2TTBiQzVTOEtmdTE5WVMwNGo5Z1FiSU9KZFp2S1E4TVc0NUlQ?=
+ =?utf-8?B?Vkk1eUlaNjNPOTBYZ1dmQ3JhbXlndDhJUFdVZy9jaEVmak5YZ0VWV1g0U0x4?=
+ =?utf-8?B?dGl2eHhMZGJndThkczhsM2NEN09nanoyWDFhNFJGQm9jK3FZQW5sY0Y4QWZ2?=
+ =?utf-8?B?Ykc5V2hNaldFUmVDNDhaRHB2MTNoeVRDVmMyL0dRT0dWMldKSUFmYVNkMWpN?=
+ =?utf-8?B?WUhnYVFMYUZjMmFRUGFYcHR4WjNrKzFITERhM0hXZldxcCswTUtFRHZveS9Q?=
+ =?utf-8?B?MDJnT3FORWpXdlR2bWs0blRmeHpPY3JWTzNFaFhMN2crSTVPcDN0MTRYdHlW?=
+ =?utf-8?B?Z1U5dzFiYnNCcjIvT2tqeFdMTStWd3NMOG5LQVcraUwrcWpUQ0syOTlGL0Ni?=
+ =?utf-8?B?MUc5UTAwUGREd0swQ2xsZkdEOE84eTZvMU1SSDdoNzcrUDdXUDBNWndjc3l1?=
+ =?utf-8?B?V3N3Zk5uYy9adDcvMFU1VGIrVzEvUkdIUlpQbWJRaVIyOHBVbU44NEM0Y1ZQ?=
+ =?utf-8?B?Wkl5N2RoYmtoanQxdXdoSmZZMGNxT3FmMHFIbjZYckhySGJ3U2Z6dmlaeUo1?=
+ =?utf-8?B?SWpmRW5uTCs2UnJxVWpHenl2SlRkVTFtWUJiQVAvYWI3SDdJNmVoemlDZ2U3?=
+ =?utf-8?B?bElBZ1VoS1BpQXU1VXlJQmFpVWhNQW5kUlo4SllwL1pqVkxjN01lQjlRMEJS?=
+ =?utf-8?B?cTlyNjFnNFY4MVRkSDhiSHcxVE93U3NudUw5STBwVkJpQ2huUUl1N3VSRU1G?=
+ =?utf-8?B?bmlOQzFWZ2xqZnhxWTdhK0VzV0t1OTRTMlZwS0QwUTJJczZKSGVqODU5TEx0?=
+ =?utf-8?B?Z1RERjJFNWhjS01EUE5pMWNzYUdqaG13bGVMQ01sc21BelBTanB3VTFwUjNo?=
+ =?utf-8?B?QzhUSmkvSk1HSW83dUQ2dTFVd1VTRnZCZW1JT01rSGtDZjZsSHZJakpWRllV?=
+ =?utf-8?B?MFRCai9FMlNlSXdYSTdwdFQvZ3JUM0gydjBTdDlOa0kwQUJjMVJwSlVvTE1h?=
+ =?utf-8?B?clVWbURVSFBNbkpCdjlHSXgweHlKVUxkVGZGVVh5U0RQMng2WmpBYVoxREJz?=
+ =?utf-8?B?TWRpRTIya0QwUGhxd2VVajM3RGp6RjRWUHlOQSt0a3VKbCswQ2huNEJaN3pH?=
+ =?utf-8?B?TmVtQjV3RWx3ZXAyOHc0a0hNTVdCdDBiVVR2cXNmT092NyttemE2Nzk0Z0tU?=
+ =?utf-8?B?QzdjWG9UUlhPT2U0M1VYMnlCWExMUXFWbFJDZjdjRlFqZElyRFM3aFBFOUkw?=
+ =?utf-8?B?RFcwVWRtUzJyZTRCMEpmN2x2UmZaOVJPaXFPRXFlTEJXbHJnMWJCWWFYbTdq?=
+ =?utf-8?B?QVVmaXpud3lETkI2RlA5SG82S0JMNGpwcVBLY2ZycDhSdEdsZDdhMllKUTkx?=
+ =?utf-8?B?bS83a1B5WXJvSUNXc3VlbjBzVjhuU2daWHBidnpOaGtsWkJxUlZZNjZ1T2ha?=
+ =?utf-8?B?RG43VGc4N1ZySDFWMlpkNzNOYVEySmNscmVXRUdrMnlFc2NzSSt5UUR1ZU5E?=
+ =?utf-8?B?ZDZpWnVLd2FEcXJHSU1pYUhFSUlkeFhKT09Nc1lUUTQrZ1BQaThNOXl0NUVO?=
+ =?utf-8?B?Y2MwZDBFN1Jlc1RSV25DWk5lUUxrMzg4U2N1bWQwOWhMcUZDMDRvQ1ZZODZu?=
+ =?utf-8?B?Q3RtVTNFbDJqeE9nc3F6dXVYeHRYWnFSU3pvSlY1eUMxdHhUUkxvSFo5ZE1J?=
+ =?utf-8?Q?ynI9/gKD9Z0=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB8200.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1JVOW93REVGY1NMQVZWM05pNytuSjF2cVlicXFSVFZKelpUMmc0cUtIYjhO?=
- =?utf-8?B?SUxBdEVvUlh1Ty84N3VoTzhaMGhYT1dINE8wMVRsZ1JrTmtxSGlzMkREOWZX?=
- =?utf-8?B?Q3NiRXRLdkh2UzcyNE1BdnlBdUJwSVFRZ0J2WFI5Unk0TkdwRGIzRUdRMzIr?=
- =?utf-8?B?VlQ2WU9LZXlSS3hpcWtGaDNIOXJZUmU4bE5NOUdqMEhhekkyc1dQdldkT2ti?=
- =?utf-8?B?MDBNWkx6ZXl1KzlVTmVEOXc0cmpRNC93bEZROXpMNDdDYlZXUDJ2SmZnQjEz?=
- =?utf-8?B?Skt1Wm9KNVdLQUczMnQ5QmV2YVRXQW5tb0w1VE5yUlZQbXRCeCttQ0VsU3Iz?=
- =?utf-8?B?Wkp0R0ZzRTc3RWdrN0tZMlJ6cW5pWWNSYmxNK3p2TGtPNTk1cEpwbEhzWTVp?=
- =?utf-8?B?QzhMNDIxS2VzdTFYb2ZrT0lYNzN4d2NubWV4bHJ6ZTFHekRVZmxRTVhtaGV0?=
- =?utf-8?B?ZDNCMmhlUktRaVdpNmZ1WDJrOEZFVlVpZ3ZsSEc3L1Y2QVY0cFhjdHNNZUN5?=
- =?utf-8?B?MnRBbVBhUjR6VUZUTDZjN09senhrWkZ0UTF5UW13Q0hseUJsRHBHejNkZUtQ?=
- =?utf-8?B?NnpxMWR2dlNZZWFNb1hudmEyWmgyaXhIN2hPNU9XeFRUdHdkNSsySjhkTlJk?=
- =?utf-8?B?Q3VxTUxVUHdmWUI0UlNnbmYvTlVQaWZnYytvVEQrQy80by80Q3ltZjJ3S2lP?=
- =?utf-8?B?d0VreVQ4ZXFEaWdSSU1qQjh2SEQ2MmFBZFJzV0VXTit1SWxLYk41RDJrNllD?=
- =?utf-8?B?dkpjeW4wT25lcXlSQ2ZmSVoxN0ZTakpaZTB3c1BUOW1hVWZrWDBTZ0xLcndX?=
- =?utf-8?B?VlRzenY2ZmcrWkp4TGVaditxbzhLRVRQU0NPZDgrZFBzY2xjMVNmWjBPRml0?=
- =?utf-8?B?bUhQV2Y3S1NZYUFBVEhMa1l3LytDY1FkMVh2V3lxOVQvSnVjQlRadXVCQjVP?=
- =?utf-8?B?VVBzYzl6UzZVV1o2aWsxNFVyOStiaXkyWVJXK05ncVdsTWNXT0haL3FRYm82?=
- =?utf-8?B?QkoySDIrUGtDWGlPWjlNR2xSSmJ1VFNGd2xTMitpYlhOQzdxY2RIU2N6QTRT?=
- =?utf-8?B?N3RXQW03ZXhtTmwvVUwyM09veVdPd2pnZXpoZ0JrQzJFSjVGaEliZ3c3b1NI?=
- =?utf-8?B?L1RMcmZWa3FLQlBpSGIrdXFFeDE3QmdCZmtuRTlOcFhSYmZLRE9DR0Q0cjBF?=
- =?utf-8?B?WE8xd1J5ei9oSmlPWi9FcHZvdUM4YXZLcWxrSDJ6QUZCTTcvUFB3RzVPeXUy?=
- =?utf-8?B?VkN2U204VHY4UDdsYzRWL1FKUkRmNW9jNGYrdERyMklCSlkwMngzeDFMQS9w?=
- =?utf-8?B?Y0grd2FyMXVETEZ6UUhwRUJrbU9sMm5uMmRtcVluMmpiditUTHZlbi9lQ2pu?=
- =?utf-8?B?WEpidnBRb2MzNk91SDhXL2k3QWpGcFEvYWNFMllzYjZJYzY2bm0wc2wxV25j?=
- =?utf-8?B?bko0WG01dVVQc3lPZk5YbmpZMVpiMml1dUdFRnFZd1N2KzQxcDhwc3YyRDBi?=
- =?utf-8?B?Q2p4aGZmKzhKbDllbDF2bGdMTVFpZHZYVm85SG1jakREMS9yMXMzV1d6M3VQ?=
- =?utf-8?B?bmg5a0pvRjI5elIrWXd1QUJJS09lRXp4R2dKdGlLQ1EwNzNNTXVtUXR4QVVW?=
- =?utf-8?B?WUFxS1lwMnRWNkVzMHp2bk9MZHVzYVVCb1gwNWVacHdzNHRJVE8yNk5odEdU?=
- =?utf-8?B?bWtoYzRkTE8vYnZOQXkrdVY5ampJNDJ2MGpHRlFMbHU4WWNuZDRPN2JIanN1?=
- =?utf-8?B?ZHZyVHNqYlU0ZDhONHZFNTVDSVFtbHo1bElsN0tOb2o0TVUwRTRBdGpteERN?=
- =?utf-8?B?YWRnY3V3UHptbHBic0RZcWJ2d21OTlVNNU9DbGpsMEFFZE5pTHh4SXBoemg1?=
- =?utf-8?B?c0xGd2NObnBBWGVmOXJhalJWMlJnb0h4UFZDb1Rud0k5OVEyaVdCNGYyNTJ0?=
- =?utf-8?B?ZzdYZ2lhRlkyRjRVNnc4Qm9rQlFnZXhFOTVZWkRhWWlHekVTbzQ2ckNTdnhz?=
- =?utf-8?B?c0h0Umd5SjQ2R2dpcGNncS9TK0NkR0F6RDQ3VGdCWWVweFd4Mk5LWGw5MVRj?=
- =?utf-8?B?OExpNEJkZlJ4YjZhajJtYzBOV0djR05QUFU3TFM4SlVlVEU5OHpOc2J0Zmhk?=
- =?utf-8?B?SmJwbXVNRmFYb2VUTnZqVHFHNmg3d29yUlEvMUZweUxjejJpZXd5U3hFVnVr?=
- =?utf-8?B?Q2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2009bc76-7508-438d-7964-08ddf0bea7d6
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bEtOMytCdGtkNVRSZUw0T2VVdWRxeGpic0hpaHlLQVFSVHF0ZzlqTHh1VzhB?=
+ =?utf-8?B?RWJ3V1A1OWVsUkhSTEFPYm9wZnBjWGM2SmZOYytIQUdiTDFUYzljSDVBUXUv?=
+ =?utf-8?B?VDQrU1NoY3JMbVp2MXJ4MU05WDBQK0VBREE3VGU0aXNiTWxaUVFOV0hZUjgz?=
+ =?utf-8?B?YzRxRk1nNTB0cDhIajJmejhwM2xaVVFUa2IzSVFHOWVnVHR1RFZnUzR6SVE5?=
+ =?utf-8?B?a2ZpTkhmczJBelNsUVVOai8xUjIzY2JDOExOOWFFd3pZR3B1ekwrczc3K1E3?=
+ =?utf-8?B?SlQ2YllBYVgzVFhBcTBBeW96TGNTNXBIbXpjUWVXT2NRaUhRS0w4cE15MFA3?=
+ =?utf-8?B?aXZyeXdscTI2UzBUdFpnRy9LektOcWVDbHdxVG13aDdQZmk3YkhiU25qdFkv?=
+ =?utf-8?B?eGxES2U5WW9sS1g3TmNQdkVZV1lrVFdjL1hTZDdQc1hWb0tEMk5zVlpZdG1T?=
+ =?utf-8?B?dHlWOFFCaEUzZGszUDZ5QnZYZE5OZGl2WTcvQy95VktQN2dKVjRmVDJXMUUw?=
+ =?utf-8?B?ejlJbHN5T2hIeTRJMVZpamxkWmxFSVBvVDh1QWEyOWltNDkremhmdEIvdVM0?=
+ =?utf-8?B?R2UxWHQ3dkNHRTM1Qld5VHNyYkZYdUtXcS9HNzJYSTR3WTdVWW5RL21jTlVF?=
+ =?utf-8?B?bjBaNDF4SkhITG5EbENKa0VUVWdlWEVHcHhnY1RNTlBDUk9jK1pPdG9qM29i?=
+ =?utf-8?B?VTlsS1l1MHlXVVI4UGFhZGFPZnZqL3RUTzFJY2QvakpmeGNiZU51c3MyUXVT?=
+ =?utf-8?B?UkJiNUd6SFBZbDYwS3pzRnljT0VZd256aXdjZ25RZndnTDdJWXFmQzhMNTB1?=
+ =?utf-8?B?WDZROHFtSFdFcUQ3RG0xWW11TEhyMlpwMnF2TXI5Q2xVS09maFBCUFkxQ1Jn?=
+ =?utf-8?B?NnN5UFA1Ri9vQmtBaFZScm5PVXFkYTh5Q3VvSEZNTldCT2VsaHRyZmpod2RD?=
+ =?utf-8?B?dGpJbWZ2WDlnbi9wejQ4TmJJaC83bE5ncXVGWmRpSVcyZ1lDVTV1Qm8vaXlF?=
+ =?utf-8?B?SURZTWYwT0Q4RnVORnJUMSthWjZzcExOd1ZMZXVIdldCMm55dGdJakh5V0Uw?=
+ =?utf-8?B?SWQxM2c4aTl5N0lZdXlPLzBJa2U1OVFkTE1JYm1QTGMxQmpUb00wZ2JhVVNQ?=
+ =?utf-8?B?K05nbFd2RlZ6cGZkcksxNE1MMFdBVyt1aDVINWlJOGs1THVRWUNWVDloQmRB?=
+ =?utf-8?B?UkNpLy8vUlB0Snc1bk9aS1VOMUdwUmVQV1J0cXluMHZEMi9hekxrdHlEa3Ro?=
+ =?utf-8?B?VTY4ckc5Q2JUV1VKRFRzS2JwS01KRXppM3pLYTRXVk9hZTlWZVlESHBGR01a?=
+ =?utf-8?B?V254WFhWSlhoMXVpb0QyTVJ3bnBYV2VSdzExdmlWaEROM3E2cU9TUkVaSXk3?=
+ =?utf-8?B?dktGZ2xiSDRoNlZVTEdzR2RXZjczam95OE0xc1F5QlBWRkNoSDlVcnRZS3Uw?=
+ =?utf-8?B?QjBPbjJQVnUxWXNwNFZTUllHS0lXa043c0RHTlNrVUZEajRJOERnRTNTeHVy?=
+ =?utf-8?B?dmVvanNTaHZpUmVWZzRicSt2VHdGNC91ZGIxZ1ZtRFhvQ1ZzdHNyQ1NYNURB?=
+ =?utf-8?B?UlVyaWRkU0dmVVE3dkx6SGlTYzBFZ1pyRTRLc2ExbCtBSVVRSGZqMG5uOXFw?=
+ =?utf-8?B?WDdiV0hLTHVnVDNDWVdZQ1hIbTU4S1lKdjBPRlpMRC9IZFFCMWpURWVrejBH?=
+ =?utf-8?B?Vko4RlgreUxRYmxoQWhUcURzQ3lVaUt0cjQzSTNySXQ0amdBbVZVdEhNTUFP?=
+ =?utf-8?B?dHlNVGUwemYyMGs0M1ArYkNOM3djazNqazg4b2drRzZqbjJjZHp2cXNnMzNS?=
+ =?utf-8?B?ayt2T1Q5c0F0SlF5V0hRb3cxZnp5cXU1TTNZd1ZCdE1yOUc0Z0VYblBNN0wv?=
+ =?utf-8?B?NHNDUW1LaGZaSGNMT3I1a3BKbytvbFJDeGNNd0NLYUFxMFhBNjQ0UWdKb1Fm?=
+ =?utf-8?B?Y2RySVB6OC91WkxLenpBcjEyQUkxdWxKVE1JdHUwQ2tTQ2RLeEgwRkZIL0lQ?=
+ =?utf-8?B?THAzbWJUSUpUbkU0Tnp0dUl5WG9EaEthK08vcC9US082WFp3amRRR0hZNEd0?=
+ =?utf-8?B?eC83UWQ2OWlmUlVSRWNuUEdiYWVCQ2Y2Nld0RG5PRk5hUEtNNnJTS1JHUFdW?=
+ =?utf-8?Q?F/63A7T4qLH516TuAHsiD8m6T?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a69bfd1b-d6b7-45b8-1dae-08ddf0beff4c
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 23:06:20.8761 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 23:08:47.6079 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5m1X8MYmCV4BVgFrlPLJ+hXlwVFiiwqDtTNhrQFNlGpWWKi3O/SzN88jSab88MWWPVtOMCEjkTPP6GjQbRe9Qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2AD6B04BA
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: WH0QCBhp8DAppv5f8djECnaRONOGepupixftPbILkZNVgB9eM7WY7cwMKJ4p5XPBLxgAJoqlhNGa7BFeNmnarw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,195 +179,438 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2025-09-08 6:35 p.m., Daniele Ceraolo Spurio wrote:
-> 
-> 
-> On 9/2/2025 8:14 AM, Zhanjun Dong wrote:
->> Boolean flag access from interrupt context might have synchronous issueis
->> on multiple processor platform, flags modified by one core might be read
->> as an old value by another core. This issue on interrupt enable flag 
->> might
->> causes interrupt misses or leakage.
->> Change the interrupts.enable type to atomic to ensure memory
->> synchronization.
-> 
-> I am not convinced that making this variable atomic is actually helping. 
-> The issue is that the tasklet is running after we think we have stopped 
-> it, which is much later than us setting guc->interrupts.enabled to 
-> false, so there should be no risk of concurrent access to that variable.
-> 
+On 9/9/2025 11:04 PM, Yury Norov wrote:
+> On Tue, Sep 09, 2025 at 05:20:39PM -0400, Joel Fernandes wrote:
+>> Add KUNIT tests to make sure the macro is working correctly.
 >>
->> Fixes: a187f13d51fa0 ("drm/i915/guc: handle interrupts from media GuC")
+>> [Added range overlap tests suggested by Yury].
 > 
-> I'm not sure if this is the correct guilty patch. While this adds guc- 
->  >interrupts.enabled, that shouldn't have changed the timing of things 
-> around reset. The issue seems to be that a task already started isn't 
-> cleaned up properly, while that patch changes how we stop new tasks from 
-> starting.
+> Please no brackets and personal references in commit messages.
+> If you believe it's worth mentioning my suggestion, then:
 > 
->> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14834
->> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
->> Cc: Andi Shyti <andi.shyti@kernel.org>
->> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->>
+> Suggested-by: Yury Norov (NVIDIA) <yury.norov@gmail.com> # For overlapped tests
+>  
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> 
+> Some comments inline.
+> 
+> Thanks,
+> Yury
+> 
 >> ---
->> Change history:
->> v4: Add back skip on disabled case for tasklet
->> v3: Drop skip on disabled case for tasklet
->>      Drop memory barrier
->> v2: Add skip on disabled case for tasklet
->>      Add memory barrier after flag changed
->>      Add Closes tag and typo fix
->> ---
->>   drivers/gpu/drm/i915/gt/intel_gt_irq.c    |  2 +-
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.c    | 11 +++++++----
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.h    |  4 ++--
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c |  3 +++
->>   drivers/gpu/drm/i915/gt/uc/intel_uc.c     |  5 +++--
->>   5 files changed, 16 insertions(+), 9 deletions(-)
+>>  rust/kernel/bits/bitfield.rs | 320 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 320 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/ 
->> i915/gt/intel_gt_irq.c
->> index 75e802e10be2..21804eec8320 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
->> @@ -20,7 +20,7 @@
->>   static void guc_irq_handler(struct intel_guc *guc, u16 iir)
->>   {
->> -    if (unlikely(!guc->interrupts.enabled))
->> +    if (unlikely(!atomic_read(&guc->interrupts.enabled)))
->>           return;
->>       if (iir & GUC_INTR_GUC2HOST)
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/ 
->> i915/gt/uc/intel_guc.c
->> index f360f020d8f1..1b8d3bbfa16d 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> @@ -100,8 +100,8 @@ static void gen9_enable_guc_interrupts(struct 
->> intel_guc *guc)
->>                gt->pm_guc_events);
->>       gen6_gt_pm_enable_irq(gt, gt->pm_guc_events);
->>       spin_unlock_irq(gt->irq_lock);
->> +    atomic_set(&guc->interrupts.enabled, true);
-> 
-> Leftover blank line
-> 
->> -    guc->interrupts.enabled = true;
->>   }
->>   static void gen9_disable_guc_interrupts(struct intel_guc *guc)
->> @@ -109,7 +109,8 @@ static void gen9_disable_guc_interrupts(struct 
->> intel_guc *guc)
->>       struct intel_gt *gt = guc_to_gt(guc);
->>       assert_rpm_wakelock_held(&gt->i915->runtime_pm);
->> -    guc->interrupts.enabled = false;
->> +    atomic_set(&guc->interrupts.enabled, false);
+>> diff --git a/rust/kernel/bits/bitfield.rs b/rust/kernel/bits/bitfield.rs
+>> index 0837fefc270f..f3134f2ffd08 100644
+>> --- a/rust/kernel/bits/bitfield.rs
+>> +++ b/rust/kernel/bits/bitfield.rs
+>> @@ -339,3 +339,323 @@ fn default() -> Self {
+>>          }
+>>      };
+>>  }
 >> +
-> 
-> Extra blank line
-> 
->>     spin_lock_irq(gt->irq_lock);
->> @@ -146,14 +147,16 @@ static void gen11_enable_guc_interrupts(struct 
->> intel_guc *guc)
->>       __gen11_reset_guc_interrupts(gt);
->>       spin_unlock_irq(gt->irq_lock);
->> -    guc->interrupts.enabled = true;
->> +    atomic_set(&guc->interrupts.enabled, true);
+>> +#[::kernel::macros::kunit_tests(kernel_bitfield)]
+>> +mod tests {
+>> +    use core::convert::TryFrom;
 >> +
-> 
-> extra blank line
-> 
->>   }
->>   static void gen11_disable_guc_interrupts(struct intel_guc *guc)
->>   {
->>       struct intel_gt *gt = guc_to_gt(guc);
->> -    guc->interrupts.enabled = false;
->> +    atomic_set(&guc->interrupts.enabled, false);
+>> +    // Enum types for testing => and ?=> conversions
+>> +    #[derive(Debug, Clone, Copy, PartialEq)]
+>> +    enum MemoryType {
+>> +        Unmapped = 0,
+>> +        Normal = 1,
+>> +        Device = 2,
+>> +        Reserved = 3,
+>> +    }
 >> +
->>       intel_synchronize_irq(gt->i915);
->>       gen11_reset_guc_interrupts(guc);
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/ 
->> i915/gt/uc/intel_guc.h
->> index 053780f562c1..40242bbb166e 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
->> @@ -93,7 +93,7 @@ struct intel_guc {
->>       /** @interrupts: pointers to GuC interrupt-managing functions. */
->>       struct {
->> -        bool enabled;
->> +        atomic_t enabled;
->>           void (*reset)(struct intel_guc *guc);
->>           void (*enable)(struct intel_guc *guc);
->>           void (*disable)(struct intel_guc *guc);
->> @@ -393,7 +393,7 @@ static inline int intel_guc_send_busy_loop(struct 
->> intel_guc *guc,
->>   /* Only call this from the interrupt handler code */
->>   static inline void intel_guc_to_host_event_handler(struct intel_guc 
->> *guc)
->>   {
->> -    if (guc->interrupts.enabled)
->> +    if (atomic_read(&guc->interrupts.enabled))
->>           intel_guc_ct_event_handler(&guc->ct);
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/ 
->> drm/i915/gt/uc/intel_guc_ct.c
->> index 380a11c92d63..f0ee3f1235d4 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
->> @@ -1326,6 +1326,9 @@ static void ct_try_receive_message(struct 
->> intel_guc_ct *ct)
->>   {
->>       int ret;
->> +    if (!atomic_read(&ct_to_guc(ct)->interrupts.enabled))
->> +        return;
+>> +    impl Default for MemoryType {
+>> +        fn default() -> Self {
+>> +            MemoryType::Unmapped
+>> +        }
+>> +    }
 >> +
+>> +    impl TryFrom<u8> for MemoryType {
+>> +        type Error = u8;
+>> +        fn try_from(value: u8) -> Result<Self, Self::Error> {
+>> +            match value {
+>> +                0 => Ok(MemoryType::Unmapped),
+>> +                1 => Ok(MemoryType::Normal),
+>> +                2 => Ok(MemoryType::Device),
+>> +                3 => Ok(MemoryType::Reserved),
+>> +                _ => Err(value),
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    impl From<MemoryType> for u64 {
+>> +        fn from(mt: MemoryType) -> u64 {
+>> +            mt as u64
+>> +        }
+>> +    }
+>> +
+>> +    #[derive(Debug, Clone, Copy, PartialEq)]
+>> +    enum Priority {
+>> +        Low = 0,
+>> +        Medium = 1,
+>> +        High = 2,
+>> +        Critical = 3,
+>> +    }
+>> +
+>> +    impl Default for Priority {
+>> +        fn default() -> Self {
+>> +            Priority::Low
+>> +        }
+>> +    }
+>> +
+>> +    impl From<u8> for Priority {
+>> +        fn from(value: u8) -> Self {
+>> +            match value & 0x3 {
+>> +                0 => Priority::Low,
+>> +                1 => Priority::Medium,
+>> +                2 => Priority::High,
+>> +                _ => Priority::Critical,
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    impl From<Priority> for u16 {
+>> +        fn from(p: Priority) -> u16 {
+>> +            p as u16
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestPageTableEntry: u64 {
+>> +            0:0       present     as bool;
+>> +            1:1       writable    as bool;
+>> +            11:9      available   as u8;
+>> +            13:12     mem_type    as u8 ?=> MemoryType;
+>> +            17:14     extended_type as u8 ?=> MemoryType;  // 4-bit field for testing failures
+>> +            51:12     pfn         as u64;
+>> +            51:12     pfn_overlap as u64;  // Overlapping field
+>> +            61:52     available2  as u16;
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestControlRegister: u16 {
+>> +            0:0       enable      as bool;
+>> +            3:1       mode        as u8;
+>> +            5:4       priority    as u8 => Priority;
+>> +            7:4       priority_nibble as u8;  // Overlapping field
+>> +            15:8      channel     as u8;
+>> +        }
+>> +    }
+>> +
+>> +    bitfield! {
+>> +        struct TestStatusRegister: u8 {
+>> +            0:0       ready       as bool;
+>> +            1:1       error       as bool;
+>> +            3:2       state       as u8;
+>> +            7:4       reserved    as u8;
+>> +            7:0       full_byte   as u8;  // Overlapping field for entire register
+>> +        }
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_single_bits() {
+>> +        let mut pte = TestPageTableEntry::default();
+>> +
+>> +        // Test bool field
+>> +        assert!(!pte.present());
+>> +        assert!(!pte.writable());
+>> +
+>> +        pte = pte.set_present(true);
+>> +        assert!(pte.present());
+>> +
+>> +        pte = pte.set_writable(true);
+>> +        assert!(pte.writable());
+>> +
+>> +        pte = pte.set_writable(false);
+>> +        assert!(!pte.writable());
+>> +
+>> +        assert_eq!(pte.available(), 0);
+>> +        pte = pte.set_available(0x5);
+>> +        assert_eq!(pte.available(), 0x5);
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_range_fields() {
+>> +        let mut pte = TestPageTableEntry::default();
+>> +
+>> +        pte = pte.set_pfn(0x123456);
+>> +        assert_eq!(pte.pfn(), 0x123456);
+>> +        // Test overlapping field reads same value
+>> +        assert_eq!(pte.pfn_overlap(), 0x123456);
+>> +
+>> +        pte = pte.set_available(0x7);
+>> +        assert_eq!(pte.available(), 0x7);
+>> +
+>> +        pte = pte.set_available2(0x3FF);
+>> +        assert_eq!(pte.available2(), 0x3FF);
+>> +
+>> +        // Test TryFrom with ?=> for MemoryType
+>> +        pte = pte.set_mem_type(MemoryType::Device);
+>> +        assert_eq!(pte.mem_type(), Ok(MemoryType::Device));
+>> +
+>> +        pte = pte.set_mem_type(MemoryType::Normal);
+>> +        assert_eq!(pte.mem_type(), Ok(MemoryType::Normal));
+>> +
+>> +        // Test all valid values for mem_type
+>> +        pte = pte.set_mem_type(MemoryType::Reserved); // Valid value: 3
+>> +        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
+>> +
+>> +        // Test failure case using extended_type field which has 4 bits (0-15)
+>> +        // MemoryType only handles 0-3, so values 4-15 should return Err
+>> +        let mut raw = pte.raw();
+>> +        raw = (raw & !(0xF << 14)) | (0x7 << 14); // Set bits 17:14 to 7 (invalid for MemoryType)
+>> +        let invalid_pte = TestPageTableEntry::from(raw);
+>> +        assert_eq!(invalid_pte.extended_type(), Err(0x7)); // Should return Err with the invalid value
 > 
-> The GEM_WARN_ON below is there to guarantee that the tasklet is not 
-> running when we don't expect it to. By adding this check above, you make 
-> the check below impossible to hit, because interrupts.enabled is always 
-> set to false before ct->enabled, so we'd always exit silently here 
-> before reaching the GEM_WARN_ON.
+> Please make sure your lines don't exceed 100 chars, preferably less
+> than 80.
 > 
-> I see 2 alternative approaches here:
+>> +
+>> +        // Test a valid value after testing invalid to ensure both cases work
+>> +        raw = (raw & !(0xF << 14)) | (0x2 << 14); // Set bits 17:14 to 2 (valid: Device)
 > 
-> 1) If you can motivate the fact that we're ok with exiting silently here 
-> without logging an error, then just remove the WARN_ON from below and 
-> exit silently if !ct->enabled
-> 2) Make absolutely sure that the tasklet is gone and not running before 
-> setting ct->enabled to false (e.g., you could leave the tasklet as 
-> disabled and re-enable it after the GuC is re-loaded).
+> Can you use genmask!() here and everywhere else?
 > 
-> Daniele
+>> +        let valid_pte = TestPageTableEntry::from(raw);
+>> +        assert_eq!(valid_pte.extended_type(), Ok(MemoryType::Device)); // Should return Ok with Device
+>> +
+>> +        let max_pfn = (1u64 << 40) - 1;
+>> +        pte = pte.set_pfn(max_pfn);
+>> +        assert_eq!(pte.pfn(), max_pfn);
+>> +        assert_eq!(pte.pfn_overlap(), max_pfn);
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_builder_pattern() {
+>> +        let pte = TestPageTableEntry::default()
+>> +            .set_present(true)
+>> +            .set_writable(true)
+>> +            .set_available(0x7)
+>> +            .set_pfn(0xABCDEF)
+>> +            .set_mem_type(MemoryType::Reserved)
+>> +            .set_available2(0x3FF);
+>> +
+>> +        assert!(pte.present());
+>> +        assert!(pte.writable());
+>> +        assert_eq!(pte.available(), 0x7);
+>> +        assert_eq!(pte.pfn(), 0xABCDEF);
+>> +        assert_eq!(pte.pfn_overlap(), 0xABCDEF);
+>> +        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
+>> +        assert_eq!(pte.available2(), 0x3FF);
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_raw_operations() {
+>> +        let raw_value = 0x3FF0000003123E03u64;
+>> +
+>> +        // Test using ::from() syntax
+>> +        let pte = TestPageTableEntry::from(raw_value);
+>> +        assert_eq!(pte.raw(), raw_value);
+>> +
+>> +        assert!(pte.present());
+>> +        assert!(pte.writable());
+>> +        assert_eq!(pte.available(), 0x7);
+>> +        assert_eq!(pte.pfn(), 0x3123);
+>> +        assert_eq!(pte.pfn_overlap(), 0x3123);
+>> +        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
+>> +        assert_eq!(pte.available2(), 0x3FF);
+>> +
+>> +        // Test using direct constructor syntax TestStruct(value)
+>> +        let pte2 = TestPageTableEntry(raw_value);
+>> +        assert_eq!(pte2.raw(), raw_value);
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_u16_bitfield() {
+>> +        let mut ctrl = TestControlRegister::default();
+>> +
+>> +        assert!(!ctrl.enable());
+>> +        assert_eq!(ctrl.mode(), 0);
+>> +        assert_eq!(ctrl.priority(), Priority::Low);
+>> +        assert_eq!(ctrl.priority_nibble(), 0);
+>> +        assert_eq!(ctrl.channel(), 0);
+>> +
+>> +        ctrl = ctrl.set_enable(true);
+>> +        assert!(ctrl.enable());
+>> +
+>> +        ctrl = ctrl.set_mode(0x5);
+>> +        assert_eq!(ctrl.mode(), 0x5);
+>> +
+>> +        // Test From conversion with =>
+>> +        ctrl = ctrl.set_priority(Priority::High);
+>> +        assert_eq!(ctrl.priority(), Priority::High);
+>> +        assert_eq!(ctrl.priority_nibble(), 0x2); // High = 2 in bits 5:4
+>> +
+>> +        ctrl = ctrl.set_channel(0xAB);
+>> +        assert_eq!(ctrl.channel(), 0xAB);
+>> +
+>> +        // Test overlapping fields
+>> +        ctrl = ctrl.set_priority_nibble(0xF);
+>> +        assert_eq!(ctrl.priority_nibble(), 0xF);
+>> +        assert_eq!(ctrl.priority(), Priority::Critical); // bits 5:4 = 0x3
+>> +
+>> +        let ctrl2 = TestControlRegister::default()
+>> +            .set_enable(true)
+>> +            .set_mode(0x3)
+>> +            .set_priority(Priority::Medium)
+>> +            .set_channel(0x42);
+>> +
+>> +        assert!(ctrl2.enable());
+>> +        assert_eq!(ctrl2.mode(), 0x3);
+>> +        assert_eq!(ctrl2.priority(), Priority::Medium);
+>> +        assert_eq!(ctrl2.channel(), 0x42);
+>> +
+>> +        let raw_value: u16 = 0x4217;
+>> +        let ctrl3 = TestControlRegister::from(raw_value);
+>> +        assert_eq!(ctrl3.raw(), raw_value);
+>> +        assert!(ctrl3.enable());
+>> +        assert_eq!(ctrl3.priority(), Priority::Medium);
+>> +        assert_eq!(ctrl3.priority_nibble(), 0x1);
+>> +        assert_eq!(ctrl3.channel(), 0x42);
+>> +    }
+>> +
+>> +    #[test]
+>> +    fn test_u8_bitfield() {
+>> +        let mut status = TestStatusRegister::default();
+>> +
+>> +        assert!(!status.ready());
+>> +        assert!(!status.error());
+>> +        assert_eq!(status.state(), 0);
+>> +        assert_eq!(status.reserved(), 0);
+>> +        assert_eq!(status.full_byte(), 0);
+>> +
+>> +        status = status.set_ready(true);
+>> +        assert!(status.ready());
+>> +        assert_eq!(status.full_byte(), 0x01);
+>> +
+>> +        status = status.set_error(true);
+>> +        assert!(status.error());
+>> +        assert_eq!(status.full_byte(), 0x03);
+>> +
+>> +        status = status.set_state(0x3);
+>> +        assert_eq!(status.state(), 0x3);
+>> +        assert_eq!(status.full_byte(), 0x0F);
+>> +
+>> +        status = status.set_reserved(0xA);
+>> +        assert_eq!(status.reserved(), 0xA);
+>> +        assert_eq!(status.full_byte(), 0xAF);
+>> +
+>> +        // Test overlapping field
+>> +        status = status.set_full_byte(0x55);
+>> +        assert_eq!(status.full_byte(), 0x55);
+>> +        assert!(status.ready());
+>> +        assert!(!status.error());
+>> +        assert_eq!(status.state(), 0x1);
+>> +        assert_eq!(status.reserved(), 0x5);
+>> +
+>> +        let status2 = TestStatusRegister::default()
+>> +            .set_ready(true)
+>> +            .set_state(0x2)
+>> +            .set_reserved(0x5);
+>> +
+>> +        assert!(status2.ready());
+>> +        assert!(!status2.error());
+>> +        assert_eq!(status2.state(), 0x2);
+>> +        assert_eq!(status2.reserved(), 0x5);
+>> +        assert_eq!(status2.full_byte(), 0x59);
+>> +
+>> +        let raw_value: u8 = 0x59;
+>> +        let status3 = TestStatusRegister::from(raw_value);
+>> +        assert_eq!(status3.raw(), raw_value);
+>> +        assert!(status3.ready());
+>> +        assert!(!status3.error());
+>> +        assert_eq!(status3.state(), 0x2);
+>> +        assert_eq!(status3.reserved(), 0x5);
+>> +        assert_eq!(status3.full_byte(), 0x59);
+> 
+> You've got only one negative test that covers the .from() method.
+> Can you add more?
 
-I agree with Daniele that make enable flag atomic is not a fix, it looks 
-more like an improvement, but not fix the issue in tasklet.
-This patch will not moving forward and I will make another patch that 
-focus on skip the GEM_WARN_ON under some condition.
-
-Regards,
-Zhanjun Dong
+Sure, but note that we can only add negative tests if there is a chance of
+failure, which at runtime can mainly happen with the fallible usage (?=>
+pattern). Also just to note, we already at ~300 lines of test code now :)
 
 > 
->>       if (GEM_WARN_ON(!ct->enabled))
->>           return;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/ 
->> i915/gt/uc/intel_uc.c
->> index 4a3493e8d433..9d01c3c3d504 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
->> @@ -659,7 +659,8 @@ void intel_uc_runtime_suspend(struct intel_uc *uc)
->>       struct intel_guc *guc = &uc->guc;
->>       if (!intel_guc_is_ready(guc)) {
->> -        guc->interrupts.enabled = false;
->> +        atomic_set(&guc->interrupts.enabled, false);
->> +
->>           return;
->>       }
->> @@ -687,7 +688,7 @@ void intel_uc_suspend(struct intel_uc *uc)
->>       wake_up_all_tlb_invalidate(guc);
->>       if (!intel_guc_is_ready(guc)) {
->> -        guc->interrupts.enabled = false;
->> +        atomic_set(&guc->interrupts.enabled, false);
->>           return;
->>       }
+> What if I create a bitfield from a runtime value that exceeds
+> the capacity?
 > 
+>     bitfield! {
+>         struct bf: u8 {
+>             0:0       ready       as bool;
+>             1:1       error       as bool;
+>             3:2       state       as u32;
+Here you mean 'as u8', otherwise it wont compile.
 
+>        }
+>     }
+> 
+>     let raw_value: u8 = 0xff;
+>     let bf = bf::from(raw_value);
+> 
+> I guess you'd return None or similar.
+
+No, we would ignore the extra bits sent. There is a .raw() method and 'bf' is
+8-bits, bf.raw() will return 0xff. So it is perfectly valid to do so. I don't
+think we should return None here, this is also valid in C.
+
+> Can you add such a test?
+
+Sure, I added such a test.
+
+> The same question for the setters. What would happen for this:
+> 
+>     let bf = bf::default()
+>              .set_state(0xf)
+>              .set_ready(true);
+> 
+> I think that after the first out-of-boundary in set_state(), you
+> should abort the call chain, make sure you're not touching memory
+> in set_ready() and returning some type of error.
+
+Here, on out of boundary, we just ignore the extra bits passed to set_state. I
+think it would be odd if we errored out honestly. We are using 'as u8' in the
+struct so we would accept any u8 as input, but then if we complained that extra
+bits were sent, that would be odd. In C also this is valid. If you passed a
+higher value than what the bitfield can hold, the compiler will still just use
+the bits that it needs and ignore the rest.
+
+Now, I am not opposed to error'ing out on that, but that's not what we currently
+do and it is also not easy to do. The setters in the patch return Self, not
+Result<Self>, so they are infallible, which is what allows them to be chained as
+well (builder pattern).
+
+I added another test here as well, to ensure the behavior is as I describe.
+
+> 
+> And for this:
+> 
+>     let ret: u32 = -EINVAL;
+>     bf = bf::default();
+>     bf = bf.set_state(ret);
+> 
+> For compile-time initializes, it should be a compile-time error, right?
+
+Yes, since the struct in this example is u8, this wont compile. Yes, I will add
+a comment.
+
+> Can you drop a comment on that?
+
+Yes, I will do so.
+
+> 
+> I tried to apply your series on top of master, but it failed. So
+> my apologies for not finding the answers to some questions above
+> by myself.
+
+Oh ok, I applied it on top of drm-rust-next. I will rebase on -next for the next
+revision, thanks.
+
+> For the next version, can you make sure your series is applicable
+> on top of master or -next?
+Sure, thanks.
+ - Joel
