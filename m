@@ -2,70 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2B4B50D54
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 07:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70450B50D83
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 07:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2315210E84E;
-	Wed, 10 Sep 2025 05:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 002CE10E2BC;
+	Wed, 10 Sep 2025 05:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="scLhUfFo";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mkBsePaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr
- [80.12.242.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F5610E84E;
- Wed, 10 Sep 2025 05:32:58 +0000 (UTC)
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
- by smtp.orange.fr with ESMTPA
- id wDRrubswWjg72wDRruzgJz; Wed, 10 Sep 2025 07:32:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1757482376;
- bh=9Zxhr99Mmj2vi+RoG0QYHKDA21udjWwSg+ONMdgzCn0=;
- h=Message-ID:Date:MIME-Version:Subject:To:From;
- b=scLhUfFoPPETEBlKDeYO4eO7wZgRtPVhphiC7OmOMFzDYHu9GvObRMACfrNWi/KIx
- gY11BSWHJTs+Vx+I+fdGujCrkd2Fsk5AAq8TatnEkrpOSCQIBRWb/0UZgV1iKLKC2z
- 93/J1JAaUY8xi+jJ91wcg2vtSz16SmaqA7v7EcPq5tnFCp3egn3VCszpmdf8EcXB4N
- GEtbRS5twEctwPo2mvNq6yg4LI5RtbQLcDWsyzhri4+LtdOrhoV2BNuRGTbP+L7yjj
- WSeOe7RBOmfdiyZu8jxrYD6BC6qWZVsscbGqbU2NTlhuQYdtPubekBfSUaGmNwro4u
- /GvsPCIq3XNOw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 10 Sep 2025 07:32:56 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <ae40f623-4cfc-4a49-9eed-affb08efdfd1@wanadoo.fr>
-Date: Wed, 10 Sep 2025 07:32:51 +0200
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2050.outbound.protection.outlook.com [40.107.243.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDF6610E2BC;
+ Wed, 10 Sep 2025 05:45:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WOnTa5RZKiTeH31e0iFqLUJ2gr17Bagv3dc0Ie7e0j0V3/zKkWil0f5Pu4iZ+3BnGmO7Y0xxd7uaPjE1JOM0JB2HHQJSYNLkrf2ysXLbMDIB6JLSUuugEnPGijMelOAYtLR8tqS78m32HC4T4igL7l2hBQ71hlLzf7r6h9rGv+rjEf7c6UCNM2X2gPLLtmEMTlwVDpxc7tKn5rI7vdailBdN8y4qjfr/z351LdM/CelaJ8dRxiqQgwrJpiidvi1dxqRt+aeIbzIfv1SFMp4FPlbQUG6ayUI+g4J2wZoW4Vnr2nFoQwIVrMO+AfTdsEHcS6dBlXMS3thk9hISTkqBWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Nr89AkKLcXDcz515tOq1oH0IFs4i/h/J0FFf5d8mQ78=;
+ b=GMpWhqSKaPOcOM9WxvQmEDBOHGkbCQr1hHLP7kJO8tk37kiuzTXKUVt/9mxAEx4LZz8wQnvjU4Wc38XvANFTLDM5VxgPTznlH3/uk5VblzYOLxNWYh74fWvJBFV8gwVIQ2ewfPbSultxdZqrJdvkv3Cfd0z4XNty1sMlXHMnFEKOmhe5CqEljgnOxrqM/i/8UybeXlvNwZjo+zUX1Jw88xVzMFfrxeUBCzfIdoljjsW4hqpsDUJO5hIOSmCuJaT9Mktxd0W/di3AqocRUo8Li2PCaD51CUP+ssJdqCz254B4lgiQtwKmG6aEz7AkBNOFNCSEGgKW4AyLkupwAmI5Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Nr89AkKLcXDcz515tOq1oH0IFs4i/h/J0FFf5d8mQ78=;
+ b=mkBsePaELxbTrKjfBLk5lKdKyPeRWE9XmLrRen4ibUWMiVXTMF917GO93yqtm/HUAO0XvRYswksstkYmjBwfdRwkQ0Ku+32XXrkoY89h5tXY26cSn8O5QoYmmOJxdI5vJcvtOaMeII9Vps/XH+Uknh1HvAYfTQ7XBbSP03yQ1zQoK4Sg8pJnp+9KsrrUmGapkLbJVp4NNtI1q8RuHuDNXG7j7JBhvsAtq9+6RWGy7qvuP+5GFga9aEUo6N8ixnYH9oHcH8J70AZAxZTifKKCmcJtEXz3BZr/TDr2+nOVi+7NcmB3dqLLXtIXbXbnynTgHlCZEvBnqfRinisIwNUM1w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH8PR12MB6962.namprd12.prod.outlook.com (2603:10b6:510:1bd::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
+ 2025 05:45:03 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
+ 05:45:03 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 10 Sep 2025 14:44:59 +0900
+Message-Id: <DCOVRI3TVJBN.3OGDSK8HW74LL@nvidia.com>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Alistair
+ Popple" <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: Implicit panics (was: [PATCH v2 2/8] gpu: nova-core: firmware:
+ add support for common firmware header)
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com>
+ <20250826-nova_firmware-v2-2-93566252fe3a@nvidia.com>
+ <9adb92d4-6063-4032-bf76-f98dcfe2c824@nvidia.com>
+ <DCD2VJ1WJW2O.VM7E4PD3DFYO@nvidia.com>
+ <CANiq72=nGbziZCKt=AneE_vXw76i=+td0dSVfbOJ8kJ9eYHw9w@mail.gmail.com>
+In-Reply-To: <CANiq72=nGbziZCKt=AneE_vXw76i=+td0dSVfbOJ8kJ9eYHw9w@mail.gmail.com>
+X-ClientProxiedBy: OSTP286CA0043.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:224::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/8] drm/msm/dpu: use drmm_writeback_connector_init()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: abhinav.kumar@linux.dev, airlied@gmail.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- christophe.jaillet@wanadoo.fr, dave.stevenson@raspberrypi.com,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- geert+renesas@glider.be, harry.wentland@amd.com,
- jani.nikula@linux.intel.com, jessica.zhang@oss.qualcomm.com,
- kernel-list@raspberrypi.com, kieran.bingham+renesas@ideasonboard.com,
- laurent.pinchart+renesas@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- liviu.dudau@arm.com, louis.chauvet@bootlin.com, lumag@kernel.org,
- maarten.lankhorst@linux.intel.com, magnus.damm@gmail.com,
- marijn.suijten@somainline.org, mcanal@igalia.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, sean@poorly.run, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com, suraj.kandpal@intel.com,
- tomi.valkeinen+renesas@ideasonboard.com, tzimmermann@suse.de
-References: <20250819-wb-drop-encoder-v3-0-b48a6af7903b@oss.qualcomm.com>
- <20250819-wb-drop-encoder-v3-4-b48a6af7903b@oss.qualcomm.com>
- <78c764b8-44cf-4db5-88e7-807a85954518@wanadoo.fr>
- <zw23hgjduxgijown52jyiomungxx4cjyv63qixtnx5nbm3w7xb@2yy65777ydnj>
- <654e04e3-d80e-4d34-a1a0-21f66d43875b@wanadoo.fr>
- <75tzn4xg2k2zxdqko4b3xsplbtnolhrxzbowisdqogoo2qhfkl@szr3ar5dg5zd>
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Content-Language: en-US, fr-FR
-In-Reply-To: <75tzn4xg2k2zxdqko4b3xsplbtnolhrxzbowisdqogoo2qhfkl@szr3ar5dg5zd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH8PR12MB6962:EE_
+X-MS-Office365-Filtering-Correlation-Id: fee47e78-6e39-44db-1531-08ddf02d3043
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUhWdEhDYzJSamMreEttZVN4QTNFcXRtVEVOSlJRWm1mUHl3b2Z4YTUxV1JZ?=
+ =?utf-8?B?Q0YxN3dwZmtoTXkvYWJOdjVJOE94amg5bXdkMktiSFJLeU1ndGtwc2lUeVlu?=
+ =?utf-8?B?RElCNjc4aDBKRkxnV2NKNSs2M2FjS2NZSmN0eERiM0djdFUwRDdNQzdIZU9I?=
+ =?utf-8?B?dU9yUXJJckhqbjcwblduMmI5ZzJYMTF1SmJjNUNXM1pyRDc0QXo5V2piZlZw?=
+ =?utf-8?B?T3VjZmR5UE0wQ2hiZ0lkM3NsVDduaXlLM3ZjSkVzK0EvUXNrV1Q3aWVGR05u?=
+ =?utf-8?B?VmtqVDdmQXJVaENpVWVoOC9JNUxZK3RKeXZnblFvMGNaREE2WnJDdnlSZE1H?=
+ =?utf-8?B?WDNkdlhWYWJyY082cS8xWEhlbGRYVCtpK1Ivd05QZFZ4STRtRXlZYXpwZ01p?=
+ =?utf-8?B?TnNwbzFQbEtRc0ZPWGxDQnJPZTljSGk3QTdiekdoemd3U29ha2pLYkkvTU5O?=
+ =?utf-8?B?bSswSXBtU2tlYmdIc2pzVkJaQ3hoYWZVMGhtWXdWa1UwTDNlREZ1WHNNdTBT?=
+ =?utf-8?B?Y3Z2cjYvdGxwMngwQkhiSDZqbUdmalpWMldkZU1ZSTJPcS9rQWUxVlE1Tjhy?=
+ =?utf-8?B?MTYvUVBqbXJLZi9XRVVVckE5cTE4Rmt1RUF0dUtCNXp4SEowcTgyU01GLzdq?=
+ =?utf-8?B?ZmJ1V1RHNWVDaC9Qc1E3WlpPVEpZTWdVMis1THY1SWhpeERNbHFsVEVPS3RO?=
+ =?utf-8?B?b3ZtcmNiSDQ1ZHJaOTl1andmS05iMkVuT013d0V6UXBESXQvZlZ0VXFmT3dI?=
+ =?utf-8?B?UjNLc1ovWnRRdWR1dDdWN0p1NXBnRm1Kb2IvenAwOTNzczdldmU1ZnBnRkU0?=
+ =?utf-8?B?a3VZT0VRUWM1WE1xYWxuK2d6STd3cXRvR2NUQ1JvY2ZjNDUxSWN1dk1weFRR?=
+ =?utf-8?B?c3dlbDdFWEZKZ3JyWktzQncvUjhPRHFDUjFZQ2toTjZaaWhDR0NkTXM1RFZV?=
+ =?utf-8?B?dWZUOVQxVGVLTTliWHhUenBVRmFMZXpEVzJWL21mbWFSZlU3MmdaQllrYUVF?=
+ =?utf-8?B?RVgrZTUvV2YzcW5YNU1WTWdpbWdHTkFhU2k3emxCSjZ5UVlSa2gza29BdFVD?=
+ =?utf-8?B?ak96Y1ExTmc2Qk9xampxd21zc1owQUNadlNKWmwveFZrTXlVeENUM284SVRF?=
+ =?utf-8?B?b1RWaXJ5bkhHNTVoSHhMaWVyZ0dlVStVNUZ0MTY5MUwxRFlxbVZqbWlqQU5q?=
+ =?utf-8?B?VlYydEJnSnU2T1pFVzN1eHgrWlQrazhubzBpaHRoUU5JOVFISEtlaHNSZ1Bi?=
+ =?utf-8?B?T2NnTkh5dG1RSllRVGM3bFpCNWQweGNwM1ZUenN5Z2h1SHo5SjBiRm1aRXcw?=
+ =?utf-8?B?RmdGS0xxSld3dVhIMURLM2dDZEt3NExUcFRwT0M0SHFCWHV5T04zekJ1eDVz?=
+ =?utf-8?B?cFFQWktjZUl2ZWM3R1h0L1JGRXFZN2dRbC8xVHpmMy9DckJWR2dHRk9GbWQ3?=
+ =?utf-8?B?N25qKy9TNFJjcDJPK3d0OUpnMldxeXo2Y2xlTDJhSllVZUlKeE10bUYvcEtk?=
+ =?utf-8?B?cUxra0hDSUttS2V5N0JVTE5xTnVuTFg4dFRIbUd4L2lVSGYwcGJac2JUVU1N?=
+ =?utf-8?B?dUlZQTJUYW92eVU1MUtBNTllMmRhcW1iOU9pN3pHSDE5TUQwempDVkt5a1hF?=
+ =?utf-8?B?U0xURmJGSnBLZ0JpNFM1NWxpZm8vZitnbFZQL3NjZ0czMXhVcVllMHF0UlRF?=
+ =?utf-8?B?d01KeGhMYlJyT2ZnZ3lFcnY3SXFGMWdINnlDVXR1YkZsQ0tTdEhKSXoyd2dE?=
+ =?utf-8?B?a2MrRDQ2T3ZrMGRWZVdkbWZzRGp1NGZYbFRHelNKd0grUXZlRENQcEp6ejZ6?=
+ =?utf-8?B?dXVtSUJoRjNtMndzK2VzWEtUbnhiQnRGVm41M053RTNjU21LMFpTWW1jSUVE?=
+ =?utf-8?B?a2dpUUEybTBkTEhOdGREM3FXVmV3ZEl2ZFlBWEdXWC9mNUY2a25iaUErWnRr?=
+ =?utf-8?Q?kD5BmhU11kA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(10070799003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dDhyTm90aUh4ekYwWnN1UFpKaER6Rmw0bVJVTndmR1h0YnJpRFFzVmVrcjJP?=
+ =?utf-8?B?QVJ2b2xvL0hlMjZoLzJjN04yaHlsUEJkNE13UFpEdHJ6Z0JYajl5T1VhRFhi?=
+ =?utf-8?B?UFlteEJKQ1NtRzZxM1RnMWg5UWZBSmFUcjZFYlVKSnA4MytNTGpJd3gvdjFX?=
+ =?utf-8?B?R2ZyUndsZjlpSVIya1VvV0dHQTlmb1ExREkvbEJsNWJEV1p3L3B2NklHdHRa?=
+ =?utf-8?B?QUE3cFhPOGhmbVZEelo2QjFqY3luWTN5ZGpTTzR0bUxjbjlxY1RwdHBIWXpE?=
+ =?utf-8?B?TWdYMytuNFByZ21qd0g3NGdJWWEvTGltZjJjYjBhQkZ5NVJNbTNySVEwN0FN?=
+ =?utf-8?B?NTRlNkwrU3dVRHZDaUNOVWxDdkh1UUtTb0xtSTdyTmVpeHc5R04rQjdFR3k3?=
+ =?utf-8?B?TWRiYUNSSWx3bTAxektwWUxMWVAzUi9GOUwxWWdiYm9ZV2tDTDFpOEg3UkFw?=
+ =?utf-8?B?cnRtd1A1T09OS3h0SG5QRjFVbnZ2YU4vSmhlc3dPSVFYd0Nuc1VCMHpqYlVB?=
+ =?utf-8?B?aXplYXNTQmUxcElVaHA5Nm9CVW9TVHk2TmtGakxiek0yYTQ5RGk2dk1ObGQy?=
+ =?utf-8?B?b09IUkJzeVJWM0pQVzlMcU5XbmpyeXZQTVpjYXZUQWFvRWI4cFcrQ1JEbzd3?=
+ =?utf-8?B?UnZ6QTlpN2EySSt5aXhrOGZtN1gvY3lEcFlwb0VRWlhOU2tVU0kwdUhUUHc4?=
+ =?utf-8?B?SFUwY2hsSWNmRUdLOXNjOHZFMHlDb09aSjNXOU9EM2NBYU5XZDRsalg1dy9r?=
+ =?utf-8?B?ckQ2d0tuNEFCT1NPSWVUdDJBWU5RaEZGbUxKWXptQ2lDZmlqOFV2QWpYcXQv?=
+ =?utf-8?B?T0RYcjkvNUpCV0RwUkhnNjQ1dzhUb2IzZ2xtVFppSjlxNkpqR2dXajlBN3c1?=
+ =?utf-8?B?cVdIZG1ocEIzaVBHVmIvZUMvL01MQUwxTEw3MmxHWnpZbGtnTUF2TXZwVERv?=
+ =?utf-8?B?R3ZxTkJKVi83aVJsblQxTGVjYVBRcE5VTHNEQ0JxVkd6dWtya1pJSitoRWFk?=
+ =?utf-8?B?Q3ZzSTdaMVkrbWJTT0lwYmZOaGNPY01wUTBQeFd3SjRHeHdRV3dGaGQ5VTVH?=
+ =?utf-8?B?YVQxVW53ZFpXZmpSMjVyUHMyeFJQK1ZFTmo4RWJPL3lzTFVFb3doRFpHS1ZV?=
+ =?utf-8?B?dGwrYW9xWEU5bUZNcHVMZ3lXWUovNGcvbGNLK3FyT0tEbDN2aGptYjRoVW84?=
+ =?utf-8?B?OWFqZDJOTVJmcTZmaXYwNTNseC9saVY1LzhtTjNZMEVDUHRBallrVkpFNXpC?=
+ =?utf-8?B?SDdRSjArblEzZmFrc01tR2N0TGdqTXg0UVpoeU5MY1B0TFk5VDNLUkZUbjhk?=
+ =?utf-8?B?UWdkdXRndGNweVFIczV1MXo1NVlhWm9ZWnNsQ0p5cDVmZVluVDUvZGpoeXRL?=
+ =?utf-8?B?L1ZyN2ZlSDRnYXNaemZWU1g1anVXZFpKdkZQY2J6Z2FNbHJwZHZuNDZZSDBJ?=
+ =?utf-8?B?dWUyUjhpbHNxbUFWb3JJYjE2d2d6LzMxZG1hUXhVTzN5d1VWblZHMGJkTjdD?=
+ =?utf-8?B?bUtPSGZsTU5BRytHZG1vQ3FldXRDdUZhYTBDTHplTzREdkxsSENIYml2U3Ex?=
+ =?utf-8?B?NXVxQWUzYmovYUp5UzVBZE9iSFpadmJkU00zTUQvYWY1MVpzNEczaHVtNXFJ?=
+ =?utf-8?B?SGxqQ2wwMEVMa3RLM0doSThhZ1ZHcHBWNE51NXNlcFlyUDJod3REaXlIL25E?=
+ =?utf-8?B?U0l2ZnNXWUZNckFMb0FkYzV4OXoyVTJQY21uUVQwK2dhNTlRdkFmaXF4Z3hi?=
+ =?utf-8?B?S3JWVythZ2JMdmpaaXpZSms5dExNMkZRM0tlK1QzYWx1a2ZETHJ5cnRrT3Yr?=
+ =?utf-8?B?QXU0ek5DQzQ5eWdlZGZOM0xhNG9wZUhhMlBMY1U5d3BCWmFuY1EzTXNRM0o4?=
+ =?utf-8?B?bjBHdTZlSXBlSWIvOHUwbVRXZEFvU3o1bDc5b0EwS2kzY0xxUUxFMDFzZjRU?=
+ =?utf-8?B?Z0I0YWpDeElVNGxqd09SYTE4bnNacncraU9hZ0krTi9wZVlJS2dTRXo3TUY5?=
+ =?utf-8?B?L29BYk9KeHh5cmI3TWxlWGpIN3BLclBqcFFwNkNIQld4dDBVekp5YnpDZUc2?=
+ =?utf-8?B?MGxsYjdnRmlQcU5TZnRiU1NDUzRndjJ0L01URHA4MHczQ2U2Yy85N0RTWG1O?=
+ =?utf-8?B?NWlRTXZ0U0h4UHNoQkVsdHQ0Tm1XS056eVRBeVB3S1pEMFRSMkoyb2dJSSs2?=
+ =?utf-8?Q?xPXZFEW9lcAlNtki6TI2X9EnOUFC3W5cU6VGB0xijmdM?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fee47e78-6e39-44db-1531-08ddf02d3043
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 05:45:03.2809 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T39hrCSSaE+524OI8mFXuPbWbDhMLGa+zCHDwbbDBi0wCX7HC+6prn4XVj9/l3fENtAXYGPz2V5PMB3Snb77xQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6962
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,92 +182,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 10/09/2025 à 05:47, Dmitry Baryshkov a écrit :
-> On Mon, Sep 08, 2025 at 11:38:44PM +0200, Christophe JAILLET wrote:
->> Le 08/09/2025 à 23:26, Dmitry Baryshkov a écrit :
->>> On Mon, Sep 08, 2025 at 11:09:07PM +0200, Christophe JAILLET wrote:
->>>> Le 19/08/2025 à 22:32, Dmitry Baryshkov a écrit :
->>>>> Use drmm_plain_encoder_alloc() to allocate simple encoder and
->>>>> drmm_writeback_connector_init() in order to initialize writeback
->>>>> connector instance.
->>>>>
->>>>> Reviewed-by: Louis Chauvet <louis.chauvet-LDxbnhwyfcJBDgjK7y7TUQ-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Reviewed-by: Suraj Kandpal <suraj.kandpal-ral2JQCrhuEAvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Reviewed-by: Jessica Zhang <jessica.zhang-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov-5oFBVzJwu8Ry9aJCnZT0Uw-XMD5yJDbdMReXY1tMh2IBg-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 10 +++-------
->>>>>     1 file changed, 3 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> index 8ff496082902b1ee713e806140f39b4730ed256a..cd73468e369a93c50303db2a7d4499bcb17be5d1 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
->>>>> @@ -80,7 +80,6 @@ static int dpu_wb_conn_atomic_check(struct drm_connector *connector,
->>>>>     static const struct drm_connector_funcs dpu_wb_conn_funcs = {
->>>>>     	.reset = drm_atomic_helper_connector_reset,
->>>>>     	.fill_modes = drm_helper_probe_single_connector_modes,
->>>>> -	.destroy = drm_connector_cleanup,
->>>>>     	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>>>>     	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->>>>>     };
->>>>> @@ -131,12 +130,9 @@ int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
->>>>>     	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
->>>>> -	/* DPU initializes the encoder and sets it up completely for writeback
->>>>> -	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
->>>>> -	 * to initialize the writeback connector
->>>>> -	 */
->>>>> -	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
->>>>> -			&dpu_wb_conn_funcs, format_list, num_formats);
->>>>> +	rc = drmm_writeback_connector_init(dev, &dpu_wb_conn->base,
->>>>> +					   &dpu_wb_conn_funcs, enc,
->>>>> +					   format_list, num_formats);
->>>>>     	if (!rc)
->>>>>     		dpu_wb_conn->wb_enc = enc;
->>>>>
->>>>
->>>> dpu_wb_conn is allocated a few lines above using devm_kzalloc().
->>>
->>> That's a valid point, thanks!
+Hi Miguel, sorry for the delay in replying!
+
+On Thu Aug 28, 2025 at 8:26 PM JST, Miguel Ojeda wrote:
+> On Wed, Aug 27, 2025 at 10:47=E2=80=AFAM Alexandre Courbot <acourbot@nvid=
+ia.com> wrote:
 >>
->> I've not analyzed in details all the patches of the serie, but at least
->> patch 2/8 and 6/8 seems to have the same pattern.
-> 
-> Not quite, 2/8 and 6/8 use drmm_kzalloc(), it is fine to be used with
-> drmm_writeback_connector_init(). This one is indeed incorrect.
-> 
+>> However, `fw_start + fw_size` can panic in debug configuration if it
+>> overflows. In a release build I believe it will just happily wrap, and
+>
+> In the kernel, it is a panic in the default configuration, not just a deb=
+ug one.
+>
+> We have debug assertions too -- and those are disabled by default, but
+> they are separate from the overflow checking, which is the one enabled
+> by default.
+>
+> So, any use of those operators is limited to cases where one knows,
+> somehow, that it will not overflow. And e.g. user-controlled inputs
+> cannot use them at all.
+>
+> So, conceptually, something like this:
+>
+>   - Static assert if the compiler knows it cannot fail.
+>   - Build assert if the optimizer knows it cannot fail.
+>   - Unfallible (like the possibly panicking operators) if the
+> developer knows it cannot fail.
+>   - Fallible/wrapping/saturating/... if the developer isn't sure or it
+> simply cannot be known until runtime. User-derived inputs must use
+> this option (or rarely the unsafe one).
+>   - Unsafe if the developer knows it cannot fail and the other options
+> are not acceptable for some reason. Ideally paired with a debug
+> assertion (the compiler adds these already for many unsafe
+> preconditions).
+>
+> In the past I requested upstream Rust a way to have a "third mode"
+> ("report and continue") for the operators so that it would wrap (like
+> the non-panicking mode) but allowing us to add a customization point
+> so that we can e.g. `WARN_ON_ONCE`.
 
-Hmm, for patch 2/8, I looked at the source, not what was changes by your 
-patch... Sorry. :(
+That would be nice, but also wouldn't cover all the cases where implicit
+panics can happen, like out-of-bounds slice accesses - we can't have a
+"report-and-continue" mode for these.
 
-For 6/8, I agree with you.
+And that's really the elephant in the room IMHO: such panic sites can be
+introduced implicitly, without the programmer realizing it, potentially
+resulting in more runtime panics for Rust modules than one might expect
+from a language whose main selling point is safety. I understand that
+the previous sentence is a bit fallacious, since such panics indicate
+bugs in the code that would likely go unnoticed in C (which is arguably
+worse). But perception matters, and such crashes can be damaging to the
+reputation of the project.
 
-For patch 1/8, I think there is a issue too, becasue of [1], IIUC.
+In user-space, crates like `no_panic` can provide a compile-time
+guarantee that a given function cannot panic. I don't know how that
+would translate to the kernel, but ideally we could have some support
+from tooling (compiler and/or LSP?) to warn us of sites introduced in
+the code. After all, since the compiler inserts these panic sites, it
+should also be able to tell us where they are, allowing us to evaluate
+(and hopefully remove) them before the code ships to users. Most of them
+could then be eliminated by constraining inputs or using checked
+variants.
 
-CJ
+I am not suggesting we should mandate that ALL Rust kernel code be
+proven panic-free at compile time, however since I started writing
+kernel code in Rust, I've often wished I had a simple way to check
+whether my carefully-crafted function processing user-space data really
+*is* panic-free.
 
+> As for discussing no-panic, sure!
 
-[1]: 
-https://elixir.bootlin.com/linux/v6.17-rc5/source/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c#L5257
-
->>
->> CJ
->>
->>>
->>>>
->>>> Based on [1], mixing devm_ and drmm_ is not safe and can lead to a uaf.
->>>>
->>>> Is it correct here?
->>>> If the explanation at [1] is correct, then &dpu_wb_conn->base would point to
->>>> some released memory, IIUC.
->>>>
->>>>
->>>> just my 2c.
->>>>
->>>> CJ
->>>>
->>>> [1]: https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/gpu/drm/xe/xe_hwmon.c?id=3a13c2de442d6bfaef9c102cd1092e6cae22b753
->>>
->>
-> 
-
+Writing a uC topic proposal for Plumbers right now. :)
