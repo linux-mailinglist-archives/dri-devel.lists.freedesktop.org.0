@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80865B50AB7
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720A9B50AB8
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:05:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BA1610E352;
-	Wed, 10 Sep 2025 02:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 547CE10E823;
+	Wed, 10 Sep 2025 02:05:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hPs9f3+B";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UOhjNiOS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 061BA10E352
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 02:05:46 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2570bf6058aso34426275ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 19:05:46 -0700 (PDT)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83CB210E823
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 02:05:50 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-24af8cd99ddso80311315ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 19:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757469946; x=1758074746; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757469950; x=1758074750; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zo4VEbVAw3LffR1rR6U74a6Y8xtKLk5HFuoBic2yQiI=;
- b=hPs9f3+BjKIAJl1xGbTIZU+XkU75136gtsIwdfBfqXkdWbvqX8cayYalYtMqYq/H9e
- 4PaN83hNMxYxBak3VS0PuDal04u/1VLaadVy+f88w6xIvauFVExoeEmFc30+rMdqnNmG
- 0mMFN2d0OR6bPlPhevHQMyxjYv1iFe0n7F1uGZVrRUGSzT8t/pIfqZGHzKQiqVTmbyGn
- ALzeCRvbvd2UhZi3vYML702LKH3HY8bnRwtCwU66x9gHx8yjQ6w7lNoyFV7Xl4MHERKH
- sEy4O4Q73KKhKLLTo3umHAURig1Q+yfAUOs3ckKxHcb8qDswr0p+R8MyF3JL7ybjqPIa
- qYkA==
+ bh=P2Wv28uVFgIwY4UQs+1c5TBH2NyPkzg92eGQhJ0dgfI=;
+ b=UOhjNiOSWVpJmy5nMjLoe8f1uieQiDaNP6oWJBOVE2/PU1nySbx7OW83RuEIIQUMpW
+ FJQazidGubsmQ/9sVKp2DTc++1PimnwrFlNgo1NVrB1JNuDwy2rEOicIh7y/TPkWztfA
+ eildluB0nRcrfaHKQ3YMjiPyj3Ji/1K5T+1Npju8z3DyFh+5e+me7dRz1pSpHTJEXx6O
+ lNnnkmRMBdkNwaMStKkxnXAqgTcpZfxeW0uIGtUbIfNJxxZdsrPtK5DpY7+g0tMXMqnE
+ 7zsDEZoUYJCrpipsyZrl8amNTN97m84Q93sRWcKHWKJNlJ0cz3X2QbxtMKGAHpe1+UKD
+ u4OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757469946; x=1758074746;
+ d=1e100.net; s=20230601; t=1757469950; x=1758074750;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zo4VEbVAw3LffR1rR6U74a6Y8xtKLk5HFuoBic2yQiI=;
- b=efKgDt8n74iaM0b700S1hXJ7WmsGQ1ewrIK3mRQhskuTG25dVb3D17ND47n+HE71Ni
- rFBjQJI6K2vZCrx57pE8wXYSoGhn3OUOiX6UJuus+Ueosl/i06MphXjU4A3uTIJL6gwz
- 5Fd0TMmyN3z57buqbqD4na3dk5kg6cRxanABNTKxywo7+96TBtIKO6bwcXErBrQ8bk17
- gtJEwDGNAmWDyj4w3MPs0lMVpbohWn8BjrnCQ7ltz25KM2D6JCbAMw46nt6e2pdN0mrl
- TduHLvGDDp3FlbPMKtmESJNQeUTyKWCZoysXttoDOf8s8mYPELEvREFIblh3eUjp+MFw
- 1LQg==
+ bh=P2Wv28uVFgIwY4UQs+1c5TBH2NyPkzg92eGQhJ0dgfI=;
+ b=nCjWhIAzZN8xisY51dy3W7pP5KM0nK9WHfMfP5VqHFTjMQJIYVfUS28rRBI3hptaeY
+ YDrL0tNfgbl0bLgDwAdaLYJ87pXk5tYqTTNZvpo0LKHW1XE1WymlvoYsIpAy/ikWMTiH
+ LlDxFiZC+8aO0UdRy+o7R0kLRgaNzT/gRxm8iVgqIr0eLaKT56agZgILQkGBDzQ4dVu/
+ n+eSpag5Zv2h+W+AUc/njea8S3JaGIMuOpvPpEAgo939pzgM3aQLvmjBsSMfbigEmHS2
+ IcaclNh44xombHp0Gqyjjh5o1//JTkAzDIU63Tu7azPetzH4/bnrQehqKqorJrVxSqUl
+ 57qA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXa59lz1yQvQRlA7jjO3y8C4bz3rn/pGM3eOFyKT7y4jrqQnjYjmqul05+s9IdBhJgNw6HE/KO0wDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc/PnQory85EFD7PrTF+0inQhxYM2RZIvTg3pUBByMouEv6uMz
- UiPrxt49dJHAS/2pH0xJe57IhSR+BCLHOUzObF3JCybLdVgJ8OxLdCrZ
-X-Gm-Gg: ASbGncuGJjrtW6diR0Itw4tNRRMweuNlWpP84pp/uyuWVfaNjc6V/txCaUTB2SY5kAm
- gcjg0hjKlpibOhuFsIO257fMYr7laQv26uaBH/1o+ezQIlQCptzcmfQgyahsIf6NtydDofsNH8k
- Uv0N2P6KXiJ0vlrRJsBc9b/enjuVkUFojZiSp3dZq7A56u4KdxwcpkwOwW7CARRXoZ2AKvIUVlW
- JK+o+d4YjkAw832p27mGjPkgN1vlSjcmKL1vLdk8SP+IaO4fFpfpi6I5gFBiL+IoZ9bd6TkSR7q
- nSGvj8B63tmhFdaww9oGjwmcYmeIzQwrlh7xkl2bKj24VrHBZ0BqsAmr2YpfAIIMtvLwYujDZY4
- WCrv+IPfZvA6UwFfgToT197kzeZChzIwtnOZJDUjh6zcQRht4E9s0IMBuGw==
-X-Google-Smtp-Source: AGHT+IHwgIhELapLj8nq9Y1ltim4kH1wGUB2p36Co7UlpgEMhsiFminC6HNAiT+4BLErxh/4zd/+aw==
-X-Received: by 2002:a17:902:d4d2:b0:24b:1f34:a64c with SMTP id
- d9443c01a7336-2516d52d12bmr169999525ad.10.1757469946427; 
- Tue, 09 Sep 2025 19:05:46 -0700 (PDT)
+ AJvYcCXZgmNmfY+xEJrcb4Z7YoEZWLkRxrMs6b9KqhmcsmDuB5vD8h6eqFCohArVBeBvW07POhPn3psBQ5c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTDT4myEaFtgd86CHRwl+i9D4YAQGgAYVsQz5LeH750/vFuE3I
+ Bj/1RX+ZM193l/uggfN0BYNPvhuqM+ZN1R97rwlhGsZ8NIygdUQtEM3a
+X-Gm-Gg: ASbGncuMh1V8WxAXT2kkpeXOqmfRgCZRs5vyhla4kXnYNFrrmxKB8uEQS3krVeUTW7a
+ Si43DEsBSXj28FZLNdyZXX8KTFTMUKVMXz/rCvahai8g5FY0RjOHE+Tax2pz6BRItOxO6ZPAei6
+ jHIqsDBYtVioL9O2+lzcQf4rjcR3oLiE4OgV1dccpwq+080dC0XI2Ff2jHj1rAEp6pgLtH9wYy1
+ XgQNCtzTkFwi/jJ64tDQqGi9NIzul3okwa/saDLtevGdiY+BcXlmlwVxHVjFZ6wG87b9b3DjJol
+ +XI3f5TB5YVQSesks5S6Hse0vxjGFILomSbrsbKecLNKbAvMBSLfkhYq6ISRz19TxIZ2egxtQYo
+ JC6MJiomcBGrlyZwNXd8B/vEOF1GtVDfXjyIvjQoIsyOdzMY=
+X-Google-Smtp-Source: AGHT+IEVBLAzfDT4V42Ob7mMhF4hEh69hyk11soKUt396GyM7UHe/sGizvdubIBtjiwfPR/vW1jErg==
+X-Received: by 2002:a17:903:b90:b0:24c:d6f7:2788 with SMTP id
+ d9443c01a7336-251741866e3mr168780505ad.57.1757469949993; 
+ Tue, 09 Sep 2025 19:05:49 -0700 (PDT)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:58b2:c9cb:20c8:e698])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-25a27422bb7sm10607735ad.30.2025.09.09.19.05.43
+ d9443c01a7336-25a27422bb7sm10607735ad.30.2025.09.09.19.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 19:05:46 -0700 (PDT)
+ Tue, 09 Sep 2025 19:05:49 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: shawnguo@kernel.org
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -69,10 +69,10 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
  kernel@pengutronix.de, Fabio Estevam <festevam@gmail.com>,
  Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH RESEND v4 2/3] dt-bindings: lcdif: Expand the imx6sl/imx6sll
- fallbacks
-Date: Tue,  9 Sep 2025 23:05:24 -0300
-Message-Id: <20250910020525.342590-2-festevam@gmail.com>
+Subject: [PATCH RESEND v4 3/3] ARM: dts: imx6sl: Provide a more specific lcdif
+ compatible
+Date: Tue,  9 Sep 2025 23:05:25 -0300
+Message-Id: <20250910020525.342590-3-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250910020525.342590-1-festevam@gmail.com>
 References: <20250910020525.342590-1-festevam@gmail.com>
@@ -93,59 +93,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mx6sl.dtsi and imx6sll.dtsi have the following lcdif entries:
+The LCDIF IP on i.MX6SL and i.MX6SLL is compatible with i.MX6SX.
 
-compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
-
-This causes dt-schema warnings as the current binding only
-allow 'fsl,imx6sx-lcdif' as fallback.
-
-['fsl,imx6sl-lcdif', 'fsl,imx28-lcdif'] is too long
-['fsl,imx6sll-lcdif', 'fsl,imx28-lcdif'] is too long
-
-The imx6sx-lcdif programming model has more advanced features, such
-as overlay plane and the CRC32 support than the imx28-lcdif IP.
-
-Expand the imx6sl/imx6sll lcdif fallbacks to accept a less specific
-fsl,imx28-lcdif fallback:
-
-compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
-
-This helps keeping DT compatibility as well as using the more advanced
-lcdif features found on imx6sl and imx6sll.
+Provide a more specific "fsl,imx6sx-lcdif" compatible and still keep
+"fsl,imx28-lcdif" for DT compatibility.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Reviewed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
- Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/nxp/imx/imx6sl.dtsi  | 3 ++-
+ arch/arm/boot/dts/nxp/imx/imx6sll.dtsi | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-index ce31b873fb95..d665f3241e97 100644
---- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-+++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-@@ -23,14 +23,18 @@ properties:
-           - fsl,imx93-lcdif
-       - items:
-           - enum:
--              - fsl,imx6sl-lcdif
--              - fsl,imx6sll-lcdif
-               - fsl,imx6ul-lcdif
-               - fsl,imx7d-lcdif
-               - fsl,imx8mm-lcdif
-               - fsl,imx8mn-lcdif
-               - fsl,imx8mq-lcdif
-           - const: fsl,imx6sx-lcdif
-+      - items:
-+          - enum:
-+              - fsl,imx6sl-lcdif
-+              - fsl,imx6sll-lcdif
-+          - const: fsl,imx6sx-lcdif
-+          - const: fsl,imx28-lcdif
-       - items:
-           - enum:
-               - fsl,imx6sx-lcdif
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
+index 7381fb7f8912..074c48b04519 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6sl.dtsi
+@@ -776,7 +776,8 @@ epdc: epdc@20f4000 {
+ 			};
+ 
+ 			lcdif: lcdif@20f8000 {
+-				compatible = "fsl,imx6sl-lcdif", "fsl,imx28-lcdif";
++				compatible = "fsl,imx6sl-lcdif", "fsl,imx6sx-lcdif",
++					     "fsl,imx28-lcdif";
+ 				reg = <0x020f8000 0x4000>;
+ 				interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&clks IMX6SL_CLK_LCDIF_PIX>,
+diff --git a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
+index 8c5ca4f9b87f..745f3640e114 100644
+--- a/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
++++ b/arch/arm/boot/dts/nxp/imx/imx6sll.dtsi
+@@ -657,7 +657,8 @@ pxp: pxp@20f0000 {
+ 			};
+ 
+ 			lcdif: lcd-controller@20f8000 {
+-				compatible = "fsl,imx6sll-lcdif", "fsl,imx28-lcdif";
++				compatible = "fsl,imx6sll-lcdif", "fsl,imx6sx-lcdif",
++					     "fsl,imx28-lcdif";
+ 				reg = <0x020f8000 0x4000>;
+ 				interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+ 				clocks = <&clks IMX6SLL_CLK_LCDIF_PIX>,
 -- 
 2.34.1
 
