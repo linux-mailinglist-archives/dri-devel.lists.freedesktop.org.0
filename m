@@ -2,68 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2034B514DF
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 13:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A086B514E5
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 13:08:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24F3B10E8D6;
-	Wed, 10 Sep 2025 11:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B66010E8D7;
+	Wed, 10 Sep 2025 11:08:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="eWzpltn8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GZg4a9Pz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch
- [185.70.43.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDE510E8D8
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 11:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757502484; x=1757761684;
- bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
- h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=eWzpltn87rCiyyQBJUp7vRnPZXNyU3H0OzGMPb6LPJkb61q32Zrteoq/uwCgjzwfa
- uVFd3PYwEuFIIq7atpigf46P8ZL2pTBrlfQvwdcKGL4xYZ8QKm2AV05op6kbqSU7WY
- N+OAWNaPM4rI/6QFVtjhczhUW9L3stNPuBFxhe3gjoJ1Ik5APcaXhQubQ7A4CTbM8W
- BQgdjDmdE+MAbdWIIg3eNOd40fba6CDtAMHZJ1SSH/iALN5t8lLpd/fWy8RUN3kQyH
- vW1qk9FOsHwcVVJzKkzGkMyBI5+CPtdYdu0o08c88q1HQD6BSb6knnqifYiXhFX4HL
- g3/TtFNTlANew==
-X-Pm-Submission-Id: 4cMHwc5yG7z2ScCt
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 13:07:40 +0200
-Subject: [PATCH v4 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7871B10E8D7;
+ Wed, 10 Sep 2025 11:08:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 37C4B43E04;
+ Wed, 10 Sep 2025 11:08:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D442C4CEF8;
+ Wed, 10 Sep 2025 11:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757502513;
+ bh=eT+fM0/l96U9E80CByHY3UpL1VMyoPh2jRe5J041drA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GZg4a9PzOThwfZJWjmmg1do+BJcK6fKqRVNE1sq+YdWBDlnHaURSjrRlxZ7+9DH4N
+ Db+CuYerpenQhklpoGj+sHRilAxDRpInKvZJFpf3X1NCOLLQCBlcF189fa3pyP4fw4
+ ufx5Lufwft1vqYQ0u4pu16D0r5dE6FepR8/Y2m7Bl1iWB50ud8cl9nr4fE/W1LSLys
+ FYy4EKSZ0zBJNrEh6t7tmcyrIUrM+yDEihmZQ6+XVKFqbhMuCNH5+DEntCodxdQULf
+ ZowH6/I7RWxU+6aGkzICbmkk9ffdQk6E6ckIxF6EdRydu3MVPbheSr9BgPt07IhG8H
+ 9PwdxdvRijCMA==
+Date: Wed, 10 Sep 2025 13:08:30 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 09/10] drm/connector: verify that HDMI connectors
+ support necessary InfoFrames
+Message-ID: <20250910-courageous-warthog-of-refinement-aced6f@houat>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-9-53fd0a65a4a2@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v4-4-1fc320488233@vinarskis.com>
-References: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
-In-Reply-To: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHY1i7Dd/wNV2TMgp7/s+PfduOR475Z84UuM//ueLxT
- d1eAx/9jlIWBjEuBlkxRZbuP1/TuhbNXctwXeMbzBxWJpAhDFycAjAR5wxGhvPensm6/BOZRP7q
- VEmGWNl0lk05mCiwiCHnGiNjTn+eBCPD7uPXChdOn3RV9nVGJEe93F+JWe/vX1q67/aZa6Zv77V
- GsAEA
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xkhodzl7phtwfggk"
+Content-Disposition: inline
+In-Reply-To: <20250909-drm-limit-infoframes-v4-9-53fd0a65a4a2@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,49 +81,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--xkhodzl7phtwfggk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 09/10] drm/connector: verify that HDMI connectors
+ support necessary InfoFrames
+MIME-Version: 1.0
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,14 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
- 			panic-indicator;
- 		};
- 	};
-@@ -685,6 +682,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		leds = <&privacy_led>;
-+		led-names = "privacy";
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
+On Tue, Sep 09, 2025 at 05:52:07PM +0300, Dmitry Baryshkov wrote:
+> Check that connector initialized by drmm_connector_hdmi_init() supports
+> AVI InfoFrames and warn if it doesn't support Vendor-Specific
+> InfofRames (HDMI InfoFrames are more or less required).
+>=20
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Acked-by: Daniel Stone <daniels@collabora.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 92a75684a0f7375d3a94e8c666cb71064ecc8035..222a0ef66d9fdbdb56108ceeb=
+40e7f369d810350 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -602,6 +602,13 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  	if (!(max_bpc =3D=3D 8 || max_bpc =3D=3D 10 || max_bpc =3D=3D 12))
+>  		return -EINVAL;
+> =20
+> +	/* AVI is required */
+> +	if (!(supported_infoframes & DRM_CONNECTOR_INFOFRAME_AVI))
+> +		return -EINVAL;
+> +
+> +	if (!(supported_infoframes & DRM_CONNECTOR_INFOFRAME_VENDOR))
+> +		drm_info(dev, "HDMI connector with no support for Vendor-Specific Info=
+Frame\n");
+> +
 
--- 
-2.48.1
+Same remark than on patch 10. It's not something we can check at init
+time, and we should check (and document!) that if we expect an infoframe
+to be written but the write_infoframe hook doesn't support it, it's an
+error.
 
+Maxime
+
+--xkhodzl7phtwfggk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFcLgAKCRAnX84Zoj2+
+do1pAXoDY9Dzn6G/ClMn6Qt9h6baw0nSCc1SPEDOnOlKYoD9BSE05V70x5Sqi0rR
+wJwIv2ABgME+k6f+wI13qd1Ah1huLB0li8xpIpRZTte9l8GEmuSdXIv2pGQJKmjF
+/tLAINKY3g==
+=JQzw
+-----END PGP SIGNATURE-----
+
+--xkhodzl7phtwfggk--
