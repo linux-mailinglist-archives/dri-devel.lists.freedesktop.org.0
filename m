@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C526B519D8
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D91B519F2
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 16:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746B910E931;
-	Wed, 10 Sep 2025 14:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C58610E2F3;
+	Wed, 10 Sep 2025 14:46:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="QNC2m2O5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KW5pM2Fu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A87DE10E933
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 14:44:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757515455; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Vk0qSPHXJTZ3e1anRNtFlkJqS3Eb2Ala0y23F5r4QV86JxgaWO4NiNf4l12zDRkDm22qdO6/Vp73h1kp3NxcIW31lhHANqppt3kUlUNH4mY/XLh/nfWDDFI1bl38gKwTZYTdHil1CodlrLDHidOa7oPDGxMG8eO73KNY6Jk/DYM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757515455;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=4LvNay1MaDoZ6Gogn7GwBVUYhRPt65Jqq565M4URM5Y=; 
- b=eQyh8I9sifWTQTKvebidXfZyagRC2Nt5UGXwhQTz6mHaf8cZaTSm3asmbzqYO7wI36xiHSvqLmCGfZ0OUQtellWRARLX8OJa6OHLdcaiVDHq66DNy+X0A/nShidoEq2U5s4RltefDfp96KKnmoFwD0KFDkDu5RDm/fxCohYqWB0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757515455; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=4LvNay1MaDoZ6Gogn7GwBVUYhRPt65Jqq565M4URM5Y=;
- b=QNC2m2O5vYh5n3d03rStRzkuLr8zj2KI1zMVPeHGEZca4+nBCPTKSOhmEDUs4D7p
- 50ICYbwWvGK5Lo6daw91x4hr2YZ9qtOnz/dXsz5YKfN0U7jNHQ2SQt2TqbdKVcXTVpj
- /oF2d2LDjfNA6vkwdAbD7k3VuI3UB+N1/cIbN9Lw=
-Received: by mx.zohomail.com with SMTPS id 1757515451932963.2816933090961;
- Wed, 10 Sep 2025 07:44:11 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3] rust: drm: Introduce the Tyr driver for Arm Mali GPUs
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <b44ca395-102e-4780-949d-9d656ba18ec0@kernel.org>
-Date: Wed, 10 Sep 2025 11:43:54 -0300
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Daniel Stone <daniels@collabora.com>, Rob Herring <robh@kernel.org>,
- Beata Michalska <beata.michalska@arm.com>,
- Carsten Haitzler <carsten.haitzler@foss.arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Ashley Smith <ashley.smith@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Jeffrey Vander Stoep <jeffv@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, kernel@collabora.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <50CC05D3-CCF5-44AA-9E8A-71DA8733B78E@collabora.com>
-References: <20250910-tyr-v3-1-dba3bc2ae623@collabora.com>
- <b44ca395-102e-4780-949d-9d656ba18ec0@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E33810E2F3;
+ Wed, 10 Sep 2025 14:46:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B68BC601FA;
+ Wed, 10 Sep 2025 14:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 316D6C4CEEB;
+ Wed, 10 Sep 2025 14:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757515600;
+ bh=84vkiPKqSEhuvDni8XCaT6y5jo/x6VM2Y2bOu716BLQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=KW5pM2FuSjJKYJW2gxcET8OcAb1Rldc9NmgcN9qu9VVRmQY8OImBUUUXcix8cQckW
+ jSNVyqFL7amGmUf7wkuDldCw34x5vfC4fs3T9gVytGVRFENaEVt04KcarnAzlwVANz
+ EZZVR3K9PvKcjR66/8+wda4Gbh22mxm1+1b02Io3rjhsYSpJ0yuZ6X2Mlh0Wlx9OKE
+ UPYmMZFP2kT+2NusOrtQtR6VBmSZKiLAp0YARN/j0AEH/x1N4414csaGNJAQKkeTZS
+ xVJ9pFYae9xPnC0wRLL3zV7z/6Tev21LW3sqB5+UN4uprUuhHM9oNAf6/Lx+6uGzIF
+ Pjs15lLPM32qQ==
+Date: Wed, 10 Sep 2025 09:46:38 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend,
+ aka swsusp)" <linux-pm@vger.kernel.org>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ Merthan =?utf-8?Q?Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>
+Subject: Re: [PATCH v7 06/12] PCI/PM: Split out code from
+ pci_pm_suspend_noirq() into helper
+Message-ID: <20250910144638.GA1535343@bhelgaas>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250909191619.2580169-7-superm1@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,53 +76,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 09, 2025 at 02:16:13PM -0500, Mario Limonciello (AMD) wrote:
+> In order to unify suspend and hibernate codepaths without code duplication
+> the common code should be in common helpers.  Move it from
+> pci_pm_suspend_noirq() into a helper.  No intended functional changes.
+> 
+> Tested-by: Eric Naim <dnaim@cachyos.org>
+> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-> On 10 Sep 2025, at 11:04, Danilo Krummrich <dakr@kernel.org> wrote:
->=20
-> On 9/10/25 3:51 PM, Daniel Almeida wrote:
->> diff --git a/drivers/gpu/drm/tyr/Kconfig =
-b/drivers/gpu/drm/tyr/Kconfig
->> new file mode 100644
->> index =
-0000000000000000000000000000000000000000..de910b2cba3a48e0b238eb0f66279758=
-c02dfb6f
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tyr/Kconfig
->> @@ -0,0 +1,17 @@
->> +# SPDX-License-Identifier: GPL-2.0 or MIT
->> +
->> +config DRM_TYR
->> + tristate "Tyr (Rust DRM support for ARM Mali CSF-based GPUs)"
->> + depends on DRM=3Dy
->> + depends on RUST
->> + depends on ARM || ARM64 || COMPILE_TEST
->> + depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
->=20
-> For the Nova drivers I did add
->=20
-> default n
->=20
-> as long as the driver is work in progress.
->=20
->> + help
->> +  Rust DRM driver for ARM Mali CSF-based GPUs.
->> +
->> +  This driver is for Mali (or Immortalis) Valhall Gxxx GPUs.
->> +
->> +  Note that the Mali-G68 and Mali-G78, while Valhall architecture, =
-will
->> +  be supported with the panfrost driver as they are not CSF GPUs.
->> +
->> +  if M is selected, the module will be called tyr.
->=20
-> I also did add
->=20
-> This driver is work in progress and may not be functional.
->=20
-> to make it clear what people will get.
+If you have other reason to repost this, ...
 
+> +	if (pci_dev->current_state == PCI_D0) {
+> +		pci_dev->skip_bus_pm = true;
 
-Fair enough, perhaps a quick v4 then?
+Add a blank line here.
 
-=E2=80=94 Daniel=
+> +		/*
+> +		 * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if any
+> +		 * downstream device is in D0, so avoid changing the power state
+> +		 * of the parent bridge by setting the skip_bus_pm flag for it.
+> +		 */
+> +		if (pci_dev->bus->self)
+> +			pci_dev->bus->self->skip_bus_pm = true;
+> +	}
