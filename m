@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AF1B514AA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F85B514B1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 13:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E774D10E8D3;
-	Wed, 10 Sep 2025 10:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732E589289;
+	Wed, 10 Sep 2025 11:01:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="r8oTKrB7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C5kWhs7u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03E1410E8CE
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:59:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D16389289
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 11:01:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A3B0644BC7;
- Wed, 10 Sep 2025 10:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002C8C4CEF0;
- Wed, 10 Sep 2025 10:59:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2B83E4419D;
+ Wed, 10 Sep 2025 11:01:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1DD8C4CEF0;
+ Wed, 10 Sep 2025 11:01:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757501955;
- bh=pgRra0TbLzaoR1byNocr13Rx9YUuYQKJyF3mqpyH7hs=;
+ s=k20201202; t=1757502101;
+ bh=qRp4pA5nON73sZoZuwHZjsYpT6fTz3KV68ATUmBpd0A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=r8oTKrB76/fMraFq696qdYKLEIOUVOV00Y24E2m9EdRylSqzFFVLKtxrr1Kz7vTXE
- nsEJvifqtZlayUYBkcq/7NXiqsX0Qk8jOjOa0UfTsiuTWenRPIplF1XonbJVYjGMg/
- upB4zxoE6X18uIzckO1iB9z/RIq2Z2kbWY6vwmn152qdttugYdyykTqiXZkHjKcQjn
- pJzYgaVOC2T1hM3mfB3DIJ+5DAr//OSLwXJsRJ/cTj1kPRaO5UJdcavwLuPNAO4T/Q
- 7oA6m7acEPcYa58TG+1fpve0Crm1vymjAi1pGrxuZJ2h+mGvMkqWfoICUttz7pin0b
- bJoNcW6ORrI8g==
-Date: Wed, 10 Sep 2025 12:59:12 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-Message-ID: <20250910-glittering-serval-of-piety-b32844@houat>
-References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
- <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
- <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
- <20250820131302.6a2da5ef@booty>
- <20250827-charming-arcane-stingray-cfb8b6@houat>
- <20250908154906.16693078@booty>
+ b=C5kWhs7uRbjrhU3OblOuu5C+TfXSxcOCdkT2WiL7/QOf10JWmfTDYDvKqDID/E1yy
+ ObPvEzotdtt+kzCI07FWfjVc5bENBjAEYF47BTwcwUPdOLS51ONtOUPERTIQF5cJ4i
+ UOrJcm13TF+HKb1Cag/puKy+j3v1y5kkMIhdcmtAs4K/oo/vxkFp1ZCbMD9PGxrET3
+ AJCQ91v492I5Z7Rtf+AScc9wSZgq3j0j2JzxY/UDZ1ZIUFdYG3eizBf/onQXnF/iuU
+ lZveG9hX3odkpQV8Ky5yihZAhVkmeUjDAZF+nA1swi+rITQEHFFrGh2X6YmoiUUUR+
+ 77W9FN90hx9Ew==
+Date: Wed, 10 Sep 2025 07:01:39 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Brett A C Sheffield <bacs@librecast.net>
+Cc: Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+ Murad Masimov <m.masimov@mt-integration.ru>,
+ Yongzhen Zhang <zhangyongzhen@kylinos.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] Revert "fbdev: Disable sysfb device registration
+ when removing conflicting FBs"
+Message-ID: <aMFak8Oj-UoCrgBH@laps>
+References: <20250910095124.6213-3-bacs@librecast.net>
+ <20250910095124.6213-5-bacs@librecast.net>
+ <87frcuegb7.fsf@minerva.mail-host-address-is-not-set>
+ <aMFYeV4UdD7NnrSC@karahi.gladserv.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="uofjwl6sf7vvmaur"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250908154906.16693078@booty>
+In-Reply-To: <aMFYeV4UdD7NnrSC@karahi.gladserv.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,103 +67,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Sep 10, 2025 at 12:52:41PM +0200, Brett A C Sheffield wrote:
+>On 2025-09-10 12:46, Javier Martinez Canillas wrote:
+>> Brett A C Sheffield <bacs@librecast.net> writes:
+>>
+>> Hello Brett,
+>>
+>> > This reverts commit 13d28e0c79cbf69fc6f145767af66905586c1249.
+>> >
+>> > Commit ee7a69aa38d8 ("fbdev: Disable sysfb device registration when
+>> > removing conflicting FBs") was backported to 5.15.y LTS. This causes a
+>> > regression where all virtual consoles stop responding during boot at:
+>> >
+>> > "Populating /dev with existing devices through uevents ..."
+>> >
+>> > Reverting the commit fixes the regression.
+>> >
+>> > Signed-off-by: Brett A C Sheffield <bacs@librecast.net>
+>> > ---
+>>
+>> In the other email you said:
+>>
+>> > Newer stable kernels with this
+>> > patch (6.1.y, 6.6.y, 6.12,y, 6.15.y, 6.16.y) and mainline are unaffected.
+>>
+>> But are you proposing to revert the mentioned commit in mainline too
+>> or just in the 5.15.y LTS tree ?
+>
+>Only the 5.15.y tree. Sorry - that could have been clearer.  There's no
+>regression anywhere else. Mainline and other stable kernels are all ok.
 
---uofjwl6sf7vvmaur
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-MIME-Version: 1.0
+Thanks for investigating this! I'll queue it up for 5.15.
 
-On Mon, Sep 08, 2025 at 03:49:06PM +0200, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Wed, 27 Aug 2025 09:46:03 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Wed, Aug 20, 2025 at 01:13:02PM +0200, Luca Ceresoli wrote:
-> > > Hello Maxime,
-> > >=20
-> > > On Tue, 19 Aug 2025 14:29:32 +0200
-> > > Maxime Ripard <mripard@kernel.org> wrote:
-> > >  =20
-> > > > > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2c_cl=
-ient *client)
-> > > > >  {
-> > > > >  	struct sn65dsi83 *ctx =3D i2c_get_clientdata(client);
-> > > > > =20
-> > > > > +	drm_bridge_unplug(&ctx->bridge);
-> > > > >  	drm_bridge_remove(&ctx->bridge);   =20
-> > > >=20
-> > > > Shouldn't we merge drm_bridge_unplug with the release part of
-> > > > devm_drm_bridge_alloc? =20
-> > >=20
-> > > I'm not sure I got what you are suggesting here, sorry.
-> > >=20
-> > > Do you mean that __devm_drm_bridge_alloc() should add a devres action
-> > > to call drm_bridge_unplug(), so the unplug is called implicitly and
-> > > does not need to be called explicitly by all drivers? =20
-> >=20
-> > Yes
-> >=20
-> > > If that's what you mean, I don't think that would work. Unless I'm
-> > > missing something, devres actions are always invoked just after the
-> > > driver .remove callback. =20
-> >=20
-> > Yes, they are called in reverse order of registration, after remove.
-> >=20
-> > > But we need to call drm_bridge_unplug() at the beginning (or just
-> > > before) .remove, at least for drivers that need to do something in
-> > > .remove that cannot be done by devm.
-> > >=20
-> > > In pseudocode:
-> > >=20
-> > > mybridge_remove()
-> > > {
-> > >   drm_bridge_unplug(); <-- explicit call as in my patch
-> > >   xyz_disable();
-> > >   drm_bridge_unplug(); <-- implicitly done by devres
-> > > }
-> > >=20
-> > > We want xyz_disable() to be done after drm_bridge_unplug(), so other
-> > > code paths using drm_bridge_enter/exit() won't mess with xyz. =20
-> >=20
-> > It's not clear to me why doing it before xyz_disable() is important
-> > here? If anything, it would prevent from disabling the hardware for
-> > example, even though you still have your memory mapping, clocks, power
-> > domains, regulators, etc. to properly disable it.
-> >=20
-> > You're still correct that it's a bad idea though because we want to do
-> > it before we start freeing all those, so it needs to execute as the
-> > before the devm actions ...
-> >=20
-> > > devres actions cannot be added to be executed _before_ .remove, AFAIK=
-=2E =20
-> >=20
-> > ... and we can't do that either.
->=20
-> I understand your words as "the drm_bridge_unplug() is OK where it is,
-> your patch is OK in this respect". Correct?
->=20
-> So if this is correct, and my reply on the devres cleanups is also
-> correct (other reply in this thread), that means the whole patch is OK.
-
-I'm still confused why it's so important than in your example
-xyz_disable must be called after drm_bridge_unplug.
-
-Maxime
-
---uofjwl6sf7vvmaur
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFaAAAKCRAnX84Zoj2+
-dnFrAYDGfUPH4VISbESMA/r7qkrCU9CpnyRaDBNG1PnU6UTTuDEpGf/flsGfDD0K
-BJ3NyUEBf1jVWqCYaD+1VjRXXXOVpwBOUaTpkVU4/FRu2LT48QZoPAQ6oYnH+fXl
-euLGxFahzw==
-=h7ta
------END PGP SIGNATURE-----
-
---uofjwl6sf7vvmaur--
+-- 
+Thanks,
+Sasha
