@@ -2,84 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BFDB51E02
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41697B51E2B
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881F110E971;
-	Wed, 10 Sep 2025 16:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6BD210E10E;
+	Wed, 10 Sep 2025 16:48:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="xsFVk8Ds";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="W4IO7sqX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IScuGs4x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B2110E977
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 16:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1757522453; bh=9Yw8grUh1cFbMy7hkshDzj8q9xtvDCOgYiEuQuV7J9k=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=xsFVk8DsqIGPSC+X7iAv0Mg1cNVHKktwiyjXwxvMSXt9M0K4A7rvPcdgVTehb6xFg
- 10foLL8BsTJlafCldlxEF6qkAkPbVopf+eISE2NagCiXNZvauNWZkMAEq7L0Pn+Q2z
- AeHn2nBDWk1qLzbmM3gLXWGcJJArtj3PQtpxdzAKDwHT9uONOJUyr+60RN6Wm/2+Cy
- 5nZi8gwShHJVr05RNBI+6AQ6b8JpSRwI0Co9Ym+j7FzaT6ZiwAtIEV8zzWUxtrMU5P
- mHHztVnoL4Hg9JFihQ7xe9eajuzhkKUYyWiIchgalhNZsKNppgEBMrBGdqbHme2tkn
- U/4hE9vOhT1iQ==
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 41FC3FB06;
- Wed, 10 Sep 2025 18:40:53 +0200 (CEST)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1ys9VigrlREY; Wed, 10 Sep 2025 18:40:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1757522443; bh=9Yw8grUh1cFbMy7hkshDzj8q9xtvDCOgYiEuQuV7J9k=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=W4IO7sqX6tRHtGIITLRKPkLbTviYwhyvT7Nk20CsnDi14NyT/QUwZewg0+baGb6wg
- SRN/lUtGVcu4wR+SgPCy5ulXzvvRClceArb7UN5ZBGJQfuL0FqkXsWPycRoE7ymUJy
- UGo7qnE4AWgzOX/hOPEnl8Hq4CW0fqfpy02GerQVEPoDbgoD6ve0jYScePXQN4kXQG
- zQQ+mvNjZvRv3pkY6yp5Xo132vX5d6CaXofvRSD9rJPG9tp++9vQnt+0IMGgLGGeLA
- KkyWnmhjHFff4Wy11zgJdkXtzLa1UPYAMHSD55o6UhLh0OoEDwBDVTSFSW2AvOlpu+
- LF58ZO9sCnJVw==
-From: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-Date: Wed, 10 Sep 2025 18:39:58 +0200
-Subject: [PATCH v3 3/3] drm/panel: visionox-rm69299: Add backlight support
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E6A910E10E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 16:48:06 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 5C2294E40BA4;
+ Wed, 10 Sep 2025 16:48:04 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 365CE606D4;
+ Wed, 10 Sep 2025 16:48:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 196D2102F28A8; 
+ Wed, 10 Sep 2025 18:47:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1757522882; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=LT2pdz7Z3NCO0Y4ooBCD3GxfpwJ9fLBoOs3KJyv+Iic=;
+ b=IScuGs4xj81gT1eBiedKgCoo3JOg7z4DU78MOyknA31lSy6JnSX6NUsMSLmtXDiOfjA/y7
+ NjS6NizfRliphi5fXLCw8jKyAY/X9b1+GrbuC32f5MqJ3CQb49qr50RHvemgRHaazE3yeh
+ aFZGzl204nYoK/n7oJITO8Z/kYCBqTaSNlPeBYPtU6Kp8Urz6K4r/wU/kv26wta9/43iEM
+ EljXhucpmtvlD1igzaA/qn/tBKgy0M5vy4GmGwV32f7630geu8ASsl3Ff1bxHZYxgJ+X2T
+ FoKJ1Mg8Cr4ij7o7Grz8zokwUCsXCO8Z9W7OIzMAzJ97qH+JnZMIyO+78R5T6Q==
+Date: Wed, 10 Sep 2025 18:47:52 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+Message-ID: <20250910184752.6c42f004@booty>
+In-Reply-To: <20250910-glittering-serval-of-piety-b32844@houat>
+References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
+ <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
+ <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+ <20250820131302.6a2da5ef@booty>
+ <20250827-charming-arcane-stingray-cfb8b6@houat>
+ <20250908154906.16693078@booty>
+ <20250910-glittering-serval-of-piety-b32844@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250910-shift6mq-panel-v3-3-a7729911afb9@sigxcpu.org>
-References: <20250910-shift6mq-panel-v3-0-a7729911afb9@sigxcpu.org>
-In-Reply-To: <20250910-shift6mq-panel-v3-0-a7729911afb9@sigxcpu.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matthias Kaehlcke <mka@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3690; i=agx@sigxcpu.org;
- h=from:subject:message-id; bh=9Yw8grUh1cFbMy7hkshDzj8q9xtvDCOgYiEuQuV7J9k=;
- b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0VCYlFLUy9aQU5Bd0FJQVNXL2hsSksvT
- UhqQWNzbVlnQm93YW9FOTBXcnRUN2lwQnRFYmUrRDdzMkYyMm5UCm9KQnU0OXMraFVmL2hVWEhB
- OENKQWpNRUFBRUlBQjBXSVFSajlzemZsaUtkQ1NocktzTWx2NFpTU3Z6QjR3VUMKYU1HcUJBQUt
- DUkFsdjRaU1N2ekI0ODVqRUFDRlBNaHIvNEQzbXdPVEozNW1HOGxuWVJzYTRTVFZMZzRrN1F2bQ
- pzaHNROFk0d1dkbWJHY3llQlhKQUZqRUFOZ1VsRUxsK3A5Z1VtWGpNSFA4QUhvd0hzOEdEVWFYc
- U1jRlRqaDkzCmNrb1pPOUVsRFAzaW1URjU5WkkzczYyYXVlOTlmUjhranJ2ZnFydlVqOTc1d0Rw
- M2tMTjUxYUJUakRDVkNaRi8KZ3h6a1lQUUw3a2pOR2FFcG40cFpHaWhQWHVxc3RiZUpYUlNmNE5
- jM0JnOUEzTTNBQ2oxRlVKdjVSSUtDTnFkYwptU1QvOEUyYXlOTVNXa2pjVnpaZU4wODQwaTBQeW
- FBOGRpMTZDd21FREd3RUYzbFhpMnVjaFJvRUoyUGRSMTJxCjdadzdNaE9idS84TXdnWXljSmVzL
- zhrcXQwVjMxYWVjNEplVndCU0pyL1drdEdvQldTaWVBUGNsWW1US1oxMmwKRUs1N1RCWldtV3Ba
- OGFXVjlwVjd6dm8vak53dlJ1UGkva1c4MmVHMkNOSnRnMTVhSjlFL3E2Q0NzZUkwMHJEdQpKVFN
- wVlBHQXFiTStnWG9rZnY3SXNhZGM2QlhQOUpBN01SdllsZHFmbGZKb0x6ZmtHZDRXd0FreUhaR1
- NiWHUzCk9MbzJXTjQ2bVRsdCtJRndMTzA5ekRDTlZibXZsK2NqcDV1dUhNSnRReUhKWllYRlpVZ
- 3g1eXFmN1RyeUdqMEEKQjViT25CcHZRQzMwcENvRHdJS3FUdFJlcDNuWTlwa25WaUFHTXRPeEFJ
- VXNvTEU4VGRvSlplTkorenZWSWd4RQpwWkdURytBb25vblRUdlhDcDVodTEzWnRCdEpyekk0c05
- OTVVDWGNmVHJkUTBlQVk2U2pqYVBoSzA1akVCdjNWClU5NGlmZz09Cj1iQ3JjCi0tLS0tRU5EIF
- BHUCBNRVNTQUdFLS0tLS0K
-X-Developer-Key: i=agx@sigxcpu.org; a=openpgp;
- fpr=0DB3932762F78E592F6522AFBB5A2C77584122D3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,123 +77,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The shift6mq's variant supports controlling the backlight via DSI
-commands. Use that if a max_brightness is set in the device specific
-data.
+On Wed, 10 Sep 2025 12:59:12 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/gpu/drm/panel/panel-visionox-rm69299.c | 67 ++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
+> On Mon, Sep 08, 2025 at 03:49:06PM +0200, Luca Ceresoli wrote:
+> > Hi Maxime,
+> > 
+> > On Wed, 27 Aug 2025 09:46:03 +0200
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >   
+> > > On Wed, Aug 20, 2025 at 01:13:02PM +0200, Luca Ceresoli wrote:  
+> > > > Hello Maxime,
+> > > > 
+> > > > On Tue, 19 Aug 2025 14:29:32 +0200
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > >     
+> > > > > > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2c_client *client)
+> > > > > >  {
+> > > > > >  	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
+> > > > > >  
+> > > > > > +	drm_bridge_unplug(&ctx->bridge);
+> > > > > >  	drm_bridge_remove(&ctx->bridge);      
+> > > > > 
+> > > > > Shouldn't we merge drm_bridge_unplug with the release part of
+> > > > > devm_drm_bridge_alloc?    
+> > > > 
+> > > > I'm not sure I got what you are suggesting here, sorry.
+> > > > 
+> > > > Do you mean that __devm_drm_bridge_alloc() should add a devres action
+> > > > to call drm_bridge_unplug(), so the unplug is called implicitly and
+> > > > does not need to be called explicitly by all drivers?    
+> > > 
+> > > Yes
+> > >   
+> > > > If that's what you mean, I don't think that would work. Unless I'm
+> > > > missing something, devres actions are always invoked just after the
+> > > > driver .remove callback.    
+> > > 
+> > > Yes, they are called in reverse order of registration, after remove.
+> > >   
+> > > > But we need to call drm_bridge_unplug() at the beginning (or just
+> > > > before) .remove, at least for drivers that need to do something in
+> > > > .remove that cannot be done by devm.
+> > > > 
+> > > > In pseudocode:
+> > > > 
+> > > > mybridge_remove()
+> > > > {
+> > > >   drm_bridge_unplug(); <-- explicit call as in my patch
+> > > >   xyz_disable();
+> > > >   drm_bridge_unplug(); <-- implicitly done by devres
+> > > > }
+> > > > 
+> > > > We want xyz_disable() to be done after drm_bridge_unplug(), so other
+> > > > code paths using drm_bridge_enter/exit() won't mess with xyz.    
+> > > 
+> > > It's not clear to me why doing it before xyz_disable() is important
+> > > here? If anything, it would prevent from disabling the hardware for
+> > > example, even though you still have your memory mapping, clocks, power
+> > > domains, regulators, etc. to properly disable it.
+> > > 
+> > > You're still correct that it's a bad idea though because we want to do
+> > > it before we start freeing all those, so it needs to execute as the
+> > > before the devm actions ...
+> > >   
+> > > > devres actions cannot be added to be executed _before_ .remove, AFAIK.    
+> > > 
+> > > ... and we can't do that either.  
+> > 
+> > I understand your words as "the drm_bridge_unplug() is OK where it is,
+> > your patch is OK in this respect". Correct?
+> > 
+> > So if this is correct, and my reply on the devres cleanups is also
+> > correct (other reply in this thread), that means the whole patch is OK.  
+> 
+> I'm still confused why it's so important than in your example
+> xyz_disable must be called after drm_bridge_unplug.
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index 66c30db3b73a71f23b587b6e994a22dba5e85d25..e5e688cf98fdc571ae9726f3c9afe7c83db1caf7 100644
---- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -3,6 +3,7 @@
-  * Copyright (c) 2019, The Linux Foundation. All rights reserved.
-  */
- 
-+#include <linux/backlight.h>
- #include <linux/delay.h>
- #include <linux/module.h>
- #include <linux/property.h>
-@@ -20,6 +21,8 @@ struct visionox_rm69299_panel_desc {
- 	const struct drm_display_mode *mode;
- 	const u8 *init_seq;
- 	unsigned int init_seq_len;
-+	int max_brightness;
-+	int initial_brightness;
- };
- 
- struct visionox_rm69299 {
-@@ -285,6 +288,63 @@ static const struct drm_panel_funcs visionox_rm69299_drm_funcs = {
- 	.get_modes = visionox_rm69299_get_modes,
- };
- 
-+static int visionox_rm69299_bl_get_brightness(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
-+	if (ret < 0)
-+		return ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return brightness;
-+}
-+
-+static int visionox_rm69299_bl_update_status(struct backlight_device *bl)
-+{
-+	struct mipi_dsi_device *dsi = bl_get_data(bl);
-+	u16 brightness = backlight_get_brightness(bl);
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
-+	if (ret < 0)
-+		return ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops visionox_rm69299_bl_ops = {
-+	.update_status = visionox_rm69299_bl_update_status,
-+	.get_brightness = visionox_rm69299_bl_get_brightness,
-+};
-+
-+static struct backlight_device *
-+visionox_rm69299_create_backlight(struct visionox_rm69299 *ctx)
-+{
-+	struct device *dev = &ctx->dsi->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = ctx->desc->initial_brightness,
-+		.max_brightness = ctx->desc->max_brightness,
-+	};
-+
-+	if (!ctx->desc->max_brightness)
-+		return 0;
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, ctx->dsi,
-+					      &visionox_rm69299_bl_ops,
-+					      &props);
-+}
-+
- static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
- {
- 	struct device *dev = &dsi->dev;
-@@ -316,6 +376,11 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
- 		return PTR_ERR(ctx->reset_gpio);
- 	}
- 
-+	ctx->panel.backlight = visionox_rm69299_create_backlight(ctx);
-+	if (IS_ERR(ctx->panel.backlight))
-+		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-+				     "Failed to create backlight\n");
-+
- 	drm_panel_add(&ctx->panel);
- 
- 	dsi->lanes = 4;
-@@ -353,6 +418,8 @@ const struct visionox_rm69299_panel_desc visionox_rm69299_shift_desc = {
- 	.mode = &visionox_rm69299_1080x2160_60hz,
- 	.init_seq = (const u8 *)visionox_rm69299_1080x2160_60hz_init_seq,
- 	.init_seq_len = ARRAY_SIZE(visionox_rm69299_1080x2160_60hz_init_seq),
-+	.max_brightness = 255,
-+	.initial_brightness = 50,
- };
- 
- static const struct of_device_id visionox_rm69299_of_match[] = {
+Let me clarify with an example.
+
+As I wrote in another reply, I have moved from a flag
+(disable_resources_needed) to a devres action as you had suggested, but
+the example here is based on the old flag because it is more explicit,
+code would be executed in the same order anyway, and, well, because I
+had written the example before the devres action conversion.
+
+Take these two functions (stripped versions of the actual ones):
+
+/* Same as proposed, but with _unplug moved at the end */
+static void sn65dsi83_remove()
+{
+	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
+
+	drm_bridge_remove(&ctx->bridge);
+	
+	/* 
+	 * I moved the following code to a devm action, but keeping it
+	 * explicit here for the discussion
+	 */
+	if (ctx->disable_resources_needed) {
+		sn65dsi83_monitor_stop(ctx);
+		regulator_disable(ctx->vcc);
+	}
+	
+	drm_bridge_unplug(&ctx->bridge);     // At the end!
+}
+
+static void sn65dsi83_atomic_disable()
+{
+	if (!drm_bridge_enter(bridge, &idx))
+		return;
+
+	/* These 3 lines will be replaced by devm_release_action() */
+	ctx->disable_resources_needed = false;
+	sn65dsi83_monitor_stop(ctx);
+	regulator_disable(ctx->vcc);
+
+	drm_bridge_exit(idx);
+}
+
+Here the xyz_disable() in my pseudocode is the sn65dsi83_monitor_stop()
++ regulator_disable().
+
+If sn65dsi83_remove() and sn65dsi83_atomic_disable() were to happen
+concurrently, this sequence of events could happen:
+
+1. atomic_disable:  drm_bridge_enter() -> OK, can go
+2. remove:          drm_bridge_remove()
+3. remove:          sn65dsi83_monitor_stop()
+4. remove:          regulator_disable()
+5. remove:          drm_bridge_unplug() -- too late to stop atomic_disable
+6. atomic_disable:  ctx->disable_resources_needed = false -- too late to stop .remove
+7. atomic_disable:  sn65dsi83_monitor_stop() -- twice, maybe no problem
+8. atomic_disable:  regulator_disable() -- Twice, en/disable imbalance!
+
+So there is an excess regulator disable, which is an error. I don't see
+how this can be avoided if the drm_bridge_unplug() is called after the
+regulator_disable().
+
+Let me know whether this clarifies the need to _unplug at the beginning
+of the .remove function.
+
+Best regards,
+Luca
 
 -- 
-2.51.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
