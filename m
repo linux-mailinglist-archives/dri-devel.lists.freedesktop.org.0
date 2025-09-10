@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA56B50B3A
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7D5B50B40
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 04:44:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6B110E828;
-	Wed, 10 Sep 2025 02:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C7C10E82B;
+	Wed, 10 Sep 2025 02:44:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZthbpFbv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Rnyvg63K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C40910E828
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 02:43:55 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-24b2de2e427so44549435ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 19:43:55 -0700 (PDT)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFD5B10E82B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 02:43:58 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-76e2ea933b7so149118b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Sep 2025 19:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757472235; x=1758077035; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757472238; x=1758077038; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PKHUedwTpnE+6902OLKWJUrKeeyE0icmaP4M6h8VeIM=;
- b=ZthbpFbvM4tWWvoNzAbjn+VoK+a9rvxANEKLiK0GxolbucfbaMn7xerSGt2wHdafAZ
- 0oNmRoqnbLfehHQa6QfcwJsZFEqbk6nLuOircwKXsj4mLLOsYBXxZkbOOSkVHj6psij/
- 2kt8IZQKSpkD5WUnw6pjmoKn3qXl7CnULD14kYyzPkoo74V93Fk46ZG8jtXLUyBo6YSb
- A9VdAMk3a5t7T6kQZyr3rcgomeEd5aG44Y5/T/H0z8JDnlnglX5/DiEZMjAgjn1OVk8P
- xHV4vPEWhfINcnDSG1VBO9bn0hH/Nuc/8XhUtQenJliMuylaNfHq5xihqOyLCrHL3FfP
- kRfQ==
+ bh=NJdcHxX57XebbZj4zrMMfWynAEuJyyuoNM4CHXO3dik=;
+ b=Rnyvg63KULP1ENp2Da7T2zZI0Iqm8GnTi8bmy4KvVnuMEiqEwuPVeHBdSUehXoxyOU
+ nNY6EGP36Oi47UARWKRQNRyfRIRk2Y0+a+6RbgKHWJ2cXzPRQUPbAa3uGkHF+oBB9gR9
+ SVxKLYWbT7gJWgtjgWziPuwoVanwlmD7onAfeJ9HeliuDxSJsq0WmCxojWbDaqrnk7QH
+ Z0aPCEpZ7+dGbxKx5NLH3TN8XLxFqf1/lpRYSNvVcaIqHcw5EBvCGAoPOkeXG25Ugdyc
+ mmCtAGgntJCEpNrY1SosGGQ/M4TVtajCpr5zmrntRdQIDkF9UjlNEMt33cMW6U1Cs5Tw
+ PnxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757472235; x=1758077035;
+ d=1e100.net; s=20230601; t=1757472238; x=1758077038;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PKHUedwTpnE+6902OLKWJUrKeeyE0icmaP4M6h8VeIM=;
- b=GZ4pnEeqZh+zm2XIaY8zJIUnaXg91+D9FQtH47gTP50Q4G4JqjR6DgBvIkPpvnMdjd
- 7QOR8alH5gdrvyfyI5LkY+XSgBjhGcprOWwoDlMKs8RkjI3EJ6+xjRfY37oSzwZQccz/
- g+6fqQjlsF8Mwi5Z6hdQ9Do8Bnzo82c63fex/C9GzdfcSqdEkfcbHVT2PR3J3gfzCFVQ
- unln3/xAbUsWXaEs3mdHwA3/xdqqrvJxeZYbshgxXbELjS+onZc5BtxPu2ewx0tx6Y67
- deaTc46XfGjW7uWDJWksvm1rRb3SnqDPhsJ27fcFljC9BN6bN34aoSl4lcHuAzmE9QkG
- yhRQ==
+ bh=NJdcHxX57XebbZj4zrMMfWynAEuJyyuoNM4CHXO3dik=;
+ b=tIPJO3HmVbaZ8SiEkwAtW8X16e2eQZgjVKZHImntcakSK+KaeiT8JFxeOtad0hznjf
+ o409X121VLgK+P8u1aZx2RhssZXJZSiDPGR4JQW68OZLnb7RtvGdcPgQwYo+InSo3PZ6
+ bVIRs7y8iK8wAHeIXkofHtOLxih/TR0WXIm4Y4elOuD1qKnfUJvax/8VD81cdhmv8UEA
+ BIUDtSR4Crd4IcTFI3SSvCDPbTGNRYiCRzJ/QgsUCWiWxt/i5Jh+GJEB7o5CAB2i7neD
+ mc2J6lHYFfLFZUAJ74/vWxNVGyDtCspnt84hUuTW3Bc8KET4EndrVzNVZD/48iR68YWX
+ 3LCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5tPf81CBqk2nGcRqTHPqHnVGQ/4heGES2DhGGcsNpScnfOWvEk0AsBwjoVuKsMl6aO7qiSwvJGzU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxuYwiAhwkUb08dKii1js3XCrqDsiAyaysAluMjLrP8mJalkDCQ
- Y3vMYkGDW6zdShfKHPBM/6rS+OT+rROJhbFaJ1OWNFlu9le+J0Zq0fMC
-X-Gm-Gg: ASbGncuq4gt2ao61CjLNnG3CsGbNB6LPaWoYl2KTfY6JWa50e95YNxvw9U6yq5alatl
- Vz8xFfgOGY3ba5JR2CdZwzmBQoEnxu8F9l31uvnrZCUq9dHfm8xIs7aYYex2l7x3BOn7tkicT7A
- bXUoOa459CW4uFw3kG0ie3nUcTC+iT4br+auTavOP7dGjAxydWDxN55ETI38NGH/GBpDpzrMlNY
- X3GT5yvEs2gjB3fB3iTcSV1eDHv8JHO8HK2VCNK+ntrGAqsOsHrLO+y4PcY/CKiA0pZg3+1GpjN
- 37BQBjJ3EJQ52DWlmuzGdNZhCzzNEivH/uQAiySc1mtHrxxfIi8uzhg5g5cUsQBAADZCnd0tHhl
- b3K8kTiG3v8j8qeNuWYzorPzjjh98OYcPv+FV
-X-Google-Smtp-Source: AGHT+IHbDjWZY3VztYJWV/FENnSrT7+pUTw9iPKJIW8vQLIXrlNVN5ahZX5GB9eL2BwlCwOB0bsRtA==
-X-Received: by 2002:a17:902:fc50:b0:24b:640:ab6d with SMTP id
- d9443c01a7336-25172b4b335mr233139385ad.49.1757472234639; 
- Tue, 09 Sep 2025 19:43:54 -0700 (PDT)
+ AJvYcCXYGvbBoUcF2JIdNWSeugrJ+GzHIL+2VPk88TIqiusB2mAt+RRf0gsGhqg6QoT0mY14DeVUWP4Zv8I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoTGXQ3+WuamQyqmvPcZC3NCEmn9A1eYx2kXZf20CYLPlKiPSw
+ 0loAvRM85COrYq35M/3k1CykauGhvI+C9UppMiRXB/WhhOUHUpD6QjsA
+X-Gm-Gg: ASbGnctodyi+4kYmDVAzIPsT6Sf81L5hSiNH8JSzqJ7L3AmRqYlIKlgFnz43Qlp0rlm
+ 1q0NSNzbYvDJmRqP4/d6+4hYUBxuqTi7tuXAs5jopv5F55RZl2aiGW/Hm3p7J/t/bXtjDVirxlK
+ vOmyGeJ1vhFAWGJcLCXzEOGlfIq66qO4OnpJzzGc/WwHpOdm/WiMqbbLuShU1ENAOWn1NgcK1O1
+ x9O3tysLlKzFGaqR2n4nTC7xJcC86cKY7qC1T23X1C8Oheo0GkrieFRyGypmlJdNib8Ry1OPABg
+ NAmFqeJs3F9ETD6Up8lFGkQpKObnFAASiqlP7CfDGqF3ROcsgVfjD2yZPrunYv/BNK8Z3ipBW9y
+ SrsEG6svsUtT0O0szD3WFvxJW7zH2BEpa7QUV
+X-Google-Smtp-Source: AGHT+IHlW2FYAtqZ1nBeuiJ0erIdKTHM8TZOiaskQC50mFORCZ7qHar4U4e6n8dIjJOSKpsMSsisCg==
+X-Received: by 2002:a05:6a00:945a:b0:770:4f37:bffb with SMTP id
+ d2e1a72fcca58-7741bebe705mr21095803b3a.3.1757472238265; 
+ Tue, 09 Sep 2025 19:43:58 -0700 (PDT)
 Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-25a27422ffdsm11441735ad.17.2025.09.09.19.43.53
+ d2e1a72fcca58-774662c73e0sm3425976b3a.73.2025.09.09.19.43.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Sep 2025 19:43:53 -0700 (PDT)
+ Tue, 09 Sep 2025 19:43:56 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
- id E4226420A809; Wed, 10 Sep 2025 09:43:51 +0700 (WIB)
+ id 0C94B41FA3A4; Wed, 10 Sep 2025 09:43:51 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
@@ -140,20 +140,20 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
  Masahiro Yamada <masahiroy@kernel.org>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 01/13] Documentation: hw-vuln: l1tf: Convert kernel docs
- external links
-Date: Wed, 10 Sep 2025 09:43:16 +0700
-Message-ID: <20250910024328.17911-2-bagasdotme@gmail.com>
+Subject: [PATCH v2 02/13] Documentation: damon: reclaim: Convert "Free Page
+ Reporting" citation link
+Date: Wed, 10 Sep 2025 09:43:17 +0700
+Message-ID: <20250910024328.17911-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250910024328.17911-1-bagasdotme@gmail.com>
 References: <20250910024328.17911-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1333; i=bagasdotme@gmail.com;
- h=from:subject; bh=oQ/U51BIIgNGsRun+kwInz/tmig5xTqHruGeEvNRxQQ=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHnig6a/JZLY81M41OfrJ5W/1jtyyro8lZM99fCflwN
- Zg5yrW3o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABOplmZkWLE7pDLv7RVG0Wlf
- H5ewasZymzr2NV7tNPkiErzi6eK/vxgZzoS7uJzLvPvRJPIa/z7RCs5jTcdeb3Q8EmZgt2n66RO
- ZTAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=883; i=bagasdotme@gmail.com;
+ h=from:subject; bh=TM7A3b/55JCgQfCA5kxK7YxN6xbvfSMV2ctBC+dU0+o=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkHnih2mgVe6tXtn33sQOG2JKN6npsV2+KuvrWb+KLwo
+ YbPrZOKHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZiIgi7D/1T1Zd+0q3NfXbSR
+ WTM/c6Nt+dI0hVcvJi2QWSN+/Q/fJyVGhivi20SiX0RwBzyI4fPfm+rzyfPWB2YZV73+/5GK7JN
+ 5GAE=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -172,40 +172,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert external links to kernel docs to use internal cross-references.
+Use internal cross-reference for the citation link to Free Page
+Reporting docs.
 
+Reviewed-by: SeongJae Park <sj@kernel.org>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/hw-vuln/l1tf.rst | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ Documentation/admin-guide/mm/damon/reclaim.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/hw-vuln/l1tf.rst b/Documentation/admin-guide/hw-vuln/l1tf.rst
-index 3eeeb488d95527..60bfabbf0b6e2d 100644
---- a/Documentation/admin-guide/hw-vuln/l1tf.rst
-+++ b/Documentation/admin-guide/hw-vuln/l1tf.rst
-@@ -239,9 +239,8 @@ Guest mitigation mechanisms
-    scenarios.
+diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+index af05ae6170184f..92bb7cf1b5587a 100644
+--- a/Documentation/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+@@ -298,4 +298,4 @@ granularity reclamation. ::
  
-    For further information about confining guests to a single or to a group
--   of cores consult the cpusets documentation:
--
--   https://www.kernel.org/doc/Documentation/admin-guide/cgroup-v1/cpusets.rst
-+   of cores consult the :doc:`cgroup cpusets documentation
-+   <../cgroup-v1/cpusets>`.
- 
- .. _interrupt_isolation:
- 
-@@ -266,9 +265,7 @@ Guest mitigation mechanisms
- 
-    Interrupt affinity can be controlled by the administrator via the
-    /proc/irq/$NR/smp_affinity[_list] files. Limited documentation is
--   available at:
--
--   https://www.kernel.org/doc/Documentation/core-api/irq/irq-affinity.rst
-+   available at Documentation/core-api/irq/irq-affinity.rst.
- 
- .. _smt_control:
- 
+ .. [1] https://research.google/pubs/pub48551/
+ .. [2] https://lwn.net/Articles/787611/
+-.. [3] https://www.kernel.org/doc/html/latest/mm/free_page_reporting.html
++.. [3] Documentation/mm/free_page_reporting.rst
 -- 
 An old man doll... just what I always wanted! - Clara
 
