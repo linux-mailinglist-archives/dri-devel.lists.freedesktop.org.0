@@ -2,71 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32947B51469
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04F9B51444
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 12:46:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 929CA10E154;
-	Wed, 10 Sep 2025 10:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E88310E089;
+	Wed, 10 Sep 2025 10:46:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="RjKkPKXs";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xr012LlV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 491 seconds by postgrey-1.36 at gabe;
- Wed, 10 Sep 2025 10:49:43 UTC
-Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com
- [203.205.221.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C50BA10E154;
- Wed, 10 Sep 2025 10:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1757501381; bh=fQ1h9HUB+Ut100trhCu7Onnw0GmRl4didOmZZGu6GXI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=RjKkPKXsj9wTB7IEGB2ysqOPz1KovyM4vJytfhVuP1EuL1PMFx3IAhqfS+lj/DEeU
- 9UzGupqupbQ0zXzZGcm5L0cg+RTcjv9ODymUZtTE7sjNSjZ+SI/iqgyOA9gaO26U/T
- 3SFFdfSEkGZnyIWkQ9VN2VBY/J5saP/gbjR6Na9g=
-Received: from [172.25.28.125] ([111.202.154.66])
- by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
- id A55094A5; Wed, 10 Sep 2025 18:41:21 +0800
-X-QQ-mid: xmsmtpt1757500881t5jokrpel
-Message-ID: <tencent_EA6C39EF0B78D46EA32051C7151E859A2F08@qq.com>
-X-QQ-XMAILINFO: NFXAixuB2ToDbtFP8YQzIH2XsHdkxbBQsV3I0Iw3qhvdE3KZ1NsD/+ZCdrAWLT
- 4cT9XZuzB62VMBOssX7XJIoO2eYPJQOQGqb8VRC8R5lbARaiKHTai5YmTf6ZBqqB9l53VZE183Gw
- wHYv/TeL+SHElG6pkOjZ5VG165R+LugIlagS9KFG6XAfFJA1/ZzfwZed/MyLq7Mq7J2L0AZLHf0R
- 52q4CqR/kSbvW1VeqLpUGBiihVGy9TPBvNagUTj1N5szanIUVFfJyP5Ww9PTVr7rzZfWuQk18eY3
- OnR0LAVztxCCuuUv3eA7muSTApr48rPGVN2ZCY2+5Gsi2BYCgBI6li3c3+DjK5+9Z/gdR84rUQq+
- xHzv5MJvLlKms7ztzO7Pgx3w+LDSl8qaITILPOpJTngK4DyVzRMDx6WYHtJocv4TGHBfR2qW7JU3
- q+BEbmvad9CZ2lNqxqf8iriP/30Ae4HDCcVmvLwi45P/T9g21Xan44RY1JjRyAcxjEQ/kU2KK7p0
- G68dAIMGuQcSR60Gr5UMJKvaaVdW8GStyf3TkyQtMyyjKR3K1aTqmESrSmjZKcUXmLpKzyjhdum0
- OeMzTlLt0RfA2B+nQvJWjhCRpffJzQd4YRyW24thHEPRaPoCrRtDe5oc0f6eyZXQ57XanuZAmdmD
- 5S7kbg87XzSuTJsCKEVckBQn8AoHyWx97JzOU2GegO/UwFdylBa7s1r1KnB73Q+/KyMW6q8v89Bq
- s3ir6oD/gO82jnpyobo39Quw0oVoqSMP673YHizJDUJ/VMdS94Jtpvlt35AGPQSaN+mHH51Gub5Y
- 9ACYrMYuVNIk/z3YFC7MhWGxXa9TAXWEZMTJFfzcXlkt0V6jT4Kx6+UDk9vMaDnYHZQ7M+Z9JueB
- +ghviQVRP83QEJBG0HICS33HQ6jKmZQ4CQNU8fYn0SIpv4tJzgC/s9AqsXdBOaE6fJ/OfrdHqqbW
- 3Gq/I3t4SC6th9jf68uXxsxTtORf2m3N4dFW4W3DkOIZMYqTg+n20tCJt5jgptltcAypqLee2Eg2
- i2dru0HGjBOx4Vl27x0nI00pP/cUFoDt1HJ920zAqoa8zKKpeIqVWlSBUwb1k=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-OQ-MSGID: <a950c00c-cc37-4a50-8521-6c37d06e4e3f@qq.com>
-Date: Wed, 10 Sep 2025 18:41:21 +0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2028B10E281
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 10:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1757501170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ish3TOdF5itkEce/x1a+uOeE11uGbtv2vXkIso/jAMo=;
+ b=Xr012LlVME+G5KE53VkVKcXsTgQr7rHHsplHBscAVTHICNCy0lKfEu0DfpSAbIHhkRFyPd
+ TC2RW59ixnnXpAahfQOPEFfEyUFq792/LkiOY6hD14X5ovve2ons0pgQDqTz8pV3YBjI6e
+ VwH0UgRG9v/g2qWFeFDhWAgnynxC7/M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-137-e6_0C7ufNK-gXG1CuQmtrA-1; Wed, 10 Sep 2025 06:46:09 -0400
+X-MC-Unique: e6_0C7ufNK-gXG1CuQmtrA-1
+X-Mimecast-MFC-AGG-ID: e6_0C7ufNK-gXG1CuQmtrA_1757501168
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-45df7ca220eso1467215e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 03:46:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757501168; x=1758105968;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ish3TOdF5itkEce/x1a+uOeE11uGbtv2vXkIso/jAMo=;
+ b=h7gM/mgB+nS4b5Lkec8WUl73GOdf6iRkbAaA57H2C7tfK9eAUO7Ck2ppJEiuHAKBH1
+ tkvOi21T7L7dUPz+PRCKOWVCyLwdCtm8LLT3saX1ocx+UgcH2/TX025MycIEKMN2j8e4
+ 8C/sYzo2LMByeWiUI+UDDBr6BT8UPrhLhDD+CIRiR+Do2GrumJkCPuMMU6xv1sSqB3ph
+ SbI46jazoU6aisLUhs29bUjZ1aPoiiZyLar0NXHbY98hmhu4zP0DbUiN0PK1sp16F1Db
+ W3zFJxpKj9m0RkdskaGfa02K686c3De0W8ymc9Dnqv+skaa30CShaRXGBbLEDRYpJciQ
+ SSnw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV6iiET5CnV+5+Q/1oOq2jySIMWzc6NCVGcG8vfmtZonlxWW7Sp6ycHnt+J4KKf+sfhzn3xpAHdNWU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNyqUFz+5VO+6ajfhO+OZHoJxASyyjdbX/0WhlwiVITYx+R5u5
+ 0csvK6bjjoF9X5sNC/Gix5VRSjrvFpQLBdOQ/PZdRsq2cStkeZKSFrrU9UCm+DymCM9xlim7UXO
+ TeAKJuMqlNxzA8qhrPYu5LP5sTx4pf3EYniZIKBUvzQoXc4JvSUlKn64dZOYv7FbBnwho9Q==
+X-Gm-Gg: ASbGncsZ6nNHV/a3ilO+hA5mwD4IlVRixXtrj9jYqElQU10srK1mpUgJkeRuEaYUaUo
+ aL4L2dQZSgo4eoxKya1CtmRsF5t4ouUGv1M2+2FMnLSZzajb00TIuk9RNBetBePS5PL3Salhspv
+ Pv0fD0OLSo9u+T1DzQDv7nyfTZPztA3prx2BHZhj589llucxixFnFnMWSKk9Sig0Q6hvR/Fgt/m
+ Ku1jD/cQyRoGc7b5jR9dou+aP7OGhK1Di3mYS04fytnNeepwCJ19SgOnUwz+fBTok8bAs/AeWP8
+ aT9CgQ4h6aXUkWAzn8zV/b/j1NN/09PHc6xer11uirzNuEb6/xz9/1Si7ICW35PWmc8W2cxBFWp
+ y372w9Qa6xDgTMg8gpmjyzQ==
+X-Received: by 2002:a05:600c:45cc:b0:459:dde3:1a55 with SMTP id
+ 5b1f17b1804b1-45dddec78d3mr134563125e9.24.1757501168141; 
+ Wed, 10 Sep 2025 03:46:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE41It7Gch3Cc7HmzlNTf33KcOKcEcqR+1x/JRLAyd/4r51Mnyjg/51A7Gwi/T9TvTKWE/bSA==
+X-Received: by 2002:a05:600c:45cc:b0:459:dde3:1a55 with SMTP id
+ 5b1f17b1804b1-45dddec78d3mr134562745e9.24.1757501167668; 
+ Wed, 10 Sep 2025 03:46:07 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45df81d193esm23564835e9.6.2025.09.10.03.46.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Sep 2025 03:46:05 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Brett A C Sheffield <bacs@librecast.net>, stable@vger.kernel.org
+Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, Simona
+ Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>, Murad Masimov
+ <m.masimov@mt-integration.ru>, Yongzhen Zhang <zhangyongzhen@kylinos.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sasha Levin
+ <sashal@kernel.org>, Brett A C Sheffield <bacs@librecast.net>
+Subject: Re: [PATCH 1/1] Revert "fbdev: Disable sysfb device registration
+ when removing conflicting FBs"
+In-Reply-To: <20250910095124.6213-5-bacs@librecast.net>
+References: <20250910095124.6213-3-bacs@librecast.net>
+ <20250910095124.6213-5-bacs@librecast.net>
+Date: Wed, 10 Sep 2025 12:46:04 +0200
+Message-ID: <87frcuegb7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/i915: set O_LARGEFILE in __create_shmem()
-To: "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "andi.shyti@linux.intel.com" <andi.shyti@linux.intel.com>
-Cc: "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- kernel test robot <oliver.sang@intel.com>,
- chentaotao <chentaotao@didiglobal.com>
-References: <20250822030651.28099-1-chentaotao@didiglobal.com>
-From: Taotao Chen <chentao325@qq.com>
-In-Reply-To: <20250822030651.28099-1-chentaotao@didiglobal.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ROTQ_Hz9cvHmW5Lmz1Pv-CtPqoSGweHPv8VT7oMxLVQ_1757501168
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,55 +104,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Brett A C Sheffield <bacs@librecast.net> writes:
 
-在 2025/8/22 11:06, 陈涛涛 Taotao Chen 写道:
-> From: Taotao Chen <chentaotao@didiglobal.com>
+Hello Brett,
+
+> This reverts commit 13d28e0c79cbf69fc6f145767af66905586c1249.
 >
-> Without O_LARGEFILE, file->f_op->write_iter calls
-> generic_write_check_limits(), which enforces a 2GB (MAX_NON_LFS) limit,
-> causing -EFBIG on large writes.
+> Commit ee7a69aa38d8 ("fbdev: Disable sysfb device registration when
+> removing conflicting FBs") was backported to 5.15.y LTS. This causes a
+> regression where all virtual consoles stop responding during boot at:
 >
-> In shmem_pwrite(), this error is later masked as -EIO due to the error
-> handling order, leading to igt failures like gen9_exec_parse(bb-large).
+> "Populating /dev with existing devices through uevents ..."
 >
-> Set O_LARGEFILE in __create_shmem() to prevent -EFBIG on large writes.
+> Reverting the commit fixes the regression.
 >
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202508081029.343192ec-lkp@intel.com
-> Fixes: 048832a3f400 ("drm/i915: Refactor shmem_pwrite() to use kiocb and write_iter")
-> Signed-off-by: Taotao Chen <chentaotao@didiglobal.com>
+> Signed-off-by: Brett A C Sheffield <bacs@librecast.net>
 > ---
-> v2:
->   - Add force_o_largefile() guard before setting O_LARGEFILE
->
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index e3d188455f67..b9dae15c1d16 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -514,6 +514,13 @@ static int __create_shmem(struct drm_i915_private *i915,
->   	if (IS_ERR(filp))
->   		return PTR_ERR(filp);
->   
-> +	/*
-> +	 * Prevent -EFBIG by allowing large writes beyond MAX_NON_LFS on shmem
-> +	 * objects by setting O_LARGEFILE.
-> +	 */
-> +	if (force_o_largefile())
-> +		filp->f_flags |= O_LARGEFILE;
-> +
->   	obj->filp = filp;
->   	return 0;
->   }
 
-Hi,
+In the other email you said:
 
-Just a gentle ping on this patch. Any further comments or plans to pick 
-it up?
+> Newer stable kernels with this
+> patch (6.1.y, 6.6.y, 6.12,y, 6.15.y, 6.16.y) and mainline are unaffected.
 
-Thanks,
-Taotao
+But are you proposing to revert the mentioned commit in mainline too
+or just in the 5.15.y LTS tree ?
 
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
