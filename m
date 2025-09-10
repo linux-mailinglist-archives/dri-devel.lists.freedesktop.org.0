@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBB5B5165C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D7BB51666
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 14:02:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B630510E904;
-	Wed, 10 Sep 2025 12:01:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFE5D10E901;
+	Wed, 10 Sep 2025 12:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vinarskis.com header.i=@vinarskis.com header.b="nxKIfJms";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="cjxDodLG";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="FY5yc2dw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch
- [185.70.43.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC5E10E903
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
- s=protonmail; t=1757505693; x=1757764893;
- bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
- h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=nxKIfJms1/EPDF2HS5xwwb92MGQcXOgW2xAGSYKO/aN/nXCtVgdV3Enh+sRkKQUCW
- GJKVFanLebo5nyF8tsDPxP1ZcVI7WkSVHgCdJ24MF70Jgfj415Q68R6DMCv6/DXkRV
- 621U8c31AWGcuCDgahqmXkLmctcUaynRXqFKJTrXtEvOwpMGKzjesvdHy0EgwhIHOR
- 7+oNt9iwzgFR3DuHD57ZitUZokapfRDD8/hnyw4C98CSHb/7o/Vb792ZawfF9K5t6c
- iFulP+8RheD46veqhco7YwO7VdCyJ4v/ArX+4evMd1H55kzMxZsiOtJfcRbIBs82Q9
- uaY5OE7SPUUIw==
-X-Pm-Submission-Id: 4cMK6L5h8sz2ScCs
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 14:01:11 +0200
-Subject: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+Received: from fhigh-a6-smtp.messagingengine.com
+ (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7174410E901
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 12:02:09 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id A1E0D14002EE;
+ Wed, 10 Sep 2025 08:02:08 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+ by phl-compute-05.internal (MEProxy); Wed, 10 Sep 2025 08:02:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1757505728;
+ x=1757592128; bh=dySMKmO8AjsZt3ofKwa8fuJUDSsofEKqrMaXNH5QXDA=; b=
+ cjxDodLGdRyTfcubm8+cX9kymwwNMi40GYCZkDD1hDcsV1OmycxscHmPTvIGZps3
+ dwe2KHvZ35gtJWhUg8E93GYKznpIgQfq66mxEpHxCxfKLBD7q4KN6mFlXemEAbcj
+ Bt6dUqEAiPFUqB4hDJoSpv+QIMf2i3AxqoxCD/gCnW+e2q9vIWOhpqibelUjP0SL
+ /fC3BNMUkB5eQpShV1KMh71dp+9Ue5I/qyu3kxmm/VeKaDBby+dBIapsmo3QD54C
+ BY6pDNm3Y9HKgB1qjZSnCayC02mYFKrADWh6xBzByE1MV0YMYGB+SB5sTbmlZ6sA
+ VeNHvR5Ok2V58qB9gHUl3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757505728; x=
+ 1757592128; bh=dySMKmO8AjsZt3ofKwa8fuJUDSsofEKqrMaXNH5QXDA=; b=F
+ Y5yc2dwJdpSeLCDc5eXw0uhHyRxbLRldbR3ffRkMHZykoQX4laOE5UzM4zRI+5bb
+ jw6t9YlQThdPNVJPPEbopvxFRw3gBVuNnhanVs7Qcmvdv7LXy06pA3HGaO4Z7l6n
+ 4b3NEIULK7FAv/GT0ZqA3w21H53ORvsmtjFnaLAXkzhplKsxknWbubrSam9Eak8G
+ In78gk7yFTKJ3ZuMqXmZAVo7CQZM4/GUKzzu//OlvJGjxY116FhbLU5AaKDjvQ8V
+ /x2wrTZnDMb5TpJUsyUTGzJlQ09Alo6PJiefQfqY6Um2+eeQgDd59fe54b9oEfpC
+ PK/WdckG/cspUSaWwh3uA==
+X-ME-Sender: <xms:v2jBaA7wjHS8UBtdW7O8xzo-C2XgnREy4hP1iou0ST9WYEJXGMDchQ>
+ <xme:v2jBaB7mjPiv5q_9VIjd6HLzCKq8tFpQlrWIFtE3OPlTS_34rBP5hD43PQQYdbyCF
+ EMSPiYTHuJQxIbPB9c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvfedvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+ uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+ hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+ esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdp
+ rhgtphhtthhopehsohgtihestgeigedrrhhulhgviidrohhrghdprhgtphhtthhopehsih
+ hmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepuggvlhhlvghrsehgmhigrdguvgdp
+ rhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprd
+ horhhgpdhrtghpthhtohepuggrnhhivghlrdhprghlmhgvrhesshhonhihrdgtohhmpdhr
+ tghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvg
+X-ME-Proxy: <xmx:v2jBaLj3f8EyLQL81vF1aNUq25lGEpyu8bJWepPHw5FkXvrA8LanVw>
+ <xmx:v2jBaPY_tFfrWA1MDRa7EFRF-AlYrc8UQoe8v44_LF9nz1JVNjdSjg>
+ <xmx:v2jBaApEzJJUp2pabY83EVIR1vAbZoHHZUqcEY4bOkrjPEk2FIRGPA>
+ <xmx:v2jBaEPQlVbpT_vMhmtUWJ-DYf3723fEcF3druBqEJBiycoihwPGQA>
+ <xmx:wGjBaBSJi5wrIxjxxDttlNIOPGUEpLGK3t1wxC9hbZwZj668nSuk1q6Y>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id 5BB5370006A; Wed, 10 Sep 2025 08:02:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: A2uCCbRi8x6B
+Date: Wed, 10 Sep 2025 14:01:15 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>, 
+ "Simona Vetter" <simona@ffwll.ch>, soci@c64.rulez.org
+Cc: daniel.palmer@sony.com, dri-devel@lists.freedesktop.org
+Message-Id: <082bd0f1-ca71-49e8-8136-09f7523d3dfd@app.fastmail.com>
+In-Reply-To: <bb2aaa0c-7c39-48f3-acff-629957b730c7@suse.de>
+References: <20250909132047.152612-1-tzimmermann@suse.de>
+ <20250909132047.152612-2-tzimmermann@suse.de>
+ <fef5d665-e7c4-4801-93ee-176be10b1000@app.fastmail.com>
+ <bb2aaa0c-7c39-48f3-acff-629957b730c7@suse.de>
+Subject: Re: [PATCH 1/2] fbdev: Make drivers depend on FB_TILEBLITTING
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Aleksandrs Vinarskis <alex@vinarskis.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHMyZI+928Yv/w+vEmlnVHGMUzT96w4z3xpjjAf0fiw
- iVm4VeVOkpZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEonYzMry5dl/8gPvelMuL
- ZLWYY9kOrpq5e/+lqzohM8uP/ZuRVOjKyHCOm938QuKrFRNtdtgKT1mwYN7krlWSkpJ53VV+hR9
- ipHgB
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,49 +102,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
+On Wed, Sep 10, 2025, at 11:28, Thomas Zimmermann wrote:
+> Am 09.09.25 um 19:29 schrieb Arnd Bergmann:
+>> On Tue, Sep 9, 2025, at 15:19, Thomas Zimmermann wrote:
+>>
+>> Is there any reason I missed why enabling FB_TILEBLITTING is
+>> useful if you don't use one of the four drivers that require it?
+>
+> It's more that some users might want to disable it explicitly. The 
+> option adds additional code to fbcon. And most affected drivers could 
+> easily be changed to work without it AFAICT.
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Right, I see your point. I assumed this was purely library code
+getting called by the four drivers, but there is also the fbcon
+code it interacts with.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,14 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
- 			panic-indicator;
- 		};
- 	};
-@@ -685,6 +682,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		leds = <&privacy_led>;
-+		led-names = "privacy";
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
-
--- 
-2.48.1
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
