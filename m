@@ -2,87 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4F1B5229D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 22:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70470B522C9
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 22:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C39910E9F0;
-	Wed, 10 Sep 2025 20:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E99910E099;
+	Wed, 10 Sep 2025 20:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="APg+ZZkO";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="D9WUTdc2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3A410E9DD
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:44:59 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-45dd9d72f61so26705e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:44:59 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337AA10E099
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:48:41 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-7725147ec88so34855b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:48:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1757537098; x=1758141898;
+ d=chromium.org; s=google; t=1757537320; x=1758142120;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zdj+uOiXuiIXzM1Vn3fcDOOxGOrxrCVtY7jUVpK65ZI=;
- b=APg+ZZkOFOnKjyWHRi/N+YVfuI8ZXJ7wS2xPbZonyB41ildzF18ZKqh/rale32gfV7
- ErJfy6yLBWDH4nCwbR/Hyfe+I1B3I//M7QCfxmUObPMP6hIGxpjAoqazakvcTWOniP9J
- kUPn1iyppA4SNPqa3zJv6xCnn8EuH6SmfYnryYnTO2ZChPAea8GLvuXOs4kZFPRL2Hj7
- lH0tLk45IGcdJh5/iVuC6D59jX3z4zsk24liqsHKS7NWkGEIoXUxaz3nMhuyulEP6tL/
- WCDHqnl3sQbLVFr90qxtx3E8BpptsMoOIpoxy7i5Y2kZUIhep6M8M+SXvNaBsw5FRHe8
- TwWg==
+ bh=xT8JQ5MwN/AoQ1SPOJ05aLQv7X9XnNCuIU1qg5EIKK4=;
+ b=D9WUTdc23W+mu7dj1eN3eAUrFUbeiJnuWJ8yILAFJiwMpeqXnAM5X2WpCPnla81kH+
+ HINUocgANoZXFA0f3indBFP5k2CkpLykvRvVt/owyEEO6hpfwL6MCzoDZAfRGSJxL6BP
+ Tgyh2LkcSG8BYMBjtHHQc8FQ9mspL+9M/8vdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757537098; x=1758141898;
+ d=1e100.net; s=20230601; t=1757537320; x=1758142120;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zdj+uOiXuiIXzM1Vn3fcDOOxGOrxrCVtY7jUVpK65ZI=;
- b=JTdSbjWUxeXB3bljb7jsfqREgR0neejorxUNYuzSNmpaUNH+huoSsU3x1Ek1ah36l2
- 7pnuj0zVNKkB3e51/PnrPNQipWkGQ2bTgno9qoLr0zkwhjrKnLWVnJL+5nzRBKEe5gzo
- WfpdDAK4LSLtuuA8yIMVBYlaKdu2Zr4fixJLedUY6oqyzuPP0umob/Bh8uLhoUuskAQ0
- q9Ej4Xn3YmkP8UWfBMT7zFYsDlTS8f2wQuITF/vkorK7ehzJAJhRM4SSpcKhb2duEmyT
- zUPFSZZmLZqGFykp1zs7OMXShMLHiGijCh0dvid8x/bywDpTfFPyBSd9AE6iFCYx3N3n
- iasA==
+ bh=xT8JQ5MwN/AoQ1SPOJ05aLQv7X9XnNCuIU1qg5EIKK4=;
+ b=OOhUwIgq51Q6yL8rRPDK3HyZ30LLjRr4tVqjcpIr/31Agr9Q11LTbMzd6Sasjsd5nC
+ rCKxAYHpu1cp0SzFLDK0AJYrkWRksxrp/9+2NcCN29jF0luXyn9uTx/OjUZ69eJqlXBq
+ E306qqqGw6k9MQL27Z8wdjHkftRUfjGU+CkazxwfwgbcqJZjYRKmpiKc2bqSW1WVZc1f
+ YObKqYDfOVjmIv37PFFsdg3Vgp0HUfyk5qnEd9oyeElG++7qOhLgzOsQeGU/e/NzS/rm
+ SVNXEfc5o+Wk+7PEOkrNrHVHgrRsu8JMunOBvVdPdU21607efKI7hhwKEXn+5y1Zvmzc
+ 229A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsjDf05pfb2VlApxyyTU6Q9TNQ1SnCTWDpb/7gnIR+FhpoJJyU1RkTGrmIJ46+8lOmQZ7zCXA3oV0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwR83V7VGARMwI/oUQCZylDEZFyMSFWLaJx8NGLkNDU7cxHwDsC
- PMpQQBpEMG08kSy2wEAOe6atjbTUM7mNAQljfxxqVL/cLg1Rv/THko6Uk5XwZp+uUinRpTrjviS
- AAJ25bZKhBRegU9wVWyrq/ymzorwe6K/y9jRMHorY
-X-Gm-Gg: ASbGnctBjLa5ASiS/hSAn3FfuYP3zvDtnaZdDM/y00Wtvv+QwS/ql8Q2lyk+1wa7CSD
- WauDHebA9xz3FIzWD2eXyE+aeoEHoVpvtAEP8l5ySfKb/2ySdEnkLyJicFuufGMk/gb/LxVDdix
- YJ8app/NdD3bM6s4n6ErPdQgJn/l0h1kdJol8bclUdjtjZHzdMcYfB2Zn5bwKW/gHV2TE6feNaJ
- WHkTXxrK+cjb6sc3W4/eC6n5EH10hLKRALUm4RVrt1ElayIL/wWgns=
-X-Google-Smtp-Source: AGHT+IF/Fz2Y5nk02badGqITxY1/tzo4lRqGZ2Zao4nfkcXFZyjJgtYYuI6B/Fj3L639UAHyqOxbIJ21cF9JPLUpaI8=
-X-Received: by 2002:a05:600c:1502:b0:45b:7d8f:4bd4 with SMTP id
- 5b1f17b1804b1-45df74f81cemr1873365e9.4.1757537098041; Wed, 10 Sep 2025
- 13:44:58 -0700 (PDT)
+ AJvYcCWaMhjn1IKWVjwJqopGZi3oJLyt9pB2zaFiPn/MobkwSBarhmKocEMXnebFODGZgiOd4SOSEX3w3fk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzGRZ40ELD4z/vegZQxOXp6UL4SgwyGY5wN6L78G2cDH5uNduS
+ zzHXt1n7Jo5oVveR+Klvli7M8aM6+PduQYrVHtl7RMgmyXAAGoNFfHqLqlxvW3+KrHs/4lzBvTM
+ K2tw=
+X-Gm-Gg: ASbGnctQNsgg2ZO0tNFZNTKJVfqLCg8pYaWchYPIlrcgYj8PzsK3RpjBLW+Izn4x5hZ
+ 74oi3RhwjwryzgK979uspe7yCIpSCMmO21ijXlI5QMhhu9ZF5ZuLf3huOa3WNOfwScwPALoo80d
+ 7+wqIdpT842E9nZG6LUgT8f0tFfeCR0NLsDSk9maUIJgkpyQ6ilAQ3xgDojAIoRcucpA0Dd2a3u
+ YzT71/LL1MUbR7zm50i5nAEJfTci/a6RFNcT/e/xvtk/eg2PC8UqgbkqEqZEnbPOc6oO6uF88y0
+ RRDDpVKHhhGg20hXT9+2jNgUtd555eeNOg2yRSfLQbf9PHpugrmqqnZ4tiwfYzHg6FDHI6BQXiE
+ ZvcBHpHdDd7YRyxqnbxeeVN14uQmL/j/Is0DA4ASe0R7QO/pG7xT7fJgO6nueYbkAtKFP5GwEqk
+ +c
+X-Google-Smtp-Source: AGHT+IF1oXBcXlCRXAbEyMbePlfum67K30BnNfiDC/ofe0HrysEVkYwrm4pvdnuWnX47hOtRmrk9Ow==
+X-Received: by 2002:a05:6a21:339b:b0:246:5be:ca90 with SMTP id
+ adf61e73a8af0-25cf651ddfbmr999983637.10.1757537319855; 
+ Wed, 10 Sep 2025 13:48:39 -0700 (PDT)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com.
+ [209.85.210.173]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-25a27422ffdsm36723235ad.17.2025.09.10.13.48.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Sep 2025 13:48:39 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id
+ d2e1a72fcca58-7728a8862ccso1149448b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 13:48:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1bWFopYKIQkIutNdc6IMh25dCD1lInLTFUrwIc0kz6rTvA1My8rdkvpj8nzVDBapoGkmTFZbrqdQ=@lists.freedesktop.org
+X-Received: by 2002:a05:6a21:99a9:b0:246:1e3:1f7e with SMTP id
+ adf61e73a8af0-25cf5f1d580mr1027298637.5.1757537318041; Wed, 10 Sep 2025
+ 13:48:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
- <20250910-vigorous-attractive-gorilla-af6fec@houat>
-In-Reply-To: <20250910-vigorous-attractive-gorilla-af6fec@houat>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 10 Sep 2025 13:44:45 -0700
-X-Gm-Features: AS18NWDgBu3edPeSCZERO8HncQFGrRuZvzuC8yXw-tqKPcuIWCidg2bFxSYLb0U
-Message-ID: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>,
- Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- iommu@lists.linux.dev, linux-doc@vger.kernel.org
+References: <20250908203627.3750794-1-john.ripple@keysight.com>
+ <20250910183353.2045339-1-john.ripple@keysight.com>
+In-Reply-To: <20250910183353.2045339-1-john.ripple@keysight.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 10 Sep 2025 13:48:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Um5NKHFZJJkC6eC0rnea0xSPeWVpK91PwGcrRjri28NA@mail.gmail.com>
+X-Gm-Features: Ac12FXwYIEESDkT-zb7rIJeqLVKJJ9SFgSrURKxbWC5dUsSzlebV9madmjHaYek
+Message-ID: <CAD=FV=Um5NKHFZJJkC6eC0rnea0xSPeWVpK91PwGcrRjri28NA@mail.gmail.com>
+Subject: Re: [PATCH V3] drm/bridge: ti-sn65dsi86: Add support for DisplayPort
+ mode with HPD
+To: John Ripple <john.ripple@keysight.com>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+ andrzej.hajda@intel.com, blake.vermeer@keysight.com, 
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ matt_laubhan@keysight.com, mripard@kernel.org, neil.armstrong@linaro.org, 
+ rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,91 +106,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
+Hi,
+
+On Wed, Sep 10, 2025 at 11:34=E2=80=AFAM John Ripple <john.ripple@keysight.=
+com> wrote:
 >
-> On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> > Hi,
-> >
-> > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > > Here's another attempt at supporting user-space allocations from a
-> > > specific carved-out reserved memory region.
-> > >
-> > > The initial problem we were discussing was that I'm currently working=
- on
-> > > a platform which has a memory layout with ECC enabled. However, enabl=
-ing
-> > > the ECC has a number of drawbacks on that platform: lower performance=
-,
-> > > increased memory usage, etc. So for things like framebuffers, the
-> > > trade-off isn't great and thus there's a memory region with ECC disab=
-led
-> > > to allocate from for such use cases.
-> > >
-> > > After a suggestion from John, I chose to first start using heap
-> > > allocations flags to allow for userspace to ask for a particular ECC
-> > > setup. This is then backed by a new heap type that runs from reserved
-> > > memory chunks flagged as such, and the existing DT properties to spec=
-ify
-> > > the ECC properties.
-> > >
-> > > After further discussion, it was considered that flags were not the
-> > > right solution, and relying on the names of the heaps would be enough=
- to
-> > > let userspace know the kind of buffer it deals with.
-> > >
-> > > Thus, even though the uAPI part of it had been dropped in this second
-> > > version, we still needed a driver to create heaps out of carved-out m=
-emory
-> > > regions. In addition to the original usecase, a similar driver can be
-> > > found in BSPs from most vendors, so I believe it would be a useful
-> > > addition to the kernel.
-> > >
-> > > Some extra discussion with Rob Herring [1] came to the conclusion tha=
-t
-> > > some specific compatible for this is not great either, and as such an
-> > > new driver probably isn't called for either.
-> > >
-> > > Some other discussions we had with John [2] also dropped some hints t=
-hat
-> > > multiple CMA heaps might be a good idea, and some vendors seem to do
-> > > that too.
-> > >
-> > > So here's another attempt that doesn't affect the device tree at all =
-and
-> > > will just create a heap for every CMA reserved memory region.
-> > >
-> > > It also falls nicely into the current plan we have to support cgroups=
- in
-> > > DRM/KMS and v4l2, which is an additional benefit.
-> > >
-> > > Let me know what you think,
-> > > Maxime
-> >
-> > Any chance we can get this merged?
+> @@ -221,6 +236,23 @@ static const struct regmap_config ti_sn65dsi86_regma=
+p_config =3D {
+>         .max_register =3D 0xFF,
+>  };
 >
-> Guys, can we move forward on this?
+> +static int ti_sn65dsi86_read_u8(struct ti_sn65dsi86 *pdata, unsigned int=
+ reg,
+> +                            u8 *val)
+
+nit: indentation is slightly off. checkpatch --strict yells:
+
+CHECK: Alignment should match open parenthesis
+#79: FILE: drivers/gpu/drm/bridge/ti-sn65dsi86.c:240:
++static int ti_sn65dsi86_read_u8(struct ti_sn65dsi86 *pdata, unsigned int r=
+eg,
++                            u8 *val)
+
+
+> @@ -413,6 +446,13 @@ static int __maybe_unused ti_sn65dsi86_resume(struct=
+ device *dev)
+>         if (pdata->refclk)
+>                 ti_sn65dsi86_enable_comms(pdata, NULL);
 >
-> Maxime
+> +       if (client->irq) {
+> +               ret =3D regmap_update_bits(pdata->regmap, SN_IRQ_EN_REG, =
+IRQ_EN,
+> +                       IRQ_EN);
 
-Hi Maxime,
+nit: checkpatch --strict yells:
 
-Sorry I've been MIA the last couple of months.
+CHECK: Alignment should match open parenthesis
+#112: FILE: drivers/gpu/drm/bridge/ti-sn65dsi86.c:451:
++               ret =3D regmap_update_bits(pdata->regmap, SN_IRQ_EN_REG, IR=
+Q_EN,
++                       IRQ_EN);
 
-The docs for the "reusable" property say, "device driver(s) owning the
-region need to be able to reclaim it back", but how can a driver
-reclaim memory backing a dmabuf, since pages allocated for a dmabuf
-aren't necessarily movable. Couldn't a user allocate all of it, and
-refuse to close those dmabufs?
 
-I backported this to 6.6 and ran it on a Pixel. While there are
-already similar out-of-tree dmabuf heap drivers that expose heaps for
-these reserved regions, they do more than just cma_alloc (multiple
-flavors of buffer securing, use case specific alignment and padding,
-and slightly different allocation strategies) so I don't think this
-series would allow us to completely drop the custom heap code, but
-it's a nice start. Does the cgroup part come in because the plan is to
-add charging in cma_heap.c?
+> @@ -1219,11 +1262,32 @@ static void ti_sn_bridge_hpd_enable(struct drm_br=
+idge *bridge)
+>          */
+>
+>         pm_runtime_get_sync(pdata->dev);
+> +
+> +       mutex_lock(&pdata->hpd_mutex);
+> +       if (client->irq) {
+> +               /* Enable HPD events. */
+> +               val =3D HPD_REMOVAL_EN | HPD_INSERTION_EN;
+> +               ret =3D regmap_update_bits(pdata->regmap, SN_IRQ_EVENTS_E=
+N_REG, val, val);
 
-Thanks,
-T.J.
+nit: regmap_set_bits() ?
+
+...and then you don't need the "val" temporary variable.
+
+
+> +               if (ret)
+> +                       pr_err("Failed to enable HPD events: %d\n", ret);
+> +       }
+> +       pdata->hpd_enabled =3D true;
+> +       mutex_unlock(&pdata->hpd_mutex);
+
+So I _think_ you only need the mutex around the set of "hpd_enabled".
+Really the only things you're trying to do are:
+
+* Make sure that by the time ti_sn_bridge_hpd_disable() returns that
+no more HPD callback will be made
+
+* Make sure that after ti_sn_bridge_hpd_enable() is called that the
+next interrupt will notice the update.
+
+So I'd make the enable case look something like this:
+
+  mutex_lock(&pdata->hpd_mutex);
+  pdata->hpd_enabled =3D true;
+  mutex_unlock(&pdata->hpd_mutex);
+
+  if (client->irq) {
+    /* Enable HPD events. */
+    val =3D HPD_REMOVAL_EN | HPD_INSERTION_EN;
+    ret =3D regmap_update_bits(pdata->regmap, SN_IRQ_EVENTS_EN_REG, val, va=
+l);
+    if (ret)
+      pr_err("Failed to enable HPD events: %d\n", ret);
+  }
+
+...and the disable case:
+
+  if (client->irq) {
+    /* Disable HPD events. */
+    regmap_write(pdata->regmap, SN_IRQ_EVENTS_EN_REG, 0);
+    regmap_update_bits(pdata->regmap, SN_IRQ_EN_REG, IRQ_EN, 0);
+  }
+
+  mutex_lock(&pdata->hpd_mutex);
+  pdata->hpd_enabled =3D false;
+  mutex_unlock(&pdata->hpd_mutex);
+
+
+Does that seem reasonable?
+
+
+> @@ -1309,6 +1373,44 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_s=
+n65dsi86 *pdata)
+>         return 0;
+>  }
+>
+> +static irqreturn_t ti_sn_bridge_interrupt(int irq, void *private)
+> +{
+> +       struct ti_sn65dsi86 *pdata =3D private;
+> +       struct drm_device *dev =3D pdata->bridge.dev;
+> +       u8 status;
+> +       int ret;
+> +       bool hpd_event =3D false;
+> +
+> +       mutex_lock(&pdata->hpd_mutex);
+> +       if (!pdata->hpd_enabled) {
+> +               mutex_unlock(&pdata->hpd_mutex);
+> +               return IRQ_HANDLED;
+> +       }
+
+I also think you _always_ want to Ack all status interrupts so there's
+no way you could end up with an interrupt storm, so you shouldn't do
+this early return.
+
+
+> +       ret =3D ti_sn65dsi86_read_u8(pdata, SN_IRQ_STATUS_REG, &status);
+> +       if (ret)
+> +               pr_err("Failed to read IRQ status: %d\n", ret);
+> +       else
+> +               hpd_event =3D status & (HPD_REMOVAL_STATUS | HPD_INSERTIO=
+N_STATUS);
+> +
+> +       if (status) {
+> +               drm_dbg(dev, "(SN_IRQ_STATUS_REG =3D %#x)\n", status);
+> +               ret =3D regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, st=
+atus);
+> +               if (ret)
+> +                       pr_err("Failed to clear IRQ status: %d\n", ret);
+> +       } else {
+> +               mutex_unlock(&pdata->hpd_mutex);
+> +               return IRQ_NONE;
+> +       }
+> +
+> +       /* Only send the HPD event if we are bound with a device. */
+> +       if (dev && hpd_event)
+> +               drm_kms_helper_hotplug_event(dev);
+> +       mutex_unlock(&pdata->hpd_mutex);
+
+I think you only want the mutex to protect your checking of hpd_mutex
+and sending the "drm_kms_helper_hotplug_event()". I don't think you
+need it for the whole IRQ routine. AKA:
+
+mutex_lock(&pdata->hpd_mutex);
+if (hpd_event && pdata->hpd_enabled)
+  drm_kms_helper_hotplug_event(dev);
+mutex_unlock(&pdata->hpd_mutex);
+
+...and you don't need to check for "dev" being NULL because there's no
+way "hpd_enabled" could be true with "dev" being NULL. At least this
+is my assumption that the core DRM framework won't detach a bridge
+while HPD is enabled. If nothing else, I guess you could call
+ti_sn_bridge_hpd_disable() from ti_sn_bridge_detach()
+
+
+> @@ -1971,6 +2075,28 @@ static int ti_sn65dsi86_probe(struct i2c_client *c=
+lient)
+>         if (strncmp(id_buf, "68ISD   ", ARRAY_SIZE(id_buf)))
+>                 return dev_err_probe(dev, -EOPNOTSUPP, "unsupported devic=
+e id\n");
+>
+> +       if (client->irq) {
+> +               ret =3D devm_request_threaded_irq(pdata->dev, client->irq=
+, NULL,
+> +                                               ti_sn_bridge_interrupt,
+> +                                               IRQF_TRIGGER_RISING |
+> +                                               IRQF_TRIGGER_FALLING |
+> +                                               IRQF_ONESHOT,
+> +                                               "ti_sn65dsi86", pdata);
+> +
+> +               if (ret) {
+> +                       return dev_err_probe(dev, ret,
+> +                                            "failed to request interrupt=
+\n");
+> +               }
+> +
+> +               /*
+> +                * Cleaning status register at probe is needed because if=
+ the irq is
+> +                * already high, the rising/falling condition will never =
+occur
+> +                */
+> +               ret =3D regmap_write(pdata->regmap, SN_IRQ_STATUS_REG, 0x=
+FF);
+> +               if (ret)
+> +                       pr_warn("Failed to clear IRQ initial state: %d\n"=
+, ret);
+
+Actually, wait. Why do you want "rising" and "falling". Isn't this a
+level-triggered interrupt? Then you also don't need this bogus clear
+of interrupts here...
+
+...and also, I seem to recall it's usually better to not specify a
+type here and rely on the type in the device tree. I seem to remember
+there being some weird corner cases (maybe around remove / reprobe or
+maybe about deferred probes?) if an interrupt type is specified in
+both code and device tree and those types don't match...
+
+-Doug
