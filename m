@@ -2,56 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD38B511DB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 10:55:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0C6B511F2
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 11:00:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6EC10E36D;
-	Wed, 10 Sep 2025 08:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC5610E8A2;
+	Wed, 10 Sep 2025 08:59:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K5OqBHvV";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="T7zDR1dS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2F510E36D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757494530; x=1789030530;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=aqJOr9V7I6raiyEXCW1A38cVzfjSact4AOr8AQp+5xQ=;
- b=K5OqBHvV9QK3fMNUks1+pFVOYtv7FINHQ2kY1iRI6i6hQ0EzwQjsCay7
- DIbHHhh+g9KMerXjoEFac0W/lo1EMcBAp9TWjgn3p0wGPX5QTMjgkZqzv
- 4+WTWgK+VvhZwqbzpveKz0/5GUHQxYF31Nbn8qzSjaqq+aC+2wKgHfg7k
- dyYC2wPUwLF2jjddy0pksYnkivKNkpo9fd0CulVQbdB+BbTe4lzV83neD
- hNmQhPsUE7eQqMbKuX6ESWnVrVt8xxTmGgHflUZeLpF6JO+1j0/5V7CCy
- wX4zmakXwhtspeEkGYoW5a9D4HTxnElEzeLIY92AEhy3ITkjS6lf6s1UC w==;
-X-CSE-ConnectionGUID: tS76kLhCToSYhXWUPH7QYQ==
-X-CSE-MsgGUID: GBPIXej1SieZl6xKWbZ3iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59019748"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; d="scan'208";a="59019748"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2025 01:55:30 -0700
-X-CSE-ConnectionGUID: OANiJ8l5SWiz81Uyn6xKIg==
-X-CSE-MsgGUID: EBAH9BUJSFemuHCWMGx1SQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; d="scan'208";a="173242947"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2025 01:55:28 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
- maciej.falkowski@linux.intel.com, karol.wachowski@linux.intel.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH] MAINTAINERS: Remove Jacek Lawrynowicz as intel_vpu maintainer
-Date: Wed, 10 Sep 2025 10:55:25 +0200
-Message-ID: <20250910085526.230458-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B8A10E8A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:59:57 +0000 (UTC)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58A8xRrg481262;
+ Wed, 10 Sep 2025 03:59:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1757494767;
+ bh=SZEwj2uiM3w7JTw8M+i8LSuxV8lRv85UX6fHmzJwKDs=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=T7zDR1dSStBgc/bVeGhNjupJA1V1tveROzhEd8s/g8jwQkPuaFfuiboUAuacVwffM
+ zV5PRD5nf+UCVA8sdpQXYggqhfjWAgytjx1lspnnZB/78lBnj8SBOR6ZxPH/XmEURs
+ D/PqyUX+MFaGYeh75N+MGsvOHTTLD5S9klx/IPV0=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58A8xR07168290
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 10 Sep 2025 03:59:27 -0500
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
+ Sep 2025 03:59:27 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 10 Sep 2025 03:59:26 -0500
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58A8xIdY233349;
+ Wed, 10 Sep 2025 03:59:19 -0500
+Message-ID: <7ef2071a-0c57-4ca8-af67-ed254d5d2faf@ti.com>
+Date: Wed, 10 Sep 2025 14:29:18 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/6] drm/bridge: cadence: cdns-mhdp8546-core: Remove
+ legacy support for connector initialisation in bridge
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <lumag@kernel.org>, <dianders@chromium.org>,
+ <andy.yan@rock-chips.com>, <mordan@ispras.ru>, <linux@treblig.org>,
+ <viro@zeniv.linux.org.uk>, <aradhya.bhatia@linux.dev>,
+ <javierm@redhat.com>, <tomi.valkeinen@ideasonboard.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devarsht@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>,
+ <lyude@redhat.com>, <luca.ceresoli@bootlin.com>
+References: <20250909090824.1655537-1-h-shenoy@ti.com>
+ <20250909090824.1655537-2-h-shenoy@ti.com>
+ <gptscrssnl7lck6ga6bzu4grcjcbokbdznbg4skbpvrmuo57ex@4zjugogguuw4>
+Content-Language: en-US
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+In-Reply-To: <gptscrssnl7lck6ga6bzu4grcjcbokbdznbg4skbpvrmuo57ex@4zjugogguuw4>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,30 +82,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove myself from the intel_vpu driver maintainer list as I'm
-moving to another company. Time to let someone else deal with
-the NPU bugs while I pretend to know what I'm doing elsewhere!
 
-Thanks to everyone for the great collaboration (and for putting up
-with my creative interpretations of what "minor fixes" means).
+On 9/9/25 19:39, Dmitry Baryshkov wrote:
+> On Tue, Sep 09, 2025 at 02:38:19PM +0530, Harikrishna Shenoy wrote:
+>> From: Jayesh Choudhary <j-choudhary@ti.com>
+>>
+>> Now that we have DBANC framework, remove the connector initialisation code
+>> as that piece of code is not called if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+>> is used. Only TI K3 platforms consume this driver and tidss (their display
+>> controller) has this flag set. So this legacy support can be dropped.
+>>
+>> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+> I'm not sure, why do you have this Fixes tag. Other than that:
+>
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+>
+Hi Dmitry,
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+Have explained about fixes tag in cover letter, that these 4 commits
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 402fe14091f15..8f8c91144cc2d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7490,7 +7490,6 @@ F:	drivers/soc/ti/smartreflex.c
- F:	include/linux/power/smartreflex.h
- 
- DRM ACCEL DRIVERS FOR INTEL VPU
--M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
- M:	Maciej Falkowski <maciej.falkowski@linux.intel.com>
- M:	Karol Wachowski <karol.wachowski@linux.intel.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.45.1
+fix the bug of null pointer de-refernce (logs and bug described in cover 
+letter).
 
+also have given the rationale of sequencing of commits in cover letter.
+
+Warm Regards,
+
+Hari
+
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> ---
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 187 +-----------------
+>>   1 file changed, 10 insertions(+), 177 deletions(-)
+>>
