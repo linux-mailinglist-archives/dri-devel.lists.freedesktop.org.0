@@ -2,64 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AFDB51CA2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 17:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D89BB51CCC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 18:01:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D347A10E95D;
-	Wed, 10 Sep 2025 15:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F58B10E95A;
+	Wed, 10 Sep 2025 16:01:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HEwrG97l";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NNi7LZBV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE6810E95D
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 15:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757519874;
- bh=3f3fTdEx0CvLdoBZ9wVCD1IKQF+p+fgc9v1DuV5Nq3c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=HEwrG97ltNTGGhfByXRt96hJtoDGiAIEPl1ZBG/0gxNkoMWUEK57NiUUR8o/3XdEy
- Zizu6wW/RXVlSe/c1T8eEdNUXNfn1vwkVtjoItPq1SbCypubpO2fWCCo7hmMXRQ5eW
- Lp2p3/hQXUQejA4chTaczscAXuof5ALn7PfS2vJujtABuJY8OW5f5UaS/YnskCa9aJ
- IfZopk8vdjiYMRVxuS/CS8iVaAomIuTwnR43kj6dSAUSJvU8WginbaUe2rhkB95mDF
- I3RiqfNYNo2/XqgrtI2VkuKH/kmMNp5TeXv2o/ItlfHtnQSe89fFR/+JCnyCpcSc8+
- g/aKgfzRa/XCw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E225917E0A2B;
- Wed, 10 Sep 2025 17:57:52 +0200 (CEST)
-Date: Wed, 10 Sep 2025 17:57:40 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Miguel Ojeda
- <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?=
- Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Daniel Stone <daniels@collabora.com>, Rob Herring
- <robh@kernel.org>, Beata Michalska <beata.michalska@arm.com>, Carsten
- Haitzler <carsten.haitzler@foss.arm.com>, Ashley Smith
- <ashley.smith@collabora.com>, Steven Price <steven.price@arm.com>, Jeffrey
- Vander Stoep <jeffv@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v3] rust: drm: Introduce the Tyr driver for Arm Mali GPUs
-Message-ID: <20250910175740.2d15d0d5@fedora>
-In-Reply-To: <20250910-tyr-v3-1-dba3bc2ae623@collabora.com>
-References: <20250910-tyr-v3-1-dba3bc2ae623@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE74010E95A
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 16:01:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757520086; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=R5DDqmabhsADtMQCa2PEdFT6F6wXS9UD/gGmpLywYcPrMKfhq88xNdBkGb8waBzjsKLkauIkTZ7z1RrkRmx77yxGkMbmt4pn6EQY273AbNRYhBkKrWQsQCCodV5fCFt+Cj1jRCQZhj/po422gXn04MM32CEJaiiCea5eXeOEiD0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1757520086;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=; 
+ b=R1Oct9/K0pgrsE6ekil11c92iYphWLbg1NfznTSVdecOiUThXFJD1HAwSAGsj1jCTP4WnUmmCJzdJmNTcxwzCvtPBuwMVx9tq3arn6K65HuQ6uowbNLYIFAbsWPnMc5xk99S9/1Prfjkr5wM34P6crUTigUGLLtUVHH32uXx5Zw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757520085; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=;
+ b=NNi7LZBVPN/l/xAW+MYrNHuVhd3P5biETVJMrjrMGhoO7Szh7a/eXWCGKVyejaWg
+ AUU46rWM9rcHy4fqDfkLmO5jQ3oCB1ppq9L7YS+VbG/zh9hiHS+HkbgMig99r/4Z2TX
+ wYz1HTF4q2uewOLrLqy2+D5+3paLJyIyf7EEXJJk=
+Received: by mx.zohomail.com with SMTPS id 1757520082828908.8305273727573;
+ Wed, 10 Sep 2025 09:01:22 -0700 (PDT)
+Message-ID: <7523752e-eb7b-4211-84f2-33916c39ee2b@collabora.com>
+Date: Wed, 10 Sep 2025 13:01:07 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
+ MIP4 Touchscreen to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, edumazet@google.com,
+ flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+ jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+ kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+ lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-14-ariel.dalessandro@collabora.com>
+ <CACRpkdbpKqKyebADj0xPFq3g0biPh-vm4d6C3sd8r0URyfyYRg@mail.gmail.com>
+ <caguo7ud4dapb4yupeq2x4ocwoh4dt5nedwjsyuqsaratugcgz@ozajhsqwfzq6>
+ <CACRpkdZRHQ6vuchN8x8d0uPCVMPPHOdBVWiUhzFJNs2paHGbYw@mail.gmail.com>
+ <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,77 +92,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 10 Sep 2025 10:51:18 -0300
-Daniel Almeida <daniel.almeida@collabora.com> wrote:
+Krzysztof, all,
 
-> Add a Rust driver for ARM Mali CSF-based GPUs. It is a port of Panthor
-> and therefore exposes Panthor's uAPI and name to userspace, and the
-> product of a joint effort between Collabora, Arm and Google engineers.
+On 9/9/25 3:56 AM, Krzysztof Kozlowski wrote:
+> On 05/09/2025 13:33, Linus Walleij wrote:
+>> On Fri, Sep 5, 2025 at 12:02 PM Dmitry Torokhov
+>> <dmitry.torokhov@gmail.com> wrote:
+>>> On Thu, Aug 21, 2025 at 01:56:24PM +0200, Linus Walleij wrote:
+>>>> Hi Ariel,
+>>>>
+>>>> thanks for your patch!
+>>>>
+>>>> On Wed, Aug 20, 2025 at 7:17 PM Ariel D'Alessandro
+>>>> <ariel.dalessandro@collabora.com> wrote:
+>>>>
+>>>>> +  ce-gpios:
+>>>>> +    description: GPIO connected to the CE (chip enable) pin of the chip
+>>>>> +    maxItems: 1
+>>>>
+>>>> Mention that this should always have the flag GPIO_ACTIVE_HIGH
+>>>> as this is required by the hardware.
+>>>>
+>>>> Unfortunately we have no YAML syntax for enforcing flags :/
+>>>
+>>> Theoretically there can be an inverter on the line, so from the AP point
+>>> of view the line is active low while from the peripheral POV the pin is
+>>> active high...
+>>
+>> Yes, I think someone even proposed adding inverters to the
+>> device tree and was nixed.
 > 
-> The aim is to incrementally develop Tyr with the abstractions that are
-> currently available until it is consider to be in parity with Panthor
-> feature-wise.
+> It's not about DT, it's about board design - you can (almost?) always
+> invert the logical signal, so this should match what hardware requires
+> plus any inverter on the board.
 > 
-> The development of Tyr itself started in January, after a few failed
-> attempts of converting Panthor piecewise through a mix of Rust and C
-> code. There is a downstream branch that's much further ahead in terms of
-> capabilities than this initial patch.
 > 
-> The downstream code is capable of booting the MCU, doing sync VM_BINDS
-> through the work-in-progress GPUVM abstraction and also doing (trivial)
-> submits through Asahi's drm_scheduler and dma_fence abstractions. So
-> basically, most of what one would expect a modern GPU driver to do,
-> except for power management and some other very important adjacent
-> pieces. It is not at the point where submits can correctly deal with
-> dependencies, or at the point where it can rotate access to the GPU
-> hardware fairly through a software scheduler, but that is simply a
-> matter of writing more code.
+>>
+>> It's a matter of phrasing I would say:
+>>
+>> "Mention that this should nominally have the flag GPIO_ACTIVE_HIGH
 > 
-> This first patch, however, only implements a subset of the current
-> features available downstream, as the rest is not implementable without
-> pulling in even more abstractions. In particular, a lot of things depend
-> on properly mapping memory on a given VA range, which itself depends on
-> the GPUVM abstraction that is currently work-in-progress. For this
-> reason, we still cannot boot the MCU and thus, cannot do much for the
-> moment.
-> 
-> This constitutes a change in the overall strategy that we have been
-> using to develop Tyr so far. By submitting small parts of the driver
-> upstream iteratively, we aim to:
-> 
-> a) evolve together with Nova and rvkms, hopefully reducing regressions
-> due to upstream changes (that may break us because we were not there, in
-> the first place)
-> 
-> b) prove any work-in-progress abstractions by having them run on a real
-> driver and hardware and,
-> 
-> c) provide a reason to work on and review said abstractions by providing
-> a user, which would be tyr itself.
-> 
-> Despite its limited feature-set, we offer IGT tests. It is only tested
-> on the rk3588, so any other SoC is probably not going to work at all for
-> now.
-> 
-> The skeleton is basically taken from Nova and also
-> rust_platform_driver.rs.
-> 
-> Lastly, the name "Tyr" is inspired by Norse mythology, reflecting ARM's
-> tradition of naming their GPUs after Nordic mythological figures and
-> places.
-> 
-> Co-developed-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> Co-developed-by: Beata Michalska  <beata.michalska@arm.com>
-> Signed-off-by: Beata Michalska  <beata.michalska@arm.com>
-> Co-developed-by: Carsten Haitzler <carsten.haitzler@foss.arm.com>
-> Signed-off-by: Carsten Haitzler <carsten.haitzler@foss.arm.com>
-> Co-developed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> 
-> Link: https://www.collabora.com/news-and-blog/news-and-events/introducing-tyr-a-new-rust-drm-driver.html
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> No, please do not, it is wrong. If hardware requires active high, then
+> just say this is active high. But the actual GPIO flag depends on the
+> board design if signal is inverted.
 
-Not that is really matters, but this is
+After the discussion from this thread, will mark it a "active high" in 
+the property description for v2.
 
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+Thanks,
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
