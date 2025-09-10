@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63992B514BA
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 13:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C721AB514C6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 13:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE7A10E8D1;
-	Wed, 10 Sep 2025 11:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D022610E8E1;
+	Wed, 10 Sep 2025 11:05:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m63mlDWZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GN+OSMOR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F4310E8CE;
- Wed, 10 Sep 2025 11:03:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9140110E8D8;
+ Wed, 10 Sep 2025 11:05:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D5200601A8;
- Wed, 10 Sep 2025 11:03:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0E7DC4CEF0;
- Wed, 10 Sep 2025 11:03:49 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2083C43FA2;
+ Wed, 10 Sep 2025 11:05:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7297FC4CEF0;
+ Wed, 10 Sep 2025 11:05:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757502230;
- bh=UYWjKMF523Ekw7Bw98UkIXft7Kwx3TmgLpB7L6tfh5o=;
+ s=k20201202; t=1757502350;
+ bh=3vKUwDPyxY+sseiR8nmx7Ts9m3y+/etlfgrvBDkuze4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m63mlDWZ7UyN+YkBriu39v3Ml8OZYHJ3sS5ToGI1uYGEV0tY8Mw311B0m7uz4rSAz
- Mutosf2rsQjrnV5ZDOBgQIUu+tfNhSiBPAB+Q7vvxX4ETm3mdqOoQHSepfpTgIN2h8
- zt+OLeR1dqvb/3HJUVjycOW1w3CtW88+vYJxpqvqlFhtr5LO08O71IdfjaF7lylFyb
- BQsEeUwWcx11sL74qqXz85TbRe/47Qz2+SFz+UVY7RZ9fO2+vjbFXaGP44XfJVZM1n
- EXkppE0EdiRuuC7kXQv6rxvJVAh2sd31GMdGiMm2lPL3Ee1+B1IH44xysygemd65Rr
- eyHLSSxTHEr7Q==
-Date: Wed, 10 Sep 2025 13:03:47 +0200
+ b=GN+OSMORf3Q12T8aH7Eft8BEU//JedXUgIkbxmsGUx58zRf9KX5PvOyrcBi0vbgyw
+ Pr89t4+LtMmnoiEWrNUrLMhgVSGgEVloMZegmdixkK4NShwrgW4+PVb/kVuW4IcA7l
+ Xorw2zDPzxGGf0ZCxeJqaNq8a/wY8uggmxrzvuzQzOoCMum5Pi+DFSEh/+SOoIoUgj
+ D2DeEykRtyj8suBVThYLqmCb79dYgeWkJyexyfE1xYlScYk8WzeWrIvB+bKuAHwKzz
+ MbBXnbDh5DOJt87aKD2uO4EuAurSyIJ48849AGijGDkHUm/cWOWrIVfdPGHosi0hVp
+ OyE0tSWrtAZdA==
+Date: Wed, 10 Sep 2025 13:05:47 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -56,16 +56,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  linux-sunxi@lists.linux.dev, 
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
  Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-Message-ID: <20250910-furry-singing-axolotl-9aceac@houat>
+Subject: Re: [PATCH v4 10/10] drm/display: hdmi-audio: warn if HDMI connector
+ doesn't support Audio IF
+Message-ID: <20250910-magic-natural-saluki-4aca9d@houat>
 References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-10-53fd0a65a4a2@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="3kg3zivfcuv2t4hc"
+ protocol="application/pgp-signature"; boundary="6mjdewn6swmhkqjp"
 Content-Disposition: inline
-In-Reply-To: <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+In-Reply-To: <20250909-drm-limit-infoframes-v4-10-53fd0a65a4a2@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +82,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3kg3zivfcuv2t4hc
+--6mjdewn6swmhkqjp
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
+Subject: Re: [PATCH v4 10/10] drm/display: hdmi-audio: warn if HDMI connector
+ doesn't support Audio IF
 MIME-Version: 1.0
 
-On Tue, Sep 09, 2025 at 05:51:59PM +0300, Dmitry Baryshkov wrote:
-> Currently DRM framework expects that the HDMI connector driver supports
-> all infoframe types: it generates the data as required and calls into
-> the driver to program all of them, letting the driver to soft-fail if
-> the infoframe is unsupported. This has a major drawback on userspace
-> API: the framework also registers debugfs files for all Infoframe types,
-> possibly surprising the users when infoframe is visible in the debugfs
-> file, but it is not visible on the wire. Drivers are also expected to
-> return success even for unsuppoted InfoFrame types.
+On Tue, Sep 09, 2025 at 05:52:08PM +0300, Dmitry Baryshkov wrote:
+> Sending Audio InfoFrames is mandatory for getting audio to work over the
+> HDMI link. Warn if the driver requests HDMI audio support for the HDMI
+> connector, but there is no support for Audio InfoFrames.
 >=20
-> Let drivers declare that they support only a subset of infoframes,
-> creating a more consistent interface. Make the affected drivers return
-> -EOPNOTSUPP if they are asked to program (or clear) InfoFrames which are
-> not supported.
->=20
-> Acked-by: Liu Ying <victor.liu@nxp.com>
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
 > Acked-by: Daniel Stone <daniels@collabora.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_audio_helper.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_audio_helper.c
+> index 7d78b02c144621de528b40b1425f25e465edd1ae..35e0e79cb683a68af813344aa=
+86c154c3a5531fe 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> @@ -10,6 +10,7 @@
+> =20
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_device.h>
+> +#include <drm/drm_print.h>
+>  #include <drm/display/drm_hdmi_audio_helper.h>
+> =20
+>  #include <sound/hdmi-codec.h>
+> @@ -178,6 +179,17 @@ int drm_connector_hdmi_audio_init(struct drm_connect=
+or *connector,
+>  	    !funcs->shutdown)
+>  		return -EINVAL;
+> =20
+> +	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> +	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB) {
+> +		unsigned long supported_infoframes =3D
+> +			connector->hdmi.supported_infoframes;
+> +
+> +		if (supported_infoframes &&
+> +		    !(supported_infoframes & DRM_CONNECTOR_INFOFRAME_AUDIO))
+> +			drm_warn(connector->dev, "HDMI Audio with no support for Audio InfoFr=
+ames\n");
+> +	}
+> +
+> +
 
-Again, I still believe that it's a bad idea, goes against what the spec
-states, and the framework was meant to be.
-
-So, no, sorry. That's still a no for me. Please stop sending that patch
-unless we have a discussion about it and you convince me that it's
-actually something that we'd need.
+That's not what I suggested. What I suggested was that we tould check
+the return code of write_infoframe, and warn if it is set by the
+framework, but returns EOPNOTSUPP.
 
 Maxime
 
---3kg3zivfcuv2t4hc
+--6mjdewn6swmhkqjp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFbEwAKCRAnX84Zoj2+
-dkRzAYCzQpQA/Ir3LWPQqxuIKthe+HVoEPQaMUjRgX+Ula46AjgZs5sQpXIzARWP
-HvEZaiABfRY0fHLOQ/3ITnlioCgiECUTHWtXvwzwkeZPy/td6Zv8anX5A/E13TVJ
-iH3N5Vfh4A==
-=wXjx
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMFbiwAKCRAnX84Zoj2+
+dirGAX4uKxTLTYBVNw7Full2UUa5VuWquXM6Yf9V75SJdwVH/LBdZKdEu2L5zcFu
+4A/bxOwBfipkuEzUY5FfJt6YBzOLmgB9EMwhn/Z1a+okQD5MuPEy0LtOtwYYWOvQ
+oQFyrwx8zg==
+=PKSd
 -----END PGP SIGNATURE-----
 
---3kg3zivfcuv2t4hc--
+--6mjdewn6swmhkqjp--
