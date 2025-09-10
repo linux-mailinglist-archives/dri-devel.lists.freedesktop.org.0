@@ -2,101 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D83CB50FB3
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B78B50FFE
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 09:52:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D589E10E879;
-	Wed, 10 Sep 2025 07:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B391010E295;
+	Wed, 10 Sep 2025 07:52:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SNsZS7sa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LamIGD1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B1510E879
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 07:40:20 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADD910E295
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 07:52:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 993F840C04;
- Wed, 10 Sep 2025 07:40:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B4DC4CEF9;
- Wed, 10 Sep 2025 07:40:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 5C52E60248;
+ Wed, 10 Sep 2025 07:52:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5A6C4CEF0;
+ Wed, 10 Sep 2025 07:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757490019;
- bh=l9gbLcOw34CjnvmzL1eZV7Qw70Siz0YwsCoVPZZyPrU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SNsZS7saVQNVGMNirRFJcAN71OF3mnIquqPetH462uEpnuG9vmT70FQhM+9+vp8jy
- 9RCYCNQJNci/6wqzs39YmIEBtfnHetfFh5fiFWXSB1PrPTu0HcZIN8Rx88ThdSmAX0
- kJ5apzpWxAjNmpWahxRoOJ56Wg2Y2qi5WNZ6YZ63IP5UScO1Q2aoqlkXNiTQ2ldwje
- 74S+2wvR2iu1KnhortPp/kHwkRh2eld8m6frliS1pBI581SuitL6d8HZOL6Ve3LVtE
- 6LS1u0OqMVlbBTN7X39Uu3zjvYt8BiB5RET3koSmBMWKc3qjquXaU8nc049ZDgSKur
- QJsVvxqkP+aoQ==
-Message-ID: <8484af14-63f3-4dd9-91d8-6bd79b736819@kernel.org>
-Date: Wed, 10 Sep 2025 09:40:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: bridge: lt9211c: Add bindings
-To: Nilesh Laad <nilesh.laad@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ s=k20201202; t=1757490745;
+ bh=KT11CFgDF51QdJwu+rJCwNinPOsU6PNjp4Iyulbjie0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LamIGD1qr4S96Y5A6Ic5A4xhpLGmLFZwjKKjMZaPgkUbMNx+N3T3xHpH8laPCApBY
+ cSokzYof+HScaMolR+F7QEW7fb/BKnlN3WWR11smj8plV1yKp3qSlLbOU5YiujZXQ5
+ jWCSejGI7odwMnjKTJE35ZHFQ4ExRgejgw6ce7DiW37ClMA+y5QUsDiCDjPVsSOWDp
+ Gt9IcgN9Hh6r4CAua5QDT18oZUnBjnE78dX2xLsgCE3VT/fy5Na9i0Lp1dssZ9QpRm
+ NGLwF/9QNa8/sWNSCZHPfR0H4j1WMMfqDRmEXJTKHq0ZSAzyiERMvvO2BqmYzhodvM
+ 4z4sv6mFtL7jg==
+Date: Wed, 10 Sep 2025 09:52:21 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, venkata.valluru@oss.qualcomm.com,
- jessica.zhang@oss.qualcomm.com, Yi Zhang <zhanyi@qti.qualcomm.com>
-References: <20250910-add-lt9211c-bridge-v1-1-4f23740fe101@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250910-add-lt9211c-bridge-v1-1-4f23740fe101@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+Message-ID: <20250910-amazing-camouflaged-barracuda-bb79cb@houat>
+References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
+ <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
+ <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+ <20250820131302.6a2da5ef@booty> <20250908154901.64f1a639@booty>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="r7rztooyq4gxwyol"
+Content-Disposition: inline
+In-Reply-To: <20250908154901.64f1a639@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,14 +71,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/09/2025 09:37, Nilesh Laad wrote:
-> From: Yi Zhang <zhanyi@qti.qualcomm.com>
-> 
-> Add bindings for lt9211c.
 
-Why? There is no user of it. We do not need bindings without users.
+--r7rztooyq4gxwyol
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+MIME-Version: 1.0
 
-I am not reviewing the rest.
+On Mon, Sep 08, 2025 at 03:49:01PM +0200, Luca Ceresoli wrote:
+> Hello Maxime,
+>=20
+> On Wed, 20 Aug 2025 13:13:02 +0200
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+>=20
+> > > > +	/*
+> > > > +	 * sn65dsi83_atomic_disable() should release some resources, but =
+it
+> > > > +	 * cannot if we call drm_bridge_unplug() before it can
+> > > > +	 * drm_bridge_enter(). If that happens, let's release those
+> > > > +	 * resources now.
+> > > > +	 */
+> > > > +	if (ctx->disable_resources_needed) {
+> > > > +		if (!ctx->irq)
+> > > > +			sn65dsi83_monitor_stop(ctx);
+> > > > +
+> > > > +		gpiod_set_value_cansleep(ctx->enable_gpio, 0);
+> > > > +		usleep_range(10000, 11000);
+> > > > +
+> > > > +		regulator_disable(ctx->vcc);
+> > > > +	}   =20
+> > >=20
+> > > I'm not sure you need this. Wouldn't registering a devm action do the
+> > > same thing? =20
+> >=20
+> > Good idea, thanks. I'll give it a try.
+>=20
+> I'm catching up with this series after being busy a few weeks...
+>=20
+> I looked at this, but contrary my initial impression I think it would
+> not be an improvement.
+>=20
+> The reason is at least one of these cleanup actions (namely the
+> regulator_disable()) must be done only if there is a matching enable,
+> which is in atomic_pre_enable. This is why I introduced a flag in the
+> first place.
+>=20
+> I'm not sure which usage of devres you had in mind, but I see two
+> options.
+>=20
+> Option 1: in probe, add a devres action to call a function like:
+>=20
+> sn65dsi83_cleanups()
+> {
+> 	if (ctx->disable_resources_needed) {
+> 		/* the same cleanups */
+> 	}   =20
+> }
+>=20
+> But that is just a more indirect way of doing the same thing, and
+> relies on the same flag.
+>=20
+> Option 2: have a function to unconditionally do the cleanups:
+>=20
+> sn65dsi83_cleanups()
+> {
+> 	/* the same cleanups (no if) */
+> }
+>=20
+> And then:
+>  * in atomic_pre_enable, instead of setting the flag
+>    add a devres action to call sn65dsi83_cleanups()
+>  * in atomic_disable, instead of clearing the flag
+>    remove the devres action
+>=20
+> Even this option looks like more complicated and less readable code
+> to do the same thing.
+>=20
+> Do you have in mind a better option that I haven't figured out?
 
-Best regards,
-Krzysztof
+Would using devm_add_action in atomic_pre_enable, and
+devm_release_action in atomic_post_disable work?
+
+That way, if you have a typical enable / disable cycle, the action will
+get registered and executed properly, and if you only have an enable but
+no matching disable, it will be collected after remove.
+
+Maxime
+
+--r7rztooyq4gxwyol
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMEuNQAKCRAnX84Zoj2+
+dtLOAX9rfDRVVP+/z7dJDPxsVAJx0Q3CbcUFefT8oLdQq+ir/1ZSRE1K/ac7ytHJ
+cEOJhy4Bf0PYd6HQyy2bD/x4/X5jf+w8apfzLbg+ydQa+kAMAwStBVAOjMZEGylM
+F9sYa3xEFA==
+=Bjkz
+-----END PGP SIGNATURE-----
+
+--r7rztooyq4gxwyol--
