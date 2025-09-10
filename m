@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8253DB511C2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 10:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD38B511DB
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Sep 2025 10:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E48010E272;
-	Wed, 10 Sep 2025 08:47:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F6EC10E36D;
+	Wed, 10 Sep 2025 08:55:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZJESPZ6l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K5OqBHvV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58FB810E272;
- Wed, 10 Sep 2025 08:47:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4996460226;
- Wed, 10 Sep 2025 08:47:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DD53C4CEF0;
- Wed, 10 Sep 2025 08:47:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757494031;
- bh=WppBPowSewof/D5eVLXkCnHoKjpriLA2OUGq3Qnm2eI=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=ZJESPZ6lxzuProG9lMdkWZnUdwptCur8qCkwbnuymnB4OzQnTCSsZvNKwlM+l14av
- avSWz9q2NGNPJ7zXztH7yMlB4il8x79co82w/jAbVLYOSFQ0aIbZHAU3hIJ4TayqDK
- 1SawHkF2W6Q1FQO1zffxQ5+X7OzKE431V/h3dm5jqqM7H8V2oEPl+IWq8JRhrGAzB0
- gsWRzii0hSeix6ew8EDmTjd/KjZxhaKX1befEeCYkL33hvqcdSnI6v6PYeNtQHodZf
- d2Uxau1tFgH3LbK2rEQEmxF3f6r4NsaVDKfeeifUFW9TDSvZpKNOMc5EQyUv7chuA1
- rwE9Mop5Dwncw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 10 Sep 2025 10:47:05 +0200
-Message-Id: <DCOZMX59W82I.1AH7XVW3RUX2D@kernel.org>
-Subject: Re: [PATCH] rust: pci: add PCI interrupt allocation and management
- support
-Cc: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, <acourbot@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "John Hubbard" <jhubbard@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, <joel@joelfernandes.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250910035415.381753-1-joelagnelf@nvidia.com>
-In-Reply-To: <20250910035415.381753-1-joelagnelf@nvidia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2F510E36D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 08:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757494530; x=1789030530;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aqJOr9V7I6raiyEXCW1A38cVzfjSact4AOr8AQp+5xQ=;
+ b=K5OqBHvV9QK3fMNUks1+pFVOYtv7FINHQ2kY1iRI6i6hQ0EzwQjsCay7
+ DIbHHhh+g9KMerXjoEFac0W/lo1EMcBAp9TWjgn3p0wGPX5QTMjgkZqzv
+ 4+WTWgK+VvhZwqbzpveKz0/5GUHQxYF31Nbn8qzSjaqq+aC+2wKgHfg7k
+ dyYC2wPUwLF2jjddy0pksYnkivKNkpo9fd0CulVQbdB+BbTe4lzV83neD
+ hNmQhPsUE7eQqMbKuX6ESWnVrVt8xxTmGgHflUZeLpF6JO+1j0/5V7CCy
+ wX4zmakXwhtspeEkGYoW5a9D4HTxnElEzeLIY92AEhy3ITkjS6lf6s1UC w==;
+X-CSE-ConnectionGUID: tS76kLhCToSYhXWUPH7QYQ==
+X-CSE-MsgGUID: GBPIXej1SieZl6xKWbZ3iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59019748"
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; d="scan'208";a="59019748"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2025 01:55:30 -0700
+X-CSE-ConnectionGUID: OANiJ8l5SWiz81Uyn6xKIg==
+X-CSE-MsgGUID: EBAH9BUJSFemuHCWMGx1SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; d="scan'208";a="173242947"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2025 01:55:28 -0700
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
+ maciej.falkowski@linux.intel.com, karol.wachowski@linux.intel.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] MAINTAINERS: Remove Jacek Lawrynowicz as intel_vpu maintainer
+Date: Wed, 10 Sep 2025 10:55:25 +0200
+Message-ID: <20250910085526.230458-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,141 +67,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Sep 10, 2025 at 5:54 AM CEST, Joel Fernandes wrote:
->  impl Device<device::Bound> {
+Remove myself from the intel_vpu driver maintainer list as I'm
+moving to another company. Time to let someone else deal with
+the NPU bugs while I pretend to know what I'm doing elsewhere!
 
-The Bound context is not enough for some of the methods below, some of them
-require the Core context, more below.
+Thanks to everyone for the great collaboration (and for putting up
+with my creative interpretations of what "minor fixes" means).
 
-> +    /// Free all allocated IRQ vectors for this device.
-> +    ///
-> +    /// This should be called to release interrupt resources when they a=
-re no longer needed,
-> +    /// during driver unbind or removal.
-> +    pub fn free_irq_vectors(&self) {
-> +        // SAFETY: `self.as_raw` is guaranteed to be a pointer to a vali=
-d `struct pci_dev`.
-> +        // `pci_free_irq_vectors` is safe to call even if no vectors are=
- currently allocated.
-> +        unsafe { bindings::pci_free_irq_vectors(self.as_raw()) };
-> +    }
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-This requires the Core context, but we should not provide this method at al=
-l to
-begin with; it puts the burden on drivers to remember calling this.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 402fe14091f15..8f8c91144cc2d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7490,7 +7490,6 @@ F:	drivers/soc/ti/smartreflex.c
+ F:	include/linux/power/smartreflex.h
+ 
+ DRM ACCEL DRIVERS FOR INTEL VPU
+-M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ M:	Maciej Falkowski <maciej.falkowski@linux.intel.com>
+ M:	Karol Wachowski <karol.wachowski@linux.intel.com>
+ L:	dri-devel@lists.freedesktop.org
+-- 
+2.45.1
 
-Instead, alloc_irq_vectors() should register a devres object with
-devres::register(), so this gets called automatically when the device is
-unbound.
-
-Note that a cleanup through devres is not in conflict with the Core context
-requirement.
-
-> +    /// Allocate IRQ vectors for this PCI device.
-> +    ///
-> +    /// Allocates between `min_vecs` and `max_vecs` interrupt vectors fo=
-r the device.
-> +    /// The allocation will use MSI-X, MSI, or legacy interrupts based o=
-n the `irq_types`
-> +    /// parameter and hardware capabilities. When multiple types are spe=
-cified, the kernel
-> +    /// will try them in order of preference: MSI-X first, then MSI, the=
-n legacy interrupts.
-> +    /// This is called during driver probe.
-> +    ///
-> +    /// # Arguments
-> +    ///
-> +    /// * `min_vecs` - Minimum number of vectors required
-> +    /// * `max_vecs` - Maximum number of vectors to allocate
-> +    /// * `irq_types` - Types of interrupts that can be used
-> +    ///
-> +    /// # Returns
-> +    ///
-> +    /// Returns the number of vectors successfully allocated, or an erro=
-r if the allocation
-> +    /// fails or cannot meet the minimum requirement.
-> +    ///
-> +    /// # Examples
-> +    ///
-> +    /// ```
-> +    /// // Allocate using any available interrupt type in the order ment=
-ioned above.
-> +    /// let nvecs =3D dev.alloc_irq_vectors(1, 32, IrqTypes::all())?;
-> +    ///
-> +    /// // Allocate MSI or MSI-X only (no legacy interrupts)
-> +    /// let msi_only =3D IrqTypes::default()
-> +    ///     .with(IrqType::Msi)
-> +    ///     .with(IrqType::MsiX);
-> +    /// let nvecs =3D dev.alloc_irq_vectors(4, 16, msi_only)?;
-> +    /// ```
-> +    pub fn alloc_irq_vectors(
-> +        &self,
-> +        min_vecs: u32,
-> +        max_vecs: u32,
-> +        irq_types: IrqTypes,
-> +    ) -> Result<u32> {
-> +        // SAFETY: `self.as_raw` is guaranteed to be a pointer to a vali=
-d `struct pci_dev`.
-> +        // `pci_alloc_irq_vectors` internally validates all parameters a=
-nd returns error codes.
-> +        let ret =3D unsafe {
-> +            bindings::pci_alloc_irq_vectors(self.as_raw(), min_vecs, max=
-_vecs, irq_types.raw())
-> +        };
-> +
-> +        to_result(ret)?;
-> +        Ok(ret as u32)
-> +    }
-
-This is only valid to be called from the Core context, as it modifies inter=
-nal
-fields of the inner struct device.
-
-Also, it would be nice if it would return a new type that can serve as argu=
-ment
-for irq_vector(), such that we don't have to rely on random integers.
-
-> +
-> +    /// Get the Linux IRQ number for a specific vector.
-> +    ///
-> +    /// This is called during driver probe after successful IRQ allocati=
-on
-> +    /// to obtain the IRQ numbers for registering interrupt handlers.
-> +    ///
-> +    /// # Arguments
-> +    ///
-> +    /// * `vector` - The vector index (0-based)
-> +    ///
-> +    /// # Returns
-> +    ///
-> +    /// Returns the Linux IRQ number for the specified vector, or an err=
-or if the vector
-> +    /// index is invalid or no vectors are allocated.
-> +    pub fn irq_vector(&self, vector: u32) -> Result<u32> {
-
-This method is already staged for inclusion in v6.18 in driver-core-next. P=
-lease
-make sure to base changes on top of the tree mentioned in the maintainers f=
-ile,
-driver-core in this case.
-
-The signature of the existing method is:
-
-	pub fn irq_vector(&self, index: u32) -> Result<IrqRequest<'_>>
-
-We return an IrqRequest, which captures the IRQ number *and* the correspond=
-ing
-device, such that you can't get the combination wrong.
-
-Maybe it's worth looking at improving the index argument with a new type as
-mentioned above.
-
-> +        // SAFETY: `self.as_raw` is guaranteed to be a pointer to a vali=
-d `struct pci_dev`.
-> +        let irq =3D unsafe { bindings::pci_irq_vector(self.as_raw(), vec=
-tor) };
-> +
-> +        to_result(irq)?;
-> +        Ok(irq as u32)
-> +    }
->  }
