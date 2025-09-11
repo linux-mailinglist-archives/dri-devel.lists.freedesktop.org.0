@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03148B53A70
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 19:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96169B53A71
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 19:34:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5371610E3DE;
-	Thu, 11 Sep 2025 17:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3D3610E3CD;
+	Thu, 11 Sep 2025 17:34:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="coUJkSYe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Sv/Z6mlv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F6F10E3DE;
- Thu, 11 Sep 2025 17:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=26n9lvvSYlWMqqmSC/rnZ7hs25WEL/9yPvBSKXN0v1U=; b=coUJkSYeyDAia/mpiIoSuykysE
- +oJw9bmcBqu0gPAzyPBdKTug+uWoFDJ8QT6h2qU0dwOCY/GF05IVDn87mFZef9CEVVmm9L+kwi/dJ
- McWivSTRXzyUms8hffWL0kmsMcT4aUj327WPAhom5HV6YjlDImqaa+puYoAVGIRT2y3zfcqeQrxGU
- MBbIw3UcmnsetDBF5eBYp1m9xqMCJO9hjQ+/hpI4TOfAa+ZZ1cIS7QB7kurmrpxRIA+eiStpT2Rvx
- dRtA4QhuoMF/TYolYlTKZd1OQ+0ROEjMgZgMl6TIWjhhiNcIy8YuI+mVF2jlRSfQvcLA/vIzXFJji
- RBux3abA==;
-Received: from [189.6.16.239] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uwlB3-009uHT-B8; Thu, 11 Sep 2025 19:33:45 +0200
-Message-ID: <7e677e50-334e-41f7-8511-d859d0620385@igalia.com>
-Date: Thu, 11 Sep 2025 14:33:38 -0300
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C8010E3CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 17:34:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1757612089;
+ bh=zM3zVeC4q+DzpkkbNJKAivjjI3id20uSb/omGoxRe1s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Sv/Z6mlvYnwWroL3flYX8F/gK2zc9Ac780GLZk1SoR0YEFe3b2ncsTenfzsshiSTU
+ lq+ojzji6HN5MsXz/5jJWE1sNPL4yQCE0SGPZmvkMJVrUBQuyntZ5sC1KW+9Btyicm
+ BwMlw1gWtv20RV/Pj3zQ3uyVvyOIHuWSPcn+2eJp8ozJhnS49/axq8bZv7VLIcprTh
+ bicVsv0gFzJwoDKWHpvrO5Ygr6YqzG9OJP0dziDYhr2QhkWyniZI+Xy95j7KLTEsOj
+ X7KVGI+yt3h5tpiL8B0XMK1JAppW76ViliBdeE4SBDYcn5X+FQIYVKJ6sWnFAI25vw
+ f8btrasBfe0hw==
+Received: from xpredator (unknown
+ [IPv6:2a02:2f05:840b:7800:e88e:21ff:fe65:be18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: mvlad)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3A54D17E0927;
+ Thu, 11 Sep 2025 19:34:49 +0200 (CEST)
+Date: Thu, 11 Sep 2025 20:34:48 +0300
+From: Marius Vlad <marius.vlad@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, wse@tuxedocomputers.com,
+ andri@yngvason.is, sebastian.wick@redhat.com, mripard@kernel.org,
+ daniel.stone@collabora.com, jani.nikula@linux.intel.com,
+ tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com,
+ christian.koenig@amd.com, derek.foreman@collabora.com
+Subject: Re: [PATCH 5/8] drm: Pass supported color formats straight onto
+ drm_bridge
+Message-ID: <aMMIOBfuQ7oJFH6i@xpredator>
+References: <20250911130739.4936-1-marius.vlad@collabora.com>
+ <20250911130739.4936-6-marius.vlad@collabora.com>
+ <fekbw2ngxyg4mvkhlvkvegylcm4vm74y5rhhxeygiqxve7oqaj@sxvkyqjssdru>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/amd/display: change dc stream color settings
- only in atomic commit
-To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: Xaver Hugl <xaver.hugl@gmail.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <mdaenzer@redhat.com>, Christopher Snowhill <kode54@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20250901214413.12675-1-mwen@igalia.com>
- <20250901214413.12675-3-mwen@igalia.com>
- <d3bc5c52-345a-420a-bf92-dc4b56c5cc97@amd.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <d3bc5c52-345a-420a-bf92-dc4b56c5cc97@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v1gtAyp9vO1WI533"
+Content-Disposition: inline
+In-Reply-To: <fekbw2ngxyg4mvkhlvkvegylcm4vm74y5rhhxeygiqxve7oqaj@sxvkyqjssdru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,216 +69,144 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--v1gtAyp9vO1WI533
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 09/09/2025 12:00, Harry Wentland wrote:
->
-> On 2025-09-01 17:33, Melissa Wen wrote:
->> Don't update DC stream color components during atomic check. The driver
->> will continue validating the new CRTC color state but will not change DC
->> stream color components. The DC stream color state will only be
->> programmed at commit time in the `atomic_setup_commit` stage.
->>
->> It fixes gamma LUT loss reported by KDE users when changing brightness
->> quickly or changing Display settings (such as overscan) with nightlight
->> on and HDR. As KWin can do a test commit with color settings different
->> from those that should be applied in a non-test-only commit, if the
->> driver changes DC stream color state in atomic check, this state can be
->> eventually HW programmed in commit tail, instead of the respective state
->> set by the non-blocking commit.
->>
->> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/4444
->> Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   1 +
->>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 105 +++++++++++++++++-
->>   3 files changed, 104 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 9bd82e04fe5c..ba40346eaf95 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -11125,7 +11125,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
->>   	if (dm_new_crtc_state->base.color_mgmt_changed ||
->>   	    dm_old_crtc_state->regamma_tf != dm_new_crtc_state->regamma_tf ||
->>   	    drm_atomic_crtc_needs_modeset(new_crtc_state)) {
->> -		ret = amdgpu_dm_update_crtc_color_mgmt(dm_new_crtc_state);
->> +		ret = amdgpu_dm_check_crtc_color_mgmt(dm_new_crtc_state);
->>   		if (ret)
->>   			goto fail;
->>   	}
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> index ce74125c713e..1cc3d83e377a 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> @@ -1041,6 +1041,7 @@ void amdgpu_dm_init_color_mod(void);
->>   int amdgpu_dm_create_color_properties(struct amdgpu_device *adev);
->>   int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
->>   int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
->> +int amdgpu_dm_check_crtc_color_mgmt(struct dm_crtc_state *crtc);
->>   int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
->>   				      struct drm_plane_state *plane_state,
->>   				      struct dc_plane_state *dc_plane_state);
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> index c7387af725d6..a7cfcdba1fc9 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> @@ -566,12 +566,11 @@ static int __set_output_tf(struct dc_transfer_func *func,
->>   	return res ? 0 : -ENOMEM;
->>   }
->>   
->> -static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
->> +static int amdgpu_dm_set_atomic_regamma(struct dc_transfer_func *out_tf,
->>   					const struct drm_color_lut *regamma_lut,
->>   					uint32_t regamma_size, bool has_rom,
->>   					enum dc_transfer_func_predefined tf)
->>   {
->> -	struct dc_transfer_func *out_tf = &stream->out_transfer_func;
->>   	int ret = 0;
->>   
->>   	if (regamma_size || tf != TRANSFER_FUNCTION_LINEAR) {
->> @@ -969,7 +968,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   			return r;
->>   	} else {
->>   		regamma_size = has_regamma ? regamma_size : 0;
->> -		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
->> +		r = amdgpu_dm_set_atomic_regamma(&stream->out_transfer_func, regamma_lut,
->>   						 regamma_size, has_rom, tf);
->>   		if (r)
->>   			return r;
->> @@ -1008,6 +1007,106 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   	return 0;
->>   }
->>   
->> +/**
->> + * amdgpu_dm_check_crtc_color_mgmt: Check if DRM color props are programmable by DC.
->> + * @crtc: amdgpu_dm crtc state
->> + *
->> + * This function just verifies CRTC LUT sizes, if there is enough space for
->> + * output transfer function and if its parameters can be calculated by AMD
->> + * color module. It also adjusts some settings for programming CRTC degamma at
->> + * plane stage, using plane DGM block.
->> + *
->> + * The RGM block is typically more fully featured and accurate across
->> + * all ASICs - DCE can't support a custom non-linear CRTC DGM.
->> + *
->> + * For supporting both plane level color management and CRTC level color
->> + * management at once we have to either restrict the usage of some CRTC
->> + * properties or blend adjustments together.
->> + *
->> + * Returns:
->> + * 0 on success. Error code if validation fails.
->> + */
->> +
->> +int amdgpu_dm_check_crtc_color_mgmt(struct dm_crtc_state *crtc)
-> This function is almost a duplicate of amdgpu_dm_update_crtc_color_mgmt,
-> without the part that sets the stream->out_transfer_func and without
-> the "Setup CRTC CTM" bits. I wonder whether it would make sense to
-> combine them in a way where the "update" function would look like:
->
-> int amdgpu_dm_update_crtc_color_mgmt(...)
-> {
->      amdgpu_dm_check_crtc_color_mgmt(...);
->
->      update stream->out_transfer_func based on out_tf computed in check
->
->      do the "Setup CRTC CTM bits
-> }
-Makes sense. I just sent a v3 implementing this proposal and fixing some 
-issues in v2.
-Can you double check?
+On Thu, Sep 11, 2025 at 04:55:29PM +0300, Dmitry Baryshkov wrote:
+> On Thu, Sep 11, 2025 at 04:07:36PM +0300, Marius Vlad wrote:
+> > Initialize drm_brige with advertised colors formats straight on.
+> >=20
+> > Drivers that make use of DRM helpers would check the
+> > drm_brige::supported_formats bit-field list and refuse to use the color
+> > format passed. Drivers that make use of drm_bridge can pass the
+> > supported color formats in the bridge as well as supported color format
+> > for the DRM color format property.
+>=20
+> Your commit message doesn't match patch contents. You are pushing format
+> selection to the instance creating drm_bridge_connector, which
+> frequently has no idea about the other end of the chain - the bridges
+> which actually send pixel data to the monitor.
 
-https://lore.kernel.org/amd-gfx/20250911173101.1960156-1-mwen@igalia.com
+None of these changes in this patch actually perform a functional
+change, it will just explicitly expose the fact that BIT(HDMI_COLORSPACE_RG=
+B)
+was embedded in drm_bridge_connector_init().=20
 
-Thanks for reviewing!
+Commit description is a bit forthcoming explaining the rationale behind
+the change. This actually allows the ability to pass a list of supported
+formats the bridge itself, similar how do we do it with the connector.
 
-Melissa
-> Either way, great find, and really good change. The series is
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
->> +{
->> +	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
->> +	bool has_rom = adev->asic_type <= CHIP_RAVEN;
->> +	const struct drm_color_lut *degamma_lut, *regamma_lut;
->> +	uint32_t degamma_size, regamma_size;
->> +	bool has_regamma, has_degamma;
->> +	struct dc_transfer_func *out_tf;
->> +	enum dc_transfer_func_predefined tf = TRANSFER_FUNCTION_LINEAR;
->> +	bool is_legacy;
->> +	int r;
->> +
->> +	tf = amdgpu_tf_to_dc_tf(crtc->regamma_tf);
->> +
->> +	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
->> +	if (r)
->> +		return r;
->> +
->> +	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
->> +	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
->> +
->> +	has_degamma =
->> +		degamma_lut && !__is_lut_linear(degamma_lut, degamma_size);
->> +
->> +	has_regamma =
->> +		regamma_lut && !__is_lut_linear(regamma_lut, regamma_size);
->> +
->> +	is_legacy = regamma_size == MAX_COLOR_LEGACY_LUT_ENTRIES;
->> +
->> +	/* Reset all adjustments. */
->> +	crtc->cm_has_degamma = false;
->> +	crtc->cm_is_degamma_srgb = false;
->> +
->> +	out_tf = kzalloc(sizeof(*out_tf), GFP_KERNEL);
->> +	if (!out_tf)
->> +		return -ENOMEM;
->> +
->> +	/* Setup regamma and degamma. */
->> +	if (is_legacy) {
->> +		/*
->> +		 * Legacy regamma forces us to use the sRGB RGM as a base.
->> +		 * This also means we can't use linear DGM since DGM needs
->> +		 * to use sRGB as a base as well, resulting in incorrect CRTC
->> +		 * DGM and CRTC CTM.
->> +		 *
->> +		 * TODO: Just map this to the standard regamma interface
->> +		 * instead since this isn't really right. One of the cases
->> +		 * where this setup currently fails is trying to do an
->> +		 * inverse color ramp in legacy userspace.
->> +		 */
->> +		crtc->cm_is_degamma_srgb = true;
->> +		out_tf->type = TF_TYPE_DISTRIBUTED_POINTS;
->> +		out_tf->tf = TRANSFER_FUNCTION_SRGB;
->> +		/*
->> +		 * Note: although we pass has_rom as parameter here, we never
->> +		 * actually use ROM because the color module only takes the ROM
->> +		 * path if transfer_func->type == PREDEFINED.
->> +		 *
->> +		 * See more in mod_color_calculate_regamma_params()
->> +		 */
->> +		r = __set_legacy_tf(out_tf, regamma_lut,
->> +				    regamma_size, has_rom);
->> +	} else {
->> +		regamma_size = has_regamma ? regamma_size : 0;
->> +		r = amdgpu_dm_set_atomic_regamma(out_tf, regamma_lut,
->> +						 regamma_size, has_rom, tf);
->> +	}
->> +
->> +	/*
->> +	 * CRTC DGM goes into DGM LUT. It would be nice to place it
->> +	 * into the RGM since it's a more featured block but we'd
->> +	 * have to place the CTM in the OCSC in that case.
->> +	 */
->> +	crtc->cm_has_degamma = has_degamma;
->> +	dc_transfer_func_release(out_tf);
->> +
->> +	return r;
->> +}
->> +
->> +
->>   static int
->>   map_crtc_degamma_to_dc_plane(struct dm_crtc_state *crtc,
->>   			     struct dc_plane_state *dc_plane_state,
+If any of these are wrong, they were prior to me touching them.
 
+>=20
+> We have drm_bridge::ycbcr_420_allowed with clearly defined meaning. I
+> think it would be wise to start from that and to describe why such a
+> field doesn't fulfill your needs.
+Alright, I'll be looking into this.=20
+>=20
+> >=20
+> > This includes a fallback to RGB when Auto has been selected.
+> >=20
+> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> > ---
+> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 2 +-
+> >  drivers/gpu/drm/bridge/ite-it6263.c               | 2 +-
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c             | 3 ++-
+> >  drivers/gpu/drm/display/drm_bridge_connector.c    | 4 ++--
+> >  drivers/gpu/drm/imx/dcss/dcss-kms.c               | 2 +-
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c                | 2 +-
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c                | 2 +-
+> >  drivers/gpu/drm/meson/meson_encoder_cvbs.c        | 3 ++-
+> >  drivers/gpu/drm/meson/meson_encoder_hdmi.c        | 4 ++--
+> >  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          | 2 +-
+> >  drivers/gpu/drm/msm/dp/dp_drm.c                   | 3 ++-
+> >  drivers/gpu/drm/msm/dsi/dsi_manager.c             | 2 +-
+> >  drivers/gpu/drm/msm/hdmi/hdmi.c                   | 2 +-
+> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 2 +-
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 2 +-
+> >  drivers/gpu/drm/rockchip/cdn-dp-core.c            | 2 +-
+> >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 2 +-
+> >  drivers/gpu/drm/rockchip/rockchip_lvds.c          | 2 +-
+> >  drivers/gpu/drm/tegra/hdmi.c                      | 2 +-
+> >  drivers/gpu/drm/tegra/rgb.c                       | 2 +-
+> >  drivers/gpu/drm/tidss/tidss_encoder.c             | 2 +-
+> >  include/drm/drm_bridge_connector.h                | 3 ++-
+> >  22 files changed, 28 insertions(+), 24 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/d=
+p_drm.c
+> > index 9a461ab2f32f..8d5299849be6 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > @@ -368,7 +368,8 @@ struct drm_connector *msm_dp_drm_connector_init(str=
+uct msm_dp *msm_dp_display,
+> >  {
+> >  	struct drm_connector *connector =3D NULL;
+> > =20
+> > -	connector =3D drm_bridge_connector_init(msm_dp_display->drm_dev, enco=
+der);
+> > +	connector =3D drm_bridge_connector_init(msm_dp_display->drm_dev, enco=
+der,
+> > +					      BIT(HDMI_COLORSPACE_RGB));
+>=20
+> Just to point out: this is wrong.
+Yeah, I understand why you're saying that just that I haven't really
+modified these.
+>=20
+> >  	if (IS_ERR(connector))
+> >  		return connector;
+> > =20
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/ms=
+m/dsi/dsi_manager.c
+> > index ca400924d4ee..4b87f4f78d38 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> > @@ -479,7 +479,7 @@ int msm_dsi_manager_connector_init(struct msm_dsi *=
+msm_dsi,
+> >  	if (ret)
+> >  		return ret;
+> > =20
+> > -	connector =3D drm_bridge_connector_init(dev, encoder);
+> > +	connector =3D drm_bridge_connector_init(dev, encoder, BIT(HDMI_COLORS=
+PACE_RGB));
+>=20
+> And this totally depends on the bridge chain. If we have a DSI-to-HDMI
+> bridge somewhere in the middle, we are able to output YUV data to the
+> HDMI connector.
+That's actually the usecase for this patch: to allow passing other color
+formats, but this patch is a transitory patch to further expose the fact
+drm_bridge_connector_init was embedding BIT(HDMI_COLORSPACE_RGB) for the
+format. See rockchip implementation for this bit, the last patch in this
+series.
+>=20
+> >  	if (IS_ERR(connector)) {
+> >  		DRM_ERROR("Unable to create bridge connector\n");
+> >  		return PTR_ERR(connector);
+>=20
+> --=20
+> With best wishes
+> Dmitry
+
+--v1gtAyp9vO1WI533
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmjDCDQACgkQ9jQS5glH
+1u9SPxAAxLNqwmVzYKpHxEUz6NOR7EvDV88Xg0JuavUZsq1Uap+ICO9+GoQiot8V
+mU7xxr+VGMTCybDLe1Vgl5GuRC1bBFHAsHTnNd8RJsPAGk78E6wXbTHP+ZQh3nJI
+PWqEKK+PVGQcRgocat55p0jBz+rC365U8qjVMeGi4jXhnBE30UWxtd+NStnrTriW
+kRdLrRPhAXdJPB+QbGs5xgUZUWjCXESwpTqip+NVqmBpe2kjXX8r5o/yY9dQq7pb
+8EoK47JRCX5/hnH9JzFVGwpY1fu0t+gVl6UJp4NNNdRZtWyl60ScqM+rVSPV1s70
+AHDCuVnHlz1gzQyDP2MSIMkb8h8qKANuf7YJ5jEjMHIZvcE28mIKNWgPgqy/BWB9
+j2gpBsGUAsY712r6ORsFBIg5Gst4sl+J7LnWmumRCr9iVXQyr0w2irkCFrkTUSxc
+GSA26KN5lST0MFrlQcOBmIERbN1h8mBOP1sKYhSwqjMXnsFgIVsIwSz6opDabQP2
+psBnwQz1r5qF6Gafq9jdgTuPjX48btv6Y4z6pSJKg7rFURrlvnrAsXU5hAyyjwYo
+t1K7od0mw7kXGOs8bY9YoaeuCxnru4GhfhZ3qFzc+FjFUtaBm1Kjn53K04sQWSKD
+1zf1Ayr/UCtGnJl9oVb3r44dgk9sFoBhhO+hEsN9c+JOwnY9wj4=
+=Gk55
+-----END PGP SIGNATURE-----
+
+--v1gtAyp9vO1WI533--
