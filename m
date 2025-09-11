@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4E2B53305
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D29EB53310
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0946710E318;
-	Thu, 11 Sep 2025 13:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22FA10EB22;
+	Thu, 11 Sep 2025 13:02:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="biaE/Mqw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FMPIOm8A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEDF010E318
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:09 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BD0u3O021313
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:09 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F25D10EB22
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:47 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BBB0DB015055
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=OTyomZaXMdmAPphIgRSMvoxt
- +heXM0Jm3kdfZ5nhAw0=; b=biaE/Mqw6t8Yhq+11rK5s6HymjveFoH84bZdi+A4
- QXLKg6aHYBSNuhLIU+EBiH3ipTpy09GohI3kFprt7m9oe6W2kuQoEII/jVpov/qp
- 0FnoYlAUhh2ow7Yj6U/98nsEQwDWInI7Uo6lENaZ1z56UtRAXRx/iB9aiOaFNdEB
- QfNGV5O2DZpTJ1jFlI3SWZV03zRIfjZxokCI9Dk5HsQY4SJGQjLxr9EeS/p2/AvY
- CX9Q50nA9LDqoThi5P1vD2szYpw+JP+0fDGXT0Kix0ib9VJR+YXGgpBZGY2Svv9h
- 6ffb9OUJNbXGnxAsW229ttwxlMd/5V8Ng8iVTgW/BQdvPQ==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493qphseuc-1
+ :references:subject:to; s=qcppdkim1; bh=WOjKakWSJUNAIQxWsQlAPujB
+ r+5TdOe/svr2H2na+E4=; b=FMPIOm8Awg8n6eaKaddTiTh3sj+RnU56NbVJ87hz
+ NIBlaXAAIkvKo9pYDptzD3yqHm8DJBEOs0yYNKTLay5mxJY9D0WOsxnodTlo5hxi
+ xR7+vm5RPDaoguYR9ZBi46k05KFoOD5f7Kt7cy4tioE45QskcOYQGUOsCONy3s05
+ Q+6/WBFo9eU21CNfir16Os/a0iGz9/VfLR84RQ8LzNCi6uFRrd1RgTU0NZTrZBsq
+ d0EKUsDiVUyjUz4mnRvBJyfUsxUbwORJa1Hgd0DuyWS8IhyK1IvDRJIrbweDT/Vi
+ aYnm6VKk+hH4kIspiUYJcvqCdZ7O+XlwNJRUS7v7Nuvlbw==
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e4m7kh6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:08 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id
- 71dfb90a1353d-54494477f93so2503436e0c.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:02:08 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:02:46 +0000 (GMT)
+Received: by mail-ot1-f72.google.com with SMTP id
+ 46e09a7af769-74be52f5459so810602a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:02:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757595728; x=1758200528;
+ d=1e100.net; s=20230601; t=1757595766; x=1758200566;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OTyomZaXMdmAPphIgRSMvoxt+heXM0Jm3kdfZ5nhAw0=;
- b=PcvbGFwZCyi4/hndNYPaj40QjucxMtyfbGb14LnGFC7FJWP+A50+97QvsFfHbrG6M8
- 1RM2gM8azJPMIeYE/uWIUrch5IRsIFpITdnuoF/EoCjCkKgq17VA5v82mcZUSmGQplx6
- bNpsJGggXrNezU/FDnbIDVxZkz6LfWLMfX5UFdNOeasGwOal+p0e02X4f13mIvO9vgWy
- XbZ9PXpiSB9vtgbCYUoDd5z/kbKV+qld9JlGpGNTAcaKz9Ptr0ASMMGVMZBUsKkPoMq2
- IqyUxCV1pghx8X9eprmlP4G5G6VpQepnmhqTwj2mJrEm0GeC5ege/hVzumxS34Hxsbrk
- Ohrw==
+ bh=WOjKakWSJUNAIQxWsQlAPujBr+5TdOe/svr2H2na+E4=;
+ b=lhEZ6c0XP1k/XTBhITteAvuiEIpet4prXoKmFCmoQpdAYbGp6IhDuo5DfNSwLKNNNC
+ r4Tl8G3XhhqH7t0GUjkgjQd67sbXO294R0ubJ9UD4gMb8G2YxNlAMhGxrxzvsooy/3Av
+ LpCBFPzl1I2354rB006J81w4Rz9d36tj+L9sBRnC/mspZT3dLu56S/I91oAZ/PWTwCOf
+ JUjVjTV0lS244XP11ag65kLD4Pq0VqI+Nh6KHv958ftuTuTfdAzPOCFfroN2hpuQK7He
+ AUV+1z1fFB+Lc3jz5AwgnxgyOihjstXtbOmTIfPTJwq2nG6Ms3Z5MzymAm0hd9mi1ybb
+ a0iA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXoaMiE4fi2UMH77jTj0izo/RCWzvN0boWEjrQ1lhuoww7FjfF69/Gk7hXoln2u8vuBHCr2jO8X9zI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjLcZYlzRWglov+n5HrC3A4uQZEKE1dKFzZEkm6A4BkFwdWbzX
- c+rppvtMLxcFqin1RGbY4AezEZrspfI4A3/TzTjb/T0IB/6EpMPJ906we5ytTBWwdFAgEC+6LfA
- 23Fw282Kg0OeRXTNAMxSI6nqcbOr3fuiH9bxrK1bgZtAsHix+bUuITwBtvrTQX6I4x+PQx/w=
-X-Gm-Gg: ASbGncs0VE4QIrlmggm5EdxmerCYXyCn5pYXwPUusiu1hYLZwcF43G6ZJK9R/VBAWAt
- phh8AbU9v/jyUdzcNbOesZmRK9e8wR4OLChyn33d63YZDD5nI0pqpJL/M80Cc7ky0sEbjijqNfG
- QXldpaovJOx831ykqEoiqe+tk3Hl8ZdzGW9fH9LMF0vRNoLeApUH+PG6yt5q/2pAV99v2CsLYkt
- 8lNYMyA8vBritx67oaXYqivaiox7JMcM0oWpQRs3HUiTQKxuvG+kB3r4k2gq3H06c5PmAFjTInW
- KkYk6VlRpcSq/Ivsde7+E20Q3oa+oidP0WYwMg6fJZy4pmfNHJGtvsgrvJ4+ma7dkGSJPnWXnG8
- LvHLUaxLUQ2AMHLKND0hOPd6dloQ+EGRtKwQSs/JyorTfNCCw5SC4
-X-Received: by 2002:a05:6122:6315:b0:53a:d808:1ff2 with SMTP id
- 71dfb90a1353d-54a0972db37mr1035134e0c.1.1757595726877; 
- Thu, 11 Sep 2025 06:02:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEhv0v3J8Y27t/nw4xhWgdgl8LDzWqA4+LUKRc00IUTMLdn35XdPB2ACx0uT5AlsOiegud0kQ==
-X-Received: by 2002:a05:6122:6315:b0:53a:d808:1ff2 with SMTP id
- 71dfb90a1353d-54a0972db37mr1035032e0c.1.1757595725938; 
- Thu, 11 Sep 2025 06:02:05 -0700 (PDT)
+ AJvYcCVv8a/tkGASKbv8Y6VdiwjF8yzt7ByiNx0GZtC36YC/q2eZXzKN6nLhowEokmhooJLRkrnryQ+RA5o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLfEfpWwewJ+0QNM55CFI8MhJ9Wnqt9kUISzDxi3PYtsIiXm41
+ y5gTdQMe2jDOJp6JYJk5N7m8TA6a0GOK9jSd7xq0oThdiCUqS58ZrzUfoSXpFHRE46iJlcqVKf8
+ nxxmbMWq3VZju/j+gt0vB0YTpiI4t/kEGwG1/3GL44/0ASMwCDxrtXLLDyVfkhjPl16JsVCk=
+X-Gm-Gg: ASbGncuNgISqGBvR37dbphhJ3rARScJ0vGXTqtxrkHQ+xmAeOSRpozp1zfTh7zJahuY
+ YyqND+FmSzeq1s58UDAkR6X8hKeRTb54bEDLkdMhMHQcq4+9hOoglHFg4x1wqJsdalR0DaUTNGd
+ vawvb3+ZFUmcab/e03Eq6TqGlvt1Hf7jUFmsDmskVe/WXGH29/ixbE+k7mmp3KInJAFxnirsDn3
+ TnPwkVtaRO4MmVziGqi0zalHf7hmjjBjiLku9Fo6oge9hhWHmmwJOz6zaesxBMxrBYAwNLIUC4i
+ /3gdDudh7q2UrRvENaaicbIrfC2BM26QK06UgpaiOU1wkoi4Kk+iwzOhc6EP/qYe4QpesHafehK
+ Jg8JQdxqwz6brG3T32gxWgAfcE8354FCTAxzmQz9bk8ppGnVSSIdF
+X-Received: by 2002:a05:6871:9f23:b0:329:8747:1653 with SMTP id
+ 586e51a60fabf-32987569accmr6700549fac.49.1757595765371; 
+ Thu, 11 Sep 2025 06:02:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHllAsg+d3b0kcKub7S1vojdU22rC6Gpz9ONEV9J6SRbyOSxxcJp+ShDd6GhvzKBP0tyHSfqg==
+X-Received: by 2002:a05:6871:9f23:b0:329:8747:1653 with SMTP id
+ 586e51a60fabf-32987569accmr6700417fac.49.1757595764406; 
+ Thu, 11 Sep 2025 06:02:44 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e63c63d50sm414692e87.65.2025.09.11.06.02.03
+ 2adb3069b0e04-56e5cf2f446sm425872e87.42.2025.09.11.06.02.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 06:02:05 -0700 (PDT)
-Date: Thu, 11 Sep 2025 16:02:01 +0300
+ Thu, 11 Sep 2025 06:02:42 -0700 (PDT)
+Date: Thu, 11 Sep 2025 16:02:40 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Abel Vesa <abel.vesa@linaro.org>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -92,35 +92,34 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] drm/msm/mdss: Add Glymur device configuration
-Message-ID: <hxyh75aajlaymbvaghftcz56ttbpnmxfnc7amr66hhpbt6n5sg@msh4ljalgmvv>
+Subject: Re: [PATCH 0/6] drm/msm: Add display support for Glymur platform
+Message-ID: <xjtg6emrb7svloz2fkaotfbj4m2wzmddxdsdnjk5wkbmocqzmd@l656suk46pkd>
 References: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
- <20250911-glymur-display-v1-4-d391a343292e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250911-glymur-display-v1-4-d391a343292e@linaro.org>
-X-Authority-Analysis: v=2.4 cv=aPDwqa9m c=1 sm=1 tr=0 ts=68c2c850 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=vuHc2ZSrshEqWGcFJyYA:9
- a=CjuIK1q_8ugA:10 a=tNoRWFLymzeba-QzToBc:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: GK6FfRjTaMX7mAZgWYzPizjGwHW5mIG2
-X-Proofpoint-ORIG-GUID: GK6FfRjTaMX7mAZgWYzPizjGwHW5mIG2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDA0MCBTYWx0ZWRfXy+fWphivmoXa
- MjSdtpNsAVfxvcikWHwEmZqnnErvRBLyWNuTuQbYr4N1ofHChnDxs0wnCQARt39CK1A5fjnRmWe
- XLD4uXY2a/RlI79rADEdtUhsb/LwVKgNND9PLHA9AHfD5cIJ3h/dJV1Oak1i4tBDDQtLQzl9J7Z
- DCsviyqp8XqsOS5Gbh0HsSsSKLZ3Bzcw8np536vS3GCsm2sT4LvArMnhZ9DwGbmCEy7Ui0fchWk
- DhkT4ea9/G0ZnNMfDqJC0p36z5otyUXd2kZuvwovhT0sxyvjsINV++RZ+BqpRhgPQdRrsbrqJqD
- YvzHzWHCeE9EyabupN7VpD6H9GDf0uzTSDjnDz6/a4fWfMlg2/b3yecrfaLqFvuhia4vpOn2Oz8
- r2Xqj+Ry
+In-Reply-To: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOCBTYWx0ZWRfX14pH+vLapn8U
+ glozslw3TD/azfHu+I/+6Gw+RiAbYmrsKpwHxlslRmVvKEhEJLGpgBim05xYOEfml2uYabl8gsZ
+ bqhw/1Aso0WvKT3pHP2yaNUhKfssXgjU1WUtWE6yX4SWwd0qVG0CSeEwqQm5q4TVliOO1fM5MdM
+ HZZvsBqgEopm7umwj0kBZtATcGe2O935Hmu02sOZhW4nTgUEHVAj6+CLa8+DVP24YWHN1eT2LQh
+ I4hGwZEB+GaZncSb1zvTZCbSE6e8b9HgmF0bUBBCwBM+hrE0MDku3lnsEVDwcPMSsXlJqdbXp+T
+ K5ysOjvCVu4uoK3YmntPdJg44JzieUsSGKTXffxWvdNcGUafr60wzTrfOyhdqgJNMZxr6Dd+p14
+ 5/z3KpwJ
+X-Authority-Analysis: v=2.4 cv=J66q7BnS c=1 sm=1 tr=0 ts=68c2c876 cx=c_pps
+ a=+3WqYijBVYhDct2f5Fivkw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=cOPp_-mWbVNMstl9cqoA:9 a=CjuIK1q_8ugA:10
+ a=eYe2g0i6gJ5uXG_o6N4q:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: YNjHFovzvISz65OgBSSM_EcNvmNXkbh8
+X-Proofpoint-ORIG-GUID: YNjHFovzvISz65OgBSSM_EcNvmNXkbh8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-10_04,2025-09-11_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509110040
+ impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,16 +135,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 03:28:51PM +0300, Abel Vesa wrote:
-> Add Mobile Display Subsystem (MDSS) support for the Glymur platform.
+On Thu, Sep 11, 2025 at 03:28:47PM +0300, Abel Vesa wrote:
+> The Glymur MDSS is based on the one found in SM8750, with 2 minor number
+> version bump. Differences are mostly in the DPU IP blocks numbers and
+> their base offsets.
 > 
 > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 1 +
->  1 file changed, 1 insertion(+)
+> Abel Vesa (6):
+>       dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem
+>       dt-bindings: display: msm: Document the Glymur Display Processing Unit
+>       dt-bindings: display: msm: Document the Glymur DiplayPort controller
+>       drm/msm/mdss: Add Glymur device configuration
+>       drm/msm/dpu: Add support for Glymur
+>       drm/msm/dp: Add support for Glymur
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
+This will not work without the UBWC config for this paltform. Please
+include it into the next submission.
 
 -- 
 With best wishes
