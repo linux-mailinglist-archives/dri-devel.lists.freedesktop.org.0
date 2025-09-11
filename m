@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D07CB52720
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 05:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACEAB52721
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 05:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB63210EA00;
-	Thu, 11 Sep 2025 03:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB0A10EA07;
+	Thu, 11 Sep 2025 03:41:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EIs45YAr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NusHSjON";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C55310EA00
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 035AA10EA00
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 03:41:28 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2Ik97005569
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 03:41:27 GMT
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2JLnw003626
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 03:41:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 30MVqau9h2AN1WxS7vqJoVCbxWXWCZTilNucOIr42c8=; b=EIs45YAro3qEwEC3
- a49S8A5D3EncjdPj4pIvqAWDdUSLOmHG2HDZGjZuHSARbL6L6rSQhLJ91KRJLPg0
- vVLgDbfsziahyewB62mUcRNrkrKWFPciihRSbL10ktDRqQlC1mnzL+gPOwHVtB12
- dAiGsS/ItG3P2pXKFK2oRk1R6Qm2uA2ERieOcO3a0Nr4HvyWnDb9ba5XhHm6oNM3
- bfgpkEOMoOK0nuYdpgPdOUSvSCmq/pdWgRjWz7ZU+FxpFXomJEQZQBjObtHys6AR
- uignD4nLgz5sXiwtNIAnyVDI+7DP3Goxu/MCFYLDCAPt64nDzzU2C7LkOgdIONfO
- zCfOww==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2a62t-1
+ NKbqXe7PMoUiJg4m7VYYPBBjDC8LJ5A/UZIjVDLkyUM=; b=NusHSjONBcCZHeO6
+ NNHtprFSfWfZeWdl6bd7CF6//A2hSDg1yDm2z6KzBrfynLDbcKNLqmeB7kTrwhAg
+ 4v9QCD/rBeVjTh7dbZZIdqTbDyFGbgMVn4/KsH0WTMITAtCtR54omKhMWWvpPdFw
+ twwNg0yzbcjFBNogTU5KNGgbsFLXNxVYPd3I/AGHzvr8gVmq6uVa2yq7XhSGfieP
+ Qok5WUVXNsN5F18iGfhWtawoMBS49tkJmHdA1j8yo55fmXjZM+fgOQyXJz+GszFT
+ 5HDnIHLthlYE0+c+pLRxLtqH+Jt3mSWnWxRhOzxXC3sgh77BJxeNjOE1Yf5WI/ka
+ nJIiiQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490bwse9v0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 03:41:27 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-32db3d5f205so423383a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:41:27 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 03:41:28 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-2445805d386so3501755ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 20:41:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757562086; x=1758166886;
+ d=1e100.net; s=20230601; t=1757562087; x=1758166887;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=30MVqau9h2AN1WxS7vqJoVCbxWXWCZTilNucOIr42c8=;
- b=c4Ew0bEPxTnRz7d4BwjZomF9u3KI5NcVYndoc6IZ+4CSHHJ72HHBU+CrcNJSh/TXzK
- lkeK22pimidwwIvoU0JF6LNBT+X0ikNByZoA1Z0t7uLFsWsQQZcTL/GJoytKWntID9MW
- sB9fTE3bDQ6fRvjA7WnLf5YhKz8u0yftoyhbbTffCYbLy7UlpP6KHnJQNvvbnZXWCmk+
- XvzeyV42CTY7IdD3XItsdnp3E+Nb+vHWcmg6LMDo1+n8UOsHkJdb1C3Tk8y4APZixghC
- ujdrZTvXlJQhRu+tt4bXAGfLYH1ctEeQpy6k/cTQRGUYPO4r+3c5J/ga6ZPnK0g/WKv5
- WHpg==
+ bh=NKbqXe7PMoUiJg4m7VYYPBBjDC8LJ5A/UZIjVDLkyUM=;
+ b=psZW7CFsmkljbyyX2X75ez/S3ay8icwBBAnSafsG1vZLlX/pt9VxRkAO8jsfjF0JNI
+ EDVi/nckLLOkUObwKrRcirh3gAAd/ufCJrVM+H9RFLMIsxEZ7M+KQMmN4fsf2nFIp3x4
+ jrnev+6WvOaUGG1luxIhC1tWrFuJ1u+WVgNj0z/gyNVjNPiCgfR6r6djqi3DZr+d6Zau
+ FqNyXTk0pmbjRPRdRq+X/s8cQgPVo45bA2726yYhu40gcrmfjBpHri96BAPzUvbJR9Tl
+ JptpHBinXYX5cz/U+TvbFIxkb7BTqMsDY6TKNKtN4cJPs8FW1zUeT8yWD5dyo+gdqJtr
+ M+Sw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVikiSssSiU8QhHcyhBS+BO8ySDfASpxPijwsRjEV0e1wlEURI+8p6gTrlKwhTiMXUzOrfzpqugvo8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNnn7nCY9H9z9lixWZpEj8g5myrjJDFhPUtgkraUbXEy6zMt2J
- tw1I0frljUMm776QMWz0PBR/WmxxHQHEYZ+j5WlJp9mDNqcelmVvrzS0qX8N80gdyoZLbwvAOAU
- VL5BGnEayJHgGuMWyxKcXLQUukYqkaz8/YjxQdaqwXmdjeT/JcfGvNQIgltbJZ1EoV5GfCQ==
-X-Gm-Gg: ASbGncsewlBK5QNcB96Cil2x7vDOlo6flwy7C0P2FdWBvdI99oERZL+QRmFVJhidnI2
- JX0bwXB3GVhYvbPCpzVmPzStFcjE5LflqO0tr8C39OlNY66hchDoqoVZE1PwEy6ZpsvFkcn+Rt3
- BdKEtEBnSIge8f/cXZt8MfTtZzpCzKtC5Hmn5qDlbSh+OEd0eNFG7JJUUINHp4v5QubY/HqYCDX
- 9euCnauPed+n/Bg0Okdp31lz1DBLtRTXTv4H3i/TWQLpTDvIeypq2PtsfDQ4+URFck9KmRkAirN
- 0Y3d1Gpr6CW1dJOe+djVvm5xI5mIZuQuLjErE/NILY6lxjWwYHTfYlnn4olQkvAmEyDV0rY/kyh
- XDeZz3tGcA9u9DBq8tUdhJco=
-X-Received: by 2002:a17:902:d2d1:b0:250:411d:fa83 with SMTP id
- d9443c01a7336-2516dfcccbemr289529655ad.15.1757562085879; 
- Wed, 10 Sep 2025 20:41:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNK+dvhXEwjPbidgExO5vSVEoN4mnn7hiDWFYTbts3RbLRlhWqysKV/H87BRXyKuni3VCG8w==
-X-Received: by 2002:a17:902:d2d1:b0:250:411d:fa83 with SMTP id
- d9443c01a7336-2516dfcccbemr289529355ad.15.1757562085362; 
- Wed, 10 Sep 2025 20:41:25 -0700 (PDT)
+ AJvYcCX/2oZK1EcIkQJIxapo+BVroMVqJzfNTl+YrbrCft7livgzg9mpc0BFDTunXVZhOVE2QfCXY4BOOFw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjKMBUmM22GSVZxJCY6yy+vRzU5ghbYnfhZw6OMzMxGb7P88SQ
+ o6iR/spN6MeiQkiS6mMTgvJlMy++Lp8nDLVwk8cMPg7HSEG7aZZ67/xyj3KHiDuvHjtnWkpcYH/
+ EGsSof/KtbOw3XEOvJTTKXdg39CandyWRLFgMJIy/ubWtUE4uRa6ggWEWBL0uM0mqdEGTjQ==
+X-Gm-Gg: ASbGncvyWQ7+IuBd/z8vUDGwGunZDWI6CuMH0rBjZxWh/Xeuxaw+pY37IIA9q65r7yz
+ Y8QBwhsidmjbe48LNevu5JhIKhSRXyM9aMlJPkAHdjLO5uEBn5L3ogYHt7uI1Jp6WAqnMT0UZwy
+ ao53VRDmP0q0w50bs4z8roQC5kvslcA+TD8pLMEWcl8LqrYYpx0E+IlIFALmIF5xloBqVyvjwws
+ rjn5JQPybes8pzOWRcLcxZ0fU6eWtl/ErJqA1R/SkthhfTaO28uuKQXx1Mr2XbDrMWerqnbO2+c
+ HTax8lvbkag1dJh0PEQ8O5Pf1j21cYs1JQmasahSvMh1PSizeNc0/30T5pdI6vLzY+3Cbi6HUUC
+ ydhLvKQtmc9n9bv1ByVqGjwc=
+X-Received: by 2002:a17:903:38cf:b0:245:f7f3:6760 with SMTP id
+ d9443c01a7336-25175f72ac4mr220641435ad.55.1757562087466; 
+ Wed, 10 Sep 2025 20:41:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF2kwOIrXlQY9Hp2LbT+Ha1VF4JSti2xLqtCO4iZN0yyVAUste29kkfj5azPlxcC0nrkqPLFA==
+X-Received: by 2002:a17:903:38cf:b0:245:f7f3:6760 with SMTP id
+ d9443c01a7336-25175f72ac4mr220641085ad.55.1757562086931; 
+ Wed, 10 Sep 2025 20:41:26 -0700 (PDT)
 Received: from hu-azarrabi-lv.qualcomm.com (Global_NAT1.qualcomm.com.
  [129.46.96.20]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-25c3b304f76sm2962275ad.130.2025.09.10.20.41.23
+ d9443c01a7336-25c3b304f76sm2962275ad.130.2025.09.10.20.41.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Sep 2025 20:41:24 -0700 (PDT)
+ Wed, 10 Sep 2025 20:41:26 -0700 (PDT)
 From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-Date: Wed, 10 Sep 2025 20:41:14 -0700
-Subject: [PATCH v11 01/11] firmware: qcom: tzmem: export shm_bridge
- create/delete
+Date: Wed, 10 Sep 2025 20:41:15 -0700
+Subject: [PATCH v11 02/11] firmware: qcom: scm: add support for object
+ invocation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-1-520e867b3d74@oss.qualcomm.com>
+Message-Id: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-2-520e867b3d74@oss.qualcomm.com>
 References: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-0-520e867b3d74@oss.qualcomm.com>
 In-Reply-To: <20250910-qcom-tee-using-tee-ss-without-mem-obj-v11-0-520e867b3d74@oss.qualcomm.com>
 To: Jens Wiklander <jens.wiklander@linaro.org>,
@@ -95,31 +95,30 @@ Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
  linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
  Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuldeep Singh <quic_kuldsing@quicinc.com>
+ Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.13.0
-X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c244e7 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=5numxkeOl0lsm_bA3l4A:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: gzmNU4paHkamu19Sm8AapgcVL1kxe7S1
-X-Proofpoint-GUID: gzmNU4paHkamu19Sm8AapgcVL1kxe7S1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX2oR9yFPiN2c6
- 8+wqzR9gg6r2J4pR5y2w/kPlNvNjzsFtKJlzhDYDf8zzOLqn5R4p06+XPSPau31d4vPrj2JFgOB
- /mwpP/Tr83beETptEpSaPSV7n1OWQb9cGfneSD+cz7b6jtClXNmVV44Z9rHlVD+H8s7o6ZvVHTS
- nx7Z4jtTIz/ZuPBB/s6Qq74ViisLjjcL1e1UTRr33ZKgR2vktv3EoclgMjXX/Q76rvYnWpbWJQA
- xJ691zbES69TRO1KdJMF41pCV/Qy1/qPDyHhAwHRTSQLQbN8sHN+v7S3CE0cOHkYPDJhrnOBQ6f
- RadMBEKlrpwrSB7hScXkfLf05Xlwwt1tSNVJj992ITNN/IcjOGBlnb+WIsNP5Jdq2iBYjQYhmcr
- 4H+MmtyG
+X-Proofpoint-ORIG-GUID: 0B6aRlb8bjez21zFUlqduWjTdY82xw6B
+X-Proofpoint-GUID: 0B6aRlb8bjez21zFUlqduWjTdY82xw6B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfX+F3DCoQMJ+Oz
+ /It+SSnmt5B+LFWJq/ar6wUzQhPQ4iuQAOYD5IrXOhXeYkE3GBnuDNVvF9PS/xzPyzfiolIz/B6
+ yKuCZZuG+5ZD07IkrBwC3RMM8Uz4A9Cq6aeIZijs1ulGqCRtojQGvp4E0Mik1RVcWH339bv8rXO
+ 6GmajS84/yJTaiUpy8l2uMrl1JQ8LVT/Y1Ig4iXSrCtvJuhUI9IQWHCuSAk1pjgcJcRlRxQ3JPR
+ S4wedTdaKVhFT02+1y1w0MeTyr1RCQbTdL05auUn8noDswnrUqSd5x10mOkm7/HAXl1r3rPGDH8
+ v4/UjQhBwpPTwUfUniLwOFVTTsFDaMV+XtPl0cY4lIGqlj3/Fb9dGBU/R9PcQiRTa3R1MD/vcsw
+ 254RiG/X
+X-Authority-Analysis: v=2.4 cv=G4kcE8k5 c=1 sm=1 tr=0 ts=68c244e8 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=dBYAKgxw8cyf2mnx-aAA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,135 +134,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Anyone with access to contiguous physical memory should be able to
-share memory with QTEE using shm_bridge.
+Qualcomm TEE (QTEE) hosts Trusted Applications (TAs) and services in
+the secure world, accessed via objects. A QTEE client can invoke these
+objects to request services. Similarly, QTEE can request services from
+the nonsecure world using objects exported to the secure world.
+
+Add low-level primitives to facilitate the invocation of objects hosted
+in QTEE, as well as those hosted in the nonsecure world.
+
+If support for object invocation is available, the qcom_scm allocates
+a dedicated child platform device. The driver for this device communicates
+with QTEE using low-level primitives.
 
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
 Tested-by: Harshal Dev <quic_hdev@quicinc.com>
-Reviewed-by: Kuldeep Singh <quic_kuldsing@quicinc.com>
 Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 ---
- drivers/firmware/qcom/qcom_tzmem.c       | 63 ++++++++++++++++++++++++++------
- include/linux/firmware/qcom/qcom_tzmem.h | 15 ++++++++
- 2 files changed, 67 insertions(+), 11 deletions(-)
+ drivers/firmware/qcom/qcom_scm.c       | 119 +++++++++++++++++++++++++++++++++
+ drivers/firmware/qcom/qcom_scm.h       |   7 ++
+ include/linux/firmware/qcom/qcom_scm.h |   6 ++
+ 3 files changed, 132 insertions(+)
 
-diff --git a/drivers/firmware/qcom/qcom_tzmem.c b/drivers/firmware/qcom/qcom_tzmem.c
-index ea0a35355657..186511ced924 100644
---- a/drivers/firmware/qcom/qcom_tzmem.c
-+++ b/drivers/firmware/qcom/qcom_tzmem.c
-@@ -109,7 +109,19 @@ static int qcom_tzmem_init(void)
+diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+index 26cd0458aacd..9b5a9a0f68cf 100644
+--- a/drivers/firmware/qcom/qcom_scm.c
++++ b/drivers/firmware/qcom/qcom_scm.c
+@@ -2093,6 +2093,122 @@ static int qcom_scm_qseecom_init(struct qcom_scm *scm)
+ 
+ #endif /* CONFIG_QCOM_QSEECOM */
+ 
++/**
++ * qcom_scm_qtee_invoke_smc() - Invoke a QTEE object.
++ * @inbuf: start address of memory area used for inbound buffer.
++ * @inbuf_size: size of the memory area used for inbound buffer.
++ * @outbuf: start address of memory area used for outbound buffer.
++ * @outbuf_size: size of the memory area used for outbound buffer.
++ * @result: result of QTEE object invocation.
++ * @response_type: response type returned by QTEE.
++ *
++ * @response_type determines how the contents of @inbuf and @outbuf
++ * should be processed.
++ *
++ * Return: On success, return 0 or <0 on failure.
++ */
++int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
++			     phys_addr_t outbuf, size_t outbuf_size,
++			     u64 *result, u64 *response_type)
++{
++	struct qcom_scm_desc desc = {
++		.svc = QCOM_SCM_SVC_SMCINVOKE,
++		.cmd = QCOM_SCM_SMCINVOKE_INVOKE,
++		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
++		.args[0] = inbuf,
++		.args[1] = inbuf_size,
++		.args[2] = outbuf,
++		.args[3] = outbuf_size,
++		.arginfo = QCOM_SCM_ARGS(4, QCOM_SCM_RW, QCOM_SCM_VAL,
++					 QCOM_SCM_RW, QCOM_SCM_VAL),
++	};
++	struct qcom_scm_res res;
++	int ret;
++
++	ret = qcom_scm_call(__scm->dev, &desc, &res);
++	if (ret)
++		return ret;
++
++	if (response_type)
++		*response_type = res.result[0];
++
++	if (result)
++		*result = res.result[1];
++
++	return 0;
++}
++EXPORT_SYMBOL(qcom_scm_qtee_invoke_smc);
++
++/**
++ * qcom_scm_qtee_callback_response() - Submit response for callback request.
++ * @buf: start address of memory area used for outbound buffer.
++ * @buf_size: size of the memory area used for outbound buffer.
++ * @result: Result of QTEE object invocation.
++ * @response_type: Response type returned by QTEE.
++ *
++ * @response_type determines how the contents of @buf should be processed.
++ *
++ * Return: On success, return 0 or <0 on failure.
++ */
++int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
++				    u64 *result, u64 *response_type)
++{
++	struct qcom_scm_desc desc = {
++		.svc = QCOM_SCM_SVC_SMCINVOKE,
++		.cmd = QCOM_SCM_SMCINVOKE_CB_RSP,
++		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
++		.args[0] = buf,
++		.args[1] = buf_size,
++		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_RW, QCOM_SCM_VAL),
++	};
++	struct qcom_scm_res res;
++	int ret;
++
++	ret = qcom_scm_call(__scm->dev, &desc, &res);
++	if (ret)
++		return ret;
++
++	if (response_type)
++		*response_type = res.result[0];
++
++	if (result)
++		*result = res.result[1];
++
++	return 0;
++}
++EXPORT_SYMBOL(qcom_scm_qtee_callback_response);
++
++static void qcom_scm_qtee_free(void *data)
++{
++	struct platform_device *qtee_dev = data;
++
++	platform_device_unregister(qtee_dev);
++}
++
++static void qcom_scm_qtee_init(struct qcom_scm *scm)
++{
++	struct platform_device *qtee_dev;
++	u64 result, response_type;
++	int ret;
++
++	/*
++	 * Probe for smcinvoke support. This will fail due to invalid buffers,
++	 * but first, it checks whether the call is supported in QTEE syscall
++	 * handler. If it is not supported, -EIO is returned.
++	 */
++	ret = qcom_scm_qtee_invoke_smc(0, 0, 0, 0, &result, &response_type);
++	if (ret == -EIO)
++		return;
++
++	/* Setup QTEE interface device. */
++	qtee_dev = platform_device_register_data(scm->dev, "qcomtee",
++						 PLATFORM_DEVID_NONE, NULL, 0);
++	if (IS_ERR(qtee_dev))
++		return;
++
++	devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
++}
++
+ /**
+  * qcom_scm_is_available() - Checks if SCM is available
+  */
+@@ -2325,6 +2441,9 @@ static int qcom_scm_probe(struct platform_device *pdev)
+ 	ret = qcom_scm_qseecom_init(scm);
+ 	WARN(ret < 0, "failed to initialize qseecom: %d\n", ret);
+ 
++	/* Initialize the QTEE object interface. */
++	qcom_scm_qtee_init(scm);
++
  	return 0;
  }
  
--static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-+/**
-+ * qcom_tzmem_shm_bridge_create() - Create a SHM bridge.
-+ * @paddr: Physical address of the memory to share.
-+ * @size: Size of the memory to share.
-+ * @handle: Handle to the SHM bridge.
-+ *
-+ * On platforms that support SHM bridge, this function creates a SHM bridge
-+ * for the given memory region with QTEE. The handle returned by this function
-+ * must be passed to qcom_tzmem_shm_bridge_delete() to free the SHM bridge.
-+ *
-+ * Return: On success, returns 0; on failure, returns < 0.
-+ */
-+int qcom_tzmem_shm_bridge_create(phys_addr_t paddr, size_t size, u64 *handle)
- {
- 	u64 pfn_and_ns_perm, ipfn_and_s_perm, size_and_flags;
- 	int ret;
-@@ -117,17 +129,49 @@ static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
- 	if (!qcom_tzmem_using_shm_bridge)
- 		return 0;
+diff --git a/drivers/firmware/qcom/qcom_scm.h b/drivers/firmware/qcom/qcom_scm.h
+index 0e8dd838099e..a56c8212cc0c 100644
+--- a/drivers/firmware/qcom/qcom_scm.h
++++ b/drivers/firmware/qcom/qcom_scm.h
+@@ -156,6 +156,13 @@ int qcom_scm_shm_bridge_enable(struct device *scm_dev);
+ #define QCOM_SCM_SVC_GPU			0x28
+ #define QCOM_SCM_SVC_GPU_INIT_REGS		0x01
  
--	pfn_and_ns_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
--	ipfn_and_s_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
--	size_and_flags = area->size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
-+	pfn_and_ns_perm = paddr | QCOM_SCM_PERM_RW;
-+	ipfn_and_s_perm = paddr | QCOM_SCM_PERM_RW;
-+	size_and_flags = size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
++/* ARM_SMCCC_OWNER_TRUSTED_OS calls */
 +
-+	ret = qcom_scm_shm_bridge_create(pfn_and_ns_perm, ipfn_and_s_perm,
-+					 size_and_flags, QCOM_SCM_VMID_HLOS,
-+					 handle);
-+	if (ret) {
-+		dev_err(qcom_tzmem_dev,
-+			"SHM Bridge failed: ret %d paddr 0x%pa, size %zu\n",
-+			ret, &paddr, size);
++#define QCOM_SCM_SVC_SMCINVOKE			0x06
++#define QCOM_SCM_SMCINVOKE_INVOKE_LEGACY	0x00
++#define QCOM_SCM_SMCINVOKE_CB_RSP		0x01
++#define QCOM_SCM_SMCINVOKE_INVOKE		0x02
 +
-+		return ret;
-+	}
+ /* common error codes */
+ #define QCOM_SCM_V2_EBUSY	-12
+ #define QCOM_SCM_ENOMEM		-5
+diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
+index 0f667bf1d4d9..a55ca771286b 100644
+--- a/include/linux/firmware/qcom/qcom_scm.h
++++ b/include/linux/firmware/qcom/qcom_scm.h
+@@ -175,4 +175,10 @@ static inline int qcom_scm_qseecom_app_send(u32 app_id,
+ 
+ #endif /* CONFIG_QCOM_QSEECOM */
+ 
++int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
++			     phys_addr_t outbuf, size_t outbuf_size,
++			     u64 *result, u64 *response_type);
++int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
++				    u64 *result, u64 *response_type);
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_tzmem_shm_bridge_create);
-+
-+/**
-+ * qcom_tzmem_shm_bridge_delete() - Delete a SHM bridge.
-+ * @handle: Handle to the SHM bridge.
-+ *
-+ * On platforms that support SHM bridge, this function deletes the SHM bridge
-+ * for the given memory region. The handle must be the same as the one
-+ * returned by qcom_tzmem_shm_bridge_create().
-+ */
-+void qcom_tzmem_shm_bridge_delete(u64 handle)
-+{
-+	if (qcom_tzmem_using_shm_bridge)
-+		qcom_scm_shm_bridge_delete(handle);
-+}
-+EXPORT_SYMBOL_GPL(qcom_tzmem_shm_bridge_delete);
-+
-+static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-+{
-+	int ret;
- 
- 	u64 *handle __free(kfree) = kzalloc(sizeof(*handle), GFP_KERNEL);
- 	if (!handle)
- 		return -ENOMEM;
- 
--	ret = qcom_scm_shm_bridge_create(pfn_and_ns_perm, ipfn_and_s_perm,
--					 size_and_flags, QCOM_SCM_VMID_HLOS,
--					 handle);
-+	ret = qcom_tzmem_shm_bridge_create(area->paddr, area->size, handle);
- 	if (ret)
- 		return ret;
- 
-@@ -140,10 +184,7 @@ static void qcom_tzmem_cleanup_area(struct qcom_tzmem_area *area)
- {
- 	u64 *handle = area->priv;
- 
--	if (!qcom_tzmem_using_shm_bridge)
--		return;
--
--	qcom_scm_shm_bridge_delete(*handle);
-+	qcom_tzmem_shm_bridge_delete(*handle);
- 	kfree(handle);
- }
- 
-diff --git a/include/linux/firmware/qcom/qcom_tzmem.h b/include/linux/firmware/qcom/qcom_tzmem.h
-index b83b63a0c049..48ac0e5454c7 100644
---- a/include/linux/firmware/qcom/qcom_tzmem.h
-+++ b/include/linux/firmware/qcom/qcom_tzmem.h
-@@ -53,4 +53,19 @@ DEFINE_FREE(qcom_tzmem, void *, if (_T) qcom_tzmem_free(_T))
- 
- phys_addr_t qcom_tzmem_to_phys(void *ptr);
- 
-+#if IS_ENABLED(CONFIG_QCOM_TZMEM_MODE_SHMBRIDGE)
-+int qcom_tzmem_shm_bridge_create(phys_addr_t paddr, size_t size, u64 *handle);
-+void qcom_tzmem_shm_bridge_delete(u64 handle);
-+#else
-+static inline int qcom_tzmem_shm_bridge_create(phys_addr_t paddr,
-+					       size_t size, u64 *handle)
-+{
-+	return 0;
-+}
-+
-+static inline void qcom_tzmem_shm_bridge_delete(u64 handle)
-+{
-+}
-+#endif
-+
- #endif /* __QCOM_TZMEM */
+ #endif
 
 -- 
 2.34.1
