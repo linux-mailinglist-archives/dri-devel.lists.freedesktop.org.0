@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD06B53E21
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 23:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FACB53E1E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 23:52:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 695D510EB96;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39CD510E155;
 	Thu, 11 Sep 2025 21:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PXS3ZON4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BXaDSszT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2750510E133
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 17:02:18 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-b00a9989633so202153766b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 10:02:18 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70B3810E160
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 17:02:19 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-622b4b14a75so1913265a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 10:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757610137; x=1758214937; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RSnllEdABgmRcLsHtfpUL8gI7RsqTdIWFArVq050vuk=;
- b=PXS3ZON4C2DXDmNLlmuavYwHjBEv13EKffC6ulLSOEXn3yEdfa5HpZ/hbmaD21SgSC
- YkHE5wY4QGTGJvJlr7/HvZbHNIi+3kZq3hsC+ifBBQsZPXwbJg0pAjj+LWFnF7l0tQqm
- 1eGseU3j1Nj/36Q10kRq1VhmR0Dspvl7ydVM0QI2MA4/nxk8sKj2Z9uO2yvQpVZJZz4f
- DYi4BSefhWUzGi9lCOBO0k69KrC3kRqSvurM8bT1cPZdte68KKx/iZQQbfGZq9wKd+oh
- x0vssEPaTYFp54i0yfKq69zPRweCGi3WjRrthRH1qY5kvVCkf8vNw1/37AtnYoyJqKq+
- HYRQ==
+ d=gmail.com; s=20230601; t=1757610138; x=1758214938; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=FJk0hVL26JapxqBeuQwzrSE0cPApYyqFtLP73ac9uj4=;
+ b=BXaDSszTw1A/Yu8WzEH1yLwn8TG/UNYN0lN68pz9HusqFQVMgmysya21TpjKO1v3gf
+ OJCDXhV/sqYg21NMPZI0+gnj1//ZpHeISaxseAue/ucwbqysfA3Ubl+XVy3n/rzRcz0A
+ p77IQvkxk/AMjhVKRmmj5x+EDCwL+X+nhNbrXdPQOp1VNQR+vBc1h3L8D8wTnVb1lcQc
+ 8uwrG5id72Up1nkCgKB3m7uw46hLO3IcN6XIKIq+2e4GOIUlj1yJn5cLO6kUTG69bpkd
+ XViIM4LZpGvMmWRAIt+DotsUDaaLvMMPSafyUVLL6HiTYAhIJt+DeDqL4EQ8fv3pxH7S
+ 4OkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757610137; x=1758214937;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RSnllEdABgmRcLsHtfpUL8gI7RsqTdIWFArVq050vuk=;
- b=KPRTFcgc6ZYCxkguH7BCMdmNoXAoIJjJTwftRxk51ZxG0Gw+AcNdIBd0PeMkpZdSZ4
- gjlHCi2aZJsYlb7kkBxoe7B4PX0vM+j8kRpPj1+juVBAIrY1LMY5w2tJWB/JQnuPZQWc
- kSfwp8sAa7cV+XROh0M42Iq9Zm8sdeSDl6Jlt9syyjezqKkbrQraIl12FVY/31vKEt7c
- hZ2S8lkvqrVJpndXFAtNpwYXwZFSgMT0+9N0M45O15Q+HH6bKT693sAU+t8bvuMukM+E
- fpSigWNHe4RUwd4IsJJ6wMQ/o3IF5oVutXM9ynYnIArtM7YLCR1W70Q+ZTc18ODdNMf6
- /oyA==
+ d=1e100.net; s=20230601; t=1757610138; x=1758214938;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FJk0hVL26JapxqBeuQwzrSE0cPApYyqFtLP73ac9uj4=;
+ b=Wsylb5HijdDognSC0hOAanVS+cwh8HOh29tLAmn86bTMZwcHCh5OVyPGetP+IOBkiD
+ G7N3D+h4yfvLt4dhPFfOiuO/8HDcPjEb69V7aYpRKtZQi04igtJPX45t/BdRIxvU+usj
+ kANOqtFVyJkKYay5toSzwKVuA4O/WovpxREK2yTOqBSfsCe36LcH1p3itcQkQE7wjVFu
+ 8JmuY168lu9rQQq5UDk2p70n6uPbVv9kpFbxSqW/88veB2Qnj8ceiEoGO3R/DyRy8uEu
+ IROMnx3eNS8wVEMYQk+HZ0DbAetcREqADgeSIsHIu/SJpqqrjB1gRNF1kKpJgQbxYuS8
+ roJw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUERtgUYqffcDSTzUpEE5lpbUHiqkBKK8icQVDOrPFhhdo1W+mgV0/0Dt+GPRUTIotmjwVOAzjfwgM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTtm5uWtkaJVXKGWMpg3xDUoTYlii0rlZ/cXoblBiftsxUhf6F
- 79JhCRfOZRV4lYqtLpZS+UPkGFGSCO8I9Z7CJKswDZEqk8RFNMXrDl4=
-X-Gm-Gg: ASbGncu2BR8j3Ok/eUGXdFnaEn1GFE4gVAJtLELQ0uNtwEo51xSzhqoQrF1Fhso4hsk
- wAXodRsiswZ82SVFiPQr/twrX4/MOAEu0tbz8aXdgcTdZpEzFC2NR2xidAXuypYLXzTr7eRMU60
- +ylWDXFza9XF+lSuo80eqdab/HbTnXV/p+TVbkqgwyct/9NQD4XP3ICO94aX6UwDXxBAOlId013
- 1D+MRUu4jVgfpwrVQ2C6uUUICp2zXU1+fbjWiztZQVUzr9lDPDaCy+pSOSqR2JzGGgNNhUW+OzN
- 4wFql5mCqiXRvOuyrwcE5GM72lb60kA7KfcwmUVB7E4IQ5l/PRPrUu/nFm5g3joj3MV+A5rbmIy
- bQuTyOvDVmluUrUyuv6tlOGdzwZ8IFcQ7jsFQbz0hSF7sIQIjGn0InumP+pu032c+tiDsnSDVXC
- 5LVxKfi4JzAqba9GZeVxTx
-X-Google-Smtp-Source: AGHT+IGVr9IIEZr+8Z2efkcqBDn+wu417ZpSCDs1Qv8LcIf/zr0I3mWUWCQKBCdz8daDEq9iNNIPEg==
-X-Received: by 2002:a17:907:9623:b0:afa:1d2c:bbd1 with SMTP id
- a640c23a62f3a-b07c25b5bf1mr8227066b.30.1757610136353; 
- Thu, 11 Sep 2025 10:02:16 -0700 (PDT)
+ AJvYcCXrkTwO9fufUUON/jCzywzZpcb1NW3c86+3SF00hgdNidl/U3eOtLOYhGeDWASpRRixlCF5ooEqXME=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxRZfsr/DRcn5CdCxYo6JrZopaIlHBg8qUSOC7U5E/5qaM1RUh
+ Nkc6nbFwQ8paF1gjAtaNsM7aHJfsmavtuCXvyf9E/c2fzFAKX6ePpR4=
+X-Gm-Gg: ASbGncun7E9PSYiC9xXzTHtWuDkM7QKQDAM+ABlWVnFbSuJSGUr+XO8oDFAVDMA9jJL
+ JVWODxOe5gcrFYe6MT6cx2KlH80qHh1j8ZFUaR+VKuAJ2DkZAdF2gBDrSP+QzdZDS/pnHLFEbia
+ h/vll2x3OehVF8ISfBfwyzhJOl8qbwEwTXEyLKJv7dRVyv3hAGK6oRvcSiMeI82KG05AKxQvRk1
+ 32Fb3MXOcMkrjEE0O9lwmpCyw1jjGeepdCRZ9EoqrOO7rugHYtJkKmidym+illoU3BhpDFEwWoQ
+ lHw0OaxA+DoM7Q30NdudJ3i5S49GvBe09XZLnvu5oYWefMfK4b0WakG8cVw1f9ldG9czHPsOIrF
+ rF0CjXitTBTd2CmQ6/Xq+higImB/XbMvObX7rnTHwIew/Q6TKtqwHECToVrSry7BB0OXdDhFfpI
+ vHHoDIAdAI3e6nYzigSi+Nu12RrMd/5/o=
+X-Google-Smtp-Source: AGHT+IHx2KcsYmCWeBeWcnkZxEbDJE1L/17SMXH4yrK85mCe32s1OPDe2bxpZe+SNwy+ZLdoE3wGEg==
+X-Received: by 2002:a17:907:3f92:b0:b07:a76e:db6e with SMTP id
+ a640c23a62f3a-b07a76edcecmr394044366b.21.1757610137790; 
+ Thu, 11 Sep 2025 10:02:17 -0700 (PDT)
 Received: from [192.168.1.17] (host-79-12-163-148.retail.telecomitalia.it.
  [79.12.163.148]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b07b30da43esm166632966b.14.2025.09.11.10.02.15
+ a640c23a62f3a-b07b30da43esm166632966b.14.2025.09.11.10.02.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 10:02:15 -0700 (PDT)
+ Thu, 11 Sep 2025 10:02:17 -0700 (PDT)
 From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Subject: [PATCH 0/2] Make hang check aware of preemption
-Date: Thu, 11 Sep 2025 19:01:03 +0200
-Message-Id: <20250911-preemption_aware_hangcheck-v1-0-974819876819@gmail.com>
+Date: Thu, 11 Sep 2025 19:01:04 +0200
+Subject: [PATCH 1/2] drm/msm/registers: Sync GPU registers from mesa
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE8Aw2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDS0ND3YKi1NTcghKgsvjE8sSi1HiQquSM1ORsXYskyyRjcwOL1LTkZCW
- gAUClaZkVYMOjY2trAfxZh5lsAAAA
-X-Change-ID: 20250911-preemption_aware_hangcheck-8b9b3708efcc
+Message-Id: <20250911-preemption_aware_hangcheck-v1-1-974819876819@gmail.com>
+References: <20250911-preemption_aware_hangcheck-v1-0-974819876819@gmail.com>
+In-Reply-To: <20250911-preemption_aware_hangcheck-v1-0-974819876819@gmail.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
  Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
  Abhinav Kumar <abhinav.kumar@linux.dev>, 
@@ -83,11 +81,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Anna Maniscalco <anna.maniscalco2000@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757610134; l=1269;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757610134; l=980;
  i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
- bh=8R6+RH+mErEiPPdYOOstKc0iqhFv59uOICnzE3FZ1Uc=;
- b=pxPb5b9aCV51Le4kGnwLMyZIQhK3o8Ug+ZnmnU6U5fkPwQolNF6qcJjTKzmy8b1c8ePzdfTmi
- FM4IB/E95smA3LI7KRo9fVl+MPFLaG0croAd8N0tJ33O723VIYSQ2nd
+ bh=zJg6XHeseMqyVJBkLEj26VisHJUB1RXdwSibXem5MNs=;
+ b=6yDKz4TF8Fm0al2rGgmBcFOPLrGluHEtzD0SQuvnW97plvnBs59JWWYiRVtR2tY23untSlWyE
+ w3opJ7KenRxCmtic1o7RGJPWob1R6omI5Jfn4+0zw1wZKsTDtm+q/1+
 X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
  pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
 X-Mailman-Approved-At: Thu, 11 Sep 2025 21:52:23 +0000
@@ -106,34 +104,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ever since we added support for preemption hangcheck has been somewhat
-broken as it is not aware of multiple rings.
-
-In some cases it might not recognize that one ring is stuck if the gpu
-switches in and out of it.
+In particular bring in `CP_ALWAYS_ON_CONTEXT`
 
 Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
 ---
-Anna Maniscalco (2):
-      drm/msm/registers: Sync GPU registers from mesa
-      drm/msm: preemption aware hangcheck
+ drivers/gpu/drm/msm/registers/adreno/a6xx.xml | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  3 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |  3 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c         | 28 +++++++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h         |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_preempt.c     | 25 +++++++++----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c       |  3 +-
- drivers/gpu/drm/msm/msm_gpu.c                 | 51 +++++++++++++++++++++------
- drivers/gpu/drm/msm/msm_gpu.h                 |  3 ++
- drivers/gpu/drm/msm/msm_ringbuffer.h          |  6 ++++
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml |  1 +
- 10 files changed, 103 insertions(+), 21 deletions(-)
----
-base-commit: b5bad77e1e3c7249e4c0c88f98477e1ee7669b63
-change-id: 20250911-preemption_aware_hangcheck-8b9b3708efcc
+diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+index 9459b603821711a1a7ed44f0f1a567cf989b749b..6ea5479670970cc610ca25e71aa41af5f328f560 100644
+--- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
++++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
+@@ -254,6 +254,7 @@ by a particular renderpass/blit.
+ 		<bitfield name="CONTEXT" low="4" high="5"/>
+ 	</bitset>
+ 	<reg64 offset="0x0980" name="CP_ALWAYS_ON_COUNTER"/>
++	<reg64 offset="0x0982" name="CP_ALWAYS_ON_CONTEXT"/>
+ 	<reg32 offset="0x098D" name="CP_AHB_CNTL"/>
+ 	<reg32 offset="0x0A00" name="CP_APERTURE_CNTL_HOST" variants="A6XX"/>
+ 	<reg32 offset="0x0A00" name="CP_APERTURE_CNTL_HOST" type="a7xx_aperture_cntl" variants="A7XX-"/>
 
-Best regards,
 -- 
-Anna Maniscalco <anna.maniscalco2000@gmail.com>
+2.51.0
 
