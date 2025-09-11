@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84ABB5372F
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E504DB53733
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291D810E3AF;
-	Thu, 11 Sep 2025 15:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFA410E3B0;
+	Thu, 11 Sep 2025 15:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="W/8Q8TfP";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UG+iT4YB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8156B10E3AF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:14:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757603687; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0DD10E3B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:15:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757603699; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=fN1oUjrQCtFrarLOSqPeTAZ/qjlPA1iQBPsVZbcnUCqHoCsB2EdvpXJXjPzPyBvMaYVKAkO1B1fbjK9hxa0ADRTBHkDbucsqhAGUg8nEkj6fCc7goDzq/I+vEXbML4AWtW4O8Lwy04Jk3HlGxmSVAugYrGjouy6kM9U8xlG/QGI=
+ b=RfQQ/M6Tm+6OaYTlB7FKmVd0qTVEJfQBVE3+fZ4Pa3hwCrsDZb9vqtwn3dRmZS9ScyCktZluwjSwUkEtrQoUSoyCzyDxdG2ChPP7mHlUKAiqUcIIThtaNjiZPKFB6zz48lC780EDMZyUxXSA1lQB2UvVwzqZbvRJflLK12iZmMQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757603687;
+ s=zohoarc; t=1757603699;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=vT3zc1P7AscQ3qHt0AONayuX979LBsagO3ReeDrvc8E=; 
- b=lwu4fk9jAjv8xW9gu/KJ8VPUZvFT9wo547buNeskkF58nqNOr5asRRSxZBfTMexRMx8L2ya93Wff1m8dDKxDdket16UiTri2RTivj4g5QcPe5uH42vDAR+qa9PY6a6yoBDJhI/q4pZUCM4tMb+pSGGqiMY40/V4naKG+NIqxZtI=
+ bh=pUtxZbvlNIi4H5EeFTGaoT/G6bLVLSFgmTvDYT5R3gQ=; 
+ b=XzzTiLYGaQts1yoxDScBtoi4FMPDx3Q275Hd5ugIxyelpYN69Zzr+Iylz8OwUlShOzzHEL/+hJANMdbBmtIbIonrnMqnRkXK/mrDEeIe1hjXz26wCq0NnJvPn7DaIk3AAppziFizntQOvca3f4w+PyoJTHihWtAddSyPGJs0fyo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603687; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603699; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=vT3zc1P7AscQ3qHt0AONayuX979LBsagO3ReeDrvc8E=;
- b=W/8Q8TfPU9/6++HGf4rco1kTzpSzs3h5uRssn93jKUahoQlvfobdcE6OlWl/DQZw
- +gRZ4uKC4dRxMkrilsKjVwILidN22UsV2JUdbb1Y+nlmw5hTroUK7K4nN2PctgzEWUW
- SyxRxWIDGPvPVfmx37H3ZbYE/KS0YlrLA/6riH9c=
-Received: by mx.zohomail.com with SMTPS id 1757603686217696.2957018828596;
- Thu, 11 Sep 2025 08:14:46 -0700 (PDT)
+ bh=pUtxZbvlNIi4H5EeFTGaoT/G6bLVLSFgmTvDYT5R3gQ=;
+ b=UG+iT4YBQ9kxlpgN7Ojj4kZaWQKaVMN6VD1IQcR4bXOhvQs5ZJgQoPF+GhByeHqi
+ S7DNO141+WLxOLF1wdGAwz++Bl2BOEYHb8YBy6pOk6U5YpC57Kpemxf03bkRINgZokA
+ genKNirerdwk3In3ZcuWUJV6JM7z2gC1YxCvRmb4=
+Received: by mx.zohomail.com with SMTPS id 1757603698448103.94183972441317;
+ Thu, 11 Sep 2025 08:14:58 -0700 (PDT)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 To: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
@@ -59,10 +59,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 10/12] arm64: dts: mediatek: mt8173-elm: Drop unused bank
- supply
-Date: Thu, 11 Sep 2025 12:09:59 -0300
-Message-ID: <20250911151001.108744-11-ariel.dalessandro@collabora.com>
+Subject: [PATCH v2 11/12] dt-bindings: soc: mediatek: pwrap: Add power-domains
+ property
+Date: Thu, 11 Sep 2025 12:10:00 -0300
+Message-ID: <20250911151001.108744-12-ariel.dalessandro@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
 References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
@@ -84,31 +84,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mediatek,mt8173-thermal device tree binding schema doesn't allow
-regulator supplies like the ones defined in mt8173-elm.dtsi. Drop these as
-the associated driver doesn't implement them either.
+Currently, the DT bindings for Mediatek PMIC Wrapper is missing the
+power-domains property, which is used in the MT8173 E1 evaluation board as
+it needs USB power domain.
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi | 5 -----
- 1 file changed, 5 deletions(-)
+ .../bindings/soc/mediatek/mediatek,pwrap.yaml     | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index f52a9906f6a65..eb4f6ba555465 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -1149,11 +1149,6 @@ &ssusb {
- 	status = "okay";
- };
+diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+index 4737e5f45d541..54c0cd64d3094 100644
+--- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
++++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,pwrap.yaml
+@@ -98,6 +98,9 @@ properties:
+       - const: pwrap
+       - const: pwrap-bridge
  
--&thermal {
--	bank0-supply = <&mt6397_vpca15_reg>;
--	bank1-supply = <&da9211_vcpu_reg>;
--};
--
- &uart0 {
- 	status = "okay";
- };
++  power-domains:
++    maxItems: 1
++
+   pmic:
+     type: object
+ 
+@@ -126,6 +129,18 @@ allOf:
+         clock-names:
+           minItems: 4
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: mediatek,mt8173-pwrap
++    then:
++      properties:
++        power-domains: true
++    else:
++      properties:
++        power-domains: false
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.50.1
 
