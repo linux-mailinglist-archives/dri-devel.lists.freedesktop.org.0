@@ -2,52 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86010B53334
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:07:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933E1B5333C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0786710EB29;
-	Thu, 11 Sep 2025 13:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D011610EB37;
+	Thu, 11 Sep 2025 13:09:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OBSc1qGB";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gFfuzORe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C56410EB21
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757596064;
- bh=naEX153HUEAIxi6iZK0ya+LCDWN969qBnFaCmm9jFIM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OBSc1qGBDTTQI7C8EotUmk1geVEhMBvxXeLHjS1Wt7m2DdBkIN6Gl/vOuOikiTYWu
- jelK3GMKiDEIP1cH7Q3brWBkyhYsh+sIiBX4dfb30DMETrRIz4UFN10ij4Pyobo61V
- h3m2y2Lkh7qWJRwAn4vEsYhRePUeKlen+PqVrW3i0aOdhZln8bDbQlwH4LQCtRd11p
- dOMJ9znz7sf+cr9oI9wCAeeOQM8lHoGaXiSmABQ4mgFierk/BJyEa3JFLrKrwt3b+O
- 236opMvoGbwoun60scJDzQAOUca425q4v4NYeNkkMLrYwukFxBWbguitPgSdLSP7Na
- Ux+nQVLq7PwfA==
-Received: from localhost.localdomain (unknown
- [IPv6:2a02:2f05:840b:7800:3261:5c97:2de4:16d3])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F0DD017E129D;
- Thu, 11 Sep 2025 15:07:43 +0200 (CEST)
-From: Marius Vlad <marius.vlad@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: wse@tuxedocomputers.com, andri@yngvason.is, sebastian.wick@redhat.com,
- mripard@kernel.org, daniel.stone@collabora.com,
- jani.nikula@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch,
- harry.wentland@amd.com, christian.koenig@amd.com,
- derek.foreman@collabora.com
-Subject: [PATCH 8/8] drm/rockchip: Implement "color format" DRM property
-Date: Thu, 11 Sep 2025 16:07:39 +0300
-Message-ID: <20250911130739.4936-9-marius.vlad@collabora.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250911130739.4936-1-marius.vlad@collabora.com>
-References: <20250911130739.4936-1-marius.vlad@collabora.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5486710EB44
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:09:30 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BB3OdV002499
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:09:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ I8RyZQ7s9En3k+A9mP9sTd12gbOqQ8qWm+XADZfrx+w=; b=gFfuzOReeKZp9Tcv
+ 7BjR5bFEDvUerbezOcuNRQmikLLZAsok1Fg10+MrsDrvPocd6fG/3YuzQ3AlU0oH
+ 4qtkJIdvtpsUj5jkvwNtKPI9X+Xtt4rIDeRpiiEnUxvayZXFjxGGFXfJNta1d5jI
+ OEcb1VicJF+NpHXLIFJgl6QFNRxl+vW4a5agw+fQfdqxylhFe7bTozn/QwjwzUCr
+ dPuhbxNG7d96Dlkz6Vl53sWPIsEe06bcGoDrR1+0lY+wcQGsHZmQ+ebqn+oXyK5S
+ jf+3m/pIL5s2BM8oXEQCXyvm4qOWMuWbB6eygKv9m3K5LgcHR/KagLkREhxFEWoB
+ fv8qPQ==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8qsb9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:09:28 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id
+ 71dfb90a1353d-545f436ad2dso964659e0c.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:09:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757596168; x=1758200968;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I8RyZQ7s9En3k+A9mP9sTd12gbOqQ8qWm+XADZfrx+w=;
+ b=I7GkhRmkcNVJLSQRpiqfnhnSWIpbkqW+Z4RY1bga97sSrfvcr358NxEKhm6tojDpqH
+ d9XLgfl+3xm3vkPW9hMTfc0O6K/hkby3kZ5GC0yfoclXfwP9pzAOuNZjKvRM0lR4VRg5
+ ALcLjwkBXr8fS/DUjlbKSVmblctK8QmbQp7w3+jWTr4Ui2djYx2Gse7Wo1H3jyaHwBDY
+ a0SGeVUCczZeWPe6fnOdUBgRhIa3Gpuzg7p4XPPC3CzE6jUh5ubAV385zffOU85hRaaN
+ rAd3iKnlVmJbw+ueWKAHZPuL5PN1BMluKzOfWrqdGwxtC/WrZPOjVLRoTwVTYTWkh1c9
+ GRoA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWalJd+RPh+BwvF+Bpk/bHVTv7C0n22CwU3qpZKLW7kSneCLq/a69MHVGKXAOa374Orq0G2cDpb14A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+AQa+SxT+r5fkDt15GlhYjYBCrtOVOrhi3VjpukV5O2JSWHEE
+ eYLEzBnm82jbvnopw91y1X3UyBT0QqGsmJPJMlP4OmgaUg3UR9IEI+8F7pMqmTNVserw/+zi7qm
+ Wq8ODXJxnjpBdnI7HybNhc1pOtr/GZuvL/6yM6H1N55yqMwf2PM2rCN924NAp4wlhWEGwuoU=
+X-Gm-Gg: ASbGnctP7OaCLMCNoxpCrtlpHY1dJkux48MqcHZESGs53yArYqbNrxmbcIb9pzmyFC6
+ nYHgwBzJPP3HkXXKDXfiktXROltNyFK8rnT+HboRD3f1J+d+bVFbyfDEr/KqgDA/QvrP0HporCI
+ vAUZNXNEscFEbcZek64M/99hI4raFblFifS1GhDPx7u3EdUkTK/4EQbPRNSpvs5xi+PDj+HWn4L
+ 9hBVfro6BVQnofFVIn/hDRjnWUbleabawUj8FJo0x0IHtU+LiIdf657cwzvqYw4YDNBiqhRidBj
+ bXkyCj56gWyZsxyHYWmZjl6OAqwIH+m/7NAwjIRWS5peDpI49aa3ndINgA9rt5S/rb6Viek7+Gu
+ iy7s7NL0u9LXnAxlz3aIRSHgTx+AcfnTN3SpuCr9KZytjp7aG0/ao
+X-Received: by 2002:a05:6122:a13:b0:539:5cff:8070 with SMTP id
+ 71dfb90a1353d-5472c0d490fmr6491520e0c.9.1757596167807; 
+ Thu, 11 Sep 2025 06:09:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFd/VAt6jkDmxnGnMNUH/ZV3Br3jOJxAgjfGzfoucxUs9TbwAHF++l7wDbp7nNv5hn99Y6zAA==
+X-Received: by 2002:a05:6122:a13:b0:539:5cff:8070 with SMTP id
+ 71dfb90a1353d-5472c0d490fmr6491493e0c.9.1757596167378; 
+ Thu, 11 Sep 2025 06:09:27 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-34f163f51desm2799101fa.25.2025.09.11.06.09.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Sep 2025 06:09:25 -0700 (PDT)
+Date: Thu, 11 Sep 2025 16:09:23 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Miguel Gazquez <miguel.gazquez@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Phong LE <ple@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com,
+ kory.maincent@bootlin.com, romain.gantois@bootlin.com, praneeth@ti.com,
+ Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH] drm/bridge: ite-it66121: Add drm_connector support
+Message-ID: <2l5kp4ojrcsg2apcpv7mzeeypwynecyfesenks6zzvnst3qkbt@4yhbosy2zhah>
+References: <20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com>
+ <do5zciwcanpiciy52zj3nn6igmwlgmbcfdwbibv2ijxm2fif5s@ib6jhzi5h2jo>
+ <6164422a-6265-4726-8da5-68bb8eafb9e6@bootlin.com>
+ <20250911-innocent-daffodil-macaque-797f13@houat>
+ <012046ab-d866-4b3a-8c8a-e130bc2b9628@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <012046ab-d866-4b3a-8c8a-e130bc2b9628@bootlin.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfXx2RD4AooassV
+ eoXClgrO9xDiRf9VQfQRBkc05TSWIc19BmoVUrKTSSmCj7SZD89IJ2zv/5FfHYYEnUH8tCfM3iK
+ ioQU8nAQXmUxDDKxsNRN+w6abxnK2f87dFXzwOhsF7/okYmmWj3OXXuZS67S0Zi6G6bxLyoZWaP
+ u7iparEJR51evpwjs2I58vXi5CbewcpkFiEJI6FiKu47Utb/5/ghTGPrR0PoKumx/TIDMWY5LdN
+ 6LPC36Udkpf1diSfxmI50CItt9k3gGKPssnbVoG3UC3GlxpAbDr6nBWz0otkD/RJowsZ5eDFA2x
+ Sh/b57sRttdDMK5FDHKgwzagSd5Q65ZUGhcCwQz5QDW/vnWKM5RyKo3lqeqiS+pdKMIBZHU57YS
+ Px9ZhF4N
+X-Proofpoint-ORIG-GUID: mucmNSd14CviwEltcBBVsUyhkoVjnuH-
+X-Proofpoint-GUID: mucmNSd14CviwEltcBBVsUyhkoVjnuH-
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c2ca08 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=yJojWOMRYYMA:10 a=sozttTNsAAAA:8 a=J4TtIqrawgGb-EQjl3IA:9 a=3ZKOabzyN94A:10
+ a=wPNLvfGTeEIA:10 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,184 +137,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Derek Foreman <derek.foreman@collabora.com>
+On Thu, Sep 11, 2025 at 02:49:59PM +0200, Miguel Gazquez wrote:
+> 
+> 
+> Le 11/09/2025 à 11:50, Maxime Ripard a écrit :
+> > On Thu, Sep 11, 2025 at 10:51:06AM +0200, Miguel Gazquez wrote:
+> > > 
+> > > 
+> > > Le 10/09/2025 à 04:28, Dmitry Baryshkov a écrit :
+> > > > On Tue, Sep 09, 2025 at 06:16:43PM +0200, Miguel Gazquez wrote:
+> > > > > From: Aradhya Bhatia <a-bhatia1@ti.com>
+> > > > > 
+> > > > > Add support for DRM connector and make the driver support the older
+> > > > > format of attaching connectors onto the encoder->bridge->connector
+> > > > > chain.
+> > > > > This makes the driver compatible with display controller that only
+> > > > > supports the old format.
+> > > > > 
+> > > > > [Miguel Gazquez: Rebased + made driver work with or without
+> > > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR]
+> > > > 
+> > > > What is the use case for not using DRM_BRIDGE_ATTACH_NO_CONNECTOR?
+> > > 
+> > > Some display controller drivers (like the tilcdc) call drm_bridge_attach
+> > > without DRM_BRIDGE_ATTACH_NO_CONNECTOR, so the bridge must support both with
+> > > and without DRM_BRIDGE_ATTACH_NO_CONNECTOR to be compatible with all display
+> > > controllers.
+> > 
+> > I'd rather convert tilcdc to use DRM_BRIDGE_ATTACH_NO_CONNECTOR then.
+> 
+> The problem is that doing that break devicetrees using the tilcdc and a
+> bridge who doesn't support DRM_BRIDGE_ATTACH_NO_CONNECTOR (there are
+> multiple bridges that don't support DRM_BRIDGE_ATTACH_NO_CONNECTOR), and if
+> my understanding is correct breaking devicetrees is not allowed.
 
-This adds YUV444 and Auto, which will fallback to RGB as per
-commit "drm: Pass supported color formats straight onto drm_bridge".
+How does it break devicetree? The drm_bridge_connector isn't a part of
+DT.
 
-Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
----
- .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 10 +++-
- drivers/gpu/drm/rockchip/inno_hdmi.c          |  8 ++++
- drivers/gpu/drm/rockchip/rk3066_hdmi.c        |  8 ++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 46 +++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  2 +
- 5 files changed, 73 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 58e24669ef34..794b8de9c9c5 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -427,6 +427,11 @@ static const struct of_device_id dw_hdmi_qp_rockchip_dt_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, dw_hdmi_qp_rockchip_dt_ids);
- 
-+static const u32 supported_colorformats =
-+       DRM_COLOR_FORMAT_AUTO |
-+       DRM_COLOR_FORMAT_RGB444 |
-+       DRM_COLOR_FORMAT_YCBCR444;
-+
- static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 				    void *data)
- {
-@@ -563,13 +568,16 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
- 
--	connector = drm_bridge_connector_init(drm, encoder, BIT(HDMI_COLORSPACE_RGB));
-+	connector = drm_bridge_connector_init(drm, encoder, supported_colorformats);
- 	if (IS_ERR(connector)) {
- 		ret = PTR_ERR(connector);
- 		dev_err(hdmi->dev, "failed to init bridge connector: %d\n", ret);
- 		return ret;
- 	}
- 
-+	if (!drm_mode_create_hdmi_color_format_property(connector, supported_colorformats))
-+		drm_connector_attach_color_format_property(connector);
-+
- 	return drm_connector_attach_encoder(connector, encoder);
- }
- 
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 1ab3ad4bde9e..59f0f055cdf1 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -810,6 +810,11 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
- 	return 0;
- }
- 
-+static const u32 supported_colorformats =
-+       DRM_COLOR_FORMAT_AUTO |
-+       DRM_COLOR_FORMAT_RGB444 |
-+       DRM_COLOR_FORMAT_YCBCR444;
-+
- static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 			   struct drm_atomic_state *state)
- {
-@@ -826,6 +831,9 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
- 	if (WARN_ON(!new_crtc_state))
- 		return -EINVAL;
- 
-+	if (!drm_mode_create_hdmi_color_format_property(connector, supported_colorformats))
-+		drm_connector_attach_color_format_property(connector);
-+
- 	/* Mute video and audio output */
- 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
- 		  v_AUDIO_MUTE(1) | v_VIDEO_MUTE(1));
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index ae4a5ac2299a..4794ab334cb2 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -302,6 +302,11 @@ static void rk3066_hdmi_config_phy(struct rk3066_hdmi *hdmi)
- 	}
- }
- 
-+static const u32 supported_colorformats =
-+       DRM_COLOR_FORMAT_AUTO |
-+       DRM_COLOR_FORMAT_RGB444 |
-+       DRM_COLOR_FORMAT_YCBCR444;
-+
- static int rk3066_hdmi_setup(struct rk3066_hdmi *hdmi,
- 			     struct drm_atomic_state *state)
- {
-@@ -322,6 +327,9 @@ static int rk3066_hdmi_setup(struct rk3066_hdmi *hdmi,
- 	if (WARN_ON(!new_crtc_state))
- 		return -EINVAL;
- 
-+	if (!drm_mode_create_hdmi_color_format_property(connector, supported_colorformats))
-+		drm_connector_attach_color_format_property(connector);
-+
- 	display = &connector->display_info;
- 	mode = &new_crtc_state->adjusted_mode;
- 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 186f6452a7d3..5634e59a6412 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1543,6 +1543,50 @@ static void vop2_dither_setup(struct drm_crtc *crtc, u32 *dsp_ctrl)
- 				DITHER_DOWN_ALLEGRO);
- }
- 
-+static void vop2_bcsh_config(struct drm_crtc *crtc, struct vop2_video_port *vp)
-+{
-+	struct drm_connector_list_iter conn_iter;
-+	struct drm_connector *connector;
-+	u32 format = 0;
-+	enum drm_colorspace colorspace = 0;
-+	u32 val = 0;
-+
-+	drm_connector_list_iter_begin(crtc->dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		if (!(crtc->state->connector_mask & drm_connector_mask(connector)))
-+			continue;
-+
-+		format = connector->state->color_format;
-+		colorspace = connector->state->colorspace;
-+		break;
-+	}
-+	drm_connector_list_iter_end(&conn_iter);
-+
-+	if (format == DRM_COLOR_FORMAT_YCBCR420 ||
-+	    format == DRM_COLOR_FORMAT_YCBCR444 ||
-+	    format == DRM_COLOR_FORMAT_YCBCR422) {
-+		val = RK3568_VP_BCSH_CTRL__BCSH_R2Y_EN | BIT(7);
-+
-+		switch (colorspace) {
-+		case DRM_MODE_COLORIMETRY_BT2020_RGB:
-+		case DRM_MODE_COLORIMETRY_BT2020_YCC:
-+			val |= BIT(7) | BIT(6);
-+			break;
-+		case DRM_MODE_COLORIMETRY_BT709_YCC:
-+			val |= BIT(6);
-+			break;
-+		default:
-+			break;
-+		}
-+		if (colorspace == DRM_MODE_COLORIMETRY_BT2020_RGB ||
-+		    colorspace == DRM_MODE_COLORIMETRY_BT2020_YCC)
-+			val |= BIT(6);
-+	}
-+
-+	vop2_vp_write(vp, RK3568_VP_BCSH_CTRL, val);
-+	vop2_vp_write(vp, RK3568_VP_BCSH_COLOR_BAR, 0);
-+}
-+
- static void vop2_post_config(struct drm_crtc *crtc)
- {
- 	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-@@ -1594,6 +1638,8 @@ static void vop2_post_config(struct drm_crtc *crtc)
- 	}
- 
- 	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
-+
-+	vop2_bcsh_config(crtc, vp);
- }
- 
- static int us_to_vertical_line(struct drm_display_mode *mode, int us)
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index fa5c56f16047..0b589f326093 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -638,6 +638,8 @@ enum dst_factor_mode {
- 
- #define RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN		BIT(15)
- 
-+#define RK3568_VP_BCSH_CTRL__BCSH_R2Y_EN		BIT(4)
-+
- #define RK3568_VP_DSP_CTRL__STANDBY			BIT(31)
- #define RK3568_VP_DSP_CTRL__DSP_LUT_EN			BIT(28)
- #define RK3568_VP_DSP_CTRL__DITHER_DOWN_MODE		BIT(20)
 -- 
-2.47.2
-
+With best wishes
+Dmitry
