@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00FBB52D7C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F48B52DAA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:50:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC4A310EA66;
-	Thu, 11 Sep 2025 09:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D23A10E07E;
+	Thu, 11 Sep 2025 09:50:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c+TuKd/P";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D7F6210EA66
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:43:43 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13ADC153B;
- Thu, 11 Sep 2025 02:43:35 -0700 (PDT)
-Received: from [10.1.30.24] (e122027.cambridge.arm.com [10.1.30.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4EC5E3F694;
- Thu, 11 Sep 2025 02:43:41 -0700 (PDT)
-Message-ID: <84c5f82e-5931-42c8-b577-123917a7d30c@arm.com>
-Date: Thu, 11 Sep 2025 10:43:39 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E0710E07E
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:50:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 210D160208;
+ Thu, 11 Sep 2025 09:50:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73A10C4CEF0;
+ Thu, 11 Sep 2025 09:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757584231;
+ bh=pE2AURsoCMkJTm1mo4lJL7qjrrJQ0/YmWX+SwCL5yw0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c+TuKd/PMZh9aE4lEy42hRVmlu5OM/5HD2vW1Hw8oMLhPuBINeJxUp9cuelnQcIj7
+ uTFPQHYDVcYhMvfgtzRTfr1mAsH+i/b2nl7VfDYOZOMd1NEY2ywcKyEh/YwUJt+gxP
+ cDzIM4qACVbgz067zS8aYhYQu+Kz868eSGDFjgglP1H7rt+s0ZJdr5aPdGUiS7nFbN
+ Af3GuOe0RjtE8nYTo2JdP1ohuzT1DNZ1nFIADJyHpkTArfHiiWJxR69WTZLitBZ/6z
+ jrWt63k8UIFbQaYlaGgAOyoXBkMZflHF7Rc1dC6+GRNU50ch7st3cbUMdTRX59sMOR
+ 069Cq4N2yk5QQ==
+Date: Thu, 11 Sep 2025 11:50:29 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Miguel Gazquez <miguel.gazquez@bootlin.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Phong LE <ple@baylibre.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com,
+ kory.maincent@bootlin.com, 
+ romain.gantois@bootlin.com, praneeth@ti.com, Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH] drm/bridge: ite-it66121: Add drm_connector support
+Message-ID: <20250911-innocent-daffodil-macaque-797f13@houat>
+References: <20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com>
+ <do5zciwcanpiciy52zj3nn6igmwlgmbcfdwbibv2ijxm2fif5s@ib6jhzi5h2jo>
+ <6164422a-6265-4726-8da5-68bb8eafb9e6@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/panthor: assign unique names to queues
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250902200624.428175-1-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250902200624.428175-1-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="jzouzmmvozrp6xum"
+Content-Disposition: inline
+In-Reply-To: <6164422a-6265-4726-8da5-68bb8eafb9e6@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,175 +71,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/09/2025 21:06, Chia-I Wu wrote:
-> Userspace relies on the ring field of gpu_scheduler tracepoints to
-> identify a drm_gpu_scheduler.  The value of the ring field is taken from
-> sched->name.
-> 
-> Because we typically have multiple schedulers running in parallel in
-> each process, assign unique names to schedulers such that userspace can
-> distinguish them.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 
-Applied to drm-misc-next.
+--jzouzmmvozrp6xum
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/bridge: ite-it66121: Add drm_connector support
+MIME-Version: 1.0
 
-Thanks,
-Steve
+On Thu, Sep 11, 2025 at 10:51:06AM +0200, Miguel Gazquez wrote:
+>=20
+>=20
+> Le 10/09/2025 =E0 04:28, Dmitry Baryshkov a =E9crit=A0:
+> > On Tue, Sep 09, 2025 at 06:16:43PM +0200, Miguel Gazquez wrote:
+> > > From: Aradhya Bhatia <a-bhatia1@ti.com>
+> > >=20
+> > > Add support for DRM connector and make the driver support the older
+> > > format of attaching connectors onto the encoder->bridge->connector
+> > > chain.
+> > > This makes the driver compatible with display controller that only
+> > > supports the old format.
+> > >=20
+> > > [Miguel Gazquez: Rebased + made driver work with or without
+> > > DRM_BRIDGE_ATTACH_NO_CONNECTOR]
+> >=20
+> > What is the use case for not using DRM_BRIDGE_ATTACH_NO_CONNECTOR?
+>=20
+> Some display controller drivers (like the tilcdc) call drm_bridge_attach
+> without DRM_BRIDGE_ATTACH_NO_CONNECTOR, so the bridge must support both w=
+ith
+> and without DRM_BRIDGE_ATTACH_NO_CONNECTOR to be compatible with all disp=
+lay
+> controllers.
 
-> 
-> ---
-> 
-> v2:
->  - include drm_client_id in the name to be truly unique
->  - remove unnecessary NULL in drm_sched_init_args initialization
->  - reformat to column width 100
-> 
-> v3:
->  - switch to kasprintf for queue name
->    - open to alternatives such as name[48], shorter prefix (e.g.,
->      panthor-q), etc.
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
->  drivers/gpu/drm/panthor/panthor_sched.c | 38 ++++++++++++++++++-------
->  drivers/gpu/drm/panthor/panthor_sched.h |  3 +-
->  3 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 9256806eb6623..be962b1387f03 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1105,7 +1105,7 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  	if (ret)
->  		goto out;
->  
-> -	ret = panthor_group_create(pfile, args, queue_args);
-> +	ret = panthor_group_create(pfile, args, queue_args, file->client_id);
->  	if (ret < 0)
->  		goto out;
->  	args->group_handle = ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ba5dc3e443d9c..b328631c00489 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -360,6 +360,9 @@ struct panthor_queue {
->  	/** @entity: DRM scheduling entity used for this queue. */
->  	struct drm_sched_entity entity;
->  
-> +	/** @name: DRM scheduler name for this queue. */
-> +	char *name;
-> +
->  	/**
->  	 * @remaining_time: Time remaining before the job timeout expires.
->  	 *
-> @@ -901,6 +904,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
->  	if (queue->scheduler.ops)
->  		drm_sched_fini(&queue->scheduler);
->  
-> +	kfree(queue->name);
-> +
->  	panthor_queue_put_syncwait_obj(queue);
->  
->  	panthor_kernel_bo_destroy(queue->ringbuf);
-> @@ -3308,9 +3313,10 @@ static u32 calc_profiling_ringbuf_num_slots(struct panthor_device *ptdev,
->  
->  static struct panthor_queue *
->  group_create_queue(struct panthor_group *group,
-> -		   const struct drm_panthor_queue_create *args)
-> +		   const struct drm_panthor_queue_create *args,
-> +		   u64 drm_client_id, u32 gid, u32 qid)
->  {
-> -	const struct drm_sched_init_args sched_args = {
-> +	struct drm_sched_init_args sched_args = {
->  		.ops = &panthor_queue_sched_ops,
->  		.submit_wq = group->ptdev->scheduler->wq,
->  		.num_rqs = 1,
-> @@ -3323,7 +3329,6 @@ group_create_queue(struct panthor_group *group,
->  		.credit_limit = args->ringbuf_size / sizeof(u64),
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
->  		.timeout_wq = group->ptdev->reset.wq,
-> -		.name = "panthor-queue",
->  		.dev = group->ptdev->base.dev,
->  	};
->  	struct drm_gpu_scheduler *drm_sched;
-> @@ -3398,6 +3403,15 @@ group_create_queue(struct panthor_group *group,
->  	if (ret)
->  		goto err_free_queue;
->  
-> +	/* assign a unique name */
-> +	queue->name = kasprintf(GFP_KERNEL, "panthor-queue-%llu-%u-%u", drm_client_id, gid, qid);
-> +	if (!queue->name) {
-> +		ret = -ENOMEM;
-> +		goto err_free_queue;
-> +	}
-> +
-> +	sched_args.name = queue->name;
-> +
->  	ret = drm_sched_init(&queue->scheduler, &sched_args);
->  	if (ret)
->  		goto err_free_queue;
-> @@ -3447,7 +3461,8 @@ static void add_group_kbo_sizes(struct panthor_device *ptdev,
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args)
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id)
->  {
->  	struct panthor_device *ptdev = pfile->ptdev;
->  	struct panthor_group_pool *gpool = pfile->groups;
-> @@ -3540,12 +3555,16 @@ int panthor_group_create(struct panthor_file *pfile,
->  	memset(group->syncobjs->kmap, 0,
->  	       group_args->queues.count * sizeof(struct panthor_syncobj_64b));
->  
-> +	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> +	if (ret)
-> +		goto err_put_group;
-> +
->  	for (i = 0; i < group_args->queues.count; i++) {
-> -		group->queues[i] = group_create_queue(group, &queue_args[i]);
-> +		group->queues[i] = group_create_queue(group, &queue_args[i], drm_client_id, gid, i);
->  		if (IS_ERR(group->queues[i])) {
->  			ret = PTR_ERR(group->queues[i]);
->  			group->queues[i] = NULL;
-> -			goto err_put_group;
-> +			goto err_erase_gid;
->  		}
->  
->  		group->queue_count++;
-> @@ -3553,10 +3572,6 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	group->idle_queues = GENMASK(group->queue_count - 1, 0);
->  
-> -	ret = xa_alloc(&gpool->xa, &gid, group, XA_LIMIT(1, MAX_GROUPS_PER_POOL), GFP_KERNEL);
-> -	if (ret)
-> -		goto err_put_group;
-> -
->  	mutex_lock(&sched->reset.lock);
->  	if (atomic_read(&sched->reset.in_progress)) {
->  		panthor_group_stop(group);
-> @@ -3575,6 +3590,9 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	return gid;
->  
-> +err_erase_gid:
-> +	xa_erase(&gpool->xa, gid);
-> +
->  err_put_group:
->  	group_put(group);
->  	return ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-> index 742b0b4ff3a3c..f4a475aa34c0a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.h
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
-> @@ -21,7 +21,8 @@ struct panthor_job;
->  
->  int panthor_group_create(struct panthor_file *pfile,
->  			 const struct drm_panthor_group_create *group_args,
-> -			 const struct drm_panthor_queue_create *queue_args);
-> +			 const struct drm_panthor_queue_create *queue_args,
-> +			 u64 drm_client_id);
->  int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
->  int panthor_group_get_state(struct panthor_file *pfile,
->  			    struct drm_panthor_group_get_state *get_state);
+I'd rather convert tilcdc to use DRM_BRIDGE_ATTACH_NO_CONNECTOR then.
 
+Maxime
+
+--jzouzmmvozrp6xum
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMKbYQAKCRAnX84Zoj2+
+dgJSAYDdU+th+2A0F5q6ZC2ooIL5tuW/KSkDnDvtGQFsorRAhoAZKfsPOUWeNRAJ
+BYvVimEBf26l9rXHppvS+ufirPVemWVrWyLWv+CKfBIRlyFXVx8oq75VNyn21Thi
+4ZkctmwVYw==
+=CR9i
+-----END PGP SIGNATURE-----
+
+--jzouzmmvozrp6xum--
