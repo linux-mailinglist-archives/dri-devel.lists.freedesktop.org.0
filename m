@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86ABB534D5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2839B53518
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B1510EB3D;
-	Thu, 11 Sep 2025 14:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDA1E10E396;
+	Thu, 11 Sep 2025 14:21:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IUOCQuQN";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="yWGVaQ+f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF1C10EB3D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:07:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757599634; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=S04N+GkCJ1MHG20sbm/3ruuj5bbE1dYDgAvuScXITqVIqi/I9qoDW1Dlv3RGpnxRWJCx3kQ1DLtNFuxOKf8GfCvrrH97AZWdTA7IDIZhJ95aYLN/SNEY38yjINkOl6bF7SKJmX0RIBDG/BJhZmjbinFvoYC2Y0OIlOfRhAUclCs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757599634;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=maQDhni1KuOzHozNIUlJWn4AVUDYhTZ9mYfJ6K46ZKM=; 
- b=Y30vzkFsSITll5YcHoq3PyH8Ak6HFRx7aqR4VLPkF6tD6C45IqzB8TB6NipUWXtb8lDJZDCVA2gsbuhpGBBVDiX1pSeFtdODUJu5b4asq7Yy57SlwceOxwdfyMbBO43AK5yR4kIDaSaOh0QY8H8Vb2EKBPYC+YgjhXP3nX9Cbck=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757599634; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=maQDhni1KuOzHozNIUlJWn4AVUDYhTZ9mYfJ6K46ZKM=;
- b=IUOCQuQN5S2n93moiJDqHSih0iXU2QiWgtb8F9UPba90HEd6E6suqy+hrqbGKjJ1
- xfElXUZm6JHWyCoIn8a7F2TlDDIFQswTQVPwClHEuKNfz6gYAbr4n7HQajpkXACjbQa
- J4KSM/DlMsc1g6etOjW6w1nuDXODoUO3dWW0ynA8=
-Received: by mx.zohomail.com with SMTPS id 1757599632046725.3637611709158;
- Thu, 11 Sep 2025 07:07:12 -0700 (PDT)
-Date: Thu, 11 Sep 2025 15:07:07 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- Rob Herring <robh@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v2 4/4] drm/panfrost: Display list of device JM contexts
- over debugfs
-Message-ID: <ocdqnyqu2xgkc4fcnjbpb4gzcoaqlzp532id22p6lqsyyewaz5@hsa7bnwgirri>
-References: <20250904001054.147465-1-adrian.larumbe@collabora.com>
- <20250904001054.147465-5-adrian.larumbe@collabora.com>
- <5a6d3ffe-1edd-4082-ad7a-85256ececa86@arm.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 110D210E396
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:21:00 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cN08m2VPcz9tgv;
+ Thu, 11 Sep 2025 16:20:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1757600456; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y9lSwKhfafMrSPgz7DYbpdSUhxnTh+jm6q67RDi/IwA=;
+ b=yWGVaQ+fpnfIRMusJIQtAgw4+uB8k5cImmoqBwby/R6yTEyCU1LzzrN5UAaswHAPl3z8La
+ QvmAINZbgpKh0JXV3+4IUrt2yxABiqETKzM8/s4kqDyY0fYD5h/84+ByBr7fzQ/UMOdmuf
+ ak/IhS0YFHvABH+ZPBuvMQWwMe8hVv1c/61+zcZeamxDn3P56neRrobAHyl8Ldmdcumpm6
+ xqZK71J/sA7bYu7HM5tE1OvyeUr+P2u3l4+10/XlNQzrxCSXxKtXikk196k+bKFK6xqssC
+ kCaETuThl4CgyG8cxBprMGL5if1Uet1PLPWpTjE6jckHPZhhvhMn+H177ypJuQ==
+Message-ID: <6fe010e8dc5e8a5db35d8702960f42940e342093.camel@mailbox.org>
+Subject: Re: [RFC v8 04/12] drm/sched: Consolidate entity run queue management
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
+ <phasta@kernel.org>
+Date: Thu, 11 Sep 2025 16:20:51 +0200
+In-Reply-To: <20250903101820.63032-5-tvrtko.ursulin@igalia.com>
+References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
+ <20250903101820.63032-5-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a6d3ffe-1edd-4082-ad7a-85256ececa86@arm.com>
+X-MBO-RS-ID: 48b7dd62d37761f4630
+X-MBO-RS-META: y75wbn7hqs4byfejdaxbz3kmbfdabycr
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,159 +64,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.09.2025 16:42, Steven Price wrote:
-> On 04/09/2025 01:08, Adrián Larumbe wrote:
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> >
-> > For DebugFS builds, create a filesystem knob that, for every single open
-> > file of the Panfrost DRM device, shows its command name information and
-> > PID (when applicable), and all of its existing JM contexts.
-> >
-> > For every context, show its priority and job config.
-> >
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 97 +++++++++++++++++++++++++
-> >  1 file changed, 97 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > index 02f704ec4961..b3d14b887da4 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> > @@ -712,6 +712,48 @@ static int panthor_gems_show(struct seq_file *m, void *data)
-> >  	return 0;
-> >  }
-> >
-> > +static void show_panfrost_jm_ctx(struct panfrost_jm_ctx *jm_ctx, u32 handle,
-> > +				 struct seq_file *m)
-> > +{
-> > +	struct drm_device *ddev = ((struct drm_info_node *)m->private)->minor->dev;
-> > +	const char *prio = NULL;
-> > +
-> > +	static const char * const prios[] = {
-> > +		[DRM_SCHED_PRIORITY_HIGH] = "HIGH",
-> > +		[DRM_SCHED_PRIORITY_NORMAL] = "NORMAL",
-> > +		[DRM_SCHED_PRIORITY_LOW] = "LOW",
-> > +	};
-> > +
-> > +	if (jm_ctx->slots[0].sched_entity.priority !=
-> > +	    jm_ctx->slots[1].sched_entity.priority)
-> > +		drm_warn(ddev, "Slot priorities should be the same in a single context");
-> > +
-> > +	if (jm_ctx->slots[0].sched_entity.priority < ARRAY_SIZE(prios))
-> > +		prio = prios[jm_ctx->slots[0].sched_entity.priority];
-> > +
-> > +	seq_printf(m, " JM context %u: priority %s config %x\n",
-> > +		   handle, prio ? prio : "UNKNOWN", jm_ctx->config);
->
-> NIT: If you assign prio to "UNKNOWN" to begin with (rather than NULL)
-> you can avoid this ?: operator.
+On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
+> Move the code dealing with entities entering and exiting run queues to
+> helpers to logically separate it from jobs entering and exiting entities.
 
-Acked.
+Sorry if I've asked this before, but does this strictly depend on the
+preceding patches or could it be branched out?
 
-> > +}
-> > +
-> > +static int show_file_jm_ctxs(struct panfrost_file_priv *pfile,
-> > +			     struct seq_file *m)
-> > +{
-> > +	struct panfrost_jm_ctx *jm_ctx;
-> > +	unsigned long i;
-> > +
-> > +	xa_lock(&pfile->jm_ctxs);
-> > +	xa_for_each(&pfile->jm_ctxs, i, jm_ctx) {
-> > +		jm_ctx = panfrost_jm_ctx_get(jm_ctx);
-> > +		xa_unlock(&pfile->jm_ctxs);
-> > +		show_panfrost_jm_ctx(jm_ctx, i, m);
-> > +		panfrost_jm_ctx_put(jm_ctx);
-> > +		xa_lock(&pfile->jm_ctxs);
-> > +	}
-> > +	xa_unlock(&pfile->jm_ctxs);
->
-> Is it so bad if we just held the xa lock for the whole loop? It just
-> seems unnecessarily complex.
+P.
 
-xa_unlock() is defined as a spinlock which are fast. I'm often of the view that the
-critical region should be as narrow as possible, especially when debug code is clashing
-with the normal operation of the driver.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 | 64 ++-------=
+------
+> =C2=A0drivers/gpu/drm/scheduler/sched_internal.h |=C2=A0 8 +-
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0 | 95=
+ +++++++++++++++++++---
+> =C2=A03 files changed, 91 insertions(+), 76 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
+cheduler/sched_entity.c
+> index 4852006f2308..7a0a52ba87bf 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -456,24 +456,9 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+> =C2=A0	return NULL;
+> =C2=A0}
+> =C2=A0
+> -static ktime_t
+> -drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity =
+*entity)
+> -{
+> -	ktime_t ts;
+> -
+> -	lockdep_assert_held(&entity->lock);
+> -	lockdep_assert_held(&rq->lock);
+> -
+> -	ts =3D ktime_add_ns(rq->rr_ts, 1);
+> -	entity->rr_ts =3D ts;
+> -	rq->rr_ts =3D ts;
+> -
+> -	return ts;
+> -}
+> -
+> =C2=A0struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_ent=
+ity *entity)
+> =C2=A0{
+> -	struct drm_sched_job *sched_job, *next_job;
+> +	struct drm_sched_job *sched_job;
+> =C2=A0
+> =C2=A0	sched_job =3D drm_sched_entity_queue_peek(entity);
+> =C2=A0	if (!sched_job)
+> @@ -502,26 +487,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struc=
+t drm_sched_entity *entity)
+> =C2=A0
+> =C2=A0	spsc_queue_pop(&entity->job_queue);
+> =C2=A0
+> -	/*
+> -	 * Update the entity's location in the min heap according to
+> -	 * the timestamp of the next job, if any.
+> -	 */
+> -	next_job =3D drm_sched_entity_queue_peek(entity);
+> -	if (next_job) {
+> -		struct drm_sched_rq *rq;
+> -		ktime_t ts;
+> -
+> -		spin_lock(&entity->lock);
+> -		rq =3D entity->rq;
+> -		spin_lock(&rq->lock);
+> -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> -			ts =3D next_job->submit_ts;
+> -		else
+> -			ts =3D drm_sched_rq_get_rr_ts(rq, entity);
+> -		drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> -		spin_unlock(&rq->lock);
+> -		spin_unlock(&entity->lock);
+> -	}
+> +	drm_sched_rq_pop_entity(entity);
+> =C2=A0
+> =C2=A0	/* Jobs and entities might have different lifecycles. Since we're
+> =C2=A0	 * removing the job from the entities queue, set the jobs entity p=
+ointer
+> @@ -611,30 +577,10 @@ void drm_sched_entity_push_job(struct drm_sched_job=
+ *sched_job)
+> =C2=A0	/* first job wakes up scheduler */
+> =C2=A0	if (first) {
+> =C2=A0		struct drm_gpu_scheduler *sched;
+> -		struct drm_sched_rq *rq;
+> =C2=A0
+> -		/* Add the entity to the run queue */
+> -		spin_lock(&entity->lock);
+> -		if (entity->stopped) {
+> -			spin_unlock(&entity->lock);
+> -
+> -			DRM_ERROR("Trying to push to a killed entity\n");
+> -			return;
+> -		}
+> -
+> -		rq =3D entity->rq;
+> -		sched =3D rq->sched;
+> -
+> -		spin_lock(&rq->lock);
+> -		drm_sched_rq_add_entity(rq, entity);
+> -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
+> -			submit_ts =3D entity->rr_ts;
+> -		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
+> -
+> -		spin_unlock(&rq->lock);
+> -		spin_unlock(&entity->lock);
+> -
+> -		drm_sched_wakeup(sched);
+> +		sched =3D drm_sched_rq_add_entity(entity, submit_ts);
+> +		if (sched)
+> +			drm_sched_wakeup(sched);
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_entity_push_job);
+> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm=
+/scheduler/sched_internal.h
+> index 7ea5a6736f98..8269c5392a82 100644
+> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> @@ -12,13 +12,11 @@ extern int drm_sched_policy;
+> =C2=A0
+> =C2=A0void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+> =C2=A0
+> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity);
+> +struct drm_gpu_scheduler *
+> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts);
+> =C2=A0void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> =C2=A0				struct drm_sched_entity *entity);
+> -
+> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq, ktime_t ts);
+> +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity);
+> =C2=A0
+> =C2=A0void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
+> =C2=A0struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_ent=
+ity *entity);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 1db0a4aa1d46..c53931e63458 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -151,9 +151,9 @@ static void drm_sched_rq_remove_fifo_locked(struct dr=
+m_sched_entity *entity,
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t ts)
+> +static void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *ent=
+ity,
+> +					=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> +					=C2=A0=C2=A0=C2=A0 ktime_t ts)
+> =C2=A0{
+> =C2=A0	/*
+> =C2=A0	 * Both locks need to be grabbed, one to protect from entity->rq c=
+hange
+> @@ -191,22 +191,45 @@ static void drm_sched_rq_init(struct drm_gpu_schedu=
+ler *sched,
+> =C2=A0/**
+> =C2=A0 * drm_sched_rq_add_entity - add an entity
+> =C2=A0 *
+> - * @rq: scheduler run queue
+> =C2=A0 * @entity: scheduler entity
+> + * @ts: submission timestamp
+> =C2=A0 *
+> =C2=A0 * Adds a scheduler entity to the run queue.
+> + *
+> + * Returns a DRM scheduler pre-selected to handle this entity.
+> =C2=A0 */
+> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity)
+> +struct drm_gpu_scheduler *
+> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)
+> =C2=A0{
+> -	lockdep_assert_held(&entity->lock);
+> -	lockdep_assert_held(&rq->lock);
+> +	struct drm_gpu_scheduler *sched;
+> +	struct drm_sched_rq *rq;
+> =C2=A0
+> -	if (!list_empty(&entity->list))
+> -		return;
+> +	/* Add the entity to the run queue */
+> +	spin_lock(&entity->lock);
+> +	if (entity->stopped) {
+> +		spin_unlock(&entity->lock);
+> =C2=A0
+> -	atomic_inc(rq->sched->score);
+> -	list_add_tail(&entity->list, &rq->entities);
+> +		DRM_ERROR("Trying to push to a killed entity\n");
+> +		return NULL;
+> +	}
+> +
+> +	rq =3D entity->rq;
+> +	spin_lock(&rq->lock);
+> +	sched =3D rq->sched;
+> +
+> +	if (list_empty(&entity->list)) {
+> +		atomic_inc(sched->score);
+> +		list_add_tail(&entity->list, &rq->entities);
+> +	}
+> +
+> +	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
+> +		ts =3D entity->rr_ts;
+> +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> +
+> +	spin_unlock(&rq->lock);
+> +	spin_unlock(&entity->lock);
+> +
+> +	return sched;
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> @@ -235,6 +258,54 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq =
+*rq,
+> =C2=A0	spin_unlock(&rq->lock);
+> =C2=A0}
+> =C2=A0
+> +static ktime_t
+> +drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity =
+*entity)
+> +{
+> +	ktime_t ts;
+> +
+> +	lockdep_assert_held(&entity->lock);
+> +	lockdep_assert_held(&rq->lock);
+> +
+> +	ts =3D ktime_add_ns(rq->rr_ts, 1);
+> +	entity->rr_ts =3D ts;
+> +	rq->rr_ts =3D ts;
+> +
+> +	return ts;
+> +}
+> +
+> +/**
+> + * drm_sched_rq_pop_entity - pops an entity
+> + *
+> + * @entity: scheduler entity
+> + *
+> + * To be called every time after a job is popped from the entity.
+> + */
+> +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
+> +{
+> +	struct drm_sched_job *next_job;
+> +	struct drm_sched_rq *rq;
+> +	ktime_t ts;
+> +
+> +	/*
+> +	 * Update the entity's location in the min heap according to
+> +	 * the timestamp of the next job, if any.
+> +	 */
+> +	next_job =3D drm_sched_entity_queue_peek(entity);
+> +	if (!next_job)
+> +		return;
+> +
+> +	spin_lock(&entity->lock);
+> +	rq =3D entity->rq;
+> +	spin_lock(&rq->lock);
+> +	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> +		ts =3D next_job->submit_ts;
+> +	else
+> +		ts =3D drm_sched_rq_get_rr_ts(rq, entity);
+> +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> +	spin_unlock(&rq->lock);
+> +	spin_unlock(&entity->lock);
+> +}
+> +
+> =C2=A0/**
+> =C2=A0 * drm_sched_rq_select_entity - Select an entity which provides a j=
+ob to run
+> =C2=A0 *
 
-> Thanks,
-> Steve
->
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static struct drm_info_list panthor_debugfs_list[] = {
-> >  	{"gems", panthor_gems_show, 0, NULL},
-> >  };
-> > @@ -725,9 +767,64 @@ static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> >  	return 0;
-> >  }
-> >
-> > +static int show_each_file(struct seq_file *m, void *arg)
-> > +{
-> > +	struct drm_info_node *node = (struct drm_info_node *)m->private;
-> > +	struct drm_device *ddev = node->minor->dev;
-> > +	int (*show)(struct panfrost_file_priv *, struct seq_file *) =
-> > +		node->info_ent->data;
-> > +	struct drm_file *file;
-> > +	int ret;
-> > +
-> > +	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	list_for_each_entry(file, &ddev->filelist, lhead) {
-> > +		struct task_struct *task;
-> > +		struct panfrost_file_priv *pfile = file->driver_priv;
-> > +		struct pid *pid;
-> > +
-> > +		/*
-> > +		 * Although we have a valid reference on file->pid, that does
-> > +		 * not guarantee that the task_struct who called get_pid() is
-> > +		 * still alive (e.g. get_pid(current) => fork() => exit()).
-> > +		 * Therefore, we need to protect this ->comm access using RCU.
-> > +		 */
-> > +		rcu_read_lock();
-> > +		pid = rcu_dereference(file->pid);
-> > +		task = pid_task(pid, PIDTYPE_TGID);
-> > +		seq_printf(m, "client_id %8llu pid %8d command %s:\n",
-> > +			   file->client_id, pid_nr(pid),
-> > +			   task ? task->comm : "<unknown>");
-> > +		rcu_read_unlock();
-> > +
-> > +		ret = show(pfile, m);
-> > +		if (ret < 0)
-> > +			break;
-> > +
-> > +		seq_puts(m, "\n");
-> > +	}
-> > +
-> > +	mutex_unlock(&ddev->filelist_mutex);
-> > +	return ret;
-> > +}
-> > +
-> > +static struct drm_info_list panfrost_sched_debugfs_list[] = {
-> > +	{ "sched_ctxs", show_each_file, 0, show_file_jm_ctxs },
-> > +};
-> > +
-> > +static void panfrost_sched_debugfs_init(struct drm_minor *minor)
-> > +{
-> > +	drm_debugfs_create_files(panfrost_sched_debugfs_list,
-> > +				 ARRAY_SIZE(panfrost_sched_debugfs_list),
-> > +				 minor->debugfs_root, minor);
-> > +}
-> > +
-> >  static void panfrost_debugfs_init(struct drm_minor *minor)
-> >  {
-> >  	panthor_gems_debugfs_init(minor);
-> > +	panfrost_sched_debugfs_init(minor);
-> >  }
-> >  #endif
-> >
-
-Adrian Larumbe
