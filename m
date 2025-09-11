@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FD9B52FF3
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73543B53013
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEC810EA95;
-	Thu, 11 Sep 2025 11:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9069210E316;
+	Thu, 11 Sep 2025 11:22:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kdRV6RbF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MTAJ8j9z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B801210EA95
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 11:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757589513;
- bh=IY6irs1xcyfinm+ECQ+nwn7CQq/0lCo73oLaURZh2Lc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kdRV6RbF12GupEHynvvxuBmEHCmbvW9aQ497kWd1+uMnSVFmTh7041KRM2kGeZEJS
- FsrXgjgUt93JPRznoD3WO6AEuVekylI6EZnJ35PsnqjPoxS6cXbX0+IE05loUf+TkL
- P6abjFEmEChjx1tnURfWQTF2+h1NBVJX3rLvosohGUtFQt+8sTiUKvMh7AYOMuUfR+
- yTFRnSOyVOAz+xpXh3wcmjnHIdefpWqzf60sjG9xVZuJ2/7dbRvEs8AMnRB7bpmsHr
- UPH+ppC0RrOFq9kMiMCppfSPVzTzGXTPYUsuNJ5Q2Gy9fSOEZrOp6eg84UyfCYIGyR
- 7fzjzfThn8Ptw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BACD917E0109;
- Thu, 11 Sep 2025 13:18:32 +0200 (CEST)
-Date: Thu, 11 Sep 2025 13:18:17 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?="
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] panthor: use drm_gpuva_unlink_defer()
-Message-ID: <20250911131817.3e0ab0d0@fedora>
-In-Reply-To: <aMKtuwdk2HsejS-Q@google.com>
-References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
- <20250909-vmbo-defer-v2-2-9835d7349089@google.com>
- <20250911121537.523195c5@fedora> <aMKtuwdk2HsejS-Q@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8230B10E316;
+ Thu, 11 Sep 2025 11:22:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 598F9601B5;
+ Thu, 11 Sep 2025 11:22:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1D8C4CEF0;
+ Thu, 11 Sep 2025 11:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757589745;
+ bh=OwvNjx3MRUK1frkNA0c5zRPid8ek62rk22oqfoMLxHY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MTAJ8j9zIniFTiMbgJwfxoxWSqAeEuZQZvcZjkLuJgm4hwqQ+mriuqj2bEnCeKppv
+ C+QPs1IAEMfGr92mBUxNlBatB3XQfH/2tKcQjvazLWSzXDk4YNbzA0H3TIq9C6SbEE
+ jiTYVOtyQMlpwFZOyBlZIgWK1YY9P4w1tKKNgzHCITLNWqoVxkJP0Aqf1aUEPQDvTx
+ r5/blIC3ocgnhDO/EikLhbEY1uI1Glp5Ve8DHACr0yiFIc4/S7r2Ashp+Tznke5WdI
+ Iwl8QRMMKEonngJqTd3g4IJRFYramlK8b5mgJjb9pe/EFy/lNCl/FOY6tKBM6DekNu
+ d6j2h/au4vXuQ==
+Message-ID: <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
+Date: Thu, 11 Sep 2025 13:22:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
+ <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,43 +71,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 11 Sep 2025 11:08:43 +0000
-Alice Ryhl <aliceryhl@google.com> wrote:
+On 9/11/25 1:04 PM, Alexandre Courbot wrote:
+> +    /// Attempt to start the GSP.
+> +    ///
+> +    /// This is a GPU-dependent and complex procedure that involves loading firmware files from
+> +    /// user-space, patching them with signatures, and building firmware-specific intricate data
+> +    /// structures that the GSP will use at runtime.
+> +    ///
+> +    /// Upon return, the GSP is up and running, and its runtime object given as return value.
+> +    pub(crate) fn start_gsp(
+> +        pdev: &pci::Device<device::Bound>,
+> +        bar: &Bar0,
+> +        chipset: Chipset,
+> +        gsp_falcon: &Falcon<Gsp>,
+> +        _sec2_falcon: &Falcon<Sec2>,
+> +    ) -> Result<()> {> +        let dev = pdev.as_ref();
+> +
+> +        let bios = Vbios::new(dev, bar)?;
+> +
+> +        let fb_layout = FbLayout::new(chipset, bar)?;
+> +        dev_dbg!(dev, "{:#x?}\n", fb_layout);
+> +
+> +        Self::run_fwsec_frts(dev, gsp_falcon, bar, &bios, &fb_layout)?;
+> +
+> +        // Return an empty placeholder for now, to be replaced with the GSP runtime data.
+> +        Ok(())
+> +    }
 
-> On Thu, Sep 11, 2025 at 12:15:37PM +0200, Boris Brezillon wrote:
-> > On Tue, 09 Sep 2025 13:36:23 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> >   
-> > >  static void panthor_vma_init(struct panthor_vma *vma, u32 flags)
-> > > @@ -2084,12 +2010,12 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > > -	/* Ref owned by the mapping now, clear the obj field so we don't release the
-> > > -	 * pinning/obj ref behind GPUVA's back.
-> > > -	 */
-> > >  	drm_gpuva_map(&vm->base, &vma->base, &op->map);
-> > >  	panthor_vma_link(vm, vma, op_ctx->map.vm_bo);
-> > > +
-> > > +	drm_gpuvm_bo_put_deferred(op_ctx->map.vm_bo);
-> > >  	op_ctx->map.vm_bo = NULL;  
-> > 
-> > Hm, I don't see why we need a drm_gpuvm_bo_put_deferred() here. The
-> > original idea was to delegate the vm_bo ownership to the VA being added
-> > to the VM tree, so if we put it here, we have a UAF situation, don't we?  
-> 
-> The vm_bo refcount goes like this:
-> 
-> incr vm_bo_obtain()
-> incr vma_link()
-> decr vm_bo_put()
-> 
-> There is no decrement in panthor_vm_cleanup_op_ctx() due to this line:
-> 
-> 	op_ctx->map.vm_bo = NULL
-> 
-> So when everything is done, it is linked once and the refcount is
-> incremented by one, which is correct.
-
-Ah, right, I overlooked the change to panthor_vma_link() where you drop
-the _put().
+I'd rather create the Gsp structure already, move the code to Gsp::new() and
+return an impl PinInit<Self, Error>. If you don't want to store any of the
+object instances you create above yet, you can just stuff all the code into an
+initializer code block, as you do in the next patch with
+gfw::wait_gfw_boot_completion().
