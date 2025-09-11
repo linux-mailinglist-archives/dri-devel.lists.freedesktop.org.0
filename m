@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E195CB5326A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 14:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB15B5328A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 14:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 365A810EB02;
-	Thu, 11 Sep 2025 12:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E9010EB17;
+	Thu, 11 Sep 2025 12:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oa5TjNjr";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CcVTjDgd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A0810EB02
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 12:36:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F2310EB17
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 12:39:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757594172;
- bh=/foYGMWdrK3ZwjcwGzqYJDHY5VMNoPB64NM1Gm9vO0s=;
+ s=mail; t=1757594380;
+ bh=ZrctxyvnXYiaVMve4hAPpN6QSvgdEACuwuibUshXyiA=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=oa5TjNjruLrUJ/ZdCAg4ZcGelwX9zMXSqsLRDbNXWfZdXnsrLuuhf5C8j34ztMFJt
- Y+k9RBPNhgls8GH368UyCbUlQwID1Saiwp94YnuRSdIX5ETTlHoW7Iox9fTJ2mqcUz
- /n3J88FD4ZtseKJVrfInAHo7PdO8E0L0Dg+ny6KM+D40a1nihzV4ZVrMjhm2ORASBP
- P3fN36gdRD+tfTcrmhyDY6rUMYHhM9pBviY938R1t1cdUebdT7yw67G2Grrqr7CBa9
- rul0kcSXw3pBMyHoCQlj0q2iXiEMuOzyqZQucYdnSMtXfLloh4jRry9O0vME6hSE0P
- YlhGzjblycpxQ==
+ b=CcVTjDgd7nSS/oGyWsgxJK83BFtTlasQwcZApdQeFH2mGZs391b8U2AlFRMaiMaiy
+ vFOHi+un9GqUUbaz4dDIMibse/dvZSdmaZ5ElWWpYpPZED9O3d17FIauz9nxs/6aah
+ fQKqZDnLOJsJeZsgqzgqUGVVAPYrlfL/ucV80uhC60HO/dcemTSUnU7sQaVm9W+8ts
+ 5wXdnZhEM1SI8HYjT4GsQpoU4GchMQdZFAPN/TdQUb9lcWj8UMRrp82BOd1VKymDbk
+ pwbKRS+TMIhFJSiiyetX84gU/exC7KL7SDKE2ghmwNqhxsysDQ9HMiJEitU0DMYsgL
+ j+1lUJJzZgT+A==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1D81C17E00FC;
- Thu, 11 Sep 2025 14:36:12 +0200 (CEST)
-Date: Thu, 11 Sep 2025 14:35:53 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3B10117E00FC;
+ Thu, 11 Sep 2025 14:39:40 +0200 (CEST)
+Date: Thu, 11 Sep 2025 14:38:50 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
@@ -45,7 +45,7 @@ Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
  <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] panthor: use drm_gpuva_unlink_defer()
-Message-ID: <20250911143553.759ce6f4@fedora>
+Message-ID: <20250911143850.5d79c3a3@fedora>
 In-Reply-To: <20250909-vmbo-defer-v2-2-9835d7349089@google.com>
 References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
  <20250909-vmbo-defer-v2-2-9835d7349089@google.com>
@@ -206,12 +206,12 @@ Alice Ryhl <aliceryhl@google.com> wrote:
 >  	if (!preallocated_vm_bo) {
 > -		if (!drm_gem_is_imported(&bo->base.base))
 > -			drm_gem_shmem_unpin(&bo->base);
+
+Aren't we leaking a pin ref here? If drm_gpuvm_bo_create() returns
+NULL, ::vm_bo_free() won't be called, meaning we never return the pin
+ref we acquired earlier in this function.
+
 > -
-
-Aren't we leaking a pin ref here? If the preallocated_vm_bo is
-NULL, ::vm_bo_free() won't be called and we're never releasing the ref
-we acquired earlier in this function, are we?
-
 >  		ret = -ENOMEM;
 >  		goto err_cleanup;
 >  	}
