@@ -2,63 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147F3B5297C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F3AB529A7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630BC10EA22;
-	Thu, 11 Sep 2025 07:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF9810EA20;
+	Thu, 11 Sep 2025 07:13:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kNGHzc5L";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YwfOqgbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7692610E2FF
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26B1710E08A
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:13:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1443A44635;
- Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A72C4CEF1;
- Thu, 11 Sep 2025 07:01:26 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 3FDDD60141;
+ Thu, 11 Sep 2025 07:13:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D114DC4CEF1;
+ Thu, 11 Sep 2025 07:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757574086;
- bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kNGHzc5LShxDoby6w+5B0rArOpeaiVE7rVvfrO816zAUBMrrpPJ0dUr2xaf4QLWhy
- mY+qNgBlxPEy3zXyUFdDDnJB7hi5Du0P4X6pW0kdRkHGArzrm9yHV3/MYgsA8NDNol
- kmc10a26FwkUmvRqIHSernvfMzY0CdmAsh3Czgj8l9W7P7M98o4M3GihQZm0juWDRk
- toFJKJ3PZMpypAvEJVOGELJQc633e95pfQW2Kg002tmNI4Q1oSKL6qki07jMnup1Ke
- H+qB+p4h7SiSVsY56tuJxfXBJm07+J0rYDESBrULBjJSENWLQsudeVU2Kao2Bgs1zO
- ZqAhYn49Hv17Q==
-Date: Thu, 11 Sep 2025 09:01:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>,
- Mattijs Korpershoek <mkorpershoek@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-Message-ID: <20250911-didactic-authentic-cockle-e6d5fc@houat>
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
- <20250910-vigorous-attractive-gorilla-af6fec@houat>
- <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
+ s=k20201202; t=1757574783;
+ bh=snkOtNyxDCmTGIb2trLLp5STd7LEtnJbDqtvZo/OjpM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YwfOqgbQHs9d6JnqTkVDiYqPCDzieGDdoBShlX5VWrMhc1fl39RBsBZVoCu+lASiO
+ PuqNdxnD7cVzaQmwiJMPqPkRLL1ymUJ5SjYoVciVPJ/D7xeQC6p8/xUIyBSW2ZCxDX
+ tTgom79+Zj+uQQBPxaTjBZhJZsP/SYsrOi5Dfa75t/k+IoU1YWNewW54rUIwUIisAX
+ kCjR/ycxbkJGQnsrZqjHC2zUWbxVlOce1Yvg4I4i5VQ0SITAbtU8fU9PylI9Qhg5Ek
+ nbvGyuYCLBF509qc+W5bFhjCh7qrlyY67bIZdu+MHIQeX0bGkPHJ/qK8MDd/8jfzil
+ v2+XuQBqiFkGA==
+Message-ID: <3e7e640a-88b0-496b-9ba3-53a36f31be80@kernel.org>
+Date: Thu, 11 Sep 2025 09:12:57 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="mvqneghb5gn2pldr"
-Content-Disposition: inline
-In-Reply-To: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for DSC
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ sjakhade@cadence.com, yamonkar@cadence.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, devarsht@ti.com,
+ u-kumar1@ti.com, s-jain1@ti.com
+References: <20250909054622.1439487-1-h-shenoy@ti.com>
+ <20250910-silent-classic-vicugna-fdc1ab@kuoka>
+ <fa31edd5-faec-4bf4-b001-610275eb8339@ti.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <fa31edd5-faec-4bf4-b001-610275eb8339@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,134 +111,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 10/09/2025 10:12, Harikrishna Shenoy wrote:
+> 
+> On 9/10/25 13:29, Krzysztof Kozlowski wrote:
+>> On Tue, Sep 09, 2025 at 11:16:22AM +0530, Harikrishna Shenoy wrote:
+>>> From: Swapnil Jakhade <sjakhade@cadence.com>
+>>>
+>>> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+>>> DPI/DP bridge.
+>> Also, where is any user of this change (DSC)? Why are you adding changes
+>> to the bindings which no one uses?
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> Cadence MHDP has DSC IP which can be enabled, DT will need to define DSC 
+> register space
+> 
+> for using the feature, was planning to  post DT and driver changes once 
+> bindings get accepted.
 
---mvqneghb5gn2pldr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-MIME-Version: 1.0
+No, this is not how it works. Read the docs... recently TI dropped the
+ball and you really send crappy patches.
 
-Hi TJ,
+You post always bindings and users, in this case with driver.
 
-On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
-> On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
-> >
-> > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> > > Hi,
-> > >
-> > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > > > Here's another attempt at supporting user-space allocations from a
-> > > > specific carved-out reserved memory region.
-> > > >
-> > > > The initial problem we were discussing was that I'm currently worki=
-ng on
-> > > > a platform which has a memory layout with ECC enabled. However, ena=
-bling
-> > > > the ECC has a number of drawbacks on that platform: lower performan=
-ce,
-> > > > increased memory usage, etc. So for things like framebuffers, the
-> > > > trade-off isn't great and thus there's a memory region with ECC dis=
-abled
-> > > > to allocate from for such use cases.
-> > > >
-> > > > After a suggestion from John, I chose to first start using heap
-> > > > allocations flags to allow for userspace to ask for a particular ECC
-> > > > setup. This is then backed by a new heap type that runs from reserv=
-ed
-> > > > memory chunks flagged as such, and the existing DT properties to sp=
-ecify
-> > > > the ECC properties.
-> > > >
-> > > > After further discussion, it was considered that flags were not the
-> > > > right solution, and relying on the names of the heaps would be enou=
-gh to
-> > > > let userspace know the kind of buffer it deals with.
-> > > >
-> > > > Thus, even though the uAPI part of it had been dropped in this seco=
-nd
-> > > > version, we still needed a driver to create heaps out of carved-out=
- memory
-> > > > regions. In addition to the original usecase, a similar driver can =
-be
-> > > > found in BSPs from most vendors, so I believe it would be a useful
-> > > > addition to the kernel.
-> > > >
-> > > > Some extra discussion with Rob Herring [1] came to the conclusion t=
-hat
-> > > > some specific compatible for this is not great either, and as such =
-an
-> > > > new driver probably isn't called for either.
-> > > >
-> > > > Some other discussions we had with John [2] also dropped some hints=
- that
-> > > > multiple CMA heaps might be a good idea, and some vendors seem to do
-> > > > that too.
-> > > >
-> > > > So here's another attempt that doesn't affect the device tree at al=
-l and
-> > > > will just create a heap for every CMA reserved memory region.
-> > > >
-> > > > It also falls nicely into the current plan we have to support cgrou=
-ps in
-> > > > DRM/KMS and v4l2, which is an additional benefit.
-> > > >
-> > > > Let me know what you think,
-> > > > Maxime
-> > >
-> > > Any chance we can get this merged?
-> >
-> > Guys, can we move forward on this?
-> >
-> > Maxime
->=20
-> Hi Maxime,
->=20
-> Sorry I've been MIA the last couple of months.
->=20
-> The docs for the "reusable" property say, "device driver(s) owning the
-> region need to be able to reclaim it back", but how can a driver
-> reclaim memory backing a dmabuf, since pages allocated for a dmabuf
-> aren't necessarily movable. Couldn't a user allocate all of it, and
-> refuse to close those dmabufs?
+To be clear for this patch alone:
 
-I guess, but how is that any different than what we're doing on the
-default allocator already?
+NAK
 
-It also has to be reusable, and will not be able to reclaim any memory
-allocated through the heap.
 
-> I backported this to 6.6 and ran it on a Pixel. While there are
-> already similar out-of-tree dmabuf heap drivers that expose heaps for
-> these reserved regions, they do more than just cma_alloc (multiple
-> flavors of buffer securing, use case specific alignment and padding,
-> and slightly different allocation strategies) so I don't think this
-> series would allow us to completely drop the custom heap code, but
-> it's a nice start.
-
-Thanks for testing, and I totally expect more heaps coming for things
-like protected memory, but it should indeed reduce the number of heap
-drivers needed going forward.
-
-> Does the cgroup part come in because the plan is to add charging in
-> cma_heap.c?
-
-Yes, and the system heap as well.
-
-Maxime
-
---mvqneghb5gn2pldr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMJzxAAKCRAnX84Zoj2+
-dsvHAX9IpZOMjeU0ynWChRbSjBVdeZtylN7gZQL2xiSKdre2cCOs+EzPryzJzsTk
-tRNxMScBfAwmOazIjwKlseNgI+HDT4rryBoWdzpYERPwpsG4vLSlAqtaiPiPmf41
-ekyA/2h0Sg==
-=POxF
------END PGP SIGNATURE-----
-
---mvqneghb5gn2pldr--
+Best regards,
+Krzysztof
