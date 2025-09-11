@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20609B52F26
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BC9B52F29
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 753B110EA79;
-	Thu, 11 Sep 2025 11:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2026710EA77;
+	Thu, 11 Sep 2025 11:04:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Utx4b5+g";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="QCdbDXSu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2049.outbound.protection.outlook.com [40.107.95.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A235E10EA79;
- Thu, 11 Sep 2025 11:04:48 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2047.outbound.protection.outlook.com [40.107.96.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8AA110EA7E;
+ Thu, 11 Sep 2025 11:04:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZKcQdl1rwDXb3uBOoeaeYbYYXXG3oU1jCJXZEBLHAGGuJH8J+WnTYmhJ5mAKgCCkvLD0xQ1HkCzQRKfN19a/j+rm5pxtIOnm97n6F2rKeCRVM4qEHNBYQQMn7wJpMw9Xf3k5ow0cI6mE0rMz1/hmau6iLXjxqBscn9/zFR5tqVsJA65XSAGx31QpQwtE3uUdxHPGz24nKudkKQsAeWK0WJgSpizIPETobUFkES0LOK0eiM/cjx4ULk0uP40TM3f4y8w4mZLPqlTHc7g/LR7ksK4/QlGPJ28bb0sia24NiRVYR+1Ag5hb+vIGN37fvP32DUiD/5vAecnWVvfOkslPsw==
+ b=amDim824HtpJerbjKRTJSEIkQbU7GH7aNsCiGXpyJnhZaA/dvLvmgjY1Pj1eboJXI/aVcffPT2SBMsDDra3NXAlEoAhVN/Y1VuPirwaigkzf3KpTOaa3+B28A6FLsJZMChZcA/5lraJ0vre+kJh7axiY6Z/Jb8fqbLH+bx/wxom6VUKao17mr6mSirTElwa3Q0IoRm8C1mYlRlqHpyaAgyPfl1JoAj0agdbDT8JKpTjzW+6jFZ3s7sfL2sfuDmJNmQpfQKRhokHvxV9cNNVnZOu67N8q388GcxvDMZb1qDVarEImjGpwI12gvMkGponkO+3rPnh9ZoEOHkugOYJhbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tqLOQstfLiV9uqiMhBWn5MO5LrPhlQKCmvRODeTzb30=;
- b=L8pvGdOC1dyRmHD2yPoy/RSVyp7KkcZHByUykxUm2YI9Jr69qL139U14Gv7GCNCEaqj9hwsFIO8QtnZkvXXiHeiM+9eqgPWDnoS81vi07M38UQ2V5tq4jhPgp5tl1wBlMwLTCKnb7b3qwhztUc0rGjeb8x0eiyc5zjERT6HE5sgxKeO5Wugkv6d6Hrc2AuxLalbcITStBbrVqfaQeZdeSeYZcyS1aCAlVuoUo+ZuqV8EFJ1ipS+CrHLdI2fV/T+Yujmv4Wwz/X1M9xkVE1E2ETAnw177rD/w23g9bYnx/+j1rWVxe8xsw2nD/cik2M6YNmGYjy8bOi8YfAKCc/lDHw==
+ bh=e+9UWrQgoN9IC5MLSyik1hgPPDsgBGF9BrxeL5KYVRU=;
+ b=qz02rxBL0czXwPt5cqzePSonYIeEYXgHUrh8CpbgmI9ANoemJJw/RstUQ22gmWTBc3/M/9y2IvJNY84jJRgQt+t1hxsSXJGfwjgTaobeI6GULEkiKuwcnGULeHan8bRJV+YeLpFFBBcYcfwzYnylbvhv5pEKJblkLquIhAj3X86yL821oKKrfLOyrhCkRDRt/+jQHGu9YUJURxTYc+vvdSQvC1CogySpt4OPrV/alJsZxbd5ieDrp9jP6vkBNEOAMG3FKYQpJi4oRqq2h+G2RX8kx4wUNQehffkgWXKrmLHQ3xIRN5ii9M6ZYnhtJqNH+RU1cN7hpsBHsAMh1aZJDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tqLOQstfLiV9uqiMhBWn5MO5LrPhlQKCmvRODeTzb30=;
- b=Utx4b5+g+bJshsI/hXJhuUCOyS1IBAieCF3K6G//p9NVXkzYRMl0xhkC7P2/AOsvbNRkIqpYxcTBzHqoB7GN1HbrD6BnK0PgWpH5twbNuWD81oyIy6+2p+pdFhjmc/r0BljHdRGNhPQvkfx60TARDMvq0emHb1USLye1Tek8RYtaDkbuXZxZ4sPYK3ix54OYj3mAXCoB7ttPrwXPIq285ndVDVEFMdEFzOz39iHLqjKwMVrGQS4HawIplq488hUJrFc+mYmaOOZ4iTgjsq35x12IuP/jWxOLq8isterpAw8J0OikBcy6RBh6W1C7c/D+erkF+q/5fjlti5eMIN7g1w==
+ bh=e+9UWrQgoN9IC5MLSyik1hgPPDsgBGF9BrxeL5KYVRU=;
+ b=QCdbDXSuEZK/HrAMfotg6Y2oaTqxpBs/hXz0YQuhm3PACOM3Af2aK8Sjzm8Vm0xcnz0W1yz4u42ZJ537uT6vtYF03f8ei8sekquT4UkzMvk31RVqvQHn8XbQhO9EV0XbMgM/K0wUc+o7QT8rlsleQimBpfDocouMtPkFPU38moFZ7Q4yU/9Kcb/ZDAvT05AuidemnxpyPl9K0naOmtiJnwa8ycYuJ8BPfq3GtdUm7Wnurd4viUCsB4rwWzXagRVRXj5M5bpTYo3DYt1mQHT/lwOTbeFQQo1V/01obOKUX3a07TZrTEubnU5UzxVrTavSsLnzexiYMbclZSejl83TgQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by CH8PR12MB9840.namprd12.prod.outlook.com (2603:10b6:610:271::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 11:04:46 +0000
+ 2025 11:04:49 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 11:04:46 +0000
+ 11:04:49 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Thu, 11 Sep 2025 20:04:29 +0900
-Subject: [PATCH v5 04/12] gpu: nova-core: add Chipset::name() method
+Date: Thu, 11 Sep 2025 20:04:30 +0900
+Subject: [PATCH v5 05/12] gpu: nova-core: firmware: move firmware request
+ code into a function
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250911-nova_firmware-v5-4-5a8a33bddca1@nvidia.com>
+Message-Id: <20250911-nova_firmware-v5-5-5a8a33bddca1@nvidia.com>
 References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
 In-Reply-To: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -65,102 +66,102 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: TYCP286CA0318.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3b7::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCP286CA0059.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b5::16) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH8PR12MB9840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cac5d3e-c37f-4453-34c7-08ddf12304ae
+X-MS-Office365-Filtering-Correlation-Id: 9808c639-9fef-4bdb-9400-08ddf123069c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|10070799003|366016|1800799024|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SHUxcWp5eWhmaVpmOWduMmN5d1ZZTUVCYjMxZUd6NjMzTUhtSGE0YWY4dkdo?=
- =?utf-8?B?eHZQVTl4SHFwaDM0ZlFYN1ZKVitIN3RWeVhrRVd0TkMwb09LSk5oek9za0lv?=
- =?utf-8?B?Z1liNE1wREJvUW9iZy9KM2FOaktNZHZLZU9GTi9ZYXk1RGdIL0pXRG5NVGUy?=
- =?utf-8?B?cDF6cSs1NE54YVJlRURLM0ZnUCtsbVBKdWxxR1hOWWd6RmdDZmsyaEFrcU92?=
- =?utf-8?B?bkhONTRYR1lFVEZrQi9wNUpPbHcxZDNQeVduN2JUb29VVXRYZ01RdkpYNXZt?=
- =?utf-8?B?N1dXZzc1L1RBcHJUN1pjVmt4bVliRHJaR2FNdmpmdXA0K2Q0bXhhMzFpRDNL?=
- =?utf-8?B?eTlNcDJ3LzVkRWpKMXZwZEhITm5QYmFwdnl1WkZVQklsT29NanJvakVmYmxN?=
- =?utf-8?B?NlU4K3c0RnRCQ3lDRnd2aEdCSEpXWjlHM29lYklqa0J5TW54M0VWbnRZWUYw?=
- =?utf-8?B?OWF6NWFObXExelM4RVdoQmdCOEtnUDVEV2dRWFlUWXhzLzJveUlTaHo4Qm9L?=
- =?utf-8?B?RWNaYTJKenpwWGdnOHJjZ3dFcjcwTGI4eXgyY1NEZTZKTHBUa2NtdmU5QUQz?=
- =?utf-8?B?OTZ0RW4ycWtSdTlXUkxkRlJWRHJxUlJJdlVsdXZSZDhEaU11NVBwQjU4TEZO?=
- =?utf-8?B?dWIwMjM3Mkk4NUZlbmI5eTZLYXpOK0M3UUlzbHJ1a25XTjlvb1ZzVTRzaDlO?=
- =?utf-8?B?bE9vbXF1NXBqN2J0eHpGY2RDOTU3UFpCUHFaRWRmTnBzUVVDUDdFS0FwYytF?=
- =?utf-8?B?STBIZ3A4OWNNemllNUY3SnpMMHBOTFhjUHBNZXBtKzlDUldyOUJ5bHd5a1dF?=
- =?utf-8?B?bXVEWkFSMkhsRUE2Tm5LTjg5ZGtKZEFZZGpubTI0Tit3cFRTT1EyNTVPSjVh?=
- =?utf-8?B?YzQ0bmF2aVphYUFXWS9JL2E5RFdzRUhYQmVkNXBzNWtIM3Y0V01tMFFlRmZr?=
- =?utf-8?B?eGExRkVWMWRlRCtYbThRZjFTaDRxeDhCN24yNmZNRVFMZEREZnptY0grRy9u?=
- =?utf-8?B?NTBYRWlaYzI1WUNHTzJVbWRXdTBUU3p4dzFDQ0c4THNRUEJIRjVUMGNMZ1FJ?=
- =?utf-8?B?RjVTUEw3MHc4V2NsT1V2SG9NSGIrQ3JMYmo0cVl4YzhCZ3p3OS9LbnJzMFZ0?=
- =?utf-8?B?ZHhDUFlnaTA4Sy9hWDZJZG1meTF1OTFUSEo4Sk1PcWJwN2srbTNoU1NZNmxI?=
- =?utf-8?B?SUk4VUtZUFFNK2R6ekZZUFJ6NHhCOW5CSVZzNmlMSW5HRFdkcENVSXI1MERT?=
- =?utf-8?B?ZWt5blV5V2J4bWFwb2NjV1J1aWtaTG1yeTZMaFQzNzJGR3o2cDFzMENFbm9N?=
- =?utf-8?B?c1NCbkttaFVTdzJmNzdjR3lqLzc5SzVrNmdYSWc4Uk5KcHU3TVJsYTJFNmpY?=
- =?utf-8?B?YUNyRGJ6VElUZjhDNlphN0JtRUJKUVlsNTBVK3Noa25QQ3p3eVdtWWREcE4y?=
- =?utf-8?B?WENsL091ZzVjWURjNUpiYUUrc1YxdGFLOEg1RVFHSmVBM1dnK3VHc0cvY2VM?=
- =?utf-8?B?NGxjaWxsWlFIOTR2bGc0RHVLQkxsK1ZvRUQ4SGJZVG0yWUwvZjhVR09OalJI?=
- =?utf-8?B?TmhONTZ4aWZteXphdG0zTzZDNmtHYTg5MGJFckRtOWhpNmFkVXU3QUpMS1U1?=
- =?utf-8?B?cXNsbDVDVGF2VHVhTkZHQW8zTHBVeDE4K1NFeXlJR3hHbk9uYVAxZkkvejhE?=
- =?utf-8?B?YmJjbUp2VStTSXBTbFg2cm53ZkFidzJUOEYvWXJjTFUxLzRPU1RQRmJIWXQ4?=
- =?utf-8?B?elRJdVYyTUdMUkJOVTVBbGtVQmJWSjlYSFJjRFkySXpPbzg1SGR5aWhlYmlO?=
- =?utf-8?B?Nkl1dTJpd2xHT056NlEyYTJLRWlOMW0xbzN2WDV1cnp6UUZjTXdnZjlPcDRi?=
- =?utf-8?B?TEVmaVlEUDZJUkNWcEV1cXRiNWpWWW9icHlRemJSQXg4RUxzK0RtQzdXVndn?=
- =?utf-8?B?bkdkc01YREkvdWVNYytQL2dCRTZCZVUzaDlqODNUdHlUYnBlaU4yZHIxY2Zy?=
- =?utf-8?B?RWEza0FOSDlBPT0=?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Ny9nVzkrd21ESGdZLzZ1UlJHTzdrcUxPcXN1cFFpTDdhOGpDS3BvYmxiY2wy?=
+ =?utf-8?B?TDZZMnZtOXVuTE84dHZCTzA5S3hoMDJMU1V1eWhrZEFWWXpHcHloejI1czhL?=
+ =?utf-8?B?RStlQTB6NlB2UUVDczB2K0U4bG00LzF2Wnd4RkVUcjEzZ0d3bGpPeGlYVHRv?=
+ =?utf-8?B?aEs0Q0ZaS0x0Wk02MC9PeEgzU0Z1a3VJd202emVoVGVNeXphK1o1MDhnTlk4?=
+ =?utf-8?B?QnBnZTAyVmE4dGRieTRwa08rOXdqWERNa3B3bGdDNTJITXowR3RyWGEyOFh3?=
+ =?utf-8?B?dlpwSVVnYmU4OHRoZUhueWVpUzVyYmxSbjBkc0J2V2pZYThwcHV6TW1IVkZZ?=
+ =?utf-8?B?b3ExRm5BVzQvQlMwYllld0dhZ1dFcDdyd2ZnR1Q2TjRoQld6WFdtUEtuTjZ5?=
+ =?utf-8?B?Y3pHVTJMcVNEcjVUUXZyMzRYNVRraGt1RWJVQzZBU1ZaWnZIeXlnTjVEbG02?=
+ =?utf-8?B?Q29YSllBeGtZb0FVZjRHNnRONFAvUFhWMktEcys4dEwyU2VsMDFsY1lWbE5q?=
+ =?utf-8?B?OHhWMzVmZG15dnNoMWRjaitHcHY4Mjg2cGRoNWhDQlpnQmVkb2VPVERIU2Fi?=
+ =?utf-8?B?SXIvUXlRTVNONTBqblF5Y3loaGxEZytkWlQxUEswNHN6RE8reiszb1R2NnhE?=
+ =?utf-8?B?RDNCQW8xa1JNSHJ3Mk1EcVlycm13TnMxbWlMc2ZJWi84bVhFQ0NhZmVDbWFT?=
+ =?utf-8?B?dW9TRmR1WS80QlFCVTJCdDB4MUZQY3V0bG4xbkpDVjhlUkJYS05ybVB5ekZ2?=
+ =?utf-8?B?Z3NvUDE2M0U0YzFYTDVwdGI0WU81MnJBWWcwdFZqOTI2MlRSOG5VWlVhYnBu?=
+ =?utf-8?B?ODYweTU0enpvV3JEQm1Lejh1UDd2djRpVmErZ1B2YmtBQmVHNmVLUStra3Np?=
+ =?utf-8?B?dGw2QzZhNUl4MG5hYld0ZE5EMklOZzRwQVl5SWg4a0lTZ2NjcVNCOVJrYTYv?=
+ =?utf-8?B?UkI5aVBKcHJWZjJ0M2s0a3ByRTVuN3hOTUh3Z0w0VEJpbkFzWU9Gbkk5OHRa?=
+ =?utf-8?B?Vnk2UUNTT3BJZHdjNXlTaGNZaFRka2pZMUNVUkFvMEFmbEVmakNMS3lZRWww?=
+ =?utf-8?B?cUZxZFFTSCs2ZU12TjR1V1ZUaXFrUitUUjdQTFlKUDlYcXFCMWlzc2dEYUJG?=
+ =?utf-8?B?SUFsMlVmWWVRWC9hRDBLd0NNZFBVSVVUQnpXZUZHMDBXZXc5K0QzRG8xenRh?=
+ =?utf-8?B?dEhmMFc3QjZscnhwQXhxY3pnb3F5MW10NXFVRDZ0dk5jN1BsSk5XdEdFRkRO?=
+ =?utf-8?B?K1BUb2xCSVU1bDdBZTRuelA5Q0dhdWNEazdBN2wvMzdycFhIZW5hS1FpRWor?=
+ =?utf-8?B?eWJSU0cxVExFZ09tWjEzOFpVbFVWYWtxY2dUMGFrZkhGbUNucmVNclpGZnlU?=
+ =?utf-8?B?cEVzNmRTQUlKN3RXb2hBeUhPSXlJSkx2V2Z5WVovOEVDdWhFOVlNZmFSSW5h?=
+ =?utf-8?B?L0JMd1JWTWdBaFB4d0IrS0IxcVA3ZFNuUGdoNUtCdVpjZXQ5bE5OY2xPblNK?=
+ =?utf-8?B?RzZKY2NOMjFHL1NnQlZGdy9oS0IzRDlHSjMwOTBDNSsrVmJ0UDdrM01FYkUw?=
+ =?utf-8?B?ZjJXYTJocXdMZG9RM1pUWElVVndrRWFrK0Vib1NIRi94TXhhR1k0T2FOV2Nw?=
+ =?utf-8?B?Rm5XcjZ1UE5vZVdSYncxYUZnZ1l6bGJBclNURUZJczREUWVGY3FUb2tyUDVY?=
+ =?utf-8?B?ZWZ0WFowSjd5UkZReVN2bGh1c2NtYnJUMzBWT0dDalpWcS9Tc3ZsSFVWN2Rv?=
+ =?utf-8?B?TW1QbDZGWGwxdit1YnNGMkZkUm5yZkFtOWg1RFZUM1NTVklMOG1iZUtlaFht?=
+ =?utf-8?B?WjJKWjBpM2RYRUtqc3ZRYm44QUJtcFppdTRsQ21ZUkdkZFhNWXNaUWhTZXhx?=
+ =?utf-8?B?OWFrQ3ZjU3ZCRnJrMlhINWh4amRPUG1melFNZDdvSGt1eDZtT20vc1AxcTJK?=
+ =?utf-8?B?NXRWKzFwQllOYnY5QlJZOTNnblFiYkJEZ3lFM1JNc2VTZ3BnZmptOTVBZTMz?=
+ =?utf-8?B?WVdHMFhqaVdRPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXByaTczMFFiZUQrZkR4UHhBcitSRndZc0tiZmE3TmNodlpKd2JaSHdOOEt6?=
- =?utf-8?B?TXZuOXlSeVJzMEIyejJwd2dSdFpOVFI4NFJTSWR0NTd1R0tidHRITG9Db0ty?=
- =?utf-8?B?Nk9OYzJRK3gxZGFUMUVYa01WakZKUk55U2EzYjc0eGR0Y25tRTZMVlJybDZ0?=
- =?utf-8?B?aTdwSzNtakpMWUEzVEh1Wjg1MEN5ODBKSTg4MCt2V0xVdkxYcmNQSDBMVFFP?=
- =?utf-8?B?c3pyNXJMaXROVlVlMVRBUFJmcXFCNVlTUm5HRVhrSkhLeFFSODE1NnFrOG1j?=
- =?utf-8?B?Y212eVd4M3pCaDVHUkhqUnI4MWVhMVY0SW5PYVJyVDRhTmVWYTJYZGdScDQ1?=
- =?utf-8?B?T0xzSmdsZkdpTlRlZWZuQWRvTFIxTDlBV2dTRDAweHRVMlRpREh3QTlpOXNP?=
- =?utf-8?B?TVRXM3dReThONGNYdG5zRzREYnBnd0lPT0lNNUJ1bjRxS2dLZGxHeEhyUVh1?=
- =?utf-8?B?MkFtV3BtRjVrbklmNHhBQ2ZNcXhBT0x3ZTM3NEVzRjhSS0diMW50L1Boc285?=
- =?utf-8?B?N25FZUxWa2MxcXV1VXEzL21TSDZLWjhGY0xWbTFHaklMVmlSYlgwZWhCLzJ1?=
- =?utf-8?B?dDZtS28waHF5S29MVW9qYXJqaE5iRHgzUXQwVnZiNTR1UzBqY0VpRDY2enY3?=
- =?utf-8?B?VE1hRlpwWVM3U0JTZ3R5enZWNlFJcWMyMDFxWStXdm44V2ErWVB1NW1Yamxw?=
- =?utf-8?B?WXNEb3lJb21pQ1NCK1p5SE1tTW5iRDFFMndaZ3E4TkFPZ25oRmRWSU83aTNx?=
- =?utf-8?B?VUswNUdpNGoyVmNMLytyREFJalgvbVlRdSt2ZVo0Rzd1blliSHhQby96WkMx?=
- =?utf-8?B?ZXVxdWx6MGwxdkNBUThBbHorampiQ0RyWVR5SlZvRlpQQXFrUFNETlpFQ0xK?=
- =?utf-8?B?RWZBejdMdm4yMVlvaHVpam1wbENqZXRQeTNGNzgwenRsd09vT2VCZVF1UndS?=
- =?utf-8?B?MWNvbE0vamhaNmxuNTJoVHpVa2xiU0pTMnhlaDBUY2I1M2J3VitCaU5NSWdi?=
- =?utf-8?B?eWVpU2N2a095MG9TTi9Dd2tRaUd4aUhPVUd4R1FqdGE1TklRRnZ3SFdXa0ts?=
- =?utf-8?B?dDdtdlZuZmZEYmYzVjlLTGRUcWtGUnNZU2VOQVhNTHI1b1BPNVVjb0ZkdHJk?=
- =?utf-8?B?TllxbzdtaVc2N3V2L3FkYkd6djQzOHdHbXRLSENnb1hQOFpwV1ZMS2Z6MDBh?=
- =?utf-8?B?b1EwQ0hRQnRrU1U1V2YvU1piR1hFL2JRVkhMUDlqZTFyZzZYemVHeWZzQ1Zj?=
- =?utf-8?B?NEpJdHpmMlI1TjBHTks5YTBPM1FkZEtsc1RZWGRXNytWY0NjSjNVVm52Z0Zl?=
- =?utf-8?B?QzRFeStiOFVlbWVyZGU3KzlTcnlZYjRoZklYMU5HSVJRMktweXJBV0V4SGdG?=
- =?utf-8?B?WitGWDBmdStVUGVIdW5zSWRrTGdkbUtnOFZhY1pZR2xtajE1WGNLTDJQU2F2?=
- =?utf-8?B?eXF2NFEzcVV6RTJNSXhRbDdSNXFnNWxIL0wvdzA5N0VYNDN0ZFoxNEpUWFNm?=
- =?utf-8?B?Z0FabnRtb3pQaTA5aXk5S1krcWxVZVhFSk4vdEV3NzJYMVhGczdTZFMvZFcw?=
- =?utf-8?B?VUc4cTRVUUplanhHZ1BUVldVYWlsRjVCYnYvVWhNR3ZJVGQvTmE3SGVXdFdM?=
- =?utf-8?B?TmphbE1HWnRsSGJkSG9zMjE3V25xb0dEWUJESUUvYStUeXpzNWtEcXlGelVh?=
- =?utf-8?B?dS9CVGt1ejBaZFdGVXFWRVpBY0NVbDhaRGlad1BnSmswZ256VVFKbEVGTVhD?=
- =?utf-8?B?MW8xbDZabXk3ZU5NN3Z5czRlVHZ1ZnVlaDlCMW54SjZtZE10bFhPMmlwOTdn?=
- =?utf-8?B?aWFrbEFMd1liaXQ4NTBxQVVlcEdocFdiSWdoY1YxeEc0VHhqQVBIUlcwMUlq?=
- =?utf-8?B?dGQwWmtoM0NVR2I2OVhXa0NTajhnTFNVSGVQOW43QS9XVkx2ZmxmYUpwVkts?=
- =?utf-8?B?dmFMV20zZ1oyRlhaaXRNRGlWbUh1bmt0NVJ4SnQyekd3Qm8wektvK0grd3lq?=
- =?utf-8?B?a2xQTWdGeVpYNmJrRlNjSUxSRkZBNEd3cldmWWJzVjdjYVJheVgxSTc0d1Vk?=
- =?utf-8?B?TDg0ZEdUcFM3THhuaGxSTEM0cm9zUHJuQTk4WjFNQ2NISnpseEtQSkJYQitk?=
- =?utf-8?B?Z2kwOHFZblhNVVVFOElZVXJZeW0zSmMxeUZlcllQSUFQRzhkcGNEQktOK2JR?=
- =?utf-8?Q?x60bhKDMykE2GMwLlER8bgr/NHkuULiUZ0rPo7sn2Vrk?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVlYbjF6djVwSlFia25oRlBLc3hPd0tQZXUzaG5BYWhpVzhrNVhnMklmQjNQ?=
+ =?utf-8?B?UE9DdHBLWndhZS9UVm9BWlVGZDhEQXdBV1FjRkJkMjM2UDl6ang4THlVcCtD?=
+ =?utf-8?B?MnFiM1lWYloxWHp4cndRTHo1U3JPcUF5b3c4bDFrOVdUUXA1aHJpUTRRKzVX?=
+ =?utf-8?B?Y3ZKY3VQSU15YXVML3VXTkNJeWF4eGVhcGdaK2VGVEVFK0pqOVdXRHpNaG9s?=
+ =?utf-8?B?dmdPTU5TWk1FbVhmQTlmbjJSV2pZZUdoaGhBQ2JkcXoxSDJIV3g0QnJUMXZM?=
+ =?utf-8?B?ZWNqSVh4OUsvZWJRNjZEN2cwT2VSNjErN3QrRjAxeGp4Z3JEak9UWFJuUC9G?=
+ =?utf-8?B?SU01czcyOVhMT0NUVWJCeFRaV1BOVXFnajJUUVBlN0orYStWRUZ5OXpiNFVa?=
+ =?utf-8?B?MkhNR3FMY0s2czcvSUkxS3FyVDYrbnc2QktsOFZzNlRPeXl6S3QvejlsbnFO?=
+ =?utf-8?B?YThZUzNUSURDL0VsaUZ6SU5hUitxUE8xOGhmVTNJa3RRRk9oS3RVZllKcUdF?=
+ =?utf-8?B?R0lZR0FKaTNWT1RvTDBHcGNpZEI0a28wcE1qV1hidk9jbkxFbHRMY2dUYWZR?=
+ =?utf-8?B?NTcwQVlLZXAxN21YSE5Ma2ZVQlpuYzdQK2ZDSitQYUF6WXVEK3QxVTk3dUc0?=
+ =?utf-8?B?bkVTVUcxa0hyR3JYdUdUZVdXWUYxVUNJWjhyYVhVZ3ZhM0xmUnBjcnI5d1N5?=
+ =?utf-8?B?S01pdVNyYkNCMzludXpXcGxlZENvd3ZaUCtHdzBmaTduUVVTQktCaE5nN3Zv?=
+ =?utf-8?B?NG1pekp5dnVQZkEzRVZ2T1h0TjViMmJ3c1F0WGwvSUVJTHZaeUtQbWp2RFdX?=
+ =?utf-8?B?L2w3QUJKd3ZrNjlYaVZvWjlLSXN0eUd6YzQySnNmUE5TaGVwZFh1Mk0rZ0gw?=
+ =?utf-8?B?eHNaWkNubE8zR0tJUm1aU25VSWlFOXZzaEJVVngrMC9DbkgvajBHZ21kQ09r?=
+ =?utf-8?B?TVFCTWxsOFY3UnNnWk9GZ2wyR2Rta1BnTGZtaGlwWSs0UVRQaWFjcmt0MmNh?=
+ =?utf-8?B?cDBSemRqNnVHb1ZGMW1tSWdpbkhiajMwL3JnV1ZnQmI3SHFldzRUSWRCWDkv?=
+ =?utf-8?B?SDRBclJlWEljaFM0QzMvc280WmUvNlVSMk1wQXc1a0kyd29CWE1YUXZBcndY?=
+ =?utf-8?B?MGQycG94WmF5aVBiQXpDWGw5VE1Ca0Q4SkpyOTEvK1dCYlVQS3A0MFU0SlFz?=
+ =?utf-8?B?ZDZ6QWxIeWxBYU85WC92c0hlR3IrSXpzT1A4Y0dtb1BDZUZhaEpvdkYxSUVl?=
+ =?utf-8?B?aGhPN2tMWjZ3L0pzRmg4ckFiVVVrejBSNVJIWU41c3poUXFzN3JDYjlsdlZo?=
+ =?utf-8?B?QWgrMGZMZmdtKzVsWXowM2xBOFhGVXNGbFY4cUk2bkFKMUtPVGhjY0NZUUcz?=
+ =?utf-8?B?d1M3c1JTZ0EyaUpFSWFwcGxoekFITEJkc01xTzBCdmdxb3VZK1p5WXcrK2V3?=
+ =?utf-8?B?VDJRdlF2NU9IZXlLSy9VRmVQVU9ZbVptZENKeTJoTU41K1dVLzkwZ09hK0NI?=
+ =?utf-8?B?c1RFa1dqRFhPS0s4cU1rZ1pBaUxjbkUzYVlCNTNUOEtaaEdmaCtQdlM5a2p0?=
+ =?utf-8?B?eWtscm43UFgwdXZLUnBwN0M1VnFOdDVpYm52Y1dqWkY0NDc3U0F0SFVnQ0M2?=
+ =?utf-8?B?U3BxU3pLTDZMZS9jV20zdWtkU1FyRFppN0RmOTNvSlRvZ3lYVWhPcFowZEtV?=
+ =?utf-8?B?bi85M0xGeE5GaDNBRWo1Q0ttY3JrY3dnaWFIcWtuTitaTjE1RjJsUFhqV1RD?=
+ =?utf-8?B?Q1lFa2d5dFlyQmRTUE01VnVrYXZ6anFEMkR2UExGUE9xQTg2enMxZUNJRDg2?=
+ =?utf-8?B?b2ROZjhkYklEemdxNGdJT2VoVDE4Y1o5TXV0ZnlMN0RVQzVSd0xrbUlVdjBR?=
+ =?utf-8?B?V1g3VDVvRUFwa2orMHYrY3kySW1RVndrVkZDd05jNU1aNXEwRG9QcG80QmZj?=
+ =?utf-8?B?SWRYSERKWXZpVHJ1QkUrMTBSUzc4WW54ODVNRXViOU1UYTZ4NWJJMnBEQ0lu?=
+ =?utf-8?B?Zkc5dEhUQTQ2RWdUR2hGSE9sRDExRTFGZGN1VU9aU25RZXJXSldxUTlsdXFs?=
+ =?utf-8?B?T0dkanZjNU1QWHRHVnhlMTZ4NEFMZCtoNlhKNmZRb1dzM0lIY0htcXpIRlZS?=
+ =?utf-8?B?MEZYN3FuVTZPT2VkdDRIaGFmM2MrRTg4Z2JEWmlrSWduWU52bGgxdjNkVE5E?=
+ =?utf-8?Q?rTxATiosEBRVW0voQMWWlTmAl9JZN173g4qMAxjfWH1g?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cac5d3e-c37f-4453-34c7-08ddf12304ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9808c639-9fef-4bdb-9400-08ddf123069c
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 11:04:46.2310 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 11:04:49.6115 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nHHqf7J8zho3mQX6PA7LEv3ibM2a1Xnp+sD0IrOsnWs41uRSgflqKkij9It29xzwLOFJ7JSpzv43fH3PFqATNQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ajuANKJyNAb6ocNQMo6h04aPmtrPpT/eSyHDEqDUTTO9oWRb5AENlbo2iBqq4MjEDspKptjLko3PMzej1L1Mqw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -177,127 +178,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are a few cases where we need the lowercase name of a given
-chipset, notably to resolve firmware files paths for dynamic loading or
-to build the module information.
-
-So far, we relied on a static `NAMES` array for the latter, and some
-CString hackery for the former.
-
-Replace both with a new `name` const method that returns the lowercase
-name of a chipset instance. We can generate it using the `paste!` macro.
-
-Using this method removes the need to create a `CString` when loading
-firmware, and lets us remove a couple of utility functions that now have
-no user.
+When all the firmware files are loaded from `Firmware::new`, it makes
+sense to have the firmware request code as a closure. However, since we
+eventually want each individual firmware constructor to request its own
+file (and get rid of `Firmware` altogether), move this code into a
+dedicated function that can be called by individual firmware types.
 
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/firmware.rs |  8 +++-----
- drivers/gpu/nova-core/gpu.rs      | 25 +++++++++++++++++--------
- drivers/gpu/nova-core/util.rs     | 20 --------------------
- 3 files changed, 20 insertions(+), 33 deletions(-)
+ drivers/gpu/nova-core/firmware.rs | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
-index 2931912ddba0ea1fe6d027ccec70b39cdb40344a..213d4506a53f83e7474861f6f81f033a9760fb61 100644
+index 213d4506a53f83e7474861f6f81f033a9760fb61..4e8654d294a2205ac6f0b05b6da8d959a415ced1 100644
 --- a/drivers/gpu/nova-core/firmware.rs
 +++ b/drivers/gpu/nova-core/firmware.rs
-@@ -30,9 +30,7 @@ pub(crate) struct Firmware {
+@@ -19,6 +19,19 @@
+ 
+ pub(crate) const FIRMWARE_VERSION: &str = "535.113.01";
+ 
++/// Requests the GPU firmware `name` suitable for `chipset`, with version `ver`.
++fn request_nv_firmware(
++    dev: &device::Device,
++    chipset: gpu::Chipset,
++    name: &str,
++    ver: &str,
++) -> Result<firmware::Firmware> {
++    let chip_name = chipset.name();
++
++    CString::try_from_fmt(fmt!("nvidia/{chip_name}/gsp/{name}-{ver}.bin"))
++        .and_then(|path| firmware::Firmware::request(&path, dev))
++}
++
+ /// Structure encapsulating the firmware blobs required for the GPU to operate.
+ #[expect(dead_code)]
+ pub(crate) struct Firmware {
+@@ -30,12 +43,7 @@ pub(crate) struct Firmware {
  
  impl Firmware {
      pub(crate) fn new(dev: &device::Device, chipset: Chipset, ver: &str) -> Result<Firmware> {
--        let mut chip_name = CString::try_from_fmt(fmt!("{chipset}"))?;
--        chip_name.make_ascii_lowercase();
--        let chip_name = &*chip_name;
-+        let chip_name = chipset.name();
- 
-         let request = |name_| {
-             CString::try_from_fmt(fmt!("nvidia/{chip_name}/gsp/{name_}-{ver}.bin"))
-@@ -180,8 +178,8 @@ pub(crate) const fn create(
-         let mut this = Self(firmware::ModInfoBuilder::new(module_name));
-         let mut i = 0;
- 
--        while i < gpu::Chipset::NAMES.len() {
--            this = this.make_entry_chipset(gpu::Chipset::NAMES[i]);
-+        while i < gpu::Chipset::ALL.len() {
-+            this = this.make_entry_chipset(gpu::Chipset::ALL[i].name());
-             i += 1;
-         }
- 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 92fb0e4765ed322484672a1e01568216c3e0a7db..1dfd085189cbf188f9cfa829eb0cb7484d9c4d62 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -10,7 +10,6 @@
- use crate::firmware::{Firmware, FIRMWARE_VERSION};
- use crate::gfw;
- use crate::regs;
--use crate::util;
- use crate::vbios::Vbios;
- use core::fmt;
- 
-@@ -28,13 +27,23 @@ impl Chipset {
-                 $( Chipset::$variant, )*
-             ];
- 
--            pub(crate) const NAMES: [&'static str; Self::ALL.len()] = [
--                $( util::const_bytes_to_str(
--                        util::to_lowercase_bytes::<{ stringify!($variant).len() }>(
--                            stringify!($variant)
--                        ).as_slice()
--                ), )*
--            ];
-+            ::kernel::macros::paste!(
-+            /// Returns the name of this chipset, in lowercase.
-+            ///
-+            /// # Examples
-+            ///
-+            /// ```
-+            /// let chipset = Chipset::GA102;
-+            /// assert_eq!(chipset.name(), "ga102");
-+            /// ```
-+            pub(crate) const fn name(&self) -> &'static str {
-+                match *self {
-+                $(
-+                    Chipset::$variant => stringify!([<$variant:lower>]),
-+                )*
-+                }
-+            }
-+            );
-         }
- 
-         // TODO[FPRI]: replace with something like derive(FromPrimitive)
-diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.rs
-index 76cedf3710d7bb248f62ed50381a70f8ffb3f19a..bf35f00cb732ee4fa6644854718a0ad99051666a 100644
---- a/drivers/gpu/nova-core/util.rs
-+++ b/drivers/gpu/nova-core/util.rs
-@@ -3,26 +3,6 @@
- use kernel::prelude::*;
- use kernel::time::{Delta, Instant, Monotonic};
- 
--pub(crate) const fn to_lowercase_bytes<const N: usize>(s: &str) -> [u8; N] {
--    let src = s.as_bytes();
--    let mut dst = [0; N];
--    let mut i = 0;
+-        let chip_name = chipset.name();
 -
--    while i < src.len() && i < N {
--        dst[i] = (src[i] as char).to_ascii_lowercase() as u8;
--        i += 1;
--    }
--
--    dst
--}
--
--pub(crate) const fn const_bytes_to_str(bytes: &[u8]) -> &str {
--    match core::str::from_utf8(bytes) {
--        Ok(string) => string,
--        Err(_) => kernel::build_error!("Bytes are not valid UTF-8."),
--    }
--}
--
- /// Wait until `cond` is true or `timeout` elapsed.
- ///
- /// When `cond` evaluates to `Some`, its return value is returned.
+-        let request = |name_| {
+-            CString::try_from_fmt(fmt!("nvidia/{chip_name}/gsp/{name_}-{ver}.bin"))
+-                .and_then(|path| firmware::Firmware::request(&path, dev))
+-        };
++        let request = |name| request_nv_firmware(dev, chipset, name, ver);
+ 
+         Ok(Firmware {
+             booter_load: request("booter_load")?,
 
 -- 
 2.51.0
