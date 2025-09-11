@@ -2,202 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3443BB53134
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6E2B53140
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:45:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C12F10EADB;
-	Thu, 11 Sep 2025 11:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E7F410EADE;
+	Thu, 11 Sep 2025 11:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="keUhip2y";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="J825L5w8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5645710EAD9;
- Thu, 11 Sep 2025 11:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757591059; x=1789127059;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=UeMeyNkESfdK3wQDT/IF8mtOCW1BRa3eqY3kKTBxX0M=;
- b=keUhip2yJI1djkIb+3q2oGgwVP2cKpSjVIgSppztX1OCgRMs513TpdUf
- HPTbAFOYE5PkK+zM6MsC/7cMmkEBUpFo6ai8zFj2TrM7eTo18xNXiwPlo
- dxxIVmyiPgn6VmR7DKbeYVMHqgXAJSHB6ODBXMWf4mxdxI0iQpwEYjTlj
- qg2TY5MHkiizsfzmpWvhZv4P6GJHZXU73iWi1borXb390MqGHrIfVWxv5
- 7N2b3GIywfBwlsV8p1GgFYbHPUkWI2xohp6OynYDcAReKucLf1H8Q6lp4
- 82uEIkv8typDoXff7XuxFggBfmcHil/ceNzAHQx3MRDUrju8rRCCV7aJC A==;
-X-CSE-ConnectionGUID: 0RPQw35PRpSD8Q4NJnBKLg==
-X-CSE-MsgGUID: n/ghrVIpRe2DQrdVzy821A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70537975"
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; d="scan'208";a="70537975"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 04:44:19 -0700
-X-CSE-ConnectionGUID: gJFAvSsdRnC3huhk6jwCzA==
-X-CSE-MsgGUID: KMv03nt8Rm6Hr8LmW2qIlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,257,1751266800"; d="scan'208";a="178874094"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 04:44:18 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 04:44:17 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 11 Sep 2025 04:44:17 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.67) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 04:44:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UvYdKSeu3IyVBInaPZ51yiKGnKZoITO3N8z+ZlWdHxOBXbmd8E8IIGicuUH7sseMt0hVkDJt4M5YT6IHq4dMO7KZOGSti06IShF1UPd97kA9ctCHw/kcIpDWNlX7qBWQbbf7Z6oYE7Al4bg6XqK9LGJQCL5WbCkke3iE/S9+xbj7Gnw6mhz/il6h4/2FpsCAb5jkJgo5/PxSOeU7c6N/LOAX2YeZX+E4wAHQu+JDbUdGTEaH2j+FpY5Lq1aeijoDMqaO3kWlFtdPub50gVodDuBCm79uJQR455EgEEgi+rws9cy9P4Yg5hPLpw4H6mF++XUaDYVvrMMC2mABtSlT8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wmDhSPKC0b4DVEGL2K7x3DwNua6qJDkWuMdjaxfU7Y8=;
- b=sEfIFqq0qGAF2RDKwxcDREn1jxuqLVhy7+dnhVGKtu/6DpyHESEqy3Eu6tL7uxe/BWGNhgzfl+DWuZLAIHsrg4yTepyuSoR385ULoOQHuJQ074SFfvIWOpRTUQAww79Ugbz+E5OQF7ZZUIhFNLHHh8y+6CFr6QBHjhWF7qPHarqnzxnX5Oj4XpF5DXJ5Ds7BntyJr3JCfowTyEIGgXZTD3h8QvG+ef+D3avCXaPKW6AOYAjF7ARZFLVKw+UR7b6YhlIZq6VIlMt1eh3v0sghMP8uzenpbjjuA5MFsocqCTiK1pqRuom2Dn6++OEDs/Wj/In7wwSysAWLxdMUN+53rQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by CH3PR11MB7722.namprd11.prod.outlook.com
- (2603:10b6:610:122::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 11:44:15 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::7aab:2a1f:f728:eb01]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::7aab:2a1f:f728:eb01%6]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 11:44:15 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
- <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, "Nikula,
- Jani" <jani.nikula@intel.com>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "robin.clark@oss.qualcomm.com"
- <robin.clark@oss.qualcomm.com>, "abhinav.kumar@linux.dev"
- <abhinav.kumar@linux.dev>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>, "marijn.suijten@somainline.org"
- <marijn.suijten@somainline.org>, "laurent.pinchart+renesas@ideasonboard.com"
- <laurent.pinchart+renesas@ideasonboard.com>, "mcanal@igalia.com"
- <mcanal@igalia.com>, "dave.stevenson@raspberrypi.com"
- <dave.stevenson@raspberrypi.com>, "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>,
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, "louis.chauvet@bootlin.com"
- <louis.chauvet@bootlin.com>
-Subject: RE: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Thread-Topic: [PATCH 2/7] drm: writeback: Modify writeback init helpers
-Thread-Index: AQHcIXGVIDatfl+Hr0KRZbXy9BD+3rSM08QAgAELFxA=
-Date: Thu, 11 Sep 2025 11:44:14 +0000
-Message-ID: <DM3PPF208195D8D0D1CAE876CBDADD3B82BE309A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250909100649.1509696-1-suraj.kandpal@intel.com>
- <20250909100649.1509696-3-suraj.kandpal@intel.com>
- <nw4ehd7a655rzyf6g5yxb3z25en45esja2i5uowzy4wpmb2el6@orycag5iccho>
-In-Reply-To: <nw4ehd7a655rzyf6g5yxb3z25en45esja2i5uowzy4wpmb2el6@orycag5iccho>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|CH3PR11MB7722:EE_
-x-ms-office365-filtering-correlation-id: 3a9cb5a7-f974-48a0-e095-08ddf12888bb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|366016|7416014|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?oMzXR68ityLv9mcgj+N+mscq/QJgtbHcRysReMvqt6Lqxc+LMNaHF0KhG0oz?=
- =?us-ascii?Q?0StbGoVQ0uCXfZtIjcolqPJC3JvQpVHBpLCMbW1nd/SsksQRBsqrix6p+2fJ?=
- =?us-ascii?Q?DQwbg0YNzQAATjdChZTvM+HIvAIew+DLsVfV5i13cr3GZs5E+GR2EmBPuir3?=
- =?us-ascii?Q?lmLHwvFQ2c5tsyv83BEORK6++WcGVN4dhcAFA2cQ7aCZUgqsYxE578Qzi4CL?=
- =?us-ascii?Q?y/ikgll0eF7Id0Js8r8PWcsZ38l23dXbdEycVBFrvHdz59z0EptKgnO1xMjr?=
- =?us-ascii?Q?BA3BjU4korXSjAm02P5fHnvqS1HEaO5vRL8avvVRmDdnPCFHghCAkRIG0C95?=
- =?us-ascii?Q?2211fshVhYOIMdbfV/IW/k44Zuz9kQqUVVFCzx8+Jfb4CNR/sr5BBVniSvVN?=
- =?us-ascii?Q?DHTaLPQEUQUfDhhY4hLuuK8ZjREOvwouu64H4KZNOJh95mEsQ1JlUCFXUvSI?=
- =?us-ascii?Q?IyXM3festQMA7RUHMB5IsMRmBQjZTI8uVxtTd10yt+uuzpPQzh8J4/qOi9g8?=
- =?us-ascii?Q?5XfqEJ+TCbgfTDDqVwgBsVb+21bENkH6G7GUaIRvDRfuwKafzJJxU1DfYKSA?=
- =?us-ascii?Q?LU2jldFmynWQmMfR9F5oTiLrMeYoK31NcSKnBB9ocy/rs5CLiCPYKJUkGIc6?=
- =?us-ascii?Q?pSiiOMzOh7PUjqHOyQU+NEuE95fZK07AguKpAN/IpzZnPu3w84kdEJcugpnX?=
- =?us-ascii?Q?Ol1VDN3BX0pWHPIDk/f8m9YtwDk1zLNNXZBl2sgG/b10Cqj0q91KwSvPE3Gl?=
- =?us-ascii?Q?JaI3KguegJHWFtyG2zAwlfaUpqXM5IDEoJnuxbRmAqL2DwhfjaRUVeymoyjd?=
- =?us-ascii?Q?maEOWKAVYkqW1sgOvFEkFYrT+1KLkbPYCcQWDRlW5fgY7GqY0MqS//Cd8fQW?=
- =?us-ascii?Q?9eBXoBBOmppP8pJBzpujqMs8n/+cOuGoWfKIn75nmgKTsRGCeB3Xauyb0qNo?=
- =?us-ascii?Q?Z4LTUaRsOtpNRh/jS1yuPtU7a7SZTqhI1p/k7gGrotr+an10nz2ffLQ41/Fb?=
- =?us-ascii?Q?gXotlHDyl5AxvgTbL+qUwqxryPPNQ2SIxofWR82SmzvZOEqM5rphZcVBT9Oh?=
- =?us-ascii?Q?9E6ysRmluuRwDeRsCSyvYXPOJm0GktXT6WIdTOJCtdUM44TvJK/A6DmjCjE6?=
- =?us-ascii?Q?HIJedw2VZHbzuJkTCtFH4TJz6eo3LEw6MFNYgAvwBTxLRA3czj6yA+gS9KRu?=
- =?us-ascii?Q?QMhB01VC42N0PvFY0nGnYzqYXXoN/RwhKOZw088ZPCM8qHIWMUG3jHxLxG0C?=
- =?us-ascii?Q?zeBdUKmUxE8f6wT8aZ13Xq8M02OBrj05u6jCpj2xsVFcvvrspeZoicxF6ZGL?=
- =?us-ascii?Q?4eApqssXZ15WiaSNpKdJ7ScNYIa9eB8fgnn6aLaLF/UiKa72t8XQvXMOo0lo?=
- =?us-ascii?Q?Q0HvumLQ1FqLPusezEzRMkEuHSar/vk6ZSe0WDsM3WwAIwfsDO7evEQCp+GB?=
- =?us-ascii?Q?qYAxMKjEF5D1I+tUnoOG8suRUxQroqp9mSv7KrC+WVsPmfD3/O9LllGvHfov?=
- =?us-ascii?Q?ME245p+3/0W0Df4=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?taeCMkFW74NEDX/BRY8xofacCa+hU8+Yd2oEBmU5ElbXQacKhin/8UtiUuEq?=
- =?us-ascii?Q?hb5ltZfeH9br8/mfPAR17B4uCUa/InthIlHDnAbAjYQRvtNkyUd/zaVZVKoO?=
- =?us-ascii?Q?YcdjO9T6xF0qQhnV8y2rYT6A5OZikZNaWWRrW3+0/hy28khPk4P7XIuulu/H?=
- =?us-ascii?Q?fu26hJfbEzfv4Nks+eYmylBoZ3tFFbAQBmDUdtSLTOCoiqNXqrkp9QA72RK2?=
- =?us-ascii?Q?EoVJ/xpH/Fs++bTAD7/bQY8SFjBUBFlzLcEpVbZfga7pa1k0kil3I1VXA4Yw?=
- =?us-ascii?Q?YKvHYZWkCPeSzK/+dGQpZDVlmgTa/MknxYGEphr6PQJsR85bruc1RAKfEfjH?=
- =?us-ascii?Q?bM1KSM5ReViFTDQkDg8aLRCDl/6m24dq/MjwMVdfnAFl5prEN/IM9WrCNorK?=
- =?us-ascii?Q?JjT4CuyBOKNPJNfZR5q/5WvHkfkDyvngZJXkeIhfmypBFIn+pzwTUzc5xixp?=
- =?us-ascii?Q?ypRPhjxBNcXJu5f619It4C0LdnI1Ap/lDdQIOEckLO9rycCqSMbsFmBen8aA?=
- =?us-ascii?Q?qm5XzwQaxo5t5GBJM89EyP2akHIb0xC3FI2kJbgeU42TmzTT8MMbvJLC6O9A?=
- =?us-ascii?Q?wuFNmmK8dZiFiMZ/9PnoqVMPR9wphOQgVEX41XViEFXMzr8bf3GzgJb/4IDI?=
- =?us-ascii?Q?1omJ7S/BsU+UdJJxX0h8wN5zrsrXDZsqKEyBsp9/I406xAxoiDEkEgFpfQ2I?=
- =?us-ascii?Q?x8ZTzWVtaHd3RleZwjmHnI4ALWoAtj2f3RFPnvHrOTF3BbJy4n8nWGFjYUR4?=
- =?us-ascii?Q?vE8gjg2nYdMlS51kgd9qWQzMPsw4yNF0qc3sZZkC3aQ9bK05N5IvmjkW8rmz?=
- =?us-ascii?Q?GuHNygcpd2grKqXgI0+NlMN1/AHIiI+pVIWGW8vdvP90J6rbj9OQsOU4DwtF?=
- =?us-ascii?Q?CHQOEEhsMhZEZAsRhBXebcyOGgo3AVnOuWFJoTDI8Kt4IkSDiSnSijWrXT5c?=
- =?us-ascii?Q?dWQJ22QAgI3Xo2sTyZFncjP9EF9OSED5fOW1WNlLSFhzJANiA6K7gJJ5xU0C?=
- =?us-ascii?Q?MsYLgnRBCwbpzQvQVuYihRVlEsPnA1CLA8SbIEwoZHqKaalJTzlKe5b9mSWJ?=
- =?us-ascii?Q?oLog2xAZvU1I/5LaOkr05u5SlMqndAkn2cQGOPG/7EUCbJheAgHtjRtMb/ek?=
- =?us-ascii?Q?U97iojcXEmIFVik7RgR5GO4An/26gfAYsSvE81xeIbjxbB54VbfNxw24Lqyd?=
- =?us-ascii?Q?Ny4c0wNAWIVC/i4NN7IOBb3+XYjdgP8ERdXSJoR7sUX0vu3SUabnyuZx0Xzl?=
- =?us-ascii?Q?KgpdJrgSFfm187HBfHsQP0t4OuXwgm2zyADBBpY3g8FcFqOjk0t3mrJUCz3y?=
- =?us-ascii?Q?zyB8FvTQFg8XdBVvTY2CjYiQpewKuMgeRgpkj07/eqduAmlaHw7in8NBT5Xw?=
- =?us-ascii?Q?oNcdVRLJlNPP/t5VHm+Dbxu4WgW52J9xG/Eh3wl4RpXMKpHrdgZHceph/pEw?=
- =?us-ascii?Q?MhV95MbpACE8uqxD0xOARMenbNcqRrZejXD3gGYT5kKug+20pvust4BIRvwJ?=
- =?us-ascii?Q?Mlf+dOIGk/67aFt2jpQx/laXb2h7LWIo4C2JNiFMbvXwJKdZ4rTjWGNzsG7+?=
- =?us-ascii?Q?B9FVoHp/W5AjJIdmU13FFegptr+95F5Gi5vYko7G?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D0CE10EADE
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 11:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1757591130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=o9x2oRFTlaYelJ4HJOq9E/+ntiY6YQznCq+0jBgMBus=;
+ b=J825L5w8r6iyD1979AaveyOLikKnFT7wjgIlfYuowBsK1W3a3C6b7v32nK9ognI9D+KsHL
+ 8meK3fdESZ3xV/J2uQStQuWtPswe2KPrPKr75gajsnedwsgtmmSJcEj825OLqFz+kFnCSe
+ vG8fQN4l5Un7nuBqfVtXFg0oxgszV50=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-12-OJatY7q9MeaGiiOZhJFx0Q-1; Thu, 11 Sep 2025 07:45:29 -0400
+X-MC-Unique: OJatY7q9MeaGiiOZhJFx0Q-1
+X-Mimecast-MFC-AGG-ID: OJatY7q9MeaGiiOZhJFx0Q_1757591128
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3dc3f943e6eso417899f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 04:45:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757591128; x=1758195928;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=o9x2oRFTlaYelJ4HJOq9E/+ntiY6YQznCq+0jBgMBus=;
+ b=xHliUU0oIBQHBsvEVJC2Fm7guVCotArItJ/5OYS/IVvvZHWdDtYEDEY5oO6sjmjFRa
+ SgUzBqTL7iqEUkQXY5e7MOnHgMeFufxYO5hpLavW9nFI0rP58LoB75iaqbQhA2bSerYu
+ yo2uDjFOY4PbL8hwc+IBdkOS8Jekihz5+wsdcj0fOUJFwGGS9ulrJG0uLaLpi2bbSbSg
+ 6jOLLvtL2VpaGv/jtUotf+BBOpmAEV6uhU+BPSliYhwI/QawYiYlFSg5uvIRbFWclOBE
+ 1jTu4Ygu+bPYqhAYqxSuxlazFJ/tgf3oQbyQwTkZWHtxRtjSsg7ZfAYYuXU4rTnb6CRj
+ pFag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXSXAESVxVZP3clHofT/+G+xLxLbrfqbfOGGoNUe9F72Z9YCVvAIJ3dlQZ3UchRZTTrjvebVWQ5y3g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4iQecCjxuaOOTpMArXq2pO8MSkMBOrX3VbEow/pT34LiF2/K3
+ dy9x2l7AHQCNlXHnhjKij5AFixJ4KtFBZZPuNS5/3itzENQr96DuXmv0MIFCIbHb/c6Afrz19zr
+ BqBEC1Nb+U+OU0A4cLTWByi3V2pllcUEU0fhvJ7njoBe4oT7dyMzL/YOL3dfdn5/RWim4Zg==
+X-Gm-Gg: ASbGnctg+kT5aH88TSfG9oobEgSyRslW4/jRGKHyombM46PmCJlhlcha57EQPSZxQrd
+ Fw8SUdwJiX69/aVP6cjZGSXMdTqiVH0MIkPj6gXOsBMjLIDWjOm9vYGME20QLivoK+8XF+cm8aU
+ cs1uFqWXTKbKCsXe7Cz8PpKM8JdTBCJARMD+MuBy9PkYCgZDLcGWNXFWsgAIbokEG9IaO0+NFtD
+ f+YHAWx1pTXUjagYZzN5c2VmB3l5SiX296DweE98unM3YOXp/h7HLgEC2CcwegYUcaKc6HmnqTg
+ klkXHlWYZQdj4TrcE+VmzHIuKb57keq01WALahua1fvt9IY104CU95G2OQ8umum09K49SY6xnwN
+ b4G214jNiC9+XLet3RJ19067Mfy1yIc/glMPEQEGuBh9lxykfegp3BCyoDVd3blt6/Vg=
+X-Received: by 2002:a05:6000:4023:b0:3e7:5fca:2177 with SMTP id
+ ffacd0b85a97d-3e75fca25admr1970161f8f.11.1757591128150; 
+ Thu, 11 Sep 2025 04:45:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEa0HyuoBMgXbrgW1aKPyOqqhh/6si3sYzr8/7yDCFvLAtQpjNsjahBvQsXtj6+uXFhjaDQfg==
+X-Received: by 2002:a05:6000:4023:b0:3e7:5fca:2177 with SMTP id
+ ffacd0b85a97d-3e75fca25admr1970100f8f.11.1757591127572; 
+ Thu, 11 Sep 2025 04:45:27 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f42:b000:db8b:7655:f60f:812b?
+ (p200300d82f42b000db8b7655f60f812b.dip0.t-ipconnect.de.
+ [2003:d8:2f42:b000:db8b:7655:f60f:812b])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45e0152ffc1sm12562165e9.3.2025.09.11.04.45.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Sep 2025 04:45:27 -0700 (PDT)
+Message-ID: <8c5267ec-cc85-4eff-b890-eb705472e2b2@redhat.com>
+Date: Thu, 11 Sep 2025 13:45:25 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a9cb5a7-f974-48a0-e095-08ddf12888bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2025 11:44:15.1438 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CV5s7qOG22p1B86ORlH5j3CcUdZ4rOwBiqwlZ6ZYbB58BozBiuvY3jEK2IhVDQkeohZgbK1KusBRpfE315+sSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7722
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
+ folios
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250908000448.180088-1-balbirs@nvidia.com>
+ <20250908000448.180088-2-balbirs@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20250908000448.180088-2-balbirs@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: WfEh_XL5bvC1znR_iZrmNwR4ZNa7FB-vmqPs_pt9ToI_1757591128
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -213,55 +166,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > Now with drm_writeback_connector moved to drm_connector it makes more
-> > sense use drm_connector as an argument rather than drm_connector.
->=20
-> than drm_writeback_connector
+On 08.09.25 02:04, Balbir Singh wrote:
+> Add routines to support allocation of large order zone device folios
+> and helper functions for zone device folios, to check if a folio is
+> device private and helpers for setting zone device data.
+> 
+> When large folios are used, the existing page_free() callback in
+> pgmap is called when the folio is freed, this is true for both
+> PAGE_SIZE and higher order pages.
+> 
+> Zone device private large folios do not support deferred split and
+> scan like normal THP folios.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Cc: Rakie Kim <rakie.kim@sk.com>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: Gregory Price <gourry@gourry.net>
+> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Mika Penttilä <mpenttil@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Francois Dugast <francois.dugast@intel.com>
+> 
+> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> ---
 
-Sure will fix this.
+You missed my comments of this patch in v3.
 
->=20
-> > The writeback connector can easily be derived from drm_connector.
-> >
-> > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > ---
-> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c |  2 +-
-> > .../drm/arm/display/komeda/komeda_wb_connector.c |  5 +----
-> >  drivers/gpu/drm/arm/malidp_mw.c                  |  2 +-
-> >  drivers/gpu/drm/drm_writeback.c                  | 16 ++++++++--------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c    |  2 +-
-> >  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c  |  3 +--
-> >  drivers/gpu/drm/vc4/vc4_txp.c                    |  2 +-
-> >  drivers/gpu/drm/vkms/vkms_writeback.c            |  4 ++--
-> >  include/drm/drm_writeback.h                      |  4 ++--
-> >  9 files changed, 18 insertions(+), 22 deletions(-)
-> >
-> > @@ -338,13 +338,13 @@ static void
-> drm_writeback_connector_cleanup(struct drm_device *dev,
-> >   * Returns: 0 on success, or a negative error code
-> >   */
-> >  int drmm_writeback_connector_init(struct drm_device *dev,
-> > -				  struct drm_writeback_connector
-> *wb_connector,
-> > +				  struct drm_connector *connector,
-> >  				  const struct drm_connector_funcs
-> *con_funcs,
-> >  				  struct drm_encoder *enc,
-> >  				  const u32 *formats, int n_formats)  {
-> > -	struct drm_connector *connector =3D
-> > -		drm_writeback_to_connector(wb_connector);
-> > +	struct drm_writeback_connector *wb_connector =3D
-> > +		drm_connector_to_writeback(connector);
->=20
-> You can use &connector->writeback without extra wrappers.
+-- 
+Cheers
 
-Hmm just kept it around to make abstract the internal structure, will help =
-with future refactors if any.
-Its anyways a static inline function.
-If that doesn't make sense I can do it the way as you suggested and also ad=
-d a patch to remove this helper altogether
-
-Regards,
-Suraj Kandpal
-
+David / dhildenb
 
