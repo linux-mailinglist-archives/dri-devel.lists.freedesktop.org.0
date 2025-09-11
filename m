@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCB7B52AD4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92649B52AD6
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A04A10EA3A;
-	Thu, 11 Sep 2025 07:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CD810EA3D;
+	Thu, 11 Sep 2025 07:58:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EHekpVUO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hJhIL2Gc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5762D10EA3A;
- Thu, 11 Sep 2025 07:58:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C69BF10EA3E;
+ Thu, 11 Sep 2025 07:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757577489; x=1789113489;
+ t=1757577493; x=1789113493;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=q2NXdCfaeaFt2pL13ZzURnlQpqmRN3okCj9x9FdK8gQ=;
- b=EHekpVUOZy3imrkO+ks3ugHZgYndnc0yMRNywaiC1W6P9GwLVZ3Ef485
- yTg8oAch9JDBuJ42m2uNm87yzIGsHRJzfPaR69jwHWupHGYtVt14KV1tl
- B5bzVvlfua1R9G1nT+UkYKL8MZfSKNfCHSG7yKI6prUmLjZhyzn390mz0
- ajKFWDs5fRIz0TqPdM1TYKMw9n5rDzZZ4hUF/qvQMWtu5nKE3Zh312KJG
- 7gLb2kNiSpzhGrer+GWzM5pV57CmLI9+qkO3zlwg0NuMVwsvkPLbCOOK9
- if60DLed27ukyh0ZlHXjFIFHija23+i/9qnnPoQnlkv4On7lH/iLaVxU6 g==;
-X-CSE-ConnectionGUID: cbiHX2w2TWWXH/RAzHxOKg==
-X-CSE-MsgGUID: II4s2komS1+Kt9qh638Seg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70999340"
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="70999340"
+ bh=6RYIEQkuOzl3A3InWzcMug/hfkfoXrpzul9p5LmOsSg=;
+ b=hJhIL2Gcd/l9v38zUpiFdjC9IPa7+HgajmIgTD1/CPYVQXxfnAlg/qL0
+ kSk4I/rZnMtZIAUpE+u/aJez2L5+Rw5YmB2/Pbd8wkdeY9VGdNPcENfMj
+ vjM+49jPogHq2g12vl6BUmqxE+yfoNbCg9NuXMTIMeUoZbUxfE7rU83aZ
+ eR+LgYE5pZ4UFDDLp7CA6MMyuZqZCpM2fIZkr5qRa1oKlqxgJXlUhG+nZ
+ e1kOt8iy6NAOeuv790gUaLuISfOtmSAnrar1JHokbQ3gCAdPZEpt0EpjO
+ PZjhRF+HgYaNrEDCe/wLkJa+Iwe6swbqYG68br0daXuzjvwOAErNFEf7u Q==;
+X-CSE-ConnectionGUID: BkP4ZZHNReSLuUPwu3iNCw==
+X-CSE-MsgGUID: RPfY9XTtQq6B9vVXA5u+nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="70999391"
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="70999391"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 00:57:38 -0700
-X-CSE-ConnectionGUID: 1fbS3G9UQve8bxL1wG4n3Q==
-X-CSE-MsgGUID: QzCydIx8QAioJE/gvKEiGg==
+ 11 Sep 2025 00:57:51 -0700
+X-CSE-ConnectionGUID: gRaHmoh2RmK5x3zOFXvN2w==
+X-CSE-MsgGUID: f+tPr7AfRD+jyMtnjayPKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="173186274"
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="173186319"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.245.187])
  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 00:57:31 -0700
+ 11 Sep 2025 00:57:44 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
@@ -59,9 +59,9 @@ To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
  =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 06/11] drm/i915/gt: Use pci_rebar_size_supported()
-Date: Thu, 11 Sep 2025 10:56:00 +0300
-Message-Id: <20250911075605.5277-7-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 07/11] drm/xe/vram: Use PCI rebar helpers in resize_vram_bar()
+Date: Thu, 11 Sep 2025 10:56:01 +0300
+Message-Id: <20250911075605.5277-8-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
 References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
@@ -83,39 +83,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI core provides pci_rebar_size_supported() that helps in checking if
-a BAR Size is supported for the BAR or not. Use it in
-i915_resize_lmem_bar() to simplify code.
+PCI core provides pci_rebar_size_supported(), use it in
+resize_vram_bar() to simplify code.
 
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_region_lmem.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/xe/xe_vram.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index 51bb27e10a4f..69c65fc8a72d 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -61,16 +61,12 @@ static void i915_resize_lmem_bar(struct drm_i915_private *i915, resource_size_t
- 	current_size = roundup_pow_of_two(pci_resource_len(pdev, GEN12_LMEM_BAR));
+diff --git a/drivers/gpu/drm/xe/xe_vram.c b/drivers/gpu/drm/xe/xe_vram.c
+index e421a74fb87c..08a9abebfee7 100644
+--- a/drivers/gpu/drm/xe/xe_vram.c
++++ b/drivers/gpu/drm/xe/xe_vram.c
+@@ -21,8 +21,6 @@
+ #include "xe_sriov.h"
+ #include "xe_vram.h"
  
- 	if (i915->params.lmem_bar_size) {
--		u32 bar_sizes;
+-#define BAR_SIZE_SHIFT 20
 -
--		rebar_size = i915->params.lmem_bar_size *
--			(resource_size_t)SZ_1M;
--		bar_sizes = pci_rebar_get_possible_sizes(pdev, GEN12_LMEM_BAR);
+ static void
+ _resize_bar(struct xe_device *xe, int resno, resource_size_t size)
+ {
+@@ -71,25 +69,22 @@ static void resize_vram_bar(struct xe_device *xe)
+ 
+ 	/* set to a specific size? */
+ 	if (force_vram_bar_size) {
+-		u32 bar_size_bit;
 -
-+		rebar_size = i915->params.lmem_bar_size * (resource_size_t)SZ_1M;
+-		rebar_size = force_vram_bar_size * (resource_size_t)SZ_1M;
++		rebar_size = pci_rebar_bytes_to_size(force_vram_bar_size *
++						     (resource_size_t)SZ_1M);
+ 
+-		bar_size_bit = bar_size_mask & BIT(pci_rebar_bytes_to_size(rebar_size));
+-
+-		if (!bar_size_bit) {
++		if (!pci_rebar_size_supported(pdev, LMEM_BAR, rebar_size)) {
+ 			drm_info(&xe->drm,
+ 				 "Requested size: %lluMiB is not supported by rebar sizes: 0x%x. Leaving default: %lluMiB\n",
+-				 (u64)rebar_size >> 20, bar_size_mask, (u64)current_size >> 20);
++				 (u64)pci_rebar_size_to_bytes(rebar_size) >> 20,
++				 bar_size_mask, (u64)current_size >> 20);
+ 			return;
+ 		}
+ 
+-		rebar_size = 1ULL << (__fls(bar_size_bit) + BAR_SIZE_SHIFT);
+-
++		rebar_size = pci_rebar_size_to_bytes(rebar_size);
  		if (rebar_size == current_size)
  			return;
+ 	} else {
+-		rebar_size = 1ULL << (__fls(bar_size_mask) + BAR_SIZE_SHIFT);
++		rebar_size = pci_rebar_size_to_bytes(__fls(bar_size_mask));
  
--		if (!(bar_sizes & BIT(pci_rebar_bytes_to_size(rebar_size))) ||
-+		if (!pci_rebar_size_supported(pdev, GEN12_LMEM_BAR,
-+					      pci_rebar_bytes_to_size(rebar_size)) ||
- 		    rebar_size >= roundup_pow_of_two(lmem_size)) {
- 			rebar_size = lmem_size;
- 
+ 		/* only resize if larger than current */
+ 		if (rebar_size <= current_size)
 -- 
 2.39.5
 
