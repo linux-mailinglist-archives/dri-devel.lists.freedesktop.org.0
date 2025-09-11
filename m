@@ -2,160 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF24AB52CA5
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3502DB52CAC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:08:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FB010E06B;
-	Thu, 11 Sep 2025 09:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1144810EA54;
+	Thu, 11 Sep 2025 09:08:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Jw7Znys5";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bRHEK/35";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2045.outbound.protection.outlook.com [40.107.93.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9AD710E06B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:07:09 +0000 (UTC)
+ (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D12610EA52;
+ Thu, 11 Sep 2025 09:08:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C4wBYdZ4gW+ngy+guCQEuQksVpj3ulOzl4GnbdCaD4mBg70jKQJ5dWyx8OLYtF1J6UOtrxt3J4n46HHTFRFSyd5DfVBnwiaNf14daQqEV1tFfrBn3gRurIKa/4DZ2cqBnr5cb8TVCUyk6jYZDCSKtQI99qPLhffWpRYxrLsXCgK6ts0Ny1xao7VTDKaEFpK3gMvw8ZToFcoC3RdvHhYF+JsJEKG6gRL6cTFi1igDVMVyY2vn+10+VbWYVc9vw5Z5DvT3Wm2wFg5Pt7Qn5imRaZ2e9PW7p2wHm5btgyfLk8g2tBalr0GpNsAMEU6reRGgxJXoA19jrnoXtKbkA6+J/g==
+ b=mrQdda6znwGZhDtyQ4xA+i3R7pkbEMQQlpPGBSkN94YF9jx4gX9SseMTR78dTb/pOHrVeH3ux/PFBbnmHSWL4YvgtzgkYm+QogEl52QFtSkYhB5ThcwI7eebNAPottz38E3NjGdIlz0ZPDZOgPG+dCzzKjTDsvAnPhNtVXyRlWLhRWW32kN1AAmLD3TzFnoRTuNg/AbX0D+tfjZ88PUCEkEupAawqh1jJiKqab8ZX4lDPoZbLq07u2fsh9j0h5/r9xSMlnMtT/u/WJP28SYEbC/f64bJXYAI+PGu/YdmViuKQH00+iNLdtmKaVAm/5r1SoKwue1zFooA5rRJWtafOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gl8FXKJNR7EqlW9ISMCoVxxyKXTQJJTIybYvgPcFS9M=;
- b=C1fkYqn8jsAsxInEvRSlKnrEUUxQqEj4oH8k5rDmN0BXWHjhXicOydle6sgDqjbQyyxQ6vYAjkS2dA24s4uyDXxRPt7GJb8ThDz9JXL5PwF5v28e3u90DA5cgjyjTZQNcMBjaz9F2rwVZgWY0jK5sh9HIMfTF/XyUPHTu+4ZEwWYJYyO29U5WRhCzF1d0wtfsV0McbOdPNTVews3spAQ6XTKTdxM02wtt4v+mdaycI8QP2wNz1mtd/oA+TfL8Y2DoTrOilce3QfbvZAiuRGrHtSe7GjDf2C8Q32MLnEhn/ZxzF/IYg4xY1Eli7olzOK1o9V2HZvOx+WT7gANS0LIAw==
+ bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
+ b=RG6gUEssP4ljn61TKBCrLxJXEODKX6rXStIZBxTW9jeOcsnrcs4ljulcWmhYPjl5ospsqvzBKoE4zXRb9JHAC83U5UjR1GXJ2C5kzA/l8te/Crp8jOStkAmgcosBSH1/2nODCZf2V7UKWbrUCEyzMHdYu2K++Owlo/D4Z51HxctD1Awe+nh1xriY8+lq746Pzfrp8NVEj/mPFv5EFErZuvtzZWTuXwFbwE3lWiHitg3JSGr0FwOhX4uV6hkv86SOcL0Zy4hV0syMbGZWsybjjl3p0scsuUPhhmEhtkB2Bb8lIM277+SXsmQmTy9J0eUB/s2sNbU9vD42H6gPzplsDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gl8FXKJNR7EqlW9ISMCoVxxyKXTQJJTIybYvgPcFS9M=;
- b=Jw7Znys5We4ZaH9kRoNQ1tILbvW/EBTLgfeVvyMXS2kidWbMn2co7Xj1lsz/lGEtMze9tqhNGCQnl4A9O3EY7GxrI6RxjyizhLJ9Rb6AbijEo8RBY6RKit7USiwHFXX8ylt8J1kepgR2BCPBemBYQhck8AQUE19Sog4Rg44nlls=
+ bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
+ b=bRHEK/35Soj+xydSTvxTgskGZ3qn2hg4N4xiZXyq4MpF8v2bQhldhczR9l6OPvho/deslTk/Te8S5GJpT0+eyc+CXNQVxLR73/3NnZz+sWLV1SN71DoM14GXF3kvVlNYomErNoBsV4plqR8gtHxtg54cEMsKRUUHqGKvD179TOA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by CY5PR12MB6155.namprd12.prod.outlook.com (2603:10b6:930:25::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 09:07:07 +0000
+ 2025 09:08:51 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 09:07:06 +0000
-Message-ID: <b7c57dc3-ed0e-402f-8a3c-f832357f8763@amd.com>
-Date: Thu, 11 Sep 2025 11:07:01 +0200
+ 09:08:51 +0000
+Message-ID: <a07e33ac-85f8-4b5e-a700-032d7667cccd@amd.com>
+Date: Thu, 11 Sep 2025 11:08:43 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: ttm: do not direct reclaim when allocating high
- order pages
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com>
- <e79a134b-89de-4da1-b64b-b890227fce8a@amd.com>
- <aMF0fe7CIVD-8zVo@quatroqueijos.cascardo.eti.br>
- <262a176a-4c80-40de-96e0-c97f50c20fe6@mailbox.org>
+Subject: Re: [PATCH 04/11] PCI: Improve Resizable BAR functions kernel doc
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
+ <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com>
+ <97f8d4a7-6897-4fe5-878c-c04a887cce62@amd.com>
+ <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <262a176a-4c80-40de-96e0-c97f50c20fe6@mailbox.org>
+In-Reply-To: <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0039.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0047.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::14) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7aab0bc4-bbe2-4108-f71f-08ddf11294eb
+X-MS-Office365-Filtering-Correlation-Id: 702dbc14-8152-417c-0f72-08ddf112d328
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SHhCeVRLOFNoSlZjUkk3alJwKzUxYi91WUM3bjBJdmMwZ0Z3NnAyMzVNSUNQ?=
- =?utf-8?B?MmVNbGJCK2VTTHc0bUxtVml0VGhuS0czbG8rSmYxWXZ5a3o3UXlkVkxSTkFV?=
- =?utf-8?B?Z01pNGU2Z0VCaW05S3FhSmJvRWRrVENJRGtvSTZZWnBJdGVHSWRWdExsdFNu?=
- =?utf-8?B?RVVsb3JGNG1LM1JWQkVxS2lSbTJVSWt1eFVRN3FWK2dnMHBmcUhBc1MzaFBr?=
- =?utf-8?B?S29QQmZnbDRDTDdISlZDVGVpeEdac2hCV0lHc1ZKRE9QNm5zWjNTVGMydmxG?=
- =?utf-8?B?RWFiSzlsMGJmVkp3WC9IK2hEMU16aUFKNEpLdDJWWnZNMXBsYVk1VUdEZEVy?=
- =?utf-8?B?MWxPRHBUaTg2TWFsbFpFTlJOdWc5cnhTWjFlNTNGM1FueVlXTW5Ed3c5YVQz?=
- =?utf-8?B?c3dTeS9USm5sdkRzUkFjWU0yOWVvNXRBeGgxRE5RNmJlcGd3TUtKM1JHbURN?=
- =?utf-8?B?U0xvUTJnclo2QXZWSXl5UkJPNlIvUE1Cc2RLVm5uZThvalppdjRPS2ptWVVt?=
- =?utf-8?B?ZzRxaW5TU3lGRTZ4Q1VoNkhEQ0tMZGZ4MGFWblpWN3V6cWlZZFVtZFV3SVBo?=
- =?utf-8?B?dnVuR1Y4dkdxdDlVd2VMS0Y1OUhEc0s1eVZ2SElqWFd0MW11TEVGOHMySTJY?=
- =?utf-8?B?a0RybW1wdGlkZitvbnpnQlN5ZTZCTVBxUE9NSlR4ajZGZFRFQ0FqWUhleG9h?=
- =?utf-8?B?eDVaYkw4OGRCRU9VUFZIYzhjYmhEcHBFcThxVGVpQmMwSklxdzZ6aGc4alg4?=
- =?utf-8?B?MzJ4cG93ak5BOXJDMG1FbSsvMDlXbXNxRVYxV1FQZStzdHEwUjRXNXlyTSti?=
- =?utf-8?B?bWF4WHJybVRhTXNLSFpxVGxUUW13anJ6RDhHYldnQlNTdnB3eFBqbkhSTzBW?=
- =?utf-8?B?YVpvV2tjVjFIVkxLbmMzMTJaZE8wWFVHQU5lN1NHY3c3QnhJbWMrV0tnanEr?=
- =?utf-8?B?MXZRdzlNZk5BMjVNYzlOMzNoN2p3a0NYZkxrUlU1V1pKN2h0bm5OL2gvRmg1?=
- =?utf-8?B?VEVsdTB6bDBwazd0LzgwNENKK2lJVWRmQjJvZ2MwNG40UXhEQmZJUlBhNHhQ?=
- =?utf-8?B?V0xId2VPNWxZN0dtUzR3L3RPUll4REh3ajFQWHRES2pKQzcycTFmZGJVakxK?=
- =?utf-8?B?THpxVUQrMVFmWDNFRmtTUTFiTkpscmRUK2V0bFR6aTFzYk5EQXdqQjFjS0ds?=
- =?utf-8?B?NG5mQThwZSsvNVNhZW9ETjFmbm92enpERm9YMTZrdXpYYzVqMW1oL2VsUlhl?=
- =?utf-8?B?bk5OcmNGNjBHSlg0TytKRnFJbnVHUDNKbk5QRmdOZzI3djJhT3kyN3NDUXhI?=
- =?utf-8?B?ZGlwR091dGdGOEUzU1NKUkZrWk1Qem9lM1Rkem9Vb0JDSHFERG5RUFBhYzBo?=
- =?utf-8?B?TTc5aHYxQUVvVWtWQXdDZzhhNjJGTnlNdEh3ZDlWWWdEMW9BTlk4WEVHdGNY?=
- =?utf-8?B?aVZsQW1KdCtnaDhMNVZOdVNqSnpuek9lNlluQWI1Znd0NktGMkFjUzUrVVg5?=
- =?utf-8?B?RnBFb0VJNnJTTHhaUXcvSWVOaVRnOVVvWmFHTU9sRHJLNzZGcUcvV08yYndL?=
- =?utf-8?B?V0FxTTNHemg2Sy9EY21XSmJwdUZRdDRRQ1BuRDh6dVl2MDI1N3RvVkN5MVVm?=
- =?utf-8?B?enpWZXA0Mi95NHZ3SjlQdjNLWEtwYXo0ZzFNOEpsNXl1QXZtcmhEenFDUjBs?=
- =?utf-8?B?bi9iU2I4bEpXTWdzaC90QW9UdDhyaEpURWFEd1NJL2MwZXR0RTJTNWdXdkJN?=
- =?utf-8?B?a21GNmNia2lFaGVNSEtHZlI5ZXdIamZveUJDTVVJUU1oUG1OMFc4ZDFJMnVn?=
- =?utf-8?B?MEVMbzhyN1crVDl6eTlQWllvbThJNTdBRXI1Qk9CVVVKWXg0T0xDak5jZ2RF?=
- =?utf-8?B?MTdPZ0tKdXlnYzV5NTRwTUFqTVd6aG5RdVAwazZkQXNtbEFzTTh6eGR0Z1h3?=
- =?utf-8?Q?7rofW557w/8=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q0xONEZQaWJEU3EyV1A1TmZITnI4MEdZN0ZIRUZaZVFaZWo4NGxxN1htSVFq?=
+ =?utf-8?B?S3N1YkxLT21CYjlSR3dwcXU2MFFTZWMvQ0liUlNlUnhKNTVjb213S09oUGJt?=
+ =?utf-8?B?U2F2Yy9yaUpDRmlMUkFBMTI1NGh1Q3VON2M0Wld4Umg0UjZVVVFFblAwVWZo?=
+ =?utf-8?B?RCsyUnFiS2tlWVZKZjRVM1hDeERiRXNSR2J5RENTUDRidXdUb05sMkV0QUJ0?=
+ =?utf-8?B?a0tDZWtqR3FBRXYzclRQOEZ4dEVpVFAwWURCWmFzSUY3Ry9BdGZIUi9DamJa?=
+ =?utf-8?B?NGdFdWdkSXRSeEdzQ1plYUxXK1BBMk9mSERuak5vYW1sMXd2cGFhUWxDbzdS?=
+ =?utf-8?B?amExcGlqc2d0VVFTWFRGOXNhSEoxWXhiMUpxa1pFWXpZOCt1MU1EcEVDNHFN?=
+ =?utf-8?B?cjQ1MDdKZnVSM0VlYXk3T255MzV1NERNQ0dkRzRhMW1Tb1FCZGFGOVBqUFc3?=
+ =?utf-8?B?eGRXdkZQbEo4dFBWOU4zVXNaeUtrc2pvdnBMUTJVR2hHcmhCUXRPdzNWT3VZ?=
+ =?utf-8?B?WUtCSWtIVS9pRVppQ3FCZVNjTGlaSDhVcE5QWW9VV2RLb2NYY3lVcGhlcHFO?=
+ =?utf-8?B?SUZzMmtrSjZvczg1ZDRRamZ2cWZSVW5GRUdvQ3c1Wk9LT0pUYTNRM3RtSEJS?=
+ =?utf-8?B?SVh5bzdTVnlOUE43YXh3NVhEYmoyOHp6K1gwRkpsR09zcFVMU1NwMWhLYVF1?=
+ =?utf-8?B?VVJrQktWWS9VUm5pa1dGczcrZWVtQ1ZKUllWZ1JWTmQxMUhXaGxBNmpPSkQ5?=
+ =?utf-8?B?cFJrQlBoQ25YcUtKK3NoekRldTZaMkl2OWF1OUVsdVlZWEl6UkVwZFpUK0RE?=
+ =?utf-8?B?bFlTYTk3RkF4QU14OW9mRnlYWG1HeGJFd0RDaDJSU0hlQ205c2NRUXZFMjFu?=
+ =?utf-8?B?S0lGamZGVTFoR0lkSnRRV3dWYXBjNXJLNmltWGhFVnF0dVVFZ3pQZTlSSjdH?=
+ =?utf-8?B?SmV3T0orS28wWFF0c09zc1doaDlaN3B0Y1N2dTh1M0hlSjdJeEZGNWM4emVJ?=
+ =?utf-8?B?TFpuTWZ5amxISmxyQU1rU2Uyb3EySzltQkVudDlyNTdpR3ZMcTdvdm9UeHl0?=
+ =?utf-8?B?eGVKRHIvTjRVcnNacnpiN3hPc215Uk5DaTZUekFWV0xob0t0bzV2WWUvYThR?=
+ =?utf-8?B?aXN1WlJZYWV4dDRLakdoS3dMeEk3empmcWRDNFhNalBuM1dsZFNGRFlzNDE1?=
+ =?utf-8?B?WWtOdThvTlRJbHoySS8xQmZ2cmxBTEl2UVpkT1drYStMYy9FbHE2MHFDQ0h5?=
+ =?utf-8?B?aU4xaldXQXJWcUpqUmR6MnNWT2MyNVoyc1lHejBOeXQvOUZOK3ZwMFdhY3hu?=
+ =?utf-8?B?WkFhemJoRktuZ2lSUDRMb0FZNHYrTnN2MmEvejBXdTFkUk00SUJKeFBENFVp?=
+ =?utf-8?B?VzVFS3JBSmlSdlBLY1YxYjIrYzhoR1RFMGVBZ3hqNEFiWkdGcWNzMmFMU3FM?=
+ =?utf-8?B?S2JnOVpWcERpS0VoOUNrK1JYZEd4YkZCWW1sZC93YlhGbkVGKzM5Z3MweitE?=
+ =?utf-8?B?Z3NXaDZjWmQwa2xpcmVtNEdGTVQxSEl4dzB5aHJoRFhrdC9hSm9rZzRlRWRn?=
+ =?utf-8?B?TFQrQkF5eURWamQ3Z2wvK3d2aEI1YUo2V1BVcU5lb0VJMUtFNWVRT1lVYXFD?=
+ =?utf-8?B?REhxLzZacXRJY1BrV1F6WlYrYkxsekV2ZXc5N1BNY29FWFZkQTU4T0ZIZXRU?=
+ =?utf-8?B?VU0vTUVldkxIRXk4VWNDMmRXZGNFdU9iMlpkSzVnS1ZxNEdLMDdzcDh0aEo3?=
+ =?utf-8?B?UFFFM3AzOUx1alk1MGlJMERlaEJBbCtpcktOdkp6eTA4L2ZiZ2xVWkpvbHlD?=
+ =?utf-8?B?OFVFeFlVMFlVWlRPd1hKbFVNUUhRbmRibk40amhLbDYwS0ZXdFRTU2RSb1lE?=
+ =?utf-8?B?MWd1OXNQRFBaSW5sRVdSbU53OWd3NzFvWEpJRUh2Mm5yQU91ejYrbFQ4Mkhj?=
+ =?utf-8?Q?d9UdirN7DE4=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UExjRFhuMURoZzQ4MHJvTjF5MitjQi92RUFpdUl0bzZscHpaYXRkRXF5dHlX?=
- =?utf-8?B?TXBDdXh6QmcxTWZPQkhuM2oxSndZZ2VFblNGRlNMdDhPTzlOdDJNVm1NWFdw?=
- =?utf-8?B?YU9Mc3Zjc0duWUUwdVJiYXhCRnhzOTVhQU5EK2U3Z292MkhmWTNrSVdmTmRw?=
- =?utf-8?B?cnNuTHBubmxTMGFFd08rMEVQbnllZStxcEZ4SHpFenNWZi9IQXEzSTFjYjBk?=
- =?utf-8?B?Tk9SQXB4OUFKUjhXYW5TaVF4WkJLUmFNYUFUZk1CSjIwbFdzalVPTlNSc3hP?=
- =?utf-8?B?SmZpdVd1MnRjOUJuajBUNTM3TlZZYmJpZ1hxb3l1eG9uNzdsYUtwV2RuQ3VH?=
- =?utf-8?B?WHJrZUdJc0pYSWpQZFF0ZnhMSkI5d20vbG5tbnE0cm9LM3NMRWxCZlA5NHNZ?=
- =?utf-8?B?UVZxcU9MYTA1bFJXRUlDcXd2aTZkL1Jra1hWSlAzVmR5MjBjVTBIQVNlTHI4?=
- =?utf-8?B?TVpSU1RuQWFpdlc1bTBGNzJIMEZVKzZkODhZbzAzSmhhejZMNlBXY3hwVkFX?=
- =?utf-8?B?WUpHUVBpR01uR1VHTW5vZy9nYXBsbmcwS3JOZ1B0OW1jbEVJbTBhKzJOTnRY?=
- =?utf-8?B?dkM3UzZiUDNmS0M4dmRsbXJrOTI3dFUvNjBsWFUzeWwwMnNBK3ZTS0FrVnF5?=
- =?utf-8?B?dXhaUHJyZmhlSmRrWTBWejh2dm5hcFZCTUs0WGxzSnV5ZmM1elIwU2FGZXRW?=
- =?utf-8?B?bXhJbUFaYjlQb3REL0g2bjNDN1NXTUppeHF3UmxaZ3czMEZyQVRITDNDR1h0?=
- =?utf-8?B?c0FLbEJUSVFnY2dsMzVtRG54LzZlQmZNZFUrdmM3ZDJrQ0V3enZ5QmxZbmJl?=
- =?utf-8?B?cEF2WmplbWlDcVRSU3lZWDNFWnNvREZmMm9PdGN2SUswK3VNV0owa2xyTmp3?=
- =?utf-8?B?aTY5TU9ON3l2SGNGeGdndWk0MjU1dTBKbUxyM1FvYUtPVWxQM1lEVTkrcGFU?=
- =?utf-8?B?M1ozcExYeHZ3TUtjVzlKUWtSVHhhcjN5eWhSekk2QlZyQ0I4dmIvaXlZUVJs?=
- =?utf-8?B?NGFldmFrU0d3dW5xNnhWcFVNQmV1RGUyaDlEbmlKTlREL3o1bDJIN21pTGFT?=
- =?utf-8?B?MStOZWliSDVaVUptc2NCYm1zTWRrTHZzMG9pc1JHcFpoV3NPdW5wVjFvRXZO?=
- =?utf-8?B?aWRhL2NxRzV4ZURWMGI1MnRhc0N4L2YvQno2cXJhNTc0dnZib0VtV0lUdHZH?=
- =?utf-8?B?YiswazNOd1VLaFczYlFXeVVIU3VPcWQ4Tjk0cWJodzNicFpOcjM5TS9teWwy?=
- =?utf-8?B?SHUzOG1RdXZKT0l4WG96TytreXpoWDBtb3E1VkNoVzZjaHpmNmlQQXJyVlZx?=
- =?utf-8?B?ejhqQ0ZPRlllUkZSb1drSjlITkRGZTlJakpFcVI1S1RjcUN6SGI3eWZzMkNi?=
- =?utf-8?B?RG9xSWJrM1dreEowK3ZHQU90MXA3SW9qRlowVkNEODdnM1Y3NGozWm96VW50?=
- =?utf-8?B?SHBBbEFVME9VYy9CeE9NMkxtVlRKTStTbDMwRGh5aEJsR2lMTUhzallCeGhT?=
- =?utf-8?B?MGVrVng1YktBWXAydUU2NW8vTGNwZEdMZVlDY3VIVU0xMzJLN2pvNlh3S1BU?=
- =?utf-8?B?NGg4My9WOXF3N1BkV09yRkRMRXI3TVkxbExVOVFBeXFPSGJyeGphOEtCUGc4?=
- =?utf-8?B?M0xuVE5yaTNiZDVFZ0xKMWNhc1BEV3J3NTUvYWEzZFZFZW5IQXlIc0VteXk0?=
- =?utf-8?B?dHEzM1BFS0RBME5xNXU3akQ1cVlURGFjTFUxTjQrSDVOMjhXSk5FN3lLa3JC?=
- =?utf-8?B?SjhrbWtzbEd1LzlTLzVqZTJvY3cwSXZOczNQaHpSN0F6bmdSQVIybnAybW1W?=
- =?utf-8?B?ZzRjRXBQa0hNNFUrMmcreC9BdzRYSThaeUtNZ2lkczVvaHZNYm1hNlhhNWxk?=
- =?utf-8?B?NEVYOC9aWDVGU3VjUnVUSG1FcHpFTElTT1ZHOWhpcUlWR1VXNTRKZEJZMVdY?=
- =?utf-8?B?bkppRVlERWNnU1JubjhSdVZ0VXZ0bmVBNFNDTitzclo4R1NYVU03NG1qYk5D?=
- =?utf-8?B?S1Q3V0pLQUsvem9mK0F2VGovdzhCeWtpZ3oxT0lvREIvN0k5cVZLblhGaGk3?=
- =?utf-8?B?Wk1tYy84UXlyenpJcGpZQWloRXpRM0txR3l3enI4dEVLR2kxQkYxOFRSQXBL?=
- =?utf-8?Q?VVcWhxXES6jAxJxxvC8ZKDL7T?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUFhbGppeThkK3ZSQ3BEK2RwN0psdTZiWVJRNmNxSXFxMDFhRDNTYjNESXlw?=
+ =?utf-8?B?K2Y3Tld6QmRYdzhxbkxQVTk4bHJ6SFhXSEFzNkZvNVR3TzRNdFd6TWRnL1Uz?=
+ =?utf-8?B?a1o4YnhabXoyNnBKbmdCRzlyd2VOUVhFKzcrNlJMa0w1bGVwSVRQYkhDSVFs?=
+ =?utf-8?B?Rnc1V1UvYTJmdmJMcTlxM0YwM3dmYk9ZZFVtRHJLbE0rM1RRQThOK2RUSWhF?=
+ =?utf-8?B?THd3TGRPMWFheFJSa3U2S1lvYW9uNm11ay9JdWtCbVlpdVh0KzJqdTBGQk5t?=
+ =?utf-8?B?RWV2NlN0WEl1b09zeCtIYUoyVDNLSjFoY2pnRmY5R2NkblJjRTNreU5JSTQ5?=
+ =?utf-8?B?K3BvTXVvOWFrZDFXK2NIQ2YwenU3MFN3Y3VlNmRENG0zQUlPanhTRjd6QXBF?=
+ =?utf-8?B?OFI4N081K1BUZk4rZ05OTVhJR3hBTHdwdXMwSGE1QzZTb3B6SnhoTU00cFc3?=
+ =?utf-8?B?T1lSV3ZYTzRhbEc1M2toL3JWZzVvNnRlbE05ZEpTb0twaW5SemJKRWplci9z?=
+ =?utf-8?B?QjVaVFlDQng1TjRaR0xJY0U4UEI1aUNabXFzMGc3d1dBdFAydU5aUkVWUERR?=
+ =?utf-8?B?aERWZjNGbnUyM0huVjJjR1VDYjVKNVdUb1JxRUR0Y2NwRngwcFJyZmNVbCtx?=
+ =?utf-8?B?b1NFcDVxNVVicG1BcWN0SEVMMFhVT2VtNlJjZ2hlZUtQZCtIRFY2T0F5MXBC?=
+ =?utf-8?B?QVZBY0ViTjhYOWxFQTAzcWNyU3g2T3pSdC9qSnBrWFhOUXlHeWhUMjU1WXFr?=
+ =?utf-8?B?aWJUNi9Ed0MwWUtBWnNBY0U4czM4NEJjZG9yRzZ6NERsM2dzQzdnNEE2dUow?=
+ =?utf-8?B?QnRScFFjQ2MzdHA5L3lZclRqWmQ3ZkdCSWVsTXJ6Zkh4SVpoMjFIY21GQ3RP?=
+ =?utf-8?B?clp2Q0RUNHhjVlNXTFNvaXZ0d3dvdVlRSzRNV2kwcjRkS1pMak8vYm1aZ0lQ?=
+ =?utf-8?B?SjhHOUhuYUNBOU1HWnRpYUFocmlCTHVmbWcyMDk0L0M0WHN5RkwwY21nWjFZ?=
+ =?utf-8?B?dndSUFVDQzVpWGhxMnZtQ1c2OFpJSzZJTXN6MGNlbzhSKzVISnZpZEw3dEo5?=
+ =?utf-8?B?dXJua3BlRFJtaWVxVHZ0aHI2SitrVXVGTmJBYllLZ3VDQmF2NkltQTRxVEd3?=
+ =?utf-8?B?OEQ2K3ZEaEUwaS9HOWZDWlRmZ2FGUmlGVE9sQW80dWRaWSszYUZLejFkbG1U?=
+ =?utf-8?B?MURTWGhJT3g3aG5haG5ma0NSRGRFNmdkNVh3NVhjT0MrdE1ESWh3UVpicjZR?=
+ =?utf-8?B?bG5JVHFmSW9leUxFM1ZYTklDRHFFV3dnUWdFL3kxbEI5a00zUzljb3h2WnY2?=
+ =?utf-8?B?ZUFUeDZ4UHI2K2dXcEs4Rk9OdkJ4NWFHOUNqY0dkVlUwejRibWlqbFBkczlP?=
+ =?utf-8?B?bXljYjA3RUI1bU0xMExUbmY1SWc3L1VPQ3lPd2pibjhtWno2QXR1Z1hma1Ir?=
+ =?utf-8?B?ZVp3TVFRL2NOd0xQcmtjNC9JYzFlTE1xUWFqc1RaZXAwSEFIMjBwTURyT3h0?=
+ =?utf-8?B?QVlLWTJwY2EyUmdvb1J2SFJVUG1paHFtUXZtSWNCSkJiR003ajRUcUVMYkdE?=
+ =?utf-8?B?Z09oSHBmRmhoTUxNbE9XcDBwTHVlZW1aMGV5WFpXN21GM005dWJXWmYweVUz?=
+ =?utf-8?B?T3ZnRDZaRk84SEppM2U0K21TRnEwdmszR21HelVFU0hvTFJhTnFROWNLcm1U?=
+ =?utf-8?B?eUgzcjREa1JQTTIrT3cyOU9QWG9yNFEzSEJzZFBxQ3ZnVzAwYlpoeDJxYXRx?=
+ =?utf-8?B?Sk5MMTZZS3Q2K1lTR3RKRkRnVjZnRU1saFNSSjFPTmxVSHcydTFtQisyaXlo?=
+ =?utf-8?B?WWhvV0ZjR3laUER4Wk8vc0ZMNXVuZjhqaEtxS05UV0hpRmFGWTAzYzY5TzBt?=
+ =?utf-8?B?bGdCcjJ4YS84UUdRUHZMRlM0SWpJVUxFbzlYeml5WDRhR2Y1VEtHQURGYkNz?=
+ =?utf-8?B?SDVJVHdnQ3grWVVNMjdKMTJDelpiM1ZHalY2bHAyamZnbmJZVStjeDJyUVU0?=
+ =?utf-8?B?YThBNHNLRzRqMVBJVjZNeXBURVRYK0hMeVRCRGRXMm9Rd1BOZnB0amEzR2Fx?=
+ =?utf-8?B?TlpwbXk1UGd4bFRkSTR2RGhtdk0rR2ZYNXo5NTJrQWNrTUhBZlE0STVtcFlx?=
+ =?utf-8?Q?9PKcip2XCxcu6w6nLnf3MfS+w?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aab0bc4-bbe2-4108-f71f-08ddf11294eb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 702dbc14-8152-417c-0f72-08ddf112d328
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 09:07:06.8987 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 09:08:51.3056 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jcPFKeLY43A+yGG0sJxy06SKpM6ZuIdrh7gZpA67Vuw3EeJ/NY7tXpG4vvU9BpTF
+X-MS-Exchange-CrossTenant-UserPrincipalName: MT/cpK4lXkRIZpgJk+pMdy7GI/qrkTXy5M1/qgVZV61nfMzDLlZ0ui4fPNoq1XLB
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -172,63 +178,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.09.25 10:26, Michel Dänzer wrote:
-> On 10.09.25 14:52, Thadeu Lima de Souza Cascardo wrote:
->> On Wed, Sep 10, 2025 at 02:11:58PM +0200, Christian König wrote:
->>> On 10.09.25 13:59, Thadeu Lima de Souza Cascardo wrote:
->>>> When the TTM pool tries to allocate new pages, it stats with max order. If
->>>> there are no pages ready in the system, the page allocator will start
->>>> reclaim. If direct reclaim fails, the allocator will reduce the order until
->>>> it gets all the pages it wants with whatever order the allocator succeeds
->>>> to reclaim.
->>>>
->>>> However, while the allocator is reclaiming, lower order pages might be
->>>> available, which would work just fine for the pool allocator. Doing direct
->>>> reclaim just introduces latency in allocating memory.
->>>>
->>>> The system should still start reclaiming in the background with kswapd, but
->>>> the pool allocator should try to allocate a lower order page instead of
->>>> directly reclaiming.
->>>>
->>>> If not even a order-1 page is available, the TTM pool allocator will
->>>> eventually get to start allocating order-0 pages, at which point it should
->>>> and will directly reclaim.
->>>
->>> Yeah that was discussed before quite a bit but at least for AMD GPUs that is absolutely not something we should do.
->>>
->>> The performance difference between using high and low order pages can be up to 30%. So the added extra latency is just vital for good performance.
->>>
->>> We could of course make that depend on the HW you use if it isn't necessary for some other GPU, but at least both NVidia and Intel seem to have pretty much the same HW restrictions.
->>>
->>> NVidia has been working on extending this to even use 1GiB pages to reduce the TLB overhead even further.
->>
->> But if the system cannot reclaim or is working hard on reclaiming, it will
->> not allocate that page and the pool allocator will resort to lower order
->> pages anyway.
->>
->> In case the system has pages available, it will use them. I think there is
->> a balance here and I find this one is reasonable. If the system is not
->> under pressure, it will allocate those higher order pages, as expected.
->>
->> I can look into the behavior when the system might be fragmented, but I
->> still believe that the pool is offering such a protection by keeping those
->> higher order pages around. It is when the system is under memory presure
->> that we need to resort to lower order pages.
->>
->> What we are seeing here is on a low memory (4GiB) single node system with
->> an APU, that it will have lots of latencies trying to allocate memory by
->> doing direct reclaim trying to allocate order-10 pages, which will fail and
->> down it goes until it gets to order-4 or order-3. With this change, we
->> don't see those latencies anymore and memory pressure goes down as well.
-> That reminds me of the scenario I described in the 00862edba135 ("drm/ttm: Use GFP_TRANSHUGE_LIGHT for allocating huge pages") commit log, where taking a filesystem backup could cause Firefox to freeze for on the order of a minute.
+On 11.09.25 10:59, Ilpo Järvinen wrote:
+> On Thu, 11 Sep 2025, Christian König wrote:
 > 
-> Something like that can't just be ignored as "not a problem" for a potential 30% performance gain.
+>> On 11.09.25 09:55, Ilpo Järvinen wrote:
+>>> Fix the copy-pasted errors in the Resizable BAR handling functions
+>>> kernel doc and generally improve wording choices.
+>>>
+>>> Fix the formatting errors of the Return: line.
+>>>
+>>> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+>>> ---
+>>>  drivers/pci/rebar.c | 29 ++++++++++++++++++-----------
+>>>  1 file changed, 18 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
+>>> index 020ed7a1b3aa..64315dd8b6bb 100644
+>>> --- a/drivers/pci/rebar.c
+>>> +++ b/drivers/pci/rebar.c
+>>> @@ -58,8 +58,9 @@ void pci_rebar_init(struct pci_dev *pdev)
+>>>   * @bar: BAR to find
+>>>   *
+>>>   * Helper to find the position of the ctrl register for a BAR.
+>>> - * Returns -ENOTSUPP if resizable BARs are not supported at all.
+>>> - * Returns -ENOENT if no ctrl register for the BAR could be found.
+>>> + *
+>>> + * Return: %-ENOTSUPP if resizable BARs are not supported at all,
+>>> + *	   %-ENOENT if no ctrl register for the BAR could be found.
+>>>   */
+>>>  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
+>>>  {
+>>> @@ -92,12 +93,15 @@ static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
+>>>  }
+>>>  
+>>>  /**
+>>> - * pci_rebar_get_possible_sizes - get possible sizes for BAR
+>>> + * pci_rebar_get_possible_sizes - get possible sizes for Resizable BAR
+>>>   * @pdev: PCI device
+>>>   * @bar: BAR to query
+>>>   *
+>>>   * Get the possible sizes of a resizable BAR as bitmask defined in the spec
+>>> - * (bit 0=1MB, bit 31=128TB). Returns 0 if BAR isn't resizable.
+>>> + * (bit 0=1MB, bit 31=128TB).
+>>> + *
+>>> + * Return: A bitmask of possible sizes (0=1MB, 31=128TB), or %0 if BAR isn't
+>>> + *	   resizable.
+>>>   */
+>>>  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
+>>>  {
+>>> @@ -121,12 +125,14 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
+>>>  EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
+>>>  
+>>>  /**
+>>> - * pci_rebar_get_current_size - get the current size of a BAR
+>>> + * pci_rebar_get_current_size - get the current size of a Resizable BAR
+>>>   * @pdev: PCI device
+>>> - * @bar: BAR to set size to
+>>> + * @bar: BAR to get the size from
+>>>   *
+>>> - * Read the size of a BAR from the resizable BAR config.
+>>> - * Returns size if found or negative error code.
+>>> + * Reads the current size of a BAR from the Resizable BAR config.
+>>> + *
+>>> + * Return: BAR Size if @bar is resizable (bit 0=1MB, bit 31=128TB), or
+>>
+>> This is a bit misleading since there is no mask returned but rather the 
+>> order or in other words which bit of the mask was used. 
+> 
+> Thanks for noticing this. I'll removed "bit" x2 from it, does that fully 
+> address your concern?
 
-Well using 2MiB is actually a must have for certain HW features and we have quite a lot of people pushing to always using them.
-
-So that TTM still falls back to lower order allocations is just a compromise to not trigger the OOM killer.
-
-What we could do is to remove the fallback, but then Cascardos use case wouldn't be working any more at all.
+That works for me, yes.
 
 Regards,
 Christian.
+
+> 
+
