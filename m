@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D83EB53EE3
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 01:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFDBB53EE5
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 01:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1F410E17B;
-	Thu, 11 Sep 2025 23:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD9510EBA4;
+	Thu, 11 Sep 2025 23:02:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ck7IcsPK";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TW4ZNleh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB3710E05B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:02:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91B710E3ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:02:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757631737;
+ s=mimecast20190719; t=1757631746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xIN0/MhzULHsO+NOutgb84cZx03vcIUbF7Dq4BB0wAc=;
- b=Ck7IcsPKcQagd/xwKVT/ThWE/BDrQTpLH1PJ0+8QTUSkC/b0fix5f17+Q0km6yIPbmz722
- RvwTC9bV6nFfVMEdqwSPiS7WsJfmIN+zxGTRYoN/mWStjh5UDA1p2V4XQHFOlaRuJKFjBU
- qHo194EknU11tvTxhV6zxJST2mL6nQw=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=oki6K+pbJ2z7ZPJUTxki20bybBrN7tk4yeB2QThY9ug=;
+ b=TW4ZNlehcGaA5TgqEysfnC9OKNrLzKblfighz9NRXVSLmk5Lyx2mZpGSq+I+UbUbbVtQY2
+ STxbCDMYpNsP1TR7u9v9XJfOUFRAPtclCvEwIUt7HM37q4fBK9a9pFZ+TXzfYQeYtVAKPR
+ VeVcpaYR5Ofcd+zbts2U58rSQr+z7fs=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-260-fb-PDMdBOBWUvQhtt4BQgQ-1; Thu,
- 11 Sep 2025 19:02:16 -0400
-X-MC-Unique: fb-PDMdBOBWUvQhtt4BQgQ-1
-X-Mimecast-MFC-AGG-ID: fb-PDMdBOBWUvQhtt4BQgQ_1757631733
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-558-XX4uhEhoOXOhFIOjDA4c5A-1; Thu,
+ 11 Sep 2025 19:02:20 -0400
+X-MC-Unique: XX4uhEhoOXOhFIOjDA4c5A-1
+X-Mimecast-MFC-AGG-ID: XX4uhEhoOXOhFIOjDA4c5A_1757631738
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 25A5E180057B; Thu, 11 Sep 2025 23:02:13 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id F3C7519107DB; Thu, 11 Sep 2025 23:02:17 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.64.100])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 1493219432AE; Thu, 11 Sep 2025 23:02:08 +0000 (UTC)
+ id CE1E01944CCA; Thu, 11 Sep 2025 23:02:13 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org
@@ -57,10 +57,10 @@ Cc: Daniel Almeida <daniel.almeida@collabora.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH v4 1/3] drm/gem/shmem: Extract drm_gem_shmem_init() from
- drm_gem_shmem_create()
-Date: Thu, 11 Sep 2025 18:57:38 -0400
-Message-ID: <20250911230147.650077-2-lyude@redhat.com>
+Subject: [PATCH v4 2/3] drm/gem/shmem: Extract drm_gem_shmem_release() from
+ drm_gem_shmem_free()
+Date: Thu, 11 Sep 2025 18:57:39 -0400
+Message-ID: <20250911230147.650077-3-lyude@redhat.com>
 In-Reply-To: <20250911230147.650077-1-lyude@redhat.com>
 References: <20250911230147.650077-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -81,137 +81,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With gem objects in rust, the most ideal way for us to be able to handle
-gem shmem object creation is to be able to handle the memory allocation of
-a gem object ourselves - and then have the DRM gem shmem helpers initialize
-the object we've allocated afterwards. So, let's spit out
-drm_gem_shmem_init() from drm_gem_shmem_create() to allow for doing this.
+At the moment, the way that we currently free gem shmem objects is not
+ideal for rust bindings. drm_gem_shmem_free() releases all of the
+associated memory with a gem shmem object with kfree(), which means that
+for us to correctly release a gem shmem object in rust we have to manually
+drop all of the contents of our gem object structure in-place by hand
+before finally calling drm_gem_shmem_free() to release the shmem resources
+and the allocation for the gem object.
+
+Since the only reason this is an issue is because of drm_gem_shmem_free()
+calling kfree(), we can fix this by splitting drm_gem_shmem_free() out into
+itself and drm_gem_shmem_release(), where drm_gem_shmem_release() releases
+the various gem shmem resources without freeing the structure itself. With
+this, we can safely re-acquire the KBox for the gem object's memory
+allocation and let rust handle cleaning up all of the other struct members
+automatically.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 75 +++++++++++++++++---------
+V4:
+* Fix accidental word salad that made it into the commit message
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 23 ++++++++++++++++++-----
  include/drm/drm_gem_shmem_helper.h     |  1 +
- 2 files changed, 51 insertions(+), 25 deletions(-)
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 5d1349c34afd3..b20a7b75c7228 100644
+index b20a7b75c7228..50594cf8e17cc 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -48,28 +48,12 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
- 	.vm_ops = &drm_gem_shmem_vm_ops,
- };
+@@ -175,13 +175,13 @@ struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *de
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
  
--static struct drm_gem_shmem_object *
--__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
--		       struct vfsmount *gemfs)
-+static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem,
-+				size_t size, bool private, struct vfsmount *gemfs)
- {
--	struct drm_gem_shmem_object *shmem;
--	struct drm_gem_object *obj;
-+	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
- 
--	size = PAGE_ALIGN(size);
--
--	if (dev->driver->gem_create_object) {
--		obj = dev->driver->gem_create_object(dev, size);
--		if (IS_ERR(obj))
--			return ERR_CAST(obj);
--		shmem = to_drm_gem_shmem_obj(obj);
--	} else {
--		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
--		if (!shmem)
--			return ERR_PTR(-ENOMEM);
--		obj = &shmem->base;
--	}
--
- 	if (!obj->funcs)
- 		obj->funcs = &drm_gem_shmem_funcs;
- 
-@@ -81,7 +65,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
- 	}
- 	if (ret) {
- 		drm_gem_private_object_fini(obj);
--		goto err_free;
-+		return ret;
- 	}
- 
- 	ret = drm_gem_create_mmap_offset(obj);
-@@ -102,14 +86,55 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
- 				     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
- 	}
- 
--	return shmem;
--
-+	return 0;
- err_release:
- 	drm_gem_object_release(obj);
--err_free:
--	kfree(obj);
-+	return ret;
-+}
- 
--	return ERR_PTR(ret);
-+/**
-+ * drm_gem_shmem_init - Initialize an allocated object.
-+ * @dev: DRM device
-+ * @obj: The allocated shmem GEM object.
-+ *
-+ * Returns:
-+ * 0 on success, or a negative error code on failure.
-+ */
-+int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size)
-+{
-+	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
-+
-+static struct drm_gem_shmem_object *
-+__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-+		       struct vfsmount *gemfs)
-+{
-+	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *obj;
-+	int ret = 0;
-+
-+	size = PAGE_ALIGN(size);
-+
-+	if (dev->driver->gem_create_object) {
-+		obj = dev->driver->gem_create_object(dev, size);
-+		if (IS_ERR(obj))
-+			return ERR_CAST(obj);
-+		shmem = to_drm_gem_shmem_obj(obj);
-+	} else {
-+		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
-+		if (!shmem)
-+			return ERR_PTR(-ENOMEM);
-+		obj = &shmem->base;
-+	}
-+
-+	ret = __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
-+	if (ret) {
-+		kfree(obj);
-+		return ERR_PTR(ret);
-+	}
-+
-+	return shmem;
- }
  /**
-  * drm_gem_shmem_create - Allocate an object with the given size
+- * drm_gem_shmem_free - Free resources associated with a shmem GEM object
+- * @shmem: shmem GEM object to free
++ * drm_gem_shmem_release - Release resources associated with a shmem GEM object.
++ * @shmem: shmem GEM object
+  *
+- * This function cleans up the GEM object state and frees the memory used to
+- * store the object itself.
++ * This function cleans up the GEM object state, but does not free the memory used to store the
++ * object itself. This function is meant to be a dedicated helper for the Rust GEM bindings.
+  */
+-void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
++void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+@@ -208,6 +208,19 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+ 	}
+ 
+ 	drm_gem_object_release(obj);
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_release);
++
++/**
++ * drm_gem_shmem_free - Free resources associated with a shmem GEM object
++ * @shmem: shmem GEM object to free
++ *
++ * This function cleans up the GEM object state and frees the memory used to
++ * store the object itself.
++ */
++void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
++{
++	drm_gem_shmem_release(shmem);
+ 	kfree(shmem);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
 diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 92f5db84b9c22..235dc33127b9a 100644
+index 235dc33127b9a..589f7bfe7506e 100644
 --- a/include/drm/drm_gem_shmem_helper.h
 +++ b/include/drm/drm_gem_shmem_helper.h
-@@ -107,6 +107,7 @@ struct drm_gem_shmem_object {
- #define to_drm_gem_shmem_obj(obj) \
- 	container_of(obj, struct drm_gem_shmem_object, base)
- 
-+int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size);
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+@@ -112,6 +112,7 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
  struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
  							   size_t size,
+ 							   struct vfsmount *gemfs);
++void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+ 
+ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem);
 -- 
 2.51.0
 
