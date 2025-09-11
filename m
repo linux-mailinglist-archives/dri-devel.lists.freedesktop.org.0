@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30153B53667
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5027BB5366C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:55:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81BDE10E37B;
-	Thu, 11 Sep 2025 14:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9634010E380;
+	Thu, 11 Sep 2025 14:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="i5GLLpNV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OWa2rwR9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DD410E37A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:37 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BBWAq9016119
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:37 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DCF110E37F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:44 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BAkRAg008175
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=/xEH5bhCDH+EambDfpLJYH
- Y3ZvSSk+a6Bg2AG4xJvXg=; b=i5GLLpNVVOTy2CW0REr5xB0CVkwKWoa/nOY0Mz
- wfJuewuRr4rQ3XXbvGR5f1cL+hzkp6VaW4mus7Rppxp42EtCqo737Z4WisH8xxEt
- JddOqTCEmwc2gYdnm6WhvEPtMVAoPsdN0pAHpheVWcqe81jByEvaQ9qDybuYeoQ9
- W2SItl6kOFh97G5XtDmE0wKzsNgSM3Y19pcdFWZlmAtEishR9yUxVbjn/IxOhaVo
- 5V23rmpXuwxfVBhE6RIQlFLrrKVBdolb+51/6CG1M8PGrRUdg/IUt4H/1UHPPW59
- 4rCe2kVUll+DVn6Fs1UvHolgvSXxie51iUWifFhUOZ7hivHw==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491t384ka1-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jjkngGlYDAm4B8CujfeVMFkJRW4QuQM6B+E9nbyKLy0=; b=OWa2rwR9JtE0Pi3E
+ +VVmB9lAdF4GiGxz+77B3UPGSlLm7tlINIrm0wv1hVvZpywBjDiafCuGLmH3q2pN
+ Ce3+OCnwsiOZnKHvBEXVexJJeJmwQtsPZFr1C7fCfEYu0UYMatUMWf02EAzrbpWE
+ 2//eJRAW21/1cBzgfsBrdmyBooiOApSHXkPkgsNyn6LUn0REtjcR2t8U30ffMStQ
+ TfLVPpoS2IbH9wFFfMVb5n7XkU3PPeNcJ2Fg3VZ8t6Mxf6960P6uK6X5i55EHJvu
+ 5n2ciqIrHME8O4/yBWohYxG4EsKtVAMdUjaVhbMYHtGnSxHE80/b4HxsmOZQPXwa
+ ZpegLg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490aapreqd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:36 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b4e516e0e2cso142558a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:55:36 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:55:43 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-24cceea7f71so2091725ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:55:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757602536; x=1758207336;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/xEH5bhCDH+EambDfpLJYHY3ZvSSk+a6Bg2AG4xJvXg=;
- b=u2cyOHjRcARSmv0Xu5H0qBE7ZECfSuuP5QuP/ZgAxg3Lsz2EvhzEwAVllOD+GS0/Dl
- JUO7sjLez0RZ/O3up0s6V/eKRh4XJ263kA+kVILHPKSKrv0zWOb7IUspL5DpaxvsUf+J
- TQdZz8DrJNCyu076O4A/yZAiFZxj7GmIF5GqIXETTxvrPgvKLzGISPm2eABgtQlVdqLc
- Cn+8jwXhIy7OIqA0KgZ9y80cATX5zojy16IPrbhMhJpWj7WJhAi2t9FiGE8KjBfX/20p
- rwMRCCvmwui6c2DdKEMW+rE8T4QoMy78tge1MtvfjJEL2pxiw3D6fjb5D2izsReVrDUs
- c33A==
+ d=1e100.net; s=20230601; t=1757602542; x=1758207342;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jjkngGlYDAm4B8CujfeVMFkJRW4QuQM6B+E9nbyKLy0=;
+ b=jV5SCnnbWGJBLUzmuq8FLnYSFbl4lFcY/KfPeeXY+9U29wxNR80JSVTfIr5In64dra
+ 4tibG+yJ/y+Ac29Frj/xpreKTeeFmF+HG5c6XvHIKt3iZv39KU8DW/Q4yM1P9fnHTlSO
+ RK4sslBiaDjEtFI5oq94Wwl7FTFmTbTvXIopWwaWIH4fM83xzL3MP6tZRK2Zrgc2Nx9Q
+ //yzgOEf2+XYn8adTbNtBmswgJsfFUUDF8pahKYUBt/Dws9pfF/mkHn/INzFJSTvss2o
+ bdJydGQ4XDljxZAe9COsvPHjOv4UsebYwMZVLRMW038LvZeu+X1eQjNuaJPoPgdtG2v5
+ DWjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkG6NWFtGFy4wy4ZOiXaCkxPhVfZsbbPzppXiUyah6XIQ3GVuSla5cQwLJe85h8q6av8TZ4k7oeng=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNVrrtL15dg6DOGBYFPHGPFlpkFdkt6RAWEpgM8S1viiCzcAmj
- li+eZ9gEwizJZxRYBqULyZ113j2pGZ3hjOYmwoyr70wMBIUjveXZvoiGx3Futxd/6BpNsDUzRgk
- jSMVOFl0iag+ktIhSWi1UIWAQPBTiQbe7/bzxgLxzY5Eu1ZQWaB9v77wi2MiLjcchALX4gIg=
-X-Gm-Gg: ASbGncsjxQGs54t2wt9j9CugX1dIMdm5kaW0pudfgXhDv0q9xLYTNXCXBm7OhuJ52Fl
- 9dhf6JkNPz0d56SoXGoFIsnmSvdGGGfQE55y9yIQozCLKVUh83tdmXIcgeU7Lz9nSa5k4vRDRdy
- B8rpZ/+3EyheQH/Uu7YF9e2CkuxjH/QqLtkgH+6SJUUhDAYkp/INMYPSd8e1uReQ1/cWkA489Yt
- 4QFheG9FmrUxNYX4F+bWMelZ/y/9teHAbeDxY4Hp2x/noL6d/E79u8MKP3aR7TmsIfbPf05m8EK
- yraC32HKms/vwFB+KTROCms0Ld9xklDAzVcU98AQmWKgy1N9N3Pd1faIXzilW2w3JZNUxAaa8nG
- caSTpxhX3wwwDnR7xveAzc+Bo9VrUwNvv244BQU2oPJ0W/EQAMyBsp0vH
-X-Received: by 2002:a05:6a20:3c90:b0:249:ce31:f771 with SMTP id
- adf61e73a8af0-2533e47d9abmr15639436637.2.1757602535697; 
- Thu, 11 Sep 2025 07:55:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxaoAZb131tH41lL2qHb/K1dU+uAWx1P1xOf2PHZqYOFrD6zV6LGLcSxOT6jLhp1rAFlJicQ==
-X-Received: by 2002:a05:6a20:3c90:b0:249:ce31:f771 with SMTP id
- adf61e73a8af0-2533e47d9abmr15639396637.2.1757602535088; 
- Thu, 11 Sep 2025 07:55:35 -0700 (PDT)
+ AJvYcCVGWJ6YCSAQh5R771MVZ6dzC3Y8+RwGvxOOPJgmg40+IA04XPjMLzYVEw2cceGg6lP0ioc+8XFuEoQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiWgM60NV6e9akogpr7LIRzq9cBfVW7X01oKBB5VL5LeqMMQtM
+ TjEIMOWPgMUJo6U34UDlpBJ5QUar2kb6VO61t+MclgOSK0SETJvNrOI7IrOYrcO/Qpgb7Vs11Ws
+ chD4cA3gkyBif71uF4Ria2uhvnd3TlziQvAS4YriuAAmxtdMj07FwzVQDsnblu294cvjWMC0=
+X-Gm-Gg: ASbGncsMHGlqGugZIVrbVeDDZxe2cUgL6dEpySK9Qpqbdcy16/puX0/4QHKxxPD7/fB
+ V4xiCln0pfTxccDWOF57ggb4hYKe2CRby4/IvOinkCtXqz713S7jH9wbvoQnT5QfOKMl2kwnpeb
+ 7+YcIM4/qI4DWoWgcMsY1ltQKiYB6C5f/TZ/rbpkBAN5SJD/dQMy4DMjpwaKqh3Gvae8Snlqymp
+ Mh14Plzfk4TLadq5YtoNtyCIlgjEvQxsRt2iaRxZlgOr/T8EtzlcCTv14tLR0u+QPdXsjD2phCR
+ +uAbeS/M5AZgBxMPqg1pd6NsitPPI3+KgrGSKgQi3g6cyzm1HpygvR2Gi0oHia8LR96ryNAAse6
+ zxdhvwGDUCI/aU2oCAsdf4xFyDqyDtuGWJiDKZF30gEM4AO5gh2FpGidD
+X-Received: by 2002:a17:902:c40b:b0:243:589d:148e with SMTP id
+ d9443c01a7336-2516f23de24mr132990615ad.5.1757602541963; 
+ Thu, 11 Sep 2025 07:55:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEtpsa7qlUyYAsgBCQGIBTzIJxW2bcMhr8lZkbI7bFHvqypkmZ+m9OuDf0/hYNs6aysv1XsQ==
+X-Received: by 2002:a17:902:c40b:b0:243:589d:148e with SMTP id
+ d9443c01a7336-2516f23de24mr132990335ad.5.1757602541465; 
+ Thu, 11 Sep 2025 07:55:41 -0700 (PDT)
 Received: from sziotdisp01-gv.qualcomm.com.ap.qualcomm.com
  (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b54a387cd4bsm2107453a12.35.2025.09.11.07.55.28
+ 41be03b00d2f7-b54a387cd4bsm2107453a12.35.2025.09.11.07.55.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 07:55:34 -0700 (PDT)
+ Thu, 11 Sep 2025 07:55:41 -0700 (PDT)
 From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Subject: [PATCH v4 00/13] Add DisplayPort support for QCS615 platform
-Date: Thu, 11 Sep 2025 22:54:57 +0800
-Message-Id: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
+Date: Thu, 11 Sep 2025 22:54:58 +0800
+Subject: [PATCH v4 01/13] dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAMPiwmgC/5XOTW6DMBAF4KtEXteRZ2wK7ir3qLIw/mksBQw2o
- EQRd++AVGXTDavRm5HeNy9WfI6+sK/Ti2W/xBJTT0F9nJi9mf7H8+goMxRYCQ3AjXPcxTLczXN
- IeeJlHvYZUuajLZ9QcbpNFDuOQdTosTUoNaPGIfsQH7v2faV8i2VK+bnjC2zbzVEAqA85C3DBh
- TZKysZp6cNlnKONvT3b1LFNWvCvvaKX8Fg7UrvCVglZQw2huaRSzuNs7tTevQn5JhoUxwhJBL3
- fOqy8ldr+Q6zr+gsijr6+rgEAAA==
-X-Change-ID: 20250911-add-displayport-support-for-qcs615-platform-2f072e2ba239
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250911-add-displayport-support-for-qcs615-platform-v4-1-2702bdda14ed@oss.qualcomm.com>
+References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
+In-Reply-To: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
 To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
@@ -105,35 +102,35 @@ Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
  Konrad Dybcio <konradybcio@kernel.org>,
  Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757602527; l=4013;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757602527; l=3530;
  i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=PxQ+Nl+6gXCfV0SnVCZ6IaDcnEi2VND1S9/H0brbNM8=;
- b=A3jxmUUA2sbBI+BX54DDNMZhtyvRapP9PvOmX6yKpvtKD3v4cUgHbeOLw8W0YXg71m/8SEC5q
- PIm0TDCnoZVAoAYe6fq2H1VETMItFDUUQOJl/5mAVI6JMEu2+p4zrA6
+ bh=LgccMGQtMns6i0nd4D5JzFa/u0XEgWzMdMJHz1iq7Mg=;
+ b=mXj8P2zI5LqxmvJf/ITJhpiVlig+/0otZwvxQRDsBRti9c9obJVcSQTesm+iB69NrWfS1lqLZ
+ V6KJztXRPxcBV79k9PWjTr9xRHUa2hlg3SDAYgvXdXof961JAOSGaTy
 X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
  pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
-X-Proofpoint-ORIG-GUID: OAeZCLJl5MdXK37QdoLZDSHUrlojEqzr
-X-Proofpoint-GUID: OAeZCLJl5MdXK37QdoLZDSHUrlojEqzr
-X-Authority-Analysis: v=2.4 cv=NdLm13D4 c=1 sm=1 tr=0 ts=68c2e2e8 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=COk6AnOGAAAA:8 a=NhqbsNcZucgFEQMbMWwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA2NiBTYWx0ZWRfX049h540eJ9zT
- q6CX1QRXRYCFtfZZKRURGsld7t+vPX1Rtqeh4A174Ld3oUIKISwbINS6kk3W03ie57jmKxfeH2v
- Q8gof+nQwomP8L1w4qQySveZhhwFiNWyVWCUc9ZgHvdWmHf5UsVUVzYpQcUM65RCSmO6Wfvh37a
- hBDYNtxtIsY9eG+yf/wLyMTRsGGs2fz6zOh3EuXCmiBsx8zrjU41E3JCgbentTd7c/dyRoNtcUC
- vXWsq4Y8Ljh2LQKdA/hBz6JZulHhww75RuZrMylKLDpvxbhjXnb61H2PoAUYxGjjGnXAl0Phc6N
- hgPTxfOHFXaeGd1iCYvnCf8g3J1J99/QCZUHRmtjRZfdTsBgJwBpzv+sVeTEqkDUlc6iqSuXqSP
- jFYwnrZo
+X-Authority-Analysis: v=2.4 cv=eMETjGp1 c=1 sm=1 tr=0 ts=68c2e2ef cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8
+ a=z8W1oWq9hX_DlPyfQGsA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+ a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-GUID: 4Kvk3CWtRNw1JnsQtzmQ3zpyclVqeYc9
+X-Proofpoint-ORIG-GUID: 4Kvk3CWtRNw1JnsQtzmQ3zpyclVqeYc9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfX9Jg3Jx+ApFQ1
+ va4VC16oPMIaBgrp3kSMkGIXRcZtz6JOc+IX/6ojLZ0YwJFSFRt8mFnJXN3xWQUAr1ApvGjTIqK
+ 5PUboFova025fYxsDATtOOtpLu5tp1RtObjmHehnPhD+fj/cPFSNSEnZnP8pBkM53NFI3JssOjO
+ kDxnp7yt0aNSFhtHHF9/KdNyD8PsHnlmginQNe1AsCu3XY7CNUTNM3ERkFlBQgRaGU1wX7TvsVE
+ SyhBf0osQC2ptGMMKA67azNyTgfpWhRV9AW1OgP8Mwu9/gqPblSdZ3mHCG1L8CFdB8qBbnQODcu
+ qxaeSP27+8eOKdDDOYaA81/pDhDBT5x/yJIJkcga8OiGkUlJUTjkCyB6l+cwAEWx99704avXrSo
+ XR0J2PQI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-11_01,2025-09-11_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080066
+ impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
+ bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,77 +146,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series aims to extend the USB-C PHY to support DP mode and enable
-DisplayPort on the Qualcomm QCS615 platform.
-
-The devicetree modification for DisplayPort on QCS615 will be provided
-in a future patch.
+Add device tree binding documentation for the Qualcomm QMP USB3+DP PHY
+on QCS615 Platform. This PHY supports both USB3 and DP functionality
+over USB-C, with PHY mode switching capability. It does not support
+combo mode.
 
 Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 ---
-Changes in v4:
+ .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   | 111 +++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
 
-- Drop patch v3[01/14 & 13/14], will sutbmit new patchsets based mst dt binding series.
-- Update maintainer of qcom,qcs615-qmp-usb3dp-phy.yaml to myself.
-- Add missing aux and pipe clocks. [Dmitry]
-- Drop second TCSR phandle; register offsets are described directly. [Dmitry]
-- Add USBC PHY series related init_load_uA configs. [Dmitry]
-- Drop v3[04/14] qmp_phy_usbc_type define and use dp_serdes offsets to confirm DP capability [Dmitry]
-- Reorganize sub-patches as suggested.
-- Link to v3: https://lore.kernel.org/all/20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com/
+diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..efb465c71c1b5870bd7ad3b0ec215cf693a32f04
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
+@@ -0,0 +1,111 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-usb3dp-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm QMP USB3-DP PHY controller (DP, QCS615)
++
++maintainers:
++  - Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
++
++description:
++  The QMP PHY controller supports physical layer functionality for both USB3
++  and DisplayPort over USB-C. While it enables mode switching between USB3 and
++  DisplayPort, but does not support combo mode.
++
++properties:
++  compatible:
++    enum:
++      - qcom,qcs615-qmp-usb3-dp-phy
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: aux
++      - const: ref
++      - const: cfg_ahb
++      - const: pipe
++
++  resets:
++    maxItems: 2
++
++  reset-names:
++    items:
++      - const: phy_phy
++      - const: dp_phy
++
++  vdda-phy-supply: true
++
++  vdda-pll-supply: true
++
++  "#clock-cells":
++    const: 1
++    description:
++      See include/dt-bindings/phy/phy-qcom-qmp.h
++
++  "#phy-cells":
++    const: 1
++    description:
++      See include/dt-bindings/phy/phy-qcom-qmp.h
++
++  qcom,tcsr-reg:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      - items:
++          - description: phandle to TCSR hardware block
++          - description: offset of the VLS CLAMP register
++          - description: offset of the PHY mode register
++    description: Clamp and PHY mode register present in the TCSR
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - resets
++  - reset-names
++  - vdda-phy-supply
++  - vdda-pll-supply
++  - "#clock-cells"
++  - "#phy-cells"
++  - qcom,tcsr-reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
++    #include <dt-bindings/clock/qcom,rpmh.h>
++
++    phy@88e8000 {
++      compatible = "qcom,qcs615-qmp-usb3-dp-phy";
++      reg = <0x88e8000 0x2000>;
++
++      clocks = <&gcc GCC_USB2_SEC_PHY_AUX_CLK>,
++               <&gcc GCC_USB3_SEC_CLKREF_CLK>,
++               <&gcc GCC_AHB2PHY_WEST_CLK>,
++               <&gcc GCC_USB2_SEC_PHY_PIPE_CLK>;
++      clock-names = "aux",
++                    "ref",
++                    "cfg_ahb",
++                    "pipe";
++
++      resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR>,
++               <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
++      reset-names = "phy_phy",
++                    "dp_phy";
++
++      vdda-phy-supply = <&vreg_l5a>;
++      vdda-pll-supply = <&vreg_l12a>;
++
++      #clock-cells = <1>;
++      #phy-cells = <1>;
++
++      qcom,tcsr-reg = <&tcsr 0xbff0 0xb24c>;
++    };
 
-Changes in v3:
-
-- Renamed qcom,qcs615-qmp-dp-phy.yaml in v2 to qcom,qcs615-qmp-dp-phy.yaml in v3 for QCS615 USB3+DP PHY.
-- Updated patch v3[02/14] to revise binding title, description, and property order. [Krzysztof]
-- Updated commit messages in patch v3[01/14] and [13/14] to reflect the DTSI rename and clarify compatibility. [Krzysztof]
-- Added USB3+DP mode implementation in patches v3 [003–012], organized in logical chunks. [Dmitry]
-- Dropped patch v2[03/13] to maintain full backward compatibility with USBC.
-- Link to v2: https://lore.kernel.org/all/20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com/
-
-Changes in v2:
-
-- Add new binding qcom,qcs615-qmp-dp-phy.yaml for QCS615 standalone DP
-- Split DP PHY driver into patches 4-11 by logical chunks [Dmitry]
-- Update DP PHY configuration flow to align with QMP Combo PHY implementation [Dmitry]
-- Update all hex values to lowercase [Dmitry]
-- Remove redundant comments in DP PHY driver [Krzysztof]
-- Remove invalid USBC type define [Dmitry]
-- Move lane_map， max_dp_lanes， max_dp_link_rate parsing logic to dp_link [Dmitry]
-- Add TCSR-based mutex logic for DP and USB PHY coexistence [Dmitry]
-- Drop patches 6–8 and remove related binding properties as rejected upstream
-- Link to v1: https://lore.kernel.org/all/20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com/
-
----
-Xiangxu Yin (13):
-      dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
-      phy: qcom: qmp-usbc: Rename USB-specific ops to prepare for DP support
-      phy: qcom: qmp-usbc: Add DP-related fields for USB/DP switchable PHY
-      phy: qcom: qmp-usbc: Add QCS615 DP PHY configuration and init data
-      phy: qcom: qmp-usbc: Add regulator init_load support
-      phy: qcom: qmp-usbc: Move reset config into PHY cfg
-      phy: qcom: qmp-usbc: Add DP PHY configuration support for QCS615
-      phy: qcom: qmp-usbc: Add USB/DP switchable PHY clk register
-      phy: qcom: qmp-usbc: Add TCSR parsing and PHY mode setting
-      phy: qcom: qmp-usbc: Add DP PHY ops for USB/DP switchable Type-C PHYs
-      phy: qcom: qmp-usbc: Add USB/DP mutex handling
-      drm/msm/dp: move link-specific parsing from dp_panel to dp_link
-      drm/msm/dp: Add support for lane mapping configuration
-
- .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   |  111 ++
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   10 +-
- drivers/gpu/drm/msm/dp/dp_link.c                   |   71 ++
- drivers/gpu/drm/msm/dp/dp_link.h                   |    5 +
- drivers/gpu/drm/msm/dp/dp_panel.c                  |   78 +-
- drivers/gpu/drm/msm/dp/dp_panel.h                  |    3 -
- drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v2.h      |   21 +
- drivers/phy/qualcomm/phy-qcom-qmp-usbc.c           | 1089 +++++++++++++++++---
- 8 files changed, 1192 insertions(+), 196 deletions(-)
----
-base-commit: 8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-change-id: 20250911-add-displayport-support-for-qcs615-platform-2f072e2ba239
-
-Best regards,
 -- 
-Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+2.34.1
 
