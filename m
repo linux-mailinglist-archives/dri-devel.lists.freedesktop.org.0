@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF855B52932
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 08:44:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147F3B5297C
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:01:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8651610E062;
-	Thu, 11 Sep 2025 06:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630BC10EA22;
+	Thu, 11 Sep 2025 07:01:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HbQqtWUn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kNGHzc5L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D249110E062
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:44:38 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7692610E2FF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D1A4260141;
- Thu, 11 Sep 2025 06:44:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04BF6C4CEF1;
- Thu, 11 Sep 2025 06:44:36 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1443A44635;
+ Thu, 11 Sep 2025 07:01:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A72C4CEF1;
+ Thu, 11 Sep 2025 07:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757573077;
- bh=WUrx2xeTTuAgEJ9/q2ZdB8X0IE9mS2o9XUXxYeD3pN8=;
+ s=k20201202; t=1757574086;
+ bh=qr122yp8JUYBZU96I18Z8ELkl5DxLXHRqTyQLe7CWAE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HbQqtWUnjk3Mz2IQQuGIBwtU2It1GAel3Z1ifcraWfznYBkXsaDQtXmoBFe54yDA5
- 6V2KBu0kqqpArMbaAF++Uq7RAGKBTtkBw3qGmRkDltX3lciSCyEUTOMq8nvXYSZlWz
- 7ZDd/L8d0snRWR90oQJr3JZWvwNc45tUaAXesZdZ6b/zkXq7nBcK6UAMpWuSUUQYKY
- VX3un0L92NmrGoXdW0zAyUg+vQdFKqytQsYrbUsY9wLWmySPi4c3oCMEMsh//U7Mmp
- KCElozZ4se7wFwXakcmsvXPu+KbGe9MpVGyP3lmQ0hA7gPyHTTHGmZdglx/wcJZMoW
- raHGlLGy/w+rg==
-Date: Thu, 11 Sep 2025 08:44:34 +0200
+ b=kNGHzc5LShxDoby6w+5B0rArOpeaiVE7rVvfrO816zAUBMrrpPJ0dUr2xaf4QLWhy
+ mY+qNgBlxPEy3zXyUFdDDnJB7hi5Du0P4X6pW0kdRkHGArzrm9yHV3/MYgsA8NDNol
+ kmc10a26FwkUmvRqIHSernvfMzY0CdmAsh3Czgj8l9W7P7M98o4M3GihQZm0juWDRk
+ toFJKJ3PZMpypAvEJVOGELJQc633e95pfQW2Kg002tmNI4Q1oSKL6qki07jMnup1Ke
+ H+qB+p4h7SiSVsY56tuJxfXBJm07+J0rYDESBrULBjJSENWLQsudeVU2Kao2Bgs1zO
+ ZqAhYn49Hv17Q==
+Date: Thu, 11 Sep 2025 09:01:24 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
-Message-ID: <20250911-adept-vengeful-jacamar-15f2a0@houat>
-References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
- <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
- <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
- <20250820131302.6a2da5ef@booty> <20250908154901.64f1a639@booty>
- <20250910-amazing-camouflaged-barracuda-bb79cb@houat>
- <20250910183440.3fe50fac@booty>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>,
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Message-ID: <20250911-didactic-authentic-cockle-e6d5fc@houat>
+References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
+ <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
+ <20250910-vigorous-attractive-gorilla-af6fec@houat>
+ <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="zssqy6tmj3ghiauc"
+ protocol="application/pgp-signature"; boundary="mvqneghb5gn2pldr"
 Content-Disposition: inline
-In-Reply-To: <20250910183440.3fe50fac@booty>
+In-Reply-To: <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,117 +75,133 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---zssqy6tmj3ghiauc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--mvqneghb5gn2pldr
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
- on unplug
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
 MIME-Version: 1.0
 
-On Wed, Sep 10, 2025 at 06:34:40PM +0200, Luca Ceresoli wrote:
+Hi TJ,
+
+On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
+> On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
+g> wrote:
+> >
+> > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
+> > > > Here's another attempt at supporting user-space allocations from a
+> > > > specific carved-out reserved memory region.
+> > > >
+> > > > The initial problem we were discussing was that I'm currently worki=
+ng on
+> > > > a platform which has a memory layout with ECC enabled. However, ena=
+bling
+> > > > the ECC has a number of drawbacks on that platform: lower performan=
+ce,
+> > > > increased memory usage, etc. So for things like framebuffers, the
+> > > > trade-off isn't great and thus there's a memory region with ECC dis=
+abled
+> > > > to allocate from for such use cases.
+> > > >
+> > > > After a suggestion from John, I chose to first start using heap
+> > > > allocations flags to allow for userspace to ask for a particular ECC
+> > > > setup. This is then backed by a new heap type that runs from reserv=
+ed
+> > > > memory chunks flagged as such, and the existing DT properties to sp=
+ecify
+> > > > the ECC properties.
+> > > >
+> > > > After further discussion, it was considered that flags were not the
+> > > > right solution, and relying on the names of the heaps would be enou=
+gh to
+> > > > let userspace know the kind of buffer it deals with.
+> > > >
+> > > > Thus, even though the uAPI part of it had been dropped in this seco=
+nd
+> > > > version, we still needed a driver to create heaps out of carved-out=
+ memory
+> > > > regions. In addition to the original usecase, a similar driver can =
+be
+> > > > found in BSPs from most vendors, so I believe it would be a useful
+> > > > addition to the kernel.
+> > > >
+> > > > Some extra discussion with Rob Herring [1] came to the conclusion t=
+hat
+> > > > some specific compatible for this is not great either, and as such =
+an
+> > > > new driver probably isn't called for either.
+> > > >
+> > > > Some other discussions we had with John [2] also dropped some hints=
+ that
+> > > > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > > > that too.
+> > > >
+> > > > So here's another attempt that doesn't affect the device tree at al=
+l and
+> > > > will just create a heap for every CMA reserved memory region.
+> > > >
+> > > > It also falls nicely into the current plan we have to support cgrou=
+ps in
+> > > > DRM/KMS and v4l2, which is an additional benefit.
+> > > >
+> > > > Let me know what you think,
+> > > > Maxime
+> > >
+> > > Any chance we can get this merged?
+> >
+> > Guys, can we move forward on this?
+> >
+> > Maxime
+>=20
 > Hi Maxime,
 >=20
-> On Wed, 10 Sep 2025 09:52:21 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
+> Sorry I've been MIA the last couple of months.
 >=20
-> > On Mon, Sep 08, 2025 at 03:49:01PM +0200, Luca Ceresoli wrote:
-> > > Hello Maxime,
-> > >=20
-> > > On Wed, 20 Aug 2025 13:13:02 +0200
-> > > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> > >  =20
-> > > > > > +	/*
-> > > > > > +	 * sn65dsi83_atomic_disable() should release some resources, =
-but it
-> > > > > > +	 * cannot if we call drm_bridge_unplug() before it can
-> > > > > > +	 * drm_bridge_enter(). If that happens, let's release those
-> > > > > > +	 * resources now.
-> > > > > > +	 */
-> > > > > > +	if (ctx->disable_resources_needed) {
-> > > > > > +		if (!ctx->irq)
-> > > > > > +			sn65dsi83_monitor_stop(ctx);
-> > > > > > +
-> > > > > > +		gpiod_set_value_cansleep(ctx->enable_gpio, 0);
-> > > > > > +		usleep_range(10000, 11000);
-> > > > > > +
-> > > > > > +		regulator_disable(ctx->vcc);
-> > > > > > +	}     =20
-> > > > >=20
-> > > > > I'm not sure you need this. Wouldn't registering a devm action do=
- the
-> > > > > same thing?   =20
-> > > >=20
-> > > > Good idea, thanks. I'll give it a try. =20
-> > >=20
-> > > I'm catching up with this series after being busy a few weeks...
-> > >=20
-> > > I looked at this, but contrary my initial impression I think it would
-> > > not be an improvement.
-> > >=20
-> > > The reason is at least one of these cleanup actions (namely the
-> > > regulator_disable()) must be done only if there is a matching enable,
-> > > which is in atomic_pre_enable. This is why I introduced a flag in the
-> > > first place.
-> > >=20
-> > > I'm not sure which usage of devres you had in mind, but I see two
-> > > options.
-> > >=20
-> > > Option 1: in probe, add a devres action to call a function like:
-> > >=20
-> > > sn65dsi83_cleanups()
-> > > {
-> > > 	if (ctx->disable_resources_needed) {
-> > > 		/* the same cleanups */
-> > > 	}   =20
-> > > }
-> > >=20
-> > > But that is just a more indirect way of doing the same thing, and
-> > > relies on the same flag.
-> > >=20
-> > > Option 2: have a function to unconditionally do the cleanups:
-> > >=20
-> > > sn65dsi83_cleanups()
-> > > {
-> > > 	/* the same cleanups (no if) */
-> > > }
-> > >=20
-> > > And then:
-> > >  * in atomic_pre_enable, instead of setting the flag
-> > >    add a devres action to call sn65dsi83_cleanups()
-> > >  * in atomic_disable, instead of clearing the flag
-> > >    remove the devres action
-> > >=20
-> > > Even this option looks like more complicated and less readable code
-> > > to do the same thing.
-> > >=20
-> > > Do you have in mind a better option that I haven't figured out? =20
-> >=20
-> > Would using devm_add_action in atomic_pre_enable, and
-> > devm_release_action in atomic_post_disable work?
-> >=20
-> > That way, if you have a typical enable / disable cycle, the action will
-> > get registered and executed properly, and if you only have an enable but
-> > no matching disable, it will be collected after remove.
->=20
-> So you're OK with option 2. I just implemented it, works well and the
-> resulting code is a bit cleaner. Queued for v2.
+> The docs for the "reusable" property say, "device driver(s) owning the
+> region need to be able to reclaim it back", but how can a driver
+> reclaim memory backing a dmabuf, since pages allocated for a dmabuf
+> aren't necessarily movable. Couldn't a user allocate all of it, and
+> refuse to close those dmabufs?
 
-Kind of, but you shouldn't remove but release it, and it doesn't have to
-be a single action / function.
+I guess, but how is that any different than what we're doing on the
+default allocator already?
+
+It also has to be reusable, and will not be able to reclaim any memory
+allocated through the heap.
+
+> I backported this to 6.6 and ran it on a Pixel. While there are
+> already similar out-of-tree dmabuf heap drivers that expose heaps for
+> these reserved regions, they do more than just cma_alloc (multiple
+> flavors of buffer securing, use case specific alignment and padding,
+> and slightly different allocation strategies) so I don't think this
+> series would allow us to completely drop the custom heap code, but
+> it's a nice start.
+
+Thanks for testing, and I totally expect more heaps coming for things
+like protected memory, but it should indeed reduce the number of heap
+drivers needed going forward.
+
+> Does the cgroup part come in because the plan is to add charging in
+> cma_heap.c?
+
+Yes, and the system heap as well.
 
 Maxime
 
---zssqy6tmj3ghiauc
+--mvqneghb5gn2pldr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMJvzQAKCRAnX84Zoj2+
-duA0AX0WKbMX522W4iWT6aZovu3p5rI3tFX7gzGkDlNpq0Vb7naj9n18UQoN/kBk
-HBraCFwBfijpq8dX6tNABdkG3a12JzYRVGqHZY9+3ppxfxAz1wdpnfGK66BIbdXl
-dHciD8+TVQ==
-=GI2R
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMJzxAAKCRAnX84Zoj2+
+dsvHAX9IpZOMjeU0ynWChRbSjBVdeZtylN7gZQL2xiSKdre2cCOs+EzPryzJzsTk
+tRNxMScBfAwmOazIjwKlseNgI+HDT4rryBoWdzpYERPwpsG4vLSlAqtaiPiPmf41
+ekyA/2h0Sg==
+=POxF
 -----END PGP SIGNATURE-----
 
---zssqy6tmj3ghiauc--
+--mvqneghb5gn2pldr--
