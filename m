@@ -2,150 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16094B52F01
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 12:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449DAB52F1E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B95C710E03B;
-	Thu, 11 Sep 2025 10:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDAE10EA78;
+	Thu, 11 Sep 2025 11:04:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5lOs8zqb";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="OyPqVKcc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 827CB10E03B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 10:56:20 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2082.outbound.protection.outlook.com [40.107.96.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0C2010E0AD;
+ Thu, 11 Sep 2025 11:04:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jZBZLRSv+eYd9SynHZaBB3YKez6D2LcZiKUzBflT51G6efvhI0abUqqnker5OWbpPPu08UCe+ZoywYntN56+fObzGsyMq4TDr6+xht62pKzyvD2gRoKvq1nchoKqner7bpNxKTa/iohqjCNskHvOZVT99Y19nX/wKYZzqpYo3M5MdrLYeA5c2k2/LBKonZUJFfEGGLRijExcPQWTpVbdTdRhuiIv8DnkoxOvuFRGV9JZribr1C3TkfiqX55/0qDkIoEMWqr7IqXuB0qnSE4NylsRgv3V3RYQTowOeSnwMR/qwGrKtAd70VPm/3Qi8ysroMMwN2/cu7IQ5iTF7PYX3g==
+ b=WY/5x35g05sV8QEoymsl9Jo0WVHZazn4RP8hP4Hgu6f1sOoz832s4MAyIr99RotlJftBgHnyP8hc0SoCecNzoB7cJXDV7kW6PJQpc1wum/liht2r9EmOe4ZFzd9u7Z8KSXvJumlhADw0H24Sg38FBiq73n0NxEZGx3bkBM3Tc90+E4Nj/hUyoKYgF8V/KAhnui7x/SOQzOt+bofCszdFXuHi7YQzB+91pcjCGY22aEkyrfAW+aVDQuW2kSGL27W4F7ql09yObc+fFu+B1qbj5aThdG2csEPhrZBkuZHebBtS+znC4P04bTar5FH2azW8XtKXwk8QF6DcepQ+K5QaMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lj7ETT2fb+lMaAGteiFWSmHIR3vFbIWP03Ak6Cn4Nh8=;
- b=cxtZhdCvsmO2SL4FyjDpUo1JkxPn0W+SlC0eaiSiVwJVsNUZylR9qlvvcd1IJ9z20poXnJsSulnqNat9444CKJh0RuFjD8EycPjlZbXieXwsFY/RIpMbf+2r3R4bOQn8odYEn/rzr7vlKu6TmrRbxrDCMM3ApfJxsShGsLWk6vcYA3mDRWNLxg0U1YEml3OI2ts4MCaIi7iA9/XlqcW+m0FLBPI8weStbnM5fXibQrrOWFsqvSs/C9glj8MHFZBNUgYUK/xvzEffyyUq8r4flJX0/Ldo8cVLMZ5ZwfoRQgX3nugQS5j1MJ4g0aXlhAgnn9hMQ+J20zvDbNYTgJ4QVw==
+ bh=07l9fu5Y+7C4wfHUOIxcgeYiDuL+j8v+juMUXHm46CE=;
+ b=e7tqAekzBm7pu42deofUGKbB0hhLI31k+FPhVstgTr6nT09kouS0KOtHqbvp/IHLD80VWDRbQN5osDdDkDp76TuWth11DPIORoXMxeCqWNp3DFy8PyPLabSUzvfOCx6ggRAGoX69ThcuOw+kmMgJVsFwJznOCZwaikRx10iy0H7bUML94Xg78Lv4AE7AZPbQ4+3Oc7IObHa5OGYbPnbeBlZThnpm8dAraxYb47SX+JrtC/qjOKRRi1Yna7cW1rmSJiyhaUjOoqGEFzG0EHtyw02lUBRsDSVU6tH+tCCfC9DDCUsp5Ghmb8XXgLH0fc6wFFE7iRnraKZsiam3I7s/Nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lj7ETT2fb+lMaAGteiFWSmHIR3vFbIWP03Ak6Cn4Nh8=;
- b=5lOs8zqbhTLh35W7UhywTZ8IUFjdmfSmAs+XtlEkHX9eOOPyny3ishSfiB4HoBdB4DoaSDbKLQV/TD2MPsnFYr/8YOrsQTk53cjL7GJZIkz0KBaOMokkKTwGR2yn6uMhnEBPd727FGfGov90lwFJYGqdjhClQGAb6E9btXNkanQ=
+ bh=07l9fu5Y+7C4wfHUOIxcgeYiDuL+j8v+juMUXHm46CE=;
+ b=OyPqVKcclD3IXdqtAQn2/NGTczw1Fsfo3b5XMYBK66ZBdd8wq25AM834lsz604jWZ7ayRtIgB4eN3DJQokP/eTt8lPaWjHggTW72BVVCTs17wPP2uah9NCsomodGE2N5I8gMdWWvE02aiz5qRxP3BiW21UzQmWlX7GWEpluSARS271QghpTUPky0mnbpG9js+vxLOPW9re1TfWp0VTt0FCppJ/9OyDNUc0kfhzkQtCob7fY3BE8auJ1JSgVoejtmzBvIXXxJRvIvD2p3aYw076iPqmj1ztNiN++8Kwv/X25fhXkWxNcSOye+4OerH0Ql9vZvtyD4ZLRwJvVXz6gREw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7535.namprd12.prod.outlook.com (2603:10b6:8:13a::20) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CH8PR12MB9840.namprd12.prod.outlook.com (2603:10b6:610:271::18)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 10:56:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 10:56:16 +0000
-Message-ID: <60ec3476-d141-4900-b87c-5135da6cfdd6@amd.com>
-Date: Thu, 11 Sep 2025 12:56:12 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ttm: rename ttm_bo_put to _fini v3
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-To: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- dri-devel@lists.freedesktop.org
-References: <20250909144311.1927-1-christian.koenig@amd.com>
-Content-Language: en-US
-In-Reply-To: <20250909144311.1927-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0060.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ 2025 11:04:32 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
+ 11:04:32 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH v5 00/12] gpu: nova-core: process and prepare more
+ firmwares to boot GSP
+Date: Thu, 11 Sep 2025 20:04:25 +0900
+Message-Id: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALmswmgC/3XOwU7DMAyA4VepciYotRMv2Yn3QAiljcNyaAtpC
+ aCp707oDoxVHG3p++2zmDknnsWxOYvMJc1pGutg7hrRn/z4wjKFOgtQYJQFkONU/HNMefjwmSW
+ rGDvtoPNoRDWvmWP63HqPT5c589t7zS6Xpej8zLKfhiEtx4bBWKVb9BbJqkgH55T2ASL0rffky
+ NkDaXLip3VK8zLlr+3V0m6xf74qrVQyRkOINalJPYwlheTv690tVeCa0y2Hyh0aIjAQGf2O4y9
+ 3ancdKzdkjQ6uN+jsjutr7m65rlyHvtOIwUTmP3xd129rvhR8tAEAAA==
+X-Change-ID: 20250822-nova_firmware-e0ffb492ba35
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: TYCPR01CA0080.jpnprd01.prod.outlook.com
+ (2603:1096:405:3::20) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7535:EE_
-X-MS-Office365-Filtering-Correlation-Id: b30d87c8-0d09-40a9-fa65-08ddf121d4c2
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH8PR12MB9840:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94ce067e-fdef-47a4-33ac-08ddf122fc0f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NWU2UU5wdnBOL3JQb3k0b1F3RHYwMGE5MTJacTBQU3I2RnRCMW1QWDBYOUIw?=
- =?utf-8?B?bmg2V2NPSldIaTdSVHdkb3VLT2kvOHU1Z3RVdW9Rc1FxZzJ1TC9ta0ZES1Fh?=
- =?utf-8?B?emFrTE81cmVmNmxYNERhMXplNnY0OXJRcThKS1lwbXBYT3pZTzdxckhSSjA2?=
- =?utf-8?B?MmlLK3FsTC9nUGQ2enFPMnZXL1NOZkRNbzJrdVdpcmRaRnBobGpHR1lMMmcx?=
- =?utf-8?B?N3gvakx4YzRmQW9KOG1iaG53OWVUenJYWHNLaGlvbExJUVBIaUlhejFtdGF3?=
- =?utf-8?B?ZGxQODgyTXdlOUZFS1ZxLzV0MHc3U1RFRmFUeGtyZ3Y4QzJhQ1gzTWRlakxX?=
- =?utf-8?B?cFdSTWtwVk5td2lRUEpDUHBJblA5SVc3OUVlMHdBQUl6UjlDaFl2T3pUVElK?=
- =?utf-8?B?enhSSGpGWDlLY3pjd0lvQ3hXM0wvamhGaW9zY2Vjem9OVWxxOVhyaFFXeHYx?=
- =?utf-8?B?WUY3Q0l2T3RCcVBxaXRWK2N1UWZSOTcybllUb09iNnl1Q3lJRm5Sc0RpOW9M?=
- =?utf-8?B?WkJWYzFhZWlxNlV3WE81WkVaTE4rVHRPL01teFIwRGVacmVJWWsvQk5UVTdi?=
- =?utf-8?B?M0pzem5ranBxeEtpVnNmTEVSOGFENkIyY0JuMVh6cDhMMXZQbkYzRnlqbk9M?=
- =?utf-8?B?WFFwYVM4V1prMXV2Uk1sWFRTUUxwK3lvcWFNdDJVU2J6aE5XUXd0cFpoSlpx?=
- =?utf-8?B?cW83Nnc5cHVwQlN0S2dZNHFHTWYzNWxmZTZHOXVzOHhwcERwZGNMZ3ZzVVN0?=
- =?utf-8?B?VkdUUW5CY2FMU1pFUXRqQkttTFFEKzZ2MGE4aWp2NDdKOWdEdEoyem1SYWNk?=
- =?utf-8?B?cHQvNGlXNlRmY3pUdFQ3SzJ1QjRJYjJCem1GUlBqc0o4M291S2c4MEtFU1pG?=
- =?utf-8?B?ZFNUT0FhZlkrY3JzWWJaM0gyL3BkK0xlb2JBa2JHUnlnWkpUUnB3aVJlZUdO?=
- =?utf-8?B?YmRJMDJ1eEE0YWJUUW5HZWhFUExFeFRldmlUUTNHK1MvbkR1cWNiYTF4VDJ4?=
- =?utf-8?B?Nk00cE9EZk9sYVdJeEx1elZxWjloaEFuVUtlcVVmeVdkMjZzdVhLeTZ2TEFB?=
- =?utf-8?B?SzlDR2ltbkNLVWFQaXllcnZHNUlxNFZna2xUdExucHZWY1JMSHFmWmlCaW9G?=
- =?utf-8?B?dFhZQVRjRUQ4a3g5b2ZpUWJpRWZ3NWNWSE1pa0FoZE1YamRYWmVTYU14em1N?=
- =?utf-8?B?bXBZSTlsWGNjRHBiQi9VaVlRa08rVENWOFZEMGlkNEZHcjhLTDlJdEtMbUI3?=
- =?utf-8?B?cVY1dTkxRk5xTkNTZzRKdjRoY0lLdHd1cmI4N1AxN294NkdSODIxUW9ScEVl?=
- =?utf-8?B?R0l4aDg3UERmN2RSek55bEtLZ1F2aGoxZXhlQml4cGgxUHlmSkJ2Wkt2Snho?=
- =?utf-8?B?QUV4Y3VuaUFoUGVtc3k5TGhreHR1SFZCdDZTS3pjdDV3ek4rSUhuQUYxL2dH?=
- =?utf-8?B?V1VROWtKS1kyUndlc1JVNXIwQXNXYkQxc2UrZUJicDFHZDkxNkdBeTBQUFFI?=
- =?utf-8?B?YXI5citVUnRyMzNKY1FobTBFbDBnU0NKTVF4alVwekJYbmdZN2t1eE1qMDYy?=
- =?utf-8?B?Y3YwUnEzTTlwVlA2QXNMdk1oRFpHaHBJSGF5dXhWZXNhTkRRcmIvbWtlVGlj?=
- =?utf-8?B?cndKYzFGcVRCa3BXQzdHNko2Zk1CL2kxSm9UNDNKdkNPVVNmbERPZ1JxNnNX?=
- =?utf-8?B?dmdwSGZ5TC9WZGYzTVdGY05vMGU1VS9ZY2xjWTRTQ0VJVGdTY25veDRPWWhl?=
- =?utf-8?B?VGwrU3JiTjdQb0p1WEFQa3ZqT2EwVFRrbmt1c3JmK21SM2ZQUkxkUTBhWkdS?=
- =?utf-8?B?ODMzK25DdXpkb1FEMy9ZZUF2bzN1cmp0dzFXQllWMXJzcjZiTm9Eb0xZOG5o?=
- =?utf-8?B?dDZXVmRVWVNyYmswNVdNUDBxNUF5UEFKalVOb3VkL3hoS1k4Wms3MElZekJO?=
- =?utf-8?Q?BOxi/psoBfo=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|1800799024|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RSt3dEtWK3M1T0lURG4zMjFlMXRPQjNHK2VlbVQrbk4xUkFFYUEwTDg0V1VE?=
+ =?utf-8?B?eUo0TnRBeTNMZVVQM3ZZSUphUHdnNDg0U3BUT1hvRi9QcU1HRFlHSThRbkhK?=
+ =?utf-8?B?WW55VlRkMlI0OXQwQ3duU3NVVGZGOVI1VTNJalV2Y1FjM2ttVnVmR3JhTTNl?=
+ =?utf-8?B?cWFQb2NTb0R5b3ZuN1Q3Rk10WFpXRVJCQVVTWTNCQVk1eEFyRC8vdmNzSGV0?=
+ =?utf-8?B?ZVFoRmsvanRUT0lwc01ycFVzbWNwamlNeEg0ZUpYcElpQ2w1Wmd4cmRRNWF5?=
+ =?utf-8?B?MFRzOVd2OEtOTVlUWk5tQmFKakdPQzRhYm11UXpEcE9sMUdHNng5TVNEWUd0?=
+ =?utf-8?B?QmYxVjVYdmVGaXBGQ3Rhc0RLRTBmbGZoKzdmWnJkczUxUFVneHBKVmRRMTNB?=
+ =?utf-8?B?aHlLMWZ0aE1QQituQjlCWS9SOENEZ2doTjdWVWVpU0MzbC96MW15TDF6cVNE?=
+ =?utf-8?B?VlRBdWZudWVsWEFqZEZnWkFtWWZzd2xRNUNOMmRidlRQYjBxaStjZmtwR05O?=
+ =?utf-8?B?c3lLVy9nR25qcGtaMEJ0SVBBakhJeUE5bnpCTUFMQS9GRDN0ZEFSWlZZWDRQ?=
+ =?utf-8?B?MmhkTll2L203VjVBTjJISk42aENTbGw1TlYwNm1pRHNsU2sxd0ozcXlidjV0?=
+ =?utf-8?B?b0lKV0RBcy9KUnJEdjZsdzh3VUgrRFBkMGgrUHE0QXFtZThjM3dMd1U0OThi?=
+ =?utf-8?B?T1ZOajZTVFRCaWlNMDlqSDQ3N2szc0JIRWdkT3hPY2FlS3lDcGJNNEpwWjRa?=
+ =?utf-8?B?aUNDVDdLV0VGWmYvOGswK1lKZHV3dlB5a2ZLSGRyWVZYK3JDOCtjdUovUVRF?=
+ =?utf-8?B?S0xwNnladUpxV1Z1Mk56Q0crSmMvQU1Ob0hxMFl2Z09rdmRFSERtelljMUlI?=
+ =?utf-8?B?bVhnRTFmeEhMYURjRFcydlRuSFIwN2dUdUV0WnNQM1V0OERvRnFyU0NtOFJP?=
+ =?utf-8?B?c1VYQWl6TTg1aGNuWWplZ2UxNm01dmN3UWNnN2JWcWRNV3NyYmJ1Y09Oemh4?=
+ =?utf-8?B?T00zMEQ5bXc2RlRQeXdhemQ3TVppZ2dtSnBJaWpTSmd0Z0djYzBiRjhzLzVy?=
+ =?utf-8?B?UzFZMzRLdWc1dU5GUm8rekpVWk93emJzZUxiUnpFTE10d3h5eUh1R3k1aGc0?=
+ =?utf-8?B?RWQ5eDFoRW1mQnRJY00reDU0eXhvNFVQUTh5N3VkQ2FPSDRhY05MK1RLNkRt?=
+ =?utf-8?B?MFdRRDRsTnZoRGJqUDlrR3l1NXJ3Q1hXVFpneHFadURIV0gwa1hmZkJwQlRu?=
+ =?utf-8?B?emUrQkw1eGRCZU1iVC9TZnU0WXM3YVpRQXRrOVFQaTR4TC9odXpmNmZlSTVG?=
+ =?utf-8?B?eEt2UThqbjE2dzcxbFJ5eGExQjkxQVorUkNWZ2lmUmlWa2RKdDBLSVNzenNh?=
+ =?utf-8?B?eWNRakJWU0c4elU5ekJ2NVJuakNEOGtuckxNRS8xTU9pNlpzN3hsaGE3RmJy?=
+ =?utf-8?B?bThEVWx5c0dYNlRpRzJoazBCQ21iSktjeG10TGx2cGhFekhMS0dDeDUxM1hI?=
+ =?utf-8?B?eTFQRGtjQUd1VEN5enFxVnVpS1J2V3BlamU1VXhieXhmMnVKQTVuekRlZGdE?=
+ =?utf-8?B?cERwZkJ4TXBoMzk1UGpKcEFEMGlWUURQYmlQMkFBMEtPM1hnTHdFcERycHVB?=
+ =?utf-8?B?Zm1uUzdXVmtaNitwdncrM1ZHT0c2cjJueWdjNXB5YjFJL2xLbGliTWVYdzZO?=
+ =?utf-8?B?emJvSFZkZDVpelU2MTNSWnRKanNQa0tBVXBMem04ZjRYWTFBd3pQcDhnc0Uz?=
+ =?utf-8?B?R2ZuS2hWZW90bFJBUk1FdjhYTDROUVBCejFXUXgyM2ZhOFpEOW9mMWFSMG44?=
+ =?utf-8?B?YjN4Tm9qZmN5WVVlcTNHbWhwV2xYRVp4QzdqcUFlR2dvNXJvc252bDBPbTRZ?=
+ =?utf-8?B?M0p3aEZYd1V6a1FOQVZSSmVHRkdBK0NLdUhBbnF1b3V0QXc4UGMxT1k1NHZV?=
+ =?utf-8?B?c21lb0NjZnNMa2o0TTZUcXgvRXBjWE1XTkhlZDFBcTRVTkF0MHJDdzEyWS9v?=
+ =?utf-8?B?MFZoWlc3YVlnPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014)(921020);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3crb2NxMHd3WlVadWlleTIxd0U4UUtLSldoYy9icTR2TTJPUi9TTTBUUXpi?=
- =?utf-8?B?NVV6QkVCa1o3Q05MNXNlUDVDa0N6a0ZTZ2E2ZWlmcG1KOStuLzkvNm5TYXZy?=
- =?utf-8?B?Nks3SjYwL3l6NE9hbktmNTJ1bStIQjNYL2FXb0crVmtEWkZDblRZbVRYdUEw?=
- =?utf-8?B?RWJtRHdNL3YzY2srOGczT1VRRFZQdEE2SWk5SzB6YUFHVkgwclBnMkloOXV4?=
- =?utf-8?B?bDFwNWwvdDdUTk42ckVQS0dFUHlkZE1lRGt0bzd3NC94a3FsenE0a0lDb1Z5?=
- =?utf-8?B?UFFhcSt0Q29uRDBreGZmK1JBNVlRNWNWVks2MVRhTS9SaVJ6K3V4bGs5azRM?=
- =?utf-8?B?dkMxakF0clhXNklZbjIzSU5SR3FWb08vK0NTa2pJNGpZVmJYeXNWQXA1QUNo?=
- =?utf-8?B?Q0ptS0V1cndnRktWT0ZXMFdjT1c5WVNOVVRrSjkyYkVzbUVPV1FsUytIcHVt?=
- =?utf-8?B?ekZLZjR6OTRzT3daNmUzZ3JNdEs2Z08rV2F4VW4za0J3QUFXdXFRdVpiLzhC?=
- =?utf-8?B?YjR1M1Jmd29EODZ0QmRLRmtJUnhmckpPY0ZjZ3RWQldGbWRSK0JGTW5Dc2Jz?=
- =?utf-8?B?TVA0Ty9VcjMxOUhHUHRZaTZmb1krL01NbXJzOGluUkRvTGhmOTZwdTJzcHln?=
- =?utf-8?B?bDZoSjdFVUY3TGpwd3c1RisyaHNYWGUzb1k3a1pmZWNPR3VNSTVoZ1VFN3ho?=
- =?utf-8?B?bUlRdmxPdjVWTUxZekJ3d252RVdjZmgwNm92OVY0eW5YaitnMVlGWFZTZXgz?=
- =?utf-8?B?RmNUVGY0RHpSMEF0ZmdvNC8zcjgxSjUra3BSanVsZHdYb1NUM0pyWHArbkxI?=
- =?utf-8?B?RnJSSUpkdUh3ajFEMGdXOTRJSmRrZThza0ZjUXI5WEJ1YVU0dDRqU0ltMUl2?=
- =?utf-8?B?UnZBL3ZsWW95SHhLek1naGJrcXFXdGZsMGgxT3ZYN3M4UjhLSEFzMXFDNDZu?=
- =?utf-8?B?SVk2cUR1UTZaMXAvZ01wQXNEa0kvSUU2bllQMURlV2xQOHl4YkdEcWhoQ3c3?=
- =?utf-8?B?dEZyY01XOGt0Y0h0a3dYdFJhcFFrQWxTTTVwdUlGL1pjc0t1THIxZFp6TGYv?=
- =?utf-8?B?RktaZVpYTWJmT3dXQWE2UUNRN3JuZEExTWk2U3pCTms3UHdaTkxHeENyZlNr?=
- =?utf-8?B?dkV4c2doUVJHUG84VzFZbE9PWFk4NWlIU3ZSYnBobmhwdGt4R1pDSjM5cDBL?=
- =?utf-8?B?b2F1Umk5WFpiNk1oSUs5UG5uWG1OZmJCNitLbDRNYjNuQnlvVU5Nb2lZOFY5?=
- =?utf-8?B?L0ZXanBacWZkdnREOFB1cHdXSHZqSCtMWC9jQW14QS82eUp6TEJLODNSZERD?=
- =?utf-8?B?a0wvSFJmMnY4VmJBWnp4aVBzdjY0bndGaGlzRVhQUkN1K0FnTTRZTlZMdDRT?=
- =?utf-8?B?Z1N3ZVZyb0ZHdTlmSU4xc2ZlbXBTdVhiVjB1MzM4MlpVM3BORXRkOEplMm45?=
- =?utf-8?B?QUdWczRqVFRRTFVOM0xMT1drZklBbWxTSE5qeS9DOTZDdWptRXlQL2VSYWFQ?=
- =?utf-8?B?QnRlRlEwbk83bG1KUW9xMnhKaTdqbllpd2RUbGNrUldSR2N6SFUybnVFZTF0?=
- =?utf-8?B?ejN2ejh3NFNYVkVnZnBsRzUrZ3RHNUl6M1o4d2VPaHFDT1h0cjBUZ1FOcGxN?=
- =?utf-8?B?VGRtdGVpNkEwVVorT2VCanBJWWZ3SnFyVVdsdEZXM0F6Q3VkZDd0QnJkcG9k?=
- =?utf-8?B?L0VuTGZkSUt5U2xwVGhJZ1dkU1hPcEc2ejF0VnBlVTBrQlEzbEJ2SndjTC8v?=
- =?utf-8?B?T1NCUTVqQkdaVUtWMGdYRkxjZW11NkpBam1xb280ZEF0WVc0M0Mzc2c5aXR5?=
- =?utf-8?B?T3FsejRuRUhPRlVVRTZrNzU0RFBYT0wxVzdDRUJKdWtqZDJuWm04aDBnUHZa?=
- =?utf-8?B?ZzA1RjVXUFlpRFFmamExemErODlQUGRxanVJOEd5N1prSnU0ZG84cGdOL3Vu?=
- =?utf-8?B?TkZkMXQyTm9SL3lZUHBjWVYrUmlPR1FnNjhob2puRWV3ZzlHRFRCVlJjcmNN?=
- =?utf-8?B?TjRTcHVweDdMNFJiUlJ6TW5sUFI2L2dCQUFOODRHSzhKNGdNMFFlNEpWbTg1?=
- =?utf-8?B?bitWMUorZFc1VWlVdWZiZEZmRS95L2lSRmNmZkNhRjNhVzZPbSttSTE5V092?=
- =?utf-8?Q?rSYIcZr4WPUeiOu1QvIXYCHhe?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b30d87c8-0d09-40a9-fa65-08ddf121d4c2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTlxWW5KbVNPUkp6bzkrV1o2RFhBd09VR0tkV3pST1lCaHByZFYvRklwbEFx?=
+ =?utf-8?B?ZUdpVmZMVVpGYkdrWUxTQmtkSi8wWkp6NG8yV3dpdjd3Yjg0RllYejRrTGZi?=
+ =?utf-8?B?dmhKaFZ2WVNzZ0Uwbng2a2NWNDNyMlF0anlXaUQvWDdQamM0YXd0Y0tTZit3?=
+ =?utf-8?B?TFh0bTRkaEZ3bmdrR1pMQTU2aWdwdnpzRTYraGlJbVl2SzNPU2ZqWm40SS8r?=
+ =?utf-8?B?S3NvRERtb3J5SytleURsMVdWeXd5OHVQZHJGUWh1UnJIYVZDNzlkNW9DTlFW?=
+ =?utf-8?B?RnZ0YjVxb2IxVVJURzhnL2hhODRTMDJIVFlZQ05ueVJVWDRZQ295cU9rMUxj?=
+ =?utf-8?B?UjREaFpta21ibjZMT0taZ1RHWm9ac2Zvc0czTGcwalYzcEswaHM4MHlrZWhJ?=
+ =?utf-8?B?SzdjdXlzWERwbGxpb3lFOTJoeTlvWkMxNlJSTWFkUG91bXJBVkw3NUx3Z2V6?=
+ =?utf-8?B?Tkt6NHREeitIOFovT1BGYXFxSytiYm9JWWFRKzlJT2JlS0F2YzFHazZmcUxD?=
+ =?utf-8?B?YXMycGtaSk05QURHaUdqSWJJNERYdDVKWkxobVVHaEdEeUZOdFNRU1dNVnlz?=
+ =?utf-8?B?UU9pZ2xhbTA4cG5jUWEwa04veXhzakl4bllOenkxWkZyUkFKQ0c5a000WStu?=
+ =?utf-8?B?NHhzZFNwSlR3d0s4UUtqbU4rcGd3MVdQQlM5Tzc2RVB4ZENGMzBTc1JhREpM?=
+ =?utf-8?B?Skd3R0hnd1dqeUxOQVpaNlJTMzMzb2wyM0xSdWd4ZHVxQ3FJRmtwVFBQbXBK?=
+ =?utf-8?B?cnRCR0dzVW1XZ1pWOFdmVXI4WnNxT2hMZDYxK1dlaG9VZUJBbFFzalliQ1FW?=
+ =?utf-8?B?RXlhUDBiT0JtcFp3M25BWnNnUGhpME5uRFVzM2sxWkNDVnBUYUdzeHhzOWFE?=
+ =?utf-8?B?WUdhZlJmZVRpcFZSRmF3MjBtTkVORTkzWkRUcmY1ci9rNHJLNnBmYk1XTnlL?=
+ =?utf-8?B?aDBtZFg0a0tqTllLaWVzZ0xQRnZpd1c4VlpNS0JCSC8vZUgwM1pjOWRaYk1N?=
+ =?utf-8?B?bjJKT0kyVGJKMVdCVndPV1hLNGNmT1dwbTJUZmJDVEJsUGJKeTRnb0l1d0o0?=
+ =?utf-8?B?bFoxV2V3T1BJWE1JUUh1YjJvK2Q1b2ZnSTBRSkJOWCtOREpSMm82UEpqWnlF?=
+ =?utf-8?B?c0h4cUsvTzBXS1VheFZBWktPUTRCc2x3NEdFeUg0MzlDTUJIMjI3clh4T1Jv?=
+ =?utf-8?B?Vkt6eW5xZG5BOEdoeWUzcHRYNUNSK2RKeFNSUU1zRFQ4OFlOKzJ5L1V4Q0tK?=
+ =?utf-8?B?Q084N3RUdmx4ZnhneUVmR2NmZFJKcVE5TTJYYUcwWS9wUStHR3pnZFAvbkFy?=
+ =?utf-8?B?VDFPK2NSSGp4cmFLWVhqOGxnd3dBV0NzY01aT0FJSExDZTBiV3RGTlpRR1Jv?=
+ =?utf-8?B?UnRRbFlYck9MUTY5bmNRbE82RS9laTJMN3hsdk5MdFo5Q2tWN3czb05taGZw?=
+ =?utf-8?B?NDg5R1ViT0RPdGdYSGxWTEtoV3VMT0xVZ3RGNENTSG9RTTJyOXdaSDVtVkUr?=
+ =?utf-8?B?QURiS01OKzd1dHFnaGVLK2FRK1pMb0lmZ1U1ZUZBRlBoSjg4Q0hnTUc5Umcr?=
+ =?utf-8?B?VG00UjUwK2kzdzJTdGY1QndOeHhlVStJZWU4Yi9YZnlhblJ0V1Z5VGZOZ1Z4?=
+ =?utf-8?B?ajVtdUhLNEJtdmFFc250dFVkRTBlQjNlaU1SNFhwcGtyT0Q3YmhoRUZEemR0?=
+ =?utf-8?B?MmU4OFBhcTQwaWI3ck8vWDdZcERKVHZuck5sRlFtdTk5NW15WGZuTzJjTmlp?=
+ =?utf-8?B?dTN2KzVETjZ3Z1MxMkFTdjN1bWhwQVM3WU1zSWxDTmF2TDNrV1czTU9UV2du?=
+ =?utf-8?B?UlEzUlYyV2NNN295VVd5UmxSOWQzc25TTG4xczlhMXdodDRUdjJEWUJHeUwr?=
+ =?utf-8?B?RG4yU3pvalNaRVJ5c3dGbUxtYWVLM3dBWWplMVF0N1NXS3ZmcCtCUlI3Tk12?=
+ =?utf-8?B?UWVwWEltamJsTnNXUFNGU21xUHRyck9odU9HZWxGQUdJanNaaTFRZUkreUYx?=
+ =?utf-8?B?RE1GOFZ0OU5KMHA2RGdWM3gzdytGTFAycjk4WVdjakpMYWF6dDJqbFEvQ05W?=
+ =?utf-8?B?djJpWXNqUzJMUE5EeExFYmt6ZzR4dEs1dHRQRFRDVSs1cGc4dXpzY0xNM2JH?=
+ =?utf-8?B?bzdRZEZvdUQ1SWM0N1gwaWEwTHAxbERuUVdxVlBSaXZyajlCQXI0Y1J0czVT?=
+ =?utf-8?Q?xYCNfR1hIukDAmrkMudkESjZMUVYbxM4qeeYGPi+fTId?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94ce067e-fdef-47a4-33ac-08ddf122fc0f
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 10:56:16.4747 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 11:04:32.1996 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wLbNA/jN27emsf8QktBbDKHOpTa8MQQa4CgzOVrPFwg3WziUNV3Htv5IDzk0ipPd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7535
+X-MS-Exchange-CrossTenant-UserPrincipalName: p87ipy4eJ8W7b7TwZMYnWQy9wcOkddBdtSSN0rUyU4a/vS26i0upqJ4FZ7wKALU4AGBf2VMq4mBeuL9zLJcNng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,516 +182,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gentle ping. Thomas can I get an ack on this?
+This series makes more progress on the GSP boot process for Ampere GPUs.
 
-It's just a rename with no intended technical change.
+At the end of the previous series [1], we were left with a WPR memory
+region created by the FRTS firmware, but still far from the GSP running.
+This series brings us closer to that goal by preparing 2 new firmware
+packages:
 
-Thanks,
-Christian.
+* The Booter firmware, which the driver loads and runs on the SEC2
+  falcon;
+* The GSP bootloader and firmware, with the bootloader loaded by Booter onto the GSP RISC-V
+  core to verify and load the actual GSP firmware.
 
-On 09.09.25 16:43, Christian König wrote:
-> Give TTM BOs a separate cleanup function.
-> 
-> No funktional change, but the next step in removing the TTM BO reference
-> counting and replacing it with the GEM object reference counting.
-> 
-> v2: move the code around a bit to make it clearer what's happening
-> v3: fix nouveau_bo_fini as well
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +-
->  drivers/gpu/drm/drm_gem_vram_helper.c         |  6 +-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  4 +-
->  drivers/gpu/drm/loongson/lsdc_gem.c           |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_bo.h          |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_gem.c         |  2 +-
->  drivers/gpu/drm/qxl/qxl_gem.c                 |  2 +-
->  drivers/gpu/drm/radeon/radeon_gem.c           |  2 +-
->  drivers/gpu/drm/ttm/tests/ttm_bo_test.c       | 12 ++--
->  .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 60 +++++++++----------
->  drivers/gpu/drm/ttm/ttm_bo.c                  | 15 +++--
->  drivers/gpu/drm/ttm/ttm_bo_internal.h         |  2 +
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |  2 +-
->  drivers/gpu/drm/xe/xe_bo.c                    |  2 +-
->  include/drm/ttm/ttm_bo.h                      |  2 +-
->  15 files changed, 59 insertions(+), 58 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index 6626a6e64ff5..0a5b204086f3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -198,7 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->  	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
->  
->  	amdgpu_hmm_unregister(aobj);
-> -	ttm_bo_put(&aobj->tbo);
-> +	ttm_bo_fini(&aobj->tbo);
->  }
->  
->  int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index b04cde4a60e7..90760d0ca071 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -107,7 +107,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
->  
->  static void drm_gem_vram_cleanup(struct drm_gem_vram_object *gbo)
->  {
-> -	/* We got here via ttm_bo_put(), which means that the
-> +	/* We got here via ttm_bo_fini(), which means that the
->  	 * TTM buffer object in 'bo' has already been cleaned
->  	 * up; only release the GEM object.
->  	 */
-> @@ -234,11 +234,11 @@ EXPORT_SYMBOL(drm_gem_vram_create);
->   * drm_gem_vram_put() - Releases a reference to a VRAM-backed GEM object
->   * @gbo:	the GEM VRAM object
->   *
-> - * See ttm_bo_put() for more information.
-> + * See ttm_bo_fini() for more information.
->   */
->  void drm_gem_vram_put(struct drm_gem_vram_object *gbo)
->  {
-> -	ttm_bo_put(&gbo->bo);
-> +	ttm_bo_fini(&gbo->bo);
->  }
->  EXPORT_SYMBOL(drm_gem_vram_put);
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 1f4814968868..57bb111d65da 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -1029,7 +1029,7 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
->  {
->  	GEM_BUG_ON(!obj->ttm.created);
->  
-> -	ttm_bo_put(i915_gem_to_ttm(obj));
-> +	ttm_bo_fini(i915_gem_to_ttm(obj));
->  }
->  
->  static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-> @@ -1325,7 +1325,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->  	 * If this function fails, it will call the destructor, but
->  	 * our caller still owns the object. So no freeing in the
->  	 * destructor until obj->ttm.created is true.
-> -	 * Similarly, in delayed_destroy, we can't call ttm_bo_put()
-> +	 * Similarly, in delayed_destroy, we can't call ttm_bo_fini()
->  	 * until successful initialization.
->  	 */
->  	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), bo_type,
-> diff --git a/drivers/gpu/drm/loongson/lsdc_gem.c b/drivers/gpu/drm/loongson/lsdc_gem.c
-> index a720d8f53209..22d0eced95da 100644
-> --- a/drivers/gpu/drm/loongson/lsdc_gem.c
-> +++ b/drivers/gpu/drm/loongson/lsdc_gem.c
-> @@ -57,7 +57,7 @@ static void lsdc_gem_object_free(struct drm_gem_object *obj)
->  	struct ttm_buffer_object *tbo = to_ttm_bo(obj);
->  
->  	if (tbo)
-> -		ttm_bo_put(tbo);
-> +		ttm_bo_fini(tbo);
->  }
->  
->  static int lsdc_gem_object_vmap(struct drm_gem_object *obj, struct iosys_map *map)
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.h b/drivers/gpu/drm/nouveau/nouveau_bo.h
-> index d59fd12268b9..6c26beeb427f 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.h
-> @@ -57,7 +57,7 @@ nouveau_bo(struct ttm_buffer_object *bo)
->  static inline void
->  nouveau_bo_fini(struct nouveau_bo *bo)
->  {
-> -	ttm_bo_put(&bo->bo);
-> +	ttm_bo_fini(&bo->bo);
->  }
->  
->  extern struct ttm_device_funcs nouveau_bo_driver;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> index 690e10fbf0bd..395d92ab6271 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> @@ -87,7 +87,7 @@ nouveau_gem_object_del(struct drm_gem_object *gem)
->  		return;
->  	}
->  
-> -	ttm_bo_put(&nvbo->bo);
-> +	ttm_bo_fini(&nvbo->bo);
->  
->  	pm_runtime_mark_last_busy(dev);
->  	pm_runtime_put_autosuspend(dev);
-> diff --git a/drivers/gpu/drm/qxl/qxl_gem.c b/drivers/gpu/drm/qxl/qxl_gem.c
-> index fc5e3763c359..d26043424e95 100644
-> --- a/drivers/gpu/drm/qxl/qxl_gem.c
-> +++ b/drivers/gpu/drm/qxl/qxl_gem.c
-> @@ -39,7 +39,7 @@ void qxl_gem_object_free(struct drm_gem_object *gobj)
->  	qxl_surface_evict(qdev, qobj, false);
->  
->  	tbo = &qobj->tbo;
-> -	ttm_bo_put(tbo);
-> +	ttm_bo_fini(tbo);
->  }
->  
->  int qxl_gem_object_create(struct qxl_device *qdev, int size,
-> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-> index f86773f3db20..18ca1bcfd2f9 100644
-> --- a/drivers/gpu/drm/radeon/radeon_gem.c
-> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
-> @@ -86,7 +86,7 @@ static void radeon_gem_object_free(struct drm_gem_object *gobj)
->  
->  	if (robj) {
->  		radeon_mn_unregister(robj);
-> -		ttm_bo_put(&robj->tbo);
-> +		ttm_bo_fini(&robj->tbo);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> index 6c77550c51af..5426b435f702 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-> @@ -379,7 +379,7 @@ static void ttm_bo_unreserve_bulk(struct kunit *test)
->  	dma_resv_fini(resv);
->  }
->  
-> -static void ttm_bo_put_basic(struct kunit *test)
-> +static void ttm_bo_fini_basic(struct kunit *test)
->  {
->  	struct ttm_test_devices *priv = test->priv;
->  	struct ttm_buffer_object *bo;
-> @@ -410,7 +410,7 @@ static void ttm_bo_put_basic(struct kunit *test)
->  	dma_resv_unlock(bo->base.resv);
->  	KUNIT_EXPECT_EQ(test, err, 0);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static const char *mock_name(struct dma_fence *f)
-> @@ -423,7 +423,7 @@ static const struct dma_fence_ops mock_fence_ops = {
->  	.get_timeline_name = mock_name,
->  };
->  
-> -static void ttm_bo_put_shared_resv(struct kunit *test)
-> +static void ttm_bo_fini_shared_resv(struct kunit *test)
->  {
->  	struct ttm_test_devices *priv = test->priv;
->  	struct ttm_buffer_object *bo;
-> @@ -463,7 +463,7 @@ static void ttm_bo_put_shared_resv(struct kunit *test)
->  	bo->type = ttm_bo_type_device;
->  	bo->base.resv = external_resv;
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static void ttm_bo_pin_basic(struct kunit *test)
-> @@ -616,8 +616,8 @@ static struct kunit_case ttm_bo_test_cases[] = {
->  	KUNIT_CASE(ttm_bo_unreserve_basic),
->  	KUNIT_CASE(ttm_bo_unreserve_pinned),
->  	KUNIT_CASE(ttm_bo_unreserve_bulk),
-> -	KUNIT_CASE(ttm_bo_put_basic),
-> -	KUNIT_CASE(ttm_bo_put_shared_resv),
-> +	KUNIT_CASE(ttm_bo_fini_basic),
-> +	KUNIT_CASE(ttm_bo_fini_shared_resv),
->  	KUNIT_CASE(ttm_bo_pin_basic),
->  	KUNIT_CASE(ttm_bo_pin_unpin_resource),
->  	KUNIT_CASE(ttm_bo_multiple_pin_one_unpin),
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> index 1bcc67977f48..3a1eef83190c 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> @@ -144,7 +144,7 @@ static void ttm_bo_init_reserved_sys_man(struct kunit *test)
->  				  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
->  
->  	ttm_resource_free(bo, &bo->resource);
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static void ttm_bo_init_reserved_mock_man(struct kunit *test)
-> @@ -186,7 +186,7 @@ static void ttm_bo_init_reserved_mock_man(struct kunit *test)
->  				  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
->  
->  	ttm_resource_free(bo, &bo->resource);
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  }
->  
-> @@ -221,7 +221,7 @@ static void ttm_bo_init_reserved_resv(struct kunit *test)
->  	KUNIT_EXPECT_PTR_EQ(test, bo->base.resv, &resv);
->  
->  	ttm_resource_free(bo, &bo->resource);
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static void ttm_bo_validate_basic(struct kunit *test)
-> @@ -265,7 +265,7 @@ static void ttm_bo_validate_basic(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bo->resource->placement,
->  			DRM_BUDDY_TOPDOWN_ALLOCATION);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
->  }
->  
-> @@ -292,7 +292,7 @@ static void ttm_bo_validate_invalid_placement(struct kunit *test)
->  
->  	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static void ttm_bo_validate_failed_alloc(struct kunit *test)
-> @@ -321,7 +321,7 @@ static void ttm_bo_validate_failed_alloc(struct kunit *test)
->  
->  	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	ttm_bad_manager_fini(priv->ttm_dev, mem_type);
->  }
->  
-> @@ -353,7 +353,7 @@ static void ttm_bo_validate_pinned(struct kunit *test)
->  	ttm_bo_unpin(bo);
->  	dma_resv_unlock(bo->base.resv);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static const struct ttm_bo_validate_test_case ttm_mem_type_cases[] = {
-> @@ -403,7 +403,7 @@ static void ttm_bo_validate_same_placement(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, err, 0);
->  	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, 0);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  
->  	if (params->mem_type != TTM_PL_SYSTEM)
->  		ttm_mock_manager_fini(priv->ttm_dev, params->mem_type);
-> @@ -452,7 +452,7 @@ static void ttm_bo_validate_busy_placement(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, snd_mem);
->  	KUNIT_ASSERT_TRUE(test, list_is_singular(&man->lru[bo->priority]));
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	ttm_bad_manager_fini(priv->ttm_dev, fst_mem);
->  	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
->  }
-> @@ -495,7 +495,7 @@ static void ttm_bo_validate_multihop(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2);
->  	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, final_mem);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
->  	ttm_mock_manager_fini(priv->ttm_dev, tmp_mem);
-> @@ -567,7 +567,7 @@ static void ttm_bo_validate_no_placement_signaled(struct kunit *test)
->  		KUNIT_ASSERT_TRUE(test, flags & TTM_TT_FLAG_ZERO_ALLOC);
->  	}
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static int threaded_dma_resv_signal(void *arg)
-> @@ -635,7 +635,7 @@ static void ttm_bo_validate_no_placement_not_signaled(struct kunit *test)
->  	/* Make sure we have an idle object at this point */
->  	dma_resv_wait_timeout(bo->base.resv, usage, false, MAX_SCHEDULE_TIMEOUT);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  }
->  
->  static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
-> @@ -668,7 +668,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bo->resource->mem_type, mem_type);
->  	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	dma_fence_put(man->move);
->  }
->  
-> @@ -753,7 +753,7 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
->  	else
->  		KUNIT_EXPECT_EQ(test, bo->resource->mem_type, fst_mem);
->  
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo);
->  	ttm_mock_manager_fini(priv->ttm_dev, fst_mem);
->  	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
->  }
-> @@ -807,8 +807,8 @@ static void ttm_bo_validate_happy_evict(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bos[1].resource->mem_type, mem_type);
->  
->  	for (i = 0; i < bo_no; i++)
-> -		ttm_bo_put(&bos[i]);
-> -	ttm_bo_put(bo_val);
-> +		ttm_bo_fini(&bos[i]);
-> +	ttm_bo_fini(bo_val);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-> @@ -852,12 +852,12 @@ static void ttm_bo_validate_all_pinned_evict(struct kunit *test)
->  
->  	KUNIT_EXPECT_EQ(test, err, -ENOMEM);
->  
-> -	ttm_bo_put(bo_small);
-> +	ttm_bo_fini(bo_small);
->  
->  	ttm_bo_reserve(bo_big, false, false, NULL);
->  	ttm_bo_unpin(bo_big);
->  	dma_resv_unlock(bo_big->base.resv);
-> -	ttm_bo_put(bo_big);
-> +	ttm_bo_fini(bo_big);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-> @@ -916,13 +916,13 @@ static void ttm_bo_validate_allowed_only_evict(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bo_evictable->resource->mem_type, mem_type_evict);
->  	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size * 2 + BO_SIZE);
->  
-> -	ttm_bo_put(bo);
-> -	ttm_bo_put(bo_evictable);
-> +	ttm_bo_fini(bo);
-> +	ttm_bo_fini(bo_evictable);
->  
->  	ttm_bo_reserve(bo_pinned, false, false, NULL);
->  	ttm_bo_unpin(bo_pinned);
->  	dma_resv_unlock(bo_pinned->base.resv);
-> -	ttm_bo_put(bo_pinned);
-> +	ttm_bo_fini(bo_pinned);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_multihop);
-> @@ -973,8 +973,8 @@ static void ttm_bo_validate_deleted_evict(struct kunit *test)
->  	KUNIT_EXPECT_NULL(test, bo_big->ttm);
->  	KUNIT_EXPECT_NULL(test, bo_big->resource);
->  
-> -	ttm_bo_put(bo_small);
-> -	ttm_bo_put(bo_big);
-> +	ttm_bo_fini(bo_small);
-> +	ttm_bo_fini(bo_big);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  }
->  
-> @@ -1025,8 +1025,8 @@ static void ttm_bo_validate_busy_domain_evict(struct kunit *test)
->  	KUNIT_EXPECT_EQ(test, bo_init->resource->mem_type, mem_type);
->  	KUNIT_EXPECT_NULL(test, bo_val->resource);
->  
-> -	ttm_bo_put(bo_init);
-> -	ttm_bo_put(bo_val);
-> +	ttm_bo_fini(bo_init);
-> +	ttm_bo_fini(bo_val);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  	ttm_bad_manager_fini(priv->ttm_dev, mem_type_evict);
-> @@ -1070,8 +1070,8 @@ static void ttm_bo_validate_evict_gutting(struct kunit *test)
->  	KUNIT_ASSERT_NULL(test, bo_evict->resource);
->  	KUNIT_ASSERT_TRUE(test, bo_evict->ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC);
->  
-> -	ttm_bo_put(bo_evict);
-> -	ttm_bo_put(bo);
-> +	ttm_bo_fini(bo_evict);
-> +	ttm_bo_fini(bo);
->  
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  }
-> @@ -1128,9 +1128,9 @@ static void ttm_bo_validate_recrusive_evict(struct kunit *test)
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
->  	ttm_mock_manager_fini(priv->ttm_dev, mem_type_evict);
->  
-> -	ttm_bo_put(bo_val);
-> -	ttm_bo_put(bo_tt);
-> -	ttm_bo_put(bo_mock);
-> +	ttm_bo_fini(bo_val);
-> +	ttm_bo_fini(bo_tt);
-> +	ttm_bo_fini(bo_mock);
->  }
->  
->  static struct kunit_case ttm_bo_validate_test_cases[] = {
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index f4d9e68b21e7..9c9e132558d4 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -318,18 +318,17 @@ static void ttm_bo_release(struct kref *kref)
->  	bo->destroy(bo);
->  }
->  
-> -/**
-> - * ttm_bo_put
-> - *
-> - * @bo: The buffer object.
-> - *
-> - * Unreference a buffer object.
-> - */
-> +/* TODO: remove! */
->  void ttm_bo_put(struct ttm_buffer_object *bo)
->  {
->  	kref_put(&bo->kref, ttm_bo_release);
->  }
-> -EXPORT_SYMBOL(ttm_bo_put);
-> +
-> +void ttm_bo_fini(struct ttm_buffer_object *bo)
-> +{
-> +	ttm_bo_put(bo);
-> +}
-> +EXPORT_SYMBOL(ttm_bo_fini);
->  
->  static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
->  				     struct ttm_operation_ctx *ctx,
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_internal.h b/drivers/gpu/drm/ttm/ttm_bo_internal.h
-> index 9d8b747a34db..e0d48eac74b0 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_internal.h
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_internal.h
-> @@ -55,4 +55,6 @@ ttm_bo_get_unless_zero(struct ttm_buffer_object *bo)
->  	return bo;
->  }
->  
-> +void ttm_bo_put(struct ttm_buffer_object *bo);
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> index eedf1fe60be7..39f8c46550c2 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -37,7 +37,7 @@ static void vmw_gem_object_free(struct drm_gem_object *gobj)
->  {
->  	struct ttm_buffer_object *bo = drm_gem_ttm_of_gem(gobj);
->  	if (bo)
-> -		ttm_bo_put(bo);
-> +		ttm_bo_fini(bo);
->  }
->  
->  static int vmw_gem_object_open(struct drm_gem_object *obj,
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 18f27da47a36..8830f0142881 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -1668,7 +1668,7 @@ static void xe_gem_object_free(struct drm_gem_object *obj)
->  	 * refcount directly if needed.
->  	 */
->  	__xe_bo_vunmap(gem_to_xe_bo(obj));
-> -	ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
-> +	ttm_bo_fini(container_of(obj, struct ttm_buffer_object, base));
->  }
->  
->  static void xe_gem_object_close(struct drm_gem_object *obj,
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index 479b7ed075c0..da5c2e4971dc 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -391,7 +391,7 @@ int ttm_bo_wait_ctx(struct ttm_buffer_object *bo,
->  int ttm_bo_validate(struct ttm_buffer_object *bo,
->  		    struct ttm_placement *placement,
->  		    struct ttm_operation_ctx *ctx);
-> -void ttm_bo_put(struct ttm_buffer_object *bo);
-> +void ttm_bo_fini(struct ttm_buffer_object *bo);
->  void ttm_bo_set_bulk_move(struct ttm_buffer_object *bo,
->  			  struct ttm_lru_bulk_move *bulk);
->  bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+There firmwares are involved in a rather complex dance that is made
+necessary by limitations related to the level of privilege required to
+load code onto the GSP (doing so requires a Heavy Secured signed
+firmware, which is the role fulfilled by Booter).
+
+The first 6 patches perform some cleanup and preparatory work for the
+remainder of the series. Notably, the GSP boot is moved to a new method
+of `Gpu` to get ready for the additional steps that will be added to it,
+and the `Gpu` object is now fully built in-place. We also simplify
+chipset name generation a bit and move the code requesting a firmware
+file into a dedicated function in prevision of the removal of the
+`Firmware` structure.
+
+Patch 7 parses the Booter firmware file, queries the hardware for the
+right signature to use, and patch it into the firmware blob. This makes
+Booter ready to load and run.
+
+Patches 8 and 9 prepare the GSP firmware and its bootloader, and keep
+them into a single structure as they are closely related.
+
+Patches 10 and 11 switch to the 570.144 firmware and introduce the
+layout for its bindings. The raw bindings are stored in a private
+module, and abstracted by the parent module as needed. This allows
+consumer modules to access a safer/nicer form of the bindings than the
+raw one, and also makes it easier to switch to a different (and
+potentially incompatible) firmware version in the future.
+
+570.144 has been picked because it is the latest firmware currently in
+linux-firmware, but as development progresses the plan is to switch to a
+newer one that is designed with the constraint of upstream in mind. So
+support for 570.144 will be dropped in the future. Support for multiple
+firmware versions is not considered at the moment: there is no immediate
+need for it as the driver is still unstable, and we can think about this
+point once we approach stability (and have better visibility about the
+shape of the firmware at that point).
+
+The last patch introduces the first bindings and uses them to compute
+more framebuffer layout information needed for booting the GSP. A
+separate patch series will pick up from there to use this information
+and finally run these firmware blobs.
+
+The base of this series is today's drm-rust-next, with a couple more
+dependencies required:
+
+- The pin-init patch allowing references to previously initialized
+  fields [2],
+- For the last patch, the Alignment series [3],
+- The following diff to make the aforementioned pin-init patch build:
+
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -138,7 +138,6 @@ pub fn new<'a, E>(
+
+         try_pin_init!(&this in Self {
+             dev: dev.into(),
+-            callback,
+             // INVARIANT: `inner` is properly initialized.
+             inner <- {
+                 // SAFETY: `this` is a valid pointer to uninitialized memory.
+@@ -160,6 +159,7 @@ pub fn new<'a, E>(
+                     data <- Revocable::new(data),
+                 }))
+             },
++            callback,
+         })
+     }
+
+A tree with all these dependencies and the patches of this series is
+available at [4].
+
+[1] https://lore.kernel.org/rust-for-linux/20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com/
+[2] https://lore.kernel.org/rust-for-linux/20250905140047.3325945-1-lossin@kernel.org/
+[3] https://lore.kernel.org/rust-for-linux/20250908-num-v5-0-c0f2f681ea96@nvidia.com/
+[4] https://github.com/Gnurou/linux/tree/b4/nova_firmware
+
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+Changes in v5:
+- Perform construction of `Gpu` object in-place.
+- Link to v4: https://lore.kernel.org/r/20250909-nova_firmware-v4-0-4dcb433d5fee@nvidia.com
+
+Changes in v4:
+- Rebase on top of latest Alignment series.
+- Make use of pin-init references to initialized fields.
+- Remove all uses of `unsafe` except for `FromBytes` and `AsBytes`
+  implementations.
+- Keep the GSP placeholder inside the `Gpu` struct.
+- Move GSP firmware bindings under the `gsp` module.
+- Get the firmware-specific information from the bindings instead of a
+  HAL.
+- Link to v3: https://lore.kernel.org/r/20250902-nova_firmware-v3-0-56854d9c5398@nvidia.com
+
+Changes in v3:
+- Move the GSP boot process out of the Gpu constructor.
+- Get rid of the `Firmware` struct and discard loaded firmware blobs
+  after the GSP is booted.
+- Consolidate the GSP firmware, bootloader and signatures into a single
+  type.
+- Make firmware bindings completely opaque to the driver.
+- Improve firmware abstractions related to framebuffer carveout.
+- Improve comments and naming throughout the series. (thanks John!)
+- Use alias for bindings module in `nvfw` to avoid repeated version
+  numbers everywhere. (thanks John!)
+- Fix inconsistency in naming of members of Booter header. (thanks
+  Timur!)
+- Link to v2: https://lore.kernel.org/r/20250826-nova_firmware-v2-0-93566252fe3a@nvidia.com
+
+Changes in v2:
+- Add some GSP bindings and use them to compute more FB layout info
+  needed to boot GSP,
+- Use PinInit in GspFirmware to avoid several heap allocations,
+- Rename `bootloader` to `gsp_bootloader` in `Firmware` to avoid
+  confusion with the future Turing falcon bootloader,
+- Link to v1: https://lore.kernel.org/r/20250822-nova_firmware-v1-0-ff5633679460@nvidia.com
+
+---
+Alexandre Courbot (11):
+      gpu: nova-core: require `Send` on `FalconEngine` and `FalconHal`
+      gpu: nova-core: move GSP boot code to a dedicated method
+      gpu: nova-core: initialize Gpu structure fully in-place
+      gpu: nova-core: add Chipset::name() method
+      gpu: nova-core: firmware: move firmware request code into a function
+      gpu: nova-core: firmware: add support for common firmware header
+      gpu: nova-core: firmware: process Booter and patch its signature
+      gpu: nova-core: firmware: process and prepare the GSP firmware
+      gpu: nova-core: firmware: process the GSP bootloader
+      gpu: nova-core: firmware: use 570.144 firmware
+      gpu: nova-core: compute layout of more framebuffer regions required for GSP
+
+Alistair Popple (1):
+      gpu: nova-core: Add base files for r570.144 firmware bindings
+
+ Documentation/gpu/nova/core/todo.rst              |  17 -
+ drivers/gpu/nova-core/driver.rs                   |   9 +-
+ drivers/gpu/nova-core/falcon.rs                   |   6 +-
+ drivers/gpu/nova-core/falcon/hal.rs               |   2 +-
+ drivers/gpu/nova-core/fb.rs                       |  65 +++-
+ drivers/gpu/nova-core/firmware.rs                 | 107 ++++--
+ drivers/gpu/nova-core/firmware/booter.rs          | 375 ++++++++++++++++++++++
+ drivers/gpu/nova-core/firmware/gsp.rs             | 239 ++++++++++++++
+ drivers/gpu/nova-core/firmware/riscv.rs           |  89 +++++
+ drivers/gpu/nova-core/gpu.rs                      | 143 ++++++---
+ drivers/gpu/nova-core/gsp.rs                      |  11 +
+ drivers/gpu/nova-core/gsp/fw.rs                   | 101 ++++++
+ drivers/gpu/nova-core/gsp/fw/r570_144.rs          |  28 ++
+ drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs | 126 ++++++++
+ drivers/gpu/nova-core/nova_core.rs                |   1 +
+ drivers/gpu/nova-core/util.rs                     |  20 --
+ 16 files changed, 1216 insertions(+), 123 deletions(-)
+---
+base-commit: e2580413a83680f679904ad2f2c1aa6969876469
+change-id: 20250822-nova_firmware-e0ffb492ba35
+
+Best regards,
+-- 
+Alexandre Courbot <acourbot@nvidia.com>
 
