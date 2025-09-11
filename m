@@ -2,167 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3502DB52CAC
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D51B52CDD
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1144810EA54;
-	Thu, 11 Sep 2025 09:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A803410EA58;
+	Thu, 11 Sep 2025 09:17:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bRHEK/35";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SIQP+lxi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dnRB8UHN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SIQP+lxi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dnRB8UHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2085.outbound.protection.outlook.com [40.107.93.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D12610EA52;
- Thu, 11 Sep 2025 09:08:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mrQdda6znwGZhDtyQ4xA+i3R7pkbEMQQlpPGBSkN94YF9jx4gX9SseMTR78dTb/pOHrVeH3ux/PFBbnmHSWL4YvgtzgkYm+QogEl52QFtSkYhB5ThcwI7eebNAPottz38E3NjGdIlz0ZPDZOgPG+dCzzKjTDsvAnPhNtVXyRlWLhRWW32kN1AAmLD3TzFnoRTuNg/AbX0D+tfjZ88PUCEkEupAawqh1jJiKqab8ZX4lDPoZbLq07u2fsh9j0h5/r9xSMlnMtT/u/WJP28SYEbC/f64bJXYAI+PGu/YdmViuKQH00+iNLdtmKaVAm/5r1SoKwue1zFooA5rRJWtafOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
- b=RG6gUEssP4ljn61TKBCrLxJXEODKX6rXStIZBxTW9jeOcsnrcs4ljulcWmhYPjl5ospsqvzBKoE4zXRb9JHAC83U5UjR1GXJ2C5kzA/l8te/Crp8jOStkAmgcosBSH1/2nODCZf2V7UKWbrUCEyzMHdYu2K++Owlo/D4Z51HxctD1Awe+nh1xriY8+lq746Pzfrp8NVEj/mPFv5EFErZuvtzZWTuXwFbwE3lWiHitg3JSGr0FwOhX4uV6hkv86SOcL0Zy4hV0syMbGZWsybjjl3p0scsuUPhhmEhtkB2Bb8lIM277+SXsmQmTy9J0eUB/s2sNbU9vD42H6gPzplsDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7dqPdxBDFE6loLC8n3xCtNYTNMfXGVrkboerY4Nn8Vg=;
- b=bRHEK/35Soj+xydSTvxTgskGZ3qn2hg4N4xiZXyq4MpF8v2bQhldhczR9l6OPvho/deslTk/Te8S5GJpT0+eyc+CXNQVxLR73/3NnZz+sWLV1SN71DoM14GXF3kvVlNYomErNoBsV4plqR8gtHxtg54cEMsKRUUHqGKvD179TOA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6155.namprd12.prod.outlook.com (2603:10b6:930:25::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 09:08:51 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 09:08:51 +0000
-Message-ID: <a07e33ac-85f8-4b5e-a700-032d7667cccd@amd.com>
-Date: Thu, 11 Sep 2025 11:08:43 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] PCI: Improve Resizable BAR functions kernel doc
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94E910E070
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:17:40 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5ED8C60317;
+ Thu, 11 Sep 2025 09:17:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757582259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hnS/7oxxjsOKOj/tXQW7Itm6Cx2fMvkmDt7Kn2kIylM=;
+ b=SIQP+lxiML3iIKHDXn93T0/i1QIePPs2OSzBLVoJOsxRhfP3m34/q5EsE6jrugqD3c5vbU
+ lcX2NdybouJQ+tUxkvpXe5I+F0AuDIGSlOTtWRAnb2rIPslEo0lLz3u8hiNGDdMXYSJftj
+ 0lCWGsaaLnLaZ0rEBS0/ZRNW7qw+DAg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757582259;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hnS/7oxxjsOKOj/tXQW7Itm6Cx2fMvkmDt7Kn2kIylM=;
+ b=dnRB8UHN9GcRmaCT2HfSMnaaRQxt5KDH5yNr2e8jK6GhKPMSLOTDcurZqvJjUxub9LkO/T
+ Qh9S74zTOfJp7nCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757582259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hnS/7oxxjsOKOj/tXQW7Itm6Cx2fMvkmDt7Kn2kIylM=;
+ b=SIQP+lxiML3iIKHDXn93T0/i1QIePPs2OSzBLVoJOsxRhfP3m34/q5EsE6jrugqD3c5vbU
+ lcX2NdybouJQ+tUxkvpXe5I+F0AuDIGSlOTtWRAnb2rIPslEo0lLz3u8hiNGDdMXYSJftj
+ 0lCWGsaaLnLaZ0rEBS0/ZRNW7qw+DAg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757582259;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hnS/7oxxjsOKOj/tXQW7Itm6Cx2fMvkmDt7Kn2kIylM=;
+ b=dnRB8UHN9GcRmaCT2HfSMnaaRQxt5KDH5yNr2e8jK6GhKPMSLOTDcurZqvJjUxub9LkO/T
+ Qh9S74zTOfJp7nCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E580D13301;
+ Thu, 11 Sep 2025 09:17:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id DoXeNrKTwmgNAgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Sep 2025 09:17:38 +0000
+Date: Thu, 11 Sep 2025 11:17:37 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
  Tvrtko Ursulin <tursulin@ursulin.net>,
- ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
- <20250911075605.5277-5-ilpo.jarvinen@linux.intel.com>
- <97f8d4a7-6897-4fe5-878c-c04a887cce62@amd.com>
- <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20c3a5f5-fa15-3889-3f56-20726aa3925b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0047.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <20250911091737.GA39831@linux.fritz.box>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 702dbc14-8152-417c-0f72-08ddf112d328
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q0xONEZQaWJEU3EyV1A1TmZITnI4MEdZN0ZIRUZaZVFaZWo4NGxxN1htSVFq?=
- =?utf-8?B?S3N1YkxLT21CYjlSR3dwcXU2MFFTZWMvQ0liUlNlUnhKNTVjb213S09oUGJt?=
- =?utf-8?B?U2F2Yy9yaUpDRmlMUkFBMTI1NGh1Q3VON2M0Wld4Umg0UjZVVVFFblAwVWZo?=
- =?utf-8?B?RCsyUnFiS2tlWVZKZjRVM1hDeERiRXNSR2J5RENTUDRidXdUb05sMkV0QUJ0?=
- =?utf-8?B?a0tDZWtqR3FBRXYzclRQOEZ4dEVpVFAwWURCWmFzSUY3Ry9BdGZIUi9DamJa?=
- =?utf-8?B?NGdFdWdkSXRSeEdzQ1plYUxXK1BBMk9mSERuak5vYW1sMXd2cGFhUWxDbzdS?=
- =?utf-8?B?amExcGlqc2d0VVFTWFRGOXNhSEoxWXhiMUpxa1pFWXpZOCt1MU1EcEVDNHFN?=
- =?utf-8?B?cjQ1MDdKZnVSM0VlYXk3T255MzV1NERNQ0dkRzRhMW1Tb1FCZGFGOVBqUFc3?=
- =?utf-8?B?eGRXdkZQbEo4dFBWOU4zVXNaeUtrc2pvdnBMUTJVR2hHcmhCUXRPdzNWT3VZ?=
- =?utf-8?B?WUtCSWtIVS9pRVppQ3FCZVNjTGlaSDhVcE5QWW9VV2RLb2NYY3lVcGhlcHFO?=
- =?utf-8?B?SUZzMmtrSjZvczg1ZDRRamZ2cWZSVW5GRUdvQ3c1Wk9LT0pUYTNRM3RtSEJS?=
- =?utf-8?B?SVh5bzdTVnlOUE43YXh3NVhEYmoyOHp6K1gwRkpsR09zcFVMU1NwMWhLYVF1?=
- =?utf-8?B?VVJrQktWWS9VUm5pa1dGczcrZWVtQ1ZKUllWZ1JWTmQxMUhXaGxBNmpPSkQ5?=
- =?utf-8?B?cFJrQlBoQ25YcUtKK3NoekRldTZaMkl2OWF1OUVsdVlZWEl6UkVwZFpUK0RE?=
- =?utf-8?B?bFlTYTk3RkF4QU14OW9mRnlYWG1HeGJFd0RDaDJSU0hlQ205c2NRUXZFMjFu?=
- =?utf-8?B?S0lGamZGVTFoR0lkSnRRV3dWYXBjNXJLNmltWGhFVnF0dVVFZ3pQZTlSSjdH?=
- =?utf-8?B?SmV3T0orS28wWFF0c09zc1doaDlaN3B0Y1N2dTh1M0hlSjdJeEZGNWM4emVJ?=
- =?utf-8?B?TFpuTWZ5amxISmxyQU1rU2Uyb3EySzltQkVudDlyNTdpR3ZMcTdvdm9UeHl0?=
- =?utf-8?B?eGVKRHIvTjRVcnNacnpiN3hPc215Uk5DaTZUekFWV0xob0t0bzV2WWUvYThR?=
- =?utf-8?B?aXN1WlJZYWV4dDRLakdoS3dMeEk3empmcWRDNFhNalBuM1dsZFNGRFlzNDE1?=
- =?utf-8?B?WWtOdThvTlRJbHoySS8xQmZ2cmxBTEl2UVpkT1drYStMYy9FbHE2MHFDQ0h5?=
- =?utf-8?B?aU4xaldXQXJWcUpqUmR6MnNWT2MyNVoyc1lHejBOeXQvOUZOK3ZwMFdhY3hu?=
- =?utf-8?B?WkFhemJoRktuZ2lSUDRMb0FZNHYrTnN2MmEvejBXdTFkUk00SUJKeFBENFVp?=
- =?utf-8?B?VzVFS3JBSmlSdlBLY1YxYjIrYzhoR1RFMGVBZ3hqNEFiWkdGcWNzMmFMU3FM?=
- =?utf-8?B?S2JnOVpWcERpS0VoOUNrK1JYZEd4YkZCWW1sZC93YlhGbkVGKzM5Z3MweitE?=
- =?utf-8?B?Z3NXaDZjWmQwa2xpcmVtNEdGTVQxSEl4dzB5aHJoRFhrdC9hSm9rZzRlRWRn?=
- =?utf-8?B?TFQrQkF5eURWamQ3Z2wvK3d2aEI1YUo2V1BVcU5lb0VJMUtFNWVRT1lVYXFD?=
- =?utf-8?B?REhxLzZacXRJY1BrV1F6WlYrYkxsekV2ZXc5N1BNY29FWFZkQTU4T0ZIZXRU?=
- =?utf-8?B?VU0vTUVldkxIRXk4VWNDMmRXZGNFdU9iMlpkSzVnS1ZxNEdLMDdzcDh0aEo3?=
- =?utf-8?B?UFFFM3AzOUx1alk1MGlJMERlaEJBbCtpcktOdkp6eTA4L2ZiZ2xVWkpvbHlD?=
- =?utf-8?B?OFVFeFlVMFlVWlRPd1hKbFVNUUhRbmRibk40amhLbDYwS0ZXdFRTU2RSb1lE?=
- =?utf-8?B?MWd1OXNQRFBaSW5sRVdSbU53OWd3NzFvWEpJRUh2Mm5yQU91ejYrbFQ4Mkhj?=
- =?utf-8?Q?d9UdirN7DE4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TUFhbGppeThkK3ZSQ3BEK2RwN0psdTZiWVJRNmNxSXFxMDFhRDNTYjNESXlw?=
- =?utf-8?B?K2Y3Tld6QmRYdzhxbkxQVTk4bHJ6SFhXSEFzNkZvNVR3TzRNdFd6TWRnL1Uz?=
- =?utf-8?B?a1o4YnhabXoyNnBKbmdCRzlyd2VOUVhFKzcrNlJMa0w1bGVwSVRQYkhDSVFs?=
- =?utf-8?B?Rnc1V1UvYTJmdmJMcTlxM0YwM3dmYk9ZZFVtRHJLbE0rM1RRQThOK2RUSWhF?=
- =?utf-8?B?THd3TGRPMWFheFJSa3U2S1lvYW9uNm11ay9JdWtCbVlpdVh0KzJqdTBGQk5t?=
- =?utf-8?B?RWV2NlN0WEl1b09zeCtIYUoyVDNLSjFoY2pnRmY5R2NkblJjRTNreU5JSTQ5?=
- =?utf-8?B?K3BvTXVvOWFrZDFXK2NIQ2YwenU3MFN3Y3VlNmRENG0zQUlPanhTRjd6QXBF?=
- =?utf-8?B?OFI4N081K1BUZk4rZ05OTVhJR3hBTHdwdXMwSGE1QzZTb3B6SnhoTU00cFc3?=
- =?utf-8?B?T1lSV3ZYTzRhbEc1M2toL3JWZzVvNnRlbE05ZEpTb0twaW5SemJKRWplci9z?=
- =?utf-8?B?QjVaVFlDQng1TjRaR0xJY0U4UEI1aUNabXFzMGc3d1dBdFAydU5aUkVWUERR?=
- =?utf-8?B?aERWZjNGbnUyM0huVjJjR1VDYjVKNVdUb1JxRUR0Y2NwRngwcFJyZmNVbCtx?=
- =?utf-8?B?b1NFcDVxNVVicG1BcWN0SEVMMFhVT2VtNlJjZ2hlZUtQZCtIRFY2T0F5MXBC?=
- =?utf-8?B?QVZBY0ViTjhYOWxFQTAzcWNyU3g2T3pSdC9qSnBrWFhOUXlHeWhUMjU1WXFr?=
- =?utf-8?B?aWJUNi9Ed0MwWUtBWnNBY0U4czM4NEJjZG9yRzZ6NERsM2dzQzdnNEE2dUow?=
- =?utf-8?B?QnRScFFjQ2MzdHA5L3lZclRqWmQ3ZkdCSWVsTXJ6Zkh4SVpoMjFIY21GQ3RP?=
- =?utf-8?B?clp2Q0RUNHhjVlNXTFNvaXZ0d3dvdVlRSzRNV2kwcjRkS1pMak8vYm1aZ0lQ?=
- =?utf-8?B?SjhHOUhuYUNBOU1HWnRpYUFocmlCTHVmbWcyMDk0L0M0WHN5RkwwY21nWjFZ?=
- =?utf-8?B?dndSUFVDQzVpWGhxMnZtQ1c2OFpJSzZJTXN6MGNlbzhSKzVISnZpZEw3dEo5?=
- =?utf-8?B?dXJua3BlRFJtaWVxVHZ0aHI2SitrVXVGTmJBYllLZ3VDQmF2NkltQTRxVEd3?=
- =?utf-8?B?OEQ2K3ZEaEUwaS9HOWZDWlRmZ2FGUmlGVE9sQW80dWRaWSszYUZLejFkbG1U?=
- =?utf-8?B?MURTWGhJT3g3aG5haG5ma0NSRGRFNmdkNVh3NVhjT0MrdE1ESWh3UVpicjZR?=
- =?utf-8?B?bG5JVHFmSW9leUxFM1ZYTklDRHFFV3dnUWdFL3kxbEI5a00zUzljb3h2WnY2?=
- =?utf-8?B?ZUFUeDZ4UHI2K2dXcEs4Rk9OdkJ4NWFHOUNqY0dkVlUwejRibWlqbFBkczlP?=
- =?utf-8?B?bXljYjA3RUI1bU0xMExUbmY1SWc3L1VPQ3lPd2pibjhtWno2QXR1Z1hma1Ir?=
- =?utf-8?B?ZVp3TVFRL2NOd0xQcmtjNC9JYzFlTE1xUWFqc1RaZXAwSEFIMjBwTURyT3h0?=
- =?utf-8?B?QVlLWTJwY2EyUmdvb1J2SFJVUG1paHFtUXZtSWNCSkJiR003ajRUcUVMYkdE?=
- =?utf-8?B?Z09oSHBmRmhoTUxNbE9XcDBwTHVlZW1aMGV5WFpXN21GM005dWJXWmYweVUz?=
- =?utf-8?B?T3ZnRDZaRk84SEppM2U0K21TRnEwdmszR21HelVFU0hvTFJhTnFROWNLcm1U?=
- =?utf-8?B?eUgzcjREa1JQTTIrT3cyOU9QWG9yNFEzSEJzZFBxQ3ZnVzAwYlpoeDJxYXRx?=
- =?utf-8?B?Sk5MMTZZS3Q2K1lTR3RKRkRnVjZnRU1saFNSSjFPTmxVSHcydTFtQisyaXlo?=
- =?utf-8?B?WWhvV0ZjR3laUER4Wk8vc0ZMNXVuZjhqaEtxS05UV0hpRmFGWTAzYzY5TzBt?=
- =?utf-8?B?bGdCcjJ4YS84UUdRUHZMRlM0SWpJVUxFbzlYeml5WDRhR2Y1VEtHQURGYkNz?=
- =?utf-8?B?SDVJVHdnQ3grWVVNMjdKMTJDelpiM1ZHalY2bHAyamZnbmJZVStjeDJyUVU0?=
- =?utf-8?B?YThBNHNLRzRqMVBJVjZNeXBURVRYK0hMeVRCRGRXMm9Rd1BOZnB0amEzR2Fx?=
- =?utf-8?B?TlpwbXk1UGd4bFRkSTR2RGhtdk0rR2ZYNXo5NTJrQWNrTUhBZlE0STVtcFlx?=
- =?utf-8?Q?9PKcip2XCxcu6w6nLnf3MfS+w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 702dbc14-8152-417c-0f72-08ddf112d328
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 09:08:51.3056 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MT/cpK4lXkRIZpgJk+pMdy7GI/qrkTXy5M1/qgVZV61nfMzDLlZ0ui4fPNoq1XLB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6155
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[16];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,80 +119,304 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.09.25 10:59, Ilpo Järvinen wrote:
-> On Thu, 11 Sep 2025, Christian König wrote:
-> 
->> On 11.09.25 09:55, Ilpo Järvinen wrote:
->>> Fix the copy-pasted errors in the Resizable BAR handling functions
->>> kernel doc and generally improve wording choices.
->>>
->>> Fix the formatting errors of the Return: line.
->>>
->>> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->>> ---
->>>  drivers/pci/rebar.c | 29 ++++++++++++++++++-----------
->>>  1 file changed, 18 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
->>> index 020ed7a1b3aa..64315dd8b6bb 100644
->>> --- a/drivers/pci/rebar.c
->>> +++ b/drivers/pci/rebar.c
->>> @@ -58,8 +58,9 @@ void pci_rebar_init(struct pci_dev *pdev)
->>>   * @bar: BAR to find
->>>   *
->>>   * Helper to find the position of the ctrl register for a BAR.
->>> - * Returns -ENOTSUPP if resizable BARs are not supported at all.
->>> - * Returns -ENOENT if no ctrl register for the BAR could be found.
->>> + *
->>> + * Return: %-ENOTSUPP if resizable BARs are not supported at all,
->>> + *	   %-ENOENT if no ctrl register for the BAR could be found.
->>>   */
->>>  static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->>>  {
->>> @@ -92,12 +93,15 @@ static int pci_rebar_find_pos(struct pci_dev *pdev, int bar)
->>>  }
->>>  
->>>  /**
->>> - * pci_rebar_get_possible_sizes - get possible sizes for BAR
->>> + * pci_rebar_get_possible_sizes - get possible sizes for Resizable BAR
->>>   * @pdev: PCI device
->>>   * @bar: BAR to query
->>>   *
->>>   * Get the possible sizes of a resizable BAR as bitmask defined in the spec
->>> - * (bit 0=1MB, bit 31=128TB). Returns 0 if BAR isn't resizable.
->>> + * (bit 0=1MB, bit 31=128TB).
->>> + *
->>> + * Return: A bitmask of possible sizes (0=1MB, 31=128TB), or %0 if BAR isn't
->>> + *	   resizable.
->>>   */
->>>  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
->>>  {
->>> @@ -121,12 +125,14 @@ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar)
->>>  EXPORT_SYMBOL(pci_rebar_get_possible_sizes);
->>>  
->>>  /**
->>> - * pci_rebar_get_current_size - get the current size of a BAR
->>> + * pci_rebar_get_current_size - get the current size of a Resizable BAR
->>>   * @pdev: PCI device
->>> - * @bar: BAR to set size to
->>> + * @bar: BAR to get the size from
->>>   *
->>> - * Read the size of a BAR from the resizable BAR config.
->>> - * Returns size if found or negative error code.
->>> + * Reads the current size of a BAR from the Resizable BAR config.
->>> + *
->>> + * Return: BAR Size if @bar is resizable (bit 0=1MB, bit 31=128TB), or
->>
->> This is a bit misleading since there is no mask returned but rather the 
->> order or in other words which bit of the mask was used. 
-> 
-> Thanks for noticing this. I'll removed "bit" x2 from it, does that fully 
-> address your concern?
+Hi Dave, Sima,
 
-That works for me, yes.
+here's the final PR for drm-misc-next that goes into v6.18. It adds
+support for the 'boot_display' sysfs attribute. Exported buffers from
+TTM should now be accounted correctly. There's a new driver for the
+Mayqueen e-Ink paper. Vkms got support for a lot of additional color
+formats. And there's of course the usual number of fixes and cleanups
+everywhere.
 
-Regards,
-Christian.
+Best regards
+Thomas
 
-> 
+drm-misc-next-2025-09-11:
+drm-misc-next for v6.18:
 
+UAPI Changes:
+
+- Provide 'boot_display' attribute on boot-up devices
+
+amdxdma:
+- Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+
+Cross-subsystem Changes:
+
+bindings:
+- Add Mayqueen vendor prefix mayqueen-
+
+pci:
+- vgaarb: Use screen_info helpers
+
+Core Changes:
+
+ttm:
+- Add interface to populate buffers
+
+Driver Changes:
+
+amdgpu:
+- Pre-populate exported buffers
+
+ast:
+- Clean up detection of DRAM config
+
+bochs:
+- Clean up
+
+bridge:
+- adv7511: Write full Audio infoframe
+- ite6263: Support vendor-specific infoframes
+- simple: Add support for Realtek RTD2171 DP-to-HDMI plus DT bindings
+- Clean up
+
+gma500:
+- Clean up
+
+nouveau:
+- Pre-populate exported buffers
+
+panel:
+- edp: Add support for additonal mt8189 Chromebook panels
+- lvds: Add DT bindings for EDT ETML0700Z8DHA
+- Clean up
+
+pixpaper:
+- Add support for Mayqueen Pixpaper plus DT bindings
+
+rcar-du:
+- Use RUNTIME_PM_OPS
+- Add support for DSI commands
+
+vkms:
+- Support variants of ARGB8888, ARGB16161616, RGB565, RGB888 and P01x
+- Spport YUV with 16-bit components
+
+xe:
+- Pre-populate exported buffers
+The following changes since commit 2a1eea8fd601db4c52f0d14f8871663b7b052c91:
+
+  drm/sysfb: Remove double assignment to pointer crtc_state (2025-09-04 09:26:39 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-09-11
+
+for you to fetch changes up to 91494dee1091a14d91da6bcb39e12a907765c793:
+
+  xe: populate buffers before exporting them. (2025-09-11 10:04:58 +1000)
+
+----------------------------------------------------------------
+drm-misc-next for v6.18:
+
+UAPI Changes:
+
+- Provide 'boot_display' attribute on boot-up devices
+
+amdxdma:
+- Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+
+Cross-subsystem Changes:
+
+bindings:
+- Add Mayqueen vendor prefix mayqueen-
+
+pci:
+- vgaarb: Use screen_info helpers
+
+Core Changes:
+
+ttm:
+- Add interface to populate buffers
+
+Driver Changes:
+
+amdgpu:
+- Pre-populate exported buffers
+
+ast:
+- Clean up detection of DRAM config
+
+bochs:
+- Clean up
+
+bridge:
+- adv7511: Write full Audio infoframe
+- ite6263: Support vendor-specific infoframes
+- simple: Add support for Realtek RTD2171 DP-to-HDMI plus DT bindings
+- Clean up
+
+gma500:
+- Clean up
+
+nouveau:
+- Pre-populate exported buffers
+
+panel:
+- edp: Add support for additonal mt8189 Chromebook panels
+- lvds: Add DT bindings for EDT ETML0700Z8DHA
+- Clean up
+
+pixpaper:
+- Add support for Mayqueen Pixpaper plus DT bindings
+
+rcar-du:
+- Use RUNTIME_PM_OPS
+- Add support for DSI commands
+
+vkms:
+- Support variants of ARGB8888, ARGB16161616, RGB565, RGB888 and P01x
+- Spport YUV with 16-bit components
+
+xe:
+- Pre-populate exported buffers
+
+----------------------------------------------------------------
+Chen Ni (1):
+      drm/ast: ast_2100: Remove unneeded semicolon
+
+Dave Airlie (4):
+      ttm/bo: add an API to populate a bo before exporting.
+      amdgpu: populate buffers before exporting them.
+      nouveau: populate buffers before exporting them.
+      xe: populate buffers before exporting them.
+
+Dmitry Baryshkov (2):
+      drm/bridge: adv7511: use update latch for AVI infoframes
+      drm/bridge: write full Audio InfoFrame
+
+Geert Uytterhoeven (1):
+      drm: rcar-du: lvds: Convert to RUNTIME_PM_OPS()
+
+Jacek Lawrynowicz (1):
+      MAINTAINERS: Remove Jacek Lawrynowicz as intel_vpu maintainer
+
+Jos� Exp�sito (1):
+      drm/vkms: Assert if vkms_config_create_*() fails
+
+Leander Kieweg (1):
+      drm/tiny/bochs: Convert dev_err() to drm_err()
+
+LiangCheng Wang (2):
+      dt-bindings: display: Add Mayqueen Pixpaper e-ink panel
+      drm: tiny: Add support for Mayqueen Pixpaper e-ink panel
+
+Liao Yuanhong (1):
+      drm/sti: Remove redundant ternary operators
+
+Liu Ying (2):
+      drm/panel: lvds: Remove unused members from main structure
+      drm/bridge: ite-it6263: Support HDMI vendor specific infoframe
+
+Lizhi Hou (1):
+      accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+
+Louis Chauvet (8):
+      drm/vkms: Create helpers macro to avoid code duplication in format callbacks
+      drm/vkms: Add support for ARGB8888 formats
+      drm/vkms: Add support for ARGB16161616 formats
+      drm/vkms: Add support for RGB565 formats
+      drm/vkms: Add support for RGB888 formats
+      drm/vkms: Change YUV helpers to support u16 inputs for conversion
+      drm/vkms: Create helper macro for YUV formats
+      drm/vkms: Add P01* formats
+
+Luca Ceresoli (1):
+      drm/display: bridge-connector: remove unused variable assignment
+
+Marek Vasut (1):
+      drm/rcar-du: dsi: Implement DSI command support
+
+Mario Limonciello (AMD) (4):
+      Fix access to video_is_primary_device() when compiled without CONFIG_VIDEO
+      PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+      fbcon: Use screen info to find primary device
+      DRM: Add a new 'boot_display' attribute
+
+Min Ma (1):
+      MAINTAINERS: Update Min Ma's email for AMD XDNA driver
+
+Nathan Chancellor (1):
+      drm/bridge: cdns-dsi: Select VIDEOMODE_HELPERS
+
+Neil Armstrong (2):
+      dt-bindings: display: bridge: simple: document the Realtek RTD2171 DP-to-HDMI bridge
+      drm/bridge: simple: add Realtek RTD2171 DP-to-HDMI bridge
+
+Raphael Gallais-Pou (1):
+      dt-bindings: panel: lvds: Append edt,etml0700z8dha in panel-lvds
+
+Thomas Zimmermann (7):
+      drm/ast: Do not print DRAM info
+      drm/ast: Remove unused dram_bus_width field
+      drm/ast: Remove unused mclk field
+      drm/ast: Remove unused SCU-MPLL and SCU-STRAP values
+      drm/ast: Move DRAM info next to its only user
+      drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
+      drm/gma500: Do not clear framebuffer GEM objects during cleanup
+
+Wig Cheng (1):
+      dt-bindings: vendor-prefixes: Add Mayqueen name
+
+Zhongtian Wu (1):
+      drm/panel-edp: Add 4 more panels needed by mt8189 Chromebooks
+
+ Documentation/ABI/testing/sysfs-class-drm          |    8 +
+ .../bindings/display/bridge/simple-bridge.yaml     |    1 +
+ .../bindings/display/mayqueen,pixpaper.yaml        |   63 ++
+ .../bindings/display/panel/panel-lvds.yaml         |    2 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ MAINTAINERS                                        |   10 +-
+ arch/parisc/include/asm/video.h                    |    2 +-
+ arch/sparc/include/asm/video.h                     |    2 +
+ arch/x86/include/asm/video.h                       |    2 +
+ arch/x86/video/video-common.c                      |   25 +-
+ drivers/accel/amdxdna/aie2_pci.c                   |  112 +-
+ drivers/accel/amdxdna/amdxdna_pci_drv.c            |   27 +
+ drivers/accel/amdxdna/amdxdna_pci_drv.h            |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   12 +
+ drivers/gpu/drm/ast/ast_2100.c                     |   46 +-
+ drivers/gpu/drm/ast/ast_drv.h                      |   20 +-
+ drivers/gpu/drm/ast/ast_main.c                     |  126 ---
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |   23 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   33 +-
+ drivers/gpu/drm/bridge/cadence/Kconfig             |    1 +
+ drivers/gpu/drm/bridge/ite-it6263.c                |   64 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             |    5 +
+ drivers/gpu/drm/display/drm_bridge_connector.c     |    2 -
+ drivers/gpu/drm/drm_sysfs.c                        |   41 +
+ drivers/gpu/drm/gma500/fbdev.c                     |    2 -
+ drivers/gpu/drm/nouveau/nouveau_prime.c            |   12 +
+ drivers/gpu/drm/panel/panel-edp.c                  |   11 +
+ drivers/gpu/drm/panel/panel-lvds.c                 |    2 -
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |    4 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |  225 ++++
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |  125 +++
+ drivers/gpu/drm/sti/sti_hqvdp.c                    |    2 +-
+ drivers/gpu/drm/tiny/Kconfig                       |   15 +
+ drivers/gpu/drm/tiny/Makefile                      |    1 +
+ drivers/gpu/drm/tiny/bochs.c                       |    2 +-
+ drivers/gpu/drm/tiny/pixpaper.c                    | 1165 ++++++++++++++++++++
+ drivers/gpu/drm/ttm/ttm_bo.c                       |   15 +
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c      |   51 +-
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c      |  143 ++-
+ drivers/gpu/drm/vkms/vkms_formats.c                |  327 +++---
+ drivers/gpu/drm/vkms/vkms_formats.h                |    4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c                  |   13 +-
+ drivers/gpu/drm/xe/xe_dma_buf.c                    |   12 +
+ drivers/pci/vgaarb.c                               |   31 +-
+ include/drm/ttm/ttm_bo.h                           |    2 +
+ include/uapi/drm/amdxdna_accel.h                   |  111 ++
+ 46 files changed, 2419 insertions(+), 486 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-drm
+ create mode 100644 Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
+ create mode 100644 drivers/gpu/drm/tiny/pixpaper.c
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
