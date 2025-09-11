@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33CBB5318D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41490B531A7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 14:01:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C8210E0D6;
-	Thu, 11 Sep 2025 11:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A73310EADF;
+	Thu, 11 Sep 2025 12:01:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="C6hOtEBq";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Yqx60noG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CC5810E0D6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 11:58:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A514D10EADD
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 12:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757591879;
+ s=mail; t=1757592062;
  bh=pcaHstFzYxqGaTfJg3M7eqTaxmtEuy1ikYgs5QwdX2U=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=C6hOtEBq7MSKfaphh2bb0DqY6YAg3GQqAuP48zEjPoIzUVWKFYoNSICa5EB5Aa/Cv
- od5BczDgXxDE/OcflJ3/GYIXrMXv4zQcssG8we/Jj6EMlg0qPSrzz34J2LN/iofYGL
- +a0wqfCslHiwEvINiAJz30muYwX70TgxM1X32sl9jmI4JoRl/Boc0rmgt/yXTvpS7c
- PZTaGPzLHnerlEg7bUz8aID9p4PMgv2I95ydg/Ukbsfn9xEtg2+02CNDE6+5HilBXW
- oGLE1BklAFJsynfq6oOB/NIeisktDtjy7Ys342cxq9W+L/1k4nbpeR/dFmHUKnc+um
- RNczzzWu/j0Cw==
+ b=Yqx60noGx/UImP7ay1n8DUyqf7rs/kFaCgaJusroLlAFLqO8CcIh5N69BuKbit17T
+ qXAPnONlwaZsTE1+cUgoTX/9k3Vp5Q2gawVmavhj28OOfEC8iIoXBeprHLDOHZ/kvd
+ Glsn0+sNp1X/1VxpygOw7m0gWuhYVGou7jOa1DRHpuYC/gJ/wPrjSUNlDst4OEfa6F
+ 58qUWUqt9qxopEg0ZY53zPikXb2tF8FwkJyoxG9uyckcu3J+yAcjFXT+y0Ny+Y476U
+ qRwLDdgEwy89fgUKKQ0R7iWUyOqHD1VwD1BD+P7EfpiBgdAOfUETZBg7G8qdefdUxP
+ BYT3ExRbCJZmg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4EA6117E0100;
- Thu, 11 Sep 2025 13:57:59 +0200 (CEST)
-Date: Thu, 11 Sep 2025 13:57:46 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BCA3517E0C96;
+ Thu, 11 Sep 2025 14:01:01 +0200 (CEST)
+Date: Thu, 11 Sep 2025 14:00:40 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
@@ -45,7 +45,7 @@ Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost
  <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] drm/gpuvm: add deferred vm_bo cleanup
-Message-ID: <20250911135746.1c9cdd4b@fedora>
+Message-ID: <20250911140040.06885642@fedora>
 In-Reply-To: <aMAuGy6Rc55mkqCW@google.com>
 References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
  <20250909-vmbo-defer-v2-1-9835d7349089@google.com>
