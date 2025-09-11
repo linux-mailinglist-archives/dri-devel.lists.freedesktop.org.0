@@ -2,46 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D96B52D4E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7596CB52D59
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6385D10EA63;
-	Thu, 11 Sep 2025 09:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FF710EA65;
+	Thu, 11 Sep 2025 09:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 19A2110EA63
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:30:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26734153B;
- Thu, 11 Sep 2025 02:30:42 -0700 (PDT)
-Received: from [10.1.30.24] (e122027.cambridge.arm.com [10.1.30.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5C6B93F694;
- Thu, 11 Sep 2025 02:30:48 -0700 (PDT)
-Message-ID: <aec81419-a827-43bc-a157-75df059c2bd5@arm.com>
-Date: Thu, 11 Sep 2025 10:30:45 +0100
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAB810EA65
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:32:45 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4cMsfy2fm9z2CgjF;
+ Thu, 11 Sep 2025 17:28:10 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id 0CA4F1400CB;
+ Thu, 11 Sep 2025 17:32:43 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 11 Sep 2025 17:32:42 +0800
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 11 Sep 2025 17:32:42 +0800
+Message-ID: <8bbfd02f-138d-420c-b456-10d0c913f46e@huawei.com>
+Date: Thu, 11 Sep 2025 17:32:40 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] drm/panfrost: Introduce JM contexts for manging
- job resources
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250904001054.147465-1-adrian.larumbe@collabora.com>
- <20250904001054.147465-3-adrian.larumbe@collabora.com>
- <99a903b8-4b51-408d-b620-4166a11e3ad1@arm.com>
- <20250910175213.542fdb4b@fedora>
- <bba00626-f9aa-4525-8568-2616adac7563@arm.com>
- <20250910185058.5239ada4@fedora>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250910185058.5239ada4@fedora>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <fengsheng5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250813094238.3722345-1-shiyongbang@huawei.com>
+ <20250813094238.3722345-3-shiyongbang@huawei.com>
+ <aayi7zjrmru2ancexrqmcutams6ohde3nrkhqacixwp45dsk4v@7ig6hqzahdxf>
+ <1dd93bb7-4f67-4b9b-8b6a-d7c5c77cf807@huawei.com>
+ <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,100 +68,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/09/2025 17:50, Boris Brezillon wrote:
-> On Wed, 10 Sep 2025 16:56:43 +0100
-> Steven Price <steven.price@arm.com> wrote:
-> 
->> On 10/09/2025 16:52, Boris Brezillon wrote:
->>> On Wed, 10 Sep 2025 16:42:32 +0100
->>> Steven Price <steven.price@arm.com> wrote:
->>>   
->>>>> +int panfrost_jm_ctx_create(struct drm_file *file,
->>>>> +			   struct drm_panfrost_jm_ctx_create *args)
->>>>> +{
->>>>> +	struct panfrost_file_priv *priv = file->driver_priv;
->>>>> +	struct panfrost_device *pfdev = priv->pfdev;
->>>>> +	enum drm_sched_priority sched_prio;
->>>>> +	struct panfrost_jm_ctx *jm_ctx;
->>>>> +
->>>>> +	int ret;
->>>>> +
->>>>> +	jm_ctx = kzalloc(sizeof(*jm_ctx), GFP_KERNEL);
->>>>> +	if (!jm_ctx)
->>>>> +		return -ENOMEM;
->>>>> +
->>>>> +	kref_init(&jm_ctx->refcnt);
->>>>> +
->>>>> +	/* Same priority for all JS within a single context */
->>>>> +	jm_ctx->config = JS_CONFIG_THREAD_PRI(args->priority);
->>>>> +
->>>>> +	ret = jm_ctx_prio_to_drm_sched_prio(file, args->priority, &sched_prio);
->>>>> +	if (ret)
->>>>> +		goto err_put_jm_ctx;
->>>>> +
->>>>> +	for (u32 i = 0; i < NUM_JOB_SLOTS - 1; i++) {
->>>>> +		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
->>>>> +		struct panfrost_js_ctx *js_ctx = &jm_ctx->slots[i];
->>>>> +
->>>>> +		ret = drm_sched_entity_init(&js_ctx->sched_entity, sched_prio,
->>>>> +					    &sched, 1, NULL);
->>>>> +		if (ret)
->>>>> +			goto err_put_jm_ctx;
->>>>> +
->>>>> +		js_ctx->enabled = true;
->>>>> +	}
->>>>> +
->>>>> +	ret = xa_alloc(&priv->jm_ctxs, &args->handle, jm_ctx,
->>>>> +		       XA_LIMIT(0, MAX_JM_CTX_PER_FILE), GFP_KERNEL);
->>>>> +	if (ret)
->>>>> +		goto err_put_jm_ctx;    
+
+> On Thu, Aug 14, 2025 at 08:19:41PM +0800, Yongbang Shi wrote:
+>>> On Wed, Aug 13, 2025 at 05:42:29PM +0800, Yongbang Shi wrote:
+>>>> From: Baihan Li <libaihan@huawei.com>
 >>>>
->>>> On error here we just jump down and call panfrost_jm_ctx_put() which
->>>> will free jm_ctx but won't destroy any of the drm_sched_entities. There
->>>> seems to be something a bit off with the lifetime management here.
->>>>
->>>> Should panfrost_jm_ctx_release() be responsible for tearing down the
->>>> context, and panfrost_jm_ctx_destroy() be nothing more than dropping the
->>>> reference?  
->>>
->>> The idea was to kill/cancel any pending jobs as soon as userspace
->>> releases the context, like we were doing previously when the FD was
->>> closed. If we defer this ctx teardown to the release() function, we're
->>> basically waiting for all jobs to complete, which:
->>>
->>> 1. doesn't encourage userspace to have proper control over the contexts
->>>    lifetime
->>> 2. might use GPU/mem resources to execute jobs no one cares about
->>>    anymore  
->>
->> Ah, good point - yes killing the jobs in panfrost_jm_ctx_destroy() makes
->> sense. But we still need to ensure the clean-up happens in the other
->> paths ;)
->>
->> So panfrost_jm_ctx_destroy() should keep the killing jobs part, butthe
->> drm scheduler entity cleanup should be moved.
-> 
-> The thing is, we need to call drm_sched_entity_fini() if we want all
-> pending jobs that were not queued to the HW yet to be cancelled
-> (_fini() calls _flush() + _kill()). This has to happen before we cancel
-> the jobs at the JM level, otherwise drm_sched might pass us new jobs
-> while we're trying to get rid of the currently running ones. Once we've
-> done that, there's basically nothing left to defer, except the kfree().
+>>>> The debouncing when HPD pulled out still remains sometimes, 200ms still can
+>>>> not ensure helper_detect() is correct. So add a flag to hold the sink
+>>>> status, and changed detect_ctx() functions by using flag to check status.
+>>> THis doesn't explain what is wrong with
+>>> drm_connector_helper_detect_from_ddc(). In the end, this function
+>>> doesn't use the HPD pin.
+>> I'm sorry about the misunderstanding.
+>> The issue is that after plugging or unplugging the monitor, the driver takes no action sometimes
+>> even though an interrupt is triggered. The root cause is that drm_connector_helper_detect_from_ddc()
+>> still returns connected status when the monitor is unplugged.
+>> And I will fix the way in the end.
+> Can you perform a normal DP detection: read DPCD and check that there is
+> a DPRX attached and that it's either non-branch device or it has one or
+> more sinks?
 
-Ok, I guess that makes sense.
-
-In which case panfrost_jm_ctx_create() just needs fixing to fully tear
-down the context in the event the xa_alloc() fails. Although that makes
-me wonder whether the reference counting on the JM context really
-achieves anything. Are we ever expecting the context to live past the
-panfrost_jm_ctx_destroy() call?
-
-Indeed is it even possible to have any in-flight jobs after
-drm_sched_entity_destroy() has returned?
-
-Once all the sched entities have been destroyed there doesn't really
-seem to be anything left in struct panfrost_jm_ctx.
+I'm very sorry that I didn't get the last sentence's asking before.
+It's a non-branch device. We just connect a DP monitor.
 
 Thanks,
-Steve
+Baihan Li!
 
+>> Thanks,
+>> Baihan Li!
+>>
+>>
+>>>> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
+>>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>>>> ---
+>>>> ChangeLog:
+>>>> v3 -> v4:
+>>>>     - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
+>>>>     - remove if (dev->registered), suggested by Dmitry Baryshkov.
+>>>> ---
+>>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  1 +
+>>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 19 ++++++++++++-------
+>>>>    2 files changed, 13 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> index 665f5b166dfb..68867475508c 100644
+>>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> @@ -50,6 +50,7 @@ struct hibmc_dp {
+>>>>    	struct drm_dp_aux aux;
+>>>>    	struct hibmc_dp_cbar_cfg cfg;
+>>>>    	u32 irq_status;
+>>>> +	int hpd_status;
+>>>>    };
+>>>>    int hibmc_dp_hw_init(struct hibmc_dp *dp);
+>>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> index d06832e62e96..ded38530ecda 100644
+>>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> @@ -34,9 +34,12 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+>>>>    static int hibmc_dp_detect(struct drm_connector *connector,
+>>>>    			   struct drm_modeset_acquire_ctx *ctx, bool force)
+>>>>    {
+>>>> -	mdelay(200);
+>>>> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
+>>>> -	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
+>>>> +	if (dp->hpd_status)
+>>>> +		return connector_status_connected;
+>>>> +	else
+>>>> +		return connector_status_disconnected;
+>>>>    }
+>>>>    static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
+>>>> @@ -115,21 +118,23 @@ irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
+>>>>    {
+>>>>    	struct drm_device *dev = (struct drm_device *)arg;
+>>>>    	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+>>>> +	struct hibmc_dp *dp = &priv->dp;
+>>>>    	int idx;
+>>>>    	if (!drm_dev_enter(dev, &idx))
+>>>>    		return -ENODEV;
+>>>> -	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
+>>>> +	if (((dp->irq_status & DP_MASKED_SINK_HPD_PLUG_INT) && !dp->hpd_status)) {
+>>>>    		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
+>>>> -		hibmc_dp_hpd_cfg(&priv->dp);
+>>>> +		hibmc_dp_hpd_cfg(dp);
+>>>> +		dp->hpd_status = 1;
+>>>>    	} else {
+>>>>    		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
+>>>> -		hibmc_dp_reset_link(&priv->dp);
+>>>> +		hibmc_dp_reset_link(dp);
+>>>> +		dp->hpd_status = 0;
+>>>>    	}
+>>>> -	if (dev->registered)
+>>>> -		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
+>>>> +	drm_connector_helper_hpd_irq_event(&priv->dp.connector);
+>>>>    	drm_dev_exit(idx);
+>>>> -- 
+>>>> 2.33.0
+>>>>
