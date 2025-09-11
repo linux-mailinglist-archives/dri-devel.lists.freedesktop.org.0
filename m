@@ -2,113 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90290B53492
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86ABB534D5
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:07:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72CE510E039;
-	Thu, 11 Sep 2025 13:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B1510EB3D;
+	Thu, 11 Sep 2025 14:07:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mxfsiqAG";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="IUOCQuQN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9145D10E039
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:55:34 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BAVr5c008859
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:55:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=1h697ZqjUksFxfyM6peNMIk4
- XzUxy0n4+6cZZ9aWNEU=; b=mxfsiqAGCbvUpJn1iEeWllTEG2aN/UQtn654lTeo
- NOg2Uj5HFFSb7nfen/1OVYytAZtYdg0SurRW75nEuSI46DrPXcaXDE9K0VtTRYo4
- HIazx+aDz2u+yj/mtgp4ZE7U6NbwoDVXlm6x8OjVMyxp2SsZa1KnL+OQQkmls2L0
- nyt048Kl8ebLFSRSbpx7br8Sq7T5UJh5q5+QVAJHoJK5AMbr9630qXffUq0N/K5S
- asEfaUuJ6O9tN9Kjn2kh/YrSnTNky6Avpa1QygJMCPcgJweGSrRFRFBaAdFyYJCs
- eP86crFmU3ZCghAhyBOl/EYtlpKWQhCdAi6CuuB/fOJKYg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490aapr594-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:55:33 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b5f818eea9so16520391cf.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:55:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757598933; x=1758203733;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1h697ZqjUksFxfyM6peNMIk4XzUxy0n4+6cZZ9aWNEU=;
- b=LqcHFkgQjxgqXdDSS3gB+h0IAL7PoeKL2CqNcD/hYdwSv7LxLGALuWjcyRy6BVqrN+
- ZnnrYU+JsbpAzvGim0cdMr+NvauyrriMOK1T2nK97ZcoHD/wuVWUVDxtnnSq98axFndx
- b7ap7UqA8+6jWJYAcD1m4701j49KQ2JAgfimm7L5fZMlEIStmr0sUav05M6VEyRTb5wE
- lkbHE2cattl8T4ri9Jro/gOOdws+CxO/P8a0C9k4aruRbNx1bNdiFPBqBgGYtP5feYwW
- IaXeeqE24N93k8O2f3A0u8pbeiRQfKFMbqq/SN5hOFuMgvPMxQhNg2G+P7DTMxnJAqNa
- aqlA==
-X-Gm-Message-State: AOJu0Yz6vV/qKX4hhpRsUrTqCuveclvP9Dg9fbH5fq7j+XUx5WSle9T7
- 9fs4zaZIdG7fA0Cc0HMSEeOGKstNN8+u53sSQn2cSjcnVDUC9KeKUOQjA0zj43Kx1soJy44M6bR
- x8XfUOUK02t36jrdfGZ1hD9zCNW7kwiks0yWlOITlZIloYL/yWmHikBcP/vc3WmQzZsYF9fk=
-X-Gm-Gg: ASbGncshSFW+pPqlRocYvz+3m9CqlakHjSziOxnbtjBz1WbdosTB1v3LOrxxfcWrY7Z
- AbdGrny1f294h7j9jH0PN4iesZo1inJJErGmB16KDUaahhcjTabCGYtovK/0lpJdkx7xkb/yLZr
- A/88KjcqVNFhUfDJQuHx9LBk9ZH2fULYFuAe8Je3WcgXTWk18X+Thf7Tlkb9j4raih+MpfWZrVk
- KlgLV3DduAdHNgFxx96aQtLGdt2A2auhIsCom4uz0DIDiB+jzzHz5TboOdLOs8dJHsHNTj8Raoh
- 229DTnAmBIT7SkmOv5Gqk1y3TS2OJe0loT6+k4K8zqwGJMQw+iUKpDlTtJRILKIn25aiftQbvYp
- 3N2QFWoarUdEcK4dOlBc5dcsRyD/ZjkCP6LynOSJ4G++dyuVNhoui
-X-Received: by 2002:a05:622a:5508:b0:4b4:989a:a292 with SMTP id
- d75a77b69052e-4b5f83907dcmr204654311cf.26.1757598932665; 
- Thu, 11 Sep 2025 06:55:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLWx6sVdwKoPXZ0ANYTebAEU5SboCYIrzh0Jv/lJCCY9EdWIyJTQXb/FAO6vAZIrb2n6Lvhw==
-X-Received: by 2002:a05:622a:5508:b0:4b4:989a:a292 with SMTP id
- d75a77b69052e-4b5f83907dcmr204653821cf.26.1757598932109; 
- Thu, 11 Sep 2025 06:55:32 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-34f15a58316sm3285611fa.8.2025.09.11.06.55.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 06:55:31 -0700 (PDT)
-Date: Thu, 11 Sep 2025 16:55:29 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Marius Vlad <marius.vlad@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, wse@tuxedocomputers.com,
- andri@yngvason.is, sebastian.wick@redhat.com, mripard@kernel.org,
- daniel.stone@collabora.com, jani.nikula@linux.intel.com,
- tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com,
- christian.koenig@amd.com, derek.foreman@collabora.com
-Subject: Re: [PATCH 5/8] drm: Pass supported color formats straight onto
- drm_bridge
-Message-ID: <fekbw2ngxyg4mvkhlvkvegylcm4vm74y5rhhxeygiqxve7oqaj@sxvkyqjssdru>
-References: <20250911130739.4936-1-marius.vlad@collabora.com>
- <20250911130739.4936-6-marius.vlad@collabora.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF1C10EB3D
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:07:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757599634; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=S04N+GkCJ1MHG20sbm/3ruuj5bbE1dYDgAvuScXITqVIqi/I9qoDW1Dlv3RGpnxRWJCx3kQ1DLtNFuxOKf8GfCvrrH97AZWdTA7IDIZhJ95aYLN/SNEY38yjINkOl6bF7SKJmX0RIBDG/BJhZmjbinFvoYC2Y0OIlOfRhAUclCs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1757599634;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=maQDhni1KuOzHozNIUlJWn4AVUDYhTZ9mYfJ6K46ZKM=; 
+ b=Y30vzkFsSITll5YcHoq3PyH8Ak6HFRx7aqR4VLPkF6tD6C45IqzB8TB6NipUWXtb8lDJZDCVA2gsbuhpGBBVDiX1pSeFtdODUJu5b4asq7Yy57SlwceOxwdfyMbBO43AK5yR4kIDaSaOh0QY8H8Vb2EKBPYC+YgjhXP3nX9Cbck=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757599634; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=maQDhni1KuOzHozNIUlJWn4AVUDYhTZ9mYfJ6K46ZKM=;
+ b=IUOCQuQN5S2n93moiJDqHSih0iXU2QiWgtb8F9UPba90HEd6E6suqy+hrqbGKjJ1
+ xfElXUZm6JHWyCoIn8a7F2TlDDIFQswTQVPwClHEuKNfz6gYAbr4n7HQajpkXACjbQa
+ J4KSM/DlMsc1g6etOjW6w1nuDXODoUO3dWW0ynA8=
+Received: by mx.zohomail.com with SMTPS id 1757599632046725.3637611709158;
+ Thu, 11 Sep 2025 07:07:12 -0700 (PDT)
+Date: Thu, 11 Sep 2025 15:07:07 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Rob Herring <robh@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v2 4/4] drm/panfrost: Display list of device JM contexts
+ over debugfs
+Message-ID: <ocdqnyqu2xgkc4fcnjbpb4gzcoaqlzp532id22p6lqsyyewaz5@hsa7bnwgirri>
+References: <20250904001054.147465-1-adrian.larumbe@collabora.com>
+ <20250904001054.147465-5-adrian.larumbe@collabora.com>
+ <5a6d3ffe-1edd-4082-ad7a-85256ececa86@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911130739.4936-6-marius.vlad@collabora.com>
-X-Authority-Analysis: v=2.4 cv=eMETjGp1 c=1 sm=1 tr=0 ts=68c2d4d5 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=QX4gbG5DAAAA:8 a=OJ2ymaVjJATJ6jrywfoA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: RYE1zxkfV3pdnySKjry3zjP05nJHk8Tq
-X-Proofpoint-ORIG-GUID: RYE1zxkfV3pdnySKjry3zjP05nJHk8Tq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAwMCBTYWx0ZWRfX0FNWa8eljzff
- vYZ7XtbS+TxbWeJ1oWRajD1YIcEkkYCvKzdMRx+G33ZQoOxNVECXQLPSLe4MgQRni8bkhw7DbS4
- DHw5H52R/KE5UoN1xKEVNc/wzD3vfAI12WvfZ4IsjCUDfKPvfIn8Di3vBFdkm0uJ8CR2OvjcOtw
- jtCtMmRWu0xYVWkthgVi1qO1DxgfGCgMl21qkR90QGyKMJwODHL1Z9IWv8Y5Fjiq71QaiYt5T0t
- GUkRJ2hVnzNaUEn6hVE1Fmg3p/F/eSdaQ8NCjKQIF899D//j8RdnuEqQM2K2UOa+MGrqAxqGoRW
- cfu4j/J8JJ7rBYf5ppyoLuZM1fdrEliMNMNeNhEvL0DBhH+pV8q/j/Xm2pCZ3yx9hiN4DW4Kt1D
- ow+ZZs63
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-11_01,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 adultscore=0
- bulkscore=0 phishscore=0 spamscore=0 suspectscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509060000
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a6d3ffe-1edd-4082-ad7a-85256ececa86@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,89 +73,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 04:07:36PM +0300, Marius Vlad wrote:
-> Initialize drm_brige with advertised colors formats straight on.
-> 
-> Drivers that make use of DRM helpers would check the
-> drm_brige::supported_formats bit-field list and refuse to use the color
-> format passed. Drivers that make use of drm_bridge can pass the
-> supported color formats in the bridge as well as supported color format
-> for the DRM color format property.
+On 10.09.2025 16:42, Steven Price wrote:
+> On 04/09/2025 01:08, Adrián Larumbe wrote:
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> >
+> > For DebugFS builds, create a filesystem knob that, for every single open
+> > file of the Panfrost DRM device, shows its command name information and
+> > PID (when applicable), and all of its existing JM contexts.
+> >
+> > For every context, show its priority and job config.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/panfrost_drv.c | 97 +++++++++++++++++++++++++
+> >  1 file changed, 97 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > index 02f704ec4961..b3d14b887da4 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> > @@ -712,6 +712,48 @@ static int panthor_gems_show(struct seq_file *m, void *data)
+> >  	return 0;
+> >  }
+> >
+> > +static void show_panfrost_jm_ctx(struct panfrost_jm_ctx *jm_ctx, u32 handle,
+> > +				 struct seq_file *m)
+> > +{
+> > +	struct drm_device *ddev = ((struct drm_info_node *)m->private)->minor->dev;
+> > +	const char *prio = NULL;
+> > +
+> > +	static const char * const prios[] = {
+> > +		[DRM_SCHED_PRIORITY_HIGH] = "HIGH",
+> > +		[DRM_SCHED_PRIORITY_NORMAL] = "NORMAL",
+> > +		[DRM_SCHED_PRIORITY_LOW] = "LOW",
+> > +	};
+> > +
+> > +	if (jm_ctx->slots[0].sched_entity.priority !=
+> > +	    jm_ctx->slots[1].sched_entity.priority)
+> > +		drm_warn(ddev, "Slot priorities should be the same in a single context");
+> > +
+> > +	if (jm_ctx->slots[0].sched_entity.priority < ARRAY_SIZE(prios))
+> > +		prio = prios[jm_ctx->slots[0].sched_entity.priority];
+> > +
+> > +	seq_printf(m, " JM context %u: priority %s config %x\n",
+> > +		   handle, prio ? prio : "UNKNOWN", jm_ctx->config);
+>
+> NIT: If you assign prio to "UNKNOWN" to begin with (rather than NULL)
+> you can avoid this ?: operator.
 
-Your commit message doesn't match patch contents. You are pushing format
-selection to the instance creating drm_bridge_connector, which
-frequently has no idea about the other end of the chain - the bridges
-which actually send pixel data to the monitor.
+Acked.
 
-We have drm_bridge::ycbcr_420_allowed with clearly defined meaning. I
-think it would be wise to start from that and to describe why such a
-field doesn't fulfill your needs.
+> > +}
+> > +
+> > +static int show_file_jm_ctxs(struct panfrost_file_priv *pfile,
+> > +			     struct seq_file *m)
+> > +{
+> > +	struct panfrost_jm_ctx *jm_ctx;
+> > +	unsigned long i;
+> > +
+> > +	xa_lock(&pfile->jm_ctxs);
+> > +	xa_for_each(&pfile->jm_ctxs, i, jm_ctx) {
+> > +		jm_ctx = panfrost_jm_ctx_get(jm_ctx);
+> > +		xa_unlock(&pfile->jm_ctxs);
+> > +		show_panfrost_jm_ctx(jm_ctx, i, m);
+> > +		panfrost_jm_ctx_put(jm_ctx);
+> > +		xa_lock(&pfile->jm_ctxs);
+> > +	}
+> > +	xa_unlock(&pfile->jm_ctxs);
+>
+> Is it so bad if we just held the xa lock for the whole loop? It just
+> seems unnecessarily complex.
 
-> 
-> This includes a fallback to RGB when Auto has been selected.
-> 
-> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 2 +-
->  drivers/gpu/drm/bridge/ite-it6263.c               | 2 +-
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c             | 3 ++-
->  drivers/gpu/drm/display/drm_bridge_connector.c    | 4 ++--
->  drivers/gpu/drm/imx/dcss/dcss-kms.c               | 2 +-
->  drivers/gpu/drm/mediatek/mtk_dpi.c                | 2 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c                | 2 +-
->  drivers/gpu/drm/meson/meson_encoder_cvbs.c        | 3 ++-
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c        | 4 ++--
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          | 2 +-
->  drivers/gpu/drm/msm/dp/dp_drm.c                   | 3 ++-
->  drivers/gpu/drm/msm/dsi/dsi_manager.c             | 2 +-
->  drivers/gpu/drm/msm/hdmi/hdmi.c                   | 2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 2 +-
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 2 +-
->  drivers/gpu/drm/rockchip/cdn-dp-core.c            | 2 +-
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 2 +-
->  drivers/gpu/drm/rockchip/rockchip_lvds.c          | 2 +-
->  drivers/gpu/drm/tegra/hdmi.c                      | 2 +-
->  drivers/gpu/drm/tegra/rgb.c                       | 2 +-
->  drivers/gpu/drm/tidss/tidss_encoder.c             | 2 +-
->  include/drm/drm_bridge_connector.h                | 3 ++-
->  22 files changed, 28 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 9a461ab2f32f..8d5299849be6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -368,7 +368,8 @@ struct drm_connector *msm_dp_drm_connector_init(struct msm_dp *msm_dp_display,
->  {
->  	struct drm_connector *connector = NULL;
->  
-> -	connector = drm_bridge_connector_init(msm_dp_display->drm_dev, encoder);
-> +	connector = drm_bridge_connector_init(msm_dp_display->drm_dev, encoder,
-> +					      BIT(HDMI_COLORSPACE_RGB));
+xa_unlock() is defined as a spinlock which are fast. I'm often of the view that the
+critical region should be as narrow as possible, especially when debug code is clashing
+with the normal operation of the driver.
 
-Just to point out: this is wrong.
+> Thanks,
+> Steve
+>
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static struct drm_info_list panthor_debugfs_list[] = {
+> >  	{"gems", panthor_gems_show, 0, NULL},
+> >  };
+> > @@ -725,9 +767,64 @@ static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> >  	return 0;
+> >  }
+> >
+> > +static int show_each_file(struct seq_file *m, void *arg)
+> > +{
+> > +	struct drm_info_node *node = (struct drm_info_node *)m->private;
+> > +	struct drm_device *ddev = node->minor->dev;
+> > +	int (*show)(struct panfrost_file_priv *, struct seq_file *) =
+> > +		node->info_ent->data;
+> > +	struct drm_file *file;
+> > +	int ret;
+> > +
+> > +	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	list_for_each_entry(file, &ddev->filelist, lhead) {
+> > +		struct task_struct *task;
+> > +		struct panfrost_file_priv *pfile = file->driver_priv;
+> > +		struct pid *pid;
+> > +
+> > +		/*
+> > +		 * Although we have a valid reference on file->pid, that does
+> > +		 * not guarantee that the task_struct who called get_pid() is
+> > +		 * still alive (e.g. get_pid(current) => fork() => exit()).
+> > +		 * Therefore, we need to protect this ->comm access using RCU.
+> > +		 */
+> > +		rcu_read_lock();
+> > +		pid = rcu_dereference(file->pid);
+> > +		task = pid_task(pid, PIDTYPE_TGID);
+> > +		seq_printf(m, "client_id %8llu pid %8d command %s:\n",
+> > +			   file->client_id, pid_nr(pid),
+> > +			   task ? task->comm : "<unknown>");
+> > +		rcu_read_unlock();
+> > +
+> > +		ret = show(pfile, m);
+> > +		if (ret < 0)
+> > +			break;
+> > +
+> > +		seq_puts(m, "\n");
+> > +	}
+> > +
+> > +	mutex_unlock(&ddev->filelist_mutex);
+> > +	return ret;
+> > +}
+> > +
+> > +static struct drm_info_list panfrost_sched_debugfs_list[] = {
+> > +	{ "sched_ctxs", show_each_file, 0, show_file_jm_ctxs },
+> > +};
+> > +
+> > +static void panfrost_sched_debugfs_init(struct drm_minor *minor)
+> > +{
+> > +	drm_debugfs_create_files(panfrost_sched_debugfs_list,
+> > +				 ARRAY_SIZE(panfrost_sched_debugfs_list),
+> > +				 minor->debugfs_root, minor);
+> > +}
+> > +
+> >  static void panfrost_debugfs_init(struct drm_minor *minor)
+> >  {
+> >  	panthor_gems_debugfs_init(minor);
+> > +	panfrost_sched_debugfs_init(minor);
+> >  }
+> >  #endif
+> >
 
->  	if (IS_ERR(connector))
->  		return connector;
->  
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index ca400924d4ee..4b87f4f78d38 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -479,7 +479,7 @@ int msm_dsi_manager_connector_init(struct msm_dsi *msm_dsi,
->  	if (ret)
->  		return ret;
->  
-> -	connector = drm_bridge_connector_init(dev, encoder);
-> +	connector = drm_bridge_connector_init(dev, encoder, BIT(HDMI_COLORSPACE_RGB));
-
-And this totally depends on the bridge chain. If we have a DSI-to-HDMI
-bridge somewhere in the middle, we are able to output YUV data to the
-HDMI connector.
-
->  	if (IS_ERR(connector)) {
->  		DRM_ERROR("Unable to create bridge connector\n");
->  		return PTR_ERR(connector);
-
--- 
-With best wishes
-Dmitry
+Adrian Larumbe
