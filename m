@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7892B53EE2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 01:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D83EB53EE3
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 01:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 060F110E05B;
-	Thu, 11 Sep 2025 23:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1F410E17B;
+	Thu, 11 Sep 2025 23:02:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DY1vZauC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ck7IcsPK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 968CA10E05B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:02:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB3710E05B
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:02:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757631736;
+ s=mimecast20190719; t=1757631737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=jX539gy4ga1WpoOhYjw4dFCHXo3YsCbMfzCE1qBcZAA=;
- b=DY1vZauCK3oHYvq5xq/zVVwGznupeWCKllpRVo7rOp3RE+Q4AmkUjk8csQJeHX0HTbx+Jg
- lCQZmsQgYxmMSuhv9OQ2uanCJUUF9j/RMSUxP5JrRb+COhWQonU/q3JG9RFa2r8e07ZJaZ
- cQgWpfRI/L81BN1J0FVkrGMRv+2E6zg=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xIN0/MhzULHsO+NOutgb84cZx03vcIUbF7Dq4BB0wAc=;
+ b=Ck7IcsPKcQagd/xwKVT/ThWE/BDrQTpLH1PJ0+8QTUSkC/b0fix5f17+Q0km6yIPbmz722
+ RvwTC9bV6nFfVMEdqwSPiS7WsJfmIN+zxGTRYoN/mWStjh5UDA1p2V4XQHFOlaRuJKFjBU
+ qHo194EknU11tvTxhV6zxJST2mL6nQw=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-226-1Fv0UuF0PEavtQJteIAALQ-1; Thu,
- 11 Sep 2025 19:02:11 -0400
-X-MC-Unique: 1Fv0UuF0PEavtQJteIAALQ-1
-X-Mimecast-MFC-AGG-ID: 1Fv0UuF0PEavtQJteIAALQ_1757631728
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-260-fb-PDMdBOBWUvQhtt4BQgQ-1; Thu,
+ 11 Sep 2025 19:02:16 -0400
+X-MC-Unique: fb-PDMdBOBWUvQhtt4BQgQ-1
+X-Mimecast-MFC-AGG-ID: fb-PDMdBOBWUvQhtt4BQgQ_1757631733
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 8D33C1955D86; Thu, 11 Sep 2025 23:02:08 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 25A5E180057B; Thu, 11 Sep 2025 23:02:13 +0000 (UTC)
 Received: from chopper.redhat.com (unknown [10.22.64.100])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 9DE721944CCA; Thu, 11 Sep 2025 23:02:04 +0000 (UTC)
+ id 1493219432AE; Thu, 11 Sep 2025 23:02:08 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
  =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v4 0/3] Batch 2 of rust gem shmem work
-Date: Thu, 11 Sep 2025 18:57:37 -0400
-Message-ID: <20250911230147.650077-1-lyude@redhat.com>
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH v4 1/3] drm/gem/shmem: Extract drm_gem_shmem_init() from
+ drm_gem_shmem_create()
+Date: Thu, 11 Sep 2025 18:57:38 -0400
+Message-ID: <20250911230147.650077-2-lyude@redhat.com>
+In-Reply-To: <20250911230147.650077-1-lyude@redhat.com>
+References: <20250911230147.650077-1-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
@@ -77,33 +81,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we're getting close to reaching the finish line for upstreaming
-the rust gem shmem bindings, we've got another batch of patches that
-have been reviewed and can be safely pushed to drm-rust-next
-independently of the rest of the series.
+With gem objects in rust, the most ideal way for us to be able to handle
+gem shmem object creation is to be able to handle the memory allocation of
+a gem object ourselves - and then have the DRM gem shmem helpers initialize
+the object we've allocated afterwards. So, let's spit out
+drm_gem_shmem_init() from drm_gem_shmem_create() to allow for doing this.
 
-These patches of course apply against the drm-rust-next branch, and are
-part of the gem shmem series, the latest version of which can be found
-here:
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 75 +++++++++++++++++---------
+ include/drm/drm_gem_shmem_helper.h     |  1 +
+ 2 files changed, 51 insertions(+), 25 deletions(-)
 
-https://patchwork.freedesktop.org/series/146465/
-
-Lyude Paul (3):
-  drm/gem/shmem: Extract drm_gem_shmem_init() from
-    drm_gem_shmem_create()
-  drm/gem/shmem: Extract drm_gem_shmem_release() from
-    drm_gem_shmem_free()
-  rust: Add dma_buf stub bindings
-
- drivers/gpu/drm/drm_gem_shmem_helper.c | 98 ++++++++++++++++++--------
- include/drm/drm_gem_shmem_helper.h     |  2 +
- rust/kernel/dma_buf.rs                 | 40 +++++++++++
- rust/kernel/lib.rs                     |  1 +
- 4 files changed, 111 insertions(+), 30 deletions(-)
- create mode 100644 rust/kernel/dma_buf.rs
-
-
-base-commit: cf4fd52e323604ccfa8390917593e1fb965653ee
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 5d1349c34afd3..b20a7b75c7228 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -48,28 +48,12 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ };
+ 
+-static struct drm_gem_shmem_object *
+-__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+-		       struct vfsmount *gemfs)
++static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem,
++				size_t size, bool private, struct vfsmount *gemfs)
+ {
+-	struct drm_gem_shmem_object *shmem;
+-	struct drm_gem_object *obj;
++	struct drm_gem_object *obj = &shmem->base;
+ 	int ret = 0;
+ 
+-	size = PAGE_ALIGN(size);
+-
+-	if (dev->driver->gem_create_object) {
+-		obj = dev->driver->gem_create_object(dev, size);
+-		if (IS_ERR(obj))
+-			return ERR_CAST(obj);
+-		shmem = to_drm_gem_shmem_obj(obj);
+-	} else {
+-		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
+-		if (!shmem)
+-			return ERR_PTR(-ENOMEM);
+-		obj = &shmem->base;
+-	}
+-
+ 	if (!obj->funcs)
+ 		obj->funcs = &drm_gem_shmem_funcs;
+ 
+@@ -81,7 +65,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+ 	}
+ 	if (ret) {
+ 		drm_gem_private_object_fini(obj);
+-		goto err_free;
++		return ret;
+ 	}
+ 
+ 	ret = drm_gem_create_mmap_offset(obj);
+@@ -102,14 +86,55 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+ 				     __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+ 	}
+ 
+-	return shmem;
+-
++	return 0;
+ err_release:
+ 	drm_gem_object_release(obj);
+-err_free:
+-	kfree(obj);
++	return ret;
++}
+ 
+-	return ERR_PTR(ret);
++/**
++ * drm_gem_shmem_init - Initialize an allocated object.
++ * @dev: DRM device
++ * @obj: The allocated shmem GEM object.
++ *
++ * Returns:
++ * 0 on success, or a negative error code on failure.
++ */
++int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size)
++{
++	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
++
++static struct drm_gem_shmem_object *
++__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
++		       struct vfsmount *gemfs)
++{
++	struct drm_gem_shmem_object *shmem;
++	struct drm_gem_object *obj;
++	int ret = 0;
++
++	size = PAGE_ALIGN(size);
++
++	if (dev->driver->gem_create_object) {
++		obj = dev->driver->gem_create_object(dev, size);
++		if (IS_ERR(obj))
++			return ERR_CAST(obj);
++		shmem = to_drm_gem_shmem_obj(obj);
++	} else {
++		shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
++		if (!shmem)
++			return ERR_PTR(-ENOMEM);
++		obj = &shmem->base;
++	}
++
++	ret = __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
++	if (ret) {
++		kfree(obj);
++		return ERR_PTR(ret);
++	}
++
++	return shmem;
+ }
+ /**
+  * drm_gem_shmem_create - Allocate an object with the given size
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 92f5db84b9c22..235dc33127b9a 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -107,6 +107,7 @@ struct drm_gem_shmem_object {
+ #define to_drm_gem_shmem_obj(obj) \
+ 	container_of(obj, struct drm_gem_shmem_object, base)
+ 
++int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size);
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+ struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
+ 							   size_t size,
 -- 
 2.51.0
 
