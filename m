@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E13B52F49
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701F1B52F51
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 13:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E871010EA7E;
-	Thu, 11 Sep 2025 11:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D837510EA92;
+	Thu, 11 Sep 2025 11:08:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="JKT2UrZ3";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LU9AE6GB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C3510EA7E
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 11:08:07 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58BB7aZU789617;
- Thu, 11 Sep 2025 06:07:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757588856;
- bh=uoECzCi0KYXpbNKQqTVn4uD0rKnPiWLWGwsfZoKZLgo=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=JKT2UrZ3nRoWRq1DMkqvHMvFY72wnmagKzfHFUAH5s98k/yX/Gw9Baju6bVzExUWX
- 7G94P2Xmo2CVZGg5c3gQJHsC4OQO5s2Eu4cH5JNHAyJIHE0MMeb50367u+hfmXnKk7
- 7rySWO63JhYh2DS2OZv9N5CR8yp7Fz0CbMC4X9oQ=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58BB7a6r1112666
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Thu, 11 Sep 2025 06:07:36 -0500
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 11
- Sep 2025 06:07:36 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 11 Sep 2025 06:07:36 -0500
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58BB7FP62031347;
- Thu, 11 Sep 2025 06:07:31 -0500
-From: Swamil Jain <s-jain1@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <aradhya.bhatia@linux.dev>
-CC: <h-shenoy@ti.com>, <devarsht@ti.com>, <vigneshr@ti.com>, <praneeth@ti.com>,
- <u-kumar1@ti.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <s-jain1@ti.com>
-Subject: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi bridge
-Date: Thu, 11 Sep 2025 16:37:15 +0530
-Message-ID: <20250911110715.2873596-4-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250911110715.2873596-1-s-jain1@ti.com>
-References: <20250911110715.2873596-1-s-jain1@ti.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE35710EA92
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 11:08:45 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-45dcfc6558cso4574675e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 04:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1757588924; x=1758193724;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=dLDaDteT3053I0ySW3rWWywH2rFVkM2hJVgvFeuu/Nc=;
+ b=LU9AE6GBFPJxv/HycpSxgTBg/T05wzvzoZuOUcwH4GoYWUl4Nf68/GQSxpf+P9WgtO
+ Ius6aVE/WYiOrrOTBgZuSQ11GP/qYHkyx4PAIBrXvr0rNHdPX6SI5pxUEzR73NiwWmw6
+ C81+DDUmCbduS0gnRo5t7p0UDlO9l+iIu1UwNXuw0MXG9LGwEv04QxwSUam++jTWu8iP
+ 2iG2b/8Fos2o2ZXwoSqqSFcNJ42rbdKDcFN40oBTzUf4HQeGkK8NP34qFp79kjJSoLcw
+ 55egDn8uDOhquktJ/BsnjonLQel0BiG6L4ju/ymqyrJ1ppRnP7ZcJYg7Cq3oq041mUNI
+ xd2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757588924; x=1758193724;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dLDaDteT3053I0ySW3rWWywH2rFVkM2hJVgvFeuu/Nc=;
+ b=PvBdBFXx+Py9ZCcmscjGxHfx/9rVaY8OM9cjh28/Jd1zY9ksg/L+29fh5k2Pz+whUR
+ 8VCWJLZ/IBS3SDzVj2P7asXu4y45RasS93UDmPGcZG12E64xxllgSpAATyAsQ4quQwON
+ gSOfDO0Bi/6XRvyxuwhzLRNMeP1e5awV3mYwn2H7gLC5PIYnPDvAw363yQsR7u0702Se
+ MGahY7ZpA/PPEZ9Ou+iz4spehzA3wHAJd6ZWGdeFBZof+8ewuO27klN+VYLqWNy3wbOw
+ hCDRpPlGMuPkHCGo5rdCqYRExNq41fAryJInrAU+JE1iaCx8VM5ADaiR+jm+RbbHxZeg
+ Oiaw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4Hs8qgOOw3iB5NEHdLqCY1m4/yisoaosT8SanIujoN1jhml93M5LsLPL4rtsXsZjyc9RwEezgZU0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFB8Pz4mpK0pEED2PsgLF4a6p1cnSP5aHtdduwi1UPBcddWEnI
+ jRk0qFHxd1QN3fgQM6cJpiVLNAi7LF3xk9zs2V95BFyOA9iD5N9nn4YHQyZW21NZd44xntPd1mt
+ ScQi8pJlP/4FkB5NqBQ==
+X-Google-Smtp-Source: AGHT+IEk0csKfI2/BjWCy90xuPAu96V6W9xQvYBJ88BFoQPZm6+Zdl4YWe3zrLaDacwF6fcF/YNlvypSnsIR9nU=
+X-Received: from wrbee10.prod.google.com
+ ([2002:a05:6000:210a:b0:3b8:dd13:ef41])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:178e:b0:3dc:33aa:a2b8 with SMTP id
+ ffacd0b85a97d-3e642da2f85mr15310927f8f.19.1757588924209; 
+ Thu, 11 Sep 2025 04:08:44 -0700 (PDT)
+Date: Thu, 11 Sep 2025 11:08:43 +0000
+In-Reply-To: <20250911121537.523195c5@fedora>
+Mime-Version: 1.0
+References: <20250909-vmbo-defer-v2-0-9835d7349089@google.com>
+ <20250909-vmbo-defer-v2-2-9835d7349089@google.com>
+ <20250911121537.523195c5@fedora>
+Message-ID: <aMKtuwdk2HsejS-Q@google.com>
+Subject: Re: [PATCH v2 2/2] panthor: use drm_gpuva_unlink_defer()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
+ "Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jayesh Choudhary <j-choudhary@ti.com>
+On Thu, Sep 11, 2025 at 12:15:37PM +0200, Boris Brezillon wrote:
+> On Tue, 09 Sep 2025 13:36:23 +0000
+> Alice Ryhl <aliceryhl@google.com> wrote:
+> 
+> >  static void panthor_vma_init(struct panthor_vma *vma, u32 flags)
+> > @@ -2084,12 +2010,12 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	/* Ref owned by the mapping now, clear the obj field so we don't release the
+> > -	 * pinning/obj ref behind GPUVA's back.
+> > -	 */
+> >  	drm_gpuva_map(&vm->base, &vma->base, &op->map);
+> >  	panthor_vma_link(vm, vma, op_ctx->map.vm_bo);
+> > +
+> > +	drm_gpuvm_bo_put_deferred(op_ctx->map.vm_bo);
+> >  	op_ctx->map.vm_bo = NULL;
+> 
+> Hm, I don't see why we need a drm_gpuvm_bo_put_deferred() here. The
+> original idea was to delegate the vm_bo ownership to the VA being added
+> to the VM tree, so if we put it here, we have a UAF situation, don't we?
 
-Since OLDI consumes DSS VP clock directly as serial clock, mode_valid()
-check cannot be performed in tidss driver which should be checked
-in OLDI driver.
+The vm_bo refcount goes like this:
 
-Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
-Tested-by: Michael Walle <mwalle@kernel.org>
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
----
- drivers/gpu/drm/tidss/tidss_oldi.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+incr vm_bo_obtain()
+incr vma_link()
+decr vm_bo_put()
 
-diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-index 7ecbb2c3d0a2..ada691839ef3 100644
---- a/drivers/gpu/drm/tidss/tidss_oldi.c
-+++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-@@ -309,6 +309,26 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
-+static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
-+{
-+	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-+	struct drm_display_mode *adjusted_mode;
-+	unsigned long round_clock;
-+
-+	adjusted_mode = &crtc_state->adjusted_mode;
-+	round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock * 7 * 1000);
-+	/*
-+	 * To keep the check consistent with dispc_vp_set_clk_rate(),
-+	 * we use the same 5% check here.
-+	 */
-+	if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.attach	= tidss_oldi_bridge_attach,
- 	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
-@@ -317,6 +337,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_check = tidss_oldi_atomic_check,
- };
- 
- static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
+There is no decrement in panthor_vm_cleanup_op_ctx() due to this line:
+
+	op_ctx->map.vm_bo = NULL
+
+So when everything is done, it is linked once and the refcount is
+incremented by one, which is correct.
+
+Alice
