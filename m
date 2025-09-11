@@ -2,91 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DBCB5383D
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B72B53899
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 18:03:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D3110E0DE;
-	Thu, 11 Sep 2025 15:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B57310E101;
+	Thu, 11 Sep 2025 16:03:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="v2IwKW5H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CtPosWMR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F2C10E0DE
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:52:41 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45dd9d72f61so103265e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 08:52:41 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4F610E101
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 16:03:40 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-45de287cc11so11704305e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1757605960; x=1758210760;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1757606619; x=1758211419; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=foMaJCpT5aQB0DVDGayrfvczYmTKtjYQaxnfqBcxeQk=;
- b=v2IwKW5H3VC/m9cicmt+/oywjDOEyp6I768zJZpbNzNuZOOq25KdKxLda1tHp38D4l
- F7sDLnquTmsVt7fPMj5OcA+Im+ZgyaE6lVxv61A+Z0wXtkPgIL2Ii0tLx7m/XOnb8J+O
- sY9Gg549tfc2h7b5ueVhx4SuDYKnNE2mZuTfHjq5QuEa0tiF6kgza9LAXPeXoqYO9K88
- 5+LnfbvehPTR8Uuo3sIJO/glZ3xqibjvrmelu8kOUg5OC6qXkcz0pCBJSP/Id5qmsfFE
- FXiftldUP69/DUqzICdHR0Qkq3xJ7n+D2KgSwM+5M7pQUJyYkN0TdFe0GgPfNPHZBYda
- Tw3g==
+ bh=kV+vM5AtMDqiziiosp5lKYMmFySjFk/a9glOkvxYm9c=;
+ b=CtPosWMRtK4RorIAAVuYACfxK22p4SbI0BX442SKpO9Rlcy24SYcN4FbTbfVNdQf5C
+ khF+Yu7GJhiEJtliYtQEvM+ZOW5M5UsGFs66h++eqFIihkd8kt6zwaZdpUZwNZB2bO3N
+ NZzC8Jq0uus3UuYZIIZW3y6XEtEVj5PDZ9ITPNp0zCOFMm71DCTH77uPGuCF4PCAGDOS
+ 2+17AIeuFWwr7w1fBujQCijqyuPl9F+5M4ucZ788kg34WdONvzD6yilZsIrtsYsXZhuF
+ u95/O4+NjIM/S3ptOGL7epSn4b+6eRXFExf5/zd3/DU5a2WQgO4+CCYI3f77l6ODt0sW
+ E4yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757605960; x=1758210760;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1757606619; x=1758211419;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=foMaJCpT5aQB0DVDGayrfvczYmTKtjYQaxnfqBcxeQk=;
- b=DbCRxurhA/3MSTZkxECUL7BuS7Ed95lqnBVuIybkqHZUTxuZzN5XJ1cTKp+bgrf5XD
- BMZl2wv45+9xrKMI77azmVVMSED7MwCj+dklqfKgD4oXpAmc4iU6QtuNUPpKLfub+Bi5
- hDPMV5kaVXsQy2Ro1KmgOQSGV/Ygj4fYG7dFoi1riAjr4GQIR3jYSCYteRL+sPOWdhpx
- c+me/YH2CWFVOhvXp7yC4rzNPyLfOPhgLQrxu3DTrqOjYf5m3oTbjYPE/pfn8ImEcFqA
- sNs+Sk2POrC1xs/X6/ClzaHnczc3FmMMkLsAIxPwnPbYSKgqJARZEiqXSKyhHFsPeRYv
- y9LA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnnl6UGKCegyvvPrEibl3GnLlHujKosmjlqBZKQTKIwaJ5XCs6IATgbNLhHcez54RHFQ0i+dmFTfY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5SOiTjYKIbiguBaOlelHLMRWl3fatvgrpIsihjO60GbYGslvK
- MgX+lr8SnaskUP+cukbq+l7v1W/GI6+ndQfPDUQ+Ro56nH9gWCsqR6u+iiVUQqlPgpxQ7e/ZaA0
- DvU7oNmXMLrxR+6zVLl+uR0qinsnXPTO9MxeSFBnV
-X-Gm-Gg: ASbGncuZGGdpImrrVI5LoGEuPGE7OFXEGEAuoHrDe99QTYyO13hsK7O/CxMMpDZmPQP
- K8wG9O4Nqf6PXUdLJw6Gb42fDx92ai5x2T7wG8CdMIkDFI8M6hVB2YZRKDeUB4vOzvA0KUIQOJK
- o/Tar38GaVcUgZR2tB5AX92hjh5Skc0jI0eIEibb+u6OwzcOzT8EbHwY9EWZrVRWnFrMyxRMbUQ
- qwSHHV0Qeh9niOB2e2MRLBkJz3OlyRmzh27iGURx2Y=
-X-Google-Smtp-Source: AGHT+IFPtXGS3xfleXOqxUh4NB8MIkaUyVVSq3pObyoX2WKiKcEimPgaW/wvhaqmwPl3cn8wFgGAwaPg27+INgq99jg=
-X-Received: by 2002:a05:600c:4193:b0:45c:b621:9199 with SMTP id
- 5b1f17b1804b1-45df821ead8mr2846075e9.7.1757605959182; Thu, 11 Sep 2025
- 08:52:39 -0700 (PDT)
+ bh=kV+vM5AtMDqiziiosp5lKYMmFySjFk/a9glOkvxYm9c=;
+ b=PlqbG/fRXJ/0q8LmHq8J1xJXVQI5/v/1CoqAIvLU39iMr+V9TopQeT0zRPyiFjkN53
+ OUsDf8V87J+KJwDEPboPtzi6/kQ+7lXRIDlaosJKTbSDJ/O7G3wj4LVj59lAtS7tD5D9
+ u3fVjL0CdgYIxw05Tq2R8sY4fyLESsQz6O8KskF0NT8Efon3U1ZJoy+4NA3tCSsSBir2
+ wfYRjJFCT7r+g9oeYwrllRLIoG03aaCDc9+/9IPBvPxUad7IBRFUIhLGvgQj91oi2DH/
+ 4mcayEZB7lBkkwkuDchiptEzN48rZ2K5cMg6BJ6RbWFmvd/135yZ2jzZiV4ruai33IvG
+ hz0A==
+X-Gm-Message-State: AOJu0YzuQHq0sKoQq4rjASGHC13LSrBSNW4NCb2Ao4fYKUeqWNbw9+Ir
+ HlKTU4W29/FLTddFd2K7WJnoKq2oGZN7SUmzJojAqMb4+OjWJcwbmLj7
+X-Gm-Gg: ASbGncvMEnuL6RWdfWsAfmcUeOCxZlFM+Lh4D7d4Qz5/spzG47h9CJfmiRey+MtWRGd
+ oJ6mCf+G5u6lndNyomodEzq50rmZniVvJnRUunvj/7oBLSQppBR2s2byuxyS75JBcQHOvgzqpU/
+ QVzaLl+TBmJbxIGcoJFblXP+i1ElWs1+ORB5iLKATKM6ZZ9pHTQDf0uYa0zqJf3AIkGKIGaUIlT
+ DKWlAHoyDbHcHrriWUvC1uDfzzfcE8QvAuTh3pBdLJ76uCkOAgehp8FKpoCGnVfeBO/1dT7bkMB
+ FJOisucrdeD4nxpwJxboeqhAlk8WllGSarJwFtK3GON+TIxshoiFe/PP/AYjBo5Vt7hvE+orVPp
+ bdD2KISYD9j09S8MG9GtwdqbtrtOXAEElSUuXJah/9RUAXBL+ZQdPrlv7eifjAdZZsKn4yALVWf
+ iDNRMNwtj5U1dKLQ==
+X-Google-Smtp-Source: AGHT+IFkmvpn+ZMkR/ME/h210TOWfj/zRgJxKTOHh3DWlG10Yj3oOfPv3c1/HhofEdM287nETYtnIw==
+X-Received: by 2002:a05:600c:5d1:b0:45d:d86b:b386 with SMTP id
+ 5b1f17b1804b1-45dfd5eec3bmr25128185e9.14.1757606618353; 
+ Thu, 11 Sep 2025 09:03:38 -0700 (PDT)
+Received: from localhost
+ (p200300e41f1c4d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f1c:4d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-45e017c0643sm30454515e9.23.2025.09.11.09.03.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Sep 2025 09:03:37 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ =?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: (subset) [PATCH v2 00/23] tegra-video: add CSI support for
+ Tegra20 and Tegra30
+Date: Thu, 11 Sep 2025 18:03:30 +0200
+Message-ID: <175760648464.2794963.6510932759569440897.b4-ty@nvidia.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250906135345.241229-1-clamor95@gmail.com>
+References: <20250906135345.241229-1-clamor95@gmail.com>
 MIME-Version: 1.0
-References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
- <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
- <20250910-vigorous-attractive-gorilla-af6fec@houat>
- <CABdmKX29ftpNro+d=Ce6JGoMaG0UQeBbzL7DXiBkGkC0nwacTQ@mail.gmail.com>
- <20250911-didactic-authentic-cockle-e6d5fc@houat>
-In-Reply-To: <20250911-didactic-authentic-cockle-e6d5fc@houat>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 11 Sep 2025 08:52:27 -0700
-X-Gm-Features: AS18NWAeBqzBQ72YMefW3bpdVUuxd7DtaUCa6fSUYA3My40EoN0I9-kxEb7x3sc
-Message-ID: <CABdmKX1RhwgHb1EizSHUE0PHnxgXib7C8=ZWuVeCi6QetQgGSw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Jonathan Corbet <corbet@lwn.net>, Andrew Davis <afd@ti.com>,
- Jared Kangas <jkangas@redhat.com>, 
- Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- iommu@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,131 +112,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 12:01=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
->
-> Hi TJ,
->
-> On Wed, Sep 10, 2025 at 01:44:45PM -0700, T.J. Mercier wrote:
-> > On Wed, Sep 10, 2025 at 12:33=E2=80=AFAM Maxime Ripard <mripard@kernel.=
-org> wrote:
-> > >
-> > > On Tue, Aug 26, 2025 at 09:36:03AM +0200, Maxime Ripard wrote:
-> > > > Hi,
-> > > >
-> > > > On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
-> > > > > Here's another attempt at supporting user-space allocations from =
-a
-> > > > > specific carved-out reserved memory region.
-> > > > >
-> > > > > The initial problem we were discussing was that I'm currently wor=
-king on
-> > > > > a platform which has a memory layout with ECC enabled. However, e=
-nabling
-> > > > > the ECC has a number of drawbacks on that platform: lower perform=
-ance,
-> > > > > increased memory usage, etc. So for things like framebuffers, the
-> > > > > trade-off isn't great and thus there's a memory region with ECC d=
-isabled
-> > > > > to allocate from for such use cases.
-> > > > >
-> > > > > After a suggestion from John, I chose to first start using heap
-> > > > > allocations flags to allow for userspace to ask for a particular =
-ECC
-> > > > > setup. This is then backed by a new heap type that runs from rese=
-rved
-> > > > > memory chunks flagged as such, and the existing DT properties to =
-specify
-> > > > > the ECC properties.
-> > > > >
-> > > > > After further discussion, it was considered that flags were not t=
-he
-> > > > > right solution, and relying on the names of the heaps would be en=
-ough to
-> > > > > let userspace know the kind of buffer it deals with.
-> > > > >
-> > > > > Thus, even though the uAPI part of it had been dropped in this se=
-cond
-> > > > > version, we still needed a driver to create heaps out of carved-o=
-ut memory
-> > > > > regions. In addition to the original usecase, a similar driver ca=
-n be
-> > > > > found in BSPs from most vendors, so I believe it would be a usefu=
-l
-> > > > > addition to the kernel.
-> > > > >
-> > > > > Some extra discussion with Rob Herring [1] came to the conclusion=
- that
-> > > > > some specific compatible for this is not great either, and as suc=
-h an
-> > > > > new driver probably isn't called for either.
-> > > > >
-> > > > > Some other discussions we had with John [2] also dropped some hin=
-ts that
-> > > > > multiple CMA heaps might be a good idea, and some vendors seem to=
- do
-> > > > > that too.
-> > > > >
-> > > > > So here's another attempt that doesn't affect the device tree at =
-all and
-> > > > > will just create a heap for every CMA reserved memory region.
-> > > > >
-> > > > > It also falls nicely into the current plan we have to support cgr=
-oups in
-> > > > > DRM/KMS and v4l2, which is an additional benefit.
-> > > > >
-> > > > > Let me know what you think,
-> > > > > Maxime
-> > > >
-> > > > Any chance we can get this merged?
-> > >
-> > > Guys, can we move forward on this?
-> > >
-> > > Maxime
-> >
-> > Hi Maxime,
-> >
-> > Sorry I've been MIA the last couple of months.
-> >
-> > The docs for the "reusable" property say, "device driver(s) owning the
-> > region need to be able to reclaim it back", but how can a driver
-> > reclaim memory backing a dmabuf, since pages allocated for a dmabuf
-> > aren't necessarily movable. Couldn't a user allocate all of it, and
-> > refuse to close those dmabufs?
->
-> I guess, but how is that any different than what we're doing on the
-> default allocator already?
+From: Thierry Reding <treding@nvidia.com>
 
-Yeah fair, it's not. I'm thinking that makes determining a size for a
-reusable driver-specified region that's always exposed to userspace a
-bit fuzzy. The requirements for the driver can probably be known, but
-for potentially unrelated allocations from userspace? The default
-ownership / file permissions for the heap would have to be changed to
-allow those non-reclaimable allocations, so maybe that's enough of an
-opt-in for such regions.
 
-> It also has to be reusable, and will not be able to reclaim any memory
-> allocated through the heap.
->
-> > I backported this to 6.6 and ran it on a Pixel. While there are
-> > already similar out-of-tree dmabuf heap drivers that expose heaps for
-> > these reserved regions, they do more than just cma_alloc (multiple
-> > flavors of buffer securing, use case specific alignment and padding,
-> > and slightly different allocation strategies) so I don't think this
-> > series would allow us to completely drop the custom heap code, but
-> > it's a nice start.
->
-> Thanks for testing, and I totally expect more heaps coming for things
-> like protected memory, but it should indeed reduce the number of heap
-> drivers needed going forward.
->
-> > Does the cgroup part come in because the plan is to add charging in
-> > cma_heap.c?
->
-> Yes, and the system heap as well.
->
-> Maxime
+On Sat, 06 Sep 2025 16:53:21 +0300, Svyatoslav Ryhel wrote:
+> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+> with a set of changes required for that.
+> 
 
-Thanks,
+Applied, thanks!
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+[12/23] dt-bindings: display: tegra: move avdd-dsi-csi-supply from VI to CSI
+        (no commit info)
+
+Best regards,
+-- 
+Thierry Reding <treding@nvidia.com>
