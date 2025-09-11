@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96169B53A71
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 19:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBF8B53A74
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 19:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D3610E3CD;
-	Thu, 11 Sep 2025 17:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A7FE10E3CA;
+	Thu, 11 Sep 2025 17:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Sv/Z6mlv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AC0fwrXh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05C8010E3CD
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 17:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757612089;
- bh=zM3zVeC4q+DzpkkbNJKAivjjI3id20uSb/omGoxRe1s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Sv/Z6mlvYnwWroL3flYX8F/gK2zc9Ac780GLZk1SoR0YEFe3b2ncsTenfzsshiSTU
- lq+ojzji6HN5MsXz/5jJWE1sNPL4yQCE0SGPZmvkMJVrUBQuyntZ5sC1KW+9Btyicm
- BwMlw1gWtv20RV/Pj3zQ3uyVvyOIHuWSPcn+2eJp8ozJhnS49/axq8bZv7VLIcprTh
- bicVsv0gFzJwoDKWHpvrO5Ygr6YqzG9OJP0dziDYhr2QhkWyniZI+Xy95j7KLTEsOj
- X7KVGI+yt3h5tpiL8B0XMK1JAppW76ViliBdeE4SBDYcn5X+FQIYVKJ6sWnFAI25vw
- f8btrasBfe0hw==
-Received: from xpredator (unknown
- [IPv6:2a02:2f05:840b:7800:e88e:21ff:fe65:be18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3A54D17E0927;
- Thu, 11 Sep 2025 19:34:49 +0200 (CEST)
-Date: Thu, 11 Sep 2025 20:34:48 +0300
-From: Marius Vlad <marius.vlad@collabora.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, wse@tuxedocomputers.com,
- andri@yngvason.is, sebastian.wick@redhat.com, mripard@kernel.org,
- daniel.stone@collabora.com, jani.nikula@linux.intel.com,
- tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com,
- christian.koenig@amd.com, derek.foreman@collabora.com
-Subject: Re: [PATCH 5/8] drm: Pass supported color formats straight onto
- drm_bridge
-Message-ID: <aMMIOBfuQ7oJFH6i@xpredator>
-References: <20250911130739.4936-1-marius.vlad@collabora.com>
- <20250911130739.4936-6-marius.vlad@collabora.com>
- <fekbw2ngxyg4mvkhlvkvegylcm4vm74y5rhhxeygiqxve7oqaj@sxvkyqjssdru>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09CEA10E3BA;
+ Thu, 11 Sep 2025 17:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=m3dIPvzpujDtvKN5p5KdaCQQDNWXuh6VXlFHE9MYlNQ=; b=AC0fwrXhGmgkIWe/Hc9Q84f/yL
+ aU6BWZ+1/iRjm7Vt3/RyNOKqphSqn8y4iACdJMMGyWCkACCA8V3NIDCJEidcbLceNaZ1oH8T4S1qa
+ RD9ACkizjIJ2MgCn6sdMGf8H8YSqf8bU7BMUxbaEGNCsdZSW8uOu8v1/iVBWm8YgeqAday2JIQxBK
+ z7hHBT+OOHP8cy1cQs83XAZLIt6UfI7N50BMP14NdD8IPeviggxymgfMX4LJuRJyhFX9mIlXdYhzt
+ lWiIWUMtcQAznqE83x0mpRu57aLCuVjxfnqv5T0hz8cK0l8aRDKrQX0/5+DmrFuUSVguCX84e7S4V
+ e2QTfxOQ==;
+Received: from [189.6.16.239] (helo=[192.168.31.42])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uwlD5-009uO3-HP; Thu, 11 Sep 2025 19:35:51 +0200
+Message-ID: <31abd758-07be-483e-8f6c-a9922aabbb29@igalia.com>
+Date: Thu, 11 Sep 2025 14:35:43 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v1gtAyp9vO1WI533"
-Content-Disposition: inline
-In-Reply-To: <fekbw2ngxyg4mvkhlvkvegylcm4vm74y5rhhxeygiqxve7oqaj@sxvkyqjssdru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 10/14] drm/amd/display: add a mid-layer file to handle
+ EDID in DC
+To: Harry Wentland <harry.wentland@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, sunpeng.li@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250618152216.948406-1-mwen@igalia.com>
+ <20250618152216.948406-11-mwen@igalia.com>
+ <8b589737-6db5-4ca6-a54c-e3e88442b01d@amd.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <8b589737-6db5-4ca6-a54c-e3e88442b01d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,144 +70,147 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---v1gtAyp9vO1WI533
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 11, 2025 at 04:55:29PM +0300, Dmitry Baryshkov wrote:
-> On Thu, Sep 11, 2025 at 04:07:36PM +0300, Marius Vlad wrote:
-> > Initialize drm_brige with advertised colors formats straight on.
-> >=20
-> > Drivers that make use of DRM helpers would check the
-> > drm_brige::supported_formats bit-field list and refuse to use the color
-> > format passed. Drivers that make use of drm_bridge can pass the
-> > supported color formats in the bridge as well as supported color format
-> > for the DRM color format property.
->=20
-> Your commit message doesn't match patch contents. You are pushing format
-> selection to the instance creating drm_bridge_connector, which
-> frequently has no idea about the other end of the chain - the bridges
-> which actually send pixel data to the monitor.
+On 10/09/2025 16:52, Harry Wentland wrote:
+>
+> On 2025-06-18 11:19, Melissa Wen wrote:
+>> From: Rodrigo Siqueira <siqueira@igalia.com>
+>>
+>> Since DC is a shared code, this commit introduces a new file to work as
+>> a mid-layer in DC for the edid manipulation.
+>>
+>> Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
+>> Co-developed-by: Melissa Wen <mwen@igalia.com>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>
+>> ---
+>>
+>> v3:
+>> - rebase on top of asdn
+>> ---
+>>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  1 +
+>>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 19 +++++++++++++++++++
+>>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   | 11 +++++++++++
+>>   .../drm/amd/display/dc/link/link_detection.c  | 17 +++--------------
+>>   4 files changed, 34 insertions(+), 14 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> It'd be better to name this amdgpu_dm_edid.h/c. Otherwise reviewers
+> like me will think we're looking at DC code.
+>
+> It looks like dc_fpu.h/c set a precedent. Maybe we should rename that
+> as well.
+Ack. I'll change both in the next version.
 
-None of these changes in this patch actually perform a functional
-change, it will just explicitly expose the fact that BIT(HDMI_COLORSPACE_RG=
-B)
-was embedded in drm_bridge_connector_init().=20
+Thanks,
 
-Commit description is a bit forthcoming explaining the rationale behind
-the change. This actually allows the ability to pass a list of supported
-formats the bridge itself, similar how do we do it with the connector.
+Melissa
+>
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>> index 7329b8cc2576..09cb94d8e0e4 100644
+>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+>> @@ -39,6 +39,7 @@ AMDGPUDM = \
+>>   	amdgpu_dm_psr.o \
+>>   	amdgpu_dm_replay.o \
+>>   	amdgpu_dm_quirks.o \
+>> +	dc_edid.o \
+>>   	amdgpu_dm_wb.o
+>>   
+>>   ifdef CONFIG_DRM_AMD_DC_FP
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>> new file mode 100644
+>> index 000000000000..3f8295a68a72
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>> @@ -0,0 +1,19 @@
+>> +// SPDX-License-Identifier: MIT
+>> +#include "dc.h"
+>> +#include "dc_edid.h"
+>> +
+>> +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>> +			  struct dc_sink *current_sink)
+> Please avoid dc_ prefix in amdgpu_dm. Use dm_ prefix instead,
+> or dm_helpers_.
+>
+> Harry
+>
+>> +{
+>> +	struct dc_edid *old_edid = &prev_sink->dc_edid;
+>> +	struct dc_edid *new_edid = &current_sink->dc_edid;
+>> +
+>> +       if (old_edid->length != new_edid->length)
+>> +               return false;
+>> +
+>> +       if (new_edid->length == 0)
+>> +               return false;
+>> +
+>> +       return (memcmp(old_edid->raw_edid,
+>> +                      new_edid->raw_edid, new_edid->length) == 0);
+>> +}
+>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>> new file mode 100644
+>> index 000000000000..7e3b1177bc8a
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>> @@ -0,0 +1,11 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +
+>> +#ifndef __DC_EDID_H__
+>> +#define __DC_EDID_H__
+>> +
+>> +#include "dc.h"
+>> +
+>> +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>> +			  struct dc_sink *current_sink);
+>> +
+>> +#endif /* __DC_EDID_H__ */
+>> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>> index 863c24fe1117..957d74ff1294 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+>> @@ -48,6 +48,8 @@
+>>   #include "dm_helpers.h"
+>>   #include "clk_mgr.h"
+>>   
+>> +#include "amdgpu_dm/dc_edid.h"
+> DC should be stand-alone from amdgpu_dm. Please put the function
+> definition into dm_helpers.h. That way each OS can implement their
+> own version.
+>
+> Harry
+>
+>> +
+>>    // Offset DPCD 050Eh == 0x5A
+>>   #define MST_HUB_ID_0x5A  0x5A
+>>   
+>> @@ -617,18 +619,6 @@ static bool detect_dp(struct dc_link *link,
+>>   	return true;
+>>   }
+>>   
+>> -static bool is_same_edid(struct dc_edid *old_edid, struct dc_edid *new_edid)
+>> -{
+>> -	if (old_edid->length != new_edid->length)
+>> -		return false;
+>> -
+>> -	if (new_edid->length == 0)
+>> -		return false;
+>> -
+>> -	return (memcmp(old_edid->raw_edid,
+>> -		       new_edid->raw_edid, new_edid->length) == 0);
+>> -}
+>> -
+>>   static bool wait_for_entering_dp_alt_mode(struct dc_link *link)
+>>   {
+>>   
+>> @@ -1105,8 +1095,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
+>>   		// Check if edid is the same
+>>   		if ((prev_sink) &&
+>>   		    (edid_status == EDID_THE_SAME || edid_status == EDID_OK))
+>> -			same_edid = is_same_edid(&prev_sink->dc_edid,
+>> -						 &sink->dc_edid);
+>> +			same_edid = dc_edid_is_same_edid(prev_sink, sink);
+>>   
+>>   		if (sink->edid_caps.panel_patch.skip_scdc_overwrite)
+>>   			link->ctx->dc->debug.hdmi20_disable = true;
 
-If any of these are wrong, they were prior to me touching them.
-
->=20
-> We have drm_bridge::ycbcr_420_allowed with clearly defined meaning. I
-> think it would be wise to start from that and to describe why such a
-> field doesn't fulfill your needs.
-Alright, I'll be looking into this.=20
->=20
-> >=20
-> > This includes a fallback to RGB when Auto has been selected.
-> >=20
-> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> > ---
-> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 2 +-
-> >  drivers/gpu/drm/bridge/ite-it6263.c               | 2 +-
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c             | 3 ++-
-> >  drivers/gpu/drm/display/drm_bridge_connector.c    | 4 ++--
-> >  drivers/gpu/drm/imx/dcss/dcss-kms.c               | 2 +-
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c                | 2 +-
-> >  drivers/gpu/drm/mediatek/mtk_dsi.c                | 2 +-
-> >  drivers/gpu/drm/meson/meson_encoder_cvbs.c        | 3 ++-
-> >  drivers/gpu/drm/meson/meson_encoder_hdmi.c        | 4 ++--
-> >  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          | 2 +-
-> >  drivers/gpu/drm/msm/dp/dp_drm.c                   | 3 ++-
-> >  drivers/gpu/drm/msm/dsi/dsi_manager.c             | 2 +-
-> >  drivers/gpu/drm/msm/hdmi/hdmi.c                   | 2 +-
-> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 2 +-
-> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 2 +-
-> >  drivers/gpu/drm/rockchip/cdn-dp-core.c            | 2 +-
-> >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 2 +-
-> >  drivers/gpu/drm/rockchip/rockchip_lvds.c          | 2 +-
-> >  drivers/gpu/drm/tegra/hdmi.c                      | 2 +-
-> >  drivers/gpu/drm/tegra/rgb.c                       | 2 +-
-> >  drivers/gpu/drm/tidss/tidss_encoder.c             | 2 +-
-> >  include/drm/drm_bridge_connector.h                | 3 ++-
-> >  22 files changed, 28 insertions(+), 24 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/d=
-p_drm.c
-> > index 9a461ab2f32f..8d5299849be6 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> > @@ -368,7 +368,8 @@ struct drm_connector *msm_dp_drm_connector_init(str=
-uct msm_dp *msm_dp_display,
-> >  {
-> >  	struct drm_connector *connector =3D NULL;
-> > =20
-> > -	connector =3D drm_bridge_connector_init(msm_dp_display->drm_dev, enco=
-der);
-> > +	connector =3D drm_bridge_connector_init(msm_dp_display->drm_dev, enco=
-der,
-> > +					      BIT(HDMI_COLORSPACE_RGB));
->=20
-> Just to point out: this is wrong.
-Yeah, I understand why you're saying that just that I haven't really
-modified these.
->=20
-> >  	if (IS_ERR(connector))
-> >  		return connector;
-> > =20
-> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/ms=
-m/dsi/dsi_manager.c
-> > index ca400924d4ee..4b87f4f78d38 100644
-> > --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> > +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> > @@ -479,7 +479,7 @@ int msm_dsi_manager_connector_init(struct msm_dsi *=
-msm_dsi,
-> >  	if (ret)
-> >  		return ret;
-> > =20
-> > -	connector =3D drm_bridge_connector_init(dev, encoder);
-> > +	connector =3D drm_bridge_connector_init(dev, encoder, BIT(HDMI_COLORS=
-PACE_RGB));
->=20
-> And this totally depends on the bridge chain. If we have a DSI-to-HDMI
-> bridge somewhere in the middle, we are able to output YUV data to the
-> HDMI connector.
-That's actually the usecase for this patch: to allow passing other color
-formats, but this patch is a transitory patch to further expose the fact
-drm_bridge_connector_init was embedding BIT(HDMI_COLORSPACE_RGB) for the
-format. See rockchip implementation for this bit, the last patch in this
-series.
->=20
-> >  	if (IS_ERR(connector)) {
-> >  		DRM_ERROR("Unable to create bridge connector\n");
-> >  		return PTR_ERR(connector);
->=20
-> --=20
-> With best wishes
-> Dmitry
-
---v1gtAyp9vO1WI533
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmjDCDQACgkQ9jQS5glH
-1u9SPxAAxLNqwmVzYKpHxEUz6NOR7EvDV88Xg0JuavUZsq1Uap+ICO9+GoQiot8V
-mU7xxr+VGMTCybDLe1Vgl5GuRC1bBFHAsHTnNd8RJsPAGk78E6wXbTHP+ZQh3nJI
-PWqEKK+PVGQcRgocat55p0jBz+rC365U8qjVMeGi4jXhnBE30UWxtd+NStnrTriW
-kRdLrRPhAXdJPB+QbGs5xgUZUWjCXESwpTqip+NVqmBpe2kjXX8r5o/yY9dQq7pb
-8EoK47JRCX5/hnH9JzFVGwpY1fu0t+gVl6UJp4NNNdRZtWyl60ScqM+rVSPV1s70
-AHDCuVnHlz1gzQyDP2MSIMkb8h8qKANuf7YJ5jEjMHIZvcE28mIKNWgPgqy/BWB9
-j2gpBsGUAsY712r6ORsFBIg5Gst4sl+J7LnWmumRCr9iVXQyr0w2irkCFrkTUSxc
-GSA26KN5lST0MFrlQcOBmIERbN1h8mBOP1sKYhSwqjMXnsFgIVsIwSz6opDabQP2
-psBnwQz1r5qF6Gafq9jdgTuPjX48btv6Y4z6pSJKg7rFURrlvnrAsXU5hAyyjwYo
-t1K7od0mw7kXGOs8bY9YoaeuCxnru4GhfhZ3qFzc+FjFUtaBm1Kjn53K04sQWSKD
-1zf1Ayr/UCtGnJl9oVb3r44dgk9sFoBhhO+hEsN9c+JOwnY9wj4=
-=Gk55
------END PGP SIGNATURE-----
-
---v1gtAyp9vO1WI533--
