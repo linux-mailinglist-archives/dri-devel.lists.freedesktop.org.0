@@ -2,114 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2FDB52517
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 02:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197C6B529E7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14D6910E9F2;
-	Thu, 11 Sep 2025 00:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AD610E309;
+	Thu, 11 Sep 2025 07:28:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oJjMfw4n";
+	dkim=pass (1024-bit key; unprotected) header.d=duck.com header.i=@duck.com header.b="FiAEgs8l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1114A10E2E6
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 00:44:54 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58AMAIBr023761
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 00:44:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=yzBuYWbzNs5iTGuCfysCSr/C
- TLHuowbP9/lKd7OcvVQ=; b=oJjMfw4n2T2HTSuTSkfFmOac7uEryKSyMSdAsUNx
- Nzm6x8Uwp7Qfl4U9Y1xyXYRRCv611j4CPPrFfTTW7B0MZtkLbUioITDvlgU8VL/X
- 7F8pcXc6hIIcXVMUgTyMmWYka8UtnoOHYhvPDQkmaHtjt+O59HzREyRUaqrRvChj
- iu62KmPCOl4EzuRHn9LTnjv7pbh3kSMO5bkB2ds7SuBnGVvAkrM6XeZeZKnJbaYZ
- HdnbUTTijQ649pl1vKfCosI+hjlCon13EwQPRqSKWZLerCVUIQINxN3OPKgaqYOU
- aUvDz+VBF3kzIG1SIA5i6LsoAUQ4v9xNSed91NYyHjW7Vg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e4m5mq0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 00:44:52 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b49715fdfbso8834791cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Sep 2025 17:44:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757551490; x=1758156290;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yzBuYWbzNs5iTGuCfysCSr/CTLHuowbP9/lKd7OcvVQ=;
- b=p+TFj+9WhW95BNpKMOb9mNJARBwe6QIfrBxObYgHR6kqFS0v3Jh65R5lx0Q4JwoT87
- bJS9jUINZfJh72dQVU+RZFqEC40CCZePE+zOdfGLRvU1WeTKIWLU1B6uMp2D5X+lXZbL
- //R90DECUr6/LA9mxxQiNaM1Lo3Nxnnhy+ZT6rflYeS7ONd7fEjp+sU9vc7NuErHCm7t
- R7/JKM3jI+B5QahIx1tIuu1oJGscDE9ypCNudZisDfqcF2IAtDgjolOJjfJWQg5E7F8z
- EO/tIu0qcjy+2dlhpmrGUiap4m3fmyKAwZ5fFDJ2nS+dZ2HJ+KSyz7ZgFKNoiTV/Zc5t
- hIoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWp5YaoWbE1QyPiLPxk1DudlQhp5p9VSSalhIy65wuW9afyoAm3YZNg9OZjorRhORch5yzl4b22EWA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzUnatoMLaWUtGVKlyd8cmMkYIGDHwyAdKkvNOvsEuIdmZDjqT
- ekHbQz9uwNxJ7GC8tno/SzrxT1XWrEamkEXedTf9awiTh1L8uenuEJmTGY6+kV1Xv8p7RUprDxp
- 0YhdcamyPsYZBBkJFRjZA6THhw0kNpIPW8yT9YGWB2Qy7HJso46ilsJMUXo6Wi8/HZaB8Rbk=
-X-Gm-Gg: ASbGncuBLt4jH0ES+xa4ExECpOm8SJCqShFWRq/IQOL7Kb7To9ZahCNu3ymWscGf6FQ
- oPVruqG2LQXFRwP8K3UpGcyS949TptKzbLHUPtk3kT242LWRS9dVBLWrDeEAzxkGT0ZFnwCZewF
- BSWgEHpm+7Cq5/Us9F8lYlTkk50x0Y+0QQ9LzBOiFEHyKwLu1Uyc1vQM+jXSPcl0ZHtOSX80qYZ
- aZjxBx1gvgoVbXOI97dLA+dK2oIW5Ceb+ThGjiH+Oz0FRfmizrbZ5byIUk0gu4HgE7M6lzk+gAZ
- 4jclrrtrfGLN0R7vVL83htw3npmgq8K+nQybmDQZG10DCsm3Hh/npOxoGr6Ik2L8zUTk29TehOu
- 8xVwoVRkAmqEYQZiF356RMfkEu00JFNwisDUxnOQTGgpTQjSwIhKN
-X-Received: by 2002:a05:622a:4e:b0:4b4:3dbf:985f with SMTP id
- d75a77b69052e-4b5f8468e2bmr171379201cf.65.1757551489703; 
- Wed, 10 Sep 2025 17:44:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOiKVMSSke31oO9iqKtfac0Bl6k5knLIpGrqV9CjY6zTWi0b7jR/fagMJjFLyorr9kjeDuTg==
-X-Received: by 2002:a05:622a:4e:b0:4b4:3dbf:985f with SMTP id
- d75a77b69052e-4b5f8468e2bmr171378921cf.65.1757551488912; 
- Wed, 10 Sep 2025 17:44:48 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-34f163f527fsm351841fa.27.2025.09.10.17.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 Sep 2025 17:44:47 -0700 (PDT)
-Date: Thu, 11 Sep 2025 03:44:44 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chu Guangqing <chuguangqing@inspur.com>
-Cc: tzimmermann@suse.de, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.cc, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/1] [DRIVER] gpu: drm: add support for Yhgc ZX1000
- soc chipset
-Message-ID: <vtswsuhx73awfb2xrk7m3eynczizpiaepcrcvg2me2vvcebfm6@wudyozgtq46u>
-References: <abac3eb7-e7a0-4ab8-b12c-c0df8cc77632@suse.de>
- <20250910022311.2655-1-chuguangqing@inspur.com>
- <20250910022311.2655-2-chuguangqing@inspur.com>
+X-Greylist: delayed 492 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Sep 2025 00:57:45 UTC
+Received: from smtp-outbound3.duck.com (smtp-outbound3.duck.com [20.67.221.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B48A10E2E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 00:57:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910022311.2655-2-chuguangqing@inspur.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOCBTYWx0ZWRfX+dewlBlaJU8U
- ryeUhxjALGvBNllHfjxNwvLciZK3qbrN59QByvquQ0E+7KlaBDYW0tBW5ppNswslRIsmakH0BI9
- 8173bTbW5GNZi12lb+P7lHuk2NRKi6HwdYwzIKX52n5eJ1cQAh818nMULpw5vmaeUhHtM5vKqxw
- zA/fB2JBjqfvdy7WTAUhNDbsLFzaT7CSa+N4hLbmW7p8ZOKvFN1F53Yc5YIclO01aPBst6VYVWn
- 1umjvtUf0xvwXE4fMQJRs2MwoSLRfXbSPRQ1XnpwuxHTSzs0xkWZoZ6fsPIoMLZR1W7gNTzSPzS
- 5tcrj6JuXRI1VAfPNMbR3fUJMPQwlFsakisMPtJO3Yv6wVfHUexN64r1qIJZOWjYlWRkHTrKr3q
- Q2wleeUB
-X-Authority-Analysis: v=2.4 cv=J66q7BnS c=1 sm=1 tr=0 ts=68c21b84 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=F_93P0QhAAAA:8 a=VwQbUJbxAAAA:8 a=FTgEZAEF0zJXt2GBGwoA:9
- a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=v2fne3mUlQEKA94IZ0Od:22
-X-Proofpoint-GUID: 7jpj9nfAGpCg1vi5PBPCUumOeHTlIDoO
-X-Proofpoint-ORIG-GUID: 7jpj9nfAGpCg1vi5PBPCUumOeHTlIDoO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 clxscore=1015 spamscore=0 phishscore=0
- adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060038
+Subject: linux 6.12, 6.16: Running Flatpaks causes kernel oops in nouveau
+ module
+Content-Language: en-US
+Content-Type: text/plain;
+	charset=UTF-8;
+	format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Bar: -
+X-Rspamd-Report: DMARC_POLICY_ALLOW(-0.5) R_DKIM_ALLOW(-0.2) MIME_GOOD(-0.1)
+ R_SPF_ALLOW(-0.2)
+X-Rspamd-Score: -1
+X-Rspamd-Action: no action
+To: lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Received: by smtp-inbound1.duck.com; Wed, 10 Sep 2025 20:57:43 -0400
+Message-ID: <E79B534D-6630-4AF3-950D-2391CDABCE16.1@smtp-inbound1.duck.com>
+Date: Wed, 10 Sep 2025 20:57:43 -0400
+From: willed-anvil-elude@duck.com
+Feedback-ID: :isSendReply:isDirect:duckcom
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=duck.com;
+ h=Feedback-ID: From: Date: Message-ID: To: Content-Transfer-Encoding:
+ Content-Type: Content-Language: Subject: MIME-Version; q=dns/txt;
+ s=postal-KpyQVw; t=1757552264;
+ bh=Yd2EvA3RHunWdAcXJJQqiQ+anEBWDWxT2KWJ7yzOkyk=;
+ b=FiAEgs8l3RacOC1XPCv+YMa+CF/8ZcyXO1sKZn9xWgpHS34sHVUQ9TbA+E3RP4CL2l9wXc4R7
+ 2jwxC66VNROT4oa7IvVr9IaTnLXN8PsYuLu+zj5xglsVSyqY60RlnFf8uo9OLvEoUG0o5WBEOpW
+ 6L28mu7ECnbzRsZZLeEZhz8=
+X-Mailman-Approved-At: Thu, 11 Sep 2025 07:28:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,1387 +62,932 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 10, 2025 at 10:23:10AM +0800, Chu Guangqing wrote:
-> add support for Yhgc BMC soc chipset
-> 
-> Signed-off-by: Chu Guangqing <chuguangqing@inspur.com>
-> ---
->  MAINTAINERS                                   |   5 +
->  drivers/gpu/drm/Kconfig                       |   2 +
->  drivers/gpu/drm/Makefile                      |   1 +
->  drivers/gpu/drm/yhgch/Kconfig                 |   3 +
->  drivers/gpu/drm/yhgch/Makefile                |   1 +
->  drivers/gpu/drm/yhgch/yhgch-drm/Kconfig       |  12 +
->  drivers/gpu/drm/yhgch/yhgch-drm/Makefile      |   5 +
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c    | 405 ++++++++++++++++++
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c   | 312 ++++++++++++++
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h   |  54 +++
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c   | 108 +++++
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h  | 209 +++++++++
->  .../gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c  | 111 +++++
->  13 files changed, 1228 insertions(+)
->  create mode 100644 drivers/gpu/drm/yhgch/Kconfig
->  create mode 100644 drivers/gpu/drm/yhgch/Makefile
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/Makefile
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
->  create mode 100644 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 10614ca41ed0..c79d9361fa81 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -27744,6 +27744,11 @@ S:	Maintained
->  F:	Documentation/input/devices/yealink.rst
->  F:	drivers/input/misc/yealink.*
->  
-> +YHGC DRM DRIVER
-> +M:	chuguangqing <chuguangqing@inspur.com>
-> +S:	Maintained
-> +F:	drivers/gpu/drm/yhgch
-> +
->  Z8530 DRIVER FOR AX.25
->  M:	Joerg Reuter <jreuter@yaina.de>
->  L:	linux-hams@vger.kernel.org
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index f7ea8e895c0c..8e0b1d12c81f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -396,6 +396,8 @@ source "drivers/gpu/drm/sprd/Kconfig"
->  
->  source "drivers/gpu/drm/imagination/Kconfig"
->  
-> +source "drivers/gpu/drm/yhgch/Kconfig"
-> +
->  config DRM_HYPERV
->  	tristate "DRM Support for Hyper-V synthetic video device"
->  	depends on DRM && PCI && HYPERV
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 4dafbdc8f86a..f344e0173b29 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -231,6 +231,7 @@ obj-y			+= solomon/
->  obj-$(CONFIG_DRM_SPRD) += sprd/
->  obj-$(CONFIG_DRM_LOONGSON) += loongson/
->  obj-$(CONFIG_DRM_POWERVR) += imagination/
-> +obj-$(CONFIG_DRM_YHGCH)  += yhgch/
->  
->  # Ensure drm headers are self-contained and pass kernel-doc
->  hdrtest-files := \
-> diff --git a/drivers/gpu/drm/yhgch/Kconfig b/drivers/gpu/drm/yhgch/Kconfig
-> new file mode 100644
-> index 000000000000..4d2f473dbb4a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/Kconfig
-> @@ -0,0 +1,3 @@
-> +# License: GPL-2.0
-> +
-> +source "drivers/gpu/drm/yhgch/yhgch-drm/Kconfig"
-> diff --git a/drivers/gpu/drm/yhgch/Makefile b/drivers/gpu/drm/yhgch/Makefile
-> new file mode 100644
-> index 000000000000..c5229239002b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/Makefile
-> @@ -0,0 +1 @@
-> +obj-$(CONFIG_DRM_YHGCH) += yhgch-drm/
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig b/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
-> new file mode 100644
-> index 000000000000..10d586bbe897
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/Kconfig
-> @@ -0,0 +1,12 @@
-> +config DRM_YHGCH
-> +    tristate "DRM Support for Yhgch BMC"
-> +    depends on DRM && PCI && MMU
-> +    select DRM_CLIENT_SELECTION
-> +    select DRM_KMS_HELPER
-> +    select DRM_VRAM_HELPER
-> +    select DRM_TTM_HELPER
-> +    help
-> +        Choose this option if you have a Yhgch soc chipset.
-> +        If M is selected the module will be called yhgch - drm.
-> +        IF Y is selected the module will be built into the kernel.
-> +        IF N is selected the module will be excluded from the kernel.
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/Makefile b/drivers/gpu/drm/yhgch/yhgch-drm/Makefile
-> new file mode 100644
-> index 000000000000..e9cc4dc6568d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/Makefile
-> @@ -0,0 +1,5 @@
-> +yhgch-drm-y := yhgch_drm_drv.o yhgch_drm_de.o yhgch_drm_vdac.o yhgch_drm_i2c.o
-> +
-> +obj-$(CONFIG_DRM_YHGCH) += yhgch-drm.o
-> +
-> +
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
-> new file mode 100644
-> index 000000000000..09b8d6fd1625
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_de.c
-> @@ -0,0 +1,405 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/delay.h>
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_fourcc.h>
-> +
-> +#include <drm/drm_gem_vram_helper.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include "yhgch_drm_drv.h"
-> +#include "yhgch_drm_regs.h"
-> +
-> +struct yhgch_dislay_pll_config {
-> +	u64 hdisplay;
-> +	u64 vdisplay;
-> +	u32 pll1_config_value;
-> +	u32 pll2_config_value;
-> +};
-> +
-> +static const struct yhgch_dislay_pll_config yhgch_pll_table[] = {
-> +	{ 640, 480, CRT_PLL1_NS_25MHZ, CRT_PLL2_NS_25MHZ },
-> +	{ 800, 600, CRT_PLL1_NS_40MHZ, CRT_PLL2_NS_40MHZ },
-> +	{ 1024, 768, CRT_PLL1_NS_65MHZ, CRT_PLL2_NS_65MHZ },
-> +	{ 1280, 1024, CRT_PLL1_NS_108MHZ, CRT_PLL2_NS_108MHZ },
-> +	{ 1920, 1080, CRT_PLL1_NS_148MHZ, CRT_PLL2_NS_148MHZ },
-> +};
-> +
-> +static int yhgch_plane_atomic_check(struct drm_plane *plane,
-> +				    struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-> +										 plane);
-> +	struct drm_framebuffer *fb = new_plane_state->fb;
-> +	struct drm_crtc_state *new_crtc_state = NULL;
-> +	int ret;
-> +
-> +	if (!fb)
-> +		return 0;
-> +
-> +	if (new_plane_state->crtc)
-> +		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
-> +
-> +	ret = drm_atomic_helper_check_plane_state(new_plane_state, new_crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, true);
-> +	if (ret)
-> +		return ret;
-> +	else if (!new_plane_state->visible)
-> +		return 0;
-> +
-> +	if (new_plane_state->crtc_x + new_plane_state->crtc_w >
-> +	    new_crtc_state->adjusted_mode.hdisplay ||
-> +	    new_plane_state->crtc_y + new_plane_state->crtc_h >
-> +	    new_crtc_state->adjusted_mode.vdisplay) {
-> +		drm_dbg_atomic(plane->dev, "visible portion of plane is invalid\n");
-> +		return -EINVAL;
-> +	}
+Dear Maintainers,
 
-Please use plane_state->dst instead of crtc_h/w/x/y. This rectangle
-contains clipped coordinates.
+Flatpak apps have suddenly broken on my Debian Stable ("Trixie") installation.
+They were working normally until I ran a `flatpak update` last week after
+several weeks without updating the Flatpak system, but now the apps fail to
+launch. I have confirmed that the base OS runs fine until the first time I
+launch a Flatpak app, at which point it causes a kernel oops in the `nouveau`
+module.
 
-> +
-> +	if (new_plane_state->fb->pitches[0] % 16 != 0) {
+When I boot with the kernel command line `module_blacklist=nouveau` this bug
+does **not** happen.
 
-This belongs to framebuffer's atomic_check.
+I tried completely uninstalling and reinstalling all Flatpak-related Debian
+packages, and I renamed `~/.local/share/flatpak` and `/var/lib/flatpak` and
+tried starting fresh with Flatpak, but it made no difference.
 
-> +		drm_dbg_atomic(plane->dev, "wrong stride with 16-byte aligned\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void yhgch_plane_atomic_update(struct drm_plane *plane,
-> +				      struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-> +									   plane);
-> +	u32 reg;
-> +	s64 gpu_addr = 0;
-> +	u32 line_l;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(plane->dev);
-> +	struct drm_gem_vram_object *gbo;
-> +
-> +	if (!new_state->fb)
-> +		return;
-> +
-> +	gbo = drm_gem_vram_of_gem(new_state->fb->obj[0]);
-> +
-> +	gpu_addr = drm_gem_vram_offset(gbo);
-> +	if (gpu_addr < 0)
-> +		return;
-> +
-> +	writel(gpu_addr, priv->mmio + YHGCH_CRT_FB_ADDRESS);
-> +
-> +	reg = new_state->fb->width * (new_state->fb->format->cpp[0]);
-> +
-> +	line_l = new_state->fb->pitches[0];
-> +	writel(YHGCH_FIELD(YHGCH_CRT_FB_WIDTH_WIDTH, reg) |
-> +	       YHGCH_FIELD(YHGCH_CRT_FB_WIDTH_OFFS, line_l),
+My hardware is a laptop with hybrid Intel / Nvidia graphics, but I don't use
+the Nvidia card at all. I even tried uninstalling the `xserver-xorg-video-
+nouveau` package, but somehow the `nouveau` module was still getting loaded.
 
-use FIELD_PREP() directly.
+This bug happens with the oldest Debian Trixie released
+kernel version (6.12.31-amd64) as well as the latest one (6.12.41+deb13-amd64),
+as well as with the latest kernel in Debian Unstable (6.16.5+deb14-amd64).
+What changed on my system leading to this bug was the Flatpak framework
+updates, however in my bug report to them
+(https://github.com/flatpak/flatpak/issues/6307) they say it's a kernel bug.
+This is the Debian bug report where the Debian kernel maintainer suggested that
+I contact you all: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1113861
 
-> +	       priv->mmio + YHGCH_CRT_FB_WIDTH);
-> +
-> +	/* SET PIXEL FORMAT */
-> +	reg = readl(priv->mmio + YHGCH_CRT_DISP_CTL);
-> +	reg &= ~YHGCH_CRT_DISP_CTL_FORMAT_MASK;
-> +	reg |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_FORMAT,
-> +			   new_state->fb->format->cpp[0] * 8 / 16);
-> +	writel(reg, priv->mmio + YHGCH_CRT_DISP_CTL);
-> +}
-> +
-> +static const u32 channel_formats1[] = {
-> +	DRM_FORMAT_RGB565, DRM_FORMAT_RGB888,
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static struct drm_plane_funcs yhgch_plane_funcs = {
-> +	.update_plane = drm_atomic_helper_update_plane,
-> +	.disable_plane = drm_atomic_helper_disable_plane,
-> +	.destroy = drm_plane_cleanup,
-> +	.reset = drm_atomic_helper_plane_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
-> +};
-> +
-> +static const struct drm_plane_helper_funcs yhgch_plane_helper_funcs = {
-> +	DRM_GEM_VRAM_PLANE_HELPER_FUNCS,
-> +	.atomic_check = yhgch_plane_atomic_check,
-> +	.atomic_update = yhgch_plane_atomic_update,
-> +};
-> +
-> +static void yhgch_crtc_dpms(struct drm_crtc *crtc, u32 dpms)
-> +{
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
-> +	u32 reg;
-> +
-> +	reg = readl(priv->mmio + YHGCH_CRT_DISP_CTL);
-> +	reg &= ~YHGCH_CRT_DISP_CTL_DPMS_MASK;
-> +	reg |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_DPMS, dpms);
-> +	reg &= ~YHGCH_CRT_DISP_CTL_TIMING_MASK;
-> +	if (dpms == YHGCH_CRT_DPMS_ON)
-> +		reg |= YHGCH_CRT_DISP_CTL_TIMING(1);
-> +	writel(reg, priv->mmio + YHGCH_CRT_DISP_CTL);
-> +}
-> +
-> +static void yhgch_crtc_atomic_enable(struct drm_crtc *crtc,
-> +				     struct drm_atomic_state *old_state)
-> +{
-> +	u32 reg;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
-> +
-> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
-> +
-> +	/* Enable display power gate & LOCALMEM power gate */
-> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
-> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
-> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
-> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
-> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
-> +	yhgch_set_current_gate(priv, reg);
-> +	yhgch_crtc_dpms(crtc, YHGCH_CRT_DPMS_ON);
-> +}
-> +
-> +static void yhgch_crtc_atomic_disable(struct drm_crtc *crtc,
-> +				      struct drm_atomic_state *old_state)
-> +{
-> +	u32 reg;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(crtc->dev);
-> +
-> +	yhgch_crtc_dpms(crtc, YHGCH_CRT_DPMS_OFF);
-> +
-> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_SLEEP);
-> +
-> +	/* Enable display power gate & LOCALMEM power gate */
-> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
-> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
-> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
-> +	reg |= YHGCH_CURR_GATE_LOCALMEM(0);
-> +	reg |= YHGCH_CURR_GATE_DISPLAY(0);
-> +	yhgch_set_current_gate(priv, reg);
-> +}
-> +
-> +static enum drm_mode_status
-> +yhgch_crtc_mode_valid(struct drm_crtc *crtc,
-> +		      const struct drm_display_mode *mode)
-> +{
-> +	size_t i = 0;
-> +	int vrefresh = drm_mode_vrefresh(mode);
-> +
-> +	if (vrefresh < 59 || vrefresh > 61)
-> +		return MODE_NOCLOCK;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(yhgch_pll_table); i++) {
-> +		if (yhgch_pll_table[i].hdisplay == mode->hdisplay &&
-> +		    yhgch_pll_table[i].vdisplay == mode->vdisplay)
-> +			return MODE_OK;
-> +	}
-> +
-> +	return MODE_BAD;
-> +}
-> +
-> +static void set_vclock_yhgch(struct drm_device *dev, u64 pll)
-> +{
-> +	u32 val;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
-> +
-> +	val = readl(priv->mmio + CRT_PLL1_NS);
-> +	val &= ~(CRT_PLL1_NS_OUTER_BYPASS(1));
-> +	writel(val, priv->mmio + CRT_PLL1_NS);
-> +
-> +	val = CRT_PLL1_NS_INTER_BYPASS(1) | CRT_PLL1_NS_POWERON(1);
-> +	writel(val, priv->mmio + CRT_PLL1_NS);
-> +
-> +	writel(pll, priv->mmio + CRT_PLL1_NS);
-> +
-> +	usleep_range(1000, 2000);
-> +
-> +	val = pll & ~(CRT_PLL1_NS_POWERON(1));
-> +	writel(val, priv->mmio + CRT_PLL1_NS);
-> +
-> +	usleep_range(1000, 2000);
-> +
-> +	val &= ~(CRT_PLL1_NS_INTER_BYPASS(1));
-> +	writel(val, priv->mmio + CRT_PLL1_NS);
-> +
-> +	usleep_range(1000, 2000);
-> +
-> +	val |= CRT_PLL1_NS_OUTER_BYPASS(1);
-> +	writel(val, priv->mmio + CRT_PLL1_NS);
-> +}
-> +
-> +static void get_pll_config(u64 x, u64 y, u32 *pll1, u32 *pll2)
-> +{
-> +	size_t i;
-> +	size_t count = ARRAY_SIZE(yhgch_pll_table);
-> +
-> +	for (i = 0; i < count; i++) {
-> +		if (yhgch_pll_table[i].hdisplay == x &&
-> +		    yhgch_pll_table[i].vdisplay == y) {
-> +			*pll1 = yhgch_pll_table[i].pll1_config_value;
-> +			*pll2 = yhgch_pll_table[i].pll2_config_value;
-> +			return;
-> +		}
-> +	}
-> +
-> +	/* if found none, we use default value */
-> +	*pll1 = CRT_PLL1_NS_25MHZ;
-> +	*pll2 = CRT_PLL2_NS_25MHZ;
-> +}
-> +
-> +/*
-> + * This function takes care the extra registers and bit fields required to
-> + * setup a mode in board.
-> + * Explanation about Display Control register:
-> + * FPGA only supports 7 predefined pixel clocks, and clock select is
-> + * in bit 4:0 of new register 0x802a8.
-> + */
-> +static u32 display_ctrl_adjust(struct drm_device *dev,
-> +			       struct drm_display_mode *mode,
-> +			       u32 ctrl)
-> +{
-> +	u64 w, h;
-> +	u32 pll1;		/* bit[31:0] of PLL */
-> +	u32 pll2;		/* bit[63:32] of PLL */
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
-> +
-> +	w = mode->hdisplay;
-> +	h = mode->vdisplay;
-> +
-> +	get_pll_config(w, h, &pll1, &pll2);
-> +	writel(pll2, priv->mmio + CRT_PLL2_NS);
-> +	set_vclock_yhgch(dev, pll1);
-> +
-> +	/*
-> +	 * yhgch has to set up the top-left and bottom-right
-> +	 * registers as well.
-> +	 * Note that normal chip only use those two register for
-> +	 * auto-centering mode.
-> +	 */
-> +	writel(YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_TL_TOP, 0) |
-> +	       YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_TL_LEFT, 0),
-> +	       priv->mmio + YHGCH_CRT_AUTO_CENTERING_TL);
-> +
-> +	writel(YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM, h - 1) |
-> +	       YHGCH_FIELD(YHGCH_CRT_AUTO_CENTERING_BR_RIGHT, w - 1),
-> +	       priv->mmio + YHGCH_CRT_AUTO_CENTERING_BR);
-> +
-> +	/*
-> +	 * Assume common fields in ctrl have been properly set before
-> +	 * calling this function.
-> +	 * This function only sets the extra fields in ctrl.
-> +	 */
-> +
-> +	/* Set bit 25 of display controller: Select CRT or VGA clock */
-> +	ctrl &= ~YHGCH_CRT_DISP_CTL_CRTSELECT_MASK;
-> +	ctrl &= ~YHGCH_CRT_DISP_CTL_CLOCK_PHASE_MASK;
-> +
-> +	ctrl |= YHGCH_CRT_DISP_CTL_CRTSELECT(YHGCH_CRTSELECT_CRT);
-> +
-> +	/* clock_phase_polarity is 0 */
-> +	ctrl |= YHGCH_CRT_DISP_CTL_CLOCK_PHASE(0);
-> +	ctrl |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_FORMAT, 2);
-> +
-> +	writel(ctrl, priv->mmio + YHGCH_CRT_DISP_CTL);
-> +
-> +	return ctrl;
-> +}
-> +
-> +static void yhgch_crtc_mode_set_nofb(struct drm_crtc *crtc)
-> +{
-> +	u32 val;
-> +	struct drm_display_mode *mode = &crtc->state->mode;
-> +	struct drm_device *dev = crtc->dev;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
-> +	u32 width = mode->hsync_end - mode->hsync_start;
-> +	u32 height = mode->vsync_end - mode->vsync_start;
-> +
-> +	//writel(format_pll_reg(), priv->mmio + YHGCH_CRT_PLL_CTRL);
-> +	writel(YHGCH_FIELD(YHGCH_CRT_HORZ_TOTAL_TOTAL, mode->htotal - 1) |
-> +	       YHGCH_FIELD(YHGCH_CRT_HORZ_TOTAL_DISP_END, mode->hdisplay - 1),
-> +	       priv->mmio + YHGCH_CRT_HORZ_TOTAL);
-> +
-> +	writel(YHGCH_FIELD(YHGCH_CRT_HORZ_SYNC_WIDTH, width) |
-> +	       YHGCH_FIELD(YHGCH_CRT_HORZ_SYNC_START, mode->hsync_start - 1),
-> +	       priv->mmio + YHGCH_CRT_HORZ_SYNC);
-> +
-> +	writel(YHGCH_FIELD(YHGCH_CRT_VERT_TOTAL_TOTAL, mode->vtotal - 1) |
-> +	       YHGCH_FIELD(YHGCH_CRT_VERT_TOTAL_DISP_END, mode->vdisplay - 1),
-> +	       priv->mmio + YHGCH_CRT_VERT_TOTAL);
-> +
-> +	writel(YHGCH_FIELD(YHGCH_CRT_VERT_SYNC_HEIGHT, height) |
-> +	       YHGCH_FIELD(YHGCH_CRT_VERT_SYNC_START, mode->vsync_start - 1),
-> +	       priv->mmio + YHGCH_CRT_VERT_SYNC);
-> +
-> +	val = YHGCH_FIELD(YHGCH_CRT_DISP_CTL_VSYNC_PHASE, 0);
-> +	val |= YHGCH_FIELD(YHGCH_CRT_DISP_CTL_HSYNC_PHASE, 0);
-> +	val |= YHGCH_CRT_DISP_CTL_TIMING(1);
-> +	val |= YHGCH_CRT_DISP_CTL_PLANE(1);
-> +
-> +	display_ctrl_adjust(dev, mode, val);
-> +}
-> +
-> +static void yhgch_crtc_atomic_begin(struct drm_crtc *crtc,
-> +				    struct drm_atomic_state *old_state)
-> +{
-> +	u32 reg;
-> +	struct drm_device *dev = crtc->dev;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
-> +
-> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
-> +
-> +	/* Enable display power gate & LOCALMEM power gate */
-> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
-> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
-> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
-> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
-> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
-> +	yhgch_set_current_gate(priv, reg);
-> +
-> +	/* We can add more initialization as needed. */
-> +}
-> +
-> +static const struct drm_crtc_funcs yhgch_crtc_funcs = {
-> +	.page_flip = drm_atomic_helper_page_flip,
-> +	.set_config = drm_atomic_helper_set_config,
-> +	.destroy = drm_crtc_cleanup,
-> +	.reset = drm_atomic_helper_crtc_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-> +
-> +};
-> +
-> +static const struct drm_crtc_helper_funcs yhgch_crtc_helper_funcs = {
-> +	.mode_set_nofb = yhgch_crtc_mode_set_nofb,
-> +	.atomic_begin = yhgch_crtc_atomic_begin,
-> +	.atomic_enable = yhgch_crtc_atomic_enable,
-> +	.atomic_disable = yhgch_crtc_atomic_disable,
-> +	.mode_valid = yhgch_crtc_mode_valid,
-> +};
-> +
-> +int yhgch_de_init(struct yhgch_drm_private *priv)
-> +{
-> +	struct drm_device *dev = &priv->dev;
-> +	struct drm_crtc *crtc = &priv->crtc;
-> +	struct drm_plane *plane = &priv->primary_plane;
-> +	int ret;
-> +
-> +	ret = drm_universal_plane_init(dev, plane, 1, &yhgch_plane_funcs,
-> +				       channel_formats1,
-> +				       ARRAY_SIZE(channel_formats1),
-> +				       NULL,
-> +				       DRM_PLANE_TYPE_PRIMARY,
-> +				       NULL);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init plane: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_plane_helper_add(plane, &yhgch_plane_helper_funcs);
-> +
-> +	ret = drm_crtc_init_with_planes(dev, crtc, plane,
-> +					NULL, &yhgch_crtc_funcs, NULL);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init crtc: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_crtc_helper_add(crtc, &yhgch_crtc_helper_funcs);
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
-> new file mode 100644
-> index 000000000000..276a0e129058
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
-> @@ -0,0 +1,312 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include "yhgch_drm_drv.h"
-> +
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +
-> +#include <linux/aperture.h>
-> +#include <drm/clients/drm_client_setup.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_fbdev_ttm.h>
-> +
-> +#include <drm/drm_gem_framebuffer_helper.h>
-> +#include <drm/drm_gem_vram_helper.h>
-> +#include <drm/drm_managed.h>
-> +#include <drm/drm_module.h>
-> +#include <drm/drm_vblank.h>
-> +
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#include "yhgch_drm_drv.h"
-> +#include "yhgch_drm_regs.h"
-> +
-> +#define MEM_SIZE_RESERVE4KVM 0x200000
-> +
-> +DEFINE_DRM_GEM_FOPS(yhgch_fops);
-> +
-> +int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
-> +		      struct drm_mode_create_dumb *args)
-> +{
-> +	return drm_gem_vram_fill_create_dumb(file, dev, 0, 16, args);
-> +}
-> +
-> +static struct drm_driver yhgch_driver = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> +	.fops = &yhgch_fops,
-> +	.name = "yhgch",
-> +	.desc = "yhgch drm driver",
-> +	.major = 3,
-> +	.minor = 1,
-> +	.debugfs_init = drm_vram_mm_debugfs_init,
-> +	.dumb_create = yhgch_dumb_create,
-> +	.dumb_map_offset = drm_gem_ttm_dumb_map_offset,
-> +	DRM_FBDEV_TTM_DRIVER_OPS,
-> +};
-> +
-> +static int __maybe_unused yhgch_pm_suspend(struct device *dev)
-> +{
-> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
-> +
-> +	return drm_mode_config_helper_suspend(drm_dev);
-> +}
-> +
-> +static int __maybe_unused yhgch_pm_resume(struct device *dev)
-> +{
-> +	struct drm_device *drm_dev = dev_get_drvdata(dev);
-> +
-> +	return drm_mode_config_helper_resume(drm_dev);
-> +}
-> +
-> +static const struct dev_pm_ops yhgch_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(yhgch_pm_suspend,
-> +				yhgch_pm_resume)
-> +};
-> +
-> +static const struct drm_mode_config_funcs yhgch_mode_funcs = {
-> +	.mode_valid = drm_vram_helper_mode_valid,
-> +	.atomic_check = drm_atomic_helper_check,
-> +	.atomic_commit = drm_atomic_helper_commit,
-> +	.fb_create = drm_gem_fb_create,
-> +};
-> +
-> +static int yhgch_kms_init(struct yhgch_drm_private *priv)
-> +{
-> +	struct drm_device *dev = &priv->dev;
-> +	int ret;
-> +
-> +	ret = drmm_mode_config_init(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv->dev.mode_config.min_width = 0;
-> +	priv->dev.mode_config.min_height = 0;
-> +	priv->dev.mode_config.max_width = 1920;
-> +	priv->dev.mode_config.max_height = 1200;
-> +	dev->mode_config.preferred_depth = 24;
+Here's the `dmesg` output that corresponds exactly to the moment that a Flatpak
+app is launched:
 
-Why is this line different from all other lines?
+```````````````````````````````````````````
+[Tue Sep  2 23:31:49 2025] BUG: kernel NULL pointer dereference, address:
+0000000000000000
+[Tue Sep  2 23:31:49 2025] #PF: supervisor read access in kernel mode
+[Tue Sep  2 23:31:49 2025] #PF: error_code(0x0000) - not-present page
+[Tue Sep  2 23:31:49 2025] PGD 0 P4D 0
+[Tue Sep  2 23:31:49 2025] Oops: Oops: 0000 [#3] PREEMPT SMP PTI
+[Tue Sep  2 23:31:49 2025] CPU: 6 UID: 1000 PID: 4820 Comm: com.github.tchx
+Tainted: G      D            6.12.31-amd64 #1  Debian 6.12.31-1
+[Tue Sep  2 23:31:49 2025] Tainted: [D]=DIE
+[Tue Sep  2 23:31:49 2025] Hardware name: Intel(R) Client Systems
+LAPQC71A/LAPQC71A, BIOS QCCFL357.0144.2022.0124.1433 01/24/2022
+[Tue Sep  2 23:31:49 2025] RIP: 0010:nvkm_gr_units+0x9/0x30 [nouveau]
+[Tue Sep  2 23:31:49 2025] Code: 74 06 ff e0 cc 66 90 cc 31 c0 c3 cc cc cc cc
+66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f 1f 00 0f 1f 44 00
+00 <48> 8b 07 48 8b 40 58 48 85 c0 74 06 ff e0 cc 66 90 cc 31 c0 c3 cc
+[Tue Sep  2 23:31:49 2025] RSP: 0018:ffffa1f38f267b40 EFLAGS: 00010246
+[Tue Sep  2 23:31:49 2025] RAX: ffff92a3ba38e000 RBX: ffffa1f38f267c20 RCX:
+ffff92a3871f2800
+[Tue Sep  2 23:31:49 2025] RDX: ffff92a599362c00 RSI: ffffa1f38f267c20 RDI:
+0000000000000000
+[Tue Sep  2 23:31:49 2025] RBP: ffff92a4ab71d000 R08: 000000000000000d R09:
+00000000000012d4
+[Tue Sep  2 23:31:49 2025] R10: 0000000000000010 R11: 0000000000000012 R12:
+ffffffffc0bb61f0
+[Tue Sep  2 23:31:49 2025] R13: ffffa1f38f267c20 R14: ffff92a3ba386000 R15:
+0000000000000010
+[Tue Sep  2 23:31:49 2025] FS:  00007fe43b074940(0000)
+GS:ffff92ab1db00000(0000) knlGS:0000000000000000
+[Tue Sep  2 23:31:49 2025] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[Tue Sep  2 23:31:49 2025] CR2: 0000000000000000 CR3: 000000030ae00001 CR4:
+00000000003726f0
+[Tue Sep  2 23:31:49 2025] Call Trace:
+[Tue Sep  2 23:31:49 2025]  <TASK>
+[Tue Sep  2 23:31:49 2025]  nouveau_abi16_ioctl_getparam+0x2aa/0x350 [nouveau]
+[Tue Sep  2 23:31:49 2025]  ? tomoyo_init_request_info+0x99/0xc0
+[Tue Sep  2 23:31:49 2025]  drm_ioctl_kernel+0xad/0x100 [drm]
+[Tue Sep  2 23:31:49 2025]  drm_ioctl+0x277/0x4f0 [drm]
+[Tue Sep  2 23:31:49 2025]  ? __pfx_nouveau_abi16_ioctl_getparam+0x10/0x10
+[nouveau]
+[Tue Sep  2 23:31:49 2025]  nouveau_drm_ioctl+0x57/0xb0 [nouveau]
+[Tue Sep  2 23:31:49 2025]  __x64_sys_ioctl+0x91/0xd0
+[Tue Sep  2 23:31:49 2025]  do_syscall_64+0x82/0x190
+[Tue Sep  2 23:31:49 2025]  ? __pfx_nouveau_abi16_ioctl_getparam+0x10/0x10
+[nouveau]
+[Tue Sep  2 23:31:49 2025]  ? __pm_runtime_suspend+0x69/0xc0
+[Tue Sep  2 23:31:49 2025]  ? nouveau_drm_ioctl+0x7a/0xb0 [nouveau]
+[Tue Sep  2 23:31:49 2025]  ? syscall_exit_to_user_mode+0x4d/0x210
+[Tue Sep  2 23:31:49 2025]  ? do_syscall_64+0x8e/0x190
+[Tue Sep  2 23:31:49 2025]  ? syscall_exit_to_user_mode+0x4d/0x210
+[Tue Sep  2 23:31:49 2025]  ? do_syscall_64+0x8e/0x190
+[Tue Sep  2 23:31:49 2025]  ? exc_page_fault+0x7e/0x180
+[Tue Sep  2 23:31:49 2025]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[Tue Sep  2 23:31:49 2025] RIP: 0033:0x7fe43d11988d
+[Tue Sep  2 23:31:49 2025] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45
+10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f
+05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+[Tue Sep  2 23:31:49 2025] RSP: 002b:00007fff980905a0 EFLAGS: 00000246
+ORIG_RAX: 0000000000000010
+[Tue Sep  2 23:31:49 2025] RAX: ffffffffffffffda RBX: 00005630873e6e90 RCX:
+00007fe43d11988d
+[Tue Sep  2 23:31:49 2025] RDX: 00007fff98090660 RSI: 00000000c0106440 RDI:
+0000000000000012
+[Tue Sep  2 23:31:49 2025] RBP: 00007fff980905f0 R08: 0000000000002191 R09:
+000017aa381e0000
+[Tue Sep  2 23:31:49 2025] R10: 00007fe3bff088c0 R11: 0000000000000246 R12:
+00007fff98090660
+[Tue Sep  2 23:31:49 2025] R13: 00000000c0106440 R14: 0000000000000012 R15:
+0000563087434560
+[Tue Sep  2 23:31:49 2025]  </TASK>
+[Tue Sep  2 23:31:49 2025] Modules linked in: uinput ccm snd_seq_dummy
+snd_hrtimer snd_seq_midi snd_seq_midi_event snd_rawmidi snd_seq snd_seq_device
+rfcomm cmac algif_hash algif_skcipher af_alg bnep zram lz4hc_compress
+lz4_compress binfmt_misc btusb btrtl uvcvideo btintel btbcm videobuf2_vmalloc
+btmtk uvc videobuf2_memops videobuf2_v4l2 bluetooth videodev videobuf2_common
+mc sg crc16 nls_ascii nls_cp437 vfat fat snd_sof_pci_intel_cnl
+snd_sof_intel_hda_generic soundwire_intel soundwire_generic_allocation
+soundwire_cadence snd_sof_intel_hda_common snd_soc_hdac_hda
+snd_sof_intel_hda_mlink intel_rapl_msr snd_sof_intel_hda intel_rapl_common
+snd_sof_pci intel_uncore_frequency snd_sof_xtensa_dsp
+intel_uncore_frequency_common iwlmvm snd_sof snd_sof_utils
+snd_soc_acpi_intel_match snd_soc_acpi soundwire_bus mac80211 snd_soc_avs
+snd_hda_codec_realtek x86_pkg_temp_thermal snd_soc_hda_codec intel_powerclamp
+snd_hda_ext_core coretemp snd_hda_codec_generic snd_soc_core
+snd_hda_scodec_component kvm_intel snd_hda_codec_hdmi snd_compress
+[Tue Sep  2 23:31:49 2025]  snd_pcm_dmaengine snd_hda_intel libarc4
+snd_intel_dspcfg snd_intel_sdw_acpi snd_hda_codec kvm iwlwifi snd_hda_core
+snd_hwdep snd_pcm_oss irqbypass snd_mixer_oss cfg80211 mei_hdcp mei_pxp rapl
+snd_pcm asus_wmi sparse_keymap intel_cstate platform_profile intel_uncore
+snd_timer mei_me intel_wmi_thunderbolt ee1004 snd rfkill mei wmi_bmof soundcore
+intel_pch_thermal intel_pmc_core intel_vsec pmt_telemetry acpi_pad pmt_class ac
+acpi_tad joydev evdev msr parport_pc dm_mod ppdev lp parport efi_pstore
+configfs nfnetlink efivarfs ip_tables x_tables autofs4 btrfs blake2b_generic
+xor sd_mod raid6_pq libcrc32c crc32c_generic uas usb_storage usbhid i915
+nouveau drm_gpuvm drm_exec gpu_sched drm_buddy i2c_algo_bit drm_display_helper
+cec hid_multitouch rc_core drm_ttm_helper hid_generic crct10dif_pclmul
+crc32_pclmul ttm crc32c_intel i2c_hid_acpi ghash_clmulni_intel ahci iTCO_wdt
+i2c_hid sha512_ssse3 xhci_pci intel_pmc_bxt drm_kms_helper hid libahci xhci_hcd
+sha256_ssse3 iTCO_vendor_support nvme libata watchdog sha1_ssse3
+[Tue Sep  2 23:31:49 2025]  r8169 drm nvme_core usbcore aesni_intel realtek
+thunderbolt mxm_wmi i2c_i801 intel_lpss_pci gf128mul mdio_devres scsi_mod
+crypto_simd libphy cryptd serio_raw i2c_smbus intel_lpss nvme_auth idma64
+usb_common scsi_common battery video wmi button
+[Tue Sep  2 23:31:49 2025] CR2: 0000000000000000
+[Tue Sep  2 23:31:49 2025] ---[ end trace 0000000000000000 ]---
+[Tue Sep  2 23:31:49 2025] RIP: 0010:nvkm_gr_units+0x9/0x30 [nouveau]
+[Tue Sep  2 23:31:49 2025] Code: 74 06 ff e0 cc 66 90 cc 31 c0 c3 cc cc cc cc
+66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f 1f 00 0f 1f 44 00
+00 <48> 8b 07 48 8b 40 58 48 85 c0 74 06 ff e0 cc 66 90 cc 31 c0 c3 cc
+[Tue Sep  2 23:31:49 2025] RSP: 0018:ffffa1f38e783b70 EFLAGS: 00010246
+[Tue Sep  2 23:31:49 2025] RAX: ffff92a3ba38e000 RBX: ffffa1f38e783c50 RCX:
+ffff92a3871f2800
+[Tue Sep  2 23:31:49 2025] RDX: ffff92a38a102400 RSI: ffffa1f38e783c50 RDI:
+0000000000000000
+[Tue Sep  2 23:31:49 2025] RBP: ffff92a432853200 R08: 000000000000000d R09:
+0000000000000b38
+[Tue Sep  2 23:31:49 2025] R10: 0000000000000010 R11: 000000000000001a R12:
+ffffffffc0bb61f0
+[Tue Sep  2 23:31:49 2025] R13: ffffa1f38e783c50 R14: ffff92a3ba386000 R15:
+0000000000000010
+[Tue Sep  2 23:31:49 2025] FS:  00007fe43b074940(0000)
+GS:ffff92ab1db00000(0000) knlGS:0000000000000000
+[Tue Sep  2 23:31:49 2025] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[Tue Sep  2 23:31:49 2025] CR2: 0000000000000000 CR3: 000000030ae00001 CR4:
+00000000003726f0
+[Tue Sep  2 23:31:49 2025] note: com.github.tchx[4820] exited with irqs
+disabled
+```````````````````````````````````````````
 
-> +	priv->dev.mode_config.prefer_shadow = 1;
-> +	priv->dev.mode_config.funcs = &yhgch_mode_funcs;
-> +
-> +	ret = yhgch_de_init(priv);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init de: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = yhgch_vdac_init(priv);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init vdac: %d\n", ret);
-> +		return ret;
-> +	}
-> +	drm_kms_helper_poll_init(dev);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * It can operate in one of three modes: 0, 1 or Sleep.
-> + */
-> +void yhgch_set_power_mode(struct yhgch_drm_private *priv, u32 power_mode)
-> +{
-> +	unsigned int control_value = 0;
-> +	void __iomem *mmio = priv->mmio;
-> +	u32 input = 1;
-> +
-> +	if (power_mode > YHGCH_PW_MODE_CTL_MODE_SLEEP)
-> +		return;
-> +
-> +	if (power_mode == YHGCH_PW_MODE_CTL_MODE_SLEEP)
-> +		input = 0;
-> +
-> +	control_value = readl(mmio + YHGCH_POWER_MODE_CTRL);
-> +	control_value &= ~(YHGCH_PW_MODE_CTL_MODE_MASK |
-> +			   YHGCH_PW_MODE_CTL_OSC_INPUT_MASK);
-> +	control_value |= YHGCH_FIELD(YHGCH_PW_MODE_CTL_MODE, power_mode);
-> +	control_value |= YHGCH_FIELD(YHGCH_PW_MODE_CTL_OSC_INPUT, input);
-> +	writel(control_value, mmio + YHGCH_POWER_MODE_CTRL);
-> +}
-> +
-> +void yhgch_set_current_gate(struct yhgch_drm_private *priv, unsigned int gate)
-> +{
-> +	u32 gate_reg;
-> +	u32 mode;
-> +	void __iomem *mmio = priv->mmio;
-> +
-> +	/* Get current power mode. */
-> +	mode = (readl(mmio + YHGCH_POWER_MODE_CTRL) &
-> +		YHGCH_PW_MODE_CTL_MODE_MASK) >> YHGCH_PW_MODE_CTL_MODE_SHIFT;
-> +
-> +	switch (mode) {
-> +	case YHGCH_PW_MODE_CTL_MODE_MODE0:
-> +		gate_reg = YHGCH_MODE0_GATE;
-> +		break;
-> +
-> +	case YHGCH_PW_MODE_CTL_MODE_MODE1:
-> +		gate_reg = YHGCH_MODE1_GATE;
-> +		break;
-> +
-> +	default:
-> +		gate_reg = YHGCH_MODE0_GATE;
-> +		break;
-> +	}
-> +	writel(gate, mmio + gate_reg);
-> +}
-> +
-> +static void yhgch_hw_config(struct yhgch_drm_private *priv)
-> +{
-> +	u32 reg;
-> +
-> +	/* On hardware reset, power mode 0 is default. */
-> +	yhgch_set_power_mode(priv, YHGCH_PW_MODE_CTL_MODE_MODE0);
-> +
-> +	/* Enable display power gate & LOCALMEM power gate */
-> +	reg = readl(priv->mmio + YHGCH_CURRENT_GATE);
-> +	reg &= ~YHGCH_CURR_GATE_DISPLAY_MASK;
-> +	reg &= ~YHGCH_CURR_GATE_LOCALMEM_MASK;
-> +	reg |= YHGCH_CURR_GATE_DISPLAY(1);
-> +	reg |= YHGCH_CURR_GATE_LOCALMEM(1);
-> +
-> +	yhgch_set_current_gate(priv, reg);
-> +
-> +	/*
-> +	 * Reset the memory controller. If the memory controller
-> +	 * is not reset in chip,the system might hang when sw accesses
-> +	 * the memory.The memory should be resetted after
-> +	 * changing the MXCLK.
-> +	 */
-> +	reg = readl(priv->mmio + YHGCH_MISC_CTRL);
-> +	reg &= ~YHGCH_MSCCTL_LOCALMEM_RESET_MASK;
-> +	reg |= YHGCH_MSCCTL_LOCALMEM_RESET(0);
-> +	writel(reg, priv->mmio + YHGCH_MISC_CTRL);
-> +
-> +	reg &= ~YHGCH_MSCCTL_LOCALMEM_RESET_MASK;
-> +	reg |= YHGCH_MSCCTL_LOCALMEM_RESET(1);
-> +
-> +	writel(reg, priv->mmio + YHGCH_MISC_CTRL);
-> +}
-> +
-> +static int yhgch_hw_map(struct yhgch_drm_private *priv)
-> +{
-> +	struct drm_device *dev = &priv->dev;
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +	resource_size_t ioaddr, iosize;
-> +
-> +	ioaddr = pci_resource_start(pdev, 1);
-> +	iosize = pci_resource_len(pdev, 1);
-> +	priv->mmio = devm_ioremap(dev->dev, ioaddr, iosize);
-> +	if (!priv->mmio) {
-> +		drm_err(dev, "Cannot map mmio region\n");
-> +		return -ENOMEM;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int yhgch_hw_init(struct yhgch_drm_private *priv)
-> +{
-> +	int ret;
-> +
-> +	ret = yhgch_hw_map(priv);
-> +	if (ret)
-> +		return ret;
-> +	yhgch_hw_config(priv);
-> +	return 0;
-> +}
-> +
-> +static int yhgch_pci_probe(struct pci_dev *pdev,
-> +			   const struct pci_device_id *ent)
-> +{
-> +	struct yhgch_drm_private *priv;
-> +	struct drm_device *dev;
-> +	int ret;
-> +
-> +	ret = aperture_remove_conflicting_pci_devices(pdev, yhgch_driver.name);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv = devm_drm_dev_alloc(&pdev->dev, &yhgch_driver,
-> +				  struct yhgch_drm_private, dev);
-> +
-> +	if (IS_ERR(priv))
-> +		return PTR_ERR(priv);
-> +
-> +	dev = &priv->dev;
-> +	pci_set_drvdata(pdev, dev);
-> +
-> +	ret = pcim_enable_device(pdev);
-> +	if (ret) {
-> +		drm_err(dev, "failed to enable pci device: %d\n", ret);
-> +		goto err_return;
-> +	}
-> +
-> +	ret = yhgch_hw_init(priv);
-> +	if (ret)
-> +		goto err_unload;
-> +	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
-> +				    pci_resource_len(pdev, 0));
-> +	if (ret) {
-> +		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
-> +		goto err_unload;
-> +	}
-> +	ret = yhgch_kms_init(priv);
-> +	if (ret)
-> +		goto err_unload;
-> +
-> +	ret = pci_enable_msi(pdev);
-> +	if (ret)
-> +		drm_warn(dev, "enabling MSI failed: %d\n", ret);
-> +	/* reset all the states of crtc/plane/encoder/connector */
-> +	drm_mode_config_reset(dev);
-> +
-> +	ret = drm_dev_register(dev, 0);
-> +	if (ret) {
-> +		drm_err(dev, "failed to register drv for userspace access: %d\n",
-> +			ret);
-> +		goto err_unload;
-> +	}
-> +	drm_client_setup(dev, NULL);
-> +
-> +	return 0;
-> +
-> +err_unload:
-> +	drm_atomic_helper_shutdown(dev);
 
-I don't think this is necessary, it will be unrolled by drmm code.
+-- Package-specific info:
+** Version:
+Linux version 6.12.41+deb13-amd64 (debian-kernel@lists.debian.org) (x86_64-linux-gnu-gcc-14 (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44) #1 SMP PREEMPT_DYNAMIC Debian 6.12.41-1 (2025-08-12)
 
-> +err_return:
-> +	return ret;
-> +}
-> +
-> +static void yhgch_pci_remove(struct pci_dev *pdev)
-> +{
-> +	struct drm_device *dev = pci_get_drvdata(pdev);
-> +
-> +	drm_dev_unregister(dev);
-> +	drm_atomic_helper_shutdown(dev);
+** Command line:
+BOOT_IMAGE=/@/boot/vmlinuz-6.12.41+deb13-amd64 root=UUID=9b7ad72a-c27f-41d3-8845-cd4b23197f2b ro rootflags=subvol=@ quiet loglevel=0 splash threadirqs
 
-No need to shutdown it here.
+** Tainted: OE (12288)
+  * externally-built ("out-of-tree") module was loaded
+  * unsigned module was loaded
 
-> +}
-> +
-> +static void yhgch_pci_shutdown(struct pci_dev *pdev)
-> +{
-> +	drm_atomic_helper_shutdown(pci_get_drvdata(pdev));
-> +}
-> +
-> +static struct pci_device_id yhgch_pci_table[] = {
-> +	{ 0x1bd4, 0x0750, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0 },
-> +	{ 0, }
-> +};
-> +
-> +static struct pci_driver yhgch_pci_driver = {
-> +	.name = "yhgch-drm",
-> +	.id_table = yhgch_pci_table,
-> +	.probe = yhgch_pci_probe,
-> +	.remove = yhgch_pci_remove,
-> +	.shutdown = yhgch_pci_shutdown,
-> +	.driver.pm = &yhgch_pm_ops,
-> +};
-> +
-> +drm_module_pci_driver(yhgch_pci_driver);
-> +
-> +MODULE_DEVICE_TABLE(pci, yhgch_pci_table);
-> +MODULE_AUTHOR("");
+** Kernel log:
+Unable to read kernel log; any relevant messages should be attached
 
-??
+** Model information
+sys_vendor: Intel(R) Client Systems
+product_name: LAPQC71A
+product_version: K63034-303
+chassis_vendor: Intel Corporation
+chassis_version: 1.0
+bios_vendor: Intel Corp.
+bios_version: QCCFL357.0144.2022.0124.1433
+board_vendor: Intel Corporation
+board_name: LAPQC71A
+board_version: K54899-303
 
-> +MODULE_DESCRIPTION("DRM Driver for YhgchBMC");
-> +MODULE_LICENSE("GPL");
-> +MODULE_VERSION("3.1");
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
-> new file mode 100644
-> index 000000000000..8892d4ca0bae
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef YHGCH_DRM_DRV_H
-> +#define YHGCH_DRM_DRV_H
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c-algo-bit.h>
-> +#include <linux/i2c.h>
-> +#include <linux/version.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_encoder.h>
-> +
-> +struct yhgch_vdac {
-> +	struct drm_connector base;
-> +	struct i2c_adapter adapter;
-> +	struct i2c_algo_bit_data bit_data;
-> +};
-> +
-> +struct yhgch_drm_private {
-> +	/* hw */
-> +	void __iomem *mmio;
-> +
-> +	/* drm */
-> +	struct drm_device dev;
-> +	struct drm_plane primary_plane;
-> +	struct drm_crtc crtc;
-> +	struct drm_encoder encoder;
-> +	struct yhgch_vdac vdac;
-> +};
-> +
-> +static inline struct yhgch_vdac *to_yhgch_vdac(struct drm_connector *connector)
-> +{
-> +	return container_of(connector, struct yhgch_vdac, base);
-> +}
-> +
-> +static inline struct yhgch_drm_private *to_yhgch_drm_private(struct drm_device *dev)
-> +{
-> +	return container_of(dev, struct yhgch_drm_private, dev);
-> +}
-> +
-> +void yhgch_set_power_mode(struct yhgch_drm_private *priv,
-> +			  u32 power_mode);
-> +void yhgch_set_current_gate(struct yhgch_drm_private *priv,
-> +			    u32 gate);
-> +
-> +int yhgch_de_init(struct yhgch_drm_private *priv);
-> +int yhgch_vdac_init(struct yhgch_drm_private *priv);
-> +int yhgch_mm_init(struct yhgch_drm_private *yhgch);
-> +int yhgch_ddc_create(struct drm_device *drm_dev, struct yhgch_vdac *connector);
-> +
-> +int yhgch_dumb_create(struct drm_file *file, struct drm_device *dev,
-> +		      struct drm_mode_create_dumb *args);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
-> new file mode 100644
-> index 000000000000..57f40efc60c1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_i2c.c
-> @@ -0,0 +1,108 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/delay.h>
-> +#include <linux/pci.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +#include <drm/drm_managed.h>
-> +
-> +#include "yhgch_drm_drv.h"
-> +
-> +#define GPIO_DATA		0x0802A0
-> +#define GPIO_DATA_DIRECTION	0x0802A4
-> +
-> +#define I2C_SCL_MASK		BIT(0)
-> +#define I2C_SDA_MASK		BIT(1)
-> +
-> +static void yhgch_set_i2c_signal(void *data, u32 mask, int value)
-> +{
-> +	struct yhgch_vdac *yhgch_vdac = data;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(yhgch_vdac->base.dev);
-> +	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
-> +
-> +	if (value) {
-> +		tmp_dir &= ~mask;
-> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
-> +	} else {
-> +		u32 tmp_data = readl(priv->mmio + GPIO_DATA);
-> +
-> +		tmp_data &= ~mask;
-> +		writel(tmp_data, priv->mmio + GPIO_DATA);
-> +
-> +		tmp_dir |= mask;
-> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
-> +	}
-> +}
-> +
-> +static int yhgch_get_i2c_signal(void *data, u32 mask)
-> +{
-> +	struct yhgch_vdac *yhgch_vdac = data;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(yhgch_vdac->base.dev);
-> +	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
-> +
-> +	if ((tmp_dir & mask) != mask) {
-> +		tmp_dir &= ~mask;
-> +		writel(tmp_dir, priv->mmio + GPIO_DATA_DIRECTION);
-> +	}
-> +
-> +	return (readl(priv->mmio + GPIO_DATA) & mask) ? 1 : 0;
-> +}
-> +
-> +static void yhgch_ddc_setsda(void *data, int state)
-> +{
-> +	yhgch_set_i2c_signal(data, I2C_SDA_MASK, state);
-> +}
-> +
-> +static void yhgch_ddc_setscl(void *data, int state)
-> +{
-> +	yhgch_set_i2c_signal(data, I2C_SCL_MASK, state);
-> +}
-> +
-> +static int yhgch_ddc_getsda(void *data)
-> +{
-> +	return yhgch_get_i2c_signal(data, I2C_SDA_MASK);
-> +}
-> +
-> +static int yhgch_ddc_getscl(void *data)
-> +{
-> +	return yhgch_get_i2c_signal(data, I2C_SCL_MASK);
-> +}
-> +
-> +static void yhgch_ddc_release(struct drm_device *dev, void *res)
-> +{
-> +	struct yhgch_vdac *yhgch_vdac = res;
-> +
-> +	i2c_del_adapter(&yhgch_vdac->adapter);
-> +}
-> +
-> +int yhgch_ddc_create(struct drm_device *drm_dev,
-> +		     struct yhgch_vdac *yhgch_vdac)
-> +{
-> +	int ret = 0;
-> +
-> +	yhgch_vdac->adapter.owner = THIS_MODULE;
-> +	snprintf(yhgch_vdac->adapter.name, I2C_NAME_SIZE, "INS i2c bit bus");
-> +	yhgch_vdac->adapter.dev.parent = drm_dev->dev;
-> +	i2c_set_adapdata(&yhgch_vdac->adapter, yhgch_vdac);
-> +	yhgch_vdac->adapter.algo_data = &yhgch_vdac->bit_data;
-> +
-> +	yhgch_vdac->bit_data.udelay = 20;
-> +	yhgch_vdac->bit_data.timeout = usecs_to_jiffies(2000);
-> +	yhgch_vdac->bit_data.data = yhgch_vdac;
-> +	yhgch_vdac->bit_data.setsda = yhgch_ddc_setsda;
-> +	yhgch_vdac->bit_data.setscl = yhgch_ddc_setscl;
-> +	yhgch_vdac->bit_data.getsda = yhgch_ddc_getsda;
-> +	yhgch_vdac->bit_data.getscl = yhgch_ddc_getscl;
-> +
-> +	ret = i2c_bit_add_bus(&yhgch_vdac->adapter);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = drmm_add_action_or_reset(drm_dev, yhgch_ddc_release, yhgch_vdac);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
-> new file mode 100644
-> index 000000000000..d707f5186ab4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_regs.h
-> @@ -0,0 +1,209 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef YHGCH_DRM_HW_H
-> +#define YHGCH_DRM_HW_H
-> +
-> +/* register definition */
-> +#define YHGCH_MISC_CTRL				0x4
-> +
-> +#define YHGCH_MSCCTL_LOCALMEM_RESET(x)		((x) << 6)
-> +#define YHGCH_MSCCTL_LOCALMEM_RESET_MASK	0x40
-> +
-> +#define YHGCH_CURRENT_GATE			0x000040
-> +#define YHGCH_CURR_GATE_DISPLAY(x)		((x) << 2)
-> +#define YHGCH_CURR_GATE_DISPLAY_MASK		0x4
-> +
-> +#define YHGCH_CURR_GATE_LOCALMEM(x)		((x) << 1)
-> +#define YHGCH_CURR_GATE_LOCALMEM_MASK		0x2
-> +
-> +#define YHGCH_MODE0_GATE			0x000044
-> +#define YHGCH_MODE1_GATE			0x000048
-> +#define YHGCH_POWER_MODE_CTRL			0x00004C
-> +
-> +#define YHGCH_PW_MODE_CTL_OSC_INPUT(x)		((x) << 3)
-> +#define YHGCH_PW_MODE_CTL_OSC_INPUT_MASK	0x8
-> +
-> +#define YHGCH_PW_MODE_CTL_MODE(x)		((x) << 0)
-> +#define YHGCH_PW_MODE_CTL_MODE_MASK		0x03
-> +#define YHGCH_PW_MODE_CTL_MODE_SHIFT		0
-> +
-> +#define YHGCH_PW_MODE_CTL_MODE_MODE0		0
-> +#define YHGCH_PW_MODE_CTL_MODE_MODE1		1
-> +#define YHGCH_PW_MODE_CTL_MODE_SLEEP		2
-> +
-> +//#define YHGCH_CRT_PLL_CTRL                   0x000060
-> +
-> +#define YHGCH_PLL_CTRL_BYPASS(x)		((x) << 18)
-> +#define YHGCH_PLL_CTRL_BYPASS_MASK		0x40000
-> +
-> +#define YHGCH_PLL_CTRL_POWER(x)			((x) << 17)
-> +#define YHGCH_PLL_CTRL_POWER_MASK		0x20000
-> +
-> +#define YHGCH_PLL_CTRL_INPUT(x)			((x) << 16)
-> +#define YHGCH_PLL_CTRL_INPUT_MASK		0x10000
-> +
-> +#define YHGCH_PLL_CTRL_POD(x)			((x) << 14)
-> +#define YHGCH_PLL_CTRL_POD_MASK			0xC000
-> +
-> +#define YHGCH_PLL_CTRL_OD(x)			((x) << 12)
-> +#define YHGCH_PLL_CTRL_OD_MASK			0x3000
-> +
-> +#define YHGCH_PLL_CTRL_N(x)			((x) << 8)
-> +#define YHGCH_PLL_CTRL_N_MASK			0xF00
-> +
-> +#define YHGCH_PLL_CTRL_M(x)			((x) << 0)
-> +#define YHGCH_PLL_CTRL_M_MASK			0xFF
-> +
-> +#define YHGCH_CRT_DISP_CTL			0x80200
-> +
-> +#define YHGCH_CRT_DISP_CTL_DPMS(x)		((x) << 30)
-> +#define YHGCH_CRT_DISP_CTL_DPMS_MASK		0xc0000000
-> +
-> +#define YHGCH_CRT_DPMS_ON			0
-> +#define YHGCH_CRT_DPMS_OFF			3
-> +
-> +#define YHGCH_CRT_DISP_CTL_CRTSELECT(x)		((x) << 25)
-> +#define YHGCH_CRT_DISP_CTL_CRTSELECT_MASK	0x2000000
-> +
-> +#define YHGCH_CRTSELECT_CRT			1
-> +
-> +#define YHGCH_CRT_DISP_CTL_CLOCK_PHASE(x)	((x) << 14)
-> +#define YHGCH_CRT_DISP_CTL_CLOCK_PHASE_MASK	0x4000
-> +
-> +#define YHGCH_CRT_DISP_CTL_VSYNC_PHASE(x)	((x) << 13)
-> +#define YHGCH_CRT_DISP_CTL_VSYNC_PHASE_MASK	0x2000
-> +
-> +#define YHGCH_CRT_DISP_CTL_HSYNC_PHASE(x)	((x) << 12)
-> +#define YHGCH_CRT_DISP_CTL_HSYNC_PHASE_MASK	0x1000
-> +
-> +#define YHGCH_CRT_DISP_CTL_TIMING(x)		((x) << 8)
-> +#define YHGCH_CRT_DISP_CTL_TIMING_MASK		0x100
-> +
-> +#define YHGCH_CRT_DISP_CTL_PLANE(x)		((x) << 2)
-> +#define YHGCH_CRT_DISP_CTL_PLANE_MASK		4
-> +
-> +#define YHGCH_CRT_DISP_CTL_FORMAT(x)		((x) << 0)
-> +#define YHGCH_CRT_DISP_CTL_FORMAT_MASK		0x03
-> +
-> +#define YHGCH_CRT_FB_ADDRESS			0x080204
-> +
-> +#define YHGCH_CRT_FB_WIDTH			0x080208
-> +#define YHGCH_CRT_FB_WIDTH_WIDTH(x)		((x) << 16)
-> +#define YHGCH_CRT_FB_WIDTH_WIDTH_MASK		0x3FFF0000
-> +#define YHGCH_CRT_FB_WIDTH_OFFS(x)		((x) << 0)
-> +#define YHGCH_CRT_FB_WIDTH_OFFS_MASK		0x3FFF
-> +
-> +#define YHGCH_CRT_HORZ_TOTAL			0x08020C
-> +#define YHGCH_CRT_HORZ_TOTAL_TOTAL(x)		((x) << 16)
-> +#define YHGCH_CRT_HORZ_TOTAL_TOTAL_MASK		0xFFF0000
-> +
-> +#define YHGCH_CRT_HORZ_TOTAL_DISP_END(x)	((x) << 0)
-> +#define YHGCH_CRT_HORZ_TOTAL_DISP_END_MASK	0xFFF
-> +
-> +#define YHGCH_CRT_HORZ_SYNC			0x080210
-> +#define YHGCH_CRT_HORZ_SYNC_WIDTH(x)		((x) << 16)
-> +#define YHGCH_CRT_HORZ_SYNC_WIDTH_MASK		0xFF0000
-> +
-> +#define YHGCH_CRT_HORZ_SYNC_START(x)		((x) << 0)
-> +#define YHGCH_CRT_HORZ_SYNC_START_MASK		0xFFF
-> +
-> +#define YHGCH_CRT_VERT_TOTAL			0x080214
-> +#define YHGCH_CRT_VERT_TOTAL_TOTAL(x)		((x) << 16)
-> +#define YHGCH_CRT_VERT_TOTAL_TOTAL_MASK		0x7FFF0000
-> +
-> +#define YHGCH_CRT_VERT_TOTAL_DISP_END(x)	((x) << 0)
-> +#define YHGCH_CRT_VERT_TOTAL_DISP_END_MASK	0x7FF
-> +
-> +#define YHGCH_CRT_VERT_SYNC			0x080218
-> +#define YHGCH_CRT_VERT_SYNC_HEIGHT(x)		((x) << 16)
-> +#define YHGCH_CRT_VERT_SYNC_HEIGHT_MASK		0x3F0000
-> +
-> +#define YHGCH_CRT_VERT_SYNC_START(x)		((x) << 0)
-> +#define YHGCH_CRT_VERT_SYNC_START_MASK		0x7FF
-> +
-> +/* Hardware Cursor */
-> +#define YHGCH_HWC_ADDRESS                   0x080230
-> +#define YHGCH_HWC_ADDRESS_ENABLE(x)         ((x) << 31)
-> +#define YHGCH_HWC_ADDRESS_ENABLE_MASK       0x80000000
-> +#define YHGCH_HWC_ADDRESS_ADDRESS(x)        ((x) << 0)
-> +#define YHGCH_HWC_ADDRESS_ADDRESS_MASK      0xFFFFFFF
-> +
-> +#define YHGCH_HWC_LOCATION                  0x080234
-> +#define YHGCH_HWC_LOCATION_TOP(x)           ((x) << 27)
-> +#define YHGCH_HWC_LOCATION_TOP_MASK         0x8000000
-> +#define YHGCH_HWC_LOCATION_Y(x)             ((x) << 16)
-> +#define YHGCH_HWC_LOCATION_Y_MASK           0x7FF0000
-> +#define YHGCH_HWC_LOCATION_LEFT(x)          ((x) << 11)
-> +#define YHGCH_HWC_LOCATION_LEFT_MASK        0x800
-> +#define YHGCH_HWC_LOCATION_X(x)             ((x) << 0)
-> +#define YHGCH_HWC_LOCATION_X_MASK           0x7FF
-> +
-> +#define YHGCH_HWC_COLOR_12                  0x080238
-> +#define YHGCH_HWC_COLOR_12_2_RGB(x)         ((x) << 16)
-> +#define YHGCH_HWC_COLOR_12_2_RGB_MASK       0xFFFF0000
-> +#define YHGCH_HWC_COLOR_12_1_RGB(x)         ((x) << 0)
-> +#define YHGCH_HWC_COLOR_12_1_RGB_MASK       0xFFFF
-> +
-> +#define YHGCH_HWC_COLOR_3                   0x08023C
-> +#define YHGCH_HWC_COLOR_3_RGB(x)            ((x) << 0)
-> +#define YHGCH_HWC_COLOR_3_RGB_MASK          0xFFFF
-> +
-> +/* Auto Centering */
-> +#define YHGCH_CRT_AUTO_CENTERING_TL		0x080280
-> +#define YHGCH_CRT_AUTO_CENTERING_TL_TOP(x)	((x) << 16)
-> +#define YHGCH_CRT_AUTO_CENTERING_TL_TOP_MASK	0x7FF0000
-> +
-> +#define YHGCH_CRT_AUTO_CENTERING_TL_LEFT(x)	((x) << 0)
-> +#define YHGCH_CRT_AUTO_CENTERING_TL_LEFT_MASK	0x7FF
-> +
-> +#define YHGCH_CRT_AUTO_CENTERING_BR		0x080284
-> +#define YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM(x)	((x) << 16)
-> +#define YHGCH_CRT_AUTO_CENTERING_BR_BOTTOM_MASK	0x7FF0000
-> +
-> +#define YHGCH_CRT_AUTO_CENTERING_BR_RIGHT(x)	((x) << 0)
-> +#define YHGCH_CRT_AUTO_CENTERING_BR_RIGHT_MASK	0x7FF
-> +
-> +/* register to control panel output */
-> +#define YHGCH_DISPLAY_CONTROL_HISILE		0x80288
-> +#define YHGCH_DISPLAY_CONTROL_FPVDDEN(x)	((x) << 0)
-> +#define YHGCH_DISPLAY_CONTROL_PANELDATE(x)	((x) << 1)
-> +#define YHGCH_DISPLAY_CONTROL_FPEN(x)		((x) << 2)
-> +#define YHGCH_DISPLAY_CONTROL_VBIASEN(x)	((x) << 3)
-> +
-> +#define YHGCH_RAW_INTERRUPT			0x80290
-> +#define YHGCH_RAW_INTERRUPT_VBLANK(x)		((x) << 2)
-> +#define YHGCH_RAW_INTERRUPT_VBLANK_MASK		0x4
-> +
-> +#define YHGCH_RAW_INTERRUPT_EN			0x80298
-> +#define YHGCH_RAW_INTERRUPT_EN_VBLANK(x)	((x) << 2)
-> +#define YHGCH_RAW_INTERRUPT_EN_VBLANK_MASK	0x4
-> +
-> +/* register and values for PLL control */
-> +#define CRT_PLL1_NS				0x802a8
-> +#define CRT_PLL1_NS_OUTER_BYPASS(x)		((x) << 30)
-> +#define CRT_PLL1_NS_INTER_BYPASS(x)		((x) << 29)
-> +#define CRT_PLL1_NS_POWERON(x)			((x) << 24)
-> +
-> +#define CRT_PLL1_NS_25MHZ			0x00006691	//640x480
-> +#define CRT_PLL1_NS_40MHZ			0x00004580	//800x600
-> +#define CRT_PLL1_NS_65MHZ			0x00002568	//1024x768
-> +#define CRT_PLL1_NS_83MHZ			0x000027bb	//1280x800
-> +#define CRT_PLL1_NS_106MHZ			0x000027ef	//1440x900
-> +#define CRT_PLL1_NS_108MHZ			0x000027f2	//1280x1024
-> +#define CRT_PLL1_NS_146MHZ			0x00001575	//1680x1050
-> +#define CRT_PLL1_NS_148MHZ			0x0000145f	//1920x1080
-> +#define CRT_PLL1_NS_193MHZ			0x000018f7	//1920x1200
-> +
-> +#define CRT_PLL2_NS				0x802ac
-> +#define CRT_PLL2_NS_25MHZ			0x0
-> +#define CRT_PLL2_NS_40MHZ			0x0
-> +#define CRT_PLL2_NS_65MHZ			0x0
-> +#define CRT_PLL2_NS_83MHZ			0x0
-> +#define CRT_PLL2_NS_106MHZ			0x0
-> +#define CRT_PLL2_NS_108MHZ			0x0
-> +#define CRT_PLL2_NS_146MHZ			0x0
-> +#define CRT_PLL2_NS_148MHZ			0x0
-> +#define CRT_PLL2_NS_193MHZ			0x0
-> +
-> +#define YHGCH_FIELD(field, value) (field(value) & field##_MASK)
-> +#endif
-> diff --git a/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
-> new file mode 100644
-> index 000000000000..6aaef773b7d1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_vdac.c
-> @@ -0,0 +1,111 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/io.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "yhgch_drm_drv.h"
-> +#include "yhgch_drm_regs.h"
-> +
-> +static int yhgch_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	int count;
-> +	void *edid;
-> +	struct yhgch_vdac *yhgch_vdac = to_yhgch_vdac(connector);
-> +
-> +	edid = drm_get_edid(connector, &yhgch_vdac->adapter);
-> +	if (edid) {
-> +		drm_connector_update_edid_property(connector, edid);
-> +		count = drm_add_edid_modes(connector, edid);
-> +		if (count)
-> +			goto out;
-> +	}
-> +
-> +	count = drm_add_modes_noedid(connector,
-> +				     connector->dev->mode_config.max_width,
-> +				     connector->dev->mode_config.max_height);
-> +	drm_set_preferred_mode(connector, 1024, 768);
-> +
-> +out:
-> +	kfree(edid);
-> +	return count;
-> +}
-> +
-> +static const struct drm_connector_helper_funcs
-> +	yhgch_connector_helper_funcs = {
-> +	.get_modes = yhgch_connector_get_modes,
-> +	.detect_ctx = drm_connector_helper_detect_from_ddc,
-> +};
-> +
-> +static const struct drm_connector_funcs yhgch_connector_funcs = {
-> +	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.destroy = drm_connector_cleanup,
-> +	.reset = drm_atomic_helper_connector_reset,
-> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +};
-> +
-> +static void yhgch_encoder_mode_set(struct drm_encoder *encoder,
-> +				   struct drm_display_mode *mode,
-> +				   struct drm_display_mode *adj_mode)
-> +{
-> +	u32 reg;
-> +	struct drm_device *dev = encoder->dev;
-> +	struct yhgch_drm_private *priv = to_yhgch_drm_private(dev);
-> +
-> +	reg = readl(priv->mmio + YHGCH_DISPLAY_CONTROL_HISILE);
-> +	reg |= YHGCH_DISPLAY_CONTROL_FPVDDEN(1);
-> +	reg |= YHGCH_DISPLAY_CONTROL_PANELDATE(1);
-> +	reg |= YHGCH_DISPLAY_CONTROL_FPEN(1);
-> +	reg |= YHGCH_DISPLAY_CONTROL_VBIASEN(1);
-> +	writel(reg, priv->mmio + YHGCH_DISPLAY_CONTROL_HISILE);
+** Configuration for modprobe:
+blacklist microcode
+blacklist pcspkr
+blacklist b43
+blacklist b43legacy
+blacklist b44
+blacklist bcma
+blacklist brcm80211
+blacklist brcmsmac
+blacklist ssb
+blacklist arkfb
+blacklist aty128fb
+blacklist atyfb
+blacklist radeonfb
+blacklist cirrusfb
+blacklist cyber2000fb
+blacklist kyrofb
+blacklist matroxfb_base
+blacklist mb862xxfb
+blacklist neofb
+blacklist pm2fb
+blacklist pm3fb
+blacklist s3fb
+blacklist savagefb
+blacklist sisfb
+blacklist tdfxfb
+blacklist tridentfb
+blacklist vt8623fb
+blacklist microcode
+options snd_pcsp index=-2
+options cx88_alsa index=-2
+options snd_atiixp_modem index=-2
+options snd_intel8x0m index=-2
+options snd_via82xx_modem index=-2
+options ath9k_htc use_dev_fw=1
+options bonding max_bonds=0
+options dummy numdummies=0
+options ifb numifbs=0
 
-This doesn't look like setting the mode. Please consider using .enable /
-.atomic_enable() instead.
+** Loaded modules:
+snd_seq_dummy
+snd_hrtimer
+snd_seq_midi
+snd_seq_midi_event
+snd_rawmidi
+snd_seq
+ccm
+snd_seq_device
+snd_sof_pci_intel_cnl
+snd_sof_intel_hda_generic
+soundwire_intel
+soundwire_generic_allocation
+soundwire_cadence
+snd_sof_intel_hda_common
+snd_soc_hdac_hda
+snd_sof_intel_hda_mlink
+snd_sof_intel_hda
+snd_sof_pci
+snd_sof_xtensa_dsp
+snd_sof
+snd_sof_utils
+snd_soc_acpi_intel_match
+snd_soc_acpi
+soundwire_bus
+snd_soc_avs
+snd_soc_hda_codec
+snd_hda_ext_core
+snd_soc_core
+snd_compress
+snd_pcm_dmaengine
+rfcomm
+cmac
+algif_hash
+algif_skcipher
+af_alg
+bnep
+btusb
+btrtl
+btintel
+btbcm
+zram
+btmtk
+lz4hc_compress
+uvcvideo
+lz4_compress
+bluetooth
+videobuf2_vmalloc
+uvc
+videobuf2_memops
+videobuf2_v4l2
+videobuf2_common
+sg
+crc16
+binfmt_misc
+nls_ascii
+nls_cp437
+vfat
+fat
+intel_rapl_msr
+intel_rapl_common
+iwlmvm
+intel_uncore_frequency
+intel_uncore_frequency_common
+mac80211
+snd_hda_codec_hdmi
+snd_hda_codec_realtek
+x86_pkg_temp_thermal
+snd_hda_codec_generic
+intel_powerclamp
+coretemp
+snd_hda_scodec_component
+libarc4
+kvm_intel
+snd_hda_intel
+snd_intel_dspcfg
+snd_intel_sdw_acpi
+iwlwifi
+snd_hda_codec
+kvm
+snd_hda_core
+mei_hdcp
+mei_pxp
+snd_hwdep
+cfg80211
+snd_pcm_oss
+irqbypass
+snd_mixer_oss
+rapl
+asus_wmi
+snd_pcm
+qc71_laptop(OE)
+platform_profile
+intel_cstate
+sparse_keymap
+ee1004
+snd_timer
+mei_me
+intel_uncore
+snd
+intel_wmi_thunderbolt
+wmi_bmof
+mei
+rfkill
+soundcore
+intel_pch_thermal
+intel_pmc_core
+joydev
+intel_vsec
+acpi_tad
+acpi_pad
+ac
+pmt_telemetry
+pmt_class
+evdev
+v4l2loopback(OE)
+videodev
+mc
+msr
+dm_mod
+parport_pc
+ppdev
+lp
+parport
+configfs
+efi_pstore
+nfnetlink
+efivarfs
+ip_tables
+x_tables
+autofs4
+btrfs
+blake2b_generic
+xor
+raid6_pq
+libcrc32c
+crc32c_generic
+sd_mod
+uas
+usb_storage
+usbhid
+i915
+drm_gpuvm
+drm_exec
+gpu_sched
+drm_buddy
+i2c_algo_bit
+drm_display_helper
+crct10dif_pclmul
+cec
+crc32_pclmul
+hid_multitouch
+crc32c_intel
+rc_core
+ghash_clmulni_intel
+drm_ttm_helper
+hid_generic
+xhci_pci
+xhci_hcd
+ahci
+iTCO_wdt
+sha512_ssse3
+i2c_hid_acpi
+intel_pmc_bxt
+ttm
+libahci
+sha256_ssse3
+i2c_hid
+iTCO_vendor_support
+libata
+drm_kms_helper
+r8169
+sha1_ssse3
+hid
+nvme
+watchdog
+usbcore
+aesni_intel
+realtek
+intel_lpss_pci
+scsi_mod
+nvme_core
+mxm_wmi
+i2c_i801
+intel_lpss
+gf128mul
+mdio_devres
+drm
+thunderbolt
+crypto_simd
+libphy
+cryptd
+serio_raw
+i2c_smbus
+nvme_auth
+scsi_common
+idma64
+usb_common
+battery
+video
+wmi
+button
 
-> +}
-> +
-> +static const struct drm_encoder_helper_funcs yhgch_encoder_helper_funcs = {
-> +	.mode_set = yhgch_encoder_mode_set,
-> +};
-> +
-> +int yhgch_vdac_init(struct yhgch_drm_private *priv)
-> +{
-> +	struct drm_device *dev = &priv->dev;
-> +	struct yhgch_vdac *yhgch_vdac = &priv->vdac;
-> +	struct drm_encoder *encoder = &priv->encoder;
-> +	struct drm_crtc *crtc = &priv->crtc;
-> +	struct drm_connector *connector = &yhgch_vdac->base;
-> +	int ret;
-> +
-> +	ret = yhgch_ddc_create(dev, yhgch_vdac);
-> +	if (ret) {
-> +		drm_err(dev, "failed to create ddc: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-> +	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_DAC, NULL);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init encoder: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	drm_encoder_helper_add(encoder, &yhgch_encoder_helper_funcs);
-> +
-> +	ret = drm_connector_init_with_ddc(dev,
-> +					  connector,
-> +					  &yhgch_connector_funcs,
-> +					  DRM_MODE_CONNECTOR_VGA,
-> +					  &yhgch_vdac->adapter);
-> +	if (ret) {
-> +		drm_err(dev, "failed to init connector: %d\n", ret);
-> +		return ret;
-> +	}
-> +	drm_connector_helper_add(connector, &yhgch_connector_helper_funcs);
-> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
-> +
-> +	drm_connector_attach_encoder(connector, encoder);
-> +
-> +	return 0;
-> +}
-> -- 
-> 2.43.5
-> 
+** PCI devices:
+00:00.0 Host bridge [0600]: Intel Corporation 8th/9th Gen Core Processor Host Bridge / DRAM Registers [8086:3ec4] (rev 07)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort+ >SERR- <PERR- INTx-
+	Latency: 0
+	IOMMU group: 1
+	Capabilities: <access denied>
+	Kernel driver in use: skl_uncore
 
--- 
-With best wishes
-Dmitry
+00:01.0 PCI bridge [0604]: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 07) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 122
+	IOMMU group: 2
+	Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
+	I/O behind bridge: 5000-5fff [size=4K] [16-bit]
+	Memory behind bridge: ac000000-ad0fffff [size=17M] [32-bit]
+	Prefetchable memory behind bridge: 80000000-920fffff [size=289M] [32-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:02.0 VGA compatible controller [0300]: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630] [8086:3e9b] (prog-if 00 [VGA controller])
+	DeviceName: Onboard - Video
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 175
+	IOMMU group: 0
+	Region 0: Memory at ab000000 (64-bit, non-prefetchable) [size=16M]
+	Region 2: Memory at 40000000 (64-bit, prefetchable) [size=256M]
+	Region 4: I/O ports at 6000 [size=64]
+	Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
+	Capabilities: <access denied>
+	Kernel driver in use: i915
+	Kernel modules: i915
+
+00:12.0 Signal processing controller [1180]: Intel Corporation Cannon Lake PCH Thermal Controller [8086:a379] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 3
+	Region 0: Memory at ade1f000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel_pch_thermal
+	Kernel modules: intel_pch_thermal
+
+00:14.0 USB controller [0c03]: Intel Corporation Cannon Lake PCH USB 3.1 xHCI Host Controller [8086:a36d] (rev 10) (prog-if 30 [XHCI])
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 158
+	IOMMU group: 4
+	Region 0: Memory at ade00000 (64-bit, non-prefetchable) [size=64K]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+00:14.2 RAM memory [0500]: Intel Corporation Cannon Lake PCH Shared SRAM [8086:a36f] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	IOMMU group: 4
+	Region 0: Memory at ade16000 (64-bit, non-prefetchable) [disabled] [size=8K]
+	Region 2: Memory at ade1e000 (64-bit, non-prefetchable) [disabled] [size=4K]
+	Capabilities: <access denied>
+
+00:15.0 Serial bus controller [0c80]: Intel Corporation Cannon Lake PCH Serial IO I2C Controller #0 [8086:a368] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 5
+	Region 0: Memory at 72000000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel-lpss
+	Kernel modules: intel_lpss_pci
+
+00:16.0 Communication controller [0780]: Intel Corporation Cannon Lake PCH HECI Controller [8086:a360] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 146
+	IOMMU group: 6
+	Region 0: Memory at ade1c000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: mei_me
+	Kernel modules: mei_me
+
+00:17.0 SATA controller [0106]: Intel Corporation Cannon Lake Mobile PCH SATA AHCI Controller [8086:a353] (rev 10) (prog-if 01 [AHCI 1.0])
+	DeviceName: Onboard - SATA
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 157
+	IOMMU group: 7
+	Region 0: Memory at ade14000 (32-bit, non-prefetchable) [size=8K]
+	Region 1: Memory at ade1b000 (32-bit, non-prefetchable) [size=256]
+	Region 2: I/O ports at 6090 [size=8]
+	Region 3: I/O ports at 6080 [size=4]
+	Region 4: I/O ports at 6060 [size=32]
+	Region 5: Memory at ade1a000 (32-bit, non-prefetchable) [size=2K]
+	Capabilities: <access denied>
+	Kernel driver in use: ahci
+	Kernel modules: ahci
+
+00:1b.0 PCI bridge [0604]: Intel Corporation Cannon Lake PCH PCI Express Root Port #17 [8086:a340] (rev f0) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 123
+	IOMMU group: 8
+	Bus: primary=00, secondary=02, subordinate=3a, sec-latency=0
+	I/O behind bridge: 7000-8fff [size=8K] [16-bit]
+	Memory behind bridge: 94000000-aa0fffff [size=353M] [32-bit]
+	Prefetchable memory behind bridge: 50000000-71ffffff [size=544M] [32-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1d.0 PCI bridge [0604]: Intel Corporation Cannon Lake PCH PCI Express Root Port #9 [8086:a330] (rev f0) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 124
+	IOMMU group: 9
+	Bus: primary=00, secondary=3b, subordinate=3b, sec-latency=0
+	I/O behind bridge: 4000-4fff [size=4K] [16-bit]
+	Memory behind bridge: ad200000-adbfffff [size=10M] [32-bit]
+	Prefetchable memory behind bridge: 92200000-92bfffff [size=10M] [32-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort+ <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1d.5 PCI bridge [0604]: Intel Corporation Cannon Lake PCH PCI Express Root Port #14 [8086:a335] (rev f0) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin B routed to IRQ 125
+	IOMMU group: 10
+	Bus: primary=00, secondary=3c, subordinate=3c, sec-latency=0
+	I/O behind bridge: 3000-3fff [size=4K] [16-bit]
+	Memory behind bridge: add00000-addfffff [size=1M] [32-bit]
+	Prefetchable memory behind bridge: [disabled] [64-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort+ <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1d.6 PCI bridge [0604]: Intel Corporation Cannon Lake PCH PCI Express Root Port #15 [8086:a336] (rev f0) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin C routed to IRQ 126
+	IOMMU group: 11
+	Bus: primary=00, secondary=3d, subordinate=3d, sec-latency=0
+	I/O behind bridge: [disabled] [16-bit]
+	Memory behind bridge: adc00000-adcfffff [size=1M] [32-bit]
+	Prefetchable memory behind bridge: [disabled] [64-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort+ <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16+ MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1e.0 Communication controller [0780]: Intel Corporation Cannon Lake PCH Serial IO UART Host Controller [8086:a328] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 20
+	IOMMU group: 12
+	Region 0: Memory at 72001000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel-lpss
+	Kernel modules: intel_lpss_pci
+
+00:1f.0 ISA bridge [0601]: Intel Corporation HM370 Chipset LPC/eSPI Controller [8086:a30d] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	IOMMU group: 13
+
+00:1f.3 Audio device [0403]: Intel Corporation Cannon Lake PCH cAVS [8086:a348] (rev 10) (prog-if 80)
+	DeviceName: Onboard - Sound
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 32, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 191
+	IOMMU group: 13
+	Region 0: Memory at ade10000 (64-bit, non-prefetchable) [size=16K]
+	Region 4: Memory at ad100000 (64-bit, non-prefetchable) [size=1M]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel, snd_soc_avs, snd_sof_pci_intel_cnl
+
+00:1f.4 SMBus [0c05]: Intel Corporation Cannon Lake PCH SMBus Controller [8086:a323] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 13
+	Region 0: Memory at ade18000 (64-bit, non-prefetchable) [size=256]
+	Region 4: I/O ports at efa0 [size=32]
+	Kernel driver in use: i801_smbus
+	Kernel modules: i2c_i801
+
+00:1f.5 Serial bus controller [0c80]: Intel Corporation Cannon Lake PCH SPI Controller [8086:a324] (rev 10)
+	DeviceName: Onboard - Other
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	IOMMU group: 13
+	Region 0: Memory at fe010000 (32-bit, non-prefetchable) [size=4K]
+
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation TU116M [GeForce GTX 1660 Ti Mobile] [10de:2191] (rev a1) (prog-if 00 [VGA controller])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 255
+	IOMMU group: 2
+	Region 0: Memory at ac000000 (32-bit, non-prefetchable) [disabled] [size=16M]
+	Region 1: Memory at 80000000 (64-bit, prefetchable) [disabled] [size=256M]
+	Region 3: Memory at 90000000 (64-bit, prefetchable) [disabled] [size=32M]
+	Region 5: I/O ports at 5000 [disabled] [size=128]
+	Expansion ROM at ad000000 [disabled] [size=512K]
+	Capabilities: <access denied>
+	Kernel modules: nouveau
+
+01:00.1 Audio device [0403]: NVIDIA Corporation TU116 High Definition Audio Controller [10de:1aeb] (rev a1)
+	Subsystem: AIstone Global Limited Device [1d05:1072]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin B routed to IRQ 17
+	IOMMU group: 2
+	Region 0: Memory at ad080000 (32-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
+01:00.2 USB controller [0c03]: NVIDIA Corporation TU116 USB 3.1 Host Controller [10de:1aec] (rev a1) (prog-if 30 [XHCI])
+	Subsystem: AIstone Global Limited Device [1d05:1072]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin C routed to IRQ 166
+	IOMMU group: 2
+	Region 0: Memory at 92000000 (64-bit, prefetchable) [size=256K]
+	Region 3: Memory at 92040000 (64-bit, prefetchable) [size=64K]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+01:00.3 Serial bus controller [0c80]: NVIDIA Corporation TU116 USB Type-C UCSI Controller [10de:1aed] (rev a1)
+	Subsystem: AIstone Global Limited Device [1d05:1072]
+	Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin D routed to IRQ 255
+	IOMMU group: 2
+	Region 0: Memory at ad084000 (32-bit, non-prefetchable) [disabled] [size=4K]
+	Capabilities: <access denied>
+
+02:00.0 PCI bridge [0604]: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 2C 2018] [8086:15e7] (rev 06) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Physical Slot: 20
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 14
+	Bus: primary=02, secondary=03, subordinate=3a, sec-latency=0
+	I/O behind bridge: 7000-7fff [size=4K] [16-bit]
+	Memory behind bridge: 94000000-944fffff [size=5M] [32-bit]
+	Prefetchable memory behind bridge: 50000000-502fffff [size=3M] [32-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16- MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+03:00.0 PCI bridge [0604]: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 2C 2018] [8086:15e7] (rev 06) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 127
+	IOMMU group: 15
+	Bus: primary=03, secondary=04, subordinate=04, sec-latency=0
+	I/O behind bridge: [disabled] [32-bit]
+	Memory behind bridge: 94000000-940fffff [size=1M] [32-bit]
+	Prefetchable memory behind bridge: [disabled] [64-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16- MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+03:01.0 PCI bridge [0604]: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 2C 2018] [8086:15e7] (rev 06) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 128
+	IOMMU group: 16
+	Bus: primary=03, secondary=05, subordinate=39, sec-latency=0
+	I/O behind bridge: 7000-7fff [size=4K] [16-bit]
+	Memory behind bridge: 94100000-942fffff [size=2M] [32-bit]
+	Prefetchable memory behind bridge: 50000000-501fffff [size=2M] [32-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16- MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+03:02.0 PCI bridge [0604]: Intel Corporation JHL7540 Thunderbolt 3 Bridge [Titan Ridge 2C 2018] [8086:15e7] (rev 06) (prog-if 00 [Normal decode])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 129
+	IOMMU group: 17
+	Bus: primary=03, secondary=3a, subordinate=3a, sec-latency=0
+	I/O behind bridge: [disabled] [32-bit]
+	Memory behind bridge: 94300000-943fffff [size=1M] [32-bit]
+	Prefetchable memory behind bridge: [disabled] [64-bit]
+	Secondary status: 66MHz- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- <SERR- <PERR-
+	BridgeCtl: Parity- SERR+ NoISA- VGA- VGA16- MAbort- >Reset- FastB2B-
+		PriDiscTmr- SecDiscTmr- DiscTmrStat- DiscTmrSERREn-
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+04:00.0 System peripheral [0880]: Intel Corporation JHL7540 Thunderbolt 3 NHI [Titan Ridge 2C 2018] [8086:15e8] (rev 06)
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 18
+	Region 0: Memory at 94000000 (32-bit, non-prefetchable) [size=256K]
+	Region 1: Memory at 94040000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: thunderbolt
+	Kernel modules: thunderbolt
+
+3a:00.0 USB controller [0c03]: Intel Corporation JHL7540 Thunderbolt 3 USB Controller [Titan Ridge 2C 2018] [8086:15e9] (rev 06) (prog-if 30 [XHCI])
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 167
+	IOMMU group: 19
+	Region 0: Memory at 94300000 (32-bit, non-prefetchable) [size=64K]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+3b:00.0 Non-Volatile memory controller [0108]: Phison Electronics Corporation PS5013-E13 PCIe3 NVMe Controller (DRAM-less) [1987:5013] (rev 01) (prog-if 02 [NVM Express])
+	Subsystem: Phison Electronics Corporation PS5013-E13 PCIe3 NVMe Controller (DRAM-less) [1987:5013]
+	Physical Slot: 12
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 16
+	IOMMU group: 20
+	Region 0: Memory at ad200000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: nvme
+	Kernel modules: nvme
+
+3c:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 15)
+	Subsystem: Intel Corporation Device [8086:2086]
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 17
+	IOMMU group: 21
+	Region 0: I/O ports at 3000 [size=256]
+	Region 2: Memory at add04000 (64-bit, non-prefetchable) [size=4K]
+	Region 4: Memory at add00000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: r8169
+	Kernel modules: r8169
+
+3d:00.0 Network controller [0280]: Intel Corporation Wi-Fi 6 AX200 [8086:2723] (rev 1a)
+	Subsystem: Intel Corporation Wi-Fi 6 AX200NGW [8086:0084]
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 18
+	IOMMU group: 22
+	Region 0: Memory at adc00000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: iwlwifi
+	Kernel modules: iwlwifi
+
+
+** USB devices:
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 048d:ce00 Integrated Technology Express, Inc. ITE Device(8291)
+Bus 001 Device 003: ID 046d:c542 Logitech, Inc. M185 compact wireless mouse
+Bus 001 Device 004: ID 04f2:b68b Chicony Electronics Co., Ltd HD Webcam
+Bus 001 Device 005: ID 8087:0029 Intel Corp. AX200 Bluetooth
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 002 Device 002: ID 0bda:0316 Realtek Semiconductor Corp. Card Reader
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+
+
+-- System Information:
+Debian Release: 13.0
+   APT prefers stable-updates
+   APT policy: (500, 'stable-updates'), (500, 'stable-security'), (500, 'stable'), (100, 'trixie-fasttrack'), (100, 'trixie-backports-staging')
+Architecture: amd64 (x86_64)
+Foreign Architectures: i386
+
+Kernel: Linux 6.12.41+deb13-amd64 (SMP w/12 CPU threads; PREEMPT)
+Kernel taint flags: TAINT_OOT_MODULE, TAINT_UNSIGNED_MODULE
+Locale: LANG=en_US.utf8, LC_CTYPE=en_US.utf8 (charmap=UTF-8), LANGUAGE not set
+Shell: /bin/sh linked to /usr/bin/dash
+Init: systemd (via /run/systemd/system)
+LSM: AppArmor: enabled
+
+Versions of packages linux-image-6.12.41+deb13-amd64 depends on:
+ii  initramfs-tools [linux-initramfs-tool]  0.148.3
+ii  kmod                                    34.2-2
+ii  linux-base                              4.12
+
+Versions of packages linux-image-6.12.41+deb13-amd64 recommends:
+ii  apparmor  4.1.0-1
+
+Versions of packages linux-image-6.12.41+deb13-amd64 suggests:
+pn  debian-kernel-handbook               <none>
+ii  firmware-linux-free                  20241210-2
+pn  grub-pc | grub-efi-amd64 | extlinux  <none>
+pn  linux-doc-6.12                       <none>
+
+Versions of packages linux-image-6.12.41+deb13-amd64 is related to:
+ii  firmware-amd-graphics      20250410-2
+ii  firmware-atheros           20250410-2
+ii  firmware-bnx2              20250410-2
+ii  firmware-bnx2x             20250410-2
+ii  firmware-brcm80211         20250410-2
+ii  firmware-cavium            20250410-2
+pn  firmware-cirrus            <none>
+pn  firmware-intel-graphics    <none>
+pn  firmware-intel-misc        <none>
+ii  firmware-intel-sound       20250410-2
+ii  firmware-ipw2x00           20250410-2
+ii  firmware-ivtv              20250410-2
+ii  firmware-iwlwifi           20250410-2
+ii  firmware-libertas          20250410-2
+pn  firmware-marvell-prestera  <none>
+pn  firmware-mediatek          <none>
+ii  firmware-misc-nonfree      20250410-2
+ii  firmware-myricom           20250410-2
+ii  firmware-netronome         20250410-2
+ii  firmware-netxen            20250410-2
+pn  firmware-nvidia-graphics   <none>
+ii  firmware-qcom-soc          20250410-2
+ii  firmware-qlogic            20250410-2
+ii  firmware-realtek           20250410-2
+ii  firmware-samsung           20250410-2
+ii  firmware-siano             20250410-2
+ii  firmware-ti-connectivity   20250410-2
+pn  xen-hypervisor             <none>
+
+-- no debconf information
