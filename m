@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F2DB535B8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06A8B53576
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 16:33:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDAA10EB56;
-	Thu, 11 Sep 2025 14:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0867510EB53;
+	Thu, 11 Sep 2025 14:33:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C94A610EB56
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:38:04 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id
- af79cd13be357-80a59f06a4fso115663485a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:38:04 -0700 (PDT)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E454110EB53
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 14:33:15 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-544aeeb296aso455248e0c.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:33:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757601484; x=1758206284;
+ d=1e100.net; s=20230601; t=1757601195; x=1758205995;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=hiuhbKCWVVhxdsKroAmlHWewkQOhNypPZ4OriaNJghs=;
- b=cFPS5bpHNi4tB2+eSywGEiKbGmF0SNZmFFE6nBVAYTVlw4zlfZfmtFK4Kljv68BE8Y
- 6ctUkgurLZCZeRdYhgScsQud20XKOpHQjrGXxbsadsZCst27R3OAAa38h02CuNERpLWa
- wMO0p1qpxtjDn3T78Op7IsyzttC41aaDLzQ/Idrm4FuFA3GgshgF3F5gjc1w7tedVmpR
- Bc+kgHyU+soFHLtennUy+OFAengx37wT3HsKL38t4jIPM3vAA97sku2+Nyibr71CFEH+
- SM3V0vLIri/TyNKlLqvZp/H8EO6UrNRa/pc7mNU+daQIgAduErkNGxp/j4aWv0Hnh1EB
- pk9A==
-X-Gm-Message-State: AOJu0Yzclu0eGIjr3dvFVtcwYRTZ6Lbd8zcvaE52uEHlkkfnyVB+MdYt
- JoxKotgVmoRZJEl7Pa76TNkmZWtUZ5bupIhtayHKPCnyqeirhNKyaBSLRHvI4vn6
-X-Gm-Gg: ASbGncvBlAXLjHoQBW3Cr5UGUyk4M+VdFgmao0KEhEO6E/Ol7soQ1+IbzhCC1i4/Iu1
- DqODuky9kaQgwMY4K2I4wEkiOYaa5cUfm65jWLSJQeHDVCZnbg3NzCNLjHFuV08PdfLgPqSElDx
- 1jf6X60gRJNAUOMsio0slZgHPBADojaDImQkJ1ETUOIl5ewOQMEosOFryzp9dLWBhQa7TKlAWEA
- uOcGlKYNW13aFF2fm+Bc4GQOC6KQNyRpeQBv5c4WILYZnIhMiTZKsTXeJadBGL7dZlgbMifpqnj
- 1a3PlwvgIttO036pzYOf6zBDIW0frdwDwYq+8+WXqMvtE/OYasv9FBJqj3XbmZBl9iqqSHlzqMc
- sVX+XTpUaCtEfPwX9sZC/+tRKKWLV7gq8iBB5vhUJnfgk3uUd53g6dEhpldbIQcTwdYF34gZxXt
- 4=
-X-Google-Smtp-Source: AGHT+IHXr3zjSnuYK96sGmHvm1SZ5e/wf0kmwM3C8YuQGEH2wBAiM9ngKvXvOke/AIik8097yb+LvA==
-X-Received: by 2002:a05:620a:2889:b0:816:c37e:452 with SMTP id
- af79cd13be357-816c37e0c1emr1494275285a.79.1757601483292; 
- Thu, 11 Sep 2025 07:38:03 -0700 (PDT)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com.
- [209.85.222.177]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-820c974c303sm113612785a.15.2025.09.11.07.38.03
+ b=h3jDtMiIiZaaVAxbsma2pVxZlcpiuHzXAY0Ut1bL/7I76LI/y39LaI93UUsAZbRO+W
+ +Ob1uwFYb5uB0qe9UOnL6T7c3oYLN2UKXYmfef3eRzcqzhTbgldd2VfaMxlT5mCivusp
+ LG5F7+AnehGj1JrtnsrH1/R4x1GRsN/YQY5ldxImC22Q5RiDRmmeR+qF0lLyInA52Ilp
+ W3rR/Jjd5Y8xNnf5ggNA7b7X8SKOgA0syHkrFNBaZ5YHcIZQwcfjvoggkDt9FwClcoev
+ imr052Nno+rO0D/84N2xk03wkTQHv5DkuB8to5ycFIUjcky2jobIiL91Q2A7f9zEP23d
+ vMrg==
+X-Gm-Message-State: AOJu0YyUkAtg9oKzkW2G+JcsXWSBKBGIhhkO0AfZwyaHgUvH0RUiQCvb
+ 9eSWyaH5lWNdhpBGmnXzezQP+YLDhKYtrksfvRg/5Qhc8tJwRwpjx48ehLjwHvXG
+X-Gm-Gg: ASbGncu9Cbj22x/Z2RX1fWtBvX2hSQ1KkzTFQv4SXCP7yq+IHF86E/i6rWPonjVwVYD
+ uaNv0QoBYeSFw+KKLbMYiLd9j3t7Ul0Z2QcBEe07GqlF0md+gDMT0mXElnfEwmw8oXA4ZEv45vV
+ MHSTeIpD2las03rRjvyjNqa8n/XLZsLHyBohfMsPA178Gk407CgPrE8EJ0sBvWKRu6N2quJ5bv5
+ jAfT+dcRWwRuUMojjNCJJsFb7P57RMOq+iDuMzmp4qeOC4QJvJf4NDhO9CDY9XLe2LlqbVY9RTO
+ niiJFSEZnfeWcs7fC/e/K5EFFJK9wufHQfYUhV7BNrMGOIktTm66tTUEnZkAOR3zCNA5djnT4FE
+ pDB/rQxOqqssna5WDkJxw2gh1efKNbYWnoWUvnxDv3JmIu56/YdZQpHUd5+OUxM2U0QOxQBSMSl
+ tY6k7zDA==
+X-Google-Smtp-Source: AGHT+IHGGyCOhU+wV8GarqTHJIJJdymzvn9Xeo/2GCjfzQ40Jk/cGuPKYCp0eIF5QS5fWviXwJMX1Q==
+X-Received: by 2002:a05:6122:2a50:b0:545:df94:e5f1 with SMTP id
+ 71dfb90a1353d-5472c2cf8damr6811138e0c.10.1757601194507; 
+ Thu, 11 Sep 2025 07:33:14 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com.
+ [209.85.222.43]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-54a0d40b865sm271522e0c.25.2025.09.11.07.33.14
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Sep 2025 07:38:03 -0700 (PDT)
-Received: by mail-qk1-f177.google.com with SMTP id
- af79cd13be357-81076e81a23so95984485a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:38:03 -0700 (PDT)
-X-Received: by 2002:a05:6102:3e04:b0:527:4113:6ad6 with SMTP id
- ada2fe7eead31-53d0dfbd7e7mr5509483137.9.1757601170806; Thu, 11 Sep 2025
- 07:32:50 -0700 (PDT)
+ Thu, 11 Sep 2025 07:33:14 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id
+ a1e0cc1a2514c-8a1d640b50eso555243241.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 07:33:14 -0700 (PDT)
+X-Received: by 2002:a05:6102:38ce:b0:4e5:9c40:824d with SMTP id
+ ada2fe7eead31-53d217e8e3dmr7178916137.16.1757601193870; Thu, 11 Sep 2025
+ 07:33:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
- <20250904210147.186728-2-marek.vasut+renesas@mailbox.org>
-In-Reply-To: <20250904210147.186728-2-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-3-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250904210147.186728-3-marek.vasut+renesas@mailbox.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Sep 2025 16:32:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVMZ2rexeLrJsL9CNh_uG+1eHJndG=bn8K3_yRUNURXqg@mail.gmail.com>
-X-Gm-Features: AS18NWCyQKXgN_PFlTPOYFuyv0ojGKrxYAZJ8mJkuqXIyr4JRZyFSZyPUiP0jDo
-Message-ID: <CAMuHMdVMZ2rexeLrJsL9CNh_uG+1eHJndG=bn8K3_yRUNURXqg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] arm64: dts: renesas: r8a779g0: Rename dsi-encoder@
+Date: Thu, 11 Sep 2025 16:33:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXMvntAp+1jXtaq00VWt_H1ve_gQMzCO8+-XXMkdUUkLQ@mail.gmail.com>
+X-Gm-Features: AS18NWAkNjkhFfnvLiCqdymOJJqMhhU8VAOilED558TJ2nRrUGNRMgRWyD2k9Lo
+Message-ID: <CAMuHMdXMvntAp+1jXtaq00VWt_H1ve_gQMzCO8+-XXMkdUUkLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: r8a779h0: Rename dsi-encoder@
  to dsi@
 To: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
