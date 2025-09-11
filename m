@@ -2,53 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEBAB536EF
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28851B53709
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 922F210E3A4;
-	Thu, 11 Sep 2025 15:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180F610E39C;
+	Thu, 11 Sep 2025 15:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pN3YRm9Q";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="Tp0xnrD2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE6410E37F;
- Thu, 11 Sep 2025 15:06:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ajC4dQK2/Z8OcvEI4k5f3pswXG9oWpmzoRH7wWNHtSU=; b=pN3YRm9Q9DKFodCI8NUj5xvfr4
- JVg8wehWpGFzZLyY5TygEkI7eeKtLeKwPdQLjqImx1NuDHE7n9kLSHTZy+7wNLiAXe078vRk0P8c7
- CNVEWXwqA4mK1r+fF4pwrz4rfQXyqTKcqvjMpu3KXekNi2uYkLEJeO0RuHoaL2iTaEb6mE7F4RDFr
- Vn5sPaGLmNpbewTXw4oAa8xGENifKzxRQaAmjtF5lBToYtBrKyO2WSY4/ByvhyQsvIoPYum0DbpCa
- vomT6uzM4LXlieQVBCNxiDSGRy7ppGJ1z1ihiEopYxrGHy0Vsr3cPTHIx8NOkCL76HRq4tOxwxRzz
- K0RJ/XFw==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uwisS-009r8Z-CI; Thu, 11 Sep 2025 17:06:24 +0200
-Message-ID: <2e18f226-068c-4986-b203-144b6bdb0a7f@igalia.com>
-Date: Thu, 11 Sep 2025 16:06:23 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4795010E39C
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:12:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757603532; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=B9IGFw7LplNPOkZEq5rg//uOHf2EjeiJHVJse7seMUTzZIMxYd1TVrOZN0zUbq5Xq33L+9q9+TqFilkErBnjfaa/NpughWfaUjECxVa+0PaEb+YDKAdGNrY++tuNVVIv/wj8tJU+KqRR3v9zzmvdP6gOS405s9ICJ1bawZoNf0E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1757603532;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=4E1gkCV3bUB24+jEbYd5O83SC/ksIpy9YseSb1Bd3iA=; 
+ b=OYspCStGN7dInL2eQAJ59H16VwPLP5z4wWe5Nr6htKYI4pPJuPUYGIV4faEbAdxSfzVEwkFgj+ZF3SmcHreJc8qUT/uzUAHUdyXtnkWOokhqUalCV4rW9dIvNsZfNzhRjZLbbMNHmz9gEQaCCxIvVLYhrFc0Y2lAOG7iIOnvWyc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603532; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=4E1gkCV3bUB24+jEbYd5O83SC/ksIpy9YseSb1Bd3iA=;
+ b=Tp0xnrD2zRi58CffU5G3TaTiLbJcAER4BZDZ/9WPboVLvTu6uzg9VYi/ZTt2X5qw
+ PMD8pJ8vo2CnYFCkcKqSC4Ganw2/UNoxh4q3T1CUWsieDlvzRf8LKJqusv5Qlx+IBze
+ ExFMJOuw5cTRX/uVEXriSe7jqmq8yEDKe+84VPaw=
+Received: by mx.zohomail.com with SMTPS id 1757603530466436.8737694403886;
+ Thu, 11 Sep 2025 08:12:10 -0700 (PDT)
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+To: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ ariel.dalessandro@collabora.com, broonie@kernel.org,
+ chunkuang.hu@kernel.org, conor+dt@kernel.org, davem@davemloft.net,
+ dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com,
+ heiko@sntech.de, houlong.wei@mediatek.com, jeesw@melfas.com,
+ kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch,
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com,
+ tzimmermann@suse.de, yunfei.dong@mediatek.com
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 00/12] MediaTek dt-bindings sanitization (MT8173)
+Date: Thu, 11 Sep 2025 12:09:49 -0300
+Message-ID: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v8 08/12] drm/sched: Remove idle entity from tree
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
- <20250903101820.63032-9-tvrtko.ursulin@igalia.com>
- <2f17fb5d359c1ddaf8253454bf0f0d318c90bc8d.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <2f17fb5d359c1ddaf8253454bf0f0d318c90bc8d.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,111 +81,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series continues the effort to address Device Tree validation
+warnings for MediaTek platforms, with a focus on MT8173. It follows the
+initial cleanup series by Angelo [0].
 
-On 11/09/2025 15:32, Philipp Stanner wrote:
-> On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
->> There is no need to keep entities with no jobs in the tree so lets remove
->> it once the last job is consumed. This keeps the tree smaller which is
->> nicer and more efficient as entities are removed and re-added on every
->> popped job.
-> 
-> This reads suspiciously as if it could be an independent patch, not
-> necessarily tied to this series. I see it depends on the _pop()
-> function you added.
-> 
-> I think you'd want to make it a bit more obvious that this is not so
-> much a general improvement as it is a preparation for followup work. Or
-> could it be made generic for the current in-tree scheduler?
+Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
+eliminates several of the remaining warnings by improving or converting DT
+bindings to YAML, adding missing properties, and updating device tree files
+accordingly.
 
-Both is true. There is currently no reason idle entities _need_ to be in 
-the tree. Removing them would improve O(log n) on the rbtree. But also 
-fair scheduler relies on it, see below...
+[0] https://www.spinics.net/lists/kernel/msg5780177.html
 
->> Apart from that, the upcoming fair scheduling algorithm will rely on the
->> tree only containing runnable entities.
+Changes in v2:
+* Wrapped commit messages to 75 columns line wrap.
+* Replaced "YAML" by "DT schema" in patches subject and content.
+* mt8173-mdp: Fixed properties: compatible, clocks, iommus and
+  mediatek,vpu.
+* mt8173-vpu: Fixed line wrap. Dropped memory-region property description.
+* mediatek,mmsys: Dropped patch as it's not a binding issue.
+* mediatek,od: Rewrote commit log with details on DT schema users missing
+  the related property. Rewrote mediatek,gce-client-reg property.
+* mediatek,ufoe: Rewrote commit log with details on DT schema users missing
+  the related property. Rewrote mediatek,gce-client-reg property.
+* marvell,sd8897-bt: Moved to net/bluetooth/. Added missing ref to
+  bluetooth-controller.yaml. Dropped example. Updated reference in another
+  file. Minor fixes in properties.
+* mediatek,mt8173-rt5650: Dropped unnecessary quotes and unused label.
+* dlg,da9211: Dropped enable-gpios description. Rewrote generic example
+  node names. Minor fixes in properties.
+* melfas,mip4_ts: Dropped unnecessary quotes. Added "active high" to
+  ce-gpios property description.
+* mediatek,jpeg: Dropped patch as it doesn't apply.
 
-... ^^^ here.
+Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_rq.c | 28 +++++++++++++++++-----------
->>   1 file changed, 17 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
->> index 16d57461765e..67804815ca0d 100644
->> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->> @@ -19,6 +19,9 @@ drm_sched_entity_compare_before(struct rb_node *a, const struct rb_node *b)
->>   static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
->>   					    struct drm_sched_rq *rq)
->>   {
->> +	lockdep_assert_held(&entity->lock);
->> +	lockdep_assert_held(&rq->lock);
-> 
-> The callers of drm_sched_rq_remove_fifo_locked() already have some
-> lockdep asserts, have you seen them? Are those here redundant /
-> additional?
-> 
-> And are they strictly related to this patch?
+Ariel D'Alessandro (12):
+  dt-bindings: media: Convert MediaTek mt8173-mdp bindings to DT schema
+  dt-bindings: media: Convert MediaTek mt8173-vpu bindings to DT schema
+  dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
+  dt-bindings: ASoC: Convert MediaTek RT5650 codecs bindings to DT
+    schema
+  dt-bindings: display: mediatek,od: Add mediatek,gce-client-reg
+    property
+  dt-bindings: display: mediatek,ufoe: Add mediatek,gce-client-reg
+    property
+  arm64: dts: mediatek: mt8173: Fix mt8173-pinctrl node names
+  dt-bindings: pinctrl: mt65xx: Allow gpio-line-names
+  dt-bindings: regulator: Convert Dialog DA9211 Regulators to DT schema
+  arm64: dts: mediatek: mt8173-elm: Drop unused bank supply
+  dt-bindings: soc: mediatek: pwrap: Add power-domains property
+  dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
 
-Yes, drm_sched_rq_pop_entity() is the new caller, which needs to take 
-both locks on its own. So IMO makes sense to add the asserts.
+ .../display/mediatek/mediatek,od.yaml         |  14 ++
+ .../display/mediatek/mediatek,ufoe.yaml       |  15 ++
+ .../input/touchscreen/melfas,mip4_ts.yaml     |  56 +++++
+ .../input/touchscreen/melfas_mip4.txt         |  20 --
+ .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 +++++++++++++++
+ .../bindings/media/mediatek,mt8173-vpu.yaml   |  74 +++++++
+ .../bindings/media/mediatek-mdp.txt           |  95 --------
+ .../bindings/media/mediatek-vpu.txt           |  31 ---
+ .../net/bluetooth/marvell,sd8897-bt.yaml      |  79 +++++++
+ .../devicetree/bindings/net/btusb.txt         |   2 +-
+ .../bindings/net/marvell-bt-8xxx.txt          |  83 -------
+ .../pinctrl/mediatek,mt65xx-pinctrl.yaml      |   2 +
+ .../devicetree/bindings/regulator/da9211.txt  | 205 ------------------
+ .../bindings/regulator/dlg,da9211.yaml        | 104 +++++++++
+ .../bindings/soc/mediatek/mediatek,pwrap.yaml |  15 ++
+ .../sound/mediatek,mt8173-rt5650.yaml         |  73 +++++++
+ .../bindings/sound/mt8173-rt5650.txt          |  31 ---
+ .../dts/rockchip/rk3288-veyron-fievel.dts     |   2 +-
+ .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |   2 +-
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |   2 +-
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  33 ++-
+ arch/arm64/boot/dts/mediatek/mt8173-evb.dts   |  14 +-
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  14 +-
+ 23 files changed, 633 insertions(+), 502 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vpu.txt
+ create mode 100644 Documentation/devicetree/bindings/net/bluetooth/marvell,sd8897-bt.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+ delete mode 100644 Documentation/devicetree/bindings/regulator/da9211.txt
+ create mode 100644 Documentation/devicetree/bindings/regulator/dlg,da9211.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
 
-> Maybe you want to investigate the other lockdep assertions and, if
-> there's room for improvement, address that in a dedicated patch.
-
-They look okay to me. Are you seeing something is off?
-
-Regards,
-
-Tvrtko
-
->> +
->>   	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
->>   		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
->>   		RB_CLEAR_NODE(&entity->rb_tree_node);
->> @@ -158,24 +161,27 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>   {
->>   	struct drm_sched_job *next_job;
->>   	struct drm_sched_rq *rq;
->> -	ktime_t ts;
->>   
->>   	/*
->>   	 * Update the entity's location in the min heap according to
->>   	 * the timestamp of the next job, if any.
->>   	 */
->> +	spin_lock(&entity->lock);
->> +	rq = entity->rq;
->> +	spin_lock(&rq->lock);
->>   	next_job = drm_sched_entity_queue_peek(entity);
->> -	if (!next_job)
->> -		return;
->> +	if (next_job) {
->> +		ktime_t ts;
->>   
->> -	spin_lock(&entity->lock);
->> -	rq = entity->rq;
->> -	spin_lock(&rq->lock);
->> -	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> -		ts = next_job->submit_ts;
->> -	else
->> -		ts = drm_sched_rq_get_rr_ts(rq, entity);
->> -	drm_sched_rq_update_fifo_locked(entity, rq, ts);
->> +		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
->> +			ts = next_job->submit_ts;
->> +		else
->> +			ts = drm_sched_rq_get_rr_ts(rq, entity);
->> +
->> +		drm_sched_rq_update_fifo_locked(entity, rq, ts);
->> +	} else {
->> +		drm_sched_rq_remove_fifo_locked(entity, rq);
->> +	}
->>   	spin_unlock(&rq->lock);
->>   	spin_unlock(&entity->lock);
->>   }
-> 
+-- 
+2.50.1
 
