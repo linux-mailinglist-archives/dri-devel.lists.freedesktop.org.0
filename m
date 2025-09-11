@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE987B53716
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3A2B5371E
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 17:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E90C10E3A9;
-	Thu, 11 Sep 2025 15:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361DE10E3AB;
+	Thu, 11 Sep 2025 15:13:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="N5QfbwJ9";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="ZMo38IgK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB43910E3A9
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:13:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757603611; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C67410E3AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 15:13:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1757603627; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Y3TWVD8OQzag4n7vlKhHW5hOxDdlpiKY6usJ9p/Cd7xIJo+Wt+wwGpMU1mwM+/yaTN70Q+HkZEvfU4U5Nye8JRjBACTcEb2BPVgFIvEJfd1jRM0UAHYwJoRphYahJ2NnI6bDe/++mWRFzbzDRVIJNAiXFd2MlhOvUgniihMT4ro=
+ b=l9yVUxbnprKzKAH6i6S1etdnpW4Rwe9ZSe4Aneecn16CYwS0YuKfSrdZf/go4/7q8luTKRkR+u1b1ja0rEbKW4zqOnPJYLnlbNYWqR9NdE7xo7WRsA+wy7R6xXumEZwQ4OY++NgkytSAql1552V+arrzIBgqmbKVk8TlcyFoIHo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757603611;
+ s=zohoarc; t=1757603627;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=bY54AAdDsGJHBRu4VNnRBqaafsYGU+PM+RWfhefn48Q=; 
- b=SDZ70MmO1l08Sec8X99CQjE+6BeOZSjEsYq6rf3CQ8i5apB5Su+nEys4dfRw2Ptfq84xKDgJCcdnRUA2LioqVQ655gfYIGPlmaBf+2EL7LGCc2j0u4AlA0fEjU+8UqvIx7CTDdbnZhWHPXUFvx8JizPAtqUMamd9/AwpOa4Y82U=
+ bh=rI6WcTEalAQk8pq1qEVklqk9hlyym9Zy0E+/hYJI8Qk=; 
+ b=lEOOWXKBptumL7+0UcliD7SqsCzTaimH9Xn5N35wf3NOCSxuX6Sv2FPq2oDLCz/+gFKGiP59uIm5ThjDll4qJNvNp9TBr9/h/RM/eDa7D6okbrAQIbyQ3jL9GZvxRa58V7RlVogNiSgV8Y8yD3sEnD8NnQzwMKwDjL+CXq+QhyI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603610; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603627; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=bY54AAdDsGJHBRu4VNnRBqaafsYGU+PM+RWfhefn48Q=;
- b=N5QfbwJ900PSelAysTK+1BMVDe9AfBePeRmlJVYGFQn+jbiN9qM/JfZSQQH6pdsq
- CV0/LWZV3dzLQcKLLX3OPZ13viNYqb0CLjUtbjRvarvzuzZ5sbRNrKRXwhRgdtsupdp
- U2ff0D8faKik7RS3sTIgM9M/EVfMY/CFZKSM1iR0=
-Received: by mx.zohomail.com with SMTPS id 1757603609772835.2831161402115;
- Thu, 11 Sep 2025 08:13:29 -0700 (PDT)
+ bh=rI6WcTEalAQk8pq1qEVklqk9hlyym9Zy0E+/hYJI8Qk=;
+ b=ZMo38IgKXGAmLLZcMtqxZbtw/C4dS2OHgfYuKZFZGiGhuRGIzTTFv/MIR4Dq0OWy
+ TNG27CnntGme/rguaXSnDyzVQR+mmfAERHhU6yxfWdTUuOivGBdpFmd+oBL6vHKeDt5
+ tcK2qn6cuuhUdWMQn9lpn+DKfeFzDKHRcFMzSxcM=
+Received: by mx.zohomail.com with SMTPS id 1757603625234917.6573362587322;
+ Thu, 11 Sep 2025 08:13:45 -0700 (PDT)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 To: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
@@ -59,10 +59,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 05/12] dt-bindings: display: mediatek, od: Add mediatek,
+Subject: [PATCH v2 06/12] dt-bindings: display: mediatek, ufoe: Add mediatek,
  gce-client-reg property
-Date: Thu, 11 Sep 2025 12:09:54 -0300
-Message-ID: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+Date: Thu, 11 Sep 2025 12:09:55 -0300
+Message-ID: <20250911151001.108744-7-ariel.dalessandro@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
 References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
@@ -84,8 +84,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, users of Mediatek OD (display overdrive) DT bindings set
-mediatek,gce-client-reg node property, which is missing from the DT schema.
+Currently, users of Mediatek UFOe (Unified Frame Optimization engine) DT
+bindings set mediatek,gce-client-reg node property, which is missing from
+the DT schema.
 
 For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
 causing the following dtb check error:
@@ -95,8 +96,8 @@ $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
 [...]
-arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
-(mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
+arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: ufoe@1401a000
+(mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does not match
 any of the regexes: '^pinctrl-[0-9]+$'
 ```
 
@@ -105,14 +106,14 @@ example as well.
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 ---
- .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../bindings/display/mediatek/mediatek,ufoe.yaml  | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-index 71534febd49c6..930c088a722a8 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-@@ -60,6 +60,18 @@ properties:
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+index 61a5e22effbf2..036a66ed42e73 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+@@ -64,6 +64,18 @@ properties:
        - port@0
        - port@1
  
@@ -131,19 +132,21 @@ index 71534febd49c6..930c088a722a8 100644
  required:
    - compatible
    - reg
-@@ -70,6 +82,7 @@ additionalProperties: false
- examples:
+@@ -77,7 +89,9 @@ examples:
    - |
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
      #include <dt-bindings/clock/mt8173-clk.h>
 +    #include <dt-bindings/gce/mt8173-gce.h>
- 
+     #include <dt-bindings/power/mt8173-power.h>
++
      soc {
          #address-cells = <2>;
-@@ -79,5 +92,6 @@ examples:
-             compatible = "mediatek,mt8173-disp-od";
-             reg = <0 0x14023000 0 0x1000>;
-             clocks = <&mmsys CLK_MM_DISP_OD>;
-+            mediatek,gce-client-reg = <&gce SUBSYS_1402XXXX 0x3000 0x1000>;
+         #size-cells = <2>;
+@@ -88,5 +102,6 @@ examples:
+             interrupts = <GIC_SPI 191 IRQ_TYPE_LEVEL_LOW>;
+             power-domains = <&scpsys MT8173_POWER_DOMAIN_MM>;
+             clocks = <&mmsys CLK_MM_DISP_UFOE>;
++            mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0xa000 0x1000>;
          };
      };
 -- 
