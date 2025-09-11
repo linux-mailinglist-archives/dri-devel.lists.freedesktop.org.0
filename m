@@ -2,94 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5F6B53460
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2925FB53461
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204D410EB36;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA9E210EB38;
 	Thu, 11 Sep 2025 13:51:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rsHUhrFv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EqjrwJcS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com
- [74.125.224.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BAA10EB38
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:51:03 +0000 (UTC)
-Received: by mail-yx1-f42.google.com with SMTP id
- 956f58d0204a3-6045eb3848eso430751d50.0
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9643510EB38
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:51:04 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BBQh19016125
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:51:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=d5oPByJJHNuH8KoSHkfw+ojN
+ BfV4fLGKoWjo9RAn7So=; b=EqjrwJcS5dtzNi9NMxuIu7PIZOft9/yR4KCC9vrB
+ XurpxfWW+mvaPVOYZ+MNKaAG+m/prg3g5cwPpz8DQwdUNBY9I84oLqT3wOBZceTU
+ tDdvWyuKD4EiRMB9KxkEBDxvm8N+jIvgoju6EXv8pLvmYXmHeORjUCGZ2wuigeaC
+ O/vI+MjHd3mpnd700ovMgk62KSU3sISmD8Tc9IYNERJp34cwSNTZvN9bcHfspS7G
+ bhIXIK8Ucsjf3JJm5JiVw4TTLR04t8FIAdmOyXs9TOD1gorfkuQUOM0Ngz5HjIy5
+ wwiZxBOzXq3HnkSCIDpEIC57WgTNpSt9qsQZ9mEErCanYQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491t384ab8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:51:04 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4b5ee6cd9a3so16705261cf.2
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 06:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757598663; x=1758203463; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YC/jPvTDCH7V0MdE5QEYPuycikAgoYKWyE534nDYx4M=;
- b=rsHUhrFvxkWMay/w7mTIbPq9s/6PVdtqs570wVnis5uWRWbfEFzONOGvMTjMjIVOj3
- gKrdu2kVr2i/t8oKQkqsQXqCJEBTgSbFW7uH9gx1pc4JAh7fzL+61U2xD1/xSsSVPdyH
- lypJg0sW6Si4LrAjr0H0fWxcVDMIjfoPAnY11fHfM5g+1hGsG2qOwkB1isoG48ioDsUd
- z3l8UBy1TaUGZoe2I8lNulAwzGaxefTtdkLhSwklH2/VIq/JnMe+ZBJQAUssxnqkwjna
- yAdN2EJx3EgsA94LUbzv1rslz96tAQdUb6cQFnfUgUsYYesD8r/VaSeDubl94/jLwV+o
- 4Z0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1757598663; x=1758203463;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YC/jPvTDCH7V0MdE5QEYPuycikAgoYKWyE534nDYx4M=;
- b=AWASDgoHnu8OiTf3kPwXRjhonuggXyw+pIdv8aoErhks/+atrwk1kWeXUeY0M18vlM
- XHGRJIDLElJogCJ+Cxhqp1SmNVvySN9cuqW6B+Cklax2Mp1MQvE/X+2tqa7jJV0p1Wst
- xZh40NHtNYfCZWitwc39Nna38CIakEyjATikT4/NPYXA+JrEcQhS9GZGoelfl0naEYz8
- lBhKDryknHcdbyrWxHc1fCml8h5TkOKIpiwtkDeUxy+SAZ2Hje4nLFOv4k51GJIBts5L
- EjGLwBPf4fxbXkJIzruSmZb1DW2Vs5BvH4BkGNppUhMCViDqRz0ccDaqStbFK/1YsuSI
- R7mQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV13NG9F/X8SIStd1LrbdvPhyU2jh2xHax9vnjdAxeaGJGlOWsRNkJqKhhWS1C/zZwOwSR5F5vQ55g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1uivSN8zm7xlUeWdIoVy34POWNeBce+4qGAEhZ+XolOanTGtW
- kawuehoBl/IAfAcT/mYLCA1xaQS0kvY5NFLvqZ7inAFNCMt9vK4l5/0YlGBdSiYJMBw=
-X-Gm-Gg: ASbGncuyDSigbhvSCtfwOTNx2bRzpAUiqxwRgOn7PspM2LLMqVuL1z0ukd2VeRfmxAu
- BGUMr0nvvOZ6L6Ja6r+hkIP8xUfL70srJP8/sTt76dvvBxd9/BhNtSoflzKt/7k1Kib3MfAKTwt
- l6xqeo+YB1U90G9NIlLDv8ZPCPau+tZiqVB/151PBbKWUHfavMT4TZ5w0h2ilhlACoXheifLWiq
- vtza2rhUmeB7d2V0uYG4xfZjqqhS19fKn1lghIRbBU1WZHX16jwdZZV7V2YvcxfbsjG7l0XpaeL
- mJu7Rv5PH7P9XzeC/TydSNRm22ZftwF5/P+o8DUTM2VDQMTnsgrybyoxv7AB5Z0alvubtdsqYF8
- QrCdhASCqEu9c9Lb/3VRD++lcTKGlqpGxHO9TPbjHsmNkh1Jsfc0dDnjRUN99gQon6Cco3OvyhL
- s=
-X-Google-Smtp-Source: AGHT+IHZBm0VWF5Q2HiB0+9X7Vnwcu0dm3iI+l+WvOP7Jt3IX2w3wk8CNJ5VHY3b6oDMOP/vs9Jw5w==
-X-Received: by 2002:a53:b3c8:0:b0:5fb:957d:d74f with SMTP id
- 956f58d0204a3-6102163daa0mr12706114d50.3.1757598662617; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d5oPByJJHNuH8KoSHkfw+ojNBfV4fLGKoWjo9RAn7So=;
+ b=AUcc4/BAPg1kpLu6iVF384u4hw82o421lPvXhe1+/I0Ej1yXl4C4RYrMPTLpC9t+s4
+ jFQpjwnVrkUbZcQwyIAmGo5SZeNiJv+udbica/qTxKf0/AMJDr+ztAa+PQLbh0RsWOxo
+ g2VuhzSUhCilw/jPK1uXM6Hk7nCg21iq1Zkx/a2j9H6eKIQOReHRlzcA6Der69L0NavT
+ IhURDVR5QcliDIZ73xLYqfkJh/TD6f2UhGDri0tinfw61qr0tkahP5cCNHyCqdmVMnFp
+ BLkGpW2Q2vJ04nZuot6+7ameqBb0Ou+UjPUILhnILPIhljZK6StXhnGODgAg8neRSZAp
+ 1B8w==
+X-Gm-Message-State: AOJu0Yxqb73yYPHbnNQ533Kkg4CzkgcIzEFdYGd8GN7D49H9/nAZxbH3
+ WL8dGnk021pU5xp9APSH0Oki6o5ZqCRToNHXREsjjcVnFAbr691lmmZc9Yi0z4po1LVnJFp2Xdi
+ 3qR2SFZvEFKa4vNW+RoIXpn0Iqpy13PEyDriR5noJvbwIcU4fB0HHvXv3oWIFrzSj1EDdayk=
+X-Gm-Gg: ASbGncs+O4tL4bEES3mQl+qNuGAIJX+rG33QN7shYSEAr1QB33223xbvXmqpjlM8GpJ
+ lo4ZdNwZFHsf3DwTPYL9u20fskJPKy2uPdoYMhHWjNpLUDHbMA5wlVbM2sQK0Ga20sct4O3A4kl
+ q6MOyjtqON695jpP1E6vGAvQECo88JCFq+6ZkWLZ3HC740Rr5WZucR/mNYCECRAdBLjLmHvLhE1
+ 7/HMn2xjHZ05MpygocofpDoU1ZyVoOlS5peBsWB48fYmI1WkEJwYgoXt75LJ6ECBobx9nWy/45U
+ 4+xQrs6MWjnWb/NQGOLjxP4COXMLmSINdshTkBPD3R91QAsCn6iPDBmGX7QwRgUMxRaWfiwXmVm
+ tfwoK94Vto5xsn7eefmzmNTcYFqkRPXHmcjSF+dNMfFxySSqgXeVV
+X-Received: by 2002:a05:622a:4d2:b0:4b3:f0e1:be96 with SMTP id
+ d75a77b69052e-4b5f83b0f07mr202264971cf.25.1757598662434; 
  Thu, 11 Sep 2025 06:51:02 -0700 (PDT)
-Received: from rayden.urgonet (h-37-123-177-177.A175.priv.bahnhof.se.
- [37.123.177.177]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-72f7623434csm3526257b3.11.2025.09.11.06.50.58
+X-Google-Smtp-Source: AGHT+IHC6fOr3P1Mh7M0LS1DwAaQ1PnLL7iyF2lgwoAT8YjBKLMkeka9GqcABW+DPD1Nu+gTxj9+3g==
+X-Received: by 2002:a05:622a:4d2:b0:4b3:f0e1:be96 with SMTP id
+ d75a77b69052e-4b5f83b0f07mr202264621cf.25.1757598661998; 
+ Thu, 11 Sep 2025 06:51:01 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56e65a33771sm427831e87.133.2025.09.11.06.51.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 11 Sep 2025 06:51:01 -0700 (PDT)
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Garg <sumit.garg@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: [PATCH v12 9/9] optee: smc abi: dynamic protected memory allocation
-Date: Thu, 11 Sep 2025 15:49:50 +0200
-Message-ID: <20250911135007.1275833-10-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250911135007.1275833-1-jens.wiklander@linaro.org>
-References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
+Date: Thu, 11 Sep 2025 16:50:59 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, wse@tuxedocomputers.com,
+ andri@yngvason.is, sebastian.wick@redhat.com, mripard@kernel.org,
+ daniel.stone@collabora.com, jani.nikula@linux.intel.com,
+ tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com,
+ christian.koenig@amd.com, derek.foreman@collabora.com
+Subject: Re: [PATCH 3/8] drm: Add new general DRM property "color format"
+Message-ID: <ssvxorsrhum2eo2uiieradrrmytemivr6m5c3mskalehzaj4ci@nc74epxgjq5w>
+References: <20250911130739.4936-1-marius.vlad@collabora.com>
+ <20250911130739.4936-4-marius.vlad@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250911130739.4936-4-marius.vlad@collabora.com>
+X-Proofpoint-ORIG-GUID: CTXiB2OYN-cjMpVsPDLlkQ4YgIAvRHEg
+X-Proofpoint-GUID: CTXiB2OYN-cjMpVsPDLlkQ4YgIAvRHEg
+X-Authority-Analysis: v=2.4 cv=NdLm13D4 c=1 sm=1 tr=0 ts=68c2d3c8 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=yDUiu3_GAAAA:8 a=QX4gbG5DAAAA:8 a=bDwM_fcg3tGIVG_HqXcA:9
+ a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=gafEeHOdjwYkg5oUpzAY:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA2NiBTYWx0ZWRfX9TK40CcKPPP5
+ IwhXURytyE1gaaqq8K5U9gQ6QINSHPeVEq8Lh14uF6AgmR7JN7+HVw/9BeVU9WkZBMGObsf5C/C
+ fopH29W3aUNh1n0cBTs9ysJZLjXRpRV09f7DX+YKjle/HZEn9CG6hyA0K36qE5vcSJSnGRtaUNy
+ 8k3svX0a4u+rTK4dZme8uEorh2j/0MjpCv+htsQRSX1KubbWirx88CngR6bCCnt4ZNU9IkDVZ2s
+ E+LvvcvCSnPmr6+rTPVSDBRRfYbTPPDJkprHjPIFIV/IpVp83LqSrFaXiS2y+L30JPnXZ4G7OHr
+ ng8MMeudLUuwjcIH6KDKWzDJGAcqFoFFbiCYftY9vO/bkRLOiATB4WWiXWMKPs4GcnzD44wQG/7
+ asYlv/T1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-11_01,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,123 +124,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the OP-TEE backend driver for dynamic protected memory
-allocation using the SMC ABI.
+On Thu, Sep 11, 2025 at 04:07:34PM +0300, Marius Vlad wrote:
+> From: Andri Yngvason <andri@yngvason.is>
+> 
+> Adds a new general DRM property named "color format" which can be used by
+> userspace to force the display driver output a particular color format.
+> 
+> Possible options are:
+>     - auto (setup by default, driver internally picks the color format)
+>     - rgb
+>     - ycbcr444
+>     - ycbcr422
+>     - ycbcr420
+> 
+> Drivers should advertise from this list the formats which they support.
+> Together with this list and EDID data from the sink we should be able
+> to relay a list of usable color formats to users to pick from.
 
-Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
----
- drivers/tee/optee/smc_abi.c | 78 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+It's unclear, who should be combining this data: should it be the kernel
+or the userspace.
 
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index b4c007ed3b94..0be663fcd52b 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -965,6 +965,70 @@ static int optee_smc_do_call_with_arg(struct tee_context *ctx,
- 	return rc;
- }
- 
-+static int optee_smc_lend_protmem(struct optee *optee, struct tee_shm *protmem,
-+				  u32 *mem_attrs, unsigned int ma_count,
-+				  u32 use_case)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_LEND_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-+	msg_arg->params[0].u.value.a = use_case;
-+	msg_arg->params[1].attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
-+	msg_arg->params[1].u.tmem.buf_ptr = protmem->paddr;
-+	msg_arg->params[1].u.tmem.size = protmem->size;
-+	msg_arg->params[1].u.tmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+	protmem->sec_world_id = (u_long)protmem;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
-+static int optee_smc_reclaim_protmem(struct optee *optee,
-+				     struct tee_shm *protmem)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_RECLAIM_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
-+	msg_arg->params[0].u.rmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS)
-+		rc = -EINVAL;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
- /*
-  * 5. Asynchronous notification
-  */
-@@ -1216,6 +1280,8 @@ static const struct optee_ops optee_ops = {
- 	.do_call_with_arg = optee_smc_do_call_with_arg,
- 	.to_msg_param = optee_to_msg_param,
- 	.from_msg_param = optee_from_msg_param,
-+	.lend_protmem = optee_smc_lend_protmem,
-+	.reclaim_protmem = optee_smc_reclaim_protmem,
- };
- 
- static int enable_async_notif(optee_invoke_fn *invoke_fn)
-@@ -1627,14 +1693,20 @@ static struct tee_protmem_pool *static_protmem_pool_init(struct optee *optee)
- 
- static int optee_protmem_pool_init(struct optee *optee)
- {
-+	bool protm = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM;
-+	bool dyn_protm = optee->smc.sec_caps &
-+			 OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM;
- 	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
- 	struct tee_protmem_pool *pool = ERR_PTR(-EINVAL);
--	int rc;
-+	int rc = -EINVAL;
- 
--	if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM))
-+	if (!protm && !dyn_protm)
- 		return 0;
- 
--	pool = static_protmem_pool_init(optee);
-+	if (protm)
-+		pool = static_protmem_pool_init(optee);
-+	if (dyn_protm && IS_ERR(pool))
-+		pool = optee_protmem_alloc_dyn_pool(optee, heap_id);
- 	if (IS_ERR(pool))
- 		return PTR_ERR(pool);
- 
+From my POV deferring this to the userspace doesn't make sense: there
+will be different quirks for monitors / panels, e.g. the EDID wrongly
+advertising YUV or not advertising a knowlingly-working capability.
+
+I think that the property should reflect the kernel view on the possible
+formats, which should be updated during get_modes() (or every time EDID
+is being read).
+
+And that's not to mention that there are enough use-cases where the
+connector doesn't have EDID at all.
+
+> 
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Signed-off-by: Andri Yngvason <andri@yngvason.is>
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c |   5 +
+>  drivers/gpu/drm/drm_atomic_uapi.c   |   4 +
+>  drivers/gpu/drm/drm_connector.c     | 177 ++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h         |  54 ++++++++-
+>  4 files changed, 235 insertions(+), 5 deletions(-)
+> 
+
 -- 
-2.43.0
-
+With best wishes
+Dmitry
