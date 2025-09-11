@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719D6B52C70
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 11:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB506B53E23
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 23:52:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C246710EA5B;
-	Thu, 11 Sep 2025 09:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FEF10EB9A;
+	Thu, 11 Sep 2025 21:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rDeasZne";
+	dkim=pass (2048-bit key; unprotected) header.d=astralinux.ru header.i=@astralinux.ru header.b="uBd9UPu9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1100110E06B
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:01:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AB8DF436AE;
- Thu, 11 Sep 2025 09:01:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E701EC4CEF1;
- Thu, 11 Sep 2025 09:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757581267;
- bh=pNuKdyLfyUYn/bu1we4l5xlt7uUHJk0oo7gXbZsMMNI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rDeasZneKS1p3vaalewyHV/LvlnRzBuGKLoBgRN2ZKMYsHggGpTBAsTC3zH8PZuen
- Qb4ct0SLpt1K+TTsLlUZJBC5RGCBJO8VEfnDDw/3reXrpPcESrNKNudsTKEw5ymZ0t
- myJwztJA3bU/mhyWhagGzXGrJux53hMaEOex9zSawJExxT9fvmJ/aZFvyCncTmha+4
- Dv6wWBb/UctP/RjjZYI/rWYJXv7KtFzo8TigwS5YvZZfdAEBcoMB7lDdLKVujgVP6b
- k6+bXrmIW4kQflN05eB0dCFofMs3ZyKhdicfCnfcU6WBL/Np6i6z0YAlz7lrAyK6vp
- aRmj75i/dd3sQ==
-Message-ID: <b875f811-6371-4ff4-9cc2-a0a2c82a569c@kernel.org>
-Date: Thu, 11 Sep 2025 11:01:00 +0200
+X-Greylist: delayed 471 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Sep 2025 09:11:23 UTC
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru
+ [93.188.205.243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37B010EA59;
+ Thu, 11 Sep 2025 09:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+ s=mail; t=1757581407;
+ bh=Y0jxY2UoGEBpb56GCXKheJ9DTcUI1kAj+ihi2goW6+I=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uBd9UPu9moXhzylPqquHlyLDxSoAqx82lR9v9p91PQDAfO12PjF6yW14I+2OGOSHC
+ YqaUX/eR1GsA3aIQoNm6PtnGCaKk8qxwtYvExcs+iRHuhoaUIJhM6P9aBL0pf3XWKV
+ 76Mo7ypL4pTlCYq5LJS3lv/OB1sIJggOA857zS78Jd+nLGpKOXqZerEVmnKOdy4gZg
+ GZSLZjdiWODE5I8jvy0UNLxeM5f26tDYKJcLYrOOosCtSsrYRiDR5ZMH0xHMAJpRSG
+ L5jAzojK349rq70qBF56JVjRLbYsPOOcjGIUtoD9Jc03sMqnF/RP6PqqeqJecxZKdi
+ cNeXD/wTn+iSg==
+Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+ by mail-gw02.astralinux.ru (Postfix) with ESMTP id 6E1E11F9EE;
+ Thu, 11 Sep 2025 12:03:27 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.177.185.199])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+ Thu, 11 Sep 2025 12:03:25 +0300 (MSK)
+Received: from rbta-msk-lt-169874.astralinux.ru
+ (rbta-msk-lt-169874.astralinux.ru [10.190.6.151])
+ by new-mail.astralinux.ru (Postfix) with ESMTPA id 4cMs5l6T3Bz2xBx;
+ Thu, 11 Sep 2025 12:02:51 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, Shuicheng Lin <shuicheng.lin@intel.com>
+Subject: [PATCH 6.12] drm/xe/hw_engine_group: Avoid call kfree() for
+ drmm_kzalloc()
+Date: Thu, 11 Sep 2025 12:01:15 +0300
+Message-Id: <20250911090116.47103-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] leds: led-class: Add devicetree support to
- led_get()
-To: Lee Jones <lee@kernel.org>, Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Daniel Thompson
- <danielt@kernel.org>, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, threeway@gmail.com,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
- <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
- <20250911081540.GD9224@google.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250911081540.GD9224@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected, bases: 2025/09/11 08:15:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 66 0.3.66
+ fc5dda3b6b70d34b3701db39319eece2aeb510fb, {Tracking_uf_ne_domains},
+ {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to},
+ 127.0.0.199:7.1.2; d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
+ new-mail.astralinux.ru:7.1.1; lore.kernel.org:7.1.1;
+ astralinux.ru:7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 196178 [Sep 11 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854,
+ bases: 2025/09/11 07:23:00 #27808108
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2025/09/11 08:15:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
+X-Mailman-Approved-At: Thu, 11 Sep 2025 21:52:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,103 +98,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lee,
+From: Shuicheng Lin <shuicheng.lin@intel.com>
 
-On 11-Sep-25 10:15 AM, Lee Jones wrote:
-> On Wed, 10 Sep 2025, Aleksandrs Vinarskis wrote:
-> 
->> From: Hans de Goede <hansg@kernel.org>
->>
->> Add 'name' argument to of_led_get() such that it can lookup LEDs in
->> devicetree by either name or index.
->>
->> And use this modified function to add devicetree support to the generic
->> (non devicetree specific) [devm_]led_get() function.
->>
->> This uses the standard devicetree pattern of adding a -names string array
->> to map names to the indexes for an array of resources.
->>
->> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
->> Reviewed-by: Lee Jones <lee@kernel.org>
-> 
-> Remind me why this can't go in through LED again?
+commit 4846856c3a4afa882b6d1b842ed2fad6f3781f4d upstream.
 
-I don't think anyone has discussed how to merge this yet.
+Memory allocated with drmm_kzalloc() should not be freed using
+kfree(), as it is managed by the DRM subsystem. The memory will
+be automatically freed when the associated drm_device is released.
+These 3 group pointers are allocated using drmm_kzalloc() in
+hw_engine_group_alloc(), so they don't require manual deallocation.
 
-I believe that the LED tree is the correct tree to merge this
-entire series through, once the DT bits have been reviewed.
+Fixes: 67979060740f ("drm/xe/hw_engine_group: Fix potential leak")
+Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Link: https://lore.kernel.org/r/20250724193854.1124510-2-shuicheng.lin@intel.com
+(cherry picked from commit f98de826b418885a21ece67f0f5b921ae759b7bf)
+Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+---
+ drivers/gpu/drm/xe/xe_hw_engine_group.c | 28 ++++++-------------------
+ 1 file changed, 6 insertions(+), 22 deletions(-)
 
-Regards,
-
-Hans
-
-
-
-
->> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> Signed-off-by: Hans de Goede <hansg@kernel.org>
->> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
->> ---
->>  drivers/leds/led-class.c | 17 +++++++++++++++--
->>  1 file changed, 15 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
->> index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
->> --- a/drivers/leds/led-class.c
->> +++ b/drivers/leds/led-class.c
->> @@ -252,15 +252,23 @@ static const struct class leds_class = {
->>   * of_led_get() - request a LED device via the LED framework
->>   * @np: device node to get the LED device from
->>   * @index: the index of the LED
->> + * @name: the name of the LED used to map it to its function, if present
->>   *
->>   * Returns the LED device parsed from the phandle specified in the "leds"
->>   * property of a device tree node or a negative error-code on failure.
->>   */
->> -static struct led_classdev *of_led_get(struct device_node *np, int index)
->> +static struct led_classdev *of_led_get(struct device_node *np, int index,
->> +				       const char *name)
->>  {
->>  	struct device *led_dev;
->>  	struct device_node *led_node;
->>  
->> +	/*
->> +	 * For named LEDs, first look up the name in the "led-names" property.
->> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
->> +	 */
->> +	if (name)
->> +		index = of_property_match_string(np, "led-names", name);
->>  	led_node = of_parse_phandle(np, "leds", index);
->>  	if (!led_node)
->>  		return ERR_PTR(-ENOENT);
->> @@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->>  	if (!dev)
->>  		return ERR_PTR(-EINVAL);
->>  
->> -	led = of_led_get(dev->of_node, index);
->> +	led = of_led_get(dev->of_node, index, NULL);
->>  	if (IS_ERR(led))
->>  		return led;
->>  
->> @@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
->>  struct led_classdev *led_get(struct device *dev, char *con_id)
->>  {
->>  	struct led_lookup_data *lookup;
->> +	struct led_classdev *led_cdev;
->>  	const char *provider = NULL;
->>  	struct device *led_dev;
->>  
->> +	led_cdev = of_led_get(dev->of_node, -1, con_id);
->> +	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
->> +		return led_cdev;
->> +
->>  	mutex_lock(&leds_lookup_lock);
->>  	list_for_each_entry(lookup, &leds_lookup_list, list) {
->>  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
->>
->> -- 
->> 2.48.1
->>
->>
-> 
+diff --git a/drivers/gpu/drm/xe/xe_hw_engine_group.c b/drivers/gpu/drm/xe/xe_hw_engine_group.c
+index 82750520a90a..d0f1bf32cdd5 100644
+--- a/drivers/gpu/drm/xe/xe_hw_engine_group.c
++++ b/drivers/gpu/drm/xe/xe_hw_engine_group.c
+@@ -84,25 +84,18 @@ int xe_hw_engine_setup_groups(struct xe_gt *gt)
+ 	enum xe_hw_engine_id id;
+ 	struct xe_hw_engine_group *group_rcs_ccs, *group_bcs, *group_vcs_vecs;
+ 	struct xe_device *xe = gt_to_xe(gt);
+-	int err;
+ 
+ 	group_rcs_ccs = hw_engine_group_alloc(xe);
+-	if (IS_ERR(group_rcs_ccs)) {
+-		err = PTR_ERR(group_rcs_ccs);
+-		goto err_group_rcs_ccs;
+-	}
++	if (IS_ERR(group_rcs_ccs))
++		return PTR_ERR(group_rcs_ccs);
+ 
+ 	group_bcs = hw_engine_group_alloc(xe);
+-	if (IS_ERR(group_bcs)) {
+-		err = PTR_ERR(group_bcs);
+-		goto err_group_bcs;
+-	}
++	if (IS_ERR(group_bcs))
++		return PTR_ERR(group_bcs);
+ 
+ 	group_vcs_vecs = hw_engine_group_alloc(xe);
+-	if (IS_ERR(group_vcs_vecs)) {
+-		err = PTR_ERR(group_vcs_vecs);
+-		goto err_group_vcs_vecs;
+-	}
++	if (IS_ERR(group_vcs_vecs))
++		return PTR_ERR(group_vcs_vecs);
+ 
+ 	for_each_hw_engine(hwe, gt, id) {
+ 		switch (hwe->class) {
+@@ -125,15 +118,6 @@ int xe_hw_engine_setup_groups(struct xe_gt *gt)
+ 	}
+ 
+ 	return 0;
+-
+-err_group_vcs_vecs:
+-	kfree(group_vcs_vecs);
+-err_group_bcs:
+-	kfree(group_bcs);
+-err_group_rcs_ccs:
+-	kfree(group_rcs_ccs);
+-
+-	return err;
+ }
+ 
+ /**
+-- 
+2.39.2
 
