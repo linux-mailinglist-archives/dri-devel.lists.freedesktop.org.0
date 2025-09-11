@@ -2,173 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E52B532B8
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 14:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2314B532BA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 14:50:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D3510EB18;
-	Thu, 11 Sep 2025 12:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350B210EB1A;
+	Thu, 11 Sep 2025 12:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NzShJT34";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Q1DF5xKy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2056.outbound.protection.outlook.com [40.107.223.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB7510EB18
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 12:49:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ifoiDIbw+IhUXhkMTDfcKf2VsbbOI/t20C5NR06egPaEG//EwN+tMdO0l4uBZbei9lrH26y1D0sQbVhB08fjMjUCxRNJ1PzlTg+Q+HOwrcljELNNcP5AkwEf/HJwVSaohgtBMgrJSH5o3PJKLhXDKHDY6Im6Lp42uCBVmDHPmnjY0+Eku5kMLB6U+QDdyEN1fBBjSDF4xmpXRHqLwhAFIXIlKVQQqwmLz2lZfV0CdD4NL4qxb1k8e7Qq8CjCxkSWfb+aOyCb0bS7tH44tuuni7yPZFQ/KNExlUznuvErLeFs5oD09sOsc7s99NLvZDDu5oEY8vuuPDLmubbQHE5/6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IIfxXfVO35vmZzZjOosdGVDvKLNmO+sgG5bf12Uyqes=;
- b=qn1JlpwOfkLV7chq3iDQYEYmMaj3Rk1FNv+Fhv4EyVWw0jCZO27zgCzGKOw6hrW8n5fyGzT5BA/mdvzc/MmevUA2G2GzyhepudoGzdyKpWSOpc7D8WpCXlA1S+kCZnWrhGIuMNImE1ISjyLkJ7/X8XlD5sepN452uuuz+X/ig7HifwgnWvZ4+y7qpRPKVhqiqltbkciehywoQudYm1WoiKOrD0jT/SZuK+5j5cE6FyO6F7LVJw3it9GttiV9EOR7XA0ziSpLKRqu9DC2vljH1OkrPPEiZ3nYj1yb1HVxCD47SUiLa1gAZm8+CzU0snpLIGsWmVhTLkD2LC18SPmwiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IIfxXfVO35vmZzZjOosdGVDvKLNmO+sgG5bf12Uyqes=;
- b=NzShJT34hmIzXEjSEkJlTdO1S6hDVLbskTvgRjY6EtkWRZJuBtYu5Py+DKOw4yuClI57yFIoekMwg/tdXjpMUa/Tw/lxt4JNWjdxDc24D16uc+HN9wpBO3RAE/L76Rwou2h2AQriTn0hynKluzafJk1w4kikLFhZ1iry9CNDe3kQ28cdUFvzagmBtaLaRWbjr4ErNuRiGtweCeP4hf66z2367QMa/KHYankJNtKB6cxbfWakA1zm0KgOl8SDq6ApFWx9kkRH0INSdPPtOXnt8agVfazuSRzdmPCtXB9Y/JPuUdBRXANmNRAVybgI6dYQe5t7mM/H3S69h3oNWIKLCg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by BN5PR12MB9464.namprd12.prod.outlook.com (2603:10b6:408:2ab::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 12:49:51 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 12:49:51 +0000
-Message-ID: <f98d3149-9cc1-4211-af8f-e49547134b8c@nvidia.com>
-Date: Thu, 11 Sep 2025 22:49:44 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
- folios
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB2B10EB1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 12:50:07 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cMy7w3bRWz9v84;
+ Thu, 11 Sep 2025 14:50:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1757595004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9Snp41rLKjqF2xK8uFOl0RQKFM4uGB1FBzOpQJ/veo=;
+ b=Q1DF5xKyU5Q9w17X57HOMZtXWtPhSv5+XmMmPOjGtONDdUVkIPhsiKTuJ6SURopky4h9n5
+ 80+2OQs/toBUPZCE7kkAoCr18UjseHc8dQeK4b3AezUykwXCBYe5HYuZwJBpYIN0RFRPuW
+ Ff7lP4lVtrHs+3VZSTVFK5dTRlHQo+7o7VJKvC/3wwVEfQ98AXFTBdKFYlX1DpD4vfsfS1
+ EIWZGwf0qOLCEKrk1Tg3yHKftILEC7YfrJpagJRMoPsewpi19+VlT3Xp/p3nhq3J5Un/9F
+ WhYp7LX5M3jrh+2zMDbaj+hxxO9yzjsNw3ERoHG7fAgi+rHwqOFzrBrfTJaHZg==
+Message-ID: <c6cbaa8d-cb90-45d5-b3b6-279196f958ce@mailbox.org>
+Date: Thu, 11 Sep 2025 14:49:56 +0200
+MIME-Version: 1.0
+Subject: Re: [PATCH] drm: ttm: do not direct reclaim when allocating high
+ order pages
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Cc: Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250908000448.180088-1-balbirs@nvidia.com>
- <20250908000448.180088-2-balbirs@nvidia.com>
- <8c5267ec-cc85-4eff-b890-eb705472e2b2@redhat.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <8c5267ec-cc85-4eff-b890-eb705472e2b2@redhat.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com>
+ <e79a134b-89de-4da1-b64b-b890227fce8a@amd.com>
+ <aMF0fe7CIVD-8zVo@quatroqueijos.cascardo.eti.br>
+ <262a176a-4c80-40de-96e0-c97f50c20fe6@mailbox.org>
+ <b7c57dc3-ed0e-402f-8a3c-f832357f8763@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <b7c57dc3-ed0e-402f-8a3c-f832357f8763@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY3PR03CA0003.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::8) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|BN5PR12MB9464:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5b66118-fd53-413b-a0e2-08ddf131b2f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|10070799003|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L1FydkgvT0k2SHkrNHN4RUwyaTh3cUU4RDVLMWZRSE9QWEIyRFdsejZDTm9R?=
- =?utf-8?B?ZkVkYlhnVHJsay95N1hycFpaTWU0RkZBalpDREtNK3h3K2pMUThBa3B5S09m?=
- =?utf-8?B?c3JkMGdMYkM0d1RrS2s2UlBFOE5PVVQ2REdBejIxdExrWGJNVG0yQXJma1cv?=
- =?utf-8?B?RzZiTHZTNDFZUG1pbUlWSjFYU2RMQ0pmcUJ4RC96VytVUnpyQ3JLOVZsOEdW?=
- =?utf-8?B?bWxkcFVIcUVxTmxqaDUvc3krclhHVWhFNjJvZWlxVGJCVDFJdFVmdkxjQkRs?=
- =?utf-8?B?MnJPWWh0L2dvOXMxaEVTYmlxOGtyTWJXZ1NLczBNNE1iY1ZlOGNHczIvNFpm?=
- =?utf-8?B?bFNLWm5hcEJSWnNScmJ6UTFUVDYxcHAzbEpCUUdydTd2Y2VLRHJPL25rRmdO?=
- =?utf-8?B?dTNZbUNLQzhDTG1BTldtZ2tWTTJjaFhQMDRkanNBdzZXeUxDSnByMGpZYzR6?=
- =?utf-8?B?WDdTOExqVVZiZjg1RFM4ZmdOTlpRby9jcENqT3c4WkRKb0N5SCtpZW04YmFX?=
- =?utf-8?B?WitWaFlVMnJHNm9QY0U0TjFjek5DNXU3QVFWRHIyZHZNTU41TStTMnpsRDAw?=
- =?utf-8?B?bGMwcUJRN3hlZ1V3VmpXQ2F2Nit1ZVdZMndLMUhZNGQ0cmpvT3J0c2lLVmwz?=
- =?utf-8?B?N3o1aUc0dWtMeHptSDlmQUgvRkc1RERaNmxKRllDaVhkL09qS2RRcnpndmlW?=
- =?utf-8?B?K1BOTVdQd2lINUhOcUhabEhaZG5pdWUvL2RoY0FwZ1FybGQzdFROYVlmTHh4?=
- =?utf-8?B?WGNxM1RxS0dHeFR5c2doUGJPcXFCOWRmYzJkWHFoRis2S2hnbmNtdEZGTEhX?=
- =?utf-8?B?cDA0ZjJLVE1CeGZvMjJQeVRYcGkvN205bFk2RWdhekpNakloOWVRMjVZK0t4?=
- =?utf-8?B?TGMxTlV3a2VZdmRBNlkyb0ErU3Rla3BvZGdGdUI4NmVmTXR4cEx1L2Fucm8x?=
- =?utf-8?B?Q0l3UHN1MWgvd2JaZ29CVlBSZEVoS0RiRkVzaHNHTXpGeFVMSVIwczI3WGV0?=
- =?utf-8?B?dGI2NlVESktKNFFXOTJHQTlRK1FZVVZIY0I0SGpVNWExRHFieEt2b3pqTkMr?=
- =?utf-8?B?OUIrY0NjK0xjSmVRMG5KV24vQUxwWnFLcDVtR3lQempDV0c4K1hSWUNQRjU3?=
- =?utf-8?B?YU93c2NRVFZSak8zQXNHaG1VQ0ozUSs4ajFkTlBsM1cvZ0RsRTFJTnNWQVVm?=
- =?utf-8?B?aUFhNmhiNmJYaEllS0JmVC8vWHZUcXdkbXZpcGxheVllc0s1SVU2bFMrS0to?=
- =?utf-8?B?OTJFbk1kVHVJUlhrSnVSOFE0R0tmbDZ3NlhETys2RTNxTnNWcXRzU3VwTUtp?=
- =?utf-8?B?RHBSUFFpL0FjWjQwMjJ0em92NjRLcWpSNHRBU2JmS1hvbVdpNnAvT0VRb2V3?=
- =?utf-8?B?WGEyN21leDd3bldYUlVUWDlaWlBLa0pqakxIRnJzTTZ6ZzVZaG9hcmZ5ZlN0?=
- =?utf-8?B?V1RQdEdVaFdKaXlhSllBaEFqRlhneEt0ejBWbUk2OWZlNWtEMkQ2RlhOemd3?=
- =?utf-8?B?MFk4cnpQS0dLWVpDTkhoQm9tdjU3R0FXRkpaZGhYNUVlRkdsYi9FSU52bnpB?=
- =?utf-8?B?ZStnVytuVXJ1NFZ2MVZBWXhUOVpGcFdPUTVHZloxRlo0cjJpSVMyV0wwU2Vy?=
- =?utf-8?B?Y1IwaHRBOW92bzdkRzZSRm9wQVdjK21TbUcyeVRRWlN3NHlGd0JiWk1CZGtu?=
- =?utf-8?B?d2lrc2dSVnU5VVZ5YWNmbklEVGF2WHNqSU5la25KVlNhVlBOSU5wcWIxZ0FR?=
- =?utf-8?B?VXVIY0pBRnpvYW94V1FrZlYwVG1CUlJJMktKRXNnYXJqL0x4SlBPZEVFajZ2?=
- =?utf-8?B?djFYSUFTOHgzMWtpSy9oNGR1bGE0TE1ZNlVVSUdEdm4vbkpGTGpqYmFXb3ph?=
- =?utf-8?B?Qm1ZMFVkelZWblZRcEY5RlVwMW1IMEZJTDhmZjF2elVBa3pLSWk4OE1nVzkr?=
- =?utf-8?Q?l3WFkTqokDU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qm93V0x6M0NhVWhyRXZMTFVrNWpCZXhIWm5ZZGt4NzBlMFVtT3RwVEJGQnpN?=
- =?utf-8?B?ai9zeFErNHU0WTU5bEJzYmdOM2R6RHBuZ051TXFaeWdieEFyb3VBdXFjdlpu?=
- =?utf-8?B?bzM0QUpMNC93OXJOd1VIcHcyaGFJU0FXanN6UGFYVWo3aXZ3NzFLcklPbUtG?=
- =?utf-8?B?b3RmSUJCdUZ0anVJWEgrUU1rVlNKMWVmc1NsbXp0VUUyd0JYOGY4N3BEOEcy?=
- =?utf-8?B?cTVzUFJXZGR3QlZBQ0dvc0ZTdHFMb3JOK085Nk1CVEdoY1BqRm9LYUpFL0Q5?=
- =?utf-8?B?V1hpQzdDN2NvUTdRVnNLbTRnRlB6cEY4azhUMnB0TFZsZm5CYzFiOEZYYW9i?=
- =?utf-8?B?SjJpbW5Rc0pMclZUa3JvaEpxK3BteGlSZWg1ZlVieVh4ZXRYY1kxR2VIckN2?=
- =?utf-8?B?TS9TUzZZWkxRZGlUZHhJcllKVXZLQmtNajRJbm12N3RoT0ZNNjdNMEpOdXd4?=
- =?utf-8?B?TFJhMjVtOXJiK1prUlZnN2VVakYvMm5SemdkamRZaUZVMEY1VVlSMk9CMEY5?=
- =?utf-8?B?d2wzLy85UWhhdG9TblZXTGd4elZyR3ptMGZwbEh2Wk1rMEJKQ2JrYzhYM1Zy?=
- =?utf-8?B?MU85eHRkUU5NKzgyUTZzcmMyK0lNckVWU1NQc1RoUXFQZCswbWd2ZnFnUVV4?=
- =?utf-8?B?cmJGbjV4YXJDaXBpL1Y4V2szclFBMFF6OEhXdTFWdElLYmRHZzUzZ1BKOUxL?=
- =?utf-8?B?NWhVeGJRcnNVT1F2TlkwMnRrY2J6S3YveUxJUHBTcEhPL0tha0Zyb0dTUDJU?=
- =?utf-8?B?M2tKeU5iakVBcENmUk83MzEwMFIvYXl4eTdVeFJtRjdjU0R4WGRPOEdMa2d3?=
- =?utf-8?B?OWdIR3AxTUZENWZ0Z1p5K3lxbEFoSDg2N2ZLcHdKTTBQeWRoRHhTeWUrOEw0?=
- =?utf-8?B?a3o0SHd3L2oxU09qVU40NGdYWWE0TjkxYVZjajNXVGF2dUw1VkEyaHFvOXRo?=
- =?utf-8?B?K3E2QnFITlB3NW9VaGRZVHdVZzZoQXUvMzMyKytpR1ZnY0VaeG5aZ2M2VGJi?=
- =?utf-8?B?TWFIbVFjL281WHlTajZVcmdsQVJKcXdFdlNvcFpNWllpdEJoTlIreUxmVGhn?=
- =?utf-8?B?MTFrTk0rRERWUnNZUnpock55RUEwZkk0NkxjTDZvK2x2MytINDFoaXlQbFJM?=
- =?utf-8?B?SGlyclBxb2M1eEFtRnZveTZIQnNmREZWajNLTnA4dEFmdk5PT2Y4QkpLcElp?=
- =?utf-8?B?cDB0azJ0QXNhd1VwU0ltTlhFVW5RVHVqWThScjN1b21KUTN5QmtvVGVUQzJO?=
- =?utf-8?B?aGRuMjVZMVYyUXp3a0dmMVkzVER5VS8zOEdkbDdjeFlNbXV4bm9yemRTZU9n?=
- =?utf-8?B?ZU5EOGhDZFQ2WmlkaE1CSTlNa2E5RzdlZ0p4ZG14TDZ6YkovSTJFNGw0VVdU?=
- =?utf-8?B?bXpVeE1qSWE3cXkrZmdCRHVaWDNvMjdDT1RKeE1DdGhaNDYxeEY4MUxBOWNH?=
- =?utf-8?B?V1lLSVBiUnFwdk55NXA4UEE3eGlxaGl4OVMvY1pkcXRxMzZ0L3lhc1hBVFFx?=
- =?utf-8?B?K3NHSXlQY3VxMThSc3lRYTU2R0ZjY2pKenllVjZWNzJXYlR5SS9HTkVrSURB?=
- =?utf-8?B?N0ZtcndKQm5MOERoTnF5QnM1NE81eWFjWksrdFgrS2FFQ1dGMWVBS3BHbkx3?=
- =?utf-8?B?d2dxOVJnRy9DbTYvdVNHbGQ0SUlGSXR1dlBaaXNoZXZrZEhiOE5KdnB1TUpU?=
- =?utf-8?B?NFhwTEhtcnJISlc1UEZGQisvaUR2VEZtN1BJRUNSWmxlMEtBSnRnT0pDak9O?=
- =?utf-8?B?Ykd2UG1jZ3oxeDZRUytycHl4bGVyTzlnclVtL05ST3RmSWwvZnI2cDRZTkNU?=
- =?utf-8?B?U21PbGMzQ2ZBRkdNbmFPd2dacGlIVHMxRFJqZ3ROb1ZwbjNsZWtnd1IzUTBt?=
- =?utf-8?B?cHZsdGlrOVQ1SncxMnhXZDB5VmxCdUxaaklscUQxUnlUYzQ4UENJSDdyVjdH?=
- =?utf-8?B?TkYva05rOG1OdGpVaXUxMW9sNTlpdjVHVUxja0lyMnVsWC9vSmp6YWNCU1dZ?=
- =?utf-8?B?NkIzcTNEalZMWmJkUkJYZ0pzMlM3OHpZY3JQLzBEYWhQS1hFMzlaRit5ZmJw?=
- =?utf-8?B?YmZyTmVUeVZaOVF1S3VTU2Jvd1g3NytRekQxLzJ1b1UrMHc4L3ZQa25mWUtN?=
- =?utf-8?B?MDVkbW83WjFyREdRaTB6eDRpdE5Mamd4dGhwa2RNVlMzUTkzbUx0aUlwOHMv?=
- =?utf-8?Q?N3VKjtoxhiHy8AvTUewZm9uzJyY0Ky6PTD23bZ5frLQ6?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5b66118-fd53-413b-a0e2-08ddf131b2f2
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 12:49:51.5785 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /GI+TrTg+k1alCCFXL8BOJnAh2zxTanfnipzSdDEQgbdFGkFK2XS/uaouR3lEd69LdSXMBjkqAI4HoTDeT9OIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9464
+X-MBO-RS-META: quy865kfnqb8x4cemzdr1q8jsn1ccife
+X-MBO-RS-ID: a70ec45a6ba174afdb4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,55 +75,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/25 21:45, David Hildenbrand wrote:
-> On 08.09.25 02:04, Balbir Singh wrote:
->> Add routines to support allocation of large order zone device folios
->> and helper functions for zone device folios, to check if a folio is
->> device private and helpers for setting zone device data.
+On 11.09.25 11:07, Christian König wrote:
+> On 11.09.25 10:26, Michel Dänzer wrote:
+>> On 10.09.25 14:52, Thadeu Lima de Souza Cascardo wrote:
+>>> On Wed, Sep 10, 2025 at 02:11:58PM +0200, Christian König wrote:
+>>>> On 10.09.25 13:59, Thadeu Lima de Souza Cascardo wrote:
+>>>>> When the TTM pool tries to allocate new pages, it stats with max order. If
+>>>>> there are no pages ready in the system, the page allocator will start
+>>>>> reclaim. If direct reclaim fails, the allocator will reduce the order until
+>>>>> it gets all the pages it wants with whatever order the allocator succeeds
+>>>>> to reclaim.
+>>>>>
+>>>>> However, while the allocator is reclaiming, lower order pages might be
+>>>>> available, which would work just fine for the pool allocator. Doing direct
+>>>>> reclaim just introduces latency in allocating memory.
+>>>>>
+>>>>> The system should still start reclaiming in the background with kswapd, but
+>>>>> the pool allocator should try to allocate a lower order page instead of
+>>>>> directly reclaiming.
+>>>>>
+>>>>> If not even a order-1 page is available, the TTM pool allocator will
+>>>>> eventually get to start allocating order-0 pages, at which point it should
+>>>>> and will directly reclaim.
+>>>>
+>>>> Yeah that was discussed before quite a bit but at least for AMD GPUs that is absolutely not something we should do.
+>>>>
+>>>> The performance difference between using high and low order pages can be up to 30%. So the added extra latency is just vital for good performance.
+>>>>
+>>>> We could of course make that depend on the HW you use if it isn't necessary for some other GPU, but at least both NVidia and Intel seem to have pretty much the same HW restrictions.
+>>>>
+>>>> NVidia has been working on extending this to even use 1GiB pages to reduce the TLB overhead even further.
+>>>
+>>> But if the system cannot reclaim or is working hard on reclaiming, it will
+>>> not allocate that page and the pool allocator will resort to lower order
+>>> pages anyway.
+>>>
+>>> In case the system has pages available, it will use them. I think there is
+>>> a balance here and I find this one is reasonable. If the system is not
+>>> under pressure, it will allocate those higher order pages, as expected.
+>>>
+>>> I can look into the behavior when the system might be fragmented, but I
+>>> still believe that the pool is offering such a protection by keeping those
+>>> higher order pages around. It is when the system is under memory presure
+>>> that we need to resort to lower order pages.
+>>>
+>>> What we are seeing here is on a low memory (4GiB) single node system with
+>>> an APU, that it will have lots of latencies trying to allocate memory by
+>>> doing direct reclaim trying to allocate order-10 pages, which will fail and
+>>> down it goes until it gets to order-4 or order-3. With this change, we
+>>> don't see those latencies anymore and memory pressure goes down as well.
+>> That reminds me of the scenario I described in the 00862edba135 ("drm/ttm: Use GFP_TRANSHUGE_LIGHT for allocating huge pages") commit log, where taking a filesystem backup could cause Firefox to freeze for on the order of a minute.
 >>
->> When large folios are used, the existing page_free() callback in
->> pgmap is called when the folio is freed, this is true for both
->> PAGE_SIZE and higher order pages.
->>
->> Zone device private large folios do not support deferred split and
->> scan like normal THP folios.
->>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: David Hildenbrand <david@redhat.com>
->> Cc: Zi Yan <ziy@nvidia.com>
->> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->> Cc: Rakie Kim <rakie.kim@sk.com>
->> Cc: Byungchul Park <byungchul@sk.com>
->> Cc: Gregory Price <gourry@gourry.net>
->> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->> Cc: Alistair Popple <apopple@nvidia.com>
->> Cc: Oscar Salvador <osalvador@suse.de>
->> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->> Cc: Nico Pache <npache@redhat.com>
->> Cc: Ryan Roberts <ryan.roberts@arm.com>
->> Cc: Dev Jain <dev.jain@arm.com>
->> Cc: Barry Song <baohua@kernel.org>
->> Cc: Lyude Paul <lyude@redhat.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Ralph Campbell <rcampbell@nvidia.com>
->> Cc: Mika Penttilä <mpenttil@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Francois Dugast <francois.dugast@intel.com>
->>
->> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->> ---
+>> Something like that can't just be ignored as "not a problem" for a potential 30% performance gain.
 > 
-> You missed my comments of this patch in v3.
+> Well using 2MiB is actually a must have for certain HW features and we have quite a lot of people pushing to always using them.
+
+Latency can't just be ignored though. Interactive apps intermittently freezing because this code desperately tries to reclaim huge pages while the system is under memory pressure isn't acceptable.
+
+
+Maybe there could be some kind of mechanism which periodically scans BOs for sub-optimal page orders and tries migrating their storage to more optimal pages.
+
+
+> So that TTM still falls back to lower order allocations is just a compromise to not trigger the OOM killer.
 > 
+> What we could do is to remove the fallback, but then Cascardos use case wouldn't be working any more at all.
 
-Hi, David
+Surely the issue is direct reclaim, not the fallback.
 
-Looks I missed your comments, just checked those were largely about alignment and
-integrating the code for DEVICE_COHERENT and DEVICE_PRIVATE cases into similar looking
-bits for zone device folio free and code-alignment. I'll take a look and update as needed.
 
-Balbir Singh
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
