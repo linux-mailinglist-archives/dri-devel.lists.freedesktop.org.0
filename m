@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1454CB53330
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AD2B53333
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 15:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFBF910EB27;
-	Thu, 11 Sep 2025 13:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D883C10EB2A;
+	Thu, 11 Sep 2025 13:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TPBZ16W1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NbQ4Z6Ex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B7F10EB21
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F8410EB21
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 13:07:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757596062;
- bh=wlWiIie/Fm8O5aCv15k508ASkBzj/OTMpelEkdL/D9E=;
+ s=mail; t=1757596063;
+ bh=Am0wJR30bxBI9d75jNdn65laQYyDtWCKdt1bA39a02U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TPBZ16W1pprQ0OMowRZENLaeP7LKg1bLfCchR9XEqc/pl6DULfuGnO5tssEo59WBP
- 7tJklHK8JX54jWve4Nmpr0y8o+y/IKqNhqJbM9fwDjl8X9omGXHZ/Xw04XQckc0zP9
- Zd6lZYb5vmsOb2SziKaqSZM8ac2SIjZ60YJzyHf3XJ3b3jmdP5TzL7kzY3E3r2qIrV
- NTq9xFVHpv4m8BjMeGeUEf7NPqpEZUc+LTYh95tZJQtMGrLAEzYhKQS21MqfUJ+wh8
- PgN7ZPDay9uI/wYIjI0icR/cSX9hYPuvkBgDgrX1YbKSv78ALwMN3o0oGeotUcJbOe
- NEXBK0ARrv2xg==
+ b=NbQ4Z6Exty7pB/laEhgmlyA45hXFxt1oaTX4RxoMXVa6/BRhE0JrDeQf+W87tm998
+ pP+0gt77GrTSk1AkAu8VNoaFaTYYtHemf9FKTmUVXCp2HbFBdAX8AIbBL1t8Fr1L7L
+ clLMpGfIfn+kfPr3kk5zBLm77CzYM9eq/i5Hao2Xi2uEIVo4lyMRUXEOLVSVmGpkyG
+ zTxS+qjvHlS+M4hU1BnwOSZddPKqfmyu2bvij+Ir1Yk+k2c/xIOtXUuN9kUduCRdzM
+ Lbw5LBSqmYi36JlQE6/2QHYfSQV4rNTCrIbBNxn8d0on9mLJE0eaOEyUD4N/FRktTs
+ PhWbj3ljrarJw==
 Received: from localhost.localdomain (unknown
  [IPv6:2a02:2f05:840b:7800:3261:5c97:2de4:16d3])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 76A0F17E1110;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F2B8D17E127C;
  Thu, 11 Sep 2025 15:07:42 +0200 (CEST)
 From: Marius Vlad <marius.vlad@collabora.com>
 To: dri-devel@lists.freedesktop.org
@@ -40,9 +40,9 @@ Cc: wse@tuxedocomputers.com, andri@yngvason.is, sebastian.wick@redhat.com,
  jani.nikula@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch,
  harry.wentland@amd.com, christian.koenig@amd.com,
  derek.foreman@collabora.com
-Subject: [PATCH 5/8] drm: Pass supported color formats straight onto drm_bridge
-Date: Thu, 11 Sep 2025 16:07:36 +0300
-Message-ID: <20250911130739.4936-6-marius.vlad@collabora.com>
+Subject: [PATCH 6/8] drm/i915: Implement the "color format" DRM property
+Date: Thu, 11 Sep 2025 16:07:37 +0300
+Message-ID: <20250911130739.4936-7-marius.vlad@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250911130739.4936-1-marius.vlad@collabora.com>
 References: <20250911130739.4936-1-marius.vlad@collabora.com>
@@ -63,340 +63,429 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize drm_brige with advertised colors formats straight on.
+From: Andri Yngvason <andri@yngvason.is>
 
-Drivers that make use of DRM helpers would check the
-drm_brige::supported_formats bit-field list and refuse to use the color
-format passed. Drivers that make use of drm_bridge can pass the
-supported color formats in the bridge as well as supported color format
-for the DRM color format property.
+This includes YUV420 as well YUV444 and Auto. Auto will fallback to RGB
+to keep things sane and still working.
 
-This includes a fallback to RGB when Auto has been selected.
-
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
 Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+Co-Developed-by: Andri Yngvason <andri@yngvason.is>
+Co-Developed-by: Marius Vlad <marius.vlad@collabora.com>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c      | 2 +-
- drivers/gpu/drm/bridge/ite-it6263.c               | 2 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c             | 3 ++-
- drivers/gpu/drm/display/drm_bridge_connector.c    | 4 ++--
- drivers/gpu/drm/imx/dcss/dcss-kms.c               | 2 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c                | 2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c                | 2 +-
- drivers/gpu/drm/meson/meson_encoder_cvbs.c        | 3 ++-
- drivers/gpu/drm/meson/meson_encoder_hdmi.c        | 4 ++--
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c          | 2 +-
- drivers/gpu/drm/msm/dp/dp_drm.c                   | 3 ++-
- drivers/gpu/drm/msm/dsi/dsi_manager.c             | 2 +-
- drivers/gpu/drm/msm/hdmi/hdmi.c                   | 2 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 2 +-
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c            | 2 +-
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 2 +-
- drivers/gpu/drm/rockchip/rockchip_lvds.c          | 2 +-
- drivers/gpu/drm/tegra/hdmi.c                      | 2 +-
- drivers/gpu/drm/tegra/rgb.c                       | 2 +-
- drivers/gpu/drm/tidss/tidss_encoder.c             | 2 +-
- include/drm/drm_bridge_connector.h                | 3 ++-
- 22 files changed, 28 insertions(+), 24 deletions(-)
+ .../gpu/drm/i915/display/intel_connector.c    | 21 +++++++
+ .../gpu/drm/i915/display/intel_connector.h    |  2 +
+ .../drm/i915/display/intel_display_types.h    |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 60 +++++++++++++++++--
+ drivers/gpu/drm/i915/display/intel_dp.h       |  5 ++
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   | 58 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     | 58 ++++++++++++++++--
+ 7 files changed, 192 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 26f8ef482423..f2fea84b6415 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -762,7 +762,7 @@ static int adv7511_connector_init(struct adv7511 *adv)
- 	struct drm_bridge *bridge = &adv->bridge;
- 	struct drm_connector *connector;
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
+index 42c923f416b3..4f76c91ed614 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.c
++++ b/drivers/gpu/drm/i915/display/intel_connector.c
+@@ -39,6 +39,13 @@
+ #include "intel_hdcp.h"
+ #include "intel_panel.h"
  
--	connector = drm_bridge_connector_init(bridge->dev, bridge->encoder);
-+	connector = drm_bridge_connector_init(bridge->dev, bridge->encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		DRM_ERROR("Failed to initialize connector with drm\n");
- 		return PTR_ERR(connector);
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index cf813672b4ff..b45d2b4913e5 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -680,7 +680,7 @@ static int it6263_bridge_attach(struct drm_bridge *bridge,
- 	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
- 		return 0;
++static const u32 supported_colorformats =
++       DRM_COLOR_FORMAT_AUTO |
++       DRM_COLOR_FORMAT_RGB444 |
++       DRM_COLOR_FORMAT_YCBCR444 |
++       DRM_COLOR_FORMAT_YCBCR420;
++
++
+ static void intel_connector_modeset_retry_work_fn(struct work_struct *work)
+ {
+ 	struct intel_connector *connector = container_of(work, typeof(*connector),
+@@ -325,6 +332,13 @@ intel_attach_hdmi_colorspace_property(struct drm_connector *connector)
+ 		drm_connector_attach_colorspace_property(connector);
+ }
  
--	connector = drm_bridge_connector_init(bridge->dev, encoder);
-+	connector = drm_bridge_connector_init(bridge->dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		ret = PTR_ERR(connector);
- 		dev_err(it->dev, "failed to initialize bridge connector: %d\n",
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 464390372b34..14fc58b28de8 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -719,7 +719,8 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
- 		return 0;
++void
++intel_attach_hdmi_colorformat_property(struct drm_connector *connector)
++{
++	if (!drm_mode_create_hdmi_color_format_property(connector, supported_colorformats))
++		drm_connector_attach_color_format_property(connector);
++}
++
+ void
+ intel_attach_dp_colorspace_property(struct drm_connector *connector)
+ {
+@@ -332,6 +346,13 @@ intel_attach_dp_colorspace_property(struct drm_connector *connector)
+ 		drm_connector_attach_colorspace_property(connector);
+ }
  
- 	pdata->connector = drm_bridge_connector_init(pdata->bridge.dev,
--						     pdata->bridge.encoder);
-+						     pdata->bridge.encoder,
-+						     BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(pdata->connector)) {
- 		ret = PTR_ERR(pdata->connector);
- 		goto err_initted_aux;
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 54f3f16d64c7..83951aaf1ade 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -634,13 +634,13 @@ static const struct drm_connector_hdmi_cec_funcs drm_bridge_connector_hdmi_cec_f
-  * pointer otherwise.
++void
++intel_attach_dp_colorformat_property(struct drm_connector *connector)
++{
++	if (!drm_mode_create_dp_color_format_property(connector, supported_colorformats))
++		drm_connector_attach_color_format_property(connector);
++}
++
+ void
+ intel_attach_scaling_mode_property(struct drm_connector *connector)
+ {
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.h b/drivers/gpu/drm/i915/display/intel_connector.h
+index aafb25a814fa..7191df21b48b 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.h
++++ b/drivers/gpu/drm/i915/display/intel_connector.h
+@@ -31,7 +31,9 @@ void intel_attach_force_audio_property(struct drm_connector *connector);
+ void intel_attach_broadcast_rgb_property(struct drm_connector *connector);
+ void intel_attach_aspect_ratio_property(struct drm_connector *connector);
+ void intel_attach_hdmi_colorspace_property(struct drm_connector *connector);
++void intel_attach_hdmi_colorformat_property(struct drm_connector *connector);
+ void intel_attach_dp_colorspace_property(struct drm_connector *connector);
++void intel_attach_dp_colorformat_property(struct drm_connector *connector);
+ void intel_attach_scaling_mode_property(struct drm_connector *connector);
+ void intel_connector_queue_modeset_retry_work(struct intel_connector *connector);
+ void intel_connector_cancel_modeset_retry_work(struct intel_connector *connector);
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index ce45261c4a8f..4128547c3396 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -924,6 +924,7 @@ enum intel_output_format {
+ 	INTEL_OUTPUT_FORMAT_RGB,
+ 	INTEL_OUTPUT_FORMAT_YCBCR420,
+ 	INTEL_OUTPUT_FORMAT_YCBCR444,
++	INTEL_OUTPUT_FORMAT_AUTO,
+ };
+ 
+ /* Used by dp and fdi links */
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 7976fec88606..1df0ec28dde2 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1090,6 +1090,7 @@ static bool source_can_output(struct intel_dp *intel_dp,
+ 	struct intel_display *display = to_intel_display(intel_dp);
+ 
+ 	switch (format) {
++	case INTEL_OUTPUT_FORMAT_AUTO:
+ 	case INTEL_OUTPUT_FORMAT_RGB:
+ 		return true;
+ 
+@@ -1159,7 +1160,7 @@ dfp_can_convert(struct intel_dp *intel_dp,
+ 	return false;
+ }
+ 
+-static enum intel_output_format
++enum intel_output_format
+ intel_dp_output_format(struct intel_connector *connector,
+ 		       enum intel_output_format sink_format)
+ {
+@@ -1194,6 +1195,7 @@ intel_dp_output_format(struct intel_connector *connector,
+ 	return output_format;
+ }
+ 
++
+ int intel_dp_min_bpp(enum intel_output_format output_format)
+ {
+ 	if (output_format == INTEL_OUTPUT_FORMAT_RGB)
+@@ -3030,6 +3032,22 @@ static bool intel_dp_has_audio(struct intel_encoder *encoder,
+ 		return intel_conn_state->force_audio == HDMI_AUDIO_ON;
+ }
+ 
++static u32
++intel_output_format_to_drm_color_format(enum intel_output_format input)
++{
++	switch (input) {
++	case INTEL_OUTPUT_FORMAT_AUTO:
++		return DRM_COLOR_FORMAT_AUTO;
++	case INTEL_OUTPUT_FORMAT_RGB:
++		return DRM_COLOR_FORMAT_RGB444;
++	case INTEL_OUTPUT_FORMAT_YCBCR444:
++		return DRM_COLOR_FORMAT_YCBCR444;
++	case INTEL_OUTPUT_FORMAT_YCBCR420:
++		return DRM_COLOR_FORMAT_YCBCR420;
++	}
++	return 0;
++}
++
+ static int
+ intel_dp_compute_output_format(struct intel_encoder *encoder,
+ 			       struct intel_crtc_state *crtc_state,
+@@ -3041,17 +3059,32 @@ intel_dp_compute_output_format(struct intel_encoder *encoder,
+ 	struct intel_connector *connector = intel_dp->attached_connector;
+ 	const struct drm_display_info *info = &connector->base.display_info;
+ 	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+-	bool ycbcr_420_only;
++	bool ycbcr_420_output = false;
++	bool ycbcr_444_output = false;
+ 	int ret;
++	u32 intel_convert_color_fmt = 0;
++
++	if ((conn_state->color_format == DRM_COLOR_FORMAT_YCBCR420 &&
++	    drm_mode_is_420_also(&connector->base.display_info, adjusted_mode)) ||
++	    drm_mode_is_420_only(info, adjusted_mode)) {
++		ycbcr_420_output = true;
++	} else if (conn_state->color_format == DRM_COLOR_FORMAT_YCBCR444) {
++		ycbcr_444_output = true;
++	}
++
++
++	if (ycbcr_420_output)
++		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_YCBCR420;
++	else if (ycbcr_444_output)
++		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_YCBCR444;
++	else
++		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_RGB;
+ 
+-	ycbcr_420_only = drm_mode_is_420_only(info, adjusted_mode);
+ 
+-	if (ycbcr_420_only && !connector->base.ycbcr_420_allowed) {
++	if (ycbcr_420_output && !connector->base.ycbcr_420_allowed) {
+ 		drm_dbg_kms(display->drm,
+ 			    "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB.\n");
+ 		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_RGB;
+-	} else {
+-		crtc_state->sink_format = intel_dp_sink_format(connector, adjusted_mode);
+ 	}
+ 
+ 	crtc_state->output_format = intel_dp_output_format(connector, crtc_state->sink_format);
+@@ -3071,6 +3104,18 @@ intel_dp_compute_output_format(struct intel_encoder *encoder,
+ 						   respect_downstream_limits);
+ 	}
+ 
++	intel_convert_color_fmt =
++		intel_output_format_to_drm_color_format(crtc_state->sink_format);
++	if (conn_state->color_format &&
++	    conn_state->color_format != intel_convert_color_fmt &&
++	    conn_state->color_format != DRM_COLOR_FORMAT_AUTO) {
++		drm_dbg_kms(display->drm,
++			    "Unsupported color format %s (0x%x), sink has 0x%x\n",
++			    drm_get_color_format_name(conn_state->color_format),\
++			    conn_state->color_format, intel_convert_color_fmt);
++		ret = -EINVAL;
++	}
++
+ 	return ret;
+ }
+ 
+@@ -6442,12 +6487,15 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *_connec
+ 	else if (DISPLAY_VER(display) >= 5)
+ 		drm_connector_attach_max_bpc_property(&connector->base, 6, 12);
+ 
++
+ 	/* Register HDMI colorspace for case of lspcon */
+ 	if (intel_bios_encoder_is_lspcon(dp_to_dig_port(intel_dp)->base.devdata)) {
+ 		drm_connector_attach_content_type_property(&connector->base);
+ 		intel_attach_hdmi_colorspace_property(&connector->base);
++		intel_attach_hdmi_colorformat_property(&connector->base);
+ 	} else {
+ 		intel_attach_dp_colorspace_property(&connector->base);
++		intel_attach_dp_colorformat_property(&connector->base);
+ 	}
+ 
+ 	if (intel_dp_has_gamut_metadata_dip(&dp_to_dig_port(intel_dp)->base))
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
+index 0657f5681196..0d6bdcc70b41 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.h
++++ b/drivers/gpu/drm/i915/display/intel_dp.h
+@@ -199,6 +199,11 @@ bool intel_dp_compute_config_limits(struct intel_dp *intel_dp,
+ 				    bool dsc,
+ 				    struct link_config_limits *limits);
+ 
++enum intel_output_format
++intel_dp_output_format(struct intel_connector *connector,
++		enum intel_output_format sink_format);
++
++
+ void intel_dp_get_dsc_sink_cap(u8 dpcd_rev, struct intel_connector *connector);
+ bool intel_dp_has_gamut_metadata_dip(struct intel_encoder *encoder);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+index 74497c9a0554..34db7ee00d63 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+@@ -92,6 +92,23 @@
+  * registers.
   */
- struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
--						struct drm_encoder *encoder)
-+						struct drm_encoder *encoder,
-+						unsigned int supported_formats)
+ 
++static u32
++intel_output_format_to_drm_color_format(enum intel_output_format input)
++{
++	switch (input) {
++	case INTEL_OUTPUT_FORMAT_AUTO:
++		return DRM_COLOR_FORMAT_AUTO;
++	case INTEL_OUTPUT_FORMAT_RGB:
++		return DRM_COLOR_FORMAT_RGB444;
++	case INTEL_OUTPUT_FORMAT_YCBCR444:
++		return DRM_COLOR_FORMAT_YCBCR444;
++	case INTEL_OUTPUT_FORMAT_YCBCR420:
++		return DRM_COLOR_FORMAT_YCBCR420;
++	}
++
++	return 0;
++}
++
+ /* From fake MST stream encoder to primary encoder */
+ static struct intel_encoder *to_primary_encoder(struct intel_encoder *encoder)
  {
- 	struct drm_bridge_connector *bridge_connector;
- 	struct drm_connector *connector;
- 	struct i2c_adapter *ddc = NULL;
- 	struct drm_bridge *bridge, *panel_bridge = NULL;
--	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
- 	unsigned int max_bpc = 8;
- 	bool support_hdcp = false;
- 	int connector_type;
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-index 3633e8f3aff6..2eccf62d6c45 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
-@@ -97,7 +97,7 @@ static int dcss_kms_bridge_connector_init(struct dcss_kms_dev *kms)
- 	if (ret < 0)
- 		return ret;
+@@ -640,10 +657,14 @@ static int mst_stream_compute_config(struct intel_encoder *encoder,
+ 		to_intel_connector(conn_state->connector);
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&pipe_config->hw.adjusted_mode;
++	const struct drm_display_info *info =
++		&connector->base.display_info;
+ 	struct link_config_limits limits;
+ 	bool dsc_needed, joiner_needs_dsc;
+ 	int num_joined_pipes;
+ 	int ret = 0;
++	bool ycbcr_420_output = false;
++	u32 intel_convert_color_fmt = 0;
  
--	kms->connector = drm_bridge_connector_init(ddev, encoder);
-+	kms->connector = drm_bridge_connector_init(ddev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(kms->connector)) {
- 		dev_err(ddev->dev, "Unable to create bridge connector.\n");
- 		return PTR_ERR(kms->connector);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 61cab32e213a..15820e6ba057 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -1057,7 +1057,7 @@ static int mtk_dpi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		goto err_cleanup;
+ 	if (pipe_config->fec_enable &&
+ 	    !intel_dp_supports_fec(intel_dp, connector, pipe_config))
+@@ -658,10 +679,38 @@ static int mst_stream_compute_config(struct intel_encoder *encoder,
+ 	if (num_joined_pipes > 1)
+ 		pipe_config->joiner_pipes = GENMASK(crtc->pipe + num_joined_pipes - 1, crtc->pipe);
  
--	dpi->connector = drm_bridge_connector_init(drm_dev, &dpi->encoder);
-+	dpi->connector = drm_bridge_connector_init(drm_dev, &dpi->encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(dpi->connector)) {
- 		dev_err(dev, "Unable to create bridge connector\n");
- 		ret = PTR_ERR(dpi->connector);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d7726091819c..91afdbf676f0 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -930,7 +930,7 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 	if (ret)
- 		goto err_cleanup_encoder;
+-	pipe_config->sink_format = INTEL_OUTPUT_FORMAT_RGB;
+-	pipe_config->output_format = INTEL_OUTPUT_FORMAT_RGB;
++	if ((conn_state->color_format == DRM_COLOR_FORMAT_YCBCR420 &&
++	    drm_mode_is_420_also(&connector->base.display_info, adjusted_mode)) ||
++	    drm_mode_is_420_only(info, adjusted_mode)) {
++		ycbcr_420_output = true;
++	}
++
++	if (ycbcr_420_output && !connector->base.ycbcr_420_allowed) {
++		drm_dbg_kms(display->drm,
++			    "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB.\n");
++		pipe_config->sink_format = INTEL_OUTPUT_FORMAT_RGB;
++	}
++
++	if (ycbcr_420_output)
++		pipe_config->sink_format = INTEL_OUTPUT_FORMAT_YCBCR420;
++	else
++		pipe_config->sink_format = INTEL_OUTPUT_FORMAT_RGB;
++
++	pipe_config->output_format = intel_dp_output_format(connector, pipe_config->sink_format);
+ 	pipe_config->has_pch_encoder = false;
  
--	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder);
-+	dsi->connector = drm_bridge_connector_init(drm, &dsi->encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(dsi->connector)) {
- 		DRM_ERROR("Unable to create bridge connector\n");
- 		ret = PTR_ERR(dsi->connector);
-diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-index dc374bfc5951..a475fc34ca23 100644
---- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-@@ -275,7 +275,8 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
++	intel_convert_color_fmt =
++		intel_output_format_to_drm_color_format(pipe_config->sink_format);
++	if (conn_state->color_format &&
++	    conn_state->color_format != intel_convert_color_fmt &&
++	    conn_state->color_format != DRM_COLOR_FORMAT_AUTO) {
++		drm_dbg_kms(display->drm,
++			    "Unsupported color format %s (0x%x), sink has 0x%x\n",
++			    drm_get_color_format_name(conn_state->color_format),\
++			    conn_state->color_format, intel_convert_color_fmt);
++		ret = -EINVAL;
++	}
++
+ 	joiner_needs_dsc = intel_dp_joiner_needs_dsc(display, num_joined_pipes);
+ 
+ 	dsc_needed = joiner_needs_dsc || intel_dp->force_dsc_en ||
+@@ -1647,6 +1696,11 @@ static int mst_topology_add_connector_properties(struct intel_dp *intel_dp,
+ 	if (connector->base.max_bpc_property)
+ 		drm_connector_attach_max_bpc_property(&connector->base, 6, 12);
+ 
++	connector->base.color_format_property =
++		intel_dp->attached_connector->base.color_format_property;
++	if (connector->base.color_format_property)
++		intel_attach_dp_colorformat_property(&connector->base);
++
+ 	return drm_connector_set_path_property(&connector->base, pathprop);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index 9961ff259298..016edb1ab248 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2243,6 +2243,23 @@ intel_hdmi_output_format(const struct intel_crtc_state *crtc_state)
+ 	return crtc_state->sink_format;
+ }
+ 
++static u32
++intel_output_format_to_drm_color_format(enum intel_output_format input)
++{
++	switch (input) {
++	case INTEL_OUTPUT_FORMAT_AUTO:
++		return DRM_COLOR_FORMAT_AUTO;
++	case INTEL_OUTPUT_FORMAT_RGB:
++		return DRM_COLOR_FORMAT_RGB444;
++	case INTEL_OUTPUT_FORMAT_YCBCR444:
++		return DRM_COLOR_FORMAT_YCBCR444;
++	case INTEL_OUTPUT_FORMAT_YCBCR420:
++		return DRM_COLOR_FORMAT_YCBCR420;
++	}
++
++	return 0;
++}
++
+ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
+ 					    struct intel_crtc_state *crtc_state,
+ 					    const struct drm_connector_state *conn_state,
+@@ -2252,13 +2269,29 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
+ 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+ 	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+ 	const struct drm_display_info *info = &connector->base.display_info;
+-	bool ycbcr_420_only = drm_mode_is_420_only(info, adjusted_mode);
++	bool ycbcr_420_output = false;
++	bool ycbcr_444_output = false;
++	u32 intel_convert_color_fmt = 0;
+ 	int ret;
+ 
+-	crtc_state->sink_format =
+-		intel_hdmi_sink_format(crtc_state, connector, ycbcr_420_only);
++	if ((conn_state->color_format == DRM_COLOR_FORMAT_YCBCR420 &&
++	     drm_mode_is_420_also(&connector->base.display_info, adjusted_mode)) ||
++	     drm_mode_is_420_only(info, adjusted_mode)) {
++		ycbcr_420_output = true;
++	} else if (conn_state->color_format == DRM_COLOR_FORMAT_YCBCR444) {
++		ycbcr_444_output = true;
++	}
++
++	if (ycbcr_420_output)
++		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_YCBCR420;
++	else if (ycbcr_444_output)
++		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_YCBCR444;
++	else
++		crtc_state->sink_format = intel_hdmi_sink_format(crtc_state,
++								 connector,
++								 ycbcr_420_output);
+ 
+-	if (ycbcr_420_only && crtc_state->sink_format != INTEL_OUTPUT_FORMAT_YCBCR420) {
++	if (ycbcr_420_output && crtc_state->sink_format != INTEL_OUTPUT_FORMAT_YCBCR420) {
+ 		drm_dbg_kms(display->drm,
+ 			    "YCbCr 4:2:0 mode but YCbCr 4:2:0 output not possible. Falling back to RGB.\n");
+ 		crtc_state->sink_format = INTEL_OUTPUT_FORMAT_RGB;
+@@ -2278,6 +2311,19 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
+ 		ret = intel_hdmi_compute_clock(encoder, crtc_state, respect_downstream_limits);
  	}
  
- 	/* Initialize & attach Bridge Connector */
--	connector = drm_bridge_connector_init(priv->drm, &meson_encoder_cvbs->encoder);
-+	connector = drm_bridge_connector_init(priv->drm,
-+			&meson_encoder_cvbs->encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector))
- 		return dev_err_probe(priv->dev, PTR_ERR(connector),
- 				     "Unable to create CVBS bridge connector\n");
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 8205ee56a691..7d157de42d1c 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -425,8 +425,8 @@ int meson_encoder_hdmi_probe(struct meson_drm *priv)
- 	}
++	intel_convert_color_fmt =
++		intel_output_format_to_drm_color_format(crtc_state->sink_format);
++	if (conn_state->color_format &&
++	    conn_state->color_format != intel_convert_color_fmt &&
++	    conn_state->color_format != DRM_COLOR_FORMAT_AUTO) {
++		drm_dbg_kms(display->drm,
++			    "Unsupported color format %s (0x%x), current sink color format 0x%x\n",
++			    drm_get_color_format_name(conn_state->color_format),
++			    conn_state->color_format,
++			    intel_convert_color_fmt);
++		ret = -EINVAL;
++	}
++
+ 	return ret;
+ }
  
- 	/* Initialize & attach Bridge Connector */
--	meson_encoder_hdmi->connector = drm_bridge_connector_init(priv->drm,
--							&meson_encoder_hdmi->encoder);
-+	meson_encoder_hdmi->connector =
-+		drm_bridge_connector_init(priv->drm, &meson_encoder_hdmi->encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(meson_encoder_hdmi->connector)) {
- 		ret = dev_err_probe(priv->dev,
- 				    PTR_ERR(meson_encoder_hdmi->connector),
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 0952c7f18abd..65c51d9f083e 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -226,7 +226,7 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
- 			return ret;
- 		}
+@@ -2668,8 +2714,10 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *_
+ 	if (DISPLAY_VER(display) >= 10)
+ 		drm_connector_attach_hdr_output_metadata_property(&connector->base);
  
--		connector = drm_bridge_connector_init(dev, encoder);
-+		connector = drm_bridge_connector_init(dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 		if (IS_ERR(connector)) {
- 			DRM_DEV_ERROR(dev->dev, "failed to initialize LVDS connector\n");
- 			return PTR_ERR(connector);
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 9a461ab2f32f..8d5299849be6 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -368,7 +368,8 @@ struct drm_connector *msm_dp_drm_connector_init(struct msm_dp *msm_dp_display,
- {
- 	struct drm_connector *connector = NULL;
+-	if (!HAS_GMCH(display))
++	if (!HAS_GMCH(display)) {
+ 		drm_connector_attach_max_bpc_property(&connector->base, 8, 12);
++		intel_attach_hdmi_colorformat_property(&connector->base);
++	}
+ }
  
--	connector = drm_bridge_connector_init(msm_dp_display->drm_dev, encoder);
-+	connector = drm_bridge_connector_init(msm_dp_display->drm_dev, encoder,
-+					      BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector))
- 		return connector;
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index ca400924d4ee..4b87f4f78d38 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -479,7 +479,7 @@ int msm_dsi_manager_connector_init(struct msm_dsi *msm_dsi,
- 	if (ret)
- 		return ret;
- 
--	connector = drm_bridge_connector_init(dev, encoder);
-+	connector = drm_bridge_connector_init(dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		DRM_ERROR("Unable to create bridge connector\n");
- 		return PTR_ERR(connector);
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 5afac09c0d33..6da03b5143b0 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -182,7 +182,7 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		}
- 	}
- 
--	hdmi->connector = drm_bridge_connector_init(hdmi->dev, encoder);
-+	hdmi->connector = drm_bridge_connector_init(hdmi->dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(hdmi->connector)) {
- 		ret = PTR_ERR(hdmi->connector);
- 		DRM_DEV_ERROR(dev->dev, "failed to create HDMI connector: %d\n", ret);
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-index 7ecec7b04a8d..8d903683f6f6 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
-@@ -125,7 +125,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 	}
- 
- 	/* Create the connector for the chain of bridges. */
--	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
-+	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		dev_err(rcdu->dev,
- 			"failed to created connector for output %s (%ld)\n",
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-index 5e6dd16705e6..4578cf5b756b 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-@@ -114,7 +114,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 	}
- 
- 	/* Create the connector for the chain of bridges. */
--	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base);
-+	connector = drm_bridge_connector_init(&rcdu->ddev, &renc->base, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		dev_err(rcdu->dev,
- 			"failed to created connector for output %s (%ld)\n",
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index b7e3f5dcf8d5..d591d660d059 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -1016,7 +1016,7 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	connector = drm_bridge_connector_init(drm_dev, encoder);
-+	connector = drm_bridge_connector_init(drm_dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		ret = PTR_ERR(connector);
- 		dev_err(dp->dev, "failed to init bridge connector: %d\n", ret);
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 7d531b6f4c09..58e24669ef34 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -563,7 +563,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 		return ret;
- 	}
- 
--	connector = drm_bridge_connector_init(drm, encoder);
-+	connector = drm_bridge_connector_init(drm, encoder, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		ret = PTR_ERR(connector);
- 		dev_err(hdmi->dev, "failed to init bridge connector: %d\n", ret);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-index 2411260db51d..3727035d896e 100644
---- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-@@ -619,7 +619,7 @@ static int rockchip_lvds_bind(struct device *dev, struct device *master,
- 		if (ret)
- 			goto err_free_bridge;
- 
--		connector = drm_bridge_connector_init(lvds->drm_dev, encoder);
-+		connector = drm_bridge_connector_init(lvds->drm_dev, encoder, BIT(HDMI_COLORSPACE_RGB));
- 		if (IS_ERR(connector)) {
- 			drm_err(drm_dev,
- 				"failed to initialize bridge connector: %pe\n",
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 8cd2969e7d4b..6419d152c8b3 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1568,7 +1568,7 @@ static int tegra_hdmi_init(struct host1x_client *client)
- 			return err;
- 		}
- 
--		connector = drm_bridge_connector_init(drm, &hdmi->output.encoder);
-+		connector = drm_bridge_connector_init(drm, &hdmi->output.encoder, BIT(HDMI_COLORSPACE_RGB));
- 		if (IS_ERR(connector)) {
- 			dev_err(client->dev,
- 				"failed to initialize bridge connector: %pe\n",
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index ff5a749710db..f0b18491fa11 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
-@@ -348,7 +348,7 @@ int tegra_dc_rgb_init(struct drm_device *drm, struct tegra_dc *dc)
- 		if (err)
- 			return err;
- 
--		connector = drm_bridge_connector_init(drm, &output->encoder);
-+		connector = drm_bridge_connector_init(drm, &output->encoder, BIT(HDMI_COLORSPACE_RGB));
- 		if (IS_ERR(connector)) {
- 			dev_err(output->dev,
- 				"failed to initialize bridge connector: %pe\n",
-diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-index 81a04f767770..8829d995811b 100644
---- a/drivers/gpu/drm/tidss/tidss_encoder.c
-+++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-@@ -115,7 +115,7 @@ int tidss_encoder_create(struct tidss_device *tidss,
- 	}
- 
- 	/* Initializing the connector at the end of bridge-chain */
--	connector = drm_bridge_connector_init(&tidss->ddev, enc);
-+	connector = drm_bridge_connector_init(&tidss->ddev, enc, BIT(HDMI_COLORSPACE_RGB));
- 	if (IS_ERR(connector)) {
- 		dev_err(tidss->dev, "bridge_connector create failed\n");
- 		return PTR_ERR(connector);
-diff --git a/include/drm/drm_bridge_connector.h b/include/drm/drm_bridge_connector.h
-index 69630815fb09..e1446d8af8b7 100644
---- a/include/drm/drm_bridge_connector.h
-+++ b/include/drm/drm_bridge_connector.h
-@@ -11,6 +11,7 @@ struct drm_device;
- struct drm_encoder;
- 
- struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
--						struct drm_encoder *encoder);
-+						struct drm_encoder *encoder,
-+						unsigned int supported_colorformats);
- 
- #endif /* __DRM_BRIDGE_CONNECTOR_H__ */
+ /*
 -- 
 2.47.2
 
