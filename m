@@ -2,101 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B72B53899
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 18:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89781B538A7
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 18:04:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B57310E101;
-	Thu, 11 Sep 2025 16:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 075E810EB87;
+	Thu, 11 Sep 2025 16:04:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CtPosWMR";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PksTyhmT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4F610E101
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 16:03:40 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-45de287cc11so11704305e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757606619; x=1758211419; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kV+vM5AtMDqiziiosp5lKYMmFySjFk/a9glOkvxYm9c=;
- b=CtPosWMRtK4RorIAAVuYACfxK22p4SbI0BX442SKpO9Rlcy24SYcN4FbTbfVNdQf5C
- khF+Yu7GJhiEJtliYtQEvM+ZOW5M5UsGFs66h++eqFIihkd8kt6zwaZdpUZwNZB2bO3N
- NZzC8Jq0uus3UuYZIIZW3y6XEtEVj5PDZ9ITPNp0zCOFMm71DCTH77uPGuCF4PCAGDOS
- 2+17AIeuFWwr7w1fBujQCijqyuPl9F+5M4ucZ788kg34WdONvzD6yilZsIrtsYsXZhuF
- u95/O4+NjIM/S3ptOGL7epSn4b+6eRXFExf5/zd3/DU5a2WQgO4+CCYI3f77l6ODt0sW
- E4yg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B75610EB77
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 16:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1757606682;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=jtZEVi1bBiJckYAxa3sEu/hHpNe6eKx7VTDTRhqbfkU=;
+ b=PksTyhmTuDiuUj54mP5maSTTulk475kySj5gc0mi27BvtAxWOUW1ZMQ27VmVH4FMr1dx87
+ PxQND6YmvAY3nTe6xDfefDsXWoo4ok3FLkI7yEPbpKdAAd6NDj02NxkKGxQRCxVabska71
+ JNIol/WSS0KnWFBHWWynizqiXva9RK4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-34-TRDFANt0PRKhmnvOisyW-w-1; Thu, 11 Sep 2025 12:04:40 -0400
+X-MC-Unique: TRDFANt0PRKhmnvOisyW-w-1
+X-Mimecast-MFC-AGG-ID: TRDFANt0PRKhmnvOisyW-w_1757606679
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-45dcfc6558cso6662085e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 09:04:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757606619; x=1758211419;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kV+vM5AtMDqiziiosp5lKYMmFySjFk/a9glOkvxYm9c=;
- b=PlqbG/fRXJ/0q8LmHq8J1xJXVQI5/v/1CoqAIvLU39iMr+V9TopQeT0zRPyiFjkN53
- OUsDf8V87J+KJwDEPboPtzi6/kQ+7lXRIDlaosJKTbSDJ/O7G3wj4LVj59lAtS7tD5D9
- u3fVjL0CdgYIxw05Tq2R8sY4fyLESsQz6O8KskF0NT8Efon3U1ZJoy+4NA3tCSsSBir2
- wfYRjJFCT7r+g9oeYwrllRLIoG03aaCDc9+/9IPBvPxUad7IBRFUIhLGvgQj91oi2DH/
- 4mcayEZB7lBkkwkuDchiptEzN48rZ2K5cMg6BJ6RbWFmvd/135yZ2jzZiV4ruai33IvG
- hz0A==
-X-Gm-Message-State: AOJu0YzuQHq0sKoQq4rjASGHC13LSrBSNW4NCb2Ao4fYKUeqWNbw9+Ir
- HlKTU4W29/FLTddFd2K7WJnoKq2oGZN7SUmzJojAqMb4+OjWJcwbmLj7
-X-Gm-Gg: ASbGncvMEnuL6RWdfWsAfmcUeOCxZlFM+Lh4D7d4Qz5/spzG47h9CJfmiRey+MtWRGd
- oJ6mCf+G5u6lndNyomodEzq50rmZniVvJnRUunvj/7oBLSQppBR2s2byuxyS75JBcQHOvgzqpU/
- QVzaLl+TBmJbxIGcoJFblXP+i1ElWs1+ORB5iLKATKM6ZZ9pHTQDf0uYa0zqJf3AIkGKIGaUIlT
- DKWlAHoyDbHcHrriWUvC1uDfzzfcE8QvAuTh3pBdLJ76uCkOAgehp8FKpoCGnVfeBO/1dT7bkMB
- FJOisucrdeD4nxpwJxboeqhAlk8WllGSarJwFtK3GON+TIxshoiFe/PP/AYjBo5Vt7hvE+orVPp
- bdD2KISYD9j09S8MG9GtwdqbtrtOXAEElSUuXJah/9RUAXBL+ZQdPrlv7eifjAdZZsKn4yALVWf
- iDNRMNwtj5U1dKLQ==
-X-Google-Smtp-Source: AGHT+IFkmvpn+ZMkR/ME/h210TOWfj/zRgJxKTOHh3DWlG10Yj3oOfPv3c1/HhofEdM287nETYtnIw==
-X-Received: by 2002:a05:600c:5d1:b0:45d:d86b:b386 with SMTP id
- 5b1f17b1804b1-45dfd5eec3bmr25128185e9.14.1757606618353; 
- Thu, 11 Sep 2025 09:03:38 -0700 (PDT)
-Received: from localhost
- (p200300e41f1c4d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f1c:4d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-45e017c0643sm30454515e9.23.2025.09.11.09.03.36
+ d=1e100.net; s=20230601; t=1757606679; x=1758211479;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jtZEVi1bBiJckYAxa3sEu/hHpNe6eKx7VTDTRhqbfkU=;
+ b=n5CPeJtzXpu6cR1/HNbeNlKtQC465tZiv/CTnIiXByYhu+qMKGsz6E4hVjbbqufSyD
+ YxG5sB7uXpiDNWllZGPVtqddPe8aAakNkncTGE9wMBky0bfxdIywJdRKkofJb+O12ZXQ
+ nwFOZzcZ7FjSvRVph9FymnK0HFXmyt25r53iyEPY39bElooPUvXvLvptnryGDTpK63hI
+ 6l+ALmpio6UzBAW7lZz0RECDO86ugCNmUAHJCPVesLH2qN3WmE84l6eQs6YXF3puFm+Q
+ 0uM3vKxiLJlKZvdapWvgbeeg2mSqBsixRcBScylWUobJJa+JC245PqtA8regpZ9BLDi9
+ ejYw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVBiGLo69vpJG05B3SFOxPISwB9MGaGzRaSClm5c0FPjALo1D7b6AadbdGfYLe7Cfkl71h0uXnS4hU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmgfL2ttc/ZLBad2BF4QJNl+2nNR2FEHdYJPW4U88Av9/6FT30
+ 9cASUl/v9HjXED8BAzBwNl/627ydo1P8Cx5c9uI4bvUvdShW24Dq7yhy+fwZ+Y6vH1ti3BQ4m11
+ +liJw+ianh+UTz7eYYK7B4aQqoKj54udHV2dgj2oGu8AxKU4S4O5OCqcTaERack+W9fZ6SQ==
+X-Gm-Gg: ASbGncvDSXAXop3G/wrR+76dGOMz6nAkyG0bh1IFiTAyoTDHshbD39Qi2zYnAtwChCA
+ mFF6uJlpMHLXOXXS4VMPpbYd9UyUxA7VaMUcAjgCcBD4GfDQ27J7LD4auWu7gBhYUjY7hFe27E+
+ tNqs8HqIgsIMgPsB4uZY9FgwkYYb8yAM/XUaItDztYITET2iEZ9ueis4n1urqk9k0pFrwawHSZh
+ l2OVRTKRtZ8WlBqfS9SoNfhQAtJuwEbL3h0wZg9QW1J2h7ONDb8t9nmS90tX6XJzUxmhCaWrqPX
+ scMv4lRvPb6Ozk0=
+X-Received: by 2002:a5d:588c:0:b0:3e2:9a5a:1f38 with SMTP id
+ ffacd0b85a97d-3e64c692464mr14106108f8f.50.1757606678742; 
+ Thu, 11 Sep 2025 09:04:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEYGKzZTNFxaumU0lwQa1TM2uyRQUhmekKodD8ASxi5wTwWwSFpdAUhSe/UMfM4+ltbXkHQkA==
+X-Received: by 2002:a5d:588c:0:b0:3e2:9a5a:1f38 with SMTP id
+ ffacd0b85a97d-3e64c692464mr14106068f8f.50.1757606678233; 
+ Thu, 11 Sep 2025 09:04:38 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45e037c3ee8sm30016945e9.18.2025.09.11.09.04.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 09:03:37 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Thu, 11 Sep 2025 09:04:37 -0700 (PDT)
+Date: Thu, 11 Sep 2025 18:04:37 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>,
- =?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: (subset) [PATCH v2 00/23] tegra-video: add CSI support for
- Tegra20 and Tegra30
-Date: Thu, 11 Sep 2025 18:03:30 +0200
-Message-ID: <175760648464.2794963.6510932759569440897.b4-ty@nvidia.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250906135345.241229-1-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20250911-glistening-uakari-of-serendipity-06ceb1@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="yzr6tslhgdx3cftq"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,19 +102,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
 
+--yzr6tslhgdx3cftq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: [PULL] drm-misc-fixes
+MIME-Version: 1.0
 
-On Sat, 06 Sep 2025 16:53:21 +0300, Svyatoslav Ryhel wrote:
-> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
-> with a set of changes required for that.
-> 
+Hi,
 
-Applied, thanks!
+Here's this week drm-misc-fixes PR.
 
-[12/23] dt-bindings: display: tegra: move avdd-dsi-csi-supply from VI to CSI
-        (no commit info)
+Maxime
 
-Best regards,
--- 
-Thierry Reding <treding@nvidia.com>
+drm-misc-fixes-2025-09-11:
+A maintainer update, an out-of-bound check for panthor and a revert for
+nouveau to fix a race.
+The following changes since commit bdd5a14e660062114bdebaef9ad52adf04970a89:
+
+  drm/bridge: ti-sn65dsi86: fix REFCLK setting (2025-09-02 09:56:05 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-09-11
+
+for you to fetch changes up to 87b90cee22d8658a69c0fbd43633839b75f8f05f:
+
+  MAINTAINERS: drm-misc: fix X: entries for nova/nouveau (2025-09-10 15:52:25 +0200)
+
+----------------------------------------------------------------
+A maintainer update, an out-of-bound check for panthor and a revert for
+nouveau to fix a race.
+
+----------------------------------------------------------------
+Chia-I Wu (1):
+      drm/panthor: validate group queue count
+
+Danilo Krummrich (1):
+      MAINTAINERS: drm-misc: fix X: entries for nova/nouveau
+
+Philipp Stanner (1):
+      Revert "drm/nouveau: Remove waitque for sched teardown"
+
+ MAINTAINERS                             |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 15 --------------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  1 -
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 35 +++++++++++++--------------------
+ drivers/gpu/drm/nouveau/nouveau_sched.h |  9 ++++++---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c  |  8 ++++----
+ drivers/gpu/drm/panthor/panthor_drv.c   |  2 +-
+ 7 files changed, 26 insertions(+), 46 deletions(-)
+
+--yzr6tslhgdx3cftq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMLzFAAKCRAnX84Zoj2+
+dunuAXwJbxHdjpqURM+YYUhZ8Y2JJ9gZVZ07Qpeptun8xjpUpCLOJ3pcOn+dK2zG
+GHtRZXgBgPxDxn/QnaDW66mHK5uqRRcNCUHf7jq8pXDg4g9LIOJFqlp0CfZJ7iJu
+WupqGIyy/Q==
+=F5qC
+-----END PGP SIGNATURE-----
+
+--yzr6tslhgdx3cftq--
+
