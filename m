@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C620B52ABA
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7600B52AC1
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Sep 2025 09:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22DF310EA25;
-	Thu, 11 Sep 2025 07:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800A310EA2E;
+	Thu, 11 Sep 2025 07:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HaeylxRW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F20kHkx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 840A210EA25;
- Thu, 11 Sep 2025 07:56:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACA610EA2D;
+ Thu, 11 Sep 2025 07:57:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757577408; x=1789113408;
+ t=1757577421; x=1789113421;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SkTWiDM07Pv01AmI8V3nn+Bcv4Ej0HFus6Xxyk8l27I=;
- b=HaeylxRWNaIFbUaAYx0u5AxOCfUe1znGFDnEOSQnZG+WSwnpV31d4BKh
- MBQ6sQiPSQk1gZbQLQzUUNKvm+8XHDBhjvKGJL+JLT6eM9+pOWRwhPtJk
- y7ZIbC0lMdTfdhVoJ4TcLAQmnmTGNt8sO4gwmqNePAqOTakJPCaVGbxez
- 2mSGBdjdftXmiCh2pk1KZ6IwLS0YwtlyBUXW2jLMwpbSj2UtNwSFCce1t
- V3YsCnOy6lH35usiCRrasYKu1wGSGLfjXUo2B1cZrjxqonIbXFpMFJCBQ
- XQlZZTPgn+/ABUFiQ9gt+md61c3xhCZNgJ4ISlCLvavd8sknf7+tXRtHz A==;
-X-CSE-ConnectionGUID: MekX0HNRRryDrmfXoiFPVA==
-X-CSE-MsgGUID: gbo/CeexTVuvvgagc9G60g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="60012536"
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="60012536"
+ bh=z9So9Hm4LfyEfIeY7RhapjfQ3Ukt2khYOZJ5HNT4ZOg=;
+ b=F20kHkx1upcmBQDBJBX366c9Q8l1dikIi/38S53viXeimnvaKDzsabWk
+ dG1U3rphP3x38OXQT2+m7543FlMX4o5yEFgmdaTj5kQaRFW7CoM9TQ5OO
+ o49QGJqic2AzQspYdfDj7MI76Yn16CPYBcOFNj3xosoGqOQHmy2rKMbZZ
+ yqeag8ivyaLYZmVh4OWVUqQ4hWJHOK6vpx4sEY+CHLTGC0xFUDIHJnpNJ
+ 8lQMQ7/mEuJ+fq0QVcLgLRPXoOQ30RXzlROQafsI2MxBYmTbtcrui/uMR
+ ah8oQ/sxFGPCMhYWb/VF3TUaF3sfRjS2EMCQfks2NX3v+magD7eHR83yN w==;
+X-CSE-ConnectionGUID: fhkElNktS6KNY5x4fVBfJA==
+X-CSE-MsgGUID: ZaFnirrNR0qVuX65u70MPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="60012551"
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; d="scan'208";a="60012551"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 00:56:47 -0700
-X-CSE-ConnectionGUID: vbdtxzA3RCyRsmebXrL/BQ==
-X-CSE-MsgGUID: zBK8wFg/SwaGIZ8jBWABJw==
+ 11 Sep 2025 00:57:00 -0700
+X-CSE-ConnectionGUID: Xi6o+mGtSoq8d0LXCBXrgw==
+X-CSE-MsgGUID: jIW8wEXmQkKG4CBqPlAaKw==
 X-ExtLoop1: 1
 Received: from opintica-mobl1 (HELO localhost) ([10.245.245.187])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 00:56:39 -0700
+ 11 Sep 2025 00:56:52 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
@@ -57,10 +57,9 @@ To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
  =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH 02/11] PCI: Cleanup pci_rebar_bytes_to_size() and move into
- rebar.c
-Date: Thu, 11 Sep 2025 10:55:56 +0300
-Message-Id: <20250911075605.5277-3-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 03/11] PCI: Move pci_rebar_size_to_bytes() and export it
+Date: Thu, 11 Sep 2025 10:55:57 +0300
+Message-Id: <20250911075605.5277-4-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
 References: <20250911075605.5277-1-ilpo.jarvinen@linux.intel.com>
@@ -82,83 +81,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move pci_rebar_bytes_to_size() from include/linux/pci.h into rebar.c as
-it does not look very trivial and is not expected to be performance
-critical.
+pci_rebar_size_to_bytes() is in drivers/pci/pci.h but would be useful
+for endpoint drivers as well.
 
-Convert literals to use a newly added PCI_REBAR_MIN_SIZE define.
+Move the function into rebar.c and export it.
 
-Also add kernel doc for the function as the function is exported.
+In addition, convert the literal to where the number comes from
+(PCI_REBAR_MIN_SIZE).
 
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/pci/rebar.c | 23 +++++++++++++++++++++++
- include/linux/pci.h | 10 +++-------
- 2 files changed, 26 insertions(+), 7 deletions(-)
+ drivers/pci/pci.h   |  4 ----
+ drivers/pci/rebar.c | 12 ++++++++++++
+ include/linux/pci.h |  1 +
+ 3 files changed, 13 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index f1b30414b2f1..3d5068d6e195 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -929,10 +929,6 @@ void pci_rebar_init(struct pci_dev *pdev);
+ void pci_restore_rebar_state(struct pci_dev *pdev);
+ int pci_rebar_get_current_size(struct pci_dev *pdev, int bar);
+ int pci_rebar_set_size(struct pci_dev *pdev, int bar, int size);
+-static inline u64 pci_rebar_size_to_bytes(int size)
+-{
+-	return 1ULL << (size + 20);
+-}
+ 
+ struct device_node;
+ 
 diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
-index b87cfa6fb3ef..961bd43be02b 100644
+index 961bd43be02b..020ed7a1b3aa 100644
 --- a/drivers/pci/rebar.c
 +++ b/drivers/pci/rebar.c
-@@ -7,11 +7,34 @@
- #include <linux/errno.h>
- #include <linux/export.h>
- #include <linux/ioport.h>
-+#include <linux/log2.h>
- #include <linux/pci.h>
-+#include <linux/sizes.h>
- #include <linux/types.h>
+@@ -35,6 +35,18 @@ int pci_rebar_bytes_to_size(u64 bytes)
+ }
+ EXPORT_SYMBOL_GPL(pci_rebar_bytes_to_size);
  
- #include "pci.h"
- 
-+#define PCI_REBAR_MIN_SIZE	((resource_size_t)SZ_1M)
-+
 +/**
-+ * pci_rebar_bytes_to_size - Convert size in bytes to PCI BAR Size
-+ * @bytes: size in bytes
++ * pci_rebar_size_to_bytes - Convert BAR Size to bytes
++ * @size: BAR Size as defined in the PCIe spec (0=1MB, bit 31=128TB)
 + *
-+ * Convert bytes to BAR Size in Resizable BAR Capability (PCIe r6.2,
-+ * sec. 7.8.6.3).
-+ *
-+ * Return: BAR Size as defined in the PCIe spec (0=1MB, bit 31=128TB).
++ * Return: BAR size in bytes.
 + */
-+int pci_rebar_bytes_to_size(u64 bytes)
++resource_size_t pci_rebar_size_to_bytes(int size)
 +{
-+	int rebar_minsize = ilog2(PCI_REBAR_MIN_SIZE);
-+
-+	bytes = roundup_pow_of_two(bytes);
-+
-+	return max(ilog2(bytes), rebar_minsize) - rebar_minsize;
++	return 1ULL << (size + ilog2(PCI_REBAR_MIN_SIZE));
 +}
-+EXPORT_SYMBOL_GPL(pci_rebar_bytes_to_size);
++EXPORT_SYMBOL_GPL(pci_rebar_size_to_bytes);
 +
  void pci_rebar_init(struct pci_dev *pdev)
  {
  	pdev->rebar_cap = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_REBAR);
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 59876de13860..894e9020b07d 100644
+index 894e9020b07d..6f0c31290675 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -1418,16 +1418,12 @@ void pcibios_reset_secondary_bus(struct pci_dev *dev);
- void pci_update_resource(struct pci_dev *dev, int resno);
- int __must_check pci_assign_resource(struct pci_dev *dev, int i);
- void pci_release_resource(struct pci_dev *dev, int resno);
--static inline int pci_rebar_bytes_to_size(u64 bytes)
--{
--	bytes = roundup_pow_of_two(bytes);
--
--	/* Return BAR size as defined in the resizable BAR specification */
--	return max(ilog2(bytes), 20) - 20;
--}
+@@ -1421,6 +1421,7 @@ void pci_release_resource(struct pci_dev *dev, int resno);
  
-+/* Resizable BAR related routines */
-+int pci_rebar_bytes_to_size(u64 bytes);
+ /* Resizable BAR related routines */
+ int pci_rebar_bytes_to_size(u64 bytes);
++resource_size_t pci_rebar_size_to_bytes(int size);
  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar);
  int __must_check pci_resize_resource(struct pci_dev *dev, int i, int size);
-+
- int pci_select_bars(struct pci_dev *dev, unsigned long flags);
- bool pci_device_is_present(struct pci_dev *pdev);
- void pci_ignore_hotplug(struct pci_dev *dev);
+ 
 -- 
 2.39.5
 
