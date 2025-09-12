@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC26B54F54
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 15:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EABBBB54F71
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 15:25:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C2C10EC42;
-	Fri, 12 Sep 2025 13:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3A6410EC44;
+	Fri, 12 Sep 2025 13:25:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AvXyZIi8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bIe2JqmV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E6E210EC42
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 13:23:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA89010EC43
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 13:25:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1917A43D0E;
- Fri, 12 Sep 2025 13:23:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D6B4C4CEF1;
- Fri, 12 Sep 2025 13:22:56 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 97AC340547;
+ Fri, 12 Sep 2025 13:25:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3059C4CEF1;
+ Fri, 12 Sep 2025 13:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757683387;
- bh=c9p9bPrxSi+sJWVsWiSYSAd6dX2DEW2af6xw4qih9Jw=;
+ s=k20201202; t=1757683531;
+ bh=1Zm2iA1SB8GWLNScSpRQxUq0UzkNRCiIepB0sNuFx9c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AvXyZIi8lDfAalXgF1WdETnPgZZ8RM/3fqPD7soAGpkwubprAipGOV6yOoTY3OHSk
- yLXY4Sb2YO/3+SqgiF7wj7VGLz9j0uKOmb/GGgy4yndBEsWYvpN5dZma3c60ozNQjC
- zG6jkUFWEpkmUpJsBq3cIF3+Hkmtat4QYo+4SuWmEgfIpTAhP/EdrRrE7+MW6ktgiP
- sfM2z8ccxdfOJDSOxatKj3UU3+RNd90XT8NCn4Pmwy2G9TD8BXnb2X5PFl8d+ef8oP
- MS/OfpRkXMSwF9yOSsOYwPTssnDsx74nkFfSmqUcMqNSlQrdT9mzuIu9ED/Is4y8wJ
- KD26QXnW1JVXw==
-Message-ID: <bcad01be-fd00-4789-ae83-b855e495fab9@kernel.org>
-Date: Fri, 12 Sep 2025 15:22:54 +0200
+ b=bIe2JqmVPWIT7obUy1SUAhW38eyOok5HPLQ+/4LEGiuLz/ht0tY1zJp2rl9bx+18B
+ 5imW1Gcg8bKvley0iMw/sgyMNZQuNlXfmJSYdtvSwE6yrl/Y5hgZwLXn2Y3Wedx6/q
+ OZvaUQdQjwhDTn3CRTHY8RnIwjTIiqN/nZnolaxMW97eDNQ4LRBlsGoSQOCOx08YZd
+ p6ZWN/UguNuoLtaaqTucnez2kvZoXcB7HTFgoJdjB+bT7QbdvrwcE9PSLoOPWFSQTt
+ eoYV8wbzKYP1BxiFMuk3msPyEfABLfW95Jho6xEYEa0nSK0Mi0j8Gs1au7+ToDFAE3
+ DsQQCmup3eMRA==
+Message-ID: <969842f0-5113-40c1-b80d-d46bd239936a@kernel.org>
+Date: Fri, 12 Sep 2025 15:25:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/38] dt-bindings: media: mediatek,mt8195-jpeg: Allow
- range number in node address
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com,
- vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org,
- linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
- andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
- tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
- ck.hu@mediatek.com, houlong.wei@mediatek.com,
- kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
- tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
- olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org,
- arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com,
- frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
- linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-15-angelogioacchino.delregno@collabora.com>
- <70ae6787-ee0b-43a0-851e-1fb6c82f6c31@kernel.org>
- <72934f23-08eb-4214-a946-7aa7a432352e@collabora.com>
- <56380fe5-8358-4341-9478-ba4ce52daeed@collabora.com>
+Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+ bindings to DT schema
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Ariel D'Alessandro <ariel.dalessandro@collabora.com>, airlied@gmail.com,
+ amergnat@baylibre.com, andrew+netdev@lunn.ch, andrew-ct.chen@mediatek.com,
+ angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+ chunkuang.hu@kernel.org, conor+dt@kernel.org, davem@davemloft.net,
+ dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com,
+ heiko@sntech.de, houlong.wei@mediatek.com, jeesw@melfas.com,
+ kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch,
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com,
+ tzimmermann@suse.de, yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-bluetooth@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-2-ariel.dalessandro@collabora.com>
+ <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+ <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,7 +107,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <56380fe5-8358-4341-9478-ba4ce52daeed@collabora.com>
+In-Reply-To: <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,43 +125,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/09/2025 11:00, AngeloGioacchino Del Regno wrote:
-> Il 04/08/25 11:02, AngeloGioacchino Del Regno ha scritto:
->> Il 24/07/25 11:14, Krzysztof Kozlowski ha scritto:
->>> On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
->>>> The dual and triple core jpeg encoder and decoder (respectively)
->>>> on MT8195 are far apart: the only way to have this to make sense
->>>> is to split those in multiple address ranges in device trees as
->>>> one big range would overlap with other IP in at least the MT8195
->>>> SoC.
->>>>
->>>> Change both the jpegdec and jpegenc bindings to allow specifying
->>>> children nodes such as "jpegdec@0,10000", "jpegdec@1,0" or for
->>>> encoder "jpegenc@0,0", "jpegenc@1,0" to resolve dtbs_check issues.
->>>
->>>
->>> This should not be needed for standard MMIO/simple-bus nodes. I think
->>> DTS is wrong here.
->>>
->>> Which cases really need the ','?
->>>
+On 12/09/2025 10:27, Chen-Yu Tsai wrote:
+>>> +properties:
+>>> +  compatible:
+>>> +    oneOf:
+>>> +      - enum:
+>>> +          - mediatek,mt8173-mdp-rdma
+>>> +          - mediatek,mt8173-mdp-rsz
+>>> +          - mediatek,mt8173-mdp-wdma
+>>> +          - mediatek,mt8173-mdp-wrot
 >>
->> All of the multi-core JPEG enc/decoders on MT8195 (and newer).
+>> Why there is no mediatek,mt8173-mdp here? What does this compatible
+>> represent?
 >>
->> The DT changes are included in the same series as this commit; check:
+>>> +      - items:
+>>> +          - const: mediatek,mt8173-mdp-rdma
 >>
->> 20250724083914.61351-35-angelogioacchino.delregno@collabora.com
+>> Still suspicious. Device cannot be simulatanously: compatible and not
+>> compatible. This is not a well known cat that has superposition of two
+>> states, whenenver you look the other way.
 >>
->> Cheers,
->> Angelo
->>
+>> Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
+>> Whichever the reason, this must be investigated and documented, because
+>> by standard rules this is wrong. Each wrong code needs very clear
+>> explanations (and "someone did it" is not a good enough explanation).
 > 
-> Any further comments on this?
+> My guess is that "mediatek,mt8173-mdp" is meant to serve as a single
+> entry point for the implementation to bind the driver to. The MDP is
 
-Well yeah, that's still wrong. These are simple MMIO, so comma is not
-correct. Rob already commented on this at v1 of Ariel's patchset. It was
-BTW the same device - mt8195 jpeg!
+I am speaking about hardware. What piece of hardware it implements and
+why sometimes it is RDMA MDP and sometimes it is not RDMA MDP, but only MDP.
 
-
+> a Data Pipeline and there could be multiple instances of the same
+> IP block, as seen in the original example.
+> 
+> The datasheet I have doesn't cover the "RDMA" block specifically, so
+> I can't say whether there is an actual difference between the two RDMA
+> blocks.
+> 
+> 
 Best regards,
 Krzysztof
