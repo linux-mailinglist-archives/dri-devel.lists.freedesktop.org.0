@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3051B5608D
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 13:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08DBB55548
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 19:04:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D67310E127;
-	Sat, 13 Sep 2025 11:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5AF310ECA4;
+	Fri, 12 Sep 2025 17:04:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="jPA7u0HU";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2wfa6c/P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C6910ECA4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 17:00:30 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CGN66u023858;
- Fri, 12 Sep 2025 17:00:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=corp-2025-04-25; bh=06+g7AZH7i0HwmSRN02FkXgDW1kLN
- QkWhVc/5luFnrE=; b=jPA7u0HUzkA2DsqjNffEODqW6dHqUc1krdsGz8PkFjMam
- smR/HLiMnfEYFJk22QKlE7k2eojA0JkTgeDKFJ0m5vA6yRCzciz+a+Kuub5sjwK1
- /EwAzk58BFyCdHI5Bcxr1uUwKsSIFKMLl8TGqscSEbQRpcJPoKECW0Uo1Yz9ZWBv
- qJcgW/Wgv3zrQ49V4lWpfTrjRjJKFgHgNuteM3nu33KnOcnzT09ceDaFlxg3q3RY
- uyTA/CuHbHdguNLLbZOALr43ZHtWwi84nkHaZqSj4SkGs3cI815nFhU55rfE85Hi
- lGO8kVbbsgAhEDPHl6ItX0kcBPO4gf3gR5jREDYQw==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4921m30kac-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 Sep 2025 17:00:26 +0000 (GMT)
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 58CGga3K038836; Fri, 12 Sep 2025 17:00:25 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
- [10.129.136.47])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 490bde5atv-1; Fri, 12 Sep 2025 17:00:25 +0000
-From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-To: simona@ffwll.ch, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fbcon: fix integer overflow in fbcon_do_set_font
-Date: Fri, 12 Sep 2025 10:00:23 -0700
-Message-ID: <20250912170023.3931881-1-samasth.norway.ananda@oracle.com>
-X-Mailer: git-send-email 2.50.1
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5CB810ECA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 17:04:10 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 370431A0DA8;
+ Fri, 12 Sep 2025 17:04:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 018AC60638;
+ Fri, 12 Sep 2025 17:04:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 6C1E2102F295C; 
+ Fri, 12 Sep 2025 19:03:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1757696647; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=8F042OwjuT7bryasTftQ6+bUQ1QdWCQkSaOTLICEex4=;
+ b=2wfa6c/PyGxdpR+8r1REci4HnFhrrZyeHug56WC2ap/DjrhI/nhVtJe2NFJIWGmyGSa1vQ
+ 5FrT/npjH1lmaQMdlTtIo/YBFaiKPuIBxGxZBabpbjuW41sOrn37crO4M5emtxuArI12UQ
+ My9gB8x8S62OPeiG7V7f4aGrHd1Qy5p23s3dsXtL2TWSVq2zYrRyeehB8bpVkQj0XGS3ek
+ vbc2hfVNJuJeMYl5RozY+AzqMeo0G26+ukyaXeSUpVEIyPOW8HuSrY27ZtTAwc69cwkTUu
+ TY/5BYOjO5YK2JGhdRMpUXDMnaEDEDvm3SgBcicjVLFpYW4wZ9fgiWoKaA3XJQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v8 0/3] drm/bridge: debugfs: show refcount and list removed
+ bridges
+Date: Fri, 12 Sep 2025 19:03:40 +0200
+Message-Id: <20250912-drm-bridge-debugfs-removed-v8-0-5c33d87ccb55@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-12_06,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 spamscore=0 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
- definitions=main-2509120155
-X-Proofpoint-GUID: BD1hBxHGxIjYKS9kfTh7ahBaI79xRZcx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE1MSBTYWx0ZWRfXxPZM6+vGXYFk
- 71DDAgvmAE3Q52WR345M1UlMOsBn2R2sSRVmb9z9RJllL+6cj+mvINiFsA9gQ6fE+Oa7oIsOnlZ
- MBalIiiW0VqeXM9Zto7DqQuUgEw0dM/0zRDd5KkqZEidCm2qnIze6u6eO75oshc3rQF5BROpE4t
- 746IGE2+3lcBZhFDAa08ZeatHjOtiH3+Dn3sHyXLlePi2hhPT9ol9nP2N5vjLbKfAtIo66xpG0F
- 3cc647UxmAwMSnXuKIITEeZJk9EpjoU5NU+exrTscZojAOaW5RliPovM7AaGmcDWRYvpmtqdeAo
- eUpW8/nBWyekRSVh2dptwVE56badjOKwMbYpz/CpkrUwFKWv/9fVFkKd5QUUZWC4MMZ7uX5kwW5
- sd/2YulY+Q7dUUhFzkfAvXypWnJY3g==
-X-Authority-Analysis: v=2.4 cv=Dp5W+H/+ c=1 sm=1 tr=0 ts=68c451aa b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117
- a=zPCbziy225d3KhSqZt3L1A==:17
- a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=gbwJbyMY3ZHlS5J_450A:9 cc=ntf
- awl=host:12083
-X-Proofpoint-ORIG-GUID: BD1hBxHGxIjYKS9kfTh7ahBaI79xRZcx
-X-Mailman-Approved-At: Sat, 13 Sep 2025 11:45:22 +0000
+X-B4-Tracking: v=1; b=H4sIAGxSxGgC/32PzW6EIBSFX8WwLg0gCrrqezSTCT8XJVGZATQzm
+ fjuRaebbro89yTfPd8LJYgeEuqrF4qw+eTDUoL8qJAZ1TIA9rZkxAhrCCcS2zhjHb0tjQW9Di7
+ hCHPYwGLWiM7JjgHXNSqAWwTnHyf8+/LOEe5r+ZHfR6RVAmzCPPvcV0yAJbblirhaMMaNkm3jt
+ JOOKGWs4a2qHZf0QJ9zBP0zR01TMHiAfFszdiFeQZnx+ls6yqkCKnTbqH5j6Ngz+pRDfJ7umzg
+ HnVxJu/80N4EJ7gQR5BDuhPzSIeTJL5/FBF32ff8BuNoPs1YBAAA=
+X-Change-ID: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,49 +75,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix integer overflow vulnerabilities in fbcon_do_set_font() where font
-size calculations could overflow when handling user-controlled font
-parameters.
+This series shows removed bridges to the global <debugfs>/dri/bridges file.
+Removed bridges are bridges after drm_bridges_remove() but before they are
+eventually freed on the last drm_bridge_put().
 
-The vulnerabilities occur when:
-1. CALC_FONTSZ(h, pitch, charcount) performs h * pith * charcount
-   multiplication with user-controlled values that can overflow.
-2. FONT_EXTRA_WORDS * sizeof(int) + size addition can also overflow
-3. This results in smaller allocations than expected, leading to buffer
-   overflows during font data copying.
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-Add explicit overflow checking using check_mul_overflow() and
-check_add_overflow() kernel helpers to safety validate all size
-calculations before allocation.
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17-rc1)
+    C. ✔ kunit tests (v6.17-rc1)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17-rc1)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+            (drm-misc-next)
+       2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
+       3. …✔ drm_bridge_get_next_bridge() (partially in drm-misc-next)
+       4. …✔ drm_for_each_bridge_in_chain() (partially in drm-misc-next)
+       5. drm_bridge_connector_init
+       6. of_drm_find_bridge
+       7. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. ➜ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ➜ show refcount and list removed bridges
+ 2. … handle gracefully atomic updates during bridge removal
+ 3. … DSI host-device driver interaction
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
+
+To show the removed bridges we need to keep track of them, thus add a new
+global list to store them between drm_bridge_remove() and the eventual
+free. This is bit tricky in case a bridge is removed and then re-added
+before being freed. This is handled in patch 2.
+
+This series  depends on one other series:
+ * [PATCH v2 0/9] drm/bridge: get/put the bridge when looping over the encoder chain
+   Link: https://lore.kernel.org/r/20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com
+   Reason: trivial conflict in context (drm_for_each_bridge_in_chain_scoped())
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/video/fbdev/core/fbcon.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Changes in v8:
+- Removed patch 1, now in drm-misc-next
+- Renamed "removed" -> "lingering"
+- Rewrote documentation changes to use "register" in lieu of "publish",
+  split them to a separate patch
+- Link to v7: https://lore.kernel.org/r/20250819-drm-bridge-debugfs-removed-v7-0-970702579978@bootlin.com
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 55f5731e94c3..a507d05f8fea 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2531,9 +2531,16 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
- 	if (fbcon_invalid_charcount(info, charcount))
- 		return -EINVAL;
- 
--	size = CALC_FONTSZ(h, pitch, charcount);
-+	/* Check for integer overflow in font size calculation */
-+	if (check_mul_overflow(h, pitch, &size) ||
-+	    check_mul_overflow(size, charcount, &size))
-+		return -EINVAL;
-+
-+	/* Check for overflow in allocation size calculation */
-+	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &size))
-+		return -EINVAL;
- 
--	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
-+	new_data = kmalloc(size, GFP_USER);
- 
- 	if (!new_data)
- 		return -ENOMEM;
+This series was initially part of v6 of this other series:
+- Link to v6: https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+
+---
+Luca Ceresoli (3):
+      drm/bridge: add list of removed refcounted bridges
+      drm/debugfs: show removed bridges
+      drm/bridge: adapt drm_bridge_add/remove() docs, mention the lingering list
+
+ drivers/gpu/drm/drm_bridge.c | 46 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
+---
+base-commit: 27ed0d64a0f37224ca865fbf8f0aacdc46a3f481
+change-id: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+
+Best regards,
 -- 
-2.50.1
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
