@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047EDB550E2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE0DB5516B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61E9B10EC66;
-	Fri, 12 Sep 2025 14:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B314610EC76;
+	Fri, 12 Sep 2025 14:28:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AajQYIjr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HIIlRfqo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBE710EC6A
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:01 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3e2055ce973so1121835f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:01 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 539E910EC76
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:28:09 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45df09c7128so16421855e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757686860; x=1758291660; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757687288; x=1758292088; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
- b=AajQYIjrORTJUyxsBjnWWVcRp6DJPCfunm7MZoGd7qccwiMstJgzDeDh8lR4M9EzOD
- ZoaFknUImsn9HRcUziaGrbQt/ELEj0DDSM6ShLqFKMZFbJsZOAyo18wK2KNLXnSRUQxP
- QcKg9HUTrLfMrb4Xu/jhj3g3TYFk8o9yBsK5jYq+C7oO061ZJomAkdXQ+/F6dOKNdb8J
- 9rTcM9eenQXsqrFir7D4A44AVNyQdhH7PUHOvLajj/2RFgJvgVJ2Y9+RBhtScYK9HbYT
- 9eGnJ/hyV/KdT+9sM8sCPrcgKQdpeewZrG6ejGQktZO2mdzs4LrUBTxO95S876Tfwx2t
- VnxQ==
+ bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
+ b=HIIlRfqobD+dVOLi9+cW8Tnb75AKVQL6eyPt3VLQHTxqx86WzofwAzH1bJ7+xQ+bHe
+ F0OxYqiw0WbyRQto/iXVD2F1jEBUE8ekGGeJwOrZOJiXhAc6eyVIJ41kSWcexvr3goSW
+ gUt7QyjVItwrtDkArcgwafMZDs11THaiSq7oq2HmnK40YpEdsdclfzRwmcRdqlPsrwu4
+ 5LfujLQEZZqqT5mubNDjQyV/jaAa7F3FeBop2OeJXPw54Smey+Cv3i17uOHVq4bKtxXd
+ pRxGehgEECS5uRItVjtfIEddcTO7HbtftgI5iVfaqhDwQQFaKxT4WkJMdGkv/20Hpivf
+ eoGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757686860; x=1758291660;
+ d=1e100.net; s=20230601; t=1757687288; x=1758292088;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
- b=LeNVXoGlQ1MAHWf1f2oXospoo2LR2TZe1DZTw1NQEp5Avvcsk/ucsdi/vnTKNjwNOi
- NPyF8WxJhGTTve+rO6aH5R0Hw0nj4AUnTvghj39uyV6WFMqHwRJ2ZZXndS0+MJV5xxc/
- pMV+GlAXEN/SznXjWBS8vdYWc1adrcZuOpbc8kH0zsFaummfbSH25ptAtg9GCsadFnnh
- OoSY0LDVvP3guR1K2Apwtfv5zD4VnjZZBR4r/Hrh42V4631jkguarSTwwIZImBtpzzbC
- xOWubzaSEyEAr+9wXik9jKUVBz5AQ/snKNOBT/WQzUpjrs92JjTkcMcTJVmJZyHGd/lv
- SpJg==
+ bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
+ b=owRwlGv2QwbBQ26brIxGNmQ0pdRu6zzBoJfr1S8BqZQIIs1aLunBcasdf5xJWhA0Lu
+ 9TQJnqB8M2iNLgEIXpKl2DXc41eUop2nCM1D8+h1B+kO68S+lvuwIPhtOAyB8f5c/O5i
+ WSWhVIp+zKNyBQUcyHDroyabUSSjqlZIzj9G+J71xCCE4dKwpVCH6uCvZBzrjNKP4q+0
+ xSpYvdQMgpUfd7xBE54f31E1L387sTxfsoUaNARES6auufPtmUtd2ar/45gNzq5r/ASc
+ Psw0K4NO9gYS1zi2I4LaMZg4r/CdhbL2ePFEfwvEuzlfyJT1pfakILa3FcmD74ylKJ9A
+ j3Jw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0vSM6jHKkQ4cqbcAYcGlOEO7F5ROmpHWO4q5qE45pRi+qKszlQopJtff/wVp/W1Wasi8DfCLqfYw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywd/rzbdTL0bZWK3e8ueHLtv5ahwJ4+XNO0uUbuVBEkf8JAjhiK
- ZA6a9qRTqaLaRwXMLJdD+6hNBKhEQNS1wtRLuUAwzJSiMzT4MKwJoksd
-X-Gm-Gg: ASbGncv2JNd0hnGK3iuIzSw2goSpgeIlZLPOP2+2+kVXmYcXrwE5pX16jnclukGlv47
- hHda8T5C4Kbqk5uQt6/DDeIuAaFwGfMWYKrkRBhsOASK+pZ+SyRn/5TpYBYoFyWoI6RSdxGEKut
- Mt9mERoJLx7EI3As8mgSueCR95qymQKTNds2itiVF7MtTLCpsNZ9M78Ttuj/8OMbWe20uxqVCeg
- tSfXTT3hNNsa+dIMBbbDqlYVR1RdGIyJGINL9NkyYoHkitDICkouhwdxcSA4dShQL0yRYMJfuFb
- eAEA2OdL8U3GkTyLabK40No42fBcexwubZPaokK/XG2yFgiQDt6iVKkWSNCxxDKk4sCMVzvCZMw
- VfGx4/HLWmOaFP8au9WN1BQ2Jf0uwv4nbPuMn73tCw3m3Otwq0fyr
-X-Google-Smtp-Source: AGHT+IETnSVaOaRKN/Bmr4IDnznOAwChZ2qQ4ywH5VxUBMfTXYJEq367ON+ECBnG0YBYE/RxZE/ipA==
-X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id
- ffacd0b85a97d-3e765793127mr2932126f8f.18.1757686859589; 
- Fri, 12 Sep 2025 07:20:59 -0700 (PDT)
+ AJvYcCUe89Zmb1z85sEDXz8OP1eBgQ5AraAcr50OwTMHT6MXmT2sHaOLLVja7QQgOgei2HF17gUkwzPAZc0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyn928TQy6LyOVEjV11JvnAy4cvGpl5V+rtsM3iggTo47FeEzvF
+ VRkcgySyCFaqrmnw+o9yNkF186hqGxMkgr4l1RjxXztrZJOSoaaeJ9K5
+X-Gm-Gg: ASbGncutwo0TzPCrOe6xMVs/Yw29/gzc1EfkAvSwqm+oxZMbtJtAW2P6QDxXipdGSzb
+ F2ctzZXhsJsqZxebnx69GTW/6Xvn0Xg1iXr91AQnSWjW1YOetkA1vs5V5Oz1ZEgZwTABroYpo6c
+ Qhl5PqRvIJTtvtsFNF2pUxxiwHPUqsUaNoNWv2qXOVyO1yAS0xKnA5YbbzeQGo3Kq++zac1XlrQ
+ eKxTxiKf/sXyMYA5fHjO96Q7TBv+7hfsMoPxjAYGA4DcG+vLnhmwVSGUw8Dr1HdYQrMmEvwKGyM
+ 9ytH0Yf15IxciVMeJ1ITALLFEGdWR2IscOLArWigB0vgntzRqd19z9Mc1ZTap79/H05ULmrhP3b
+ UWsHGQebETxqwfXhVIm8d3AMqxEfoNbJzieqliOJTVw==
+X-Google-Smtp-Source: AGHT+IGDvV53/LNE/OpdCCjsAZPEbICrc+wJ2bgnqrFTzigP/wpDBOWh7QRU2BBuWo1pqbgZm/YfGQ==
+X-Received: by 2002:a05:600c:1c19:b0:45d:d259:9a48 with SMTP id
+ 5b1f17b1804b1-45f2128cba7mr31759255e9.9.1757687287618; 
+ Fri, 12 Sep 2025 07:28:07 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e7607cd415sm6697435f8f.30.2025.09.12.07.20.55
+ 5b1f17b1804b1-45e017b27b6sm67769045e9.16.2025.09.12.07.27.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:20:58 -0700 (PDT)
-Message-ID: <cda40929-12d7-4206-a4d9-3a74314c6b2e@gmail.com>
-Date: Fri, 12 Sep 2025 16:13:30 +0200
+ Fri, 12 Sep 2025 07:28:06 -0700 (PDT)
+Message-ID: <3de4b03d-4940-4d96-bf20-5bb45f1cc5a5@gmail.com>
+Date: Fri, 12 Sep 2025 16:13:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 25/38] arm64: dts: mediatek: mt7986a-bpi-r3: Set
- interrupt-parent to mdio switch
+Subject: Re: [PATCH 26/38] arm64: dts: mediatek: acelink-ew-7886cax: Remove
+ unnecessary cells in spi-nand
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,34 +159,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Being this an interrupt controller, the binding forbids to use
-> interrupts-extended and wants an `interrupts` property instead.
+> There is no need to specify #address-cells and #size-cells in a
+> node that has only one non-addressable subnode, and this is the
+> case of the flash@0 node in this devicetree, as it has only one
+> "partitions" subnode.
 > 
-> Since this interrupt controller's parent is on the GPIO controller
-> set it as interrupt-parent and change interrupts-extended to just
-> interrupts to silence a dtbs_check warning.
+> Remove those to suppress an avoid_unnecessary_addr_size warning.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> index 6d2762866a1a..e7654dc9a1c9 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> @@ -200,8 +200,9 @@ switch: switch@31 {
->   		compatible = "mediatek,mt7531";
->   		reg = <31>;
->   		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <66 IRQ_TYPE_LEVEL_HIGH>;
->   		#interrupt-cells = <1>;
-> -		interrupts-extended = <&pio 66 IRQ_TYPE_LEVEL_HIGH>;
->   		reset-gpios = <&pio 5 GPIO_ACTIVE_HIGH>;
->   	};
->   };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> index 08b3b0827436..30805a610262 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> @@ -98,8 +98,6 @@ &spi0 {
+>   	flash@0 {
+>   		compatible = "spi-nand";
+>   		reg = <0>;
+> -		#address-cells = <1>;
+> -		#size-cells = <1>;
+>   		spi-max-frequency = <52000000>;
+>   		spi-rx-bus-width = <4>;
+>   		spi-tx-bus-width = <4>;
 
