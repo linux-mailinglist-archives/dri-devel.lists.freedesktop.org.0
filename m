@@ -2,102 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD203B54611
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 10:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDBDB545E7
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 10:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C834B10EBCA;
-	Fri, 12 Sep 2025 08:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CE710EBC9;
+	Fri, 12 Sep 2025 08:49:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="PI5cAE5l";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="Gq5/r5jv";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="b9k6Y/jY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 419 seconds by postgrey-1.36 at gabe;
- Fri, 12 Sep 2025 08:56:09 UTC
-Received: from fout-b8-smtp.messagingengine.com
- (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C769910EBCA
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 08:56:09 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
- by mailfout.stl.internal (Postfix) with ESMTP id 15A611D003F4;
- Fri, 12 Sep 2025 04:49:09 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Fri, 12 Sep 2025 04:49:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1757666948;
- x=1757753348; bh=+p9GzJieOwhor5aWURPNM9zhi5lxCVgpWYiOO0XBHPQ=; b=
- PI5cAE5lN6QR+1vzg9lgHqhcqy1+SKUF6XrVxFZgShVCecHaYM1azq348NJCXbkK
- /YGJfqMdXMOeHyfTOUFbRHOAIXiH6aWtPI9wSfvN+60Q7wGIr24RI4B0dpvpZ5Xw
- o1n8tUL5nwJz1LQFZIn9n7/kr0r49BLkrXRIrTntdPbi75zuqQg6LHLenlCwqk9u
- QUIaQd/lmOxiibz4h0NwLpUbGkkimfJEcaaJ4wPb0cWa8De+TLe73/Z+sF61R49J
- xvs5qED1VzG2SjDC+AOj2QjEaEFwcwCWzodVZ5RupEo7IqYgKQ8VcNAVWjzMxfE+
- 4eViwyYYIM1N6DG6AkRKcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757666948; x=
- 1757753348; bh=+p9GzJieOwhor5aWURPNM9zhi5lxCVgpWYiOO0XBHPQ=; b=G
- q5/r5jvWs1/BOFzwRgD04ps4BGfCMiE2Oc1Ezi5D012RKJIR/sJj8QsOua4woWCy
- wE8CAtXCCZQ7/EjAaiDCZYxj2WgK7b7QNOWSgf8PC9FHGxSVxtuV1awZY4XsoPLx
- 9ABuwMjrxlkLHT39EDvnsqRf7w8Ex4JL7k34jS1eS+OPbsK260p+DSglCZiWKLEq
- ioPaz+IgG8XfmDDDEoU6kS3sQzSrm7DdRzp2Foijvgpb0f1v4zOqncNYlha4DTOo
- 9k1wgfaNQ9FA/Bq4W621/cX1hkL3ByN+nI8F/XXTOF3U/l31nyeOVrH8/AegKh78
- tQJ7cIlTnWoNmZWT+oZvA==
-X-ME-Sender: <xms:hN7DaHzWP0G7J1chBD9rBGDiWV9pbaiy7ceyqwGdnl9A8W6XUqGzwA>
- <xme:hN7DaPTWJ617wAXHqOs7qAMhN1gWN3aJ_099dbYEGqPAeRrIUqdYhkMfihvbN3Njv
- s5I8OYUlsF-ddzu_n4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvkeeiudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenogfuuh
- hsphgvtghtffhomhgrihhnucdlgeelmdenucfjughrpefoggffhffvvefkjghfufgtgfes
- thejredtredttdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnug
- esrghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpefhfeejhfevudegkeekjeevgeet
- gfevfefgueegtdekudfhgedtgeegtdfgheffkeenucffohhmrghinhepghhithhhuhgsrd
- gtohhmpdhllhhvmhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
- mhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduvd
- dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepnhhitghkrdguvghsrghulhhnihgv
- rhhsodhlkhhmlhesghhmrghilhdrtghomhdprhgtphhtthhopehjuhhsthhinhhsthhith
- htsehgohhoghhlvgdrtghomhdprhgtphhtthhopehmohhrsghosehgohhoghhlvgdrtgho
- mhdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrh
- gurdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghp
- thhtohepnhgrthhhrghnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvg
- hnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohep
- ughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtph
- htthhopehllhhvmheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:hN7DaFN6ktGAzX2citag5xjmrnFbnZ2xqqv4Qog_XAMAWijJWBdMjw>
- <xmx:hN7DaFeKtg1DXHM_1ctiU658VQRTht6iVRYOADbVWuJTiH24g6vsmA>
- <xmx:hN7DaG4E_W45TghQdvb3NuWhCa9RnbTIxa617cZqGhVOC1K8VRLBiA>
- <xmx:hN7DaHIEldT5yTfNqFOw9uk3ZsxRjUzKXecM2Ze-Au1Bv2tu0Z1tsg>
- <xmx:hN7DaJFUyx53S3C9MgBGfHQgw0-l6xHdz_jxOBexZZnPt6X7MZ1HSoyO>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 5F752700065; Fri, 12 Sep 2025 04:49:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35CA010EBC9
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 08:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1757666976;
+ bh=t2CbprpuSHyhZVsAXOvVA2HQNj6MCqFKJW6RdhauD7A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=b9k6Y/jYHYRf1lBd3IVQs8MHuAF8Lp6WToReTrp1ENuOHC572Yy8h6K04o261v7Ua
+ 4yW19LAPpuImfWtnGkwQ0AI++cysclzDjM48otKS6QWxc3huIGYnfsD2EIhixgRlnB
+ DASIixfeR12WRXjgbBInSPg9IQsTxZ3yVzg7gkK97V+olG00bTvwQxVTAQNjgQjLX8
+ BuV3duQibBT6UOIh8+w26DohRm5Zwb+2dqew+bmZTDDDfA5DyuNbhJDKNQWRtzO5s7
+ rixyPQa88tYz+a/WjvMPdPxtN1tP4M3Azs1f15mTHQRrIsynehoHJn87WgBxnP8tJx
+ h179TIG0hlXKg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0E66317E05BE;
+ Fri, 12 Sep 2025 10:49:35 +0200 (CEST)
+Message-ID: <181e1668-6efc-4dce-91e4-7b535e17dd46@collabora.com>
+Date: Fri, 12 Sep 2025 10:49:34 +0200
 MIME-Version: 1.0
-X-ThreadId: AUnaucIrvcY7
-Date: Fri, 12 Sep 2025 10:48:47 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nathan Chancellor" <nathan@kernel.org>,
- "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- patches@lists.linux.dev, stable@vger.kernel.org
-Message-Id: <6bb9a15d-ecf9-4fdd-b118-cb4db108483d@app.fastmail.com>
-In-Reply-To: <20250911-omapdrm-reduce-clang-stack-usage-pt-2-v1-1-5ab6b5d34760@kernel.org>
-References: <20250911-omapdrm-reduce-clang-stack-usage-pt-2-v1-1-5ab6b5d34760@kernel.org>
-Subject: Re: [PATCH] drm/omap: Mark dispc_save_context() with
- noinline_for_stack
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+ bindings to DT schema
+To: Chen-Yu Tsai <wenst@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Ariel D'Alessandro <ariel.dalessandro@collabora.com>, airlied@gmail.com,
+ amergnat@baylibre.com, andrew+netdev@lunn.ch, andrew-ct.chen@mediatek.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch,
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com,
+ tzimmermann@suse.de, yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-bluetooth@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-2-ariel.dalessandro@collabora.com>
+ <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+ <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,13 +84,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025, at 22:24, Nathan Chancellor wrote:
->
-> Cc: stable@vger.kernel.org
-> Link: 
-> https://github.com/llvm/llvm-project/commit/055bfc027141bbfafd51fb43f5ab81ba3b480649 
-> [1]
-> Link: https://llvm.org/pr143908 [2]
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Il 12/09/25 10:27, Chen-Yu Tsai ha scritto:
+> On Fri, Sep 12, 2025 at 2:06 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On Thu, Sep 11, 2025 at 12:09:50PM -0300, Ariel D'Alessandro wrote:
+>>> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data
+>>> Path to a DT schema.
+>>>
+>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>> ---
+>>>   .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 ++++++++++++++++++
+>>>   .../bindings/media/mediatek-mdp.txt           |  95 ----------
+>>>   2 files changed, 169 insertions(+), 95 deletions(-)
+>>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>> new file mode 100644
+>>> index 0000000000000..8ca33a733c478
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>> @@ -0,0 +1,169 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: MediaTek MT8173 Media Data Path
+>>> +
+>>> +maintainers:
+>>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>> +
+>>> +description:
+>>> +  Media Data Path is used for scaling and color space conversion.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    oneOf:
+>>> +      - enum:
+>>> +          - mediatek,mt8173-mdp-rdma
+>>> +          - mediatek,mt8173-mdp-rsz
+>>> +          - mediatek,mt8173-mdp-wdma
+>>> +          - mediatek,mt8173-mdp-wrot
+>>
+>> Why there is no mediatek,mt8173-mdp here? What does this compatible
+>> represent?
+>>
+>>> +      - items:
+>>> +          - const: mediatek,mt8173-mdp-rdma
+>>
+>> Still suspicious. Device cannot be simulatanously: compatible and not
+>> compatible. This is not a well known cat that has superposition of two
+>> states, whenenver you look the other way.
+>>
+>> Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
+>> Whichever the reason, this must be investigated and documented, because
+>> by standard rules this is wrong. Each wrong code needs very clear
+>> explanations (and "someone did it" is not a good enough explanation).
+> 
+> My guess is that "mediatek,mt8173-mdp" is meant to serve as a single
+> entry point for the implementation to bind the driver to. The MDP is
+> a Data Pipeline and there could be multiple instances of the same
+> IP block, as seen in the original example.
+> 
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Yeah your guess is right.
+
+Cheers,
+Angelo
+
+> The datasheet I have doesn't cover the "RDMA" block specifically, so
+> I can't say whether there is an actual difference between the two RDMA
+> blocks.
+> 
+> 
+> ChenYu
+> 
+>>> +          - const: mediatek,mt8173-mdp
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>> +
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +
+>>> +  iommus:
+>>> +    maxItems: 1
+>>> +
+>>> +  mediatek,vpu:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>> +    description:
+>>> +      phandle to Mediatek Video Processor Unit for HW Codec encode/decode and
+>>> +      image processing.
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - clocks
+>>> +  - power-domains
+>>> +
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: mediatek,mt8173-mdp-rdma
+>>> +    then:
+>>> +      properties:
+>>> +        clocks:
+>>> +          items:
+>>> +            - description: Main clock
+>>> +            - description: Mutex clock
+>>> +    else:
+>>> +      properties:
+>>> +        clocks:
+>>> +          items:
+>>> +            - description: Main clock
+>>> +
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - mediatek,mt8173-mdp-rdma
+>>> +              - mediatek,mt8173-mdp-wdma
+>>> +              - mediatek,mt8173-mdp-wrot
+>>> +    then:
+>>> +      required:
+>>> +        - iommus
+>>> +
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: mediatek,mt8173-mdp
+>>> +    then:
+>>> +      required:
+>>> +        - mediatek,vpu
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/clock/mt8173-clk.h>
+>>> +    #include <dt-bindings/memory/mt8173-larb-port.h>
+>>> +    #include <dt-bindings/power/mt8173-power.h>
+>>> +
+>>> +    soc {
+>>> +        #address-cells = <2>;
+>>> +        #size-cells = <2>;
+>>> +
+>>> +        mdp_rdma0: rdma@14001000 {
+>>> +            compatible = "mediatek,mt8173-mdp-rdma",
+>>> +                         "mediatek,mt8173-mdp";
+>>> +            reg = <0 0x14001000 0 0x1000>;
+>>> +            clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+>>> +                     <&mmsys CLK_MM_MUTEX_32K>;
+>>> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+>>> +            iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+>>> +            mediatek,vpu = <&vpu>;
+>>> +        };
+>>> +
+>>> +        mdp_rdma1: rdma@14002000 {
+>>> +            compatible = "mediatek,mt8173-mdp-rdma";
+>>> +            reg = <0 0x14002000 0 0x1000>;
+>>> +            clocks = <&mmsys CLK_MM_MDP_RDMA1>,
+>>> +                     <&mmsys CLK_MM_MUTEX_32K>;
+>>> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+>>> +            iommus = <&iommu M4U_PORT_MDP_RDMA1>;
+>>> +        };
+>>
+>> My previous comment applies.
+>>
+>> Keep one or two examples.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+
