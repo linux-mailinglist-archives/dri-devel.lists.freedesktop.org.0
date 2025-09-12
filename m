@@ -2,85 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126EBB54928
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 12:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53107B5494A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 12:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B9710EBF4;
-	Fri, 12 Sep 2025 10:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B657A10EBF5;
+	Fri, 12 Sep 2025 10:19:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Id8F2NyP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="C4+R0dLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
- [209.85.161.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E41310EBF4
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 10:16:50 +0000 (UTC)
-Received: by mail-oo1-f46.google.com with SMTP id
- 006d021491bc7-61e73b1544fso692064eaf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 03:16:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1757672209; x=1758277009; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=np92MCLMIpSqqXYurAjsStWUduzDAztZdMghYtL+tng=;
- b=Id8F2NyPMg13Sp2u4Y9W4biwqEmIewb8FOKYTtZSibdaxwqZkKhH4PuFGAjd+tV3Cx
- DFs9AiDyD8xEy75UVbuaPJ1NqkgRaPoGKqMawTm2Vq+2EmC29R6N6cX4d49zwBOjMmX5
- QwSbBArqE/ykoWIhNzyPpUZVx4thYTYeapTy4fQNpQCy2vW4M/pptHIgoA8LPvv0EHUg
- fHTifbc3Hwnp4xJIwQthB4uk7UuTbAPq5Ro00CB6gnMGHJ7UW4CklDqtvm0EVQ6p7jzx
- S/MT0scz/QoFLuol0X0Vm8VqCgEdnYgwerP2xCFJvY4d89lsSZAS/FiSqg1+sCCiXEWg
- rVwQ==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F3310EBF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 10:19:14 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fCxS018529
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 10:19:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=+8BSRPhlzIdQp9y41D5xs6eH
+ qedfNxQ0XWH6TT8qk+k=; b=C4+R0dLtc/nLAf2A6VgC54MT9HbrdeDyVK13a/Z1
+ PEIUskUXc1uO1YjMazZiUE5+NXV1y8wDStE96FPmCHy2mLS7NktygpJf4xehUJXf
+ KpyWMq0ySs4JXvyhhKvTkNCBzEbb3fhMq/TXCNV8rr5Y1vMq2OGN2xTB5mj072us
+ /T5jcwsU0HALTeQmHKE/HYWPdlk3AcXq1vS9Pmv2V8+RL1FXOMWtg/+QkuTLjNvs
+ Qg1MsCni9U3nnZ2CY49OApKBJg1vm8QdxnfnJOt5ebchQDq7LfHn8a65R359n5ei
+ QskQueW2QmZhueOgjo+CW7dX9RXAGXRY8WQwCORKH1F04A==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490e8ak50w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 10:19:13 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b32d323297so37605111cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 03:19:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757672209; x=1758277009;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=np92MCLMIpSqqXYurAjsStWUduzDAztZdMghYtL+tng=;
- b=cahQT3LD7hM0Del6TUL/NhckJ+mhoVDR6nNpsTxrbsOWv1yKZvk/icPAdxU9Q4SnVw
- D1nwP9zYjI0/0VtQZFhzmC8YC3B9R1TLHfjxRq5ZohLyGsuoccvB5yO18ujI/12iQ8Fm
- ayKWKaK33dg2gnPe4ZG4xDS3aFM1wLxfxYx6fivF4n6z0wqaItWbd8Wg7e0GdVU8xo7t
- yQjlNHXdZt3FaE6PTxwhP5utXKMDNVvYQ1J0T6LZkg37/CwV8MjWxymvwxIqNCYThWla
- Oq2UVLdPBAgtPr0s/lTDz1XusFgmXhvUw0q+CrGiPLBVzvcB25rA7gZeLUKYQ0Z3e09q
- Hp7Q==
+ d=1e100.net; s=20230601; t=1757672352; x=1758277152;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+8BSRPhlzIdQp9y41D5xs6eHqedfNxQ0XWH6TT8qk+k=;
+ b=Q2jhoCRaNUouSpZW+vIeq2f8cvk55gkJNYVZAcqgCfbnIZSrM9Cn4Y/g8IQxvMogNf
+ ql7S2SbKcRqj5yK/QvjFPVXZ0nDKXmHjkpNdoKZaazr2Hxmb3/f4YF9nmozb1FJKIVQS
+ uhh9Re4fhOg3UdMNBM7PlTK8pQlAgW85ICAQcj4QkCsBQqv8mlJp/FOHmMHjMlwudS2s
+ s7KAFl3InMys5gHTOk5YlXIVreKebkp+8qunMDz07FcbJN5ukNhR6qUfwY60FhixYBrk
+ w+3gnzRdDqoYDx8giQSjO4/NkfGeAes2C3Mvf0hpeyBLvplJfziwEpEAHHwSjo6Yq56T
+ agEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVcVOmUULQruYr8EPXitnWvMsZzWpqwjt+prn41Hu3FmnxS8C+i9lNpv2Y9Np5shHh8stUxFPdidaw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0m8MjbCQbpExPpDebY41nQCS1kHzgPhBP6YBiAwbzii+LLgjD
- wZPqyzN65ZTGJ9x/RgSV+DyXWZvj6slbEdEVMSEDLPLT/O1LdY+cFZR7oFtmaRi96iE6gGNzUl+
- 4CmocMIh16pMibbhtFGK2QtGnFczowttd0+dhumvMWg==
-X-Gm-Gg: ASbGncv1J+JtFLTzClusvtPCpNdxzG2syQTBAi9RZjiqYp5fmYDR6jDJUjsaBwTYD58
- rFMTSbPPHWXv6mH0Xdm+j3E3G9Ri8q6ruVHYQE7gm1bfjE/guPmtccYJeMuhcHWp/tZZy8g0PeX
- dZd16rcAtStjMzdDCpYRlMev+tqjivtL1KH4wpTm7dB7JVksgPiOTsvuW628o3YnpQQJObVAv3x
- O0U6hvFzk3zT2fbFrg=
-X-Google-Smtp-Source: AGHT+IGS5N1UmLdsuE07lZ/S7H/uqY8ApRRdv9LIa7w7dmIh048yBoif8PGNnuNQoEwhkyX8AMx/1GhdEocCaUPJzjc=
-X-Received: by 2002:a05:6820:1508:b0:621:860f:fe6f with SMTP id
- 006d021491bc7-621bed6ed43mr1199525eaf.6.1757672209301; Fri, 12 Sep 2025
- 03:16:49 -0700 (PDT)
+ AJvYcCVeHZsnFF0rDs7SXhEnBVhjWiN92CPz5d6aacbpaKuZRzY7P/iQSdd0dhjIx9Ka2NLaQbI9xAKyPKo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxtjKmryTcvtpJjbp7VvpDECXlqYRNMNk3QrtNgdP8nPV8N3urs
+ 6DfXQ9lypKUWf3hNElpuyqmZZ27VzEqVxHxav9TJcHy/a8VodKuV3n25N4Ok5buBd4LQ8uMYxnl
+ FOHMgOHGEsqDRJdTt3sWROufOCPg+2dEdEqg4rI2pp8G+OUPo8YGoMzWuCqfdTfjvdcuJ7Js=
+X-Gm-Gg: ASbGncuHjEVPaQhuT3WJzOwyScOiVhJ7Kq0mohCRCba7OqgoHBbruLnevaV8EHHlHm5
+ ZRMHYjT/B5VFRcqpcewfm0zqHJU9d1uwc2UvawBFgEPQonqz7X0hkH0kDTa4JXk5I5b0eWU16CC
+ xS/t9ocChk0qiLlLhI7Gdcdmt+0mJVPUDzkwwQJ5RgO+Xg6optu73yFLlhvuwnsqNBO9nK69EAL
+ vriQMXge8YEBh4jKhX4fenvB+O2U+gP+obX8BTMaevxk7ZZUplnZ9LFeMM6+aaSzHsIaMInlgXD
+ 9245Chkn20nbUXHX+/03mDDNhgCkNJGL2PHeWii4bPosb8la3KQ3gH65ZchfueQXyNW7HGCE5zY
+ srd+k2URGuTYEP1D5sDrEC9O0S4ipadiqYbv4vXsTYQ1ZMso+glbE
+X-Received: by 2002:ac8:5d51:0:b0:4b5:4874:4fa5 with SMTP id
+ d75a77b69052e-4b77d07ee69mr30002861cf.18.1757672352010; 
+ Fri, 12 Sep 2025 03:19:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHDr/xf3Xq/zG3qRRgOoMRE9GeT+a6DC6K2ISKAktnMWoKUg/v0LpRmDDlLQEuN+IJgK34ztQ==
+X-Received: by 2002:ac8:5d51:0:b0:4b5:4874:4fa5 with SMTP id
+ d75a77b69052e-4b77d07ee69mr30002371cf.18.1757672351305; 
+ Fri, 12 Sep 2025 03:19:11 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56e6460f138sm1035638e87.111.2025.09.12.03.19.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Sep 2025 03:19:10 -0700 (PDT)
+Date: Fri, 12 Sep 2025 13:19:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v4 08/13] phy: qcom: qmp-usbc: Add USB/DP switchable PHY
+ clk register
+Message-ID: <6p43oxn57kke5eotoqtt5gqtmhmgeteoymewqm3ko5q5veyegs@krkh4dwdno5i>
+References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
+ <20250911-add-displayport-support-for-qcs615-platform-v4-8-2702bdda14ed@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
-In-Reply-To: <20250911135007.1275833-1-jens.wiklander@linaro.org>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Fri, 12 Sep 2025 12:16:37 +0200
-X-Gm-Features: Ac12FXxeSzrBj0Om7A_DbdAZW0T_dZoOlSetiIHXJL2m-uuUM4A3nBgvnyjvK2w
-Message-ID: <CAHUa44H-CrwawWzMMGTG6qndK7iYnHK57ONYbJqMjOE=eiAsqQ@mail.gmail.com>
-Subject: Re: [PATCH v12 0/9] TEE subsystem for protected dma-buf allocations
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, 
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250911-add-displayport-support-for-qcs615-platform-v4-8-2702bdda14ed@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=H7Dbw/Yi c=1 sm=1 tr=0 ts=68c3f3a1 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=Prb7D_9PTKkpd4Urf3EA:9 a=CjuIK1q_8ugA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: Jt1Zn3-O1rLVdiBWGfBbBQjHIKvzV9m3
+X-Proofpoint-ORIG-GUID: Jt1Zn3-O1rLVdiBWGfBbBQjHIKvzV9m3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzOSBTYWx0ZWRfX88st0dDmzlZb
+ eA4/lJqvs/namKxA5eNej87/1UkuGItTiqUH0uCV5/XJrhCmQnH/DAm8zYL55iv4Mhd6hXmka8v
+ MjsM4bk4iMXsegzdWhTM+xyBpKEvSZR2E2rHBJ4NJ+klJNuS2LLluyTihCIBHBuCazLkfYg5MI1
+ tkzHZaO8wjU4ptLBfAxR5wFs0yWuqW8WoK2J+FfVuIxbeB4KR+RiQiDIG8cgMTPXAkFV4pHBMIp
+ BNEbGVTC0hJR6WiR9+5B9rT/Rl/DuUski/VVZdF2909dC8DUomoLbZuh4wgsh2cM0uBfPevlWBC
+ Y/kmwXqbxVN/s/6J3cs+XTyoPlB3/n+sOrpbeUuBXE7Iwniij5vP+eKqqkGZ70vSryijmzpPPmf
+ cmyjHBpK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_03,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060039
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,311 +138,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Sep 11, 2025 at 10:55:05PM +0800, Xiangxu Yin wrote:
+> Add USB/DP switchable PHY clock registration and DT parsing for DP offsets.
+> Extend qmp_usbc_register_clocks and clock provider logic to support both
+> USB and DP instances.
+> 
+> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 208 +++++++++++++++++++++++++++++--
+>  1 file changed, 195 insertions(+), 13 deletions(-)
+> 
+> @@ -1276,8 +1291,11 @@ static int phy_pipe_clk_register(struct qmp_usbc *qmp, struct device_node *np)
+>  
+>  	ret = of_property_read_string(np, "clock-output-names", &init.name);
+>  	if (ret) {
+> -		dev_err(qmp->dev, "%pOFn: No clock-output-names\n", np);
+> -		return ret;
+> +		char name[64];
+> +
+> +		/* Clock name is not mandatory. */
+> +		snprintf(name, sizeof(name), "%s::pipe_clk", dev_name(qmp->dev));
+> +		init.name = name;
+>  	}
 
-On Thu, Sep 11, 2025 at 3:50=E2=80=AFPM Jens Wiklander
-<jens.wiklander@linaro.org> wrote:
->
-> Hi,
->
-> This patch set allocates the protected DMA-bufs from a DMA-heap
-> instantiated from the TEE subsystem.
->
-> The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QTEE) which sets up the
-> protection for the memory used for the DMA-bufs.
->
-> The DMA-heap uses a protected memory pool provided by the backend TEE
-> driver, allowing it to choose how to allocate the protected physical
-> memory.
->
-> The allocated DMA-bufs must be imported with a new TEE_IOC_SHM_REGISTER_F=
-D
-> before they can be passed as arguments when requesting services from the
-> secure world.
->
-> Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> Recording) have been identified so far to serve as examples of what can b=
-e
-> expected. The use-cases have predefined DMA-heap names,
-> "protected,secure-video", "protected,trusted-ui", and
-> "protected,secure-video-record". The backend driver registers protected
-> memory pools for the use-cases it supports.
->
-> Each use-case has its own protected memory pool since different use-cases
-> require isolation from different parts of the system. A protected memory
-> pool can be based on a static carveout instantiated while probing the TEE
-> backend driver, or dynamically allocated from CMA (dma_alloc_pages()) and
-> made protected as needed by the TEE.
+Do we have any guarantees that memory for 'name' exists beyond this point?
 
-After the small update from v11, I'm picking up this and aiming for
-the next merge window.
+>  
+>  	init.ops = &clk_fixed_rate_ops;
+> @@ -1286,19 +1304,176 @@ static int phy_pipe_clk_register(struct qmp_usbc *qmp, struct device_node *np)
+>  	fixed->fixed_rate = 125000000;
+>  	fixed->hw.init = &init;
+>  
+> -	ret = devm_clk_hw_register(qmp->dev, &fixed->hw);
+> -	if (ret)
+> +	return devm_clk_hw_register(qmp->dev, &fixed->hw);
+> +}
+> +
+> +
+> +/*
+> + * Display Port PLL driver block diagram for branch clocks
+> + *
+> + *              +------------------------------+
+> + *              |         DP_VCO_CLK           |
+> + *              |                              |
+> + *              |    +-------------------+     |
+> + *              |    |   (DP PLL/VCO)    |     |
+> + *              |    +---------+---------+     |
+> + *              |              v               |
+> + *              |   +----------+-----------+   |
+> + *              |   | hsclk_divsel_clk_src |   |
+> + *              |   +----------+-----------+   |
+> + *              +------------------------------+
+> + *                              |
+> + *          +---------<---------v------------>----------+
+> + *          |                                           |
+> + * +--------v----------------+                          |
+> + * |    dp_phy_pll_link_clk  |                          |
+> + * |     link_clk            |                          |
+> + * +--------+----------------+                          |
+> + *          |                                           |
+> + *          |                                           |
+> + *          v                                           v
+> + * Input to DISPCC block                                |
+> + * for link clk, crypto clk                             |
+> + * and interface clock                                  |
+> + *                                                      |
+> + *                                                      |
+> + *      +--------<------------+-----------------+---<---+
+> + *      |                     |                 |
+> + * +----v---------+  +--------v-----+  +--------v------+
+> + * | vco_divided  |  | vco_divided  |  | vco_divided   |
+> + * |    _clk_src  |  |    _clk_src  |  |    _clk_src   |
+> + * |              |  |              |  |               |
+> + * |divsel_six    |  |  divsel_two  |  |  divsel_four  |
+> + * +-------+------+  +-----+--------+  +--------+------+
+> + *         |                 |                  |
+> + *         v---->----------v-------------<------v
+> + *                         |
+> + *              +----------+-----------------+
+> + *              |   dp_phy_pll_vco_div_clk   |
+> + *              +---------+------------------+
+> + *                        |
+> + *                        v
+> + *              Input to DISPCC block
+> + *              for DP pixel clock
+> + *
+> + */
+> +static int qmp_dp_pixel_clk_determine_rate(struct clk_hw *hw, struct clk_rate_request *req)
+> +{
+> +	switch (req->rate) {
+> +	case 1620000000UL / 2:
+> +	case 2700000000UL / 2:
+> +	/* 5.4 and 8.1 GHz are same link rate as 2.7GHz, i.e. div 4 and div 6 */
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static unsigned long qmp_dp_pixel_clk_recalc_rate(struct clk_hw *hw, unsigned long parent_rate)
+> +{
+> +	const struct qmp_usbc *qmp;
+> +	const struct phy_configure_opts_dp *dp_opts;
+> +
+> +	qmp = container_of(hw, struct qmp_usbc, dp_pixel_hw);
+> +
+> +	dp_opts = &qmp->dp_opts;
+> +
+> +	switch (dp_opts->link_rate) {
+> +	case 1620:
+> +		return 1620000000UL / 2;
+> +	case 2700:
+> +		return 2700000000UL / 2;
+> +	case 5400:
+> +		return 5400000000UL / 4;
 
-Thanks,
-Jens
+No HBR3 support? Then why was it mentioned few lines above?
 
->
-> This can be tested on a RockPi 4B+ with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m rockpi4.xml=
- \
->         -b prototype/sdp-v12
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make all -j$(nproc)
-> # Copy ../out/rockpi4.img to an SD card and boot the RockPi from that
-> # Connect a monitor to the RockPi
-> # login and at the prompt:
-> gst-launch-1.0 videotestsrc ! \
->         aesenc key=3D1f9423681beb9a79215820f6bda73d0f \
->                 iv=3De9aa8e834d8d70b7e0d254ff670dd718 serialize-iv=3Dtrue=
- ! \
->         aesdec key=3D1f9423681beb9a79215820f6bda73d0f ! \
->         kmssink
->
-> The aesdec module has been hacked to use an OP-TEE TA to decrypt the stre=
-am
-> into protected DMA-bufs which are consumed by the kmssink.
->
-> The primitive QEMU tests from previous patch sets can be tested on RockPi
-> in the same way using:
-> xtest --sdp-basic
->
-> The primitive tests are tested on QEMU with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml=
- \
->         -b prototype/sdp-v12
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make SPMC_AT_EL=3D1 all -j$(nproc)
-> make SPMC_AT_EL=3D1 run-only
-> # login and at the prompt:
-> xtest --sdp-basic
->
-> The SPMC_AT_EL=3D1 parameter configures the build with FF-A and an SPMC a=
-t
-> S-EL1 inside OP-TEE. The parameter can be changed to SPMC_AT_EL=3Dn to te=
-st
-> without FF-A using the original SMC ABI instead. Please remember to do
-> %make arm-tf-clean
-> for TF-A to be rebuilt properly using the new configuration.
->
-> https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> list dependencies required to build the above.
->
-> The primitive tests are pretty basic, mostly checking that a Trusted
-> Application in the secure world can access and manipulate the memory. The=
-re
-> are also some negative tests for out of bounds buffers, etc.
->
-> Thanks,
-> Jens
->
-> Changes since V11:
-> * In "dma-buf: dma-heap: export declared functions":
->   - use EXPORT_SYMBOL_NS_GPL()
->   - Added TJ's R-B and Sumit's Ack
-> * In "tee: implement protected DMA-heap", import the namespaces "DMA_BUF"
->   and "DMA_BUF_HEAP" as needed.
->
-> Changes since V10:
-> * Changed the new ABI OPTEE_MSG_CMD_GET_PROTMEM_CONFIG to report a list
->   of u32 memory attributes instead of u16 endpoints to make room for both
->   endpoint and access permissions in each entry.
-> * In "tee: new ioctl to a register tee_shm from a dmabuf file descriptor"=
-,
->   remove the unused path for DMA-bufs allocated by other means than the o=
-n
->   in the TEE SS.
-> * In "tee: implement protected DMA-heap", handle unloading of the
->   backend driver module implementing the heap. The heap is reference
->   counted and also calls tee_device_get() to guarantee that the module
->   remains available while the heap is instantiated.
-> * In "optee: support protected memory allocation", use
->   dma_coerce_mask_and_coherent() instead of open-coding the function.
-> * Added Sumit's R-B to
->   - "optee: smc abi: dynamic protected memory allocation"
->   - "optee: FF-A: dynamic protected memory allocation"
->   - "optee: support protected memory allocation"
->   - "tee: implement protected DMA-heap"
->   - "dma-buf: dma-heap: export declared functions"
->
-> Changes since V9:
-> * Adding Sumit's R-B to "optee: sync secure world ABI headers"
-> * Update commit message as requested for "dma-buf: dma-heap: export
->   declared functions".
-> * In "tee: implement protected DMA-heap":
->   - add the hidden config option TEE_DMABUF_HEAPS to tell if the TEE
->     subsystem can support DMA heaps
->   - add a pfn_valid() to check that the passed physical address can be
->     used by __pfn_to_page() and friends
->   - remove the memremap() call, the caller is should do that instead if
->     needed
-> * In "tee: add tee_shm_alloc_dma_mem()" guard the calls to
->   dma_alloc_pages() and dma_free_pages() with TEE_DMABUF_HEAPS to avoid
->   linking errors in some configurations
-> * In "optee: support protected memory allocation":
->   - add the hidden config option OPTEE_STATIC_PROTMEM_POOL to tell if the
->     driver can support a static protected memory pool
->   - optee_protmem_pool_init() is slightly refactored to make the patches
->     that follow easier
->   - Call devm_memremap() before calling tee_protmem_static_pool_alloc()
->
-> Changes since V8:
-> * Using dma_alloc_pages() instead of cma_alloc() so the direct dependency=
- on
->   CMA can be removed together with the patches
->   "cma: export cma_alloc() and cma_release()" and
->   "dma-contiguous: export dma_contiguous_default_area". The patch
-> * Renaming the patch "tee: add tee_shm_alloc_cma_phys_mem()" to
->   "tee: add tee_shm_alloc_dma_mem()"
-> * Setting DMA mask for the OP-TEE TEE device based on input from the secu=
-re
->   world instead of relying on the parent device so following patches are
->   removed: "tee: tee_device_alloc(): copy dma_mask from parent device" an=
-d
->   "optee: pass parent device to tee_device_alloc()".
-> * Adding Sumit Garg's R-B to "tee: refactor params_from_user()"
-> * In the patch "tee: implement protected DMA-heap", map the physical memo=
-ry
->   passed to tee_protmem_static_pool_alloc().
->
-> Changes since V7:
-> * Adding "dma-buf: dma-heap: export declared functions",
->   "cma: export cma_alloc() and cma_release()", and
->   "dma-contiguous: export dma_contiguous_default_area" to export the symb=
-ols
->   needed to keep the TEE subsystem as a load module.
-> * Removing CONFIG_TEE_DMABUF_HEAP and CONFIG_TEE_CMA since they aren't
->   needed any longer.
-> * Addressing review comments in "optee: sync secure world ABI headers"
-> * Better align protected memory pool initialization between the smc-abi a=
-nd
->   ffa-abi parts of the optee driver.
-> * Removing the patch "optee: account for direction while converting param=
-eters"
->
-> Changes since V6:
-> * Restricted memory is now known as protected memory since to use the sam=
-e
->   term as https://docs.vulkan.org/guide/latest/protected.html. Update all
->   patches to consistently use protected memory.
-> * In "tee: implement protected DMA-heap" add the hidden config option
->   TEE_DMABUF_HEAP to tell if the DMABUF_HEAPS functions are available
->   for the TEE subsystem
-> * Adding "tee: refactor params_from_user()", broken out from the patch
->   "tee: new ioctl to a register tee_shm from a dmabuf file descriptor"
-> * For "tee: new ioctl to a register tee_shm from a dmabuf file descriptor=
-":
->   - Update commit message to mention protected memory
->   - Remove and open code tee_shm_get_parent_shm() in param_from_user_memr=
-ef()
-> * In "tee: add tee_shm_alloc_cma_phys_mem" add the hidden config option
->   TEE_CMA to tell if the CMA functions are available for the TEE subsyste=
-m
-> * For "tee: tee_device_alloc(): copy dma_mask from parent device" and
->   "optee: pass parent device to tee_device_alloc", added
->   Reviewed-by: Sumit Garg <sumit.garg@kernel.org>
->
-> Changes since V5:
-> * Removing "tee: add restricted memory allocation" and
->   "tee: add TEE_IOC_RSTMEM_FD_INFO"
-> * Adding "tee: implement restricted DMA-heap",
->   "tee: new ioctl to a register tee_shm from a dmabuf file descriptor",
->   "tee: add tee_shm_alloc_cma_phys_mem()",
->   "optee: pass parent device to tee_device_alloc()", and
->   "tee: tee_device_alloc(): copy dma_mask from parent device"
-> * The two TEE driver OPs "rstmem_alloc()" and "rstmem_free()" are replace=
-d
->   with a struct tee_rstmem_pool abstraction.
-> * Replaced the the TEE_IOC_RSTMEM_ALLOC user space API with the DMA-heap =
-API
->
-> Changes since V4:
-> * Adding the patch "tee: add TEE_IOC_RSTMEM_FD_INFO" needed by the
->   GStreamer demo
-> * Removing the dummy CPU access and mmap functions from the dma_buf_ops
-> * Fixing a compile error in "optee: FF-A: dynamic restricted memory alloc=
-ation"
->   reported by kernel test robot <lkp@intel.com>
->
-> Changes since V3:
-> * Make the use_case and flags field in struct tee_shm u32's instead of
->   u16's
-> * Add more description for TEE_IOC_RSTMEM_ALLOC in the header file
-> * Import namespace DMA_BUF in module tee, reported by lkp@intel.com
-> * Added a note in the commit message for "optee: account for direction
->   while converting parameters" why it's needed
-> * Factor out dynamic restricted memory allocation from
->   "optee: support restricted memory allocation" into two new commits
->   "optee: FF-A: dynamic restricted memory allocation" and
->   "optee: smc abi: dynamic restricted memory allocation"
-> * Guard CMA usage with #ifdef CONFIG_CMA, effectively disabling dynamic
->   restricted memory allocate if CMA isn't configured
->
-> Changes since the V2 RFC:
-> * Based on v6.12
-> * Replaced the flags for SVP and Trusted UID memory with a u32 field with
->   unique id for each use case
-> * Added dynamic allocation of restricted memory pools
-> * Added OP-TEE ABI both with and without FF-A for dynamic restricted memo=
-ry
-> * Added support for FF-A with FFA_LEND
->
-> Changes since the V1 RFC:
-> * Based on v6.11
-> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALL=
-OC
->
-> Changes since Olivier's post [2]:
-> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
->   the generic restricted heap
-> * Simplifications and cleanup
-> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf he=
-ap
->   support"
-> * Replaced the word "secure" with "restricted" where applicable
->
-> Etienne Carriere (1):
->   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
->
-> Jens Wiklander (8):
->   optee: sync secure world ABI headers
->   dma-buf: dma-heap: export declared functions
->   tee: implement protected DMA-heap
->   tee: refactor params_from_user()
->   tee: add tee_shm_alloc_dma_mem()
->   optee: support protected memory allocation
->   optee: FF-A: dynamic protected memory allocation
->   optee: smc abi: dynamic protected memory allocation
->
->  drivers/dma-buf/dma-heap.c        |   4 +
->  drivers/tee/Kconfig               |   5 +
->  drivers/tee/Makefile              |   1 +
->  drivers/tee/optee/Kconfig         |   5 +
->  drivers/tee/optee/Makefile        |   1 +
->  drivers/tee/optee/core.c          |   7 +
->  drivers/tee/optee/ffa_abi.c       | 146 ++++++++-
->  drivers/tee/optee/optee_ffa.h     |  27 +-
->  drivers/tee/optee/optee_msg.h     |  84 ++++-
->  drivers/tee/optee/optee_private.h |  15 +-
->  drivers/tee/optee/optee_smc.h     |  37 ++-
->  drivers/tee/optee/protmem.c       | 335 ++++++++++++++++++++
->  drivers/tee/optee/smc_abi.c       | 141 ++++++++-
->  drivers/tee/tee_core.c            | 158 +++++++---
->  drivers/tee/tee_heap.c            | 500 ++++++++++++++++++++++++++++++
->  drivers/tee/tee_private.h         |  14 +
->  drivers/tee/tee_shm.c             | 157 +++++++++-
->  include/linux/tee_core.h          |  59 ++++
->  include/linux/tee_drv.h           |  10 +
->  include/uapi/linux/tee.h          |  31 ++
->  20 files changed, 1670 insertions(+), 67 deletions(-)
->  create mode 100644 drivers/tee/optee/protmem.c
->  create mode 100644 drivers/tee/tee_heap.c
->
->
-> base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-> --
-> 2.43.0
->
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+
+
+> +static int qmp_usbc_register_clocks(struct qmp_usbc *qmp, struct device_node *np)
+> +{
+> +	int ret;
+>  
+> -	ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, &fixed->hw);
+> +	ret = phy_pipe_clk_register(qmp, np);
+>  	if (ret)
+>  		return ret;
+>  
+> -	/*
+> -	 * Roll a devm action because the clock provider is the child node, but
+> -	 * the child node is not actually a device.
+> -	 */
+> -	return devm_add_action_or_reset(qmp->dev, phy_clk_release_provider, np);
+> +	if (qmp->dp_serdes != 0) {
+> +		ret = phy_dp_clks_register(qmp, np);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return devm_of_clk_add_hw_provider(qmp->dev, qmp_usbc_clks_hw_get, qmp);
+
+Do you understand what did the comment (that you've removed) say? And
+why?
+
+>  }
+>  
+>  #if IS_ENABLED(CONFIG_TYPEC)
+> @@ -1429,6 +1604,13 @@ static int qmp_usbc_parse_dt(struct qmp_usbc *qmp)
+>  	if (IS_ERR(base))
+>  		return PTR_ERR(base);
+>  
+> +	if (offs->dp_serdes != 0) {
+> +		qmp->dp_serdes = base + offs->dp_serdes;
+> +		qmp->dp_tx = base + offs->dp_txa;
+> +		qmp->dp_tx2 = base + offs->dp_txb;
+> +		qmp->dp_dp_phy = base + offs->dp_dp_phy;
+> +	}
+> +
+>  	qmp->serdes = base + offs->serdes;
+>  	qmp->pcs = base + offs->pcs;
+>  	if (offs->pcs_misc)
+> @@ -1537,7 +1719,7 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+>  	 */
+>  	pm_runtime_forbid(dev);
+>  
+> -	ret = phy_pipe_clk_register(qmp, np);
+> +	ret = qmp_usbc_register_clocks(qmp, np);
+>  	if (ret)
+>  		goto err_node_put;
+>  
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
