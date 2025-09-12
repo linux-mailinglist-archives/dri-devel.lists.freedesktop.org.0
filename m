@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE56B53F75
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 02:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B965B53FCF
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 03:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1DFD10E3F2;
-	Fri, 12 Sep 2025 00:17:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OjqTNAxt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7046010E010;
+	Fri, 12 Sep 2025 01:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 291B010E0D4;
- Fri, 12 Sep 2025 00:17:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B644D601AF;
- Fri, 12 Sep 2025 00:17:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3495CC4CEF0;
- Fri, 12 Sep 2025 00:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757636268;
- bh=3RZx3B3a93+MI3rsd0ttOFCVaCC1U6RzL2JzBz1Jvjw=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=OjqTNAxt50f5XtTfv85KO5HN1HlBi9MH3vAlSjjTkNouZX1gtx3eYnwtrPIsACsLu
- PaLPic86LE5liewv0KeBq5pK4XMOBF9k4u04ssU4U54Ej6brnT+zMjDfg+xorxDAf5
- azkVI7gCrlULUpw1x9Ul0SfI68rtMgabxaPQVVNcHLaKJOhAA7lf78EB2WV45HM1nA
- Fiu5c+G2qeZXM3avcvel2ePz456eBokzP09UnfgacWwKEUSxNWCH7mFiV35/hPCNGW
- 7nL4mesiQ7t3FHDI2etHlqvQwuWTzWFBk+G4P1xUPQRH9BHDJ2d57Tfu7ySEphKYxT
- ohfxeGuy2mEaA==
-Date: Thu, 11 Sep 2025 19:17:47 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03EBB10E010
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 01:23:09 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4cNGt84VvWz3tZXQ;
+ Fri, 12 Sep 2025 09:24:16 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+ by mail.maildlp.com (Postfix) with ESMTPS id 3DBB81A016C;
+ Fri, 12 Sep 2025 09:23:07 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 12 Sep 2025 09:23:06 +0800
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 12 Sep 2025 09:23:06 +0800
+Message-ID: <13b3f4d9-c8b4-445f-8f9e-a57a1fa2bbb5@huawei.com>
+Date: Fri, 12 Sep 2025 09:23:05 +0800
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- linux-arm-msm@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Conor Dooley <conor+dt@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: Abel Vesa <abel.vesa@linaro.org>
-In-Reply-To: <20250911-glymur-display-v1-3-d391a343292e@linaro.org>
-References: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
- <20250911-glymur-display-v1-3-d391a343292e@linaro.org>
-Message-Id: <175763620749.1187186.12529943530682570245.robh@kernel.org>
-Subject: Re: [PATCH 3/6] dt-bindings: display: msm: Document the Glymur
- DiplayPort controller
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <fengsheng5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250813094238.3722345-1-shiyongbang@huawei.com>
+ <20250813094238.3722345-3-shiyongbang@huawei.com>
+ <aayi7zjrmru2ancexrqmcutams6ohde3nrkhqacixwp45dsk4v@7ig6hqzahdxf>
+ <1dd93bb7-4f67-4b9b-8b6a-d7c5c77cf807@huawei.com>
+ <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+ <8bbfd02f-138d-420c-b456-10d0c913f46e@huawei.com>
+ <cdmtfluxqes3bv3t7suctbajp4jmpih6fhegkbf7mxvy4umzrd@rtpupear4el2>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <cdmtfluxqes3bv3t7suctbajp4jmpih6fhegkbf7mxvy4umzrd@rtpupear4el2>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +71,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 11 Sep 2025 15:28:50 +0300, Abel Vesa wrote:
-> Document the DisplayPort controller found in the Qualcomm Glymur SoC.
-> There are 4 controllers and their base addresses and layouts differ,
-> therefore being incompatible with all previous platforms.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+> On Thu, Sep 11, 2025 at 05:32:40PM +0800, Yongbang Shi wrote:
+>>> On Thu, Aug 14, 2025 at 08:19:41PM +0800, Yongbang Shi wrote:
+>>>>> On Wed, Aug 13, 2025 at 05:42:29PM +0800, Yongbang Shi wrote:
+>>>>>> From: Baihan Li <libaihan@huawei.com>
+>>>>>>
+>>>>>> The debouncing when HPD pulled out still remains sometimes, 200ms still can
+>>>>>> not ensure helper_detect() is correct. So add a flag to hold the sink
+>>>>>> status, and changed detect_ctx() functions by using flag to check status.
+>>>>> THis doesn't explain what is wrong with
+>>>>> drm_connector_helper_detect_from_ddc(). In the end, this function
+>>>>> doesn't use the HPD pin.
+>>>> I'm sorry about the misunderstanding.
+>>>> The issue is that after plugging or unplugging the monitor, the driver takes no action sometimes
+>>>> even though an interrupt is triggered. The root cause is that drm_connector_helper_detect_from_ddc()
+>>>> still returns connected status when the monitor is unplugged.
+>>>> And I will fix the way in the end.
+>>> Can you perform a normal DP detection: read DPCD and check that there is
+>>> a DPRX attached and that it's either non-branch device or it has one or
+>>> more sinks?
+>> I'm very sorry that I didn't get the last sentence's asking before.
+>> It's a non-branch device. We just connect a DP monitor.
+> Somebody might connect a different configuration than the one that you
+> are using.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Okay, I can add the check drm_dp_is_branch() in the DP's detect_ctx() to
+intercept branch devices, is that good?
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.example.dtb: displayport-controller@ae90000 (qcom,glymur-dp): reg: [[0, 183042048], [0, 512], [0, 183042560], [0, 512], [0, 183043072], [0, 1536], [0, 183046144], [0, 1024], [0, 183047168], [0, 1024]] is too long
-	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.example.dtb: displayport-controller@ae90000 (qcom,glymur-dp): reg: [[0, 183042048], [0, 512], [0, 183042560], [0, 512], [0, 183043072], [0, 1536], [0, 183046144], [0, 1024], [0, 183047168], [0, 1024]] is too long
-	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250911-glymur-display-v1-3-d391a343292e@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Thanks,
+Baihan Li
 
