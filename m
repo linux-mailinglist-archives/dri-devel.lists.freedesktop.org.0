@@ -2,80 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F70CB54EBD
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 15:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6228CB54EC1
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 15:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1367110E242;
-	Fri, 12 Sep 2025 13:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4FD10E39A;
+	Fri, 12 Sep 2025 13:07:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DJTicBXg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gKdalkHu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1832210E1C7
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 13:06:19 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-323266cd073so184788a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:06:19 -0700 (PDT)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5285810E39A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 13:07:21 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-251ace3e7caso23955825ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757682378; x=1758287178; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ckr1nOupG/FHOX87n/x1D8vzmImJQCNO14BvHg2YgKk=;
- b=DJTicBXgUH25m/7/MIxdE90DAmrrZMayG8Dc1oCI2pdbloVZGU6mKnh2W0tdH0XDsZ
- xX93GTxrENlwlKXCsMvuN9kVmWYfLwsZUMdP5nhIjBNIcyksXvZraxbhHQDsmzKCsRlE
- 5oOSt++MxM6lUfHzRunHyopvOC8GPQzuTACT8DhkLX64DMpJn9mebqP6wBH6focCYAkx
- LKz50l2riVp4sqr/z0J4rqhw7zx73ANbTPP6NnwJ/AwhGzSdkax51cVotm1tfs4ihCVW
- gNTtC+0raf/Ynv2lJ81QXkPEmwSzJYRF80RW9YGrFpA6oworpzJdIDF0uLj+XC4sJ/R3
- pVLQ==
+ d=gmail.com; s=20230601; t=1757682441; x=1758287241; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
+ b=gKdalkHuIum1FddJMafacSF15nVgRQQPWwn1pB2FIv7pxKEF+zioSZ0xeKSmRJj+8I
+ 5jbChF8W9CgG8qb5qhMQCVRU4zt9P0Apnou6UeaQaBOwfKCOtBA5AHZndyL+auqMX2RR
+ EawA5rVhd1ho+ON/F/sCFaVyyS2qoxR7U1kO756vg9tHJry0ohDNyEmXpybH7eUo7GEn
+ HdfoVAnRhyFobRGPzfa0D0VkWSNOZadipQzfxmIjXnbsauk+7dIUIvi6a09FqHp/B6d4
+ bNBW/gbCYIPALemZUBvVmaBMdPx9ldsQjnDRHbDpY1U4tzbS7sxoCE7yxcjLbTsFjUEB
+ gCQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757682378; x=1758287178;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ckr1nOupG/FHOX87n/x1D8vzmImJQCNO14BvHg2YgKk=;
- b=rKbqZx9YSle2O9dDxfD5lZxWAGQQxjQx2RwWYTt2WCcr2lQIOGTJMd2GqUy+0cbPfw
- iZpHMQ/FnL6HPzXBc3uPoNuGQsS9Zc0xFKlTBPd+vNWBx+EYyeLn4Ujk9dWYPFKwIrgd
- yXpQopBfXm+XFPH8Lt0igsV8nqOTl8fMt88eASovuMbecJ0f5Ahbpu65ZxTL4xb2q5Ue
- JAlW3gjYOWc/YCxDyEIHrYya/zkbBO1TRGeZom7xs4P7ttcTqgX+E5w9JdnXhpdJoa7L
- /4M45bbXY/SpkRQQKIG0t6bEq19iFI1sZ1HmzSZKLY/e4u7JL4z9UiMXTsVmf/Ymnl0U
- hprw==
+ d=1e100.net; s=20230601; t=1757682441; x=1758287241;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x544GYJay0OImzEkLS/doW76Om1NP9OFkc47rJ1bRQg=;
+ b=cRx4x3HzsZz4Ack1AJcEqMD7jUbfavWOiDVo3WbtpaFYd0jcFwjr8d6TxxdWZEhI1k
+ EK6Ke9SMzqeRGTU87AkWSUsA3e4uLOi9akuo2CMudInzGG/qUXklz+00cjfC0RzYDKL/
+ PXdsTx5wgMGhVoI9t+LjS0JbD2WasltN82kanZvRXGKIJ2j19GNSZ+UFqGCdR6k9vNgm
+ Vi6r+0k5ciL6Y3L9Y6tHJC7cymVNutu538NSqYFN3tpCu4glly0NAoZf/kRb+U9Sy3Ru
+ bfNDKd0GGbjkjjPiLo8BGwEdNQNZGavyTXHWF34qdGgZHZoYVoXomLj8DlMFEfjdliIz
+ qW6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0XVNgFYy5EbexkhIM61oq6AxfuV/h/Bn+s2fVqhuY9CBjsiX2ZgbhsBquie/83Gt0IMg07GnMncY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/D/efapBykAhH1DizYxD3FCaCqHENVv5/7Rns8sBIOGtED4PM
- H2vxhmpXYZ0D2mni8Vagxxeiy+JdkO8CKOki9r1J7Kp2i60NWzKies4W43WcNPUV53OGFz50NAT
- 4rjojgnh9r8ZZUZN+atxFSZg5pEimTWs=
-X-Gm-Gg: ASbGncvIqy8JYfI1vxbrq7oTReOY61iVNR7cgs0nSOP5UVq/h5M3XahH3buQLSmH3nV
- zxcZGucHkB2TcKySC30aRCW14gqB1wN/gGchfcY/oCqhxAFdrirUT0RiB0ibYEWGqBCkZEQstxp
- lpIDcb4gen50wkRRzcQvLQsPhuSqJq63P0u/nJ7CRVRlRtORdlpP5sSqKWdcdMUNqsmYOHVNSnX
- 0MI9KHNpQf5SsvZZg==
-X-Google-Smtp-Source: AGHT+IGTTvtC1IuLrcY8b4AvWUeugef+D6CmgxiovRG+v0ayfpqmLzCTs+HKBKHE/plPyLUKu92jZlW/yTLM+LNCrgY=
-X-Received: by 2002:a17:90b:3b84:b0:32b:bc5c:85b2 with SMTP id
- 98e67ed59e1d1-32de4e69e6emr2013081a91.2.1757682378471; Fri, 12 Sep 2025
- 06:06:18 -0700 (PDT)
+ AJvYcCWLTVw/XXIkMUJmX+BcbLs5+S5xDuk/INeY/FlQn5BApI0IZ/3dGXPmW0dtqSZLnqfwNy06d2V256I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzfhdbag5GKslWo1pChL8XUtUrh/2y9gx2A5Ff2ALrAxSbL3EOR
+ tWeDo0YxXSlv4zavpBLCGLxEv/e+JiBzf+qg9z0Kn1clXE/+ksS+7cJV
+X-Gm-Gg: ASbGncvjdRVFZ5CNjse1rWhtb9MXiY6fn57tioz/xNc0Fw9T3Pi/JPEo57he+IZixPO
+ Mo+RXH6eUl3mWRVSkbZg1icEaMDeVS6ZB3iPYUcmSgchlrnT+H7LXKqGYSN5V8tc7EQX5OCwC96
+ aLEdsCybLapRxTjHzJuiO2iHfDbTnWhhA8fDeiMJQ93g/mBKCq5V/cqHx6S1yWXHKe39iJxE+7t
+ 2yVlpkynYcXiHVgyz7MmmNcT4hXNqiM5fVm0inRvuBy2FgzGK/JS169Vo4hMM57kV7+lFTgWNkt
+ 5CZfTLqhpR1XW71hoyMkoqr1PMqMLLIYxapfzkib6as4NrhQbWQNjAJv2EeD7W6AbZISEai/vgp
+ Ho0vkHBact49uh759n79ZMpqBVFi+KX7sFh5B
+X-Google-Smtp-Source: AGHT+IFNtOF9483lJqZ0eCDuywtMNSA4/x1QrNPIz5w6iEwUoJ0MCDnna++VYIfN2AunXMyW/zkq8A==
+X-Received: by 2002:a17:903:144f:b0:251:19e0:2805 with SMTP id
+ d9443c01a7336-25d27922652mr33876225ad.55.1757682440563; 
+ Fri, 12 Sep 2025 06:07:20 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-25c3b307225sm49207635ad.145.2025.09.12.06.07.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Sep 2025 06:07:19 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id AA34441FA3A0; Fri, 12 Sep 2025 20:07:16 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Javier Garcia <rampxxxx@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] Revert "drm: Add directive to format code in comment"
+Date: Fri, 12 Sep 2025 20:06:50 +0700
+Message-ID: <20250912130649.27623-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-References: <20250909151146.760450-2-thorsten.blum@linux.dev>
- <CADnq5_MFDZdJg3XFFw9+tWB=_LP47PwE3HXgPK=sryOx+_0wGQ@mail.gmail.com>
- <FED6FFD1-2C51-45F4-BF34-76484C415C83@linux.dev>
-In-Reply-To: <FED6FFD1-2C51-45F4-BF34-76484C415C83@linux.dev>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 12 Sep 2025 09:06:07 -0400
-X-Gm-Features: Ac12FXwJwCDZ_BVgzYuq56yoU1VX5uqBys40Ob0J7ZAD0NdiVqJ_P3OSul7PJJI
-Message-ID: <CADnq5_NXCEFH6V_m0nvEqHU6tOhjUZ-ExSRb93Hi=7qxDAo6Vg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: Replace kmalloc + copy_from_user with
- memdup_user
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1345; i=bagasdotme@gmail.com;
+ h=from:subject; bh=m4qhwnsry/SWycpMdOHNFZlNWW6x4f1W26dSGmgsJ6o=;
+ b=kA0DAAoW9rmJSVVRTqMByyZiAGjEGlKhXlw/mPScHOQuMTJJKb9msLDKVjN5d75gGJeg1FAW4
+ Ih1BAAWCgAdFiEEkmEOgsu6MhTQh61B9rmJSVVRTqMFAmjEGlIACgkQ9rmJSVVRTqNraQD9G99e
+ 9SXsT9d6z3iT9FNmQBBdwBmkS2WzrDYbjm1fbCgBANgvs+XgMdf6dSl9lCQ5vHWWgIoppY6NPRZ
+ zWj/mPL4M
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
+ fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 12, 2025 at 8:48=E2=80=AFAM Thorsten Blum <thorsten.blum@linux.=
-dev> wrote:
->
-> Hi Alex,
->
-> On 9. Sep 2025, at 17:35, Alex Deucher wrote:
-> > Applied.  Thanks!
-> >
-> > On Tue, Sep 9, 2025 at 11:29=E2=80=AFAM Thorsten Blum <thorsten.blum@li=
-nux.dev> wrote:
-> >>
-> >> Replace kmalloc() followed by copy_from_user() with memdup_user() to
-> >> improve and simplify kfd_criu_restore_queue().
-> >>
-> >> No functional changes intended.
-> >>
-> >> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> >> ---
->
-> I just learned that calling kfree() on an error pointer doesn't work, so
-> this patch should probably be reverted/not applied.
+Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
+fixes original Sphinx indentation warning as introduced in
+471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
+code-block:: directive. It semantically conflicts with earlier
+bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+usage in literal code block") that did the same using double colon
+syntax instead. These duplicated literal code block directives causes
+the original warnings not being fixed.
 
-Thanks for the heads up.
+Revert 6cc44e9618f03f to keep things rolling without these warnings.
 
-Alex
+Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
+Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ drivers/gpu/drm/drm_gpuvm.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+index db9b089ef62c85..86853535fb7bd7 100644
+--- a/drivers/gpu/drm/drm_gpuvm.c
++++ b/drivers/gpu/drm/drm_gpuvm.c
+@@ -2432,8 +2432,6 @@ static const struct drm_gpuvm_ops lock_ops = {
+  *
+  * The expected usage is::
+  *
+- * .. code-block:: c
+- *
+  *    vm_bind {
+  *        struct drm_exec exec;
+  *
+
+base-commit: 9a3f210737e958c3f45a4ce0d7f1ff330af3965f
+-- 
+An old man doll... just what I always wanted! - Clara
+
