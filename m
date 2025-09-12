@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79113B5425E
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1583FB54269
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:06:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93EF210E00C;
-	Fri, 12 Sep 2025 06:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5EA10E077;
+	Fri, 12 Sep 2025 06:06:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TxKoFpDr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EJFK7rGz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD9910E00C;
- Fri, 12 Sep 2025 06:00:32 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB81D10E077
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:06:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 79E24446EB;
- Fri, 12 Sep 2025 06:00:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5DBEC4CEF5;
- Fri, 12 Sep 2025 06:00:31 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C9573601AE;
+ Fri, 12 Sep 2025 06:06:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2BBC4CEF4;
+ Fri, 12 Sep 2025 06:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757656832;
- bh=v4F9JXeXoDv8M2AHsm7GiMN3NHjj+IJJfmf7gY+kOPA=;
+ s=k20201202; t=1757657202;
+ bh=nF4lItlwYcOfTnssRbtSp09OmwNC56e9ezNLiwIkcKE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TxKoFpDrAkTjpyVvitwqALhrpQZYxK5MQDbefo8bGptTHAi2jXkBX4ELzNu4oSxvw
- Z9fGvsEB8vEk9IzHTNdhfwVBHAamZ/D7M2x3fe6CHnjYFho4Stpv0MiIEvtuhcqQfJ
- /41nnd9QTTvbjjFBkVtbm6zM451fsK50ozhFgFQnQIZ7FOPDStok4BSZH5LeoKMvo1
- Tr/ZQL3daoXn2mZDEj6aNhGyw+jbCbkgEqRjEmInE+N4+/SkTcdpNOKSJQevjWWFNR
- T4tUhG3u3KFhk29dNSTpUt27FB/M1j4FAm+pDoc/pu7+rBZLrEkHi3F/fFAlqtbMhN
- 2E7Jqp3I2IDbQ==
-Date: Fri, 12 Sep 2025 08:00:29 +0200
+ b=EJFK7rGzhfob+IekXtskHBj9H3/tlwfA5r6OsrA5/XqgADcxCkFG+wxRo3MQJ6Hj+
+ e/nziZ9YO9zrEXEVmQwbi4lLgZH+TF9EK7O+x4jucMkwIMQWkaCZ8HpJy4f2jGu+dx
+ GS7rYRGpg1nUATgMZlpUSlxYRolA2Gy41lBuh64hjod/AW9zpbR5J+RHwbCpLg3UOi
+ 6osILbswgGibrPTlCzKfqtVQlaQkt2/YHx8TWlkhdpizWmi89w9OMb3VSD4DxrVVZK
+ ptWCx0Yw3lHjI8ztpwlRCRfDvNiunmUZCKtdQrmz0KV+KNxpim8XEq3dgfzQ8jSwrM
+ 1klI6eVNRA0gA==
+Date: Fri, 12 Sep 2025 08:06:39 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] dt-bindings: display: msm: Document the Glymur
- Display Processing Unit
-Message-ID: <20250912-premium-beluga-of-reverence-7fbdcd@kuoka>
-References: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
- <20250911-glymur-display-v1-2-d391a343292e@linaro.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, 
+ chunkuang.hu@kernel.org, conor+dt@kernel.org, davem@davemloft.net, 
+ dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com,
+ heiko@sntech.de, 
+ houlong.wei@mediatek.com, jeesw@melfas.com, kernel@collabora.com,
+ krzk+dt@kernel.org, 
+ kuba@kernel.org, lgirdwood@gmail.com, linus.walleij@linaro.org, 
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, 
+ marcel@holtmann.org, matthias.bgg@gmail.com, mchehab@kernel.org, 
+ minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de,
+ pabeni@redhat.com, 
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
+ yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+ bindings to DT schema
+Message-ID: <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-2-ariel.dalessandro@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911-glymur-display-v1-2-d391a343292e@linaro.org>
+In-Reply-To: <20250911151001.108744-2-ariel.dalessandro@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +81,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 03:28:49PM +0300, Abel Vesa wrote:
-> Add DPU for Qualcomm Glymur SoC which has very few changes compared
-> to SM8750, just enough to make them incompatible.
+On Thu, Sep 11, 2025 at 12:09:50PM -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data
+> Path to a DT schema.
 > 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > ---
->  Documentation/devicetree/bindings/display/msm/qcom,sm8650-dpu.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 ++++++++++++++++++
+>  .../bindings/media/mediatek-mdp.txt           |  95 ----------
+>  2 files changed, 169 insertions(+), 95 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+> new file mode 100644
+> index 0000000000000..8ca33a733c478
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MT8173 Media Data Path
+> +
+> +maintainers:
+> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> +
+> +description:
+> +  Media Data Path is used for scaling and color space conversion.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - mediatek,mt8173-mdp-rdma
+> +          - mediatek,mt8173-mdp-rsz
+> +          - mediatek,mt8173-mdp-wdma
+> +          - mediatek,mt8173-mdp-wrot
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Why there is no mediatek,mt8173-mdp here? What does this compatible
+represent?
+
+> +      - items:
+> +          - const: mediatek,mt8173-mdp-rdma
+
+Still suspicious. Device cannot be simulatanously: compatible and not
+compatible. This is not a well known cat that has superposition of two
+states, whenenver you look the other way.
+
+Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
+Whichever the reason, this must be investigated and documented, because
+by standard rules this is wrong. Each wrong code needs very clear
+explanations (and "someone did it" is not a good enough explanation).
+
+> +          - const: mediatek,mt8173-mdp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  mediatek,vpu:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to Mediatek Video Processor Unit for HW Codec encode/decode and
+> +      image processing.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8173-mdp-rdma
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Main clock
+> +            - description: Mutex clock
+> +    else:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Main clock
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mt8173-mdp-rdma
+> +              - mediatek,mt8173-mdp-wdma
+> +              - mediatek,mt8173-mdp-wrot
+> +    then:
+> +      required:
+> +        - iommus
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8173-mdp
+> +    then:
+> +      required:
+> +        - mediatek,vpu
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8173-clk.h>
+> +    #include <dt-bindings/memory/mt8173-larb-port.h>
+> +    #include <dt-bindings/power/mt8173-power.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        mdp_rdma0: rdma@14001000 {
+> +            compatible = "mediatek,mt8173-mdp-rdma",
+> +                         "mediatek,mt8173-mdp";
+> +            reg = <0 0x14001000 0 0x1000>;
+> +            clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +                     <&mmsys CLK_MM_MUTEX_32K>;
+> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+> +            iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+> +            mediatek,vpu = <&vpu>;
+> +        };
+> +
+> +        mdp_rdma1: rdma@14002000 {
+> +            compatible = "mediatek,mt8173-mdp-rdma";
+> +            reg = <0 0x14002000 0 0x1000>;
+> +            clocks = <&mmsys CLK_MM_MDP_RDMA1>,
+> +                     <&mmsys CLK_MM_MUTEX_32K>;
+> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+> +            iommus = <&iommu M4U_PORT_MDP_RDMA1>;
+> +        };
+
+My previous comment applies.
+
+Keep one or two examples.
 
 Best regards,
 Krzysztof
