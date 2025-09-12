@@ -2,159 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EADB546D9
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 11:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD2DB54794
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 11:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D5610E18C;
-	Fri, 12 Sep 2025 09:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F42910E037;
+	Fri, 12 Sep 2025 09:31:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JIgFH+24";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oDl2A0LO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7644010E18C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 09:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757668811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+MzP8ZtzjuFzx7no/Z95bzESB3nOqylto37d5k77ugs=;
- b=JIgFH+24Jj9eHdrh2r65d4whFVGZufAQ+j/FAkutV92PVhRkzAHJ/yOY9JZlTRpjm/wZP+
- iI0RcanYPQB1SnWjvfJyidjhtEzVKNdvgvttpHrxhp2+8sgwGefP2R0jmvx5SAgyJ8SQpi
- bp6NwxNeonrlymbSvAQc+16C0KSL26Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-axX2bRFgM_OQIBXqMawpGw-1; Fri, 12 Sep 2025 05:20:09 -0400
-X-MC-Unique: axX2bRFgM_OQIBXqMawpGw-1
-X-Mimecast-MFC-AGG-ID: axX2bRFgM_OQIBXqMawpGw_1757668808
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-45deddf34b9so15921885e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 02:20:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757668808; x=1758273608;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+MzP8ZtzjuFzx7no/Z95bzESB3nOqylto37d5k77ugs=;
- b=QodSiPwwTu8A5rB3kT3Zy8c4QkRWY9DONXqaAr/kA7C6HjBJIFUlTl4mUdqdYTyc0e
- q+Vdus5eIgsVtYXzW00rcwx5HgcPx7CBktkodteEAACWtNb4E78J2vp7ijzwUt4zBRea
- WO8406wDYJokBS6+7vjFfCCl71SjNMDq7H9daYFJ7GGCKwmWAkWT6yVZj3daDvlc2FTn
- 3lOxXujW4f0IbSR/8K3LhYOglVX7f9GC4fspQkV2oiwGDBZkOz099/t3gXQeEIv42IIn
- CVOCpa6FCo5Yn50PvLTsrZr6pEKkCl75B4oWUVFOk0iJiJc5mwnI/gigkFpMMu9DuSTP
- 14PA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUw+IUilztuPFSVsjd1AN7zObZ2CpeJKVZAlrVc8CIUpV+YtmD1EJWZ5KHZA5+XJ4V0rLnI9zLyEjI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWFzty4olyx2/kbm1Jdp9YKV35ukrZBsm7vG2kr2KM+bG7pJR6
- 4ul99Y3y6kGRzipBKVmfebsqs1JPdGRj2AO0Lbkt5qEcW3xI0U3ZOlPD36zUp/aCcRgHVqhTwE/
- 2HhjUOA4+OBcj6WtgJ2cOrNYyM0CI4u5hvqHwdt92Z9pitCG1WPmIVxcKPzAFY6nFmXLHnA==
-X-Gm-Gg: ASbGncvhQOMjw7JfD3bYhO19N/X5nZHFnWmsTT13X9NZENnHnsoKretFCmSwUlYf0+X
- s8aixteB/5qjTNJWd6UbekG/U6QIMj73cclu8woONlpsp7jx8GOxNeKf3Sy4CEYRLq3tWq7YuWU
- bPNXx37OO1JLaZEG4aV2Lf9ACOBFrGUmlIMcLG3i0Q27l8Mzx0RJVRweEwPfVi+Tntn0howIA5j
- +oJwGWjVXrSjA96wH0QVWOMjUWkSQusDpXBpCl1GJ1vibdK1H/teHSQlRsJ/9UUaAhHyqjviISs
- MfxhuCBHGcWLsZIfrmIsZ9M6L/mzklLo3sp5/yQ2JPF7RrJTcem+Aaav+NuvZfIcANTuiys0nEi
- dbOCFbO/b6IZ//z2BRrjDnmPd4uHuHMsXFUL08Q3El1etP/mYPBgmxovd4bzU5O6WRoM=
-X-Received: by 2002:a05:600c:c112:b0:45b:9b9f:88cb with SMTP id
- 5b1f17b1804b1-45dfd5fa22amr49779875e9.16.1757668808481; 
- Fri, 12 Sep 2025 02:20:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGXkEspv+20MlFbesTl37GXWHbZfquxB4ih7Dl0E1NZ+jD5GQeintUf727ez0VnQ0g0eWxksw==
-X-Received: by 2002:a05:600c:c112:b0:45b:9b9f:88cb with SMTP id
- 5b1f17b1804b1-45dfd5fa22amr49779515e9.16.1757668808019; 
- Fri, 12 Sep 2025 02:20:08 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f20:da00:b70a:d502:3b51:1f2d?
- (p200300d82f20da00b70ad5023b511f2d.dip0.t-ipconnect.de.
- [2003:d8:2f20:da00:b70a:d502:3b51:1f2d])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e0156c64bsm58222385e9.2.2025.09.12.02.20.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 02:20:06 -0700 (PDT)
-Message-ID: <3674bdb2-0e59-4f0d-8adf-4794a6db546c@redhat.com>
-Date: Fri, 12 Sep 2025 11:20:03 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA66310E037
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 09:31:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AD18860200;
+ Fri, 12 Sep 2025 09:31:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB683C4CEF1;
+ Fri, 12 Sep 2025 09:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757669506;
+ bh=cZZSj/PLAmvPikniIesMdJfhqh3VOpUH71TpGrecZ8M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oDl2A0LOXO/1X2zNKv7aRnP0NHdkbAsbDDgwtZzvwmo12fpeFM2E3/tK2+Vtp6jDf
+ LtHjqH3FhqX9XCd49ZEoi9d2wFua1A1xl2NpXDXII2TJgNe2FaEGcY3H9R3K+d/kSk
+ i5GbpzjLt0Me2HD69Wbc5uGIc3TwgDS6JZFlUf4XXoZCI/2uPJn9w8cEPAn3NjkatI
+ mrNqigkcd6DbPU1UEsK3MA+M2bqLjMfjb8ArXgRSIyAq3CjGnxkE8s7LGICh/mIf7j
+ 5pUu4Qe144CAGGymifmDXQ3yvwNpleByOIrvrEZ2XoQVUNyLe8+LbR96tJeBNXKw/y
+ Se8H2lBXfymbQ==
+Date: Fri, 12 Sep 2025 11:31:43 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>, 
+ van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+ Michael Turquette <mturquette@baylibre.com>,
+ Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-bluetooth@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org, 
+ linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+Message-ID: <ahxdf3l6zvmjp2nlgklg3go7biaimuz7qh5upnhohrrbrg62e6@gmi3pmbccwwe>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
- folios
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250908000448.180088-1-balbirs@nvidia.com>
- <20250908000448.180088-2-balbirs@nvidia.com>
- <8c5267ec-cc85-4eff-b890-eb705472e2b2@redhat.com>
- <f98d3149-9cc1-4211-af8f-e49547134b8c@nvidia.com>
- <244005a2-4796-4985-853e-f916bdfd096a@redhat.com>
- <ce40579b-4ded-473b-8fdb-a41d5b5021d5@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ce40579b-4ded-473b-8fdb-a41d5b5021d5@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: lP-JnwP0OdJBsHg-IcNFCPbSMndUYnUsiAE0lkkGMqA_1757668808
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="hd4ybrkt7tr5jevb"
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-20-507ba4c4b98e@jannau.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,72 +96,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.09.25 06:49, Balbir Singh wrote:
-> On 9/11/25 22:52, David Hildenbrand wrote:
->> On 11.09.25 14:49, Balbir Singh wrote:
->>> On 9/11/25 21:45, David Hildenbrand wrote:
->>>> On 08.09.25 02:04, Balbir Singh wrote:
->>>>> Add routines to support allocation of large order zone device folios
->>>>> and helper functions for zone device folios, to check if a folio is
->>>>> device private and helpers for setting zone device data.
->>>>>
->>>>> When large folios are used, the existing page_free() callback in
->>>>> pgmap is called when the folio is freed, this is true for both
->>>>> PAGE_SIZE and higher order pages.
->>>>>
->>>>> Zone device private large folios do not support deferred split and
->>>>> scan like normal THP folios.
->>>>>
->>>>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>>>> Cc: David Hildenbrand <david@redhat.com>
->>>>> Cc: Zi Yan <ziy@nvidia.com>
->>>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->>>>> Cc: Rakie Kim <rakie.kim@sk.com>
->>>>> Cc: Byungchul Park <byungchul@sk.com>
->>>>> Cc: Gregory Price <gourry@gourry.net>
->>>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->>>>> Cc: Alistair Popple <apopple@nvidia.com>
->>>>> Cc: Oscar Salvador <osalvador@suse.de>
->>>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>>>> Cc: Nico Pache <npache@redhat.com>
->>>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>>>> Cc: Dev Jain <dev.jain@arm.com>
->>>>> Cc: Barry Song <baohua@kernel.org>
->>>>> Cc: Lyude Paul <lyude@redhat.com>
->>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>> Cc: David Airlie <airlied@gmail.com>
->>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>>>> Cc: Mika Penttilä <mpenttil@redhat.com>
->>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>> Cc: Francois Dugast <francois.dugast@intel.com>
->>>>>
->>>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->>>>> ---
->>>>
->>>> You missed my comments of this patch in v3.
->>>>
->>>
->>> Hi, David
->>>
->>> Looks I missed your comments, just checked those were largely about alignment and
->>> integrating the code for DEVICE_COHERENT and DEVICE_PRIVATE cases into similar looking
->>> bits for zone device folio free and code-alignment. I'll take a look and update as needed.
->>
->> Yes, and the confusing folio->mapping = NULL that I cannot connect to THP support.
->>
-> 
-> I can remove that, let me reunify those bits, seems relatively straight forward
 
-BTW, I was wondering when we invalidate folio_test_anon() by clearing 
-folio->mapping int he current code flow?
+--hd4ybrkt7tr5jevb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 20/37] dt-bindings: pwm: apple,s5l-fpwm: Add t6020-fpwm
+ compatible
+MIME-Version: 1.0
 
-I mean, this must happen at some point when freeing device folios.
+Hello,
 
--- 
-Cheers
+On Thu, Aug 28, 2025 at 04:01:39PM +0200, Janne Grunau wrote:
+> The PWM controller on Apple's M2 Pro/Max SoCs behaves in the same way as
+> on previous M1 and M2 SoCs. Add its per SoC compatible.
+>=20
+> At the same time fix the order of existing entries. The sort order logic
+> is having SoC numeric code families in release order, and SoCs within
+> each family in release order:
+>=20
+> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>   - t8103 (Apple H13G/M1)
+>   - t8112 (Apple H14G/M2)
+> - t6xxx (Apple HxxJ series, "desktop" chips)
+>   - t6000/t6001/t6002 (Apple H13J(S/C/D) / M1 Pro/Max/Ultra)
+>   - t6020/t6021/t6022 (Apple H14J(S/C/D) / M2 Pro/Max/Ultra)
+>=20
+> Note that SoCs of the t600[0-2] / t602[0-2] family share the
+> t6000 / t6020 compatible where the hardware is 100% compatible, which is
+> usually the case in this highly related set of SoCs.
+>=20
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/=
+Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> index 142157bff0cd851c85fbf0132d734d470c5a0761..04519b0c581d0e9fb1ae6aa21=
+9a4e850027de6a2 100644
+> --- a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+> @@ -17,8 +17,9 @@ properties:
+>      items:
+>        - enum:
+>            - apple,t8103-fpwm
+> -          - apple,t6000-fpwm
+>            - apple,t8112-fpwm
+> +          - apple,t6000-fpwm
+> +          - apple,t6020-fpwm
+>        - const: apple,s5l-fpwm
+> =20
+>    reg:
 
-David / dhildenb
+The patch is fine for me. There was no merge plan sketched out in the
+cover letter and I don't spot any dependencies this patch is a part of.
+So I applied this patch to
 
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
+-next
+
+as 6.18-rc1 material.
+
+Best regards
+Uwe
+
+--hd4ybrkt7tr5jevb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmjD6HwACgkQj4D7WH0S
+/k5dDwf/ZhdoZ04wcFscsQjfQPV9sY5Kzs8OxPgL+m4AV85SDwzSuZybeACCfsL2
+U+r2uMlK/Q21DJwXbTJjmnyAe19XWYtcvtUfKd50OAsoPnpijd6XN/VzkpPwSI1v
+MM1rZmYLCNhucLOPo87uqSwtHmOGOiHGefUgolr3pa9kl2VjNfe2U9byQTQegxaK
+CxeDN6bZEPo8n7PoU1mmnwFDouEZD1xzQt3FdvPpL2XORk2Ye5r89n1q02uTLbkj
+EsQ7IOSbpp2UDyIkxF0ESV6nWtpLn7AIB0rNABUH7JZA9FQ29vzAc9a3FRiLJsUa
+2cvxXsdWOdhpncFiR4L1mRq39BoLAQ==
+=7x/6
+-----END PGP SIGNATURE-----
+
+--hd4ybrkt7tr5jevb--
