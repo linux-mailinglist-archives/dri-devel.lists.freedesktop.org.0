@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1807B54239
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 07:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91F9B5424D
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 07:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA30010E439;
-	Fri, 12 Sep 2025 05:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3699510E44D;
+	Fri, 12 Sep 2025 05:56:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I2tmdPcQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SI7aETGT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB9910E077;
- Fri, 12 Sep 2025 05:54:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF1A10E442;
+ Fri, 12 Sep 2025 05:56:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 33A54601DE;
- Fri, 12 Sep 2025 05:54:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418C2C4CEF5;
- Fri, 12 Sep 2025 05:54:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DA0E6601AE;
+ Fri, 12 Sep 2025 05:56:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE472C4CEF4;
+ Fri, 12 Sep 2025 05:56:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757656468;
- bh=rWJWEK9OInlMBtKQyvNiNT2+XSgnu6NXba6lfxrN24Q=;
+ s=k20201202; t=1757656588;
+ bh=NoVcwhHFhGVy4YaFMNb6TmrHk9QeQ0TL+216knOdmWo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I2tmdPcQx1TUL3+1Bk7PDte09eLzAoWJ+FrHypU8zQnJk+2uPDE89Ia4y4aX7unBl
- J60P3PbGHzs9yCMDP6L23pRNY02nPFSXJzhZxniyIJ1c1fEk+5e6YANr9qFGYTXzHu
- HSbLH39Mii6vg3bbBmvBHNZqUADjXbTNDK8sxhDdjwO67ldX8GvTi0XVo3LCBmboNN
- 1KZ7oxDc9dkmz6z9alFV7zU26Yu0oFmLvejN3K4ng6+ObxQi+oBwrWVqI5hl7AT3GZ
- 5Q9KzWTGuyHlyAzVRyOfUEbQZEC/RQLWqe4on4jNY/PS4mMGk6aKpzoljK9Hf6+K8d
- a52EcUKLBXU6Q==
-Date: Fri, 12 Sep 2025 07:54:26 +0200
+ b=SI7aETGTzluOOEMW/W1Yf2oJIhfw+qt0AykEt+OlCHsqowZTUgxU7oUVaTUkzzR/c
+ S1/R6Tav6Ja+kIX74IpvNBe72B57B3Rz45ou78b0eQyKNT3cDrMC7zZesYtUvqe9Cr
+ AbCG9Wt1bQRpbLISofMxJZ0j5G665gshmHgrC+wRvp/ivLWmiP/uqgiaFpleqcbvVu
+ 7nZzXWcwEjGHFHZmYSWkQe1m341Q3a+VRh0007c2KexS/xYDDhfkfbFPjC5eOhgZIw
+ FR4993IFUSHqxoxZx7UnDEC6cuYnDHzr2O8elUaYkEPrkTFnqoflalaQHHm1VBciyW
+ 1YpSNXHxTRO2g==
+Date: Fri, 12 Sep 2025 07:56:25 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Abel Vesa <abel.vesa@linaro.org>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -47,15 +47,15 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] dt-bindings: display: msm: Document the Glymur
- DiplayPort controller
-Message-ID: <20250912-attractive-centipede-of-modernism-d3f13c@kuoka>
+Subject: Re: [PATCH 1/6] dt-bindings: display: msm: Document the Glymur
+ Mobile Display SubSystem
+Message-ID: <20250912-beautiful-radiant-pheasant-72dedd@kuoka>
 References: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
- <20250911-glymur-display-v1-3-d391a343292e@linaro.org>
+ <20250911-glymur-display-v1-1-d391a343292e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911-glymur-display-v1-3-d391a343292e@linaro.org>
+In-Reply-To: <20250911-glymur-display-v1-1-d391a343292e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +71,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 03:28:50PM +0300, Abel Vesa wrote:
-> Document the DisplayPort controller found in the Qualcomm Glymur SoC.
-> There are 4 controllers and their base addresses and layouts differ,
-> therefore being incompatible with all previous platforms.
-> 
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
+On Thu, Sep 11, 2025 at 03:28:48PM +0300, Abel Vesa wrote:
+> +
+> +            mdp_opp_table: opp-table {
+> +                compatible = "operating-points-v2";
+> +
+> +                opp-200000000 {
+> +                    opp-hz = /bits/ 64 <200000000>;
+> +                    required-opps = <&rpmhpd_opp_low_svs>;
+> +                };
+> +
+> +                opp-325000000 {
+> +                    opp-hz = /bits/ 64 <325000000>;
+> +                    required-opps = <&rpmhpd_opp_svs>;
+> +                };
+> +
+> +                opp-375000000 {
+> +                    opp-hz = /bits/ 64 <375000000>;
+> +                    required-opps = <&rpmhpd_opp_svs_l1>;
+> +                };
+> +
+> +                opp-514000000 {
+> +                    opp-hz = /bits/ 64 <514000000>;
+> +                    required-opps = <&rpmhpd_opp_nom>;
+> +                };
+> +            };
+> +        };
+> +
+> +        displayport-controller@ae90000 {
+> +            compatible = "qcom,glymur-dp";
+> +            reg = <0 0xae90000 0 0x200>,
+> +                  <0 0xae90200 0 0x200>,
+> +                  <0 0xae90400 0 0x600>,
+> +                  <0 0xae91000 0 0x400>,
+> +                  <0 0xae91400 0 0x400>;
+> +
+> +            interrupt-parent = <&mdss>;
+> +            interrupts = <12>;
+> +
+> +            clocks = <&dispcc_mdss_ahb_clk>,
+> +               <&dispcc_dptx0_aux_clk>,
+> +               <&dispcc_dptx0_link_clk>,
+> +               <&dispcc_dptx0_link_intf_clk>,
+> +               <&dispcc_dptx0_pixel0_clk>;
 
-You need to address in this exact spot the test failures.
+Mis-aligned entries.
+
+> +            clock-names = "core_iface", "core_aux",
+> +                    "ctrl_link",
+> +                    "ctrl_link_iface",
+> +                    "stream_pixel";
+
+Same here and in other places.
+
+> +
+> +            assigned-clocks = <&dispcc_mdss_dptx0_link_clk_src>,
+> +                  <&dispcc_mdss_dptx0_pixel0_clk_src>;
+> +            assigned-clock-parents = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+> +                  <&usb_1_ss0_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>;
+> +
+> +            operating-points-v2 = <&mdss_dp0_opp_table>;
+> +
+> +            power-domains = <&rpmhpd RPMHPD_MMCX>;
+> +
+> +            phys = <&usb_1_ss0_qmpphy QMP_USB43DP_DP_PHY>;
+> +            phy-names = "dp";
+> +
+> +            #sound-dai-cells = <0>;
+> +
+> +            ports {
+> +              #address-cells = <1>;
+
+Mixed up indentation, keep 4 spaces.
+
+> +              #size-cells = <0>;
+> +
+> +              port@0 {
+> +                  reg = <0>;
+> +
+> +                  mdss_dp0_in: endpoint {
+> +                    remote-endpoint = <&mdss_intf0_out>;
+> +                  };
+> +              };
+> +
+> +              port@1 {
+> +                  reg = <1>;
+> +
+> +                  mdss_dp0_out: endpoint {
+> +                  };
+> +              };
+> +            };
 
 Best regards,
 Krzysztof
