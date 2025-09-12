@@ -2,97 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CA8B5504F
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5090B5503F
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B43E10EC62;
-	Fri, 12 Sep 2025 14:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB18B10EC58;
+	Fri, 12 Sep 2025 14:03:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jIYFtWcl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ji+0kHW6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCEA710EC62
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:04:10 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3dad6252eacso844865f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:04:10 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAC7410EC58
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:03:16 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3dae49b117bso1562185f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757685849; x=1758290649; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757685795; x=1758290595; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=APfeXdHVZlvAUzgVrSDnbec2WkFzD9WkVF8lv6dWx7A=;
- b=jIYFtWclHu37gq1P/x4p0JYkXfEi7UnYHrZq3CW3T9R9+9aP/p4ca0SKfOX6pss4Kq
- awUjoLgaBv0Wmi56GWMkrn0K8LmkW3OpMnsCFcLD1aEp/Ej0y+DkjFaWnsLit7ZcqEZp
- o6fPBUoqEiuRDjMbYotiqL3Li5pWeSmGiySCmQErW6IY9J3m+eUt4c7AgYIBVyTvJJ7d
- 7wwM61i1f9S/ytf+di0sb0a52cl3FE9P1gfDTiWOB8fSb4ikzOuE+M0A6kStBxkx9WVP
- 1xiwpQDi2a2uWIGn9rnPSO65bGz9YOJlkLrubTL3sNoKo5SYtSSmrpbnqpAo9FqgRf88
- 3Etw==
+ bh=uH+YHXFVH2K1mzrQAHIZiTdd0wND2UdYXw5OhP6ad/I=;
+ b=ji+0kHW6SACaeVmjyHvF5bvawVM1dUS1ykkR5mAPWfhl89EO1+MSG9Rb3W6060GSul
+ QKY0gmsHRiPnLc/P3D4c9uhkhmTSvcz/u44H2yGK5eFvVvxNiRGJy/sIkhcOq0kfszJX
+ tBCo+1RfHYE2DD8AonR8nmWaU5aEJYwOZbccBirBlLM/tgP51slH81Wcy7r+qLNdHtTV
+ f7cpSgd2NFsuQ//R60lfpwPKuIwwFZPNjr/DSYQyfgb6GQR/CzeavNfEjeGkJxnLj+24
+ m3A6eyVALYFBDy1ahhEyhLHOw92z2V/XDNz3/notVShu0Nvj7AJQUdAWBXA3HLU8q4iu
+ 0QiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757685849; x=1758290649;
+ d=1e100.net; s=20230601; t=1757685795; x=1758290595;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=APfeXdHVZlvAUzgVrSDnbec2WkFzD9WkVF8lv6dWx7A=;
- b=wZouC1IIN9+Cml2qVmsb/SqEpskjqecNhn/bOXa39h0IZAQjwggYiszwCzbVICQmT+
- W0WgGWumzcqw+gBMYHaJSLtwLTu2VDPB5LNZxwQNtN3DqmDYsMQu/wlGkEgJHtLrJHB1
- EQKb3uN44fKcihFrwwxNcG5X0UOme+0mDgJgHhciNu/tY0XYamBKJmfEwfcgde1XOuxN
- pikFDJ3V6wyxd9VmP7NnJvsH23DX2IqUHQq8F+KNXPgyttuizqFYbfeOHZHoTMaDR7mP
- kiRN1bhJrMux7CxwHnVwy4JZE1AFay8vjrnu8OrxqUb6+9StQyEOqCZpDL1xDruDeS5O
- vP9A==
+ bh=uH+YHXFVH2K1mzrQAHIZiTdd0wND2UdYXw5OhP6ad/I=;
+ b=uidFo8HboKjNtsqyjaAEGyg7jQS53bjjp2MT58ykYWRCcVroc7vW7VQfYjwI+ulUF9
+ fHEGDnkqtib0eRgYce5Qwc/OHiKfnAh4m9pE1aBi8XlRXhqnJtvv7w4nFOsbgpNWfmxI
+ 4woa1Cs/ro3u8te3HeYEEIT+PeB/kJoghKW/R0K13QRPJySy8Tf2QVRXq3LHDzvZ3aWR
+ /uxHC8OixUQgxQqKK4SZ9tbJA5bxEX9G+EoWQQJHizoYmv/32ia1qMthbvyiCIN53ZpN
+ bcZhCX1G8JkzSZBl360Mc6hFC6QmTa/6jFkOhQP1kSqLhcvoiRv5RE9YTq7oQ8Wz5Yhp
+ z1vg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0VG1JpEH3CSdtCWJkX9EDDAhYKeZ/r/ubnjYoY6nYFaeu+UspV+78DCL2f09C0jYNJ8J1pTjLImE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywvwr6FEP2IJd1Fta81ngY6oiWaw6F6co/3voQZqxiQT2L72ylF
- Vug/3uh2U+9fim1Ltl9nXxOH+ryZ6CCWM4ov56SuluiW0t3JUPpD77C9
-X-Gm-Gg: ASbGnctAxxj7x+sKBRmXh8L1eEvAzxpe6YdvcTecOLFhls7olLq8UzglCz9RvCZqxkx
- Qz/yod3LjwRfVcugyCVwbWN3CXUnx4BSfopkFV43OpcYezJ+gwzBPki1fk6qonl2GsdzBFOxOeE
- SmXSwBTGou+GvpR9L2symdwN5XoZvREt4dTN/E5/tnc2AbPRz/2Zl/ick+onPrqoRJDvOcOJQT5
- D8GpLcTQaKKtLy57wsYmVHcYKM2VkRSROw8++1zUQ/XKg5UgfWkX1wK/ri96A2jZnpI54gQxR4W
- s6onxF3RzK4VC0LDHYzSN02KsmBbPj647upQlDVX8ZsZJNw5E2XnrLuYKa+oV1mPQvbhZA57VP1
- ghV+xERa5w/ERY17XxFpmQ8iRbkMknyg3U+MvXCdvKQ==
-X-Google-Smtp-Source: AGHT+IGthAq77EqTSVIscxbyWVF+jFSi3b1ESxcW24z9DM4Tl2GZ2DYvuqU47ZXwpi1f2I9Iy1R0Ew==
-X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id
- ffacd0b85a97d-3e765793127mr2867583f8f.18.1757685848735; 
- Fri, 12 Sep 2025 07:04:08 -0700 (PDT)
+ AJvYcCU81Vsd+NQYR3cKF1QxLPXRFuJVhavKGzEO2TlyFXNHBSFsUnf+kOMYJfhINgSxIDaP+zVvpHiU/fU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxV4aEbuzcbhKiD83U3Z3yfWRe4+o6PHJ6b8EbjEJpY4dTy+7EA
+ KBC1umh66qbd7d2mlCcpM2b/pi4NPksYXSdN2oE4MVM2JdXfNgboTISt
+X-Gm-Gg: ASbGncv5pgb/FZWbC7JtP2uqRi3/ImsWoTpsZGaELE18hM07dq0k1hCtIc8KyzEBpRN
+ 8m2cNPpHp/KGQXLjqecnIZGkrwUSwETr/cbqpkhKO/5dW5qpVaLd6jGZldcLRHNt7iZtz42ArKG
+ rNX5urF3RhRWfrSc1+16NNGGJzP7aWkIhul1G4N4e9Fkqsrs1p71WkSc8fNvzYBvWtCZFgGmT3W
+ kYCR07KfNoi13E6cuIUhBwqrNszV4Rmp7KL/dmn2nJTLeYZS0tSsm6/0fY1m/KYfXLSW6QMeNBn
+ zLCWxYc9O2hGDblm2uJG31zZpQhCGQl9dXclqdB9o3CIE4NFs9ZWUFT4JfMiBbTvIgsmc6Jjnon
+ k4ch3oC1xpZZofhu5dJVJTwOKB4ukolkaRuLrHHcFzuGzamdGyGeC
+X-Google-Smtp-Source: AGHT+IHkpXgL67su2eP0NWVxDv0gnk9lbCDXLQlAVKtF0IvH2Kl70osZH/zbwKbUjcuxvdmzPdw9Pw==
+X-Received: by 2002:a05:6000:61e:b0:3e7:4414:794b with SMTP id
+ ffacd0b85a97d-3e765a018a5mr2537897f8f.50.1757685794754; 
+ Fri, 12 Sep 2025 07:03:14 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e760777a0bsm6704897f8f.13.2025.09.12.07.04.03
+ ffacd0b85a97d-3e774a3fb5bsm2033837f8f.58.2025.09.12.07.03.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:04:07 -0700 (PDT)
-Message-ID: <03402a44-7025-4e31-9ead-a2ecbf63f325@gmail.com>
-Date: Fri, 12 Sep 2025 16:01:12 +0200
+ Fri, 12 Sep 2025 07:03:13 -0700 (PDT)
+Message-ID: <7765f224-60b2-4c92-a597-58c1c6bc5580@gmail.com>
+Date: Fri, 12 Sep 2025 16:03:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/38] arm64: dts: mediatek: mt6797: Remove bogus id
- property in i2c nodes
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, chunfeng.yun@mediatek.com, vkoul@kernel.org,
- kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
- mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
- atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
- houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
- andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
- shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
- eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
- jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
- fparent@baylibre.com, linux-crypto@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-sound@vger.kernel.org
+Subject: Re: [PATCH 19/38] arm64: dts: mediatek: mt6795: Add mediatek, infracfg
+ to iommu node
+To: Fei Shao <fshao@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org,
+ daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org,
+ linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ olivia.wen@mediatek.com, shane.chien@mediatek.com,
+ linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org,
+ airlied@gmail.com, simona@ffwll.ch, herbert@gondor.apana.org.au,
+ jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, andy.teng@mediatek.com,
+ chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, chunkuang.hu@kernel.org,
+ conor+dt@kernel.org, jitao.shi@mediatek.com, p.zabel@pengutronix.de,
+ arnd@arndb.de, kishon@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+ maarten.lankhorst@linux.intel.com, tinghan.shen@mediatek.com,
+ mripard@kernel.org, ck.hu@mediatek.com, broonie@kernel.org,
+ eugen.hristev@linaro.org, houlong.wei@mediatek.com, tglx@linutronix.de,
+ mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
+ granquet@baylibre.com, sam.shih@mediatek.com, mathieu.poirier@linaro.org,
+ fparent@baylibre.com, andersson@kernel.org, sean.wang@kernel.org,
+ linux-sound@vger.kernel.org, lgirdwood@gmail.com, vkoul@kernel.org,
+ linux-crypto@vger.kernel.org, tzimmermann@suse.de, atenart@kernel.org,
+ krzk+dt@kernel.org, linux-media@vger.kernel.org, davem@davemloft.net
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
+ <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,9 +139,9 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,103 +159,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> All of the I2C nodes in this devicetree has a bogus "id" property,
-> which was probably specifying the I2C bus number.
+On 25/07/2025 12:52, Fei Shao wrote:
+> On Thu, Jul 24, 2025 at 5:49 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> The "M4U" IOMMU requires a handle to the infracfg to switch to
+>> the 4gb/pae addressing mode: add it.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > 
-> This property was never parsed and never used - and besides, it
-> also gives dtbs_check warnings: remove it from all i2c nodes.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
 
-Applied, thanks
+Applied thanks
 
-> ---
->   arch/arm64/boot/dts/mediatek/mt6797.dtsi | 10 ----------
->   1 file changed, 10 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> index be401617dfd8..f2d93bf6a055 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> @@ -285,7 +285,6 @@ uart3: serial@11005000 {
->   	i2c0: i2c@11007000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <0>;
->   		reg = <0 0x11007000 0 0x1000>,
->   		      <0 0x11000100 0 0x80>;
->   		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
-> @@ -301,7 +300,6 @@ i2c0: i2c@11007000 {
->   	i2c1: i2c@11008000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <1>;
->   		reg = <0 0x11008000 0 0x1000>,
->   		      <0 0x11000180 0 0x80>;
->   		interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
-> @@ -317,7 +315,6 @@ i2c1: i2c@11008000 {
->   	i2c8: i2c@11009000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <8>;
->   		reg = <0 0x11009000 0 0x1000>,
->   		      <0 0x11000200 0 0x80>;
->   		interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
-> @@ -334,7 +331,6 @@ i2c8: i2c@11009000 {
->   	i2c9: i2c@1100d000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <9>;
->   		reg = <0 0x1100d000 0 0x1000>,
->   		      <0 0x11000280 0 0x80>;
->   		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
-> @@ -351,7 +347,6 @@ i2c9: i2c@1100d000 {
->   	i2c6: i2c@1100e000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <6>;
->   		reg = <0 0x1100e000 0 0x1000>,
->   		      <0 0x11000500 0 0x80>;
->   		interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
-> @@ -367,7 +362,6 @@ i2c6: i2c@1100e000 {
->   	i2c7: i2c@11010000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <7>;
->   		reg = <0 0x11010000 0 0x1000>,
->   		      <0 0x11000580 0 0x80>;
->   		interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_LOW>;
-> @@ -383,7 +377,6 @@ i2c7: i2c@11010000 {
->   	i2c4: i2c@11011000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <4>;
->   		reg = <0 0x11011000 0 0x1000>,
->   		      <0 0x11000300 0 0x80>;
->   		interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_LOW>;
-> @@ -399,7 +392,6 @@ i2c4: i2c@11011000 {
->   	i2c2: i2c@11013000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <2>;
->   		reg = <0 0x11013000 0 0x1000>,
->   		      <0 0x11000400 0 0x80>;
->   		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_LOW>;
-> @@ -416,7 +408,6 @@ i2c2: i2c@11013000 {
->   	i2c3: i2c@11014000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <3>;
->   		reg = <0 0x11014000 0 0x1000>,
->   		      <0 0x11000480 0 0x80>;
->   		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
-> @@ -433,7 +424,6 @@ i2c3: i2c@11014000 {
->   	i2c5: i2c@1101c000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <5>;
->   		reg = <0 0x1101c000 0 0x1000>,
->   		      <0 0x11000380 0 0x80>;
->   		interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_LOW>;
+>> ---
+>>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> index e5e269a660b1..38f65aad2802 100644
+>> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> @@ -427,6 +427,7 @@ iommu: iommu@10205000 {
+>>                          clocks = <&infracfg CLK_INFRA_M4U>;
+>>                          clock-names = "bclk";
+>>                          interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_LOW>;
+>> +                       mediatek,infracfg = <&infracfg>;
+>>                          mediatek,larbs = <&larb0 &larb1 &larb2 &larb3>;
+>>                          power-domains = <&spm MT6795_POWER_DOMAIN_MM>;
+>>                          #iommu-cells = <1>;
+>> --
+>> 2.50.1
+>>
+>>
 
