@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3366B550DE
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047EDB550E2
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C16810EC5F;
-	Fri, 12 Sep 2025 14:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61E9B10EC66;
+	Fri, 12 Sep 2025 14:21:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hUOwYqZX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AajQYIjr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B22910EC5F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:20:45 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-45df0cde41bso15166205e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:20:45 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBE710EC6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:01 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3e2055ce973so1121835f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757686844; x=1758291644; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757686860; x=1758291660; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=lthXnEjSvsHbapckxRc04Ei+riXtEdUUKc9+Bt6m9I4=;
- b=hUOwYqZXzHPrxqdUI5/4IPu3g7p3vf9yvqZHalVvBV4L4sidhEENKpIYyPDefXVX6S
- gxiKI0EOdIK2pcDg5QfGu+eUxAwYgWIdUve3sqAbIX7otXYklHl11vbVkae5aYsJzZ7C
- Rqiybx8a+YQ8OKxE25p4BPM8ewvJ9NdvK03ohuwGg9AKRAsINbYnIahud0NphSYm7wu/
- go5JvQuPB74OR1pvAGHUMdrDQ4NdPDRiZsxVdQdqPnp5GvRMYJD9JdbyB5BLjbqzKlRl
- Ij+5r5F1ZzvNoaFuxfLJjWjTjymRlMadVyGBhEV7n4q9dsMz7kYpd9JNnC6ihW6QXzXX
- e+9A==
+ bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
+ b=AajQYIjrORTJUyxsBjnWWVcRp6DJPCfunm7MZoGd7qccwiMstJgzDeDh8lR4M9EzOD
+ ZoaFknUImsn9HRcUziaGrbQt/ELEj0DDSM6ShLqFKMZFbJsZOAyo18wK2KNLXnSRUQxP
+ QcKg9HUTrLfMrb4Xu/jhj3g3TYFk8o9yBsK5jYq+C7oO061ZJomAkdXQ+/F6dOKNdb8J
+ 9rTcM9eenQXsqrFir7D4A44AVNyQdhH7PUHOvLajj/2RFgJvgVJ2Y9+RBhtScYK9HbYT
+ 9eGnJ/hyV/KdT+9sM8sCPrcgKQdpeewZrG6ejGQktZO2mdzs4LrUBTxO95S876Tfwx2t
+ VnxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757686844; x=1758291644;
+ d=1e100.net; s=20230601; t=1757686860; x=1758291660;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lthXnEjSvsHbapckxRc04Ei+riXtEdUUKc9+Bt6m9I4=;
- b=eqc77GcQWwp1TnCz4nswS6z0ZIZKE8fSZwczEJETCWgRkEzK5YPb/HCzcG2LvLWmkp
- OLyzD9bn69/iAVhSzolN/yOwsB/Sqrxa6WW+Js7VgBzO28Bzb3jx5CUCLChjG8Oc4VWR
- bMCgz1SpCdZEEVwSnOl4BXa+bm8mOv3z8XfYpvdEKXeAf2N/87VCN6VCynNb7T7kJIcB
- 8ZAYGkSRH+YJeEKC/fYnfSKUnXV/WwPJBDlJlFYPbNPKlKy2tVK+dzNNaIU3WD6E47xU
- zV0uqmSCKXVsA66qnw4IHWEF+qneewlQQJS4eI9viZTaTyAbNvqkRLVZuTMO3DTwLeq3
- QDlQ==
+ bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
+ b=LeNVXoGlQ1MAHWf1f2oXospoo2LR2TZe1DZTw1NQEp5Avvcsk/ucsdi/vnTKNjwNOi
+ NPyF8WxJhGTTve+rO6aH5R0Hw0nj4AUnTvghj39uyV6WFMqHwRJ2ZZXndS0+MJV5xxc/
+ pMV+GlAXEN/SznXjWBS8vdYWc1adrcZuOpbc8kH0zsFaummfbSH25ptAtg9GCsadFnnh
+ OoSY0LDVvP3guR1K2Apwtfv5zD4VnjZZBR4r/Hrh42V4631jkguarSTwwIZImBtpzzbC
+ xOWubzaSEyEAr+9wXik9jKUVBz5AQ/snKNOBT/WQzUpjrs92JjTkcMcTJVmJZyHGd/lv
+ SpJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVW52LJyfJuPzCSQX/gPZgD5Op28XwhV71DAXANFbaAItjFE8OcHVRhf/oyiOAubxtVP9+uIUoYlvk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0QBtJ1qxUQv47RQVdH4H8EviOaD/L3l7bj6ZWGZhaE6ffOFPi
- 0qOyXst+Me3MTq1dgcEIyirwmLjPsJUwKKcSxl0yKGMn674Tg9tRi0/S
-X-Gm-Gg: ASbGncvM5ohG0AQ5Rp/3cfIMW/WJ7OaxZwghfx3H5Voz0yI5LvZxQfB1l0AzWzYC83+
- /VuPvxEx23Ak+nYVfbqbRU1EYBNPBkIpXvZK6zbVU/S8qAesOrcoO+O9ceYSfr2+g6gU8W0F4tj
- OguHEvggZRVHkT6QLPSxF22FGfmc+yofgMiODD3SxAfDKfZUqT51x8EGI/uUAXkrQEXgWXebtNj
- MQyBNG9e99P3C2ru2WY9hJmekDQFilfpKb8iThKkoSMz5rIfxiyzNI7NWN05D4mt8vf9fkZAXTV
- JysJgDYep2SQyx22zwbkwGsSrPTd17f6bT6rxgCnuwirjMDeFbRZd9jj4P1sz1iG3LYIEIMjqr4
- /svzKhVwbP+o+Z4TnCiYWfAFl2feYKOaeyi0kPX2h7OlARvRBDY7s
-X-Google-Smtp-Source: AGHT+IFqrxlW5v3Vy46wYJ2sE/wtXVC2vb0Byrr7NgxSOjj9QTmCoTJsKTMUA+e1n+AH0Kve613Tyw==
-X-Received: by 2002:a05:600c:6b06:b0:43c:ec4c:25b4 with SMTP id
- 5b1f17b1804b1-45f211d0795mr28833695e9.10.1757686842371; 
- Fri, 12 Sep 2025 07:20:42 -0700 (PDT)
+ AJvYcCW0vSM6jHKkQ4cqbcAYcGlOEO7F5ROmpHWO4q5qE45pRi+qKszlQopJtff/wVp/W1Wasi8DfCLqfYw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywd/rzbdTL0bZWK3e8ueHLtv5ahwJ4+XNO0uUbuVBEkf8JAjhiK
+ ZA6a9qRTqaLaRwXMLJdD+6hNBKhEQNS1wtRLuUAwzJSiMzT4MKwJoksd
+X-Gm-Gg: ASbGncv2JNd0hnGK3iuIzSw2goSpgeIlZLPOP2+2+kVXmYcXrwE5pX16jnclukGlv47
+ hHda8T5C4Kbqk5uQt6/DDeIuAaFwGfMWYKrkRBhsOASK+pZ+SyRn/5TpYBYoFyWoI6RSdxGEKut
+ Mt9mERoJLx7EI3As8mgSueCR95qymQKTNds2itiVF7MtTLCpsNZ9M78Ttuj/8OMbWe20uxqVCeg
+ tSfXTT3hNNsa+dIMBbbDqlYVR1RdGIyJGINL9NkyYoHkitDICkouhwdxcSA4dShQL0yRYMJfuFb
+ eAEA2OdL8U3GkTyLabK40No42fBcexwubZPaokK/XG2yFgiQDt6iVKkWSNCxxDKk4sCMVzvCZMw
+ VfGx4/HLWmOaFP8au9WN1BQ2Jf0uwv4nbPuMn73tCw3m3Otwq0fyr
+X-Google-Smtp-Source: AGHT+IETnSVaOaRKN/Bmr4IDnznOAwChZ2qQ4ywH5VxUBMfTXYJEq367ON+ECBnG0YBYE/RxZE/ipA==
+X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id
+ ffacd0b85a97d-3e765793127mr2932126f8f.18.1757686859589; 
+ Fri, 12 Sep 2025 07:20:59 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e037d7595sm63116405e9.24.2025.09.12.07.20.38
+ ffacd0b85a97d-3e7607cd415sm6697435f8f.30.2025.09.12.07.20.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:20:41 -0700 (PDT)
-Message-ID: <3b3197b7-3e60-4a1a-b6bb-3a0a0ef1fdd4@gmail.com>
-Date: Fri, 12 Sep 2025 16:13:14 +0200
+ Fri, 12 Sep 2025 07:20:58 -0700 (PDT)
+Message-ID: <cda40929-12d7-4206-a4d9-3a74314c6b2e@gmail.com>
+Date: Fri, 12 Sep 2025 16:13:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 24/38] arm64: dts: mediatek: mt7986a-bpi-r3: Fix SFP I2C
- node names
+Subject: Re: [PATCH 25/38] arm64: dts: mediatek: mt7986a-bpi-r3: Set
+ interrupt-parent to mdio switch
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,48 +159,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> The binding wants the node to be named "i2c-number", alternatively
-> "i2c@address", but those are named "i2c-gpio-number" instead.
+> Being this an interrupt controller, the binding forbids to use
+> interrupts-extended and wants an `interrupts` property instead.
 > 
-> Rename those to i2c-0, i2c-1 to adhere to the binding and suppress
-> dtbs_check warnings.
+> Since this interrupt controller's parent is on the GPIO controller
+> set it as interrupt-parent and change interrupts-extended to just
+> interrupts to silence a dtbs_check warning.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
+>   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> index ed79ad1ae871..6d2762866a1a 100644
+> index 6d2762866a1a..e7654dc9a1c9 100644
 > --- a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
 > +++ b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> @@ -64,23 +64,19 @@ wps-key {
+> @@ -200,8 +200,9 @@ switch: switch@31 {
+>   		compatible = "mediatek,mt7531";
+>   		reg = <31>;
+>   		interrupt-controller;
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <66 IRQ_TYPE_LEVEL_HIGH>;
+>   		#interrupt-cells = <1>;
+> -		interrupts-extended = <&pio 66 IRQ_TYPE_LEVEL_HIGH>;
+>   		reset-gpios = <&pio 5 GPIO_ACTIVE_HIGH>;
 >   	};
->   
->   	/* i2c of the left SFP cage (wan) */
-> -	i2c_sfp1: i2c-gpio-0 {
-> +	i2c_sfp1: i2c-0 {
->   		compatible = "i2c-gpio";
->   		sda-gpios = <&pio 16 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
->   		scl-gpios = <&pio 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
->   		i2c-gpio,delay-us = <2>;
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
->   	};
->   
->   	/* i2c of the right SFP cage (lan) */
-> -	i2c_sfp2: i2c-gpio-1 {
-> +	i2c_sfp2: i2c-1 {
->   		compatible = "i2c-gpio";
->   		sda-gpios = <&pio 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
->   		scl-gpios = <&pio 19 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
->   		i2c-gpio,delay-us = <2>;
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
->   	};
->   
->   	leds {
+>   };
 
