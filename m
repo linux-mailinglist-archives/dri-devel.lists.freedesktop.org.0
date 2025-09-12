@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5712BB54230
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 07:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1807B54239
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 07:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E32E10E437;
-	Fri, 12 Sep 2025 05:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA30010E439;
+	Fri, 12 Sep 2025 05:54:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dTpXSTCO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I2tmdPcQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC5810E077;
- Fri, 12 Sep 2025 05:51:45 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB9910E077;
+ Fri, 12 Sep 2025 05:54:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D450141783;
- Fri, 12 Sep 2025 05:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 283FAC4CEF4;
- Fri, 12 Sep 2025 05:51:43 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 33A54601DE;
+ Fri, 12 Sep 2025 05:54:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418C2C4CEF5;
+ Fri, 12 Sep 2025 05:54:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757656304;
- bh=70/n5jSjmOfMt6dRAtLd6hOjKJMT+ZyDSrpU41o+FpI=;
+ s=k20201202; t=1757656468;
+ bh=rWJWEK9OInlMBtKQyvNiNT2+XSgnu6NXba6lfxrN24Q=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dTpXSTCO9xqDCirBxjn8GXY7UlPgIIbIMV4TugAAHq7wx0nU2SVXIXbNifTH8ffT1
- j89mm8ZIuvk6eALdYGdU214+j7pUcFK8RcyTpj2E3D6wS32perRTee/OI5Ch2zIBSR
- 44rPRyrmb7J4pDvv+8UYp0u5PrW32ygz/hdR65auDZppUB0wSSHMvYSH5oOsDi1tJZ
- MnB+W1ktFuV1baElPPw4Tu4f5vP9C7S3L5hfhforNR4Hz7AeGbvxvcx2mruyUllG0Y
- wZUer7giqLdUXSS6xyvPISluwmb4/+3w2Ba8jK0egBsZTg+SKiLTJfD4+x7WGyY0rd
- BbCMcQbksNxVA==
-Date: Fri, 12 Sep 2025 07:51:42 +0200
+ b=I2tmdPcQx1TUL3+1Bk7PDte09eLzAoWJ+FrHypU8zQnJk+2uPDE89Ia4y4aX7unBl
+ J60P3PbGHzs9yCMDP6L23pRNY02nPFSXJzhZxniyIJ1c1fEk+5e6YANr9qFGYTXzHu
+ HSbLH39Mii6vg3bbBmvBHNZqUADjXbTNDK8sxhDdjwO67ldX8GvTi0XVo3LCBmboNN
+ 1KZ7oxDc9dkmz6z9alFV7zU26Yu0oFmLvejN3K4ng6+ObxQi+oBwrWVqI5hl7AT3GZ
+ 5Q9KzWTGuyHlyAzVRyOfUEbQZEC/RQLWqe4on4jNY/PS4mMGk6aKpzoljK9Hf6+K8d
+ a52EcUKLBXU6Q==
+Date: Fri, 12 Sep 2025 07:54:26 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Abel Vesa <abel.vesa@linaro.org>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -49,7 +49,7 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 3/6] dt-bindings: display: msm: Document the Glymur
  DiplayPort controller
-Message-ID: <20250912-jasmine-chowchow-of-security-0cecc2@kuoka>
+Message-ID: <20250912-attractive-centipede-of-modernism-d3f13c@kuoka>
 References: <20250911-glymur-display-v1-0-d391a343292e@linaro.org>
  <20250911-glymur-display-v1-3-d391a343292e@linaro.org>
 MIME-Version: 1.0
@@ -74,12 +74,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, Sep 11, 2025 at 03:28:50PM +0300, Abel Vesa wrote:
 > Document the DisplayPort controller found in the Qualcomm Glymur SoC.
 > There are 4 controllers and their base addresses and layouts differ,
+> therefore being incompatible with all previous platforms.
+> 
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
 
-Base address does not matter in compatibility, it's just an offset.
-Registers layout does, so I assume that's defining factor.
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+You need to address in this exact spot the test failures.
 
 Best regards,
 Krzysztof
