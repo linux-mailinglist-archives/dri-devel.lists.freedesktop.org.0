@@ -2,127 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AE4B53FDA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 03:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE2EB5400B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 03:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA8F010E3FE;
-	Fri, 12 Sep 2025 01:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F5D10E180;
+	Fri, 12 Sep 2025 01:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kIcq5BvA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="difnhe8r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9BDE10E08C
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 01:25:15 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BMVTCP001550
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 01:25:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=YsVWw194ZI1CWoyM8/QckT8m
- npp2FjAIPhrizuJH+a4=; b=kIcq5BvASDc27V0NaYPfTm2i8yEDFW+b0Y6Z2LX0
- gr9e+Mqnd/HS5R3jxQD/Ls7HOhSCQkUJ4tru+b8ktksPedSj3GLp2RQFi8fNKmcQ
- d7ilTtTwLSOUpW/ajBHQ/USOOdTXARBj+BxFUdp09XFgV4u5QAjGeqb4D9cVV05Q
- CHqSX1pZUDE3wn6OZpwAdjy90Lw7zAQLAiCdlDqTP3NCUYajvzKU0Um7aGqEifyh
- DMYPMHKSVRp1MinW8wT5YfdMa4BtgTsA7lMmyZMvXprg7JoBJ8l5o0bzTJ2nNVPL
- 7DHJokCJ/LR+sTPTsovbuXEdE5MXjqFmR5ZrH1646bW+dQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493ydv1yeh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 01:25:14 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b32d323297so30440801cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 18:25:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757640314; x=1758245114;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YsVWw194ZI1CWoyM8/QckT8mnpp2FjAIPhrizuJH+a4=;
- b=wJ1HUfpQ/CQ7Hvh+kLNMD/UWiuTkEDSN04qtwSq5T+WW3PXjCnesW5tHR7vQnJmLk3
- 043ZtqV1LdG3G1QAOH4XMa4EY50lBDWhPKXmCoXLtK2la7z3GorLwu1FmAPx1FL/oAos
- hiW3WxoxYalUqKec4bSxZ2peAgKNuMSxL49IXXDT93Ru7vKjVzj6d46PpcXt6duD8hsq
- v6Iw3AzAPVICJZaYqqT/btgrKspTWLxCj7OLR7vI+fZK0FZxoLV2Vb4Lu1uLI4+bdAnM
- qtrz99lDQJAWPkk1nPJn3MBa6MZvnWevJujb3HSQK84xYJdOpLZLDSmbFQQzZcPxdDBp
- g7wg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhEYUpmm40F3Amwp/YdXonCKTzeZFjdxsFj01K5DqWa8WAvSLSAc0G4VhKu1wx4g3Y8Nb5BSlfJbg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLE6Vbyzfj+4hyDfLZcb9C95wqNu/VBdC/yo859/mrm1Rf3kHu
- /Y6tMjZ+p+gFYb/EqK0AN/VExeSkYzVpLyTXu6knfTw8ElGFQW8DGp1NqkGBJaYktq2XflrY/Ce
- tND2mWE5w+PVTu1DQdX8oPAKYsoN78+VpcWKbJbBZoc+boCN4SKEUR+HW61DeDmHXOQealmo=
-X-Gm-Gg: ASbGnctakhXl2vc6AxnnqXZnU3JJfUgGVNUQgb6musEOEYq4zh8xLlrkaGczAR2wFSe
- ypeTbNUbTAg1Ko0rUQBxwbqncfnzfMWgKLRrEB416djlEPClTKdT2ewVstinlHAudYHrOsWNBWW
- gAmTCJ70W/t1ZdotSFW5yGrpIXalBvcvh1ma4MuezWZ21xBW/8/bg2xNz2F4JthNNikTqZcoI1l
- +EUI6eWo+OyXro6XBCFPcNadb01NJGoOSWaFJma1PNLyI1O0gVMYqqqkGKrMpWfH9mthxd2Yeh0
- 2B024cLaROmpgFjQEsPzMp1RgDRI3GDCpcIwKJAV/jJcQGszeuLo7nQnClXE8i0UNO2HA6AKxcG
- fRHNo3NMibI6HA/YuME5QspjN9jsaHYU5tsjZJtWqIqBLWPXXA6gI
-X-Received: by 2002:ac8:5a0d:0:b0:4b5:e7e4:ba6c with SMTP id
- d75a77b69052e-4b77d16e805mr17533561cf.67.1757640313585; 
- Thu, 11 Sep 2025 18:25:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGeSzyRo5fxlQ1s5PZqzWjlXyF7vQvka83jPrQMx8jrzjabtE8ps+uhPSg0QScYf/gUsEIfSA==
-X-Received: by 2002:ac8:5a0d:0:b0:4b5:e7e4:ba6c with SMTP id
- d75a77b69052e-4b77d16e805mr17533221cf.67.1757640313085; 
- Thu, 11 Sep 2025 18:25:13 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e5c692d10sm786907e87.8.2025.09.11.18.25.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 18:25:12 -0700 (PDT)
-Date: Fri, 12 Sep 2025 04:25:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21E2C10E180
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 01:59:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B4D3A4473A;
+ Fri, 12 Sep 2025 01:59:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 571FBC4CEF0;
+ Fri, 12 Sep 2025 01:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757642353;
+ bh=meu8m65eD3yfEwGMUX3MAwvZUXiaWLYcK+z9uaK0MG4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=difnhe8rYJ5KYdrAC/LLuy/z68nGffP5eq6tURh51P5H9B0rWNM+2S29plk+JSMnb
+ R5ryLu093928ic6MByU1XZT5WhVqZ96NtoAIFYDgqsbXPmuUs/IbqDnDiDQTKltm4R
+ 5alZpJVf4mXmpap37JqkD8Fm7i/zS6ow+yTWYafuFgu+mzq1MU6hAIn2GN9vxp+M9W
+ FS2zjM6LmhgsCUik5aa6LImOnIYw8J4QuxDH0LR93nSqPxZuk+aga2TECNsmGP/h5b
+ 4lI9QMMGs0efuyZDuCNo5GXs26UfMwDI3qKKqAaL+9IH9+a4gRgLBj5lIkdZUiLijS
+ /eRxPF4CW5q3Q==
+From: SeongJae Park <sj@kernel.org>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: SeongJae Park <sj@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH v4 05/13] phy: qcom: qmp-usbc: Add regulator init_load
- support
-Message-ID: <qpcdlcxvu4avnpc2yebrjaptxcckp3jtk3gdrsdssi5pg2yjap@76a2o2bw6gea>
-References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
- <20250911-add-displayport-support-for-qcs615-platform-v4-5-2702bdda14ed@oss.qualcomm.com>
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+Subject: Re: [v5 03/15] mm/rmap: extend rmap and migration support
+ device-private entries
+Date: Thu, 11 Sep 2025 18:59:09 -0700
+Message-Id: <20250912015910.59404-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250908000448.180088-4-balbirs@nvidia.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911-add-displayport-support-for-qcs615-platform-v4-5-2702bdda14ed@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDEyMCBTYWx0ZWRfX+HgHB+5a/WNu
- XSAgrdHEydf+FJat09glvowYzHM2V6/pWjTksVIGnpmVABYGsFRMJ8ScAW/G4aZ1FwztrQe3CFG
- BYwLwj1p7/PYGQkTlRLdTKoDvhi8D5GUzwr3AS9+NeOByvWtTThWzYvOCIQRAbCmyf3llv5I8Iy
- zaitRQjet6Ay1DZZKIj8ZHkArtoG5cQ2fyPg+hcwIjo9i2KOS5FQXxZDnqmCcAiHhEnjRGi+6Et
- DwuoNGKzN1auUUwC42I1O0u2HL7N7lvexyCF06uI98hdsVzH+VCXYg+3qk2WcdpoUoubWmjpdJK
- ikvyb7mfAaFj3714EIUVIgBsXC/r3OX5EbiEjX2yzpUVn4T21vN6aJkEmRjwRcGgu3lrj5UE0sh
- pzQjC+Cw
-X-Proofpoint-GUID: L647B08M7UCaWqNxTMEu7a7eGRqkbBDI
-X-Proofpoint-ORIG-GUID: L647B08M7UCaWqNxTMEu7a7eGRqkbBDI
-X-Authority-Analysis: v=2.4 cv=LoaSymdc c=1 sm=1 tr=0 ts=68c3767a cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=mlQFcmInbWeDH1iYaCEA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-11_04,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 phishscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509110120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,25 +76,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 10:55:02PM +0800, Xiangxu Yin wrote:
-> QMP USBC PHY drivers previously did not set init_load_uA for regulators,
-> which could result in incorrect vote levels. This patch introduces
-> regulator definitions with proper init_load_uA values based on each
-> chip's power grid design.
+On Mon,  8 Sep 2025 10:04:36 +1000 Balbir Singh <balbirs@nvidia.com> wrote:
+
+> Add device-private THP support to reverse mapping infrastructure,
+> enabling proper handling during migration and walk operations.
 > 
-> QCS615 USB3 PHY was previously reusing qcm2290_usb3phy_cfg, but its
-> regulator requirements differ. A new qcs615_usb3phy_cfg is added to
-> reflect the correct settings.
+> The key changes are:
+> - add_migration_pmd()/remove_migration_pmd(): Handle device-private
+>   entries during folio migration and splitting
+> - page_vma_mapped_walk(): Recognize device-private THP entries during
+>   VMA traversal operations
 > 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> This change supports folio splitting and migration operations on
+> device-private entries.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Cc: Rakie Kim <rakie.kim@sk.com>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: Gregory Price <gourry@gourry.net>
+> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Mika Penttilä <mpenttil@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Francois Dugast <francois.dugast@intel.com>
+> 
+> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
 > ---
->  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 70 +++++++++++++++++++-------------
->  1 file changed, 41 insertions(+), 29 deletions(-)
+>  mm/damon/ops-common.c | 20 +++++++++++++++++---
+>  mm/huge_memory.c      | 16 +++++++++++++++-
+>  mm/page_idle.c        |  5 +++--
+>  mm/page_vma_mapped.c  | 12 ++++++++++--
+>  mm/rmap.c             | 19 ++++++++++++++++---
+>  5 files changed, 61 insertions(+), 11 deletions(-)
 > 
+> diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
+> index 998c5180a603..eda4de553611 100644
+> --- a/mm/damon/ops-common.c
+> +++ b/mm/damon/ops-common.c
+> @@ -75,12 +75,24 @@ void damon_ptep_mkold(pte_t *pte, struct vm_area_struct *vma, unsigned long addr
+>  void damon_pmdp_mkold(pmd_t *pmd, struct vm_area_struct *vma, unsigned long addr)
+>  {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -	struct folio *folio = damon_get_folio(pmd_pfn(pmdp_get(pmd)));
+> +	pmd_t pmdval = pmdp_get(pmd);
+> +	struct folio *folio;
+> +	bool young = false;
+> +	unsigned long pfn;
+> +
+> +	if (likely(pmd_present(pmdval)))
+> +		pfn = pmd_pfn(pmdval);
+> +	else
+> +		pfn = swp_offset_pfn(pmd_to_swp_entry(pmdval));
+>  
+> +	folio = damon_get_folio(pfn);
+>  	if (!folio)
+>  		return;
+>  
+> -	if (pmdp_clear_young_notify(vma, addr, pmd))
+> +	if (likely(pmd_present(pmdval)))
+> +		young |= pmdp_clear_young_notify(vma, addr, pmd);
+> +	young |= mmu_notifier_clear_young(vma->vm_mm, addr, addr + PAGE_SIZE);
+> +	if (young)
+>  		folio_set_young(folio);
+>  
+>  	folio_set_idle(folio);
+> @@ -203,7 +215,9 @@ static bool damon_folio_young_one(struct folio *folio,
+>  				mmu_notifier_test_young(vma->vm_mm, addr);
+>  		} else {
+>  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> -			*accessed = pmd_young(pmdp_get(pvmw.pmd)) ||
+> +			pmd_t pmd = pmdp_get(pvmw.pmd);
+> +
+> +			*accessed = (pmd_present(pmd) && pmd_young(pmd)) ||
+>  				!folio_test_idle(folio) ||
+>  				mmu_notifier_test_young(vma->vm_mm, addr);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Could you please elaborate more about why the above change is needed on the
+commit message?
+
+For example, I found below from v3 of this patch series:
+
+    pmd_pfn() does not work well with zone device entries, use
+    pfn_pmd_entry_to_swap() for checking and comparison as for zone device
+    entries.
+
+Adding that kind of elaboration on the commit message would be helpful.
+
+Also, seems the DAMON part change is not really required to be made together
+with other changes.  If I'm not wrong, could you make DAMON part change as a
+separate commit?
+
+The code looks good to me.
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
 
 
--- 
-With best wishes
-Dmitry
+Thanks,
+SJ
+
+[...]
