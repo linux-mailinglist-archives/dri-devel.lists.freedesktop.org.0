@@ -2,145 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9D4B54C95
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 14:09:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27F4B54C9A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 14:09:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DED6C10EC31;
-	Fri, 12 Sep 2025 12:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C16610EC37;
+	Fri, 12 Sep 2025 12:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nn5pUIJK";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N4qudoHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 403F410EC31
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:09:17 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-45deccb2c1eso13920615e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 05:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757678955; x=1758283755; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=luNlPT2x65V+KjVmCaFP6TTppyN73fwYQbrYbkkLiGU=;
- b=nn5pUIJKMaYjkZfIwqClv9Pdxl4eEm/eFczuVAQGTw6ybndpaHyqw1//T09f0R524f
- yF+jvW/bbgAVnpI0pXKiM+xt67QM9uA7MLxYKsVo0dkerZZAkRs1IcpnznAFxetthYyi
- 1Yed/v1uHUfA48bsJ0wRMZfsiH7atXdtTDnrXyj29cisOHHzhcGobTxNqUJnlkxcdwQI
- eSMxsP0XNtXK07okLbNUlb3XKcuANYvain1RYMA3/xeoC2/3Zfb5peUojdPQNUUjlZ1f
- KEqbzS0qLuiDFsq+ZuRY+XCxDyYpapxEqyRo1z/0m2R5mTDrA1sO9q/kK869wqScI9YK
- IDRg==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF6D10EC37
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:09:22 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fKgK014048
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:09:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=AWecxXQ1HoSKQokJLzYb6tbb
+ rzkT4uWaDcoy5VKKVeg=; b=N4qudoHJb3LgJAVQziaNCtZl0F7NfM5kABN0udgc
+ AwnPkhRGctPPhNtrEqLj1TzlUOG7nqOcWGSmqBVNjTg6DCl2lMUA2s0tfzfC0MZc
+ Fxi2T88hQ9TmuN2Ii1EiknR4CbDaDKab5CbHdp4w/UTqpA+DLbERlyEL6wN4Q68/
+ 9mBcuHp2OYC0JTRzDzirqGh0PLA2h1x8mt2KCFlWij0Wi3AQPDBYO0lKID6iXfw+
+ BCDg27FiO+Fc+Uej1F+ZvbLM7+d8T92gEbNwOmwMQZ7uN2y8hE1PqR4BgFYIG/jP
+ qf9YitCAwwqbtQ4uQqbX3SL1vs7PQMsE2V1rqc6ePsawUg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493qphw9ms-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:09:21 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b633847b94so48051821cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 05:09:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757678955; x=1758283755;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1757678961; x=1758283761;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=luNlPT2x65V+KjVmCaFP6TTppyN73fwYQbrYbkkLiGU=;
- b=qjH6hJeg+Y9ci1Ml99fhiuuJ/b9mOwbr8/zHchGpYqT9ZkSMxQ2IGZ5ctf5G/7C0NN
- RoAzPYJVogq1kuHvKqaVNTnGAejdCSD44rt8SUnvR+LUAfy/IEjfPq/bzry0qeb9lWoJ
- QQnUvKTfXxsDYqPqqC+Z/baAsiDxrDQMxXNw4SJGlKko1qz88WKlcvFjYMvC/o8XFhJQ
- jxvfSZSGqytqxVfpMt3Ct9MMzq54qThRkSg4tlQJBxnU/RXX0TQF5AarZfcBaUCv7NhV
- Qp5EZrfC2P8gTGwieC+0bxmZvXE2VE907AhvBr2gf7ZFa+Xf+J/0XCZ9xEQaJA4KZgfq
- s41w==
+ bh=AWecxXQ1HoSKQokJLzYb6tbbrzkT4uWaDcoy5VKKVeg=;
+ b=xQs9Mz0cbKIaPu2CcNUT1ZFyJoBbEBik8Veab0KSM0e7NbzOhDtdB0RY7ZApt5qxDH
+ yg2ZgQXOFy2qtCi5nAB19RHdAyNi8Vn/gI/Qp++zBcITRnjsPlyir2qdBZagOAUrKu3w
+ zR2e3jxEo+RzusPcfcyuelrM8F4SGYYtOAJvpXTXnP+gy85P7+9iX9d2q/uU2Fg4fKhv
+ llvSIR/s25qicf1hED0T5wIkrZB3ZK+gCVpZaWjTcW4HUEIcjQj5cSMJTVqIrBUNA/H7
+ d7u6hy4lUShlEYv+07gWHTdAXx6Yk0UR2SubHdudufO97uXW7bqiDt2mGR67tGSlBhHV
+ CVlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFh0py5WY6Edsr5ZZJcH456NOZU7hYN5dutAFd7lRkiV0JD9E4RWgxrsQyxpvi4KWHxild5q1duMc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzI8kgIokxca8PskvSQeIZkELXeyt9OjLphHT3TtNAFytHrFvYc
- n8OoYLIUFomaYk7ZEc7+V4Va5iSan9e3PNHacS0VXy1BLfHn+hIzhgkb
-X-Gm-Gg: ASbGnct3jlPKF51IhlwrxTOIeHtynF24f7P00HFPDfcFuuFBxYuPJr+6beSmAJgOdcv
- Vtc3gtPsyMLLKJ3dHZzls7WdtxbM+QTXDSJQadZQxJ4wSzCjTxPQWFkksGJv+fC+byXihHCzTF0
- cfN9WYijAojYVMxws5/m08IzfVzHEko7b3VC34LIDFjfm8l2GZuAhRvk8vcVPk2cHaNgG4bI6Nq
- K9AxI4jBS25GcuIDtlHo3T70HORItyrHKl8MFjorww7ZWUOEYb7diPpDUMaXJHk9x/lxflFCOnH
- 8DDNSlUYtZgCp+Xdk5XzkyK0bhA4Kv59f3bLCm/vfDcSydch4Plufy/uGTPaDigBaieXY3EaipR
- Qz+kIlR9T19PcyUtW4xehJVKEvH4CtkU=
-X-Google-Smtp-Source: AGHT+IEPx8/fQkGIVkJR+qz2UY7c6jEyUpO4Z9A3UsVNdqLYapE/RWg0OlQAjc/yFqkAVGNWgJ1CZQ==
-X-Received: by 2002:a05:600c:1c9d:b0:45b:6275:42cc with SMTP id
- 5b1f17b1804b1-45f211ffafbmr24614525e9.28.1757678955113; 
- Fri, 12 Sep 2025 05:09:15 -0700 (PDT)
-Received: from [192.168.2.177] ([91.116.220.47])
+ AJvYcCXZLwwfYGKz3UkspwcXXEaBlVW5GoguOzNHf9XACAbAtx1fOgIe+1NvXSLi2rAvyldf7ICdAj0RI/Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxe98Tb9x/jGeQ5cGllsRsOwwFg4tdDceepH2OWaC3OiYRFRal8
+ PUKtRSSHM4KJgn00DFq7OibprFCphDN/ATshT4Xmy39e8P+DQKOjSA40CydEgwi1Macdwue5mwE
+ D5btrN68ESk4SjVEsRderkGuvSZXq61Ikn3UibygX0WU5O4k/F+ASgjMoih6xYqgTVufLlXY=
+X-Gm-Gg: ASbGncvgvrS1CnTF7ZSQGgNilepKfr3okmXX4+WonL1MvzK+k3W28b1qQOsYHumkt1w
+ mbQRsk3Si8EfY7dJR/91URb/XhEaceLYg5SJd9yjtGe6x8XCPNXawp2CwnX7O0EKqDuo5nHukWR
+ TT6uZQ6bBLyHlEEkAxvk5UCGhP8lIwBHeaCj7NtIyLTGsnekebgNoDeq74FYEhXjNsWPtof/k4y
+ G2Jz4DEVTt6PdtT+mNH93BLcg5tSOYzD47322uTh7jxMLNwyTh8MAIc2hn2n9ayxU3m6ddi0OGv
+ jRms5fWwsi/JbEO9m1NW4VE2wJfw9o0swF87jbPXcouzKjos1+co/+xrgeaBrd10Yi5H8S3cDl8
+ e/9oOUZPcpH56/FUNdipMuCdJuKYyU8xU312zP5/Vfm2Glz735fBq
+X-Received: by 2002:a05:622a:2b45:b0:4b3:12f7:8baa with SMTP id
+ d75a77b69052e-4b77d044455mr32331311cf.51.1757678960410; 
+ Fri, 12 Sep 2025 05:09:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBlHDLz23zA5O+/vEKCN91ortJnwiUYeDorqJurL/VJ4hd/jMETJMt2eSQJiBv4Cvs1e54jQ==
+X-Received: by 2002:a05:622a:2b45:b0:4b3:12f7:8baa with SMTP id
+ d75a77b69052e-4b77d044455mr32330571cf.51.1757678959880; 
+ Fri, 12 Sep 2025 05:09:19 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e017c1455sm62768935e9.24.2025.09.12.05.09.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 05:09:14 -0700 (PDT)
-Message-ID: <04e75c1a-7040-403a-84be-82ff2d9f2544@gmail.com>
-Date: Fri, 12 Sep 2025 14:09:10 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/38] ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and
- clock-names
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, chunfeng.yun@mediatek.com, vkoul@kernel.org,
- kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
- mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
- atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
- houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
- andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
- shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
- eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
- jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
- fparent@baylibre.com, linux-crypto@vger.kernel.org,
+ 38308e7fff4ca-35062c8da78sm5874761fa.0.2025.09.12.05.09.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Sep 2025 05:09:19 -0700 (PDT)
+Date: Fri, 12 Sep 2025 15:09:17 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-5-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US, ca-ES, es-ES
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; keydata=
- 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
-In-Reply-To: <20250724083914.61351-5-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v4 11/13] phy: qcom: qmp-usbc: Add USB/DP mutex handling
+Message-ID: <q4dplt6fq3cneludcuhxevklaj6omeio3cjxw2owt4h3wistd6@arv23ri4cl75>
+References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
+ <20250911-add-displayport-support-for-qcs615-platform-v4-11-2702bdda14ed@oss.qualcomm.com>
+ <nfugwwknnlxls75yo5rex6ggu5nzpq6enyx6e6nfnfei3icxjg@t7dnzcfcjw4o>
+ <cf6c2c2f-9878-4181-a3c8-9692423308bd@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cf6c2c2f-9878-4181-a3c8-9692423308bd@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=aPDwqa9m c=1 sm=1 tr=0 ts=68c40d71 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=h6lld2rfrDIzuLPEmGQA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: 4zRs8495GlVdljCMrK_q-uF-U-3XNub5
+X-Proofpoint-ORIG-GUID: 4zRs8495GlVdljCMrK_q-uF-U-3XNub5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDA0MCBTYWx0ZWRfX/lEjGuw06mEQ
+ btbHY3QwBXN20zrS0FuGxAGzuER1kv4+F7O9zv1P22fUCn25IvUHXO8qrhCj2yp9Hr7694toSE4
+ REcVboZzTSkb5nlEJutlK3iBQfU3qPlzCjBhlDLTWC3ZIOhrzWK4dKR8EEh37IyNpCJJMEuf4/l
+ 1FApM/9Et1XPgucD5YhYwLbMcAlMtgbvuSqlAZ8LbEUwiXHkKR2ftpibhCYJ8BtK8SzKrsLVn7G
+ psAr6F98+d70zw1t/QR53zzQzXyWR0mWfSn0eBecSOasJaFD+aXKMQ3vTaFdEQwF+guU31FdT8P
+ KJWJew4XZr7QSEbmxgSeevKF5ethdnI69auhlr6yLVlJwbD054c7yiu61CNlPm0oCNzFCsYY9l8
+ 0U4etQuN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_04,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509110040
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,146 +139,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 12, 2025 at 08:03:01PM +0800, Xiangxu Yin wrote:
+> 
+> On 9/12/2025 6:32 PM, Dmitry Baryshkov wrote:
+> > On Thu, Sep 11, 2025 at 10:55:08PM +0800, Xiangxu Yin wrote:
+> >> Introduce mutual exclusion between USB and DP PHY modes to prevent
+> >> simultaneous activation.
+> > Describe the problem that you are trying to solve first.
+> 
+> 
+> Ok.
+> 
+> 
+> >> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> >> ---
+> >>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 21 +++++++++++++++++++++
+> >>  1 file changed, 21 insertions(+)
+> >>
+> >> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >> index 613239d15a6a3bba47a647db4e663713f127c93e..866277036089c588cf0c63204efb91bbec5430ae 100644
+> >> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> >> @@ -1061,6 +1061,19 @@ static int qmp_usbc_usb_power_off(struct phy *phy)
+> >>  	return 0;
+> >>  }
+> >>  
+> >> +static int qmp_check_mutex_phy(struct qmp_usbc *qmp, bool is_dp)
+> > mutex has a very well defined use case - a sleeping lock. Please find
+> > some ofther name.
+> 
+> 
+> Then how about 'qmp_check_exclude_phy'?
 
 
-On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> Both clocks and clock-names are missing (a lot of) entries: add
-> all the used audio clocks and their description and also fix the
-> example node.
-
-You forgot to fix the example node.
-
-Matthias
+qmp_usbc_check_phy_status()?
 
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->   .../bindings/sound/mt8192-afe-pcm.yaml        | 106 +++++++++++++++++-
->   1 file changed, 104 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml b/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
-> index 8ddf49b0040d..96ee0a47360d 100644
-> --- a/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mt8192-afe-pcm.yaml
-> @@ -47,16 +47,118 @@ properties:
->         - description: AFE clock
->         - description: ADDA DAC clock
->         - description: ADDA DAC pre-distortion clock
-> -      - description: audio infra sys clock
-> -      - description: audio infra 26M clock
-> +      - description: ADDA ADC clock
-> +      - description: ADDA6 ADC clock
-> +      - description: Audio low-jitter 22.5792m clock
-> +      - description: Audio low-jitter 24.576m clock
-> +      - description: Audio PLL1 tuner clock
-> +      - description: Audio PLL2 tuner clock
-> +      - description: Audio Time-Division Multiplexing interface clock
-> +      - description: ADDA ADC Sine Generator clock
-> +      - description: audio Non-LE clock
-> +      - description: Audio DAC High-Resolution clock
-> +      - description: Audio High-Resolution ADC clock
-> +      - description: Audio High-Resolution ADC SineGen clock
-> +      - description: Audio ADDA6 High-Resolution ADC clock
-> +      - description: Tertiary ADDA DAC clock
-> +      - description: Tertiary ADDA DAC pre-distortion clock
-> +      - description: Tertiary ADDA DAC Sine Generator clock
-> +      - description: Tertiary ADDA DAC High-Resolution clock
-> +      - description: Audio infra sys clock
-> +      - description: Audio infra 26M clock
-> +      - description: Mux for audio clock
-> +      - description: Mux for audio internal bus clock
-> +      - description: Mux main divider by 4
-> +      - description: Primary audio mux
-> +      - description: Primary audio PLL
-> +      - description: Secondary audio mux
-> +      - description: Secondary audio PLL
-> +      - description: Primary audio en-generator clock
-> +      - description: Primary PLL divider by 4 for IEC
-> +      - description: Secondary audio en-generator clock
-> +      - description: Secondary PLL divider by 4 for IEC
-> +      - description: Mux selector for I2S port 0
-> +      - description: Mux selector for I2S port 1
-> +      - description: Mux selector for I2S port 2
-> +      - description: Mux selector for I2S port 3
-> +      - description: Mux selector for I2S port 4
-> +      - description: Mux selector for I2S port 5
-> +      - description: Mux selector for I2S port 6
-> +      - description: Mux selector for I2S port 7
-> +      - description: Mux selector for I2S port 8
-> +      - description: Mux selector for I2S port 9
-> +      - description: APLL1 and APLL2 divider for I2S port 0
-> +      - description: APLL1 and APLL2 divider for I2S port 1
-> +      - description: APLL1 and APLL2 divider for I2S port 2
-> +      - description: APLL1 and APLL2 divider for I2S port 3
-> +      - description: APLL1 and APLL2 divider for I2S port 4
-> +      - description: APLL1 and APLL2 divider for IEC
-> +      - description: APLL1 and APLL2 divider for I2S port 5
-> +      - description: APLL1 and APLL2 divider for I2S port 6
-> +      - description: APLL1 and APLL2 divider for I2S port 7
-> +      - description: APLL1 and APLL2 divider for I2S port 8
-> +      - description: APLL1 and APLL2 divider for I2S port 9
-> +      - description: Top mux for audio subsystem
-> +      - description: 26MHz clock for audio subsystem
->   
->     clock-names:
->       items:
->         - const: aud_afe_clk
->         - const: aud_dac_clk
->         - const: aud_dac_predis_clk
-> +      - const: aud_adc_clk
-> +      - const: aud_adda6_adc_clk
-> +      - const: aud_apll22m_clk
-> +      - const: aud_apll24m_clk
-> +      - const: aud_apll1_tuner_clk
-> +      - const: aud_apll2_tuner_clk
-> +      - const: aud_tdm_clk
-> +      - const: aud_tml_clk
-> +      - const: aud_nle
-> +      - const: aud_dac_hires_clk
-> +      - const: aud_adc_hires_clk
-> +      - const: aud_adc_hires_tml
-> +      - const: aud_adda6_adc_hires_clk
-> +      - const: aud_3rd_dac_clk
-> +      - const: aud_3rd_dac_predis_clk
-> +      - const: aud_3rd_dac_tml
-> +      - const: aud_3rd_dac_hires_clk
->         - const: aud_infra_clk
->         - const: aud_infra_26m_clk
-> +      - const: top_mux_audio
-> +      - const: top_mux_audio_int
-> +      - const: top_mainpll_d4_d4
-> +      - const: top_mux_aud_1
-> +      - const: top_apll1_ck
-> +      - const: top_mux_aud_2
-> +      - const: top_apll2_ck
-> +      - const: top_mux_aud_eng1
-> +      - const: top_apll1_d4
-> +      - const: top_mux_aud_eng2
-> +      - const: top_apll2_d4
-> +      - const: top_i2s0_m_sel
-> +      - const: top_i2s1_m_sel
-> +      - const: top_i2s2_m_sel
-> +      - const: top_i2s3_m_sel
-> +      - const: top_i2s4_m_sel
-> +      - const: top_i2s5_m_sel
-> +      - const: top_i2s6_m_sel
-> +      - const: top_i2s7_m_sel
-> +      - const: top_i2s8_m_sel
-> +      - const: top_i2s9_m_sel
-> +      - const: top_apll12_div0
-> +      - const: top_apll12_div1
-> +      - const: top_apll12_div2
-> +      - const: top_apll12_div3
-> +      - const: top_apll12_div4
-> +      - const: top_apll12_divb
-> +      - const: top_apll12_div5
-> +      - const: top_apll12_div6
-> +      - const: top_apll12_div7
-> +      - const: top_apll12_div8
-> +      - const: top_apll12_div9
-> +      - const: top_mux_audio_h
-> +      - const: top_clk26m_clk
->   
->   required:
->     - compatible
+> >> +{
+> >> +	if ((is_dp && qmp->usb_init_count) ||
+> >> +	    (!is_dp && qmp->dp_init_count)) {
+> >> +		dev_err(qmp->dev,
+> >> +			"PHY is configured for %s, can not enable %s\n",
+> >> +			is_dp ? "USB" : "DP", is_dp ? "DP" : "USB");
+> >> +		return -EBUSY;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >>  static int qmp_usbc_usb_enable(struct phy *phy)
+> >>  {
+> >>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
 
+-- 
+With best wishes
+Dmitry
