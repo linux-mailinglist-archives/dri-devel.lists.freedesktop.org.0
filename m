@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D53B54315
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAF6B5431A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:43:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F4E10EBAB;
-	Fri, 12 Sep 2025 06:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC76610EBAE;
+	Fri, 12 Sep 2025 06:43:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D9xUqHXi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EbdKVrip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B0310EBAB;
- Fri, 12 Sep 2025 06:42:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757659327; x=1789195327;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XARN275NSX7547scBYEyJ8UtV2onKi9DOJyaZQNGPoE=;
- b=D9xUqHXiV9LZg2vPLn0T3ugGbB8VJhSdOdvibOFSuL3DTDfxjYeJwUyk
- 8GOYD0yux9t3aEh7qtKn9wHUJsocTkgCtobiOia3DSC/3J1g84s+i2Qrs
- OaidDKK8ufw0KiyOkCExq6VGK5l4mG9C2j5O6hih4vi+v8gCFniMItFZ0
- Hqa6Cem6bKZio++QWPYmCR2dkWBfp8oW/0YWWIMsHtM1zTrs6L6xJb1Kb
- 5SSMfe2SYYwuOQkS1E1vl+vHmM8MLyIL0RtJjUDhe8gxV4oI7mxtS6J0c
- +RO+rXb5qf6I2sjskGty0Z1AIZcC8nHydONKX97guIskh5fffrAnALwRI Q==;
-X-CSE-ConnectionGUID: dcALZROTTseNyP29tRoBIg==
-X-CSE-MsgGUID: rCWBvmnNTZupI2s76VVoTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11550"; a="63825755"
-X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; d="scan'208";a="63825755"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2025 23:42:07 -0700
-X-CSE-ConnectionGUID: Oxn9V5DzSJCdg0k03flx9Q==
-X-CSE-MsgGUID: r2bIIqZXTWCxU6X5CjMrtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,259,1751266800"; d="scan'208";a="177927638"
-Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
- by orviesa003.jf.intel.com with ESMTP; 11 Sep 2025 23:42:00 -0700
-Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uwxTp-0000t2-2p;
- Fri, 12 Sep 2025 06:41:57 +0000
-Date: Fri, 12 Sep 2025 14:41:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-pci@vger.kernel.org, dakr@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- acourbot@nvidia.com, Alistair Popple <apopple@nvidia.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1355A10EBAE
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:43:20 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-560888dc903so1750267e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757659398; x=1758264198; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/e6a4r5HwdADWqt2gxdEiy8yhSw818PuxVS+VjAKm8A=;
+ b=EbdKVripJLJTXFXYCws+2RrvWgmQPrpvNMhUZ4sHHWkv3sPpMLoXEtisR2k5z0BtEM
+ 3st02h8FeAYbnseochISnjjQF6rn0KwU7+F3k4m7bagczLoWts9SH6z5oz+L/W7Eb9b8
+ SSlHWFjfdF4ZClNANOUhFLPiMjlpLJnLuEsAea8c0KzZWl38IX2sDXnx5NJKMKboGiNd
+ TRPOcoN2pWruv1HCAYEDOMn38WJpQo8bSjeB3J2+fTjKnkuICo185++R4uGqzuZgzTTj
+ P1xooFpxInuv64BGQhJQOYgiHCfPNzi08VEhtr4e3/9UG70LbzPUtjFPEmhxBgorEcXE
+ rfww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757659398; x=1758264198;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/e6a4r5HwdADWqt2gxdEiy8yhSw818PuxVS+VjAKm8A=;
+ b=vC9+6B5XjGuocj05FR0FnYteHodqkeytbLh7FRI00wQG0p6KBBkbfLK7jPkA3OHfq2
+ rnGJDoWnoy1vRKLoAhcrGyq0gvBytQSDq085LvOb7rg9UtXj5TID2ZzGd4RZdiUnjXWL
+ 8jSAP9fsoEBx42B+LVsRomsn9GD4CF/MEFQs8BQUnkIluxH9PqwMn7JK1aK/NrZgc+Rj
+ 7m3xTdt5QgFpDCu2MDeeXAgMqvHRds8VR/kxcAnB9FWEbhrNU25yZf7IQZcIacV0TUR6
+ 4A1Axu/04sFdaAEZRBnEGoSBNYsqCNulLfsPWEZq+phSJth702zYGsCIqu4f1vZB4282
+ qH5Q==
+X-Gm-Message-State: AOJu0YzZP51DyDJ93EMZMNkgzdYmZ7o6EzTnnFi3w0bsAgBVEBE7dS+2
+ YVbKim3mFCfi8gvbmuS5IjVIG/gATI8merOg6P2mICJeMYr06cQ2Kl/j
+X-Gm-Gg: ASbGncu+mHMqTYW1sJ6x/GW1U6b3iF/iYPEcuXQzp/6dUfHYKGhgv+tyr+83lM0xhaH
+ m+8vqaKqU+vHeZBZqy/Q4VhxcSu6A/67wDYNFYdZ8WAowFcyu7IFOFUx+Lq9ZPzvT7bDM/Cuhn9
+ ywt1nGa8cUIY4eJ4i4hQDGXAIPBZMGzGqs7TPS9A41pza556FhEWQAnXw1le9hOewPyUcXMJoT0
+ lngkRutgCsxbzyqX/MxRCl0k6gZHv/wHxo+TbQOkOdaw7KBudb3EDyqY8oYyZ32gIixgkDZMMct
+ xTvas2cm+oT0XfthAhMsjfsRR97KVc6KSz25qeNafZD58IIDznzbfraWkxBSQGwUDvK3wSItFQh
+ /ciSoX0A22BOqPQ==
+X-Google-Smtp-Source: AGHT+IEe0jkCS9U8WkTjVXPYNmZSLn/syNXqorRteuFNbdIlDVO4YBhxkuAG4CzXjByN5DDqyt0+Lg==
+X-Received: by 2002:a05:6512:290e:b0:55f:4efe:42df with SMTP id
+ 2adb3069b0e04-5704dba12c6mr472968e87.40.1757659398015; 
+ Thu, 11 Sep 2025 23:43:18 -0700 (PDT)
+Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56e64bd15e6sm917403e87.116.2025.09.11.23.43.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 Sep 2025 23:43:17 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, joel@joelfernandes.org,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Subject: Re: [PATCH] rust: pci: add PCI interrupt allocation and management
- support
-Message-ID: <202509121404.668X5Vy6-lkp@intel.com>
-References: <20250910035415.381753-1-joelagnelf@nvidia.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] DRM: panel: add support for Sharp LQ079L1SX01 panel
+Date: Fri, 12 Sep 2025 09:42:51 +0300
+Message-ID: <20250912064253.26346-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910035415.381753-1-joelagnelf@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,122 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
+Sharp LQ079L1SX01 panel is a LCD panel working in dual video mode found in
+Xiaomi Mi Pad (A0101).
 
-kernel test robot noticed the following build errors:
+---
+Changes in v2:
+- adjusted schema with ">" and dsi0 > dsi
+- fixed copyright from Nvidia to Xiaomi since sconfiguration equence is
+  based on the downstream Xiaomi code.
+- adjusted commit name of second commit
+---
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.17-rc5]
-[cannot apply to next-20250911]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Svyatoslav Ryhel (2):
+  dt-bindings: display: panel: document Sharp LQ079L1SX01 panel
+  gpu/drm: panel: Add Sharp LQ079L1SX01 panel support
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-pci-add-PCI-interrupt-allocation-and-management-support/20250910-115528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250910035415.381753-1-joelagnelf%40nvidia.com
-patch subject: [PATCH] rust: pci: add PCI interrupt allocation and management support
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250912/202509121404.668X5Vy6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250912/202509121404.668X5Vy6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509121404.668X5Vy6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find value `dev` in this scope
-   --> rust/doctests_kernel_generated.rs:6968:13
-   |
-   6968 | let nvecs = dev.alloc_irq_vectors(1, 32, IrqTypes::all())?;
-   |             ^^^ not found in this scope
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqTypes`
-   --> rust/doctests_kernel_generated.rs:6968:42
-   |
-   6968 | let nvecs = dev.alloc_irq_vectors(1, 32, IrqTypes::all())?;
-   |                                          ^^^^^^^^ use of undeclared type `IrqTypes`
-   |
-   help: consider importing this struct
-   |
-   3    + use kernel::pci::IrqTypes;
-   |
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqTypes`
-   --> rust/doctests_kernel_generated.rs:6971:16
-   |
-   6971 | let msi_only = IrqTypes::default()
-   |                ^^^^^^^^ use of undeclared type `IrqTypes`
-   |
-   help: consider importing this struct
-   |
-   3    + use kernel::pci::IrqTypes;
-   |
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqType`
-   --> rust/doctests_kernel_generated.rs:6972:11
-   |
-   6972 |     .with(IrqType::Msi)
-   |           ^^^^^^^ use of undeclared type `IrqType`
-   |
-   help: consider importing this enum
-   |
-   3    + use kernel::pci::IrqType;
-   |
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqType`
-   --> rust/doctests_kernel_generated.rs:6973:11
-   |
-   6973 |     .with(IrqType::MsiX);
-   |           ^^^^^^^ use of undeclared type `IrqType`
-   |
-   help: consider importing this enum
-   |
-   3    + use kernel::pci::IrqType;
-   |
---
->> error[E0425]: cannot find value `dev` in this scope
-   --> rust/doctests_kernel_generated.rs:6974:13
-   |
-   6974 | let nvecs = dev.alloc_irq_vectors(4, 16, msi_only)?;
-   |             ^^^ not found in this scope
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqTypes`
-   --> rust/doctests_kernel_generated.rs:7025:16
-   |
-   7025 | let msi_only = IrqTypes::default()
-   |                ^^^^^^^^ use of undeclared type `IrqTypes`
-   |
-   help: consider importing this struct
-   |
-   3    + use kernel::pci::IrqTypes;
-   |
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqType`
-   --> rust/doctests_kernel_generated.rs:7026:11
-   |
-   7026 |     .with(IrqType::Msi)
-   |           ^^^^^^^ use of undeclared type `IrqType`
-   |
-   help: consider importing this enum
-   |
-   3    + use kernel::pci::IrqType;
-   |
---
->> error[E0433]: failed to resolve: use of undeclared type `IrqType`
-   --> rust/doctests_kernel_generated.rs:7027:11
-   |
-   7027 |     .with(IrqType::MsiX);
-   |           ^^^^^^^ use of undeclared type `IrqType`
-   |
-   help: consider importing this enum
-   |
-   3    + use kernel::pci::IrqType;
-   |
+ .../display/panel/sharp,lq079l1sx01.yaml      |  99 ++++++++
+ drivers/gpu/drm/panel/Kconfig                 |  15 ++
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-sharp-lq079l1sx01.c   | 233 ++++++++++++++++++
+ 4 files changed, 348 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-sharp-lq079l1sx01.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.1
+
