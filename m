@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAE7B55116
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EFBB5511A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:23:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28E2D10EC74;
-	Fri, 12 Sep 2025 14:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 678E410EC70;
+	Fri, 12 Sep 2025 14:23:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RzOMLpD0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nG4XoaX9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33F510EC75
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:23:22 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-45df09c7128so16369725e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:23:22 -0700 (PDT)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3729610EC70
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:23:40 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-45df7cb7f6bso10891535e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:23:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757687001; x=1758291801; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757687019; x=1758291819; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=1Ug4rvDJVrD/KFt1LWLn8j4wXGstlIATd7OgVTytDCs=;
- b=RzOMLpD0cb+3JVQZzLSvRiRVOeMVgGgyexayyvPJOBKMYA7rCwyrCB4XLBWqknBa34
- k+qfeZ0U6WeZ9yaGAGFyOJLe0Qmr7W+dzzj4DEWL2oSj4tQafM2Ewx80xaOIs/wPYn+f
- 917yJaJfkWn6myNF1M25mB7R6oG5cU0L75HCjDvkjAxsQJmVcca3f1bQzJhYdxtg3gA8
- CBjYgJFvfV4DE3Mtv6JtrilKXEfc1FkIm+0H3tEe9xZwHVetNlBYSEhUIO/Gcc9kLcxJ
- PYAXHp4d0pDfArMPB3g1cibM/Cg/3lAg3Uswtuqx7cgvoSUupCPAeGnwjPa5vUOf2i0c
- mwaA==
+ bh=N4l5zcHW0vFYm8FJd3A+gQjJTt3Y7IkPRU+Kv8jpny4=;
+ b=nG4XoaX9QdamPAOMIyPDx2nOvhMwsrj0TaR4FVqn37Jybw+aoL4iL6wOd4+B4Vm291
+ o0F9ETLZXjINYTjKeMrFqjRuBMD6t8MLC4uq7iFGu+lzbYfBQ25d63VdhCyjvBQgcIU0
+ PL0kD/NEcR8nLlamxfW7HVlZyH79UIgCebVRM+Z+H0jIXHe3u4gfwwrc1wEb4bh/6zF9
+ wgKlNoZ8YkIhwf3EgARSetXLpLqcjPADzw99MBJKR0EnqcAJiZG6AXnrFlVHufks9mUU
+ YQ1W4xa/3tD/xIU0meR4NIrNlEAHraXCvtDMV27jJ3AscFHPHfnZGjQOjoJs68hS9RrY
+ XkoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757687001; x=1758291801;
+ d=1e100.net; s=20230601; t=1757687019; x=1758291819;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1Ug4rvDJVrD/KFt1LWLn8j4wXGstlIATd7OgVTytDCs=;
- b=bYT9Qtq+T36ymNjRQpSfzlWzfR+DkkV3oxsO2tHmdLzbuwdVQwwP8IvmzG2TbdqRJc
- p8eovWI79hQBfLCueSuq3FaYL33owx0URszLffmQpDKkZzjmd5klyRaPP6YDOwBw2UNS
- 3Aw5cV3poNhePwfcYrpgqeO16AqnkxtkZRzqfAWpHMOfy9hNwcR2go52ew3liobgJmij
- kAjvEVbkwviF7jCvhjH3wB8S+y7M5LcYyZYXwAq3coH0uTLgyq2aE6cQPRELeE1oQMKR
- OUFV04IqRRikruQeUCgrlbigk+6Il2WnzlZXuaITcBXyfHD1zaWaUinqlASiUtA3GfNb
- O4UA==
+ bh=N4l5zcHW0vFYm8FJd3A+gQjJTt3Y7IkPRU+Kv8jpny4=;
+ b=tNqZ83i2vtmm4sOYaXxyu4di7iXHcbrN1WL7LMr6Th8yOMWamSGobeY+byryqg7noD
+ m4c0/FYPk+5F26U3qvDS5zmeuRiT0lEaNxTu40L4DSKxt+lGFI04hFa1DSrcL4CqBJDu
+ GsFC6KVmOlymS8W+DRZxyz/z91DRUzG9USBpjcqXNsVACom1d4Oy5JL6lknpcHRzM6/5
+ ooDR8AUCAFCp1Fiqdn6e8ZM6vMLjU8NhLBxwWpsDMbCl6rtdfZfyDhFI7YIjhsYHqIih
+ n4u7qi9NZpXXakySDseei3Li/WKCb/MX4hm84RiXTpKhr7kz1MMJM5cqSn2dAS+dSMF2
+ 7m8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0c+HJeCvP+1AGFdINJcOPRuhDuor5RK47GkbJxAHDxkeyKrHcDeBxPcQekmBq1ABypzBw5O06Xvg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/+tAVbqt9AWFOMgiDaqnhrH+4NCPSYppgw8M21NPIKTV0PEEK
- bnFoeXeg1IyX70IqsLYaZekPrw6ktqbSwfqbJJM1oWtMgcZzMqJe6gcO
-X-Gm-Gg: ASbGnct7kEDzkfKoXE//FrYMtB/GYn3rbjuPUBCFjX3RNAaJr4/ZeA9vYPp28VxaqD9
- gRPtOPIivomF4z1q6z3cgzmYZ8YNrbozIc62z02a75JQqwe+BRTNtgLrz/8nF4THufY7OdUTIrL
- YF73LemFmXIkI8uOx7I32IidLHnDjTQmN4yjR/xP/FI3YKpLa3jnhf4EgnWWJyWwZoA0KmqmldV
- Lh6pAMiSbBKAG3lAFZSNuAWyeqnNI3CS8ZucwncGLktvDc3q9DJbG1f2XLLlRWL1FSBqgcFdUXJ
- WaQb3+OMZta2dye7TG8ygzchNVa4DbRa1tjSZsZVmG8KhJ3TLW9wel1iioKdnFyQ50mswWXWubm
- QpegZmSrIacPENjHvMLL5x69gajGsS5NgsOXvQx11sQ==
-X-Google-Smtp-Source: AGHT+IE5UXOItxjbn0zFICANNc5GuRpVNR7hiqiKPBU9+i1k2C8vaMc+CHm3lHcY/3oRsKpLL3Rr0Q==
-X-Received: by 2002:a05:600c:468a:b0:45d:5c71:769d with SMTP id
- 5b1f17b1804b1-45f2126253emr34464315e9.8.1757687000920; 
- Fri, 12 Sep 2025 07:23:20 -0700 (PDT)
+ AJvYcCVh5qo205n60diDKCFOzXRf9H8Qt9QNSB/z7X2sDr0fimmE7Uq/GZIUwEW17FeFbrJsfPdaIaruxes=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsAm2f5/CqXKlF5/mU5flKRNGGpyw3gr7k8C13JSuyIxplyXV5
+ I1+SqCWJIjqxVmAbI7abUq4qW9+5IP7H/OhF0JTXB2Qb/GHr6+K0Bdnx
+X-Gm-Gg: ASbGncuXpxD/EeE7Wz0qhfbM9pC7FkI0NhNFCV7Bjj6OmRIKsTkZLkQ0WAq4S0PtLRp
+ TX+F7LjDr5O1npdiIsYxtNwL0yxQy1MEzWsd3W3BW5jJpk4pZJ4l1ff3N4QOu2THkTRpQEPmLmT
+ 2a/nKJR+D5JqCQ7pW5CUGH5rgAwShdLACAte41gxb8DJuHuiOkzUdCCC+waQ1rjMqRS/4OIN8fh
+ casQkCfiNGtSI+6basPJ6T+ZNoJRGf27ptPc1VeU0IUiQ+I0iVv4K/pqQIY2p5cIRpdhPZUYpbc
+ M4jQp0KOMWjMWp9VLOCfDmSiBGr20uTz/H/xBr8Qg7DXJszuIDW5GB1HaFnpf1BeDyZl0E+zmZ4
+ IHLBL2oNGv6i8se44CDMsw9TJMoWM9Bk=
+X-Google-Smtp-Source: AGHT+IEmlb8djEP9UynDPDjjLEk8BahcV4jQiKIO9mchkJOf8JIm0XRWhLHxnVD8kQdDLWFmpvT50A==
+X-Received: by 2002:a05:600c:1d2a:b0:45b:9c93:d21d with SMTP id
+ 5b1f17b1804b1-45f24ef20d0mr17392095e9.8.1757687018297; 
+ Fri, 12 Sep 2025 07:23:38 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e016b5a2esm67200825e9.13.2025.09.12.07.23.13
+ 5b1f17b1804b1-45e037c9d91sm62800735e9.20.2025.09.12.07.23.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:23:18 -0700 (PDT)
-Message-ID: <30468c15-16bf-4c20-bef3-35d58b9a31b1@gmail.com>
-Date: Fri, 12 Sep 2025 16:23:11 +0200
+ Fri, 12 Sep 2025 07:23:36 -0700 (PDT)
+Message-ID: <6ae96168-7066-4881-a228-16e57d0f6e27@gmail.com>
+Date: Fri, 12 Sep 2025 16:23:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 37/38] arm64: dts: mediatek: mt8395-kontron-i1200: Fix
- MT6360 regulator nodes
+Subject: Re: [PATCH 38/38] arm64: dts: mediatek: mt8516-pumpkin: Fix machine
+ compatible
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-39-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-39-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,95 +159,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> All of the MT6360 regulator nodes were wrong and would not probe
-> because the regulator names are supposed to be lower case, but
-> they are upper case in this devicetree.
+> This devicetree contained only the SoC compatible but lacked the
+> machine specific one: add a "mediatek,mt8516-pumpkin" compatible
+> to the list to fix dtbs_check warnings.
 > 
-> Change all nodes to be lower case to get working regulators.
-> 
-> Fixes: 94aaf79a6af5 ("arm64: dts: mediatek: add Kontron 3.5"-SBC-i1200")
+> Fixes: 9983822c8cf9 ("arm64: dts: mediatek: add pumpkin board dts")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../mediatek/mt8395-kontron-3-5-sbc-i1200.dts    | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> index 4985b65925a9..d16f545cbbb2 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> @@ -352,7 +352,7 @@ regulator {
->   			LDO_VIN2-supply = <&vsys>;
->   			LDO_VIN3-supply = <&vsys>;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> index cce642c53812..3d3db33a64dc 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> @@ -11,7 +11,7 @@
 >   
-> -			mt6360_buck1: BUCK1 {
-> +			mt6360_buck1: buck1 {
->   				regulator-name = "emi_vdd2";
->   				regulator-min-microvolt = <600000>;
->   				regulator-max-microvolt = <1800000>;
-> @@ -362,7 +362,7 @@ MT6360_OPMODE_LP
->   				regulator-always-on;
->   			};
+>   / {
+>   	model = "Pumpkin MT8516";
+> -	compatible = "mediatek,mt8516";
+> +	compatible = "mediatek,mt8516-pumpkin", "mediatek,mt8516";
 >   
-> -			mt6360_buck2: BUCK2 {
-> +			mt6360_buck2: buck2 {
->   				regulator-name = "emi_vddq";
->   				regulator-min-microvolt = <300000>;
->   				regulator-max-microvolt = <1300000>;
-> @@ -372,7 +372,7 @@ MT6360_OPMODE_LP
->   				regulator-always-on;
->   			};
->   
-> -			mt6360_ldo1: LDO1 {
-> +			mt6360_ldo1: ldo1 {
->   				regulator-name = "mt6360_ldo1"; /* Test point */
->   				regulator-min-microvolt = <1200000>;
->   				regulator-max-microvolt = <3600000>;
-> @@ -380,7 +380,7 @@ mt6360_ldo1: LDO1 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo2: LDO2 {
-> +			mt6360_ldo2: ldo2 {
->   				regulator-name = "panel1_p1v8";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <1800000>;
-> @@ -388,7 +388,7 @@ mt6360_ldo2: LDO2 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo3: LDO3 {
-> +			mt6360_ldo3: ldo3 {
->   				regulator-name = "vmc_pmu";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <3300000>;
-> @@ -396,7 +396,7 @@ mt6360_ldo3: LDO3 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo5: LDO5 {
-> +			mt6360_ldo5: ldo5 {
->   				regulator-name = "vmch_pmu";
->   				regulator-min-microvolt = <3300000>;
->   				regulator-max-microvolt = <3300000>;
-> @@ -404,7 +404,7 @@ mt6360_ldo5: LDO5 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo6: LDO6 {
-> +			mt6360_ldo6: ldo6 {
->   				regulator-name = "mt6360_ldo6"; /* Test point */
->   				regulator-min-microvolt = <500000>;
->   				regulator-max-microvolt = <2100000>;
-> @@ -412,7 +412,7 @@ mt6360_ldo6: LDO6 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo7: LDO7 {
-> +			mt6360_ldo7: ldo7 {
->   				regulator-name = "emi_vmddr_en";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <1800000>;
+>   	memory@40000000 {
+>   		device_type = "memory";
 
