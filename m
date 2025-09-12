@@ -2,80 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D312B56091
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 13:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3051B5608D
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 13:45:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBEF10E124;
-	Sat, 13 Sep 2025 11:45:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D67310E127;
+	Sat, 13 Sep 2025 11:45:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eHF45OCd";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="jPA7u0HU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B974910E13A
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 16:42:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3dae49b117bso1720467f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 09:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757695366; x=1758300166; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=eLwAUPbOiAmud7bKZYKSB1YsNPeEWpmZUaenVfyVXkU=;
- b=eHF45OCdYPwA3ILMoXN3njbg45ac6avRszKB2JUxzIMFsKeXMWQJOupUDXpZygfmdg
- AtaPeNSrdmR77b1WGDN8Vo9i8LIo3OvI6sT1oKW9aE2Vv29jyGJyczZP0xcy8r77rb2V
- FI+2iFu7JBYAUQdBLWo//wgvafEUFOlLjbkB2Evf6gB5Gvm2ac9n/qExWkcPHTU3y9SD
- 9/c2cSosCKeCuFjB61nAS4k5ywS3l3lkesWC5dBMQwtPlly9kCC+jmEv6x7vYFOrgPMS
- 0TBlOUN7OIPG2t3Fm7Te/SqowsrQeiIyjgbiG5BFw1bymH2iUiHE1tq0ry/lQ4Fz5jCX
- MQZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757695366; x=1758300166;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eLwAUPbOiAmud7bKZYKSB1YsNPeEWpmZUaenVfyVXkU=;
- b=Zwm/15k5VJKNaMoLRZ5rstWj+Yrezy6VVl3vuzEtvQ2kXPSh7kl8bue591AyDBfOre
- JboNMTdXpaKZd7ak38cM3OivHj8g7P2ERXamPHJKVzmBYzM84slYoFvCnDhoTr0Xi1sJ
- Haty1+fGTotC7dFNuyuRqYKq8lQmgAk6y7DZ93+VmXCnAIF7Zc6A7OlQh73LEhU2thDd
- aGXvBLfIto26u7aGRPW2UIBjZgYYOESoWzXEzA1DsMaPqH9pEafp4m+cJmijh5AIhYu1
- vt0JTJCiQ2GKHNdDGDkZ9tAg3Nqx3A7ehXed3IaEMcuXdRF89Es2zRzMWWIpOlw0S0zt
- aKoA==
-X-Gm-Message-State: AOJu0YzaVl9E/GOnVto/xFSQJnHRcGhnsN6bK7B2m1zDnccIO/2yGboV
- xOW6QtY2c7qyZlgjB34FpQYXRn0OZDquxZOml5wolRAkVuikILTWhkMQ
-X-Gm-Gg: ASbGncuvfhXCpm2OeF/icRgCX6z8qWoRotnekib3uar8ay+lu3sb8hwEfGhMjYrTgZ9
- eegpfFe45TqtiP4nuPFq7Oo4Khq/dk6WD/YXb0dDaCxbP6+ruTjIx6AwPGfTY2/1yvqRg9ZIfUu
- korN2iQTSWT0dGHA80/7ZdYnwpc1amw2PPgYEcuC4c1vEjdG7NTSUIR963DYF88401tQ4vls9NR
- hvaI65LejhneAVd/JDS2/xb7+0xUeJx6MHXdOnOJj5LqiF19izGX48IF/N7p2jUEi927+ATjlPl
- q4m+uHvdcmr/1eD7No+aY6sCURl0OLR9RQyYr7rxrxGoqiqCVLUDv/ena6QE06ILuUqBUgCqX/H
- zNAKmcpu0GXc/kS17tXXB7NVwfDJu8+fkprcJcU8+yDNEM4BUSSphzlDNYiJhukifeDGJJDMAFa
- k=
-X-Google-Smtp-Source: AGHT+IEKnltXeeMvVDI2QemSGP+MIU6It7d9Of00qdZt9eZWQWOA1s5MS+l2BWMiGa13PqXhzaHkNA==
-X-Received: by 2002:a05:6000:402b:b0:3dc:eb5:503b with SMTP id
- ffacd0b85a97d-3e765a1607cmr3933540f8f.56.1757695366194; 
- Fri, 12 Sep 2025 09:42:46 -0700 (PDT)
-Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.138.131])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e7607cd415sm7086696f8f.30.2025.09.12.09.42.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Sep 2025 09:42:45 -0700 (PDT)
-From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Fri, 12 Sep 2025 18:42:13 +0200
-Subject: [PATCH 5/5] drm/solomon: Enforce one assignment per line
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C6910ECA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 17:00:30 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CGN66u023858;
+ Fri, 12 Sep 2025 17:00:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=corp-2025-04-25; bh=06+g7AZH7i0HwmSRN02FkXgDW1kLN
+ QkWhVc/5luFnrE=; b=jPA7u0HUzkA2DsqjNffEODqW6dHqUc1krdsGz8PkFjMam
+ smR/HLiMnfEYFJk22QKlE7k2eojA0JkTgeDKFJ0m5vA6yRCzciz+a+Kuub5sjwK1
+ /EwAzk58BFyCdHI5Bcxr1uUwKsSIFKMLl8TGqscSEbQRpcJPoKECW0Uo1Yz9ZWBv
+ qJcgW/Wgv3zrQ49V4lWpfTrjRjJKFgHgNuteM3nu33KnOcnzT09ceDaFlxg3q3RY
+ uyTA/CuHbHdguNLLbZOALr43ZHtWwi84nkHaZqSj4SkGs3cI815nFhU55rfE85Hi
+ lGO8kVbbsgAhEDPHl6ItX0kcBPO4gf3gR5jREDYQw==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4921m30kac-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 12 Sep 2025 17:00:26 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 58CGga3K038836; Fri, 12 Sep 2025 17:00:25 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com
+ [10.129.136.47])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 490bde5atv-1; Fri, 12 Sep 2025 17:00:25 +0000
+From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+To: simona@ffwll.ch, deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] fbcon: fix integer overflow in fbcon_do_set_font
+Date: Fri, 12 Sep 2025 10:00:23 -0700
+Message-ID: <20250912170023.3931881-1-samasth.norway.ananda@oracle.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250912-improve-ssd130x-v1-5-bc9389ed299e@gmail.com>
-References: <20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com>
-In-Reply-To: <20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Iker Pedrosa <ikerpedrosam@gmail.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_06,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 suspectscore=0
+ mlxlogscore=999 adultscore=0 spamscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2509120155
+X-Proofpoint-GUID: BD1hBxHGxIjYKS9kfTh7ahBaI79xRZcx
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE1MSBTYWx0ZWRfXxPZM6+vGXYFk
+ 71DDAgvmAE3Q52WR345M1UlMOsBn2R2sSRVmb9z9RJllL+6cj+mvINiFsA9gQ6fE+Oa7oIsOnlZ
+ MBalIiiW0VqeXM9Zto7DqQuUgEw0dM/0zRDd5KkqZEidCm2qnIze6u6eO75oshc3rQF5BROpE4t
+ 746IGE2+3lcBZhFDAa08ZeatHjOtiH3+Dn3sHyXLlePi2hhPT9ol9nP2N5vjLbKfAtIo66xpG0F
+ 3cc647UxmAwMSnXuKIITEeZJk9EpjoU5NU+exrTscZojAOaW5RliPovM7AaGmcDWRYvpmtqdeAo
+ eUpW8/nBWyekRSVh2dptwVE56badjOKwMbYpz/CpkrUwFKWv/9fVFkKd5QUUZWC4MMZ7uX5kwW5
+ sd/2YulY+Q7dUUhFzkfAvXypWnJY3g==
+X-Authority-Analysis: v=2.4 cv=Dp5W+H/+ c=1 sm=1 tr=0 ts=68c451aa b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117
+ a=zPCbziy225d3KhSqZt3L1A==:17
+ a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=gbwJbyMY3ZHlS5J_450A:9 cc=ntf
+ awl=host:12083
+X-Proofpoint-ORIG-GUID: BD1hBxHGxIjYKS9kfTh7ahBaI79xRZcx
 X-Mailman-Approved-At: Sat, 13 Sep 2025 11:45:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,39 +89,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code contains several instances of chained assignments. The Linux
-kernel coding style generally favors clarity and simplicity over terse
-syntax. Refactor the code to use a separate line for each assignment.
+Fix integer overflow vulnerabilities in fbcon_do_set_font() where font
+size calculations could overflow when handling user-controlled font
+parameters.
 
-Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+The vulnerabilities occur when:
+1. CALC_FONTSZ(h, pitch, charcount) performs h * pith * charcount
+   multiplication with user-controlled values that can overflow.
+2. FONT_EXTRA_WORDS * sizeof(int) + size addition can also overflow
+3. This results in smaller allocations than expected, leading to buffer
+   overflows during font data copying.
+
+Add explicit overflow checking using check_mul_overflow() and
+check_add_overflow() kernel helpers to safety validate all size
+calculations before allocation.
+
+Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 7bdccb5140195a45d8ffd01e139dd4eb2e3cc327..a09e64719f62562126851e67c4f77d779b861148 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1864,10 +1864,14 @@ static int ssd130x_init_modeset(struct ssd130x_device *ssd130x)
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 55f5731e94c3..a507d05f8fea 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2531,9 +2531,16 @@ static int fbcon_set_font(struct vc_data *vc, const struct console_font *font,
+ 	if (fbcon_invalid_charcount(info, charcount))
+ 		return -EINVAL;
  
- 	mode->type = DRM_MODE_TYPE_DRIVER;
- 	mode->clock = 1;
--	mode->hdisplay = mode->htotal = ssd130x->width;
--	mode->hsync_start = mode->hsync_end = ssd130x->width;
--	mode->vdisplay = mode->vtotal = ssd130x->height;
--	mode->vsync_start = mode->vsync_end = ssd130x->height;
-+	mode->hdisplay = ssd130x->width;
-+	mode->htotal = ssd130x->width;
-+	mode->hsync_start = ssd130x->width;
-+	mode->hsync_end = ssd130x->width;
-+	mode->vdisplay = ssd130x->height;
-+	mode->vtotal = ssd130x->height;
-+	mode->vsync_start = ssd130x->height;
-+	mode->vsync_end = ssd130x->height;
- 	mode->width_mm = 27;
- 	mode->height_mm = 27;
+-	size = CALC_FONTSZ(h, pitch, charcount);
++	/* Check for integer overflow in font size calculation */
++	if (check_mul_overflow(h, pitch, &size) ||
++	    check_mul_overflow(size, charcount, &size))
++		return -EINVAL;
++
++	/* Check for overflow in allocation size calculation */
++	if (check_add_overflow(FONT_EXTRA_WORDS * sizeof(int), size, &size))
++		return -EINVAL;
  
-
+-	new_data = kmalloc(FONT_EXTRA_WORDS * sizeof(int) + size, GFP_USER);
++	new_data = kmalloc(size, GFP_USER);
+ 
+ 	if (!new_data)
+ 		return -ENOMEM;
 -- 
-2.51.0
+2.50.1
 
