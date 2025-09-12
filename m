@@ -2,114 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F440B54AB2
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 13:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910FBB54AD8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 13:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A0710EC0B;
-	Fri, 12 Sep 2025 11:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 693D810EC0F;
+	Fri, 12 Sep 2025 11:20:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bl+MZNeR";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="krWodGzo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D73210EC0B
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:09:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44B4310EC0F
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:24 +0000 (UTC)
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fCPO017410
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:09:18 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fCQk017410
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=RXs862lHntqXQwNUIePs3juX
- TkdDKRSL4lc3ieGUpc4=; b=bl+MZNeRJm2odMXHbz5MBmppwbDpNzrIZUDhXYto
- oiHlHMedpKDBvrKEV9cQVUoTs3htou36PF/hMhh2kQ2OWZjice3mAmYehnUKCDxw
- 9Qk5tAJ7EuA/S1VSGHIbv0dBNL3Qa8P2zzCd1xPRK9J9l0OIJBUiBQGgJUNxURtl
- 54AzGO30qSd1N1QJtKRnyLUIMsuYPa2tuwlZ00w8d1/bxQcz27udyvhOciGRVu3Q
- fa+OYXWq3b/k1YX/UvASSsDig9EMaLum0zGnMGFbAoBDVOw21J+YsVeb/zdZuSzP
- JKUUO3z+3kf8nud9zavD8wMGa61CFYaEHfrHXPyn5gRx7w==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8uge4-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ fb8hL5HEjKr2NxpLUkVthwekRLKNSk3tdU6N+cDThPM=; b=krWodGzoYywUyoDy
+ Fo79eZ0LadN7Y3+zuA/9nI0SINjbOmR7mfzp7w3LdcAtUyWNZRtsR4u2tpW2UK8y
+ WYME5A7csYND0pne7RsVq6TAOfJOq7uDngZcBpe1u5mz+bgLMwXoenu89b2qg0Me
+ YmIc/8X4WSmRJs8C4IRDTBm1Q7ZZSlhphBrnRzG785RrC+03pY9jyZvrF4PoGu0/
+ BGICzPEmVN+eAB7C+XjHZkLqz+PqKTLf0NrDKxwYBYRm6PaafzfWw896De1SwuxF
+ haIOPStqIbheFJjpAiu6Lhk/9SBFI7X6QZkniajiUaY8zFGZvIcLiScwfg7ktz6P
+ TBll9Q==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8uhba-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:09:18 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7fff4abc97cso425739085a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 04:09:17 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:23 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b633847b94so47047521cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 04:20:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757675357; x=1758280157;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RXs862lHntqXQwNUIePs3juXTkdDKRSL4lc3ieGUpc4=;
- b=OB5xRD0LA3IIK5wKG17Pz2xdXmNcfi8AEBHMEwY1nXo7f6x61xr9gu7NgGOvuzSg2z
- xfyDs354V+3+LxIFOfTCA20ugdViLB3AV5pQUbuDex7ULbywYoJmZHUD1X5EqwTqP4ar
- SCtDkRzMQ9labArvSsbFMCVB1OIed9kKs0zKces7PeK8zcX+nS6Cosbk6DLLQl6GDQ1T
- tOAPwErLVLdK2kRxY0B7RIvXIvJ7qhI1vwASorGtLcwl3M5O8p7pZqnUIQ5vAbREni6f
- 7r/Zq/7zR1deEWG06054YIj3yxSadukImToGc3mV9fpy+SEIttajaktkfOwjsCNOXLFH
- 7Sng==
+ d=1e100.net; s=20230601; t=1757676022; x=1758280822;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fb8hL5HEjKr2NxpLUkVthwekRLKNSk3tdU6N+cDThPM=;
+ b=WLWaGfKLdfXu5PpX43sdUTnqvTXUftyVK1P7vSKz9KFLG5rTyBAKeEdE5rgnvlWPhc
+ 2dhJUQkK/C643+UkJYoNoyDykkoLe7GqII/bqEFTKwNsLJZD0Cw0OiLRImGhqz+K09A+
+ xTWAtHuXfOUyHpjNXofypOi0+cbcyjuoV1edNtI5ovziEjw7j4lHh7R82/nOJE42MFnj
+ RfCHalecgwakHMcW6DQqm+RYTzxZ1tnGpH6KHLoVDzXSAW6SLH60s+hkTFxdofznBW3T
+ ju1olExSGFC0rG+qs4GXwjG336GY0917xyDF/e+Mt4tC6va2WfDnwDeVHZyLy8rf21x6
+ OEHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWD9HPD3R6mxIQwV4LsMTTAjeOlGZY+puVKdRVa01hJ1xahvzSMvqnJdwkhZrCPmQRmElxHcmsTUjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyvNU5A3n+m5yolKpKFkM6lWJ6AOXWhITKjWSTZW6EjqnBVLVY
- WahUUgiP5IElrZM3AcaC0l1Dq5cji8p6LWmdt+4h4CYbKy8PkTvsXU2NRinV+QQAMBlcuOqMwut
- Aho1y5unOQAlQ5yt8gWTegz5glXfGC5qIOsmxXdDuHKY87ebUgl30G/0WD13Lr9zuKgQ0LC0=
-X-Gm-Gg: ASbGncsAbuNJRbFcb9aiPbZa65N7lkd7PLvlY+5b+Kggi0lIPBZTc1GVv71jJ8zxI5I
- 7CdL+4Cm6FlgfFXY3rS8N3UmYj2wnCPT9gwPBGNvFk95yck6upehfwZzbtSKq+1Kl3WI7x+EJ7F
- jZxcke6Y7e3jGiBDdp9Ib55UeCpolcG2tE1UZV0PwQdSSncylVAfu6HxMF4hRlGUe5FZm9xE5kC
- DgyYhbMOCZpemTsa75vBkhwod+kY2WV0vxyqR5hpPAV2D3ry74nBz/jGEcb8m3HvbglfNB4Untd
- k4zo2khK7Hrn/3BfvTmva8Xx2HO7RYRYqoLdeUiRXht5X3Pu+PesvvF3GvFlkfimJWjGNtiB/zT
- FoU/XY4D68k1RaWtZb6CsOvzc+qsf6u4MrKuw/SJnaJ3QQiIh7t2o
-X-Received: by 2002:a05:6214:5292:b0:729:3942:651e with SMTP id
- 6a1803df08f44-767c46ccbd0mr29918306d6.48.1757675357062; 
- Fri, 12 Sep 2025 04:09:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwpwkiF7tmyFiOg9b2iM6+kt1wZ6fedFzLrjDmSArDmyBGneXRRy71xO9JbYjDDc2/GjMUTg==
-X-Received: by 2002:a05:6214:5292:b0:729:3942:651e with SMTP id
- 6a1803df08f44-767c46ccbd0mr29917766d6.48.1757675356530; 
- Fri, 12 Sep 2025 04:09:16 -0700 (PDT)
+ AJvYcCVDAUkj34MkmChhPT72fmYwEMPvecUYeuT0iNfYXpz/dGwmEw1n9DE7vatzXPusoJZq8dVT0vuJv18=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCVua/8mKl/Z4y1HY6fSnoYpkZ6hpVmJF79SEaf4Z4ovDIs1Fc
+ Nix/adxwcCCpFrmJqK/BucEUHO38JhqyfeJiy41NHz6YpBgg1Nc9HS29yvNOH5tSKxXmCKPVGaK
+ a+Jf7Hq3C7fZhjDJHg6k+nhnIkLmUsaqu+BQMu8GbnP/vdLrp5cCAyQdsCzEgnXfoyKt0WVc=
+X-Gm-Gg: ASbGncv3vch0I2Oi409WMhLxT7anPlRRWfuGzGvU2M+8qxh30+MwVwlUEKWQq2hrzjL
+ 6WrsC2fqW8a6aQFvB/cpYsvezBvNqltUAXAi4PorRfhVloMhdMvAyeb0RD1iJoIY2C7e//2uIPV
+ vMEyaitYDhktEPCIqZUi+GfS2LKtcGwpUr30bf5vxHM4ZAJ+3QIJ+6lmwJz1nVaf02ISPpLtLbZ
+ /G4t2CKYctOj0VGRqAlSN7x0oBKMVyPMa6MiyfBd5tabNgCK0OKymJ3gn/6tEcHruPjfurwpzj/
+ qwCsYLt7nEAnh2c0nXwiORnVFLC6s/EF4E6q3e9Q90jDpPQZpsetjo7UzfD/BzdnVTwQbtS3/se
+ kJmeFWpiRSuNxsuiqZejUA/20GOVxCTcpP+rmYzf2z3xAsiUdcVtG
+X-Received: by 2002:a05:622a:1a9d:b0:4b5:e8c2:78d2 with SMTP id
+ d75a77b69052e-4b77d077b83mr38580591cf.62.1757676022214; 
+ Fri, 12 Sep 2025 04:20:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGHg4eYraHClGAC3c6ShRy1LlgD+/KS3l7smN2ljKJZw7h2XFpAAaVAZ2QtQocEx1SbSNnxuA==
+X-Received: by 2002:a05:622a:1a9d:b0:4b5:e8c2:78d2 with SMTP id
+ d75a77b69052e-4b77d077b83mr38579831cf.62.1757676021505; 
+ Fri, 12 Sep 2025 04:20:21 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-34f1a8212e3sm7522231fa.41.2025.09.12.04.09.14
+ 2adb3069b0e04-56e63c63f6csm1074336e87.86.2025.09.12.04.20.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Sep 2025 04:09:14 -0700 (PDT)
-Date: Fri, 12 Sep 2025 14:09:12 +0300
+ Fri, 12 Sep 2025 04:20:20 -0700 (PDT)
+Date: Fri, 12 Sep 2025 14:20:17 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
- sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
- alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
- andy.yan@rock-chips.com, dianders@chromium.org,
- m.szyprowski@samsung.com, luca.ceresoli@bootlin.com,
+To: Miguel Gazquez <miguel.gazquez@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Phong LE <ple@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 15/17] drm/bridge: analogix_dp: Remove panel disabling
- and enabling in analogix_dp_set_bridge()
-Message-ID: <tywxkfjhulxsgdphngtfs24whslbkmnza7yx2sb7c4ulea6val@46pi6e2sjs6c>
-References: <20250912085846.7349-1-damon.ding@rock-chips.com>
- <20250912085846.7349-16-damon.ding@rock-chips.com>
+ thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com,
+ kory.maincent@bootlin.com, romain.gantois@bootlin.com, praneeth@ti.com,
+ Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH] drm/bridge: ite-it66121: Add drm_connector support
+Message-ID: <cqtjavx2aljj34d6rdxysrl3fsmi6i45o6w7gmcul7v3xkws5v@d4sensdcyrfp>
+References: <20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com>
+ <do5zciwcanpiciy52zj3nn6igmwlgmbcfdwbibv2ijxm2fif5s@ib6jhzi5h2jo>
+ <6164422a-6265-4726-8da5-68bb8eafb9e6@bootlin.com>
+ <20250911-innocent-daffodil-macaque-797f13@houat>
+ <012046ab-d866-4b3a-8c8a-e130bc2b9628@bootlin.com>
+ <2l5kp4ojrcsg2apcpv7mzeeypwynecyfesenks6zzvnst3qkbt@4yhbosy2zhah>
+ <e6af5c37-d18a-423e-b822-367441a48f86@bootlin.com>
+ <21f80397-be9c-49bd-b814-ea5f0eb5fdc8@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250912085846.7349-16-damon.ding@rock-chips.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfXw7K2oo+1uZ+S
- aEI7Mgu/8CXKv/PsYbePA6vkZApIYAEPaWeuMgxHrFN4yORmdI+vj6FwPW6Q3NyHjVsuuQjFcwp
- s1C2H52eqbdhbejGB/EWzdW1yBjFXrJN2uZ97I3jmV2T3pptuM/hqCQ17vQoLc/c1wrkd6GcynL
- p3mdGP2j3IsQrV+IiJmgmC6Sk2RvYiK8Nkd0bN65Axq6MuFfRhd81DLkBYPmORfRi46qlrwF/qR
- vGnxGQ86WebzXAQjXeSeH2avOVbGSzrDEixA8NDvokjtjH4XEGKvf+zNWh24y8iu9JYVPwTZaC/
- j7EpC/yHg2dWcpubyq++tDpfh1uLPfqtrk78cz4f4Warf1tclXn5Dqn3j96qFAxBU+wtChfMgZF
- nt36aB+R
-X-Proofpoint-ORIG-GUID: TWSCrM2k8YDXICh-JlaugD110uabu4ce
-X-Proofpoint-GUID: TWSCrM2k8YDXICh-JlaugD110uabu4ce
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c3ff5e cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=xk9nQhndt_Gh6lZpDTgA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=jGH_LyMDp9YhSvY-UuyI:22
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <21f80397-be9c-49bd-b814-ea5f0eb5fdc8@bootlin.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfXyTK1UxNpfKSo
+ /r1MurB1lf+BF9DdO59vv8YJqCd7KRmnVb07CvwUhaPktge5Lp36ICUmYjDOZE6QUWAguZ1blWV
+ jSlzZ57anUSDBfbNClYIuXMxsJbbLhM3ebG8yc/v8Tk28Lipyf1fyobJ6iyw+X9BgvWBW39Ziji
+ EnOQJC7VGEmmorBZL8n3ousF2z0FMBR+RWF5ZLizh8/u5NIypfxsO5N4jBmNxzRbzDTa2tLwk9c
+ p0Hxb3cznKhi7+R5kSutj/h6+Q+k8T143sUFZXh/84LAb3jMuS0cKxo2LnHth0T7J8qbzcF7Yoz
+ +mIKa8EcrI3acW4u+E4Lr9nQwKHa3DQT9cRkq+9NIDtAGau4a3Wv2nqARrA3X2RANvwVnjneKG8
+ Mq5pEQER
+X-Proofpoint-ORIG-GUID: gLLlysC1wokU4dXQTvnc4dT887_BLXcZ
+X-Proofpoint-GUID: gLLlysC1wokU4dXQTvnc4dT887_BLXcZ
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c401f7 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=yJojWOMRYYMA:10 a=sozttTNsAAAA:8 a=046QJsDkA4Zp6KAU2jsA:9 a=3ZKOabzyN94A:10
+ a=wPNLvfGTeEIA:10 a=uxP6HrT_eTzRwkO_Te1X:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_04,2025-09-11_02,2025-03-28_01
@@ -133,62 +140,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 12, 2025 at 04:58:44PM +0800, Damon Ding wrote:
-> The &drm_panel_funcs.enable() and &drm_panel_funcs.disable() mainly
-> help turn on/off the backlight to make the image visible, and the
-> backlight operations are even needless if drm_panel_of_backlight() or
-> drm_panel_dp_aux_backlight() is applied, in which case the enabling
-> and disabling process just add necessary delays.
+On Thu, Sep 11, 2025 at 05:47:57PM +0200, Miguel Gazquez wrote:
+> 
+> 
+> Le 11/09/2025 à 17:40, Miguel Gazquez a écrit :
+> > 
+> > 
+> > Le 11/09/2025 à 15:09, Dmitry Baryshkov a écrit :
+> > > On Thu, Sep 11, 2025 at 02:49:59PM +0200, Miguel Gazquez wrote:
+> > > > 
+> > > > 
+> > > > Le 11/09/2025 à 11:50, Maxime Ripard a écrit :
+> > > > > On Thu, Sep 11, 2025 at 10:51:06AM +0200, Miguel Gazquez wrote:
+> > > > > > 
+> > > > > > 
+> > > > > > Le 10/09/2025 à 04:28, Dmitry Baryshkov a écrit :
+> > > > > > > On Tue, Sep 09, 2025 at 06:16:43PM +0200, Miguel Gazquez wrote:
+> > > > > > > > From: Aradhya Bhatia <a-bhatia1@ti.com>
+> > > > > > > > 
+> > > > > > > > Add support for DRM connector and make the driver support the older
+> > > > > > > > format of attaching connectors onto the encoder->bridge->connector
+> > > > > > > > chain.
+> > > > > > > > This makes the driver compatible with display controller that only
+> > > > > > > > supports the old format.
+> > > > > > > > 
+> > > > > > > > [Miguel Gazquez: Rebased + made driver work with or without
+> > > > > > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR]
+> > > > > > > 
+> > > > > > > What is the use case for not using DRM_BRIDGE_ATTACH_NO_CONNECTOR?
+> > > > > > 
+> > > > > > Some display controller drivers (like the tilcdc) call
+> > > > > > drm_bridge_attach
+> > > > > > without DRM_BRIDGE_ATTACH_NO_CONNECTOR, so the bridge
+> > > > > > must support both with
+> > > > > > and without DRM_BRIDGE_ATTACH_NO_CONNECTOR to be
+> > > > > > compatible with all display
+> > > > > > controllers.
+> > > > > 
+> > > > > I'd rather convert tilcdc to use DRM_BRIDGE_ATTACH_NO_CONNECTOR then.
+> > > > 
+> > > > The problem is that doing that break devicetrees using the tilcdc and a
+> > > > bridge who doesn't support DRM_BRIDGE_ATTACH_NO_CONNECTOR (there are
+> > > > multiple bridges that don't support
+> > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR), and if
+> > > > my understanding is correct breaking devicetrees is not allowed.
+> > > 
+> > > How does it break devicetree? The drm_bridge_connector isn't a part of
+> > > DT.
+> > 
+> > 
+> > In the current situation, a board could have the tilcdc linked with a
+> > bridge that does not support DRM_BRIDGE_ATTACH_NO_CONNECTOR (for
+> > example, the analogix-anx6345) , and everything will work fine.
+> > If we convert the tilcdc to always use DRM_BRIDGE_ATTACH_NO_CONNECTOR,
+> > that same configuration will stop working.
+> > 
+> > When I said "breaking devicetree" I meant that a devicetree describing
+> > this setup would no longer produce a working system, not that the DT
+> > files or bindings themselves are incorrect.
+> > I didn't find any upstream dts with this configuration, but maybe there
+> > is some out-of-tree dts which would be affected.
+> > As far as I understand, we should avoid that.
+> > 
+> 
+> If I can rephrase myself, is my understanding correct ? Do we care about
+> breaking out-of-tree dts ?
 
-Not necessary, it can actually be turning the panel off and on. Maybe
-it's worth squashing this patch into the panel_bridge conversion as it
-will point out that these functions are still being called at a correct
-times by the DRM bridge framework.
+From my practice: only in a very limited way, if there are well-known
+out-of-tree DTS (e.g. we kept some bits and pieces of panel code because
+of out-of-tree ChromeBook devices).
 
-> 
-> Therefore, it should make sense to remove panel disabling and move
-> panel enabling after analogix_dp_set_bridge() finished.
-> 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index 66d0cca1f268..c98058e9c917 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -749,9 +749,6 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
->  {
->  	int ret;
->  
-> -	/* Keep the panel disabled while we configure video */
-> -	drm_panel_disable(dp->plat_data->panel);
-> -
->  	ret = analogix_dp_train_link(dp);
->  	if (ret) {
->  		dev_err(dp->dev, "unable to do link train, ret=%d\n", ret);
-> @@ -771,9 +768,6 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
->  		return ret;
->  	}
->  
-> -	/* Safe to enable the panel now */
-> -	drm_panel_enable(dp->plat_data->panel);
-> -
->  	/* Check whether panel supports fast training */
->  	ret = analogix_dp_fast_link_train_detection(dp);
->  	if (ret)
-> @@ -1156,6 +1150,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
->  	while (timeout_loop < MAX_PLL_LOCK_LOOP) {
->  		if (analogix_dp_set_bridge(dp) == 0) {
->  			dp->dpms_mode = DRM_MODE_DPMS_ON;
-> +			drm_panel_enable(dp->plat_data->panel);
->  			return;
->  		}
->  		dev_err(dp->dev, "failed to set bridge, retry: %d\n",
-> -- 
-> 2.34.1
-> 
+But you can easility keep compatibility: inside the ticldc driver first
+try attaching the bridge with the flag set, then, if it fails, try
+attaching without the flag. Add dev_warn() and some grace period.
+his was the path that we used to migrate the drm/msm/dsi: enable
+DRM_BRIDGE_ATTACH_NO_CONNECTOR by default, keeping legacy support in
+place, then drop legacy after some time after converting all users.
 
 -- 
 With best wishes
