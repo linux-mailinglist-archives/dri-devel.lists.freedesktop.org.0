@@ -2,129 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910FBB54AD8
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 13:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8762DB54AF8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 13:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693D810EC0F;
-	Fri, 12 Sep 2025 11:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5402010EC10;
+	Fri, 12 Sep 2025 11:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="krWodGzo";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LveBUbH5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B4310EC0F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:24 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fCQk017410
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:23 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 874C610EC10
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:25:09 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fWOO014362
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:25:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fb8hL5HEjKr2NxpLUkVthwekRLKNSk3tdU6N+cDThPM=; b=krWodGzoYywUyoDy
- Fo79eZ0LadN7Y3+zuA/9nI0SINjbOmR7mfzp7w3LdcAtUyWNZRtsR4u2tpW2UK8y
- WYME5A7csYND0pne7RsVq6TAOfJOq7uDngZcBpe1u5mz+bgLMwXoenu89b2qg0Me
- YmIc/8X4WSmRJs8C4IRDTBm1Q7ZZSlhphBrnRzG785RrC+03pY9jyZvrF4PoGu0/
- BGICzPEmVN+eAB7C+XjHZkLqz+PqKTLf0NrDKxwYBYRm6PaafzfWw896De1SwuxF
- haIOPStqIbheFJjpAiu6Lhk/9SBFI7X6QZkniajiUaY8zFGZvIcLiScwfg7ktz6P
- TBll9Q==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8uhba-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=L/KO/8ARjOPSDYaWONlEfU/h
+ 96fvcT5jnTcbxDheBto=; b=LveBUbH5+IKoDERn3kFHQVSoFlOGA9aorkBY/HWO
+ R5EL/IvDmc70MUV3aHLzEuhud1sqlDxJ4NZbl2FuERCj8gzqIQAu8JsMxTnqWGuz
+ sYcg6uggPDMyMbhLlhwFZ3BDs6M78dW/WsBLET6Inb9puclecuiqjYoNYdYCSRK6
+ yXNBQpM76/7ntmPWiu1sg7WeIF0nUG9YjOWXar/DXywryufl4eAS/6YXWaTWr2ec
+ MuQT4gpOMmYWUok7/NiNRrx1ZAiDWRrs+KsdlsO/YcPW7xhY87psQphr9yANTN+o
+ 3DFfdeIlMbiLCe5MF/bpVAb757j/hbtQmT0DgOHKouPl9w==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493qphw61c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:20:23 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b633847b94so47047521cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 04:20:23 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 11:25:08 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-76485dfc1f5so41911366d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 04:25:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757676022; x=1758280822;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fb8hL5HEjKr2NxpLUkVthwekRLKNSk3tdU6N+cDThPM=;
- b=WLWaGfKLdfXu5PpX43sdUTnqvTXUftyVK1P7vSKz9KFLG5rTyBAKeEdE5rgnvlWPhc
- 2dhJUQkK/C643+UkJYoNoyDykkoLe7GqII/bqEFTKwNsLJZD0Cw0OiLRImGhqz+K09A+
- xTWAtHuXfOUyHpjNXofypOi0+cbcyjuoV1edNtI5ovziEjw7j4lHh7R82/nOJE42MFnj
- RfCHalecgwakHMcW6DQqm+RYTzxZ1tnGpH6KHLoVDzXSAW6SLH60s+hkTFxdofznBW3T
- ju1olExSGFC0rG+qs4GXwjG336GY0917xyDF/e+Mt4tC6va2WfDnwDeVHZyLy8rf21x6
- OEHg==
+ d=1e100.net; s=20230601; t=1757676308; x=1758281108;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L/KO/8ARjOPSDYaWONlEfU/h96fvcT5jnTcbxDheBto=;
+ b=SRWiSSrdJiEGbqelXWF5qIjRS3LbhPPyApA/4c2BIsPP1zI2boGUfshUsfktFmFcBf
+ QCbT34uSKE0Go1P2DrrfuHyx++xZGKuCsfhRz4KvBS/L5eJRogXfk713pfEdwumqkGdT
+ 1nGROON7tHgHjn7M+Boep1aELCMnQ8ssS80bzX44FzKbHrjxGB0IsQalKH0foTFIN5ez
+ /Hoy9x7sOQOpVBE07XXw0w9VbKBz+lQ149IjdLQe3zjIVbQ9g1j5pHM454eb3YD0Rf5V
+ SR95TvKsGjjaIqAydJlVYaTWTMMWtAgm6SS3A2NcY2zv1M9C8BF9r09xualt2cFhQJlJ
+ WTag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDAUkj34MkmChhPT72fmYwEMPvecUYeuT0iNfYXpz/dGwmEw1n9DE7vatzXPusoJZq8dVT0vuJv18=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCVua/8mKl/Z4y1HY6fSnoYpkZ6hpVmJF79SEaf4Z4ovDIs1Fc
- Nix/adxwcCCpFrmJqK/BucEUHO38JhqyfeJiy41NHz6YpBgg1Nc9HS29yvNOH5tSKxXmCKPVGaK
- a+Jf7Hq3C7fZhjDJHg6k+nhnIkLmUsaqu+BQMu8GbnP/vdLrp5cCAyQdsCzEgnXfoyKt0WVc=
-X-Gm-Gg: ASbGncv3vch0I2Oi409WMhLxT7anPlRRWfuGzGvU2M+8qxh30+MwVwlUEKWQq2hrzjL
- 6WrsC2fqW8a6aQFvB/cpYsvezBvNqltUAXAi4PorRfhVloMhdMvAyeb0RD1iJoIY2C7e//2uIPV
- vMEyaitYDhktEPCIqZUi+GfS2LKtcGwpUr30bf5vxHM4ZAJ+3QIJ+6lmwJz1nVaf02ISPpLtLbZ
- /G4t2CKYctOj0VGRqAlSN7x0oBKMVyPMa6MiyfBd5tabNgCK0OKymJ3gn/6tEcHruPjfurwpzj/
- qwCsYLt7nEAnh2c0nXwiORnVFLC6s/EF4E6q3e9Q90jDpPQZpsetjo7UzfD/BzdnVTwQbtS3/se
- kJmeFWpiRSuNxsuiqZejUA/20GOVxCTcpP+rmYzf2z3xAsiUdcVtG
-X-Received: by 2002:a05:622a:1a9d:b0:4b5:e8c2:78d2 with SMTP id
- d75a77b69052e-4b77d077b83mr38580591cf.62.1757676022214; 
- Fri, 12 Sep 2025 04:20:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGHg4eYraHClGAC3c6ShRy1LlgD+/KS3l7smN2ljKJZw7h2XFpAAaVAZ2QtQocEx1SbSNnxuA==
-X-Received: by 2002:a05:622a:1a9d:b0:4b5:e8c2:78d2 with SMTP id
- d75a77b69052e-4b77d077b83mr38579831cf.62.1757676021505; 
- Fri, 12 Sep 2025 04:20:21 -0700 (PDT)
+ AJvYcCU3dO7aGp+DyKc5tyy5QkGtv4likMS8uGQGK72ok6MTMUsZNabR8WAXTwCPU5quiRUJkSYri/APtyk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjNuvjWdBhEj8+2CYeZpqD8J/FrbnyKqi/5CLCgM6WgMAQ5Hmq
+ hxLmMo6dZhA5WTjh5YANz3ipvPm5RWRyNMXyVbi+W97knu2fw1WD71bK78LHyew1NQsn3cFajgH
+ LYqDkHudNe2w/1sLfMfqpuUhRu1W2GN6dUg90c0V3pSfxD2DuUeNK2oBeZaLn3wf3yJMdBbA=
+X-Gm-Gg: ASbGnctnkcK2opO11FdtUmdZtOoEyRZUygE9DNc4p4Bl/TF+WY4DoVmQ0A4UBt3BuaN
+ pAJZdvE/a6b9aBVuESK2I1zKTThAUufQ0RiC4WR8RUvinFnhjUl6CDMIHMXX48jdkfrjGurSt04
+ 5sYBcdfQ11XVhFTdIOMDlSaglp5aRCjDpjN4mmz237hYryIzQlwBMWbVdKUhU973lFb+x3BTaKV
+ AKnFmaNtz5Gm+T2ulVAqLWCiFkkXPrsYt80yU3r5h4Xoh6scxzteo+wJOBlrd2Kg833W7UXlR8U
+ /5lr0Sf7XDMAy1NMsn2o5HbySJYhVWhlXyMSonVD1MgSbMTBTFYAnEo1kLCDZY8NJ+erMsYHbHu
+ pAE6CtROMqfTedSJxk2FXrNUokNkdt5kh2bIbcsv35eWbkq/8Z1qA
+X-Received: by 2002:a05:6214:1c09:b0:727:e45a:562c with SMTP id
+ 6a1803df08f44-767c5fc1237mr36407286d6.45.1757676307410; 
+ Fri, 12 Sep 2025 04:25:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBvOKZjxSrcCAvaaBqR3mwSYec8GgXHcFcEBSSwTJG6nn1Xn5NwUdFapU5ndqxPzynNLhv7A==
+X-Received: by 2002:a05:6214:1c09:b0:727:e45a:562c with SMTP id
+ 6a1803df08f44-767c5fc1237mr36406556d6.45.1757676306608; 
+ Fri, 12 Sep 2025 04:25:06 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e63c63f6csm1074336e87.86.2025.09.12.04.20.19
+ 2adb3069b0e04-56e65754ab0sm1059810e87.132.2025.09.12.04.25.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Sep 2025 04:20:20 -0700 (PDT)
-Date: Fri, 12 Sep 2025 14:20:17 +0300
+ Fri, 12 Sep 2025 04:25:05 -0700 (PDT)
+Date: Fri, 12 Sep 2025 14:25:03 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Miguel Gazquez <miguel.gazquez@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Phong LE <ple@baylibre.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, miquel.raynal@bootlin.com,
- kory.maincent@bootlin.com, romain.gantois@bootlin.com, praneeth@ti.com,
- Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: Re: [PATCH] drm/bridge: ite-it66121: Add drm_connector support
-Message-ID: <cqtjavx2aljj34d6rdxysrl3fsmi6i45o6w7gmcul7v3xkws5v@d4sensdcyrfp>
-References: <20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com>
- <do5zciwcanpiciy52zj3nn6igmwlgmbcfdwbibv2ijxm2fif5s@ib6jhzi5h2jo>
- <6164422a-6265-4726-8da5-68bb8eafb9e6@bootlin.com>
- <20250911-innocent-daffodil-macaque-797f13@houat>
- <012046ab-d866-4b3a-8c8a-e130bc2b9628@bootlin.com>
- <2l5kp4ojrcsg2apcpv7mzeeypwynecyfesenks6zzvnst3qkbt@4yhbosy2zhah>
- <e6af5c37-d18a-423e-b822-367441a48f86@bootlin.com>
- <21f80397-be9c-49bd-b814-ea5f0eb5fdc8@bootlin.com>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+ kong.kongxinwei@hisilicon.com, liangjian010@huawei.com,
+ chenjianmin@huawei.com, fengsheng5@huawei.com, libaihan@huawei.com,
+ shenjian15@huawei.com, shaojijie@huawei.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+Message-ID: <3sywcmtd4uksow6exaav6smx4wwrlp7mur6mcrpw3qklvbr3kn@dqypx4fmnhrw>
+References: <20250813094238.3722345-1-shiyongbang@huawei.com>
+ <20250813094238.3722345-3-shiyongbang@huawei.com>
+ <aayi7zjrmru2ancexrqmcutams6ohde3nrkhqacixwp45dsk4v@7ig6hqzahdxf>
+ <1dd93bb7-4f67-4b9b-8b6a-d7c5c77cf807@huawei.com>
+ <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+ <8bbfd02f-138d-420c-b456-10d0c913f46e@huawei.com>
+ <cdmtfluxqes3bv3t7suctbajp4jmpih6fhegkbf7mxvy4umzrd@rtpupear4el2>
+ <13b3f4d9-c8b4-445f-8f9e-a57a1fa2bbb5@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21f80397-be9c-49bd-b814-ea5f0eb5fdc8@bootlin.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfXyTK1UxNpfKSo
- /r1MurB1lf+BF9DdO59vv8YJqCd7KRmnVb07CvwUhaPktge5Lp36ICUmYjDOZE6QUWAguZ1blWV
- jSlzZ57anUSDBfbNClYIuXMxsJbbLhM3ebG8yc/v8Tk28Lipyf1fyobJ6iyw+X9BgvWBW39Ziji
- EnOQJC7VGEmmorBZL8n3ousF2z0FMBR+RWF5ZLizh8/u5NIypfxsO5N4jBmNxzRbzDTa2tLwk9c
- p0Hxb3cznKhi7+R5kSutj/h6+Q+k8T143sUFZXh/84LAb3jMuS0cKxo2LnHth0T7J8qbzcF7Yoz
- +mIKa8EcrI3acW4u+E4Lr9nQwKHa3DQT9cRkq+9NIDtAGau4a3Wv2nqARrA3X2RANvwVnjneKG8
- Mq5pEQER
-X-Proofpoint-ORIG-GUID: gLLlysC1wokU4dXQTvnc4dT887_BLXcZ
-X-Proofpoint-GUID: gLLlysC1wokU4dXQTvnc4dT887_BLXcZ
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c401f7 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=sozttTNsAAAA:8 a=046QJsDkA4Zp6KAU2jsA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+In-Reply-To: <13b3f4d9-c8b4-445f-8f9e-a57a1fa2bbb5@huawei.com>
+X-Authority-Analysis: v=2.4 cv=aPDwqa9m c=1 sm=1 tr=0 ts=68c40314 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=i0EeH86SAAAA:8 a=74nAKEOhdCrmlouCdhMA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: oHJQjLQsNhBrGFSaF-pIX4phRshCYQeI
+X-Proofpoint-ORIG-GUID: oHJQjLQsNhBrGFSaF-pIX4phRshCYQeI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDA0MCBTYWx0ZWRfXyosds34v0psV
+ YUe7dfpMHhJXoU767gKEq/VLrcXN4ZCq2HS2H94v/GdKD2J7+av5zeGXGFkv847dDNYp3Vpg8ui
+ Cfgur5/IUbWJlWVDNk4vNEhfvNaDFqXQAEMQcwHCliZwdpYMk2URufmB6svXJMwPtDCyKonRRLS
+ 6zxNk0tDeT8CFsiMJD+16K+PwPENHMAHTEGc8IGVP6w2Sw8tFtlAUXxyQ10gvpGLDm8rxDj2h+f
+ EuYF+GMQ0yvjGIhYGrLybLsq+JYbsVGOPbfiBQFwdIqDAuLpCucajz0i6OoyYQjuRt3XPStGO/m
+ qHaN8zCbC3eZBinD0vJuU1g5/p+eSDwdxeCMwckYB7XL7o+MI0OqF3jEYvkne/nWETQ8bAdUush
+ w0IdrBCs
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_04,2025-09-11_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+ priorityscore=1501 phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 spamscore=0 suspectscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509110040
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,82 +134,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 05:47:57PM +0200, Miguel Gazquez wrote:
+On Fri, Sep 12, 2025 at 09:23:05AM +0800, Yongbang Shi wrote:
 > 
-> 
-> Le 11/09/2025 à 17:40, Miguel Gazquez a écrit :
-> > 
-> > 
-> > Le 11/09/2025 à 15:09, Dmitry Baryshkov a écrit :
-> > > On Thu, Sep 11, 2025 at 02:49:59PM +0200, Miguel Gazquez wrote:
-> > > > 
-> > > > 
-> > > > Le 11/09/2025 à 11:50, Maxime Ripard a écrit :
-> > > > > On Thu, Sep 11, 2025 at 10:51:06AM +0200, Miguel Gazquez wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > Le 10/09/2025 à 04:28, Dmitry Baryshkov a écrit :
-> > > > > > > On Tue, Sep 09, 2025 at 06:16:43PM +0200, Miguel Gazquez wrote:
-> > > > > > > > From: Aradhya Bhatia <a-bhatia1@ti.com>
-> > > > > > > > 
-> > > > > > > > Add support for DRM connector and make the driver support the older
-> > > > > > > > format of attaching connectors onto the encoder->bridge->connector
-> > > > > > > > chain.
-> > > > > > > > This makes the driver compatible with display controller that only
-> > > > > > > > supports the old format.
-> > > > > > > > 
-> > > > > > > > [Miguel Gazquez: Rebased + made driver work with or without
-> > > > > > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR]
+> > On Thu, Sep 11, 2025 at 05:32:40PM +0800, Yongbang Shi wrote:
+> > > > On Thu, Aug 14, 2025 at 08:19:41PM +0800, Yongbang Shi wrote:
+> > > > > > On Wed, Aug 13, 2025 at 05:42:29PM +0800, Yongbang Shi wrote:
+> > > > > > > From: Baihan Li <libaihan@huawei.com>
 > > > > > > > 
-> > > > > > > What is the use case for not using DRM_BRIDGE_ATTACH_NO_CONNECTOR?
-> > > > > > 
-> > > > > > Some display controller drivers (like the tilcdc) call
-> > > > > > drm_bridge_attach
-> > > > > > without DRM_BRIDGE_ATTACH_NO_CONNECTOR, so the bridge
-> > > > > > must support both with
-> > > > > > and without DRM_BRIDGE_ATTACH_NO_CONNECTOR to be
-> > > > > > compatible with all display
-> > > > > > controllers.
-> > > > > 
-> > > > > I'd rather convert tilcdc to use DRM_BRIDGE_ATTACH_NO_CONNECTOR then.
-> > > > 
-> > > > The problem is that doing that break devicetrees using the tilcdc and a
-> > > > bridge who doesn't support DRM_BRIDGE_ATTACH_NO_CONNECTOR (there are
-> > > > multiple bridges that don't support
-> > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR), and if
-> > > > my understanding is correct breaking devicetrees is not allowed.
-> > > 
-> > > How does it break devicetree? The drm_bridge_connector isn't a part of
-> > > DT.
-> > 
-> > 
-> > In the current situation, a board could have the tilcdc linked with a
-> > bridge that does not support DRM_BRIDGE_ATTACH_NO_CONNECTOR (for
-> > example, the analogix-anx6345) , and everything will work fine.
-> > If we convert the tilcdc to always use DRM_BRIDGE_ATTACH_NO_CONNECTOR,
-> > that same configuration will stop working.
-> > 
-> > When I said "breaking devicetree" I meant that a devicetree describing
-> > this setup would no longer produce a working system, not that the DT
-> > files or bindings themselves are incorrect.
-> > I didn't find any upstream dts with this configuration, but maybe there
-> > is some out-of-tree dts which would be affected.
-> > As far as I understand, we should avoid that.
-> > 
+> > > > > > > The debouncing when HPD pulled out still remains sometimes, 200ms still can
+> > > > > > > not ensure helper_detect() is correct. So add a flag to hold the sink
+> > > > > > > status, and changed detect_ctx() functions by using flag to check status.
+> > > > > > THis doesn't explain what is wrong with
+> > > > > > drm_connector_helper_detect_from_ddc(). In the end, this function
+> > > > > > doesn't use the HPD pin.
+> > > > > I'm sorry about the misunderstanding.
+> > > > > The issue is that after plugging or unplugging the monitor, the driver takes no action sometimes
+> > > > > even though an interrupt is triggered. The root cause is that drm_connector_helper_detect_from_ddc()
+> > > > > still returns connected status when the monitor is unplugged.
+> > > > > And I will fix the way in the end.
+> > > > Can you perform a normal DP detection: read DPCD and check that there is
+> > > > a DPRX attached and that it's either non-branch device or it has one or
+> > > > more sinks?
+> > > I'm very sorry that I didn't get the last sentence's asking before.
+> > > It's a non-branch device. We just connect a DP monitor.
+> > Somebody might connect a different configuration than the one that you
+> > are using.
 > 
-> If I can rephrase myself, is my understanding correct ? Do we care about
-> breaking out-of-tree dts ?
+> Okay, I can add the check drm_dp_is_branch() in the DP's detect_ctx() to
+> intercept branch devices, is that good?
 
-From my practice: only in a very limited way, if there are well-known
-out-of-tree DTS (e.g. we kept some bits and pieces of panel code because
-of out-of-tree ChromeBook devices).
-
-But you can easility keep compatibility: inside the ticldc driver first
-try attaching the bridge with the flag set, then, if it fails, try
-attaching without the flag. Add dev_warn() and some grace period.
-his was the path that we used to migrate the drm/msm/dsi: enable
-DRM_BRIDGE_ATTACH_NO_CONNECTOR by default, keeping legacy support in
-place, then drop legacy after some time after converting all users.
+My suggestion is to implement DP detection in the way it's done by other
+DP drivers.
 
 -- 
 With best wishes
