@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8082B550D6
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACF1B550D8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:20:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1DB10EC5B;
-	Fri, 12 Sep 2025 14:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AC010EC64;
+	Fri, 12 Sep 2025 14:20:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GAYsh41c";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fHpzb5Lf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F72010EC5F
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:20:15 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-45df09c7128so16337205e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:20:14 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA33710EC64
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:20:25 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45df656889cso13514835e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757686813; x=1758291613; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757686824; x=1758291624; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Zo6qWVc0jZZmv8jDaeRnPGtja64w2ge7orZf47CFJn8=;
- b=GAYsh41cptJYxF8HuPfQqRp9Nwt7rC44xKpKBgiAImjt9CfAU5OMJvm2WIWKnaqNFk
- KZM5/sMcZ87vYhFQ3bLlX1hQXUnkm1F1KGxKbXzKXUHodFbvevm1tFjnszkB9DXkUyYP
- rD7H1KmO4K+Ygp1iSadAjWIKicWYtWQPMt/KQLBChblrdG3TIx6B55iZUTmmN5VnOgRq
- VwAe0Gvp19ujLegrAJlJLS9kJ/RWN1BNeCfMTsMoQn0AE5tkkx/yx/T4UxnvC3CY8Q0r
- tZzzS0U9whEBhrI/K4sgRk1C+nTWYnPEdxAeUMkntvni36UCTw6erDApLahvs0aFDnLp
- MJMw==
+ bh=ehDN8c0/F5eZ831IVZll96+NWY7i1QcRKUtRMZjXuP0=;
+ b=fHpzb5Lf12HncNSHCoflLcu1dlih6lTcJUEWHSorvv7tlhyyMHL4IBbTzfTzlXw8wA
+ A2K48EcCNvH1wY1y+pVsplSDO+ESEvDVPm0VTc/7XjcvGEQ7ktQi7fyL0TaXM4c2cdfM
+ dIvCvQlutaVymg1iQ35LrkQ3OsQ962XUu0bWt3a0WLOsDG6MJh3aHUlIc/cjy5sSFQUI
+ KiEf4tWRIRVDF1Sz9llhfApEHM5Qrp1x/+BphF4Tm+es3kr0daWFYi2ISSzmu0O5VZ47
+ JW1smcaRhTHxbmm/MkwndqCJFRgrEZcqX1oGbTfRkpGybFUKsu5SODBTHy+QqCt0iPc4
+ KMpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757686813; x=1758291613;
+ d=1e100.net; s=20230601; t=1757686824; x=1758291624;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Zo6qWVc0jZZmv8jDaeRnPGtja64w2ge7orZf47CFJn8=;
- b=FRN9z+FrRrTCpa2K04Ps4HRRgLxk8BpI4srTO0xWp2gD4e8bLGE90X6QV5PoUWiS0m
- mfbiuO3iPVSjdgFwl/g53AFKrAwn9G8OM6YK3OcJco6+kn3oZ/W/cfrFYJn46B2F0XT4
- KzEJEywPG+bXBgu57Z1gMqIIe6mmDhcS5vAjHnuokrv9pFFUwvazE4JMJv7IjwgsYj7K
- VWpEZELO5gbD5CWNwmPQQ+mnmZtDJExbLFW07wu9XRcZ68/7gVTMf+iKv4K8gI+2SfBo
- gcfTwAD1C/NfJtidwWEO67dK+kaBdW1UuRDdLg8ecI27Z3IJeNJ1xNhLy76p7RZxgHs+
- N6AA==
+ bh=ehDN8c0/F5eZ831IVZll96+NWY7i1QcRKUtRMZjXuP0=;
+ b=GyPap/2iZP4pdDcLOKWlfi0AP0HoBl7ColOWOnwQxLZenVD8MLZj3pLqu5ESGfXItj
+ USN7tZ2uExJ5ilGB5SMSUP/xSgJEZPLBbqPeIi7EuUXWAlF2m6gWWjkmkGe8pGHUH352
+ IX/38tvAk8/0RLgPlaGbav3sRzbBFPKfeWghQe/swEQwlBBbq6p7yLWDRtW4QEtnxD5q
+ TDgNommm+Voqj8E+BNxfmt9Mr+5DdVtTMpYexS6+3fCv2Hd/R8SOeUQjYJAulUlaRGxO
+ yfsDb2PZxS/d95N8QGBtVCY5X7oe5CERygUr7G9xM2z9hNFSyvAmhxC06/8XufXbzhwT
+ 6b8A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVypxmw5Iryb0Q2UIObWtY+Y6NPN1JpOQ1HmlIjOnfQ547qtV2SHmdxUrOYf1BB15qsYI7kSd7PtCw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdrvJj3KLBP61c1FkP0QP4muiuHJOGlFdf2wYEORjJfUXosP1f
- aP5KgJUkCJt27ZsepfmdpciJbyZye/lzMmd/BA3BNx6Dvdbje/uRCVb5
-X-Gm-Gg: ASbGnctq5PM2ybp77PSB/0U05SshkZYcruLPq1uaSseNOZA9yMyqeghoIZGOrOjcurz
- Okax1Es34IIZSu3Y9RILaKNUTZcyVMKbUaxNeUep6Yj1CpVuaOa3MR0SQL7mSiJxS/GCl1pv15w
- hLHZAZdAFmfr58n5Uog/kA3N+IrkKKsb2vLLlktpnspiWv+FVY9r6l5fdec0mQ3G4Iq2SxY1D1B
- NGis8UGwthKmj6NV0nPziYiiZlusIEw1k0mAHsTsBntBl35wVLeAFbFZK9dYlPMMUNEl/z1AW7S
- oLJa0rujQ7v+kuIOl6MhSJCdxpnIuWwk6tlYmYtXyTay5Whgr09HAe/XPbko9MFEwrN6s1Z2cp5
- 424PHl8lVygoraKgz4PXLsGOCjGm/LGc=
-X-Google-Smtp-Source: AGHT+IEYiPOKWB+0nvhix6TOxrJpFoMyLdNoRjDPkAz1Qots2CwSj1hz+7mDLBhL/v2fign1H2JEQQ==
-X-Received: by 2002:a05:600c:6610:b0:45d:cfa4:ce10 with SMTP id
- 5b1f17b1804b1-45f2128d4c1mr29424165e9.10.1757686813242; 
- Fri, 12 Sep 2025 07:20:13 -0700 (PDT)
+ AJvYcCWdjtEdfTY4A9gdX37eKI/NMqky5npVOUACxHthBE2RFk0fUnpWPrPagI2G55T2oXNwqmKr3DeQI4c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7/0qu+ZZIp564nLAbBTlyhfFYpmNSyrN8avl8RmzsEqLUomTq
+ dKhAhpOwwUKMqkLONbzC2Q+8nahyHr+ku3Gm2jNPq5YYfUWgDy9ur4TqsAfJunli
+X-Gm-Gg: ASbGncumIMIBTPXZQFkWC2sv0izPDIBF+1lWTqfPP1GgSEPbS4aWtNqtjrmlOaV+Dlp
+ 3bne/Sy8i0qvwPTuMI0tt2rZZhkrhklxF7YX0EiHad0OGdind10BiPIwkqgk/UU5AA9o0JJYSwm
+ VZJIyAd+4tvVFyTrVpdUwZlO9kjSlROeTnLmJbnABpgMQJvQLaleOE6vedDFTip+E1CG1PPc5nQ
+ n/DrvW+aknvaPAidrF/SJ+IBkCLuXtOIoCwGYaaq3Tb1ApSM/7qwlpVbp8Dj7AWQe6zufmWd9rZ
+ +KKdyDeV/DMZDia3oAUKgADbQKEAFzpkQL1NZI5bM7NeXTdsN2lC1Hjy/pxetgErwGI2FHZgr3L
+ 6Le7XBnVEs9rVNru41YhnvOl0Om7QDMY=
+X-Google-Smtp-Source: AGHT+IHtSSdiDkUB898paY6KoQvNDE3OgBxVTaH21P4AnZRGobWI8BJOt5uErOIC2i3WhKinxdthWA==
+X-Received: by 2002:a05:600c:4585:b0:45c:8e6d:a45f with SMTP id
+ 5b1f17b1804b1-45f211caa28mr37824695e9.5.1757686823899; 
+ Fri, 12 Sep 2025 07:20:23 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e0372b983sm63475385e9.9.2025.09.12.07.20.08
+ 5b1f17b1804b1-45e03729c76sm64384065e9.6.2025.09.12.07.20.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:20:12 -0700 (PDT)
-Message-ID: <bde30144-0c57-4d34-b6cd-2a53dc099bdf@gmail.com>
-Date: Fri, 12 Sep 2025 16:12:25 +0200
+ Fri, 12 Sep 2025 07:20:21 -0700 (PDT)
+Message-ID: <e06e9568-1129-4262-83a9-ab652101831a@gmail.com>
+Date: Fri, 12 Sep 2025 16:12:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 21/38] arm64: dts: mediatek: mt6795-sony-xperia-m5: Add
- pinctrl for mmc1/mmc2
+Subject: Re: [PATCH 22/38] arm64: dts: mediatek: Fix node name for SYSIRQ
+ controller on all SoCs
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-22-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-22-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,81 +159,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> Add pinctrl nodes for the MicroSD slot on mmc1 and SDIO Controller
-> on mmc2 and assign those to the respective controller nodes.
-> This makes sure that all of the pins are muxed in the right state
-> and with the right pullup/down(s) before trying to use the mmc
-> controllers.
+> The sysirq has "intpol-controller" as node name, but being this an
+> interrupt controller, it needs to be named "interrupt-controller"
+> as per what the bindings (correctly) expect.
+> 
+> This commit brings no functional changes, but fixes a dtbs_check
+> warning.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../dts/mediatek/mt6795-sony-xperia-m5.dts    | 38 +++++++++++++++++++
->   1 file changed, 38 insertions(+)
+>   arch/arm64/boot/dts/mediatek/mt6755.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6779.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6797.dtsi | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> index 03cc48321a3f..fccb948cfa45 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> @@ -227,6 +227,8 @@ &mmc0 {
->   
->   &mmc1 {
->   	/* MicroSD card slot */
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc1_pins_default>;
->   	vmmc-supply = <&mt6331_vmc_reg>;
->   	vqmmc-supply = <&mt6331_vmch_reg>;
->   	status = "okay";
-> @@ -234,6 +236,8 @@ &mmc1 {
->   
->   &mmc2 {
->   	/* SDIO WiFi on MMC2 */
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc2_pins_default>;
->   	vmmc-supply = <&mt6331_vmc_reg>;
->   	vqmmc-supply = <&mt6331_vmch_reg>;
->   	status = "okay";
-> @@ -311,6 +315,40 @@ pins-ds {
->   		};
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6755.dtsi b/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> index b55d3fac9bd4..8da5c0a56a02 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> @@ -98,7 +98,7 @@ timer {
+>   			     (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
 >   	};
 >   
-> +	mmc1_pins_default: microsd-pins {
-> +		pins-cmd-dat {
-> +			pinmux = <PINMUX_GPIO171__FUNC_MSDC1_DAT0>,
-> +				 <PINMUX_GPIO172__FUNC_MSDC1_DAT1>,
-> +				 <PINMUX_GPIO173__FUNC_MSDC1_DAT2>,
-> +				 <PINMUX_GPIO174__FUNC_MSDC1_DAT3>,
-> +				 <PINMUX_GPIO170__FUNC_MSDC1_CMD>;
-> +			input-enable;
-> +			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
-> +		};
-> +
-> +		pins-clk {
-> +			pinmux = <PINMUX_GPIO175__FUNC_MSDC1_CLK>;
-> +			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
-> +		};
-> +	};
-> +
-> +	mmc2_pins_default: sdio-pins {
-> +		pins-cmd-dat {
-> +			pinmux = <PINMUX_GPIO100__FUNC_MSDC2_DAT0>,
-> +				 <PINMUX_GPIO101__FUNC_MSDC2_DAT1>,
-> +				 <PINMUX_GPIO102__FUNC_MSDC2_DAT2>,
-> +				 <PINMUX_GPIO103__FUNC_MSDC2_DAT3>,
-> +				 <PINMUX_GPIO105__FUNC_MSDC2_CMD>;
-> +			input-enable;
-> +			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
-> +		};
-> +
-> +		pins-clk {
-> +			pinmux = <PINMUX_GPIO104__FUNC_MSDC2_CLK>;
-> +			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
-> +		};
-> +	};
-> +
->   	nfc_pins: nfc-pins {
->   		pins-irq {
->   			pinmux = <PINMUX_GPIO3__FUNC_GPIO3>;
+> -	sysirq: intpol-controller@10200620 {
+> +	sysirq: interrupt-controller@10200620 {
+>   		compatible = "mediatek,mt6755-sysirq",
+>   			     "mediatek,mt6577-sysirq";
+>   		interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6779.dtsi b/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> index 5c579e88e749..70f3375916e8 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> @@ -138,7 +138,7 @@ ppi_cluster1: interrupt-partition-1 {
+>   
+>   		};
+>   
+> -		sysirq: intpol-controller@c53a650 {
+> +		sysirq: interrupt-controller@c53a650 {
+>   			compatible = "mediatek,mt6779-sysirq",
+>   				     "mediatek,mt6577-sysirq";
+>   			interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> index 38f65aad2802..58833e5135c8 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> @@ -404,7 +404,7 @@ pwrap: pwrap@1000d000 {
+>   			clock-names = "spi", "wrap";
+>   		};
+>   
+> -		sysirq: intpol-controller@10200620 {
+> +		sysirq: interrupt-controller@10200620 {
+>   			compatible = "mediatek,mt6795-sysirq",
+>   				     "mediatek,mt6577-sysirq";
+>   			interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> index f2d93bf6a055..8ac98a378fd6 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> @@ -228,7 +228,7 @@ apmixedsys: apmixed@1000c000 {
+>   		#clock-cells = <1>;
+>   	};
+>   
+> -	sysirq: intpol-controller@10200620 {
+> +	sysirq: interrupt-controller@10200620 {
+>   		compatible = "mediatek,mt6797-sysirq",
+>   			     "mediatek,mt6577-sysirq";
+>   		interrupt-controller;
 
