@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAF6B5431A
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EADB5431B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC76610EBAE;
-	Fri, 12 Sep 2025 06:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99F210EBAA;
+	Fri, 12 Sep 2025 06:43:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EbdKVrip";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JJa9Q27z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1355A10EBAE
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:43:20 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-560888dc903so1750267e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:43:19 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6315210EBAA
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:43:21 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-55f720ffe34so1887747e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Sep 2025 23:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757659398; x=1758264198; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/e6a4r5HwdADWqt2gxdEiy8yhSw818PuxVS+VjAKm8A=;
- b=EbdKVripJLJTXFXYCws+2RrvWgmQPrpvNMhUZ4sHHWkv3sPpMLoXEtisR2k5z0BtEM
- 3st02h8FeAYbnseochISnjjQF6rn0KwU7+F3k4m7bagczLoWts9SH6z5oz+L/W7Eb9b8
- SSlHWFjfdF4ZClNANOUhFLPiMjlpLJnLuEsAea8c0KzZWl38IX2sDXnx5NJKMKboGiNd
- TRPOcoN2pWruv1HCAYEDOMn38WJpQo8bSjeB3J2+fTjKnkuICo185++R4uGqzuZgzTTj
- P1xooFpxInuv64BGQhJQOYgiHCfPNzi08VEhtr4e3/9UG70LbzPUtjFPEmhxBgorEcXE
- rfww==
+ d=gmail.com; s=20230601; t=1757659400; x=1758264200; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nN89bcFCx4v1Pxsb1bcoAge9Deec1dGBruVjoVQpQco=;
+ b=JJa9Q27zjvHHnqk7KcVl/sH39XlE3+pAXgpqh45IoyO5fPcGWRpBcUu5ClY7eL2b8N
+ WsFkXlHnDJdGw9Ldr5Giovh6IOiKVviB4tMpLGq6ze4YruHaOoXSGyEqdhBgnFsBL85D
+ WEVxs5qkLSTdfTlyXla52/aWTnF5aI0VPzueTnA/2XPDUXv4f1QPIDa9cwt451CqL1HL
+ qKWpJ4DgtB/0FHZYOwveNb1PwgjLAXSzW8oY1bba0PMyA7niyCtx8TCO/e7o0I7Q2hNU
+ QMjS3GDuzrRb9F+LLhSVQbniswuMr6rRfPnxzIMMdO57So5c4O/YixhQebxVJqy0ICMR
+ pHVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757659398; x=1758264198;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/e6a4r5HwdADWqt2gxdEiy8yhSw818PuxVS+VjAKm8A=;
- b=vC9+6B5XjGuocj05FR0FnYteHodqkeytbLh7FRI00wQG0p6KBBkbfLK7jPkA3OHfq2
- rnGJDoWnoy1vRKLoAhcrGyq0gvBytQSDq085LvOb7rg9UtXj5TID2ZzGd4RZdiUnjXWL
- 8jSAP9fsoEBx42B+LVsRomsn9GD4CF/MEFQs8BQUnkIluxH9PqwMn7JK1aK/NrZgc+Rj
- 7m3xTdt5QgFpDCu2MDeeXAgMqvHRds8VR/kxcAnB9FWEbhrNU25yZf7IQZcIacV0TUR6
- 4A1Axu/04sFdaAEZRBnEGoSBNYsqCNulLfsPWEZq+phSJth702zYGsCIqu4f1vZB4282
- qH5Q==
-X-Gm-Message-State: AOJu0YzZP51DyDJ93EMZMNkgzdYmZ7o6EzTnnFi3w0bsAgBVEBE7dS+2
- YVbKim3mFCfi8gvbmuS5IjVIG/gATI8merOg6P2mICJeMYr06cQ2Kl/j
-X-Gm-Gg: ASbGncu+mHMqTYW1sJ6x/GW1U6b3iF/iYPEcuXQzp/6dUfHYKGhgv+tyr+83lM0xhaH
- m+8vqaKqU+vHeZBZqy/Q4VhxcSu6A/67wDYNFYdZ8WAowFcyu7IFOFUx+Lq9ZPzvT7bDM/Cuhn9
- ywt1nGa8cUIY4eJ4i4hQDGXAIPBZMGzGqs7TPS9A41pza556FhEWQAnXw1le9hOewPyUcXMJoT0
- lngkRutgCsxbzyqX/MxRCl0k6gZHv/wHxo+TbQOkOdaw7KBudb3EDyqY8oYyZ32gIixgkDZMMct
- xTvas2cm+oT0XfthAhMsjfsRR97KVc6KSz25qeNafZD58IIDznzbfraWkxBSQGwUDvK3wSItFQh
- /ciSoX0A22BOqPQ==
-X-Google-Smtp-Source: AGHT+IEe0jkCS9U8WkTjVXPYNmZSLn/syNXqorRteuFNbdIlDVO4YBhxkuAG4CzXjByN5DDqyt0+Lg==
-X-Received: by 2002:a05:6512:290e:b0:55f:4efe:42df with SMTP id
- 2adb3069b0e04-5704dba12c6mr472968e87.40.1757659398015; 
- Thu, 11 Sep 2025 23:43:18 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1757659400; x=1758264200;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nN89bcFCx4v1Pxsb1bcoAge9Deec1dGBruVjoVQpQco=;
+ b=MdexhGPdTwR4DBsul5OoFeoRG7hyYVXBMwVnxMXDXWKGQothQJBeHsdT3vs0wOfAJq
+ EK9adGQcO8zf+20Vu+EMuI/0eypMCMvqGEK/pUcRK9rQLEHM01QSfgAt7DNrp/d03q+G
+ KzX8OLoM5cG3JbI+w1hGHhno7TNp3D6Ul5g7R2vWKxHzXw2j5HEDWFXssojSBAMIP8+Z
+ K2YWNqk6ChWh5YPT5h/FfhhGt1PUcFlwe5xXWEfZTA2bclNu6Y5TQDgYbvDnpjC0EidK
+ NcPKxaQo005iz9TxZSR7yk+gjRkqnvtt9omzqS4OF4DxqwXTm7JTd+xB1LF5wSZm8BEc
+ sFPA==
+X-Gm-Message-State: AOJu0YzIH0ppxTrbemtqgAhzX2vzMLmOioaf+08LSD7hW9GjC4B8dLgx
+ x0h5DVDgxPlM8wAsjxNgYogOcipb7GucjbGNaud6+Xi1JdVN+eB9rnys
+X-Gm-Gg: ASbGncvoS8gPHd1ba9lmdm8qXnJgZkq5FsVy38MNx7gHwJhzb/NmWPNDl96BpewKjc0
+ MG7aWCD/7sPlHQW96JuSzcPqitZGDhEUqy/rQgWMpe+MduJpol8r1roat9Y6Vo9QU+JvAIgV1N8
+ 25TsqdnI1+ai276TWygzSGMkRgiFCzAtCkv4tPAOMw1k3oxjbId+1nE2SKQV1v4VNiduK7kCuGi
+ Pzc2avKiXpqk5mv8dJonTELdYB7opObotBl430rmobP/0Mw1ByEppHB4QlkP+JIvN7yeDSR/xf+
+ Y935hXQHeNIVLlrFaVOyHL6MMH4oKY63naSuThGjzXuM1O8niTqBHLKOu3ZtVS8yR1WGfFHnMN9
+ EAz0imxYvn+Ykba5QOSKJ2k4r
+X-Google-Smtp-Source: AGHT+IGmhrlM+wuGin0oxlClzG6X+S6fBnECkDrMAoDVE+lAyQ7VTk7EelsJsJx33vrlPfBtJzvpWQ==
+X-Received: by 2002:a19:6a15:0:b0:570:a8d4:a79c with SMTP id
+ 2adb3069b0e04-570a8d4a962mr411565e87.0.1757659399292; 
+ Thu, 11 Sep 2025 23:43:19 -0700 (PDT)
 Received: from xeon.. ([188.163.112.70]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e64bd15e6sm917403e87.116.2025.09.11.23.43.17
+ 2adb3069b0e04-56e64bd15e6sm917403e87.116.2025.09.11.23.43.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Sep 2025 23:43:17 -0700 (PDT)
+ Thu, 11 Sep 2025 23:43:18 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -69,10 +70,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] DRM: panel: add support for Sharp LQ079L1SX01 panel
-Date: Fri, 12 Sep 2025 09:42:51 +0300
-Message-ID: <20250912064253.26346-1-clamor95@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: display: panel: document Sharp
+ LQ079L1SX01 panel
+Date: Fri, 12 Sep 2025 09:42:52 +0300
+Message-ID: <20250912064253.26346-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250912064253.26346-1-clamor95@gmail.com>
+References: <20250912064253.26346-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,29 +94,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sharp LQ079L1SX01 panel is a LCD panel working in dual video mode found in
-Xiaomi Mi Pad (A0101).
+Document Sharp LQ079L1SX01 panel found in Xiaomi Mi Pad.
 
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
-Changes in v2:
-- adjusted schema with ">" and dsi0 > dsi
-- fixed copyright from Nvidia to Xiaomi since sconfiguration equence is
-  based on the downstream Xiaomi code.
-- adjusted commit name of second commit
----
-
-Svyatoslav Ryhel (2):
-  dt-bindings: display: panel: document Sharp LQ079L1SX01 panel
-  gpu/drm: panel: Add Sharp LQ079L1SX01 panel support
-
- .../display/panel/sharp,lq079l1sx01.yaml      |  99 ++++++++
- drivers/gpu/drm/panel/Kconfig                 |  15 ++
- drivers/gpu/drm/panel/Makefile                |   1 +
- .../gpu/drm/panel/panel-sharp-lq079l1sx01.c   | 233 ++++++++++++++++++
- 4 files changed, 348 insertions(+)
+ .../display/panel/sharp,lq079l1sx01.yaml      | 99 +++++++++++++++++++
+ 1 file changed, 99 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-sharp-lq079l1sx01.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
+new file mode 100644
+index 000000000000..08a35ebbbb3c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/sharp,lq079l1sx01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sharp Microelectronics 7.9" WQXGA TFT LCD panel
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++description: >
++  This panel requires a dual-channel DSI host to operate and it supports
++  only left-right split mode, where each channel drives the left or right
++  half of the screen and only video mode.
++
++  Each of the DSI channels controls a separate DSI peripheral.
++  The peripheral driven by the first link (DSI-LINK1), left one, is
++  considered the primary peripheral and controls the device.
++
++allOf:
++  - $ref: panel-common-dual.yaml#
++
++properties:
++  compatible:
++    const: sharp,lq079l1sx01
++
++  reg:
++    maxItems: 1
++
++  avdd-supply:
++    description: regulator that supplies the analog voltage
++
++  vddio-supply:
++    description: regulator that supplies the I/O voltage
++
++  vsp-supply:
++    description: positive boost supply regulator
++
++  vsn-supply:
++    description: negative boost supply regulator
++
++  reset-gpios:
++    maxItems: 1
++
++  backlight: true
++  ports: true
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - vddio-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "sharp,lq079l1sx01";
++            reg = <0>;
++
++            reset-gpios = <&gpio 59 GPIO_ACTIVE_LOW>;
++
++            avdd-supply = <&avdd_lcd>;
++            vddio-supply = <&vdd_lcd_io>;
++            vsp-supply = <&vsp_5v5_lcd>;
++            vsn-supply = <&vsn_5v5_lcd>;
++
++            backlight = <&backlight>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    panel_in0: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    panel_in1: endpoint {
++                        remote-endpoint = <&dsi1_out>;
++                    };
++                };
++            };
++        };
++    };
++...
 -- 
 2.48.1
 
