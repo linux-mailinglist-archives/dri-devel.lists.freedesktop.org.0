@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDFAB550EF
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10743B550F2
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9307010EC68;
-	Fri, 12 Sep 2025 14:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C96110EC6A;
+	Fri, 12 Sep 2025 14:21:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UEIJHtZF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I5DCKk6X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D78810EC68
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:30 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-45dd7b15a64so17730855e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:30 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACEA10EC6A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:38 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-45decc9e83dso12539445e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757686889; x=1758291689; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757686897; x=1758291697; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
- b=UEIJHtZFanKbX6KMW385IxPq9mHR6GNelHA4gf1YTx1g8hKoWNL0dmZBxeoISqGrKv
- xrzH7Qvnvayz3ltAiZiIr983kjqEtD3g8mL8mKDIbmXnmFHmtw4Mr4x5cYJfXj5aWYXi
- v5Qs22p6wISJD9uKbnjsmy4eonZrCbOZFOFY5KwfwubpZC91BysDkxw1Y2Mk0xfE9HSA
- Zz6VEbEXm+VecR834hV47eFHib40OeBYD+QaEW0lPvw/vWtgBNhGQbDl8OGqB6TWWYnF
- cL15zRRhYludrulOk2j0wE4IZ9VZTRvNIswQLlpVd89e0J5gZpVP1QhVtKdpuKoz46ae
- x+GA==
+ bh=YVQP7t1cLcCA6lBEVBFP9JUfq8lpy4ICoOinMrOslso=;
+ b=I5DCKk6Xg3y5QPBQjyHVInjlhjmTNAcZP11eluiiuBCYmqX4VeE+NMj3XywkSJ0631
+ aKEI1xl1uqDeRy8FiyhUWANUF90349l67uHMUYjWR8JsnH1e8iN9Q0b/rToH0ByP/9xI
+ I7sYvhdVy6FWXk5IviiC9e8l2apbe7YMKOswm7ej4Gh1vEj+HX66/5lHWGodv0vt0iwx
+ ty0NETVrEQPna1cPm5+nHCzIwxqdVP82Wz9Faw0sPOgOVum2lgKImwNk/r1WodhphOnT
+ mNpEP9tq9zE8b4/NHQHgHsVA/RRYWOHhM9bNfLRcl7aZ5yVDPtAMHgNNppkPIwjvvkeM
+ GSlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757686889; x=1758291689;
+ d=1e100.net; s=20230601; t=1757686897; x=1758291697;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
- b=qDBgU9z7oHoncF0Pnycy+5SFW4fFry7uXK/mx0foVXx8QdMgG73JmV2/kNQoxQ4FQb
- 2cxwUZmb/BWf4+Zf+mnqw2xT3RSMNe6JZ2F9WUIUeg3mt/K2X8kVeTF6mAIbY2OUr8Su
- ff02sF5nDkOWcINmcht4w/odjUHveQgwAVl6jWiL12RqbFZWhEZxu6YLZAZd90n7TQpR
- YqmdYeY0c01gOr9DBUWa/D96JhZwicwFWh92mEN3HWbl2W3Pc1RMiwSLDOYlKSd0y6DK
- sIu9irmbdOgSKy1xOmWS1fHp1nRz2AU7hDrq6oqF7lnloUM2jr7awczmqBih9EGqENFb
- lTLA==
+ bh=YVQP7t1cLcCA6lBEVBFP9JUfq8lpy4ICoOinMrOslso=;
+ b=pRn9rMNmi6nuXBxFuS+PpkdjfNwQx65Rl6hhYrJ9Dg1R0AjicJXIcoQ9yOShPIEfbf
+ 0hpcIZuXItk5jhfHlmH9bO+znvbM4t5ZvLjxNDRgz6R5QGAixHfFUNSlvp2LzgBeWBKy
+ Z+yhkFsaa8AWPd8aT8a8SuK0dc/SmRKlc5+A3p141ZrNF2KzxXCLRTGOqKRGZE31hSGk
+ qhLjpXM1sj4irtRYa+iHD9uB3+fle+7n20PTQ3MeVpv3GU7Kgb9CSeAopYtutFpN8XCj
+ i4TumGNPo3lXoMu9VetaSNPddkRUFiUv72AGOTgJvpbPEDsA4GlPVeeQB/i6I3O5pJWK
+ kWeQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV1jGox1T5c1qRVyE+YAok8modmoHXPb4nYV7vYMikeLsltUyDoqw03XA35SdYLoWneUhk8zUTKsGY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzi4Xq1DRXUUoqWQMbufJzAd+Fv0RhqtDtGa2vIEBhQJUt/jxxc
- 50e7VDRv3rUUM9uJBaFzpiwi4csPh1vRDp92vYWoeuj0KvswzzX2Ngtk
-X-Gm-Gg: ASbGncttdZsalljXm5tMG1QDGRbY50WkfROXurvIkF9FDjhZbb/BYKhtnN3a3Mt4YsL
- 8IPlgBgmy28CaeCOuhEyn/0Rf+rJoy/7mY/+5cSwVwrcF1+Kiz0N0PIGQAQ/oI0sXP7iXZsAevl
- h+AQgJIxGJnsmfcRZTZRDIh5sqkQtPhEbhAKkCewtQHiQ78LYH9vWPAcLYuXuv0FnEGRJ+wkCLN
- jb6fRE8DAjvucDGaO8e0yfMSyghslLqU7wAdfcF7233DcOuPg3Sj/uLTjXB/fc0FKPZOxLaOjML
- ftv9kLvJXAmn7Tji0dCLzJ31roSLq8A2SjUkKh+YpmTPHbojylzHkFSlBwAsPGAKB1t7n/DTERo
- lYxA8dqlo4Hgj9BZlzTyyxNEPxoZnbIM=
-X-Google-Smtp-Source: AGHT+IF9qckBbO1/MUfpNiCtEF6z09eaYzKoz6jvuBpXQ6fGTJDkBa8yQ4C1wqtVjU1kYwNtwHUpjg==
-X-Received: by 2002:a05:600c:3146:b0:45d:dc6c:9e30 with SMTP id
- 5b1f17b1804b1-45f21293373mr35435585e9.14.1757686888870; 
- Fri, 12 Sep 2025 07:21:28 -0700 (PDT)
+ AJvYcCU4Ps7Pjd64VWeFA7A3hOSNNrDJMq82F/CcnfiiGTL48CENbrTJK0biTxI+XPb0zTMdlsgMqyiH6ZU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwOL+4XNFS4QhvUPOClAMIJHd0jKWQg6m3HiQzali1Wf8pqSdKt
+ TdvJu0PKf9HcVRo0WaVwvXvYEtKSDkFRJLfvDJgKoQB3gmf9hDj2ztD/
+X-Gm-Gg: ASbGncut+B05FyGlJVEwF5PjaE+C5lizqef2DC4M3BnCxdudO+DEhL0AZlACXZwY8D7
+ W9zbbDZUOB8f0q0ZWb04pRt8ZhoahfoThlFT0K7NQ26MY+EgzI08mhPVrPWgwfHe9DRltlmZlin
+ Jy0pB91zZU6lMC+Rj6mj8pmoiKdnmfuWsxEmeCKJ/hAEweJ7fTOUfwRawSoo4i7j/oP3sbtJZeA
+ K44BuYrs3lA85Sq31u6AGa1sG5PGeeYQing8dYUdD9FzRS05ySHaBF2X56PR9VX+Kkub7YHWpAQ
+ HV7oBxpz3OA3nvCaSSzo32IkLoGWiyOFLT9X+qedfw8CQvFTmsUEwsFko39KhKQSVEdlHCNIoqS
+ bPam9Z9ckE7Mv2ysI0wp8xrst0m9Rep56zgTM1426uA==
+X-Google-Smtp-Source: AGHT+IG+xDsxpXBLWFezvQTqJTVrSqvL47N9F5wGJK2iMq/HB1ui6QHRTpehxtgIBE7xqsz00wIiOg==
+X-Received: by 2002:a05:600c:6b06:b0:43c:ec4c:25b4 with SMTP id
+ 5b1f17b1804b1-45f211d0795mr28862295e9.10.1757686897084; 
+ Fri, 12 Sep 2025 07:21:37 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45e015784c3sm71413955e9.10.2025.09.12.07.21.25
+ 5b1f17b1804b1-45e015784c3sm71413955e9.10.2025.09.12.07.21.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:21:27 -0700 (PDT)
-Message-ID: <6f60e909-b267-4140-8384-6e06e9a199fb@gmail.com>
-Date: Fri, 12 Sep 2025 16:18:51 +0200
+ Fri, 12 Sep 2025 07:21:35 -0700 (PDT)
+Message-ID: <fb81c74a-d53d-4917-9516-9854e825913a@gmail.com>
+Date: Fri, 12 Sep 2025 16:19:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 31/38] arm64: dts: mediatek: mt8183-pumpkin: Add power
- supply for CCI
+Subject: Re: [PATCH 32/38] arm64: dts: mediatek: mt8183: Migrate to display
+ controller OF graph
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-33-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-33-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,30 +159,380 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Add a power supply for the Cache Coherent Interconnect node as it
-> is required to perform CPU DVFS because both are scaling together.
+> The display related IPs in MT8183 are flexible and support being
+> interconnected with different instances of DDP IPs forming a full
+> Display Data Path that ends with an actual display output, which
+> is board specific.
+> 
+> Add a common graph in the main mt8183.dtsi devicetree, which is
+> shared between all of the currently supported boards, and do it
+> such that only a very minimal amount of changes are needed to
+> each board - the only required change was done in mt8183-pumpkin,
+> using a phandle to assign the display to DPI0.
+> 
+> All boards featuring any display functionality will extend this
+> common graph to hook the display controller of the SoC to their
+> specific output port(s).
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts | 4 ++++
->   1 file changed, 4 insertions(+)
+>   .../boot/dts/mediatek/mt8183-pumpkin.dts      |   8 +-
+>   arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 239 +++++++++++++++++-
+>   2 files changed, 238 insertions(+), 9 deletions(-)
 > 
 > diff --git a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-> index dbdee604edab..d5fcb010e1ac 100644
+> index d5fcb010e1ac..cf1d33384bf0 100644
 > --- a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
 > +++ b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-> @@ -482,6 +482,10 @@ &mfg {
->   	domain-supply = <&mt6358_vgpu_reg>;
->   };
->   
-> +&cci {
-> +	proc-supply = <&mt6358_vproc12_reg>;
+> @@ -531,10 +531,8 @@ &dpi0 {
+>   	pinctrl-0 = <&dpi_func_pins>;
+>   	pinctrl-1 = <&dpi_idle_pins>;
+>   	status = "okay";
 > +};
-> +
->   &cpu0 {
->   	proc-supply = <&mt6358_vproc12_reg>;
+>   
+> -	port {
+> -		dpi_out: endpoint {
+> -			remote-endpoint = <&it66121_in>;
+> -		};
+> -	};
+> +&dpi_out {
+> +	remote-endpoint = <&it66121_in>;
 >   };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> index 3c1fe80e64b9..960d8955d018 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> @@ -1667,6 +1667,21 @@ mmsys: syscon@14000000 {
+>   			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
+>   				 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
+> +
+> +			port {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				mmsys_ep_main: endpoint@0 {
+> +					reg = <0>;
+> +					remote-endpoint = <&ovl0_in>;
+> +				};
+> +
+> +				mmsys_ep_ext: endpoint@1 {
+> +					reg = <1>;
+> +					remote-endpoint = <&ovl_2l1_in>;
+> +				};
+> +			};
+>   		};
+>   
+>   		dma-controller0@14001000 {
+> @@ -1733,6 +1748,25 @@ ovl0: ovl@14008000 {
+>   			clocks = <&mmsys CLK_MM_DISP_OVL0>;
+>   			iommus = <&iommu M4U_PORT_DISP_OVL0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x8000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					ovl0_in: endpoint {
+> +						remote-endpoint = <&mmsys_ep_main>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					ovl0_out: endpoint {
+> +						remote-endpoint = <&ovl_2l0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		ovl_2l0: ovl@14009000 {
+> @@ -1743,6 +1777,25 @@ ovl_2l0: ovl@14009000 {
+>   			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
+>   			iommus = <&iommu M4U_PORT_DISP_2L_OVL0_LARB0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					ovl_2l0_in: endpoint {
+> +						remote-endpoint = <&ovl0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					ovl_2l0_out: endpoint {
+> +						remote-endpoint = <&rdma0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		ovl_2l1: ovl@1400a000 {
+> @@ -1753,6 +1806,25 @@ ovl_2l1: ovl@1400a000 {
+>   			clocks = <&mmsys CLK_MM_DISP_OVL1_2L>;
+>   			iommus = <&iommu M4U_PORT_DISP_2L_OVL1_LARB0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					ovl_2l1_in: endpoint {
+> +						remote-endpoint = <&mmsys_ep_ext>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					ovl_2l1_out: endpoint {
+> +						remote-endpoint = <&rdma1_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		rdma0: rdma@1400b000 {
+> @@ -1764,6 +1836,25 @@ rdma0: rdma@1400b000 {
+>   			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
+>   			mediatek,rdma-fifo-size = <5120>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					rdma0_in: endpoint {
+> +						remote-endpoint = <&ovl_2l0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					rdma0_out: endpoint {
+> +						remote-endpoint = <&color0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		rdma1: rdma@1400c000 {
+> @@ -1775,6 +1866,25 @@ rdma1: rdma@1400c000 {
+>   			iommus = <&iommu M4U_PORT_DISP_RDMA1>;
+>   			mediatek,rdma-fifo-size = <2048>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					rdma1_in: endpoint {
+> +						remote-endpoint = <&ovl_2l1_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					rdma1_out: endpoint {
+> +						remote-endpoint = <&dpi_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		color0: color@1400e000 {
+> @@ -1785,6 +1895,25 @@ color0: color@1400e000 {
+>   			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+>   			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					color0_in: endpoint {
+> +						remote-endpoint = <&rdma0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					color0_out: endpoint {
+> +						remote-endpoint = <&ccorr0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		ccorr0: ccorr@1400f000 {
+> @@ -1794,6 +1923,25 @@ ccorr0: ccorr@1400f000 {
+>   			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+>   			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xf000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					ccorr0_in: endpoint {
+> +						remote-endpoint = <&color0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					ccorr0_out: endpoint {
+> +						remote-endpoint = <&aal0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		aal0: aal@14010000 {
+> @@ -1803,6 +1951,25 @@ aal0: aal@14010000 {
+>   			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+>   			clocks = <&mmsys CLK_MM_DISP_AAL0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					aal0_in: endpoint {
+> +						remote-endpoint = <&ccorr0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					aal0_out: endpoint {
+> +						remote-endpoint = <&gamma0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		gamma0: gamma@14011000 {
+> @@ -1812,6 +1979,25 @@ gamma0: gamma@14011000 {
+>   			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+>   			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x1000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					gamma0_in: endpoint {
+> +						remote-endpoint = <&aal0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					gamma0_out: endpoint {
+> +						remote-endpoint = <&dither0_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		dither0: dither@14012000 {
+> @@ -1821,6 +2007,25 @@ dither0: dither@14012000 {
+>   			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+>   			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
+>   			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x2000 0x1000>;
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					dither0_in: endpoint {
+> +						remote-endpoint = <&gamma0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					dither0_out: endpoint {
+> +						remote-endpoint = <&dsi_in>;
+> +					};
+> +				};
+> +			};
+>   		};
+>   
+>   		dsi0: dsi@14014000 {
+> @@ -1837,8 +2042,21 @@ dsi0: dsi@14014000 {
+>   			phy-names = "dphy";
+>   			status = "disabled";
+>   
+> -			port {
+> -				dsi_out: endpoint { };
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					dsi_in: endpoint {
+> +						remote-endpoint = <&dither0_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					dsi_out: endpoint { };
+> +				};
+>   			};
+>   		};
+>   
+> @@ -1853,8 +2071,21 @@ dpi0: dpi@14015000 {
+>   			clock-names = "pixel", "engine", "pll";
+>   			status = "disabled";
+>   
+> -			port {
+> -				dpi_out: endpoint { };
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
+> +					reg = <0>;
+> +					dpi_in: endpoint {
+> +						remote-endpoint = <&rdma1_out>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +					dpi_out: endpoint { };
+> +				};
+>   			};
+>   		};
+>   
 
