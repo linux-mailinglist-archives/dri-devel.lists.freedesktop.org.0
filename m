@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4F3B5608A
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 13:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6844B56090
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 13:45:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677B410E11E;
-	Sat, 13 Sep 2025 11:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A14A10E12F;
+	Sat, 13 Sep 2025 11:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iBEE/Lhz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NUqBS4Ib";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4DFD10E13A
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 16:42:43 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-45dec1ae562so19948825e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 09:42:43 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8C6910E13A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 16:42:44 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3e7643b0ab4so1222102f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 09:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757695362; x=1758300162; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757695363; x=1758300163; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SoeciE1g87M9Qxg6df56vLYD1QTe3IoOL1+JcFYtWuk=;
- b=iBEE/LhzurSQ6Ecap51apEm19XLIVf7sG1h1PqDZQ18/NYkzoLHh/sdQNU6NXCnysv
- 569GawrefaCxloE8+GInVturdU27WsWUVd982LFGa6YyEhbsULnqjopcbpTZrKUkQjWM
- heknbvT6UZYJ+T/Amqk1tF6IueG1Ix1F9U3Hxlw7/yjF3JnY0aYniPt3sUbK7uhvWYg/
- FeRgRv4tR6biTQjOlHbCrf6dhdmkAWp2O9MKzXW08dU/hnoAVdKCisW85YN0F61/6w5g
- zvQftWQpyoLqcnk7uE5lPn0qbHkjL/lglSzh5hZtznclx1we8O9toDbwDEQruGMtch7Y
- 7rmw==
+ :reply-to; bh=O2gnDI76Cg2pQY4d+7l+CRi3OFLEEk/WHj+p8hJRcSw=;
+ b=NUqBS4IbDQTt6ZnaCEDLKjgafohCPDEDfnV2YkiRnUpxvnxn+vdvtYM3RzR8h2VEQa
+ CmcHOOmR8OGEyPriyC0oxNBZjtzI5RkYJYcTdhX5qiW5UoDTdvnswcxqbA7pVOCwBhMS
+ VD77+Sp54bDnblWEmP2hh2FIVPL0VcI1xil0gczAB9/CFURC0ul2OO5Z2JlFOm6dNoUa
+ o2hAmu69H9CWi35pYCDQoZ7LnqYAwlP7awWhPqAzj0KOUBvR9Gh0Xb4FwkW677LhThC2
+ 6gBAHpfcAcIFJiL1ITqA+OMPmAga86Ln3QoSeMxF0j2PKnmqeKOQSZM23MZrNOMUXiAb
+ PcTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757695362; x=1758300162;
+ d=1e100.net; s=20230601; t=1757695363; x=1758300163;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SoeciE1g87M9Qxg6df56vLYD1QTe3IoOL1+JcFYtWuk=;
- b=RF6tA/HlO7Qw9pz9EQZFt886s8z/q8EVNTXHGWJPI0RM+JbAabyrebqDZb2F2R4t/f
- Y3hn99orL6DegUfUZLV0xFTDhR4zAzL7iyrCJSA4HQ/kEFNX0YCrTeGKIf4r63zfatqY
- Qp9efswet128uC+VzWO8kqvbTt/SYotUzxqyHvgJ5Fzker10cGJEvi8vkMNIMmY6omYR
- 0fDe6LEmmDwqljdqc9Imlu/CJfe6e9K3MqQTwV1993ZvgGWoZq3YBEGkxQTM/VN/Due6
- Qlpkza4S9VwxhOYTkSDJNYyjNEzXDEN2fYlCQwv2Rhc9SBw3EBB43rTxKpA7WXjYyxGC
- ZbnA==
-X-Gm-Message-State: AOJu0YxTUMVgBI752I2IFd4ktDO1DrRlttYF11u8RbsXQLpmrzKCxgcg
- ZmzHItGfiK/AM0NNwB3K1la57iQ8bvOMDbAEPYJoGJkeWohpbIEGj7qC
-X-Gm-Gg: ASbGncsi4uaaBBL95W1al1vCIq44JJrouQkAXOE3mSg+xrj5IChReHLocd2jygLGleX
- 4yT57mJulY6iN0/X/Ws4gAj31C1eWfrB3yJQUEgnlUdWDJjyM16YOo5cBqqg2Le/VE6Lk7MavUW
- twpLsiY8Y4JtjeRDGL7ecLgmpAxwO+jGK1Ao0c3N3n4v/9ACyj7gR6nVSadeWb6syYc+iIR9d1g
- ymw35Kd9n6nJ2OqiRUWlc66YITBKgIYOWNJe3WhTBeqmH4cUjCpiGfF+NxcnjntBIkoIMBFIUB4
- CRCMkc5pWUkzCcU9acFj36GiqU+Kmmlyr2n2X2qhrApTP2gT4rXCzDAn5K130mdIC7oZoQ6Ejh/
- J63rNV1akMWtO80TFT1SK5DnjVfecAx899x7u40HZs2bj/P9GI+8FiBdnt+YUE6g4wdHS+R0ENr
- 0=
-X-Google-Smtp-Source: AGHT+IHuJSFr0dqtOsT5NPWoHGSkNkCmgSeBnBH2v+uNiFiipuyD5CsBrYBuPM84MejkBy847xlygg==
-X-Received: by 2002:a05:600c:55c6:b0:45d:e0d8:a0aa with SMTP id
- 5b1f17b1804b1-45f211fa411mr30126825e9.17.1757695362172; 
- Fri, 12 Sep 2025 09:42:42 -0700 (PDT)
+ bh=O2gnDI76Cg2pQY4d+7l+CRi3OFLEEk/WHj+p8hJRcSw=;
+ b=eWv/yijoO2T4MffjLn3FaYD5xcCY/mhrntY8mw8Cqxy7faXXJ3LxLHiht4Ataxd7+W
+ F82Sffm1Kf6USsGSytsPSz/eTG3SWdAIezT4KwuqJbWeqmverfCsYolJTB/iVtnu8lb+
+ cgTQqhgFoQU9QfcjIMPuGc7OBb/gPE71hnQnVpNgU6NhPPFeMwbN7oj8uZrUFMAwNVMP
+ ehP2SKHA6pxBLO8vc10jW8BIFTz+8MzK3+taJohx1GC0L66+RBfREwpVXCFlOAsxtbtZ
+ OgE796/Q4X6Uu70FDijzUHFivjGF7BPv0lxR556zmouWwydGNqV44uJaz3yRWnagyHtF
+ wIAQ==
+X-Gm-Message-State: AOJu0YzYLGdQper97w/WcZ//YVMAnGobAw7UsXk+J07K7DhgFItLDId6
+ 7oT3hCtC4ZPisKxzttkhXy5VCDNp9eKyv/AMFyF6d/FBfdIsLtlJla2f
+X-Gm-Gg: ASbGnct0mbAgjyLNbLA4GkGg0WXrnP1k/dsseTw5NbCevNk7SgT8TYoAPgcK/evqreK
+ WbB2zR53rL7TD7n4EO4i93DBBvomTBjtnEomkNe/IGnycOyTSIRpMlS8faDsMlqJZAxhUwBeHWx
+ A1qmIMkvtCApOmcsVVkK00m27j55irBkJmqK2QF4bc/0nSUGU6B5mBq0hK0Or+OHhVvQ+CG74s+
+ LoDdPhLSiPWnX6J2jfZrjpcB3XycCeIPnHRRi0OPTUF7BkX62MVaeOoARDeMmwDcdIJ2DJHCdJq
+ VDEqiGdJmPOIZZVFKVJGMq/AwYgNpHMHTiwCKK33GVrXGMUmhiysZ192yW/Kj06H30ceh16mKpu
+ QlYi33WdHZrf/kVWN4ak8EnE2Hw6qYe35uD9NRqe7N9pUnLxgVW9jRVQYX5EcORPHCmuboeJUM/
+ c=
+X-Google-Smtp-Source: AGHT+IE959gtwBhse6FsnHVMnHsBtmS240AL0UVQnNung5XxUIW4zcMVG/r4gPAUBC/WAXs7IQvx0g==
+X-Received: by 2002:a05:6000:2584:b0:3e2:c41c:b2e2 with SMTP id
+ ffacd0b85a97d-3e7659f3806mr4012838f8f.39.1757695363112; 
+ Fri, 12 Sep 2025 09:42:43 -0700 (PDT)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.138.131])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e7607cd415sm7086696f8f.30.2025.09.12.09.42.41
+ ffacd0b85a97d-3e7607cd415sm7086696f8f.30.2025.09.12.09.42.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Sep 2025 09:42:41 -0700 (PDT)
+ Fri, 12 Sep 2025 09:42:42 -0700 (PDT)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Fri, 12 Sep 2025 18:42:09 +0200
-Subject: [PATCH 1/5] drm/solomon: Move calls to drm_gem_fb_end_cpu*()
+Date: Fri, 12 Sep 2025 18:42:10 +0200
+Subject: [PATCH 2/5] drm/solomon: Use drm_WARN_ON_ONCE instead of WARN_ON
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250912-improve-ssd130x-v1-1-bc9389ed299e@gmail.com>
+Message-Id: <20250912-improve-ssd130x-v1-2-bc9389ed299e@gmail.com>
 References: <20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com>
 In-Reply-To: <20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com>
 To: Javier Martinez Canillas <javierm@redhat.com>, 
@@ -92,125 +92,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calls to drm_gem_fb_end_cpu*() should be between the calls to
-drm_dev*(), and not hidden inside some other function. This way the
-critical section code is visible at a glance, keeping it short and
-improving maintainability.
+To prevent log spam, convert all instances to the DRM-specific
+drm_WARN_ON_ONCE() macro. This ensures that a warning is emitted only
+the first time the condition is met for a given device instance, which
+is the desired behavior within the graphics subsystem.
 
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 33 +++++++++++++++------------------
- 1 file changed, 15 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/solomon/ssd130x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index dd2006d51c7a2fc8501904565da806aa47333ad6..297593c7fd20a5a5da81f1e1fcfda9092b19cf90 100644
+index 297593c7fd20a5a5da81f1e1fcfda9092b19cf90..c6939377ec4b5a42ce0f40d070ce60d544d8516d 100644
 --- a/drivers/gpu/drm/solomon/ssd130x.c
 +++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1016,15 +1016,9 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb,
+@@ -1390,7 +1390,7 @@ static void ssd130x_primary_plane_reset(struct drm_plane *plane)
+ {
+ 	struct ssd130x_plane_state *ssd130x_state;
  
- 	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
+-	WARN_ON(plane->state);
++	drm_WARN_ON_ONCE(plane->dev, plane->state);
  
--	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
--	if (ret)
--		return ret;
--
- 	iosys_map_set_vaddr(&dst, buf);
- 	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+ 	ssd130x_state = kzalloc(sizeof(*ssd130x_state), GFP_KERNEL);
+ 	if (!ssd130x_state)
+@@ -1405,7 +1405,7 @@ static struct drm_plane_state *ssd130x_primary_plane_duplicate_state(struct drm_
+ 	struct ssd130x_plane_state *old_ssd130x_state;
+ 	struct ssd130x_plane_state *ssd130x_state;
  
--	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
--
- 	ssd130x_update_rect(ssd130x, rect, buf, data_array);
+-	if (WARN_ON(!plane->state))
++	if (drm_WARN_ON_ONCE(plane->dev, !plane->state))
+ 		return NULL;
  
- 	return ret;
-@@ -1048,15 +1042,9 @@ static int ssd132x_fb_blit_rect(struct drm_framebuffer *fb,
+ 	old_ssd130x_state = to_ssd130x_plane_state(plane->state);
+@@ -1555,7 +1555,7 @@ static void ssd130x_crtc_reset(struct drm_crtc *crtc)
+ {
+ 	struct ssd130x_crtc_state *ssd130x_state;
  
- 	dst_pitch = drm_rect_width(rect);
+-	WARN_ON(crtc->state);
++	drm_WARN_ON_ONCE(crtc->dev, crtc->state);
  
--	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
--	if (ret)
--		return ret;
--
- 	iosys_map_set_vaddr(&dst, buf);
- 	drm_fb_xrgb8888_to_gray8(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+ 	ssd130x_state = kzalloc(sizeof(*ssd130x_state), GFP_KERNEL);
+ 	if (!ssd130x_state)
+@@ -1569,7 +1569,7 @@ static struct drm_crtc_state *ssd130x_crtc_duplicate_state(struct drm_crtc *crtc
+ 	struct ssd130x_crtc_state *old_ssd130x_state;
+ 	struct ssd130x_crtc_state *ssd130x_state;
  
--	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
--
- 	ssd132x_update_rect(ssd130x, rect, buf, data_array);
+-	if (WARN_ON(!crtc->state))
++	if (drm_WARN_ON_ONCE(crtc->dev, !crtc->state))
+ 		return NULL;
  
- 	return ret;
-@@ -1078,15 +1066,9 @@ static int ssd133x_fb_blit_rect(struct drm_framebuffer *fb,
- 
- 	dst_pitch = drm_format_info_min_pitch(fi, 0, drm_rect_width(rect));
- 
--	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
--	if (ret)
--		return ret;
--
- 	iosys_map_set_vaddr(&dst, data_array);
- 	drm_fb_xrgb8888_to_rgb332(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
- 
--	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
--
- 	ssd133x_update_rect(ssd130x, rect, data_array, dst_pitch);
- 
- 	return ret;
-@@ -1232,6 +1214,9 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
- 	if (!drm_dev_enter(drm, &idx))
- 		return;
- 
-+	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
-+		return;
-+
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
- 		dst_clip = plane_state->dst;
-@@ -1245,6 +1230,8 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
- 				     &shadow_plane_state->fmtcnv_state);
- 	}
- 
-+	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+
- 	drm_dev_exit(idx);
- }
- 
-@@ -1267,6 +1254,9 @@ static void ssd132x_primary_plane_atomic_update(struct drm_plane *plane,
- 	if (!drm_dev_enter(drm, &idx))
- 		return;
- 
-+	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
-+		return;
-+
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
- 		dst_clip = plane_state->dst;
-@@ -1280,6 +1270,8 @@ static void ssd132x_primary_plane_atomic_update(struct drm_plane *plane,
- 				     &shadow_plane_state->fmtcnv_state);
- 	}
- 
-+	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+
- 	drm_dev_exit(idx);
- }
- 
-@@ -1301,6 +1293,9 @@ static void ssd133x_primary_plane_atomic_update(struct drm_plane *plane,
- 	if (!drm_dev_enter(drm, &idx))
- 		return;
- 
-+	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
-+		return;
-+
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
- 		dst_clip = plane_state->dst;
-@@ -1313,6 +1308,8 @@ static void ssd133x_primary_plane_atomic_update(struct drm_plane *plane,
- 				     &shadow_plane_state->fmtcnv_state);
- 	}
- 
-+	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+
- 	drm_dev_exit(idx);
- }
- 
+ 	old_ssd130x_state = to_ssd130x_crtc_state(crtc->state);
 
 -- 
 2.51.0
