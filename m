@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1583FB54269
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFC0B5427A
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 08:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5EA10E077;
-	Fri, 12 Sep 2025 06:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE7E710E442;
+	Fri, 12 Sep 2025 06:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EJFK7rGz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jROHFO4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB81D10E077
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:06:43 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4BCB10E442
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 06:07:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C9573601AE;
- Fri, 12 Sep 2025 06:06:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2BBC4CEF4;
- Fri, 12 Sep 2025 06:06:41 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 33471407F5;
+ Fri, 12 Sep 2025 06:07:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A93C4CEF4;
+ Fri, 12 Sep 2025 06:07:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757657202;
- bh=nF4lItlwYcOfTnssRbtSp09OmwNC56e9ezNLiwIkcKE=;
+ s=k20201202; t=1757657265;
+ bh=Orb+VsfkJaRzsj41NR7vEo3YY27Pbey1RakvGK1RuKE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EJFK7rGzhfob+IekXtskHBj9H3/tlwfA5r6OsrA5/XqgADcxCkFG+wxRo3MQJ6Hj+
- e/nziZ9YO9zrEXEVmQwbi4lLgZH+TF9EK7O+x4jucMkwIMQWkaCZ8HpJy4f2jGu+dx
- GS7rYRGpg1nUATgMZlpUSlxYRolA2Gy41lBuh64hjod/AW9zpbR5J+RHwbCpLg3UOi
- 6osILbswgGibrPTlCzKfqtVQlaQkt2/YHx8TWlkhdpizWmi89w9OMb3VSD4DxrVVZK
- ptWCx0Yw3lHjI8ztpwlRCRfDvNiunmUZCKtdQrmz0KV+KNxpim8XEq3dgfzQ8jSwrM
- 1klI6eVNRA0gA==
-Date: Fri, 12 Sep 2025 08:06:39 +0200
+ b=jROHFO4OhNFjQA0LwB4XzJQ1Bald5dpNoHBInnMm4SwxCfSU/DOyUefTNvHSwsi7b
+ p5mlc7/j808w2wwrozVhRth2bXxKv/bUg7GFFDKqiFeQl1qI37ZezJKqBvSBVEc39g
+ FK7NmcUk6O7jMlm9okELv7RVWi6xNjI6nGP+JzEuSH1+HFLYnmhwHntwYzLDuJqtRQ
+ CMKzglUBwGwWTzMHuor4H7BMfN8gsx/hhYIMcFqyqyT1tYiWwKIZd+ZZXYDKdRQvnB
+ PpJOjZUXx3ep7XTHxtXpBJZqPi7f9E1veLLM2f7vG6o4k+O/J0kyASYvGMOxW3kXz8
+ 3hZtAOwZjqXLQ==
+Date: Fri, 12 Sep 2025 08:07:42 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
@@ -57,15 +57,15 @@ Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  linux-media@vger.kernel.org, 
  linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+Subject: Re: [PATCH v2 02/12] dt-bindings: media: Convert MediaTek mt8173-vpu
  bindings to DT schema
-Message-ID: <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+Message-ID: <20250912-unselfish-quiet-hound-46689b@kuoka>
 References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-2-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-3-ariel.dalessandro@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911151001.108744-2-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250911151001.108744-3-ariel.dalessandro@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,163 +81,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 12:09:50PM -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data
-> Path to a DT schema.
+On Thu, Sep 11, 2025 at 12:09:51PM -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for Mediatek MT8173 Video
+> Processor Unit to a DT schema.
 > 
 > Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > ---
->  .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 ++++++++++++++++++
->  .../bindings/media/mediatek-mdp.txt           |  95 ----------
->  2 files changed, 169 insertions(+), 95 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
-> new file mode 100644
-> index 0000000000000..8ca33a733c478
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
-> @@ -0,0 +1,169 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MT8173 Media Data Path
-> +
-> +maintainers:
-> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> +
-> +description:
-> +  Media Data Path is used for scaling and color space conversion.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt8173-mdp-rdma
-> +          - mediatek,mt8173-mdp-rsz
-> +          - mediatek,mt8173-mdp-wdma
-> +          - mediatek,mt8173-mdp-wrot
+>  .../bindings/media/mediatek,mt8173-vpu.yaml   | 74 +++++++++++++++++++
+>  .../bindings/media/mediatek-vpu.txt           | 31 --------
+>  2 files changed, 74 insertions(+), 31 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vpu.txt
 
-Why there is no mediatek,mt8173-mdp here? What does this compatible
-represent?
-
-> +      - items:
-> +          - const: mediatek,mt8173-mdp-rdma
-
-Still suspicious. Device cannot be simulatanously: compatible and not
-compatible. This is not a well known cat that has superposition of two
-states, whenenver you look the other way.
-
-Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
-Whichever the reason, this must be investigated and documented, because
-by standard rules this is wrong. Each wrong code needs very clear
-explanations (and "someone did it" is not a good enough explanation).
-
-> +          - const: mediatek,mt8173-mdp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  mediatek,vpu:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to Mediatek Video Processor Unit for HW Codec encode/decode and
-> +      image processing.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - power-domains
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8173-mdp-rdma
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Main clock
-> +            - description: Mutex clock
-> +    else:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Main clock
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - mediatek,mt8173-mdp-rdma
-> +              - mediatek,mt8173-mdp-wdma
-> +              - mediatek,mt8173-mdp-wrot
-> +    then:
-> +      required:
-> +        - iommus
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8173-mdp
-> +    then:
-> +      required:
-> +        - mediatek,vpu
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8173-clk.h>
-> +    #include <dt-bindings/memory/mt8173-larb-port.h>
-> +    #include <dt-bindings/power/mt8173-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        mdp_rdma0: rdma@14001000 {
-> +            compatible = "mediatek,mt8173-mdp-rdma",
-> +                         "mediatek,mt8173-mdp";
-> +            reg = <0 0x14001000 0 0x1000>;
-> +            clocks = <&mmsys CLK_MM_MDP_RDMA0>,
-> +                     <&mmsys CLK_MM_MUTEX_32K>;
-> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-> +            iommus = <&iommu M4U_PORT_MDP_RDMA0>;
-> +            mediatek,vpu = <&vpu>;
-> +        };
-> +
-> +        mdp_rdma1: rdma@14002000 {
-> +            compatible = "mediatek,mt8173-mdp-rdma";
-> +            reg = <0 0x14002000 0 0x1000>;
-> +            clocks = <&mmsys CLK_MM_MDP_RDMA1>,
-> +                     <&mmsys CLK_MM_MUTEX_32K>;
-> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-> +            iommus = <&iommu M4U_PORT_MDP_RDMA1>;
-> +        };
-
-My previous comment applies.
-
-Keep one or two examples.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
