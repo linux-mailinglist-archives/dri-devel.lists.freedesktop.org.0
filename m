@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6943DB55857
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 23:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E0DB5586B
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 23:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFDE410ECDF;
-	Fri, 12 Sep 2025 21:27:41 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hMB5kFz0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3A110ECE0;
+	Fri, 12 Sep 2025 21:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F40110ECDF
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 21:27:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id ECA1340447;
- Fri, 12 Sep 2025 21:27:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6496EC4CEF1;
- Fri, 12 Sep 2025 21:27:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757712459;
- bh=RGcx0TtggTU05NRX/31eZRhT7+0F5HLxdRyakxLHmjc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hMB5kFz0BK530ASXZdztqWyR40j1z8lSTN/Q6UgQSaRDUL0ysc37zYiXY3W74T2sR
- 9ebo5pcNXJ6Szkv7P2rfIByTJuSCrDqQ4P1dt986Sawn7PpCpz0eAowkxd6ItR2Sw5
- RETLSlU6Xt7TINo00WaRMsECxl8EKJEfyp8WMl6hDFtFV84fiCtN4N2NlqZHJA2O6r
- DdXRTZM+y1pMBrl4jEYnv3aQeEb3FDeo4V7/2gjQcAWd/5r7yaxGW7IVIDjtKXLQqu
- xci1hjsHSP8HhCJNSoPm4EM1wHjzqlTDwiO6CT2yVI7tMaR85CwnhyLtbHlZBAGv+E
- om3KlER42getA==
-Message-ID: <e0252635-4dc4-483a-911a-fee5a36c19c3@kernel.org>
-Date: Fri, 12 Sep 2025 23:27:34 +0200
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7643110ECE0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 21:33:37 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ ca18e2360f4ac-88d7e2e5d68so292877439f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:33:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757712816; x=1758317616;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LXO5mkFCL4ZX0NuJtYajf8x5HrQRd3rVt9ZYSd4TZdU=;
+ b=ZlutdlbXqvrAjFqKNAeWEtsryX29G18oPTsw+PvchjgfVwvnw2m0fmbQNXjhhyrAOf
+ jvLyYxecPVOwl9NBHMPbP5+MFgRgRHujUIeQQJiPr/imy2ZHVk9pybyUC3eJf5vE+OIR
+ 6KHU3pntS6zN1wPKBHRVy0GsPV7fqIz0YemUTCAZqnM09pr2zLiQxlNXPmbznMt7Sddg
+ zODwGK7kQSjBa2JgdztxiCH6Eipjdbm3qVdLZWksL5QXWoGhp3vFFpLv6nEuvUgZCCvu
+ 8BnqjCiI11KWQOJTIVMVjefO4vn2sIZba+Xqsb0nceWm2CCLxDS/nN9e39yAx4ypiEdd
+ K9/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXfUTBDYsrerDUvvV6vLXd8uIblUpDpQL6NU3XCEun6GZcZVReJYAnq7S11IUnKgq8l0azlnvCk3uM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyC7he2g1oErDNi/OSurugeaBxQTSLpIZqXrrHBcVooa9Lgiq6w
+ rX/bNPmU29eOYU9SLEUwX54OSsJ8fWYVmZMgWsqUe0UN9jpgqfH7peQy5Z8TvsALRxnHTfdjISK
+ iUJETP2RO/JNRFyj/uPzI5NS5XGjtMVKsZS5mFpcMnVtx7dVpmCiMOlmG6eQ=
+X-Google-Smtp-Source: AGHT+IEJ0MQ3LWqpsXMgBd/aLzM5ImfP69r2HA2KIQl7mSRqFOCMb4uN8AY54+NtaLOAQuIWrn4OEN17ioWWA7OqecGTlENNxkR8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Javier Garcia <rampxxxx@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Antonino Maniscalco <antomani103@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250912130649.27623-2-bagasdotme@gmail.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6e02:1fee:b0:405:59ba:4ef0 with SMTP id
+ e9e14a558f8ab-4209e463015mr67657245ab.8.1757712816477; Fri, 12 Sep 2025
+ 14:33:36 -0700 (PDT)
+Date: Fri, 12 Sep 2025 14:33:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68c491b0.050a0220.2ff435.0364.GAE@google.com>
+Subject: [syzbot] Monthly fbdev report (Sep 2025)
+From: syzbot <syzbot+list5c6629998bf2c39e2dfc@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,22 +62,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/12/25 3:06 PM, Bagas Sanjaya wrote:
-> Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
-> fixes original Sphinx indentation warning as introduced in
-> 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
-> code-block:: directive. It semantically conflicts with earlier
-> bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
-> usage in literal code block") that did the same using double colon
-> syntax instead. These duplicated literal code block directives causes
-> the original warnings not being fixed.
-> 
-> Revert 6cc44e9618f03f to keep things rolling without these warnings.
-> 
-> Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
-> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Hello fbdev maintainers/developers,
 
-Need me to pick this one up? Otherwise,
+This is a 31-day syzbot report for the fbdev subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/fbdev
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 6 issues are still open and 27 have already been fixed.
+
+Some of the still happening issues:
+
+Ref Crashes Repro Title
+<1> 345     Yes   KASAN: slab-out-of-bounds Read in fbcon_prepare_logo
+                  https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
+<2> 201     No    KASAN: vmalloc-out-of-bounds Write in imageblit (5)
+                  https://syzkaller.appspot.com/bug?extid=48b0652a95834717f190
+<3> 65      No    KASAN: vmalloc-out-of-bounds Write in fillrect
+                  https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
+<4> 44      Yes   KASAN: global-out-of-bounds Read in bit_putcs (3)
+                  https://syzkaller.appspot.com/bug?extid=793cf822d213be1a74f2
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
