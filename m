@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C546B550ED
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDFAB550EF
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 16:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FDD310EC69;
-	Fri, 12 Sep 2025 14:21:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9307010EC68;
+	Fri, 12 Sep 2025 14:21:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kBvEKenT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UEIJHtZF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B24910EC68
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:20 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3d44d734cabso1633953f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:20 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D78810EC68
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 14:21:30 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45dd7b15a64so17730855e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 07:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757686879; x=1758291679; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757686889; x=1758291689; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=vw9oEMKP6t2zJ5WrxPI767ve9Ezi/7LUntIyA8io5Hw=;
- b=kBvEKenTYDdBtCN9ihR/ATE7weMAQaEtPIz0+FBXDGJpAgdkJihhbbdaUKDIuqqNZX
- fW7VnRGBgdLMV91brEBhoCJF4XV77iZIi4cckNKOZqZVzT0Pe6cbwFmK5GK9klMjmy6g
- Mot+UBNlke80JOE1sced4YGFXoXzxiDh5UlBRvkRVoxta2ziRuB8jTPTjYJumh5nFIkP
- gzu20RaCJvEL9lJwIcKDuJQJ1YnwJwskLYP0+FG1ZINc/5cHZXBRcoYqcs+6h+G+8xTz
- bizYr6H56s0/WiS1BtKL40WPMzpBhoX5S4GvLQtZvh+zlhpiWp/DmAlYPVX6MOUwUxoQ
- 7wOQ==
+ bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
+ b=UEIJHtZFanKbX6KMW385IxPq9mHR6GNelHA4gf1YTx1g8hKoWNL0dmZBxeoISqGrKv
+ xrzH7Qvnvayz3ltAiZiIr983kjqEtD3g8mL8mKDIbmXnmFHmtw4Mr4x5cYJfXj5aWYXi
+ v5Qs22p6wISJD9uKbnjsmy4eonZrCbOZFOFY5KwfwubpZC91BysDkxw1Y2Mk0xfE9HSA
+ Zz6VEbEXm+VecR834hV47eFHib40OeBYD+QaEW0lPvw/vWtgBNhGQbDl8OGqB6TWWYnF
+ cL15zRRhYludrulOk2j0wE4IZ9VZTRvNIswQLlpVd89e0J5gZpVP1QhVtKdpuKoz46ae
+ x+GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757686879; x=1758291679;
+ d=1e100.net; s=20230601; t=1757686889; x=1758291689;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vw9oEMKP6t2zJ5WrxPI767ve9Ezi/7LUntIyA8io5Hw=;
- b=Qz0Se/XIa7ArqHoc95yBO/GHmW/2V1BgXG5aB1SAjX4v0chH1i2BEjSq+I1ebPrWOM
- Ql6a4cby5f5QZvvp5tGo3BKYoZRkjyfmbKr8iWTJxCirDzMihg++kUv2Nqrh93zSVFYN
- DfL9z3S9QIMvM2EyHCD02nGgAbqtPAtnWeobbJbZND3tViDzgvlRm6seOYppmw/wc2OJ
- 5hiEQ4Hu8nhVkf4bMVObGFF6dC3Gb2vAnUOsio7imVq6C1FIsjk2gKs3hadjyw2oSixV
- ia6cOi2fNsFlSxOFCK0T9TddLkAlOEkV8KA03rJ6MaQQkW4PwJtG/QHbNjUtyrrh92di
- iExA==
+ bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
+ b=qDBgU9z7oHoncF0Pnycy+5SFW4fFry7uXK/mx0foVXx8QdMgG73JmV2/kNQoxQ4FQb
+ 2cxwUZmb/BWf4+Zf+mnqw2xT3RSMNe6JZ2F9WUIUeg3mt/K2X8kVeTF6mAIbY2OUr8Su
+ ff02sF5nDkOWcINmcht4w/odjUHveQgwAVl6jWiL12RqbFZWhEZxu6YLZAZd90n7TQpR
+ YqmdYeY0c01gOr9DBUWa/D96JhZwicwFWh92mEN3HWbl2W3Pc1RMiwSLDOYlKSd0y6DK
+ sIu9irmbdOgSKy1xOmWS1fHp1nRz2AU7hDrq6oqF7lnloUM2jr7awczmqBih9EGqENFb
+ lTLA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVWrv9afBKOVPB50qHFMLutNgylKt8vnwzuFAroe9LLQrIL6+IQdouWs7z6+kRtd1d2PeQeVnjAB9c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+85ru+dSxsc5XT9RBUNnvZbC3AxHfOsa3kMymp1ovh+/neEoD
- cnda3Qk7CjQitERomfCVuTGwxjjPNKs3lpA60x1d9xO4ITtjG9iNq1L5
-X-Gm-Gg: ASbGncuIC4lD4YbNBuedCVkeBAZShFlXmD6wUFndFUTT5UoNsHupGJNPdChtmvZuZLD
- tPt1q6spAOiHmVzDBKBlijSH65Pl5NOjwrnq/qJvaGXjoYCPWFe+i7b/V19YkuLr12tc5TI856b
- eFssxhSubCsrfDLqt7dKxMmS4FEkbIEFC1BaV3KO6b8TVdVOBnu/oiDwzHoDnFVY3MQpV0z51aw
- ZilScHVCL69/h7YwI4TytCYt7Y8ojUOyNbUS7QJfjUs+RVewWyo+lSA8pc/BBnm2Nt6Ca4nw5Oa
- vd99S8t1dd0Jx05dkfVvboYPEVadaUdNROLSEoahw2dseNknknN9Op86231kkh5wUdR69Wq7dUX
- 7hruI48wEhXWOEJLLU+EYWe8YQx1BfZ5vhUuMGwsNNQ==
-X-Google-Smtp-Source: AGHT+IFntwFrj6hvDClo8DDECOvHNBx/ZYTf0W4VlRfdOBkNBdr/e49WdTOHoS9sCIAf2OgrZ1iqXQ==
-X-Received: by 2002:a05:6000:2012:b0:3d9:dbe6:e613 with SMTP id
- ffacd0b85a97d-3e765792841mr3488249f8f.15.1757686878585; 
- Fri, 12 Sep 2025 07:21:18 -0700 (PDT)
+ AJvYcCV1jGox1T5c1qRVyE+YAok8modmoHXPb4nYV7vYMikeLsltUyDoqw03XA35SdYLoWneUhk8zUTKsGY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzi4Xq1DRXUUoqWQMbufJzAd+Fv0RhqtDtGa2vIEBhQJUt/jxxc
+ 50e7VDRv3rUUM9uJBaFzpiwi4csPh1vRDp92vYWoeuj0KvswzzX2Ngtk
+X-Gm-Gg: ASbGncttdZsalljXm5tMG1QDGRbY50WkfROXurvIkF9FDjhZbb/BYKhtnN3a3Mt4YsL
+ 8IPlgBgmy28CaeCOuhEyn/0Rf+rJoy/7mY/+5cSwVwrcF1+Kiz0N0PIGQAQ/oI0sXP7iXZsAevl
+ h+AQgJIxGJnsmfcRZTZRDIh5sqkQtPhEbhAKkCewtQHiQ78LYH9vWPAcLYuXuv0FnEGRJ+wkCLN
+ jb6fRE8DAjvucDGaO8e0yfMSyghslLqU7wAdfcF7233DcOuPg3Sj/uLTjXB/fc0FKPZOxLaOjML
+ ftv9kLvJXAmn7Tji0dCLzJ31roSLq8A2SjUkKh+YpmTPHbojylzHkFSlBwAsPGAKB1t7n/DTERo
+ lYxA8dqlo4Hgj9BZlzTyyxNEPxoZnbIM=
+X-Google-Smtp-Source: AGHT+IF9qckBbO1/MUfpNiCtEF6z09eaYzKoz6jvuBpXQ6fGTJDkBa8yQ4C1wqtVjU1kYwNtwHUpjg==
+X-Received: by 2002:a05:600c:3146:b0:45d:dc6c:9e30 with SMTP id
+ 5b1f17b1804b1-45f21293373mr35435585e9.14.1757686888870; 
+ Fri, 12 Sep 2025 07:21:28 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e760787080sm6943265f8f.20.2025.09.12.07.21.14
+ 5b1f17b1804b1-45e015784c3sm71413955e9.10.2025.09.12.07.21.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 07:21:17 -0700 (PDT)
-Message-ID: <52a54697-4b42-4c39-ae42-ae03b4231acc@gmail.com>
-Date: Fri, 12 Sep 2025 16:18:36 +0200
+ Fri, 12 Sep 2025 07:21:27 -0700 (PDT)
+Message-ID: <6f60e909-b267-4140-8384-6e06e9a199fb@gmail.com>
+Date: Fri, 12 Sep 2025 16:18:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 30/38] arm64: dts: mediatek: pumpkin-common: Fix pinctrl
- node names
+Subject: Re: [PATCH 31/38] arm64: dts: mediatek: mt8183-pumpkin: Add power
+ supply for CCI
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,76 +159,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Fix the pinctrl node names to adhere to the bindings, as the main
-> pin node is supposed to be named like "uart0-pins" and the pinmux
-> node named like "pins-bus".
+> Add a power supply for the Cache Coherent Interconnect node as it
+> is required to perform CPU DVFS because both are scaling together.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../boot/dts/mediatek/pumpkin-common.dtsi      | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+>   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> index a356db5fcc5f..805fb82138a8 100644
-> --- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> @@ -198,8 +198,8 @@ &usb_phy {
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> index dbdee604edab..d5fcb010e1ac 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> @@ -482,6 +482,10 @@ &mfg {
+>   	domain-supply = <&mt6358_vgpu_reg>;
 >   };
 >   
->   &pio {
-> -	gpio_keys_default: gpiodefault {
-> -		pins_cmd_dat {
-> +	gpio_keys_default: gpio-keys-pins {
-> +		pins-cmd-dat {
->   			pinmux = <MT8516_PIN_42_KPCOL0__FUNC_GPIO42>,
->   				 <MT8516_PIN_43_KPCOL1__FUNC_GPIO43>;
->   			bias-pull-up;
-> @@ -207,7 +207,7 @@ pins_cmd_dat {
->   		};
->   	};
->   
-> -	i2c0_pins_a: i2c0 {
-> +	i2c0_pins_a: i2c0-pins {
->   		pins1 {
->   			pinmux = <MT8516_PIN_58_SDA0__FUNC_SDA0_0>,
->   				 <MT8516_PIN_59_SCL0__FUNC_SCL0_0>;
-> @@ -215,7 +215,7 @@ pins1 {
->   		};
->   	};
->   
-> -	i2c2_pins_a: i2c2 {
-> +	i2c2_pins_a: i2c2-pins {
->   		pins1 {
->   			pinmux = <MT8516_PIN_60_SDA2__FUNC_SDA2_0>,
->   				 <MT8516_PIN_61_SCL2__FUNC_SCL2_0>;
-> @@ -223,21 +223,21 @@ pins1 {
->   		};
->   	};
->   
-> -	tca6416_pins: pinmux_tca6416_pins {
-> -		gpio_mux_rst_n_pin {
-> +	tca6416_pins: tca6416-pins {
-> +		pins-mux-rstn {
->   			pinmux = <MT8516_PIN_65_UTXD1__FUNC_GPIO65>;
->   			output-high;
->   		};
->   
-> -		gpio_mux_int_n_pin {
-> +		pins-mux-intn {
->   			pinmux = <MT8516_PIN_64_URXD1__FUNC_GPIO64>;
->   			input-enable;
->   			bias-pull-up;
->   		};
->   	};
->   
-> -	ethernet_pins_default: ethernet {
-> -		pins_ethernet {
-> +	ethernet_pins_default: ethernet-pins {
-> +		pins-eth {
->   			pinmux = <MT8516_PIN_0_EINT0__FUNC_EXT_TXD0>,
->   				 <MT8516_PIN_1_EINT1__FUNC_EXT_TXD1>,
->   				 <MT8516_PIN_5_EINT5__FUNC_EXT_RXER>,
+> +&cci {
+> +	proc-supply = <&mt6358_vproc12_reg>;
+> +};
+> +
+>   &cpu0 {
+>   	proc-supply = <&mt6358_vproc12_reg>;
+>   };
 
