@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9609DB54CD5
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 14:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7555AB54CF0
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Sep 2025 14:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF96A10EC38;
-	Fri, 12 Sep 2025 12:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4C8410EC3C;
+	Fri, 12 Sep 2025 12:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BijiTVDu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gvs/LGLY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E149E10EC38
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:13:40 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3e76766a172so527625f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 05:13:40 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D57A310EC3A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 12:15:22 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-45dcfecdc0fso17944515e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 05:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757679219; x=1758284019; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757679321; x=1758284121; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=zkoQ9SJncJQR2k7owlGfYP7lnnJQnXwneqiBOWb0ci8=;
- b=BijiTVDubOGxl/yx35j/aqOR08ZwZG5BZwprWrGlBwcBAkKhCXggQbB+zrqf7SnGsH
- nElinAxHWSFtoV/PvdoMBMYIaLKTXqiXrU6HQRqf+njyvux9W3UjYgchJhfUhFxScCto
- K05IBnRRnaMWRZDzotaSGc/rTBQZ/fQCWvhF4uDUjzfu7YrY1OpsW8y+QqnMp4hJnWZB
- EzrZx+Ecr5tebFcfKaW78LqEdYZ/xtKxxoi1H9nyfBeklWwKgudH8Kh/vihDWqJNdxRe
- uxI2pb87gIrmceGxM+YCyqcMfqUTMl7zgfu0esHT3oGWcEPL6silf2BPICEeTXJ8FiWU
- rbyQ==
+ bh=/srPpowhb2Rd3xZftod1YxdED+npJM3nXqMeune3iHw=;
+ b=Gvs/LGLYcacyoDt+SebhtcOLyMqfr3V6emWPt2674hp/y7pDkIAGdemJzBvGT0oZAy
+ TqlCbhNeg2ngDSWD200uqhGayymlYzVgFxPVMxNwhNbF84B3fR0vA5gwiUadOrex1Cpt
+ 0jO9LfbzZ3XEBBk4iTfIqTbqbE1OwOXDT+0JkRBHf+MN1YVhw9m3a/MkG8606hbxzR+1
+ W3/3KmAoDP/YahAWHkr+pUMvsoJabIfvV9Pc4GZcGji0KYn0xyGylANhV7akCO5C/lGF
+ g23uRybgtCc7gWA6SJ/hZczNYRXtNAhCtS8hu8jmy9i02FNU99rAc5T99HmDCVF7u1aK
+ 612A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757679219; x=1758284019;
+ d=1e100.net; s=20230601; t=1757679321; x=1758284121;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zkoQ9SJncJQR2k7owlGfYP7lnnJQnXwneqiBOWb0ci8=;
- b=GZUbysWUt31j+AVJarnewZJiX7LiSikzhgnVBy/0Rw5mY6qPMNxTMEp4vc0uBPGMcJ
- 3LJlsKXIEI+kXcUV+sO3ZzKLK4NSgeLypKslpKV4fVCMIg1UZEp4YuxgGqfyWzP4CYiG
- u6AkzIQXQPYKxoMAHKB/yAbZ/WHEZKG3QHWVkk5XgiE0cY+yhnguILM/zLkG9xGumFt4
- tkTzol/dsZ3S5vSizyIOeB9jOBu7/fcBF/Ni7eHOkaJkJMWzoaLTisCLXDHItkf5M41w
- 5Z8OTlg/lbbzZCrSxparGefUrvp8eHwXkIwn0BDolah7rTord8/IEokIVK/g6E0i95m7
- Nprg==
+ bh=/srPpowhb2Rd3xZftod1YxdED+npJM3nXqMeune3iHw=;
+ b=KtgjbXVniRMT1tJvyUmaI8DL8OvIMmpg8KH4POoJdIN3N0+ySYtv+Q2IHPY8ml+QQr
+ A/+vP1BpWNZpvArKkfOVETzazTBPHcHRUkz+KcZkOUpkw1VeE3GVMnakNIvkSQTy53P3
+ VnBvBr4CTMTqkZJ8qhNZKZC70xcJFhd1gIUtPosh9hZqUWGSF0UpEyDcHX6riBZtURG8
+ +7lokK1b8NnAjEdecMsqtqCdZjwQCOJnpq2R+zYHxEHKLFj+LYskuZaefL1G32UJKNHM
+ p/41RofsXyD41oWUzsdjk8rmZ917ESI99t+IaaBVuAlx/iEG+4Q2O3OcfU3iAc1yZbF3
+ BXZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVusyveQmFSM2TTTb2jwUYtDKl8N76ieXLQ64HIDQ/E0n0fqwPymwTAmpJj72sUC2+Sq6XrBOyPESw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwgo1wI7twNuuKQvVanzI9rrjmLJzvh284g8ljqGBFcj7eH4nK
- qSDWVFbpm8EzHLgrXMkv379uOxXK2ARpWwYmvkbu6xDKRMdFdSVtSCHG
-X-Gm-Gg: ASbGnctKVvglm/MG0UIQdAan92w0yGqvrHbmhSDn67c5luJbKBm5QEWlEkc3eEOgB/2
- y7uS3iG8GSUiuWZIo6UrIZJArWyD7BjnCNN5YM4cNYYYZMnyNFe9bbKsOOMJAULD72h180Zb9rA
- P3LH1FYpHtIEb5G4MAIkG5FF2VGSfcUbwa4Fenr/+R2RRLH2o1UbYMVwVrJIJt84zFU7LlG8Imw
- Pa4eGSS7pjMnOg7kirpag67cVCXPBE4zxg3GD02nPnnjZomplZ67cXtKq+KS0ay3YY70OQ9KW5e
- vodfun6gI/lcTCLkk9MGJ4iT+Z+AHfY8kZq7GbSoShIrJm6CtrWeEKPnMfSzxIIONxehkGaQKO1
- SH1xLWj3p6dWIJIIL9fXj24PiQ/QvrIhr9KjPDjv2juWQlapnV9Nz
-X-Google-Smtp-Source: AGHT+IGQEhQIRknYaP1YuGQvYnjZ0p0JV8FXvcoSvGq8FP5ylA0D/T0PXvLLFUR4FEgtbThEIjz1Fw==
-X-Received: by 2002:a05:6000:2689:b0:3e7:47f2:253 with SMTP id
- ffacd0b85a97d-3e765a14106mr2866757f8f.56.1757679219199; 
- Fri, 12 Sep 2025 05:13:39 -0700 (PDT)
+ AJvYcCWyY405iKIUdSg4yhSDVgzp2cqIDEtjuruS+Q976XlVWZEzjWvoswDdGm5QAsA3sJIDb2xZnjqyte8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVqTIzRra1wLOGp1XIgY+d15gv85fLQ3cM1IayI2Fh+F9p+lrg
+ Nvw0o9f36WiHN4IGgyQwITPpB1v2td7x2sRWIN4dkjRYW2b47Y5j6FYZ
+X-Gm-Gg: ASbGnctnlCiEnMdkgGU1bnNiU2ldDWdxtsvv2wqHYk+uzEMIAzxuNYiucwqETGyuRm9
+ TaIflSkZgQxOV5+BIc5Quing/wrps6+j0+JhnAoF0fJYyAy6LIanl64xTIBqp0GS5L1Sejs/DlQ
+ uCu43iDHBd9GHl5vdEr1LJGv2qeX8Vcj7e2JlDOxg8bpjmwfWRlYqaNQLkNG98uDLAq7ATeYsXt
+ QGdaMPzQAts3/G0wD9btOka7kszw7IksV7d8trYoDOSCW3sosATyATa1Xn58vD+31CzGu+TVBit
+ RkYdzUbAv0aX+xY0FaPOiz2h5oIaS/3fAKump78KiPyMOICxZDvzFjp1aAnYblEp+SNbsQiOCl3
+ AIgoV5Z2Ms4xUGgzLrgnRQBiNhOwl+lsh95U3qIznGw==
+X-Google-Smtp-Source: AGHT+IGIxBQJvu26XPDraDpHngv5M2mh4tNdsWBgU5C0XbLsDwBWpNfV2Gw3xU49DrV3xmpQUcJgTg==
+X-Received: by 2002:a05:600c:34d4:b0:453:2066:4a26 with SMTP id
+ 5b1f17b1804b1-45f211d008dmr41374065e9.16.1757679321068; 
+ Fri, 12 Sep 2025 05:15:21 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e7607878c9sm6393277f8f.26.2025.09.12.05.13.36
+ 5b1f17b1804b1-45e015313aesm36545605e9.1.2025.09.12.05.15.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 Sep 2025 05:13:38 -0700 (PDT)
-Message-ID: <b43e8ec7-06a3-447f-8694-278e6677733d@gmail.com>
-Date: Fri, 12 Sep 2025 14:13:35 +0200
+ Fri, 12 Sep 2025 05:15:19 -0700 (PDT)
+Message-ID: <1e17b875-7eb1-440d-a349-30cbc3e4358c@gmail.com>
+Date: Fri, 12 Sep 2025 14:15:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/38] dt-bindings: timer: mediatek: Add compatible for
- MT6795 GP Timer
+Subject: Re: [PATCH 16/38] arm64: dts: mediatek: mt6331: Fix pmic, regulators, 
+ rtc, keys node names
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -92,7 +92,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-7-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -138,7 +138,7 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-7-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-17-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -159,28 +159,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> Add a compatible for the General Purpose Timer (GPT) found on the
-> MediaTek Helio X10 MT6795 SoC which is fully compatible with the
-> one found in MT6577.
+> The node names for "pmic", "regulators", "rtc", and "keys" are
+> dictated by the PMIC MFD binding: change those to adhere to it.
 > 
+> Fixes: aef783f3e0ca ("arm64: dts: mediatek: Add MT6331 PMIC devicetree")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Applied, thanks
 
 > ---
->   Documentation/devicetree/bindings/timer/mediatek,timer.yaml | 1 +
->   1 file changed, 1 insertion(+)
+>   arch/arm64/boot/dts/mediatek/mt6331.dtsi | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/timer/mediatek,timer.yaml b/Documentation/devicetree/bindings/timer/mediatek,timer.yaml
-> index e3e38066c2cb..337580dc77d8 100644
-> --- a/Documentation/devicetree/bindings/timer/mediatek,timer.yaml
-> +++ b/Documentation/devicetree/bindings/timer/mediatek,timer.yaml
-> @@ -30,6 +30,7 @@ properties:
->                 - mediatek,mt6580-timer
->                 - mediatek,mt6582-timer
->                 - mediatek,mt6589-timer
-> +              - mediatek,mt6795-timer
->                 - mediatek,mt7623-timer
->                 - mediatek,mt8127-timer
->                 - mediatek,mt8135-timer
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6331.dtsi b/arch/arm64/boot/dts/mediatek/mt6331.dtsi
+> index d89858c73ab1..243afbffa21f 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6331.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6331.dtsi
+> @@ -6,12 +6,12 @@
+>   #include <dt-bindings/input/input.h>
+>   
+>   &pwrap {
+> -	pmic: mt6331 {
+> +	pmic: pmic {
+>   		compatible = "mediatek,mt6331";
+>   		interrupt-controller;
+>   		#interrupt-cells = <2>;
+>   
+> -		mt6331regulator: mt6331regulator {
+> +		mt6331regulator: regulators {
+>   			compatible = "mediatek,mt6331-regulator";
+>   
+>   			mt6331_vdvfs11_reg: buck-vdvfs11 {
+> @@ -258,7 +258,7 @@ mt6331_vrtc_reg: ldo-vrtc {
+>   			};
+>   
+>   			mt6331_vdig18_reg: ldo-vdig18 {
+> -				regulator-name = "dvdd18_dig";
+> +				regulator-name = "vdig18";
+>   				regulator-min-microvolt = <1800000>;
+>   				regulator-max-microvolt = <1800000>;
+>   				regulator-ramp-delay = <0>;
+> @@ -266,11 +266,11 @@ mt6331_vdig18_reg: ldo-vdig18 {
+>   			};
+>   		};
+>   
+> -		mt6331rtc: mt6331rtc {
+> +		mt6331rtc: rtc {
+>   			compatible = "mediatek,mt6331-rtc";
+>   		};
+>   
+> -		mt6331keys: mt6331keys {
+> +		mt6331keys: keys {
+>   			compatible = "mediatek,mt6331-keys";
+>   			power {
+>   				linux,keycodes = <KEY_POWER>;
 
