@@ -2,177 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD79B559F0
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 01:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC4B55A9D
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 02:22:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3266510ECEE;
-	Fri, 12 Sep 2025 23:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3261510E055;
+	Sat, 13 Sep 2025 00:22:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LyJD01lD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZKSAubAR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2623410ECEE
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 23:14:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KWlDsff20w5Y+vj/EGm46CodC4YAcDcTDsUDpE9zlUOuQelfYc8O2E7pI8O0Nw4toazh6QEUD4bIAJ9XYSrIEHW4szISdoRzA00VrYrS5HTk5yhf+vfm47aqRptN4VzifYsu7m1H/Abf9FPVMXzujZi1qJzo2cZu6anaWd1ScwgqJHgpWUCQzRqq63ZiZkHzf2JOruA/xP94LBgS+u2U01KivIam2qXxVQJMafFPMpHtDWm7Nyspjt6rS35GsH4wbsfq34RstS2+sA8qFRZPxwBo/SjclUvWJZPo8KRs/mzFRLoLl6oHVl1Obj5WH49sZ39jicV0/Wx9skcIS2nGLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X0GJrWQW18rrwXetn9WijfsN5kh9rwX+lO2q+ED6en0=;
- b=Zqum07fVKjc9+SeRzp8Rj0tY07JN5ujAKf5kF+grcq0rD1qYu5RXhdYat+Gn32Sg0PxkolhFs3SCXMIBU/7sSt7uFWz01uYSdyp8qC+06vdifQ8Sjk/P554BO1JpelWHjPOspdSLERtdBfUjarqnsV6B1dByJGVZKzMBhzb07qsipd68AqTEOY6qbSV4Fnt2fKf2TP6Mp/UNLJN6lg0/5B2AEhyPCS/SQxtlVrUDMsjSiwmRbebiBfz8CQHqu6bonmqGsstL02lfiQg/19QCj63/pYFJtJJPOXar48Lba2PpDOnumffW6Wq9Xzh1Ng6zlDlrKSDyLb11HXzCzrxcYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X0GJrWQW18rrwXetn9WijfsN5kh9rwX+lO2q+ED6en0=;
- b=LyJD01lDMheO8taI7DgSPne/LeW4yN8Qv09ZxFcB4xtXPm8FAYDFUjaUxjQEEwc86Z3hWQLlAKidpcKBjUqg9/5h8F/2k/M/NcH1O7G4darat3T2V4Y1u7AiX0j0/R6f+1nvOgk6y34qOfXVgXnC2/eo62EF6wgEBrw8JsmEd/ibcaDSJ8AsHMmDoteR12TL6FCc1gHMV5G/HhwVSL3b+W5ggNVEtaHPRWTpq4gqX3mHon7URQe8mjnnEhWwP/Exyf7SJQNKXSNzzo+yLxuwgKG9TLlMKKSUmthEd7asA+zGV45Vq49/YSxd6HuuD+KhEkK/2Xeh1sVhMx0Gi8C5Ag==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by CY8PR12MB7706.namprd12.prod.outlook.com (2603:10b6:930:85::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
- 2025 23:14:37 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9094.021; Fri, 12 Sep 2025
- 23:14:37 +0000
-Message-ID: <227ee2b2-3c1f-449f-98f1-29bde663bfdf@nvidia.com>
-Date: Sat, 13 Sep 2025 09:14:29 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
- folios
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250908000448.180088-1-balbirs@nvidia.com>
- <20250908000448.180088-2-balbirs@nvidia.com>
- <8c5267ec-cc85-4eff-b890-eb705472e2b2@redhat.com>
- <f98d3149-9cc1-4211-af8f-e49547134b8c@nvidia.com>
- <244005a2-4796-4985-853e-f916bdfd096a@redhat.com>
- <ce40579b-4ded-473b-8fdb-a41d5b5021d5@nvidia.com>
- <3674bdb2-0e59-4f0d-8adf-4794a6db546c@redhat.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <3674bdb2-0e59-4f0d-8adf-4794a6db546c@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR13CA0128.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::13) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5EAD10E055
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 00:21:59 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-26058a9e3b5so2435645ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 17:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757722919; x=1758327719; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cosKX5Xl7idwLQvWuO8wp7/WEaUIA3E5mnZgoJsColg=;
+ b=ZKSAubARvhp5qrRZoLfhVbiBJ8YfcRUt9iHd5kelje+H4CG1I3JMDBy1JURj7jxh9f
+ QeOsfVVl4Qa26ohH9q3K2SbL3K2sFFsZjyW/3TMCGS+KckL1BUJtbEqlkyr1JFfCaAhh
+ eksmLZGvt0rWPBNSaDbmEALIenA4PAFXHRqoIkANdfZVwwlQD4pAOpErB71PcC6SNDup
+ t+8Nk8OWNluc+XoDGsHGOQfQwluEjEzhd9gfnV+dQ1ycFpqP+QahZiXll58MP4N4F3pe
+ JLqWBt4bLS9VKZXJZ1LOFhpm6bsE3N4QKDcPsqwu32v7QU/q/BlRxEYnN8lh5HD+KTyS
+ TuIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757722919; x=1758327719;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cosKX5Xl7idwLQvWuO8wp7/WEaUIA3E5mnZgoJsColg=;
+ b=SRtvx4EUeAGAeWLfANQdFdl7QGqSsdD2liRx/Vv0EcvvPhU+JOSRlP2iPQ4GEGYoTK
+ Vq/UuDtqhs9GLTgtUcwcmP7E5bf6Qi6fdOcVZfo0IbMxrovbsqyYI0lo9Y+9U6Hu7gFD
+ WNqdwzuJ1taXx3uJNI7wxMmjzneM1CFkcMA6Wbz9UBvJkc0bgGLBflpKVOs1yvoqpRvp
+ o0uH0tXdFVEGWnnrRgLO/H7nD7y196Tn0fXZsOCtyi+gTCx64MGI360dGQkTlmgn22vO
+ QKqsfRUK8ysGCwwGP9Q4TFDb/bdtEYSzieCdGVcV2UpCdYkgDenQyN8rhGuhJC+pTnMF
+ T6KA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV++VHUrWB7EUzEAaJCbUmVRqrVJwtllt4H4V8OkW3fsJ4CT5sPsZFJzbybtmI7UrjAV2e5EeSvN0o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9yz/8Qt9e8C1YrV6O1uD4OZUr9wGMEXDsHSZbrql/bHLSW1ub
+ fpbksDSytWFdVO1y7Il8sKJ3OCl3cHixTM6qIdwtUEFSw5vPnsoMjq3h
+X-Gm-Gg: ASbGncsjPWsKDxKRY2edWqXHB9358hBrswAAHJW/jMBXA/SoIcDjlSnn9R47QmotDpp
+ ZbHpvZ+re9xKbCV++1Dqz6v+GaQ4vuUXRfd5tzRirSZFhX2bB9YRfvScZNu5lDdVNJ1zcV5LOTu
+ IQEv28Si7/clUm/HNgoWSqixJIvezJW3/yHyjTP8KW70mXkbdSX8+LyQdbUeJZo8vpfY9hgOigz
+ 7JnLJ6J2dJTR+KCJhpkyV6w0vYt56OxL0SumSsGVNMMpY5+yK7SKsPzzDMqvPc5JxxXZ/GNtm0D
+ LqGEXroOURRau2H13XfjTkDim9036f5xeMa6nucz0vdPASFErPWj6aRXYE0u2xYlfxOt8vpVrY9
+ 0qaYVrdoGe2994j8xd+E3EWX9AZCsLO3g8dlZfXRrriIqLeUGZsnJ+6TL14SjVSyedcGi0f0Yc2
+ SrLKhxyIf24w==
+X-Google-Smtp-Source: AGHT+IFohPP4U81t22Ynet3qFVaqgBlL6dIfvElA14+ZZZffQX0/DiVAU8HTvR3Y0I/KjtcyFh/Pdg==
+X-Received: by 2002:a17:902:f54f:b0:249:308:353 with SMTP id
+ d9443c01a7336-25d26d4ca85mr45666985ad.41.1757722919083; 
+ Fri, 12 Sep 2025 17:21:59 -0700 (PDT)
+Received: from localhost (185.3.125.34.bc.googleusercontent.com.
+ [34.125.3.185]) by smtp.gmail.com with UTF8SMTPSA id
+ 98e67ed59e1d1-32e0c2863e6sm406490a91.28.2025.09.12.17.21.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Sep 2025 17:21:58 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: [PATCH v2 0/2] drm/panthor: initial mt8196 support
+Date: Fri, 12 Sep 2025 17:21:53 -0700
+Message-ID: <20250913002155.1163908-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|CY8PR12MB7706:EE_
-X-MS-Office365-Filtering-Correlation-Id: 487beb6a-84ec-4702-4365-08ddf25224b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|10070799003|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wm0xa0Q4ZzllWkhFS0FHTDEzMzBqZ3hjVFdaVWhRVFNJQSszYU5FNzNRaFpM?=
- =?utf-8?B?ZUFsd0ZMUEdMcnY4QTVJZlZUWkJuc3creWs5MXhtT3BScmZZcTlkSTFlcjUx?=
- =?utf-8?B?OUtadkpBK00rNEtVMm8vVlE3aS9EK1JRT3MzUEZxcXFkMEJhdGIyY1RweUQ0?=
- =?utf-8?B?RUgvd2FlUnVxbGtkckdPOUVYMk9TOVRmUnZrT3d0Z0U3UFZpUU5Jb3JVYWoz?=
- =?utf-8?B?WGRMQ3hveUR6R0pKenZFWHRuWUFpeUwzOHJpcVRUZlJMUi9MbFJXWC9hdmVy?=
- =?utf-8?B?cVdZSkNEUXU2ZXBuZlh6c3Z6YkNTK1V3c0E4S2Flc1dTY3owQU5VOWhyMXNU?=
- =?utf-8?B?MU1DcU8xeTZmZ25va0lNUlY0YThyQTFHRG9HQkU4N2VXeC9selZ6YTFWYUVR?=
- =?utf-8?B?d1A0TjhEZFpNUktMcXkwV2c2aEpDd3QzaFkxYnpwRWtrSjZ0K0I4cWpKSE53?=
- =?utf-8?B?Q1V4d1dGejlVSVJaWHFvTWZ4TnRidWZMdlBYWEhrWUN1UXJ0amJIUGhTenpz?=
- =?utf-8?B?SHFwbWw4cnlDNXJkWlIreTZXS2FFeTU3eFovN2lMMFZQdVc0Yld6NzBNREp4?=
- =?utf-8?B?TkNDQi9wb1l6OVdoaEszcWpYMFJrM3FMS0gwWWNXYlhhNXE1R3pYbHpmUU42?=
- =?utf-8?B?ejhqczhpVVVNS2lqNzhBdGc5cEFaUDlFcE8zdzNWc1ExbUZCRGlQU0dDUUZh?=
- =?utf-8?B?U0tyWG1mZlUwUVF3NWhWQWN1YzdKSFM4RHgwd1FwRFhLcVBoeHR4YTk1MUZI?=
- =?utf-8?B?N28xRGRyYW56Rmt5T2JqcGZsK3BBM21PUVNKS3NYMXhCRlhDeW1aUUd2WllY?=
- =?utf-8?B?TURHZTJWM2VqOHJ5WTBXSzMzekg1Qm53eDlTb292bTJ5M0g1OVMwb05wdHc4?=
- =?utf-8?B?aTQvWmZXNldxVjBoV3o2UTBNQnNUenZPRUFPRzRiOW10TDBQc3FFUURRc2pK?=
- =?utf-8?B?RnhVaEJKanhvb3VrZEZGQ3BKZFJIRFdXTHR4bGpTUysxRjZmaDZvNWxydGQz?=
- =?utf-8?B?N0E1aDFxSmNLSW8zaW9kNXhWMHU2VzRsdEVVakF6d3JWWWZsblN0ckN2enMy?=
- =?utf-8?B?WDF1TEJFN0dZYmQ5aWtBWmRMWGV4V1cvRmphUVk4YzZETkU0WWhENWtmeXpV?=
- =?utf-8?B?UGl5M3FVZ1RmbFlGR201bHdzcUNqVm5ZN0EzOTU2WmYwcE0ySmxTbkdrc0hm?=
- =?utf-8?B?djNUNGpHWmR5QnhjOHl2dEhVYUdJZTQwZWtuRkYvUnU2N0cyV2tpNEZwSVp4?=
- =?utf-8?B?UnZPS3JrdzhPMjRYckZtN0JKV0ZRckVJMTN4VjBLdW0xVDNoMlRXL0xGaEFv?=
- =?utf-8?B?cEhpTndWdkI0QlBkc3ZMVDlJcVUvMis0VG1WcWs5Z1hhMUVoVExXcmIxWXNa?=
- =?utf-8?B?ZityVlIxKyt4NEh2TVkvQ1I5RU5YRkxhR0tTalRkVFBRaDZFT3JWRmFYQXFV?=
- =?utf-8?B?Mml1WGZNVVF6MzNDS2FtS2F3c1Uwcmx6ZEdDc1NXQVJHWWxUT1VIN215NWhi?=
- =?utf-8?B?WUFzYStsaVFhaG1DUDhncldRYmI4bEVzWjN2YitwTU45enIyV1pranliai8x?=
- =?utf-8?B?c0VDcWovUmtJbW52RVlYMncxZTd2bGNPN2Q1bDJ1Y3hpaXZxU05PaEx5S3l2?=
- =?utf-8?B?aXFrbC9LY2F5UWgybEhIRXU4R0VWcGxjcmFSYUJGbERuVS84SSt5cUpFQjlJ?=
- =?utf-8?B?czlTcUlEUDhITWt4bE93K1dFNlBRYjNxWlJKVjdMT21zYkpxMzR0MmhMVkFD?=
- =?utf-8?B?dTNWaXhvbHFhaG5LWWhPRUV3UmhwcUp3TzJNTHBmWmoydndQWE5QVWF5NzM0?=
- =?utf-8?B?VTg3OGZZWmpJb1VJU0hTVlFzak8yQk9pMkJ2TU1rRFVlcHovZ1F3cHlCQnQw?=
- =?utf-8?B?dDFaR3A5bU15L3RVcWJIQUpEQzZIREVHblpmZVNOTDRjTEFJQVo5OVFuTWwx?=
- =?utf-8?Q?LHzwN3Fb/zU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bk5GUlRRSW1FU2l1UnBxOVhlSGdTbnpWTjU3TDdLV0Y4a3RkTjVJUS9JYW8x?=
- =?utf-8?B?TDdXZkljakdrdStwYkVMMzdwZjZ5NTBuMlc1NzNMV1NXWEdibHpicHZUQktr?=
- =?utf-8?B?cTIxR1Y5WWlHb001QUJRcDhpbGFyay82QThCR2pPNFdGM0hHNHJNZmRnWVhi?=
- =?utf-8?B?YXlsN2xIUXNVVzQvRys5ZW51bGZYZ3YvTzJncDFQaVdZSytYakhIYzlSclNx?=
- =?utf-8?B?UktIOVIzWkUveUZQMDZvQTZUTXFVV0ZUQzluY2tMdWM0SktlZG9GYXVJMHoy?=
- =?utf-8?B?ZXlhRUx4QlV2ZVh6eGM3bTdweGZzSW83Y2lEemJ6NE4vN2QrbXh1VFpTNGdJ?=
- =?utf-8?B?WDc1T2JhSkhoNStVNzJuMGQvZG0vWWZTWE8zYml5RUJBVXJHVlB2THdjVFdD?=
- =?utf-8?B?SHFsSE1nUWF5TDVYNkF5SnNUQWt5OEZ4bU5GUk94ejdvYm9pR1daOU9PLzlM?=
- =?utf-8?B?YjkrWlNEa25sN3B2eVlLR1RpK1MySVVpQWx5ZnpUdytJZGpKK1QyS3doMlJi?=
- =?utf-8?B?bks4YUY5TFhUNkl1UEd0czJTdmhOeDk2N25oQ3V1UGF0VTl5dzc3S1k2WGFY?=
- =?utf-8?B?eHFGS2dIUVN5TDBSeEVpV09QeUdOUm5Hc3VsL0pxTEFlUndZN1FqV1hCR05s?=
- =?utf-8?B?UzJlUGNhb1phRWVZbFg3N3dUMHhma1oxLytFVG00ZGRGMTZBWHNkK2xUUWxD?=
- =?utf-8?B?dDlzMW9KUWVWYjdiWXRVdURwdk5Ba2JzRzB3Vk05Tnd3aWdBdi9zeWZZTExN?=
- =?utf-8?B?cjBFNHphR0tiU3NCdzBoUEdWS2hnbUR6MnBIS0FwTjZuMDBVcXZRSExnOHdM?=
- =?utf-8?B?OUZMeVJHSC95cjBxTG1ZWGVzTmhHZGlGaFVCeFhoeWJlenFsRWNoMjBTOFN6?=
- =?utf-8?B?Q3NudXFsTzJpMVRpbVQ0VTN0RE1GQUlxYThCT0FQRjlsS054cWVwMW9mYnIw?=
- =?utf-8?B?NmhISmdwbTNJbHRRTTdoWkowR0lGRXZuQXo1endCdWs1eFJSOTJwVm5YWmtE?=
- =?utf-8?B?RFZ1c29aWnEwR3Z5VnZtWEJaeU9IWVhTaUFjSDZnS3ZXYkFJUzNENEN1MnY3?=
- =?utf-8?B?NHpDR1Jpb2xGU0NaZitJa3ZwNDRzSE1iY1V0UXRIS1JhanovSW5HV2NLVmdL?=
- =?utf-8?B?d2tWa0lTbDdLTStZWUhrQjdsYVpzb0JTeXJXR3psMWZMWkozb0pJckJWL1Jn?=
- =?utf-8?B?c2QxMHQ4NHZtSHhiR1FrSG5tMitJOHo0Ti9nN0kzRmxsYUNDc0REWE11dWVp?=
- =?utf-8?B?UmxaY01MMGZHWElMRHNYVndVYWVKZjI5U0QwMGJYdWorbHpXUm53Ykp3dW5L?=
- =?utf-8?B?K3Q2b3pHbWlqMFhlQ1pkSXZxbUlXTVQ0ZDZNbXdqK3ZCdWNUSlFBZjNxejFI?=
- =?utf-8?B?c2RacVdpMVJyS0x6VnNEQjAxUmhtczZtVGtlOUM4Nzl3WXBLbEpDMFVCOFRq?=
- =?utf-8?B?TUpjblVZSHFNcWNkWXB2d0xlU2tSalZwaHlTZnFyMm83WEhkUnRnU0h5dGh4?=
- =?utf-8?B?L2pEZ2VKUmZub25rWXErczV1b3Qxa2xvZmlpSUttSjA4SzBoai90Z2tmOFli?=
- =?utf-8?B?cnBRNlNDTzlQTE9QelhOUXRsanFvMkVuSEZzay9HZktzRXRzb1Q0MUowandv?=
- =?utf-8?B?ZTRBaUxDK2pXM1dRY2lKL3FXY000ZFVYZk90U1hESVhDaUplQmVIM1NuTkxo?=
- =?utf-8?B?ODg1RVcrbXFYM3luMENoWm54cE1aYU1yMFUyREhCbFBNUi9jaTVCQVp2K0RL?=
- =?utf-8?B?ZzkxK1ZhTnBpbERkMittSkxLejdlMFpvOXdnZ0ZBNklNckR3Z0tzdGVrMTR5?=
- =?utf-8?B?NkQvb2MwSjlLcjFTRVprT0thUFZBUUNzaDBQdXI3azN2SVl4TEkrZHpUOU5v?=
- =?utf-8?B?M0Z5K3RxdzBwMzU1MjBkUlc1MWpNWkxsRG1zNkdrcDcrVVNaRi9rMzcyelVK?=
- =?utf-8?B?NUdYMUovVDhaYnYzd1ladzZlcmYrQXkxeUpjNGUyWEh6Y1ZlYUhqWXo5TnBE?=
- =?utf-8?B?eGtSdEF4eVNSRW5hQ0xwbytlTlhQWHRBY1l3N20wUTZFRnl0c3pOUGhqTzVY?=
- =?utf-8?B?dmt5MkVOUTdQVVQ5bVgzejM3S2JKZTVQTTkxY0wwdE9aNlBxVG82aFIyQUQ2?=
- =?utf-8?B?endocjhGbm5JMXV5dTdVak1KeFlJUFFZMjJkMkpGa25GNHIrQjdPZW02dUlF?=
- =?utf-8?Q?JEIwCGmknQI8zwuyzq3c6fC4e8VG3H8B1Y25YD3NMVgY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 487beb6a-84ec-4702-4365-08ddf25224b3
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 23:14:37.5333 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X8q5cSd5AGqg/FOZ6D1LCrAkFEEuOSgESmYPN+dyky6nqKwdKXMl18dgly1Sqae2vthcWFqL73Kp3NVQVt/qAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7706
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,71 +96,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/12/25 19:20, David Hildenbrand wrote:
-> On 12.09.25 06:49, Balbir Singh wrote:
->> On 9/11/25 22:52, David Hildenbrand wrote:
->>> On 11.09.25 14:49, Balbir Singh wrote:
->>>> On 9/11/25 21:45, David Hildenbrand wrote:
->>>>> On 08.09.25 02:04, Balbir Singh wrote:
->>>>>> Add routines to support allocation of large order zone device folios
->>>>>> and helper functions for zone device folios, to check if a folio is
->>>>>> device private and helpers for setting zone device data.
->>>>>>
->>>>>> When large folios are used, the existing page_free() callback in
->>>>>> pgmap is called when the folio is freed, this is true for both
->>>>>> PAGE_SIZE and higher order pages.
->>>>>>
->>>>>> Zone device private large folios do not support deferred split and
->>>>>> scan like normal THP folios.
->>>>>>
->>>>>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>>>>> Cc: David Hildenbrand <david@redhat.com>
->>>>>> Cc: Zi Yan <ziy@nvidia.com>
->>>>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->>>>>> Cc: Rakie Kim <rakie.kim@sk.com>
->>>>>> Cc: Byungchul Park <byungchul@sk.com>
->>>>>> Cc: Gregory Price <gourry@gourry.net>
->>>>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->>>>>> Cc: Alistair Popple <apopple@nvidia.com>
->>>>>> Cc: Oscar Salvador <osalvador@suse.de>
->>>>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>>>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>>>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>>>>> Cc: Nico Pache <npache@redhat.com>
->>>>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>>>>> Cc: Dev Jain <dev.jain@arm.com>
->>>>>> Cc: Barry Song <baohua@kernel.org>
->>>>>> Cc: Lyude Paul <lyude@redhat.com>
->>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>>> Cc: David Airlie <airlied@gmail.com>
->>>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>>>>> Cc: Mika Penttilä <mpenttil@redhat.com>
->>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>>> Cc: Francois Dugast <francois.dugast@intel.com>
->>>>>>
->>>>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->>>>>> ---
->>>>>
->>>>> You missed my comments of this patch in v3.
->>>>>
->>>>
->>>> Hi, David
->>>>
->>>> Looks I missed your comments, just checked those were largely about alignment and
->>>> integrating the code for DEVICE_COHERENT and DEVICE_PRIVATE cases into similar looking
->>>> bits for zone device folio free and code-alignment. I'll take a look and update as needed.
->>>
->>> Yes, and the confusing folio->mapping = NULL that I cannot connect to THP support.
->>>
->>
->> I can remove that, let me reunify those bits, seems relatively straight forward
-> 
-> BTW, I was wondering when we invalidate folio_test_anon() by clearing folio->mapping int he current code flow?
-> 
-> I mean, this must happen at some point when freeing device folios.
-> 
+MediaTek MT8196 has Mali-G925-Immortalis, for which panthor gained
+support recently. But the soc also requires custom ASN hash to be
+enabled. This series introduces panthor_soc_data for per-soc data and
+uses it to enable custom ASN hash on MT8196.
 
-The free_zone_device_folio() code does that. Lines 434 onwards there is a comment that explains it
+The clk/regulator provider on MT8196 is GPUEB, whose driver[1] needs to
+be cleaned up and upstreamed separately.
 
-Balbir
+This initial support also lacks support for some hw configs. On some
+configs, panthor is expected to query a mask from efuse to mask out
+unavailable shader cores from ptdev->gpu_info.shader_present. This
+requires extending panthor_soc_data with a callback to read the mask.
+
+This is an RFC because the dependent drivers are not ready yet. But I
+would like to gather opinions on having panthor_soc_data for
+soc-specific data and having CONFIG_DRM_PANTHOR_SOC_MT8196 for
+soc-specific code.
+
+[1] https://gitlab.freedesktop.org/olv/kernel/-/commit/170d5fc90f817dc90bde54b32872c59cf5c77779
+
+---
+v2:
+
+- drop RFC as this series works with the downstream GPUEB driver, and
+  should work with Nicolas's GPUEB driver posted to
+  https://lore.kernel.org/lkml/20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com/
+  with no change.
+- remove CONFIG_DRM_PANTHOR_SOC_MT8196 and panthor_soc*.[ch], as this
+  initial support is just about ASN hash.
+
+Chia-I Wu (2):
+  dt-bindings: gpu: mali-valhall-csf: add MediaTek MT8196 compatible
+  drm/panthor: add custom ASN_HASH support for mt8196
+
+ .../bindings/gpu/arm,mali-valhall-csf.yaml    |  1 +
+ drivers/gpu/drm/panthor/panthor_device.c      |  2 ++
+ drivers/gpu/drm/panthor/panthor_device.h      | 14 +++++++++++
+ drivers/gpu/drm/panthor/panthor_drv.c         |  6 +++++
+ drivers/gpu/drm/panthor/panthor_gpu.c         | 25 ++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_regs.h        |  4 +++
+ 6 files changed, 51 insertions(+), 1 deletion(-)
+
+-- 
+2.51.0.384.g4c02a37b29-goog
+
