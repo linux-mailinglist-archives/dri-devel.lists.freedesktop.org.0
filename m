@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34932B55EFD
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 08:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A206B55FD5
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 11:20:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC7110E0E5;
-	Sat, 13 Sep 2025 06:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9E710E0EE;
+	Sat, 13 Sep 2025 09:20:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="RN2UHVVw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O1CiecMP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C72B10E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 06:42:46 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58D6gRU0664142;
- Sat, 13 Sep 2025 01:42:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757745747;
- bh=ykk5QGN4fnoQrsSb/DKTeAFELuUFHS/B90NVM1SCIQM=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=RN2UHVVwFsle+xKTitrbJgNXLBX0mOBbghT/5Ihgsv/4Y7S4gHmRk6332EZfm2MmG
- q1qrtlqbbT7Wrd70D2Y/ZbaLty7bGuTSzjo+yEqSmjiiJivWMudDhEoxY+J+0yhA6n
- iUMxheK1rtwCVOqadE3qj9WYQES1eHBPAOLLWiO8=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58D6gQaR2531657
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Sat, 13 Sep 2025 01:42:26 -0500
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sat, 13
- Sep 2025 01:42:26 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sat, 13 Sep 2025 01:42:26 -0500
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58D6g5v0543875;
- Sat, 13 Sep 2025 01:42:20 -0500
-From: Swamil Jain <s-jain1@ti.com>
-To: <nm@ti.com>, <vigneshr@ti.com>, <kristo@kernel.org>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <jyri.sarha@iki.fi>,
- <tomi.valkeinen@ideasonboard.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <aradhya.bhatia@linux.dev>
-CC: <h-shenoy@ti.com>, <devarsht@ti.com>, <praneeth@ti.com>, <u-kumar1@ti.com>,
- <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <s-jain1@ti.com>
-Subject: [PATCH 2/2] arm64: dts: ti: k3-am625: Add OLDI support
-Date: Sat, 13 Sep 2025 12:12:05 +0530
-Message-ID: <20250913064205.4152249-3-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250913064205.4152249-1-s-jain1@ti.com>
-References: <20250913064205.4152249-1-s-jain1@ti.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E78C10E0EE
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 09:20:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CA8DD40B4C;
+ Sat, 13 Sep 2025 09:20:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0E1C4CEEB;
+ Sat, 13 Sep 2025 09:20:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757755245;
+ bh=VhNgzjWhFHAY0JxD/ASuTUD+uwaVreOCvGCE2RaFaI4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=O1CiecMPE8eFgu/Sd3KKqnFogWYsshlSz9xI54uJMp/XIShlKPDTZTA7m7M9NRwVF
+ BXzo6HDsGOPlW/30698/zkMXLgsPudEk8ZgCV+etF4E1YfFGl520Gr6DlBon3gbU4f
+ KvC+iAc/pSFtxV9lg8eTNr5Qa5Dzc+1yAI3nZKyz++uYQed62aICPZAxg051t1hNAH
+ QR7vrlBymqccnURbj7Zyhp74nNp3kuKm9Jldmab+aFL25EFlCO1EKdQe9r+M+WoZPG
+ 8J1M7xLZQAhNvwvPXFPFVcaiFoC/BXqBd8m5LF1pqsl0QM3KyNTp2LYoHzOVC/eLj6
+ RgLTe5jnt77dg==
+Message-ID: <3c6ebf82-c3cd-47e7-b8c7-21c767b08722@kernel.org>
+Date: Sat, 13 Sep 2025 11:20:40 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Revert "drm: Add directive to format code in comment"
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Javier Garcia <rampxxxx@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20250912130649.27623-2-bagasdotme@gmail.com>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250912130649.27623-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,71 +71,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <a-bhatia1@ti.com>
+On 9/12/25 3:06 PM, Bagas Sanjaya wrote:
+> Commit 6cc44e9618f03f ("drm: Add directive to format code in comment")
+> fixes original Sphinx indentation warning as introduced in
+> 471920ce25d50b ("drm/gpuvm: Add locking helpers"), by means of using
+> code-block:: directive. It semantically conflicts with earlier
+> bb324f85f72284 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+> usage in literal code block") that did the same using double colon
+> syntax instead. These duplicated literal code block directives causes
+> the original warnings not being fixed.
+> 
+> Revert 6cc44e9618f03f to keep things rolling without these warnings.
+> 
+> Fixes: 6cc44e9618f0 ("drm: Add directive to format code in comment")
+> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-The AM625 SoC has 2 OLDI TXes under the DSS. Add their support.
-
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
----
- arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 47 ++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-index dcc71db8afd4..d240c157d819 100644
---- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
-@@ -793,6 +793,53 @@ dss: dss@30200000 {
- 		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
- 		status = "disabled";
- 
-+		oldi-transmitters {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			oldi0: oldi@0 {
-+				reg = <0>;
-+				clocks = <&k3_clks 186 0>;
-+				clock-names = "serial";
-+				ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					oldi0_port0: port@0 {
-+						reg = <0>;
-+					};
-+
-+					oldi0_port1: port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+
-+			oldi1: oldi@1 {
-+				reg = <1>;
-+				clocks = <&k3_clks 186 0>;
-+				clock-names = "serial";
-+				ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					oldi1_port0: port@0 {
-+						reg = <0>;
-+					};
-+
-+					oldi1_port1: port@1 {
-+						reg = <1>;
-+					};
-+				};
-+			};
-+		};
-+
- 		dss_ports: ports {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
+Applied to drm-misc-fixes, thanks!
