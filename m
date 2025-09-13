@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A7DB562D5
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 21:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9115BB562F1
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 22:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031EB10E104;
-	Sat, 13 Sep 2025 19:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809E910E04A;
+	Sat, 13 Sep 2025 20:37:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WvA3AjKn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dt1bBk3y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D19F010E0D3;
- Sat, 13 Sep 2025 19:53:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D2893601B6;
- Sat, 13 Sep 2025 19:53:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB26C4CEEB;
- Sat, 13 Sep 2025 19:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757793202;
- bh=h8N95CyM3XlShL5mBm/W2Xii5o6YkYMuBuMVBYeehFo=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=WvA3AjKn7l6aiUov0i1/zk+7amQZkRrc9H3OKEXOJAgD2ff18K92K8xSMij8/U0Bt
- bNSl3kzK0JMyHoTmelhR3EDcOMdjg4CFuhXkq2RH1m9GyJ27jpNOoRhvk22LAMjUM7
- DlOt2j4mkgFCq6nHphl8e3Xm6i4TF2UOHvWZb7UlSHXiMNnb1G7YJ7xIIKqv0IWTL7
- 40D+02JYIK35HbeSRzPLoF1eGZqYgVO0DjAQOkDfqMEZROW+iut5VPByjL5n1T+h0b
- rJby8tdHGtAGbxA3HVr8mNiTCinJatVG6eUh2HpEUFdcI4rJdRPo+oRgcKKH+DibJZ
- WLyRcQcJQSa8A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 13 Sep 2025 21:53:16 +0200
-Message-Id: <DCRXOMQN3Z20.2JCNP4BDEE79T@kernel.org>
-Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
- dedicated method
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C863A10E04A
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 20:37:46 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-25c99c2aa12so3262515ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 13:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757795866; x=1758400666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mATTaO6ztWHtL31tz3fa3XmKHBNOJGaadXz3sI1bEqM=;
+ b=dt1bBk3yxeEBrMzM4l0Wa0qaKBeaAQFf0710pDxaM+kw7t5TV/bNhKawqfTt9I/oUl
+ 3/Z9+epJqujrXj5MlMWJ0j6slxMdbqGp0CxvPbWwnYusmRCHlfHGCOZ9g58N2mKsQDmJ
+ i6uS2aW9e3oqyr6eQXiZH+p1mdv4uDIjC2ZzHm2nMsNBteIqBmweeQ5V80ejF2LlSXs1
+ 9UogW710RhMpZPqero/Pkfwbc+8m0mWTGh18iN47bkeIh/hxMsg0mcMhhrXHjBQYkpGP
+ qgtLMTk9uBSXqqycu+d37IPccVkFxjJD5/NDrrE29qy7TQ0e9ehAfTWf09OAX1+Xhnm7
+ JNuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757795866; x=1758400666;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mATTaO6ztWHtL31tz3fa3XmKHBNOJGaadXz3sI1bEqM=;
+ b=YqnAtYwsocUhcW8CNX4vLJITWTLILe72FSZpmzy1d2VDUuBDuoPKAcrH7F++5hzRxP
+ vg65O9q8/r/IBPQriOXH4E9QogxUXyT/CLkoefAh8tA/KOq7/i5nPHPc3sfID7kR69At
+ hKeFcPNs6cpL1zPPM/2BcriShoVF7X6AUKyzsqoesUFLkD2RJzlnFvqwt0OqiiWmiVCs
+ FckYL+NsJjmGII74O8xI/Uz6Nc+0+SXS5ywb49rjlQ24WTjGEsgcRuXJK3ignhu1nyUZ
+ ilD+iJhYnQuFAfIgm3+Y0PCoP+dSZSs5y9kJHbiToBFVQTOqI79+zfsGlOboj4q32u9+
+ oVrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX98UqY9PwB7ZTn1mCHllUEXYtVS++xoEMpcVXmInrkILa7yKl9kg2WXQyV2EYJaCbuYk0qMNSRN94=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4xvrjs8FDHKA0JnSIpDESUHtWVSfaOdMBn5aIc69+3o8lkgek
+ QsmwiPVtA/JAGJtX6qBFhMcxX4X0exkaIHXGJNHbAI01rt9QIgEcfC82swZVJJ8ccaOxNpKfViH
+ zJFQOFVtFtl7FdVphJMAul3wmCEHFQqI=
+X-Gm-Gg: ASbGnct2yF7ubnNBHiW3ptgCJaPgKuaEqvvj8uupvSbYQIY8iszaTIuZKacxtbVpgNJ
+ rpKMUZUXYSJOFdJqGiiThSjGYvACdayCm7rEWhkmNy7IrNNu3Gu0gzbB/yzJYWKSybXzkVz3EmR
+ Z7mZlqjdDTDI4sXiBnVFXFByL7wSPaxeqJ6itOiklZ/vZ3O0sbjo52NArfI5iLbKFk+9Feu4ESn
+ Zx7oQRJzIu6zncmYWmTfJP7YzxWrCmWZn+PDRn2SBqEOyBTXyYrLyKJyltyut0gEmRDNf1scwg9
+ nW7PKsIkrhp/R/VOrjOEeAk7rzEvfWHMcfJR
+X-Google-Smtp-Source: AGHT+IHrVkKejELNksEXUkmKRimQGTe3Ad5+7htwK4BUNxGJGqqmJCijjdcznEeh8fuxUViY+RIMf0xL/mdPT29M8js=
+X-Received: by 2002:a17:902:ce87:b0:261:500a:5742 with SMTP id
+ d9443c01a7336-261500a594fmr14779775ad.10.1757795866176; Sat, 13 Sep 2025
+ 13:37:46 -0700 (PDT)
+MIME-Version: 1.0
 References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
  <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
  <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
@@ -60,6 +66,29 @@ References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
  <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com> <20250913010226.GA1478480@joelbox2>
  <DCRPJKD0UHDQ.IOWSOB2IK06E@kernel.org> <20250913171357.GA1551194@joelbox2>
 In-Reply-To: <20250913171357.GA1551194@joelbox2>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 13 Sep 2025 22:37:34 +0200
+X-Gm-Features: AS18NWCCjEi2nGimzvlQTTclneuWdDWNwA3S6j0YpJVAggEoL-8q-kmCadYD0Hg
+Message-ID: <CANiq72n50MaMXeWdwvVOEQd3YEHbDRqeeRzbdY8hPnePtq-hnw@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,131 +104,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat Sep 13, 2025 at 7:13 PM CEST, Joel Fernandes wrote:
-> On Sat, Sep 13, 2025 at 03:30:31PM +0200, Danilo Krummrich wrote:
->> On Sat Sep 13, 2025 at 3:02 AM CEST, Joel Fernandes wrote:
->> > Any chance we can initialize the locks later? We don't need locking un=
-til
->> > after the boot process is completed, and if there's a way we can dynam=
-ically
->> > "pin", where we hypothetically pin after the boot process completed, t=
-hat
->> > might also work. Though I am not sure if that's something possible in
->> > Rust/rust4linux or if it makes sense.
->>=20
->> We can't partially initialize structures and then rely on accessing init=
-ialized
->> data only.
+On Sat, Sep 13, 2025 at 7:14=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
+om> wrote:
 >
-> Yet, that is exactly what the pin initialization sequence block does? The
-> whole structure is not initialized yet you need access to already initial=
-ized
-> fields.
+> I am not alone in that opinion.
 
-No, having a reference to a partially initialized structure is UB. But of c=
-ourse
-you can have a reference to already initialized fields within a not yet ful=
-ly
-initialized structure.
+Hmm... I am not sure how to read this.
 
->> This is one of the sources for memory bugs that Rust tries to solve.
->> You can wrap fields into Option types and initialize them later, which w=
-ould
->> defer pin-init calls for the price of having Option fields around.
->
-> I am not denying the need for pinning. Also regarding Option, just thinki=
-ng
-> out loud but if something is optional temporary, maybe needing a new type
-> like TempOption, and promote it to a non-option type later, I am not seei=
-ng
-> that as completely outside the world, if there is a legitimate usecase th=
-at
-> needs to be Option temporarily, but not later, what's wrong with that? It=
- is
-> "Optional" for the timebeing, but not later.
+> This should be first-class in a (systems) language, built into
+> the language itself?
 
-That's what MaybeUninit<T> from the core library already does and promoting=
- it
-to T is fundamentally unsafe for obvious reasons.
+I would suggest taking a look at our website and the links there (like
+issue #2) -- what we are doing upstream Rust is documented.
 
-Drivers should never use that. Having partially initialized structures is a
-horrible anti-pattern that we see too often in C code (only for convinience
-reasons) causing real memory bugs.
+(Danilo gave you a direct link, but I mention it this way because
+there are a lot of things going on, and it is worth a look and perhaps
+you may find something interesting you could help with).
 
-If you run into a case where you want this, 99% of the time you have a desi=
-gn
-issue that you should fix instead.
+> except to satisfy paranoia
 
->> However, we should never do such things. If there's the necessity to do
->> something like that, it indicates a design issue.
->>=20
->> In this case, there's no problem, we can use pin-init without any issues=
- right
->> away, and should do so.
->>=20
->> pin-init is going to be an essential part of *every* Rust driver given t=
-hat a
->> lot of the C infrastruture that we abstract requires pinned initializati=
-on, such
->> as locks and other synchronization primitives.
->
-> To be honest, the pinning concept seems like an after thought for such a
-> fundamental thing that we need, requiring additional macros, and bandaids=
- on
-> top of the language itself, to make it work for the kernel. I am not alon=
-e in
-> that opinion. This should be first-class in a (systems) language, built i=
-nto
-> the language itself? I am talking about the whole pin initialization,
-> accessing fields dances, etc.
+Using unsafe code everywhere (or introducing unsoundness or UB for
+convenience) would defeat much of the Rust for Linux exercise.
 
-Yes, that's exactly why people (Benno) are already working on making this a
-language feature (here's a first step in this direction [1]).
-
-Benno should have more details on this.
-
-[1] https://github.com/rust-lang/rust/pull/146307
-
-> Also I am concerned that overusage of pinning defeats a lot of optimizati=
-ons
-
-pin-init does the oposite it allows us to use a single memory allocation wh=
-ere
-otherwise you would need multiple.
-
-Can you please show some optimizations that can not be done in drivers due =
-to
-pin-init for dynamic allocations?
-
-Or in other words, what are the things you want to do with a KBox<T> in dri=
-vers
-that you can't do with a Pin<KBox<T>> in a more optimal way?
-
-> that Rust may be able to perform, especially forcefully pinning stuff tha=
-t
-> does not need all to be pinned (except to satisfy paranoia),
-
-Can you please present some examples where it is a major advantage to be ab=
-le to
-move out of a Box in drivers? I think you will have a hard time finding the=
-m.
-
-In C code, how often do you move fields out of structures that live within =
-a
-kmalloc() allocation?
-
-> thus generating
-> suboptimal code gen. Not only does it require redesign and concerns over
-> accesses to un-initialized fields,
-
-We're not doing any accesses to uninitialized fields with pin-init, nor do =
-we
-encourage them.
-
-> like we saw in the last 2-3 weeks, it also
-> forces people into that when maybe there is a chance that underlying
-> structures do not need to be pinned at all (for some usecases).
-
-Again, what are those use-cases where you want to be able to move out of a =
-Box
-in drivers?
+Cheers,
+Miguel
