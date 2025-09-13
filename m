@@ -2,83 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E88AB56392
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 00:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7356EB563AA
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 01:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3058310E0C0;
-	Sat, 13 Sep 2025 22:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC1B10E20E;
+	Sat, 13 Sep 2025 23:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P8zLRjyh";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="YWRiNaxC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69F3610E0C0
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 22:19:16 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-62f277546abso411895a12.3
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 15:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757801955; x=1758406755; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3RLnhj7G25qdMaXLVsgM9B42gj/5BiTnSzsDycCl5L4=;
- b=P8zLRjyhbHqH/CUb7u5RaufFYFHXvDrHk4NF1hRZfQXItEZZYtZAvp5TyxFaM8tHWK
- Ze4JyiHK8iSN720Kl6ivM2brOyZxxoRlqQPXRjz3ZtlSrHRiapssXjSWZjch3X6315xz
- cWXQ2RB9RoPaobB8pg07BbYcILl7CwqtNFg7OvqddTU9k0j3isZWBcaesY59zXwRK/8H
- dLiml2Sx1l6sHBlM7RfySd2YvVphoaOUFRTk3GF7AXPe7Nuv5Q/EFRkzHWOOl3W4HnzQ
- suvWMcJJLUZqYlD/bJwCUM1VMWMg/d84OC+Ej3ZdDqwQTIVzf1bz/964q8NtTUfVRMS8
- nRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757801955; x=1758406755;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3RLnhj7G25qdMaXLVsgM9B42gj/5BiTnSzsDycCl5L4=;
- b=F2b6gEBE9hipLz6XhG2EiC1HsjJtOpATgh6aBa3ulLoh5QL5yVEh2/cxYMvcFtCsxp
- XPxKsWzgubz/B0EOZ1Re7CyL5BVcft7/RbZzTfl/RpYSiqqjoMkDJbFPCpf8D8So8Y/i
- BeR86yfFZ4aixQYuLswJerd8rXXtqaEgNt6+XKEqKWJxMLABrQ9hMI5cyOsZeMlFOlLy
- 5gj+CjPoRDOAU444yAtSgI4cMdMrjmyav/7LL9I868TuF/d2yZP7O/esUFmiog7gtHHC
- ASWaiQmSvG/p0OSECDsEK66zANMd+t3YcZMRTHk4fNtCt8FW+TbtHs0j2xQK5PJFOX2p
- iqZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/pR4vQRqfbkn4MjvPelYH4p0zTra/teR0uVW8gbKzzfTQIzAEtRJq3AaGvlRvpdJ08okpNh5vCGE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwrH9odl7p1oe/VzMDdxmojsBP2isMI6IOpQNpZvITZlO39z+nt
- v/tuL7dA3BnLpMd6s729QnjlPCOGKnr6b8+Nji7CUQYZLrwS5r+zONNxUjP1EOJZAIA+iQ/evu3
- p0MHKZveOtv142E+3i3JKfSqYcOH/8gQ=
-X-Gm-Gg: ASbGncucQfSGFfYOM6u3rVraX2RgC/a+Jd7za/I+72AiTy4jiHcxV+pZ/xla+oAWQez
- suka8m4ETK4pRtybW+LE5uxXqGwwS19yOkGDnx0AZQGtE8G7kpwM2szaRUAcJLWExc1Lo8gtQ4U
- PcrZpXt1xaw8AyUPrzpGV98cdZ8vAjnKvRFAthEMBGI/FR10FtXiyAdNeu/1Bs1UYoR8Mv7PFxM
- okJgKyrzdP4MvHHVlHoeBJsHizlzg==
-X-Google-Smtp-Source: AGHT+IE2lHR/3KJu91xQakdhwEaZeik3htU2ix/ewwP0SUcum9tVrS+wa98xrUE+9bFew3+1MR0f1wUqlsooW32ETBU=
-X-Received: by 2002:a05:6402:24c9:b0:629:1c5:808d with SMTP id
- 4fb4d7f45d1cf-62ed80fd472mr6273515a12.3.1757801954530; Sat, 13 Sep 2025
- 15:19:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250813224000.130292-1-eslam.medhat1993@gmail.com>
- <2e4334ac-ebd2-4686-8d5c-6d7a637a6d57@microchip.com>
-In-Reply-To: <2e4334ac-ebd2-4686-8d5c-6d7a637a6d57@microchip.com>
-From: Eslam Khafagy <eslam.medhat1993@gmail.com>
-Date: Sun, 14 Sep 2025 01:19:02 +0300
-X-Gm-Features: AS18NWAOu4BgbruQRdwVxLiqDLLs8nLi7Y1Q4QEyTGk0jZvNFbgORyQvtcpoX80
-Message-ID: <CAFRctSHGG-7tx0o5-hi2pZbsw-9jGV1FZrFquOOnFAB=i+O8Gw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm: atmel-hlcdc: replace dev_* print functions with
- drm_* variants
-To: Manikandan.M@microchip.com, Dharma Balasubiramani <Dharma.B@microchip.com>,
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2082.outbound.protection.outlook.com [40.107.93.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D7210E207;
+ Sat, 13 Sep 2025 23:03:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s4Lg0kBZ/3dK296dcmF/KWg/wZgIMASUAcQaxnFgHgrNbYtxfo4ATeAZ8/Js8iuNqu5bwXVhzMpAkOc3qwSD1VU+i22nBeYCdmYGAxT2eEF61ShswHBp2Pvhnq6m05BfJx/XDxeiOABGdBclE6YLQvyhLMgiBf+QjrN9BJsV/NxmsNY3BvP0m9hvgSVjU7Wbu6OD5UKhDV+PwWU4GNZxgdl4Awqaq6o6DWcq0Oj18oo6sjjJkN89wYCTj5nk9o/AN1qO3g+U2Vxc4EltNIRQMWygUI9LYvPMm8As5l0yrE27EFBU03lqXmYArsIfiDlab39CfW8/gtV2Yst8qZxjBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AerM2TMwsuKYGx5bAEpyiucvrtTzEg676wbb5DnMqdk=;
+ b=vQKPl3DMrvIuhg2SpyuRZMzKDPZWXghD+0N8cZSDHWPTb/LDR3UuzGFVmtdRBI6/Ws69PLjyokIeJzQ2Ca4uevm2L1jl3IUSkEJmnN6YwrLzU4Owmn7NorJFRL6VHCJFu2dxXC5BXq6qfvVfXcs2UvyznqMUggtqJVSuT1wsbjDkbLqVk7a5jMscnSU2/5OcB4FnWJcfV9s99jmjjr2kGvol3b1sn2yCSfnCBuOaMbUfOSv7LmmbTSoRfJZsU5Cz2mTWTHLJCa+kYm2LtBFUce/JG/o2u3X4k444Di365opTlNeYhFgufWLr1cSayGNaZi8YGXrzHHcoATbiaFqYVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AerM2TMwsuKYGx5bAEpyiucvrtTzEg676wbb5DnMqdk=;
+ b=YWRiNaxC8oQsTmbD+OI5vfkn32QQVtGA7YUuLKGowr57o9SV/de35RjVPbrxNV5k84D81k4xX5+OecK0Z6Y0hxLbSL7aj2ydEopFObKuYb2v9vuhJaLozFWzaRIgez44IwmMI2MEksZ5YP8ZHDN9aeL1IHkSRLwlpvW8O1fXOIRyH2U+fpvdYcoHohXS2o/PK63fNuEKKtPrEas5+t0gCuBDIw0+HxOTlq8+AbofJsf4tdFguKujzJpW4BxkHJfob8hSRq6NzPXuQyW9NkKyAuAXQnjpkmoausU/y8l4SqSQ9nBA6SRZfMDKGssJokilrXNDMM8Jcm0eVLOrSLsXXw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by CH2PR12MB4069.namprd12.prod.outlook.com (2603:10b6:610:ac::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Sat, 13 Sep
+ 2025 23:02:56 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9115.018; Sat, 13 Sep 2025
+ 23:02:55 +0000
+Date: Sat, 13 Sep 2025 19:02:54 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Nicolas Ferre <Nicolas.Ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- open list <linux-kernel@vger.kernel.org>
-Cc: Eslam Khafagy <eslam.medhat1993@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+Message-ID: <20250913230254.GA1568515@joelbox2>
+References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
+ <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+ <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
+ <DCPYQNZG1OJK.2EE4JWJAROK57@nvidia.com>
+ <ce74db34-77bc-4207-94c8-6e0580189448@kernel.org>
+ <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com>
+ <20250913010226.GA1478480@joelbox2>
+ <DCRPJKD0UHDQ.IOWSOB2IK06E@kernel.org>
+ <20250913171357.GA1551194@joelbox2>
+ <DCRXOMQN3Z20.2JCNP4BDEE79T@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DCRXOMQN3Z20.2JCNP4BDEE79T@kernel.org>
+X-ClientProxiedBy: BN8PR16CA0013.namprd16.prod.outlook.com
+ (2603:10b6:408:4c::26) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH2PR12MB4069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 310d8bb5-6aea-430b-e919-08ddf319ace7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?a+knFJ+13oNGof7q+8nFYloj8ziSoKFGoSuXhRjwMXoaTGSjZAd1/nNEJ4EO?=
+ =?us-ascii?Q?7K0Znvhc/sehPKMBKzMthkdE4rut/VFZuKYTh2Vm91UlVsM3eJmLDjL1QrbJ?=
+ =?us-ascii?Q?O7VlbdNt688RVixa5bRy/qitpXgie/WtSsxqsak4tpdouCwwSfl1j/IKzAUo?=
+ =?us-ascii?Q?mU1X6kmKmxktY1WCQOysLIBKiq9mG/xulyYqpQHkXCd4JmkJE6XCRX6v/Xye?=
+ =?us-ascii?Q?9y6L4hrpfWBVhqA01dVCpU+f0i+AuYAIM43HHV19TVY9h7vNEYYE4fGk1Yve?=
+ =?us-ascii?Q?r4YHsP7WOTBXPDKAWEN3iNeKeXCEzrwZ6auLuf5BCdQpBMsTyvqFjCdrUWUG?=
+ =?us-ascii?Q?hFtXtrxvbhtI/Q3SkxcWAwGn+C35ZLxkyMrZE0eoIPo3B2p764Uou9gvhylF?=
+ =?us-ascii?Q?EMeTtiziOlIDhbqMdS1VCydUdS87o/JENyAUObWLV16THcdMxGKw0twBB8ox?=
+ =?us-ascii?Q?9rOJPx9yJbgci8cSAfWQloAmS09nC2TLNQ2ZSdufW4k6zJo+aQW0IW14FL25?=
+ =?us-ascii?Q?35ih8nSDFM3zz5yr05Nvyw8zB//aZV6iE2ahcboLCoBPQwBn2xf/2RbyJGrk?=
+ =?us-ascii?Q?ulJunTnFZkDgKZqUjicctdlAjiwyFYjicWATEZdZbRLMfMVlgHACxvl5sPLt?=
+ =?us-ascii?Q?xT+Xlyxbew84O5talYUlEbeNNoH+9WMdmS01MVOuYvldlL2rj5T+XMtuv26B?=
+ =?us-ascii?Q?HFk8iB0QutMWpDXarn/INKHq91DAS0zKfT8uqv4Ns/8eJBOyhH2VJj/DPa+m?=
+ =?us-ascii?Q?baA3Ce7Q+Og73x0RwIBhEPr+hcqGZgnaC55N2I1AABpxEXrMKB5CRbcpgyEH?=
+ =?us-ascii?Q?7/stMQ3fUot9usfyS2dcjckxobMnGGempkNcYY4CyD6XLUXyl20w7OXAewsT?=
+ =?us-ascii?Q?SVB+mj3JL4ZxbviX+wy4X1t/uEArPwY0sVACPdmkEDm0mI6R4Gqq9uO9xtik?=
+ =?us-ascii?Q?wD5it77Kgj/GDrlBS3UYkMAVOZDB/9xPZ4lfTtRhyUnsehGXzjlL3o/Ul/Hp?=
+ =?us-ascii?Q?43tRS0CCvov9kAA1GXkkLstJdnfT3V+TcV9+aDMRuk13rPyKzzUyjmySOo03?=
+ =?us-ascii?Q?DVPrD9alLdMZ3TcZa4NpClDHUWeUr6MAflr+ids+WpCnhJHhdechYzp+C/KF?=
+ =?us-ascii?Q?EIyL3hDdUqqMVql6ylkDNVyVWZYBeQcXbquMg11loJFqim9XbpzF9nkdDvkp?=
+ =?us-ascii?Q?+MRSZ7xqGVtFoYcjqBWBKrPe7mF9xyeEcHNLn86UR1AuIi8vd14dV1Jnl4zx?=
+ =?us-ascii?Q?E04XJcklCw55G1lJq1YkV8GWdRkRq06lJdQfdkBqr2Tfru24fS1L/YLUOcxm?=
+ =?us-ascii?Q?7MMpFMkM+yU1XymoidYRLfb1FrXzL98MnZ1LDLsfk8WW+Bk4v/hwMm5V7kvU?=
+ =?us-ascii?Q?GNC1dkDZQnN/MPC9HH/VJYUANz2eNNJhuTeH0IzyxgA7kKaVm/qQOuK4RFUA?=
+ =?us-ascii?Q?P6rfFxbLDfA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z7w6mEHC8EAMD6HJVUNpahf6LuBTwqVi0mkEaiKtltz7J4nODZFeCcXVGutf?=
+ =?us-ascii?Q?t32hdKHScJRBmx0Mv5SP77j+r0NbLHa+7qksh7af94kIKXH340+83IwmnPlO?=
+ =?us-ascii?Q?RRhIN2tnY8OzhKMaRhhh/rcOqSwT5JagRq21HtFwT3aKgFCp8EPXk5/2D8Qk?=
+ =?us-ascii?Q?wHgncV+u2TM3eWZdP9P7RnHVNirvXOZcXoKkwAXMCWPMPJ/+o2sjDXprcoX5?=
+ =?us-ascii?Q?HW6Y1tNEFu9+f82to5juEKsvd6Wf2r1nq1A0dvPCHBZ19mCZbkwoTeOoNNz7?=
+ =?us-ascii?Q?XEppVx7ZBnhU1RYYoXFTEdqfnMvrt1UISeWYX/7ttpyNwSv1g5oWfczp1OE9?=
+ =?us-ascii?Q?C7RhAluKlWNq6/Q/44rqQNjUhV7/w75AkAfvdyDp+5V5QPJzCMEPbJlH4KRJ?=
+ =?us-ascii?Q?K788bihMm0PywrdMSKz7cax6ym7s5E4vzMsR81wa7UtpgJJ5MPLlqkUESnfq?=
+ =?us-ascii?Q?+uPV2CW+l9XrPml6O0ZLVDnX5x8lBZY8lr37i4JXWISax4vyGczG1Sgo3aps?=
+ =?us-ascii?Q?M9uhof+gYTbjO2eyPeLQMgTKcCQMmiqPA4mnAtnUPtaoCTAXUrcvTOCD1IuS?=
+ =?us-ascii?Q?BsOeIejjU9j+sbIZ/5+iJntFmDvTg+q4fOxlEf11DQnUXZxTZpcH/rxPIiRJ?=
+ =?us-ascii?Q?P8bYWnadWWmP84hyHu4+BgtwKH+BNOZnVoZcS8UXJUsgGOkCUm48Rg0p7ySU?=
+ =?us-ascii?Q?IqvETK+r8hVtB/CxKJDBdsQwFs9V+QT3BGY652CDS18NIHNPxAylPvyUWweK?=
+ =?us-ascii?Q?uARP9i0qam/9CQDEVO9q3H4sJ5tHzHFLJiVxDKT9aMOwJVBZoNTTXEZr75Mf?=
+ =?us-ascii?Q?dQpOvQeY4OQwnr9q5s+wXBFY5Lv7G3nj2N+RuAjYFX/xA1cD5rVH5GWpiJDo?=
+ =?us-ascii?Q?Nzv6OofKfcWNwmf1VRkDCly2c1YEx6Xi1Y+r1mzm9U4B+2CZZ9SFLeLEU6RV?=
+ =?us-ascii?Q?3oSXm1scBMYlaFnd07EZB6ezpFxUsgOLoz+X85gPMZZ8WDlUGny8PB98dtH6?=
+ =?us-ascii?Q?NxHTj9tYqc1Dc9g4VDobGw2p68PxShJwoWb+cJFCxsYO/hK+06gA9zvQ7nSZ?=
+ =?us-ascii?Q?XTugENEy5IONaOTZplAWBHN5W3p/GPjiMQRYWgwI04ZcA76n3WNBdHHdVXHv?=
+ =?us-ascii?Q?Jj3b8ks3lup1bQmM/0nKYxTD5ZX1p8Nj5xmiAnx+OaMZ+Xb/PC+w9cT7P22x?=
+ =?us-ascii?Q?wNeeAZVB//QHUPLpxzEuGSo1UPVGjSvH0CFnGt+73RK53S3iYoYxSvpwp9zO?=
+ =?us-ascii?Q?WuUs3m2lpzntaZSEBn4sV8IheCFoY4eJtTPtp0FOkoDnNLr2yYSKn4CVospB?=
+ =?us-ascii?Q?aB4x5XdeMqP0fVyZvEd1neEnh5WZc0a4XUzzssTbSpM7RHYJj9pQd0fa/vR2?=
+ =?us-ascii?Q?/JsNmjqKL0MnPX5i3PWR41/+UveFEd92piToUZi+rD+leUdUPO+5NJtBZjVw?=
+ =?us-ascii?Q?ZdOigDwpJdcV5Q0G6Xf8y4IP5nyyNmYgkbY4PuPGfcFqzoSBqfB+z4u3HoTW?=
+ =?us-ascii?Q?NNWqrdOltUuTyxyHIIBQJfXLWTqSa3sY7o3flsQp/Qt47QFhfIrw6g4doGAo?=
+ =?us-ascii?Q?2i1g0T8nz6qi3mMib9HD9hbFNloagsvDREGgOI0t?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 310d8bb5-6aea-430b-e919-08ddf319ace7
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2025 23:02:55.8987 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SjHS44G+WFpuLQH02cVMdJPr6LRoXiaj3xcoySBDYAMfIF6RqJAoYzDrxKiWAEH63D8ryf9ng8ZZ59FCawEbcw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,304 +166,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Manikandan,
-This patch has been reviewed for a while now. but i didn't get an
-update if it's been pulled yet or not .
+Hi Danilo,
 
-kindly can you kindly update if it's been pulled or not ?
-thanks in advance.
+On Sat, Sep 13, 2025 at 09:53:16PM +0200, Danilo Krummrich wrote:
+> On Sat Sep 13, 2025 at 7:13 PM CEST, Joel Fernandes wrote:
+> > On Sat, Sep 13, 2025 at 03:30:31PM +0200, Danilo Krummrich wrote:
+> >> On Sat Sep 13, 2025 at 3:02 AM CEST, Joel Fernandes wrote:
+> >> > Any chance we can initialize the locks later? We don't need locking until
+> >> > after the boot process is completed, and if there's a way we can dynamically
+> >> > "pin", where we hypothetically pin after the boot process completed, that
+> >> > might also work. Though I am not sure if that's something possible in
+> >> > Rust/rust4linux or if it makes sense.
+> >> 
+> >> We can't partially initialize structures and then rely on accessing initialized
+> >> data only.
+> >
+> > Yet, that is exactly what the pin initialization sequence block does? The
+> > whole structure is not initialized yet you need access to already initialized
+> > fields.
+> 
+> No, having a reference to a partially initialized structure is UB. But of course
+> you can have a reference to already initialized fields within a not yet fully
+> initialized structure.
 
+Fair enough.
 
-On Mon, Aug 18, 2025 at 12:16=E2=80=AFPM <Manikandan.M@microchip.com> wrote=
-:
->
-> On 14/08/25 4:09 am, Eslam Khafagy wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
+> >> However, we should never do such things. If there's the necessity to do
+> >> something like that, it indicates a design issue.
+> >> 
+> >> In this case, there's no problem, we can use pin-init without any issues right
+> >> away, and should do so.
+> >> 
+> >> pin-init is going to be an essential part of *every* Rust driver given that a
+> >> lot of the C infrastruture that we abstract requires pinned initialization, such
+> >> as locks and other synchronization primitives.
 > >
-> > Update the Atmel HLCDC code to use DRM print macros drm_*() instead of
-> > dev_warn() and dev_err(). This change ensures consistency with DRM
-> > subsystem logging conventions [1].
-> >
-> > [1]
-> > Link: https://docs.kernel.org/gpu/todo.html#convert-logging-to-drm-func=
-tions-with-drm-device-parameter
-> >
-> > Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
->
-> Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
->
-> > ---
-> >   .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 21 ++++++++++--------=
--
-> >   drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 14 ++++++-------
-> >   .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c  |  3 ++-
-> >   .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  6 +++---
-> >   4 files changed, 23 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/g=
-pu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > index 0f7ffb3ced20..e0efc7309b1b 100644
-> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > @@ -20,6 +20,7 @@
-> >   #include <drm/drm_atomic_helper.h>
-> >   #include <drm/drm_crtc.h>
-> >   #include <drm/drm_modeset_helper_vtables.h>
-> > +#include <drm/drm_print.h>
-> >   #include <drm/drm_probe_helper.h>
-> >   #include <drm/drm_vblank.h>
-> >
-> > @@ -215,32 +216,32 @@ static void atmel_hlcdc_crtc_atomic_disable(struc=
-t drm_crtc *c,
-> >                  if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, s=
-tatus,
-> >                                               !(status & ATMEL_XLCDC_CM=
-),
-> >                                               10, 1000))
-> > -                       dev_warn(dev->dev, "Atmel LCDC status register =
-CMSTS timeout\n");
-> > +                       drm_warn(dev, "Atmel LCDC status register CMSTS=
- timeout\n");
-> >
-> >                  regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_XLCDC_SD);
-> >                  if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, s=
-tatus,
-> >                                               status & ATMEL_XLCDC_SD,
-> >                                               10, 1000))
-> > -                       dev_warn(dev->dev, "Atmel LCDC status register =
-SDSTS timeout\n");
-> > +                       drm_warn(dev, "Atmel LCDC status register SDSTS=
- timeout\n");
-> >          }
-> >
-> >          regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_DISP);
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       !(status & ATMEL_HLCDC_DISP),
-> >                                      10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register DISPSTS =
-timeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register DISPSTS timeo=
-ut\n");
-> >
-> >          regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_SYNC);
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       !(status & ATMEL_HLCDC_SYNC),
-> >                                      10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register LCDSTS t=
-imeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register LCDSTS timeou=
-t\n");
-> >
-> >          regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_PIXEL_CLK);
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       !(status & ATMEL_HLCDC_PIXEL_CLK)=
-,
-> >                                      10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register CLKSTS t=
-imeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register CLKSTS timeou=
-t\n");
-> >
-> >          clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
-> >          pinctrl_pm_select_sleep_state(dev->dev);
-> > @@ -269,32 +270,32 @@ static void atmel_hlcdc_crtc_atomic_enable(struct=
- drm_crtc *c,
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       status & ATMEL_HLCDC_PIXEL_CLK,
-> >                                       10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register CLKSTS t=
-imeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register CLKSTS timeou=
-t\n");
-> >
-> >          regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_SYNC);
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       status & ATMEL_HLCDC_SYNC,
-> >                                       10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register LCDSTS t=
-imeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register LCDSTS timeou=
-t\n");
-> >
-> >          regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_DISP);
-> >          if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
-> >                                       status & ATMEL_HLCDC_DISP,
-> >                                       10, 1000))
-> > -               dev_warn(dev->dev, "Atmel LCDC status register DISPSTS =
-timeout\n");
-> > +               drm_warn(dev, "Atmel LCDC status register DISPSTS timeo=
-ut\n");
-> >
-> >          if (crtc->dc->desc->is_xlcdc) {
-> >                  regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_XLCDC_CM);
-> >                  if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, s=
-tatus,
-> >                                               status & ATMEL_XLCDC_CM,
-> >                                               10, 1000))
-> > -                       dev_warn(dev->dev, "Atmel LCDC status register =
-CMSTS timeout\n");
-> > +                       drm_warn(dev, "Atmel LCDC status register CMSTS=
- timeout\n");
-> >
-> >                  regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_XLCDC_SD);
-> >                  if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, s=
-tatus,
-> >                                               !(status & ATMEL_XLCDC_SD=
-),
-> >                                               10, 1000))
-> > -                       dev_warn(dev->dev, "Atmel LCDC status register =
-SDSTS timeout\n");
-> > +                       drm_warn(dev, "Atmel LCDC status register SDSTS=
- timeout\n");
-> >          }
-> >
-> >          pm_runtime_put_sync(dev->dev);
-> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu=
-/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> > index fa8ad94e431a..acb017a2486b 100644
-> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> > @@ -724,19 +724,19 @@ static int atmel_hlcdc_dc_modeset_init(struct drm=
-_device *dev)
-> >
-> >          ret =3D atmel_hlcdc_create_outputs(dev);
-> >          if (ret) {
-> > -               dev_err(dev->dev, "failed to create HLCDC outputs: %d\n=
-", ret);
-> > +               drm_err(dev, "failed to create HLCDC outputs: %d\n", re=
-t);
-> >                  return ret;
-> >          }
-> >
-> >          ret =3D atmel_hlcdc_create_planes(dev);
-> >          if (ret) {
-> > -               dev_err(dev->dev, "failed to create planes: %d\n", ret)=
-;
-> > +               drm_err(dev, "failed to create planes: %d\n", ret);
-> >                  return ret;
-> >          }
-> >
-> >          ret =3D atmel_hlcdc_crtc_create(dev);
-> >          if (ret) {
-> > -               dev_err(dev->dev, "failed to create crtc\n");
-> > +               drm_err(dev, "failed to create crtc\n");
-> >                  return ret;
-> >          }
-> >
-> > @@ -778,7 +778,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *d=
-ev)
-> >
-> >          ret =3D clk_prepare_enable(dc->hlcdc->periph_clk);
-> >          if (ret) {
-> > -               dev_err(dev->dev, "failed to enable periph_clk\n");
-> > +               drm_err(dev, "failed to enable periph_clk\n");
-> >                  return ret;
-> >          }
-> >
-> > @@ -786,13 +786,13 @@ static int atmel_hlcdc_dc_load(struct drm_device =
-*dev)
-> >
-> >          ret =3D drm_vblank_init(dev, 1);
-> >          if (ret < 0) {
-> > -               dev_err(dev->dev, "failed to initialize vblank\n");
-> > +               drm_err(dev, "failed to initialize vblank\n");
-> >                  goto err_periph_clk_disable;
-> >          }
-> >
-> >          ret =3D atmel_hlcdc_dc_modeset_init(dev);
-> >          if (ret < 0) {
-> > -               dev_err(dev->dev, "failed to initialize mode setting\n"=
-);
-> > +               drm_err(dev, "failed to initialize mode setting\n");
-> >                  goto err_periph_clk_disable;
-> >          }
-> >
-> > @@ -802,7 +802,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *d=
-ev)
-> >          ret =3D atmel_hlcdc_dc_irq_install(dev, dc->hlcdc->irq);
-> >          pm_runtime_put_sync(dev->dev);
-> >          if (ret < 0) {
-> > -               dev_err(dev->dev, "failed to install IRQ handler\n");
-> > +               drm_err(dev, "failed to install IRQ handler\n");
-> >                  goto err_periph_clk_disable;
-> >          }
-> >
-> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers=
-/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-> > index 50fee6a93964..0b8a86afb096 100644
-> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-> > @@ -15,6 +15,7 @@
-> >   #include <drm/drm_bridge.h>
-> >   #include <drm/drm_encoder.h>
-> >   #include <drm/drm_of.h>
-> > +#include <drm/drm_print.h>
-> >   #include <drm/drm_simple_kms_helper.h>
-> >
-> >   #include "atmel_hlcdc_dc.h"
-> > @@ -92,7 +93,7 @@ static int atmel_hlcdc_attach_endpoint(struct drm_dev=
-ice *dev, int endpoint)
-> >          output->bus_fmt =3D atmel_hlcdc_of_bus_fmt(ep);
-> >          of_node_put(ep);
-> >          if (output->bus_fmt < 0) {
-> > -               dev_err(dev->dev, "endpoint %d: invalid bus width\n", e=
-ndpoint);
-> > +               drm_err(dev, "endpoint %d: invalid bus width\n", endpoi=
-nt);
-> >                  return -EINVAL;
-> >          }
-> >
-> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/=
-gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> > index 4a7ba0918eca..817284509b57 100644
-> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
-> > @@ -1034,7 +1034,7 @@ static void atmel_hlcdc_irq_dbg(struct atmel_hlcd=
-c_plane *plane,
-> >          if (isr &
-> >              (ATMEL_HLCDC_LAYER_OVR_IRQ(0) | ATMEL_HLCDC_LAYER_OVR_IRQ(=
-1) |
-> >               ATMEL_HLCDC_LAYER_OVR_IRQ(2)))
-> > -               dev_dbg(plane->base.dev->dev, "overrun on plane %s\n",
-> > +               drm_dbg(plane->base.dev, "overrun on plane %s\n",
-> >                          desc->name);
-> >   }
-> >
-> > @@ -1051,7 +1051,7 @@ static void atmel_xlcdc_irq_dbg(struct atmel_hlcd=
-c_plane *plane,
-> >          if (isr &
-> >              (ATMEL_XLCDC_LAYER_OVR_IRQ(0) | ATMEL_XLCDC_LAYER_OVR_IRQ(=
-1) |
-> >               ATMEL_XLCDC_LAYER_OVR_IRQ(2)))
-> > -               dev_dbg(plane->base.dev->dev, "overrun on plane %s\n",
-> > +               drm_dbg(plane->base.dev, "overrun on plane %s\n",
-> >                          desc->name);
-> >   }
-> >
-> > @@ -1140,7 +1140,7 @@ static void atmel_hlcdc_plane_reset(struct drm_pl=
-ane *p)
-> >          if (state) {
-> >                  if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
-> >                          kfree(state);
-> > -                       dev_err(p->dev->dev,
-> > +                       drm_err(p->dev,
-> >                                  "Failed to allocate initial plane stat=
-e\n");
-> >                          return;
-> >                  }
-> > --
-> > 2.43.0
-> >
->
-> --
-> Thanks and Regards,
-> Manikandan M.
->
+> > To be honest, the pinning concept seems like an after thought for such a
+> > fundamental thing that we need, requiring additional macros, and bandaids on
+> > top of the language itself, to make it work for the kernel. I am not alone in
+> > that opinion. This should be first-class in a (systems) language, built into
+> > the language itself? I am talking about the whole pin initialization,
+> > accessing fields dances, etc.
+> 
+> Yes, that's exactly why people (Benno) are already working on making this a
+> language feature (here's a first step in this direction [1]).
+> 
+> Benno should have more details on this.
+> 
+> [1] https://github.com/rust-lang/rust/pull/146307
 
+Ack, thanks for the pointer. I will study it further.
 
---=20
+> > Also I am concerned that overusage of pinning defeats a lot of optimizations
+> 
+> pin-init does the oposite it allows us to use a single memory allocation where
+> otherwise you would need multiple.
+> 
+> Can you please show some optimizations that can not be done in drivers due to
+> pin-init for dynamic allocations?
 
-Eslam Medhat Khafagy
+Aren't the vector resizing issues an example? The debugfs discussions for
+example. You can't resize pinned vectors without boxing each element which is
+suboptimal due to requiring additional allocations?
 
-https://www.linkedin.com/in/eslam-khafagy-a8a68159/
+But agreed, it appears maybe this isn't as much an issue as I thought. I
+think I confused prevention of stuff allocated on the stack from moving, with
+pinning. I think the only other reason I can see, is to not to reduce code
+readability if pinning is really not needed and if it is used, to add
+appropriate code comments.
+
+Thank you for taking the time to explain this to me. I really appreciate it,
+and please let me know if I missed something!
+
+ - Joel
