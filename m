@@ -2,88 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9767B55A9F
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 02:22:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8FAB55C60
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 03:02:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43DC310E1E8;
-	Sat, 13 Sep 2025 00:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C37A10E109;
+	Sat, 13 Sep 2025 01:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CtD4KkEZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AhigLUET";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F074910E16F
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 00:22:01 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id
- 98e67ed59e1d1-323266d6f57so2690097a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 17:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757722921; x=1758327721; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Cm80ilLfnfK0GbUTGqohDWQAf4X+K0zsGOxjXBgYar0=;
- b=CtD4KkEZp9dngA3+wssvQ9leWauVSP7Rx1GwcA6CdWk2dWrt8Mj5T17X5Kb+O3j9R2
- BnwnO/j/iZlHzfUCpowaCmZ54f82FlRVCLKA6DaWyUAFmRYoII1mnlvoDBJ+gNFheHWY
- qQEBoCW/ZdYozYr6SjMBQvXkWkXBOZofcyKLoBwSHTwOHI/ScMpUR9nvG8xB8vtQzTqf
- M9UAhCVHVdq/QYXs6YEEidI6aTWE5hcN4RzzlqenfQZdFZYklDi7UyX9lL9cn1UkqhWk
- LWL8veuqtwL9bqLqhE7FJdDAegUqcFxDmtlRCgqWztYaOq1TJ+QxWsQpTC0mTWe31Rjy
- nifQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757722921; x=1758327721;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cm80ilLfnfK0GbUTGqohDWQAf4X+K0zsGOxjXBgYar0=;
- b=fXz8uJgLDYUn5b7aVaM8qzcgj6iCMRlOfCufNCkgjAIMF1+nieG/9LsbJcnjYvQh+3
- JgBohxAbdhrr0yQ0bHHL6cs7cj49Q5KVa9x8R9xgpfBjvqCox4xZF1IeYnEWmzPpyHfY
- KmAxBEFvVYaZvIJYBY6X7zp7ZlO6hFEG7oVnwbZ+rzTnqEJaQQctP3E5YQudpYB5wlE0
- ys+sHd88vSkpxjyRb3nhdtlzQasIh735UghMVEXuWgyPd6Pib2pbYJH+MX/82ltnA9A/
- J1ORJMgnF3oK/9buog4IZVBrrr8voxpDnRm7Cu0rPKRwtf/VqThOhS4CI5yonlsshXA5
- cb5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqupWwHoFZ9Y5aUI2O/HELUqO/wCGJ5hIrsYUK2RqL5FSedJlTyU6Pyrb9GmCLmdE6IydXzAUIiMY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0WD2tVToBbHaPrnxZDKuV1bdu53TsBND6sc7tH1qouNuJ/K0R
- HLlVT83hBN9D7pHVbC4B/Msn/nbkvpCKidWo2jp5M9ZvEBq1S/qH5xw9
-X-Gm-Gg: ASbGnctXBwEYvivLu/wN//7rhrJe6xgt196hWkHLBRAs1AcWJVdPO6bX9ryPGqxHoOB
- XevdNX1rwlglvkTE4dc0pzF3OA1QHAivEL5isyNsBVtO9aatPWEWv8473ipd2sYN7d53WLohWD6
- /wyEV0AGkEz8sFWLVgLrZ3ee18zvu1N9EYgeJ8Q73aeaj+5StvQyfQ0QZrKdYNKElosiQPN+u4g
- 4rbIISgmWOktk7TQ3IOaUSgFCO9pG7TRwRoqxn3Z/BxoXp5lNbWU4SErVP5TEEyq6uZtySa0ixl
- AD6LSDYKbjlBnTVmCeoBNsRjm7/9J89BerxM6PdzgFx7TumMiQvMzCiWFkVo0xFYuZHASSPoRIW
- YghkVaDXnVVrE1+fGUjWtQLNY/7fulMS1oa7vSN7hUp4QICRUOYSJR+UcXZy6Y3359ClkpHw6sr
- uHP65BGfGszd4O09PyKR2R
-X-Google-Smtp-Source: AGHT+IEcaqlanLAm9mIqOADYJZgjkBS/hD0ZIdrP7idMoPzA/i4SQfFiZafptr/j8gwT/hhYw6DsOw==
-X-Received: by 2002:a17:90b:1b50:b0:32d:d4c8:b658 with SMTP id
- 98e67ed59e1d1-32de4e5cb68mr5073830a91.7.1757722921338; 
- Fri, 12 Sep 2025 17:22:01 -0700 (PDT)
-Received: from localhost (185.3.125.34.bc.googleusercontent.com.
- [34.125.3.185]) by smtp.gmail.com with UTF8SMTPSA id
- 98e67ed59e1d1-32dd620a64dsm7604593a91.8.2025.09.12.17.22.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 Sep 2025 17:22:00 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 015ED10E1EC;
+ Sat, 13 Sep 2025 01:02:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HRXdGjOiGU2aZw/pACB99OdjKEE3EGv4x0qvTmRY7R3TLWHrIz9DJVJtqMGjZJOEXc7CDhPWu153CNk5fWcgufPUbFxm6sFRKNL4OqontgrDu1E0dGwPc3J81pAS/cH5cxTLd9gVHZ8GA+f3I30PoLYxJyXiRY687qY3sbN8EQ5GjJKAhC1bdSeLHafDv+83UngjNu6ijk7u0rIIodhC5UiyZVp/ZYBGUGoodfeyf4RQjMej5omHMOoUl4jRRsglzpysvjTeDXP7kj1tWIy1jzQixyFK3ewjCFBVocgK/34OyS/ULjqX5YFdSrOFEt1vzFpO13aEyge46S375CN8MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SptTuagc5TVSshUl1KAM/wXVFI+zzM6rLEc3P0vm4so=;
+ b=ImeiphDT+7p0/ZwLUHE+1kt4nJlZD+iSQiTC3P1iGmYOPI2Cv1GmgIltMHV/reSKAQRhZjAx+F31ab8pZr9uOiqqU2Bb2kUG+QbJY6cK1uf6xpTXXp6UhKbsBY9bKWpEdgcEQyeaMeCVdtSk/qgMSBEpZ4gY+LnA6Tk3fT1ujG+n51ZdJlVOBgVVcTjY3QF3e6Ve4yHTNFJezzZtiH8iyH1PfOpzUEl5V3SXjlG2n2vrCxbVTG3L/zy9h+wwgproW3PYNp75zlF8xkCDdxvYkj2yGhmt/0YdTcueSUfVkn1rrWThfzqNfGW+1+e2LnqyrNDs5WqiPZ+u2Vw/PzZibQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SptTuagc5TVSshUl1KAM/wXVFI+zzM6rLEc3P0vm4so=;
+ b=AhigLUETnRZ5hciwPHBZjBRMoxGBDiT5qlFK4+l0X1jaTfUrs21KTJadVQB7QEaC7K12zAhHHWecIfXRvdrJpxw9AVn0zKopyrQbjp3KDEeX3C7oprvdJHsmZP3A7n+hijmwRD7FzGmrRfmfYq+uJRZFVi45e8NPxXS3c15My0D+zhGj0NCV60eKgMmr2HojBWBpuO6ga4xKMw+7KSnlm80SjoNpnbh1BcDrfb5nENS9e8JkrMSleA69XAgaCS2hG0rm0y5LC8fPYyTy0vPP7aH3KeENhg3yh7zRSdFNBiWi5QH/shu45WsaS5QQFR3XLPPgqbC7fKk8qc8pYPworg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by CY8PR12MB7241.namprd12.prod.outlook.com (2603:10b6:930:5a::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Sat, 13 Sep
+ 2025 01:02:28 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.9094.021; Sat, 13 Sep 2025
+ 01:02:28 +0000
+Date: Fri, 12 Sep 2025 21:02:26 -0400
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 2/2] drm/panthor: add custom ASN_HASH support for mt8196
-Date: Fri, 12 Sep 2025 17:21:55 -0700
-Message-ID: <20250913002155.1163908-3-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
-In-Reply-To: <20250913002155.1163908-1-olvaffe@gmail.com>
-References: <20250913002155.1163908-1-olvaffe@gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+Message-ID: <20250913010226.GA1478480@joelbox2>
+References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
+ <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+ <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
+ <DCPYQNZG1OJK.2EE4JWJAROK57@nvidia.com>
+ <ce74db34-77bc-4207-94c8-6e0580189448@kernel.org>
+ <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0439.namprd13.prod.outlook.com
+ (2603:10b6:208:2c3::24) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CY8PR12MB7241:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7d8ef32-5623-4b53-af93-08ddf261357c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bMlBW4lfOcd7PwqKbwuaVs2iOxwTJVEYiRfdT8r+hW9pCugq0uRh2k227zOc?=
+ =?us-ascii?Q?UiifLvu7p8fQoGcbCXB/olQQK1XFYjs5oLvuxxF4OP8h6xOjHRB7UwfcHJn+?=
+ =?us-ascii?Q?GKKsZO6UiFhKuhLH+4Z+UFzYikw6xMj+LsI2Q9hPCUm7D2zAJuDWHPkle/Hr?=
+ =?us-ascii?Q?5wwAc/hQQLFy4TenwgVdnMa3b/0vfubtq5qdu18ul5kWukX9fSFjTswbCdPU?=
+ =?us-ascii?Q?WSsuooQs6Iseyl563pXqA3piyA+jfnX7m3B/gOIprBcMXcxTz0+EClyAjCzd?=
+ =?us-ascii?Q?2oBmRRaySypEcw89vYyVWkXCMy3ZHXSyM3DfHs6xYuXg/EdcbhxyPPLt5uhm?=
+ =?us-ascii?Q?DxJ86ujB85KUIPXYTEw44keeSZqICq1EDTiMusc4V3lxV9F7Kse7b3nj2A0N?=
+ =?us-ascii?Q?znuSu6YKuIwnJYvmpJ6E7cvUS00VWQNrZyUTJhpEljVO77WP1VpyXqkorN2O?=
+ =?us-ascii?Q?OvCgistjLuNUPrzQ6W7hje6W09eeJi81jnzV0i3N7VUAWzn8XNIokjfSLKhG?=
+ =?us-ascii?Q?d5XGzwhOGeUdg2z6rKYnOi8CST+lMa4QLtsKhAOJnb6hDr5/NQIEZzz4ELqy?=
+ =?us-ascii?Q?PX8xvkxOzQUjbB/zRxp+FylU1yV98VHR97jjS3ecuxmvFiCwtBbhSo4lV4BA?=
+ =?us-ascii?Q?CfWgAsGVIyGN9Zy+tjGrFlCV7/NXtNjdbjNuq/h6be+T6OZflH48qUzP0Jke?=
+ =?us-ascii?Q?biYtUm+2q+ia4F3+VFhKdXZvFKf60YIvAzbbSb0KXb3TWwr+krY2A+c7SV10?=
+ =?us-ascii?Q?bDeEY9UGa87e08nCamFYgTVdmBxGB+7r2hGIuXGKC/9qWCs+HATq72eiv90d?=
+ =?us-ascii?Q?sEDmvqlZQ0DGylWGsjJDw6Dl+gnQxycGpy7VgLBn+1HFuNsq51N3vCeq8QgH?=
+ =?us-ascii?Q?jM6YrAmRMiffoUyIC8MaETHpV9tYtAd5j50H4YXU2NBQ/BNaV0JtMIMLkmxj?=
+ =?us-ascii?Q?u4V6/SPcFUNfy1VTgYJAdiWVpJ/YD9nu413XAHdrlKyga4niondGtSdb6sH/?=
+ =?us-ascii?Q?rPzXgws/kLoViJTrT+/1vuNT+uNkJ0oIF5cR6gNSji0CS2FSgsAvStvFtrNG?=
+ =?us-ascii?Q?TmCBTvHX61+K2tVMC3TOuG0IYtPsOinpm6N8qE7ecL7Ew4PCKqfxLZw1BDXA?=
+ =?us-ascii?Q?RdjtZtSte3aiW0lvjm+AmpBYUpm7g4sVa1JkTavleqzJ8KZbzoZzWNYXpQkZ?=
+ =?us-ascii?Q?Xai5PfW//ipdRjQRxgelBAsXGHBe/QPNx7GVcYFSGIMJQg3beQ2hMHtdQI+i?=
+ =?us-ascii?Q?Iu1Z7tkvjs4yyBSLv7fJFSC3wiqUZNISHCfD1k162uA8FC8Oh3NzwK5Op0Vz?=
+ =?us-ascii?Q?sEhYcxGDJOb0toQB0/UjSQKWHj0C0wIPPZWAH61RZKNigDlV6bVHOUSENXrk?=
+ =?us-ascii?Q?A69Bf2egeysNiBIf9I44JHa8+VXFj3vF9jlnEshgdM2oR6TFNwj0RYPE9Hz8?=
+ =?us-ascii?Q?SxZOgLfFkvY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4s9k1D1qH4qdKXTnrZP0S8jyfw83iQtD9/79atwcTcA7PXuMhnGuqOdDsdQn?=
+ =?us-ascii?Q?qef+1hAuuVwHD0+o8Zm0iTF4OYZuyCXzImJohphsMz7ViT02PFw+fMnzfXXI?=
+ =?us-ascii?Q?6qXAqL10ziqa8OE0Xe0iN8h7223P6HpU5Do/W6W/A2qfdYUs/CkR2tmi6Umx?=
+ =?us-ascii?Q?9f3pPawOhDFmN5rixSYB3527T30A2WpZq4QVLYRhtApuYAqInrujoTEMeiht?=
+ =?us-ascii?Q?mKHZaEStgxOOUROlWabkKrO4eD2TVVmAuxrGB+uANMsDjq82m+EQoy+eNNck?=
+ =?us-ascii?Q?xUcmepCHR1DOAv8NgfuZthuUD+TwZRHEpDrQItNQOdhVI1rF/fC2NPQu9vfi?=
+ =?us-ascii?Q?Lu5Z8VOKzSUbMwCEhADFYI+A1n1xOJZOj0NOXAxk7LhJCNlWpVnDzW+NUoMi?=
+ =?us-ascii?Q?NoRgw529gZobsk3ffyTyBmkoM3TnZxWj49EpfmYt00cazquP7o2CRp/bGIYW?=
+ =?us-ascii?Q?+3QBmg9muOfMd5glycbCwY+nGuiN0392arNpSvwzLARYNh301qjt7PadWRN9?=
+ =?us-ascii?Q?zbHFdKRer6mECYG52N3CmcnpSADeNK7m+CfXbaTSco/OdiIaq2RKNLHa2quU?=
+ =?us-ascii?Q?O+Ah1sH9ZfcXk49VVgeprROwOPZpFqqsm39nMdg7fB/AU8W27VuIbL6tbckP?=
+ =?us-ascii?Q?7BQH9nmAczLsIjdKkfFj8EKkosbFoLzywDfyNd2GJ4fYGfzZu2Q1PfCm5k+i?=
+ =?us-ascii?Q?7Tvfv20dGKciB8KTO4R6vQkGTPYuOudaf5NyKmGfi7o45w8VBVSWyjtMN0n9?=
+ =?us-ascii?Q?gJ8K7F9srXq9X69hncX9AAc2R8xBUaNssljDR5x7lq2MWEfHXXnPJxvBb8Mq?=
+ =?us-ascii?Q?yjy80rGArDYGmWogrFrNENWbwWTkascSIizSQkaDwQBcvGciUi/rp6lYteda?=
+ =?us-ascii?Q?3M9JGc4bitDOU4O5F6s7FhtLysly+vLGlNnGCTLIknAzNBbrQ/bV72PlS/rD?=
+ =?us-ascii?Q?B1+keYZDRafwKFTJ/eTDHlTDDMnvVJulZbjmIQiepyAYLMtmoWnn4du4QSMS?=
+ =?us-ascii?Q?I3GQy/8qxwtfXguayLOIXdZsf9BULzi2WOt2z5izc27KvHYyuVJZfG0F/gUd?=
+ =?us-ascii?Q?YcFe9E151A2nroEoaFoDYMtObFb9o7XCuRFGrdnInV5beAmaq6WLyR0NS+9b?=
+ =?us-ascii?Q?bfbB/Kgf498vlLbbfRaheumkASkM/htHoDoHtiAVy9yPP/Ui/ihzTrKpk9PG?=
+ =?us-ascii?Q?+vwWl88zlX32KKk+wP9Pap4HidSAkFS4Bg9KAtwgm1TlPChXCLnaQ1apBAxw?=
+ =?us-ascii?Q?B0TnQoyX/tTO3Drd8wPXFwIKo5gCWQXXKUqG5wbD5H6Tny/F07zLJMbyzwuy?=
+ =?us-ascii?Q?o8GAk4wYg1vkZ7viATheNQra1MxSo7U7M4PNTAs1pXAyCQr3KQAmPutlEe46?=
+ =?us-ascii?Q?sg8ue0bkamxdnEkz2P0MEn5FJe725Sgk+U2aTw8BNJFriaqwPtGFnUhlo1Qz?=
+ =?us-ascii?Q?qOqcZLXCTTkhUFSYrd7u8WYeZJ5YfI38nP5LdsjPNpYuI2fmzIu4SdP1Ktyz?=
+ =?us-ascii?Q?ABIvwyqGDtH5qbggf4axZV9xr5NjDST8KeLNoyLFgum9f7HieQi3Oorhzesm?=
+ =?us-ascii?Q?QHXSwxHADOzXix5koDDaMzys9GK9k+8bqiWgJNI5?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7d8ef32-5623-4b53-af93-08ddf261357c
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2025 01:02:28.1097 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D0C4K7zGI0vPFf8M4JsbpEOBE5JlXKnnRchIbWCsbhe+F1nbLCxx1uOCibWarimxjQZc5VdEZXZP4oqqJVkbOw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,174 +162,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add panthor_soc_data to control custom ASN_HASH. Add compatible string
-for "mediatek,mt8196-mali" and enable custom ASN_HASH for the soc.
+On Thu, Sep 11, 2025 at 10:26:08PM +0900, Alexandre Courbot wrote:
+> On Thu Sep 11, 2025 at 9:46 PM JST, Danilo Krummrich wrote:
+[..] 
+> >> By keeping the initialization in the GPU, we can keep the GSP object
+> >> architecture-independent, and I think it makes sense from a design point
+> >> of view. That's not to say this code should be in `gpu.rs`, maybe we
+> >> want to move it to a GPU HAL, or if we really want this as part of the
+> >> GSP a `gsp/boot` module supporting all the different archs. But I'd
+> >> prefer to think about this when we start supporting several
+> >> architectures.
+> >
+> > Didn't we talk about a struct Gsp that will eventually be returned by
+> > Self::start_gsp(), or did I make this up in my head?
+> >
+> > The way I think about this is that we'll have a struct Gsp that represents the
+> > entry point in the driver to mess with the GSP command queue.
+> >
+> > But either way, this throws up two questions, if Self::start_gsp() return a
+> > struct GspMemObjects instead (which is probably the same thing with a different
+> > name), then:
+> >
+> > Are we sure this won't need any locks? If it will need locking (which I expect)
+> > then it needs pin-init.
+> 
+> Sorry, I have been imprecise: I should I said: "it can be moved" rather
+> than "it doesn't need to be pinned". In that case I don't think
+> `Gsp::new` needs to return an `impl PinInit`, right?
 
-Without custom ASN_HASH, FW fails to boot
+If you don't mind clarifying for me, what is the difference between "it
+doesn't need to be pinned" and "it can be moved"? AFAICS, they mean the same
+thing. If you don't want move semantics on something, the only way to achieve
+that is pinning no?. If it can be moved, and it contains locks, then that will
+break unless pinned AFAICS. So if need locking in Gsp, which I think we'll
+need (to support sychrnoized command queue accesses), then I think pinning is
+unavoidable.
 
-  panthor 48000000.gpu: [drm] *ERROR* Unhandled Page fault in AS0 at VA 0x0000000000000000
-  panthor 48000000.gpu: [drm] *ERROR* Failed to boot MCU (status=fatal)
-  panthor 48000000.gpu: probe with driver panthor failed with error -110
+On the other hand, if just the firmware loading part is kept separate,
+then perhaps that part can remain unpinned?
 
-With custom ASN_HASH, panthor probes fine and userspace boots to ui just
-fine as well
+Any chance we can initialize the locks later? We don't need locking until
+after the boot process is completed, and if there's a way we can dynamically
+"pin", where we hypothetically pin after the boot process completed, that
+might also work. Though I am not sure if that's something possible in
+Rust/rust4linux or if it makes sense.
 
-  panthor 48000000.gpu: [drm] clock rate = 0
-  panthor 48000000.gpu: EM: created perf domain
-  panthor 48000000.gpu: [drm] Mali-G925-Immortalis id 0xd830 major 0x0 minor 0x1 status 0x5
-  panthor 48000000.gpu: [drm] Features: L2:0x8130306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-  panthor 48000000.gpu: [drm] shader_present=0xee0077 l2_present=0x1 tiler_present=0x1
-  panthor 48000000.gpu: [drm] Firmware protected mode entry not be supported, ignoring
-  panthor 48000000.gpu: [drm] Firmware git sha: 27713280172c742d467a4b7d11180930094092ec
-  panthor 48000000.gpu: [drm] CSF FW using interface v3.13.0, Features 0x10 Instrumentation features 0x71
-  [drm] Initialized panthor 1.5.0 for 48000000.gpu on minor 1
+Other thoughts?
 
-Note that the clock and the regulator drivers are not upstreamed yet.
-They might as well take a different form when upstreamed.
+thanks,
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-
----
-v2:
- - remove CONFIG_DRM_PANTHOR_SOC_MT8196 and panthor_soc*.[ch]
- - update commit message
----
- drivers/gpu/drm/panthor/panthor_device.c |  2 ++
- drivers/gpu/drm/panthor/panthor_device.h | 14 +++++++++++++
- drivers/gpu/drm/panthor/panthor_drv.c    |  6 ++++++
- drivers/gpu/drm/panthor/panthor_gpu.c    | 25 +++++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_regs.h   |  4 ++++
- 5 files changed, 50 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 81df49880bd87..c7033d82cef55 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -172,6 +172,8 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	struct page *p;
- 	int ret;
- 
-+	ptdev->soc_data = of_device_get_match_data(ptdev->base.dev);
-+
- 	init_completion(&ptdev->unplug.done);
- 	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
- 	if (ret)
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index 4fc7cf2aeed57..9f0649ecfc4fc 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -31,6 +31,17 @@ struct panthor_perfcnt;
- struct panthor_vm;
- struct panthor_vm_pool;
- 
-+/**
-+ * struct panthor_soc_data - Panthor SoC Data
-+ */
-+struct panthor_soc_data {
-+	/** @asn_hash_enable: True if GPU_L2_CONFIG_ASN_HASH_ENABLE must be set. */
-+	bool asn_hash_enable;
-+
-+	/** @asn_hash: ASN_HASH values when asn_hash_enable is true. */
-+	u32 asn_hash[3];
-+};
-+
- /**
-  * enum panthor_device_pm_state - PM state
-  */
-@@ -93,6 +104,9 @@ struct panthor_device {
- 	/** @base: Base drm_device. */
- 	struct drm_device base;
- 
-+	/** @soc_data: Optional SoC data. */
-+	const struct panthor_soc_data *soc_data;
-+
- 	/** @phys_addr: Physical address of the iomem region. */
- 	phys_addr_t phys_addr;
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index be962b1387f03..9dd90754865ac 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1682,7 +1682,13 @@ static struct attribute *panthor_attrs[] = {
- 
- ATTRIBUTE_GROUPS(panthor);
- 
-+static const struct panthor_soc_data soc_data_mediatek_mt8196 = {
-+	.asn_hash_enable = true,
-+	.asn_hash = { 0xb, 0xe, 0x0, },
-+};
-+
- static const struct of_device_id dt_match[] = {
-+	{ .compatible = "mediatek,mt8196-mali", .data = &soc_data_mediatek_mt8196, },
- 	{ .compatible = "rockchip,rk3588-mali" },
- 	{ .compatible = "arm,mali-valhall-csf" },
- 	{}
-diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index db69449a5be09..9d98720ce03fd 100644
---- a/drivers/gpu/drm/panthor/panthor_gpu.c
-+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -52,6 +52,28 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
- 		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
- }
- 
-+static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
-+{
-+	const struct panthor_soc_data *data = ptdev->soc_data;
-+	u32 l2_config;
-+	u32 i;
-+
-+	if (!data || !data->asn_hash_enable)
-+		return;
-+
-+	if (GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) < 11) {
-+		drm_err(&ptdev->base, "Custom ASN hash not supported by the device");
-+		return;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(data->asn_hash); i++)
-+		gpu_write(ptdev, GPU_ASN_HASH(i), data->asn_hash[i]);
-+
-+	l2_config = gpu_read(ptdev, GPU_L2_CONFIG);
-+	l2_config |= GPU_L2_CONFIG_ASN_HASH_ENABLE;
-+	gpu_write(ptdev, GPU_L2_CONFIG, l2_config);
-+}
-+
- static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
- {
- 	gpu_write(ptdev, GPU_INT_CLEAR, status);
-@@ -241,8 +263,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
- 			      hweight64(ptdev->gpu_info.shader_present));
- 	}
- 
--	/* Set the desired coherency mode before the power up of L2 */
-+	/* Set the desired coherency mode and L2 config before the power up of L2 */
- 	panthor_gpu_coherency_set(ptdev);
-+	panthor_gpu_l2_config_set(ptdev);
- 
- 	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
- }
-diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-index 8bee76d01bf83..8fa69f33e911e 100644
---- a/drivers/gpu/drm/panthor/panthor_regs.h
-+++ b/drivers/gpu/drm/panthor/panthor_regs.h
-@@ -64,6 +64,8 @@
- 
- #define GPU_FAULT_STATUS				0x3C
- #define GPU_FAULT_ADDR					0x40
-+#define GPU_L2_CONFIG					0x48
-+#define   GPU_L2_CONFIG_ASN_HASH_ENABLE			BIT(24)
- 
- #define GPU_PWR_KEY					0x50
- #define  GPU_PWR_KEY_UNLOCK				0x2968A819
-@@ -110,6 +112,8 @@
- 
- #define GPU_REVID					0x280
- 
-+#define GPU_ASN_HASH(n)					(0x2C0 + ((n) * 4))
-+
- #define GPU_COHERENCY_FEATURES				0x300
- #define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
- 
--- 
-2.51.0.384.g4c02a37b29-goog
+ - Joel
 
