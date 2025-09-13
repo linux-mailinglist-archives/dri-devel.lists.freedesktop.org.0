@@ -2,92 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E770FB55E93
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 07:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5CBB55EDD
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Sep 2025 08:10:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92C210E1EC;
-	Sat, 13 Sep 2025 05:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F388010E087;
+	Sat, 13 Sep 2025 06:10:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="nDCInszP";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="PotKFIAz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c4U4UZTR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 554 seconds by postgrey-1.36 at gabe;
- Sat, 13 Sep 2025 05:31:12 UTC
-Received: from fout-a7-smtp.messagingengine.com
- (fout-a7-smtp.messagingengine.com [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B49310E0D5;
- Sat, 13 Sep 2025 05:31:12 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfout.phl.internal (Postfix) with ESMTP id 1E7E2EC01DD;
- Sat, 13 Sep 2025 01:21:58 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-01.internal (MEProxy); Sat, 13 Sep 2025 01:21:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to; s=fm1; t=1757740918; x=1757827318; bh=cktaq3vi6+QiWEhOgyfud
- QrPSODKg6pOr7hfniZrmPA=; b=nDCInszP3qlTONwSl+o1k2WggCNFldeqwQX/I
- qhy036AdXI6l+B3NDFA1HPye76TpP8G3kOL8A0cKrUUwezolWz65bRQN0/622yLF
- cig+EZaGdNArbTidaSGbZQ8j0wZQH6dVwNJTfwamqg9tV2PhIJvYA87JUE9BJRiZ
- ZyCNG14xFESjNMPD4xj+uNcX9KjA79toBg1edahcbuCW2qkuBqxZnMrL5mhAuhAb
- pwruJtU/AddAzwZr1SuC5wPrpGjQtyjyV15ULIkehWUQe0c91rxzT+q8dh4cVilj
- Wpy2vQnoN7rh3OEB4PySEqjMuiFecSnIw1Yc4VDY3kDhx6CtA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1757740918; x=1757827318; bh=cktaq3vi6+QiWEhOgyfudQrPSODKg6pOr7h
- fniZrmPA=; b=PotKFIAzHkCqBRaxewaROMabGVHPnw9CzHn6CIwzfzIHpqaophi
- /W1rVi3qkUP+krKtbKNDv7o7oIO6NxfX6nHWKSTVPKkeyDvicun9O/2lTDZV9xzH
- PzxzIRdTKy+GavRUGVYH2b7nqTXmJv3obQYZkZXo1rLgpOxv18mEeWdxqNQfi0kr
- KKzvhJqd2KHENxdXoIec9OeUokEow5UDs5XykfMta3FU5uu5ItPY2klH+HjudR5H
- 9MhvzBBm0TqFT3pKo2GTw8Grt9fFCMRrZZRvt0p3f0g2xCwb7q/Ke3TrTKaDvHym
- bW7plyMvdhPdc0aNuQgjXbot52eT5UjMY0w==
-X-ME-Sender: <xms:df_EaETEC2ZxHUmZJDRMaGzwYJpg0kOIwU5ujwTf1N_DKolHIXx7FA>
- <xme:df_EaCYZ60wDaxwlket6mK-QhtJQ6OD0Tsh62-E0qBb0-koH9Ri7Ion5RZZmx5_Vb
- PZgr_gxclWXrdPDjnw>
-X-ME-Received: <xmr:df_EaM-oS3JmKBKEOggUm1Prkv-eCFwO8t4k7jg2MjrxuGlgrqkksSbOCwAWtTf3Y4RzQIoQ6xd7j2kq7GnjmDQvzPxo8Hs0W83DGZbzN0ujeco1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefuddtkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
- enucfhrhhomheplfgrmhgvshcuhfhlohifvghrshcuoegsohhlugdriihonhgvvdefjeef
- sehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhephfevgfekiedutdduhf
- eggfeivdeuhfehtdffjedttdefkeeifeeijeevtefhgeehnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfh
- grshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphho
- uhhtpdhrtghpthhtohephhgrrhhrhidrfigvnhhtlhgrnhgusegrmhgurdgtohhmpdhrtg
- hpthhtohepshhunhhpvghnghdrlhhisegrmhgurdgtohhmpdhrtghpthhtohepshhiqhhu
- vghirhgrsehighgrlhhirgdrtghomhdprhgtphhtthhopegrlhgvgigrnhguvghrrdguvg
- hutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghn
- ihhgsegrmhgurdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
- dprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprhhomhgr
- nhdrlhhisegrmhgurdgtohhmpdhrtghpthhtoheprghlvhhinhdrlhgvvgdvsegrmhgurd
- gtohhm
-X-ME-Proxy: <xmx:df_EaMnkX9_BzM1hn7sVx7e7J8h7FzBTpPjZwE7Mkw9nxaw3IcRu9g>
- <xmx:df_EaBZfYC6HwZDogcSAPTk8aQD2nQTzmAq_wHb990HPYZvUqDV1cg>
- <xmx:df_EaEPIDyXRVfS9JhHrL0CyyQQWmUcl-aPx6-xuEJLqYixY9Cp5Ag>
- <xmx:df_EaJe07oxiZKvc0aqTCgKB-oPbczexXkXqZCRW8LZAVzYWn67bqw>
- <xmx:dv_EaB-2Kp6Y4uGFk_hB7uVwUzSqzWlZSkXuX_xmPUP2LHAerFQrotjl>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Sep 2025 01:21:54 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, roman.li@amd.com, alvin.lee2@amd.com,
- skhan@linuxfoundation.org
-Cc: James Flowers <bold.zone2373@fastmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] drm/amd/display: Use kmalloc_array() instead of kmalloc()
-Date: Fri, 12 Sep 2025 22:19:52 -0700
-Message-ID: <20250913052109.2638-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD5110E087
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Sep 2025 06:09:59 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-55f6f434c96so2879603e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Sep 2025 23:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757743798; x=1758348598; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eilgNmLM+UnUigD1ts/5zlgpCEeCLq2Z2wcl87G6xGI=;
+ b=c4U4UZTRa7CD4Y+eq+furHp07hGR29a2LPp/DjEO7Suxf75efFAlcaP9JEduDJBJ5o
+ k3FbcVBrghB/el3fwIn5xTIW0bAkyBI4BQCDV+ChqPF6I5O/MFvR+jy43PEEX67EZMZZ
+ 0aZh1KD+FVPuY+9kQ4kctCmTzXG0b2Rm7/PhfsDVIB2vPMCoe3wBn20bRJ/gzTwzLDzV
+ bIZ8DuNHAgWld/9ageIc9GYahZCUPG3FUa0itGpIOIIqKeuC2qwo+6FeLw9ND8MWpqRX
+ M+7Do7lqrlfu62WGbJ/g9vtV6wETfUEVN8cosQ2jrSk6aDObIifiSC9JYkUe8A8R+Noy
+ gs/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757743798; x=1758348598;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eilgNmLM+UnUigD1ts/5zlgpCEeCLq2Z2wcl87G6xGI=;
+ b=MiKbs6WTYLNuURxFr1TQYD84zQU8wtRaFNhyYgDB+PpCTrrZMVpytAU51drHHGUrN3
+ BMjgJiH6KmTzvY7G3UH1zCGQ3WU8/S4EBYkviHXVL+vq6kJF2KTKFx9y407+SFuIJGbe
+ TlOYfm6+LPIcUMfq0duwKU4w6Gjyur88dNib++RRe572RxxJUGEgR/l/I4CBrIu0Aj1L
+ hsAtxmdwq1gOZWkGUW4pmqyARlVWOMYa/43ca6zGII+R+wzB0Zxta2gV6BA/QWqXCJ3h
+ NW2F+1UPVpBy3DmAqf3HmvdeQkFzi3RsqHz42hN3gM1cIJOl5pa5vXeuQN0DWN0Khaup
+ oTYA==
+X-Gm-Message-State: AOJu0YwXGb2NmpbqxEzfBV+phbO8XSrAmBdsiedx6z+hTGbOs9UioGTM
+ QSelEfXQz7c5864s3tdW/a/Tgj3ryIvl5i0ITQnUNDOsoHVjjKOHg8EX
+X-Gm-Gg: ASbGncvYXgjqvwRIcZFYf9Kk29LkE1FhzPV3kiJJ33nAhNGj/xG/jcuVSD0YfaFdOoN
+ GtQMnNNgHNRgSwvmJgtfJ6BFr18zVCJgPaBS/+iVCzUxVzEUcCv641mYL5z3VY30zX4TH2MaE5g
+ 7XGLftobBRR5adasQAFF0vOzG0eEreGQv5xqnaSZ3pEdewlirEri/eFXHwFuWTMbZPXmVs1Zn+P
+ ee9iqVk1JuNbZ+3awE2yuev3KZuKwAxtfp5Yfd7hEBgaD5TRumPauTNHL1cUNZ7nWgDWUBzIhTV
+ mbqbqeu8WHkfMeguGxDZH+fJswYdlIGK0vwKFUO+fxsBu49bF1wHdfNDpCKecwfTHSEnmRwu8/g
+ aDMxSH25bXik17Ag+Obpm3SkvNxpNiYbtN+7Bik95wS4Lj2W2W5pKrx8l2iybDx8dc0s=
+X-Google-Smtp-Source: AGHT+IGmwZmsbVKZyzEV62EILsLHTLklQ4e5+PHt8mSyNhEWHnxkOXo8eDX3vJX/WmXUbz0ahwUfaw==
+X-Received: by 2002:ac2:4e12:0:b0:55f:4839:d059 with SMTP id
+ 2adb3069b0e04-5704b52f28fmr1387061e87.13.1757743797629; 
+ Fri, 12 Sep 2025 23:09:57 -0700 (PDT)
+Received: from [192.168.1.166] (83-233-6-197.cust.bredband2.com.
+ [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56e64fa7134sm1699740e87.122.2025.09.12.23.09.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 Sep 2025 23:09:55 -0700 (PDT)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+Date: Sat, 13 Sep 2025 08:09:40 +0200
+Subject: [PATCH] drm/sitronix/st7571-i2c: reset position before clearing
+ display
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250913-st7571-reset-v1-1-ae5f58acdf8d@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAKMKxWgC/x3MMQqAMAxA0atIZgtNNbR6FXEQjZqlSiMiFO9uc
+ XzD/xmUk7BCX2VIfIvKEQuwrmDep7ixkaUYnHVkO0SjlyePJrHyZXyg0AQXqEWCkpyJV3n+3TC
+ +7wdYQRDMXgAAAA==
+X-Change-ID: 20250911-st7571-reset-785838285415
+To: Javier Martinez Canillas <javierm@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1067;
+ i=marcus.folkesson@gmail.com; h=from:subject:message-id;
+ bh=gTOEkj4ZvjJRwjmvXK70zhZ6+r0iqgJJfzfUuKz4ewI=;
+ b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBoxQqrq2QBZ5XmdEg1YGZgvM51PpAyHQA1cma49
+ Pxth4Z6rlOJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaMUKqwAKCRCIgE5vWV1S
+ MlHYD/4pbEnIrJLmXXp6nL/tqtzdNleFjnCyFXglVYfrviZpWfQcRHITojRjKvxWzP2IhDC4Y+P
+ NrHgwauETMdNdnDxjGEpRUTqjujqCErHENLyl/hWAmpg1tx4P2HvVZcS5UpcSNqAH1ZnC/2fJOu
+ R309eTTC7cs0LbDAuYtu/0Y3t+jtuncOIS1uE9KYjLt3EL0A99zbNuO6EnHYUM02Ded9Wr7ESHJ
+ 1JAkWNVPHJfKOnHM0elGpcw/WkIRwotKNEJ1xua1RLpmikMNoaewSAMdQlTnS/n72RYujG3u8Xu
+ AkeDC3J1s4JMLwmQZPg03zAnCi8ZYLpzspaGuqgx36Vlf29SKkKrGDg6vLBMWryKOwcirl155nI
+ WB8NxD/VsqpeZATgf+OsybyVCyo736tm+bDvmc3ZRX6mH0mhb/p8aVVKXfiSvmdoPPTXGvMJkSI
+ BMQwPw2vKvV/UubmUGF0tdaSmMuxDXRpJplymv22U65E8kX+sW4cOt4frj0I7Fdm6I4Kh3cAnK2
+ Gh10oc/rW9BWmIHV9vN/gODDIJUzmkfO8156H2qiN6pgr4cApu0HiaTVCeNruFsmJxBQZYF5LoB
+ 745SP3hFHr0c0ackuVP6pJm7dhJpTH7i1E5UUnwqztkPAUNVST7csZwSasC5Vk5M7P2I0G8de6g
+ 71uA8W1/HEA+rpQ==
+X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
+ fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,49 +110,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation/process/deprecated.rst recommends against the use of kmalloc
-with dynamic size calculations due to the risk of overflow and smaller
-allocation being made than the caller was expecting. This could lead to
-buffer overflow in code similar to the memcpy in
-amdgpu_dm_plane_add_modifier().
+We cannot know where the write pointer is, always reset position to
+(0,0) before clearing display.
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
-I see that in amdgpu_dm_plane_get_plane_modifiers, capacity is initialized to 
-only 128, but it is probably preferable to refactor.
- 
-Tested on a Steam Deck OLED with no apparent regressions using these test suites from
-igt-gpu-tools: 
-1) kms_plane
-2) amd_plane
-3) amd_fuzzing
-4) testdisplay 
+ drivers/gpu/drm/sitronix/st7571-i2c.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+index a6c4a6738dedf5881328414e9d8810d3af2a6fe4..32b91d65b768b26caa7dcef42a00d36f236fbc32 100644
+--- a/drivers/gpu/drm/sitronix/st7571-i2c.c
++++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+@@ -263,6 +263,7 @@ static int st7571_fb_clear_screen(struct st7571_device *st7571)
+ 	u32 npixels = st7571->ncols * round_up(st7571->nlines, ST7571_PAGE_HEIGHT) * st7571->bpp;
+ 	char pixelvalue = 0x00;
+ 
++	st7571_set_position(st7571, 0, 0);
+ 	for (int i = 0; i < npixels; i++)
+ 		regmap_bulk_write(st7571->regmap, ST7571_DATA_MODE, &pixelvalue, 1);
+ 
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index b7c6e8d13435..b587d2033f0b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **mods, uint64_t *size, uint64
- 
- 	if (*cap - *size < 1) {
- 		uint64_t new_cap = *cap * 2;
--		uint64_t *new_mods = kmalloc(new_cap * sizeof(uint64_t), GFP_KERNEL);
-+		uint64_t *new_mods = kmalloc_array(new_cap, sizeof(uint64_t), GFP_KERNEL);
- 
- 		if (!new_mods) {
- 			kfree(*mods);
-@@ -732,7 +732,7 @@ static int amdgpu_dm_plane_get_plane_modifiers(struct amdgpu_device *adev, unsig
- 	if (adev->family < AMDGPU_FAMILY_AI)
- 		return 0;
- 
--	*mods = kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
-+	*mods = kmalloc_array(capacity, sizeof(uint64_t), GFP_KERNEL);
- 
- 	if (plane_type == DRM_PLANE_TYPE_CURSOR) {
- 		amdgpu_dm_plane_add_modifier(mods, &size, &capacity, DRM_FORMAT_MOD_LINEAR);
+---
+base-commit: 91494dee1091a14d91da6bcb39e12a907765c793
+change-id: 20250911-st7571-reset-785838285415
+
+Best regards,
 -- 
-2.51.0
+Marcus Folkesson <marcus.folkesson@gmail.com>
 
