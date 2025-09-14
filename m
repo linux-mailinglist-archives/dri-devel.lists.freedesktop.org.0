@@ -2,82 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780A0B56AE5
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 19:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34FDB569C8
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 16:42:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB2C10E060;
-	Sun, 14 Sep 2025 17:39:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9719910E241;
+	Sun, 14 Sep 2025 14:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LEUBfyMe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SyJ9u22k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 809DF10E013
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 13:14:57 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3ea3d3ae48fso177341f8f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 06:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757855696; x=1758460496; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=trovOubMvRidAW+mhU2Jgw87jFAcVgjTEKFsXv7vGoI=;
- b=LEUBfyMemyBW6cS1DItUIwHyF1HRt5k5J4oLfihN+nCMDoTSmniY2uinpddkQKWmyx
- LrO+sDvfS8or+9mozdq4uWjj6SEad1nRBn1Na61lVnD27SRazU8EW6zOGeiEpegjbgMG
- rt7oUG42b11OXIxj8mxhzR89C05+3Mx9llnA7VzpBlEmMgZdQPE+6RRzbQzULpFX6D4Q
- 95rPdupKrKP+RM/7+iONzWH79yWC1VZ0zpOdgjZpE38G0e1jjmaa8lbvHBVtkpvbPsSQ
- HPwdquGLSDIKG8VuZJHNLNNY8p614UXOkRwnWLJ7WRhktckrKB2PSMmODAJWlQ8scJ/u
- b4lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757855696; x=1758460496;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=trovOubMvRidAW+mhU2Jgw87jFAcVgjTEKFsXv7vGoI=;
- b=Ev1yh2ORlsT8tuMgXexJJCICJL0cTHZseU3jVyk26gBbXIeF53hwRD3Uz87ZcC2iJ8
- ti6CSP8ld2HBd6eh+O2uKwKxKZgHnUDrxHnIoftYtnzkRZXpJA0ecmhTFt/OIcKExBG3
- 3owgM5qIF/MEIV/moGZ8s8X9SMhVyv6B53gXIZ9BdiaU4poyU67ozz+zxp3HzE3QZcX7
- XNB0Gdrltmq0HEQvKAYFa6Ogedh4ffySV/KcFg+IKV+cmKO9r3y7MF1+/m3J0SfMVmgX
- Xf59gNT2nHMliIGNuEYra5Y0nqS3LQebECWAmMW4kMCaA8TVR9ODJN0j0nqOycojHi6f
- yh2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7FerhtVBUYAGiPgojxGAIktROYofiXKaysIzUCxPl0jtE9ph5bKNZRTC5Tbysf5Va/Z77c7U7khM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywi48YAq8bOknjDAHSgnpN792phL7RVjGz5pmfWvk4bidaALSfU
- yvoY5h/+Zw17duBDikX/NURupOXAtdJMAuVFdM9ZvJX9QQ3GHFuSI+0G
-X-Gm-Gg: ASbGncsKP5FzrVGsfk8xPLwDGol62/DdBjemvb+xfPo/fz6UhPdZc71cMpk6kkHtIEc
- RENHjahbH8A0lmWoph8TjMFdt347coa+0hCR0IvvlIv1tLND15rCuHjC9nWHa/AAhNB8ylIAmYz
- bvpeS54oYWV2v7vU8qjFB+4wRNmVY7WkR97ZdXl+RYhAji0xuiL3tFurEA99XnrcvOYUk5AaknH
- BsbxPce9M7sVhJfARj9IIKCvVUjerZ9kKtN/tl4xjhHaHlc3csK9s2z5rZ9hz0Mch6XMTtwpJHy
- S0JW6AOSgpJjHd3+WyVrI0or4bPe9+7MiTHk4ECIhIEjfjgLMD+DvMe2lh8QIUj7TjNYWXqUbHZ
- nMJMuEKBqaT+dU/24u+sIBt0XAKGDYA0s2PJNvxmXhA+fLINxHMy5gJFGdamFVxuACcVo6hgt2w
- ==
-X-Google-Smtp-Source: AGHT+IHRcpNwEriTVL0pqLCUolaMHN3iy4aeYsC4oOedhjGnfClQkxnzDxvjJY0nYW7MccwibGt9RA==
-X-Received: by 2002:a5d:5887:0:b0:3e7:44c7:4bad with SMTP id
- ffacd0b85a97d-3e765a36ea1mr8604552f8f.31.1757855695771; 
- Sun, 14 Sep 2025 06:14:55 -0700 (PDT)
-Received: from ivaylo-T580.. (91-139-201-119.stz.ddns.bulsat.com.
- [91.139.201.119]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3e80da7f335sm7255453f8f.8.2025.09.14.06.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Sep 2025 06:14:55 -0700 (PDT)
-From: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] dt-bindings: gpu: arm,
- mali-midgard: add exynos8890-mali compatible
-Date: Sun, 14 Sep 2025 16:14:52 +0300
-Message-ID: <20250914131452.2622609-1-ivo.ivanov.ivanov1@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 14 Sep 2025 17:39:33 +0000
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2DE10E140;
+ Sun, 14 Sep 2025 14:42:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 6F9A841AF7;
+ Sun, 14 Sep 2025 14:42:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90FD2C4CEF0;
+ Sun, 14 Sep 2025 14:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757860970;
+ bh=PzQNP+iXhbAYk0sG25Qch7JW6l/swG0JTlYB7VYGAkA=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=SyJ9u22kZEM6Iy0bBBL385iaJikOGqSCcxn6kHCIXdE55aDFRSzFnWoOFyM8oO2X0
+ SIL5oADcHfk8ScoXvbqrIvH88vkT7H3zunH9yAL589yrZK/X/QOED+GFejo1JvVYg7
+ eV9Yeo3L2S++pidfDuVhbjGcdf0vd/c43fH5nZTCgI4Ri77mgfZdUaVIQj8XG6xfy1
+ cn2GN9mUONavKphnFQbAXXjp/iq0y4OBSwwEh3oCRldFO1PpmE5jRUkaAxcy/eAilS
+ ZftbG+SKU7MEC8+hUcYjMkalaZWheyBM3F+hIagCwjlSVt4O+l1wwEJydCF0uO+TsU
+ 4k38Rf3H52BkQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 14 Sep 2025 16:42:40 +0200
+Message-Id: <DCSLPCSQRYOY.3BX3008H5CVQP@kernel.org>
+Cc: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Alistair
+ Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+ <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
+ <DCPYQNZG1OJK.2EE4JWJAROK57@nvidia.com>
+ <ce74db34-77bc-4207-94c8-6e0580189448@kernel.org>
+ <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com> <20250913010226.GA1478480@joelbox2>
+ <DCRPJKD0UHDQ.IOWSOB2IK06E@kernel.org> <20250913171357.GA1551194@joelbox2>
+ <CANiq72n50MaMXeWdwvVOEQd3YEHbDRqeeRzbdY8hPnePtq-hnw@mail.gmail.com>
+ <b1aea815-68b4-4d6c-9e12-3a949ee290c6@nvidia.com>
+ <20250913220625.GA1564550@joelbox2> <DCS59IDCIKH1.2M3I6H0NVD0RG@nvidia.com>
+In-Reply-To: <DCS59IDCIKH1.2M3I6H0NVD0RG@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +78,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The exynos8890 uses the ARM Mali T880 GPU, document its compatible
-string with the appropriate fallback.
+On Sun Sep 14, 2025 at 3:49 AM CEST, Alexandre Courbot wrote:
+> On Sun Sep 14, 2025 at 7:06 AM JST, Joel Fernandes wrote:
+>> On Sat, Sep 13, 2025 at 02:29:54PM -0700, John Hubbard wrote:
+>>> Yes. It's only "paranoia" if the code is bug-free. So Rust itself
+>>> naturally will look "a little" paranoid, that's core to its mission. :)
+>>
+>> This seems to be taken out-of-context, I said "paranoia" mainly because =
+I am
+>> not sure if excessive use of pinning may tend to cause other problems. T=
+he
+>> "paranoia" is about over-usage of pinning. Personally, I don't prefer to=
+ pin
+>> stuff in my code until I absolutely need to, or when I start having need=
+s for
+>> pinning, like using spinlocks. Maybe I am wrong, but the way I learnt Ru=
+st,
+>> data movement is baked into it. I am not yet confident pinning will not
+>> constraint Rust code gen -- but that could just be a part of my learning
+>> journey that I have to convince myself it is Ok to do so in advance of
+>> actually requiring it even if you simply hypothetically anticipate needi=
+ng it
+>> (as Danilo pointed out that in practice this is not an issue and I do te=
+nd to
+>> agree with Miguel and Danilo because they are usually right :-D). I am
+>> researching counter examples :-)
+>
+> You can look at the definition for `Pin` in [1], but it is so short we
+> can paste it here:
+>
+>     #[repr(transparent)]
+>     #[derive(Copy, Clone)]
+>     pub struct Pin<Ptr> {
+>         pointer: Ptr,
+>     }
+>
+> There isn't much getting in the way of optimized code generation - its
+> purpose is simply to constraint the acquisition of mutable references to
+> prevent moving the pointee out.
+>
+> I started this patchset a little bit skeptical about the need to pin so
+> many things, but after seeing the recent additions to `pin_init` and
+> rewriting the code as Danilo suggested, it starteds to click. The
+> supposed restrictions are in practice avoided by embracing the concept
+> fully, and in the end I got that feeling (familiar when writing Rust) of
+> being guided towards the right design - a bit like playing bowling with
+> gutter guards.
 
-Signed-off-by: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+That's a great way to put it -- I had a similar experience when writing
+pin-init and thinking about it purely theoretically. Good to see that it
+works out in practice (and continues to do so :).
+
+> Yes, that means redesigning and rebasing our code, but that's also the
+> cost of learning a new language.
+>
+> And yes, things can still be a little bit rough around the edges, but
+> there is awareness and action taken to address these issues, at the
+> compiler level when relevant. This makes me confident for the future.
+
+If you have an issue that you cannot work around, or something that
+looks off, let me know. Maybe that's something that pin-init can deal
+better with or we can have another library that helps with it. After all
+pin-init is specially tailored for the kernel to work :)
+
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-index 48daba21a..a7192622e 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
-@@ -53,8 +53,10 @@ properties:
-           - enum:
-               - rockchip,rk3399-mali
-           - const: arm,mali-t860
--
--          # "arm,mali-t880"
-+      - items:
-+          - enum:
-+              - samsung,exynos8890-mali
-+          - const: arm,mali-t880
- 
-   reg:
-     maxItems: 1
--- 
-2.43.0
-
+Cheers,
+Benno
