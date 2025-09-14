@@ -2,81 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE2CB56A97
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 18:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CD2B56A98
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 18:31:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03AC410E247;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06EA710E250;
 	Sun, 14 Sep 2025 16:31:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="bJ1q2JvW";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="kzyqFMlc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="W6XcFwIX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nM6bqhzC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 559 seconds by postgrey-1.36 at gabe;
+ Sun, 14 Sep 2025 16:31:13 UTC
 Received: from flow-a6-smtp.messagingengine.com
  (flow-a6-smtp.messagingengine.com [103.168.172.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0A810E250
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D2B10E247
  for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 16:31:13 +0000 (UTC)
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailflow.phl.internal (Postfix) with ESMTP id 11FD5138019E;
- Sun, 14 Sep 2025 12:21:54 -0400 (EDT)
+ by mailflow.phl.internal (Postfix) with ESMTP id 32A321380306;
+ Sun, 14 Sep 2025 12:23:05 -0400 (EDT)
 Received: from phl-imap-09 ([10.202.2.99])
- by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 12:21:54 -0400
+ by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 12:23:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1757866914;
- x=1757874114; bh=5L1JR98KhQBQKrvqju9ZiQ8N8qn4BbPPDuCBRBMhO9U=; b=
- bJ1q2JvWkIk0NIcxydDTdd8+j9Tb4GuITrEkcd9faxSkZ8ToQOisYTEzWJ9b6PZe
- athKO1Sdg+5MOch+GH5S++STeGIbmLAxTEg2AgotYTf7uUWHaH5/tZ1JiYuwuTjP
- C5vnUCZ+Bf2xXCspnh1zp8taziT95AFcGU2w8yFgzgusgqHcXATlXQdxHDm2rtuJ
- qDRaljpET3W+weSGlJlfj1PaF9pJuVGYCf2UYIt4swXlLgd66dn3YCLofgSOnOKq
- pHmD7IixcxO7UuxdRF4J9cGAah50kj8zZsdsC+BW8+UZRqd5jxP6UiNvqOUCoK9F
- mXcb9dZJJ1DtESLxjxD2Bw==
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1757866985;
+ x=1757874185; bh=GczAxd/yOSl3eyN3svqHIDHZRTOmApw3DytFsK5tSX8=; b=
+ W6XcFwIXgzpDaSAqZKokVSa67KQ+sFY7Pu8grs8rRoQs20bJprES12ZYeDwvjV7i
+ cXP1MDRkrOfpoeV9zsVCFU/cXIP7XXBtuAyV235w2lFX5xl4jcUvGlYrMHy5cgRb
+ t+5gUiAObnx3rc+ZTkRKbq1l2VxwOwE9lF0oBwUd9qXcO5+Uog99iq/4kvqseqgK
+ xR7Ke4gcd4Z222FVedLz2omnFPHtPgdPDF8V76Tbow6WnHobA1/NjrbPqzUAjcbd
+ xVa+l8xl0GpAK6mYMF2WWbIgqO2FmcZG9QVO4BBcUNophOp2ATt0zHCq+f+3UDKL
+ xdQZHKnbFUm/qy/3UjvFxQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757866914; x=
- 1757874114; bh=5L1JR98KhQBQKrvqju9ZiQ8N8qn4BbPPDuCBRBMhO9U=; b=k
- zyqFMlcebJzXiPky0VsUjhsrWWaCvbhPEK468gUpGfEkqF6Z2nsCLSjbAusIC5Jc
- +e5SzLU6Phf/bjp6drAsjKuDH9KXT7nwXh9ih+QGU3WWtpY7O4kxGEnno1ByCCiB
- 3xOw0FzVndmez1csKeQ3PXZ8cjUbfVKmMcnWbaupdNZigDLyqtprNwFg6rZH2hJ6
- KDgIJ9VaYFW2QHysHntIcZLIR0qGlOhROmsmDFyqGqWcd5Iw10a2TmDaCCo40pjb
- Ozzfd2RU5/7tgvFiaLFxSq3XOyTX+ySSM/Q7A/0tY45lFGiPqrkLbX0zc3stHpUB
- LxVPocnSDYKxNxptRDCBg==
-X-ME-Sender: <xms:n-vGaMEarOrxDaVNWWp-jyJOxkbiSSTX4Fmris5E9LNfS8iiHB2HRQ>
- <xme:n-vGaFXmMtvqHbBlAhZMTNPX35pdPYytIp2bks_IEFfW3-XAIVfstCoia3Bsgqoy-
- vm1sOQqjfBquiEDdRs>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757866985; x=
+ 1757874185; bh=GczAxd/yOSl3eyN3svqHIDHZRTOmApw3DytFsK5tSX8=; b=n
+ M6bqhzCkxh0Ikr92GVRoanj38iNM7PDbawI6zlj+r0YIRmNWw7IlahIX+FzT8r6L
+ 4ehDw4W6aq4FFqMVnesNjKMvmZZm0FmA9COI+ug0KKsE6Hx7sBDEHAq3EE3huEga
+ yRFS2/WMgMdqvUxtZmkvglHc+Y9pMj39K2vILvmxXR8bVlnrSW4ld5kBf6oAbWeH
+ jyE02ep/4otNruFJE1FODwtVpFrDXlnRanryaHRkI+9ef1vLuhfmEQOVA44ZpFGF
+ t/VrxYLO4aL5Ow/zh8V9GrSitf85NME5qjrTVISJ4hDLk9fM50EUG9j6hkNByTyj
+ TDPxh0EGEkPi1xLLx79nA==
+X-ME-Sender: <xms:6OvGaMtGJNoFU90oJRDc2LZkQqEHSCV6IpZU5rE1YQSMxDJc-Zechw>
+ <xme:6OvGaJeiJg4BQhbYGYhzi22Pc-G3MhN50E8GkYhBMly3mdnKay0gc6SsLw5KB7WXh
+ N1ZleIJcyasknW2MbA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefhedvkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
  ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
  hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdflrghnnhgv
  ucfirhhunhgruhdfuceojhgrnhhnvgesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
- gvrhhnpeekleffhffhtdekffeiueeuvdfgtdeuudfgudejjeehheekvdelkeejudelfeet
- geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjrg
- hnnhgvsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohephedtpdhmohguvgepshhm
- thhpohhuthdprhgtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhrtghpthhtoh
- eprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtohepmhhtuhhrqhhu
- vghtthgvsegsrgihlhhisghrvgdrtghomhdprhgtphhtthhopegrrhgvnhgusegsrhhorg
- gutghomhdrtghomhdprhgtphhtthhopehpohhvihhkodhlihhnsegtuhhtvggsihhtrdho
- rhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrih
- hrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhnkhhlrdhkvghrnhgvlhes
- ghhmrghilhdrtghomhdprhgtphhtthhopehjrghsshhishhinhhghhgsrhgrrhesghhmrg
- hilhdrtghomh
-X-ME-Proxy: <xmx:n-vGaA8vvKhEjJGsRgVJWSC4cO3kFPDGXl7UHgZx8-jp_Njcn06hZg>
- <xmx:n-vGaCCw7oB_Hq0ssQvOi210oN8xeqhc3RTAKNt-ubb9mUdzx6P94A>
- <xmx:n-vGaEwI2-MvkhH9dH9OCSao63tgjvYafnih6dMctjf5AAN83DMyNQ>
- <xmx:n-vGaLcgpFnezVQKMumizyIYgSEnaJmdEUG82tQupvpFYT4tJAAO0w>
- <xmx:ouvGaIWX0Yyyd0rLpmPqqTqvL4nS4oP2CF26ntoYAbpQLccPZb-XjsUM>
+ gvrhhnpefhjeehgfelteeggfehveejffeiffetiefhfedvgedvhfeuhefhfeevvedujeej
+ ueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgrnhhnrghurdhnvghtpdhn
+ sggprhgtphhtthhopeehtddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhorh
+ hoseeksgihthgvshdrohhrghdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghr
+ mhdrtghomhdprhgtphhtthhopehmthhurhhquhgvthhtvgessggrhihlihgsrhgvrdgtoh
+ hmpdhrtghpthhtoheprghrvghnugessghrohgruggtohhmrdgtohhmpdhrtghpthhtohep
+ phhovhhikhdolhhinhestghuthgvsghithdrohhrghdprhgtphhtthhopehsihhmohhnrg
+ esfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdp
+ rhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+ epjhgrshhsihhsihhnghhhsghrrghrsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:6OvGaOnzWWVTK6fHrNZnoZrAsZNIYnOs8dYQpfjjbb7GfAHjI0UNiw>
+ <xmx:6OvGaPJc7xNH61IJmWT8YOHXCQh-LmyrgzjlwFVLrgG12KTGADf1lw>
+ <xmx:6OvGaLZJAYQXqKRAAHuGP_N8BOx7he9-R6wDnmwoJa7sDRvUmAYXPQ>
+ <xmx:6OvGaNk2ayK10X4nxODH_Hof8LmRZzENB7AwWON103kD7vzuYyuLsA>
+ <xmx:6evGaM9xgikSDaVg4rqD1Ch26sn7Y_SH6mDxFSCjOMlAG1D8cnyO4xpU>
 Feedback-ID: i449149f6:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 875863020073; Sun, 14 Sep 2025 12:21:51 -0400 (EDT)
+ id EAFF03020073; Sun, 14 Sep 2025 12:23:03 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-X-ThreadId: AgUUmYTZniXg
-Date: Sun, 14 Sep 2025 18:21:31 +0200
+X-ThreadId: ATYmlVkkxBG-
+Date: Sun, 14 Sep 2025 18:22:36 +0200
 From: "Janne Grunau" <janne@jannau.net>
 To: "Sven Peter" <sven@kernel.org>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
  "Neal Gompa" <neal@gompa.dev>, "Rob Herring" <robh@kernel.org>,
@@ -104,7 +106,7 @@ To: "Sven Peter" <sven@kernel.org>, "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
  "Wim Van Sebroeck" <wim@linux-watchdog.org>,
  "Guenter Roeck" <linux@roeck-us.net>,
  "Michael Turquette" <mturquette@baylibre.com>,
- =?UTF-8?Q?Martin_Povi=C3=85=C2=A1er?= <povik+lin@cutebit.org>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
  "Vinod Koul" <vkoul@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
  "Mark Brown" <broonie@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
  "Ulf Hansson" <ulf.hansson@linaro.org>,
@@ -121,11 +123,11 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
  linux-nvme@lists.infradead.org
-Message-Id: <175786548036.4027671.17732393166265974160.b4-ty@jananu.net>
-In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
-Subject: Re: (subset) [PATCH 00/37] arm64: Add initial device trees for Apple
- M2 Pro/Max/Ultra devices
+Message-Id: <175786548038.4027671.16854298573806924090.b4-ty@jananu.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-31-bb8e1b87edef@jannau.net>
+References: <20250828-dt-apple-t6020-v1-31-bb8e1b87edef@jannau.net>
+Subject: Re: (subset) [PATCH 31/37] spi: apple: Add "apple,
+ t8103-spi" compatible
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -144,59 +146,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 28 Aug 2025 16:01:19 +0200, Janne Grunau wrote:
-> This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> follow design of the t600x family so copy the structure of SoC *.dtsi
-> files.
+On Thu, 28 Aug 2025 16:52:09 +0200, Janne Grunau wrote:
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,spi" anymore [1]. Use
+> "apple,t8103-spi" as base compatible as it is the SoC the driver and
+> bindings were written for.
 > 
-> t6020 is a cut-down version of t6021, so the former just includes the
-> latter and disables the missing bits.
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
 > 
 > [...]
 
 Applied, thanks!
 
-[02/37] dt-bindings: arm: apple: apple,pmgr: Add t6020-pmgr compatible
-        commit: 27ac175609b31853a336917f9596024589989d4c
-[04/37] dt-bindings: power: apple,pmgr-pwrstate: Add t6020 compatible
-        commit: 9ee3fa4f1dd03ba24be886fcde82286b38378121
-[05/37] dt-bindings: cpufreq: apple,cluster-cpufreq: Add t6020 compatible
-        commit: 46d7b4c16ee7afc67e21c1044d22ec197e5a3498
-[06/37] dt-bindings: interrupt-controller: apple,aic2: Add apple,t6020-aic compatible
-        commit: d45bed97401a3b76c968ec08f0292220e32ab852
-[07/37] dt-bindings: iommu: dart: Add apple,t6020-dart compatible
-        commit: d248111a13852e9823300060f07fefce3ccf3c2a
-[08/37] pinctrl: apple: Add "apple,t8103-pinctrl" as compatible
-        commit: 100896ab413284dcf77340c114bafffb96f6fd14
-[09/37] dt-bindings: pinctrl: apple,pinctrl: Add apple,t6020-pinctrl compatible
-        commit: 1b70bfcc576eb8007c003f285c5834ec7cf1beba
-[11/37] dt-bindings: mailbox: apple,mailbox: Add t6020 compatible
-        commit: b4958f928e0d587bd35318a72bdf6a8df8387933
-[12/37] dt-bindings: gpu: apple,agx: Add agx-{g14s,g14c,g14d} compatibles
-        commit: 49d7ce3ca93ea90110d334f4f8ce2f68a3536475
-[13/37] dt-bindings: iommu: apple,sart: Add apple,t6020-sart compatible
-        commit: a93d0de2403a8b1a1686665d5808e4d1d39d5b24
-[15/37] dt-bindings: nvme: apple: Add apple,t6020-nvme-ans2 compatible
-        commit: 1c9e6a0db3a86bf8f99981570f81e9fb1fa33d4a
-[16/37] dt-bindings: net: bcm4377-bluetooth: Add BCM4388 compatible
-        commit: 2ba11087d283d00c7a99b45672d564eb1de872dc
-[17/37] dt-bindings: net: bcm4329-fmac: Add BCM4388 PCI compatible
-        commit: b6b8d3ffaffacdb534c2fc151014b8e7ba382a94
-[19/37] dt-bindings: mfd: apple,smc: Add t6020-smc compatible
-        commit: 306632217c123ef23c917c7348c32ad29599ba15
-[22/37] dt-bindings: spmi: apple,spmi: Add t6020-spmi compatible
-        commit: 155eb6a9838776bd217e8942e5074e3b4bdcb5ff
-[24/37] dt-bindings: watchdog: apple,wdt: Add t6020-wdt compatible
-        commit: bb7a2260fea3f637afafecaae9478c93211f9e8f
-[26/37] dt-bindings: clock: apple,nco: Add t6020-nco compatible
-        commit: c7c5be895e32299f38035b6c05fa68a7d5c57a50
-[28/37] dt-bindings: dma: apple,admac: Add t6020-admac compatible
-        commit: a90183490c54bf793cabb5b54b30cc40b24ce129
-[30/37] ASoC: dt-bindings: apple,mca: Add t6020-mca compatible
-        commit: ae45b991c9f76e8988b7d3bb4b39e4b7c73dceb7
-[29/37] ASoC: apple: mca: Add "apple,t8103-mca" compatible
-        commit: 186b1b4b5b3d40ea53d739aa025c3a9f8cb37f4c
+[31/37] spi: apple: Add "apple,t8103-spi" compatible
+        commit: 3f2ed0057369d07c20c7ab48c1c46dc77eb436c2
+[32/37] spi: dt-bindings: apple,spi: Add t6020-spi compatible
+        commit: ffea30e9e6178eeb7d9c165b0b0b2d2e7c5f4fbf
 
 Best regards,
 -- 
