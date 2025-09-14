@@ -2,91 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89DAB56744
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 09:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678DCB5674C
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Sep 2025 09:59:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044B110E081;
-	Sun, 14 Sep 2025 07:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A8610E054;
+	Sun, 14 Sep 2025 07:58:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fastmail.com header.i=@fastmail.com header.b="Up1nD9Ai";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="nEJc20XW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iRwlpxRK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 435 seconds by postgrey-1.36 at gabe;
- Sun, 14 Sep 2025 07:46:09 UTC
-Received: from fout-b5-smtp.messagingengine.com
- (fout-b5-smtp.messagingengine.com [202.12.124.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F4A10E054
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 07:46:09 +0000 (UTC)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfout.stl.internal (Postfix) with ESMTP id 6A4861D00061;
- Sun, 14 Sep 2025 03:38:53 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-01.internal (MEProxy); Sun, 14 Sep 2025 03:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to; s=fm1; t=1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7F
- n9DI70/ulxFLNqin2buoME=; b=Up1nD9AiDPfPKDBqzFGM7gBWk0aO+3FduGdTZ
- c2bu/mYjRMfdEo1xpNIyHyWWoMmb4faQXlezDXAB3PnkjRY5uq6bwBI0fH7bCvAv
- /oHRC8sx+Kin7tRU7z/aFEMU2qi4P1+20ZvP2f1Xf9bijWe1df2fvyoYSBMitlT3
- xZvPKjjqH1iSG4/5zqnsom/uX2T2ipz4e3sxJJlGIKgUhyHpS9RvfigmMb5mD+rA
- z36y1jtwxbbKzVPq9wLuy7z56rUEUDQkja24PiHnlWVpYTeFK2y3FRw6L6qnCmXL
- ufbLJWqgxWqsnFOnJRsFeZHcx/eliHbRwEktMXlrfl6AOrbGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1757835533; x=1757921933; bh=pE+XOXk7N+a4D+lu9qx7Fn9DI70/ulxFLNq
- in2buoME=; b=nEJc20XW1W/0Sr3RSzPKo+h+9V4LLykcHO3q8SNl3XqHGeGA0du
- GWGzphVY+jhaTUezL61+1yriqY0YU4UC8V2JuDVwS19ApB3Taup+qnDvX44nvevH
- QjQUcuBbsFRppLgrvBlpCK/yGjYjD3FeMZ+bxai0HRnD3F3csxmhPFK/JCrEtD8s
- Xae4KbAyJj9FXjdfaaEqm0QY+qGF2RIBLwBluiCI16GywJr2BUl9j9B9n6vWs186
- +AijweJTGTDyeM0e8Rkywn/rhidiztynHQ/n1NRM1mRaJW8nmDf7X8zJ6M5MeV19
- HkZfDsZSewqrcQDRimOm2OCHuy3gdz1DFPg==
-X-ME-Sender: <xms:DHHGaANkm1nkLzx19Nh4th4t1Co9ytJjQ7U-Go1hcBK9nU_Pkx6Lvw>
- <xme:DHHGaLWAGVia_YsHSauXfNz2IpNN4vN9Gs8OlSR8S2Fx5POY1BKrSMrVSt-T7JU2W
- ejxoASBKsK9v-C8bH8>
-X-ME-Received: <xmr:DHHGaFKoCDzKZS6C3OgxTc5_qqAReMzOo3oE7u74FyPDTPmaS_TjAZN6eFw04uWrLdzQuc5L96_onrDisQtf7oudO8O16Sw3RChQZOc6YyIWwM_c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgedvfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttd
- enucfhrhhomheplfgrmhgvshcuhfhlohifvghrshcuoegsohhlugdriihonhgvvdefjeef
- sehfrghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhephfevgfekiedutdduhf
- eggfeivdeuhfehtdffjedttdefkeeifeeijeevtefhgeehnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsgholhgurdiiohhnvgdvfeejfeesfh
- grshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphho
- uhhtpdhrtghpthhtohepjhgrvhhivghrmhesrhgvughhrghtrdgtohhmpdhrtghpthhtoh
- epmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdp
- rhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtii
- himhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhm
- rghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpth
- htohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrtghomhdprhgtphhtthho
- pegsohhlugdriihonhgvvdefjeefsehfrghsthhmrghilhdrtghomhdprhgtphhtthhope
- gurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
-X-ME-Proxy: <xmx:DHHGaGrtC-U0Y3pG4tNAyf_u7ZhB-cJ3vvn5r3FACq9wd_oRL4R1OA>
- <xmx:DHHGaMwjGDLyXs_9tNnfkMtICJoklACr1ARrYIJ8RBuwR-W5YaBM9w>
- <xmx:DHHGaKuTGbb1E-tA3kkkHcJqUanoIiBXetpJaQbh-U7YvNgTxPt9Ng>
- <xmx:DHHGaF0AnkFkH1qvU1YgA0MzrUHlI3efvaP0sO8bpYI-QwHpHHO62A>
- <xmx:DXHGaFUr8QUpoAW9rGGs4er_DV6tdbrT4buZGMus2YfltxKKNyETshq4>
-Feedback-ID: ibd7e4881:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Sep 2025 03:38:50 -0400 (EDT)
-From: James Flowers <bold.zone2373@fastmail.com>
-To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- skhan@linuxfoundation.com
-Cc: James Flowers <bold.zone2373@fastmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH] drm/ssd130x: Use kmalloc_array() instead of kmalloc()
-Date: Sun, 14 Sep 2025 00:38:22 -0700
-Message-ID: <20250914073841.69582-1-bold.zone2373@fastmail.com>
-X-Mailer: git-send-email 2.51.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E80AD10E053;
+ Sun, 14 Sep 2025 07:58:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 97409409D7;
+ Sun, 14 Sep 2025 07:58:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F808C4CEF0;
+ Sun, 14 Sep 2025 07:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757836734;
+ bh=uz1xVp736uSxGyJV2q+yZ0bzLeyruMJpCl0NX2u+YDY=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=iRwlpxRKA0fAf/GCGQ9DQR0XqhKFY6HiWKEQ7dT1YIHzf9F7YYN47NraYtaedlYqD
+ PH6vlJi6AEdcPanTIJNNr/HV40atxuXo7lrNNHwzEMexrd3Y88ofdVZ3yPfnm7sZ14
+ bi6lSmsST+lW3D+ILXydyeZFCO/s3mDKlYv3CDgRpRc2w8D5SaOJpZi7kJZj5mBwuI
+ 7ROzGVxdiFD8d3ts3SRuLuGepqqzFxMV4lxkmFB4MfRrnWLW1deLHyaYMnbn8krwIK
+ HMFUjVHt6A7/qHjY0NEZyiIA3ADKGFD0q+m34Fk65rB9tKLwQge3d4szPjp8Ocdxtk
+ RonRZtjFzk0wQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 14 Sep 2025 09:58:44 +0200
+Message-Id: <DCSD437J7EES.359ZQ732TXJY@kernel.org>
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Timur Tabi"
+ <ttabi@nvidia.com>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 02/12] gpu: nova-core: move GSP boot code to a
+ dedicated method
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20250911-nova_firmware-v5-0-5a8a33bddca1@nvidia.com>
+ <20250911-nova_firmware-v5-2-5a8a33bddca1@nvidia.com>
+ <e1755470-587b-4a43-8171-3d031b7fb4f4@kernel.org>
+ <DCPYQNZG1OJK.2EE4JWJAROK57@nvidia.com>
+ <ce74db34-77bc-4207-94c8-6e0580189448@kernel.org>
+ <DCQ074EMFNIK.1OJLWJXWZLDXZ@nvidia.com> <20250913010226.GA1478480@joelbox2>
+ <DCRPJKD0UHDQ.IOWSOB2IK06E@kernel.org> <20250913171357.GA1551194@joelbox2>
+ <DCRXOMQN3Z20.2JCNP4BDEE79T@kernel.org> <20250913230254.GA1568515@joelbox2>
+In-Reply-To: <20250913230254.GA1568515@joelbox2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,49 +78,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation/process/deprecated.rst recommends against the use of
-kmalloc with dynamic size calculations due to the risk of overflow and
-smaller allocation being made than the caller was expecting.
-kmalloc_array avoids this issue.
+On Sun Sep 14, 2025 at 1:02 AM CEST, Joel Fernandes wrote:
+> On Sat, Sep 13, 2025 at 09:53:16PM +0200, Danilo Krummrich wrote:
+>> On Sat Sep 13, 2025 at 7:13 PM CEST, Joel Fernandes wrote:
+>> > On Sat, Sep 13, 2025 at 03:30:31PM +0200, Danilo Krummrich wrote:
+>> >> However, we should never do such things. If there's the necessity to =
+do
+>> >> something like that, it indicates a design issue.
+>> >>=20
+>> >> In this case, there's no problem, we can use pin-init without any iss=
+ues right
+>> >> away, and should do so.
+>> >>=20
+>> >> pin-init is going to be an essential part of *every* Rust driver give=
+n that a
+>> >> lot of the C infrastruture that we abstract requires pinned initializ=
+ation, such
+>> >> as locks and other synchronization primitives.
+>> >
+>> > To be honest, the pinning concept seems like an after thought for such=
+ a
+>> > fundamental thing that we need, requiring additional macros, and banda=
+ids on
+>> > top of the language itself, to make it work for the kernel. I am not a=
+lone in
+>> > that opinion. This should be first-class in a (systems) language, buil=
+t into
+>> > the language itself? I am talking about the whole pin initialization,
+>> > accessing fields dances, etc.
+>>=20
+>> Yes, that's exactly why people (Benno) are already working on making thi=
+s a
+>> language feature (here's a first step in this direction [1]).
+>>=20
+>> Benno should have more details on this.
+>>=20
+>> [1] https://github.com/rust-lang/rust/pull/146307
 
-Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+That's the link to the implementation PR, if you know the internals of
+the compiler it sure is useful, but if not, only the first comment is :)
+
+> Ack, thanks for the pointer. I will study it further.
+
+I'd recommend looking at these links, as they talk more about the design
+& not the compiler implementation:
+
+* https://github.com/rust-lang/rust/issues/145383
+* https://hackmd.io/@rust-lang-team/S1I1aEc_lx
+* https://rust-lang.github.io/rust-project-goals/2025h2/field-projections.h=
+tml
+
+For pin specifically, there also is the pin-ergonomics effort:
+
+* https://github.com/rust-lang/rust/issues/130494
+
+Which is less general than the field projections that I'm working on,
+but more specific to pin & tries to make it more compiler internal.
+
+Now for pinned initialization, Alice has a project goal & proposal:
+
+* https://rust-lang.github.io/rust-project-goals/2025h2/in-place-initializa=
+tion.html
+* https://hackmd.io/%40aliceryhl/BJutRcPblx
+
+This proposal was heavily influenced by pin-init & we're actively
+working together with others from the Rust community in getting this to
+a language feature.
+
+It's a pretty complicated feature and people just worked around it
+before, which you can do when starting from the ground-up (similar to
+field projections).
+
+>> > Also I am concerned that overusage of pinning defeats a lot of optimiz=
+ations
+>>=20
+>> pin-init does the oposite it allows us to use a single memory allocation=
+ where
+>> otherwise you would need multiple.
+>>=20
+>> Can you please show some optimizations that can not be done in drivers d=
+ue to
+>> pin-init for dynamic allocations?
+>
+> Aren't the vector resizing issues an example? The debugfs discussions for
+> example. You can't resize pinned vectors without boxing each element whic=
+h is
+> suboptimal due to requiring additional allocations?
+
+Yes, but that's not really an optimization, is it? In the non-pinned
+case, the compiler wouldn't remove the allocation. You can select less
+efficient algorithms, since the objects aren't allowed to move, but that
+same restriction also applies in C.
+
 ---
-Note: this has only been compile tested.
-
- drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index eec43d1a5595..8368f0ffbe1e 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
- 		return ret;
- 
--	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
-@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
- 
--	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
-+	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
- 	if (!ssd130x_state->data_array)
- 		return -ENOMEM;
- 
--- 
-2.51.0
-
+Cheers,
+Benno
