@@ -2,75 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A12BB587DF
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 00:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E22B58806
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 01:07:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A4C10E5BF;
-	Mon, 15 Sep 2025 22:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FD410E13F;
+	Mon, 15 Sep 2025 23:07:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fkQa1e/r";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="PvZJTX/y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A172810E5BF
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 22:52:05 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-336c86796c0so38221221fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 15:52:05 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45F8B10E363
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 23:07:18 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-4b3d3f6360cso44213471cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 16:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757976724; x=1758581524; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cm0/mnzPsesUmIeJ98TzZwQ2Akz/kNDhyhWBAXtAXDw=;
- b=fkQa1e/rVPdlv+8XiSStrAKRcRv45moqLUhxeyiaDESaWA+0FBv5AzS6ozJtCW7/Yy
- 6P6zRSpxulPM2P+O1L4tvrI51haAhKyyDE2A2dq9WKYFIhe+nm9PlHQ7tstnZeE/Kroq
- aSWwobe/19QvvUUAjviXZV2Rvgw7xX14BPtR5HEYNhzbebonQqoAS9W3nIRmoE157D42
- hk3BxIECrOl3ZJ2B5vpjtz6IJwmQ8cRyC1bXdG+KNGsDA7DEwj4syOUtEZCwbyD80O/2
- Eb2LfDzS9m2J+EqUAzszJdMQ2QprUuVFnvEcjk/7C+N9WHAyqky8jITV8rakwOIyHcFg
- m0FA==
+ d=google.com; s=20230601; t=1757977637; x=1758582437;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ntdt+Fw1ooyH2+q0/xC8jx4AecQq6NmyBnAlPcFGaz8=;
+ b=PvZJTX/yP/YejIGequBMxiH0snKVK5ch0l7h72DRYCsih3Oyn2188ybE3hAWaPQ3nv
+ ZJqIzfrc14rREVsSwRSLNDki374AB/9caPJR/R/1mI+EWPgYl25EaXtxDOon5daBX72S
+ Rtq9oD/MJCkxuUBRWFEJwZTvoQu08ejQ/kUIX5JCUGxN4BocgjYja9qYB38Z4SpRZa1i
+ yebbz6uF1xxo0edM8rXKagp8MT+M+4Stlg93UaWf4hf3IToeZle1LyGszFDPjwLwW1st
+ Q9kE4e8XYAudTDhacSM56jPaWkBWBCLwAQhTB/nLRnNxgNpzZD9rue6kw/EQnXVL22Rt
+ WG/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757976724; x=1758581524;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cm0/mnzPsesUmIeJ98TzZwQ2Akz/kNDhyhWBAXtAXDw=;
- b=wzcsN6R/ufW1yqDkmzMQdPeIpWDcDvl6uRU6uKfQ1643vh0h0Me9+Y7YSOf5864E6j
- EWw4NGiiU5LeGTUvtHXUo1Ax9dP5WTKqm5T1qkgXXcB/4Syvc68p7liLKMZXOml95vm5
- fcAeYCR9x2EqjMLfjxICIn26vxF13zwm4axXyUKEyT2DyReJiwuMcdADv6barGcrItX8
- on5vLNAiGaC7f+8AqtLURds7vXqThPe7dF7cEx9tWQm7d5sjNogRMA16d0xNe/ls5VKL
- nBM+iNJQ3BL5HEKyPOmXi4rtYdtYeoA1xEWthNBhvNYmEKYtIULrCAg8g9lBP/alh6+w
- Dxfg==
-X-Gm-Message-State: AOJu0YziL+LbURoleUFcCSyIlPO81jW3aVavLdvNv5MCSQ03aNqL743Z
- /989vDGepwMLaUwRirWUUF2bnjMEm9RYgQAF/G9+xfMRIZcDm7Ute7/LuN1ezfGlSUhgKeegPZp
- HROPjv8hUFHJbzjBaQc58nLOYJvjIzhA=
-X-Gm-Gg: ASbGncuxYO0pF/993tLzEaLYTUOxCu4bhPqYQgFFQ6rZH52fZJ0TSJsM9LWt8YTSfO4
- LhyQGr57C7L6LdTle/sTuFBebSrxUwVNAx+dE3V3svw0L2KI/I9cZ3f+9s/msGdntg6MyDsPhYU
- cER+e9SOy6tymGiXv+ZJR4jvZo7/06bO/uMCFynjUn/onoT8W1bUdvXhGY9VviAFQBw2XGQsSCm
- FSAHcY=
-X-Google-Smtp-Source: AGHT+IHDRvcV0dV9VDhAcAMEZ21dqvL1noGOj01MZ+sfLv+YYHw5oyhSI+Q1GgqRspon0xC83RYI98h95ffW6T3retY=
-X-Received: by 2002:a2e:a016:0:20b0:336:7e31:6708 with SMTP id
- 38308e7fff4ca-351403eccb1mr33364351fa.37.1757976723624; Mon, 15 Sep 2025
- 15:52:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250912134406.221443-1-onion0709@gmail.com>
- <62842992a3f18ca7c11e4887d3eced69644793ae.camel@mailbox.org>
-In-Reply-To: <62842992a3f18ca7c11e4887d3eced69644793ae.camel@mailbox.org>
-From: Luc Ma <onion0709@gmail.com>
-Date: Tue, 16 Sep 2025 06:52:19 +0800
-X-Gm-Features: AS18NWBzVkhxcm04lwXZqplHOT5g0VGEYgD3MlvxyGFbkTaem_RX_Qsv2EDXZCg
-Message-ID: <CAB3Z9RJPdCu50esK2mg9NkVihuWmZn7hpDdxeMEN1FBNpFtBrg@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: struct member doc fix
-To: phasta@kernel.org
-Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ d=1e100.net; s=20230601; t=1757977637; x=1758582437;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ntdt+Fw1ooyH2+q0/xC8jx4AecQq6NmyBnAlPcFGaz8=;
+ b=TnTvW4PUN7QqDVFu8fPH3Z9AtRtHxKXHgKpqzxd/ylRzr6q52wvsAyLs3NuSKTzgp3
+ tNhSrOsY9uztsr/YeaL2iCt/eW4m3kwN9IX7zLt4nOMuzPCjnIVXSMVYpjEcF/JJyCLV
+ 1h//oQmOc0z7JlteB6Ly1R3cNJbxuisGz39DACF0SPqUnliXZmgCLmbAuI9U+1jhw3WP
+ mGa1aQ+7K+SJbmXpCXAVKwOxRkm6BDy6P61uyUXcfSWOXWujR4Wb5dYmQOPf0xeVwCTc
+ 39apUz2oloZJTpkXrl4FJ5jSC48UUXZUZjekokLpDlfmq+GFBvbSw2TbEc5m8lSQ9Q6t
+ GkWQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVOmqc85wDnSsV95Z4LhgJBFjxDXlXxpWOOLkl8+bDHoimVRmw6GuC5C6vNI61+PQJJn37jIgfUbCg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwSFTvVpgoi7oU/He3dV/SEBkJ3fyAhpXbLFi3gntilMsjvuUaz
+ 2+jzdeSl64fparzE6jOoUExToi3ZYcf8TyS2wBy4v7+2xbk6TTw+zDsARn0bjZTOI4iXh+Q89rX
+ KSvKoLg==
+X-Gm-Gg: ASbGncuCvSGkgbfDpPsTKfJL3MpalbYMZzU76fzTzj/wO0kHnVszKDHr00ZSi6veJTx
+ OzkxT1t/6naDQ2hviawirWa00NcQv++8buEaY9ATIfiBGB3abBGKxn6cr+WWfrkR7irvJWTLJyw
+ 504LZmpUxeqMhsP/ZmljuqKhAMylG1QvgCVOJyR0JBzrHNB2q4UUk39/FsOOW0yc19Bn5Nld69Z
+ Ve9gefAVnDVG06AJNLoczzUKVeMG3jdxMhhwg3WztGwKRaYiosw3dp5Id07chZD+mgGWLtySEbc
+ dnh7d8VvZowhYin/3Hi6+25dkytsZSFk+2I2zy1lPNSes/e4DNyOfytNhniwDKeHrp9F8K5k5xL
+ MzocbJ4W/Wmy5FnhI60rErWwW3ilIgSnNLXYeCutWuGAJq1mhnAAIwYzV6/8v4mya/BY1Dc8=
+X-Google-Smtp-Source: AGHT+IEoi1lVcF4aPi9zcBQfqqjlIJGn2T6EJO2nM/jlo5+f9d6XecVONNJlc1ldgD3Xd7nmpRVVIA==
+X-Received: by 2002:a05:6e02:12c7:b0:418:4323:921f with SMTP id
+ e9e14a558f8ab-420a568c3a9mr147338935ab.32.1757977624725; 
+ Mon, 15 Sep 2025 16:07:04 -0700 (PDT)
+Received: from google.com (138.243.29.34.bc.googleusercontent.com.
+ [34.29.243.138]) by smtp.gmail.com with ESMTPSA id
+ e9e14a558f8ab-423f9383029sm37354345ab.32.2025.09.15.16.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Sep 2025 16:07:03 -0700 (PDT)
+Date: Mon, 15 Sep 2025 16:06:59 -0700
+From: Justin Stitt <justinstitt@google.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3][next] drm/nouveau: fifo: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <fksv7eprcqnb55n5zllfyhk7ynx6zgbeuqtuoimbpgamguyodh@niwjdhicah2j>
+References: <aJ17oxJYcqqr3946@kspp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aJ17oxJYcqqr3946@kspp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,59 +96,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 15 Sept 2025 at 20:12, Philipp Stanner <phasta@mailbox.org> wrote:
->
-> On Fri, 2025-09-12 at 21:44 +0800, Luc Ma wrote:
-> > The mentioned function has been renamed since commit 180fc134d712
-> > ("drm/scheduler: Rename cleanup functions v2."), so let it refer to
-> > the current one.
-> >
-> > Signed-off-by: Luc Ma <onion0709@gmail.com>
->
-> Thx for the patch.
->
-> > ---
-> >  include/drm/gpu_scheduler.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 323a505e6e6a..6c4d0563e3d7 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -546,7 +546,7 @@ struct drm_sched_backend_ops {
-> >   * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY_=
-COUNT,
-> >   *           as there's usually one run-queue per priority, but could =
-be less.
-> >   * @sched_rq: An allocated array of run-queues of size @num_rqs;
-> > - * @job_scheduled: once @drm_sched_entity_do_release is called the sch=
-eduler
-> > + * @job_scheduled: once @drm_sched_entity_flush is called the schedule=
-r
->
-> The change itself looks correct to me; however, a function must be
-> cross-referenced with parenthesis: "once drm_sched_entity_flush() =E2=80=
-=A6"
->
-> '@' is used for function parameters.
->
-> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highligh=
-ts-and-cross-references
->
-> Please provide that change in a v2.
-Thank you for pointing out that, I'll send v2.
+On Thu, Aug 14, 2025 at 03:01:07PM +0900, Gustavo A. R. Silva wrote:
+> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+> getting ready to enable it, globally.
+> 
+> Use the new TRAILING_OVERLAP() helper to fix the following warning:
+> 
+> drivers/gpu/drm/nouveau/nvif/fifo.c:29:42: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> This helper creates a union between a flexible-array member (FAM)
+> and a set of members that would otherwise follow it. This overlays
+> the trailing members onto the FAM while preserving the original
+> memory layout.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
->
-> Thank you,
-> P.
->
->
-> >   *                 waits on this wait queue until all the scheduled jo=
-bs are
-> >   *                 finished.
-> >   * @job_id_count: used to assign unique id to the each job.
+I took a look at the modified structure layout with the union from the
+macro using pahole and found the layouts and sizes to be equivalent --
+all the while fixing the warning you demonstrated.
+
+Reviewed-by: Justin Stitt <justinstitt@google.com>
+
+> ---
+> Changes in v3:
+>  - Use the new TRAILING_OVERLAP() helper.
+
+There's really starting to be a lot of these helper macros!
+
+> 
+> Changes in v2:
+>  - Adjust heap allocation.
+> 
+>  drivers/gpu/drm/nouveau/nvif/fifo.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvif/fifo.c b/drivers/gpu/drm/nouveau/nvif/fifo.c
+> index a463289962b2..b0ab80995d98 100644
+> --- a/drivers/gpu/drm/nouveau/nvif/fifo.c
+> +++ b/drivers/gpu/drm/nouveau/nvif/fifo.c
+> @@ -25,13 +25,12 @@ static int
+>  nvif_fifo_runlists(struct nvif_device *device)
+>  {
+>  	struct nvif_object *object = &device->object;
+> -	struct {
+> -		struct nv_device_info_v1 m;
+> +	TRAILING_OVERLAP(struct nv_device_info_v1, m, data,
+>  		struct {
+>  			struct nv_device_info_v1_data runlists;
+>  			struct nv_device_info_v1_data runlist[64];
+>  		} v;
+> -	} *a;
+> +	) *a;
+>  	int ret, i;
+>  
+>  	if (device->runlist)
+> -- 
+> 2.43.0
+> 
 >
 
-
---=20
-Luc
+Thanks
+Justin
