@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFC4B5733C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 10:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FBCB57389
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 10:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 966B010E184;
-	Mon, 15 Sep 2025 08:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6506A10E2C5;
+	Mon, 15 Sep 2025 08:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K9jQaSaW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I97hN2jm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF20D10E184
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 08:42:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AE9AE60191;
- Mon, 15 Sep 2025 08:42:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE9C8C4CEF1;
- Mon, 15 Sep 2025 08:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757925745;
- bh=wleHSUsSgWx9qHAIz8fMq3O7Jb1p1ki6q2T9lTslIT4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K9jQaSaWikbzrKLxbjsiWrS3qT8+DmO1J7tuhqW+so3iDdHuoZXqF9/R7M+3isE8G
- 1xMUVTvU6ZicmeDRZgZQiDek7nNH4ZcdO0AglxSacF7iPhLEu7QZgpEgvpnub2TO8a
- SvlQ5WbaVuhzyZcnr76UQznFVju47mLDG5F8wRepRP4OIkAS95gbhvxbNNk7upHrGG
- U+XSnQC9VjrmtfwB6dFsrFFq7UqOUpJcFE+KZC7tjI10Gx1S+5ijEGtk69SpaQHyQX
- 00RTpd76MUcku2pYe+/haex2NywJpa+LEB1cdu2fR9JBBbdAqpqvt8s9xnDlvQwQk+
- fSI4HHeKjyUZg==
-Date: Mon, 15 Sep 2025 10:42:22 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/29] drm/atomic: Add atomic_state_readout infrastructure
-Message-ID: <20250915-active-placid-bustard-6e1faa@penduick>
-References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-10-14ad5315da3f@kernel.org>
- <03240fae-544f-4753-96c5-a116b4b5a318@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8878010E2C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 08:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757926285; x=1789462285;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=TVxNlf7sbTkndI79nSiQZ3QYbhRxOrgs72TgGHNuVBw=;
+ b=I97hN2jmbfDfCZ5zZUGJ1t+bUhhBnYUMoXQYkPZeCWkVrErj4CYpWCdf
+ 9FTYxUvo7iJafDWolMb54uyBP5Yd7u1zmeULSk11+Cdgn6lYlRqGFQ0Ya
+ rAYHj54YIR7w64vkE9EhEqbKbvPVuy0XHn20o9z7Q39ePVG3aSRaBxJq5
+ TSLL0QmNx2wLkdeCzU3rweob1dmg+F/O86AsYJ88jIQQEtsiwIxTzBlfN
+ Rgu/s1mg8bSai7BbOFHBir/H4UsnQ7bBNEI1nKTKYyE6lxxkcJ8+fs09F
+ WdELNKYEA4Zk6CK/Vb5XCAicdDRr37PHsyX8BaPfJVQaQ84cPtZrHyqdh w==;
+X-CSE-ConnectionGUID: YDIrn9gcTjCDcfW8RSrQMQ==
+X-CSE-MsgGUID: Vn6dnpy8QP+2XaDk+3wE9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60316303"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="60316303"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 01:51:25 -0700
+X-CSE-ConnectionGUID: PA2lS0NHQwKLWOc9NwmOxQ==
+X-CSE-MsgGUID: 9fB/F/qhSIieBNM6n3mBVQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="211715387"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.17])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 01:51:23 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tiago Martins =?utf-8?Q?Ara=C3=BAjo?= <tiago.martins.araujo@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Cc: airlied@gmail.com, simona@ffwll.ch
+Subject: Re: DisplayID checksum validation blocking hardware capabilities -
+ CSO T3 panel
+In-Reply-To: <CACRbrPGvLP5LANXuFi6z0S7XMbAG4X5y2YOLBDxfOVtfGGqiKQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CACRbrPGvLP5LANXuFi6z0S7XMbAG4X5y2YOLBDxfOVtfGGqiKQ@mail.gmail.com>
+Date: Mon, 15 Sep 2025 11:51:19 +0300
+Message-ID: <2da1034168eecf015640f84e6e1180b3ae1d3b94@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="rquzft6z5fvp5dul"
-Content-Disposition: inline
-In-Reply-To: <03240fae-544f-4753-96c5-a116b4b5a318@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,154 +71,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, 14 Sep 2025, Tiago Martins Ara=C3=BAjo <tiago.martins.araujo@gmail.=
+com> wrote:
+> Complete EDID Data:
+>
+> 00000000  00 ff ff ff ff ff ff 00  36 74 5a 09 00 00 00 00
+>  |........6tZ.....|
+> 00000010  00 21 01 04 b5 22 16 78  03 ee 95 a3 54 4c 99 26
+>  |.!...".x....TL.&|
+> 00000020  0f 50 54 00 00 00 01 01  01 01 01 01 01 01 01 01
+>  |.PT.............|
+> 00000030  01 01 01 01 01 01 40 e7  00 6a a0 a0 67 50 08 98
+>  |......@..j..gP..|
+> 00000040  08 00 58 d7 10 00 00 18  00 00 00 fd 00 30 78 87
+>  |..X..........0x.|
+> 00000050  87 3c 01 0a 20 20 20 20  20 20 00 00 00 fe 00 43  |.<..
+>  .....C|
+> 00000060  53 4f 54 33 0a 20 20 20  20 20 20 20 00 00 00 fe  |SOT3.
+> ....|
+> 00000070  00 4d 4e 45 30 30 37 5a  41 31 2d 35 0a 20 01 98  |.MNE007ZA1-5.
+> ..|
+> 00000080  70 13 79 00 00 03 01 14  9a 0f 01 05 3f 0b 9f 00
+>  |p.y.........?...|
+> 00000090  2f 00 1f 00 07 07 69 00  02 00 05 00 00 00 00 00
+>  |/.....i.........|
+> 00000100  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000120  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000130  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000140  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000160  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>  |................|
+> 00000170  00 00 00 00 00 00 00 00  00 00 00 00 00 00 f0 98
+>  |................|
 
---rquzft6z5fvp5dul
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 10/29] drm/atomic: Add atomic_state_readout infrastructure
-MIME-Version: 1.0
+That's not the complete EDID data, though. It's missing 6*16 bytes. If
+you go by the hex offsets, 0x100 does not follow 0x090.
 
-Hi Tohmas,
+> As an experiment to understand the failure, I commented out the checksum
+> validation code. Results with validation bypassed:
 
-On Tue, Sep 02, 2025 at 03:44:54PM +0200, Thomas Zimmermann wrote:
-> > +/**
-> > + * drm_atomic_build_readout_state - Creates an initial state from the =
-hardware
-> > + * @dev: DRM device to build the state for
-> > + *
-> > + * This function allocates a &struct drm_atomic_state, calls the
-> > + * atomic_readout_state callbacks, and fills the global state old stat=
-es
-> > + * by what the callbacks returned.
-> > + *
-> > + * Returns:
-> > + *
-> > + * A partially initialized &struct drm_atomic_state on success, an err=
-or
-> > + * pointer otherwise.
-> > + */
-> > +static struct drm_atomic_state *
-> > +drm_atomic_build_readout_state(struct drm_device *dev)
-> > +{
-> > +	struct drm_connector_list_iter conn_iter;
-> > +	struct drm_atomic_state *state;
-> > +	struct drm_mode_config *config =3D
-> > +		&dev->mode_config;
-> > +	struct drm_connector *connector;
-> > +	struct drm_printer p =3D
-> > +		drm_info_printer(dev->dev);
-> > +	struct drm_encoder *encoder;
-> > +	struct drm_plane *plane;
-> > +	struct drm_crtc *crtc;
-> > +	int ret;
-> > +
-> > +	drm_dbg_kms(dev, "Starting to build atomic state from hardware state.=
-\n");
-> > +
-> > +	state =3D drm_atomic_state_alloc(dev);
-> > +	if (WARN_ON(!state))
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	state->connectors =3D kcalloc(config->num_connector, sizeof(*state->c=
-onnectors), GFP_KERNEL);
-> > +	if (WARN_ON(!state->connectors)) {
-> > +		ret =3D -ENOMEM;
-> > +		goto err_state_put;
-> > +	}
-> > +
-> > +	state->private_objs =3D kcalloc(count_private_obj(dev), sizeof(*state=
-->private_objs), GFP_KERNEL);
-> > +	if (WARN_ON(!state->private_objs)) {
-> > +		ret =3D -ENOMEM;
-> > +		goto err_state_put;
-> > +	}
-> > +
-> > +	drm_for_each_crtc(crtc, dev) {
-> > +		const struct drm_crtc_funcs *crtc_funcs =3D
-> > +			crtc->funcs;
-> > +		struct drm_crtc_state *crtc_state;
-> > +
-> > +		drm_dbg_kms(dev, "Initializing CRTC %s state.\n", crtc->name);
-> > +
-> > +		if (crtc_funcs->atomic_readout_state) {
-> > +			crtc_state =3D crtc_funcs->atomic_readout_state(crtc);
-> > +		} else if (crtc_funcs->reset) {
-> > +			crtc_funcs->reset(crtc);
-> > +
-> > +			/*
-> > +			 * We don't want to set crtc->state field yet. Let's save and clear=
- it up.
-> > +			 */
-> > +			crtc_state =3D crtc->state;
-> > +			crtc->state =3D NULL;
->=20
-> Chancing the crtc->state pointer behind the back of the reset callback se=
-ems
-> fragile. We never how if some other piece of the driver refers to it
-> (although illegally).
+Running that, please grab the EDID from sysfs. edid-decode does a good
+job of decoding, but also includes the hex in case we want to run it on
+a newer or modified edid-decode.
 
-I agree that it's clunky. I'm not sure who would use it at this point
-though: we're in the middle of the drm_mode_config_reset(), so the
-drivers' involvement is pretty minimal.
+BR,
+Jani.
 
-I did wonder if changing reset to return the object instead of setting
-$OBJECT->state would be a better interface?
-
-> For now, wouldn't it be better to require a read-out helper for all eleme=
-nts
-> of the driver's mode-setting pipeline?=A0 The trivial implementation would
-> copy the existing reset function and keep crtc->state to NULL.
-
-I also considered that, but I'm not sure we can expect bridges to have
-readout hooks filled for every configuration in the wild.
-
-But maybe we can look during drm_mode_config_reset() at whether all the
-objects have their hook filled, and if not fall back on reset for
-everything.
-
-It would make the implementation easier, but missing bridges
-implementations would trigger a mode change when it might actually work
-just fine since bridge state is pretty minimal.
-
-Idk.
-
-> > --- a/include/drm/drm_bridge.h
-> > +++ b/include/drm/drm_bridge.h
-> > @@ -490,10 +490,31 @@ struct drm_bridge_funcs {
-> >   	 * The @atomic_post_disable callback is optional.
-> >   	 */
-> >   	void (*atomic_post_disable)(struct drm_bridge *bridge,
-> >   				    struct drm_atomic_state *state);
-> > +	/**
-> > +	 * @atomic_readout_state:
-> > +	 *
-> > +	 * Initializes,this bridge atomic state.
-> > +	 *
-> > +	 * It's meant to be used by drivers that wants to implement fast
->=20
-> 'want'
->=20
-> > +	 * / flicker-free boot and allows to initialize the atomic state
->=20
-> I think we should only call it flicker-free boot. Fast boot is misleading.
-
-I agree, but it's also how it's been called by the only implementation
-of it we have so far (i915), and the name of the module parameter that
-controls it.
-
-Maxime
-
---rquzft6z5fvp5dul
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMfRbQAKCRAnX84Zoj2+
-dmFvAYDuDFWmhNNkft79tiALv3owEKTrru4/rL0SRhqujC12Dgb4xqjmiowmWw7D
-D/pZxlkBgNE2szU6woQ4HiQribxJLm8+e5U4I1UDXv6Ahrz40FGJ4o+wiMiOUhJz
-YKNHJzA3ig==
-=Ks+6
------END PGP SIGNATURE-----
-
---rquzft6z5fvp5dul--
+--=20
+Jani Nikula, Intel
