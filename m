@@ -2,77 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1873B5711E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 09:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D91B5715A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 09:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F18910E135;
-	Mon, 15 Sep 2025 07:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B598910E2DE;
+	Mon, 15 Sep 2025 07:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="bJtv7tc/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MJYT1SPs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E717C10E2BB
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 06:48:57 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-32e3726e2bbso940414a91.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 23:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1757918937; x=1758523737; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fiUtUPpKH3GTS21MnIohX80aiXP/6F0+dIepjp0LO+E=;
- b=bJtv7tc/Cp3YyaYUlujKbMxZvZIbiXrhxR9/ellgfQpS8ATGXg3Qq8wAFrEH8PtfYf
- GLAH/foMQuLHA2bDoy0ztBidI+QnxU4n21UR1Pj/B3jrSMYqJE06ulCTefs8v8dhtWnf
- qsLGDYEjya+PE5kQspUjZkWbDeb7qzz8kFSlaR5IQmxNSis44EkEFdhm9aX0TangzhmT
- 23JhwME08XU+5+0IP+9gqJYnsQRKybl9V3pAp9ODCbXg+z6XqdTeaTbnmPSF8Ukeg+rp
- LjlWOl8dFH6N0WBhF5e4u9mgZ7O6Eaq1LdCqhnRt6Wy18CCpH6HMUdOA3ZMVMilz2HRz
- gqyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757918937; x=1758523737;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fiUtUPpKH3GTS21MnIohX80aiXP/6F0+dIepjp0LO+E=;
- b=nvSvYX11+fU0+aDWLRu8lZ3zqLFfSP6eKfhLTln5ESmAoSUUG30Om6B7R9nFCln03P
- NWJQ7ZgvC//nGUJedgGUk+CiK+UwSkfyZ0rg/fT41ZVufSSzB4zuZbEoe7Svo4sGExVO
- McvNtYT+HNUVaJtTCe3H7LCSh9CnoDHcTdR3H4dnz9dMSulCwhx/1pvvHBMx1dmJRHy6
- eQEWYS+CtsOarPqbypBaM0EIc6mMvbRPN3xs0DL7sp6JfaUSOL+YFV+1xSqGqN/Z8kBG
- dwVGIeFTc3HRT8YqvOWg/9DJjAC0c7wMU2eCTBN+VoOgMBDG1N48yVPgNFg/Te4Io/fz
- l+lg==
-X-Gm-Message-State: AOJu0Yw2YZ/Zo0ZGWhCT6Yvgkjs24U0t6VpfE3eMlXqPam3BeA08WEQw
- mV8yyQ8MrXn1NBaOTEhx9VyZ0UGM1Y8IzuaIGaYz3D8tzDB5Q8F5o+9Yh6X4UhFQqS0=
-X-Gm-Gg: ASbGnct4Rez88pNuQE9fl4bqSYzL2l8H2WpmspoJrCjM0b0txE27/byQOKnzqq4uogW
- fX8u17cKfC2snv9Vzn/X7HyxACaxVs2y28UPNe1MJvQAW2NFY3zCsDVxPVKbYnhLczWs8eLOsg9
- N+OBTmfe7vs3emhcvriPYm7+GIOXKLdlmW0SwK4glskQji0zvwSrDIPodHcN0oVoFWLoelRVobr
- rZzT06uXldseQy+PzoZCqh0WAjueOsHSq6lvAHLshG2r3BptBG+KnPezngWuEZvcq5XvKAPQC5J
- 4J/Li+3SkK7DfkTmLr9n1CehYozZU1Qe3LU2HGkXMWAfEsn94StXwudt41AyuCUi8x/ogV6Qcd3
- /FDC0ULx6xoeMapW1k085P765CBgY43fZ2J2NntwGreFzahtOcVaSjZv8gVuGERktLD581Q==
-X-Google-Smtp-Source: AGHT+IEtIy+Hi5uuKxac8S0s2Kwt21jsETnnkrvc/UZLJ8TEi/PCM+nYkRL0KblqTptdD8le+aZKYg==
-X-Received: by 2002:a17:90b:1d0c:b0:329:d50e:2f10 with SMTP id
- 98e67ed59e1d1-32de4f5cde5mr11445513a91.22.1757918937437; 
- Sun, 14 Sep 2025 23:48:57 -0700 (PDT)
-Received: from ubuntu.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b54d3f4d40bsm929084a12.0.2025.09.14.23.48.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Sep 2025 23:48:56 -0700 (PDT)
-From: Zhijian Yan <yanzhijian@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- dianders@google.com, hsinyi@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Zhijian Yan <yanzhijian@huaqin.corp-partner.google.com>
-Subject: [PATCH v2] drm/panel: Add support for KD116N3730A07
-Date: Mon, 15 Sep 2025 14:47:14 +0800
-Message-ID: <20250915064715.662312-1-yanzhijian@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.48.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6056A10E2DD;
+ Mon, 15 Sep 2025 07:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757921145; x=1789457145;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CX5Lu9UOoUKcFO9cw+HLSl71knagRZlwFhzDd1HrmIM=;
+ b=MJYT1SPswypoFKnfz+Rb2bgvRRx7+JtbZ34T7Og0sQbVM/qkWnDMXBvD
+ lkzI0J82xBuTejtFcjExp0t+ma9pBGv18Kpgj1hXHzn0Ty3gAyUS1aS4q
+ co7IYA4VqRO3BhGaGMcWlBrLD8A70yOqsN+C3HMGhrEjkGLKXfLLTQVf5
+ g3PIN+L1yyFhKCYqBA2jw9CR08+iXq8YpGMmFtGj3VDukZPyjFEjl0GYp
+ 6FIQGjEqB8s8CRd1Ju1jvr2IZTEsCEyzOS43zQFVXlZ3BzZebY28iffA+
+ T+Q/g2yT/tFMcZTAJHN86MPjuo1fCDQpuMsjAmlj+JPZW+OT6YpZXFgkm A==;
+X-CSE-ConnectionGUID: V7n52Pp1SIm8Wxs9t/bsDg==
+X-CSE-MsgGUID: Bw2XZje/RZWku86D1p6wXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="77619118"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="77619118"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 00:25:45 -0700
+X-CSE-ConnectionGUID: 1g+OrFoxQSS5+5RS87LbOw==
+X-CSE-MsgGUID: qvIVlCXbSpqPE1R1Hj6wvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="211693861"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 00:25:45 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
+Subject: [PATCH v4 0/5] drm/xe/sriov: Don't migrate dmabuf BO to System RAM if
+ P2P check succeeds
+Date: Mon, 15 Sep 2025 00:21:04 -0700
+Message-ID: <20250915072428.1712837-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 15 Sep 2025 07:21:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,45 +74,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add panel driver support for the KD116N3730A07 11.6" eDP panel.
-This includes initialization sequence and compatible string, the
-enable timimg required 50ms.
+While running 3D apps inside a Guest VM with a SRIOV enabled dGPU,
+it was noticed that migrating a BO to System RAM before exporting
+it as a dmabuf results in considerable performance degradation.
+For example, running a simple 3D app such as weston-simple-egl
+would yield ~44 FPS instead of ~59 FPS, assuming a mode of
+1920x1080@60.
 
-KD116N3730A07:
-edid-decode (hex):
+So, fix this issue by not migrating the BO and keep it in LMEM
+during export if the P2P test (pci_p2pdma_distance()) succeeds.
+However, since the GPU running in PF mode on the Host cannot
+effectively access the PCI BAR addresses backing the imported
+dmabuf BO, they need to be translated into LMEM addresses (DPAs)
+to enable this use-case to work properly.
 
-00 ff ff ff ff ff ff 00 2c 83 10 01 00 00 00 00
-02 23 01 04 95 1a 0e 78 03 3a 75 9b 5d 5b 96 28
-19 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
-36 00 00 90 10 00 00 1a 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
-00 4b 44 31 31 36 4e 33 37 33 30 41 30 37 00 2e
+With this patch series applied, it would become possible to display
+(via Qemu GTK UI) Guest VM compositor's framebuffer (created in its
+LMEM) on the Host without having to make any copies of it or a
+costly roundtrip to System RAM. And, weston-simple-egl can now
+achieve ~59 FPS while running with Gnome Wayland in the Guest VM.
 
-Signed-off-by: Zhijian Yan <yanzhijian@huaqin.corp-partner.google.com>
----
-Change since V1:
+Changelog:
+v3 -> v4:
+- Drop the IS_SRIOV_VF() check in xe_dma_buf_pin() and instead rely
+  on Qemu's virtual PCI ports to make virtio-gpu P2P compatible
+  with VF
+- Add an additional condition to check for Intel GPU in P2PDMA patch
+  (Logan)
+- Ensure that a reference is taken on VF's backing object in LMEM
+  (Michal)
+- Create a new type to store dma data for external dmabuf BOs
 
--Add edid in commit message.
+v2 -> v3:
+- Rebased (and tested) on kernel 6.17.0-rc4 with B60
+- Updated the commit message in the P2PDMA patch and other patches
 
-V1:https://lore.kernel.org/all/20250912131104.1726775-1-yanzhijian@huaqin.corp-partner.google.com/
----
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+v1 -> v2:
+- Use a dma_addr array instead of SG table to store translated DMA
+  addresses (Matt)
+- Use a cursor to iterate over the entries in the dma_addr array
+  instead of relying on SG iterator (Matt)
+- Rebased and tested this series on top of the one that introduces
+  drm_pagemap_dma_addr and xe_res_first_dma/__xe_res_dma_next
+  that this version relies on
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 62435e3cd9f4..2c8536c64c19 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -2046,6 +2046,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1212, &delay_200_500_e50, "KD116N0930A16"),
- 	EDP_PANEL_ENTRY('K', 'D', 'B', 0x1707, &delay_200_150_e50, "KD116N2130B12"),
- 
-+	EDP_PANEL_ENTRY('K', 'D', 'C', 0x0110, &delay_200_500_e50, "KD116N3730A07"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x044f, &delay_200_500_e50, "KD116N9-30NH-F3"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x05f1, &delay_200_500_e80_d50, "KD116N5-30NV-G7"),
- 	EDP_PANEL_ENTRY('K', 'D', 'C', 0x0809, &delay_200_500_e50, "KD116N2930A15"),
+Patchset overview:
+Patch 1: PCI driver patch to unblock P2P DMA between VF and PF
+Patch 2: Prevent BO migration to System RAM while running in VM
+Patch 3: Helper function to get VF's backing object in LMEM
+Patch 4-5: Create and use a new dma_addr array for LMEM based
+           dmabuf BOs to store translated addresses (DPAs)
+
+Associated Qemu patch series:
+https://lore.kernel.org/qemu-devel/20250903054438.1179384-1-vivek.kasireddy@intel.com/
+Associated vfio-pci patch series:
+https://lore.kernel.org/linux-mm/cover.1754311439.git.leon@kernel.org/
+
+This series is tested using the following method:
+- Run Qemu with the following relevant options:
+  qemu-system-x86_64 -m 4096m ....
+  -device ioh3420,id=root_port1,bus=pcie.0
+  -device x3130-upstream,id=upstream1,bus=root_port1
+  -device xio3130-downstream,id=downstream1,bus=upstream1,chassis=9
+  -device xio3130-downstream,id=downstream2,bus=upstream1,chassis=10
+  -device vfio-pci,host=0000:03:00.1,bus=downstream1
+  -device virtio-gpu,max_outputs=1,blob=true,xres=1920,yres=1080,bus=downstream2
+  -display gtk,gl=on
+  -object memory-backend-memfd,id=mem1,size=4096M
+  -machine q35,accel=kvm,memory-backend=mem1 ...
+- Run Gnome Wayland with the following options in the Guest VM:
+  # cat /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules
+  ENV{DEVNAME}=="/dev/dri/card1", TAG+="mutter-device-preferred-primary", TAG+="mutter-device-disable-kms-modifiers"
+  # XDG_SESSION_TYPE=wayland dbus-run-session -- /usr/bin/gnome-shell --wayland --no-x11 &
+
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+
+Vivek Kasireddy (5):
+  PCI/P2PDMA: Don't enforce ACS check for device functions of Intel GPUs
+  drm/xe/dmabuf: Don't migrate BO to System RAM if P2P check succeeds
+  drm/xe/pf: Add a helper function to get a VF's backing object in LMEM
+  drm/xe/bo: Create new dma_addr array for dmabuf BOs associated with
+    VFs
+  drm/xe/pt: Add an additional check for dmabuf BOs while doing bind
+
+ drivers/gpu/drm/xe/xe_bo.c                 | 101 ++++++++++++++++++++-
+ drivers/gpu/drm/xe/xe_bo_types.h           |  12 +++
+ drivers/gpu/drm/xe/xe_dma_buf.c            |   5 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  23 +++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |   1 +
+ drivers/gpu/drm/xe/xe_pt.c                 |   8 ++
+ drivers/gpu/drm/xe/xe_sriov_pf_types.h     |  19 ++++
+ drivers/pci/p2pdma.c                       |  15 ++-
+ 8 files changed, 180 insertions(+), 4 deletions(-)
+
 -- 
-2.48.1
+2.50.1
 
