@@ -2,57 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01151B57695
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A049B576AE
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A907310E431;
-	Mon, 15 Sep 2025 10:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1517310E43D;
+	Mon, 15 Sep 2025 10:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LQKmx30M";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UqJ5scJD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxT2VTbe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UqJ5scJD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jxT2VTbe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC24F10E443
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:35:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757932560; x=1789468560;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=P+4VfsJqh3/AETCo/jqPF2/OrfZVmNfCtPkNosd5FHI=;
- b=LQKmx30M6t+db+AWU3YirFSbhUUGoNBrmz1EUuXluTJCQclLNHesX5vJ
- sytIqLDrFBDu0e+FEZivmhuYT6VeVfgSRyb5BII3NgaY5vx+qm/bkfneJ
- aEx7SBSpJvfWyWND2foIaJgFLKV9VsizZhaPZKysX7qQcmtU+sQQwWCAo
- wdmexKVNR4RjpyY/JNGYfpY8kOFvulVaXhpKTJEHuSbkhYwAKstP3OEEa
- TnQt3ZSYYug4asFSLXFnhlFS6nSu4p1x5OJM7+xlOT5VRDxxNS/mVBM6Q
- ATHcDoOQ4NajOo7KdhDBr37XGmJY6MvVp0mNuDZnD8FZw1NX2rvZMnpUw Q==;
-X-CSE-ConnectionGUID: 3cdTA1n6Sh+S8RqzsT5nuw==
-X-CSE-MsgGUID: Il7CLHjQQz6rJYGIXT1kRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60249648"
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="60249648"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2025 03:36:00 -0700
-X-CSE-ConnectionGUID: T+ItmvuyRw+4ItMtUg6vDA==
-X-CSE-MsgGUID: 5N8n8HAdR7+kg3u9sRL74w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="179823938"
-Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2025 03:35:57 -0700
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
- Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>
-Subject: [PATCH] accel/ivpu: Remove unused firmware boot parameters
-Date: Mon, 15 Sep 2025 12:35:53 +0200
-Message-ID: <20250915103553.830151-1-karol.wachowski@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBDB10E43D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:38:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 14AF822C24;
+ Mon, 15 Sep 2025 10:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
+ b=UqJ5scJDGOAjiY6eRdqV0/Ucs/Ub14LkNeC+l/N982ob+zPywoiTA9H1ASt/AuF/K/h2lB
+ C8CSzY8BhRsS8ESi9Ld6BvxrUW7dU8GxdQTKwrjDGWPBRM62hkmQ8gtBKhVW4xKa62YyKb
+ Cvd6QYtjLU6YsEpCN6lNdvHyL1zKPxQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932720;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
+ b=jxT2VTbeHlVVWyXiBcJvFKMi2Jc02DTu7La5ThjBJrvc6R7WjfouEXGeQNURiT0VzHMihj
+ 8DyEHpohOAjR1xAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
+ b=UqJ5scJDGOAjiY6eRdqV0/Ucs/Ub14LkNeC+l/N982ob+zPywoiTA9H1ASt/AuF/K/h2lB
+ C8CSzY8BhRsS8ESi9Ld6BvxrUW7dU8GxdQTKwrjDGWPBRM62hkmQ8gtBKhVW4xKa62YyKb
+ Cvd6QYtjLU6YsEpCN6lNdvHyL1zKPxQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932720;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=SuhWLaQAWTaS74RdAscPhzseVA4M2GMOEfw5jlfCKJ4=;
+ b=jxT2VTbeHlVVWyXiBcJvFKMi2Jc02DTu7La5ThjBJrvc6R7WjfouEXGeQNURiT0VzHMihj
+ 8DyEHpohOAjR1xAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D43D11368D;
+ Mon, 15 Sep 2025 10:38:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CDNlMq/sx2hbFAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Sep 2025 10:38:39 +0000
+Message-ID: <119c9db0-3d41-4256-aadc-fb62361bd7ee@suse.de>
+Date: Mon, 15 Sep 2025 12:38:39 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] drm: Replace the deprecated DRM_* logging macros in
+ gem helper files
+To: Athul Raj Kollareth <krathul3152@gmail.com>, michal.wajdeczko@intel.com
+Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ simona@ffwll.ch, mripard@kernel.org
+References: <aLczDHV_yGnnRKbr@Terra>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aLczDHV_yGnnRKbr@Terra>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,intel.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[8];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,44 +143,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Hi
 
-Remove references to firmware boot parameters that were never used
-by any production version of device firmware.
+Am 02.09.25 um 20:10 schrieb Athul Raj Kollareth:
+> Replace the DRM_* logging macros used in gem helper files with the
+> appropriate ones specified in /include/drm/drm_print.h.
 
-Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
----
- drivers/accel/ivpu/ivpu_fw.c | 9 ---------
- 1 file changed, 9 deletions(-)
+Added to drm-misc-next. Thanks for the patch.
 
-diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
-index 6e0941d324a8..32f513499829 100644
---- a/drivers/accel/ivpu/ivpu_fw.c
-+++ b/drivers/accel/ivpu/ivpu_fw.c
-@@ -518,11 +518,6 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg = 0x%x\n",
- 		 boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg);
- 
--	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_base = 0x%llx\n",
--		 boot_params->global_memory_allocator_base);
--	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_size = 0x%x\n",
--		 boot_params->global_memory_allocator_size);
--
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.shave_nn_fw_base = 0x%llx\n",
- 		 boot_params->shave_nn_fw_base);
- 
-@@ -530,10 +525,6 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
- 		 boot_params->watchdog_irq_mss);
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_nce = 0x%x\n",
- 		 boot_params->watchdog_irq_nce);
--	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_to_vpu_irq = 0x%x\n",
--		 boot_params->host_to_vpu_irq);
--	ivpu_dbg(vdev, FW_BOOT, "boot_params.job_done_irq = 0x%x\n",
--		 boot_params->job_done_irq);
- 
- 	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_version_id = 0x%x\n",
- 		 boot_params->host_version_id);
+Best regards
+Thomas
+
+>
+> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> ---
+> Changes in v5:
+>      - Minor style fix.
+>
+> Changes in v4:
+>      - Some codestyle corrections.
+>      - Remove OOM error logging in drm_gem_init().
+>
+> Changes in v3:
+>      - Revert all changes to drm_gem_objects_lookup().
+>      - Use drm_device from minor.
+>
+> Changes in v2:
+>      - Change drm_gem_objects_lookup() to take a drm_device* argument.
+>      - Make appropriate changes to all calls of drm_gem_objects_lookup().
+> ---
+>   drivers/gpu/drm/drm_gem.c            | 16 ++++++++--------
+>   drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
+>   2 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 4a89b6acb6af..fb12cc2051d8 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -101,10 +101,8 @@ drm_gem_init(struct drm_device *dev)
+>   
+>   	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
+>   					  GFP_KERNEL);
+> -	if (!vma_offset_manager) {
+> -		DRM_ERROR("out of memory\n");
+> +	if (!vma_offset_manager)
+>   		return -ENOMEM;
+> -	}
+>   
+>   	dev->vma_offset_manager = vma_offset_manager;
+>   	drm_vma_offset_manager_init(vma_offset_manager,
+> @@ -783,9 +781,10 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+>   int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>   			   int count, struct drm_gem_object ***objs_out)
+>   {
+> -	int ret;
+> -	u32 *handles;
+> +	struct drm_device *dev = filp->minor->dev;
+>   	struct drm_gem_object **objs;
+> +	u32 *handles;
+> +	int ret;
+>   
+>   	if (!count)
+>   		return 0;
+> @@ -805,7 +804,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>   
+>   	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+>   		ret = -EFAULT;
+> -		DRM_DEBUG("Failed to copy in GEM handles\n");
+> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+>   		goto out;
+>   	}
+>   
+> @@ -853,12 +852,13 @@ EXPORT_SYMBOL(drm_gem_object_lookup);
+>   long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+>   				    bool wait_all, unsigned long timeout)
+>   {
+> -	long ret;
+> +	struct drm_device *dev = filep->minor->dev;
+>   	struct drm_gem_object *obj;
+> +	long ret;
+>   
+>   	obj = drm_gem_object_lookup(filep, handle);
+>   	if (!obj) {
+> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+> +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
+>   		return -EINVAL;
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> index 4f0320df858f..a507cf517015 100644
+> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
+>   
+>   	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
+>   	if (ret) {
+> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
+> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
+>   		return ERR_PTR(ret);
+>   	}
+>   
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
