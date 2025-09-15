@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C5FB57A63
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB7CB57A94
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ADFB10E470;
-	Mon, 15 Sep 2025 12:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1121F10E474;
+	Mon, 15 Sep 2025 12:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X9QcWGS2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YR0oFdra";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D52410E470
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:21:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5B610E474
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:22:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CDAB943BE9;
- Mon, 15 Sep 2025 12:21:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FCDEC4CEF1;
- Mon, 15 Sep 2025 12:21:06 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D3C2A43DC9;
+ Mon, 15 Sep 2025 12:22:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60BB6C4CEF1;
+ Mon, 15 Sep 2025 12:22:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757938867;
- bh=LEyuDfqznR2YHQ87wE74oJBcoUDxPxiAciNx30pZ9iA=;
+ s=k20201202; t=1757938946;
+ bh=FKVkG4C4oH+uDoMxkzKUOeBroeHY1VEkpWtFbrJ0Ebo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X9QcWGS2tL1F1aC9Gp3/fvIYoALDYWpziM54JiXpaXM00YY3oQK//lq4ebb8uDNCj
- RPjGc5LT0rUYAOHUNxTVOVqwkCac0eYe2/4rNrtLpI7oT25chOGBVZMvBcKOQTFAyy
- MMb4tc6bed/HgN7Sg2GvIPa6cMb+Aq0WzMxq7fZjn2ikxQB8nJiAjIncNUJeDJ2n3X
- 0m8MtsHrhrugwNGpF3DLumhse2ihyQK//LCb3RrOtzRc/9dSv/BMmDpmVruwCK93Zd
- Fm+E382bgrF6ZBf4rUDh6rzufpNmEK2wNmrOoOQHIj3OtQuNj9pdtY0Ag/VvpI7YdM
- 6X2CMS5L/8yOg==
-Date: Mon, 15 Sep 2025 14:21:04 +0200
+ b=YR0oFdraz436JEJnenk5HpdHkRfEds1AH0sa2zyzJZuq7tiOOO0B9joXj7JjacVUS
+ 1fzCTXHyunRUxXoAEg3vaCt/o2os5eIm34A7/cuPjZ9EASkatz+Ab7eNayXSezZd/Q
+ S+JBZP5W1G+569oB6UBYRRwP8TD14i6Lo34SmMYd9w2b3NrfPRZwobO+2MSxu839s7
+ eg8/RsJdgfIrzM9a9ohIDVWQRcQWMuqsMCcfSq9pLvlJW1vt7shfVfuuiTBeo/bf46
+ 7bJY5uRdP9i/LAEM+VNH8offpC4QZjP2Ab+FCCz095Q4afe2mn1KGfZNDQmljatAyi
+ f9OQnq14oIapg==
+Date: Mon, 15 Sep 2025 14:22:24 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -50,18 +50,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  llvm@lists.linux.dev
-Subject: Re: [PATCH v2 3/9] drm/bridge: add
- drm_for_each_bridge_in_chain_scoped()
-Message-ID: <20250915-bulky-visionary-hamster-3a6c10@penduick>
+Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
+Message-ID: <20250915-optimal-hornet-of-potency-efa54a@penduick>
 References: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
- <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-3-edb6ee81edf1@bootlin.com>
- <7gpqrxlxxuarbp5b7bycukbbjdcuonlhn4zm6xinnrlqzrbeu7@rrpcwxnxxrag>
- <20250819180137.28ca89c0@booty>
+ <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-7-edb6ee81edf1@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="c573rpqk2yt63efe"
+ protocol="application/pgp-signature"; boundary="v3gkwdalz6qod435"
 Content-Disposition: inline
-In-Reply-To: <20250819180137.28ca89c0@booty>
+In-Reply-To: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-7-edb6ee81edf1@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,84 +75,84 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---c573rpqk2yt63efe
+--v3gkwdalz6qod435
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/9] drm/bridge: add
- drm_for_each_bridge_in_chain_scoped()
+Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
 MIME-Version: 1.0
 
-On Tue, Aug 19, 2025 at 06:01:37PM +0200, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Tue, 19 Aug 2025 15:47:06 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > > +/**
-> > > + * drm_for_each_bridge_in_chain_scoped - iterate over all bridges at=
-tached
-> > > + *                                       to an encoder
-> > > + * @encoder: the encoder to iterate bridges on
-> > > + * @bridge: a bridge pointer updated to point to the current bridge =
-at each
-> > > + *	    iteration
-> > > + *
-> > > + * Iterate over all bridges present in the bridge chain attached to =
-@encoder.
-> > > + *
-> > > + * Automatically gets/puts the bridge reference while iterating, and=
- puts
-> > > + * the reference even if returning or breaking in the middle of the =
-loop.
-> > > + */
-> > > +#define drm_for_each_bridge_in_chain_scoped(encoder, bridge)		\
-> > > +	for (struct drm_bridge *bridge __free(drm_bridge_put) =3D		\
-> > > +	     drm_bridge_chain_get_first_bridge(encoder);		\ =20
-> >=20
-> > So my understanding is that the initial value of bridge would be cleaned
-> > up with drm_bridge_put...
-> >=20
-> > > +	     bridge;							\
-> > > +	     bridge =3D drm_bridge_get_next_bridge_and_put(bridge)) =20
-> >=20
-> > ... but also when iterating?
-> >=20
-> > So if we have more than 0 values, we put two references?
->=20
-> No, this is not the case. The __free action is executed only when
-> exiting the entire for loop, not a single iteration.
->
-> This is consistent with the fact that the loop variable is persistent
-> across iterations.
->
-> I tested this macro in both cases:
->=20
->  * looping over the entire chain the final value of @bridge will be
->    NULL and the cleanup action won't call drm_bridge_put()
->  * breaking before the last element, @bridge is non-NULL and the
->    cleanup action does call drm_bridge_put()
->=20
-> See examples such as for_each_child_of_node_scoped() and other OF
-> iterators which work in the same way (which is no coincidence, I used
-> them as starting point for writing this patch).
+Hi,
 
-Ack,
+On Fri, Aug 08, 2025 at 04:49:14PM +0200, Luca Ceresoli wrote:
+> All users have been replaced by drm_for_each_bridge_in_chain_scoped().
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  .clang-format            |  1 -
+>  include/drm/drm_bridge.h | 14 --------------
+>  2 files changed, 15 deletions(-)
+>=20
+> diff --git a/.clang-format b/.clang-format
+> index 1cac7d4976644c8f083f801e98f619782c2e23cc..d5c05db1a0d96476b711b9591=
+2d2b82b2e780397 100644
+> --- a/.clang-format
+> +++ b/.clang-format
+> @@ -167,7 +167,6 @@ ForEachMacros:
+>    - 'drm_connector_for_each_possible_encoder'
+>    - 'drm_exec_for_each_locked_object'
+>    - 'drm_exec_for_each_locked_object_reverse'
+> -  - 'drm_for_each_bridge_in_chain'
+>    - 'drm_for_each_bridge_in_chain_scoped'
+>    - 'drm_for_each_connector_iter'
+>    - 'drm_for_each_crtc'
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index a8e2f599aea764c705da3582df0ca428bb32f19c..6adf9221c2d462ec8e0e4e281=
+c97b39081b3da24 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -1358,20 +1358,6 @@ drm_bridge_chain_get_first_bridge(struct drm_encod=
+er *encoder)
+>  						       struct drm_bridge, chain_node));
+>  }
+> =20
+> -/**
+> - * drm_for_each_bridge_in_chain() - Iterate over all bridges present in =
+a chain
+> - * @encoder: the encoder to iterate bridges on
+> - * @bridge: a bridge pointer updated to point to the current bridge at e=
+ach
+> - *	    iteration
+> - *
+> - * Iterate over all bridges present in the bridge chain attached to @enc=
+oder.
+> - *
+> - * This is deprecated, do not use!
+> - * New drivers shall use drm_for_each_bridge_in_chain_scoped().
+> - */
+> -#define drm_for_each_bridge_in_chain(encoder, bridge)			\
+> -	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
+> -
 
+I think I'd go a step further and rename
+drm_for_each_bridge_in_chain_scoped to drm_for_each_bridge_in_chain,
+there's no need to have a "scoped" variant if it's our only variant.
+
+It can be done in a subsequent patch though. For the entire series:
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---c573rpqk2yt63efe
+--v3gkwdalz6qod435
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMgEsAAKCRAnX84Zoj2+
-dtUdAX0Ss+hGq7VrYz+ksbTuiMAsW9D+O2++YU47lAvqHIAMAc1e7jjPGmuF3ahL
-CqPHyuQBfRsjFIOqpvdLfTChXYNowymVsrkgjdBpszrb1mTtQ3i5fiM0NLbZ4dth
-vca3U9CAtQ==
-=Xe1C
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMgE/wAKCRAnX84Zoj2+
+di/qAYDfeehcZRhSD9nPzRZywT4IJ9tVramjER+mQFmcxnzW135nvgo5BDHuzEAy
+hCixHRQBgLAjBilX6Yvty8T7vW8bMlb/31uEYvwRfOtV8xp/qKLcI/6lNDz0lFNE
+J/A7Urt/IA==
+=lRVm
 -----END PGP SIGNATURE-----
 
---c573rpqk2yt63efe--
+--v3gkwdalz6qod435--
