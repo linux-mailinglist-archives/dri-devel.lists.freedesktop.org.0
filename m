@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C176DB57AC0
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F6EB57ACA
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:25:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC0210E46E;
-	Mon, 15 Sep 2025 12:24:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qHMUwKE7";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04B210E481;
+	Mon, 15 Sep 2025 12:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E5B10E46E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:24:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 509E9601A3;
- Mon, 15 Sep 2025 12:24:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A451C4CEF1;
- Mon, 15 Sep 2025 12:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757939073;
- bh=Hp7M7Gahl7N2gfBFtmRijCr3OCP69I4VPawEaLwNfX4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qHMUwKE7iLHX29f86VKCXT6/qUG/MRnVQK2KFDMkiKu5SsaoHq4F8GwKoYQrn3IYw
- lU+9CwPy3e3hjkygH2OBGoiv2uPB6N4SuConD69KHyWjqjbCbsr9Pa/TZ9vfwwjxuF
- oHB9I6GF9PZ2hGIB09PqZBkqM5w51r48yqHDa+gh8ewoBTjGF9Eee1e02rBfVeCE8S
- m/TVwhFNJOOQNrkEy9O1bSSzd1h02m3TtHXAHA6WroYSpNcysk3ih72Kle3rPpLt+r
- axssUkjnbwirs8HRJVEmpHutk5/rQdegZkL1S37F0F2Jh3XlMoUagpgtOWiykiaVd5
- RLzwevsE9QyLw==
-Date: Mon, 15 Sep 2025 14:24:30 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Swamil Jain <s-jain1@ti.com>, jyri.sarha@iki.fi, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, 
- aradhya.bhatia@linux.dev, h-shenoy@ti.com, devarsht@ti.com, vigneshr@ti.com, 
- praneeth@ti.com, u-kumar1@ti.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-Message-ID: <20250915-affable-melodic-antelope-db56c2@penduick>
-References: <20250911110715.2873596-1-s-jain1@ti.com>
- <20250911110715.2873596-4-s-jain1@ti.com>
- <20250915-benevolent-military-penguin-d64871@penduick>
- <4f0a00d9-4edc-4114-aca6-70d6bb654767@ti.com>
- <b6be187a-6005-4de7-8844-66fb957e394e@ideasonboard.com>
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E95FF10E487
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:25:29 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4cQPKm6pHrz2VRjg;
+ Mon, 15 Sep 2025 20:22:04 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+ by mail.maildlp.com (Postfix) with ESMTPS id 665F9140230;
+ Mon, 15 Sep 2025 20:25:27 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 15 Sep 2025 20:25:27 +0800
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 15 Sep 2025 20:25:26 +0800
+Message-ID: <6c7cd1c2-0109-467f-aea2-099f3425274f@huawei.com>
+Date: Mon, 15 Sep 2025 20:25:25 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nlrxldzbqnlduxay"
-Content-Disposition: inline
-In-Reply-To: <b6be187a-6005-4de7-8844-66fb957e394e@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <fengsheng5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250813094238.3722345-1-shiyongbang@huawei.com>
+ <20250813094238.3722345-3-shiyongbang@huawei.com>
+ <aayi7zjrmru2ancexrqmcutams6ohde3nrkhqacixwp45dsk4v@7ig6hqzahdxf>
+ <1dd93bb7-4f67-4b9b-8b6a-d7c5c77cf807@huawei.com>
+ <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+ <8bbfd02f-138d-420c-b456-10d0c913f46e@huawei.com>
+ <cdmtfluxqes3bv3t7suctbajp4jmpih6fhegkbf7mxvy4umzrd@rtpupear4el2>
+ <13b3f4d9-c8b4-445f-8f9e-a57a1fa2bbb5@huawei.com>
+ <3sywcmtd4uksow6exaav6smx4wwrlp7mur6mcrpw3qklvbr3kn@dqypx4fmnhrw>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <3sywcmtd4uksow6exaav6smx4wwrlp7mur6mcrpw3qklvbr3kn@dqypx4fmnhrw>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,104 +73,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---nlrxldzbqnlduxay
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-MIME-Version: 1.0
+> On Fri, Sep 12, 2025 at 09:23:05AM +0800, Yongbang Shi wrote:
+>>> On Thu, Sep 11, 2025 at 05:32:40PM +0800, Yongbang Shi wrote:
+>>>>> On Thu, Aug 14, 2025 at 08:19:41PM +0800, Yongbang Shi wrote:
+>>>>>>> On Wed, Aug 13, 2025 at 05:42:29PM +0800, Yongbang Shi wrote:
+>>>>>>>> From: Baihan Li <libaihan@huawei.com>
+>>>>>>>>
+>>>>>>>> The debouncing when HPD pulled out still remains sometimes, 200ms still can
+>>>>>>>> not ensure helper_detect() is correct. So add a flag to hold the sink
+>>>>>>>> status, and changed detect_ctx() functions by using flag to check status.
+>>>>>>> THis doesn't explain what is wrong with
+>>>>>>> drm_connector_helper_detect_from_ddc(). In the end, this function
+>>>>>>> doesn't use the HPD pin.
+>>>>>> I'm sorry about the misunderstanding.
+>>>>>> The issue is that after plugging or unplugging the monitor, the driver takes no action sometimes
+>>>>>> even though an interrupt is triggered. The root cause is that drm_connector_helper_detect_from_ddc()
+>>>>>> still returns connected status when the monitor is unplugged.
+>>>>>> And I will fix the way in the end.
+>>>>> Can you perform a normal DP detection: read DPCD and check that there is
+>>>>> a DPRX attached and that it's either non-branch device or it has one or
+>>>>> more sinks?
+>>>> I'm very sorry that I didn't get the last sentence's asking before.
+>>>> It's a non-branch device. We just connect a DP monitor.
+>>> Somebody might connect a different configuration than the one that you
+>>> are using.
+>> Okay, I can add the check drm_dp_is_branch() in the DP's detect_ctx() to
+>> intercept branch devices, is that good?
+> My suggestion is to implement DP detection in the way it's done by other
+> DP drivers.
 
-On Mon, Sep 15, 2025 at 01:17:52PM +0300, Tomi Valkeinen wrote:
-> Hi,
->=20
-> On 15/09/2025 11:55, Swamil Jain wrote:
-> > Hi,
-> >=20
-> > On 9/15/25 13:27, Maxime Ripard wrote:
-> >> On Thu, Sep 11, 2025 at 04:37:15PM +0530, Swamil Jain wrote:
-> >>> From: Jayesh Choudhary <j-choudhary@ti.com>
-> >>>
-> >>> Since OLDI consumes DSS VP clock directly as serial clock, mode_valid=
-()
-> >>> check cannot be performed in tidss driver which should be checked
-> >>> in OLDI driver.
-> >>>
-> >>> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
-> >>> Tested-by: Michael Walle <mwalle@kernel.org>
-> >>> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-> >>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> >>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
-> >>> ---
-> >>> =A0 drivers/gpu/drm/tidss/tidss_oldi.c | 21 +++++++++++++++++++++
-> >>> =A0 1 file changed, 21 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/
-> >>> tidss/tidss_oldi.c
-> >>> index 7ecbb2c3d0a2..ada691839ef3 100644
-> >>> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
-> >>> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-> >>> @@ -309,6 +309,26 @@ static u32
-> >>> *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >>> =A0=A0=A0=A0=A0 return input_fmts;
-> >>> =A0 }
-> >>> =A0 +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
-> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_br=
-idge_state *bridge_state,
-> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_cr=
-tc_state *crtc_state,
-> >>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct drm_co=
-nnector_state *conn_state)
-> >>> +{
-> >>> +=A0=A0=A0 struct tidss_oldi *oldi =3D drm_bridge_to_tidss_oldi(bridg=
-e);
-> >>> +=A0=A0=A0 struct drm_display_mode *adjusted_mode;
-> >>> +=A0=A0=A0 unsigned long round_clock;
-> >>> +
-> >>> +=A0=A0=A0 adjusted_mode =3D &crtc_state->adjusted_mode;
-> >>> +=A0=A0=A0 round_clock =3D clk_round_rate(oldi->serial, adjusted_mode=
-->clock
-> >>> * 7 * 1000);
-> >>> +=A0=A0=A0 /*
-> >>> +=A0=A0=A0=A0 * To keep the check consistent with dispc_vp_set_clk_ra=
-te(),
-> >>> +=A0=A0=A0=A0 * we use the same 5% check here.
-> >>> +=A0=A0=A0=A0 */
-> >>> +=A0=A0=A0 if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000,
-> >>> round_clock) > 5)
-> >>> +=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;
-> >>> +=A0=A0=A0 return 0;
-> >>> +}
-> >>> +
-> >>
-> >> If you're introducing that check to tidss, please use .5% like everyone
-> >> else. I understand that you don't want to change tilcdc to avoid any
-> >> regression, but that's not the case here
-> >>
-> > This is just to make the tolerance check consistent for mode validation
-> > and setting clock rate. This patch isn't introducing anything new, we
-> > are following this as dispc_vp_set_clk_rate() and
-> > tidss_oldi_set_serial_clk() are already checking for 5% tolerance while
-> > setting clock. To remove/modify, this needs extensive testing with other
-> > K3 and K2G SoCs and can be handled as a separate patch.
->=20
-> I'd like to switch to 0.5%, but as Swamil said, I think it's better to
-> do it on top.
+Okay, I will reference the code from other manufacturer ways.
 
-Yeah, sorry, I thought it was a new thing.
+Thanks,
+Baihan.
 
-Maxime
 
---nlrxldzbqnlduxay
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMgFfQAKCRAnX84Zoj2+
-dnOZAX9PP4kpetQM/5eQ7S0xH8JjfC8wUFiRYmip082/cUTKZbftS6bCtf2F2y/X
-PuTLirEBgLGzx9QXn77mzL33loungermgkmYSvtaErPSqdG1OkQYCIpL8swV3G2L
-zFwEyMkmwA==
-=bf2N
------END PGP SIGNATURE-----
-
---nlrxldzbqnlduxay--
