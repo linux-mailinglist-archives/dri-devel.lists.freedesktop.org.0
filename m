@@ -2,95 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD27B5760A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E77AB5763C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:27:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6576110E2CD;
-	Mon, 15 Sep 2025 10:17:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7C510E3E2;
+	Mon, 15 Sep 2025 10:27:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jiR8W1I8";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0gG3wBpA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZGwDTF0D";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0gG3wBpA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZGwDTF0D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3E110E2CD
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:17:56 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 129291744;
- Mon, 15 Sep 2025 12:16:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1757931397;
- bh=CkiX+SfKyNNzh/CR0iQ6mQNKdawIAKfXA08rWVJaslk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jiR8W1I8s3wsT9NIvLDvLoiMR/cm4NB1lZ7jWZxngS31BhXK/K+rwDUGm3E0gd10k
- jiFLdi4RJEMQL90KwHbGxHlvKgXzcG6gynUpx3zFFFJ1J7pkDVk5UIWN/dz9d5ve/U
- qkCoA0+DPZcv5tBn5X0bvWsX00KUAGjge1CbDJmY=
-Message-ID: <b6be187a-6005-4de7-8844-66fb957e394e@ideasonboard.com>
-Date: Mon, 15 Sep 2025 13:17:52 +0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1AE010E3E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:27:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 83EE41F8C3;
+ Mon, 15 Sep 2025 10:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=R7u3apyYH3n1+2nQokONMTYhqOnxu1o8lRUqutGIa9o=;
+ b=0gG3wBpAeV8JYT1/G5IfeqEX7f83y8KYCSSyjDuCHY0vgmbRvspOOLH019JcY7SQCZMNW7
+ UjuxqNWjEGlt/bIFeIW6OlivR1tD0r7DpSyXnLJs604NyLnD3cP+g5RECUG7Tg+teGE7s/
+ mOS3rMCtg5hDtZF0B/cdv8TBr+4AQDA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932048;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=R7u3apyYH3n1+2nQokONMTYhqOnxu1o8lRUqutGIa9o=;
+ b=ZGwDTF0DTk/Jct7zt4XOVtyyRgqwaTewNh2j6jHXLwvX3Hgwbx/rGhEKrrY0if/1+tcQJI
+ 0yG1eflFykoUGNBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=R7u3apyYH3n1+2nQokONMTYhqOnxu1o8lRUqutGIa9o=;
+ b=0gG3wBpAeV8JYT1/G5IfeqEX7f83y8KYCSSyjDuCHY0vgmbRvspOOLH019JcY7SQCZMNW7
+ UjuxqNWjEGlt/bIFeIW6OlivR1tD0r7DpSyXnLJs604NyLnD3cP+g5RECUG7Tg+teGE7s/
+ mOS3rMCtg5hDtZF0B/cdv8TBr+4AQDA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932048;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=R7u3apyYH3n1+2nQokONMTYhqOnxu1o8lRUqutGIa9o=;
+ b=ZGwDTF0DTk/Jct7zt4XOVtyyRgqwaTewNh2j6jHXLwvX3Hgwbx/rGhEKrrY0if/1+tcQJI
+ 0yG1eflFykoUGNBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53CAD1368D;
+ Mon, 15 Sep 2025 10:27:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id b3OEEhDqx2jJEAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Sep 2025 10:27:28 +0000
+Message-ID: <fe1004ad-7375-4eaf-82f8-e1ea53a7e0c7@suse.de>
+Date: Mon, 15 Sep 2025 12:27:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-To: Swamil Jain <s-jain1@ti.com>, Maxime Ripard <mripard@kernel.org>
-Cc: jyri.sarha@iki.fi, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- aradhya.bhatia@linux.dev, h-shenoy@ti.com, devarsht@ti.com, vigneshr@ti.com,
- praneeth@ti.com, u-kumar1@ti.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250911110715.2873596-1-s-jain1@ti.com>
- <20250911110715.2873596-4-s-jain1@ti.com>
- <20250915-benevolent-military-penguin-d64871@penduick>
- <4f0a00d9-4edc-4114-aca6-70d6bb654767@ti.com>
+Subject: Re: [PATCH 0/3] drm/sysfb: Integrate blit helper
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org
+References: <20250908122240.740033-1-tzimmermann@suse.de>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <4f0a00d9-4edc-4114-aca6-70d6bb654767@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250908122240.740033-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ RCVD_TLS_ALL(0.00)[]; TO_DN_NONE(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,73 +141,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+ping for review
 
-On 15/09/2025 11:55, Swamil Jain wrote:
-> Hi,
-> 
-> On 9/15/25 13:27, Maxime Ripard wrote:
->> On Thu, Sep 11, 2025 at 04:37:15PM +0530, Swamil Jain wrote:
->>> From: Jayesh Choudhary <j-choudhary@ti.com>
->>>
->>> Since OLDI consumes DSS VP clock directly as serial clock, mode_valid()
->>> check cannot be performed in tidss driver which should be checked
->>> in OLDI driver.
->>>
->>> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
->>> Tested-by: Michael Walle <mwalle@kernel.org>
->>> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
->>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
->>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
->>> ---
->>>   drivers/gpu/drm/tidss/tidss_oldi.c | 21 +++++++++++++++++++++
->>>   1 file changed, 21 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/
->>> tidss/tidss_oldi.c
->>> index 7ecbb2c3d0a2..ada691839ef3 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
->>> @@ -309,6 +309,26 @@ static u32
->>> *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->>>       return input_fmts;
->>>   }
->>>   +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
->>> +                   struct drm_bridge_state *bridge_state,
->>> +                   struct drm_crtc_state *crtc_state,
->>> +                   struct drm_connector_state *conn_state)
->>> +{
->>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
->>> +    struct drm_display_mode *adjusted_mode;
->>> +    unsigned long round_clock;
->>> +
->>> +    adjusted_mode = &crtc_state->adjusted_mode;
->>> +    round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock
->>> * 7 * 1000);
->>> +    /*
->>> +     * To keep the check consistent with dispc_vp_set_clk_rate(),
->>> +     * we use the same 5% check here.
->>> +     */
->>> +    if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000,
->>> round_clock) > 5)
->>> +        return -EINVAL;
->>> +    return 0;
->>> +}
->>> +
->>
->> If you're introducing that check to tidss, please use .5% like everyone
->> else. I understand that you don't want to change tilcdc to avoid any
->> regression, but that's not the case here
->>
-> This is just to make the tolerance check consistent for mode validation
-> and setting clock rate. This patch isn't introducing anything new, we
-> are following this as dispc_vp_set_clk_rate() and
-> tidss_oldi_set_serial_clk() are already checking for 5% tolerance while
-> setting clock. To remove/modify, this needs extensive testing with other
-> K3 and K2G SoCs and can be handled as a separate patch.
+Am 08.09.25 um 14:19 schrieb Thomas Zimmermann:
+> The sysfb-helper library is the only remaining user of drm_fb_blit().
+> Merge the code into the module and remove the helper. Cleans up the
+> interface of the format-helper library. Also improves error detection
+> and performance of the sysfb code.
+>
+> Tested on vesadrm with format conversion.
+>
+> Thomas Zimmermann (3):
+>    drm/sysfb: Add custom plane state
+>    drm/sysfb: Lookup blit function during atomic check
+>    drm/format-helper: Remove drm_fb_blit()
+>
+>   drivers/gpu/drm/drm_format_helper.c       |  91 -------------
+>   drivers/gpu/drm/sysfb/drm_sysfb_helper.h  |  34 ++++-
+>   drivers/gpu/drm/sysfb/drm_sysfb_modeset.c | 152 +++++++++++++++++++++-
+>   include/drm/drm_format_helper.h           |   4 -
+>   4 files changed, 180 insertions(+), 101 deletions(-)
+>
 
-I'd like to switch to 0.5%, but as Swamil said, I think it's better to
-do it on top.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
- Tomi
 
