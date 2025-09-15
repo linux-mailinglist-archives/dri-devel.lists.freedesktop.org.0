@@ -2,173 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416BAB56E58
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 04:38:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48282B56EE9
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 05:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6C210E290;
-	Mon, 15 Sep 2025 02:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05A9310E2A2;
+	Mon, 15 Sep 2025 03:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dXb7Vm7m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aj2rU4oM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2074.outbound.protection.outlook.com [40.107.220.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D39B10E290
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 02:38:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Giw5hU3Z+QWDHSv/sLDrIG6+Fua/CakL2fVZ01cAvjwXoGBZcFhMoIU092+mP6SHxthjbdq/UbC5u7EwzscV/2uYlZzQPE2wAoIdq/uK0QCo0W27YGIbF6UNf9Nh5UJupTOkcQlzjiRadC3nuv8CXIpOAgoX0rGsyPpKRheDhLSuez1m4JmkkeEEzjRiH9gejq01WihofVUppJSpY33x1Cb2m+BbvyfIglg51rsxa1cPLBYRoK1bfU7pD/uMoDk3hcAHp74F77aPg9ZYDqyLoi9pFUjJCmFK5yLlNvTY0Zad81hseP/cKrtudXq7C/c8/h0xF5X7EXrdSS+eYAb2rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bjjIDRWaBtuKWHXg/ro8XnoOxQC61iwfEpJJyb8HsRY=;
- b=EPRFlYYc3rdhh5yFaTFaw142TedoqmYSyOL9OdvvLEpeHCR/q40p5pgP9UIGIrRmNp0nFrqSPzFmN6G1Ke3ApiACMXkGtUDc1UbkF5QWDeEfq7RJIpMXNGmjVeMHrPjQxOKqR7rHv+j1UXfScOExs6oSAh8tCnz27rfVScR2cPDIueJQCUSYnNfDg7LZjs2oaeQjo+0jwtS27CVJoNv4MMUvDgvIiKSFLVN/FBOmMdf3lMp12GU4ktuLHuIc25RQKbw24hz0F/4oik5PKLk7AWnPAJDUwQG3qwwJxTRH4gFrhGimWjYvsATZ07yqLjGCswVsB/kgco6hGR9Kl+T/tQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bjjIDRWaBtuKWHXg/ro8XnoOxQC61iwfEpJJyb8HsRY=;
- b=dXb7Vm7mwQd8nk3DLr+ESd6pw/gGbngl0KsShXyY1NGqAR4u9Jzoyf42ir5HAkS+6KDPl0pu2LVsqL5rRJdElCaPdlRECf4DRhIbrrwhp6pjRDV1y7OkrPmduH5ygAeh7y/0YHz+PNPflSR/7Vo0SUB+GeT+eghCk858QSLsGN2Dq7cj3GmxEW30Zjw2QDNiY1r5avwTAD54AMeXfCiPHEVUCd5qjHLTlkcpx3KZBLOSQ1uW75QCQkhelgf+ASaZBq6RhLkZp0J7Xf5ryVZK38oFfH/brgSx7aT6iJP9GXYpdamo3huT5JrI0MyDfqGosMpDi3+IYcAXnOkZ/1ecEw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by SA3PR12MB8438.namprd12.prod.outlook.com (2603:10b6:806:2f6::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 15 Sep
- 2025 02:37:59 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9115.018; Mon, 15 Sep 2025
- 02:37:58 +0000
-Message-ID: <c829f1fb-911a-41c8-9f78-371781f8e081@nvidia.com>
-Date: Mon, 15 Sep 2025 12:37:51 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5 03/15] mm/rmap: extend rmap and migration support
- device-private entries
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250908000448.180088-1-balbirs@nvidia.com>
- <20250908000448.180088-4-balbirs@nvidia.com>
- <6f1857b8-45db-4017-b6e8-02ecfa2104a3@redhat.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <6f1857b8-45db-4017-b6e8-02ecfa2104a3@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0028.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::33) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA8D10E2A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 03:41:58 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b0aaa7ea90fso172940966b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 20:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757907716; x=1758512516; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RBcrzXcJywxMgHMPsR2Yuv2hoXzKHdj6vn06NKKyqo0=;
+ b=aj2rU4oMlIdUj4WHXL3bJELhcDTB6LuzD1iZch5cin4JTPfPt5RMzETUpyAwIHOSS1
+ Tv/qhJ85nm+oje99VaEMMuHb2KSTZX8C0NOpKy7ZkHRy3GFRRueE6abndyhtNevKFObM
+ k5g7JVfFiXtIaLZRrCKPDJGi8TxRoOS7PkQ94m0zt3/anT1rpr9cUXuLXw1mIS/uVDyA
+ 1LBzy1jDn2yXp+Qz8HcNwEabZ3kR6HQkWyI+oPRdrPLgWvZFMXqATZmutKoUkpqZ/qpC
+ VIdg9jpODBfyqmtJVRlWrvRLJxdUkgIEKpHw83LnzIuwz4XUro1CTwEulHhbdth8mVPx
+ 3rtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757907716; x=1758512516;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RBcrzXcJywxMgHMPsR2Yuv2hoXzKHdj6vn06NKKyqo0=;
+ b=WW0+mzfzNMQSuqAzw4/qMSjuvmISy5DeWGhFfGxlb/sgkGvzlQ4KAwsmxJ32P99RrT
+ 0UzVPd0zq0sh/3DEj822Se24QzlKEHWu3fju/WZJ0JHsG83/U0BbWe3MqbX2FAoz+C9m
+ JMhNjyPNeL/yh/VNp8fVaIXzkRciBBKOr9loisX6qKm4uFADjfYtKZ/bFrBJ3cP0i7+r
+ s9ITcOqvUtInT3lHwGZoBhps/Tx8agyRhUawT0CNpcJPberehHCnrhJSzqg/g0jrYGp9
+ oN2oDn5eR9mpqI89Hyr6BzWA5upDJX80l6WjzmmqwzxQ/Z3L3dxAmX3Q0PtlQo6SGrbr
+ eyVg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdWcqP1HzwaJfojd5vLRCB6BZYn2vxSZBwt2mZv/iro9NlTfT2zdowtdlOIHmmM036UxduLgBNuqY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycjYcTaYfkNQJKrj6uIffdwiaezHn9jRMYHQVt7qBhaIZOabXI
+ 6m455bUQitM4yDigs9J83Fw632i/uesU0+PpuaO7GWtkns8QI+QwmyRzVoKRFmpB44dOh+SlXiN
+ DPxsfAsK8W3m5t9LdlMITCY42UyR3vHc=
+X-Gm-Gg: ASbGnct3K8nfWzB5/kq1Sqs1TZnxIQ8BslktPgXNp030z7vHZpgmH3xDRa5RVBGU1Pq
+ o0ruFdz/AJaSzGuVE/6zl5mMa3nsirZLyxasrbbwClRb3ETvzWWGMIYBLMLoeTZ38KQ89/tLI+7
+ 4+E+fp3LNfdNf6KF6q49WmBueBAP9wWgUwZDRWFabg/Fx7w+YvNbgVqOYERtkkfEuOgZCQapXVG
+ Wh4snGN1g/mvx6N
+X-Google-Smtp-Source: AGHT+IFKMMiQj/EmVbLhBhpf7bD4rE+j6QNew2p++ITSee+6uicU7xqOB08bfh4j/viBhaH8QlYrqM57nANgt8PcVxY=
+X-Received: by 2002:a17:906:4ec1:b0:b07:b311:3b90 with SMTP id
+ a640c23a62f3a-b07e3fb4087mr586042566b.45.1757907716243; Sun, 14 Sep 2025
+ 20:41:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|SA3PR12MB8438:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64c20b20-7765-46aa-9a8e-08ddf400e202
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|10070799003|7416014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bEh1eitCRksydy90WW1XeEJpcmFkVmFTVW5Mdmt3dWY2R2QveHdmK00xc1Z4?=
- =?utf-8?B?NUROVnVYM0QwNlcwamZndmxsTnQrRW9rYVN0K09uV1dvc3BIZ3dEaVhHQkhE?=
- =?utf-8?B?SjAxVmdSNnB1SS94cFVWeXo0MDdMVEUxWmdIUnp5Uk9HeGpia2Z5WkFycTdR?=
- =?utf-8?B?Q3MxN2xFU1hmdTAyYlgzWW0vQnJBajJWcHVBRmlwK3pLTXhUWkRrelovNjJH?=
- =?utf-8?B?Y1h0K1A5WFVwdmZWVmNNVEtDcy81Z1hxOGNpRm9qRmc4MnVST2xzUEpXay9K?=
- =?utf-8?B?Z1dLWldBVjFIeEZxaE1JRFhrQkpZN1I3d3VwaW9vbEsrdDkxZEJPSDh0Rm9z?=
- =?utf-8?B?QnVxR05mdm9xSFJRNmFVTXhlMS9oRFh5UDZPNTB3SHRlSXF3VHZ4MVFkd0lz?=
- =?utf-8?B?QzQ2NVpCSHNmTXcrWFViY2Q3UW84ZldDbm5SWVdrcFpFWDFtVWhUTUFWc0FZ?=
- =?utf-8?B?c2pqQkpINGRFS0VoMnlEN29OS2RQblBYc2xZRGh2LzROcitmbE0rajVjNTB1?=
- =?utf-8?B?ekI1NUd4MlpSZ0JGc045dU5sWWhMTWVWVXpndFMvVG95Nk15WXVES3VjOEdH?=
- =?utf-8?B?OFFQS1I3d3dEUEFGR216aGtyVmlGQ1dVdDgzbFVHYmlnN2dVS0N3bGdwNzFE?=
- =?utf-8?B?UURpaklWam9lR2lUSEM4aHhYenRxRVd5eEdFaTdIbVNtc04yTEFCUDlRRENu?=
- =?utf-8?B?SDlPNFM4WWJvNUtJTU11Y1o3cHRQZ3RPbEliN1Z1d0pqVHN2UWk1YXl5VGlo?=
- =?utf-8?B?dEFwTUF2U3U3QUl1WU5pWXZrdmVZOGJUTk92b2hUQkt0Q25aNkJqRHRSdEw2?=
- =?utf-8?B?UFlMeExZOUhPdGJXaGFkcVBzUTFFQklRUzdJU3JMZGcyR2ZwUHZWa24yL0t3?=
- =?utf-8?B?S2d6NFU4MHZTYktUdG45cnFPalVCOTZscllFQWh0eVVWSy8xbmlaTnBiMEs5?=
- =?utf-8?B?ZDhjUnNXb2pkWGl0ZzZCSW9pVHhqUGQrZHc1TnlEUWlWTDgyV1ErMWwzQUJJ?=
- =?utf-8?B?ZWFkQVQ3YmMwZE9WSW5vMFl5TC93ZkttNS82Y284MzFtbFY2ZEh2cVhpNndy?=
- =?utf-8?B?K0U1RXY4am1WeXJaelhGeENTU3FBYVNqdS9nZDBtWms4SnhHYlhENktlMEI1?=
- =?utf-8?B?bU1KNE5hZG8wU3Nsam5lMWFWblIwR3pib3M3ZXVycFRVQjdCQUxuY2IyZWJw?=
- =?utf-8?B?SDJWRDI3TFdvVE1mZzdsWWE3Ly8vaG9DT0ZtWERZeUx1MGVqWkI2byt6cCtt?=
- =?utf-8?B?TWpFbFNQZDN4d3p3bnlqWHI5bUNobzhDa3BDUmdqVFBhV0s1QWdUdTNxYnZu?=
- =?utf-8?B?TzA1SmhEMXZ0MnN6THNkNGhMeG5TaHVsUGZKMWNJZExpZmN4NFZYL0J2K0VP?=
- =?utf-8?B?dUNtb0hDNURNQWx1cmZJazhGdmt2bWlyT2dNeG5LM1lEdWdZTGhoZ3pRT3dP?=
- =?utf-8?B?MEFmWG9vK1pTQWVaQlZJY0xkRk84blRsZlVPTThqdVcwd2lZN0UyT1dPQWNG?=
- =?utf-8?B?dzlHd2IzODB2Z0Vhd21tUVhtdXNZYy9uODRrdGRlcUx3RVo5NDF2MUNDaGpu?=
- =?utf-8?B?OGNVTlRhbHdaSVBLaUNkV1dHOVJaamtYTW9HV0hjTlJ1WHBveTQ2NXkwb0Za?=
- =?utf-8?B?N0pVVG1aeit1aUppN2JQd0lEQTl0NUNIZzcrUmtPMHJJdVc2UGsvODdlUWVL?=
- =?utf-8?B?dk12NzhhaGZhbWdhZFNBWGdJdjRwdnlYd2tleUVFYmo0QmtBZVBOOStmdkNC?=
- =?utf-8?B?MmZnVytIZ0oxcGU5VWJwS1FiSkE4Rjh0MytQcXdtcGhWQlNETE4wVVJob2RU?=
- =?utf-8?B?RlpveDZENUJlYTNnNmozMXpSNnNLNDg1QXR3RTFTakdHNTVYWW9IaDJKbjBZ?=
- =?utf-8?B?TzhST3RvTk5lTWY5aFIzOFZhcU1Bbll3Z2RCZUpWUm5mZWluTFA0akFQUXZW?=
- =?utf-8?Q?S0cWDxIDQyY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(10070799003)(7416014)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2xNSTlVVnVoYzFjK0gxcVJybEw2dFUvYS9mZlFKUG85ZjhYaDd1MFBBdXM2?=
- =?utf-8?B?VHFMUUkybTdGeTVWdEEveU1Wc09Sa1o2dzBhVThNZHF5d2hRSnBNTHNOMHdJ?=
- =?utf-8?B?Q044ZmErVEhGTTVwdVM4L1FEL2lEQmtOcG1Oc1YzYm5PWERuRUp0ekJwQWF6?=
- =?utf-8?B?ek1DTWFZb3cxV2JYTzRPVzE0a3lXcFoxaUhyN3B0ZFNyR2NhSThvQ1VZc1Nx?=
- =?utf-8?B?d3pFVG9ITVFnUENGQ1ZUWVAyUk4yWWo3Njh5RTgwVmNQTysvd3pVZU5IOWdB?=
- =?utf-8?B?WUw0Mk9nczNNaGx1THhuTzNuSkl0Tm50S3puWmllYTMvMXljRzMvdjk3ZE5E?=
- =?utf-8?B?L09tQ2xKeWRLMVpXR3pTeUx4bDdHaVRZckI2b3J6MlovdzRrMGNMUEwyeGdq?=
- =?utf-8?B?RkYwa2VrK0RKZHAwOEJ1ZXoySHVRc3lCbExXVFdiLytJTkhweitxdnlUTHBn?=
- =?utf-8?B?VEtJQVR0VVJtK2d1Vm02d0x4VGtSeUFodGdoa2lLd3BpT3VyM25GM3ZUK1gv?=
- =?utf-8?B?V0RqdjMvZ2IyZk5HNktLb1VXSkptcG5Fa3ZtRDREdU53SkdRbWhLcDdqTDlq?=
- =?utf-8?B?empSVUZpVHRBN0NMQ3lXT2VoRU5YVmxFaC82UUJPNWVIS1ZVQVA4dURFYmx0?=
- =?utf-8?B?RjF4YStJR0xWOGV0NWpYQVdLd1ovQnN3Zm5OSEo3dTVKMlhQVU9kMHZETW0y?=
- =?utf-8?B?MHpZM2ZaNWVnUEpjWXA2TzRQTFR2b1h2dGI5SHgwUzY3amVmdHhHWkFXVFE3?=
- =?utf-8?B?L0xhbytET3lpd0tha2MzS3YyU29UaVFMWjRmRTUxaHlUTnVtUURUeGRNREE0?=
- =?utf-8?B?c05pdnpIcS9rdWwyMUJ5SFplU05DUjVVYjVoREZHazBkSFY2U0NuRGU5aktU?=
- =?utf-8?B?ZjB3cmhLeU1qYXpoMEhvMm9Ea1l3OTViZE85cjRyMHZyTHNoQ0thUDlFeEhP?=
- =?utf-8?B?cE4xbEV6eXJrb0I4UUNaY0pLeFJ1cmRlN2JidGliR2dWTWE4djVSYkJ5MHNH?=
- =?utf-8?B?Y2g1L1RobGFKRTRuRE9PaG1zMDl5MDQ0N3ZhMG82N20rL05OaXZtK0Q4aHJw?=
- =?utf-8?B?b2Faa3NuSU5rN2FReGlXVytHMEhPWVR1WFc1Zk9LYzFyVmF4cXBYaURsUW9F?=
- =?utf-8?B?OFgxa2RzTm5yOXgzZ05Sb0xGWWJCT1hMNXpkVlhuY1BNdzVUOTVQNG9ndml1?=
- =?utf-8?B?d25ha1pxRVUzWWZMMm5WZ3dIa2tWdUMyWFNlVXo1cGwrUHVtSGZHc0JoOFhB?=
- =?utf-8?B?OXVJOXgxdnMrK21Zbm1NSUY3R0YwYnFQSWEvNTN6TnBjZVEvSDduMWViZHJK?=
- =?utf-8?B?YnBzOGJUQ0hrVitGK1FoMWwvRlRCbzJmWU41Wktqd0lsRzI1Q0t4UEFFQ0tQ?=
- =?utf-8?B?dFphaXBjRjRYZThuQ1g0VzcvN0NHR3VtS0UzVXBlQTVMTmZLc1lFL1V0T0xa?=
- =?utf-8?B?N040L1BuUnA3RUU2WmJReTZrOTdKeWN6SnhsYjBhajRzOEd5b0pUZjVZVjRR?=
- =?utf-8?B?dndUc0ZPcTNwWDh3VXoxTk1OVjNnOHcyc2RCcXZiRnQrcjRlV0JLTFl3T3Vp?=
- =?utf-8?B?MnhJVDU4azhCN1dUaC93QVlubDJybHFaNlI1QTFPZkcrUFNxMmZQS2NQK01p?=
- =?utf-8?B?VytZMWlUMFNCM1E1RlBRQWNzeDBXdURRbXdMTXB2bVpJUjNDa1JUVlBnTFRv?=
- =?utf-8?B?WHh6cG9SRkcydEJjdVF2NXkrS0MyOW52bEJ6c21VNjlVcENwdllYeUcyUVEz?=
- =?utf-8?B?aXJ5ai9KNzArZkw0dVJxTW1EVU14TWpDUHUrWk5HQml1SThnYzJ3M0trOUs5?=
- =?utf-8?B?blJXOEhhTnE1QVNuUzVhMElkdEVBaFE4VE1McFRvYmIwZ3IyWFJnM0dDQXVY?=
- =?utf-8?B?ZnFLZDJQN0h5TS9ua1hocU0rT2UzMFpWWkJwNTA2U1p1RnZjaFVqMVVSWkN4?=
- =?utf-8?B?a29BOTFmTU1pbnZwNE55U09vTVpmV3ZRaUcvbFU1WTV2ZE51MkNFQi9CNWhw?=
- =?utf-8?B?bHJJL2FnMHA1RjY2NzVicSsrcDJBN1VwVEhjT1FXMzhHNEJWcDlQYnRTOWZQ?=
- =?utf-8?B?Ny9lb1NCWmdvOWNKY3lBOWhGdzc3RVN5aWd4Q01zSWozcWFNOCtQdmhXVGNI?=
- =?utf-8?B?bjdaWFo3clJ2d250Qkk4TUtKS1dzaXFWNU0xTVpzUVRRa0wzYlJHRXdqN3lH?=
- =?utf-8?Q?Nv5Qpp9sMTkXRI2k8tagRpdEacCY+U5C74/dubnqA2Rm?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64c20b20-7765-46aa-9a8e-08ddf400e202
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 02:37:58.6981 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n6K0xP1xBSCJsARebJ0zaJ5eIWIxkFLxgGMbYXFaU/zgg4njzFbWyyx7Vvl0FjsdmlOVh7gxEyZLLseFhmseZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8438
+References: <20250914031522.33155-1-inki.dae@samsung.com>
+In-Reply-To: <20250914031522.33155-1-inki.dae@samsung.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 15 Sep 2025 13:41:44 +1000
+X-Gm-Features: Ac12FXz1FF4b7hOxjjzBTbz6jFWwkCq2xvlOvTCad4mE280oDrZv-SH3k4C7vzs
+Message-ID: <CAPM=9txNEQXDU6rKHxTVXej7fxgrbbd_X+emHejwA4a7s9aoaw@mail.gmail.com>
+Subject: Re: [GIT PULL] drm-misc-next
+To: Inki Dae <inki.dae@samsung.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst <dev@lankhorst.se>
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-samsung-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,129 +83,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/11/25 22:04, David Hildenbrand wrote:
-> On 08.09.25 02:04, Balbir Singh wrote:
-> 
-> subject:
-> 
-> "mm/rmap: rmap and migration support for device-private PMD entries"
-> 
-> 
->> Add device-private THP support to reverse mapping infrastructure,
->> enabling proper handling during migration and walk operations.
->>
->> The key changes are:
->> - add_migration_pmd()/remove_migration_pmd(): Handle device-private
->>    entries during folio migration and splitting
->> - page_vma_mapped_walk(): Recognize device-private THP entries during
->>    VMA traversal operations
->>
->> This change supports folio splitting and migration operations on
->> device-private entries.
->>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: David Hildenbrand <david@redhat.com>
->> Cc: Zi Yan <ziy@nvidia.com>
->> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->> Cc: Rakie Kim <rakie.kim@sk.com>
->> Cc: Byungchul Park <byungchul@sk.com>
->> Cc: Gregory Price <gourry@gourry.net>
->> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->> Cc: Alistair Popple <apopple@nvidia.com>
->> Cc: Oscar Salvador <osalvador@suse.de>
->> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->> Cc: Nico Pache <npache@redhat.com>
->> Cc: Ryan Roberts <ryan.roberts@arm.com>
->> Cc: Dev Jain <dev.jain@arm.com>
->> Cc: Barry Song <baohua@kernel.org>
->> Cc: Lyude Paul <lyude@redhat.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Ralph Campbell <rcampbell@nvidia.com>
->> Cc: Mika Penttilä <mpenttil@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Francois Dugast <francois.dugast@intel.com>
->>
->> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->> ---
-> 
-> [...]
-> 
-> 
->> +++ b/mm/page_vma_mapped.c
->> @@ -250,12 +250,11 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->>               pvmw->ptl = pmd_lock(mm, pvmw->pmd);
->>               pmde = *pvmw->pmd;
->>               if (!pmd_present(pmde)) {
->> -                swp_entry_t entry;
->> +                swp_entry_t entry = pmd_to_swp_entry(pmde);
->>                     if (!thp_migration_supported() ||
->>                       !(pvmw->flags & PVMW_MIGRATION))
->>                       return not_found(pvmw);
->> -                entry = pmd_to_swp_entry(pmde);
->>                   if (!is_migration_entry(entry) ||
->>                       !check_pmd(swp_offset_pfn(entry), pvmw))
->>                       return not_found(pvmw);
-> 
-> Why this change? Looks unrelated.
-> 
+Hi Inki,
 
-I fixed up and removed the new flag I introduced in v3. Will fix/undo
+I've already gotten the last drm-misc-next pull for 6.18 in my tree,
+there are some patches being pulled in that might be for 6.19? or do
+we want to get another drm-misc-next pull into 6.18?
 
+Dave.
 
->> @@ -277,6 +276,15 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->>                * cannot return prematurely, while zap_huge_pmd() has
->>                * cleared *pmd but not decremented compound_mapcount().
-> 
-> Reminder to self: cleanup compound_mapcount() leftovers
-> 
->>                */
->> +            swp_entry_t entry;
->> +
->> +            entry = pmd_to_swp_entry(pmde);
-> 
-> swp_entry_t entry = pmd_to_swp_entry(pmde);
-> 
-
-Ack
-
->> +
->> +            if (is_device_private_entry(entry)) {
->> +                pvmw->ptl = pmd_lock(mm, pvmw->pmd);
->> +                return true;
->> +            }
->> +
->>               if ((pvmw->flags & PVMW_SYNC) &&
->>                   thp_vma_suitable_order(vma, pvmw->address,
->>                              PMD_ORDER) &&
->> diff --git a/mm/rmap.c b/mm/rmap.c
->> index 236ceff5b276..6de1baf7a4f1 100644
->> --- a/mm/rmap.c
->> +++ b/mm/rmap.c
->> @@ -1063,8 +1063,10 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
->>           } else {
->>   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
->>               pmd_t *pmd = pvmw->pmd;
->> -            pmd_t entry;
->> +            pmd_t entry = pmdp_get(pmd);
->>   +            if (!pmd_present(entry))
->> +                continue;
->>               if (!pmd_dirty(*pmd) && !pmd_write(*pmd))
->>                   continue;
->>   
-> 
-> If you just did a pmdp_get() you should use it in these functions as well. If not (cleanup later), do a straight *pmd like the others.
-> 
-> 
-
-Ack
-
-> 
-> Apart from that nothing jumped at me.
-> 
-
-Thanks for the review,
-Balbir
+On Sun, 14 Sept 2025 at 13:15, Inki Dae <inki.dae@samsung.com> wrote:
+>
+> Hi Dave and Daniel,
+>
+>    Add DSIM bridge drvier support for Exynos7870 SoC.
+>
+> Please kindly let me know if there is any problem.
+>
+> Thanks,
+> Inki Dae
+>
+> The following changes since commit c08c931060c7e44452e635e115913dd88214848c:
+>
+>   drm/gem/shmem: Extract drm_gem_shmem_release() from drm_gem_shmem_free() (2025-09-12 19:04:37 -0400)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-misc-next-for-v6.18
+>
+> for you to fetch changes up to 17308ab685acba947fb35e52fada2b97f346b8cd:
+>
+>   drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM bridge (2025-09-14 11:53:09 +0900)
+>
+> ----------------------------------------------------------------
+> New feature
+> Add DSIM bridge driver support for Exynos7870
+> . Introduces Exynos7870 DSIM IP block support in the samsung-dsim bridge driver.
+> Document Exynos7870 DSIM compatible in dt-bindings
+> . Adds exynos7870 compatible string and required clocks in device tree schema.
+>
+> ----------------------------------------------------------------
+> Kaustabh Chakraborty (12):
+>       drm/bridge: samsung-dsim: support separate LINK and DPHY status registers
+>       drm/bridge: samsung-dsim: add SFRCTRL register
+>       drm/bridge: samsung-dsim: add flag to control header FIFO wait
+>       drm/bridge: samsung-dsim: allow configuring bits and offsets of CLKCTRL register
+>       drm/bridge: samsung-dsim: allow configuring the MAIN_VSA offset
+>       drm/bridge: samsung-dsim: allow configuring the VIDEO_MODE bit
+>       drm/bridge: samsung-dsim: allow configuring PLL_M and PLL_S offsets
+>       drm/bridge: samsung-dsim: allow configuring the PLL_STABLE bit
+>       drm/bridge: samsung-dsim: increase timeout value for PLL_STABLE
+>       drm/bridge: samsung-dsim: add ability to define clock names for every variant
+>       dt-bindings: samsung,mipi-dsim: document exynos7870 DSIM compatible
+>       drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM bridge
+>
+>  .../bindings/display/bridge/samsung,mipi-dsim.yaml |  27 ++
+>  drivers/gpu/drm/bridge/samsung-dsim.c              | 353 ++++++++++++++++-----
+>  include/drm/bridge/samsung-dsim.h                  |  16 +-
+>  3 files changed, 308 insertions(+), 88 deletions(-)
