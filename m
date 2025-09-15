@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988F4B57876
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 13:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AE5B57885
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 13:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3117F10E459;
-	Mon, 15 Sep 2025 11:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2085310E45A;
+	Mon, 15 Sep 2025 11:37:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="irHbUquB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R0snSTnI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9155010E459
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:35:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1742410E45A
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:37:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3215343EAD;
- Mon, 15 Sep 2025 11:35:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 985F6C4CEF1;
- Mon, 15 Sep 2025 11:35:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E832740555;
+ Mon, 15 Sep 2025 11:37:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50B54C4CEF1;
+ Mon, 15 Sep 2025 11:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757936149;
- bh=g6iT4LnVK7VL5GwXa8h1y7q/YHk4y51nRdnBAvPMLHg=;
+ s=k20201202; t=1757936251;
+ bh=pTLgLrWjvJcI34WEgogI5pmVGE1Q2782+yLOnrPimjY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=irHbUquBjSFrawKk+3UEmche2gt/Rgpdr15gS2JmZS1dAWlbJlXBHbjg8gXR11Yqp
- +0Hq/9ortYg0Y/zWUUCIyy0K6u7iQLk2GngrdprqwAjvstszH+MGIy54oFkpGIx0ye
- KKrLh/V0L3NQGkKrJPO0FsH9PER9w+OHgY/I8AlUOaS6rDDJZTDStchF9/Am2QVN7l
- Ern40o9RIMirw5FmHcmpIWMXFeJ64dAut9owbvoKVl8v3FOCE6Gl6tuQSDnXl//x8/
- I80uS8tMkCCT2pb8G+3gUOlazd6j8iEg+BvPx9JHasL18daPL8EFs1yAzIk3qM/tes
- /AjpcK9rdKcBw==
-Date: Mon, 15 Sep 2025 13:35:45 +0200
+ b=R0snSTnILeSLhn46HJ2y2eQj0k1bRnyhA1W0oj5xji+Ou/ci3A0F7SjmUtDuLFdIW
+ 77yb8qpz5p03ARqJzYuv9nRjUHCE6i0KkpubanHHEliniagxirOAJONZxe+IlhLEqF
+ 1Af8EipwRsHcQPhMAQg5Z96sFFluWWXjbKg/vth8wRYLM/ZBqMobFOAX79khBTGHfu
+ 6JJ1VmZfVk+ErOjyGvRzpntVyXofYE9U5cf6aZrfe2M02D2kDRw3XgwnxwQaC9NfGP
+ E0ZzRvo4nHVjwdTz3xzfZaULH4R6IRHEEnEXSfXS3MQ7W7AtaFCCVHDNBQo7s9HyiP
+ NH+I0GFQ2gZyg==
+Date: Mon, 15 Sep 2025 13:37:28 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -42,17 +42,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Devarsh Thakkar <devarsht@ti.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/29] drm/atomic: Only call atomic_destroy_state on a
- !NULL pointer
-Message-ID: <20250915-dangerous-industrious-gecko-b25b7b@penduick>
+Subject: Re: [PATCH 09/29] drm/modeset: Create atomic_reset hook
+Message-ID: <20250915-radical-vagabond-jaguar-b45157@penduick>
 References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
- <20250902-drm-state-readout-v1-8-14ad5315da3f@kernel.org>
- <20250902205247.GW13448@pendragon.ideasonboard.com>
+ <20250902-drm-state-readout-v1-9-14ad5315da3f@kernel.org>
+ <20250902210445.GX13448@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="lzlgqubra4xlbor6"
+ protocol="application/pgp-signature"; boundary="pfit7i5w3kasuvbx"
 Content-Disposition: inline
-In-Reply-To: <20250902205247.GW13448@pendragon.ideasonboard.com>
+In-Reply-To: <20250902210445.GX13448@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,71 +68,46 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---lzlgqubra4xlbor6
+--pfit7i5w3kasuvbx
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 08/29] drm/atomic: Only call atomic_destroy_state on a
- !NULL pointer
+Subject: Re: [PATCH 09/29] drm/modeset: Create atomic_reset hook
 MIME-Version: 1.0
 
-On Tue, Sep 02, 2025 at 10:52:47PM +0200, Laurent Pinchart wrote:
-> On Tue, Sep 02, 2025 at 10:32:36AM +0200, Maxime Ripard wrote:
-> > The drm_atomic_state structure is freed through the
-> > drm_atomic_state_put() function, that eventually calls
-> > drm_atomic_state_default_clear() by default when there's no active
-> > users of that state.
+On Tue, Sep 02, 2025 at 11:04:45PM +0200, Laurent Pinchart wrote:
+> On Tue, Sep 02, 2025 at 10:32:37AM +0200, Maxime Ripard wrote:
+> > Since we're about to integrate some infrastructure to implement hardware
+> > state readout, we need a way to differentiate between drivers wanting to
+> > start from a pristine state, with the classic reset sequence, and
+> > drivers that want to pickup their initial state from reading out the
+> > hardware state.
 > >=20
-> > It then iterates over all entities with a state, and will call the
+> > To do so we can create an optional reset hook in
+> > drm_mode_config_helper_funcs that will default to the classic reset
+> > implementation, and can be setup to a helper we will provide in a later
+> > patch to read the hardware state.
 >=20
-> Did you mean s/with a state/within the state/ ?
+> I'm a bit puzzled by this. Isn't the whole point of the existing reset
+> operations to allow drivers to read out the hardware state if they wish
+> ? Why do we need something new ?
 
-I'm not sure how to phrase it, but I meant "entities" that have a
-matching state structure. Encoders for example don't.
+I'm creating a callback for drivers to select whether they want the
+current reset behaviour (ie, start from a pristine, default state) or
+implement readout through a set of helpers.
 
-> I'd also replace "entity" with "object" as mentioned in the review of a
-> previous patch.
+What's puzzling you?
 
-And bridges aren't objects :/
-
-> > atomic_destroy_state callback on the state pointer. The state pointer is
-> > mostly used these days to point to which of the old or new state needs
-> > to be freed, depending on whether the state was committed or not.
-> >=20
-> > So it all makes sense.
-> >=20
-> > However, with the hardware state readout support approaching, we might
-> > have a state, with multiple entities in it, but no state to free because
-> > we want them to persist. In such a case, state is going to be NULL, and
-> > thus we'll end up with NULL pointer dereference.
->=20
-> I'm not sure to follow you here. Are we talking with objects whose old
-> and new states will both need to be preserved ? Or objects that have no
-> old state ?
-
-It's more of the latter, but not really. Objects, at this point of the
-series, will always have an old state.
-
-However, due to how the initial state is being built with hardware
-readout, we would move the old state of an entity/object/whatever to
-$object->state, and clear it from drm_atomic_state so it's not freed.
-
-so drm_atomic_state ends up with a whole bunch of objects that don't
-have an old state anymore, and drm_atomic_state_default_clear() chokes
-on that.
-
-Maxime
-
---lzlgqubra4xlbor6
+--pfit7i5w3kasuvbx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMf6EQAKCRAnX84Zoj2+
-ds4WAX98P2TpRW0+Wg625O9mrd1bDzmxa7KteQ4ID+ZyQm39wgRPsGEEwcVEJ0yk
-nO0ooV0BfiXGnL5cpFsL7vNgrr+yQFxUB+wWibtzPr2ITMmRVF7i7wbIpaH+jstp
-18m/s/QBwA==
-=KewR
+iJQEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMf6eAAKCRAnX84Zoj2+
+doi/AXi7tycst9EqlH6loakkYlWwONQc8IvQ3qxh9G6ZzE0XZ+AV3Qr7t5hFK9Yi
+8nmrcwGAiJDAmS1g3/DYYDz11gaokXqbL3adEyP+aXZhldbavVAfmcoKyUzY6n2w
+QLM61AOT
+=NGUq
 -----END PGP SIGNATURE-----
 
---lzlgqubra4xlbor6--
+--pfit7i5w3kasuvbx--
