@@ -2,128 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD89BB575BD
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199CFB575DF
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA7510E3CE;
-	Mon, 15 Sep 2025 10:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5E410E3CB;
+	Mon, 15 Sep 2025 10:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZBc6wlxT";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gSzJDiXB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A8210E3CE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:21 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FgLj031661
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- sKD/3kPWUFAIEKI0UmpKQAcxh9lP5Wru5KsNYI2Yxfo=; b=ZBc6wlxTY2NrEsig
- 4fQSCUgYY0661833ZRKf3dhutGaTAzFuHKLF3C1rfXISL2/jQUDk9D013zPWen2u
- wZIPk1j2YBJ/R2kQl07dACQ8jGwRzyItehxgwlk9Edh24ZmWGBY6yc0NnX3mcafn
- 0HNtDPxk0fs1714LQ6pRoeqkF0tzHWRE4bSyy6Qwq2eP4gNuu37lfyKUwfMoHrVE
- QTYIw+5pNEaUPbC9mwZ436p61Q2YDL6KYHHsKtmRQiCjQnjU/soVB0yVci1F8tab
- OV68RFIxLx7hl3P/HKZr13Nn2vxowr3nXiMCJpb/wjfLKTnd2EgynxizCnhZNmG4
- B0N/Yg==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494yma4j1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:20 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b4d41eed745so1012540a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 03:12:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757931139; x=1758535939;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=sKD/3kPWUFAIEKI0UmpKQAcxh9lP5Wru5KsNYI2Yxfo=;
- b=wlAu/UinSmvdNVZElcBtfADt7SWmGf2sxhpVmvDYMqeb8MVNl4kmMsl8Y+bsub/MUb
- FWk5Av6aWvEAWBJydXYs2uYth0+0rFcjXLLS45aSRVVtzDcUBj2ikZlxXhXIrx/xsmWv
- 3VKiA4dJknu10lx72HbwXiy/dBewQ1WlPMr4hv4slGMry+7VLCFRDSxNwmSk2QmzsGoJ
- Bo/4+4PbBbhXN/h1inW/Pt4nUjix4NcwC+ovdGP8Ytbq1Vs/w86uym72ZfOD1SCzox37
- qXF7yP55xU9tobwNUu4JttZJycCuMZv9q9LUsrZmxN023SeVH3iesow9abT0YDeTMwGc
- A9rA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXK/WY4+VN+o+qjmj1SowKUYsBNAjJsNJ6//uL82AWRjd/ZYzrlmfWFpun/capmclWe2U3NTBwsxVE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyj29Mi7aOtaKfCh2fbtiSiUXQ4d7c/V31SJ9C4tfc1svfqxTuJ
- IrmKVVz4LCCv0NGi8P6hQJmgldsybN3yFuNDKRqorR9XzeaFuGyHpLk+jjesINejrEwhKbfOEbN
- bZcbv/aIcGmV9Ud+5bUlXpcoDMftBNyTIm3+B64vLZYOIQ2P5gfAjvAFxIZENjNx+ViOasmc=
-X-Gm-Gg: ASbGncvhy8doODEPJXkhNVdcYsH4eTHNgoMA+7CNRtvJZIDKKzMi440hWam6k4/LhW7
- h7tIiDcqMyH1zXcmzcthqL89ZpzeJDNx98Ijc93bHEs5B2EwUCoVTOWDlg2t04sXBNj7XcQfdfU
- BVhN2mDlCnRJMgdDBVjSJWJuIV4oCXCvWO+Vg/LT7UeV153sx+JxkGFRz48l4AV7AFeFyL6FQif
- JQIDYlVdyq4ycqYf+ZZyxJ0d5/hAi/T3IFzqNNfXb0ENeg3llKb6jIbxlpDJOu/ehAhc7QacCIg
- 1FqyKL0Z/6Pvkbv2cbuVZENCIMrLv1DrnX7vn8/5oc9LPhLQfG7P66eRjDAsW6hVubHnPPTr65a
- JTCUJFbIYBuGPBUd3LAn2H2izxy7d34XARj8=
-X-Received: by 2002:a05:6a21:328d:b0:264:10e4:f87 with SMTP id
- adf61e73a8af0-26410e411fbmr1664440637.4.1757931139310; 
- Mon, 15 Sep 2025 03:12:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHxZXxZBGVcbThhG/IvVDI3mpTgc5wznmZnjs66RxbpQzCycjFMO9w4+/RnbJr+43MLjBFNnw==
-X-Received: by 2002:a05:6a21:328d:b0:264:10e4:f87 with SMTP id
- adf61e73a8af0-26410e411fbmr1664402637.4.1757931138808; 
- Mon, 15 Sep 2025 03:12:18 -0700 (PDT)
-Received: from [10.133.33.231] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b54b03cf65csm8329380a12.16.2025.09.15.03.12.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Sep 2025 03:12:18 -0700 (PDT)
-Message-ID: <f030649a-9505-4bda-9ce9-00eeee8d3b06@oss.qualcomm.com>
-Date: Mon, 15 Sep 2025 18:12:10 +0800
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB63210E3CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:14:03 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 30A451A0E12;
+ Mon, 15 Sep 2025 10:14:02 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0491F6063F;
+ Mon, 15 Sep 2025 10:14:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 7526C102F2AA2; 
+ Mon, 15 Sep 2025 12:13:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1757931240; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=ClgjtsTa+fjb0PUWeFBk56M8yGoBllTGlfLie6WA88E=;
+ b=gSzJDiXBgTlxZCdVMadgiYCy81b2QDR7BjERq14Ho2oRJniBwV7alxdJdLRufitoTXem3+
+ XoZVRJSLtgIOg3k5j45NDUBG6HHD+iJ1LravybZSyVAgxwbcvIO/bWNE2Qs2m3LoEeGLKI
+ 5rTCFWgGRMDLlY/oQ3nFrwVkMkHbMjxkkJ+tQ0oi/XdrXgNuS98XriuUqkf4zmPbDxFEps
+ VeSfHeMuNwBbBoow+ZOmx3u3DZdaOxvb2aJ0Yb+cJcZ3N0KqDr3bT+GrW12+vmxT3EJd2n
+ soM4fz6OPESSy0pho/drROUJhyCgTIyQ/fu0UZ5qJE9OT+6pC9PnxWCsv2pvfQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v9 0/3] drm/bridge: debugfs: show refcount and list removed
+ bridges
+Date: Mon, 15 Sep 2025 12:12:45 +0200
+Message-Id: <20250915-drm-bridge-debugfs-removed-v9-0-6e5c0aff5de9@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 11/13] phy: qcom: qmp-usbc: Add USB/DP mutex handling
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
- <20250911-add-displayport-support-for-qcs615-platform-v4-11-2702bdda14ed@oss.qualcomm.com>
- <nfugwwknnlxls75yo5rex6ggu5nzpq6enyx6e6nfnfei3icxjg@t7dnzcfcjw4o>
- <cf6c2c2f-9878-4181-a3c8-9692423308bd@oss.qualcomm.com>
- <q4dplt6fq3cneludcuhxevklaj6omeio3cjxw2owt4h3wistd6@arv23ri4cl75>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <q4dplt6fq3cneludcuhxevklaj6omeio3cjxw2owt4h3wistd6@arv23ri4cl75>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOSBTYWx0ZWRfX7eBQK76hbVyA
- cLqhBMv/8FKxKp/7QVG7phd+ItYT+rJzUMSuTspuIcWgmH3wr1HzdIWEyuLkKRd0QJ5AV036179
- 0OWw7t7nP5aAJdbJ1YtTxuR3bFHDuVAIjXtCSnO8bjR8begPocOfFy0RrNj+PquSU1BEoSyXmEU
- Vx6n2EV9/Ed1kCXLyu9UXOhHvQN2TY5eOnAlr5fOm2mMJg+b3B4FfGlvy9yu50RJYUCj9gxu1M9
- 6PsBY8l3IXgn6ZXfzFtLr9cVoyLwGoLzmCePwPeZVkJ7vIcvbwV3HrR93cB87rbkUrXtm+R32cp
- 0W+pIuyoHbDGlmFGZsxoWbxfkwlWxWEGauZrBwp3YdXR33/F2Dhc9rKl02JwOYzpnU6JG+QN6IY
- DsK/8mL2
-X-Authority-Analysis: v=2.4 cv=cdTSrmDM c=1 sm=1 tr=0 ts=68c7e684 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=CZmHqXGeirO8O24YQhMA:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-ORIG-GUID: cqFnjzHLsUlcRexH2pvtPdorouwG1tS7
-X-Proofpoint-GUID: cqFnjzHLsUlcRexH2pvtPdorouwG1tS7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_04,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130019
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJ3mx2gC/32P22rEIBCGXyV4XYuag5qrvkcpi4cxEZK4a4y0L
+ Hn3mmyh7M3eDPwz8M3339EK0cOK+uqOImS/+rCUIN8qZEa1DIC9LRkxwlrSEIFtnLGO3paLBb0
+ NbsUR5pDBYtZy6YRk0OgaFcA1gvPfJ/zz65Ej3LbyIz2WSKsVsAnz7FNfMcsctYY3xmmtGyGpE
+ s52XUeYNJ0zIFmZzh7oU4fTJx01TcHgAdJ1S9iFeAFlxsvf0dGGKqBcd63qM0OHz+jXFOLP2T3
+ zU+jkCipf1cwcEyw54eQoLLn40CGkyS/vpckJzuIfJil7CRMF1pq6toIbo9v2Gbbv+y8lj3djo
+ wEAAA==
+X-Change-ID: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,56 +76,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series shows removed bridges to the global <debugfs>/dri/bridges file.
+Removed bridges are bridges after drm_bridges_remove() but before they are
+eventually freed on the last drm_bridge_put().
 
-On 9/12/2025 8:09 PM, Dmitry Baryshkov wrote:
-> On Fri, Sep 12, 2025 at 08:03:01PM +0800, Xiangxu Yin wrote:
->> On 9/12/2025 6:32 PM, Dmitry Baryshkov wrote:
->>> On Thu, Sep 11, 2025 at 10:55:08PM +0800, Xiangxu Yin wrote:
->>>> Introduce mutual exclusion between USB and DP PHY modes to prevent
->>>> simultaneous activation.
->>> Describe the problem that you are trying to solve first.
->>
->> Ok.
->>
->>
->>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>>> ---
->>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 21 +++++++++++++++++++++
->>>>  1 file changed, 21 insertions(+)
->>>>
->>>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>> index 613239d15a6a3bba47a647db4e663713f127c93e..866277036089c588cf0c63204efb91bbec5430ae 100644
->>>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->>>> @@ -1061,6 +1061,19 @@ static int qmp_usbc_usb_power_off(struct phy *phy)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> +static int qmp_check_mutex_phy(struct qmp_usbc *qmp, bool is_dp)
->>> mutex has a very well defined use case - a sleeping lock. Please find
->>> some ofther name.
->>
->> Then how about 'qmp_check_exclude_phy'?
->
-> qmp_usbc_check_phy_status()?
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-Ok.
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17-rc1)
+    C. ✔ kunit tests (v6.17-rc1)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17-rc1)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+            (drm-misc-next)
+       2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
+       3. …✔ drm_bridge_get_next_bridge() (partially in drm-misc-next)
+       4. …✔ drm_for_each_bridge_in_chain() (partially in drm-misc-next)
+       5. drm_bridge_connector_init
+       6. of_drm_find_bridge
+       7. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. ➜ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ➜ show refcount and list removed bridges
+ 2. … handle gracefully atomic updates during bridge removal
+ 3. … DSI host-device driver interaction
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
 
+To show the removed bridges we need to keep track of them, thus add a new
+global list to store them between drm_bridge_remove() and the eventual
+free. This is bit tricky in case a bridge is removed and then re-added
+before being freed. This is handled in patch 2.
 
->>
->>>> +{
->>>> +	if ((is_dp && qmp->usb_init_count) ||
->>>> +	    (!is_dp && qmp->dp_init_count)) {
->>>> +		dev_err(qmp->dev,
->>>> +			"PHY is configured for %s, can not enable %s\n",
->>>> +			is_dp ? "USB" : "DP", is_dp ? "DP" : "USB");
->>>> +		return -EBUSY;
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>>  static int qmp_usbc_usb_enable(struct phy *phy)
->>>>  {
->>>>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
+This series  depends on one other series:
+ * [PATCH v2 0/9] drm/bridge: get/put the bridge when looping over the encoder chain
+   Link: https://lore.kernel.org/r/20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com
+   Reason: trivial conflict in context (drm_for_each_bridge_in_chain_scoped())
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v9:
+- Renamed leftover instances of "removed" to "lingering"
+- Added Maxime R-by
+- Link to v8: https://lore.kernel.org/r/20250912-drm-bridge-debugfs-removed-v8-0-5c33d87ccb55@bootlin.com
+
+Changes in v8:
+- Removed patch 1, now in drm-misc-next
+- Renamed "removed" -> "lingering"
+- Rewrote documentation changes to use "register" in lieu of "publish",
+  split them to a separate patch
+- Link to v7: https://lore.kernel.org/r/20250819-drm-bridge-debugfs-removed-v7-0-970702579978@bootlin.com
+
+This series was initially part of v6 of this other series:
+- Link to v6: https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+
+---
+Luca Ceresoli (3):
+      drm/bridge: add list of removed refcounted bridges
+      drm/debugfs: show lingering bridges
+      drm/bridge: adapt drm_bridge_add/remove() docs, mention the lingering list
+
+ drivers/gpu/drm/drm_bridge.c | 46 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
+---
+base-commit: 2d2f1dc74cfbbb4891a8fd666029c6fce926fcfd
+change-id: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
