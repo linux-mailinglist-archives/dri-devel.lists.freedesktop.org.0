@@ -2,81 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364B0B5766F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7334BB5766D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:33:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9013410E41E;
-	Mon, 15 Sep 2025 10:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDDD910E3F4;
+	Mon, 15 Sep 2025 10:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="WMazPnXE";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lIlQptSF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QGX+aFGC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lIlQptSF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QGX+aFGC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E8B210E415
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:33:25 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id
- af79cd13be357-80e3612e1a7so711357085a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 03:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1757932404; x=1758537204;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nvFr0tTlDypZC06Z38K7ue640mYssd20VwglOC4ESaQ=;
- b=WMazPnXEza3bGQW/Yr3NyOCuxl2GWSvc6bEf8IhaGLr4DMjORKW16wq2+D0+SDfp0q
- I3vBkZDHqL/PI0NuYWEm0YEvIwh7Qf9Vk8/nwLFveG1WcsmZcMyoaaL84vYZrge5LMfA
- 9TE6sv7o1G2NoE08jamL36ywwFlqqgNJSaX5yjwyUWor5FmMokmCwJ4hytpkkGStMGMk
- hXHMmLnxAjOI/WHLeePD9IezNX3o5Md7CbC8bSr0jXcCw3ernd2RjR7BeS4qWUEAZm6x
- mLBQ7Uv8biBuMWmXu/WEoSSiAbahd5gcd/PpxYu2X4Hw7n88nsAv6qNzRB+xWE3N2D7d
- NB5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757932404; x=1758537204;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nvFr0tTlDypZC06Z38K7ue640mYssd20VwglOC4ESaQ=;
- b=iCGNNZHnSNq5hJmGbyH1dAXtR1d9HDImwBN9sZoRYI63ntiVZ4kDIjtsVPUNcP6jgG
- A7N/FXqRNHbmERuhLvunfC2mULEVXmBzRm+SnFUjn9CmHCpvfZx65LSXFQ5OvxTggHbq
- poKJsc8sMR3QFqGDh/qOv0kBGlvw9hA++QSdDVXuX/8veW/xqd8Fj1jc1McaQ7SA4od1
- E0T5SdTg1+Q3B70Ps7N30LswPL4dt7nz/TRfXfM30WHRB42HomWkAXnc4fRtprJv925h
- 2KLL2CLhDdeRvti19wttmdLUMLJmH9ehXsGUqbdISpEzStvyEogeR9EE31usfMXTOpY2
- izOw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWJFW8xtxnexiIKZlNhrHV1+irizkc+y40pHURILrEf/EpoPSId5Ym6+BeNYIxBrQIojtZm52rsocU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7oy9Tiy7Ucp9ksPSy2LFlc7TokCjsvjxUOO28NW8Clxt+Q+n/
- ynmOCN6KJt72lfd8JDb693hNcvJy1F+bqq/N7qkSzDfRfET4qTNh2VEpDchf9JG9Om+ZiEAhSGM
- 69OtpnWcAjPSUIWhc2brcBK+rGdk0Teg9lCraEb+1Hg==
-X-Gm-Gg: ASbGncs1gw+QlHxFV4/4udkNNf/Rfc3npmvRpgKIoo7lmYnVHOyit0/TMHK9PcTtL4d
- JRvz1OScTuyQV51bIT1jLZnHtVjBAACNQHohkdRKNjJuq5Sy4eHUVJcAhCWddjj43ZSXiYR7+hl
- KEdKS06F74yLhgukVvjqBKISRYZO01OV06F+vRNhQ40nPC1Dx4ql3qyV+ioCaNTcW6sytS9MSbh
- +Ur8R6hFPMpsrJx9mK6EqEJl3KbndwfEo9ORQ3RfNeTyaxjuYqdKgyJUSV7T4I=
-X-Google-Smtp-Source: AGHT+IF+Z1B4MRX5EBlqfXHkIVbSCxwNked+w+4oV1jp/LLImuEn0EZibPfUOhyWgb+M6jZgGafVWZNoqfIPpNi62BE=
-X-Received: by 2002:a05:620a:2590:b0:804:6af0:277a with SMTP id
- af79cd13be357-8240094485amr1498230385a.70.1757932401680; Mon, 15 Sep 2025
- 03:33:21 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A4B10E415
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:33:19 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 481CF33722;
+ Mon, 15 Sep 2025 10:33:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KBAuNS0TTvxvtzR+Tz8ifqkXTWv7/rtPAWRDBL4D7c4=;
+ b=lIlQptSFuR/rJDS3hKyu2w41wwiwgNJ22smYoCFZ0B8huApYv0mO7km1SSvMYT4p40mulk
+ fnq1r/mViDDDZi0S+74Agv1o5OaU2Pj6u/Gia/dXx3H6oqTGfahIcsZDpWZ17idVCmc4IR
+ 6Li8gzHivz2zseuCbg2DSBafNuxynzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932398;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KBAuNS0TTvxvtzR+Tz8ifqkXTWv7/rtPAWRDBL4D7c4=;
+ b=QGX+aFGCdAL1ZCDP5rtIrbCaA0NqJJYzwqucSfxCVuvBOfj1ZXW0dMC7+skuXg4/YTaMDC
+ VxUPIGXFE3O9w0DQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lIlQptSF;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QGX+aFGC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1757932398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KBAuNS0TTvxvtzR+Tz8ifqkXTWv7/rtPAWRDBL4D7c4=;
+ b=lIlQptSFuR/rJDS3hKyu2w41wwiwgNJ22smYoCFZ0B8huApYv0mO7km1SSvMYT4p40mulk
+ fnq1r/mViDDDZi0S+74Agv1o5OaU2Pj6u/Gia/dXx3H6oqTGfahIcsZDpWZ17idVCmc4IR
+ 6Li8gzHivz2zseuCbg2DSBafNuxynzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1757932398;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KBAuNS0TTvxvtzR+Tz8ifqkXTWv7/rtPAWRDBL4D7c4=;
+ b=QGX+aFGCdAL1ZCDP5rtIrbCaA0NqJJYzwqucSfxCVuvBOfj1ZXW0dMC7+skuXg4/YTaMDC
+ VxUPIGXFE3O9w0DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 044CA1368D;
+ Mon, 15 Sep 2025 10:33:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ULY0O23rx2i6EgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 15 Sep 2025 10:33:17 +0000
+Message-ID: <38570a2a-c01a-4cd3-a72d-8fa909b33348@suse.de>
+Date: Mon, 15 Sep 2025 12:33:17 +0200
 MIME-Version: 1.0
-References: <20250911130739.4936-1-marius.vlad@collabora.com>
- <20250911130739.4936-4-marius.vlad@collabora.com>
- <ssvxorsrhum2eo2uiieradrrmytemivr6m5c3mskalehzaj4ci@nc74epxgjq5w>
- <aMMDxIWN9TadgVyw@xpredator>
- <6zmp2dzpvcb4hi4kaa66q5o4rlcpdkor75ci4rnvalt2a37f26@lbmvc4t2ow4z>
-In-Reply-To: <6zmp2dzpvcb4hi4kaa66q5o4rlcpdkor75ci4rnvalt2a37f26@lbmvc4t2ow4z>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 15 Sep 2025 12:33:08 +0200
-X-Gm-Features: Ac12FXw62vBPv1fp3j8HsSzUqTsHYoQOTjReF6D7hVvUP8qKG97kjDvdxpZjPYc
-Message-ID: <CAPj87rNxGfroKTf1i5UtmmnZ9wDQTdZFDMKw-MLdbCfjTCD=Uw@mail.gmail.com>
-Subject: Re: [PATCH 3/8] drm: Add new general DRM property "color format"
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org, 
- wse@tuxedocomputers.com, andri@yngvason.is, sebastian.wick@redhat.com, 
- mripard@kernel.org, daniel.stone@collabora.com, jani.nikula@linux.intel.com, 
- tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com, 
- christian.koenig@amd.com, derek.foreman@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] drm: Replace the deprecated DRM_* logging macros in
+ gem helper files
+To: Athul Raj Kollareth <krathul3152@gmail.com>, michal.wajdeczko@intel.com
+Cc: skhan@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ simona@ffwll.ch, mripard@kernel.org
+References: <aLczDHV_yGnnRKbr@Terra>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aLczDHV_yGnnRKbr@Terra>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; FREEMAIL_TO(0.00)[gmail.com,intel.com];
+ RCPT_COUNT_SEVEN(0.00)[8]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 481CF33722
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,98 +151,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-On Mon, 15 Sept 2025 at 02:57, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
-> On Thu, Sep 11, 2025 at 08:15:48PM +0300, Marius Vlad wrote:
-> > On Thu, Sep 11, 2025 at 04:50:59PM +0300, Dmitry Baryshkov wrote:
-> > > It's unclear, who should be combining this data: should it be the ker=
-nel
-> > > or the userspace.
-> >
-> > Userspace. I've went a bit into why that is in the cover letter. That
-> > was a pain point in the previous versions raised by other folks. Driver=
-s
-> > are free to advertise whatever color formats their HW supports. To
-> > filter what panel/display supports userspace would look at the EDID and=
- do an
-> > intersection with the ones with the driver. This not uncommon, userspac=
-e
-> > already looks today at the EDID for color management / HDR purposes. Th=
-ere's
-> > just too much for the kernel to handle and rather than offloading that
-> > to the kernel, people suggested previously to let userspace handle that=
-.
-> >
-> > > From my POV deferring this to the userspace doesn't make sense: there
-> > > will be different quirks for monitors / panels, e.g. the EDID wrongly
-> > > advertising YUV or not advertising a knowlingly-working capability.
-> >
-> > Yeah, for sure. There have been some folks also raising that and discus=
-sing
-> > that a bit further in previous thread on similar topic:
-> > https://lore.kernel.org/dri-devel/TY4PR01MB14432B688209B2AA416A95228983=
-EA@TY4PR01MB14432.jpnprd01.prod.outlook.com/
-> >
-> > Note that people have added quirks into libdisplay-info library to
-> > overcome these limitations. It is far more easier to that into a librar=
-y
-> > than in the kernel.
+
+Am 02.09.25 um 20:10 schrieb Athul Raj Kollareth:
+> Replace the DRM_* logging macros used in gem helper files with the
+> appropriate ones specified in /include/drm/drm_print.h.
 >
-> This forces everybody who wishes to use this property to use that
-> library (or to duplicate the code, making it spread over different
-> projects).
+> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+> Reviewed-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
-This really is already the case though. There is far more than the
-kernel can parse and handle in connector modes - and far more than it
-makes sense for the kernel to do.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-The kernel absolutely should have enough to support simple usecases,
-e.g. console and splash screen, to make sure that they work out of the
-box no matter what. But once you get into HDR/YUV/VRR/stereo/etc
-usecases, it doesn't make sense for the kernel to abstract the EDID
-parsing so much that userspace never needs to touch it - it makes the
-kernel just a lossy middle barrier. So if you look just at
-compositors, all the big four of KWin, Mutter, Weston, and wlroots,
-all use libdisplay-info to parse the EDID. And that's fine - they also
-use libevdev and libinput to handle raw input data, and libxkbcommon
-to deal with the pain that is keyboards.
-
-> > > I think that the property should reflect the kernel view on the possi=
-ble
-> > > formats, which should be updated during get_modes() (or every time ED=
-ID
-> > > is being read).
-> >
-> > The property advertises the supported color formats by display driver.
-> > Userspace just filters these out based on what the sink supports. This
-> > could just a policy in the compositor / UI.  There's nothing preventing
-> > you to force push from those advertised formats.
+> ---
+> Changes in v5:
+>      - Minor style fix.
 >
-> What is the expected behaviour if userspace asks for the colorspace
-> which is supported by the driver but not by the display?
-
-Quite possibly just a failure to display. Same as if the driver
-guesses it wrong - including for reasons it can never statically
-detect (e.g. buying a 10m-long uncertified HDMI cable which drops
-signal, or having the cable pulled around a 90=C2=B0 bend making it very
-marginal for transmission).
-
-> > > And that's not to mention that there are enough use-cases where the
-> > > connector doesn't have EDID at all.
-> > Totally. But what would be the expectation in that case? Drivers can
-> > still advertise 'Auto' if they'd like.
+> Changes in v4:
+>      - Some codestyle corrections.
+>      - Remove OOM error logging in drm_gem_init().
 >
-> I'm trying to point out that this complicates userspace: it is now
-> required to handle EDID and non-EDID cases for no practical reason. For
-> all other usecases it is enough to query available modes from the
-> kernel.
+> Changes in v3:
+>      - Revert all changes to drm_gem_objects_lookup().
+>      - Use drm_device from minor.
+>
+> Changes in v2:
+>      - Change drm_gem_objects_lookup() to take a drm_device* argument.
+>      - Make appropriate changes to all calls of drm_gem_objects_lookup().
+> ---
+>   drivers/gpu/drm/drm_gem.c            | 16 ++++++++--------
+>   drivers/gpu/drm/drm_gem_dma_helper.c |  2 +-
+>   2 files changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 4a89b6acb6af..fb12cc2051d8 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -101,10 +101,8 @@ drm_gem_init(struct drm_device *dev)
+>   
+>   	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
+>   					  GFP_KERNEL);
+> -	if (!vma_offset_manager) {
+> -		DRM_ERROR("out of memory\n");
+> +	if (!vma_offset_manager)
+>   		return -ENOMEM;
+> -	}
+>   
+>   	dev->vma_offset_manager = vma_offset_manager;
+>   	drm_vma_offset_manager_init(vma_offset_manager,
+> @@ -783,9 +781,10 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+>   int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>   			   int count, struct drm_gem_object ***objs_out)
+>   {
+> -	int ret;
+> -	u32 *handles;
+> +	struct drm_device *dev = filp->minor->dev;
+>   	struct drm_gem_object **objs;
+> +	u32 *handles;
+> +	int ret;
+>   
+>   	if (!count)
+>   		return 0;
+> @@ -805,7 +804,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>   
+>   	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+>   		ret = -EFAULT;
+> -		DRM_DEBUG("Failed to copy in GEM handles\n");
+> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+>   		goto out;
+>   	}
+>   
+> @@ -853,12 +852,13 @@ EXPORT_SYMBOL(drm_gem_object_lookup);
+>   long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+>   				    bool wait_all, unsigned long timeout)
+>   {
+> -	long ret;
+> +	struct drm_device *dev = filep->minor->dev;
+>   	struct drm_gem_object *obj;
+> +	long ret;
+>   
+>   	obj = drm_gem_object_lookup(filep, handle);
+>   	if (!obj) {
+> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+> +		drm_dbg_core(dev, "Failed to look up GEM BO %d\n", handle);
+>   		return -EINVAL;
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> index 4f0320df858f..a507cf517015 100644
+> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
+>   
+>   	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
+>   	if (ret) {
+> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
+> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
+>   		return ERR_PTR(ret);
+>   	}
+>   
 
-But not 'now', because that's been happening for years. And not 'no
-practical reason', because in order to support features the kernel has
-no involvement in (colour management and HDR as a large part), you
-need to see the full EDID.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Cheers,
-Daniel
+
