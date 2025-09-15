@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A738BB56F92
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 07:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490AAB56FC3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 07:47:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1360110E2AE;
-	Mon, 15 Sep 2025 05:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 930AB10E036;
+	Mon, 15 Sep 2025 05:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PeCwHCRh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YrO2N/Fi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
- [209.85.221.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CD9D10E2AE
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 05:01:57 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id
- 71dfb90a1353d-54a2beaa29fso442575e0c.2
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Sep 2025 22:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757912516; x=1758517316; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SP8MR8Zyb+M1j23tZdMs2golC/4gwmlwntbTcjSvyqs=;
- b=PeCwHCRhfGDjh7Eq5vrMpIrUeoCm1aTYvHfn9hm5cpZNv9b6EjGAbw/VCPiJDfgf3r
- klvaHQVrlA533bf+yBq7GMKTOqj4mZmwQGL6oNICE47/OKMwohZqe0mINaOd4wW1bAvJ
- 0C2xJ5+Mb995KJAS2Ivlr1m2Rlpu6HLVEhC/Db7vBnV/akhcgb81QNrQWB3i8VA9HT2I
- Ek2lxUhWFcrG+n+3nW/DJN+eXHJ7AQS8Dcoeo5xdLxwzro1YTxjK622dW+yG+5QjxS5e
- InpezZaOlWloFKZravvn70PMUYxDNCjYV8KlPU/184x8k4gYwdmUZlZppcRfMZb9ayhK
- 2lHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757912516; x=1758517316;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SP8MR8Zyb+M1j23tZdMs2golC/4gwmlwntbTcjSvyqs=;
- b=KyZMOGfo+3IO48+cKQGzBY9adWGUMem/Ie+veSo/EUgX+UvVy+MYq4t8T/0OzP3jga
- 0ZC6+TWaV59FunXv8FUx+aUrjuZIWO2KS/4RJldWkCxUZIcuEhcWl5emluSoOR8Z/RaC
- PLPXFu/+tdghL3/B8NaDzS1O3+NDv9CuKxGB+C1cV9imfpat4mzebAAP6R+2Bsz4Ieov
- JSKGCOqJ/aRI7K2IkB/c/Lh/wHgDuLkRnQ47TmY1HPsJ9Gl3Zzl70WM9R0uiMDpecRNd
- jsMr3xwHq5apxciJZCNMJovQixk8HaOUDIuXfJd5sinJ0IWVqsScIiCu4lm6qwfu30ok
- YZ1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlDRKsVAbUtStYpDsuHqW1TukD7cOLyZ4unWuQAk5yTIfRdgteXzYpkznfxngloE6BfmyL2eM9WoA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6ZXsj5STROeyA4N9vPYBVLnyVL9yDfu1vrbyePM1LzyQBwWN+
- MC8XB6/KwBQXBFymhXoWwEnBw9H/9Zh0NwAnl7QpC1rf8dMypOqTKapHk3/sa+QQ30rNT/sm4gu
- 0SfcqQrtDr1OBvi4bKVN28MaO9CbtsF0=
-X-Gm-Gg: ASbGncuNY9VDaCSjz2rn5k5L4McDFos4B6LyIHP1FulrZNZrSvQ8MjODS3bXRhuP3Ak
- 4hfQ43htunZtn7HQp5EFeI7BjRI92yKqCkhDykqEingkvv9JklUBYWbNmFBWL1sqCAuBswHgOpv
- 39F0pjZG5uXUa6z7vRwDi0GgXUa/SuL61HpF9ZfAGMD3yiaYDz2/eAeJdYwpPZH06ctE84zw/Jn
- 7d1N//DTkKfhZcExdUz1P/TIrqSgTxsnDvqBlX7Gx9lcYs4INM=
-X-Google-Smtp-Source: AGHT+IE3jn62oKcgXSavOgunVi8XJshWJWhwQ/NqLWYGRV5pjEp2g/3sg3TnOmQhafFEN8gAAnv9ZuPZTgxOKs6YhQw=
-X-Received: by 2002:a05:6102:d86:b0:51a:4916:c5f0 with SMTP id
- ada2fe7eead31-55610cc5eb5mr3946090137.32.1757912515692; Sun, 14 Sep 2025
- 22:01:55 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7B7710E2AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 05:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757915265; x=1789451265;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=uhq5A4HqOzycNT0EguqVROkMdKzAY8x3LE2Z7OEXVXw=;
+ b=YrO2N/FiQbeNOJfR4qQJdbcF+L4ch2iAeSTrQW0uj55LPQBbu4/53ioz
+ BnCLZ9IiXI/eRJ9NszYQyVik3nWIzG+bfeoGOJ7O6apT6ILpOeHT92gg6
+ o3wQq5HSHrD+91yVIBRNaeoQ9OMY+JJOmccak1MlahxiQ00Fjb8pBJKTr
+ 8j9yfJtKfEmYJqJMMlGEb5HuUX6N1dmpOi7jGde/QXjsjCSGHUcwSSiHn
+ IB73avXP84CbYiLvingBKbUEwKLMUO664XlAZ8jfvi4vvGYGhL+J/ChbU
+ uRZqIAr0yhlcsiCMyZMyjqr+7cD624QN+U1rZu5UbnAtYtxP2hgxjeKdf Q==;
+X-CSE-ConnectionGUID: pt+qFDwsQkmT5y3qQNuSNw==
+X-CSE-MsgGUID: v6j7+x8uTTCm08f0bDDwaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60264271"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="60264271"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2025 22:47:44 -0700
+X-CSE-ConnectionGUID: gjM+2CUiQFKjW+x4di8vSw==
+X-CSE-MsgGUID: sYKP41NqQxW0tIoaUO1RTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="174598032"
+Received: from lkp-server02.sh.intel.com (HELO 0f80bf6f8d53) ([10.239.97.151])
+ by orviesa008.jf.intel.com with ESMTP; 14 Sep 2025 22:47:37 -0700
+Received: from kbuild by 0f80bf6f8d53 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uy23O-00002V-38;
+ Mon, 15 Sep 2025 05:47:10 +0000
+Date: Mon, 15 Sep 2025 13:46:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 23/23] staging: media: tegra-video: add CSI support
+ for Tegra20 and Tegra30
+Message-ID: <202509151319.M4lQXwA8-lkp@intel.com>
+References: <20250906135345.241229-24-clamor95@gmail.com>
 MIME-Version: 1.0
-References: <20250914031522.33155-1-inki.dae@samsung.com>
- <CAPM=9txNEQXDU6rKHxTVXej7fxgrbbd_X+emHejwA4a7s9aoaw@mail.gmail.com>
-In-Reply-To: <CAPM=9txNEQXDU6rKHxTVXej7fxgrbbd_X+emHejwA4a7s9aoaw@mail.gmail.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Mon, 15 Sep 2025 14:01:18 +0900
-X-Gm-Features: AS18NWA8kCkHBSD9xTpctn9ue13u7QfKbO5ABJGpcQFwup3LnmL09HsH5sVhYxY
-Message-ID: <CAAQKjZNcAXOLovpsYwhzKh1V-SGhiWTh3xt1aQorQFY9tTBv_Q@mail.gmail.com>
-Subject: Re: [GIT PULL] drm-misc-next
-To: Dave Airlie <airlied@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <dev@lankhorst.se>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250906135345.241229-24-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,89 +91,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Svyatoslav,
 
-Sorry for this. While rebasing onto drm-misc-next, I overlooked that
-some unrelated patches were unintentionally included. Since the pull
-requests for exynos-drm-misc-next and exynos-drm-next are
-interdependent, I will rebase onto drm-next and submit the two pull
-requests again today.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Inki Dae
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on robh/for-next clk/clk-next linus/master v6.17-rc6]
+[cannot apply to next-20250912]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-2025=EB=85=84 9=EC=9B=94 15=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 12:42, =
-Dave Airlie <airlied@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> Hi Inki,
->
-> I've already gotten the last drm-misc-next pull for 6.18 in my tree,
-> there are some patches being pulled in that might be for 6.19? or do
-> we want to get another drm-misc-next pull into 6.18?
->
-> Dave.
->
-> On Sun, 14 Sept 2025 at 13:15, Inki Dae <inki.dae@samsung.com> wrote:
-> >
-> > Hi Dave and Daniel,
-> >
-> >    Add DSIM bridge drvier support for Exynos7870 SoC.
-> >
-> > Please kindly let me know if there is any problem.
-> >
-> > Thanks,
-> > Inki Dae
-> >
-> > The following changes since commit c08c931060c7e44452e635e115913dd88214=
-848c:
-> >
-> >   drm/gem/shmem: Extract drm_gem_shmem_release() from drm_gem_shmem_fre=
-e() (2025-09-12 19:04:37 -0400)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags=
-/exynos-drm-misc-next-for-v6.18
-> >
-> > for you to fetch changes up to 17308ab685acba947fb35e52fada2b97f346b8cd=
-:
-> >
-> >   drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM brid=
-ge (2025-09-14 11:53:09 +0900)
-> >
-> > ----------------------------------------------------------------
-> > New feature
-> > Add DSIM bridge driver support for Exynos7870
-> > . Introduces Exynos7870 DSIM IP block support in the samsung-dsim bridg=
-e driver.
-> > Document Exynos7870 DSIM compatible in dt-bindings
-> > . Adds exynos7870 compatible string and required clocks in device tree =
-schema.
-> >
-> > ----------------------------------------------------------------
-> > Kaustabh Chakraborty (12):
-> >       drm/bridge: samsung-dsim: support separate LINK and DPHY status r=
-egisters
-> >       drm/bridge: samsung-dsim: add SFRCTRL register
-> >       drm/bridge: samsung-dsim: add flag to control header FIFO wait
-> >       drm/bridge: samsung-dsim: allow configuring bits and offsets of C=
-LKCTRL register
-> >       drm/bridge: samsung-dsim: allow configuring the MAIN_VSA offset
-> >       drm/bridge: samsung-dsim: allow configuring the VIDEO_MODE bit
-> >       drm/bridge: samsung-dsim: allow configuring PLL_M and PLL_S offse=
-ts
-> >       drm/bridge: samsung-dsim: allow configuring the PLL_STABLE bit
-> >       drm/bridge: samsung-dsim: increase timeout value for PLL_STABLE
-> >       drm/bridge: samsung-dsim: add ability to define clock names for e=
-very variant
-> >       dt-bindings: samsung,mipi-dsim: document exynos7870 DSIM compatib=
-le
-> >       drm/bridge: samsung-dsim: add driver support for exynos7870 DSIM =
-bridge
-> >
-> >  .../bindings/display/bridge/samsung,mipi-dsim.yaml |  27 ++
-> >  drivers/gpu/drm/bridge/samsung-dsim.c              | 353 +++++++++++++=
-+++-----
-> >  include/drm/bridge/samsung-dsim.h                  |  16 +-
-> >  3 files changed, 308 insertions(+), 88 deletions(-)
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/clk-tegra-set-CSUS-as-vi_sensors-gate-for-Tegra20-Tegra30-and-Tegra114/20250906-215750
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250906135345.241229-24-clamor95%40gmail.com
+patch subject: [PATCH v2 23/23] staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+config: arm-randconfig-r131-20250915 (https://download.01.org/0day-ci/archive/20250915/202509151319.M4lQXwA8-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 21857ae337e0892a5522b6e7337899caa61de2a6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250915/202509151319.M4lQXwA8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509151319.M4lQXwA8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:366:9: note: previous definition is here
+     366 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/staging/media/tegra-video/tegra20.c:909:6: warning: variable 'pp' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     909 |         if (ret < 0) {
+         |             ^~~~~~~
+   drivers/staging/media/tegra-video/tegra20.c:923:53: note: uninitialized use occurs here
+     923 |         tegra20_mipi_write(mipi, TEGRA_CSI_CSI_CIL_STATUS, pp);
+         |                                                            ^~
+   drivers/staging/media/tegra-video/tegra20.c:909:2: note: remove the 'if' if its condition is always false
+     909 |         if (ret < 0) {
+         |         ^~~~~~~~~~~~~~
+     910 |                 dev_warn(csi->dev, "MIPI calibration status timeout!\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     911 |                 goto exit;
+         |                 ~~~~~~~~~~
+     912 |         }
+         |         ~
+   drivers/staging/media/tegra-video/tegra20.c:900:6: warning: variable 'pp' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     900 |         if (ret < 0) {
+         |             ^~~~~~~
+   drivers/staging/media/tegra-video/tegra20.c:923:53: note: uninitialized use occurs here
+     923 |         tegra20_mipi_write(mipi, TEGRA_CSI_CSI_CIL_STATUS, pp);
+         |                                                            ^~
+   drivers/staging/media/tegra-video/tegra20.c:900:2: note: remove the 'if' if its condition is always false
+     900 |         if (ret < 0) {
+         |         ^~~~~~~~~~~~~~
+     901 |                 dev_warn(csi->dev, "MIPI calibration timeout!\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     902 |                 goto exit;
+         |                 ~~~~~~~~~~
+     903 |         }
+         |         ~
+   drivers/staging/media/tegra-video/tegra20.c:886:15: note: initialize the variable 'pp' to silence this warning
+     886 |         u32 value, pp, cil;
+         |                      ^
+         |                       = 0
+   3 warnings generated.
+
+
+vim +909 drivers/staging/media/tegra-video/tegra20.c
+
+   880	
+   881	static int tegra20_finish_pad_calibration(struct tegra_mipi_device *mipi)
+   882	{
+   883		struct tegra_csi *csi = mipi->csi;
+   884		void __iomem *cil_status_reg = csi->iomem + TEGRA_CSI_CSI_CIL_STATUS;
+   885		unsigned int port = mipi->pads;
+   886		u32 value, pp, cil;
+   887		int ret;
+   888	
+   889		/* This part is only for CSI */
+   890		if (port > PORT_B) {
+   891			pm_runtime_put(csi->dev);
+   892	
+   893			return 0;
+   894		}
+   895	
+   896		guard(mutex)(&csi->mipi_lock);
+   897	
+   898		ret = readl_relaxed_poll_timeout(cil_status_reg, value,
+   899						 value & CSI_MIPI_AUTO_CAL_DONE, 50, 250000);
+   900		if (ret < 0) {
+   901			dev_warn(csi->dev, "MIPI calibration timeout!\n");
+   902			goto exit;
+   903		}
+   904	
+   905		/* clear status */
+   906		tegra20_mipi_write(mipi, TEGRA_CSI_CSI_CIL_STATUS, value);
+   907		ret = readl_relaxed_poll_timeout(cil_status_reg, value,
+   908						 !(value & CSI_MIPI_AUTO_CAL_DONE), 50, 250000);
+ > 909		if (ret < 0) {
+   910			dev_warn(csi->dev, "MIPI calibration status timeout!\n");
+   911			goto exit;
+   912		}
+   913	
+   914		pp = tegra20_mipi_read(mipi, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS);
+   915		cil = tegra20_mipi_read(mipi, TEGRA_CSI_CSI_CIL_STATUS);
+   916		if (pp | cil) {
+   917			dev_warn(csi->dev, "Calibration status not been cleared!\n");
+   918			ret = -EINVAL;
+   919			goto exit;
+   920		}
+   921	
+   922	exit:
+   923		tegra20_mipi_write(mipi, TEGRA_CSI_CSI_CIL_STATUS, pp);
+   924	
+   925		/* un-select to avoid interference with DSI */
+   926		tegra20_mipi_write(mipi, TEGRA_CSI_CILB_MIPI_CAL_CONFIG,
+   927				   CSI_CIL_MIPI_CAL_HSPDOS(0) |
+   928				   CSI_CIL_MIPI_CAL_HSPUOS(0) |
+   929				   CSI_CIL_MIPI_CAL_TERMOS(4));
+   930	
+   931		tegra20_mipi_write(mipi, TEGRA_CSI_CILA_MIPI_CAL_CONFIG,
+   932				   CSI_CIL_MIPI_CAL_NOISE_FLT(0xa) |
+   933				   CSI_CIL_MIPI_CAL_PRESCALE(0x2) |
+   934				   CSI_CIL_MIPI_CAL_HSPDOS(0) |
+   935				   CSI_CIL_MIPI_CAL_HSPUOS(0) |
+   936				   CSI_CIL_MIPI_CAL_TERMOS(4));
+   937	
+   938		pm_runtime_put(csi->dev);
+   939	
+   940		return ret;
+   941	}
+   942	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
