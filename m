@@ -2,123 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA25B584F9
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 20:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD28DB5853B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 21:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D81DE10E53C;
-	Mon, 15 Sep 2025 18:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9118010E114;
+	Mon, 15 Sep 2025 19:22:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EuNE+aar";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="da3i4x4/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1D310E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:42 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FDTU6A020484
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=nMMKPwbFMSjvy9PWk7yGxyrz
- P5qxhwSObKoN7zz9Cmg=; b=EuNE+aarumICU53Pb8nbWw1vWJELMwtngsr/NFhj
- b67tH0/faAVXM8BakGNmxzZL/eduCfCUAQ5+knxk3lp63THxklrq5jhZZOsjC9c6
- rYhIyXq9WCA/I1qxRoAmbRRUj6sYT6CS738RLMZUXPU20MWvtdKAq2ZtI9mWI/jD
- 5ja3P28kw8CeSkfuwXvWnghnPmgBJeKGJ0FD6Ppqlbxce14ELRdSkIDDstuJAjK9
- tXF/CWtbY9GrrQpleEC9M/mOAeomKPXO84c84sfITddHT01T2T11KX/Xirf9HDkC
- 1LVewdCj0d01yUnv0q4qsbqR/EOIOnXmbrJxBfCBFbTWlQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4950pv673r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:38 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b60dd9634dso110746381cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:53:38 -0700 (PDT)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2F810E114
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 19:22:23 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-8276e579242so216867285a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1757964142; x=1758568942; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=al5/QaRmI4Fyop8+G78hecwI8fam/PPoVZVR9OpZXuU=;
+ b=da3i4x4/U1RdcNMp1DCsN2EMKBpdAQ7WXyvAFXmwtQpC+3cehFQdCbTmePjm8AVBEm
+ NfI9WSA+2yFndyGa39sBdC0Bmw5tUFUseCBbKxsD85qZiPolGKGCabVRenXV2e3pUhVF
+ c55hZSG9jftwzfqV1lzdAMWMmGqOzpiUt0cXj1ZyqXylTrtSLJVFViQUzDEEIENuTyj+
+ tYJsx8khvsvrKej7GTBGU6AWxRwXqxhEEFgKe8IwV43dbtIzM6Fic0Buz+VIniMHZdvC
+ OnAZlZIpTjMcyVTHq3E52EknKe8dtxnyCyH1KtuwOYN8IMIF5IzGn203YFKbDgXAQbbo
+ 9TtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757962417; x=1758567217;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nMMKPwbFMSjvy9PWk7yGxyrzP5qxhwSObKoN7zz9Cmg=;
- b=hpTdGvcBSnMvVP3f8T0iZD1unh364fRrnERlbgnQMelnxFLq3iN4zdno1fqKQPrvI2
- rdxH5EHJsDu3/B4r99CToF/KDLkGmTGqCXM2lDe0rpHkaRHcl3BwZ5NVK6r2Z8R+8xVC
- njN7MoGCiwijGkJA1dz7vxN4D4znW3htYLtdeuQSYAWhbqsIVdgDOEPfoO0V1UJqxIzb
- vfra+nCCXk2qSHybgx/3buPfWd9FA5XELD7vlXMRyDDArRDfZf2HYRwpubahd1wghJbt
- w8dTySt8rF62srEsrMN1tXLMD6zkONleGoZ+FAiHelss7abJ0VjSyrWQR+jD/w/F2LJ5
- 7zjA==
+ d=1e100.net; s=20230601; t=1757964142; x=1758568942;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=al5/QaRmI4Fyop8+G78hecwI8fam/PPoVZVR9OpZXuU=;
+ b=pjhu4AXWV8POq/AU+CUwWQ+IYQ4cwgC8bpcy23b9oHL6RaWcJSMb1qEaE9o4zBCNyj
+ 2SebuCEjLnFXYnvrV+Y8KHkARj8k71IuhA8E61o3ioclWK7dOhkmspyCAsjypm5ZfIgX
+ CgIbtGozaKVlZ8TXRGyfVesVXTlUJTkIwNTv83TucQ2dKr6Al3rhQhifbxNAeZD2eJ8R
+ wmSG15WvQVamZq6er8qKmgcG+9C3lmexQA1OR6SmhD53YnzgOW9CwAnVHJF6U2D6TV2Y
+ dNM214ODoxNcZOlquKKt/wRkMuBJb2vb15JCfWFncHhZI2TwkEmz4iHLAn9+myMYiYyo
+ JAuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWcTC5Y8mROH44OqETfluSZv5tKQNH9pQx36rpNk4gnornATOWkOAC+7aUnIzev+N/FWnxxR4iuNh0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydKbbP29LAKaa5uC7cH+pSaCe5AiUv8299gOm2aK5rfOO5jgZi
- scEKX2v8AsvcQv3+XfTy5tqsUCprirllEQcHlk5RauDC6vyoN7g8nXzx/XnlMP5BP8z9MKwL17x
- yg6FCMQq/EvI5kXuI9javvResiIkK6nOfSzpgFtNDcXCJYG4uuXmfIcoItT9xZT0026B6498=
-X-Gm-Gg: ASbGnctUMg5kHxVpnjo2Dzb0rAxxoZ5BkZ74pY80CFp8IExf35MR1k3TXNysF/eMlAH
- zeyQHKN+DesCn6bQUkZx1RWGezAjRcLCRgH36CH6FJh8nSUgEJYs0AqjAlFBA5WM+43zgD5SyEk
- aMFylePuhlzUn9512D5mzbNC6xviR8qV2eccRvqCxlMoRnwZkJn723Om3gzuCXQTb2r136lIY0S
- xq3FGBIHqTI6IuPGyVna1o/INWhj4QSerLHXHIj/8MosLbfRjWYAFZ8mzLfOBKZ+Lpt3S6EvETa
- GVaNUjVvUUhow3BgWycgjbqd0cc8a+2j1DUuq3MCdwVG7C+0fTDexheZnixAIiWEFWrof07HCdY
- eAHQefeg+1Z8CRgRiYjFTqs/f3s9Sk+liOLE+DpAgTa5nms/jEG+R
-X-Received: by 2002:ac8:7d89:0:b0:4b7:95da:b3c7 with SMTP id
- d75a77b69052e-4b795dac12amr105743981cf.48.1757962417343; 
- Mon, 15 Sep 2025 11:53:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHl1bgwAg6xsiD3botpPruuj1Z5eTwC4YuXll3Zv1jmcPqXrGVhLUi0yvP8XfARs9TjfTPNrg==
-X-Received: by 2002:ac8:7d89:0:b0:4b7:95da:b3c7 with SMTP id
- d75a77b69052e-4b795dac12amr105743251cf.48.1757962416589; 
- Mon, 15 Sep 2025 11:53:36 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-34f1a8211afsm28253981fa.45.2025.09.15.11.53.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Sep 2025 11:53:35 -0700 (PDT)
-Date: Mon, 15 Sep 2025 21:53:32 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Harikrishna Shenoy <h-shenoy@ti.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sjakhade@cadence.com, yamonkar@cadence.com,
- lumag@kernel.org, dianders@chromium.org, jani.nikula@intel.com,
- luca.ceresoli@bootlin.com, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, devarsht@ti.com, u-kumar1@ti.com,
- s-jain1@ti.com, tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH v5 2/2] drm: bridge: cdns-mhdp8546: Add support for DSC
- and FEC
-Message-ID: <d6l5vwx5s5oopyhniqbc3wputceblazpry2omeja2qvak37y2m@dbge4vedh7ko>
-References: <20250915103041.3891448-1-h-shenoy@ti.com>
- <20250915103041.3891448-3-h-shenoy@ti.com>
- <pwd4hocrxrnfymby6szzp7irlveoa36er7yn5ivlht5mwxrpdz@r237bd3epols>
+ AJvYcCXYE+LHTfpadfJ4OQ/lO7hhux03HkGD5EJlIWhzb6BjMdUpYxzycYy2ERU8QARUi+NZUOQ+fI8K3qg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzNzUzMVS/jFIfxWakaTtp+psg43ww6py9wCOxtsBvxlAwpyB3o
+ JKvESiSRy5eL996jVHbDisGTguQ6tXhASdav+8M6w7Tql25BRm750Ci0vVa6gvGHl5oX+oZk0co
+ w8nIiQMSVHlWRjwjQWeofjUJbZWuEdkU=
+X-Gm-Gg: ASbGncsN4/cwABBqyx2bgOUTG0qSxOvDxPEN+kh+3RuVnCi/8md1EpwyqSCLxFdIev7
+ 489dBdCWI4Wc/nZ22eHa2myPzixWTSMxW8cWtDwvRX5YxEFn9tGJWI7AeQ6ixdt4E8kSWMRof6a
+ g8CvmWbRNe29yzssk8eC9ee8mdZjGOAJaG+o9vgweBafgUSjxEk939Cco4PzTLFxlM2GzaWXsLd
+ scc24xV8y/kYGjIVwEREy7ebywpYTiNrKnOj1CdlA==
+X-Google-Smtp-Source: AGHT+IFwT3+8QSdw8bVVOPtYpiCrsiRW2qjfy3wczOneddPvKF3UaYC4KPP4I/SB7irlVFhfaV5rIBYj/SBCu7VWSvY=
+X-Received: by 2002:a05:620a:103b:b0:810:731f:32ff with SMTP id
+ af79cd13be357-823ffcb21cemr1740580785a.50.1757964142090; Mon, 15 Sep 2025
+ 12:22:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <pwd4hocrxrnfymby6szzp7irlveoa36er7yn5ivlht5mwxrpdz@r237bd3epols>
-X-Proofpoint-ORIG-GUID: cqISjvW7efSgJNEKNUeFn7twEk9ZX1Iw
-X-Authority-Analysis: v=2.4 cv=PsWTbxM3 c=1 sm=1 tr=0 ts=68c860b2 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=e5mUnYsNAAAA:8 a=Br2UW1UjAAAA:8 a=sozttTNsAAAA:8
- a=aquk1Lx4SgTA5jucOdcA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=WmXOPjafLNExVIMTj843:22
-X-Proofpoint-GUID: cqISjvW7efSgJNEKNUeFn7twEk9ZX1Iw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyOSBTYWx0ZWRfXz3NG19OPJHEp
- W7nPo/7oQ/N6m455pNNF9F0KgA+EC9x+CZI+C+TsJbYJMpVx0D/Fh3DOre7sWbp9v9GHe6iuETY
- yApdzWY23A/cVi0IUqMy/z0GfO9ddWwYYJ/Ut3AVRl8tNoCGPLoeaoupyS9FkCCdvANUbbe+rq5
- qFP/hJhaej13LFywN/PTIxD93jLbWd00iBxUKNjuuLeEM9cUwUuNyi3AUo19T7IoLi6LLnhrkd6
- QLjWr6p6V1rkm4V/7fIRvv+OGMRU1VQObhA5e+aQL+AUzF3ULsQ8re/G2hIbTeLfcrzOw+7rnhx
- 1UPgHgX4Iop96lMOya96BeVVdECKQ/OsId6vnfsFCzbgAbQpNqAFqcUaam5AHh+DS0IDLIk6zAB
- hxL/UmiX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_07,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- spamscore=0 bulkscore=0 adultscore=0 impostorscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130029
+References: <CACRbrPGvLP5LANXuFi6z0S7XMbAG4X5y2YOLBDxfOVtfGGqiKQ@mail.gmail.com>
+ <CAPM=9twtwNGjEXBv1Yj6vNLfEMPxuMgepOkhBKQYYtm0cmc45Q@mail.gmail.com>
+ <54375f5e6c5290aa218812c489ffe88e594217bd@intel.com>
+In-Reply-To: <54375f5e6c5290aa218812c489ffe88e594217bd@intel.com>
+From: =?UTF-8?Q?Tiago_Martins_Ara=C3=BAjo?= <tiago.martins.araujo@gmail.com>
+Date: Mon, 15 Sep 2025 21:22:11 +0200
+X-Gm-Features: AS18NWA84wvz7YImxvaBJOV3Q39dTZVzml3i1bk3g61QCwj6dYVfstAeCeT1dbk
+Message-ID: <CACRbrPHM=8DmTD2Wg__fBDpawuugA9C+CNr8-W8BJOnZfmobdA@mail.gmail.com>
+Subject: Re: DisplayID checksum validation blocking hardware capabilities -
+ CSO T3 panel
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch
+Content-Type: multipart/alternative; boundary="000000000000379cb3063edbecab"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,48 +85,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 15, 2025 at 02:06:58PM +0300, Dmitry Baryshkov wrote:
-> On Mon, Sep 15, 2025 at 04:00:41PM +0530, Harikrishna Shenoy wrote:
-> > From: Swapnil Jakhade <sjakhade@cadence.com>
-> > 
-> > Enable support for Display Stream Compression (DSC) in independent
-> > mode with a single stream, along with Forward Error Correction (FEC)
-> > in the Cadence MHDP8546 DisplayPort controller driver.
-> > 
-> > FEC is required when DSC is enabled to ensure reliable transmission
-> > of the compressed stream.
-> > 
-> > Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
-> > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
-> > ---
-> >  drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
-> >  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 367 ++++++++-
-> >  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  68 ++
-> >  .../drm/bridge/cadence/cdns-mhdp8546-dsc.c    | 695 ++++++++++++++++++
-> >  .../drm/bridge/cadence/cdns-mhdp8546-dsc.h    | 285 +++++++
-> >  5 files changed, 1392 insertions(+), 25 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.c
-> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.h
-> > 
-> > +		goto err;
-> > +	}
-> > +
-> > +	if (ret > 0)
-> > +		return 0;
-> > +err:
-> > +	return ret;
-> > +}
-> 
-> Consider extracting a common helper and using it here and in the Intel
-> DP driver. Also please use new DPCD helpers which return 0 instead of
-> size.
+--000000000000379cb3063edbecab
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For the reference, some time ago one of my colleagues implemented DP DSC
-support for the drm/msm driver. It didn't go in for multiple reasons,
-but feel free to use it as an inspiration for possible generic helpers.
-See https://patchwork.freedesktop.org/series/113240/
+> That's not the complete EDID data, though. It's missing 6*16 bytes. If
+> you go by the hex offsets, 0x100 does not follow 0x090.
 
+>  please grab the EDID from sysfs.
 
--- 
-With best wishes
-Dmitry
+Fresh from my terminal:
+=E2=9E=9C  ~ cat /sys/class/drm/card1-eDP-1/edid | edid-decode
+edid-decode (hex):
+
+00 ff ff ff ff ff ff 00 0e 6f 16 14 00 00 00 00
+00 20 01 04 b5 1e 13 78 03 21 15 a8 53 49 9c 25
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 ce 87 40 a0 b0 08 6a 70 30 20
+36 00 2d bc 10 00 00 18 00 00 00 fd 00 28 78 e5
+e5 46 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+53 4f 54 20 54 33 0a 20 20 20 20 20 00 00 00 fe
+00 4d 4e 45 30 30 37 5a 41 31 2d 35 0a 20 01 af
+
+70 13 79 00 00 03 01 14 9a 0f 01 05 3f 0b 9f 00
+2f 00 1f 00 07 07 69 00 02 00 05 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 f0 98
+
+----------------
+
+Block 0, Base EDID:
+  EDID Structure Version & Revision: 1.4
+  Vendor & Product Identification:
+    Manufacturer: CSO
+    Model: 5142
+    Made in: 2022
+  Basic Display Parameters & Features:
+    Digital display
+    Bits per primary color channel: 10
+    DisplayPort interface
+    Maximum image size: 30 cm x 19 cm
+    Gamma: 2.20
+    Supported color formats: RGB 4:4:4
+    First detailed timing includes the native pixel format and preferred
+refresh rate
+    Display supports continuous frequencies
+  Color Characteristics:
+    Red  : 0.6562, 0.3261
+    Green: 0.2851, 0.6103
+    Blue : 0.1445, 0.0595
+    White: 0.3134, 0.3291
+  Established Timings I & II: none
+  Standard Timings: none
+  Detailed Timing Descriptors:
+    DTD 1:  2880x1800   60.000966 Hz  16:10   114.362 kHz    347.660000 MHz
+(301 mm x 188 mm)
+                 Hfront   48 Hsync  32 Hback   80 Hpol N
+                 Vfront    3 Vsync   6 Vback   97 Vpol N
+    Display Range Limits:
+      Monitor ranges (Range Limits Only): 40-120 Hz V, 229-229 kHz H, max
+dotclock 700 MHz
+    Alphanumeric Data String: 'CSOT T3'
+    Alphanumeric Data String: 'MNE007ZA1-5'
+  Extension blocks: 1
+Checksum: 0xaf
+
+----------------
+
+Block 1, DisplayID Extension Block:
+  Version: 1.3
+  Extension Count: 0
+  Display Product Type: Extension Section
+  Video Timing Modes Type 1 - Detailed Timings Data Block:
+    DTD:  2880x1800  120.000207 Hz  16:10   228.720 kHz    695.310000 MHz
+(aspect 16:10, no 3D stereo)
+               Hfront   48 Hsync  32 Hback   80 Hpol N
+               Vfront    3 Vsync   6 Vback   97 Vpol N
+  Checksum: 0xf0 (should be 0xf8)
+Checksum: 0x98
+
+Let me know if you need something else from my side.
+
+> There is code already to ignore EDID checksum for CEA extension
+> blocks, look for EDID_BLOCK_CHECKSUM, it probably could be extended to
+> cover displayid blocks,
+Are you recommending me to make use of this to suggest a fix/bypass, or is
+that just a suggestion for the other maintainers?
+
+> Otherwise I do wonder how common this is, and whether it should be
+> quirk per panel or just always do it.
+This is the machine model, from Lenovo's website:
+https://pcsupport.lenovo.com/de/en/products/laptops-and-netbooks/5-series/i=
+deapad-pro-5-14aph8/83am/83amcto1ww
+There probably plenty of other models that make use of the same panel.
+
+Thanks for looking into this,
+Tiago
+
+--000000000000379cb3063edbecab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div class=3D"gmail-HOEnZb gmail-adM"><div class=3D"g=
+mail-im">&gt; That&#39;s not the complete EDID data, though. It&#39;s missi=
+ng 6*16 bytes. If</div></div>&gt; you go by the hex offsets, 0x100 does not=
+ follow 0x090.<span class=3D"gmail-im"><br><br>&gt;=C2=A0</span> please gra=
+b the EDID from sysfs.<div><br></div><div>Fresh from my terminal:<br>=E2=9E=
+=9C =C2=A0~ cat /sys/class/drm/card1-eDP-1/edid | edid-decode<br>edid-decod=
+e (hex):<br><br>00 ff ff ff ff ff ff 00 0e 6f 16 14 00 00 00 00<br>00 20 01=
+ 04 b5 1e 13 78 03 21 15 a8 53 49 9c 25<br>0f 50 54 00 00 00 01 01 01 01 01=
+ 01 01 01 01 01<br>01 01 01 01 01 01 ce 87 40 a0 b0 08 6a 70 30 20<br>36 00=
+ 2d bc 10 00 00 18 00 00 00 fd 00 28 78 e5<br>e5 46 01 0a 20 20 20 20 20 20=
+ 00 00 00 fe 00 43<br>53 4f 54 20 54 33 0a 20 20 20 20 20 00 00 00 fe<br>00=
+ 4d 4e 45 30 30 37 5a 41 31 2d 35 0a 20 01 af<br><br>70 13 79 00 00 03 01 1=
+4 9a 0f 01 05 3f 0b 9f 00<br>2f 00 1f 00 07 07 69 00 02 00 05 00 00 00 00 0=
+0<br>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 0=
+0 00 00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00 00 00 00 00 00 00 0=
+0 00<br>00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00<br>00 00 00 00 00 0=
+0 00 00 00 00 00 00 00 00 00 00<br>00 00 00 00 00 00 00 00 00 00 00 00 00 0=
+0 f0 98<br><br>----------------<br><br>Block 0, Base EDID:<br>=C2=A0 EDID S=
+tructure Version &amp; Revision: 1.4<br>=C2=A0 Vendor &amp; Product Identif=
+ication:<br>=C2=A0 =C2=A0 Manufacturer: CSO<br>=C2=A0 =C2=A0 Model: 5142<br=
+>=C2=A0 =C2=A0 Made in: 2022<br>=C2=A0 Basic Display Parameters &amp; Featu=
+res:<br>=C2=A0 =C2=A0 Digital display<br>=C2=A0 =C2=A0 Bits per primary col=
+or channel: 10<br>=C2=A0 =C2=A0 DisplayPort interface<br>=C2=A0 =C2=A0 Maxi=
+mum image size: 30 cm x 19 cm<br>=C2=A0 =C2=A0 Gamma: 2.20<br>=C2=A0 =C2=A0=
+ Supported color formats: RGB 4:4:4<br>=C2=A0 =C2=A0 First detailed timing =
+includes the native pixel format and preferred refresh rate<br>=C2=A0 =C2=
+=A0 Display supports continuous frequencies<br>=C2=A0 Color Characteristics=
+:<br>=C2=A0 =C2=A0 Red =C2=A0: 0.6562, 0.3261<br>=C2=A0 =C2=A0 Green: 0.285=
+1, 0.6103<br>=C2=A0 =C2=A0 Blue : 0.1445, 0.0595<br>=C2=A0 =C2=A0 White: 0.=
+3134, 0.3291<br>=C2=A0 Established Timings I &amp; II: none<br>=C2=A0 Stand=
+ard Timings: none<br>=C2=A0 Detailed Timing Descriptors:<br>=C2=A0 =C2=A0 D=
+TD 1: =C2=A02880x1800 =C2=A0 60.000966 Hz =C2=A016:10 =C2=A0 114.362 kHz =
+=C2=A0 =C2=A0347.660000 MHz (301 mm x 188 mm)<br>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Hfront =C2=A0 48 Hsync =C2=A032 Hback=
+ =C2=A0 80 Hpol N<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0Vfront =C2=A0 =C2=A03 Vsync =C2=A0 6 Vback =C2=A0 97 Vpol N<br>=
+=C2=A0 =C2=A0 Display Range Limits:<br>=C2=A0 =C2=A0 =C2=A0 Monitor ranges =
+(Range Limits Only): 40-120 Hz V, 229-229 kHz H, max dotclock 700 MHz<br>=
+=C2=A0 =C2=A0 Alphanumeric Data String: &#39;CSOT T3&#39;<br>=C2=A0 =C2=A0 =
+Alphanumeric Data String: &#39;MNE007ZA1-5&#39;<br>=C2=A0 Extension blocks:=
+ 1<br>Checksum: 0xaf<br><br>----------------<br><br>Block 1, DisplayID Exte=
+nsion Block:<br>=C2=A0 Version: 1.3<br>=C2=A0 Extension Count: 0<br>=C2=A0 =
+Display Product Type: Extension Section<br>=C2=A0 Video Timing Modes Type 1=
+ - Detailed Timings Data Block:<br>=C2=A0 =C2=A0 DTD: =C2=A02880x1800 =C2=
+=A0120.000207 Hz =C2=A016:10 =C2=A0 228.720 kHz =C2=A0 =C2=A0695.310000 MHz=
+ (aspect 16:10, no 3D stereo)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0Hfront =C2=A0 48 Hsync =C2=A032 Hback =C2=A0 80 Hpol N<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Vfront =C2=A0 =C2=A03 V=
+sync =C2=A0 6 Vback =C2=A0 97 Vpol N<br>=C2=A0 Checksum: 0xf0 (should be 0x=
+f8)<br>Checksum: 0x98</div><div><br></div><div>Let me know if you need some=
+thing else from my side.<br><br>&gt; There is code already to ignore EDID c=
+hecksum for CEA extension<br>&gt; blocks, look for EDID_BLOCK_CHECKSUM, it =
+probably could be extended to<br>&gt; cover displayid blocks,<br></div><div=
+>Are you recommending me to make use of this to suggest a fix/bypass, or is=
+ that just a suggestion for the other maintainers?<br></div><div><br>&gt; O=
+therwise I do wonder how common this is, and whether it should be<br>&gt; q=
+uirk per panel or just always do it.<font color=3D"#888888"><br></font>This=
+ is the machine model, from Lenovo&#39;s website:<br><a href=3D"https://pcs=
+upport.lenovo.com/de/en/products/laptops-and-netbooks/5-series/ideapad-pro-=
+5-14aph8/83am/83amcto1ww">https://pcsupport.lenovo.com/de/en/products/lapto=
+ps-and-netbooks/5-series/ideapad-pro-5-14aph8/83am/83amcto1ww</a></div><div=
+>There probably plenty of other models that make use of the same panel.</di=
+v><br></div><div>Thanks for looking into this,<br></div><div>Tiago</div></d=
+iv>
+
+--000000000000379cb3063edbecab--
