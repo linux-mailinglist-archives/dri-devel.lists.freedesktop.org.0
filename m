@@ -2,105 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09297B57067
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 08:36:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC3FB5708A
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 08:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2506910E145;
-	Mon, 15 Sep 2025 06:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B02810E2B6;
+	Mon, 15 Sep 2025 06:42:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="clK958h4";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="JQJXzOfX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bey7w97y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a7-smtp.messagingengine.com
- (fout-a7-smtp.messagingengine.com [103.168.172.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D578910E145
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 06:36:50 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
- by mailfout.phl.internal (Postfix) with ESMTP id F3D43EC01FA;
- Mon, 15 Sep 2025 02:36:49 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-04.internal (MEProxy); Mon, 15 Sep 2025 02:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:message-id:mime-version:reply-to
- :subject:subject:to:to; s=fm3; t=1757918209; x=1758004609; bh=Ve
- mF/O6xk+QKk00Tc0PpqO0z76i9pxzmarMIwRRAZGQ=; b=clK958h4nv5hLtiWmP
- qDyaA4nRPCFCKZMno2+2L4l+wl9Wg6KY7vycGCC3UbfN7xdtJ8qNtg+s7r9r8pRl
- o6sj8KkH78Dy+/cNXM+lzXYNWYXWs6vyZWgcslbheOs70/zRbWL7MgF7b6+jR9xF
- RsczhGsoFgIFRipiaj3fBSzLmHIPiaOPxaygJ7umm7XgqMIWJ086tXIJt9VgjbM4
- cwdcqcOJmBKf2VkXfsQQhToRU+l4g6svaX2JxZ8sZoMcIGDfhorxmqB8KLvS722M
- 9E6vkKa+o3TwCYBZWTNvnHfB38OsVKA4Jo3aa4Dg2pkAxX56TRvfTe068Gepbvu9
- 5Byg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:message-id:mime-version:reply-to:subject
- :subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1757918209; x=1758004609; bh=VemF/O6xk+QKk00Tc0PpqO0z76i9
- pxzmarMIwRRAZGQ=; b=JQJXzOfXCZhsGEbXTFwwub3CxPikReA12lhKa/4rQ9oe
- RdUy9ZVsdRZw2AuuuKNgb4IUIN4nY2O9eGt6cRjQ2YJ820Uhzgo8I+1/XUqPCJQa
- SFuH63srZeiuLu/SIeNACqImarPrBmMmhvK/wuSCjtZx2hXi/jupyEzwZbkrvjhk
- osTg/b7VZeHtz4dCmR9D3dKjTizcVxN2Ucw36DhY97N+uqZeOFgU0OJ5T/QGab4D
- 2tsxV+WoZlit3t+MCPhx6kCT3MZOhSf8NSF2tlDutyU/2Ndj4Abb2e63eMnMmJLQ
- AuBan45RWIbaoB5sS80wfKaJlZI9T88OE46cpXmvEQ==
-X-ME-Sender: <xms:AbTHaCwHlumPj6ta0TTcXpyMVTVc-FoH5nGPA5WExvYj3hXE23WY-Q>
- <xme:AbTHaJ_OiHf5BN6I4SYKntPt23-NcM6hK8W0tVawErTAsOdPRa0WpE7z2fAhMaLOi
- VMcwPLh1jo4EJL1Jog>
-X-ME-Received: <xmr:AbTHaAzV61tGCO6d9xwo06KpfrLRjJ0Vouooh9qAYpMWiXOcXjqiqcGyGxxqRq9tqOTNsqyqlZgEYpbj0zqtuPRJRu80obwckeY9BQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefieellecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomheplfgrnhhnvgcuifhr
- uhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpeefheeltd
- ehfeetjeefvdehteeutddtteelgeduueetjeevteeifeeuvdefffdvieenucffohhmrghi
- nhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeelpdhm
- ohguvgepshhmthhpohhuthdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrd
- hfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdr
- khgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhrvgguihhnghesnhhvihguihgrrdgtoh
- hmpdhrtghpthhtoheplhhinhhugidqfhgsuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhr
- ghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
- hrghdprhgtphhtthhopehjsehjrghnnhgruhdrnhgvthdprhgtphhtthhopeguvghllhgv
- rhesghhmgidruggvpdhrtghpthhtohepthgvtghhsehtohhothgrihdrnhgvthdprhgtph
- htthhopehhrghnshhgsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:AbTHaBpWADBwujtKKbBYnYiyiga1rrEn1M8u6QMoxK8kTwzghxyjXQ>
- <xmx:AbTHaJp8eoLR_VVDTIzhU4dQaORDF2wZbtGVGr8mY7a5EYkZgns76A>
- <xmx:AbTHaJDS0ZcSA_4n-vgBsoLLo8J2rhl8mhSUVfSA5oeTkMTKiS4kgA>
- <xmx:AbTHaPsXtubj9QXY95tPATrh8q0RG3Dw9TzGlWa3HcClhddSRgYLaw>
- <xmx:AbTHaH2yeAM2Wc1SyCjtuek_Dc5N0lX9c2qC2tWEbq0RR2BVVdIolQ-a>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Sep 2025 02:36:48 -0400 (EDT)
-From: Janne Grunau <j@jannau.net>
-Date: Mon, 15 Sep 2025 08:36:41 +0200
-Subject: [PATCH v3] fbdev/simplefb: Fix use after free in
- simplefb_detach_genpds()
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA8AD10E2B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 06:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1757918557;
+ bh=dOUlmwtjQ7dFqHBYte2ksVsiBR2UJ6V2cqwUM9/Qyf0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bey7w97y3A/+4kjYut9Z4evws1FAIusM2YegGYIePSac8lorZw+rSQA/uhixwRjrF
+ TFP8uehhYxvTBmldzsMNsERWsgapJW8u+Hk8sr6rasl3G3uyJh50fEb6VzlsWp07PI
+ WVCc1Z8Oh4ohIsrP9CPsuDJRoBDCPUOKCsharMM+yHZ0l5NdReF2HjGVFO9m2lMjFk
+ cU/Wmxb+skS2F8AbXqocdpalPP+Ou/dpyr9UOEyoJF+CSIiU0DH7LcibQk9T7+oMN+
+ R2tO05DbP1w7PbsRXvxWnxEkAfya+kPWW5Hw4BnR4SStoRu1HOz10uLh5JL+/bRBmP
+ eCHI22bPmH3HQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7D89E17E046C;
+ Mon, 15 Sep 2025 08:42:36 +0200 (CEST)
+Date: Mon, 15 Sep 2025 08:42:24 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 2/2] drm/panthor: add custom ASN_HASH support for mt8196
+Message-ID: <20250915084224.08fcc2a4@fedora>
+In-Reply-To: <20250913002155.1163908-3-olvaffe@gmail.com>
+References: <20250913002155.1163908-1-olvaffe@gmail.com>
+ <20250913002155.1163908-3-olvaffe@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250915-simplefb-genpd-uaf-v3-1-5bb51506a5b9@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAPizx2gC/33NTQ6CMBCG4auQrq3pD0hx5T2Mi7GdQo0W0kKjI
- dzdwkoT4/L9knlmJhGDw0iOxUwCJhdd73PIXUF0B75F6kxuIpioWMM4je4x3NFeaYt+MHQCS2U
- lalbWBw6iIflwCGjdc0PPl9ydi2MfXtuPxNf1L5c45ZSZxkqQpS6NPt3Ae5j2Hkeyekl8GuqnI
- bJhlYLsGKWY/TKWZXkDVwwGqvkAAAA=
-X-Change-ID: 20250901-simplefb-genpd-uaf-352704761a29
-To: Hans de Goede <hansg@kernel.org>, Helge Deller <deller@gmx.de>, 
- Thierry Reding <treding@nvidia.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Daniel Huhardeaux <tech@tootai.net>, 
- stable@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8041; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=jduo0y4korFaMAY3lkityqAlQnFtCuA3rdQt5XSf2nQ=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhozjm//Vcue9nrzk5CmN83wHl0vO3fDDVsIhfJ7mxZPyL
- /X0rqzP6yhlYRDjYpAVU2RJ0n7ZwbC6RjGm9kEYzBxWJpAhDFycAjAR0y8M/zNaNyt1HzfuWi0t
- 4xf6VPelytGXG+Nt4uftXvL697Mz8YwM/yzCq/6U1nDlJ2gkRHbzvfvr/mHR9b5Hv8ttLhoenhw
- 6mQcA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,218 +70,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pm_domain cleanup can not be devres managed as it uses struct
-simplefb_par which is allocated within struct fb_info by
-framebuffer_alloc(). This allocation is explicitly freed by
-unregister_framebuffer() in simplefb_remove().
-Devres managed cleanup runs after the device remove call and thus can no
-longer access struct simplefb_par.
-Call simplefb_detach_genpds() explicitly from simplefb_destroy() like
-the cleanup functions for clocks and regulators.
+On Fri, 12 Sep 2025 17:21:55 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-Fixes an use after free on M2 Mac mini during
-aperture_remove_conflicting_devices() using the downstream asahi kernel
-with Debian's kernel config. For unknown reasons this started to
-consistently dereference an invalid pointer in v6.16.3 based kernels.
+> Add panthor_soc_data to control custom ASN_HASH. Add compatible string
+> for "mediatek,mt8196-mali" and enable custom ASN_HASH for the soc.
+> 
+> Without custom ASN_HASH, FW fails to boot
+> 
+>   panthor 48000000.gpu: [drm] *ERROR* Unhandled Page fault in AS0 at VA 0x0000000000000000
+>   panthor 48000000.gpu: [drm] *ERROR* Failed to boot MCU (status=fatal)
+>   panthor 48000000.gpu: probe with driver panthor failed with error -110
+> 
+> With custom ASN_HASH, panthor probes fine and userspace boots to ui just
+> fine as well
+> 
+>   panthor 48000000.gpu: [drm] clock rate = 0
+>   panthor 48000000.gpu: EM: created perf domain
+>   panthor 48000000.gpu: [drm] Mali-G925-Immortalis id 0xd830 major 0x0 minor 0x1 status 0x5
+>   panthor 48000000.gpu: [drm] Features: L2:0x8130306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
+>   panthor 48000000.gpu: [drm] shader_present=0xee0077 l2_present=0x1 tiler_present=0x1
+>   panthor 48000000.gpu: [drm] Firmware protected mode entry not be supported, ignoring
+>   panthor 48000000.gpu: [drm] Firmware git sha: 27713280172c742d467a4b7d11180930094092ec
+>   panthor 48000000.gpu: [drm] CSF FW using interface v3.13.0, Features 0x10 Instrumentation features 0x71
+>   [drm] Initialized panthor 1.5.0 for 48000000.gpu on minor 1
+> 
+> Note that the clock and the regulator drivers are not upstreamed yet.
+> They might as well take a different form when upstreamed.
+> 
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 
-[    6.736134] BUG: KASAN: slab-use-after-free in simplefb_detach_genpds+0x58/0x220
-[    6.743545] Read of size 4 at addr ffff8000304743f0 by task (udev-worker)/227
-[    6.750697]
-[    6.752182] CPU: 6 UID: 0 PID: 227 Comm: (udev-worker) Tainted: G S                  6.16.3-asahi+ #16 PREEMPTLAZY
-[    6.752186] Tainted: [S]=CPU_OUT_OF_SPEC
-[    6.752187] Hardware name: Apple Mac mini (M2, 2023) (DT)
-[    6.752189] Call trace:
-[    6.752190]  show_stack+0x34/0x98 (C)
-[    6.752194]  dump_stack_lvl+0x60/0x80
-[    6.752197]  print_report+0x17c/0x4d8
-[    6.752201]  kasan_report+0xb4/0x100
-[    6.752206]  __asan_report_load4_noabort+0x20/0x30
-[    6.752209]  simplefb_detach_genpds+0x58/0x220
-[    6.752213]  devm_action_release+0x50/0x98
-[    6.752216]  release_nodes+0xd0/0x2c8
-[    6.752219]  devres_release_all+0xfc/0x178
-[    6.752221]  device_unbind_cleanup+0x28/0x168
-[    6.752224]  device_release_driver_internal+0x34c/0x470
-[    6.752228]  device_release_driver+0x20/0x38
-[    6.752231]  bus_remove_device+0x1b0/0x380
-[    6.752234]  device_del+0x314/0x820
-[    6.752238]  platform_device_del+0x3c/0x1e8
-[    6.752242]  platform_device_unregister+0x20/0x50
-[    6.752246]  aperture_detach_platform_device+0x1c/0x30
-[    6.752250]  aperture_detach_devices+0x16c/0x290
-[    6.752253]  aperture_remove_conflicting_devices+0x34/0x50
-...
-[    6.752343]
-[    6.967409] Allocated by task 62:
-[    6.970724]  kasan_save_stack+0x3c/0x70
-[    6.974560]  kasan_save_track+0x20/0x40
-[    6.978397]  kasan_save_alloc_info+0x40/0x58
-[    6.982670]  __kasan_kmalloc+0xd4/0xd8
-[    6.986420]  __kmalloc_noprof+0x194/0x540
-[    6.990432]  framebuffer_alloc+0xc8/0x130
-[    6.994444]  simplefb_probe+0x258/0x2378
-...
-[    7.054356]
-[    7.055838] Freed by task 227:
-[    7.058891]  kasan_save_stack+0x3c/0x70
-[    7.062727]  kasan_save_track+0x20/0x40
-[    7.066565]  kasan_save_free_info+0x4c/0x80
-[    7.070751]  __kasan_slab_free+0x6c/0xa0
-[    7.074675]  kfree+0x10c/0x380
-[    7.077727]  framebuffer_release+0x5c/0x90
-[    7.081826]  simplefb_destroy+0x1b4/0x2c0
-[    7.085837]  put_fb_info+0x98/0x100
-[    7.089326]  unregister_framebuffer+0x178/0x320
-[    7.093861]  simplefb_remove+0x3c/0x60
-[    7.097611]  platform_remove+0x60/0x98
-[    7.101361]  device_remove+0xb8/0x160
-[    7.105024]  device_release_driver_internal+0x2fc/0x470
-[    7.110256]  device_release_driver+0x20/0x38
-[    7.114529]  bus_remove_device+0x1b0/0x380
-[    7.118628]  device_del+0x314/0x820
-[    7.122116]  platform_device_del+0x3c/0x1e8
-[    7.126302]  platform_device_unregister+0x20/0x50
-[    7.131012]  aperture_detach_platform_device+0x1c/0x30
-[    7.136157]  aperture_detach_devices+0x16c/0x290
-[    7.140779]  aperture_remove_conflicting_devices+0x34/0x50
-...
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Reported-by: Daniel Huhardeaux <tech@tootai.net>
-Cc: stable@vger.kernel.org
-Fixes: 92a511a568e44 ("fbdev/simplefb: Add support for generic power-domains")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-Changes in v3:
-- release power-domains on probe errors
-- set par->num_genpds when it's <= 1
-- set par->num_genpds to 0 after detaching
-- Link to v2: https://lore.kernel.org/r/20250908-simplefb-genpd-uaf-v2-1-f88a0d9d880f@jannau.net
-
-Changes in v2:
-- reworked change due to missed use of `par->num_genpds` before setting
-  it. Missed in testing due to mixing up FB_SIMPLE and SYSFB_SIMPLEFB.
-- Link to v1: https://lore.kernel.org/r/20250901-simplefb-genpd-uaf-v1-1-0d9f3a34c4dc@jannau.net
----
- drivers/video/fbdev/simplefb.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 1893815dc67f4c1403eea42c0e10a7ead4d96ba9..6acf5a00c2bacfab89c3a63bab3d8b1b091a20a8 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -93,6 +93,7 @@ struct simplefb_par {
- 
- static void simplefb_clocks_destroy(struct simplefb_par *par);
- static void simplefb_regulators_destroy(struct simplefb_par *par);
-+static void simplefb_detach_genpds(void *res);
- 
- /*
-  * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
-@@ -105,6 +106,7 @@ static void simplefb_destroy(struct fb_info *info)
- 
- 	simplefb_regulators_destroy(info->par);
- 	simplefb_clocks_destroy(info->par);
-+	simplefb_detach_genpds(info->par);
- 	if (info->screen_base)
- 		iounmap(info->screen_base);
- 
-@@ -445,13 +447,14 @@ static void simplefb_detach_genpds(void *res)
- 		if (!IS_ERR_OR_NULL(par->genpds[i]))
- 			dev_pm_domain_detach(par->genpds[i], true);
- 	}
-+	par->num_genpds = 0;
- }
- 
- static int simplefb_attach_genpds(struct simplefb_par *par,
- 				  struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	unsigned int i;
-+	unsigned int i, num_genpds;
- 	int err;
- 
- 	err = of_count_phandle_with_args(dev->of_node, "power-domains",
-@@ -465,26 +468,35 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
- 		return err;
- 	}
- 
--	par->num_genpds = err;
-+	num_genpds = err;
- 
- 	/*
- 	 * Single power-domain devices are handled by the driver core, so
- 	 * nothing to do here.
- 	 */
--	if (par->num_genpds <= 1)
-+	if (num_genpds <= 1) {
-+		par->num_genpds = num_genpds;
- 		return 0;
-+	}
- 
--	par->genpds = devm_kcalloc(dev, par->num_genpds, sizeof(*par->genpds),
-+	par->genpds = devm_kcalloc(dev, num_genpds, sizeof(*par->genpds),
- 				   GFP_KERNEL);
- 	if (!par->genpds)
- 		return -ENOMEM;
- 
--	par->genpd_links = devm_kcalloc(dev, par->num_genpds,
-+	par->genpd_links = devm_kcalloc(dev, num_genpds,
- 					sizeof(*par->genpd_links),
- 					GFP_KERNEL);
- 	if (!par->genpd_links)
- 		return -ENOMEM;
- 
-+	/*
-+	 * Set par->num_genpds only after genpds and genpd_links are allocated
-+	 * to exit early from simplefb_detach_genpds() without full
-+	 * initialisation.
-+	 */
-+	par->num_genpds = num_genpds;
-+
- 	for (i = 0; i < par->num_genpds; i++) {
- 		par->genpds[i] = dev_pm_domain_attach_by_id(dev, i);
- 		if (IS_ERR(par->genpds[i])) {
-@@ -506,9 +518,10 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
- 			dev_warn(dev, "failed to link power-domain %u\n", i);
- 	}
- 
--	return devm_add_action_or_reset(dev, simplefb_detach_genpds, par);
-+	return 0;
- }
- #else
-+static void simplefb_detach_genpds(void *res) { }
- static int simplefb_attach_genpds(struct simplefb_par *par,
- 				  struct platform_device *pdev)
- {
-@@ -622,18 +635,20 @@ static int simplefb_probe(struct platform_device *pdev)
- 	ret = devm_aperture_acquire_for_platform_device(pdev, par->base, par->size);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Unable to acquire aperture: %d\n", ret);
--		goto error_regulators;
-+		goto error_genpds;
- 	}
- 	ret = register_framebuffer(info);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Unable to register simplefb: %d\n", ret);
--		goto error_regulators;
-+		goto error_genpds;
- 	}
- 
- 	dev_info(&pdev->dev, "fb%d: simplefb registered!\n", info->node);
- 
- 	return 0;
- 
-+error_genpds:
-+	simplefb_detach_genpds(par);
- error_regulators:
- 	simplefb_regulators_destroy(par);
- error_clocks:
-
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250901-simplefb-genpd-uaf-352704761a29
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
+> 
+> ---
+> v2:
+>  - remove CONFIG_DRM_PANTHOR_SOC_MT8196 and panthor_soc*.[ch]
+>  - update commit message
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c |  2 ++
+>  drivers/gpu/drm/panthor/panthor_device.h | 14 +++++++++++++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  6 ++++++
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 25 +++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_regs.h   |  4 ++++
+>  5 files changed, 50 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 81df49880bd87..c7033d82cef55 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -172,6 +172,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	struct page *p;
+>  	int ret;
+>  
+> +	ptdev->soc_data = of_device_get_match_data(ptdev->base.dev);
+> +
+>  	init_completion(&ptdev->unplug.done);
+>  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
+>  	if (ret)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 4fc7cf2aeed57..9f0649ecfc4fc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -31,6 +31,17 @@ struct panthor_perfcnt;
+>  struct panthor_vm;
+>  struct panthor_vm_pool;
+>  
+> +/**
+> + * struct panthor_soc_data - Panthor SoC Data
+> + */
+> +struct panthor_soc_data {
+> +	/** @asn_hash_enable: True if GPU_L2_CONFIG_ASN_HASH_ENABLE must be set. */
+> +	bool asn_hash_enable;
+> +
+> +	/** @asn_hash: ASN_HASH values when asn_hash_enable is true. */
+> +	u32 asn_hash[3];
+> +};
+> +
+>  /**
+>   * enum panthor_device_pm_state - PM state
+>   */
+> @@ -93,6 +104,9 @@ struct panthor_device {
+>  	/** @base: Base drm_device. */
+>  	struct drm_device base;
+>  
+> +	/** @soc_data: Optional SoC data. */
+> +	const struct panthor_soc_data *soc_data;
+> +
+>  	/** @phys_addr: Physical address of the iomem region. */
+>  	phys_addr_t phys_addr;
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index be962b1387f03..9dd90754865ac 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1682,7 +1682,13 @@ static struct attribute *panthor_attrs[] = {
+>  
+>  ATTRIBUTE_GROUPS(panthor);
+>  
+> +static const struct panthor_soc_data soc_data_mediatek_mt8196 = {
+> +	.asn_hash_enable = true,
+> +	.asn_hash = { 0xb, 0xe, 0x0, },
+> +};
+> +
+>  static const struct of_device_id dt_match[] = {
+> +	{ .compatible = "mediatek,mt8196-mali", .data = &soc_data_mediatek_mt8196, },
+>  	{ .compatible = "rockchip,rk3588-mali" },
+>  	{ .compatible = "arm,mali-valhall-csf" },
+>  	{}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index db69449a5be09..9d98720ce03fd 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -52,6 +52,28 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+>  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
+>  }
+>  
+> +static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
+> +{
+> +	const struct panthor_soc_data *data = ptdev->soc_data;
+> +	u32 l2_config;
+> +	u32 i;
+> +
+> +	if (!data || !data->asn_hash_enable)
+> +		return;
+> +
+> +	if (GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id) < 11) {
+> +		drm_err(&ptdev->base, "Custom ASN hash not supported by the device");
+> +		return;
+> +	}
+> +
+> +	for (i = 0; i < ARRAY_SIZE(data->asn_hash); i++)
+> +		gpu_write(ptdev, GPU_ASN_HASH(i), data->asn_hash[i]);
+> +
+> +	l2_config = gpu_read(ptdev, GPU_L2_CONFIG);
+> +	l2_config |= GPU_L2_CONFIG_ASN_HASH_ENABLE;
+> +	gpu_write(ptdev, GPU_L2_CONFIG, l2_config);
+> +}
+> +
+>  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	gpu_write(ptdev, GPU_INT_CLEAR, status);
+> @@ -241,8 +263,9 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
+>  			      hweight64(ptdev->gpu_info.shader_present));
+>  	}
+>  
+> -	/* Set the desired coherency mode before the power up of L2 */
+> +	/* Set the desired coherency mode and L2 config before the power up of L2 */
+>  	panthor_gpu_coherency_set(ptdev);
+> +	panthor_gpu_l2_config_set(ptdev);
+>  
+>  	return panthor_gpu_power_on(ptdev, L2, 1, 20000);
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index 8bee76d01bf83..8fa69f33e911e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -64,6 +64,8 @@
+>  
+>  #define GPU_FAULT_STATUS				0x3C
+>  #define GPU_FAULT_ADDR					0x40
+> +#define GPU_L2_CONFIG					0x48
+> +#define   GPU_L2_CONFIG_ASN_HASH_ENABLE			BIT(24)
+>  
+>  #define GPU_PWR_KEY					0x50
+>  #define  GPU_PWR_KEY_UNLOCK				0x2968A819
+> @@ -110,6 +112,8 @@
+>  
+>  #define GPU_REVID					0x280
+>  
+> +#define GPU_ASN_HASH(n)					(0x2C0 + ((n) * 4))
+> +
+>  #define GPU_COHERENCY_FEATURES				0x300
+>  #define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
+>  
 
