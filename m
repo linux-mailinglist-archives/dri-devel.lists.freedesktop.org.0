@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199CFB575DF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FDDB575E1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5E410E3CB;
-	Mon, 15 Sep 2025 10:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC95410E3E1;
+	Mon, 15 Sep 2025 10:14:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gSzJDiXB";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="p/LGZc6W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB63210E3CB
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:14:03 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBA710E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:14:06 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 30A451A0E12;
- Mon, 15 Sep 2025 10:14:02 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 2E1234E40C2A;
+ Mon, 15 Sep 2025 10:14:04 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0491F6063F;
- Mon, 15 Sep 2025 10:14:02 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 027DF6063F;
+ Mon, 15 Sep 2025 10:14:04 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 7526C102F2AA2; 
- Mon, 15 Sep 2025 12:13:47 +0200 (CEST)
+ with ESMTPSA id 08D4B102F2ABA; 
+ Mon, 15 Sep 2025 12:14:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1757931240; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=ClgjtsTa+fjb0PUWeFBk56M8yGoBllTGlfLie6WA88E=;
- b=gSzJDiXBgTlxZCdVMadgiYCy81b2QDR7BjERq14Ho2oRJniBwV7alxdJdLRufitoTXem3+
- XoZVRJSLtgIOg3k5j45NDUBG6HHD+iJ1LravybZSyVAgxwbcvIO/bWNE2Qs2m3LoEeGLKI
- 5rTCFWgGRMDLlY/oQ3nFrwVkMkHbMjxkkJ+tQ0oi/XdrXgNuS98XriuUqkf4zmPbDxFEps
- VeSfHeMuNwBbBoow+ZOmx3u3DZdaOxvb2aJ0Yb+cJcZ3N0KqDr3bT+GrW12+vmxT3EJd2n
- soM4fz6OPESSy0pho/drROUJhyCgTIyQ/fu0UZ5qJE9OT+6pC9PnxWCsv2pvfQ==
+ t=1757931242; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=IAUhZTmobCaS25Cb7JsVWxwF+BZlLMSGAaomRA5kzc0=;
+ b=p/LGZc6WkYkiTaCZTgrE7LSqHbKK6b27BKPq3qvZA1L7MeqlRuKEfkiC76o0bhyGw4dOTg
+ BFY8PrtOsTpuOX8/nqPSlSPLxBMZUVd+plB0mfWCLeE0avWhbS0iPRe91kQhKEwUemPxyP
+ GL/5MJLj1lOEzTuYboSWOOUyIDCpJMX77WrySKGQC3/+WOZpDYMvHPaqVIcfKgnxusHI5Q
+ Iuc9l2ftG/h06ZieZuCGtEtvRDHTNGSDuQ8wzGTo8Ma8okDlC8pDghXR/B3l6htj0ZeH+l
+ k8o1m/C1FL3hV4+fd2Eg962cXMaL0x9Ke7fDoGDX3u4fMQeYtsdbGvChQOUuuA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH v9 0/3] drm/bridge: debugfs: show refcount and list removed
- bridges
-Date: Mon, 15 Sep 2025 12:12:45 +0200
-Message-Id: <20250915-drm-bridge-debugfs-removed-v9-0-6e5c0aff5de9@bootlin.com>
+Date: Mon, 15 Sep 2025 12:12:46 +0200
+Subject: [PATCH v9 1/3] drm/bridge: add list of removed refcounted bridges
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAJ3mx2gC/32P22rEIBCGXyV4XYuag5qrvkcpi4cxEZK4a4y0L
- Hn3mmyh7M3eDPwz8M3339EK0cOK+uqOImS/+rCUIN8qZEa1DIC9LRkxwlrSEIFtnLGO3paLBb0
- NbsUR5pDBYtZy6YRk0OgaFcA1gvPfJ/zz65Ej3LbyIz2WSKsVsAnz7FNfMcsctYY3xmmtGyGpE
- s52XUeYNJ0zIFmZzh7oU4fTJx01TcHgAdJ1S9iFeAFlxsvf0dGGKqBcd63qM0OHz+jXFOLP2T3
- zU+jkCipf1cwcEyw54eQoLLn40CGkyS/vpckJzuIfJil7CRMF1pq6toIbo9v2Gbbv+y8lj3djo
- wEAAA==
-X-Change-ID: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250915-drm-bridge-debugfs-removed-v9-1-6e5c0aff5de9@bootlin.com>
+References: <20250915-drm-bridge-debugfs-removed-v9-0-6e5c0aff5de9@bootlin.com>
+In-Reply-To: <20250915-drm-bridge-debugfs-removed-v9-0-6e5c0aff5de9@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -76,87 +71,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series shows removed bridges to the global <debugfs>/dri/bridges file.
-Removed bridges are bridges after drm_bridges_remove() but before they are
-eventually freed on the last drm_bridge_put().
+Between drm_bridge_add() and drm_bridge_remove() bridges are registered to
+the DRM core via the global bridge_list and visible in
+/sys/kernel/debug/dri/bridges. However between drm_bridge_remove() and the
+last drm_bridge_put() memory is still allocated even though the bridge is
+not registered, i.e. not in bridges_list, and also not visible in
+debugfs. This prevents debugging refcounted bridges lifetime, especially
+leaks due to a missing drm_bridge_put().
 
-This is part of the work towards removal of bridges from a still existing
-DRM pipeline without use-after-free. The grand plan was discussed in [1].
-Here's the work breakdown (➜ marks the current series):
+In order to allow debugfs to also show the removed bridges, move such
+bridges into a new ad-hoc list until they are eventually freed.
 
-This is part of the work towards removal of bridges from a still existing
-DRM pipeline without use-after-free. The grand plan was discussed in [1].
-Here's the work breakdown (➜ marks the current series):
+Note this requires adding INIT_LIST_HEAD(&bridge->list) in the bridge
+initialization code. The lack of such init was not exposing any bug so far,
+but it would with the new code, for example when a bridge is allocated and
+then freed without calling drm_bridge_add(), which is common on probe
+errors.
 
- 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
-    (based on devm_drm_bridge_alloc() [0])
-    A. ✔ add new alloc API and refcounting (v6.16)
-    B. ✔ convert all bridge drivers to new API (v6.17-rc1)
-    C. ✔ kunit tests (v6.17-rc1)
-    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
-         and warn on old allocation pattern (v6.17-rc1)
-    E. … add get/put on drm_bridge accessors
-       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
-            (drm-misc-next)
-       2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
-       3. …✔ drm_bridge_get_next_bridge() (partially in drm-misc-next)
-       4. …✔ drm_for_each_bridge_in_chain() (partially in drm-misc-next)
-       5. drm_bridge_connector_init
-       6. of_drm_find_bridge
-       7. drm_of_find_panel_or_bridge, *_of_get_bridge
-    F. ➜ debugfs improvements
-       1. ✔ add top-level 'bridges' file (v6.16)
-       2. ➜ show refcount and list removed bridges
- 2. … handle gracefully atomic updates during bridge removal
- 3. … DSI host-device driver interaction
- 4. finish the hotplug bridge work, removing the "always-disconnected"
-    connector, moving code to the core and potentially removing the
-    hotplug-bridge itself (this needs to be clarified as points 1-3 are
-    developed)
+drm_bridge_add() needs special care for bridges being added after having
+been previously added and then removed.  This happens for example for many
+non-DCS DSI host bridge drivers like samsung-dsim which
+drm_bridge_add/remove() themselves every time the DSI device does a DSI
+attaches/detach. When the DSI device is hot-pluggable this happens multiple
+times in the lifetime of the DSI host bridge.  On every attach after the
+first one, drm_bridge_add() finds bridge->list in the removed list, not at
+the initialized state as drm_bridge_add() currently expects. Add a
+list_del_init() to remove the bridge from the lingering list and bring
+bridge->list back to the initialized state.
 
-To show the removed bridges we need to keep track of them, thus add a new
-global list to store them between drm_bridge_remove() and the eventual
-free. This is bit tricky in case a bridge is removed and then re-added
-before being freed. This is handled in patch 2.
-
-This series  depends on one other series:
- * [PATCH v2 0/9] drm/bridge: get/put the bridge when looping over the encoder chain
-   Link: https://lore.kernel.org/r/20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com
-   Reason: trivial conflict in context (drm_for_each_bridge_in_chain_scoped())
-
-[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
-[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
-
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-Changes in v9:
-- Renamed leftover instances of "removed" to "lingering"
-- Added Maxime R-by
-- Link to v8: https://lore.kernel.org/r/20250912-drm-bridge-debugfs-removed-v8-0-5c33d87ccb55@bootlin.com
 
 Changes in v8:
-- Removed patch 1, now in drm-misc-next
-- Renamed "removed" -> "lingering"
-- Rewrote documentation changes to use "register" in lieu of "publish",
-  split them to a separate patch
-- Link to v7: https://lore.kernel.org/r/20250819-drm-bridge-debugfs-removed-v7-0-970702579978@bootlin.com
+- split the documentation changes to a separate patch
+- rename "removed" to "lingering"
+- improve commits message about the special care needed for "un-removed"
+  bridges
 
-This series was initially part of v6 of this other series:
-- Link to v6: https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
+Changes in v7:
+- rebase on current drm-misc-next
+- remove if (drm_bridge_is_refcounted(bridge)), refcounting is now
+  mandatory
+- add check to detect when re-adding a bridge that is in the removed list
+- improve commit message
+- fix typo
 
+This patch was added in v6.
 ---
-Luca Ceresoli (3):
-      drm/bridge: add list of removed refcounted bridges
-      drm/debugfs: show lingering bridges
-      drm/bridge: adapt drm_bridge_add/remove() docs, mention the lingering list
+ drivers/gpu/drm/drm_bridge.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/drm_bridge.c | 46 ++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
----
-base-commit: 2d2f1dc74cfbbb4891a8fd666029c6fce926fcfd
-change-id: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 5ec2ff77da79e51f614f98ebe58b6171c611867a..9491ae7c884d355be4a82fb02a43a42d17fa8e0c 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -197,15 +197,22 @@
+  * driver.
+  */
+ 
++/* Protect bridge_list and bridge_lingering_list */
+ static DEFINE_MUTEX(bridge_lock);
+ static LIST_HEAD(bridge_list);
++static LIST_HEAD(bridge_lingering_list);
+ 
+ static void __drm_bridge_free(struct kref *kref)
+ {
+ 	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+ 
++	mutex_lock(&bridge_lock);
++	list_del(&bridge->list);
++	mutex_unlock(&bridge_lock);
++
+ 	if (bridge->funcs->destroy)
+ 		bridge->funcs->destroy(bridge);
++
+ 	kfree(bridge->container);
+ }
+ 
+@@ -275,6 +282,7 @@ void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t offset,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	bridge = container + offset;
++	INIT_LIST_HEAD(&bridge->list);
+ 	bridge->container = container;
+ 	bridge->funcs = funcs;
+ 	kref_init(&bridge->refcount);
+@@ -304,6 +312,14 @@ void drm_bridge_add(struct drm_bridge *bridge)
+ 
+ 	drm_bridge_get(bridge);
+ 
++	/*
++	 * If the bridge was previously added and then removed, it is now
++	 * in bridge_lingering_list. Remove it or bridge_lingering_list will be
++	 * corrupted when adding this bridge to bridge_list below.
++	 */
++	if (!list_empty(&bridge->list))
++		list_del_init(&bridge->list);
++
+ 	mutex_init(&bridge->hpd_mutex);
+ 
+ 	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
+@@ -357,7 +373,7 @@ void drm_bridge_remove(struct drm_bridge *bridge)
+ 			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_REMOVING, bridge);
+ 
+ 	mutex_lock(&bridge_lock);
+-	list_del_init(&bridge->list);
++	list_move_tail(&bridge->list, &bridge_lingering_list);
+ 	mutex_unlock(&bridge_lock);
+ 
+ 	mutex_destroy(&bridge->hpd_mutex);
 
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.51.0
 
