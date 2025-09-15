@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACB7B57F2F
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF8DB57F44
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E637210E4D1;
-	Mon, 15 Sep 2025 14:37:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WVs88B5y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F6310E4E7;
+	Mon, 15 Sep 2025 14:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B53810E4D3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:37:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 62DF043E52;
- Mon, 15 Sep 2025 14:37:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 625ACC4CEF1;
- Mon, 15 Sep 2025 14:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757947020;
- bh=LaVVBqstrujneGbAzHLz7nrkIsdxKDKzrualI52ZIIs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WVs88B5yPRlclUwE4sdDfug96OsJwa/zEnVNdGpbhF5zYb68Ql2WhaTZABRcwSHKv
- Zk9BU8nb9qRPHabu3/j47DThmakS/S1dxGaGrU+z/vwUqtlC506/ScQu9O75IblX4Y
- 7+QwCb3VH72OdO5JpBd2MiIcBLSTsYUVJRekL7Qd6HKC0I8nXzaV+To1d3giw6uJDt
- dwTyz8u2kCoCaTSd3wQW79C42tsz1//NRN0ldFgfHqYDDHbHZM4Oa4IsVcwaBYVSGB
- i0OSM9QX0sOFzq0Dlv8gaocWM8Sb7DYeMyINVOjTFakLd3sEEv/9LPSixot9k2QaMp
- RwvKVaVQ2Sffw==
-From: Michael Walle <mwalle@kernel.org>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
- Santosh Shilimkar <ssantosh@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: Andrew Davis <afd@ti.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- Michael Walle <mwalle@kernel.org>
-Subject: [PATCH 3/3] arm64: dts: ti: add GPU node
-Date: Mon, 15 Sep 2025 16:34:40 +0200
-Message-Id: <20250915143440.2362812-4-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250915143440.2362812-1-mwalle@kernel.org>
-References: <20250915143440.2362812-1-mwalle@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A2A910E4D5;
+ Mon, 15 Sep 2025 14:40:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61D9E1424;
+ Mon, 15 Sep 2025 07:40:36 -0700 (PDT)
+Received: from [10.57.5.5] (unknown [10.57.5.5])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 775073F673;
+ Mon, 15 Sep 2025 07:40:41 -0700 (PDT)
+Message-ID: <3ef3dc64-69dc-43b2-a77a-7fb3e552e4e6@arm.com>
+Date: Mon, 15 Sep 2025 15:40:39 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH i-g-t v2 0/3] Add initial Panthor tests
+To: Daniel Almeida <daniel.almeida@collabora.com>, adrinael@adrinael.net,
+ arek@hiler.eu, kamil.konieczny@linux.intel.com,
+ juhapekka.heikkila@gmail.com, bhanuprakash.modem@gmail.com,
+ ashutosh.dixit@intel.com, karthik.b.s@intel.com,
+ boris.brezillon@collabora.com, liviu.dudau@arm.com, aliceryhl@google.com,
+ jeffv@google.com
+Cc: intel-gfx@lists.freedesktop.org, igt-dev@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20250912181931.3738444-1-daniel.almeida@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250912181931.3738444-1-daniel.almeida@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +52,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The J722S features a BXS-4 GPU. Add the node for it.
+On 12/09/2025 19:19, Daniel Almeida wrote:
+> This series adds basic Panthor tests. In particular, these are being
+> used to test both Panthor[0] and Tyr[1], i.e.: the new Rust GPU driver
+> that implements Panthor's uAPI (i.e.: panthor_drm.h). Most of the
+> initial tests were chosen in order to have something to test Tyr with,
+> but this series lays the groundwork so that more interesting tests can
+> be added to test more of Panthor itself.
+> 
+> This work is being tested on a RockPi 5, featuring an rk3588 SoC and
+> Mali-G610 Valhall.
+> 
+> Note that there's a few (less than five?) remaining checkpatch.pl
+> comments about long lines. IMHO there's no way to format them better so
+> I hope we can live with this.
+> 
+> [0]: https://patchwork.freedesktop.org/patch/msgid/20240229162230.2634044-12-boris.brezillon@collabora.com
+> [1]: https://lore.kernel.org/dri-devel/aMLB0Vs0dJ_AkU4z@google.com/
+> 
+> Changes from v1:
+> - Rebased on top of the latest master
+> - Squashed patch 3 from v1 into patch 2.
+> - Switched to /* */ comments in headers
+> - Initialized padding fields to 0 as applicable in group_destroy and
+>   vm_destroy
+> - Removed wrong assert(gpu_rev != 0)
+> - Changed indentation to use tabs
+> - Rework igt_panthor_mmap_bo to take an offset (so we don't call the
+>   mmap_offset ioctl twice)
+> - Added igt_describe and docs to the functions igt_panthor.c
+> - Linked to the driver in the cover letter and patch 1.
+> - Improved the commit message for patch 1.
+> Link to v1: https://lore.kernel.org/dri-devel/20250828130402.2549948-1-daniel.almeida@collabora.com/
 
-Signed-off-by: Michael Walle <mwalle@kernel.org>
----
- .../arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Looks good to me, and all the tests now pass (using Panthor) on my Rock5B.
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-index d0cfd6821b18..d02f7fba327b 100644
---- a/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-@@ -1232,6 +1232,17 @@ dsi0: dsi@30500000 {
- 		status = "disabled";
- 	};
- 
-+	gpu: gpu@fd80000 {
-+		compatible = "ti,am62p-gpu", "img,img-bxs-4-64", "img,img-rogue";
-+		reg = <0x00 0x0fd80000 0x00 0x80000>;
-+		clocks = <&k3_clks 237 3>;
-+		clock-names = "core";
-+		interrupts = <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&k3_pds 237 TI_SCI_PD_EXCLUSIVE>,
-+				<&k3_pds 242 TI_SCI_PD_EXCLUSIVE>;
-+		power-domain-names = "a", "b";
-+	};
-+
- 	vpu: video-codec@30210000 {
- 		compatible = "ti,j721s2-wave521c", "cnm,wave521c";
- 		reg = <0x00 0x30210000 0x00 0x10000>;
--- 
-2.39.5
+Tested-by: Steven Price <steven.price@arm.com>
+
+Thanks,
+Steve
+
+> 
+> Daniel Almeida (3):
+>   lib: add support for opening Panthor devices
+>   panthor: add initial infrastructure
+>   tests/panthor: add panthor tests
+> 
+>  lib/drmtest.c                 |   1 +
+>  lib/drmtest.h                 |   1 +
+>  lib/igt_panthor.c             | 229 ++++++++++++++++++++++++++++
+>  lib/igt_panthor.h             |  30 ++++
+>  lib/meson.build               |   1 +
+>  meson.build                   |   8 +
+>  tests/meson.build             |   2 +
+>  tests/panthor/meson.build     |  15 ++
+>  tests/panthor/panthor_gem.c   |  66 ++++++++
+>  tests/panthor/panthor_group.c | 276 ++++++++++++++++++++++++++++++++++
+>  tests/panthor/panthor_query.c |  25 +++
+>  tests/panthor/panthor_vm.c    |  80 ++++++++++
+>  12 files changed, 734 insertions(+)
+>  create mode 100644 lib/igt_panthor.c
+>  create mode 100644 lib/igt_panthor.h
+>  create mode 100644 tests/panthor/meson.build
+>  create mode 100644 tests/panthor/panthor_gem.c
+>  create mode 100644 tests/panthor/panthor_group.c
+>  create mode 100644 tests/panthor/panthor_query.c
+>  create mode 100644 tests/panthor/panthor_vm.c
+> 
 
