@@ -2,71 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8A0B57D58
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 15:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B968B57B46
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:38:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8345D10E4BF;
-	Mon, 15 Sep 2025 13:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B327D10E485;
+	Mon, 15 Sep 2025 12:38:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="gWNKxYT3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UCH8gLQR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89C4610E4C1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 13:34:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1757943268; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=c1F1G4DYgw5XKvAkAjRv2+e5pa6Kb4MHPVcAp86w2aDjx1S3PNpV+R4d2PE20vWnXdshV38JE96eMy9QpPWqUIcPAiYyrGl3S0rg/1+1kjcrHt/VPmFrD5CyzpPEEb0uebAGBlaFShFMz/8CxMh72Ajip+F05G1vwir9hp7GL80=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1757943268;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=H9W8rcPrnhuT1ZCnz7GuLg7KS6O8tdbb1kw7ng7b4Ro=; 
- b=fh7Mxm5/miP8QtX8RWjc/ndyuvcb9GFt5WPMxKhDvC75f91FJkisG0607fl8TNS0C9BpZA+YFW5y3jhfMRuY25eKwXsJw/Yd0YnTNgiwJklqUCkkhsT9l8HVJ2RSygKSrZt1U3g03OiHPGLPQiUY3kfVDgRaSiroZpns/8k2m6E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757943268; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=H9W8rcPrnhuT1ZCnz7GuLg7KS6O8tdbb1kw7ng7b4Ro=;
- b=gWNKxYT3iacQ5bX9zFR8huYqQ2axP5nqfG6MKE6J9ibXD4ixDM4UhqL4WDyWCtfH
- al312FY4BZubd/KRtEuOxsKXYi0jc0D1X6jaDnfeF3PwrPDRKLO2oykImMrec6F1VLd
- H2GbJCrY8iLvjsGNSl8AF+GQiMNOX6JXhYalw8K0=
-Received: by mx.zohomail.com with SMTPS id 1757943266394997.9637917932183;
- Mon, 15 Sep 2025 06:34:26 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] mailbox: add MediaTek GPUEB IPI mailbox
-Date: Mon, 15 Sep 2025 14:38:02 +0200
-Message-ID: <8577914.T7Z3S40VBb@workhorse>
-In-Reply-To: <CAPaKu7Q+KAzEtKBWy8KO2Kp+H4y-Mqo34uo=jgH1_iooaDq3hA@mail.gmail.com>
-References: <20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com>
- <20250912-mt8196-gpufreq-v2-5-779a8a3729d9@collabora.com>
- <CAPaKu7Q+KAzEtKBWy8KO2Kp+H4y-Mqo34uo=jgH1_iooaDq3hA@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609B110E485
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:38:53 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FAQf3u018287
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:38:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Fmb6MUpiP+yHPdu02ocRwcBu
+ vBIq20AZnHMtS+w4EwQ=; b=UCH8gLQR4RnuhM13UUbEDCFo0LFUiCeSDngCZNC6
+ FhCOriPOEeljmMUTgd1lQA3lE2lsPd3MK7HKlDZ48Og7FI4FFko7Eb3Z58MY42bN
+ 5QEoaY+3If7yGjsug84l8ZpFNnFXFU8bcEtKU7c68fXSAkQIskrexRaHJG7u7Oc4
+ NrARAjnSBUYD7c1ZDbGt11iYZ54DaWINQg23EUHoQM1lWloY8jP44S729E2TDRHG
+ eg3Yx/o5SCV/+hnr6EvtLd6qE0RetYZzpEK4RfY9PX0/TBtLYcfB4ZD2nFHW8X6S
+ FMZ9eVud1PwuqLLqKkhH5dj91WMkpAUrtcH4iaV+gwDxGQ==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496h1sgbg0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:38:52 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-72023d1be83so133885406d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 05:38:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757939931; x=1758544731;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Fmb6MUpiP+yHPdu02ocRwcBuvBIq20AZnHMtS+w4EwQ=;
+ b=i4loLDGUoNT4zzSdNxVUVuj6RwXmqUyVkrc2lCxeU/RsZg0sG3GdEg5tuu0F8wir33
+ WejUTDCIF+HYh0IGw3X2pmFseoSmXoXBJx+d5ziVxXMsIjTDjJLI5ycQvw1ovytj1K/M
+ 1si45jPw4gGey60Xjc7/kXx0vk/Q98CigbKbfJpiKEoClicFRRzJw8F21k+K7pmMt75S
+ LX5lmGZ5E4v5RqP/Qq+isZmSwbvAL+8hud8YIBr/3w/TUK7m5kNmn+EbL2zdxSsjn7vr
+ UUsJGh5QkL8Yy/swDx2JPUUE8qDg0jB96ktum4ctb+DpFhLorn3vefBne47Mky4y6HI/
+ 0qQg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWumihNvb1735TVdJvm8t5JonoCviyW85OK6R+Q+QNaE0K1Iz/tA19GyxOLS0EN6ddo71xTd7uYb/4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFdrlSrWTWSQmfTftykW1lvP+Fqq4LblNkZEPqJKiDBXPZqVcp
+ JmOLpRnv64XsdOs+buZ9oWMpw+5MtieHPrfDUYIAUn8o/dmA7dSweuwiel6+uL2ZZxp8nEldIl1
+ T7+7X27YUH7ZIQ74SV5K4E4bg2oylcOgIdtqAVaXWK7s7FHJ0JsjBtWsABjnxYFVzk1sFwnU=
+X-Gm-Gg: ASbGnctOYZrfY7xH28AQHdO8gyA7sJ9N098VSo2Duxsytlxi35ixSZAAoZkj1QNWFld
+ 5Jn66BL+OtJlh9eH+9EVp64YEcOGVh2ht0NAS/sAEzJUEBakzMnZ1/8qitTLKsvN0EvfQV0Zcyp
+ ya2suiQhmOSCuL6dMY8YR8QLTLp9VBQOu9GiXkhToMwaaTwO4uYV/Ac5jA18fi7HtBtk8kPiRqA
+ V9Hp1AfCwTC9VTddchfV79I92JA2UxQCGbhE5SP2vvJ/SJyJ5KBBmRu3a6gA3gIx0Kn+Q7sXQL0
+ zrx7PafQFAWaEG42HoZMcH4qRz+mnkhi8Xn7zK0JqpKFtl9Z6/rOC+9XwwrQ60Yu+HwBlSWksE+
+ zpk0BM8+tFiGGWZkOn0LKHzIfuorXlvDxdfKp4FkO18IyOH97XN5K
+X-Received: by 2002:a05:6214:5004:b0:725:f1c3:2ab with SMTP id
+ 6a1803df08f44-767c1f71efcmr141751036d6.43.1757939931329; 
+ Mon, 15 Sep 2025 05:38:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECQ/ky4PMlA94VBI8Y6iP+p4utCJhLTah33pyYzU/Wknu7JOg31Xy7D9L0TMZRcWSzS6GnLA==
+X-Received: by 2002:a05:6214:5004:b0:725:f1c3:2ab with SMTP id
+ 6a1803df08f44-767c1f71efcmr141750666d6.43.1757939930802; 
+ Mon, 15 Sep 2025 05:38:50 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-571a547ae5bsm2588322e87.19.2025.09.15.05.38.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Sep 2025 05:38:49 -0700 (PDT)
+Date: Mon, 15 Sep 2025 15:38:48 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dianders@chromium.org, m.szyprowski@samsung.com,
+ andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/bridge: analogix_dp: Reuse
+ &link_train.training_lane[] to set DPCD DP_TRAINING_LANEx_SET
+Message-ID: <cen5nir6tn4ah5z7vgp6k5lxy3cobgzjzm3xmx5hjklr2fsrb3@cx3n47n3ji4n>
+References: <20250912034949.4054878-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250912034949.4054878-1-damon.ding@rock-chips.com>
+X-Proofpoint-ORIG-GUID: KnV8ZjMWQujj1-dOvcFrzQ6dnQHvahao
+X-Authority-Analysis: v=2.4 cv=A/1sP7WG c=1 sm=1 tr=0 ts=68c808dc cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=s8YR1HE3AAAA:8 a=hD80L64hAAAA:8 a=EUspDBNiAAAA:8
+ a=plrDVsGnED_3QBdGXOcA:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+ a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-GUID: KnV8ZjMWQujj1-dOvcFrzQ6dnQHvahao
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA5OCBTYWx0ZWRfX+CoSH5KL4iFg
+ bQ2M+6yFjFY0xliwfAjruzC+Fdl/Dl/5LAPgfBFroz3KiB0NROHr7cMW+1FFz2qLFB+Hq9UjbLv
+ ZxievdY+sFOkXcHiDPmh64Xvj7nfugmIxWO84tjAfkVeItF9lOQiWD51KjbL7B21+Qxm7ybGx2u
+ JpmpU6wZSVY4y/lRQlE8HewCvxXNpCP8qOCCD2mheeWuQJOjcpkcArPUb0X2L4fgW0L7qtZp1kQ
+ qH3UzuQWzrCDlzjrro9jfC3F1vS/Po7EpbXt56rA8TzNCfZHEOcUhakArxiG8KwVlxCV9gmmiT/
+ bvzc0zg3nj28/bugm6z95FfvimXIXvRU4nNIgOOg9O+woEK5jN4oZH+ju7eqTUg4IVp85/wKzqw
+ vkIdQJwn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 spamscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,159 +128,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday, 13 September 2025 00:11:10 Central European Summer Time Chia-I=
- Wu wrote:
-> On Fri, Sep 12, 2025 at 11:38=E2=80=AFAM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> <snipped>
-> > +static irqreturn_t mtk_gpueb_mbox_thread(int irq, void *data)
-> > +{
-> > +       struct mtk_gpueb_mbox_chan *ch =3D data;
-> > +       int status;
-> > +
-> > +       status =3D atomic_cmpxchg(&ch->rx_status,
-> > +                               MBOX_FULL | MBOX_CLOGGED, MBOX_FULL);
-> > +       if (status =3D=3D (MBOX_FULL | MBOX_CLOGGED)) {
-> > +               mtk_gpueb_mbox_read_rx(ch);
-> > +               writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_C=
-LR);
-> > +               mbox_chan_received_data(&ch->ebm->mbox.chans[ch->num],
-> > +                                       ch->rx_buf);
-> Given what other drivers do, and how mtk_mfg consumes the data, we should
->=20
->   char buf[MAX_OF_RX_LEN]; //  MAX_OF_RX_LEN is 32; we can also
-> allocate it during probe
->   mtk_gpueb_mbox_read_rx(ch);
->   mbox_chan_received_data(..., buf);
->=20
-> mtx_mfg makes a copy eventually anyway.
+On Fri, Sep 12, 2025 at 11:49:49AM +0800, Damon Ding wrote:
+> In analogix_dp_link_start(), &link_train.training_lane[] is used to
+> set phy PE/VS configurations, and buf[] is initialized with the same
+> values to set DPCD DP_TRAINING_LANEx_SET.
+> 
+> It makes sense to reuse &link_train.training_lane[] to set DPCD
+> DP_TRAINING_LANEx_SET, which can remove the redundant assignments
+> and make codes more consice.
+> 
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> 
+> ---
+> 
+> Changes in v2:
+> - Add Tested-by tag.
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
 
-We don't right now, at least not until after the callback returns.
-So we need to have the copy in the mtk_mfg callback, not after the
-completion. That's fine and I do want to do this as this is what
-the mailbox framework seems to expect clients to do.
-
-> We don't need to maintain any
-> extra copy.
->=20
-> Then we might not need rx_status.
-
-We can probably get rid of it if we keep the per-channel
-interrupt handler. Otherwise, we may still need clogged,
-as we don't want to process interrupts on channels we have
-no user for.
-
->=20
-> > +               atomic_set(&ch->rx_status, 0);
-> > +               return IRQ_HANDLED;
-> > +       }
-> > +
-> > +       return IRQ_NONE;
-> > +}
-> > +
-> > +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *data)
-> > +{
-> > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
-> > +       int i;
-> > +       u32 *values =3D data;
-> > +
-> > +       if (atomic_read(&ch->rx_status))
-> > +               return -EBUSY;
-> > +
-> > +       /*
-> > +        * We don't want any fancy nonsense, just write the 32-bit valu=
-es in
-> > +        * order. memcpy_toio/__iowrite32_copy don't work here, because=
- fancy.
-> > +        */
-> > +       for (i =3D 0; i < ch->c->tx_len; i +=3D 4)
-> > +               writel(values[i / 4], ch->ebm->mbox_mmio + ch->c->tx_of=
-fset + i);
-> > +
-> > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_SET);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int mtk_gpueb_mbox_startup(struct mbox_chan *chan)
-> > +{
-> > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
-> > +       int ret;
-> > +
-> > +       atomic_set(&ch->rx_status, 0);
-> > +
-> > +       ret =3D clk_enable(ch->ebm->clk);
-> > +       if (ret) {
-> > +               dev_err(ch->ebm->dev, "Failed to enable EB clock: %pe\n=
-",
-> > +                       ERR_PTR(ret));
-> > +               goto err_clog;
-> > +       }
-> > +
-> > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
-> > +
-> > +       ret =3D devm_request_threaded_irq(ch->ebm->dev, ch->ebm->irq, m=
-tk_gpueb_mbox_isr,
-> > +                                       mtk_gpueb_mbox_thread, IRQF_SHA=
-RED | IRQF_ONESHOT,
-> > +                                       ch->full_name, ch);
-> I don't think this warrants a per-channel irq thread.
->=20
-> mbox_chan_received_data is atomic. I think wecan start simple with
-> just a devm_request_irq for all channels. mtk_gpueb_mbox_isr can
->=20
->   read bits from MBOX_CTL_RX_STS
->   for each bit set:
->     read data from rx
->     mbox_chan_received_data
->   write bits to MBOX_CTL_IRQ_CLR
->=20
-
-I don't like this approach. It brings us back to having to process
-multiple channels per ISR, keep track of when the interrupt should
-be enabled and disabled based on how many channels are in use, and
-also is not in line with what e.g. omap-mailbox.c does.
-
-Remember that `mbox_chan_received_data` synchronously calls the
-mailbox client's rx_callback. In mediatek_mfg's case, this is
-fairly small, though with the request to not make the rx buffer
-persist beyond the rx_callback it will gain an additional memory
-copy. But we can't guarantee that someone isn't going to put a
-slow operation in the path. Sure, it's going to be atomic, but
-waiting for a spinlock is atomic and not something an ISR would
-enjoy. I don't think mailbox clients would expect that if they
-take their time they'll stall the interrupt handler for every
-other channel.
-
-So we'd keep the interrupt disabled for all channels until the
-client that received a message has processed it.
-
-I can see myself getting rid of the handler and just having the
-thread function as the bottom half, but I'd really like to keep
-the one-IRQ-request-per-channel thing I've got going now as it
-made the code a lot easier to reason about. However, doing this
-would mean the interrupt is re-enabled after the generic upper
-half, when all the business logic that needs to not run
-concurrently for an individual channel is in the bottom half.
-
-As far as I can tell, this would then mean we'd have to add
-some concurrency exclusion mechanism to the bottom half.
-
-Moving all the logic into the upper half handler function
-would make that handler somewhat longer, and I don't know
-if IRQF_ONESHOT masks the interrupt for all users of that
-IRQ number or just for those with that dev_id. If it's per
-dev_id, then I'm fine with moving stuff up there. But from
-my reading of the core IRQ handling code, that does not
-appear to be the case; one channel getting a reply would
-mask *all* channels of the mailbox until the upper half is
-completed, and if the upper half calls into a driver
-callback synchronously, that may take a hot minute.
-
-Put differently: Is there a problem with one thread per used
-channel, or are we going off vibes here? The way it currently
-works uses the shared interrupt to mark just that one channel
-as busy with rx_status before letting the IRQ for all channels
-be unmasked again, which seems ideal to me.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
+-- 
+With best wishes
+Dmitry
