@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E957B57FCA
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 17:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179C5B57FCD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 17:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0304310E4D9;
-	Mon, 15 Sep 2025 15:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3AE10E4E2;
+	Mon, 15 Sep 2025 15:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qqJlOyb4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f5VmtA5g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D53A10E4D9
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 15:01:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77AEE10E4E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 15:02:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6428F4199B;
- Mon, 15 Sep 2025 15:01:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C476C4CEF5;
- Mon, 15 Sep 2025 15:01:37 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4620F44281;
+ Mon, 15 Sep 2025 15:02:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6991C4CEF5;
+ Mon, 15 Sep 2025 15:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757948502;
- bh=+0i6RikQC6DfYiiM+/GamuDmLEyTAbg8j3Lwj+lkcTk=;
+ s=k20201202; t=1757948552;
+ bh=ZafX87MMcfI5y2IRaqNAT6HmdaHGKFoLkfY+lm2hc14=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qqJlOyb4u8dmfEH9xbldImMZRZQ85dwUmfhkUuUpDfbyva9VqHjaKc9MzztA4vVki
- chZ5OqV3dwxrwhKpmvTDOSImagN1Tf3y0+7WlysTXgEvoZfSeLj7zNrHhLNiuT1j3x
- hKnV+LPaPhzZOPSKiNjeiSVvJ0KSUy/DVXv/8Ssufa41BQ/As2e95mbdUK03jNGcrJ
- Fj5/t8PAhN2sh/02gINWNH5uMVELU3JzuvwIGaJ6dAjkKEL6RO4JHS72gkNgDttyKy
- Y4H7YfB6t0zKhB3+UXTF3Cq/bc6r3+aCXy3TZ9v94cZLfoEkal70A2i3um88KDlvb6
- YXwK5kFAnLIvA==
-Date: Mon, 15 Sep 2025 16:01:35 +0100
+ b=f5VmtA5g70F71yXQYaxm3xCQGg6KvCFDB7chmTjFVILW8w/K2+eM3qI9j0DVE/mD9
+ MAIw0c8APm9rnxbauU+AbwBM1iTtXFuG3lWjdo3ho8OR2Axr4A857sy7pYLC+ashiZ
+ 7A8z9djjmRDEBuvya/tt4gu7BUse4qW9tJhlyxIBf6AjcXxDfAbcYNscJaooa00DgD
+ DzjHb84yQGuqoSA1S9VJQapyTKLwGbbWjsTrPwZt+yKDmAKXzTZIUOpH3rrCkcaxsL
+ ojh1Qd8gZMMPIEn2HqaVu1Jb/tISXdkTGS2Zs+qk1NFMOvT4jS7ACtTQZWgFYSPxQ0
+ okYTlG8LjFpfw==
+Date: Mon, 15 Sep 2025 16:02:25 +0100
 From: Daniel Thompson <danielt@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: lee@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
@@ -43,15 +43,15 @@ Cc: lee@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
  dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
  platform-driver-x86@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 14/15] backlight: rt4831: Include
- <linux/mod_devicetable.h>
-Message-ID: <aMgqT8crih7S79Oj@aspen.lan>
+Subject: Re: [PATCH v2 15/15] backlight: Do not include <linux/fb.h> in
+ header file
+Message-ID: <aMgqgSMaxFsM4eES@aspen.lan>
 References: <20250715122643.137027-1-tzimmermann@suse.de>
- <20250715122643.137027-15-tzimmermann@suse.de>
+ <20250715122643.137027-16-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715122643.137027-15-tzimmermann@suse.de>
+In-Reply-To: <20250715122643.137027-16-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,9 +67,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 02:24:51PM +0200, Thomas Zimmermann wrote:
-> Include <linux/mod_devicetable.h> to declare struct of_device_id.
-> Avoids dependency on backlight header to include it.
+On Tue, Jul 15, 2025 at 02:24:52PM +0200, Thomas Zimmermann wrote:
+> The backlight interfaces don't require anything from <linux/fb.h>, so
+> don't include it.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
