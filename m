@@ -2,115 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5B1B584E5
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 20:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA25B584F9
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 20:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F4A89F71;
-	Mon, 15 Sep 2025 18:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81DE10E53C;
+	Mon, 15 Sep 2025 18:53:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PlXw/uhj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EuNE+aar";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7E689F71
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:45:32 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FEBXRL002143
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:45:32 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1D310E53C
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:42 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58FDTU6A020484
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- IhG4O/EXd8muCOughfBp0STWT3L0CUbcXi2YvRH227g=; b=PlXw/uhjfpTRIatW
- GBRmkdtL2xVg+JWPktWzlbnf6QonLDYTB5l9BrI446vZCBceWt4CRZLsNWeLxU28
- aXb9DLC5qi38DHIiWXLHiqNGhmDh/JQPhis7LIvMuWWus7ZTCIOh1LgaRkwWJf4g
- wJEwpjfgb9+uQh5o3HOoocW4pWK9d2KssUXmoGQFyDoFa2NbWCPvkmKDEOEqnjmI
- bQaOwvyQN7MShcB5QoI96zpzW5Z9ZPCpnQSKGge7bmeg34GFBGMiLnpG3aee0prk
- D6upArbrr0DvaIPpz/Vj4Y1BHmO4q/8jI989UPgoHw5EjjNsdO3PbhCx5ovEHZOQ
- G+GkWA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496da9aeuq-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=nMMKPwbFMSjvy9PWk7yGxyrz
+ P5qxhwSObKoN7zz9Cmg=; b=EuNE+aarumICU53Pb8nbWw1vWJELMwtngsr/NFhj
+ b67tH0/faAVXM8BakGNmxzZL/eduCfCUAQ5+knxk3lp63THxklrq5jhZZOsjC9c6
+ rYhIyXq9WCA/I1qxRoAmbRRUj6sYT6CS738RLMZUXPU20MWvtdKAq2ZtI9mWI/jD
+ 5ja3P28kw8CeSkfuwXvWnghnPmgBJeKGJ0FD6Ppqlbxce14ELRdSkIDDstuJAjK9
+ tXF/CWtbY9GrrQpleEC9M/mOAeomKPXO84c84sfITddHT01T2T11KX/Xirf9HDkC
+ 1LVewdCj0d01yUnv0q4qsbqR/EOIOnXmbrJxBfCBFbTWlQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4950pv673r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:45:31 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-786c3986579so17565666d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:45:31 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:53:38 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b60dd9634dso110746381cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:53:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757961931; x=1758566731;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IhG4O/EXd8muCOughfBp0STWT3L0CUbcXi2YvRH227g=;
- b=YOoaTxDGRlgyrEzGP+MGBoq34ayeYNfon7BnD0xBuJWcuUGcqO8qMxVPFQuHBYuwkh
- h+0g2XExnw8NpglhvNotf4T+lrPgRZ0o4Zn4KAK7T/Yz6k2q8gY/bcMiwnpsdjbefdCu
- KV3Wa98VXSXX/d5PFAe34C6QAMTxY2Jc/Sj1L5JUwUBYBSYF4GuvtJEig4G264Z/8KKc
- obTNRwPWO7aANRxH23N9uFLG/F+EBqP5kbwqPc/BsxaxdpSOlZzxZvCx13f32xAgj8nl
- WEerdIkLRjT7nMMzboFh0kVxDxdimyRzG/+p8s50k4I658L6dMlIm9Rim5qCiglCwpRm
- J9tA==
+ d=1e100.net; s=20230601; t=1757962417; x=1758567217;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nMMKPwbFMSjvy9PWk7yGxyrzP5qxhwSObKoN7zz9Cmg=;
+ b=hpTdGvcBSnMvVP3f8T0iZD1unh364fRrnERlbgnQMelnxFLq3iN4zdno1fqKQPrvI2
+ rdxH5EHJsDu3/B4r99CToF/KDLkGmTGqCXM2lDe0rpHkaRHcl3BwZ5NVK6r2Z8R+8xVC
+ njN7MoGCiwijGkJA1dz7vxN4D4znW3htYLtdeuQSYAWhbqsIVdgDOEPfoO0V1UJqxIzb
+ vfra+nCCXk2qSHybgx/3buPfWd9FA5XELD7vlXMRyDDArRDfZf2HYRwpubahd1wghJbt
+ w8dTySt8rF62srEsrMN1tXLMD6zkONleGoZ+FAiHelss7abJ0VjSyrWQR+jD/w/F2LJ5
+ 7zjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWuasKqS2fwnO8BWyfoRW9wJaqhX1Jax0DWZdscGOWSf7PvUsjId6CrfhABBmE9pvuWidDf42LstDE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxT4//BRJFzA9IMxdLvgmAmd7rHdBLeLcPLkZjKjP7EhOam8fei
- X4jJqYLyxFH2ewuniXuPas8wJVYGsev2JrmqJMn1BwCk/mVwRk5b8xJXpEyY26MUdrCbREESHme
- jtSymXSRMuTDAfmrV8HMhlEyqa91otVct2Ba3Ap8Wrjde6at4CP5fxLR/7kGANLutRecNXeM=
-X-Gm-Gg: ASbGncvKgZaFYR51hODzeCtOIXQtu+vI4toLRlmLQFuCX3Eg4tTFbzIX3HVJG6WCN3o
- XILalWFuFj7So0cGYewncQlu/aqGpi9lpjh1pG9isjJ2zwvVO7M/5tiR5qPJQTtGss1rhmHSJde
- NgYclidPQvz6ZETBpxaUJ6PuUPFcXpYkIh+WaGt4Rycej/QC5T0tttv1RrA8J4XpvwDH4TvnLZL
- cz0hnPC6M9gJeNVJ+7ZT6Vt7YW9Z1OWb11gKAEz0/dvD0VlafC0eX79b3b/hifkLTZRIicjXTeQ
- ZDHD7Sd1gQWY5UnJ3xR3InIzkjQmRH2dK97ok09B+jgPictIZjowgAJhclnK2mNWi0gUFwdfdAX
- TZkxjCJGYDH2+rX2GUk28LpdNtNEfDGmWwnvdpeFMthPipwhXk0FY
-X-Received: by 2002:a05:6214:d4e:b0:766:769e:8c79 with SMTP id
- 6a1803df08f44-767c2be8032mr189965726d6.31.1757961930464; 
- Mon, 15 Sep 2025 11:45:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmrWfIl7CmMGW/DaMc1BVI1dcDXfE//3x+Mq8gnVVnpv/GMQWg0bopFFbSV8m5IJZDs/ZvVQ==
-X-Received: by 2002:a05:6214:d4e:b0:766:769e:8c79 with SMTP id
- 6a1803df08f44-767c2be8032mr189965146d6.31.1757961929677; 
- Mon, 15 Sep 2025 11:45:29 -0700 (PDT)
+ AJvYcCWcTC5Y8mROH44OqETfluSZv5tKQNH9pQx36rpNk4gnornATOWkOAC+7aUnIzev+N/FWnxxR4iuNh0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydKbbP29LAKaa5uC7cH+pSaCe5AiUv8299gOm2aK5rfOO5jgZi
+ scEKX2v8AsvcQv3+XfTy5tqsUCprirllEQcHlk5RauDC6vyoN7g8nXzx/XnlMP5BP8z9MKwL17x
+ yg6FCMQq/EvI5kXuI9javvResiIkK6nOfSzpgFtNDcXCJYG4uuXmfIcoItT9xZT0026B6498=
+X-Gm-Gg: ASbGnctUMg5kHxVpnjo2Dzb0rAxxoZ5BkZ74pY80CFp8IExf35MR1k3TXNysF/eMlAH
+ zeyQHKN+DesCn6bQUkZx1RWGezAjRcLCRgH36CH6FJh8nSUgEJYs0AqjAlFBA5WM+43zgD5SyEk
+ aMFylePuhlzUn9512D5mzbNC6xviR8qV2eccRvqCxlMoRnwZkJn723Om3gzuCXQTb2r136lIY0S
+ xq3FGBIHqTI6IuPGyVna1o/INWhj4QSerLHXHIj/8MosLbfRjWYAFZ8mzLfOBKZ+Lpt3S6EvETa
+ GVaNUjVvUUhow3BgWycgjbqd0cc8a+2j1DUuq3MCdwVG7C+0fTDexheZnixAIiWEFWrof07HCdY
+ eAHQefeg+1Z8CRgRiYjFTqs/f3s9Sk+liOLE+DpAgTa5nms/jEG+R
+X-Received: by 2002:ac8:7d89:0:b0:4b7:95da:b3c7 with SMTP id
+ d75a77b69052e-4b795dac12amr105743981cf.48.1757962417343; 
+ Mon, 15 Sep 2025 11:53:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHl1bgwAg6xsiD3botpPruuj1Z5eTwC4YuXll3Zv1jmcPqXrGVhLUi0yvP8XfARs9TjfTPNrg==
+X-Received: by 2002:ac8:7d89:0:b0:4b7:95da:b3c7 with SMTP id
+ d75a77b69052e-4b795dac12amr105743251cf.48.1757962416589; 
+ Mon, 15 Sep 2025 11:53:36 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e5c3b623asm3815434e87.11.2025.09.15.11.45.27
+ 38308e7fff4ca-34f1a8211afsm28253981fa.45.2025.09.15.11.53.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Sep 2025 11:45:28 -0700 (PDT)
+ Mon, 15 Sep 2025 11:53:35 -0700 (PDT)
+Date: Mon, 15 Sep 2025 21:53:32 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: lumag@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-In-Reply-To: <20250709085438.56188-1-loic.poulain@oss.qualcomm.com>
-References: <20250709085438.56188-1-loic.poulain@oss.qualcomm.com>
-Subject: Re: [PATCH] gpu: drm: bridge: anx7625: Fix NULL pointer
- dereference with early IRQ
-Message-Id: <175796192787.524478.12029336262395393555.b4-ty@oss.qualcomm.com>
-Date: Mon, 15 Sep 2025 21:45:27 +0300
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sjakhade@cadence.com, yamonkar@cadence.com,
+ lumag@kernel.org, dianders@chromium.org, jani.nikula@intel.com,
+ luca.ceresoli@bootlin.com, andy.yan@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devarsht@ti.com, u-kumar1@ti.com,
+ s-jain1@ti.com, tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH v5 2/2] drm: bridge: cdns-mhdp8546: Add support for DSC
+ and FEC
+Message-ID: <d6l5vwx5s5oopyhniqbc3wputceblazpry2omeja2qvak37y2m@dbge4vedh7ko>
+References: <20250915103041.3891448-1-h-shenoy@ti.com>
+ <20250915103041.3891448-3-h-shenoy@ti.com>
+ <pwd4hocrxrnfymby6szzp7irlveoa36er7yn5ivlht5mwxrpdz@r237bd3epols>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Authority-Analysis: v=2.4 cv=M+5NKzws c=1 sm=1 tr=0 ts=68c85ecb cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=LWE9zbpONBY6LCXfEiwA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-GUID: 3PfIbkGWeCDhEJldPY-_2j_JTDsjIJtm
-X-Proofpoint-ORIG-GUID: 3PfIbkGWeCDhEJldPY-_2j_JTDsjIJtm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA1NiBTYWx0ZWRfX+Xfmguc2AtHg
- 516PilZsDP2ONzS8khx6Qiug4nMxFw7RwJcj3yqYz7KEoDwsasINPqdaLp9BZ+kx8P4egLS8E9i
- qVy6tBkr+UNnklSgCXTOS2tbtNOp+b7BOz3HvoLy2qiDN0nmJkNAu4u/Ml5qGZSOQB3kUVP6q6D
- xDDqVyH+PwXtJ2mqzheRThEdM6oXgYknydOAlXq1JLVoE0Ad8kXvdr96Ik9lSPgDkeD79HOkF/e
- naaNLY/seZN3coi7z2zP580Be01urHyu0OtqgwLMT/hydQWHWkUs6fiaEeB7JdypIHP1OQ3UIJN
- MsvcwzVgwhDfp+yN5/IH2tlOyyiFmhqmQnkdFuf/FHmMWgad5/ER7joEDm8+CCJMzwgGo/5nU66
- ZTMDMG3c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <pwd4hocrxrnfymby6szzp7irlveoa36er7yn5ivlht5mwxrpdz@r237bd3epols>
+X-Proofpoint-ORIG-GUID: cqISjvW7efSgJNEKNUeFn7twEk9ZX1Iw
+X-Authority-Analysis: v=2.4 cv=PsWTbxM3 c=1 sm=1 tr=0 ts=68c860b2 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=e5mUnYsNAAAA:8 a=Br2UW1UjAAAA:8 a=sozttTNsAAAA:8
+ a=aquk1Lx4SgTA5jucOdcA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=WmXOPjafLNExVIMTj843:22
+X-Proofpoint-GUID: cqISjvW7efSgJNEKNUeFn7twEk9ZX1Iw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyOSBTYWx0ZWRfXz3NG19OPJHEp
+ W7nPo/7oQ/N6m455pNNF9F0KgA+EC9x+CZI+C+TsJbYJMpVx0D/Fh3DOre7sWbp9v9GHe6iuETY
+ yApdzWY23A/cVi0IUqMy/z0GfO9ddWwYYJ/Ut3AVRl8tNoCGPLoeaoupyS9FkCCdvANUbbe+rq5
+ qFP/hJhaej13LFywN/PTIxD93jLbWd00iBxUKNjuuLeEM9cUwUuNyi3AUo19T7IoLi6LLnhrkd6
+ QLjWr6p6V1rkm4V/7fIRvv+OGMRU1VQObhA5e+aQL+AUzF3ULsQ8re/G2hIbTeLfcrzOw+7rnhx
+ 1UPgHgX4Iop96lMOya96BeVVdECKQ/OsId6vnfsFCzbgAbQpNqAFqcUaam5AHh+DS0IDLIk6zAB
+ hxL/UmiX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-15_07,2025-09-12_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ priorityscore=1501 phishscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ spamscore=0 bulkscore=0 adultscore=0 impostorscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509150056
+ engine=8.19.0-2507300000 definitions=main-2509130029
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,21 +134,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Jul 2025 10:54:38 +0200, Loic Poulain wrote:
-> If the interrupt occurs before resource initialization is complete, the
-> interrupt handler/worker may access uninitialized data such as the I2C
-> tcpc_client device, potentially leading to NULL pointer dereference.
+On Mon, Sep 15, 2025 at 02:06:58PM +0300, Dmitry Baryshkov wrote:
+> On Mon, Sep 15, 2025 at 04:00:41PM +0530, Harikrishna Shenoy wrote:
+> > From: Swapnil Jakhade <sjakhade@cadence.com>
+> > 
+> > Enable support for Display Stream Compression (DSC) in independent
+> > mode with a single stream, along with Forward Error Correction (FEC)
+> > in the Cadence MHDP8546 DisplayPort controller driver.
+> > 
+> > FEC is required when DSC is enabled to ensure reliable transmission
+> > of the compressed stream.
+> > 
+> > Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
+> > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+> > ---
+> >  drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
+> >  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 367 ++++++++-
+> >  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  68 ++
+> >  .../drm/bridge/cadence/cdns-mhdp8546-dsc.c    | 695 ++++++++++++++++++
+> >  .../drm/bridge/cadence/cdns-mhdp8546-dsc.h    | 285 +++++++
+> >  5 files changed, 1392 insertions(+), 25 deletions(-)
+> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.c
+> >  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.h
+> > 
+> > +		goto err;
+> > +	}
+> > +
+> > +	if (ret > 0)
+> > +		return 0;
+> > +err:
+> > +	return ret;
+> > +}
 > 
-> 
+> Consider extracting a common helper and using it here and in the Intel
+> DP driver. Also please use new DPCD helpers which return 0 instead of
+> size.
 
-Applied to drm-misc-fixes, thanks!
+For the reference, some time ago one of my colleagues implemented DP DSC
+support for the drm/msm driver. It didn't go in for multiple reasons,
+but feel free to use it as an inspiration for possible generic helpers.
+See https://patchwork.freedesktop.org/series/113240/
 
-[1/1] gpu: drm: bridge: anx7625: Fix NULL pointer dereference with early IRQ
-      commit: a10f910c77f280327b481e77eab909934ec508f0
 
-Best regards,
 -- 
 With best wishes
 Dmitry
-
-
