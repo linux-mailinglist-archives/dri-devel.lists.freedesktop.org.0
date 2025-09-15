@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C5CB586E3
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 23:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A12BB587DF
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 00:52:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2AA10E099;
-	Mon, 15 Sep 2025 21:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A4C10E5BF;
+	Mon, 15 Sep 2025 22:52:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X8jnO/rc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fkQa1e/r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C360B10E099
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 21:45:30 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-24498e93b8fso6899725ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:45:30 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A172810E5BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 22:52:05 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-336c86796c0so38221221fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 15:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757972730; x=1758577530; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1757976724; x=1758581524; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
- b=X8jnO/rcUhn3kXQMJ9+aC9/S7Xm1xLTnZ6p2lMTn68wS6Da8tXzJvtMBXaajJhGt6Q
- AhpEM8GdCdU2STq5Q3VHNBoKl/3XtYqngzfUph4rylBRfU6eUOxtPb6LAAbQmvxIIf2B
- VW1nne2boKG6Fw8RXsi+WC/0gsg76/vUfcWYJUJ8CuY1HxWxw0GCrC1N861BTIBVon23
- mcxeMGk9woaA9ZUKEf17x5LSly5AC8+7mdBMlm1hBnUdgTDzfQvdKHRHj8W46eUn/u0h
- h8fj0nutPPppnBEVfNkGEm7gl681U5Djd+XJ5BgXNc5Wtegd0jghzWWV3JCk76OE9u0D
- 5v7A==
+ bh=cm0/mnzPsesUmIeJ98TzZwQ2Akz/kNDhyhWBAXtAXDw=;
+ b=fkQa1e/rVPdlv+8XiSStrAKRcRv45moqLUhxeyiaDESaWA+0FBv5AzS6ozJtCW7/Yy
+ 6P6zRSpxulPM2P+O1L4tvrI51haAhKyyDE2A2dq9WKYFIhe+nm9PlHQ7tstnZeE/Kroq
+ aSWwobe/19QvvUUAjviXZV2Rvgw7xX14BPtR5HEYNhzbebonQqoAS9W3nIRmoE157D42
+ hk3BxIECrOl3ZJ2B5vpjtz6IJwmQ8cRyC1bXdG+KNGsDA7DEwj4syOUtEZCwbyD80O/2
+ Eb2LfDzS9m2J+EqUAzszJdMQ2QprUuVFnvEcjk/7C+N9WHAyqky8jITV8rakwOIyHcFg
+ m0FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757972730; x=1758577530;
+ d=1e100.net; s=20230601; t=1757976724; x=1758581524;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hgjQuP4Me3guJDVcSDtwLqdLj9Ad4VyHioffhsnvnuU=;
- b=Qu8S39ZBpU11dvfbyIv4IX9cZyfdPF3CsrRMT2RtUBDJCyjrwZXpT0wR8dyLViqtnq
- zDhxwTgpgFTp/rgqWOhHpUU9rG99GIzPexP05U/EgjBE0TVi82/kuQuC70yj6dvlh/oO
- 9JOsJO93TeWpkNokasz6F7kZfbsxUUXUmjgSZyzAHJrpZ9Pb7DOsJWGuBDS6hRoadfuV
- Pq0JT/6d4FbuPRhXJwv1QQZpX6oHrU8SiUGJ/PJskYc5GbrUA/TpEex745DLvcYsYotw
- jQX/1eccEWYu4L5ZbNCLoMs0Qf9cwJPrD5wKkmyXyeuCN/knFpyztzGdtt12mO3hGaUy
- TxdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUF6W0COa0aMkm+3ldOKb3g12LnH2rr0QmQS+43CEV94D0v4wde1GnP8dDlqYbfNNrcpGHr4GTXN+k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2LJg2xlcjDgv1qdpcmMVMhavDiq4nPp2m+XBTxeIiAsrr/A/1
- p31/Unl6Tv2sILBcyp44Fhkpd5/9hPy5/cgGKlgP7HaubVzIL5sDwk1dKyQfafHKeWNismFMUab
- SKG2LdMpMwPYfvEV20GtYgs0xxaqr3ic=
-X-Gm-Gg: ASbGncvYI+bSeQ+bRqm8xfsC0eerJeuiyHjkBJvHue6Zh5AYMOSJqnGmbHlORmt1vq2
- jF4G3SyIm8iarf8rSqZIH0bkYdrWmlV5qGMojNpJbEIxQsAu2T8IBcLe5McEURnTuAK4bYDyYG+
- XGhsLdn/sZOU1H08w1mL7NMi4kfadMIbkKCTwUn3+77tFbfv6n31ofnsx399p7dnS47zEjemk3p
- TQv84dP7AMEJzIuTA==
-X-Google-Smtp-Source: AGHT+IHw3Z18XHstUu2o5MDyyGsJMQUZc09lyWpgCR+3iBlFcxOGkW7iUUBCOCFrQn0WS7ZaeI8Iju8q0S+OmEonvrg=
-X-Received: by 2002:a17:903:1a8b:b0:25a:4437:dbb7 with SMTP id
- d9443c01a7336-25d25e85badmr85747195ad.4.1757972730212; Mon, 15 Sep 2025
- 14:45:30 -0700 (PDT)
+ bh=cm0/mnzPsesUmIeJ98TzZwQ2Akz/kNDhyhWBAXtAXDw=;
+ b=wzcsN6R/ufW1yqDkmzMQdPeIpWDcDvl6uRU6uKfQ1643vh0h0Me9+Y7YSOf5864E6j
+ EWw4NGiiU5LeGTUvtHXUo1Ax9dP5WTKqm5T1qkgXXcB/4Syvc68p7liLKMZXOml95vm5
+ fcAeYCR9x2EqjMLfjxICIn26vxF13zwm4axXyUKEyT2DyReJiwuMcdADv6barGcrItX8
+ on5vLNAiGaC7f+8AqtLURds7vXqThPe7dF7cEx9tWQm7d5sjNogRMA16d0xNe/ls5VKL
+ nBM+iNJQ3BL5HEKyPOmXi4rtYdtYeoA1xEWthNBhvNYmEKYtIULrCAg8g9lBP/alh6+w
+ Dxfg==
+X-Gm-Message-State: AOJu0YziL+LbURoleUFcCSyIlPO81jW3aVavLdvNv5MCSQ03aNqL743Z
+ /989vDGepwMLaUwRirWUUF2bnjMEm9RYgQAF/G9+xfMRIZcDm7Ute7/LuN1ezfGlSUhgKeegPZp
+ HROPjv8hUFHJbzjBaQc58nLOYJvjIzhA=
+X-Gm-Gg: ASbGncuxYO0pF/993tLzEaLYTUOxCu4bhPqYQgFFQ6rZH52fZJ0TSJsM9LWt8YTSfO4
+ LhyQGr57C7L6LdTle/sTuFBebSrxUwVNAx+dE3V3svw0L2KI/I9cZ3f+9s/msGdntg6MyDsPhYU
+ cER+e9SOy6tymGiXv+ZJR4jvZo7/06bO/uMCFynjUn/onoT8W1bUdvXhGY9VviAFQBw2XGQsSCm
+ FSAHcY=
+X-Google-Smtp-Source: AGHT+IHDRvcV0dV9VDhAcAMEZ21dqvL1noGOj01MZ+sfLv+YYHw5oyhSI+Q1GgqRspon0xC83RYI98h95ffW6T3retY=
+X-Received: by 2002:a2e:a016:0:20b0:336:7e31:6708 with SMTP id
+ 38308e7fff4ca-351403eccb1mr33364351fa.37.1757976723624; Mon, 15 Sep 2025
+ 15:52:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250913052109.2638-1-bold.zone2373@fastmail.com>
-In-Reply-To: <20250913052109.2638-1-bold.zone2373@fastmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 15 Sep 2025 17:45:18 -0400
-X-Gm-Features: Ac12FXyeEWmkZqa6wbMn8t2Wun6mfw4KJJSTBJD8vx8rr6MmHrmXg4LFyNCd8yc
-Message-ID: <CADnq5_N9r+hyu6ARUGeYnsSPNNBM-bq0YV5mQoH6vp2yXdXZhg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Use kmalloc_array() instead of kmalloc()
-To: James Flowers <bold.zone2373@fastmail.com>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com, 
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, roman.li@amd.com, alvin.lee2@amd.com, 
- skhan@linuxfoundation.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev
+References: <20250912134406.221443-1-onion0709@gmail.com>
+ <62842992a3f18ca7c11e4887d3eced69644793ae.camel@mailbox.org>
+In-Reply-To: <62842992a3f18ca7c11e4887d3eced69644793ae.camel@mailbox.org>
+From: Luc Ma <onion0709@gmail.com>
+Date: Tue, 16 Sep 2025 06:52:19 +0800
+X-Gm-Features: AS18NWBzVkhxcm04lwXZqplHOT5g0VGEYgD3MlvxyGFbkTaem_RX_Qsv2EDXZCg
+Message-ID: <CAB3Z9RJPdCu50esK2mg9NkVihuWmZn7hpDdxeMEN1FBNpFtBrg@mail.gmail.com>
+Subject: Re: [PATCH] drm/sched: struct member doc fix
+To: phasta@kernel.org
+Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,65 +86,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi,
 
-Alex
+On Mon, 15 Sept 2025 at 20:12, Philipp Stanner <phasta@mailbox.org> wrote:
+>
+> On Fri, 2025-09-12 at 21:44 +0800, Luc Ma wrote:
+> > The mentioned function has been renamed since commit 180fc134d712
+> > ("drm/scheduler: Rename cleanup functions v2."), so let it refer to
+> > the current one.
+> >
+> > Signed-off-by: Luc Ma <onion0709@gmail.com>
+>
+> Thx for the patch.
+>
+> > ---
+> >  include/drm/gpu_scheduler.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index 323a505e6e6a..6c4d0563e3d7 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -546,7 +546,7 @@ struct drm_sched_backend_ops {
+> >   * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY_=
+COUNT,
+> >   *           as there's usually one run-queue per priority, but could =
+be less.
+> >   * @sched_rq: An allocated array of run-queues of size @num_rqs;
+> > - * @job_scheduled: once @drm_sched_entity_do_release is called the sch=
+eduler
+> > + * @job_scheduled: once @drm_sched_entity_flush is called the schedule=
+r
+>
+> The change itself looks correct to me; however, a function must be
+> cross-referenced with parenthesis: "once drm_sched_entity_flush() =E2=80=
+=A6"
+>
+> '@' is used for function parameters.
+>
+> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highligh=
+ts-and-cross-references
+>
+> Please provide that change in a v2.
+Thank you for pointing out that, I'll send v2.
 
-On Sat, Sep 13, 2025 at 1:31=E2=80=AFAM James Flowers
-<bold.zone2373@fastmail.com> wrote:
 >
-> Documentation/process/deprecated.rst recommends against the use of kmallo=
-c
-> with dynamic size calculations due to the risk of overflow and smaller
-> allocation being made than the caller was expecting. This could lead to
-> buffer overflow in code similar to the memcpy in
-> amdgpu_dm_plane_add_modifier().
+> Thank you,
+> P.
 >
-> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
-> ---
-> I see that in amdgpu_dm_plane_get_plane_modifiers, capacity is initialize=
-d to
-> only 128, but it is probably preferable to refactor.
 >
-> Tested on a Steam Deck OLED with no apparent regressions using these test=
- suites from
-> igt-gpu-tools:
-> 1) kms_plane
-> 2) amd_plane
-> 3) amd_fuzzing
-> 4) testdisplay
+> >   *                 waits on this wait queue until all the scheduled jo=
+bs are
+> >   *                 finished.
+> >   * @job_id_count: used to assign unique id to the each job.
 >
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/dr=
-ivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index b7c6e8d13435..b587d2033f0b 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -146,7 +146,7 @@ static void amdgpu_dm_plane_add_modifier(uint64_t **m=
-ods, uint64_t *size, uint64
->
->         if (*cap - *size < 1) {
->                 uint64_t new_cap =3D *cap * 2;
-> -               uint64_t *new_mods =3D kmalloc(new_cap * sizeof(uint64_t)=
-, GFP_KERNEL);
-> +               uint64_t *new_mods =3D kmalloc_array(new_cap, sizeof(uint=
-64_t), GFP_KERNEL);
->
->                 if (!new_mods) {
->                         kfree(*mods);
-> @@ -732,7 +732,7 @@ static int amdgpu_dm_plane_get_plane_modifiers(struct=
- amdgpu_device *adev, unsig
->         if (adev->family < AMDGPU_FAMILY_AI)
->                 return 0;
->
-> -       *mods =3D kmalloc(capacity * sizeof(uint64_t), GFP_KERNEL);
-> +       *mods =3D kmalloc_array(capacity, sizeof(uint64_t), GFP_KERNEL);
->
->         if (plane_type =3D=3D DRM_PLANE_TYPE_CURSOR) {
->                 amdgpu_dm_plane_add_modifier(mods, &size, &capacity, DRM_=
-FORMAT_MOD_LINEAR);
-> --
-> 2.51.0
->
+
+
+--=20
+Luc
