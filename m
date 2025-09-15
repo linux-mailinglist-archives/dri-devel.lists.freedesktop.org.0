@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48F2B57E4E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AF3B57E5B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:05:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20EC710E4C5;
-	Mon, 15 Sep 2025 14:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0535710E4C8;
+	Mon, 15 Sep 2025 14:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="CfB0xS4N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PJgoLG9Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E21410E4C5
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:04:01 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58FE3qSi1571392;
- Mon, 15 Sep 2025 09:03:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757945032;
- bh=WUMySgV2UJ4R7LmsT8uOJ9FTH+QR5Hdqf3nlHKsvkFs=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=CfB0xS4NliV+IyRK04dpZeEDA08/QbK00on9GoEVIwTDyE3/ebGKFbwxXdPJxOBL6
- QQr+5Xp9J4L73FD0eSA/UoSLPopdBvbOxCpddXQrbQps8Fgge+yB6HNK08p0SJyJBR
- pZjwAqYVZy66UD0R4Zk46BfYJXgxSx6JGvL95xDg=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58FE3qBs788298
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 15 Sep 2025 09:03:52 -0500
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 15
- Sep 2025 09:03:51 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 15 Sep 2025 09:03:52 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58FE3plK3911393;
- Mon, 15 Sep 2025 09:03:51 -0500
-Date: Mon, 15 Sep 2025 09:03:51 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
- <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
- Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>,
- <tomi.valkeinen@ideasonboard.com>, <devarsht@ti.com>,
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH V5 0/5] drm/bridge: it66121: Add initial it66122 support
-Message-ID: <20250915140351.cjegerbuvhezeapt@screen>
-References: <20250827202354.2017972-1-nm@ti.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1165210E4C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:05:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BE782419E4;
+ Mon, 15 Sep 2025 14:05:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8C5C4CEF1;
+ Mon, 15 Sep 2025 14:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757945134;
+ bh=GGWTXMnsvErJb2h3pKbkZRJqvllX1YeT8+dWpSMY+/c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PJgoLG9YCmgt/nfsqCliDQBcjNMtYABcybsaMDTjh1bl0ymbH+apjITS/WVMSd6H2
+ FCgmQMGvGYGol8RvvSRn1LlT9ZY25PrmEzQP2JGgm01OAGhRp0si+U79SmkWDvGjqe
+ rlSHNu9d5JHHeV4bpGBBzPcVP4r9OUQQ6JJk9LQZUxQQ6nuVA9Ty3Fq3j4rbPPvOD0
+ AhjaEG2rrSs5t/GbahnkGV5qFCyER11d2F9HXc/ZICObO5842j0Osm7GpRL+otdRvP
+ csfLk4s5J75pR85kMulqQ+uYAMDoPoHO1g0ojJ6fEOcs08cO6M2eUfp9FH9uNpQkvs
+ j+IfO+Wrica8w==
+Date: Mon, 15 Sep 2025 09:05:31 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, 
+ Sumit Garg <sumit.garg@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, 
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuldeep Singh <quic_kuldsing@quicinc.com>, 
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH v12 00/11] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+Message-ID: <mir6lhkj456ra3i6w7def4rrtzw663f66l66cz4s3gxxvueeqk@ils2hjklbp4y>
+References: <20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-0-17f07a942b8d@oss.qualcomm.com>
+ <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250827202354.2017972-1-nm@ti.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUa44Fow6BhkdTki=rt2psOC=dq99cRgwXsVagmQU7fttXyCw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,73 +73,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15:23-20250827, Nishanth Menon wrote:
+On Fri, Sep 12, 2025 at 10:21:55AM +0200, Jens Wiklander wrote:
 > Hi,
 > 
-> Add initial support for IT66122, which seems to be compatible to it66121
-> but probably has additional functionality.
+> On Fri, Sep 12, 2025 at 6:07 AM Amirreza Zarrabi
+> <amirreza.zarrabi@oss.qualcomm.com> wrote:
+> >
+> > This patch series introduces a Trusted Execution Environment (TEE)
+> > driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+> > and services to run securely. It uses an object-based interface, where
+> > each service is an object with sets of operations. Clients can invoke
+> > these operations on objects, which can generate results, including other
+> > objects. For example, an object can load a TA and return another object
+> > that represents the loaded TA, allowing access to its services.
+> >
+> [snip]
 > 
-> BeagleY-AI uses this it66122 as the old part is no longer in production
-> as far as I understand.
+> I'm OK with the TEE patches, Sumit and I have reviewed them.
 > 
-> Now, BeaglePlay uses it66121 at the moment, but at some point, it might
-> end up flipping over to the new part. Additionally, it also looks like
-> Revision D of BeagleBone Black switched over to it66122 as well.
-> 
-> Series is based on next-20250827
-> 
-> Bootlog: BeaglePlay: https://gist.github.com/nmenon/65afb917ee1818979d338cf25732a920
-> 
-> Changes in V5:
-> * Switched over to ARRAY_SIZE
-> * Picked up Andrew's Reviewed-by
-> 
-> Changes in V4:
-> * Added patch to sort the compatibles alpha-numerically
-> * vid/pid lookup is done without using the match_data.
-> * picked reviews
-> 
-> Changes in V3:
-> Based on Tomi's and Devarsh's reviews, and searching online (and failing
-> to find) for a public data sheet, I have refactored the series to:
-> a) Detect the ID by matching vid/pid
-> b) Introduce it66122 basic support which seems to work based on
->    empirical testing evidence on BeagleY-AI. This allows incremental
->    patches in the future by someone who might have access to the data
->    sheet to add additional features for the chip.
-> c) Irritated by checkpatch --strict warnings, added a patch to fix
->    existing warnings as part of this series, but it could probably go
->    in independent of everything else.
-> d) Stopped claiming it66122 is drop in replacement of it66121 :)
-> 
-> Changes in V2:
-> * Picked up Krystoff's binding ack
-> * Switched over to a vid/pid list
-> 
-> V4: https://lore.kernel.org/all/20250819130807.3322536-1-nm@ti.com/
-> V3: https://lore.kernel.org/all/20250815034105.1276548-1-nm@ti.com/
-> V2: https://lore.kernel.org/all/20250813204106.580141-1-nm@ti.com/
-> V1: https://lore.kernel.org/all/20250813190835.344563-1-nm@ti.com/
-> 
-> Nishanth Menon (5):
->   dt-bindings: display: bridge: it66121: Add compatible string for
->     IT66122
->   drm/bridge: it66121: Drop ftrace like dev_dbg() prints
->   drm/bridge: it66121: Sort the compatibles
->   drm/bridge: it66121: Use vid/pid to detect the type of chip
->   drm/bridge: it66121: Add minimal it66122 support
-> 
->  .../bindings/display/bridge/ite,it66121.yaml  |  1 +
->  drivers/gpu/drm/bridge/ite-it66121.c          | 68 +++++++++----------
->  2 files changed, 34 insertions(+), 35 deletions(-)
 
-Since it has been a while,
+Happy to hear that.
 
-DRM maintainers: gentle ping. Hope we can roll this to drm-misc-next if
-there are no further comments?
+> There were some minor conflicts with other patches I have in the pipe
+> for this merge window, so this patchset is on top of what I have to
+> avoid merge conflicts.
+> 
+> However, the firmware patches are for code maintained by Björn.
+> Björn, how would you like to do this? Can I take them via my tree, or
+> what do you suggest?
+> 
 
--- 
+Please pull:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git 20250911-qcom-tee-using-tee-ss-without-mem-obj-v12-2-17f07a942b8d@oss.qualcomm.com
+
 Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
-https://ti.com/opensource
+Bjorn
+
+> It's urgent to get this patchset into linux-next if it's to make it
+> for the coming merge window. Ideally, I'd like to send my pull request
+> to arm-soc during this week.
+> 
+> Cheers,
+> Jens
+> 
+> >
+> > ---
+> > Amirreza Zarrabi (11):
+> >       firmware: qcom: tzmem: export shm_bridge create/delete
+> >       firmware: qcom: scm: add support for object invocation
+> >       tee: allow a driver to allocate a tee_device without a pool
+> >       tee: add close_context to TEE driver operation
+> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+> >       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+> >       tee: increase TEE_MAX_ARG_SIZE to 4096
+> >       tee: add Qualcomm TEE driver
+> >       tee: qcom: add primordial object
+> >       tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
+> >       Documentation: tee: Add Qualcomm TEE driver
+> >
+> >  Documentation/tee/index.rst              |   1 +
+> >  Documentation/tee/qtee.rst               |  96 ++++
+> >  MAINTAINERS                              |   7 +
+> >  drivers/firmware/qcom/qcom_scm.c         | 119 ++++
+> >  drivers/firmware/qcom/qcom_scm.h         |   7 +
+> >  drivers/firmware/qcom/qcom_tzmem.c       |  63 ++-
+> >  drivers/tee/Kconfig                      |   1 +
+> >  drivers/tee/Makefile                     |   1 +
+> >  drivers/tee/qcomtee/Kconfig              |  12 +
+> >  drivers/tee/qcomtee/Makefile             |   9 +
+> >  drivers/tee/qcomtee/async.c              | 182 ++++++
+> >  drivers/tee/qcomtee/call.c               | 820 +++++++++++++++++++++++++++
+> >  drivers/tee/qcomtee/core.c               | 915 +++++++++++++++++++++++++++++++
+> >  drivers/tee/qcomtee/mem_obj.c            | 169 ++++++
+> >  drivers/tee/qcomtee/primordial_obj.c     | 113 ++++
+> >  drivers/tee/qcomtee/qcomtee.h            | 185 +++++++
+> >  drivers/tee/qcomtee/qcomtee_msg.h        | 304 ++++++++++
+> >  drivers/tee/qcomtee/qcomtee_object.h     | 316 +++++++++++
+> >  drivers/tee/qcomtee/shm.c                | 150 +++++
+> >  drivers/tee/qcomtee/user_obj.c           | 692 +++++++++++++++++++++++
+> >  drivers/tee/tee_core.c                   | 127 ++++-
+> >  drivers/tee/tee_private.h                |   6 -
+> >  include/linux/firmware/qcom/qcom_scm.h   |   6 +
+> >  include/linux/firmware/qcom/qcom_tzmem.h |  15 +
+> >  include/linux/tee_core.h                 |  54 +-
+> >  include/linux/tee_drv.h                  |  12 +
+> >  include/uapi/linux/tee.h                 |  56 +-
+> >  27 files changed, 4410 insertions(+), 28 deletions(-)
+> > ---
+> > base-commit: 8b8aefa5a5c7d4a65883e5653cf12f94c0b68dbf
+> > change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+> >
+> > Best regards,
+> > --
+> > Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> >
