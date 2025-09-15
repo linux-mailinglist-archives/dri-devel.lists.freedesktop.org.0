@@ -2,106 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057DDB5761C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD89BB575BD
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:12:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FED210E2CA;
-	Mon, 15 Sep 2025 10:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA7510E3CE;
+	Mon, 15 Sep 2025 10:12:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="la2ZADbE";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZBc6wlxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 461 seconds by postgrey-1.36 at gabe;
- Mon, 15 Sep 2025 10:19:34 UTC
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B289A10E3E2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:19:34 +0000 (UTC)
-Received: from [10.0.0.200] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id 27A6D53400BE;
- Mon, 15 Sep 2025 12:11:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1757931110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=X5dPNaHHQz5bsNUwGNxFPwLQAT3/h+xAt87Z0yh/F3Q=;
- b=la2ZADbEfr1yYdZ49CflCBoOmEvSLv47xLB8KoknT6OHsKzohAPTOnKRtKPQ4WgyOOEw83
- HQYp+J4ily3oyacydhUQYqYQ3ceV6wI4L+W3pIWAz/z3YTea94LcaR+ZK4GfgK6Onhw2aI
- /ZtcIiCjhxGrdMYG9hm3L6WErXSniBg=
-Message-ID: <ad1764a3-12b3-4c30-9b79-313d9c1d37eb@ixit.cz>
-Date: Mon, 15 Sep 2025 12:11:49 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1A8210E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:21 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FgLj031661
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ sKD/3kPWUFAIEKI0UmpKQAcxh9lP5Wru5KsNYI2Yxfo=; b=ZBc6wlxTY2NrEsig
+ 4fQSCUgYY0661833ZRKf3dhutGaTAzFuHKLF3C1rfXISL2/jQUDk9D013zPWen2u
+ wZIPk1j2YBJ/R2kQl07dACQ8jGwRzyItehxgwlk9Edh24ZmWGBY6yc0NnX3mcafn
+ 0HNtDPxk0fs1714LQ6pRoeqkF0tzHWRE4bSyy6Qwq2eP4gNuu37lfyKUwfMoHrVE
+ QTYIw+5pNEaUPbC9mwZ436p61Q2YDL6KYHHsKtmRQiCjQnjU/soVB0yVci1F8tab
+ OV68RFIxLx7hl3P/HKZr13Nn2vxowr3nXiMCJpb/wjfLKTnd2EgynxizCnhZNmG4
+ B0N/Yg==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494yma4j1a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:12:20 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id
+ 41be03b00d2f7-b4d41eed745so1012540a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 03:12:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757931139; x=1758535939;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=sKD/3kPWUFAIEKI0UmpKQAcxh9lP5Wru5KsNYI2Yxfo=;
+ b=wlAu/UinSmvdNVZElcBtfADt7SWmGf2sxhpVmvDYMqeb8MVNl4kmMsl8Y+bsub/MUb
+ FWk5Av6aWvEAWBJydXYs2uYth0+0rFcjXLLS45aSRVVtzDcUBj2ikZlxXhXIrx/xsmWv
+ 3VKiA4dJknu10lx72HbwXiy/dBewQ1WlPMr4hv4slGMry+7VLCFRDSxNwmSk2QmzsGoJ
+ Bo/4+4PbBbhXN/h1inW/Pt4nUjix4NcwC+ovdGP8Ytbq1Vs/w86uym72ZfOD1SCzox37
+ qXF7yP55xU9tobwNUu4JttZJycCuMZv9q9LUsrZmxN023SeVH3iesow9abT0YDeTMwGc
+ A9rA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXK/WY4+VN+o+qjmj1SowKUYsBNAjJsNJ6//uL82AWRjd/ZYzrlmfWFpun/capmclWe2U3NTBwsxVE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyj29Mi7aOtaKfCh2fbtiSiUXQ4d7c/V31SJ9C4tfc1svfqxTuJ
+ IrmKVVz4LCCv0NGi8P6hQJmgldsybN3yFuNDKRqorR9XzeaFuGyHpLk+jjesINejrEwhKbfOEbN
+ bZcbv/aIcGmV9Ud+5bUlXpcoDMftBNyTIm3+B64vLZYOIQ2P5gfAjvAFxIZENjNx+ViOasmc=
+X-Gm-Gg: ASbGncvhy8doODEPJXkhNVdcYsH4eTHNgoMA+7CNRtvJZIDKKzMi440hWam6k4/LhW7
+ h7tIiDcqMyH1zXcmzcthqL89ZpzeJDNx98Ijc93bHEs5B2EwUCoVTOWDlg2t04sXBNj7XcQfdfU
+ BVhN2mDlCnRJMgdDBVjSJWJuIV4oCXCvWO+Vg/LT7UeV153sx+JxkGFRz48l4AV7AFeFyL6FQif
+ JQIDYlVdyq4ycqYf+ZZyxJ0d5/hAi/T3IFzqNNfXb0ENeg3llKb6jIbxlpDJOu/ehAhc7QacCIg
+ 1FqyKL0Z/6Pvkbv2cbuVZENCIMrLv1DrnX7vn8/5oc9LPhLQfG7P66eRjDAsW6hVubHnPPTr65a
+ JTCUJFbIYBuGPBUd3LAn2H2izxy7d34XARj8=
+X-Received: by 2002:a05:6a21:328d:b0:264:10e4:f87 with SMTP id
+ adf61e73a8af0-26410e411fbmr1664440637.4.1757931139310; 
+ Mon, 15 Sep 2025 03:12:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxZXxZBGVcbThhG/IvVDI3mpTgc5wznmZnjs66RxbpQzCycjFMO9w4+/RnbJr+43MLjBFNnw==
+X-Received: by 2002:a05:6a21:328d:b0:264:10e4:f87 with SMTP id
+ adf61e73a8af0-26410e411fbmr1664402637.4.1757931138808; 
+ Mon, 15 Sep 2025 03:12:18 -0700 (PDT)
+Received: from [10.133.33.231] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b54b03cf65csm8329380a12.16.2025.09.15.03.12.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Sep 2025 03:12:18 -0700 (PDT)
+Message-ID: <f030649a-9505-4bda-9ce9-00eeee8d3b06@oss.qualcomm.com>
+Date: Mon, 15 Sep 2025 18:12:10 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] drm: panel: nt36672a: Add support for novatek
- nt35596s panel
+Subject: Re: [PATCH v4 11/13] phy: qcom: qmp-usbc: Add USB/DP mutex handling
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Molly Sophia <mollysophia379@gmail.com>,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>
-References: <20250913-nt35596s-v6-0-b5deb05e04af@ixit.cz>
- <20250913-nt35596s-v6-2-b5deb05e04af@ixit.cz>
- <xi65tabv4sgblzmw52wxci5wsrdahshvos5we5wko4kfcfyozp@y3vw5gt3elwv>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <xi65tabv4sgblzmw52wxci5wsrdahshvos5we5wko4kfcfyozp@y3vw5gt3elwv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
+ <20250911-add-displayport-support-for-qcs615-platform-v4-11-2702bdda14ed@oss.qualcomm.com>
+ <nfugwwknnlxls75yo5rex6ggu5nzpq6enyx6e6nfnfei3icxjg@t7dnzcfcjw4o>
+ <cf6c2c2f-9878-4181-a3c8-9692423308bd@oss.qualcomm.com>
+ <q4dplt6fq3cneludcuhxevklaj6omeio3cjxw2owt4h3wistd6@arv23ri4cl75>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <q4dplt6fq3cneludcuhxevklaj6omeio3cjxw2owt4h3wistd6@arv23ri4cl75>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOSBTYWx0ZWRfX7eBQK76hbVyA
+ cLqhBMv/8FKxKp/7QVG7phd+ItYT+rJzUMSuTspuIcWgmH3wr1HzdIWEyuLkKRd0QJ5AV036179
+ 0OWw7t7nP5aAJdbJ1YtTxuR3bFHDuVAIjXtCSnO8bjR8begPocOfFy0RrNj+PquSU1BEoSyXmEU
+ Vx6n2EV9/Ed1kCXLyu9UXOhHvQN2TY5eOnAlr5fOm2mMJg+b3B4FfGlvy9yu50RJYUCj9gxu1M9
+ 6PsBY8l3IXgn6ZXfzFtLr9cVoyLwGoLzmCePwPeZVkJ7vIcvbwV3HrR93cB87rbkUrXtm+R32cp
+ 0W+pIuyoHbDGlmFGZsxoWbxfkwlWxWEGauZrBwp3YdXR33/F2Dhc9rKl02JwOYzpnU6JG+QN6IY
+ DsK/8mL2
+X-Authority-Analysis: v=2.4 cv=cdTSrmDM c=1 sm=1 tr=0 ts=68c7e684 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=CZmHqXGeirO8O24YQhMA:9
+ a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-ORIG-GUID: cqFnjzHLsUlcRexH2pvtPdorouwG1tS7
+X-Proofpoint-GUID: cqFnjzHLsUlcRexH2pvtPdorouwG1tS7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_04,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509130019
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,57 +139,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/09/2025 03:29, Dmitry Baryshkov wrote:
-> On Sat, Sep 13, 2025 at 09:19:48PM +0200, David Heidelberg via B4 Relay wrote:
->> From: Molly Sophia <mollysophia379@gmail.com>
+
+On 9/12/2025 8:09 PM, Dmitry Baryshkov wrote:
+> On Fri, Sep 12, 2025 at 08:03:01PM +0800, Xiangxu Yin wrote:
+>> On 9/12/2025 6:32 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Sep 11, 2025 at 10:55:08PM +0800, Xiangxu Yin wrote:
+>>>> Introduce mutual exclusion between USB and DP PHY modes to prevent
+>>>> simultaneous activation.
+>>> Describe the problem that you are trying to solve first.
 >>
->> Novatek NT35596s is a generic DSI IC that drives command and video mode
->> panels.
->> Currently add support for the LCD panel from JDI connected with this IC,
->> as found on Xiaomi Mi Mix 2S phones.
-> 
-> Why are you adding it to the existing driver rather than adding a new
-> one?
-
-Hello, originally it started as a standalone driver (see v2 patchset), 
-but got merged due to similarities.
-
-v2 patchset:
-https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg404290.html
-
-If it's desired, I can switch it back to the standalone driver.
-
-> 
->>
->> Signed-off-by: Molly Sophia <mollysophia379@gmail.com>
->> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   drivers/gpu/drm/panel/Kconfig                  |   7 +-
->>   drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 225 ++++++++++++++++++++++++-
->>   2 files changed, 222 insertions(+), 10 deletions(-)
->>
->>   
->>   MODULE_AUTHOR("Sumit Semwal <sumit.semwal@linaro.org>");
->> -MODULE_DESCRIPTION("NOVATEK NT36672A based MIPI-DSI LCD panel driver");
->> +MODULE_AUTHOR("Molly Sophia <mollysophia379@gmail.com>");
-> 
-> ??
-
-What's wrong with it?
-
-David
-
-> 
->> +MODULE_DESCRIPTION("NOVATEK NT36672A/NT35596S based MIPI-DSI LCD panel driver");
->>   MODULE_LICENSE("GPL");
->>
->> -- 
->> 2.51.0
+>> Ok.
 >>
 >>
-> 
+>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>>>> ---
+>>>>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 21 +++++++++++++++++++++
+>>>>  1 file changed, 21 insertions(+)
+>>>>
+>>>> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>>>> index 613239d15a6a3bba47a647db4e663713f127c93e..866277036089c588cf0c63204efb91bbec5430ae 100644
+>>>> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>>>> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+>>>> @@ -1061,6 +1061,19 @@ static int qmp_usbc_usb_power_off(struct phy *phy)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int qmp_check_mutex_phy(struct qmp_usbc *qmp, bool is_dp)
+>>> mutex has a very well defined use case - a sleeping lock. Please find
+>>> some ofther name.
+>>
+>> Then how about 'qmp_check_exclude_phy'?
+>
+> qmp_usbc_check_phy_status()?
 
--- 
-David Heidelberg
 
+Ok.
+
+
+>>
+>>>> +{
+>>>> +	if ((is_dp && qmp->usb_init_count) ||
+>>>> +	    (!is_dp && qmp->dp_init_count)) {
+>>>> +		dev_err(qmp->dev,
+>>>> +			"PHY is configured for %s, can not enable %s\n",
+>>>> +			is_dp ? "USB" : "DP", is_dp ? "DP" : "USB");
+>>>> +		return -EBUSY;
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>  static int qmp_usbc_usb_enable(struct phy *phy)
+>>>>  {
+>>>>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
