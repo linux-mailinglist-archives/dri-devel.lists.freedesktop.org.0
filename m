@@ -2,89 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0EEB57FB1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A5FB57FB2
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 16:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E7D810E361;
-	Mon, 15 Sep 2025 14:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A28610E4DA;
+	Mon, 15 Sep 2025 14:57:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZU3QOdYQ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="YMrFLEo0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5E110E361
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:57:32 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7761b392d50so3357486b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 07:57:32 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DA110E4DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 14:57:44 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-772481b2329so4597299b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 07:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1757948249; x=1758553049;
+ d=google.com; s=20230601; t=1757948264; x=1758553064;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fSuuPi0RBraKWGef/U6swz7Geuge5FseMwxYOTQoMUI=;
- b=ZU3QOdYQzyO1/pQgt5Ykzt9V+4Tij8L/FdvqvZrkgevuGf5xDI5muJfneVZlxvLu79
- J2FmcbxXq3E1k5N2EHlafJROfNyPwPb9C+zPU1D0OWqP+af1X3iCZAGswP6uJa9idZEL
- wjMg4KaTUp78ReQY2VIH4dgq7RfFwvlHrrq6s=
+ bh=bWnOZJSewnsdDRnB5iGIXYYv++Gnu1xZmA3g/PLQf9k=;
+ b=YMrFLEo0NEqJwMAl/x/A6WffhoX/kTtdZ99yH3CdITCz7YES5yc0r1M++BJIDzjwOh
+ bl9PbN9dmKRZ6z2o4NULoFGdzyIJRKhHs5ytrYLyBn2sVjWX7lj5jf+BoPCEGmv1WAgm
+ dsq640iCFuKQmp3QS7SUiTKU9P2TqUBLl5XDATKm3CE1u1hig4aLAuv9EhvXVxvZgcOD
+ LnZT3HcOGuSTqsDRc/t10pe0VNYJiXaJzLvdRdD4HDNXRP19z8x5/QPfGANhEZuwhDDv
+ FkwMV2NRHrnksBnx0ISMr1bxNjgkw5fMSUqeBwJQ4ISLS9rbh3hxqSE4DmWDazuYKhmP
+ wvaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757948249; x=1758553049;
+ d=1e100.net; s=20230601; t=1757948264; x=1758553064;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fSuuPi0RBraKWGef/U6swz7Geuge5FseMwxYOTQoMUI=;
- b=whBiTgW0rIMSNfY9tReFUhpeTN7LcMPfkr4emaw8o15XznozXVVh1jPOBH8CA+uyDB
- F5pjRZtXI1KvWBdd2FhrvO+qXtdSIqwTj0Vr8NiS86WgkR3ThuQ8f71aKLfwHnxaKIfP
- caE/SAJSJ8zQTwP2y5jyDy0yPG+dHWg0WuczSnSjVYI9d+jYpbYjxWNTebdgVmLXyVC/
- GItk7ZOXrltk4cu5NEbrngJwDmQqkxQwC4ktYVdPPasiOZQNP7p+lsi54SJ0XSHHTE1x
- 5PBi0yo0hhP8ZnJL7Pv3uSwWFZhGX8o8Gae0p5wBJ4lA+p+g5+Vvpn5o/euz2olgV2do
- cM5A==
+ bh=bWnOZJSewnsdDRnB5iGIXYYv++Gnu1xZmA3g/PLQf9k=;
+ b=lAzb8e3om/nIEuSLeNN76z64Ss9aHD3EP+a1Hx1uC4SH7vfwdcEFXjZwa+66nk14ai
+ L5jfWs8Cm54R6LChnQcxg0y4hERlbS4luBl2zwm++CC835PEGqGsl1wtitfdP5mOhQlp
+ pAqNHQqrUt83XY760sYGmHG9QkH4Q1s3Lb+uybAnS9u4wBBdmfvmBI1XPnHw3AW1OzkF
+ xns/HtVdhoOceHXAs6n4CyZoDOckTqornn+G+Y03aL4oI/whezUeYYhtCLZpZ2Yl2PYm
+ Nt6mimI8PkRdONMXHwKD6Gh0cGy5gRLp7CufOjebOuQFneA7Q3H2uaKtStPpgeImoeMZ
+ RUxA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXPWNGYQ/omiuDdoilnWjSIuYlIKREmher7vb21AvahuNSKalOcuEgHFn9BET/ykKHpQemYLyiVoXU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyW5klIwAVmNsv0ksDa2Cfu4F27J0jqGZIOgt2gOdW8e6nTl/Ob
- cm8RuYdThn3A7brBVwK3p3y9twlaPAmUDlICgPqKQ0tOERiRvlB9DjxYzYMvG/wT6TGfoAnOw7/
- 7Q+M=
-X-Gm-Gg: ASbGncvwKpDl3zc5AED+n8kBmA7wXFsjb7IvAh9I2KoHuVenfso38zpafh7uq2TP4Ey
- RGVxHfVgFuMXYTGh49qUWe6QWEeDcIlJzvVgOJP/UAw2y90mAUqh29gw3gjinq9VS2PeIUo+74E
- xqNFJ6yfNF5GtvEib4QSY3QmlU+Ko3xem3ak+Lj0CEUSziWDQ35xpTQXiigsD0Y74cwHQw8O1td
- 8m7xXYMvn/faKDup19ffWiwaOU/iZ3iMpI+2iwanuwhoqGjewl+3/rElGhVzHbhqwso40yHVl4s
- FNs34EbW/nyHrbXhl2JgjZg3i+y/CggOUwcgOqXFQgogNSdgYF6yjye747A0R7i9meW1nzPbJHo
- 5ET16SwGrvB0Ckmt8DWMysIxNnJJrsx1lSCu35iv5a/XmO279KuPp+caEC1YXc9cd/Q==
-X-Google-Smtp-Source: AGHT+IG2HCvKiSgD5Bp4sJBS4ln49LzlXeQ37mPxGvbbACWuUIIeiMjWuui2zSYt0OuJEcVctxiVbg==
-X-Received: by 2002:a05:6a21:99a9:b0:247:b1d9:77c with SMTP id
- adf61e73a8af0-2602a49d9fbmr15730312637.3.1757948249535; 
- Mon, 15 Sep 2025 07:57:29 -0700 (PDT)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com.
- [209.85.214.179]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b54a35b877bsm12160287a12.3.2025.09.15.07.57.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Sep 2025 07:57:27 -0700 (PDT)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2570bf6058aso56912315ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 07:57:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyMKnFrU444n/4xhp0m8vpNRxdWQMMZhv6b9kHge0ueo3sk8oSJc4xCek667eMOGQ91HLBtA9Uh30=@lists.freedesktop.org
-X-Received: by 2002:a17:902:ecc7:b0:25c:7434:1c03 with SMTP id
- d9443c01a7336-25d24101631mr160114095ad.10.1757948246579; Mon, 15 Sep 2025
- 07:57:26 -0700 (PDT)
+ AJvYcCXub69m5ZfmuaiqWOH8YASz1MgscJPpEjx4HZYcEZu4i9TaQrOq0/NKaLP6oxiFnjq5M+yjJb+VTb0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2YiqYB2UHInC5PvRD6ksn8bRu6ctf1Ys/WJK1jaefFq0FLs6C
+ FXUXhI6MR3ryTC4rTl4LTgegEelJKBCa4VPP67BerXomPdLcGT4j2MCepU040SS14GnqUDPw8Ks
+ KK9/sVjTFNZ10J496KQwfo76ydqzUV68q94XnDvNs
+X-Gm-Gg: ASbGncuqiS9nMACmXvR3qlgxcjm2AaWj7hsGoRRRpKyhKBqh/qt/1cYoTIpqqyo5EAF
+ beCwhDgUtoP/+pc3XTnhCLIm0/6EBEqBL3qaEiidlnbpfgqhcv7y5DNl7/temCsdm/WtLaYtKAN
+ Ds/bExh/SC+qaAMq5G4QCHwBFLk51j3doNva+yQDADCMacQFs61EGCRoqxkRazka0AVqa1SoDGM
+ PGoSOyl7+uajlhIUtRliBslCn13nIzh2yEmY++mnJs=
+X-Google-Smtp-Source: AGHT+IHnj6/TLndLwM8EyXwEuk/YJ9EdWGwOpk4CWXv+kwz1bKWJkqFmdEGI1fqwhaJAaM5FG2Rg3VduvcabMBwKZmE=
+X-Received: by 2002:a17:903:478d:b0:264:8a8d:92dd with SMTP id
+ d9443c01a7336-2648a8da428mr77672995ad.20.1757948263212; Mon, 15 Sep 2025
+ 07:57:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250915113437.665345-1-wuzhongtian@huaqin.corp-partner.google.com>
-In-Reply-To: <20250915113437.665345-1-wuzhongtian@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 15 Sep 2025 07:57:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xan-C9hUzv8UfNOom6dkrHFxH1f5ke1KNGwdxFmEK9JQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwTTBHdoxEkLghyvQJZND2VLlss32KjtpSsfoG9ZAk_xu4tjzACy3J_x4g
-Message-ID: <CAD=FV=Xan-C9hUzv8UfNOom6dkrHFxH1f5ke1KNGwdxFmEK9JQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add several panel configurations for
- mt8189 Chromebook
-To: Zhongtian Wu <wuzhongtian@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+References: <20250915064715.662312-1-yanzhijian@huaqin.corp-partner.google.com>
+In-Reply-To: <20250915064715.662312-1-yanzhijian@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@google.com>
+Date: Mon, 15 Sep 2025 07:57:30 -0700
+X-Gm-Features: Ac12FXxQXW-Con-zpsPtv_VMeeXMu-aegpq7H-CjBeLPv29-bp9mRKCGUG3xxe0
+Message-ID: <CAD=FV=W8HGEa6FJ_NApH7V-NiJhiiaA3czXPJTbff6vWKBoy=Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel: Add support for KD116N3730A07
+To: Zhijian Yan <yanzhijian@huaqin.corp-partner.google.com>
+Cc: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch, 
+ hsinyi@google.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,30 +88,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Sep 15, 2025 at 4:34=E2=80=AFAM Zhongtian Wu
-<wuzhongtian@huaqin.corp-partner.google.com> wrote:
+On Sun, Sep 14, 2025 at 11:48=E2=80=AFPM Zhijian Yan
+<yanzhijian@huaqin.corp-partner.google.com> wrote:
 >
-> @@ -2006,11 +2008,13 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         EDP_PANEL_ENTRY('C', 'M', 'N', 0x142e, &delay_200_500_e80_d50, "N=
-140BGA-EA4"),
->         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1441, &delay_200_500_e80_d50, "N=
-140JCA-ELK"),
->         EDP_PANEL_ENTRY('C', 'M', 'N', 0x144f, &delay_200_500_e80_d50, "N=
-140HGA-EA1"),
-> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x148f, &delay_200_500_e80, "N140H=
-CA-EAC"),
->         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1468, &delay_200_500_e80, "N140H=
-GA-EA1"),
-
-The one above is mis-sorted...
-
-...I've fixed it for you while applying.
+> Add panel driver support for the KD116N3730A07 11.6" eDP panel.
+> This includes initialization sequence and compatible string, the
+> enable timimg required 50ms.
+>
+> KD116N3730A07:
+> edid-decode (hex):
+>
+> 00 ff ff ff ff ff ff 00 2c 83 10 01 00 00 00 00
+> 02 23 01 04 95 1a 0e 78 03 3a 75 9b 5d 5b 96 28
+> 19 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
+> 36 00 00 90 10 00 00 1a 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
+> 00 4b 44 31 31 36 4e 33 37 33 30 41 30 37 00 2e
+>
+> Signed-off-by: Zhijian Yan <yanzhijian@huaqin.corp-partner.google.com>
+> ---
+> Change since V1:
+>
+> -Add edid in commit message.
+>
+> V1:https://lore.kernel.org/all/20250912131104.1726775-1-yanzhijian@huaqin=
+.corp-partner.google.com/
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-
 Pushed to drm-misc-next:
 
-[1/1] drm/panel-edp: Add several panel configurations for mt8189 Chromebook
-      commit: e3e4110610671027e3b56bda1ad9f6c51d5ac477
+[1/1] drm/panel: Add support for KD116N3730A07
+      commit: 65afe8b647a7c2e5c508eb28c93baddaa40812f4
+
+-Doug
