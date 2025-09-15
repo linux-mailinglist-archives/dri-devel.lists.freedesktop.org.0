@@ -2,130 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E243CB575A8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057DDB5761C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B2010E34A;
-	Mon, 15 Sep 2025 10:10:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FED210E2CA;
+	Mon, 15 Sep 2025 10:19:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bRi20XHi";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="la2ZADbE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21BE510E3CB
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:10:06 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FmmL027342
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:10:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oJqDS6EtytX/4EwWe7RLhEzC5GGSyQ3r5FauvRmpSDM=; b=bRi20XHiacZCWbyD
- nnFhvTKCYKBcrF6pLVVEY/ILkKCb2u5bF6NaJll6ONizwWc5ANhK62NewCl44joo
- eajx0d9CD72YWNjWaTDFmScq8uDJY1Jps2ZCSkg87U0JNvta5DeJ4lPF+jnzPGVz
- KT2BtL2oLJJBlt7WyE7V0veIBLTpwQV2VRY3vsh6ZgU8PlaP5V2RTtmkTUOYpejL
- Jt5oYmVCftVRI1ConQJrqSposZdQ9caCDCpeguEuH5KeJg8B70aKv/y/5YsidhBH
- F1YN2ptpqvXsFzhMscvyrGoluMF7MRokDvrGpbfXl7YzixcZJajCETPRe6zwKB2T
- AgDvMA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 495072mgrk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:10:05 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b54b25578f8so509622a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 03:10:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757931004; x=1758535804;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oJqDS6EtytX/4EwWe7RLhEzC5GGSyQ3r5FauvRmpSDM=;
- b=xPZvhE3OtD4d0Nz8AwiW+YV4xWHJmGcvlDHwg5UuR17/vfTAc9oHbI0Zp9mxtpuRyV
- q9Pp9xH8ziXQvgsBYh8oO+Cynr9JE+30rskH9PfHrx+agpHUYofifMsFFdqltauOVJQO
- ktoE5+ezmAiYgd+enPm2tCIztKuA0NHRk5yVvgYQQlA8M0TkfHDtZlYUAi5BX/j7Giz1
- DNMbRmt4XgJ3yXq4WNEzpB3KQ0DwFqJtVsGauXzYR7mAKFkoR3xDo1wV0iBXy7cIibqg
- xp5a4x6fgsT/NFNL4sN7VnGqAk/1KXD1xknH1TxgmONBrTKYiJuLmC7jVYYjTspSEECL
- 5ioQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+t4t+50BCRMlsj4a3CaD3G+e0hGkrYj+rrbL+E2oYVO3j6CMwqfYfUsW9mm4WcKAR1IvIzfC3nwE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxhwn6Ql0v52rZ6ihDla1/yK7RGJ6yVOe8FYY8e4KW2pO84rzU4
- fojJCaBxrh6kYqF5etWkMc+wgmp5MZhMBqeyF3Sa/0zsAI7pBSXXkt3LS35oKl6nB2vKL5HDPc5
- BLh5kv4XV1cjEvvftTvrM2ophM+5LRZNo6HMWbSCtqEHSxANdPGHJxFnNQ2B1b921PQm9x2E=
-X-Gm-Gg: ASbGncuIriMxzVzsqQ8gSi2mEHGpd1njkJe0ihrgGQuGVSNG2L3PeDTPtq9y3mIAbPR
- CF55X63TROeSqRB+7jEN0VXvucLV3BGorR4TZSpPT0b17yUa0OsAFuFGXjjXPAeZSJ+1LCwGVnN
- WY6tR23mWFUsB5KC2A5RFivQsiTCRb818wut2DBzQE6WistzfKkiCuc+VWBLnJ3EJpFKirjmEf8
- DDidd5pEqEUQ6Dz7Mm7+GnBh+jNIGHlFkJVQpakuFhmVuRF3yNAigKXG8yrbNjMF5i1KNP32VqG
- 4LtcZv6lh19LL+CXUuYzdavW0+IifAryA6CkA+zUwe9bkTu0yu8rm/0AXRxM5qXck8+tT3mJfPZ
- gK30A6BYc6ktAG/iJi3JDfLgMUnN39g3cqU4=
-X-Received: by 2002:a05:6a00:7608:b0:776:165d:e0df with SMTP id
- d2e1a72fcca58-776165de1e8mr5272825b3a.0.1757931003878; 
- Mon, 15 Sep 2025 03:10:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHL+aEaZbmtt8mkehB/0dhBi1/0r9uuMfBdz44WzDP2mKLR/7wRH7bmQR6ne33XUYpBhPwb1w==
-X-Received: by 2002:a05:6a00:7608:b0:776:165d:e0df with SMTP id
- d2e1a72fcca58-776165de1e8mr5272797b3a.0.1757931003421; 
- Mon, 15 Sep 2025 03:10:03 -0700 (PDT)
-Received: from [10.133.33.231] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7760793b5fasm13129962b3a.16.2025.09.15.03.09.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Sep 2025 03:10:03 -0700 (PDT)
-Message-ID: <4dd37b1f-2175-4759-a250-fee4ed2bd39c@oss.qualcomm.com>
-Date: Mon, 15 Sep 2025 18:09:56 +0800
+X-Greylist: delayed 461 seconds by postgrey-1.36 at gabe;
+ Mon, 15 Sep 2025 10:19:34 UTC
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B289A10E3E2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:19:34 +0000 (UTC)
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 27A6D53400BE;
+ Mon, 15 Sep 2025 12:11:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1757931110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=X5dPNaHHQz5bsNUwGNxFPwLQAT3/h+xAt87Z0yh/F3Q=;
+ b=la2ZADbEfr1yYdZ49CflCBoOmEvSLv47xLB8KoknT6OHsKzohAPTOnKRtKPQ4WgyOOEw83
+ HQYp+J4ily3oyacydhUQYqYQ3ceV6wI4L+W3pIWAz/z3YTea94LcaR+ZK4GfgK6Onhw2aI
+ /ZtcIiCjhxGrdMYG9hm3L6WErXSniBg=
+Message-ID: <ad1764a3-12b3-4c30-9b79-313d9c1d37eb@ixit.cz>
+Date: Mon, 15 Sep 2025 12:11:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm: dp-controller: Add SM6150
+Subject: Re: [PATCH v6 2/3] drm: panel: nt36672a: Add support for novatek
+ nt35596s panel
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-References: <20250912-add-dp-controller-support-for-sm6150-v1-0-02b34b7b719d@oss.qualcomm.com>
- <20250912-add-dp-controller-support-for-sm6150-v1-1-02b34b7b719d@oss.qualcomm.com>
- <sx64y6vfov4yag46erckpbl7avwmqlsqt3siebckn76m6jqxjh@f5lueyih6n3q>
- <d3743c52-4e84-4729-9f64-af856419d504@oss.qualcomm.com>
- <droyp5atpjauyttqkwqzk64kkghg6jkkubvfz3zlbrodyzlvoe@fbns762o6vcq>
- <6bb0cbd0-d3b2-4359-a2d0-6b757f66d0e0@oss.qualcomm.com>
- <v3vuphn3n4w6ynpaqeosechjdcelomn53atwfotka7izqvjuid@nnvdwxqlelrp>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <v3vuphn3n4w6ynpaqeosechjdcelomn53atwfotka7izqvjuid@nnvdwxqlelrp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyNSBTYWx0ZWRfXyxBpWmoWBMj5
- LnkPuMSWzBZe4GlWgkBUCWPbLHjqQJIG02Lyt2mdroLzEBtCUyInGQ0Q1IbczX+oOfIaK+UnwSc
- peSAibTYJYoNYYzfmiUQHBIwluMEiPehjC885GfCXKNHJ/GqBITv0cId5B4sL1l1o3+N8dJkoCn
- PgQmQKXM6L46h01mwuGcblAJicO5i6hPSLbQCoWxdxMcn3ZGnqTJkGAriqRGOJhLlTs6eqvxrV5
- tAuARZuW9H9buMjU5xitvV2H0Qab8+AHGHYi/9vNTz/UvD3NN3bUty4DGZIi279gmCHCWaiI581
- dUwvwZcWWNwyMU3Oq2ESYG//npJdltsvxftiYpFME37GL1oLGmTW5Mk4iEHlNqQ12ukvfr/ic/W
- I0MLdV7A
-X-Proofpoint-GUID: acZXwZFPD0_pwMARZk_GBc0SLg1m4RYR
-X-Authority-Analysis: v=2.4 cv=WcsMa1hX c=1 sm=1 tr=0 ts=68c7e5fd cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=3s9BUBv2AkJYRnd1iEsA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-ORIG-GUID: acZXwZFPD0_pwMARZk_GBc0SLg1m4RYR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_04,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 spamscore=0
- suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130025
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Molly Sophia <mollysophia379@gmail.com>,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>
+References: <20250913-nt35596s-v6-0-b5deb05e04af@ixit.cz>
+ <20250913-nt35596s-v6-2-b5deb05e04af@ixit.cz>
+ <xi65tabv4sgblzmw52wxci5wsrdahshvos5we5wko4kfcfyozp@y3vw5gt3elwv>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <xi65tabv4sgblzmw52wxci5wsrdahshvos5we5wko4kfcfyozp@y3vw5gt3elwv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,38 +117,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 15/09/2025 03:29, Dmitry Baryshkov wrote:
+> On Sat, Sep 13, 2025 at 09:19:48PM +0200, David Heidelberg via B4 Relay wrote:
+>> From: Molly Sophia <mollysophia379@gmail.com>
+>>
+>> Novatek NT35596s is a generic DSI IC that drives command and video mode
+>> panels.
+>> Currently add support for the LCD panel from JDI connected with this IC,
+>> as found on Xiaomi Mi Mix 2S phones.
+> 
+> Why are you adding it to the existing driver rather than adding a new
+> one?
 
-On 9/15/2025 6:03 PM, Dmitry Baryshkov wrote:
-> On Mon, Sep 15, 2025 at 02:26:12PM +0800, Xiangxu Yin wrote:
->> On 9/12/2025 8:10 PM, Dmitry Baryshkov wrote:
->>> On Fri, Sep 12, 2025 at 07:54:31PM +0800, Xiangxu Yin wrote:
->>>> On 9/12/2025 7:46 PM, Dmitry Baryshkov wrote:
->>>>> On Fri, Sep 12, 2025 at 07:39:16PM +0800, Xiangxu Yin wrote:
->>>>>> Add DisplayPort controller for Qualcomm SM6150 SoC.
->>>>>> SM6150 shares the same configuration as SM8350, its hardware capabilities
->>>>>> differ about HBR3. Explicitly listing it ensures clarity and avoids
->>>>>> potential issues if SM8350 support evolves in the future.
->>>>> The controller is exactly the same as the one present on SM8150. HBR3 is
->>>>> a property of the PHY.
->>>> Ok, will update commit msg.
->>> Please red my response again. What does it says to you wrt bindings?
->>>
->> Yes, SM6150 uses the same DisplayPort controller IP as SM8150. I wasn’t
->> previously familiar with how fallback compatibility is defined in the
->> bindings. Since SM6150 will be declared as a fallback to sm8350-dp, is it
->> fine to drop the driver patch ([2/2])?
-> Yes
->
->> Here’s the updated commit message for [1/2], does it match your expectation?
->> 'SM6150 uses the same controller IP as SM8150. Declare SM6150 as a fallback
->> compatible to sm8350-dp for consistency with existing bindings and to ensure
->> correct matching and future clarity.'
-> I'd prefer if we have "qcom,sm6150-dp", "qcom-sm8150-dp",
-> "qcom-sm8350-dp".
+Hello, originally it started as a standalone driver (see v2 patchset), 
+but got merged due to similarities.
 
+v2 patchset:
+https://www.mail-archive.com/dri-devel@lists.freedesktop.org/msg404290.html
 
-Ok. will update next patch.
-'qcom,sm6150-dp' uses the same controller IP as 'qcom,sm8150-dp' ...
-fallback compatible to 'qcom-sm8350-dp' ...
+If it's desired, I can switch it back to the standalone driver.
 
+> 
+>>
+>> Signed-off-by: Molly Sophia <mollysophia379@gmail.com>
+>> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>   drivers/gpu/drm/panel/Kconfig                  |   7 +-
+>>   drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 225 ++++++++++++++++++++++++-
+>>   2 files changed, 222 insertions(+), 10 deletions(-)
+>>
+>>   
+>>   MODULE_AUTHOR("Sumit Semwal <sumit.semwal@linaro.org>");
+>> -MODULE_DESCRIPTION("NOVATEK NT36672A based MIPI-DSI LCD panel driver");
+>> +MODULE_AUTHOR("Molly Sophia <mollysophia379@gmail.com>");
+> 
+> ??
+
+What's wrong with it?
+
+David
+
+> 
+>> +MODULE_DESCRIPTION("NOVATEK NT36672A/NT35596S based MIPI-DSI LCD panel driver");
+>>   MODULE_LICENSE("GPL");
+>>
+>> -- 
+>> 2.51.0
+>>
+>>
+> 
+
+-- 
+David Heidelberg
 
