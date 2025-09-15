@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA73B5745C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 11:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F4EB57460
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 11:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B901E10E36D;
-	Mon, 15 Sep 2025 09:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA32010E3A3;
+	Mon, 15 Sep 2025 09:16:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kBpVBP5L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="azdfyOHZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C7110E36D;
- Mon, 15 Sep 2025 09:15:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F0810E35B;
+ Mon, 15 Sep 2025 09:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1757927747; x=1789463747;
+ t=1757927760; x=1789463760;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MCrmdy109Fbjud3+MYKK2EMTUs8mzp+zO0nHpuscGPU=;
- b=kBpVBP5LTLAmvbvpKUWb2JhtlQq3W/k43poU/z7reC0Oun/KEmR6vU33
- 0MjxzG8HjfHC+1otDH8vwALGycdfqbXfj4OS2hzr67CMEpMaeELmUBW1Z
- cwv348tXJMebk4CS+3LryjsfQaOETnqzG9srl9/AfJAdzrYeI4Fr8g1A1
- jt2f8knvpgnwFo/ui7GgIGrj/mSX5piRjCjo3CfuSOwZ3RyQy/qpzNA11
- e0PxTYg1CVioXKjwdWwm7OWVx3n0YV365k0By1KosHmZVxWLqvLAZz/se
- dkCeRlBtN18QWZHXZpoUc31HdJlcocQFsRBaIsx40DfgG0h5Iqge32+Kz w==;
-X-CSE-ConnectionGUID: esUaJuOqSAqsQMR9Sea6Ng==
-X-CSE-MsgGUID: bexyNSNGRG2xjt952CKvOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="59401312"
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="59401312"
+ bh=kJY4djo7eguzCOM2nO94dvcUe+mrAxeDCViFz7bzar8=;
+ b=azdfyOHZI6pNmPs3FfOopKUogsJ9XH6zLKnzKmdwo0hHKUJ1Ezik5EWC
+ rPsutpxDg1E5Nbznt5zvAdIZRR9nrBhAk1E4+I3NTI56LHSuMcszVoG0o
+ TdQLFMT49kYv78we3eeOmZ/CdJVLy1bRTL5G15ueV72MHomPMj6dwigW0
+ 83OdNGKjcCmj+jIDWTjfm9rbFa6r2PBQEb576Yc8k0Wi6il+uOVb2z6ai
+ 3jlPad8RMvtYys45Vsk3zHNX1pWk3fs0KnxbPyfwNwkRfv4/8P8pvPlFh
+ 4v6Fpdoz1Yy0vyTS+vKevHy7Q3W9lh/ngPRDiAXlpfPgCGo9bPyFeKOpI g==;
+X-CSE-ConnectionGUID: yz3wHRL3ROmMYfBvyCw2/Q==
+X-CSE-MsgGUID: 8QMz2z7sSMuNRc6QB18A5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="59401340"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="59401340"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2025 02:15:47 -0700
-X-CSE-ConnectionGUID: fbKaiQoqQ/ewcz/3tZM/eQ==
-X-CSE-MsgGUID: l1+Y/EZ6SkiOBkQ7kJ31Ng==
+ 15 Sep 2025 02:15:59 -0700
+X-CSE-ConnectionGUID: AeOe3DUOSxy6O09tWHlr1g==
+X-CSE-MsgGUID: YoiRCdCPQPa9rHSu4f3y4Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="175364034"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="175364064"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.245.39])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2025 02:15:39 -0700
+ 15 Sep 2025 02:15:52 -0700
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
@@ -59,10 +59,9 @@ To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  "Michael J . Ruhl" <mjruhl@habana.ai>, linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
  =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 07/11] drm/xe/vram: Use PCI rebar helpers in
- resize_vram_bar()
-Date: Mon, 15 Sep 2025 12:13:54 +0300
-Message-Id: <20250915091358.9203-8-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 08/11] PCI: Add pci_rebar_get_max_size()
+Date: Mon, 15 Sep 2025 12:13:55 +0300
+Message-Id: <20250915091358.9203-9-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com>
 References: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com>
@@ -84,62 +83,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI core provides pci_rebar_size_supported() and
-pci_rebar_size_to_bytes(), use them in resize_vram_bar() to simplify
-code.
+Add pci_rebar_get_max_size() into PCI core to allow simplifying code
+that wants to know the maximum possible size for a Resizable BAR.
 
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/xe/xe_vram.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/pci/rebar.c | 23 +++++++++++++++++++++++
+ include/linux/pci.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_vram.c b/drivers/gpu/drm/xe/xe_vram.c
-index 0b7417bb0a47..d4fbd7f74255 100644
---- a/drivers/gpu/drm/xe/xe_vram.c
-+++ b/drivers/gpu/drm/xe/xe_vram.c
-@@ -22,8 +22,6 @@
- #include "xe_vram.h"
- #include "xe_vram_types.h"
+diff --git a/drivers/pci/rebar.c b/drivers/pci/rebar.c
+index 81e01cbadde7..27185892ada4 100644
+--- a/drivers/pci/rebar.c
++++ b/drivers/pci/rebar.c
+@@ -5,6 +5,7 @@
  
--#define BAR_SIZE_SHIFT 20
--
- static void
- _resize_bar(struct xe_device *xe, int resno, resource_size_t size)
- {
-@@ -72,25 +70,22 @@ static void resize_vram_bar(struct xe_device *xe)
+ #include <linux/bits.h>
+ #include <linux/bitfield.h>
++#include <linux/bitops.h>
+ #include <linux/errno.h>
+ #include <linux/export.h>
+ #include <linux/ioport.h>
+@@ -142,6 +143,28 @@ bool pci_rebar_size_supported(struct pci_dev *pdev, int bar, int size)
+ }
+ EXPORT_SYMBOL_GPL(pci_rebar_size_supported);
  
- 	/* set to a specific size? */
- 	if (force_vram_bar_size) {
--		u32 bar_size_bit;
--
--		rebar_size = force_vram_bar_size * (resource_size_t)SZ_1M;
-+		rebar_size = pci_rebar_bytes_to_size(force_vram_bar_size *
-+						     (resource_size_t)SZ_1M);
++/**
++ * pci_rebar_get_max_size - get the maximum supported size of a BAR
++ * @pdev: PCI device
++ * @bar: BAR to query
++ *
++ * Get the largest supported size of a resizable BAR as a size.
++ *
++ * Returns: the maximum BAR size as defined in the PCIe spec (0=1MB, 31=128TB),
++ *	     or %-NOENT on error.
++ */
++int pci_rebar_get_max_size(struct pci_dev *pdev, int bar)
++{
++	u32 sizes;
++
++	sizes = pci_rebar_get_possible_sizes(pdev, bar);
++	if (!sizes)
++		return -ENOENT;
++
++	return __fls(sizes);
++}
++EXPORT_SYMBOL_GPL(pci_rebar_get_max_size);
++
+ /**
+  * pci_rebar_get_current_size - get the current size of a Resizable BAR
+  * @pdev: PCI device
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 917c3b897739..a4236aafad24 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1424,6 +1424,7 @@ int pci_rebar_bytes_to_size(u64 bytes);
+ resource_size_t pci_rebar_size_to_bytes(int size);
+ u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar);
+ bool pci_rebar_size_supported(struct pci_dev *pdev, int bar, int size);
++int pci_rebar_get_max_size(struct pci_dev *pdev, int bar);
+ int __must_check pci_resize_resource(struct pci_dev *dev, int i, int size);
  
--		bar_size_bit = bar_size_mask & BIT(pci_rebar_bytes_to_size(rebar_size));
--
--		if (!bar_size_bit) {
-+		if (!pci_rebar_size_supported(pdev, LMEM_BAR, rebar_size)) {
- 			drm_info(&xe->drm,
- 				 "Requested size: %lluMiB is not supported by rebar sizes: 0x%x. Leaving default: %lluMiB\n",
--				 (u64)rebar_size >> 20, bar_size_mask, (u64)current_size >> 20);
-+				 (u64)pci_rebar_size_to_bytes(rebar_size) >> 20,
-+				 bar_size_mask, (u64)current_size >> 20);
- 			return;
- 		}
- 
--		rebar_size = 1ULL << (__fls(bar_size_bit) + BAR_SIZE_SHIFT);
--
-+		rebar_size = pci_rebar_size_to_bytes(rebar_size);
- 		if (rebar_size == current_size)
- 			return;
- 	} else {
--		rebar_size = 1ULL << (__fls(bar_size_mask) + BAR_SIZE_SHIFT);
-+		rebar_size = pci_rebar_size_to_bytes(__fls(bar_size_mask));
- 
- 		/* only resize if larger than current */
- 		if (rebar_size <= current_size)
+ int pci_select_bars(struct pci_dev *dev, unsigned long flags);
 -- 
 2.39.5
 
