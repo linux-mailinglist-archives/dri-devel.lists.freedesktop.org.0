@@ -2,142 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95E6B5844A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 20:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BA6B5844D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 20:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B0AB10E529;
-	Mon, 15 Sep 2025 18:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF80A10E50D;
+	Mon, 15 Sep 2025 18:14:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AfsvQVHu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MRip27uX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA2F010E358
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:14:31 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91C8F10E52B
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 18:14:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1757960071;
+ s=mimecast20190719; t=1757960078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ in-reply-to:in-reply-to:references:references;
  bh=ccmp1kxtm1r5yzvVRBCl6E1iJCUdKa+HfAyiSct8ACA=;
- b=AfsvQVHuUGdfgLJL+OpLZPa/2ypude8KtcOespE4w6rtR1ewzypZgBZPQ6Pk8Hv17AwjGI
- EwVo9X00niZBQzettFSa7b6ZaeiAb5wx2aSsVnF4tuZIzS0RM4ktDTIDeQ6Rq3e/PCWGjQ
- sWwhSGRqkCXzvn21eSmnIc7yYsHSrXM=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=MRip27uXNGsU8gsa4kiITY5F8dJx9D7uWKRj0+rNneFdF/DdTTXrrwtH9BtF48WxmkCNZT
+ czz4tWjhi9vpNhE7+3CbwI5UioBtIOfupw1SqZt/efINv7U2TXcz63snCq6w9c04F3meAI
+ kjXsIXjKu48GX0mqZszQven4Kvq5rgg=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-ggM_DBEYNUiBdlQVRltoJQ-1; Mon, 15 Sep 2025 14:14:29 -0400
-X-MC-Unique: ggM_DBEYNUiBdlQVRltoJQ-1
-X-Mimecast-MFC-AGG-ID: ggM_DBEYNUiBdlQVRltoJQ_1757960069
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-80fcac99fe1so636908985a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:14:29 -0700 (PDT)
+ us-mta-260-LwZqAwx7O_KFJu7WrilCeA-1; Mon, 15 Sep 2025 14:14:37 -0400
+X-MC-Unique: LwZqAwx7O_KFJu7WrilCeA-1
+X-Mimecast-MFC-AGG-ID: LwZqAwx7O_KFJu7WrilCeA_1757960077
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-777fb17fd83so39408216d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 11:14:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757960069; x=1758564869;
+ d=1e100.net; s=20230601; t=1757960077; x=1758564877;
  h=mime-version:user-agent:content-transfer-encoding:organization
- :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+ :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=BuHqv0TTzwNYFlIWgvengPGbo6i8SYm/JvnNDqbMl28=;
- b=B9SiZMbCIuyv1QiUNSnanEkM6fEV1HCw27REom154m/wIs01VNBju6RwbEMnmb+oTF
- QfGhPnJ10f6Hd0XbtBD63BBEzkC4pn75GC6jL7aphGM+uixIZpsmG6Mn0hlNOxpZ2cTO
- 9YFkAxzGq1FO0DhK4XFrOxP3Em6RcdZdPYwcpYmNX/khwCyLzTCt8ye8k/84AWh7uV9w
- D4WkHW56UvZQR1BgoV7QEQzNhzFRekbDFqq/h+laLm3wDzby6zaVIbH5wZQ1/5m43pAk
- 1qKMpYu5Odc8TTSodUS6ukWQpHSQytaUZ5Q4NyfRZFSlpNYtRlwdnLLdjAbsoFQE20nY
- kdLA==
+ b=dJpi78OVkS2Bs1ehYX/DmCsJW12CrrlEksfxOVjynFAz2YJhkPluP2loBH9u0bPgyM
+ bvco/sJgB80X1/BZyNLAochkWFkBrHX+c1BSqw5up+G9B9qsE+iEW0OMdHw0adlDhRn5
+ ULJjfLTcJwTLjm4FCKO59rKajvNRn3NUlloGGi77FCwzdIEQzGZTzkqxQ4bTKioo/vuA
+ AyJ6B2ToHcQtErkbEKqgVAYK13lJhcxrm+hF4GUwjRMdcphFdbgxfpKTvV6++24WelBJ
+ lJ2R865UnM2LhFqWCYhxDzVfdwRX3I2ojwTGXPrXR3mBaY3ST25/TtfGSQrt94bPwlmv
+ hhDQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVexabEZQjKeWQlyEv57/nF+WZ4MdaNmzUXoRakffOtog8HzMXkbfbv3q5VroofSujV9bhy6WFO2IE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtK69Q5vxxvcSK7YMGFbOUq0Y4eq+Ev3t4imTbighkqEpVDgnA
- J9140BY1Hb7q63GyKJRiC4BTtWTsqymREVOczp4Oz9l9S4Fe9COsueiqALbo+I3dCPFqkkFmCwv
- efB+WEyykT8ErxdIeYr7Gsgmlpz8hSeveZu9EL/PkX3iA+1QQTA5CTKiTW3mylFfFonpdSQ==
-X-Gm-Gg: ASbGncuTiL00fXDAkwwHDm7jr6MFHflHJWhYeaGvO6tzrWNNQx8SD/RjqgxSjOQ33AK
- 8OVe+ZfhE6i8Hxoga17Mki24oVBhksnZDkKFK1GDcA+Qcu5Zzh1bMJi3fWY3xR4d1u0v5+JwO2N
- Sj2zZW2K907uzI5sSP5p4kA+ugJ3xQ7yivMGsxSytGF5qoE7Z3P0D1p42cj2pjCjMvNSUuovzyu
- tBFOyXgqnxuz/ibYY282CrIUOFm/t4yQkArKR+wY9cQhloxsHn09RbAv3i1zcDwYnmAMtSPMb01
- FWMf8cq6RZ2dLDsFFhgOwWcXzvDozeSdjzBkFtQPtpvS8FXx8m5Ab5I7yYDP4QJ3dLj/iLhuoMq
- Sw0L7fR8a6qpC
-X-Received: by 2002:a05:620a:4686:b0:829:b669:c772 with SMTP id
- af79cd13be357-829b669e835mr438750885a.57.1757960068994; 
- Mon, 15 Sep 2025 11:14:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE6HLGQGEeUJgluKm0bwYCKGrtM7mHoIz+S6EhRr6Vxha/1OnzODcQRKjK0Kk932YXAI39I7A==
-X-Received: by 2002:a05:620a:4686:b0:829:b669:c772 with SMTP id
- af79cd13be357-829b669e835mr438745985a.57.1757960068400; 
- Mon, 15 Sep 2025 11:14:28 -0700 (PDT)
+ AJvYcCWmsHm5sCUqaMOqWvL9/3N1rdN+vJL4Lo6PPm46Omt9iJGi8iB56bj2vFW3K28cteF0dRfhwCq1avY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9hPrdIiTpV3A8mCnPeuFtGtEOOTK80R9mUYgYUr0kToEBO0gL
+ sau7pXFFi4sseAKx7VZ+O1NrEHN0LRAGJ2fAdSNDhakQwfWrH440wQ2kvmtlkL2lpqz5lxfJAQ3
+ JMIx53gRiZRGFzRzhHc2+uTzuPwom3yLJ7SPXtFvgWLmLS4PrRG1ROrPSptmv/lRAYZfdCg==
+X-Gm-Gg: ASbGncuONZcCp4mqsJQecyI4h4p1DGf40m4fGdgy1PYqdpUTC/saIZM7bI/MUM+YYGn
+ 4cSExPBGluIvZCiWIKx1MljwH0hk30o5PRFWU2HM+8JCRfhwTn2ecdPhc5qhglVz6ExMtkxd2qd
+ OIk4xs+rHCayUhE+8FbqtEEcXEnKM7bfsBrZWGcQaTtK2fhlp37sV5LpEt75wx1ACKnwQlgxH7V
+ UwKFckb9YZvOJ1e5+H3fp3QMS0RcK0/eryUq1GtmcnFeCUa2tz4SsCHcW66UhdOJ3mQu+vHjBCM
+ PUkvOAzwUJW5rBG7TwiC3VlTRJZSuoDcYzO2WSC7PK0sMbgPDZ2ve5ovVl5Hk4Nhd5XEwSheKQl
+ bxO77Ch5QpfM2
+X-Received: by 2002:ad4:5741:0:b0:721:7749:5a1a with SMTP id
+ 6a1803df08f44-767bc3fcaaamr163285196d6.20.1757960076861; 
+ Mon, 15 Sep 2025 11:14:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxEkbfM98sFG9c1Ce4WyI3YcGPeqButBzsxv6EItMztYW+NIsTQuI8mIOHuHOj3+Z27k9xzQ==
+X-Received: by 2002:ad4:5741:0:b0:721:7749:5a1a with SMTP id
+ 6a1803df08f44-767bc3fcaaamr163284696d6.20.1757960076307; 
+ Mon, 15 Sep 2025 11:14:36 -0700 (PDT)
 Received: from [192.168.8.208] (pool-108-49-39-135.bstnma.fios.verizon.net.
  [108.49.39.135]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-820ce19e020sm825884385a.52.2025.09.15.11.14.27
+ 6a1803df08f44-783278c7ea7sm23837126d6.46.2025.09.15.11.14.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Sep 2025 11:14:27 -0700 (PDT)
-Message-ID: <80b8d0cf72d409f0e7c6cdaa2cc455e3c706659e.camel@redhat.com>
+ Mon, 15 Sep 2025 11:14:35 -0700 (PDT)
+Message-ID: <8b7907e4bfe1efd42ed6a155cb49ab82f0a8005c.camel@redhat.com>
 Subject: Re: [PATCH v2] drm/nouveau: Support reclocking on gp10b
 From: Lyude Paul <lyude@redhat.com>
 To: webgeek1234@gmail.com, Danilo Krummrich <dakr@kernel.org>, David Airlie
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  nouveau@lists.freedesktop.org
-Date: Mon, 15 Sep 2025 14:14:26 -0400
+Date: Mon, 15 Sep 2025 14:14:34 -0400
 In-Reply-To: <20250823-gp10b-reclock-v2-1-90a1974a54e3@gmail.com>
 References: <20250823-gp10b-reclock-v2-1-90a1974a54e3@gmail.com>
-Autocrypt: addr=lyude@redhat.com; prefer-encrypt=mutual;
- keydata=mQINBFfk58MBEADeGfHLiTy6fhMmRMyRFfbUMo5CTzt9yqwmz72SUi1IRX7Qvq7ZTVNDC
- CDTYKt809dgl4xtUxSJJqgdljHSL5US3G72P9j9O5h0vT+XM9NavEXhNc48WzZt98opuCX23e36sa
- PLkVFY5TrC1PZsc16swjnjUWQdIblh5IOBko9yIvyJlqmApfLYAQoY+srYIFMxGBkcsv5nMrRflFl
- k5djg6Lyo8ogGCSRyNK4ja3lrX8niyHb90xTZWYEcn9o38xzOjpxEjVWny4QeEZBGGEvqHN5Z2Ek/
- tXd4qNn44CGlzQk1CWJoE36TRvZAlqoUZ4m2+9YkBxILbgCxIg344OvZTLme+NraMINV014uURN/L
- O/dyCY14jOzAo3vgCzyNHrS/4XDs3nlE33TG/YL+luwPW85NWtg8N6Lsq46Y6T94lYCY+N7rrdzCQ
- kHWBXPUA8uGkzDO5zShkKt+qQr11Ww4xvYPr93TwseKtSEI6pyOS+iFmjOLseaxw2ml7ZCRNEKJFx
- xbxFQNP72aumm+9U8SFnL8TVlERr8HjlAY/5l3SMM91OkQ82xCRZAJl3ff2JMaYAixn5JXY1rZL1d
- d3DyZ8pdgfKey1QNq5M82eJOhecggOs5LBdqDkpN3Bi9hw+VW23jYmZ40shFEbUqlaShkYb8hlBlr
- DwLV/tRb9pdzQARAQABtB1MeXVkZSBQYXVsIDxjcGF1bEByZWRoYXQuY29tPokCNwQTAQgAIQUCV+
- TnwwIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDFRp+4dY+cK9L7D/9MoGlkMAalilfkOv4
- NhXWbyYXN6Hi1UqeV7/6GRvkcVtAA+Txc+LfhxCgBzH422Q9nyhC3YKvccDLblJ9pk0YbX75vKWGk
- 5ERJjpNyoACHJ6/yO3VsXg/IMVKZKhJQv/6XkWIRd2PmIfdS9y7w9KwMsEXVktFiAFlvI5C1jIIkn
- 9aNiAFmalFkzNiFoEeGjLUwA/mr5Ln1aNGis6IlX0O6p02L4HfR3RhdfzguRqNNMyZNJ4VSinsQr2
- 8d9szAaayQf7IPic2PR+Lio+QGwopv3IyEzDVlZl9jTR+g1WueT4Vkc++aH4zSm+qlUDctpya5+PI
- EDe3f5zlOVhqGdMK5iEzTJdx/+lYHizlD54u5ll+sNPwEOOXxGyE0umz4YEI5MN449d9I4mPr0BDu
- iek0S/qFTzfXHjdwseYKyMT1pK6N8vfHSU/+5mmRK7TLfYs+Qg5XxBiqqM84yCsKR8AxuTSCKb9XD
- sMSevCk8bsLIUjjJAHm42W4sRtVFLzToUBjvmg86x50PyKUh9oaDOcvp6rOJzOWfmMBql2rX0/rHz
- GO+0332Q8Lb/HT3585EgRB6kRMIqW8AOAHlKfYn4rhhRbXs0K+UBSJEuDf6Wo2T8kIVn8gnrrp36b
- ebqKuZcMZXUyHULT265BwiPEc/naRwumBKRHOG+7T3VboqraH/bQdTHl1ZGUgUGF1bCA8bHl1ZGVA
- cmVkaGF0LmNvbT6JAjgEEwECACIFAli/Sq4CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJE
- MVGn7h1j5wrKfUP/R5C55A0pezHcoYVflibTBmY1faSluvNaV6oK55ymqwYxZ6DlgKOfsEY0W0Kvf
- 5ne9F1I1RUU50pDlxBxViOui6Rnu+No0eE3B4o2v0n1pIlGlsGQoTLzKb+l+AnH3Nm2Z1lCNrebHD
- lZm+DEV6yf1c2E/LlTOIZm0dcamuz5aLxAMsmdc5nkQU7ZZcAyH5kxy4Wj972RcSJ0PyqIfJqbaTb
- Qd1ZEQbKPtXnhfedKSXowtPsydYp02R1hJessIywIPVoYbxA9jp65Ju4pmmt0tREa2/zLcggOgOta
- TBLNx/b0sAtMLPP8sovkZyz/Oxw29zgugtu1JXQmTb27xtVKBBGV5Y57yWAO4fG/dl2RhUQSJ1u+h
- kgeVJEN16nx4dQgVEYHNRoIM47VDu7iVP5+sAagw4n8FDlxOmf4WgGvnL/SmTflR01iadF7exwzDy
- uvu+86iYHsOaTLNr2IascU2UcH9Cv45FUtbh+Eel5q63zVPBezasEXGyEbcLfGyIMXnsSVi2Pj7Xr
- dhtZguu1d9I5dlV2c32pFGli88y4kA5vYFjpUtQPNZZwf+0onXuTcBeEl5npypMNjZnUjiEKlqRD4
- XQiGFwwbfyG7ivoU8ISOW+g64EryNDuQk6Npgegm/nG6o3v+sOA/+dSIj090jgnD76MbocCtFvypj
- 2Tnz0HtBhMeXVkZSA8bHl1ZGVAcmVkaGF0LmNvbT6JAjgEEwECACIFAli/TOoCGwMGCwkIBwMCBhU
- IAgkKCwQWAgMBAh4BAheAAAoJEMVGn7h1j5wryDMP/AuY4LrFWCdp/vofq7S/qVUNj4gzxN1rY/oU
- 8ZTp+ZQpw2xVXB1WNC8kI96vyJFJ7SKlsWSuEsS/9wzWlaT+SyF83ejGfhUSENXadR5ihQ/wqwmHx
- W32DZFkCunvmAkUBgDgNhQpQn4Pr/rhSfzKg/cIAkKDGTg+4ahJ0Yn4VU1eIk6MAikg2vjAJMwCiK
- 1lEb59w/eSaM8/LeVl29eJxWgYieCYZl6eGjcnbp+Ag3rka3QD91/CR0+ajnkQ434tvYL9RYqizoc
- lhjGwNWy7YYyCg16Lkpox9Z8b4rey+MY+lH2ZbWMd56ZHeM8cAZ3WoBJ2JCgWX0Iswko4w+37lY72
- F51iGtaJYBJwsTIe/wuGuBCvTlrCz86lNLz0MxzFNWys5zVdAJ6OBzSDFiTusFpnYYBgQk+006Fdm
- SxsS5tlihAnSJAqBfOg6iCAFMBnDbb55MHr5PV86AmjaRtZDTNsfzkFbmtudYcVX2f4E5i4Qeaa4l
- /a3zh4U5lovveCWLMr9TyPAWS6MO6hjQO2WZ5n9NT7B7RvW2YKON4Dc8+wjCu/3QGhXmtbUYb9LBZ
- Hc7ULBNznyF7OK61IaiV7w3H6uSe4q0S04Hqmdo40YgVmHphucAHKbLKJAWms+0kjipHu5e80Ad8m
- U6scMawBiJ/Eh9OKgLQKT3xafADhshbbtDJMeXVkZSBQYXVsIChQZXJzb25hbCBlbWFpbCkgPHRoY
- XRzbHl1ZGVAZ21haWwuY29tPokCOAQTAQIAIgUCWPpUnQIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHg
- ECF4AACgkQxUafuHWPnCv+WxAA0kFzpWCv0F8Z73LRjSxxHlY7Ro3dVdXzr8JvkD2AQiukWeOlCGc
- rrk94TipcVvMEsO8feL/BY7QTCb19/koHR9wNYjbYtkIUOatatPE+GUPNu72+gjoMsiwY7rbkNIrd
- KRroYg9paAzwLfh6B9DVoT4ynQLjIfK8EKvC7vxZ9hyyrB84yZLZm7aSTfyyWWdhKrfyhMBQ/si+O
- tcwNgFavtnSST7j7WmS4/7pNoUXC+tRTfSIzYK082XVgvWPw7K6uKmHDxXUsiTz/RG8t+CLH0L0Gc
- I/rrQ7N/QGBij3476nrNNwlpuU5y9dOkD+lbAcH1PjNOGlFUjx8wbTiJTTvX9yF9B/pLE/O2SMva5
- uLAmGLFSbj6dq60bf1+T3b8FqtMvfJ7QkArAYiDOpDz9KPVITE0E9mL04Cgk2mHjN6h3WjNwqE4F1
- ezjtWPyKvmThxwzCVMBGoxa07aImG5/HeuyP3fsBFwu5DL8PePfkMUuCnFgYMIKbQAsj3DXC4SHBW
- BNZ+Y1boZFlInSEDGlAenMa4pcQ2ea3jdSibQvx/fpoHiYN87DlhNLBor2KGKz176rnQp2whDdB85
- EeQbx1S2echQ9x/SPF0/9oAB3/qvtxULmpFGaGh0J6UXYp34w79sZzmjphypJXacxHJkegFZf7I5l
- 8doKQgPpApRcFGaE=
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: tUYmG37gN15uZZDQcrOeQBgelJLosHC0pkVeKGHGd-Y_1757960069
+X-Mimecast-MFC-PROC-ID: frqnjnWd_zNIrVD5ptZ8jMuN4R7RziqlW6oYC039OO4_1757960077
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
