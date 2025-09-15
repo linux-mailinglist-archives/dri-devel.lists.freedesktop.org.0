@@ -2,131 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37656B579AF
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93ADB579C1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6138110E45F;
-	Mon, 15 Sep 2025 12:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9DA10E462;
+	Mon, 15 Sep 2025 12:03:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="moxlKa93";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="quetT4Fi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68DF10E45F
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:02:19 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FgXQ031661
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:02:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- IvAeXnBrUm3WtAxyNHUahdmztvfLEqQROq3blJbaPBE=; b=moxlKa93gMoU+EA+
- pPc8xR2QA7jLN4py33tSgd6PAQWu3exrp2osAqFc4rJh4hH3YVUl7p8Kd/06k6yf
- RUjEH/fMsY4C1A37rD4e8YJ/BfpqADJtaPT0wS2XQlvPp3yqLExlzDM/1lYUebxd
- z3hgvQQCpvp8RoVhF8/pYmeXr9h4+TY0U2WYlHB1Gyrpmuo57xcKt5u7LW8Jxr89
- 1skN0wqWQkD8ydd0gnHU1xmQEW2V+K/ALZIdB4FleK/ZufdxfqIyeN6n779bczUT
- ZSk/Rn3YXBCr2p0pCjPWect+5M7WedM4awVW6QV32zvoeMQGySTYzCAeKTtJuK5D
- EXXoPw==
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494yma4urt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:02:18 +0000 (GMT)
-Received: by mail-il1-f198.google.com with SMTP id
- e9e14a558f8ab-4240c9b72e8so1398215ab.1
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 05:02:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757937738; x=1758542538;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IvAeXnBrUm3WtAxyNHUahdmztvfLEqQROq3blJbaPBE=;
- b=sStM7g0WgYvURpwSrqw2SijZDbpjH4Rd336K86JSVMuWjREi+vzhOMRcLzsLbnZJkN
- HNeaNf44QUminZu1azrL8RAZlOCCpMFxF4H9UGVdbT6PeWcdirK6JBtbkbX3557xkqIc
- Yha21o3qrgYJMx1/59h8/Ryy35+LD+JNFv7lVhHyhaF81c8QNlPJCwEWajgo9YKukWYb
- TWcn+CdTmDb+iF0uVY573G8hyUgQU4xSMObMc2AFbx7J/XWsMrnjYVAZi16dLhEIT5/P
- I9tJWRxZIE1WvNGOnKSMKhZodF704OIsUm/PCYnC+rsubJcb/db5NByJCi72xcZEDH/E
- 4LDw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUGI29VA7q0mHedcfOgwEdrYKP+6fF13tdPP2Km/ADtcmr4dldsxp0gxSBL0GUMXsbHcQfh23+accM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxNc6OrDWn6FZ/eyQIUhs3MHR7iHEWG+jXYq3iaoOZcWrRTaD+/
- /kA6mvrNkE/8S/lyjNRhwTzNDWxrlbYKl0dI8eo4DSI/wb+GhaW4eBuoq6c6ZNyHmadV7+HRG0R
- QE7swg0td5v1J91L069rTA70sURs/oVwely7lHDGT5OZNqDroqxlIqigTb8C50yoA/WDhgdo=
-X-Gm-Gg: ASbGncst4U3JFV14J3QkBi3CljDDSm4xQNbDK0j5GldO26Cp0KDTDNDLWcaoR/xzxVR
- jcn73tz9297AdhG9Kbw3D/6rECjHOZobovUiP9xlfDF6oF657uIrctCRrogwfx0jL2GsjxnFJRX
- BGZ4K0PFBoi/JiWUtDFhhJu71QBsvMYBah6EAjm8NL/q1Em6tZuH6LFHgq6NQ4efe/CCf4aIq3W
- el3maS5LW8L2fDhf6Yqn9zXUclYP1nsJDtSl0JxjI0Ye3g/xa5Rc3jYKEgCMDzqjXBybjR/ioyq
- o21Eeoet4eRxV3tzWZ21T3ua2QXoZ4mPwJvMN9h5+yVv38qgrq1zm69oqwg2Dy1/moymZCP5em4
- G8ivlCUClFgTY03Z5Ixl7xKrmzwOh5YkmVscBnYAmaQWTc1a56nsq
-X-Received: by 2002:a05:6e02:3805:b0:424:db:3f52 with SMTP id
- e9e14a558f8ab-42400db43c7mr31984635ab.30.1757937737621; 
- Mon, 15 Sep 2025 05:02:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwSFZp4+rn504zHIkvMkDte9o/xIPIokYa2nEOEEH2hcptgXuwuAlyF+4kk8sIPNl3j0f/aA==
-X-Received: by 2002:a05:6e02:3805:b0:424:db:3f52 with SMTP id
- e9e14a558f8ab-42400db43c7mr31983785ab.30.1757937736970; 
- Mon, 15 Sep 2025 05:02:16 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-353725e1bc6sm19307291fa.27.2025.09.15.05.02.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Sep 2025 05:02:15 -0700 (PDT)
-Date: Mon, 15 Sep 2025 15:02:13 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH v4 07/13] phy: qcom: qmp-usbc: Add DP PHY configuration
- support for QCS615
-Message-ID: <yvhj3blwga7dkc2cr5prc7covfcw5lrg56fptynn2j3pbmtrk3@el4qlbecbg2o>
-References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
- <20250911-add-displayport-support-for-qcs615-platform-v4-7-2702bdda14ed@oss.qualcomm.com>
- <sy4kyh3kd6s4nr75unt5r6gxnyeqq6bfjj4tizwiw2fvbw4ala@i3theqmwiv3d>
- <1741620e-1f92-4db9-8135-965a96f12590@oss.qualcomm.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 144F210E462
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:03:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CCFD24183B;
+ Mon, 15 Sep 2025 12:03:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB76C4CEF5;
+ Mon, 15 Sep 2025 12:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757937800;
+ bh=WuLW6lAPFE5PyqhbMcw8TeyxN6BUetFjGeRBiFQpsCo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=quetT4FiIQ47f59x0E04GM/MPIVuEcIkcxc4B2sTCca+v01WcVV1oJYHao1WWkWzI
+ lMF+1djqUbDZFqQtitwaIBE+6XmtZFotolOBYTRz4D3P0weBcJUY9bgxhPFwfcS6qD
+ h1ga0kUpnsDFEqNKRMNIdKW5A9XD/YaWRQxx54UcUPPn97jBJBf0wko/f+eySNSKWv
+ byvwukGiV7juqk8NnPY5PantKxKq5NJREf6Lgc6m8gY3asRszbX73TnELgp/vdpq0N
+ +IlrUUrzAf0x8Fv7uHqIp2MxxO12huUVIr+oZaUDcUMrsO9Uf+Itg86ACFaIAp0Cif
+ 3kqQ+qrzNt02Q==
+Date: Mon, 15 Sep 2025 14:03:17 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+Message-ID: <20250915-benign-rare-marmot-9fbb96@penduick>
+References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
+ <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
+ <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+ <20250820131302.6a2da5ef@booty>
+ <20250827-charming-arcane-stingray-cfb8b6@houat>
+ <20250908154906.16693078@booty>
+ <20250910-glittering-serval-of-piety-b32844@houat>
+ <20250910184752.6c42f004@booty>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="orln5b4aahbx7uil"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1741620e-1f92-4db9-8135-965a96f12590@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOSBTYWx0ZWRfX3+xrIF2yRT8F
- aerSOquI2ztZ5Mhv/sfjMektWj939BFkH8r0L+VLY7CP+BcB5JhDfOLId9gYoRgqqNmkt4DAljJ
- IUB/DQfw9+ByiuwAZW7jJhAFEYsbuQC0M9+zyo+b4pigJ3LEvZntdEYjH16/nb3ruszp70JpmZY
- VN+xaVZ/hrVFqSpWr3e+7IElLBCFhoC745cGJYQe1mCOt6iNskwLX9BHV0C97Jc/dRjpCIZmLi6
- 1EOvKx1v8L9J3Tgxs47+alfPkCuusTXUo2BQ9RV1UAo7L67o7eUcqFDfXS+Zw9+kvwH8uctKDWp
- wXf1LHq9sJAHtsRVaB3RM7bbMjrW8jSdZpbkY/abo7YSwociLJbooqJLf/j5uF1AKH/rvZMpvgI
- n4DvTN9R
-X-Authority-Analysis: v=2.4 cv=cdTSrmDM c=1 sm=1 tr=0 ts=68c8004a cx=c_pps
- a=knIvlqb+BQeIC/0qDTJ88A==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=gzlAuExvAKsCTSaEeBUA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=8vIIu0IPYQVSORyX1RVL:22
-X-Proofpoint-ORIG-GUID: 8RsjFqKmhhPWN14s3T6-zhZKkzMJUCW7
-X-Proofpoint-GUID: 8RsjFqKmhhPWN14s3T6-zhZKkzMJUCW7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130019
+In-Reply-To: <20250910184752.6c42f004@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,61 +75,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 15, 2025 at 07:29:08PM +0800, Xiangxu Yin wrote:
-> 
-> On 9/12/2025 6:12 PM, Dmitry Baryshkov wrote:
-> > On Thu, Sep 11, 2025 at 10:55:04PM +0800, Xiangxu Yin wrote:
-> >> Introduce DisplayPort PHY configuration routines for QCS615, including
-> >> aux channel setup, lane control, voltage swing tuning, clock config and
-> >> calibration. These callbacks are registered via qmp_phy_cfg to enable DP
-> >> mode on USB/DP switchable Type-C PHYs.
-> >>
-> >> Add register define for QMP_DP_PHY_V2 series.
-> >>
-> >> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> >> ---
-> >>  drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v2.h |  21 +++
-> >>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c      | 251 ++++++++++++++++++++++++++
-> >>  2 files changed, 272 insertions(+)
-> >>
-> >> +static int qcs615_qmp_calibrate_dp_phy(struct qmp_usbc *qmp)
-> >> +{
-> >> +	static const u8 cfg1_settings[] = {0x13, 0x23, 0x1d};
-> > Are these the actual values or is it a C&P from the combo PHY?
-> 
-> 
-> These configurations are the same as those in combo, and I have compared
-> that they match the downstream sm6150 project configuration.
 
-Let's keep them as is, thanks for the confirmation that you checked it
-against the vendor kernel.
+--orln5b4aahbx7uil
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+MIME-Version: 1.0
 
-> 
-> From hardware programing guide, only defined AUX sequance with 
-> DP_PHY_PD_CTL set to 0x3d and DP_PHY_AUX_CFG1 set to 0x13.
-> 
-> Shall I update table to {0x13} only?
-> 
-> 
-> >> +	u8 val;
-> >> +
-> >> +	qmp->dp_aux_cfg++;
-> >> +	qmp->dp_aux_cfg %= ARRAY_SIZE(cfg1_settings);
-> >> +	val = cfg1_settings[qmp->dp_aux_cfg];
-> >> +
-> >> +	writel(val, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG1);
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static int qmp_usbc_usb_power_on(struct phy *phy)
-> >>  {
-> >>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
-> >>
-> >> -- 
-> >> 2.34.1
-> >>
+On Wed, Sep 10, 2025 at 06:47:52PM +0200, Luca Ceresoli wrote:
+> On Wed, 10 Sep 2025 12:59:12 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > On Mon, Sep 08, 2025 at 03:49:06PM +0200, Luca Ceresoli wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On Wed, 27 Aug 2025 09:46:03 +0200
+> > > Maxime Ripard <mripard@kernel.org> wrote:
+> > >  =20
+> > > > On Wed, Aug 20, 2025 at 01:13:02PM +0200, Luca Ceresoli wrote: =20
+> > > > > Hello Maxime,
+> > > > >=20
+> > > > > On Tue, 19 Aug 2025 14:29:32 +0200
+> > > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > >    =20
+> > > > > > > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2=
+c_client *client)
+> > > > > > >  {
+> > > > > > >  	struct sn65dsi83 *ctx =3D i2c_get_clientdata(client);
+> > > > > > > =20
+> > > > > > > +	drm_bridge_unplug(&ctx->bridge);
+> > > > > > >  	drm_bridge_remove(&ctx->bridge);     =20
+> > > > > >=20
+> > > > > > Shouldn't we merge drm_bridge_unplug with the release part of
+> > > > > > devm_drm_bridge_alloc?   =20
+> > > > >=20
+> > > > > I'm not sure I got what you are suggesting here, sorry.
+> > > > >=20
+> > > > > Do you mean that __devm_drm_bridge_alloc() should add a devres ac=
+tion
+> > > > > to call drm_bridge_unplug(), so the unplug is called implicitly a=
+nd
+> > > > > does not need to be called explicitly by all drivers?   =20
+> > > >=20
+> > > > Yes
+> > > >  =20
+> > > > > If that's what you mean, I don't think that would work. Unless I'm
+> > > > > missing something, devres actions are always invoked just after t=
+he
+> > > > > driver .remove callback.   =20
+> > > >=20
+> > > > Yes, they are called in reverse order of registration, after remove.
+> > > >  =20
+> > > > > But we need to call drm_bridge_unplug() at the beginning (or just
+> > > > > before) .remove, at least for drivers that need to do something in
+> > > > > .remove that cannot be done by devm.
+> > > > >=20
+> > > > > In pseudocode:
+> > > > >=20
+> > > > > mybridge_remove()
+> > > > > {
+> > > > >   drm_bridge_unplug(); <-- explicit call as in my patch
+> > > > >   xyz_disable();
+> > > > >   drm_bridge_unplug(); <-- implicitly done by devres
+> > > > > }
+> > > > >=20
+> > > > > We want xyz_disable() to be done after drm_bridge_unplug(), so ot=
+her
+> > > > > code paths using drm_bridge_enter/exit() won't mess with xyz.   =
+=20
+> > > >=20
+> > > > It's not clear to me why doing it before xyz_disable() is important
+> > > > here? If anything, it would prevent from disabling the hardware for
+> > > > example, even though you still have your memory mapping, clocks, po=
+wer
+> > > > domains, regulators, etc. to properly disable it.
+> > > >=20
+> > > > You're still correct that it's a bad idea though because we want to=
+ do
+> > > > it before we start freeing all those, so it needs to execute as the
+> > > > before the devm actions ...
+> > > >  =20
+> > > > > devres actions cannot be added to be executed _before_ .remove, A=
+FAIK.   =20
+> > > >=20
+> > > > ... and we can't do that either. =20
+> > >=20
+> > > I understand your words as "the drm_bridge_unplug() is OK where it is,
+> > > your patch is OK in this respect". Correct?
+> > >=20
+> > > So if this is correct, and my reply on the devres cleanups is also
+> > > correct (other reply in this thread), that means the whole patch is O=
+K. =20
+> >=20
+> > I'm still confused why it's so important than in your example
+> > xyz_disable must be called after drm_bridge_unplug.
+>=20
+> Let me clarify with an example.
+>=20
+> As I wrote in another reply, I have moved from a flag
+> (disable_resources_needed) to a devres action as you had suggested, but
+> the example here is based on the old flag because it is more explicit,
+> code would be executed in the same order anyway, and, well, because I
+> had written the example before the devres action conversion.
+>=20
+> Take these two functions (stripped versions of the actual ones):
+>=20
+> /* Same as proposed, but with _unplug moved at the end */
+> static void sn65dsi83_remove()
+> {
+> 	struct sn65dsi83 *ctx =3D i2c_get_clientdata(client);
+>=20
+> 	drm_bridge_remove(&ctx->bridge);
+> =09
+> 	/*=20
+> 	 * I moved the following code to a devm action, but keeping it
+> 	 * explicit here for the discussion
+> 	 */
+> 	if (ctx->disable_resources_needed) {
+> 		sn65dsi83_monitor_stop(ctx);
+> 		regulator_disable(ctx->vcc);
+> 	}
+> =09
+> 	drm_bridge_unplug(&ctx->bridge);     // At the end!
+> }
 
--- 
-With best wishes
-Dmitry
+First off, why do we need to have drm_bridge_unplug and
+drm_bridge_remove separate?
+
+If we were to mirror drm_dev_enter and drm_dev_unplug, drm_dev_unplug
+calls drm_dev_unregister itself, and I can't find a reason where we
+might want to split the two.
+
+> static void sn65dsi83_atomic_disable()
+> {
+> 	if (!drm_bridge_enter(bridge, &idx))
+> 		return;
+>=20
+> 	/* These 3 lines will be replaced by devm_release_action() */
+> 	ctx->disable_resources_needed =3D false;
+> 	sn65dsi83_monitor_stop(ctx);
+> 	regulator_disable(ctx->vcc);
+>=20
+> 	drm_bridge_exit(idx);
+> }
+>=20
+> Here the xyz_disable() in my pseudocode is the sn65dsi83_monitor_stop()
+> + regulator_disable().
+>=20
+> If sn65dsi83_remove() and sn65dsi83_atomic_disable() were to happen
+> concurrently, this sequence of events could happen:
+>=20
+> 1. atomic_disable:  drm_bridge_enter() -> OK, can go
+> 2. remove:          drm_bridge_remove()
+> 3. remove:          sn65dsi83_monitor_stop()
+> 4. remove:          regulator_disable()
+> 5. remove:          drm_bridge_unplug() -- too late to stop atomic_disable
+
+drm_dev_unplug would also get delayed until drm_dev_exit is called,
+mitigating your issue here.
+
+> 6. atomic_disable:  ctx->disable_resources_needed =3D false -- too late t=
+o stop .remove
+> 7. atomic_disable:  sn65dsi83_monitor_stop() -- twice, maybe no problem
+> 8. atomic_disable:  regulator_disable() -- Twice, en/disable imbalance!
+>=20
+> So there is an excess regulator disable, which is an error. I don't see
+> how this can be avoided if the drm_bridge_unplug() is called after the
+> regulator_disable().
+>=20
+> Let me know whether this clarifies the need to _unplug at the beginning
+> of the .remove function.
+
+Another thing that just crossed my mind is why we don't call
+atomic_disable when we're tearing down the bridge too. We're doing it
+for the main DRM devices, it would make sense to me to disable the
+encoder -> bridge -> connector (and possibly CRTC) chain if we remove a
+bridge automatically.
+
+Maxime
+
+--orln5b4aahbx7uil
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMgAhQAKCRAnX84Zoj2+
+diuSAX0bYflXNYWeq+Kg3B/9hb1awVO2kPt2/xPRe2UzASnAxIPzr+HwpCkyfRlb
+ALCl5H4BgNJFrSJ8Lh/qlbOUO1ZOZt3PRaIVzWsaW8eURebzQd4zYZZ7Y2oeXuVw
+tvofKkipNg==
+=wrQe
+-----END PGP SIGNATURE-----
+
+--orln5b4aahbx7uil--
