@@ -2,69 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF0EB58353
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 19:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC4FB5836E
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 19:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B52510E51A;
-	Mon, 15 Sep 2025 17:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5618010E51E;
+	Mon, 15 Sep 2025 17:22:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Kk/wIOVo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VjDqza8j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE8110E51A
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 17:20:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A0E10E51C;
+ Mon, 15 Sep 2025 17:22:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4E26D601F3;
- Mon, 15 Sep 2025 17:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2725C4CEF1;
- Mon, 15 Sep 2025 17:20:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C414F601EF;
+ Mon, 15 Sep 2025 17:22:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117F2C4CEF1;
+ Mon, 15 Sep 2025 17:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1757956840;
- bh=IpDEJIKERU1JCTNIEi7Bdle/d8rWWRqcg2dcv69TTj8=;
+ s=k20201202; t=1757956961;
+ bh=MwPTWHMVS1a2WpMTOzVZuU4xM9Y5h1sGMnVe69pXgjg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kk/wIOVoJARgFTwbJ31RhqUlmthMISBT5ZrvLG3733qp63L6xV4JuDFUNRObL1T8I
- OluLwHjftnqeqvt/LyM90jqvcD9szTona6pBQ0L8/vwUy9+b4ROeqj2tiBdjwh3qqr
- goV072M3LdPHXlV43F8TQMpBr6addvBsJinTpi0a8IGGGyN33iufCItKg7jyzsM8QS
- HEFAIUr9nl/46ZCc7gmMsvpycJMcnhpYOJnrbVKs93ITomcpQRzz3DJBbI8bNjXhk0
- rRXEhpC5BpqKGcBmEHrMLghe7VjHciHqIsKNFtOUWimaPmm1VEu4lOQWLBjVJb0nOC
- KRYZx0LCiLDaw==
-Date: Mon, 15 Sep 2025 12:20:39 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: minghsiu.tsai@mediatek.com, krzk+dt@kernel.org, kernel@collabora.com,
- linux-bluetooth@vger.kernel.org, louisalexis.eyraud@collabora.com,
- chunkuang.hu@kernel.org, pabeni@redhat.com,
- yunfei.dong@mediatek.com, houlong.wei@mediatek.com,
- airlied@gmail.com, angelogioacchino.delregno@collabora.com,
- linus.walleij@linaro.org, sean.wang@kernel.org,
- linux-mediatek@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, devicetree@vger.kernel.org,
- simona@ffwll.ch, linux-arm-kernel@lists.infradead.org,
- edumazet@google.com, netdev@vger.kernel.org,
- support.opensource@diasemi.com, marcel@holtmann.org,
- broonie@kernel.org, lgirdwood@gmail.com, davem@davemloft.net,
- linux-sound@vger.kernel.org, amergnat@baylibre.com,
- tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
- linux-kernel@vger.kernel.org, matthias.bgg@gmail.com,
- dmitry.torokhov@gmail.com, p.zabel@pengutronix.de,
- andrew+netdev@lunn.ch, mchehab@kernel.org,
- linux-rockchip@lists.infradead.org, jeesw@melfas.com,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, mripard@kernel.org,
- linux-media@vger.kernel.org, flora.fu@mediatek.com, kuba@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, luiz.dentz@gmail.com,
- linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 09/12] dt-bindings: regulator: Convert Dialog DA9211
- Regulators to DT schema
-Message-ID: <175795683847.2967801.14952293094675548520.robh@kernel.org>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-10-ariel.dalessandro@collabora.com>
+ b=VjDqza8jv0gA0NJzp1Vlgkr2sR1NKkLU/5WdofDyBASVSIFQgpoEiIxs5PesEGi1y
+ 2o2BytLlFLV/gOAGMcy9dUVP0PSrSEA1AkV2XG3ZauUz5qTmhQZUH0mx4ONdOh3poV
+ 9NUAnIizt9aFOCrfNNmKAuK+JHUtFMzB5wm2Hm0B0DfGEU/Os281Q3jthCbhJw6+uH
+ snOxqCkLry2LmLMNaO4fZUbKjqKmGxUn6cLMVz+T1mFZaJX9mdjiNP1Rcnafh93S+C
+ 8V3sFrkj+O5vvR+384HssSuJHcgUcCg6j+M2aH1DIj3kWPXR8uNWorXrWPIAD6lkdc
+ mrrE1BhrJo1hA==
+Date: Mon, 15 Sep 2025 19:22:38 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ amd-gfx@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ ?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Michael J . Ruhl" <mjruhl@habana.ai>, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 06/11] drm/i915/gt: Use pci_rebar_size_supported()
+Message-ID: <e6t3dzohiyz36jfe4xjcjgm3zi4h2ln5ocxbvgv3gqt6oipb6h@p2j3o6jeqj45>
+References: <20250915091358.9203-1-ilpo.jarvinen@linux.intel.com>
+ <20250915091358.9203-7-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <20250911151001.108744-10-ariel.dalessandro@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250915091358.9203-7-ilpo.jarvinen@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,20 +72,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ilpo,
 
-On Thu, 11 Sep 2025 12:09:58 -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for Dialog Semiconductor DA9211
-> Voltage Regulators family to a DT schema. Examples are simplified, as these
-> are all equal.
+On Mon, Sep 15, 2025 at 12:13:53PM +0300, Ilpo Järvinen wrote:
+> PCI core provides pci_rebar_size_supported() that helps in checking if
+> a BAR Size is supported for the BAR or not. Use it in
+> i915_resize_lmem_bar() to simplify code.
 > 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
->  .../devicetree/bindings/regulator/da9211.txt  | 205 ------------------
->  .../bindings/regulator/dlg,da9211.yaml        | 104 +++++++++
->  2 files changed, 104 insertions(+), 205 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/regulator/da9211.txt
->  create mode 100644 Documentation/devicetree/bindings/regulator/dlg,da9211.yaml
-> 
+> Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
+Thanks,
+Andi
