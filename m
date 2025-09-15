@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEBBB57655
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076B0B57656
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA1710E2CC;
-	Mon, 15 Sep 2025 10:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6024010E400;
+	Mon, 15 Sep 2025 10:31:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="fv5zLu5D";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="axBI9NTT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E1410E2CC
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:31:13 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58FAUpuR1475186;
- Mon, 15 Sep 2025 05:30:51 -0500
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F67210E400
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:31:17 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58FAUxZ21539487;
+ Mon, 15 Sep 2025 05:30:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1757932251;
- bh=TxCEGkPcqU0f/GCFbh3VHVF++0uz4F0w16GZ6D91CRo=;
- h=From:To:CC:Subject:Date;
- b=fv5zLu5DtLlgvtJC1SrHCnvX1LXAB/p3OQZY9ACrtWl210dJfsjvRT1T+Bozq952m
- 0TjgDMmpJylYFbddgYTpQFJmvieZM+BjkNC2fLUts807gzA6hFdM0dUMRt93ndEDWW
- VjjfpdxwlrXjYlZq3TQ+UF0lVVCez2J9Uxmc0+bY=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58FAUo333894146
+ s=ti-com-17Q1; t=1757932259;
+ bh=gPbfCrU2+tMJUcXDYrWW9bFsDqt9+EBYv3JCh/FESQI=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=axBI9NTTMucjHemvOu+NI6NIyHSbAiVuuKiKDojd2+uhHa3FcFplYs/bGGoy+yDoZ
+ DWiJybUv//njKtYqYabIbZpfCW1L53ev1OCngDpS/HywrZRPLj3HdJ53+x2sOY8vLW
+ dEYbFxvKP3hHfbNsid6rYMFucXKJ+qNQ0oEMjxxA=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58FAUx5k676719
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 15 Sep 2025 05:30:50 -0500
-Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 15 Sep 2025 05:30:59 -0500
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 15
- Sep 2025 05:30:50 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2025 05:30:58 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 15 Sep 2025 05:30:50 -0500
+ Transport; Mon, 15 Sep 2025 05:30:58 -0500
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208]
  (may be forged))
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58FAUfRd3600864;
- Mon, 15 Sep 2025 05:30:42 -0500
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58FAUfRe3600864;
+ Mon, 15 Sep 2025 05:30:50 -0500
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
@@ -54,10 +54,13 @@ To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <u-kumar1@ti.com>,
  <s-jain1@ti.com>, <tomi.valkeinen@ideasonboard.com>
 CC: <h-shenoy@ti.com>
-Subject: [PATCH v5 0/2] Add support for DSC and FEC for cadence MHDP8546 bridge
-Date: Mon, 15 Sep 2025 16:00:39 +0530
-Message-ID: <20250915103041.3891448-1-h-shenoy@ti.com>
+Subject: [PATCH v5 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for DSC
+Date: Mon, 15 Sep 2025 16:00:40 +0530
+Message-ID: <20250915103041.3891448-2-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250915103041.3891448-1-h-shenoy@ti.com>
+References: <20250915103041.3891448-1-h-shenoy@ti.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -77,50 +80,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+From: Swapnil Jakhade <sjakhade@cadence.com>
 
-This patch series extends the Cadence MHDP8546 DisplayPort bridge
-driver to support Display Stream Compression (DSC) and Forward Error
-Correction (FEC).
+Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+DPI/DP bridge.
 
-DSC acts as an encoder block: when the sink reports DSC capability,
-the DPI input stream to the MHDP8546 TX is compressed, and the sink
-decodes the stream for display.
+Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
+Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+---
+ .../display/bridge/cdns,mhdp8546.yaml         | 24 ++++++++++++-------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-The first patch updates the DT binding to add register-space for DSC.
-The second patch implements the corresponding driver changes to enable
-DSC and FEC when advertised by the sink and configured via DT.
-
-Link: https://www.ti.com/lit/zip/spruil1
-TRM File: SPRUIL_DRA829_TDA4VM_Technical Reference Manual.pdf 
-(Figure 12-1115 and DSC related sections) 
-
-
-Changelog v4 -> v5:
--Defining reg-names item list in iF conditional, added 
-description for reg-names.
--Verified the bindings with cdns,mhdp8546 compatible.
--Add code for enabling DSC in bridge driver.
-Log link-
-<https://gist.github.com/h-shenoy/0318e2c6e7df539e6bdd39b77e5a8f05> 
-Link to v4: 
-<https://lore.kernel.org/all/20250909054622.1439487-1-h-shenoy@ti.com>
-
-
-Swapnil Jakhade (2):
-  dt-bindings: drm/bridge: MHDP8546 bridge binding changes for DSC
-  drm: bridge: cdns-mhdp8546: Add support for DSC and FEC
-
- .../display/bridge/cdns,mhdp8546.yaml         |  24 +-
- drivers/gpu/drm/bridge/cadence/Makefile       |   2 +-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 367 ++++++++-
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  68 ++
- .../drm/bridge/cadence/cdns-mhdp8546-dsc.c    | 695 ++++++++++++++++++
- .../drm/bridge/cadence/cdns-mhdp8546-dsc.h    | 285 +++++++
- 6 files changed, 1406 insertions(+), 35 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.c
- create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-dsc.h
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index c2b369456e4e..2a05a7d5847f 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -27,13 +27,12 @@ properties:
+           Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+       - description:
+           Register block of mhdptx sapb registers.
++      - description:
++          Register block for mhdptx DSC encoder registers.
+ 
+   reg-names:
+-    minItems: 1
+-    items:
+-      - const: mhdptx
+-      - const: j721e-intg
+-      - const: mhdptx-sapb
++    description:
++      Names corresponding to entries in the reg property.
+ 
+   clocks:
+     maxItems: 1
+@@ -100,18 +99,25 @@ allOf:
+       properties:
+         reg:
+           minItems: 2
+-          maxItems: 3
++          maxItems: 4
+         reg-names:
+           minItems: 2
+-          maxItems: 3
++          items:
++            - const: mhdptx
++            - const: j721e-intg
++            - const: mhdptx-sapb
++            - const: dsc
+     else:
+       properties:
+         reg:
+           minItems: 1
+-          maxItems: 2
++          maxItems: 3
+         reg-names:
+           minItems: 1
+-          maxItems: 2
++          items:
++            - const: mhdptx
++            - const: mhdptx-sapb
++            - const: dsc
+ 
+ required:
+   - compatible
 -- 
 2.34.1
 
