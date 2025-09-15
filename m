@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757CEB57641
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC3BB57648
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D319310E3E6;
-	Mon, 15 Sep 2025 10:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE1310E3EB;
+	Mon, 15 Sep 2025 10:30:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="REVdteII";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jgSUZmYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B32510E3E6
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757932119;
- bh=8n9FqdKAgrwmYf0BHJUpaUHH3bU99zzrrCZ0GEcFdS0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=REVdteIIvx54Df7GqfJTCin3R50a91VyELGvPhw7tHe6qWEzrveD6LJlN4JqltnjJ
- KYPhBfIS17eOPbR8E9V/89V18k82k2kz5z4evGXrAbdmXbc5ljH4fViuxVLZozxaF2
- c7ZzaCLGY1FrK74cxC/d3z5kVGW0wBO+IbjobV3thkWm1pOY3+EtUdzadbGPlWqGaj
- Xy4LrJvB7JYnK5CPyRsi/Py9rN67cASTnB8k7GtXS+7vpo49HNXooVCsmwUa4xh+ZV
- N5qC3H+gg7BIoZ0GwG4OOFELmf3T1IHdhsG/HuzPWRDB54cWVflbqPxxa5myrtC+hm
- GSqV0RFH/ml5Q==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 411EA17E0109;
- Mon, 15 Sep 2025 12:28:38 +0200 (CEST)
-Message-ID: <4deaa48e-adbf-4072-93a2-499a065965da@collabora.com>
-Date: Mon, 15 Sep 2025 12:28:37 +0200
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD7B110E3EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:30:22 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 3C77BC6B3AF;
+ Mon, 15 Sep 2025 10:30:04 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 5B1066063F;
+ Mon, 15 Sep 2025 10:30:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2D8E5102F2AA2; 
+ Mon, 15 Sep 2025 12:30:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1757932219; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=iPMXjGf/3WKBSmAeqhAwH5Gjgp7eQens8v19HHHicY8=;
+ b=jgSUZmYAIUpvTa2nKGPW196s058zYfff0lioEFxiPPV+gvCqfvpkvYAKyvt5eCbnHiw7Cj
+ J6X5ykpmMRgCeFyER+ZVbRZoyqvjtXJE61BfvjyZqZLYiGFmRMuxIO2It1VTWQK+vSdB5U
+ iJsGWAQp5bg8zn15s23efloWV2Wzbx5cKOkAUjWDa+ZoZ81ADLUYHOpMreiDqlAmNRGYhU
+ JjgMSdCLzXX0+MqiDnjeKmCijEIs+cyqRhwVyNGXZI6h5+aUctzOOrgSljyH/KvzEQbMOV
+ UEm+9qNBprKmOvFFqyXPA9yVikddsA2lRAodwGD15OKqjq4W2oaWsqUm/vstVw==
+Date: Mon, 15 Sep 2025 12:30:10 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v8 0/3] drm/bridge: debugfs: show refcount and list
+ removed bridges
+Message-ID: <20250915123010.18fd21f9@booty>
+In-Reply-To: <20250915-celadon-dalmatian-of-defense-ca56fb@penduick>
+References: <20250912-drm-bridge-debugfs-removed-v8-0-5c33d87ccb55@bootlin.com>
+ <20250915-celadon-dalmatian-of-defense-ca56fb@penduick>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] dt-bindings: devfreq: add mt8196-gpufreq binding
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com>
- <20250912-mt8196-gpufreq-v2-2-779a8a3729d9@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250912-mt8196-gpufreq-v2-2-779a8a3729d9@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,156 +72,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/09/25 20:37, Nicolas Frattaroli ha scritto:
-> On the MediaTek MT8196 SoC, the GPU has its power and frequency
-> dynamically controlled by an embedded special-purpose MCU. This MCU is
-> in charge of powering up the GPU silicon. It also provides us with a
-> list of available OPPs at runtime, and is fully in control of all the
-> regulator and clock fiddling it takes to reach a certain level of
-> performance. It's also in charge of enforcing limits on power draw or
-> temperature.
-> 
-> Add a binding for this device in the devfreq subdirectory, where it
-> seems to fit in best considering its tasks.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->   .../bindings/devfreq/mediatek,mt8196-gpufreq.yaml  | 113 +++++++++++++++++++++
->   1 file changed, 113 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/devfreq/mediatek,mt8196-gpufreq.yaml b/Documentation/devicetree/bindings/devfreq/mediatek,mt8196-gpufreq.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9d9efd4e70f1ef7ae446c833c15144beb9641b16
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/devfreq/mediatek,mt8196-gpufreq.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/devfreq/mediatek,mt8196-gpufreq.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MFlexGraphics Performance Controller
-> +
-> +maintainers:
-> +  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> +
-> +description: |
-> +  A special-purpose embedded MCU to control power and frequency of GPU devices
-> +  using MediaTek Flexible Graphics integration hardware.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^performance-controller@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8196-gpufreq
-> +
-> +  reg:
-> +    items:
-> +      - description: GPR memory area
-> +      - description: RPC memory area
-> +      - description: SoC variant ID register
-> +
-> +  reg-names:
-> +    items:
-> +      - const: gpr
-> +      - const: rpc
-> +      - const: hw_revision
+Hi Maxime,
 
-hw-revision
+On Mon, 15 Sep 2025 10:13:16 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-> +
-> +  clocks:
-> +    items:
-> +      - description: main clock of the embedded controller (EB)
-> +      - description: core PLL
-> +      - description: stack 0 PLL
-> +      - description: stack 1 PLL
-> +
-> +  clock-names:
-> +    items:
-> +      - const: eb
-> +      - const: mfgpll
-> +      - const: mfgpll_sc0
+> Once the minor issue I've reported is fixed,
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-What about using a bit more generic clock names?
+Ok, thanks!
 
-main, gpu-core, gpu-stack0, gpu-stack1
+v9 sent.
 
-...or something along that line :-)
+Note that this series depends on [0] which is waiting for discussion to
+continue, so any feedback on drm_for_each_bridge_in_chain_scoped()
+would be very welcome to unlock both this and other series from being
+applied/sent.
 
-> +      - const: mfgpll_sc1
-> +
-> +  mboxes:
-> +    items:
-> +      - description: FastDVFS events
-> +      - description: frequency control
-> +      - description: sleep control
-> +      - description: timer control
-> +      - description: frequency hopping control
-> +      - description: hardware voter control
-> +      - description: FastDVFS control
-> +
-> +  mbox-names:
-> +    items:
-> +      - const: fast-dvfs-event
-> +      - const: gpufreq
-> +      - const: sleep
-> +      - const: timer
-> +      - const: fhctl
-> +      - const: ccf
-> +      - const: fast-dvfs
-> +
-> +  shmem:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle to the shared memory region of the GPUEB MCU
-> +
-> +  "#performance-domain-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - mboxes
-> +  - mbox-names
-> +  - shmem
-> +  - "#performance-domain-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mediatek,mt8196-clock.h>
-> +
-> +    gpufreq: performance-controller@4b09fd00 {
+[0]
+https://lore.kernel.org/all/20250808-drm-bridge-alloc-getput-for_each_bridge-v2-3-edb6ee81edf1@bootlin.com/
 
-You're not using any phandle to gpufreq in this example, are you?
+Luca
 
-Drop that `gpufreq: ` :-)
-
-> +        compatible = "mediatek,mt8196-gpufreq";
-> +        reg = <0x4b09fd00 0x80>,
-> +              <0x4b800000 0x1000>,
-> +              <0x4b860128 0x4>;
-> +        reg-names = "gpr", "rpc", "hw_revision";
-> +        clocks = <&topckgen CLK_TOP_MFG_EB>,
-> +                 <&mfgpll CLK_MFG_AO_MFGPLL>,
-> +                 <&mfgpll_sc0 CLK_MFGSC0_AO_MFGPLL_SC0>,
-> +                 <&mfgpll_sc1 CLK_MFGSC1_AO_MFGPLL_SC1>;
-> +        clock-names = "eb", "mfgpll", "mfgpll_sc0",
-> +                      "mfgpll_sc1";
-> +        mboxes = <&gpueb_mbox 0>, <&gpueb_mbox 1>, <&gpueb_mbox 2>,
-> +                 <&gpueb_mbox 3>, <&gpueb_mbox 4>, <&gpueb_mbox 5>,
-> +                 <&gpueb_mbox 7>;
-> +        mbox-names = "fast-dvfs-event", "gpufreq", "sleep", "timer", "fhctl",
-> +                     "ccf", "fast-dvfs";
-> +        shmem = <&gpufreq_shmem>;
-> +        #performance-domain-cells = <0>;
-> +    };
-> 
-
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
