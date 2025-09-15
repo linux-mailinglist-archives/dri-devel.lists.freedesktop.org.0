@@ -2,75 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A4FB57CC2
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 15:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7850FB57CDB
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 15:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0BC10E4AB;
-	Mon, 15 Sep 2025 13:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C29FE10E0CD;
+	Mon, 15 Sep 2025 13:26:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MAYd2sXS";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="klZkKTTW";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="UDdnRA01";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDB810E4AB
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 13:23:51 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-7724df82cabso4335350b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 06:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1757942630; x=1758547430; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=z2TvYipap11Nwq0kRFNhZ3v3SKE4qJBU+nYeSgKSe5Y=;
- b=MAYd2sXSZzyryEY+uJCaOSiDQIdWILM8VIwH0g6CJOe0RGcAKpYtbTjK6tfFhY79Dq
- 3m7plFqKJsvtGt7+JLdjjoOJVvgTcPqysJDSPrB0+0zK9WbZ7vjnZ0hOLhSYQcvQKbrm
- at/DErWWJ55/GFq3lBP0tt+EbHASIerwGVt2EiYyNDiefXLOP0F5T7v2P5mZamgiZRAI
- SZ+IrPb+VuqW/TUeD1OuGcpk98gBnRfzrVRgxgp6WSEGn1ofy0sS08lhtPLXujbOYHKS
- SB7F/64b+iVS+T8HXlkNaUvATI57K2OJxKPmJuprVTJfCHyNR4oJBrN6p3J35xe68a7p
- iF+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1757942630; x=1758547430;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z2TvYipap11Nwq0kRFNhZ3v3SKE4qJBU+nYeSgKSe5Y=;
- b=NNxneTwz88IQf0L8JhUk+wkg12X46MCwTzdBsy/E1FikGmxM0I/ybORE4zOxIgkqqm
- ZWg6oECN3sYo6B/Fl3w5NCkN59v3ZKfkVuJaG32jJBWlpDTMhcad20S/wO0nfLd9ZWbE
- wkuPztnyJvV1WIfE8JwkeTGnT1rbaHmgjKjlmX2AnDaOhwkVBlbrCtShnNJ0A/7Th6Fc
- HC8+NLdo592CacwM8hpfqlZ+GV6FmHf8XchRs4tA/s4fWTGPxKp7sU+P0geMoN99zZ/Q
- T1w5ZGXuWNBWo6Y0Pu8f+zRxr8r+nAGNpH+o5qyZgh8pNluZpT90sb38De2QBd7NJE4R
- +kPg==
-X-Gm-Message-State: AOJu0Yzxa9aqzPMN2rJHL7+My+e13JSO06DdqASxChq6c/zQXn0gQ+rP
- mlW8cXfZgpfO6VQOC5RaeUf75zZ14E4gSWjtP55O5QPZCD9Hlm4UHhfroGPb2Gqw
-X-Gm-Gg: ASbGnctYCOSw77rT1pCAQMjzVw6W1J9yI6br07WZn0ogAxBUMW1VtD4vUT0zkU3JjKO
- +SXpdGy7H+QH5RSfdW3jK4vH9E9jZdvZ2iWGDaVkvC4GpNw5xy6kCXXXTxV/h94xFcHUZDW7vQO
- CsKLGLmBFvZH7UoN6+TNXFoySaD/V/dZikrpZtsRE3g1Rt9c93KXKZWC8rKVNVXi5x3u/tzLe+H
- xQ1b89bMhOzEhMnxygWHtO7HwqaH+mRRadA5ymrzqlejSLnAFHtauNH+Lcv0tZPKyJnwJk3MrRy
- fk729NDcN/d4uZuvFf68t21i/bKyNuAWJUq6gEyNUoRcg5ZgoevryDnT6iFL1Tj28SAeZUKpyO4
- 6X5Gj9fEtZIH1V2EXo5d3aqwGK+A=
-X-Google-Smtp-Source: AGHT+IFPvIRXD088t+oFYvznY8Gmu7AuJys7aItwGtTGBP/7g+Db+VBC9DwdYHlcnXJ05LR1RhAixg==
-X-Received: by 2002:a05:6a00:10d1:b0:771:e3d7:4320 with SMTP id
- d2e1a72fcca58-7761217369cmr14330824b3a.19.1757942630315; 
- Mon, 15 Sep 2025 06:23:50 -0700 (PDT)
-Received: from vostro ([113.132.11.201]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-77607c48f22sm13563411b3a.92.2025.09.15.06.23.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Sep 2025 06:23:49 -0700 (PDT)
-From: Luc Ma <onion0709@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: onion0709@gmail.com, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/sched: struct member doc fix
-Date: Mon, 15 Sep 2025 21:23:26 +0800
-Message-ID: <20250915132327.6293-1-onion0709@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from fhigh-b7-smtp.messagingengine.com
+ (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0969110E0CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 13:26:25 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 287C17A0116;
+ Mon, 15 Sep 2025 09:26:24 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Mon, 15 Sep 2025 09:26:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm3; t=1757942784; x=1758029184; bh=hGr2ZXHNbB
+ QlZWjzf51lRHlmuYxk6VbQFOily101OV8=; b=klZkKTTWixs+e294pY+FAVziaa
+ vL7zinKhv7vWGB/Bb1Na2c8ybgQ9njaP0eFuybptrguYX6VK1/de2iZzxTxUmOvN
+ r7OinonaGwkuavvXKrTneSvNSX4HbcpyaH88roFk03NuxhxxsdaCN6Vt37hFaLMa
+ fnj46+ySIdV52TU/60+GBvORh+nn5sQYb7flObXJoTWZ0uRbmXgz8FUmGZgTcXOX
+ shE03hwjxPmhGm3vlWFDJdxH3eUEhBq7l7MgAo0Hr4ddl6rgWybiZViabOzK5t/+
+ JsSdMxp1e2kWEgwPu6e4F2dHMbo6GjvIXyJ240GaOSM8DOy23mL/4kEBaWKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1757942784; x=1758029184; bh=hGr2ZXHNbBQlZWjzf51lRHlmuYxk6VbQFOi
+ ly101OV8=; b=UDdnRA01yyzByFjml2RU9Id/gIX8QQvkpf9t3Sswb2u015W5lWQ
+ Ahu/r4L26HVKy2XLk4QXq4inctGpZklC476K+RePAniwMurZYzYSF2IpNzrLfXId
+ vRCa/keUf+7HIGIuhvVGEVgANFKBWVnojscZ+huIZoR157JmlJTuAop28CRq+kSA
+ 5WoYNgUVJ5OtDIuXhuLqcpG4sEq63eMZmKLiyA+Vhndv/drM3oDJK46dBug33XeF
+ XohE6of+2Be8YuO03XIoCnYcFjpnDeG25t1KPDlgr/mI4/FJu4CYylSG+BLF261N
+ whiR2Wc8EH0+BEZG15lylca/qPzyn+CMdzQ==
+X-ME-Sender: <xms:_xPIaBAXz4mskkenqPaQ8QLVGixPmGL5EkIkNE67qLA9ICzjY3bgbw>
+ <xme:_xPIaMYGw2XOU_82PKPSHCXby4mevcnWf2wjA7RVQRqeDn5QLaB37367HA7zWf_8W
+ eRByBF_wSBEvFyQVpA>
+X-ME-Received: <xmr:_xPIaMV7NIy6uqt8364hTh2On6c4nVhHUM0qjL9g8MXPfZidWhrRxAltSkVD-512MIN3_SQG4pWRPCMDKG2ewY4iVgwCsUsmeSs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefjeektdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+ rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
+ evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+ hnvghtpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+ pehhrghnshhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvghllhgvrhesghhmgi
+ druggvpdhrtghpthhtohepthhrvgguihhnghesnhhvihguihgrrdgtohhmpdhrtghpthht
+ oheplhhinhhugidqfhgsuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
+ hopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhr
+ tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
+ hrtghpthhtohepthgvtghhsehtohhothgrihdrnhgvthdprhgtphhtthhopehsthgrsghl
+ vgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:_xPIaLPgp0pZTvFIT8wWQsrJb1ejIL6243RP0whykhOh50GqJyhBxw>
+ <xmx:_xPIaGY0AQ4vdP3Dw9buA8gXFRYSFY817xdSdaXGqvevpdmC-v0MGg>
+ <xmx:_xPIaK_vpZb9VEiDwunhGEP8IlE77Cl_FNMxbSgqc1LnBQYP1BwS2A>
+ <xmx:_xPIaHQuHmlf14Jg0X1Vt3GH4BPf-A5YLsAa97i-AYfHqkeVApZAiw>
+ <xmx:_xPIaC6of_hqXpaVMJjBGWS-Ig_2QYEHoin6uTAt4VnB0MmyatHVHfJm>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Sep 2025 09:26:23 -0400 (EDT)
+Date: Mon, 15 Sep 2025 15:26:21 +0200
+From: Janne Grunau <j@jannau.net>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Helge Deller <deller@gmx.de>, Thierry Reding <treding@nvidia.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Daniel Huhardeaux <tech@tootai.net>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v3] fbdev/simplefb: Fix use after free in
+ simplefb_detach_genpds()
+Message-ID: <20250915132621.GA1931265@robin.jannau.net>
+References: <20250915-simplefb-genpd-uaf-v3-1-5bb51506a5b9@jannau.net>
+ <802c1bad-94e4-4dae-94fe-ced28aebbe2a@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <802c1bad-94e4-4dae-94fe-ced28aebbe2a@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,30 +102,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mentioned function has been renamed since commit 180fc134d712
-("drm/scheduler: Rename cleanup functions v2."), so let it refer to
-the current one.
+On Mon, Sep 15, 2025 at 02:19:30PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 15-Sep-25 8:36 AM, Janne Grunau wrote:
+> > The pm_domain cleanup can not be devres managed as it uses struct
+> > simplefb_par which is allocated within struct fb_info by
+> > framebuffer_alloc(). This allocation is explicitly freed by
+> > unregister_framebuffer() in simplefb_remove().
+> > Devres managed cleanup runs after the device remove call and thus can no
+> > longer access struct simplefb_par.
+> > Call simplefb_detach_genpds() explicitly from simplefb_destroy() like
+> > the cleanup functions for clocks and regulators.
+> > 
+> > Fixes an use after free on M2 Mac mini during
+> > aperture_remove_conflicting_devices() using the downstream asahi kernel
+> > with Debian's kernel config. For unknown reasons this started to
+> > consistently dereference an invalid pointer in v6.16.3 based kernels.
+> 
+> Thanks, this v3 patch looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hansg@kernel.org>
+> 
+> I assume that you will push this do drm-misc yourself ?
 
-v2: use proper pattern for function cross-reference
+I don't have drm-misc commit access yet. I took this as reminder to
+request access so I will either commit it myself or ask someone else in
+a couple of days (if nobody beats me to it).
 
-Signed-off-by: Luc Ma <onion0709@gmail.com>
----
- include/drm/gpu_scheduler.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 323a505e6e6a..fb88301b3c45 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -546,7 +546,7 @@ struct drm_sched_backend_ops {
-  * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORITY_COUNT,
-  *           as there's usually one run-queue per priority, but could be less.
-  * @sched_rq: An allocated array of run-queues of size @num_rqs;
-- * @job_scheduled: once @drm_sched_entity_do_release is called the scheduler
-+ * @job_scheduled: once drm_sched_entity_flush() is called the scheduler
-  *                 waits on this wait queue until all the scheduled jobs are
-  *                 finished.
-  * @job_id_count: used to assign unique id to the each job.
--- 
-2.51.0
-
+thanks,
+Janne
