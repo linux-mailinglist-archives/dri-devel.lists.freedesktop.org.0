@@ -2,133 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6E6B5714C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 09:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFE6B5720F
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 09:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C38AD10E2D3;
-	Mon, 15 Sep 2025 07:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9502610E2BF;
+	Mon, 15 Sep 2025 07:57:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jxn3CpdE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wgOGh5hL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="umQmIgrI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SV0oeKfd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iuX7y5CG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D925F10E2D3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 07:23:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 79C441FB62;
- Mon, 15 Sep 2025 07:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1757921022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=avkQBaKpQ2tXPojONTuZJv8D5y0jW2E+baU2QVcI4DU=;
- b=jxn3CpdEgIU463lBafIa+jrZtph7h1N9ma52/EnV6QctSTAAzA3lfxbv7JAwZsDkWFOiFv
- RrbKk3+FX9t7WeYEqKcLJpUHAbyjObManhIgcSqgJZwTn61rN5lrM/gB+Ey//5zVtelVAK
- triLlRal+NtMNIvuN0wSUTWw3zpSa/k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1757921022;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=avkQBaKpQ2tXPojONTuZJv8D5y0jW2E+baU2QVcI4DU=;
- b=wgOGh5hL3PKI8i65VVdE7JtbCnOqn5omm9/bKcNa6edz7NM2rJsc1ulOktyWN3U1T4YWuC
- TKb8IHA7KbnnxaDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1757921021; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=avkQBaKpQ2tXPojONTuZJv8D5y0jW2E+baU2QVcI4DU=;
- b=umQmIgrI7iLS0KP0k2lZQlrf+JsXJbmB7ahAZcTWMXZzn638s4TxxO6r2RdmVIduW+fhaK
- YTlyEmy5umntWPx4Wufgi3XrxkbEVuf4C6HFB2mR9z4G/4n3nRQkMtFRkiE2aBBmsRKTNq
- 7+TgBon99HsrPpRxhTFG6G+sq1beAOM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1757921021;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=avkQBaKpQ2tXPojONTuZJv8D5y0jW2E+baU2QVcI4DU=;
- b=SV0oeKfdRmDD/n56WxeJbghi7C8+SUrohh9IgeTawsjqg59b/1oiOoA3mjLWUwP0I6l7yD
- FObTqJAz/z23MCCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E73D91398D;
- Mon, 15 Sep 2025 07:23:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gZbDLPu+x2ijUQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 15 Sep 2025 07:23:39 +0000
-Message-ID: <002989b4-f35a-4918-8493-6e352c6244f3@suse.de>
-Date: Mon, 15 Sep 2025 09:23:38 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 550F810E2BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 07:57:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E2157445DA;
+ Mon, 15 Sep 2025 07:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71E55C4CEF1;
+ Mon, 15 Sep 2025 07:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1757923040;
+ bh=q/0U/158AZ4ADjs4BrXmACq7kZLr07vkwdPfqFBcMzM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iuX7y5CGUnEbwMbYWFJXOA4GdJRIdIbN75rGnSyYcpoosTOrP8OdtFQUV9eNkwTy+
+ sEmLRzbTQSdtRaLTZPORboynAS0OtUkYHaP1b2fJxaRdHBJl37Ys87+eAOjVbWoVb9
+ X0PPlEBMK5faNzB0w6seT9mJnAmnpSbYOnesXHivJr1V9ynxTsiWxr+PEJWzGSBC7Q
+ 9bq9umeEyyetWJa7CoiAszF0K0xkNDfVKexnWcf+SL+hqqwQquTTtzkY8KeJUZr9EI
+ tLxM3unljELz6LQ29GQN08plyGPYQkDitNldsIO1UVZf8daIHtcv+nDB2NcpTmCnGK
+ vm5gO5qEBvSrg==
+Date: Mon, 15 Sep 2025 09:57:18 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Swamil Jain <s-jain1@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, 
+ aradhya.bhatia@linux.dev, h-shenoy@ti.com, devarsht@ti.com, vigneshr@ti.com, 
+ praneeth@ti.com, u-kumar1@ti.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
+ bridge
+Message-ID: <20250915-benevolent-military-penguin-d64871@penduick>
+References: <20250911110715.2873596-1-s-jain1@ti.com>
+ <20250911110715.2873596-4-s-jain1@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250914155308.2144-1-rubenru09.ref@aol.com>
- <20250914155308.2144-1-rubenru09@aol.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250914155308.2144-1-rubenru09@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[7]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="el2eopg2lseizadf"
+Content-Disposition: inline
+In-Reply-To: <20250911110715.2873596-4-s-jain1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,120 +64,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 14.09.25 um 17:50 schrieb Ruben Wauters:
-> GUD is a drm driver, and therefore should use the drm versions of
-> WARN_ON and WARN_ON_ONCE. This patch replaces all instances of WARN_ON
-> and WARN_ON_ONCE with drm_WARN_ON and drm_WARN_ON_ONCE.
->
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+--el2eopg2lseizadf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
+ bridge
+MIME-Version: 1.0
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks a lot. I'll merge the patch in a bit.
-
-Best regards
-Thomas
-
+On Thu, Sep 11, 2025 at 04:37:15PM +0530, Swamil Jain wrote:
+> From: Jayesh Choudhary <j-choudhary@ti.com>
+>=20
+> Since OLDI consumes DSS VP clock directly as serial clock, mode_valid()
+> check cannot be performed in tidss driver which should be checked
+> in OLDI driver.
+>=20
+> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+> Tested-by: Michael Walle <mwalle@kernel.org>
+> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
 > ---
->   drivers/gpu/drm/gud/gud_connector.c |  8 ++++----
->   drivers/gpu/drm/gud/gud_pipe.c      | 10 +++++-----
->   2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-> index 4a15695fa933..62e349b06dbe 100644
-> --- a/drivers/gpu/drm/gud/gud_connector.c
-> +++ b/drivers/gpu/drm/gud/gud_connector.c
-> @@ -561,11 +561,11 @@ static int gud_connector_add_properties(struct gud_device *gdrm, struct gud_conn
->   			continue; /* not a DRM property */
->   
->   		property = gud_connector_property_lookup(connector, prop);
-> -		if (WARN_ON(IS_ERR(property)))
-> +		if (drm_WARN_ON(drm, IS_ERR(property)))
->   			continue;
->   
->   		state_val = gud_connector_tv_state_val(prop, &gconn->initial_tv_state);
-> -		if (WARN_ON(IS_ERR(state_val)))
-> +		if (drm_WARN_ON(drm, IS_ERR(state_val)))
->   			continue;
->   
->   		*state_val = val;
-> @@ -593,7 +593,7 @@ int gud_connector_fill_properties(struct drm_connector_state *connector_state,
->   			unsigned int *state_val;
->   
->   			state_val = gud_connector_tv_state_val(prop, &connector_state->tv);
-> -			if (WARN_ON_ONCE(IS_ERR(state_val)))
-> +			if (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
->   				return PTR_ERR(state_val);
->   
->   			val = *state_val;
-> @@ -667,7 +667,7 @@ static int gud_connector_create(struct gud_device *gdrm, unsigned int index,
->   		return ret;
->   	}
->   
-> -	if (WARN_ON(connector->index != index))
-> +	if (drm_WARN_ON(drm, connector->index != index))
->   		return -EINVAL;
->   
->   	if (flags & GUD_CONNECTOR_FLAGS_POLL_STATUS)
-> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> index 54d9aa9998e5..3a208e956dff 100644
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -61,7 +61,7 @@ static size_t gud_xrgb8888_to_r124(u8 *dst, const struct drm_format_info *format
->   	size_t len;
->   	void *buf;
->   
-> -	WARN_ON_ONCE(format->char_per_block[0] != 1);
-> +	drm_WARN_ON_ONCE(fb->dev, format->char_per_block[0] != 1);
->   
->   	/* Start on a byte boundary */
->   	rect->x1 = ALIGN_DOWN(rect->x1, block_width);
-> @@ -138,7 +138,7 @@ static size_t gud_xrgb8888_to_color(u8 *dst, const struct drm_format_info *forma
->   				pix = ((r >> 7) << 2) | ((g >> 7) << 1) | (b >> 7);
->   				break;
->   			default:
-> -				WARN_ON_ONCE(1);
-> +				drm_WARN_ON_ONCE(fb->dev, 1);
->   				return len;
->   			}
->   
-> @@ -527,7 +527,7 @@ int gud_plane_atomic_check(struct drm_plane *plane,
->   		drm_connector_list_iter_end(&conn_iter);
->   	}
->   
-> -	if (WARN_ON_ONCE(!connector_state))
-> +	if (drm_WARN_ON_ONCE(plane->dev, !connector_state))
->   		return -ENOENT;
->   
->   	len = struct_size(req, properties,
-> @@ -539,7 +539,7 @@ int gud_plane_atomic_check(struct drm_plane *plane,
->   	gud_from_display_mode(&req->mode, mode);
->   
->   	req->format = gud_from_fourcc(format->format);
-> -	if (WARN_ON_ONCE(!req->format)) {
-> +	if (drm_WARN_ON_ONCE(plane->dev, !req->format)) {
->   		ret = -EINVAL;
->   		goto out;
->   	}
-> @@ -561,7 +561,7 @@ int gud_plane_atomic_check(struct drm_plane *plane,
->   			val = new_plane_state->rotation;
->   			break;
->   		default:
-> -			WARN_ON_ONCE(1);
-> +			drm_WARN_ON_ONCE(plane->dev, 1);
->   			ret = -EINVAL;
->   			goto out;
->   		}
+>  drivers/gpu/drm/tidss/tidss_oldi.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/t=
+idss_oldi.c
+> index 7ecbb2c3d0a2..ada691839ef3 100644
+> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
+> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+> @@ -309,6 +309,26 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(str=
+uct drm_bridge *bridge,
+>  	return input_fmts;
+>  }
+> =20
+> +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
+> +				   struct drm_bridge_state *bridge_state,
+> +				   struct drm_crtc_state *crtc_state,
+> +				   struct drm_connector_state *conn_state)
+> +{
+> +	struct tidss_oldi *oldi =3D drm_bridge_to_tidss_oldi(bridge);
+> +	struct drm_display_mode *adjusted_mode;
+> +	unsigned long round_clock;
+> +
+> +	adjusted_mode =3D &crtc_state->adjusted_mode;
+> +	round_clock =3D clk_round_rate(oldi->serial, adjusted_mode->clock * 7 *=
+ 1000);
+> +	/*
+> +	 * To keep the check consistent with dispc_vp_set_clk_rate(),
+> +	 * we use the same 5% check here.
+> +	 */
+> +	if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
+> +		return -EINVAL;
+> +	return 0;
+> +}
+> +
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+If you're introducing that check to tidss, please use .5% like everyone
+else. I understand that you don't want to change tilcdc to avoid any
+regression, but that's not the case here
 
+Maxime
 
+--el2eopg2lseizadf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMfG3QAKCRAnX84Zoj2+
+dldJAYCiEHV1ceEiTFu359foivjBu67853uO4czf5z0Te8gaOhblPP4a6Cemo1rV
+qsP942MBfRlns+YcsJXk61kQgM7IhxPRgQoyJQwMIx0DT5eAg1Rs0dwbLSkJmj5T
+4SHdn+i6bw==
+=R9ZU
+-----END PGP SIGNATURE-----
+
+--el2eopg2lseizadf--
