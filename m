@@ -2,162 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FE5B57BC8
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00229B57BF1
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 14:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 761FA10E486;
-	Mon, 15 Sep 2025 12:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C5710E48E;
+	Mon, 15 Sep 2025 12:54:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ISt8k41q";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Eu/s6Ih9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013021.outbound.protection.outlook.com
- [40.107.201.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E3110E48E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:48:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l8GBtVfoUagF2Njzxd3SzxgEei8IISyHjo/H1zzh9xBNXyPNJZslRYyf52lNgWeOTG6Gk5bZA0sCtaj5yoznSLqQ+mauKLtUnLjmrYMY52BuKwdZZiSN/3i9oJJ+lh77v/klUR06yEp1jAQspkS7yhSwWlIAR3ILTdkh4wOVIII8DggEBbAYp90D0vju7MHffBzH2nwbjwvd02AP4o93zfFRqS7D0vYoY1Aphy9y1YxjxV4u85BHp7y6WkWHuNUDafeZ2wrsVYDL++XIEivsA/uT1jglAryiLfIkVERphgrr9cmyHcsO3Dw2oNiWLESJkOtqOexlSkB07ZmvNij/gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w3ZkCpHKpz6igsQRK0+ZsF5g3Ig7zCztIDt2hCYn9YA=;
- b=JnYYlI6qAmSl0vViouB/igjbzo4OMDfQsMV7iHnRohaU1B3twz+7OvBVt3mKSa0/3m6SdxF1USWaZRmYg7+cOO6zAGYU8roMxq7VRmr9pooMWbuNiPk2BWSTHOYzEXHnbU5LhsxxNapDP/w06/XxiJZQtkng9WjCNRM8VG7Jutkio5vT+JFJuc8vNeoT3LAICvJXT22wFfa6p+6ELkjcJ2CX6HRQ/2paDf84/58sQAKhuRjF12FZmU7O+/LtDpNxt/pxQAdaTpn3wXr7DdRpa1YGQbyQrU/8KzvlsvsfMRxLq2X1qkopLCkUOWyDctXKBNvqhZITttcWulrlh7lWHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w3ZkCpHKpz6igsQRK0+ZsF5g3Ig7zCztIDt2hCYn9YA=;
- b=ISt8k41q2jxe5GCGB1BHZXPdJTQaPPhaak60+VmVfcrZ75rYUbgNra/djo4d3brKAwPbWfMWLnhEqcw0vn1u57xj5h2whdcj2KCw5Wwkm0lW8Xk4D8mNJHGGUUxjfiTv0JDmAq/F3vpFUMnA+dMGpAv7JOtfBqJV34sFUwmsrRw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9195.namprd12.prod.outlook.com (2603:10b6:610:1a3::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Mon, 15 Sep
- 2025 12:48:45 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9115.018; Mon, 15 Sep 2025
- 12:48:45 +0000
-Message-ID: <01e2369e-1df2-446d-9f9d-59c86cc55a04@amd.com>
-Date: Mon, 15 Sep 2025 14:48:39 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] cgroup/dmem, drm/ttm: Improve protection in contended
- cases
-To: Natalie Vock <natalie.vock@gmx.de>, Maarten Lankhorst <dev@lankhorst.se>, 
- Maxime Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053FB10E48E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:54:19 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8FgVD014076
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:54:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=o0T8uyDJ7tOU3W9Euxtpr2nB
+ WWgLIb6UxinGBw7EkVs=; b=Eu/s6Ih9acp92r/ty4Em8hZPAU92SYR2vN58BaoB
+ NWe1Ls6CQll88f2PgD9zLmkJWD3vQDKqyjq9HVEl8Hdxn6+qWdj+3q2ZGkUNvjuy
+ +Jf61RdNv57W1pucmcann7nGZwp3aI27yl8mmM6cJpv+TCNliOdiw84ZEGlbISJR
+ kFmE2xhqzg/CeXgtdLAYblQ3KEMNxxumz56DF/LCdIbyA8TJzoU/WKnrdiBm671y
+ SZvvZI8mW8d1+WKoJHt4Gimai72RSn/6Hrs25pS+5/WwAU5QqSFrpyI5xv8EYZwS
+ NTgC+9JTlhCVYiGy1y/vYhYdM/EZyuNhKO4GtI4mALlOOw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494wyr55em-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 12:54:18 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b5f290579aso89682541cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 05:54:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1757940858; x=1758545658;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o0T8uyDJ7tOU3W9Euxtpr2nBWWgLIb6UxinGBw7EkVs=;
+ b=VXYcDfdBqF8MEud92RbjUcoyVHJnRJ4nP683wsnBp5D/AZlY1KKUMK65durOrZEaig
+ 1KNMWD+9o15Yy8UgZT7yn8m4gkeRRzyr3D/ezlVZX0JrxIokTVE6cZ0DDTZszARhy0NW
+ mDjBQ8M7xi7+3E1XPBkpNLnV8QIY0kr5M6kdRnchwHX+8LHZBhGM7lAu0xXJzcB2WD/j
+ RrV2LwFbYeAGLWNyRrwdAfn39x5WzmHzn3WuEM1Tln/oSXh16BIduL7PGtXbZoipN62e
+ u9tUaBXSPeddgMJUgAVuNvnOfoAsFWB/hFYnPrnntPtE8fTULvBqav5N4YAAdARzZTAl
+ /XPA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2YJCH86KN9mwRHwwj1Am5vD1Xzd5M9m/ZnMwsdCOr3AF+tHoJWqn6dOsjHeNNloomAGXoWGe4hFM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxgJYnFctRkH5NMj39Q12XbY6XnEx3eMDvdWdMrB6/knnf1kCRh
+ KuFBs4xqS+towJ2WeZ6isNBvOv1kycEm9rrTaDT+TLccPIz6Fl4o2QFZ2+oQtHV6FGfTzGsHbuV
+ KG6VH2ByuXWLsUQcTulh3mndmo7j/e3HiKBPBIrUPXOFMInxu7aLMElQF52jF20gBW8Xiko0=
+X-Gm-Gg: ASbGncssWR/Ug7bS8Z2oboMPErRaz+6YhxARdRJVsiLH+og/t8znrcfLBbKtaJcAHWK
+ FdnI3cDTD1lNOrZgqLiUsDd9aOSlFs93GGJO22ov0yyMYkLQKDEDYhyWK1vysHTXwH/8Y0gn94u
+ UZHMOpmmvPEs4Q6jB037HoNeQ8rFQl9KzT/p6Kibz1wXLuf4AVY5o+DcEuQpepBR3N/HX5VbKx7
+ nkPUsn7Pl6Wb5yeXPSjpZ0gtooBFn3hGOfu+8ri0ohNLXeVtdFUju6Y2YA/eh3ETkedvZ+I4Nsp
+ RWXMNmwXubpOUq5rM5cdi6FaGtdtkF/YVTNozbgAGNnZdP+V672PJ8zR5oY79aIygwcHKralOjx
+ Vneh8FELU6Ux5JQK7aRoCbBpGF4+QT1JUs5KPAD1r9/8KSUgA5sLu
+X-Received: by 2002:a05:622a:114b:b0:4b2:f786:92dd with SMTP id
+ d75a77b69052e-4b77d057aaamr140665771cf.57.1757940857949; 
+ Mon, 15 Sep 2025 05:54:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFK/Dntm41+HPvtouzaomkvJm85bXcfqIOmnG7ih6nBJsgKKnkSKf2PgTx38rP0sVjrJYYKiQ==
+X-Received: by 2002:a05:622a:114b:b0:4b2:f786:92dd with SMTP id
+ d75a77b69052e-4b77d057aaamr140665411cf.57.1757940857417; 
+ Mon, 15 Sep 2025 05:54:17 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-34f1a8212d8sm25926991fa.36.2025.09.15.05.54.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Sep 2025 05:54:16 -0700 (PDT)
+Date: Mon, 15 Sep 2025 15:54:14 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250915-dmemcg-aggressive-protect-v1-0-2f3353bfcdac@gmx.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250915-dmemcg-aggressive-protect-v1-0-2f3353bfcdac@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0088.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Devarsh Thakkar <devarsht@ti.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 05/29] drm/atomic_state_helper: Fix bridge state
+ initialization
+Message-ID: <epllmgesjxcnadjjsaeotgsdw63eu4uyx5q7zifn2gkudfi7e7@oirj5aiv47qf>
+References: <20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org>
+ <20250902-drm-state-readout-v1-5-14ad5315da3f@kernel.org>
+ <9f17dfd9-a4d4-41e9-b988-bd8ca858e5e7@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9195:EE_
-X-MS-Office365-Filtering-Correlation-Id: e16e9fa7-ebe5-4716-99e4-08ddf4563548
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0w0Y05yMThLdzdpVzNxY0hMZnBFdXRaSm1yOGMwNk40U0pTdE5zenJKQXl6?=
- =?utf-8?B?MFozUUtsUnNmdEcyK285SzJmNm5TM1NEc1dNc3RJdjJyc3F6Yko1dmgwV1dC?=
- =?utf-8?B?ZkNaUmhubWYyVTNzYUVWMXpEamhCZkltcWZLZWhSMzg3Z3VBdHNNUERiZ1R3?=
- =?utf-8?B?UGNnYjRHU2lmUUZSVlFWcDJBVEY0YjgwQzJBTTJIcWM0Ti9zQ3J5cVZkY084?=
- =?utf-8?B?WVZjejcvT0J3QVJVZ2tvL1V1eGcvc2V6a1RlNnBkWlRQdjVXdFhiaUMzWE0r?=
- =?utf-8?B?UlZGZE1hdi95MUNGTHMyZGFXZzA0WUlxeUJaK0o3SGplRGNrdXN3UllIMGJp?=
- =?utf-8?B?YWFueWhYTzZyOTN6by9IdThLKzlGSkdOdVR6aVJicW1UVmRqZ0wzUkFyVStV?=
- =?utf-8?B?TEpmN0NyZE9pZGo1ZFpwWG5BYTNwdzNHRnN5akxiTVFWM001QWg0M092WmFR?=
- =?utf-8?B?Zm82M0pJcWxMdDZDb3FHSFZuWUd1Q2ZwbzNSK05sck0vdFduaFdGc0dqQ2x4?=
- =?utf-8?B?a0MwU2NQV04vaHpmWGlzeFVERGFHS1NsODNiakFFSmNxUXFOTkNadytlZ0JP?=
- =?utf-8?B?eG9qNTlSdm5qc0FiM2YwbllzYWhDMnlNOEgxWUR2OVI4R3dyWkdJM0Fob29r?=
- =?utf-8?B?a2NtK3d6Z3plbUllSDU2K3hDM1J2ODM4WEJCamlSRkQ5R25UamRvS0JKR3Bj?=
- =?utf-8?B?WXNWVjcvbVhMSm9yb0J3eHpYRDNSeXpmZHJyTk4wQ2xqeVlHeFpGOXNyWWlr?=
- =?utf-8?B?ZHViWlZpcGwvNmZCZW1aYXlrZWFxdWlGNlZJcmdsRDFHL2JZdjJoSXYwN0Jz?=
- =?utf-8?B?cGhvWEVod2NGTlFoZVd1bE14WGlWMnQ1ZklML25ZYUdiTGd5d3dKN0o1cXpt?=
- =?utf-8?B?YkYrY2hsZGFQb0NnSjFvUVdMM3FwWlozRlVzTUM1ZTYzc2lES0dTbVg3T1Mw?=
- =?utf-8?B?eEJIOTd4NGZyaU11emU2R09mTENWTHllclcwWkovQVUwUnpwaXFHczFkQjh3?=
- =?utf-8?B?NnZpL25BQzJOeGUvRC9Od3p0U09uV3UzVklxS3FaWlM5cWVleFgrR0xRUDFs?=
- =?utf-8?B?TG53QWVpL29IQUMvM0E4NlQ1bHZLR2FMS1ZpRExNeW8xaW9SSVRCSmppaFZq?=
- =?utf-8?B?QWpIRFFIWUJRdmprVXlZUlpRVTJwWVMvTlhTb2FtMDR4VDhHSTAyMll5Wmo3?=
- =?utf-8?B?aCtJVlpzQ0hqT2w4cjJGMUs1dUdOWEs1N0J3YlFXWEx5NGVONyt0K0VzbkYy?=
- =?utf-8?B?alptcXVGck5VTVlESE1wZXROOExNV2hNc2tMSmNqeXQxWWNhTDRvRm9pbzRJ?=
- =?utf-8?B?aWxGUHk4QlNFcXNBenNyTlVLNmNxQ2cvM3R6OFlpVjJJL2tDaWwzWDVDSmlE?=
- =?utf-8?B?L2s2VGFiUlFJSmE2eGZwczB6Q2pIOFB2end6eGlraXJ2OEhDb01EQ09MZnR3?=
- =?utf-8?B?dmZqdUhWNjNCVkRFYjhmdVlVZ0I0bWVxOHlRVGRsOVpKSVNtWWVTL0tkOFJ6?=
- =?utf-8?B?eUk5Y0dOaGs3dTl4SEtmcUdpMzVZUlA1YTlUSmRsblNvNlhHMnhubVloV2tl?=
- =?utf-8?B?L1FDcTV2NG8rOWNsUUFXRlRmZzVlSTROT0tvcGkzQkJJYXhCU2hRQURwdWFB?=
- =?utf-8?B?WlhJdnQrS1NRVStHNDdSRjd6Nk54MEh6cUNiMnpwek1hbHUyang3R2dMeFBK?=
- =?utf-8?B?K04ydlVFSXNBdE1BaUtBK3pFUDRUVHFMaFdGcjlQa2VpSEdyc1h5NFlPSlZH?=
- =?utf-8?B?WktQUkJTRm15WERvNjhENFIvbjRyblJYbEp3MjlDMDFmR0N2QmV6dW9CNk9q?=
- =?utf-8?B?THpmUldhMWFwQ2hUV041eFlkOTFzdkpjYVcycTFraGxoTG13YTVpV3Nhc1BH?=
- =?utf-8?B?K2pnWWdKS0dwdHpuZm8rV1hOcnBtMjRKUUJQb1JEN1FmcW1mTW9sdDNsZk1v?=
- =?utf-8?B?Q0ZuQ3I1VlUwNUdkc2VlNkU0QXVZeWFSbXZ4aGF6SDhnNmd6YzdZRGlDWjUx?=
- =?utf-8?B?LzFWbDRLWXdBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkZwd0c5bW1idGxLRWpwdVlEaXdPVExreEdLdXNqYUxvMGgzdG82aVAvaUVR?=
- =?utf-8?B?aCtXanJCU2xJRkpXYU8vUGZhazVhWXVablo1R1FJeW5kaDdOeW5LRUdyUDRw?=
- =?utf-8?B?Z1NrSDFieWxWTk9ubXlEK2liM2pEUU1GM3hnZUUzelZISi93b3hGU3RJN1Fm?=
- =?utf-8?B?TFZLU3U0VE1hRElEanpPN1ByWkFKSW1qbTlXaVJrMzQrT1A3dllyRlhWSGI1?=
- =?utf-8?B?M0FjVVNLRTRmbUxNU1FEYWp4RTVnbmRxV1lLZUtqNWtORXB3Tm9QNktDenhn?=
- =?utf-8?B?dEJ2YUc0dGRzZEhwbnNseGtaMTdhYTExdEJrOHgvVVo4YWZLbHd2NEVLaC9k?=
- =?utf-8?B?QlBqdU56REhGTTRwS29YTmdEdkNtTVdTUWNGNHFTdnFDUXBQWWJrSHF2emxu?=
- =?utf-8?B?K0NGVUFoRjVIT3ZVK2NIanJaMEI3amlKR3JkYTh4dGdOaWd6L3NxZ0NKUGFG?=
- =?utf-8?B?UWRMSkRSUkxkdGtDdTFhODgxVllpejA0cmphaFl0V1VhbHdqejJVRFZlVC9j?=
- =?utf-8?B?djZXMlBuYmFneHR1SFA1MDZPaXlYUHdvSDhIS1ZuUUp5ODl3aHBUY1pQaC9J?=
- =?utf-8?B?UUZ3cmRuMHdjTGxxaTJ1S1NzcFphdkozWW1wcE9wb2hmTVBNL2N1d2s5WnBI?=
- =?utf-8?B?UVQyTDZCSWF4dU90ZEFKZ2VPbHh5Q2s3MUQvdjNxTmExMGtRbnk5bmpXTmkr?=
- =?utf-8?B?Yk1EN3hGbUJEMmRSWFNhcjBwUFZuWjIyWUd6TlRrQ2NRTXduT25DVTc0OWZQ?=
- =?utf-8?B?ZXVKZ2tpUFF5emVnbU1yZEFTVi9rZGtQeEx2WEdaTVlRV3ZWRHo3SDZJd2JD?=
- =?utf-8?B?Q1k1UjE0M3o0aktocEdRbWxXWDB0bStyWmlrYkFSTXpQY1RBRDdWMUZyMUdP?=
- =?utf-8?B?N0orb2dOSXF0VC9qMUtQWjMya0xWbEw1WVJKMTVYMFVvR1g5UGZ2a3RZWk1r?=
- =?utf-8?B?WTVSYzJVOWJKd0NYL2hpaUxjOGVNeFZDYlRTL2Z3SmxRYno0NVE5UG8xWU5R?=
- =?utf-8?B?Q2FlckJ6NVh2LzJidWhjMzVzUVJuR2VNUHZNNHFab3lMRHZsMVFhSXNjRWoz?=
- =?utf-8?B?OEgxMWZTcDVlaDhqa3FiR0hpTnk4V0g3REFsNmtFUDlvdDU4bFVoZERMM0lK?=
- =?utf-8?B?aHo4WjBNNXlNSVo5aFNlL2s4YmxWNEYxMDViZ090UHRJcjVvUi9rUndLZCtQ?=
- =?utf-8?B?MlA5MnFnVWV6NTVQTlNCbFhnb2dzS3JLSE1mQUdHcm4vUEtvSVU0dkhvUjFE?=
- =?utf-8?B?N0IwdUgrekszaElMd3JnUTBuMUJkMkRoZUh5NHJKemZkVldYYWVDZFlJL2VM?=
- =?utf-8?B?RXVLRWs1Ynl3ejVEZ20rUnhmdU9QeUI5ZWlGUDV5Y2FmV0QrMDZUNFJlYjRr?=
- =?utf-8?B?cm5zNHpDTjJJMWgwNXY5Q1JjV2RjY0NXY3k0RUcveGVNYW1QbFo2azl1VjVh?=
- =?utf-8?B?NFFIRm9iKzRlYTJZU0hvWXBIVU5ldlBUaE1hYW5hZFEzTFl6bERDTy8vSUlQ?=
- =?utf-8?B?WWNLR0pUSHNsZFRVemxwdnBQVFFaUklJTkNWWnZXVWx5V256YWttQnQxUys0?=
- =?utf-8?B?TmZxcFVBN0V5OHR0UnVjb3hKZktUSkdjdUFsN3JCWHJRRVRER21sQ01TMmRr?=
- =?utf-8?B?MVRuTDhVbXNLSjBLQkxLSGVBek9qSndvOXM3ZEFpaUZ5WEplUGxzdWRUTktr?=
- =?utf-8?B?clBxSEs1Q3FVbjNmVXN5UzVueFBUcjFBbEZLcmRpWU90RmZXUk9TWEQrKzUw?=
- =?utf-8?B?dDJIMHg2UWxzQ1VrNTFXQS9ydlhaWDlnSUtxcFdveTZWSjR5MWlDVjBVMjRo?=
- =?utf-8?B?Wm5JeDVlZll4YVdlUG9jSHJGR3RhbnlBOCs1bEN5TlFlZWJPTEZkMFZLZFFl?=
- =?utf-8?B?YWJwd0NKcnR2bGZWL3dmbTVwZ21WNURzMXJHTmdIYlJWSzVMUFBCMWRyd0RN?=
- =?utf-8?B?RUdLWEI3eWFibHlVTGhRYWk1U3RGdGQzM2dtS1lwNm5RQndkdXRCaDVUTms2?=
- =?utf-8?B?cU9WbmF2a1YxRUtBZmdMU3lNRDQ5NXRNbzRwa3BEWXNjdlJ6N3RTdTlITHhp?=
- =?utf-8?B?RElZU1cxTjNFUkFVc0M4L05FV2tzMndXN1R2RVZaT1djL1RRTjB4dTBRZFpY?=
- =?utf-8?Q?oEwaGV7iKBGxztjF2D/9DlhPK?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e16e9fa7-ebe5-4716-99e4-08ddf4563548
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 12:48:45.6338 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uUb1/RrDKeYY29AqNaf9Nf1i+vH1yDlE5E9p2hjHGTGlLftUCOuLcmvAIMCPFikw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9195
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f17dfd9-a4d4-41e9-b988-bd8ca858e5e7@suse.de>
+X-Proofpoint-ORIG-GUID: xFT74Yvk74XAsqivBtFyILrMggVtPGLa
+X-Authority-Analysis: v=2.4 cv=SouQ6OO0 c=1 sm=1 tr=0 ts=68c80c7a cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=ZlCgwJgu-Kaulvl6kbsA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAwMCBTYWx0ZWRfX+nac1vzRDRGJ
+ rbIdBzI/8yOxQDkQrFTWwKWQVO4HVoQs4caBRtyQgwymb3KZNJuxgAzrG7MHEvMmcXIY52aK4VA
+ ot2svyhsaCHYOGGdLMPJbXWO7BuDl77hA04FP6J/QCZfm5a5NsXz+5OEdJJ9ivhPjPWpgDBpdNm
+ 7NnIhIkO/uajisTAwXVGEO4+3Tn5W1Gpzmgf9v5GMrsq9zuzWX5YX70zySDWbdMgK7CoJfiUA1T
+ oxqixvAyOMOTF3CnF25dAdHQJ1fb1MvzTRY/7z2GCpOGEc9DTW4zFdd+Xa6rpEVr/NbN9cTOYOn
+ HTrBYbE3ry1KroQ0rEar31S6z+t/ywrgU21Jfhwib5ffH2nIjty0vhFwZhfXf/gBh4Jwd9mhWGX
+ uVvbJGV9
+X-Proofpoint-GUID: xFT74Yvk74XAsqivBtFyILrMggVtPGLa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,79 +133,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.09.25 14:36, Natalie Vock wrote:
-> Hi all,
+On Tue, Sep 02, 2025 at 03:18:17PM +0200, Thomas Zimmermann wrote:
+> Hi
 > 
-> I've been looking into some cases where dmem protection fails to prevent
-> allocations from ending up in GTT when VRAM gets scarce and apps start
-> competing hard.
-> 
-> In short, this is because other (unprotected) applications end up
-> filling VRAM before protected applications do. This causes TTM to back
-> off and try allocating in GTT before anything else, and that is where
-> the allocation is placed in the end. The existing eviction protection
-> cannot prevent this, because no attempt at evicting is ever made
-> (although you could consider the backing-off as an immediate eviction to
-> GTT).
+> Am 02.09.25 um 10:32 schrieb Maxime Ripard:
+> > Bridges implement their state using a drm_private_obj and an
+> > hand-crafted reset implementation.
+> > 
+> > Since drm_private_obj doesn't have a set of reset helper like the other
+> > states, __drm_atomic_helper_bridge_reset() was initializing both the
+> > drm_private_state and the drm_bridge_state structures.
+> > 
+> > This initialization however was missing the drm_private_state.obj
+> > pointer to the drm_private_obj the state was allocated for, creating a
+> > NULL pointer dereference when trying to access it.
+> > 
+> > Fixes: 751465913f04 ("drm/bridge: Add a drm_bridge_state object")
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_state_helper.c | 8 ++++++++
+> >   1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > index 7142e163e618ea0d7d9d828e1bd9ff2a6ec0dfeb..b962c342b16aabf4e3bea52a914e5deb1c2080ce 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -707,10 +707,17 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
+> >   	__drm_atomic_helper_connector_destroy_state(state);
+> >   	kfree(state);
+> >   }
+> >   EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+> > +static void __drm_atomic_helper_private_obj_reset(struct drm_private_obj *obj,
+> > +						  struct drm_private_state *state)
 
-Well depending on what you gave as GEM flags from userspace that is expected behavior.
+Which should probably be used for other private objects. Do we have a
+good place to add a warning on state->obj being NULL for all private
+objects? It looks like we have only drm_atomic_helper_swap_state(), but
+it feels weird.
 
-For applications using RADV we usually give GTT|VRAM as placement which basically tells the kernel that it shouldn't evict at all and immediately fallback to GTT.
+> > +{
+> > +	memset(state, 0, sizeof(*state));
+> 
+> This argument is guaranteed to be zero'd, I think. No need for a memset.
 
-Regards,
-Christian.
+In this case, but not in case of a generic object.
 
 > 
-> This series tries to alleviate this by adding a special case when the
-> allocation is protected by cgroups: Instead of backing off immediately,
-> TTM will try evicting unprotected buffers from the domain to make space
-> for the protected one. This ensures that applications can actually use
-> all the memory protection awarded to them by the system, without being
-> prone to ping-ponging (only protected allocations can evict unprotected
-> ones, never the other way around).
+> > +	state->obj = obj;
+> > +}
+> > +
+> >   /**
+> >    * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
+> >    * @obj: CRTC object
+> >    * @state: new private object state
+> >    *
+> > @@ -796,10 +803,11 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
+> >    */
+> >   void __drm_atomic_helper_bridge_reset(struct drm_bridge *bridge,
+> >   				      struct drm_bridge_state *state)
+> >   {
+> >   	memset(state, 0, sizeof(*state));
 > 
-> The first two patches just add a few small utilities needed to implement
-> this to the dmem controller. The second two patches are the TTM
-> implementation:
+> Another unnecessary memset?
 > 
-> "drm/ttm: Be more aggressive..." decouples cgroup charging from resource
-> allocation to allow us to hold on to the charge even if allocation fails
-> on first try, and adds a path to call ttm_bo_evict_alloc when the
-> charged allocation falls within min/low protection limits.
+> Best regards
+> Thomas
 > 
-> "drm/ttm: Use common ancestor..." is a more general improvement in
-> correctly implementing cgroup protection semantics. With recursive
-> protection rules, unused memory protection afforded to a parent node is
-> transferred to children recursively, which helps protect entire
-> subtrees from stealing each others' memory without needing to protect
-> each cgroup individually. This doesn't apply when considering direct
-> siblings inside the same subtree, so in order to not break
-> prioritization between these siblings, we need to consider the
-> relationship of evictor and evictee when calculating protection.
-> In practice, this fixes cases where a protected cgroup cannot steal
-> memory from unprotected siblings (which, in turn, leads to eviction
-> failures and new allocations being placed in GTT).
+> > +	__drm_atomic_helper_private_obj_reset(&bridge->base, &state->base);
+> >   	state->bridge = bridge;
+> >   }
+> >   EXPORT_SYMBOL(__drm_atomic_helper_bridge_reset);
+> >   /**
+> > 
 > 
-> Thanks,
-> Natalie
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 > 
-> Signed-off-by: Natalie Vock <natalie.vock@gmx.de>
-> ---
-> Natalie Vock (4):
->       cgroup/dmem: Add queries for protection values
->       cgroup/dmem: Add dmem_cgroup_common_ancestor helper
->       drm/ttm: Be more aggressive when allocating below protection limit
->       drm/ttm: Use common ancestor of evictor and evictee as limit pool
 > 
->  drivers/gpu/drm/ttm/ttm_bo.c       | 79 ++++++++++++++++++++++++++++++++------
->  drivers/gpu/drm/ttm/ttm_resource.c | 48 ++++++++++++++++-------
->  include/drm/ttm/ttm_resource.h     |  6 ++-
->  include/linux/cgroup_dmem.h        | 25 ++++++++++++
->  kernel/cgroup/dmem.c               | 73 +++++++++++++++++++++++++++++++++++
->  5 files changed, 205 insertions(+), 26 deletions(-)
-> ---
-> base-commit: f3e82936857b3bd77b824ecd2fa7839dd99ec0c6
-> change-id: 20250915-dmemcg-aggressive-protect-5cf37f717cdb
-> 
-> Best regards,
 
+-- 
+With best wishes
+Dmitry
