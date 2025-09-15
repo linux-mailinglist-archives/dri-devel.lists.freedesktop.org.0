@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E932B57693
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01151B57695
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Sep 2025 12:36:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF9010E452;
-	Mon, 15 Sep 2025 10:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A907310E431;
+	Mon, 15 Sep 2025 10:36:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TYgEeBAd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LQKmx30M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0F110E42D
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1757932550;
- bh=UBbHhzhMcY5RDHdtSw2V1FqJDniDFZuY+O0uFwbO0E4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TYgEeBAdEYp8rWIMhzXznGM8IkgcKSEfGdsTlbNTZeFhEiEO+I8nTaromXd102swp
- FYIYLXoO5xPe94UX7kDKHrxQIB57+MGFi7oxXG+MMtez1MKBSqL1YWxcZkfjq6961T
- uk+9MsHgFpRYmeWUFzPyyXhUC9mQtGpVPHAhDIszYJRHI+W/HPI34EFuzGXljYNLre
- 1Ak/DoDoxwYjI3WzynevGhUpgYjcX7DeAVKht5YhZTM/w1i0t30uKAyj8Cm2gTsCdR
- uD/Rl9NTpdQ/YxuIYHWoaSfRSWob1mUZ3WPb3E57/A/+J84fJGfFDZxAq/If/XixoU
- /efWatEnwWrIQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8296F17E0C21;
- Mon, 15 Sep 2025 12:35:49 +0200 (CEST)
-Message-ID: <7dbfb425-4bcd-41bd-8860-9f8d1b9db798@collabora.com>
-Date: Mon, 15 Sep 2025 12:35:48 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC24F10E443
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Sep 2025 10:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1757932560; x=1789468560;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=P+4VfsJqh3/AETCo/jqPF2/OrfZVmNfCtPkNosd5FHI=;
+ b=LQKmx30M6t+db+AWU3YirFSbhUUGoNBrmz1EUuXluTJCQclLNHesX5vJ
+ sytIqLDrFBDu0e+FEZivmhuYT6VeVfgSRyb5BII3NgaY5vx+qm/bkfneJ
+ aEx7SBSpJvfWyWND2foIaJgFLKV9VsizZhaPZKysX7qQcmtU+sQQwWCAo
+ wdmexKVNR4RjpyY/JNGYfpY8kOFvulVaXhpKTJEHuSbkhYwAKstP3OEEa
+ TnQt3ZSYYug4asFSLXFnhlFS6nSu4p1x5OJM7+xlOT5VRDxxNS/mVBM6Q
+ ATHcDoOQ4NajOo7KdhDBr37XGmJY6MvVp0mNuDZnD8FZw1NX2rvZMnpUw Q==;
+X-CSE-ConnectionGUID: 3cdTA1n6Sh+S8RqzsT5nuw==
+X-CSE-MsgGUID: Il7CLHjQQz6rJYGIXT1kRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="60249648"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="60249648"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 03:36:00 -0700
+X-CSE-ConnectionGUID: T+ItmvuyRw+4ItMtUg6vDA==
+X-CSE-MsgGUID: 5N8n8HAdR7+kg3u9sRL74w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; d="scan'208";a="179823938"
+Received: from pl-npu-pc-kwachow.igk.intel.com ([10.91.220.239])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2025 03:35:57 -0700
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com, lizhi.hou@amd.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>
+Subject: [PATCH] accel/ivpu: Remove unused firmware boot parameters
+Date: Mon, 15 Sep 2025 12:35:53 +0200
+Message-ID: <20250915103553.830151-1-karol.wachowski@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/10] drm/panthor: move panthor_devfreq struct to
- header
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com>
- <20250912-mt8196-gpufreq-v2-7-779a8a3729d9@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250912-mt8196-gpufreq-v2-7-779a8a3729d9@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,17 +68,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 12/09/25 20:37, Nicolas Frattaroli ha scritto:
-> In order to make files other than panthor_devfreq.c be able to touch the
-> members of a panthor_devfreq instance, it needs to live somewhere other
-> than the .c file.
-> 
-> Move it into the panthor_devfreq.h header, so that the upcoming MediaTek
-> MFG devfreq can use it as well.
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Remove references to firmware boot parameters that were never used
+by any production version of device firmware.
 
+Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+---
+ drivers/accel/ivpu/ivpu_fw.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+index 6e0941d324a8..32f513499829 100644
+--- a/drivers/accel/ivpu/ivpu_fw.c
++++ b/drivers/accel/ivpu/ivpu_fw.c
+@@ -518,11 +518,6 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg = 0x%x\n",
+ 		 boot_params->cache_defaults[VPU_BOOT_L2_CACHE_CFG_NN].cfg);
+ 
+-	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_base = 0x%llx\n",
+-		 boot_params->global_memory_allocator_base);
+-	ivpu_dbg(vdev, FW_BOOT, "boot_params.global_memory_allocator_size = 0x%x\n",
+-		 boot_params->global_memory_allocator_size);
+-
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.shave_nn_fw_base = 0x%llx\n",
+ 		 boot_params->shave_nn_fw_base);
+ 
+@@ -530,10 +525,6 @@ static void ivpu_fw_boot_params_print(struct ivpu_device *vdev, struct vpu_boot_
+ 		 boot_params->watchdog_irq_mss);
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.watchdog_irq_nce = 0x%x\n",
+ 		 boot_params->watchdog_irq_nce);
+-	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_to_vpu_irq = 0x%x\n",
+-		 boot_params->host_to_vpu_irq);
+-	ivpu_dbg(vdev, FW_BOOT, "boot_params.job_done_irq = 0x%x\n",
+-		 boot_params->job_done_irq);
+ 
+ 	ivpu_dbg(vdev, FW_BOOT, "boot_params.host_version_id = 0x%x\n",
+ 		 boot_params->host_version_id);
+-- 
+2.43.0
 
