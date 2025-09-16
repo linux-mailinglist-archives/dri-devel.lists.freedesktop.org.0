@@ -2,59 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E5CB59A95
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 16:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1996FB59AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 16:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5527310E396;
-	Tue, 16 Sep 2025 14:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B4410E0FF;
+	Tue, 16 Sep 2025 14:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mh/pih+E";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ISrma7zi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3759C10E396;
- Tue, 16 Sep 2025 14:43:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B4277434F9;
- Tue, 16 Sep 2025 14:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B099C4CEF0;
- Tue, 16 Sep 2025 14:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758033784;
- bh=27ySvtd3dUO78XvzUBYQ1gA9ElOvc66NxkQRlwyPYfI=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=Mh/pih+ELUPiwHaVc/5+/no3vUj4N50DWncI5OZDjVYTLqf2vB9gb/8jeQdD6BR1U
- MiU83MiTC5eUHidRAe3IUhqZ+padDI8Zn3xfbCpHUm40Hshnr+ZUaGJnW1qgnSeyvj
- fEfjhayffU9+phEOFpwcE/cSRlhR/s0rZ8W7PURxJnK6wugMZvXfdQOAzIf5Q/EPbe
- gouCIumTkECRbygED4AJmR0FV6B7ASA58hoCmm+wKouYnz1SxzoMUCDu8WZNrij4W4
- GZa8g2OgbybCELuCicywK4vnYw0sLYzLR6NpvtuaziHIby1/ICMdvXGOraHrEBQIRr
- /TH7xsoHTeKNw==
-Mime-Version: 1.0
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6EF10E0FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 14:46:25 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-7761b83fd01so3846735b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 07:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1758033977; x=1758638777;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=inmx6dNf4InTlZUGwu0BdN5CX9UhUArnuNUQoDKHWD0=;
+ b=ISrma7ziS8HJOzKX5RNkovDeOHfcXwrqAf4Z/VnS9G3XubfMAnMxQN4Sx5TS/RuhCR
+ lgdiQxhYvj+nHiaT7w72F90UrHC2Vlp2u/rn+bK+GKH6gnUTPnC+1wa9C1Geb6OUojM5
+ iPKxFPr9kc/k8dZrK+c7QSvDqg5tAialeFKrM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758033977; x=1758638777;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=inmx6dNf4InTlZUGwu0BdN5CX9UhUArnuNUQoDKHWD0=;
+ b=VF/uLYlYJnF1xRRWhDPSGD1lzgN0O6rE+JGg6vjf/JquLZ+labyKkEuXQbJrj2UBOk
+ Acwg/oIclARJYMLYqX9hz7TjthcwRdBOzh0lCsvq8Fr5jQt59d9lFr6A7OTBm5IIb12S
+ 0OkC++X1l21GzJxtfwWmYx2f/O9lcKZw4NeWOn063xVBC1PVYxpfsV0IGfy4shQXwLkQ
+ AfXqibWTvJ2Yt0xF+4ChUwl38RDyjDQFic+IWrC9MCXM2zNzsMU984ZShQHAsu2Xl3wf
+ 6H5hIfCE86c/rvPj8iKKo49w0ri+/eiUa+MqhFdIswcSG8mEb97i/MNaw4fXqds9+Hzt
+ o4vQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrrrZpMEZZH8nIm8nVUtnA4pUJvv6K/SsPuIItQeZuGZxrhrxb3Uq59cXDbiWx9HQyQs00eWcacC4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7Onkv7Yy1oVXER9qhX9v0dEnv50cNtwT3dNJMVROLmONIHSWo
+ qlnKqMN9rD2iMLUMMgq3HycI4iIyAFcnY+b80phf7BsHGcImPZLXYbjEHh8jQVJ5zuKfdkNvNdv
+ EWtU=
+X-Gm-Gg: ASbGncuaoFtfR+YuVI+yiLuBUeA5kQjBgX2LCa1yGTgQPsbtgoHkCbpNVyJdrWAOZjE
+ j1Oiy1J6NE09vQN6jJvpgl1EWEcIdVEtT7nFYvReHnfZMOoYNXXKjCP65sM+edqqMLgsH5GYTDP
+ 5AUX4BCecrXgjy5coD4RtLTe3lzvlCrdByXVzlSVQiIq28v+U8Ow1GDK1ENirj1sBz3UZzwng+w
+ OxPSmpp7oCKMgAGA1ajmMIL7k/Gha39FSnOmTyy3y1ZSmAYdPjX3jpvwM2i0EtFj4PM23NM3MRN
+ qaJNXIjWYh3rJmk2DT5TFW0Z0Dmcm/Bq98VAhFFPwjpk4/DaR5fKysgd7CSTUuxTaLIhV+XLZeR
+ kz2HlO/4MhsutEECFQ+D5gSWk/Rhw6mi7PVpwz5eMVkL0v2PDyOpeDUSvU33PaR8y+A==
+X-Google-Smtp-Source: AGHT+IFdHNErDYQ8S/nsv7U4gEAowOOvWOV1yRZaHeQ5Bz+j0qTHkeqCbgSMm7dL8+CHhTj4K7gDvA==
+X-Received: by 2002:a05:6a20:3d84:b0:263:2d52:cc96 with SMTP id
+ adf61e73a8af0-2632d52d2dbmr13710309637.56.1758033977454; 
+ Tue, 16 Sep 2025 07:46:17 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
+ [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b54a399081dsm14641358a12.43.2025.09.16.07.46.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Sep 2025 07:46:16 -0700 (PDT)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b4d4881897cso3642904a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 07:46:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8XKKVaNiIA9rBqXvEyuvJoy5U1eZZJzzvPBrEc7UOuaTfAr3KbY1G32aONzgiXTKXW5rVuZVWPPE=@lists.freedesktop.org
+X-Received: by 2002:a17:903:1b66:b0:249:37ad:ad03 with SMTP id
+ d9443c01a7336-25d26079287mr167604515ad.34.1758033971727; Tue, 16 Sep 2025
+ 07:46:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250916142047.3582018-1-ghidoliemanuele@gmail.com>
+In-Reply-To: <20250916142047.3582018-1-ghidoliemanuele@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 16 Sep 2025 07:45:59 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Uftrv=x6CuG7edLCSAi16Kv=ka7qxPViuLM=BEG8pC3Q@mail.gmail.com>
+X-Gm-Features: AS18NWCjwmqu4t22vUwtzmrXP4GFZo312uz90IvKcUJ0ZtK-nxts3dyYnOQvG3c
+Message-ID: <CAD=FV=Uftrv=x6CuG7edLCSAi16Kv=ka7qxPViuLM=BEG8pC3Q@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Transition to LP mode on
+ every video line
+To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+Cc: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Sep 2025 16:42:56 +0200
-Message-Id: <DCUAYNNP97QI.1VOX5XUS9KP7K@kernel.org>
-Subject: Re: [PATCH v6 10/11] gpu: nova-core: Add base files for r570.144
- firmware bindings
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "David Airlie" <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "John Hubbard"
- <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Joel
- Fernandes" <joelagnelf@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-To: "Alexandre Courbot" <acourbot@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250913-nova_firmware-v6-0-9007079548b0@nvidia.com>
- <20250913-nova_firmware-v6-10-9007079548b0@nvidia.com>
-In-Reply-To: <20250913-nova_firmware-v6-10-9007079548b0@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,59 +110,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Two comments on this, just for the record.
+Hi,
 
-On Sat Sep 13, 2025 at 4:12 PM CEST, Alexandre Courbot wrote:
-> From: Alistair Popple <apopple@nvidia.com>
+On Tue, Sep 16, 2025 at 7:22=E2=80=AFAM Emanuele Ghidoli
+<ghidoliemanuele@gmail.com> wrote:
 >
-> Interacting with the GSP currently requires using definitions from C
-> header files. Rust definitions for the types needed for Nova core will
-> be generated using the Rust bindgen tool. This patch adds the base
-> module to allow inclusion of the generated bindings. The generated
-> bindings themselves are added by subsequent patches when they are first
-> used.
+> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+>
+> The component datasheet recommends, to reduce power consumption,
+> transitioning to LP mode on every video line.
+>
+> Enable the MIPI_DSI_MODE_VIDEO_NO_HFP and MIPI_DSI_MODE_VIDEO_NO_HBP
+> flags so that the bridge can enter LP mode during the horizontal front
+> porch and back porch periods.
+>
+> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+> ---
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Jayesh Choudhary <j-choudhary@ti.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Cc: <linux-kernel@vger.kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-For now this is perfectly fine, but in the long term we should avoid creati=
-ng
-bindings from C headers. Instead, I'd like to see the tooling that generate=
-s the
-C headers to generate the Rust data structures (in a more Rust idiomatic wa=
-y)
-right away.
+I put this on a sc7180-trogdor based Chromebook and the display no
+longer comes up. I don't personally know the MIPI side of the spec too
+well so I have no idea why that would be.
 
-> Currently we only intend to support a single firmware version, 570.144,
-> with these bindings. Longer term we intend to move to a more stable GSP
-> interface that isn't tied to specific firmware versions.
-
-Yet, we have to prepare for proper abstraction of the firmware API:
-
-(1) This is a community project. And as a community project it has to be
-    written in a way that is guaranteed to remain maintainable for the
-    community in any case.
-
-    This means that the project can not rely on the hardware vendor to prov=
-ide
-    a stable firmware API; rather it has to written in a way that can deal =
-with
-    changing conditions.
-
-    In fact, this is one of the issues why we don't see a way forward with
-    nouveau, so we can't lock ourselves in here. :)
-
-(2) While I think attempting to be as stable as possible with the firmware =
-API
-    is the correct approach, I also think it is better to reserve yourself =
-some
-    flexibility on changing it.
-
-    I much rather prefer a firmware API that is evolving when really necess=
-ary,
-    than squeezing new features into an existing API (e.g. by adding confus=
-ing
-    extentions) that just isn't a good fit anymore at some point.
-
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-> [acourbot@nvidia.com: adapt the bindings module comment a bit]
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+-Doug
