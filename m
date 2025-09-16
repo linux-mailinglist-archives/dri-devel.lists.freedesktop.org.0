@@ -2,93 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B995EB59D82
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 18:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EECFB59E75
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 18:55:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E744410E101;
-	Tue, 16 Sep 2025 16:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A85310E31B;
+	Tue, 16 Sep 2025 16:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e+ihVaCa";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vOXT2ua1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC7910E101
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 16:25:05 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45f29e5e89bso35153255e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758039904; x=1758644704; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DU6pi+jQiHmP3RrytVdY83shq/RxcYi5dWlcWv2Gn9U=;
- b=e+ihVaCaXwUfMJvHX3OcTD32zGDkL8l7u3dYYwd4r/+W90c7Z15vN6ikroYsxECGwR
- gbyTpgtTKqPJv2Mplbtq48hfMyWzT/+W4IBbhFWzFnUoNxC/jfwdE4/bfjlSuDtVc4j0
- HSIeUbzcuvZ+hF+U8r41o7QV17anon73B3lda8dkJpxxF5I0HqRn0dpRvE4S4G6JqiKg
- huTiGmxL9IxbfxZEuibu8tsIwAYqtSNP+OoBzSjBi4mgBHEZgzToNTHJEq9y0OXtrMO/
- lhU4DTzFPF4xiLIfzw5aPPyN7YqQx0xwYLUUKd4gnc1ul0a013EIoKqW00o+nhqL+PlR
- Z70Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758039904; x=1758644704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DU6pi+jQiHmP3RrytVdY83shq/RxcYi5dWlcWv2Gn9U=;
- b=vOTYz1iEptRBnVfXcwCsFC+DdMncZBNvnCBEtQdsLxiLxudVLRmTFCgwrWj+If0Am0
- nUzzazj1SIRqgdqCu8x4bOdKdVHJjODoQfY5wCUUjaS3QPNkyVK5bNJw6LeU+NzHZZqv
- mFz157wbo9CICHOrg/T8Z3JhRS5RrBkMyooS39eaHwgaQ8osuez+LKAQsGa2+5MyhgnR
- sfoqlvzCD7LQ1zTAoFG0DCNGOc3ScUHvoagYabIwqDM0CBKEyo87UCkZPFS4FLCNdZyh
- ZpQ/l4C9K0tzAQN2mzWbLMu4T50XMzSGsRuXF7+cTNOYBku9xIZJAEOgvqi9XwQeHk9j
- bmmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXm0vtEmrDp8qr53l1+q2DaBHebwdiBDRkYmSqRpVD4gEi6rQdzt3Go26ofDZsy1yg5J373DwW/Ec=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8Q9iY40+XNkap22cGsMwGg7vrn9blc5yXHgR5+72eP1Sv0Q0/
- zhZx3TZAm+GYU4n05+GKaRXdq077N9Oy/YovuShybNCZ38e8k+4miqmpa0hr1TphYISHijh0bJs
- pIN/iHg7SnzVlQkPEnXtVeRV8hn12cW0=
-X-Gm-Gg: ASbGnctfKWB3QYBXVOEuh4iu5wY0Fj9jgSPKvWwxfiXugJBiDdmisW9qRWu+8aj7qtf
- nh0F7pkTA0BHEeAIAk8EZ9yaga1liqW4a8ZA4WoRMqyt3CLqX+d2qxbSNHIAln/KXqu3DRVz6mR
- wUzuMI7PR99Q4AEvROUuAgkZ/f1mip77+nklCARznbyz+wwgt/vgVUWoRfj4B2IZt8tt65ZcSJH
- M14tfs4
-X-Google-Smtp-Source: AGHT+IFnC+ZB8Y8EWWSgcq7DryM/idg50aJ/eE+AB8zfjBLAVoKc5lX8wjY+HH9LKTM1j4AoLgwSfNow1JOz5yHjF94=
-X-Received: by 2002:a7b:c857:0:b0:45b:7be1:be1f with SMTP id
- 5b1f17b1804b1-45f211f300dmr100112085e9.32.1758039903439; Tue, 16 Sep 2025
- 09:25:03 -0700 (PDT)
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012007.outbound.protection.outlook.com [52.101.48.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1656D10E31B
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 16:55:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xSyYDreF2FpBfslf7ULi4atLO0GoxkwhN9NNtkEBX6hANodDre9qRqDAysnSoJHkNP36R5y6IxPKaGFFsk6iDt68BcCxRo04YgEoOE4Lwwx4no621ewHYykANj3m49Jhcntbx1cpmknGdiwO2L75w4lFXIAOWei7FivFO+eimzR5h9xlk3nTUb4pG0jKwH3rhRBhx/Vqdm5FYlqeIC8w03i/Rq6/TP6Fh3qJjFXM/h0HOVSGqlMt+teRJolzp2iJ/bLcgusJruj+hLd0vIZZQ5yjQK36h2EigxBGhxXQsbAKeEn5KLuIEau64Zu1nBaw4Gc89kBZZ9m+SSdp+RnrOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HJ/ECgv/DOwI4GxSKchHWbE7r3wGHIA81Pp5rzX+iew=;
+ b=kVyShdtF8bVQOTrQ0bKlayLOs5p0y21NvTU53Zvc6iC+oQnFVLoLRwsAH6lPWYqg+fD6MD6jeC40CBoGtsggxaJqqf7jIuh3JxgnDH3O9XWrZmmXB5pAjgMjh5vRCf7xtX+/hFieX2iw0QEVhtzYT0Xh64wULWfX+iUhrcn8wqvz5orZSwh7xPt6A/P4Ob2Gy54Sa5OFpgjXbL5V3FZcVgxeIff74Xhm2krsqduQbXtLSavk0fgeCrIZjMPyBhFrt5zV66sQYQMNhTEKFBij52FkWYiWZhl4vwRW2ms+5RKAvhAu7Z2IK5pUYZtmDuVjmr/n+16ho1ZTIrQa2qpPMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HJ/ECgv/DOwI4GxSKchHWbE7r3wGHIA81Pp5rzX+iew=;
+ b=vOXT2ua1lZkQcIWyCb2EUG1dM0OpiIGR/yHl1z0oQYn/7kXD0Nopv1J972R8JQe67JY1sMCJZEzxu1DB/FYDYElivGOV+abftAcf0Pz0fxCAl1AtSZxciSRU1Tmpgc/L6ZeeAp9tlgvxmcRly0MUYpegtCgBXCwkrrnWQRKjpRc=
+Received: from CY8PR22CA0008.namprd22.prod.outlook.com (2603:10b6:930:45::18)
+ by IA0PR12MB8840.namprd12.prod.outlook.com (2603:10b6:208:490::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Tue, 16 Sep
+ 2025 16:55:17 +0000
+Received: from CY4PEPF0000E9DA.namprd05.prod.outlook.com (2603:10b6:930:45::4)
+ by CY8PR22CA0008.outlook.office365.com (2603:10b6:930:45::18) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13
+ via Frontend Transport; Tue, 16 Sep 2025 16:55:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CY4PEPF0000E9DA.mail.protection.outlook.com (10.167.241.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 16:55:16 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 16 Sep
+ 2025 09:55:15 -0700
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 16 Sep 2025 09:55:15 -0700
+Message-ID: <1488fe4b-011c-8be4-5fca-b7fd4e418085@amd.com>
+Date: Tue, 16 Sep 2025 09:55:15 -0700
 MIME-Version: 1.0
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-12-clamor95@gmail.com>
- <20250916180418.3fa270a9@booty>
-In-Reply-To: <20250916180418.3fa270a9@booty>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 16 Sep 2025 19:24:52 +0300
-X-Gm-Features: AS18NWDUsY2rg2kwucuKEpR6QKEKIqi67u-AOuSpm9Dlzkb81_NunB_TLA1wgsc
-Message-ID: <CAPVz0n1Nvun5yBf_i3NB=kDmLfNFRjbFt1uTUW-hpLbp-h0g4w@mail.gmail.com>
-Subject: Re: [PATCH v2 11/23] staging: media: tegra-video: csi: add a check to
- tegra_channel_get_remote_csi_subdev
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, 
- =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RESEND PATCH V1] accel/amdxdna: Call dma_buf_vmap_unlocked() for
+ imported object
+Content-Language: en-US
+To: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>,
+ <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+References: <20250915161046.135243-1-lizhi.hou@amd.com>
+ <50380149-c9cd-4478-9fe0-93d95a1016af@linux.intel.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <50380149-c9cd-4478-9fe0-93d95a1016af@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DA:EE_|IA0PR12MB8840:EE_
+X-MS-Office365-Filtering-Correlation-Id: a962bdfa-5359-40dc-ab58-08ddf541d02b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|36860700013|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a1UvVlZQaEFSSVNaV2MyOUptUlpaRXRrSyttTkFWcXhaVUNrNE0xSEEwNUlq?=
+ =?utf-8?B?UEVXSjVaOWpMc2JUQVU4cXA3NEgydVhreTBkOHF4ajFENkY0eFlJazVkemNY?=
+ =?utf-8?B?VEdmZ0lTTUVtVEdWblp5Zk1VMm5GUldSRGdUTnh6L0JEWmx5Tyt5Z0g4RGI0?=
+ =?utf-8?B?blEvajdiekl2ZXpOc05GY0hIMGhnU3VRaXFpM3FyMWNKcDc4bEN4anFTek1G?=
+ =?utf-8?B?M0ZYVUloK3RyMHlLTUk1U1ppQVVUN0x4bHdWSjNRSE02eTdDdXAvN1pQRFd6?=
+ =?utf-8?B?cy9mZHo0SUJOTTc1R1NVMHRMYy9rMzhjTExQNlRDMXRvTHMxYlBxalZBbk9j?=
+ =?utf-8?B?VGN1UlF4SWo5TXRmcnlyRW5ucVI4MDdhQ0dUKzlyVnpsS1pRSzVyZXBNcDlG?=
+ =?utf-8?B?WW41dHZZL2pVMnA1N3BnRE5takpsamRSRTk4TWcyNGJDSFI0Z0dYdGtOVmtt?=
+ =?utf-8?B?UWJZT3BtbTloUFFBMmEwd2ZJc0lZMU9IVGxNZGJWZzF1SXJubERVZklqU2Jj?=
+ =?utf-8?B?V0J5ajdGczg1cFVkaFJVVjBaWmNoeFZpN25lbWMyZnZoQ055SXdvWDhZOEhy?=
+ =?utf-8?B?eVJlKzJrQlBTeFJyT29SZzZ3Yk5XM2JNV3p4L1B4aVV0Skc3TXFpdVJwMVEr?=
+ =?utf-8?B?TlhJSGY4NWp5Rzc5ejdTT2lnZCtCTVdVcCszanM4OVhJSTNJNElibm1HOXgr?=
+ =?utf-8?B?SFY0QUtaY1lVTFNYVW8xbDZINzhjeFFORDc2M21OcDV3em93QTFoM3NWZGxM?=
+ =?utf-8?B?amx2V0x2cE9jSDJWZWhwR21FSVJhTGwybjhEMnUrUXFXRkZtYnJHNGZ1MHdp?=
+ =?utf-8?B?cThZY3VDV2ZnY2hyUTR1bWoxQ0JDalI0M2d3S00zdWRFcG04NUhTeGxtbDNs?=
+ =?utf-8?B?d1VCWFRUT2JzaUJIMzEvWksyTXFiQzZVZUtCR2VWOXQ4SVYrUDVIOU9jR2Vq?=
+ =?utf-8?B?QXlIU0FaUURNdWxmNEtodk5yalJ1cXZLNnk2Rm9UZUdZM3NKUjhPbnpjODdv?=
+ =?utf-8?B?MXdKVFJpUkM5TEVzQUNDa3A0YnZpL0JpRVJpVHBRRitLUkNhMnRmZHhLVm5J?=
+ =?utf-8?B?ZU1nTTE4RGJjNzV2VDFJQWZRNXAxZUFWVEhaTTVIQ0pDSjBKOUxpeEZBc1B4?=
+ =?utf-8?B?VXlHY3BqQ3BQbFZhdUVXRmtkbnc4eVAzRGpmQUFjUFNveG1VQnhOWDlIdFJn?=
+ =?utf-8?B?UnlubWpqVDAvN2s2QkFlYnlUSFdZWXEzRjRuSGlJVHVKZHFIS0dLZUZkNmNM?=
+ =?utf-8?B?MEpUQnFrQm1STWd2ellDVW5ScmVmcWZ1dHQrZVpjdDliS1ZlUE1GTmMwQVdw?=
+ =?utf-8?B?SUJOWWIrcTVTa3l1WXp1WHZNQkllMlZhR3pMdnhLMTl0c2cxdGloMitSdlVv?=
+ =?utf-8?B?K3BMVTlXT2lQZHlnbGNweGtVb2EyNE5qTy9remQ0a0h5TklZK2tnOGxldGE1?=
+ =?utf-8?B?NitQeHFlcUNRM1NVWTJqUDJVbkRYc0tZcXBZRFF5aDNmSGkzd0UyNjlOL1k4?=
+ =?utf-8?B?ZXo3cUxLU1h2YktmM1J4dXhQeEJmNXVTdEQ4bHZqNmVoS2d3N1pCTXlPenli?=
+ =?utf-8?B?dFc4K01keDdtWFA5dEJ5T29MeVp0V0NRM2N6ZmpaNmpyR3ZJNjYrOW5HQlVs?=
+ =?utf-8?B?TU5CTzhyQVNNaExxOGRMNjQyV21RSGdGbVl2VHc0TWZ1SHU3L1NYKy9KY213?=
+ =?utf-8?B?ODNwNUhQdkZadkQ2SFJhdnNMbExJcG5lMFdOM0h2cksrMnQxdkdsa2Zkc3du?=
+ =?utf-8?B?QlZ0eFp5Wks5U3JFeEE1L21YRlNZRnVGaml0Z2p3bDJ3KzFURXhvbGtBSVVW?=
+ =?utf-8?B?S1pXQy8yMlU5Y1FRTzNmRzVQVFJVd0k2RHlKL3VtNGpvNzd3QkxtaDFmMnVL?=
+ =?utf-8?B?QnMrbmVIVlZtODR2NXhhWm9hbnFFNTdFVVBQQ3FFVGNkY1J6WlY0S3k5ZjlT?=
+ =?utf-8?B?R1daYmZlWmRORkpoOWJsSG90VnArcFlOZ0JnTFlYcEVzTngxM2RCMnk1U0Rh?=
+ =?utf-8?B?RVptUFJVYkNieWdiUzFuQjlKUjd5S1hvOEJKNEczcWFiZUVhMDBQa3c3UlIw?=
+ =?utf-8?Q?y/CRhL?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 16:55:16.9806 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a962bdfa-5359-40dc-ab58-08ddf541d02b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9DA.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8840
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,92 +149,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=B2=D1=82, 16 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 19:04 Luca=
- Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Hello Svyatoslav,
->
-> On Sat,  6 Sep 2025 16:53:32 +0300
-> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
->
-> > By default tegra_channel_get_remote_csi_subdev returns next device in p=
-ipe
-> > assuming it is CSI but in case of Tegra20 and Tegra30 it can also be VI=
-P
-> > or even HOST. Lets check if returned device is actually CSI by comparin=
-g
-> > subdevice operations.
->
-> This is just for extra safety, or is there a real case where the lack
-> of this check creates some issues in your use case?
->
-> > --- a/drivers/staging/media/tegra-video/csi.c
-> > +++ b/drivers/staging/media/tegra-video/csi.c
-> > @@ -445,6 +445,22 @@ static const struct v4l2_subdev_ops tegra_csi_ops =
-=3D {
-> >       .pad    =3D &tegra_csi_pad_ops,
-> >  };
-> >
-> > +struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra_v=
-i_channel *chan)
-> > +{
-> > +     struct media_pad *pad;
-> > +     struct v4l2_subdev *subdev;
-> > +
-> > +     pad =3D media_pad_remote_pad_first(&chan->pad);
-> > +     if (!pad)
-> > +             return NULL;
-> > +
-> > +     subdev =3D media_entity_to_v4l2_subdev(pad->entity);
-> > +     if (!subdev)
-> > +             return NULL;
-> > +
-> > +     return subdev->ops =3D=3D &tegra_csi_ops ? subdev : NULL;
-> > +}
->
-> I tested your series on a Tegra20 with a parallel camera, so using the
-> VIP for parallel input.
->
-> The added check on subdev->ops breaks probing the video device:
->
->   tegra-vi 54080000.vi: failed to setup channel controls: -19
->   tegra-vi 54080000.vi: failed to register channel 0 notifier: -19
->
-> This is because tegra20_chan_capture_kthread_start() is also calling
-> tegra_channel_get_remote_csi_subdev(), but when using VIP subdev->ops
-> points to tegra_vip_ops, not tegra_csi_ops.
->
 
-Your assumption is wrong. 'tegra_channel_get_remote_csi_subdev' is
-designed to get next device which is expected to be CSI, NOT VIP
-(obviously, Tegra210 has no VIP). It seems that VIP implementation did
-not take into account that CSI even exists.  -19 errors are due to
-tegra_vi_graph_notify_complete not able to get next media device in
-the line. Correct approach would be to add similar helper for VIP and
-check if next device is VIP. Since I have no devices with VIP support
-I could not test this properly. I can add this in next iteration if
-you are willing to test.
-
-Best regards,
-Svyatoslav R.
-
-> Surely the "csi" infix in the function name here is misleading. At
-> quick glance I don't see a good reason for its presence however, as the
-> callers are not CSI-specific.
+On 9/16/25 08:55, Falkowski, Maciej wrote:
+> On 9/15/2025 6:10 PM, Lizhi Hou wrote:
 >
-> If such quick analysis is correct, instead of this diff we should:
->  * not move the function out of vi.c
->  * rename the function toremove the "_csi" infix
->  * if a check is really needed (see comment above), maybe extend it:
->    return (subdev->ops =3D=3D &tegra_csi_ops ||
->            subdev->ops =3D=3D &tegra_vip_ops) ? subdev : NULL;
+>> In amdxdna_gem_obj_vmap(), calling dma_buf_vmap() triggers a kernel
+>> warning if LOCKDEP is enabled. So for imported object, use
+>> dma_buf_vmap_unlocked(). Then, use drm_gem_vmap() for other objects.
+>> The similar change applies to vunmap code.
+>>
+>> Fixes: bd72d4acda10 ("accel/amdxdna: Support user space allocated 
+>> buffer")
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> ---
+>>   drivers/accel/amdxdna/amdxdna_gem.c | 38 +++++++++++------------------
+>>   1 file changed, 14 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/amdxdna_gem.c 
+>> b/drivers/accel/amdxdna/amdxdna_gem.c
+>> index d407a36eb412..50950be189ae 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_gem.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_gem.c
+>> @@ -392,35 +392,25 @@ static const struct dma_buf_ops 
+>> amdxdna_dmabuf_ops = {
+>>       .vunmap = drm_gem_dmabuf_vunmap,
+>>   };
+>>   -static int amdxdna_gem_obj_vmap(struct drm_gem_object *obj, struct 
+>> iosys_map *map)
+>> +static int amdxdna_gem_obj_vmap(struct amdxdna_gem_obj *abo, struct 
+>> iosys_map *map)
+>>   {
+>> -    struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
+>> -
+>>       iosys_map_clear(map);
+>>   -    dma_resv_assert_held(obj->resv);
+>> -
+>>       if (is_import_bo(abo))
+>> -        dma_buf_vmap(abo->dma_buf, map);
+>> -    else
+>> -        drm_gem_shmem_object_vmap(obj, map);
+>> -
+>> -    if (!map->vaddr)
+>> -        return -ENOMEM;
+>> +        return dma_buf_vmap_unlocked(abo->dma_buf, map);
+> Hi,
 >
-> Let me know your thoughts.
+> The dma_buf_vmap_unlocked() will call iosys_map_clear at its start so 
+> that
+> in this case it will be called twice. Probably it will be optimize 
+> out, but maybe
+> its something to better omit.
+Ok. I will remove iosys_map_clear. The caller uses cleared map even 
+drm_gem_vmap might not clear it.
+>>   -    return 0;
+>> +    return drm_gem_vmap(to_gobj(abo), map);
+>>   }
+>>   -static void amdxdna_gem_obj_vunmap(struct drm_gem_object *obj, 
+>> struct iosys_map *map)
+>> +static void amdxdna_gem_obj_vunmap(struct amdxdna_gem_obj *abo, 
+>> struct iosys_map *map)
+>>   {
+>> -    struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
+>> -
+>> -    dma_resv_assert_held(obj->resv);
+>> +    if (iosys_map_is_null(map))
+>> +        return;
+>>         if (is_import_bo(abo))
+>> -        dma_buf_vunmap(abo->dma_buf, map);
+>> -    else
+>> -        drm_gem_shmem_object_vunmap(obj, map);
+>> +        return dma_buf_vunmap_unlocked(abo->dma_buf, map);
+> I do also wonder what is the convention here on clearing iosys_map 
+> when returning.
+> The function drm_gem_vunmap will clear the map for callers while the 
+> other not.
+> I think at least comment explaining the logic will be necessary.
+
+The input map will not be re-used, so it does not mater if it is cleared 
+or not when returning. I will add a comment.
+
+Thanks,
+
+Lizhi
+
 >
 > Best regards,
-> Luca
+> Maciej
 >
-> --
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+>> +
+>> +    return drm_gem_vunmap(to_gobj(abo), map);
+>>   }
+>>     static struct dma_buf *amdxdna_gem_prime_export(struct 
+>> drm_gem_object *gobj, int flags)
+>> @@ -468,7 +458,7 @@ static void amdxdna_gem_obj_free(struct 
+>> drm_gem_object *gobj)
+>>       if (abo->type == AMDXDNA_BO_DEV_HEAP)
+>>           drm_mm_takedown(&abo->mm);
+>>   -    drm_gem_vunmap(gobj, &map);
+>> +    amdxdna_gem_obj_vunmap(abo, &map);
+>>       mutex_destroy(&abo->lock);
+>>         if (is_import_bo(abo)) {
+>> @@ -489,8 +479,8 @@ static const struct drm_gem_object_funcs 
+>> amdxdna_gem_shmem_funcs = {
+>>       .pin = drm_gem_shmem_object_pin,
+>>       .unpin = drm_gem_shmem_object_unpin,
+>>       .get_sg_table = drm_gem_shmem_object_get_sg_table,
+>> -    .vmap = amdxdna_gem_obj_vmap,
+>> -    .vunmap = amdxdna_gem_obj_vunmap,
+>> +    .vmap = drm_gem_shmem_object_vmap,
+>> +    .vunmap = drm_gem_shmem_object_vunmap,
+>>       .mmap = amdxdna_gem_obj_mmap,
+>>       .vm_ops = &drm_gem_shmem_vm_ops,
+>>       .export = amdxdna_gem_prime_export,
+>> @@ -692,7 +682,7 @@ amdxdna_drm_create_dev_heap(struct drm_device *dev,
+>>       abo->mem.dev_addr = client->xdna->dev_info->dev_mem_base;
+>>       drm_mm_init(&abo->mm, abo->mem.dev_addr, abo->mem.size);
+>>   -    ret = drm_gem_vmap(to_gobj(abo), &map);
+>> +    ret = amdxdna_gem_obj_vmap(abo, &map);
+>>       if (ret) {
+>>           XDNA_ERR(xdna, "Vmap heap bo failed, ret %d", ret);
+>>           goto release_obj;
+>> @@ -770,7 +760,7 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
+>>       abo->type = AMDXDNA_BO_CMD;
+>>       abo->client = filp->driver_priv;
+>>   -    ret = drm_gem_vmap(to_gobj(abo), &map);
+>> +    ret = amdxdna_gem_obj_vmap(abo, &map);
+>>       if (ret) {
+>>           XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
+>>           goto release_obj;
