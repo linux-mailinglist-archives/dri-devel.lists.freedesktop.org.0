@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE92B591A0
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36FBB591A1
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8938110E73F;
-	Tue, 16 Sep 2025 09:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB6910E6E4;
+	Tue, 16 Sep 2025 09:04:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="VYZoQfha";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lQxQHID+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D3F10E73F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:04:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758013447; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KphIoxkx3Cqj0qXKv+QONEdYHdi7TOxjXMeIFjDfloMVupb2o61pMUqjZ4bqfTOQhqGIbUK8DbxXjGqxV5x0TexDs9hNGMEDerN5hu6QXGL214QmPFbdz9IwyTXArIYA3WiNexkebwTvf4u6Vz9Oloa8Sh8ghlxeKCt8uTUG/aU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758013447;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=vvB9uFwSO71J5u5suf9LzDD3AAOVAFdkQHjXMqw5dYs=; 
- b=I/Gp8xb6pw6GnZQNdmmrEloJ+xsjI7JPL7JdONc0SPrqZE+QQDrTy2hnhmlIM1nhDbCwuqDBojz83VOKZ5+G4bBX6EKx2Bpi0HlKGZ6BTi5Rbq16jcH/wAruVDvzg/yWvtZBiyLWxyaPHSRhhhP+nriwk13Iu23ejuSz5brnzQs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758013447; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=vvB9uFwSO71J5u5suf9LzDD3AAOVAFdkQHjXMqw5dYs=;
- b=VYZoQfhaOxFZl7gpYmtPRLiRUkgTVYFaa6Td3m/0wyTVx6ttkq5K7psZ/2urwqCL
- XCWZCkcz0LaT7xSAjw86BWu2urnKCyzUilLfARa5y6dBH2nj21gyNG3u/ScGSxaBIr3
- qzZSU3LkTgXPn83JtA/HRG2LCAODFg/qgxxD5yvE=
-Received: by mx.zohomail.com with SMTPS id 1758013446090111.71149807332927;
- Tue, 16 Sep 2025 02:04:06 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] mailbox: add MediaTek GPUEB IPI mailbox
-Date: Tue, 16 Sep 2025 11:03:57 +0200
-Message-ID: <5236533.GXAFRqVoOG@workhorse>
-In-Reply-To: <CAPaKu7STDDp6D_fDGVfAKFrb5aWcxtwsT3nYtYDQQYCs7G9upA@mail.gmail.com>
-References: <20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com>
- <8577914.T7Z3S40VBb@workhorse>
- <CAPaKu7STDDp6D_fDGVfAKFrb5aWcxtwsT3nYtYDQQYCs7G9upA@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 047D010E740;
+ Tue, 16 Sep 2025 09:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ht6dtf2B4lNoeSax/9id9vpJqZdGaIb7TfEbNQYVf4w=; b=lQxQHID+hADodVXgWFlJv6EoJ4
+ gh83RMpUGqpk76KbFhLzKyQ+Qp2nMw9nW50XmbF4FQ0AoTNuUSVSnQ5/nRUWFhl/NKBveaF/oP40t
+ myPyKWO9ZYwohpgh3zfFWDTfUl+8E0Hg9VHfm1PPOjO3lKbXSskH7LBwGVdXVFL8TM2+9FQYY7Vqq
+ wfvEuOGh3p5qF16PNE54sBs/sjOnazfnIG1JECCVR2PBZvburJXd79BUcTudgw9MF1vHsRkTCsMeQ
+ ei+aAfo+6ADx+EcvhqEZdf7vjbq9qvfxFhYwx1EiuOvrk86bMV77rsyUqKuKn8M7zZtiSuOj/doA1
+ hdftJz1Q==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uyRbs-00CB5s-Fa; Tue, 16 Sep 2025 11:04:24 +0200
+Message-ID: <996f7a3a-26ca-4034-a608-8f316a7eee66@igalia.com>
+Date: Tue, 16 Sep 2025 10:04:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v8 04/12] drm/sched: Consolidate entity run queue management
+To: phasta@kernel.org, dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
+ <20250903101820.63032-5-tvrtko.ursulin@igalia.com>
+ <6fe010e8dc5e8a5db35d8702960f42940e342093.camel@mailbox.org>
+ <73681fac-ef47-4005-87ad-cea0b91e6813@igalia.com>
+ <9ce2b23820b4d56123eba515b01f282af4380a7c.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <9ce2b23820b4d56123eba515b01f282af4380a7c.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,190 +66,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 16 September 2025 06:55:30 Central European Summer Time Chia-I =
-Wu wrote:
-> On Mon, Sep 15, 2025 at 6:34=E2=80=AFAM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> >
-> > On Saturday, 13 September 2025 00:11:10 Central European Summer Time Ch=
-ia-I Wu wrote:
-> > > On Fri, Sep 12, 2025 at 11:38=E2=80=AFAM Nicolas Frattaroli
-> > > <nicolas.frattaroli@collabora.com> wrote:
-> > > <snipped>
-> > > > +static irqreturn_t mtk_gpueb_mbox_thread(int irq, void *data)
-> > > > +{
-> > > > +       struct mtk_gpueb_mbox_chan *ch =3D data;
-> > > > +       int status;
-> > > > +
-> > > > +       status =3D atomic_cmpxchg(&ch->rx_status,
-> > > > +                               MBOX_FULL | MBOX_CLOGGED, MBOX_FULL=
-);
-> > > > +       if (status =3D=3D (MBOX_FULL | MBOX_CLOGGED)) {
-> > > > +               mtk_gpueb_mbox_read_rx(ch);
-> > > > +               writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_I=
-RQ_CLR);
-> > > > +               mbox_chan_received_data(&ch->ebm->mbox.chans[ch->nu=
-m],
-> > > > +                                       ch->rx_buf);
-> > > Given what other drivers do, and how mtk_mfg consumes the data, we sh=
-ould
-> > >
-> > >   char buf[MAX_OF_RX_LEN]; //  MAX_OF_RX_LEN is 32; we can also
-> > > allocate it during probe
-> > >   mtk_gpueb_mbox_read_rx(ch);
-> > >   mbox_chan_received_data(..., buf);
-> > >
-> > > mtx_mfg makes a copy eventually anyway.
-> >
-> > We don't right now, at least not until after the callback returns.
-> > So we need to have the copy in the mtk_mfg callback, not after the
-> > completion. That's fine and I do want to do this as this is what
-> > the mailbox framework seems to expect clients to do.
-> >
-> > > We don't need to maintain any
-> > > extra copy.
-> > >
-> > > Then we might not need rx_status.
-> >
-> > We can probably get rid of it if we keep the per-channel
-> > interrupt handler. Otherwise, we may still need clogged,
-> > as we don't want to process interrupts on channels we have
-> > no user for.
-> >
-> > >
-> > > > +               atomic_set(&ch->rx_status, 0);
-> > > > +               return IRQ_HANDLED;
-> > > > +       }
-> > > > +
-> > > > +       return IRQ_NONE;
-> > > > +}
-> > > > +
-> > > > +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *=
-data)
-> > > > +{
-> > > > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
-> > > > +       int i;
-> > > > +       u32 *values =3D data;
-> > > > +
-> > > > +       if (atomic_read(&ch->rx_status))
-> > > > +               return -EBUSY;
-> > > > +
-> > > > +       /*
-> > > > +        * We don't want any fancy nonsense, just write the 32-bit =
-values in
-> > > > +        * order. memcpy_toio/__iowrite32_copy don't work here, bec=
-ause fancy.
-> > > > +        */
-> > > > +       for (i =3D 0; i < ch->c->tx_len; i +=3D 4)
-> > > > +               writel(values[i / 4], ch->ebm->mbox_mmio + ch->c->t=
-x_offset + i);
-> > > > +
-> > > > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_SET);
-> > > > +
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static int mtk_gpueb_mbox_startup(struct mbox_chan *chan)
-> > > > +{
-> > > > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
-> > > > +       int ret;
-> > > > +
-> > > > +       atomic_set(&ch->rx_status, 0);
-> > > > +
-> > > > +       ret =3D clk_enable(ch->ebm->clk);
-> > > > +       if (ret) {
-> > > > +               dev_err(ch->ebm->dev, "Failed to enable EB clock: %=
-pe\n",
-> > > > +                       ERR_PTR(ret));
-> > > > +               goto err_clog;
-> > > > +       }
-> > > > +
-> > > > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
-> > > > +
-> > > > +       ret =3D devm_request_threaded_irq(ch->ebm->dev, ch->ebm->ir=
-q, mtk_gpueb_mbox_isr,
-> > > > +                                       mtk_gpueb_mbox_thread, IRQF=
-_SHARED | IRQF_ONESHOT,
-> > > > +                                       ch->full_name, ch);
-> > > I don't think this warrants a per-channel irq thread.
-> > >
-> > > mbox_chan_received_data is atomic. I think wecan start simple with
-> > > just a devm_request_irq for all channels. mtk_gpueb_mbox_isr can
-> > >
-> > >   read bits from MBOX_CTL_RX_STS
-> > >   for each bit set:
-> > >     read data from rx
-> > >     mbox_chan_received_data
-> > >   write bits to MBOX_CTL_IRQ_CLR
-> > >
-> >
-> > I don't like this approach. It brings us back to having to process
-> > multiple channels per ISR, keep track of when the interrupt should
-> > be enabled and disabled based on how many channels are in use, and
-> > also is not in line with what e.g. omap-mailbox.c does.
-> >
-> > Remember that `mbox_chan_received_data` synchronously calls the
-> > mailbox client's rx_callback. In mediatek_mfg's case, this is
-> > fairly small, though with the request to not make the rx buffer
-> > persist beyond the rx_callback it will gain an additional memory
-> > copy. But we can't guarantee that someone isn't going to put a
-> > slow operation in the path. Sure, it's going to be atomic, but
-> > waiting for a spinlock is atomic and not something an ISR would
-> > enjoy. I don't think mailbox clients would expect that if they
-> > take their time they'll stall the interrupt handler for every
-> > other channel.
-> >
-> > So we'd keep the interrupt disabled for all channels until the
-> > client that received a message has processed it.
-> >
-> > I can see myself getting rid of the handler and just having the
-> > thread function as the bottom half, but I'd really like to keep
-> > the one-IRQ-request-per-channel thing I've got going now as it
-> > made the code a lot easier to reason about. However, doing this
-> > would mean the interrupt is re-enabled after the generic upper
-> > half, when all the business logic that needs to not run
-> > concurrently for an individual channel is in the bottom half.
-> >
-> > As far as I can tell, this would then mean we'd have to add
-> > some concurrency exclusion mechanism to the bottom half.
-> >
-> > Moving all the logic into the upper half handler function
-> > would make that handler somewhat longer, and I don't know
-> > if IRQF_ONESHOT masks the interrupt for all users of that
-> > IRQ number or just for those with that dev_id. If it's per
-> > dev_id, then I'm fine with moving stuff up there. But from
-> > my reading of the core IRQ handling code, that does not
-> > appear to be the case; one channel getting a reply would
-> > mask *all* channels of the mailbox until the upper half is
-> > completed, and if the upper half calls into a driver
-> > callback synchronously, that may take a hot minute.
-> >
-> > Put differently: Is there a problem with one thread per used
-> > channel, or are we going off vibes here? The way it currently
-> > works uses the shared interrupt to mark just that one channel
-> > as busy with rx_status before letting the IRQ for all channels
-> > be unmasked again, which seems ideal to me.
-> No, one thread per used channel can work. I can't say I like it, but I
-> also don't know the hw as well as you do.
->=20
 
-Your knowledge is probably not far behind mine on this hardware :(
+On 16/09/2025 08:41, Philipp Stanner wrote:
+> On Thu, 2025-09-11 at 15:55 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 11/09/2025 15:20, Philipp Stanner wrote:
+>>> On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
+>>>> Move the code dealing with entities entering and exiting run queues to
+>>>> helpers to logically separate it from jobs entering and exiting entities.
+>>>
+>>> Sorry if I've asked this before, but does this strictly depend on the
+>>> preceding patches or could it be branched out?
+>>
+>> There is no fundamental dependency so I could re-order and pull it ahead
+>> if you are certain that is what you prefer?
+> 
+> Well, you know my opinion: If it's a general improvement not directly
+> necessary for a series, it should be send separately.
+> 
+> For this patch, however, I'm not even sure whether it's really
+> improving the code base. The number of functions seems the same, just
+> with different names, and the code base gets even slightly larger.
 
-I'll keep the per-channel thread for v3 for now, so that it's
-clearer as to how this will look. It'll also give us both an
-opportunity to run the code and add some measurements to see if
-this causes any problems, and to experiment with your proposed
-solution.
+There is one new function actually (pop). But one previously exported 
+gets hidden as implementation details (rbtree update).
 
-What I mainly am worried about is that if we go back to one IRQ
-for all channels, then we have to do our own "how many channels
-are enabled?" accounting to disable the IRQ later, because the
-enable_irq/disable_irq accounting works the opposite way where
-you can disable as many times as you want but your enables can't
-exceed disables + 1.
+> Can you elaborate a bit on why you think this patch makes sense?
 
-Kind regards,
-Nicolas Frattaroli
+Before the patch we have sched_main.c implement 
+drm_sched_rq_remove_entity() as an interface operating on run-queues and 
+used by the entity code. It handles both the the entity list and the 
+FIFO rbtree. All good there.
 
+Other two operations which operate on those two data structures are add 
+and pop.
 
+But while the existing drm_sched_rq_add_entity() from the name sounds 
+analogous to drm_sched_rq_remove_entity(), in reality it isn't. It only 
+handles the entity list part, while the FIFO rbtree is open coded in 
+sched_entity.c.
+
+Job pop is the same - rbtree hanlding is open coded in sched_entity.c.
+
+The patch consolidates all of the entity run queue management into 
+contained API which is aligned with the above mentioned existing 
+drm_sched_rq_remove_entity().
+
+Drm_sched_rq_add_entity() gets conceptualy aligned with 
+drm_sched_rq_remove_entity() with rbtree operations removed from 
+sched_entity.c.
+
+Drm_sched_rq_pop_entity() is added with the same effect.
+
+The two new pieces of API are implemented next to 
+drm_sched_rq_remove_entity() in sched_main.c. (Later I move all three, 
+together with other bits relating to run queue management to a new 
+sched_rq.c.)
+
+Regards,
+
+Tvrtko
+
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>>> ---
+>>>>    drivers/gpu/drm/scheduler/sched_entity.c   | 64 ++-------------
+>>>>    drivers/gpu/drm/scheduler/sched_internal.h |  8 +-
+>>>>    drivers/gpu/drm/scheduler/sched_main.c     | 95 +++++++++++++++++++---
+>>>>    3 files changed, 91 insertions(+), 76 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> index 4852006f2308..7a0a52ba87bf 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> @@ -456,24 +456,9 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+>>>>    	return NULL;
+>>>>    }
+>>>>    
+>>>> -static ktime_t
+>>>> -drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity *entity)
+>>>> -{
+>>>> -	ktime_t ts;
+>>>> -
+>>>> -	lockdep_assert_held(&entity->lock);
+>>>> -	lockdep_assert_held(&rq->lock);
+>>>> -
+>>>> -	ts = ktime_add_ns(rq->rr_ts, 1);
+>>>> -	entity->rr_ts = ts;
+>>>> -	rq->rr_ts = ts;
+>>>> -
+>>>> -	return ts;
+>>>> -}
+>>>> -
+>>>>    struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>>>    {
+>>>> -	struct drm_sched_job *sched_job, *next_job;
+>>>> +	struct drm_sched_job *sched_job;
+>>>>    
+>>>>    	sched_job = drm_sched_entity_queue_peek(entity);
+>>>>    	if (!sched_job)
+>>>> @@ -502,26 +487,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>>>    
+>>>>    	spsc_queue_pop(&entity->job_queue);
+>>>>    
+>>>> -	/*
+>>>> -	 * Update the entity's location in the min heap according to
+>>>> -	 * the timestamp of the next job, if any.
+>>>> -	 */
+>>>> -	next_job = drm_sched_entity_queue_peek(entity);
+>>>> -	if (next_job) {
+>>>> -		struct drm_sched_rq *rq;
+>>>> -		ktime_t ts;
+>>>> -
+>>>> -		spin_lock(&entity->lock);
+>>>> -		rq = entity->rq;
+>>>> -		spin_lock(&rq->lock);
+>>>> -		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>>> -			ts = next_job->submit_ts;
+>>>> -		else
+>>>> -			ts = drm_sched_rq_get_rr_ts(rq, entity);
+>>>> -		drm_sched_rq_update_fifo_locked(entity, rq, ts);
+>>>> -		spin_unlock(&rq->lock);
+>>>> -		spin_unlock(&entity->lock);
+>>>> -	}
+>>>> +	drm_sched_rq_pop_entity(entity);
+>>>>    
+>>>>    	/* Jobs and entities might have different lifecycles. Since we're
+>>>>    	 * removing the job from the entities queue, set the jobs entity pointer
+>>>> @@ -611,30 +577,10 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+>>>>    	/* first job wakes up scheduler */
+>>>>    	if (first) {
+>>>>    		struct drm_gpu_scheduler *sched;
+>>>> -		struct drm_sched_rq *rq;
+>>>>    
+>>>> -		/* Add the entity to the run queue */
+>>>> -		spin_lock(&entity->lock);
+>>>> -		if (entity->stopped) {
+>>>> -			spin_unlock(&entity->lock);
+>>>> -
+>>>> -			DRM_ERROR("Trying to push to a killed entity\n");
+>>>> -			return;
+>>>> -		}
+>>>> -
+>>>> -		rq = entity->rq;
+>>>> -		sched = rq->sched;
+>>>> -
+>>>> -		spin_lock(&rq->lock);
+>>>> -		drm_sched_rq_add_entity(rq, entity);
+>>>> -		if (drm_sched_policy == DRM_SCHED_POLICY_RR)
+>>>> -			submit_ts = entity->rr_ts;
+>>>> -		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
+>>>> -
+>>>> -		spin_unlock(&rq->lock);
+>>>> -		spin_unlock(&entity->lock);
+>>>> -
+>>>> -		drm_sched_wakeup(sched);
+>>>> +		sched = drm_sched_rq_add_entity(entity, submit_ts);
+>>>> +		if (sched)
+>>>> +			drm_sched_wakeup(sched);
+>>>>    	}
+>>>>    }
+>>>>    EXPORT_SYMBOL(drm_sched_entity_push_job);
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
+>>>> index 7ea5a6736f98..8269c5392a82 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+>>>> @@ -12,13 +12,11 @@ extern int drm_sched_policy;
+>>>>    
+>>>>    void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+>>>>    
+>>>> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>>>> -			     struct drm_sched_entity *entity);
+>>>> +struct drm_gpu_scheduler *
+>>>> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts);
+>>>>    void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>>>>    				struct drm_sched_entity *entity);
+>>>> -
+>>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+>>>> -				     struct drm_sched_rq *rq, ktime_t ts);
+>>>> +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity);
+>>>>    
+>>>>    void drm_sched_entity_select_rq(struct drm_sched_entity *entity);
+>>>>    struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity);
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index 1db0a4aa1d46..c53931e63458 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -151,9 +151,9 @@ static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
+>>>>    	}
+>>>>    }
+>>>>    
+>>>> -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+>>>> -				     struct drm_sched_rq *rq,
+>>>> -				     ktime_t ts)
+>>>> +static void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+>>>> +					    struct drm_sched_rq *rq,
+>>>> +					    ktime_t ts)
+>>>>    {
+>>>>    	/*
+>>>>    	 * Both locks need to be grabbed, one to protect from entity->rq change
+>>>> @@ -191,22 +191,45 @@ static void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
+>>>>    /**
+>>>>     * drm_sched_rq_add_entity - add an entity
+>>>>     *
+>>>> - * @rq: scheduler run queue
+>>>>     * @entity: scheduler entity
+>>>> + * @ts: submission timestamp
+>>>>     *
+>>>>     * Adds a scheduler entity to the run queue.
+>>>> + *
+>>>> + * Returns a DRM scheduler pre-selected to handle this entity.
+>>>>     */
+>>>> -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+>>>> -			     struct drm_sched_entity *entity)
+>>>> +struct drm_gpu_scheduler *
+>>>> +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)
+>>>>    {
+>>>> -	lockdep_assert_held(&entity->lock);
+>>>> -	lockdep_assert_held(&rq->lock);
+>>>> +	struct drm_gpu_scheduler *sched;
+>>>> +	struct drm_sched_rq *rq;
+>>>>    
+>>>> -	if (!list_empty(&entity->list))
+>>>> -		return;
+>>>> +	/* Add the entity to the run queue */
+>>>> +	spin_lock(&entity->lock);
+>>>> +	if (entity->stopped) {
+>>>> +		spin_unlock(&entity->lock);
+>>>>    
+>>>> -	atomic_inc(rq->sched->score);
+>>>> -	list_add_tail(&entity->list, &rq->entities);
+>>>> +		DRM_ERROR("Trying to push to a killed entity\n");
+>>>> +		return NULL;
+>>>> +	}
+>>>> +
+>>>> +	rq = entity->rq;
+>>>> +	spin_lock(&rq->lock);
+>>>> +	sched = rq->sched;
+>>>> +
+>>>> +	if (list_empty(&entity->list)) {
+>>>> +		atomic_inc(sched->score);
+>>>> +		list_add_tail(&entity->list, &rq->entities);
+>>>> +	}
+>>>> +
+>>>> +	if (drm_sched_policy == DRM_SCHED_POLICY_RR)
+>>>> +		ts = entity->rr_ts;
+>>>> +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+>>>> +
+>>>> +	spin_unlock(&rq->lock);
+>>>> +	spin_unlock(&entity->lock);
+>>>> +
+>>>> +	return sched;
+>>>>    }
+>>>>    
+>>>>    /**
+>>>> @@ -235,6 +258,54 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+>>>>    	spin_unlock(&rq->lock);
+>>>>    }
+>>>>    
+>>>> +static ktime_t
+>>>> +drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_entity *entity)
+>>>> +{
+>>>> +	ktime_t ts;
+>>>> +
+>>>> +	lockdep_assert_held(&entity->lock);
+>>>> +	lockdep_assert_held(&rq->lock);
+>>>> +
+>>>> +	ts = ktime_add_ns(rq->rr_ts, 1);
+>>>> +	entity->rr_ts = ts;
+>>>> +	rq->rr_ts = ts;
+>>>> +
+>>>> +	return ts;
+>>>> +}
+>>>> +
+>>>> +/**
+>>>> + * drm_sched_rq_pop_entity - pops an entity
+>>>> + *
+>>>> + * @entity: scheduler entity
+>>>> + *
+>>>> + * To be called every time after a job is popped from the entity.
+>>>> + */
+>>>> +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
+>>>> +{
+>>>> +	struct drm_sched_job *next_job;
+>>>> +	struct drm_sched_rq *rq;
+>>>> +	ktime_t ts;
+>>>> +
+>>>> +	/*
+>>>> +	 * Update the entity's location in the min heap according to
+>>>> +	 * the timestamp of the next job, if any.
+>>>> +	 */
+>>>> +	next_job = drm_sched_entity_queue_peek(entity);
+>>>> +	if (!next_job)
+>>>> +		return;
+>>>> +
+>>>> +	spin_lock(&entity->lock);
+>>>> +	rq = entity->rq;
+>>>> +	spin_lock(&rq->lock);
+>>>> +	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
+>>>> +		ts = next_job->submit_ts;
+>>>> +	else
+>>>> +		ts = drm_sched_rq_get_rr_ts(rq, entity);
+>>>> +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+>>>> +	spin_unlock(&rq->lock);
+>>>> +	spin_unlock(&entity->lock);
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * drm_sched_rq_select_entity - Select an entity which provides a job to run
+>>>>     *
+>>>
+>>
+> 
 
