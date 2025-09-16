@@ -2,125 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90CEB59363
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 12:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927A5B593ED
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 12:40:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C1F10E7A3;
-	Tue, 16 Sep 2025 10:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8F710E0AC;
+	Tue, 16 Sep 2025 10:40:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oD6gwrt7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OcRYcPsy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B6010E799
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:22:48 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GA1PF9012281
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:22:45 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43FEC10E0AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:40:30 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G9uBll020047
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:40:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=dsUOBXT5fPZdjovhyA0wRCif
- VQsPU7vYwfY5SFsZzbo=; b=oD6gwrt7ciUJllEv81O9W7uKYMyG/zXIQnn6C1OG
- cY40DALBKYR5oWNLzLIHdoRJaoio5HW2upCbuR9IQaVQB6FBE07CA7AL7JWS0xIP
- 5FZM/24W6bQB4b6Qccb53Nmw0JxexMzmBSafkcOKvXaDOwJseDpFNb38qrvAtvtl
- 6B3VwIAyPmIlsTBQU9StRYXs2ZcZoOcYtRWBPQppRv2KFGTeYelqvMYlfkXxWYRk
- vHFjJ/n2f5+dikPZdYooBZyeoZHas2qU8HU8V32XCGtjy3TzzDejvsLEidZnpUoE
- 2wa9JQKkrNqLjLeZZX4orM6xbOo6pkkD4zRsoWBEZTP8WA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496g12m5gf-1
+ :references:subject:to; s=qcppdkim1; bh=64UGI9BPuBduKWijNzoL3Z43
+ ABN4/p4PZtHx1EJDkxQ=; b=OcRYcPsye6QNZckINK8F4n1XTAupxaUU9ghuaiKJ
+ yFDEQdPJhQ4fBqIZDGNlUdHuy24kgNQAd/21THDDbl62ALt+qH5CxOhxEcErmUjw
+ 6gC8AW1jZZViaQQP5v9TgWUL4Z+3D9ue9k2qdORlnOjeYy1WqHeiW5b1ITV6e5wv
+ IFR+m9UyOzy1oGWblFEDB+gmgxJ0MWkHH0xp3D1CeqmnjRcEwh/zrjZHq8krXtQD
+ 99ItFKCaeSx7qEgZfcBCZS2MuePAPb4rJKptcEm5Rm6GvaY0Wg3Yguo54l++9G2K
+ 0B9nM3juueEpdymcRy2YCXmHFr4OAOcNwduQsZ+9jnJDXg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496h1sm279-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:22:45 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7fc5584a2e5so1702533785a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 03:22:45 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:40:29 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8078f1bc588so1193269485a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 03:40:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758018164; x=1758622964;
+ d=1e100.net; s=20230601; t=1758019228; x=1758624028;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dsUOBXT5fPZdjovhyA0wRCifVQsPU7vYwfY5SFsZzbo=;
- b=JHdQJ6Ctrog5EqZiCKn/ClqnDXfvkiSM0/bt8NAYkHLoT+rluJdNV1OCQaeLBlS/qZ
- 0rSvQAOkJGvMjPe6A4BDhPANdrpmLcsJCgKKgD6TFJkAY5I5K83KgasG9RL0x1s5Lou6
- AQ0ta5eWvh6hFHU5iZJOeLw8GAfzzwLv8RzhRuz9ywMTaWY1MqvxSM8NVnJk+RpNjLDb
- UWhkoyz6nwGz0YezAk3C95NHlE3CxR8kO2UKJXVgfMMginaVE2wyqxBtG10Who1Rv+6P
- w36hsA+OtuIrEh6LLUkU3d9yo/ACGwIQJ3bN4HDCeS0vQmC3LBOkQ+/MPH8LLnmu3MYE
- Av8g==
+ bh=64UGI9BPuBduKWijNzoL3Z43ABN4/p4PZtHx1EJDkxQ=;
+ b=G9jbB7vzaAXDnKBsFSOPOmpCcfgOZ3dKogakDfUK7iJ5vnrBmlSNelsQjlgj3J8Umz
+ d3K7rIR8X4bcietT8hALcZljhyBj6kC/lDjbW+1hWyfsF1n3KNOoDKtjnXZRe6Y4IL9Y
+ 2xQhDHwkl6DgnXZKYDU0Dq8hBIzOKv77vQJel4NwrRM/I+OhpOH3iQu8AnHvYmdJ0C+9
+ +X7QOUd5Vl46YWimhsz+82d/ikF5u8jQBFKlGIjwbNQvm/nsW3rFAGBdiT2081838axi
+ XqXMpAk2tksJQ2U2ZwPrr4XAsvIvwJMeUIbwNYO+x5zcYqMPkMOuqZ8UG0y8lt0AneJH
+ eIKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8q0QV+QvTaWfOrBCew9khCcTTOPSyg7OP2WhuBgZvsYzSnBCR1Cq0wEYWCWC//pklHQLzgqeg+80=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZ2NVjnE3D5pUYghse9zUMNWGwdMHaL1m4Msolq1sVIPBLdCL8
- /HQhDPWuaubasVnBHjT2ZGu8cluYPsoRH8W/z7pO3avoFkpGZYVirFrW9ZO0CtN8t4u5F9mhRq7
- 1hpyFbYkZDjQUMr7nZZWviNfZmUntYB4aP9DNN882CJ1QJ7R5ru8Mr7l4QUNMvjGMxsc5W54=
-X-Gm-Gg: ASbGncs4SerJB21muXxQ0En12qIeOOuwy9mn13xCD5VWQo9VQ7DaMKasNBgoun6N3C8
- ST+MmfO1jICsgGiMYKH+ETdT0tktR+M8lPxo/CSykLXdP6sAN1IO/Sv/Wb5dLXX3ncqOuCLpZUe
- 1XhzRac1EWcVOQ+CcghUthHUczwWQxuASh7mIWv/SFlhVMx0zfJvakqcCd/Olek9wmnNpAvb/R/
- Ot8Wj3jFmOWUwCFzvAvNS837xukCg4pFo0vIhH4ZbzM6qUhH1g1W6Hr4MhtHnwtnmyMNI8c0F9P
- KmBaDcYY5XXJTaoNTRxiid7ljE0rdsFbJHyFmxE05AuoJDUP9e9syII8uKTsWU70/L2sCMuzZ/s
- L3+Pc2wz8eR6aXJBv3H4xPh0BtBT5/yK9M5PPpFqNRKorf7NVdUev
-X-Received: by 2002:ac8:7d0f:0:b0:4ab:7f61:4339 with SMTP id
- d75a77b69052e-4b77d043018mr173775281cf.31.1758018163939; 
- Tue, 16 Sep 2025 03:22:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGmt1N76y524zCMYAdzsEX4rsQJe+HhKzBcwZrhZwRUGHsN/sSmGe8IqeLhMm02zuV2vMtz1w==
-X-Received: by 2002:ac8:7d0f:0:b0:4ab:7f61:4339 with SMTP id
- d75a77b69052e-4b77d043018mr173774961cf.31.1758018163402; 
- Tue, 16 Sep 2025 03:22:43 -0700 (PDT)
+ AJvYcCWTgs5M7ZocYalmx8HBg2A7rl0PtYU//YcW3b30iuYzQRqox5CKqOqLF3HPR27YTivbGfg1YmYdkPQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/Y4gY9jTSBCatjLqROJLWbaiRZXU0frZAWUdeACeL0OPPhfzO
+ ZTHGRcWLnxZVIPFq11GkH5t0gyTogQ3SyCkejRzTqs/v1zjSSqQCjdUDH0WBb8amnDNGRaP+8xO
+ fiVJpHRYuoij+oX0AuOZx8qGPTR9FZtvCWWF4LyzdFR0auRfAqrgvDwdCiz909hu1N0Wsd4s=
+X-Gm-Gg: ASbGncuQDEOFdCP5Pek5SVQHo8877INfutwu+yT1WeyeusyehKvyQtN1GC2CMSGRGFH
+ djnviF1qUd2KKAwTXUslPtO0iIBmov3Whb6WtAr+vsXwHnC2PWaLQyAeFiFhJj0zv6AHp6SEb4o
+ Bp/zB7u08/3W5OXp0lMSiCnJ+buwvP1SsIENFFm/OT1RORTCj4FQtZ6sfGAAhDBAtnNzox+fBcw
+ E57Uz0JQfyoBNL36aZNNTYEHrqONUHKNMecQtoZQiJzYVN30vE/LSIYKb4UXZ1aNUS1PZTjn0+s
+ 3JXhwmm2B+vYH6R+JaoAHLTfzswCQQFZxGw8cKHeXeeHNfyRveMd2GkU5Ncdo8C5tRLlTsYaykd
+ hdlSkbjvu+wqWVd4AF2oHmVYH/fW2gsD3qJ7ghcgdgy0jDKNEW2Ev
+X-Received: by 2002:ac8:5d92:0:b0:4b7:a68d:6797 with SMTP id
+ d75a77b69052e-4b7a68d6ab9mr85368401cf.11.1758019228321; 
+ Tue, 16 Sep 2025 03:40:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHbkRuukR9ry8LUt3YkRANVRRqlhV3NS52CfGmXVJby66hPtP8JStsr+hyX+plpsZF6lw064g==
+X-Received: by 2002:ac8:5d92:0:b0:4b7:a68d:6797 with SMTP id
+ d75a77b69052e-4b7a68d6ab9mr85368081cf.11.1758019227845; 
+ Tue, 16 Sep 2025 03:40:27 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e65a31cf5sm4237309e87.137.2025.09.16.03.22.42
+ 2adb3069b0e04-56e6460f138sm4245745e87.111.2025.09.16.03.40.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 03:22:42 -0700 (PDT)
-Date: Tue, 16 Sep 2025 13:22:40 +0300
+ Tue, 16 Sep 2025 03:40:27 -0700 (PDT)
+Date: Tue, 16 Sep 2025 13:40:25 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+To: Hermes.wu@ite.com.tw
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com
-Subject: Re: [PATCH v2] dt-bindings: display/msm: dp-controller: Add SM6150
-Message-ID: <5sg43rsun33i6bm3vz7io7yx2p4m7bmk5bnrnjg6u3zrulyofs@gyxtnfs4gvhz>
-References: <20250916-add-dp-controller-support-for-sm6150-v2-1-e466da9bb77d@oss.qualcomm.com>
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 1/5] drm/bridge: it6505: fix link training
+ state HW register reset
+Message-ID: <4r5c5tbedw2hnkyqybcaxrjcc7lrdgxdbuhkzdvevdv6kmrxlw@5hb2aw6h4row>
+References: <20250916-fix-link-training-v3-0-0f55bfdb272a@ite.com.tw>
+ <20250916-fix-link-training-v3-1-0f55bfdb272a@ite.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250916-add-dp-controller-support-for-sm6150-v2-1-e466da9bb77d@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: hiyq9lRqawd2gzTblTOAk9bJs7xV9SbU
-X-Proofpoint-GUID: hiyq9lRqawd2gzTblTOAk9bJs7xV9SbU
-X-Authority-Analysis: v=2.4 cv=E5PNpbdl c=1 sm=1 tr=0 ts=68c93a75 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=hSxh5nLx1FgLBnIhuNEA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA4NiBTYWx0ZWRfXzERh4f6tWjBH
- /Q3mNhSIq3v6fF+3jV1ynUFDvqDcrz2a0v+z/1z2ISfEGEdGcvUemsEYca6ZO86wulnQGFqQA7u
- iXgKXk7SKzaeT3D7M0zu3nH5BQDBu7OkPvTj/WLn02U8ASt1m6iJztgn5mqEAUXtuJMxnRR75sD
- XZiecVaHgGg9hgtlraG14ADCSa2u0Xg8WTihx80ANXXFfRU+gGgslwt7yeN9eNZuePmO4zT0Xt0
- 11zewYu+4mtcHFsWnVPQynBNZhzs62j6vYxbRIDjtGvAPk3Sux66anOM9eWc4Oomb3qpStB6IIx
- Hy97j5GueTodDgLXqIgmLxrSy2aQ8SLc/wn4dmLyVg1aO3ASu3o3OBQ+tQ590lhEOZnzwDgIMQc
- bnXXKdwT
+In-Reply-To: <20250916-fix-link-training-v3-1-0f55bfdb272a@ite.com.tw>
+X-Proofpoint-ORIG-GUID: ClC2niv0fXNzbIk5IEMAg7gakCKehpe1
+X-Authority-Analysis: v=2.4 cv=A/1sP7WG c=1 sm=1 tr=0 ts=68c93e9d cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=Ns9eNvu6AAAA:8 a=EUspDBNiAAAA:8 a=pqF_GCezRlaNH4nzlkgA:9
+ a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=LZLx1i01EnjtqRv10NxV:22
+X-Proofpoint-GUID: ClC2niv0fXNzbIk5IEMAg7gakCKehpe1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA5OCBTYWx0ZWRfX49lh7NP6qjTI
+ tk1uv4WZOcriG7x/bHBvVgYMV8r9mAKUjsDjSCzVLLNgDP9uBNL26LZ5TeGEouk8N589ktyl6B+
+ 1KgpNXizY3zMQTK9qx94x4+4xWKpHJr+3mpGZgmN8xy8HROXf1P5hwy8LNMjVOsKgOdRwsCqbAx
+ WTrkrdGgqnzQqOab6UsdAVH3gLFh41C2hQB0rWBuGXi8HGiz338YAWDIZzhZ7e2ervwWZHK58zJ
+ 7y0C6W0cnL991XgQFO2kQ7KhZBWvMOx7+In+Zvmd3JwGVz9xgRgLt6gWhA4E+HJOsofM/RT5Pww
+ rtu0biz+Rt9o3REfN1db1TN5p66y12n96SXRE8Ll+gfvvsX1EnavcNgH2IE4K8dFTqY73sMMKZ3
+ 6iecty1G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ priorityscore=1501 phishscore=0 spamscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 adultscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150086
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,57 +131,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 16, 2025 at 03:31:35PM +0800, Xiangxu Yin wrote:
-> Add DisplayPort controller binding for Qualcomm SM6150 SoC.
-> 'qcom,sm6150-dp' uses the same controller IP as 'qcom,sm8150-dp'.
-> Declare 'qcom,sm6150-dp' as a fallback compatible to 'qcom-sm8350-dp'
-> for consistency with existing bindings and to ensure correct matching and
-> future clarity.
+On Tue, Sep 16, 2025 at 12:47:41PM +0800, Hermes Wu via B4 Relay wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
 > 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
-> This series splits the SM6150 dp-controller definition from the
-> '[v3] Add DisplayPort support for QCS615 platform' series and rebases
-> 'dt-bindings: msm/dp: Add support for 4 pixel streams'.
+> When connect to a DP-to-HDMI device which does not connect
+> to HDMI sink, it will report DPCD 00200h with SINK_COUNT = "0",
+> and issue HPD_IRQ when SINK_COUNT change to "1".
 > 
-> The devicetree modification for DisplayPort on SM6150 will be provided
-> in a future patch.
-> ---
-> Changes in v2:
-> - Update commit message and binding with fallback configuration. [Dmitry]
-> - Drop driver patch since SM6150 is declared as a fallback to 'qcom-sm8350-dp'.
-> - Link to v1: https://lore.kernel.org/r/20250912-add-dp-controller-support-for-sm6150-v1-0-02b34b7b719d@oss.qualcomm.com
-> ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> IT6505 can not recive HPD_IRQ before training done and driver will
+> force HW enter training done state when connect to such devices.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> index aeb4e4f36044a0ff1e78ad47b867e232b21df509..82481519005a1b038a351aa358b9266239d0e8a9 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-> @@ -46,6 +46,7 @@ properties:
->        - items:
->            - enum:
->                - qcom,sar2130p-dp
-> +              - qcom,sm6150-dp
+> When HW is force to training done state and restart link training,
+> bits FORCE_RETRAIN and MANUAL_TRAIN at REG_TRAIN_CTRL1 must be set
+> at the same time to reset HW state.
+> 
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
 
+Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
 
-In the review to the previos iteration I think I was a bit explicit:
-"qcom,sm6150-dp", "qcom,sm8150-dp", "qcom-sm8350-dp". You seemed to
-agree to it. Now you didn't implemet that. Why?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
->                - qcom,sm7150-dp
->                - qcom,sm8150-dp
->                - qcom,sm8250-dp
-> 
-> ---
-> base-commit: c3067c2c38316c3ef013636c93daa285ee6aaa2e
-> change-id: 20250916-add-dp-controller-support-for-sm6150-525ac2ed8c86
-> 
-> Best regards,
-> -- 
-> Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> 
 
 -- 
 With best wishes
