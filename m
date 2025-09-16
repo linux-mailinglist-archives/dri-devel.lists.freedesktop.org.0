@@ -2,134 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72579B59B2C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EB5B59B90
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A215F10E809;
-	Tue, 16 Sep 2025 15:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B288410E0FE;
+	Tue, 16 Sep 2025 15:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="MaOtSYmV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d3oPnFiD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azolkn19010025.outbound.protection.outlook.com [52.103.23.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A3E10E80F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:01:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TI3m3384h+0AdR8WqF1qsYWTaWOi6ZQ99ZIWw5DX5ohV8xuTEaIfYAKU6FFdUKZUZn3pknTKwt56N3eGLhrK+8ROzMKGDSAQnmh+X3tAbLZ/ON+/ASvPjSltwBWRV37mkpOJu0rdqGH7/RDUxAXspJ3MlYBjran9oOdidzqLkpypQQpLoNBrSd8QegyYkLQG/rNIdpwO8WDq9NTIu54T0XiWf/PBq7+Y25c0Rc7ElnjIwrk4BaCxwPHFYz20916EInu/bA9Ne5L4jVoqwchc2lJLdcr7Y3awJReXbtE8eZvBj3lkPFwPpTpKpYuI9kKyxd6TI29iQM6oxQzqJjv8uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K9BL40cnI0Pl4dSADrfbka7gfbtS+uYwBzlulEgDnpY=;
- b=LEBAPI1obE9RVOmcALvqCc2h0KJwlbD+gOgH7QRU283zNE2HgHTEBjjigZ03f76yifEFfi0WnEdIZtUmOXw2qHn59ypcsk++NB4pP8gQB8NE1IbuMQYN+iNf9EO7kw/JRbPEQ4jCPNu5kosQcJdUMztiFoJzN90mWoW5T4zeK0ULngyqXsjBeW/g9+giY+v4m/F93P53hhc+drjg+O4NMHr/c+3jb1IHKbyaLhzYhavOv+UIPsX5ccrVGL7V3u8LjN+lM9NFFbcb2thbtoIUvwxjyfkAqLTZOt/IXMTg2UhnP4IZyO7pOm5e6zpGX/KuT9GGO0Ru2dD2eAxmmhGVFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K9BL40cnI0Pl4dSADrfbka7gfbtS+uYwBzlulEgDnpY=;
- b=MaOtSYmVm/63hugewuZg6aATNO6eeyE1N4Xx2l/rGrDJA7RVMqlwyTiI4S9opRCS4jTg+Ydww/hyxT9mmjcWOD0JPxH2vgXv6EHyHp4h54sLsQtrdVQGglCjv35LIsHgY6XoYH21dfauxOjVkFv4l2ICL0MDcf0VI7oTQPa7NSqE5oml+PZ2m5hAu2EPoMMmncZlzSYiJNZrp2eio7oAaKAYfIOK2lqz/Ns657rGk1glQvV/HOrGUkT+7g2i6UVzj0lLvh6PPbFYBKba8vn5xXUJ1w0Zuuh6I4FtedKgsJlx3WEO52qwpEMdtvpOWTdTRF00bNQnsJujNYtxaf4lNA==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by SA6PR02MB10598.namprd02.prod.outlook.com (2603:10b6:806:406::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.23; Tue, 16 Sep
- 2025 15:00:59 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::cedd:1e64:8f61:b9df%3]) with mapi id 15.20.9115.020; Tue, 16 Sep 2025
- 15:00:59 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "louis.chauvet@bootlin.com"
- <louis.chauvet@bootlin.com>, "drawat.floss@gmail.com"
- <drawat.floss@gmail.com>, "hamohammed.sa@gmail.com"
- <hamohammed.sa@gmail.com>, "melissa.srw@gmail.com" <melissa.srw@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>, 
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "lyude@redhat.com" <lyude@redhat.com>, "javierm@redhat.com"
- <javierm@redhat.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v3 0/4] drm: Add vblank timers for devices without
- interrupts
-Thread-Topic: [PATCH v3 0/4] drm: Add vblank timers for devices without
- interrupts
-Thread-Index: AQHcHay/1LhJS9Qt20a/N81nkOUA8bSED7IAgAYnyGCAC1WNAIAAa1tQ
-Date: Tue, 16 Sep 2025 15:00:58 +0000
-Message-ID: <SN6PR02MB41575149CA466B89283B920DD414A@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20250904145806.430568-1-tzimmermann@suse.de>
- <SN6PR02MB4157E793515BE2B63615AD92D403A@SN6PR02MB4157.namprd02.prod.outlook.com>
- <BN7PR02MB4148E80C13605F6EAD2B0A03D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
- <c6ef1912-84b8-4f01-85cc-2fb18f1ad1ed@suse.de>
-In-Reply-To: <c6ef1912-84b8-4f01-85cc-2fb18f1ad1ed@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|SA6PR02MB10598:EE_
-x-ms-office365-filtering-correlation-id: fc4ee5ed-06c4-4160-64cf-08ddf531d86e
-x-microsoft-antispam: BCL:0;
- ARA:14566002|8060799015|15080799012|8062599012|461199028|31061999003|19110799012|13091999003|56899033|40105399003|39105399003|440099028|3412199025|102099032|12091999003;
-x-microsoft-antispam-message-info: =?us-ascii?Q?R8MNS9G36VT3enVaPzA2I3x3f3596Ef3YLrMiVgpUO3aIliEycRRcTWkAyPc?=
- =?us-ascii?Q?tlDHDsNZIFEszmsIOqWVSHeYECCk9HiaY+7TWLH3FjlaO0hXTtVHunUqQoc4?=
- =?us-ascii?Q?vfbzHraZ8so9DA5BkcAEP5xsGq7ObHgY9ihB3IGsb0BPry1lSw5/h4YECVDp?=
- =?us-ascii?Q?6i/LJy1TBzY9WidIlEMp+qyn8nJytf4Sh1TXNinOYMrW/jP/fnGLt2/6ty0w?=
- =?us-ascii?Q?h3+dvyi5MtB74FqMyhvW9fsSXv7EvjkAdO6xRDY10tz3wFZDHBhOlCdtDWI4?=
- =?us-ascii?Q?wJGl4oomi0weI40bqL6zWl0VCoiH83hs2rTZd/uWkrUSv4R0mAS6Zrn39pVo?=
- =?us-ascii?Q?vxuTqi9DdGtuu7WUdChT/23Ceel8SyM9vl0VRPDQSDFz7J5iAdk6fc566J33?=
- =?us-ascii?Q?Si1mgKh/2Vw/kq0uIwWlTvcz69pZIUqjIFZCNy+YuMo7YRmUOAJCoXXue2OY?=
- =?us-ascii?Q?SQWaysuhHAKvHDvP1NJLth2HmIjPyZewOpCSzRAmDzA4aGrd+4ahEgwEzSN4?=
- =?us-ascii?Q?qB5mCtwl90vL6DMoLQQF+FN2AocL0hkA5OVbDQ8yfuRFi7kGFgMr96YdG3vo?=
- =?us-ascii?Q?T6a5S+aBo6JSYEg65/o0oG4MHysLkIiFEUDn9/EkTrqNm2jWVfmHdnQOiVvr?=
- =?us-ascii?Q?vT3O5NeItFj0gky3y1h1ISJyLkOGwBnHk8aeS8Gp/6Kv/Yf4XQ7gNM8iQZUo?=
- =?us-ascii?Q?F59acmg7PWf32ZEFFfH1b0dL87Zo6l8cVmhqWPy2em3T9de/qH/DRVN4x2nn?=
- =?us-ascii?Q?SqXfYOzwNtMfpDHPpOL08+A+xFN3zpTzCCxpAHPTIfD77NCKIc6BEsTdlo9C?=
- =?us-ascii?Q?khuioHXSTZSv+XH0WmQB0FtSyRAGIcCXILjtPqgukiENsuLq9ZxpHGtMaYVb?=
- =?us-ascii?Q?04QFrLnFGdtpt8juHytk7RFA9l/XirDjSsrayhFRD0xp7zEEoZHE8q4evdyv?=
- =?us-ascii?Q?nfhUU7SdviOnQYMaNiMDfEIU7IOy102I095PlRKpD79GsbN6MlG6WplTQ3u9?=
- =?us-ascii?Q?a0jA9KFIbbGg0Q0B77L0KWKRdUkbZwKNvx7yVps/gydsNh8gJPzRN7rgo9rk?=
- =?us-ascii?Q?91RuaewKn6P0XCYvOejGi/HrUqe4GV2v/WZkIYbg7h29tkq+xm4gYbWjSrOv?=
- =?us-ascii?Q?kyHttD+q/m/TzUckgwPgVGWQQnFDawKuOvrmUuxKZF/wCZ/3h8LTBbn71m2T?=
- =?us-ascii?Q?WKfJd/sYU/tVimJBHiWUJYjAkpSAREp1qmfiavcWlMD7xf+9NYi+N8C7qAk?=
- =?us-ascii?Q?=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sxNG8/Lhx//yNk/eqJqs79jsErugTgulWawYb+osmsLE17ga8Jp4r9Pm4nI1?=
- =?us-ascii?Q?QAlkoncF1ywdvAEeX9vsSHlzp53PTfT//1DtNtiaXV2U/nzqjTIIbfhz0lrv?=
- =?us-ascii?Q?GixwRAqr+Y5bCspTLv8lk70t7ErQVVz9vH7cCORVwwiWz2aDAqhJaZqz6ZIj?=
- =?us-ascii?Q?Au+JxBpcwl0GRnhuvyAB7LKVve30cUDDelZDeLY7BNq+S+T248Ul1hDuBVeA?=
- =?us-ascii?Q?1GhJ6WpOHN0LDLH12NwamN+pOMBWPh7CtdOdSeuNtushq60COle6cSpACXYr?=
- =?us-ascii?Q?0/WgVheVBbJCNDh0og9rxbbQ+P0W7FJw6rAib2TfjQ56wuH85jiK+oqqFOos?=
- =?us-ascii?Q?Xa3/y20glKeLMG/m3Gj58q517b92TyTVgjHG83+fyCwDklV8jUkSlFRVmKjP?=
- =?us-ascii?Q?aHDMioifz/XnvQNIg5kOTI9EKtIHrB8Bu7LnTbMvis2nSJCaNl2g9gptof4i?=
- =?us-ascii?Q?7VvMhBFfHatpuTevU5VNQl9cZlSkjAf2mgR02TOmERJv0K2Kr50IbY3kCQ20?=
- =?us-ascii?Q?iycz1ugFAlwZLHDgpWytb+kj928wncWi6rtC268sgv766J2D1fVqjcIKiSkn?=
- =?us-ascii?Q?6JAWP6jRhtaNhqMgJh3Ii4FnRV7d4fumhhTOVViAB5E5o/c122sRZI4dNeIC?=
- =?us-ascii?Q?pvD4bi+vUUvirF1zE3dXa7N1Yh5z7aGnL2yNdFgNoVr2fU0s+KEAmZJMRpdh?=
- =?us-ascii?Q?djgrZc9csVBez3j2e31L9KUfe+qZpl77Tg6aNZXaTu5EjG2u94RV1sl1cELp?=
- =?us-ascii?Q?Bfw+hQLQYodKdp5FB+uprHFgLxgqmDZYGL6x1yc8e0wFSp6+eqTYMQZD6GeM?=
- =?us-ascii?Q?aU9uGB7uRUa2+TIRqCvrAEsLoDyKAf5EMZFiyzQ6O4kXPdfDsn7SjxlzECkC?=
- =?us-ascii?Q?Oic4ez1cH1bTivQlc0wb60imXRnMgxOQh13RhulRS3vC4odi34iZ82kIZ0Sh?=
- =?us-ascii?Q?SmzqxtDhvwYhthros4nmYdaCfZj9Scl7Cqmg8CZcMDeT+lj/FuVe9EI3eD58?=
- =?us-ascii?Q?WCLO2s5nCmxk7zG4U6Iktp2486yHovRRkN5iYhsED2DIBW46QIHy3fHr//Ti?=
- =?us-ascii?Q?FOdUFeOO/WrjP4z3GgYWTvHiolaN67ue8z1YXieFh8hajTnJgIuIeh8aMpDI?=
- =?us-ascii?Q?BvPOTp3POrkCZ9goy+NKYKd3s9Hktc5Yu8SFMD5g/u0UHKYv4PD7XxP94EKS?=
- =?us-ascii?Q?THd1vBF+PNOpbzajox4TPMWVg0x7mEIpv9uWSgBoiRXfDk/o9mWgWpPc5g4?=
- =?us-ascii?Q?=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDB2210E0FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:10:50 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GAFex1013413
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:10:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=g1Z+oPGXQpLxnAZpBbOZ/u5c
+ mt3wM5YUAcTV6PLokuA=; b=d3oPnFiDYbzgsQw8vdiCpR76ns9JcYMBKPVaX3jd
+ gApfGla58qI5RqlUdRsrwP7l4h38RQrOVWEJBaA7Bjpw152xxSpJgj6FM4j/pAdW
+ E0rO56RTTKFDdrN4AJMSCnu3d6XIFwbmp0drBaztN2DdcT02u7WDNv0uGcySfcBV
+ C45I9SLbYWWwgJornlsCEjUPpLm4PuJCUHjWE4cn3sIfqehMouKdlJz+68Q5G+M4
+ UeZ1GIOQYwZjTl8ojT7PumN5QELIeu0C55hbDAbR5tKe+AHUkkCIJrYjy0kdXXDe
+ Q2OlISo6BuWzYQ9jrBBNohaTST6pNEEygFxBgv/5BASWjA==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 496x5atehg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:10:49 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id
+ 71dfb90a1353d-54a1ea646e9so1532555e0c.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 08:10:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758035449; x=1758640249;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g1Z+oPGXQpLxnAZpBbOZ/u5cmt3wM5YUAcTV6PLokuA=;
+ b=g3RwDAoKN7djJZm5tlZJh1CCB0/D+w+5KBOBmdRh1c1Q4b0KwWQRPVIen7S4wTR+It
+ 5iT5apRdSoE0+kn5qImLVu68NJKXQTnOpCmsxgANhE+DOK16syjxJKwpl9rBBuCG8Fn7
+ NYZm3HZLilNdUEH05OEiY+8HLFlZn++acTDgDL0zF4n4Am0kpS0sE7ge0uB0r6Lk60PP
+ skGusiGPSNOiCjptJhfZoHvlvHWYuSc5sr+uND9zjm+7By1OJYP+vMe02AnpH2HAuamb
+ uPD+SsAV3uXbKIFccEfLJhWloqqrc/Rc8gscUZihSdiYeNqxApv+87hSjr4JfUMeT45q
+ QA4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXIoGqIm+wqaL+pKpkiR7JKmSvK7XhtOxcWD7BQ0bFRYBYOba1+Yr71uV8b3WzocyDAcrxYL34FUEk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytafVoFXHb/q3Chet9XNR7vA3oLmOrej/MaD6/7++wRGLp08c9
+ +asZGRD6Vs2Mf8DN5G7TsQVSMaK6kIgCveFMiPjwKLv6lz2pN0GvidFxBtFA1GzlPI/B731lYBs
+ OVvNOYZtpmotPb5fwYx40wn0T9Krwr9FbgFrK/tKUj6n8Xs4CRV3sd8R0eQM9gZ3gmwjKCuA=
+X-Gm-Gg: ASbGncsUR9iey2xTnIpv/d+W2TlZXPsDPKGWU9UJwlvj/Q54AknsBOd62lFFJAgHPPe
+ zuprdX9dIw0+0e32aVcD4L6PMv6tRq3S9tUfEFLnLqc1JQfDvqTsXodQz3/3ydfpSZOSkwsFSp7
+ Q2f64GeSmdAtKfZCXYxAS/VSTc+uyfJCeux8xQZ81zw4WEKj2C85Vh6U121U6nk2l+fP2M+5eiX
+ o22/Spn//hhbeiiTY0II7RowIE7gVDQ4ttYlzlIQ/tIxb8FxVNL+p69tGV2V8Y0q46dwMhQETM9
+ /8FgMULbDAvmZjPkkUKPU/IrmC/nqAIZ2xxS+y1oI00uqAbtVhnu5ffIeAMm/D4LYsK6scCdncN
+ 0yHM1ytKjkFDqEjOumy5nX9wso3ivYZDuVsEimITNzNApIXKhRPoF
+X-Received: by 2002:a05:6122:8c1e:b0:545:f023:ac1d with SMTP id
+ 71dfb90a1353d-54a1699578cmr4957842e0c.0.1758035449037; 
+ Tue, 16 Sep 2025 08:10:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGOjBcIPt0evZtEawDOU4ceL65KWW429XS23INAGRqTzAWor5/oJYp5i4nvKOrZ/npWDeBcWA==
+X-Received: by 2002:a05:6122:8c1e:b0:545:f023:ac1d with SMTP id
+ 71dfb90a1353d-54a1699578cmr4957779e0c.0.1758035448483; 
+ Tue, 16 Sep 2025 08:10:48 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-35e8957bc07sm411231fa.18.2025.09.16.08.10.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Sep 2025 08:10:47 -0700 (PDT)
+Date: Tue, 16 Sep 2025 18:10:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com
+Subject: Re: [PATCH v3] dt-bindings: display/msm: dp-controller: Add SM6150
+Message-ID: <av6zvj7civjycnj7vsdfufdlnpcq4mlpz5cwpamtapzkdqoe6h@rqfea46xs2r6>
+References: <20250916-add-dp-controller-support-for-sm6150-v3-1-dd60ebbd101e@oss.qualcomm.com>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc4ee5ed-06c4-4160-64cf-08ddf531d86e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2025 15:00:58.9293 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR02MB10598
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916-add-dp-controller-support-for-sm6150-v3-1-dd60ebbd101e@oss.qualcomm.com>
+X-Proofpoint-GUID: bjDXcomqQ6xciRmIllFdbSlV-WbCj24I
+X-Proofpoint-ORIG-GUID: bjDXcomqQ6xciRmIllFdbSlV-WbCj24I
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDAxMCBTYWx0ZWRfX2tpHr0rOH+IK
+ PR+pS6ULyg6Zb8vovrBm/Wr7oXlTxKjY4zfiI+ZJLduD4xhT5UpSFyCNyBZItSq5OznejBnAKEU
+ A1K4Io7tbJUdNFupPkwhhMSjQFRfPVjUUzpYVXfE29p2xX2kzLlZEWDhNmI7J2i4Fj0jjBjy1ll
+ OrCZFOt9Uj4m7OTA6dCG64/Q1xjRWWQayegfUWmlDYB4ybc1M5d+Nlzfs86rwX8kMYqxKXIrAgF
+ bDtRbvrjudy2NMO9oqhU0wablauSBWbtNn/hWvba9Q7m8JJCoyZHm57rSOs61Y7UHBtVnhM0GVK
+ N7/TuBKKJykHIy15P52QhrOl5Lx6CrU06v6DjwX2ORMfnM9Ekqzl+0/d5yR+dUTt9AKhweUBigP
+ sIHsjAiF
+X-Authority-Analysis: v=2.4 cv=WpQrMcfv c=1 sm=1 tr=0 ts=68c97df9 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=kjV3pKRppw1HhCH-an0A:9
+ a=CjuIK1q_8ugA:10 a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160010
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,52 +136,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Tuesday, September 16, =
-2025 1:31 AM
->=20
-> Hi
->=20
-> Am 09.09.25 um 05:29 schrieb Michael Kelley:
-> > From: Michael Kelley Sent: Thursday, September 4, 2025 10:36 PM
-> >> From: Thomas Zimmermann <tzimmermann@suse.de> Sent: Thursday, Septembe=
-r 4, 2025 7:56 AM
-> >>> Compositors often depend on vblanks to limit their display-update
-> >>> rate. Without, they see vblank events ASAP, which breaks the rate-
-> >>> limit feature. This creates high CPU overhead. It is especially a
-> >>> problem with virtual devices with fast framebuffer access.
-> >>>
-> >>> The series moves vkms' vblank timer to DRM and converts the hyperv
-> >>> DRM driver. An earlier version of this series contains examples of
-> >>> other updated drivers. In principle, any DRM driver without vblank
-> >>> hardware can use the timer.
-> >> I've tested this patch set in a Hyper-V guest against the linux-next20=
-250829
-> >> kernel. All looks good. Results and perf are the same as reported here=
- [4].
-> >> So far I haven't seen the "vblank timer overrun" error, which is consi=
-stent
-> >> with the changes you made since my earlier testing. I'll keep running =
-this
-> >> test kernel for a while to see if anything anomalous occurs.
-> > As I continued to run with this patch set, I got a single occurrence of=
- this
-> > WARN_ON. I can't associate it with any particular action as I didn't no=
-tice
-> > it until well after it occurred.
->=20
-> I've investigated. The stack trace comes from the kernel console's
-> display update. It runs concurrently to the vblank timeout. What likely
-> happens here is that the update code reads two values and in between,
-> the vblank timeout updates them. So the update then compares an old and
-> a new value; leading to an incorrect result with triggers the warning.
->=20
-> I'll include a fix in the series' next iteration. But I also think that
-> it's not critical. DRM's vblank helpers can usually deal with such proble=
-ms.
+On Tue, Sep 16, 2025 at 08:11:03PM +0800, Xiangxu Yin wrote:
+> Add DisplayPort controller binding for Qualcomm SM6150 SoC.
+> SM6150 uses the same controller IP as SM8150.
+> Declare 'qcom,sm6150-dp' as a fallback compatible to
+> 'qcom,sm8150-dp' and 'qcom,sm8350-dp' for consistency with existing
+> bindings and to ensure correct matching and future clarity.
+> 
+> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> ---
+> This series splits the SM6150 dp-controller definition from the
+> '[v3] Add DisplayPort support for QCS615 platform' series and rebases
+> 'dt-bindings: msm/dp: Add support for 4 pixel streams'.
+> 
+> The devicetree modification for DisplayPort on SM6150 will be provided
+> in a future patch.
+> ---
+> Changes in v3:
+> - Update binding fallback chain to "qcom,sm6150-dp", "qcom,sm8150-dp", "qcom,sm8350-dp". [Dmitry]
+> - Link to v2: https://lore.kernel.org/r/20250916-add-dp-controller-support-for-sm6150-v2-1-e466da9bb77d@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Update commit message and binding with fallback configuration. [Dmitry]
+> - Drop driver patch since SM6150 is declared as a fallback to 'qcom-sm8350-dp'.
+> - Link to v1: https://lore.kernel.org/r/20250912-add-dp-controller-support-for-sm6150-v1-0-02b34b7b719d@oss.qualcomm.com
+> ---
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Thanks! I'm giving your v4 series a try now. Good that the underlying
-problem is not critical. But I was seeing the WARN_ON() output in
-dmesg every few days (a total of 4 times now), and that's not really
-acceptable even if everything continues to work correctly.
+LGTM
 
-Michael
+-- 
+With best wishes
+Dmitry
