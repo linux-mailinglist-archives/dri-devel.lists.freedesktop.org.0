@@ -2,40 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A47B58BBA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 04:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2419B58F08
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 09:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A508A10E604;
-	Tue, 16 Sep 2025 02:10:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF33A10E6B7;
+	Tue, 16 Sep 2025 07:21:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Fugi7cRn";
+	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="BUzvrCc9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-133.freemail.mail.aliyun.com
- (out30-133.freemail.mail.aliyun.com [115.124.30.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E396C10E196;
- Tue, 16 Sep 2025 02:10:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1757988642; h=From:To:Subject:Date:Message-ID:MIME-Version;
- bh=ace3VQl9Qd7WAPxbz6HMw52CfIbRMCyc/gIuBLwG5oU=;
- b=Fugi7cRng6knv2/1IaGkMwivKgGcXVfwvPVkp6Anzd9NKHggKKOfp9i+e3zm9hUSRPolaH5FMzv82pdXSSSpwXdO7jSQebedu9L5AY6RvDSdvVrM2/e0AxYw/97YGU4IbnJ8/QJj4rRkyQ5de/mBNgE6s//WfL0eSltU8GuLNu8=
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0Wo6baSE_1757988641 cluster:ay36) by smtp.aliyun-inc.com;
- Tue, 16 Sep 2025 10:10:41 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@gmail.com, simona@ffwll.ch
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next] drm/xe: Remove duplicate header files
-Date: Tue, 16 Sep 2025 10:10:39 +0800
-Message-ID: <20250916021039.1632766-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.7
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
+ [95.215.58.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589DE10E606
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 02:32:39 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
+ s=key1; t=1757989957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4icW8A4a35n6WvR9rcmkx2CYARUOFbnRrSBlDazcjz8=;
+ b=BUzvrCc9XmxkNzPz77iaEPBr/iMAZjMf1QlFs/jRpEg12PHPbKKbDPxm45EjieO5Z/G4MX
+ OxmF+0rigSpIeVWoff06a+RPqorVk6X/BCDWR9WLDkei30iYnxLc6h2ekCGOV+rxMbd876
+ H0OdNHVKl4gNWwliwtlByPTQJSdA1UxVUKGGilIiQ51jcx4lueKEePZEW66TXtZvtfd1pR
+ mDWDxOpDMaJY1e/IhZ1WQvuw/Dk9OG77GEreBOyMsv5ea9XaAxROklgfks5GSfMzSrVqzg
+ HXHC2UjGq4axgNKXc1Wo/o1fHtpkZEvJ4xmTwtb1qmjL6/Za/bY6M/ap1LeRDQ==
+From: Paul Sajna <sajattack@postmarketos.org>
+Subject: [PATCH v2 0/3] Add LG SW49410 Panel Driver
+Date: Mon, 15 Sep 2025 19:32:11 -0700
+Message-Id: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACvMyGgC/3WMQQ6DIBQFr2L+ujRANWpXvUfjAvCrtBYIUFJju
+ Hup++at5iUzOwT0GgNcqx08Jh20NQX4qQK1CDMj0WNh4JQ3tGeUPN7jthrihMGV9HU3sbZVTRk
+ UxXmc9OfI3YfCiw7R+u2oJ/Z7/4QSI5R0vFFtXdOLlPLmbIgv4Z8YbThbP8OQc/4Cd4REWK8AA
+ AA=
+X-Change-ID: 20250910-judyln-panel-948f177c5c5c
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
+ phone-devel@vger.kernel.org, Amir Dahan <system64fumo@protonmail.com>, 
+ Paul Sajna <sajattack@postmarketos.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757989951; l=1894;
+ i=sajattack@postmarketos.org; s=20250422; h=from:subject:message-id;
+ bh=xtXOrVDKWq9hItYsvRgoikFPE/gt5zgc/6CnhlgNlqI=;
+ b=Zpqt7mmrtm6w48ZT7caipO8SieSLsxOXVq91KU7AxSl5YiS9Zu/lxFz7NzpZg82s20/7mDYBz
+ JMhR7ssVOpJC44T4oUUGnKXmtqKneCC+njGNHAr5WxT9181EAj1MTcu
+X-Developer-Key: i=sajattack@postmarketos.org; a=ed25519;
+ pk=TwacvEOiRJ2P2oAdEqIDrtQTL18QS4FfcHfP/zNsxkQ=
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Tue, 16 Sep 2025 07:21:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,55 +77,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-./drivers/gpu/drm/xe/xe_tlb_inval.c: xe_tlb_inval.h is included more than once.
-./drivers/gpu/drm/xe/xe_pt.c: xe_tlb_inval_job.h is included more than once.
+This patch series adds a drm panel driver for the LG SW49410 panel found
+in the LG G7 ThinQ (codename judyln).
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=24705
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=24706
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+The basic driver skeleton was generated by https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+from the vendor device-tree.
+
+The panel driver works but during testing we noticed sometimes the
+display goes blank. Source of this problem is unknown but seems to be external.
+i.e. It could be a conflict with another driver or an issue with
+aftermarket panels.
+
+Comments were added explaining magic numbers, and devicetree
+documentation was also added
+
+Once this patch has been accepted, I'll follow up with
+a devicetree update for sdm845-lg-judyln
+that includes this driver, along with several other improvements
+
+Co-authored-by: Amir Dahan <system64fumo@protonmail.com>
+Signed-off-by: Amir Dahan <system64fumo@protonmail.com>
+Signed-off-by: Paul Sajna <sajattack@postmarketos.org>
 ---
- drivers/gpu/drm/xe/xe_pt.c        | 3 +--
- drivers/gpu/drm/xe/xe_tlb_inval.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Changes in v2:
+- use "multi" versions of functions
+- remove DRM_DISPLAY_DP_HELPER
+- change dt-bindings to panel-simple
+- Link to v1: https://lore.kernel.org/r/20250910-judyln-panel-v1-0-825c74403bbb@postmarketos.org
 
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index 01eea8eb1779..a1c88f9a6c76 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -13,14 +13,13 @@
- #include "xe_drm_client.h"
- #include "xe_exec_queue.h"
- #include "xe_gt.h"
--#include "xe_tlb_inval_job.h"
- #include "xe_migrate.h"
- #include "xe_pt_types.h"
- #include "xe_pt_walk.h"
- #include "xe_res_cursor.h"
- #include "xe_sched_job.h"
--#include "xe_sync.h"
- #include "xe_svm.h"
-+#include "xe_sync.h"
- #include "xe_tlb_inval_job.h"
- #include "xe_trace.h"
- #include "xe_ttm_stolen_mgr.h"
-diff --git a/drivers/gpu/drm/xe/xe_tlb_inval.c b/drivers/gpu/drm/xe/xe_tlb_inval.c
-index e6e97b5a7b5c..918a59e686ea 100644
---- a/drivers/gpu/drm/xe/xe_tlb_inval.c
-+++ b/drivers/gpu/drm/xe/xe_tlb_inval.c
-@@ -10,11 +10,10 @@
- #include "xe_force_wake.h"
- #include "xe_gt.h"
- #include "xe_gt_printk.h"
-+#include "xe_gt_stats.h"
- #include "xe_guc.h"
- #include "xe_guc_ct.h"
- #include "xe_guc_tlb_inval.h"
--#include "xe_gt_stats.h"
--#include "xe_tlb_inval.h"
- #include "xe_mmio.h"
- #include "xe_pm.h"
- #include "xe_tlb_inval.h"
+---
+Amir Dahan (1):
+      drm: panel: Add LG SW49410 Panel
+
+Paul Sajna (2):
+      Update MAINTAINERS for lg,sw49410
+      dt-bindings: display: panel: panel-simple: Add lg,sw49410 compatible
+
+ .../bindings/display/panel/panel-simple.yaml       |   2 +
+ MAINTAINERS                                        |   5 +
+ drivers/gpu/drm/panel/Kconfig                      |  13 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-lg-sw49410.c           | 502 +++++++++++++++++++++
+ 5 files changed, 523 insertions(+)
+---
+base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
+change-id: 20250910-judyln-panel-948f177c5c5c
+
+Best regards,
 -- 
-2.43.7
+Paul Sajna <sajattack@postmarketos.org>
 
