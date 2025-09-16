@@ -2,135 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9F0B59600
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 14:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A4EB59601
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 14:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3810B10E7C5;
-	Tue, 16 Sep 2025 12:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF2D10E7D5;
+	Tue, 16 Sep 2025 12:22:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="SYlsqZG4";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ehQ6YZ/z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012061.outbound.protection.outlook.com [52.101.43.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB0010E7CE
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 12:22:25 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010036.outbound.protection.outlook.com [52.101.56.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBB010E7CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 12:22:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fe73V/toIq+dlCigXv0PLBTuwixOoBN9sgH6DiVF6Fiy3FpAJCRmiCXbwr60KlPLoH7WfuBzdkUpeiBtjgl0AbyxYhQQ2hg/rsj+EIQ1y/GF8zFb9whAGDBPsUcYMh5xnKTssnkB9GOic6osq4bwC2V1p2b7E0CfJdendvAvFOx7xClRhB/WIgbEvTo7z1KxbcozWDRmN7hLrqPgvpcN+nlgABp3sMhXIoWteVhYwFfAH4eiMVzxeux/EDemzOxAwhKyG+Ih2/WJBifD0uy49T0M0JmeKBxqJkoDyWB2rxqKHLsyFkAnYaE7wf3ccoz1nyQQ6rVzUeybB2PWa86oaw==
+ b=jUdroHX0vQrkaEde9o3uC9oo4inRlSZe8V8Urzjfhu47tkzDiNyWNe0ST8xg3Kdlj0oYIT083wTddrv0CurhK441yr2xBERQqr7ZbqyQAIvkcykHKOhPKN3VoeSYM7TD53ToJOzb+4UisD6Gy6GvZ3BwGCXZrxxUb3TbO+XMLG3DHan/xItB6uiyNhBTK/xUPU8e4SM0WN36d33BqAGL1Amcj2XvXcdJJAgxIAV+h4d+r+r11MfAQiwmxZ4fZWbF+SpU6m6gvcO7d0DGY4jmzlqU4Q1bJpiUFOCf8yL/86VVNbSm9b1Q8ItZdxKAJPcnAqe70kWuYt3OrOKrUktU3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNs4qXlKokoHweZ5M3XkPDDF1g4skarfVVeDV1+gXvI=;
- b=LySPJdGdG7GPqdyNUUsXteMtG7YojlpZgR63PLBI0ZyHxSzI9N9DZFJapFHT46oV9MJAYQYHCMoPTM9ikG98e0P/7rkiI33i6Y3CZ9KsEBOxU3j1v9ZQXE2URHZRltWgh/BJdd/Uf1k6/il3IasRJZmZRRunWZVjqCBdi1B3u0a2QAGhH6+zECEewamvBrqOpP9V4SPcESLJBUWtT0irXYRJHD4iG2/qkJaZOr4lmseERntqIWXE/KBMgXcngFmDrTwpueozX6NIvG1Y4lYAlXoaqxVmzKcW5VNHjB7UFRQciK1XiMSWDx7NWQ6mmS6bRd8i64n8OVAoXtET5A4YJg==
+ bh=cOSgXsgUkmSwuShQ4accXEbfGCEwzWcWsuLAGfLaYdk=;
+ b=PpilAiK/m2dpQW3rElBq2LbfckM0DCb9TVqVE/ijLABDapwvzJ17zUSIPoCDiGNI2sqm/3Tz4bKV8v7pXQ4N9b/sbhrB0O04J9xtkVbaIoqKBX9/Uw6UNfno1B8jTwARGkW8Lr+Ciu/PQIjfeh/xofLPNlCYC6qHmoYGEz+WF+87C6uNmLEGSL/SbrIwxvnpJ5paDbWaKf2osX8YsRiitPXJJ9xAjNqLz1HpJmH9BB8PVAxJSUb+N6/KKpO1FAXrkiSZjJkcXQdvelXWBI4e0fU4ZctCSyOSoDrZhVauSsCJpDXUmc0uKaztD61MWZq/TCFlHCgX/UJWa+A/r8Wk/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LNs4qXlKokoHweZ5M3XkPDDF1g4skarfVVeDV1+gXvI=;
- b=SYlsqZG4afGqN7vcAAWVl4Ip/1PwAClMPdB0mrK4FCassxWnr8CyoS12xgcc7UuU1uZCjA5BN5JfWmrHp2MH8kFWM7usFA2mDwOxquDM/kH+j6Y8ojZ5Mb36bUreElk+zEHNDnokujaW4mUt/hrcqGskC1hICQE1xom16o5JGU7pCbjxgAEW2qaFR2ihiCxBO9qSnic8R8EAx+6fVOckeFsbRtkRTMAdhmWDRA1R9wtQ0vpDM2mrNv0CnlD/MVmsKbdgisGjnyd3l4vFB2TpX4VLQkV82Fe5kHimJitvX9k1worqHu+MPCR1YHLt3qx+XVRT0ajT3V89lmSL2DrcRw==
+ bh=cOSgXsgUkmSwuShQ4accXEbfGCEwzWcWsuLAGfLaYdk=;
+ b=ehQ6YZ/zDf346WuQ1UxHj4tf+jfzHaD0Il6JLZcMqIadj2eGOo+/228507RgwV8k2q4o/aKfuh1ujQa7XzwO5DMAr0YO6IQnQtAPh+JYqtp8rE+yCxo9mC+leLW1LLcZ5GUwxy5QjjixbQE0rY1VhCpGnIXRU16yR+ERtbuxk9rAyVSg8VXXHoFbm/pVOmClLBi+hmWWsWjzi/N4Bsk795qv9PW5tzDUf++L6vgey0kYe8Fyoym5QeiiJFginYjsfFGW4/Z6TON5JIv0gpzj/CRJ7rWXTPivIsoUyRf5PNTZt7J1eqMVtNTjVJ4x0v5HJkvH0b7L50oCCyLXzopMEw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
  by DS4PR12MB9684.namprd12.prod.outlook.com (2603:10b6:8:281::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Tue, 16 Sep
- 2025 12:22:22 +0000
+ 2025 12:22:26 +0000
 Received: from PH8PR12MB7277.namprd12.prod.outlook.com
  ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
  ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9115.018; Tue, 16 Sep 2025
- 12:22:22 +0000
+ 12:22:26 +0000
 From: Balbir Singh <balbirs@nvidia.com>
 To: linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
 Cc: damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>, Balbir Singh <balbirs@nvidia.com>
-Subject: [v6 13/15] selftests/mm/hmm-tests: partial unmap,
- mremap and anon_write tests
-Date: Tue, 16 Sep 2025 22:21:26 +1000
-Message-ID: <20250916122128.2098535-14-balbirs@nvidia.com>
+ Balbir Singh <balbirs@nvidia.com>, David Hildenbrand <david@redhat.com>,
+ Zi Yan <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
+ Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>,
+ Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+Subject: [v6 14/15] selftests/mm/hmm-tests: new throughput tests including THP
+Date: Tue, 16 Sep 2025 22:21:27 +1000
+Message-ID: <20250916122128.2098535-15-balbirs@nvidia.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250916122128.2098535-1-balbirs@nvidia.com>
 References: <20250916122128.2098535-1-balbirs@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR17CA0005.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::18) To PH8PR12MB7277.namprd12.prod.outlook.com
+X-ClientProxiedBy: SY5PR01CA0058.ausprd01.prod.outlook.com
+ (2603:10c6:10:1fc::17) To PH8PR12MB7277.namprd12.prod.outlook.com
  (2603:10b6:510:223::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS4PR12MB9684:EE_
-X-MS-Office365-Filtering-Correlation-Id: 569ed9c5-5cad-4026-0857-08ddf51bb02b
+X-MS-Office365-Filtering-Correlation-Id: 5bcd27d8-ed2d-433a-40b7-08ddf51bb248
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|376014|10070799003|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?mO/MJ4vHSC+hh/eRbA7SZx1gXNKJvbP2sUeIGhR84HXiAGGlRuyhidldCb7m?=
- =?us-ascii?Q?9M28TmrbbSfP2dzwfvn4KWxIlywaFASiUa9Mfm6xRJbIuxnJXCKCQ94Rkbrk?=
- =?us-ascii?Q?tvJAZnFvUXJz3gJdcyTFkdK1hCp7Qokha95XTIywWVmxTJSnmKxy5F1JAjUQ?=
- =?us-ascii?Q?csvTEzw97SlX12fDS+VHMvlhuf+ImeWdaNhUBYk+5pzKOoh6ZOVeCv5M8S6S?=
- =?us-ascii?Q?5vjDm8pRQ7pAoktKtxlrDtdeFsc6fD7SZycNdjoXtk2L8FRFRGvdpynAZ/wn?=
- =?us-ascii?Q?1vtVodLw7BVDv4lw4y+FXUyw6VKGjFU7IRWw4wrSO7mTlq01pkZSXuqj+yQ/?=
- =?us-ascii?Q?b4kb0SAFjtRKR2OyZs/7tplCGzpcM8nIZ1OUc3LIJN0VcB7QDTN3qjoWACjv?=
- =?us-ascii?Q?Lo+8oIc9QUzl1voOkoahnSvDcclyIHXYPALWnU+iD9dwmBfdecwkrBbYbZvt?=
- =?us-ascii?Q?lxpP54oLa3gbJ+cgMav3+wTl0VhVvh4M25Z/spfzsaOXZz4ERntkdvq9GOJs?=
- =?us-ascii?Q?h+l07myPESsREue7Z9BOKbCNQ8lfXJBnNDa1Ne5Z31oN07y1NG3ZHKcdmZnT?=
- =?us-ascii?Q?gHqPxvSXriorHcmMxkWaECRVLLwKuOkuK6R9oHOg6nJnkl6/i0Wox4uv3VxO?=
- =?us-ascii?Q?BcDX9GL3BQVfWy4TWVLctcrwpW87d6mKC/ZrNyuxzzjGW/VPZR0FLWHG3KKq?=
- =?us-ascii?Q?jP0dbtVaDB0ma/eu/BEG6sdTgNuQaBMJ61EYlTwJfyq3UV5sU/dXG/iLKqBa?=
- =?us-ascii?Q?6H14GpYz5eeGOtm28brLOGI+rE81fg2jGLeAT2iYctjD+Ti8KwPE7bkHmLxG?=
- =?us-ascii?Q?IH3kyaOHpsnCJHZffq9HAnEUtG9OE87cxIJDkwekJKN061dAFvAp0hTxshQg?=
- =?us-ascii?Q?0uFOZGqZCv+k/WOV8ow+2CwJ2MVOVs+bG0EEOwlg4rC/pzR4n5ZryjENqRL9?=
- =?us-ascii?Q?cVBIQmVgCKIc7I3PF2Vw9jZLw3G20KTvvydeTA1IJBOxFfB5cBPyvukFHJRO?=
- =?us-ascii?Q?5xjRgQcPhfgc9HxuhNc8a0mnWGxnQ7afEaQOF5CsCZ5kGv73G/ufpZ9YD4+o?=
- =?us-ascii?Q?MVLHr4bFvvcQqJvDrQdAGh95jLwNP6w7eRfcA/rTcwn5MSFkyrP3OMRgEZvY?=
- =?us-ascii?Q?irD+K3rK+/qfgVZ/0DTdHDuB//vHP1ow4QBBp4/IO0+kJc9bL2CnYYcshqjZ?=
- =?us-ascii?Q?gRVzRRxuLEdN8ZH86kPrLwMd3QV0cR0Pvpm1Kv3a1Yn6BB9CVkQJlnRQhf9k?=
- =?us-ascii?Q?dZJiFCzR+wjYDnzgbVmMwnPPMIt9ngxipcwypTnFGXbAYqKRKp/+vF4YMliR?=
- =?us-ascii?Q?44jgGtAqs4HlOzOARjMAJYuPFdLBAwcoi0DO3YOT6/ghHB+cfrq+lmh5fzxj?=
- =?us-ascii?Q?fzXMQmJmtuQaQjdGetfZQTtcxgvTlNShlHBBiftUEULBhAnKWw=3D=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|10070799003|366016; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K01JZVBDSE1WL29XMFdsYnNrR1NSQXlnSERtdE9zSXk4L3BrczBCc2RFTkZH?=
+ =?utf-8?B?ekFtZ2lmanI0K25zWHRITkJHRjZmOUdHUTJKRnRQYXFhZDJ6bi9rWm5hUk81?=
+ =?utf-8?B?VXpDSTVSQ0pxSFNhOVB2UHhQaC9RMzBlWnpjL0VVRHhwQ1g2aE9TY215SFJs?=
+ =?utf-8?B?NUR5Smc5M1VhaC9QNjFZamhZeEx4cVdVc1ozMkNHZDhibUhUMUkxM2l6Mkd0?=
+ =?utf-8?B?bnhWNUp4SDgyY3FmdFkyM1YzVWVVdVFscG9vUlQzclN4MUMrdUlKR2N1Q09x?=
+ =?utf-8?B?Z2c4ZnNnMzVtdGxJcjkxdGdOeUhMT3FqVVJTZDFFMjNhM2I0d1R2KzR5ZWxq?=
+ =?utf-8?B?Ny9CL1ZZdWl2QWRQalFyS0ZYWUVtaG9IenBoeHVpemFNQlN0YzQ4aVlYQjF5?=
+ =?utf-8?B?aWRjM1VlblVwNTRHWHozWnVaS09wNTBObFlyOG5aTCtWNFlHVmtsSnkwV3Mx?=
+ =?utf-8?B?MVVDM2w1c05WSS9BYTU1ZmpMb1E3TjE0a2Rsc1dVUGNManYvZTVOVUp1ello?=
+ =?utf-8?B?R1k5TUVLeFBYUTFSWUJHQysvQU9xdzEwdXFWODhiQUdjZlBPQ0F2KzNMOExp?=
+ =?utf-8?B?TlpPeVdlR2dnUUl5dEwyRkUyVE1yd0Q4Y09zNG8yRTM5bmJGd0tLK2sxQS93?=
+ =?utf-8?B?akI3R1JuQWxLR1RaQ1VvcWpxZ0JwdFB1Rjh4d3JuMUE5eDZwNlVld3VSLzUv?=
+ =?utf-8?B?ZXMxd1lsckhCY1pxVUJJZHdCQldWYmdyMTBMNTVUS3g5T0REblZlSDRwbTlW?=
+ =?utf-8?B?cEZRSUlvNWhRVGZHVE9MNHZkZFhoZU9JK0JDbHY5VGx2ZGo4bTZHdDNJQ3RH?=
+ =?utf-8?B?RWZueU56bEZldENwNUxYTFkyTFh6MEIvRlJRWmlEb0k1RTJLdE0xSHFDZFVk?=
+ =?utf-8?B?RkdpcXZwQUZmdFgzRFl2Q0Z0eWEyQ25lSDdaOHJ2cW1LVGpXV3k2VnJ2ZHFH?=
+ =?utf-8?B?SWlRZFFnc0hMMWN0UFpLWDhGRFowQW5zVjErWm4ySDRyUUVzbHdnQWYzYng0?=
+ =?utf-8?B?UVNRZkpOM0hIK1Rpbkxwb0lPNS9UcDE1dHg0Qm5aWUxucElYSkpoSkY5V0g5?=
+ =?utf-8?B?K08vRU1WRFM5TFlHUkhVKzZ4NmI2MXowdkV2d2tlQktVRnQwUTdFUUhTQzg0?=
+ =?utf-8?B?Zys5TytqQzhtK0lmSDJuMVR5c2xYY2xYb1N2S0dBcTJlZGN3SjJDWkxMQ082?=
+ =?utf-8?B?Ly9GNEh1UEZGZVUwYTBkbWpsMTlFMXZmbWtHajluN1A4cW9hUE14bDBCWU5q?=
+ =?utf-8?B?VHBQNnF4WlE0UEs5OEJTbmpmdlJJY1M3TXJlUnBLNG1kSm13WXRoUnNLMU1J?=
+ =?utf-8?B?Y2F2Q1J5eDUxekMxWXVKUVBDeElLVzJzdWZaQnBHVGFRY2ZsSWdzU0w3T25V?=
+ =?utf-8?B?TUY3RDBHWm9xUTZpc2tRZldOeXlFWTVQWFkwaXpXb1VUNFNvTTk5QXNObW5K?=
+ =?utf-8?B?dWM3aEc0NkkwNko1QzB0b3ZYbmhNam44dDh2VXRxcFFqbitOQzV4NVk5cE9H?=
+ =?utf-8?B?d2tHTTZCa1ZVTW0yYXMzYzN0dnUwRkxXU0R1Y2NNdXFJNkNSRlhRdmJHZzk4?=
+ =?utf-8?B?QmI1ejZvS0cycUh2NHJVN3dtRFl2K1pzcldxNmRSNVN6WDdhNWk3dElISTRI?=
+ =?utf-8?B?aHhrYVNOUWltcDlrMmFXREtIYkZiY1JwQnZmdHFSSDIzS2txN0hxVDF2cS9P?=
+ =?utf-8?B?SzhUQ0JJU043Kzc4YW41RjlkUmtFeW1rWCtBcUUrTjNhMHdzZDFLSXAvblFU?=
+ =?utf-8?B?MTh0Zy9neHlONFZEWU1NYnF0OUJjcHNUOXNzWEZ5c3JMbXd5VmlYVDA4Wmc0?=
+ =?utf-8?B?N0F5eUJTeFkzVlI1LzVocC9OdE4zT3hrQWZpcUhVcXFiQ1lOQmZITUlwTjF4?=
+ =?utf-8?B?NDlBeVZCZm9wem5UNEJmYXZGTTlvWmZJWkVZNDB4Vi9LK0lVUksveVVweWYr?=
+ =?utf-8?Q?QL3hsxDgpjM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(10070799003)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MCUp27qNla3EsTjfe0feKse0tbEJ8gxeJ3TSUbr05+22Z/3bhJ5fnKB8JLZp?=
- =?us-ascii?Q?tULpcx/1H1rqa1HidnHKAN7AOLRojnFeOQTtUglUnpP5vm2H23ZWrv9yvOa2?=
- =?us-ascii?Q?4h5u3/frR8aG/7J+gviWEoxX+I+9Bn3N2kaTFRCsKbnz3cF9gnxGEuo7Qovc?=
- =?us-ascii?Q?fcKZ91FH6eFdaswkPYErvOcZZCeoi5WQwvDtbM0SSyhYAFggSIFGH2CmSjAE?=
- =?us-ascii?Q?FHEEF+iwksLUIFghpGC6UMSyb5LEoMP6mpK3P5euR7yfEJvv5r6oi3ACWwOK?=
- =?us-ascii?Q?2DX8nVVu0FZHJ5V98UsCtnCg7D+zcF84BWQiV63ur7Tc4Zv/VOv/ZMjTjXN7?=
- =?us-ascii?Q?T5cGNs/nWH+lt0RZydr+uj+/3WfvD3FXnvbr5vlTjpXD9XajDvE8RqhwWxGM?=
- =?us-ascii?Q?xDrbPoKgn84ofz6q5rF9zmonfd/qSaDnk311bhPvDE8bIB40nvWA1tbsYXaj?=
- =?us-ascii?Q?TW8vm0u9xnOhZAyQI3YKfIKfOcBGxMJb2SMx0xr/7liSRfu4RRoUg4VkoxVb?=
- =?us-ascii?Q?3LoN1W3R1/CfkfmO8WYIqdMz1Hj3TJsuzh/nhbs6H7WDBDRUCmxvZ0LYXIFi?=
- =?us-ascii?Q?wIj2EyMmUFU12g5QEscxXMryVDI5cmq8zeeY6IWKfrsUq8kvQzqT0cV+smQb?=
- =?us-ascii?Q?VVGv0gDRVU+oTErPAFTcgwvvifuYDfHGuAPTPKBqJsFrOJsnONUv6WFTWBeP?=
- =?us-ascii?Q?6fRYs7XyDJJ48UHCxb0vDbBZlTI062z0vNcAdEfcG752SO22HtmdwpxHlq9Y?=
- =?us-ascii?Q?YJfhXdGyglW4f+GmnjSNv8RmYDPD/rCEevavLVBgdhA572Af9taRjuVoEadX?=
- =?us-ascii?Q?oRft8LHmV8kt18FPA1Y4N2FtkGFIe/irFPDa5srSMtU1A9wNN+um5WuCRwTM?=
- =?us-ascii?Q?fTq0fH0zcZqG9h9BSIw7TNUNtom5OcmTd1/7V41ih8L73Mp2Zj535BLCVMAn?=
- =?us-ascii?Q?w3sX1c/zUG+P4WKhSb4TzAuniFFf0ALzApNPGFdI5pUx2Uvw9zUU2KiGWAuM?=
- =?us-ascii?Q?Q36RFcRTKAL8AO6HklaydrrrAeknOz9Dh5xwgXNW52pB+xZ2pC87Eq6Ttudt?=
- =?us-ascii?Q?NBTkNUuq6iN47urM2dEFA6+vwzZTxcClcF+77jF5RioRhxdvbdt0tYx6GcoQ?=
- =?us-ascii?Q?4uIJWg4NiV8fsm56m7rTmGIOt//PD0HQMlgqto22DYzGzrTs7YmUEsjPEThN?=
- =?us-ascii?Q?JT2VLK3SPJ8SS+IvbVIe6vBXEaOtyA2E8r3QC7kcm2Ia3aox5bDlyNdVR+VK?=
- =?us-ascii?Q?LX/k7TPi+X5nxVDPwLWo8Ok1MgsjmW599cDGrvqGYqP2MwS/OAOfoOWvrdLx?=
- =?us-ascii?Q?f5ddCXvhIIp+RqyOEkpv8WW6MfLUYZvgo5sv+w7qhz/yOgWss4+pn/H6UXZV?=
- =?us-ascii?Q?x5ehayliq4twcj/pKst5L/NZOdzjxb9UmWKj+URho8FD+mnobFpkAfbaPygh?=
- =?us-ascii?Q?XziUcgmd44m2DUqvpdioBHlkInwwGxTCiWvcfNqz2zH8M67xJ/Hs1C1Y1NdG?=
- =?us-ascii?Q?/fi6R8leOaO6bLvMo2mE+lG7osJAbOIC+Bo2EWJH0lX+7DpxoNnp0NZd5P9E?=
- =?us-ascii?Q?AD2eqPjuBqYAOVyP1zJMiWbTlqwn9cP62A+D/hg+Vi6pyBvbZswCuoWP/QDi?=
- =?us-ascii?Q?Bw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTl0QnArc1RuaEtwdWErdUVzWjhraFRQSG15aGZybmN6WnBvVlNQaUt2Y1Jz?=
+ =?utf-8?B?WHFOa0JhS0pHdktPOGNhczhxMitGL0REcVcvS253R1FVL3RqSFNna2lKVXZq?=
+ =?utf-8?B?SmhWenN6L3ZScllKNzQzNEpPblM0OUVQUXR2cW9zU1JPMUV1c3YrV2x2VHhy?=
+ =?utf-8?B?MmVJcmp2cmlvQk9hazJaUnR5ZVhoVDhPL24rY2grZmxwSW5zWDVmTUpSSTZx?=
+ =?utf-8?B?NHkvcnVuNit4K2hWcDJybzZHVVZCd0lmWnd3QnlhVGVRc1A4VUoxMXdaRHJi?=
+ =?utf-8?B?TUp4djQvS3BmNnkzVTRSRU8wWUFsRVlTMDNxYm9YQmR5Vlltbzh4aXZrSFZx?=
+ =?utf-8?B?Zk9McGZQaTdPK3N5aWhCaFA0Skd2dUw0NThseTdGQmZ3d1VhaEdaejZadDQv?=
+ =?utf-8?B?ZCtHaE9KdkNJNkZaV2s5N09ZZG5XQVJBYUdGcFFqQ25uaGhrbm5RMmNGc0tz?=
+ =?utf-8?B?SXNMWlVBWi92SHNQYkZjL3VwN0kyTGpYRUVaaDhJMUxCcVNVRTF4RFcrdE9a?=
+ =?utf-8?B?V0gxdlMvTmV5aDJEWEZBQzE3dXBtSDMzaFVrUjJJbGtaMkd6RENwTnNBYk40?=
+ =?utf-8?B?ME1CL3UySU1JdUd5MEk3QkNLdnhTaS91dEVvNDNIdUxqQTVuMDFjeGpFdEhs?=
+ =?utf-8?B?THg4MUswRTF3ZC9Qc2o2MjFRaFN1R2dsd3ZVME10dE93dm5IQUZ4Skd5bWhI?=
+ =?utf-8?B?bThYcGE1RWtMaXlLaCs4VU5KQWhod3FxZGxMR3crZEpQV1J2VDNTRDNkdm5Q?=
+ =?utf-8?B?VVkzcU5QRnZ1UC8wcFRkZUZvQ2k3cGtVVHFVMjFXdWR2WXFsNWZvNjNBWC9N?=
+ =?utf-8?B?WU90VlV6Smx5d25qbjRkN0k4bng1dHVuVDVLTGx2QSsxZWVMTUdDNGNTOEg1?=
+ =?utf-8?B?bFFDQ1RaU1lNd3hPZDV2T1JaK1FycVYxSk1TRDU5aEZpN2huWjRTMWxRMjFl?=
+ =?utf-8?B?Rlk5ZUZyMXZubE43OElxMjV0K213NEhXYnh6cEl3MzFlNGx6c3F6WWl1dmRp?=
+ =?utf-8?B?cTFPV2gwbHZMQ252V1RtSGFxWUdUWS9xM1VVVGZ2V0tianhVU0V5Q3lreExH?=
+ =?utf-8?B?VmxqNEtVQnZuRXkyZEV5MGFRQzdZV0IzYlNYRCs1K3JtYzJGV0JpQkd6b3B4?=
+ =?utf-8?B?UlNmWWl2ZERoYk04N3JSS1JiT0RKait4T0NIWU13WTlSMnNhaHloNHdpQTJz?=
+ =?utf-8?B?cjF1Q1BMa2NOZG5HUWFFdiswakd3STBSUEIzV25LeHQ4YUdvelNhUXB2dHY0?=
+ =?utf-8?B?Ui9JdEUvakNrSHdNeG9MS1F0SUo1WVdrYWZhQmdFTE1UbjZFSmo0Z29hYW52?=
+ =?utf-8?B?YnMxVURadzZLOHF0YjU0SHd1anVYRkxuYkQ1NVY3SlI1RWUwazdMRUQ5aElD?=
+ =?utf-8?B?TEYrdWVjc2dHbHRIcVc2N3BmWGFBQ1M3VDZkc05nVC93anhXRnhKOEtlRm9m?=
+ =?utf-8?B?SURmNVBtMEVJKzdtTGh6NzBRUWtCSGNTQ3U3aFFGMVZwOWdMQ1lyN0pjQjE1?=
+ =?utf-8?B?THBDaHY5MC85R0JKV0pISWs4d1A5M3V0MTgvS2dnbkwzQU1iKzNiakhVaE8z?=
+ =?utf-8?B?eDVzOEplaUNKTDhQcmsrRk1mZEtaOFV5ZmdHNHBPN3NaUGpuQW8xNCtlZzdV?=
+ =?utf-8?B?aDRuM0xqQVlGdEtObElJTDZ1eHJaKzlsR2ErWUhkTGJZMjlBZ2dNTHI3ZE1u?=
+ =?utf-8?B?NnZDQmtGcG1VcURxR3BicDdvbnFrUkRxNlRNUlRJRGcwL0RxV3NWOGRMMlh3?=
+ =?utf-8?B?VFRTeFlITTRQdTVLbklCUlp1dVk4Z3JNd2FMQ21RWDBFYks0QUpaOGlMQ0RE?=
+ =?utf-8?B?QlUwRFpWb052UE9ob1FSbzZFNC82aFJhckVKWVErNldaR0ZqSXBPcTNnNFhM?=
+ =?utf-8?B?VUFadzdsVis0WWNaWjNoZndBYjJHQ3ZJbDNpQkg0VVdYNXRpSTV3a0l2SXpx?=
+ =?utf-8?B?bjM4MzFQV0Rybk1yRGRNNmdUSkl0d3praGpmYWF1SlRPYi9QS3M5Njg2UVZ0?=
+ =?utf-8?B?V3lVUnMweTFRWEZxMXNva2tXVDZhV2NGMzZSZWhYcy9CMXFyVk5LN1Z5UEdK?=
+ =?utf-8?B?dlZzblJWbkFXWFZKTVNGUUR3MktwdFhSbjJsSDhNekNvOXVPSFpsMHhWcVRR?=
+ =?utf-8?B?SU5BcTdMcTFNb3ppaHJRYXE1YXRSdTJwVTdEZGZIb3lBSkcxcEZ3WGhKelhm?=
+ =?utf-8?B?Qmc9PQ==?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 569ed9c5-5cad-4026-0857-08ddf51bb02b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bcd27d8-ed2d-433a-40b7-08ddf51bb248
 X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 12:22:22.7558 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 12:22:26.3235 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZNJEV52SQlfzhLvhDxOwWLnshIET6I6R2YEKjuNc5VYbs7S5428Tn6SaXWWXqJJlvH1oXjLoQiSPv8oiD5LElw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: muQZfO1m1ORBv2aLHcV57NCy4j6B7bTOa2YjRUgw9nJPVkWUeet3ZB15TOfhSE+0ZLqojDWrhKe4TrBAU7TiZQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9684
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -147,374 +182,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
-
-Add partial unmap test case which munmaps memory while in the device.
-
-Add tests exercising mremap on faulted-in memory (CPU and GPU) at
-various offsets and verify correctness.
-
-Update anon_write_child to read device memory after fork verifying
-this flow works in the kernel.
-
-Both THP and non-THP cases are updated.
+Add new benchmark style support to test transfer bandwidth for zone device
+memory operations.
 
 Signed-off-by: Balbir Singh <balbirs@nvidia.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Rakie Kim <rakie.kim@sk.com>
+Cc: Byungchul Park <byungchul@sk.com>
+Cc: Gregory Price <gourry@gourry.net>
+Cc: Ying Huang <ying.huang@linux.alibaba.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: Nico Pache <npache@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>
+Cc: Barry Song <baohua@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Ralph Campbell <rcampbell@nvidia.com>
+Cc: Mika Penttilä <mpenttil@redhat.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Francois Dugast <francois.dugast@intel.com>
 ---
- tools/testing/selftests/mm/hmm-tests.c | 312 ++++++++++++++++++++-----
- 1 file changed, 252 insertions(+), 60 deletions(-)
+ tools/testing/selftests/mm/hmm-tests.c | 197 ++++++++++++++++++++++++-
+ 1 file changed, 196 insertions(+), 1 deletion(-)
 
 diff --git a/tools/testing/selftests/mm/hmm-tests.c b/tools/testing/selftests/mm/hmm-tests.c
-index 339a90183930..dedc1049bd4d 100644
+index dedc1049bd4d..5a1525f72daa 100644
 --- a/tools/testing/selftests/mm/hmm-tests.c
 +++ b/tools/testing/selftests/mm/hmm-tests.c
-@@ -50,6 +50,8 @@ enum {
- 	HMM_COHERENCE_DEVICE_TWO,
- };
+@@ -25,6 +25,7 @@
+ #include <sys/stat.h>
+ #include <sys/mman.h>
+ #include <sys/ioctl.h>
++#include <sys/time.h>
  
-+#define ONEKB		(1 << 10)
-+#define ONEMEG		(1 << 20)
- #define TWOMEG		(1 << 21)
- #define HMM_BUFFER_SIZE (1024 << 12)
- #define HMM_PATH_MAX    64
-@@ -525,6 +527,8 @@ TEST_F(hmm, anon_write_prot)
+ 
  /*
-  * Check that a device writing an anonymous private mapping
-  * will copy-on-write if a child process inherits the mapping.
-+ *
-+ * Also verifies after fork() memory the device can be read by child.
-  */
- TEST_F(hmm, anon_write_child)
- {
-@@ -532,72 +536,101 @@ TEST_F(hmm, anon_write_child)
- 	unsigned long npages;
- 	unsigned long size;
- 	unsigned long i;
-+	void *old_ptr;
-+	void *map;
- 	int *ptr;
- 	pid_t pid;
- 	int child_fd;
--	int ret;
--
--	npages = ALIGN(HMM_BUFFER_SIZE, self->page_size) >> self->page_shift;
--	ASSERT_NE(npages, 0);
--	size = npages << self->page_shift;
--
--	buffer = malloc(sizeof(*buffer));
--	ASSERT_NE(buffer, NULL);
--
--	buffer->fd = -1;
--	buffer->size = size;
--	buffer->mirror = malloc(size);
--	ASSERT_NE(buffer->mirror, NULL);
--
--	buffer->ptr = mmap(NULL, size,
--			   PROT_READ | PROT_WRITE,
--			   MAP_PRIVATE | MAP_ANONYMOUS,
--			   buffer->fd, 0);
--	ASSERT_NE(buffer->ptr, MAP_FAILED);
--
--	/* Initialize buffer->ptr so we can tell if it is written. */
--	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
--		ptr[i] = i;
-+	int ret, use_thp, migrate;
-+
-+	for (migrate = 0; migrate < 2; ++migrate) {
-+		for (use_thp = 0; use_thp < 2; ++use_thp) {
-+			npages = ALIGN(use_thp ? TWOMEG : HMM_BUFFER_SIZE,
-+				       self->page_size) >> self->page_shift;
-+			ASSERT_NE(npages, 0);
-+			size = npages << self->page_shift;
-+
-+			buffer = malloc(sizeof(*buffer));
-+			ASSERT_NE(buffer, NULL);
-+
-+			buffer->fd = -1;
-+			buffer->size = size * 2;
-+			buffer->mirror = malloc(size);
-+			ASSERT_NE(buffer->mirror, NULL);
-+
-+			buffer->ptr = mmap(NULL, size * 2,
-+					   PROT_READ | PROT_WRITE,
-+					   MAP_PRIVATE | MAP_ANONYMOUS,
-+					   buffer->fd, 0);
-+			ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+			old_ptr = buffer->ptr;
-+			if (use_thp) {
-+				map = (void *)ALIGN((uintptr_t)buffer->ptr, size);
-+				ret = madvise(map, size, MADV_HUGEPAGE);
-+				ASSERT_EQ(ret, 0);
-+				buffer->ptr = map;
-+			}
-+
-+			/* Initialize buffer->ptr so we can tell if it is written. */
-+			for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+				ptr[i] = i;
-+
-+			/* Initialize data that the device will write to buffer->ptr. */
-+			for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+				ptr[i] = -i;
-+
-+			if (migrate) {
-+				ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+				ASSERT_EQ(ret, 0);
-+				ASSERT_EQ(buffer->cpages, npages);
-+
-+			}
-+
-+			pid = fork();
-+			if (pid == -1)
-+				ASSERT_EQ(pid, 0);
-+			if (pid != 0) {
-+				waitpid(pid, &ret, 0);
-+				ASSERT_EQ(WIFEXITED(ret), 1);
-+
-+				/* Check that the parent's buffer did not change. */
-+				for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+					ASSERT_EQ(ptr[i], i);
-+
-+				buffer->ptr = old_ptr;
-+				hmm_buffer_free(buffer);
-+				continue;
-+			}
-+
-+			/* Check that we see the parent's values. */
-+			for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+				ASSERT_EQ(ptr[i], i);
-+			if (!migrate) {
-+				for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+					ASSERT_EQ(ptr[i], -i);
-+			}
-+
-+			/* The child process needs its own mirror to its own mm. */
-+			child_fd = hmm_open(0);
-+			ASSERT_GE(child_fd, 0);
-+
-+			/* Simulate a device writing system memory. */
-+			ret = hmm_dmirror_cmd(child_fd, HMM_DMIRROR_WRITE, buffer, npages);
-+			ASSERT_EQ(ret, 0);
-+			ASSERT_EQ(buffer->cpages, npages);
-+			ASSERT_EQ(buffer->faults, 1);
+@@ -209,8 +210,10 @@ static void hmm_buffer_free(struct hmm_buffer *buffer)
+ 	if (buffer == NULL)
+ 		return;
  
--	/* Initialize data that the device will write to buffer->ptr. */
--	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
--		ptr[i] = -i;
-+			/* Check what the device wrote. */
-+			if (!migrate) {
-+				for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+					ASSERT_EQ(ptr[i], -i);
-+			}
- 
--	pid = fork();
--	if (pid == -1)
--		ASSERT_EQ(pid, 0);
--	if (pid != 0) {
--		waitpid(pid, &ret, 0);
--		ASSERT_EQ(WIFEXITED(ret), 1);
--
--		/* Check that the parent's buffer did not change. */
--		for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
--			ASSERT_EQ(ptr[i], i);
--		return;
-+			close(child_fd);
-+			exit(0);
-+		}
- 	}
--
--	/* Check that we see the parent's values. */
--	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
--		ASSERT_EQ(ptr[i], i);
--	for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
--		ASSERT_EQ(ptr[i], -i);
--
--	/* The child process needs its own mirror to its own mm. */
--	child_fd = hmm_open(0);
--	ASSERT_GE(child_fd, 0);
--
--	/* Simulate a device writing system memory. */
--	ret = hmm_dmirror_cmd(child_fd, HMM_DMIRROR_WRITE, buffer, npages);
--	ASSERT_EQ(ret, 0);
--	ASSERT_EQ(buffer->cpages, npages);
--	ASSERT_EQ(buffer->faults, 1);
--
--	/* Check what the device wrote. */
--	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
--		ASSERT_EQ(ptr[i], -i);
--
--	close(child_fd);
--	exit(0);
+-	if (buffer->ptr)
++	if (buffer->ptr) {
+ 		munmap(buffer->ptr, buffer->size);
++		buffer->ptr = NULL;
++	}
+ 	free(buffer->mirror);
+ 	free(buffer);
  }
- 
- /*
-@@ -2289,6 +2322,165 @@ TEST_F(hmm, migrate_anon_huge_fault)
+@@ -2657,4 +2660,196 @@ TEST_F(hmm, migrate_anon_huge_zero_err)
+ 	buffer->ptr = old_ptr;
  	hmm_buffer_free(buffer);
  }
- 
++
++struct benchmark_results {
++	double sys_to_dev_time;
++	double dev_to_sys_time;
++	double throughput_s2d;
++	double throughput_d2s;
++};
++
++static double get_time_ms(void)
++{
++	struct timeval tv;
++
++	gettimeofday(&tv, NULL);
++	return (tv.tv_sec * 1000.0) + (tv.tv_usec / 1000.0);
++}
++
++static inline struct hmm_buffer *hmm_buffer_alloc(unsigned long size)
++{
++	struct hmm_buffer *buffer;
++
++	buffer = malloc(sizeof(*buffer));
++
++	buffer->fd = -1;
++	buffer->size = size;
++	buffer->mirror = malloc(size);
++	memset(buffer->mirror, 0xFF, size);
++	return buffer;
++}
++
++static void print_benchmark_results(const char *test_name, size_t buffer_size,
++				     struct benchmark_results *thp,
++				     struct benchmark_results *regular)
++{
++	double s2d_improvement = ((regular->sys_to_dev_time - thp->sys_to_dev_time) /
++				 regular->sys_to_dev_time) * 100.0;
++	double d2s_improvement = ((regular->dev_to_sys_time - thp->dev_to_sys_time) /
++				 regular->dev_to_sys_time) * 100.0;
++	double throughput_s2d_improvement = ((thp->throughput_s2d - regular->throughput_s2d) /
++					    regular->throughput_s2d) * 100.0;
++	double throughput_d2s_improvement = ((thp->throughput_d2s - regular->throughput_d2s) /
++					    regular->throughput_d2s) * 100.0;
++
++	printf("\n=== %s (%.1f MB) ===\n", test_name, buffer_size / (1024.0 * 1024.0));
++	printf("                     | With THP        | Without THP     | Improvement\n");
++	printf("---------------------------------------------------------------------\n");
++	printf("Sys->Dev Migration   | %.3f ms        | %.3f ms        | %.1f%%\n",
++	       thp->sys_to_dev_time, regular->sys_to_dev_time, s2d_improvement);
++	printf("Dev->Sys Migration   | %.3f ms        | %.3f ms        | %.1f%%\n",
++	       thp->dev_to_sys_time, regular->dev_to_sys_time, d2s_improvement);
++	printf("S->D Throughput      | %.2f GB/s      | %.2f GB/s      | %.1f%%\n",
++	       thp->throughput_s2d, regular->throughput_s2d, throughput_s2d_improvement);
++	printf("D->S Throughput      | %.2f GB/s      | %.2f GB/s      | %.1f%%\n",
++	       thp->throughput_d2s, regular->throughput_d2s, throughput_d2s_improvement);
++}
++
 +/*
-+ * Migrate memory and fault back to sysmem after partially unmapping.
++ * Run a single migration benchmark
++ * fd: file descriptor for hmm device
++ * use_thp: whether to use THP
++ * buffer_size: size of buffer to allocate
++ * iterations: number of iterations
++ * results: where to store results
 + */
-+TEST_F(hmm, migrate_partial_unmap_fault)
++static inline int run_migration_benchmark(int fd, int use_thp, size_t buffer_size,
++					   int iterations, struct benchmark_results *results)
 +{
 +	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size = TWOMEG;
-+	unsigned long i;
-+	void *old_ptr;
-+	void *map;
++	unsigned long npages = buffer_size / sysconf(_SC_PAGESIZE);
++	double start, end;
++	double s2d_total = 0, d2s_total = 0;
++	int ret, i;
 +	int *ptr;
-+	int ret, j, use_thp;
-+	int offsets[] = { 0, 512 * ONEKB, ONEMEG };
 +
-+	for (use_thp = 0; use_thp < 2; ++use_thp) {
-+		for (j = 0; j < ARRAY_SIZE(offsets); ++j) {
-+			buffer = malloc(sizeof(*buffer));
-+			ASSERT_NE(buffer, NULL);
++	buffer = hmm_buffer_alloc(buffer_size);
 +
-+			buffer->fd = -1;
-+			buffer->size = 2 * size;
-+			buffer->mirror = malloc(size);
-+			ASSERT_NE(buffer->mirror, NULL);
-+			memset(buffer->mirror, 0xFF, size);
++	/* Map memory */
++	buffer->ptr = mmap(NULL, buffer_size, PROT_READ | PROT_WRITE,
++			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 +
-+			buffer->ptr = mmap(NULL, 2 * size,
-+					   PROT_READ | PROT_WRITE,
-+					   MAP_PRIVATE | MAP_ANONYMOUS,
-+					   buffer->fd, 0);
-+			ASSERT_NE(buffer->ptr, MAP_FAILED);
++	if (!buffer->ptr)
++		return -1;
 +
-+			npages = size >> self->page_shift;
-+			map = (void *)ALIGN((uintptr_t)buffer->ptr, size);
-+			if (use_thp)
-+				ret = madvise(map, size, MADV_HUGEPAGE);
-+			else
-+				ret = madvise(map, size, MADV_NOHUGEPAGE);
-+			ASSERT_EQ(ret, 0);
-+			old_ptr = buffer->ptr;
-+			buffer->ptr = map;
++	/* Apply THP hint if requested */
++	if (use_thp)
++		ret = madvise(buffer->ptr, buffer_size, MADV_HUGEPAGE);
++	else
++		ret = madvise(buffer->ptr, buffer_size, MADV_NOHUGEPAGE);
 +
-+			/* Initialize buffer in system memory. */
-+			for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+				ptr[i] = i;
++	if (ret)
++		return ret;
 +
-+			/* Migrate memory to device. */
-+			ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+			ASSERT_EQ(ret, 0);
-+			ASSERT_EQ(buffer->cpages, npages);
++	/* Initialize memory to make sure pages are allocated */
++	ptr = (int *)buffer->ptr;
++	for (i = 0; i < buffer_size / sizeof(int); i++)
++		ptr[i] = i & 0xFF;
 +
-+			/* Check what the device read. */
-+			for (i = 0, ptr = buffer->mirror; i < size / sizeof(*ptr); ++i)
-+				ASSERT_EQ(ptr[i], i);
++	/* Warmup iteration */
++	ret = hmm_migrate_sys_to_dev(fd, buffer, npages);
++	if (ret)
++		return ret;
 +
-+			munmap(buffer->ptr + offsets[j], ONEMEG);
++	ret = hmm_migrate_dev_to_sys(fd, buffer, npages);
++	if (ret)
++		return ret;
 +
-+			/* Fault pages back to system memory and check them. */
-+			for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+				if (i * sizeof(int) < offsets[j] ||
-+				    i * sizeof(int) >= offsets[j] + ONEMEG)
-+					ASSERT_EQ(ptr[i], i);
++	/* Benchmark iterations */
++	for (i = 0; i < iterations; i++) {
++		/* System to device migration */
++		start = get_time_ms();
 +
-+			buffer->ptr = old_ptr;
-+			hmm_buffer_free(buffer);
-+		}
++		ret = hmm_migrate_sys_to_dev(fd, buffer, npages);
++		if (ret)
++			return ret;
++
++		end = get_time_ms();
++		s2d_total += (end - start);
++
++		/* Device to system migration */
++		start = get_time_ms();
++
++		ret = hmm_migrate_dev_to_sys(fd, buffer, npages);
++		if (ret)
++			return ret;
++
++		end = get_time_ms();
++		d2s_total += (end - start);
 +	}
++
++	/* Calculate average times and throughput */
++	results->sys_to_dev_time = s2d_total / iterations;
++	results->dev_to_sys_time = d2s_total / iterations;
++	results->throughput_s2d = (buffer_size / (1024.0 * 1024.0 * 1024.0)) /
++				 (results->sys_to_dev_time / 1000.0);
++	results->throughput_d2s = (buffer_size / (1024.0 * 1024.0 * 1024.0)) /
++				 (results->dev_to_sys_time / 1000.0);
++
++	/* Cleanup */
++	hmm_buffer_free(buffer);
++	return 0;
 +}
 +
-+TEST_F(hmm, migrate_remap_fault)
++/*
++ * Benchmark THP migration with different buffer sizes
++ */
++TEST_F_TIMEOUT(hmm, benchmark_thp_migration, 120)
 +{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size = TWOMEG;
-+	unsigned long i;
-+	void *old_ptr, *new_ptr = NULL;
-+	void *map;
-+	int *ptr;
-+	int ret, j, use_thp, dont_unmap, before;
-+	int offsets[] = { 0, 512 * ONEKB, ONEMEG };
++	struct benchmark_results thp_results, regular_results;
++	size_t thp_size = 2 * 1024 * 1024; /* 2MB - typical THP size */
++	int iterations = 5;
 +
-+	for (before = 0; before < 2; ++before) {
-+		for (dont_unmap = 0; dont_unmap < 2; ++dont_unmap) {
-+			for (use_thp = 0; use_thp < 2; ++use_thp) {
-+				for (j = 0; j < ARRAY_SIZE(offsets); ++j) {
-+					int flags = MREMAP_MAYMOVE | MREMAP_FIXED;
++	printf("\nHMM THP Migration Benchmark\n");
++	printf("---------------------------\n");
++	printf("System page size: %ld bytes\n", sysconf(_SC_PAGESIZE));
 +
-+					if (dont_unmap)
-+						flags |= MREMAP_DONTUNMAP;
++	/* Test different buffer sizes */
++	size_t test_sizes[] = {
++		thp_size / 4,      /* 512KB - smaller than THP */
++		thp_size / 2,      /* 1MB - half THP */
++		thp_size,          /* 2MB - single THP */
++		thp_size * 2,      /* 4MB - two THPs */
++		thp_size * 4,      /* 8MB - four THPs */
++		thp_size * 8,       /* 16MB - eight THPs */
++		thp_size * 128,       /* 256MB - one twenty eight THPs */
++	};
 +
-+					buffer = malloc(sizeof(*buffer));
-+					ASSERT_NE(buffer, NULL);
++	static const char *const test_names[] = {
++		"Small Buffer (512KB)",
++		"Half THP Size (1MB)",
++		"Single THP Size (2MB)",
++		"Two THP Size (4MB)",
++		"Four THP Size (8MB)",
++		"Eight THP Size (16MB)",
++		"One twenty eight THP Size (256MB)"
++	};
 +
-+					buffer->fd = -1;
-+					buffer->size = 8 * size;
-+					buffer->mirror = malloc(size);
-+					ASSERT_NE(buffer->mirror, NULL);
-+					memset(buffer->mirror, 0xFF, size);
++	int num_tests = ARRAY_SIZE(test_sizes);
 +
-+					buffer->ptr = mmap(NULL, buffer->size,
-+							   PROT_READ | PROT_WRITE,
-+							   MAP_PRIVATE | MAP_ANONYMOUS,
-+							   buffer->fd, 0);
-+					ASSERT_NE(buffer->ptr, MAP_FAILED);
++	/* Run all tests */
++	for (int i = 0; i < num_tests; i++) {
++		/* Test with THP */
++		ASSERT_EQ(run_migration_benchmark(self->fd, 1, test_sizes[i],
++					iterations, &thp_results), 0);
 +
-+					npages = size >> self->page_shift;
-+					map = (void *)ALIGN((uintptr_t)buffer->ptr, size);
-+					if (use_thp)
-+						ret = madvise(map, size, MADV_HUGEPAGE);
-+					else
-+						ret = madvise(map, size, MADV_NOHUGEPAGE);
-+					ASSERT_EQ(ret, 0);
-+					old_ptr = buffer->ptr;
-+					munmap(map + size, size * 2);
-+					buffer->ptr = map;
++		/* Test without THP */
++		ASSERT_EQ(run_migration_benchmark(self->fd, 0, test_sizes[i],
++					iterations, &regular_results), 0);
 +
-+					/* Initialize buffer in system memory. */
-+					for (i = 0, ptr = buffer->ptr;
-+					     i < size / sizeof(*ptr); ++i)
-+						ptr[i] = i;
-+
-+					if (before) {
-+						new_ptr = mremap((void *)map, size, size, flags,
-+								 map + size + offsets[j]);
-+						ASSERT_NE(new_ptr, MAP_FAILED);
-+						buffer->ptr = new_ptr;
-+					}
-+
-+					/* Migrate memory to device. */
-+					ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+					ASSERT_EQ(ret, 0);
-+					ASSERT_EQ(buffer->cpages, npages);
-+
-+					/* Check what the device read. */
-+					for (i = 0, ptr = buffer->mirror;
-+					     i < size / sizeof(*ptr); ++i)
-+						ASSERT_EQ(ptr[i], i);
-+
-+					if (!before) {
-+						new_ptr = mremap((void *)map, size, size, flags,
-+								 map + size + offsets[j]);
-+						ASSERT_NE(new_ptr, MAP_FAILED);
-+						buffer->ptr = new_ptr;
-+					}
-+
-+					/* Fault pages back to system memory and check them. */
-+					for (i = 0, ptr = buffer->ptr;
-+					     i < size / sizeof(*ptr); ++i)
-+						ASSERT_EQ(ptr[i], i);
-+
-+					munmap(new_ptr, size);
-+					buffer->ptr = old_ptr;
-+					hmm_buffer_free(buffer);
-+				}
-+			}
-+		}
++		/* Print results */
++		print_benchmark_results(test_names[i], test_sizes[i],
++					&thp_results, &regular_results);
 +	}
 +}
-+
- /*
-  * Migrate private anonymous huge page with allocation errors.
-  */
+ TEST_HARNESS_MAIN
 -- 
 2.50.1
 
