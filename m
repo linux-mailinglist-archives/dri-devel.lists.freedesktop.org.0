@@ -2,127 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB04B59F75
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504BBB59FBA
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CBD10E3AA;
-	Tue, 16 Sep 2025 17:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7077C10E3B0;
+	Tue, 16 Sep 2025 17:49:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XjSML6OU";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ke8zvgBQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB95010E12D
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:50 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GAPoag012544
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=asmJMTOYWO6MF0j8LTYTYFsk
- hlkUXWRnPY3+bCKiCFM=; b=XjSML6OUsA7YEzsSUp9jzWcCdOj2nMcPPedHkIu9
- SiBG0MbFV6Eh9qVS+Xi9etlfsevozD7saVGyecfN/LKtlqdw1bGuB3a3EInXjH2B
- dPbYiMHzMSydct75/ZBHqiqAc0JzK9XTfbWVBUYKb4uiVjkQ9EZYsVRIfbojdbw2
- oflzVPFO8/qEfWOD91rhhvYmkL6vor2rSW+mTDuiagjZLfVjj7aVnwj4tdX6sKTF
- DnoPQ0AcJyG3kDCZCNmn2+/akw+kwI3gA5vyKlAFzpbmERkFAcAIwufRc6qF5w/N
- SJ6er7IRlPl+rAL/GMAAxSL5jceGigwoA/poIUa4/As7Fg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 495072sueg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:49 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b60dd9634dso134743561cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:37:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758044269; x=1758649069;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=asmJMTOYWO6MF0j8LTYTYFskhlkUXWRnPY3+bCKiCFM=;
- b=KT+RND4zHnonWl4XvsfVCVOrCdpGqbrBZfMHAckOBjzqrevErFSSOHlxyGzvXhxLoz
- KXArNw0JoX4ybA+C7mUcoWhYIF/AaTONJbqJwiQZrHV+PRD+gfkT8WOiIhgZ/NYYWfNg
- qWv1/X8GXdNQEZlPMkM6fgDGssu5zRkdI8f6Q91fxcxJ285DY1poLZfu4ViE0gRDRlzU
- MQdJhWQHUOtYlm3WyfO/UUYdP4dZhvcXFL6Jd0uyliiZCejczlCIcC8hPcphSPp+98dO
- VktDiY23I56gkuSFJzeO9fT3JEeI5ew4pWzz4XzeV0c1d6SxreqpopEoz41eOiN6Dk7X
- Qbrg==
-X-Gm-Message-State: AOJu0Yx8j+epF+MNORCpDwLrjRD/zvD/Wk2VpBkT4wAD3kM9Qa8QGtcH
- fd+t/+uM3mTHPP8nyJxLTugoc4oxxgmC8WKI3k2oDWtHjgC8mtnxzY8PPICRLUcODE1ArYjvK6F
- lOs0fqsXNn79Ih0HY0TNFYqJ0saQKH0+akB7i8rYLyCTmJ70l588ZrDBapUp6dK1fHv+SsN4=
-X-Gm-Gg: ASbGnct16ev7scsYXi+8HgXRDGBfdZuUR99Au2nk+CW4SIalPnkgjCyZDx88of3U0uy
- J1vSi/DWSqRrBf9g/7WW7qaVRrQDb+fgQT4d59GWYrJl/8njszjaNP/bJPcNSSEH8O3BCYrjW48
- HysxNDfcbrBs/YNjgAV0A21RfUWXIlgjVkB/8mcX8bseQtESebjG68SalbceELESuhY8dgI32r8
- /sh4RI5zQH4Zvw4aTrq8rmhiUNv1AJ9oDC22TnHipD5IWxomBUQDUyWCCVoIrcm+Ug5vKCxH3Z8
- 21JgH0TIQt7JnfBLbgqbQRn6FOPhJNWQnWdVuqr7uoOHxQFZ1LMeVQUOYYJIXc4dVifXdZiPkFB
- flMYukTEuxvL+eiFKQtDchGtp5HhLBul3yxR7nol2ViSSsb8ztNJC
-X-Received: by 2002:a05:622a:428d:b0:4b6:2336:7005 with SMTP id
- d75a77b69052e-4b77d08c1dfmr178883531cf.19.1758044268969; 
- Tue, 16 Sep 2025 10:37:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEINTEPiFvuj+G9ik9pEiQhi0J/sHmetYeMmXJ12N3mEWuP8rQExfbslVak9k+CMhjZMs47OA==
-X-Received: by 2002:a05:622a:428d:b0:4b6:2336:7005 with SMTP id
- d75a77b69052e-4b77d08c1dfmr178883081cf.19.1758044268385; 
- Tue, 16 Sep 2025 10:37:48 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e6460f61dsm4437835e87.113.2025.09.16.10.37.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 10:37:47 -0700 (PDT)
-Date: Tue, 16 Sep 2025 20:37:45 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RESEND 0/2] drm/bridge: lontium-lt9611uxc: switch to
- DRM_BRIDGE_OP_HDMI_AUDIO
-Message-ID: <3n5gjebxuafxgsl7yl6ife76cnfwblsggsp2kkcrbjjansbvi7@smi7zeexy5gy>
-References: <20250803-lt9611uxc-hdmi-v1-0-cb9ce1793acf@oss.qualcomm.com>
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013065.outbound.protection.outlook.com
+ [40.107.201.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07FD710E3B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:49:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EyIbdyoBSNZbkIhlPkqTEgyOU7q+Muxo76gJJbKrj/BwCSSJ7YriR/Xi8CF5r4Yrdh65WcZj/pE6l3tJKM24Pt69kMmdixrqvQpuIptVxAHy4KOdsYPRjFH6AE55J8SCdL9RLeHz8Kr1wTAFcGFZjISFtKYUopirYtZPXpxBDeu6RMS3DtJ+igMYOzTUpVyZ00uW5bQhfdsGlD+OiKkY5wJqXXanV63kTKPRd/U8PHFi+ppnr/+DgrMNcouJoEsAljAbdfKuPI72QnGVwMl0IEFap5Bom152ntvjcg4TvIfESy2U7s+fXwOQqP5VicxuFJBM3wR33jy3pHMN3DU7dA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NowBLbPpI/HduxwbxPHGhB1TlCWr1tQKsBKE//N5KP4=;
+ b=qho6yqH7FBUQbYLif2tcPjwrVAXIIYmZRLXqXPcS44bA9pK0eRlwVLz59CyNrQ9DIQz8WnwMpZfBB4FH58FYJ4xRir1N8nAgV4/YUZ4hjrg3rzC9l5O+a1BnHOllKj0JADMZVUIqZKpNUjHjVyBuUCfTEICNu4PXxu2eOv5D/FNtqehLtFczEsJHQG0h6kzaUoCZv0KotLXRGTRgrtqTQEri3uzatzVmkrvv84M+NNFJfhanddBtdAkTb5aaTRY066WjX68EQO15TEzTqZxPfEceGuBhPvgVg7RkpGwAzVnZ0XNpPItltl0DnQSKpeWkSydXbzgrZsy5mksHAfamuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NowBLbPpI/HduxwbxPHGhB1TlCWr1tQKsBKE//N5KP4=;
+ b=ke8zvgBQ56uov+NUpeJlN0QZbYH8rFxigg+H7W5OO61xnrSXCjfnhtsrzDA3K64bL9u0+w7ZcmNB4LZUUGFKrx7jGfknE/HaZs5b38FIZfMbJ08bgWnCiaAgo/vMt6N2VttKgaeQko+0IK2iOPuVHk4lqW3/GZE1q0KvRc9s1jc=
+Received: from SJ0PR03CA0389.namprd03.prod.outlook.com (2603:10b6:a03:3a1::34)
+ by CY5PR12MB6646.namprd12.prod.outlook.com (2603:10b6:930:41::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Tue, 16 Sep
+ 2025 17:48:56 +0000
+Received: from SJ1PEPF00002313.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::36) by SJ0PR03CA0389.outlook.office365.com
+ (2603:10b6:a03:3a1::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13 via Frontend Transport; Tue,
+ 16 Sep 2025 17:48:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00002313.mail.protection.outlook.com (10.167.242.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 17:48:55 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 16 Sep
+ 2025 10:48:55 -0700
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 16 Sep 2025 10:48:54 -0700
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V2] accel/amdxdna: Call dma_buf_vmap_unlocked() for imported
+ object
+Date: Tue, 16 Sep 2025 10:48:42 -0700
+Message-ID: <20250916174842.234709-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250803-lt9611uxc-hdmi-v1-0-cb9ce1793acf@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyNSBTYWx0ZWRfX9sEVuCdpZPFd
- tgRzD1fLgc5Q8JxfkJViZvYOw1mHMMmkNwuKTTzMcgVbcjyx87IUwfMth1gt0Bhg7jXtwzuUflc
- yrETtzKLewSLwhM22pzV2QSdk/F4pAyoc/jwt78BM3w3aShl3ncxWiBB8rHvECeZ892e0Z4cjLf
- fcJEEfoL1SEPVAr1J9PoCXbwAz17nYBuKHcivrAGqYGyGiEk14jsGqOnQa1mWwEmCVwxYIliKdk
- In2jp2rTU3G/x6MO97L0pLa83vQ4Nwc9Fridpi1R7kQCR74HvjF+qNm7SMlg5YnUAC4Sq+8LjWl
- 4mE2XP9EFdHeS/XF3uROdOGa8A2yi+JHP0i+rxIXV0wnF0nDDbqra344y7g41y3vzslDU5CKP9w
- aIwR8Ze6
-X-Proofpoint-GUID: mhNRPGbUfceKKIfU_ENNv1s_MRQ0JZSc
-X-Authority-Analysis: v=2.4 cv=WcsMa1hX c=1 sm=1 tr=0 ts=68c9a06d cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=BgkF6ddApZc5WCf5u_gA:9 a=CjuIK1q_8ugA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: mhNRPGbUfceKKIfU_ENNv1s_MRQ0JZSc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 spamscore=0
- suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130025
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002313:EE_|CY5PR12MB6646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e94677d-1d83-4e4c-7b31-08ddf5494edd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4CGoq3k2/F5hDxXfyr4otq9PcGsAcm4wPA10duSRf9qW5mU8Mk3ptzQ1qk0a?=
+ =?us-ascii?Q?u5lGZodJke+BDz/Mi/KAbu7gnLYt40fC/+p5/QHDb68jgWMX0YeXHCTeoKCW?=
+ =?us-ascii?Q?Y3bR3sEfqMdLMla/rLSkMO4Im6zf5HKZF6Cp16VVUcERS7YOgIFWxLwMDw4e?=
+ =?us-ascii?Q?wM0UOHt++ou09VuV868RvALOAWZH6no/mUlO0soySkUbaWR1kaTYxlcBUkeq?=
+ =?us-ascii?Q?ZGGWb9rXQGzgNxQMbqcNV++1ywSY4mf1TyhOoee7OVz5ta6A94e22IvHnbVs?=
+ =?us-ascii?Q?VO6LTLfG97gD+7YWHpbuwe17uIf8ixp+JT77lTIqS59FIuQ/iAfx+raLe7Vt?=
+ =?us-ascii?Q?sbB90/6E3dbTb8tM4oUe5QVnvBCVJZ7p7pM5DHadl+4vYiXHkLdLV5YhgXK3?=
+ =?us-ascii?Q?pfot+xifHxlrYY399sTGhkgWSW8ZDgdRMwgQNGDDF7XWRq27qfIM1C32BpnU?=
+ =?us-ascii?Q?qW5D6UPrgB66AWR8sUQ2TQfOLNhskdEnl0srdCB2JDy0ug7Ln3D/OAbgjaEy?=
+ =?us-ascii?Q?akngvcsXIBJ+cjPDoSviZ1FmXM6kxAgqKL7G25BZrW0ysQwJuC2ivgqHLs18?=
+ =?us-ascii?Q?QGp2w+5dCIyCq+8LoReggOeunpiXu0tFA8momPCoal7JvrLoR6HIA+kymhqa?=
+ =?us-ascii?Q?AJESJLAwnrr4Ggk+0g/t9k87vjyDsgBUMya6yauXTuY+5mnT5SSW16BjXcL/?=
+ =?us-ascii?Q?62txkQ+OX1AzZOAT5E1Gd/PukJ/t08LxFViIMbiZrimVcapH0fT2+ZyFSLcd?=
+ =?us-ascii?Q?ZzS+F19TeAU/3bU7OUEXgvWwNvJB9byzOMKN1U/TA3cO5i8gNVtYzkZqQiWg?=
+ =?us-ascii?Q?7BNFP1vd0owvsUBuGddUcgmIwyfZHsGE9iCcpnjSatpijvmR/Ha//NJksd07?=
+ =?us-ascii?Q?acmMr8FWZG60ok2m+V/Nf8rBN3iDorrNq58AfGdLHRirtjku1LCZUwxPeBqq?=
+ =?us-ascii?Q?7BumBn5Jqz/Jl+hMwegyKa66zRgykBggUgT/PJsI5QhG1zw/E9gW7DhxAhTJ?=
+ =?us-ascii?Q?JWYRbwsYylIYLi0dGJkNSPKuCsSR3QQk5d8FeNHy6eHLXL1ru0JRsev8nnru?=
+ =?us-ascii?Q?M6bI7UPptpFbt3DUXvTU6WUTbcUmqjDCCUwImRuVVLZ/plKUaAH0PKCNoQcv?=
+ =?us-ascii?Q?d/XLXwcc+fwBOa0RCLGv/2p/eJ1GTTp6BvT9m8XYcZYC2Vd+Lk1bsB+d82q7?=
+ =?us-ascii?Q?yQk3GKedxHFFZjf7bKEwLcywv0Uzf8NY5CoWhWqQFtHtprhIe08Ae7H6MSVY?=
+ =?us-ascii?Q?Ee4odeqENgOE9wq2h81mrASdz7Fs6YSyWVh7i++gugqu5+4cmJZjHYf9TkAE?=
+ =?us-ascii?Q?1Z+4p9CZfJmA4dBOEquetMYeXiC6dfWM2Ub6m0YuVWk1z/6+fyuiKkpivDbp?=
+ =?us-ascii?Q?s8xgycr/H8YCy1KZnb47pQ6vsTVSGEFoEoae6vcurVW19P8bBPYGwSx2DR0g?=
+ =?us-ascii?Q?FyYaD/f1ZPV0x0yYWByujZ9s5x8SJTQsDc8zEkWjKDrjdd3NNGjXWV+pf+dO?=
+ =?us-ascii?Q?3KE1AJT/nn9Lwq53pNG3snaB7KZkV5jD8X8+?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 17:48:55.9671 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e94677d-1d83-4e4c-7b31-08ddf5494edd
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002313.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6646
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,45 +135,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 03, 2025 at 02:53:50PM +0300, Dmitry Baryshkov wrote:
-> Use DRM HDMI audio helpers in order to implement HDMI audio support for
-> Lontium LT9611UXC bridge.
+In amdxdna_gem_obj_vmap(), calling dma_buf_vmap() triggers a kernel
+warning if LOCKDEP is enabled. So for imported object, use
+dma_buf_vmap_unlocked(). Then, use drm_gem_vmap() for other objects.
+The similar change applies to vunmap code.
 
-It's been waiting a while, it got posted as a part of another series,
-but I think I'd like to apply this by the end of the week if nobody
-objects.
+Fixes: bd72d4acda10 ("accel/amdxdna: Support user space allocated buffer")
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/amdxdna_gem.c | 47 ++++++++++++-----------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
-A note regarding OP_HDMI vs OP_HDMI_AUDIO: there is really no point in
-going through the OP_HDMI other than bridging the HPD even to the HDMI
-audio through the framework code. The bridge driver doesn't implement
-atomic_check (on purpose), the mode_valid() check is also performed
-against a fixed table of modes handled by the firmware.
-
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Dmitry Baryshkov (2):
->       drm/bridge: add connector argument to .hpd_notify callback
->       drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
-> 
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c     | 125 ++++++++++---------------
->  drivers/gpu/drm/display/drm_bridge_connector.c |   2 +-
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c     |   1 +
->  drivers/gpu/drm/msm/dp/dp_display.c            |   3 +-
->  drivers/gpu/drm/msm/dp/dp_drm.h                |   3 +-
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c            |   1 +
->  include/drm/drm_bridge.h                       |   1 +
->  7 files changed, 57 insertions(+), 79 deletions(-)
-> ---
-> base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-> change-id: 20250718-lt9611uxc-hdmi-3dd96306cdff
-> 
-> Best regards,
-> -- 
-> With best wishes
-> Dmitry
-> 
-
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+index d407a36eb412..7f91863c3f24 100644
+--- a/drivers/accel/amdxdna/amdxdna_gem.c
++++ b/drivers/accel/amdxdna/amdxdna_gem.c
+@@ -392,35 +392,33 @@ static const struct dma_buf_ops amdxdna_dmabuf_ops = {
+ 	.vunmap = drm_gem_dmabuf_vunmap,
+ };
+ 
+-static int amdxdna_gem_obj_vmap(struct drm_gem_object *obj, struct iosys_map *map)
++static int amdxdna_gem_obj_vmap(struct amdxdna_gem_obj *abo, void **vaddr)
+ {
+-	struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
+-
+-	iosys_map_clear(map);
+-
+-	dma_resv_assert_held(obj->resv);
++	struct iosys_map map = IOSYS_MAP_INIT_VADDR(NULL);
++	int ret;
+ 
+ 	if (is_import_bo(abo))
+-		dma_buf_vmap(abo->dma_buf, map);
++		ret = dma_buf_vmap_unlocked(abo->dma_buf, &map);
+ 	else
+-		drm_gem_shmem_object_vmap(obj, map);
+-
+-	if (!map->vaddr)
+-		return -ENOMEM;
++		ret = drm_gem_vmap(to_gobj(abo), &map);
+ 
+-	return 0;
++	*vaddr = map.vaddr;
++	return ret;
+ }
+ 
+-static void amdxdna_gem_obj_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
++static void amdxdna_gem_obj_vunmap(struct amdxdna_gem_obj *abo)
+ {
+-	struct amdxdna_gem_obj *abo = to_xdna_obj(obj);
++	struct iosys_map map;
++
++	if (!abo->mem.kva)
++		return;
+ 
+-	dma_resv_assert_held(obj->resv);
++	iosys_map_set_vaddr(&map, abo->mem.kva);
+ 
+ 	if (is_import_bo(abo))
+-		dma_buf_vunmap(abo->dma_buf, map);
++		dma_buf_vunmap_unlocked(abo->dma_buf, &map);
+ 	else
+-		drm_gem_shmem_object_vunmap(obj, map);
++		drm_gem_vunmap(to_gobj(abo), &map);
+ }
+ 
+ static struct dma_buf *amdxdna_gem_prime_export(struct drm_gem_object *gobj, int flags)
+@@ -455,7 +453,6 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
+ {
+ 	struct amdxdna_dev *xdna = to_xdna_dev(gobj->dev);
+ 	struct amdxdna_gem_obj *abo = to_xdna_obj(gobj);
+-	struct iosys_map map = IOSYS_MAP_INIT_VADDR(abo->mem.kva);
+ 
+ 	XDNA_DBG(xdna, "BO type %d xdna_addr 0x%llx", abo->type, abo->mem.dev_addr);
+ 
+@@ -468,7 +465,7 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
+ 	if (abo->type == AMDXDNA_BO_DEV_HEAP)
+ 		drm_mm_takedown(&abo->mm);
+ 
+-	drm_gem_vunmap(gobj, &map);
++	amdxdna_gem_obj_vunmap(abo);
+ 	mutex_destroy(&abo->lock);
+ 
+ 	if (is_import_bo(abo)) {
+@@ -489,8 +486,8 @@ static const struct drm_gem_object_funcs amdxdna_gem_shmem_funcs = {
+ 	.pin = drm_gem_shmem_object_pin,
+ 	.unpin = drm_gem_shmem_object_unpin,
+ 	.get_sg_table = drm_gem_shmem_object_get_sg_table,
+-	.vmap = amdxdna_gem_obj_vmap,
+-	.vunmap = amdxdna_gem_obj_vunmap,
++	.vmap = drm_gem_shmem_object_vmap,
++	.vunmap = drm_gem_shmem_object_vunmap,
+ 	.mmap = amdxdna_gem_obj_mmap,
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ 	.export = amdxdna_gem_prime_export,
+@@ -663,7 +660,6 @@ amdxdna_drm_create_dev_heap(struct drm_device *dev,
+ 			    struct drm_file *filp)
+ {
+ 	struct amdxdna_client *client = filp->driver_priv;
+-	struct iosys_map map = IOSYS_MAP_INIT_VADDR(NULL);
+ 	struct amdxdna_dev *xdna = to_xdna_dev(dev);
+ 	struct amdxdna_gem_obj *abo;
+ 	int ret;
+@@ -692,12 +688,11 @@ amdxdna_drm_create_dev_heap(struct drm_device *dev,
+ 	abo->mem.dev_addr = client->xdna->dev_info->dev_mem_base;
+ 	drm_mm_init(&abo->mm, abo->mem.dev_addr, abo->mem.size);
+ 
+-	ret = drm_gem_vmap(to_gobj(abo), &map);
++	ret = amdxdna_gem_obj_vmap(abo, &abo->mem.kva);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Vmap heap bo failed, ret %d", ret);
+ 		goto release_obj;
+ 	}
+-	abo->mem.kva = map.vaddr;
+ 
+ 	client->dev_heap = abo;
+ 	drm_gem_object_get(to_gobj(abo));
+@@ -748,7 +743,6 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
+ 			  struct amdxdna_drm_create_bo *args,
+ 			  struct drm_file *filp)
+ {
+-	struct iosys_map map = IOSYS_MAP_INIT_VADDR(NULL);
+ 	struct amdxdna_dev *xdna = to_xdna_dev(dev);
+ 	struct amdxdna_gem_obj *abo;
+ 	int ret;
+@@ -770,12 +764,11 @@ amdxdna_drm_create_cmd_bo(struct drm_device *dev,
+ 	abo->type = AMDXDNA_BO_CMD;
+ 	abo->client = filp->driver_priv;
+ 
+-	ret = drm_gem_vmap(to_gobj(abo), &map);
++	ret = amdxdna_gem_obj_vmap(abo, &abo->mem.kva);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Vmap cmd bo failed, ret %d", ret);
+ 		goto release_obj;
+ 	}
+-	abo->mem.kva = map.vaddr;
+ 
+ 	return abo;
+ 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
