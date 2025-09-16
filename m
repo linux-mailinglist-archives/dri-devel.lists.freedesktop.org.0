@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBEBB7E327
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00402B592A0
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 672B910E0A0;
-	Tue, 16 Sep 2025 22:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC75E10E06D;
+	Tue, 16 Sep 2025 09:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aWdU0eR0";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="Skod6a4S";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="vZfv9NrG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D11A10E6F1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:30:19 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-32e372c413aso1679247a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 02:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758015019; x=1758619819; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xMegCBQz7YTxSeWsApsavoRdrbMxT8WcHe9sV3hQY/k=;
- b=aWdU0eR0MXkbcD06Hlq4p4BVUIpdyZtmsQU+jHeHTCYGtQBQow3MVl4n+5BNPyNkBA
- acGkacsrd0sQka8K5dInxUY2iJxYmDL2aNDw/sigGySppEr3/X15GdzXEyZTc31zmhuH
- CznhSAUTrKJSDO1CW+tcT7HQFf08QS4A/MFJMpZJQE8BfrWetNF1kDyGUks+Yvb9BVGJ
- Qkg0i2FvaSmaSRqC2oWYldAeXXxr1ONMzfUdWyfVd3S9Ae2KCbcclGh+YLNCBxs6uEQA
- B2IyiWb1IsGK+yjWwAODE/h2/nLvn0fjMuoQVo86/aKt5Z0bTE+9WNQ5GwDperOedN4P
- KWcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758015019; x=1758619819;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xMegCBQz7YTxSeWsApsavoRdrbMxT8WcHe9sV3hQY/k=;
- b=QQZwZX0RyZ5/JNj2Oh7e1NGuDK/jOwIQRYnDJkLi6URqGlJ82fiVr1mMOx+qci2anj
- 3ZtUEUOeDDhVrH/mwphOcTYOU0sOarMwREwaERcpBrA+L6XUpe2wp0mkmF/G/g6oEvyv
- 4zNXo/b3owQ8TOmMReQKoqgT1JRyFLAjbg3Pui5a/GFqHqKTIyT2o71Kt6nIzHctrGLn
- 7j+c98DvfLYSOKQMxiiYylHFe+46IRRj6wO5gpwTuXkJeErFeACn5d07CPB2f8Mv+rNz
- X6bVC0IQV91t3a7BZIseG9dmRN/+/1EUlhsOVnLawKUVXjLRSYIHEyGfMQ/ZbC3we0oE
- VdOw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXDU4yRtEMkcfU0BeyzwrgKgpA+ZGzalt4ijDUkcMH24YCh+4cA5KbfWy37MTBb/fk+3V706kE58dM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZ1OFCCcz/btEIbAzUA3iyG4YeGqS7d2f+mVY1Xbfj6PizJlOF
- 41V4uHG79AXIXLUPmoNZFzZTA+YiKqMuJJY3GdDXlMIlk8EqIIMhAegR
-X-Gm-Gg: ASbGncstHuKP+TTEdJQyoPupgsMQn/bvAE3rExn0kkieAnKgQb/8vTIJ08ua4TIXEt9
- seaEvdo2wgqBrceQ/uSEnv1rOobPtxUutotDAGcYsalN/D5RqE/bOz5PpHgfQmMHi5lK/BDP8Ix
- DHfxP3IXqzyaJ17ymrDlk7Z5v+hXIJICBROt3dWYosUz+o6PUuylxZR8jEd79DSXCseROLOaK3x
- SMGZSjHAWa6Ao+htEHUHlgOuPID3GWKQyBfSsYQuszObE+3tzupPmjGXkue7HQ0szcLsf6brezc
- ygytOflKxKaWYEwf7cObjayI6JNHATxkBuQdQe3CpSyaRGv3ENkofddbT+t4ybCSfA9K3DVHkiG
- iQCu2U20r3qNFVE3DIGBbGRM6m559QO7fsAcuLYEs4lUJB/w=
-X-Google-Smtp-Source: AGHT+IHaY5c65oxrMkdcTL0n+OlnjEx6RcD6jC9gi1YeTOzARVykTuROW5jlE0gu3jOJro1VNfqXFA==
-X-Received: by 2002:a17:90b:38d2:b0:32b:baaa:21b0 with SMTP id
- 98e67ed59e1d1-32de4eabfbamr18284658a91.6.1758015018661; 
- Tue, 16 Sep 2025 02:30:18 -0700 (PDT)
-Received: from localhost.localdomain ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32ea3c72dacsm869074a91.4.2025.09.16.02.30.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 02:30:18 -0700 (PDT)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, rk0006818@gmail.com
-Subject: [PATCH] drm/amdgpu: Use kmalloc_array() instead of kmalloc()
-Date: Tue, 16 Sep 2025 14:59:49 +0530
-Message-ID: <20250916092949.4118999-1-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B1B10E06D;
+ Tue, 16 Sep 2025 09:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1758016016;
+ bh=Lw5b7TXcMg3JXhTW21quZEg
+ f6zfs+5Zv5AvVuEz3Cus=; b=Skod6a4SqRLCa3zqXz79atqi7zz6Wlq+/OKp6Vyo+Qat2w/EDX
+ hfaU8yo+KkFpDTR6uVV4Cx+ehWFTaEfX9TratMUR5HxQu6mtVYBWz81CIwjiZvg2iSk5Os3qFyz
+ 00vWHYcBiLZ5WeT+vCtYBI8YPk2dEJL6D29kLNi4Mkmx7FBCdaz98LQBaNMySYbn26N2Cpt2+fH
+ pMMNZMDAB+qsF9nvqqMT6N4IpdarrKbMiDF0OblJYxQFtpOSjH2JNbox2O15QgtL5+j1hBaEwDe
+ ESbBe/qMOEEg/RDypkHf90nnSd6OOF6Zkf4uxCVTM1UDPIhpTa2UMVzFEojDAvixl9Q==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1758016016; bh=Lw5b7TXcMg3JXhTW21quZEg
+ f6zfs+5Zv5AvVuEz3Cus=; b=vZfv9NrGoTKXlQ8fPArS/FZ8QOCXV1+JJrONHcftRjpLK2PEnY
+ fs/cgDH2X7eIUw1OEJQ/1pcoAgKPhyYuaVCA==;
+Message-ID: <9e1964bf-7748-4e41-9048-b1a5ad63a8c9@damsy.net>
+Date: Tue, 16 Sep 2025 11:46:56 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] drm/amdgpu: make non-NULL out fence mandatory
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250916070846.5107-1-pierre-eric.pelloux-prayer@amd.com>
+ <f66cc34f-b54b-4f91-a6fe-11a146c516b2@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <f66cc34f-b54b-4f91-a6fe-11a146c516b2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 16 Sep 2025 22:36:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,41 +63,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation/process/deprecated.rst recommends against the use of
-kmalloc with dynamic size calculations due to the risk of overflow and
-smaller allocation being made than the caller was expecting.
 
-Replace kmalloc() with kmalloc_array() in amdgpu_amdkfd_gfx_v10.c
-to make the intended allocation size clearer and avoid potential
-overflow issues.
 
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Le 16/09/2025 à 11:25, Christian König a écrit :
+> On 16.09.25 09:08, Pierre-Eric Pelloux-Prayer wrote:
+>> amdgpu_ttm_copy_mem_to_mem has a single caller, make sure the out
+>> fence is non-NULL to simplify the code.
+>> Since none of the pointers should be NULL, we can enable
+>> __attribute__((nonnull))__.
+>>
+>> While at it make the function static since it's only used from
+>> amdgpuu_ttm.c.
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 17 ++++++++---------
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  6 ------
+>>   2 files changed, 8 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index 27ab4e754b2a..70b817b5578d 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -284,12 +284,13 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+>>    * move and different for a BO to BO copy.
+>>    *
+>>    */
+>> -int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>> -			       const struct amdgpu_copy_mem *src,
+>> -			       const struct amdgpu_copy_mem *dst,
+>> -			       uint64_t size, bool tmz,
+>> -			       struct dma_resv *resv,
+>> -			       struct dma_fence **f)
+>> +__attribute__((nonnull))
+> 
+> That looks fishy.
+> 
+>> +static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>> +				      const struct amdgpu_copy_mem *src,
+>> +				      const struct amdgpu_copy_mem *dst,
+>> +				      uint64_t size, bool tmz,
+>> +				      struct dma_resv *resv,
+>> +				      struct dma_fence **f)
+> 
+> I'm not an expert for those, but looking at other examples that should be here and look something like:
+> 
+> __attribute__((nonnull(7)))
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-index 04ef0ca10541..0239114fb6c4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-@@ -352,7 +352,7 @@ static int kgd_hqd_dump(struct amdgpu_device *adev,
- 		(*dump)[i++][1] = RREG32_SOC15_IP(GC, addr);		\
- 	} while (0)
- 
--	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
-+	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
- 	if (*dump == NULL)
- 		return -ENOMEM;
- 
-@@ -449,7 +449,7 @@ static int kgd_hqd_sdma_dump(struct amdgpu_device *adev,
- #undef HQD_N_REGS
- #define HQD_N_REGS (19+6+7+10)
- 
--	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
-+	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
- 	if (*dump == NULL)
- 		return -ENOMEM;
- 
--- 
-2.43.0
+Both syntax are valid. The GCC docs says:
 
+    If no arg-index is given to the nonnull attribute, all pointer arguments are 
+marked as non-null
+
+
+> 
+> But I think for this case here it is also not a must have to have that.
+
+I can remove it if you prefer, but it doesn't hurt to have the compiler validate 
+usage of the functions.
+
+Pierre-Eric
+
+
+> 
+> Regards,
+> Christian.
+> 
+>>   {
+>>   	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>   	struct amdgpu_res_cursor src_mm, dst_mm;
+>> @@ -363,9 +364,7 @@ int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>>   	}
+>>   error:
+>>   	mutex_unlock(&adev->mman.gtt_window_lock);
+>> -	if (f)
+>> -		*f = dma_fence_get(fence);
+>> -	dma_fence_put(fence);
+>> +	*f = fence;
+>>   	return r;
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> index bb17987f0447..07ae2853c77c 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> @@ -170,12 +170,6 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+>>   		       struct dma_resv *resv,
+>>   		       struct dma_fence **fence, bool direct_submit,
+>>   		       bool vm_needs_flush, uint32_t copy_flags);
+>> -int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>> -			       const struct amdgpu_copy_mem *src,
+>> -			       const struct amdgpu_copy_mem *dst,
+>> -			       uint64_t size, bool tmz,
+>> -			       struct dma_resv *resv,
+>> -			       struct dma_fence **f);
+>>   int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>>   			    struct dma_resv *resv,
+>>   			    struct dma_fence **fence);
