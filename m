@@ -2,69 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC95B59F5A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB04B59F75
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0564610E3A9;
-	Tue, 16 Sep 2025 17:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58CBD10E3AA;
+	Tue, 16 Sep 2025 17:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="jqm2YX50";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XjSML6OU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8181510E3A9
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:34:52 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cR8D9282Wz9tSQ;
- Tue, 16 Sep 2025 19:34:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1758044089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SbZA5ejotqw68mTNh34KYL6GNeLbdM9s9dCD+1x1S5c=;
- b=jqm2YX50DAmH42cCu3Dm4pk0e/4TCsANo9ubKawkQA6ebZbjVL6LAOI3ABl3lGU016EesK
- A6f0N+ycb03D1u+60nFA7/860yAygYO/taBOTAM6lz1uvCaMMXi0XJJ7Fv+YfJJi14kl7V
- 2DGHrnLCxWoQOwg8Xh5aJRQKxrEdCOesoZs3itZKXcLXF6A2hUSN8ZYESUrBwEGRaOUW7g
- xIj2osBuO//P2wYFP4aQ00Dup1UwIuKaKBXuFhuAkLrIsRS5eFMeeGT3O16YIH9zX/iPOo
- +HTkVo5lKeVsFclOctD9GxJeMRTZpXib1Jp8KRyHyLtKwVHH22nBCwvVjGOo/w==
-Message-ID: <c34dc4bc-de12-42fc-aaf5-50474dc53042@mailbox.org>
-Date: Tue, 16 Sep 2025 19:34:42 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB95010E12D
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:50 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GAPoag012544
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=asmJMTOYWO6MF0j8LTYTYFsk
+ hlkUXWRnPY3+bCKiCFM=; b=XjSML6OUsA7YEzsSUp9jzWcCdOj2nMcPPedHkIu9
+ SiBG0MbFV6Eh9qVS+Xi9etlfsevozD7saVGyecfN/LKtlqdw1bGuB3a3EInXjH2B
+ dPbYiMHzMSydct75/ZBHqiqAc0JzK9XTfbWVBUYKb4uiVjkQ9EZYsVRIfbojdbw2
+ oflzVPFO8/qEfWOD91rhhvYmkL6vor2rSW+mTDuiagjZLfVjj7aVnwj4tdX6sKTF
+ DnoPQ0AcJyG3kDCZCNmn2+/akw+kwI3gA5vyKlAFzpbmERkFAcAIwufRc6qF5w/N
+ SJ6er7IRlPl+rAL/GMAAxSL5jceGigwoA/poIUa4/As7Fg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 495072sueg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:37:49 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b60dd9634dso134743561cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:37:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758044269; x=1758649069;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=asmJMTOYWO6MF0j8LTYTYFskhlkUXWRnPY3+bCKiCFM=;
+ b=KT+RND4zHnonWl4XvsfVCVOrCdpGqbrBZfMHAckOBjzqrevErFSSOHlxyGzvXhxLoz
+ KXArNw0JoX4ybA+C7mUcoWhYIF/AaTONJbqJwiQZrHV+PRD+gfkT8WOiIhgZ/NYYWfNg
+ qWv1/X8GXdNQEZlPMkM6fgDGssu5zRkdI8f6Q91fxcxJ285DY1poLZfu4ViE0gRDRlzU
+ MQdJhWQHUOtYlm3WyfO/UUYdP4dZhvcXFL6Jd0uyliiZCejczlCIcC8hPcphSPp+98dO
+ VktDiY23I56gkuSFJzeO9fT3JEeI5ew4pWzz4XzeV0c1d6SxreqpopEoz41eOiN6Dk7X
+ Qbrg==
+X-Gm-Message-State: AOJu0Yx8j+epF+MNORCpDwLrjRD/zvD/Wk2VpBkT4wAD3kM9Qa8QGtcH
+ fd+t/+uM3mTHPP8nyJxLTugoc4oxxgmC8WKI3k2oDWtHjgC8mtnxzY8PPICRLUcODE1ArYjvK6F
+ lOs0fqsXNn79Ih0HY0TNFYqJ0saQKH0+akB7i8rYLyCTmJ70l588ZrDBapUp6dK1fHv+SsN4=
+X-Gm-Gg: ASbGnct16ev7scsYXi+8HgXRDGBfdZuUR99Au2nk+CW4SIalPnkgjCyZDx88of3U0uy
+ J1vSi/DWSqRrBf9g/7WW7qaVRrQDb+fgQT4d59GWYrJl/8njszjaNP/bJPcNSSEH8O3BCYrjW48
+ HysxNDfcbrBs/YNjgAV0A21RfUWXIlgjVkB/8mcX8bseQtESebjG68SalbceELESuhY8dgI32r8
+ /sh4RI5zQH4Zvw4aTrq8rmhiUNv1AJ9oDC22TnHipD5IWxomBUQDUyWCCVoIrcm+Ug5vKCxH3Z8
+ 21JgH0TIQt7JnfBLbgqbQRn6FOPhJNWQnWdVuqr7uoOHxQFZ1LMeVQUOYYJIXc4dVifXdZiPkFB
+ flMYukTEuxvL+eiFKQtDchGtp5HhLBul3yxR7nol2ViSSsb8ztNJC
+X-Received: by 2002:a05:622a:428d:b0:4b6:2336:7005 with SMTP id
+ d75a77b69052e-4b77d08c1dfmr178883531cf.19.1758044268969; 
+ Tue, 16 Sep 2025 10:37:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEINTEPiFvuj+G9ik9pEiQhi0J/sHmetYeMmXJ12N3mEWuP8rQExfbslVak9k+CMhjZMs47OA==
+X-Received: by 2002:a05:622a:428d:b0:4b6:2336:7005 with SMTP id
+ d75a77b69052e-4b77d08c1dfmr178883081cf.19.1758044268385; 
+ Tue, 16 Sep 2025 10:37:48 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-56e6460f61dsm4437835e87.113.2025.09.16.10.37.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Sep 2025 10:37:47 -0700 (PDT)
+Date: Tue, 16 Sep 2025 20:37:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH RESEND 0/2] drm/bridge: lontium-lt9611uxc: switch to
+ DRM_BRIDGE_OP_HDMI_AUDIO
+Message-ID: <3n5gjebxuafxgsl7yl6ife76cnfwblsggsp2kkcrbjjansbvi7@smi7zeexy5gy>
+References: <20250803-lt9611uxc-hdmi-v1-0-cb9ce1793acf@oss.qualcomm.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/9] drm/panthor: Implement optional reset
-To: Rain Yang <jiyu.yang@oss.nxp.com>, boris.brezillon@collabora.com
-Cc: airlied@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, festevam@gmail.com, imx@lists.linux.dev,
- kernel@pengutronix.de, krzk+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, liviu.dudau@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- p.zabel@pengutronix.de, peng.fan@nxp.com, robh@kernel.org,
- s.hauer@pengutronix.de, shawnguo@kernel.org, simona@ffwll.ch,
- sre@kernel.org, steven.price@arm.com, tzimmermann@suse.de
-References: <20250325153507.61d82e39@collabora.com>
- <4c06aef3-a254-437c-aa15-8e3eb7bf5951@denx.de>
- <20250325155231.0d1b1000@collabora.com>
- <838a0c6b-845b-428d-86b3-1480e5b8080f@mailbox.org>
- <20250904082224.113d0cd1@fedora>
- <7d4e773b-64ac-49ce-8d8b-7a39c353d18f@mailbox.org>
- <20250904160445.1671f140@fedora>
- <36298ed9-05e4-4871-8e99-dfe814342c29@mailbox.org>
- <20250904172019.58e5f589@fedora>
- <4147d10f-fb54-4f1b-ac1b-58cf657a3aeb@mailbox.org>
- <aMk1CISrn2_p0qzJ@oss.nxp.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <aMk1CISrn2_p0qzJ@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 55b373c7a525aab004c
-X-MBO-RS-META: nmx8tqfcxgafify9h3ojna5p9h68zpi5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250803-lt9611uxc-hdmi-v1-0-cb9ce1793acf@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAyNSBTYWx0ZWRfX9sEVuCdpZPFd
+ tgRzD1fLgc5Q8JxfkJViZvYOw1mHMMmkNwuKTTzMcgVbcjyx87IUwfMth1gt0Bhg7jXtwzuUflc
+ yrETtzKLewSLwhM22pzV2QSdk/F4pAyoc/jwt78BM3w3aShl3ncxWiBB8rHvECeZ892e0Z4cjLf
+ fcJEEfoL1SEPVAr1J9PoCXbwAz17nYBuKHcivrAGqYGyGiEk14jsGqOnQa1mWwEmCVwxYIliKdk
+ In2jp2rTU3G/x6MO97L0pLa83vQ4Nwc9Fridpi1R7kQCR74HvjF+qNm7SMlg5YnUAC4Sq+8LjWl
+ 4mE2XP9EFdHeS/XF3uROdOGa8A2yi+JHP0i+rxIXV0wnF0nDDbqra344y7g41y3vzslDU5CKP9w
+ aIwR8Ze6
+X-Proofpoint-GUID: mhNRPGbUfceKKIfU_ENNv1s_MRQ0JZSc
+X-Authority-Analysis: v=2.4 cv=WcsMa1hX c=1 sm=1 tr=0 ts=68c9a06d cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=BgkF6ddApZc5WCf5u_gA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: mhNRPGbUfceKKIfU_ENNv1s_MRQ0JZSc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 spamscore=0
+ suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130025
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,90 +138,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/16/25 12:06 PM, Rain Yang wrote:
+On Sun, Aug 03, 2025 at 02:53:50PM +0300, Dmitry Baryshkov wrote:
+> Use DRM HDMI audio helpers in order to implement HDMI audio support for
+> Lontium LT9611UXC bridge.
 
-Hello everyone,
+It's been waiting a while, it got posted as a part of another series,
+but I think I'd like to apply this by the end of the week if nobody
+objects.
 
-> you're right.
-> *0x4d810008=1, this register is a write-once register, so it was moved into SM
-> since imx 6.12.3 release, and latest 6.6.52 release. some document work is still
-> needed in the future.
+A note regarding OP_HDMI vs OP_HDMI_AUDIO: there is really no point in
+going through the OP_HDMI other than bridging the HPD even to the HDMI
+audio through the framework code. The bridge driver doesn't implement
+atomic_check (on purpose), the mode_valid() check is also performed
+against a fixed table of modes handled by the firmware.
+
 > 
-> Hi Marek,
-> thanks for your effort to make the i.MX95 GPU upstreamed.
-> I created one PR to support i.MX95 GPU expcept the multi power domain[1],
-> but it seemed to be placed in the wrong location. No one responded to it,
-> so I closed it.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+> Dmitry Baryshkov (2):
+>       drm/bridge: add connector argument to .hpd_notify callback
+>       drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
 > 
-> for the suspend/resume issue, the panthor driver works well with 6.12.34
-> patched with pm_domains operation like you did.
-> run vkmark->suspend 10min in the 4th console->wakeup in the 4th console.
+>  drivers/gpu/drm/bridge/lontium-lt9611uxc.c     | 125 ++++++++++---------------
+>  drivers/gpu/drm/display/drm_bridge_connector.c |   2 +-
+>  drivers/gpu/drm/meson/meson_encoder_hdmi.c     |   1 +
+>  drivers/gpu/drm/msm/dp/dp_display.c            |   3 +-
+>  drivers/gpu/drm/msm/dp/dp_drm.h                |   3 +-
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c            |   1 +
+>  include/drm/drm_bridge.h                       |   1 +
+>  7 files changed, 57 insertions(+), 79 deletions(-)
+> ---
+> base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+> change-id: 20250718-lt9611uxc-hdmi-3dd96306cdff
 > 
-> can you show me your SM version when uboot start,
+> Best regards,
+> -- 
+> With best wishes
+> Dmitry
+> 
 
-Build 470, Commit a07928b4 Sep 03 2025 23:43:49
-
-> and the G310 firmware version which can be found by search git_sha string.
-
-That would be 50.2 . I now tried 53.0 and I suspect something might have 
-been fixed there ?
-
-As for the reset via block controller at 0x4d810000, without it, I get 
-SError, so it seems the reset is still needed.
-
-[    2.788317] panthor 4d900000.gpu: [drm] clock rate = 800000000
-[    2.795246] panthor 4d900000.gpu: EM: created perf domain
-[    2.801029] Internal error: synchronous external abort: 
-0000000096000010 [#1]  SMP
-[    2.808597] Modules linked in:
-[    2.811658] CPU: 3 UID: 0 PID: 52 Comm: kworker/u24:1 Tainted: G   M 
-               6.17.0-rc6-next-20250916-00076-ga73c9babac81-dirty #496 
-PREEMPT
-[    2.824939] Tainted: [M]=MACHINE_CHECK
-[    2.828684] Hardware name: Board (DT)
-[    2.834770] Workqueue: events_unbound deferred_probe_work_func
-[    2.840601] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
-BTYPE=--)
-[    2.847545] pc : panthor_hw_init+0x18/0x620
-[    2.851728] lr : panthor_device_init+0x388/0x5e0
-[    2.856333] sp : ffff800082383aa0
-[    2.859643] x29: ffff800082383aa0 x28: 0000000000000000 x27: 
-0000000000000000
-[    2.866782] x26: ffff000080034c28 x25: 0000000000000000 x24: 
-0000000000000000
-[    2.873909] x23: ffff00008036f010 x22: ffff000081082638 x21: 
-ffff00008036f010
-[    2.881033] x20: ffff000081082000 x19: ffff000081082000 x18: 
-0000000000000801
-[    2.888165] x17: 0000000000000000 x16: 0000000000000100 x15: 
-0000000000000001
-[    2.895298] x14: 0140000000000000 x13: ffff800083800000 x12: 
-ffff800083c7ffff
-[    2.902422] x11: 000000004dd80000 x10: 0000000040000000 x9 : 
-ffff8000809696b8
-[    2.909555] x8 : ffff8000823839a0 x7 : ffff000081082000 x6 : 
-ffff800082383a50
-[    2.916679] x5 : ffff8000823839d0 x4 : ffff800081beb4d0 x3 : 
-ffff800081beb000
-[    2.923803] x2 : 0000000000000000 x1 : ffff0000809a90c0 x0 : 
-ffff800083800000
-[    2.930934] Call trace:
-[    2.933378]  panthor_hw_init+0x18/0x620 (P)
-[    2.937555]  panthor_device_init+0x388/0x5e0
-[    2.941812]  panthor_probe+0x40/0x68
-[    2.945383]  platform_probe+0x60/0xa8
-[    2.949040]  really_probe+0xc0/0x2b8
-[    2.952611]  __driver_probe_device+0x7c/0x120
-[    2.956962]  driver_probe_device+0x40/0x180
-[    2.961130]  __device_attach_driver+0xb4/0x140
-[    2.965567]  bus_for_each_drv+0x88/0xf8
-[    2.969398]  __device_attach+0xa0/0x1a0
-[    2.973220]  device_initial_probe+0x18/0x30
-[    2.977397]  bus_probe_device+0x9c/0xa8
-[    2.981228]  deferred_probe_work_func+0x88/0xc8
-[    2.985743]  process_one_work+0x158/0x3a8
-[    2.989754]  worker_thread+0x2d8/0x410
-[    2.993498]  kthread+0x144/0x200
-[    2.996722]  ret_from_fork+0x10/0x20
-[    3.000296] Code: a9bb7bfd aa0003e7 910003fd f9430800 (b9400000)
-[    3.006378] ---[ end trace 0000000000000000 ]---
+-- 
+With best wishes
+Dmitry
