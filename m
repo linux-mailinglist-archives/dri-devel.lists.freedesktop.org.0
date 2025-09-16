@@ -2,106 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7505AB59C38
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04FEB7E328
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F89810E391;
-	Tue, 16 Sep 2025 15:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD25310E81A;
+	Tue, 16 Sep 2025 22:36:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CLsip3KL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LLeXXzXg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CLsip3KL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LLeXXzXg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AH+ahPDV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2AFF10E391
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:36:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E28791F80F;
- Tue, 16 Sep 2025 15:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758036932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9ZPfy7d+zBBVQL6ZYE8eoBd1lZsZkG/d8hnrthpwLM=;
- b=CLsip3KLWlnnnPIqdGzpIu6w/dEptf/w8BHHfNihhr3LJtoMhpllVM7AGrPfdWCW5xw2Pn
- qCf2/SFd3gcjTtGG1J6NVd4mLaCfeMDQKDktqWCFr011gRYd/WMwNfj8P69IHAAIJPw28n
- klUWqVQ0sCJpNsQGCAdQ3t5RYTkmYiI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758036932;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9ZPfy7d+zBBVQL6ZYE8eoBd1lZsZkG/d8hnrthpwLM=;
- b=LLeXXzXg8pNHWjVtXH7QV63lUUbuKKgAKe6JyX/6tAD0C63196vjfs9bKQFHpb97oLY5+l
- k3GOXoczeafE2SBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758036932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9ZPfy7d+zBBVQL6ZYE8eoBd1lZsZkG/d8hnrthpwLM=;
- b=CLsip3KLWlnnnPIqdGzpIu6w/dEptf/w8BHHfNihhr3LJtoMhpllVM7AGrPfdWCW5xw2Pn
- qCf2/SFd3gcjTtGG1J6NVd4mLaCfeMDQKDktqWCFr011gRYd/WMwNfj8P69IHAAIJPw28n
- klUWqVQ0sCJpNsQGCAdQ3t5RYTkmYiI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758036932;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u9ZPfy7d+zBBVQL6ZYE8eoBd1lZsZkG/d8hnrthpwLM=;
- b=LLeXXzXg8pNHWjVtXH7QV63lUUbuKKgAKe6JyX/6tAD0C63196vjfs9bKQFHpb97oLY5+l
- k3GOXoczeafE2SBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A07B6139CB;
- Tue, 16 Sep 2025 15:35:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WAoEJsSDyWjFPwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 16 Sep 2025 15:35:32 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 12/12] drm/ast: Remove generic device initialization
-Date: Tue, 16 Sep 2025 17:26:22 +0200
-Message-ID: <20250916153239.308027-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250916153239.308027-1-tzimmermann@suse.de>
-References: <20250916153239.308027-1-tzimmermann@suse.de>
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF0C210E37C
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:28:52 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-b07c28f390eso762902666b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 08:28:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758036531; x=1758641331; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RF3WI9lwfvZNWeJ7kfn1lRX1BxBApCYMK3bTcDdRZGI=;
+ b=AH+ahPDVvBnOsWlEqgfDb14VOVmICzTEo4P0B6Br3md1owhkE2SmzYFD9rHTDTByeK
+ OPkIQ+CRFYcPh6aQ472haZwKer7qqAWEwx3zM3hjbpv/BtUcQr60BmtIKFpRiO/YWsxn
+ Mm9XmpGBbDOaC00NdSi2u7R7pyk8oJlWwz1Zihf11tmSSFGc0W2iqEHZ7OX/B6HwYBB3
+ uTwe2J9eKQLJq7lnaqd+e7Vup/2KBpEfo/Bhn0MfVqoJCPB5Bd8xauvHuC/NDTEwTFhd
+ d7FYOj+10CxORlptwBYn3Kq8209ph4RkopN0L3gJ0NLkKH8nV8Phfc9lIScflurcqsOd
+ PHsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758036531; x=1758641331;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RF3WI9lwfvZNWeJ7kfn1lRX1BxBApCYMK3bTcDdRZGI=;
+ b=WoUmJ+G86Sv4F9q3TG4qE2MbiWksFBTQchgjzWaRnJbtDcYdJPOGoz46wsxIRRRd4e
+ A/1WH3U3YM8kHvyE7koFipOWwc2MdXbY6hv1rMUqGB1vWiPPRM8E8hGs2Tx0nId2jgQG
+ nch3tISM/BP6KeKO1ikh1aY6QVdldNHBGHzlCXSSGqGlR9nNF3sG2CNWFUem3AdFoHTH
+ iPdBRRo9HUg+Hs6djolw6V3WS37eFfI7+PbF8PDIguCQl3lqgvcS8YHgMCWeukUzv9sh
+ q7WBhI8EOlvkjBfKsjy76cgSsdhlAISczdG4s39UBtPKKjOHuJw4aylSs2lzLHaw+DCe
+ q8kw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHQjs4VmPUoxkCLTb7glFcl8B4qJMRtFkI/VAZwHiGGlugMPTj8RgFN9COeKrDVzQySfObXuRSyz4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6CFXSwr10DqoYoTYDAuA2ZowxcU4Z02R1g2skvHq4ZRTPzGqD
+ nh5ftrGGs6Vkh06Set92uRmDUa6m9kdJ+01nhRBx2n0bu0Arvd/vV0g7
+X-Gm-Gg: ASbGncuz1VaI80ygkwuEfWLQnJKZSd9w4dK77kIeoUUVrnsT6MoYoiwOjwg5MH8Ap0J
+ /FvDTFeBYNV3vXLYS+lESFUYCtkBgP9Kg0nq7ONmg2gvdRhJCGqXl4drJSObIHgyR49cIzDd+ui
+ rJDcAicPJpp6LJOB3A7SiOydKpWEOCB8LBdel/3XbW7mgkxOQOt6N18wn/BuEgxlA65jgoIY1KY
+ pVZ/ktBmkqKryM3PTOWfG5TPC7yHrZEBA3D90TE9NHbKFoxkbdPnWlavFx6HKOqd0UaHkfRkY0X
+ 4IgNq9dGwJGN/7r2nXJe0p6qXXC26LVF+CyrIe7B2Xa7rnAo5TFx0iJzDu3yV5LjC1Zv+iBsyb1
+ wALSq1acGtzcfx9rvkLYnc/G03ldJA6VQ+gaX4kYQduoMjnX+zFZplLrtgsA6MQw1FQrVKlO918
+ zQ8ssajKUb4yB0jnPq
+X-Google-Smtp-Source: AGHT+IH6lZbtHxH/7gxxN1MDdzkJX12I6R0YroM7gEIo/uBKwFu86PByiOXZ3s0NICwjy+v5YWGGwg==
+X-Received: by 2002:a17:906:fe0b:b0:b04:392e:7168 with SMTP id
+ a640c23a62f3a-b07c37fd0f2mr1648080766b.42.1758036531087; 
+ Tue, 16 Sep 2025 08:28:51 -0700 (PDT)
+Received: from [10.0.0.176]
+ (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch. [83.173.201.248])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b07b30da27esm1198473066b.6.2025.09.16.08.28.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Sep 2025 08:28:50 -0700 (PDT)
+Message-ID: <6e886700-24a8-4127-9324-7245b6cbf6b7@gmail.com>
+Date: Tue, 16 Sep 2025 17:28:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Transition to LP mode on
+ every video line
+To: Doug Anderson <dianders@chromium.org>
+Cc: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jayesh Choudhary <j-choudhary@ti.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250916142047.3582018-1-ghidoliemanuele@gmail.com>
+ <CAD=FV=Uftrv=x6CuG7edLCSAi16Kv=ka7qxPViuLM=BEG8pC3Q@mail.gmail.com>
+Content-Language: en-US
+From: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+In-Reply-To: <CAD=FV=Uftrv=x6CuG7edLCSAi16Kv=ka7qxPViuLM=BEG8pC3Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
- FROM_EQ_ENVFROM(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- RCVD_COUNT_TWO(0.00)[2];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RCVD_TLS_ALL(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLqirfcw6gnbcr9a9yhi49fhi6)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+X-Mailman-Approved-At: Tue, 16 Sep 2025 22:36:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,226 +104,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code in ast_main.c has been split into several helpers in
-other source files. Delete the source file. With the generic
-device init gone, fail probing on unknown hardware generations.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/Makefile   |   1 -
- drivers/gpu/drm/ast/ast_drv.c  |   5 +-
- drivers/gpu/drm/ast/ast_drv.h  |   8 --
- drivers/gpu/drm/ast/ast_main.c | 154 ---------------------------------
- 4 files changed, 2 insertions(+), 166 deletions(-)
- delete mode 100644 drivers/gpu/drm/ast/ast_main.c
 
-diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
-index 0a60c9341a9f..cdbcba3b43ad 100644
---- a/drivers/gpu/drm/ast/Makefile
-+++ b/drivers/gpu/drm/ast/Makefile
-@@ -16,7 +16,6 @@ ast-y := \
- 	ast_dp501.o \
- 	ast_dp.o \
- 	ast_drv.o \
--	ast_main.o \
- 	ast_mm.o \
- 	ast_mode.o \
- 	ast_post.o \
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 5ac1d32cfe69..a89735c6a462 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -411,9 +411,8 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 					     regs, ioregs, need_post);
- 		break;
- 	default:
--		drm = ast_device_create(pdev, &ast_driver, chip, config_mode, regs, ioregs,
--					need_post);
--		break;
-+		dev_err(&pdev->dev, "Gen%d not supported\n", chip_gen);
-+		return -ENODEV;
- 	}
- 	if (IS_ERR(drm))
- 		return PTR_ERR(drm);
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index a64eadc3b50f..35c476c85b9a 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -217,14 +217,6 @@ static inline struct ast_device *to_ast_device(struct drm_device *dev)
- 	return container_of(dev, struct ast_device, base);
- }
- 
--struct drm_device *ast_device_create(struct pci_dev *pdev,
--				     const struct drm_driver *drv,
--				     enum ast_chip chip,
--				     enum ast_config_mode config_mode,
--				     void __iomem *regs,
--				     void __iomem *ioregs,
--				     bool need_post);
--
- static inline unsigned long __ast_gen(struct ast_device *ast)
- {
- 	return __AST_CHIP_GEN(ast->chip);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-deleted file mode 100644
-index d1c54700686b..000000000000
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ /dev/null
-@@ -1,154 +0,0 @@
--/*
-- * Copyright 2012 Red Hat Inc.
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a
-- * copy of this software and associated documentation files (the
-- * "Software"), to deal in the Software without restriction, including
-- * without limitation the rights to use, copy, modify, merge, publish,
-- * distribute, sub license, and/or sell copies of the Software, and to
-- * permit persons to whom the Software is furnished to do so, subject to
-- * the following conditions:
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-- * USE OR OTHER DEALINGS IN THE SOFTWARE.
-- *
-- * The above copyright notice and this permission notice (including the
-- * next paragraph) shall be included in all copies or substantial portions
-- * of the Software.
-- *
-- */
--/*
-- * Authors: Dave Airlie <airlied@redhat.com>
-- */
--
--#include <linux/of.h>
--#include <linux/pci.h>
--
--#include <drm/drm_atomic_helper.h>
--#include <drm/drm_drv.h>
--#include <drm/drm_gem.h>
--#include <drm/drm_managed.h>
--
--#include "ast_drv.h"
--
--static void ast_detect_widescreen(struct ast_device *ast)
--{
--	ast->support_wsxga_p = false;
--	ast->support_fullhd = false;
--	ast->support_wuxga = false;
--
--	if (AST_GEN(ast) >= 7) {
--		ast->support_wsxga_p = true;
--		ast->support_fullhd = true;
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	} else if (AST_GEN(ast) >= 6) {
--		if (__ast_2100_detect_wsxga_p(ast))
--			ast->support_wsxga_p = true;
--		else if (ast->chip == AST2510)
--			ast->support_wsxga_p = true;
--		if (ast->support_wsxga_p)
--			ast->support_fullhd = true;
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	} else if (AST_GEN(ast) >= 5) {
--		if (__ast_2100_detect_wsxga_p(ast))
--			ast->support_wsxga_p = true;
--		else if (ast->chip == AST1400)
--			ast->support_wsxga_p = true;
--		if (ast->support_wsxga_p)
--			ast->support_fullhd = true;
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	} else if (AST_GEN(ast) >= 4) {
--		if (__ast_2100_detect_wsxga_p(ast))
--			ast->support_wsxga_p = true;
--		else if (ast->chip == AST1300)
--			ast->support_wsxga_p = true;
--		if (ast->support_wsxga_p)
--			ast->support_fullhd = true;
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	} else if (AST_GEN(ast) >= 3) {
--		if (__ast_2100_detect_wsxga_p(ast))
--			ast->support_wsxga_p = true;
--		if (ast->support_wsxga_p) {
--			if (ast->chip == AST2200)
--				ast->support_fullhd = true;
--		}
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	} else if (AST_GEN(ast) >= 2) {
--		if (__ast_2100_detect_wsxga_p(ast))
--			ast->support_wsxga_p = true;
--		if (ast->support_wsxga_p) {
--			if (ast->chip == AST2100)
--				ast->support_fullhd = true;
--		}
--		if (__ast_2100_detect_wuxga(ast))
--			ast->support_wuxga = true;
--	}
--}
--
--struct drm_device *ast_device_create(struct pci_dev *pdev,
--				     const struct drm_driver *drv,
--				     enum ast_chip chip,
--				     enum ast_config_mode config_mode,
--				     void __iomem *regs,
--				     void __iomem *ioregs,
--				     bool need_post)
--{
--	struct drm_device *dev;
--	struct ast_device *ast;
--	int ret;
--
--	ast = devm_drm_dev_alloc(&pdev->dev, drv, struct ast_device, base);
--	if (IS_ERR(ast))
--		return ERR_CAST(ast);
--	dev = &ast->base;
--
--	ast_device_init(ast, chip, config_mode, regs, ioregs);
--
--	if (AST_GEN(ast) >= 4)
--		ast_2300_detect_tx_chip(ast);
--	else
--		ast_2000_detect_tx_chip(ast, need_post);
--
--	switch (ast->tx_chip) {
--	case AST_TX_ASTDP:
--		ret = ast_post_gpu(ast);
--		break;
--	default:
--		ret = 0;
--		if (need_post)
--			ret = ast_post_gpu(ast);
--		break;
--	}
--	if (ret)
--		return ERR_PTR(ret);
--
--	ret = ast_mm_init(ast);
--	if (ret)
--		return ERR_PTR(ret);
--
--	/* map reserved buffer */
--	ast->dp501_fw_buf = NULL;
--	if (ast->vram_size < pci_resource_len(pdev, 0)) {
--		ast->dp501_fw_buf = pci_iomap_range(pdev, 0, ast->vram_size, 0);
--		if (!ast->dp501_fw_buf)
--			drm_info(dev, "failed to map reserved buffer!\n");
--	}
--
--	ast_detect_widescreen(ast);
--
--	ret = ast_mode_config_init(ast);
--	if (ret)
--		return ERR_PTR(ret);
--
--	return dev;
--}
--- 
-2.51.0
+On 16/09/2025 16:45, Doug Anderson wrote:
+> Hi,
+> 
+> On Tue, Sep 16, 2025 at 7:22 AM Emanuele Ghidoli
+> <ghidoliemanuele@gmail.com> wrote:
+>>
+>> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+>>
+>> The component datasheet recommends, to reduce power consumption,
+>> transitioning to LP mode on every video line.
+>>
+>> Enable the MIPI_DSI_MODE_VIDEO_NO_HFP and MIPI_DSI_MODE_VIDEO_NO_HBP
+>> flags so that the bridge can enter LP mode during the horizontal front
+>> porch and back porch periods.
+>>
+>> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+>> ---
+>> Cc: Douglas Anderson <dianders@chromium.org>
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Jayesh Choudhary <j-choudhary@ti.com>
+>> Cc: <dri-devel@lists.freedesktop.org>
+>> Cc: <linux-kernel@vger.kernel.org>
+>> ---
+>>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> I put this on a sc7180-trogdor based Chromebook and the display no
+> longer comes up. I don't personally know the MIPI side of the spec too
+> well so I have no idea why that would be.
+> 
+> -Doug
+
+Hi Doug,
+thanks for the test.
+According to the datasheet, LP is recommended for the front porch and optional
+for the back porch.
+Could you please run another test by keeping only MIPI_DSI_MODE_VIDEO_NO_HFP
+and removing MIPI_DSI_MODE_VIDEO_NO_HBP?
+
+dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_NO_HFP;
+
+Kind regards,
+Emanuele
+
+
+
+
 
