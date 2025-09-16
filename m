@@ -2,124 +2,212 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D49B58BE4
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 04:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD06DB58C1F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 05:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFC510E54F;
-	Tue, 16 Sep 2025 02:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB8110E623;
+	Tue, 16 Sep 2025 03:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="q+eecJx5";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="JkuUl6Ov";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="Ma+BH7zO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013068.outbound.protection.outlook.com
- [40.107.201.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 309AD10E54F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 02:36:06 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48D310E0B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 03:03:37 +0000 (UTC)
+X-UUID: b94b892a92a911f0b33aeb1e7f16c2b6-20250916
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=Z5b9+Qkpxljm2BX2h4WmIGRC+LNcVxoa5NiXGBZi8/k=; 
+ b=JkuUl6OvGpMJtQR5fj8QkNd2yixvrIJ/RgkWJFBbv3EVwS5vDiFRnuXhbHm/KNW58uhlHsOS7JTwq6x0GJWQRXaD6t9eumFFDhgwLDcu0s4iSq1csqqU5yDcjJiFOXKDp/l9JVTzyJHV6Kqg6bRa7iGQLhk4+80D5g3vB+0maaY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.4, REQID:5833ff27-70f7-44a5-84e8-35c911ba6a9d, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:1ca6b93, CLOUDID:3ad5976c-8443-424b-b119-dc42e68239b0,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111,TC:-5,Conten
+ t:0|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:
+ 0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b94b892a92a911f0b33aeb1e7f16c2b6-20250916
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 954436474; Tue, 16 Sep 2025 11:03:30 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Tue, 16 Sep 2025 11:03:28 +0800
+Received: from TYPPR03CU001.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Tue, 16 Sep 2025 11:03:28 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EQCB91zqkopl0CiVDS8ceOCJnV1vtS4ltx4ZoSbhHrkKS8SZeLDf8LTWLj9ad0AF8G0LNkaV+euy2n8kDRUKfgFyMpbMi02sZTi8ZfNufImMlLGFcVuMNMgA7sTSeCtT+Bl/036Ug6SozNjz6WjRHAMR8ijOBLYOjrDol+ZbAuBZw1Daze2tNLRJIm+BhH5P2N9dvlMffUgfx+vIf/Uea4QujCAO/c0SyI6dJDyk+01l5pmXdwXugGAJ77XGCPxYLaLe0r9yV23qnZrcQNk2FEgibPSan6dG18TcRQmgzbSLzphSGcad5sL0NEzxRTkm7mRdGNurGJu4xJnWKWzJhA==
+ b=Yc3wq+MkIpCyNC+og7d+njvoB87Eylr39YKupFU6CznnZXzQhZH3ttGkbbEYQUqwhVMjmmlkdo7tqTs/flPFKdvI0T5ohUh7Foba3fvMURw9fUg3oz5yP7tBEM0CEW2rGXUoQM1kNbKgHgFBnTaqiKroQf27czR99Metp2G0Oej2i0lEz8XaUyyin+pg+8F5c45F4IUP638kgu2+q8RSLb9Y01y5FS9IjRuXJbVAnEuzLOblNJRl03RVX55nC6k1hlLb9c4TOJL2XlR7Im6ukcM5V/onD4lYKYnvNsMHWiB99uWUF4FBrdKK6sAAPsXRky20KnjKC+hBEK72J86umA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yma3SNOvk21xljXvsup32PEzl5bxZ77OxbOQHRGG6o8=;
- b=uAtE8/jbVmRSIJvmmcaJm37CW/u6UalgPl5xCnNSp/ynDcmhqCDemmUWOb/HLzmqMykuOh0S+c5FJQfhxtBjuMOI2KJ3b/L+jBktGdZtwbS091e/bm7FigeTh1pTgIQAN+ZkUdnR/MJMAf7U8e+IiDr7+5EJ04i7qPiUzqrglQH7FKEdqCV6lZ/5J4C0mLW7ZaNJ2R4bDZ2eznUlZP9NtYZ3VZ94Bx5YfOzqOykhuaXOoNrAKXrTao8OakClgatBOZeDlFnmg5Epre4C0lUNNko3EXJGcIJvz3bkzw9ELBebjlAZhg3NVgFQc8/lrplJhDX2LCqrPMX8xS4shUipdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=oUe23kUx/aRcqIeUrZDZVs4YZXeLInTRJd/PgSHFXUU=;
+ b=caS2MPJ0GN0goq8sFDWbQ9EnLVCEUNzAkCl2Aq/42nbnqgNKZcIBOhbGFVKyCPjreZ7e3f4qU9H/vZRllMoqS61E57FfnVbK0JDQHVA9RXFWL71xOeUEyEQ0GjYTbdGn9jqmtDLFDhJnyTp+3A0g47uyT7x/bc9tOhfmp5njfwibEEo2OpiDOXraELAy9CObPNLuFfPb0T8d+SOHBWl8vi6kZsvLxcfri6rfqy+5748k5duJlyCmZFVBWz95cr7UO+u8PM8N5p93yPuCqQ3govu+ePaoz682wKC1eFpeZ1BE2fv7X/chR3grNYDc43k+pAiSJhcJ0f261E5JP9/BuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yma3SNOvk21xljXvsup32PEzl5bxZ77OxbOQHRGG6o8=;
- b=q+eecJx5zxy+JhZTt9J/qKAwWjCkfoLjPqzH9lLLJ6yIC7Yi3zRrYF6Y3i4ggjiG42gGEe+j9RLUsPbuYsizuqfHbRae0NXOvtMRZPfOtdwLPttrjpo+n6EJhRBaiMxIZFAiWKb+CM3/9fcnTT/Rxj7D0gYZzxi4LKCRcxm+RpA=
-Received: from DS7PR03CA0183.namprd03.prod.outlook.com (2603:10b6:5:3b6::8) by
- SN7PR12MB6887.namprd12.prod.outlook.com (2603:10b6:806:261::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Tue, 16 Sep
- 2025 02:36:01 +0000
-Received: from DS2PEPF00003447.namprd04.prod.outlook.com
- (2603:10b6:5:3b6:cafe::dc) by DS7PR03CA0183.outlook.office365.com
- (2603:10b6:5:3b6::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.21 via Frontend Transport; Tue,
- 16 Sep 2025 02:36:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS2PEPF00003447.mail.protection.outlook.com (10.167.17.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 02:36:00 +0000
-Received: from maxZ2mini.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 15 Sep
- 2025 19:35:57 -0700
-From: Chuanyu Tseng <Chuanyu.Tseng@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <harry.wentland@amd.com>, <Mario.Limonciello@amd.com>,
- <xaver.hugl@gmail.com>, <mdaenzer@redhat.com>, <victoria@system76.com>,
- <seanpaul@google.com>, <Sunpeng.Li@amd.com>, Chuanyu Tseng
- <Chuanyu.Tseng@amd.com>
-Subject: [RFC PATCH v2] drm/uapi: Indroduce a VRR Range Control Interface
-Date: Tue, 16 Sep 2025 10:35:38 +0800
-Message-ID: <20250916023538.90951-1-Chuanyu.Tseng@amd.com>
-X-Mailer: git-send-email 2.43.0
+ bh=oUe23kUx/aRcqIeUrZDZVs4YZXeLInTRJd/PgSHFXUU=;
+ b=Ma+BH7zOvpcdSvnfyK48jzyzE3s7L3C8ERE++ptpqBDGtPC4JJHOt9xy/MWOwxTuYa+wAQyp9rAtZhU9mQBjswgylhUmhjMq6+kSDzpIjdqZiX+7CuXbpndMDQsiCPX8c/KtCj1tqmxrSAGe27EukM9rKdAy3In9qcYVxGnDdTQ=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by KL1PR03MB7744.apcprd03.prod.outlook.com (2603:1096:820:ed::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Tue, 16 Sep
+ 2025 03:03:25 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%4]) with mapi id 15.20.9115.020; Tue, 16 Sep 2025
+ 03:03:25 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, =?utf-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?=
+ <Paul-pl.Chen@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+CC: =?utf-8?B?U3VubnkgU2hlbiAo5rKI5aeN5aeNKQ==?= <Sunny.Shen@mediatek.com>,
+ =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?=
+ <Singo.Chang@mediatek.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "treapking@chromium.org" <treapking@chromium.org>
+Subject: Re: [PATCH v4 06/19] soc: mediatek: Add runtime PM and top clocks and
+ async controls for MMSYS
+Thread-Topic: [PATCH v4 06/19] soc: mediatek: Add runtime PM and top clocks
+ and async controls for MMSYS
+Thread-Index: AQHcF/M+3AnIlAAMBEqsXMRYxgdqwbSVPQcA
+Date: Tue, 16 Sep 2025 03:03:25 +0000
+Message-ID: <9d157ab1fbfc268a052b44955192092757ce48bd.camel@mediatek.com>
+References: <20250828080855.3502514-1-paul-pl.chen@mediatek.com>
+ <20250828080855.3502514-7-paul-pl.chen@mediatek.com>
+In-Reply-To: <20250828080855.3502514-7-paul-pl.chen@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|KL1PR03MB7744:EE_
+x-ms-office365-filtering-correlation-id: bf86bff9-242e-41ec-be3d-08ddf4cd9abc
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|42112799006|7416014|376014|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?YnRlNXF4OFdXcjJqWHkvRDhCOWpzbHRMTkhSbGV3aTRwRUI4b1VoT1JHdlVn?=
+ =?utf-8?B?N09MNzl2ZXB3VHE4YzFqS2Y5cnBhbTZlZmN3a2NKQkY4Z2tSU3YyQkh0cDlD?=
+ =?utf-8?B?VXlVQWQzdTYwdHV3aW1QTTljU2pYcEQ1RzRGYjIvL1hVazIwdThoWnVZZzB1?=
+ =?utf-8?B?cW9LVHR5Wis5eklCTUx5aUw3TVVZL1FWVGpYWDJLeFl2K3k1TExDbEx1K3FB?=
+ =?utf-8?B?TEs0V2RFdmlmNi9aSjZ4Z2diaGpyVUg5bWRCcER3d0RYd1ZlSEk5RXRoRHNQ?=
+ =?utf-8?B?NEFIOWVWdGtNd2FISEt6d2kwOGpwdDhzTWhjRXQrdFgyWGRKVE9BeURSTHNE?=
+ =?utf-8?B?V0REdGpwWndvaXBtQ0t0SFh2UXFnZG93ZDNVWnVJOVExSFlvL3Mwckw4YVFI?=
+ =?utf-8?B?NGZXT0krWWJ4cmlCdVVKVVpYSHlRVHdTQ2VtbVlCZkphQTFsR25BbDVCSkEx?=
+ =?utf-8?B?c1hoczRocmw5bDkrYnl4UlMzSm45eHhOaTJWNnFweDdwUnFYNDZSME03cUZE?=
+ =?utf-8?B?QmRJQUpoQWdsN3JrQXFOMFl2TmthWGR6REx2OUUxRHRqUCsvMmVQV1JQN1JU?=
+ =?utf-8?B?S3B0N1dQZlFucGZhT25qRU9xbEJXUWRMZXJQY1E1eG45dDBMZ0t3MjZKQU1X?=
+ =?utf-8?B?VnFWNnlPRFkwWWtxU3NMZ2xQMU04Qml1NzJwZE9xd09qRzdac1FwdlVFYVBV?=
+ =?utf-8?B?TVExNkF6SEZOOUtzaFlhMWFIMHVVTW1udmVRU2xGcGRRTm1oVGF4ZTJnWDJG?=
+ =?utf-8?B?eXN6QmFTaWJlZU5XWVRnVlg1aG5OODhXWWUrSEl6NGVuSkhFOUVRWEJYRGxQ?=
+ =?utf-8?B?Z0M4eFppVzlCLzBWWkxiZVA1cFQ1VVk1V0pRUUZOWm1qUHJNd09XQnc2QXpC?=
+ =?utf-8?B?OG9JRVZaWWV3QUZKcTR0eUluMmYxb2NVd1B1V1p5MW5pZ2hvdm9aeENtcTRl?=
+ =?utf-8?B?SUQ3dFREVGpaVkppRGZvcmh0aklCeXVaZ1EwRVZreEUxcWRwVlBtcGtjSWNz?=
+ =?utf-8?B?Nmd3czBncGxlNEIwRTlOV3JUdnhBa3FLeDVxWWdMaUM5OUFFVHdYL3FqbGtW?=
+ =?utf-8?B?Z1VhbTJ3Y3FNdXRhS2tZMDVKOWtrazh3Rmx2dms3OFREMmV0bDRvcEI3aFRz?=
+ =?utf-8?B?QmdBSEl2L1k3djlDQUdobDFQY05iZlE1Y1ZGbVpRYXRQcWEyTmh4U2VYZ1FT?=
+ =?utf-8?B?Skp2K1dvQWRCckg2cjJ1MDBBaFZDYzVOYURycnJUSlpCaDZsM2liRG1INitS?=
+ =?utf-8?B?Yy9EN0ZocmtkNW9ySFp3WVFtWlBVbzY1Mkd6NlZqYjR5VXJXUjdQQzU2aDlD?=
+ =?utf-8?B?a2o5NEh1cXcremJXK2xMaXpsa3RKbnBSR2tBNXg4UnphSzNiSGpmbVZjeXpP?=
+ =?utf-8?B?NjRlUmRJdU16ZkdKdjJCNlZUQ3dyN2NRc3lPRG04eWUvNndJbG9KR2JCSC9K?=
+ =?utf-8?B?dTUwMGdjSG5DQUcyODFQazluV242WGJsY3BtQy9tU2oxdFUzdlRDT2szeFBk?=
+ =?utf-8?B?eFJjeTlrbUxnLzdYOW1UR0t4a25VYVhhamptK1N3cVVLTFQrRmc3MWN5Nkw4?=
+ =?utf-8?B?Slo5OTliSHNlcVFHTG94bkM4MDVXNkdnZjN0SHcxR0ZJT1ptbXMyc2MyMVF0?=
+ =?utf-8?B?WVBEZnhOaGhBNXVxY1lkRU9JY0FSTHFWUnFYeTQrNEN1emFGZHZBVmdCeHFC?=
+ =?utf-8?B?bE0xdWRiRDNoUHU1NWRRaGdYUzdaZk1iMUZzWWZ2Y0hsdGZ3Mnh6Ry9zWnVq?=
+ =?utf-8?B?OXppMlJVMk56YkJxK3JpblRxem1SbGlWMjZDdjNlOXRGTTlXb0oxU0JiVCts?=
+ =?utf-8?B?Wnd4TW5kWVk2ZFRGOWFSaW1uSW4wSmowMWlQNVdGYUlGNG5OZmNDTlp3RnVv?=
+ =?utf-8?B?ekNNTzAzcTFyeVNpaUVobHZUUlNHVnNObWt6Vjh1Z0ZDLytxZEJSTTYxbHRi?=
+ =?utf-8?B?L3ZiN3dDUERZNWhmUlo1YjZ1SmRJTjdUWCs1a0Y4NkdrNzArSkphUmlMNEww?=
+ =?utf-8?B?V09iZUI3ek13PT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(42112799006)(7416014)(376014)(1800799024)(38070700021);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TmFZL3IyNndNUlAvbW1xL1dQaENLZmVNdHJqaUFwQzZuM0ZZeEhoR2k0NjRM?=
+ =?utf-8?B?ZE45T1B2THNBRnI4M0FnNUdhZzEyWmxDazduNllEajN1N2pGOWM5b3lacnU2?=
+ =?utf-8?B?clAybjJTZzBjMG5kR29sbGpXb21Qa1AzUDR3YUF2c2RHYlRuUTkvcForTWpj?=
+ =?utf-8?B?L0hJbVBkYjI2NEg2cTBJUEZVcm5FUjI2ZGZsbVhvZ1lXNUs1RThIUERBUzcy?=
+ =?utf-8?B?dDYwb2wvdnRVc0pCU0E4MElqOFJMM2QyTGVSTTc2eGpMbWJZUzBwN3BhakhW?=
+ =?utf-8?B?Wkhwbm4zWlltQWtwS0VLODNXOEtWOGpBRENvQ1Q0ckhjRFdieDVZNjhMSis0?=
+ =?utf-8?B?elRuU0JHWUhhblJ0R3pJaDU0UTVDOVNUalVraGw0TmtSNHkya0NwK08yMGw4?=
+ =?utf-8?B?L3lSdTFOeXpYYTFBc2hHTHg5Qm84RUdsY1N3T0xtbkdiYkV3RGxxeHJJeGFD?=
+ =?utf-8?B?YzlrOTc5MFFDT0RUYmI1V2JZTDhGbS93RzgvRHB6YTlOY3pPNEpqMThlS3Nr?=
+ =?utf-8?B?eFBZRTRJNG5wbTRYcDlpQndZTkcwTzB5eW5SQW1SOWJPd2JCeEhweHhrK2Jx?=
+ =?utf-8?B?WWxBWm4xaHcxbm5uank4ZW81bG0zK09sU2IrNmNabWxGZWxhbk1iczE3R1c4?=
+ =?utf-8?B?Ry9HVVdWZ29jVE5pYnpXKzBiQVB1T0VCT01Va1U3Z3ZhWnZsS05yU282YTJW?=
+ =?utf-8?B?ZWpZT3JMSWMxYXBETUkyYmNRQVJuY0l1T01mTitDcXc4c1B1cy9jZmhIK2l4?=
+ =?utf-8?B?R1hQby8wZUk5dHpHNzR3VUIzRVp0OFBQR24xV2lVNTdMSDFHQmZndmduOTQ3?=
+ =?utf-8?B?R2ZHbDl6MTdDY1BIcXk2L042bGk4YTFINGZQT2FQZmNMZmxzZUl1SnJjS25p?=
+ =?utf-8?B?aGI5QkZkZENmcHJkNHQxc1o2aXBJejZwbHhBUlpOQWNWS2dkMWwwSnUxbUJk?=
+ =?utf-8?B?L3FQZFhEL1hHMkROajJ5YjRJL2Z0RnU4UTVJUW9JRlF2a0xIOFZocnk4RUxD?=
+ =?utf-8?B?QWV2SGt4dXlnRmNxYmw4Mm5lUnhxQ1VGSi9obEE5L1AvWHJtNGRma25KcSsx?=
+ =?utf-8?B?b1ZBR1E4dTMvcDRsWE1hRmp5Q0EwN0RzM1JPc1M2K21sZ0VMVlBad1lPWXFw?=
+ =?utf-8?B?MWVMeTZhSlFnWTN5dXM2WHdNS1FGUGpaRkV3ZU5lZTM5WXVwdmJuZXRjVlQy?=
+ =?utf-8?B?QzYxQzRNRGtyV1dCQmFYdUk5elU5b3pmdDVzYm03ZkdFVGlQY1lBc2dHdjZm?=
+ =?utf-8?B?dkgrazh0bWF1RXl0MlZzRnEzOHlDSnYwcXphNGNyRWVoUnh3cGlJUXkrazJF?=
+ =?utf-8?B?RnZ5VW5QcXJXTGpDeTAwbXZPRGZkOGNKZEltV2pCLzB6N0E4MEk3dkx2djlO?=
+ =?utf-8?B?dUVmenR2WEF2eXA0ckhDMFZYamFQd3dkbUxYek1IcFZncmFhNCsySHBRSmVO?=
+ =?utf-8?B?MFpBcXNnZnQyR3phQVhEMGJtN25lNzlzTVNQcjl6N3VTSkFnanVIVGlJR0g1?=
+ =?utf-8?B?UWQvbjBlOHRONjR0TkFwY3JPSGFDSGpRNUs4M2xrdCtldDVGVnlucWhQaEVJ?=
+ =?utf-8?B?Rzd3SzZ4YkpiZDEvT1Z2dEJpZ1pqK0dSOTlST1VwQzIyVzZmNmo0S3d4UGpl?=
+ =?utf-8?B?M1FrWmJJU3RVME1XakZya3dVV2NQbXl4M3NxQk0zL0ZRVVJUUitzT2J3bEV5?=
+ =?utf-8?B?eDE0ZzVpQWowUkcxSm5xaGJibWZDenN4YmNKUHl3aTdxcHNmM1Q1WnpScEVU?=
+ =?utf-8?B?Q1RhblR3VmROREV5SHB6VS8vNi9GK21rcmh4YTJ1dVF4enpqWmZiTlRLRVFo?=
+ =?utf-8?B?ZmNmV0x3Z3Z0RStndnNRRTAxb1RhT1VBYzNNa0IrQkhiZ3J4OGVPUzY2NDRR?=
+ =?utf-8?B?cjdORWZTalhiRzBtZE16cEtSZGM4dTFFRVlTMlBnVkFSUFdqRm8rTGV5ZWNo?=
+ =?utf-8?B?akdJa0VnZi9XWTNMYkM4T0FSVExTR2M4NXRJUEgyc3A3OG54UnNnSkJIVFFR?=
+ =?utf-8?B?R01oWVg5TnN6UjVXNmpKVmJwMGhlUnJ0UUNkTVVwaE44R05VRXV3eEJyOVp2?=
+ =?utf-8?B?SnMrNHZQWTI0ZVh3TE1Jemw2cUR3Y1V6bExYT3kwUnEwazh5Q0lETDhnK2J6?=
+ =?utf-8?Q?4Ol0fn/jvj0NwyxOmq/RyxVU4?=
+Content-ID: <9AC46528393EAD4D94A7E0C608C5EA4D@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003447:EE_|SN7PR12MB6887:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9d238e05-9242-44be-9fbb-08ddf4c9c60b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?e/ZSrJ6IUcppJah7KfJD7L/4zSp80wnvp4Q/iUnrRr1hmPW/DAFbTgVQ/H6P?=
- =?us-ascii?Q?YW5DJExV9AiJCDedS8C/ypi7kfRBSR5ryUvPa4oOeH6d8cIAMmCgDPVboJdL?=
- =?us-ascii?Q?Rr73ynWAgvAYzgQWUHh6ql4PqJnOrEZrAaDg4XwJITyUwgkFW/zJ3aLzn2xh?=
- =?us-ascii?Q?Lj1eubGFXbH9BjovAjoTVeq8NxYj28FNxecA41XE3p1Xum1HB4szIdgUCf38?=
- =?us-ascii?Q?L5Q3q5KKYaPIZ+5bmaw3qee6guErRwSm5+RUYnI31dYFPxrmG/iH2JRf8XU9?=
- =?us-ascii?Q?3bdOK5s+CQmDr+prNI4LhowtLXCMQLAFIuL7DqcyUSJ3meRTPlfJ10Hz+t6I?=
- =?us-ascii?Q?U4V5Pu95B0izXi1p0m07ujySuSq32b47wCtBlMZb6TFdPTmHF+wabeHR0aJc?=
- =?us-ascii?Q?DswYSZOy5zYAyaLAIY+/s3eBAl9WA0fCcQW5NDNbRORy8QetC/MjA9AxBFkg?=
- =?us-ascii?Q?nazpGtfzDrMB07t2ljwCATVGsrONQipxXXJid9XYuZ9DjlQ71Ho5h1+VFTe7?=
- =?us-ascii?Q?l8m1dLvsQBjHVFEiH2vvgugBZ0NJu8ANCj6W2WxDLV26xYK2/hnOV86CeW49?=
- =?us-ascii?Q?8VursdvD2XUrKui66CM7zwSPkw3IhQ4c6jcT8StN+1rYJ1j4vT//HNC3H0ip?=
- =?us-ascii?Q?Zb/EzJIiQEjsbjyXCVva1TYo6J7QgEUu5y9TfjKhrq1RIbBoVd/t4DYUGyAP?=
- =?us-ascii?Q?a6KVpOFwJg7lE/+sqz2suOV9/w+4nmc1UDHBhYPwn6y9idA+78J1+V6XdNKq?=
- =?us-ascii?Q?Iu1GMDVBaMtxdA2qSspe06aXvTEydFtjIk5PFcQlHqoCwj/b5Ezv6tHXwiNO?=
- =?us-ascii?Q?EohZOlNz4aOmmHxkTUfXcJsuENfPdSLH44EaAEMLqswiBolAG7anls5PBMrV?=
- =?us-ascii?Q?Q57pA2Y9jqhExoT1+e41EbNohkhNYL/V7taS6KRAAanXxHgv6bNLksN3Y6zN?=
- =?us-ascii?Q?5SKL63jy2U/Uy+wHgM7mYhlBmrtgk14sBPsc1t0jMoCEJizP5rvo4ROR8nw3?=
- =?us-ascii?Q?0NeV8vfPLlSXjKw2zusEQNw3mv4TB1CBX7VXylgQYyYJg3/VXQyTguebQrbx?=
- =?us-ascii?Q?uaUGQMvPasVj4E9DMdV8Ll2sFS4rHg3m+rXeTn5MN2jT/QIECRvaRk4zsJHg?=
- =?us-ascii?Q?eQGeTsk5rd8WVzTzCdcSgALFtx9AzkY47OJ9t2SsPDCndB6LoxwmvAVWzUgz?=
- =?us-ascii?Q?0Kl9zJd0BJod77ykqhyWE86klQi5aaYlxBkL1bsVgK18oSpAHX4+U8hBBl38?=
- =?us-ascii?Q?yyRb0iQXKUbqDq+fSkzKBi1EVjPtcVuKfKBE6fE728ikTGRTeDVu8RihZMjz?=
- =?us-ascii?Q?T8aOSzr61TXQXICdKzzXVgrr3/hHcDnvYV2s1EWY+BpNwD8odRvO+cojg8V4?=
- =?us-ascii?Q?ed43EZZVWN5WG7UJQpF6ydp6kHczGmPgB0mjuUXJSjKSn+qOIjJCSB39srUh?=
- =?us-ascii?Q?eQMIM5451RAUSrAruTEhxGUYUb8b38T4DFSzNjGY9rEAQO2m4Ho4K0NylZjz?=
- =?us-ascii?Q?WpH8qVZ61E6Byv2myhg9JuxCULu7ZKf+ANM3?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 02:36:00.3922 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d238e05-9242-44be-9fbb-08ddf4c9c60b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003447.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6887
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf86bff9-242e-41ec-be3d-08ddf4cd9abc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2025 03:03:25.7591 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1XJp2+Zpqkk1laqmQP4Pxwyge7xld606D7nquqBEv0+H4Yi8GeBQYCntyyGLc7ZgYHmFUCINoVMd7vBZHo2Zrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7744
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_001_442410357.1150573808"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,324 +223,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a DRM interface for DRM clients to further restrict the
-VRR Range within the panel supported VRR range on a per-commit
-basis.
+--__=_Part_Boundary_001_442410357.1150573808
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The goal is to give DRM client the ability to do frame-doubling/
-ramping themselves, or to set lower static refresh rates for power
-savings.
+T24gVGh1LCAyMDI1LTA4LTI4IGF0IDE2OjA3ICswODAwLCBQYXVsIENoZW4gd3JvdGU6DQo+IEZy
+b206IE5hbmN5IExpbiA8bmFuY3kubGluQG1lZGlhdGVrLmNvbT4NCj4gDQo+IC0gQWRkIGluaXRp
+YWxpemF0aW9uIG9mIHRvcCBjbG9ja3MgYW5kIGFzeW5jIGNsb2NrcyBmb3IgZWFjaCBNTVNZUy4N
+Cj4gLSBBZGQgUE0gcnVudGltZSBjb250cm9sIGFuZCBuZXcgZnVuY3Rpb25zIHRvIG1hbmFnZSB0
+aGVzZSBjbG9ja3MuDQo+IC0gQWRkIGZ1bmN0aW9ucyB0byBzZXQgdGhlc2UgY2xvY2tzIGFjY29y
+ZGluZyB0byB0aGUgZGVmYXVsdA0KPiAgIGNvbmZpZ3VyYXRpb24gb2YgdGhlIGNvcnJlc3BvbmRp
+bmcgTU1TWVMuDQoNClRoaXMgcGF0Y2ggaW5jbHVkZSAzIHRoaW5nczoNCjEuIEFkZCBydW50aW1l
+IFBNDQoyLiB0b3AgY2xvY2sgY29udHJvbA0KMy4gYXN5bmMgY29udHJvbA0KDQpJIHdvdWxkIGxp
+a2UgeW91IHRvIHNlcGFyYXRlIHRoZXNlIHRvIGRpZmZlcmVudCBwYXRjaC4NCg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogTmFuY3kgTGluIDxuYW5jeS5saW5AbWVkaWF0ZWsuY29tPg0KPiBTaWduZWQt
+b2ZmLWJ5OiBQYXVsLXBsIENoZW4gPHBhdWwtcGwuY2hlbkBtZWRpYXRlay5jb20+DQo+IC0tLQ0K
+DQpbc25pcF0NCg0KPiArDQo+ICtpbnQgbXRrX21tc3lzX2RkcF9jbGtfZW5hYmxlKHN0cnVjdCBk
+ZXZpY2UgKmRldiwgZW51bSBtdGtfZGRwX2NvbXBfaWQgY29tcF9pZCkNCg0KVGhpcyBpcyB0byBj
+b250cm9sIGFzeW5jIGNsb2NrLCBzbyBjaGFuZ2UgdGhlIGZ1bmN0aW9uIG5hbWUgdG8NCg0KbXRr
+X21tc3lzX2FzeW5jX2Nsa19lbmFibGUoKQ0KDQo+ICt7DQo+ICsJc3RydWN0IG10a19tbXN5cyAq
+bW1zeXMgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gKwljb25zdCBzdHJ1Y3QgbXRrX21tc3lz
+X2FzeW5jX2luZm8gKmFzeW5jID0gbW1zeXMtPmRhdGEtPmFzeW5jX2luZm87DQo+ICsNCj4gKwlp
+bnQgaTsNCj4gKw0KPiArCWlmICghbW1zeXMtPmRhdGEtPm51bV9hc3luY19pbmZvKQ0KDQpmb3It
+bG9vcCB3b3VsZCBjaGVjayB0aGlzLCBzbyBkcm9wIHRoaXMuDQoNCj4gKwkJcmV0dXJuIDA7DQo+
+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgbW1zeXMtPmRhdGEtPm51bV9hc3luY19pbmZvOyBpKysp
+DQo+ICsJCWlmIChjb21wX2lkID09IGFzeW5jW2ldLmNvbXBfaWQpDQo+ICsJCQlyZXR1cm4gY2xr
+X3ByZXBhcmVfZW5hYmxlKG1tc3lzLT5hc3luY19jbGtbYXN5bmNbaV0uaW5kZXhdKTsNCj4gKwly
+ZXR1cm4gMDsNCj4gK30NCj4gK0VYUE9SVF9TWU1CT0xfR1BMKG10a19tbXN5c19kZHBfY2xrX2Vu
+YWJsZSk7DQo+ICsNCj4gK3ZvaWQgbXRrX21tc3lzX2RkcF9jbGtfZGlzYWJsZShzdHJ1Y3QgZGV2
+aWNlICpkZXYsIGVudW0gbXRrX2RkcF9jb21wX2lkIGNvbXBfaWQpDQo+ICt7DQo+ICsJc3RydWN0
+IG10a19tbXN5cyAqbW1zeXMgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gKwljb25zdCBzdHJ1
+Y3QgbXRrX21tc3lzX2FzeW5jX2luZm8gKmFzeW5jID0gbW1zeXMtPmRhdGEtPmFzeW5jX2luZm87
+DQo+ICsJaW50IGk7DQo+ICsNCj4gKwlpZiAoIW1tc3lzLT5kYXRhLT5udW1fYXN5bmNfaW5mbykN
+Cg0KZm9yLWxvb3Agd291bGQgY2hlY2sgdGhpcywgc28gZHJvcCB0aGlzLg0KDQo+ICsJCXJldHVy
+bjsNCj4gKw0KPiArCWZvciAoaSA9IDA7IGkgPCBtbXN5cy0+ZGF0YS0+bnVtX2FzeW5jX2luZm87
+IGkrKykNCj4gKwkJaWYgKGNvbXBfaWQgPT0gYXN5bmNbaV0uY29tcF9pZCkNCj4gKwkJCWNsa19k
+aXNhYmxlX3VucHJlcGFyZShtbXN5cy0+YXN5bmNfY2xrW2FzeW5jW2ldLmluZGV4XSk7DQo+ICt9
+DQo+ICtFWFBPUlRfU1lNQk9MX0dQTChtdGtfbW1zeXNfZGRwX2Nsa19kaXNhYmxlKTsNCj4gKw0K
+PiArdm9pZCBtdGtfbW1zeXNfZGRwX2NvbmZpZyhzdHJ1Y3QgZGV2aWNlICpkZXYsIGVudW0gbXRr
+X2RkcF9jb21wX2lkIGNvbXBfaWQsDQo+ICsJCQkgIGludCB3aWR0aCwgaW50IGhlaWdodCwgc3Ry
+dWN0IGNtZHFfcGt0ICpjbWRxX3BrdCkNCg0KVGhpcyBpcyB0byBjb250cm9sIGFzeW5jLiBTbyBj
+aGFuZ2UgdGhlIGZ1bmN0aW9uIG5hbWUgdG8NCg0KbXRrX21tc3lzX2FzeW5jX2NvbmZpZygpDQoN
+Cj4gK3sNCj4gKwlzdHJ1Y3QgbXRrX21tc3lzICptbXN5cyA9IGRldl9nZXRfZHJ2ZGF0YShkZXYp
+Ow0KPiArCWNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfYXN5bmNfaW5mbyAqYXN5bmMgPSBtbXN5cy0+
+ZGF0YS0+YXN5bmNfaW5mbzsNCj4gKwlpbnQgaTsNCj4gKwl1MzIgdmFsOw0KPiArDQo+ICsJaWYg
+KCFtbXN5cy0+ZGF0YS0+bnVtX2FzeW5jX2luZm8pDQoNCklmIG1tc3lzLT5kYXRhLT5udW1fYXN5
+bmNfaW5mbyA9IDAsIHRoZW4gaSA9IDAsIGFuZCBpdCB3b3VsZCByZXR1cm4gYmVsb3cuDQpTbyB0
+aGlzIGNoZWNraW5nIGlzIHJlZHVuZGFudC4NCg0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlmb3Ig
+KGkgPSAwOyBpIDwgbW1zeXMtPmRhdGEtPm51bV9hc3luY19pbmZvOyBpKyspDQo+ICsJCWlmIChj
+b21wX2lkID09IGFzeW5jW2ldLmNvbXBfaWQpDQo+ICsJCQlicmVhazsNCj4gKw0KPiArCWlmIChp
+ID09IG1tc3lzLT5kYXRhLT5udW1fYXN5bmNfaW5mbykNCj4gKwkJcmV0dXJuOw0KPiArDQo+ICsJ
+dmFsID0gRklFTERfUFJFUChHRU5NQVNLKDMxLCAxNiksIGhlaWdodCk7DQo+ICsJdmFsIHw9IEZJ
+RUxEX1BSRVAoR0VOTUFTSygxNSwgMCksIHdpZHRoKTsNCj4gKwltdGtfbW1zeXNfdXBkYXRlX2Jp
+dHMobW1zeXMsIGFzeW5jW2ldLm9mZnNldCwgYXN5bmNbaV0ubWFzaywgdmFsLCBjbWRxX3BrdCk7
+DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MX0dQTChtdGtfbW1zeXNfZGRwX2NvbmZpZyk7DQo+ICsN
+Cj4gK3ZvaWQgbXRrX21tc3lzX2RlZmF1bHRfY29uZmlnKHN0cnVjdCBkZXZpY2UgKmRldikNCg0K
+V2h5IG5vdCBkbyB0aGlzIHdoZW4gbW1zeXMgcHJvYmU/DQoNClJlZ2FyZHMsDQpDSw0KDQo+ICt7
+DQo+ICsJc3RydWN0IG10a19tbXN5cyAqbW1zeXMgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4g
+Kwljb25zdCBzdHJ1Y3QgbXRrX21tc3lzX2RlZmF1bHQgKmRlZl9jb25maWcgPSBtbXN5cy0+ZGF0
+YS0+ZGVmX2NvbmZpZzsNCj4gKwlpbnQgaTsNCj4gKw0KPiArCWlmICghbW1zeXMtPmRhdGEtPm51
+bV9kZWZfY29uZmlnKQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgbW1z
+eXMtPmRhdGEtPm51bV9kZWZfY29uZmlnOyBpKyspDQo+ICsJCW10a19tbXN5c191cGRhdGVfYml0
+cyhtbXN5cywgZGVmX2NvbmZpZ1tpXS5vZmZzZXQsIGRlZl9jb25maWdbaV0ubWFzaywNCj4gKwkJ
+CQkgICAgICBkZWZfY29uZmlnW2ldLnZhbCwgTlVMTCk7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9M
+X0dQTChtdGtfbW1zeXNfZGVmYXVsdF9jb25maWcpOw0KPiArDQoNCg0K
 
-This is done through 2 new CRTC properties, along with a client
-cap. See the docstrings in patch for details.
+--__=_Part_Boundary_001_442410357.1150573808
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This RFC doesn't include a driver-side implementation yet; that is
-coming soon. Currently, looking to get some comments on whether this
-interface makes sense for both compositor and drivers
----
-Changelog:
-v2:
-    - Fixed property names with underscores instead of dashes.
-    - Attach property function move to crtc instead of connector.
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1RodSwmIzMyOzIwMjUtMDgtMjgmIzMyO2F0
+JiMzMjsxNjowNyYjMzI7KzA4MDAsJiMzMjtQYXVsJiMzMjtDaGVuJiMzMjt3cm90ZToNCiZndDsm
+IzMyO0Zyb206JiMzMjtOYW5jeSYjMzI7TGluJiMzMjsmbHQ7bmFuY3kubGluQG1lZGlhdGVrLmNv
+bSZndDsNCiZndDsmIzMyOw0KJmd0OyYjMzI7LSYjMzI7QWRkJiMzMjtpbml0aWFsaXphdGlvbiYj
+MzI7b2YmIzMyO3RvcCYjMzI7Y2xvY2tzJiMzMjthbmQmIzMyO2FzeW5jJiMzMjtjbG9ja3MmIzMy
+O2ZvciYjMzI7ZWFjaCYjMzI7TU1TWVMuDQomZ3Q7JiMzMjstJiMzMjtBZGQmIzMyO1BNJiMzMjty
+dW50aW1lJiMzMjtjb250cm9sJiMzMjthbmQmIzMyO25ldyYjMzI7ZnVuY3Rpb25zJiMzMjt0byYj
+MzI7bWFuYWdlJiMzMjt0aGVzZSYjMzI7Y2xvY2tzLg0KJmd0OyYjMzI7LSYjMzI7QWRkJiMzMjtm
+dW5jdGlvbnMmIzMyO3RvJiMzMjtzZXQmIzMyO3RoZXNlJiMzMjtjbG9ja3MmIzMyO2FjY29yZGlu
+ZyYjMzI7dG8mIzMyO3RoZSYjMzI7ZGVmYXVsdA0KJmd0OyYjMzI7JiMzMjsmIzMyO2NvbmZpZ3Vy
+YXRpb24mIzMyO29mJiMzMjt0aGUmIzMyO2NvcnJlc3BvbmRpbmcmIzMyO01NU1lTLg0KDQpUaGlz
+JiMzMjtwYXRjaCYjMzI7aW5jbHVkZSYjMzI7MyYjMzI7dGhpbmdzOg0KMS4mIzMyO0FkZCYjMzI7
+cnVudGltZSYjMzI7UE0NCjIuJiMzMjt0b3AmIzMyO2Nsb2NrJiMzMjtjb250cm9sDQozLiYjMzI7
+YXN5bmMmIzMyO2NvbnRyb2wNCg0KSSYjMzI7d291bGQmIzMyO2xpa2UmIzMyO3lvdSYjMzI7dG8m
+IzMyO3NlcGFyYXRlJiMzMjt0aGVzZSYjMzI7dG8mIzMyO2RpZmZlcmVudCYjMzI7cGF0Y2guDQoN
+CiZndDsmIzMyOw0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO05hbmN5JiMzMjtMaW4mIzMy
+OyZsdDtuYW5jeS5saW5AbWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTom
+IzMyO1BhdWwtcGwmIzMyO0NoZW4mIzMyOyZsdDtwYXVsLXBsLmNoZW5AbWVkaWF0ZWsuY29tJmd0
+Ow0KJmd0OyYjMzI7LS0tDQoNCltzbmlwXQ0KDQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsraW50JiMz
+MjttdGtfbW1zeXNfZGRwX2Nsa19lbmFibGUoc3RydWN0JiMzMjtkZXZpY2UmIzMyOypkZXYsJiMz
+MjtlbnVtJiMzMjttdGtfZGRwX2NvbXBfaWQmIzMyO2NvbXBfaWQpDQoNClRoaXMmIzMyO2lzJiMz
+Mjt0byYjMzI7Y29udHJvbCYjMzI7YXN5bmMmIzMyO2Nsb2NrLCYjMzI7c28mIzMyO2NoYW5nZSYj
+MzI7dGhlJiMzMjtmdW5jdGlvbiYjMzI7bmFtZSYjMzI7dG8NCg0KbXRrX21tc3lzX2FzeW5jX2Ns
+a19lbmFibGUoKQ0KDQomZ3Q7JiMzMjsrew0KJmd0OyYjMzI7K3N0cnVjdCYjMzI7bXRrX21tc3lz
+JiMzMjsqbW1zeXMmIzMyOz0mIzMyO2Rldl9nZXRfZHJ2ZGF0YShkZXYpOw0KJmd0OyYjMzI7K2Nv
+bnN0JiMzMjtzdHJ1Y3QmIzMyO210a19tbXN5c19hc3luY19pbmZvJiMzMjsqYXN5bmMmIzMyOz0m
+IzMyO21tc3lzLSZndDtkYXRhLSZndDthc3luY19pbmZvOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7
+K2ludCYjMzI7aTsNCiZndDsmIzMyOysNCiZndDsmIzMyOytpZiYjMzI7KCFtbXN5cy0mZ3Q7ZGF0
+YS0mZ3Q7bnVtX2FzeW5jX2luZm8pDQoNCmZvci1sb29wJiMzMjt3b3VsZCYjMzI7Y2hlY2smIzMy
+O3RoaXMsJiMzMjtzbyYjMzI7ZHJvcCYjMzI7dGhpcy4NCg0KJmd0OyYjMzI7K3JldHVybiYjMzI7
+MDsNCiZndDsmIzMyOysNCiZndDsmIzMyOytmb3ImIzMyOyhpJiMzMjs9JiMzMjswOyYjMzI7aSYj
+MzI7Jmx0OyYjMzI7bW1zeXMtJmd0O2RhdGEtJmd0O251bV9hc3luY19pbmZvOyYjMzI7aSsrKQ0K
+Jmd0OyYjMzI7K2lmJiMzMjsoY29tcF9pZCYjMzI7PT0mIzMyO2FzeW5jW2ldLmNvbXBfaWQpDQom
+Z3Q7JiMzMjsrcmV0dXJuJiMzMjtjbGtfcHJlcGFyZV9lbmFibGUobW1zeXMtJmd0O2FzeW5jX2Ns
+a1thc3luY1tpXS5pbmRleF0pOw0KJmd0OyYjMzI7K3JldHVybiYjMzI7MDsNCiZndDsmIzMyOyt9
+DQomZ3Q7JiMzMjsrRVhQT1JUX1NZTUJPTF9HUEwobXRrX21tc3lzX2RkcF9jbGtfZW5hYmxlKTsN
+CiZndDsmIzMyOysNCiZndDsmIzMyOyt2b2lkJiMzMjttdGtfbW1zeXNfZGRwX2Nsa19kaXNhYmxl
+KHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2LCYjMzI7ZW51bSYjMzI7bXRrX2RkcF9jb21wX2lk
+JiMzMjtjb21wX2lkKQ0KJmd0OyYjMzI7K3sNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO210a19tbXN5
+cyYjMzI7Km1tc3lzJiMzMjs9JiMzMjtkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCiZndDsmIzMyOytj
+b25zdCYjMzI7c3RydWN0JiMzMjttdGtfbW1zeXNfYXN5bmNfaW5mbyYjMzI7KmFzeW5jJiMzMjs9
+JiMzMjttbXN5cy0mZ3Q7ZGF0YS0mZ3Q7YXN5bmNfaW5mbzsNCiZndDsmIzMyOytpbnQmIzMyO2k7
+DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsraWYmIzMyOyghbW1zeXMtJmd0O2RhdGEtJmd0O251bV9h
+c3luY19pbmZvKQ0KDQpmb3ItbG9vcCYjMzI7d291bGQmIzMyO2NoZWNrJiMzMjt0aGlzLCYjMzI7
+c28mIzMyO2Ryb3AmIzMyO3RoaXMuDQoNCiZndDsmIzMyOytyZXR1cm47DQomZ3Q7JiMzMjsrDQom
+Z3Q7JiMzMjsrZm9yJiMzMjsoaSYjMzI7PSYjMzI7MDsmIzMyO2kmIzMyOyZsdDsmIzMyO21tc3lz
+LSZndDtkYXRhLSZndDtudW1fYXN5bmNfaW5mbzsmIzMyO2krKykNCiZndDsmIzMyOytpZiYjMzI7
+KGNvbXBfaWQmIzMyOz09JiMzMjthc3luY1tpXS5jb21wX2lkKQ0KJmd0OyYjMzI7K2Nsa19kaXNh
+YmxlX3VucHJlcGFyZShtbXN5cy0mZ3Q7YXN5bmNfY2xrW2FzeW5jW2ldLmluZGV4XSk7DQomZ3Q7
+JiMzMjsrfQ0KJmd0OyYjMzI7K0VYUE9SVF9TWU1CT0xfR1BMKG10a19tbXN5c19kZHBfY2xrX2Rp
+c2FibGUpOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K3ZvaWQmIzMyO210a19tbXN5c19kZHBfY29u
+ZmlnKHN0cnVjdCYjMzI7ZGV2aWNlJiMzMjsqZGV2LCYjMzI7ZW51bSYjMzI7bXRrX2RkcF9jb21w
+X2lkJiMzMjtjb21wX2lkLA0KJmd0OyYjMzI7KyYjMzI7JiMzMjtpbnQmIzMyO3dpZHRoLCYjMzI7
+aW50JiMzMjtoZWlnaHQsJiMzMjtzdHJ1Y3QmIzMyO2NtZHFfcGt0JiMzMjsqY21kcV9wa3QpDQoN
+ClRoaXMmIzMyO2lzJiMzMjt0byYjMzI7Y29udHJvbCYjMzI7YXN5bmMuJiMzMjtTbyYjMzI7Y2hh
+bmdlJiMzMjt0aGUmIzMyO2Z1bmN0aW9uJiMzMjtuYW1lJiMzMjt0bw0KDQptdGtfbW1zeXNfYXN5
+bmNfY29uZmlnKCkNCg0KJmd0OyYjMzI7K3sNCiZndDsmIzMyOytzdHJ1Y3QmIzMyO210a19tbXN5
+cyYjMzI7Km1tc3lzJiMzMjs9JiMzMjtkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCiZndDsmIzMyOytj
+b25zdCYjMzI7c3RydWN0JiMzMjttdGtfbW1zeXNfYXN5bmNfaW5mbyYjMzI7KmFzeW5jJiMzMjs9
+JiMzMjttbXN5cy0mZ3Q7ZGF0YS0mZ3Q7YXN5bmNfaW5mbzsNCiZndDsmIzMyOytpbnQmIzMyO2k7
+DQomZ3Q7JiMzMjsrdTMyJiMzMjt2YWw7DQomZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsraWYmIzMyOygh
+bW1zeXMtJmd0O2RhdGEtJmd0O251bV9hc3luY19pbmZvKQ0KDQpJZiYjMzI7bW1zeXMtJmd0O2Rh
+dGEtJmd0O251bV9hc3luY19pbmZvJiMzMjs9JiMzMjswLCYjMzI7dGhlbiYjMzI7aSYjMzI7PSYj
+MzI7MCwmIzMyO2FuZCYjMzI7aXQmIzMyO3dvdWxkJiMzMjtyZXR1cm4mIzMyO2JlbG93Lg0KU28m
+IzMyO3RoaXMmIzMyO2NoZWNraW5nJiMzMjtpcyYjMzI7cmVkdW5kYW50Lg0KDQomZ3Q7JiMzMjsr
+cmV0dXJuOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K2ZvciYjMzI7KGkmIzMyOz0mIzMyOzA7JiMz
+MjtpJiMzMjsmbHQ7JiMzMjttbXN5cy0mZ3Q7ZGF0YS0mZ3Q7bnVtX2FzeW5jX2luZm87JiMzMjtp
+KyspDQomZ3Q7JiMzMjsraWYmIzMyOyhjb21wX2lkJiMzMjs9PSYjMzI7YXN5bmNbaV0uY29tcF9p
+ZCkNCiZndDsmIzMyOyticmVhazsNCiZndDsmIzMyOysNCiZndDsmIzMyOytpZiYjMzI7KGkmIzMy
+Oz09JiMzMjttbXN5cy0mZ3Q7ZGF0YS0mZ3Q7bnVtX2FzeW5jX2luZm8pDQomZ3Q7JiMzMjsrcmV0
+dXJuOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K3ZhbCYjMzI7PSYjMzI7RklFTERfUFJFUChHRU5N
+QVNLKDMxLCYjMzI7MTYpLCYjMzI7aGVpZ2h0KTsNCiZndDsmIzMyOyt2YWwmIzMyO3w9JiMzMjtG
+SUVMRF9QUkVQKEdFTk1BU0soMTUsJiMzMjswKSwmIzMyO3dpZHRoKTsNCiZndDsmIzMyOyttdGtf
+bW1zeXNfdXBkYXRlX2JpdHMobW1zeXMsJiMzMjthc3luY1tpXS5vZmZzZXQsJiMzMjthc3luY1tp
+XS5tYXNrLCYjMzI7dmFsLCYjMzI7Y21kcV9wa3QpOw0KJmd0OyYjMzI7K30NCiZndDsmIzMyOytF
+WFBPUlRfU1lNQk9MX0dQTChtdGtfbW1zeXNfZGRwX2NvbmZpZyk7DQomZ3Q7JiMzMjsrDQomZ3Q7
+JiMzMjsrdm9pZCYjMzI7bXRrX21tc3lzX2RlZmF1bHRfY29uZmlnKHN0cnVjdCYjMzI7ZGV2aWNl
+JiMzMjsqZGV2KQ0KDQpXaHkmIzMyO25vdCYjMzI7ZG8mIzMyO3RoaXMmIzMyO3doZW4mIzMyO21t
+c3lzJiMzMjtwcm9iZSYjNjM7DQoNClJlZ2FyZHMsDQpDSw0KDQomZ3Q7JiMzMjsrew0KJmd0OyYj
+MzI7K3N0cnVjdCYjMzI7bXRrX21tc3lzJiMzMjsqbW1zeXMmIzMyOz0mIzMyO2Rldl9nZXRfZHJ2
+ZGF0YShkZXYpOw0KJmd0OyYjMzI7K2NvbnN0JiMzMjtzdHJ1Y3QmIzMyO210a19tbXN5c19kZWZh
+dWx0JiMzMjsqZGVmX2NvbmZpZyYjMzI7PSYjMzI7bW1zeXMtJmd0O2RhdGEtJmd0O2RlZl9jb25m
+aWc7DQomZ3Q7JiMzMjsraW50JiMzMjtpOw0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7K2lmJiMzMjso
+IW1tc3lzLSZndDtkYXRhLSZndDtudW1fZGVmX2NvbmZpZykNCiZndDsmIzMyOytyZXR1cm47DQom
+Z3Q7JiMzMjsrDQomZ3Q7JiMzMjsrZm9yJiMzMjsoaSYjMzI7PSYjMzI7MDsmIzMyO2kmIzMyOyZs
+dDsmIzMyO21tc3lzLSZndDtkYXRhLSZndDtudW1fZGVmX2NvbmZpZzsmIzMyO2krKykNCiZndDsm
+IzMyOyttdGtfbW1zeXNfdXBkYXRlX2JpdHMobW1zeXMsJiMzMjtkZWZfY29uZmlnW2ldLm9mZnNl
+dCwmIzMyO2RlZl9jb25maWdbaV0ubWFzaywNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjtkZWZfY29uZmlnW2ldLnZhbCwmIzMyO05VTEwpOw0KJmd0OyYjMzI7K30NCiZn
+dDsmIzMyOytFWFBPUlRfU1lNQk9MX0dQTChtdGtfbW1zeXNfZGVmYXVsdF9jb25maWcpOw0KJmd0
+OyYjMzI7Kw0KDQoNCg0KPC9wcmU+DQo8L3A+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+
+PCEtLXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGlj
+ZQ0KICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRo
+aXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNv
+bmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0
+IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRv
+IGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1
+c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9y
+IGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkg
+dW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0K
+YmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlz
+IGUtbWFpbCwgb3IgYmVsaWV2ZQ0KIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFp
+bCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJl
+cGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRo
+aXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBh
+bmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3Ro
+ZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
 
-v1: Initial Submission
----
- drivers/gpu/drm/drm_atomic_uapi.c | 30 ++++++++++++++++++++---
- drivers/gpu/drm/drm_crtc.c        | 25 +++++++++++++++++++
- drivers/gpu/drm/drm_file.c        |  2 ++
- drivers/gpu/drm/drm_ioctl.c       |  7 ++++++
- drivers/gpu/drm/drm_mode_config.c | 14 +++++++++++
- include/drm/drm_crtc.h            | 40 +++++++++++++++++++++++++++++++
- include/drm/drm_file.h            | 10 ++++++++
- include/drm/drm_mode_config.h     | 18 ++++++++++++++
- include/uapi/drm/drm.h            | 17 +++++++++++++
- 9 files changed, 160 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 85dbdaa4a2e2..73f929cff4e1 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -365,8 +365,8 @@ static s32 __user *get_out_fence_for_connector(struct drm_atomic_state *state,
- }
- 
- static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
--		struct drm_crtc_state *state, struct drm_property *property,
--		uint64_t val)
-+		struct drm_crtc_state *state, struct drm_file *file_priv,
-+		struct drm_property *property, uint64_t val)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct drm_mode_config *config = &dev->mode_config;
-@@ -421,6 +421,26 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 		state->scaling_filter = val;
- 	} else if (crtc->funcs->atomic_set_property) {
- 		return crtc->funcs->atomic_set_property(crtc, state, property, val);
-+	} else if (property == config->prop_vrr_range_control_min) {
-+		if (file_priv->vrr_range_control) {
-+			drm_dbg_atomic(dev, "Setting vrr_range_min crtc property not"
-+				"permitted with DRM_CLIENT_CAP_VRR_RANGE_CONTROL"
-+				"client cap\n");
-+			return -EINVAL;
-+		}
-+		if (!val)
-+			return -EINVAL;
-+		state->vrr_range_min = val;
-+	} else if (property == config->prop_vrr_range_control_max) {
-+		if (file_priv->vrr_range_control) {
-+			drm_dbg_atomic(dev,"Setting vrr_range_max crtc property not"
-+				"permitted with DRM_CLIENT_CAP_VRR_RANGE_CONTROL"
-+				"client cap\n");
-+			return -EINVAL;
-+		}
-+		if (!val)
-+			return -EINVAL;
-+		state->vrr_range_max = val;
- 	} else {
- 		drm_dbg_atomic(crtc->dev,
- 			       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
-@@ -446,6 +466,10 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		*val = (state->mode_blob) ? state->mode_blob->base.id : 0;
- 	else if (property == config->prop_vrr_enabled)
- 		*val = state->vrr_enabled;
-+	else if (property == config->prop_vrr_range_control_min)
-+		*val = state->vrr_range_min;
-+	else if (property == config->prop_vrr_range_control_max)
-+		*val = state->vrr_range_max;
- 	else if (property == config->degamma_lut_property)
- 		*val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
- 	else if (property == config->ctm_property)
-@@ -1062,7 +1086,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 		}
- 
- 		ret = drm_atomic_crtc_set_property(crtc,
--				crtc_state, prop, prop_value);
-+				crtc_state, file_priv, prop, prop_value);
- 		break;
- 	}
- 	case DRM_MODE_OBJECT_PLANE: {
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index 46655339003d..f9ff6f0732c5 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -959,3 +959,28 @@ bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state)
- 	return hweight32(crtc_state->encoder_mask) > 1;
- }
- EXPORT_SYMBOL(drm_crtc_in_clone_mode);
-+
-+/**
-+ * drm_crtc_attach_vrr_range_control_property - attach "VRR_RANGE_CONTROL_MIN" and
-+ * "VRR_RANGE_CONTROL_MAX" property
-+ *
-+ * @connector: connector to attach the property on.
-+ *
-+ * This is used to allow the userspace to send VRR range control min and max value to the
-+ * driver.
-+ *
-+ * Returns:
-+ * Zero on success, negative errno on failure.
-+ */
-+int drm_crtc_attach_vrr_range_control_property(struct drm_crtc *connector)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_property *prop_min = dev->mode_config.prop_vrr_range_control_min;
-+	struct drm_property *prop_max = dev->mode_config.prop_vrr_range_control_max;
-+
-+	drm_object_attach_property(&connector->base, prop_min, 0);
-+	drm_object_attach_property(&connector->base, prop_max, 0);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_crtc_attach_vrr_range_control_property);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index eebd1a05ee97..7ed28e94544a 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -157,6 +157,8 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	init_waitqueue_head(&file->event_wait);
- 	file->event_space = 4096; /* set aside 4k for event buffer */
- 
-+	file->vrr_range_control = false; /* set as false for init */
-+
- 	spin_lock_init(&file->master_lookup_lock);
- 	mutex_init(&file->event_read_lock);
- 	mutex_init(&file->client_name_lock);
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index d8a24875a7ba..273139688ba1 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -373,6 +373,13 @@ drm_setclientcap(struct drm_device *dev, void *data, struct drm_file *file_priv)
- 			return -EINVAL;
- 		file_priv->supports_virtualized_cursor_plane = req->value;
- 		break;
-+	case DRM_CLIENT_CAP_VRR_RANGE_CONTROL:
-+		if (!file_priv->atomic)
-+			return -EINVAL;
-+		if (req->value == 0)
-+			return -EINVAL;
-+		file_priv->vrr_range_control = req->value;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 25f376869b3a..e98487f52e2f 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -340,6 +340,20 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
- 		return -ENOMEM;
- 	dev->mode_config.prop_vrr_enabled = prop;
- 
-+	prop = drm_property_create_range(dev,
-+			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_RANGE,
-+			"VRR_RANGE_CONTROL_MIN", 0, UINT_MAX);
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.prop_vrr_range_control_min = prop;
-+
-+	prop = drm_property_create_range(dev,
-+			DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_RANGE,
-+			"VRR_RANGE_CONTROL_MAX", 0, UINT_MAX);
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.prop_vrr_range_control_max = prop;
-+
- 	prop = drm_property_create(dev,
- 			DRM_MODE_PROP_BLOB,
- 			"DEGAMMA_LUT", 0);
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index caa56e039da2..a9cf96b281e8 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -299,6 +299,44 @@ struct drm_crtc_state {
- 	 */
- 	bool vrr_enabled;
- 
-+	/** @vrr_range_min:
-+	 *
-+	 * This is desired minimal FPS number.
-+	 *
-+	 * Default state is 'vrr_range_min = 0', (and 'vrr_range_max = 0'),
-+	 * indicating legacy VRR_ENABLED behavior. if both are set to a non-zeo
-+	 * value, the new VRR range control behavior will be active.  See
-+	 * &DRM_CLIENT_CAP_VRR_RANGE_CONTROL.
-+	 *
-+	 * If setting a non-zero value, the driver should check that:
-+	 *
-+	 * 1. Both vrr_range_min and vrr_range_max are set to a non-zero value.
-+	 *    This indicates the driver to switch the new VRR range control
-+	 *    behavior.
-+	 * 2. Both vrr_rage_min and vrr_range_max are within the panel's supported
-+	 *    FPS range.
-+	 * 3. vrr_range_min is less-than-or-equal-to vrr_range_max.
-+	 */
-+	uint16_t vrr_range_min;
-+
-+	/** @vrr_range_max:
-+	 *
-+	 * Default state is 'vrr_range_max = 0', (and 'vrr_range_min = 0'),
-+	 * indicating legacy VRR_ENABLED behavior. if both are set to a non-zeo
-+	 * value, the new VRR range control behavior will be active.  See
-+	 * &DRM_CLIENT_CAP_VRR_RANGE_CONTROL.
-+	 *
-+	 * If setting a non-zero value, the driver should check that:
-+	 *
-+	 * 1. Both vrr_range_min and vrr_range_max are set to a non-zero value.
-+	 *    This indicates the driver to switch the new VRR range control
-+	 *    behavior.
-+	 * 2. Both vrr_rage_min and vrr_range_max are within the panel's supported
-+	 *    FPS range.
-+	 * 3. vrr_range_min is less-than-or-equal-to vrr_range_max.
-+	 */
-+	uint16_t vrr_range_max;
-+
- 	/**
- 	 * @self_refresh_active:
- 	 *
-@@ -1324,4 +1362,6 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
- int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- 					    unsigned int supported_filters);
- bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state);
-+
-+int drm_crtc_attach_vrr_range_control_property(struct drm_crtc *connector);
- #endif /* __DRM_CRTC_H__ */
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 115763799625..4cb57a503a02 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -240,6 +240,16 @@ struct drm_file {
- 	 */
- 	bool supports_virtualized_cursor_plane;
- 
-+	/**
-+	 * @vrr_range_control:
-+	 *
-+	 * If set to true, the DRM driver will allow setting of the
-+	 * &drm_mode_config.prop_vrr_range_control_min_property and
-+	 * &drm_mode_config.prop_vrr_range_control_max_property CRTC
-+	 * properties, if the properties are supported by the driver.
-+	 */
-+	bool vrr_range_control;
-+
- 	/**
- 	 * @master:
- 	 *
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 2e848b816218..e02dd46ca5c2 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -680,6 +680,24 @@ struct drm_mode_config {
- 	 */
- 	struct drm_property *prop_vrr_enabled;
- 
-+	/**
-+	 * @prop_vrr_range_control_min_property: Optional CRTC properties to
-+	 * further limit the minimum allowed refresh rate within the panel's
-+	 * supported refresh rate range. It's invalid to set unless the
-+	 * client advertises &DRM_CLIENT_CAP_VRR_RANGE_CONTROL.
-+	 * See also &drm_ctrc_state.vrr_range_min.
-+	 */
-+	struct drm_property *prop_vrr_range_control_min;
-+
-+	/**
-+	 * @prop_vrr_range_control_max_property: Optional CRTC properties to
-+	 * further limit the maximum allowed refresh rate within the panel's
-+	 * supported refresh rate range. It's invalid to set unless the
-+	 * client advertises &DRM_CLIENT_CAP_VRR_RANGE_CONTROL.
-+	 * See also &drm_ctrc_state.vrr_range_max.
-+	 */
-+	struct drm_property *prop_vrr_range_control_max;
-+
- 	/**
- 	 * @dvi_i_subconnector_property: Optional DVI-I property to
- 	 * differentiate between analog or digital mode.
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 3cd5cf15e3c9..e4d918342e67 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -906,6 +906,23 @@ struct drm_get_cap {
-  */
- #define DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT	6
- 
-+/**
-+ * DRM_CLIENT_CAP_VRR_RANGE_CONTROL
-+ *
-+ * The driver shall not program a refresh rate that is:
-+ * - Below the &drm_crtc_state.vrr_range_min, nor
-+ * - Above the &drm_crtc_state.vrr_range_max
-+ * Even if the panel supports a wider range than the range requested.
-+ *
-+ * Once set, the driver will allow setting of the
-+ *
-+ * - &drm_mode_config.prop_vrr_range_control_min and
-+ * - &drm_mode_config.prop_vrr_range_control_max properties.
-+ *
-+ * Otherwise, setting them will be invalid.
-+ */
-+#define DRM_CLIENT_CAP_VRR_RANGE_CONTROL 7
-+
- /* DRM_IOCTL_SET_CLIENT_CAP ioctl argument type */
- struct drm_set_client_cap {
- 	__u64 capability;
--- 
-2.43.0
+--__=_Part_Boundary_001_442410357.1150573808--
 
