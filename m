@@ -2,113 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E098AB59F24
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11306B59F58
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 19:34:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5145810E0E1;
-	Tue, 16 Sep 2025 17:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 322FE10E11B;
+	Tue, 16 Sep 2025 17:34:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ex4ZCxD3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ep7qwY+H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 954BF10E0E1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:21:00 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GGLpbK000875
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:20:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- eYDAH/UC6QbLLCFUlW+XxkzrsSdsC66+V/mf+G5BEVw=; b=Ex4ZCxD30wWB7GzL
- FQ/vVgusQwIiEjdQ+JfMBg5zaAu3tkm5FC9lMFqq1DVgRfqKILJna3DjEgUOAufT
- i6ONB75PyNV4KwWj8vEZ0J4ehD1MaP+Z/BrPiwz+TTuZofCBKmKNbc51dSNkSgiq
- Cmx30VJz8i9ODAxr0Y1iuPJh/9Bf5HpnTLafVMb81cyHuhQQ+El8W8TbERx0k4cc
- 4YAPJww7vJWYbeR7LM+Sbabkx4v8n27eCeogVzBcK9k/2ToBimUb4saSFoE5Xw6X
- fs2YstGMX6O/0/9JkG3tP7Hyg5Hr1BHiVAadVYyuK373MHaqsNiB5yfOg0lHFoqI
- 5fdiug==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497bb5r7mu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 17:20:59 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-7248ed9f932so70065246d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:20:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758043259; x=1758648059;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eYDAH/UC6QbLLCFUlW+XxkzrsSdsC66+V/mf+G5BEVw=;
- b=RVs6r/ysdY2zXJN/pyWkl1dj2YBWE0Qnk3Y/DZFMRyEGwaeviaHED6g8tFr7s+XWYg
- KNuprpeae8rS/kdtWnN5x4uILhT0tpT54ocLaTXJgBkVcdcSGZAEra+ALyCprIXFye6C
- 8nb3nxdbfIlAyGRpnFkHyTU96PHzzcx+CHnVmBDzJH40tyGwAEtY1kwyufEvV83esYyE
- O/ezZDtOPCDWylcaYpY4+1ca5aMEV1tLCHa9kK8UjwS6k1XNLtsMP3wsA4XdvLV1/1JP
- uPENbjPnC5UOKppSTmXqIGP4CLLin3Jle4Lls/f2TZYfZPll2BF4B3jvw7RdisKr4t+J
- fIxQ==
-X-Gm-Message-State: AOJu0YxpguzJB30iQMJMAM4vmoZU7L9AhRQEMxTYjfJFXMdIuPnPSgn7
- DqwWWJycpozjgzQ7fIN01XsNPqQHW8PWlOAdU8ewqbDryuQiHdiDKe5iUIsj8qlDLtGJfuEB3gs
- eFn3ELOuUNdEs+dKtjj7TfMsSKhYX3aq+k6SY4HPpNmZ85khopMDBSl9zvUkBgstiBFK67hQ=
-X-Gm-Gg: ASbGnct3FZc6ko1lZpPdyJLB6wlEtkw2nsjPudRen2hrkPDA4fyOZme72D7w1/g4g3p
- 7JEwrwCpwMQJCDfZSazEFU1H2im8cfU+4eMqvC2UB7IasRcwqNnXqSd6l6JxPze7mGS0JUCzTi4
- +9nmYI2oySw01pZYuW8h9HRduSh0xqgcj04hbaU4ipwV8ZsEdwGEw/ZJ+RlAHGzE0+35ctOFBSs
- NtmJcOqk4PYkaYkGWSDiWFtZ50hhFwGoQcs6V7pJQkkWCjc1O+Rsb09JJK+klQFrHpTImd9yoT2
- 4qAmHM0TzHOnJCu4MGu6mNzBU/OjOV24pUyCaPF662u4WFLpfVc5cfNC0u/lRx0x0u5ndbFXNaH
- WNAwKZbMS+fGy3EkVcNYM9d21axq/zOfQmZUabnJqoSWAoeg3otA8
-X-Received: by 2002:a05:6214:2621:b0:78d:b474:8e3d with SMTP id
- 6a1803df08f44-78db47490aamr29805476d6.16.1758043258741; 
- Tue, 16 Sep 2025 10:20:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwsDWIhpv5sfJLJ/QUxmfP6fT3Tp5F5w97C0xbz2hC7rFv+42ijmLAhsNS7nYcVWrSQnONyw==
-X-Received: by 2002:a05:6214:2621:b0:78d:b474:8e3d with SMTP id
- 6a1803df08f44-78db47490aamr29804886d6.16.1758043258120; 
- Tue, 16 Sep 2025 10:20:58 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-56e5c3b5fbdsm4458001e87.30.2025.09.16.10.20.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 10:20:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
-References: <20250821-drm-client-tests-v1-1-49e7212c744a@oss.qualcomm.com>
-Subject: Re: [PATCH] drm/tests: make sure drm_client_modeset tests are enabled
-Message-Id: <175804325706.600017.10635464864043567835.b4-ty@oss.qualcomm.com>
-Date: Tue, 16 Sep 2025 20:20:57 +0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC2010E11B;
+ Tue, 16 Sep 2025 17:34:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C24C0601B3;
+ Tue, 16 Sep 2025 17:34:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B202C4CEEB;
+ Tue, 16 Sep 2025 17:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758044085;
+ bh=g4fOI7lP326A/npVX2fO/Vi1aw7o2KcT7AikMVIOx/U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=Ep7qwY+HAMiYSQ0JsRo/bXS+8m6BuJqlhIc7zzuGY54bIXXpYVk6a2JQrPbC2DuBY
+ jAy2SsOiUrt+IXCTdcyZJrpgi39Wr8DU/PoTp0SlzwEUe6fdjNpQGsYvmrQ9x0yevD
+ mES5NjYdhNG2BKouEJR8D87RuzZMr+dK1mxUsiPzDRc9z38AccLlZWeZSlZ9Vb8dHU
+ 5LdapKr5LKRkInL3WVJPWHBEHWS7Dd6Afh4FRoNgVKY7gxqrbWOzLF+UZ4lir+t/gq
+ gcuQIT2CIuPYIvg2B2zWoKpKffSVki1kivfr+FEK++MimodDQY9EYfOjDO66Hu5MFr
+ l7rKe+KmFF24Q==
+Date: Tue, 16 Sep 2025 12:34:42 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, linux-pci@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 1/5] PCI/P2PDMA: Don't enforce ACS check for device
+ functions of Intel GPUs
+Message-ID: <20250916173442.GA1765656@bhelgaas>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: HVPZvIAw5lC0qeK31OCw1m6orc1BIFmS
-X-Proofpoint-ORIG-GUID: HVPZvIAw5lC0qeK31OCw1m6orc1BIFmS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDE1MiBTYWx0ZWRfX0OJXHfx6cfgY
- A6AAD6JSDlwRKQLC9/aM7WitaforR72XfsDvdVKL/NGdnmKve8YacaUGZPy6te6be5mMa4aXLVZ
- ykqDF4gB/7itVOjjAro5yYxYBWaj/iib/C977uc5JTKHfOyN1kgC7pnMzhB8zCRUAaYL+37qEvO
- ycMUwo6WMip8608QbKSFTpZz4juQObiygcgRbS93EiNFgFjRs3kWd/RI6H13RSjm8D/QtcCraEp
- wgYXD9NSmX3sI0KU++ehjLAGO39hdfOBqHl/xYDM0ighRB/lhsSxX9IS6KnXayDZjRX9hR7pn4W
- qD2BoM4T3Z1VLZHhZ+8Q4FEt3+hcRKgbums4mbK94zktPxEHmY5KZaAzGOrowNUO8Ru/6vtrM+z
- ytGvHEis
-X-Authority-Analysis: v=2.4 cv=ZfMdNtVA c=1 sm=1 tr=0 ts=68c99c7b cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=yJojWOMRYYMA:10 a=sYf7BZEc2M3GbN3TUwQA:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 phishscore=0 bulkscore=0 impostorscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160152
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250915072428.1712837-2-vivek.kasireddy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,24 +59,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Aug 2025 14:25:06 +0300, Dmitry Baryshkov wrote:
-> Default config for UML (x86_64) doesn't include any driver which
-> supports DRM_CLIENT_SELECTION, which makes drm_client_modeset disabled
-> (and correspondingly tests for that module are not executed too).
+[+cc Jason, also doing a lot of ACS work]
+
+On Mon, Sep 15, 2025 at 12:21:05AM -0700, Vivek Kasireddy wrote:
+> Typically, functions of the same PCI device (such as a PF and a VF)
+> share the same bus and have a common root port and the PF provisions
+> resources for the VF. Given this model, they can be considered
+> compatible as far as P2PDMA access is considered.
+
+These seem like more than just "typical".  Such devices *always* have
+a common Root Port and a PF *always* provisions VF resources.  I guess
+it's "typical" or at least common that a PF and VF share the same bus.
+
+> Currently, although the distance (2) is correctly calculated for
+> functions of the same device, an ACS check failure prevents P2P DMA
+> access between them. Therefore, introduce a small function named
+> pci_devfns_support_p2pdma() to determine if the provider and client
+> belong to the same device and facilitate P2PDMA between them by
+> not enforcing the ACS check.
 > 
-> Enable DRM_VKMS and DRM_FBDEV_EMULATION in order to be able to run DRM
-> client modesetting tests.
+> However, since it is hard to determine if the device functions of
+> any given PCI device are P2PDMA compatible, we only relax the ACS
+> check enforcement for device functions of Intel GPUs. This is
+> because the P2PDMA communication between the PF and VF of Intel
+> GPUs is handled internally and does not typically involve the PCIe
+> fabric.
 > 
-> [...]
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Logan Gunthorpe <logang@deltatee.com>
+> Cc: <linux-pci@vger.kernel.org>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+> v1 -> v2:
+> - Relax the enforcment of ACS check only for Intel GPU functions
+>   as they are P2PDMA compatible given the way the PF provisions
+>   the resources among multiple VFs.
+> 
+> v2 -> v3:
+> - s/pci_devs_are_p2pdma_compatible/pci_devfns_support_p2pdma
+> - Improve the commit message to explain the reasoning behind
+>   relaxing the ACS check enforcement only for Intel GPU functions.
+> 
+> v3 -> v4: (Logan)
+> - Drop the dev_is_pf() hunk as no special handling is needed for PFs
+> - Besides the provider, also check to see the client is an Intel GPU
+> ---
+>  drivers/pci/p2pdma.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index da5657a02007..0a1d884cd0ff 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -544,6 +544,19 @@ static unsigned long map_types_idx(struct pci_dev *client)
+>  	return (pci_domain_nr(client->bus) << 16) | pci_dev_id(client);
+>  }
+>  
+> +static bool pci_devfns_support_p2pdma(struct pci_dev *provider,
+> +				      struct pci_dev *client)
+> +{
+> +	if (provider->vendor == PCI_VENDOR_ID_INTEL &&
+> +	    client->vendor == PCI_VENDOR_ID_INTEL) {
+> +		if ((pci_is_vga(provider) && pci_is_vga(client)) ||
+> +		    (pci_is_display(provider) && pci_is_display(client)))
+> +			return pci_physfn(provider) == pci_physfn(client);
+> +	}
 
-Applied to drm-misc-next, thanks!
+I know I've asked this before, but I'm still confused about how this
+is related to PCIe r7.0, sec 7.7.12, which says that if an SR-IOV
+device implements internal peer-to-peer transactions, ACS is required,
+and ACS P2P Egress Control must be supported.
 
-[1/1] drm/tests: make sure drm_client_modeset tests are enabled
-      commit: 4db6e24f565b60a05c762554c05d37f780fe4406
+Are you saying that these Intel GPUs don't conform to this?
 
-Best regards,
--- 
-With best wishes
-Dmitry
+Or they do, but it's not enough to solve this issue?
 
+Or something else?
 
+Maybe if we add the right comment here, it will keep me from asking
+again :)
+
+> +	return false;
+> +}
+> +
+>  /*
+>   * Calculate the P2PDMA mapping type and distance between two PCI devices.
+>   *
+> @@ -643,7 +656,7 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+>  
+>  	*dist = dist_a + dist_b;
+>  
+> -	if (!acs_cnt) {
+> +	if (!acs_cnt || pci_devfns_support_p2pdma(provider, client)) {
+>  		map_type = PCI_P2PDMA_MAP_BUS_ADDR;
+>  		goto done;
+>  	}
+> -- 
+> 2.50.1
+> 
