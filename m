@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24EFB594B5
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 13:04:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDDEB594D6
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 13:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE3A10E7B3;
-	Tue, 16 Sep 2025 11:04:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 061ED10E70E;
+	Tue, 16 Sep 2025 11:11:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="G7AJhiZc";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="LstTl47c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4018810E70E
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 11:04:17 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-4b5d5b1bfa3so47304721cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 04:04:17 -0700 (PDT)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D84410E70E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 11:11:27 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-816ac9f9507so723448385a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 04:11:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1758020656; x=1758625456;
+ d=fooishbar.org; s=google; t=1758021086; x=1758625886;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wlsLL/pzWCNxVJt1ZqxUE1b/s1vUfyU9UMYEKy1Cqvk=;
- b=G7AJhiZc90HDIQ5nA6OhW48Lel69vKlIwDa8E0A511rreAAXvtJJoRhyyZt66UYGUK
- u8ywE0Wkuwv+4P/aPKTcWpZfgTdjyEY2+//mJ1getUNLH12DHHWQRfQBFyeUD6UT8vA4
- dyv4yDxTzaBhgzPR/Do/gyrYMGjItTEJoCtgeaFJoy2FVRKaJdTRnVaGuFhE30O1jb8n
- TsjePuanB8qmFntCoeFoSjXv91dP+pDgvqJRHcPOMQFyZKrekptY4wrhRYocHKwtGgK6
- Onw1L48qLNqjSkpstN11ci9ZaokcIEkMmDIqsFJoM3w71d8SF+WqTsEMl5hUAtSMbvfo
- 396A==
+ bh=XVfBCYDc6vHJn2JN7q6wh1lp0mW1P6Vv736KIN9xaUA=;
+ b=LstTl47cDwyQnsgr8BomD/cZMTRXNRP+SOhMFdk/cGOousMJ0Miab0CqVkj8QPKNsm
+ EHGrM16aNa0w7LZuCQEHjGGSq1gUpaCFR7CbV/Mv+YyCjwSKMgJwGJaCL0dLewrj2Zmc
+ 3byFHuxO/6v2aU/eI+AEC/aykGqcOj5udqwWMxiDEuzDqrdqnjwxx6FCY1to0dal+SVy
+ E08uxBgBFAlzfqI0SLen0vz6mxSiMifFBYTrxm7X+p1MhvT9+ylr2ozGri38osXl93j2
+ 9nVaNwf9SsuCoMupSP9q7Imm9k+rWPQtrLwUnbsOq5i4fZTr19r5UNZznXzEjPRPW3mn
+ vkrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758020656; x=1758625456;
+ d=1e100.net; s=20230601; t=1758021086; x=1758625886;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wlsLL/pzWCNxVJt1ZqxUE1b/s1vUfyU9UMYEKy1Cqvk=;
- b=KRVxQtmblSQGvKZBG+EcCTsfBnyHSRQ4/2+Uw+/+HDrZRwpfGe0pUBh7ksYUuwhKU1
- MFfeizWUvQjOLvl5spq8llPi/bHbsGM1aXXUt8lc31EfuLIwiwNncVKGrHEqV1IZohfA
- ipHM3hvyAC20YLCm7ME3vHJubi/8rnYn/lWj85s3Yi0GVr4Rn1RhSAV0+UDGe9SdnXjK
- v716bleWePo9pldOWuycFO9VxhskWY6k9ZPKIN2KuY6W+HForxuC/dEl/bDJnf8Ccs95
- 8iepG8tNVB8CnleutbnjH7JjS83Zd2oNU8qCwAluMXq4Q3l3L7fU/gqrYfp9fRnVJX0O
- ze4g==
+ bh=XVfBCYDc6vHJn2JN7q6wh1lp0mW1P6Vv736KIN9xaUA=;
+ b=eTju6YZ+lAeQiL7Z8nWgwiqSQ1Vte/cBtmu0q98bIXqY493NAwnQ+9fBjtMYP/5uDv
+ TAh3z6Wq0ICwn/P1stesDYKgyFjia0MAkeBqISgx7er0w5TYsU2LuRQGdTFPbUWOp92h
+ 8aYGH2hIKHdTf8hBxORWyA/03R0Gu2FZYHKKsFum9Q5GpT2QGfa8PEYcURgPu+/swLNy
+ pffUNdq5D3pgISjtbc0qoGjOpmc2cUKQGDEC9GEi0tF9/Zln6rPfEk7rnOBO6WbOgkUO
+ zyD9LkmvOTkSIrB/8egQV/K1efbluUbDBY6Nh+L1Ku5k31hDieDeKh8Vgmoy6YSnJRQ6
+ ukZw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxaERJZGc5wNpSJBKoQxd2yZnvuarHm1mJHu+1OeUj3ygzgKkg2ZPPF1SVNIp9iWyHHR5GHnEErgw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyATWJ/+2LBSp8dcAXeF6Tro/wJAoWAcO/A4GzphXGJ9gRlbaUP
- vMhmXn3gnjlCzAqB/F3n1bo3YKDxd3e3VLC6DNpqau+gHsAxLZZXUlpaY9wH9Ahosdx2c9dtjra
- tTXbxfFNHULmxyy70SUApnhUmG6DFEjN3MZGeP5zq/f3vbZocVzvjpDGxrg==
-X-Gm-Gg: ASbGncsFb+QpI9DaIJS30oufnykMIFxjLILKhnVI/leNFfJVBvpStsEdBf5P05Kr96c
- shtT1ZvtnT7rO8uTnm2QXqQ2Wx3nZGEiiZk0tlfKTJEFhRsDBridJ7VLQKyLXXze+J8n0ca0rJU
- 9JPlZU15GoBymaFgvJn++VBoHoAG5aYnd390MSZoL013XZIbMw/5egJszLk0iahuWM2Z6ByHkKx
- RxVRZ3Wy8aO3WhFLWNuvkJWwj7jv4JbljlYkcDqPw==
-X-Google-Smtp-Source: AGHT+IF3vC0iMhOhwd5t5isOiIsxFWj5ZmMLunS3JGCxn4/IkmB4CaRHBCSMbUh6fLa6xTrbnEyqKLZvqJzRvV+3TB0=
-X-Received: by 2002:a05:622a:1211:b0:4b7:7bf5:88b4 with SMTP id
- d75a77b69052e-4b77d03bb60mr204855551cf.54.1758020656001; Tue, 16 Sep 2025
- 04:04:16 -0700 (PDT)
+ AJvYcCVHGSZeZKlU8+B2EwZ4ECbXhu41/rMV8FWWV70IDUa7w9ZW1UblKaH7QWRpxyg87npFLSvmf9kIW7Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx42LAgpQyUr/umLgvwDzb//eG7HUMriDPsM1WmJEEOXTkkQu1P
+ nUm0JM4a5EQfRhQHWCgwO43m9NOwoDAGQrvw4vGqPQJ4OZPya+I0N5mTEyURRxhdpbd2/NM09xr
+ I0n0wB2EnkJRCKfiybf8lg/8ZVH4F1K4xYGlzQpLAEA==
+X-Gm-Gg: ASbGncuSUYiUQXulOAdOVUpjawzWb5LPgVVtBuTa0AJQ5/i/jNil3Fm8zYayZQrKfZu
+ fgSaKv114TeCdHk+9OSJWd8prINHs8EISOvfm8/tu2nZmJubjNzhUFjTuEWfl690YDFMGlHyCvV
+ /cpYnRKwIh1MtaPpYoJHL6ri7exauF3wCvT/6ksIY32Zz4jhs3GlKvp669ibaSafF2UYTqb9dby
+ 0K4hstBkh2pfSV2Byg6JLxRSyq/5SDCms9ElsAvtQ==
+X-Google-Smtp-Source: AGHT+IEL1T3KvRWOFfQstWElGAdIAjRoB+E05XEoc0FnrJhp5okYLLSUniUcMrrbndiOPnGO8Ds0AnikmQ6t5FqGKiE=
+X-Received: by 2002:a05:622a:1481:b0:4b0:6a6c:c8cf with SMTP id
+ d75a77b69052e-4b7b444e0d7mr18124561cf.15.1758021086597; Tue, 16 Sep 2025
+ 04:11:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250911130739.4936-1-marius.vlad@collabora.com>
  <20250911130739.4936-4-marius.vlad@collabora.com>
@@ -63,19 +63,22 @@ References: <20250911130739.4936-1-marius.vlad@collabora.com>
  <aMMDxIWN9TadgVyw@xpredator>
  <6zmp2dzpvcb4hi4kaa66q5o4rlcpdkor75ci4rnvalt2a37f26@lbmvc4t2ow4z>
  <CAPj87rNxGfroKTf1i5UtmmnZ9wDQTdZFDMKw-MLdbCfjTCD=Uw@mail.gmail.com>
- <vnvjpp6makkcwxzcu3ifa767o2u7mi65rvgcwh4725smguej73@oziputg7p252>
-In-Reply-To: <vnvjpp6makkcwxzcu3ifa767o2u7mi65rvgcwh4725smguej73@oziputg7p252>
+ <20250916-piquant-jerboa-of-completion-87b80d@houat>
+ <CAPj87rMuwvir_aDReT1ou-BNs3w9coUG6MPmCnGAeg5rQ97rCQ@mail.gmail.com>
+ <CAPj87rPRG=7qPp3QMXf_6FP82-gWdgWpXdHmwZjHKrnU-PdQ0g@mail.gmail.com>
+ <b6sosuofgvanq7hjj6lfev4ifu7muhhd45lncdu3m3r42rqwaq@tgxtumlxhtkx>
+In-Reply-To: <b6sosuofgvanq7hjj6lfev4ifu7muhhd45lncdu3m3r42rqwaq@tgxtumlxhtkx>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 16 Sep 2025 12:04:04 +0100
-X-Gm-Features: AS18NWAofNAZ8yfJSzWlmuLvFkCf16BTD0NYO_OaWPOXXSUIsQE7PA2ff_XqkwA
-Message-ID: <CAPj87rN3bwyhbhMRhb1vj__L0DuRgPtVDux9MPGe6QMxAqeO9g@mail.gmail.com>
+Date: Tue, 16 Sep 2025 12:11:15 +0100
+X-Gm-Features: AS18NWCLpcsS_oQwueA82SisNK0eGi7Phb9egwXqrQMVqWIpRQ-unnU7z8HbETY
+Message-ID: <CAPj87rOUgY+WEP73hL8kWhgbXHG7krvraQb6n__tC=vr5y0=Cg@mail.gmail.com>
 Subject: Re: [PATCH 3/8] drm: Add new general DRM property "color format"
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org, 
- wse@tuxedocomputers.com, andri@yngvason.is, sebastian.wick@redhat.com, 
- mripard@kernel.org, daniel.stone@collabora.com, jani.nikula@linux.intel.com, 
- tzimmermann@suse.de, simona.vetter@ffwll.ch, harry.wentland@amd.com, 
- christian.koenig@amd.com, derek.foreman@collabora.com
+Cc: Maxime Ripard <mripard@kernel.org>, Marius Vlad <marius.vlad@collabora.com>,
+ dri-devel@lists.freedesktop.org, wse@tuxedocomputers.com, andri@yngvason.is, 
+ sebastian.wick@redhat.com, daniel.stone@collabora.com, 
+ jani.nikula@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch, 
+ harry.wentland@amd.com, christian.koenig@amd.com, derek.foreman@collabora.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,38 +95,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 15 Sept 2025 at 11:46, Dmitry Baryshkov
+On Tue, 16 Sept 2025 at 11:57, Dmitry Baryshkov
 <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> On Mon, Sep 15, 2025 at 12:33:08PM +0200, Daniel Stone wrote:
-> > But not 'now', because that's been happening for years. And not 'no
-> > practical reason', because in order to support features the kernel has
-> > no involvement in (colour management and HDR as a large part), you
-> > need to see the full EDID.
+> On Tue, Sep 16, 2025 at 11:48:39AM +0100, Daniel Stone wrote:
+> > So yeah, I see it as the same as the input situation: you _can_ do the
+> > basics with raw evdev, but unless you're very special, you should use
+> > libinput. Equally for output, when you go past what e.g. Plymouth
+> > would require, use libdisplay-info to parse the EDID, rather than
+> > trying to make the kernel try to turn the unhinged madness of EDID
+> > into something userspace can reason about.
 >
-> As I wrote, I completely agree regarding CM and HDR. From my POV the YUV
-> part isn't that complicated. I might be wrong though.
+> We do a lot of EDID parsing in the kernel, including HDMI VSDB and
+> Y420CMDB parsing. Do we need anything else for this feature?
 
-It's not super complicated if you just want to get a splash screen up,
-and you're willing to be conservative about the way in which you do it
-to get _something_ up on screen. Or if you're on a laptop so you'd
-rather not have your HDMI clock smashed up to max all the time. But
-yeah, as soon as you get to CM and HDR usecases, userspace really
-wants to have both control and visibility here.
-
-The cable usecase is a very real one - you want to use the most
-conservative setting possible to make sure you get _something_ on
-screen. But then the CM usecase is a very real one too - you want to
-get the best image possible on screen rather than destroying accuracy,
-even at the cost of the dreaded 'Can you see this now you've changed
-your display settings? [Y] [N, timeout 20sec]' dialog box.
-
-So yeah, i'm not really seeing any way around giving userspace
-explicit visibility and control here - the kernel can't 'just do the
-right thing' in all cases, and creating new uAPI to abstract EDID
-seems the wrong direction as a) there's already a perfectly good uAPI
-for EDID, and b) it means the kernel has to do a lot of complex
-interpretation and transformation-of-representation of information it
-won't even do anything with.
+I'm slightly confused as to what you're saying here. Are you saying
+that it's OK for the kernel to expose connector properties for
+userspace to see which colour properties
+(model/range/depth/subsampling) are OK and control what is actually
+used, but your hard line is that the kernel must do an intersection
+between the sink EDID and the encoder/connector capabilities to filter
+the list to what it believes to be achievable?
 
 Cheers,
 Daniel
