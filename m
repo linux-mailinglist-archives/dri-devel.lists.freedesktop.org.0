@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C81EB5919D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE92B591A0
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:04:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE5210E73E;
-	Tue, 16 Sep 2025 09:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8938110E73F;
+	Tue, 16 Sep 2025 09:04:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iL7oN6ib";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="VYZoQfha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B34E10E73E
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:03:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 98ECB600AE;
- Tue, 16 Sep 2025 09:03:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CFBC4CEEB;
- Tue, 16 Sep 2025 09:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758013424;
- bh=MZwGrBHn7fPx6J7jWScTagGw2ALfjMRVbO4DtaIYdUU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iL7oN6ibPnr6d7GQE8OAHny60zW/mzn/tDXnzQgFQR7+vf2SJVb4P4Pq5N2+VyJUG
- q7ANJyAG8L2AIho1rgjoEgGTOQJcmfJXQWpXocWsG+Q+e4sHI13OChBO2D2azFuFyu
- MlfXpicvnoSPlFkzfLAZK14fWTbrgOHxOyyYsM5qH/gWjyj+BDmKa2LBV0mXJxThxC
- hoFfQB1gsnY0bax6j42NeJNHVcN/fQsf72WZGC8iJFwJC4U2a8d4Lv3+1lQeUZzWhJ
- N0EtDzFu/OAo5+Wy/9GuV0qie36ilqZ1A4xlnZPNmvCLdSqERVsiMEWq+XUPC2bdYm
- 8JOGBUzdFdIjQ==
-Date: Tue, 16 Sep 2025 11:03:41 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev
-Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
-Message-ID: <20250916-jade-seal-of-cleaning-5ee2bd@houat>
-References: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
- <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-7-edb6ee81edf1@bootlin.com>
- <20250915-optimal-hornet-of-potency-efa54a@penduick>
- <20250915175805.6e8df6ef@booty>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D3F10E73F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:04:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758013447; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KphIoxkx3Cqj0qXKv+QONEdYHdi7TOxjXMeIFjDfloMVupb2o61pMUqjZ4bqfTOQhqGIbUK8DbxXjGqxV5x0TexDs9hNGMEDerN5hu6QXGL214QmPFbdz9IwyTXArIYA3WiNexkebwTvf4u6Vz9Oloa8Sh8ghlxeKCt8uTUG/aU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758013447;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=vvB9uFwSO71J5u5suf9LzDD3AAOVAFdkQHjXMqw5dYs=; 
+ b=I/Gp8xb6pw6GnZQNdmmrEloJ+xsjI7JPL7JdONc0SPrqZE+QQDrTy2hnhmlIM1nhDbCwuqDBojz83VOKZ5+G4bBX6EKx2Bpi0HlKGZ6BTi5Rbq16jcH/wAruVDvzg/yWvtZBiyLWxyaPHSRhhhP+nriwk13Iu23ejuSz5brnzQs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758013447; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=vvB9uFwSO71J5u5suf9LzDD3AAOVAFdkQHjXMqw5dYs=;
+ b=VYZoQfhaOxFZl7gpYmtPRLiRUkgTVYFaa6Td3m/0wyTVx6ttkq5K7psZ/2urwqCL
+ XCWZCkcz0LaT7xSAjw86BWu2urnKCyzUilLfARa5y6dBH2nj21gyNG3u/ScGSxaBIr3
+ qzZSU3LkTgXPn83JtA/HRG2LCAODFg/qgxxD5yvE=
+Received: by mx.zohomail.com with SMTPS id 1758013446090111.71149807332927;
+ Tue, 16 Sep 2025 02:04:06 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 05/10] mailbox: add MediaTek GPUEB IPI mailbox
+Date: Tue, 16 Sep 2025 11:03:57 +0200
+Message-ID: <5236533.GXAFRqVoOG@workhorse>
+In-Reply-To: <CAPaKu7STDDp6D_fDGVfAKFrb5aWcxtwsT3nYtYDQQYCs7G9upA@mail.gmail.com>
+References: <20250912-mt8196-gpufreq-v2-0-779a8a3729d9@collabora.com>
+ <8577914.T7Z3S40VBb@workhorse>
+ <CAPaKu7STDDp6D_fDGVfAKFrb5aWcxtwsT3nYtYDQQYCs7G9upA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="j5gg2kqgg6e4zl3s"
-Content-Disposition: inline
-In-Reply-To: <20250915175805.6e8df6ef@booty>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,101 +82,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---j5gg2kqgg6e4zl3s
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
-MIME-Version: 1.0
-
-On Mon, Sep 15, 2025 at 05:58:05PM +0200, Luca Ceresoli wrote:
-> On Mon, 15 Sep 2025 14:22:24 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
-> > On Fri, Aug 08, 2025 at 04:49:14PM +0200, Luca Ceresoli wrote:
-> > > All users have been replaced by drm_for_each_bridge_in_chain_scoped().
-> > >=20
-> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > ---
-> > >  .clang-format            |  1 -
-> > >  include/drm/drm_bridge.h | 14 --------------
-> > >  2 files changed, 15 deletions(-)
-> > >=20
-> > > diff --git a/.clang-format b/.clang-format
-> > > index 1cac7d4976644c8f083f801e98f619782c2e23cc..d5c05db1a0d96476b711b=
-95912d2b82b2e780397 100644
-> > > --- a/.clang-format
-> > > +++ b/.clang-format
-> > > @@ -167,7 +167,6 @@ ForEachMacros:
-> > >    - 'drm_connector_for_each_possible_encoder'
-> > >    - 'drm_exec_for_each_locked_object'
-> > >    - 'drm_exec_for_each_locked_object_reverse'
-> > > -  - 'drm_for_each_bridge_in_chain'
-> > >    - 'drm_for_each_bridge_in_chain_scoped'
-> > >    - 'drm_for_each_connector_iter'
-> > >    - 'drm_for_each_crtc'
-> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > index a8e2f599aea764c705da3582df0ca428bb32f19c..6adf9221c2d462ec8e0e4=
-e281c97b39081b3da24 100644
-> > > --- a/include/drm/drm_bridge.h
-> > > +++ b/include/drm/drm_bridge.h
-> > > @@ -1358,20 +1358,6 @@ drm_bridge_chain_get_first_bridge(struct drm_e=
-ncoder *encoder)
-> > >  						       struct drm_bridge, chain_node));
-> > >  }
-> > > =20
-> > > -/**
-> > > - * drm_for_each_bridge_in_chain() - Iterate over all bridges present=
- in a chain
-> > > - * @encoder: the encoder to iterate bridges on
-> > > - * @bridge: a bridge pointer updated to point to the current bridge =
-at each
-> > > - *	    iteration
-> > > - *
-> > > - * Iterate over all bridges present in the bridge chain attached to =
-@encoder.
-> > > - *
-> > > - * This is deprecated, do not use!
-> > > - * New drivers shall use drm_for_each_bridge_in_chain_scoped().
-> > > - */
-> > > -#define drm_for_each_bridge_in_chain(encoder, bridge)			\
-> > > -	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
-> > > - =20
-> >=20
-> > I think I'd go a step further and rename
-> > drm_for_each_bridge_in_chain_scoped to drm_for_each_bridge_in_chain,
-> > there's no need to have a "scoped" variant if it's our only variant.
-> >=20
-> > It can be done in a subsequent patch though.
+On Tuesday, 16 September 2025 06:55:30 Central European Summer Time Chia-I =
+Wu wrote:
+> On Mon, Sep 15, 2025 at 6:34=E2=80=AFAM Nicolas Frattaroli
+> <nicolas.frattaroli@collabora.com> wrote:
+> >
+> > On Saturday, 13 September 2025 00:11:10 Central European Summer Time Ch=
+ia-I Wu wrote:
+> > > On Fri, Sep 12, 2025 at 11:38=E2=80=AFAM Nicolas Frattaroli
+> > > <nicolas.frattaroli@collabora.com> wrote:
+> > > <snipped>
+> > > > +static irqreturn_t mtk_gpueb_mbox_thread(int irq, void *data)
+> > > > +{
+> > > > +       struct mtk_gpueb_mbox_chan *ch =3D data;
+> > > > +       int status;
+> > > > +
+> > > > +       status =3D atomic_cmpxchg(&ch->rx_status,
+> > > > +                               MBOX_FULL | MBOX_CLOGGED, MBOX_FULL=
+);
+> > > > +       if (status =3D=3D (MBOX_FULL | MBOX_CLOGGED)) {
+> > > > +               mtk_gpueb_mbox_read_rx(ch);
+> > > > +               writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_I=
+RQ_CLR);
+> > > > +               mbox_chan_received_data(&ch->ebm->mbox.chans[ch->nu=
+m],
+> > > > +                                       ch->rx_buf);
+> > > Given what other drivers do, and how mtk_mfg consumes the data, we sh=
+ould
+> > >
+> > >   char buf[MAX_OF_RX_LEN]; //  MAX_OF_RX_LEN is 32; we can also
+> > > allocate it during probe
+> > >   mtk_gpueb_mbox_read_rx(ch);
+> > >   mbox_chan_received_data(..., buf);
+> > >
+> > > mtx_mfg makes a copy eventually anyway.
+> >
+> > We don't right now, at least not until after the callback returns.
+> > So we need to have the copy in the mtk_mfg callback, not after the
+> > completion. That's fine and I do want to do this as this is what
+> > the mailbox framework seems to expect clients to do.
+> >
+> > > We don't need to maintain any
+> > > extra copy.
+> > >
+> > > Then we might not need rx_status.
+> >
+> > We can probably get rid of it if we keep the per-channel
+> > interrupt handler. Otherwise, we may still need clogged,
+> > as we don't want to process interrupts on channels we have
+> > no user for.
+> >
+> > >
+> > > > +               atomic_set(&ch->rx_status, 0);
+> > > > +               return IRQ_HANDLED;
+> > > > +       }
+> > > > +
+> > > > +       return IRQ_NONE;
+> > > > +}
+> > > > +
+> > > > +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *=
+data)
+> > > > +{
+> > > > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
+> > > > +       int i;
+> > > > +       u32 *values =3D data;
+> > > > +
+> > > > +       if (atomic_read(&ch->rx_status))
+> > > > +               return -EBUSY;
+> > > > +
+> > > > +       /*
+> > > > +        * We don't want any fancy nonsense, just write the 32-bit =
+values in
+> > > > +        * order. memcpy_toio/__iowrite32_copy don't work here, bec=
+ause fancy.
+> > > > +        */
+> > > > +       for (i =3D 0; i < ch->c->tx_len; i +=3D 4)
+> > > > +               writel(values[i / 4], ch->ebm->mbox_mmio + ch->c->t=
+x_offset + i);
+> > > > +
+> > > > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_SET);
+> > > > +
+> > > > +       return 0;
+> > > > +}
+> > > > +
+> > > > +static int mtk_gpueb_mbox_startup(struct mbox_chan *chan)
+> > > > +{
+> > > > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
+> > > > +       int ret;
+> > > > +
+> > > > +       atomic_set(&ch->rx_status, 0);
+> > > > +
+> > > > +       ret =3D clk_enable(ch->ebm->clk);
+> > > > +       if (ret) {
+> > > > +               dev_err(ch->ebm->dev, "Failed to enable EB clock: %=
+pe\n",
+> > > > +                       ERR_PTR(ret));
+> > > > +               goto err_clog;
+> > > > +       }
+> > > > +
+> > > > +       writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
+> > > > +
+> > > > +       ret =3D devm_request_threaded_irq(ch->ebm->dev, ch->ebm->ir=
+q, mtk_gpueb_mbox_isr,
+> > > > +                                       mtk_gpueb_mbox_thread, IRQF=
+_SHARED | IRQF_ONESHOT,
+> > > > +                                       ch->full_name, ch);
+> > > I don't think this warrants a per-channel irq thread.
+> > >
+> > > mbox_chan_received_data is atomic. I think wecan start simple with
+> > > just a devm_request_irq for all channels. mtk_gpueb_mbox_isr can
+> > >
+> > >   read bits from MBOX_CTL_RX_STS
+> > >   for each bit set:
+> > >     read data from rx
+> > >     mbox_chan_received_data
+> > >   write bits to MBOX_CTL_IRQ_CLR
+> > >
+> >
+> > I don't like this approach. It brings us back to having to process
+> > multiple channels per ISR, keep track of when the interrupt should
+> > be enabled and disabled based on how many channels are in use, and
+> > also is not in line with what e.g. omap-mailbox.c does.
+> >
+> > Remember that `mbox_chan_received_data` synchronously calls the
+> > mailbox client's rx_callback. In mediatek_mfg's case, this is
+> > fairly small, though with the request to not make the rx buffer
+> > persist beyond the rx_callback it will gain an additional memory
+> > copy. But we can't guarantee that someone isn't going to put a
+> > slow operation in the path. Sure, it's going to be atomic, but
+> > waiting for a spinlock is atomic and not something an ISR would
+> > enjoy. I don't think mailbox clients would expect that if they
+> > take their time they'll stall the interrupt handler for every
+> > other channel.
+> >
+> > So we'd keep the interrupt disabled for all channels until the
+> > client that received a message has processed it.
+> >
+> > I can see myself getting rid of the handler and just having the
+> > thread function as the bottom half, but I'd really like to keep
+> > the one-IRQ-request-per-channel thing I've got going now as it
+> > made the code a lot easier to reason about. However, doing this
+> > would mean the interrupt is re-enabled after the generic upper
+> > half, when all the business logic that needs to not run
+> > concurrently for an individual channel is in the bottom half.
+> >
+> > As far as I can tell, this would then mean we'd have to add
+> > some concurrency exclusion mechanism to the bottom half.
+> >
+> > Moving all the logic into the upper half handler function
+> > would make that handler somewhat longer, and I don't know
+> > if IRQF_ONESHOT masks the interrupt for all users of that
+> > IRQ number or just for those with that dev_id. If it's per
+> > dev_id, then I'm fine with moving stuff up there. But from
+> > my reading of the core IRQ handling code, that does not
+> > appear to be the case; one channel getting a reply would
+> > mask *all* channels of the mailbox until the upper half is
+> > completed, and if the upper half calls into a driver
+> > callback synchronously, that may take a hot minute.
+> >
+> > Put differently: Is there a problem with one thread per used
+> > channel, or are we going off vibes here? The way it currently
+> > works uses the shared interrupt to mark just that one channel
+> > as busy with rx_status before letting the IRQ for all channels
+> > be unmasked again, which seems ideal to me.
+> No, one thread per used channel can work. I can't say I like it, but I
+> also don't know the hw as well as you do.
 >=20
-> Sure, that's the plan. There's a note in patch 3:
->=20
-> Note 1: drm_for_each_bridge_in_chain_scoped() could be renamed removing t=
-he
->         _scoped suffix after removing all the users of the current macro
->         and eventually the current macro itself. Even though this series =
-is
->         converting all users, I'd at least wait one kernel release before
->         renaming, to minimize issues with existing patches which would fa=
-il
->         building.
 
-No need to wait that long, and the best time to do it is right now
-actually, about the time we start collecting the patches for a new
-release.
+Your knowledge is probably not far behind mine on this hardware :(
 
-Maxime
+I'll keep the per-channel thread for v3 for now, so that it's
+clearer as to how this will look. It'll also give us both an
+opportunity to run the code and add some measurements to see if
+this causes any problems, and to experiment with your proposed
+solution.
 
---j5gg2kqgg6e4zl3s
-Content-Type: application/pgp-signature; name="signature.asc"
+What I mainly am worried about is that if we go back to one IRQ
+for all channels, then we have to do our own "how many channels
+are enabled?" accounting to disable the IRQ later, because the
+enable_irq/disable_irq accounting works the opposite way where
+you can disable as many times as you want but your enables can't
+exceed disables + 1.
 
------BEGIN PGP SIGNATURE-----
+Kind regards,
+Nicolas Frattaroli
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMkn4gAKCRAnX84Zoj2+
-diPbAYCE0rN0Hys4v3lgLLkZRuYYI0Gb8t/xeW3MGR8DoeSuRalFsZbza8OQj62I
-uKDA+8ABgMfMlLq3E2nNIB21uXhtaO+otkyU/nIntjQV4yQTEzi8wU1GnNHMU2H9
-nilJreknJg==
-=KvpI
------END PGP SIGNATURE-----
 
---j5gg2kqgg6e4zl3s--
+
