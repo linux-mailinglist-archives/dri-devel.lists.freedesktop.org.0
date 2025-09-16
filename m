@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3234B59C3F
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715B3B59C5B
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04C9E10E39C;
-	Tue, 16 Sep 2025 15:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9A4510E393;
+	Tue, 16 Sep 2025 15:43:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g7KnRHpI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HV6/UjgH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F8D10E39C;
- Tue, 16 Sep 2025 15:38:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38D810E381
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:43:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BFEB044AA9;
- Tue, 16 Sep 2025 15:38:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845C2C4CEF0;
- Tue, 16 Sep 2025 15:38:01 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id A884A41769;
+ Tue, 16 Sep 2025 15:43:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03401C4CEEB;
+ Tue, 16 Sep 2025 15:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758037083;
- bh=/KNRhTipWVEIQwkpHzS6ivBX9n/DOl4tBR3cuI/sKLI=;
- h=Date:To:From:Subject:Cc:From;
- b=g7KnRHpIbRKZAVpQcT685hjTtTn8EG/icpphN+G3m1Kvkiw2Pu54ECF4aGiV7pF2y
- oFHQD/DPLJyvFWpmLhiy//KcRg78rWguMDZfsJHQXkVT/447IiFhTW498/VOt0hx3a
- UntE3fc/42QgjZMKSpDmpbG15aB6X6k+HxxuZ6/CekLU4tcbaXCImXyQFYN+XJlbNI
- PABL+ApRX9iL+FZmE8LN3UBscF3Excg/3fnzUk2Ld7l+eR8Ift8BTNSShtRdKDy/ii
- LuDNESEKcShbNxr/FZeg0ib+60GZsaJWZNm62v3fXv8Vk6oCjb78B3LngT1Fr6Fhmk
- g/5oYdeGE3GWQ==
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Sep 2025 17:37:59 +0200
-Message-Id: <DCUC4SY6SRBD.1ZLHAIQZOC6KG@kernel.org>
-To: "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona.vetter@ffwll.ch>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: [GIT PULL] DRM Rust changes for v6.18
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
+ s=k20201202; t=1758037434;
+ bh=ThdyO2GOJ3OKtV1hGeLo+a6nDDHSjZTwlZ81sERWzQA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HV6/UjgH3GqFwdkHUIOAHTGRemyh7AcFzMMXNgI28WUDuLEIJ0ut7XJnX7+6Qe/Ii
+ L8RuCbebXPqPByYvvzvecHhb78flEcTWB8aoOYi6q0VNARrepfjD6tXLLHHxJKcNqI
+ CjlJynsT3tGdv8CLgWBrAAYaEsDP8QavKjduiLiUczDM4Pv5XyNZsKUhCrQCefzTCg
+ Rambd1no4dFQ3g4zahGnaOfRfjRi2veUnzP/tTXR1U/ied8GTmqdQzVgzoHxvTomyn
+ 34/FsJPi1IVxs0LGiYWXmjPTTBgYwF1bRJIF2tz4aUt4wZria1drDgP54sH9y8eFJs
+ R7F/7Ix7/ocZw==
+Date: Tue, 16 Sep 2025 10:43:50 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Aleksandrs Vinarskis <alex@vinarskis.com>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, threeway@gmail.com,
+ Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v5 3/4] leds: led-class: Add devicetree support to
+ led_get()
+Message-ID: <g7xkdervsknmcwjg4qgloj643b4itjlfeyiipvsrborszgrhlg@zrp65nvfueqk>
+References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+ <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
+ <20250911081540.GD9224@google.com>
+ <b875f811-6371-4ff4-9cc2-a0a2c82a569c@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mutt-Fcc: =Sent Items
-X-TUID: mKg+BHoYSeyx
+In-Reply-To: <b875f811-6371-4ff4-9cc2-a0a2c82a569c@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,283 +74,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+On Thu, Sep 11, 2025 at 11:01:00AM +0200, Hans de Goede wrote:
+> Hi Lee,
+> 
+> On 11-Sep-25 10:15 AM, Lee Jones wrote:
+> > On Wed, 10 Sep 2025, Aleksandrs Vinarskis wrote:
+> > 
+> >> From: Hans de Goede <hansg@kernel.org>
+> >>
+> >> Add 'name' argument to of_led_get() such that it can lookup LEDs in
+> >> devicetree by either name or index.
+> >>
+> >> And use this modified function to add devicetree support to the generic
+> >> (non devicetree specific) [devm_]led_get() function.
+> >>
+> >> This uses the standard devicetree pattern of adding a -names string array
+> >> to map names to the indexes for an array of resources.
+> >>
+> >> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> >> Reviewed-by: Lee Jones <lee@kernel.org>
+> > 
+> > Remind me why this can't go in through LED again?
+> 
+> I don't think anyone has discussed how to merge this yet.
+> 
+> I believe that the LED tree is the correct tree to merge this
+> entire series through, once the DT bits have been reviewed.
+> 
 
-Please pull the following DRM Rust changes.
+Unless there are some strong reasons (that I'm failing to spot), we
+should merge the DeviceTree binding and implementation through the LED
+tree. Then I merge the DTS change through the Qualcomm DT tree once the
+bindings are available in linux-next.
 
-Besides the DRM changes, this PR also contains some new DMA & scatterlist
-infrastructure (incl. some alloc dependencies), with Nova as a first user.
+Regards,
+Bjorn
 
-It also includes a few AsBytes and FromBytes additions needed by Nova.
-
-I merged this cycle's pin-init PR from Benno, since Nova is the first user
-taking advantage of the new features included.
-
-There are a couple of conflicts with other trees (Rust, MM, Driver Core, Li=
-nus),
-but they are mostly around includes and all trivial [1..8] -- no semantic
-conflicts.
-
-All changes have been in -next for a couple of rounds; the latest nova-core
-series from Alex for one cycle.
-
-- Danilo
-
-[1] https://lore.kernel.org/all/20250905124634.68da9a1e@canb.auug.org.au/
-[2] https://lore.kernel.org/all/20250905125139.109081b2@canb.auug.org.au/
-[3] https://lore.kernel.org/all/20250905125653.0ebc7580@canb.auug.org.au/
-[4] https://lore.kernel.org/all/20250905144449.437ef3cf@canb.auug.org.au/
-[5] https://lore.kernel.org/all/20250912120159.1d6518cc@canb.auug.org.au/
-[6] https://lore.kernel.org/all/20250912135146.0c3ea18f@canb.auug.org.au/
-[7] https://lore.kernel.org/all/aMlfiBynRQrbW3BT@sirena.org.uk/
-[8] https://lore.kernel.org/all/aMlhpIhjbrDR4C8L@sirena.org.uk/
-
-The following changes since commit 043d9c6928b010be7902a01b5cdfa7d754535b1a=
-:
-
-  drm/bridge: anx7625: register content protect property (2025-08-20 08:22:=
-01 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/rust/kernel.git tags/drm-rust-next-202=
-5-09-16
-
-for you to fetch changes up to 299eb32863e584cfff7c6b667c3e92ae7d4d2bf9:
-
-  gpu: nova-core: Add base files for r570.144 firmware bindings (2025-09-13=
- 23:17:48 +0900)
-
-----------------------------------------------------------------
-DRM Rust changes for v6.18
-
-Alloc
-  - Add BorrowedPage type and AsPageIter trait
-  - Implement Vmalloc::to_page() and VmallocPageIter
-  - Implement AsPageIter for VBox and VVec
-
-DMA & Scatterlist
-  - Add dma::DataDirection and type alias for dma_addr_t
-  - Abstraction for struct scatterlist and struct sg_table
-
-DRM
-  - In the DRM GEM module, simplify overall use of generics, add
-    DriverFile type alias and drop Object::SIZE.
-
-Nova (Core)
-  - Various register!() macro improvements (paving the way for lifting
-    it to common driver infrastructure)
-  - Minor VBios fixes and refactoring
-  - Minor firmware request refactoring
-  - Advance firmware boot stages; process Booter and patch its
-    signature, process GSP and GSP bootloader
-  - Switch development fimrware version to r570.144
-  - Add basic firmware bindings for r570.144
-  - Move GSP boot code to its own module
-  - Clean up and take advantage of pin-init features to store most of
-    the driver's private data within a single allocation
-  - Update ARef import from sync::aref
-  - Add website to MAINTAINERS entry
-
-Nova (DRM)
-  - Update ARef import from sync::aref
-  - Add website to MAINTAINERS entry
-
-Pin-Init
-  - Merge pin-init PR from Benno
-    - `#[pin_data]` now generates a `*Projection` struct similar to the
-      `pin-project` crate.
-
-    - Add initializer code blocks to `[try_][pin_]init!` macros: make
-      initializer macros accept any number of `_: {/* arbitrary code
-      */},` & make them run the code at that point.
-
-    - Make the `[try_][pin_]init!` macros expose initialized fields via
-      a `let` binding as `&mut T` or `Pin<&mut T>` for later fields.
-
-Rust
-  - Various methods for AsBytes and FromBytes traits
-
-Tyr
-  - Initial Rust driver skeleton for ARM Mali GPUs.
-    - It can power up the GPU, query for GPU metatdata through MMIO and
-      provide the metadata to userspace via DRM device IOCTL (struct
-      drm_panthor_dev_query).
-
-----------------------------------------------------------------
-Alexandre Courbot (33):
-      gpu: nova-core: register: add missing space in register!()
-      gpu: nova-core: register: allow fields named `offset`
-      gpu: nova-core: register: improve documentation for basic registers
-      gpu: nova-core: register: simplify @leaf_accessor rule
-      gpu: nova-core: register: remove `try_` accessors for relative regist=
-ers
-      gpu: nova-core: register: move OFFSET declaration to I/O impl block
-      gpu: nova-core: register: fix documentation and indentation
-      gpu: nova-core: register: add missing doccomments for fixed registers=
- I/O accessors
-      gpu: nova-core: register: add fields dispatcher internal rule
-      gpu: nova-core: register: improve `Debug` implementation
-      gpu: nova-core: register: generate correct `Default` implementation
-      gpu: nova-core: register: split @io rule into fixed and relative vers=
-ions
-      gpu: nova-core: register: use #[inline(always)] for all methods
-      gpu: nova-core: register: redesign relative registers
-      gpu: nova-core: falcon: add distinct base address for PFALCON2
-      gpu: nova-core: register: add support for register arrays
-      gpu: nova-core: falcon: use register arrays for FUSE registers
-      gpu: nova-core: register: add support for relative array registers
-      gpu: nova-core: falcon: align DMA transfers to 256 bytes
-      rust: transmute: add `as_bytes` method for `AsBytes` trait
-      rust: transmute: add `as_bytes_mut` method to `AsBytes` trait
-      rust: transmute: add `from_bytes_copy` method to `FromBytes` trait
-      gpu: nova-core: vbios: replace pci::Device with device::Device
-      gpu: nova-core: vbios: store reference to Device where relevant
-      gpu: nova-core: require `Send` on `FalconEngine` and `FalconHal`
-      gpu: nova-core: move GSP boot code to its own module
-      gpu: nova-core: add Chipset::name() method
-      gpu: nova-core: firmware: move firmware request code into a function
-      gpu: nova-core: firmware: add support for common firmware header
-      gpu: nova-core: firmware: process Booter and patch its signature
-      gpu: nova-core: firmware: process and prepare the GSP firmware
-      gpu: nova-core: firmware: process the GSP bootloader
-      gpu: nova-core: firmware: use 570.144 firmware
-
-Alistair Popple (1):
-      gpu: nova-core: Add base files for r570.144 firmware bindings
-
-Benno Lossin (6):
-      rust: pin-init: examples: error: use `Error` in `fn main()`
-      rust: pin-init: README: add information banner on the rename to `pin-=
-init`
-      rust: pin-init: rename `project` -> `project_this` in doctest
-      rust: pin-init: add pin projections to `#[pin_data]`
-      rust: pin-init: add code blocks to `[try_][pin_]init!` macros
-      rust: pin-init: add references to previously initialized fields
-
-Christian S. Lima (1):
-      rust: transmute: Add methods for FromBytes trait
-
-Daniel Almeida (1):
-      rust: drm: Introduce the Tyr driver for Arm Mali GPUs
-
-Danilo Krummrich (15):
-      rust: page: implement BorrowedPage
-      rust: alloc: vmalloc: implement Vmalloc::to_page()
-      rust: alloc: implement VmallocPageIter
-      rust: page: define trait AsPageIter
-      rust: alloc: kbox: implement AsPageIter for VBox
-      rust: alloc: layout: implement ArrayLayout::size()
-      rust: alloc: kvec: implement AsPageIter for VVec
-      rust: dma: implement DataDirection
-      rust: dma: add type alias for bindings::dma_addr_t
-      rust: scatterlist: Add abstraction for sg_table
-      samples: rust: dma: add sample code for SGTable
-      MAINTAINERS: rust: dma: add scatterlist files
-      gpu: nova-core: take advantage of pci::Device::unbind()
-      Merge drm-misc-next-2025-08-21 into drm-rust-next
-      Merge tag 'pin-init-v6.18' of https://github.com/Rust-for-Linux/linux=
- into drm-rust-next
-
-John Hubbard (1):
-      gpu: nova-core: register: minor grammar and spelling fixes
-
-Lyude Paul (3):
-      rust: drm: gem: Simplify use of generics
-      rust: drm: gem: Add DriverFile type alias
-      rust: drm: gem: Drop Object::SIZE
-
-Philipp Stanner (1):
-      MAINTAINERS: Add website of Nova GPU driver
-
-Rhys Lloyd (2):
-      gpu: nova-core: vbios: use size_of instead of magic number
-      gpu: nova-core: vbios: change PmuLookupTableEntry to use size_of
-
-Shankari Anand (2):
-      drm: nova: update ARef import from sync::aref
-      gpu: nova-core: Update ARef imports from sync::aref
-
- Documentation/gpu/nova/core/todo.rst              |  19 -
- MAINTAINERS                                       |  19 +-
- drivers/gpu/drm/Kconfig                           |   2 +
- drivers/gpu/drm/Makefile                          |   1 +
- drivers/gpu/drm/nova/driver.rs                    |   4 +-
- drivers/gpu/drm/nova/gem.rs                       |  10 +-
- drivers/gpu/drm/tyr/Kconfig                       |  19 +
- drivers/gpu/drm/tyr/Makefile                      |   3 +
- drivers/gpu/drm/tyr/driver.rs                     | 205 ++++++
- drivers/gpu/drm/tyr/file.rs                       |  56 ++
- drivers/gpu/drm/tyr/gem.rs                        |  18 +
- drivers/gpu/drm/tyr/gpu.rs                        | 219 ++++++
- drivers/gpu/drm/tyr/regs.rs                       | 108 +++
- drivers/gpu/drm/tyr/tyr.rs                        |  22 +
- drivers/gpu/nova-core/driver.rs                   |  13 +-
- drivers/gpu/nova-core/falcon.rs                   | 113 ++--
- drivers/gpu/nova-core/falcon/gsp.rs               |  16 +-
- drivers/gpu/nova-core/falcon/hal.rs               |   2 +-
- drivers/gpu/nova-core/falcon/hal/ga102.rs         |  47 +-
- drivers/gpu/nova-core/falcon/sec2.rs              |  13 +-
- drivers/gpu/nova-core/fb.rs                       |   2 +-
- drivers/gpu/nova-core/firmware.rs                 | 107 ++-
- drivers/gpu/nova-core/firmware/booter.rs          | 375 ++++++++++
- drivers/gpu/nova-core/firmware/fwsec.rs           |  17 +-
- drivers/gpu/nova-core/firmware/gsp.rs             | 243 +++++++
- drivers/gpu/nova-core/firmware/riscv.rs           |  91 +++
- drivers/gpu/nova-core/gpu.rs                      | 216 ++----
- drivers/gpu/nova-core/gsp.rs                      |  22 +
- drivers/gpu/nova-core/gsp/boot.rs                 | 137 ++++
- drivers/gpu/nova-core/gsp/fw.rs                   |   7 +
- drivers/gpu/nova-core/gsp/fw/r570_144.rs          |  29 +
- drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs |   1 +
- drivers/gpu/nova-core/nova_core.rs                |   1 +
- drivers/gpu/nova-core/regs.rs                     |  84 +--
- drivers/gpu/nova-core/regs/macros.rs              | 789 ++++++++++++++++++=
-----
- drivers/gpu/nova-core/util.rs                     |  20 -
- drivers/gpu/nova-core/vbios.rs                    | 176 +++--
- rust/bindings/bindings_helper.h                   |   2 +
- rust/helpers/helpers.c                            |   1 +
- rust/helpers/scatterlist.c                        |  24 +
- rust/kernel/alloc/allocator.rs                    |  52 ++
- rust/kernel/alloc/allocator/iter.rs               | 102 +++
- rust/kernel/alloc/allocator_test.rs               |  29 +
- rust/kernel/alloc/kbox.rs                         |  40 +-
- rust/kernel/alloc/kvec.rs                         |  40 +-
- rust/kernel/alloc/layout.rs                       |   5 +
- rust/kernel/devres.rs                             |   6 +-
- rust/kernel/dma.rs                                |  86 ++-
- rust/kernel/drm/driver.rs                         |   3 +
- rust/kernel/drm/gem/mod.rs                        |  93 ++-
- rust/kernel/lib.rs                                |   2 +
- rust/kernel/page.rs                               |  87 ++-
- rust/kernel/scatterlist.rs                        | 491 ++++++++++++++
- rust/kernel/transmute.rs                          | 114 +++-
- rust/kernel/workqueue.rs                          |   9 +-
- rust/pin-init/README.md                           |  12 +
- rust/pin-init/examples/error.rs                   |   4 +-
- rust/pin-init/src/lib.rs                          |   4 +-
- rust/pin-init/src/macros.rs                       | 239 ++++++-
- rust/uapi/uapi_helper.h                           |   1 +
- samples/rust/rust_dma.rs                          |  35 +-
- samples/rust/rust_driver_pci.rs                   |   2 +-
- 62 files changed, 4022 insertions(+), 687 deletions(-)
- create mode 100644 drivers/gpu/drm/tyr/Kconfig
- create mode 100644 drivers/gpu/drm/tyr/Makefile
- create mode 100644 drivers/gpu/drm/tyr/driver.rs
- create mode 100644 drivers/gpu/drm/tyr/file.rs
- create mode 100644 drivers/gpu/drm/tyr/gem.rs
- create mode 100644 drivers/gpu/drm/tyr/gpu.rs
- create mode 100644 drivers/gpu/drm/tyr/regs.rs
- create mode 100644 drivers/gpu/drm/tyr/tyr.rs
- create mode 100644 drivers/gpu/nova-core/firmware/booter.rs
- create mode 100644 drivers/gpu/nova-core/firmware/gsp.rs
- create mode 100644 drivers/gpu/nova-core/firmware/riscv.rs
- create mode 100644 drivers/gpu/nova-core/gsp.rs
- create mode 100644 drivers/gpu/nova-core/gsp/boot.rs
- create mode 100644 drivers/gpu/nova-core/gsp/fw.rs
- create mode 100644 drivers/gpu/nova-core/gsp/fw/r570_144.rs
- create mode 100644 drivers/gpu/nova-core/gsp/fw/r570_144/bindings.rs
- create mode 100644 rust/helpers/scatterlist.c
- create mode 100644 rust/kernel/alloc/allocator/iter.rs
- create mode 100644 rust/kernel/scatterlist.rs
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+> >> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> >> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> >> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> >> ---
+> >>  drivers/leds/led-class.c | 17 +++++++++++++++--
+> >>  1 file changed, 15 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> >> index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
+> >> --- a/drivers/leds/led-class.c
+> >> +++ b/drivers/leds/led-class.c
+> >> @@ -252,15 +252,23 @@ static const struct class leds_class = {
+> >>   * of_led_get() - request a LED device via the LED framework
+> >>   * @np: device node to get the LED device from
+> >>   * @index: the index of the LED
+> >> + * @name: the name of the LED used to map it to its function, if present
+> >>   *
+> >>   * Returns the LED device parsed from the phandle specified in the "leds"
+> >>   * property of a device tree node or a negative error-code on failure.
+> >>   */
+> >> -static struct led_classdev *of_led_get(struct device_node *np, int index)
+> >> +static struct led_classdev *of_led_get(struct device_node *np, int index,
+> >> +				       const char *name)
+> >>  {
+> >>  	struct device *led_dev;
+> >>  	struct device_node *led_node;
+> >>  
+> >> +	/*
+> >> +	 * For named LEDs, first look up the name in the "led-names" property.
+> >> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
+> >> +	 */
+> >> +	if (name)
+> >> +		index = of_property_match_string(np, "led-names", name);
+> >>  	led_node = of_parse_phandle(np, "leds", index);
+> >>  	if (!led_node)
+> >>  		return ERR_PTR(-ENOENT);
+> >> @@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+> >>  	if (!dev)
+> >>  		return ERR_PTR(-EINVAL);
+> >>  
+> >> -	led = of_led_get(dev->of_node, index);
+> >> +	led = of_led_get(dev->of_node, index, NULL);
+> >>  	if (IS_ERR(led))
+> >>  		return led;
+> >>  
+> >> @@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+> >>  struct led_classdev *led_get(struct device *dev, char *con_id)
+> >>  {
+> >>  	struct led_lookup_data *lookup;
+> >> +	struct led_classdev *led_cdev;
+> >>  	const char *provider = NULL;
+> >>  	struct device *led_dev;
+> >>  
+> >> +	led_cdev = of_led_get(dev->of_node, -1, con_id);
+> >> +	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
+> >> +		return led_cdev;
+> >> +
+> >>  	mutex_lock(&leds_lookup_lock);
+> >>  	list_for_each_entry(lookup, &leds_lookup_list, list) {
+> >>  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+> >>
+> >> -- 
+> >> 2.48.1
+> >>
+> >>
+> > 
+> 
