@@ -2,120 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D562B593FD
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 12:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43982B59402
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 12:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D1210E6F0;
-	Tue, 16 Sep 2025 10:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0806210E7B4;
+	Tue, 16 Sep 2025 10:46:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="G5NIFOps";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="ijIglfya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC1E10E6F0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:44:18 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58GAC7Co019627
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:44:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=8wYensUaEHI256N+iplvY9UI
- jrhP2hMwlPOJQPQ6HPQ=; b=G5NIFOpshCViWqV8DwHOLnOjfM/8ROWAPMLVLCwo
- iys6HArs7KCkeXHwEvixveko/5pY3Pk/XvyDA9MNCWm5Bmi6AgZKEzgXz6EQ3uu/
- Yn5EXdSk0qIXjNObfM9MOGP2+zGdO5X4ZVm2hgepE4BFE/b/hCyOUjqFgX3W6RDy
- v2EiHb276JiZClNt4j88R0sxNxCIvbK/LBRXTaNzCCX3sMtZUCX4jPgNM7C4kAsq
- +gbu1Vna9XE+sMXpQHkI5j+ctq1mqiQtNux4nmgF2W0TEjcAPfBY+3+ZlCklnxXn
- tgsdVr8EjqAnmZR0l2YqL+XfteFcMZgi/96g6khCDczAUw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494yma8hvs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:44:17 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b62de0167aso136043161cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 03:44:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758019457; x=1758624257;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6DF10E7B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 10:46:17 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-80e2c527010so336126385a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 03:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1758019576; x=1758624376;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8wYensUaEHI256N+iplvY9UIjrhP2hMwlPOJQPQ6HPQ=;
- b=rkx7ZggnYhYmE/6HfHEcR1UrbYMcu0QVNrJMqg8HJqcwAuAJlZ+SeBMna7OPFhIdk8
- Rf/7AIeOYjHyppIj89NDmk4ZwSl10jiwuLKrMv9DkJ/1RPuEAe6Sv/ULm7e7dXswDdyZ
- qaXjd9DXK7dUop4f6H3lQaEBHKIPQOb5TNig7wiGZG9QjWKSwvxJZATB5bm1skyzf7K2
- CW6Xfzd7wlJA0Ni4gY8AKqUYEEkky8D+j400FUtsDg3BXyATn14OLuFZDVZfCJveJ8AC
- ZbD5pvP+HjSLMRtH7l6HSsG4a4czny0tgoG56t8ZgAj3g7Uwffx07LP1l23wuw5Q4sPC
- pRbA==
+ bh=qC0p3554k0ILiI1ThcPEwrxZpoZgtvHtQQDToFyMdLY=;
+ b=ijIglfyakuPGTdjy3Xgzvb6JxgftOaftpBuUs5GcgE+ajO93ZRqhlQahxWhFxOkPJY
+ CUVnZBvvlqCEML6HGAG/9ZF7g7DiP//MqePuY50fxCjts6CXAWS2KwVMqrMVIS5nrtRY
+ t9Wc56I4vJKzcRmWmHDTfAEAX+HD/bPbEvnPAIGooj7ra1Bv4/zUCyCYQp0BPUm2LXYD
+ OJOUUqXQnOnqbB7V4ZLk+N+w8V1KFZtA/caMyiXsy5Kl8XHuTVoTBDQYxYQ5AYukHA41
+ RiNbiZjY/P8KFeJDjbivtiNoO3u1Py86PhF5k+serhnZiq8iKd5EjKK9YVwVFTfKk8oV
+ qCVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758019576; x=1758624376;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qC0p3554k0ILiI1ThcPEwrxZpoZgtvHtQQDToFyMdLY=;
+ b=hYK8MeeO9hoT8jL8WbJpTF+NmiTSyFYYjTseOlh6sVNqklLXTponInxCeWkeNcmqO1
+ pHApCIrfc/v2eMOjg5Y6M5vwH0XkQ4DfSk1gF2SOq9/O98vVfFEkC20cmGUuXLVIMjU2
+ kVsLeteon2BouRDnHSMv1zA1gKr9HR8kNOvtnae7BFtefvevrZgx0f7ii2iIpko0S4LQ
+ 5vCiZJO6wawOFHMT+N7rZuFnRMyp46UGjf2pm+g5HIqFJ4C3ry1QR9c5nqw3gnB+GMBC
+ 3OfuWQffeH9JCcbHBFoFE5Cqoze+jgv0DW4ZiQqXJWg8/i/GI6ZimTPeyaZBhH14uYiY
+ C8UQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWd+8uFaqAfMnPKy7SKuRFd8T9DG4kKlzyhKX4AVawwliVTK2akxv5C0K3HPlzQRQh0p2GpIRNiXZg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxD3ueid8tfQ4lqaeZ7DWOsyJnqgeTWcYXB5JEtA7tflqtWVbTD
- 0sn3n8Z6nnhUObLJBhm0mOgb7puyl3G0MimDE/mhiI9tsAIYzE0mfUzVnMBkmCyZGiqgNP9n6mi
- hyeZ5lf/0tSAT6rBkUJr7rIjetOmHmmLuteZr0+1ZxjPw6lmxzQ4bSaVtGa+mjokiLAUeD6Y=
-X-Gm-Gg: ASbGncsGO1byocTd2EH/85OPglQDt5iP5amZqv2zOzARs6IlzvYvyKwIhYVJdEX9WeU
- wxlaa+j0aF60W7yrOohVgWGo9nb11Ip0v3N/IxVyAgQ3+wWDarzmXt1N1UYtyitp7mxDfNj9GeR
- zOCgXrJQa7lXrkOfIUGNH0wUwz7DNlYQf6LvW+Uzs7Q1zN5Rjjfsnx59UCYvTr1fjQE8MDBw+fD
- meSHCMaeOF/3vUTMwqlB6OG6nrZl+PgeV6QZbME7Das/i1pimPfIa9Ar1AZxh4YhrSEbz73DwHR
- Spux1J7fU1geEdUtHYue/hjlsC2PYoDuvfJ1yCIK7z57k67KUfiwiXENtUKKPM5mUZkk+UCNlrc
- w3ncKIuZkK9tqSicsp+HVZ6VC2LzhmeIlXeRHN/POGuy4EZNhlI8z
-X-Received: by 2002:ac8:5dcf:0:b0:4b6:2efe:2f7d with SMTP id
- d75a77b69052e-4b77d013581mr209416101cf.7.1758019457053; 
- Tue, 16 Sep 2025 03:44:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH04kzVjqBUejzNfxC95RPp6/N2Ck+VgtP766oUDXmmp5pGA1xivEPfnAa+GkL6F/7JU5Q7VQ==
-X-Received: by 2002:ac8:5dcf:0:b0:4b6:2efe:2f7d with SMTP id
- d75a77b69052e-4b77d013581mr209415821cf.7.1758019456554; 
- Tue, 16 Sep 2025 03:44:16 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-571a6d0e20csm3122441e87.38.2025.09.16.03.44.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 03:44:15 -0700 (PDT)
-Date: Tue, 16 Sep 2025 13:44:14 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Hermes.wu@ite.com.tw
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 4/5] drm/bridge: it6505: modify DP link
- training work
-Message-ID: <qh4owmpgeo2fyow7zlysef6wvunzr7n2rzudomf6iuujwgb6ew@i5dj3raq72zg>
-References: <20250916-fix-link-training-v3-0-0f55bfdb272a@ite.com.tw>
- <20250916-fix-link-training-v3-4-0f55bfdb272a@ite.com.tw>
+ AJvYcCVZwlyyNHNeHBuC4hSvUcHs3Zrz9JNOhnUOxYIAXzRb+UjMLxyBWmAgFWhvXjflOITGFPZ+i9+rZrU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQbsW9HXG54KvysytQLF6jKqZw2aknKtgIlB4Ay4xhWNA6Z3Lw
+ sXoE9sIWbi6hAGZWrstLN9VTssF+07l0uoXs1UZj1ze/Qdq6IuGIt7RnS6pI1s4ZqcW+2QjHf++
+ zyK03C1kOGIvlbiPYyqxdSovDAjn4EpH7U6m2+WUhViBKDxL2CZI2up+TeA==
+X-Gm-Gg: ASbGncvWFCRAOD7OohFLk6/XfDf3ZzHoTOp/JVZohavpn8XkTCzOUa/dgyiPUZGBuem
+ iYNlXRFeQCh0bju0hcqqNQZjW19TRzScZhZj9MunQAhJ66NRjomfE0BDTOLKEM/D1WbngfJyPRy
+ Jf7IJ2AO1ODCld7P7Qhd42XXIPCxSRjlGkS8xTFHdSQYoIYZctJJvvJPUXZlcMCG7v7sAeSX/Ri
+ 6E+B3B9nyI/M7XDqAk7x8FJ6k2beOt1cR+IEDGzzw==
+X-Google-Smtp-Source: AGHT+IHLMQNS/TiUzJuO4yJweDohTVUZKFl0iq/0IGyrwggdlrJ5r+wf2k3Tv3E12/UcEXiU7eIrpvFoqr2IQ89Tkt0=
+X-Received: by 2002:a05:620a:4626:b0:82a:8f4c:2d27 with SMTP id
+ af79cd13be357-82a8f4c32a9mr670525285a.40.1758019576337; Tue, 16 Sep 2025
+ 03:46:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250916-fix-link-training-v3-4-0f55bfdb272a@ite.com.tw>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOSBTYWx0ZWRfX0xd06SGMs33b
- NTuZNQFSV86tsY7GcW9Za3px7usLlz8JEmiVUpClET7G83nMTFec8YbEmvCHbfuWskyiVrsH2Vv
- cz9mIWQiHqqbSn0q5JoZuFxkQi0/b8rEiBSmRKoDKc4hOuSTtxED16RYPFml4vyIRB7H7bmORK9
- dtWm69AV+vlB+51HUOCb3DJow4haU8U6dEh9OrAT1TlmjbuLxIg251HVeQc8pT2ymqfo6pZacCQ
- aOkJJ2V8tExAOwO/L9FoicmgQOt5i2RcQq09g0Ha3dQhMbagAIcXNaeHXdOvVaDjbXMteB84jOM
- 7GrEdFJFnQbiT1KWypkNwk60zhuiDCJNkduX7wmy7hi0uadmabSQiqz1oYePdfwEX+Ms4/q+FPR
- l7ytmx+7
-X-Authority-Analysis: v=2.4 cv=cdTSrmDM c=1 sm=1 tr=0 ts=68c93f82 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=Ns9eNvu6AAAA:8 a=EUspDBNiAAAA:8 a=lEZlqnAI4VSGq44jjTwA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=LZLx1i01EnjtqRv10NxV:22
-X-Proofpoint-ORIG-GUID: On8IMrIM63xSA9mgQOMO8F6bvgbQLSPL
-X-Proofpoint-GUID: On8IMrIM63xSA9mgQOMO8F6bvgbQLSPL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130019
+References: <20250911130739.4936-1-marius.vlad@collabora.com>
+ <20250911130739.4936-4-marius.vlad@collabora.com>
+ <ssvxorsrhum2eo2uiieradrrmytemivr6m5c3mskalehzaj4ci@nc74epxgjq5w>
+ <aMMDxIWN9TadgVyw@xpredator>
+ <6zmp2dzpvcb4hi4kaa66q5o4rlcpdkor75ci4rnvalt2a37f26@lbmvc4t2ow4z>
+ <CAPj87rNxGfroKTf1i5UtmmnZ9wDQTdZFDMKw-MLdbCfjTCD=Uw@mail.gmail.com>
+ <20250916-piquant-jerboa-of-completion-87b80d@houat>
+In-Reply-To: <20250916-piquant-jerboa-of-completion-87b80d@houat>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 16 Sep 2025 11:46:04 +0100
+X-Gm-Features: AS18NWDVFmh2ACMW-t96-awld4AdSmcudSY-yS7GMOHlE34fcn7sRnOGXt05EsE
+Message-ID: <CAPj87rMuwvir_aDReT1ou-BNs3w9coUG6MPmCnGAeg5rQ97rCQ@mail.gmail.com>
+Subject: Re: [PATCH 3/8] drm: Add new general DRM property "color format"
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org, 
+ wse@tuxedocomputers.com, andri@yngvason.is, sebastian.wick@redhat.com, 
+ daniel.stone@collabora.com, jani.nikula@linux.intel.com, tzimmermann@suse.de, 
+ simona.vetter@ffwll.ch, harry.wentland@amd.com, christian.koenig@amd.com, 
+ derek.foreman@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,39 +95,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 16, 2025 at 12:47:44PM +0800, Hermes Wu via B4 Relay wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> 
-> The DP link training work include auto training and after
-> auto training failed "AUTO_TRAIN_RETRY" times, it switch to
-> step training mode.
-> 
-> It will more efficiency that finish link auto training,
-> include retry, and step training in a work, rather than
-> re-schedule train work when each training fail.
-> 
-> Drop auto_train_retry from it6505 structure,
-> and it6505_dump() is remove from link trainig work,
-> it takes too much time to read all register area,
-> and is not necessary.
+Hi,
 
-Nit: please fix your editor to wrap commit messages on a more typical
-boundary (72-75-77 chars).
+On Tue, 16 Sept 2025 at 09:29, Maxime Ripard <mripard@kernel.org> wrote:
+> On Mon, Sep 15, 2025 at 12:33:08PM +0200, Daniel Stone wrote:
+> > Quite possibly just a failure to display. Same as if the driver
+> > guesses it wrong - including for reasons it can never statically
+> > detect (e.g. buying a 10m-long uncertified HDMI cable which drops
+> > signal, or having the cable pulled around a 90=C2=B0 bend making it ver=
+y
+> > marginal for transmission).
+>
+> I guess there's two cases for "not supported by the display"?
+>
+> If the display reports that it supports a format but is broken, yeah,
+> there's not much we can do except maybe add a quirk.
+>
+> But if it's that the monitor doesn't support that format in the first
+> place, we should just reject that commit.
+>
+> Just like we don't let any mode go through if we know it's obviously
+> wrong (like if it exceeds max_tmds_clock) but can't indeed account for a
+> long / broken cable.
+>
+> > > I'm trying to point out that this complicates userspace: it is now
+> > > required to handle EDID and non-EDID cases for no practical reason. F=
+or
+> > > all other usecases it is enough to query available modes from the
+> > > kernel.
+> >
+> > But not 'now', because that's been happening for years. And not 'no
+> > practical reason', because in order to support features the kernel has
+> > no involvement in (colour management and HDR as a large part), you
+> > need to see the full EDID.
+>
+> I guess it's still slightly different when we're talking about opt-in
+> features like VRR or HDR, and "just get something on my screen".
 
-Otherwise:
+Yeah, I absolutely agree (as with the quoted parts as well) - the
+kernel should absolutely just get stuff on the screen.
 
+> Introducing a dependency on libdisplay-info for the latter is still
+> something new, but I guess you can always YOLO it, try a format and see
+> if it works.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Again though, it's not something new. I promise you that Weston (for
+over a year), Mutter (for about a year), KWin (for over two years),
+and wlroots (for two and a half years) already have hard deps on
+libdisplay-info. Even outside of 'serious' compositors, Mesa requires
+it to support HDR in VK_KHR_display (when it was added a couple of
+months ago),
 
-
-
-> 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> ---
->  drivers/gpu/drm/bridge/ite-it6505.c | 40 ++++++++++++++-----------------------
->  1 file changed, 15 insertions(+), 25 deletions(-)
-> 
-
--- 
-With best wishes
-Dmitry
+Cheers,
+Daniel
