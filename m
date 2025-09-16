@@ -2,134 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3687B58F2D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 09:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84A9B58F63
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 09:41:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C928010E6D2;
-	Tue, 16 Sep 2025 07:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0225510E698;
+	Tue, 16 Sep 2025 07:41:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BvlePUOA";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="FM/C116C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E06C810E6AA
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 07:31:57 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G3pxpr019791
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 07:31:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=8CH1PNlJYICaq+xN+m08UU
- ZdW+oKMYDW8S3+NyltR0k=; b=BvlePUOASAWQFxxxwArPgrHIsLPQOk/9m4RglB
- syZOuWTGymdsSVo2xicjNmHKIfvKPst2uMROL4Zx+tOCGv6D7eDOXAchX0zWCe+H
- Qc+RW//UzkHYZuPOyVn/kfJad8Zc2e6HgDuW9Zc0YlMS+CQZ6fXhwYA1XG2XFpPb
- tcXyfMwZzYHksRPYBvPk4kXNf86P5nWIWHX4GYFu+JMk+UB6wtBCtbr+SBZms/se
- oONl5YSMEC7lW/UXn1yL14x6F3Fz3zI5962xBuUqRVxr9WLFOFeBkMdTqAyc20Vq
- N3AS/x6muc86+e9uhfZ4ZwzePQMY1bVQs2ggEPaFk7btS8lg==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494yma7w5m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 07:31:56 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b54b301d623so916008a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 00:31:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758007915; x=1758612715;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8CH1PNlJYICaq+xN+m08UUZdW+oKMYDW8S3+NyltR0k=;
- b=MzCFcgLELNktKKMi4iFBIum20vTRpE4jAtE0hzpa4idBQqeg3Hg0de23t8N56V59qD
- rGmcN4pAXst4iGgmPX/k1n7HA5noj5L/gUXIfqRUQaQC0mDK/4nEd4bptI1l0hkWfQJI
- acdJJzbBPS4Mdqrz+D/ZBFjGri/yAn22+fRc7PQ2zPHoXlkJa15XD8IqBgErGn21R6NQ
- vchpacsukQBbzg9qjQlRXvygSJw1+eKEV7ZblEeb/jJosigzf8cqTv/RMptTaYgx3Rrn
- f8n5ljY9o/9oKve3ZfCdc2a4fQaW12Hiwd56R/jZv08Mmki2j0tzuE9UuVZXt+sc8G5k
- TKjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJTru6pnT/b41vgSpCxahW30IqSYqKdTJvOxgg0xxJ/imCRubggFWUCE7oo1BPDUd11tTn1pGfFtQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx169LTICAggRrrVEa69WXPxSqjiJFubEzS2xFinrnbuZklTqeZ
- an6e2V/FQv4OODfkTvHooc72aajOU1tKb3al2u/qchaviZ6D76tKJon1qnIuzV4speRPE9F5gOm
- amhth9DyJozvf9D2dB+FUTu2SO36xSb9ah0Hz5mEWxnQHuxGVgKgKEmd0gVUyZMOiGLQFSwo=
-X-Gm-Gg: ASbGnctPUb/U3p6VzRlUGNRp06MVz8Yw6ETQaZd3JwoQKeDKuVsNz+3I8/2HgwKzRmq
- JH8V54isSk5ks4Ej7XXCCfi0hA3LXUd5IOW/jEBV9kq19c+xdCG7K2wvKZpJmbYpaCes946nkQy
- pu4/V3B0owYCRYNWNAgkuGv53DF7pOzGOwQRLb/fkWJO0YgzL7csvgLQ1FH1hMB7ytFhtZUWW/a
- /5WCf9D/6rliQ13/esnymaBnaDp7sxYi8p4+SlAnxkhiVudTN4rJoECv9l+YsTtlgZJ306tz1oE
- DzdviTaW3I8bBBYi9EMhw5lPTzTcH6ol1ummtAKITZO3myJyo3awl1RB8/Xy1x4EZhVt+KuJ0q/
- VH/4y9J9NB5FpUA==
-X-Received: by 2002:a05:6a20:6a10:b0:249:ba7b:e350 with SMTP id
- adf61e73a8af0-2602a49db95mr10679950637.1.1758007915330; 
- Tue, 16 Sep 2025 00:31:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGOuY/+fNjx7hpbqu6n+05NZZcieklyq8hxAQX1LsQN7umar5jYiFVl460R7yZnKdRwQ7hEuA==
-X-Received: by 2002:a05:6a20:6a10:b0:249:ba7b:e350 with SMTP id
- adf61e73a8af0-2602a49db95mr10679911637.1.1758007914773; 
- Tue, 16 Sep 2025 00:31:54 -0700 (PDT)
-Received: from sziotdisp01-gv.qualcomm.com.ap.qualcomm.com ([114.94.8.21])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-32ded1ac2fdsm12995589a91.27.2025.09.16.00.31.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 00:31:54 -0700 (PDT)
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Date: Tue, 16 Sep 2025 15:31:35 +0800
-Subject: [PATCH v2] dt-bindings: display/msm: dp-controller: Add SM6150
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56B410E698;
+ Tue, 16 Sep 2025 07:41:44 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cQv3m62yBz9sm6;
+ Tue, 16 Sep 2025 09:41:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1758008500; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fe4+MjApCWo7jGglDayHEOd9HsjjsE6/NjBFpucGOAU=;
+ b=FM/C116CR2W9010/KuO+5+je2Bwdy4DbmotdCtq7OPzTezlrhroWXz4LXJ3s0c2CnnPBM4
+ Jm4nA+dtOjU7Vf/zhTqhfJtwgSSevUOVBA7yIPFAjS9lqyPy8Z/sYCGkvaqZKzaw+0N9gq
+ t0E2HSMTKX4y0Wphs8sQWFROKWPaqE/yK1UsmJLQKuq6pAolK+mZhZ/eTQWcw47vN7pN/7
+ 8cfmvphsXqHdmBKzHtlJdASlxPpurt/NFPW872hK8SW6pLy/bPIjnExgO7mFnsGr3tZnZp
+ TzIB+A4q8VY0fynjJ3y7F25KR2WhRunxEKiAaysagYULdtOe4pxND9np44TLiw==
+Message-ID: <9ce2b23820b4d56123eba515b01f282af4380a7c.camel@mailbox.org>
+Subject: Re: [RFC v8 04/12] drm/sched: Consolidate entity run queue management
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+Date: Tue, 16 Sep 2025 09:41:37 +0200
+In-Reply-To: <73681fac-ef47-4005-87ad-cea0b91e6813@igalia.com>
+References: <20250903101820.63032-1-tvrtko.ursulin@igalia.com>
+ <20250903101820.63032-5-tvrtko.ursulin@igalia.com>
+ <6fe010e8dc5e8a5db35d8702960f42940e342093.camel@mailbox.org>
+ <73681fac-ef47-4005-87ad-cea0b91e6813@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250916-add-dp-controller-support-for-sm6150-v2-1-e466da9bb77d@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAFcSyWgC/42Nyw6CMBREf4V07SVttTxc+R+GRWmLNAFuvQWiI
- fy7lcS9m8mcWczZWHTkXWTXbGPkVh89TgnkKWOm19PDgbeJmeRS8VoUoK0FG8DgNBMOgyOISwh
- IM3SY+lgIxUFJpY10tjJVwdJVINf516G5N4l7H2ek92FdxXf9CeR/glUABy7b86Ut21LU9oYx5
- s9FDwbHMU/Bmn3fP/mBkwjfAAAA
-X-Change-ID: 20250916-add-dp-controller-support-for-sm6150-525ac2ed8c86
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, li.liu@oss.qualcomm.com,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758007908; l=1877;
- i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=s8BWyyAJ63Dlk1aTjEk5L9PFu4I14q5H4nUlYBpxpL8=;
- b=vTalDIO4NPgb/9aizwP/CTx/sKmRglc5T80Q8X0k/OzwPWggEd9F5UCFxlYbD/A8iGXuwbfLg
- NpPKQPOfeyVDbyvvuTAYxdaa+lqtOqUegXaF5tE9Gf/4aDaHTANLiey
-X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
- pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAxOSBTYWx0ZWRfX6VHP4EMwTojt
- w7Uny8pFVP6Q1glZIJ1u8bNO2ceh8VBCXS5t29EPiUUXjX1If/1Ekjje+fdjOT200+NKZ8GOw5L
- N/9voEpL0leeMkt/61JUaYSmrfAu2Y1clqot9fZOhsgnqUP6ww7Vb0njjgzPf5kSZGt+r6wzrqT
- Gb2mcpdkmRDPN2dDc4/NtJWpKVfyTl/BrqwdDdddxYswR/s1CfNyfsXwqwV7IzBAA2RIbPw/hAK
- cfS8OHDVhDfCgWrpr1kg1DItaJwu3Mvh6n4N8y/LmpYU5Psk/QxNktcYEL5q8EK12cfyujCvtn+
- TIOMU2lXoMXh6786fGLmnC3dadlHf7miPIdQHo6PqNSvZc3RgKRvnb1K8vBXpXCDwzLpct0kkj1
- evXLkxpY
-X-Authority-Analysis: v=2.4 cv=cdTSrmDM c=1 sm=1 tr=0 ts=68c9126c cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=tYuJd5ZQnYzUV30UbPoA:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-ORIG-GUID: 6vEd-TsD8qhd8JsIVAS066OXbhHaBDoI
-X-Proofpoint-GUID: 6vEd-TsD8qhd8JsIVAS066OXbhHaBDoI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509130019
+X-MBO-RS-META: wm5sjrj4poepb5rcuba5tfpezr3ys538
+X-MBO-RS-ID: bbe42caea259c62f92c
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,50 +66,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DisplayPort controller binding for Qualcomm SM6150 SoC.
-'qcom,sm6150-dp' uses the same controller IP as 'qcom,sm8150-dp'.
-Declare 'qcom,sm6150-dp' as a fallback compatible to 'qcom-sm8350-dp'
-for consistency with existing bindings and to ensure correct matching and
-future clarity.
+On Thu, 2025-09-11 at 15:55 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 11/09/2025 15:20, Philipp Stanner wrote:
+> > On Wed, 2025-09-03 at 11:18 +0100, Tvrtko Ursulin wrote:
+> > > Move the code dealing with entities entering and exiting run queues t=
+o
+> > > helpers to logically separate it from jobs entering and exiting entit=
+ies.
+> >=20
+> > Sorry if I've asked this before, but does this strictly depend on the
+> > preceding patches or could it be branched out?
+>=20
+> There is no fundamental dependency so I could re-order and pull it ahead=
+=20
+> if you are certain that is what you prefer?
 
-Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
----
-This series splits the SM6150 dp-controller definition from the
-'[v3] Add DisplayPort support for QCS615 platform' series and rebases
-'dt-bindings: msm/dp: Add support for 4 pixel streams'.
+Well, you know my opinion: If it's a general improvement not directly
+necessary for a series, it should be send separately.
 
-The devicetree modification for DisplayPort on SM6150 will be provided
-in a future patch.
----
-Changes in v2:
-- Update commit message and binding with fallback configuration. [Dmitry]
-- Drop driver patch since SM6150 is declared as a fallback to 'qcom-sm8350-dp'.
-- Link to v1: https://lore.kernel.org/r/20250912-add-dp-controller-support-for-sm6150-v1-0-02b34b7b719d@oss.qualcomm.com
----
- Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 1 +
- 1 file changed, 1 insertion(+)
+For this patch, however, I'm not even sure whether it's really
+improving the code base. The number of functions seems the same, just
+with different names, and the code base gets even slightly larger.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index aeb4e4f36044a0ff1e78ad47b867e232b21df509..82481519005a1b038a351aa358b9266239d0e8a9 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -46,6 +46,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,sar2130p-dp
-+              - qcom,sm6150-dp
-               - qcom,sm7150-dp
-               - qcom,sm8150-dp
-               - qcom,sm8250-dp
+Can you elaborate a bit on why you think this patch makes sense?
 
----
-base-commit: c3067c2c38316c3ef013636c93daa285ee6aaa2e
-change-id: 20250916-add-dp-controller-support-for-sm6150-525ac2ed8c86
+P.
 
-Best regards,
--- 
-Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0 | 64=
+ ++-------------
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_internal.h |=C2=A0 8 +-
+> > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 95 +++++++++++++++++++---
+> > > =C2=A0=C2=A03 files changed, 91 insertions(+), 76 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/d=
+rm/scheduler/sched_entity.c
+> > > index 4852006f2308..7a0a52ba87bf 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > @@ -456,24 +456,9 @@ drm_sched_job_dependency(struct drm_sched_job *j=
+ob,
+> > > =C2=A0=C2=A0	return NULL;
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > -static ktime_t
+> > > -drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_ent=
+ity *entity)
+> > > -{
+> > > -	ktime_t ts;
+> > > -
+> > > -	lockdep_assert_held(&entity->lock);
+> > > -	lockdep_assert_held(&rq->lock);
+> > > -
+> > > -	ts =3D ktime_add_ns(rq->rr_ts, 1);
+> > > -	entity->rr_ts =3D ts;
+> > > -	rq->rr_ts =3D ts;
+> > > -
+> > > -	return ts;
+> > > -}
+> > > -
+> > > =C2=A0=C2=A0struct drm_sched_job *drm_sched_entity_pop_job(struct drm=
+_sched_entity *entity)
+> > > =C2=A0=C2=A0{
+> > > -	struct drm_sched_job *sched_job, *next_job;
+> > > +	struct drm_sched_job *sched_job;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	sched_job =3D drm_sched_entity_queue_peek(entity);
+> > > =C2=A0=C2=A0	if (!sched_job)
+> > > @@ -502,26 +487,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(s=
+truct drm_sched_entity *entity)
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	spsc_queue_pop(&entity->job_queue);
+> > > =C2=A0=20
+> > > -	/*
+> > > -	 * Update the entity's location in the min heap according to
+> > > -	 * the timestamp of the next job, if any.
+> > > -	 */
+> > > -	next_job =3D drm_sched_entity_queue_peek(entity);
+> > > -	if (next_job) {
+> > > -		struct drm_sched_rq *rq;
+> > > -		ktime_t ts;
+> > > -
+> > > -		spin_lock(&entity->lock);
+> > > -		rq =3D entity->rq;
+> > > -		spin_lock(&rq->lock);
+> > > -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > -			ts =3D next_job->submit_ts;
+> > > -		else
+> > > -			ts =3D drm_sched_rq_get_rr_ts(rq, entity);
+> > > -		drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> > > -		spin_unlock(&rq->lock);
+> > > -		spin_unlock(&entity->lock);
+> > > -	}
+> > > +	drm_sched_rq_pop_entity(entity);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0	/* Jobs and entities might have different lifecycles. Si=
+nce we're
+> > > =C2=A0=C2=A0	 * removing the job from the entities queue, set the job=
+s entity pointer
+> > > @@ -611,30 +577,10 @@ void drm_sched_entity_push_job(struct drm_sched=
+_job *sched_job)
+> > > =C2=A0=C2=A0	/* first job wakes up scheduler */
+> > > =C2=A0=C2=A0	if (first) {
+> > > =C2=A0=C2=A0		struct drm_gpu_scheduler *sched;
+> > > -		struct drm_sched_rq *rq;
+> > > =C2=A0=20
+> > > -		/* Add the entity to the run queue */
+> > > -		spin_lock(&entity->lock);
+> > > -		if (entity->stopped) {
+> > > -			spin_unlock(&entity->lock);
+> > > -
+> > > -			DRM_ERROR("Trying to push to a killed entity\n");
+> > > -			return;
+> > > -		}
+> > > -
+> > > -		rq =3D entity->rq;
+> > > -		sched =3D rq->sched;
+> > > -
+> > > -		spin_lock(&rq->lock);
+> > > -		drm_sched_rq_add_entity(rq, entity);
+> > > -		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
+> > > -			submit_ts =3D entity->rr_ts;
+> > > -		drm_sched_rq_update_fifo_locked(entity, rq, submit_ts);
+> > > -
+> > > -		spin_unlock(&rq->lock);
+> > > -		spin_unlock(&entity->lock);
+> > > -
+> > > -		drm_sched_wakeup(sched);
+> > > +		sched =3D drm_sched_rq_add_entity(entity, submit_ts);
+> > > +		if (sched)
+> > > +			drm_sched_wakeup(sched);
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=C2=A0EXPORT_SYMBOL(drm_sched_entity_push_job);
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu=
+/drm/scheduler/sched_internal.h
+> > > index 7ea5a6736f98..8269c5392a82 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> > > +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> > > @@ -12,13 +12,11 @@ extern int drm_sched_policy;
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+> > > =C2=A0=20
+> > > -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> > > -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity);
+> > > +struct drm_gpu_scheduler *
+> > > +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)=
+;
+> > > =C2=A0=C2=A0void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+> > > =C2=A0=C2=A0				struct drm_sched_entity *entity);
+> > > -
+> > > -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity=
+,
+> > > -				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq, ktime_t ts);
+> > > +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity);
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0void drm_sched_entity_select_rq(struct drm_sched_entity *=
+entity);
+> > > =C2=A0=C2=A0struct drm_sched_job *drm_sched_entity_pop_job(struct drm=
+_sched_entity *entity);
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
+/scheduler/sched_main.c
+> > > index 1db0a4aa1d46..c53931e63458 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -151,9 +151,9 @@ static void drm_sched_rq_remove_fifo_locked(struc=
+t drm_sched_entity *entity,
+> > > =C2=A0=C2=A0	}
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > -void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity=
+,
+> > > -				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> > > -				=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t ts)
+> > > +static void drm_sched_rq_update_fifo_locked(struct drm_sched_entity =
+*entity,
+> > > +					=C2=A0=C2=A0=C2=A0 struct drm_sched_rq *rq,
+> > > +					=C2=A0=C2=A0=C2=A0 ktime_t ts)
+> > > =C2=A0=C2=A0{
+> > > =C2=A0=C2=A0	/*
+> > > =C2=A0=C2=A0	 * Both locks need to be grabbed, one to protect from en=
+tity->rq change
+> > > @@ -191,22 +191,45 @@ static void drm_sched_rq_init(struct drm_gpu_sc=
+heduler *sched,
+> > > =C2=A0=C2=A0/**
+> > > =C2=A0=C2=A0 * drm_sched_rq_add_entity - add an entity
+> > > =C2=A0=C2=A0 *
+> > > - * @rq: scheduler run queue
+> > > =C2=A0=C2=A0 * @entity: scheduler entity
+> > > + * @ts: submission timestamp
+> > > =C2=A0=C2=A0 *
+> > > =C2=A0=C2=A0 * Adds a scheduler entity to the run queue.
+> > > + *
+> > > + * Returns a DRM scheduler pre-selected to handle this entity.
+> > > =C2=A0=C2=A0 */
+> > > -void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+> > > -			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_entity *entity)
+> > > +struct drm_gpu_scheduler *
+> > > +drm_sched_rq_add_entity(struct drm_sched_entity *entity, ktime_t ts)
+> > > =C2=A0=C2=A0{
+> > > -	lockdep_assert_held(&entity->lock);
+> > > -	lockdep_assert_held(&rq->lock);
+> > > +	struct drm_gpu_scheduler *sched;
+> > > +	struct drm_sched_rq *rq;
+> > > =C2=A0=20
+> > > -	if (!list_empty(&entity->list))
+> > > -		return;
+> > > +	/* Add the entity to the run queue */
+> > > +	spin_lock(&entity->lock);
+> > > +	if (entity->stopped) {
+> > > +		spin_unlock(&entity->lock);
+> > > =C2=A0=20
+> > > -	atomic_inc(rq->sched->score);
+> > > -	list_add_tail(&entity->list, &rq->entities);
+> > > +		DRM_ERROR("Trying to push to a killed entity\n");
+> > > +		return NULL;
+> > > +	}
+> > > +
+> > > +	rq =3D entity->rq;
+> > > +	spin_lock(&rq->lock);
+> > > +	sched =3D rq->sched;
+> > > +
+> > > +	if (list_empty(&entity->list)) {
+> > > +		atomic_inc(sched->score);
+> > > +		list_add_tail(&entity->list, &rq->entities);
+> > > +	}
+> > > +
+> > > +	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_RR)
+> > > +		ts =3D entity->rr_ts;
+> > > +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> > > +
+> > > +	spin_unlock(&rq->lock);
+> > > +	spin_unlock(&entity->lock);
+> > > +
+> > > +	return sched;
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0/**
+> > > @@ -235,6 +258,54 @@ void drm_sched_rq_remove_entity(struct drm_sched=
+_rq *rq,
+> > > =C2=A0=C2=A0	spin_unlock(&rq->lock);
+> > > =C2=A0=C2=A0}
+> > > =C2=A0=20
+> > > +static ktime_t
+> > > +drm_sched_rq_get_rr_ts(struct drm_sched_rq *rq, struct drm_sched_ent=
+ity *entity)
+> > > +{
+> > > +	ktime_t ts;
+> > > +
+> > > +	lockdep_assert_held(&entity->lock);
+> > > +	lockdep_assert_held(&rq->lock);
+> > > +
+> > > +	ts =3D ktime_add_ns(rq->rr_ts, 1);
+> > > +	entity->rr_ts =3D ts;
+> > > +	rq->rr_ts =3D ts;
+> > > +
+> > > +	return ts;
+> > > +}
+> > > +
+> > > +/**
+> > > + * drm_sched_rq_pop_entity - pops an entity
+> > > + *
+> > > + * @entity: scheduler entity
+> > > + *
+> > > + * To be called every time after a job is popped from the entity.
+> > > + */
+> > > +void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
+> > > +{
+> > > +	struct drm_sched_job *next_job;
+> > > +	struct drm_sched_rq *rq;
+> > > +	ktime_t ts;
+> > > +
+> > > +	/*
+> > > +	 * Update the entity's location in the min heap according to
+> > > +	 * the timestamp of the next job, if any.
+> > > +	 */
+> > > +	next_job =3D drm_sched_entity_queue_peek(entity);
+> > > +	if (!next_job)
+> > > +		return;
+> > > +
+> > > +	spin_lock(&entity->lock);
+> > > +	rq =3D entity->rq;
+> > > +	spin_lock(&rq->lock);
+> > > +	if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > +		ts =3D next_job->submit_ts;
+> > > +	else
+> > > +		ts =3D drm_sched_rq_get_rr_ts(rq, entity);
+> > > +	drm_sched_rq_update_fifo_locked(entity, rq, ts);
+> > > +	spin_unlock(&rq->lock);
+> > > +	spin_unlock(&entity->lock);
+> > > +}
+> > > +
+> > > =C2=A0=C2=A0/**
+> > > =C2=A0=C2=A0 * drm_sched_rq_select_entity - Select an entity which pr=
+ovides a job to run
+> > > =C2=A0=C2=A0 *
+> >=20
+>=20
 
