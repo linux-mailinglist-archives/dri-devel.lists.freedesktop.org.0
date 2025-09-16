@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2419B58F08
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 09:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC67AB58F06
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 09:21:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF33A10E6B7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0534D10E6A7;
 	Tue, 16 Sep 2025 07:21:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="BUzvrCc9";
+	dkim=pass (2048-bit key; unprotected) header.d=postmarketos.org header.i=@postmarketos.org header.b="Eb2jzNPR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
- [95.215.58.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589DE10E606
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 02:32:39 +0000 (UTC)
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B859510E606
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 02:32:42 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
- s=key1; t=1757989957;
+ s=key1; t=1757989961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4icW8A4a35n6WvR9rcmkx2CYARUOFbnRrSBlDazcjz8=;
- b=BUzvrCc9XmxkNzPz77iaEPBr/iMAZjMf1QlFs/jRpEg12PHPbKKbDPxm45EjieO5Z/G4MX
- OxmF+0rigSpIeVWoff06a+RPqorVk6X/BCDWR9WLDkei30iYnxLc6h2ekCGOV+rxMbd876
- H0OdNHVKl4gNWwliwtlByPTQJSdA1UxVUKGGilIiQ51jcx4lueKEePZEW66TXtZvtfd1pR
- mDWDxOpDMaJY1e/IhZ1WQvuw/Dk9OG77GEreBOyMsv5ea9XaAxROklgfks5GSfMzSrVqzg
- HXHC2UjGq4axgNKXc1Wo/o1fHtpkZEvJ4xmTwtb1qmjL6/Za/bY6M/ap1LeRDQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jGHWHtxYrh7BhZTaz7WCOtU0mmIBJYnKsduPAHkKxfg=;
+ b=Eb2jzNPRRJAGQU5mqxLFlfAK8RQsO0ZdVk/5Zayx9MnPErLjr2rjAS7rSxwHiWh3z/XoUl
+ FUKVthXz9Sll+79o+Il7ih9O1m9DFedciGkw2123S/obSUMtOC6nXXtlejr9HUNnGMu9K3
+ AjY1IKGcqbFgzX8wTXcbEH+dOiPKPmiFganwzUS5Y1y4GxCuFoj84VQxpuLQHZ0CzD+lUU
+ GaJg1UFbyd4xq5ishI7tqws+reUERqobXKP2luJs4e1Vko86Cpr4J078wB8PfSnoX6naO8
+ kGRoC1Gez8NhcXDK6Z7qg9qDwOge0VGABut68dvzpX29VZhqyq3srwv4M1GEtA==
 From: Paul Sajna <sajattack@postmarketos.org>
-Subject: [PATCH v2 0/3] Add LG SW49410 Panel Driver
-Date: Mon, 15 Sep 2025 19:32:11 -0700
-Message-Id: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
+Date: Mon, 15 Sep 2025 19:32:12 -0700
+Subject: [PATCH v2 1/3] Update MAINTAINERS for lg,sw49410
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACvMyGgC/3WMQQ6DIBQFr2L+ujRANWpXvUfjAvCrtBYIUFJju
- Hup++at5iUzOwT0GgNcqx08Jh20NQX4qQK1CDMj0WNh4JQ3tGeUPN7jthrihMGV9HU3sbZVTRk
- UxXmc9OfI3YfCiw7R+u2oJ/Z7/4QSI5R0vFFtXdOLlPLmbIgv4Z8YbThbP8OQc/4Cd4REWK8AA
- AA=
-X-Change-ID: 20250910-judyln-panel-948f177c5c5c
+Message-Id: <20250915-judyln-panel-v2-1-01ab2199fea5@postmarketos.org>
+References: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
+In-Reply-To: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -53,11 +51,11 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, David Heidelberg <david@ixit.cz>, 
  phone-devel@vger.kernel.org, Amir Dahan <system64fumo@protonmail.com>, 
  Paul Sajna <sajattack@postmarketos.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757989951; l=1894;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757989951; l=814;
  i=sajattack@postmarketos.org; s=20250422; h=from:subject:message-id;
- bh=xtXOrVDKWq9hItYsvRgoikFPE/gt5zgc/6CnhlgNlqI=;
- b=Zpqt7mmrtm6w48ZT7caipO8SieSLsxOXVq91KU7AxSl5YiS9Zu/lxFz7NzpZg82s20/7mDYBz
- JMhR7ssVOpJC44T4oUUGnKXmtqKneCC+njGNHAr5WxT9181EAj1MTcu
+ bh=a4Xw2iLxDUzyz7eq8OF1R9c3YLE4PdzVtLs6KNJOq4E=;
+ b=2NG2Va4BOC4emWOZSkySoPI75aAuqbKuwkpVOdNC3dtP7dOthFKbGd34Tlpo7RdCzG2GHs6Mb
+ Q3/Mw+RWO0VD9rl5jOc6RyHylPENpcECSuGexoO6twFqt1kFCB4NpsJ
 X-Developer-Key: i=sajattack@postmarketos.org; a=ed25519;
  pk=TwacvEOiRJ2P2oAdEqIDrtQTL18QS4FfcHfP/zNsxkQ=
 X-Migadu-Flow: FLOW_OUT
@@ -77,53 +75,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series adds a drm panel driver for the LG SW49410 panel found
-in the LG G7 ThinQ (codename judyln).
+Add myself (Paul Sajna) as maintainer for lg,sw49410
 
-The basic driver skeleton was generated by https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
-from the vendor device-tree.
-
-The panel driver works but during testing we noticed sometimes the
-display goes blank. Source of this problem is unknown but seems to be external.
-i.e. It could be a conflict with another driver or an issue with
-aftermarket panels.
-
-Comments were added explaining magic numbers, and devicetree
-documentation was also added
-
-Once this patch has been accepted, I'll follow up with
-a devicetree update for sdm845-lg-judyln
-that includes this driver, along with several other improvements
-
-Co-authored-by: Amir Dahan <system64fumo@protonmail.com>
-Signed-off-by: Amir Dahan <system64fumo@protonmail.com>
 Signed-off-by: Paul Sajna <sajattack@postmarketos.org>
 ---
-Changes in v2:
-- use "multi" versions of functions
-- remove DRM_DISPLAY_DP_HELPER
-- change dt-bindings to panel-simple
-- Link to v1: https://lore.kernel.org/r/20250910-judyln-panel-v1-0-825c74403bbb@postmarketos.org
+ MAINTAINERS | 5 +++++
+ 1 file changed, 5 insertions(+)
 
----
-Amir Dahan (1):
-      drm: panel: Add LG SW49410 Panel
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0c1d245bf7b84f8a78b811e0c9c5a3edc09edc22..f6c7f3cd80d7db6551351432215049adb3a5f626 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7584,6 +7584,11 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
+ F:	drivers/gpu/drm/panel/panel-lg-sw43408.c
+ 
++DRM DRIVER FOR LG SW49410 PANELS
++M:	Paul Sajna <sajattack@postmarketos.org>
++S:	Maintained
++F:	drivers/gpu/drm/panel/panel-lg-sw49410.c
++
+ DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+ M:	Paul Kocialkowski <paulk@sys-base.io>
+ S:	Supported
 
-Paul Sajna (2):
-      Update MAINTAINERS for lg,sw49410
-      dt-bindings: display: panel: panel-simple: Add lg,sw49410 compatible
-
- .../bindings/display/panel/panel-simple.yaml       |   2 +
- MAINTAINERS                                        |   5 +
- drivers/gpu/drm/panel/Kconfig                      |  13 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-lg-sw49410.c           | 502 +++++++++++++++++++++
- 5 files changed, 523 insertions(+)
----
-base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
-change-id: 20250910-judyln-panel-948f177c5c5c
-
-Best regards,
 -- 
-Paul Sajna <sajattack@postmarketos.org>
+2.51.0
 
