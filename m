@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFD0B59145
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 10:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7179B5915D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 10:57:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0EE10E723;
-	Tue, 16 Sep 2025 08:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA4FE10E491;
+	Tue, 16 Sep 2025 08:57:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ai+j8Fu5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kB/igW9y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42AF010E73D
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 08:48:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 786AB10E491;
+ Tue, 16 Sep 2025 08:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758012537; x=1789548537;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CajnTN1NXZJbzAfxAKDhMU5BdDomG6vRVHM5zkSh94c=;
- b=ai+j8Fu5YCsEKNleJcifTbFHCsHIhi2JHlLmKVTIZ5miYBfx6GXcoRNj
- IwbTp67RiEF50ty1501sk8nhJaKSuxQy4I4dRhNAhOW2hRfbQaQWv2dQ6
- zJhxctF3DIQuciuIqYjtshJdfCy80mdg8aP7lqTbgslK6IcfuZbFjt8vE
- vR/Lo1HkhTppA9MIqsY7LTljhxAiY9C6IlRSzqOC+jK8gcmnA2NcZdnQl
- XhTgSOCjf0hfTNUrFVLjoc37C6+/9CnNlDSoZPcyZjcO3gzw0NEmjB77l
- vV8VFXybSh6JpxcER4KawlKS7VwfCIJuumi6k+tZ/sXzpHGQJwIxQ2x38 Q==;
-X-CSE-ConnectionGUID: cEe90BGtRXWo648znQx8pg==
-X-CSE-MsgGUID: u0Hp1tO4QEeiLEKyTqbG5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64091718"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64091718"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2025 01:48:57 -0700
-X-CSE-ConnectionGUID: uM378LG+TF+AHzV9loSSIg==
-X-CSE-MsgGUID: eG7pt7t6SLax2JlXpf3EzA==
+ t=1758013021; x=1789549021;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Pbq7Fg6km+vSK3XhOw3pH9x+c5/40sqmbcoljcAnXqE=;
+ b=kB/igW9yr96F3NagS52TwovLs4/P58C0WwIncK76TurNQxYNOU6+VOhz
+ BLFBtg2Dz5snsYBULbLh7736OgfLI8+rc0BinmgRJ+EXzxYSheQP1t2HS
+ PmX0CiISA1MGNZH/IvqeAmWCq8QccyqYnwsJIvEXk+3dsFQtMvIXevS44
+ 505u8+GfScRRHT4IWhzSPiY91wEY2P7bi21zQkDPDMxBZNLuz3cwOUjAm
+ nM55Q17gt3hytB9PLgUhO7TexrLg0AucSA8mhPNaN4HdTFKob/e2mIWUk
+ EJcFAQnh8w/JYVwhuDUWDcEAA/NUWhm0a+RBfRvrQkbSrtWyT3DmL8r9I w==;
+X-CSE-ConnectionGUID: JuLRsb4NT7Km13pPvmIpXQ==
+X-CSE-MsgGUID: ngrCr6LXRkOVSIaYws8kRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11554"; a="71384398"
+X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; d="scan'208";a="71384398"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 01:57:01 -0700
+X-CSE-ConnectionGUID: mphnIQIbSXiE58UfDmyuAg==
+X-CSE-MsgGUID: M0xJ0hWdSf+emppOs6vYdg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; d="scan'208";a="174431792"
-Received: from unknown (HELO [10.102.88.152]) ([10.102.88.152])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2025 01:48:56 -0700
-Message-ID: <f1a2ba49-edb3-4336-a07e-750c7fa2bb3b@linux.intel.com>
-Date: Tue, 16 Sep 2025 10:48:53 +0200
+X-IronPort-AV: E=Sophos;i="6.18,268,1751266800"; d="scan'208";a="179165957"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.81])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 01:56:58 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: S Sebinraj <s.sebinraj@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: jeevaka.badrappan@intel.com, S Sebinraj <s.sebinraj@intel.com>
+Subject: Re: [PATCH v3 3/3] drm/xe: Refactoring the code as per review comment
+In-Reply-To: <20250916072704.2351591-4-s.sebinraj@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250916072704.2351591-1-s.sebinraj@intel.com>
+ <20250916072704.2351591-4-s.sebinraj@intel.com>
+Date: Tue, 16 Sep 2025 11:56:55 +0300
+Message-ID: <4f495d7ee43a7ddc7ada573f8ab6f69c6e0011f4@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Ensure rpm_runtime_put in case of engine
- reset/resume fail
-To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
- maciej.falkowski@linux.intel.com
-References: <20250915103526.830130-1-karol.wachowski@linux.intel.com>
- <b0f6a51f-5a83-79d2-7046-3dada6bb61b8@amd.com>
-Content-Language: en-US
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <b0f6a51f-5a83-79d2-7046-3dada6bb61b8@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +70,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks, I've sent v1 version with added fixes tag.
+On Tue, 16 Sep 2025, S Sebinraj <s.sebinraj@intel.com> wrote:
+> Moved the trace file header to appropriate path
+> "include/drm" and updated the code as per the same.
 
-Karol
+You're not supposed to address code review in independent patches, but
+rather modify the original patches. This is kernel development basics.
 
-On 9/15/2025 10:15 PM, Lizhi Hou wrote:
-> This looks a bug fix. Is adding 'Fixes:' tag better?
+BR,
+Jani.
+
 >
-> On 9/15/25 03:35, Karol Wachowski wrote:
->> Previously, aborting work could return early after engine reset or
->> resume
->> failure, skipping the necessary runtime_put cleanup leaving the device
->> with incorrect reference count breaking runtime power management state.
->>
->> Replace early returns with goto statements to ensure runtime_put is
->> always
->> executed.
->>
->> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
->> ---
->>   drivers/accel/ivpu/ivpu_job.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_job.c
->> b/drivers/accel/ivpu/ivpu_job.c
->> index 521b7ac6e35e..044268d0fc87 100644
->> --- a/drivers/accel/ivpu/ivpu_job.c
->> +++ b/drivers/accel/ivpu/ivpu_job.c
->> @@ -1050,7 +1050,7 @@ void ivpu_context_abort_work_fn(struct
->> work_struct *work)
->>         if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW)
->>           if (ivpu_jsm_reset_engine(vdev, 0))
->> -            return;
->> +            goto runtime_put;
->>         mutex_lock(&vdev->context_list_lock);
->>       xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
->> @@ -1074,7 +1074,7 @@ void ivpu_context_abort_work_fn(struct
->> work_struct *work)
->>           goto runtime_put;
->>         if (ivpu_jsm_hws_resume_engine(vdev, 0))
->> -        return;
->> +        goto runtime_put;
->>       /*
->>        * In hardware scheduling mode NPU already has stopped
->> processing jobs
->>        * and won't send us any further notifications, thus we have to
->> free job related resources
+> Signed-off-by: S Sebinraj <s.sebinraj@intel.com>
+> ---
+>  drivers/gpu/drm/drm_gpu_frequency_trace.c              | 2 +-
+>  drivers/gpu/drm/xe/xe_gpu_freq_trace.h                 | 2 +-
+>  {drivers/gpu => include}/drm/drm_gpu_frequency_trace.h | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>  rename {drivers/gpu => include}/drm/drm_gpu_frequency_trace.h (96%)
+>
+> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.c b/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> index b5fa5134226d..e33df068752d 100644
+> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> +++ b/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> @@ -9,7 +9,7 @@
+>  #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE
+>  
+>  #define CREATE_TRACE_POINTS
+> -#include "drm_gpu_frequency_trace.h"
+> +#include <drm/drm_gpu_frequency_trace.h>
+>  
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(gpu_frequency);
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_gpu_freq_trace.h b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> index f188d529ae60..c15d41761296 100644
+> --- a/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> +++ b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> @@ -6,7 +6,7 @@
+>  #ifndef _XE_GPU_FREQ_TRACE_H_
+>  #define _XE_GPU_FREQ_TRACE_H_
+>  
+> -#include "../drm_gpu_frequency_trace.h"
+> +#include <drm/drm_gpu_frequency_trace.h>
+>  
+>  /* Convert MHz to KHz for tracepoint */
+>  #define MHZ_TO_KHZ(freq_mhz)	((freq_mhz) * 1000)
+> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.h b/include/drm/drm_gpu_frequency_trace.h
+> similarity index 96%
+> rename from drivers/gpu/drm/drm_gpu_frequency_trace.h
+> rename to include/drm/drm_gpu_frequency_trace.h
+> index cf6337847b3a..47f32fd295a4 100644
+> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.h
+> +++ b/include/drm/drm_gpu_frequency_trace.h
+> @@ -42,6 +42,6 @@ static inline void trace_gpu_frequency(unsigned int state, unsigned int gpu_id)
+>  
+>  #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE
+>  #undef TRACE_INCLUDE_PATH
+> -#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm
+> +#define TRACE_INCLUDE_PATH ../../include/drm
+>  #include <trace/define_trace.h>
+>  #endif
+
+-- 
+Jani Nikula, Intel
