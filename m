@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11F0B5916E
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 10:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C81EB5919D
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 11:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EEAC10E6DF;
-	Tue, 16 Sep 2025 08:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE5210E73E;
+	Tue, 16 Sep 2025 09:03:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="EKCJTAgE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iL7oN6ib";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8896010E6DF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 08:58:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758013129; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=DlGRx1sHBM1VjFZpqb9GzXR45EgfBj1Alpk5uB/oOv1djKJcxWenWpKpt7+ZoxNMKIVPa6UoHsBtZFzwsZf3MYlZfjPqY2x9L1/lQqwKrHr7j1nx5Og0UfTtIVAMO1hhW3nQVoFPcIN+1WGOYjq0yaqBdRJjOahhvTAGX5QrdgI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758013129;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=3DpbfjhNcYPny3opqvxM/G0alwk8XIxFrvBqhZGsL8g=; 
- b=g3OfcSn+hvsE6ovT+pY8HmViqNxCJqrCgdfr0k0I01HhvyNUkJcN7UMEODto/NSjt4zmSbku1VPnw3qK7xljqItoTGVvu7aTq0PnFV3p2C7opzPFb9TlRWezRxoFj4mecuJWGP9m8okQCXNb9SQx87ilotwjcGW6cz+KXyhzkOs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758013129; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=3DpbfjhNcYPny3opqvxM/G0alwk8XIxFrvBqhZGsL8g=;
- b=EKCJTAgEdkqU7Xe8Bg88E/fUzojbXLWOgtO1T9xuaGhnprD5noQ0A0/y2xKVzoXk
- Qqfp0RzbwKZsu48yBY9cXoQ1uc+7Xc52tt4uA7hrvBmsL4uvnDPnTb0IIrMUs/Jwn+l
- FAGYlOnUXncaxY9t0Y9Towffbv8lrrxU00c9ezEM=
-Received: by mx.zohomail.com with SMTPS id 1758013127114512.6864936718232;
- Tue, 16 Sep 2025 01:58:47 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Conor Dooley <conor@kernel.org>, Chia-I Wu <olvaffe@gmail.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: gpu: mali-valhall-csf: add MediaTek
- MT8196 compatible
-Date: Tue, 16 Sep 2025 10:58:40 +0200
-Message-ID: <6418135.lOV4Wx5bFT@workhorse>
-In-Reply-To: <CAPaKu7TEjG3sWamy3k_YLig=208oXLPhMmbCvPOf96iEL0-uig@mail.gmail.com>
-References: <20250913002155.1163908-1-olvaffe@gmail.com>
- <20250915-deodorize-proxy-b18e41fa8668@spud>
- <CAPaKu7TEjG3sWamy3k_YLig=208oXLPhMmbCvPOf96iEL0-uig@mail.gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B34E10E73E
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 09:03:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 98ECB600AE;
+ Tue, 16 Sep 2025 09:03:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9CFBC4CEEB;
+ Tue, 16 Sep 2025 09:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758013424;
+ bh=MZwGrBHn7fPx6J7jWScTagGw2ALfjMRVbO4DtaIYdUU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iL7oN6ibPnr6d7GQE8OAHny60zW/mzn/tDXnzQgFQR7+vf2SJVb4P4Pq5N2+VyJUG
+ q7ANJyAG8L2AIho1rgjoEgGTOQJcmfJXQWpXocWsG+Q+e4sHI13OChBO2D2azFuFyu
+ MlfXpicvnoSPlFkzfLAZK14fWTbrgOHxOyyYsM5qH/gWjyj+BDmKa2LBV0mXJxThxC
+ hoFfQB1gsnY0bax6j42NeJNHVcN/fQsf72WZGC8iJFwJC4U2a8d4Lv3+1lQeUZzWhJ
+ N0EtDzFu/OAo5+Wy/9GuV0qie36ilqZ1A4xlnZPNmvCLdSqERVsiMEWq+XUPC2bdYm
+ 8JOGBUzdFdIjQ==
+Date: Tue, 16 Sep 2025 11:03:41 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev
+Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
+Message-ID: <20250916-jade-seal-of-cleaning-5ee2bd@houat>
+References: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
+ <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-7-edb6ee81edf1@bootlin.com>
+ <20250915-optimal-hornet-of-potency-efa54a@penduick>
+ <20250915175805.6e8df6ef@booty>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="j5gg2kqgg6e4zl3s"
+Content-Disposition: inline
+In-Reply-To: <20250915175805.6e8df6ef@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,42 +76,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 16 September 2025 06:21:10 Central European Summer Time Chia-I =
-Wu wrote:
-> On Mon, Sep 15, 2025 at 10:52=E2=80=AFAM Conor Dooley <conor@kernel.org> =
-wrote:
-> >
-> > On Mon, Sep 15, 2025 at 06:51:16PM +0100, Conor Dooley wrote:
-> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > Hmm, actually there seems to be a more complete binding proposed here:
-> > https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250912=
-=2Dmt8196-gpufreq-v2-1-779a8a3729d9@collabora.com/
-> Right. I tried to add the compatible to the binding (this patch)
-> before adding it to the driver (next patch).
+
+--j5gg2kqgg6e4zl3s
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 7/9] drm/bridge: remove drm_for_each_bridge_in_chain()
+MIME-Version: 1.0
+
+On Mon, Sep 15, 2025 at 05:58:05PM +0200, Luca Ceresoli wrote:
+> On Mon, 15 Sep 2025 14:22:24 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+> > On Fri, Aug 08, 2025 at 04:49:14PM +0200, Luca Ceresoli wrote:
+> > > All users have been replaced by drm_for_each_bridge_in_chain_scoped().
+> > >=20
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > ---
+> > >  .clang-format            |  1 -
+> > >  include/drm/drm_bridge.h | 14 --------------
+> > >  2 files changed, 15 deletions(-)
+> > >=20
+> > > diff --git a/.clang-format b/.clang-format
+> > > index 1cac7d4976644c8f083f801e98f619782c2e23cc..d5c05db1a0d96476b711b=
+95912d2b82b2e780397 100644
+> > > --- a/.clang-format
+> > > +++ b/.clang-format
+> > > @@ -167,7 +167,6 @@ ForEachMacros:
+> > >    - 'drm_connector_for_each_possible_encoder'
+> > >    - 'drm_exec_for_each_locked_object'
+> > >    - 'drm_exec_for_each_locked_object_reverse'
+> > > -  - 'drm_for_each_bridge_in_chain'
+> > >    - 'drm_for_each_bridge_in_chain_scoped'
+> > >    - 'drm_for_each_connector_iter'
+> > >    - 'drm_for_each_crtc'
+> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > > index a8e2f599aea764c705da3582df0ca428bb32f19c..6adf9221c2d462ec8e0e4=
+e281c97b39081b3da24 100644
+> > > --- a/include/drm/drm_bridge.h
+> > > +++ b/include/drm/drm_bridge.h
+> > > @@ -1358,20 +1358,6 @@ drm_bridge_chain_get_first_bridge(struct drm_e=
+ncoder *encoder)
+> > >  						       struct drm_bridge, chain_node));
+> > >  }
+> > > =20
+> > > -/**
+> > > - * drm_for_each_bridge_in_chain() - Iterate over all bridges present=
+ in a chain
+> > > - * @encoder: the encoder to iterate bridges on
+> > > - * @bridge: a bridge pointer updated to point to the current bridge =
+at each
+> > > - *	    iteration
+> > > - *
+> > > - * Iterate over all bridges present in the bridge chain attached to =
+@encoder.
+> > > - *
+> > > - * This is deprecated, do not use!
+> > > - * New drivers shall use drm_for_each_bridge_in_chain_scoped().
+> > > - */
+> > > -#define drm_for_each_bridge_in_chain(encoder, bridge)			\
+> > > -	list_for_each_entry(bridge, &(encoder)->bridge_chain, chain_node)
+> > > - =20
+> >=20
+> > I think I'd go a step further and rename
+> > drm_for_each_bridge_in_chain_scoped to drm_for_each_bridge_in_chain,
+> > there's no need to have a "scoped" variant if it's our only variant.
+> >=20
+> > It can be done in a subsequent patch though.
 >=20
-> If this patch is not a prerequisite for the driver change, I can drop
-> this. Or perhaps there is a better way?
+> Sure, that's the plan. There's a note in patch 3:
 >=20
+> Note 1: drm_for_each_bridge_in_chain_scoped() could be renamed removing t=
+he
+>         _scoped suffix after removing all the users of the current macro
+>         and eventually the current macro itself. Even though this series =
+is
+>         converting all users, I'd at least wait one kernel release before
+>         renaming, to minimize issues with existing patches which would fa=
+il
+>         building.
 
-Depends on what you want to do with the driver change; I could pull it
-into my patch series (I need it as a prerequisite now anyway, as v3
-will get rid of the clocks for MT8196 in the binding, which means it
-needs to have a flag for this in the soc_data struct you've added)
+No need to wait that long, and the best time to do it is right now
+actually, about the time we start collecting the patches for a new
+release.
 
-I think that would be the easiest solution so that we don't step on
-each other's toes, as long as you think the driver change is
-basically in its final form right now and does not need major
-revisions you'd still like to make yourself without having to
-coordinate submission through me.
+Maxime
 
-Or, the most roundabout option: I split the bindings I submitted
-into a separate series, and then we can both declare them as deps
-for our driver changes. That might thoroughly confuse maintainers
-though. But then you can declare a dep on the bindings series and
-I can declare a dep on the bindings series and your patch.
+--j5gg2kqgg6e4zl3s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Kind regards,
-Nicolas Frattaroli
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMkn4gAKCRAnX84Zoj2+
+diPbAYCE0rN0Hys4v3lgLLkZRuYYI0Gb8t/xeW3MGR8DoeSuRalFsZbza8OQj62I
+uKDA+8ABgMfMlLq3E2nNIB21uXhtaO+otkyU/nIntjQV4yQTEzi8wU1GnNHMU2H9
+nilJreknJg==
+=KvpI
+-----END PGP SIGNATURE-----
 
+--j5gg2kqgg6e4zl3s--
