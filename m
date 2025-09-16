@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4584B5A396
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 23:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14917B5A398
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 23:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9E6A10E7A6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D65B810E79D;
 	Tue, 16 Sep 2025 21:08:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QYySkJES";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AL7ocQM/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C21C10E78F
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 21:08:33 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-77619f3f41aso3489522b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 14:08:33 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0681110E78F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 21:08:34 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-77287fb79d3so4555465b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 14:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758056912; x=1758661712; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758056913; x=1758661713; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JXlqsfnKLagrxPr3VzrTdqYzxgGnKLHikbQ3zw87L3c=;
- b=QYySkJESmNpXNRKQDf6IKRJ+nd5iVF6BybJLwN3Rbbu1Bt+o+bkBwUeDbX1UTlknNR
- /7D2dhvVDsL6u76FgiRbnAZJHLxwREYgFu0a0330l7+6Ftntw81S2XGsB3/oWzmxdeuN
- 8JUygZD75ZyoSgnLxCHYMgmJAHSsl4+32tuUjeCEt6iJt+EX5+QAbfmNPL4JwusGysvF
- 9i7BkpIY3znxXt7KX/Xb/AmhExXEDmCd70Oa9UmiRtlVwb+VkL9V9n37baxght5PLOdd
- 8M0/uxtbne/Ycc2oXQwFzlhpXnbucEvhpUfzcPU/FQDdLTsJ64yrMhsQGLXOCvd+HgQY
- O6MQ==
+ :reply-to; bh=3aO3jHV+TCdh3X4sNWUTMqSI+YaJsDjuOHp0znGhivY=;
+ b=AL7ocQM/G9/JjR4mR4FtlxDi1aRy77FETMJDd3G6n55T+rhBvQtxodaO11k9uMF7Ax
+ Ym5UTs3BBQcMWCTpzly3iDvZj3EGM5mewjYgfGGNLyzyFncNzh0brQ+QKbGxuBCdh5xj
+ 0Rede5FXrOiFPyguPTgUXInhNuZVd8enfaUfXC6ytxE/mpI47QMtBal4VvvlgTrMDuMa
+ b8gRgjXiwHVu+qP+YeF8Czf+LZ6cMotUKYzy593Wsqw7+BOu3DoZbsEm13hwJHNoqjix
+ iz+jAEduqDIlb6BoQP+nubHoZlE6IrVIEHP/FDSHi1r7hR/IaK/gAsZcU/VFo/3/7Lmw
+ VBrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758056912; x=1758661712;
+ d=1e100.net; s=20230601; t=1758056913; x=1758661713;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JXlqsfnKLagrxPr3VzrTdqYzxgGnKLHikbQ3zw87L3c=;
- b=m200cY48536zkyZzixpYIqjjz12f9h7hIAKcZyurXiFHaFPsEHwZdznTDaqnqgkXMy
- W31WP0P2WgtIOwYcquAN29h12ubxXDuFtrn5JHgOFNJG1U1bEKS/Y6J2zEkcmlv1GPQk
- B6mG2kFfxHADG5pSz5d+TL7y02UHKBREoUUkIaKrnB2R1jQnwwVB93yGi+hpK9BoB9PE
- FWfqNWQGJSLuNhcB0tYQtlnPG2ZRsn9HNn21jEHVE2ucxsqWM9fWtfkbaoPFtYk1LLoS
- PdSzyA+XRXB6dp1l6zPrGF21eHzfF+OgW8zga1pCpzyibM+aAMWxNEAzhHlY8WnKKHZY
- gaJg==
+ bh=3aO3jHV+TCdh3X4sNWUTMqSI+YaJsDjuOHp0znGhivY=;
+ b=rWvwu7lSX6rWea+gqdOnVporQI+0ANBzaHZR5wv72Yn3t0NFvBFppf09+d0qRbV07R
+ M/1/14Ptc8HNZpOmdhCkTofqqZeC+0TfpSW+gKQ5VmVRCubYNGUMPXIhU/vbcSu+aGAy
+ PSodtSTqpt1yKoVLpGikYpHfsKamErvohKh5IQnuUE66r6vYVbJlcQNl36+J+c2iEdit
+ yHYEoQU6CgoOCk0KJ+tqGGUHVVCfHCpoWWRl3l+QN8PERJ1jBhpD/ZYVdFs7TZvXVo16
+ 2rAaWlUnm77bJaFvhkHHcToBlqIbfKK3p+vBIvdQoMd5T8ho2gNeqZoP2WmXngiDYZsG
+ nRYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXHPGn5jdLKQP02A3TQcdbSPOrleaFhW6FkfrCC3QsivR26gIguVjXF7kONtd+7EFzZMHI94yimm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTSQd1vW/76DPnkGYd59pK9sU/9RaFzh+rOvXYV8+76stXYeYw
- oZgC2MMFp9dXVrfMWrIPJ04m04fkprMXpCDsWupfOxuArD9ucHXg9fkp
-X-Gm-Gg: ASbGnct1wQLa2KSETLJVeIl5sYgmuO541e/ts+D0FWWgRN/0PWOo88RlKssoKuYn6Qe
- RMV9nbAkkWwzxkUmSIPc6jbghXVNldG6cOFN4K5ZQhoILOjG0zaez5ugfHq+bB8I7VO7SuhlvRS
- mMWcFAUPqGOC6q4xYfSiEwjYMnoa6bfynuzZCeq2/ieCcu2E2rfqLQYYD5yAOJhV3fdGG0jBscJ
- ZLygp4jXzhvHusiUYlR7dd5fQdxbZeMu9gZZy8LG3hqswvet0Ack4bXMXbmgnxp+EOAGbgFbGkc
- ogWLxF/lEKz0pe651zuzp3QWJ5+AOZ+OKCdmtxHVUhnoAmqbc6Q+vrYEbcakDSD5IjXAXAGjkGY
- 3KjLkW66bW7lUuYGFSbQaGBxXsDUKC6YsglxfGYr19VmFuGi1ztDm+zLAIBClvcx50iZr+XTl0w
- 9IVRPsye2+UQ==
-X-Google-Smtp-Source: AGHT+IGpEOt2m53Rpg1wAIXOJxhtQSEdxYW2LFFzym9M525oZbCACFLRLKzow9N2bwg0rZ2ZXol3rg==
-X-Received: by 2002:a17:903:19e8:b0:267:776b:a315 with SMTP id
- d9443c01a7336-267776ba382mr100151885ad.32.1758056912450; 
- Tue, 16 Sep 2025 14:08:32 -0700 (PDT)
+ AJvYcCW6SPl0f+RMW8C/VC/bjku5eAxWAm1tsScTBsw/UYBJyw8nwf5o/rlZgVaJJTUzLNFSAPZr2tXlgco=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFjpOFjlBNLikMZsciwfGhbemC3Jra+SaWiqouNg1El3hQG8PY
+ n0p9kG0ohnhsZf8jHQXb8rg46DBMZlG74nEu9/GoXShxi05C4aDbZ0gV
+X-Gm-Gg: ASbGncuwWlQGBXvL2o3f9nZc/TGcGoNegqtD3N8WPKjYYy1xbAcWK/nAAauohSRgTAA
+ SqF530aL0mebESTXhRBo/A0Ooj1XT/SI2xCMu88WZ5Q3Y3o9qk4K4ctCT4OXBQKs23AiAGNkWdA
+ ximyKiRLo4w0TM3KhlOR2ld4XQRL7Tu3ALPNpWRnACXGeE0f6lVinHjfaoCqSY1fBM6vXKRXyWt
+ /vbVd9625ghVSUmSb2VtDvK2oulA/dFZ2yKZcqb0OlA6hGXnSncC1g/DkFSHE0IpxDASXXgJP51
+ 16aCj3LMJSisdPJ280ZyPX4nzTsdj7DWm4JNp5Es0XMaLj0r538bZ0NBODoAIKf/838/js4b9Rz
+ jJjybCZ7O7tMReEZTf667GtRhsJRbN7RCw9D2PkqtpGfXP7Q9xKf9eFKJRrDbNfBF5sUFoyigV4
+ q4LFImjwjJhLJeXMhAFlEf
+X-Google-Smtp-Source: AGHT+IErllrXZhiuO08ZvjuaFN67hMPleqZ0DLgAdBUq+kGFJqCmxYGCY5kLycBvM6DB//Dz8cM39w==
+X-Received: by 2002:a05:6a00:1415:b0:776:1dbf:375b with SMTP id
+ d2e1a72fcca58-7761dbf39f0mr18060001b3a.6.1758056913491; 
+ Tue, 16 Sep 2025 14:08:33 -0700 (PDT)
 Received: from localhost (185.3.125.34.bc.googleusercontent.com.
  [34.125.3.185]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-26711e5d42csm62779625ad.78.2025.09.16.14.08.31
+ d2e1a72fcca58-77607b392fcsm16649240b3a.87.2025.09.16.14.08.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 14:08:31 -0700 (PDT)
+ Tue, 16 Sep 2025 14:08:33 -0700 (PDT)
 From: Chia-I Wu <olvaffe@gmail.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -71,9 +71,9 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Simona Vetter <simona@ffwll.ch>, Grant Likely <grant.likely@linaro.org>,
  Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 01/10] drm/panthor: rename and document wait_ready
-Date: Tue, 16 Sep 2025 14:08:14 -0700
-Message-ID: <20250916210823.4033529-2-olvaffe@gmail.com>
+Subject: [PATCH 02/10] drm/panthor: rename and document lock_region
+Date: Tue, 16 Sep 2025 14:08:15 -0700
+Message-ID: <20250916210823.4033529-3-olvaffe@gmail.com>
 X-Mailer: git-send-email 2.51.0.384.g4c02a37b29-goog
 In-Reply-To: <20250916210823.4033529-1-olvaffe@gmail.com>
 References: <20250916210823.4033529-1-olvaffe@gmail.com>
@@ -94,63 +94,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename wait_ready to mmu_hw_wait_ready.
+Rename lock_region to mmu_hw_cmd_lock.
 
 Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 6dec4354e3789..d3af4f79012b4 100644
+index d3af4f79012b4..8600d98842345 100644
 --- a/drivers/gpu/drm/panthor/panthor_mmu.c
 +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -503,7 +503,17 @@ static void free_pt(void *cookie, void *data, size_t size)
- 	kmem_cache_free(pt_cache, data);
+@@ -545,8 +545,17 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+ 	return status;
  }
  
--static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
+-static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+-			u64 region_start, u64 size)
 +/**
-+ * mmu_hw_wait_ready() - Wait until the AS is inactive
++ * mmu_hw_cmd_lock() - Issue a LOCK command
 + * @ptdev: Device.
-+ * @as_nr: AS to wait.
++ * @as_nr: AS to issue command to.
++ * @region_start: Start of the region.
++ * @size: Size of the region.
 + *
-+ * An AS can accept one command at a time. This function waits until the AS is
-+ * inactive and is ready to accept the next command.
-+ *
-+ * Return: 0 on success, a negative error code otherwise.
++ * Issue a LOCK command to invalidate MMU caches and block future transactions
++ * for a region.
 + */
-+static int mmu_hw_wait_ready(struct panthor_device *ptdev, u32 as_nr)
++static void mmu_hw_cmd_lock(struct panthor_device *ptdev, u32 as_nr, u64 region_start, u64 size)
  {
- 	int ret;
- 	u32 val;
-@@ -528,7 +538,7 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
- 	int status;
+ 	u8 region_width;
+ 	u64 region;
+@@ -609,7 +618,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+ 	 * power it up
+ 	 */
  
- 	/* write AS_COMMAND when MMU is ready to accept another command */
--	status = wait_ready(ptdev, as_nr);
-+	status = mmu_hw_wait_ready(ptdev, as_nr);
- 	if (!status)
- 		gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
+-	lock_region(ptdev, as_nr, iova, size);
++	mmu_hw_cmd_lock(ptdev, as_nr, iova, size);
  
-@@ -601,7 +611,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 
- 	lock_region(ptdev, as_nr, iova, size);
- 
--	ret = wait_ready(ptdev, as_nr);
-+	ret = mmu_hw_wait_ready(ptdev, as_nr);
+ 	ret = mmu_hw_wait_ready(ptdev, as_nr);
  	if (ret)
- 		return ret;
- 
-@@ -617,7 +627,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 	write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
- 
- 	/* Wait for the unlock command to complete */
--	return wait_ready(ptdev, as_nr);
-+	return mmu_hw_wait_ready(ptdev, as_nr);
- }
- 
- static int mmu_hw_do_operation(struct panthor_vm *vm,
 -- 
 2.51.0.384.g4c02a37b29-goog
 
