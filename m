@@ -2,143 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C05B59BF7
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69855B59C29
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780DC10E374;
-	Tue, 16 Sep 2025 15:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC7F10E380;
+	Tue, 16 Sep 2025 15:35:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="slknfS0K";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mImRsTv4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UAZ8V7oY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mImRsTv4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UAZ8V7oY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012008.outbound.protection.outlook.com
- [40.107.200.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3142810E374
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:22:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ysAQv10nPDOklR9psq+oPN1G/ToGbLMkL/wz1He5guXefWEny77ag0sSTXQtVmkeB9k4kUkC9hhGF1cTcBZyddHQdaKMWcJmBU+vklL47DQ1o35JwIsg+uWaYVndcjofqjE86+tt3QHIbcsdK2I4eXIlZi9hscOaHpemOTh7ihKH384DjswP83kAGSSiSi6wNg+hv0APQQQWte9Fjl8szjOWKz0/z2CWJQghEfnwT90+EB7VF3KrHiasMz2k6RtGG7BCvnyZZOELOPUFZDNXEQR6+VSm7gXBcZ+lv3aWCk2tAK1knrMxZdSgoWoXSfvrvOTNGjOBWQjF2x4aNFvVSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tUFel/xeRw5oH+1nkRgC6oGbCgd0C05hGQSEb8DgEug=;
- b=Oydfk1o5yik3nVpqa+spkPacCnG9fu7WC0azKwAOX+n23hGuVPFrnCXAtrB2kMrG2S0GSa3AjcNOUSRN6RvWTNdYmfYDDNEg4xOAn4BYIJ6J5iKn1vF+gH/+llCGkay3PCSDVttXn+pRYZhP8CF8wb0W8qMz4GJqYu5K2IRbkZn0VMPiC5RdvdfwgRnwHJw+T7abo0H7hYJ9kjCb4qbvJv1PCJhjOeKgRulVbmJfHRjGMSd4S+ElIUuTpor7/NQtNjv3tsc6FdDUc0Kvi51BuTKYv/w+nqd8qyoWzjhy6NMI0ldv3WK5iPSlZ7D+jeRybaKgtlx51A7Oc/VntmL9Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tUFel/xeRw5oH+1nkRgC6oGbCgd0C05hGQSEb8DgEug=;
- b=slknfS0KRLd5PFItyfeDGcYY3FVJIOHXCNKuxOc33g0xl1zc7FCjX28zHtFmZbdpsr13yK7Io/NFhBJU5MV3KxbH43223jWersCGLHRzjttsLHJwhVRDW9tRG/FSBbJuocDsdSelu8sJT4NvPMwNWASwEhVfgcXfHlaeUKKujAY=
-Received: from BN9PR03CA0484.namprd03.prod.outlook.com (2603:10b6:408:130::9)
- by SA1PR12MB7101.namprd12.prod.outlook.com (2603:10b6:806:29d::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 16 Sep
- 2025 15:22:41 +0000
-Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
- (2603:10b6:408:130:cafe::da) by BN9PR03CA0484.outlook.office365.com
- (2603:10b6:408:130::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.21 via Frontend Transport; Tue,
- 16 Sep 2025 15:22:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Tue, 16 Sep 2025 15:22:35 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Tue, 16 Sep
- 2025 08:22:35 -0700
-Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 16 Sep
- 2025 10:22:35 -0500
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 16 Sep 2025 08:22:34 -0700
-Message-ID: <4f902197-66f6-f3d7-0b22-c10bb53fef18@amd.com>
-Date: Tue, 16 Sep 2025 08:22:29 -0700
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4613910E385
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 15:35:31 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C36F62282F;
+ Tue, 16 Sep 2025 15:35:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758036929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPF96jvtW7cytFeaRZGdg1y3ZuYmtxvbMx7nznLd4C8=;
+ b=mImRsTv4o3nJKI6LOA3HauTRGaXLWbJNdYDdWbfONS6JF/AauLQ0BkL/CquE6vBuizpZYE
+ 81pV3x8QEDqW3nOCmlUC6ryDYSMiKA7idMA6IcO3DeLnenAufiUa7HWrJutHuShtRSf9Iq
+ CsadnqJq8c6xHXcL/wNO2Yh2h5J++jI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758036929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPF96jvtW7cytFeaRZGdg1y3ZuYmtxvbMx7nznLd4C8=;
+ b=UAZ8V7oYfthRiJG7JeE/QTcZQQoo9LtNoVpLuSjOl/D1e3WLOMlpA+8+Ix2Pw2jgbZ7V7h
+ bVvy+WYVxyq/ECDA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mImRsTv4;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UAZ8V7oY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758036929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPF96jvtW7cytFeaRZGdg1y3ZuYmtxvbMx7nznLd4C8=;
+ b=mImRsTv4o3nJKI6LOA3HauTRGaXLWbJNdYDdWbfONS6JF/AauLQ0BkL/CquE6vBuizpZYE
+ 81pV3x8QEDqW3nOCmlUC6ryDYSMiKA7idMA6IcO3DeLnenAufiUa7HWrJutHuShtRSf9Iq
+ CsadnqJq8c6xHXcL/wNO2Yh2h5J++jI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758036929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=XPF96jvtW7cytFeaRZGdg1y3ZuYmtxvbMx7nznLd4C8=;
+ b=UAZ8V7oYfthRiJG7JeE/QTcZQQoo9LtNoVpLuSjOl/D1e3WLOMlpA+8+Ix2Pw2jgbZ7V7h
+ bVvy+WYVxyq/ECDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8753A139CB;
+ Tue, 16 Sep 2025 15:35:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mk+jH8GDyWjFPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 16 Sep 2025 15:35:29 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/12] drm/ast: Split device initialization per HW generation
+Date: Tue, 16 Sep 2025 17:26:10 +0200
+Message-ID: <20250916153239.308027-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] accel/ivpu: Update JSM firmware API to latest 3.32.5
- version
-Content-Language: en-US
-To: Karol Wachowski <karol.wachowski@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <jeff.hugo@oss.qualcomm.com>,
- <maciej.falkowski@linux.intel.com>
-References: <20250916084131.848988-1-karol.wachowski@linux.intel.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <20250916084131.848988-1-karol.wachowski@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|SA1PR12MB7101:EE_
-X-MS-Office365-Filtering-Correlation-Id: e286f86e-6868-473e-518e-08ddf534dd50
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1d0MjRLRVNsL3NGdnZ0Rnd3d2dtRkZmQU5qelhTaGxnTXF2OTNGdnFFUHVx?=
- =?utf-8?B?RllLT3lFb2JTUnhqRllsayswSEEza1ladHBrTGcyU2xnWk1DZUlZck5ucjhq?=
- =?utf-8?B?T2cwcG1hdEltWTNWbnlpOG4rR0g3MjVhSTJRMGVpN1I2YUJsMjB5dWdIRnZm?=
- =?utf-8?B?dU02OVBMZFRBRHBUcitZYTJob1RyaHdnaTh0aVNTaGsxcGp5RDI1UldXQVc2?=
- =?utf-8?B?OEhhQjNHWCt0SnZVTThUaGxucExQMEZPKy8xa2VrQ2lyanFYSndoNVpKVmpL?=
- =?utf-8?B?SDhIcENVRXBqNC9qaEI4NHQxMXgzVElZdVFoTTNGb2Y1N2dSWWZCSS84R2Rs?=
- =?utf-8?B?NldHSFUvVWs1T1BqT2ZicnlTUUdFSXQ3S244OGwvUnZxak5XRXBzZUFNQkJW?=
- =?utf-8?B?L2lIbWFYMkNXV1Y1d2wxbm9Sd2Nta3h4RGh4cHFMa3lMbFBjMzZSTnRvb08w?=
- =?utf-8?B?NXg0SW9hcUcvVndORVludUIraUdLa01kUUJlWVZveFZseGhLOXZ4bUFmelN1?=
- =?utf-8?B?SUlLR2tHSldERmtJRE90ZWdBTy9rR1N6NnNEWlRDQ09uYllzc2lrdnpGbVFE?=
- =?utf-8?B?Nm0vNHVEcG9nZG9vdU1YVXprSENlUzRua05wTmtpWVB6MGJBaW5ubmJKdDBX?=
- =?utf-8?B?SGJrb1JsNHQySVpabVdYRU0zL2ZVd0xZbDQrWjZzSDZ0cXhIcFpORno0c2R3?=
- =?utf-8?B?aHZhNzdVOUNvaHZuNnRRdDg5ZDJqSlQ0TGtBSW1DL20wMVJpU3dqUUVqZEQv?=
- =?utf-8?B?cFcraTc5YlpDV1k2MkZVaWt5VUFDQmtOd0JvR0dGbVdyRXV4Zm14a28xWkVZ?=
- =?utf-8?B?SjBkT2sxQnBEeTFQOTdvQUc1eFhxUCtGL0M0K1g1K3d4VWJySVJRakZIK1Fl?=
- =?utf-8?B?bENqS0tZN0FBRFFiR2w5eVZKVDlGMG1ZMlZpTERRSlRpdUdPQStUMjVSaUVo?=
- =?utf-8?B?WUEvYWRaSWZaNHc3OXpmVXQwKzg3cENxbE1vRUg4Y0U5bFVIL2xsM01UYU9I?=
- =?utf-8?B?Nm5yOUFYZUt3VitjRTdvWFo4OWxoMGV4S09vNFNiTTUwSEdGUTNOZFpKRk93?=
- =?utf-8?B?K0VGcXpxemFDdzhoRnBWU3lTWDBOWERYWVJBVXVUazBNVXhrRVRpa21sdFRL?=
- =?utf-8?B?YUNBOUdBQUVYRnhoUi9aKzZGZnNpMWN2NlRRblZuejhhZFN6NVZnS2h6VEh0?=
- =?utf-8?B?RzloMkhVVTFNdEZVVk5pNWMxRDJqbmRENU1vTlRiYkMxbzl2aURod29yR0RM?=
- =?utf-8?B?V0x6Ny82UFE2RnRYcXZ0SGxPNGdpTGlqdjQ1TTZTcERQaVlIL3RmSmIrZzN4?=
- =?utf-8?B?dUVDY1lBMmxObW1VSkQvZ0diTTVnY2E0RlMvbXRiZHVGeFRvUEZDOCs4aVRn?=
- =?utf-8?B?ZG1hSEVlMmN1b2lWVWxmZUd5aytxUi9iZUlFaXF0Zk5TZ0YrZXFROHVSZ1U4?=
- =?utf-8?B?T2t1WHRvY01QMWl3VTBXeGVtTCtVT0dUbSszaWM5OERyVk50YVV4enordWll?=
- =?utf-8?B?YXNuWjlRQVhIME16QlZLTHdlRkFLN3pWOUdQbGl0WVpIMFZVYTVXcmdrT1Nn?=
- =?utf-8?B?QnZjMTVyWGxyV1krN1QrTStONDYrenBQdjRGdzhMR3VGbW5nUFkyZWtEVGZ6?=
- =?utf-8?B?dGNrR2VKN2t0b0Q5Y3dldUVRbDh6b3A0aCtRdUgxUFpicGVPUnNZRFlycDVo?=
- =?utf-8?B?ME14cUNHOXROZk43dDYrUmRkclp3Mm9xMG5aUUU3ekpjM1RTVHZwZVB4aEhl?=
- =?utf-8?B?akQrem9RQy8xeWxJOVJDMm83cHZuL0dzWG1zUkx1QldiQ0JaekRrdzhDbTBj?=
- =?utf-8?B?M2VhQ28xZnJSRml4djV2ZzJpTFN3Qk9zSXVtQ2sxdWtWQ3Q0SEJQTUI1RGdC?=
- =?utf-8?B?dmgveVN0UDZSSHpudmdIdHN0UWk2ZHlUMHhab1k0NWRLckNnSTRrOEJ1K2N2?=
- =?utf-8?B?alJBdjFveUo4REFEd2x4bzA5T3lESGtrVm5TWXJTQ0d0M3FVVGIzKzV3akQz?=
- =?utf-8?B?NnRTelhEUjlUcVlnZXlpS3BIbWpsTm05V3h0K0swZXVHR3pVMmhoTVBVUUNi?=
- =?utf-8?Q?9ok3bL?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 15:22:35.6173 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e286f86e-6868-473e-518e-08ddf534dd50
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7101
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C36F62282F
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,1046 +116,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+Split ast_device_create() and its helpers into individual helpers
+for each supported hardware generation. Adds some duplicated code,
+but simplifies maintenance and support of additional hardware.
 
-On 9/16/25 01:41, Karol Wachowski wrote:
-> Synchronize the JSM API header file with the latest 3.32.5 version
-> to reflect all changes introduced in the new firmware API
->
-> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-> ---
-> v0 -> v1:
-> Corrected commit message wording to better reflect the change.
-> ---
->   drivers/accel/ivpu/vpu_jsm_api.h | 513 ++++++++++++++++++++-----------
->   1 file changed, 326 insertions(+), 187 deletions(-)
->
-> diff --git a/drivers/accel/ivpu/vpu_jsm_api.h b/drivers/accel/ivpu/vpu_jsm_api.h
-> index 4b6b2b3d2583..de1b37ea1251 100644
-> --- a/drivers/accel/ivpu/vpu_jsm_api.h
-> +++ b/drivers/accel/ivpu/vpu_jsm_api.h
-> @@ -1,15 +1,16 @@
->   /* SPDX-License-Identifier: MIT */
->   /*
-> - * Copyright (c) 2020-2024, Intel Corporation.
-> + * Copyright (c) 2020-2025, Intel Corporation.
-> + */
-> +
-> +/**
-> + * @addtogroup Jsm
-> + * @{
->    */
->   
->   /**
->    * @file
->    * @brief JSM shared definitions
-> - *
-> - * @ingroup Jsm
-> - * @brief JSM shared definitions
-> - * @{
->    */
->   #ifndef VPU_JSM_API_H
->   #define VPU_JSM_API_H
-> @@ -22,12 +23,12 @@
->   /*
->    * Minor version changes when API backward compatibility is preserved.
->    */
-> -#define VPU_JSM_API_VER_MINOR 29
-> +#define VPU_JSM_API_VER_MINOR 32
->   
->   /*
->    * API header changed (field names, documentation, formatting) but API itself has not been changed
->    */
-> -#define VPU_JSM_API_VER_PATCH 0
-> +#define VPU_JSM_API_VER_PATCH 5
->   
->   /*
->    * Index in the API version table
-> @@ -71,9 +72,12 @@
->   #define VPU_JSM_STATUS_MVNCI_OUT_OF_RESOURCES		 0xAU
->   #define VPU_JSM_STATUS_MVNCI_NOT_IMPLEMENTED		 0xBU
->   #define VPU_JSM_STATUS_MVNCI_INTERNAL_ERROR		 0xCU
-> -/* Job status returned when the job was preempted mid-inference */
-> +/* @deprecated (use VPU_JSM_STATUS_PREEMPTED_MID_COMMAND instead) */
->   #define VPU_JSM_STATUS_PREEMPTED_MID_INFERENCE		 0xDU
-> +/* Job status returned when the job was preempted mid-command */
-> +#define VPU_JSM_STATUS_PREEMPTED_MID_COMMAND		 0xDU
->   #define VPU_JSM_STATUS_MVNCI_CONTEXT_VIOLATION_HW	 0xEU
-> +#define VPU_JSM_STATUS_MVNCI_PREEMPTION_TIMED_OUT	 0xFU
->   
->   /*
->    * Host <-> VPU IPC channels.
-> @@ -134,11 +138,21 @@ enum {
->   	 *  2. Native fence queues are only supported on VPU 40xx onwards.
->   	 */
->   	VPU_JOB_QUEUE_FLAGS_USE_NATIVE_FENCE_MASK = (1 << 1U),
-> -
->   	/*
->   	 * Enable turbo mode for testing NPU performance; not recommended for regular usage.
->   	 */
-> -	VPU_JOB_QUEUE_FLAGS_TURBO_MODE = (1 << 2U)
-> +	VPU_JOB_QUEUE_FLAGS_TURBO_MODE = (1 << 2U),
-> +	/*
-> +	 * Queue error detection mode flag
-> +	 * For 'interactive' queues (this bit not set), the FW will identify queues that have not
-> +	 * completed a job inside the TDR timeout as in error as part of engine reset sequence.
-> +	 * For 'non-interactive' queues (this bit set), the FW will identify queues that have not
-> +	 * progressed the heartbeat inside the non-interactive no-progress timeout as in error as
-> +	 * part of engine reset sequence. Additionally, there is an upper limit applied to these
-> +	 * queues: even if they progress the heartbeat, if they run longer than non-interactive
-> +	 * timeout, then the FW will also identify them as in error.
-> +	 */
-> +	VPU_JOB_QUEUE_FLAGS_NON_INTERACTIVE = (1 << 3U)
->   };
->   
->   /*
-> @@ -209,7 +223,7 @@ enum {
->    */
->   #define VPU_INLINE_CMD_TYPE_FENCE_SIGNAL 0x2
->   
-> -/*
-> +/**
->    * Job scheduling priority bands for both hardware scheduling and OS scheduling.
->    */
->   enum vpu_job_scheduling_priority_band {
-> @@ -220,16 +234,16 @@ enum vpu_job_scheduling_priority_band {
->   	VPU_JOB_SCHEDULING_PRIORITY_BAND_COUNT = 4,
->   };
->   
-> -/*
-> +/**
->    * Job format.
->    * Jobs defines the actual workloads to be executed by a given engine.
->    */
->   struct vpu_job_queue_entry {
-> -	/**< Address of VPU commands batch buffer */
-> +	/** Address of VPU commands batch buffer */
->   	u64 batch_buf_addr;
-> -	/**< Job ID */
-> +	/** Job ID */
->   	u32 job_id;
-> -	/**< Flags bit field, see VPU_JOB_FLAGS_* above */
-> +	/** Flags bit field, see VPU_JOB_FLAGS_* above */
->   	u32 flags;
->   	/**
->   	 * Doorbell ring timestamp taken by KMD from SoC's global system clock, in
-> @@ -237,20 +251,20 @@ struct vpu_job_queue_entry {
->   	 * to match other profiling timestamps.
->   	 */
->   	u64 doorbell_timestamp;
-> -	/**< Extra id for job tracking, used only in the firmware perf traces */
-> +	/** Extra id for job tracking, used only in the firmware perf traces */
->   	u64 host_tracking_id;
-> -	/**< Address of the primary preemption buffer to use for this job */
-> +	/** Address of the primary preemption buffer to use for this job */
->   	u64 primary_preempt_buf_addr;
-> -	/**< Size of the primary preemption buffer to use for this job */
-> +	/** Size of the primary preemption buffer to use for this job */
->   	u32 primary_preempt_buf_size;
-> -	/**< Size of secondary preemption buffer to use for this job */
-> +	/** Size of secondary preemption buffer to use for this job */
->   	u32 secondary_preempt_buf_size;
-> -	/**< Address of secondary preemption buffer to use for this job */
-> +	/** Address of secondary preemption buffer to use for this job */
->   	u64 secondary_preempt_buf_addr;
->   	u64 reserved_0;
->   };
->   
-> -/*
-> +/**
->    * Inline command format.
->    * Inline commands are the commands executed at scheduler level (typically,
->    * synchronization directives). Inline command and job objects must be of
-> @@ -258,34 +272,36 @@ struct vpu_job_queue_entry {
->    */
->   struct vpu_inline_cmd {
->   	u64 reserved_0;
-> -	/* Inline command type, see VPU_INLINE_CMD_TYPE_* defines. */
-> +	/** Inline command type, see VPU_INLINE_CMD_TYPE_* defines. */
->   	u32 type;
-> -	/* Flags bit field, see VPU_JOB_FLAGS_* above. */
-> +	/** Flags bit field, see VPU_JOB_FLAGS_* above. */
->   	u32 flags;
-> -	/* Inline command payload. Depends on inline command type. */
-> -	union {
-> -		/* Fence (wait and signal) commands' payload. */
-> -		struct {
-> -			/* Fence object handle. */
-> +	/** Inline command payload. Depends on inline command type. */
-> +	union payload {
-> +		/** Fence (wait and signal) commands' payload. */
-> +		struct fence {
-> +			/** Fence object handle. */
->   			u64 fence_handle;
-> -			/* User VA of the current fence value. */
-> +			/** User VA of the current fence value. */
->   			u64 current_value_va;
-> -			/* User VA of the monitored fence value (read-only). */
-> +			/** User VA of the monitored fence value (read-only). */
->   			u64 monitored_value_va;
-> -			/* Value to wait for or write in fence location. */
-> +			/** Value to wait for or write in fence location. */
->   			u64 value;
-> -			/* User VA of the log buffer in which to add log entry on completion. */
-> +			/** User VA of the log buffer in which to add log entry on completion. */
->   			u64 log_buffer_va;
-> -			/* NPU private data. */
-> +			/** NPU private data. */
->   			u64 npu_private_data;
->   		} fence;
-> -		/* Other commands do not have a payload. */
-> -		/* Payload definition for future inline commands can be inserted here. */
-> +		/**
-> +		 * Other commands do not have a payload:
-> +		 * Payload definition for future inline commands can be inserted here.
-> +		 */
->   		u64 reserved_1[6];
->   	} payload;
->   };
->   
-> -/*
-> +/**
->    * Job queue slots can be populated either with job objects or inline command objects.
->    */
->   union vpu_jobq_slot {
-> @@ -293,7 +309,7 @@ union vpu_jobq_slot {
->   	struct vpu_inline_cmd inline_cmd;
->   };
->   
-> -/*
-> +/**
->    * Job queue control registers.
->    */
->   struct vpu_job_queue_header {
-> @@ -301,18 +317,18 @@ struct vpu_job_queue_header {
->   	u32 head;
->   	u32 tail;
->   	u32 flags;
-> -	/* Set to 1 to indicate priority_band field is valid */
-> +	/** Set to 1 to indicate priority_band field is valid */
->   	u32 priority_band_valid;
-> -	/*
-> +	/**
->   	 * Priority for the work of this job queue, valid only if the HWS is NOT used
-> -	 * and the `priority_band_valid` is set to 1. It is applied only during
-> -	 * the VPU_JSM_MSG_REGISTER_DB message processing.
-> -	 * The device firmware might use the `priority_band` to optimize the power
-> +	 * and the @ref priority_band_valid is set to 1. It is applied only during
-> +	 * the @ref VPU_JSM_MSG_REGISTER_DB message processing.
-> +	 * The device firmware might use the priority_band to optimize the power
->   	 * management logic, but it will not affect the order of jobs.
->   	 * Available priority bands: @see enum vpu_job_scheduling_priority_band
->   	 */
->   	u32 priority_band;
-> -	/* Inside realtime band assigns a further priority, limited to 0..31 range */
-> +	/** Inside realtime band assigns a further priority, limited to 0..31 range */
->   	u32 realtime_priority_level;
->   	u32 reserved_0[9];
->   };
-> @@ -337,16 +353,16 @@ enum vpu_trace_entity_type {
->   	VPU_TRACE_ENTITY_TYPE_HW_COMPONENT = 2,
->   };
->   
-> -/*
-> +/**
->    * HWS specific log buffer header details.
->    * Total size is 32 bytes.
->    */
->   struct vpu_hws_log_buffer_header {
-> -	/* Written by VPU after adding a log entry. Initialised by host to 0. */
-> +	/** Written by VPU after adding a log entry. Initialised by host to 0. */
->   	u32 first_free_entry_index;
-> -	/* Incremented by VPU every time the VPU writes the 0th entry; initialised by host to 0. */
-> +	/** Incremented by VPU every time the VPU writes the 0th entry; initialised by host to 0. */
->   	u32 wraparound_count;
-> -	/*
-> +	/**
->   	 * This is the number of buffers that can be stored in the log buffer provided by the host.
->   	 * It is written by host before passing buffer to VPU. VPU should consider it read-only.
->   	 */
-> @@ -354,14 +370,14 @@ struct vpu_hws_log_buffer_header {
->   	u64 reserved[2];
->   };
->   
-> -/*
-> +/**
->    * HWS specific log buffer entry details.
->    * Total size is 32 bytes.
->    */
->   struct vpu_hws_log_buffer_entry {
-> -	/* VPU timestamp must be an invariant timer tick (not impacted by DVFS) */
-> +	/** VPU timestamp must be an invariant timer tick (not impacted by DVFS) */
->   	u64 vpu_timestamp;
-> -	/*
-> +	/**
->   	 * Operation type:
->   	 *     0 - context state change
->   	 *     1 - queue new work
-> @@ -371,7 +387,7 @@ struct vpu_hws_log_buffer_entry {
->   	 */
->   	u32 operation_type;
->   	u32 reserved;
-> -	/* Operation data depends on operation type */
-> +	/** Operation data depends on operation type */
->   	u64 operation_data[2];
->   };
->   
-> @@ -381,51 +397,54 @@ enum vpu_hws_native_fence_log_type {
->   	VPU_HWS_NATIVE_FENCE_LOG_TYPE_SIGNALS = 2
->   };
->   
-> -/* HWS native fence log buffer header. */
-> +/** HWS native fence log buffer header. */
->   struct vpu_hws_native_fence_log_header {
->   	union {
->   		struct {
-> -			/* Index of the first free entry in buffer. */
-> +			/** Index of the first free entry in buffer. */
->   			u32 first_free_entry_idx;
-> -			/* Incremented each time NPU wraps around the buffer to write next entry. */
-> +			/**
-> +			 * Incremented each time NPU wraps around
-> +			 * the buffer to write next entry.
-> +			 */
->   			u32 wraparound_count;
->   		};
-> -		/* Field allowing atomic update of both fields above. */
-> +		/** Field allowing atomic update of both fields above. */
->   		u64 atomic_wraparound_and_entry_idx;
->   	};
-> -	/* Log buffer type, see enum vpu_hws_native_fence_log_type. */
-> +	/** Log buffer type, see enum vpu_hws_native_fence_log_type. */
->   	u64 type;
-> -	/* Allocated number of entries in the log buffer. */
-> +	/** Allocated number of entries in the log buffer. */
->   	u64 entry_nb;
->   	u64 reserved[2];
->   };
->   
-> -/* Native fence log operation types. */
-> +/** Native fence log operation types. */
->   enum vpu_hws_native_fence_log_op {
->   	VPU_HWS_NATIVE_FENCE_LOG_OP_SIGNAL_EXECUTED = 0,
->   	VPU_HWS_NATIVE_FENCE_LOG_OP_WAIT_UNBLOCKED = 1
->   };
->   
-> -/* HWS native fence log entry. */
-> +/** HWS native fence log entry. */
->   struct vpu_hws_native_fence_log_entry {
-> -	/* Newly signaled/unblocked fence value. */
-> +	/** Newly signaled/unblocked fence value. */
->   	u64 fence_value;
-> -	/* Native fence object handle to which this operation belongs. */
-> +	/** Native fence object handle to which this operation belongs. */
->   	u64 fence_handle;
-> -	/* Operation type, see enum vpu_hws_native_fence_log_op. */
-> +	/** Operation type, see enum vpu_hws_native_fence_log_op. */
->   	u64 op_type;
->   	u64 reserved_0;
-> -	/*
-> +	/**
->   	 * VPU_HWS_NATIVE_FENCE_LOG_OP_WAIT_UNBLOCKED only: Timestamp at which fence
->   	 * wait was started (in NPU SysTime).
->   	 */
->   	u64 fence_wait_start_ts;
->   	u64 reserved_1;
-> -	/* Timestamp at which fence operation was completed (in NPU SysTime). */
-> +	/** Timestamp at which fence operation was completed (in NPU SysTime). */
->   	u64 fence_end_ts;
->   };
->   
-> -/* Native fence log buffer. */
-> +/** Native fence log buffer. */
->   struct vpu_hws_native_fence_log_buffer {
->   	struct vpu_hws_native_fence_log_header header;
->   	struct vpu_hws_native_fence_log_entry entry[];
-> @@ -450,8 +469,21 @@ enum vpu_ipc_msg_type {
->   	 * after preemption or when resubmitting jobs to the queue.
->   	 */
->   	VPU_JSM_MSG_ENGINE_PREEMPT = 0x1101,
-> +	/**
-> +	 * OS scheduling doorbell register command
-> +	 * @see vpu_ipc_msg_payload_register_db
-> +	 */
->   	VPU_JSM_MSG_REGISTER_DB = 0x1102,
-> +	/**
-> +	 * OS scheduling doorbell unregister command
-> +	 * @see vpu_ipc_msg_payload_unregister_db
-> +	 */
->   	VPU_JSM_MSG_UNREGISTER_DB = 0x1103,
-> +	/**
-> +	 * Query engine heartbeat. Heartbeat is expected to increase monotonically
-> +	 * and increase while work is being progressed by NPU.
-> +	 * @see vpu_ipc_msg_payload_query_engine_hb
-> +	 */
->   	VPU_JSM_MSG_QUERY_ENGINE_HB = 0x1104,
->   	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT = 0x1105,
->   	VPU_JSM_MSG_GET_POWER_LEVEL = 0x1106,
-> @@ -477,6 +509,7 @@ enum vpu_ipc_msg_type {
->   	 * aborted and removed from internal scheduling queues. All doorbells assigned
->   	 * to the host_ssid are unregistered and any internal FW resources belonging to
->   	 * the host_ssid are released.
-> +	 * @see vpu_ipc_msg_payload_ssid_release
->   	 */
->   	VPU_JSM_MSG_SSID_RELEASE = 0x110e,
->   	/**
-> @@ -504,26 +537,51 @@ enum vpu_ipc_msg_type {
->   	 * @see vpu_jsm_metric_streamer_start
->   	 */
->   	VPU_JSM_MSG_METRIC_STREAMER_INFO = 0x1112,
-> -	/** Control command: Priority band setup */
-> +	/**
-> +	 * Control command: Priority band setup
-> +	 * @see vpu_ipc_msg_payload_hws_priority_band_setup
-> +	 */
->   	VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP = 0x1113,
-> -	/** Control command: Create command queue */
-> +	/**
-> +	 * Control command: Create command queue
-> +	 * @see vpu_ipc_msg_payload_hws_create_cmdq
-> +	 */
->   	VPU_JSM_MSG_CREATE_CMD_QUEUE = 0x1114,
-> -	/** Control command: Destroy command queue */
-> +	/**
-> +	 * Control command: Destroy command queue
-> +	 * @see vpu_ipc_msg_payload_hws_destroy_cmdq
-> +	 */
->   	VPU_JSM_MSG_DESTROY_CMD_QUEUE = 0x1115,
-> -	/** Control command: Set context scheduling properties */
-> +	/**
-> +	 * Control command: Set context scheduling properties
-> +	 * @see vpu_ipc_msg_payload_hws_set_context_sched_properties
-> +	 */
->   	VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES = 0x1116,
-> -	/*
-> +	/**
->   	 * Register a doorbell to notify VPU of new work. The doorbell may later be
->   	 * deallocated or reassigned to another context.
-> +	 * @see vpu_jsm_hws_register_db
->   	 */
->   	VPU_JSM_MSG_HWS_REGISTER_DB = 0x1117,
-> -	/** Control command: Log buffer setting */
-> +	/**
-> +	 * Control command: Log buffer setting
-> +	 * @see vpu_ipc_msg_payload_hws_set_scheduling_log
-> +	 */
->   	VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG = 0x1118,
-> -	/* Control command: Suspend command queue. */
-> +	/**
-> +	 * Control command: Suspend command queue.
-> +	 * @see vpu_ipc_msg_payload_hws_suspend_cmdq
-> +	 */
->   	VPU_JSM_MSG_HWS_SUSPEND_CMDQ = 0x1119,
-> -	/* Control command: Resume command queue */
-> +	/**
-> +	 * Control command: Resume command queue
-> +	 * @see vpu_ipc_msg_payload_hws_resume_cmdq
-> +	 */
->   	VPU_JSM_MSG_HWS_RESUME_CMDQ = 0x111a,
-> -	/* Control command: Resume engine after reset */
-> +	/**
-> +	 * Control command: Resume engine after reset
-> +	 * @see vpu_ipc_msg_payload_hws_resume_engine
-> +	 */
->   	VPU_JSM_MSG_HWS_ENGINE_RESUME = 0x111b,
->   	/* Control command: Enable survivability/DCT mode */
->   	VPU_JSM_MSG_DCT_ENABLE = 0x111c,
-> @@ -540,7 +598,8 @@ enum vpu_ipc_msg_type {
->   	VPU_JSM_MSG_BLOB_DEINIT_DEPRECATED = VPU_JSM_MSG_GENERAL_CMD,
->   	/**
->   	 * Control dyndbg behavior by executing a dyndbg command; equivalent to
-> -	 * Linux command: `echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control`.
-> +	 * Linux command:
-> +	 * @verbatim echo '<dyndbg_cmd>' > <debugfs>/dynamic_debug/control @endverbatim
->   	 */
->   	VPU_JSM_MSG_DYNDBG_CONTROL = 0x1201,
->   	/**
-> @@ -550,15 +609,26 @@ enum vpu_ipc_msg_type {
->   
->   	/* IPC Device -> Host, Job completion */
->   	VPU_JSM_MSG_JOB_DONE = 0x2100,
-> -	/* IPC Device -> Host, Fence signalled */
-> +	/**
-> +	 * IPC Device -> Host, Fence signalled
-> +	 * @see vpu_ipc_msg_payload_native_fence_signalled
-> +	 */
->   	VPU_JSM_MSG_NATIVE_FENCE_SIGNALLED = 0x2101,
->   
->   	/* IPC Device -> Host, Async command completion */
->   	VPU_JSM_MSG_ASYNC_CMD_DONE = 0x2200,
-> +	/**
-> +	 * IPC Device -> Host, engine reset complete
-> +	 * @see vpu_ipc_msg_payload_engine_reset_done
-> +	 */
->   	VPU_JSM_MSG_ENGINE_RESET_DONE = VPU_JSM_MSG_ASYNC_CMD_DONE,
->   	VPU_JSM_MSG_ENGINE_PREEMPT_DONE = 0x2201,
->   	VPU_JSM_MSG_REGISTER_DB_DONE = 0x2202,
->   	VPU_JSM_MSG_UNREGISTER_DB_DONE = 0x2203,
-> +	/**
-> +	 * Response to query engine heartbeat.
-> +	 * @see vpu_ipc_msg_payload_query_engine_hb_done
-> +	 */
->   	VPU_JSM_MSG_QUERY_ENGINE_HB_DONE = 0x2204,
->   	VPU_JSM_MSG_GET_POWER_LEVEL_COUNT_DONE = 0x2205,
->   	VPU_JSM_MSG_GET_POWER_LEVEL_DONE = 0x2206,
-> @@ -575,7 +645,10 @@ enum vpu_ipc_msg_type {
->   	VPU_JSM_MSG_TRACE_GET_CAPABILITY_RSP = 0x220c,
->   	/** Response to VPU_JSM_MSG_TRACE_GET_NAME. */
->   	VPU_JSM_MSG_TRACE_GET_NAME_RSP = 0x220d,
-> -	/** Response to VPU_JSM_MSG_SSID_RELEASE. */
-> +	/**
-> +	 * Response to VPU_JSM_MSG_SSID_RELEASE.
-> +	 * @see vpu_ipc_msg_payload_ssid_release
-> +	 */
->   	VPU_JSM_MSG_SSID_RELEASE_DONE = 0x220e,
->   	/**
->   	 * Response to VPU_JSM_MSG_METRIC_STREAMER_START.
-> @@ -605,29 +678,56 @@ enum vpu_ipc_msg_type {
->   	/**
->   	 * Asynchronous event sent from the VPU to the host either when the current
->   	 * metric buffer is full or when the VPU has collected a multiple of
-> -	 * @notify_sample_count samples as indicated through the start command
-> -	 * (VPU_JSM_MSG_METRIC_STREAMER_START). Returns information about collected
-> -	 * metric data.
-> +	 * @ref vpu_jsm_metric_streamer_start::notify_sample_count samples as indicated
-> +	 * through the start command (VPU_JSM_MSG_METRIC_STREAMER_START). Returns
-> +	 * information about collected metric data.
->   	 * @see vpu_jsm_metric_streamer_done
->   	 */
->   	VPU_JSM_MSG_METRIC_STREAMER_NOTIFICATION = 0x2213,
-> -	/** Response to control command: Priority band setup */
-> +	/**
-> +	 * Response to control command: Priority band setup
-> +	 * @see vpu_ipc_msg_payload_hws_priority_band_setup
-> +	 */
->   	VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP_RSP = 0x2214,
-> -	/** Response to control command: Create command queue */
-> +	/**
-> +	 * Response to control command: Create command queue
-> +	 * @see vpu_ipc_msg_payload_hws_create_cmdq_rsp
-> +	 */
->   	VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP = 0x2215,
-> -	/** Response to control command: Destroy command queue */
-> +	/**
-> +	 * Response to control command: Destroy command queue
-> +	 * @see vpu_ipc_msg_payload_hws_destroy_cmdq
-> +	 */
->   	VPU_JSM_MSG_DESTROY_CMD_QUEUE_RSP = 0x2216,
-> -	/** Response to control command: Set context scheduling properties */
-> +	/**
-> +	 * Response to control command: Set context scheduling properties
-> +	 * @see vpu_ipc_msg_payload_hws_set_context_sched_properties
-> +	 */
->   	VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP = 0x2217,
-> -	/** Response to control command: Log buffer setting */
-> +	/**
-> +	 * Response to control command: Log buffer setting
-> +	 * @see vpu_ipc_msg_payload_hws_set_scheduling_log
-> +	 */
->   	VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG_RSP = 0x2218,
-> -	/* IPC Device -> Host, HWS notify index entry of log buffer written */
-> +	/**
-> +	 * IPC Device -> Host, HWS notify index entry of log buffer written
-> +	 * @see vpu_ipc_msg_payload_hws_scheduling_log_notification
-> +	 */
->   	VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION = 0x2219,
-> -	/* IPC Device -> Host, HWS completion of a context suspend request */
-> +	/**
-> +	 * IPC Device -> Host, HWS completion of a context suspend request
-> +	 * @see vpu_ipc_msg_payload_hws_suspend_cmdq
-> +	 */
->   	VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE = 0x221a,
-> -	/* Response to control command: Resume command queue */
-> +	/**
-> +	 * Response to control command: Resume command queue
-> +	 * @see vpu_ipc_msg_payload_hws_resume_cmdq
-> +	 */
->   	VPU_JSM_MSG_HWS_RESUME_CMDQ_RSP = 0x221b,
-> -	/* Response to control command: Resume engine command response */
-> +	/**
-> +	 * Response to control command: Resume engine command response
-> +	 * @see vpu_ipc_msg_payload_hws_resume_engine
-> +	 */
->   	VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE = 0x221c,
->   	/* Response to control command: Enable survivability/DCT mode */
->   	VPU_JSM_MSG_DCT_ENABLE_DONE = 0x221d,
-> @@ -670,40 +770,44 @@ struct vpu_ipc_msg_payload_engine_preempt {
->   	u32 preempt_id;
->   };
->   
-> -/*
-> - * @brief Register doorbell command structure.
-> +/**
-> + * Register doorbell command structure.
->    * This structure supports doorbell registration for only OS scheduling.
->    * @see VPU_JSM_MSG_REGISTER_DB
->    */
->   struct vpu_ipc_msg_payload_register_db {
-> -	/* Index of the doorbell to register. */
-> +	/** Index of the doorbell to register. */
->   	u32 db_idx;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
-> -	/* Virtual address in Global GTT pointing to the start of job queue. */
-> +	/** Virtual address in Global GTT pointing to the start of job queue. */
->   	u64 jobq_base;
-> -	/* Size of the job queue in bytes. */
-> +	/** Size of the job queue in bytes. */
->   	u32 jobq_size;
-> -	/* Host sub-stream ID for the context assigned to the doorbell. */
-> +	/** Host sub-stream ID for the context assigned to the doorbell. */
->   	u32 host_ssid;
->   };
->   
->   /**
-> - * @brief Unregister doorbell command structure.
-> + * Unregister doorbell command structure.
->    * Request structure to unregister a doorbell for both HW and OS scheduling.
->    * @see VPU_JSM_MSG_UNREGISTER_DB
->    */
->   struct vpu_ipc_msg_payload_unregister_db {
-> -	/* Index of the doorbell to unregister. */
-> +	/** Index of the doorbell to unregister. */
->   	u32 db_idx;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
->   };
->   
-> +/**
-> + * Heartbeat request structure
-> + * @see VPU_JSM_MSG_QUERY_ENGINE_HB
-> + */
->   struct vpu_ipc_msg_payload_query_engine_hb {
-> -	/* Engine to return heartbeat value. */
-> +	/** Engine to return heartbeat value. */
->   	u32 engine_idx;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
->   };
->   
-> @@ -723,10 +827,14 @@ struct vpu_ipc_msg_payload_power_level {
->   	u32 reserved_0;
->   };
->   
-> +/**
-> + * Structure for requesting ssid release
-> + * @see VPU_JSM_MSG_SSID_RELEASE
-> + */
->   struct vpu_ipc_msg_payload_ssid_release {
-> -	/* Host sub-stream ID for the context to be released. */
-> +	/** Host sub-stream ID for the context to be released. */
->   	u32 host_ssid;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
->   };
->   
-> @@ -752,7 +860,7 @@ struct vpu_jsm_metric_streamer_start {
->   	u64 sampling_rate;
->   	/**
->   	 * If > 0 the VPU will send a VPU_JSM_MSG_METRIC_STREAMER_NOTIFICATION message
-> -	 * after every @notify_sample_count samples is collected or dropped by the VPU.
-> +	 * after every @ref notify_sample_count samples is collected or dropped by the VPU.
->   	 * If set to UINT_MAX the VPU will only generate a notification when the metric
->   	 * buffer is full. If set to 0 the VPU will never generate a notification.
->   	 */
-> @@ -762,9 +870,9 @@ struct vpu_jsm_metric_streamer_start {
->   	 * Address and size of the buffer where the VPU will write metric data. The
->   	 * VPU writes all counters from enabled metric groups one after another. If
->   	 * there is no space left to write data at the next sample period the VPU
-> -	 * will switch to the next buffer (@see next_buffer_addr) and will optionally
-> -	 * send a notification to the host driver if @notify_sample_count is non-zero.
-> -	 * If @next_buffer_addr is NULL the VPU will stop collecting metric data.
-> +	 * will switch to the next buffer (@ref next_buffer_addr) and will optionally
-> +	 * send a notification to the host driver if @ref notify_sample_count is non-zero.
-> +	 * If @ref next_buffer_addr is NULL the VPU will stop collecting metric data.
->   	 */
->   	u64 buffer_addr;
->   	u64 buffer_size;
-> @@ -844,38 +952,47 @@ struct vpu_ipc_msg_payload_job_done {
->   	u64 cmdq_id;
->   };
->   
-> -/*
-> +/**
->    * Notification message upon native fence signalling.
->    * @see VPU_JSM_MSG_NATIVE_FENCE_SIGNALLED
->    */
->   struct vpu_ipc_msg_payload_native_fence_signalled {
-> -	/* Engine ID. */
-> +	/** Engine ID. */
->   	u32 engine_idx;
-> -	/* Host SSID. */
-> +	/** Host SSID. */
->   	u32 host_ssid;
-> -	/* CMDQ ID */
-> +	/** CMDQ ID */
->   	u64 cmdq_id;
-> -	/* Fence object handle. */
-> +	/** Fence object handle. */
->   	u64 fence_handle;
->   };
->   
-> +/**
-> + * vpu_ipc_msg_payload_engine_reset_done will contain an array of this structure
-> + * which contains which queues caused reset if FW was able to detect any error.
-> + * @see vpu_ipc_msg_payload_engine_reset_done
-> + */
->   struct vpu_jsm_engine_reset_context {
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
-> -	/* See VPU_ENGINE_RESET_CONTEXT_* defines */
-> +	/** See VPU_ENGINE_RESET_CONTEXT_* defines */
->   	u64 flags;
->   };
->   
-> +/**
-> + * Engine reset response.
-> + * @see VPU_JSM_MSG_ENGINE_RESET_DONE
-> + */
->   struct vpu_ipc_msg_payload_engine_reset_done {
-> -	/* Engine ordinal */
-> +	/** Engine ordinal */
->   	u32 engine_idx;
-> -	/* Number of impacted contexts */
-> +	/** Number of impacted contexts */
->   	u32 num_impacted_contexts;
-> -	/* Array of impacted command queue ids and their flags */
-> +	/** Array of impacted command queue ids and their flags */
->   	struct vpu_jsm_engine_reset_context
->   		impacted_contexts[VPU_MAX_ENGINE_RESET_IMPACTED_CONTEXTS];
->   };
-> @@ -912,12 +1029,16 @@ struct vpu_ipc_msg_payload_unregister_db_done {
->   	u32 reserved_0;
->   };
->   
-> +/**
-> + * Structure for heartbeat response
-> + * @see VPU_JSM_MSG_QUERY_ENGINE_HB_DONE
-> + */
->   struct vpu_ipc_msg_payload_query_engine_hb_done {
-> -	/* Engine returning heartbeat value. */
-> +	/** Engine returning heartbeat value. */
->   	u32 engine_idx;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
-> -	/* Heartbeat value. */
-> +	/** Heartbeat value. */
->   	u64 heartbeat;
->   };
->   
-> @@ -937,7 +1058,10 @@ struct vpu_ipc_msg_payload_get_power_level_count_done {
->   	u8 power_limit[16];
->   };
->   
-> -/* HWS priority band setup request / response */
-> +/**
-> + * HWS priority band setup request / response
-> + * @see VPU_JSM_MSG_SET_PRIORITY_BAND_SETUP
-> + */
->   struct vpu_ipc_msg_payload_hws_priority_band_setup {
->   	/*
->   	 * Grace period in 100ns units when preempting another priority band for
-> @@ -964,15 +1088,23 @@ struct vpu_ipc_msg_payload_hws_priority_band_setup {
->   	 * TDR timeout value in milliseconds. Default value of 0 meaning no timeout.
->   	 */
->   	u32 tdr_timeout;
-> +	/* Non-interactive queue timeout for no progress of heartbeat in milliseconds.
-> +	 * Default value of 0 meaning no timeout.
-> +	 */
-> +	u32 non_interactive_no_progress_timeout;
-> +	/*
-> +	 * Non-interactive queue upper limit timeout value in milliseconds. Default
-> +	 * value of 0 meaning no timeout.
-> +	 */
-> +	u32 non_interactive_timeout;
->   };
->   
-> -/*
-> +/**
->    * @brief HWS create command queue request.
->    * Host will create a command queue via this command.
->    * Note: Cmdq group is a handle of an object which
->    * may contain one or more command queues.
->    * @see VPU_JSM_MSG_CREATE_CMD_QUEUE
-> - * @see VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP
->    */
->   struct vpu_ipc_msg_payload_hws_create_cmdq {
->   	/* Process id */
-> @@ -993,66 +1125,73 @@ struct vpu_ipc_msg_payload_hws_create_cmdq {
->   	u32 reserved_0;
->   };
->   
-> -/*
-> - * @brief HWS create command queue response.
-> - * @see VPU_JSM_MSG_CREATE_CMD_QUEUE
-> +/**
-> + * HWS create command queue response.
->    * @see VPU_JSM_MSG_CREATE_CMD_QUEUE_RSP
->    */
->   struct vpu_ipc_msg_payload_hws_create_cmdq_rsp {
-> -	/* Process id */
-> +	/** Process id */
->   	u64 process_id;
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Engine for which queue is being created */
-> +	/** Engine for which queue is being created */
->   	u32 engine_idx;
-> -	/* Command queue group */
-> +	/** Command queue group */
->   	u64 cmdq_group;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
->   };
->   
-> -/* HWS destroy command queue request / response */
-> +/**
-> + * HWS destroy command queue request / response
-> + * @see VPU_JSM_MSG_DESTROY_CMD_QUEUE
-> + * @see VPU_JSM_MSG_DESTROY_CMD_QUEUE_RSP
-> + */
->   struct vpu_ipc_msg_payload_hws_destroy_cmdq {
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
->   };
->   
-> -/* HWS set context scheduling properties request / response */
-> +/**
-> + * HWS set context scheduling properties request / response
-> + * @see VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES
-> + * @see VPU_JSM_MSG_SET_CONTEXT_SCHED_PROPERTIES_RSP
-> + */
->   struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
-> -	/*
-> +	/**
->   	 * Priority band to assign to work of this context.
->   	 * Available priority bands: @see enum vpu_job_scheduling_priority_band
->   	 */
->   	u32 priority_band;
-> -	/* Inside realtime band assigns a further priority */
-> +	/** Inside realtime band assigns a further priority */
->   	u32 realtime_priority_level;
-> -	/* Priority relative to other contexts in the same process */
-> +	/** Priority relative to other contexts in the same process */
->   	s32 in_process_priority;
-> -	/* Zero padding / Reserved */
-> +	/** Zero padding / Reserved */
->   	u32 reserved_1;
-> -	/*
-> +	/**
->   	 * Context quantum relative to other contexts of same priority in the same process
->   	 * Minimum value supported by NPU is 1ms (10000 in 100ns units).
->   	 */
->   	u64 context_quantum;
-> -	/* Grace period when preempting context of the same priority within the same process */
-> +	/** Grace period when preempting context of the same priority within the same process */
->   	u64 grace_period_same_priority;
-> -	/* Grace period when preempting context of a lower priority within the same process */
-> +	/** Grace period when preempting context of a lower priority within the same process */
->   	u64 grace_period_lower_priority;
->   };
->   
-> -/*
-> - * @brief Register doorbell command structure.
-> +/**
-> + * Register doorbell command structure.
->    * This structure supports doorbell registration for both HW and OS scheduling.
->    * Note: Queue base and size are added here so that the same structure can be used for
->    * OS scheduling and HW scheduling. For OS scheduling, cmdq_id will be ignored
-> @@ -1061,27 +1200,27 @@ struct vpu_ipc_msg_payload_hws_set_context_sched_properties {
->    * @see VPU_JSM_MSG_HWS_REGISTER_DB
->    */
->   struct vpu_jsm_hws_register_db {
-> -	/* Index of the doorbell to register. */
-> +	/** Index of the doorbell to register. */
->   	u32 db_id;
-> -	/* Host sub-stream ID for the context assigned to the doorbell. */
-> +	/** Host sub-stream ID for the context assigned to the doorbell. */
->   	u32 host_ssid;
-> -	/* ID of the command queue associated with the doorbell. */
-> +	/** ID of the command queue associated with the doorbell. */
->   	u64 cmdq_id;
-> -	/* Virtual address pointing to the start of command queue. */
-> +	/** Virtual address pointing to the start of command queue. */
->   	u64 cmdq_base;
-> -	/* Size of the command queue in bytes. */
-> +	/** Size of the command queue in bytes. */
->   	u64 cmdq_size;
->   };
->   
-> -/*
-> - * @brief Structure to set another buffer to be used for scheduling-related logging.
-> +/**
-> + * Structure to set another buffer to be used for scheduling-related logging.
->    * The size of the logging buffer and the number of entries is defined as part of the
->    * buffer itself as described next.
->    * The log buffer received from the host is made up of;
-> - *   - header:     32 bytes in size, as shown in 'struct vpu_hws_log_buffer_header'.
-> + *   - header:     32 bytes in size, as shown in @ref vpu_hws_log_buffer_header.
->    *                 The header contains the number of log entries in the buffer.
->    *   - log entry:  0 to n-1, each log entry is 32 bytes in size, as shown in
-> - *                 'struct vpu_hws_log_buffer_entry'.
-> + *                 @ref vpu_hws_log_buffer_entry.
->    *                 The entry contains the VPU timestamp, operation type and data.
->    * The host should provide the notify index value of log buffer to VPU. This is a
->    * value defined within the log buffer and when written to will generate the
-> @@ -1095,30 +1234,30 @@ struct vpu_jsm_hws_register_db {
->    * @see VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION
->    */
->   struct vpu_ipc_msg_payload_hws_set_scheduling_log {
-> -	/* Engine ordinal */
-> +	/** Engine ordinal */
->   	u32 engine_idx;
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/*
-> +	/**
->   	 * VPU log buffer virtual address.
->   	 * Set to 0 to disable logging for this engine.
->   	 */
->   	u64 vpu_log_buffer_va;
-> -	/*
-> +	/**
->   	 * Notify index of log buffer. VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION
->   	 * is generated when an event log is written to this index.
->   	 */
->   	u64 notify_index;
-> -	/*
-> +	/**
->   	 * Field is now deprecated, will be removed when KMD is updated to support removal
->   	 */
->   	u32 enable_extra_events;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
->   };
->   
-> -/*
-> - * @brief The scheduling log notification is generated by VPU when it writes
-> +/**
-> + * The scheduling log notification is generated by VPU when it writes
->    * an event into the log buffer at the notify_index. VPU notifies host with
->    * VPU_JSM_MSG_HWS_SCHEDULING_LOG_NOTIFICATION. This is an asynchronous
->    * message from VPU to host.
-> @@ -1126,14 +1265,14 @@ struct vpu_ipc_msg_payload_hws_set_scheduling_log {
->    * @see VPU_JSM_MSG_HWS_SET_SCHEDULING_LOG
->    */
->   struct vpu_ipc_msg_payload_hws_scheduling_log_notification {
-> -	/* Engine ordinal */
-> +	/** Engine ordinal */
->   	u32 engine_idx;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
->   };
->   
-> -/*
-> - * @brief HWS suspend command queue request and done structure.
-> +/**
-> + * HWS suspend command queue request and done structure.
->    * Host will request the suspend of contexts and VPU will;
->    *   - Suspend all work on this context
->    *   - Preempt any running work
-> @@ -1152,21 +1291,21 @@ struct vpu_ipc_msg_payload_hws_scheduling_log_notification {
->    * @see VPU_JSM_MSG_HWS_SUSPEND_CMDQ_DONE
->    */
->   struct vpu_ipc_msg_payload_hws_suspend_cmdq {
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
-> -	/*
-> +	/**
->   	 * Suspend fence value - reported by the VPU suspend context
->   	 * completed once suspend is complete.
->   	 */
->   	u64 suspend_fence_value;
->   };
->   
-> -/*
-> - * @brief HWS Resume command queue request / response structure.
-> +/**
-> + * HWS Resume command queue request / response structure.
->    * Host will request the resume of a context;
->    *  - VPU will resume all work on this context
->    *  - Scheduler will allow this context to be scheduled
-> @@ -1174,25 +1313,25 @@ struct vpu_ipc_msg_payload_hws_suspend_cmdq {
->    * @see VPU_JSM_MSG_HWS_RESUME_CMDQ_RSP
->    */
->   struct vpu_ipc_msg_payload_hws_resume_cmdq {
-> -	/* Host SSID */
-> +	/** Host SSID */
->   	u32 host_ssid;
-> -	/* Zero Padding */
-> +	/** Zero Padding */
->   	u32 reserved_0;
-> -	/* Command queue id */
-> +	/** Command queue id */
->   	u64 cmdq_id;
->   };
->   
-> -/*
-> - * @brief HWS Resume engine request / response structure.
-> - * After a HWS engine reset, all scheduling is stopped on VPU until a engine resume.
-> +/**
-> + * HWS Resume engine request / response structure.
-> + * After a HWS engine reset, all scheduling is stopped on VPU until an engine resume.
->    * Host shall send this command to resume scheduling of any valid queue.
-> - * @see VPU_JSM_MSG_HWS_RESUME_ENGINE
-> + * @see VPU_JSM_MSG_HWS_ENGINE_RESUME
->    * @see VPU_JSM_MSG_HWS_RESUME_ENGINE_DONE
->    */
->   struct vpu_ipc_msg_payload_hws_resume_engine {
-> -	/* Engine to be resumed */
-> +	/** Engine to be resumed */
->   	u32 engine_idx;
-> -	/* Reserved */
-> +	/** Reserved */
->   	u32 reserved_0;
->   };
->   
-> @@ -1326,7 +1465,7 @@ struct vpu_jsm_metric_streamer_done {
->   /**
->    * Metric group description placed in the metric buffer after successful completion
->    * of the VPU_JSM_MSG_METRIC_STREAMER_INFO command. This is followed by one or more
-> - * @vpu_jsm_metric_counter_descriptor records.
-> + * @ref vpu_jsm_metric_counter_descriptor records.
->    * @see VPU_JSM_MSG_METRIC_STREAMER_INFO
->    */
->   struct vpu_jsm_metric_group_descriptor {
+Patches 1 to 4 move some code around and prepare for the split.
+
+Patches 5 to 11 each add device initialization for a hardware
+generation. The code is duplicated from existing code and stripped
+from unnecesary calls. More specialization is possible in later
+patches.
+
+Patch 12 removes the original, now unused, code.
+
+Tested on AST2100, AST2300, AST2500 and AST2600.
+
+Thomas Zimmermann (12):
+  drm/ast: Move display-clock tables to per-Gen source files
+  drm/ast: Move mode-detection helpers to Gen2 source files
+  drm/ast: Split ast_detect_tx_chip() per chip generation
+  drm/ast: Prepare per-Gen device initialization
+  drm/ast: Move Gen1 device initialization into separate helper
+  drm/ast: Move Gen2 device initialization into separate helper
+  drm/ast: Move Gen3 device initialization into separate helper
+  drm/ast: Move Gen4 device initialization into separate helper
+  drm/ast: Move Gen5 device initialization into separate helper
+  drm/ast: Move Gen6 device initialization into separate helper
+  drm/ast: Move Gen7 device initialization into separate helper
+  drm/ast: Remove generic device initialization
+
+ drivers/gpu/drm/ast/Makefile     |   3 +-
+ drivers/gpu/drm/ast/ast_2000.c   | 110 +++++++++++++
+ drivers/gpu/drm/ast/ast_2100.c   |  86 ++++++++++
+ drivers/gpu/drm/ast/ast_2200.c   |  86 ++++++++++
+ drivers/gpu/drm/ast/ast_2300.c   | 130 +++++++++++++++
+ drivers/gpu/drm/ast/ast_2400.c   |  95 +++++++++++
+ drivers/gpu/drm/ast/ast_2500.c   | 100 ++++++++++++
+ drivers/gpu/drm/ast/ast_2600.c   |  63 ++++++++
+ drivers/gpu/drm/ast/ast_drv.c    |  67 +++++++-
+ drivers/gpu/drm/ast/ast_drv.h    |  75 ++++++++-
+ drivers/gpu/drm/ast/ast_main.c   | 268 -------------------------------
+ drivers/gpu/drm/ast/ast_mode.c   |   4 +-
+ drivers/gpu/drm/ast/ast_tables.h |  60 -------
+ 13 files changed, 805 insertions(+), 342 deletions(-)
+ create mode 100644 drivers/gpu/drm/ast/ast_2200.c
+ create mode 100644 drivers/gpu/drm/ast/ast_2400.c
+ delete mode 100644 drivers/gpu/drm/ast/ast_main.c
+
+-- 
+2.51.0
+
