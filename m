@@ -2,38 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EB0B7E313
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3234B59C3F
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Sep 2025 17:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE6F210E55B;
-	Tue, 16 Sep 2025 22:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C9E10E39C;
+	Tue, 16 Sep 2025 15:38:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g7KnRHpI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE9D10E37F;
- Tue, 16 Sep 2025 15:34:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F8D10E39C;
+ Tue, 16 Sep 2025 15:38:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A5EF640702;
- Tue, 16 Sep 2025 15:34:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD93C4CEEB;
- Tue, 16 Sep 2025 15:33:59 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ by sea.source.kernel.org (Postfix) with ESMTP id BFEB044AA9;
+ Tue, 16 Sep 2025 15:38:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845C2C4CEF0;
+ Tue, 16 Sep 2025 15:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758037083;
+ bh=/KNRhTipWVEIQwkpHzS6ivBX9n/DOl4tBR3cuI/sKLI=;
+ h=Date:To:From:Subject:Cc:From;
+ b=g7KnRHpIbRKZAVpQcT685hjTtTn8EG/icpphN+G3m1Kvkiw2Pu54ECF4aGiV7pF2y
+ oFHQD/DPLJyvFWpmLhiy//KcRg78rWguMDZfsJHQXkVT/447IiFhTW498/VOt0hx3a
+ UntE3fc/42QgjZMKSpDmpbG15aB6X6k+HxxuZ6/CekLU4tcbaXCImXyQFYN+XJlbNI
+ PABL+ApRX9iL+FZmE8LN3UBscF3Excg/3fnzUk2Ld7l+eR8Ift8BTNSShtRdKDy/ii
+ LuDNESEKcShbNxr/FZeg0ib+60GZsaJWZNm62v3fXv8Vk6oCjb78B3LngT1Fr6Fhmk
+ g/5oYdeGE3GWQ==
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 16 Sep 2025 17:33:57 +0200
-Message-Id: <DCUC1PQWPSQJ.1LEHJPN9T49Z5@dakr.org>
+Date: Tue, 16 Sep 2025 17:37:59 +0200
+Message-Id: <DCUC4SY6SRBD.1ZLHAIQZOC6KG@kernel.org>
+To: "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona.vetter@ffwll.ch>
+From: "Danilo Krummrich" <dakr@kernel.org>
 Subject: [GIT PULL] DRM Rust changes for v6.18
 Cc: "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
  <acourbot@nvidia.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
  "Miguel Ojeda" <ojeda@kernel.org>, "Benno Lossin" <lossin@kernel.org>,
  <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona.vetter@ffwll.ch>
-From: "Danilo Krummrich" <me@dakr.org>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mutt-Fcc: =Sent Items
 X-TUID: mKg+BHoYSeyx
-X-Mailman-Approved-At: Tue, 16 Sep 2025 22:36:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
