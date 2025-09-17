@@ -2,154 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26878B7E768
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D19DB7E776
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 702A810E40E;
-	Wed, 17 Sep 2025 03:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4F1910E04B;
+	Wed, 17 Sep 2025 04:14:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Z71521IY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hA83hBFQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011069.outbound.protection.outlook.com [52.101.62.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB99310E40E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 03:54:02 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2F1910E027;
+ Wed, 17 Sep 2025 04:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758082493; x=1789618493;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=5iAKdPiS6BXh8lztA5F17nKLACjYPXUQaAb72YcPxiw=;
+ b=hA83hBFQoifWpzq56e+4p0HTIRLYAty+ytQxYwa3JAD2Vy5z5Sk8+wP1
+ amXu7zmDDJqZ+Nklp6UyuEMhECFFAAlJEX+9pQnLbRrL0I/MVQ4Zg+4cB
+ lrrTX7nJ/e3rzi7hUvl/KMEf4IFK4714DTDLOs9KVL5KWIjdYFGK67h2c
+ R0AotxX4Bro7FQur49hRF+kT/s4na0R5cQI+zNElQUcl0ASua9S3YLHbN
+ ocCvc3yzVtctB1ty5lqpw9AWUCkZY2TLr7gK/uVSIQVm3PBe0Vqfg+MK0
+ h1qfciQtnJuvzpb2IFJ6Kw1QgbOFOjWZf/rUCBZ0fgZnCa2GPgrWAmvfr A==;
+X-CSE-ConnectionGUID: 1FHyGY0cQjGac3Drl+ySAQ==
+X-CSE-MsgGUID: 3gmgPavvSl+5GNi3MZOWxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="77816517"
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="77816517"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 21:14:52 -0700
+X-CSE-ConnectionGUID: 3clfgIweQf6oM/whrN3B3A==
+X-CSE-MsgGUID: Y40thbSnRAuU9oBoX+0EKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="175046786"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 21:14:52 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 16 Sep 2025 21:14:51 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 16 Sep 2025 21:14:51 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.34) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 16 Sep 2025 21:14:51 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vWPjIFVtfNVfReXhHu5yYo7lW5Yv0HiiQBAHtYunpseUN8VXpWAC7o0MytJzbc/1B33trsYK4IFBVZBnA0VRradXU3QnfPFbY9PIJaXMlsyjAS/dD3b5aV7tPFySLOAmC4r4Hr+BGj+VjGav+qCbDuPluD6M9thlOKfj7oirHVlVOQfw6iVrTvh3gubSm1kDCe/LX5IncQEjYqjPpVTCJI73bgGXo4M7Rh7k8DBE4UrdeACnIeKr+E45kosuDrNJDvavRrvrihZSjP1jpxsydmwoHTP1zV9d4XzhOD8f+UR5uzAPnq4YlFwepYpjEKv2Vr7siR5g2WNA1yhAk5sSHg==
+ b=pTHkI6f0PYXMZAOfAQtV+uUuG06JTNZbGGQUJ0EkvRkqcVvMrmdT50Ix6dXub80dawuJqxuGLdtB0lMxoEZYHxnMncOmBk/OvzgUNWOGRoB+cufxZT0UgH8ba6aW1RPtbqOlNLWi6KDNqHdRxFqQFtVkX4COHe0Eg7nuuNCnPGboh7i3Tm4ZYkmgSZcuS3TRRQxNv3ct4LdtUsMbl374ftQbwbf6nQgJ271uVUN78Go9+8hhz1YBwLQO5V/q6SpyF5bptdN7Ab0JaCDX2JM9h9sR5zDC9dITxo6RUFeSUmSSadR5jpd1Me8H9hy1AnRUhbcishXJ6GosZt2qps181A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Whx/O0xhkmg1H8Ed4utNPDv2ldNCw/d3yyIzbHWPpYI=;
- b=ZkkmVp6zj1b/C8dv4DhSXnzEETD+kP9OAf6quGM0V2uYVrdTC7nW5CCPCpoIvy7gRYFWGuCtdqz3HXK8sFqxJZW6o81YUjOXRdUewsPB74iNDep6q/l/H+2D8iFoc8CD2Cd6JiEi0CFXjU1EMJy+ELGYyO0bhNBk8TNamAXcc4X7VJpCilq8iTPzHkfOEk20WW8vAv0y4hgDyDqkoVRjpfb10J4bg+eURPgPtkoYh4MrDawOq4D1ntCBl1c9/G2/A8Xp5ibdmN8buGcwwwPLd0TT5ZySzPFCdKC/59Qqnbrb/rIJbp1ov6aPv9ejq0KhO3vfZZouwG85tMIGBndINA==
+ bh=VgS4hWmrdYYZgvhld0rKXEKe4gsJl0c9bktVJog1GiY=;
+ b=w/Z3Hggq4eiEBq0SdlM3xW5m5EOVtq6CN+bawM5ZZ3IbC9sODyplXn6Rll3Aw3+VfE79iuvRyvb9MfBNJ41FPvqeEqIKQMn/YsZvYjbmg+tJJU0mzEl3/jRU+ganPKWPNo3N31/ZZpHw3m4wU/jaigmKTzr+1MKBBmV++kLxRY488plssfZjhqiV9QkZnGmsj/XGhGufKj/eADboVsvzUbLRId/iRunwIqBKvlZV4YSzH0xrY1km7VbShJa1lwiGOz2d7hqRbTO1fNjRNXsbjbOIrHlLkYCOkSvYrlTRpWWsqCS5gik3EYueMEK209Jze2u7SJb7EPIPuEcQWqUJZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Whx/O0xhkmg1H8Ed4utNPDv2ldNCw/d3yyIzbHWPpYI=;
- b=Z71521IYanSlEdhPiMlEgZ1C7O/AXudjo0z5TWCeQpcb0o+S8JUae11se55haQ0RioPSI3UdhxvN94YACRo+5+ChFbrsARrB+MCkgU9xAQJaz9N30Qdz5K+8D1G2TDXFndnZ5RFzbQ36Wy72ydU6RTyDqrw/CkOtw7qN2gRJtdG/PbDby8KGPpm2v2A4EQc8mhsKe6X5NVGOPkjCAgWtx0C3HuPo7M40VAp3Wua4xO94JlX3+c+Lv6m8UnGUd+bIZqE4ct7xHgO6GtzZhpLs2dR9KKra3MKtudfdj2oyFJB314F21/9iv1EKsTw+FWD0BuLPXrBkRSevh9PSqN4Ucg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- PH7PR12MB6393.namprd12.prod.outlook.com (2603:10b6:510:1ff::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Wed, 17 Sep
- 2025 03:53:58 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9115.018; Wed, 17 Sep 2025
- 03:53:58 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Brahmajit Das <listout@listout.xyz>
-Cc: thierry.reding@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- jonathanh@nvidia.com
-Subject: Re: [PATCH] drm/tegra: hdmi: sor: Fix error: variable
- =?UTF-8?B?4oCYauKAmQ==?= set but not used
-Date: Wed, 17 Sep 2025 12:53:55 +0900
-Message-ID: <6392398.DvuYhMxLoT@senjougahara>
-In-Reply-To: <20250901212020.3757519-1-listout@listout.xyz>
-References: <20250901212020.3757519-1-listout@listout.xyz>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH0PR11MB5427.namprd11.prod.outlook.com (2603:10b6:610:d2::14)
+ by SJ2PR11MB7619.namprd11.prod.outlook.com (2603:10b6:a03:4d1::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Wed, 17 Sep
+ 2025 04:14:49 +0000
+Received: from CH0PR11MB5427.namprd11.prod.outlook.com
+ ([fe80::a4c2:eb7b:574b:ab2b]) by CH0PR11MB5427.namprd11.prod.outlook.com
+ ([fe80::a4c2:eb7b:574b:ab2b%5]) with mapi id 15.20.9115.020; Wed, 17 Sep 2025
+ 04:14:49 +0000
+From: "Sebinraj, S" <s.sebinraj@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+CC: "Badrappan, Jeevaka" <jeevaka.badrappan@intel.com>
+Subject: RE: [PATCH v3 3/3] drm/xe: Refactoring the code as per review comment
+Thread-Topic: [PATCH v3 3/3] drm/xe: Refactoring the code as per review comment
+Thread-Index: AQHcJtyCH7LsOmg7KUiOJy/H6XAkgrSVgfqAgAFCdHA=
+Date: Wed, 17 Sep 2025 04:14:48 +0000
+Message-ID: <CH0PR11MB542770B0F746BE12B3E8461E9817A@CH0PR11MB5427.namprd11.prod.outlook.com>
+References: <20250916072704.2351591-1-s.sebinraj@intel.com>
+ <20250916072704.2351591-4-s.sebinraj@intel.com>
+ <4f495d7ee43a7ddc7ada573f8ab6f69c6e0011f4@intel.com>
+In-Reply-To: <4f495d7ee43a7ddc7ada573f8ab6f69c6e0011f4@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5427:EE_|SJ2PR11MB7619:EE_
+x-ms-office365-filtering-correlation-id: ddc0e87e-8caa-403b-c994-08ddf5a0be2d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?3cLKWeU7Kg5Tx5yVJkC7FE7HXY2xefcQ5EZnQ88OXPdIDBRHvg1lsVN5DbPq?=
+ =?us-ascii?Q?hG7ZAV6vy4Ja+Ml8ZaHZ2ra2UTkgHwdsJK5vAKl5H4zjzQlgaN1n2sAgjoHh?=
+ =?us-ascii?Q?vIbG6t3GpOXoT6H54ldfSwng/+jjwzI89xFiYzTgR6Qau4cOKoDL+TaIUKIk?=
+ =?us-ascii?Q?MC0suu5X9/eV69nt/Fr+QSjSY9vHsrrsR0gvRXzmeUCP146P/go55UHg8zap?=
+ =?us-ascii?Q?C83i0zbOKiVmUlM7kTCARIS6ys9O4nTq1+v3T7YPHwRYd5W2Dg6PfAXlJbbN?=
+ =?us-ascii?Q?7b92vOaokYMB+b/JJprBlB3N5FhysmgNRmQL5uIpCaUFTibhdrtJdVIH+s+j?=
+ =?us-ascii?Q?mWXn2MdK9ml3Mzi5uJgn5yTOgASEluLXdOUjpjo7H0WPR6sQIK2t498sQXKh?=
+ =?us-ascii?Q?SvIHSG0zRqEWsWXco9YfRNsfFo2dTVuHWekVqVjMJo2X/FzUBjaLUY4Rc+cy?=
+ =?us-ascii?Q?YeeyZ9LoiLdFIcq4fRKNLtcOpVkUGwyCM7kgV3HPz6lNvH50fkvvD2875bJ2?=
+ =?us-ascii?Q?1rrapfKsN4izWCWNzI/UmW63QO/b0oO5YWkGZGr/tqNKV0pjUO7t8mu/+xCZ?=
+ =?us-ascii?Q?2n/behq7Aqh0UkrGMoIahyBDesJms3MOJlnuKCcHGkjW+L6OKp9WffepZiMc?=
+ =?us-ascii?Q?jyUVfGx5eylIn8bitmLagIwWLC6SDD6bYEAaZgMDMX4ihEGli3mLfb764zua?=
+ =?us-ascii?Q?hQj1w/EAGHaVIgdhuX1ared9gOHMKSMjbli7XjsKLXHDwMYnGNWllxM7PSk9?=
+ =?us-ascii?Q?4kGCmbJmh9/YgoShutuLAunIEHCbzaXpTPHgjaExHyuGkNXeDDS7t6BJtJw+?=
+ =?us-ascii?Q?k/NlxyaXJtk5iLiocF/chtU6LcfExjtVseTV7mMpj/Nt1+jWIo2oKYMnDJwH?=
+ =?us-ascii?Q?SoMY2TfbWKaWFoXdFlKflMaSyp9gYo+0x01deI065FOI1XCjOFzvQz4Djcnv?=
+ =?us-ascii?Q?SptLPNp6h3m0jWJXfNmFgnEGCh+NV0wBQ6ttswHjtdMLi2OFyU7tMSRvKu4U?=
+ =?us-ascii?Q?qCg/+6Jsmj0J+U3WkBtcwUI8NI3x8Qf9tSmDIdkom0IIb+m1Utw+JGkpl8u9?=
+ =?us-ascii?Q?3ScXA2pZrcEAoOkx90XI9jGxIS+LONzdzJcS5+R54oc/MoVPoysaktl/+LDh?=
+ =?us-ascii?Q?WOzAO1sSvK14HZ/7lcsvb9BR2QE+JLnXepvspZBFShgMr8O4VKVXGYSxR+t7?=
+ =?us-ascii?Q?rBev0rOpejtYokE52vxJct3w81AquzvZTLUcuSRKGP/V0P90S5G/cWHhv9WC?=
+ =?us-ascii?Q?rm7ovTu8E/Y/ROaSLmuRJ7JxoDuOG1lijZsUjRfyh0HLr7dm9NxQ3jqyNiDM?=
+ =?us-ascii?Q?UCcHdpQdzlBzbwMpGrn5w4sMQgvbc38JwhmvCQV1NFP4mZuoW3Tg6j9Lnqfz?=
+ =?us-ascii?Q?Y8zKvenqjZSiZs4iBgTMrNrTOh/K970M+vHaLLI/MDHcnRzXVdiblI2Pkb6Z?=
+ =?us-ascii?Q?Xm3GWx9tZa2FFSSV4LwwheK+4/DnGFnnnPpvRfnzigJ8vZJ2Pc1Mkg=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5427.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700021); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?RWsVucP59YYh1cIvHYIbpOvGkGnxlm3kKBJ/Ufc52Bxm1w9Gz17fJYc+V+On?=
+ =?us-ascii?Q?xtmMl7A2fqLxg0bmWaCc0VFWjfQk1mGvGILQQ/SBLYXyyPgdpIAQTTHe+t9R?=
+ =?us-ascii?Q?PERw6zEiLI4Ni0Z7lpWKLZriOCJSqtemoqFzBKrVBr/Aoad9JrX7t9/C3fs5?=
+ =?us-ascii?Q?dDd6XR00LrnGTCJHxWA+rmK5vGbAQjE2xluFshbkH1D0OxmT7wpRFjwzpDbp?=
+ =?us-ascii?Q?O07ehKYWDJ5txlG9HV2+5Hh8UER/mIVVNwweCsuRO0v525WJEIiLcJUayBFB?=
+ =?us-ascii?Q?bvjQy0jShD2xhkufy6xfIaI72O3EsBUz2Deys9GNJiGoLqPxLDPDdt1qW5DQ?=
+ =?us-ascii?Q?43kCxIE9mMabZyK7iaghopXbEieixDg3vaGkboO6nkcGQNNZhoxy8xWJ/l7+?=
+ =?us-ascii?Q?OA6V29SKmr/8xYEBvKTgz53+w8bRmYW7Fyt0Sfc6yyc2MsGNPUpn3jI4BoLC?=
+ =?us-ascii?Q?kHlkvWMIE7YjK0q3BgViT3n/nhxr8WgKbpaYemvwm5PaN2P8me1ejk61fSxB?=
+ =?us-ascii?Q?bx2kR0MGJF8/IBxYQYbgT7Vle41CfJZsCmcZBnmbcIqmRNSPRYms1mEVexxk?=
+ =?us-ascii?Q?J0o/sX3sh/fOeX3S4TWK2nOzYY7YwkRTjg7cpii9Q0dJ0nY/J0kkiLnqYCuK?=
+ =?us-ascii?Q?wtYcqu4B3eaBJD1C5rdodH4dYLoveLqVuUsa+jiF6IGRBKIPODRQpIIm1A7U?=
+ =?us-ascii?Q?GtKi7DbMdvQfBlHExTqn/bvjMp0ZakwWZ4V8ylVACD2iIxYDiltXVSkB6jgJ?=
+ =?us-ascii?Q?AqyA/AY6qd5ciGX712U/8O7Famw6bJ6bn2QlJGWrzq21vWAdQpfPXZjhucDR?=
+ =?us-ascii?Q?inDS07gRzzzlaDSjOcH6oLICf/YwoRwhFQtV9Y70lOLJxtL+yEksG4iKFP4M?=
+ =?us-ascii?Q?2+4geBkpoGAOxpCa1bpYch6qoz46YRazNJoWiLNcv8D6gDU6hypJoWFZakY8?=
+ =?us-ascii?Q?WjDLTQxwETFSccaJQnuBD3tcV9fx8qecnLD/DyTDB2WgVC2YCaCU16il0wkG?=
+ =?us-ascii?Q?NdNhx/3I2j6jnGapwfna2h5FXRALnXCSNUpcjP7Fm3MTsWPhpjf3YaQzwUSB?=
+ =?us-ascii?Q?lrxnJss7i8eGGFZ7szjcemZHd59z4b6rZt2hD75r8MrIC9mz0dOYnNT4+DJp?=
+ =?us-ascii?Q?MLzjbfAdNXIfBV84Rey9rclroog0iFstsIn3ZxSXWSErG4Cf9xjcpyePl6Ah?=
+ =?us-ascii?Q?yKQiraaPHiAsRwGASmhtVlYfBIgAvy6ZpJ8xpPI2YNspvlLl5DjNfQO3Q1F2?=
+ =?us-ascii?Q?uC3ZYysdfeENV9xyOIawursn/f3yw+OS2SFvp25xiRzvTGQumXomrXKq6e9o?=
+ =?us-ascii?Q?jlpxVpB/NuisVkBE0ZRdfE7Pau93ZXNNjTXzn8UpSyIakfRMLlUabJ4I/TLQ?=
+ =?us-ascii?Q?TZ8e/dYvVNndKzux4pWFXDjNzAGYk7xpGuLzYv1mN8s0kgN+DIv7US61z8g+?=
+ =?us-ascii?Q?rG65yoQiSAEuAbv1k4yt9mfOeqGQ6o1+gZhE3cKCcP9XWh7N6zJYUqSHtAzS?=
+ =?us-ascii?Q?/81oUhtZDqHF3l0M6D/Dx3yEPAzbywNzlABF0zEcHnaO+13Y3O+EHMtG6XiO?=
+ =?us-ascii?Q?PAmzLlsD+p5KgUrV+f8bnXdTVd/Ka0QOevY7cNjc?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP301CA0086.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7b::12) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH7PR12MB6393:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1f215c2-e206-4b29-4b38-08ddf59dd4b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NkYvSVJLb21DNFJ2SEUyR00zdlM4MW52cUJBaElzV1BqWDBMR2hlN2ZRNTZl?=
- =?utf-8?B?MkNxSDErL1dHWVZXKzkzMGJmVmw5bjR6S0pQUUlvM3llUkcvc0RaWjRTTlVM?=
- =?utf-8?B?cjhTVEhYNDN1Sjl3VVB3N1FVL3hibTR0anRQcWlVOE92ek5iSHhndTB0QlMv?=
- =?utf-8?B?empsYVBaMC92K2cxNEV0YlQza1Fpa2oyYXpBZ0U3WGpqajBGVzlFajBVNmM1?=
- =?utf-8?B?djdNYS92bWlWSjZqbTRiblpSV2hFSU9taXcvRlN6alFHU0RWOGpiQ1VUN2hr?=
- =?utf-8?B?ZXEvUDFaTUo0RmZPcG9ibTVlRGlOZFRXVDFaR2Fkd1N4OVNFaHJWRFB1NXVQ?=
- =?utf-8?B?U0VIYTJuR0YrYTRpbW1RcnQxWG9TektIekUralZCdjVwVkdPWUlrNm5ZK0FV?=
- =?utf-8?B?cXNFeUI5VzEvRHo3OWpTVTNuNTl2UjJtNDlGNngvbU4wOGlpdHo0ckJMek5l?=
- =?utf-8?B?c05vOUVZVHRBbitVc3VreUVwWldCV2NHVEVkMlNpbXduTlREQjJ1c040cXpM?=
- =?utf-8?B?cEFJSy8xcThrSzdxMXRnK09COEx0eTNENlhidjdMM3ZaQnAzTnlTRXkxZjhY?=
- =?utf-8?B?V2hqOElkS0dVR25qaWxsSGdiaXQwRTZRdGVXcmt0WW9LVytJS1RLTW9HaTFZ?=
- =?utf-8?B?bDMwZlVFYUpnZWIrMXZjSUtYWWE4NGRSMzVjblgydG5LWm1oYVpScW9CSmMx?=
- =?utf-8?B?L1lIdmlaNEFYa1dSeUsxanNiVFRqNVdCeGtaU0RFOVJHcXNweU9ITFBCbDVN?=
- =?utf-8?B?Yjk3ZHU2ZVJFMkM4ZWYyWVN3bVA5TnFxYUhsRmRHUTFDaEo1d1pDNnJPS21o?=
- =?utf-8?B?QUF2NmtWYnVQWmVzUC9IYmdKSkxLamc4dHo2YVJoMHpHajE4RHJaZnl5VXQ3?=
- =?utf-8?B?STN5QVJQb0xQdjJHQVM1VDhvV2lJMFRnZGFXOHlTdjR1SytHY3I5UzJ0U1pS?=
- =?utf-8?B?ejQ5UWcrZ2ttRDcrMkJ6Z0s2dmhvTWRCVmpkQU5pVS8rR2VBZDQxZVhKaDdY?=
- =?utf-8?B?TktRcDU5WVdXQ1krRWtHY3ByRU1iUWNkTWJYUnZ5TE9vY29EN1lpd1UxY1BI?=
- =?utf-8?B?aCtzWi9jQ25VTEtxZXFocVpHR3pYUlV3NDZSYnhITWZKRklQeVI5R21VT0tV?=
- =?utf-8?B?TEIxOHhpK2JNN2hJWlA5SjBUS3ZpdWdQdHptZWw3RnVmSHBUZ3BoUkxYZ2xy?=
- =?utf-8?B?NWpaZzhybUJlQUhMcWhQVXNPdkdrd3J1SUVLakkvVG9kUzVUdnJ0VTQ0VXRS?=
- =?utf-8?B?MHE4WnZ6UTZNa2ZmV1JsWVBoRTBHMVBxTm1PcDdrZ3Vka2d3RHJPUncxNFVu?=
- =?utf-8?B?UStIVzB4SnRNanpldGl3YVhjaFgvOFJHQThET2ptZW9lN2MvYytqYUtuYy9E?=
- =?utf-8?B?b1ZkaFRTNDhjRDFaSXc4SHJacjV5STlFZGFTT0VoNzlsajViL3poK0J4dzFx?=
- =?utf-8?B?UUNqTU5VOEgxK0xMNlI1TjNxUFYrYlZ4ZEdXS3VpQkFsWFZYMFRqcWFkd21n?=
- =?utf-8?B?Skc1aldsZTcrNVNtVkNxQUZ4cHV3N0wrV3ZOYXEzQTRQbStCNVlOaDZ6cjRG?=
- =?utf-8?B?NVBNU0JnSmpnZ0xCQWNVSC96cXErM0szUVhGM0xycjEvMnRtYjJNcU9VTEVR?=
- =?utf-8?B?RXRIY3NoQU5LdHRkd0VZdnloQ3o1ak9jcXNCaWx6QkFOdzFCeHUrcUFaNUFM?=
- =?utf-8?B?Yjl3ZEVTVjNMZzRuTTZqMnBWVzlMeEVpM05sSEtJaUZWZlQrRHlzajZiVU1W?=
- =?utf-8?B?OUk0blByRS8xY2tyWUZKc2dWWVVpbkplZlU0SU9tUWJXWG1LVDUxVDhsdzgw?=
- =?utf-8?B?dE1sM0MvUjg3aGRiMEcwNHZ6TkYzUUZ3d2Fwd0svaDQ0NWJCR3NDbVdONGsz?=
- =?utf-8?B?QmJUQjdtcWR0cFBkQUFCZ3o5KytIeDBwMFNmSWJPeXFPd3RZRGw4a01zeEZr?=
- =?utf-8?Q?lKFOOEURKBo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVNVRHZNL0R0TWszSDhxQTNsVGRRaXUvWklXcFpUUGRoby9IVzN3Mjd2VStU?=
- =?utf-8?B?K3VDaFhvN3BOMEFjSGFPb2Q1bHk4T3RmaFlQQlc3WWV5cWhXZkpMUEhBYmFp?=
- =?utf-8?B?Vk9CaDUxZ2hEY2FpNUQvUFRCQXorVDVUUnV3NC9hVnVuVmJnanQxRGczZVVo?=
- =?utf-8?B?RFo0RU9CcXpybWpUdzBsMEtNbElOMDlLdXZ6TDFwdGtydTZicFhybnJhWm01?=
- =?utf-8?B?bE5HQXV6Nk5VT3RqdENhMnVSeVAyTG16SWVDUjZDU2MwUStGQ0VPbHpLNUp3?=
- =?utf-8?B?aW9YL2NjY1gvdkdteXRYZmRnN0pkdm9vZ0ZnRi9uSURGM0tMNjZRa2tjMFdI?=
- =?utf-8?B?ZjlTOE91cCtNT1ZPREh0VFJ5RmxJUFlNZzMvOHV5SEpXNjdPdHpQOXRrMDdH?=
- =?utf-8?B?ZGJBZmhqTXJmdzZyQTRTcTFJR0dLMk5jRXpVVDkvNmpEOEdmWmNiR1ZCQ0hE?=
- =?utf-8?B?ZkljTUwyUDZKNlo5S2lRanlhaEV2dUtCZTdGNlFyQ1U0b2w1eEFkYjBoQXN2?=
- =?utf-8?B?bjRJa25EOU16aFdCbkpRb282azZaZmJqN1BpOE9KNHgzYWRJZzFHTTFyM0Ji?=
- =?utf-8?B?TCtYb2xEMTIvMDJwdmJ1U0ZrQ2hvdjdlTEJjaVlmZ2hGbzdyMCszNitxQm50?=
- =?utf-8?B?aVNTcm5sRjFieXN5NDhSZ2VReFJ0WmZRRXByNkFPUjI5dHQrR01kcG5hbDZr?=
- =?utf-8?B?anF1OHRzanFxRG5jTXN1SnBJN2s0WU91bXpZaVJtVjhtWWttVkhCbEt0bzBj?=
- =?utf-8?B?THdUUlBkTzJ0Z3JhREFWQ25LeUx1K2dyMmxBTk9FYTF1QlozRzhSb1hxTnR3?=
- =?utf-8?B?WjV3a3V1aElvTkwxWXRmNGgxY016QzVlSVF0TkNDSjMvZUF3NmJRN3NKa1E3?=
- =?utf-8?B?ZFRmMWdWb3RSMkxWM2VXNjlSdUpFa3Z1aThUNDFpYXJGSkJzcWJPOTN1VHNW?=
- =?utf-8?B?MFhlVWVkeVRndnZxVFFXNTZkK2VJbU9XU2hWWjF3Vm1SQkhROG5XTkxsUW5x?=
- =?utf-8?B?dEpzSU5kWHY0ZE9JK2VzY0tueE9sZUp5M0xvcGNmVFVhNkxEQ01zZlVnOFlH?=
- =?utf-8?B?SmtjR0JEQi9XSEc4WGJFTFBYZXNuTEU5NUtYUWE0N1UwVStQc3JOd1hXUE93?=
- =?utf-8?B?MjlXbGRtQW1CSFdPS1MxWWRFK3FkVHZ4NXZNRVYvV2l2M3FhZzJLbVBPSlhy?=
- =?utf-8?B?NFRMUWlnTW50OVNZb2U5OVhFbnMvYWk0WmlHOGVIV3NQcGdJZWs4clVPZDZq?=
- =?utf-8?B?eklobHUzRDFlVlpzWlFWUFMySnJ5dFNseWpFMW9xdUNiYXJDbWNPaUY0M3VN?=
- =?utf-8?B?di9pcFNHaDBZZW5HdHJMdnVmUXRUZVozS08yT205cytWWnJHUWo1SmJ4RXA3?=
- =?utf-8?B?OUxUT25zUDlLYXMxMVBhczBubGJwV1c1SzNQVjA4bGZ0aGR4d1FrSm9vR2ps?=
- =?utf-8?B?QVJjY2l1eGkvMFNZYVA2OWJ6YjY5SFZVNmFRWjZtUW15emYrRStHKzZEODhw?=
- =?utf-8?B?cE41aVVySFMvZUdjRFo5R0lJQVY5RmNzTklVNmJqRHNwd1h1TnE0MkhwNTA1?=
- =?utf-8?B?ejFibG5nUWRRRFVFdTFCQk9sV1FQcDZqci9ZNXF3OCtXK3FSeE9Odi9vaTdK?=
- =?utf-8?B?NUJPcVNVVGllNHVuS0IyTjZrY09aQ1FDaVV0WHBGQkd1M1U0ZkdFMlBUNGVw?=
- =?utf-8?B?S3h6YzdDcU15b3lDNmJtbmpKS1BnUEhLRGxBcUdpMllVVEJwTmFLTU9kWGZC?=
- =?utf-8?B?V0tzTG0rcVlKTzJUZjNjTDMzOXJOb3h1eTUwOWk0SXo0WnFvaUtlYnh3Y1lH?=
- =?utf-8?B?b3FVejBWczlmd1NubVhRNGJtOE9QbmRwL2ovdU5sMGNVK0g1MklNUkdWenpM?=
- =?utf-8?B?RUhmQzNnZElMSzhsQXNwZSt1ZWEyRjcrTnlIamRWSktrdGV2NmFCcHBUTHht?=
- =?utf-8?B?ZXRaSDZtUzJJaURxWm11ZFBFM0pneWoxZHNPenpOUHc0SDVmelZ5ZkpBcW4r?=
- =?utf-8?B?a2ZrQUNSeHZzNGE4bC9SV2cwK1M5UEt5Z04xUnpVWlN4aWhCUy9meWh3bzQ3?=
- =?utf-8?B?SDk2QlpNeGRuTWJhWHY1aDh4TFdKaHZsSmN5Ti9mUlFBZ2dSdnoreXJvTnlw?=
- =?utf-8?B?ZktiZkRYQnhUVlZlVWllT212NFRiODJzcUN4ZEczM2trSndIeUU3ZUEwM3Fw?=
- =?utf-8?B?UG03VmlpUTdqMmdkbU1GemltUlNiUmlyNGM3NFgwaWNNU2UxRHVpYlljdDdR?=
- =?utf-8?B?OWFjeS9BSVZIOGNJNFkvRktzTVNBPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1f215c2-e206-4b29-4b38-08ddf59dd4b1
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 03:53:58.5381 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zYuJKy9JxZ/Zyx4mBPsdNdT64uqH9OQ+dWcxPgL7q9DbkRsjAmpBRQRFlU9f711h+1BVv6xwlaPogExShv6bYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6393
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5427.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddc0e87e-8caa-403b-c994-08ddf5a0be2d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2025 04:14:49.0460 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 74dp9voDbMHtVUxTkpHcOZfNrLHM3WsSY2bJG1gGftHcPMEO/PBTHjddzK3HqoJLQuOh+etVvITWQnanXZhTNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7619
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,76 +183,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, September 2, 2025 6:20=E2=80=AFAM Brahmajit Das wrote:
-> The variable j is set, however never used in or outside the loop, thus
-> resulting in dead code.
-> Building with GCC 16 results in a build error due to
-> -Werror=3Dunused-but-set-variable=3D enabled by default.
-> This patch clean up the dead code and fixes the build error.
->=20
-> Example build log:
-> drivers/gpu/drm/tegra/sor.c:1867:19: error: variable =E2=80=98j=E2=80=99 =
-set but not used [-Werror=3Dunused-but-set-variable=3D]
->  1867 |         size_t i, j;
->       |                   ^
->=20
-> Signed-off-by: Brahmajit Das <listout@listout.xyz>
+
+On Tue, 16 Sep 2025, S Sebinraj <s.sebinraj@intel.com> wrote:
+> Moved the trace file header to appropriate path "include/drm" and=20
+> updated the code as per the same.
+
+> You're not supposed to address code review in independent patches but rat=
+her modify the original patches. This is kernel development basics.
+
+> BR,
+> Jani.
+
+Okay got it, so now do I need to go back and make the changes in original p=
+atch and then raise again or this would be fine for now ?
+Please let me know.
+
+>
+> Signed-off-by: S Sebinraj <s.sebinraj@intel.com>
 > ---
->  drivers/gpu/drm/tegra/hdmi.c | 4 ++--
->  drivers/gpu/drm/tegra/sor.c  | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-> index 8cd2969e7d4b..c4820f5e7658 100644
-> --- a/drivers/gpu/drm/tegra/hdmi.c
-> +++ b/drivers/gpu/drm/tegra/hdmi.c
-> @@ -658,7 +658,7 @@ static void tegra_hdmi_write_infopack(struct tegra_hd=
-mi *hdmi, const void *data,
->  {
->  	const u8 *ptr =3D data;
->  	unsigned long offset;
-> -	size_t i, j;
-> +	size_t i;
->  	u32 value;
+>  drivers/gpu/drm/drm_gpu_frequency_trace.c              | 2 +-
+>  drivers/gpu/drm/xe/xe_gpu_freq_trace.h                 | 2 +-
+>  {drivers/gpu =3D> include}/drm/drm_gpu_frequency_trace.h | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)  rename {drivers/gpu=20
+> =3D> include}/drm/drm_gpu_frequency_trace.h (96%)
+>
+> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.c=20
+> b/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> index b5fa5134226d..e33df068752d 100644
+> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> +++ b/drivers/gpu/drm/drm_gpu_frequency_trace.c
+> @@ -9,7 +9,7 @@
+>  #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE
 > =20
->  	switch (ptr[0]) {
-> @@ -691,7 +691,7 @@ static void tegra_hdmi_write_infopack(struct tegra_hd=
-mi *hdmi, const void *data,
->  	 * - subpack_low: bytes 0 - 3
->  	 * - subpack_high: bytes 4 - 6 (with byte 7 padded to 0x00)
->  	 */
-> -	for (i =3D 3, j =3D 0; i < size; i +=3D 7, j +=3D 8) {
-> +	for (i =3D 3; i < size; i +=3D 7) {
->  		size_t rem =3D size - i, num =3D min_t(size_t, rem, 4);
+>  #define CREATE_TRACE_POINTS
+> -#include "drm_gpu_frequency_trace.h"
+> +#include <drm/drm_gpu_frequency_trace.h>
 > =20
->  		value =3D tegra_hdmi_subpack(&ptr[i], num);
-> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> index 21f3dfdcc5c9..bc7dd562cf6b 100644
-> --- a/drivers/gpu/drm/tegra/sor.c
-> +++ b/drivers/gpu/drm/tegra/sor.c
-> @@ -1864,7 +1864,7 @@ static void tegra_sor_hdmi_write_infopack(struct te=
-gra_sor *sor,
->  {
->  	const u8 *ptr =3D data;
->  	unsigned long offset;
-> -	size_t i, j;
-> +	size_t i;
->  	u32 value;
+>  EXPORT_TRACEPOINT_SYMBOL_GPL(gpu_frequency);
 > =20
->  	switch (ptr[0]) {
-> @@ -1897,7 +1897,7 @@ static void tegra_sor_hdmi_write_infopack(struct te=
-gra_sor *sor,
->  	 * - subpack_low: bytes 0 - 3
->  	 * - subpack_high: bytes 4 - 6 (with byte 7 padded to 0x00)
->  	 */
-> -	for (i =3D 3, j =3D 0; i < size; i +=3D 7, j +=3D 8) {
-> +	for (i =3D 3; i < size; i +=3D 7) {
->  		size_t rem =3D size - i, num =3D min_t(size_t, rem, 4);
+> diff --git a/drivers/gpu/drm/xe/xe_gpu_freq_trace.h=20
+> b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> index f188d529ae60..c15d41761296 100644
+> --- a/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> +++ b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
+> @@ -6,7 +6,7 @@
+>  #ifndef _XE_GPU_FREQ_TRACE_H_
+>  #define _XE_GPU_FREQ_TRACE_H_
 > =20
->  		value =3D tegra_sor_hdmi_subpack(&ptr[i], num);
->=20
+> -#include "../drm_gpu_frequency_trace.h"
+> +#include <drm/drm_gpu_frequency_trace.h>
+> =20
+>  /* Convert MHz to KHz for tracepoint */
+>  #define MHZ_TO_KHZ(freq_mhz)	((freq_mhz) * 1000)
+> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.h=20
+> b/include/drm/drm_gpu_frequency_trace.h
+> similarity index 96%
+> rename from drivers/gpu/drm/drm_gpu_frequency_trace.h
+> rename to include/drm/drm_gpu_frequency_trace.h
+> index cf6337847b3a..47f32fd295a4 100644
+> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.h
+> +++ b/include/drm/drm_gpu_frequency_trace.h
+> @@ -42,6 +42,6 @@ static inline void trace_gpu_frequency(unsigned int=20
+> state, unsigned int gpu_id)
+> =20
+>  #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE  #undef TRACE_INCLUDE_PATH=20
+> -#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm
+> +#define TRACE_INCLUDE_PATH ../../include/drm
+>  #include <trace/define_trace.h>
+>  #endif
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
-
-
-
+--
+Jani Nikula, Intel
