@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C7EB7D54A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A745B7D54F
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCD310E81B;
-	Wed, 17 Sep 2025 12:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A74F510E81D;
+	Wed, 17 Sep 2025 12:23:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="IrTuyVLm";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="CC7KFq3D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5438B10E797
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 12:23:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758111814; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF7A10E797
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 12:23:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758111820; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=hmpvR2JNZQWAbTBlh+NN9xwoHPNEJHSStv7+gYV6qrQk0Bld7axuf61rz0U/guiulEGmqKm1lRZixtJdXDaU1L223v+5MGLYu69UrdAQlcfwAclR9Whc9VWJx5AXCxcORGY7zEKqecYDaczdKKKH1dpIDIiG+/e+CzYnc8FDyjg=
+ b=X4lGsA/AFF/RCp6a191pKiHy+/n4KdyVPDcXWvwZCXeCYlmjWUkJdzO+V43HP7jKOLZ1836uXsIErHsmHKKnOzyaMVMEjky0N7kFs6Bc5yuoqTZq69Tk1CYYEyP9fCMKFFTXxdOl9f5oXybG2XoIsxZS6hx8XWxpXo8fkP16jLw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758111814;
+ s=zohoarc; t=1758111820;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=4YBKkHRVSVgRau9QvSGnHsRm1aCVM04GNdejJR8geD8=; 
- b=oD1ZgCsPG3w9MAmNCxT18E/d+GF0jsTh0fQJ7oUdYZ5iJ7zwDPUFzR+oyw1DKwRt6L1tTFTan1rt9GwrwWLdaeuOdJvzMzYUP+9KqSW+CQSqZr/A73cLAE2R3eOoHl1fMJWZSZcGmaPtHfxejZs12JudHS18YD+rXQAe42o8zFg=
+ bh=UxZvjhEJCAiuvf/8CnR5ujZ+N4d9oN5GgfPWk3NAFVg=; 
+ b=YnbaT2gE3MaOYNFRcur0fwNzAbCw/wlqytH8xme1agDMgkxthdm6Xmq6qmP7JjPGY3JZ5OyQV2lbzQ7wl3IQxdVaX1ZsxM1o0iGh70Z7BxtX3X9iqPfqf9AwttzcKloNXb9lfmMXLnytJxBt/mJXTospIBeW+uQ6eW6kvqzoci8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758111814; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758111820; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=4YBKkHRVSVgRau9QvSGnHsRm1aCVM04GNdejJR8geD8=;
- b=IrTuyVLmyBuC9S3Otu8CC8G18s32Z3m4g2fDrzvtAy/1nOfOqga//4jgw2akaICW
- 7TpmGA4polMqiUsKgsNT9sfxffbvjLyu58a7Y7+cTsakV6TOXpOvTG4dWsl8FFb8d9h
- hAtBgjC95hpNBDuUzNtrcMreRrYmbh91ULIBbf4A=
-Received: by mx.zohomail.com with SMTPS id 1758111811120735.7630414346421;
- Wed, 17 Sep 2025 05:23:31 -0700 (PDT)
+ bh=UxZvjhEJCAiuvf/8CnR5ujZ+N4d9oN5GgfPWk3NAFVg=;
+ b=CC7KFq3DOnF7RUNIffWGykhuaXILFeC+Aja7ptU7aynskaQdEfwk5FnzP2DeAsKe
+ w6WO8+g9ZZWrzihBVo9ZjZ0e/Jk1VxnO7ML8hO9TtuzSmwnt2a9PCDn5o5ihigIherU
+ t847uE0HGRH/C9iudeWXqmy8SxZl3hv8PcyJpOWc=
+Received: by mx.zohomail.com with SMTPS id 1758111818475523.4296053697955;
+ Wed, 17 Sep 2025 05:23:38 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 17 Sep 2025 14:22:36 +0200
-Subject: [PATCH v3 05/10] mailbox: add MediaTek GPUEB IPI mailbox
+Date: Wed, 17 Sep 2025 14:22:37 +0200
+Subject: [PATCH v3 06/10] drm/panthor: call into devfreq for current frequency
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250917-mt8196-gpufreq-v3-5-c4ede4b4399e@collabora.com>
+Message-Id: <20250917-mt8196-gpufreq-v3-6-c4ede4b4399e@collabora.com>
 References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
 In-Reply-To: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -81,398 +81,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MT8196 SoC uses an embedded MCU to control frequencies and power of
-the GPU. This controller is referred to as "GPUEB".
+As it stands, panthor keeps a cached current frequency value for when it
+wants to retrieve it. This doesn't work well for when things might
+switch frequency without panthor's knowledge.
 
-It communicates to the application processor, among other ways, through
-a mailbox.
+Instead, implement the get_cur_freq operation, and expose it through a
+helper function to the rest of panthor.
 
-The mailbox exposes one interrupt, which appears to only be fired when a
-response is received, rather than a transaction is completed. For us,
-this means we unfortunately need to poll for txdone.
-
-The mailbox also requires the EB clock to be on when touching any of the
-mailbox registers.
-
-Add a simple driver for it based on the common mailbox framework.
-
+Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/mailbox/Kconfig             |  10 ++
- drivers/mailbox/Makefile            |   2 +
- drivers/mailbox/mtk-gpueb-mailbox.c | 330 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 342 insertions(+)
+ drivers/gpu/drm/panthor/panthor_devfreq.c | 33 +++++++++++++++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_devfreq.h |  2 ++
+ drivers/gpu/drm/panthor/panthor_device.h  |  3 ---
+ drivers/gpu/drm/panthor/panthor_drv.c     |  4 +++-
+ 4 files changed, 34 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
-index 02432d4a5ccd46a16156a09c7f277fb03e4013f5..2016defda1fabb5c0fcc8078f84a52d4e4e00167 100644
---- a/drivers/mailbox/Kconfig
-+++ b/drivers/mailbox/Kconfig
-@@ -294,6 +294,16 @@ config MTK_CMDQ_MBOX
- 	  critical time limitation, such as updating display configuration
- 	  during the vblank.
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.c b/drivers/gpu/drm/panthor/panthor_devfreq.c
+index 3686515d368db5bb329f4858d4a7247a4957cc24..8903f60c0a3f06313ac2008791c210ff32b6bd52 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.c
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.c
+@@ -62,7 +62,6 @@ static void panthor_devfreq_update_utilization(struct panthor_devfreq *pdevfreq)
+ static int panthor_devfreq_target(struct device *dev, unsigned long *freq,
+ 				  u32 flags)
+ {
+-	struct panthor_device *ptdev = dev_get_drvdata(dev);
+ 	struct dev_pm_opp *opp;
+ 	int err;
  
-+config MTK_GPUEB_MBOX
-+	tristate "MediaTek GPUEB Mailbox Support"
-+	depends on ARCH_MEDIATEK || COMPILE_TEST
-+	help
-+	  The MediaTek GPUEB mailbox is used to communicate with the embedded
-+	  controller in charge of GPU frequency and power management on some
-+	  MediaTek SoCs, such as the MT8196.
-+	  Say Y or m here if you want to support the MT8196 SoC in your kernel
-+	  build.
-+
- config ZYNQMP_IPI_MBOX
- 	tristate "Xilinx ZynqMP IPI Mailbox"
- 	depends on ARCH_ZYNQMP && OF
-diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
-index 98a68f838486eed117d24296138bf59fda3f92e4..564d06e71313e6d1972e4a6036e1e78c8c7ec450 100644
---- a/drivers/mailbox/Makefile
-+++ b/drivers/mailbox/Makefile
-@@ -63,6 +63,8 @@ obj-$(CONFIG_MTK_ADSP_MBOX)	+= mtk-adsp-mailbox.o
+@@ -72,8 +71,6 @@ static int panthor_devfreq_target(struct device *dev, unsigned long *freq,
+ 	dev_pm_opp_put(opp);
  
- obj-$(CONFIG_MTK_CMDQ_MBOX)	+= mtk-cmdq-mailbox.o
+ 	err = dev_pm_opp_set_rate(dev, *freq);
+-	if (!err)
+-		ptdev->current_frequency = *freq;
  
-+obj-$(CONFIG_MTK_GPUEB_MBOX)	+= mtk-gpueb-mailbox.o
-+
- obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
+ 	return err;
+ }
+@@ -115,11 +112,21 @@ static int panthor_devfreq_get_dev_status(struct device *dev,
+ 	return 0;
+ }
  
- obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
-diff --git a/drivers/mailbox/mtk-gpueb-mailbox.c b/drivers/mailbox/mtk-gpueb-mailbox.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..b4a8dab5381f67da3783136cd15828f2df281dcf
---- /dev/null
-+++ b/drivers/mailbox/mtk-gpueb-mailbox.c
-@@ -0,0 +1,330 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * MediaTek GPUEB mailbox driver for SoCs such as the MT8196
-+ *
-+ * Copyright (C) 2025, Collabora Ltd.
-+ *
-+ * Developers harmed in the making of this driver:
-+ *  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-+ */
-+
-+#include <linux/atomic.h>
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/iopoll.h>
-+#include <linux/mailbox_controller.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+#define MBOX_CTL_TX_STS		0x0000
-+#define MBOX_CTL_IRQ_SET	0x0004
-+#define MBOX_CTL_IRQ_CLR	0x0074
-+#define MBOX_CTL_RX_STS		0x0078
-+
-+#define MBOX_FULL		BIT(0) /* i.e. we've received data */
-+#define MBOX_CLOGGED		BIT(1) /* i.e. the channel is shutdown */
-+
-+#define MBOX_MAX_RX_SIZE	32 /* in bytes */
-+
-+struct mtk_gpueb_mbox {
-+	struct device *dev;
-+	struct clk *clk;
-+	void __iomem *mbox_mmio;
-+	void __iomem *mbox_ctl;
-+	struct mbox_controller mbox;
-+	struct mtk_gpueb_mbox_chan *ch;
-+	int irq;
-+	const struct mtk_gpueb_mbox_variant *v;
-+};
-+
-+/**
-+ * struct mtk_gpueb_mbox_chan - per-channel runtime data
-+ * @ebm: pointer to the parent &struct mtk_gpueb_mbox mailbox
-+ * @full_name: descriptive name of channel for IRQ subsystem
-+ * @num: channel number, starting at 0
-+ * @rx_status: signifies whether channel reception is turned off, or full
-+ * @c: pointer to the constant &struct mtk_gpueb_mbox_chan_desc channel data
-+ */
-+struct mtk_gpueb_mbox_chan {
-+	struct mtk_gpueb_mbox *ebm;
-+	char *full_name;
-+	u8 num;
-+	atomic_t rx_status;
-+	const struct mtk_gpueb_mbox_chan_desc *c;
-+};
-+
-+/**
-+ * struct mtk_gpueb_mbox_chan_desc - per-channel constant data
-+ * @name: name of this channel
-+ * @num: index of this channel, starting at 0
-+ * @tx_offset: byte offset measured from mmio base for outgoing data
-+ * @tx_len: size, in bytes, of the outgoing data on this channel
-+ * @rx_offset: bytes offset measured from mmio base for incoming data
-+ * @rx_len: size, in bytes, of the incoming data on this channel
-+ */
-+struct mtk_gpueb_mbox_chan_desc {
-+	const char *name;
-+	const u8 num;
-+	const u16 tx_offset;
-+	const u8 tx_len;
-+	const u16 rx_offset;
-+	const u8 rx_len;
-+};
-+
-+struct mtk_gpueb_mbox_variant {
-+	const u8 num_channels;
-+	const struct mtk_gpueb_mbox_chan_desc channels[] __counted_by(num_channels);
-+};
-+
-+/**
-+ * mtk_gpueb_mbox_read_rx - read RX buffer from MMIO into channel's RX buffer
-+ * @buf: buffer to read into
-+ * @chan: pointer to the channel to read
-+ */
-+static void mtk_gpueb_mbox_read_rx(void *buf, struct mtk_gpueb_mbox_chan *chan)
++static int panthor_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
 +{
-+	memcpy_fromio(buf, chan->ebm->mbox_mmio + chan->c->rx_offset, chan->c->rx_len);
-+}
++	struct panthor_device *ptdev = dev_get_drvdata(dev);
 +
-+static irqreturn_t mtk_gpueb_mbox_isr(int irq, void *data)
-+{
-+	struct mtk_gpueb_mbox_chan *ch = data;
-+	u32 rx_sts;
-+
-+	rx_sts = readl(ch->ebm->mbox_ctl + MBOX_CTL_RX_STS);
-+
-+	if (rx_sts & BIT(ch->num)) {
-+		if (!atomic_cmpxchg(&ch->rx_status, 0, MBOX_FULL | MBOX_CLOGGED))
-+			return IRQ_WAKE_THREAD;
-+	}
-+
-+	return IRQ_NONE;
-+}
-+
-+static irqreturn_t mtk_gpueb_mbox_thread(int irq, void *data)
-+{
-+	struct mtk_gpueb_mbox_chan *ch = data;
-+	u8 buf[MBOX_MAX_RX_SIZE] = {};
-+	int status;
-+
-+	status = atomic_cmpxchg(&ch->rx_status,
-+				MBOX_FULL | MBOX_CLOGGED, MBOX_FULL);
-+	if (status == (MBOX_FULL | MBOX_CLOGGED)) {
-+		mtk_gpueb_mbox_read_rx(buf, ch);
-+		writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
-+		mbox_chan_received_data(&ch->ebm->mbox.chans[ch->num], buf);
-+		atomic_set(&ch->rx_status, 0);
-+		return IRQ_HANDLED;
-+	}
-+
-+	return IRQ_NONE;
-+}
-+
-+static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *data)
-+{
-+	struct mtk_gpueb_mbox_chan *ch = chan->con_priv;
-+	int i;
-+	u32 *values = data;
-+
-+	if (atomic_read(&ch->rx_status))
-+		return -EBUSY;
-+
-+	/*
-+	 * We don't want any fancy nonsense, just write the 32-bit values in
-+	 * order. memcpy_toio/__iowrite32_copy don't work here, because fancy.
-+	 */
-+	for (i = 0; i < ch->c->tx_len; i += 4)
-+		writel(values[i / 4], ch->ebm->mbox_mmio + ch->c->tx_offset + i);
-+
-+	writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_SET);
++	*freq = clk_get_rate(ptdev->clks.core);
 +
 +	return 0;
 +}
 +
-+static int mtk_gpueb_mbox_startup(struct mbox_chan *chan)
+ static struct devfreq_dev_profile panthor_devfreq_profile = {
+ 	.timer = DEVFREQ_TIMER_DELAYED,
+ 	.polling_ms = 50, /* ~3 frames */
+ 	.target = panthor_devfreq_target,
+ 	.get_dev_status = panthor_devfreq_get_dev_status,
++	.get_cur_freq = panthor_devfreq_get_cur_freq,
+ };
+ 
+ int panthor_devfreq_init(struct panthor_device *ptdev)
+@@ -198,7 +205,6 @@ int panthor_devfreq_init(struct panthor_device *ptdev)
+ 		return PTR_ERR(opp);
+ 
+ 	panthor_devfreq_profile.initial_freq = cur_freq;
+-	ptdev->current_frequency = cur_freq;
+ 
+ 	/*
+ 	 * Set the recommend OPP this will enable and configure the regulator
+@@ -296,3 +302,22 @@ void panthor_devfreq_record_idle(struct panthor_device *ptdev)
+ 
+ 	spin_unlock_irqrestore(&pdevfreq->lock, irqflags);
+ }
++
++unsigned long panthor_devfreq_get_freq(struct panthor_device *ptdev)
 +{
-+	struct mtk_gpueb_mbox_chan *ch = chan->con_priv;
++	struct panthor_devfreq *pdevfreq = ptdev->devfreq;
++	unsigned long freq = 0;
 +	int ret;
 +
-+	atomic_set(&ch->rx_status, 0);
++	if (!pdevfreq || !pdevfreq->devfreq)
++		return 0;
 +
-+	ret = clk_enable(ch->ebm->clk);
-+	if (ret) {
-+		dev_err(ch->ebm->dev, "Failed to enable EB clock: %pe\n",
-+			ERR_PTR(ret));
-+		goto err_clog;
++	if (pdevfreq->devfreq->profile->get_cur_freq) {
++		ret = pdevfreq->devfreq->profile->get_cur_freq(ptdev->base.dev,
++							       &freq);
++		if (ret)
++			return 0;
 +	}
 +
-+	writel(BIT(ch->num), ch->ebm->mbox_ctl + MBOX_CTL_IRQ_CLR);
-+
-+	ret = devm_request_threaded_irq(ch->ebm->dev, ch->ebm->irq, mtk_gpueb_mbox_isr,
-+					mtk_gpueb_mbox_thread, IRQF_SHARED | IRQF_ONESHOT,
-+					ch->full_name, ch);
-+	if (ret) {
-+		dev_err(ch->ebm->dev, "Failed to request IRQ: %pe\n",
-+			ERR_PTR(ret));
-+		goto err_unclk;
-+	}
-+
-+	return 0;
-+
-+err_unclk:
-+	clk_disable(ch->ebm->clk);
-+err_clog:
-+	atomic_set(&ch->rx_status, MBOX_CLOGGED);
-+
-+	return ret;
++	return freq;
 +}
+diff --git a/drivers/gpu/drm/panthor/panthor_devfreq.h b/drivers/gpu/drm/panthor/panthor_devfreq.h
+index b7631de695f7d79456478c87e8af5dc47673cd1d..f8e29e02f66cb3281ed4bb4c75cda9bd4df82b92 100644
+--- a/drivers/gpu/drm/panthor/panthor_devfreq.h
++++ b/drivers/gpu/drm/panthor/panthor_devfreq.h
+@@ -18,4 +18,6 @@ void panthor_devfreq_suspend(struct panthor_device *ptdev);
+ void panthor_devfreq_record_busy(struct panthor_device *ptdev);
+ void panthor_devfreq_record_idle(struct panthor_device *ptdev);
+ 
++unsigned long panthor_devfreq_get_freq(struct panthor_device *ptdev);
 +
-+static void mtk_gpueb_mbox_shutdown(struct mbox_chan *chan)
-+{
-+	struct mtk_gpueb_mbox_chan *ch = chan->con_priv;
-+
-+	atomic_set(&ch->rx_status, MBOX_CLOGGED);
-+
-+	devm_free_irq(ch->ebm->dev, ch->ebm->irq, ch);
-+
-+	clk_disable(ch->ebm->clk);
-+}
-+
-+static bool mtk_gpueb_mbox_last_tx_done(struct mbox_chan *chan)
-+{
-+	struct mtk_gpueb_mbox_chan *ch = chan->con_priv;
-+
-+	return !(readl(ch->ebm->mbox_ctl + MBOX_CTL_TX_STS) & BIT(ch->num));
-+}
-+
-+const struct mbox_chan_ops mtk_gpueb_mbox_ops = {
-+	.send_data = mtk_gpueb_mbox_send_data,
-+	.startup = mtk_gpueb_mbox_startup,
-+	.shutdown = mtk_gpueb_mbox_shutdown,
-+	.last_tx_done = mtk_gpueb_mbox_last_tx_done,
-+};
-+
-+static struct mbox_chan *
-+mtk_gpueb_mbox_of_xlate(struct mbox_controller *mbox,
-+			const struct of_phandle_args *sp)
-+{
-+	struct mtk_gpueb_mbox *ebm = dev_get_drvdata(mbox->dev);
-+
-+	if (!sp->args_count)
-+		return ERR_PTR(-EINVAL);
-+
-+	if (sp->args[0] >= ebm->v->num_channels)
-+		return ERR_PTR(-ECHRNG);
-+
-+	return &mbox->chans[sp->args[0]];
-+}
-+
-+static int mtk_gpueb_mbox_probe(struct platform_device *pdev)
-+{
-+	struct mtk_gpueb_mbox *ebm;
-+	unsigned int i;
-+
-+	ebm = devm_kzalloc(&pdev->dev, sizeof(*ebm), GFP_KERNEL);
-+	if (!ebm)
-+		return -ENOMEM;
-+
-+	ebm->dev = &pdev->dev;
-+	ebm->v = of_device_get_match_data(ebm->dev);
-+
-+	ebm->irq = platform_get_irq(pdev, 0);
-+	if (ebm->irq < 0)
-+		return ebm->irq;
-+
-+	ebm->clk = devm_clk_get_prepared(ebm->dev, NULL);
-+	if (IS_ERR(ebm->clk))
-+		return dev_err_probe(ebm->dev, PTR_ERR(ebm->clk),
-+				     "Failed to get 'eb' clock\n");
-+
-+	ebm->mbox_mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(ebm->mbox_mmio))
-+		return dev_err_probe(ebm->dev, PTR_ERR(ebm->mbox_mmio),
-+				     "Couldn't map mailbox data registers\n");
-+
-+	ebm->mbox_ctl = devm_platform_ioremap_resource(pdev, 1);
-+	if (IS_ERR(ebm->mbox_ctl))
-+		return dev_err_probe(
-+			ebm->dev, PTR_ERR(ebm->mbox_ctl),
-+			"Couldn't map mailbox control registers\n");
-+
-+	ebm->ch = devm_kmalloc_array(ebm->dev, ebm->v->num_channels,
-+				     sizeof(*ebm->ch), GFP_KERNEL);
-+	if (!ebm->ch)
-+		return -ENOMEM;
-+
-+	ebm->mbox.chans = devm_kcalloc(ebm->dev, ebm->v->num_channels,
-+				       sizeof(struct mbox_chan), GFP_KERNEL);
-+	if (!ebm->mbox.chans)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < ebm->v->num_channels; i++) {
-+		ebm->ch[i].c = &ebm->v->channels[i];
-+		if (ebm->ch[i].c->rx_len > MBOX_MAX_RX_SIZE) {
-+			dev_err(ebm->dev, "Channel %s RX size (%d) too large\n",
-+				ebm->ch[i].c->name, ebm->ch[i].c->rx_len);
-+			return -EINVAL;
-+		}
-+		ebm->ch[i].full_name = devm_kasprintf(ebm->dev, GFP_KERNEL, "%s:%s",
-+						      dev_name(ebm->dev), ebm->ch[i].c->name);
-+		if (!ebm->ch[i].full_name)
-+			return -ENOMEM;
-+
-+		ebm->ch[i].ebm = ebm;
-+		ebm->ch[i].num = i;
-+		spin_lock_init(&ebm->mbox.chans[i].lock);
-+		ebm->mbox.chans[i].con_priv = &ebm->ch[i];
-+		atomic_set(&ebm->ch[i].rx_status, MBOX_CLOGGED);
-+	}
-+
-+	ebm->mbox.dev = ebm->dev;
-+	ebm->mbox.num_chans = ebm->v->num_channels;
-+	ebm->mbox.txdone_poll = true;
-+	ebm->mbox.txpoll_period = 0; /* minimum hrtimer interval */
-+	ebm->mbox.of_xlate = mtk_gpueb_mbox_of_xlate;
-+	ebm->mbox.ops = &mtk_gpueb_mbox_ops;
-+
-+	dev_set_drvdata(ebm->dev, ebm);
-+
-+	return devm_mbox_controller_register(ebm->dev, &ebm->mbox);
-+}
-+
-+static const struct mtk_gpueb_mbox_variant mtk_gpueb_mbox_mt8196 = {
-+	.num_channels = 12,
-+	.channels = {
-+		{ "fast-dvfs-event", 0, 0x0000, 16, 0x00e0, 16 },
-+		{ "gpufreq",         1, 0x0010, 32, 0x00f0, 32 },
-+		{ "sleep",           2, 0x0030, 12, 0x0110,  4 },
-+		{ "timer",           3, 0x003c, 24, 0x0114,  4 },
-+		{ "fhctl",           4, 0x0054, 36, 0x0118,  4 },
-+		{ "ccf",             5, 0x0078, 16, 0x011c, 16 },
-+		{ "gpumpu",          6, 0x0088, 24, 0x012c,  4 },
-+		{ "fast-dvfs",       7, 0x00a0, 24, 0x0130, 24 },
-+		{ "ipir-c-met",      8, 0x00b8,  4, 0x0148, 16 },
-+		{ "ipis-c-met",      9, 0x00bc, 16, 0x0158,  4 },
-+		{ "brisket",        10, 0x00cc, 16, 0x015c, 16 },
-+		{ "ppb",            11, 0x00dc,  4, 0x016c,  4 },
-+	},
-+};
-+
-+static const struct of_device_id mtk_gpueb_mbox_of_ids[] = {
-+	{ .compatible = "mediatek,mt8196-gpueb-mbox", .data = &mtk_gpueb_mbox_mt8196 },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, mtk_gpueb_mbox_of_ids);
-+
-+static struct platform_driver mtk_gpueb_mbox_drv = {
-+	.probe = mtk_gpueb_mbox_probe,
-+	.driver = {
-+		.name = "mtk-gpueb-mbox",
-+		.of_match_table = mtk_gpueb_mbox_of_ids,
-+	}
-+};
-+module_platform_driver(mtk_gpueb_mbox_drv);
-+
-+MODULE_AUTHOR("Nicolas Frattaroli <nicolas.frattaroli@collabora.com>");
-+MODULE_DESCRIPTION("MediaTek GPUEB mailbox driver");
-+MODULE_LICENSE("GPL");
+ #endif /* __PANTHOR_DEVFREQ_H__ */
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index 9f0649ecfc4fc697a21a8b2fc4dd89c8ecf298df..f32c1868bf6d782d99df9dbd0babcea049c917e0 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -214,9 +214,6 @@ struct panthor_device {
+ 	/** @profile_mask: User-set profiling flags for job accounting. */
+ 	u32 profile_mask;
+ 
+-	/** @current_frequency: Device clock frequency at present. Set by DVFS*/
+-	unsigned long current_frequency;
+-
+ 	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+ 	unsigned long fast_rate;
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index ea4a37b566a8b215f2b7a09c333a696f1dcdb58f..4d59d94c353c3ca76f4b98a411c8f8284efafd08 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -25,6 +25,7 @@
+ #include <drm/gpu_scheduler.h>
+ #include <drm/panthor_drm.h>
+ 
++#include "panthor_devfreq.h"
+ #include "panthor_device.h"
+ #include "panthor_fw.h"
+ #include "panthor_gem.h"
+@@ -1519,7 +1520,8 @@ static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
+ 		drm_printf(p, "drm-cycles-panthor:\t%llu\n", pfile->stats.cycles);
+ 
+ 	drm_printf(p, "drm-maxfreq-panthor:\t%lu Hz\n", ptdev->fast_rate);
+-	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequency);
++	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n",
++		   panthor_devfreq_get_freq(ptdev));
+ }
+ 
+ static void panthor_show_internal_memory_stats(struct drm_printer *p, struct drm_file *file)
 
 -- 
 2.51.0
