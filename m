@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B228B7CEB2
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FB8B7EF8E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 15:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9123C10E420;
-	Wed, 17 Sep 2025 07:25:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8652A10E419;
+	Wed, 17 Sep 2025 07:10:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TW14klv3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gnLWhdO2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B2B310E077
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 06:25:04 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-25669596955so64863095ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 23:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758090304; x=1758695104; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=o4wyrSqJyB4cA3v/v5NTU3+JE/mrTp9rWbEkkkvfz28=;
- b=TW14klv3/3Wr/h21FPbSvu/p2nkKAQZgxVI22V6c39A09nVkSDI0jtg9Y4sLyg2zy7
- NO0+8Qi19LPT9vA/um5wZmFPbvM+7tgJI6nycVjk6eK7wBUvb9Kz3amzMOvh+OowXe4F
- 1paXwdoaN3IpSQHidyWq4hn5sqwf1AxXimcZjUlFMq1yaea53OP7f1Ymo/pHw47w64L2
- vMwdHPD9ocQaL67cMbJpqv75MNpGTNmAE3OCODLcHjES9QF3W033Ljc+u5dGTTxerdaX
- JJc5wHtGzmAy24qwDu1GAp0XAcgpFH9/WZGvFRt90R40Csd5jPfm78HMmrVUfbyqNAjT
- OvPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758090304; x=1758695104;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=o4wyrSqJyB4cA3v/v5NTU3+JE/mrTp9rWbEkkkvfz28=;
- b=AWP+zhJ3RqtoCrj21sJDSjR53lWSOhyzAmFds+eSE+vxvIzbdppy70FKlzVW1AtDa1
- ike1ZRtsL59X/bW1GA/XABziKshwtLtFp0Ltg3KKqpCWGqm/h1I/2BK0XXSOcQWjMnew
- 0la65ZvSbuSHw4Zgr7YbKi5+b+N4vb1x1YRmH+tPuLLw49RNDcy5/LPT07syPeT+2evE
- e1gm1/tjkRhX+asSw7gd0UuHwE85uoHbDTAe/BZw3nyhVCzfx65lZGz/vJzhar3w8q0V
- FuGSBmkgwn7d8fQOWWr3SvuZIAhsfuHipvQST+Vpx4Fwj719AfQy4CP7b12wa5an1KDN
- jK/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsoR1t32RxwXBXv0bvPVrskDll+fP4st5MXhEblYHWTn6LmuzrpTMrKLoHiMUeP3FOZoijDrKxKoQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3F5lnhpaTCDaNnS+Cgtndxs6oDb/+W5Sq8elFuKk/F1InAsoA
- /sMg3aHjs8pNnuq+GrPcfcY3V+N7kYAI9ivelT2Xe9UYxNB4dQQjago8
-X-Gm-Gg: ASbGncuA4jOuieAgXm+Nf5gakt1m+pu6/XcRwMxk8cT8dzaPXRdN/zb7P/ag9U8EcyO
- B/pafJlevges8pi5PX19qsfLuHR0sVtnqMXmYc2VME2w9IhtbL50fdmTOPmDntZRgrZiUSQRM66
- 1S9Njo5+QNh+foZlCGbbiQ2t4CJq3y9+E+1ot18T6oumawu702uMdP2FtRBi3gIrSwbQa5BaQNk
- ub+C5GBP5gbKbPIsXJro9MxU5QwO5ndeUv++obM9b3z/vrh8upaRxPHKUHPBYx+sHEoI7N2wn4D
- BqjtOvSin0lLOCg+Keki1TBLlP4Xu5bQTodYufMlRRZIWcdIWuBYcUV1aXTmkb/oSugYEio76+7
- Jfwlb5Buo6xLFBbW9/g==
-X-Google-Smtp-Source: AGHT+IG4yhx/jw9zlmBHFiucCMISe3PpQu1zuHcOTs77I7QUK32j+zfTSaEaEBRwZZIrm3ySJSWT5A==
-X-Received: by 2002:a17:903:987:b0:267:6754:8fd9 with SMTP id
- d9443c01a7336-268137ffe09mr11586945ad.39.1758090303761; 
- Tue, 16 Sep 2025 23:25:03 -0700 (PDT)
-Received: from fedora ([119.161.98.68]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-264eeab7c22sm91296235ad.17.2025.09.16.23.24.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Sep 2025 23:25:03 -0700 (PDT)
-From: Nirbhay Sharma <nirbhay.lkd@gmail.com>
-To: dakr@kernel.org
-Cc: Nirbhay Sharma <nirbhay.lkd@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: drm/gpuvm: Describe map member in drm_gpuvm_map_req
-Date: Wed, 17 Sep 2025 11:54:20 +0530
-Message-ID: <20250917062420.69986-2-nirbhay.lkd@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 998AF10E419;
+ Wed, 17 Sep 2025 07:10:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758093023; x=1789629023;
+ h=message-id:subject:from:to:date:in-reply-to:references:
+ content-transfer-encoding:mime-version;
+ bh=NR3vB7P34lfRH5s6vxgMe+VjfIXtRMdJTzD25Y+R00Q=;
+ b=gnLWhdO2ZaR5+bgA+m4bxs+ZmgyNAJHoBOGtWzlXrfnAcPrIaYU+A5p1
+ NHTIcQYYIrZkRO2+UBHUWwb4/jOQ3YoqpLjtj0t3rq19K/arPKIIWr6Hs
+ Q5lq3Trf+ReZJOvckEmXYc4LbTbdgVYf6Mg2eu4//hdm/OupC1bqpKN6A
+ 7tkj+4VogkCcjKd44CnZjUDYc7695+PFirsI+ma5K5y1ZcE/2OZMDiumv
+ 4fioG7d66oYmcd5qfzB9dMt0kfPRsxvmmE+OHhcffizR22k1Ibjd53Fto
+ qaAJYZbXQICzuzeh/9lkZT5hbFRXoLVpVPt/YHU7VN1PuB8GKfz+qjK0H A==;
+X-CSE-ConnectionGUID: 2ZTySakRRP+UYa/dnwc+5w==
+X-CSE-MsgGUID: YjXrQ6EBTu2FWqR4RSuUZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="77828955"
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="77828955"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 00:10:23 -0700
+X-CSE-ConnectionGUID: BPXqxGDURtqnoul5P+Bfdw==
+X-CSE-MsgGUID: 3nRu7LnDSHSEqF51gvRXsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="179449916"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.26])
+ ([10.245.244.26])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 00:10:21 -0700
+Message-ID: <c8f13753981072aeef025b0a23967b07cfc0dc79.camel@linux.intel.com>
+Subject: Re: [PATCH v4 3/5] drm/xe/pf: Add a helper function to get a VF's
+ backing object in LMEM
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Wed, 17 Sep 2025 09:10:18 +0200
+In-Reply-To: <a28534edd2c0d496317869a6f85d199d6fbfef54.camel@linux.intel.com>
+References: <20250915072428.1712837-1-vivek.kasireddy@intel.com>
+ <20250915072428.1712837-4-vivek.kasireddy@intel.com>
+ <a28534edd2c0d496317869a6f85d199d6fbfef54.camel@linux.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 17 Sep 2025 07:25:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +73,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel doc build (makedocs) threw a warning because the @op_map comment
-did not match the 'map' member name in the struct.
+On Tue, 2025-09-16 at 22:06 +0200, Thomas Hellstr=C3=B6m wrote:
+> On Mon, 2025-09-15 at 00:21 -0700, Vivek Kasireddy wrote:
+> > To properly import a dmabuf that is associated with a VF (or that
+> > originates in a Guest VM that includes a VF), we need to know where
+> > in LMEM the VF's allocated regions exist. Therefore, introduce a
+> > new helper to return the object that backs the VF's regions in
+> > LMEM.
+> >=20
+> > v2:
+> > - Make the helper return the LMEM object instead of the start
+> > address
+> >=20
+> > v3:
+> > - Move the declaration of the helper under other lmem helpers
+> > (Michal)
+>=20
+> In XeKMD we're typically using VRAM instead of LMEM, IMO we should
+> try
+> to be consistent with this.
 
-Fix this by correcting the member name in the comment from @op_map to @map.
-While at it, improve the description from simply repeating the data
-type to explaining the member's purpose.
+I actually notice that most of the SRIOV code uses LMEM instead of
+VRAM, so I discussed with the other maintainers what would be the best
+way moving forward here.
 
-Signed-off-by: Nirbhay Sharma <nirbhay.lkd@gmail.com>
----
- include/drm/drm_gpuvm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So if you could try as a general rule to avoid using "lmem" in other
+files than the SRIOV files. Also if SRIOV functions or variable names
+or fields mandate it, "lmem" is OK.
 
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 8890ded1d907..1c851c3f778e 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -1078,7 +1078,7 @@ struct drm_gpuva_ops {
-  */
- struct drm_gpuvm_map_req {
- 	/**
--	 * @op_map: struct drm_gpuva_op_map
-+	 * @map: The GPUVA map operation and its arguments
- 	 */
- 	struct drm_gpuva_op_map map;
- };
--- 
-2.51.0
+But in other files, functions and variable names, pleas use VRAM.
+
+Thanks,
+Thomas
+
 
