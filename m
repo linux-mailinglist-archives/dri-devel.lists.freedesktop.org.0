@@ -2,57 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37858B81AF3
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 21:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC36FB81AFC
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 21:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE5510E14A;
-	Wed, 17 Sep 2025 19:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 707CE10E58C;
+	Wed, 17 Sep 2025 19:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Lwk5c9c5";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="AS1qCNTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4E810E14A;
- Wed, 17 Sep 2025 19:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Qw00HfDU6upFZ/LlA2ZAzjKkkst3dqNSfepXXLeMLE8=; b=Lwk5c9c5ePcvwX+3JssD1HJeFk
- vJzNulEP3aI4sAB0JFcVYdQ1DvZMEWjkCmpGvVBRYTud5YLgwzYCUlDGyrgQpHAhl49PZTt1E3Qx0
- fUI+0Kp1Wk9/zsgkdnhcJ82XEPsH/xwGN4YAoChR2l/VEmFschHAxAX5+TFrgQ1CdTuyjAln128ay
- I8Qyc8nQP8SRlob1HfcAuW2+9HQc5/FoxOWPL/l7dKYvgaDtD42iQCKSWHxYQapW19ZoOBmC+EH2u
- 3xC5BU3fjE8YkaxCjiCRtx5F9IM5dPaiJD1/azUCr0tId5zScaGnhFzrGFPDVoXph1EC7KUKMUq5R
- Vr876TNQ==;
-Received: from [189.6.16.239] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uyy9d-00Cqa1-IK; Wed, 17 Sep 2025 21:49:25 +0200
-Message-ID: <c6ae7793-358c-446d-b7a8-38440b3883fe@igalia.com>
-Date: Wed, 17 Sep 2025 16:49:18 -0300
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012061.outbound.protection.outlook.com
+ [40.93.195.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2CCA10E58C
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 19:51:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UAkDHZEujAsnNvrjsR6l+lM2peKcc6+mtg1nu94iti0pwDho0NqNx53NreQmNaP53Gvx1Vtc/iLDkLU7QTtYFA1QAVeG7cUVRNiviIB+E5J5l3kSfxPZZoX4Wj8eYZvE0M68QfReoktFrXuiLQYil3Gn6JpogtAvALdz8nonhtp9/dx2NZfsbb9xlp5Kc67L2Ga/E2CgC46sVg/787hyevQLqyWVLuC+aRoP2u5AqF48j7kgCi4NqTKU0WQYgnz15QxRQlT7LhmO2mzsKuYFQ8tU2dky8QqbH7IcLEFdfSJ3M8QlO7KErfkcUuWK2t3ZXhIGdn0h0C66gkbC7v54Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w31t9sLk9kcODGgjkW0/9aw5F3Eg6xHIB4WvHyLN788=;
+ b=jQDludbgZCy6MI6ezx7w6w1xF8/69dTRpxtEi5/XfVwF+HRC6x+Ws2bcvbyLDkYUcEUbE171XztIjw2fWAofKDdu4D+vKmLv8WqKpTxzmIHyIJU+8MQMUQTpfTVqvOCmC88Ei2+Znb+nF//hTRr0zP0uOljIZjKmht8NdPRwBkR4pAsNoBmpIiTt2Tyrt+LZ854PydcHVjGsDtGCkJKSTvHANtaJEiz9m0JUspZijQs06mqDoApu2q7nynx/H4+Ytf6TjNGJtbjhZWusZXDZJhQJm6DrdUs9P7a0rlN0gj4miEEESZK1ibjtFsQVwHLU+6o/5BPhycD9vpSDSsFO9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w31t9sLk9kcODGgjkW0/9aw5F3Eg6xHIB4WvHyLN788=;
+ b=AS1qCNTtke1ZS3QOYs6jdey64eGffpS0toTCETLTZ0x9l98tIlwxdnvLhW0rkNJXETBggU5vSHjqWZMNq7mi1uWO2N9r9v2bAH6xAObqW3SQy3M/z1mZQWP0rwflq5KrFFjrHGo8sqOP5rVGl7vYLn6DkCpw/Axrbj3p6MW9N2klxORvLhZrEp/Lls5mmVP3fh0ObCaBB8OxC0GGD/tTgdJ66KKKQv0EJkCDNQ84WvIC5Y3nlX5nKzksf5ETL5MhtQRcDf0NkTZxUb8gp06LYNPa8mrI5wcnD1ERVr0q2bPdogiUdGfgffF7TXQ7v3fecz4NWWWN7bfOcHuFeGYOYQ==
+Received: from CH5P221CA0007.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1f2::15)
+ by MW6PR12MB8759.namprd12.prod.outlook.com (2603:10b6:303:243::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Wed, 17 Sep
+ 2025 19:51:12 +0000
+Received: from CH1PEPF0000AD78.namprd04.prod.outlook.com
+ (2603:10b6:610:1f2:cafe::fd) by CH5P221CA0007.outlook.office365.com
+ (2603:10b6:610:1f2::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.14 via Frontend Transport; Wed,
+ 17 Sep 2025 19:51:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CH1PEPF0000AD78.mail.protection.outlook.com (10.167.244.56) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9137.12 via Frontend Transport; Wed, 17 Sep 2025 19:51:11 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 17 Sep
+ 2025 12:50:56 -0700
+Received: from [10.221.136.181] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 17 Sep
+ 2025 12:50:54 -0700
+Message-ID: <6e8e4821-f811-4bee-a5dc-2a6e8f4dd9a6@nvidia.com>
+Date: Wed, 17 Sep 2025 21:49:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] drm/amd/display: change dc stream color settings
- only in atomic commit
-To: Harry Wentland <harry.wentland@amd.com>, airlied@gmail.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, simona@ffwll.ch,
- siqueira@igalia.com, sunpeng.li@amd.com
-Cc: Xaver Hugl <xaver.hugl@gmail.com>, =?UTF-8?Q?Michel_D=C3=A4nzer?=
- <mdaenzer@redhat.com>, Christopher Snowhill <kode54@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20250911173101.1960156-1-mwen@igalia.com>
- <20250911173101.1960156-3-mwen@igalia.com>
- <3532996f-757a-4a75-b33d-e1d9aebe879d@amd.com>
+Subject: Re: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
+To: <dri-devel@lists.freedesktop.org>
+CC: <tzimmermann@suse.de>, <jfalempe@redhat.com>, <mripard@kernel.org>, "Carol
+ Soto" <csoto@nvidia.com>
+References: <20250917194346.2905522-1-nirmoyd@nvidia.com>
 Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <3532996f-757a-4a75-b33d-e1d9aebe879d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Nirmoy Das <nirmoyd@nvidia.com>
+In-Reply-To: <20250917194346.2905522-1-nirmoyd@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD78:EE_|MW6PR12MB8759:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7facaf00-aa39-4632-23f2-08ddf6238dce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZXhDRC9JUmh3c2pCQ0tSdklsb2JYRTNYK0tyZllIRDg3czJydmJIM3p6SWE5?=
+ =?utf-8?B?ekpwNFNQUEpnYkdrZURSTjN4UElKdVZCdk9nSnVRa2dXaTREdjBpQ2FYdkc1?=
+ =?utf-8?B?dTBzZWlTNE52MnRpY0RsVUtPbldnUjNiY1hocDRGbEtWRGRrQjZXZVQybXZk?=
+ =?utf-8?B?VzhxSWxGUVJUbGw2SUtraGVyRjJJVnN0NkZQQ2dLM0VYOWxnYzZhdmV3cEFC?=
+ =?utf-8?B?QkZLYnJDZUNFbU5qY3E1Y2hvSFZTb1lGalNUbzU5STFhSkhNd251alA4WEVW?=
+ =?utf-8?B?bGJiTFRoVEFpU3dQYWNkeCs5UjdxZnp6RGg5MjdyWlhkbXJyQWpYbytMVmF3?=
+ =?utf-8?B?NVBrRittTTlLTkF3dy90THhMTSsyM2NHWHRYSDNBamt4bTJMM0Q4MnNpREF4?=
+ =?utf-8?B?NE5VNkIrblZmTmh4bnBkaitQY3FJeWNXQzVFOE13NnJRd0k3R0VJbWpGSGRi?=
+ =?utf-8?B?b1ZqSEN0Y3BBcUJaMGtpN2x3dHRZNlhWSENPam02ODVBcEJVSzk2V3BIcVl3?=
+ =?utf-8?B?RkxKRGdWaXZiL3poeFozeC9JZ0xmQ0N2S0IzNXFOUVJ3dmdOblFUaytKamdE?=
+ =?utf-8?B?dVNBRnllVmFpdUh2Y05ld0NQQlBMcGprTDF2bDBGN2N4dTFXdEFYaTh5RWYw?=
+ =?utf-8?B?L1I1TzJPZ0M1ejJ6YUxhdUUxeWE5YzNwRzRtcjFGSmw3NkNCT1ptVHFwMDI1?=
+ =?utf-8?B?R24rRHJhcnpiRXVMS1dOUDFpMFlJR0g4MkFHWm56Uk1oaE91RnhlVnFvOHdL?=
+ =?utf-8?B?em1jRVdYV1NKSDUzTnlJUjNuNzFFdlBYUm5ibmlIQ2p6TmN6b3c5Z2dkT0lY?=
+ =?utf-8?B?ekdIaElTeTZNYko3N3hUdGZRZXN4cUNyWjE0ajFycjJabnhBOTBCYXFNL3Rl?=
+ =?utf-8?B?eUx5ZFhOOHhOOFZoZGhTZVIyOXRrajJSV1BHOTNMKzB3bU5GRUpJcm16UnE1?=
+ =?utf-8?B?Y3Q0TWNsSVo0K1RGSTREajAza2ZIdWIvY0F5cGNrZ0pxSFRXRVVncE9teWFj?=
+ =?utf-8?B?eXBBY3ErNUlYOU5wUWNyM2Q0elMxRmNxdXlQcWNPdEtadUNqUHk5a1FSSnZy?=
+ =?utf-8?B?Q1hueUpwVFhBR1dwUEVaQ3FzQkt4bXdtanBUSUppSzU3bWM0S2hPMVFPTFEz?=
+ =?utf-8?B?QWpuazlFQzZCWlN4NlkreHJ0L1FaRnIyek40N0dMY3lFNXJ5ZFhFNmVIaWZN?=
+ =?utf-8?B?bVQ1UTJCNUlwb3hnSm9TcnhzT3hFN3FScHRtYVdwYTByeUQwS21FMUo1Tmwz?=
+ =?utf-8?B?b3I5TzMwQjBiNHFOMVQ0MVVzRS85Y1NWNmNpZnp2d1E3QWorSG4zM2VpcnN3?=
+ =?utf-8?B?QjF0Wm51cVM0b0dHNVlESm5LSVFUd2RNaGJvcmM3Z0ZDODlENUwxTElxOVlC?=
+ =?utf-8?B?aHZzakdYdmQxQlZqUXZhUEtLSXV2Wkl6M2U3N2ljajRKTFFPcmZzNkVBbXNk?=
+ =?utf-8?B?WHpidnZHbmpHVnVHTGdSZVNXdkdOSnQvM3VoKzhXOC8wV1RtdDRBaGQ3aUpS?=
+ =?utf-8?B?YmEzNXZoVjBRbUtSRHZONTFIenArZUpSdXl3dk1Za0ZKdU12ZzA4eTZCWjZX?=
+ =?utf-8?B?aDF6eGY5RW14bHlZdC80M0tJMG9McXhjWDhrOVFYL0FvL0JLTUJ1aXZBVkF3?=
+ =?utf-8?B?MkJCTXN6ZXVhK0JORml5UzJlbHNYY25oQjJWTzhGQUxTL3oyNnBmRHNwcHAy?=
+ =?utf-8?B?NDJLYUlzanVaWkJiSTcrS1N2aW93aktuZmZkdmZlRUxmeStWQXdyaEFpd3li?=
+ =?utf-8?B?SFllVWJ5d2JYWkJ2aUZ0YnFIMWNLN0VPK0U3UzZEbThkbHB5WWxxVHA0OFVt?=
+ =?utf-8?B?U1lHQ3Jjc2RTZzQyR2hZOGxvcWZQckxuazNKdnpYZXhUSmx0aVJZTGd1MFkw?=
+ =?utf-8?B?OGpBK0orbHlVeEJlZDlYTWI3WVpwbnhTVGRGQXY4b09BRFNrV2Exa0RNUENy?=
+ =?utf-8?B?N3lYRXpoSEFhMlAzVHhRRU1BZmRyWXRrci9Pck8wU2JBY0hHSWlJTGxmSFU5?=
+ =?utf-8?B?SHc3cWh5TmE0RzIwMW5WMFd5NFJIR0NFaEVlbUtrUTA3c01XbFUyUjhRSWFF?=
+ =?utf-8?Q?RUZxUw?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 19:51:11.8416 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7facaf00-aa39-4632-23f2-08ddf6238dce
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000AD78.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8759
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,228 +152,90 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 12/09/2025 15:50, Harry Wentland wrote:
+On 17.09.25 21:43, Nirmoy Das wrote:
+> The busy-waiting in `mdelay()` can cause CPU stalls and kernel timeouts
+> during boot.
 >
-> On 2025-09-11 13:21, Melissa Wen wrote:
->> Don't update DC stream color components during atomic check. The driver
->> will continue validating the new CRTC color state but will not change DC
->> stream color components. The DC stream color state will only be
->> programmed at commit time in the `atomic_setup_commit` stage.
->>
->> It fixes gamma LUT loss reported by KDE users when changing brightness
->> quickly or changing Display settings (such as overscan) with nightlight
->> on and HDR. As KWin can do a test commit with color settings different
->> from those that should be applied in a non-test-only commit, if the
->> driver changes DC stream color state in atomic check, this state can be
->> eventually HW programmed in commit tail, instead of the respective state
->> set by the non-blocking commit.
-Hello,
-
-I'm not sure if this series was already applied somewhere. I don't see 
-it in asdn.
-
-Can someone double check?
-
-Thanks,
-
-Melissa
-
->>
->> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4444
->> Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
->> Reviewed-by: Harry Wentland <harry.wentland@amd.com> #v2
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +
->>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 ++++++++++++++-----
->>   3 files changed, 66 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index f6462ff7251f..50b3bd0e32dd 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -11118,7 +11118,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
->>   	if (dm_new_crtc_state->base.color_mgmt_changed ||
->>   	    dm_old_crtc_state->regamma_tf != dm_new_crtc_state->regamma_tf ||
->>   	    drm_atomic_crtc_needs_modeset(new_crtc_state)) {
->> -		ret = amdgpu_dm_update_crtc_color_mgmt(dm_new_crtc_state);
->> +		ret = amdgpu_dm_check_crtc_color_mgmt(dm_new_crtc_state, true);
->>   		if (ret)
->>   			goto fail;
->>   	}
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> index ce74125c713e..69125c3f08d5 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
->> @@ -1041,6 +1041,8 @@ void amdgpu_dm_init_color_mod(void);
->>   int amdgpu_dm_create_color_properties(struct amdgpu_device *adev);
->>   int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
->>   int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
->> +int amdgpu_dm_check_crtc_color_mgmt(struct dm_crtc_state *crtc,
->> +				    bool check_only);
->>   int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
->>   				      struct drm_plane_state *plane_state,
->>   				      struct dc_plane_state *dc_plane_state);
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> index c7387af725d6..427bf8877df7 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
->> @@ -566,12 +566,11 @@ static int __set_output_tf(struct dc_transfer_func *func,
->>   	return res ? 0 : -ENOMEM;
->>   }
->>   
->> -static int amdgpu_dm_set_atomic_regamma(struct dc_stream_state *stream,
->> +static int amdgpu_dm_set_atomic_regamma(struct dc_transfer_func *out_tf,
->>   					const struct drm_color_lut *regamma_lut,
->>   					uint32_t regamma_size, bool has_rom,
->>   					enum dc_transfer_func_predefined tf)
->>   {
->> -	struct dc_transfer_func *out_tf = &stream->out_transfer_func;
->>   	int ret = 0;
->>   
->>   	if (regamma_size || tf != TRANSFER_FUNCTION_LINEAR) {
->> @@ -885,33 +884,33 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
->>   }
->>   
->>   /**
->> - * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
->> + * amdgpu_dm_check_crtc_color_mgmt: Check if DRM color props are programmable by DC.
->>    * @crtc: amdgpu_dm crtc state
->> + * @check_only: only check color state without update dc stream
->>    *
->> - * With no plane level color management properties we're free to use any
->> - * of the HW blocks as long as the CRTC CTM always comes before the
->> - * CRTC RGM and after the CRTC DGM.
->> - *
->> - * - The CRTC RGM block will be placed in the RGM LUT block if it is non-linear.
->> - * - The CRTC DGM block will be placed in the DGM LUT block if it is non-linear.
->> - * - The CRTC CTM will be placed in the gamut remap block if it is non-linear.
->> + * This function just verifies CRTC LUT sizes, if there is enough space for
->> + * output transfer function and if its parameters can be calculated by AMD
->> + * color module. It also adjusts some settings for programming CRTC degamma at
->> + * plane stage, using plane DGM block.
->>    *
->>    * The RGM block is typically more fully featured and accurate across
->>    * all ASICs - DCE can't support a custom non-linear CRTC DGM.
->>    *
->>    * For supporting both plane level color management and CRTC level color
->> - * management at once we have to either restrict the usage of CRTC properties
->> - * or blend adjustments together.
->> + * management at once we have to either restrict the usage of some CRTC
->> + * properties or blend adjustments together.
->>    *
->>    * Returns:
->> - * 0 on success. Error code if setup fails.
->> + * 0 on success. Error code if validation fails.
->>    */
->> -int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->> +
->> +int amdgpu_dm_check_crtc_color_mgmt(struct dm_crtc_state *crtc,
->> +				    bool check_only)
->>   {
->>   	struct dc_stream_state *stream = crtc->stream;
->>   	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
->>   	bool has_rom = adev->asic_type <= CHIP_RAVEN;
->> -	struct drm_color_ctm *ctm = NULL;
->> +	struct dc_transfer_func *out_tf;
->>   	const struct drm_color_lut *degamma_lut, *regamma_lut;
->>   	uint32_t degamma_size, regamma_size;
->>   	bool has_regamma, has_degamma;
->> @@ -940,6 +939,14 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   	crtc->cm_has_degamma = false;
->>   	crtc->cm_is_degamma_srgb = false;
->>   
->> +	if (check_only) {
->> +		out_tf = kvzalloc(sizeof(*out_tf), GFP_KERNEL);
->> +		if (!out_tf)
->> +			return -ENOMEM;
->> +	} else {
->> +		out_tf = &stream->out_transfer_func;
->> +	}
->> +
->>   	/* Setup regamma and degamma. */
->>   	if (is_legacy) {
->>   		/*
->> @@ -954,8 +961,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   		 * inverse color ramp in legacy userspace.
->>   		 */
->>   		crtc->cm_is_degamma_srgb = true;
->> -		stream->out_transfer_func.type = TF_TYPE_DISTRIBUTED_POINTS;
->> -		stream->out_transfer_func.tf = TRANSFER_FUNCTION_SRGB;
->> +		out_tf->type = TF_TYPE_DISTRIBUTED_POINTS;
->> +		out_tf->tf = TRANSFER_FUNCTION_SRGB;
->>   		/*
->>   		 * Note: although we pass has_rom as parameter here, we never
->>   		 * actually use ROM because the color module only takes the ROM
->> @@ -963,16 +970,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   		 *
->>   		 * See more in mod_color_calculate_regamma_params()
->>   		 */
->> -		r = __set_legacy_tf(&stream->out_transfer_func, regamma_lut,
->> +		r = __set_legacy_tf(out_tf, regamma_lut,
->>   				    regamma_size, has_rom);
->> -		if (r)
->> -			return r;
->>   	} else {
->>   		regamma_size = has_regamma ? regamma_size : 0;
->> -		r = amdgpu_dm_set_atomic_regamma(stream, regamma_lut,
->> +		r = amdgpu_dm_set_atomic_regamma(out_tf, regamma_lut,
->>   						 regamma_size, has_rom, tf);
->> -		if (r)
->> -			return r;
->>   	}
->>   
->>   	/*
->> @@ -981,6 +984,43 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->>   	 * have to place the CTM in the OCSC in that case.
->>   	 */
->>   	crtc->cm_has_degamma = has_degamma;
->> +	if (check_only)
->> +		kvfree(out_tf);
->> +
->> +	return r;
->> +}
->> +
->> +/**
->> + * amdgpu_dm_update_crtc_color_mgmt: Maps DRM color management to DC stream.
->> + * @crtc: amdgpu_dm crtc state
->> + *
->> + * With no plane level color management properties we're free to use any
->> + * of the HW blocks as long as the CRTC CTM always comes before the
->> + * CRTC RGM and after the CRTC DGM.
->> + *
->> + * - The CRTC RGM block will be placed in the RGM LUT block if it is non-linear.
->> + * - The CRTC DGM block will be placed in the DGM LUT block if it is non-linear.
->> + * - The CRTC CTM will be placed in the gamut remap block if it is non-linear.
->> + *
->> + * The RGM block is typically more fully featured and accurate across
->> + * all ASICs - DCE can't support a custom non-linear CRTC DGM.
->> + *
->> + * For supporting both plane level color management and CRTC level color
->> + * management at once we have to either restrict the usage of CRTC properties
->> + * or blend adjustments together.
->> + *
->> + * Returns:
->> + * 0 on success. Error code if setup fails.
->> + */
->> +int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
->> +{
->> +	struct dc_stream_state *stream = crtc->stream;
->> +	struct drm_color_ctm *ctm = NULL;
->> +	int ret;
->> +
->> +	ret = amdgpu_dm_check_crtc_color_mgmt(crtc, false);
->> +	if (ret)
->> +		return ret;
-> Thanks. I like it.
+> Signed-off-by: Nirmoy Das <nirmoyd@nvidia.com>
 >
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
->>   
->>   	/* Setup CRTC CTM. */
->>   	if (crtc->base.ctm) {
+> Sending this as RFC as I am familiar with the code and not sure
+I meant: I am not familiar with the code.
 
+
+Adding more details:
+Seeing below trace at boot time:
+
+[   49.908436] Workqueue: events work_for_cpu_fn
+[   49.908440] pstate: 83400009 (Nzcv daif +PAN -UAO +TCO +DIT -SSBS 
+BTYPE=--)
+[   49.908443] pc : __delay+0x6c/0x118
+[   49.908449] lr : __delay+0x74/0x118
+[   49.908455] sp : ffff8000848af830
+[   49.908460] x29: ffff8000848af830 x28: ffffc42fa1fb2d70 x27: 
+ffff8001288c03d5
+[   49.908468] x26: 00000000000000ff x25: ffff000080a2e980 x24: 
+000000000000009d
+[   49.908472] x23: 0000000000418958 x22: ffffffd0004105a0 x21: 
+0000002fffc08100
+[   49.908475] x20: ffffc42fe7b1b348 x19: 00000000000f4247 x18: 
+ffff8000848c0088
+[   49.908478] x17: 0000000000000000 x16: ffffc42fe72655c8 x15: 
+0000000000000000
+[   49.908482] x14: 0000000000000000 x13: 20706f6f6c20726f x12: 
+6620676e69747261
+[   49.908485] x11: 747320646964655f x10: 0000000000000000 x9 : 
+ffffc42fe72654ec
+[   49.908489] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 
+0000000000000000
+[   49.908492] x5 : 00000000000000ff x4 : 0000000000000000 x3 : 
+0000000000000000
+[   49.908496] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 
+00000000000485c0
+[   49.908500] Call trace:
+[   49.908501]  __delay+0x6c/0x118
+[   49.908504]  __const_udelay+0x30/0x58
+[   49.908506]  ast_astdp_read_edid+0x690/0xc68 [ast]
+[   49.908510]  ast_astdp_connector_helper_get_modes+0x90/0x158 [ast]
+[   49.908515] drm_helper_probe_single_connector_modes+0x1ac/0x628
+[   49.908522]  drm_client_modeset_probe+0x22c/0x1558
+[   49.908528] __drm_fb_helper_initial_config_and_unlock+0x60/0x550
+[   49.908530]  drm_fb_helper_initial_config+0x4c/0x88
+[   49.908532]  drm_fbdev_generic_client_hotplug+0xa4/0x110
+[   49.908535]  drm_client_register+0x64/0xd0
+[   49.908540]  drm_fbdev_generic_setup+0x134/0x1e0
+[   49.908545]  ast_pci_probe+0x310/0x898 [ast]
+[   49.908548]  local_pci_probe+0x4c/0xe0
+[   49.908552]  work_for_cpu_fn+0x28/0x58
+[   49.908554]  process_one_work+0x17c/0x448
+[   49.908556]  worker_thread+0x360/0x480
+[   49.908557]  kthread+0x11c/0x128
+[   49.908562]  ret_from_fork+0x10/0x20
+
+This also cause timeouts in other drivers  because of this long udelay.
+
+
+Regards,
+
+Nirmoy
+
+> if this transition is safe.
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 19c04687b0fe1..8e650a02c5287 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(void *data, u8 *buf, unsigned int block, si
+>   			 * 3. The Delays are often longer a lot when system resume from S3/S4.
+>   			 */
+>   			if (j)
+> -				mdelay(j + 1);
+> +				msleep(j + 1);
+>
+>   			/* Wait for EDID offset to show up in mirror register */
+>   			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
+> --
+> 2.43.0
+>
