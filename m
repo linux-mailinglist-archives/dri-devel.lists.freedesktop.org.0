@@ -2,71 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9950B80B18
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B442FB80E12
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 18:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83ACF10E2B8;
-	Wed, 17 Sep 2025 15:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC8110E2EB;
+	Wed, 17 Sep 2025 16:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NejvthPT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W6vGAsfF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7CAC10E2B8
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:45:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758123894; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WUDPUqRYYRpGM37VGj/cDz9tsmHSCH7z2usKWo4WfYTFqwOWSYE7WlmN9fw201sgDuk1auBBLGi62GkV8TtF9s7/PnDX8S6ddHutLFO7p7H5y7cjaE1HhneNt7w16P+Sd4TcRx3JasYFYSVV6hwqJplrgWuOn80/JuWTSDwnqzI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758123894;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=9NS+2TMW4a/gl2sgYIe2u6WUeHZdcfg3javQWIkrkKM=; 
- b=Q6XxApfyDbvekZy13u7UvGapk6xX8cS6oImN9Th02x4R+gX1Q1wZHNYtfkECfuGe0NmayPJmOIc0rdqbj8Dh7BvWq4d6ogfOATfBaK78d8xQS+7fhNtWuh36VO1JhybMhio0M+BYxPH5T9RhmR8JEYQxv1hiowCmmlpYeq6dS+s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758123893; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=9NS+2TMW4a/gl2sgYIe2u6WUeHZdcfg3javQWIkrkKM=;
- b=NejvthPT83l3L66HVbJc2UCAMq88GBLUvu9INaOe4bXmqYIkpMKH9YFvQVqBiCWe
- JRSk21bXGQPYakduq5EBPTIVWkcYq1OEXEw4VS5S4stMkKfmsTehLdMEzDQvhkCUhWv
- yYkmDj2SkWchceg9TOiUEGXU4Y46MszU/vabMa/M=
-Received: by mx.zohomail.com with SMTPS id 1758123892638662.0849377963553;
- Wed, 17 Sep 2025 08:44:52 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B5210E2EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 16:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758125523; x=1789661523;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Wmkyn+arNGgwXvW0IV7XIzWeeVc4yrlUrFqNTyxXwb8=;
+ b=W6vGAsfFRsOfmCAf3XQtTdMqnddKRylQh8tXeQofc3Rp4WOmabjL5BHJ
+ 7K155nA/WM6yHquG7FUATxPqzI7ed4j7tslcL/DRwnTaJl5JEbo0OMDHG
+ p5HgPQmSxfyoYvJkeIFB+21E6QcPHHUVqulGPr0I9Kz/Nilyac/FjrtIE
+ umpIx4MyU0noiWhGDs3Ex3hoFN8AKCDpfqq9lGkqzDB9JOPRddt9Nq3rU
+ givHI6DkWwxXX0EjTYS82ruiXYhp0ugLWAeHYzVAxvCfEpqomDwOCkQ6N
+ 9cD3YJ9xhzreCF+m8h81bSea0unLt872ywbRqtTR6Vi9/bMvm7KY0dR3D w==;
+X-CSE-ConnectionGUID: r3u8yBVuQlayRuwb1k4VQw==
+X-CSE-MsgGUID: ztThJrj7Q0aY7miHdwhHcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="71863364"
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; d="scan'208";a="71863364"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 09:12:03 -0700
+X-CSE-ConnectionGUID: LFOe7+w6QOOjlQlq0URcxA==
+X-CSE-MsgGUID: I2ZUJ8OxRJyVKf7t+mHaeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; d="scan'208";a="174570854"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.83])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 09:12:00 -0700
+Date: Wed, 17 Sep 2025 19:11:57 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 00/10] MT8196 GPU Frequency/Power Control Support
-Date: Wed, 17 Sep 2025 17:44:43 +0200
-Message-ID: <2162077.CQOukoFCf9@workhorse>
-In-Reply-To: <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
- <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org
+Subject: Re: [PATCH v4 37/39] drm/ingenic: crtc: Switch to
+ ingenic_drm_get_new_priv_state()
+Message-ID: <aMrdzcrx42OR_0KV@intel.com>
+References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
+ <20250917-drm-no-more-existing-state-v4-37-5d4b9889c3c8@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250917-drm-no-more-existing-state-v4-37-5d4b9889c3c8@kernel.org>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,96 +78,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 17 September 2025 15:28:59 Central European Summer Time Ulf Hansson wrote:
-> On Wed, 17 Sept 2025 at 14:23, Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> >
-> > This series introduces two new drivers to accomplish controlling the
-> > frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
-> >
-> > The reason why it's not as straightforward as with other SoCs is that
-> > the MT8196 has quite complex glue logic in order to squeeze the maximum
-> > amount of performance possible out of the silicon. There's an additional
-> > MCU running a specialised firmware, which communicates with the
-> > application processor through a mailbox and some SRAM, and is in charge
-> > of controlling the regulators, the PLL clocks, and the power gating of
-> > the GPU, all while also being in charge of any DVFS control.
-> >
-> > This set of drivers is enough to communicate desired OPP index limits to
-> > the aforementioned MCU, referred to as "GPUEB" from here on out. The
-> > GPUEB is still free to lower the effective frequency if the GPU has no
-> > jobs going on at all, even when a higher OPP is set. There's also
-> > several more powerful OPPs it seemingly refuses to apply. The downstream
-> > chromeos kernel also doesn't reach the frequencies of those OPPs, so we
-> > assume this is expected.
-> >
-> > The frequency control driver lives in panthor's subdirectory, as it
-> > needs to pass panthor some data. I've kept the tie-in parts generic
-> > enough however to not make this a complete hack; mediatek_mfg (the
-> > frequency control driver) registers itself as a "devfreq provider" with
-> > panthor, and panthor picks it up during its probe function (or defers if
-> > mediatek_mfg is not ready yet, after adding a device link first).
-> >
-> > It's now generic enough to where I'll ponder about moving the devfreq
-> > provider stuff into a header in include/, and moving mediatek_mfg into
-> > the drivers/soc/ subdirectory, but there were enough changes so far to
-> > warrant a v3 without a move or further struct renames added, so that I
-> > can get feedback on this approach.
-> >
-> > The mailbox driver is a fairly bog-standard common mailbox framework
-> > driver, just specific to the firmware that runs on the GPUEB.
+On Wed, Sep 17, 2025 at 04:46:18PM +0200, Maxime Ripard wrote:
+> The ingenic CRTC atomic_enable() implementation will indirectly call
+> drm_atomic_get_private_obj_state() through ingenic_drm_get_priv_state().
 > 
-> I had a brief look at the series and it seems to me that the devfreq
-> thing here, may not be the perfect fit.
+> drm_atomic_get_private_obj_state() will either return the new state for
+> the object in the global state if it exists, or will allocate a new one
+> and add it to the global state.
 > 
-> Rather than using a new binding  (#performance-domain-cells) to model
-> a performance domain provider using devfreq, I think it could be more
-> straightforward to model this using the common #power-domain-cells
-> binding instead. As a power-domain provider then, which would be
-> capable of scaling performance too. Both genpd and the OPP core
-> already support this, though via performance-states (as indexes).
+> atomic_enable() however isn't allowed to modify the global state. So
+> what the implementation should use is the
+> drm_atomic_get_new_private_obj_state() helper to get the new state for
+> the CRTC, without performing an extra allocation.
 > 
-> In fact, this looks very similar to what we have implemented for the
-> Arm SCMI performance domain.
+> We still need to make sure the private state will be part of the global
+> state by the time atomic_enable runs, so we still need to call
+> ingenic_drm_get_priv_state() in atomic_check. We can then call
+> ingenic_drm_get_new_priv_state() in atomic_enable, which is a wrapper
+> around drm_atomic_get_new_private_obj_state().
 > 
-> If you have a look at the below, I think it should give you an idea of
-> the pieces.
-> drivers/pmdomain/arm/scmi_perf_domain.c
-> drivers/firmware/arm_scmi/perf.c
-> Documentation/devicetree/bindings/firmware/arm,scmi.yaml (protocol@13
-> is the performance protocol).
+> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Seems fine by me.
+
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+> ---
+> To: Paul Cercueil <paul@crapouillou.net>
+> Cc: linux-mips@vger.kernel.org
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> That said, I don't have a strong opinion, but just wanted to share my
-> thoughts on your approach.
-
-Yeah, I found out about the pmdomain set_performance_state callback
-a few days ago. I've not looked into it much so far because not
-unlike a veterinarian on a cattle ranch, I was elbow-deep in v3's
-guts already and didn't want to pivot to something different before
-pushing it out, but I'll look into it more seriously now.
-
-Even if it means I have to get rid of my fun array binary search
-and rely on the opp core to do its linear time linked list
-traversal. :'( (But moving OPP core to use XArrays instead is a
-concern for the future.)
-
-I've also been avoiding it because I didn't know how much
-additional functionality we'll add later, but I've talked with
-Angelo about it an hour ago and he agrees that I should go down
-the pmdomain route for the current functionality.
-
-Thank you for the hints!
-
-Kind regards,
-Nicolas Frattaroli
-
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 05faed933e5619c796f2a4fa1906e0eaa029ac68..d3213fbf22be14b177fc1b7100c5b721d5f17924 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -245,12 +245,12 @@ static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>  {
+>  	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
+>  	struct ingenic_drm_private_state *priv_state;
+>  	unsigned int next_id;
+>  
+> -	priv_state = ingenic_drm_get_priv_state(priv, state);
+> -	if (WARN_ON(IS_ERR(priv_state)))
+> +	priv_state = ingenic_drm_get_new_priv_state(priv, state);
+> +	if (WARN_ON(!priv_state))
+>  		return;
+>  
+>  	/* Set addresses of our DMA descriptor chains */
+>  	next_id = priv_state->use_palette ? HWDESC_PALETTE : 0;
+>  	regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, next_id));
+> @@ -338,17 +338,23 @@ static int ingenic_drm_crtc_atomic_check(struct drm_crtc *crtc,
+>  {
+>  	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+>  									  crtc);
+>  	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
+>  	struct drm_plane_state *f1_state, *f0_state, *ipu_state = NULL;
+> +	struct ingenic_drm_private_state *priv_state;
+>  
+>  	if (crtc_state->gamma_lut &&
+>  	    drm_color_lut_size(crtc_state->gamma_lut) != ARRAY_SIZE(priv->dma_hwdescs->palette)) {
+>  		dev_dbg(priv->dev, "Invalid palette size\n");
+>  		return -EINVAL;
+>  	}
+>  
+> +	/* We will need the state in atomic_enable, so let's make sure it's part of the state */
+> +	priv_state = ingenic_drm_get_priv_state(priv, state);
+> +	if (IS_ERR(priv_state))
+> +		return PTR_ERR(priv_state);
+> +
+>  	if (drm_atomic_crtc_needs_modeset(crtc_state) && priv->soc_info->has_osd) {
+>  		f1_state = drm_atomic_get_plane_state(crtc_state->state,
+>  						      &priv->f1);
+>  		if (IS_ERR(f1_state))
+>  			return PTR_ERR(f1_state);
 > 
-> [...]
-> 
-> Kind regards
-> Uffe
-> 
+> -- 
+> 2.50.1
 
-
-
-
+-- 
+Ville Syrjälä
+Intel
