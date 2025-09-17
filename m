@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C88B7DF7D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75286B7DF70
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:39:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546F610E181;
-	Wed, 17 Sep 2025 07:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 912FC10E428;
+	Wed, 17 Sep 2025 07:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="R2Krbm7U";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="F7ucMnm7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF9E10E181
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:52:41 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89F510E428
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:53:04 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 07571C00784;
- Wed, 17 Sep 2025 07:52:23 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 13BE44E40CAF;
+ Wed, 17 Sep 2025 07:53:03 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6444A6063E;
- Wed, 17 Sep 2025 07:52:39 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id D3A5C6063E;
+ Wed, 17 Sep 2025 07:53:02 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E1A45102F1727; 
- Wed, 17 Sep 2025 09:52:20 +0200 (CEST)
+ with ESMTPSA id 0BBEA102F1727; 
+ Wed, 17 Sep 2025 09:52:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758095558; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758095581; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=ap2y+Npu+kLF/Mrdl1WuStE4nxuZYwysNcBQ5q95FJY=;
- b=R2Krbm7U0/4oorf1biGdW5mKYpGEbYe/25FeznSsZ6Z94DSXAspeBLOFJcukQhLo1NvmUp
- r6kWnLlT1sUnJtIJdL/Y/fxK65YtCCvOGuZyeVfCHHIGMvm/jhOhQ/34nGsmDTv2HCKom7
- PE1qLong5NeYcuvJus3EG7/+aHMPfUI3Id5qcZhAUISqLqFRf/+d1LLBRMfQhwpaSNN+00
- HwMjTZQsYg8iMZnb1n56GBggyn4KnkDnGo+ABUnkMIxr9Sc/qZoduseJpIaAAu2AEMl6jT
- XwsWypEI5qzBUzmTKEc0qkEDzWVEbC5RJGKWl4PI3Gci+tVxPjh9lBY5D1RZ1w==
-Date: Wed, 17 Sep 2025 09:52:15 +0200
+ bh=emFT8+nJVyi2W/wfZKpSHjD2VZR95mKcyCGwHzrsAO0=;
+ b=F7ucMnm7DgTCjhoYBlR05retA2wRdJvHzwF3VeCIIp9pzfaDv0hqdu7xjUFNlFR/32cwYY
+ TTH3ZPd30dMISSPqnCizrgYbV6aG8WU3tYY7I8IN1a8sKd0nFX61uCFHafxDtPgRpJqjDw
+ /aX2SUIlk6CZS18XbDwxSCiuG9M5r80NcHsZ9isMwOgjxpDvZ/uZo+nnDZRiP1C5Ic1kW/
+ y/UJR9EXgBM+eWbUAa2wKzynDuDjMZMfXOpRCIvFmjWoJUWTH415wMM4U/jerYuHjXLwZ8
+ zvKF6L+PrDOQ8m+VvTfgnf8yJSNMsowqsYRycyZuf9JQ9iAsPxB7NX03zuIe+w==
+Date: Wed, 17 Sep 2025 09:52:55 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
@@ -53,12 +53,12 @@ Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 13/23] staging: media: tegra-video: csi: move
- avdd-dsi-csi-supply from VI to CSI
-Message-ID: <20250917095215.12c6a7cd@booty>
-In-Reply-To: <20250906135345.241229-14-clamor95@gmail.com>
+Subject: Re: [PATCH v2 05/23] staging: media: tegra-video: expand VI and VIP
+ support to Tegra30
+Message-ID: <20250917095255.2710c266@booty>
+In-Reply-To: <20250906135345.241229-6-clamor95@gmail.com>
 References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-14-clamor95@gmail.com>
+ <20250906135345.241229-6-clamor95@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -80,11 +80,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat,  6 Sep 2025 16:53:34 +0300
+Hello Svyatoslav,
+
+On Sat,  6 Sep 2025 16:53:26 +0300
 Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-> The avdd-dsi-csi-supply is CSI power supply not VI, hence move it to
-> proper place.
+> Existing VI and VIP implementation for Tegra20 is fully compatible with
+> Tegra30.
 > 
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 
