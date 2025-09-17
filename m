@@ -2,83 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C6AB7EC16
+	by mail.lfdr.de (Postfix) with ESMTPS id 67531B7EC12
 	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BABC910E43B;
-	Wed, 17 Sep 2025 09:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5FB10E43E;
+	Wed, 17 Sep 2025 09:20:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="iy42DDjo";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="tZAje8IZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ntpufKvP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tZAje8IZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ntpufKvP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145B610E16A
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 09:19:56 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-45dd505a1dfso49902445e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 02:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1758100794; x=1758705594;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TQYz5cTj4KxxKyrAqnId9PFX7xG2UVYh9ZMlnhOA7NA=;
- b=iy42DDjoN7kuE1uSfJFHKwo8npTgGm9GCRP7+lu7tRdoWKm5SL2iZIyfLmK2tOuLuo
- +krPdiTp7+r+pf3Ez8YS9YzzOdmafbZK9kkovppxI/gYV7+guUqdgmjx9POCO8uBJY3x
- iRz8WsUn5QdpCVippeTWWQPh2XlQbSXT1V/ub/UN5kZq1j5G/ShGz5KXpxTDi0aXPa0A
- Kkt14ojwmxGi7b8OdS36kXVO9W0t3nix0hxeeUkz47qMU1KG4pN1VTwPixUzsJ52W+C/
- n2RYRbyeL2LC6oBHK0PqDoGmMzM+4adHHDaaxYOH7zAegZbfczXyMVMlZYdhdOrjagMz
- zxZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758100794; x=1758705594;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TQYz5cTj4KxxKyrAqnId9PFX7xG2UVYh9ZMlnhOA7NA=;
- b=AblZiWihQt/NyeWD3+49RhDEMwutKxf16xcN6o1vr8y+5zYb07dKyrOprkVuaKi3lZ
- kbAjUUZRpzV/5qG043LcPBo6NuXZVwGHKluqKv+F+aMYiEYqCf9SrWDKB/V0peWmRLoL
- tlaVWovST5devDoHUYI98gzQ87WaIO2NOdrIIqxxcUEELWrpJTPVkj9obHtk0+dLDbNY
- 7kDvH06Up2+LjPS/2y+ga5CpYw2f1U2vXSY11e9SMcm4drSBhXO6F9OSy1uIbTkMAWr7
- aQndPW8fbdXXCTqpOiD//NaiaXwHbBJZmhc3mjik+q5z5LeJAz9DxLJYxFciWlyFcjyK
- d3LA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWgqTc54WMXu5tVjgs58tVDRbqo8ORXr9KJxaNrpw2mftsSRLzewqgCU+zgRxzTaCGAADTKg54XrPI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc66F3ItSXeZLrCF43jMEYbtFUfL9MJFMrPwKdBRxwOcdsS6JV
- 2faexFB1cRtXDgyMBz5zVxiqhrT0InRNnw7LcIxu7GHUGJBjMVbWruTmO4x08CMIxdNxfuNpjOk
- 360Aw
-X-Gm-Gg: ASbGncva204nbrSjkL16CPPu+AdXYSQleEpKgvBk79sqD92Z+xKFWuz4GK5xE1sySbh
- dQK8RQRaLOpMI/xSaY4mQqKNxgqjVtRKXOvuMfYVVcR2Rwvwft/8AJaoBX0yrTmrOgIAEqGfIpX
- Rj73OrofgNNWuGysuhuEUnXnzxgol1isEdeh5JeYUN2d5LrKshFJrPjuF0Qg/p/0gNX/UG9n1Ke
- kxBLlD2s0bX50HdR7oZurg4O/82WZv4EfIlzlFDB/F3/mxXFwjc6CWjKhe31fW+E2C5rnwBZ4pE
- 5h9FlJwBfLMwZXJV6r3aQedXeboBvv97I4exUoRqta8hroK0/ic3ULvN59bDYVA6x9Oequq2Xcm
- +fc8gzd0Hcklc1D9ZbgO2hHxCgO0Uy6yfuSM=
-X-Google-Smtp-Source: AGHT+IGwgzXVmJZALL9EBQdYTpKRevTIfQjPXvprjlffiWmwlkmlF4x8Oy8svppVDJ3QmHXyV7XX4Q==
-X-Received: by 2002:a05:600c:4354:b0:45c:4470:271c with SMTP id
- 5b1f17b1804b1-462ef763398mr3174405e9.18.1758100794273; 
- Wed, 17 Sep 2025 02:19:54 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3ecdbc7fe1bsm3941385f8f.52.2025.09.17.02.19.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Sep 2025 02:19:53 -0700 (PDT)
-Message-ID: <4d685669-bc37-4beb-9346-9dc9b976f2e4@ursulin.net>
-Date: Wed, 17 Sep 2025 10:19:53 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827B610E16A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 09:20:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 459E71F456;
+ Wed, 17 Sep 2025 09:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758100823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5tk+r5R/k8njcQI73K4TtrfXFTXLCZoxOGoZ0oxk0u4=;
+ b=tZAje8IZWc8Krfc4yHx/T6mHwHr4a3Pip1ewhAZR44ws4YmfiQjumnwhH7LiMKa3nfn2u0
+ Ex9NN0wLgFMa0cE3OtYUl8VISdauIJMFlzdW5GSE5wjTp0FvwTu3n6ldR+z59kJamf9Tkp
+ EaXTS6yKhZ77CrYJjMYUy3sIhlyQZ7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758100823;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5tk+r5R/k8njcQI73K4TtrfXFTXLCZoxOGoZ0oxk0u4=;
+ b=ntpufKvPTP2zwujZmCJjBCn8ByZ6R95iRNyunyELPDG+ULfPSUYhqOdVXQoeyW4+PBpMhI
+ whXzDoonW7EVVuAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1758100823; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5tk+r5R/k8njcQI73K4TtrfXFTXLCZoxOGoZ0oxk0u4=;
+ b=tZAje8IZWc8Krfc4yHx/T6mHwHr4a3Pip1ewhAZR44ws4YmfiQjumnwhH7LiMKa3nfn2u0
+ Ex9NN0wLgFMa0cE3OtYUl8VISdauIJMFlzdW5GSE5wjTp0FvwTu3n6ldR+z59kJamf9Tkp
+ EaXTS6yKhZ77CrYJjMYUy3sIhlyQZ7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1758100823;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5tk+r5R/k8njcQI73K4TtrfXFTXLCZoxOGoZ0oxk0u4=;
+ b=ntpufKvPTP2zwujZmCJjBCn8ByZ6R95iRNyunyELPDG+ULfPSUYhqOdVXQoeyW4+PBpMhI
+ whXzDoonW7EVVuAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05BAC137C3;
+ Wed, 17 Sep 2025 09:20:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 62wEAFd9ymglHQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 17 Sep 2025 09:20:22 +0000
+Message-ID: <0b6cb807-1a7e-427e-af42-dfc8f422f813@suse.de>
+Date: Wed, 17 Sep 2025 11:20:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] drm/xe: Add DRM GPU frequency tracepoint to Xe
-To: S Sebinraj <s.sebinraj@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: jeevaka.badrappan@intel.com
-References: <20250917084135.2049550-1-s.sebinraj@intel.com>
- <20250917084135.2049550-3-s.sebinraj@intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250917084135.2049550-3-s.sebinraj@intel.com>
+Subject: Re: [PATCH 1/5] drm/solomon: Move calls to drm_gem_fb_end_cpu*()
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Iker Pedrosa <ikerpedrosam@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com>
+ <20250912-improve-ssd130x-v1-1-bc9389ed299e@gmail.com>
+ <874it1phx8.fsf@minerva.mail-host-address-is-not-set>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <874it1phx8.fsf@minerva.mail-host-address-is-not-set>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_SEVEN(0.00)[8]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,163 +145,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+grr, I should have noticed that before giving the r-b
 
-On 17/09/2025 09:41, S Sebinraj wrote:
-> Integrate xe PMU with the DRM-level GPU frequency tracepoint to provide
-> efficient frequency monitoring with change detection.
-> 
-> Key changes:
-> - Add frequency change detection
-> - Implement per-GT frequency tracking using last_act_freq array
-> - Only trace when GPU frequency actually changes per GT
-> 
-> The integration traces actual GPU frequency changes from xe_pmu during
-> XE_PMU_EVENT_GT_ACTUAL_FREQUENCY reads.
-> 
-> Signed-off-by: S Sebinraj <s.sebinraj@intel.com>
-> ---
->   drivers/gpu/drm/drm_gpu_frequency_trace.c     |  2 +-
->   drivers/gpu/drm/xe/xe_gpu_freq_trace.h        | 14 ++++++++++
->   drivers/gpu/drm/xe/xe_pmu.c                   | 26 +++++++++++++++++--
->   drivers/gpu/drm/xe/xe_pmu_types.h             |  4 +++
->   .../drm/drm_gpu_frequency_trace.h             |  2 +-
->   5 files changed, 44 insertions(+), 4 deletions(-)
->   create mode 100644 drivers/gpu/drm/xe/xe_gpu_freq_trace.h
->   rename {drivers/gpu => include}/drm/drm_gpu_frequency_trace.h (96%)
-> 
-> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.c b/drivers/gpu/drm/drm_gpu_frequency_trace.c
-> index b5fa5134226d..e33df068752d 100644
-> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.c
-> +++ b/drivers/gpu/drm/drm_gpu_frequency_trace.c
-> @@ -9,7 +9,7 @@
->   #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE
->   
->   #define CREATE_TRACE_POINTS
-> -#include "drm_gpu_frequency_trace.h"
-> +#include <drm/drm_gpu_frequency_trace.h>
->   
->   EXPORT_TRACEPOINT_SYMBOL_GPL(gpu_frequency);
->   
-> diff --git a/drivers/gpu/drm/xe/xe_gpu_freq_trace.h b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
-> new file mode 100644
-> index 000000000000..c15d41761296
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_gpu_freq_trace.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * GPU frequency trace wrapper for xe_pmu.c
-> + * This header provides access to the gpu_frequency tracepoint
-> + */
-> +#ifndef _XE_GPU_FREQ_TRACE_H_
-> +#define _XE_GPU_FREQ_TRACE_H_
-> +
-> +#include <drm/drm_gpu_frequency_trace.h>
-> +
-> +/* Convert MHz to KHz for tracepoint */
-> +#define MHZ_TO_KHZ(freq_mhz)	((freq_mhz) * 1000)
-> +
-> +#endif /* _XE_GPU_FREQ_TRACE_H_ */
-> diff --git a/drivers/gpu/drm/xe/xe_pmu.c b/drivers/gpu/drm/xe/xe_pmu.c
-> index cab51d826345..7d5a6e149247 100644
-> --- a/drivers/gpu/drm/xe/xe_pmu.c
-> +++ b/drivers/gpu/drm/xe/xe_pmu.c
-> @@ -5,9 +5,11 @@
->   
->   #include <drm/drm_drv.h>
->   #include <linux/device.h>
-> +#include <linux/types.h>
->   
->   #include "xe_device.h"
->   #include "xe_force_wake.h"
-> +#include "xe_gpu_freq_trace.h"
->   #include "xe_gt_idle.h"
->   #include "xe_guc_engine_activity.h"
->   #include "xe_guc_pc.h"
-> @@ -291,6 +293,19 @@ static u64 read_engine_events(struct xe_gt *gt, struct perf_event *event)
->   	return val;
->   }
->   
-> +static void xe_pmu_trace_frequency_change(struct xe_gt *gt, u32 act_freq)
-> +{
-> +	struct xe_device *xe = gt_to_xe(gt);
-> +	struct xe_pmu *pmu = &xe->pmu;
-> +	u32 gt_id = gt->info.id;
-> +
-> +	/* Only trace if frequency changed for this GT */
-> +	if (gt_id < XE_PMU_MAX_GT && pmu->last_act_freq[gt_id] != act_freq) {
-> +		trace_gpu_frequency(MHZ_TO_KHZ(act_freq), gt_id);
-> +		pmu->last_act_freq[gt_id] = act_freq;
-> +	}
-> +}
-> +
->   static u64 __xe_pmu_event_read(struct perf_event *event)
->   {
->   	struct xe_gt *gt = event_to_gt(event);
-> @@ -304,8 +319,12 @@ static u64 __xe_pmu_event_read(struct perf_event *event)
->   	case XE_PMU_EVENT_ENGINE_ACTIVE_TICKS:
->   	case XE_PMU_EVENT_ENGINE_TOTAL_TICKS:
->   		return read_engine_events(gt, event);
-> -	case XE_PMU_EVENT_GT_ACTUAL_FREQUENCY:
-> -		return xe_guc_pc_get_act_freq(&gt->uc.guc.pc);
-> +	case XE_PMU_EVENT_GT_ACTUAL_FREQUENCY: {
-> +		u32 act_freq = xe_guc_pc_get_act_freq(&gt->uc.guc.pc);
-> +
-> +		xe_pmu_trace_frequency_change(gt, act_freq);
+Am 17.09.25 um 11:06 schrieb Javier Martinez Canillas:
+> Iker Pedrosa <ikerpedrosam@gmail.com> writes:
+>
+> Hello Iker,
+>
+> Thanks for your patch.
+>
+>> Calls to drm_gem_fb_end_cpu*() should be between the calls to
+>> drm_dev*(), and not hidden inside some other function. This way the
+>> critical section code is visible at a glance, keeping it short and
+>> improving maintainability.
+>>
+>> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+>> ---
+>>   drivers/gpu/drm/solomon/ssd130x.c | 33 +++++++++++++++------------------
+>>   1 file changed, 15 insertions(+), 18 deletions(-)
+>>
+> [...]
+>
+>> @@ -1232,6 +1214,9 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
+>>   	if (!drm_dev_enter(drm, &idx))
+>>   		return;
+>>   
+>> +	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
+>> +		return;
+>> +
+> In this error path you should call drm_dev_exit(). The convention in the
+> kernel usually is to have a goto label for this, e.g.:
+>
+>         if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
+>                goto out_drm_dev_exit;
+>
+>>   	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+>>   	drm_atomic_for_each_plane_damage(&iter, &damage) {
+>>   		dst_clip = plane_state->dst;
+>> @@ -1245,6 +1230,8 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
+>>   				     &shadow_plane_state->fmtcnv_state);
+>>   	}
+>>   
+>> +	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+>> +
+> and then here before the call you could have the label.
+>
+> out_drm_dev_exit:
+>
+>>   	drm_dev_exit(idx);
+> Same comments for the other places where you are adding the
+> drm_gem_fb_end_cpu*() calls next to the drm_dev*() ones.
+>
+> After the mentioned changes:
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
 
-Not my driver but IMO it does not sound very useful to emit a tracepoint 
-*only if* someone has the PMU open and not on actual frequency changes 
-but at a frequency of userspace doing PMU reads. Not least that at this 
-point userspace already has the frequency information via PMU so 
-tracepoint is just adding kernel code for what purpose?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Regards,
-
-Tvrtko
-
-> +		return act_freq;
-> +	}
->   	case XE_PMU_EVENT_GT_REQUESTED_FREQUENCY:
->   		return xe_guc_pc_get_cur_freq_fw(&gt->uc.guc.pc);
->   	}
-> @@ -572,6 +591,9 @@ int xe_pmu_register(struct xe_pmu *pmu)
->   	pmu->base.stop		= xe_pmu_event_stop;
->   	pmu->base.read		= xe_pmu_event_read;
->   
-> +	/* Initialize frequency tracking array */
-> +	memset(pmu->last_act_freq, 0, sizeof(pmu->last_act_freq));
-> +
->   	set_supported_events(pmu);
->   
->   	ret = perf_pmu_register(&pmu->base, pmu->name, -1);
-> diff --git a/drivers/gpu/drm/xe/xe_pmu_types.h b/drivers/gpu/drm/xe/xe_pmu_types.h
-> index f5ba4d56622c..630da8442387 100644
-> --- a/drivers/gpu/drm/xe/xe_pmu_types.h
-> +++ b/drivers/gpu/drm/xe/xe_pmu_types.h
-> @@ -34,6 +34,10 @@ struct xe_pmu {
->   	 * @supported_events: Bitmap of supported events, indexed by event id
->   	 */
->   	u64 supported_events;
-> +	/**
-> +	 * @last_act_freq: Last actual frequency for each GT (for tracing changes only)
-> +	 */
-> +	u32 last_act_freq[XE_PMU_MAX_GT];
->   };
->   
->   #endif
-> diff --git a/drivers/gpu/drm/drm_gpu_frequency_trace.h b/include/drm/drm_gpu_frequency_trace.h
-> similarity index 96%
-> rename from drivers/gpu/drm/drm_gpu_frequency_trace.h
-> rename to include/drm/drm_gpu_frequency_trace.h
-> index cf6337847b3a..47f32fd295a4 100644
-> --- a/drivers/gpu/drm/drm_gpu_frequency_trace.h
-> +++ b/include/drm/drm_gpu_frequency_trace.h
-> @@ -42,6 +42,6 @@ static inline void trace_gpu_frequency(unsigned int state, unsigned int gpu_id)
->   
->   #ifdef CONFIG_DRM_GPU_FREQUENCY_TRACE
->   #undef TRACE_INCLUDE_PATH
-> -#define TRACE_INCLUDE_PATH ../../drivers/gpu/drm
-> +#define TRACE_INCLUDE_PATH ../../include/drm
->   #include <trace/define_trace.h>
->   #endif
 
