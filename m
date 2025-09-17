@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFF6B7E766
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38407B7E316
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88FA310E653;
-	Wed, 17 Sep 2025 10:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94AC210E199;
+	Wed, 17 Sep 2025 10:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zi8IElgX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TfgNnxfw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C2710E653
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 10:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758104550; x=1789640550;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:to:date:message-id;
- bh=ay3PFbZZ27790jMyb89EhK9xTl69Rab8VGpRvpMbTz8=;
- b=Zi8IElgXe5lQ61uMQjZbETZAaTALr2rMCJW77zIlcSBYYW6c8H3fqwV7
- ySeef9DYpFIHoJzLgyz2A0Ks80nIJU55cbzXWbMVsFYFkeEcAcjrP/4Sw
- HDtT4bNYMm6N3YUoFVHdfWx59IOvmhAZcGI5JHXCk5BL8FGHPmbtPGO+T
- huoLNr8/0SojNwfj+ABFcUcbUv5kxnwyC94JYhd55MRIfUspzZC+DaTKE
- nyHTl9AiR9i/6T3ElM68qw17ggJAJ5ed/8MudUV2l9J+ulu4CHnhgVJYL
- hme0FscBIhTFBNxXPazJuUoCa9utNKZBavcn30K+sEU1e4VXLQOt8FdEV w==;
-X-CSE-ConnectionGUID: VMagR9jXSfe8bHYD/jBWjg==
-X-CSE-MsgGUID: 8770F6K7SSCPYpMwPcxvyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11555"; a="71828530"
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="71828530"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2025 03:22:29 -0700
-X-CSE-ConnectionGUID: LDKjugivQdyjuQGx+57C+g==
-X-CSE-MsgGUID: uMluRhDeSaOG+YgwjYbL5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,271,1751266800"; d="scan'208";a="179207964"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.20])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2025 03:22:27 -0700
-Content-Type: text/plain; charset="utf-8"
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DAE10E199
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 10:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1758106150;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Gx+TdCKsbhxyY3jdn0KEhYYDqelpsIcgLkEZzRgBNo=;
+ b=TfgNnxfwWm00Y4mOLgHNA22tCdWgRrd341EWF3Ajd9ZioCoFwUrAC7oklNtxMkWGx1H+RM
+ UthaKbiBJRbKa+d8MbY6VAdYsJr95P857zC88cL+/cXaheJmWjksZIjjlHMMEWNq17LN0Q
+ 6ETkZaU5zQTuRl0Yz3SUxcSpcwMaRog=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-359-Pz9buNinNNehu0X3TSOVOw-1; Wed, 17 Sep 2025 06:49:07 -0400
+X-MC-Unique: Pz9buNinNNehu0X3TSOVOw-1
+X-Mimecast-MFC-AGG-ID: Pz9buNinNNehu0X3TSOVOw_1758106146
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3eb536ac039so1912697f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 03:49:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758106146; x=1758710946;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7Gx+TdCKsbhxyY3jdn0KEhYYDqelpsIcgLkEZzRgBNo=;
+ b=YARdfPUwGqQa2UopI+Rb6TYiRpudeMVrkPYXOQZQ0OfKFjFrrHUKPpdc5nZ/lkPZMc
+ 4EDdNXNmnOEr9ysVojR0M/ffX9wZwUsg3VzL6X10/RMCnakkm6XG7BesynQgPZsimu8o
+ IGAVrx7hP/xlk2Qym589mmPNXIt6QrrgOIMKmHr+dCTMW1YZqHADwCnjT8qJ0TELPU75
+ OpMYLg+gK7dwc/5jQHD9GCDedsKp8l408Dt7iYHRDLo2iEsi2Lkj9fZ6qlgTk5Aznrpm
+ LavuRQRW6YlEXCD5GlEAMZyCr0jPURwGnlBeZAoHdsptb4uzYJIDxZuFXLMA3pNU9cmk
+ kLJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXs0OtWNveEO5mlkQoG+DL/1aoBWMdvFWsTkTq64MQdOMkk+epKci0spckM/L8d9sLBQQISkJawrM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJQgVyxajoTsCitl4AGphQWFzz9H8MmkndSau3Qa5cGW6gZL6C
+ UByFEdmjWXxRh73bsT5orelw1ANvhgAkGe2v0h0/NTL7fmYEBz1ZxbCxvBCBf1JmeKNoYLAfzTm
+ dJ7MlmoiSvxeO/DUNzWGcuOw1qoKa393CwQnbjtm9WsmKQczWTyg4aMj8Nyq3joBhgQPGIw==
+X-Gm-Gg: ASbGncsuuVHVeE9vMQZaefV184VfSwuBPOCcMYPG8SsOZxW+tI0Wrab5LXGoA4HxzQR
+ zPdloSddMJJopSpBfKB+yThWjoENxIqa3pV8Pd+4Q4AF6E8KsUfD2CrvLe38LjUgu4GhsYtUo2O
+ /i8/FIf+StNfft1fnwUEJ/AeJ1RMW0hWMwuyxJ5p6fb1P1oGRqecSehfbS7f42x9cfA/Fwhd0tr
+ +vXrt04pqW2S1GohJyq6RjtNn9TwHYX9JKVz5jjdhLs4KXw6SHnNtJCwuZjjShm77o7EAD0bHJF
+ bK+VYH9k8PaMCI8eWSur4BU9/jmPRQHKvVUAjH0tnr6swZbCbC28ObawRRwyN+Y+BZT0Jl6J0MX
+ xUG5w2XXF0MrpZXdMDOU1Ew==
+X-Received: by 2002:a05:6000:420a:b0:3ec:db18:1695 with SMTP id
+ ffacd0b85a97d-3ecdfa2af44mr1788139f8f.45.1758106145840; 
+ Wed, 17 Sep 2025 03:49:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFWDibHsRXwK4fNY6Iro6utVUGE4L1K31z5iDT3jS0cDkRWw/GZJYpDVS83FdGh12iI5IMZeA==
+X-Received: by 2002:a05:6000:420a:b0:3ec:db18:1695 with SMTP id
+ ffacd0b85a97d-3ecdfa2af44mr1788111f8f.45.1758106145366; 
+ Wed, 17 Sep 2025 03:49:05 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3e7607870cfsm26394071f8f.19.2025.09.17.03.49.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Sep 2025 03:49:04 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: James Flowers <bold.zone2373@fastmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ skhan@linuxfoundation.com
+Cc: James Flowers <bold.zone2373@fastmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] drm/ssd130x: Use kmalloc_array() instead of kmalloc()
+In-Reply-To: <20250914073841.69582-1-bold.zone2373@fastmail.com>
+References: <20250914073841.69582-1-bold.zone2373@fastmail.com>
+Date: Wed, 17 Sep 2025 12:49:03 +0200
+Message-ID: <871po54an4.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <201ca522-a719-44af-950b-50c82758a3c0@amd.com>
-References: <20250909144311.1927-1-christian.koenig@amd.com>
- <60ec3476-d141-4900-b87c-5135da6cfdd6@amd.com>
- <76698330f118d2747becab6615f4bfb5caf9e094.camel@linux.intel.com>
- <201ca522-a719-44af-950b-50c82758a3c0@amd.com>
-Subject: Re: [PATCH] drm/ttm: rename ttm_bo_put to _fini v3
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas =?utf-8?q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- matthew.brost@intel.com
-Date: Wed, 17 Sep 2025 13:22:23 +0300
-Message-ID: <175810454351.27873.16918913539491692530@jlahtine-mobl>
-User-Agent: alot/0.12.dev7+g16b50e5f
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fJqpDN2ZVggluwJBfPphFR6SZIxmnqmSglZzPFSMz4o_1758106146
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,27 +101,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Christian K=C3=B6nig (2025-09-16 16:38:18)
-> On 11.09.25 19:20, Thomas Hellstr=C3=B6m wrote:
-> > Hi, Christian,
-> >=20
-> > On Thu, 2025-09-11 at 12:56 +0200, Christian K=C3=B6nig wrote:
-> >> Gentle ping. Thomas can I get an ack on this?
-> >>
-> >=20
-> > Sorry for the delay. When I initially saw it i decide to give it some
-> > time for CI but now I can't find it there.
-> >=20
-> > Anyway, for the xe driver
-> > Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >=20
-> > The i915 driver maintainers probably want to ack this separately for
-> > the i915 driver.
->=20
-> @People on CC can I get an ack to merge this through drm-misc-next?
+James Flowers <bold.zone2373@fastmail.com> writes:
 
-Sure,
+> Documentation/process/deprecated.rst recommends against the use of
+> kmalloc with dynamic size calculations due to the risk of overflow and
+> smaller allocation being made than the caller was expecting.
+> kmalloc_array avoids this issue.
+>
+> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> ---
 
-Acked-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Regards, Joonas
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
