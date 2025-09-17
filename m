@@ -2,164 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62957B7DF6E
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED5FB7CEB5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA1010E3F2;
-	Wed, 17 Sep 2025 02:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2896210E41D;
+	Wed, 17 Sep 2025 07:25:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zJ1lI+2q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xd7NZECg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011012.outbound.protection.outlook.com [52.101.52.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69E0B10E3F2;
- Wed, 17 Sep 2025 02:01:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cuym1ClFz6Yzo4lvFc23SO6mD6itJBgrFL2RJfZ6V5VlLXUoFj3b2lWz+HUyxBs7bmSOmOjfDgDIUaJ/qDXQJg+akGCNY/+7cVW5vF+/OvlR53bMEQYha7ihRxyvuM03pRtjeAqZ8W4keOzxaFqzl4bgMEwyWVnNbkUhQbKxhcE0pNTkCUoC7k8uA/tlWA3ks19VOP4uBcbfjKrG2OOp6eeAdF1qAdYguI+eFPdhwyhVTUpihRIfBJG9HHEW8a99zUmGnaKKksBB35lQe4aqPwUtcZSq7SABt7JE+fRh514Y4Vhl8Yfp+zjAtf75CbvSpQHez34aWA3rb1X44ANvYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zFRNBxhMYioO3X7jOk5khJpnmr30gyKMhF8fisIJWUg=;
- b=ldeg5n05+zHSWZ/m9z9Ufpznny00sUTI7b0LFcSIhWPBvh60a0TPFeySDBvTR7XtvC4MuI5lmhjkiVUFeZgirq/1WBRCtm/rNGzqbI/9Vy85LKKjqftBvMNA+E50imGiEdpC2SYm4Hq6P2ni8YaSgqCAo8Bx18T0SxexfxG4epZ6FBUmqHMlS3OzZmASgoxkB1w91j+ibq93grY6MeKOVr0JSvmXOuo1T3LSXuRjM+e6FvKP0mD6LeHIDkMD+ZD0HbkCqDaJQut3zLKv+gC1ni64ehBfVhERY7r7IPJTBLdvLGWTpzk3ESpFh+vA5oR0/YGM2KyQzcTU3b2BRSY3eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zFRNBxhMYioO3X7jOk5khJpnmr30gyKMhF8fisIJWUg=;
- b=zJ1lI+2qwFAx/v00xloFIekmguqXpBOrxwwUSwDSzDp4uxOcs+Mtu10Xnl7Wj1eJ3Pcy5vBC/x7h1vIjBnCTRx2qSwYcLK5PkaS4gCT1bVJtub8qeihI6pnoGuMc800zInsAvO8xWgcW5johWCP/jyEMT7OypAR+K8KSeq1Sb2k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by BL3PR12MB6619.namprd12.prod.outlook.com (2603:10b6:208:38e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 17 Sep
- 2025 02:01:28 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%7]) with mapi id 15.20.9115.018; Wed, 17 Sep 2025
- 02:01:28 +0000
-Message-ID: <73c5ddcf-885c-4c90-9393-6ee6e2fdd984@amd.com>
-Date: Tue, 16 Sep 2025 20:01:25 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V11 13/47] drm/colorop: Add destroy functions for color
- pipeline
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- mcanal@igalia.com, nfraprado@collabora.com,
- Daniel Stone <daniels@collabora.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-14-alex.hung@amd.com>
- <59910838-4ae7-42f1-9226-3845b3a4ab52@bootlin.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <59910838-4ae7-42f1-9226-3845b3a4ab52@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0005.namprd03.prod.outlook.com
- (2603:10b6:303:8f::10) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6677210E3F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 02:09:19 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-32ed19ce5a3so429401a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Sep 2025 19:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758074959; x=1758679759; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ec0asGTrd8ayRRK4foZ3FyVP3qtZ9n13Tw5uWDKt8/4=;
+ b=Xd7NZECgSanzZVXvIylXDhyDxP3Wwv0Nb0WMpsOIHjxZpTupOXiJTz5rZu8euyzA8z
+ G3VxZywdilkdq8uavUPKvZPRz4VhPtzi+QoKgck9HTE5Akz9jvCfR+Qm5rXhHvukRXXg
+ r4EwjOZ/4r/xu+aX1o4nQX+eTbkGWCJxyY5ConNpapf/wTgCslli8eBCTQiXhA00QhBw
+ NaaV3vFO35OBLLN+cvj3fyr1d8PqXvtTi/gJd4r2G6BuZ3+SrbVy7SgiwdB1sCJ1JWnI
+ 2q1FaSRKZlIrlRZ/yYzLP+d/DAMPxRf47zZo27Nh9tILolLk0p+wkIJmO7gRQe8UNi4i
+ l0Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758074959; x=1758679759;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ec0asGTrd8ayRRK4foZ3FyVP3qtZ9n13Tw5uWDKt8/4=;
+ b=RFewthPggVbzjMw09nvyAV/39zm/w5KVl+3Mqa4EEKNpRaWnYeTXxYSFA0703CUDE8
+ /a2KShuMHcm+JyPikxk9ha8Hshu8CPxULXy0gFtVU6nxV2hGvnjV0TtLkEbU1CLchxEP
+ RCK77GZvzBYDsQXBuBut1IBT0ShYXVynYhyPM5icgShtMUkUlcswremxlarSY2txAZdB
+ B9s+0TzQ/28Kv9fg+g1c+XgsNhaA2+3sryUbdF72tg2RFyOizbzLK22c2naHBlW5j1eK
+ puMCJVNJg4P7YKeXN9+JzFlBmuO5G+/YoPEqjgGbFbQ2OHBdNbZ/XBGkY/8w73PaluC5
+ 380g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXmNXTywWB/zVGR3EfRyWAGwzF3JK2Bto+/Dm6KBNrgenLn/gnQirgdY92qZp3PDfNyD9fNRAr01l4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh+8WTMMWqmEoG4qRy199eYb4wXcM5oc+sNXXo7FjGkbAnTeMM
+ AuER+Dct9kY7fKxWGkpYX2rTXSmPWOktm+5L7LJuoN3bLMWjdwwC4F8Y
+X-Gm-Gg: ASbGncvzjY2bUAH+pojU189dzCFikNPVdFUcT7XOMLQNToCh1OA7OflhoaPxs0VuZrz
+ sKiczaRegiwWmOOUnMr8uBG3w6vz7BJu3a5Q2aBk5C9za1SRPqVSQ7lltorKh4l3lPrQcXM/Z/H
+ LePpbg0RAR6kPWMpJBQ5QaB0Y+K22tzqXQ3BGjdMMLkaL9oHN0H0jppPvihcBrEAMq161hit0XK
+ fZwJeGwtmtVLATTKDKLMrFNM1EBvayuPT4I7DUu6svPE0YMxIzSh9jAW94iyu9DXMhNB64uJZzQ
+ iKGc7rYXekH5tj0P2FM3ZdpTtoBttvkWiguzHDroic7fUrydiHl5/GzB2FuhySXya9tjxVlvJdw
+ pxfIEfYLRSRI3tP1tfOAlBhOLfRrEjYI5mufjxDcZ
+X-Google-Smtp-Source: AGHT+IGE1lxlxAvcVFpWcXZnKgkQRp7XPS1CVNzz6zy0okJvDf1X7FhTYPGTQTnkoTiUrMzQO5PECQ==
+X-Received: by 2002:a17:90b:4a41:b0:32e:3686:830e with SMTP id
+ 98e67ed59e1d1-32ee3f60244mr511848a91.23.1758074958707; 
+ Tue, 16 Sep 2025 19:09:18 -0700 (PDT)
+Received: from localhost ([146.19.163.62]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-32ed275fb3csm862045a91.20.2025.09.16.19.09.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Sep 2025 19:09:18 -0700 (PDT)
+Date: Wed, 17 Sep 2025 10:09:12 +0800
+From: Jinchao Wang <wangjinchao600@gmail.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+ Yury Norov <yury.norov@gmail.com>, Qianqiang Liu <qianqiang.liu@163.com>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+ Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Shixiong Ou <oushixiong@kylinos.cn>,
+ Zsolt Kajtar <soci@c64.rulez.org>, Ingo Molnar <mingo@kernel.org>,
+ Nam Cao <namcao@linutronix.de>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Joel Granados <joel.granados@kernel.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Sohil Mehta <sohil.mehta@intel.com>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Sravan Kumar Gundu <sravankumarlpu@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Anna Schumaker <anna.schumaker@oracle.com>,
+ "Darrick J. Wong" <djwong@kernel.org>,
+ Max Kellermann <max.kellermann@ionos.com>,
+ Yunhui Cui <cuiyunhui@bytedance.com>, Tejun Heo <tj@kernel.org>,
+ Luo Gengkun <luogengkun@huaweicloud.com>, Li Huafei <lihuafei1@huawei.com>,
+ Thorsten Blum <thorsten.blum@linux.dev>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/9] panic: Introduce helper functions for panic state
+Message-ID: <aMoYSElAEBiBvVET@mdev>
+References: <20250825022947.1596226-1-wangjinchao600@gmail.com>
+ <20250825022947.1596226-2-wangjinchao600@gmail.com>
+ <aMk0d5JO_4YECYGY@pathway.suse.cz>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|BL3PR12MB6619:EE_
-X-MS-Office365-Filtering-Correlation-Id: cdf259f5-d78d-485d-562f-08ddf58e1d5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VUJhOWpQdXd0QTBQWVVVUGgrQjYxR3NVTXBSZ29xSS9MZTJueTNTQWdDOXpn?=
- =?utf-8?B?VUxHRG1xakc0ZkRHVlBqWWFZRW15SlBDRnBlZjJkR3Nmb0VySkJ3QTU3eDEr?=
- =?utf-8?B?ZStSS1BMVVVrdTZIc0tySnBUMTEydnBkbmZoSUM1MGkwM2ZFa3ZwZnNzVlp5?=
- =?utf-8?B?RjlXbHZpQ3RIdTUzQmoxL01LUlJrdGRNQnQzaXlOKzF1RGJzYWMxV1RyeUJM?=
- =?utf-8?B?cXozWElhOHZ6TGZZYWhNWVZGV1o0SHNoUFBubDlBQXhnMkkzSVFDMnMzVHdE?=
- =?utf-8?B?NUlZYi94bDhHa0M3cXpoV1FkV0JibE1BRE5EQzlYek91Si9XUDYzUzV4M24x?=
- =?utf-8?B?aU81THdyRjhsbUZON0VWM2hNTjE2bnZFM2haKzJiK1p3RUZFL281UDBmbWJs?=
- =?utf-8?B?YkhZYmZxWVYvSGdEbEJncHhTNmd1T0xaVUdxdVVBenZkUG5zQ1RPVHVheVJT?=
- =?utf-8?B?aUJEdEg3a05IM3kwM1NnRk8rR3FCVXB5WFZnSW1sckp6V280ajhMeExPeTF2?=
- =?utf-8?B?Y0xtNFlLZzBJYkZXLzByUzQrYXZTQ3lueDZYcGFJYjhFQlFRNlE5N2lzc1Fv?=
- =?utf-8?B?TFVpWHdoa0Z3emxDK3dFVE42QjQxdG5BMHBSZmx5c3VZWkpjNmhCZElWUFBF?=
- =?utf-8?B?dGRhMjZQQVFodU90Q1dDSTdjbTdlbTRRZ0JwVG82RXFBWElnSkRaK3kvSkU2?=
- =?utf-8?B?Y05qczFEdGcyTlQvWC9od3JHTnhyZ3ptS0N0NytjUlkzbC9NenZRZklob3dx?=
- =?utf-8?B?S1czR21xZFQzK05XTmt3Z1RGRkE3U1ZFUGFMUzlCUHYwRm0vT0k5ZVgzdDlI?=
- =?utf-8?B?TXpvQTc0T2xmaVp5dDM3U0R5bGpKdzFmVFk3T3lGMHdxQ3I4N3Nra1J0VmtV?=
- =?utf-8?B?UmZ4YUZTUjh2YXNhLzFSZU9wTGhhcVBLQjZ5b2tmMVE1enJMblhaTGZCK0FI?=
- =?utf-8?B?d0FKcmJKMDc3ZVBDNGtwNmdPd2hua0tTZStmdVl2N3ZZc2I2Zm9ib3lUU2ty?=
- =?utf-8?B?dklzSmFjem1scTNaYk0yY0VpdElaazI2YXBlcEtCa1ZTSFRpWDVCZ1diS0pj?=
- =?utf-8?B?NGxwM0VHbmZCbjI3NXJmWkY5Q2dtQ1VuaTd0VlhTWGw3c0ZDdWJGZzJZSHdk?=
- =?utf-8?B?c0Rycmtuc2JnamFqRXNGcTh4c1dIVVh0QWNOUDJ2bFpTaFBTM29VNndoaGl1?=
- =?utf-8?B?Slpwdno3TTFJY0oycEJycGI5eFZGc21qemJXMGl0L3hGUEovb3lodllHOXAy?=
- =?utf-8?B?MzZtNGhkcHJ4eHVRby9EbU0raHQ5OHNvSysza3FuajNjY0k0d2hlNGVmNUcz?=
- =?utf-8?B?SzFYRzZBSzUxbmU2TEZtRWFhWVUxUzM1T1JzV0JlbmRwd0hteitlbHovKzJH?=
- =?utf-8?B?ejh6SW1xb04zVzVQdHV5REVJOXVIU0tZL3plY0xrZE5ORmUzbFpYSVFFNndv?=
- =?utf-8?B?TWllU2pNZlVGVEMxb1FrdDhLZEdDanNZYkFuMG9OaGM3bXVybmxjVzNudzl2?=
- =?utf-8?B?Y3RFaEd5NzhOL1F0c01ZNnlkd25FdFkrSEVDUDFMLzR1SExkZER4QjNoTHQ1?=
- =?utf-8?B?NXNCVjUrZFJ0ZDllc01DRUlUOGlQaytTRGNBOElaTzliWHcxeDFNV2sxRkNr?=
- =?utf-8?B?Q0FLM1RBTXV2SFd1N1JRZXExN2JMVUxnRWY1VFFSaGRQUXRZbWxEUXp1SWRU?=
- =?utf-8?B?cldMYkpKeXpNVi9iOVcwUnlzVmxYZnpkVW1JbDlsWVdYczI2cTBpR0lDUldI?=
- =?utf-8?B?ekVtWVdsa3I0NVk1TjkrWlp0ZC9jWThRdkEzYlZldzNZNHNEbVBBaFpJUHZJ?=
- =?utf-8?B?NUtkcGRqNnFrOUlOYStRU0dhVHdGeXlxL1Bza1BXdDFyNUVFTVVZUytSYlhs?=
- =?utf-8?B?OVc4VFhleUU0S1l6N0N6ZXRUbGVYVW5PaHJOR0pDcnVwalVJMUtUVUZZM01z?=
- =?utf-8?Q?vdr6Qie6SYw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WjBTRDVuYzJOVVIzRE1QZ05xZkpaRnAzT2tRanBleU91RkRSdFAwdEZUWG90?=
- =?utf-8?B?blZQUFJlYVdQc0NCcU5oUCtoWTBQR01nZGN0aGRrQnA3THpkRVN3Y1pqaWFB?=
- =?utf-8?B?NXlGa25oY21PNExXWlFuRDJUd2NlTjRJRjVDQ3pIVFBjQUt0dWdGa1RneXZo?=
- =?utf-8?B?Z2JTMjVpYUFBRXJHblJrN2VZdHIreWU1ckRsV1JrU1dXNU5xdUVrRnJmajJV?=
- =?utf-8?B?UDdxZHZCWkJEaWYxM1ExL0J4emM5MmsrT3dMQ1ZWa2RqeGdOSUo5Nk9YeWhu?=
- =?utf-8?B?bW1YMERXOGN5Mm5yNUdSUGd1VUFyZVVsdUFiRzIrakpINTdmUklxN1BWV001?=
- =?utf-8?B?MjZXSm5Cczd4bndiTUZGKzZ0b0h1WHNRcFRpSCtRNk1xK3FnUmtLbzdWdlRm?=
- =?utf-8?B?RENWOXovV1l4RjhJRkd4b2ltQWlsM3h4SWcvZWQ2T0pqNEdOWFh0RHl1RTAw?=
- =?utf-8?B?cEFyQ0hGa3NoVmZ1d2VCOHQweVRMaERnMzVvVkpMOVFSck1VdEU3ZUlJeUhS?=
- =?utf-8?B?cGxtejFvMFRZdjhyRkpLa2x2Ri85RkVxa0VUa214L1FQNjlOcGR1Q0p4dzBt?=
- =?utf-8?B?YXBGWkxBeW83UUtqNDFWaW4xUUlJRmlDeTRZZWRkN2hzTy84WjBrRDlsZzZO?=
- =?utf-8?B?NzJicDZCUVFkenRLa3lrZjJnMlpwTjdPY3hUTnRab3ByUW9XdFhQUmhSMGc4?=
- =?utf-8?B?Y0NCeVFGVWc3cU52ZmRKVG5UQjQwT3F6MGdjeTMvRUVhK3BnOUZjQStoUmsw?=
- =?utf-8?B?SWhGMkNGWHdQMFIvTlh0LzF4aUR3MGpjeDdTbjNHZlI0TnRwSFo0bmtlZG4r?=
- =?utf-8?B?R2lGZ3Z5NUpJRm5NVFA2ZU9tOU9Qd0xWREZkWExocW84UEpNUVJhTzh5TVR6?=
- =?utf-8?B?akM3SXdjWW54VnlZdlpTa2I0bUtNVUdLekdCOFBFL3UzNVBTVGxsU1BCbEVQ?=
- =?utf-8?B?dGloekkrQzQyQnZjSDliTnlqZzBkbUprMm15MEJnckErcGxaY0dDZ3V3cGxx?=
- =?utf-8?B?OHIrcmJqWnlRUUU2YXlsTEZOandOR1pxMG1MUkNyT2tFOXdWNUFtWjdjYnY5?=
- =?utf-8?B?U1d2T1JSSDJMOUZXTGZDYmtUTXhoNUhlZXl3Ukh1dmt1QnJxYk9zRmUrR2Nt?=
- =?utf-8?B?dUY0WDN5Q21Qa2s3dHpYa08vR3J1VVNTVE0zb0NtSFovbjFweW1YcEUwNUk1?=
- =?utf-8?B?ZmtES0VxcGhCeVh0MmxjMmpCa2VRTXk2ekdZSStaR1NKRWJjTmM2UFpQSzls?=
- =?utf-8?B?MFlaRFpkMG0xVTN0ZHQrRjQ1ZTNkTWFzV05ob2MzYWVZRjJLMVNsaEFqQzJt?=
- =?utf-8?B?VFd5UzZYNGp5WWR4RTU1YUMwcS9aUERROUdockJXY3NESU4xaFFSckc1MUM2?=
- =?utf-8?B?L3VwSGZxN2p5eGE0NVpkd2VITWZPcUhQOGZiZVYvNS96V1hJK2I4bGFPd2R4?=
- =?utf-8?B?TC9ybEcxMHdRR1p3eVNyRXlSQkxPdkZhckdFV0FEU1Q5NlAyc3p4MThoeSt1?=
- =?utf-8?B?NkEyeStMZHJXY0Z5QjJtUlp2eHcvOG1YRTJDSHJubmlncXVBMmFMeDVaMFlh?=
- =?utf-8?B?THdGWkU0MURQaUxIRkdJZHB5bStWdkpmdUxUVlR6WTFIckQrSGlxaGdlR3J2?=
- =?utf-8?B?NkZXaW9tTnpGQUEzMzhvd2lsVXRzek5uUXdzcU4zS2FXTWdveFgwR2Nqa3hY?=
- =?utf-8?B?dEt6eTBwMU9xMjlTNUUrdi9TSHBxR3NaYzVlKzNDaGJwdnlVODZMNEtiSjB4?=
- =?utf-8?B?SHRUUitFUHJCK1k3R2tVOGxMQ2JRdlR1K0hDM3R2cE5TSmpMaFlrSFpkVnpr?=
- =?utf-8?B?eWNvQTRMTEJXYy9CZU5HYnFlREVBVHNjN29mKy9HUVFMNWhDNm1GVSsrK1ds?=
- =?utf-8?B?dHJPcjcrWUVDSEQ3eWtFYlYvZlhzYmdLelZpbDRvNytBbEl3UFdvaGhyM0dp?=
- =?utf-8?B?eHNGNlBCQ3Z0ekN6a0FMeTNGQXgrR01zWHNsenhEREZwYjFFQ0UyaDBNNkYy?=
- =?utf-8?B?N2lEZEVmMGdWRm1KSjZkZmxZUnpraXplMzZuSUMwdytERmFOSUp1TFlYS2t2?=
- =?utf-8?B?Zjg3WGRsMTBGUTR3OHhGYStabmw5cjduUjNSZi9VbmJRcWJXT0ZqWGxJbjFS?=
- =?utf-8?Q?YiB+umTv9dh7+ulOQirvH57TV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdf259f5-d78d-485d-562f-08ddf58e1d5d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 02:01:28.4724 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gSPDPrxhkwF8TTksoUKmxjcbBYiViQoxVaZJCRNtwjVrFDlkWa47h8Pl9f4BpsIxjSt5s4OqlzUfnnxmc21MQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6619
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aMk0d5JO_4YECYGY@pathway.suse.cz>
+X-Mailman-Approved-At: Wed, 17 Sep 2025 07:25:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,169 +119,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/5/25 11:12, Louis Chauvet wrote:
+On Tue, Sep 16, 2025 at 11:57:11AM +0200, Petr Mladek wrote:
+> On Mon 2025-08-25 10:29:29, Jinchao Wang wrote:
+> > This patch introduces four new helper functions to abstract the
+> > management of the panic_cpu variable. These functions will be used in
+> > subsequent patches to refactor existing code.
+> > 
+> > The direct use of panic_cpu can be error-prone and ambiguous, as it
+> > requires manual checks to determine which CPU is handling the panic.
+> > The new helpers clarify intent:
+> > 
+> > panic_try_start():
+> > Atomically sets the current CPU as the panicking CPU.
+> > 
+> > panic_reset():
+> > Reset panic_cpu to PANIC_CPU_INVALID.
+> > 
+> > panic_in_progress():
+> > Checks if a panic has been triggered.
+> > 
+> > panic_on_this_cpu():
+> > Returns true if the current CPU is the panic originator.
+> > 
+> > panic_on_other_cpu():
+> > Returns true if a panic is on another CPU.
+> > 
+> > This change lays the groundwork for improved code readability
+> > and robustness in the panic handling subsystem.
+> > 
+> > Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+> > ---
+> >  include/linux/panic.h  |  6 +++++
+> >  kernel/panic.c         | 53 ++++++++++++++++++++++++++++++++++++++++++
+> >  kernel/printk/printk.c |  5 ----
+> >  3 files changed, 59 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/include/linux/panic.h b/include/linux/panic.h
+> > index 7be742628c25..6f972a66c13e 100644
+> > --- a/include/linux/panic.h
+> > +++ b/include/linux/panic.h
+> > @@ -43,6 +43,12 @@ void abort(void);
+> >  extern atomic_t panic_cpu;
+> >  #define PANIC_CPU_INVALID	-1
+> >  
+> > +bool panic_try_start(void);
+> > +void panic_reset(void);
+> > +bool panic_in_progress(void);
+> > +bool panic_on_this_cpu(void);
+> > +bool panic_on_other_cpu(void);
+> > +
+> >  /*
+> >   * Only to be used by arch init code. If the user over-wrote the default
+> >   * CONFIG_PANIC_TIMEOUT, honor it.
+> > diff --git a/kernel/panic.c b/kernel/panic.c
+> > index 72fcbb5a071b..eacb0c972110 100644
+> > --- a/kernel/panic.c
+> > +++ b/kernel/panic.c
+> > @@ -294,6 +294,59 @@ void __weak crash_smp_send_stop(void)
+> >  
+> >  atomic_t panic_cpu = ATOMIC_INIT(PANIC_CPU_INVALID);
+> >  
+> > +bool panic_try_start(void)
+> > +{
+> > +	int old_cpu, this_cpu;
+> > +
+> > +	/*
+> > +	 * Only one CPU is allowed to execute the crash_kexec() code as with
+> > +	 * panic().  Otherwise parallel calls of panic() and crash_kexec()
+> > +	 * may stop each other.  To exclude them, we use panic_cpu here too.
+> > +	 */
+> > +	old_cpu = PANIC_CPU_INVALID;
+> > +	this_cpu = raw_smp_processor_id();
+> > +
+> > +	return atomic_try_cmpxchg(&panic_cpu, &old_cpu, this_cpu);
+> > +}
+> > +EXPORT_SYMBOL(panic_try_start);
+> > +
+> > +void panic_reset(void)
+> > +{
+> > +	atomic_set(&panic_cpu, PANIC_CPU_INVALID);
+> > +}
+> > +EXPORT_SYMBOL(panic_reset);
+> > +
+> > +bool panic_in_progress(void)
+> > +{
+> > +	return unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID);
+> > +}
+> > +EXPORT_SYMBOL(panic_in_progress);
+> > +
+> > +/* Return true if a panic is in progress on the current CPU. */
+> > +bool panic_on_this_cpu(void)
+> > +{
+> > +	/*
+> > +	 * We can use raw_smp_processor_id() here because it is impossible for
+> > +	 * the task to be migrated to the panic_cpu, or away from it. If
+> > +	 * panic_cpu has already been set, and we're not currently executing on
+> > +	 * that CPU, then we never will be.
+> > +	 */
+> > +	return unlikely(atomic_read(&panic_cpu) == raw_smp_processor_id());
+> > +}
+> > +EXPORT_SYMBOL(panic_on_this_cpu);
+> > +
+> > +/*
+> > + * Return true if a panic is in progress on a remote CPU.
+> > + *
+> > + * On true, the local CPU should immediately release any printing resources
+> > + * that may be needed by the panic CPU.
+> > + */
+> > +bool panic_on_other_cpu(void)
+> > +{
+> > +	return (panic_in_progress() && !this_cpu_in_panic());
+> > +}
+> > +EXPORT_SYMBOL(panic_on_other_cpu);
+> > +
+> >  /*
+> >   * A variant of panic() called from NMI context. We return if we've already
+> >   * panicked on this CPU. If another CPU already panicked, loop in
+> > diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+> > index 0efbcdda9aab..5fe35f377b79 100644
+> > --- a/kernel/printk/printk.c
+> > +++ b/kernel/printk/printk.c
+> > @@ -345,11 +345,6 @@ static void __up_console_sem(unsigned long ip)
+> >  }
+> >  #define up_console_sem() __up_console_sem(_RET_IP_)
+> >  
+> > -static bool panic_in_progress(void)
+> > -{
+> > -	return unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID);
+> > -}
+> > -
+> >  /* Return true if a panic is in progress on the current CPU. */
+> >  bool this_cpu_in_panic(void)
+> >  {
 > 
+> All the functions are trivial. It would make sense to define
+> them in linux/panic.h. Then the callers would benefit
+> from the (unlikely) prediction macro...
 > 
-> Le 15/08/2025 à 05:50, Alex Hung a écrit :
->> The functions are to clean up color pipeline when a device driver
->> fails to create its color pipeline.
->>
->> Signed-off-by: Alex Hung <alex.hung@amd.com>
->> Reviewed-by: Daniel Stone <daniels@collabora.com>
->> Reviewed-by: Simon Ser <contact@emersion.fr>
->> Reviewed-by: Melissa Wen <mwen@igalia.com>
->> ---
->> v11:
->>   - destroy function takes drm_device *dev instead of drm_plane *plane
->>     (Nícolas Prado)
->>
->> v9:
->>   - Move from from latest commit to here, and 
->> drm_colorop_pipeline_destroy
->>     is called in respective commits.
->>
->>   drivers/gpu/drm/drm_colorop.c | 35 +++++++++++++++++++++++++++++++++++
->>   include/drm/drm_colorop.h     |  2 ++
->>   2 files changed, 37 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/ 
->> drm_colorop.c
->> index 7b3ecf7ddd11..6930d39c8ad3 100644
->> --- a/drivers/gpu/drm/drm_colorop.c
->> +++ b/drivers/gpu/drm/drm_colorop.c
->> @@ -135,6 +135,41 @@ static int drm_plane_colorop_init(struct 
->> drm_device *dev, struct drm_colorop *co
->>       return ret;
->>   }
->> +/**
->> + * drm_colorop_cleanup - Cleanup a drm_colorop object in color_pipeline
->> + *
->> + * @colorop: The drm_colorop object to be cleaned
->> + */
->> +static void drm_colorop_cleanup(struct drm_colorop *colorop)
->> +{
->> +    struct drm_device *dev = colorop->dev;
->> +    struct drm_mode_config *config = &dev->mode_config;
->> +
->> +    list_del(&colorop->head);
->> +    config->num_colorop--;
->> +
->> +    kfree(colorop->state);
->> +}
->> +
->> +/**
->> + * drm_colorop_pipeline_destroy - Helper for color pipeline destruction
->> + *
->> + * @dev: - The drm_device containing the drm_planes with the 
->> color_pipelines
->> + *
->> + * Provides a default color pipeline destroy handler for drm_device.
->> + */
->> +void drm_colorop_pipeline_destroy(struct drm_device *dev)
->> +{
->> +    struct drm_mode_config *config = &dev->mode_config;
->> +    struct drm_colorop *colorop, *next;
->> +
->> +    list_for_each_entry_safe(colorop, next, &config->colorop_list, 
->> head) {
->> +        drm_colorop_cleanup(colorop);
->> +        kfree(colorop);
-> 
-> This free here seems a bit strange. I don't see any requirement on the 
-> colorop pointer in the init function, so we can expect it to be embedded 
-> in a bigger structure, so this kfree may affect a non-allocated pointer.
-> 
-> I would expect one of:
-> 
-> - a clear documentation in drm_plane_colorop_*_init documentation that 
-> explicitly says that you need to pass a kzalloc pointer => very error 
-> prone, if the user don't read carefully the documentation it may lead to 
-> undefined behavior
-> 
-> - that drm_plane_colorop_*_init will do the kzalloc itself (so we 
-> garantee that the pointer is always a kzalloc pointer) => it will forbid 
-> to embed colorop structure in bigger structure. I don't think this is 
-> the case today, but I don't know if this can become a limitation for 
-> other drivers.
+> It can be done in a followup path.
+Thanks for feedback, I will do it later.
 
-Yes it makes to have kzalloc and kfree done both in vkms/amdgpu or both 
-in drm_*.
-
-Does the following change make sense to you?
-
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index 1551b86471ce..67aa443e53e7 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-
-@@ -214,6 +216,13 @@ int drm_plane_colorop_curve_1d_init(struct 
-drm_device *dev, struct drm_colorop *
-  	struct drm_property *prop;
-  	int ret;
-
-+	colorop = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-+	if (!colorop) {
-+		drm_err(dev, "KMS: Failed to allocate colorop\n");
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-  	if (!supported_tfs) {
-  		drm_err(dev,
-  			"No supported TFs for new 1D curve colorop on [PLANE:%d:%s]\n",
-diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c 
-b/drivers/gpu/drm/vkms/vkms_colorop.c
-index 0191ac44dec0..f11dca61b5ce 100644
---- a/drivers/gpu/drm/vkms/vkms_colorop.c
-+++ b/drivers/gpu/drm/vkms/vkms_colorop.c
-@@ -24,12 +24,6 @@ static int vkms_initialize_color_pipeline(struct 
-drm_plane *plane, struct drm_pr
-  	memset(ops, 0, sizeof(ops));
-
-  	/* 1st op: 1d curve */
--	ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
--	if (!ops[i]) {
--		drm_err(dev, "KMS: Failed to allocate colorop\n");
--		ret = -ENOMEM;
--		goto cleanup;
--	}
-
-  	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs,
-  					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
-
+BTW, this series was merged to -mm branch already.
 
 > 
-> - that drm_colorop_pipeline_destroy does not free anything, this must be 
-> done by the driver itself => "more flexible" solution, but also require 
-> that you can attach a destroy function to each drm_colorop structure 
-> (like drm_crtc_funcs->destroy) or postpone it to complete device removal 
-> (using drmm_kzalloc or manually in device destroy)
+> Otherwise, the patch looks good. I think that it is too late
+> but feel free to use:
 > 
-> In addition this function leave config->colorop_list in an uncertain 
-> state, I would be nice to add call list_del(colorop->head) just to avoid 
-> dangling pointers.
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
 > 
->> +    }
->> +}
->> +EXPORT_SYMBOL(drm_colorop_pipeline_destroy);
->> +
->>   /**
->>    * drm_plane_colorop_curve_1d_init - Initialize a DRM_COLOROP_1D_CURVE
->>    *
->> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
->> index 791ab940c158..0ea1a01ca04e 100644
->> --- a/include/drm/drm_colorop.h
->> +++ b/include/drm/drm_colorop.h
->> @@ -239,6 +239,8 @@ static inline struct drm_colorop 
->> *drm_colorop_find(struct drm_device *dev,
->>       return mo ? obj_to_colorop(mo) : NULL;
->>   }
->> +void drm_colorop_pipeline_destroy(struct drm_device *dev);
->> +
->>   int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct 
->> drm_colorop *colorop,
->>                       struct drm_plane *plane, u64 supported_tfs);
-> 
+> Best Regards,
+> Petr
 
+-- 
+Jinchao
