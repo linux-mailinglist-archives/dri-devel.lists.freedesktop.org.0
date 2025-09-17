@@ -2,162 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7424DB7EC14
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4589B7CEB7
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9432810E3FC;
-	Wed, 17 Sep 2025 02:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED9110E04C;
+	Wed, 17 Sep 2025 02:45:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="E3YbWFgM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DvrmQQsm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011018.outbound.protection.outlook.com [52.101.52.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6791210E0D4;
- Wed, 17 Sep 2025 02:23:08 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37CF10E04C;
+ Wed, 17 Sep 2025 02:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758077150; x=1789613150;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=eofw+dzUKRZ9hbKXpggGNe7ljisVA+7izPKksun7axY=;
+ b=DvrmQQsmCzuGu9C9j/31IvhF44Gd2uwyen8YIuzAZUR7GpkQnPtSMkJY
+ LYH+MvzLiE6Gbh/H5RThsqgQ8DxfwEzzr8ZG2E5t2fgeClptxSIEAqIs0
+ xlNGuBYXG7CDikuRHmhZjN8cKMSRWWLc7Tfhi4nS80QomtDuQcfwV7sgy
+ mEcNP7cU861D7g26TJLgn3xc74N5nY6znTYcCPKJeDw9fNd9EeHxnO2ih
+ QGP9aBFrcIqlG+yE3O+/Ixbayfcr+kXoTy6izqnVl9ziGSup9e9Oyb+oP
+ Ch+iLuQQlVJqIC2m4qIgv5hafUH7NAcjRRvjM59kHe6+PXvx2Ims26omY w==;
+X-CSE-ConnectionGUID: EwzWfah6SFuO9mVTF6IK8w==
+X-CSE-MsgGUID: 4URV2eqYRd63UaJxLeKjNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60429371"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60429371"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 19:45:50 -0700
+X-CSE-ConnectionGUID: JL0zzxFHQBC7DCK0+zmUcQ==
+X-CSE-MsgGUID: Hob7enclQ7+LGL2BKhhQ3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,270,1751266800"; d="scan'208";a="205893520"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2025 19:45:50 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 16 Sep 2025 19:45:49 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 16 Sep 2025 19:45:49 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.48) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 16 Sep 2025 19:45:49 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UzRgBJjHKS9OAMEx8a/V0fHhR7DGTSA5SOhWpVgP6U/HLvnDXCTIb88g2MRT3oxq5kFlIndeBOh5GLuEOzE8eACCM2XJwasvs0w+VC5aBpigV+goD+OmYMZIeLb37qzbRwcnrIDJkl1wRWYidVhWYZkXlnc9Irbp1cwe9nzrSnhOOS5RcETsnjcmkSBMo1M4sfX2lV2KQ9WUBR0mqT8tVLzYXmvMPv5uVWH9LO0/3ZvZoLIqvbysU27mGQv7Av18cppn5XLIkG1EyLYwC2wMt+uvZsMECw+7C7JIev3j35yl0LCSXFzcKzKV+soFXjKw9YLHVdpkby93j0kvw8xw+Q==
+ b=QkeSXVDIQcSZ0PVc9/aW/dWpUemEs63wBNZLfXJ6ooLPkAbWzvo8DSeVYufXjlhy8RKA1eLYy2hq6GhpQg4BtQy8EnS/sI8WcP9R4nm5NGvXRSUM+TEQYCv1Sb2FPblk50/uuoDao7MZBa+XGpZ65jngwU8+oAzPpKtSAc3nRvFMvN3+dyJQ652P31u6DndWtdQUOc34lbQe3XsqTJFsZsvYPRzTmMMh+EdlAFrswG8X2SvUim2ST45987ly35eVbJUj0aRIGm0Zn5a4HRcmJkVeKSUhrDwDj1oPUcuPqOvykspEIfQlGa25LHgqi+mr2mq5mGswIqjxHgrnB0najQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=68G0+t0KwvD+y+G6qSc5G+VzM4M6bkg1TVkgCgQXYn4=;
- b=U3Y8EcY61yFsYcKLO2vXKsBZZ8A+m0HdV/iYXP3MnZLVMz754aftG7u8C2MI9D1PWxCdx4+5oD4o5YV6b/LDdwBBVarKSnQ5Ea2WDBmaf+tsAAyLgt5Wvc5mbkVUzNeMVujS6G6Yo3MiVsZbEYwyS9MeNgeBxoUOLADCBZgKMY+LCYsRYP84xfV0X2ltQ8JkZbtj7Fi0hUcjCrOcVLtkkcDXaMkWDgK8DpfO8tCqZRk+YE7zhohxxXd0tFE19pkvbK293gaGte5AhOVXsHjAaJK0QXJP37w8TVuU0dDmqObC/fKfuvRrDwlcpAgdKnhuEd1vUPI0QglI0WA4FXa4ZA==
+ bh=xmoe/QBpVjkbbWU1qu6rv9IWUvZScsXrDlbctrT6T9Q=;
+ b=f+feN8DOGgdjLAMOjXVsw+PqsNIp+RDSbfvEkcznfU6Qs24uH2Z6KQK8Iv4S+rxVRxpN3gYHcw/9FLD4oVmwFn62zqIkI2E78B12GfCtZCrXQw6raIYa8E8qZHHZX95pHdfZO5DwvV0hgqDHjsCRtv6rVvhj1IvI4E5n/VsFx7XBP9tBrA8tL5XqfypNfcmis2v/bP5+N41XnvYhEGsJ60Q4ivt76V+mf5kC6wzXXPlisAfRTgTeBYlZZlxPP1npPqAmt1yEM161xkI1MSkMEcImLBgVSHFEpYUIBhRtjNivD5KugNAePbxqdeSmBpVT/Bx1Ba5pkkVMxgjeQIFGgQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=68G0+t0KwvD+y+G6qSc5G+VzM4M6bkg1TVkgCgQXYn4=;
- b=E3YbWFgMou+EnMzKQBkSNUhJRqFoLt/It7EGAq1txNGirzmjcYF7HkLLDJ4VeWBAex5pRKUo2EOSFMRW5ZQ5SGTCq3OB33WT3YqVljVexVVm9Yk1srjyM02lWI7xA/YoQQsXt8AEwGwAWVx1t3e4KcPKya/U7k5E0l7q249TstQ=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by CH2PR12MB4135.namprd12.prod.outlook.com (2603:10b6:610:7c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.23; Wed, 17 Sep
- 2025 02:23:04 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%7]) with mapi id 15.20.9115.018; Wed, 17 Sep 2025
- 02:23:04 +0000
-Message-ID: <1337aa18-550e-4584-9a58-88b480e65f37@amd.com>
-Date: Tue, 16 Sep 2025 20:23:00 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V11 11/47] drm/colorop: Introduce
- DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com, mcanal@igalia.com,
- Daniel Stone <daniels@collabora.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-12-alex.hung@amd.com>
- <14dc410514608487a8f44c2060ee7aab3339e64f.camel@collabora.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <14dc410514608487a8f44c2060ee7aab3339e64f.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SJ0PR11MB4832.namprd11.prod.outlook.com (2603:10b6:a03:2dd::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Wed, 17 Sep
+ 2025 02:45:48 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.9115.022; Wed, 17 Sep 2025
+ 02:45:47 +0000
+Date: Tue, 16 Sep 2025 19:45:45 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH v3 4/5] drm/xe/bo: Create new dma_addr array for dmabuf
+ BOs associated with VFs
+Message-ID: <aMog2cEGWlekPTdC@lstrano-desk.jf.intel.com>
+References: <20250903223403.1261824-1-vivek.kasireddy@intel.com>
+ <20250903223403.1261824-5-vivek.kasireddy@intel.com>
+ <59cf1b78607dddd6b394f023d786d0123f9195b0.camel@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0342.namprd03.prod.outlook.com
- (2603:10b6:303:dc::17) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+In-Reply-To: <59cf1b78607dddd6b394f023d786d0123f9195b0.camel@linux.intel.com>
+X-ClientProxiedBy: SJ0PR05CA0069.namprd05.prod.outlook.com
+ (2603:10b6:a03:332::14) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|CH2PR12MB4135:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3dcc3f82-56c9-4342-642d-08ddf59121c8
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB4832:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d9a684e-b308-4bd8-4202-08ddf5944e7b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TXdSR2NkdlRIRm1VYURrZDdiYmxEK2IxdVlvcjZhekJRdmxjdE9tWHpTeGlG?=
- =?utf-8?B?cU9jSnN6cWlOZTdSR1JxNVFEY2FwY000VThtc1NCV0g0dFBTaDRsdlYxdHhv?=
- =?utf-8?B?NUZHRm5lbUhzVnQxZmVGa3lNZDYxRkhqWk80ZmthV2hyaDM0WGsxa0IzUHJ6?=
- =?utf-8?B?TU5GV2VEWUxMZ1VyY1JtbUFkVXJUcW5ZMmtNZUdFckNNYzVxZ3k3WitsVEJG?=
- =?utf-8?B?WVFQODE3RXNZT2xoNHNRMXVPQ3M1MWZucVU3dy80S29rc1doSkNhZmQyZW9T?=
- =?utf-8?B?UFpGTWppVG1LQmdic2lUTmQwM21wTWRLMmJQT1QvcE0rb2xOWjY5d3B2YkZU?=
- =?utf-8?B?SFRla2Y2eUJsblJEekJrSUIzVVpZekVjNU5kUXBtUm1aenQvUEZlUXBkcUZz?=
- =?utf-8?B?QXlpeWd1SFNkaGFPekpvaFBxaHp0K29yZENDMHhwdGh3MUZqMmtWSTNuQWlY?=
- =?utf-8?B?VmxkZldtcW5TcUxDN3YzNmxZeWRvWFpKcC9KU1o1MHllYjNva2NJU2VlNGc3?=
- =?utf-8?B?MlRQMzNtb0p0T2dhdzNJRmFKb1RSemVWclZPcG5INUwwUEdyenZBTlpzUDNO?=
- =?utf-8?B?aXl4b1JoaFRLVW52ck1iN0hSbERtb1Nwbjh6RFlKUy9pNUdLWmg5bGVEdmZS?=
- =?utf-8?B?WTZONThLTXBCbVRUWXQ2M1pQbGpkUjllQ1U0VEFiYThIUWFHRWVySDdZYXNq?=
- =?utf-8?B?UFNBYzhSU0p4NXBsN0d1ZDFKTXBtK0FDYVVVUG4zNXBGVWt2bEJrUk45NklY?=
- =?utf-8?B?V0txS2NZSlNLaVYybFlKdzQyQTM2dXNENVpIK3lGbTlvemVHRFF3SDZQUWJm?=
- =?utf-8?B?WklKeUdva2ZGbTUzMCt2Q3JCTzBmSUYwalFkdzFzSUEvbm5xL1Mycmg4cnl2?=
- =?utf-8?B?MWZIL2g4N3MrYVd5RzFDRVVVdE0rbGhuV3FOSk5KbklVaFM1MFFBS3Vra1Vr?=
- =?utf-8?B?TEJkNitPNTJPYmFBNXFnNWxGWlBLVy9TVXJKakk2Y3JWekRTcVhHUm1uRlJJ?=
- =?utf-8?B?Z3poV0pNYkNvRkRZVnpFdUd4Qm9FSzd2TEw2S3V1MWpobm4waHlFTTVvbUhl?=
- =?utf-8?B?VlE0bFBHcXBHeHFqTXZsNXFxMCswSittVFBUSXZBRHlSREpFT3RIMXd4enpV?=
- =?utf-8?B?RWNLSkl4YStkbFFCenBGZ21TemZaSEgybmZOWlRqNVRPN040S0ZNWnFPTSt4?=
- =?utf-8?B?QjJVdEpwUjlxbzNSOXVadEZISUFBVUZKUUVYRzBSZzA1RloyVzJ0SUtQU1dj?=
- =?utf-8?B?djQwUk55Y245WW9jRUUwWEVZdTNCaHpMRlFPZ1VIcDJBcW41aDQ1SDhSdWdC?=
- =?utf-8?B?dGlyL1hPaTJ0NE0xR2pMclRIdG9aRTExdGkwTm5OOWtyUEw4TnlyaHVZdDBK?=
- =?utf-8?B?b242R0h6QjJxckwweklXRm50ek5lVUdXWjA5WlJKdG51MWkwRnVCakg5ckNT?=
- =?utf-8?B?UHM4RHMwL09Jd3VxcWc3TXdBTm9DMWk5SUxxUWJuQTdqcWJtS0ZMdGZESDRF?=
- =?utf-8?B?RURLKzdIUHo0dDhTTVRTNGMzbVMyVWlrMXpEVjM3VS9HWVVzdkp6S1lMTHVF?=
- =?utf-8?B?dzVNN01pT0oxeVhPYkNwcTZnRTF4VFlEOWJJVnlTNEN2OUtVYmMvcnJwUERW?=
- =?utf-8?B?SEtJY1MwZkhmN1RtYWF6L04xL2hBZG5qTGRjMThzLzM2RHV2UlVscXVzSmVN?=
- =?utf-8?B?WlpJRlNobmE4Rm5UMXRkWU9wUGlPOTVGek1SYWxsKzByakZwbWo5Tit1QTJW?=
- =?utf-8?B?S3hOcGN0Tzk1emVZRXc0VlQvalpTRmpQWEo3RG1sVTJKODM5Y0dId0k0Vjgr?=
- =?utf-8?Q?uY158qbb2hTFoReyHQdtdTqkaequyvaESwFIM=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?JndZ4Q6C8OHHnk5io5/epkH6uicxjiQw7I9DVco1LYkBhujPirko5JzDxr?=
+ =?iso-8859-1?Q?/mRUWxZTXCd0F+Fe1aGoa0gsHr1jUJqU0tX5rafoDr7H/cwep4Yyc2OS5+?=
+ =?iso-8859-1?Q?Iqe9y0x5MvvfwfuC1G3iV0WBqynaPTM4Yf12plX12yCz7l+e9KpPbLoeBl?=
+ =?iso-8859-1?Q?gwtZE8RItEffI05cjs233SaDyHKc/61JsOwEJQFW2TJ1PnAWdR+cZiyEL0?=
+ =?iso-8859-1?Q?XPkov/O5O4fs+w5XUrzYydOgx7/5NwbRDdIxa0q/fzdJsLrA6Avat4jFto?=
+ =?iso-8859-1?Q?H1rIMlZ8IMV/mlbTiHLxtCB2iaqPH4ec+QgcznXa1Vh0EWiL1jCxXmueBB?=
+ =?iso-8859-1?Q?8W+heqArVf5XqnphloFAZ59YRpTHDUTSmnO/FnU8tB4eP3dhY3tIUcNEUV?=
+ =?iso-8859-1?Q?MX8YnpoHEbgKkHobHVHijrFxJi1tJQ4OLwgwFwp+QFW5qMZ+yo/bQs7WhQ?=
+ =?iso-8859-1?Q?1UxwyzjgOAzASAuTH6ild4A8lGm3UjhsaCJZAUS2evRrPHtUW7JOD7oLuT?=
+ =?iso-8859-1?Q?fMl8P0lR33bHXIqHpSW97D9Chpl+Himh52fipo/YidmWvS9pvgUE96xjVu?=
+ =?iso-8859-1?Q?1U6omklFV7+g8ZoXk8tjpfXxDVPUwuICkt89QAfsvWu+zrjcOAvdnyaSWk?=
+ =?iso-8859-1?Q?mAPS/pEl6S9AEJe/gq8l89nIffDYkWDjO55x5kAlzfPjwW8DAPYGX56NBr?=
+ =?iso-8859-1?Q?LV4d6aOdZSX4yhS52gXTKcwCbiBF3LNdKcYpe/0aLrAlX+EOy+hID3zeji?=
+ =?iso-8859-1?Q?CChOZ6Yy0pPvXBP0stOg3KP5ewSupofUS7/X7u3ZQfj3e2vtgMXIsEB5wv?=
+ =?iso-8859-1?Q?45fxXhKaZVTXxCYlwViOjqyjd70QEZANaY3NrPoBU/lqdZmgzErJJK3SWp?=
+ =?iso-8859-1?Q?akW40nNQW5fH92L10HIVdU+XT82TJpFMWCfTATTBWWwDJOxlFvaIOcgC9N?=
+ =?iso-8859-1?Q?QIFjVOPcKqHxjO7fkuF50a8UCW0yxbpiP8qNBN2Q+QkQ5enu+uJjzbmqu4?=
+ =?iso-8859-1?Q?FEv6TbYLPO5WI/R0HqXxsPQVgL8iBNeTafvzkyvHMn9R0lKKrReuOy7uu3?=
+ =?iso-8859-1?Q?btX7zPsDKmxj7+GqU995AMmfW+Iyymxs0tls7/3yHaytk5AtFE/u6Mgq/Q?=
+ =?iso-8859-1?Q?Bz0G3iwYlhepOArGSudo/tAYIm6eSi9fu74Uz9Qf7/yYdiamCtkUjKQvHG?=
+ =?iso-8859-1?Q?gvtTK28zSSZfvIrnEHDRilZRcMWNhLID/HIOFGoYoECf/wpnx1o/19DrH4?=
+ =?iso-8859-1?Q?C84ujR/hFGPnXWnHibZUemM64z1FX44ywMWOAyzJirr503Cw+bDJvwxj41?=
+ =?iso-8859-1?Q?TPFpfAB+rVH8Hsuaz6CtniNsNXX0vXZ/KX6X3Jk3tD0v+8rA635KTeYlyZ?=
+ =?iso-8859-1?Q?UkHACYDELgNN1MbMnMD1IcFMwssgfGkTrW0M/KcMJnknpCwo7+HVcwkUzP?=
+ =?iso-8859-1?Q?arW2faTLbUqmEYaHAiVqQoMMod+N22nSuvab7y4nlyEotQCElbdSYelqsO?=
+ =?iso-8859-1?Q?0=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHZyNldnOElZMGJ1TzF4djcramRZMnUrTyswVDhORlI4NzhDMjB0ajUraFkx?=
- =?utf-8?B?VGlhV0V5a3dSaUs3cjNnNlVCbEU4ZXlmT21IbjlhZldCcHBSRGFSLzVSajd1?=
- =?utf-8?B?QUcvcGpIN0xjSmJTSWNMT2dKZEF4S3pSZGp2d01XUWlPSFBXRDcwSm8xYUVL?=
- =?utf-8?B?Z0d2UENERjhqTDRKQjA1NkZoRGFHdHN0MVgxblA0L2U1aXcxZEI1eUFrbnJB?=
- =?utf-8?B?YWt0dEhRakFTNVJrYStwRFFabTdmeEIxUUc5a25vbVo3eVVTMzdHMTZLbWla?=
- =?utf-8?B?eWdVR1RoUUFuRGtUQkJkSDcvb2QwWnQxOE5jdjNZd1dKcGVsMURGTklPQ1Bh?=
- =?utf-8?B?SWFxL0VWeUM4b3NjOWN2YTgvTGY0ekw3RmpGM3VoMzdidUJVTUtKcUhYcjln?=
- =?utf-8?B?dkhxbElhOHpJSlgvYUpUQzNKZG1ORnMxNklqeG9xWk42WDRzTzFJUVZMVVBj?=
- =?utf-8?B?VGpoMEl4d0g0Q1ZGSzNzclBxVTM2K3hwVTE3TXlDUWl1ZncxOHcrNVJuaytj?=
- =?utf-8?B?UnpHMW1vOU5qcDlqZzNaMGt5b2FPSEpqTFRjdFN4cTdQcGZuZkpYWndvQVdz?=
- =?utf-8?B?WmlqSGJwQmFtdG1wQjFxcWFINnpDZnl3Z1NaVHcrbElpZS9pVXJZQ0I2UExY?=
- =?utf-8?B?YlFOSzZrRTh5V1dyUzdwa2lMYWErVjMrbDFCbVVPV2VoSGxJNDQ2aDBwaFM1?=
- =?utf-8?B?ZDJ2b0dHSG9NWEI5OTdiT1VJdjdxL2J1bzNSLytmYy9PSUt5cTl4MHhkL3RP?=
- =?utf-8?B?dUw0dmoxQXJKa2xXbmREZm9JeFFmaVpTNGUxcDUyb2c3WHA3Q3RKVFcwaG1r?=
- =?utf-8?B?V0R6dVJ0UkszRFJjRVNRNm02Q0JoSmU2TVk4c0FHZkgxNWJBc3NYODIzcjBu?=
- =?utf-8?B?S0QxdUlYQUFWQ3kvZlE5cHJ1OVJyWVYzeGN4UEFLcmw5cHdPaGY0VVZTKzBL?=
- =?utf-8?B?dWVsMFltZEtCaThUWjRFTEFkMjRoMy95RXlxc3VNWElqcE14ZHg1QjZ0Q0FH?=
- =?utf-8?B?RjMwZmh3ODJIbFg5QTlvbFM3NXU3a1JPdUswYm5XUUNhZ2hTRW1maitEL1Bv?=
- =?utf-8?B?MExac2JuekNkVkJpRlVubzNESU8vN3pTL0p5aEtyWTF5Wk95YllhMzNuRmlM?=
- =?utf-8?B?VjVNaUg3Q0Z2N0VaWHRoL0ZyMnBRLzVWYzBJVVFlU0VxbFJrYnRKbkZPNzhj?=
- =?utf-8?B?OE5PdXhDZkVRTDlnYlZOVE4yRkNZc0QrMlU4N1lpcnpyQzRLdjRQT09oZG1k?=
- =?utf-8?B?cGN3M2E4ZVRFS2k1eUpJdU5MSWZxNTNGaThBQTVDaUJTYmVqakZ1V1pVVjBG?=
- =?utf-8?B?NjJ6TG44UDlTSnNQL2tMZkhaaTBxYnVlUXpmUHpUODF0YUlwOTVuOTJIL3Vh?=
- =?utf-8?B?U1JCRTloR2pzV1hmUXo5ZWQzdnJQMmFsQXAxUWcxZHJxdUErZTdyMERMcU90?=
- =?utf-8?B?L1diM3lsUSt4eFJiWUdKaE9tT2hMejRLcGZmcmVpbDFrSjhyZjc2TWpmWFNZ?=
- =?utf-8?B?T24rTlRnTzNTQWtZYkRLR1FBelVyRlU2a0ExOUg0OTR2LzFCYVo0M1lQNHdX?=
- =?utf-8?B?QXBHcXI3L1hDWU1BUTBUK0tFcUJtbXdHWVZIZlBOMUM4Mkk5QWQxaVd3VzF2?=
- =?utf-8?B?TTZwMGY5ZmltQmZZT21MNVk1UU91eU9aQkxKcTZwN1Rzc3gwNTZBdlgvZHRn?=
- =?utf-8?B?SmNOZUJhVFo1anJ6ZGtCQ1pVa252OEN3ZG9rSVlGOTRyT1J3K2JGazVseE5z?=
- =?utf-8?B?ZnpKMzVibkRYS0tFNXVyWVJQMGhLVDFyNWIxbVhhYW84bEx2WVdWdmZFcDdh?=
- =?utf-8?B?YlN1RVhlWG1kNUZWVHJHQlBQVnBpYk1qNVo5M0pMY0ltcGNaazh4dzhKNFFR?=
- =?utf-8?B?cFU2UzdabUpuZWNqdlQwMlR0ekdEczR5RStVVDR6OTNGaGg2SUJiU1pzRWxo?=
- =?utf-8?B?WTBmbmZYc1Z2S0JwU1RpNTA0NW9CRWtuWGlFSmhqNXF6TkNIUFlUNmJVRExI?=
- =?utf-8?B?NTR0MXBqU1M0RUVNbEU2SkdOVVAyMFhPWkxuVVhCRDJFTENjRG5MdzFHbEY5?=
- =?utf-8?B?UERnbE83dGhqWTgyVHJiU1ozS2VMU2R4L1ZITjdDam52c3BYSW11NHNIVXZQ?=
- =?utf-8?Q?0uUnArapj3/XQ5gEaPRUZqC1w?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dcc3f82-56c9-4342-642d-08ddf59121c8
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?P6C4Np+maWQHxQtVDRf9KiBhzYlapEeevKJIPkHYhiW3EubRy0q2iGaohN?=
+ =?iso-8859-1?Q?eCG4WA0mrBUxmbd8MOo07Gx6p6DqF0pFb6xPcbHlRi3Rd2FGgsFI7uUHHu?=
+ =?iso-8859-1?Q?jepobXUfx42KlmVOBc5P5PFnk99Jne8YRfCBZRkz/SeKzxPCiKou2z3rZT?=
+ =?iso-8859-1?Q?7ywcqZXXo2QRTS0E0Ii3gK8OgKLQnJsJC7RAFWO3SASOKKK+LPeAI0DdJr?=
+ =?iso-8859-1?Q?ooU9PLY3HzaTWcb4jzWly8cKr061dN55qD7MbhVixjmcxI5vnDnlO9RX1P?=
+ =?iso-8859-1?Q?FWp1BaZGH89zX6Jr10YHcAuI15uCTk7BKGcrhZ1tFz+QaLybt0eNyEw+Ro?=
+ =?iso-8859-1?Q?xZKNZRByrej9AW66y5W+HPtICII7vp+ljp2vo7YGzbWl6UUyc63V7WYfA9?=
+ =?iso-8859-1?Q?BHWGHWGUIWYzS9/UAcNwjlDjKW7EyPcA/lO/MwnWojT+mKhTXxboC9QwJC?=
+ =?iso-8859-1?Q?bJz+IrujTVXcDrYbFxDObtzZUqRXVvOAHyXylrOyWRRl30ZSgA3O3HxmO+?=
+ =?iso-8859-1?Q?2kQZvsiKYnVOA7O23GWWKrIbsCy2ikhqQVRaOuI6wykG8ps7et9ZjNikyJ?=
+ =?iso-8859-1?Q?UyKyEov/Mnck48xDOYPmICACOxOYbjrGHTZ88JrnDoRq76bEix1VI+jaP2?=
+ =?iso-8859-1?Q?yDDDQavrwfuMvQ7uC74KVPJJ9o+CdBciD+mQFSoqYX2EO2R8q6I1r1Y90t?=
+ =?iso-8859-1?Q?JL9iUw8jxFJV8M4RYmFP0Co7O6FIHvwKkdIuJQjhZmF5BqY5apeeCPLN6O?=
+ =?iso-8859-1?Q?m9dZnZE53JRHEIzD9dq0DeVhrrtNtSfB26lTzqiYJSvtlufvTrLfB2cQIB?=
+ =?iso-8859-1?Q?0KhmT+GRiufioHb0oipPCELeSaDW1orN8Y7Y9mhmAZ6aw7O451Lupu63A7?=
+ =?iso-8859-1?Q?p4fxHJ5Tib5YArUAUsH8IZSLHRTI+apgahHig96StDW1fXE2vGag7ICoNQ?=
+ =?iso-8859-1?Q?wqlpIYR0RI7QKO82tUO8+YswvHQXF7QDr3u2WGyddcGAc/nvd1znWRk/Bd?=
+ =?iso-8859-1?Q?xJzSyeY6EJQjQm2FOdUT+u97ba8PFGMlrukdHO8aXj3IsRJ5GBCuql5uBU?=
+ =?iso-8859-1?Q?Wfdg556i2oDiSGalOuPYBdkNP3F2vZx2BaQVTSmum8rGBYeHRC8AhkmC27?=
+ =?iso-8859-1?Q?0Zk+yjVM2bif++k3y7VagSlF6xROpJu3kRpiNfI8SWr+hEIUIQHmsQHUY9?=
+ =?iso-8859-1?Q?zfpRtAhn37x5GJfkjVkKfwfEKz/UFsYIWxqkHf1zQPXIJGwqDZaH78mjfj?=
+ =?iso-8859-1?Q?25pAYW9aG/wnS25AfllRv5WtactFzy17xa7jXCRrXLFrwlcqUQVsYKP5+P?=
+ =?iso-8859-1?Q?MIJYxmJ3/vYXZnUmkk9QOdKSi4+0e2fCJ3sidLHWqIPLN6NXBA1wdp7tOE?=
+ =?iso-8859-1?Q?QUPj5kKAI17w1AQEXi3npgPSDmYz2QeDcBMFR0//gGXnTgZb3pO7MVyQiO?=
+ =?iso-8859-1?Q?q55xOAueA19HDXdyeA3JtFVU2yDMROzVJJI8CYjhnzSKzSH8RVIJnz0DJ+?=
+ =?iso-8859-1?Q?bw0ozCTc4iquJMgom0yMuSdyou/zQt5zI0i4ZGr13aKQVA3H8i9o8D6CT8?=
+ =?iso-8859-1?Q?pyw1lguIbOgdi/yjJHSYY72bp+XcISuS4BWOMxlHG/isiI+NqjMXSAigXl?=
+ =?iso-8859-1?Q?mI1Wz04kQQ3ndPko0A9uvvJjjMIa/0ytjASKU0zJKNIPdle9ZsfAyugg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9a684e-b308-4bd8-4202-08ddf5944e7b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 02:23:04.3716 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 02:45:47.9078 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Pwq8D5k8ZUZPfopg73xl2e1qej52DtKLeTnH5EXg0MVT2HtuANJgnUskxdwfZK/5LnsjBB9BCan6SLB4fmnT3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4135
+X-MS-Exchange-CrossTenant-UserPrincipalName: fG7qK61vUJbIUR4adbWZLLbZ6vqxoHzWSnzL8fSqjyVfP2KkzhgLZ0pV7Kr3/X3qRfnOztOLOrte0q4n3TvLRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4832
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,145 +183,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9/15/25 12:43, NÃ­colas F. R. A. Prado wrote:
-> On Thu, 2025-08-14 at 21:50 -0600, Alex Hung wrote:
->> From: Harry Wentland <harry.wentland@amd.com>
->>
->> With the introduction of the pre-blending color pipeline we
->> can no longer have color operations that don't have a clear
->> position in the color pipeline. We deprecate all existing
->> plane properties. For upstream drivers those are:
->>  Â - COLOR_ENCODING
->>  Â - COLOR_RANGE
->>
->> Drivers are expected to ignore these properties when
->> programming the HW. DRM clients that register with
->> DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE will not be allowed to
->> set the COLOR_ENCODING and COLOR_RANGE properties.
->>
->> Setting of the COLOR_PIPELINE plane property or drm_colorop
->> properties is only allowed for userspace that sets this
->> client cap.
->>
->> Reviewed-by: Simon Ser <contact@emersion.fr>
->> Signed-off-by: Alex Hung <alex.hung@amd.com>
->> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->> Reviewed-by: Daniel Stone <daniels@collabora.com>
->> Reviewed-by: Melissa Wen <mwen@igalia.com>
->> ---
->> v11
->>  Â - Skip color_encoding/range_property in
->> drm_mode_object_get_properties
->>  Â Â  when plane_color_pipeline is present (Harry Wentland)
->>
->> V9:
->>  Â - Fix typo in commit description (Shengyu Qu)
->>
->> v8:
->>  Â - Disallow setting of COLOR_RANGE and COLOR_ENCODING when
->>  Â Â  DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE is set
->>
->> v5:
->>  Â - Fix kernel docs
->>
->> v4:
->>  Â - Don't block setting of COLOR_RANGE and COLOR_ENCODING
->>  Â Â  when client cap is set
->>
->>  Â drivers/gpu/drm/drm_connector.cÂ Â Â Â  |Â  1 +
->>  Â drivers/gpu/drm/drm_crtc_internal.h |Â  1 +
->>  Â drivers/gpu/drm/drm_ioctl.cÂ Â Â Â Â Â Â Â  |Â  7 +++++++
->>  Â drivers/gpu/drm/drm_mode_object.cÂ Â  | 18 ++++++++++++++++++
->>  Â include/drm/drm_file.hÂ Â Â Â Â Â Â Â Â Â Â Â Â  |Â  7 +++++++
->>  Â include/uapi/drm/drm.hÂ Â Â Â Â Â Â Â Â Â Â Â Â  | 15 +++++++++++++++
->>  Â 6 files changed, 49 insertions(+)
-> [..]
+On Tue, Sep 16, 2025 at 10:25:29PM +0200, Thomas Hellström wrote:
+> On Wed, 2025-09-03 at 15:30 -0700, Vivek Kasireddy wrote:
+> > For BOs of type ttm_bo_type_sg, that are backed by PCI BAR addresses
+> > associated with a VF, we need to adjust and translate these addresses
+> > to LMEM addresses to make the BOs usable by the PF. Otherwise, the
+> > BOs (i.e, PCI BAR addresses) are only accessible by the CPU and not
+> > by the GPU.
+> > 
+> > In order to do the above, we first need to identify if the addresses
+> > associated with an imported BO (type ttm_bo_type_sg) belong to System
+> > RAM or a VF or other PCI devices. After we confirm that they belong
+> > to
+> > a VF, we convert the BAR addresses to DPAs and create a new dma_addr
+> > array (of type drm_pagemap_dma_addr) and populate it with the new
+> > addresses along with the segment sizes.
+> > 
+> > v2:
+> > - Use dma_addr array instead of sg table to store translated
+> > addresses
+> >   (Matt)
+> > 
+> > v3:
+> > - Remove the usage of iommu_iova_to_phys() as the imported BO would
+> > no
+> >   longer contain IOVAs and would instead have BAR addresses.
+> > 
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > ---
+> >  drivers/gpu/drm/xe/xe_bo.c       | 98
+> > +++++++++++++++++++++++++++++++-
+> >  drivers/gpu/drm/xe/xe_bo_types.h | 12 ++++
+> >  2 files changed, 109 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> > index 4faf15d5fa6d..6987bffb7aa7 100644
+> > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > @@ -21,11 +21,13 @@
+> >  
+> >  #include <trace/events/gpu_mem.h>
+> >  
+> > +#include "regs/xe_bars.h"
+> >  #include "xe_device.h"
+> >  #include "xe_dma_buf.h"
+> >  #include "xe_drm_client.h"
+> >  #include "xe_ggtt.h"
+> >  #include "xe_gt.h"
+> > +#include "xe_gt_sriov_pf_config.h"
+> >  #include "xe_map.h"
+> >  #include "xe_migrate.h"
+> >  #include "xe_pm.h"
+> > @@ -33,6 +35,7 @@
+> >  #include "xe_pxp.h"
+> >  #include "xe_res_cursor.h"
+> >  #include "xe_shrinker.h"
+> > +#include "xe_sriov_pf_helpers.h"
+> >  #include "xe_sriov_vf_ccs.h"
+> >  #include "xe_trace_bo.h"
+> >  #include "xe_ttm_stolen_mgr.h"
+> > @@ -677,6 +680,88 @@ static int xe_bo_trigger_rebind(struct xe_device
+> > *xe, struct xe_bo *bo,
+> >  	return ret;
+> >  }
+> >  
+> > +static struct pci_dev *xe_find_vf_dev(struct xe_device *xe,
+> > +				      phys_addr_t phys)
+> > +{
+> > +	struct pci_dev *pdev, *pf_pdev = to_pci_dev(xe->drm.dev);
+> > +	resource_size_t io_start, io_size;
+> > +
+> > +	list_for_each_entry(pdev, &pf_pdev->bus->devices, bus_list)
+> > {
+> > +		if (pdev->is_physfn)
+> > +			continue;
+> > +
+> > +		io_start = pci_resource_start(pdev, LMEM_BAR);
+> > +		io_size = pci_resource_len(pdev, LMEM_BAR);
+> > +
+> > +		if (phys >= io_start &&
+> > +		    phys < (io_start + io_size - PAGE_SIZE))
+> > +			return pdev;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +
+> > +static void xe_bo_translate_io_to_dpa(struct xe_bo *bo, struct
+> > sg_table *sg,
+> > +				      resource_size_t io_start, int
+> > vfid)
+> > +{
+> > +	struct xe_device *xe = xe_bo_device(bo);
+> > +	struct xe_gt *gt = xe_root_mmio_gt(xe);
+> > +	struct scatterlist *sgl;
+> > +	struct xe_bo *lmem_bo;
+> > +	phys_addr_t phys;
+> > +	dma_addr_t addr;
+> > +	u64 offset, i;
+> > +
+> > +	lmem_bo = xe_gt_sriov_pf_config_get_lmem_obj(gt, ++vfid);
+> > +
+> > +	for_each_sgtable_dma_sg(sg, sgl, i) {
+> > +		phys = sg_dma_address(sgl);
+> > +		offset = phys - io_start;
+> > +		addr = xe_bo_addr(lmem_bo, offset, sg_dma_len(sgl));
 > 
->> @@ -399,6 +401,21 @@ int drm_mode_object_get_properties(struct
->> drm_mode_object *obj, bool atomic,
->>  Â 		if ((prop->flags & DRM_MODE_PROP_ATOMIC) && !atomic)
->>  Â 			continue;
->>   
->> +		if (plane_color_pipeline && obj->type ==
->> DRM_MODE_OBJECT_PLANE) {
->> +			struct drm_plane *plane = obj_to_plane(obj);
->> +
->> +			if (prop == plane->color_encoding_property
->> ||
->> +			Â Â Â  prop == plane->color_range_property)
->> +				continue;
->> +		}
-> 
-> A feedback that came up when discussing post-blend colorops [1] which
-> is also applicable here, is that there should be a driver cap in
-> addition to the client cap, and that the client cap should only be
-> possible to set if the driver cap is set. Without that, if the driver
-> doesn't support color pipelines, the client will effectively and
-> unintentionally disable color operations without any replacement when
-> setting the client cap.
-> 
-> Another suggestion was to keep the deprecated properties (in this case
-> COLOR_RANGE and COLOR_ENCODING) available but read-only so that
-> drm_info can display them and so that graceful handover from colorop-
-> unaware to colorop-aware clients can happen.
-> 
-> [1]
-> https://lore.kernel.org/dri-devel/20250822-mtk-post-blend-color-pipeline-v1-0-a9446d4aca82@collabora.com/T/#m830e2f87ca82b1f8da7377d0c55c557fb070c2dd
-
-
-Thanks for this. Let me go through the thread and come back.
-
-> 
-> 
->> +
->> +		if (!plane_color_pipeline && obj->type ==
->> DRM_MODE_OBJECT_PLANE) {
->> +			struct drm_plane *plane = obj_to_plane(obj);
->> +
->> +			if (prop == plane->color_pipeline_property)
->> +				continue;
->> +		}
->> +
->>  Â 		if (*arg_count_props > count) {
->>  Â 			ret = __drm_object_property_get_value(obj,
->> prop, &val);
->>  Â 			if (ret)
->>
-> [..]
->> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
->> index 3cd5cf15e3c9..27cc159c1d27 100644
->> --- a/include/uapi/drm/drm.h
->> +++ b/include/uapi/drm/drm.h
->> @@ -906,6 +906,21 @@ struct drm_get_cap {
->>  Â  */
->>  Â #define DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT	6
->>   
->> +/**
->> + * DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
->> + *
->> + * If set to 1 the DRM core will allow setting the COLOR_PIPELINE
->> + * property on a &drm_plane, as well as drm_colorop properties.
->> + *
->> + * Setting of these plane properties will be rejected when this
->> client
->> + * cap is set:
->> + * - COLOR_ENCODING
->> + * - COLOR_RANGE
->> + *
->> + * The client must enable &DRM_CLIENT_CAP_ATOMIC first.
->> + */
->> +#define DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE	7
->> +
->>  Â /* DRM_IOCTL_SET_CLIENT_CAP ioctl argument type */
->>  Â struct drm_set_client_cap {
->>  Â 	__u64 capability;
-> 
-> One other thing pointed out was that these deprecated properties are
-> not actually rejected, but simply unlisted in the current
-> implementation, contrary to the documentation above. But if we do make
-> them read-only we'll need to revert back to the implementation on the
-> previous version, and then the documentation can stay as is.
+> Umm, isn't this O(npages²) complexity? Should be using a resource
+> cursor for this rather than xe_bo_addr().
 > 
 
+Yea, the coplexity isn't great but the cursor as is won't work. The
+cursor assumes continous walk in increasing values and sg list could be
+out of order. We could find a happy medium are try to use the cursor of
+if entires show up in increasing order, reinit it if out of order.
+
+Matt
+
+> Also as mentioned separately for malicious guest KMDs, the resulting
+> address must be sanity checked?
+> 
+> > +
+> > +		bo->dma_addr[i] = drm_pagemap_addr_encode(addr,
+> > +						DRM_INTERCONNECT_DRI
+> > VER,
+> 
+> Please use the XE variant here, XE_INTERCONNECT_VRAM, The DRM define
+> just says that it's the first free enum that drivers can use for their
+> private interconnects.
+> 
+> > +						get_order(sg_dma_len
+> > (sgl)),
+> > +						DMA_BIDIRECTIONAL);
+> > +	}
+> > +}
+> > +
+> > +static int xe_bo_sg_to_dma_addr_array(struct sg_table *sg, struct
+> > xe_bo *bo)
+> > +{
+> > +	struct xe_device *xe = xe_bo_device(bo);
+> > +	resource_size_t io_start;
+> > +	struct pci_dev *pdev;
+> > +	phys_addr_t phys;
+> > +	int vfid;
+> > +
+> > +	if (!IS_SRIOV_PF(xe))
+> > +		return 0;
+> > +
+> > +	phys = sg_dma_address(sg->sgl);
+> > +	if (page_is_ram(PFN_DOWN(phys)))
+> > +		return 0;
+> > +
+> > +	pdev = xe_find_vf_dev(xe, phys);
+> > +	if (!pdev)
+> > +		return 0;
+> > +
+> > +	vfid = pci_iov_vf_id(pdev);
+> > +	if (vfid < 0)
+> > +		return 0;
+> > +
+> > +	bo->dma_addr = kmalloc_array(sg->nents, sizeof(*bo-
+> > >dma_addr),
+> > +				     GFP_KERNEL);
+> > +	if (!bo->dma_addr)
+> > +		return -ENOMEM;
+> > +
+> > +	bo->is_devmem_external = true;
+> > +	io_start = pci_resource_start(pdev, LMEM_BAR);
+> > +	xe_bo_translate_io_to_dpa(bo, sg, io_start, vfid);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /*
+> >   * The dma-buf map_attachment() / unmap_attachment() is hooked up
+> > here.
+> >   * Note that unmapping the attachment is deferred to the next
+> > @@ -695,6 +780,7 @@ static int xe_bo_move_dmabuf(struct
+> > ttm_buffer_object *ttm_bo,
+> >  	struct xe_device *xe = ttm_to_xe_device(ttm_bo->bdev);
+> >  	bool device_unplugged = drm_dev_is_unplugged(&xe->drm);
+> >  	struct sg_table *sg;
+> > +	int ret = 0;
+> >  
+> >  	xe_assert(xe, attach);
+> >  	xe_assert(xe, ttm_bo->ttm);
+> > @@ -719,13 +805,19 @@ static int xe_bo_move_dmabuf(struct
+> > ttm_buffer_object *ttm_bo,
+> >  	if (IS_ERR(sg))
+> >  		return PTR_ERR(sg);
+> >  
+> > +	ret = xe_bo_sg_to_dma_addr_array(sg, ttm_to_xe_bo(ttm_bo));
+> 
+> It looks like this is called for *all* imported dma-bufs, 
+> Shouldn't this be checked for is_devmem_external?
+> 
+> > +	if (ret < 0) {
+> > +		dma_buf_unmap_attachment(attach, sg,
+> > DMA_BIDIRECTIONAL);
+> > +		return ret;
+> > +	}
+> > +
+> >  	ttm_bo->sg = sg;
+> >  	xe_tt->sg = sg;
+> >  
+> >  out:
+> >  	ttm_bo_move_null(ttm_bo, new_res);
+> >  
+> > -	return 0;
+> > +	return ret;
+> >  }
+> >  
+> >  /**
+> > @@ -1540,6 +1632,10 @@ static void xe_ttm_bo_delete_mem_notify(struct
+> > ttm_buffer_object *ttm_bo)
+> >  
+> >  		dma_buf_unmap_attachment(ttm_bo->base.import_attach,
+> > ttm_bo->sg,
+> >  					 DMA_BIDIRECTIONAL);
+> > +
+> > +		if (bo->is_devmem_external) {
+> > +			kfree(bo->dma_addr);
+> > +		}
+> >  		ttm_bo->sg = NULL;
+> >  		xe_tt->sg = NULL;
+> >  	}
+> > diff --git a/drivers/gpu/drm/xe/xe_bo_types.h
+> > b/drivers/gpu/drm/xe/xe_bo_types.h
+> > index 314652afdca7..371eee3f975f 100644
+> > --- a/drivers/gpu/drm/xe/xe_bo_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_bo_types.h
+> > @@ -88,6 +88,18 @@ struct xe_bo {
+> >  	/** @bb_ccs_rw: BB instructions of CCS read/write. Valid
+> > only for VF */
+> >  	struct xe_bb *bb_ccs[XE_SRIOV_VF_CCS_CTX_COUNT];
+> >  
+> > +	/**
+> > +	 * @is_devmem_external: Whether this BO is an imported dma-
+> > buf that
+> > +	 * is LMEM based.
+> > +	 */
+> > +	bool is_devmem_external;
+> > +
+> > +	/**
+> > +	 * @dma_addr: An array to store DMA addresses (DPAs) for
+> > imported
+> > +	 * dmabuf BOs that are LMEM based.
+> > +	 */
+> > +	struct drm_pagemap_addr *dma_addr;
+> > +
+> >  	/**
+> >  	 * @cpu_caching: CPU caching mode. Currently only used for
+> > userspace
+> >  	 * objects. Exceptions are system memory on DGFX, which is
+> > always
+> 
