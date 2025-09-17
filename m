@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B282B8030B
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5141B80312
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E33E10E86C;
-	Wed, 17 Sep 2025 14:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EF2F10E86B;
+	Wed, 17 Sep 2025 14:46:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q44grB0+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hufy26Hx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC4710E867
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:42 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025F410E864
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A453340B39;
- Wed, 17 Sep 2025 14:46:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3346EC4CEE7;
- Wed, 17 Sep 2025 14:46:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 76C0060233;
+ Wed, 17 Sep 2025 14:46:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5F3C4CEF0;
+ Wed, 17 Sep 2025 14:46:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758120402;
- bh=45qXCq0r3ieNw6wBl7f4Vb0/4JcYiN+8JfsVh+VfjBQ=;
+ s=k20201202; t=1758120405;
+ bh=KJpxEv/QG5zjqCgLxjfT4GyqExpg4+378wi+9YLmfeo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Q44grB0+qndlsbjP28XDbQfPLoNaHAgLE/grF0xCKTzEhVeAE9JIk2gX5Byexkaay
- 3oHz2f+45Xf1oDydoFK3zOSO3HMpPxioX6Ig/QDCfKq2cN7MBNEZFOiU6AkgquNjDe
- EvhUE57ib9aN6sUNOhW8a21QyD7H//V1nF4NhtTHDiBUqBxftwqdBqLtKU48te8vLB
- UkwNVTzYMzEYaFQxGeRJp6d0mp0QE80z+M3ft7mTJPdiEHmduu+QQjq0i/uKNoMkUu
- 2L85yMkC3zoVYgG65bYDwlU2MELUGL4KeR4hz4kOCUc5yuRflxnVLwLDjhZN0T+suM
- rawvn2qo3zhWw==
+ b=hufy26HxA6qmjEBYldYZIlnHLjWQewhF/SThTlGBG5YdMTrA7nHvinlncO6iIkuxW
+ 7TEkee+IBAh32uqBLZ7ssehs9KqK9RclmhWuTP10nA8PYzTYS5jSHhuJeEUyrywSjV
+ M9ks9v5o2DV64NjW5d5RDdHwhNy/YyBi1xydHUgbKF0Udg6DgYIfqM22tOhXORPEXX
+ O6MyB6rxtTyVjcMg4xZEx0MXTv8jMHyOJh3t1/6aFgZxNmtBFADO1CUBzYxdvPzZ3e
+ n0NI+GF2IUw8UgzWFjYaxhuVgVRrumfKJUqYflUFZgYFGoZmxBrtZ2F4Zy2PI1x8vh
+ uekxkC5MA3Dew==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:45:52 +0200
-Subject: [PATCH v4 11/39] drm/ingenic: ipu: Switch to
+Date: Wed, 17 Sep 2025 16:45:53 +0200
+Subject: [PATCH v4 12/39] drm/arm/malidp: Switch to
  drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-11-5d4b9889c3c8@kernel.org>
+Message-Id: <20250917-drm-no-more-existing-state-v4-12-5d4b9889c3c8@kernel.org>
 References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- linux-mips@vger.kernel.org
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1475; i=mripard@kernel.org;
- h=from:subject:message-id; bh=45qXCq0r3ieNw6wBl7f4Vb0/4JcYiN+8JfsVh+VfjBQ=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi6Rv/VX58lOexseG53z35Oefvye92b1hei8tAVu5
- 1KipjHodkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJhC5lrK8MCDzUdSGnKLw3
- 4JnpIz7jj9vDNOsjbnx87nzXyeza2r1uW9uCmnMf8WrHly0yMZP3YKyvKLx9YN+nb9d0vltccy5
- nzLW2aivO5tqx6O7lQJMbAU4HnuucKq9escd5+/E3WRWLpa4CAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=KJpxEv/QG5zjqCgLxjfT4GyqExpg4+378wi+9YLmfeo=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi5xVdL76cKWm+T55YHFhWeXTts9NRVTu/Y6J8dmf
+ 8/R0JV+HVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAi7qsY6xQveLL6nDWqlxMy
+ P3Ir1nWHJEPAO1fmnw/ven43O/PdP4N/SX6tdUBCeLV/upJ07aQFjLWiy1fpcWZ8/5uzOyXqc2p
+ sRP6VxY3dK/s1DPSUFIquaD9UNrB1T3IKvr53zu3GOx9eLwMA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,42 +70,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ingenic IPU atomic_set_property implementation uses the deprecated
+The malidp atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
-This hook is called during the state building process, before
-atomic_check, and thus before the states are swapped. The existing state
-thus points to the new state, and we can use
-drm_atomic_get_new_crtc_state() instead.
+This hook is called as part of the global atomic_check, thus before the
+states are swapped. The existing state thus points to the new state, and
+we can use drm_atomic_get_new_crtc_state() instead.
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: linux-mips@vger.kernel.org
+To: Liviu Dudau <liviu.dudau@arm.com>
 ---
- drivers/gpu/drm/ingenic/ingenic-ipu.c | 2 +-
+ drivers/gpu/drm/arm/malidp_planes.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 26ebf424d63ec21ccee80221745c3e8bcc6b3d7f..2574a4b4d40a2c27cb212114117829d9f6ab3ddb 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -703,11 +703,11 @@ ingenic_ipu_plane_atomic_set_property(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
+index 87f2e5ee87907403fac5386042bd6f313397ba03..f1a5014bcfa1058072e13f1ad8e84c85f52fb156 100644
+--- a/drivers/gpu/drm/arm/malidp_planes.c
++++ b/drivers/gpu/drm/arm/malidp_planes.c
+@@ -261,11 +261,11 @@ static const struct drm_plane_funcs malidp_de_plane_funcs = {
  
- 	mode_changed = val != ipu->sharpness;
- 	ipu->sharpness = val;
+ static int malidp_se_check_scaling(struct malidp_plane *mp,
+ 				   struct drm_plane_state *state)
+ {
+ 	struct drm_crtc_state *crtc_state =
+-		drm_atomic_get_existing_crtc_state(state->state, state->crtc);
++		drm_atomic_get_new_crtc_state(state->state, state->crtc);
+ 	struct malidp_crtc_state *mc;
+ 	u32 src_w, src_h;
+ 	int ret;
  
- 	if (state->crtc) {
--		crtc_state = drm_atomic_get_existing_crtc_state(state->state, state->crtc);
-+		crtc_state = drm_atomic_get_new_crtc_state(state->state, state->crtc);
- 		if (WARN_ON(!crtc_state))
- 			return -EINVAL;
- 
- 		crtc_state->mode_changed |= mode_changed;
- 	}
+ 	if (!crtc_state)
 
 -- 
 2.50.1
