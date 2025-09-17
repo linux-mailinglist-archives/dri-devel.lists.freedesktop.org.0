@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0568BB80568
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C43B806C7
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:12:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5377C10E613;
-	Wed, 17 Sep 2025 15:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 782C310E61C;
+	Wed, 17 Sep 2025 15:12:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sPT4O+Xv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DjV5UVfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6320D10E613
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:02:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A49866023A;
- Wed, 17 Sep 2025 15:02:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DCF7C4CEF0;
- Wed, 17 Sep 2025 15:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758121361;
- bh=DkAob/mYPV+ZNAEqdno0NyXMgOtH4pnIcMp+zpKJAxo=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=sPT4O+XvDEdrvk/c00OHoqwWJCwrh5WRxwW2tzfT6VyUHJdXBW/vpmYjndvYkUg9Q
- 4Jj9Bu94e75coQqY0ZAY3DnhFg5EnUERYbd+Vaw8+dHEgY/SaTmvfFtvCWDker95nM
- s12OIAXMjopWutHC5B0Za8oNtIDlU7dyKOuKm5ZSCarfmgLIUyiIepAtgS0QXD3Ffc
- zs+brP/jrIpbtZnJtf8IuRs5IGUWOWNxBhmesgdnr/BBP+LjJ2EYVPOO49nNr5QV6L
- c2FZ4OI4wGqia7QEs/0k4oAvTRgJtumOc1CuOa9RiZ3b+U34Djc9Idi3hiLW4FfUxg
- 1kQS/hbO4N+tQ==
-Date: Wed, 17 Sep 2025 10:02:40 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEEFC10E559;
+ Wed, 17 Sep 2025 15:12:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=T57YnT7ARZx630z98eqSMP8M0D7luNH4RxGOBEWNRLI=; b=DjV5UVfQnwBQNzKS3YJ56AWqR6
+ 7WFFybtd36P8nARuldV8AWsfPvWMZIHmnoJ+DGdgdLfM8eyxt6DjPFdD6rjuhXgFpj8DY0dKbrT9a
+ mOgZI0DQvUnosDrOEx4hkP2RJTduTw3cY6Ua2r113yDDhkazEG97810gHxg82yom5UDrbFEeXzyP2
+ fJOkLKhf4MgcceJx5vvC8A86f0xKnIkeIEOwPxpz5N1+8dvtaW8Dxdwd3Upa/LYxKaem9XGmgfu2P
+ usUPhu/6RODDXMQexb0SxAlDOZcby6hTycP9+ScqsAfP10aFBCB7V6a6hPhDT9FZyp41/LMD9H7vu
+ e16CBteQ==;
+Received: from [84.66.36.92] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uytpI-00Cl6X-OA; Wed, 17 Sep 2025 17:12:08 +0200
+Date: Wed, 17 Sep 2025 16:12:07 +0100
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <aMrPx4FZ66t1Kfe-@linux>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Kees Cook <kees@kernel.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Conor Dooley <conor+dt@kernel.org>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Simona Vetter <simona@ffwll.ch>, 
- linux-arm-kernel@lists.infradead.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Maxime Ripard <mripard@kernel.org>, Steven Price <steven.price@arm.com>, 
- David Airlie <airlied@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>, 
- MyungJoo Ham <myungjoo.ham@samsung.com>, kernel@collabora.com, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- linux-hardening@vger.kernel.org, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-In-Reply-To: <20250917-mt8196-gpufreq-v3-1-c4ede4b4399e@collabora.com>
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
- <20250917-mt8196-gpufreq-v3-1-c4ede4b4399e@collabora.com>
-Message-Id: <175812136009.2068624.13991293282844294346.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: gpu: mali-valhall-csf: add
- mediatek,mt8196-mali variant
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,47 +68,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 17 Sep 2025 14:22:32 +0200, Nicolas Frattaroli wrote:
-> The Mali-based GPU on the MediaTek MT8196 SoC uses a separate MCU to
-> control the power and frequency of the GPU.
-> 
-> It lets us omit the OPP tables from the device tree, as those can now be
-> enumerated at runtime from the MCU. It also means the mali GPU node
-> described in this binding does not have any clocks in this case, as all
-> clock control is delegated to the MCU.
-> 
-> Add the mediatek,mt8196-mali compatible, and a performance-domains
-> property which points to the MCU's device tree node in this case. It's
-> required on mt8196 devices.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  .../bindings/gpu/arm,mali-valhall-csf.yaml         | 32 ++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
-> 
+Hi Dave, Sima,
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Another week with a just single fix - this time round for eDP luminance
+based backlight control.
 
-yamllint warnings/errors:
+Tvrtko
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.example.dtb: gpu@48000000 (mediatek,mt8196-mali): 'clocks' is a required property
-	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-valhall-csf.yaml#
+drm-intel-fixes-2025-09-17:
+- Honor VESA eDP backlight luminance control capability (Aaron Ma)
+The following changes since commit f83ec76bf285bea5727f478a68b894f5543ca76e:
 
-doc reference errors (make refcheckdocs):
+  Linux 6.17-rc6 (2025-09-14 14:21:14 -0700)
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250917-mt8196-gpufreq-v3-1-c4ede4b4399e@collabora.com
+are available in the Git repository at:
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2025-09-17
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+for you to fetch changes up to 35e526398bd0faddef3396d71760e4c5ea75868f:
 
-pip3 install dtschema --upgrade
+  drm/i915/backlight: Honor VESA eDP backlight luminance control capability (2025-09-16 09:12:24 +0100)
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+----------------------------------------------------------------
+- Honor VESA eDP backlight luminance control capability (Aaron Ma)
 
+----------------------------------------------------------------
+Aaron Ma (1):
+      drm/i915/backlight: Honor VESA eDP backlight luminance control capability
+
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
