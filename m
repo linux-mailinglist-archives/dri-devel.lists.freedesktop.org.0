@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43DE9B80359
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAAB80368
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:47:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC1FF10E877;
-	Wed, 17 Sep 2025 14:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C997110E879;
+	Wed, 17 Sep 2025 14:47:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jfe9fdEw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YinhiKIh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF0C10E875
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:47:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC0C10E879
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:47:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AF2486023C;
- Wed, 17 Sep 2025 14:47:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073C2C4CEE7;
- Wed, 17 Sep 2025 14:47:23 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 8B6926023C;
+ Wed, 17 Sep 2025 14:47:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D64ACC4CEE7;
+ Wed, 17 Sep 2025 14:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758120444;
- bh=4397DcR5AFIqz6Y/eSFEGO1CmSTv8oyb3/bQu4pR32g=;
+ s=k20201202; t=1758120447;
+ bh=2PquY0VhsfYnlQnlGduztvw5rjnR1JXo4CdA9iXwMLk=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Jfe9fdEwyyM/PMN9ZrH+f0VvsJ9mRzMoVx/twVWuEgVsfvbCSu/UkkCM5mWjfQxHg
- F54t9zXv4b9xwVaPrUrzEZIBCxtoWO9orWBrQuJeyzQ1vKqNznM7cRDi2D2sA9p+1+
- /IIoKSWfLq2RjtorgyNtzSUuUeG4icYTKUfE2bibtXM1lAqeK1WFOUWPUcedx1bxBs
- 8cbSex8x+QhPFTziYOTZ8CeRUSHKq1f0PW8coDidk6Mvo/13g9d6XYi0+8v9yBKWsl
- UCZbM/XS6v7IdYuxC3KZm1aDOk2mN4GCZ85IvaHLDBQnqBmcGr+jCp0B0jrFMr2OBJ
- CclmloT4noUgA==
+ b=YinhiKIhYLoTEdIRav8S4QWMZwIAJPfMg7htfz7w/uFOFdt+SIHzHTYlHU1rNBioX
+ EroYfF5IMWWpKamKDEg1OMYhZb75Q/molcuiw6jH/mBbte8iIoQINI+B2uYvmnR8X4
+ YZIncYPDNYuvP0iMGAXHJdxrdteK8poQowvWeW01as74MMrbEdTncgGVtRB5pDBwTJ
+ 9qzQi1EkBA0OBZML0xJZAJhEEXsaFKCF4/mnCqqyNSLxeW9lr51YDubULbeB1m3UHw
+ wS9Uni5E7rwfFoRGhOSsE0UHDiY0mq/KJji5AtMTMvCIVcMoKKs0RaG2s+GM2FeTCZ
+ /mCYPGzyLxY8g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:46:07 +0200
-Subject: [PATCH v4 26/39] drm/omap: Switch to drm_atomic_get_new_crtc_state()
+Date: Wed, 17 Sep 2025 16:46:08 +0200
+Subject: [PATCH v4 27/39] drm/rockchip: Switch to
+ drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-26-5d4b9889c3c8@kernel.org>
+Message-Id: <20250917-drm-no-more-existing-state-v4-27-5d4b9889c3c8@kernel.org>
 References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -44,14 +45,17 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1352; i=mripard@kernel.org;
- h=from:subject:message-id; bh=4397DcR5AFIqz6Y/eSFEGO1CmSTv8oyb3/bQu4pR32g=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTq5S/RRx6vDFx9VTgl/Uaa/nKtnhN/v+1vdeN8yer
- /Xo6pdi7JjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATMWhnbHjqXHXm+o5vJic7
- 7z2tnydvZZv8zt3/63sPef7L/vM1D1UfDvnS2N842+XbvhD/PxGT5zDWqXFcdJ22//0ci9nll2z
- 9fvQdnCfz4cvvq4lrm2MbfLIiRP22HfNYus3y7e8JbGpV7XKWAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2811; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=2PquY0VhsfYnlQnlGduztvw5rjnR1JXo4CdA9iXwMLk=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTq4u0s2ac3TlF6tpjtcTKsv3nz381/CQyOs1n2dOS
+ Fn2/S7HwY6pLAzCnAyyYoosT2TCTi9vX1zlYL/yB8wcViaQIQxcnAIwkWnMjA3TQ3X1Y2t7hc5b
+ xG8QtG49mu96N2qW1+b5CvG/DmvLn8/dYLXQZe7cEv/3Fyfd+LUapOPdXM8uLmV3f/EEoVmxdz6
+ pKzW9bT7A23nrAKPF3vAzS1bP9ppfqKMScmXlNom8S6rGJwE=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,7 +73,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The omap atomic_check implementation uses the deprecated
+The rockchip atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -79,29 +83,66 @@ we can use drm_atomic_get_new_crtc_state() instead.
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Sandy Huang <hjc@rock-chips.com>
+To: "Heiko Stübner" <heiko@sntech.de>
+To: Andy Yan <andy.yan@rock-chips.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
 ---
- drivers/gpu/drm/omapdrm/omap_plane.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 6 +++---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-index 24a2ded08b454c4f2225e84f7b0ed09ed733d6b7..d74ef6694c10995c7393217a4d81275b36e00e2b 100644
---- a/drivers/gpu/drm/omapdrm/omap_plane.c
-+++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-@@ -227,11 +227,11 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba6b0528d1e5a493cdef85dd1ea258e70c31ccd5..5369b77ea434c794ed7d509802fa29c39d2bfa7a 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -824,12 +824,11 @@ static int vop_plane_atomic_check(struct drm_plane *plane,
+ 					DRM_PLANE_NO_SCALING;
  
- 	crtc = new_plane_state->crtc ? new_plane_state->crtc : plane->state->crtc;
- 	if (!crtc)
+ 	if (!crtc || WARN_ON(!fb))
  		return 0;
  
--	crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
+-	crtc_state = drm_atomic_get_existing_crtc_state(state,
+-							crtc);
 +	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	/* we should have a crtc state if the plane is attached to a crtc */
  	if (WARN_ON(!crtc_state))
- 		return 0;
+ 		return -EINVAL;
  
- 	/*
+ 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+ 						  min_scale, max_scale,
+@@ -1090,11 +1089,12 @@ static int vop_plane_atomic_async_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 
+ 	if (!plane->state->fb)
+ 		return -EINVAL;
+ 
+-	crtc_state = drm_atomic_get_existing_crtc_state(state, new_plane_state->crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state,
++						   new_plane_state->crtc);
+ 
+ 	/* Special case for asynchronous cursor updates. */
+ 	if (!crtc_state)
+ 		crtc_state = plane->crtc->state;
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 186f6452a7d359f079662bc580850929632ea8fe..d83111815191d1694455ed3100e624fa0a81866d 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1011,11 +1011,11 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+ 
+ 	vp = to_vop2_video_port(crtc);
+ 	vop2 = vp->vop2;
+ 	vop2_data = vop2->data;
+ 
+-	cstate = drm_atomic_get_existing_crtc_state(pstate->state, crtc);
++	cstate = drm_atomic_get_new_crtc_state(pstate->state, crtc);
+ 	if (WARN_ON(!cstate))
+ 		return -EINVAL;
+ 
+ 	ret = drm_atomic_helper_check_plane_state(pstate, cstate,
+ 						  min_scale, max_scale,
 
 -- 
 2.50.1
