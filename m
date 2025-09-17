@@ -2,61 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C37B800F8
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:37:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0F6B80149
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3719510E84E;
-	Wed, 17 Sep 2025 14:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99C5510E84F;
+	Wed, 17 Sep 2025 14:39:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ke9FdRQg";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="QNN361/X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB2010E84E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:37:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 769CB43268;
- Wed, 17 Sep 2025 14:37:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C10C4CEE7;
- Wed, 17 Sep 2025 14:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758119835;
- bh=WNLwm2DneHS0zi4fvWJbJ1VJqCF10002RieNhb5d+3Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ke9FdRQgp0Mrxd8rQ85YsIbqJQC2ApYRMPnF0xIVdK+jH+cj+Mmdk5CFTSjXG7st1
- q6UtiSm6eG0ugRvy0ZQ7dxTVVBtL12+QHpQppsEky3kvwO+UKbVhgCYnta0I2pLUsC
- rgKFLPFSV85tqQgweqzQYY0aklUBdzsI3irF+cyDQyyPj1TopZE+uOd1rzNYGRvHwf
- j0BGW8sBQc14VCz/IevssmpiqVIC7OtnBAZO/F7pguX1nI4HovKxfvCN4/P/CWA5aO
- z7q5KYV3BjluMSlxfCZrACmE0w/Pv/cFCjIg9Mt/Q0u2m9wAlzE+7/Y0szqNVmzbqR
- 1ekngs9X4DKtw==
-Date: Wed, 17 Sep 2025 16:37:12 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Subject: Re: [RFC PATCH 0/3] Initial plumbing for implementing DRM connector
- APIs in Rust
-Message-ID: <20250917-berserk-gainful-chachalaca-cc05da@houat>
-References: <20250818050251.102399-2-sergeantsagara@protonmail.com>
- <g5n4vx5hkreacrtjrbzsefnctvki6d7oh7qyjrb6wtqvzp7adl@rzmxiyblpnsz>
- <87ect61txs.fsf@protonmail.com>
- <20250827-cherubic-tapir-of-wind-5cf0c4@houat>
- <87plbus32o.fsf@protonmail.com>
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D1710E84F
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:38:59 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-62fa0653cd2so160004a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1758119935; x=1758724735;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qd805cz0CPvWNZKSd9xPGg5rAj3EJ2zME72oqmiIKWU=;
+ b=QNN361/XM2BnKbU+jT7kdcESH9MRKPWbTLd/PQL1lvcIwZGeP1MnVz0RyAz+K0AiJv
+ zrrB/EJUowjYjxDWLK3jtR9mlRQPw9QcdqtttmAewmF/25C0tvTU7kM0oRQ6Vw8rvA+0
+ uP6v9NYNjqLiKriG9bBJI6yT4zKdE+wdbbnAU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758119935; x=1758724735;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qd805cz0CPvWNZKSd9xPGg5rAj3EJ2zME72oqmiIKWU=;
+ b=AXJJZB090mMwcRlvW62OCdkyRJJ8a+HqBBMImOWP8O37glACXBExO6D/MQKLQAg3d0
+ OmQPt8r/uCCqngkjrMU1B7VFlLyxl0HYEcwXuSXflsRlKi3OZfrJcUypB8FzBz97pHtZ
+ hGCz+rfosIlk859YeXNrWFyLXp5jEcsI7Y3tK8nwfTszIcOBKIl6pPRsPxLPwIrYgysS
+ vp/NdXohQCMIzbQKBsekzhseUe+OsWzEm40YGaSICCdh7WvGJnmKP9Y63lfZg5QuoS4L
+ JVTmThBy4fa2fV1mFgMUY18SYa5lcx78EUzTuHBr1Mvn8gqs5VWdWOuDm2/rQAoP5aIi
+ rJQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5bJw14PNqdMQqEJtkeBGryoK0Q4sMUf/+Ly7IXRknIO4yxgeGC57GyzGmheR1P+ZGddiKQkU59rM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDNv3MYjpSKADLSaFEuOfrUU+IakCqkJLghdxGHei9Xu6INamg
+ 0CNPHapeq/ncam1h4HRtQMMJWhdkaDJePWIMfvq5+ocozRMyV9hDgJGgTOzEeTvSuqVTaconeA1
+ HHlQaWg==
+X-Gm-Gg: ASbGncvRBhZ++2U8NwYZx1OZIagVMl7IEDRHOlYjJr8b3Texl+0RXnzxZZLyuv7swJd
+ 2q9blO3RW7IaMDB77EzArNiiD8bIS6WMd3C2W8JkvVGGp1hXFN2s2J4Mv3DrXcN0GFRId3VvP0u
+ d/jwZ8KdN0gC0weND1Pv+XG8fmILTE7kXIbC2BB+nAq3+ivyt15F6w/As+vi/0NGhtMIfjOYBeg
+ dilUk0xBreUq9fd9uYz/MJ3Yi0L8RD36gYG7vDJcoBcGrD9aBHMrIX9VzjSk0JAE8aG840Wy+76
+ TWqCFbPL8OYWx3G6f5mM52FFqCzXn3njEommJ9YIr/rvMhWqVL3NyQE7tjExFjx1A4BIyo75zE9
+ 8oTRqJ8hXbuYZGUqEKrGhMaHpAR6YhfQK091dWLILeuf8V50SkVidvNYO13W+YA==
+X-Google-Smtp-Source: AGHT+IGBnbnDO7tIIKl79k/qaR98m+y70qTlJGcLqHCYrHsTwnwmcm8uuCYsfAcTuQm14VBsrVntiA==
+X-Received: by 2002:a17:907:c23:b0:af9:3116:e0f6 with SMTP id
+ a640c23a62f3a-b1bbb15ca71mr284270066b.53.1758119934461; 
+ Wed, 17 Sep 2025 07:38:54 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com.
+ [209.85.218.43]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b136ee12326sm518520766b.51.2025.09.17.07.38.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Sep 2025 07:38:52 -0700 (PDT)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-b07d4d24d09so558684466b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:38:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW7YjyMlTCdr9icAkLptg4r2BTBj09MAv01PMf0Y9PKLogaIL39AcndFqu0WV0aQEb086wV5e71pN8=@lists.freedesktop.org
+X-Received: by 2002:a17:906:4fca:b0:ae3:8c9b:bd61 with SMTP id
+ a640c23a62f3a-b1bb17c9028mr325843366b.12.1758119932480; Wed, 17 Sep 2025
+ 07:38:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="fo3apuffsmxldwfu"
-Content-Disposition: inline
-In-Reply-To: <87plbus32o.fsf@protonmail.com>
+References: <20250916142047.3582018-1-ghidoliemanuele@gmail.com>
+ <CAD=FV=Uftrv=x6CuG7edLCSAi16Kv=ka7qxPViuLM=BEG8pC3Q@mail.gmail.com>
+ <6e886700-24a8-4127-9324-7245b6cbf6b7@gmail.com>
+In-Reply-To: <6e886700-24a8-4127-9324-7245b6cbf6b7@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 17 Sep 2025 07:38:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XMT=2UJjtcEk4DDAtFn9KhJ=UX3Vyzabk_shBChbvNuA@mail.gmail.com>
+X-Gm-Features: AS18NWCoryMhc5P9VWrIshFnDVMCRDJYhqTFSvF-LnyYKCutmzxh7MsynQqObSo
+Message-ID: <CAD=FV=XMT=2UJjtcEk4DDAtFn9KhJ=UX3Vyzabk_shBChbvNuA@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Transition to LP mode on
+ every video line
+To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+Cc: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,129 +112,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---fo3apuffsmxldwfu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 0/3] Initial plumbing for implementing DRM connector
- APIs in Rust
-MIME-Version: 1.0
-
-On Sat, Sep 13, 2025 at 04:57:26PM +0000, Rahul Rameshbabu wrote:
-> On Wed, 27 Aug, 2025 08:57:58 +0200 "Maxime Ripard" <mripard@kernel.org> =
-wrote:
-> > Hi Rahul,
+On Tue, Sep 16, 2025 at 8:28=E2=80=AFAM Emanuele Ghidoli
+<ghidoliemanuele@gmail.com> wrote:
+>
+> On 16/09/2025 16:45, Doug Anderson wrote:
+> > Hi,
 > >
-> > On Wed, Aug 20, 2025 at 04:46:52AM +0000, Rahul Rameshbabu wrote:
-> >> On Tue, 19 Aug, 2025 11:06:40 +0200 "Maxime Ripard" <mripard@kernel.or=
-g> wrote:
-> >> > Hi Rahul,
-> >> >
-> >> > On Mon, Aug 18, 2025 at 05:04:15AM +0000, Rahul Rameshbabu wrote:
-> >> >> I am working on a drm_connector scoped backlight API in Rust. I hav=
-e been
-> >> >> looking through Hans de Goede's previous efforts on this topic to h=
-elp
-> >> >> guide my design. My hope is to enable backlight control over extern=
-al
-> >> >> displays through DDC or USB Monitor Control Class while also suppor=
-ting
-> >> >> internal panels. In parallel, I would like to improve the driver
-> >> >> probing/selection mechanism when there are different candidates for=
- driving
-> >> >> a backlight device. This initial RFC is mainly intended to sanity c=
-heck
-> >> >> that the plumbing I have chosen for extending the DRM connector
-> >> >> functionality in Rust seems reasonable.
-> >> >
-> >> > It's a great goal, and I had that same discussion with Hans recently
-> >> > too, but I can't find the link between backling/DDC CI, and Rust. Can
-> >> > you elaborate?
-> >>=20
-> >> Hi Maxime,
-> >>=20
-> >> Sure, let me elaborate on this. You are right that plumbing DDC
-> >> CI/backlight support at the DRM connector level does not need to be
-> >> implemented in Rust.
-> >>=20
-> >> If we look at Hans's proposal, the suggested phase 2 was to add a
-> >> drm_connector helper function for plumbing a pointer to the backlight
-> >> device implementation. I had some model differences with regards to how
-> >> the API would look like, mostly stemming from concerns about providing
-> >> better runtime overriding of the acpi_video_get_backlight_type based
-> >> backlight selection. However, I am aligned with the direction of scopi=
-ng
-> >> at the drm_connector level. I basically was interested in implementing
-> >> this helper functionality in Rust instead of C, which is where Rust ca=
-me
-> >> into play.
-> >>=20
-> >> I was also interested in declaring and attaching a drm_property in Rust
-> >> for controlling properties such as backlight rather than updating the
-> >> drm_connector declaration in C as an experiment.
-> >>=20
-> >> Let me know if you feel like this work would be better off as a C
-> >> implementation. I can also send out a detailed architecture proposal to
-> >> the mailing list if that would help.
-> >>=20
-> >> Link: https://lore.freedesktop.org/wayland-devel/0d188965-d809-81b5-74=
-ce-7d30c49fee2d@redhat.com/
+> > On Tue, Sep 16, 2025 at 7:22=E2=80=AFAM Emanuele Ghidoli
+> > <ghidoliemanuele@gmail.com> wrote:
+> >>
+> >> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+> >>
+> >> The component datasheet recommends, to reduce power consumption,
+> >> transitioning to LP mode on every video line.
+> >>
+> >> Enable the MIPI_DSI_MODE_VIDEO_NO_HFP and MIPI_DSI_MODE_VIDEO_NO_HBP
+> >> flags so that the bridge can enter LP mode during the horizontal front
+> >> porch and back porch periods.
+> >>
+> >> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+> >> ---
+> >> Cc: Douglas Anderson <dianders@chromium.org>
+> >> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> >> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> >> Cc: Robert Foss <rfoss@kernel.org>
+> >> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> >> Cc: Jonas Karlman <jonas@kwiboo.se>
+> >> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >> Cc: Maxime Ripard <mripard@kernel.org>
+> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Cc: David Airlie <airlied@gmail.com>
+> >> Cc: Simona Vetter <simona@ffwll.ch>
+> >> Cc: Jayesh Choudhary <j-choudhary@ti.com>
+> >> Cc: <dri-devel@lists.freedesktop.org>
+> >> Cc: <linux-kernel@vger.kernel.org>
+> >> ---
+> >>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
 > >
-> > Thanks for the explanation.
+> > I put this on a sc7180-trogdor based Chromebook and the display no
+> > longer comes up. I don't personally know the MIPI side of the spec too
+> > well so I have no idea why that would be.
 > >
-> > I'm not sure Rust is at the point where we can use it for the framework.
-> > If we want to make this work useful, we have to make it consistent and
-> > usable across all drivers, but we do have drivers for architectures that
-> > aren't supported by Rust yet (let alone tier 1).
-> >
-> > So it feels to me that it would be a bit premature for that work to be
-> > in Rust. If you do want to use it from a Rust driver though, feel free
-> > to write bindings for it, that would be a great addition.
->=20
-> Hi Maxime,
->=20
-> Thanks for the follow-up. Sorry for the delay in my response. I was
-> preparing a slide deck for Kangrejos 2025 (Rust for Linux conference).
->=20
-> https://binary-eater.github.io/kangrejos-2025/
->=20
-> The above discusses the architecture I had in mind in greater detail. I
-> am working on some last minute tweaks. I wanted to do a couple things
-> with regards to this topic.
->=20
-> 1. Send a high level RFC describing the architecture / functionality
-> 2. In parallel, maybe further evaluate whether Rust could be viable for
->    this effort. I hope the slides I put together help.
-> 3. If the discussion in point 2 seems to suggest that Rust is not
->    viable, do the core implementation work in C.
->=20
-> Let me know if this seems like a reasonable approach and thank you so
-> much for taking the time to respond.
+> > -Doug
+>
+> Hi Doug,
+> thanks for the test.
+> According to the datasheet, LP is recommended for the front porch and opt=
+ional
+> for the back porch.
+> Could you please run another test by keeping only MIPI_DSI_MODE_VIDEO_NO_=
+HFP
+> and removing MIPI_DSI_MODE_VIDEO_NO_HBP?
+>
+> dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_NO_HFP;
 
-The thing I was trying to say before is that we have an inherent tension
-here: it's an interface we want to roll as widely as possible, otherwise
-userspace is going to either ignore it, or the kernel wouldn't provide a
-consistent interface for this.
+With just MIPI_DSI_MODE_VIDEO_NO_HFP:
+-> Display doesn't work
 
-We do have drivers that are for architectures that don't have rust
-support yet.
+With just MIPI_DSI_MODE_VIDEO_NO_HBP:
+-> Display doesn't work
 
-I still think it's premature to have code used by all those drivers in
-Rust just yet.
+So if I set _either_ flag (or both) then the display doesn't work (it
+just comes up black). If I set neither flag then things are still OK.
 
-Maxime
+...and, if it helps, when the screen isn't working I can still force
+the color bars to show up with:
 
---fo3apuffsmxldwfu
-Content-Type: application/pgp-signature; name="signature.asc"
+i2cset -f -y 2 0x2d 0x3c 0x10
 
------BEGIN PGP SIGNATURE-----
+...so I know that the device has probed OK and the eDP side of things is OK=
+.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaMrHlwAKCRAnX84Zoj2+
-dpDfAYDBscZZ3zC9cwtha0V4NOUNTsCH/pyw4BxyQlinZ+Qv9NnwGyqoKSPjzWBA
-yGEJ2mIBegKHgltq36/PFT4bj0BvjbBKc6w0ip90vFaaw7WbvSZJHICnQNYJlL7B
-eXpb+GH+Ig==
-=tElm
------END PGP SIGNATURE-----
-
---fo3apuffsmxldwfu--
+-Doug
