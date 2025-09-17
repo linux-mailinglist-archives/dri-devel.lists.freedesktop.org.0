@@ -2,61 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41ECB818FE
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 21:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBF3B81ABA
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 21:45:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27EC610E58B;
-	Wed, 17 Sep 2025 19:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F22610E58E;
+	Wed, 17 Sep 2025 19:45:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="akY4fgNN";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="E3H4POld";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EB110E585
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 19:19:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758136768; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FL4vFqsyd/7kdY3RdLcUj7lWkaQvdCByYonEhBEGIWTbqjhjCiVHveTUTahMD8W6vr324RKLo5mN69ui+kMfZKaXIofMPhgC0Jo+RVuJLs1+qqyinUST2P3FL4pz/UGOGVb9Bigxx5jcluOPZ/8NIaC9ne1OXq9WsEnxi23Bozs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758136768;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=14mUm5PRUGzx7/mFyhetiK2VbPyzbitmvySzwVg8OYs=; 
- b=koT+VBHyU38PhCV1BJAgDn18iiGPys/1QdRHfoV1UGgf7IJ0k2BPkl3erhbEAJiUtzbQ1EtHzQv8ei5NwYFb41qZP2G6aMbbFrzqz4V8pbb412LSiVCUHhOfzkcifXNrBbGhHiAlLYOL5x+kyLT0blpj+bZtt+hnzsYsojdxr8I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758136768; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=14mUm5PRUGzx7/mFyhetiK2VbPyzbitmvySzwVg8OYs=;
- b=akY4fgNNU56N4FaczBLAKOHKHDq/Gx2S23+8NuIqLodQpoPVuqDQ3DTrcJ4tSx2f
- Ku5SAQNve3HCyyL9EEdrUsD/tbFyqhP86YV8Ch022VoEcdG9Lohq8ROnD85nNYJffB9
- sdzXGsuJsKMs41FOmvIT89w3vTwH6yjL7eFhteh4=
-Received: by mx.zohomail.com with SMTPS id 1758136765715849.4497265283643;
- Wed, 17 Sep 2025 12:19:25 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v4 4/4] drm/panfrost: Display list of device JM contexts over
- debugfs
-Date: Wed, 17 Sep 2025 20:18:40 +0100
-Message-ID: <20250917191859.500279-5-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250917191859.500279-1-adrian.larumbe@collabora.com>
-References: <20250917191859.500279-1-adrian.larumbe@collabora.com>
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010069.outbound.protection.outlook.com [52.101.85.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91AD810E589
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 19:45:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qg7mMxuT+vwj8J0RQrVcsXhZg65FwHwIimelZutVl+A+Lru7r6jdRdqZx9JXbuXaY2jR7eYAWvgOwIsAKqrCHIqjiM1jKS8Ciwud06cdvvEqpzPSyI6hWOFHlcLAGCHxTscBiqJFVX4SRRyBZKzi4MgrMPHJDV7eSiZ04ZcsWWPXSe+1DCYkbvCdI2ZhvECzKLfz4VQcxJ5+UkiVhlBzJT6qX94tv77JwhpOCf0eG2P3j1a6S6Ryb22DMG6z50oXmg2GK/eYDbhQUjj6XZ9kKPIng3kUsHlJQ1XYBMSKrCQ4gs6i6oJCCxAdN5NmMLF82SzrJ4U80eG28HaIrrrcEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O0M7wv3j6hn1d+OfAxwYUgIGw1nfOLjpUvT/ZrDS53A=;
+ b=MCux7aK77iuFFM5khDH0YZK7coUCzdc3W2CymnYSVw4Zdi2QMI0LhsSp0J/dnnTMd5t1YG96hujmsEOUdBS39fsPREn1glG+MjCf81xYxiFRDlIvP8cBy1/MDk20x5/3O7mLAKM+nBERCYoC/OdAediAWPipaGeo6W8+EkwbnVEUQrqxI2IQwYx483TSI3Hu+lbZ5tBQIKYsNKkPPRLpSFnC9AXf2of/3Cq6DfWuouVmH4gAyVcY+cirgz5Ui7IpgKxNQNfuJa2FOmn1MOeagnOj4VqQ11kE58hDomqyAbKdDieAXqkOEk8l0bkm59U8/zuShCX0SdanaJsYsx/uaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O0M7wv3j6hn1d+OfAxwYUgIGw1nfOLjpUvT/ZrDS53A=;
+ b=E3H4POldkF8hFoUC1IlSbOwT1M+HwquqsiDxAfo4pVaM6roHinMuJOEvi3Zn0mkU9Toe+Ejn/lrhJiRJfcnLtp7F3aZuyCMfeDwkreWIPC5ykszD2jyClh0Kyis0cl+VcnF+8OjS8d35DKoBiNN9TTBxUlKUIoWxqQymdk/bRfjPoqgGQ0WECGvQ/8bMNc/1irf+0mGS9jwJujs/TTEgUz8n7mUJbOOG53MNrUYuitJX/2lPN7HGvrM2vA9uWnSNAKruJkhysY3vQmS5cCHaW2G1st+7MrERs6U3hOHR50Vsz0ouQcbK51pu9KN3X4+z4JHT9Zs1sEngCFMy2bMG5A==
+Received: from BY5PR20CA0029.namprd20.prod.outlook.com (2603:10b6:a03:1f4::42)
+ by BY5PR12MB4209.namprd12.prod.outlook.com (2603:10b6:a03:20d::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Wed, 17 Sep
+ 2025 19:45:34 +0000
+Received: from SJ1PEPF000023D8.namprd21.prod.outlook.com
+ (2603:10b6:a03:1f4:cafe::26) by BY5PR20CA0029.outlook.office365.com
+ (2603:10b6:a03:1f4::42) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13 via Frontend Transport; Wed,
+ 17 Sep 2025 19:45:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF000023D8.mail.protection.outlook.com (10.167.244.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9160.0 via Frontend Transport; Wed, 17 Sep 2025 19:45:33 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 17 Sep
+ 2025 12:45:15 -0700
+Received: from 9491a72-lcedt.nvidia.com (10.126.230.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 17 Sep 2025 12:45:14 -0700
+From: Nirmoy Das <nirmoyd@nvidia.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: <tzimmermann@suse.de>, <jfalempe@redhat.com>, <mripard@kernel.org>,
+ <nirmoyd@nvidia.com>
+Subject: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
+Date: Wed, 17 Sep 2025 12:43:46 -0700
+Message-ID: <20250917194346.2905522-1-nirmoyd@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D8:EE_|BY5PR12MB4209:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0056e272-cbe3-4e87-2b07-08ddf622c41e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?p8Io3UNtBfI3r2IRvPYKFNzmrusR87IRz1BDQtjnTUk7lMfGQz7xoYIqe924?=
+ =?us-ascii?Q?6uuVya20VMkDluw32Q3MRrjNV4JB23d4K1QXNjxeOpOt5dVlP1bLSUbnwtSk?=
+ =?us-ascii?Q?Sksvh1/QBy9mQ+5oasKZLN5yhCVvblhcr8S3i66oq2pUyF/s8EDIO6cGRyiA?=
+ =?us-ascii?Q?95Xc+68yWaC+/Ee+WyPAGaoM1Ki5LJ6noOu/Ic0ZJxfUEfTsnZ4Sjqo/RSsF?=
+ =?us-ascii?Q?e2nsEbhG73nJKi44nzIMnhO3hqqcFg7DQFNGTOxZDLl8zYjxkrPhajl4TaIL?=
+ =?us-ascii?Q?q9E/ILlMI2/GMW3om2xlPgQW4fLTvPuwOANEyxiBcEP4NPoPHfxyqFLUicVI?=
+ =?us-ascii?Q?tOMa1Wg7mV/d2cXzrRaarlE/XVnIhEBFtRFT2vD4tHSLDsxRBp1ZzU8/lPzV?=
+ =?us-ascii?Q?x3J9WzCWD3f6K3PBoc3QI+8/BiXGgXUPVdK+PX5c3FFEsXjQiRGzy6ktzAjF?=
+ =?us-ascii?Q?Ui9AXUEmdLTy1wEbdZuJ4sI8fmfAV3Re8J1NOhHknYtCvZbd++josRtU0ezx?=
+ =?us-ascii?Q?HZuyQYkiAmohr5cnMvUANE8V2tmpcBZAkyqbHiFh26y2GXOn6z8ntWuFyZIp?=
+ =?us-ascii?Q?0Ctim6F9ddjMSQcfjPNRmE0Cc6rC4qtnTFmc2pG36HZh+RL/wC2ywpTHYC9o?=
+ =?us-ascii?Q?DmaNF9byxtzwDXEs5Cl7XtJWCvUM864NsE61LbNIPhVCfZmb2sGPLpmuL23D?=
+ =?us-ascii?Q?l666NFgSWQianGyV81xBCzA/3MggO5IjiSwIr4Pay6IYAhrkZ/phovEwq5lC?=
+ =?us-ascii?Q?a5enTUUcB9IOoVgM+NN8m3xYO0LLwsqSROvehLxdbcxhUlgnrA640bx9HjB0?=
+ =?us-ascii?Q?ueY0Qno4Sya9WwN9BFw1z5wJxvn6lUtIqLR+zhEbx8wSutbfrb26m+e+Efc0?=
+ =?us-ascii?Q?AWkpF92o7EmGzJB+RP6PYc4qzZA35vTBlys8mDBMxDRaBwUvZ3pAkKJsAn35?=
+ =?us-ascii?Q?9DGkPcnaFimx14TN322Q2sj4fADTlozauzGBn3nyEK5xPxK/xwI5s15Gk+lP?=
+ =?us-ascii?Q?KT5e9mzdMKAsJnrUtlTy76jiaV++rrfTh6oJBK0t33IDcYG1ci7QRwSwJLv9?=
+ =?us-ascii?Q?bSN1LIcTciaI761ADKBAMwwyZ1OUL77a8ELQO3tqlcDPDi/nGAUX+oROafT/?=
+ =?us-ascii?Q?N4qlfcoq+wISuY+6RE0JfOlxndiXnrbbzO9YXn8PQMlKR+nEGb+7bQyk6AHa?=
+ =?us-ascii?Q?r48yS2wCGn+G6f2bEW67yQK8m8hCK2ox33y/fUSo44tQR+75KjtZu+9QFUyu?=
+ =?us-ascii?Q?AK/pHSpu8JCyMsJYAw61O48H2LUO1YRRtQzjBcuzNJY2ijqlgMCdbBnkRqWt?=
+ =?us-ascii?Q?StytIDFaHltshkjyybUISLSS9D1nHLkbWciSFHnRzRbketMRzhNClknHV86p?=
+ =?us-ascii?Q?Ws3D49QA+Io40NBKBBkvmhl7RaPgeuZT+LKxiY6cOROUwyxVEvm5XRMsgoV2?=
+ =?us-ascii?Q?/BIL6uR+g5AePE9NVBvQ80h1eZk8k5EWeR4s3+l4eVr13Ku+0PKu8zUKYEHI?=
+ =?us-ascii?Q?QZx58Dba3dysTTKmzcc3A90dHAT8Qw12aWTe?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 19:45:33.4773 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0056e272-cbe3-4e87-2b07-08ddf622c41e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D8.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4209
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,139 +138,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
+The busy-waiting in `mdelay()` can cause CPU stalls and kernel timeouts
+during boot.
 
-For DebugFS builds, create a filesystem knob that, for every single open
-file of the Panfrost DRM device, shows its command name information and
-PID (when applicable), and all of its existing JM contexts.
+Signed-off-by: Nirmoy Das <nirmoyd@nvidia.com>
 
-For every context, show the DRM scheduler priority value of all of its
-scheduling entities.
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Sending this as RFC as I am familiar with the code and not sure
+if this transition is safe.
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 96 +++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+ drivers/gpu/drm/ast/ast_dp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 69e72a800cd1..3af4b4753ca4 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -716,6 +716,47 @@ static int panthor_gems_show(struct seq_file *m, void *data)
- 	return 0;
- }
- 
-+static void show_panfrost_jm_ctx(struct panfrost_jm_ctx *jm_ctx, u32 handle,
-+				 struct seq_file *m)
-+{
-+	struct drm_device *ddev = ((struct drm_info_node *)m->private)->minor->dev;
-+	const char *prio = "UNKNOWN";
-+
-+	static const char * const prios[] = {
-+		[DRM_SCHED_PRIORITY_HIGH] = "HIGH",
-+		[DRM_SCHED_PRIORITY_NORMAL] = "NORMAL",
-+		[DRM_SCHED_PRIORITY_LOW] = "LOW",
-+	};
-+
-+	if (jm_ctx->slot_entity[0].priority !=
-+	    jm_ctx->slot_entity[1].priority)
-+		drm_warn(ddev, "Slot priorities should be the same in a single context");
-+
-+	if (jm_ctx->slot_entity[0].priority < ARRAY_SIZE(prios))
-+		prio = prios[jm_ctx->slot_entity[0].priority];
-+
-+	seq_printf(m, " JM context %u: priority %s\n", handle, prio);
-+}
-+
-+static int show_file_jm_ctxs(struct panfrost_file_priv *pfile,
-+			     struct seq_file *m)
-+{
-+	struct panfrost_jm_ctx *jm_ctx;
-+	unsigned long i;
-+
-+	xa_lock(&pfile->jm_ctxs);
-+	xa_for_each(&pfile->jm_ctxs, i, jm_ctx) {
-+		jm_ctx = panfrost_jm_ctx_get(jm_ctx);
-+		xa_unlock(&pfile->jm_ctxs);
-+		show_panfrost_jm_ctx(jm_ctx, i, m);
-+		panfrost_jm_ctx_put(jm_ctx);
-+		xa_lock(&pfile->jm_ctxs);
-+	}
-+	xa_unlock(&pfile->jm_ctxs);
-+
-+	return 0;
-+}
-+
- static struct drm_info_list panthor_debugfs_list[] = {
- 	{"gems", panthor_gems_show, 0, NULL},
- };
-@@ -729,9 +770,64 @@ static int panthor_gems_debugfs_init(struct drm_minor *minor)
- 	return 0;
- }
- 
-+static int show_each_file(struct seq_file *m, void *arg)
-+{
-+	struct drm_info_node *node = (struct drm_info_node *)m->private;
-+	struct drm_device *ddev = node->minor->dev;
-+	int (*show)(struct panfrost_file_priv *, struct seq_file *) =
-+		node->info_ent->data;
-+	struct drm_file *file;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry(file, &ddev->filelist, lhead) {
-+		struct task_struct *task;
-+		struct panfrost_file_priv *pfile = file->driver_priv;
-+		struct pid *pid;
-+
-+		/*
-+		 * Although we have a valid reference on file->pid, that does
-+		 * not guarantee that the task_struct who called get_pid() is
-+		 * still alive (e.g. get_pid(current) => fork() => exit()).
-+		 * Therefore, we need to protect this ->comm access using RCU.
-+		 */
-+		rcu_read_lock();
-+		pid = rcu_dereference(file->pid);
-+		task = pid_task(pid, PIDTYPE_TGID);
-+		seq_printf(m, "client_id %8llu pid %8d command %s:\n",
-+			   file->client_id, pid_nr(pid),
-+			   task ? task->comm : "<unknown>");
-+		rcu_read_unlock();
-+
-+		ret = show(pfile, m);
-+		if (ret < 0)
-+			break;
-+
-+		seq_puts(m, "\n");
-+	}
-+
-+	mutex_unlock(&ddev->filelist_mutex);
-+	return ret;
-+}
-+
-+static struct drm_info_list panfrost_sched_debugfs_list[] = {
-+	{ "sched_ctxs", show_each_file, 0, show_file_jm_ctxs },
-+};
-+
-+static void panfrost_sched_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panfrost_sched_debugfs_list,
-+				 ARRAY_SIZE(panfrost_sched_debugfs_list),
-+				 minor->debugfs_root, minor);
-+}
-+
- static void panfrost_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_gems_debugfs_init(minor);
-+	panfrost_sched_debugfs_init(minor);
- }
- #endif
- 
--- 
-2.51.0
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index 19c04687b0fe1..8e650a02c5287 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(void *data, u8 *buf, unsigned int block, si
+ 			 * 3. The Delays are often longer a lot when system resume from S3/S4.
+ 			 */
+ 			if (j)
+-				mdelay(j + 1);
++				msleep(j + 1);
+
+ 			/* Wait for EDID offset to show up in mirror register */
+ 			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
+--
+2.43.0
 
