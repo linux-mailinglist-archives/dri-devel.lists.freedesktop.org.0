@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF9CB81FCD
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 23:37:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9F4B81FD0
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 23:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B143E10E1E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC4010E59A;
 	Wed, 17 Sep 2025 21:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BxvJL4+C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M81DRi0n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6740E10E1E3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDA2710E598
  for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 21:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1758145073; x=1789681073;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/JhtPfJaQiCKSIX/TuTfrAD7OYsN3RQ0tOkgWbfXy8w=;
- b=BxvJL4+CJJOfk4gIJL3rLzYA7Vqdg5mDQBJR0vWKo5Ndef2C29uUOzJ0
- 0DxZYacP7CKACFTCE+NuNWYbUDNuTyr7OxjVg7gGbIHCbX0q1mRBiFH6P
- 5FUbVhog4RJrVrA4R/B4ja78M5okV+qjX4ZrZusnqL/++tppjfiJo3Ay6
- s6EYPwUZ6n27Z76+O1AZhBuFP/HLk0wIN/5TEBcmPBuintWvWfgU9zXC1
- l0QKiaERIg4R5JtVif5C4JwaHlEfx042kyK7vKZuZg/Oo418y1bsWZx8a
- pvKqRGPw9EVuM2N03HsXxVahGFAQct0jlfcu5f3loZfkQEFiKZkFR8kF9 Q==;
-X-CSE-ConnectionGUID: HXBUhuBsQOCqXQOneIohcA==
-X-CSE-MsgGUID: GUGV5gknS+OXPS2VkrBnbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60522746"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60522746"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=/iMfp8vig0mHKZAxlSf/u9heZ6hDxMUA6/Hx0ZTiPiQ=;
+ b=M81DRi0ndSy1E+S/rGZqXlczcbPogyz+rseJpFlUkzIdaDL/1IH5/qfm
+ oSoFbHXaDct0gddjEJBCPoly15f/CZ3ud/vYvEh1f1lNwU8yRcAVePIEx
+ FdnmZOGLDuPwD8m4T1NfkU2Gw+H7w6WScPAxtMDyOZA5UQ87CIEW+Uu56
+ Pv5xLULIkY7KGL3eNxqCHLKumW1ibhyfxmbiQYl8LVyE9efUbKVsOEHrV
+ 4pBBdi3T0IoDc7hfGM4m7abv0MoyuMjYKFivK9jIhdVFSrhvfuDWT7YOh
+ ZJKbn4MGaqDQv0XbanX58tIr3fPoEdS0XvViXztRbjDUBaCcVEFv4jam6 Q==;
+X-CSE-ConnectionGUID: H00fXPDWQoeZ6EMw47d7BA==
+X-CSE-MsgGUID: dcGLZaoLT2SAPtBsAYdrXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60522748"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60522748"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Sep 2025 14:37:52 -0700
-X-CSE-ConnectionGUID: I48fL1SaSAelzkyZZOGSrA==
-X-CSE-MsgGUID: 70k54UhfRkOchs8AuyH1Cg==
+X-CSE-ConnectionGUID: 9fkasHJuSRGIKizPq+iZIw==
+X-CSE-MsgGUID: LdqgF4PBQ5SC9hf53RAd3w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; d="scan'208";a="179643051"
+X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; d="scan'208";a="179643054"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Sep 2025 14:37:52 -0700
@@ -46,13 +46,15 @@ To: dri-devel@lists.freedesktop.org
 Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
  =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
  stable@vger.kernel.org
-Subject: [PATCH 0/3] drm/xe: Fix some rebar issues
-Date: Wed, 17 Sep 2025 14:37:29 -0700
-Message-ID: <20250917-xe-pci-rebar-2-v1-0-005daa7c19be@intel.com>
+Subject: [PATCH 1/3] PCI: Release BAR0 of an integrated bridge to allow GPU
+ BAR resize
+Date: Wed, 17 Sep 2025 14:37:30 -0700
+Message-ID: <20250917-xe-pci-rebar-2-v1-1-005daa7c19be@intel.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250917-xe-pci-rebar-2-v1-0-005daa7c19be@intel.com>
+References: <20250917-xe-pci-rebar-2-v1-0-005daa7c19be@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20250917-xe-pci-rebar-2-c0fe2f04c879
 X-Mailer: b4 0.15-dev-b03c7
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,49 +72,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our implementation for BAR2 (lmembar) resize works at the xe_vram layer
-and only releases that BAR before resizing. That is not always
-sufficient. If the parent bridge needs to move, the BAR0 also needs to
-be released, otherwise the resize fails. This is the case of not having
-enough space allocated from the beginning.
+From: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-Also, there's a BAR0 in the upstream port of the pcie switch in BMG
-preventing the resize to propagate to the bridge as previously discussed
-at https://lore.kernel.org/intel-xe/20250721173057.867829-1-uwu@icenowy.me/
-and https://lore.kernel.org/intel-xe/wqukxnxni2dbpdhri3cbvlrzsefgdanesgskzmxi5sauvsirsl@xor663jw2cdw
-I'm bringing that commit from Ilpo here so this can be tested with the
-xe changes and go to stable (first 2 patches).
+Resizing BAR to a larger size has to release upstream bridge windows in
+order make the bridge windows larger as well (and to potential relocate
+them into a larger free block within iomem space). Some GPUs have an
+integrated PCI switch that has BAR0. The resource allocation assigns
+space for that BAR0 as it does for any resource.
 
-The third patch is just code move as all the logic is in a different
-layer now. That could wait longer though as there are other refactors
-coming through the PCI tree and that would conflict (see second link
-above).
+An extra resource on a bridge will pin its upstream bridge window in
+place which prevents BAR resize for anything beneath that bridge.
 
-With this I could resize the lmembar on some problematic hosts and after
-doing an SBR, with one caveat: the audio device also prevents the BAR
-from moving and it needs to be manually removed before resizing. With
-the PCI refactors and BAR fitting logic that Ilpo is working on, it's
-expected that it won't be needed for a long time.
+Nothing in the pcieport driver provided by PCI core, which typically is
+the driver bound to these bridges, requires that BAR0. Because of that,
+releasing the extra BAR does not seem to have notable downsides but
+comes with a clear upside.
 
+Therefore, release BAR0 of such switches using a quirk and clear its
+flags to prevent any new invocation of the resource assignment
+algorithm from assigning the resource again.
+
+Due to other siblings within the PCI hierarchy of all the devices
+integrated into the GPU, some other devices may still have to be
+manually removed before the resize is free of any bridge window pins.
+Such siblings can be released through sysfs to unpin windows while
+leaving access to GPU's sysfs entries required for initiating the
+resize operation, whereas removing the topmost bridge this quirk
+targets would result in removing the GPU device as well so no manual
+workaround for this problem exists.
+
+Reported-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: <stable@vger.kernel.org> # 6.12+
+Link: https://lore.kernel.org/linux-pci/fl6tx5ztvttg7txmz2ps7oyd745wg3lwcp3h7esmvnyg26n44y@owo2ojiu2mov/
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
-Ilpo Järvinen (1):
-      PCI: Release BAR0 of an integrated bridge to allow GPU BAR resize
+ drivers/pci/quirks.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Lucas De Marchi (2):
-      drm/xe: Move rebar to be done earlier
-      drm/xe: Move rebar to its own file
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index d97335a401930..98a4f0a1285be 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -6338,3 +6338,23 @@ static void pci_mask_replay_timer_timeout(struct pci_dev *pdev)
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_GLI, 0x9750, pci_mask_replay_timer_timeout);
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_GLI, 0x9755, pci_mask_replay_timer_timeout);
+ #endif
++
++/*
++ * PCI switches integrated into some GPUs have BAR0 that prevents resizing
++ * the BARs of the GPU device due to that bridge BAR0 pinning the bridge
++ * window it's under in place. Nothing in pcieport requires that BAR0.
++ *
++ * Release and disable BAR0 permanently by clearing its flags to prevent
++ * anything from assigning it again.
++ */
++static void pci_release_bar0(struct pci_dev *pdev)
++{
++	struct resource *res = pci_resource_n(pdev, 0);
++
++	if (!res->parent)
++		return;
++
++	pci_release_resource(pdev, 0);
++	res->flags = 0;
++}
++DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_INTEL, 0xe2ff, pci_release_bar0);
 
- drivers/gpu/drm/xe/Makefile       |   1 +
- drivers/gpu/drm/xe/xe_pci.c       |   3 +
- drivers/gpu/drm/xe/xe_pci_rebar.c | 125 ++++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_pci_rebar.h |  13 ++++
- drivers/gpu/drm/xe/xe_vram.c      | 103 -------------------------------
- drivers/pci/quirks.c              |  20 ++++++
- 6 files changed, 162 insertions(+), 103 deletions(-)
-
-base-commit: 95bc43e85f952ef4ebfff1406883e1e07a7daeda
-change-id: 20250917-xe-pci-rebar-2-c0fe2f04c879
-
-Lucas De Marchi
+-- 
+2.50.1
 
