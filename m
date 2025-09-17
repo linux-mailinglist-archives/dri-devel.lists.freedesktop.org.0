@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44256B8088D
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69454B80745
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 670B010E62F;
-	Wed, 17 Sep 2025 15:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6EA10E559;
+	Wed, 17 Sep 2025 15:14:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Esl8ilyM";
-	dkim=pass (1024-bit key; unprotected) header.d=amazonses.com header.i=@amazonses.com header.b="T3vpjI0p";
+	dkim=pass (2048-bit key; unprotected) header.d=draconx-ca.20230601.gappssmtp.com header.i=@draconx-ca.20230601.gappssmtp.com header.b="t+Gn0gaK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 897 seconds by postgrey-1.36 at gabe;
- Wed, 17 Sep 2025 15:27:27 UTC
-Received: from a7-41.smtp-out.eu-west-1.amazonses.com
- (a7-41.smtp-out.eu-west-1.amazonses.com [54.240.7.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87F9C10E62F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:27:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=bc7lryepznv65m6r2ewkpoafjt4fiq42; d=collabora.com; t=1758121948;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
- bh=ul5WCVmtbsTGX05C9VN9GGGFWBTVwIj/Q2yVkJGlOpk=;
- b=Esl8ilyMO3q4MOhGb0h/TdchjE+s0ycqJYjySLAkWpb1sYQKVtWcD5Wcald1SgRr
- OcBKyj4yIH7O0h6pgKPuEic9qf8/wzUxlEdjzvclzxGeYxHBuYtkOCZZqbP4RJQaxVa
- DSVcHLDWPmB8z1Q7jmeUmJVYX/u0n41HdwtDeVD31CgAghplQp+LAfxgSsPIkBhyLvw
- j0CmEzYAK33w+OVexHHvE+QwGOCP7FUMFQcZTknf2yqVNeOlE7HXiHGC+4aVHpLOFcU
- JNGxt36BZmLYHL2CnKrn8k1Y1X3wmfVN06fzq1KHQr0Tg4RB3EwPBaCKRTyvjeSqZGD
- svcl4Me8tw==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=ihchhvubuqgjsxyuhssfvqohv7z3u4hn; d=amazonses.com; t=1758121948;
- h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
- bh=ul5WCVmtbsTGX05C9VN9GGGFWBTVwIj/Q2yVkJGlOpk=;
- b=T3vpjI0pXtRCF48uiOI3PPu2JUm8hGvBIsyXbWg9Y+3Bf3oMoNPi6MuBsrkdHXVh
- 8O41jbxtu7FRLuwKiybAFOUVYEsjCEDHZwjOmE78Ul7EE1K/Szr6C8KuVDHjbqerw6e
- GWDcp6HmeGwbirCU+pt3fCFdFhryxm42XjAKI2sw=
-Message-ID: <01020199583bf42e-4a08777d-554c-42b7-a42c-5162f4459a72-000000@eu-west-1.amazonses.com>
-Date: Wed, 17 Sep 2025 15:12:28 +0000
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
+ [209.85.219.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1B210E559
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:14:49 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id
+ 6a1803df08f44-78f15d58576so5204816d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 08:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=draconx-ca.20230601.gappssmtp.com; s=20230601; t=1758122088; x=1758726888;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=v6NrCcDiMgz4BfT37/6MfLkoGQSFwd3bQQCaY08TYjM=;
+ b=t+Gn0gaKL27tL8uo1/Yjkk3uW0GhVnKLBCgnNQ9LIhmtUqbcZN0fXUhjzkanWE1K5c
+ a1d9+VNkcDNjMNYvdCTigDb1FdHRJ/LSjQ8odEamoNfMnFPtF+mzOqTggqiA0H11FjeJ
+ wKu79fw4VNX/og5RYdASe8REI3COoBALJ1k9PX7oLygv9BqozNRP+/dcNKBshL7Eh7BH
+ We7W1+DbYUYORP0Mobe1+E64ON2wVCgqr3ivfZylsgDx9Z5sN4amQreO/d6HeCoEWI+q
+ pEUTyvFmfGsROYh76/AzoSS2jHVermJpn6JEakG1zu69nlFok5mm8D5+Qzo1b+GT9vCz
+ eLhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758122088; x=1758726888;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v6NrCcDiMgz4BfT37/6MfLkoGQSFwd3bQQCaY08TYjM=;
+ b=GOc1goGgbtjejW2f/FniknlzIveYhp2No9VoEfHxHuz4Nn5NOLdSEHodDeihbB/WLF
+ ZS533m2iK4mBuqTJHvHacET+7BiEWXY4QFJFsFqZjS5vUUKqWVe7uSO8p14SNlDNX3zt
+ n3ZPLc/ARfMR3qgxwgJPspIcXdwQpjI8Yadqcfj9b06WNMPQEHBV+1GJNrWx6eF3O3tK
+ hDolKhXm+wLflsg5PAYZCihqUMgChuqNMzHiEd+YiuikomeSy+2E+9PpMY1g248G940X
+ 0Mj4hjoyTrRgk53J7jW0UKTDY4ggSCt7iiaMBCs8ry0XIVLHT/5CYKx24goxYtBfp5GZ
+ Ptiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVwIkwBRGwdvRvYry4mD62xkWNDeEsx9y59PT24e9j1dsAj6EwPcqL/BniZaJBy9nmy53VCdx2dUtk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz23hC08gDiYdZdDnQuo91/yF4cCkifKDew1R6oMw450ul8Beam
+ Yjzzj7apLzpE+qJUp+5bM4lMVzXDUgDJL87Od3C4zC0xRhUce7N4R8pk1Qh0dwlGptk=
+X-Gm-Gg: ASbGncsMSnS6Cnj5D2NdxuRvJdPqZFUBVgdJbS2Ya1I/l7CNikhXkPVFDSmGoMF3zFr
+ NzBhFajMr4hx19kbkyaZ1AbfST7ofVaakbFm9Naa8lWXcVmjjvg8uX76IC7THaXzRvqNZker0Ou
+ R57pKwKbLiqfL7fpagMWyLDfrjiycx4Q/71UzIyK9zLH3aCPp0wONMMHaKcDdgbRsMskv6GlD4o
+ pJfhqT9qC/Zx02/6LEuw7KJqykk7edTPvsVJBVHP9Xeq2B2ejHoOuyEn7+C+fQAuxtC/OwhA/e4
+ 1MgI38h8XlQjc771XkcvJcdHR9WvUcmZFGz4zxsTrEwdJ3MR7OpXzLVkNUbRWOkNfDr7pBMyvo1
+ g1UV+CLKx+y+ZI6+O/Mo3wYyaJuW6JiYy5hyZUbxEB+z3voa+/yg=
+X-Google-Smtp-Source: AGHT+IGd/ABHMF4f3Hvae/ZzKRbwMwLDu0yyj04cHbrYciDrdwe6HnEu0vohHTaXLEoMoD8R1qEw/Q==
+X-Received: by 2002:ad4:5b84:0:b0:77e:8d71:c335 with SMTP id
+ 6a1803df08f44-78ec6177b6bmr28182516d6.19.1758122087595; 
+ Wed, 17 Sep 2025 08:14:47 -0700 (PDT)
+Received: from localhost (ip-24-156-181-135.user.start.ca. [24.156.181.135])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 6a1803df08f44-77cb4cf2a35sm65042936d6.51.2025.09.17.08.14.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Sep 2025 08:14:46 -0700 (PDT)
+Date: Wed, 17 Sep 2025 11:14:45 -0400
+From: Nick Bowler <nbowler@draconx.ca>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Doug Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, regressions@lists.linux.dev
+Subject: Re: PROBLEM: AST2500 BMC video output disabled by reboot (regression)
+Message-ID: <xeipdyk2i2lpkg4rrvz4cl2l3ch62sl4zoa73qvlms3ek3zkci@y7xqbgjulaet>
+References: <wpwd7rit6t4mnu6kdqbtsnk5bhftgslio6e2jgkz6kgw6cuvvr@xbfswsczfqsi>
+ <CAD=FV=Xp7zOQ2iEVf896P074RW911F-e2Qa36deD0e8fWksFBA@mail.gmail.com>
+ <u7ek3ccya4c3c4rteliskjjfczpmrt4vmqo5c6kjdotxdgitn7@ko24dpb35pq4>
+ <ef6558a9-c44a-4c66-967c-187f260f73e1@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/uapi: Indroduce a VRR Range Control Interface
-To: Xaver Hugl <xaver.hugl@gmail.com>, 
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Cc: Chuanyu Tseng <Chuanyu.Tseng@amd.com>, harry.wentland@amd.com, 
- Mario.Limonciello@amd.com, victoria@system76.com, 
- seanpaul@google.com, Sunpeng.Li@amd.com, dri-devel@lists.freedesktop.org
-References: <20250912073305.209777-1-Chuanyu.Tseng@amd.com>
- <010201993e2cb26f-089ce007-9e30-4b79-b487-c16c360309fd-000000@eu-west-1.amazonses.com>
- <d8694d69-62b3-4418-9fcb-d37c1daa1f9f@mailbox.org>
- <010201994e05ce63-85ad5afd-fc09-48fc-bd6e-f3716c8ba09f-000000@eu-west-1.amazonses.com>
- <d52ec8d7-cc5e-4801-bc04-096504a131b7@mailbox.org>
- <CAFZQkGzWUK5BP_f=zyOM8_pzvv6xYOaVdqN4RAULArvEmD4wUg@mail.gmail.com>
-Content-Language: en-CA
-From: Derek Foreman <derek.foreman@collabora.com>
-In-Reply-To: <CAFZQkGzWUK5BP_f=zyOM8_pzvv6xYOaVdqN4RAULArvEmD4wUg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Feedback-ID: ::1.eu-west-1.YpP9ZbxnARFfy3Cb5pfsLd/pdsXBCNK0KEM7HforL4k=:AmazonSES
-X-SES-Outgoing: 2025.09.17-54.240.7.41
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef6558a9-c44a-4c66-967c-187f260f73e1@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +92,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/16/25 4:56 PM, Xaver Hugl wrote:
-> Am Mo., 15. Sept. 2025 um 17:49 Uhr schrieb Michel Dänzer
-> <michel.daenzer@mailbox.org>:
->> On 15.09.25 17:37, Derek Foreman wrote:
->>> On 9/15/25 5:01 AM, Michel Dänzer wrote:
->>>> On 12.09.25 15:45, Derek Foreman wrote:
->>>>> On 9/12/25 2:33 AM, Chuanyu Tseng wrote:
->>>>>> Introduce a DRM interface for DRM clients to further restrict the
->>>>>> VRR Range within the panel supported VRR range on a per-commit
->>>>>> basis.
->>>>>>
->>>>>> The goal is to give DRM client the ability to do frame-doubling/
->>>>>> ramping themselves, or to set lower static refresh rates for power
->>>>>> savings.
->>>>> I'm interested in limiting the range of VRR to enable HDMI's QMS/CinemaVRR features - ie: switching to a fixed rate for media playback without incurring screen blackouts/resyncs/"bonks" during the switch.
->>>>>
->>>>> I could see using an interface such as this to do the frame rate limiting, by setting the lower and upper bounds both to a media file's framerate. However for that use case it's not precise enough, as video may have a rate like 23.9760239... FPS.
->>>>>
->>>>> Would it be better to expose the limits as a numerator/denominator pair so a rate can be something like 24000/1001fps?
->>>> I was thinking the properties could allow directly specifying the minimum and maximum number of total scanlines per refresh cycle, based on the assumption the driver needs to program something along those lines.
->>> Surprisingly, this would also not be precise enough for exact media playback, as the exact intended framerate might not result in an integer number of scan lines. When that happens a QMS/CinemaVRR capable HDMI source is expected to periodically post a frame with a single extra scan line to minimize the error.
->> Interesting, maybe your suggestion of numerator / denominator properties is better then.
-> API wise, I'd much prefer just using nanoseconds instead of two
-> properties that compositors will in practice just use the same way.
+On Fri, Aug 29, 2025 at 03:07:14PM +0200, Thomas Zimmermann wrote:
+> it's been a while since you sent this report. I assume, the problem is this
+> there?
 
-Yeah, I hear you. Period is generally much nicer than frequency, and 
-every other time I'd unconditionally agree, but QMS is awkward in this 
-regard.
+Sorry, I haven't had much time to try the latest versions, the most
+recent version tested is 6.15-rc7 and the problem occurs there.
 
-The media file I start with will have a fraction specified in integers 
-for the rate, eg: something like 24000/1001 fps. That will map to an 
-index in an array of QMS blessed target framerates (24000/1001, 24, 25, 
-48/1001, 48...) and the index ends up in a bitfield in the HDMI QMS 
-infoframe. That infoframe also has a bit to indicate that the framerate 
-is currently constant, with constant defined as "constant number of 
-scanlines but may be exactly 1 scanline longer occasionally".
+I have just patched out the shutdown call in the ast driver and
+everything is fine.
 
-In the constant state we'd need to maintain that fixed rate within that 
-constraint, and the integer math to do that needs to start from 24000/1001.
+> Am 30.04.25 um 15:28 schrieb Nick Bowler:
+> > On Mon, Apr 28, 2025 at 01:40:25PM -0700, Doug Anderson wrote:
+[...]
+> > > 2. Could you give more details about what panel you're using?
+> > According to the documentation I have for the machine, the video output
+> > of the AST2500 BMC is connected to an IT66121 HDMI transmitter.
+> 
+> That dmesg refers to a SIL164. I always thought these where only for DVI.
+> With the IT66121, I'd expect the warning from [1] in the dmesg.
 
-So if we used a nanosecond period for the interface, we'd need to take 
-the media file's values and convert them to nanoseconds, then in the 
-kernel convert back to something like milliframes per second (so we 
-could get something near 23976), then look that up in the QMS accepted 
-rates array, have some manner of epsilon to decide if we're close enough 
-to one of them to use it, and then use the integer representation (back 
-to 24000/1001) to setup the scanline temporal dithering algorithm to do 
-the +1 extra line every few frames to hit the exact rate.
+It's not impossible that there is an error in the documentation.
 
-In effect we'd throw away the precise values we started with and try to 
-reconstruct them later.
+Although the comment in the driver right above the linked code suggests
+that it might just report SIL164 even for other kinds of transmitter
+chips?
 
-QMS also has the added strange feature of being able to set a fixed rate 
-below the display's normal VRR minimum, so I'm undecided as to whether 
-this range control interface is an ideal match for setting up QMS 
-anyway, or whether I should propose a separate fixed rate property 
-later. I just don't want to ignore this discussion and show up proposing 
-another non-orthogonal property later.
+> [1] https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_main.c#L196
+> 
+> 
+> The ast driver doesn't do much during shutdown. Could you please out-comment
+> the lines at either [2] xor [3] and report on either effect? These calls
+> turn of the video chip's memory access and sync pulses. Not doing that might
+> resolve the problem.
+> 
+> [2] https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L835
+> [3] https://elixir.bootlin.com/linux/v6.16.3/source/drivers/gpu/drm/ast/ast_mode.c#L839
 
-Sorry to be speaking in hypotheticals, I do have a working QMS 
-implementation to share soonish, it's just not quite ready for review yet...
+I can try this.
 
+Thanks,
+  Nick
