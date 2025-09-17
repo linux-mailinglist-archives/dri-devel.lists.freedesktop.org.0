@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10557B802FF
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D559B80457
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1259E10E86A;
-	Wed, 17 Sep 2025 14:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07BF210E882;
+	Wed, 17 Sep 2025 14:53:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WrmswtbW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AXU+U3Nq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 111BA10E1CC
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:37 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F321C10E882
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:53:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id ED6AD40B39;
- Wed, 17 Sep 2025 14:46:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 729EBC4CEE7;
- Wed, 17 Sep 2025 14:46:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 325B9601ED;
+ Wed, 17 Sep 2025 14:46:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC9BC4CEE7;
+ Wed, 17 Sep 2025 14:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758120396;
- bh=7gX4hCqmMu3qSZJG3m/DrzEVbpuRBmVF8tXjot3BII4=;
+ s=k20201202; t=1758120399;
+ bh=U5snXCML5rwRhIfPdptmhVSbh4f2NxnBRB2vkMoDCMY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=WrmswtbWoZl5y+SAF8bA5Q7CnLjxOHE6toZnMk7EtP4aoaH4zvbqNtkTPfGYV9VJi
- IorD7inpBItAspbP34trGBIgir7cVmNvFPeEsuhNKP6Q6rJNUuI5eYVGM8xMDoCclP
- p5TiOw3R66ViXs8S99GLRDaUn1sARnwZdyAR6uKuJATU9OyRc3PHkj8V+cLVtm/kEI
- 6sQwrdN89f2/rdFhSCuaIDmxN2d8yIxZucNnIHPoo4l19rQbnYmdKd0EK3nOoGY+zq
- QdNrvZbpAbAMtc9d3fBgZZaOu5qRg6mnQU92Vn5hVszP0B+rCP8qa9/GZmSwoeWNhm
- pQ0oAfakN/Viw==
+ b=AXU+U3Nq7GhlmKTURmT2gn0N3pVXyVPnUWFinoc/9hgNIaQuuxAALovR7zdk7GP0M
+ 4oCQxDMx492S1atqcFoX0SCFHgXXloTHc+Y95zYsCwHLpJSDKcre+1jhuTRjHA5N9V
+ DZ46vv4gQ2mC6NfLU6+NBQrBWSNKoQxnHSVLG8cYnKRQ4FtQRkemvcmE3vaoKEPlZ2
+ F7/FtqKK/q/7ffuUb0suqMWAPDJx5ycZkNoajKRAyD2T8msFbGWv+LZuPZ2q4eq7bN
+ XRObMiuWOpfYlx9yN7TIVQ7g5kAem/25nsvl6byResARwIk+JjLLKlUPgKcG/TIH8Y
+ p6qjXsbaZPplA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:45:50 +0200
-Subject: [PATCH v4 09/39] drm/atomic: Document __drm_planes_state state pointer
+Date: Wed, 17 Sep 2025 16:45:51 +0200
+Subject: [PATCH v4 10/39] drm/atomic: Convert drm_atomic_get_crtc_state()
+ to use new connector state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-9-5d4b9889c3c8@kernel.org>
+Message-Id: <20250917-drm-no-more-existing-state-v4-10-5d4b9889c3c8@kernel.org>
 References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1874; i=mripard@kernel.org;
- h=from:subject:message-id; bh=7gX4hCqmMu3qSZJG3m/DrzEVbpuRBmVF8tXjot3BII4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi72d5p045G9zdHZ6dcny371YpwdI8N2f6M5176ar
- 7wP7UufdExlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJNJ1ibHgjqBgzzWTRCo1z
- q9QPbWU7eqfpybH91wUemkzjLlPpZnC3sc/gEhD4/rtzhZ/Xgcs6KxgbpnT8O3T1Bne7oSTD543
- TFTMnqPaKn9gWdT3a4VylebBP9Uffv6amnPnPTnxy+fr8J/9eAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1502; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=U5snXCML5rwRhIfPdptmhVSbh4f2NxnBRB2vkMoDCMY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi7uXBJz4DqT5t5Vx6vS9r5ZZjvjxe5ZCwWunXVmd
+ TlXG9/r2TGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmoprH2LBWzGl2xqQyg3hh
+ 0/S8itM6ugt3saxKrUyxld+sMvmYVI9tJHtg66u5pvMTa48EqN1xYmx4JX3zrLC+7beyyjfTZr9
+ yNn5xnusKX5SLB4ff6addN39Kz61TtN/ypS/g4gSN/oKZ73UA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,58 +69,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the old and new state pointers are somewhat self-explanatory, the
-state pointer and its relation to the other two really isn't.
+The drm_atomic_get_crtc_state() function calls the deprecated
+drm_atomic_get_existing_crtc_state() helper to get find if a crtc state
+had already been allocated and was part of the given drm_atomic_state.
 
-Now that we've cleaned up everything and it isn't used in any
-modesetting path, we can document what it's still useful for: to free
-the right state when we free the global state.
+At the point in time where drm_atomic_get_crtc_state() can be
+called (ie, during atomic_check), the existing state is the new state
+and drm_atomic_get_existing_crtc_state() can thus be replaced by
+drm_atomic_get_new_crtc_state().
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: Maxime Ripard <mripard@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Airlie <airlied@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
 ---
- include/drm/drm_atomic.h | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 2f2c92fc4c20ee4e6abd6911bd574969d9cabbbb..89c9a059b36763205fc2fc764283423cbea62679 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -157,11 +157,25 @@ struct drm_crtc_commit {
- 	bool abort_completion;
- };
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 15584928f06a9175308c3ef8f1ecbe1b33b17f47..435a93c83149e60e4a1bf4310ee5e865242cac7b 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -347,11 +347,11 @@ drm_atomic_get_crtc_state(struct drm_atomic_state *state,
+ 	int ret, index = drm_crtc_index(crtc);
+ 	struct drm_crtc_state *crtc_state;
  
- struct __drm_planes_state {
- 	struct drm_plane *ptr;
--	struct drm_plane_state *state, *old_state, *new_state;
-+
-+	/**
-+	 * @state:
-+	 *
-+	 * Used to track the @drm_plane_state we will need to free
-+	 * when tearing down the associated &drm_atomic_state.
-+	 *
-+	 * Before a commit, and the call to
-+	 * drm_atomic_helper_swap_state() in particular, it points to
-+	 * the same state than @new_state. After a commit, it points to
-+	 * the same state than @old_state.
-+	 */
-+	struct drm_plane_state *state;
-+
-+	struct drm_plane_state *old_state, *new_state;
- };
+ 	WARN_ON(!state->acquire_ctx);
  
- struct __drm_crtcs_state {
- 	struct drm_crtc *ptr;
- 	struct drm_crtc_state *state, *old_state, *new_state;
+-	crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	if (crtc_state)
+ 		return crtc_state;
+ 
+ 	ret = drm_modeset_lock(&crtc->mutex, state->acquire_ctx);
+ 	if (ret)
 
 -- 
 2.50.1
