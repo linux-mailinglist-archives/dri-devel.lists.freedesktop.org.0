@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B2EB802F6
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10557B802FF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65CB10E1CC;
-	Wed, 17 Sep 2025 14:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1259E10E86A;
+	Wed, 17 Sep 2025 14:46:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YYYcNxKf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WrmswtbW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E13410E866
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111BA10E1CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0CF774178A;
- Wed, 17 Sep 2025 14:46:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F4ACC4CEE7;
- Wed, 17 Sep 2025 14:46:33 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id ED6AD40B39;
+ Wed, 17 Sep 2025 14:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 729EBC4CEE7;
+ Wed, 17 Sep 2025 14:46:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758120393;
- bh=0E/FbUNXvha4JUtPWhXsAdlAR06iBe44Vr5er+olGXI=;
+ s=k20201202; t=1758120396;
+ bh=7gX4hCqmMu3qSZJG3m/DrzEVbpuRBmVF8tXjot3BII4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=YYYcNxKfPwEjOmkr0cjj0dOD96PM1WH2ucr0RfaPdQwh+w8tRMdi+4I3FZGDPeaFT
- YoPQlNB3bomDKujyd6ldP5M8X6637FYncavCKWGiqFyYsnZewzQ7YP6N3NmTjlBZJ6
- nDDpVhrYj5MOcA2tbVHoOQ83h+qtZjk5gp5JfBaqTUmJvXOmjp+MSi4HNo30fuHzDA
- xt7ultlFAFVy4JiIt4XyB0SfRpkNII3pzBHW6hkmBSLJR8RKPi5XH6lkHyGJaXWIK/
- NLnQ84euaknsk4L/dYa4Zf5sCbfgv+1bQaccY0hFSEXnD2smUSdIxn0dnmu94PWXH+
- 9UCcdNhlQYHyQ==
+ b=WrmswtbWoZl5y+SAF8bA5Q7CnLjxOHE6toZnMk7EtP4aoaH4zvbqNtkTPfGYV9VJi
+ IorD7inpBItAspbP34trGBIgir7cVmNvFPeEsuhNKP6Q6rJNUuI5eYVGM8xMDoCclP
+ p5TiOw3R66ViXs8S99GLRDaUn1sARnwZdyAR6uKuJATU9OyRc3PHkj8V+cLVtm/kEI
+ 6sQwrdN89f2/rdFhSCuaIDmxN2d8yIxZucNnIHPoo4l19rQbnYmdKd0EK3nOoGY+zq
+ QdNrvZbpAbAMtc9d3fBgZZaOu5qRg6mnQU92Vn5hVszP0B+rCP8qa9/GZmSwoeWNhm
+ pQ0oAfakN/Viw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:45:49 +0200
-Subject: [PATCH v4 08/39] drm/atomic: Remove unused
- drm_atomic_get_existing_plane_state()
+Date: Wed, 17 Sep 2025 16:45:50 +0200
+Subject: [PATCH v4 09/39] drm/atomic: Document __drm_planes_state state pointer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-8-5d4b9889c3c8@kernel.org>
+Message-Id: <20250917-drm-no-more-existing-state-v4-9-5d4b9889c3c8@kernel.org>
 References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1799; i=mripard@kernel.org;
- h=from:subject:message-id; bh=0E/FbUNXvha4JUtPWhXsAdlAR06iBe44Vr5er+olGXI=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi5iMSqrfpHz9Lhq4hr1NZMybxoFrN/16bFh5ou4n
- Y9L7CpFOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEkisZG65vr3uzbUndzwdx
- B1/Pf6i27lOr7q0Lzcb7Zf15LXg3rX002yDW/jP/Dzfh7y3/jxUt7mVsWFP3OeGzxtdV0QeTZfa
- ycv07ymg30X3SRBnGJzl7uz7dfMLzcm9e3opzd07PWtyn+4NdBgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1874; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7gX4hCqmMu3qSZJG3m/DrzEVbpuRBmVF8tXjot3BII4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi72d5p045G9zdHZ6dcny371YpwdI8N2f6M5176ar
+ 7wP7UufdExlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJNJ1ibHgjqBgzzWTRCo1z
+ q9QPbWU7eqfpybH91wUemkzjLlPpZnC3sc/gEhD4/rtzhZ/Xgcs6KxgbpnT8O3T1Bne7oSTD543
+ TFTMnqPaKn9gWdT3a4VylebBP9Uffv6amnPnPTnxy+fr8J/9eAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,9 +69,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_existing_plane_state() function is deprecated and
-isn't used anymore, so let's remove it.
+While the old and new state pointers are somewhat self-explanatory, the
+state pointer and its relation to the other two really isn't.
 
+Now that we've cleaned up everything and it isn't used in any
+modesetting path, we can document what it's still useful for: to free
+the right state when we free the global state.
+
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
@@ -82,42 +87,40 @@ To: David Airlie <airlied@gmail.com>
 To: Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 ---
- include/drm/drm_atomic.h | 18 ------------------
- 1 file changed, 18 deletions(-)
+ include/drm/drm_atomic.h | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 82e74d9444c4fa7f02ee0e472c8c68f7bc44cc6a..2f2c92fc4c20ee4e6abd6911bd574969d9cabbbb 100644
+index 2f2c92fc4c20ee4e6abd6911bd574969d9cabbbb..89c9a059b36763205fc2fc764283423cbea62679 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -696,28 +696,10 @@ drm_atomic_get_new_crtc_state(const struct drm_atomic_state *state,
- 			      struct drm_crtc *crtc)
- {
- 	return state->crtcs[drm_crtc_index(crtc)].new_state;
- }
+@@ -157,11 +157,25 @@ struct drm_crtc_commit {
+ 	bool abort_completion;
+ };
  
--/**
-- * drm_atomic_get_existing_plane_state - get plane state, if it exists
-- * @state: global atomic state object
-- * @plane: plane to grab
-- *
-- * This function returns the plane state for the given plane, or NULL
-- * if the plane is not part of the global atomic state.
-- *
-- * This function is deprecated, @drm_atomic_get_old_plane_state or
-- * @drm_atomic_get_new_plane_state should be used instead.
-- */
--static inline struct drm_plane_state *
--drm_atomic_get_existing_plane_state(const struct drm_atomic_state *state,
--				    struct drm_plane *plane)
--{
--	return state->planes[drm_plane_index(plane)].state;
--}
--
- /**
-  * drm_atomic_get_old_plane_state - get plane state, if it exists
-  * @state: global atomic state object
-  * @plane: plane to grab
-  *
+ struct __drm_planes_state {
+ 	struct drm_plane *ptr;
+-	struct drm_plane_state *state, *old_state, *new_state;
++
++	/**
++	 * @state:
++	 *
++	 * Used to track the @drm_plane_state we will need to free
++	 * when tearing down the associated &drm_atomic_state.
++	 *
++	 * Before a commit, and the call to
++	 * drm_atomic_helper_swap_state() in particular, it points to
++	 * the same state than @new_state. After a commit, it points to
++	 * the same state than @old_state.
++	 */
++	struct drm_plane_state *state;
++
++	struct drm_plane_state *old_state, *new_state;
+ };
+ 
+ struct __drm_crtcs_state {
+ 	struct drm_crtc *ptr;
+ 	struct drm_crtc_state *state, *old_state, *new_state;
 
 -- 
 2.50.1
