@@ -2,153 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CA0B81559
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 20:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F2DB81586
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 20:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF8B710E1DC;
-	Wed, 17 Sep 2025 18:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 855DA10E579;
+	Wed, 17 Sep 2025 18:32:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3NeW4VS5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RFlSOhkk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012043.outbound.protection.outlook.com [52.101.43.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 581EA10E1DC;
- Wed, 17 Sep 2025 18:25:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vojSltDD3/JxV67QWyDGjFumPVyqbJzCmQId69VLoPon8MrbvV8JaYuxj3xrZQCTqAq0cs4EtgXVRjLk1jCXG1g4JFRIJJvHmscWKE5cnm0v5Mm3PrG9oOqIwOYsO5mY+IqfUV8fqiWhPDhR1dMwkn8REfvUCa0dplmX8XDSkUxZvbiWqP9+Uv23n5fAILRqDXzVVufNvnPBOI5sUV21ktdDEOEh4dJWa7+5gTELN3bhPNoRRzTRxmgzDMh6nxYH2yCNYYQGX2C3b7LbPGywlFKcUfBvCxS4G/bkTySPjaHYQOWDyeYIlQQLbgvRqaJuLKpNb0EwXiozGu5QuR4oDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XIOv+0r21u22TqwglCCsGP8vWWDw9Aa7cqzmgHDR/JA=;
- b=oF6hmU2td+eZOnBkk8XWOeHqKhC5DeQtRRnekBgT7zvV7SUcvULUSgvDnU3+XiebPpfewcfJZPuB4LyBLlRgT8pteon0HiSNLgrre0oCZl4yZ8lZ6SVjimcEqlurXF3MzoLNqFnfsX/hYopNmiLMKWdtLkZwOmzpB80uuI5OYixeH4hvQfGpiHhTb4htHtwYfmDhrcWKLflP+YFC3JVBuKENwS9b6OJaOLQsFGXIgz4tWy2TiTg8fOve4nwE3wmzu2vwNoGPqNftFuCAT4ZdJnZzclraFclo5EHBUBdv3F9HhIpahVSUdvpeXY4tKeREhU0KKqb3CT2NUJhquogsrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XIOv+0r21u22TqwglCCsGP8vWWDw9Aa7cqzmgHDR/JA=;
- b=3NeW4VS5BzXFEEleM72/oMn/Bnz1JpUIzaXDmWDd9lNvEYoB9+GlUGUIwT1podu9IuwoF2ADTaHkzEjC2QZtAO3nv1g4HLLl83BtoS7NDGIaYQAhG3raYztF7Jw7nFljoJbMEzDEDsPZuBSZo7rpD+b8g6Qn4L6QLNTvnY4Fv6o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by CY8PR12MB7148.namprd12.prod.outlook.com (2603:10b6:930:5c::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 17 Sep
- 2025 18:25:26 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.9137.012; Wed, 17 Sep 2025
- 18:25:26 +0000
-Message-ID: <f782159b-ad3f-4d0c-8476-50a701bf29e6@amd.com>
-Date: Wed, 17 Sep 2025 14:25:23 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Use kmalloc_array() instead of kmalloc()
-To: Rahul Kumar <rk0006818@gmail.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org
-References: <20250916092949.4118999-1-rk0006818@gmail.com>
-Content-Language: en-US
-From: "Kuehling, Felix" <felix.kuehling@amd.com>
-In-Reply-To: <20250916092949.4118999-1-rk0006818@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0354.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6b::11) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2EEB10E579;
+ Wed, 17 Sep 2025 18:32:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758133952; x=1789669952;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=hKhsV0DTKfHcZHhQSlACQ2V9nltecXOvtlLqKQxGrmM=;
+ b=RFlSOhkk41xvTn3pbvHO6GTnatn6Sn6FD+uPuJtfpVWnbxJAhVS7kSO3
+ 28l/DlX5onUxNTxg0TVmdU4GtiuRWp2tjBKwmZG010v0dG0Sc6rYE0GTU
+ 6lBOho/QEiG1YutcomPM9rBAHN+u3z0+4vnwhgT9XGIJEKvEMAAxP4Q1P
+ OSw4FvwUwuEfwbaq1eAQu2pOKZDePWgVw77a5U980Km5Jt105JsKjEhUN
+ WwEaFkv6wOh1HUMvfewDlRRSk2W8YzHZoB2vlZvnxvZ2Pf3T+uAwycKAR
+ JamlY4VP6AhN6KUz3Gcd5y64rSIFWkN8gofmp5mdckHZdTHTYhu5ABbxQ Q==;
+X-CSE-ConnectionGUID: xqQdZjhPQVG3A2n/IEkKZA==
+X-CSE-MsgGUID: B+fvLnU2SO6wcAeY0a7Dgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="85892171"
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; d="scan'208";a="85892171"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 11:32:31 -0700
+X-CSE-ConnectionGUID: G+OrrZGWTPCYzmSLn778rw==
+X-CSE-MsgGUID: do31WYqyRRaskv43POty6A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; d="scan'208";a="175393701"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.244.65])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 11:32:29 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: igt-dev@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Kamil Konieczny <kamil.konieczny@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH i-g-t] tests/syncobj_timeline: Exercise signaling of
+ awaited points
+Date: Wed, 17 Sep 2025 20:32:26 +0200
+Message-ID: <3568023.QJadu78ljV@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <b1897f06-bac3-4677-aa38-c959dedb6c39@amd.com>
+References: <20250916095707.918819-2-janusz.krzysztofik@linux.intel.com>
+ <b1897f06-bac3-4677-aa38-c959dedb6c39@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|CY8PR12MB7148:EE_
-X-MS-Office365-Filtering-Correlation-Id: 566da2e6-34d8-4150-ca4e-08ddf617927c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MjBrek1oVE1Pa3ZxaVhWQzZzWUV1cGdneHQ0Uk5CVmxhRjhjZ3FuWVdYUUxa?=
- =?utf-8?B?QVFmN3FQRG9QMDRwR28ybTdvMmxVLzVuR0VSclhvaVJXK1RURmdqTkthME9P?=
- =?utf-8?B?VWV6akhLbTk3NlMxQUR2UEJ0Y0dWZEJ2Ty9tNW80cUZZSmNhdEszakRkaFpj?=
- =?utf-8?B?eXkvcnlxektVOWl0amt6Skx0TWk2M2pqZkVIMjFQVXJjeC9GcDV3bC94amdJ?=
- =?utf-8?B?RjJzVi95Q2xRSlgvU0tlTEVFbnFEMTIzUllyKy82VTYrS0Niek4wZEpVTFFQ?=
- =?utf-8?B?OC9KVEgrK2VnQURLOVFQY3d0V3hxU0dta082ZDZtaW5NVFJ1MFhMOHVDcWRn?=
- =?utf-8?B?SjJ6RVdSbThLMFpxbUxZVXRuUXBRSTR1Z3hwZEo2MW9MalBxSDdaSDM0VUQy?=
- =?utf-8?B?eHZmYm5rR1lhMVdsd0RFcVZCWHhjRXdmcTN0RkNBeVlnVS9pZTBGV1Q0Q29t?=
- =?utf-8?B?aENwWVN2dVNjUVR2VlpxSS92QkVUTG56OW9JbVd5a241OFRKeFN3WGtWQWF2?=
- =?utf-8?B?bjZoODF6MnpzQWlFY1pLRXByZHZVbWJGcnlBT0h6aXZnbXYzWG0xek5ocWFE?=
- =?utf-8?B?aXNWZXRLZE00TXZKQjZ6UUtLTEVabEpFb05wSDd2RmRzSnBCZ3AzN0FzWk56?=
- =?utf-8?B?c1ZVeUhuZndHYWp1MkowUjU0L2g2c2VmWXlTWFNtZkFlSzUzdFpxV0lEVllF?=
- =?utf-8?B?TzVSVkg3ekduY0E3R1IxWXo3dWdobUN1bEpqaHdsUHpVM3g4T2FnaktQKzcx?=
- =?utf-8?B?RjZlb1FBeTFxeFpuSkRkSnJmVWgxajhhYnZYVDhWdUxiL1E1RzFud0x1ZDZG?=
- =?utf-8?B?a0FBNDBaVHp5N0ovbVJNUVhUZ2YvVEI0b3ArOWxDdUxXckMxRDFoaWg3SnE1?=
- =?utf-8?B?cVlnZzB1NjV0R1Y2dENWTmltZ0xEbnRucjVPaG9ib1pDdVRGVmpqZ0ZlMGRw?=
- =?utf-8?B?cmdKWUhFMC9NQ1Q1MWkwRWRkcm1NenkrVXhXd0FQOE5tUDJVeEk4cjBQbk84?=
- =?utf-8?B?NGZVWDBRL3hnQ2VGM2ZIenI5MG9VZTJMS1M5L3JLRE96dHhzSWhwRmpsOWIx?=
- =?utf-8?B?QWJibnVXN2IxQVFJQmRhMXpKSy9ITGJJZGVWRUJvdnk1a3RZN202NmlQRnl5?=
- =?utf-8?B?dk4yclZxK3MwNEdkNmtUOTdLK1Y1VmZTQW5NT3hTdXhxSVd0NGtxcGtYbGNI?=
- =?utf-8?B?YUhjNUpkek9HSnBxeTR3aU4wSjNLanpqT2xKQTVoZXVOWlNpSkJrTkVqa0U2?=
- =?utf-8?B?NmNQS2hrZG5JVlJacDdHQTVvangrcEVsUEN4T1pSNE9LMHpMKzlsT3l5SGhj?=
- =?utf-8?B?V2FNZ0cxVWdaMS9qbGthWmI5TTZTeUdobUNJSGI0Q2VDeDh1em0vU1M4N2hr?=
- =?utf-8?B?cXYveExTbzNtR1VwbFdSeWhSOG9NSUFzZW9vR3Z3VWlNZVJ0TnUrQzFYeDBp?=
- =?utf-8?B?WlJzV3hpNnlNWUYyY21DV0Q4R0pEN3NOcXByMGlPQ0NLcy9vWWM0NVpBaFpD?=
- =?utf-8?B?anc1ZGNaczRHc1k1YkpmaHFYeG9DbFZQaDlaQjV1MkFhZDcrUU1uNGU4b0JQ?=
- =?utf-8?B?QUhnQnErTkVWRWNzT3M0UUkrV2RRdlVpMG1zeEhCK3d1NngyRnJtTHJKK05P?=
- =?utf-8?B?N1pVaGc5TXdnUmZlaHNSWnJWQStRK3V0RGw4dlJHY05VVG9QaGtJV0xobVNS?=
- =?utf-8?B?WUFzd2dWVE9tN3dyemxucXVKOXNNZDVmaWVVNHNMUXAvRHRMblVMSG9XQXZu?=
- =?utf-8?B?cU1TejlkMUpId2o0N2xvVXZOb2FjYjJZZzFUTnBLUWZmNXM5RXc4NmVrQnpD?=
- =?utf-8?B?d3FaOVVhaHM2N1JqN2tURXZURHN0ZmhlWS8xY28rYUFsRUhlWndtNFpyYkZH?=
- =?utf-8?B?Yi93UlZHeGR4aERxQ01hbHJaWTFxdThnWXpnQjVlKzF0ZUhNUDZ4MjFLcnRM?=
- =?utf-8?Q?PNm+zVlcN6s=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SG1oWWsvRWhNRE5HVXNjZERZZkpkT3pURlFRdmdYQW1qQmJza3BjYWYxa1hN?=
- =?utf-8?B?K3p4S1k0ajl2OUFNbEhCSk9SRmFRRDdCS1hsdE4wYkE1M2Y1TnR0RTI5UTRE?=
- =?utf-8?B?SkNWL0wwYWZYY0VIM2g0WnNlL29LZEZwaHViUmRYUExwRVVEdVk3TjRHcGNt?=
- =?utf-8?B?dkxTZGNNNU9uZFpEMjhLTXhGY1V0cTB5RFVDaDcyUHNZTFJxTjZscTl0OVUz?=
- =?utf-8?B?QTlRY2NBRkVVd1prampFcEtjVVZGYWV1bURaeCtUd01LSXJkaGZTNUR5bUg0?=
- =?utf-8?B?Wm44N01RS2ZzL3NuM2R0R0hicFFPRVpDMjdQaHBOZ2FPS0x5VkJTVHg1WC9t?=
- =?utf-8?B?N2NuRUxmVmxldGR6bHFYVDBtdERKVms2MjhvNTljK1hNTnB5QjMyci9saGQy?=
- =?utf-8?B?M2cxaC9LUUs1YjVHWnBtR0RlWXhwLzFpdkFKMkI3emF1cTI4cVBCZVcvdDBt?=
- =?utf-8?B?bjVlN2prL205WG1mWlhLaWtjTFZqZDE4a3JGSWkwZGh1ZlI1aFZ5TlBOTXo3?=
- =?utf-8?B?WVRwVm9QSVduOW9mZW00eGw4eFBSSFFOQzgxeHNjRVhqU3VXZDd5aFZneEpN?=
- =?utf-8?B?Q0kzc0tLanRacUNXTmtOV3lmQi93M1l1UCtPaGRYSmdPSU00YSs0QWZhdmlZ?=
- =?utf-8?B?djd3dkQ1dnZmUVFMMi85TGc5ekM3RWhOb2hYSm5pcm4vV0ViZ21PaDQreStD?=
- =?utf-8?B?dnFxaXFDSXhvVzlySVM2c0xZTndHeXhCcFNuQlRJWHdLdFQ5NjE3Vm43dlpO?=
- =?utf-8?B?RlRyUDdUam1pQVlZaUNibjZzL1ZxREtETjhHMWlXMExvZ1FGWHJXekRTK09n?=
- =?utf-8?B?L3ZiRjJFeHQvdXcrRC9KZnRPMEpOT0ZUOTYreC9sMkI4Zm5ybzl2OCtCc1FB?=
- =?utf-8?B?aVM5WFgrVThkbllLWE1HRWhGbEZiNmNSRHJBa0Qyb21UQ1hqZjRidkdnN2ts?=
- =?utf-8?B?QTl0TW9CQ1JlV2V6TVZXL0ZjKzluQ2Q2eEY1TFdPbVUrREFzK0VEcVQrZzZx?=
- =?utf-8?B?MThXNU1Mai9PUmgzMEMxUGxSQjJlN21paFJzci9zbzF1SnJMOWVvQXNhSng4?=
- =?utf-8?B?ODZaV1ZubWJ6OUo2R0hDRmkydU5QZFNwNXRzRHZEVFB5akJWVWI3NFM3T1RZ?=
- =?utf-8?B?NTZUdUhrdFFXSEZCZjBXZExUZWc4dXlhQ0dYKzI3SGZUTUlBQlhzc2ZXaGR4?=
- =?utf-8?B?cndjYU5HRFlmK1NwVkZpTmsvZDJKcE15d0JFcm1UOGJ1L0crNnQwQTYvREJ0?=
- =?utf-8?B?L0NYOXdZNTRhZ3hjK0Fkby9oR0p5RTZDSmpETUZ0UGp5Nnd0WXdqZHE5RXRk?=
- =?utf-8?B?VVd0c1VHTzBtWTlybHh1MmN4d2NYUGV4bW1xQ1NGQzJRTThUUGJoZDlFb1A3?=
- =?utf-8?B?VmEvTnRYOWM5Y1RuenVjSm1vbkNZYkhWNFNGUDVCNUhpQjRHbU1MQ2xnclNQ?=
- =?utf-8?B?VUtsam5ZMnBPT0VJRjRZT0FraW55L0pyQzUya1o2NnpNQjQ3ZzdXTkF2dWNx?=
- =?utf-8?B?UGVZTnc2UEtKUnR3UFNscHNGZ1JUZmpvZzM0SjVjOXJ5S0psUWJnSitUa3B5?=
- =?utf-8?B?enU4QnRoVUZZbnhsM3VBdTg4NUVoa2o3NXB4dExsSDBINmUzclVrTnpocXBU?=
- =?utf-8?B?enMxcitxUGZVNE9DOXRWSXJuVWxJRHZQdDdqZW5BNGhsSlBmb0gzUUVVRzIv?=
- =?utf-8?B?TkJienhuR2EzMGV2RER5Ym50WUh1dHRWV2NES0tHNGNuRTBKUG9OM3hlS3ND?=
- =?utf-8?B?NjZTRnpGZDY2anIxYktyQkd1bE5qMVBjMmc1OFdCdU9jdlVJbFhYdTRaRjNr?=
- =?utf-8?B?dUwyOE5Fd21wLzNDRTkzTklDUEJLVTFHWnhtWW8yeitDUnY3M0tpeTN0ajdP?=
- =?utf-8?B?cnhUWm5mYk40Tk1aZzN1RWhwUVNxT1drc2RlL2JDNlFZclRQbTdkdVRKeDdy?=
- =?utf-8?B?SnIrQnh1SXA1Y2lSbzQ4d21GelNRQ2o5R005NkhmZ0NWRHcxZ0l5YSswYzRr?=
- =?utf-8?B?c01BTzBKY2xoanRZK0VBajZhYlRZS1hjTTBocERSU2daMWt2SjQ5QzlCL2x0?=
- =?utf-8?B?ZTV0emlJQ1FsRGllVXR3UXZGa0QvWWF3N21QWXY4YWZMTHVydGpGZTR4bXN4?=
- =?utf-8?Q?e6Hh7Ni+QZndV/Y7kJ2qsdJwf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 566da2e6-34d8-4150-ca4e-08ddf617927c
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 18:25:26.0538 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wHyjcSKDR0rplneTFwwW4FbBeptEmUIJUW8LXqA9iahn9Eyf4l2iDgWzwGfiiqfT0sSO28o0esIOHsVZyxTc2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7148
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,52 +74,489 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-09-16 05:29, Rahul Kumar wrote:
-> Documentation/process/deprecated.rst recommends against the use of
-> kmalloc with dynamic size calculations due to the risk of overflow and
-> smaller allocation being made than the caller was expecting.
->
-> Replace kmalloc() with kmalloc_array() in amdgpu_amdkfd_gfx_v10.c
-> to make the intended allocation size clearer and avoid potential
-> overflow issues.
->
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+Hi Christian,
 
-The patch looks good to me. Looks like this got fixed in GFX9 and older 
-but that didn't make it into GFX10 and newer implementations that were 
-probably on some internal branch at the time. For the sake of 
-completeness and consistency the same fix should be applied to 
-amdgpu_amdkfd_gfx_v10_3.c, amdgpu_amdkfd_gfx_v11.c and 
-amdgpu_amdkfd_gfx_v12.c. Can you send an updated patch that includes 
-them as well?
+On Tuesday, 16 September 2025 12:58:22 CEST Christian K=C3=B6nig wrote:
+>=20
+> On 16.09.25 11:55, Janusz Krzysztofik wrote:
+> > CI reports kernel soft lockups when running a wait_backward test case of
+> > igt@dmabuf@all-tests@dma_fence_chain selftest on less powerful machines.
+> > A kernel fix has been developed that has proven to resolve the issue, b=
+ut
+> > it hasn't been accepted upstream, with a recommendation for dropping th=
+at
+> > test case as a "nonsense".
+> >=20
+> > Before we decide to take that path, try to implement the problematic te=
+st
+> > case in user space as an IGT subtest.  Since no kernel uAPIs have been
+> > found that allow strict reimplementation of exact algorithm of the
+> > problematic test case, where every link of a dma-fence chain is signaled
+> > one by one from a loop running in kernel space, provide two approximate
+> > variants, one that signals each fence with an individual system call, a=
+nd
+> > one that signals them all in one shot with one system call.
+>=20
+> Those tests are unrealistic outside of the syncobj framework.
+>=20
+> E.g. a test which exercises signaling each fence individually would requi=
+re=20
+HW which would do that to happen in reality.
+
+I've been trying to understand what you meant but I've failed.  If a user=20
+submits a number of DRM exec requests, each with an out fence, then HW will=
+=20
+signal each of those fences when its corresponding request completes, won't=
+=20
+it?
+
+But anyway, some of those subtests, e.g. stress-enable-all-signal-all-forwa=
+rd=20
+or stress-enable-all-signal-all-backward, can trigger hard lockups.  Should=
+n't=20
+we care?
 
 Thanks,
-   Felix
+Janusz
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > For more comprehensive testing, also implement the _forward and _random
+> > scenarios from the original selftest, as well as simplified variants th=
+at
+> > don't enable signaling on each link of the dma-fence chain, and yet oth=
+ers
+> > that not only enable but also wait on every link of the chain.
+> >=20
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> > ---
+> >  tests/syncobj_timeline.c | 289 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 289 insertions(+)
+> >=20
+> > diff --git a/tests/syncobj_timeline.c b/tests/syncobj_timeline.c
+> > index a77896ec1d..80c5970687 100644
+> > --- a/tests/syncobj_timeline.c
+> > +++ b/tests/syncobj_timeline.c
+> > @@ -427,6 +427,61 @@
+> >   *
+> >   * SUBTEST: wait-zero-handles
+> >   * Description: Verifies that waiting on an empty list of syncobj hand=
+les=20
+is accepted
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-forward
+> > + * Description: Signals each fence of a large timeline while another=20
+thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-backward
+> > + * Description: Signals each fence of a large timeline in reverse orde=
+r=20
+while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-random
+> > + * Description: Signals each fence of a large timeline in random order=
+=20
+while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-all-forward
+> > + * Description: Signals all fences of a large timeline while another=20
+thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-all-backward
+> > + * Description: Signals all fences of a large reverse ordered timeline=
+=20
+while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-wait-last-signal-all-random
+> > + * Description: Signals all fences of a large randomly ordered timelin=
+e=20
+while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-forward
+> > + * Description: Signals each fence of a large timeline with signaling=
+=20
+enabled on each point while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-backward
+> > + * Description: Signals each fence of a large timeline in reversed ord=
+er=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-random
+> > + * Description: Signals each fence of a large timeline in random order=
+=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-all-forward
+> > + * Description: Signals all fences of a large timeline with signaling=
+=20
+enabled on each point while another thread is waiting on that timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-all-backward
+> > + * Description: Signals all fences of a large reversed ordered timelin=
+e=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline
+> > + *
+> > + * SUBTEST: stress-enable-all-signal-all-random
+> > + * Description: Signals all fences of a large randomly ordered timelin=
+e=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-forward
+> > + * Description: Signals each fence of a large timeline while another=20
+thread is waiting on each point of that timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-backward
+> > + * Description: Signals each fence of a large timeline in reversed ord=
+er=20
+while another thread is waiting on each point of that timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-random
+> > + * Description: Signals each fence of a large timeline in random order=
+=20
+while another thread is waiting on each point of that timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-all-forward
+> > + * Description: Signals all fences of a large timeline while another=20
+thread is waiting on each point of that timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-all-backward
+> > + * Description: Signals all fences of a large reversed ordered timelin=
+e=20
+while another thread is waiting on each point of that timeline
+> > + *
+> > + * SUBTEST: stress-wait-all-signal-all-random
+> > + * Description: Signals all fences of a large randomly ordered timelin=
+e=20
+while another thread is waiting on each point of that timeline
+> > + *
+> >   */
+> > =20
+> >  IGT_TEST_DESCRIPTION("Tests for the drm timeline sync object API");
+> > @@ -1675,6 +1730,217 @@ test_32bits_limit(int fd)
+> >  	close(timeline);
+> >  }
+> > =20
+> > +#define STRESS_FLAGS_WAIT_ALL	=09
+DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL
+> > +#define STRESS_FLAGS_ENABLE_ALL		(STRESS_FLAGS_WAIT_ALL <<=20
+1)
+> > +#define STRESS_FLAGS_SIGNAL_ALL		(STRESS_FLAGS_ENABLE_ALL <<=20
+1)
+> > +#define STRESS_FLAGS_SIGNAL_BACKWARD	(STRESS_FLAGS_SIGNAL_ALL <<=20
+1)
+> > +#define STRESS_FLAGS_SIGNAL_RANDOM	(STRESS_FLAGS_SIGNAL_BACKWARD << 1)
+> > +
+> > +const char *stress_descriptions[] =3D {
+> > +	/* stress-wait-last-signal-forward */
+> > +	[0] =3D
+> > +		"Signals each fence of a large timeline while another=20
+thread is waiting on that timeline",
+> > +	/* stress-wait-last-signal-backward */
+> > +	[STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals each fence of a large timeline in reverse order=20
+while another thread is waiting on that timeline",
+> > +	/* stress-wait-last-signal-random */
+> > +	[STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals each fence of a large timeline in random order=20
+while another thread is waiting on that timeline",
+> > +	/* stress-wait-last-signal-all-forward */
+> > +	[STRESS_FLAGS_SIGNAL_ALL] =3D
+> > +		"Signals all fences of a large timeline while another=20
+thread is waiting on that timeline",
+> > +	/* stress-wait-last-signal-all-backward */
+> > +	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals all fences of a large reverse ordered timeline=20
+while another thread is waiting on that timeline",
+> > +	/* stress-wait-last-signal-all-random */
+> > +	[STRESS_FLAGS_SIGNAL_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals all fences of a large randomly ordered timeline=20
+while another thread is waiting on that timeline",
+> > +	/* stress-enable-all-signal-forward */
+> > +	[STRESS_FLAGS_ENABLE_ALL] =3D
+> > +		"Signals each fence of a large timeline with signaling=20
+enabled on each point while another thread is waiting on that timeline",
+> > +	/* stress-enable-all-signal-backward */
+> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals each fence of a large timeline in reversed order=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline",
+> > +	/* stress-enable-all-signal-random */
+> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals each fence of a large timeline in random order=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline",
+> > +	/* stress-enable-all-signal-all-forward */
+> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL] =3D
+> > +		"Signals all fences of a large timeline with signaling=20
+enabled on each point while another thread is waiting on that timeline",
+> > +	/* stress-enable-all-signal-all-backward */
+> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
+STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals all fences of a large reversed ordered timeline=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline",
+> > +	/* stress-enable-all-signal-all-random */
+> > +	[STRESS_FLAGS_ENABLE_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
+STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals all fences of a large randomly ordered timeline=20
+with signaling enabled on each point while another thread is waiting on tha=
+t=20
+timeline",
+> > +	/* stress-wait-all-signal-forward */
+> > +	[STRESS_FLAGS_WAIT_ALL] =3D
+> > +		"Signals each fence of a large timeline while another=20
+thread is waiting on each point of that timeline",
+> > +	/* stress-wait-all-signal-backward */
+> > +	[STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals each fence of a large timeline in reversed order=20
+while another thread is waiting on each point of that timeline",
+> > +	/* stress-wait-all-signal-random */
+> > +	[STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals each fence of a large timeline in random order=20
+while another thread is waiting on each point of that timeline",
+> > +	/* stress-wait-all-signal-all-forward */
+> > +	[STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_ALL] =3D
+> > +		"Signals all fences of a large timeline while another=20
+thread is waiting on each point of that timeline",
+> > +	/* stress-wait-all-signal-all-backward */
+> > +	[STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
+STRESS_FLAGS_SIGNAL_BACKWARD] =3D
+> > +		"Signals all fences of a large reversed ordered timeline=20
+while another thread is waiting on each point of that timeline",
+> > +	/* stress-wait-all-signal-all-random */
+> > +	[STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_ALL |=20
+STRESS_FLAGS_SIGNAL_RANDOM] =3D
+> > +		"Signals all fences of a large randomly ordered timeline=20
+while another thread is waiting on each point of that timeline",
+> > +};
+> > +
+> > +#define TL_LENGTH 4096
+> > +
+> > +struct stress_timeline {
+> > +	int fd;
+> > +	int swsync;
+> > +	uint32_t syncobj;
+> > +	int tmp_fence;
+> > +	uint32_t *syncobjs;
+> > +	uint64_t *points;
+> > +	unsigned int length;
+> > +	unsigned int flags;
+> > +	pthread_t thread;
+> > +	int retval;
+> > +};
+> > +
+> > +static void stress_init(int fd, struct stress_timeline **timeline,=20
+unsigned int flags)
+> > +{
+> > +	struct stress_timeline *tl;
+> > +	uint64_t point;
+> > +	int i;
+> > +
+> > +	tl =3D calloc(TL_LENGTH, sizeof(*tl));
+> > +	igt_assert(tl);
+> > +	*timeline =3D tl;
+> > +
+> > +	tl->fd =3D fd;
+> > +	tl->tmp_fence =3D -1;
+> > +	tl->length =3D TL_LENGTH;
+> > +	tl->flags =3D flags;
+> > +
+> > +	tl->swsync =3D sw_sync_timeline_create();
+> > +	tl->syncobj =3D syncobj_create(fd, 0);
+> > +
+> > +	tl->syncobjs =3D calloc(tl->length, sizeof(*tl->syncobjs));
+> > +	igt_assert(tl->syncobjs);
+> > +
+> > +	tl->points =3D calloc(tl->length, sizeof(*tl->points));
+> > +	igt_assert(tl->points);
+> > +
+> > +	for (i =3D 0; i < tl->length; i++)
+> > +		tl->points[i] =3D (flags & STRESS_FLAGS_SIGNAL_BACKWARD) ?=20
+tl->length - 1 : i + 1;
+> > +	if (flags & STRESS_FLAGS_SIGNAL_RANDOM)
+> > +		igt_permute_array(tl->points, tl->length,=20
+igt_exchange_int64);
+> > +
+> > +	for (i =3D 0; i < tl->length; i++) {
+> > +		tl->tmp_fence =3D sw_sync_timeline_create_fence(tl->swsync,=20
+tl->points[i]);
+> > +		tl->syncobjs[i] =3D syncobj_create(fd, 0);
+> > +
+> > +		syncobj_import_sync_file(fd, tl->syncobjs[i], tl-
+>tmp_fence);
+> > +		close(tl->tmp_fence);
+> > +		tl->tmp_fence =3D -1;
+> > +
+> > +		syncobj_binary_to_timeline(fd, tl->syncobj, i + 1, tl-
+>syncobjs[i]);
+> > +		syncobj_destroy(fd, tl->syncobjs[i]);
+> > +
+> > +		tl->syncobjs[i] =3D tl->syncobj;
+> > +		tl->points[i] =3D i + 1;
+> > +	}
+> > +
+> > +	if (flags & STRESS_FLAGS_ENABLE_ALL)
+> > +		igt_assert_eq(syncobj_timeline_wait_err(tl->fd, tl-
+>syncobjs,
+> > +							tl-
+>points, tl->length, 0,
+> > +						=09
+DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL), -ETIME);
+> > +
+> > +	syncobj_timeline_query(fd, &tl->syncobj, &point, 1);
+> > +	igt_assert_eq(point, 0);
+> > +}
+> > +
+> > +static void *stress_wait_syncobj_thread_func(void *data)
+> > +{
+> > +	struct stress_timeline *tl =3D data;
+> > +	unsigned int count =3D (tl->flags & STRESS_FLAGS_WAIT_ALL) ? tl-
+>length : 1;
+> > +	uint64_t *points =3D &tl->points[tl->length - count];
+> > +
+> > +	tl->retval =3D -EINPROGRESS;
+> > +
+> > +	/* Wait for the timeline signaled */
+> > +	tl->retval =3D syncobj_timeline_wait_err(tl->fd, tl->syncobjs, points=
+,=20
+count,
+> > +					       gettime_ns() + 600 *=20
+NSECS_PER_SEC,
+> > +					       tl->flags &=20
+DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL);
+> > +
+> > +	return &tl->retval;
+> > +}
+> > +
+> > +static void test_stress_enable_wait_signal(int fd, struct stress_timel=
+ine=20
+**timeline,
+> > +					   unsigned int flags)
+> > +{
+> > +	struct stress_timeline *tl;
+> > +	int64_t dt;
+> > +	int i;
+> > +
+> > +	stress_init(fd, timeline, flags);
+> > +	tl =3D *timeline;
+> > +
+> > +	tl->retval =3D 0;
+> > +	igt_assert_eq(pthread_create(&tl->thread, NULL,
+> > +				     stress_wait_syncobj_thread_func,=20
+tl), 0);
+> > +	igt_assert_eq(sched_yield(), 0);
+> > +	while (READ_ONCE(tl->retval) !=3D -EINPROGRESS)
+> > +		;
+> > +	igt_assert_eq(sched_yield(), 0);
+> > +
+> > +	dt =3D -gettime_ns();
+> > +	if (flags & STRESS_FLAGS_SIGNAL_ALL)
+> > +		sw_sync_timeline_inc(tl->swsync, tl->length);
+> > +	else
+> > +		for (i =3D 0; i < tl->length; i++)
+> > +			sw_sync_timeline_inc(tl->swsync, 1);
+> > +	dt +=3D gettime_ns();
+> > +	igt_info("%s: %d signals in %ld ns\n", __func__, tl->length, dt);
+> > +
+> > +	igt_assert_eq(pthread_join(tl->thread, NULL), 0);
+> > +	tl->thread =3D 0;
+> > +	igt_assert_eq(tl->retval, 0);
+> > +}
+> > +
+> > +static void stress_cleanup(struct stress_timeline *timeline)
+> > +{
+> > +	if (!timeline)
+> > +		return;
+> > +
+> > +	if (timeline->thread)
+> > +		igt_warn_on(pthread_join(timeline->thread, NULL));
+> > +
+> > +	if (timeline->points)
+> > +		free(timeline->points);
+> > +
+> > +	if (timeline->syncobjs) {
+> > +		int i;
+> > +
+> > +		for (i =3D 0; i < timeline->length; i++)
+> > +			if (timeline->syncobjs && timeline->syncobjs[i]=20
+!=3D timeline->syncobj)
+> > +				syncobj_destroy(timeline->fd,=20
+timeline->syncobjs[i]);
+> > +		free(timeline->syncobjs);
+> > +	}
+> > +
+> > +	if (timeline->tmp_fence >=3D 0)
+> > +		igt_warn_on(close(timeline->tmp_fence));
+> > +
+> > +	if (timeline->syncobj)
+> > +		syncobj_destroy(timeline->fd, timeline->syncobj);
+> > +
+> > +	if (timeline->swsync >=3D 0)
+> > +		igt_warn_on(close(timeline->swsync));
+> > +
+> > +	free(timeline);
+> > +}
+> > +
+> >  static bool
+> >  has_syncobj_timeline_wait(int fd)
+> >  {
+> > @@ -1934,6 +2200,29 @@ igt_main
+> >  	igt_subtest("32bits-limit")
+> >  		test_32bits_limit(fd);
+> > =20
+> > +	for (unsigned int flags =3D 0;
+> > +	     flags < (STRESS_FLAGS_WAIT_ALL | STRESS_FLAGS_SIGNAL_ALL |
+> > +		      STRESS_FLAGS_ENABLE_ALL |=20
+STRESS_FLAGS_SIGNAL_RANDOM);
+> > +	     flags++) {
+> > +		struct stress_timeline *timeline =3D NULL;
+> > +
+> > +		if (flags & STRESS_FLAGS_ENABLE_ALL && flags &=20
+STRESS_FLAGS_WAIT_ALL)
+> > +			continue;
+> > +
+> > +		igt_describe(stress_descriptions[flags]);
+> > +		igt_subtest_f("stress-%s-%s-signal%s-%s",
+> > +			      (flags & STRESS_FLAGS_ENABLE_ALL) ?=20
+"enable" : "wait",
+> > +			      (flags & (STRESS_FLAGS_WAIT_ALL |=20
+STRESS_FLAGS_ENABLE_ALL)) ? "all" :
+> > +							=09
+			    "last",
+> > +			      (flags & STRESS_FLAGS_SIGNAL_ALL) ? "-all"=20
+: "",
+> > +			      (flags & STRESS_FLAGS_SIGNAL_RANDOM) ?=20
+"random" :
+> > +			      (flags & STRESS_FLAGS_SIGNAL_BACKWARD) ?=20
+"backward" : "forward")
+> > +			test_stress_enable_wait_signal(fd, &timeline,=20
+flags);
+> > +
+> > +		igt_fixture
+> > +			stress_cleanup(READ_ONCE(timeline));
+> > +	}
+> > +
+> >  	igt_fixture {
+> >  		drm_close_driver(fd);
+> >  	}
+>=20
+>=20
 
 
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-> index 04ef0ca10541..0239114fb6c4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-> @@ -352,7 +352,7 @@ static int kgd_hqd_dump(struct amdgpu_device *adev,
->   		(*dump)[i++][1] = RREG32_SOC15_IP(GC, addr);		\
->   	} while (0)
->   
-> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
-> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
->   	if (*dump == NULL)
->   		return -ENOMEM;
->   
-> @@ -449,7 +449,7 @@ static int kgd_hqd_sdma_dump(struct amdgpu_device *adev,
->   #undef HQD_N_REGS
->   #define HQD_N_REGS (19+6+7+10)
->   
-> -	*dump = kmalloc(HQD_N_REGS*2*sizeof(uint32_t), GFP_KERNEL);
-> +	*dump = kmalloc_array(HQD_N_REGS, sizeof(**dump), GFP_KERNEL);
->   	if (*dump == NULL)
->   		return -ENOMEM;
->   
+
+
