@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD236B802E7
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDF1B802EA
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 16:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B7E810E861;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7F510E862;
 	Wed, 17 Sep 2025 14:46:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AroHrLPd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qc2EiSFM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97ED10E85E
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 856B110E85C
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 14:46:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1133F6023B;
- Wed, 17 Sep 2025 14:46:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A851C4CEE7;
- Wed, 17 Sep 2025 14:46:22 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 052A7601ED;
+ Wed, 17 Sep 2025 14:46:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F155C4CEFC;
+ Wed, 17 Sep 2025 14:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758120382;
- bh=vG/tHPWQjICG4+eoxMTR03E32chQ5y3jmjZmJY6WKtw=;
+ s=k20201202; t=1758120385;
+ bh=PF67gsndI/Frtyluuct2FbckNLFWivVOcfenaZN0Otw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=AroHrLPdkfKVYDtryzK2Y0C9GVJmwNmAaOS9mlQKMLYEIbHsHSPv5F4J0QtEOhnHG
- ypPJx4nOg50S0fANSp4hzfcLPTgPQmKh9Gn3nsiCfI04pj2kMIjRnMFnsEW8qJTnl4
- iaHAeVjjf94GUatb54dTq7E9rF+lm1YzzuuRSey2+Jxp1ymCKq5Tzp6SHn0RnW7fAr
- avV4uiRPOJFrHoYHsLYVWX39PW/OpKSQx5x76WM3vaWi1nLJNTuIM64y+UJYx+Al61
- b8kucsqM+0bvsW8InXq3SnSlA6M8bOYEuLdqFdJbEtGPVqwgen5zoflB91KfcTv80N
- 1Jg4kv1iHm/Vw==
+ b=qc2EiSFMBLHYSDoGU/dywCawNwABoZ1tfvEi/c5V71RHIam3a5fWqvkxrFyhApcX8
+ oULyot7Omjbs2F7L9+xmub1zFUgg+NcH+GwgH1MKjtvqY6cik0CNMrhjydauVWhZAD
+ +oK6ItuLG2lPQh8I2oE8c9y8ct9cRmHtkmJNOXeQLrm/fIIu9beJmjhQB1HgO12Mus
+ gbEpswTgLfRv8jiBJbTDnmM3pE4sBEXL9t13OpPZ2HThgzle6wcTG13RJ/6BJMG5T7
+ U6sHSk2fxSiqWGuGrjyqLHiNJBv3hzrm0gpAbcQLwsE9+vC36snlwWIWMLkVybX3th
+ KrNhSKVAznp0w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 17 Sep 2025 16:45:45 +0200
-Subject: [PATCH v4 04/39] drm/atomic: Convert
- __drm_atomic_get_current_plane_state() to modern accessor
+Date: Wed, 17 Sep 2025 16:45:46 +0200
+Subject: [PATCH v4 05/39] drm/atomic: Convert drm_atomic_get_plane_state()
+ to use new plane state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-drm-no-more-existing-state-v4-4-5d4b9889c3c8@kernel.org>
+Message-Id: <20250917-drm-no-more-existing-state-v4-5-5d4b9889c3c8@kernel.org>
 References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 In-Reply-To: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -46,12 +46,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3784; i=mripard@kernel.org;
- h=from:subject:message-id; bh=vG/tHPWQjICG4+eoxMTR03E32chQ5y3jmjZmJY6WKtw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi7UP7TrTvImtZ08h+pmLjy101q7co1lRvPfh7eKT
- ezYfKJ3dkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJLOhibHi3w+bjEdbkGW61
- skerml9aimt2Pf4ptLtL8/33/WpJix4x/GP6FxPncsJiNVsj3032u4z15ba6mu7WVx7PYk0OEv2
- UtflpmdC3ivaJq31KBDo2lOhZzq5ROfeFZ6Gwf9yaZofD3xYDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1378; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=PF67gsndI/Frtyluuct2FbckNLFWivVOcfenaZN0Otw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmnTi50VJ9/3urLFN2ZW6Y+3C60MuWcgwtj7nSBjKPC/
+ 7WvVRuFdkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJ5C1irJUXvLXg98t357uZ
+ RF8t21KaF9HsPIefeU7rRQvGCq6aHcl+9/4mBfSmh265Vh94o3zRE8Z6X7aD/2PfKr9ReOljbrp
+ K7fuN43Z3TrPd8n0ua9GnGKUlvthmy7ytkdH7Z8ouyr1npfACAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,88 +69,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The __drm_atomic_get_current_plane_state() function tries to get and
-return the existing plane state, and if it doesn't exist returns the one
-stored in the drm_plane->state field.
+The drm_atomic_get_plane_state() function calls the deprecated
+drm_atomic_get_existing_plane_state() helper to get find if a plane
+state had already been allocated and was part of the given
+drm_atomic_state.
 
-Using the current nomenclature, it tries to get the existing plane state
-with an ad-hoc implementation of drm_atomic_get_existing_plane_state(),
-and falls back to either the old or new plane state, depending on
-whether it is called before or after drm_atomic_helper_swap_state().
-
-The existing plane state itself is deprecated, because it also changes
-when swapping states from the new state to the old state.
-
-Fortunately for us, we can simplify things. Indeed,
-__drm_atomic_get_current_plane_state() is only used in two macros:
-intel_atomic_crtc_state_for_each_plane_state and
-drm_atomic_crtc_state_for_each_plane_state().
-
-The intel variant is only used through the intel_wm_compute() function
-that is only ever called in intel_crtc_atomic_check().
-
-The generic variant is more widely used, and can be found in the malidp,
-msm, tegra and vc4 drivers. All of these call sites though are during
-atomic_check(), so we end up in the same situation than Intel's.
-
-Thus, we only ever use the existing state as the new state, and
-plane->state is always going to be the old state. Any plane isn't
-guaranteed to be part of the state though, so we can't rely on
-drm_atomic_get_old_plane_state() and we still need to use plane->state.
+At the point in time where drm_atomic_get_plane_state() can be called
+(ie, during atomic_check), the existing state is the new state and
+drm_atomic_get_existing_plane_state() can thus be replaced by
+drm_atomic_get_new_plane_state().
 
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_atomic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 798d33b50ef7497ce938ce3dbabee32487dda2d6..82e74d9444c4fa7f02ee0e472c8c68f7bc44cc6a 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -789,15 +789,15 @@ drm_atomic_get_new_connector_state(const struct drm_atomic_state *state,
- /**
-  * __drm_atomic_get_current_plane_state - get current plane state
-  * @state: global atomic state object
-  * @plane: plane to grab
-  *
-- * This function returns the plane state for the given plane, either from
-- * @state, or if the plane isn't part of the atomic state update, from @plane.
-- * This is useful in atomic check callbacks, when drivers need to peek at, but
-- * not change, state of other planes, since it avoids threading an error code
-- * back up the call chain.
-+ * This function returns the plane state for the given plane, either the
-+ * new plane state from @state, or if the plane isn't part of the atomic
-+ * state update, from @plane. This is useful in atomic check callbacks,
-+ * when drivers need to peek at, but not change, state of other planes,
-+ * since it avoids threading an error code back up the call chain.
-  *
-  * WARNING:
-  *
-  * Note that this function is in general unsafe since it doesn't check for the
-  * required locking for access state structures. Drivers must ensure that it is
-@@ -814,13 +814,19 @@ drm_atomic_get_new_connector_state(const struct drm_atomic_state *state,
-  */
- static inline const struct drm_plane_state *
- __drm_atomic_get_current_plane_state(const struct drm_atomic_state *state,
- 				     struct drm_plane *plane)
- {
--	if (state->planes[drm_plane_index(plane)].state)
--		return state->planes[drm_plane_index(plane)].state;
-+	struct drm_plane_state *plane_state;
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 6d10a3e40b00c58030e4dc9fdf47bd252cac0189..15584928f06a9175308c3ef8f1ecbe1b33b17f47 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -532,11 +532,11 @@ drm_atomic_get_plane_state(struct drm_atomic_state *state,
+ 	/* the legacy pointers should never be set */
+ 	WARN_ON(plane->fb);
+ 	WARN_ON(plane->old_fb);
+ 	WARN_ON(plane->crtc);
  
+-	plane_state = drm_atomic_get_existing_plane_state(state, plane);
 +	plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	if (plane_state)
-+		return plane_state;
-+
-+	/*
-+	 * If the plane isn't part of the state, fallback to the currently active one.
-+	 */
- 	return plane->state;
- }
+ 	if (plane_state)
+ 		return plane_state;
  
- int __must_check
- drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
+ 	ret = drm_modeset_lock(&plane->mutex, state->acquire_ctx);
+ 	if (ret)
 
 -- 
 2.50.1
