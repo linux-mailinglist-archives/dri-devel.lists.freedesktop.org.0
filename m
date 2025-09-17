@@ -2,67 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8EDB7E4C5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D566B7E660
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:48:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58D110E6C4;
-	Wed, 17 Sep 2025 12:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C1C310E1BB;
+	Wed, 17 Sep 2025 12:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CLK0sXk8";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="DLWfJ8m9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 490C210E6C4
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 12:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758113168;
- bh=z9vL7KS4PD0NoJis2TPK/ofu5rG6wwLVCIswPtiYVTs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CLK0sXk8uhvaEbPj8vEme7Acxg+YzE5WYHRgDiN/be+zE6GhPXdSqfUKuQW3KEWGn
- wYgvdvB3Pn1Q6rnTe3oVF87S+soDpREj6ldpNislgaIwdaifI8L+AfaF4FAgOycGtL
- WdlNQEfXs2y6AtdZ2F16rMWyPPz6Rvkpt2FfJ3F8dgsxTSUtm+ywLFbldTk3MMbylm
- mEBOgaP3Ur59wv017f/fMIFU0RlyssCpcwmkHLfN6gASeb9vmali7ITDI5NiNWz4UW
- WOKmain1f3MUL3XoTyoFhL/vqJv6BGNPxjWMuUMmCK+EP5C13v2XS9+OC05qcIP//S
- nOVwRFIxIOv6g==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D488517E090E;
- Wed, 17 Sep 2025 14:46:07 +0200 (CEST)
-Message-ID: <fd4be8a5-3600-4de2-ab92-f9c35f12fdc4@collabora.com>
-Date: Wed, 17 Sep 2025 14:46:07 +0200
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E3710E1BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 12:48:29 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1758113307;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RxC0Cr1ehjCehxLTRmCnW2KEy7H4kgU7hqTV5OPVQ4E=;
+ b=DLWfJ8m9FnrZpN8BguJme7ABqGmSf3zIFcoWvcLxgdaBycv0s/Ijb+niC6ghLpBZD9CEqb
+ NUvhG/2ofU0fRZABlhMCsYKmqNgX/0PfTY+LP95adRmlpjbZS2o6grLy0XZUq7KzlHZEWS
+ WvQC3yhtf1D+DZd5zkLbD6jkt1SAvNg=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] accel/qaic: Replace kzalloc + copy_from_user with
+ memdup_user
+Date: Wed, 17 Sep 2025 14:48:04 +0200
+Message-ID: <20250917124805.90395-2-thorsten.blum@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] dt-bindings: mailbox: Add MT8196 GPUEB Mailbox
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
- <20250917-mt8196-gpufreq-v3-4-c4ede4b4399e@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250917-mt8196-gpufreq-v3-4-c4ede4b4399e@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,45 +55,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/09/25 14:22, Nicolas Frattaroli ha scritto:
-> The MediaTek MT8196 SoC includes an embedded MCU referred to as "GPUEB",
-> acting as glue logic to control power and frequency of the Mali GPU.
-> This MCU runs special-purpose firmware for this use, and the main
-> application processor communicates with it through a mailbox.
-> 
-> Add a binding that describes this mailbox.
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->   .../mailbox/mediatek,mt8196-gpueb-mbox.yaml        | 64 ++++++++++++++++++++++
->   1 file changed, 64 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ab5b780cb83a708a3897ca1a440131d97b56c3a6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,mt8196-gpueb-mbox.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mailbox/mediatek,mt8196-gpueb-mbox.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MFlexGraphics GPUEB Mailbox Controller
-> +
-> +maintainers:
-> +  - Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mediatek,mt8196-gpueb-mbox
+Replace kzalloc() followed by copy_from_user() with memdup_user() to
+improve and simplify qaic_attach_slice_bo_ioctl().
 
-Before anyone asks - yes, it is 100% sure that SoCs will be added here sooner or
-later.
+No functional changes intended.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ drivers/accel/qaic/qaic_data.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index 797289e9d780..202bdca58847 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -18,6 +18,7 @@
+ #include <linux/scatterlist.h>
+ #include <linux/spinlock.h>
+ #include <linux/srcu.h>
++#include <linux/string.h>
+ #include <linux/types.h>
+ #include <linux/uaccess.h>
+ #include <linux/wait.h>
+@@ -984,18 +985,12 @@ int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_fi
+ 
+ 	user_data = u64_to_user_ptr(args->data);
+ 
+-	slice_ent = kzalloc(arg_size, GFP_KERNEL);
+-	if (!slice_ent) {
+-		ret = -EINVAL;
++	slice_ent = memdup_user(user_data, arg_size);
++	if (IS_ERR(slice_ent)) {
++		ret = PTR_ERR(slice_ent);
+ 		goto unlock_dev_srcu;
+ 	}
+ 
+-	ret = copy_from_user(slice_ent, user_data, arg_size);
+-	if (ret) {
+-		ret = -EFAULT;
+-		goto free_slice_ent;
+-	}
+-
+ 	obj = drm_gem_object_lookup(file_priv, args->hdr.handle);
+ 	if (!obj) {
+ 		ret = -ENOENT;
+-- 
+2.51.0
 
