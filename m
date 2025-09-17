@@ -2,69 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75286B7DF70
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54731B7CBFF
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912FC10E428;
-	Wed, 17 Sep 2025 07:53:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5FA810E42A;
+	Wed, 17 Sep 2025 07:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="F7ucMnm7";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Gvh838r/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89F510E428
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:53:04 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 13BE44E40CAF;
- Wed, 17 Sep 2025 07:53:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id D3A5C6063E;
- Wed, 17 Sep 2025 07:53:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0BBEA102F1727; 
- Wed, 17 Sep 2025 09:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758095581; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=emFT8+nJVyi2W/wfZKpSHjD2VZR95mKcyCGwHzrsAO0=;
- b=F7ucMnm7DgTCjhoYBlR05retA2wRdJvHzwF3VeCIIp9pzfaDv0hqdu7xjUFNlFR/32cwYY
- TTH3ZPd30dMISSPqnCizrgYbV6aG8WU3tYY7I8IN1a8sKd0nFX61uCFHafxDtPgRpJqjDw
- /aX2SUIlk6CZS18XbDwxSCiuG9M5r80NcHsZ9isMwOgjxpDvZ/uZo+nnDZRiP1C5Ic1kW/
- y/UJR9EXgBM+eWbUAa2wKzynDuDjMZMfXOpRCIvFmjWoJUWTH415wMM4U/jerYuHjXLwZ8
- zvKF6L+PrDOQ8m+VvTfgnf8yJSNMsowqsYRycyZuf9JQ9iAsPxB7NX03zuIe+w==
-Date: Wed, 17 Sep 2025 09:52:55 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Jonas =?UTF-8?B?U2Nod8O2YmVs?=
- <jonasschwoebel@yahoo.de>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 05/23] staging: media: tegra-video: expand VI and VIP
- support to Tegra30
-Message-ID: <20250917095255.2710c266@booty>
-In-Reply-To: <20250906135345.241229-6-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-6-clamor95@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F089510E42A
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 07:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1758095637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=foovB08AZH9s58DNDobltjb2AVhU22+gGg46TRKbNww=;
+ b=Gvh838r/KX+N4JXVXmzWxN7bwrU2lG5xmeWtpHkozxGPCRnAUi7mPAY5O9jIQgeE2+rbCL
+ noUnHg4bDBcVCSQaWsHBpOQM3YWPs6fB/hxxCH0+7+ZErGdJqlj7mtrTjC7uCupbsvhg74
+ 6HV51BQn+MNEGGiNRUIvF1GPGnkxTDQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-558-gi73xpjtMkmUoWnBTvyQ5A-1; Wed, 17 Sep 2025 03:53:55 -0400
+X-MC-Unique: gi73xpjtMkmUoWnBTvyQ5A-1
+X-Mimecast-MFC-AGG-ID: gi73xpjtMkmUoWnBTvyQ5A_1758095635
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-45cb612d362so39471205e9.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 00:53:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758095634; x=1758700434;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=foovB08AZH9s58DNDobltjb2AVhU22+gGg46TRKbNww=;
+ b=PnIzQ7CrKvdP3scb7ToQu/6/tItO8n1Q14sVlNth6NCPoTi3TxEzLu1gdvY2dir20N
+ 9mV6mOVMmOXqNGM+vLHqoR7TbJLDPeOyo7K9SdXy4BcFx6/nf4SvNobX4go/xnhI/uEo
+ M8Cfqcp1vcYYV4+U7RXFKbTTAgsSbQSe0bFH8iCs8O0sUppmYxzeW4KEMFGmWsCymyrT
+ RL+2TGnnt+5Jd8yvRQQw7KTeIU/qqlR3T81AI2mkbnp9QFor4QU2A6oALdsPAa/YVML7
+ BA+vs1Ryt7XPN8MTyPQggPPaJ5Pc8pPHLCgAf4cfNxrghtmWjPjsEaekM+OCXl27CvoQ
+ uZag==
+X-Gm-Message-State: AOJu0YzMfOkuIxasSSxT9krp9Hp2GffLLJRCY4OyNyZNriKD2cvpU8kJ
+ K/PPgmUfu5G0U/TrHjnLbfwRc590W4SjmVh09PAt6jzxo3Xrcz1/RtAYKyDW5FGDWurIhGAi27o
+ tfpHKCVgcIamUz+KZZzDS0wS3i8Bi9DgunGwv9+1QKs/1WRDptUvM95rcJIHQhVA1hr2Lyg==
+X-Gm-Gg: ASbGncuqwLPIY8q3+1ZRdjrqk1OjKr3MdKoYhmciREUmjGhb5/uWvkovDYSHskO4UoF
+ p95dY6JNUrEvNw9dRm8IHnZnCKVFS/TVDyjQte9XwXYKNDbSNVwOLqPqqOW6J4nJyN+vUeO+zJe
+ ZYwBLzoEzYxjpjtOIdtkmTdJ3Kr7db2whXe8WjXPgl8Mv1T3GItFnQqSnk7NSB0YxuElUljBYDF
+ UVChYeiTSMyKSa0YN/UI5TnwOj+bGy9rVOzmIHhsPIeQENs4vOOb6n2qMDjVZFu5rbdlcOLhSWo
+ oEWPjCQwd30kBQrpVoGkb7GgyokgTsvkLqHB49K3H311ieNPIBK/fgJOvVT9zVHsQzTv+HIPN8/
+ H78srulyKqL5d+K7elSCFLQ==
+X-Received: by 2002:a05:600c:4f94:b0:45b:74fc:d6ec with SMTP id
+ 5b1f17b1804b1-46201f8a4c4mr11481875e9.8.1758095634523; 
+ Wed, 17 Sep 2025 00:53:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEPHrSBouv4ER+kvvVPReKbt4nibwhGmkMOBAJxceAuxxGGacODXtgmWTIFInQrJF7Z7x6Q4A==
+X-Received: by 2002:a05:600c:4f94:b0:45b:74fc:d6ec with SMTP id
+ 5b1f17b1804b1-46201f8a4c4mr11481455e9.8.1758095633997; 
+ Wed, 17 Sep 2025 00:53:53 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-46137930274sm25072265e9.6.2025.09.17.00.53.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Sep 2025 00:53:53 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/3] drm/sysfb: Add custom plane state
+In-Reply-To: <20250908122240.740033-2-tzimmermann@suse.de>
+References: <20250908122240.740033-1-tzimmermann@suse.de>
+ <20250908122240.740033-2-tzimmermann@suse.de>
+Date: Wed, 17 Sep 2025 09:53:51 +0200
+Message-ID: <87cy7ppl9s.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8Bwu_-USSYilPgGxIW737KdbsDSqNlAUWo3WZqFU2y0_1758095635
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,20 +97,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Svyatoslav,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Sat,  6 Sep 2025 16:53:26 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+Hello Thomas,
 
-> Existing VI and VIP implementation for Tegra20 is fully compatible with
-> Tegra30.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> The plane-state type struct drm_sysfb_plane_state will store the
+> helper for blitting to the scanout buffer.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # Tegra20 VIP
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Looks good to me. I've just a minor comment, but feel free to ignore it.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+> +
+> +struct drm_plane_state *drm_sysfb_plane_atomic_duplicate_state(struct drm_plane *plane)
+> +{
+> +	struct drm_device *dev = plane->dev;
+> +	struct drm_plane_state *plane_state = plane->state;
+> +	struct drm_sysfb_plane_state *new_sysfb_plane_state;
+
+IMO the code is easier to read if you add an additonal variable, e.g:
+
+        struct drm_shadow_plane_state *new_shadow_plane_state;
+> +
+> +	if (drm_WARN_ON(dev, !plane_state))
+> +		return NULL;
+> +
+> +	new_sysfb_plane_state = kzalloc(sizeof(*new_sysfb_plane_state), GFP_KERNEL);
+> +	if (!new_sysfb_plane_state)
+> +		return NULL;
+> +
+> +	sysfb_plane_state = to_drm_sysfb_plane_state(plane_state);
+        new_shadow_plane_state = &new_sysfb_plane_state->base;
+
+	__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
+
+        return &new_shadow_plane_state->base;
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
