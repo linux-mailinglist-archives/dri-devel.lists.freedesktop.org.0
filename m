@@ -2,96 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4FCB809F5
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9950B80B18
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 17:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9276010E09C;
-	Wed, 17 Sep 2025 15:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83ACF10E2B8;
+	Wed, 17 Sep 2025 15:45:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="aaxZx11s";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NejvthPT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f97.google.com (mail-io1-f97.google.com
- [209.85.166.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E5F10E09C
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:37:08 +0000 (UTC)
-Received: by mail-io1-f97.google.com with SMTP id
- ca18e2360f4ac-88703c873d5so198851939f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 08:37:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758123428; x=1758728228;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:dkim-signature:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kI095f/hsxILwkzit50JtpRq9Ha0jASQA3zTMMsrKow=;
- b=u3dqpgH7gqJBVOuCU4FR9wRmr2d9kb6dpiYuIQ1bvBKVnm9VkTswE5DL/IRYuMMGCW
- Ezc3M81Ku6RI1LJsFSNQvVWtSTCBOB/vTOopPC4UkW4cDzGkm5NTmPk5fuKjOh6W1vIo
- rMJbl5DpFBjedrToFXmXJGiKrirqbtL7AKDl6+e2TMcieraKdZWqtpy/xW9IPoySSkmB
- J/uEFiGjTOB1NMhgp55OPho08I6E/iS48jSl7jdQFgG64hG1ywPIyBGZ9c173JBNuGio
- y/vyUByG28c2TM8HQ6SiCBA1Y8zvgdep/wpxUBXtbear7K7JIuJdOPgdzuNx8PteuB26
- 5ghw==
-X-Gm-Message-State: AOJu0YywX0QIW1izy+fMo9Q3/A+kQrIv9THcqDnHFXI46XBQLOIUb1YW
- XHBY+gES9oz8XS8qQZQ3Q7bGncySRVbYyj2VrdcgkJMXzByG8Lw3ZymRvC47cPU6crsaslAhWdz
- 9nU8FCA8fjZK04U9lVJ86CLUDDvsSq3BjGy7oGalM7lvmwhONBwBGMLbHxbTX4eUqq3QHFKtHoX
- RN8Qcq0uH0YKlNEvIGj7ZG3MXRKLERZaRiKrDZ9I+t+bd+MD/TAqI86RqKZFAfKBa/juykpBuDN
- uVRfGD/c33PfJrC+iK7
-X-Gm-Gg: ASbGncsak6OPQiivBnADYxNHuc6gjv+0WPYFxXvgSeLKpOmfzKRceONOfJ/sBwCbXUK
- I+Xx9pBtAH2XrOixcsM0VQgg+f7RKg96rtXxAkCY/bFnETFsrtOWKGQLQAkSwQrrC7VYkd0Ks1V
- 6AGj0lw0Mpxr3cmhyKRJpW4EFi/hDz+KZFf+sSaI5MmdgGU6yINSUDfIgfDMYygmiOixv/ijEuG
- +/niQ0Ki+CA3UJo8pxho5oxNMA3iVhX8dp2ORiYMsEr5mBBmmHxI+I8/OM7KS1qTLDR6T2BZvRL
- VvA4ybYvW59N/JbFxe4uEAtD0paa+6nVvXx7jbGKhyncYMOAbZeXQ1tJcC0UGAxdI4Kvg/pw/1z
- rMJUcVy6PVZZ+CgAYSx317RVXHX2KqeMdSJcR5xhS5NG7J+hQwYrdM1aQ7k656ITn++GcWBu8WG
- k=
-X-Google-Smtp-Source: AGHT+IHQcOgMZ4bOFX8MDXjc7I3H53kSNqzEt6Z5KkDNsqjqjcOFc0haboMMVv/dh99XzQy3l/slhvnaFNXF
-X-Received: by 2002:a05:6602:48b:b0:893:656f:5481 with SMTP id
- ca18e2360f4ac-89d2603e8b0mr319146639f.12.1758123427595; 
- Wed, 17 Sep 2025 08:37:07 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-118.dlp.protect.broadcom.com. [144.49.247.118])
- by smtp-relay.gmail.com with ESMTPS id
- ca18e2360f4ac-89365df4199sm47547339f.1.2025.09.17.08.37.06
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 17 Sep 2025 08:37:07 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-829080582b4so822120785a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 08:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1758123425; x=1758728225;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kI095f/hsxILwkzit50JtpRq9Ha0jASQA3zTMMsrKow=;
- b=aaxZx11sEvC6DytGrr37zX3YIsU898bk0qBm5VEx+cLqsE82PSYZ8GttfrmlvFIc6z
- R493Csbrf54NiwJMwjD4vQGUrAKBnJDK9c5WOl5+czx7Wn1wP5LUA2hoVngCjIQSLlbc
- 392SPEbr8Zxx5nwl9ARSEugP7sq4o0oxFuQog=
-X-Received: by 2002:a05:620a:f0c:b0:828:5c95:9f14 with SMTP id
- af79cd13be357-831146830c4mr269344685a.54.1758123424828; 
- Wed, 17 Sep 2025 08:37:04 -0700 (PDT)
-X-Received: by 2002:a05:620a:f0c:b0:828:5c95:9f14 with SMTP id
- af79cd13be357-831146830c4mr269337785a.54.1758123424056; 
- Wed, 17 Sep 2025 08:37:04 -0700 (PDT)
-Received: from localhost.localdomain
- (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8363198b184sm1947885a.51.2025.09.17.08.37.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Sep 2025 08:37:03 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com,
- maaz.mombasawala@broadcom.com, Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH] drm/vmwgfx: Fix a null-ptr access in the cursor snooper
-Date: Wed, 17 Sep 2025 11:36:55 -0400
-Message-ID: <20250917153655.1968583-1-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.48.1
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7CAC10E2B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 15:45:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758123894; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=WUDPUqRYYRpGM37VGj/cDz9tsmHSCH7z2usKWo4WfYTFqwOWSYE7WlmN9fw201sgDuk1auBBLGi62GkV8TtF9s7/PnDX8S6ddHutLFO7p7H5y7cjaE1HhneNt7w16P+Sd4TcRx3JasYFYSVV6hwqJplrgWuOn80/JuWTSDwnqzI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758123894;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9NS+2TMW4a/gl2sgYIe2u6WUeHZdcfg3javQWIkrkKM=; 
+ b=Q6XxApfyDbvekZy13u7UvGapk6xX8cS6oImN9Th02x4R+gX1Q1wZHNYtfkECfuGe0NmayPJmOIc0rdqbj8Dh7BvWq4d6ogfOATfBaK78d8xQS+7fhNtWuh36VO1JhybMhio0M+BYxPH5T9RhmR8JEYQxv1hiowCmmlpYeq6dS+s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758123893; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=9NS+2TMW4a/gl2sgYIe2u6WUeHZdcfg3javQWIkrkKM=;
+ b=NejvthPT83l3L66HVbJc2UCAMq88GBLUvu9INaOe4bXmqYIkpMKH9YFvQVqBiCWe
+ JRSk21bXGQPYakduq5EBPTIVWkcYq1OEXEw4VS5S4stMkKfmsTehLdMEzDQvhkCUhWv
+ yYkmDj2SkWchceg9TOiUEGXU4Y46MszU/vabMa/M=
+Received: by mx.zohomail.com with SMTPS id 1758123892638662.0849377963553;
+ Wed, 17 Sep 2025 08:44:52 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 00/10] MT8196 GPU Frequency/Power Control Support
+Date: Wed, 17 Sep 2025 17:44:43 +0200
+Message-ID: <2162077.CQOukoFCf9@workhorse>
+In-Reply-To: <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
+References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
+ <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,69 +82,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check that the resource which is converted to a surface exists before
-trying to use the cursor snooper on it.
+On Wednesday, 17 September 2025 15:28:59 Central European Summer Time Ulf Hansson wrote:
+> On Wed, 17 Sept 2025 at 14:23, Nicolas Frattaroli
+> <nicolas.frattaroli@collabora.com> wrote:
+> >
+> > This series introduces two new drivers to accomplish controlling the
+> > frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
+> >
+> > The reason why it's not as straightforward as with other SoCs is that
+> > the MT8196 has quite complex glue logic in order to squeeze the maximum
+> > amount of performance possible out of the silicon. There's an additional
+> > MCU running a specialised firmware, which communicates with the
+> > application processor through a mailbox and some SRAM, and is in charge
+> > of controlling the regulators, the PLL clocks, and the power gating of
+> > the GPU, all while also being in charge of any DVFS control.
+> >
+> > This set of drivers is enough to communicate desired OPP index limits to
+> > the aforementioned MCU, referred to as "GPUEB" from here on out. The
+> > GPUEB is still free to lower the effective frequency if the GPU has no
+> > jobs going on at all, even when a higher OPP is set. There's also
+> > several more powerful OPPs it seemingly refuses to apply. The downstream
+> > chromeos kernel also doesn't reach the frequencies of those OPPs, so we
+> > assume this is expected.
+> >
+> > The frequency control driver lives in panthor's subdirectory, as it
+> > needs to pass panthor some data. I've kept the tie-in parts generic
+> > enough however to not make this a complete hack; mediatek_mfg (the
+> > frequency control driver) registers itself as a "devfreq provider" with
+> > panthor, and panthor picks it up during its probe function (or defers if
+> > mediatek_mfg is not ready yet, after adding a device link first).
+> >
+> > It's now generic enough to where I'll ponder about moving the devfreq
+> > provider stuff into a header in include/, and moving mediatek_mfg into
+> > the drivers/soc/ subdirectory, but there were enough changes so far to
+> > warrant a v3 without a move or further struct renames added, so that I
+> > can get feedback on this approach.
+> >
+> > The mailbox driver is a fairly bog-standard common mailbox framework
+> > driver, just specific to the firmware that runs on the GPUEB.
+> 
+> I had a brief look at the series and it seems to me that the devfreq
+> thing here, may not be the perfect fit.
+> 
+> Rather than using a new binding  (#performance-domain-cells) to model
+> a performance domain provider using devfreq, I think it could be more
+> straightforward to model this using the common #power-domain-cells
+> binding instead. As a power-domain provider then, which would be
+> capable of scaling performance too. Both genpd and the OPP core
+> already support this, though via performance-states (as indexes).
+> 
+> In fact, this looks very similar to what we have implemented for the
+> Arm SCMI performance domain.
+> 
+> If you have a look at the below, I think it should give you an idea of
+> the pieces.
+> drivers/pmdomain/arm/scmi_perf_domain.c
+> drivers/firmware/arm_scmi/perf.c
+> Documentation/devicetree/bindings/firmware/arm,scmi.yaml (protocol@13
+> is the performance protocol).
+> 
+> That said, I don't have a strong opinion, but just wanted to share my
+> thoughts on your approach.
 
-vmw_cmd_res_check allows explicit invalid (SVGA3D_INVALID_ID) identifiers
-because some svga commands accept SVGA3D_INVALID_ID to mean "no surface",
-unfortunately functions that accept the actual surfaces as objects might
-(and in case of the cursor snooper, do not) be able to handle null
-objects. Make sure that we validate not only the identifier (via the
-vmw_cmd_res_check) but also check that the actual resource exists before
-trying to do something with it.
+Yeah, I found out about the pmdomain set_performance_state callback
+a few days ago. I've not looked into it much so far because not
+unlike a veterinarian on a cattle ranch, I was elbow-deep in v3's
+guts already and didn't want to pivot to something different before
+pushing it out, but I'll look into it more seriously now.
 
-Fixes unchecked null-ptr reference in the snooping code.
+Even if it means I have to get rid of my fun array binary search
+and rely on the opp core to do its linear time linked list
+traversal. :'( (But moving OPP core to use XArrays instead is a
+concern for the future.)
 
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-Fixes: c0951b797e7d ("drm/vmwgfx: Refactor resource management")
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+I've also been avoiding it because I didn't know how much
+additional functionality we'll add later, but I've talked with
+Angelo about it an hour ago and he agrees that I should go down
+the pmdomain route for the current functionality.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-index 819704ac675d..d539f25b5fbe 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-@@ -1497,6 +1497,7 @@ static int vmw_cmd_dma(struct vmw_private *dev_priv,
- 		       SVGA3dCmdHeader *header)
- {
- 	struct vmw_bo *vmw_bo = NULL;
-+	struct vmw_resource *res;
- 	struct vmw_surface *srf = NULL;
- 	VMW_DECLARE_CMD_VAR(*cmd, SVGA3dCmdSurfaceDMA);
- 	int ret;
-@@ -1532,18 +1533,24 @@ static int vmw_cmd_dma(struct vmw_private *dev_priv,
- 
- 	dirty = (cmd->body.transfer == SVGA3D_WRITE_HOST_VRAM) ?
- 		VMW_RES_DIRTY_SET : 0;
--	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface,
--				dirty, user_surface_converter,
--				&cmd->body.host.sid, NULL);
-+	ret = vmw_cmd_res_check(dev_priv, sw_context, vmw_res_surface, dirty,
-+				user_surface_converter, &cmd->body.host.sid,
-+				NULL);
- 	if (unlikely(ret != 0)) {
- 		if (unlikely(ret != -ERESTARTSYS))
- 			VMW_DEBUG_USER("could not find surface for DMA.\n");
- 		return ret;
- 	}
- 
--	srf = vmw_res_to_srf(sw_context->res_cache[vmw_res_surface].res);
-+	res = sw_context->res_cache[vmw_res_surface].res;
-+	if (!res) {
-+		VMW_DEBUG_USER("Invalid DMA surface.\n");
-+		return -EINVAL;
-+	}
- 
--	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->tbo, header);
-+	srf = vmw_res_to_srf(res);
-+	vmw_kms_cursor_snoop(srf, sw_context->fp->tfile, &vmw_bo->tbo,
-+			     header);
- 
- 	return 0;
- }
--- 
-2.48.1
+Thank you for the hints!
+
+Kind regards,
+Nicolas Frattaroli
+
+> 
+> [...]
+> 
+> Kind regards
+> Uffe
+> 
+
+
+
 
