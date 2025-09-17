@@ -2,63 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E26B81C23
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 22:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF9CB81FCD
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 23:37:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A2C10E594;
-	Wed, 17 Sep 2025 20:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B143E10E1E3;
+	Wed, 17 Sep 2025 21:37:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="WMHKRYg0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BxvJL4+C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 515 seconds by postgrey-1.36 at gabe;
- Wed, 17 Sep 2025 20:28:43 UTC
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E5910E07F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 20:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=ct0pfBgou708CbHldBJRGWrscquV99zrYIMUesm+MtQ=; b=WMHKRYg058Q89mtu332OfvjRmF
- Tujo76idSyzm+jdE8ZOrw49NMb5IxsDk/T+NNF3NWL6XKH3B2Pct26Mw73qukzI5OPWwgUlARExuK
- l+KKSjj65hF4uW8Ecgnngd91QLHBI4AOLvdI50OONue+CQJAhUcuQZQS32BI+KkEZJLc=;
-Received: from modemcable061.19-161-184.mc.videotron.ca ([184.161.19.61]:54348
- helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1uyylV-0001xe-36; Wed, 17 Sep 2025 16:28:33 -0400
-Date: Wed, 17 Sep 2025 16:28:32 -0400
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20250917162832.02100f4bbe896c878eccca8e@hugovil.com>
-In-Reply-To: <20250912142056.2123725-3-chris.brandt@renesas.com>
-References: <20250912142056.2123725-1-chris.brandt@renesas.com>
- <20250912142056.2123725-3-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 184.161.19.61
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -3.3 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-4.3 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH v2 2/2] drm: renesas: rz-du: Set DSI divider based on
- target MIPI device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6740E10E1E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 21:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758145073; x=1789681073;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/JhtPfJaQiCKSIX/TuTfrAD7OYsN3RQ0tOkgWbfXy8w=;
+ b=BxvJL4+CJJOfk4gIJL3rLzYA7Vqdg5mDQBJR0vWKo5Ndef2C29uUOzJ0
+ 0DxZYacP7CKACFTCE+NuNWYbUDNuTyr7OxjVg7gGbIHCbX0q1mRBiFH6P
+ 5FUbVhog4RJrVrA4R/B4ja78M5okV+qjX4ZrZusnqL/++tppjfiJo3Ay6
+ s6EYPwUZ6n27Z76+O1AZhBuFP/HLk0wIN/5TEBcmPBuintWvWfgU9zXC1
+ l0QKiaERIg4R5JtVif5C4JwaHlEfx042kyK7vKZuZg/Oo418y1bsWZx8a
+ pvKqRGPw9EVuM2N03HsXxVahGFAQct0jlfcu5f3loZfkQEFiKZkFR8kF9 Q==;
+X-CSE-ConnectionGUID: HXBUhuBsQOCqXQOneIohcA==
+X-CSE-MsgGUID: GUGV5gknS+OXPS2VkrBnbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60522746"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60522746"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 14:37:52 -0700
+X-CSE-ConnectionGUID: I48fL1SaSAelzkyZZOGSrA==
+X-CSE-MsgGUID: 70k54UhfRkOchs8AuyH1Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,273,1751266800"; d="scan'208";a="179643051"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 14:37:52 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ stable@vger.kernel.org
+Subject: [PATCH 0/3] drm/xe: Fix some rebar issues
+Date: Wed, 17 Sep 2025 14:37:29 -0700
+Message-ID: <20250917-xe-pci-rebar-2-v1-0-005daa7c19be@intel.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20250917-xe-pci-rebar-2-c0fe2f04c879
+X-Mailer: b4 0.15-dev-b03c7
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,72 +70,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 12 Sep 2025 10:20:56 -0400
-Chris Brandt <chris.brandt@renesas.com> wrote:
+Our implementation for BAR2 (lmembar) resize works at the xe_vram layer
+and only releases that BAR before resizing. That is not always
+sufficient. If the parent bridge needs to move, the BAR0 also needs to
+be released, otherwise the resize fails. This is the case of not having
+enough space allocated from the beginning.
 
-> Before the MIPI DSI clock source can be configured, the target divide
-> ratio needs to be known.
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> 
-> ---
-> v1->v2:
-> - Add spaces around '/' in comments
-> - Add target argument in new API
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index f87337c3cbb5..ca0de93d5a1a 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -7,6 +7,7 @@
->  
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
-> +#include <linux/clk/renesas.h>
->  #include <linux/delay.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/io.h>
-> @@ -732,6 +733,23 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  
->  	drm_bridge_add(&dsi->bridge);
->  
-> +	/*
-> +	 * Report required division ratio setting for the MIPI clock dividers
+Also, there's a BAR0 in the upstream port of the pcie switch in BMG
+preventing the resize to propagate to the bridge as previously discussed
+at https://lore.kernel.org/intel-xe/20250721173057.867829-1-uwu@icenowy.me/
+and https://lore.kernel.org/intel-xe/wqukxnxni2dbpdhri3cbvlrzsefgdanesgskzmxi5sauvsirsl@xor663jw2cdw
+I'm bringing that commit from Ilpo here so this can be tested with the
+xe changes and go to stable (first 2 patches).
 
-Add missing dot at end of sentence.
+The third patch is just code move as all the logic is in a different
+layer now. That could wait longer though as there are other refactors
+coming through the PCI tree and that would conflict (see second link
+above).
 
-> +	 * Assume the default clock source is FOUTPOSTDIV (PLL/2) being fed to the DSI-PHY, but also
-> +	 * the DSI-PHY must be 16x the MIPI-DSI HS clock.
-> +	 *
-> +	 * pllclk / 2 = vclk * DSI divider
-> +	 * pllclk = vclk * DSI divider * 2
-> +	 *
-> +	 * hsclk = (vclk * DSI divider * 2) / 16
-> +	 *
-> +	 * vclk * bpp = hsclk * 8 * num_lanes
-> +	 * vclk * bpp = ((vclk * DSI divider * 2) / 16) * 8 * num_lanes
-> +	 *   which simplifies to...
-> +	 * DSI divider = bpp / num_lanes
-> +	 */
-> +	rzg2l_cpg_dsi_div_set_divider(mipi_dsi_pixel_format_to_bpp(dsi->format) / dsi->lanes, 1);
+With this I could resize the lmembar on some problematic hosts and after
+doing an SBR, with one caveat: the audio device also prevents the BAR
+from moving and it needs to be manually removed before resizing. With
+the PCI refactors and BAR fitting logic that Ilpo is working on, it's
+expected that it won't be needed for a long time.
 
-What is this "1" value meaning? This is hard to decipher.
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+Ilpo Järvinen (1):
+      PCI: Release BAR0 of an integrated bridge to allow GPU BAR resize
 
-If it is related to PLL5_TARGET_DSI, then these PLL5_TARGET_*
-macros should be added to the renesas.h header file and used here.
+Lucas De Marchi (2):
+      drm/xe: Move rebar to be done earlier
+      drm/xe: Move rebar to its own file
 
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.50.1
-> 
-> 
+ drivers/gpu/drm/xe/Makefile       |   1 +
+ drivers/gpu/drm/xe/xe_pci.c       |   3 +
+ drivers/gpu/drm/xe/xe_pci_rebar.c | 125 ++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_pci_rebar.h |  13 ++++
+ drivers/gpu/drm/xe/xe_vram.c      | 103 -------------------------------
+ drivers/pci/quirks.c              |  20 ++++++
+ 6 files changed, 162 insertions(+), 103 deletions(-)
 
+base-commit: 95bc43e85f952ef4ebfff1406883e1e07a7daeda
+change-id: 20250917-xe-pci-rebar-2-c0fe2f04c879
 
--- 
-Hugo Villeneuve
+Lucas De Marchi
+
