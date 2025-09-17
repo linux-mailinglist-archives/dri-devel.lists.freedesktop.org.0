@@ -2,56 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B13B7ECC4
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 15:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83B7B7F469
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 15:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8C710E1BD;
-	Wed, 17 Sep 2025 13:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 487BE10E1C7;
+	Wed, 17 Sep 2025 13:29:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="E+r4h8g3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OeVP6YRj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB8610E1BD
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 13:01:51 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cRf6g2dVmz9sq6;
- Wed, 17 Sep 2025 15:01:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1758114107; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LQ4u/583uE1+dOOVzGmM3HhS72iikorD+a/SwNVox+M=;
- b=E+r4h8g3Ro/vE8nUHJ5jxNaby3Ap8GG1KHyuF2GxWd1gfCdy5Gru10GOlDyqIFdogaN98a
- gNm3W/myhA/8Dj7XxImyvZ8nmgPqPQmhFno5Cv4VKlKmFMhMrCvPGTYzWcfBSkk8QvBq4H
- uLSzkaKotcqeZ3T5xjvRYKpxL7zuVHjn5QQIoMGmDZlIaZWJ58L+Y2mq2M4EM8tlqbJTUN
- Q+pJbeVfWeMGkEBfG43HJVKrp02RMfNPHx/oW9zZiHDqoTImmyR15MCIRhoO4so7k59pvU
- 5geT4zEnUS9p1AAFq0NVLd1qIOESaLTEqrFqtTMdx9+Pv1NhRxmQeXNHGdMoxQ==
-Message-ID: <e640f2abdf1503f5687ca0d79ec3dc061ff6d2c9.camel@mailbox.org>
-Subject: Re: [PATCH v2] drm/sched: struct member doc fix
-From: Philipp Stanner <phasta@mailbox.org>
-To: Luc Ma <onion0709@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>,  Philipp Stanner <phasta@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,  David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Date: Wed, 17 Sep 2025 15:01:42 +0200
-In-Reply-To: <20250915132327.6293-1-onion0709@gmail.com>
-References: <20250915132327.6293-1-onion0709@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
+ [74.125.224.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA31110E1C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 13:29:37 +0000 (UTC)
+Received: by mail-yx1-f45.google.com with SMTP id
+ 956f58d0204a3-632846547cfso1321999d50.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 06:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1758115776; x=1758720576; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=QjnKuNKA4ji6kMyGHxtwUN6WBWnj7945LQCwoquyyQo=;
+ b=OeVP6YRjtWcEORb9zZegJ014/zgwRBKKcKaAMz+g0VpNrWUU307t4NXKWFegZPNR96
+ 3QVhHT1HUP/vaL18fTUH78RgI1R+IoRYmF/PDWv08Nh+xZOOm8GE2kcABYq9HcA65xin
+ 9WZ4VlGX7l4ViGsIJ3NiQ3AExBTHD43e8ZeAbJppiha3N18FXtvz2OmjLpJN8Jdyekqt
+ syF2GTD8nggL3dwGV54KAzUWlCbEx+UZfYlxnJcPu87EQaRGzMQ9ffZoRzsVSHVXKSLY
+ QIpOdJgrc69GlHlwzRcHHGPxxXogIZXl1jV0JthCWBfKNeVeR6EuNki+371A3Re/4NFV
+ f6Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758115776; x=1758720576;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QjnKuNKA4ji6kMyGHxtwUN6WBWnj7945LQCwoquyyQo=;
+ b=aSuIpU4gRdnD8MTkuHwZsR9f6SCemDmiqCkEHo7UeSqBLVJnh4lrre3gRki7d5eGoR
+ Zsst/RaJxtEe4U2B0D9WDn6L/swa6XtginBSj0lEfnMtKajxPIbpele5UItH7KJyutRg
+ iGMGZB30eaxTOltCAueZFme5pyERpef6QzyEMJuUSLXcxRlSE9L5l/lPC1Jpg/qZ6ULF
+ FM0rQ4lBYNEOsCm5bdiiA0nmwi4ovmyY0kgPMxx5ikLhJvBuW1/48fRjKpYyRY8icln4
+ gm21qFs+HFEgzhGVKLtHz2C4prEiBOmVpyoycs36rZ7LBlqMzWywZmNDeEKTwUlcR5rZ
+ +hYA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeY+5b3eV0PfkvhKXAzc7JHdbdeBeFmN1GtoN4LVR9D67JYuEX6QMMjESFbZg6V5Uq4diZpER3eEA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9WSdP8GJLu1l7So+HFbkofy1DtO3Ic6YTdwo8VErAOSePtxBc
+ vFGBHhk2Vaf7SBa6dyRVPUaEPsbvIV2RklNd9MPZfsRsHY9dKmPPhL+4NMNmIy1NQD1+tKqoH4/
+ bj/wuiEiFOMc6QKXGz4VTXAJJ7Nme3KqaJvG39DQ6FA==
+X-Gm-Gg: ASbGnctLGA8SN1UGoL8b5ZiVtVzyYVuxYh4tgqb12jKgcP7pvTHPRSYctf5HHQFjrBM
+ nOoH3GLi9IdlPDHjYBKERfRQBlgf9nQ49KgiCJsMVIhuscv6cfRFyj05SZO5l6XPcCRUZ7gf6a7
+ 1/oqAANQG4JFpjr/rYVcwzRK/PV3YuefvDGD6OSjPZeEGEDk2kmCoe4RpaMyVFeDuGqTxMigNxR
+ +ge5UJP
+X-Google-Smtp-Source: AGHT+IHuI5AyhviMUE8d04CZKMsxw84ERhd0y58MB1DDZatjUo51eJKV0sipZSi6vcJejXizNerBql3FasBKpx0EYU8=
+X-Received: by 2002:a05:690e:1241:b0:62d:9854:f1c3 with SMTP id
+ 956f58d0204a3-633b0731376mr1875395d50.33.1758115776183; Wed, 17 Sep 2025
+ 06:29:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MBO-RS-META: 6rzetnuy3m91itdsjtof9m1bym1t9ffc
-X-MBO-RS-ID: 2d479856e6987a114d2
+References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
+In-Reply-To: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 17 Sep 2025 15:28:59 +0200
+X-Gm-Features: AS18NWAFYxfdM-z9P24XcfzEBx3NAZQo5nY3cbJlHEFPJOB1W-fi7_dweQlyxBc
+Message-ID: <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] MT8196 GPU Frequency/Power Control Support
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Chia-I Wu <olvaffe@gmail.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,47 +96,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-09-15 at 21:23 +0800, Luc Ma wrote:
-> The mentioned function has been renamed since commit 180fc134d712
-> ("drm/scheduler: Rename cleanup functions v2."), so let it refer to
-> the current one.
->=20
-> v2: use proper pattern for function cross-reference
->=20
-> Signed-off-by: Luc Ma <onion0709@gmail.com>
+On Wed, 17 Sept 2025 at 14:23, Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+>
+> This series introduces two new drivers to accomplish controlling the
+> frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
+>
+> The reason why it's not as straightforward as with other SoCs is that
+> the MT8196 has quite complex glue logic in order to squeeze the maximum
+> amount of performance possible out of the silicon. There's an additional
+> MCU running a specialised firmware, which communicates with the
+> application processor through a mailbox and some SRAM, and is in charge
+> of controlling the regulators, the PLL clocks, and the power gating of
+> the GPU, all while also being in charge of any DVFS control.
+>
+> This set of drivers is enough to communicate desired OPP index limits to
+> the aforementioned MCU, referred to as "GPUEB" from here on out. The
+> GPUEB is still free to lower the effective frequency if the GPU has no
+> jobs going on at all, even when a higher OPP is set. There's also
+> several more powerful OPPs it seemingly refuses to apply. The downstream
+> chromeos kernel also doesn't reach the frequencies of those OPPs, so we
+> assume this is expected.
+>
+> The frequency control driver lives in panthor's subdirectory, as it
+> needs to pass panthor some data. I've kept the tie-in parts generic
+> enough however to not make this a complete hack; mediatek_mfg (the
+> frequency control driver) registers itself as a "devfreq provider" with
+> panthor, and panthor picks it up during its probe function (or defers if
+> mediatek_mfg is not ready yet, after adding a device link first).
+>
+> It's now generic enough to where I'll ponder about moving the devfreq
+> provider stuff into a header in include/, and moving mediatek_mfg into
+> the drivers/soc/ subdirectory, but there were enough changes so far to
+> warrant a v3 without a move or further struct renames added, so that I
+> can get feedback on this approach.
+>
+> The mailbox driver is a fairly bog-standard common mailbox framework
+> driver, just specific to the firmware that runs on the GPUEB.
 
-Applied to drm-misc-next, thx.
+I had a brief look at the series and it seems to me that the devfreq
+thing here, may not be the perfect fit.
 
-For the next time: In drm/sched we agreed to not include change logs in
-the commit messages because they aren't really useful.
+Rather than using a new binding  (#performance-domain-cells) to model
+a performance domain provider using devfreq, I think it could be more
+straightforward to model this using the common #power-domain-cells
+binding instead. As a power-domain provider then, which would be
+capable of scaling performance too. Both genpd and the OPP core
+already support this, though via performance-states (as indexes).
 
-P.
+In fact, this looks very similar to what we have implemented for the
+Arm SCMI performance domain.
 
-> ---
-> =C2=A0include/drm/gpu_scheduler.h | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 323a505e6e6a..fb88301b3c45 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -546,7 +546,7 @@ struct drm_sched_backend_ops {
-> =C2=A0 * @num_rqs: Number of run-queues. This is at most DRM_SCHED_PRIORI=
-TY_COUNT,
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 as t=
-here's usually one run-queue per priority, but could be less.
-> =C2=A0 * @sched_rq: An allocated array of run-queues of size @num_rqs;
-> - * @job_scheduled: once @drm_sched_entity_do_release is called the sched=
-uler
-> + * @job_scheduled: once drm_sched_entity_flush() is called the scheduler
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 waits on this wait queue until all the sc=
-heduled jobs are
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 finished.
-> =C2=A0 * @job_id_count: used to assign unique id to the each job.
+If you have a look at the below, I think it should give you an idea of
+the pieces.
+drivers/pmdomain/arm/scmi_perf_domain.c
+drivers/firmware/arm_scmi/perf.c
+Documentation/devicetree/bindings/firmware/arm,scmi.yaml (protocol@13
+is the performance protocol).
 
+That said, I don't have a strong opinion, but just wanted to share my
+thoughts on your approach.
+
+[...]
+
+Kind regards
+Uffe
