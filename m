@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6F8B7E32F
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3233FB7E314
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 14:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C627F10E192;
-	Wed, 17 Sep 2025 10:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E716710E64D;
+	Wed, 17 Sep 2025 10:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5D0B610E192
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 10:17:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1F1F510E64D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 10:17:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7F2E25DC;
- Wed, 17 Sep 2025 03:17:18 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7300425DC;
+ Wed, 17 Sep 2025 03:17:40 -0700 (PDT)
 Received: from [10.1.26.46] (e122027.cambridge.arm.com [10.1.26.46])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C3113F673;
- Wed, 17 Sep 2025 03:17:24 -0700 (PDT)
-Message-ID: <e64440cb-4b7d-4b42-861b-4e6b529e13d5@arm.com>
-Date: Wed, 17 Sep 2025 11:17:22 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 742723F673;
+ Wed, 17 Sep 2025 03:17:46 -0700 (PDT)
+Message-ID: <b96c0c8d-579c-4b86-938f-fe0870d4b7ad@arm.com>
+Date: Wed, 17 Sep 2025 11:17:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] drm/panfrost: Expose JM context IOCTLs to UM
+Subject: Re: [PATCH v3 4/4] drm/panfrost: Display list of device JM contexts
+ over debugfs
 To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
  linux-kernel@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org,
@@ -32,10 +33,10 @@ Cc: dri-devel@lists.freedesktop.org,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250912132002.304187-1-adrian.larumbe@collabora.com>
- <20250912132002.304187-4-adrian.larumbe@collabora.com>
+ <20250912132002.304187-5-adrian.larumbe@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20250912132002.304187-4-adrian.larumbe@collabora.com>
+In-Reply-To: <20250912132002.304187-5-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,9 +57,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 12/09/2025 14:19, Adrián Larumbe wrote:
 > From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> Minor revision of the driver must be bumped because this expands the
-> uAPI. On top of that, let UM know about the available priorities so that
-> they can create contexts with legal priority values.
+> For DebugFS builds, create a filesystem knob that, for every single open
+> file of the Panfrost DRM device, shows its command name information and
+> PID (when applicable), and all of its existing JM contexts.
+> 
+> For every context, show the DRM scheduler priority value of all of its
+> scheduling entities.
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
@@ -66,82 +70,124 @@ On 12/09/2025 14:19, Adrián Larumbe wrote:
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 36 ++++++++++++++++++++++---
->  1 file changed, 33 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 96 +++++++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index be384b18e8fd..69e72a800cd1 100644
+> index 69e72a800cd1..3af4b4753ca4 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -109,6 +109,14 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  #endif
->  		break;
->  
-> +	case DRM_PANFROST_PARAM_ALLOWED_JM_CTX_PRIORITIES:
-> +		param->value = BIT(PANFROST_JM_CTX_PRIORITY_LOW) |
-> +			       BIT(PANFROST_JM_CTX_PRIORITY_MEDIUM);
-> +
-> +		if (panfrost_high_prio_allowed(file))
-> +			param->value |= BIT(PANFROST_JM_CTX_PRIORITY_HIGH);
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -286,9 +294,6 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
->  	if (args->pad)
->  		return -EINVAL;
->  
-> -	if (args->jm_ctx_handle)
-> -		return -EINVAL;
-> -
->  	if (!args->jc)
->  		return -EINVAL;
->  
-> @@ -552,6 +557,27 @@ static int panfrost_ioctl_set_label_bo(struct drm_device *ddev, void *data,
->  	return ret;
+> @@ -716,6 +716,47 @@ static int panthor_gems_show(struct seq_file *m, void *data)
+>  	return 0;
 >  }
 >  
-> +static int panfrost_ioctl_jm_ctx_create(struct drm_device *dev, void *data,
-> +					struct drm_file *file)
+> +static void show_panfrost_jm_ctx(struct panfrost_jm_ctx *jm_ctx, u32 handle,
+> +				 struct seq_file *m)
 > +{
-> +	return panfrost_jm_ctx_create(file, data);
+> +	struct drm_device *ddev = ((struct drm_info_node *)m->private)->minor->dev;
+> +	const char *prio = "UNKNOWN";
+> +
+> +	static const char * const prios[] = {
+> +		[DRM_SCHED_PRIORITY_HIGH] = "HIGH",
+> +		[DRM_SCHED_PRIORITY_NORMAL] = "NORMAL",
+> +		[DRM_SCHED_PRIORITY_LOW] = "LOW",
+> +	};
+> +
+> +	if (jm_ctx->slot_entity[0].priority !=
+> +	    jm_ctx->slot_entity[1].priority)
+> +		drm_warn(ddev, "Slot priorities should be the same in a single context");
+> +
+> +	if (jm_ctx->slot_entity[0].priority < ARRAY_SIZE(prios))
+> +		prio = prios[jm_ctx->slot_entity[0].priority];
+> +
+> +	seq_printf(m, " JM context %u: priority %s\n", handle, prio);
 > +}
 > +
-> +static int panfrost_ioctl_jm_ctx_destroy(struct drm_device *dev, void *data,
-> +					 struct drm_file *file)
+> +static int show_file_jm_ctxs(struct panfrost_file_priv *pfile,
+> +			     struct seq_file *m)
 > +{
-> +	const struct drm_panfrost_jm_ctx_destroy *args = data;
+> +	struct panfrost_jm_ctx *jm_ctx;
+> +	unsigned long i;
 > +
-> +	if (args->pad)
-> +		return -EINVAL;
+> +	xa_lock(&pfile->jm_ctxs);
+> +	xa_for_each(&pfile->jm_ctxs, i, jm_ctx) {
+> +		jm_ctx = panfrost_jm_ctx_get(jm_ctx);
+> +		xa_unlock(&pfile->jm_ctxs);
+> +		show_panfrost_jm_ctx(jm_ctx, i, m);
+> +		panfrost_jm_ctx_put(jm_ctx);
+> +		xa_lock(&pfile->jm_ctxs);
+> +	}
+> +	xa_unlock(&pfile->jm_ctxs);
 > +
-> +	/* We can't destroy the default context created when the file is opened. */
-> +	if (!args->handle)
-> +		return -EINVAL;
-> +
-> +	return panfrost_jm_ctx_destroy(file, args->handle);
+> +	return 0;
 > +}
 > +
->  int panfrost_unstable_ioctl_check(void)
->  {
->  	if (!unstable_ioctls)
-> @@ -619,6 +645,8 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->  	PANFROST_IOCTL(PERFCNT_DUMP,	perfcnt_dump,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
-> +	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
-> +	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
+>  static struct drm_info_list panthor_debugfs_list[] = {
+>  	{"gems", panthor_gems_show, 0, NULL},
 >  };
+> @@ -729,9 +770,64 @@ static int panthor_gems_debugfs_init(struct drm_minor *minor)
+>  	return 0;
+>  }
 >  
->  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-> @@ -715,6 +743,8 @@ static void panfrost_debugfs_init(struct drm_minor *minor)
->   * - 1.3 - adds JD_REQ_CYCLE_COUNT job requirement for SUBMIT
->   *       - adds SYSTEM_TIMESTAMP and SYSTEM_TIMESTAMP_FREQUENCY queries
->   * - 1.4 - adds SET_LABEL_BO
-> + * - 1.5 - adds JM_CTX_{CREATE,DESTROY} ioctls and extend SUBMIT to allow
-> + *	   context creation with configurable priorities/affinity
->   */
->  static const struct drm_driver panfrost_drm_driver = {
->  	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
+> +static int show_each_file(struct seq_file *m, void *arg)
+> +{
+> +	struct drm_info_node *node = (struct drm_info_node *)m->private;
+> +	struct drm_device *ddev = node->minor->dev;
+> +	int (*show)(struct panfrost_file_priv *, struct seq_file *) =
+> +		node->info_ent->data;
+> +	struct drm_file *file;
+> +	int ret;
+> +
+> +	ret = mutex_lock_interruptible(&ddev->filelist_mutex);
+> +	if (ret)
+> +		return ret;
+> +
+> +	list_for_each_entry(file, &ddev->filelist, lhead) {
+> +		struct task_struct *task;
+> +		struct panfrost_file_priv *pfile = file->driver_priv;
+> +		struct pid *pid;
+> +
+> +		/*
+> +		 * Although we have a valid reference on file->pid, that does
+> +		 * not guarantee that the task_struct who called get_pid() is
+> +		 * still alive (e.g. get_pid(current) => fork() => exit()).
+> +		 * Therefore, we need to protect this ->comm access using RCU.
+> +		 */
+> +		rcu_read_lock();
+> +		pid = rcu_dereference(file->pid);
+> +		task = pid_task(pid, PIDTYPE_TGID);
+> +		seq_printf(m, "client_id %8llu pid %8d command %s:\n",
+> +			   file->client_id, pid_nr(pid),
+> +			   task ? task->comm : "<unknown>");
+> +		rcu_read_unlock();
+> +
+> +		ret = show(pfile, m);
+> +		if (ret < 0)
+> +			break;
+> +
+> +		seq_puts(m, "\n");
+> +	}
+> +
+> +	mutex_unlock(&ddev->filelist_mutex);
+> +	return ret;
+> +}
+> +
+> +static struct drm_info_list panfrost_sched_debugfs_list[] = {
+> +	{ "sched_ctxs", show_each_file, 0, show_file_jm_ctxs },
+> +};
+> +
+> +static void panfrost_sched_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panfrost_sched_debugfs_list,
+> +				 ARRAY_SIZE(panfrost_sched_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +}
+> +
+>  static void panfrost_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_gems_debugfs_init(minor);
+> +	panfrost_sched_debugfs_init(minor);
+>  }
+>  #endif
+>  
 
