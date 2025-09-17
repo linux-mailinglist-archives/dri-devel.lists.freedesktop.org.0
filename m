@@ -2,88 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83B7B7F469
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 15:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4493BB7F57D
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Sep 2025 15:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 487BE10E1C7;
-	Wed, 17 Sep 2025 13:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661B810E1CE;
+	Wed, 17 Sep 2025 13:33:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OeVP6YRj";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="OB6i/5+Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
- [74.125.224.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA31110E1C7
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 13:29:37 +0000 (UTC)
-Received: by mail-yx1-f45.google.com with SMTP id
- 956f58d0204a3-632846547cfso1321999d50.3
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 06:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758115776; x=1758720576; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QjnKuNKA4ji6kMyGHxtwUN6WBWnj7945LQCwoquyyQo=;
- b=OeVP6YRjtWcEORb9zZegJ014/zgwRBKKcKaAMz+g0VpNrWUU307t4NXKWFegZPNR96
- 3QVhHT1HUP/vaL18fTUH78RgI1R+IoRYmF/PDWv08Nh+xZOOm8GE2kcABYq9HcA65xin
- 9WZ4VlGX7l4ViGsIJ3NiQ3AExBTHD43e8ZeAbJppiha3N18FXtvz2OmjLpJN8Jdyekqt
- syF2GTD8nggL3dwGV54KAzUWlCbEx+UZfYlxnJcPu87EQaRGzMQ9ffZoRzsVSHVXKSLY
- QIpOdJgrc69GlHlwzRcHHGPxxXogIZXl1jV0JthCWBfKNeVeR6EuNki+371A3Re/4NFV
- f6Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758115776; x=1758720576;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QjnKuNKA4ji6kMyGHxtwUN6WBWnj7945LQCwoquyyQo=;
- b=aSuIpU4gRdnD8MTkuHwZsR9f6SCemDmiqCkEHo7UeSqBLVJnh4lrre3gRki7d5eGoR
- Zsst/RaJxtEe4U2B0D9WDn6L/swa6XtginBSj0lEfnMtKajxPIbpele5UItH7KJyutRg
- iGMGZB30eaxTOltCAueZFme5pyERpef6QzyEMJuUSLXcxRlSE9L5l/lPC1Jpg/qZ6ULF
- FM0rQ4lBYNEOsCm5bdiiA0nmwi4ovmyY0kgPMxx5ikLhJvBuW1/48fRjKpYyRY8icln4
- gm21qFs+HFEgzhGVKLtHz2C4prEiBOmVpyoycs36rZ7LBlqMzWywZmNDeEKTwUlcR5rZ
- +hYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXeY+5b3eV0PfkvhKXAzc7JHdbdeBeFmN1GtoN4LVR9D67JYuEX6QMMjESFbZg6V5Uq4diZpER3eEA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9WSdP8GJLu1l7So+HFbkofy1DtO3Ic6YTdwo8VErAOSePtxBc
- vFGBHhk2Vaf7SBa6dyRVPUaEPsbvIV2RklNd9MPZfsRsHY9dKmPPhL+4NMNmIy1NQD1+tKqoH4/
- bj/wuiEiFOMc6QKXGz4VTXAJJ7Nme3KqaJvG39DQ6FA==
-X-Gm-Gg: ASbGnctLGA8SN1UGoL8b5ZiVtVzyYVuxYh4tgqb12jKgcP7pvTHPRSYctf5HHQFjrBM
- nOoH3GLi9IdlPDHjYBKERfRQBlgf9nQ49KgiCJsMVIhuscv6cfRFyj05SZO5l6XPcCRUZ7gf6a7
- 1/oqAANQG4JFpjr/rYVcwzRK/PV3YuefvDGD6OSjPZeEGEDk2kmCoe4RpaMyVFeDuGqTxMigNxR
- +ge5UJP
-X-Google-Smtp-Source: AGHT+IHuI5AyhviMUE8d04CZKMsxw84ERhd0y58MB1DDZatjUo51eJKV0sipZSi6vcJejXizNerBql3FasBKpx0EYU8=
-X-Received: by 2002:a05:690e:1241:b0:62d:9854:f1c3 with SMTP id
- 956f58d0204a3-633b0731376mr1875395d50.33.1758115776183; Wed, 17 Sep 2025
- 06:29:36 -0700 (PDT)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFA6C10E1CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 13:33:31 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58HDX5O5257011;
+ Wed, 17 Sep 2025 08:33:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1758115985;
+ bh=4ugsa4/0/nBs7/nCN/iRlWhAr+2bZP9S4rlwvOe5Q2A=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=OB6i/5+QsDKnmnj3ap9ZCMLNpSVKaL7RSlQgmutQ3CYFjSWZ/z9Mzsmd9/5gimdUw
+ svfSGkss6wnpDN6eVbi9yRGXsH6UiCZ71odkSPINc5ws6UB70inTbHjx0SsaJfWKwi
+ UhWQzfyJTsWIrrKcnS7/PN/zWiHZU46/K1n8Vvb4=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58HDX4QS1573544
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 17 Sep 2025 08:33:04 -0500
+Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 17
+ Sep 2025 08:33:04 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 17 Sep 2025 08:33:04 -0500
+Received: from [172.24.233.20] (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58HDWxAn3413902;
+ Wed, 17 Sep 2025 08:32:59 -0500
+Message-ID: <a0df1c72-2571-4791-ac66-07f9b3431ff6@ti.com>
+Date: Wed, 17 Sep 2025 19:02:58 +0530
 MIME-Version: 1.0
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
-In-Reply-To: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 17 Sep 2025 15:28:59 +0200
-X-Gm-Features: AS18NWAFYxfdM-z9P24XcfzEBx3NAZQo5nY3cbJlHEFPJOB1W-fi7_dweQlyxBc
-Message-ID: <CAPDyKFoi9KcsP5k84cSxuXNuMHmcf3a8emfOc6hMjGm_0FMk8w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] MT8196 GPU Frequency/Power Control Support
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Jassi Brar <jassisinghbrar@gmail.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org, 
- Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/3] drm/tidss: oldi: Add property to identify OLDI
+ supported VP
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <h-shenoy@ti.com>, <devarsht@ti.com>, <vigneshr@ti.com>, <praneeth@ti.com>,
+ <u-kumar1@ti.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <jyri.sarha@iki.fi>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <aradhya.bhatia@linux.dev>
+References: <20250911110715.2873596-1-s-jain1@ti.com>
+ <20250911110715.2873596-2-s-jain1@ti.com>
+ <a306a386-bbd9-408c-b76d-0ecebc1f32ae@ideasonboard.com>
+Content-Language: en-US
+From: Swamil Jain <s-jain1@ti.com>
+In-Reply-To: <a306a386-bbd9-408c-b76d-0ecebc1f32ae@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,68 +77,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 17 Sept 2025 at 14:23, Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> This series introduces two new drivers to accomplish controlling the
-> frequency and power of the Mali GPU on MediaTek MT8196 SoCs.
->
-> The reason why it's not as straightforward as with other SoCs is that
-> the MT8196 has quite complex glue logic in order to squeeze the maximum
-> amount of performance possible out of the silicon. There's an additional
-> MCU running a specialised firmware, which communicates with the
-> application processor through a mailbox and some SRAM, and is in charge
-> of controlling the regulators, the PLL clocks, and the power gating of
-> the GPU, all while also being in charge of any DVFS control.
->
-> This set of drivers is enough to communicate desired OPP index limits to
-> the aforementioned MCU, referred to as "GPUEB" from here on out. The
-> GPUEB is still free to lower the effective frequency if the GPU has no
-> jobs going on at all, even when a higher OPP is set. There's also
-> several more powerful OPPs it seemingly refuses to apply. The downstream
-> chromeos kernel also doesn't reach the frequencies of those OPPs, so we
-> assume this is expected.
->
-> The frequency control driver lives in panthor's subdirectory, as it
-> needs to pass panthor some data. I've kept the tie-in parts generic
-> enough however to not make this a complete hack; mediatek_mfg (the
-> frequency control driver) registers itself as a "devfreq provider" with
-> panthor, and panthor picks it up during its probe function (or defers if
-> mediatek_mfg is not ready yet, after adding a device link first).
->
-> It's now generic enough to where I'll ponder about moving the devfreq
-> provider stuff into a header in include/, and moving mediatek_mfg into
-> the drivers/soc/ subdirectory, but there were enough changes so far to
-> warrant a v3 without a move or further struct renames added, so that I
-> can get feedback on this approach.
->
-> The mailbox driver is a fairly bog-standard common mailbox framework
-> driver, just specific to the firmware that runs on the GPUEB.
+Hi Tomi,
 
-I had a brief look at the series and it seems to me that the devfreq
-thing here, may not be the perfect fit.
+On 9/16/25 17:10, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 11/09/2025 14:07, Swamil Jain wrote:
+>> From: Jayesh Choudhary <j-choudhary@ti.com>
+>>
+>> TIDSS should know which VP has OLDI output to avoid calling clock
+>> functions for that VP as those are controlled by oldi driver. Add a
+>> property "is_ext_vp_clk" to "tidss_device" structure for that. Mark it
+>> 'true' in tidss_oldi_init() and 'false' in tidss_oldi_deinit().
+>>
+>> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+> 
+> What bug does this fix? It's just adding a new field which it sets to
+> true/false...
 
-Rather than using a new binding  (#performance-domain-cells) to model
-a performance domain provider using devfreq, I think it could be more
-straightforward to model this using the common #power-domain-cells
-binding instead. As a power-domain provider then, which would be
-capable of scaling performance too. Both genpd and the OPP core
-already support this, though via performance-states (as indexes).
+Please take a look: 
+https://lore.kernel.org/all/a0489fea-8c06-4c89-a530-8be691f4705d@ti.com/
 
-In fact, this looks very similar to what we have implemented for the
-Arm SCMI performance domain.
+Should we remove the tag?
+Or, else, please suggest a better way to describe the issue mentioned in 
+above link.
 
-If you have a look at the below, I think it should give you an idea of
-the pieces.
-drivers/pmdomain/arm/scmi_perf_domain.c
-drivers/firmware/arm_scmi/perf.c
-Documentation/devicetree/bindings/firmware/arm,scmi.yaml (protocol@13
-is the performance protocol).
+Regards,
+Swamil
+> 
+>   Tomi
+> 
+>> Tested-by: Michael Walle <mwalle@kernel.org>
+>> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+>> ---
+>>   drivers/gpu/drm/tidss/tidss_drv.h  | 2 ++
+>>   drivers/gpu/drm/tidss/tidss_oldi.c | 2 ++
+>>   2 files changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+>> index 84454a4855d1..e1c1f41d8b4b 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+>> @@ -24,6 +24,8 @@ struct tidss_device {
+>>   
+>>   	const struct dispc_features *feat;
+>>   	struct dispc_device *dispc;
+>> +	bool is_ext_vp_clk[TIDSS_MAX_PORTS];
+>> +
+>>   
+>>   	unsigned int num_crtcs;
+>>   	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
+>> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+>> index 7688251beba2..7ecbb2c3d0a2 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+>> @@ -430,6 +430,7 @@ void tidss_oldi_deinit(struct tidss_device *tidss)
+>>   	for (int i = 0; i < tidss->num_oldis; i++) {
+>>   		if (tidss->oldis[i]) {
+>>   			drm_bridge_remove(&tidss->oldis[i]->bridge);
+>> +			tidss->is_ext_vp_clk[tidss->oldis[i]->parent_vp] = false;
+>>   			tidss->oldis[i] = NULL;
+>>   		}
+>>   	}
+>> @@ -580,6 +581,7 @@ int tidss_oldi_init(struct tidss_device *tidss)
+>>   		oldi->bridge.timings = &default_tidss_oldi_timings;
+>>   
+>>   		tidss->oldis[tidss->num_oldis++] = oldi;
+>> +		tidss->is_ext_vp_clk[oldi->parent_vp] = true;
+>>   		oldi->tidss = tidss;
+>>   
+>>   		drm_bridge_add(&oldi->bridge);
+> 
 
-That said, I don't have a strong opinion, but just wanted to share my
-thoughts on your approach.
-
-[...]
-
-Kind regards
-Uffe
