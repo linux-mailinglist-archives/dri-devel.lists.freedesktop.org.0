@@ -2,87 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C4BB875A1
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 01:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C838B875FB
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 01:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1668E10E209;
-	Thu, 18 Sep 2025 23:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF2810E20C;
+	Thu, 18 Sep 2025 23:26:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AE6y0p3G";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g3GRVP/f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD8D10E209
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 23:23:12 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-24458272c00so16524975ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 16:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758237792; x=1758842592; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cywbwc8EdUxJw4qdKc7+s9IRWS7iBCfFJYQJGElQO3Y=;
- b=AE6y0p3GQW14b0G/9qozBmf0BICSo4zVEBMINLwTZfeNIJrLirdAWUFx2VCeZvTOi7
- uvqotdVe9JKySBffS6LQ9yaDNbTbhOF5vZVR0q9D4R6HyqWVoyJ4J1htvbahabcr1cD7
- jVRhW6NIyl/yVa4Ck0Pl8jV40JFkRHAYNM2ipsQz6rv5rkA3/KI+HV//Pw4PHPkFX2lF
- peN0QJ6USxISRCSs4EiKEm4foQLdVssgh8nIh+q/0Ch7vEW1pvRUyoIshTA6usA6ZxLi
- pPt1wLPiK5Ngj5rLolPDjXPKoxPZEyy6YDMPQbYwO3dqUgnkyvRrsrXs5aI5ROVNfgTR
- aiMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758237792; x=1758842592;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cywbwc8EdUxJw4qdKc7+s9IRWS7iBCfFJYQJGElQO3Y=;
- b=q5Sr3uRQXPzKfE+HJr5SpDT3Jb40US22mdkD4OFJhpdOXO60Bxwu8/Lt0VC/cHSMJW
- HVD5iK3he1SqYE6+JumxTzB2XGsV58edmAZdtqm2GbUyavvrAJkzYNAj0Mna0GLPamYn
- T9sNjO3yxvRG8Z0b9FCThbLMWKamdTb38ouupvAMfoaBz3mlJ5KdNWTr2+QYf2Npd9eb
- NxgQH+Z5ZFzjoSi4pxfm7J/jRIVOIDrLoo3vUFUYpIL2htU/2DHw0QGO531Z0k0HOiww
- 8EvhpsqGSHAIQ8Scja/SwqEtJzp/y5qB5IQR+WmvFLvlXSreeY91z6jV3MgQLg0ceZl/
- Hviw==
-X-Gm-Message-State: AOJu0YztCYG/4rhOXzcU1aePpzxQwh/bjG1VktCk+SLFW47oNcsZIR02
- s04fiIbuV+jU2a3Qb2ucmeAwi2ilKgJWKJhS6nKiu94C6TN5W9pukrMC
-X-Gm-Gg: ASbGncuIKslgDdCCt+VqbxarAfkWl5Z7Hb3LZDheUufJd8thiKUCyZ6kyvrqUwlFHqr
- xu+ZYbG9T9RprUVtIBrNyGf8ADh5a+T0GPXPuiTrO9XuKmeprVXD6vG9frcnK414F5b1hPeGiY/
- PomJoLGYd44rT/xM1rK1uQlkZogh8lrbDkWw7GrF0+I1tapYyJHblKDXNGu7FoK8Gxz7J0uc27o
- im5mea1cICRLHF9rWNixi5VwvjUjjyNnI3LtY8UGmgiaNnJA3QYasRzU3shKrcO+NpgDl5ZERz1
- ob+QeR4c5PNagMppBcEjjfHYqkybJZToz86Gj+o7H5OrGPjbe8d7ir7B5V4ACdqBQ3d1ZxZs63O
- Qcp93SWlzgjT/0BCnhugzEpLy8eh+I4HQQP74cQn6
-X-Google-Smtp-Source: AGHT+IGpNOwUTJg5vEerN1zVzVrhhiTJaIsAfQYpkwPbjiwSkLY7kk7Blhp0t2/ryk7iJPRhMy3cEQ==
-X-Received: by 2002:a17:902:d511:b0:24c:ce43:e60b with SMTP id
- d9443c01a7336-269ba45c0a8mr19654615ad.18.1758237792166; 
- Thu, 18 Sep 2025 16:23:12 -0700 (PDT)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-77e20bf07c4sm992769b3a.70.2025.09.18.16.23.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Sep 2025 16:23:11 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
- id 0313E420B4E0; Fri, 19 Sep 2025 06:23:08 +0700 (WIB)
-Date: Fri, 19 Sep 2025 06:23:08 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Philipp Stanner <phasta@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Philipp Stanner <pstanner@redhat.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH v2] drm/sched: Extend and update documentation
-Message-ID: <aMyUXCF-Jlu3wAjt@archie.me>
-References: <20250902111209.64082-2-phasta@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Qhp/VLK82Ka+Yy/u"
-Content-Disposition: inline
-In-Reply-To: <20250902111209.64082-2-phasta@kernel.org>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F240010E20C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 23:26:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id EBB2160217;
+ Thu, 18 Sep 2025 23:26:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F31C4CEE7;
+ Thu, 18 Sep 2025 23:26:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758237995;
+ bh=7e0BmhQlax3vKHRMXklUXCvkMD5m+wcQAKtV8rFifNo=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=g3GRVP/fMiDLs8SrgYZOhl9jy5t2pF8+CSN0OHLv61k8zVISrE5NITmZTjEt2lN5l
+ C7H5ZGrozptp778WXoDN11tQQ02hYNgAPqVSiIl9zCkNqzTWnih1XdqIQGyVHs15fW
+ in9mcaNgtvlyU8+F8JHZVFeiviE8dv+s1h9l2e1s8576JbWyR6RijXS2vNB6JBCzUl
+ lX8U32LF2gWo2WvW4NbP4j3cAnm6JaxuC3QlAklvERctRrjL7mjszXMRFLFlhPwIBO
+ 04xA5nzrv1GM4I8CnXERlRwciVxcSIP0NXerY9eG6AdPvpDl7FGSOOJlWIKyf5ASSa
+ CIbUadpa7CweA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 19 Sep 2025 01:26:28 +0200
+Message-Id: <DCWBCL9U0IY4.NFNUMLRULAWM@kernel.org>
+Subject: Re: [PATCH] rust: io: use const generics for read/write offsets
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-pci@vger.kernel.org>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250918-write-offset-const-v1-1-eb51120d4117@google.com>
+ <20250918181357.GA1825487@joelbox2>
+In-Reply-To: <20250918181357.GA1825487@joelbox2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,53 +69,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu Sep 18, 2025 at 8:13 PM CEST, Joel Fernandes wrote:
+> On Thu, Sep 18, 2025 at 03:02:11PM +0000, Alice Ryhl wrote:
+>> Using build_assert! to assert that offsets are in bounds is really
+>> fragile and likely to result in spurious and hard-to-debug build
+>> failures. Therefore, build_assert! should be avoided for this case.
+>> Thus, update the code to perform the check in const evaluation instead.
+>
+> I really don't think this patch is a good idea (and nobody I spoke to thi=
+nks
+> so). Not only does it mess up the user's caller syntax completely, it is =
+also
 
---Qhp/VLK82Ka+Yy/u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I appreacite you raising the concern, but I rather have other people speak =
+up
+themselves.
 
-On Tue, Sep 02, 2025 at 01:12:10PM +0200, Philipp Stanner wrote:
-> + * The GPU scheduler is shared infrastructure intended to help drivers m=
-anaging
-                          a shared infrastructure
+> super confusing to pass both a generic and a function argument separately=
+.
 
-> + * command submission to their hardware.
-> <snipped>...
-> + * Job initialization is split into two stages:
-> + *   1. drm_sched_job_init() which serves for basic preparation of a job.
-> + *      Drivers don't have to be mindful of this function's consequences=
- and
-> + *      its effects can be reverted through drm_sched_job_cleanup().
+Why? We assert that the offset has to be const, whereas the value does not
+have this requirement, so this makes perfect sense to me.
 
-           ".. this function's side effects and these can be .."
+(I agree that it can look unfamiliar at the first glance though.)
 
-> + *   2. drm_sched_job_arm() which irrevokably arms a job for execution. =
-This
+> Sorry if I knew this would be the syntax, I would have objected even when=
+ we
+> spoke :)
+>
+> I think the best fix (from any I've seen so far), is to move the bindings
+> calls of offending code into a closure and call the closure directly, as =
+I
+> posted in the other thread. I also passed the closure idea by Gary and he
+> confirmed the compiler should behave correctly (I will check the code gen
+> with/without later). Gary also provided a brilliant suggestion that we ca=
+n
+> call the closure directly instead of assigning it to a variable first. Th=
+at
+> fix is also smaller, and does not screw up the users. APIs should fix iss=
+ues
+> within them instead of relying on user to work around them.
 
-                                     irrevocably
+This is not a workaround, this is an idiomatic solution (which I probably s=
+hould
+have been doing already when I introduced the I/O code).
 
-> + *      initializes the job's fences and the job has to be submitted with
-> + *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been c=
-alled,
-> + *      the job structure has to be valid until the scheduler invoked
-> + *      drm_sched_backend_ops.free_job().
-> + *
+We do exactly the same thing for DmaMask::new() [1] and we agreed on doing =
+the
+same thing for Alignment as well [2].
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---Qhp/VLK82Ka+Yy/u
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaMyUWAAKCRD2uYlJVVFO
-ozP1AQC87UKQORC06R0t9sItFjRkRGzZuHrMM2C41aAjbI9oCwD9GhjvSUEkZs++
-clAP/8722HiSPJona2f7L3BBaH4cGQ0=
-=kNNY
------END PGP SIGNATURE-----
-
---Qhp/VLK82Ka+Yy/u--
+[1] https://rust.docs.kernel.org/kernel/dma/struct.DmaMask.html#method.new
+[2] https://lore.kernel.org/rust-for-linux/20250908-num-v5-1-c0f2f681ea96@n=
+vidia.com/
