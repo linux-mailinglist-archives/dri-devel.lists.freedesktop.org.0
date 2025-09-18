@@ -2,162 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2411B82B6C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 05:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1E4B82CDC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 05:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 495C010E631;
-	Thu, 18 Sep 2025 03:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E2310E17A;
+	Thu, 18 Sep 2025 03:51:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="dseX8ofM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="X3y7Y/dJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013055.outbound.protection.outlook.com [40.107.159.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE56710E631
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 03:13:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WytCnv5GNrvXmxwS9Ppq9GguIeRYrcefy+UcAz0MVRSz/Czk/T4/TGANQVBcjtrpycQDiDwpYkzf5bjM/VjjmLs+YL2grwRZoLSWiOGXZ4ciVfIFw/8oiOe5BjGOTKCqQsfO9yQJl+jJrWxZ2eEmTf49vAVc1+gw6gwlCbx4cA1/oQtrTdM3HlgJY6PdxV3Z78Vb2JvGx4Q99mW1ujdWKtNALr/KIwYdWSSOlqdcZgB95xGdU1mUwMDN81oXqikAUc/QKMk4qZ90VsnaR429sDL3H+PjF9SyiUYXZJME77KzPoSqHpEMnMl1Q6HIIR8DQBS44sxBpZAtWQdF8fMBuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lcym28d3X7uz2r0z8BvLbajFlgnUFTILKz2nlR03xrw=;
- b=MT6RuV9jIFOMaCxqMOmzgtDf5dICIm2dkFjW1Z2Ia7kw11zR8IgOdd+M7t5Qfc8fnwgEMsNDqCJm73R1NbIcnRDaAkj+86WCWXiluFNXFDTIWEIkr2j3IoO/lvLS9Ptld6vQ2BiLaVjnFqPLcL4DMvqWwJkwokK36hOqRCdt5pDQJrGPB5FZCUVOk0fPp3cFo7YdbVKsxnAHab8nkYWHP9jAi7r1ivV2rVuDz6AMUW7P40CQZAxR4N7Ec5r+sT2Es3S+PoYl/v8NaN4YoDtrm9Y7gLvQygAd2baWkO+QZH8ZtecJZVnLhvDiyVYTfW0FixAKyhE92jMlIF+29ocNgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lcym28d3X7uz2r0z8BvLbajFlgnUFTILKz2nlR03xrw=;
- b=dseX8ofMfr77B38gt7X+mIeFkfckZc9PgPEDDQ3LpWH4PtDcSblYP0P7uejcog07hlKtuSuBxhTAWpSoPl5xGVHYyelDICSilURVWANj3f10NezB5IEmyfvjOtzLxtETd0I2LXQsh37+f7FXT7oe667Ke2RphfUhyCK0GOGICV0x9Bmpl34QF0YRSENXFoHs3BVINrv8DtrE/fo22P3p0dP6aYZ3SAlB3Aqe5a5voGmGqePZ0sWCY1oD3di/NSkrHd//D5ByjE3FRUmY2SN8ZrjUUmpLjtExult5FEmELkrQdFEs/ZpsEZmG/j3/oThWl4PuF6ENDOnOE9rb9bZvAw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DB8PR04MB7051.eurprd04.prod.outlook.com (2603:10a6:10:fd::20)
- by PAWPR04MB11549.eurprd04.prod.outlook.com (2603:10a6:102:512::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
- 2025 03:13:20 +0000
-Received: from DB8PR04MB7051.eurprd04.prod.outlook.com
- ([fe80::8f9d:4273:ea83:167a]) by DB8PR04MB7051.eurprd04.prod.outlook.com
- ([fe80::8f9d:4273:ea83:167a%6]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 03:13:20 +0000
-Message-ID: <8f59cde5-78eb-4731-b47f-b22877256f67@oss.nxp.com>
-Date: Thu, 18 Sep 2025 11:14:54 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/39] drm/atomic: Document __drm_connectors_state
- state pointer
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-References: <20250917-drm-no-more-existing-state-v4-0-5d4b9889c3c8@kernel.org>
- <20250917-drm-no-more-existing-state-v4-3-5d4b9889c3c8@kernel.org>
-From: Liu Ying <victor.liu@oss.nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250917-drm-no-more-existing-state-v4-3-5d4b9889c3c8@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0019.apcprd02.prod.outlook.com
- (2603:1096:4:195::13) To DB8PR04MB7051.eurprd04.prod.outlook.com
- (2603:10a6:10:fd::20)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 857EE10E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 03:51:16 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58I2wchZ019524
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 03:51:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=le3hcgVXjn8geHN7AQBsWT
+ xvYkhBX1Lcw++MHyY4VEk=; b=X3y7Y/dJmEZaNlp4uMoE94qP3P2nxCu4BepXJf
+ jfFi5ZXwIn+PxTpvLMGPRR8ChVjwwRK89iHg7gk/nbqo2V7DyZnzzfxDIaMIwrR8
+ Fi75ZKd/Wr3c6y18aHk68+dlqxa1dG8Ms/Jzw/sSHpmIFDC8Smeu+RCsZMAp+Edi
+ 9zsbGXrXjpqkU/33HRcuQh0CUpGVihxATJXdYuWGdTMQN8KQK3S3yt38VPXExaSL
+ +GCg3M4QeBnT6/I+a19Yq/6AY8ajkWoKk4EScTshkYivX2pn2u8Dr9LOxQlR+Ug1
+ aOFmf6/cFd9hW802oVa+Rol2o3x9L+1p7U6eTVCUhkpmH9Vg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fy1vwbw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 03:51:15 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b5e178be7eso14290951cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 20:51:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758167474; x=1758772274;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=le3hcgVXjn8geHN7AQBsWTxvYkhBX1Lcw++MHyY4VEk=;
+ b=Nq+JdUFhAkCXqQUfyTkWnFwWl0i+XsdFf5oEtzoxRXEk0ah36vkuaghYaxisoHR22g
+ 8xebGBWiBIxUQ2GafFhQNpaQ3BG09u/jUX2TbI8z+Q+NgJK5Bku3UeMlfU0qWYTRTjEe
+ TENiG0sIQDJG/XscGXHjPLCE5XbhE6lz/IRZNlsMeXxITbozvebwmTjDLJ+OgEyFrpMa
+ TKCFFLh77OfoL6Sbuuf41uuPRSgv5m/UihuBl6Pq1q29H3plCavogyzeugyw9AHmSqtC
+ nzwQjuQx/g2t68twD/wNM5Y3PQxUZF9NGZlgTKItJ3AfN1nj3vLxsBmX3vnGZ6tN8dsE
+ ApGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXR1az0dbZn4/ms2eqHDf8bkqqXNbt8SNulyFZ+wqeBW/VPWtQBlad+QTyMJIhB7p28eLX3Vxcd+Kc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+HT3s8qdDZ0QG97Jcx+GXw3HCIzfnCtruaPhaDjRRr0Vvp93H
+ SKx3L8wCnBH+J3ou65xaVOVn4x42XlkEphaqhq74IEm+HvcJb9QNEf59QLWY4rHgu0l5v7z5aS+
+ qET4RPsX4SgR31GQYbpNai6fSWl2LsN3/5l/LIsQI8mhR2dvkjda/l+BJGmLkkAt5MxlpwJk=
+X-Gm-Gg: ASbGncslOyfuU69wsZabKRqwp+pK6YY2x+4/5oVSUq1UP0mAjXmlUV2IJdqfUy8C6GT
+ YI4oesbLuy15sMpHL9KYvoJ+5JqToeB6uP6ee1LbzSppRCMuXbAmQsdBuuol9BaTQN8sZgQV+p8
+ HQzXfuuflK36pr40jxbDxdS4bXOoXuiOYPJJ2rDVpDj2QHopgNk+ocH7RkggCK93/BgOJJ+07Dz
+ lbSYme2SRaHn5KPXt4fhcRVjZJDI7cCxcii5MOegS8j9YjdLgQiFHA/8JA56SaK9j6E6WbavlMy
+ kY7UxKuMMSkasnk3aHLYiGXubNaNttwyNFbmaWxzlex/jHySK0iNSpE9ODb2hyYVkwDyQiZUwDO
+ ASAJyBDGq9yM4bMecqFvoivcOidQO1kGaSIGuZxSVKb4ziktkn4O9
+X-Received: by 2002:a05:622a:410a:b0:4b7:aa31:3c54 with SMTP id
+ d75a77b69052e-4ba6d819d77mr56422761cf.55.1758167474431; 
+ Wed, 17 Sep 2025 20:51:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHk+JT0nmGXpYlGzcsiZnvebGGF+RyXL6mJsOObPCr7jEILfS/0AWa9sVdxR5sxI5O0qDmEZQ==
+X-Received: by 2002:a05:622a:410a:b0:4b7:aa31:3c54 with SMTP id
+ d75a77b69052e-4ba6d819d77mr56422661cf.55.1758167474005; 
+ Wed, 17 Sep 2025 20:51:14 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-361aa38c4f7sm2799911fa.62.2025.09.17.20.51.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Sep 2025 20:51:11 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v5 0/5] drm/msm: rework the ties between KMS and GPU parts
+ of the driver
+Date: Thu, 18 Sep 2025 06:50:21 +0300
+Message-Id: <20250918-msm-gpu-split-v5-0-44486f44d27d@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB8PR04MB7051:EE_|PAWPR04MB11549:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42bbf239-ac5c-4891-ad75-08ddf6615212
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|366016|19092799006|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z0JBSmxlK2ZkbVR4aVNYS0orQTV0WUU4Y1ZRTElyQ1R3RmIzeUxIQW45Vkgr?=
- =?utf-8?B?aEhSRktIU3ZGV0VKamF1NVRUZDZQNlNyQjE4aXh2cWtNZXNoWmt1aENGdm9R?=
- =?utf-8?B?cTdmajlzK0xYeU5aQTM3czZiTnRaNFpBazkyZGNDTVFxS29oSHJQWi94Mm0x?=
- =?utf-8?B?NVRaMUE1eXc4R3hsbEdRaE9MdXBXSnVTeks0RlhyRkRmcVdzdkNTQVRWMHh2?=
- =?utf-8?B?UU5UWWF5TmNac3M4L1B3UHQwQVU4bHlPcGJ6YUIwZTF2T2dOelZjY0Rmalc5?=
- =?utf-8?B?T2NKMGtCREtZWmdkZi9OSTBJWjJnclhXV3VTNEZUR0NySk8rNjE0S094cURy?=
- =?utf-8?B?SndpNjJvbjFiZmd1M25NbmdzT05DMWphMG5CUFBhN2tqVE9LaXRKVFdWTGpw?=
- =?utf-8?B?WHdXd0dpOWdId1BSNWJwQU1VMHM0UmlLYSthQUthdXVGNHFKcFJVd3FIZ3Ew?=
- =?utf-8?B?YWszTXUyOHpzeUQwSmI3c2xiaU1xaDgyN0h1NkNEeDltNnplRmhGVGxOU1U5?=
- =?utf-8?B?MFpadXFMMEZrNU16aU5rVnV4ZWp3dzBGUjFvRHJOOHo0VFpoTHpJQldsWDF1?=
- =?utf-8?B?L1NidUFqU3pxOFFhM0RCdHlRK2dEMkd5NU1PNmEzK2FZdFFSY1E2Z3MxaDlJ?=
- =?utf-8?B?WmQrOGJiRGtpcy9YNEc3ZlhHdjJwL2ZuK1k2MzVpK3h3a1pjTE5sc3ZuM0Z1?=
- =?utf-8?B?WVVTbk5aQmRtV1R6Tm9QaURSQkV4dnJocGM3U0xVajZYS0ZGM1B6L1dkN3dn?=
- =?utf-8?B?dHpQK1p2UzNWSzhoTGlSeGRQbUJhT0E5TUxGSG1jYUcrcTQxNzNEODNSNERi?=
- =?utf-8?B?cldLNTRPTjg3Y1NvVzlNN010RzVEOWpSTEN5MGZkVDFaT1dhNVVGZUF5bllS?=
- =?utf-8?B?QUFPM1dNVllxeTgrc0Ztc0N4OUZwdUtTVUJ4WHZUb1JDMW1UYTZORHVRWktK?=
- =?utf-8?B?TVhteWllZ2pobE9DTHBHdVZUcm9kVEZkdXo4Ync4eDFKOHBnWFovV1k3OG1W?=
- =?utf-8?B?cjJiQUs4K0RZckw2bEhyREZORVZ0dVZMMlNDRC9adU1yUzVtSWVLU3dSQ1pV?=
- =?utf-8?B?VnVKQXF2Q3JVVm10RFlnbVZtbTJRRTdkTzM0Z2Iwd0k5QjVwK0crM2RqeitF?=
- =?utf-8?B?dGpqbHRvemUvYW5tcnFjcnhhaHp0clpGQ2JjMjJpSWs1UkxHdzVEZWx4VW1o?=
- =?utf-8?B?bVJ2MVZLZFVPbjBoRGxSMzc3OHZ6N01kdHpxZ2RqaXRGbnhGbkhWbEZmcVh5?=
- =?utf-8?B?cVZzbXV6eVZZanUzUmtlM0JXelVrblFYVk9Qa0lEck1STHQ3cjdHY2ZBcUJW?=
- =?utf-8?B?YjJiYXZKdVg5UExidFplT1Z5VFNCT0dKS0dYYVU0YnFUNjh6MFloSFV2azRs?=
- =?utf-8?B?eldJT3V5WjJ0aTdzWWxjazJJUUl5MWp0YlcxY0M2YnhiS2htYnpFUG5hOWxW?=
- =?utf-8?B?MU96Nkt6bzluWTZtNXpuS3BucFBzV2ZRYTJkcHZMbUJpSkZ2SStnRUtVOXox?=
- =?utf-8?B?NTBnMzltMnVGRTltbjM2eklITWdXeGs5M21aRHU0OWhJL2R1Y0JBYktQOTBt?=
- =?utf-8?B?MmFhUk1ZVU11UzVtd0RKcWdGSXdFME9heFMxWEdTUVhVSkdDN0k1QUVHa1ZG?=
- =?utf-8?B?V3AyOVE3b3pvdDF2b1c4OWo3aU90am9PUFpZcllJbjIzY3QwMHh4aWRQaXY5?=
- =?utf-8?B?NEttSU01bUZGZm9zNWtJWVRjc1RKSXRtK2x6MlE1WXIzb0p0K25Xczk0d3lN?=
- =?utf-8?B?aWJURWE4RWhuM1ZOMS9MNTZSdTc2WWxaMjIyTWkvQjF2S3ZDVWx1MlFLNWxO?=
- =?utf-8?B?Z0RQUGZBZmlvKzlNWERGMEpPblpzUGZWai8wdHk4RGxpZjRqVXZGS1lrWm42?=
- =?utf-8?B?R1Q4WEJ4eCt4NmhEeVRoRytwcXdMcnRrRUJoVElRcXZSZXhhdUxJV1o2L1JI?=
- =?utf-8?Q?hpQ2h0QmPmA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB8PR04MB7051.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(19092799006)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW1GNndqVGlvcEtZbmpydFpiRUVrUVZuc3N0Mk1JRDNaU0dYM0h1UlBzMnpU?=
- =?utf-8?B?cWhCM25CUTAyZWkrYWx3Y0duVnUrbGtDMkZEUDNEODh2NUxBWUxYcmJvTHN2?=
- =?utf-8?B?YlBoZ0xzQks2Z1ZkR2tRaUdTdEdNODFaRzU0b0JBNjBWYjMzbHFnZ0lPWHlD?=
- =?utf-8?B?bCtIZzhxSVM5SlZGdkZ6N2JMRFRwUkpXT3ZXMHVmVjJ6ZnlGM0tWM3BDcGdp?=
- =?utf-8?B?UFVHazdWK2o5YVIvTXFsa28rN1ZtRUpiTElMU0NpZEJjWkp2dkZwYUN5MUFE?=
- =?utf-8?B?bmhCa0Nzd2N6cFlSR041SGtOMWpyTXVsOTV6VUFrMnZEYlltUzJ1Y0VTM2ti?=
- =?utf-8?B?emxuejFvbENkb0d3TWIwaXdDaHQ2S29zaW5FMGJINExhWmk1VTAzM1NRNm55?=
- =?utf-8?B?OEpXRHJBNDhzVnplWVE1MEYveGluK2toRGs3VlMxSktmYklQWjVQUXNoQys3?=
- =?utf-8?B?c3ZIOHNpek40YkxqQ1ZHQ0UybDJOekdMbXFqRFNLNHlMclVYYVRuZThaZFR0?=
- =?utf-8?B?b2FwbnNOWk1VaDc5VVR5M3R1Sk1Gckc2VUlUcHQ3SXVFb04zNFM2WmJaZ1FH?=
- =?utf-8?B?ZVF6SVFtRnR6aDJ5VGxTeTRGcVJqUGxBUE9tcFNFY2hlbHJpbGJuNGE2RlQ1?=
- =?utf-8?B?VzFwR1RNaktCL0xQQUZKWmtoYzlkWEVveHFHWVpQVlVMbjVuaUxPS0p4b0pG?=
- =?utf-8?B?RUJCc3MreC9PY0FXQ2JpcjZKZHpNUDI3YmZmNFRUMVZFbXhtMzU2T0x4UXd3?=
- =?utf-8?B?SWovdnEyamkzN0R6NE90eXVWUitya1ZJTmVzMDlMWnJqdUxkekd2UDV5aVM3?=
- =?utf-8?B?cldYS3V4dGRtRlBTeVBUWUVQSVhSK0h6VUNnRyt0SHE4VXZrTG1tQlJJMy9E?=
- =?utf-8?B?RTFEN2FLQ3VteGVab3JoWCtuMGFxWE5VNjlzdzZLa2Vpa2VyYlNJTFhKN3c4?=
- =?utf-8?B?OVhkM2FUVkc3Si9VTmtLTlJZdkR2OUVnQUFIQkh0MWQ0YWNIdk5wZnJ3eFVD?=
- =?utf-8?B?d01uTzk4VHFrNVNBZkMyMG5HaS9XY2pZcGk5UDJ3NUVQV3hvS012NHBsVjdE?=
- =?utf-8?B?SjZuQ3VUcHBpUWI0d1ZQR2V0VnhweDhxUXlubDFKZDBLL3ZxYnF0bUgyalhu?=
- =?utf-8?B?YzRLdDVESmhRNkFYeDRNMUtDcTRjazExa2N0YTJFZ3JSc0xYc1VnNlUrYVJR?=
- =?utf-8?B?dEpQMm9jVzd0d0FucnJSN2tPNFZuRzNNN1pZQUJSOGoyc1A5WTJqUjRXUnZt?=
- =?utf-8?B?NG5hUkRhNjZpdEFOUnYxb2VydFJNQWoyQndsNE0vb2dqMXFzOG1MeUVYdzBq?=
- =?utf-8?B?VUZGdUhjUkpaczIxcVY4NlBPN21oZms0NnB1NmRINml0a2xJTVFOb0lzOXRu?=
- =?utf-8?B?N1prNWtGWGJXdmtna0hLU3dOU1dEVnd4MEQwTVo1REFlQkcwbXpnemhpdWlE?=
- =?utf-8?B?WmlzYWN5UHdqMWh5TEt4ell3REJRdTE1Nm85SEJlbzA3NFErR1pRSXA5NXNJ?=
- =?utf-8?B?cEd2VGxDS0J0cW5VbElXaW5zd2xQdlV5YzJoSnZzT1Fmb1dLZXdaSi9sUHVY?=
- =?utf-8?B?blR2NkRSclhrSXlPaEZlYkhnNWgvMWo0SUh6UG9xaThMcThidDR4ZnRPLzNi?=
- =?utf-8?B?SmJDbXp6VWEwTHZlbFhhOU15allWeURqY0UyUmNNeXgyV3JzbkJ1dWRHZjJz?=
- =?utf-8?B?RnFCTGYveTVVK29TaTBGMW8wam5SUlQrblNOb0xvN25QVGhKV3JWWFVkYTBQ?=
- =?utf-8?B?RVYxdk1zQzJGQjRBZGE2aFdTTnpFMzYvVEM4TDlmbmF3ZGJGbWgxNTlHSlJh?=
- =?utf-8?B?dlM3QkFkV2lFaXNxVk5Xak14V0Rmc0paZU1iNWt2UXdJRGx5QlNzNHY2dzlS?=
- =?utf-8?B?ZWlMcFp5WTc1UW9tZkswMFVpcXlsTzBOUGJad3NERkNYSlQ0VEFtL21Ca1Bx?=
- =?utf-8?B?aFhKeXF2eXhTUXFad2x5OWtvZFNMU3AvSFE3N2hWc2lxYjlzRWUwVWdXYXlq?=
- =?utf-8?B?V2Z2a2RVbyt6N09xRjlhU1gxRnA5VWtUNUtPZVgxS0N6RDFEUkg2eXIxdCs2?=
- =?utf-8?B?a3FCN1ZPL29NNE5TY2lQbWNSQURhdHlqeStmSFRLNnpaNFJvbG9ETnhWMlo0?=
- =?utf-8?Q?lZYHTFoh3DdaN7iVi/NSYlRAp?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42bbf239-ac5c-4891-ad75-08ddf6615212
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR04MB7051.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 03:13:20.7652 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xBUbgqqfovZ6pY3U/HJ+Fm/m8ezyXQSlD4b+kCf2AaF9oZms7EaSgrXiUCfHTjhqfpoC8f8+VQGoDAk7HEdm2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB11549
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH2By2gC/3XPwQrCMAyA4VeRnq0kaWs3T76HeNhqqgXn5jqHI
+ nt3O0GUqZfAH8gHuYvIbeAoVrO7aLkPMdSnFGY+E+5QnPYswy61ICADGlFWsZL75iJjcwydJAv
+ IOmcNHkS6aVr24fr0NtvUhxC7ur09+R7H7UtSE6lHCRJRkdflEpfOrusYF+dLcXR1VS3SECPY0
+ xsx8IXQiFBOrizAm2L3B1EfCGZTRCUEOEfO2Fog9QfRb8SCmSI6Ib7UFpzO0lv4AxmG4QEbzZH
+ 1gAEAAA==
+X-Change-ID: 20250411-msm-gpu-split-2701e49e40f0
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3268;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=N12mAH4AEAt7MmcqShE1P3CEHF675u7xLlRmXgGx5Xo=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoy4GtJ5eB/xL4gUiMVxXXYJu5iL4TDfPX2/WvQ
+ AE2GvhevTqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaMuBrQAKCRCLPIo+Aiko
+ 1bGaCACrcfl54E/NPTAiqJJvaiIh87+3wEmrZe5uAs+zCxfSkb/1/O3vl7fIMGOxtOchxgYTAqi
+ cNlwfhGmodkeo+b5qM/8DyUuYNje1wRgr4VF1LosjPB1sV4b4V6Hju7/mTqEWi6sImMBFvw9BlD
+ ce7JM8BemdWIzrE5XQj/DSR4vFIyxU3nCTq54eOx5bz/uUgnm2jA9TxaSS8hBYyevK1Afifm3tO
+ MdYoYTOUQ+HZdQ5hNk0qGui7mAGxKRDkdvddYmBm8AgYLvWSwDL/0nUg2iJWiXAM6SRI8NCZQV0
+ J2WFGYHxG6s4TooNwqEc5jy2TQwwR2x4k/mFvVXYy/TEtp+h
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-GUID: Y-5M92WVs8KcuXay-ir-lu_AfZTpIc3g
+X-Proofpoint-ORIG-GUID: Y-5M92WVs8KcuXay-ir-lu_AfZTpIc3g
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX8KUEFCQfD2uL
+ GD/O+lB3oOXnyufgHsl0WNNYsD3sAcfdMpNlDdDhPObyUaqs0pQFASKVWoggP6AF7HvB6s6aygY
+ iR079Utot64mDVUcDYW4InCJ1bu7bJfkyqqgNbjih7o8Za3wkm0KtmkfOAPTq/DVtyKLKcuKyW3
+ wwCEAGmIERIPeaAhg8pLCN3vGG4cLZljcyi74BTZ+iskh/sZnEWeR5wfLsfp+RI9/OFWO0QxrrR
+ vA/AHRgxI3yDjxHPVRxzdd2N3sQHIgAm01I/+kjdY9BUKIMErn3AbnovlPabcmcbuMxlu9QIJNc
+ mYIDndpxDA0svlH4InMxYH9gkyykb95ocCZjEqYuqp1ZsPnrO6Pn0Vbrru65GiVQDEjLT2PPCNE
+ 5yYEDN9x
+X-Authority-Analysis: v=2.4 cv=cf7SrmDM c=1 sm=1 tr=0 ts=68cb81b3 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3aS5ecUQXdRO32CnfYUA:9
+ a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-17_01,2025-09-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 adultscore=0 bulkscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,63 +149,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/17/2025, Maxime Ripard wrote:
-> While the old and new state pointers are somewhat self-explanatory, the
-> state pointer and its relation to the other two really isn't.
-> 
-> Now that we've cleaned up everything and it isn't used in any
-> modesetting path, we can document what it's still useful for: to free
-> the right state when we free the global state.
-> 
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  include/drm/drm_atomic.h | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 321c866d5b0a46df7a9adbbf5e4cabd1ff987aad..798d33b50ef7497ce938ce3dbabee32487dda2d6 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -180,11 +180,26 @@ struct __drm_crtcs_state {
->  	u64 last_vblank_count;
->  };
->  
->  struct __drm_connnectors_state {
->  	struct drm_connector *ptr;
-> -	struct drm_connector_state *state, *old_state, *new_state;
-> +
-> +	/**
-> +	 * @state:
-> +	 *
-> +	 * Used to track the @drm_connector_state we will need to free
-> +	 * when tearing down the associated &drm_atomic_state.
+Currently the KMS and GPU parts of the msm driver are pretty much
+intertwined. It is impossible to register a KMS-only device and
+registering a GPU-only DRM device requires modifying the DT.  Not to
+mention that binding the GPU-only device creates an interim platform
+devices, which complicates IOMMU setup.
 
-Sorry for joining the party late.
+Rework the driver:
+- Make it possible to disable KMS parts (if MDP4, MDP5 and DPU drivers
+  are disabled).
+- Register GPU-only devices without an interim platform device.
+- Add module param that makes msm driver register GPU and KMS devices
+  separately.
 
-Nit: to make reader's life easier, maybe mention ->atomic_destroy_state() in
-drm_atomic_state_default_clear() is the place to free the state.  OFC, you
-probably may find better words.  Same applies to CRTC, plane and private states.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v5:
+- Rebased on msm-next, dropped applied patches, re-picked up no-GPU
+  patch
+- Rewored debugfs, GEM VM_BIND and ioctls code to reduce number of
+  #ifdef's
+- Link to v4: https://lore.kernel.org/r/20250705-msm-gpu-split-v4-0-fb470c481131@oss.qualcomm.com
 
-> +	 *
-> +	 * Before a commit, and the call to
-> +	 * drm_atomic_helper_swap_state() in particular, it points to
-> +	 * the same state than @new_state. After a commit, it points to
-> +	 * the same state than @old_state.
-> +	 */
-> +	struct drm_connector_state *state;
-> +
-> +	struct drm_connector_state *old_state, *new_state;
-> +
->  	/**
->  	 * @out_fence_ptr:
->  	 *
->  	 * User-provided pointer which the kernel uses to return a sync_file
->  	 * file descriptor. Used by writeback connectors to signal completion of
-> 
+Changes in v4:
+- Rebased on msm-next(-robclark)
+- Temporarily dropped the "no-GPU" patch, it will be reposted later
+  (Rob)
+- Link to v3: https://lore.kernel.org/r/20250518-msm-gpu-split-v3-0-0e91e8e77023@oss.qualcomm.com
 
+Changes in v3:
+- Disabled SYNCOBJ / SYNCOBJ_TIMELINE for KMS-only driver (Rob Clark)
+- Further refine Kconfig dependencies
+- Link to v2: https://lore.kernel.org/r/20250503-msm-gpu-split-v2-0-1292cba0f5ad@oss.qualcomm.com
 
+Changes in v2:
+- Got rid of mdp4_crtc.id and msm_drm_private.num_crtcs
+- Moved msm_drm_private.wq and msm_drm_private.event_thread to struct
+  msm_kms (Rob Clark)
+- Moved HDMI / DSI / DP pointers to msm_kms (Abhinav)
+- Link to v1: https://lore.kernel.org/r/20250413-msm-gpu-split-v1-0-1132f4b616c7@oss.qualcomm.com
+
+---
+Dmitry Baryshkov (5):
+      drm/msm: correct separate_gpu_kms description
+      drm/msm: split VM_BIND from the rest of GEM VMA code
+      drm/msm: split away IOCTLs implementation
+      drm/msm: split debugfs implementation
+      drm/msm: make it possible to disable GPU support
+
+ drivers/gpu/drm/msm/Kconfig           |   27 +-
+ drivers/gpu/drm/msm/Makefile          |   21 +-
+ drivers/gpu/drm/msm/msm_debugfs.c     |  420 ------------
+ drivers/gpu/drm/msm/msm_debugfs.h     |   14 -
+ drivers/gpu/drm/msm/msm_drv.c         |  645 +++---------------
+ drivers/gpu/drm/msm/msm_drv.h         |   16 -
+ drivers/gpu/drm/msm/msm_gem.h         |   10 +
+ drivers/gpu/drm/msm/msm_gem_debugfs.c |   96 +++
+ drivers/gpu/drm/msm/msm_gem_vm_bind.c | 1116 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gem_vma.c     | 1177 +--------------------------------
+ drivers/gpu/drm/msm/msm_gem_vma.h     |  119 ++++
+ drivers/gpu/drm/msm/msm_gpu.c         |   45 ++
+ drivers/gpu/drm/msm/msm_gpu.h         |  111 +++-
+ drivers/gpu/drm/msm/msm_gpu_debugfs.c |  213 ++++++
+ drivers/gpu/drm/msm/msm_ioctl.c       |  484 ++++++++++++++
+ drivers/gpu/drm/msm/msm_ioctl.h       |   37 ++
+ drivers/gpu/drm/msm/msm_kms.h         |    8 +
+ drivers/gpu/drm/msm/msm_kms_debugfs.c |  129 ++++
+ drivers/gpu/drm/msm/msm_submitqueue.c |   12 +-
+ 19 files changed, 2463 insertions(+), 2237 deletions(-)
+---
+base-commit: 05af764719214d6568adb55c8749dec295228da8
+change-id: 20250411-msm-gpu-split-2701e49e40f0
+
+Best regards,
 -- 
-Regards,
-Liu Ying
+With best wishes
+Dmitry
+
