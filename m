@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F48B8267E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F39B82684
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A0010E5B3;
-	Thu, 18 Sep 2025 00:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA2D10E5B0;
+	Thu, 18 Sep 2025 00:43:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="frukIE40";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZVBvmw/3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5796110E5B3;
- Thu, 18 Sep 2025 00:43:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1C410E5B0;
+ Thu, 18 Sep 2025 00:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758156229;
- bh=+nNa2TdGIiQKCq/XCDts33GE2BrzsNjijPgPfv3C+1g=;
+ s=mail; t=1758156236;
+ bh=dKVddj22378G3qUL23iU4CBZKRmzaPKe4vly3Qyzsmg=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=frukIE40Nppdy8PqCDsVz0HcfcV+X8CG1UYd+qidIQbRmwZaAWD+sWwNfRAh1M9UQ
- TeKXDYoAyHVQ5wRPZxSWu0KTcqhny73Uns8trhw5e3GJG9xvdhOZpya4VwoxTP8gZS
- Z9gJP0mbz4qQ7NZ5kQzDeGb09iIDcyVpzP0LwYOO4IaHm/BZ9Wy1FpY6TMbFrUyZzX
- hjy36D8iqt44MSepam/EZq5lVpGHLbHv5+FQmJmemdZumLaqOKinAiAHMLUqa1Bq5e
- 3dyySnnldvmAZRqCD3ILvZX7jTUZvyp/mUTFK0gOuaYbNwS7lulF44EC+vmHBFRMIh
- JwyEX3jMqoxCA==
+ b=ZVBvmw/3q9LsoPVOBx05ypBHeehd5IpdKepWnzClBPxOrR0LF5jVN49ZJnIsf7vgJ
+ 29QPKP5EaI++wXqMF1qpQ0am+SICw0c004TSyEyKUhHnjuWY0YZzDNNjn6jF/l/HtB
+ LrK0itqhR+p/ceMlQIs3MizcO1Ahn6r1w+ncc7iEHBTKLwRMyCFap1upqzbVWE6aFV
+ xZidiHcE1DhVc2Zz53BUuSEzUGjfHZX2qmfIBLlh0B01phyEEZXkfpTWsj5j3fss5f
+ Uizr1pOowakT/RbH6xW9ROZZIHuhLzYEz1Cx1QvSv/TTaBmoajFrSm9V3uECE9f4l5
+ l57IOk9JPsRbg==
 Received: from [127.0.1.1] (unknown
  [IPv6:2600:4041:5b1a:9400:62f0:406e:ac79:4a96])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0E78317E0EB8;
- Thu, 18 Sep 2025 02:43:42 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 50A1B17E0DC2;
+ Thu, 18 Sep 2025 02:43:50 +0200 (CEST)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Wed, 17 Sep 2025 20:43:13 -0400
-Subject: [PATCH RFC v2 04/20] drm/crtc: Add COLOR_PIPELINE property
+Date: Wed, 17 Sep 2025 20:43:14 -0400
+Subject: [PATCH RFC v2 05/20] drm: Introduce DRM_CAP_POST_BLEND_COLOR_PIPELINE
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-4-ac4471b44758@collabora.com>
+Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-5-ac4471b44758@collabora.com>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -82,195 +82,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a COLOR_PIPELINE property to the CRTC to allow userspace to set a
-post-blend color pipeline analogously to how pre-blend color pipelines
-are set on planes.
+Add a new cap that drivers can set to signal they support post-blend
+color pipelines.
 
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 49 +++++++++++++++++++++++++++++++++++----
- drivers/gpu/drm/drm_crtc.c        | 33 ++++++++++++++++++++++++++
- include/drm/drm_atomic_uapi.h     |  2 ++
- include/drm/drm_crtc.h            | 11 +++++++++
- 4 files changed, 91 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_ioctl.c | 3 +++
+ include/drm/drm_drv.h       | 6 ++++++
+ include/uapi/drm/drm.h      | 6 ++++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index b7cc6945864274bedd21dd5b73494f9aae216888..063c142fd9b656e228cfc660d005a3fbb4640d32 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -287,6 +287,33 @@ drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_state,
- }
- EXPORT_SYMBOL(drm_atomic_set_colorop_for_plane);
- 
-+/**
-+ * drm_atomic_set_colorop_for_crtc - set colorop for crtc
-+ * @crtc_state: atomic state object for the crtc
-+ * @colorop: colorop to use for the crtc
-+ *
-+ * Helper function to select the color pipeline on a crtc by setting
-+ * it to the first drm_colorop element of the pipeline.
-+ */
-+void
-+drm_atomic_set_colorop_for_crtc(struct drm_crtc_state *crtc_state,
-+				 struct drm_colorop *colorop)
-+{
-+	struct drm_crtc *crtc = crtc_state->crtc;
-+
-+	if (colorop)
-+		drm_dbg_atomic(crtc->dev,
-+			       "Set [COLOROP:%d] for [CRTC:%d:%s] state %p\n",
-+			       colorop->base.id, crtc->base.id, crtc->name,
-+			       crtc_state);
-+	else
-+		drm_dbg_atomic(crtc->dev,
-+			       "Set [NOCOLOROP] for [CRTC:%d:%s] state %p\n",
-+			       crtc->base.id, crtc->name, crtc_state);
-+
-+	crtc_state->color_pipeline = colorop;
-+}
-+EXPORT_SYMBOL(drm_atomic_set_colorop_for_crtc);
- 
- /**
-  * drm_atomic_set_crtc_for_connector - set CRTC for connector
-@@ -396,8 +423,8 @@ static s32 __user *get_out_fence_for_connector(struct drm_atomic_state *state,
- }
- 
- static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
--		struct drm_crtc_state *state, struct drm_property *property,
--		uint64_t val)
-+		struct drm_crtc_state *state, struct drm_file *file_priv,
-+		struct drm_property *property, uint64_t val)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct drm_mode_config *config = &dev->mode_config;
-@@ -406,7 +433,17 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 
- 	if (property == config->prop_active)
- 		state->active = val;
--	else if (property == config->prop_mode_id) {
-+	else if (property == crtc->color_pipeline_property) {
-+		/* find DRM colorop object */
-+		struct drm_colorop *colorop = NULL;
-+
-+		colorop = drm_colorop_find(dev, file_priv, val);
-+
-+		if (val && !colorop)
-+			return -EACCES;
-+
-+		drm_atomic_set_colorop_for_crtc(state, colorop);
-+	} else if (property == config->prop_mode_id) {
- 		struct drm_property_blob *mode =
- 			drm_property_lookup_blob(dev, val);
- 		ret = drm_atomic_set_mode_prop_for_crtc(state, mode);
-@@ -487,6 +524,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		*val = 0;
- 	else if (property == crtc->scaling_filter_property)
- 		*val = state->scaling_filter;
-+	else if (property == crtc->color_pipeline_property)
-+		*val = (state->color_pipeline) ? state->color_pipeline->base.id : 0;
- 	else if (crtc->funcs->atomic_get_property)
- 		return crtc->funcs->atomic_get_property(crtc, state, property, val);
- 	else {
-@@ -1047,6 +1086,8 @@ int drm_atomic_get_property(struct drm_mode_object *obj,
- 
- 		if (colorop->plane)
- 			WARN_ON(!drm_modeset_is_locked(&colorop->plane->mutex));
-+		else if (colorop->crtc)
-+			WARN_ON(!drm_modeset_is_locked(&colorop->crtc->mutex));
- 
- 		ret = drm_atomic_colorop_get_property(colorop,
- 				colorop->state, property, val);
-@@ -1204,7 +1245,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 		}
- 
- 		ret = drm_atomic_crtc_set_property(crtc,
--				crtc_state, prop, prop_value);
-+				crtc_state, file_priv, prop, prop_value);
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index ff193155129e7e863888d8958458978566b144f8..01592d10e3465ddceddef94bc417f98d3ec12087 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -304,6 +304,9 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
+ 		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) &&
+ 			     dev->mode_config.async_page_flip;
  		break;
++	case DRM_CAP_POST_BLEND_COLOR_PIPELINE:
++		req->value = drm_core_check_feature(dev, DRIVER_POST_BLEND_COLOR_PIPELINE);
++		break;
+ 	default:
+ 		return -EINVAL;
  	}
- 	case DRM_MODE_OBJECT_PLANE: {
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index 94e60cffd29972aa979ac2f1932be7a6a97f3ada..94238163ff1254c721df39c030bc99a31d3bb92a 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -1003,3 +1003,36 @@ drm_common_create_color_pipeline_property(struct drm_device *dev, struct drm_mod
- 	kfree(all_pipelines);
- 	return prop;
- }
-+
-+/**
-+ * drm_crtc_create_color_pipeline_property - create a new color pipeline
-+ * property
-+ *
-+ * @crtc: drm CRTC
-+ * @pipelines: list of pipelines
-+ * @num_pipelines: number of pipelines
-+ *
-+ * Create the COLOR_PIPELINE CRTC property to specify color pipelines on
-+ * the CRTC.
-+ *
-+ * RETURNS:
-+ * Zero for success or -errno
-+ */
-+int drm_crtc_create_color_pipeline_property(struct drm_crtc *crtc,
-+					    const struct drm_prop_enum_list *pipelines,
-+					    int num_pipelines)
-+{
-+	struct drm_property *prop;
-+
-+	prop = drm_common_create_color_pipeline_property(crtc->dev,
-+							 &crtc->base,
-+							 pipelines,
-+							 num_pipelines);
-+	if (IS_ERR(prop))
-+		return PTR_ERR(prop);
-+
-+	crtc->color_pipeline_property = prop;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_crtc_create_color_pipeline_property);
-diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
-index 4363155233267b93767c895fa6085544e2277442..4dc191f6f929d73deee9812025c48275a33cf770 100644
---- a/include/drm/drm_atomic_uapi.h
-+++ b/include/drm/drm_atomic_uapi.h
-@@ -52,6 +52,8 @@ void drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
- 				 struct drm_framebuffer *fb);
- void drm_atomic_set_colorop_for_plane(struct drm_plane_state *plane_state,
- 				      struct drm_colorop *colorop);
-+void drm_atomic_set_colorop_for_crtc(struct drm_crtc_state *crtc_state,
-+				     struct drm_colorop *colorop);
- int __must_check
- drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
- 				  struct drm_crtc *crtc);
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 77c0c04a5910a2263923e06cf37535697e20e1c9..df03637ca25abd45e96b5944229297f776fd046d 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -1096,6 +1096,14 @@ struct drm_crtc {
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index 42fc085f986dee9261f8b08c4fc7d93b8d6d9769..6b0f4904e69766232283d430c2540d30afef850f 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -122,6 +122,12 @@ enum drm_driver_feature {
+ 	 * the cursor planes to work correctly).
  	 */
- 	struct drm_property *scaling_filter_property;
- 
+ 	DRIVER_CURSOR_HOTSPOT           = BIT(9),
 +	/**
-+	 * @color_pipeline_property:
++	 * @DRIVER_POST_BLEND_COLOR_PIPELINE:
 +	 *
-+	 * Optional "COLOR_PIPELINE" enum property for specifying
-+	 * a color pipeline to use on the CRTC.
++	 * Driver supports post-blend color pipeline.
 +	 */
-+	struct drm_property *color_pipeline_property;
-+
- 	/**
- 	 * @state:
- 	 *
-@@ -1331,5 +1339,8 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
++	DRIVER_POST_BLEND_COLOR_PIPELINE		= BIT(10),
  
- int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- 					    unsigned int supported_filters);
-+int drm_crtc_create_color_pipeline_property(struct drm_crtc *crtc,
-+					     const struct drm_prop_enum_list *pipelines,
-+					     int num_pipelines);
- bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state);
- #endif /* __DRM_CRTC_H__ */
+ 	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+ 
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 27cc159c1d275c7a7fe057840ef792f30a582bb7..c6c53e57958e951204154ce41a69696a6876f0e8 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -812,6 +812,12 @@ struct drm_gem_change_handle {
+  * commits.
+  */
+ #define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP	0x15
++/**
++ * DRM_CAP_POST_BLEND_COLOR_PIPELINE
++ *
++ * If set to 1, the driver supports post-blend color pipelines.
++ */
++#define DRM_CAP_POST_BLEND_COLOR_PIPELINE	0x16
+ 
+ /* DRM_IOCTL_GET_CAP ioctl argument type */
+ struct drm_get_cap {
 
 -- 
 2.50.1
