@@ -2,140 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10132B8488F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 14:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78ADCB84C21
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 15:15:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC1B10E125;
-	Thu, 18 Sep 2025 12:17:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C12910E89D;
+	Thu, 18 Sep 2025 13:15:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WTbbT0Jo";
+	dkim=pass (2048-bit key; unprotected) header.d=meta.com header.i=@meta.com header.b="g81jj2VQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010070.outbound.protection.outlook.com
- [40.93.198.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06C0410E11E
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:17:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S4SpE95b/wrY9I/FUSVmK+wlZVFKIlqoYGPdYP32uYigOrBFcHW2e7E3J0epm7XZllq/TUYeYDQuA08lJCn9bQB6bdhmalP1O9wzJr0HkOEy1lx1bMiy3Hg07lbNBQNkO2y7kSgIIP56/crNeCJy5JlBsKYyM9yrMIdWqkqbZ3NsEdoRrMI0muNF2OjydOfVGFSZxKqS/Elmi7W2ww4fq0F+jc3HXYjgIFaRGrEu/9n2odckE72VW2JTR7Lo5chy610BEuX5tBpBb7AjQ8tN7oZi81lyGZ5Rk/vuO7uD5AZrsKwyhKGswHNZjEd01aXi0E5TefOdMyhuZpjpltnTVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UbDELzVLcwCifVP3dBN8D543WRaGOUC7izyW7yDtNP4=;
- b=jn4tpU3cwIjCrF6FNAqGocqnsXGLnP13/TgnNx/Pm8haEDnPhbE8uij+n4qXPqMEk1syqR3aonmIO/qHGvHZe6jTGplFcCCPA6yYYVdNstk35ENr8AMdeF61Vp4st2qHDuKRhUd8LZvYup3J4R7zhUHdsB485HiqVChWVWCHY4FcvnCfL4ZhOhha11F0ANcwr3NE7OOqb67xsevOeTgVCse07NRbKJGVzUmZ54yf0oy3jIIR+HFGRSiH1232UV/uAhU6IW6C/whDt5g+K2y3dmQNZnwuCSxJY4qCw7uOqDNLwdOuDa3fuF/i4ZmUMGdq73dbb5cJTI0JxXbM+YsH/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=suse.de smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UbDELzVLcwCifVP3dBN8D543WRaGOUC7izyW7yDtNP4=;
- b=WTbbT0Jo3pRz7O8yvogP0gLs2epPYVBxc1dpXtlXoGFqOsGJbSBpvm2dj8tvrjAPdNcj+zKIlLKm3M3aVAe0EnXC9xa3Dbz3NzCm/ZeEIYV3jqF+Qg6YuJpypmrJfET/g2+R2fE+Z4bmaQBbBZMedEuEVtpdT9NzUOpB7wNbiPGlASByQc3OXglojBoYy7dgmt5qLPuOOnf4MmNmdu6zZL7onY5ijDi1Juf2XWA5kEbNXemUL+iGoU7X/UusFQF0sqegDFKFKTQ6bsHVMFwy4qjXbzeoNshKX4+TRUb88rq4hPm+541QEmen5VKuvMMKmptpbrieaRjXpAuKtCFbOw==
-Received: from MW4PR03CA0026.namprd03.prod.outlook.com (2603:10b6:303:8f::31)
- by LV3PR12MB9168.namprd12.prod.outlook.com (2603:10b6:408:19a::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
- 2025 12:17:02 +0000
-Received: from SJ5PEPF000001D3.namprd05.prod.outlook.com
- (2603:10b6:303:8f:cafe::20) by MW4PR03CA0026.outlook.office365.com
- (2603:10b6:303:8f::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9137.13 via Frontend Transport; Thu,
- 18 Sep 2025 12:17:01 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001D3.mail.protection.outlook.com (10.167.242.55) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.12 via Frontend Transport; Thu, 18 Sep 2025 12:17:01 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 18 Sep
- 2025 05:16:43 -0700
-Received: from [10.221.136.181] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 18 Sep
- 2025 05:16:41 -0700
-Message-ID: <5c4da62d-f829-47b5-97ae-51a08e0e470e@nvidia.com>
-Date: Thu, 18 Sep 2025 14:15:38 +0200
+X-Greylist: delayed 690 seconds by postgrey-1.36 at gabe;
+ Thu, 18 Sep 2025 12:40:35 UTC
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C986710E755
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:40:35 +0000 (UTC)
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 58I9CmCw3443791; Thu, 18 Sep 2025 05:28:47 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+ bh=FlRouMpQLtB0kvLMyco0duirmI8eBjXnc7Q75bnW+0A=; b=g81jj2VQgise
+ 74iFa6WsCOD4OQ609NXSC1qPlYP8DSb6+fY7rrbX5Fr1x7PI3yF21ngdSewJLV3W
+ zm6PtPSv/vyXAtjz6QubO9OP2thUtdEis25qtPtqFQBSL5PbYyPRT3NjX6LdMOfA
+ c0WDFm/ZcfwMM8mlFGYomzH8pI2QmsiZJU8TU7EQCde0CAQucJEPPx3+fMNNp3jA
+ wn9mNAaf/Rc/Vsa+YKzFPByqmip3jmxQOkdTVxcczGr8x4c+kB9ObJPtxDF6REMZ
+ HrBk+PltATGNFFCkw9u9sd1rEGvfTlrsS7R6mzS1eklGPI4o+smtpKI0D1LA4A5A
+ Mf+E3D9HfQ==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 498f8d0yrx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 18 Sep 2025 05:28:47 -0700 (PDT)
+Received: from devbig091.ldc1.facebook.com (2620:10d:c0a8:1b::2d) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Thu, 18 Sep 2025 12:28:46 +0000
+From: Chris Mason <clm@meta.com>
+To: Balbir Singh <balbirs@nvidia.com>
+CC: Chris Mason <clm@meta.com>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <dri-devel@lists.freedesktop.org>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Zi Yan
+ <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim
+ <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, Gregory Price
+ <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, "Alistair
+ Popple" <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Ralph Campbell
+ <rcampbell@nvidia.com>, =?UTF-8?q?Mika=20Penttil=C3=A4?=
+ <mpenttil@redhat.com>, Matthew Brost <matthew.brost@intel.com>, "Francois
+ Dugast" <francois.dugast@intel.com>
+Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
+ folios
+Date: Thu, 18 Sep 2025 05:27:58 -0700
+Message-ID: <20250918122813.1440093-1-clm@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250908000448.180088-2-balbirs@nvidia.com>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
-To: Thomas Zimmermann <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>
-CC: <jfalempe@redhat.com>, <mripard@kernel.org>, Carol Soto <csoto@nvidia.com>
-References: <20250917194346.2905522-1-nirmoyd@nvidia.com>
- <6eef0446-5747-4717-8146-788b32bf7969@suse.de>
-Content-Language: en-US
-From: Nirmoy Das <nirmoyd@nvidia.com>
-In-Reply-To: <6eef0446-5747-4717-8146-788b32bf7969@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D3:EE_|LV3PR12MB9168:EE_
-X-MS-Office365-Filtering-Correlation-Id: e30af6b7-89a8-4d3c-6e37-08ddf6ad45c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?T3dNbkxqdzBac0xoUFY3aTdqYSt4V0tMdnFIOElOdGw0OEZxUkxzcndjUndo?=
- =?utf-8?B?bExDa2VWZ3ZubklYUHBQcFhXTHdRY1JnaDFBV0ljR3h5aWNuY1dHbVNiS2tX?=
- =?utf-8?B?NWxsbFEyZW02R3lZVWVxS1VkaHpVNE11ZktGQkxIYmpaRDFCRGZjcm9jRjJx?=
- =?utf-8?B?YTdwRVI4QXgwdDZUMkptOWVwNElzYkNDVjVuMElhaTBOTWFPaUNNUlIyVS91?=
- =?utf-8?B?QzR4MzdwcGhoL1I0M2NCUG14WGJ6b3lFeEZ3ZWhNbzZZeVJWenJJSFh4RFdp?=
- =?utf-8?B?TkhVMjlqang1MVc1RmZKTVoyMVdCdmNCMnk0NGtncURLYjFWVTJaVXFIbXVH?=
- =?utf-8?B?S0VaSFQ5Vm1nY29YeHBJOVhxS0NyaEN4VGlSNTVGNyt5cmpHTE9GOWk0M3Rv?=
- =?utf-8?B?RUlrU3N1RU55ZGZzVUtMN3JvZ0RsWWk4aXNyRkxNL244Nk1JVXR2LzJrdFo4?=
- =?utf-8?B?QzA0WXIxRktTSUQ5KzJKTm9paFZFc3ZYLzBCMmdqZXM3L0E4L0tUQjNYZXFk?=
- =?utf-8?B?bzl4RGRTYzFoS2svYlpGa2ovWGlHTzNzcm50NnJPQk9WRk1jOXNLTTAxKzdO?=
- =?utf-8?B?OXFSTmZPN2QvYlZMdzVJcEd0QkJZS050UCtqeEhhaW5KYkM0dHhBQUxCNmF5?=
- =?utf-8?B?M2ttU04rL05UZElSb2hDbjBrdjYvM1gvSDRrTWFHOS9tSldjRnZ6dGpwM0Y2?=
- =?utf-8?B?OXcxRTlNcWV0SjJqeW9LWWpJU0xYdWFwZEtoeVU4TjNuUnp6WWRteDMrQjJY?=
- =?utf-8?B?SUNFZERySDdSRnJJczAvSEErNFVBMUVxU2NzS1B0R0ZOR3BmaFB2N3JseHQv?=
- =?utf-8?B?aHFkWUM2UENFeHZQNksxK21Od2orWjRBbFByeEhHTlkxNTV1UGxDWG13Sm41?=
- =?utf-8?B?ZHdWYkRpcDdJN1puaTZyVmhEOGYzNHlmWlpTNXBWMExxTTBMcERvOHo3Mzlu?=
- =?utf-8?B?dmNZVDRIdThic0JSMkNQckx4aHZrZDZHOE9SWUR2NkQxTmNNMG1GS0dJZlJj?=
- =?utf-8?B?WTRvaWo2NVpHZHV0RmxrTGZBN3hsS1RyUnVhTjBTL2U4UWdLcDBDOHdlRDBa?=
- =?utf-8?B?N3dZK20wcSszaEdlSUxOLzExS2haTFhNbk5lcTlOaTB3dkF0TnMvSGpWdHdV?=
- =?utf-8?B?U2o4QWhLUm51QTB3anExV0hITVo5YjhZTWZST1Bac1hOeHI2cUhTQnBxYVRy?=
- =?utf-8?B?dlovMFh1R3NTV3dpMm41dVgzNEFNWElkZkZVV1cyOGFYSXBZNlVubHlYcUVL?=
- =?utf-8?B?dGxWajJ0MGw0SGh4SjIvcEVYMzMxOWM5R1NCZ2VXa0tLNkcyaEN6a0J2RjRq?=
- =?utf-8?B?czJtb2hBbjNPbDlwejB1SUx5KzZTZ2t4OXRqbzduNzRlWXpRYUxhemNWeFM0?=
- =?utf-8?B?UUhGM2l3a0NOaDY1SzJLY1lmTTYrZ0ZBVVQwalMzeVdBTTliWi9qSGJvL3Yw?=
- =?utf-8?B?UmNNeG9OSHQ0TlhBblMrb09sRENiMzVVb2xybEszSmFEcnl1RDUyYU9wV1Rs?=
- =?utf-8?B?aEIySmZuZU0yNTdCVzM5WlQrVnNndDZOVTJPc3EzOW9UdEZtd0pWS0VFdVdK?=
- =?utf-8?B?ang2QUk1bDRmRnRhOUVkSHlkWG9XbjJyVGFPRjRlY2NJdzU4Vm1uakRvQjFm?=
- =?utf-8?B?TlIxeHNHTmZnZXgycmpBWVk1TDZRcm9oSm0zbFd4MTlRdGxtUXhSdDhLbFha?=
- =?utf-8?B?bUZaVnhYMVNYRW5aSUdsVHNXVHZVWHNxTFo1YVlhTGlQUHIyWmFINTBpa05s?=
- =?utf-8?B?ZFdhaFNscFJUYVpaenJ1WCszcHRIS0xhRk4wYVQyUU5qSFNUR0F5MGRIakdN?=
- =?utf-8?B?RDV3cUhsNDRmOVVIKzRvK2c0QzF3UkFXc29PVU5GTmNFQkdiaHAxSk9xcTFn?=
- =?utf-8?B?cCtPSm5CVkpLMjRlYTFVVjFPRlRpYTNlMy9MYWFFT0xGK3lIa2ZYRzhTZ04v?=
- =?utf-8?B?bnFWZUpib1Y3TlJRb3QwN1dHZlIvNlpXOFhWbjhqaFFYTkxFRjNnY0I4UGd4?=
- =?utf-8?B?c25IOXVnNzY4WVVtNGlDOEdhaGJoeWxzTjRjWGh0eHVMdjhlSk5aVnZIYmF0?=
- =?utf-8?Q?3aUaGX?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 12:17:01.5301 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e30af6b7-89a8-4d3c-6e37-08ddf6ad45c2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001D3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9168
+Content-Type: text/plain
+X-Originating-IP: [2620:10d:c0a8:1b::2d]
+X-Authority-Analysis: v=2.4 cv=H6zbw/Yi c=1 sm=1 tr=0 ts=68cbfaff cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=yJojWOMRYYMA:10 a=Ikd4Dj_1AAAA:8 a=K8UWYa9OKnGta0qZC_oA:9
+X-Proofpoint-GUID: ZImvgmQS0UbOax2DQ-586paFWLlyJOK7
+X-Proofpoint-ORIG-GUID: ZImvgmQS0UbOax2DQ-586paFWLlyJOK7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDExNiBTYWx0ZWRfX+t/DLb3/wcJO
+ VdnVVdyaFjelpm5ethMiMrJ0GLnxWv2EOnh0DeHIYvc4eZY3GUJo7+higP3SJYTIXJikjRYAT36
+ 0ffqylSzfqylOL6k7jlXMsj8+iLWD1XwvaCWdh9CCUazYkBCIXaILZw1Wz8GfFf9Vy8Aqyr8bxe
+ GCLpoxBewYIONgvMTJRlm2deijGxwpmw6kBGdp+iwejKNZ6/TT/iJJWNdV5ow8me4IKrD5Lerqy
+ S15dKO6er4CuYMzEBYUJr4JACF2gU6aoY0rLHT64HRHNKsvHpDf0L4HnYd8jhUv2gahF2QuLxAK
+ Dxw7Zj7fWXHzLmVkplYdrFDS8WZzc4D53x3qhAD8n53OvHvWDkr5U9isB2K3+k=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-17_01,2025-09-18_02,2025-03-28_01
+X-Mailman-Approved-At: Thu, 18 Sep 2025 13:15:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,67 +99,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On 18.09.25 12:32, Thomas Zimmermann wrote:
-> Hi
->
-> Am 17.09.25 um 21:43 schrieb Nirmoy Das:
->> The busy-waiting in `mdelay()` can cause CPU stalls and kernel timeouts
->> during boot.
->>
->> Signed-off-by: Nirmoy Das <nirmoyd@nvidia.com>
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
->>
->> Sending this as RFC as I am familiar with the code and not sure
->> if this transition is safe.
->
-> It's only waiting for hardware, so most likely safe. I'll give it a 
-> try before merging the patch. Thanks for this fix.
->
+[ apologies for resending this, debugging sendmail ]
 
-Perfect. Thanks for also trying it out. We tried it on older kernel and 
-it helped.
+Hi Balbir,
 
+On Mon,  8 Sep 2025 10:04:34 +1000 Balbir Singh <balbirs@nvidia.com> wrote:
+> Add routines to support allocation of large order zone device folios
+> and helper functions for zone device folios, to check if a folio is
+> device private and helpers for setting zone device data.
+> 
+> When large folios are used, the existing page_free() callback in
+> pgmap is called when the folio is freed, this is true for both
+> PAGE_SIZE and higher order pages.
+> 
+> Zone device private large folios do not support deferred split and
+> scan like normal THP folios.
 
-> There are other calls to mdelay in the driver. Should they be replaced 
-> as well?
+[ ... ]
 
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 46cb1b0b6f72..66f9186b5500 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -453,11 +452,15 @@ void free_zone_device_folio(struct folio *folio)
+>  
+>  	switch (pgmap->type) {
+>  	case MEMORY_DEVICE_PRIVATE:
+> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
 
-Haven't observed any issue with those calls which occurs at shorter 
-intervals and may be that is why they didn't cause a blockage.
+Here we're dropping nr refs
 
+> +		pgmap->ops->page_free(&folio->page);
+> +		folio->page.mapping = NULL;
+> +		break;
+>  	case MEMORY_DEVICE_COHERENT:
+>  		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
+>  			break;
+> -		pgmap->ops->page_free(folio_page(folio, 0));
+> -		put_dev_pagemap(pgmap);
+> +		pgmap->ops->page_free(&folio->page);
+> +		percpu_ref_put(&folio->pgmap->ref);
 
-Regards,
+Here we're dropping one ref?
 
-Nirmoy
+>  		break;
+>  
+>  	case MEMORY_DEVICE_GENERIC:
+> @@ -480,14 +483,23 @@ void free_zone_device_folio(struct folio *folio)
+>  	}
+>  }
+>  
+> -void zone_device_page_init(struct page *page)
+> +void zone_device_folio_init(struct folio *folio, unsigned int order)
+>  {
+> +	struct page *page = folio_page(folio, 0);
+> +
+> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+> +
+>  	/*
+>  	 * Drivers shouldn't be allocating pages after calling
+>  	 * memunmap_pages().
+>  	 */
+> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
+> -	set_page_count(page, 1);
+> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
 
->
-> Best regards
-> Thomas
->
->> ---
->>   drivers/gpu/drm/ast/ast_dp.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
->> index 19c04687b0fe1..8e650a02c5287 100644
->> --- a/drivers/gpu/drm/ast/ast_dp.c
->> +++ b/drivers/gpu/drm/ast/ast_dp.c
->> @@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(void *data, 
->> u8 *buf, unsigned int block, si
->>                * 3. The Delays are often longer a lot when system 
->> resume from S3/S4.
->>                */
->>               if (j)
->> -                mdelay(j + 1);
->> +                msleep(j + 1);
->>
->>               /* Wait for EDID offset to show up in mirror register */
->>               vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
->> -- 
->> 2.43.0
->>
->
+Here we always bump by 1 << order
+
+I hesitate to send this one because I don't know the code at all, but the
+AI review prompts keep flagging this apparent refcount mismatch, and it looks
+real to me.
+
+Are the differences in refcount handling inside free_zone_device_folio()
+intentional?
+
+-chris
+
