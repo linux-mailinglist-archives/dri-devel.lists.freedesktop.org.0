@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7201B82675
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF1AB8267B
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:43:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6AB10E233;
-	Thu, 18 Sep 2025 00:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626CA10E5B1;
+	Thu, 18 Sep 2025 00:43:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pM2MptFk";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MQEBxFJn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC5010E233;
- Thu, 18 Sep 2025 00:43:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3839610E5B1;
+ Thu, 18 Sep 2025 00:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758156215;
- bh=Z6iykqCP6Bbd7PBUQgPY8pKSQ5qCdgcJUbUJzP8DED8=;
+ s=mail; t=1758156222;
+ bh=oIxIPGQlrXOfjm6KSf9LsiAQyBl4V4YpT869PKJy9x8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pM2MptFkYNNDQVN4K4crDOWD/pgYcJJrmdYdrbZeDNjgyuyzkdxHwKZeqbMseUcNh
- Oq2ZBopXtgfd6WLkiYl4D+zuIInAuLHFS9/ifD4ngih1hmmG2LU/X+B3U/OmcxgXcA
- 9FB9JyTnOEG0kzkVOSwYZO2/rsVFBvsgE3XP6wU4REXitwPRO+24f4U1d5Gg/XHbVR
- bWmUM8DV1onFFXKI3nVfpDfZWsW1akVXJ3cpWGxH14++CcVX5BeyV1XeJZKKOObUqt
- 4tJMRbEmTXbcfDXyJ37e/S5OT6GKRmBYkt7jB87ss5mTPEpS/hhzr9jiPBqgTvInHe
- 7Xls11vrMn4PQ==
+ b=MQEBxFJnDjGQ+h92SznrP6H0guP3tSWkQn9Bik79ix4N4j2H6uOuDZhj1Qc2aFoHB
+ MpOvOCuI8J2FSRAttJ7jQQLhVWotwu8AmD14IvZrVkXQ/3lNNtiQUaTB8HdKE7F/QS
+ UaGPKEZObyq2pAVKPPasutDQ6B7My897bOk8gWDMNyR+Xf1DPBpExbkqSptU8rBqjT
+ S6uUAjuzw8NHYt1ylVqUqRsa76QgNWgJ9SNEynDVzUmo/+tXw35uU716awulN1pmK7
+ Q94s2gku91IpjdZvhBgtWOnJnCUkZfMSKvRBlkT5IToI3V/e4FympKane7532H0z8B
+ AoFrh+1ynWUlg==
 Received: from [127.0.1.1] (unknown
  [IPv6:2600:4041:5b1a:9400:62f0:406e:ac79:4a96])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 530D117E0DC2;
- Thu, 18 Sep 2025 02:43:29 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1711F17E130F;
+ Thu, 18 Sep 2025 02:43:35 +0200 (CEST)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Wed, 17 Sep 2025 20:43:11 -0400
-Subject: [PATCH RFC v2 02/20] drm/colorop: Allow parenting colorop to CRTC
+Date: Wed, 17 Sep 2025 20:43:12 -0400
+Subject: [PATCH RFC v2 03/20] drm: Factor out common color_pipeline
+ property initialization code
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-2-ac4471b44758@collabora.com>
+Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-3-ac4471b44758@collabora.com>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -82,40 +83,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to allow for post-blend color pipelines, colorops need to be
-assigned to a crtc rather than a plane. Add a crtc to the colorop
-struct to enable this. Either the plane or the crtc will be set for any
-given colorop depending on whether it is part of a pre- or post-blend
-color pipeline.
+In preparation for sharing the initialization code for the color
+pipeline property between pre- and post-blend color pipelines, factor
+out the common initialization to a separate function.
 
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- include/drm/drm_colorop.h | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_crtc.c          | 44 +++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h |  5 +++++
+ drivers/gpu/drm/drm_plane.c         | 36 +++++-------------------------
+ 3 files changed, 54 insertions(+), 31 deletions(-)
 
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index d61c6c40e47162cb8b1e7db58b6746c43ac5d202..7a4e0d0c4a3d594abecef304b1d5990434cdb231 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -206,10 +206,16 @@ struct drm_colorop {
- 	/**
- 	 * @plane:
- 	 *
--	 * The plane on which the colorop sits. A drm_colorop is always unique
--	 * to a plane.
-+	 * The plane on which the colorop sits if it is a pre-blend colorop.
-+	 * In this case it is unique to the plane.
-+	 *
-+	 * @crtc:
-+	 *
-+	 * The CRTC on which the colorop sits if it is a post-blend colorop.
-+	 * In this case it is unique to the CRTC.
- 	 */
- 	struct drm_plane *plane;
-+	struct drm_crtc *crtc;
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 46655339003db2a1b43441434839e26f61d79b4e..94e60cffd29972aa979ac2f1932be7a6a97f3ada 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -959,3 +959,47 @@ bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state)
+ 	return hweight32(crtc_state->encoder_mask) > 1;
+ }
+ EXPORT_SYMBOL(drm_crtc_in_clone_mode);
++
++struct drm_property *
++drm_common_create_color_pipeline_property(struct drm_device *dev, struct drm_mode_object *obj,
++					  const struct drm_prop_enum_list *pipelines,
++					  int num_pipelines)
++{
++	struct drm_prop_enum_list *all_pipelines;
++	struct drm_property *prop;
++	int len = 0;
++	int i;
++
++	all_pipelines = kcalloc(num_pipelines + 1,
++				sizeof(*all_pipelines),
++				GFP_KERNEL);
++
++	if (!all_pipelines) {
++		drm_err(dev, "failed to allocate color pipeline\n");
++		return ERR_PTR(-ENOMEM);
++	}
++
++	/* Create default Bypass color pipeline */
++	all_pipelines[len].type = 0;
++	all_pipelines[len].name = "Bypass";
++	len++;
++
++	/* Add all other color pipelines */
++	for (i = 0; i < num_pipelines; i++, len++) {
++		all_pipelines[len].type = pipelines[i].type;
++		all_pipelines[len].name = pipelines[i].name;
++	}
++
++	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
++					"COLOR_PIPELINE",
++					all_pipelines, len);
++	if (IS_ERR(prop)) {
++		kfree(all_pipelines);
++		return prop;
++	}
++
++	drm_object_attach_property(obj, prop, 0);
++
++	kfree(all_pipelines);
++	return prop;
++}
+diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+index c094092296448093c5cd192ecdc8ea9a50769c90..e3dbdcbfa385b940ec0b5476adde6146fe4afde1 100644
+--- a/drivers/gpu/drm/drm_crtc_internal.h
++++ b/drivers/gpu/drm/drm_crtc_internal.h
+@@ -35,6 +35,7 @@
+ #ifndef __DRM_CRTC_INTERNAL_H__
+ #define __DRM_CRTC_INTERNAL_H__
  
- 	/**
- 	 * @state:
++#include <drm/drm_property.h>
+ #include <linux/err.h>
+ #include <linux/types.h>
+ 
+@@ -79,6 +80,10 @@ int drm_crtc_check_viewport(const struct drm_crtc *crtc,
+ int drm_crtc_register_all(struct drm_device *dev);
+ void drm_crtc_unregister_all(struct drm_device *dev);
+ int drm_crtc_force_disable(struct drm_crtc *crtc);
++struct drm_property *
++drm_common_create_color_pipeline_property(struct drm_device *dev, struct drm_mode_object *obj,
++					  const struct drm_prop_enum_list *pipelines,
++					  int num_pipelines);
+ 
+ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc);
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index f6cfa8ac090c7bc49c7f276993bba7e9800da140..60dbfcab495600dd44c15260a1fa6135db59c6e2 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1839,43 +1839,17 @@ int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+ 					     const struct drm_prop_enum_list *pipelines,
+ 					     int num_pipelines)
+ {
+-	struct drm_prop_enum_list *all_pipelines;
+ 	struct drm_property *prop;
+-	int len = 0;
+-	int i;
+-
+-	all_pipelines = kcalloc(num_pipelines + 1,
+-				sizeof(*all_pipelines),
+-				GFP_KERNEL);
+-
+-	if (!all_pipelines) {
+-		drm_err(plane->dev, "failed to allocate color pipeline\n");
+-		return -ENOMEM;
+-	}
+ 
+-	/* Create default Bypass color pipeline */
+-	all_pipelines[len].type = 0;
+-	all_pipelines[len].name = "Bypass";
+-	len++;
+-
+-	/* Add all other color pipelines */
+-	for (i = 0; i < num_pipelines; i++, len++) {
+-		all_pipelines[len].type = pipelines[i].type;
+-		all_pipelines[len].name = pipelines[i].name;
+-	}
+-
+-	prop = drm_property_create_enum(plane->dev, DRM_MODE_PROP_ATOMIC,
+-					"COLOR_PIPELINE",
+-					all_pipelines, len);
+-	if (IS_ERR(prop)) {
+-		kfree(all_pipelines);
++	prop = drm_common_create_color_pipeline_property(plane->dev,
++							 &plane->base,
++							 pipelines,
++							 num_pipelines);
++	if (IS_ERR(prop))
+ 		return PTR_ERR(prop);
+-	}
+ 
+-	drm_object_attach_property(&plane->base, prop, 0);
+ 	plane->color_pipeline_property = prop;
+ 
+-	kfree(all_pipelines);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_color_pipeline_property);
 
 -- 
 2.50.1
