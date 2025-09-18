@@ -2,92 +2,197 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF67B84D3C
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 15:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC24B84E7D
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 15:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92EEB10E8B3;
-	Thu, 18 Sep 2025 13:30:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E0F10E8C4;
+	Thu, 18 Sep 2025 13:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aOUkWhH2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G23orj9S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFDF10E8B2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 13:30:13 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-7761b392d50so1281249b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 06:30:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758202213; x=1758807013; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4iiwLuAxDHP9nes3VG9Yx/lVPEQs5Q0ILzvPHO1VnMc=;
- b=aOUkWhH2OE6Iikrg25SSYLo0YhT6owo9dlw1GW0GF1+9RvfCnpVjNDXIRkTMfWdefM
- 6ZqLEwQHMyOtE8GcvDHwZ9nw5ZJlttfZwIsA6xTqFr98z5TQ7kU4DcLAA0aZJOyQdMbt
- 3BqkmXj7IjynbUY5U/uzyVFZm96Z3EDiGDn3HTCDDFhglEiGtAAlJXzq7u5Xk0+qgGv1
- QbhULWsEi6gUmQpNYYhrwZkxwuo5MkOsrbv1B0vpnf5CSdvKM1bCN1VzDkuPGQYq03uh
- CKgx38txApjBWPcrkekFoqC+/wg9t7cslS3nvU4I0eC6vTjO0Oy5Q3Qy+T90+JDwuLAE
- zTrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758202213; x=1758807013;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4iiwLuAxDHP9nes3VG9Yx/lVPEQs5Q0ILzvPHO1VnMc=;
- b=Nv5AUUmqzzqO+RQHqsHgRxNoYbrQyp+ZHpt7i/g6YxOw92FkJgSV6o42I+grwhGeFo
- 7ilE7Z151OWOOUfz7j3ozlXrqIAN/ra/NI2h5sCjg3ymZwzcGzNAlPA4Oe2bpV48cjs6
- be8AhnibAdhIzOWBwdCj/22DmaGXRg3J6KjvMzuKLhmrT5GPkTdc5lVNV3vRqwwdkJ8n
- KgAdc2RYh3geqjM8ZZz104I27n5vvHmGXjtvtvmXy56gFj6oXb7KupFokCxSP2Mgl317
- kBx3l0+PLACb0ie7Igc83MG42XfZxNoCe1qHE2Ob5D9Kht4iMNBGp2hpaWZGR22PuV9M
- QA2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUwqPEW/QACTeEGkYmw8axQoLt5euZAv0CcuI7PcWeOB5N4ELSBF+3LCpW5gS+QXib7Ycf/LE5Skgo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyjzzlih2nkLogX2ZDWB8hevWBIjoZIxoeEAiSUE0X3RYEJVbU2
- WdCGvKXowqW33jJUs9gOE+PoC+AjZCLs1sHfUn3D0hIOfTAHoTUiz795p5clnPA4s5A=
-X-Gm-Gg: ASbGnctS+RBe94wIR2wDK6iLXizWI0kBjakBjvirPAuU+YYknoE3hprQRU/BinAdsQh
- w92USx0pvUpvPP8NaoixPqRyZSPPj4EbFeOGuQujwYGE1hf+FmsaHbvxzN4205kvhkO/nyEmjl1
- ZoYB3hk5v9sqYlJT3/BYcRsE97g4pTMghBZKvQJZ/mqM2yVUudjTNjqpYfDmb+ZHm41iqYzpwsJ
- Tc6uoa/d60K2iLNzhYFL/+eqpUD1ac0riKfcRZ+SVWPKEOdKxGxKrVw02vO7zw2Iq3Z39347QCt
- H540HHhqrSFjZ+VVnNRE74m6UsvFK+owRONWNQEdONk6+AhGOQZB1loTCwOXtIrDSUFpWDA9gl/
- fLNE/VaI7hOtnQ4XRf7zmqUNFfMh0WxtY0ss=
-X-Google-Smtp-Source: AGHT+IEmY9pyA8E4Bw454wiRLpK/QDxyfhJlmzd3+hQt52KxBpNF93GYZBgVixN0JCRosBR/17TNDQ==
-X-Received: by 2002:a05:6a20:7f8c:b0:263:767c:28e1 with SMTP id
- adf61e73a8af0-27ab34e6646mr8272296637.42.1758202212681; 
- Thu, 18 Sep 2025 06:30:12 -0700 (PDT)
-Received: from [127.0.1.1] ([112.64.61.5]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b54ff35cc76sm2331479a12.10.2025.09.18.06.30.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Sep 2025 06:30:12 -0700 (PDT)
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 18 Sep 2025 21:29:02 +0800
-Subject: [PATCH v16 10/10] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6406C10E8C1;
+ Thu, 18 Sep 2025 13:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758203333; x=1789739333;
+ h=resent-from:resent-date:resent-message-id:resent-to:date:
+ from:to:cc:subject:message-id:mime-version;
+ bh=Aa9DyO78/A663fyE4Sz9EvYuZA9+lvgfFXFqxd7MR8I=;
+ b=G23orj9Sujj7UDv+jvvL0ILlc1rCka16VfFI/nkcUNZfzfZzFVgTLD6A
+ LcN9heu6zfcckd42xQyznyb9+Vo8qzbwPYst4ukCMBRPz8wKgeRyz9fWC
+ UehF+3GI2u/e0ok8dHn2q4hK6GMXXVm5vaxjjoeKgOavVoHn3jfhzr5Ic
+ FT/pG0D+EfxXGH3sd0xz8dG5auXZx1G4oMGMmoN9r/DLLSS5Wmcm+t345
+ 39NBNY7YP16v/zzK7tWSXDwOFca255W+ylA9a7rghs8dQxOuDGW8IeK7Y
+ 5PV4xQTXfs140kgH75d7WMgMcBZLlKzcTsOcKWj1ZUH9Pgjg1XPsry/NJ g==;
+X-CSE-ConnectionGUID: FQ43q/97QU6ND4TU3BSxKw==
+X-CSE-MsgGUID: h4cOm47pS7+2FrPxxFo+qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="59752705"
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="59752705"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2025 06:48:53 -0700
+X-CSE-ConnectionGUID: PhG1OdMaQHGDxysQsjGvkA==
+X-CSE-MsgGUID: xAxrDvaORRSKOwzvZb7FSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="175118727"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2025 06:48:52 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 18 Sep 2025 06:48:50 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Thu, 18 Sep 2025 06:48:50 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.56)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 18 Sep 2025 06:48:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GsXJ83cohiHnKPK5XacOzGXTCY8q4q/fxUZMsD6cVW5Fqlnn5KD/+XwHNWjYpZdgvEBbNd1LU6LpdcO5CDa4G0KmQpZgHCqJoyfL291h+C6eQwyHNLQCRd2Z20TzarfaNnFXr7jfOV+NUkBzmkniGKQOorbKMSmu/msY4FNPVsKCn2NZ7eAI5svq5R+AcDYjnI6dFWx3h5jzUvxiJLtS8HOoRP8qeZ9BTAsmFw9RipGF5+t1bVowKn/2ue4MiAKC9gbtly+5NYnEhN4EXZXwF+y3x6iufpNlxrfApvE3us5xGlge29yRKsbpBPEeoLBi+YGKXbvpcWCGqaU0qL6MJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vaQJUqTXJE20GlC2WMDfTWKCcnW3pA2tT5msvzdcA2k=;
+ b=tqVZ+Ni3OMUy7GeQxPOsfBq2XgViiq/1c0UkfkC2c4BbPQ39Qz6Bz2V4SotV1Bm3NIF6TkqdQt2p254Jf3djJzWZQeee41mE2xpOgjAf6qVCfz9QpCMEtD2wPEKzeHK+Gh7hnHB5touLvOyMG1kyqV87V7Pujs5yqJh4io4uj1dxjs8QN+f0JurtLklJh/VXOotXTGZDYEFrH1Ki3xSQUkxqEXO7nWwqTkgydlNBC6qcnVALHUVszLK/lK8flqNyhPNBtDJKJJsrMMjoeKekQwjVKFAs4aMD/tKD+RFcGX0IU2m50CXqL0ao8cc8p8rLd5o0ovQ04KT4cMnKkYQ7rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by CO1PR11MB5204.namprd11.prod.outlook.com (2603:10b6:303:6e::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Thu, 18 Sep
+ 2025 13:48:48 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
+ 13:48:48 +0000
+Resent-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Resent-Date: Thu, 18 Sep 2025 09:48:44 -0400
+Resent-Message-ID: <aMwNvM2GaeuWcpMm@intel.com>
+Resent-To: Dave Airlie <airlied@gmail.com>, <simona.vetter@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <dim-tools@lists.freedesktop.org>
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Date: Thu, 18 Sep 2025 09:41:02 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aMwL7vxFP1L94IML@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BY5PR20CA0021.namprd20.prod.outlook.com
+ (2603:10b6:a03:1f4::34) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CO1PR11MB4930:EE_|CYYPR11MB8430:EE_|CO1PR11MB5204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a83dcaf-9a3e-45cf-0881-08ddf6ba17e2
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|35042699022|376014|14060799003|1800799024; 
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(35042699022)(376014)(14060799003)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e265553-40ef-4ebb-17bf-08ddf6b90537
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 13:41:07.6541 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NhLmch6xjNAOe3vhYXe7xD81l9ON8KIiSJ1yiR9l7ZFk87qT8ffLMunOfKc2GLObBNV8ZeSBlYsbpySA12DKlA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4930
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:02.2542982
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.9137.005
+X-Microsoft-Antispam-Mailbox-Delivery: rwl:1; ucf:0; jmr:0; auth:0; dest:I;
+ ENG:(910005)(944506478)(944626604)(920097)(815096)(255002)(410001)(930097)(140003);
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HY10NIDn3azHFRkQF9O/y1AFOzx0bHn6d6YsvtkUUGDEKp8gch8sTURUYsao?=
+ =?us-ascii?Q?EdRHNhb86spc6eiulnZVlPbgzHnemZnEzsLGN23moaTSpm9o9au6paPl2W84?=
+ =?us-ascii?Q?R1fGFlXjoblO45zqq+vYzuXxLnPAUJ0ie5kM/Y8LZMLnaLwoi9l2ILO3zUb9?=
+ =?us-ascii?Q?fCPtF2elIFUe70VX5/6rbouXNKr954VW3XHyVq7Na7ps+Al/Xz+jZwL1MRal?=
+ =?us-ascii?Q?N6ZCz7OBmAhP4FS5ko4JlMvX5sMDXp43V6hQi2IBcEWVU3qRssSu8hIlxBvB?=
+ =?us-ascii?Q?nOreFUD0fzA4ZJd+TSgm6cFxPnlQleLfegJyGZM2YBc7Qf5ZtGJ/1SblnZk0?=
+ =?us-ascii?Q?OrnYNF+5y4sEhNFX6uFACshkBKJSmWQZpKI7es6Ap/wFZpS2QoHaqTpeEc6p?=
+ =?us-ascii?Q?BSJzzFYkIY/EbZu/xlMKY3kexaYNGv1qmAJDQL10A1m+KMKVfYxuxi18M/0h?=
+ =?us-ascii?Q?B1Ds/LyYYezg2axXMQIsXemuOM0+bnBuNQr9DTQeLrfb4SRKILgW7dyV5S5y?=
+ =?us-ascii?Q?WvgTvEZ9umeJSQUovF5jm6ekWRdhTsdF6isyGXuNFd2Hw/bEyIL+LaRAdSde?=
+ =?us-ascii?Q?cIRGLX8yqzfg3Q3JiNUnzMHnYUcr6znU1feMADWszlRdLuzqdHuYsuXTMz2L?=
+ =?us-ascii?Q?eKVw2NG4M1xxC8DTOMCoy44b/2UffTOUqLEvxBaUEV8CRZdug8ycS1nT2xgN?=
+ =?us-ascii?Q?QOtHOGReSPuvi50Y1tGUFp08kJRGtkMkbZ+DO0307VApiHFwDBq+J54pDmEg?=
+ =?us-ascii?Q?F1M5Ia5ND9Bv32dX6R5cV5YZUyR3/czvVlZ2W/gEdz5ys79KlXgQsY3mimMM?=
+ =?us-ascii?Q?Ev+7EiQL7mtei3H5vXcJRmk303ROdwBcbrpm9jFMdJ/bCF/dp0SDPU0LlKkE?=
+ =?us-ascii?Q?ImDBVZ+J25DsE61TN/nmsRDs8p/P+py5t+0BXF//D4eEsahCR/J/BiU8yH0F?=
+ =?us-ascii?Q?3eZz527JQ0kgB+L9Wsdn7YpZRB2DjEGVTGQfqMv7oD/IL9swqVqUJeFv5CFi?=
+ =?us-ascii?Q?+QAUAmZm6oIYJkGsVi8UIer03e+fgNs016K/Ho2OgKdOEAZ5ysbYPMCypLuE?=
+ =?us-ascii?Q?fRFgctj56Jyou054HBXpbt2OVZmVhEZuC7wb4nfkfwTqtHkLuBHaPNbpv+xw?=
+ =?us-ascii?Q?V1s5wOSDIxlNGrB6WeRTPBYjfYf116dVXd3gdtjDnUaY7/HeH6Y9sxsOXzYe?=
+ =?us-ascii?Q?6j2xpMR3WzApvppdd1Tcbtf0lNvrB6PHaglK8gnRXFsRZ0qRrKSzPnF4cYRn?=
+ =?us-ascii?Q?zz64LzFI77rOXMT6BJz3qliCxwN8imn2JS8GHCNwlVgJdZBXeT7+VciUv2RA?=
+ =?us-ascii?Q?ilN+9cLaussjjTbK20nNvpH09N0beqaSfOcwo/LNnCI3zJLdiT3DOvC67VW7?=
+ =?us-ascii?Q?Igc5TbA=3D?=
+X-ClientProxiedBy: BYAPR06CA0067.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::44) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
-In-Reply-To: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
-To: Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758202147; l=8147;
- i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=RnZk0AxApC2cXL1UUCfzBA0NW7fSXzJTNG/igbpoTYs=;
- b=DwPZxT6CuV2+Y8HoyEddbThJnH4mF9vwAAt/3ikL8I6Kts+WzfZa2TAIVPxdYleVidjn/FtTQ
- komvUr4HA3mANzBXpDL4+4vws6EItZRP/CYUWe9MOkxX/syLvS9NURj
-X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
- pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 2e265553-40ef-4ebb-17bf-08ddf6b90537
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ULEmkSGNqgE0mf5nYwM5lAF//yyp5GfjAt40zbXlZ6sS8RkbD8BVYoZer9R2?=
+ =?us-ascii?Q?IRqCVBhyJ5nvHtxGwDoAShWjnTt7nDQAkibCCeBLS3Vso5w0wLUkbJzUNLMj?=
+ =?us-ascii?Q?8396rQjakO7DRKjkbnHoHesX0RKwIKUjgWjeS6O/opfPoj7GcwDvYduY4UWX?=
+ =?us-ascii?Q?Zo8YhjKGzw49z2t8quIEwYAHqVpqKoFYVFS1XTJ8eHLtPQVBoL6Hw0TmgHYy?=
+ =?us-ascii?Q?j3o8Utia14CR1jLFtOuVCLKkz+tOOAX5uyqNlCFbZUfVZwN4GttW3NSgNDfz?=
+ =?us-ascii?Q?S7vT4ac8y/VTYQ1L0KMNs9s/Zi9NfumZ+RH1QWS+VKsX6nNIDsJz4VUMXQzx?=
+ =?us-ascii?Q?Z0XFY1nm8O3qTRuGUiEdzJfcZqbObUs54mLtpqxjXkhKdl70nvcd4s4NwRQp?=
+ =?us-ascii?Q?GdtcFK5h6D7zB5Y9kcKRbEdm7q1DVzpIgFmntocsCyUnA/9xUcxofJvAejhc?=
+ =?us-ascii?Q?g1aJOjRpo/lHaJVH11bJ5/WhtOr+EXi+LMlm1n9O1FArOl2eaPUmirtXL/0i?=
+ =?us-ascii?Q?+Z3GGm0Az6auycWIHeAQljih4Q6/86gE9wpRcr9e8pzGW1Cfm0ks9DI4eqY1?=
+ =?us-ascii?Q?Snfb56QGKz1kVkt1onqe+s4ohoilnYQfFWEEd5AE23ie7CNDBSiVrx03GRqJ?=
+ =?us-ascii?Q?oW9BipxlEvUQW5neRgc8Yfx8JT7zPD+sehYRLn+YxfmpXoQNsOZJEtIFuPFg?=
+ =?us-ascii?Q?lmz6QYV0ffrx4vnsy2W+vb3s434AO55TYFr9YK2M0+HRqE1+CENSGap/EtDm?=
+ =?us-ascii?Q?n6EEKb6K50G1Zfa3ITPXfV3g4bzlGARO1AwyFzKf9XvvSFvfquWMJHUYiF1Q?=
+ =?us-ascii?Q?YxCwgCwVGV4U1zrILxJFB+ZxDR8A3oVYd3yRmXGKJ9K5v2C4SnYBAG2nE1dr?=
+ =?us-ascii?Q?jARb2f0McvWBXHHseRJnLQur5OrBz+3akHdWU+n9gRfbfZBudFemOreai/y9?=
+ =?us-ascii?Q?YzWMRGQPWWydwFHjOb+yoMz8YoeNGTP+MFWW7avTYYb0N56BLEK0M6UmHc3f?=
+ =?us-ascii?Q?OO/CpuEy/XDoMNbc7b6av7X6YlwdaGzv+ld9lZPqaYre+7XH7THSwHLO7cHq?=
+ =?us-ascii?Q?YIOXSviEcy2JFaPhNHRTD/axmud/21mZseqMUieKzd1g35dv9SuPYByp4MSw?=
+ =?us-ascii?Q?I8hq5piZHvpcWB5mxcCCHS8bI8xska3Ggr/H1RbJNGedgzsHpI6GsUivcuZo?=
+ =?us-ascii?Q?9OCSbXgw0XnOa9yz95W7XvPD/Wbysf81B8J2AzXm0mFTx9rMYlnzlfJ/SNuJ?=
+ =?us-ascii?Q?4vstR+4iCosEOcGy+0tpE3JMWpf+mSKvCOSM3TYiaHooKdPDHCD/r5/Ha552?=
+ =?us-ascii?Q?GFyYH5INb2ujyLSa+tQQkbTMB4YRwWqRpmww81xK9IO2ooZCyqroD5i87Vdx?=
+ =?us-ascii?Q?oqhG9UePh7iNRI++y08uvDD6RCvRrIuyt4oi6mBbB8wkgcSU50rTY38hPIh0?=
+ =?us-ascii?Q?P1nkXV3bHaaCv85YSohBiFagnheiF16LVtecVXffrJmsPgyjkhN8SDs/aIWo?=
+ =?us-ascii?Q?8rKmSm82E9bwHqz0mCMDF5bBZr6Zni8Xv+zVm0a+chj+tPvMVnPG+TiSe9df?=
+ =?us-ascii?Q?7VYPrw2Dbyl6reS8istYr7phE8t4/rDIA+PsEz5Wef21s/mwmEhDK2ZlJj1Z?=
+ =?us-ascii?Q?wQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a83dcaf-9a3e-45cf-0881-08ddf6ba17e2
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 13:48:48.3397 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fooGnjAl9A3XF9K5t+rqsR6nEpeZmH1lufju/y7ss71Fm8SJVioBEBqLAuJBQH9Q+/VrWdX/zb7iOgkkkocXDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5204
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,212 +208,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support high-resolution cases that exceed the width limitation of
-a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-additional pipes are necessary to enable parallel data processing
-within the SSPP width constraints and MDP clock rate.
+Hi Dave and Sima,
 
-Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-and dual interfaces are enabled. More use cases can be incorporated
-later if quad-pipe capabilities are required.
+Here goes our drm-xe-fixes.
+It has more fixes than normal for this time of the cycle,
+but nothing very critical.
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 +++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++----------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
- 6 files changed, 35 insertions(+), 32 deletions(-)
+Perhaps the most critical one is the RCS/CCS yield policy
+which prevents starvation in the CCS engine on BMG. A
+patch that was slightly modified to add a missing include
+that was preventing it to build after cherry-pick.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index e925d93b38feac0594d735fdc2c5b9fd5ae83e6a..7a88a26d04b46c7df86eebec27c7cda28725f6ea 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
- 		struct dpu_crtc_state *crtc_state)
- {
- 	struct dpu_crtc_mixer *m;
--	u32 crcs[CRTC_DUAL_MIXERS];
-+	u32 crcs[CRTC_QUAD_MIXERS];
- 
- 	int rc = 0;
- 	int i;
-@@ -1328,6 +1328,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct msm_display_topology topology = {0};
- 	struct drm_encoder *drm_enc;
-+	u32 num_rt_intf;
- 
- 	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask)
- 		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
-@@ -1341,11 +1342,14 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	 * Dual display
- 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
- 	 *
-+	 * If DSC is enabled, try to use 4:4:2 topology if there is enough
-+	 * resource. Otherwise, use 2:2:2 topology.
-+	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
- 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
- 	 *
--	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
-+	 * If DSC is enabled, use 2:2:1 topology
- 	 *
- 	 * Add dspps to the reservation requirements if ctm is requested
- 	 *
-@@ -1357,14 +1361,23 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check.
- 	 */
- 
--	if (topology.num_intf == 2 && !topology.cwb_enabled)
--		topology.num_lm = 2;
--	else if (topology.num_dsc == 2)
-+	num_rt_intf = topology.num_intf;
-+	if (topology.cwb_enabled)
-+		num_rt_intf--;
-+
-+	if (topology.num_dsc) {
-+		if (dpu_kms->catalog->dsc_count >= num_rt_intf * 2)
-+			topology.num_dsc = num_rt_intf * 2;
-+		else
-+			topology.num_dsc = num_rt_intf;
-+		topology.num_lm = topology.num_dsc;
-+	} else if (num_rt_intf == 2) {
- 		topology.num_lm = 2;
--	else if (dpu_kms->catalog->caps->has_3d_merge)
-+	} else if (dpu_kms->catalog->caps->has_3d_merge) {
- 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
--	else
-+	} else {
- 		topology.num_lm = 1;
-+	}
- 
- 	if (crtc_state->ctm)
- 		topology.num_dspp = topology.num_lm;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index 6eaba5696e8e6bd1246a9895c4c8714ca6589b10..455073c7025b0bcb970d8817f197d9bcacc6dca5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -210,7 +210,7 @@ struct dpu_crtc_state {
- 
- 	bool bw_control;
- 	bool bw_split_vote;
--	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
-+	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
- 
- 	uint64_t input_fence_timeout_ns;
- 
-@@ -218,10 +218,10 @@ struct dpu_crtc_state {
- 
- 	/* HW Resources reserved for the crtc */
- 	u32 num_mixers;
--	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
-+	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
- 
- 	u32 num_ctls;
--	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
-+	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
- 
- 	enum dpu_crtc_crc_source crc_source;
- 	int crc_frame_skip_count;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 55b83ba6102d38a9ec97bc4d12ad31810e4b261a..3dd202e0ce94eaecfc7e401e1c9e1fe43106dc9e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -55,7 +55,7 @@
- #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
- 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
- 
--#define MAX_CHANNELS_PER_ENC 2
-+#define MAX_CHANNELS_PER_ENC 4
- #define MAX_CWB_PER_ENC 2
- 
- #define IDLE_SHORT_TIMEOUT	1
-@@ -675,22 +675,12 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
- 
- 	dsc = dpu_encoder_get_dsc_config(drm_enc);
- 
--	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
--	if (dsc) {
--		/*
--		 * Use 2 DSC encoders, 2 layer mixers and 1 or 2 interfaces
--		 * when Display Stream Compression (DSC) is enabled,
--		 * and when enough DSC blocks are available.
--		 * This is power-optimal and can drive up to (including) 4k
--		 * screens.
--		 */
--		WARN(topology->num_intf > 2,
--		     "DSC topology cannot support more than 2 interfaces\n");
--		if (topology->num_intf >= 2 || dpu_kms->catalog->dsc_count >= 2)
--			topology->num_dsc = 2;
--		else
--			topology->num_dsc = 1;
--	}
-+	/*
-+	 * Set DSC number as 1 to mark the enabled status, will be adjusted
-+	 * in dpu_crtc_get_topology()
-+	 */
-+	if (dsc)
-+		topology->num_dsc = 1;
- 
- 	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
- 	if (!connector)
-@@ -2181,8 +2171,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_lm[2];
--	struct dpu_hw_mixer *hw_mixer[2];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
- 	memset(&mixer, 0, sizeof(mixer));
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 61b22d9494546885db609efa156222792af73d2a..09395d7910ac87c035b65cf476350bf6c9619612 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 
- 	/* Use merge_3d unless DSC MERGE topology is used */
- 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
--	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
-+	    (dpu_cstate->num_mixers != 1) &&
- 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
- 		return BLEND_3D_H_ROW_INT;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index f0768f54e9b3d5a3f5a7bec4b66127f2e2284cfd..21c980f8e2e3e8469055ff6bfbba1afdbb88bfbc 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -24,7 +24,7 @@
- #define DPU_MAX_IMG_WIDTH 0x3fff
- #define DPU_MAX_IMG_HEIGHT 0x3fff
- 
--#define CRTC_DUAL_MIXERS	2
-+#define CRTC_QUAD_MIXERS	4
- 
- #define MAX_XIN_COUNT 16
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index e4875a1f638db6f1983d9c51cb399319d27675e9..5cedcda285273a46cd6e11da63cde92cab94b9f4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -34,7 +34,7 @@
- #define DPU_MAX_PLANES			4
- #endif
- 
--#define STAGES_PER_PLANE		1
-+#define STAGES_PER_PLANE		2
- #define PIPES_PER_STAGE			2
- #define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
- #ifndef DPU_MAX_DE_CURVES
+Thanks,
+Rodrigo.
 
--- 
-2.34.1
+drm-xe-fixes-2025-09-18:
+- Release kobject for the failure path (Shuicheng)
+- SRIOV PF: Drop rounddown_pow_of_two fair (Michal)
+- Remove type casting on hwmon (Mallesh)
+- Defer free of NVM auxiliary container to device release (Nitin)
+- Fix a NULL vs IS_ERR (Dan)
+- Add cleanup action in xe_device_sysfs_init (Zongyao)
+- Fix error handling if PXP fails to start (Daniele)
+- Set GuC RCS/CCS yield policy (Daniele)
+The following changes since commit f83ec76bf285bea5727f478a68b894f5543ca76e:
 
+  Linux 6.17-rc6 (2025-09-14 14:21:14 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-09-18
+
+for you to fetch changes up to 26caeae9fb482ec443753b4e3307e5122b60b850:
+
+  drm/xe/guc: Set RCS/CCS yield policy (2025-09-17 20:23:47 -0400)
+
+----------------------------------------------------------------
+- Release kobject for the failure path (Shuicheng)
+- SRIOV PF: Drop rounddown_pow_of_two fair (Michal)
+- Remove type casting on hwmon (Mallesh)
+- Defer free of NVM auxiliary container to device release (Nitin)
+- Fix a NULL vs IS_ERR (Dan)
+- Add cleanup action in xe_device_sysfs_init (Zongyao)
+- Fix error handling if PXP fails to start (Daniele)
+- Set GuC RCS/CCS yield policy (Daniele)
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/xe: Fix a NULL vs IS_ERR() in xe_vm_add_compute_exec_queue()
+
+Daniele Ceraolo Spurio (2):
+      drm/xe: Fix error handling if PXP fails to start
+      drm/xe/guc: Set RCS/CCS yield policy
+
+Mallesh Koujalagi (1):
+      drm/xe/hwmon: Remove type casting
+
+Michal Wajdeczko (1):
+      drm/xe/pf: Drop rounddown_pow_of_two fair LMEM limitation
+
+Nitin Gote (1):
+      drm/xe: defer free of NVM auxiliary container to device release callback
+
+Shuicheng Lin (1):
+      drm/xe/tile: Release kobject for the failure path
+
+Zongyao Bai (1):
+      drm/xe/sysfs: Add cleanup action in xe_device_sysfs_init
+
+ drivers/gpu/drm/xe/abi/guc_actions_abi.h     |   1 +
+ drivers/gpu/drm/xe/abi/guc_klvs_abi.h        |  25 ++++++
+ drivers/gpu/drm/xe/xe_device_sysfs.c         |   8 +-
+ drivers/gpu/drm/xe/xe_exec_queue.c           |  22 +++--
+ drivers/gpu/drm/xe/xe_exec_queue_types.h     |   8 +-
+ drivers/gpu/drm/xe/xe_execlist.c             |  25 ++++--
+ drivers/gpu/drm/xe/xe_execlist_types.h       |   2 +-
+ drivers/gpu/drm/xe/xe_gt.c                   |   3 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c   |   1 -
+ drivers/gpu/drm/xe/xe_guc.c                  |   6 +-
+ drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |   4 +-
+ drivers/gpu/drm/xe/xe_guc_submit.c           | 120 ++++++++++++++++++++++-----
+ drivers/gpu/drm/xe/xe_guc_submit.h           |   2 +
+ drivers/gpu/drm/xe/xe_hwmon.c                |  35 ++++----
+ drivers/gpu/drm/xe/xe_nvm.c                  |   5 +-
+ drivers/gpu/drm/xe/xe_tile_sysfs.c           |  12 +--
+ drivers/gpu/drm/xe/xe_vm.c                   |   4 +-
+ 17 files changed, 209 insertions(+), 74 deletions(-)
