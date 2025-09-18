@@ -2,171 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF071B85EE6
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 18:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53803B85F3A
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 18:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D28D610E21E;
-	Thu, 18 Sep 2025 16:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B2010E153;
+	Thu, 18 Sep 2025 16:20:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LJv8wyfB";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gp/gjGYe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DD510E078;
- Thu, 18 Sep 2025 16:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758212135; x=1789748135;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=Ku52CgZIcbxCltSjgQhFiVH/OIEXrv2x2eGXOZdCRd8=;
- b=LJv8wyfBiMIaYcxM4xWuyZwGOj3aGL1VMwC2ydmRqsWW4Zc1XHv2BrfG
- 341vW+IF0Q8RrKfe/0uyAamLv/PHwLE/FxdON+x4ouCsGEw6FUjJbFt9j
- nav3+rAYzR1RMROYnC1vFQRNb/3JTLy30DY6GlNZHH+D72TXQh37KFzHe
- WjvkPvLzW6QEneeUWDXD6RGSb0aV8FH/GEA58Fm8jivoNXwx6tLty7hjU
- NUFQ02NIvbk9VnVvlnOQD3WFhCaWUUWxO4HSLLeklMDUQb2RQuzY1nWUB
- LacwnFMiwaXbJL+A5Lha8HJ1d1x72oEzl9d4RZsSXRWMq9GO1cz4x9xmd Q==;
-X-CSE-ConnectionGUID: osQVfLLtTsG3I/K6euFQgg==
-X-CSE-MsgGUID: rzjN1sxkRN2rYTdWRPCp0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="71660153"
-X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="71660153"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2025 09:15:35 -0700
-X-CSE-ConnectionGUID: 3SxKVXrbTKeeJM2Ob+XfOw==
-X-CSE-MsgGUID: t0s9IOXWTwGT2q50vj+9UQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="180004298"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2025 09:15:34 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 18 Sep 2025 09:15:33 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 18 Sep 2025 09:15:33 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.65) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 18 Sep 2025 09:15:32 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011029.outbound.protection.outlook.com
+ [40.93.194.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD2A10E153
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 16:20:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ngMET3fdaFUZV/HY4HHl9vxoWYLSJ+tyaaZqWzON2yPOT5NbPpPbsN8G8FhkRW8zkWPRxw4fMT18z9Mf/UOlFURPYVLRQKqhGu7i82qIAiCpjlLELAljr5rJLJGG2Ms2rbZqpGeNC5lR9vv2iTMLl/vUpLfQgp2W2x4jbTDuhpYNkit/FBPAOOcpbkko0mhdR/oYJNRtDSIrok+RGfeXP9y5pQsDy4pTeYgxIXeVmw2TGys0VOJWhYz9Ym4m5uCNlBpKBnUQ02Kvri4+MjnpzbwyvD3arvj+0yTtH2dRWciZlfPwVSqraqqyjfRDXu8aM/wtfQsNAWl+r4Dahp4e0A==
+ b=aPA94HU5FHApPwSfCt5/UrHnAqx/xfznmsqwDjV5E7W+12Rz8HvBzTZgyABHZWvbmhV6urDD2grUalsai+YXKnR0g4YWxfN3A/XghFZFnpKaT8o61TSnZY7kje5ocdFPWEwccXFQnf64b8YwVqwD8OwIDdAj0FDfR2P8kB0TBM8Ez17JWfa4/goxbQgQl1Jo8wTMh0EW0VHDW3RROJOvDEm32EgEz0eT9G39O+bhV5zM0MUi/hdRSbcRUY6UEoXz6xriXeV2MAnNnBRq2VqlOIFLLABIECa/rHwwjI1PdCzwDYkfXGIPWjdURqED1FUdf6GtbPZ3aW5daw1X/5nh3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kc91MoOldeiG61Xxy0klUrY9r++/ciQun6BlkNmnV34=;
- b=kRf9dJI4d3OtcfRevEXFuWejPJ8SoFO9Of6WqzKp2QJ93nWwoH0H/8Cx0+mu80OQf/0EufkoFeaxYYyA/i9CDs22GgCLg9hZWxP9DLKZ+kOKmuIyMrRORP10wXSvI7AqrtTxd8RelsW1RhhghsdJxSV+Zg6odwL4ohpcZanqVvY6CJVOZn/15c1kooYHdWznI86vgOlHcvKiXTOtqSzSP9ZRg/mWIIdaqbsWL0aqZzyw5/cqUGlawfIU4aAXA78GLTmiHDtkQIj3BtHEGPj2hvGG5iNJCI7Q4d148dbUD42DVx8Har2pbpVC4L8LpxFzWLx1OvMScONLt28+o7xKJA==
+ bh=6btu7Fg6jb9wU/HaNLkkF3rYbj21K6h0ZoHBQIy8mk4=;
+ b=RiC3B6YICeJsfhzSja5qTkE1BNnCgnbfE0Ha0Pe0ZKmaKodm1zasHg56oU53vh/GCofAIVqE7yCZ9eYZmGqXDBQHlmCB68Sza5Y5nefuI3GAQPNyr0TPxyxayXLBsXdqo33JCUjEScIDXeW3I7j+NGTx3loz+iVyWukFA6N+58SmppTc0YSa3nTn9WAp8i6JvMdeRllpXZqEIeCoQmFO3yXTxvWrvQMfPgRprJg3kOzPzOG1RbzGmawV+R3WAQ9q+xoDbCM7Tx+fIhX0cmRBpp3zcagVONuZGvtrNBSxZhAQWjiO0CZbPVqtGT+vWJxJEzLLOfQMaS3p0/55YDZvjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by CY5PR11MB6092.namprd11.prod.outlook.com (2603:10b6:930:2c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.23; Thu, 18 Sep
- 2025 16:15:28 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
- 16:15:27 +0000
-Date: Thu, 18 Sep 2025 11:15:23 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?=
- <ilpo.jarvinen@linux.intel.com>, <intel-xe@lists.freedesktop.org>
-Subject: Re: [PATCH 3/3] drm/xe: Move rebar to its own file
-Message-ID: <usudqsi5sfqyfklxpwu7penb6vvfg5prmtpazoixrbl34dck5g@poqf4wnnqd5v>
-References: <20250917-xe-pci-rebar-2-v1-0-005daa7c19be@intel.com>
- <20250917-xe-pci-rebar-2-v1-3-005daa7c19be@intel.com>
- <715252a7-3c33-4131-9619-c5e9b259d35f@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <715252a7-3c33-4131-9619-c5e9b259d35f@intel.com>
-X-ClientProxiedBy: SJ0PR13CA0164.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::19) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6btu7Fg6jb9wU/HaNLkkF3rYbj21K6h0ZoHBQIy8mk4=;
+ b=Gp/gjGYepJutvCaPUhYZQVfqpbMhMEutj5ORsHjBKOEX5SDBy6dvwRke9gh1gbE8d3XTYRPT1989orZDFcZOcySRAO2mQ6SW4BSBU0CJh8T62rsyXGkccJR6sJQdeoUM1KX8qQ8PledviJkcbIGr2W88705IacsEHb9DR0+Tc4MZXqC/dd//vFx4Hq3wAgeZ+Z3LTRYNyhjizuFQ5fX/IStv9vRlnoD9jVDxQmM7BII3oepnklGoDswSXqoNYCBg53TWVKVDzVkCpsjN6aROH7EeYAlyh4U9aCW6O0P47zSjK8hJ2HBrNFBgzm/kfsJ/Q211fvut50Fblx1YjmVulw==
+Received: from PH7PR12MB6882.namprd12.prod.outlook.com (2603:10b6:510:1b8::12)
+ by CY1PR12MB9700.namprd12.prod.outlook.com (2603:10b6:930:108::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Thu, 18 Sep
+ 2025 16:20:44 +0000
+Received: from PH7PR12MB6882.namprd12.prod.outlook.com
+ ([fe80::6d0a:d79f:abf2:d544]) by PH7PR12MB6882.namprd12.prod.outlook.com
+ ([fe80::6d0a:d79f:abf2:d544%4]) with mapi id 15.20.9137.012; Thu, 18 Sep 2025
+ 16:20:43 +0000
+From: Carol Soto <csoto@nvidia.com>
+To: Nirmoy Das <nirmoyd@nvidia.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "jfalempe@redhat.com" <jfalempe@redhat.com>, "mripard@kernel.org"
+ <mripard@kernel.org>
+Subject: Re: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
+Thread-Topic: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
+Thread-Index: AQHcKJXxuxFTNDEdZ0uSdr5bvJ87n7SZHm9t
+Date: Thu, 18 Sep 2025 16:20:43 +0000
+Message-ID: <PH7PR12MB6882F54D25CB6FDD1365088FCC16A@PH7PR12MB6882.namprd12.prod.outlook.com>
+References: <20250917194346.2905522-1-nirmoyd@nvidia.com>
+ <6eef0446-5747-4717-8146-788b32bf7969@suse.de>
+ <5c4da62d-f829-47b5-97ae-51a08e0e470e@nvidia.com>
+In-Reply-To: <5c4da62d-f829-47b5-97ae-51a08e0e470e@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-reactions: allow
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR12MB6882:EE_|CY1PR12MB9700:EE_
+x-ms-office365-filtering-correlation-id: 8fb644a5-10d0-4e99-70b2-08ddf6cf5128
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7053199007|38070700021|8096899003; 
+x-microsoft-antispam-message-info: =?utf-8?B?NVFkRy82aklKZ1hYSEtMRno0ZlNPc3BjSTZJZWd3bjlDOFhnWjM5bUhDYWlF?=
+ =?utf-8?B?cWpEL0ZWeTZBNVB1YVVnb29PSWRIUEJMM1V6QmNXRVJ2K3kvMldqMFlBZWtP?=
+ =?utf-8?B?Qis0Vk5UWkdvcjVwNVJXZlBwM0U5SExSRVdaeVJ4bk9GeEREbUZCcnQreElD?=
+ =?utf-8?B?UjNUb2xmVUY5ZkMvaUROcEhVK1pZZ3B1emNQZDRDbityTmVYeTU0S2x1MnJP?=
+ =?utf-8?B?SmNYakVoazR0ZUY0QW5SWmZmcDY3UzExZzcyZERkWEJUdDVIUDZBUmhPaVQz?=
+ =?utf-8?B?S0pVeDI1OTNHZDdHbEl6eXRPUzBSTElWeVczQWtXa3AvNldKOHFYV3lWY0JJ?=
+ =?utf-8?B?dTBxYnhoUzcwOEFhWWN1Q1BZSWpNSmt1Z2hBaXBlVmdYTjJOMW1BR2VaeUha?=
+ =?utf-8?B?ajlUcC9tNVVwWHFHWEpHNm1Yc3BoTkFDelFCSThoMHlEZEpOWisrVGVSWEJS?=
+ =?utf-8?B?MDdyazJ3ZFVQK0FwVGZPaXVzVi9kRUxSNmVZWDQ5a1ExSmU1UlIyNWovcVZo?=
+ =?utf-8?B?aHlqdi9adXViWnZuOWRNc1I0OXd1U0V6Sm93aWNFREtJaHBwSGpLMlRpVXNC?=
+ =?utf-8?B?S1lvazhpandXLzhsU2Zld1dYRVVXZTdFbHpGNVlzUStVODAzNERmdTU3UWw3?=
+ =?utf-8?B?dnpsS1RNdVVCR25IRjM2STBrekxXSk81eXRBV1FUbWJjTGU5YlBYSjFuUUZ6?=
+ =?utf-8?B?UnFVaGZVM01BQ3ZiQjR6S2JLV0Q1blc4M3pZYU41TGhIU3Q4VkFOTFVQTlpt?=
+ =?utf-8?B?S09Hd2d6a25RZjc3UTd6VmNsclVVNlpNZWoyUVRSRnhJOExzUGlIZElKR2Zr?=
+ =?utf-8?B?aEpJbjZRU3l3NEd1Rlh4ZXJPSy9vZnZLT2NyMStWNk94YzFsblRMdVRJUnd2?=
+ =?utf-8?B?TGFrRjBzeGdFdGJiQ2E3STd1cWFDZVJiK2g3Smg3SnBYMXJWZlBZb3dtbFJ0?=
+ =?utf-8?B?Rll4d001dmtUZU5qdThDd05yeWtRR0oxWXJjUUFacmJsbDdRRFB6eVNZK1BS?=
+ =?utf-8?B?R09Vc2lPdUFKcUIvdFZrYjllMkJaOXRkei9RNVdEVXJxM2YyallDbWZVdU1o?=
+ =?utf-8?B?QXF0ZGR2N01HV0tBUGFKY3pYbUNOS1N4cjVtWlUvdzRNMVM3RW1WMjhPRTJ2?=
+ =?utf-8?B?VXl6T0cxdlNSUFFmdCtCTDFUbUx6UHBPUEcwR1F4WmRMYW9keERBTVo2T2Zq?=
+ =?utf-8?B?Mk1SZ0NjNmRsMmVRVE1LM2UyZU5DRUNwSnVuN0cxTFNaV3I5M1Y5UzNNUVJs?=
+ =?utf-8?B?cXhYdnBidWdibG1xempHNnZDeDhMdFlabTlnWllvd0VWY1E5M3dydFRnR3RM?=
+ =?utf-8?B?QWhmSVNab3hIL2tORE96eGhOSW43MEs3LzZTNHdGbUR5emF6THpzL1NSZzlu?=
+ =?utf-8?B?Q0FuL2YwZUFPQklMd01RRnZHM3ZGYzlwNktyVHpnY2p3QWtacjg1ZVpyNWxD?=
+ =?utf-8?B?S2VJaG9HNXR5Ty9nNW9GeURhbm04VXRXb01KY2FmNVZJUmxnYXBoZU9zVlh3?=
+ =?utf-8?B?ZHF1NkNuTURpbDE4SHpneDlxQkk1aDM0NnJ2Qk5xR3RrTC9rS1RjKytTbmx0?=
+ =?utf-8?B?elRhNzdzQWJabGx5OWdjNkYvaS9lU042bWdJQTNlVjhHNTNsMHpNTDVGZnVQ?=
+ =?utf-8?B?QkQ5QjdhTkNEVElHVitNZXU3empYN1BuRUUyaGxRYlJtdEdwa1FtbUpZMmhH?=
+ =?utf-8?B?cjE3SXdtRElkMmY1MDVGSUJ1Ky94bzlhS2hEMjVOV0E4SGZzaytLUG9ScVho?=
+ =?utf-8?B?YmptZzJYaUxWOXFDcDhhV1VRd21SQXVabTE1dzd6ZkY2MTRzcGFoZkxpVWNM?=
+ =?utf-8?B?b0czNmgzQWdYUEE5eU9BZ0ZIRTB4eGJNb3lEOStIeTFCblhwT1lueDY3NVM4?=
+ =?utf-8?B?cXR5VjVhOUtnTFZvOTl0bklXR01JdzBUVWgyZlZUWmxPRCtrbTJlcnZCVHpQ?=
+ =?utf-8?B?MENiWjkyaWtrNUM2MGc4ZWRsZ1loekQxR0g1YlJyNTM1TVlsMXJ0eUc4NW1l?=
+ =?utf-8?Q?+y1OoKf5GomKoXyaYfJkO6gB3EyjyA=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB6882.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(38070700021)(8096899003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U3lLemZVYXpiRldVeDNPaEFBTFdKTjRac2xmeWxobXE0dzIxRy9WSDZYcEQ5?=
+ =?utf-8?B?bE10ejdKNjZRazlHYlBrR2Vsam9qMTZjT3JIbUwzV0dLNEY5WU1PUm5yZlc0?=
+ =?utf-8?B?dkhmY1kwMlZMSHBCdnRoRzNkTlYrOTBsazRwSDJ6K1IwYmlpRDVsL2lGR0Ix?=
+ =?utf-8?B?U2h3cithcmw2eXRBbGF4UUFURXR0M1RsTUVMazdrZ3FSMlNkK214bG9JM09I?=
+ =?utf-8?B?WnhQOW5SdVl5NDF0SitWcFp1TzZJZFZlTmJtUWF0MUNoMnhCWFVTQmhwRlU0?=
+ =?utf-8?B?dURRV0pxaExTLy9jUHVoam1VdUxsM0xqU0hFNWVHUk1odFgzcE5remlFVm9v?=
+ =?utf-8?B?SXI1VFhOd3dqQzZiZStpQWQ0UFF0Y1lKMXh6TnpUL01VZHpwcE5qMjdlRVd6?=
+ =?utf-8?B?eDRFQTU1cmEwb291T2JBV1NUMlljWmNGelBtYzUwQzlWUFk3ZWFRK0Q5QWlG?=
+ =?utf-8?B?ZWlaVW5hdXNJK1lYTWc4aXZxM1owaUs5Y3VQZm4zMHRvdGpLY1dpVnpGMUFz?=
+ =?utf-8?B?NTlWc2lheU9rYWdvcVNlYjBQTldabzBvT0Q0cVAyZDNXdS9XOHI2V3VvQkVN?=
+ =?utf-8?B?Y3QzNXF1d1JRZzRUYURvQ25XWWVncHJwNisxZFlRbnJlME5HLzZlYUVJNUUw?=
+ =?utf-8?B?M1BQMlJNNXVCUzBFbUhZMExXMzhibktaeWZWelAxNjdKTEg5OHhLa240dEdB?=
+ =?utf-8?B?VHMwanVCNXNCa3NYOFhNZ3pqVzlCTGJlcjBtU3Y3K0g2TkVUQi90MW44eElm?=
+ =?utf-8?B?VEVBQmd3WFlTRitmQlRudkdsRCtmNk1udEFMTmlrRTl3OWlSR3Vvdk16OXdp?=
+ =?utf-8?B?VG5RSzN0bkhwalBFVThDUEZIUDZNQUlOL25xVmkremFsVTR5UUpXSENHV2xx?=
+ =?utf-8?B?ZGI1YzIwSzBZR3daNnV3S1U3bkVLWXloQlovZXRseFNKQXNZNEtSdC9qWGJ2?=
+ =?utf-8?B?NU5uNEc1TnBvc0pkeTZHd2Jpa0Vsa1g0d2ZsajhxcWVYdmJPOHJTZXJleUpw?=
+ =?utf-8?B?S3YzOXBNTXBXNEUrb1NwVkNlbGxzeTZrTFJUaDZwVEdQS3VEOEluSkFLcXB5?=
+ =?utf-8?B?bDF3SWRyb2xMMUJjQno0eW9CakNZOE9ZTUJSK1FSc0hPbWwxdFRZWUt5TG9L?=
+ =?utf-8?B?TVZueFFoOEtaRjZzdk5UbXdIaTFmT09XOGZla01OcVZPSW5iSHRQZ2JTWUkr?=
+ =?utf-8?B?dUVORUZNTzFKQW5QWXYxa1ZUUVErUjlSZHl0NFZaSUg3aVYvVWRxdUZSWVBP?=
+ =?utf-8?B?WHZxS1k4ZEdJSkJ1UnhlZ0tJaHA5MDZCcXA3eHNMNnhnVkdNN01mOXlOZW1n?=
+ =?utf-8?B?R29WT1V3ZTlVaTRpVW1naWhxU1hWNEZSVll0bGlSdGZyV3JtS1B5bnZoaHJw?=
+ =?utf-8?B?NVJ3d05Bd1BLN1ZWajJhdWQ5ZVhSSW9RLzVRci9ILzVtZENnajhYcWdJNTdV?=
+ =?utf-8?B?NElMRTI1VnJVWThpRkRNZUc4eUxuYlQ3Q3MxU0wzWGhjVERFd2NMTkRXSW9V?=
+ =?utf-8?B?VkdSd1RmWG8rYjlmV2Q3RnVrcm9Ud2ZLZ0JvUktqMEpvSXgvYnFtclV1bVpi?=
+ =?utf-8?B?M21WRmJMQ0JqRW9XZFVja1lQbFFvanB0eFB3RHNBd1hnVlpLdVlXNEVlUnI0?=
+ =?utf-8?B?QVhxQUtiRWpwdzJQVXkwU3YwSzFQbTB5QVVjMTJXWUxqQ3I3SXJLdjZlcWdi?=
+ =?utf-8?B?aXptcERUa0lTeHRoZjVlaGJJRXdMTnZybFFaK2NXMUI3aWxIcHB4LzE1ejVR?=
+ =?utf-8?B?WGFzK2xwTm9lZjIzZHdKQzJxVk5pdnNDOFlOWk01NVNBNjN4c1MxZ1JXRUdX?=
+ =?utf-8?B?anQ5SzdqUGE4NUcwRC9DUTV2MkZkRHprRkY5bDVDZnlyL0hqdC9oWVlERWl0?=
+ =?utf-8?B?eFVLZkk0M0pBQitPWGllZmpBbUFTWVBJanJEMFJRYUxUcERlWEcrWkdsS3o2?=
+ =?utf-8?B?QWt0SHJIZlpJU0tLV2tKakZqdk9PeDF3YldtTjlid0gyek15WmZhbWdsTjZ2?=
+ =?utf-8?B?NytLdnhzMnBocjVlVEJZNGorWWQ1NTNyWVRsNFFPeU8xSEVGUjVUYkVmU2ZX?=
+ =?utf-8?B?RTRvRWRTa3ZOZ3RrMkNrVGRzTVZKV1hTWlJaRElWU3NaQm1lMHp4ZWkwODQ5?=
+ =?utf-8?Q?fNEjFGJv5fiTkNm3W/RzOV4C6?=
+Content-Type: multipart/alternative;
+ boundary="_000_PH7PR12MB6882F54D25CB6FDD1365088FCC16APH7PR12MB6882namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CY5PR11MB6092:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93f5fccb-9a48-4135-4235-08ddf6ce946f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?v8Z2+meCmtB4G9ULGLoDlBkf+7mSyF3+lhuo/lhutXHWHlnOxcHPpcrjiW?=
- =?iso-8859-1?Q?/AgiEPDn33Q7mAxZ1Ie2FBC3VGJ2epl4EHxU+LCmVlDBixhgoT/NxI2U0k?=
- =?iso-8859-1?Q?a7zduih4AlgotMmDnVnv+hMkn26VLHI3xtOJ1bA36OCLz4P7BJokf/rULF?=
- =?iso-8859-1?Q?lV4vsAO9BvonZeXg9fJvy8FSzxoYGeH1w1k/+Yin61YVSR0NxZUXKJUj5t?=
- =?iso-8859-1?Q?GIx9WV+XMYm+ZrOrsY4nWouxSD6NUH/Id1GTYH84k9XocHjq9oaQ3e+S/N?=
- =?iso-8859-1?Q?YZITezxj7R+R9hAcSIyK1C5hUzCDQlVAa7AzCUgjJx4yvvUxRvjoppi86w?=
- =?iso-8859-1?Q?/y4rY34kjqud+ACMJknm5IQYY1ddntzsf/ja0dK+zsxoDdFoBIIbfn23Iq?=
- =?iso-8859-1?Q?dHXhUm6h9iEOslOuthMENAlfW7kJYpmm3uFkhMCujbMCH8wFkIvQdfYTL9?=
- =?iso-8859-1?Q?eGp8s5GpEna9hLHRR6hW1fm5KZOP35ug4s5buWw/xJmBB5fRxWOISU5KeF?=
- =?iso-8859-1?Q?N39ij/tgoXcf/giYJP/Go+rTNvtklItVUSPe5To6h+AxrmaPLycIsB6YUY?=
- =?iso-8859-1?Q?oOr9hpuEc8KlO3N6WUhaSl7XSl97lXRV2csnIXAjjAbCRK+8jf7tn340iJ?=
- =?iso-8859-1?Q?shepJnCs03l/GB475eee9caoieK51GovYbeTKryBunTpdTbjWNwsTEoC31?=
- =?iso-8859-1?Q?L7/mYy0qpzUYCqbAXTbCQ9qmxpLxa/s/U7rV8z0PrXj0g3UQKt65kEFMys?=
- =?iso-8859-1?Q?8QpLEZi53T+m13AooIGZ0JBJWQU2bUIEBkvY6Ms2rrQia/FlUPAKI7u9Ue?=
- =?iso-8859-1?Q?ETBQbZsjBsgnEvqqoT8z+iuBPZh6FED8LDnkxHpgcYXYBMPgJZAk56b/Yh?=
- =?iso-8859-1?Q?fwL99eiY9ALlRjH9IP5ZP7sHn/NLtqZMtIlSpqtxNpj84Nu2illjffRfT1?=
- =?iso-8859-1?Q?A5TwzgtW0DWIseYtDsw71vSAo7BS5t810pj25dxctKCrAszM+JmWsVWXq0?=
- =?iso-8859-1?Q?feEtj+WBvmQ3uj77U5Nv9zL/EV1dPhtxHAMU7PiWQKZViFIfV3Z4UOJHhv?=
- =?iso-8859-1?Q?PVFVCPmfvACTnlGbG/qg5EhyBTgwQgmzI7S+9bNyM1sBU1e8shnYMSn6CU?=
- =?iso-8859-1?Q?FYSDMEIM7NEOJ6AXVyiBOLqCtwGBlv0z867zaQ9ZxwAI13nG7CYKR/U0pU?=
- =?iso-8859-1?Q?ntLYbOZr+RysiLHwtlkemlOCN1thpcJT+HGAtlcNomc04DNAdsh9v3mADD?=
- =?iso-8859-1?Q?n5xH0IjDHTAA6PPvvVpHLSdBos0YqMZdnXy98Lk1RwzlEYa+sTvkhsYoh/?=
- =?iso-8859-1?Q?4osUQI3Am1d1hs3oFjqUVdZh/4IJI0E5FuY0R2ZrUb9pgleCoj5vJa5wCh?=
- =?iso-8859-1?Q?pPX5e9eaNJvyDUI86dZhDJ06V8LADBVlQBYLlhaDdsaqhT03wMdpd6T6AS?=
- =?iso-8859-1?Q?TJkw/MalPi51W+LYwGfQSFhB37/DHe3bG4fZI4QoV7/koBCW5CCOVZXI78?=
- =?iso-8859-1?Q?I=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?D9U3PEA8HqussaB7XboAq6sdsbjT6ZcsYXYU9zGzZt1sAjTCSwyTHGHNai?=
- =?iso-8859-1?Q?1DKFJu6Me0fr3GEcC130/vPB+AOtEdxVbnut9HvIG3SwZy0x3xEj+f+2St?=
- =?iso-8859-1?Q?eCcNc/2YuXnrqrVqS0ihLZJtbfQm8TakpzgRjr3QJJDbKZm77R/04bmEfG?=
- =?iso-8859-1?Q?nBF7gfU4u0WsA6B96nJsAupbRURBUhf+h15p2qoCv1vxmGYHGrtcorBLGV?=
- =?iso-8859-1?Q?v/ETuRQWyvCyG3JkhEKr6xOZ/SxRrCo7QjrU6AnpQCoH1SC+u43qHf09EQ?=
- =?iso-8859-1?Q?dwg1WIVnsTJqALDBD9hNhpVpmktSNZ7xAzbqznt7VJGfhYxYp13zv4tD7D?=
- =?iso-8859-1?Q?xNYI10XjS0jh6+N35i7UDnt4Cwdk7493bhzSTEwKUn0jInr7JdEoRn0sc4?=
- =?iso-8859-1?Q?6TlL2ndxPsSAyH9hupImdzzELu2VaF7fet1yIdyDjefPe2BXGlKdBbj2u8?=
- =?iso-8859-1?Q?xuDmZFRrGn8gDSH6peRm0SuV4/Wziw8NRwO/b4BbOi1jJXRoWn2qfqeDnO?=
- =?iso-8859-1?Q?dC5G17RdfxUt8htS7W03ucCtNV471ui6YcR+q8Ogq8mct9vch65Xx1jupv?=
- =?iso-8859-1?Q?BqhojG4dz6QBHPVSfFJwBbMfspRCpmsUQ6Pla8AIhy+btW7PcyBELcfkVq?=
- =?iso-8859-1?Q?q/6lnMMc8B5RP/z1TE/cHP9lEkUjx4BoJ/PXHocJHeAED4imsPV6Uf9W3D?=
- =?iso-8859-1?Q?AJH3K5WvLs+S5HlS1FTDkMSp/VAj935NozwDOP2oSh8BEyQmXjgfIU6ZAU?=
- =?iso-8859-1?Q?msQ1j9aswScjBYZdbVZVUYDwq4mGMYCtqggKA6nrvu03S6vEZfqR8nCu2C?=
- =?iso-8859-1?Q?403oWaAN9+ljEw6bTOZWqP8A9T2OpOkhzKRnx2TgFV4VQCJMmbf3T2cO7i?=
- =?iso-8859-1?Q?sou3o7aifpXcOaz3ZWGrlpR4SJo9PtzOWqHGyarAY/J3oKf90hPABOu9BA?=
- =?iso-8859-1?Q?9YUxLM8gBFNA5Bo9TMdK3cwqXTqdjOGkkv74urUZO5kXKy1/35d0t+88aM?=
- =?iso-8859-1?Q?G1NjsT3HdLUhDnOZTA4FNVmhNmhz1R20C5jfEaU9UxW2zGzYkCOZukpYAq?=
- =?iso-8859-1?Q?xKSF7ukI4My24ZVN24l/iTTXga9cgTzA3dkzl9UubnP8M2p0XyomjfOhy8?=
- =?iso-8859-1?Q?uDlM2UWmqW2RLB9u39EwNUWzSyMAiYl0dnJdXtwbb+ovlvAzhlCNBvU6zr?=
- =?iso-8859-1?Q?fmYIxN9AWvwq3I+Zfm0qhJG4EIpXZZ4ZuhW8blvx3hbBWGWqB8dWNIpjXB?=
- =?iso-8859-1?Q?BX0PdD9FHgmXoywVfg+TUsMkfKSB1cEAqRQVQ2F9p+2rmG+q53nTSWhBPg?=
- =?iso-8859-1?Q?xRkFPm6wwgzjROKrc4S02y85w6J6ec8fIZjrEzSiZFazA8O3PiAPquHU/7?=
- =?iso-8859-1?Q?juiN0WpeDxovu4H+pgm004G/LkumcLuhFEAOaUPwLd5Ve4rqvaRUjGJ9Jk?=
- =?iso-8859-1?Q?n9qgmlwviw6Cp6SZZvHB46FH9IOSrHt8Py6IULBsgROc+s3ez+q9vyXkRk?=
- =?iso-8859-1?Q?vKWPMZ/QoW/WBalOVHkQm8+n7GPwoMFb9UDQLEiVXugr69g+b8c9Nz5fyd?=
- =?iso-8859-1?Q?3BFMnbOUnhDGiUZJmLCPxzEhRL0Hn16P54YItFpPNxpR6kH+N/cdOZgAbv?=
- =?iso-8859-1?Q?Wd7tjlnedrcDyDjVySs6Y6j/VWGfSJjJ0KHCTQrbDxWf28D5IrMeQEIg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93f5fccb-9a48-4135-4235-08ddf6ce946f
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-OriginatorOrg: Nvidia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2025 16:15:27.3359 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aSDLALeD6ny3B2E0QmJ27ctYmo7tuUEU1gghYhw3TOcLve4oaxPfx74HrXNfis7Yz+a9fhCIvR8jhdgSEHnbDOsr4I5iivXAekjj/QP/mJk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6092
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6882.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fb644a5-10d0-4e99-70b2-08ddf6cf5128
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2025 16:20:43.6313 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HlVa9s+LNUr+Gi2CtTC3I4IT1Bxp8poDVAJ+aRM1ZAvd5PO9hf/WB7okx4a6Naq8KdypdBwkxISPnPnG0O5cUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9700
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,396 +172,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 18, 2025 at 12:22:22AM +0200, Michal Wajdeczko wrote:
->
->
->On 9/17/2025 11:37 PM, Lucas De Marchi wrote:
->> Now that xe_pci.c calls the rebar directly, it doens't make sense to
->
->typo: doesn't
->
->> keep it in xe_vram.c since it's closer to the PCI initialization than to
->> the vram. Move it to its own file.
->
->s/vram/VRAM
->
->>
->> While at it, add a better comment to document the possible values for
->> the vram_bar_size module parameter.
->
->if better comment is needed, shouldn't it be done in MODULE_PARM_DESC ?
+--_000_PH7PR12MB6882F54D25CB6FDD1365088FCC16APH7PR12MB6882namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-yes, that's a good idea
+VGVzdGVkLWJ5OiBDYXJvbCBMIFNvdG8gY3NvdG9AbnZpZGlhLmNvbTxtYWlsdG86Y3NvdG9AbnZp
+ZGlhLmNvbT4NCg0KRnJvbTogTmlybW95IERhcyA8bmlybW95ZEBudmlkaWEuY29tPg0KRGF0ZTog
+VGh1cnNkYXksIFNlcHRlbWJlciAxOCwgMjAyNSBhdCA3OjE34oCvQU0NClRvOiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4sIGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcgPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+DQpDYzogamZhbGVtcGVAcmVk
+aGF0LmNvbSA8amZhbGVtcGVAcmVkaGF0LmNvbT4sIG1yaXBhcmRAa2VybmVsLm9yZyA8bXJpcGFy
+ZEBrZXJuZWwub3JnPiwgQ2Fyb2wgU290byA8Y3NvdG9AbnZpZGlhLmNvbT4NClN1YmplY3Q6IFJl
+OiBbUkZDIFBBVENIXSBkcm0vYXN0OiBVc2UgbXNsZWVwIGluc3RlYWQgb2YgbWRlbGF5IGZvciBl
+ZGlkIHJlYWQNCkhpIFRob21hcywNCg0KT24gMTguMDkuMjUgMTI6MzIsIFRob21hcyBaaW1tZXJt
+YW5uIHdyb3RlOg0KPiBIaQ0KPg0KPiBBbSAxNy4wOS4yNSB1bSAyMTo0MyBzY2hyaWViIE5pcm1v
+eSBEYXM6DQo+PiBUaGUgYnVzeS13YWl0aW5nIGluIGBtZGVsYXkoKWAgY2FuIGNhdXNlIENQVSBz
+dGFsbHMgYW5kIGtlcm5lbCB0aW1lb3V0cw0KPj4gZHVyaW5nIGJvb3QuDQo+Pg0KPj4gU2lnbmVk
+LW9mZi1ieTogTmlybW95IERhcyA8bmlybW95ZEBudmlkaWEuY29tPg0KPg0KPiBSZXZpZXdlZC1i
+eTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+DQo+Pg0KPj4gU2Vu
+ZGluZyB0aGlzIGFzIFJGQyBhcyBJIGFtIGZhbWlsaWFyIHdpdGggdGhlIGNvZGUgYW5kIG5vdCBz
+dXJlDQo+PiBpZiB0aGlzIHRyYW5zaXRpb24gaXMgc2FmZS4NCj4NCj4gSXQncyBvbmx5IHdhaXRp
+bmcgZm9yIGhhcmR3YXJlLCBzbyBtb3N0IGxpa2VseSBzYWZlLiBJJ2xsIGdpdmUgaXQgYQ0KPiB0
+cnkgYmVmb3JlIG1lcmdpbmcgdGhlIHBhdGNoLiBUaGFua3MgZm9yIHRoaXMgZml4Lg0KPg0KDQpQ
+ZXJmZWN0LiBUaGFua3MgZm9yIGFsc28gdHJ5aW5nIGl0IG91dC4gV2UgdHJpZWQgaXQgb24gb2xk
+ZXIga2VybmVsIGFuZA0KaXQgaGVscGVkLg0KDQoNCj4gVGhlcmUgYXJlIG90aGVyIGNhbGxzIHRv
+IG1kZWxheSBpbiB0aGUgZHJpdmVyLiBTaG91bGQgdGhleSBiZSByZXBsYWNlZA0KPiBhcyB3ZWxs
+Pw0KDQoNCkhhdmVuJ3Qgb2JzZXJ2ZWQgYW55IGlzc3VlIHdpdGggdGhvc2UgY2FsbHMgd2hpY2gg
+b2NjdXJzIGF0IHNob3J0ZXINCmludGVydmFscyBhbmQgbWF5IGJlIHRoYXQgaXMgd2h5IHRoZXkg
+ZGlkbid0IGNhdXNlIGEgYmxvY2thZ2UuDQoNCg0KUmVnYXJkcywNCg0KTmlybW95DQoNCj4NCj4g
+QmVzdCByZWdhcmRzDQo+IFRob21hcw0KPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9h
+c3QvYXN0X2RwLmMgfCAyICstDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9kcC5jIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHAuYw0KPj4gaW5kZXggMTljMDQ2ODdi
+MGZlMS4uOGU2NTBhMDJjNTI4NyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3Qv
+YXN0X2RwLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMNCj4+IEBAIC0x
+MzQsNyArMTM0LDcgQEAgc3RhdGljIGludCBhc3RfYXN0ZHBfcmVhZF9lZGlkX2Jsb2NrKHZvaWQg
+KmRhdGEsDQo+PiB1OCAqYnVmLCB1bnNpZ25lZCBpbnQgYmxvY2ssIHNpDQo+PiAgICAgICAgICAg
+ICAgICAqIDMuIFRoZSBEZWxheXMgYXJlIG9mdGVuIGxvbmdlciBhIGxvdCB3aGVuIHN5c3RlbQ0K
+Pj4gcmVzdW1lIGZyb20gUzMvUzQuDQo+PiAgICAgICAgICAgICAgICAqLw0KPj4gICAgICAgICAg
+ICAgICBpZiAoaikNCj4+IC0gICAgICAgICAgICAgICAgbWRlbGF5KGogKyAxKTsNCj4+ICsgICAg
+ICAgICAgICAgICAgbXNsZWVwKGogKyAxKTsNCj4+DQo+PiAgICAgICAgICAgICAgIC8qIFdhaXQg
+Zm9yIEVESUQgb2Zmc2V0IHRvIHNob3cgdXAgaW4gbWlycm9yIHJlZ2lzdGVyICovDQo+PiAgICAg
+ICAgICAgICAgIHZnYWNyZDcgPSBhc3RfZ2V0X2luZGV4X3JlZyhhc3QsIEFTVF9JT19WR0FDUkks
+IDB4ZDcpOw0KPj4gLS0NCj4+IDIuNDMuMA0KPj4NCj4NCg==
 
->
->>
->> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->> ---
->>  drivers/gpu/drm/xe/Makefile       |   1 +
->>  drivers/gpu/drm/xe/xe_pci.c       |   3 +-
->>  drivers/gpu/drm/xe/xe_pci_rebar.c | 125 ++++++++++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/xe/xe_pci_rebar.h |  13 ++++
->>  drivers/gpu/drm/xe/xe_vram.c      | 109 ---------------------------------
->>  drivers/gpu/drm/xe/xe_vram.h      |   1 -
->>  6 files changed, 141 insertions(+), 111 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
->> index 7a065c98a3b85..5a66d7a53d0db 100644
->> --- a/drivers/gpu/drm/xe/Makefile
->> +++ b/drivers/gpu/drm/xe/Makefile
->> @@ -95,6 +95,7 @@ xe-y += xe_bb.o \
->>  	xe_observation.o \
->>  	xe_pat.o \
->>  	xe_pci.o \
->> +	xe_pci_rebar.o \
->>  	xe_pcode.o \
->>  	xe_pm.o \
->>  	xe_preempt_fence.o \
->> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
->> index 1f4120b535137..6cc5e7b6901a8 100644
->> --- a/drivers/gpu/drm/xe/xe_pci.c
->> +++ b/drivers/gpu/drm/xe/xe_pci.c
->> @@ -27,6 +27,7 @@
->>  #include "xe_macros.h"
->>  #include "xe_mmio.h"
->>  #include "xe_module.h"
->> +#include "xe_pci_rebar.h"
->>  #include "xe_pci_sriov.h"
->>  #include "xe_pci_types.h"
->>  #include "xe_pm.h"
->> @@ -866,7 +867,7 @@ static int xe_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->>  	if (err)
->>  		return err;
->>
->> -	xe_vram_resize_bar(xe);
->> +	xe_pci_rebar(xe);
->>
->>  	err = xe_device_probe_early(xe);
->>  	/*
->> diff --git a/drivers/gpu/drm/xe/xe_pci_rebar.c b/drivers/gpu/drm/xe/xe_pci_rebar.c
->> new file mode 100644
->> index 0000000000000..e04416630b573
->> --- /dev/null
->> +++ b/drivers/gpu/drm/xe/xe_pci_rebar.c
->> @@ -0,0 +1,125 @@
->> +// SPDX-License-Identifier: MIT
->> +/*
->> + * Copyright © 2025 Intel Corporation
->> + */
->> +
->> +#include "xe_pci_rebar.h"
->
->as we have HDRTEST enabled, does it still make sense to have
->this header outside of normal xe headers listed below ?
+--_000_PH7PR12MB6882F54D25CB6FDD1365088FCC16APH7PR12MB6882namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-just got used to and actually copied from another file, xe_pci.c.
-I can move it
+PGh0bWwgeG1sbnM6bz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4
+bWxuczp3PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJo
+dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJo
+dHRwOi8vd3d3LnczLm9yZy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVp
+dj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1l
+dGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSAoZmlsdGVyZWQg
+bWVkaXVtKSI+DQo8c3R5bGU+PCEtLQ0KLyogRm9udCBEZWZpbml0aW9ucyAqLw0KQGZvbnQtZmFj
+ZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2
+IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6QXB0b3M7DQoJcGFub3NlLTE6MiAx
+MSAwIDQgMiAyIDIgMiAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFs
+LCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6
+MTAuMHB0Ow0KCWZvbnQtZmFtaWx5OiJBcHRvcyIsc2Fucy1zZXJpZjt9DQphOmxpbmssIHNwYW4u
+TXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjojNDY3ODg2Ow0K
+CXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTkNCgl7bXNvLXN0
+eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNlcmlm
+Ow0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6
+ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDsNCgltc28tbGlnYXR1cmVzOm5vbmU7fQ0K
+QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
+LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
+O30NCi0tPjwvc3R5bGU+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iIzQ2Nzg4
+NiIgdmxpbms9IiM5NjYwN0QiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNs
+YXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQiPlRlc3RlZC1ieTogQ2Fyb2wgTCBTb3RvIDxhIGhyZWY9Im1haWx0bzpj
+c290b0BudmlkaWEuY29tIj4NCmNzb3RvQG52aWRpYS5jb208L2E+PG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgaWQ9Im1haWwtZWRpdG9yLXJlZmVy
+ZW5jZS1tZXNzYWdlLWNvbnRhaW5lciI+DQo8ZGl2Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRl
+cjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAw
+aW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBw
+dCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQ7Y29sb3I6YmxhY2siPkZyb206DQo8
+L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTIuMHB0O2NvbG9yOmJsYWNrIj5OaXJt
+b3kgRGFzICZsdDtuaXJtb3lkQG52aWRpYS5jb20mZ3Q7PGJyPg0KPGI+RGF0ZTogPC9iPlRodXJz
+ZGF5LCBTZXB0ZW1iZXIgMTgsIDIwMjUgYXQgNzoxNzwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjEyLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OmJsYWNrIj7igK88L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQ7Y29sb3I6Ymxh
+Y2siPkFNPGJyPg0KPGI+VG86IDwvYj5UaG9tYXMgWmltbWVybWFubiAmbHQ7dHppbW1lcm1hbm5A
+c3VzZS5kZSZndDssIGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcgJmx0O2RyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7PGJyPg0KPGI+Q2M6IDwvYj5qZmFsZW1wZUByZWRo
+YXQuY29tICZsdDtqZmFsZW1wZUByZWRoYXQuY29tJmd0OywgbXJpcGFyZEBrZXJuZWwub3JnICZs
+dDttcmlwYXJkQGtlcm5lbC5vcmcmZ3Q7LCBDYXJvbCBTb3RvICZsdDtjc290b0BudmlkaWEuY29t
+Jmd0Ozxicj4NCjxiPlN1YmplY3Q6IDwvYj5SZTogW1JGQyBQQVRDSF0gZHJtL2FzdDogVXNlIG1z
+bGVlcCBpbnN0ZWFkIG9mIG1kZWxheSBmb3IgZWRpZCByZWFkPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQiPkhpIFRob21hcyw8YnI+DQo8YnI+DQpPbiAxOC4wOS4yNSAxMjozMiwgVGhv
+bWFzIFppbW1lcm1hbm4gd3JvdGU6PGJyPg0KJmd0OyBIaTxicj4NCiZndDs8YnI+DQomZ3Q7IEFt
+IDE3LjA5LjI1IHVtIDIxOjQzIHNjaHJpZWIgTmlybW95IERhczo8YnI+DQomZ3Q7Jmd0OyBUaGUg
+YnVzeS13YWl0aW5nIGluIGBtZGVsYXkoKWAgY2FuIGNhdXNlIENQVSBzdGFsbHMgYW5kIGtlcm5l
+bCB0aW1lb3V0czxicj4NCiZndDsmZ3Q7IGR1cmluZyBib290Ljxicj4NCiZndDsmZ3Q7PGJyPg0K
+Jmd0OyZndDsgU2lnbmVkLW9mZi1ieTogTmlybW95IERhcyAmbHQ7bmlybW95ZEBudmlkaWEuY29t
+Jmd0Ozxicj4NCiZndDs8YnI+DQomZ3Q7IFJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiAm
+bHQ7dHppbW1lcm1hbm5Ac3VzZS5kZSZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0OyZndDs8YnI+DQom
+Z3Q7Jmd0OyBTZW5kaW5nIHRoaXMgYXMgUkZDIGFzIEkgYW0gZmFtaWxpYXIgd2l0aCB0aGUgY29k
+ZSBhbmQgbm90IHN1cmU8YnI+DQomZ3Q7Jmd0OyBpZiB0aGlzIHRyYW5zaXRpb24gaXMgc2FmZS48
+YnI+DQomZ3Q7PGJyPg0KJmd0OyBJdCdzIG9ubHkgd2FpdGluZyBmb3IgaGFyZHdhcmUsIHNvIG1v
+c3QgbGlrZWx5IHNhZmUuIEknbGwgZ2l2ZSBpdCBhIDxicj4NCiZndDsgdHJ5IGJlZm9yZSBtZXJn
+aW5nIHRoZSBwYXRjaC4gVGhhbmtzIGZvciB0aGlzIGZpeC48YnI+DQomZ3Q7PGJyPg0KPGJyPg0K
+UGVyZmVjdC4gVGhhbmtzIGZvciBhbHNvIHRyeWluZyBpdCBvdXQuIFdlIHRyaWVkIGl0IG9uIG9s
+ZGVyIGtlcm5lbCBhbmQgPGJyPg0KaXQgaGVscGVkLjxicj4NCjxicj4NCjxicj4NCiZndDsgVGhl
+cmUgYXJlIG90aGVyIGNhbGxzIHRvIG1kZWxheSBpbiB0aGUgZHJpdmVyLiBTaG91bGQgdGhleSBi
+ZSByZXBsYWNlZCA8YnI+DQomZ3Q7IGFzIHdlbGw/PGJyPg0KPGJyPg0KPGJyPg0KSGF2ZW4ndCBv
+YnNlcnZlZCBhbnkgaXNzdWUgd2l0aCB0aG9zZSBjYWxscyB3aGljaCBvY2N1cnMgYXQgc2hvcnRl
+ciA8YnI+DQppbnRlcnZhbHMgYW5kIG1heSBiZSB0aGF0IGlzIHdoeSB0aGV5IGRpZG4ndCBjYXVz
+ZSBhIGJsb2NrYWdlLjxicj4NCjxicj4NCjxicj4NClJlZ2FyZHMsPGJyPg0KPGJyPg0KTmlybW95
+PGJyPg0KPGJyPg0KJmd0Ozxicj4NCiZndDsgQmVzdCByZWdhcmRzPGJyPg0KJmd0OyBUaG9tYXM8
+YnI+DQomZ3Q7PGJyPg0KJmd0OyZndDsgLS0tPGJyPg0KJmd0OyZndDsgJm5ic3A7IGRyaXZlcnMv
+Z3B1L2RybS9hc3QvYXN0X2RwLmMgfCAyICstPGJyPg0KJmd0OyZndDsgJm5ic3A7IDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKTxicj4NCiZndDsmZ3Q7PGJyPg0K
+Jmd0OyZndDsgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2RwLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcC5jPGJyPg0KJmd0OyZndDsgaW5kZXggMTljMDQ2ODdiMGZl
+MS4uOGU2NTBhMDJjNTI4NyAxMDA2NDQ8YnI+DQomZ3Q7Jmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vYXN0L2FzdF9kcC5jPGJyPg0KJmd0OyZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfZHAuYzxicj4NCiZndDsmZ3Q7IEBAIC0xMzQsNyArMTM0LDcgQEAgc3RhdGljIGludCBhc3Rf
+YXN0ZHBfcmVhZF9lZGlkX2Jsb2NrKHZvaWQgKmRhdGEsIDxicj4NCiZndDsmZ3Q7IHU4ICpidWYs
+IHVuc2lnbmVkIGludCBibG9jaywgc2k8YnI+DQomZ3Q7Jmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsgKiAzLiBUaGUgRGVsYXlzIGFyZSBvZnRlbiBsb25nZXIgYSBsb3Qgd2hlbiBzeXN0
+ZW0gPGJyPg0KJmd0OyZndDsgcmVzdW1lIGZyb20gUzMvUzQuPGJyPg0KJmd0OyZndDsgJm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7ICovPGJyPg0KJmd0OyZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7IGlmIChqKTxicj4NCiZndDsmZ3Q7IC0mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsgbWRlbGF5KGogKyAxKTs8YnI+DQomZ3Q7Jmd0OyArJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7IG1zbGVlcChqICsgMSk7PGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyAmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsgLyogV2FpdCBmb3IgRURJRCBvZmZzZXQgdG8gc2hvdyB1cCBpbiBt
+aXJyb3IgcmVnaXN0ZXIgKi88YnI+DQomZ3Q7Jmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgdmdh
+Y3JkNyA9IGFzdF9nZXRfaW5kZXhfcmVnKGFzdCwgQVNUX0lPX1ZHQUNSSSwgMHhkNyk7PGJyPg0K
+Jmd0OyZndDsgLS0gPGJyPg0KJmd0OyZndDsgMi40My4wPGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
->
->> +
->> +#include <linux/pci.h>
->> +#include <linux/types.h>
->> +
->> +#include <drm/drm_print.h>
->> +
->> +#include "regs/xe_bars.h"
->> +#include "xe_device_types.h"
->> +#include "xe_module.h"
->> +
->> +#define BAR_SIZE_SHIFT 20
->> +
->> +static void release_bars(struct pci_dev *pdev)
->> +{
->> +	int resno;
->> +
->> +	for (resno = PCI_STD_RESOURCES; resno < PCI_STD_RESOURCE_END; resno++) {
->> +		if (pci_resource_len(pdev, resno))
->> +			pci_release_resource(pdev, resno);
->> +	}
->> +}
->> +
->> +static void resize_bar(struct xe_device *xe, int resno, resource_size_t size)
->> +{
->> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->> +	int bar_size = pci_rebar_bytes_to_size(size);
->> +	int ret;
->> +
->> +	release_bars(pdev);
->> +
->> +	ret = pci_resize_resource(pdev, resno, bar_size);
->> +	if (ret) {
->> +		drm_info(&xe->drm, "Failed to resize BAR%d to %dM (%pe). Consider enabling 'Resizable BAR' support in your BIOS\n",
->
->maybe "%dMiB" as used below?
-
-probably better as a separate patch and leave this for the code move
-only. Also because there are incoming changes that will land via PCI
-tree. I will be easier to manage the conflict if it happens.
-
->
->> +			 resno, 1 << bar_size, ERR_PTR(ret));
->> +		return;
->> +	}
->> +
->> +	drm_info(&xe->drm, "BAR%d resized to %dM\n", resno, 1 << bar_size);
->
->we can use
->
->	xe_info(xe, ...
-
-adding this as a separate patch as mentioned above.
-
->
->> +}
->> +
->
->please add kernel-doc
-
-yep, will do
-
->
->> +void xe_pci_rebar(struct xe_device *xe)
->> +{
->> +	int force_vram_bar_size = xe_modparam.force_vram_bar_size;
->> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->> +	struct pci_bus *root = pdev->bus;
->> +	resource_size_t current_size;
->> +	resource_size_t rebar_size;
->> +	struct resource *root_res;
->> +	u32 bar_size_mask;
->> +	u32 pci_cmd;
->> +	int i;
->> +
->> +	/* gather some relevant info */
->> +	current_size = pci_resource_len(pdev, LMEM_BAR);
->> +	bar_size_mask = pci_rebar_get_possible_sizes(pdev, LMEM_BAR);
->> +
->> +	if (!bar_size_mask)
->> +		return;
->> +
->> +	/*
->> +	 * Handle force_vram_bar_size:
->> +	 * - negative: resize is disabled
->> +	 * - 0: try to resize to maximum possible
->> +	 * - positive: resize to specific value
->> +	 */
->
->do we really need to duplicate modparam description from xe_module.c ?
-
-I was looking at and old xe.ko and reading this:
-
-parm:           vram_bar_size:Set the vram bar size(in MiB) (uint)
-
-The current doc is much better. I can drop this change.
-
-Thanks
-Lucas De Marchi
-
->
->> +	if (force_vram_bar_size < 0)
->> +		return;
->> +
->> +	if (force_vram_bar_size) {
->> +		u32 bar_size_bit;
->> +
->> +		rebar_size = force_vram_bar_size * (resource_size_t)SZ_1M;
->> +
->> +		bar_size_bit = bar_size_mask & BIT(pci_rebar_bytes_to_size(rebar_size));
->> +
->> +		if (!bar_size_bit) {
->> +			drm_info(&xe->drm,
->> +				 "Requested size: %lluMiB is not supported by rebar sizes: 0x%x. Leaving default: %lluMiB\n",
->> +				 (u64)rebar_size >> 20, bar_size_mask, (u64)current_size >> 20);
->> +			return;
->> +		}
->> +
->> +		rebar_size = 1ULL << (__fls(bar_size_bit) + BAR_SIZE_SHIFT);
->> +
->> +		if (rebar_size == current_size)
->> +			return;
->> +	} else {
->> +		rebar_size = 1ULL << (__fls(bar_size_mask) + BAR_SIZE_SHIFT);
->> +
->> +		/* only resize if larger than current */
->> +		if (rebar_size <= current_size)
->> +			return;
->> +	}
->> +
->> +	drm_info(&xe->drm, "Attempting to resize bar from %lluMiB -> %lluMiB\n",
->> +		 (u64)current_size >> 20, (u64)rebar_size >> 20);
->> +
->> +	while (root->parent)
->> +		root = root->parent;
->> +
->> +	pci_bus_for_each_resource(root, root_res, i) {
->> +		if (root_res && root_res->flags & (IORESOURCE_MEM | IORESOURCE_MEM_64) &&
->> +		    (u64)root_res->start > 0x100000000ul)
->> +			break;
->> +	}
->> +
->> +	if (!root_res) {
->> +		drm_info(&xe->drm, "Can't resize VRAM BAR - platform support is missing. Consider enabling 'Resizable BAR' support in your BIOS\n");
->> +		return;
->> +	}
->> +
->> +	pci_read_config_dword(pdev, PCI_COMMAND, &pci_cmd);
->> +	pci_write_config_dword(pdev, PCI_COMMAND, pci_cmd & ~PCI_COMMAND_MEMORY);
->> +
->> +	resize_bar(xe, LMEM_BAR, rebar_size);
->> +
->> +	pci_assign_unassigned_bus_resources(pdev->bus);
->> +	pci_write_config_dword(pdev, PCI_COMMAND, pci_cmd);
->> +}
->> diff --git a/drivers/gpu/drm/xe/xe_pci_rebar.h b/drivers/gpu/drm/xe/xe_pci_rebar.h
->> new file mode 100644
->> index 0000000000000..c87aa58aee718
->> --- /dev/null
->> +++ b/drivers/gpu/drm/xe/xe_pci_rebar.h
->> @@ -0,0 +1,13 @@
->> +/* SPDX-License-Identifier: MIT */
->> +/*
->> + * Copyright © 2025 Intel Corporation
->> + */
->> +
->> +#ifndef _XE_PCI_REBAR_H_
->> +#define _XE_PCI_REBAR_H_
->> +
->> +struct xe_device;
->> +
->> +void xe_pci_rebar(struct xe_device *xe);
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/xe/xe_vram.c b/drivers/gpu/drm/xe/xe_vram.c
->> index 4fb5a8426531a..caab5c1ff7ba9 100644
->> --- a/drivers/gpu/drm/xe/xe_vram.c
->> +++ b/drivers/gpu/drm/xe/xe_vram.c
->> @@ -24,115 +24,6 @@
->>  #include "xe_vram.h"
->>  #include "xe_vram_types.h"
->>
->> -#define BAR_SIZE_SHIFT 20
->> -
->> -static void release_bars(struct pci_dev *pdev)
->> -{
->> -	int resno;
->> -
->> -	for (resno = PCI_STD_RESOURCES; resno < PCI_STD_RESOURCE_END; resno++) {
->> -		if (pci_resource_len(pdev, resno))
->> -			pci_release_resource(pdev, resno);
->> -	}
->> -}
->> -
->> -static void resize_bar(struct xe_device *xe, int resno, resource_size_t size)
->> -{
->> -	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->> -	int bar_size = pci_rebar_bytes_to_size(size);
->> -	int ret;
->> -
->> -	release_bars(pdev);
->> -
->> -	ret = pci_resize_resource(pdev, resno, bar_size);
->> -	if (ret) {
->> -		drm_info(&xe->drm, "Failed to resize BAR%d to %dM (%pe). Consider enabling 'Resizable BAR' support in your BIOS\n",
->> -			 resno, 1 << bar_size, ERR_PTR(ret));
->> -		return;
->> -	}
->> -
->> -	drm_info(&xe->drm, "BAR%d resized to %dM\n", resno, 1 << bar_size);
->> -}
->> -
->> -/*
->> - * if force_vram_bar_size is set, attempt to set to the requested size
->> - * else set to maximum possible size
->> - */
->> -void xe_vram_resize_bar(struct xe_device *xe)
->> -{
->> -	int force_vram_bar_size = xe_modparam.force_vram_bar_size;
->> -	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
->> -	struct pci_bus *root = pdev->bus;
->> -	resource_size_t current_size;
->> -	resource_size_t rebar_size;
->> -	struct resource *root_res;
->> -	u32 bar_size_mask;
->> -	u32 pci_cmd;
->> -	int i;
->> -
->> -	/* gather some relevant info */
->> -	current_size = pci_resource_len(pdev, LMEM_BAR);
->> -	bar_size_mask = pci_rebar_get_possible_sizes(pdev, LMEM_BAR);
->> -
->> -	if (!bar_size_mask)
->> -		return;
->> -
->> -	if (force_vram_bar_size < 0)
->> -		return;
->> -
->> -	/* set to a specific size? */
->> -	if (force_vram_bar_size) {
->> -		u32 bar_size_bit;
->> -
->> -		rebar_size = force_vram_bar_size * (resource_size_t)SZ_1M;
->> -
->> -		bar_size_bit = bar_size_mask & BIT(pci_rebar_bytes_to_size(rebar_size));
->> -
->> -		if (!bar_size_bit) {
->> -			drm_info(&xe->drm,
->> -				 "Requested size: %lluMiB is not supported by rebar sizes: 0x%x. Leaving default: %lluMiB\n",
->> -				 (u64)rebar_size >> 20, bar_size_mask, (u64)current_size >> 20);
->> -			return;
->> -		}
->> -
->> -		rebar_size = 1ULL << (__fls(bar_size_bit) + BAR_SIZE_SHIFT);
->> -
->> -		if (rebar_size == current_size)
->> -			return;
->> -	} else {
->> -		rebar_size = 1ULL << (__fls(bar_size_mask) + BAR_SIZE_SHIFT);
->> -
->> -		/* only resize if larger than current */
->> -		if (rebar_size <= current_size)
->> -			return;
->> -	}
->> -
->> -	drm_info(&xe->drm, "Attempting to resize bar from %lluMiB -> %lluMiB\n",
->> -		 (u64)current_size >> 20, (u64)rebar_size >> 20);
->> -
->> -	while (root->parent)
->> -		root = root->parent;
->> -
->> -	pci_bus_for_each_resource(root, root_res, i) {
->> -		if (root_res && root_res->flags & (IORESOURCE_MEM | IORESOURCE_MEM_64) &&
->> -		    (u64)root_res->start > 0x100000000ul)
->> -			break;
->> -	}
->> -
->> -	if (!root_res) {
->> -		drm_info(&xe->drm, "Can't resize VRAM BAR - platform support is missing. Consider enabling 'Resizable BAR' support in your BIOS\n");
->> -		return;
->> -	}
->> -
->> -	pci_read_config_dword(pdev, PCI_COMMAND, &pci_cmd);
->> -	pci_write_config_dword(pdev, PCI_COMMAND, pci_cmd & ~PCI_COMMAND_MEMORY);
->> -
->> -	resize_bar(xe, LMEM_BAR, rebar_size);
->> -
->> -	pci_assign_unassigned_bus_resources(pdev->bus);
->> -	pci_write_config_dword(pdev, PCI_COMMAND, pci_cmd);
->> -}
->> -
->>  static bool resource_is_valid(struct pci_dev *pdev, int bar)
->>  {
->>  	if (!pci_resource_flags(pdev, bar))
->> diff --git a/drivers/gpu/drm/xe/xe_vram.h b/drivers/gpu/drm/xe/xe_vram.h
->> index 13505cfb184dc..72860f714fc66 100644
->> --- a/drivers/gpu/drm/xe/xe_vram.h
->> +++ b/drivers/gpu/drm/xe/xe_vram.h
->> @@ -11,7 +11,6 @@
->>  struct xe_device;
->>  struct xe_vram_region;
->>
->> -void xe_vram_resize_bar(struct xe_device *xe);
->>  int xe_vram_probe(struct xe_device *xe);
->>
->>  struct xe_vram_region *xe_vram_region_alloc(struct xe_device *xe, u8 id, u32 placement);
->>
->
+--_000_PH7PR12MB6882F54D25CB6FDD1365088FCC16APH7PR12MB6882namp_--
