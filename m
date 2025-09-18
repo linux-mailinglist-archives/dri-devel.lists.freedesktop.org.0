@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838FAB85743
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 17:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F03B85746
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 17:09:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF6F10E21D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D0B10E25E;
 	Thu, 18 Sep 2025 15:09:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="2Wm5sGTp";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="1yTPw02+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB9110E200
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A832310E208
  for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 15:09:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1758208143; x=1789744143;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=1UqRagFXhH9+2KeFO/ZnbaQGViHc+00ac775p99VEFM=;
- b=2Wm5sGTpXuw9qBssU0sioakDeLjPKaxDcn2ysLj3opS19OaUdPC8o2aA
- 0gPR/7FSafhGBihmcnTXmbcf3RrjsMwPCVEz/ajqs429KcgFcXNIq5KVO
- 2XQtYdcqCI11thjOyZ4jeyg7FDiuoPlCRWOxWX1k7xdwuYLY4Hiyvu9ID
- j1va7jjWgTleZZ1w93aGUNiLhXRXtQshbDvfoKCTRTDmEK9DMCnbVc9Ha
- lw8ild2UwHuzqlHbcZi9e15QoQcLEFiIWQOAv7GLXXFNobdYfZqlrS/IW
- FeNwIYos8vdmIS1mYIQ/WY6rsyj/R8Ps8G2Cn56UPMYCJhM8AtFdHYScc w==;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=o9AvCqe1RapLzw4aumy2aAH7frFxWhYPrfFn5/14nH4=;
+ b=1yTPw02+B0awMq9wqEouZMwBKzGcIsNzIFlfLeTwas7RB4lmHZ7080+8
+ ETru1kv2ajTPUB//0Ua8G0vcV57oW4mj4csDJjSX1+wJGg7SVeau69k4h
+ bqbffdMOOKqv7okLXK/cjWIWtD9G8G8WtlheQd4FWmbusHYVno8+b9H2f
+ CiL0SnoEXNEkYXpRhKyJ3CTVBUZPqZ33kdRnyPur7nsDBsGYOH4QCsC0/
+ uLhl709M9jWJ3Q5qk23sA/MMi6d6c1ct13wa4BYx2fzo8TGiYs7jBFTU0
+ akhD6Z++gz64lzoVqXVLXN+yeAVEkJtdYubDT69PGB/KQ3sfa8VtbJ4E+ Q==;
 X-CSE-ConnectionGUID: ugeKBCocT/GeJhh6l5hQPQ==
-X-CSE-MsgGUID: zk/zr0B6TjCkIIOjy3O8vA==
-X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="47215033"
+X-CSE-MsgGUID: kDOUUt5uSPa92sro8bHbOg==
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="47215035"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Sep 2025 08:09:01 -0700
+ 18 Sep 2025 08:09:02 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 18 Sep 2025 08:08:24 -0700
+ 15.1.2507.58; Thu, 18 Sep 2025 08:08:28 -0700
 Received: from ROU-LL-M19942.mpu32.int (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 18 Sep 2025 08:08:21 -0700
+ 15.1.2507.58 via Frontend Transport; Thu, 18 Sep 2025 08:08:25 -0700
 From: Cyrille Pitchen <cyrille.pitchen@microchip.com>
-Subject: [PATCH v2 0/5] drm/microchip: add GFX2D support for SAM9X60 and
- SAM9X75
-Date: Thu, 18 Sep 2025 17:07:34 +0200
-Message-ID: <20250918-cpitchen-mainline_gfx2d-v2-0-6cfac9d56612@microchip.com>
+Date: Thu, 18 Sep 2025 17:07:35 +0200
+Subject: [PATCH v2 1/5] dt-bindings: gpu: add bindings for the Microchip
+ GFX2D GPU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADYgzGgC/4WNQQqDMBBFryKzbooTUWtX3qNISePEDNQkJCIW8
- e5NvUCX78F/f4dEkSnBvdgh0sqJvcsgLwVoq9xEgsfMIEtZlx2i0IEXbcmJWbF7s6PnZDY5iqa
- pkLqqlsq0kNchkuHtLD+GzJbT4uPnPFrxZ/83VxSlGFujXqiqGxL1M+voteVw1X6G4TiOL59mx
- JXCAAAA
-X-Change-ID: 20250911-cpitchen-mainline_gfx2d-6631e9352af7
+Message-ID: <20250918-cpitchen-mainline_gfx2d-v2-1-6cfac9d56612@microchip.com>
+References: <20250918-cpitchen-mainline_gfx2d-v2-0-6cfac9d56612@microchip.com>
+In-Reply-To: <20250918-cpitchen-mainline_gfx2d-v2-0-6cfac9d56612@microchip.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
@@ -66,13 +63,13 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  Cyrille Pitchen <cyrille.pitchen@microchip.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3312;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1718;
  i=cyrille.pitchen@microchip.com; h=from:subject:message-id;
- bh=1UqRagFXhH9+2KeFO/ZnbaQGViHc+00ac775p99VEFM=;
- b=owGbwMvMwCXmf6yzKqEsVIbxtFoSQ8YZhagcxzdCiW3pEZdd+VtO299Rccs4LGC+KXLLXOFYF
- ud5f/93lLIwiHExyIopshx6s7U38/irx3avRKVg5rAygQxh4OIUgInMzGNkeHokefOzPcenejdc
- mOTHfSLLyn3J9Lo7Lk8jTQtaV5kEL2Jk+FNTwxews2GJfXmThOKbUpEdnUGCRW1TnX8p/67mZun
- hAwA=
+ bh=o9AvCqe1RapLzw4aumy2aAH7frFxWhYPrfFn5/14nH4=;
+ b=owGbwMvMwCXmf6yzKqEsVIbxtFoSQ8YZheT2tDWp024cqN/DOynw3Mrw28r/3d1Y8h9J1r/JE
+ 5r6Ia+mo5SFQYyLQVZMkeXQm629mcdfPbZ7JSoFM4eVCWQIAxenAExkXgLDP0v9VT6llRvmXlx8
+ apO47DfWmyqmJ6WaU7S1z9WIM/8+8oGRYVrqtquZ9p+2rFA/paq4L+q03NqXU9ZMZl5+59TpTmX
+ dIEYA
 X-Developer-Key: i=cyrille.pitchen@microchip.com; a=openpgp;
  fpr=7A21115D7D6026585D0E183E0EF12AA1BFAC073D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,78 +87,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
-
-This series of patches adds GFX2D support.
-The GFX2D is a 2D GPU embedded in some Microchip SoCs such as the
-SAM9X60 and SAM9X75.
-
-Patches have been developped on top the 'linux-6.12-mchp' branch of the
-https://github.com/linux4microchip/linux.git repository and tested on
-mainly on a sam9x75-curiosity board and also on a sam9x60-ek board.
-
-Then patches have been rebased on top of the 'drm-misc-next' branch
-of the https://gitlab.freedesktop.org/drm/misc/kernel.git repository
-for mainlining.
-
-About the tests, the GFX2D driver was used with the M2D (Multi 2D)
-library: https://github.com/linux4sam/libm2d
-
-This is an open source library that abstracts 2D GPUs like the Microchip
-GFX2D (and later the Vivante GC520UL), providing graphics applications
-of libraries with a unified API, inspired from OpenGL but focused on 2D
-GPUs. The libm2d library itself relies on the libdrm library to send
-commands to the relevant DRM driver in the Linux kernel.
-
-M2D comes with a m2d_test program to run basic unitary tests.
-In addition, libm2d has been integrated to two graphics frameworks:
-- EGT: https://github.com/linux4sam/egt
-- LVGL: https://github.com/lvgl/lvgl/pull/8729
-
-BR,
-
-Cyrille
+The Microchip GFX2D GPU is embedded in the SAM9X60 and SAM9X7 SoC family.
+Describe how the GFX2D GPU is integrated in these SoCs, including
+register space, interrupt and clock.
 
 Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
 ---
-Changes in v2:
-- Renamed microchip,gfx2d.yaml into microchip,sam9x60-gfx2d.yaml.
-- Removed the 'clock-names' property from the DT bindings.
-- Renamed the GPU node from 'gfx2d' to 'gpu' in sam9x{60,7}.dtsi files.
-- Link to v1: https://lore.kernel.org/r/20250911-cpitchen-mainline_gfx2d-v1-0-d7fab1a381ee@microchip.com
+ .../bindings/gpu/microchip,sam9x60-gfx2d.yaml      | 46 ++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
----
-Cyrille Pitchen (5):
-      dt-bindings: gpu: add bindings for the Microchip GFX2D GPU
-      drm/microchip: add a driver for the Microchip GFX2D GPU
-      ARM: dts: microchip: sam9x60: Add GFX2D GPU
-      ARM: dts: microchip: sam9x7: Add GFX2D GPU
-      ARM: configs: at91_dt_defconfig: enable GFX2D driver
+diff --git a/Documentation/devicetree/bindings/gpu/microchip,sam9x60-gfx2d.yaml b/Documentation/devicetree/bindings/gpu/microchip,sam9x60-gfx2d.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f223ddda694e7edbc9f25c68d17ef01897a55a1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/microchip,sam9x60-gfx2d.yaml
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/microchip,sam9x60-gfx2d.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip GFX2D GPU
++
++maintainers:
++  - Cyrille Pitchen <cyrille.pitchen@microchip.com>
++
++properties:
++  compatible:
++    enum:
++      - microchip,sam9x60-gfx2d
++      - microchip,sam9x7-gfx2d
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/at91.h>
++    gpu@f0018000 {
++      compatible = "microchip,sam9x60-gfx2d";
++      reg = <0xf0018000 0x4000>;
++      interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
++      clocks = <&pmc PMC_TYPE_PERIPHERAL 36>;
++    };
++
++...
 
- .../bindings/gpu/microchip,sam9x60-gfx2d.yaml      |   46 +
- MAINTAINERS                                        |   10 +
- arch/arm/boot/dts/microchip/sam9x60.dtsi           |    8 +
- arch/arm/boot/dts/microchip/sam9x7.dtsi            |    8 +
- arch/arm/configs/at91_dt_defconfig                 |    1 +
- drivers/gpu/drm/Kconfig                            |    2 +
- drivers/gpu/drm/Makefile                           |    1 +
- drivers/gpu/drm/microchip/Kconfig                  |   21 +
- drivers/gpu/drm/microchip/Makefile                 |    8 +
- drivers/gpu/drm/microchip/mchp_gfx2d_cmd.c         | 1808 ++++++++++++++++++++
- drivers/gpu/drm/microchip/mchp_gfx2d_cmd.h         |  169 ++
- drivers/gpu/drm/microchip/mchp_gfx2d_drv.c         |  350 ++++
- drivers/gpu/drm/microchip/mchp_gfx2d_drv.h         |  132 ++
- drivers/gpu/drm/microchip/mchp_gfx2d_gem.c         |  263 +++
- drivers/gpu/drm/microchip/mchp_gfx2d_gem.h         |   90 +
- drivers/gpu/drm/microchip/mchp_gfx2d_ioctl.c       |  274 +++
- drivers/gpu/drm/microchip/mchp_gfx2d_ioctl.h       |   17 +
- include/uapi/drm/microchip_drm.h                   |  286 ++++
- 18 files changed, 3494 insertions(+)
----
-base-commit: d41c79838c47bc822534cd53628fe5e0f8ad2424
-change-id: 20250911-cpitchen-mainline_gfx2d-6631e9352af7
-
-Best regards,
 -- 
-Cyrille Pitchen <cyrille.pitchen@microchip.com>
+2.48.1
 
