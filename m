@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B5BB82750
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 03:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D587DB82870
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 03:38:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BCA10E5D6;
-	Thu, 18 Sep 2025 01:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432F210E61A;
+	Thu, 18 Sep 2025 01:38:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mTTVLt22";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UP62X561";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E884D10E5D6;
- Thu, 18 Sep 2025 01:01:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8273910E61A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 01:38:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0E3BA6000A;
- Thu, 18 Sep 2025 01:01:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 564ACC4CEE7;
- Thu, 18 Sep 2025 01:01:50 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BA4866000A;
+ Thu, 18 Sep 2025 01:30:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E853C4CEE7;
+ Thu, 18 Sep 2025 01:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758157310;
- bh=JSIUrDUCEBotm/znuNOiQJb4uyQ+2I+hyAil8bK3s54=;
+ s=k20201202; t=1758159022;
+ bh=IaCfp+f16H/Nhx85vEiEZ5gnjsJOfVdzE/53S5Y1PQY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mTTVLt22doeEewvF32nXAVDo8PI/JOlnw8Gzj+WrKwqCTVkfXojtJFHHiHzhKrjS9
- Bp3rlAmPob5hZr7ElxFoGqMJeNnDoevfCHtJEr/um/TpmPW4R6JdIq7zViT7rwpT2W
- E46ZfuMfO8U4zn838DsUlVsUHHKkMMiSftBlcQfFFDCeFM50RnWLYPzQVxeYNJMmQH
- xytaz2hH4gusc9NdpYPG+C6+SY2FzOEbtDJfxQ7Yi7xLXPkhue/jQRG0dz7NNMIbKi
- jqov6aPEdPNauuMdOk5HjqXuLQiNG0TDJNAqrSQjjYalucjlfFV4UMxk7JF9lS45RB
- FUTS5ZoBBFSAA==
-Date: Thu, 18 Sep 2025 10:01:48 +0900
+ b=UP62X56180FV91VCsOM2cQ8SpBTs5wf1d20hB/IXItXZOJ/vQsCV4r3/xzU5LuYMe
+ KemOAZBJKwxU3Huo/b5U46YCaj9KcwI8/HuRyiJ8mRWRO+zqgIR8oQFr/3f4A0eB3i
+ 2nnTITiI6/eDGZ2iw6MJIGMBFeoJ/gq2Rx2ZTYa2fFdWpTYZ93/8jw2/IfnKD93YL2
+ n3RPdgj7OBcs0zBDR4uK0GJNezGHObunsIhFdmN0gtmts3Y1g8alN5Cnq/ffSbJsMt
+ MNK2riV3r5ZhX9m2eYuy8iZtoK4qRNIAU4LtKlVE2E0BhRAUmSijh5hChIMqIuvplx
+ KxQFRlcGDgIQQ==
+Date: Thu, 18 Sep 2025 10:30:20 +0900
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 3/5] dt-bindings: display/msm: Document MDSS on QCS8300
-Message-ID: <20250918-spectral-seahorse-of-witchcraft-69553c@kuoka>
-References: <20250911-qcs8300_mdss-v12-0-5f7d076e2b81@oss.qualcomm.com>
- <20250911-qcs8300_mdss-v12-3-5f7d076e2b81@oss.qualcomm.com>
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ sjakhade@cadence.com, yamonkar@cadence.com, lumag@kernel.org,
+ dianders@chromium.org, 
+ jani.nikula@intel.com, luca.ceresoli@bootlin.com, andy.yan@rock-chips.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ devarsht@ti.com, u-kumar1@ti.com, s-jain1@ti.com,
+ tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH v5 1/2] dt-bindings: drm/bridge: MHDP8546 bridge binding
+ changes for DSC
+Message-ID: <20250918-dandelion-guan-of-storm-fa2051@kuoka>
+References: <20250915103041.3891448-1-h-shenoy@ti.com>
+ <20250915103041.3891448-2-h-shenoy@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911-qcs8300_mdss-v12-3-5f7d076e2b81@oss.qualcomm.com>
+In-Reply-To: <20250915103041.3891448-2-h-shenoy@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +69,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 11, 2025 at 07:24:03PM +0800, Yongxing Mou wrote:
-> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
+On Mon, Sep 15, 2025 at 04:00:40PM +0530, Harikrishna Shenoy wrote:
+> From: Swapnil Jakhade <sjakhade@cadence.com>
 > 
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Add binding changes for DSC(Display Stream Compression) in the MHDP8546
+> DPI/DP bridge.
+> 
+> Signed-off-by: Swapnil Jakhade <sjakhade@cadence.com>
+> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+> ---
+>  .../display/bridge/cdns,mhdp8546.yaml         | 24 ++++++++++++-------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> index c2b369456e4e..2a05a7d5847f 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> @@ -27,13 +27,12 @@ properties:
+>            Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+>        - description:
+>            Register block of mhdptx sapb registers.
+> +      - description:
+> +          Register block for mhdptx DSC encoder registers.
+>  
+>    reg-names:
+> -    minItems: 1
+> -    items:
+> -      - const: mhdptx
+> -      - const: j721e-intg
+> -      - const: mhdptx-sapb
+> +    description:
+> +      Names corresponding to entries in the reg property.
 
-Patch v11 and still basic issues. I am very dissapointed.
+No, top-level should have broadest constraints. In your case it is
+min/maxItems.
 
-<form letter>
-This is a friendly reminder during the review process.
+Description is completely redundant. Wasn't here before, so why adding
+it?
 
-It looks like you received a tag and forgot to add it.
+>  
+>    clocks:
+>      maxItems: 1
+> @@ -100,18 +99,25 @@ allOf:
+>        properties:
+>          reg:
+>            minItems: 2
+> -          maxItems: 3
+> +          maxItems: 4
+>          reg-names:
+>            minItems: 2
+> -          maxItems: 3
+> +          items:
+> +            - const: mhdptx
+> +            - const: j721e-intg
+> +            - const: mhdptx-sapb
+> +            - const: dsc
+>      else:
+>        properties:
+>          reg:
+>            minItems: 1
+> -          maxItems: 2
+> +          maxItems: 3
+>          reg-names:
+>            minItems: 1
+> -          maxItems: 2
+> +          items:
+> +            - const: mhdptx
+> +            - const: mhdptx-sapb
 
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions of patchset, under or above your Signed-off-by tag, unless
-patch changed significantly (e.g. new properties added to the DT
-bindings). Tag is "received", when provided in a message replied to you
-on the mailing list. Tools like b4 can help here. However, there's no
-need to repost patches *only* to add the tags. The upstream maintainer
-will do that for tags received on the version they apply.
+This is wrong. Previously CDNS variant had two items means it had
+"j721e-intg". Now it's something else.
 
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+First, this is an ABI break.
 
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
+Second, there is no explanation at all for it in the commit msg! Looks
+like random change.
+
+Read carefully writing-bindings doc.
 
 Best regards,
 Krzysztof
