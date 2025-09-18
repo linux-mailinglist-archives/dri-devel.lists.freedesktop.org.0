@@ -2,140 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A0CB84A1D
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 14:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3864AB84A2F
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 14:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BED3510E7CA;
-	Thu, 18 Sep 2025 12:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95CC410E89C;
+	Thu, 18 Sep 2025 12:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZPLP60sC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HRIS3CpI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZPLP60sC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HRIS3CpI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d8FRs7Hd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCE210E827
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 48BDF1F832;
- Thu, 18 Sep 2025 12:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758199448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3y1M5JkZxd6+G4dwu7/RmERMZMxjULHgx70RzKDr9mI=;
- b=ZPLP60sCCP8LYslR3yBJKAzGqVsrF8UgHZMw6JIn7jid1Ed79TU+n/TrEUjj0jEOARmFTO
- SlxTqQ7NmPwwaey3I2kcQ4JVjciQ40PE1+oPmk7MspHNLi4yfmGLA4OwTPNiBh10RpS6Aw
- Hg4wUCzB+nQJ0BkJtHcFvOfKGQDWYoo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758199448;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3y1M5JkZxd6+G4dwu7/RmERMZMxjULHgx70RzKDr9mI=;
- b=HRIS3CpI3TwgKSdUzZfR5Iia0BMESXAM1P9GcYJ1MPAlkDP2segxc+/WR9N07AZQpU0+LP
- BiP2xJgxDt26FgCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZPLP60sC;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HRIS3CpI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758199448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3y1M5JkZxd6+G4dwu7/RmERMZMxjULHgx70RzKDr9mI=;
- b=ZPLP60sCCP8LYslR3yBJKAzGqVsrF8UgHZMw6JIn7jid1Ed79TU+n/TrEUjj0jEOARmFTO
- SlxTqQ7NmPwwaey3I2kcQ4JVjciQ40PE1+oPmk7MspHNLi4yfmGLA4OwTPNiBh10RpS6Aw
- Hg4wUCzB+nQJ0BkJtHcFvOfKGQDWYoo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758199448;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=3y1M5JkZxd6+G4dwu7/RmERMZMxjULHgx70RzKDr9mI=;
- b=HRIS3CpI3TwgKSdUzZfR5Iia0BMESXAM1P9GcYJ1MPAlkDP2segxc+/WR9N07AZQpU0+LP
- BiP2xJgxDt26FgCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 26FBF13A39;
- Thu, 18 Sep 2025 12:44:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id A6kQCJj+y2g/HwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 18 Sep 2025 12:44:08 +0000
-Message-ID: <61d19c37-8942-40c6-a20f-9b2101871bb0@suse.de>
-Date: Thu, 18 Sep 2025 14:44:07 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4814710E89C
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:44 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IBUV6i021466
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=gTvAFZglIDLXccaiTU38RHxk
+ +SuGPsy7AO+qEcLGz6Y=; b=d8FRs7Hd+QPWtZ250pPxbPEAX+3kOxb8tkFu2csh
+ KNNbfH6unOrwii4HppsaC8oo1KsZkY183GO6+Cx+Aqtfcv50rPYSuuywC/slNdVe
+ J3bB24nWBlVzyWRss9XMIusP2UN7hEmJmS1xtFYzJnI3rervKFl1+VbX+Jkbmq7Z
+ FS9kSU+BCHGEWRdIvXRxloxokAP/i2E+iECFzLlPNiC+dFLLLylix0uJPKfMXz+q
+ 5rXB1wfrM+YNMOFEjTiBqBDQe75eZYXMll/KoNZMoHbnCtTVlS4NdOQpQIM9DyQZ
+ wTDES8GFRwI2hmTtMDSajDr99rZ4Tw4TaR6sA/R53ZInWw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fy5ec6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:43 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b548745115so19765871cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 05:44:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758199482; x=1758804282;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gTvAFZglIDLXccaiTU38RHxk+SuGPsy7AO+qEcLGz6Y=;
+ b=mcxBHq02CjUAktN2EnxSD+iJ1OGT0YKO5i49yBTHLZRRsRGigCIw02R8vBTN9Tz/kq
+ 2a0Qsdc2ig7BAvpE/ZNOrGsNrM8MqBmpJnjx2QDDvSCtR2NgUIgnLsMQeTBwDW6AsLkM
+ SCSSKi8N+Je7PYwlRh/813mCeyx2UHwS+4EzmculA0JTvMM5Ub9uPVD24dij0f6TOtj7
+ og/8BEz2Tu/kErqn9l95WIphgpwqtQsUaH8EIpsm/Wyu6lt1HxIzNxGexVMahWh9No58
+ /jkq6RfbSR/0hW7T7cOKYT2SmMsjopsE9R3FXbTa6287YTLOEV7Q1GrFEMSN+lL70Uif
+ jREA==
+X-Gm-Message-State: AOJu0YwoVj4nBCv9I7JQSaIESJQ/3c7EP7w3XqN4W7QxYgsCAJgihqbt
+ PjFlqjNtKBfpxqiDxrxuJga7QIMvFtMtLKSx+eChSUt8JECdMV0Ic2rMpwzRTVv5rYgJPXUTy8K
+ +KdiH5pO/huY86T4xVQYpZQjOVCvgKYWr0lzVrscMIXBM/Hq6IDykqJK7czkRiMNmNKESMpE=
+X-Gm-Gg: ASbGnct3z4d3proIfaS11bjMV+ipDEOOtbCivAE0+SufbH9oktC/5pmcouocdZMPaGM
+ HY0kZDdc8tt2L3C720LZnncwjkJjzwcqj61mhEOBAQOV9hmBIbJ3YbDXAFtNIb1qiZnTrCB+KRT
+ q9OoLimo/dNep/eflpgKQVoyCFRnmH0ImSVNOBOi+FmmToLP1VVKai+5+w6TCQLRdYYGyiww31T
+ M6qN+1XHwLUye9ZttTgHL1YinFq5FQeEFAPrYMTnwDnOdbjRZ+v8W9xdXmK8ye6pAjXJlLqUeBb
+ RZFP4KLLSwAJHKajjycylAYTFjIe7YSqT+JsrbRpv6Gow2iJP3eW21jxf5iyHA/uQtqEqrPxV7m
+ hRWStHsTqs3usKFmROQvcG9jiBZImHfqlwb/vkTCWxJPvP1Y8ZpdM
+X-Received: by 2002:ac8:5dd1:0:b0:4b4:9531:8a8a with SMTP id
+ d75a77b69052e-4bdaf240cd1mr33763411cf.38.1758199482413; 
+ Thu, 18 Sep 2025 05:44:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFIuCnR0wlykqroSVkf4rW0lxyHm2OgbEsL7t1lJhmH/oI+45dByOMaQEegu8/0HBWxjOJL5g==
+X-Received: by 2002:ac8:5dd1:0:b0:4b4:9531:8a8a with SMTP id
+ d75a77b69052e-4bdaf240cd1mr33763051cf.38.1758199481860; 
+ Thu, 18 Sep 2025 05:44:41 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-361a28b56cdsm5723341fa.25.2025.09.18.05.44.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Sep 2025 05:44:41 -0700 (PDT)
+Date: Thu, 18 Sep 2025 15:44:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, qijian.guo@nxp.com
+Subject: Re: [PATCH] drm/bridge: waveshare-dsi: Fix bailout for
+ devm_drm_bridge_alloc()
+Message-ID: <n43pa62bneykoeo3c2ne53ksrozftohmo4dnq5ifnchgrvwcdn@qqbbur6uiuxl>
+References: <20250806084121.510207-1-victor.liu@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
-To: Nirmoy Das <nirmoyd@nvidia.com>, dri-devel@lists.freedesktop.org
-Cc: jfalempe@redhat.com, mripard@kernel.org
-References: <20250917194346.2905522-1-nirmoyd@nvidia.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250917194346.2905522-1-nirmoyd@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,nvidia.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 48BDF1F832
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806084121.510207-1-victor.liu@nxp.com>
+X-Proofpoint-GUID: SAxR-4gwwsGanGy2RcxhMCQOpOLcgTrQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX7uB6i9si2+WC
+ dpfhUzLD3crRUarFxAt/XytjAGLJfrfW/6Cj9GGD8z8t3TINWtpIPgoZOlgrSlCjZPlFUX8uCaP
+ ZqJw8VC/4+AFgwYCaBulWfnwpqOtdFMBBwQHW3QyPKpd1OM0pHJ69asOI4C6NSgns6iBYfoQIKv
+ XCfrjTfqLz/uONONSajuC+zO5PTtqDRfDw69qDgrkUsme//rueC+svyiNMYzbF8ZPtLfAHv58GI
+ 8zzMlkOujloRL7YJEuRSjEqsuRjYCW9xK34hLiZSmzr+5D+/KbPBZ2ZvkoGhYVJ9RV+o/QRieZ4
+ gGfhdYzV4nHY70lLzcJMdYbDaLXPvfZwJ5z7OlRHZTXsriem3OaBpHAEAa8+pzO4+izNLgQ5VCG
+ RdyqJeIH
+X-Authority-Analysis: v=2.4 cv=Y+f4sgeN c=1 sm=1 tr=0 ts=68cbfebb cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=yJojWOMRYYMA:10 a=8AirrxEcAAAA:8 a=EUspDBNiAAAA:8 a=3EkQX2vGk4wexuzDa8QA:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-ORIG-GUID: SAxR-4gwwsGanGy2RcxhMCQOpOLcgTrQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-17_01,2025-09-18_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509160202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,55 +124,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 17.09.25 um 21:43 schrieb Nirmoy Das:
-> The busy-waiting in `mdelay()` can cause CPU stalls and kernel timeouts
-> during boot.
->
-> Signed-off-by: Nirmoy Das <nirmoyd@nvidia.com>
-
-Fixes: 594e9c04b586 ("drm/ast: Create the driver for ASPEED proprietory 
-Display-Port")
-Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.19+
-
-
->
-> Sending this as RFC as I am familiar with the code and not sure
-> if this transition is safe.
+On Wed, Aug 06, 2025 at 04:41:21PM +0800, Liu Ying wrote:
+> devm_drm_bridge_alloc() returns ERR_PTR on failure instead of a
+> NULL pointer, so use IS_ERR() to check the returned pointer and
+> turn proper error code on failure by using PTR_ERR().
+> 
+> Fixes: dbdea37add13 ("drm: bridge: Add waveshare DSI2DPI unit driver")
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->   drivers/gpu/drm/ast/ast_dp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 19c04687b0fe1..8e650a02c5287 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(void *data, u8 *buf, unsigned int block, si
->   			 * 3. The Delays are often longer a lot when system resume from S3/S4.
->   			 */
->   			if (j)
-> -				mdelay(j + 1);
-> +				msleep(j + 1);
->
->   			/* Wait for EDID offset to show up in mirror register */
->   			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
-> --
-> 2.43.0
->
+>  drivers/gpu/drm/bridge/waveshare-dsi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+With best wishes
+Dmitry
