@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48915B85752
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 17:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC80B8575E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 17:09:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D7110E208;
-	Thu, 18 Sep 2025 15:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D68A10E8CD;
+	Thu, 18 Sep 2025 15:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="jcTt08+k";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="Bd45LiKT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0669F10E200
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 15:09:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B145110E200
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 15:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1758208145; x=1789744145;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=4j8vRBELdW0QshfmtFprRBJA+qWBo/IXVvkjTX5z0Qk=;
- b=jcTt08+kANQBDL+LZo39fTgBsIGr3lazSgKGWrwKE1d87cT5hgkTRvL/
- T7QZOg+eMW4cLbAO/NUISt3FrJETuPh9Q+yz+qZr+7QVnzsDNqYuZrNXl
- v6n+ILVIKYsuOSwwYh6wysI1RA76Z63a+JN9euk0wzMI/xPcKJArmdwMn
- v5SsRscv6A343+RdSh1GNm1eBbnps9vrytEozO/EDqqn3Im34cZ3ABEhQ
- zY+5UjJZoABFQTm4wYnzIEMyxoUwQqFvJF8IIIIqRrCSXZK1Bf6no5T44
- JMIUFvsASRr+4WQzumrgyN0RlF2dD+6FWB/O1sIxBCveeFRRCHVGho4l8 w==;
+ bh=/mLGAizM4D0NKvOiayu53Ks5IeoiBFtYbwR9O/5P3ws=;
+ b=Bd45LiKTd746+FaVa6hV+xdQvHs5Og+91GfF2pEz63K9sz19jfTEBz7l
+ 2N91+pjmXBd8o3ZYiRhWzgT0x+qGDtw3Au6WGxCaErg3FMjPuvPkfmbGI
+ r91T/WRTxejia3e81Is3FxCfGFedSIdzrT/ZtJ5KWKb7QoY9dpZMPYuHA
+ KM4fplFKC5DDtD4JWLXiuzr8ORBwEV5vbjfjpyCV8pgvYKxEvV8LSvkus
+ XEC/mSeImRTV1FJgzNh1+vEMJ9tk5luol/sXGrxQgNkcxfeGRw2VQyuIR
+ zVwyUl1f+eaOnMwBn6R3jjj6Xzzk0Kv1onHRKGFIS413KqbnYHvEOLpU4 g==;
 X-CSE-ConnectionGUID: ugeKBCocT/GeJhh6l5hQPQ==
-X-CSE-MsgGUID: V29oNPwLRZ65zNFa1cLTlg==
-X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="47215042"
+X-CSE-MsgGUID: kCLCrTZbQD2iFf1NNNj/Lg==
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="47215044"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 18 Sep 2025 08:09:04 -0700
+ 18 Sep 2025 08:09:05 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 18 Sep 2025 08:08:39 -0700
+ 15.1.2507.58; Thu, 18 Sep 2025 08:08:43 -0700
 Received: from ROU-LL-M19942.mpu32.int (10.10.85.11) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 18 Sep 2025 08:08:36 -0700
+ 15.1.2507.58 via Frontend Transport; Thu, 18 Sep 2025 08:08:40 -0700
 From: Cyrille Pitchen <cyrille.pitchen@microchip.com>
-Date: Thu, 18 Sep 2025 17:07:38 +0200
-Subject: [PATCH v2 4/5] ARM: dts: microchip: sam9x7: Add GFX2D GPU
+Date: Thu, 18 Sep 2025 17:07:39 +0200
+Subject: [PATCH v2 5/5] ARM: configs: at91_dt_defconfig: enable GFX2D
+ driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250918-cpitchen-mainline_gfx2d-v2-4-6cfac9d56612@microchip.com>
+Message-ID: <20250918-cpitchen-mainline_gfx2d-v2-5-6cfac9d56612@microchip.com>
 References: <20250918-cpitchen-mainline_gfx2d-v2-0-6cfac9d56612@microchip.com>
 In-Reply-To: <20250918-cpitchen-mainline_gfx2d-v2-0-6cfac9d56612@microchip.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -62,13 +63,13 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  Cyrille Pitchen <cyrille.pitchen@microchip.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=936;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=751;
  i=cyrille.pitchen@microchip.com; h=from:subject:message-id;
- bh=4j8vRBELdW0QshfmtFprRBJA+qWBo/IXVvkjTX5z0Qk=;
- b=owGbwMvMwCXmf6yzKqEsVIbxtFoSQ8YZhZQ37Nq75l3qvefYfzKjbPrzXxOk579ddPmukDzTu
- vQXQi6fO0pZGMS4GGTFFFkOvdnam3n81WO7V6JSMHNYmUCGMHBxCsBEKmcw/DM+mvPU9k+2yc9/
- 4onT3BmZZq/7ciiuWyw+n//s0S/XBZUY/kdqZYhHmyub1uqmz+tbeePZjsLQ2bJcG7ied3zbl77
- DgRMA
+ bh=/mLGAizM4D0NKvOiayu53Ks5IeoiBFtYbwR9O/5P3ws=;
+ b=owGbwMvMwCXmf6yzKqEsVIbxtFoSQ8YZhZSAPWcz1W++P2/y1OGSdTDnguSa3HbjhL+vS3trC
+ u5mbHjRUcrCIMbFICumyHLozdbezOOvHtu9EpWCmcPKBDKEgYtTACZS/IORYbOS48lTTQ0VESz9
+ KUu2H9m3ce9D3sfTHXZGuy/eYcMRlcnI8NmtiMPB7JDD/tpzT0tsln959KwogfNL1MTYvHsvb59
+ 4wwQA
 X-Developer-Key: i=cyrille.pitchen@microchip.com; a=openpgp;
  fpr=7A21115D7D6026585D0E183E0EF12AA1BFAC073D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,32 +87,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the GFX2D GPU.
+The GFX2D GPU is embedded in both SAM9X60 and SAM9X75; enable the
+driver to use it.
 
 Signed-off-by: Cyrille Pitchen <cyrille.pitchen@microchip.com>
 ---
- arch/arm/boot/dts/microchip/sam9x7.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm/configs/at91_dt_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/microchip/sam9x7.dtsi b/arch/arm/boot/dts/microchip/sam9x7.dtsi
-index 66c07e642c3e1a2272490ec311062dfdf291c1cc..d61a7e2da5b587bfe399fdb51dea4dd6c6b9e552 100644
---- a/arch/arm/boot/dts/microchip/sam9x7.dtsi
-+++ b/arch/arm/boot/dts/microchip/sam9x7.dtsi
-@@ -271,6 +271,14 @@ AT91_XDMAC_DT_PERID(38))>,
- 			status = "disabled";
- 		};
- 
-+		gpu: gpu@f0018000 {
-+			compatible = "microchip,sam9x7-gfx2d";
-+			reg = <0xf0018000 0x4000>;
-+			interrupts = <36 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&pmc PMC_TYPE_PERIPHERAL 36>;
-+			status = "disabled";
-+		};
-+
- 		i2s: i2s@f001c000 {
- 			compatible = "microchip,sam9x7-i2smcc", "microchip,sam9x60-i2smcc";
- 			reg = <0xf001c000 0x100>;
+diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
+index ff13e1ecf4bb9545d6d2210b2f3059e6807779a0..85e9b52152aec6746f660dd0c299cd5aa12ce2ea 100644
+--- a/arch/arm/configs/at91_dt_defconfig
++++ b/arch/arm/configs/at91_dt_defconfig
+@@ -144,6 +144,7 @@ CONFIG_VIDEO_OV2640=m
+ CONFIG_VIDEO_OV7740=m
+ CONFIG_DRM=y
+ CONFIG_DRM_ATMEL_HLCDC=y
++CONFIG_DRM_MICROCHIP_GFX2D=y
+ CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER=y
+ CONFIG_DRM_PANEL_SIMPLE=y
+ CONFIG_DRM_PANEL_EDP=y
 
 -- 
 2.48.1
