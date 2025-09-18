@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08697B86E75
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 22:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776F4B86F8E
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 22:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C58F10E3BC;
-	Thu, 18 Sep 2025 20:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B3610E905;
+	Thu, 18 Sep 2025 20:59:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dL5GL0et";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y4YzXKc7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E0B10E3BC;
- Thu, 18 Sep 2025 20:25:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WL6Kw9YUWCG0W8YCQWVk37aQPOOB+kRzsZn1Ep3RQ9E=; b=dL5GL0etsWf87csUiJUWIysuyb
- 8NGFGem8xV12Rc4e5BNHP74oOwMmbfW/kFPjw1xU35v81QjAQZv4FCP4qhq5GWM1UDq5gNvQwD8dd
- bqWJbsl2EHJfxtcc0v2n4dFT4ss+XU0codakbqRYSO64j0Q3s4S6yIkM/tVF5XZMK9ha0S09t6cez
- RtDJYqNxYhlTq1viV5FQ8uyyyW1g+idVZ8mzPGlOIWw/T4sqc2iF4LeNfWvFmqvqB/lsPYD6YVVhI
- ZkpgiCmXCduHtdFGfwEU+IhkJe9wmGqih7CReNYgCxNSXGul1/dza0OdU1cVC0SQKqhResx1r14pU
- EZCxTu8w==;
-Received: from 179-125-87-227-dinamico.pombonet.net.br ([179.125.87.227]
- helo=[127.0.0.1]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uzLBu-00Dp3q-CC; Thu, 18 Sep 2025 22:25:18 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Date: Thu, 18 Sep 2025 17:09:26 -0300
-Subject: [PATCH RFC v2 3/3] drm/amdgpu: allow allocation preferences when
- creating GEM object
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD4510E901;
+ Thu, 18 Sep 2025 20:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758229162; x=1789765162;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=jnK6+B9ddsUgwv8Le0upLeCswhfyFEJ3xy/dYjG0+fI=;
+ b=Y4YzXKc7ykLPmLJjHLjL9+a1y3PjQ5XkUZaS7mDOukiy4kr7EFgdwcAU
+ AXonkp+OdzqHTT3H2ql8fe0ndNUeSdulEhHdHzVEC55bzYQAvapAdGK15
+ GXxylnoeEiNQwZi9BPDXC+PnC55RQCxdwNAvbpmGe1Ul+Tj0w2RbclWCg
+ 7gjomqLuP53v7mzDsLzyB8+j+PD2+9g9Ez7tLjSJINo8ADy3eB7pNE0L4
+ qB6ypX6XebMqShuIBqZp4zNkaPR/EauwT7l0bpdUTNGhI5z1gKQpSstbQ
+ xeUBeKGy4Hggsbdzhe6srESzvyqmKGOaxlAxrL74hnASX/FwfrckVZhBC A==;
+X-CSE-ConnectionGUID: PQ++fivdQOiBtCm9gWpibA==
+X-CSE-MsgGUID: +rAM3E6hTv6FbpiTX0qq4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="63205055"
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="63205055"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2025 13:59:21 -0700
+X-CSE-ConnectionGUID: Ub4ULYcdST6rMWJdFXubpA==
+X-CSE-MsgGUID: zDQ0MTx/QveyY2BRHqGSVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; d="scan'208";a="174915014"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2025 13:59:20 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-xe@lists.freedesktop.org, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Icenowy Zheng <uwu@icenowy.me>, Vivian Wang <wangruikang@iscas.ac.cn>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Simon Richter <Simon.Richter@hogyros.de>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: [PATCH 0/2] drm/xe: Fix some rebar issues
+Date: Thu, 18 Sep 2025 13:58:55 -0700
+Message-ID: <20250918-xe-pci-rebar-2-v1-0-6c094702a074@intel.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250918-ttm_pool_no_direct_reclaim-v2-3-135294e1f8a2@igalia.com>
-References: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
-In-Reply-To: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
-To: Christian Koenig <christian.koenig@amd.com>, 
- =?utf-8?q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-X-Mailer: b4 0.14.2
+X-Change-ID: 20250917-xe-pci-rebar-2-c0fe2f04c879
+X-Mailer: b4 0.15-dev-b03c7
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,73 +75,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When creating a GEM object on amdgpu, it may be specified that latency
-during allocation should be preferred over throughput when processing.
+Our implementation for BAR2 (lmembar) resize works at the xe_vram layer
+and only releases that BAR before resizing. That is not always
+sufficient. If the parent bridge needs to move, the BAR0 also needs to
+be released, otherwise the resize fails. This is the case of not having
+enough space allocated from the beginning.
 
-That will reflect into the TTM operation, which will lead to the use of
-direct reclaim for higher order pages when throughput is preferred, even if
-latency is configured to be preferred in the system.
+Also, there's a BAR0 in the upstream port of the pcie switch in BMG
+preventing the resize to propagate to the bridge as previously discussed
+in https://lore.kernel.org/intel-xe/20250721173057.867829-1-uwu@icenowy.me/
+and https://lore.kernel.org/intel-xe/wqukxnxni2dbpdhri3cbvlrzsefgdanesgskzmxi5sauvsirsl@xor663jw2cdw
+I'm bringing that commit from Ilpo here so this can be tested with the
+xe changes and propagate to stable. Note that the use of a pci fixup is
+not ideal, but without intrusive changes on resource fitting it's
+possibly the best alternative. I also have confirmation from HW folks
+that the BAR in the upstream port has no production use.
 
-If latency is preferred, no direct reclaim will be used for higher order
-pages, which might lead to more use of lower order pages, which can also
-compromised throughput.
+I have more cleanups on top on the xe side, but those conflict with some
+refactors Ilpo is working on as prep for the resource fitting, so I will
+wait things settle to submit again.
 
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+I propose to take this through the drm tree.
+
+With this I could resize the lmembar on some problematic hosts and after
+doing an SBR, with one caveat: the audio device also prevents the BAR
+from moving and it needs to be manually removed before resizing. With
+the PCI refactors and BAR fitting logic that Ilpo is working on, it's
+expected that it won't be needed for a long time.
+
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 3 ++-
- include/uapi/drm/amdgpu_drm.h              | 9 +++++++++
- 3 files changed, 13 insertions(+), 2 deletions(-)
+Ilpo Järvinen (1):
+      PCI: Release BAR0 of an integrated bridge to allow GPU BAR resize
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index d1ccbfcf21fa62a8d4fe1b8f020cf00d34efe1ab..0a0333e7ed1a45de63fedfbc161094f6de7fda00 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -451,7 +451,8 @@ int amdgpu_gem_create_ioctl(struct drm_device *dev, void *data,
- 		      AMDGPU_GEM_CREATE_EXPLICIT_SYNC |
- 		      AMDGPU_GEM_CREATE_ENCRYPTED |
- 		      AMDGPU_GEM_CREATE_GFX12_DCC |
--		      AMDGPU_GEM_CREATE_DISCARDABLE))
-+		      AMDGPU_GEM_CREATE_DISCARDABLE |
-+		      AMDGPU_GEM_ALLOCATION_MASK))
- 		return -EINVAL;
- 
- 	/* reject invalid gem domains */
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 122a882948839464dc197d40ff8e46cf161f7b42..54350460bb41e4bc057eb61d7bb6014457e56c6e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -632,7 +632,8 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 		/* We opt to avoid OOM on system pages allocations */
- 		.gfp_retry_mayfail = true,
- 		.allow_res_evict = bp->type != ttm_bo_type_kernel,
--		.resv = bp->resv
-+		.resv = bp->resv,
-+		.alloc_method = AMDGPU_GEM_ALLOCATION(bp->flags)
- 	};
- 	struct amdgpu_bo *bo;
- 	unsigned long page_align, size = bp->size;
-diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
-index bdedbaccf776db0c86cec939725a435c37f09f77..b796744abeba2bf4b14556251b36938ba0905c1e 100644
---- a/include/uapi/drm/amdgpu_drm.h
-+++ b/include/uapi/drm/amdgpu_drm.h
-@@ -180,6 +180,15 @@ extern "C" {
- /* Set PTE.D and recompress during GTT->VRAM moves according to TILING flags. */
- #define AMDGPU_GEM_CREATE_GFX12_DCC		(1 << 16)
- 
-+/* Prioritize allocation latency or high-order allocations that favor
-+ * throughput */
-+#define AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT	(17)
-+#define AMDGPU_GEM_ALLOCATION_DEFAULT		(0 << AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT)
-+#define AMDGPU_GEM_ALLOCATION_LATENCY		(2 << AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT)
-+#define AMDGPU_GEM_ALLOCATION_THROUGHPUT	(3 << AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT)
-+#define AMDGPU_GEM_ALLOCATION_MASK		(3 << AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT)
-+#define AMDGPU_GEM_ALLOCATION(flags)		((flags & AMDGPU_GEM_ALLOCATION_MASK) >> AMDGPU_GEM_OVERRIDE_ALLOCATION_SHIFT)
-+
- struct drm_amdgpu_gem_create_in  {
- 	/** the requested memory size */
- 	__u64 bo_size;
+Lucas De Marchi (1):
+      drm/xe: Move rebar to be done earlier
 
--- 
-2.47.3
+ drivers/gpu/drm/xe/xe_pci.c  |  2 ++
+ drivers/gpu/drm/xe/xe_vram.c | 34 ++++++++++++++++++++++++++--------
+ drivers/gpu/drm/xe/xe_vram.h |  1 +
+ drivers/pci/quirks.c         | 23 +++++++++++++++++++++++
+ 4 files changed, 52 insertions(+), 8 deletions(-)
+
+base-commit: 8031d70dbb4201841897de480cec1f9750d4a5dc
+change-id: 20250917-xe-pci-rebar-2-c0fe2f04c879
+
+Lucas De Marchi
 
