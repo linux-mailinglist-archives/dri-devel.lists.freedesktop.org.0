@@ -2,78 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77701B83C7E
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 11:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756DAB83E31
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 11:46:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 584E310E0F2;
-	Thu, 18 Sep 2025 09:27:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34B4910E11A;
+	Thu, 18 Sep 2025 09:46:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QqkwScsB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UkEILYcL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B70A410E0F2;
- Thu, 18 Sep 2025 09:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758187626;
- bh=0FLWmqr3F9NOr+WyWmMcLIv6IBbJvkig+Fq135VmMQQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=QqkwScsB9e4fyvJDOPeUR9Itkuf/146HmRHCT1+dj+3paNQiOTCcS+6wJt3giNvvb
- qn/5IUbdgp0gmnxAmD802WSQOthud13HJdAI6hyunI1Qid68s6JUwZZ+4hcF0jvKKq
- HfLG1nQnv+Bpd/t1Dn5CqOI1m2pZ1LU632Aw+w7Mm3Cwp/Kz51pdlKNibARhGPmIUQ
- Jl08W3qmr5YPy58uQzxYtT29W50Pa2pTaybxFG0U240RRoyi3NPfHCV/0CcmmBo+9H
- /Li7vWPqxKAe0vbWIPf0SaRS/248PInSdC7TttjDQQld1LBn8b9lllKi6NWep2zbSM
- XhE9jaOcnkERQ==
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 13FEE17E12C4;
- Thu, 18 Sep 2025 11:27:05 +0200 (CEST)
-Date: Thu, 18 Sep 2025 12:26:53 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Alex Hung <alex.hung@amd.com>, Shengyu Qu <wiagn233@outlook.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "leo.liu@amd.com" <leo.liu@amd.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "mwen@igalia.com"
- <mwen@igalia.com>, "jadahl@redhat.com" <jadahl@redhat.com>,
- "sebastian.wick@redhat.com" <sebastian.wick@redhat.com>,
- "shashank.sharma@amd.com" <shashank.sharma@amd.com>, "agoins@nvidia.com"
- <agoins@nvidia.com>, "joshua@froggi.es" <joshua@froggi.es>,
- "mdaenzer@redhat.com" <mdaenzer@redhat.com>, "aleixpol@kde.org"
- <aleixpol@kde.org>, "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
- "victoria@system76.com" <victoria@system76.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "uma.shankar@intel.com" <uma.shankar@intel.com>,
- "quic_naseer@quicinc.com" <quic_naseer@quicinc.com>,
- "quic_cbraga@quicinc.com" <quic_cbraga@quicinc.com>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, "marcan@marcan.st"
- <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
- "sashamcintosh@google.com" <sashamcintosh@google.com>,
- "chaitanya.kumar.borah@intel.com" <chaitanya.kumar.borah@intel.com>,
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>,
- "mcanal@igalia.com" <mcanal@igalia.com>, "nfraprado@collabora.com"
- <nfraprado@collabora.com>, Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH V11 31/47] drm/colorop: add BT2020/BT709 OETF and
- Inverse OETF
-Message-ID: <20250918122653.7420411c@eldfell>
-In-Reply-To: <6ab345aa-262c-4da4-8e18-8d8041962540@amd.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-32-alex.hung@amd.com>
- <TY4PR01MB14432C77EDFD80D2075FFCC2A9834A@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <774b1164-b1e9-4b99-9dae-b6688980e39d@amd.com>
- <TY4PR01MB144322B1C74D8FCF6370BD12D9837A@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <6ab345aa-262c-4da4-8e18-8d8041962540@amd.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A21310E11A
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 09:46:47 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-45f2fa8a1adso14911085e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 02:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1758188806; x=1758793606; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IJAzy7TZLPpiK0Xxbzu1n/iJ3JX7fhsQtzUstUQDi6k=;
+ b=UkEILYcLJDfYD/wyeyhz9413hMw5eM44VefXoikph9tVlJLNEQuyiqPC+IwKIN7Y9n
+ /X7ceRLI8S/fEsX1AuLz2g+XWrOs26xPer06TLqjU93KgkcIC+GSfZ0bEyWGY5J4YqFm
+ miANuGe9hqHQgePYK6y5rlN4XQlBvl9/o4Sc4fhR7o9PG2NztPhfmsf05B7yniwfBai7
+ guE+AuB1H/NMj7vau0KIEwNG+EvoIbXB4HX3sMwY02bfDKJnVwJkA5jUcanC66PO+8sy
+ 89VsWZhlO9hgyX+0mJgHCStgvvrOl/1EYxYhXx9zfzMrnfuaaZIrzzy+hWtYYrNaMyj5
+ rgXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758188806; x=1758793606;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IJAzy7TZLPpiK0Xxbzu1n/iJ3JX7fhsQtzUstUQDi6k=;
+ b=oY5b3yXuXvtSdqBYhBd7UFfAGPVDbWcZYr5ZN1n/gag0ejGPHyg49F6zeGUNR/5Otk
+ X7U4TfL3eL86s9WdKc15vNbpvnSqIsuvwc4jQtG4fh4y9r29kksTHglt9za7Hc/pHSYf
+ 7lFQ2ZEQsUBf1gPLWkdj+Lh3FUx13EpmtzKvCQ41AVpZ0+MWeOX1iAgIbMb0luhy9ZXE
+ L9sbZp3yYWh8lfXFmmEBDoyg9dg7xjI+60j9ymHwh3s7BiL6Q9/QeBa7SS+yDGVGhvTY
+ yVlz64C9MH+ZAIxvFdhF+gW7iQnlEAIcudfJyCcP30Kfa/b0xNDSYga/j7gwIwjmLueD
+ 9x/g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvfJmJaMG+2Qop72jSZP54J8VA+Y1iQO8ZP7dWCbSjWaJqDJ1undBbjVo59RvpOUnWjEpVZLuEBIA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywxr0vK6CelHLZrqiAc4vkgT2O/6+y6xs6SHiBiM7zSAtD4SKv3
+ mvB8K597eGGWAXIn/OzwU11tp9FhJoy3eO/WELS/PIzjzvaNL2NhcveqewxjvT4y8Uw=
+X-Gm-Gg: ASbGncuHhT7zZUdS/NR/7rZxaWXon+UBFrTmNikqOF8pGtNOOWdX+6zaG+50nS1Y+Uw
+ EG7ysdPLmSKGTKxsm/3PeGMNrQeoEJ91xCAfdIMBhgHQSV139ZEA38uu1SYkQ2xUM38NCaA8rrI
+ oa2ZuDzQQ7f+PPGXUm+02QNEdTQMM7rN/Qw8+bGLADEbyTwJ31wQWRneuCr6dv6ziP39i/z12qm
+ q8MFCZLfFKFZvP+rvJGkuUbWgUgv9Ahh6gvz6aKIeddQH1RQxcMsAKmeeTXAALpbvXWJ7ipA2lk
+ DH3FeWycOWS/qzc6XbrRZM4I3ETM4rs1gOuHhP19wMEke1Ok4fdiRYKimgztOCiP2fce6PADJky
+ HqvnBiiDhmQlH+MRQJV7YO5IYj6ublMEyeeUTX4KdvaJ86A==
+X-Google-Smtp-Source: AGHT+IH1uv0RIxQ38Bm26GanPvGmDL+dRiH2jf2osh70wH0uYOlhbcgFH9gpcU5WdxVF0lInLAkHNQ==
+X-Received: by 2002:a05:600c:8905:b0:459:d577:bd24 with SMTP id
+ 5b1f17b1804b1-464f79bed6cmr20555095e9.7.1758188805990; 
+ Thu, 18 Sep 2025 02:46:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-46138694957sm84698395e9.4.2025.09.18.02.46.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Sep 2025 02:46:45 -0700 (PDT)
+Date: Thu, 18 Sep 2025 12:46:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Prike Liang <Prike.Liang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shashank Sharma <shashank.sharma@amd.com>,
+ Arvind Yadav <Arvind.Yadav@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ "Jesse.Zhang" <Jesse.Zhang@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm/amdgpu/userq: Fix error codes in
+ mes_userq_mqd_create()
+Message-ID: <aMvVAsrczM9W2S7P@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/JZ3x9q/e9PS3hOsnK6IN2x0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,97 +94,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/JZ3x9q/e9PS3hOsnK6IN2x0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Return the error code if amdgpu_userq_input_va_validate() fails.  Don't
+return success.
 
-On Fri, 15 Aug 2025 21:28:47 -0600
-Alex Hung <alex.hung@amd.com> wrote:
+Fixes: 9e46b8bb0539 ("drm/amdgpu: validate userq buffer virtual address and size")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/amd/amdgpu/mes_userqueue.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-> On 8/15/25 20:45, Shengyu Qu wrote:
-> > Hi,
-> >=20
-> > Thanks for reply. I guess we need to point this out in documentation or=
-=20
-> > code comment? As I can see different definition somewhere like this[1].
-> >=20
-> > Best regards,
-> > Shengyu
-> >=20
-> > [1] https://color.org/chardata/rgb/BT2020.xalter =20
->=20
-> It's the same one. You can find the ITU document in "Documentation=20
-> source" in above link.
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_userqueue.c b/drivers/gpu/drm/amd/amdgpu/mes_userqueue.c
+index 2db9b2c63693..775b0bd5d6c4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_userqueue.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_userqueue.c
+@@ -298,8 +298,9 @@ static int mes_userq_mqd_create(struct amdgpu_userq_mgr *uq_mgr,
+ 			goto free_mqd;
+ 		}
+ 
+-		if (amdgpu_userq_input_va_validate(queue->vm, compute_mqd->eop_va,
+-		    max_t(u32, PAGE_SIZE, AMDGPU_GPU_PAGE_SIZE)))
++		r = amdgpu_userq_input_va_validate(queue->vm, compute_mqd->eop_va,
++		    max_t(u32, PAGE_SIZE, AMDGPU_GPU_PAGE_SIZE));
++		if (r)
+ 			goto free_mqd;
+ 
+ 		userq_props->eop_gpu_addr = compute_mqd->eop_va;
+@@ -330,8 +331,9 @@ static int mes_userq_mqd_create(struct amdgpu_userq_mgr *uq_mgr,
+ 		userq_props->tmz_queue =
+ 			mqd_user->flags & AMDGPU_USERQ_CREATE_FLAGS_QUEUE_SECURE;
+ 
+-		if (amdgpu_userq_input_va_validate(queue->vm, mqd_gfx_v11->shadow_va,
+-		    shadow_info.shadow_size))
++		r = amdgpu_userq_input_va_validate(queue->vm, mqd_gfx_v11->shadow_va,
++		    shadow_info.shadow_size);
++		if (r)
+ 			goto free_mqd;
+ 
+ 		kfree(mqd_gfx_v11);
+@@ -351,8 +353,9 @@ static int mes_userq_mqd_create(struct amdgpu_userq_mgr *uq_mgr,
+ 			goto free_mqd;
+ 		}
+ 
+-		if (amdgpu_userq_input_va_validate(queue->vm, mqd_sdma_v11->csa_va,
+-		    shadow_info.csa_size))
++		r = amdgpu_userq_input_va_validate(queue->vm, mqd_sdma_v11->csa_va,
++		    shadow_info.csa_size);
++		if (r)
+ 			goto free_mqd;
+ 
+ 		userq_props->csa_addr = mqd_sdma_v11->csa_va;
+-- 
+2.51.0
 
-Hi,
-
-I sense confusion, because color.org quotes BT.1886 explicitly in
-
-> Color component transfer function: C'=3D C^1/2.4
-
-which is not the BT.2020 OETF (nor it's inverse, nor approximation).
-
-> >>
-> >> https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!=
-=20
-> >> PDF-E.pdf (Table 4?)
-
-says
-
-E' =3D 4.5 * E, for 0 <=3D E < =CE=B2
-E' =3D =CE=B1 * E^0.45 - (=CE=B1 - 1), for =CE=B2 <=3D E <=3D 1
-
-with
-
-=CE=B1 =3D 1.09929682680944... and
-=CE=B2 =3D 0.018053968510807..
-
-The footnote for that table:
-
-> (4) In typical production practice the encoding function of image
-> sources is adjusted so that the final picture has the desired look,
-> as viewed on a reference monitor having the reference decoding
-> function of Recommendation ITU-R BT.1886, in the reference viewing
-> environment defined in Recommendation ITU-R BT.2035.
-
-In other words, the common practice is to not use the specified curve.
-
-As we can see in
-https://www.desmos.com/calculator/gqjuzqsebg
-the two curves do not even approximate each other.
-
-However, for someone familiar with the specifications BT.2020 and
-BT.1886, the two curves are distinctly named. BT.2020 defines the OETF,
-and BT.1886 defines the EOTF. Inverse of one does not match the other
-deliberately. The mismatch between the camera curve and the display
-curve is required to make the picture look better.
-
-When someone says "BT.2020 OETF", it is unambiguous. It's the only
-curve actually specified in BT.2020.
-
-
-Thanks,
-pq
-
---Sig_/JZ3x9q/e9PS3hOsnK6IN2x0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmjL0F0ACgkQI1/ltBGq
-qqdgCQ/+Klry8BSSYVr9aMbhej1VjCdodD54n49fjntUVHM6ypC1Jli8PCub834w
-mBWFCPcqUFdmUHESY8TiEXOxKzIw4flg2sAngfrHHJGtqu7/S9Orfbn3Hj/YaNrp
-inW8oZ19gSeU8qF8FzpuoasPMtptEMzeRjYrAy+diCUlcJCN+YxG/IrCoTpqcZhQ
-gkuSHUGGzH2n+yGJirtg+m+JAw3qCxY5dXRH81+QGnONDn5onQvh+ufLYMj1YX5D
-Jd3OcwkbTbLZTbhE5FCqMKLQHPmBZ+Zw7jomzwwfgk4uMbuh0TTEnbCMck4j3pkS
-kneMF/iFoXu2lqoz8HoJPAnHsIFE5GFgUQGHx0af79cS+8t3moJL645oambnk0YO
-w9frFwfelEoea2IgOZDy9z6lxV3F2ztzePParuIwaXAc63YtW9XvYg7x4eAhxcej
-UNOG6r9Tqmp1D/CZyOblkXs6whwiHn0QkbIF83OL2HFcQrfUDVe4/QvQseKx7NIX
-FJF1HlWwVnrlPXKPsgj7NIs3IuzETtypTCaTzyvkr6CaZZ0qenYOi6WQQE/MHllw
-+fTLOA9zO9cdzDIs74FEfk/wfFmjwdYe2kNj3hrVWQsEHv6AAIkVBXgokrz+gx/c
-8Hk81c82ggBEZCPSBa1AKzohjbo42pM3VUrJquxW9TYNA5xlVo0=
-=qdJv
------END PGP SIGNATURE-----
-
---Sig_/JZ3x9q/e9PS3hOsnK6IN2x0--
