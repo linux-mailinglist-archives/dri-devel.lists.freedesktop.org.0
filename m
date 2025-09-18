@@ -2,67 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E50B83911
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 10:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9BBB839AA
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 10:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8D8610E66C;
-	Thu, 18 Sep 2025 08:41:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20FB910E0C2;
+	Thu, 18 Sep 2025 08:54:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QStIFduX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MXYJT/c5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A673010E66C;
- Thu, 18 Sep 2025 08:40:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758184858;
- bh=wkdHSWOqeYK7n4RsHjVudEoksMfRdS1NB7ACekPCh0A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=QStIFduXexoAAzOLAvOJaQI9nVerHdHQ1zMlvFMQxvef1K06itgtq8C/+vG403PME
- COHLexsulXNL/hGoIoBPReg76vPBLjGzBQB5UtVV70Ts7BrI92mVDOxfS1C0vAMCNO
- KvSvPD29IK0Wttmxy1KTU9Q41SwWC1WJkOYVEwhETgTQ9VNEutDziL0c4qT3+TX0y8
- 0BW9BBas5MAWezpj7G7m6/hXB8PgP8gIj+a9KJYEOhSsvn8kYnhRxz7Daf7zvLtz6f
- aVT4Oc1kbHHKfuwxBePjjXmHrbeL/UAeLJDdz2EgrF84+HbhrEWzsXkhlTHWymyfnt
- od36Lcc6SjIoQ==
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0595E17E12C4;
- Thu, 18 Sep 2025 10:40:56 +0200 (CEST)
-Date: Thu, 18 Sep 2025 11:40:36 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: Xaver Hugl <xaver.hugl@gmail.com>, Sebastian Wick
- <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
- contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
- shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
- mdaenzer@redhat.com, aleixpol@kde.org, victoria@system76.com,
- daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
- quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, marcan@marcan.st,
- Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
- mcanal@igalia.com, nfraprado@collabora.com, Daniel Stone
- <daniels@collabora.com>
-Subject: Re: [PATCH V11 06/47] drm/colorop: Add 1D Curve subtype
-Message-ID: <20250918114036.454735e9@eldfell>
-In-Reply-To: <610215a0-50ad-45b8-b60a-a52441619c73@amd.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-7-alex.hung@amd.com>
- <DC6I12RMKGXL.1L8KAEE0UBNNW@redhat.com>
- <CAFZQkGyXbD_x0V6KBdR4vaunF+bG+HKOYAA7y6aVWfeTQ3cLzA@mail.gmail.com>
- <4eef4157-cad5-4399-9bc9-c5c2f005d472@amd.com>
- <20250826120306.618c275f@eldfell>
- <610215a0-50ad-45b8-b60a-a52441619c73@amd.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A2B10E0C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 08:54:37 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-56088927dcbso851171e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 01:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758185676; x=1758790476; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=L1zfXr+TiF68xYIu/QjAZG5Rv3z8es1PBrKaRHiISSE=;
+ b=MXYJT/c5xj69W4Rf5etugiWphWGgSESssjOXpGC/PF8HAPkxIKdKNwUM0jAqNrRboA
+ pquUd1VOvVPVGxGy/exsUvxA642c25/wB25J2nw3ZUF6RO+5Plw4h7QDGEXl04Ew51n/
+ yRKfW+OgHxF+TIjLk8mdYj29Cn4crecHbRtq7oiTtnZdc1Vq6hhkGrIgSSiv/OLF5+N+
+ 7lxqQqnPVUIAIJqhDujRxe2DSayw6xX0jkRSrzSP1xjaBsUKWWiSq/ueMvS2mu4148pa
+ uUzeG1f7InU1NQ576BXRWjuuxz8BabljHvvFbaIhgWOi9spLpIBIE6TtJGVwOZEtBcKK
+ QcTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758185676; x=1758790476;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L1zfXr+TiF68xYIu/QjAZG5Rv3z8es1PBrKaRHiISSE=;
+ b=nfar+tI23nJF3zJdH/qSHwkrLq0etmHspHba0nM3dC7Rh4AeOVfRwzBIbBvdMNxhn8
+ T70AjF0OGNSxEFYSLPSXmDcmz/TKcw/x/TW0aIvITkDHUDJG3avz9WjT5MgYsomP74/M
+ BMSb0AFNNXT9olaYE8BrN2GGdzj1f0kwWrmZzu9XB3qE0XPT8bD3456lru5lXhDiuOEr
+ Z7BzicAXLskAiUJTJKLfb3PJwhhcSbjUZETCCHExVLdEIhFRt06qUs81mDKAvG6o5hzC
+ JHQeEZf19IivsUJbL4MfQV9KV3WviBTlVk66gBy5nFTKwMdXIBPUCiznwXD1+TidWHNs
+ z0fA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtTLoS8AWrw2UngAqILkmbdQVQ8QPtQb8sh5JYNlsb6V9k19cVhqYt4EVNhvBgffNDkwDPQW7UnEM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzzqlt+eW5cMxIOkfturUFU3FXfkT9JBl/GXpAGuQ3FlEZBkrw0
+ BkOCCc3rfy0OYmaYBQKBDSrVZsit168cb8AfcaI3HoruAU/AHRMmmRrF
+X-Gm-Gg: ASbGncu8xUdnC+nDLQm+bXDRPFKdZ/5yF9tOP0xnS/S+j7uRkf+R0b+6u9K7ku+m7LA
+ WzyBtgZYT3WThjCY/w4yprUCG2p4RNuy3g2LXUSEGSp5nFfu4Tm1PSCDmJ3ZVLrNfyCatDBKRI1
+ TuLUXG8o/cWh1vRW3NGYR7OA7kEFHtg0Jx78YYzc6GrE76/ZNNpWGwXYuFrOuR0IT63vOQqHmrU
+ FsvywWmIewuqApCMRY2AqZT+MlBQlZtLwgL/2m/psV4puD2WFHU4wWOC5R5v0zuJ2cpykStSpSP
+ 1kqobcLpVO1mRgZxey5xTPcOg94yimL8LiTngNlxoGbs18PHq+I8H1rNVVAbo0knLh6wgV8KzLk
+ zlAN58bqRcMFnTDntVJJ8wH9Lwo7UtuuskAsqSXuQmFkufh9pMcFGuRvaJvN90amuaWQaGIrEsy
+ +ChZKhhyY6joxW
+X-Google-Smtp-Source: AGHT+IGm2JShN6Sv81lo1T5JnLxBfIgmRooL50eCyiXCHruGwYMx2R2gX19XGt4JW1t8LOnfM1W53w==
+X-Received: by 2002:a05:6512:33d0:b0:573:78df:c19c with SMTP id
+ 2adb3069b0e04-57799fa0ac8mr1911319e87.22.1758185675774; 
+ Thu, 18 Sep 2025 01:54:35 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-578a99507c8sm498643e87.117.2025.09.18.01.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Sep 2025 01:54:34 -0700 (PDT)
+Date: Thu, 18 Sep 2025 10:54:32 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sitronix/st7571-i2c: reset position before clearing
+ display
+Message-ID: <aMvIyOJkXE39sp8T@gmail.com>
+References: <20250913-st7571-reset-v1-1-ae5f58acdf8d@gmail.com>
+ <87o6r9o25m.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uzPsFupCAS4ezSX2oPq_XI0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="Ug0YIJ+ijkQ2jjPA"
+Content-Disposition: inline
+In-Reply-To: <87o6r9o25m.fsf@minerva.mail-host-address-is-not-set>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,126 +95,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/uzPsFupCAS4ezSX2oPq_XI0
-Content-Type: text/plain; charset=US-ASCII
+
+--Ug0YIJ+ijkQ2jjPA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 16 Sep 2025 17:01:07 -0600
-Alex Hung <alex.hung@amd.com> wrote:
+Hello Javier,
 
-> On 8/26/25 03:03, Pekka Paalanen wrote:
-> > On Thu, 21 Aug 2025 11:54:32 -0600
-> > Alex Hung <alex.hung@amd.com> wrote:
-> >  =20
-> >> On 8/21/25 06:23, Xaver Hugl wrote: =20
-> >>>> We user space folks have been convinced at this point that the sRGB =
-EOTF
-> >>>> is actually gamma 2.2, and not the piece-wise function. Now, if the
-> >>>> hardware is actually the piece-wise, then that's what should be expo=
-sed,
-> >>>> but I'm a bit unsure if we should do that under the name sRGB EOTF. =
-=20
-> >>> Maybe simply rename the enum string to "sRGB piece-wise EOTF"? In
-> >>> hindsight, the naming of "srgb" in the Wayland protocol caused a lot
-> >>> of confusion, it's better to be explicit about it where possible. =20
-> >>
-> >> I will leave this to Harry to comment. He is taking a few days off so I
-> >> will check with him later.
-> >> =20
-> >=20
-> > "sRGB inverse OETF"?
-> >=20
-> > Strictly speaking "sRGB piece-wise EOTF" is not a thing AFAIU.
-> >=20
-> >=20
-> > Thanks,
-> > pq =20
+On Wed, Sep 17, 2025 at 11:32:05AM +0200, Javier Martinez Canillas wrote:
+> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 >=20
-> If an extension in future after this proposal is merged, can it be GAMMA=
-=20
-> 2.2 to be [DRM_COLOROP_1D_CURVE_GAMMA22] =3D "GAMMA 2.2" so it won't=20
-> conflict with current name?
+> > We cannot know where the write pointer is, always reset position to
+> > (0,0) before clearing display.
+> >
+> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > ---
 >=20
-> Meanwhile, do we agree to change "sRGB EOTF" as "sRGB Inverse OETF" as=20
-> the following? or do we still want to add "piece-wise"?
-
-Hi Alex,
-
-since my previous comment, things have muddied further again. FWIW, we
-intend to remove the use of the name "srgb" transfer function
-completely from the Wayland protocol as confusing:
-
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/4=
-42
-
-I would recommend the KMS UAPI to similarly avoid the term. I would
-recommend "gamma 2.2" or even "power 2.2" and "compound power 2.4" or
-such. These names would hopefully not trigger intuition and make people
-look at the definition harder. Or any other name you can come up with.
-
-I agree that "piece-wise sRGB EOTF" would be intuitively clear, but it
-may provoke people debating what does IEC 61966-2-1 actually define.
-We've had these kind of discussions for Wayland already, and it was
-suggested that it is better to define the actual mathematical function
-in our specification that to leave it for interpretation from standards.
-
-For KMS, this should be even easier than for Wayland, because the
-hardware implements a specific mathematical function regardless of
-where it might have originated or what it is being used for.
-
-
-Thanks,
-pq
-
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 1551b86471ce..90a216c0b6ac 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -71,7 +71,7 @@ static const struct drm_prop_enum_list=20
-> drm_colorop_type_enum_list[] =3D {
->   };
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 >=20
->   static const char * const colorop_curve_1d_type_names[] =3D {
-> -	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
-> +	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB Inverse OETF",
->   	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
->   	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
->   	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index e4250b7d8de8..ce85c52c60c8 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -43,7 +43,7 @@ enum drm_colorop_curve_1d_type {
->   	/**
->   	 * @DRM_COLOROP_1D_CURVE_SRGB_EOTF:
->   	 *
-> -	 * enum string "sRGB EOTF"
-> +	 * enum string "sRGB Inverse OETF"
->   	 *
->   	 * sRGB piece-wise electro-optical transfer function. Transfer
->   	 * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
+> Marcus, do you already have commit rights in drm-misc or do you want me to
+> apply this patch ?
+
+I sent a request for commit rights yesterday, once it is approved I will
+apply this patch myself :-)
+
+
+>=20
+> --=20
+> Best regards,
+>=20
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
 >=20
 
+Best regards,
+Marcus Folkesson
 
---Sig_/uzPsFupCAS4ezSX2oPq_XI0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--Ug0YIJ+ijkQ2jjPA
+Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmjLxYQACgkQI1/ltBGq
-qqcLFxAArP7VFGLRZdI3HZym72NgRjpk0bQ8JA5uTFhkLAXuNL/YPBOyYwdTkbj3
-EiAxC19Bwqlzkri0uA02SkGEqp3f/BvwsAeDzcV30tBm4G0BcsugdblQuJddH7lb
-yaIptChV50+RGpH1rp/4tOa5b9k1cr7NFq3fEjWpieeMskJE306d95GOTBUqP3qm
-OLNGZ77Je1ZIaJq5d4jCeu8IZwLixA08rb6CeF3//NXhhuY8VvwTh5eDDfL1Rquc
-GFTBGfqon8zbMyHxL4qP0qBE5HPuYgW2539aQEf/KzcZFo1Ip2AW/aJY/xA0FdeI
-dnCqookjhsiYSumZsqvtORqEt8f5bFwzvL3lnOKc6ydk+AGVj2CPR0IPSugAsypB
-eDDAZh7edaGp9TsgqkKe5uQAqFh4KbN5LsfnaMDgKcrd4VfOvtCOx1GGcDs+01Rn
-RDtt4HIvZKHBqJ8PlYinZPxEr7jXi0+RO76TdY72iOBviPSpBa+5wge0Fy4F9L7D
-f+HG50zO7CYYStaFwKA5ADtHiM3jExfqTosijvHb6NzvesVijlBuqYhlIKaj5UNr
-cAnI/KbjpRnPx9Xo0j9jmb89uWawy8zb6HgQci5xpV5anjLH1adClwNWL0XmZONv
-vUb4lgHQNT1oFBk5e2qQzaOOS6jqx4PsFav2sC1XwqQ0RDMX+Wg=
-=U5MB
+iQIzBAEBCgAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmjLyMEACgkQiIBOb1ld
+UjKZmw//WN2aCTIg5Fi513sCawMQyeWG9g8gsNWGqu81U/hM4UOzZnjzhvEND+JT
+Ud1R7lIiAvpcigeZvbNbk1v7WZu+PN47d01G/S07zOyYz+yW5lMy1xeS3sqMyJ5F
+m8lkvz8/XSdG85PjvgHL5fRGAjATi1oxxm/k0V+BUhFqbGw0STm0tG/ReBfUheXg
+O+/90scHHBfuO5e24cfia2kbcaQBg3y8s8S8ionXQIqhJIFogZPsMyhM7twF8xtD
+EpyU/iZccX95WHorgIkVejKk8YNZD9dQPYy2lXOjDm499ZdFomyB/YB6eX3qQgmi
+eHjVcC71f/4A0002avJJ6ywKSA65YKP/D5J9z/jFyPeVbtnaECR3CWJHQu2v5Zwf
+Ak/2ak4M3i9s3Pjua59fQFF1d5405ZRAvpZWVcmky5Hs4dJBFrMHXYVA+4qvLvvG
+ospz+JDo0dDArgetNOCtWrM4AQTZ7zMS+gNf/lLrQPIBy7364JKsxIHIaK3AObQO
+sB+qZIkXsGC129tfFsr6vZnocGSqhKlnRmJUnrLeZK1Yp8cgR6uNZidsDGJpPfTd
+GYs7U1YmD5HTkEDO87edVgDIjwbZSqFra4zHlX5UJ0DpOr0Pgil0bgVoL7Jko1jQ
+pmF0IdOuZLyJVFDPa0d4Vxr1Wpqdy+qQIL6JLLmX8wxUetzWzVA=
+=+vpd
 -----END PGP SIGNATURE-----
 
---Sig_/uzPsFupCAS4ezSX2oPq_XI0--
+--Ug0YIJ+ijkQ2jjPA--
