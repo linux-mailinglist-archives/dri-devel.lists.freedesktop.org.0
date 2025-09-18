@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381DAB826BA
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF18B826C0
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 02:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99C8210E5C8;
-	Thu, 18 Sep 2025 00:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC94010E5CD;
+	Thu, 18 Sep 2025 00:45:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TbF2ZDWI";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Exbg2cAq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 267F510E5C8;
- Thu, 18 Sep 2025 00:45:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1A1910E5CD;
+ Thu, 18 Sep 2025 00:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1758156319;
- bh=hrg4K9aJusXrURZYZb3+I5lkB5k51QV3G7lrQkGG2a8=;
+ s=mail; t=1758156327;
+ bh=Xsr1TXo9ITqadODnuH6d5Q8m8OTyieQYDP/O4IymH6M=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=TbF2ZDWI2haHqxIzCLtHuRR7gts16RvJ75kYVBf5h3nu2W3fkUrAi2ZixSUX61zAP
- 2ypMBEVj7lDCIHm7LGYOMG/vJ0vdQczwLa/PUwYwlbI6p9pvxB2UUE4wRhe+7AvSjF
- tL2sepBa8WarzRlIkpRXIEX1MPpwM3SndjxozmonFdUMfoDwmp3ZBCg4wYnqbZsxSD
- 6okqdyPy9fLV4t2VVJMJmwj+ciD2EN2WrJmihDR3A6oZ2UGSHyV2RLb9eamejptsrB
- B1fnEMFgEQJ093PNeTi0BBj6F3+lh9vJWh6oMUh54KkSq0pT3dEBZUB5x6tCN7hv7T
- LpdnFIRL8VQxw==
+ b=Exbg2cAq/GkXtbYJmSkL1HipIYaKV51LJIs4MPkEL+s6r0bKDdGOzk2IHa+06v3x7
+ T5cWNm3mY9lSlPg/uVHHJxhYdgPCQCsYH84u6WM/5+o1W1sQ0QJK045sd7Du6StHz5
+ JkwYiVj5Z4Hv3bvSe8PKfcjjyWI8RilhxTJNFm5nEH5X3UaPIZEidu+MLDHH7Yadyb
+ Kysol69PnOTFnd6NwuHwCXTvntlzJ9uxiSgWRjoglO5aXXXh21MIaQl+Z83RgFTuII
+ encURga1Xxtpx2EBxUIBneUFyvlRexD8CUoSd4aNMJciaonkaoEH0KMCSiA2pUpu3p
+ ngT4AKq0tdI4Q==
 Received: from [127.0.1.1] (unknown
  [IPv6:2600:4041:5b1a:9400:62f0:406e:ac79:4a96])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nfraprado)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4A5F717E0EB8;
- Thu, 18 Sep 2025 02:45:12 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1FA3B17E1389;
+ Thu, 18 Sep 2025 02:45:19 +0200 (CEST)
 From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Wed, 17 Sep 2025 20:43:25 -0400
-Subject: [PATCH RFC v2 16/20] drm/mediatek: Set post-blend color pipeline
- driver cap
+Date: Wed, 17 Sep 2025 20:43:26 -0400
+Subject: [PATCH RFC v2 17/20] drm/vkms: Rename existing color pipeline
+ helpers to contain "pre_blend"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-16-ac4471b44758@collabora.com>
+Message-Id: <20250917-mtk-post-blend-color-pipeline-v2-17-ac4471b44758@collabora.com>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -83,28 +83,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the driver implements post-blend color pipelines, set the
-driver cap so they can be used from userspace.
+Rename the existing color pipeline helpers so they contain "pre_blend"
+in the name to make them clearly distinguishable from the post-blend
+helpers when they're introduced.
 
 Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_colorop.c | 8 +++++---
+ drivers/gpu/drm/vkms/vkms_drv.h     | 2 +-
+ drivers/gpu/drm/vkms/vkms_plane.c   | 2 +-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index d5e6bab364143540e1f59df481b9a9d559c39199..73c0f448d7fcf25e473e2c3c6ddaaf28446570cf 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -611,7 +611,8 @@ static struct drm_gem_object *mtk_gem_prime_import(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+index 0191ac44dec0a9513e001b304f6ead32a96cdb8c..5924ae2bd40fc904048f99bc9b96308140709e25 100644
+--- a/drivers/gpu/drm/vkms/vkms_colorop.c
++++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+@@ -14,7 +14,9 @@ static const u64 supported_tfs =
+ 
+ #define MAX_COLOR_PIPELINE_OPS 4
+ 
+-static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
++static int
++vkms_initialize_pre_blend_color_pipeline(struct drm_plane *plane,
++					 struct drm_prop_enum_list *list)
+ {
+ 	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+ 	struct drm_device *dev = plane->dev;
+@@ -96,13 +98,13 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 	return ret;
  }
  
- static const struct drm_driver mtk_drm_driver = {
--	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-+	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC |
-+			   DRIVER_POST_BLEND_COLOR_PIPELINE,
+-int vkms_initialize_colorops(struct drm_plane *plane)
++int vkms_initialize_pre_blend_colorops(struct drm_plane *plane)
+ {
+ 	struct drm_prop_enum_list pipeline;
+ 	int ret;
  
- 	.dumb_create = mtk_gem_dumb_create,
- 	DRM_FBDEV_DMA_DRIVER_OPS,
+ 	/* Add color pipeline */
+-	ret = vkms_initialize_color_pipeline(plane, &pipeline);
++	ret = vkms_initialize_pre_blend_color_pipeline(plane, &pipeline);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 55440ec6db5209741af1443d4e49e9471e6795c9..37ee569474223b2cf01e3cc0e4f119777533ae23 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -305,6 +305,6 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, struct vkms_output *vkms_out);
+ 
+ /* Colorops */
+-int vkms_initialize_colorops(struct drm_plane *plane);
++int vkms_initialize_pre_blend_colorops(struct drm_plane *plane);
+ 
+ #endif /* _VKMS_DRV_H_ */
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index db8d26810afa8d8fcab48a6db2e691255f26a8a6..8e63a07a7e1b0a350361d0b03b7911bfa9ce3dcc 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -232,7 +232,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+ 					  DRM_COLOR_YCBCR_BT601,
+ 					  DRM_COLOR_YCBCR_FULL_RANGE);
+ 
+-	vkms_initialize_colorops(&plane->base);
++	vkms_initialize_pre_blend_colorops(&plane->base);
+ 
+ 	return plane;
+ }
 
 -- 
 2.50.1
