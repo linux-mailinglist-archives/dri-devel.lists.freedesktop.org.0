@@ -2,113 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3864AB84A2F
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 14:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F34CB84A72
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 14:47:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95CC410E89C;
-	Thu, 18 Sep 2025 12:44:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d8FRs7Hd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF5F110E182;
+	Thu, 18 Sep 2025 12:47:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4814710E89C
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:44 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IBUV6i021466
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=gTvAFZglIDLXccaiTU38RHxk
- +SuGPsy7AO+qEcLGz6Y=; b=d8FRs7Hd+QPWtZ250pPxbPEAX+3kOxb8tkFu2csh
- KNNbfH6unOrwii4HppsaC8oo1KsZkY183GO6+Cx+Aqtfcv50rPYSuuywC/slNdVe
- J3bB24nWBlVzyWRss9XMIusP2UN7hEmJmS1xtFYzJnI3rervKFl1+VbX+Jkbmq7Z
- FS9kSU+BCHGEWRdIvXRxloxokAP/i2E+iECFzLlPNiC+dFLLLylix0uJPKfMXz+q
- 5rXB1wfrM+YNMOFEjTiBqBDQe75eZYXMll/KoNZMoHbnCtTVlS4NdOQpQIM9DyQZ
- wTDES8GFRwI2hmTtMDSajDr99rZ4Tw4TaR6sA/R53ZInWw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fy5ec6u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:44:43 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b548745115so19765871cf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 05:44:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758199482; x=1758804282;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gTvAFZglIDLXccaiTU38RHxk+SuGPsy7AO+qEcLGz6Y=;
- b=mcxBHq02CjUAktN2EnxSD+iJ1OGT0YKO5i49yBTHLZRRsRGigCIw02R8vBTN9Tz/kq
- 2a0Qsdc2ig7BAvpE/ZNOrGsNrM8MqBmpJnjx2QDDvSCtR2NgUIgnLsMQeTBwDW6AsLkM
- SCSSKi8N+Je7PYwlRh/813mCeyx2UHwS+4EzmculA0JTvMM5Ub9uPVD24dij0f6TOtj7
- og/8BEz2Tu/kErqn9l95WIphgpwqtQsUaH8EIpsm/Wyu6lt1HxIzNxGexVMahWh9No58
- /jkq6RfbSR/0hW7T7cOKYT2SmMsjopsE9R3FXbTa6287YTLOEV7Q1GrFEMSN+lL70Uif
- jREA==
-X-Gm-Message-State: AOJu0YwoVj4nBCv9I7JQSaIESJQ/3c7EP7w3XqN4W7QxYgsCAJgihqbt
- PjFlqjNtKBfpxqiDxrxuJga7QIMvFtMtLKSx+eChSUt8JECdMV0Ic2rMpwzRTVv5rYgJPXUTy8K
- +KdiH5pO/huY86T4xVQYpZQjOVCvgKYWr0lzVrscMIXBM/Hq6IDykqJK7czkRiMNmNKESMpE=
-X-Gm-Gg: ASbGnct3z4d3proIfaS11bjMV+ipDEOOtbCivAE0+SufbH9oktC/5pmcouocdZMPaGM
- HY0kZDdc8tt2L3C720LZnncwjkJjzwcqj61mhEOBAQOV9hmBIbJ3YbDXAFtNIb1qiZnTrCB+KRT
- q9OoLimo/dNep/eflpgKQVoyCFRnmH0ImSVNOBOi+FmmToLP1VVKai+5+w6TCQLRdYYGyiww31T
- M6qN+1XHwLUye9ZttTgHL1YinFq5FQeEFAPrYMTnwDnOdbjRZ+v8W9xdXmK8ye6pAjXJlLqUeBb
- RZFP4KLLSwAJHKajjycylAYTFjIe7YSqT+JsrbRpv6Gow2iJP3eW21jxf5iyHA/uQtqEqrPxV7m
- hRWStHsTqs3usKFmROQvcG9jiBZImHfqlwb/vkTCWxJPvP1Y8ZpdM
-X-Received: by 2002:ac8:5dd1:0:b0:4b4:9531:8a8a with SMTP id
- d75a77b69052e-4bdaf240cd1mr33763411cf.38.1758199482413; 
- Thu, 18 Sep 2025 05:44:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFIuCnR0wlykqroSVkf4rW0lxyHm2OgbEsL7t1lJhmH/oI+45dByOMaQEegu8/0HBWxjOJL5g==
-X-Received: by 2002:ac8:5dd1:0:b0:4b4:9531:8a8a with SMTP id
- d75a77b69052e-4bdaf240cd1mr33763051cf.38.1758199481860; 
- Thu, 18 Sep 2025 05:44:41 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-361a28b56cdsm5723341fa.25.2025.09.18.05.44.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Sep 2025 05:44:41 -0700 (PDT)
-Date: Thu, 18 Sep 2025 15:44:39 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, qijian.guo@nxp.com
-Subject: Re: [PATCH] drm/bridge: waveshare-dsi: Fix bailout for
- devm_drm_bridge_alloc()
-Message-ID: <n43pa62bneykoeo3c2ne53ksrozftohmo4dnq5ifnchgrvwcdn@qqbbur6uiuxl>
-References: <20250806084121.510207-1-victor.liu@nxp.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4DCDC10E89D
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 12:47:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DA801A2D;
+ Thu, 18 Sep 2025 05:47:13 -0700 (PDT)
+Received: from [10.1.32.53] (e122027.cambridge.arm.com [10.1.32.53])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3A783F673;
+ Thu, 18 Sep 2025 05:47:19 -0700 (PDT)
+Message-ID: <9a89e686-67c6-4103-8284-08327baea21d@arm.com>
+Date: Thu, 18 Sep 2025 13:47:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806084121.510207-1-victor.liu@nxp.com>
-X-Proofpoint-GUID: SAxR-4gwwsGanGy2RcxhMCQOpOLcgTrQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX7uB6i9si2+WC
- dpfhUzLD3crRUarFxAt/XytjAGLJfrfW/6Cj9GGD8z8t3TINWtpIPgoZOlgrSlCjZPlFUX8uCaP
- ZqJw8VC/4+AFgwYCaBulWfnwpqOtdFMBBwQHW3QyPKpd1OM0pHJ69asOI4C6NSgns6iBYfoQIKv
- XCfrjTfqLz/uONONSajuC+zO5PTtqDRfDw69qDgrkUsme//rueC+svyiNMYzbF8ZPtLfAHv58GI
- 8zzMlkOujloRL7YJEuRSjEqsuRjYCW9xK34hLiZSmzr+5D+/KbPBZ2ZvkoGhYVJ9RV+o/QRieZ4
- gGfhdYzV4nHY70lLzcJMdYbDaLXPvfZwJ5z7OlRHZTXsriem3OaBpHAEAa8+pzO4+izNLgQ5VCG
- RdyqJeIH
-X-Authority-Analysis: v=2.4 cv=Y+f4sgeN c=1 sm=1 tr=0 ts=68cbfebb cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=8AirrxEcAAAA:8 a=EUspDBNiAAAA:8 a=3EkQX2vGk4wexuzDa8QA:9
- a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=ST-jHhOKWsTCqRlWije3:22
-X-Proofpoint-ORIG-GUID: SAxR-4gwwsGanGy2RcxhMCQOpOLcgTrQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509160202
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/panfrost: Introduce JM contexts for manging
+ job resources
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250917191859.500279-1-adrian.larumbe@collabora.com>
+ <20250917191859.500279-3-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250917191859.500279-3-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,21 +54,448 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 06, 2025 at 04:41:21PM +0800, Liu Ying wrote:
-> devm_drm_bridge_alloc() returns ERR_PTR on failure instead of a
-> NULL pointer, so use IS_ERR() to check the returned pointer and
-> turn proper error code on failure by using PTR_ERR().
+On 17/09/2025 20:18, Adrián Larumbe wrote:
+> From: Boris Brezillon <boris.brezillon@collabora.com>
 > 
-> Fixes: dbdea37add13 ("drm: bridge: Add waveshare DSI2DPI unit driver")
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> A JM context describes user-requested priorities for the JM queues.
+> 
+> Context creation leads to the initialization of scheduling entities of
+> the same priority for all the device's job slots.
+> 
+> Until context creation and destruction are exposed to UM, all issued
+> jobs shall be bound to the default Panfrost file context, which has
+> medium priority.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
->  drivers/gpu/drm/bridge/waveshare-dsi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_device.h |  11 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c    |  24 ++-
+>  drivers/gpu/drm/panfrost/panfrost_job.c    | 195 +++++++++++++++++----
+>  drivers/gpu/drm/panfrost/panfrost_job.h    |  25 ++-
+>  4 files changed, 215 insertions(+), 40 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+> index 077525a3ad68..1e73efad02a8 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+> @@ -10,11 +10,13 @@
+>  #include <linux/pm.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/spinlock.h>
+> +#include <drm/drm_auth.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_mm.h>
+>  #include <drm/gpu_scheduler.h>
+>  
+>  #include "panfrost_devfreq.h"
+> +#include "panfrost_job.h"
+>  
+>  struct panfrost_device;
+>  struct panfrost_mmu;
+> @@ -22,7 +24,6 @@ struct panfrost_job_slot;
+>  struct panfrost_job;
+>  struct panfrost_perfcnt;
+>  
+> -#define NUM_JOB_SLOTS 3
+>  #define MAX_PM_DOMAINS 5
+>  
+>  enum panfrost_drv_comp_bits {
+> @@ -206,13 +207,19 @@ struct panfrost_engine_usage {
+>  struct panfrost_file_priv {
+>  	struct panfrost_device *pfdev;
+>  
+> -	struct drm_sched_entity sched_entity[NUM_JOB_SLOTS];
+> +	struct xarray jm_ctxs;
+>  
+>  	struct panfrost_mmu *mmu;
+>  
+>  	struct panfrost_engine_usage engine_usage;
+>  };
+>  
+> +static inline bool panfrost_high_prio_allowed(struct drm_file *file)
+> +{
+> +	/* Higher priorities require CAP_SYS_NICE or DRM_MASTER */
+> +	return (capable(CAP_SYS_NICE) || drm_is_current_master(file));
+> +}
+> +
+>  static inline struct panfrost_device *to_panfrost_device(struct drm_device *ddev)
+>  {
+>  	return ddev->dev_private;
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 1ea6c509a5d5..be384b18e8fd 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -279,9 +279,16 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>  	struct panfrost_file_priv *file_priv = file->driver_priv;
+>  	struct drm_panfrost_submit *args = data;
+>  	struct drm_syncobj *sync_out = NULL;
+> +	struct panfrost_jm_ctx *jm_ctx;
+>  	struct panfrost_job *job;
+>  	int ret = 0, slot;
+>  
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	if (args->jm_ctx_handle)
+> +		return -EINVAL;
+> +
+>  	if (!args->jc)
+>  		return -EINVAL;
+>  
+> @@ -294,10 +301,16 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>  			return -ENODEV;
+>  	}
+>  
+> +	jm_ctx = panfrost_jm_ctx_from_handle(file, args->jm_ctx_handle);
+> +	if (!jm_ctx) {
+> +		ret = -EINVAL;
+> +		goto out_put_syncout;
+> +	}
+> +
+>  	job = kzalloc(sizeof(*job), GFP_KERNEL);
+>  	if (!job) {
+>  		ret = -ENOMEM;
+> -		goto out_put_syncout;
+> +		goto out_put_jm_ctx;
+>  	}
+>  
+>  	kref_init(&job->refcount);
+> @@ -307,12 +320,13 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>  	job->requirements = args->requirements;
+>  	job->flush_id = panfrost_gpu_get_latest_flush_id(pfdev);
+>  	job->mmu = file_priv->mmu;
+> +	job->ctx = panfrost_jm_ctx_get(jm_ctx);
+>  	job->engine_usage = &file_priv->engine_usage;
+>  
+>  	slot = panfrost_job_get_slot(job);
+>  
+>  	ret = drm_sched_job_init(&job->base,
+> -				 &file_priv->sched_entity[slot],
+> +				 &jm_ctx->slot_entity[slot],
+>  				 1, NULL, file->client_id);
+>  	if (ret)
+>  		goto out_put_job;
+> @@ -338,6 +352,8 @@ static int panfrost_ioctl_submit(struct drm_device *dev, void *data,
+>  		drm_sched_job_cleanup(&job->base);
+>  out_put_job:
+>  	panfrost_job_put(job);
+> +out_put_jm_ctx:
+> +	panfrost_jm_ctx_put(jm_ctx);
+>  out_put_syncout:
+>  	if (sync_out)
+>  		drm_syncobj_put(sync_out);
+> @@ -564,7 +580,7 @@ panfrost_open(struct drm_device *dev, struct drm_file *file)
+>  		goto err_free;
+>  	}
+>  
+> -	ret = panfrost_job_open(panfrost_priv);
+> +	ret = panfrost_job_open(file);
+>  	if (ret)
+>  		goto err_job;
+>  
+> @@ -583,7 +599,7 @@ panfrost_postclose(struct drm_device *dev, struct drm_file *file)
+>  	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
+>  
+>  	panfrost_perfcnt_close(file);
+> -	panfrost_job_close(panfrost_priv);
+> +	panfrost_job_close(file);
+>  
+>  	panfrost_mmu_ctx_put(panfrost_priv->mmu);
+>  	kfree(panfrost_priv);
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 82acabb21b27..c47d14eabbae 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -22,6 +22,7 @@
+>  #include "panfrost_mmu.h"
+>  #include "panfrost_dump.h"
+>  
+> +#define MAX_JM_CTX_PER_FILE 64
+>  #define JOB_TIMEOUT_MS 500
+>  
+>  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
+> @@ -359,6 +360,7 @@ static void panfrost_job_cleanup(struct kref *ref)
+>  		kvfree(job->bos);
+>  	}
+>  
+> +	panfrost_jm_ctx_put(job->ctx);
+>  	kfree(job);
+>  }
+>  
+> @@ -383,6 +385,9 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
+>  	int slot = panfrost_job_get_slot(job);
+>  	struct dma_fence *fence = NULL;
+>  
+> +	if (job->ctx->destroyed)
+> +		return ERR_PTR(-ECANCELED);
+> +
+>  	if (unlikely(job->base.s_fence->finished.error))
+>  		return NULL;
+>  
+> @@ -917,39 +922,176 @@ void panfrost_job_fini(struct panfrost_device *pfdev)
+>  	destroy_workqueue(pfdev->reset.wq);
+>  }
+>  
+> -int panfrost_job_open(struct panfrost_file_priv *panfrost_priv)
+> +int panfrost_job_open(struct drm_file *file)
+> +{
+> +	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
+> +	int ret;
+> +
+> +	struct drm_panfrost_jm_ctx_create default_jm_ctx = {
+> +		.priority = PANFROST_JM_CTX_PRIORITY_MEDIUM,
+> +	};
+> +
+> +	xa_init_flags(&panfrost_priv->jm_ctxs, XA_FLAGS_ALLOC);
+> +
+> +	ret = panfrost_jm_ctx_create(file, &default_jm_ctx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* We expect the default context to be assigned handle 0. */
+> +	if (WARN_ON(default_jm_ctx.handle))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +void panfrost_job_close(struct drm_file *file)
+> +{
+> +	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
+> +	struct panfrost_jm_ctx *jm_ctx;
+> +	unsigned long i;
+> +
+> +	xa_for_each(&panfrost_priv->jm_ctxs, i, jm_ctx)
+> +		panfrost_jm_ctx_destroy(file, i);
+> +
+> +	xa_destroy(&panfrost_priv->jm_ctxs);
+> +}
+> +
+> +int panfrost_job_is_idle(struct panfrost_device *pfdev)
+>  {
+> -	struct panfrost_device *pfdev = panfrost_priv->pfdev;
+>  	struct panfrost_job_slot *js = pfdev->js;
+> -	struct drm_gpu_scheduler *sched;
+> -	int ret, i;
+> +	int i;
+>  
+>  	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> -		sched = &js->queue[i].sched;
+> -		ret = drm_sched_entity_init(&panfrost_priv->sched_entity[i],
+> -					    DRM_SCHED_PRIORITY_NORMAL, &sched,
+> -					    1, NULL);
+> -		if (WARN_ON(ret))
+> -			return ret;
+> +		/* If there are any jobs in the HW queue, we're not idle */
+> +		if (atomic_read(&js->queue[i].sched.credit_count))
+> +			return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+> +static void panfrost_jm_ctx_release(struct kref *kref)
+> +{
+> +	struct panfrost_jm_ctx *jm_ctx = container_of(kref, struct panfrost_jm_ctx, refcnt);
+> +
+> +	WARN_ON(!jm_ctx->destroyed);
+> +
+> +	for (u32 i = 0; i < ARRAY_SIZE(jm_ctx->slot_entity); i++)
+> +		drm_sched_entity_destroy(&jm_ctx->slot_entity[i]);
+> +
+> +	kfree(jm_ctx);
+> +}
+> +
+> +void
+> +panfrost_jm_ctx_put(struct panfrost_jm_ctx *jm_ctx)
+> +{
+> +	if (jm_ctx)
+> +		kref_put(&jm_ctx->refcnt, panfrost_jm_ctx_release);
+> +}
+> +
+> +struct panfrost_jm_ctx *
+> +panfrost_jm_ctx_get(struct panfrost_jm_ctx *jm_ctx)
+> +{
+> +	if (jm_ctx)
+> +		kref_get(&jm_ctx->refcnt);
+> +
+> +	return jm_ctx;
+> +}
+> +
+> +struct panfrost_jm_ctx *
+> +panfrost_jm_ctx_from_handle(struct drm_file *file, u32 handle)
+> +{
+> +	struct panfrost_file_priv *priv = file->driver_priv;
+> +	struct panfrost_jm_ctx *jm_ctx;
+> +
+> +	xa_lock(&priv->jm_ctxs);
+> +	jm_ctx = panfrost_jm_ctx_get(xa_load(&priv->jm_ctxs, handle));
+> +	xa_unlock(&priv->jm_ctxs);
+> +
+> +	return jm_ctx;
+> +}
+> +
+> +static int jm_ctx_prio_to_drm_sched_prio(struct drm_file *file,
+> +					 enum drm_panfrost_jm_ctx_priority in,
+> +					 enum drm_sched_priority *out)
+> +{
+> +	switch (in) {
+> +	case PANFROST_JM_CTX_PRIORITY_LOW:
+> +		*out = DRM_SCHED_PRIORITY_LOW;
+> +		return 0;
+> +	case PANFROST_JM_CTX_PRIORITY_MEDIUM:
+> +		*out = DRM_SCHED_PRIORITY_NORMAL;
+> +		return 0;
+> +	case PANFROST_JM_CTX_PRIORITY_HIGH:
+> +		if (!panfrost_high_prio_allowed(file))
+> +			return -EACCES;
+> +
+> +		*out = DRM_SCHED_PRIORITY_HIGH;
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+>  	}
+> +}
+> +
+> +int panfrost_jm_ctx_create(struct drm_file *file,
+> +			   struct drm_panfrost_jm_ctx_create *args)
+> +{
+> +	struct panfrost_file_priv *priv = file->driver_priv;
+> +	struct panfrost_device *pfdev = priv->pfdev;
+> +	enum drm_sched_priority sched_prio;
+> +	struct panfrost_jm_ctx *jm_ctx;
+> +	int ret;
+> +
+> +	jm_ctx = kzalloc(sizeof(*jm_ctx), GFP_KERNEL);
+> +	if (!jm_ctx)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&jm_ctx->refcnt);
+> +
+> +	ret = jm_ctx_prio_to_drm_sched_prio(file, args->priority, &sched_prio);
+> +	if (ret)
+> +		goto err_put_jm_ctx;
+> +
+> +	for (u32 i = 0; i < NUM_JOB_SLOTS; i++) {
+> +		struct drm_gpu_scheduler *sched = &pfdev->js->queue[i].sched;
+> +
+> +		ret = drm_sched_entity_init(&jm_ctx->slot_entity[i], sched_prio,
+> +					    &sched, 1, NULL);
+> +		if (ret)
+> +			goto err_put_jm_ctx;
+> +	}
+> +
+> +	ret = xa_alloc(&priv->jm_ctxs, &args->handle, jm_ctx,
+> +		       XA_LIMIT(0, MAX_JM_CTX_PER_FILE), GFP_KERNEL);
+> +	if (ret)
+> +		goto err_put_jm_ctx;
+> +
+>  	return 0;
+> +
+> +err_put_jm_ctx:
+> +	jm_ctx->destroyed = true;
+> +	panfrost_jm_ctx_put(jm_ctx);
+> +	return ret;
+>  }
+>  
+> -void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+> +int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle)
+>  {
+> -	struct panfrost_device *pfdev = panfrost_priv->pfdev;
+> -	int i;
+> +	struct panfrost_file_priv *priv = file->driver_priv;
+> +	struct panfrost_device *pfdev = priv->pfdev;
+> +	struct panfrost_jm_ctx *jm_ctx;
+>  
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++)
+> -		drm_sched_entity_destroy(&panfrost_priv->sched_entity[i]);
+> +	jm_ctx = xa_erase(&priv->jm_ctxs, handle);
+> +	if (!jm_ctx)
+> +		return -EINVAL;
+> +
+> +	jm_ctx->destroyed = true;
+>  
+>  	/* Kill in-flight jobs */
+>  	spin_lock(&pfdev->js->job_lock);
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> -		struct drm_sched_entity *entity = &panfrost_priv->sched_entity[i];
+> -		int j;
+> +	for (u32 i = 0; i < ARRAY_SIZE(jm_ctx->slot_entity); i++) {
+> +		struct drm_sched_entity *entity = &jm_ctx->slot_entity[i];
+>  
+> -		for (j = ARRAY_SIZE(pfdev->jobs[0]) - 1; j >= 0; j--) {
+> +		for (int j = ARRAY_SIZE(pfdev->jobs[0]) - 1; j >= 0; j--) {
+>  			struct panfrost_job *job = pfdev->jobs[i][j];
+>  			u32 cmd;
+>  
+> @@ -980,18 +1122,7 @@ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv)
+>  		}
+>  	}
+>  	spin_unlock(&pfdev->js->job_lock);
+> -}
+> -
+> -int panfrost_job_is_idle(struct panfrost_device *pfdev)
+> -{
+> -	struct panfrost_job_slot *js = pfdev->js;
+> -	int i;
+>  
+> -	for (i = 0; i < NUM_JOB_SLOTS; i++) {
+> -		/* If there are any jobs in the HW queue, we're not idle */
+> -		if (atomic_read(&js->queue[i].sched.credit_count))
+> -			return false;
+> -	}
+> -
+> -	return true;
+> +	panfrost_jm_ctx_put(jm_ctx);
+> +	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
+> index ec581b97852b..5a30ff1503c6 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
+> @@ -18,6 +18,7 @@ struct panfrost_job {
+>  
+>  	struct panfrost_device *pfdev;
+>  	struct panfrost_mmu *mmu;
+> +	struct panfrost_jm_ctx *ctx;
+>  
+>  	/* Fence to be signaled by IRQ handler when the job is complete. */
+>  	struct dma_fence *done_fence;
+> @@ -39,10 +40,30 @@ struct panfrost_job {
+>  	u64 start_cycles;
+>  };
+>  
+> +struct panfrost_js_ctx {
+> +	struct drm_sched_entity sched_entity;
+> +	bool enabled;
+> +};
+> +
+> +#define NUM_JOB_SLOTS 3
+> +
+> +struct panfrost_jm_ctx {
+> +	struct kref refcnt;
+> +	bool destroyed;
+> +	struct drm_sched_entity slot_entity[NUM_JOB_SLOTS];
+> +};
+> +
+> +int panfrost_jm_ctx_create(struct drm_file *file,
+> +			   struct drm_panfrost_jm_ctx_create *args);
+> +int panfrost_jm_ctx_destroy(struct drm_file *file, u32 handle);
+> +void panfrost_jm_ctx_put(struct panfrost_jm_ctx *jm_ctx);
+> +struct panfrost_jm_ctx *panfrost_jm_ctx_get(struct panfrost_jm_ctx *jm_ctx);
+> +struct panfrost_jm_ctx *panfrost_jm_ctx_from_handle(struct drm_file *file, u32 handle);
+> +
+>  int panfrost_job_init(struct panfrost_device *pfdev);
+>  void panfrost_job_fini(struct panfrost_device *pfdev);
+> -int panfrost_job_open(struct panfrost_file_priv *panfrost_priv);
+> -void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
+> +int panfrost_job_open(struct drm_file *file);
+> +void panfrost_job_close(struct drm_file *file);
+>  int panfrost_job_get_slot(struct panfrost_job *job);
+>  int panfrost_job_push(struct panfrost_job *job);
+>  void panfrost_job_put(struct panfrost_job *job);
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
--- 
-With best wishes
-Dmitry
