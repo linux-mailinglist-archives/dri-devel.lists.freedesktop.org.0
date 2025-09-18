@@ -2,127 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8530B832BF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 08:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B39B832EC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 08:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4186210E663;
-	Thu, 18 Sep 2025 06:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA75410E397;
+	Thu, 18 Sep 2025 06:44:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PEi5s4iU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jfYFPe/T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B95C210E669
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 06:40:23 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58I4jiFE017946
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 06:40:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LjaNkwEord8IuaS2Ix8rlcQtQCl3eabfxMXBeTRj034=; b=PEi5s4iU6KYwPSv2
- idItjN3VAXrFN0lg13BbjJbAv5ozq/cA4AFCzZdrlNJp6gWJMtOKz/jy96u71rRo
- NrO6UvNnYQ1JtvJMtLgpFhc3FM0aJcjQ1vmqgIuFyd9koEHWPQTcFEyWxKC3iGbP
- yK2ORo7+AVDcCIy51gzwVU1X++S6nhE2gsccFlYqVfxRz8UcWeTTbLTDzGwZBWsU
- M1JF9K74zyuUQH3aGiBaAprvPSg+17JAqg+qFjHV91W/SOxAs83jZC+bfpL8DwmG
- Ad67IExQ9hjx6FMs4nnpkUAfopoDdEtw2EqALnCU8DLcR90T8LUA/E24RbUFrsFc
- 46Cv6w==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4982de9rar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 06:40:22 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-32ed282183bso200849a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Sep 2025 23:40:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758177621; x=1758782421;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LjaNkwEord8IuaS2Ix8rlcQtQCl3eabfxMXBeTRj034=;
- b=B6Db3yoRjrDvvniwkNZ2dMlm6LUh+vSTCwP9+6VPxkdsemTnlYFxTg9mtNk+5SQRss
- AKYw3bQdnmlfswF8VpUwFonA/P/O9hXA2j0hAzlZ5+2kUjAR5aJcwDthVucK0JudNOoK
- 4bX//vxctJAJNSQBjyymRIlRjrH+G/IQyD55mhJFjHOtQauRc1qr1/e7n/vfVWRUeart
- Vcmi/Zi1a/1rjsK4fIgk1hsK9ThkOnS8Dy5CxZeaOA/cJqBiWwpQa6vpmbFp306spSv7
- t/MKCrxlhNTnnY/EJwKJO6rT87Cjp5yiXPn2mUQJau6Gqix40BWjyRVJHp7ifJUQrIgQ
- qqlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVN6mFwlPVEEcEwj5XQ1WlX3Wt7638hP5pnur5REInM9xIg4akNp5EEj4sXFUpSgEum8WL6n2Eo0dA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaporsZIxrYCB39DNYR8XbmhKoiv+shXF71qYcHGX8+Oe8TMv5
- UHKFluQwGbpfxfnsIwrAY9/VeXRpDbKcRLnAfrQCU2wU5Z0Z8R0R95BWHKsPc0WkNATqhjXKPsa
- y4ak+HpBh0vBQa85XoE0tmw0uk7gccHON/x9bNbNZqwBn5PXOiFPQgGDIUaHvxX06/7Br/tQ=
-X-Gm-Gg: ASbGnctN+AqojeC672vMPEVCbEypIO28wivbEuW+y8TxrJy7Tn6RkDTKsUzntrYtBHL
- NACUWRj0gZSep+ba0pyVm+w112nCzVT+DLBoWgMxJ+TSo44aoaK5EDMB1sumq+e14ad1rVDMJQF
- 7mzFi0teXu9DqRhbIOsop8QX4w/iGprBHGVuPK4kE1p8ThRhRNmZktEn+4YGggvggkWAvelylpY
- btURGjMIbNIrB8lXuUz7I+YbDh9SQTI8VLesPAqgZa9JJ0oCZ1nJET8SHMLpmsp9gWlFfw2TvFB
- JQqE7ZySgvjXZ5U/Jfo4SNRDEECd0SDMtu6h0MIv9btl+gY3q7OIjMVRYjOqg8wiDGCDEjKBBVD
- Uhy4kVM/A64J0cNT1fQJMpJpNBb0KQqjR0Q==
-X-Received: by 2002:a17:90b:1a85:b0:32b:dfd7:e42c with SMTP id
- 98e67ed59e1d1-32ee3f81fb9mr3115596a91.5.1758177621297; 
- Wed, 17 Sep 2025 23:40:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5qY1sAAfH7rgQLI8TMzDM81toKk94++RXJMv41XuxHoyUPZDYMls2v+1O0U+ZGupHT65xDA==
-X-Received: by 2002:a17:90b:1a85:b0:32b:dfd7:e42c with SMTP id
- 98e67ed59e1d1-32ee3f81fb9mr3115576a91.5.1758177620860; 
- Wed, 17 Sep 2025 23:40:20 -0700 (PDT)
-Received: from [10.133.33.13] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-77cfec3dadbsm1329619b3a.68.2025.09.17.23.40.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Sep 2025 23:40:20 -0700 (PDT)
-Message-ID: <50346565-20d0-4ef9-80a5-e08070fdefb6@oss.qualcomm.com>
-Date: Thu, 18 Sep 2025 14:40:12 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B69010E397
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 06:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1758177890; x=1789713890;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+5C4+ggmVCrGJW2Us6KhbZnZKQTH+jGCNkJjaBr0SFU=;
+ b=jfYFPe/T5XIf/fwRzvMN2GR9eGt1pnqysGcFrejhHUJLriT+Eb8ogXar
+ UHeQrWjBwqKylSfAJDwxzaf3MmAtNdHoVeT1I67srLHOO7yW8+F4fJbSZ
+ bsreuWqcErjOa9T5d39kVha5UvIX3E2PxZ+r3Mo76jBGh+nC6nUBUiNQm
+ tHOcjI8Af/pVsmbhKHv/meVYhUVdbgbDDHDWck5IRlOESzJZljTYNjPgC
+ PxkzGiqNToecQ9gL7eSMRWpTxB0IdpLwfyaHYKhdjcUIp6bGFHkbKJjHI
+ 5smgc7jw4cWKa1wu87rMjpB0Xfm085xmkC9k1booTl8GOk7bpbFIDKH1C w==;
+X-CSE-ConnectionGUID: AA5ePM2xSyaXSDUp5uGtcg==
+X-CSE-MsgGUID: gtL+3U2wRNyPHfzuDTjhkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64302294"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="64302294"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 23:44:49 -0700
+X-CSE-ConnectionGUID: YSl6adHMQR+gVMJ8sk61xg==
+X-CSE-MsgGUID: VoyhuySoQPibYT7qYisXAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,274,1751266800"; d="scan'208";a="174577331"
+Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.245.255.10])
+ ([10.245.255.10])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2025 23:44:47 -0700
+Message-ID: <df2d3996-b51e-4e46-8a18-499c1da5d044@linux.intel.com>
+Date: Thu, 18 Sep 2025 08:44:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/13] drm/msm/dp: Add support for lane mapping
- configuration
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- li.liu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com>
- <20250911-add-displayport-support-for-qcs615-platform-v4-13-2702bdda14ed@oss.qualcomm.com>
- <oex5463riqvvyfyntxcyissaznnfsd6xogcniqouqcn6yokgwu@dwhje4i5inj6>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <oex5463riqvvyfyntxcyissaznnfsd6xogcniqouqcn6yokgwu@dwhje4i5inj6>
+Subject: Re: [PATCH] accel/ivpu: Add support for user-managed preemption buffer
+To: Lizhi Hou <lizhi.hou@amd.com>, dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, jeff.hugo@oss.qualcomm.com,
+ maciej.falkowski@linux.intel.com,
+ Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+References: <20250915103437.830086-1-karol.wachowski@linux.intel.com>
+ <072bd85b-5c74-e9f4-13e4-151ee24acd62@amd.com>
+ <4a8a7543-37b8-490e-a2f2-abe6d3352719@linux.intel.com>
+ <8d93f6d1-654e-3c93-0bd7-182ec7bc56bb@amd.com>
+ <9a179c12-94e5-4e4c-9567-974023b5f2f7@linux.intel.com>
+ <ca40954e-26cc-93e1-63a0-e65f23c943cf@amd.com>
+Content-Language: en-US
+From: Karol Wachowski <karol.wachowski@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ca40954e-26cc-93e1-63a0-e65f23c943cf@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=YfO95xRf c=1 sm=1 tr=0 ts=68cba956 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=zEApyEmNphHiV2Xtq7IA:9
- a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: 8mqBATR2IUdST0rAY0j2CcpL7noSb-cx
-X-Proofpoint-ORIG-GUID: 8mqBATR2IUdST0rAY0j2CcpL7noSb-cx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDE4MiBTYWx0ZWRfX8zeLZJUmHhpg
- 3MKCNux4Eiq9B2iL1m30oZC1+Yu2iMnKHZYOhuR3GYI7H+H3d0aULsuXLBcXE/fUVxMmYj+ubEb
- WVvbRuujKb2AX/ezdTqBSgjf2/zzQQCMPnwlWg8RQL2kaCcaxaRQYURULsdILPp2phkLZ2qH01U
- tROM41mYIbg1bkVwvp0iLUA3GfLrpi+SQl7x1JKn0f2nJCU29D+6ImuZEmK9SuTvTSNUZ5pngyg
- JqHDF8h6ofDsBIKWXKdr+j5l4J3vrDg90B5WncAJhiVDXn0LJ5lJaiZiibC/txta19vVEsacJ13
- G6Rsim7w2gFEaL/kma87JWJVMxVRnR+64kXXxsD1ildxq3uUNHMd92UJwdmuDBhwSzcqQ337v7n
- myCbISro
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-18_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- spamscore=0 phishscore=0 malwarescore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509170182
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,87 +79,546 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied to drm-misc-next
 
-On 9/12/2025 6:42 PM, Dmitry Baryshkov wrote:
-> On Thu, Sep 11, 2025 at 10:55:10PM +0800, Xiangxu Yin wrote:
->> QCS615 platform requires non-default logical-to-physical lane mapping due
->> to its unique hardware routing. Unlike the standard mapping sequence
->> <0 1 2 3>, QCS615 uses <3 2 0 1>, which necessitates explicit
->> configuration via the data-lanes property in the device tree. This ensures
->> correct signal routing between the DP controller and PHY.
+On 9/17/2025 5:21 PM, Lizhi Hou wrote:
+>
+> On 9/17/25 00:24, Karol Wachowski wrote:
+>> On 9/16/2025 5:29 PM, Lizhi Hou wrote:
+>>> On 9/16/25 01:25, Karol Wachowski wrote:
+>>>> On 9/15/2025 10:33 PM, Lizhi Hou wrote:
+>>>>> On 9/15/25 03:34, Karol Wachowski wrote:
+>>>>>> From: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>>>>>>
+>>>>>> Allow user mode drivers to manage preemption buffers, enabling
+>>>>>> memory savings by sharing a single buffer across multiple
+>>>>>> command queues within the same memory context.
+>>>>>>
+>>>>>> Introduce DRM_IVPU_PARAM_PREEMPT_BUFFER_SIZE to report the required
+>>>>>> preemption buffer size as specified by the firmware.
+>>>>>>
+>>>>>> The preemption buffer is now passed from user space as an entry
+>>>>>> in the BO list of DRM_IVPU_CMDQ_SUBMIT. The buffer must be
+>>>>>> non-mappable and large enough to hold preemption data.
+>>>>>>
+>>>>>> For backward compatibility, the kernel will allocate an internal
+>>>>>> preemption buffer if user space does not provide one.
+>>>>>>
+>>>>>> User space can only provide a single preemption buffer,
+>>>>>> simplifying the ioctl interface and parameter validation.
+>>>>>> A separate secondary preemption buffer is only needed
+>>>>>> to save below 4GB address space on 37xx and only if preemption
+>>>>>> buffers are not shared.
+>>>>>>
+>>>>>> Signed-off-by: Andrzej Kacprowski <Andrzej.Kacprowski@intel.com>
+>>>>>> Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
+>>>>>> ---
+>>>>>>     drivers/accel/ivpu/ivpu_drv.c |  3 ++
+>>>>>>     drivers/accel/ivpu/ivpu_fw.c  | 57 +++++++++++++++++----
+>>>>>>     drivers/accel/ivpu/ivpu_fw.h  |  7 ++-
+>>>>>>     drivers/accel/ivpu/ivpu_gem.h |  7 ++-
+>>>>>>     drivers/accel/ivpu/ivpu_job.c | 96
+>>>>>> ++++++++++++++++++++++++-----------
+>>>>>>     drivers/accel/ivpu/ivpu_job.h |  4 +-
+>>>>>>     include/uapi/drm/ivpu_accel.h | 11 ++++
+>>>>>>     7 files changed, 141 insertions(+), 44 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_drv.c
+>>>>>> b/drivers/accel/ivpu/ivpu_drv.c
+>>>>>> index 3d6d52492536..61c4f627c7c7 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_drv.c
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_drv.c
+>>>>>> @@ -200,6 +200,9 @@ static int ivpu_get_param_ioctl(struct
+>>>>>> drm_device
+>>>>>> *dev, void *data, struct drm_f
+>>>>>>         case DRM_IVPU_PARAM_CAPABILITIES:
+>>>>>>             args->value = ivpu_is_capable(vdev, args->index);
+>>>>>>             break;
+>>>>>> +    case DRM_IVPU_PARAM_PREEMPT_BUFFER_SIZE:
+>>>>>> +        args->value = ivpu_fw_preempt_buf_size(vdev);
+>>>>>> +        break;
+>>>>>>         default:
+>>>>>>             ret = -EINVAL;
+>>>>>>             break;
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_fw.c
+>>>>>> b/drivers/accel/ivpu/ivpu_fw.c
+>>>>>> index 9db741695401..6e0941d324a8 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_fw.c
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_fw.c
+>>>>>> @@ -26,6 +26,8 @@
+>>>>>>     #define FW_RUNTIME_MIN_ADDR    (FW_GLOBAL_MEM_START)
+>>>>>>     #define FW_RUNTIME_MAX_ADDR    (FW_GLOBAL_MEM_END -
+>>>>>> FW_SHARED_MEM_SIZE)
+>>>>>>     #define FW_FILE_IMAGE_OFFSET    (VPU_FW_HEADER_SIZE +
+>>>>>> FW_VERSION_HEADER_SIZE)
+>>>>>> +#define FW_PREEMPT_BUF_MIN_SIZE SZ_4K
+>>>>>> +#define FW_PREEMPT_BUF_MAX_SIZE SZ_32M
+>>>>>>       #define WATCHDOG_MSS_REDIRECT    32
+>>>>>>     #define WATCHDOG_NCE_REDIRECT    33
+>>>>>> @@ -151,6 +153,47 @@ ivpu_fw_sched_mode_select(struct ivpu_device
+>>>>>> *vdev, const struct vpu_firmware_he
+>>>>>>         return VPU_SCHEDULING_MODE_HW;
+>>>>>>     }
+>>>>>>     +static void
+>>>>>> +ivpu_preemption_config_parse(struct ivpu_device *vdev, const struct
+>>>>>> vpu_firmware_header *fw_hdr)
+>>>>>> +{
+>>>>>> +    struct ivpu_fw_info *fw = vdev->fw;
+>>>>>> +    u32 primary_preempt_buf_size, secondary_preempt_buf_size;
+>>>>>> +
+>>>>>> +    if (fw_hdr->preemption_buffer_1_max_size)
+>>>>>> +        primary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_1_max_size;
+>>>>>> +    else
+>>>>>> +        primary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_1_size;
+>>>>>> +
+>>>>>> +    if (fw_hdr->preemption_buffer_2_max_size)
+>>>>>> +        secondary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_2_max_size;
+>>>>>> +    else
+>>>>>> +        secondary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_2_size;
+>>>>>> +
+>>>>>> +    ivpu_dbg(vdev, FW_BOOT, "Preemption buffer size, primary: %u,
+>>>>>> secondary: %u\n",
+>>>>>> +         primary_preempt_buf_size, secondary_preempt_buf_size);
+>>>>>> +
+>>>>>> +    if (primary_preempt_buf_size < FW_PREEMPT_BUF_MIN_SIZE ||
+>>>>>> +        secondary_preempt_buf_size < FW_PREEMPT_BUF_MIN_SIZE) {
+>>>>>> +        ivpu_warn(vdev, "Preemption buffers size too small\n");
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    if (primary_preempt_buf_size > FW_PREEMPT_BUF_MAX_SIZE ||
+>>>>>> +        secondary_preempt_buf_size > FW_PREEMPT_BUF_MAX_SIZE) {
+>>>>>> +        ivpu_warn(vdev, "Preemption buffers size too big\n");
+>>>>>> +        return;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    if (fw->sched_mode != VPU_SCHEDULING_MODE_HW)
+>>>>>> +        return;
+>>>>>> +
+>>>>>> +    if (ivpu_test_mode & IVPU_TEST_MODE_MIP_DISABLE)
+>>>>>> +        return;
+>>>>>> +
+>>>>>> +    vdev->fw->primary_preempt_buf_size =
+>>>>>> ALIGN(primary_preempt_buf_size, PAGE_SIZE);
+>>>>>> +    vdev->fw->secondary_preempt_buf_size =
+>>>>>> ALIGN(secondary_preempt_buf_size, PAGE_SIZE);
+>>>>>> +}
+>>>>>> +
+>>>>>>     static int ivpu_fw_parse(struct ivpu_device *vdev)
+>>>>>>     {
+>>>>>>         struct ivpu_fw_info *fw = vdev->fw;
+>>>>>> @@ -235,17 +278,9 @@ static int ivpu_fw_parse(struct ivpu_device
+>>>>>> *vdev)
+>>>>>>         fw->sched_mode = ivpu_fw_sched_mode_select(vdev, fw_hdr);
+>>>>>>         ivpu_info(vdev, "Scheduler mode: %s\n", fw->sched_mode ?
+>>>>>> "HW" :
+>>>>>> "OS");
+>>>>>>     -    if (fw_hdr->preemption_buffer_1_max_size)
+>>>>>> -        fw->primary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_1_max_size;
+>>>>>> -    else
+>>>>>> -        fw->primary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_1_size;
+>>>>>> -
+>>>>>> -    if (fw_hdr->preemption_buffer_2_max_size)
+>>>>>> -        fw->secondary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_2_max_size;
+>>>>>> -    else
+>>>>>> -        fw->secondary_preempt_buf_size =
+>>>>>> fw_hdr->preemption_buffer_2_size;
+>>>>>> -    ivpu_dbg(vdev, FW_BOOT, "Preemption buffer sizes: primary %u,
+>>>>>> secondary %u\n",
+>>>>>> -         fw->primary_preempt_buf_size,
+>>>>>> fw->secondary_preempt_buf_size);
+>>>>>> +    ivpu_preemption_config_parse(vdev, fw_hdr);
+>>>>>> +    ivpu_dbg(vdev, FW_BOOT, "Mid-inference preemption %s
+>>>>>> supported\n",
+>>>>>> +         ivpu_fw_preempt_buf_size(vdev) ? "is" : "is not");
+>>>>>>           if (fw_hdr->ro_section_start_address &&
+>>>>>> !is_within_range(fw_hdr->ro_section_start_address,
+>>>>>>                                      fw_hdr->ro_section_size,
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_fw.h
+>>>>>> b/drivers/accel/ivpu/ivpu_fw.h
+>>>>>> index 7081913fb0dd..6fe2917abda6 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_fw.h
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_fw.h
+>>>>>> @@ -1,6 +1,6 @@
+>>>>>>     /* SPDX-License-Identifier: GPL-2.0-only */
+>>>>>>     /*
+>>>>>> - * Copyright (C) 2020-2024 Intel Corporation
+>>>>>> + * Copyright (C) 2020-2025 Intel Corporation
+>>>>>>      */
+>>>>>>       #ifndef __IVPU_FW_H__
+>>>>>> @@ -52,4 +52,9 @@ static inline bool ivpu_fw_is_cold_boot(struct
+>>>>>> ivpu_device *vdev)
+>>>>>>         return vdev->fw->entry_point ==
+>>>>>> vdev->fw->cold_boot_entry_point;
+>>>>>>     }
+>>>>>>     +static inline u32 ivpu_fw_preempt_buf_size(struct ivpu_device
+>>>>>> *vdev)
+>>>>>> +{
+>>>>>> +    return vdev->fw->primary_preempt_buf_size +
+>>>>>> vdev->fw->secondary_preempt_buf_size;
+>>>>>> +}
+>>>>>> +
+>>>>>>     #endif /* __IVPU_FW_H__ */
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_gem.h
+>>>>>> b/drivers/accel/ivpu/ivpu_gem.h
+>>>>>> index aa8ff14f7aae..3ee996d503b2 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_gem.h
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_gem.h
+>>>>>> @@ -1,6 +1,6 @@
+>>>>>>     /* SPDX-License-Identifier: GPL-2.0-only */
+>>>>>>     /*
+>>>>>> - * Copyright (C) 2020-2023 Intel Corporation
+>>>>>> + * Copyright (C) 2020-2025 Intel Corporation
+>>>>>>      */
+>>>>>>     #ifndef __IVPU_GEM_H__
+>>>>>>     #define __IVPU_GEM_H__
+>>>>>> @@ -96,4 +96,9 @@ static inline u32 cpu_to_vpu_addr(struct ivpu_bo
+>>>>>> *bo, void *cpu_addr)
+>>>>>>         return bo->vpu_addr + (cpu_addr - ivpu_bo_vaddr(bo));
+>>>>>>     }
+>>>>>>     +static inline bool ivpu_bo_is_mappable(struct ivpu_bo *bo)
+>>>>>> +{
+>>>>>> +    return bo->flags & DRM_IVPU_BO_MAPPABLE;
+>>>>>> +}
+>>>>>> +
+>>>>>>     #endif /* __IVPU_GEM_H__ */
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_job.c
+>>>>>> b/drivers/accel/ivpu/ivpu_job.c
+>>>>>> index fa1720fa06a4..521b7ac6e35e 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_job.c
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_job.c
+>>>>>> @@ -34,22 +34,20 @@ static void ivpu_cmdq_ring_db(struct ivpu_device
+>>>>>> *vdev, struct ivpu_cmdq *cmdq)
+>>>>>>     static int ivpu_preemption_buffers_create(struct ivpu_device
+>>>>>> *vdev,
+>>>>>>                           struct ivpu_file_priv *file_priv, struct
+>>>>>> ivpu_cmdq *cmdq)
+>>>>>>     {
+>>>>>> -    u64 primary_size = ALIGN(vdev->fw->primary_preempt_buf_size,
+>>>>>> PAGE_SIZE);
+>>>>>> -    u64 secondary_size =
+>>>>>> ALIGN(vdev->fw->secondary_preempt_buf_size,
+>>>>>> PAGE_SIZE);
+>>>>>> -
+>>>>>> -    if (vdev->fw->sched_mode != VPU_SCHEDULING_MODE_HW ||
+>>>>>> -        ivpu_test_mode & IVPU_TEST_MODE_MIP_DISABLE)
+>>>>>> +    if (ivpu_fw_preempt_buf_size(vdev) == 0)
+>>>>>>             return 0;
+>>>>>>           cmdq->primary_preempt_buf = ivpu_bo_create(vdev,
+>>>>>> &file_priv->ctx, &vdev->hw->ranges.user,
+>>>>>> -                           primary_size, DRM_IVPU_BO_WC);
+>>>>>> +                           vdev->fw->primary_preempt_buf_size,
+>>>>>> +                           DRM_IVPU_BO_WC);
+>>>>> Could vdev->fw->primary_preempt_buf_size be zero?
+>>>> This can be zero and zero is intended to indicate that preemption
+>>>> buffers are disabled and should not be allocated by the driver.
+>>>>> ivpu_fw_preempt_buf_size(vdev) make sure primary+secondary is not
+>>>>> zero.
+>>>> Either of them or both can be zero. In case of both of them being zero
+>>>> function returns early not allocating any of the buffers.
+>>> ivpu_bo_create will generate a warning stack if size is zero. So just
+>>> checking if both are zero is not good enough.
+>> Thank you for your feedback. I apologize for my earlier inaccurate
+>> statement regarding the possibility of zeroing the buffers separately.
+>> To clarify, the driver ensures that both preemption buffer sizes are
+>> either non-zero or both zero. This is already handled during the
+>> firmware header parsing,
+>> specifically in the ivpu_preemption_config_parse() function.
+>> That function guarantees that both preemption buffer sizes are set to
+>> non-zero values together, or both are explicitly set to zero.
+>> Therefore, whenever ivpu_preemption_buffers_create() is invoked, both
+>> buffers are either allocated with non-zero sizes or not allocated at
+>> all.
+>> Adding individual checks within this function would reduce readability,
+>> as we only ever allocate both buffers together or neither.
+>
+> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Adding some comment might be good. :)
+>
 >>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 10 +++++-----
->>  drivers/gpu/drm/msm/dp/dp_link.c | 12 ++++++++++--
->>  drivers/gpu/drm/msm/dp/dp_link.h |  1 +
->>  3 files changed, 16 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> index c42fd2c17a328f6deae211c9cd57cc7416a9365a..cbcc7c2f0ffc4696749b6c43818d20853ddec069 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->> @@ -423,13 +423,13 @@ static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
->>  
->>  static void msm_dp_ctrl_lane_mapping(struct msm_dp_ctrl_private *ctrl)
->>  {
->> -	u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
->> +	u32 *lane_map = ctrl->link->lane_map;
->>  	u32 ln_mapping;
->>  
->> -	ln_mapping = ln_0 << LANE0_MAPPING_SHIFT;
->> -	ln_mapping |= ln_1 << LANE1_MAPPING_SHIFT;
->> -	ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
->> -	ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
->> +	ln_mapping = lane_map[0] << LANE0_MAPPING_SHIFT;
->> +	ln_mapping |= lane_map[1] << LANE1_MAPPING_SHIFT;
->> +	ln_mapping |= lane_map[2] << LANE2_MAPPING_SHIFT;
->> +	ln_mapping |= lane_map[3] << LANE3_MAPPING_SHIFT;
->>  
->>  	msm_dp_write_link(ctrl, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
->>  			ln_mapping);
->> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
->> index caca947122c60abb2a01e295f3e254cf02e34502..7c7a4aa584eb42a0ca7c6ec45de585cde8639cb4 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_link.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
->> @@ -1242,6 +1242,7 @@ static int msm_dp_link_parse_dt(struct msm_dp_link *msm_dp_link)
->>  	struct msm_dp_link_private *link;
->>  	struct device_node *of_node;
->>  	int cnt;
->> +	u32 lane_map[DP_MAX_NUM_DP_LANES] = {0};
->>  
->>  	link = container_of(msm_dp_link, struct msm_dp_link_private, msm_dp_link);
->>  	of_node = link->dev->of_node;
->> @@ -1255,10 +1256,17 @@ static int msm_dp_link_parse_dt(struct msm_dp_link *msm_dp_link)
->>  		cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
->>  	}
->>  
->> -	if (cnt > 0)
->> +	if (cnt > 0) {
->> +		struct device_node *endpoint;
->> +
->>  		msm_dp_link->max_dp_lanes = cnt;
->> -	else
->> +		endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
->> +		of_property_read_u32_array(endpoint, "data-lanes", lane_map, cnt);
->> +	} else {
->>  		msm_dp_link->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
->> +	}
->> +
->> +	memcpy(msm_dp_link->lane_map, lane_map, msm_dp_link->max_dp_lanes * sizeof(u32));
-> This will break all the cases when data-lanes is not present in DT: you
-> are storing the empty lane map instead of the 1:1 lane mapping that was
-> in place beforehand.
-
-
-You are right. It would overwrite the mapping with zeros when data-lanes is missing.
-
-In the next patch I will:
-1. Initialize to a default 1:1 mapping (<0 1 2 3>).
-2. Validate and apply data-lanes only if present and valid.
-3. Always produce a full 4-lane mapping, filling unused lanes with remaining physical lanes.
-
-
->>  
->>  	msm_dp_link->max_dp_link_rate = msm_dp_link_link_frequencies(of_node);
->>  	if (!msm_dp_link->max_dp_link_rate)
+>> Thanks,
+>> Karol
+>>> Lizhi
+>>>
+>>>> Best regards,
+>>>>
+>>>> Karol
+>>>>
+>>>>> Lizhi
+>>>>>
+>>>>>>         if (!cmdq->primary_preempt_buf) {
+>>>>>>             ivpu_err(vdev, "Failed to create primary preemption
+>>>>>> buffer\n");
+>>>>>>             return -ENOMEM;
+>>>>>>         }
+>>>>>>           cmdq->secondary_preempt_buf = ivpu_bo_create(vdev,
+>>>>>> &file_priv->ctx, &vdev->hw->ranges.dma,
+>>>>>> -                             secondary_size, DRM_IVPU_BO_WC);
+>>>>>> +                             vdev->fw->secondary_preempt_buf_size,
+>>>>>> +                             DRM_IVPU_BO_WC);
+>>>>>>         if (!cmdq->secondary_preempt_buf) {
+>>>>>>             ivpu_err(vdev, "Failed to create secondary preemption
+>>>>>> buffer\n");
+>>>>>>             goto err_free_primary;
+>>>>>> @@ -66,20 +64,39 @@ static int ivpu_preemption_buffers_create(struct
+>>>>>> ivpu_device *vdev,
+>>>>>>     static void ivpu_preemption_buffers_free(struct ivpu_device
+>>>>>> *vdev,
+>>>>>>                          struct ivpu_file_priv *file_priv, struct
+>>>>>> ivpu_cmdq *cmdq)
+>>>>>>     {
+>>>>>> -    if (vdev->fw->sched_mode != VPU_SCHEDULING_MODE_HW)
+>>>>>> -        return;
+>>>>>> -
+>>>>>>         if (cmdq->primary_preempt_buf)
+>>>>>>             ivpu_bo_free(cmdq->primary_preempt_buf);
+>>>>>>         if (cmdq->secondary_preempt_buf)
+>>>>>>             ivpu_bo_free(cmdq->secondary_preempt_buf);
+>>>>>>     }
+>>>>>>     +static int ivpu_preemption_job_init(struct ivpu_device *vdev,
+>>>>>> struct ivpu_file_priv *file_priv,
+>>>>>> +                    struct ivpu_cmdq *cmdq, struct ivpu_job *job)
+>>>>>> +{
+>>>>>> +    int ret;
+>>>>>> +
+>>>>>> +    /* Use preemption buffer provided by the user space */
+>>>>>> +    if (job->primary_preempt_buf)
+>>>>>> +        return 0;
+>>>>>> +
+>>>>>> +    if (!cmdq->primary_preempt_buf) {
+>>>>>> +        /* Allocate per command queue preemption buffers */
+>>>>>> +        ret = ivpu_preemption_buffers_create(vdev, file_priv,
+>>>>>> cmdq);
+>>>>>> +        if (ret)
+>>>>>> +            return ret;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    /* Use preemption buffers allocated by the kernel */
+>>>>>> +    job->primary_preempt_buf = cmdq->primary_preempt_buf;
+>>>>>> +    job->secondary_preempt_buf = cmdq->secondary_preempt_buf;
+>>>>>> +
+>>>>>> +    return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>>     static struct ivpu_cmdq *ivpu_cmdq_alloc(struct ivpu_file_priv
+>>>>>> *file_priv)
+>>>>>>     {
+>>>>>>         struct ivpu_device *vdev = file_priv->vdev;
+>>>>>>         struct ivpu_cmdq *cmdq;
+>>>>>> -    int ret;
+>>>>>>           cmdq = kzalloc(sizeof(*cmdq), GFP_KERNEL);
+>>>>>>         if (!cmdq)
+>>>>>> @@ -89,10 +106,6 @@ static struct ivpu_cmdq *ivpu_cmdq_alloc(struct
+>>>>>> ivpu_file_priv *file_priv)
+>>>>>>         if (!cmdq->mem)
+>>>>>>             goto err_free_cmdq;
+>>>>>>     -    ret = ivpu_preemption_buffers_create(vdev, file_priv,
+>>>>>> cmdq);
+>>>>>> -    if (ret)
+>>>>>> -        ivpu_warn(vdev, "Failed to allocate preemption buffers,
+>>>>>> preemption limited\n");
+>>>>>> -
+>>>>>>         return cmdq;
+>>>>>>       err_free_cmdq:
+>>>>>> @@ -429,17 +442,14 @@ static int ivpu_cmdq_push_job(struct ivpu_cmdq
+>>>>>> *cmdq, struct ivpu_job *job)
+>>>>>>         if (unlikely(ivpu_test_mode &
+>>>>>> IVPU_TEST_MODE_NULL_SUBMISSION))
+>>>>>>             entry->flags = VPU_JOB_FLAGS_NULL_SUBMISSION_MASK;
+>>>>>>     -    if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW) {
+>>>>>> -        if (cmdq->primary_preempt_buf) {
+>>>>>> -            entry->primary_preempt_buf_addr =
+>>>>>> cmdq->primary_preempt_buf->vpu_addr;
+>>>>>> -            entry->primary_preempt_buf_size =
+>>>>>> ivpu_bo_size(cmdq->primary_preempt_buf);
+>>>>>> -        }
+>>>>>> +    if (job->primary_preempt_buf) {
+>>>>>> +        entry->primary_preempt_buf_addr =
+>>>>>> job->primary_preempt_buf->vpu_addr;
+>>>>>> +        entry->primary_preempt_buf_size =
+>>>>>> ivpu_bo_size(job->primary_preempt_buf);
+>>>>>> +    }
+>>>>>>     -        if (cmdq->secondary_preempt_buf) {
+>>>>>> -            entry->secondary_preempt_buf_addr =
+>>>>>> cmdq->secondary_preempt_buf->vpu_addr;
+>>>>>> -            entry->secondary_preempt_buf_size =
+>>>>>> -                ivpu_bo_size(cmdq->secondary_preempt_buf);
+>>>>>> -        }
+>>>>>> +    if (job->secondary_preempt_buf) {
+>>>>>> +        entry->secondary_preempt_buf_addr =
+>>>>>> job->secondary_preempt_buf->vpu_addr;
+>>>>>> +        entry->secondary_preempt_buf_size =
+>>>>>> ivpu_bo_size(job->secondary_preempt_buf);
+>>>>>>         }
+>>>>>>           wmb(); /* Ensure that tail is updated after filling
+>>>>>> entry */
+>>>>>> @@ -663,6 +673,13 @@ static int ivpu_job_submit(struct ivpu_job
+>>>>>> *job,
+>>>>>> u8 priority, u32 cmdq_id)
+>>>>>>             goto err_unlock;
+>>>>>>         }
+>>>>>>     +    ret = ivpu_preemption_job_init(vdev, file_priv, cmdq, job);
+>>>>>> +    if (ret) {
+>>>>>> +        ivpu_err(vdev, "Failed to initialize preemption buffers for
+>>>>>> job %d: %d\n",
+>>>>>> +             job->job_id, ret);
+>>>>>> +        goto err_unlock;
+>>>>>> +    }
+>>>>>> +
+>>>>>>         job->cmdq_id = cmdq->id;
+>>>>>>           is_first_job = xa_empty(&vdev->submitted_jobs_xa);
+>>>>>> @@ -716,7 +733,7 @@ static int ivpu_job_submit(struct ivpu_job *job,
+>>>>>> u8 priority, u32 cmdq_id)
+>>>>>>       static int
+>>>>>>     ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct
+>>>>>> ivpu_job *job, u32 *buf_handles,
+>>>>>> -                u32 buf_count, u32 commands_offset)
+>>>>>> +                u32 buf_count, u32 commands_offset, u32
+>>>>>> preempt_buffer_index)
+>>>>>>     {
+>>>>>>         struct ivpu_file_priv *file_priv = job->file_priv;
+>>>>>>         struct ivpu_device *vdev = file_priv->vdev;
+>>>>>> @@ -752,6 +769,20 @@ ivpu_job_prepare_bos_for_submit(struct drm_file
+>>>>>> *file, struct ivpu_job *job, u32
+>>>>>>           job->cmd_buf_vpu_addr = bo->vpu_addr + commands_offset;
+>>>>>>     +    if (preempt_buffer_index) {
+>>>>>> +        struct ivpu_bo *preempt_bo =
+>>>>>> job->bos[preempt_buffer_index];
+>>>>>> +
+>>>>>> +        if (ivpu_bo_size(preempt_bo) <
+>>>>>> ivpu_fw_preempt_buf_size(vdev)) {
+>>>>>> +            ivpu_warn(vdev, "Preemption buffer is too small\n");
+>>>>>> +            return -EINVAL;
+>>>>>> +        }
+>>>>>> +        if (ivpu_bo_is_mappable(preempt_bo)) {
+>>>>>> +            ivpu_warn(vdev, "Preemption buffer cannot be
+>>>>>> mappable\n");
+>>>>>> +            return -EINVAL;
+>>>>>> +        }
+>>>>>> +        job->primary_preempt_buf = preempt_bo;
+>>>>>> +    }
+>>>>>> +
+>>>>>>         ret = drm_gem_lock_reservations((struct drm_gem_object
+>>>>>> **)job->bos, buf_count,
+>>>>>>                         &acquire_ctx);
+>>>>>>         if (ret) {
+>>>>>> @@ -782,7 +813,7 @@ ivpu_job_prepare_bos_for_submit(struct drm_file
+>>>>>> *file, struct ivpu_job *job, u32
+>>>>>>       static int ivpu_submit(struct drm_file *file, struct
+>>>>>> ivpu_file_priv *file_priv, u32 cmdq_id,
+>>>>>>                    u32 buffer_count, u32 engine, void __user
+>>>>>> *buffers_ptr, u32 cmds_offset,
+>>>>>> -               u8 priority)
+>>>>>> +               u32 preempt_buffer_index, u8 priority)
+>>>>>>     {
+>>>>>>         struct ivpu_device *vdev = file_priv->vdev;
+>>>>>>         struct ivpu_job *job;
+>>>>>> @@ -814,7 +845,8 @@ static int ivpu_submit(struct drm_file *file,
+>>>>>> struct ivpu_file_priv *file_priv,
+>>>>>>             goto err_exit_dev;
+>>>>>>         }
+>>>>>>     -    ret = ivpu_job_prepare_bos_for_submit(file, job,
+>>>>>> buf_handles,
+>>>>>> buffer_count, cmds_offset);
+>>>>>> +    ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles,
+>>>>>> buffer_count, cmds_offset,
+>>>>>> +                          preempt_buffer_index);
+>>>>>>         if (ret) {
+>>>>>>             ivpu_err(vdev, "Failed to prepare job: %d\n", ret);
+>>>>>>             goto err_destroy_job;
+>>>>>> @@ -868,7 +900,7 @@ int ivpu_submit_ioctl(struct drm_device *dev,
+>>>>>> void *data, struct drm_file *file)
+>>>>>>         priority = ivpu_job_to_jsm_priority(args->priority);
+>>>>>>           return ivpu_submit(file, file_priv, 0, args->buffer_count,
+>>>>>> args->engine,
+>>>>>> -               (void __user *)args->buffers_ptr,
+>>>>>> args->commands_offset, priority);
+>>>>>> +               (void __user *)args->buffers_ptr,
+>>>>>> args->commands_offset, 0, priority);
+>>>>>>     }
+>>>>>>       int ivpu_cmdq_submit_ioctl(struct drm_device *dev, void *data,
+>>>>>> struct drm_file *file)
+>>>>>> @@ -885,6 +917,9 @@ int ivpu_cmdq_submit_ioctl(struct drm_device
+>>>>>> *dev, void *data, struct drm_file *
+>>>>>>         if (args->buffer_count == 0 || args->buffer_count >
+>>>>>> JOB_MAX_BUFFER_COUNT)
+>>>>>>             return -EINVAL;
+>>>>>>     +    if (args->preempt_buffer_index >= args->buffer_count)
+>>>>>> +        return -EINVAL;
+>>>>>> +
+>>>>>>         if (!IS_ALIGNED(args->commands_offset, 8))
+>>>>>>             return -EINVAL;
+>>>>>>     @@ -895,7 +930,8 @@ int ivpu_cmdq_submit_ioctl(struct drm_device
+>>>>>> *dev, void *data, struct drm_file *
+>>>>>>             return -EBADFD;
+>>>>>>           return ivpu_submit(file, file_priv, args->cmdq_id,
+>>>>>> args->buffer_count, VPU_ENGINE_COMPUTE,
+>>>>>> -               (void __user *)args->buffers_ptr,
+>>>>>> args->commands_offset, 0);
+>>>>>> +               (void __user *)args->buffers_ptr,
+>>>>>> args->commands_offset,
+>>>>>> +               args->preempt_buffer_index, 0);
+>>>>>>     }
+>>>>>>       int ivpu_cmdq_create_ioctl(struct drm_device *dev, void *data,
+>>>>>> struct drm_file *file)
+>>>>>> diff --git a/drivers/accel/ivpu/ivpu_job.h
+>>>>>> b/drivers/accel/ivpu/ivpu_job.h
+>>>>>> index 2e301c2eea7b..6c8b9c739b51 100644
+>>>>>> --- a/drivers/accel/ivpu/ivpu_job.h
+>>>>>> +++ b/drivers/accel/ivpu/ivpu_job.h
+>>>>>> @@ -1,6 +1,6 @@
+>>>>>>     /* SPDX-License-Identifier: GPL-2.0-only */
+>>>>>>     /*
+>>>>>> - * Copyright (C) 2020-2024 Intel Corporation
+>>>>>> + * Copyright (C) 2020-2025 Intel Corporation
+>>>>>>      */
+>>>>>>       #ifndef __IVPU_JOB_H__
+>>>>>> @@ -55,6 +55,8 @@ struct ivpu_job {
+>>>>>>         u32 job_id;
+>>>>>>         u32 engine_idx;
+>>>>>>         size_t bo_count;
+>>>>>> +    struct ivpu_bo *primary_preempt_buf;
+>>>>>> +    struct ivpu_bo *secondary_preempt_buf;
+>>>>>>         struct ivpu_bo *bos[] __counted_by(bo_count);
+>>>>>>     };
+>>>>>>     diff --git a/include/uapi/drm/ivpu_accel.h
+>>>>>> b/include/uapi/drm/ivpu_accel.h
+>>>>>> index 160ee1411d4a..e470b0221e02 100644
+>>>>>> --- a/include/uapi/drm/ivpu_accel.h
+>>>>>> +++ b/include/uapi/drm/ivpu_accel.h
+>>>>>> @@ -90,6 +90,7 @@ extern "C" {
+>>>>>>     #define DRM_IVPU_PARAM_TILE_CONFIG        11
+>>>>>>     #define DRM_IVPU_PARAM_SKU            12
+>>>>>>     #define DRM_IVPU_PARAM_CAPABILITIES        13
+>>>>>> +#define DRM_IVPU_PARAM_PREEMPT_BUFFER_SIZE  14
+>>>>>>       #define DRM_IVPU_PLATFORM_TYPE_SILICON        0
+>>>>>>     @@ -176,6 +177,9 @@ struct drm_ivpu_param {
+>>>>>>          *
+>>>>>>          * %DRM_IVPU_PARAM_CAPABILITIES:
+>>>>>>          * Supported capabilities (read-only)
+>>>>>> +     *
+>>>>>> +     * %DRM_IVPU_PARAM_PREEMPT_BUFFER_SIZE:
+>>>>>> +     * Size of the preemption buffer (read-only)
+>>>>>>          */
+>>>>>>         __u32 param;
+>>>>>>     @@ -371,6 +375,13 @@ struct drm_ivpu_cmdq_submit {
+>>>>>>          * to be executed. The offset has to be 8-byte aligned.
+>>>>>>          */
+>>>>>>         __u32 commands_offset;
+>>>>>> +    /**
+>>>>>> +     * @preempt_buffer_index:
+>>>>>> +     *
+>>>>>> +     * Index of the preemption buffer in the buffers_ptr array.
+>>>>>> +     */
+>>>>>> +    __u32 preempt_buffer_index;
+>>>>>> +    __u32 reserved;
+>>>>>>     };
+>>>>>>       /* drm_ivpu_bo_wait job status codes */
