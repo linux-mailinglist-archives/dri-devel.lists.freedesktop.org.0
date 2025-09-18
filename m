@@ -2,139 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4D0B841AD
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 12:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DC5B8431F
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Sep 2025 12:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC61B10E149;
-	Thu, 18 Sep 2025 10:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA29D10E6E3;
+	Thu, 18 Sep 2025 10:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="g6vxSSF0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sj7pm3ld";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R7hGN+Yf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YWKKOS5/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qB3Yuv0v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A82510E149
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 10:32:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8302C1FC81;
- Thu, 18 Sep 2025 10:32:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758191564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WD4/a2ijIvoU2R4M8heEzP/sofKyJal9m4bOhu+jY7o=;
- b=g6vxSSF04e4wocnuQIhJTRcHGOIu/Ss1/Cr8RGqayVyQb4cgoBN3bG01ypEr4ZCfKfuNJa
- khNr/k1Uc0EYCVL278AuA7lqsc5MxupOFddt+8krV8JYmrnHbp1pdF38JzzRHdopONg7WF
- NlwaLmWunYyNV76z29gt2+zqNrGTYx8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758191564;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WD4/a2ijIvoU2R4M8heEzP/sofKyJal9m4bOhu+jY7o=;
- b=Sj7pm3ld7tskIPCealGzOII+OHZOvXCh7sM7nA4L/sKvddwnGrGmJ5saP6PlPOsc33i2dg
- 0Z5E4fkmvCm87vCw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R7hGN+Yf;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="YWKKOS5/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758191563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WD4/a2ijIvoU2R4M8heEzP/sofKyJal9m4bOhu+jY7o=;
- b=R7hGN+YfQUQjj6KFCm14WvaP6BhGb793g9IB/k72TB66s9o1jMXhNPxF0VqE3WSviVzGG+
- cKRJ22Izkufl6jwo/IRdKOvJd7RMLhZbaEv5RIyZ26efoJVl21n2N3SLX+iEWkjvEGsC1A
- 43oD0lY4VLuLb4olmyXmR+gJj+mkDhc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758191563;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WD4/a2ijIvoU2R4M8heEzP/sofKyJal9m4bOhu+jY7o=;
- b=YWKKOS5/uO30maOQ11zcvMDtuOkDevPjlDd50xzVozBPd1EsFFgUBXrXZrj4kyFYar+Zte
- imM19NI0r/PDXUAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60EFF13A39;
- Thu, 18 Sep 2025 10:32:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id BJJJFsvfy2iSbwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 18 Sep 2025 10:32:43 +0000
-Message-ID: <6eef0446-5747-4717-8146-788b32bf7969@suse.de>
-Date: Thu, 18 Sep 2025 12:32:42 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0565E10E6C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 10:44:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4A7F060209
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 10:44:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ED8FBC4CEFA
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 10:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758192271;
+ bh=qFPAM6XzPNDpK2GPN8V+tpwWuys/+C+VgCKmzrrEMNw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=qB3Yuv0vKiQ37ih3kWAaXggxHcmrV3GIj6r5oMNiu+S9Irl07dqyhVL95KK/aEW/W
+ AU5ujVKx3kRmsXk23/QBHxBijE/Y7+uWiY2ttBIAngJJMDHfEQoKDzk6m/vvUDz1zI
+ DF6n0RWJ/DzmS1ogZl5fyIfw5hhPjbcAcoXlJI0LoZTX6vj3NDGxSckv2lIz9+25pm
+ N42evM26/+B4YCuobMJ9Ac/nU7tYJF1ZXLg/BlWYLdZ3rNX/PEX7eExpk+FqZVsUOr
+ kr0T50gKwZoE+6deh7ct42NOZ5eC1TkjJu9aRRNe8L6wblef663YQdSeHTScLUtXlq
+ BtffshUrfhLrQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id DF15CC53BBF; Thu, 18 Sep 2025 10:44:30 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220428] UBSAN array-index-out-of-bounds warning in
+ radeon_atombios.c on kernel 6.15.9 with AMD Radeon HD 6250
+Date: Thu, 18 Sep 2025 10:44:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: r.szwajkowski@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-220428-2300-5zqCzxn3UK@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220428-2300@https.bugzilla.kernel.org/>
+References: <bug-220428-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/ast: Use msleep instead of mdelay for edid read
-To: Nirmoy Das <nirmoyd@nvidia.com>, dri-devel@lists.freedesktop.org
-Cc: jfalempe@redhat.com, mripard@kernel.org
-References: <20250917194346.2905522-1-nirmoyd@nvidia.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250917194346.2905522-1-nirmoyd@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 8302C1FC81
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,nvidia.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,57 +75,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220428
 
-Am 17.09.25 um 21:43 schrieb Nirmoy Das:
-> The busy-waiting in `mdelay()` can cause CPU stalls and kernel timeouts
-> during boot.
->
-> Signed-off-by: Nirmoy Das <nirmoyd@nvidia.com>
+r.szwajkowski@gmail.com changed:
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |r.szwajkowski@gmail.com
 
->
-> Sending this as RFC as I am familiar with the code and not sure
-> if this transition is safe.
+--- Comment #1 from r.szwajkowski@gmail.com ---
+I've encountered the same error in kernel 6.16.5-200.fc42.x86_64. There is =
+also
+another one next to it that seems related:
 
-It's only waiting for hardware, so most likely safe. I'll give it a try 
-before merging the patch. Thanks for this fix.
+UBSAN: array-index-out-of-bounds in drivers/gpu/drm/radeon/si_dpm.c:6824:32
 
-There are other calls to mdelay in the driver. Should they be replaced 
-as well?
+both stack traces attached.
 
-Best regards
-Thomas
+--=20
+You may reply to this email to add a comment.
 
-> ---
->   drivers/gpu/drm/ast/ast_dp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 19c04687b0fe1..8e650a02c5287 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -134,7 +134,7 @@ static int ast_astdp_read_edid_block(void *data, u8 *buf, unsigned int block, si
->   			 * 3. The Delays are often longer a lot when system resume from S3/S4.
->   			 */
->   			if (j)
-> -				mdelay(j + 1);
-> +				msleep(j + 1);
->
->   			/* Wait for EDID offset to show up in mirror register */
->   			vgacrd7 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd7);
-> --
-> 2.43.0
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
