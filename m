@@ -2,82 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE01B8A0E7
+	by mail.lfdr.de (Postfix) with ESMTPS id 568DDB8A0E5
 	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 16:45:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FECB10EA22;
-	Fri, 19 Sep 2025 14:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24CB410EA1F;
+	Fri, 19 Sep 2025 14:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UC7PMMPB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="u63hrbzZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
- [209.85.219.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E5010EA22
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:45:25 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-ea5ca8dbd37so1452532276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 07:45:25 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BACED10EA1F
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:45:19 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-45dfb8e986aso19396715e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 07:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758293125; x=1758897925; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3WjyTwxOlL5TBVN6HVHH54w6s0HUnwkgruRLNDXu+EU=;
- b=UC7PMMPBGO9rW77boD76c5PNlyOm0/35I1dL/CXlWzw+91jIGfMMuP80cVyilbRBLN
- GVA3h7jy4vhxwZZWdK+d/ae9CstFc00LATFWozWlRV6EzdZYaxesaVc6UAk8MLcTmmPq
- vjjQkANBYB/phb8OnjP/hiVlzYbM4RqgP1zfUp6LhvmgTncs1LjFz5Zf6quzvvNFXj41
- S+YsiH0YguA7TyiErsqbTCY+Z8T2l48ojZo7s8oYbS8QxBZyfWRnfDEpZZY/T/MmaDhI
- urk4IaXB04k5d04iplItOrGp42W+NqTWERYs7ITCLJx5IMiCuOt4j32pWuWLNqg36q2F
- 5yAg==
+ d=linaro.org; s=google; t=1758293118; x=1758897918; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=EJj1y8HqXNnf98ADR5kQhDmwOZyt1Xf4VxjtZZ9P8no=;
+ b=u63hrbzZHajvk3lZ0n48xRWCPl5r903VQz4cmJX20tG7ODxOsufg8uzNlQcrFwW+q/
+ l3fwF+uC4iMyocb9907fNRke3f0F1fSXXbubbn9trOO8g2+Ch+iKzaGKsXDS2g8D9hUs
+ PAjCyQ0AF6g26kr8S2ORgRUR5faEBXUyVreJTyiLrIDjQaqI4rURikE84CS5V9eJE63u
+ Pzq9gxfDcLmsTQnoAWpHtHhvrKPjvMjQUC8TIRgmAtg2idK37L/ad375CltkHV5P/z5S
+ UIIE6pN58ddKDnLKwdGShjW4zWs/A5slZQQNzuDHnudgjco/+hOKBoYPUccMbQYt7Reg
+ dlww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758293125; x=1758897925;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3WjyTwxOlL5TBVN6HVHH54w6s0HUnwkgruRLNDXu+EU=;
- b=n7ouyM99DR5TmuClLObajmX44DOUPjPhjx7d8oiLB7pseiNPC1pKXejs/0K+SkmsPa
- upthpgpbBfd0PtLGYIevHbfOrkrct5jQeLI0ppANh/WtEVQUnya/yiE9tzFc3hCr0oK7
- jZ367c81tEuhLp5Yyz3fEbApHZRlMrKOFha2lSlREniVrCWWD8KbZnUjH+Y4vPU3xOAW
- K2rXLnMJW2ZIcqlS3f/AJHnuph1GpGxw33HjfrCRZOl4BoL3eFE0a1kWRXpwYoA2LfuY
- H92mzQD+NX4XjFhOY5iXEx0Q6k4UxfkqeQbpaIaaJkEf/9Fis7f0zFSq2GTHSTlb6C6y
- cv2w==
+ d=1e100.net; s=20230601; t=1758293118; x=1758897918;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=EJj1y8HqXNnf98ADR5kQhDmwOZyt1Xf4VxjtZZ9P8no=;
+ b=FcASgW1GMCaBsoqgxSq8ZHjMgQB9t/Rf4De3WedYhJHcEHTtzFCcUEDDKjKb7he8pZ
+ Sni74eYbjSvL0AnQFpz/pa33cZRVECCSyinFqSqHRuO2702VN46o8p9h9OAbXkzETJIF
+ F6Uwn92huCsCYjTQKYn2QzvtLMUThJjih7i83mEtN0HaHnsBRcA0XjHVKr4p8ELQHWWJ
+ 7DVBckrqa/1L4DWcpWb3CuUPkEhcIl5FHvONkAp6g2t6kdAYC1jWaH0dcYG4VYSEHnwq
+ d3tngUSF8p3tXi95yMOyu+5NE94bke/4FCMNPpoYN+tXm5cdUJNwWlIfFBF/HOT54h9l
+ ifiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfkhqhc+PVpDTi3C+uijp53leTwMnlJY+ayeUyf9UqjSikIpqAOWE56cUowIkaQlw0t1vH7kLc8hU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwDqZQfSNtz00F1LLGh5F24Zn4c72UH9SvjeHgKcvU8hcPwwIh
- ezjKHfBnaomdbAjwe9si9HKWbhrFIAV8aPRQxW2hSWIj5Qw5b9YUngcWM1A/mp7KRav1bLk0SkS
- DuXts4L+6oytk4DVrF+RzEHMGQq58y+A=
-X-Gm-Gg: ASbGncszeY+7+i4juo1O7ji5tFRr/jVfTHIfHgV059cPI1Gck+qTe+O0cf5I+kzLLSM
- gcYLsSWEJ5aOGxfcxsq5OmTfRBl5UBWh6GMfN9zlAchGGue7VQ3BrdxbqUXJFv5qr/BSdAX4kXk
- KAR+FMK+wjnazcAAwfK88eY6IvTha0TwzTbOiBYYbX0NQJMIqqs/PzfVhEGeQK26Hr2lRsNG+xn
- oWiQvsd
-X-Google-Smtp-Source: AGHT+IGJw1+yEfFNFqRcYjWUnG/h8+qC9oVnvpeOX94lxBtVsN40UmgyUvz0yHEx0P3xwOLztHIl2uP+N3Us1ggwwRI=
-X-Received: by 2002:a05:6902:1b87:b0:ea3:e63f:7b42 with SMTP id
- 3f1490d57ef6-ea8a79e880cmr3533510276.33.1758293124321; Fri, 19 Sep 2025
- 07:45:24 -0700 (PDT)
+ AJvYcCWxEDOg/Kp2xm9bXGDLIi5hDzJrTcD4CFbzUdln2dAqI2BmbB28dhYmoM4rlxEScA9yG5fajRY7oD8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yypuq3jJuMfYdJcfMwqdt8cPoncwzX2XODzMmY+/Hf1VAmA3TE8
+ FK9czAdO1E5YOQQHTExMlX36QPq5FjmH/EH9ce/BScjBPB0xmK29EL+KaFRKxB1g7O0=
+X-Gm-Gg: ASbGncuy+2HeatjGlW1Nnc/AmVzI71R9AQX2VMM1FoKorZo2/XYgDatERIAW+7UiFM3
+ BoKLxA1u96526yPToGkTBxzD2zLojEqAxnHxlPuw2lQgTpoTmc/fCrGAlqPn1JD+SlvhGxXwNPg
+ 01O+IqcDKL35+Itzao4t2Cs8S7VnHcIpL4SAMK/r4279s/NhFkAFMBvWcqy3gU/jwIKgZEYQkx1
+ wOi2b4nb2KS463KgT+jax3gz87NC20YnWRXIGyoj6GfpcFIpMjQceoJwiEro+I0dmRqQj5nFkgl
+ o5RS1hlY1DvyLGJDBhQpV9HT+AkkARIl/fuEPoLLahSWero9W0ErM2Atjy7FmG1BE5sYUxmRzUU
+ /hX2ZJN2l3bZty7oEXfka3GkYDBtCa/T5uSUkKTLp8cDSVqSFeiD0t/x3YFbE8dzwlAG5OLP6
+X-Google-Smtp-Source: AGHT+IFxWL+PQqZanQNlYmC61Jl0EglExICuzzye9odcz+14oOJKf1NTLs6pstSwIMChvW2GI7XGEw==
+X-Received: by 2002:a05:600c:468a:b0:45d:e326:96e7 with SMTP id
+ 5b1f17b1804b1-467eaa86e42mr31110285e9.29.1758293118114; 
+ Fri, 19 Sep 2025 07:45:18 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f?
+ ([2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3ee073f3d73sm8046942f8f.8.2025.09.19.07.45.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Sep 2025 07:45:17 -0700 (PDT)
+Message-ID: <272d8cd6-e151-4bab-b8fb-438182a575be@linaro.org>
+Date: Fri, 19 Sep 2025 16:45:16 +0200
 MIME-Version: 1.0
-References: <20250912064253.26346-1-clamor95@gmail.com>
- <20250912064253.26346-2-clamor95@gmail.com>
- <bdd942ef-1ede-4f9f-ab90-ea7ac8995b92@linaro.org>
-In-Reply-To: <bdd942ef-1ede-4f9f-ab90-ea7ac8995b92@linaro.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Fri, 19 Sep 2025 17:45:11 +0300
-X-Gm-Features: AS18NWCaPEoqBynvU0_LqnkYzZ1JgNAvdrHR_FyFiEbwwYX_CdM3v2DxCZzUGeU
-Message-ID: <CAPVz0n1Ac=opNj=qAM5Rp0fpDo-6khCdmhoCwkztGLosKV31tw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: document Sharp
- LQ079L1SX01 panel
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 0/3] Add LG SW49410 Panel Driver
+To: Paul Sajna <sajattack@postmarketos.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, David Heidelberg <david@ixit.cz>,
+ phone-devel@vger.kernel.org, Amir Dahan <system64fumo@protonmail.com>
+References: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250915-judyln-panel-v2-0-01ab2199fea5@postmarketos.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,148 +123,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D1=82, 19 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 17:36 Neil=
- Armstrong <neil.armstrong@linaro.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Hi,
->
-> On 12/09/2025 08:42, Svyatoslav Ryhel wrote:
-> > Document Sharp LQ079L1SX01 panel found in Xiaomi Mi Pad.
->
-> The patch doesn't apply on drm-misc-next, please rebase.
->
+On 16/09/2025 04:32, Paul Sajna wrote:
+> This patch series adds a drm panel driver for the LG SW49410 panel found
+> in the LG G7 ThinQ (codename judyln).
+> 
+> The basic driver skeleton was generated by https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+> from the vendor device-tree.
+> 
+> The panel driver works but during testing we noticed sometimes the
+> display goes blank. Source of this problem is unknown but seems to be external.
+> i.e. It could be a conflict with another driver or an issue with
+> aftermarket panels.
+> 
+> Comments were added explaining magic numbers, and devicetree
+> documentation was also added
+> 
+> Once this patch has been accepted, I'll follow up with
+> a devicetree update for sdm845-lg-judyln
+> that includes this driver, along with several other improvements
+> 
+> Co-authored-by: Amir Dahan <system64fumo@protonmail.com>
+> Signed-off-by: Amir Dahan <system64fumo@protonmail.com>
+> Signed-off-by: Paul Sajna <sajattack@postmarketos.org>
+> ---
+> Changes in v2:
+> - use "multi" versions of functions
+> - remove DRM_DISPLAY_DP_HELPER
+> - change dt-bindings to panel-simple
+> - Link to v1: https://lore.kernel.org/r/20250910-judyln-panel-v1-0-825c74403bbb@postmarketos.org
+> 
+> ---
+> Amir Dahan (1):
+>        drm: panel: Add LG SW49410 Panel
+> 
+> Paul Sajna (2):
+>        Update MAINTAINERS for lg,sw49410
 
-Sure, but I have synced with drm-misc-next right now and it applied cleanly=
-.
+This patch hasn't been reviewed, and anyway the subject is wrong, it should start with MAINTAINERS:
+please fix ans send a v3.
 
-I am on top of 048deed5faf0 (drm/drm-misc-next) drm/panel: Add support
-for KD116N3730A12
+Thanks,
+Neil
 
-Top commit is correct on my side?
+>        dt-bindings: display: panel: panel-simple: Add lg,sw49410 compatible
+> 
+>   .../bindings/display/panel/panel-simple.yaml       |   2 +
+>   MAINTAINERS                                        |   5 +
+>   drivers/gpu/drm/panel/Kconfig                      |  13 +
+>   drivers/gpu/drm/panel/Makefile                     |   1 +
+>   drivers/gpu/drm/panel/panel-lg-sw49410.c           | 502 +++++++++++++++++++++
+>   5 files changed, 523 insertions(+)
+> ---
+> base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
+> change-id: 20250910-judyln-panel-948f177c5c5c
+> 
+> Best regards,
 
-> Neil
->
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >   .../display/panel/sharp,lq079l1sx01.yaml      | 99 ++++++++++++++++++=
-+
-> >   1 file changed, 99 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/display/panel/sh=
-arp,lq079l1sx01.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq07=
-9l1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq079l=
-1sx01.yaml
-> > new file mode 100644
-> > index 000000000000..08a35ebbbb3c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01=
-.yaml
-> > @@ -0,0 +1,99 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/sharp,lq079l1sx01.yam=
-l#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sharp Microelectronics 7.9" WQXGA TFT LCD panel
-> > +
-> > +maintainers:
-> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > +
-> > +description: >
-> > +  This panel requires a dual-channel DSI host to operate and it suppor=
-ts
-> > +  only left-right split mode, where each channel drives the left or ri=
-ght
-> > +  half of the screen and only video mode.
-> > +
-> > +  Each of the DSI channels controls a separate DSI peripheral.
-> > +  The peripheral driven by the first link (DSI-LINK1), left one, is
-> > +  considered the primary peripheral and controls the device.
-> > +
-> > +allOf:
-> > +  - $ref: panel-common-dual.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sharp,lq079l1sx01
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  avdd-supply:
-> > +    description: regulator that supplies the analog voltage
-> > +
-> > +  vddio-supply:
-> > +    description: regulator that supplies the I/O voltage
-> > +
-> > +  vsp-supply:
-> > +    description: positive boost supply regulator
-> > +
-> > +  vsn-supply:
-> > +    description: negative boost supply regulator
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +
-> > +  backlight: true
-> > +  ports: true
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - avdd-supply
-> > +  - vddio-supply
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    dsi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        panel@0 {
-> > +            compatible =3D "sharp,lq079l1sx01";
-> > +            reg =3D <0>;
-> > +
-> > +            reset-gpios =3D <&gpio 59 GPIO_ACTIVE_LOW>;
-> > +
-> > +            avdd-supply =3D <&avdd_lcd>;
-> > +            vddio-supply =3D <&vdd_lcd_io>;
-> > +            vsp-supply =3D <&vsp_5v5_lcd>;
-> > +            vsn-supply =3D <&vsn_5v5_lcd>;
-> > +
-> > +            backlight =3D <&backlight>;
-> > +
-> > +            ports {
-> > +                #address-cells =3D <1>;
-> > +                #size-cells =3D <0>;
-> > +
-> > +                port@0 {
-> > +                    reg =3D <0>;
-> > +                    panel_in0: endpoint {
-> > +                        remote-endpoint =3D <&dsi0_out>;
-> > +                    };
-> > +                };
-> > +
-> > +                port@1 {
-> > +                    reg =3D <1>;
-> > +                    panel_in1: endpoint {
-> > +                        remote-endpoint =3D <&dsi1_out>;
-> > +                    };
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
->
