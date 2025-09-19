@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4179B888B8
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 11:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC04B88952
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 11:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05BF510E971;
-	Fri, 19 Sep 2025 09:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E29E10E973;
+	Fri, 19 Sep 2025 09:35:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p3Ji3x3B";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GfGmo4Vq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 914D010E971
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 09:26:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 33060406D8;
- Fri, 19 Sep 2025 09:26:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B31BC4CEF0;
- Fri, 19 Sep 2025 09:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758273989;
- bh=QTRMRYKX0MaFllq/94rkyUi9FFuz1LfmIJpbHiO/UfY=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=p3Ji3x3BbitPt4pji1kyRyxpk/wbcoaw+nG5MoR8+52rV0fmB2Sad3fYUpl1kcrTK
- q3BDoxHY1UYqIg5ZzNwuVlFEaMyplB1QUSb7XbSAwmymH2bXFbCi/I7E6Sw0W9qJZ1
- AJBJnFLh1hasSGZiZIIgYrExMcpiNgo1R6E3+6CmbpjnbsgYWD1rF+0fYUNljoGm5w
- 1IwLK/xvfJ4cwdHnzENrcBE2ZHIaiWj2Ws3LCiPLyxSg+GuBrlC0JIV+5cqoEiU4BQ
- ybyJvWMhRGsePrNznQ2K4xDlunk/lMNk4ZyV+0UAsXciPZQ+4QOv3UrJyzL1n+TGoT
- bCmD9UksQfT0Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Sep 2025 11:26:19 +0200
-Message-Id: <DCWO3V7WQP0G.127BYBORGE85H@kernel.org>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] rust: io: use const generics for read/write offsets
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20250918-write-offset-const-v1-1-eb51120d4117@google.com>
- <20250918181357.GA1825487@joelbox2> <DCWBCL9U0IY4.NFNUMLRULAWM@kernel.org>
- <752F0825-6F2E-4AC0-BEBD-2E285A521A22@nvidia.com>
-In-Reply-To: <752F0825-6F2E-4AC0-BEBD-2E285A521A22@nvidia.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA22A10E973
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 09:35:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1758274530; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ia/weqB67JSOOFDADLRgnZnK1FSgsllrjF7nnMivBIzpsKy4d/24ygj7PjZkuX3hLKveVj9spU13OIgC6sYgHIrYa3x07YqoF8mXEH8Qpb07REJTaQ+EXYOAKMfqSzB7oqFDr7Aa7dr57x1Wlqw9I3O1M2Ldi0P9RBDs3dzhj50=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1758274530;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Q4AgxNNAIA3/Y/jnWgb7B4t21i6FI8oSC22E+XxRvPA=; 
+ b=aZEpgt7OJ92jBCcTdVl+9pF09w/UFhZUmiUnhzBFVx0f1+C00bGBHTa5W4w45DjZbUL/bsIx4xAealShlTCKoA10dHPR3fp2rgbHX1rZhVnblwuEGl1tJ1sJxij+EffGtnw7HxxNTXG7sSspluj88TAzyqDR9u4mooyFme9m4wM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758274530; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=Q4AgxNNAIA3/Y/jnWgb7B4t21i6FI8oSC22E+XxRvPA=;
+ b=GfGmo4VqF9j3Te3raCUUXsUy7ppKdoQm/P+I4RWLjPumoDI1atAwH8F5zvAfixqH
+ tpJXAVKiBEQUwlWEeq/Akcl+wTv5qWqRiEA1weaBHJ3JgXXK9ndf70lYX7pLz2UxUP8
+ TVRGxlfr3HIAX6N8mqEc9UudqUKR0nAFU0XokrMA=
+Received: by mx.zohomail.com with SMTPS id 1758274529027121.54735845958476;
+ Fri, 19 Sep 2025 02:35:29 -0700 (PDT)
+Date: Fri, 19 Sep 2025 10:35:25 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panfrost: Bump the minor version number
+Message-ID: <76ob3x7aeflkz3q2sm44zz7wk55sarrprxixixzq32xi2qkjm3@gmctkhzl5w3c>
+References: <20250919080700.3949393-1-steven.price@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250919080700.3949393-1-steven.price@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,45 +65,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Sep 19, 2025 at 9:59 AM CEST, Joel Fernandes wrote:
-> Hello, Danilo,
+Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+On 19.09.2025 09:07, Steven Price wrote:
+> Commit a017f7b86051 ("drm/panfrost: Expose JM context IOCTLs to UM")
+> added new ioctls to the driver and was meant to bump the version number.
+> However it actually only added a comment and didn't change the exposed
+> version number. Bump the number to be consistent with the comment.
 >
->> On Sep 19, 2025, at 1:26=E2=80=AFAM, Danilo Krummrich <dakr@kernel.org> =
-wrote:
->>=20
->> =EF=BB=BFOn Thu Sep 18, 2025 at 8:13 PM CEST, Joel Fernandes wrote:
->>>> On Thu, Sep 18, 2025 at 03:02:11PM +0000, Alice Ryhl wrote:
->>>> Using build_assert! to assert that offsets are in bounds is really
->>>> fragile and likely to result in spurious and hard-to-debug build
->>>> failures. Therefore, build_assert! should be avoided for this case.
->>>> Thus, update the code to perform the check in const evaluation instead=
-.
->>>=20
->>> I really don't think this patch is a good idea (and nobody I spoke to t=
-hinks
->>> so). Not only does it mess up the user's caller syntax completely, it i=
-s also
->>=20
->> I appreacite you raising the concern,
->> but I rather have other people speak up
->> themselves.
+> Fixes: a017f7b86051 ("drm/panfrost: Expose JM context IOCTLs to UM")
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Steven Price <steven.price@arm.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> I did not mean to speak for others, sorry it came across like that
-> (and that is certainly not what I normally do). But I discussed the
-> patch in person since we are at a conference and discussing it in
-> person, and I did not get a lot of consensus on this. That is what I
-> was trying to say. If it was a brilliant or great idea, I would have
-> hoped for at least one person to tell me that this is exactly how we
-> should do it.
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 3af4b4753ca4..22350ce8a08f 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -853,7 +853,7 @@ static const struct drm_driver panfrost_drm_driver = {
+>  	.name			= "panfrost",
+>  	.desc			= "panfrost DRM",
+>  	.major			= 1,
+> -	.minor			= 4,
+> +	.minor			= 5,
+>
+>  	.gem_create_object	= panfrost_gem_create_object,
+>  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+> --
+> 2.39.5
 
-I'm also not really thrilled to see lots more turbofish syntax. However,
-if we can avoid the nasty build_assert errors then in my opinion it's
-better. (yes we do have Gary's cool klint tool to handle them correctly,
-but not every user will be aware of that tool).
-
-Maybe we should ask Rust about adding `const` arguments in their normal
-position again :)
-
----
-Cheers,
-Benno
+Adrian Larumbe
