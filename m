@@ -2,120 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9195B8AA91
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 18:57:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDFBB8AAEE
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 19:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB8110E250;
-	Fri, 19 Sep 2025 16:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6460110E9D9;
+	Fri, 19 Sep 2025 17:04:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="lzejlcw+";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fqUMSQvv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2375310E250
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 16:57:25 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58J9KphH028314
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 16:57:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=2SMDH20YTKikXCE41BaWkB66
- TeohJUYWgem0sV6RAUA=; b=lzejlcw+i1oBedZfaNudsMlavk3kgScMIid84gJe
- pW9ux9XX/6CJYWa/LZgO89bvsDFUDjY6X/zCuvr/wbSvFpz1jdcSrXoVLklOmTyu
- +nKbzo2RQ/JzD78ltijCipZSZEPetdnBGRGBWGDcIbSTd0kWdPJ/vbNUwpRZUE7J
- V2V+o57ltvjq0m6g1RYMnnVivLzSljWY12aW4lDtd3JMkZ1xuhQxZaYOqg/KeIO1
- GnWJw/NrV42nrWBcRA5wHTydBSca0OMox5kU/0096QiaI9+ncNl82tQA22s7lWfZ
- UWmqNzEUx0axd44nKN2Hb8L2OZdALFJ914tp8V+mj+KO9g==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497v1jh5p8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 16:57:24 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b7a5595a05so49854981cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 09:57:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758301043; x=1758905843;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2SMDH20YTKikXCE41BaWkB66TeohJUYWgem0sV6RAUA=;
- b=gkTsJ+Z/N1K+zwp9/OAbX33zw9nbbahneqBoFfRIiZT8IKLpiihHOHuR3SSpoT8WpY
- 9sMhtCyDEXuR84vEcAXTlDkxz3J+xnupO2VftiTgNXfaZF45PQV6VVa8PPQGxlz01HLo
- 3+TzWL2QYkvQMMwxFY4+Ftt1jBR6xGr0JdAzYz/uOtxXaeY5lhxFnQjKhEONs/3NprZ3
- QBXuzHHjAQaEXb40kh3YKNRZyRzSBiQW0oil2rOjzhaPTohMrz0Y69kHk2t4pDRmwoqg
- 56/TYFuUgj+fmmNcTYYDFd6ji7YX3v24YkQY9uuMH04sJU8WrQP6xDHC/Jo8O4wAQO2Y
- YbiQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUxOH77/y9PUITp+tQjHd1OSSKWs5EdHK8V09b5c9QNeTRpw2QuSiPCFmEjNp5Sgf2WEsJevsb1yzc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4UvEa4xgsxEYpedQTSBN5SwPLUPfxt0c6Bz2aQftDXK3ScaqG
- wbGaYbl3wnqijMe6RvXEP8DdkuaHz9TxGlw3UfVCN0D9GWPpPYw6GiEAooxA3ablKIoT3ESwOdK
- mJRVg2XleqhWTERbDAIzRw0W11dMiCfQDOXDxzw5+z7/uJQgBIS1WMoweskuN5gtOtQtGB04=
-X-Gm-Gg: ASbGncuxAyujFgOGqeSQKQLt4xltfjh/jFXkm65lpmGLKqvX5qcXybKLWYxcl8TJJBK
- glO0n8sNBIQ3unestpbeyd1JN8uMex3KbiB3ZtKaJLKh6Spy2vOg9MmbwKe4OWhOhLVxrF0e3iG
- cbu/OaUzAmrmR8/n3tp8kaaea6343iZgVk8cQkZdLLwauCybAocU0tQHPsLDIfZhcv+K9Aw3Bva
- G8eAGPmwBUKdfbGyVqZnsCokXDlfdVd54u9rrvwzSd6ChAJZBt41VuEiI1gni8m1VtegavcVeex
- z8mDxhHYa04BuPm69RQCWdnXvmGpNFUWUjYa4j+Xmaa0+VzJJiU93YA4dgJ0RLfZM22W36/oApv
- tXy0Oh/N5FAyeS0rCJEOf1Ul23VenolYfzQx0a8aYYdBTQ6DICGtl
-X-Received: by 2002:a05:622a:550b:b0:4b7:a887:9e68 with SMTP id
- d75a77b69052e-4c06fc182a2mr52471561cf.4.1758301043037; 
- Fri, 19 Sep 2025 09:57:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3Y/hhgM/FH1MUqyFEYlRSM4m13q51NUGUOwCJl1YfmyFvHD8/eWgbghS7pUxj3fFOk2haZw==
-X-Received: by 2002:a05:622a:550b:b0:4b7:a887:9e68 with SMTP id
- d75a77b69052e-4c06fc182a2mr52470981cf.4.1758301042221; 
- Fri, 19 Sep 2025 09:57:22 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-36371919865sm9009371fa.62.2025.09.19.09.57.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Sep 2025 09:57:20 -0700 (PDT)
-Date: Fri, 19 Sep 2025 19:57:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v16 10/10] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-Message-ID: <46syobyexy3ya3jjemmxc5g4tfkup62cks7gg7qpbnrga4fdhw@4ramayspl5uw>
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
- <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61CDA10E9D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 17:04:02 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA8773A4;
+ Fri, 19 Sep 2025 19:02:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1758301360;
+ bh=DEbSNcqoZy7k8InUvZD3+qCmocYJKgjiSK+hvT3pe0k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fqUMSQvvdn+JXCMttEBDc7Fb4/O7Md1cWaI6QWokUSJiHfenEFeunDRHLswc+Vnpm
+ FUBPo3TU15W8SGhiAlb6F6xLmeFHRH1GGCAy5NXyCiHEuFUfLiaKSnMeiTsx8VNKj1
+ skQYwjGGTsh3iFrKpniGT9pEpc6tB0FJOaQK6sb0=
+Message-ID: <2da374d1-7557-4f7e-9160-86945b73731a@ideasonboard.com>
+Date: Fri, 19 Sep 2025 20:03:57 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
-X-Proofpoint-ORIG-GUID: KUqDwcNkB2ttA0WmFhTMhkytI-xG7Z-N
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDExMCBTYWx0ZWRfXwHM/iTjiidek
- kzZ7MRLxHpXbC3++PlWr+2Ps9jPXURtD3gVtbIaQUnrc420qWcBOzaC69RldxVccg/ppJ2m3L7b
- WnrnZRqUGqE85w4HN1OneBEX6ETyreTX2GNUNDCKWeT8R9pZvd7SnYdzeCP4KT58lfdPMCtbx00
- 5iaeYKFY+PvvbOk5d6lw8isg2JwVLM/XFh6EnhPSbWwFfcotybj0SehLY/GR9g+RhWYpLH9HwuJ
- o4vnQq4+aDmkI6xYe0FDJg2Czzn7BH25EScpX88rUdJovPy6hR0O2rb/nC+AEzQQ/L3qqe7pg4Z
- DaJgsx2SMEHDrWvnxCNuLHeadgyAfaykayZoafEhH/rEheCfEnC5ZTRoqYS8nKwNFg/viA+pehh
- GoHFyUIK
-X-Authority-Analysis: v=2.4 cv=AeqxH2XG c=1 sm=1 tr=0 ts=68cd8b74 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=CHF6AoUvwY4jIHrWGZsA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=cvBusfyB2V15izCimMoJ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: KUqDwcNkB2ttA0WmFhTMhkytI-xG7Z-N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-19_01,2025-09-19_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509170110
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] dt-bindings: display: bridge: renesas, dsi-csi2-tx:
+ Allow panel@ subnode
+To: Marek Vasut <marek.vasut@mailbox.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20250904210147.186728-1-marek.vasut+renesas@mailbox.org>
+ <20250904210147.186728-4-marek.vasut+renesas@mailbox.org>
+ <4ffcf4fc-17a9-4669-af07-f81ddb46aee9@ideasonboard.com>
+ <d76ff19c-7b0f-4aa9-8ae2-d08c82d70410@mailbox.org>
+ <aebc10ec-73ed-4843-95c5-9ba5a2759ccb@ideasonboard.com>
+ <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <b4c0e78a-eecb-4a18-9199-18ea91c8df31@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,30 +71,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 18, 2025 at 09:29:02PM +0800, Jun Nie wrote:
-> To support high-resolution cases that exceed the width limitation of
-> a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-> additional pipes are necessary to enable parallel data processing
-> within the SSPP width constraints and MDP clock rate.
-> 
-> Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-> and dual interfaces are enabled. More use cases can be incorporated
-> later if quad-pipe capabilities are required.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 +++++++++++++++++------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++----------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
->  6 files changed, 35 insertions(+), 32 deletions(-)
-> 
-Please fix the LKP report.
+Hi,
 
--- 
-With best wishes
-Dmitry
+On 19/09/2025 18:42, Marek Vasut wrote:
+> On 9/19/25 5:21 PM, Tomi Valkeinen wrote:
+> 
+> Hello Tomi,
+> 
+>>>> On 05/09/2025 00:01, Marek Vasut wrote:
+>>>>> This controller can have both bridges and panels connected to it. In
+>>>>> order to describe panels properly in DT, pull in dsi-controller.yaml
+>>>>> and disallow only unevaluatedProperties, because the panel node is
+>>>>> optional. Include example binding with panel.
+>>>>>
+>>>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>>>>> ---
+>>>>> Cc: Conor Dooley <conor+dt@kernel.org>
+>>>>> Cc: David Airlie <airlied@gmail.com>
+>>>>> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>>> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+>>>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>> Cc: Rob Herring <robh@kernel.org>
+>>>>> Cc: Robert Foss <rfoss@kernel.org>
+>>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>>> Cc: devicetree@vger.kernel.org
+>>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>> Cc: linux-renesas-soc@vger.kernel.org
+>>>>> ---
+>>>>> V2: Drop the dsi0: and dsi1: controller labels
+>>>>> ---
+>>>>>    .../display/bridge/renesas,dsi-csi2-tx.yaml   | 53 +++++++++++++
+>>>>> +++++-
+>>>>>    1 file changed, 51 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/display/bridge/
+>>>>> renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/
+>>>>> bridge/renesas,dsi-csi2-tx.yaml
+>>>>> index c167795c63f64..51d685ed82891 100644
+>>>>> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>>> csi2-tx.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-
+>>>>> csi2-tx.yaml
+>>>>> @@ -14,6 +14,9 @@ description: |
+>>>>>      R-Car Gen4 SoCs. The encoder can operate in either DSI or CSI-2
+>>>>> mode, with up
+>>>>>      to four data lanes.
+>>>>>    +allOf:
+>>>>> +  - $ref: /schemas/display/dsi-controller.yaml#
+>>>>> +
+>>>>
+>>>> Did you try with a bridge? dsi-controller.yaml only allows a panel. I
+>>>> think I discussed this with someone not long ago, but I couldn't find
+>>>> any patch sent for that.
+>>> Nope, I only have these two 5" and 7" RPi Display 2 panels.
+>>
+>> Ok. My point was just that the dsi-controller.yaml doesn't allow
+>> "bridge" node (you can just rename the panel to bridge to test). I
+>> thought someone (I just can't remember who was it =) will send a patch
+>> for it, but I think that hasn't happened.
+> Do you want me to drop the bridge part from the commit message (I assume
+> yes) ?
+> 
+> Any other change I should do before sending a V3 ?
+
+As we found out, this has been fixed in linux-next. For this, and the
+rest in this series:
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
+ Tomi
+
