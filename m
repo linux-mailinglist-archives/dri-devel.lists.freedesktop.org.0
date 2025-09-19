@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F5DB89831
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3F1B8983F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:45:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEC910E9AB;
-	Fri, 19 Sep 2025 12:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A3A10E9AD;
+	Fri, 19 Sep 2025 12:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="d2zuy98N";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="th2rq283";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB5F10E9AD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:44:31 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E07210E9AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:45:00 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 0B2361A0F14;
- Fri, 19 Sep 2025 12:44:30 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 562F24E40D5E;
+ Fri, 19 Sep 2025 12:44:59 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id BB46D606A8;
- Fri, 19 Sep 2025 12:44:29 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 28367606A8;
+ Fri, 19 Sep 2025 12:44:59 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 20368102F1847; 
- Fri, 19 Sep 2025 14:44:20 +0200 (CEST)
+ with ESMTPSA id 1CD77102F1847; 
+ Fri, 19 Sep 2025 14:44:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758285867; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758285897; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=6EuFRSBEJ49nCnM0kFPun8PUGYSyL4tgpIJXd9V9+nc=;
- b=d2zuy98NKJAhJ076/aVd+4uYZCWSzMFEWE6FGyTBFGYm4KmBfI1BIGreRusympFPDumfgF
- VIFslIDCiaTKo7P88Rd2NDyCSN7YNcDsKWadlPFTeZJwcM6iICiOHyrn9q0N4BHzVZzdTh
- Z2CT1ZSKvPA8A/KyjwAvKuNXh5WL3G6zqXHAt73CT6DuzuRr+dUHRSwdRoZ+mKpfjC10NP
- DBbgOOKEPY2F9Qv7hnqswlcqzSRFYLtwFUDcpWCzsRLvjEamhvJOLT+jWkx/foALG3xGyx
- 1i5CGryWbZImZW1MQfWFopY0CDdI+xgsLI6sU5kyLHn7uxIIZaLp9kXFXZErag==
-Message-ID: <df347ef3-f4b5-4402-bc37-dec03e6b1ad6@bootlin.com>
-Date: Fri, 19 Sep 2025 14:44:19 +0200
+ bh=neXUHU1dgfhW/ZIhEbzf7+s3YtAgYqzJf5bFOrphH8I=;
+ b=th2rq2838qdfzoJkuE5lVKAtom2qutsm9nVzGRaoWG0Tzyng7Nz4I3gkgnsZHj2JsApYY9
+ Up56b9Ga0U2Hd/gqo6+P7HN2pVJSEKmNyIsF7rRUSCIhN57pu042A++EfZo/gP/VQT2lHx
+ TSaXfMSh59iImkaWIlEEryo247JZ60QxFVyKbp5+Hvmo9pEWhqalKYDiByWFRov1BQ6ToI
+ jdLBLCu1cR/8dl56udsitOkOJ2On4lSH/VNqbwVKZaasqFiJUBehbt+H/HILyYHCGpxbwZ
+ 6jiq6nhvQvyGQe9W8g91YDRlvacezoggL2uIH0an6byTlPRLxHxXNBFg6ynajw==
+Message-ID: <bc2b7afa-96c0-4b33-a413-3758ab8fd571@bootlin.com>
+Date: Fri, 19 Sep 2025 14:44:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 10/20] drm/colorop: Introduce colorop helpers for
- crtc
+Subject: Re: [PATCH RFC v2 02/20] drm/colorop: Allow parenting colorop to CRTC
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -64,7 +63,7 @@ Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-10-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-2-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -120,7 +119,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-10-ac4471b44758@collabora.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-2-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -142,150 +141,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
-> Introduce colorop helper counterparts for post-blend color pipelines
-> that take a CRTC instead of a plane.
+> In order to allow for post-blend color pipelines, colorops need to be
+> assigned to a crtc rather than a plane. Add a crtc to the colorop
+> struct to enable this. Either the plane or the crtc will be set for any
+> given colorop depending on whether it is part of a pre- or post-blend
+> color pipeline.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->   drivers/gpu/drm/drm_colorop.c | 73 +++++++++++++++++++++++++++++++++++++++++++
->   include/drm/drm_colorop.h     |  8 +++++
->   2 files changed, 81 insertions(+)
+>   include/drm/drm_colorop.h | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index db137169effa6cd9e6d5805f65bdfd1cc6882075..b0c3216f4dac22f3408cbd537a20f38d03abc0a7 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -168,6 +168,20 @@ static int drm_plane_colorop_init(struct drm_device *dev,
->   	return ret;
->   }
->   
-> +static int drm_crtc_colorop_init(struct drm_device *dev,
-> +				 struct drm_colorop *colorop,
-> +				 struct drm_crtc *crtc,
-> +				 enum drm_colorop_type type, uint32_t flags)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_common_colorop_init(dev, colorop, type, flags);
-> +
-> +	colorop->crtc = crtc;
-> +
-> +	return ret;
-> +}
-> +
->   /**
->    * drm_colorop_cleanup - Cleanup a drm_colorop object in color_pipeline
->    *
-> @@ -293,6 +307,23 @@ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *
->   }
->   EXPORT_SYMBOL(drm_plane_colorop_curve_1d_init);
->   
-> +int drm_crtc_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +				   struct drm_crtc *crtc, u64 supported_tfs, uint32_t flags)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_colorop_has_supported_tf(dev, &crtc->base, crtc->name, supported_tfs);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_1D_CURVE, flags);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_common_colorop_curve_1d_init(dev, colorop, supported_tfs, flags);
-> +}
-> +EXPORT_SYMBOL(drm_crtc_colorop_curve_1d_init);
-> +
->   static int drm_colorop_create_data_prop(struct drm_device *dev, struct drm_colorop *colorop)
->   {
->   	struct drm_property *prop;
-> @@ -381,6 +412,35 @@ drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *
->   }
->   EXPORT_SYMBOL(drm_plane_colorop_curve_1d_lut_init);
->   
-> +/**
-> + * drm_crtc_colorop_curve_1d_lut_init - Initialize a DRM_COLOROP_1D_LUT
-> + *
-> + * @dev: DRM device
-> + * @colorop: The drm_colorop object to initialize
-> + * @crtc: The associated drm_crtc
-> + * @lut_size: LUT size supported by driver
-> + * @lut1d_interpolation: 1D LUT interpolation type
-> + * @flags: bitmask of misc, see DRM_COLOROP_FLAG_* defines.
-> + * @return zero on success, -E value on failure
-> + */
-> +int
-> +drm_crtc_colorop_curve_1d_lut_init(struct drm_device *dev,
-> +				   struct drm_colorop *colorop,
-> +				   struct drm_crtc *crtc, uint32_t lut_size,
-> +				   enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
-> +				   uint32_t flags)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_1D_LUT, flags);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_common_colorop_curve_1d_lut_init(dev, colorop, lut_size,
-> +						    lut1d_interpolation, flags);
-> +}
-> +EXPORT_SYMBOL(drm_crtc_colorop_curve_1d_lut_init);
-> +
->   static int drm_common_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
->   					   uint32_t flags)
->   {
-> @@ -408,6 +468,19 @@ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *c
->   }
->   EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
->   
-> +int drm_crtc_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +				   struct drm_crtc *crtc, uint32_t flags)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_CTM_3X4, flags);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return drm_common_colorop_ctm_3x4_init(dev, colorop, flags);
-> +}
-> +EXPORT_SYMBOL(drm_crtc_colorop_ctm_3x4_init);
-> +
->   /**
->    * drm_plane_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
->    *
 > diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index 3e223f3b3597978c5d702ce7622ae30b8aa9dddb..e7d1e5e95a901b1bd91fd8580e2fcb367c0253ce 100644
+> index d61c6c40e47162cb8b1e7db58b6746c43ac5d202..7a4e0d0c4a3d594abecef304b1d5990434cdb231 100644
 > --- a/include/drm/drm_colorop.h
 > +++ b/include/drm/drm_colorop.h
-> @@ -377,14 +377,22 @@ static inline struct drm_colorop *drm_colorop_find(struct drm_device *dev,
+> @@ -206,10 +206,16 @@ struct drm_colorop {
+>   	/**
+>   	 * @plane:
+>   	 *
+> -	 * The plane on which the colorop sits. A drm_colorop is always unique
+> -	 * to a plane.
+> +	 * The plane on which the colorop sits if it is a pre-blend colorop.
+> +	 * In this case it is unique to the plane.
+> +	 *
+> +	 * @crtc:
+> +	 *
+> +	 * The CRTC on which the colorop sits if it is a post-blend colorop.
+> +	 * In this case it is unique to the CRTC.
+>   	 */
+
+If there is a v3 of this series, I think it could be nice to have 
+something like "plane and CRTC are mutually exclusive".
+
+With or without this:
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+>   	struct drm_plane *plane;
+> +	struct drm_crtc *crtc;
 >   
->   void drm_colorop_pipeline_destroy(struct drm_device *dev);
->   
-> +int drm_crtc_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +				       struct drm_crtc *crtc, uint32_t lut_size,
-> +				       enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
-> +				       uint32_t flags);
->   int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
->   				    struct drm_plane *plane, u64 supported_tfs, uint32_t flags);
-> +int drm_crtc_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +				   struct drm_crtc *crtc, u64 supported_tfs, uint32_t flags);
->   int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
->   					struct drm_plane *plane, uint32_t lut_size,
->   					enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
->   					uint32_t flags);
->   int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
->   				   struct drm_plane *plane, uint32_t flags);
-> +int drm_crtc_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
-> +				   struct drm_crtc *crtc, uint32_t flags);
->   int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
->   				struct drm_plane *plane, uint32_t flags);
->   int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   	/**
+>   	 * @state:
 > 
 
 -- 
