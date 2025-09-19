@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D79B87DBD
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 06:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF57B87DE4
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 06:34:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 633E810E92E;
-	Fri, 19 Sep 2025 04:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA6710E92F;
+	Fri, 19 Sep 2025 04:34:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b1kfQhR2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N8jG/QFb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F1410E92E
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 04:29:01 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C92D710E92F;
+ Fri, 19 Sep 2025 04:34:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 741C8447E2;
- Fri, 19 Sep 2025 04:29:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC7BC4CEF0;
- Fri, 19 Sep 2025 04:28:56 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DE61460051;
+ Fri, 19 Sep 2025 04:34:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F31C4CEF0;
+ Fri, 19 Sep 2025 04:34:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1758256141;
- bh=BPmNRDunTtPkrxCpxbQ/GYyrPJg/8IsQ3qWIqttlIo8=;
+ s=k20201202; t=1758256484;
+ bh=BtgRIAv1NeNf0H/TkBpkzJcOUAc+TUTV3AA3RFSt2uA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=b1kfQhR287O7htaKiXuIZMmrxDm/ASTPAwE4Bb/3Zho/A2vZ/2MJzN/k/2YZF7IRd
- WA41uB53cxwSE7r5aAjuoxiUGlSG/g7qCJ2TcTR8N9/PqJa6omkHLOvlHR4RwGLpwi
- fJJtKutSm0kjypZvURtd7e6lj6MbibZOP2sIX3s38hDGk4FOCaTDdhv1xIrkqw8VjU
- VJtCGGxk2qzH1PR3cz2Ct3WVMK0rdaefBU5hypwLWUgz8HhPv3QqymA8tbxS96N9r4
- ps/ai0d1EMVECAH3WQVBOAbqlZOxPeqDIASj5SCB8ZMmz/AqKoH61ZkTK7CBDKBTt4
- 16J4FKOikaJpA==
-Message-ID: <c210de74-6eb5-40a4-b87d-a4a5c3123e65@kernel.org>
-Date: Fri, 19 Sep 2025 13:28:54 +0900
+ b=N8jG/QFbGCFEov41U0drKBovbF2odF+GKKExLO0IiwmvFF7QIFZSbI2uj0Xvodl2G
+ GtfUwBtMyt2ggtrFxKO9JPqBXVJ2w5Q7U6ASxkbNZL2omDwcgn/6XvUoExgfTtPUFY
+ PR/JWro5dkoVc/bz4x5Ay5tL1IYXviSFwQm/OrUNc6DpaHyMk4pVUhwHMvN+nRtPL9
+ BPsOAaKY8CpnZQgDwvoEyhQZSx+dk9PPI6s4yK/h5mVoouWIOTGfqAWARA0EZEjAE9
+ F3sa8TeJ8DZv3pfwps6d01Vdi3+Eq4QspJQBAAhmelzbkH3/YVM30rZ3pHU4AFDtjW
+ sTQ70pg5TwH4Q==
+Message-ID: <6c195b42-d994-4d24-9c40-48d8069304e3@kernel.org>
+Date: Fri, 19 Sep 2025 13:34:39 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/10] dt-bindings: gpu: mali-valhall-csf: add
- mediatek,mt8196-mali variant
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Subject: Re: [PATCH v12 3/5] dt-bindings: display/msm: Document MDSS on QCS8300
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Chia-I Wu <olvaffe@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
- <20250917-mt8196-gpufreq-v3-1-c4ede4b4399e@collabora.com>
- <20250918-festive-chowchow-of-joy-5a51de@kuoka>
- <5749727.31r3eYUQgx@workhorse>
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250911-qcs8300_mdss-v12-0-5f7d076e2b81@oss.qualcomm.com>
+ <20250911-qcs8300_mdss-v12-3-5f7d076e2b81@oss.qualcomm.com>
+ <20250918-spectral-seahorse-of-witchcraft-69553c@kuoka>
+ <b745c515-2264-42aa-8d92-663efc7f6276@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,9 +100,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <5749727.31r3eYUQgx@workhorse>
+In-Reply-To: <b745c515-2264-42aa-8d92-663efc7f6276@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,61 +118,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/09/2025 23:01, Nicolas Frattaroli wrote:
-> On Thursday, 18 September 2025 02:30:09 Central European Summer Time Krzysztof Kozlowski wrote:
->> On Wed, Sep 17, 2025 at 02:22:32PM +0200, Nicolas Frattaroli wrote:
->>> The Mali-based GPU on the MediaTek MT8196 SoC uses a separate MCU to
->>> control the power and frequency of the GPU.
+On 18/09/2025 13:14, Yongxing Mou wrote:
+> 
+> 
+> On 9/18/2025 9:01 AM, Krzysztof Kozlowski wrote:
+>> On Thu, Sep 11, 2025 at 07:24:03PM +0800, Yongxing Mou wrote:
+>>> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
 >>>
->>> It lets us omit the OPP tables from the device tree, as those can now be
->>> enumerated at runtime from the MCU. It also means the mali GPU node
->>> described in this binding does not have any clocks in this case, as all
->>> clock control is delegated to the MCU.
->>>
->>> Add the mediatek,mt8196-mali compatible, and a performance-domains
->>> property which points to the MCU's device tree node in this case. It's
->>> required on mt8196 devices.
->>>
->>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>> ---
->>>  .../bindings/gpu/arm,mali-valhall-csf.yaml         | 32 ++++++++++++++++++++--
->>>  1 file changed, 30 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
->>> index 7ad5a3ffc5f5c753322eda9e74cc65de89d11c73..ccab2dd0ea852187e3ab75923e19739622b2b3b8 100644
->>> --- a/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
->>> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-valhall-csf.yaml
->>> @@ -38,7 +38,6 @@ properties:
->>>        - const: gpu
->>>  
->>>    clocks:
->>> -    minItems: 1
+>>> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 >>
->> I don't understand why.
+>> Patch v11 and still basic issues. I am very dissapointed.
+>>
+>> <form letter>
+>> This is a friendly reminder during the review process.
+>>
+>> It looks like you received a tag and forgot to add it.
+>>
+>> If you do not know the process, here is a short explanation:
+>> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+>> versions of patchset, under or above your Signed-off-by tag, unless
+>> patch changed significantly (e.g. new properties added to the DT
+>> bindings). Tag is "received", when provided in a message replied to you
+>> on the mailing list. Tools like b4 can help here. However, there's no
+>> need to repost patches *only* to add the tags. The upstream maintainer
+>> will do that for tags received on the version they apply.
+>>
+>> Please read:
+>> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+>>
+>> If a tag was not added on purpose, please state why and what changed.
+>> </form letter>
 >>
 >> Best regards,
 >> Krzysztof
 >>
->>
+> Hi,
+> Sorry for the confusion. I did intend to remove the Reviewed-by tag, and 
+> I mentioned this in the cover letter, but maybe explanation in 
+> cover-letter was probe not clear at all.
 > 
-> I am executing a Convex hull algorithm on the 3D space of "dt-bindings
-> maintainer opinions" to get a convex hull of acceptable dt-bindings
-> choices where two different choices are functionally equivalent.
+> This patch includes three changes:
 > 
-> With this additional opinion on the krzk axis, I now know that having
-> the base properties accurate for the general case is not required if
-> the per-compatible case sets the property to false anyway.
+> 1.In the displayport-controller compatible property, "items" was changed 
+> to "contains".
+> 2.Use "qcom,sa8775p-dp" as fallback.
 > 
-> I hope no two opinions are collinear, as this would surely be my
-> undoing.
-> 
-> You get to pick which axis (X, Y, Z) you are. Right-hand rule, of
-> course.
+> These changes might not be considered significant. So I’ll be more 
+> careful next time. Thanks~
 
 
-This piece of code is wrong and I could not deduce the reason. That's
-why I asked why you need that change. If you intend to waste my time, I
-will don't bother with this, but code is still wrong.
+I really do not expect v12 to receive so significant changes in the
+first place. If you keep sending us buggy code, which then you keep
+changing after review, I will just not do the review. It's easier for me
+to wait for v20...
+
 
 Best regards,
 Krzysztof
