@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8572AB8982B
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F5DB89831
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD23410E9A4;
-	Fri, 19 Sep 2025 12:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEC910E9AB;
+	Fri, 19 Sep 2025 12:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="eyVkw8DO";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="d2zuy98N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1419210E9A4;
- Fri, 19 Sep 2025 12:44:11 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB5F10E9AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:44:31 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id E9CB34E40D5E;
- Fri, 19 Sep 2025 12:44:09 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 0B2361A0F14;
+ Fri, 19 Sep 2025 12:44:30 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id BBBAC606A8;
- Fri, 19 Sep 2025 12:44:09 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BB46D606A8;
+ Fri, 19 Sep 2025 12:44:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id EF322102F1935; 
- Fri, 19 Sep 2025 14:43:59 +0200 (CEST)
+ with ESMTPSA id 20368102F1847; 
+ Fri, 19 Sep 2025 14:44:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758285848; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758285867; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=1SmIorx94Q9uI/7x0rRtWSlHVjfF+lmoGkUrqcFAiIM=;
- b=eyVkw8DOCgHX8BC2F4LrhrEZeYUXVH/Ae3jULQlE9zx375fkzVcThTnLLezk2QhrI4ihFY
- grHt5sXqhslrXQ2BAPxHQw8uu1Kl2ooUuaMY075v2LyVstT5ILOr55/bTX5LaSbrumdUqC
- /O+pTlN6wTW6O1K+Pwr5HzDmlz2o2eoUfcZelDaXLjMrxBSJcyQV8m/fyx9NVFvTaYO3w9
- 9rwLGnaqJFcicqWdS9OGeFzD75Frx5cAr6+M1In6vBxhaIcwzqfu4pndTjI5XDy2fmdpl4
- +7fEX3iwMaDVIADoWC224yTZPXWG0E5zzPnN8vsz8UHfm4jFPaUoa5wLCaINBQ==
-Message-ID: <e978ee1e-33a9-42f5-b1bd-528d47a23c03@bootlin.com>
-Date: Fri, 19 Sep 2025 14:43:59 +0200
+ bh=6EuFRSBEJ49nCnM0kFPun8PUGYSyL4tgpIJXd9V9+nc=;
+ b=d2zuy98NKJAhJ076/aVd+4uYZCWSzMFEWE6FGyTBFGYm4KmBfI1BIGreRusympFPDumfgF
+ VIFslIDCiaTKo7P88Rd2NDyCSN7YNcDsKWadlPFTeZJwcM6iICiOHyrn9q0N4BHzVZzdTh
+ Z2CT1ZSKvPA8A/KyjwAvKuNXh5WL3G6zqXHAt73CT6DuzuRr+dUHRSwdRoZ+mKpfjC10NP
+ DBbgOOKEPY2F9Qv7hnqswlcqzSRFYLtwFUDcpWCzsRLvjEamhvJOLT+jWkx/foALG3xGyx
+ 1i5CGryWbZImZW1MQfWFopY0CDdI+xgsLI6sU5kyLHn7uxIIZaLp9kXFXZErag==
+Message-ID: <df347ef3-f4b5-4402-bc37-dec03e6b1ad6@bootlin.com>
+Date: Fri, 19 Sep 2025 14:44:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH V11 02/47] drm/vkms: Add kunit tests for VKMS LUT handling
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
+Subject: Re: [PATCH RFC v2 10/20] drm/colorop: Introduce colorop helpers for
+ crtc
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>
+Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
  pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
  jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
  agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- mcanal@igalia.com, nfraprado@collabora.com,
- Arthur Grillo <arthurgrillo@riseup.net>, Daniel Stone <daniels@collabora.com>
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-3-alex.hung@amd.com>
+ xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, mcanal@igalia.com, kernel@collabora.com,
+ daniels@collabora.com, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Simona Vetter <simona.vetter@ffwll.ch>
+References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-10-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -109,7 +120,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250815035047.3319284-3-alex.hung@amd.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-10-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -128,293 +139,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With this modification it builds:
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c 
-b/drivers/gpu/drm/vkms/vkms_composer.c
-index a375f4a65acf..a0ca28a253d2 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -13,7 +13,6 @@
-   #include <kunit/visibility.h>
-
-   #include "vkms_composer.h"
--#include "vkms_drv.h"
-
-   static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
-   {
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.h 
-b/drivers/gpu/drm/vkms/vkms_composer.h
-index 9316a053e7d7..ebc6a7034c20 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.h
-+++ b/drivers/gpu/drm/vkms/vkms_composer.h
-@@ -5,6 +5,8 @@
-
-   #include <kunit/visibility.h>
-
-+#include "vkms_drv.h"
-+
-   #if IS_ENABLED(CONFIG_KUNIT)
-   u16 lerp_u16(u16 a, u16 b, s64 t);
-   s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
 
 
-Le 15/08/2025 à 05:49, Alex Hung a écrit :
-> From: Harry Wentland <harry.wentland@amd.com>
+Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
+> Introduce colorop helper counterparts for post-blend color pipelines
+> that take a CRTC instead of a plane.
 > 
-> Debugging LUT math is much easier when we can unit test
-> it. Add kunit functionality to VKMS and add tests for
->   - get_lut_index
->   - lerp_u16
-> 
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Arthur Grillo <arthurgrillo@riseup.net>
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
 > ---
-> v11:
->   - Refactor vkms_color_test_lerp() to parametized tests (Maíra Canal)
->   - Sort include file alphabetically (Maíra Canal)
-
-I think you forgot to re-order vkms_color_test.c includes (drv > composer)
-
-> v8:
->   - Update config names (Louis Chauvet)
+>   drivers/gpu/drm/drm_colorop.c | 73 +++++++++++++++++++++++++++++++++++++++++++
+>   include/drm/drm_colorop.h     |  8 +++++
+>   2 files changed, 81 insertions(+)
 > 
-> v7:
->   - Fix checkpatch warnings and errors (Louis Chauvet)
->    - Change SPDX-License-Identifier: GPL-2.0+ from /* */ to //
->    - Fix checkpatch errors and warnings (new line at EOF, redundant spaces, and long lines)
->    - Add static to const struct vkms_color_lut test_linear_lut
->   - Add "MODULE_DESCRIPTION" (Jeff Johnson)
-> 
-> 
-> v6:
->   - Eliminate need to include test as .c file (Louis Chauvet)
-> 
-> v5:
->   - Bring back static for lerp_u16 and get_lut_index (Arthur)
-> 
-> v4:
->   - Test the critical points of the lerp function (Pekka)
-> 
-> v3:
->   - Use include way of testing static functions (Arthur)
-> 
->   drivers/gpu/drm/vkms/tests/Makefile          |   2 +-
->   drivers/gpu/drm/vkms/tests/vkms_color_test.c | 130 +++++++++++++++++++
->   drivers/gpu/drm/vkms/vkms_composer.c         |   8 +-
->   drivers/gpu/drm/vkms/vkms_composer.h         |  13 ++
->   4 files changed, 150 insertions(+), 3 deletions(-)
->   create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
->   create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
-> 
-> diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
-> index 5750f0bd9d40..a834d182b022 100644
-> --- a/drivers/gpu/drm/vkms/tests/Makefile
-> +++ b/drivers/gpu/drm/vkms/tests/Makefile
-> @@ -4,4 +4,4 @@ vkms-kunit-tests-y := \
->   	vkms_config_test.o \
->   	vkms_format_test.o
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index db137169effa6cd9e6d5805f65bdfd1cc6882075..b0c3216f4dac22f3408cbd537a20f38d03abc0a7 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -168,6 +168,20 @@ static int drm_plane_colorop_init(struct drm_device *dev,
+>   	return ret;
+>   }
 >   
-> -obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms-kunit-tests.o
-> +obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms-kunit-tests.o vkms_config_test.o vkms_color_test.o
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> new file mode 100644
-> index 000000000000..ee4dc7c62d73
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-> @@ -0,0 +1,130 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_mode.h>
-> +#include "../vkms_drv.h"
-> +#include "../vkms_composer.h"
-> +
-> +#define TEST_LUT_SIZE 16
-> +
-> +MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
-> +
-> +static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
-> +	{ 0x0, 0x0, 0x0, 0 },
-> +	{ 0x1111, 0x1111, 0x1111, 0 },
-> +	{ 0x2222, 0x2222, 0x2222, 0 },
-> +	{ 0x3333, 0x3333, 0x3333, 0 },
-> +	{ 0x4444, 0x4444, 0x4444, 0 },
-> +	{ 0x5555, 0x5555, 0x5555, 0 },
-> +	{ 0x6666, 0x6666, 0x6666, 0 },
-> +	{ 0x7777, 0x7777, 0x7777, 0 },
-> +	{ 0x8888, 0x8888, 0x8888, 0 },
-> +	{ 0x9999, 0x9999, 0x9999, 0 },
-> +	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
-> +	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
-> +	{ 0xcccc, 0xcccc, 0xcccc, 0 },
-> +	{ 0xdddd, 0xdddd, 0xdddd, 0 },
-> +	{ 0xeeee, 0xeeee, 0xeeee, 0 },
-> +	{ 0xffff, 0xffff, 0xffff, 0 },
-> +};
-> +
-> +/* lerp test parameters */
-> +struct vkms_color_test_lerp_params {
-> +	s64 t;
-> +	__u16 a;
-> +	__u16 b;
-> +	__u16 expected;
-> +};
-> +
-> +/* lerp test cases */
-> +static const struct vkms_color_test_lerp_params color_test_lerp_cases[] = {
-> +	/* Half-way round down */
-> +	{ 0x80000000 - 1, 0x0, 0x10, 0x8 },
-> +	{ 0x80000000 - 1, 0x1, 0x10, 0x8 },	/* Odd a */
-> +	{ 0x80000000 - 1, 0x1, 0xf, 0x8 },	/* Odd b */
-> +	{ 0x80000000 - 1, 0x10, 0x10, 0x10 },	/* b = a */
-> +	{ 0x80000000 - 1, 0x10, 0x11, 0x10 },	/* b = a + 1*/
-> +	/* Half-way round up */
-> +	{ 0x80000000, 0x0, 0x10, 0x8 },
-> +	{ 0x80000000, 0x1, 0x10, 0x9 },		/* Odd a */
-> +	{ 0x80000000, 0x1, 0xf, 0x8 },		/* Odd b */
-> +	{ 0x80000000, 0x10, 0x10, 0x10 },	/* b = a */
-> +	{ 0x80000000, 0x10, 0x11, 0x11 },	/* b = a + 1*/
-> +	/*  t = 0.0 */
-> +	{ 0x0, 0x0, 0x10, 0x0 },
-> +	{ 0x0, 0x1, 0x10, 0x1 },		/* Odd a */
-> +	{ 0x0, 0x1, 0xf, 0x1 },			/* Odd b */
-> +	{ 0x0, 0x10, 0x10, 0x10 },		/* b = a */
-> +	{ 0x0, 0x10, 0x11, 0x10 },		/* b = a + 1*/
-> +	/*  t = 1.0 */
-> +	{ 0x100000000, 0x0, 0x10, 0x10 },
-> +	{ 0x100000000, 0x1, 0x10, 0x10 },	/* Odd a */
-> +	{ 0x100000000, 0x1, 0xf, 0xf },		/* Odd b */
-> +	{ 0x100000000, 0x10, 0x10, 0x10 },	/* b = a */
-> +	{ 0x100000000, 0x10, 0x11, 0x11 },	/* b = a + 1*/
-> +	/*  t = 0.0 + 1 */
-> +	{ 0x0 + 1, 0x0, 0x10, 0x0 },
-> +	{ 0x0 + 1, 0x1, 0x10, 0x1 },		/* Odd a */
-> +	{ 0x0 + 1, 0x1, 0xf, 0x1 },		/* Odd b */
-> +	{ 0x0 + 1, 0x10, 0x10, 0x10 },		/* b = a */
-> +	{ 0x0 + 1, 0x10, 0x11, 0x10 },		/* b = a + 1*/
-> +	/*  t = 1.0 - 1 */
-> +	{ 0x100000000 - 1, 0x0, 0x10, 0x10 },
-> +	{ 0x100000000 - 1, 0x1, 0x10, 0x10 },	/* Odd a */
-> +	{ 0x100000000 - 1, 0x1, 0xf, 0xf },	/* Odd b */
-> +	{ 0x100000000 - 1, 0x10, 0x10, 0x10 },	/* b = a */
-> +	{ 0x100000000 - 1, 0x10, 0x11, 0x11 },	/* b = a + 1*/
-> +	/*  t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) */
-> +	{ 0x80000000 - 1, 0x0, 0x1, 0x0 },
-> +	{ 0x80000000, 0x0, 0x1, 0x1 },
-> +};
-> +
-> +static const struct vkms_color_lut test_linear_lut = {
-> +	.base = test_linear_array,
-> +	.lut_length = TEST_LUT_SIZE,
-> +	.channel_value2index_ratio = 0xf000fll
-> +};
-> +
-> +
-> +static void vkms_color_test_get_lut_index(struct kunit *test)
+> +static int drm_crtc_colorop_init(struct drm_device *dev,
+> +				 struct drm_colorop *colorop,
+> +				 struct drm_crtc *crtc,
+> +				 enum drm_colorop_type type, uint32_t flags)
 > +{
-> +	s64 lut_index;
-> +	int i;
+> +	int ret;
 > +
-> +	lut_index = get_lut_index(&test_linear_lut, test_linear_array[0].red);
-> +	KUNIT_EXPECT_EQ(test, drm_fixp2int(lut_index), 0);
+> +	ret = drm_common_colorop_init(dev, colorop, type, flags);
 > +
-> +	for (i = 0; i < TEST_LUT_SIZE; i++) {
-> +		lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
-> +		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
-> +	}
+> +	colorop->crtc = crtc;
+> +
+> +	return ret;
 > +}
 > +
-> +static void vkms_color_test_lerp(struct kunit *test)
+>   /**
+>    * drm_colorop_cleanup - Cleanup a drm_colorop object in color_pipeline
+>    *
+> @@ -293,6 +307,23 @@ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *
+>   }
+>   EXPORT_SYMBOL(drm_plane_colorop_curve_1d_init);
+>   
+> +int drm_crtc_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +				   struct drm_crtc *crtc, u64 supported_tfs, uint32_t flags)
 > +{
-> +	int i;
+> +	int ret;
 > +
-> +	for (i = 0; i < ARRAY_SIZE(color_test_lerp_cases); i++) {
-> +		const struct vkms_color_test_lerp_params *params = &color_test_lerp_cases[i];
+> +	ret = drm_colorop_has_supported_tf(dev, &crtc->base, crtc->name, supported_tfs);
+> +	if (ret)
+> +		return ret;
 > +
-> +		KUNIT_EXPECT_EQ(test, lerp_u16(params->a, params->b, params->t), params->expected);
-> +	}
+> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_1D_CURVE, flags);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return drm_common_colorop_curve_1d_init(dev, colorop, supported_tfs, flags);
 > +}
+> +EXPORT_SYMBOL(drm_crtc_colorop_curve_1d_init);
 > +
-> +static struct kunit_case vkms_color_test_cases[] = {
-> +	KUNIT_CASE(vkms_color_test_get_lut_index),
-> +	KUNIT_CASE(vkms_color_test_lerp),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite vkms_color_test_suite = {
-> +	.name = "vkms-color",
-> +	.test_cases = vkms_color_test_cases,
-> +};
-> +
-> +kunit_test_suite(vkms_color_test_suite);
-> +
-> +MODULE_DESCRIPTION("Kunit test for VKMS LUT handling");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index fa269d279e25..a375f4a65acf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -10,7 +10,9 @@
->   #include <drm/drm_gem_framebuffer_helper.h>
->   #include <drm/drm_vblank.h>
->   #include <linux/minmax.h>
-> +#include <kunit/visibility.h>
->   
-> +#include "vkms_composer.h"
->   #include "vkms_drv.h"
->   
->   static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
-> @@ -60,7 +62,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
->   }
->   
->   // lerp(a, b, t) = a + (b - a) * t
-> -static u16 lerp_u16(u16 a, u16 b, s64 t)
-> +VISIBLE_IF_KUNIT u16 lerp_u16(u16 a, u16 b, s64 t)
+>   static int drm_colorop_create_data_prop(struct drm_device *dev, struct drm_colorop *colorop)
 >   {
->   	s64 a_fp = drm_int2fixp(a);
->   	s64 b_fp = drm_int2fixp(b);
-> @@ -69,13 +71,15 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
->   
->   	return drm_fixp2int_round(a_fp + delta);
+>   	struct drm_property *prop;
+> @@ -381,6 +412,35 @@ drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *
 >   }
-> +EXPORT_SYMBOL_IF_KUNIT(lerp_u16);
+>   EXPORT_SYMBOL(drm_plane_colorop_curve_1d_lut_init);
 >   
-> -static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-> +VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+> +/**
+> + * drm_crtc_colorop_curve_1d_lut_init - Initialize a DRM_COLOROP_1D_LUT
+> + *
+> + * @dev: DRM device
+> + * @colorop: The drm_colorop object to initialize
+> + * @crtc: The associated drm_crtc
+> + * @lut_size: LUT size supported by driver
+> + * @lut1d_interpolation: 1D LUT interpolation type
+> + * @flags: bitmask of misc, see DRM_COLOROP_FLAG_* defines.
+> + * @return zero on success, -E value on failure
+> + */
+> +int
+> +drm_crtc_colorop_curve_1d_lut_init(struct drm_device *dev,
+> +				   struct drm_colorop *colorop,
+> +				   struct drm_crtc *crtc, uint32_t lut_size,
+> +				   enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
+> +				   uint32_t flags)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_1D_LUT, flags);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return drm_common_colorop_curve_1d_lut_init(dev, colorop, lut_size,
+> +						    lut1d_interpolation, flags);
+> +}
+> +EXPORT_SYMBOL(drm_crtc_colorop_curve_1d_lut_init);
+> +
+>   static int drm_common_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   					   uint32_t flags)
 >   {
->   	s64 color_channel_fp = drm_int2fixp(channel_value);
->   
->   	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
+> @@ -408,6 +468,19 @@ int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *c
 >   }
-> +EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+>   EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
 >   
->   /*
->    * This enum is related to the positions of the variables inside
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
-> new file mode 100644
-> index 000000000000..9316a053e7d7
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +int drm_crtc_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +				   struct drm_crtc *crtc, uint32_t flags)
+> +{
+> +	int ret;
 > +
-> +#ifndef _VKMS_COMPOSER_H_
-> +#define _VKMS_COMPOSER_H_
+> +	ret = drm_crtc_colorop_init(dev, colorop, crtc, DRM_COLOROP_CTM_3X4, flags);
+> +	if (ret)
+> +		return ret;
 > +
-> +#include <kunit/visibility.h>
+> +	return drm_common_colorop_ctm_3x4_init(dev, colorop, flags);
+> +}
+> +EXPORT_SYMBOL(drm_crtc_colorop_ctm_3x4_init);
 > +
-> +#if IS_ENABLED(CONFIG_KUNIT)
-> +u16 lerp_u16(u16 a, u16 b, s64 t);
-> +s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
-> +#endif
-> +
-> +#endif /* _VKMS_COMPOSER_H_ */
+>   /**
+>    * drm_plane_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
+>    *
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 3e223f3b3597978c5d702ce7622ae30b8aa9dddb..e7d1e5e95a901b1bd91fd8580e2fcb367c0253ce 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -377,14 +377,22 @@ static inline struct drm_colorop *drm_colorop_find(struct drm_device *dev,
+>   
+>   void drm_colorop_pipeline_destroy(struct drm_device *dev);
+>   
+> +int drm_crtc_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +				       struct drm_crtc *crtc, uint32_t lut_size,
+> +				       enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
+> +				       uint32_t flags);
+>   int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   				    struct drm_plane *plane, u64 supported_tfs, uint32_t flags);
+> +int drm_crtc_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +				   struct drm_crtc *crtc, u64 supported_tfs, uint32_t flags);
+>   int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   					struct drm_plane *plane, uint32_t lut_size,
+>   					enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
+>   					uint32_t flags);
+>   int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   				   struct drm_plane *plane, uint32_t flags);
+> +int drm_crtc_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
+> +				   struct drm_crtc *crtc, uint32_t flags);
+>   int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
+>   				struct drm_plane *plane, uint32_t flags);
+>   int drm_plane_colorop_3dlut_init(struct drm_device *dev, struct drm_colorop *colorop,
+> 
 
 -- 
 --
