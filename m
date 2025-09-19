@@ -2,113 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EFDB8A007
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 16:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE01B8A0E7
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 16:45:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732F510EA07;
-	Fri, 19 Sep 2025 14:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FECB10EA22;
+	Fri, 19 Sep 2025 14:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QFThGcFd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UC7PMMPB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A889410EA07
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:36:26 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-45b9c35bc0aso23630925e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 07:36:26 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
+ [209.85.219.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E5010EA22
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:45:25 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id
+ 3f1490d57ef6-ea5ca8dbd37so1452532276.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 07:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1758292585; x=1758897385; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=Ki7qAfO4qaImjGJ2JfSFUybYdIzI88oPzTIZNv7oRHU=;
- b=QFThGcFdXMLln6Wq7Wk8SryjCYUT2hrsNxDeXXp7l96lUyKl7pk/WsSlGnGJ+qgcvm
- O9zJMTlw0AAofRbv+ft4zx0utuiWsjybpPwOz9ES0BD3w3o/xklCSl0iWKXLvaAFLWGu
- tzotWUZrjafeqGS0mawQM2jfErBCw+cXnkX7i9pyyLuR+oIRGOnizMBi/6nykEuR+u/r
- TVdAVNMU72/3N6qhM8v9G5XjgK0HgPMI3fwYNi3jGHoUklRTZIVaP8LuPqwUK/PP8ze1
- zfpRHee+s38QFGwVyI6Pbc43o61pmU2eXpRNHkfdQxR7nhZR+SmppeEo/wBgwlvny/C2
- olKA==
+ d=gmail.com; s=20230601; t=1758293125; x=1758897925; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3WjyTwxOlL5TBVN6HVHH54w6s0HUnwkgruRLNDXu+EU=;
+ b=UC7PMMPBGO9rW77boD76c5PNlyOm0/35I1dL/CXlWzw+91jIGfMMuP80cVyilbRBLN
+ GVA3h7jy4vhxwZZWdK+d/ae9CstFc00LATFWozWlRV6EzdZYaxesaVc6UAk8MLcTmmPq
+ vjjQkANBYB/phb8OnjP/hiVlzYbM4RqgP1zfUp6LhvmgTncs1LjFz5Zf6quzvvNFXj41
+ S+YsiH0YguA7TyiErsqbTCY+Z8T2l48ojZo7s8oYbS8QxBZyfWRnfDEpZZY/T/MmaDhI
+ urk4IaXB04k5d04iplItOrGp42W+NqTWERYs7ITCLJx5IMiCuOt4j32pWuWLNqg36q2F
+ 5yAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758292585; x=1758897385;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Ki7qAfO4qaImjGJ2JfSFUybYdIzI88oPzTIZNv7oRHU=;
- b=SNbBPorePuMmbklqeEtpgblx+4OMCdAvVXUdrqc9A8otKlb8oxipvVAFdOuo2rkePv
- 1rLmNNSzntGGL/ndBJQYXClWMcTgFPAiX4Nyj2WZI0fpNvT4B3ataJ6GTfaa1jgY3YyA
- 2mAFB9zyWFAap3lE7kZUSAM2h91T71RJ3KttjZ2R4ULc/I88UnqwvGjUUkV7/JWEpGae
- gVpZgbexhO8q8KmRSkKRWVO92iiYm5aoqrcaY1sHZMljshFs9xjwf+s0QicLMPftQUsr
- cYXqM85s9xj0Ir8lffyGEhKZajR+4Lk91UUl/CLak+J7AhRCDYjMvrhC6b3ebhCQOS2U
- TwsQ==
-X-Gm-Message-State: AOJu0YwoEdWkXmtP3TednaObvICEdESBM/DETm3hch5v9ioQAONDNoyo
- AioW4+Jnrit2eYBAJ9aWLSECTBZyPkub1KMOi5c1O1zEzV9GAr4oOF7y/ltMRN51wWQ=
-X-Gm-Gg: ASbGncuWp9pT7x8ExvQBp1+39vGko6c1ZofpkF52dLsIHWXR/9X973Eo1vMQLTkYxHV
- 5VktCn4zfYc/diS+bAChHYMWfjjlgN0uhVjkD3grhqhl0jNgFGjdhiq7NVennFxPDyF6Gn+T83p
- 1dU0CeACErM2zS0bDRHWQyI4g7+Yp/wYkVz0Xn+fcCrTxLOzG8NPGmrA30zRnmb+oIRlICSwTy3
- jXh2UafR5Dgx+zT9SThY0xB7I7Y0hyARfxHQGMz/W67XNrC65zvauAc1qBS3dRkIelNQCjD0XZZ
- FDs1lHuDxwyDfP1gKj3p197aRlOVndHwfUgXOB0tcH04xTGrUK2eapSBWvTRhwmr+fJznDnunlE
- hcGTTImmbET3DyCzbOeg+uFAmTtl9h4BurdsntiFjTYD1e5kdkjjuIRIRXzLwhNevGvz7cJay
-X-Google-Smtp-Source: AGHT+IH5vrQPKYerDhA6I6iQ9DqZ/m8nF6zTFVhUr5PFv+QEeSA57WDealwtSdVJmyo8SQmPDRYqgA==
-X-Received: by 2002:a05:600c:19cf:b0:459:dde3:1a56 with SMTP id
- 5b1f17b1804b1-467eaa881e0mr30634565e9.28.1758292584629; 
- Fri, 19 Sep 2025 07:36:24 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f?
- ([2a01:e0a:3d9:2080:77b3:66a:b2a0:c20f])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3f0e28c83d6sm2164989f8f.56.2025.09.19.07.36.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Sep 2025 07:36:24 -0700 (PDT)
-Message-ID: <bdd942ef-1ede-4f9f-ab90-ea7ac8995b92@linaro.org>
-Date: Fri, 19 Sep 2025 16:36:23 +0200
+ d=1e100.net; s=20230601; t=1758293125; x=1758897925;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3WjyTwxOlL5TBVN6HVHH54w6s0HUnwkgruRLNDXu+EU=;
+ b=n7ouyM99DR5TmuClLObajmX44DOUPjPhjx7d8oiLB7pseiNPC1pKXejs/0K+SkmsPa
+ upthpgpbBfd0PtLGYIevHbfOrkrct5jQeLI0ppANh/WtEVQUnya/yiE9tzFc3hCr0oK7
+ jZ367c81tEuhLp5Yyz3fEbApHZRlMrKOFha2lSlREniVrCWWD8KbZnUjH+Y4vPU3xOAW
+ K2rXLnMJW2ZIcqlS3f/AJHnuph1GpGxw33HjfrCRZOl4BoL3eFE0a1kWRXpwYoA2LfuY
+ H92mzQD+NX4XjFhOY5iXEx0Q6k4UxfkqeQbpaIaaJkEf/9Fis7f0zFSq2GTHSTlb6C6y
+ cv2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfkhqhc+PVpDTi3C+uijp53leTwMnlJY+ayeUyf9UqjSikIpqAOWE56cUowIkaQlw0t1vH7kLc8hU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwDqZQfSNtz00F1LLGh5F24Zn4c72UH9SvjeHgKcvU8hcPwwIh
+ ezjKHfBnaomdbAjwe9si9HKWbhrFIAV8aPRQxW2hSWIj5Qw5b9YUngcWM1A/mp7KRav1bLk0SkS
+ DuXts4L+6oytk4DVrF+RzEHMGQq58y+A=
+X-Gm-Gg: ASbGncszeY+7+i4juo1O7ji5tFRr/jVfTHIfHgV059cPI1Gck+qTe+O0cf5I+kzLLSM
+ gcYLsSWEJ5aOGxfcxsq5OmTfRBl5UBWh6GMfN9zlAchGGue7VQ3BrdxbqUXJFv5qr/BSdAX4kXk
+ KAR+FMK+wjnazcAAwfK88eY6IvTha0TwzTbOiBYYbX0NQJMIqqs/PzfVhEGeQK26Hr2lRsNG+xn
+ oWiQvsd
+X-Google-Smtp-Source: AGHT+IGJw1+yEfFNFqRcYjWUnG/h8+qC9oVnvpeOX94lxBtVsN40UmgyUvz0yHEx0P3xwOLztHIl2uP+N3Us1ggwwRI=
+X-Received: by 2002:a05:6902:1b87:b0:ea3:e63f:7b42 with SMTP id
+ 3f1490d57ef6-ea8a79e880cmr3533510276.33.1758293124321; Fri, 19 Sep 2025
+ 07:45:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: document Sharp
- LQ079L1SX01 panel
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
 References: <20250912064253.26346-1-clamor95@gmail.com>
  <20250912064253.26346-2-clamor95@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250912064253.26346-2-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <bdd942ef-1ede-4f9f-ab90-ea7ac8995b92@linaro.org>
+In-Reply-To: <bdd942ef-1ede-4f9f-ab90-ea7ac8995b92@linaro.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 19 Sep 2025 17:45:11 +0300
+X-Gm-Features: AS18NWCaPEoqBynvU0_LqnkYzZ1JgNAvdrHR_FyFiEbwwYX_CdM3v2DxCZzUGeU
+Message-ID: <CAPVz0n1Ac=opNj=qAM5Rp0fpDo-6khCdmhoCwkztGLosKV31tw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: document Sharp
+ LQ079L1SX01 panel
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,129 +90,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+=D0=BF=D1=82, 19 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 17:36 Neil=
+ Armstrong <neil.armstrong@linaro.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hi,
+>
+> On 12/09/2025 08:42, Svyatoslav Ryhel wrote:
+> > Document Sharp LQ079L1SX01 panel found in Xiaomi Mi Pad.
+>
+> The patch doesn't apply on drm-misc-next, please rebase.
+>
 
-On 12/09/2025 08:42, Svyatoslav Ryhel wrote:
-> Document Sharp LQ079L1SX01 panel found in Xiaomi Mi Pad.
+Sure, but I have synced with drm-misc-next right now and it applied cleanly=
+.
 
-The patch doesn't apply on drm-misc-next, please rebase.
+I am on top of 048deed5faf0 (drm/drm-misc-next) drm/panel: Add support
+for KD116N3730A12
 
-Neil
+Top commit is correct on my side?
 
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->   .../display/panel/sharp,lq079l1sx01.yaml      | 99 +++++++++++++++++++
->   1 file changed, 99 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
-> new file mode 100644
-> index 000000000000..08a35ebbbb3c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01.yaml
-> @@ -0,0 +1,99 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/sharp,lq079l1sx01.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sharp Microelectronics 7.9" WQXGA TFT LCD panel
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +description: >
-> +  This panel requires a dual-channel DSI host to operate and it supports
-> +  only left-right split mode, where each channel drives the left or right
-> +  half of the screen and only video mode.
-> +
-> +  Each of the DSI channels controls a separate DSI peripheral.
-> +  The peripheral driven by the first link (DSI-LINK1), left one, is
-> +  considered the primary peripheral and controls the device.
-> +
-> +allOf:
-> +  - $ref: panel-common-dual.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: sharp,lq079l1sx01
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description: regulator that supplies the analog voltage
-> +
-> +  vddio-supply:
-> +    description: regulator that supplies the I/O voltage
-> +
-> +  vsp-supply:
-> +    description: positive boost supply regulator
-> +
-> +  vsn-supply:
-> +    description: negative boost supply regulator
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  backlight: true
-> +  ports: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - avdd-supply
-> +  - vddio-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "sharp,lq079l1sx01";
-> +            reg = <0>;
-> +
-> +            reset-gpios = <&gpio 59 GPIO_ACTIVE_LOW>;
-> +
-> +            avdd-supply = <&avdd_lcd>;
-> +            vddio-supply = <&vdd_lcd_io>;
-> +            vsp-supply = <&vsp_5v5_lcd>;
-> +            vsn-supply = <&vsn_5v5_lcd>;
-> +
-> +            backlight = <&backlight>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    panel_in0: endpoint {
-> +                        remote-endpoint = <&dsi0_out>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg = <1>;
-> +                    panel_in1: endpoint {
-> +                        remote-endpoint = <&dsi1_out>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-
+> Neil
+>
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >   .../display/panel/sharp,lq079l1sx01.yaml      | 99 ++++++++++++++++++=
++
+> >   1 file changed, 99 insertions(+)
+> >   create mode 100644 Documentation/devicetree/bindings/display/panel/sh=
+arp,lq079l1sx01.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/sharp,lq07=
+9l1sx01.yaml b/Documentation/devicetree/bindings/display/panel/sharp,lq079l=
+1sx01.yaml
+> > new file mode 100644
+> > index 000000000000..08a35ebbbb3c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/sharp,lq079l1sx01=
+.yaml
+> > @@ -0,0 +1,99 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/sharp,lq079l1sx01.yam=
+l#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sharp Microelectronics 7.9" WQXGA TFT LCD panel
+> > +
+> > +maintainers:
+> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > +
+> > +description: >
+> > +  This panel requires a dual-channel DSI host to operate and it suppor=
+ts
+> > +  only left-right split mode, where each channel drives the left or ri=
+ght
+> > +  half of the screen and only video mode.
+> > +
+> > +  Each of the DSI channels controls a separate DSI peripheral.
+> > +  The peripheral driven by the first link (DSI-LINK1), left one, is
+> > +  considered the primary peripheral and controls the device.
+> > +
+> > +allOf:
+> > +  - $ref: panel-common-dual.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sharp,lq079l1sx01
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  avdd-supply:
+> > +    description: regulator that supplies the analog voltage
+> > +
+> > +  vddio-supply:
+> > +    description: regulator that supplies the I/O voltage
+> > +
+> > +  vsp-supply:
+> > +    description: positive boost supply regulator
+> > +
+> > +  vsn-supply:
+> > +    description: negative boost supply regulator
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +
+> > +  backlight: true
+> > +  ports: true
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - avdd-supply
+> > +  - vddio-supply
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    dsi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        panel@0 {
+> > +            compatible =3D "sharp,lq079l1sx01";
+> > +            reg =3D <0>;
+> > +
+> > +            reset-gpios =3D <&gpio 59 GPIO_ACTIVE_LOW>;
+> > +
+> > +            avdd-supply =3D <&avdd_lcd>;
+> > +            vddio-supply =3D <&vdd_lcd_io>;
+> > +            vsp-supply =3D <&vsp_5v5_lcd>;
+> > +            vsn-supply =3D <&vsn_5v5_lcd>;
+> > +
+> > +            backlight =3D <&backlight>;
+> > +
+> > +            ports {
+> > +                #address-cells =3D <1>;
+> > +                #size-cells =3D <0>;
+> > +
+> > +                port@0 {
+> > +                    reg =3D <0>;
+> > +                    panel_in0: endpoint {
+> > +                        remote-endpoint =3D <&dsi0_out>;
+> > +                    };
+> > +                };
+> > +
+> > +                port@1 {
+> > +                    reg =3D <1>;
+> > +                    panel_in1: endpoint {
+> > +                        remote-endpoint =3D <&dsi1_out>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +...
+>
