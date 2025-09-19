@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CE7B898AA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EBFB898B0
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:51:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5DA10E9C1;
-	Fri, 19 Sep 2025 12:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB1B310E9C7;
+	Fri, 19 Sep 2025 12:51:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="sqLXdg1/";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EpPbJWPY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8485710E9C1
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:50:41 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8669A10E9C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:50:59 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 6EAA14E40D60;
- Fri, 19 Sep 2025 12:50:40 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 7968E1A0F14;
+ Fri, 19 Sep 2025 12:50:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 36D86606A8;
- Fri, 19 Sep 2025 12:50:40 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4D44F606A8;
+ Fri, 19 Sep 2025 12:50:58 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 76CE5102F177A; 
- Fri, 19 Sep 2025 14:50:34 +0200 (CEST)
+ with ESMTPSA id 4052F102F1D55; 
+ Fri, 19 Sep 2025 14:50:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758286238; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758286256; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=mJ1W7Lqi7lXiObg/9ptItYWX4ywWluzP64XdJkdaQnw=;
- b=sqLXdg1/8iFiQRaZdQAu518c6tt929vkJqAUqxewCtq4tcpHZ7RNfeaZEsmOpj52Dt7age
- hEzWKe8g3d56GBEZH4rRLDirU+O+DTdcHeORT4BpbP/vkEMTH/v1CA5wsyyFLki884M4c3
- FgrG/9AvOjWs6Zhq1ExjspG/00Zv1mjrlyFSRbs4aYVAezCBLFUGRk6WmtBHkETy/9/nma
- 43d3lu6n/r2dE7L0YwY75TAYpb4RqoniDZkAOHipzFu4cs6zz8jDq8mYm4ngIZ2SWzQpkB
- LgDSDxIDxySb4+fkY0/auB7ccvM/wG+t/YG1lmqC771/dy7MKO0GjpBCsc9r3Q==
-Message-ID: <58869a61-12f4-40de-8a24-dbfbf47695bc@bootlin.com>
-Date: Fri, 19 Sep 2025 14:50:34 +0200
+ bh=zY0lRxHT0pw5kHExONt8gA91pYw+Vd/e9xPb5GqyUag=;
+ b=EpPbJWPYpGCjiKVRlblChMzOsAtAE3VnEyg4g1K7ECAZ3QbGqPR2kJYPODvBFCXxyJQ9Tn
+ 7tJUHUTq4L7XHDnSDbam569biiw6T7UoktPdWbAkSrelqwlx3gjtO81TjdXNh16bl2YVoW
+ em9sgqr1ueFTR419ZOab1O+iRLP2b3oxCa9cJoJ/jPMBy9pUc6I0/pgOtx0v0HijEdkIxO
+ p7+ykiKRCQ8NZH20Tc4mgdI4yMis2zh1k3Zbi/rZVAzfr49f2jhnGtlGhHVbpNjtGkLOVk
+ JYqphFZzmCejhewkmqDbDOCdClpVOtZrBHstfCOtOjv2mi6WqyVVlbOw4X27lQ==
+Message-ID: <a7e3a658-65d4-4d11-88d8-047e1239deeb@bootlin.com>
+Date: Fri, 19 Sep 2025 14:50:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 16/20] drm/mediatek: Set post-blend color pipeline
- driver cap
+Subject: Re: [PATCH RFC v2 08/20] drm/atomic: Print the color pipeline as part
+ of the CRTC state print
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -64,7 +64,7 @@ Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-16-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-8-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -120,7 +120,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-16-ac4471b44758@collabora.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-8-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -142,31 +142,115 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
-> Now that the driver implements post-blend color pipelines, set the
-> driver cap so they can be used from userspace.
+> Print the value of the color pipeline in the CRTC state as part of the
+> CRTC state print.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>   drivers/gpu/drm/drm_atomic.c  |  8 +++++---
+>   drivers/gpu/drm/drm_colorop.c | 26 ++++++++++++++++++++++++++
+>   include/drm/drm_colorop.h     |  3 +++
+>   3 files changed, 34 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 3ab32fe7fe1cbf9057c3763d979638dce013d82b..6982c978dc530b838353ace60f748660c3b4524d 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -472,6 +472,8 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
+>   	drm_printf(p, "\tplane_mask=%x\n", state->plane_mask);
+>   	drm_printf(p, "\tconnector_mask=%x\n", state->connector_mask);
+>   	drm_printf(p, "\tencoder_mask=%x\n", state->encoder_mask);
+> +	drm_printf(p, "\tcolor-pipeline=%d\n",
+> +		   state->color_pipeline ? state->color_pipeline->base.id : 0);
+>   	drm_printf(p, "\tmode: " DRM_MODE_FMT "\n", DRM_MODE_ARG(&state->mode));
+>   
+>   	if (crtc->funcs->atomic_print_state)
+> @@ -617,7 +619,7 @@ drm_atomic_get_colorop_state(struct drm_atomic_state *state,
+>   	if (colorop_state)
+>   		return colorop_state;
+>   
+> -	ret = drm_modeset_lock(&colorop->plane->mutex, state->acquire_ctx);
+> +	ret = drm_colorop_modeset_lock(colorop, state->acquire_ctx);
+>   	if (ret)
+>   		return ERR_PTR(ret);
+>   
+> @@ -2004,10 +2006,10 @@ static void __drm_state_dump(struct drm_device *dev, struct drm_printer *p,
+>   
+>   	list_for_each_entry(colorop, &config->colorop_list, head) {
+>   		if (take_locks)
+> -			drm_modeset_lock(&colorop->plane->mutex, NULL);
+> +			drm_colorop_modeset_lock(colorop, NULL);
+>   		drm_atomic_colorop_print_state(p, colorop->state);
+>   		if (take_locks)
+> -			drm_modeset_unlock(&colorop->plane->mutex);
+> +			drm_colorop_modeset_unlock(colorop);
+>   	}
+>   
+>   	list_for_each_entry(plane, &config->plane_list, head) {
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index a1b36cd488f0a014425a9192ffe5fcc4d2c1afaa..1384a259605fa4945aa74402901886d7e1fde0d1 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -24,6 +24,7 @@
+>    *
+>    */
+>   
+> +#include <drm/drm_crtc.h>
+>   #include <drm/drm_colorop.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_drv.h>
+> @@ -595,3 +596,28 @@ void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_color
+>   	colorop->next = next;
+>   }
+>   EXPORT_SYMBOL(drm_colorop_set_next_property);
+> +
+> +int drm_colorop_modeset_lock(struct drm_colorop *colorop, struct drm_modeset_acquire_ctx *ctx)
+> +{
+> +	if (colorop->plane)
+> +		return drm_modeset_lock(&colorop->plane->mutex, ctx);
+> +
+> +	if (colorop->crtc)
+> +		return drm_modeset_lock(&colorop->crtc->mutex, ctx);
+> +
+> +	drm_err(colorop->dev, "Dangling colorop, it must be attached to a plane or a CRTC\n");
+> +	return -EINVAL;
+> +}
+> +EXPORT_SYMBOL(drm_colorop_modeset_lock);
+> +
+> +
+> +void drm_colorop_modeset_unlock(struct drm_colorop *colorop)
+> +{
+> +	if (colorop->plane)
+> +		drm_modeset_unlock(&colorop->plane->mutex);
+> +	else if (colorop->crtc)
+> +		drm_modeset_unlock(&colorop->crtc->mutex);
+> +	else
+> +		drm_err(colorop->dev, "Dangling colorop, it must be attached to a plane or a CRTC\n");
+> +}
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index d5e6bab364143540e1f59df481b9a9d559c39199..73c0f448d7fcf25e473e2c3c6ddaaf28446570cf 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -611,7 +611,8 @@ static struct drm_gem_object *mtk_gem_prime_import(struct drm_device *dev,
->   }
+> +EXPORT_SYMBOL(drm_colorop_modeset_unlock);
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 7a4e0d0c4a3d594abecef304b1d5990434cdb231..3e223f3b3597978c5d702ce7622ae30b8aa9dddb 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -29,6 +29,7 @@
 >   
->   static const struct drm_driver mtk_drm_driver = {
-> -	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
-> +	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC |
-> +			   DRIVER_POST_BLEND_COLOR_PIPELINE,
+>   #include <drm/drm_mode_object.h>
+>   #include <drm/drm_mode.h>
+> +#include <drm/drm_modeset_lock.h>
+>   #include <drm/drm_property.h>
 >   
->   	.dumb_create = mtk_gem_dumb_create,
->   	DRM_FBDEV_DMA_DRIVER_OPS,
+>   /* DRM colorop flags */
+> @@ -444,5 +445,7 @@ const char *drm_get_colorop_lut1d_interpolation_name(enum drm_colorop_lut1d_inte
+>   const char *drm_get_colorop_lut3d_interpolation_name(enum drm_colorop_lut3d_interpolation_type type);
+>   
+>   void drm_colorop_set_next_property(struct drm_colorop *colorop, struct drm_colorop *next);
+> +int drm_colorop_modeset_lock(struct drm_colorop *colorop, struct drm_modeset_acquire_ctx *ctx);
+> +void drm_colorop_modeset_unlock(struct drm_colorop *colorop);
+>   
+>   #endif /* __DRM_COLOROP_H__ */
 > 
 
 -- 
