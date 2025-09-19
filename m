@@ -2,172 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB49B89A76
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 15:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D6EB89E6F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 16:25:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875C210E9FD;
-	Fri, 19 Sep 2025 13:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F0610EA05;
+	Fri, 19 Sep 2025 14:25:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="GMidqoF5";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="me6oXFWG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010002.outbound.protection.outlook.com
- [52.101.193.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5856010E9FD
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 13:26:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pK0604fsrdsi7ruOQWdWId/vo7zU74WoSrV4pk4wKSaf55t2DTykksBiQZSfQLFzh1+8eqHcNx6bIzg2jsaLDRDT409PoGa628eLkUHWugGlSSsu6Bk9xf3XofgzAuoYw9zrNRgOeKDokQVMBFxL6LYe0jbbwGX7JerBxhjhdilWxFHPnNAz3sO7CCK3YO1rQdux8r1LL6XM4nQBcVsnu4vBpcEkSuxWjUAlW2LjhVh+aJx7owxuuHTk3nBwcyAsy2EVzgNRNO5fUH+W0FP81hn0aS8h1C+bcSu88KEYLiS7TOgr4pskjpkurUNPURFfKsKpMXNdxj6rPUD3fxhlWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P6W8bsolvOdtvCfsnbQharuAmkNvBfByx34hWWXw0EI=;
- b=pF6yVv32w2l/0ARRa0UAggN3iWfY+rbN3NDxAtxjFKKYD6XosEnlyiz0BAyfzo135NQ5gBj1+Sp18M71ks4SQ0ng6kEiL/qW2i+ma15MOrkXX5rhFfBY5wGtbhUBymoxiH5VH2zHhcmKm35AK+Wp5qc4yIBOBj9xNWyTYwx1RmmvAb54nhkU2t7K7/k26atZzP6pyd2u2CFEVbkEPTg6IHAZ/gYzPKUzwdURaxaCKd5FolQxtvAq8zTN5XoI6oDRbml3TxSn3/5queX6eZrDSgNLwXE9Vg2DA2k0qyH8JE3SQvv+LXUOR2i22Abf11oS0RL4JEaE8bz78qNNtBORhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P6W8bsolvOdtvCfsnbQharuAmkNvBfByx34hWWXw0EI=;
- b=GMidqoF5BMhn4BTFnM1CWdP4eBuTNWnr7JMZ5EhJpkr+3IO4iuXyt4JrFlQylpcOzbvSsxwXbMrobg6pD93BIXk1OWx9JuajvAN7Q2kYPzAgxVDvEASxxbjbzhLM830Ps4l49GXO6z9POtfA7TMJZ8e/6SIOIHy5UqWvpsYdwunfuECZFNkH27jSDa2mv8QVMqNzzP8fVk3i4HcUGBUARSMcL75E0ifSN+XnRd4CKX/Od0C4CUY3crW++GAAP76/H4OyWvhP3rd+lTFm7Yl9EPwt2plIChjHvoi/jCVc9klCSNaGj3/s0IJhcHR0r6htim14aF5wYrGT7zjyO2Rqyw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SJ1PR12MB6290.namprd12.prod.outlook.com (2603:10b6:a03:457::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
- 2025 13:26:27 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%6]) with mapi id 15.20.9137.015; Fri, 19 Sep 2025
- 13:26:27 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Balbir Singh <balbirs@nvidia.com>, Alistair Popple <apopple@nvidia.com>
-Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, damon@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?utf-8?q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [v6 01/15] mm/zone_device: support large zone device private
- folios
-Date: Fri, 19 Sep 2025 09:26:23 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <87F52459-85DC-49C3-9720-819FAA0D1602@nvidia.com>
-In-Reply-To: <f026c5a1-ec51-4fa5-bc58-c2d690f9248c@nvidia.com>
-References: <20250916122128.2098535-1-balbirs@nvidia.com>
- <20250916122128.2098535-2-balbirs@nvidia.com>
- <882D81FA-DA40-4FF9-8192-166DBE1709AF@nvidia.com>
- <f026c5a1-ec51-4fa5-bc58-c2d690f9248c@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BN9P223CA0019.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:408:10b::24) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0591610EA05
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:25:14 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58J6sP4n018236
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:25:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=EB6v7KZSrWI/c+6Qaba39U
+ ewy2fI4u99KGobQFxuaEU=; b=me6oXFWGBliTytVxG0Q4GsCAwyJGdN0oFrhEbU
+ YZdelqfbCvAp3l9Hgzqq+v1IdfBXvD7AwumYdl9ArP6on0NQ/e7YWUrRvtf9CzLh
+ isALTYAuTQhw51Hi8upnm23lQ2Mmp4woWm4KNEvB4pGlCQopjhBmkTj0/rMqdGKb
+ N8JGwVay4nEq/0aXCcV83p74Dz9010tfR3G+97o5bsb2SXmkACbo0R+EP+mqXyCh
+ 8xh15ZsG/rBNHr9m8fhYMuz0pDM/xCKmov3BD6YMAPfb42FInx1qvH5X66lSiGjV
+ f7IheVOMRgyBWFM+1BilcEZo+Vxo+lFCbLONlp4TW7L6NjAA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fxwjpfe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 14:25:13 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-244582e9d17so5120815ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 07:25:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758291904; x=1758896704;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EB6v7KZSrWI/c+6Qaba39Uewy2fI4u99KGobQFxuaEU=;
+ b=kleadvzk5b+A3xZt2IvhmOhRf5G7CdPgdi5MXNZhxmCRAqFlbM1kkaU/83GRq2V1nh
+ +qIC6bd8LlvbpiwviapMX99tEl78+TLBXYe9FreU/ZYBOTurLsqHu4w37lk4Sc3uUBJ4
+ GIs8HjAWl6ymFjtq2NX3tPYfX6dTN5KeWjD2BWOC6HBQAYzoEK9OdwVgFreBkiMKpeHV
+ 5Qsyyuy7jN0YhDCrMdtCSHkdFSEx5g6yieFgMcChphfsdy9aC3ecbr5WZgXnwH+YCgmf
+ GdXrffd1WJC4SaUsgKawvwzSPyu2QgP40RK0K9mBbtqdIYLlVO/yckbGhaFdCbgB4pCg
+ M1eg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNIau8qS4rkObNWyXbEZckkx+QDZclOZSWQf7yUZPbLGO0MjYN9Mg0HhlfUJfTicvDiZLFO7Llj6M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/nDKpcX4dvUoMpG/hrtlIL4de69l6JLwrwBcV+utoZE0Ubs6I
+ RgGWtIxQG7YxyXCe+5P8xIc6beS3LVg21pqi4Bzxc34BpZWIluENXRzOVY1wFKv6NeS9rfdu0NM
+ 1HBiORql7kPvdE2UATD86AwxehoXJ2gefJBd0yO19gXXDzHPcFNQkqDUPL4oyyzZ0uqFXuG4=
+X-Gm-Gg: ASbGnctKlI01P7ekZrxURT8433nLuxdWagtRkIiOAlgtoRT9ISMoTyBgu6fhKeV9noq
+ 33rLcnUkw5pJL7xbtTtXPcjIQKvMJ0jpXseqF101XD4ZMrY7FZxR3Y8EXkPNVKAQTuNLArOvBp9
+ 5MzbePUgQsqkuimOm/8JMp2TIaoR7RKmpQAIDTpq857ilGXTgc1ic4QUOHTYoW7ErQEowqBpwBs
+ 9L1XJqZTy1Jwqk0UQeIaLX31btDajmdV9Q43nVN1CFMHxMzMjeYAnOeTmmz8QyjQKzYfmLefHGC
+ hBcochmjhumUkbfajZg6MVwQdYCqxD+P71I2Z2pVBDGf2VgiA6ITi7yBr0Nf9u5WZ0EmIvcVLGJ
+ u8kknFjfbPkya2w==
+X-Received: by 2002:a17:902:aa8d:b0:267:bd8d:1b6 with SMTP id
+ d9443c01a7336-269ba501141mr19596005ad.6.1758291903745; 
+ Fri, 19 Sep 2025 07:25:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9e7VP28cdUwN8lzlWnixJ5Xu8UcAuFCb9OkPevjxScXEZSW3vj9TXeaqfK3V/6VPSATqm9w==
+X-Received: by 2002:a17:902:aa8d:b0:267:bd8d:1b6 with SMTP id
+ d9443c01a7336-269ba501141mr19595635ad.6.1758291902969; 
+ Fri, 19 Sep 2025 07:25:02 -0700 (PDT)
+Received: from sziotdisp01-gv.qualcomm.com.ap.qualcomm.com ([114.94.8.21])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-26e80409ee3sm2210035ad.80.2025.09.19.07.24.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Sep 2025 07:25:02 -0700 (PDT)
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Subject: [PATCH v5 00/14] Add DisplayPort support for QCS615 platform
+Date: Fri, 19 Sep 2025 22:24:17 +0800
+Message-Id: <20250919-add-displayport-support-for-qcs615-platform-v5-0-eae6681f4002@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ1PR12MB6290:EE_
-X-MS-Office365-Filtering-Correlation-Id: b02e8228-d769-4f6d-1c8f-08ddf78022fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|366016|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VDdIMTJ5SFI2aThRTU1SbmNnV1Z0Ui8wYTVSaVltSURZMWlZbjJPTUZyU0ZY?=
- =?utf-8?B?VE4wcFlnczhoREtReWdSQzE0a0M2SFlPNkdGZUdzQ2dyZkhwc1NxMHBIZ1Vp?=
- =?utf-8?B?c1VRSjYvQmZmVVVpdGNmWEtoeTdhOXl1MituRzF3OWJNc2NZZm90WUY3WDZI?=
- =?utf-8?B?ZC9ZUlhQWDFLTVg2OWZmYkRQZEtldnRqVXlpbkpCNTdZOU1SVlp5cnN0MEVs?=
- =?utf-8?B?RUthNG90ODVlMkZ0L2l5SUpOZ3hEQkx3MkUvaGphV1ZDSDF4QTF6WlRjckti?=
- =?utf-8?B?QmZuM3lBY1BwTm5QYi9lSlBUWWxCU2dGYkJrL0JzeVRYcTZVdzNZSko5NUZQ?=
- =?utf-8?B?Mm9ka3k5L3ViSHllU3hSdTRvNlJIaXNEa2JEdENJY1NTV1ZoamF3UVhXTDBL?=
- =?utf-8?B?VFNWVVdsU0FibGc2TUJKYWpOSG41QkMwajNIaS9XS2cvcW9yTFUvdHcvTS9y?=
- =?utf-8?B?VjRDSCt6R3hoaWsvby9FTHNaSzJJNGg0NUo1WkdjV04yYnRsV3VUTHNTYXNQ?=
- =?utf-8?B?NjE0VHRBMWhjejlId2F1Q3FENi9tbE5PNVZTMFU1WHFyQTJsNmxzUVRsL25K?=
- =?utf-8?B?VHEvM3dEb2tuQWhuVVJrekgxSjBhaEtwa2xCZXJ5UWN3U29aRjZkNTMwb1kv?=
- =?utf-8?B?SWVDMWNkVGRGWkwrZEVvaHVNVWNHUGt3Tzc4czVPYjFlSmxHb2I1ZC96MWta?=
- =?utf-8?B?V1U3TEQyWnYydTZQdzc5Nm96eHEvWkRtT3F6MlJIcDZ1bDhsT1lUbm5nV1FP?=
- =?utf-8?B?MWlMSnh6U29oMGFicUw2Q1JDaFhsN005ZlI2MS9CZjZXMGFZMVRKWmxWQTVL?=
- =?utf-8?B?cTBvaHdHMHNKcWhSanl4KzUrQXQvSEFGeXh1U2xmenRBR3ZhQUNkcE81bkd4?=
- =?utf-8?B?ck5vOEF6S0RKYnl2MXRzSlRzRDRpOGNhSmZVTzZhREszVmxUQWprOGo0SU9U?=
- =?utf-8?B?UHN2YXdUbmNIU0NtbGpBUUNwSnlyN1ZpRDI0dkQrVWw1QzVRQUh6L21LUFN4?=
- =?utf-8?B?TnVmbEtDSjcyTlJCeFYvR0R5N0JUZW1JNDdzbGtkb1FvVU9YY00xTGUzM1M4?=
- =?utf-8?B?QzYxaExYMUJOeEtPWFZLZWxZZld3RVJIMGd0SS9wZEYxRTN5akxNRGRkSHY2?=
- =?utf-8?B?WG5pZGFXMk9QdDBEZ3RsZ1N5WUhyb29JdWZHdHAybEZBOGpTV1hkQ2JrRVlO?=
- =?utf-8?B?c1o3VWMxV1MxQ24wbVF0bms5R1RQWTRSZkd0d1ViNVVaakNSK0JnR2xnMXVO?=
- =?utf-8?B?Z3hkdW5rWjFIM2p2MjVzbUlob25jRGtOZ3o1ZnFKR3ZIdkFGRlV0cnk0d2hi?=
- =?utf-8?B?Yk1EYzBSdHQwZEFRVTVEbEdLVzJjWVRKZ1JFdEcvWlJmT3ZCZ1JHWHZLOU4v?=
- =?utf-8?B?KzlCMXlVdThkZDlaSGxyNFVSSFBvWHpZYU5RU0dIT0xramlaVHcrOVEzOEtm?=
- =?utf-8?B?STVFTlB0UGd6aTVrUktNajkxcU1ML1VwSHpkTEd1dFpMR3k1M3psdHo5OWxn?=
- =?utf-8?B?OGQ3YkVpRFdjUThKMVhQcjhSYXF0S0xoSVR1ZllrcUJ4Uk9KN0lEb3NKVWl1?=
- =?utf-8?B?NUtodU10eUdUMW92V2dvcWxqMk1Nbm1kWFFUakFVaHVtZGpWNWhoZTVkSzRv?=
- =?utf-8?B?djROMlpzNkdzL3E2cDdiTGRKNDRLUFhiM1RONWNicGlSaDNsZ2MvRy9FS1hS?=
- =?utf-8?B?K1hzSnVJVDlUcWJ1cFFYM3R3S3RiSUNHRkw0Wmt4S1ZUZU9YOEJkUzdMdVFS?=
- =?utf-8?B?Qy9uU010alI0eDdiNlIvL0RHUVk4S0hqTkFabzdwL21MclQ0Vis2dDRPTTZ5?=
- =?utf-8?B?NXhhTGhmVUNDUm81bTViZk92VTF6Nkt1S2o5OUEvR2x0TG9LY05SOU1UY2dH?=
- =?utf-8?B?aDdGV2hkMDFKMEV2UUJicnlUR0RlWFN1TjZBZHdtQTNSejljc0c5RlR0M25v?=
- =?utf-8?Q?5NK/+SlvW2Y=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(366016)(376014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnlObWJBUEszWDR6U1NnNWZRdFB1RExaY21SVjQxNVM4NlAvbi9lanphbFQy?=
- =?utf-8?B?V0E5MU9CTzg5RHZEODk0OGh5ZEN4ZXN0dzVXdW5QakFzU1hlRVc4cmhLQ2tz?=
- =?utf-8?B?WFNZVnlaUUp5OFdVcTVYdGNwU1RNUmRWdHhzYnBoQnFCV0RUbEVLcjNPUmRw?=
- =?utf-8?B?c1VLMVR4SlVJemtIOXJSQlplZHBVRG51UklvVlpWc09CVkNJeVNjR0orS29X?=
- =?utf-8?B?bG02ZE83Yk1rNnJFT1IzWUMvd3Jzd0M2bXF6WHU3OVphV1VoMW0waElSVVd4?=
- =?utf-8?B?WmloRkVLWU1vdUdGYk1XcnRMUE1JOUpGOGFSbzVockM0TmljRnV3SUx4dXY5?=
- =?utf-8?B?RVJiTW1SVFJVQ1hkWloyNExBMWVZR2MxT1BtRGZLdmplbmtDZVNiNzlGNjdE?=
- =?utf-8?B?T1BxbVFKa25BR1ZKU010eXFmV2ViZWd3THZpSW5xK3lueHdFd1hKVkp2N0pD?=
- =?utf-8?B?R2daaUpyOHVLZWZkNGFLMG1sZWFHZ29sNWVhb3l2ZUVxYzQxUlErWFdKNXFh?=
- =?utf-8?B?N08xc255Y3ZUQ0FWT3ViTjJQeTh5bVlsUTNHMi9PZEhZbTA0RzB5ejNPbHFu?=
- =?utf-8?B?cFJqdU8xNWJSKzlGMjNRRU1lT0xuT2NER1YxVWxDbUtHbUxtWXI2aG5aaHBW?=
- =?utf-8?B?T2RuOTRlamRRVUpyMTJGVEM4QmtZeEwwK2l4NmtCY3JKaUpCb0crSzRTemVX?=
- =?utf-8?B?Y3Z3TmQzUVRYbUpzL3RaK1FnRmtWRTEvT0JLOTRvWWNYdmNQQThqMVg0RS9L?=
- =?utf-8?B?WStMMWJ1bjNrb3lQVXAvZDU3LzZIdHlsWGVIc0prMERna25NMjArOHZJVzZL?=
- =?utf-8?B?VlVsamttNnVqOTF3Yk1UN2hLZzlPTk5UWmV6Q3YvbGNEbURhUGgyZUVYWi9q?=
- =?utf-8?B?VTRHbm9RdnkyQ0dVOWVVcWo4L2o2K2dBT25XZnFHNitnT3Q1NjgzMXhqRStp?=
- =?utf-8?B?a1d6SEgwRVprZ2xqeXBObDBtV2NpNDVLT0Y3SWZ3NFY1dDBwQnpyZGZPNXlH?=
- =?utf-8?B?b3ZzcVo4ZkRxV2pPaWZBclpzYzRSMnZWcExYUWU1bXgxTG9zK3N4Z0dIa2h0?=
- =?utf-8?B?U1RubTFWQnhVQmtVTmNvamxsR1NPa0hNR1Q1cHFoRDRWN0o3WjVlSVg1c2sw?=
- =?utf-8?B?dXFQc0dBRzBVZ1ltL0VNZW9mbXhveVNieDRqZ2Npdk5IT0lDSEdsRTAzZk1u?=
- =?utf-8?B?VTBSQTZONFB6M2NTc29rWEtjcnhnYjVUaXJaT0ZRU2s0NkwrN2RnSTYrWDBO?=
- =?utf-8?B?TWZDL2ZOSDBYbkc2REd3akRxVnZ3ci9WdTU1LzJvcVlwVDdPQWZybWF0T2tX?=
- =?utf-8?B?aEZQWlhtd3RGeDkrVks3eWZ6TytKZ2s2VGM4R3AxUUZzUFFxb0EycGlIWm1U?=
- =?utf-8?B?QnpFU3V0TFJJSnk0cTRWNjN3Z1haaDhPMTJKNWd1RVFrcExoVVZRRmVsbTFn?=
- =?utf-8?B?MTZybDlORk5aQ05Ddm9ZYlQzeTZZU01OMHlkWTZyRXo1ZFJwc203YmJrV1o4?=
- =?utf-8?B?TEU3ZE5tWDNMa1YxbzZ4WUxvVDAyb1RIMDVJQ2g2ZjZyejFUL0Qzd2RDMnN3?=
- =?utf-8?B?QURGWWl3M3p6MDU4MVNsVHpvdGdHUEl5eS80dWx5UmhGT0lPUGhFaFNjNmU4?=
- =?utf-8?B?eGhrUDFyc3JGMFkzMW8rcTV4ZTV1aWZ6anZuMWUyMUFuYlkyQ0pVc3BZaUFk?=
- =?utf-8?B?SzBSZGlCQlRGcnYxYS9XdXFTQWcrdEdXR1lmci9CUnZkeXpDRno0YXNYTGVV?=
- =?utf-8?B?TTdEczR2dmswaU5vYjYzUFROSTJyZTdiRDQyTWdydHliRGFUSmxmNFlGeFNM?=
- =?utf-8?B?MjcraXZ2Q1J4V3NERk1NZXljRFRWWUkxdzlVY3FMVjRQUHdQL0FjcEk2Qkt6?=
- =?utf-8?B?Q3N4SUtyRUkrbklwdTZKOFYwa09HUDZoei9Jc2VTcC9PZ2JtWjZmS0NDMEd5?=
- =?utf-8?B?dktVeThKQ2FtKzZBK0FjTG1DeFhZdHhnbEZqY3lSZ1BLLzd5RVlWdWpqWE4w?=
- =?utf-8?B?eFlhdUNESVZtUnE2bi93cE5XaDFsVHQxUTQ3QzdPM3BoM3BwczhzQTdwQThL?=
- =?utf-8?B?bDdsWnBkSWNmalV0bWU0S3lWbFQzSEJlZGg2RjJRL2dZRkxHbFNtaW5VT0d0?=
- =?utf-8?Q?t0RgAqkDbmxpfxWuz4VljLXBY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b02e8228-d769-4f6d-1c8f-08ddf78022fc
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 13:26:27.3304 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mjBNEtbbeXCYmPLe59cNWLDcgVm+h6kCOkkgI7DBGlToREuoZQq/3qKLc/1l9qiJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6290
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJNnzWgC/5XOwY6DIBSF4VdpWA8N9wKDdNX3mMwCAackVRTUt
+ Gl896LJxM3MwhU5kPwfL5J9Cj6Ty+lFkp9DDrErQ36ciL2Z7sfT4MomyFAyDZoa56gLub+bZx/
+ TSPPUb2cTEx1s/gRJy9tYZkubqpJSq5pLxUkp9sk34bFpX99l30IeY3pu+Azr7eoIADzmzEAZZ
+ doIziunuW+uwxRs6OzZxpas0oy/dckU4rE6lrrAWjCuQEFTXWPO52Ey91Jvd4LvRIXsGMELUb5
+ fO5Tecm3/IcROaIBjhCgEKoa1cwaEd38Qy7K8AZPtxqERAgAA
+X-Change-ID: 20250919-add-displayport-support-for-qcs615-platform-f885597b3573
+To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
+ li.liu@oss.qualcomm.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758291893; l=4929;
+ i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
+ bh=S30Rr40MCfhpxcSOXP+kVSFgcA2a757QcO72sQKavRk=;
+ b=TCHWCcb0lNmNKuXXj2ujNV6PVp4ZlA0gy/8bq7ojOvHtv5q7CDT9GARFHcr1iwWvPCLmOw55j
+ MjlgRfy2gUBCZ0Xptlg2ECcA8eSfCRH90rUmALPX2i/QKTM1y3KPX6N
+X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
+ pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
+X-Authority-Analysis: v=2.4 cv=HbIUTjE8 c=1 sm=1 tr=0 ts=68cd67c9 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=Y-Wlz9CHQrt7UwghuOUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX9k+ME+7OdMSp
+ 6IgOGLqqAmUxofIm7hN3CGPGIqJW6Gxo4b+XQrhwRcg6xceYFkERQogiwx4u47Pu2OS+0UK4477
+ kPr5KAg16JhoFOhF80bJ2+r81wn3831UUAm3UE+BTf6BAb9vRDIz9966kvdXQCL2AacfHnDOcBF
+ 9J5HG5NjFmffDZ4rJz+lRZ7RF+/7vn7kHaQl2mrMFjIhhZBv7rFjDyQMfN9jH2OkHmtK7rXlXl2
+ 2TD34QPd7sAA5ONRP3fcCW3qAHrptGonkCaYwz2VqkI4eQZq6Ej+4OAd2m/PzEiKcPgefyMG9dS
+ uWr281LQ6Dug3TNBvb/GbLnoh/BIu/hg4cVlEy9D6YRuIRiqqZopYsdjeoJD9DXZvcuW0QIcV/W
+ kb9SUYdi
+X-Proofpoint-GUID: ehkOhl3A8kN_IQAJ3JhVEHSsskZyWCbv
+X-Proofpoint-ORIG-GUID: ehkOhl3A8kN_IQAJ3JhVEHSsskZyWCbv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-19_01,2025-09-19_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ adultscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,249 +148,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 Sep 2025, at 1:01, Balbir Singh wrote:
+This series aims to extend the USB-C PHY to support DP mode and enable
+DisplayPort on the Qualcomm QCS615 platform.
 
-> On 9/18/25 12:49, Zi Yan wrote:
->> On 16 Sep 2025, at 8:21, Balbir Singh wrote:
->>
->>> Add routines to support allocation of large order zone device folios
->>> and helper functions for zone device folios, to check if a folio is
->>> device private and helpers for setting zone device data.
->>>
->>> When large folios are used, the existing page_free() callback in
->>> pgmap is called when the folio is freed, this is true for both
->>> PAGE_SIZE and higher order pages.
->>>
->>> Zone device private large folios do not support deferred split and
->>> scan like normal THP folios.
->>>
->>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->>> Cc: David Hildenbrand <david@redhat.com>
->>> Cc: Zi Yan <ziy@nvidia.com>
->>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->>> Cc: Rakie Kim <rakie.kim@sk.com>
->>> Cc: Byungchul Park <byungchul@sk.com>
->>> Cc: Gregory Price <gourry@gourry.net>
->>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->>> Cc: Alistair Popple <apopple@nvidia.com>
->>> Cc: Oscar Salvador <osalvador@suse.de>
->>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->>> Cc: Nico Pache <npache@redhat.com>
->>> Cc: Ryan Roberts <ryan.roberts@arm.com>
->>> Cc: Dev Jain <dev.jain@arm.com>
->>> Cc: Barry Song <baohua@kernel.org>
->>> Cc: Lyude Paul <lyude@redhat.com>
->>> Cc: Danilo Krummrich <dakr@kernel.org>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Simona Vetter <simona@ffwll.ch>
->>> Cc: Ralph Campbell <rcampbell@nvidia.com>
->>> Cc: Mika Penttil=C3=A4 <mpenttil@redhat.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Francois Dugast <francois.dugast@intel.com>
->>> ---
->>>  include/linux/memremap.h | 10 +++++++++-
->>>  mm/memremap.c            | 34 +++++++++++++++++++++-------------
->>>  mm/rmap.c                |  6 +++++-
->>>  3 files changed, 35 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
->>> index e5951ba12a28..9c20327c2be5 100644
->>> --- a/include/linux/memremap.h
->>> +++ b/include/linux/memremap.h
->>> @@ -206,7 +206,7 @@ static inline bool is_fsdax_page(const struct page =
-*page)
->>>  }
->>>
->>>  #ifdef CONFIG_ZONE_DEVICE
->>> -void zone_device_page_init(struct page *page);
->>> +void zone_device_folio_init(struct folio *folio, unsigned int order);
->>>  void *memremap_pages(struct dev_pagemap *pgmap, int nid);
->>>  void memunmap_pages(struct dev_pagemap *pgmap);
->>>  void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgma=
-p);
->>> @@ -215,6 +215,14 @@ struct dev_pagemap *get_dev_pagemap(unsigned long =
-pfn);
->>>  bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
->>>
->>>  unsigned long memremap_compat_align(void);
->>> +
->>> +static inline void zone_device_page_init(struct page *page)
->>> +{
->>> +	struct folio *folio =3D page_folio(page);
->>> +
->>> +	zone_device_folio_init(folio, 0);
->>
->> I assume it is for legacy code, where only non-compound page exists?
->>
->> It seems that you assume @page is always order-0, but there is no check
->> for it. Adding VM_WARN_ON_ONCE_FOLIO(folio_order(folio) !=3D 0, folio)
->> above it would be useful to detect misuse.
->>
->>> +}
->>> +
->>>  #else
->>>  static inline void *devm_memremap_pages(struct device *dev,
->>>  		struct dev_pagemap *pgmap)
->>> diff --git a/mm/memremap.c b/mm/memremap.c
->>> index 46cb1b0b6f72..a8481ebf94cc 100644
->>> --- a/mm/memremap.c
->>> +++ b/mm/memremap.c
->>> @@ -416,20 +416,19 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
->>>  void free_zone_device_folio(struct folio *folio)
->>>  {
->>>  	struct dev_pagemap *pgmap =3D folio->pgmap;
->>> +	unsigned long nr =3D folio_nr_pages(folio);
->>> +	int i;
->>>
->>>  	if (WARN_ON_ONCE(!pgmap))
->>>  		return;
->>>
->>>  	mem_cgroup_uncharge(folio);
->>>
->>> -	/*
->>> -	 * Note: we don't expect anonymous compound pages yet. Once supported
->>> -	 * and we could PTE-map them similar to THP, we'd have to clear
->>> -	 * PG_anon_exclusive on all tail pages.
->>> -	 */
->>>  	if (folio_test_anon(folio)) {
->>> -		VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
->>> -		__ClearPageAnonExclusive(folio_page(folio, 0));
->>> +		for (i =3D 0; i < nr; i++)
->>> +			__ClearPageAnonExclusive(folio_page(folio, i));
->>> +	} else {
->>> +		VM_WARN_ON_ONCE(folio_test_large(folio));
->>>  	}
->>>
->>>  	/*
->>> @@ -456,8 +455,8 @@ void free_zone_device_folio(struct folio *folio)
->>>  	case MEMORY_DEVICE_COHERENT:
->>>  		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
->>>  			break;
->>> -		pgmap->ops->page_free(folio_page(folio, 0));
->>> -		put_dev_pagemap(pgmap);
->>> +		pgmap->ops->page_free(&folio->page);
->>> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
->>>  		break;
->>>
->>>  	case MEMORY_DEVICE_GENERIC:
->>> @@ -480,14 +479,23 @@ void free_zone_device_folio(struct folio *folio)
->>>  	}
->>>  }
->>>
->>> -void zone_device_page_init(struct page *page)
->>> +void zone_device_folio_init(struct folio *folio, unsigned int order)
->>>  {
->>> +	struct page *page =3D folio_page(folio, 0);
->>
->> It is strange to see a folio is converted back to page in
->> a function called zone_device_folio_init().
->>
->>> +
->>> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
->>> +
->>>  	/*
->>>  	 * Drivers shouldn't be allocating pages after calling
->>>  	 * memunmap_pages().
->>>  	 */
->>> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
->>> -	set_page_count(page, 1);
->>> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << ord=
-er));
->>> +	folio_set_count(folio, 1);
->>>  	lock_page(page);
->>> +
->>> +	if (order > 1) {
->>> +		prep_compound_page(page, order);
->>> +		folio_set_large_rmappable(folio);
->>> +	}
->>
->> OK, so basically, @folio is not a compound page yet when zone_device_fol=
-io_init()
->> is called.
->>
->> I feel that your zone_device_page_init() and zone_device_folio_init()
->> implementations are inverse. They should follow the same pattern
->> as __alloc_pages_noprof() and __folio_alloc_noprof(), where
->> zone_device_page_init() does the actual initialization and
->> zone_device_folio_init() just convert a page to folio.
->>
->> Something like:
->>
->> void zone_device_page_init(struct page *page, unsigned int order)
->> {
->> 	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
->>
->> 	/*
->> 	 * Drivers shouldn't be allocating pages after calling
->> 	 * memunmap_pages().
->> 	 */
->>
->>     WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << or=
-der));
->> =09
->> 	/*
->> 	 * anonymous folio does not support order-1, high order file-backed fol=
-io
->> 	 * is not supported at all.
->> 	 */
->> 	VM_WARN_ON_ONCE(order =3D=3D 1);
->>
->> 	if (order > 1)
->> 		prep_compound_page(page, order);
->>
->> 	/* page has to be compound head here */
->> 	set_page_count(page, 1);
->> 	lock_page(page);
->> }
->>
->> void zone_device_folio_init(struct folio *folio, unsigned int order)
->> {
->> 	struct page *page =3D folio_page(folio, 0);
->>
->> 	zone_device_page_init(page, order);
->> 	page_rmappable_folio(page);
->> }
->>
->> Or
->>
->> struct folio *zone_device_folio_init(struct page *page, unsigned int ord=
-er)
->> {
->> 	zone_device_page_init(page, order);
->> 	return page_rmappable_folio(page);
->> }
->>
->>
->> Then, it comes to free_zone_device_folio() above,
->> I feel that pgmap->ops->page_free() should take an additional order
->> parameter to free a compound page like free_frozen_pages().
->>
->>
->> This is my impression after reading the patch and zone device page code.
->>
->> Alistair and David can correct me if this is wrong, since I am new to
->> zone device page code.
->> =09
->
-> Thanks, I did not want to change zone_device_page_init() for several
-> drivers (outside my test scope) that already assume it has an order size =
-of 0.
+The devicetree modification for DisplayPort on QCS615 will be provided
+in a future patch.
 
-But my proposed zone_device_page_init() should still work for order-0
-pages. You just need to change call site to add 0 as a new parameter.
+Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+---
+Changes in v5:
 
+- Add new patch to introduce QSERDES v2 COM/TXRX register headers.
+- Restore legacy reset & clock register logic. [Dmitry]
+- Update phy_xlate() to return ERR_PTR(-ENODEV) when dp_phy is NULL. [Dmitry]
+- Rename helper from qmp_check_mutex_phy() to qmp_usbc_check_phy_status(). [Dmitry]
+- Drop storing struct device *dev in dp_link as it is only used once. [Dmitry]
+- Add robust lane mapping: default 1:1, complete partial configs. [Dmitry]
+- Reorganize sub-patches v5[07/14， 08/14, 11/14， 12/14] as suggested.
+- Link to v4: https://lore.kernel.org/all/20250911-add-displayport-support-for-qcs615-platform-v4-0-2702bdda14ed@oss.qualcomm.com/
 
-One strange thing I found in the original zone_device_page_init() is
-the use of page_pgmap() in
-WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order)).
-page_pgmap() calls page_folio() on the given page to access pgmap field.
-And pgmap field is only available in struct folio. The code initializes
-struct page, but in middle it suddenly finds the page is actually a folio,
-then treat it as a page afterwards. I wonder if it can be done better.
+Changes in v4:
 
-This might be a question to Alistair, since he made the change.
+- Drop patch v3[01/14 & 13/14], will sutbmit new patchsets based mst dt binding series.
+- Update maintainer of qcom,qcs615-qmp-usb3dp-phy.yaml to myself.
+- Add missing aux and pipe clocks. [Dmitry]
+- Drop second TCSR phandle; register offsets are described directly. [Dmitry]
+- Add USBC PHY series related init_load_uA configs. [Dmitry]
+- Drop v3[04/14] qmp_phy_usbc_type define and use dp_serdes offsets to confirm DP capability [Dmitry]
+- Reorganize sub-patches as suggested.
+- Link to v3: https://lore.kernel.org/all/20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com/
 
-Best Regards,
-Yan, Zi
+Changes in v3:
+
+- Renamed qcom,qcs615-qmp-dp-phy.yaml in v2 to qcom,qcs615-qmp-dp-phy.yaml in v3 for QCS615 USB3+DP PHY.
+- Updated patch v3[02/14] to revise binding title, description, and property order. [Krzysztof]
+- Updated commit messages in patch v3[01/14] and [13/14] to reflect the DTSI rename and clarify compatibility. [Krzysztof]
+- Added USB3+DP mode implementation in patches v3 [003–012], organized in logical chunks. [Dmitry]
+- Dropped patch v2[03/13] to maintain full backward compatibility with USBC.
+- Link to v2: https://lore.kernel.org/all/20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com/
+
+Changes in v2:
+
+- Add new binding qcom,qcs615-qmp-dp-phy.yaml for QCS615 standalone DP
+- Split DP PHY driver into patches 4-11 by logical chunks [Dmitry]
+- Update DP PHY configuration flow to align with QMP Combo PHY implementation [Dmitry]
+- Update all hex values to lowercase [Dmitry]
+- Remove redundant comments in DP PHY driver [Krzysztof]
+- Remove invalid USBC type define [Dmitry]
+- Move lane_map， max_dp_lanes， max_dp_link_rate parsing logic to dp_link [Dmitry]
+- Add TCSR-based mutex logic for DP and USB PHY coexistence [Dmitry]
+- Drop patches 6–8 and remove related binding properties as rejected upstream
+- Link to v1: https://lore.kernel.org/all/20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com/
+
+---
+Xiangxu Yin (14):
+      dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
+      phy: qcom: qmp-usbc: Rename USB-specific ops to prepare for DP support
+      phy: qcom: qmp-usbc: Add DP-related fields for USB/DP switchable PHY
+      phy: qcom: qmp-usbc: Add regulator init_load support
+      phy: qcom: qmp-usbc: Move reset config into PHY cfg
+      phy: qcom: qmp-usbc: Add USB/DP switchable PHY clk register
+      phy: qcom: qmp-usbc: Move USB-only init to usb_power_on
+      phy: qcom: qmp-usbc: Add TCSR parsing and PHY mode setting
+      phy: qcom: qmp-usbc: Add DP PHY ops for USB/DP switchable Type-C PHYs
+      phy: qcom: qmp-usbc: Add USB/DP exclude handling
+      phy: qcom: qmp: Add DP v2 PHY register definitions
+      phy: qcom: qmp-usbc: Add QCS615 USB/DP PHY config and DP mode support
+      drm/msm/dp: move link-specific parsing from dp_panel to dp_link
+      drm/msm/dp: Add support for lane mapping configuration
+
+ .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   |  111 ++
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   10 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  117 +++
+ drivers/gpu/drm/msm/dp/dp_link.h                   |    5 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |   78 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |    3 -
+ drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v2.h      |   21 +
+ drivers/phy/qualcomm/phy-qcom-qmp-qserdes-com-v2.h |  106 ++
+ .../phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v2.h    |   68 ++
+ drivers/phy/qualcomm/phy-qcom-qmp-usbc.c           | 1058 ++++++++++++++++++--
+ drivers/phy/qualcomm/phy-qcom-qmp.h                |    3 +
+ 11 files changed, 1412 insertions(+), 168 deletions(-)
+---
+base-commit: 8f7f8b1b3f4c613dd886f53f768f82816b41eaa3
+change-id: 20250919-add-displayport-support-for-qcs615-platform-f885597b3573
+
+Best regards,
+-- 
+Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+
