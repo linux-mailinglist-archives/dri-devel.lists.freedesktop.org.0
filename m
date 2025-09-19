@@ -2,162 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D57EB88053
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 08:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B109DB8806A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 08:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8781E10E935;
-	Fri, 19 Sep 2025 06:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE6810E940;
+	Fri, 19 Sep 2025 06:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Je2UttWU";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mJkggemw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012069.outbound.protection.outlook.com [52.101.43.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9425510E935;
- Fri, 19 Sep 2025 06:46:51 +0000 (UTC)
+Received: from BN8PR05CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11011067.outbound.protection.outlook.com [52.101.57.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4861C10E94A
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 06:47:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qOEdeldhegs6bjkajOX2lz1uElDf++76G8t5LFsvaWKEgapS+tksOebgBjTVFaWfy/srH5D0RJWfjiiXaW9iI33YnfZs2AwqHBhYgqFf+XTceiNRrvCk3YE7UvM9Wb+I3oS66wW0XEbk12W/0EO8F774fOANwQZIEJbOREc3oeLVU7yqSZSU7a40fZaTmHnNgtWSCUj/IFK5GBOh87An+J7cKINmAAblnynmRBoZM//9sFjFAUXM2v+pM0x/O+m9DolBI6TVXj9q6yzOxXadkcTZUmJbpZfVwWAHnHL/+JUonHG0cVbLhNuvFW5aV8gjOPFQF7YJSptaWgJzvcUhog==
+ b=mjfSP+aQNwjfPtAjR8o6eQ9XAcS2QD7yiELQ2FwdTIEwp4DGyx3RdNd8QRArWmcO2dIyrDY5olY/hqj4QGeFT8Z9o5KeeXNqBvhLCqFdr99+DAicI0OMcAjAEXNH8oeCLmeeZBt5X8umngq+g7xNgi7jmD+gErlPDZ1p5zLtfy28/hTE6BMSyFkmDR/1zsmCJT3ZN9XBu6OhwgagreWz+muO3cmE4TvhYO6jsyvh9EfNDdZBbm/DbBRQ6McT1uLhJ+ZF9UkZ64hkmjJ/3OcqkHuZmlpHyGuo0+NQKi+mB1q97NpkOSvJj6KKtmYYz4d4Z/OXNZ4Ez7Ocfa1/+bG9Zw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xDpXM1WC+7eq2yP7XZLCGPqyCvwlz07cmLXeGA0xA9w=;
- b=GItZCcu0UAYVZtoZ5U7P/ow4xRlRpZw+Ka/qLB6WyStyDFda0yNMnOZ8G/ZuYUvaAn8lzHHGUo6zl84vi1fY0bqbLQn7GHRLs1hzdbapJXmdo7IHl+K3cj2QhSlCdjfRQEmg993azOE766OooSzJIGAqoRBDMnuIvN6uK7+/5sUe0sE9nWZZR368lVXog1H5/PacBR0FeSyTtV0akiyEDnVaVxf1I97Jks5NQPGL/0f0CH6b4xijJS+/aX1EvE2e2z8O/PkOLz2GGLVLyWZMyJLk6j8fMCXgVlg/Nv2OzYv/QzGffICcFN/sWxHW3u1Yv+bD8KdzM7GqmFVIwe2Y9Q==
+ bh=aNp9lMieMP9ZKlnjqKYaajewulwcZAQ2KZrlI3M0+z8=;
+ b=OHFNIP5JeqMMjXgbNhNmTqxWlES54kJv3XWQqb9ePowe0jHoiUYX8cuaCJ3g77yWwFkgH+DiTMRP9NELWyLq5lwnHIsXVgpZC63cqrgbTsbavzegbTh4s3umZm+nQ32+lW2WhRfih4oicb+5P8l9CnuRdf9/YwODnAiKYGC2M+mZB3caPNcdmggNc8sXuHupfws+LMbAbpLCXgubycfwQg48P+WT+RW/RkrSCBVKh5gsqmGWp5a3NFMtKjmR1BgqO96NqXMkqypj7uNlRzBo8bbByCZ5QzrnMFbA7zGJPSEHwgcBQdbcOn0IXD+gwopQC7bYrebm5pqr9JxnH/Er1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xDpXM1WC+7eq2yP7XZLCGPqyCvwlz07cmLXeGA0xA9w=;
- b=Je2UttWUx2EuPMKzhYX4XMcEh+4ZQeK7BPggyLHftE3wzbDqARizo8WrvR580wnxqHRFpMTSQTln9W3GILN+PpHW1Z+PRvHMdY6U6r82cvlYqqix/SXFuVRgpIYxrO+HZUYORyi/8ejLxKJU1SWf1FxxuINDfphEEwXfYP/AC58=
+ bh=aNp9lMieMP9ZKlnjqKYaajewulwcZAQ2KZrlI3M0+z8=;
+ b=mJkggemwzkBzTzpxWOkTDX1lEgO70uod+CMsfxRyyuvuzeAitFBHxDKntzKNgpy78dmWJJgLojO6GSjaNyK+hDbDoOfR3bgoLUsarZxC9A9NGISlzz7oGDdj7c0vLghoIWcsxcCAVvolme3ANLoOtNWFN+QqjeGUXvyX7f1iqzmlZqEp4knrFFQdx2FL6y48R1kxvQJKz4ebMhAjGv1we4PIZqn0foENYB5X7rotSk1TzDyHNFHWAIkv/lRz5CbXssq+7l3+Z3N6P7qKIzB5GaAD4cfnp46JTZvFl662sgoNIgDQlEpm8ATy4le2y0Wz9TMD5LjV1IdJ8oxjv0Eh3w==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB5858.namprd12.prod.outlook.com (2603:10b6:208:379::8)
- with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ SJ2PR12MB8691.namprd12.prod.outlook.com (2603:10b6:a03:541::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
- 2025 06:46:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
- 06:46:42 +0000
-Message-ID: <6f92ff06-04c3-440b-becb-50a7693ecc39@amd.com>
-Date: Fri, 19 Sep 2025 08:46:36 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 0/3] drm/ttm: allow direct reclaim to be skipped
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
+ 2025 06:47:40 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9115.018; Fri, 19 Sep 2025
+ 06:47:40 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0247.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 09/23] gpu: host1x: convert MIPI to use operations
+Date: Fri, 19 Sep 2025 15:47:37 +0900
+Message-ID: <4792993.1IzOArtZ34@senjougahara>
+In-Reply-To: <20250906135345.241229-10-clamor95@gmail.com>
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-10-clamor95@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCPR01CA0133.jpnprd01.prod.outlook.com
+ (2603:1096:400:26d::14) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5858:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac6a0ab3-c21a-4dbf-a591-08ddf7484aa4
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|SJ2PR12MB8691:EE_
+X-MS-Office365-Filtering-Correlation-Id: eee20b47-18c9-4cef-6af4-08ddf7486d8e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHN1MnYxS05CQm1wNi9iNnUvZStjeS9McUFkdzBLcnJadFZkN0VXVEppWFpy?=
- =?utf-8?B?djE3MGx0OUxqNnoxbHcxdmMyMHFkeVFlbUI4UVJRTWxRd0JXUit2andZZFBH?=
- =?utf-8?B?cXlaODl0dmNqdVowVm1qcG96NFNpSHBtL0I1NWtKUFoyUlVCcVhmY3Fhd0xy?=
- =?utf-8?B?UjE2bVVJdUtQVE9qUkg0Y2N4VzJlN0hmR2pIc080RC8rTFRvd2xtQ3lIM3Fr?=
- =?utf-8?B?VXhCdG5haStQL2Fkb0xHcVVpRFFTSHhSbEhzS3RydlkySlluOXZvNUJKNjFw?=
- =?utf-8?B?d0NIeEp1N2NTV2kwMGlmbFQ3RFBZclgvekxObDBVMEw3ZjBXSE5sTnlTSTFv?=
- =?utf-8?B?MVlLb1ZqRVEybzZIQnlrQlhRUlpIUmQ1cTJtNmt6WWtRVFNid3lGRXhiSEh0?=
- =?utf-8?B?TVNvMlNDcFd5dDRzTmtydSs5aDkwU0tJZTBtUU53bDdTUFhCdWprWXJiekZS?=
- =?utf-8?B?VFRRdVdNcUhuMTg0ZUxGMFhDSGhFaHJSdFEzemEvSFFwTUpqTzNFVTJBdllY?=
- =?utf-8?B?MkNReVpBaVd1bkFJT0Y5TlVNbFBoeHhLT1NqZWJZK2ZlKzJQRW03d2UrSGYw?=
- =?utf-8?B?dnpDZy9Ib3IxMnBzb1IrVldVU0J6cEZtMWd5YzJYNGNIMkNZZkV2Y1g2SkFv?=
- =?utf-8?B?OUFIVXBGVFJaNCtDWnBRRTZBay83ZU95NDgyWVBzTFdhWkFTcGgya3lIZUtv?=
- =?utf-8?B?VDBYTWFZRWJuV1NvQkVyWEVOalQ0OUcrZFQ5ekZpcjdBWDVVNDk3WkJIS293?=
- =?utf-8?B?TlJ0Tjk5eWZ5T3RtNitiVWp1NktiZStBVVpIYnY3KzRSZ1hEckdUL1dudVBl?=
- =?utf-8?B?Q25ORUhTTHpzbnZFbWttM3pVdE9OdjJpNStvUDFUN2NMQlVYL1p6OXJJMkdo?=
- =?utf-8?B?UXB4NFliNWFRVG8rUnB1LzVTWlpHN0RxS2xyOUZuODUvbEFMVmJHdUJiNEMx?=
- =?utf-8?B?SnNnVDl1ejVTODZoRnZQL0s2dzRWUVM4Zk42c3lXR3pPaHVtZk9UQ20zMERY?=
- =?utf-8?B?TlpuUm40VUIyR00wb3lpdzdUdW9Yc3BpVGdHS1RZK3JtN1QxeWlSUlJMTkxq?=
- =?utf-8?B?eTFCMUJDcW1yVERseWc5V3VueEtPcHV6aU5QWjAxNEp0clVQbTdZR2hLL1Ry?=
- =?utf-8?B?TFluSENZZzhLQ2Y4UjZCdFNVZDdZVFpibTF6QktUb1FVaUNwQU90RVpPTytT?=
- =?utf-8?B?Ulc5S2toUXkwNlVvNHk3WmEwK1ZubW9MRHVnM0p1UnZDWXRLRStOTFR4Qnoz?=
- =?utf-8?B?RGtyaHVxWGhLWEwrcFludEpvMGtCMU5vZHBRWjZlbHpqWlpkdkZwWXVrQkFV?=
- =?utf-8?B?YVd1RHVHM2JNMUJmSGFSN0N1QnlHZU9SeGlQMWRtSzVrdzFjVWgrWk9aaEE1?=
- =?utf-8?B?TkdsRzBYczJEUmJpQ0JUTGJPZmtGbnk4M1VDL0FNdEpybEpSOUhVRHFNQnBE?=
- =?utf-8?B?TFo3Sk5udWJiakI5SXM2UDg5MG9DV3NORGlnWGVWTWJUZXdqNjROWkxVYitB?=
- =?utf-8?B?TUJ5YUJWVm5RL2pnM1ZqOWJERlVQajFhU3o0K1FVbE5mNy9QM1B5YWg4OGEy?=
- =?utf-8?B?aVJvaFliTTE0ckVKZkVxVjZUV2cyWWF6V29HQnNUSWlCY01nSU9HNUpId1l6?=
- =?utf-8?B?UVhMa0hOaVowWktIWFF3cmliK3RzeERaV1pwWnFEVGtUYTVkK1ZlWEVtRytC?=
- =?utf-8?B?aFBSSW5aSHpBeGJadHZ3MEh1ZjdvVno3VllCdm9yREh3dnVvUlNUdXBXSVl3?=
- =?utf-8?B?UlI5c1ZnUzVtM0dGczBUM1BUaXp4aVlNUGN4TTlLOGljSE4rU05wQ2p5RUk2?=
- =?utf-8?B?aWVxVWJLV3lEd2xsc1lCMHhYc2ltNzRhd1Zha2JQQlhaWnE2dWdYMXNZdGNM?=
- =?utf-8?B?NUNmQUhydkdwM2ZOTFRWUDR4bXFxOFlEWnA0STFNRmlSTVhnSzZEWFh5NFVt?=
- =?utf-8?B?YVdjek1zLzhTaDEyS3lQc0dlVm5saTR0VUJuNmNvL2ErNmZLMXZjR2pKVmFG?=
- =?utf-8?B?dVhiL1lHOURBPT0=?=
+ ARA:13230040|366016|1800799024|7416014|10070799003|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y2RndXpGUkpSSDZZTnA2RnZKN3VUM282aEF3RWxneU1oQUlxdUZYdlhyWkp1?=
+ =?utf-8?B?THQ4dEpJQkJOY3hEN0tCM3ROa3pSOUp2L2VkMlhBbDd5ci9CanlBVGlMUTJF?=
+ =?utf-8?B?UkhRUVY3UEs3RW54d3Y4bWNVS3NiM0dIeGJETEdRTVp5WlB6Ly9USFN1MHVm?=
+ =?utf-8?B?c1dyZlI1WkRVMkU2OUVsd1lscUt2aE4wVTFqaUl1TmN2NERoRVdLR253ZkY5?=
+ =?utf-8?B?VmkxdzN3di9QbVlDcjVlaW5CeExBMWZHRk03SURMM0VGUy85cTVQMFNLSDN2?=
+ =?utf-8?B?c3BrWUR0ejBYQk5pZmZJR083MElka1htcGFsTkhvVjdRK3FncEhLZWxkb0dz?=
+ =?utf-8?B?aWsvU3hob3hFWXZUdUEzOVNzT1NVeUZjSEU4VHQyczhBeWdPU0dsNXBWanhx?=
+ =?utf-8?B?dEtXYWJmem9ZZFQvUUtrVUtPcDZIS3FIek1iWEI1b24zZG5UL1hDUWN5c21X?=
+ =?utf-8?B?OENsOVRvS2ZuN2M3NEE1N3A5UWlxVXVlbVg0R1hMK0s5R2g2WGdQTmNDR1F0?=
+ =?utf-8?B?ZGFnc2ZQM01uK3FnS1p4Skx1VGh0bENPTGYrUnQxVnZQRmprWUM0a1dYWmR0?=
+ =?utf-8?B?bzRFdHpsNXhOMEt3dzZMZjl5aUZQR0xRRnNyN2kzOE1pT2dRcjZZTjR0dmM1?=
+ =?utf-8?B?Y04zSWdxajlDSC93VFVjK241VW5HaW9tYjR1VGFYTTdLK0k1WHNaaEJNdzNQ?=
+ =?utf-8?B?ZjcxbnRaMTd1ckZ6QTNsR1dnUWE0eGhqdjdMV29YTFA0L3haTTFmbWhPMGJp?=
+ =?utf-8?B?NVVmR1VjTXJyZDY0cDg2YzBJNS9tcmt3cVVIQ2FJdS9mZFR1UTNMY1BMeHBG?=
+ =?utf-8?B?aURIL1VVTkxIL1Jkd2lJMXF5b3ZmSEpyYWJmbCtGZXhzUy9WVzNwUDNES0U3?=
+ =?utf-8?B?d1ZxdTI3dCtwMVN3dEdTbUkxVFcwUzQ4SWtkVE5zSEEraGZVVmNWeDJ5Si9m?=
+ =?utf-8?B?NnBES0RuSFp6cWMwUG5LMEhTQXhwTE9JbW94MitqT3NDSktuQnoxcFpsRmIr?=
+ =?utf-8?B?bjM5UnJtM3had3FUd3paL3B4UkE2Y1h3SlZjV09LVUt6QkJrMmZrTW5ZSXZs?=
+ =?utf-8?B?MTlqUXplSkpyRGlXL25ubUdLMTlZRThLYmczakF4cmtpejQyZlJYQVJCbGtr?=
+ =?utf-8?B?Y3RyTEN5YVA4dEdSMkMwYS9mUlV0RGlxVnJrTDhidXMvbmYyNTVPcm8wb1Yy?=
+ =?utf-8?B?RFErWWR6QlVERWhsaE01UzhKV1FlT1dzNTlUNHg3L2ZVTFNwWGpWYitsR0hs?=
+ =?utf-8?B?OVlxMGRsTStrWkQzakNKQnRMcmpwZnV5YWZhSVZEYzhYeXMvSmdWU2REUE5h?=
+ =?utf-8?B?aThuaUxrQXBKb3dxMFNpL2FWa25OcnFpTVlkKzM2RmE5OGwrZ25PZVlWZ3RD?=
+ =?utf-8?B?VHg3T1AwOHR1S0JyV2FqSm1MVmd6WnkxZXFYdHJXTWxEU2RNK1FhUlAwdGh0?=
+ =?utf-8?B?RDdMdFEwQ05menkyYWQ0TENSc3U3T3Z5Y01KbzUvb1BRYU9vT2RmMlhOSHAy?=
+ =?utf-8?B?LzJza0dBMllmZFRsQm9EYjliOUNEVzFDYWdibFNjL2VwV1BYbkxuTDBDN2VC?=
+ =?utf-8?B?cnJlMVpYMXVUQllVRXluQXpVYVh6YWV1Z0ozb29HTnNNdlVILzFqY2hwdXRD?=
+ =?utf-8?B?dFhmK0NvZ3BHd3NnSVVsZ3o3V3JZUks2VTNQTk1PbHhyYzRqSVlmUmIwRmw3?=
+ =?utf-8?B?SGU3eVNEdk0xcnNKdlB6TXo0azlwZVJPUGZ3RXhwNXVJOENGNmJlSzJKYmor?=
+ =?utf-8?B?RGVjNUtpcmdja0pDME95b1BDU3MzTEVWRWhHcUo0bUZ3bE9iMEJYRUxIQXdq?=
+ =?utf-8?B?VldUdTVPOHZsOTlFcGYzOUpaazBNYTlxYXlzMTNXQlBTamg5RFltM1RrY1FB?=
+ =?utf-8?B?Y1dLZE9kVjBKY2dQZ2t5emxISitXL1d2R1FLK0o0VnpWTnJzdzhmYlFlS245?=
+ =?utf-8?B?ZW5KUmxLQmsxcWxSdC9odjNhb1JpcjYreWNCT2huQ01PME9VZHFTbTFsZHBz?=
+ =?utf-8?B?VjA4bDA3YjRBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007)(921020);
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(10070799003)(376014)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bDE2K3ZCS0FDWTY4czM3S2U5bTZkajlsazFYSC9rKzhGNFhIb2pzaStHWjlt?=
- =?utf-8?B?K01jeHpGa2x2L2ZTNTRoS0dJSjlvZGpSZGZHdW04Q2c1Q1I2YVFKQnQ5Mlhr?=
- =?utf-8?B?TWV5Q0RHaThBdHl4dWkrOHlDb3RlWWJkZDRuVEJsOHpSYjFTK2JvRTRrcGF4?=
- =?utf-8?B?ZmpwOFRheXFTSzRIRUhkdVhTWlhrOERDaG1aUUNIS1FDMFIyWWxYbHdMWXdM?=
- =?utf-8?B?OVFscGpJN1YwaDZpSUlSYTcyek1pTmNQSkkzT1dtL2E4VzgrbTg5UjA3dVFO?=
- =?utf-8?B?VkkreVRMbTF0MnZwNEFLVU04Rk8yTVNxeFBIdTV3Wk1NVjJad2l6TCthcSt4?=
- =?utf-8?B?ZCs5MU9nY3FxdXlZZEpHY1NVNExZZzVmSU1pNGZrNDFmSHZhY21DeWZWSGsz?=
- =?utf-8?B?ckRvMnpqd2ZrU0JWYlNqVjlGSmJWUnFpMFF2OWMyVGI2QjhLcmhXelZGTHpK?=
- =?utf-8?B?T3JNcENpUDBnMEQwd0dUaEp6K2RSeTM5MUtDdWtJTDUxSVJVMGE0WnJuTnlL?=
- =?utf-8?B?YStlRkxFdXJUL2xZM29aZGxpMWZRZ3ZUUERtNTROREFnbzRHdlBTRmlzaThl?=
- =?utf-8?B?TWRyM2lGdlZoQmRLV21LTDNHYXd2WlIzQjR3c0RlMUp0clF6RVhKc040dFh6?=
- =?utf-8?B?bzlVaXlhMldaWCtuSE01YW9TNnBEb0I5VlN6OVE1MHlhZGVPSk9WUnVWdVcv?=
- =?utf-8?B?R1EwS1phZnRncy8xTXNJNVR5OVhOWHZwUnNJQWE3M1l1S0h2UDZZWEtUU0pn?=
- =?utf-8?B?QktmWUVEOEMzS2xxcGZvd3NLYTA3VmhsMCt5eEFHcm9OT2R2ekEvSGdtTldk?=
- =?utf-8?B?TGplcWFDMkhNQUVDL2ZLWWlrTVppa3N3c2FRdnhWQ3FOTS9VTVdRL1h2NGx4?=
- =?utf-8?B?blVOcVJSaWViUFJNQ1ZjNmwxY2YzSFlaSDAvWjBvaHRwR1htelpiMDF3clBw?=
- =?utf-8?B?NmhCMnlJZFhieVR0c3hmbDIvNDlweWE2c1lwdUNxUzNHb0s0QWNHbDIwSHc5?=
- =?utf-8?B?Q3I5WUo1OUM3T3ZsdXBPTjZ3NjNib1ROcFR2eTB1U3J1M29rUitmLzJscFFt?=
- =?utf-8?B?OUxZeHNMaWFlS1Bla3JlUFB3MXQ3YVRuYUN2ZW85VUp4Zm05YnlIOHBDTnJ2?=
- =?utf-8?B?bnNpd0FGYjIvQzI5VXFTNytMRElVNG82OURhOG92b2ZVMVRFbFNzdDF6THVW?=
- =?utf-8?B?RDJ4M1FBVHZsS0lvWWZ5NFZOQXBWUnBSMzBVN1YxUXVkMXlkckJ4bFhyRzd0?=
- =?utf-8?B?UzMrMExuZXNDVXhEQVFHTTZPWTZlZHJIUldwZVJnNzNMUnFnbUloaW1PVitp?=
- =?utf-8?B?VW15Zm54bUR1cUR6eXV2dFR3ZmllSStUelp0WDdudkdsQWVKVDhnUkt4bVNs?=
- =?utf-8?B?T09LL1lUYkV6ZXV6emlmcTQ5ZXMzOGsyOFFObDRBQytHSUhFZmhuZm9tWXVL?=
- =?utf-8?B?Y1JqanN0RXJTcThSSk5heUdHVTlNeGlYVG54aXM4MjdVM1Z0Qm9JNDhISFN4?=
- =?utf-8?B?MzV3MTNTZ0ZJVTBpNXhGNlRtd3I5amc5bys3eTR6ZWhuam1vd1NCbUFWS2Zt?=
- =?utf-8?B?aTliNVZZM0JjZnBUbHBLODNUa0RGYUQ2QUVHTExpekRkMXBJK1RjYVNoUlV1?=
- =?utf-8?B?TU9OVEk4TFNKeTA2NFh6ZFVENjk0SWJCUkkvNnFSRDBHWGZDMHlEdUM1RlNQ?=
- =?utf-8?B?eEh1MWlPak9ldFNpMXpjd2Rkc09BVXRLMkFGQUpXVGozcFNxdGd3SWJFNzJY?=
- =?utf-8?B?Q1JSd3IvcVEyTHZ1dFAzb3NicmQzdWNsMWhtaWlRTWN3alRvcjJUSmVkV1No?=
- =?utf-8?B?WnR6Y2pIc1VrbmdHZXY2LzAwY0tIanZ1Q2RMc0RHN3Fjek45WURxVHpyZ2RD?=
- =?utf-8?B?U1dtaTV4NW03c1RRaDZCVFFmbkxNNk1CRGpveWNKKzBCa3VuZktqVE5xRUMx?=
- =?utf-8?B?R3UycW5WU052aHR3M3E0aWhRZW51bjM4c2ZvOG5hOTdDcnZUbFU0WkZRaXdB?=
- =?utf-8?B?eGNTZWUyT3pNUWcrRU9yU3BSL2tnWTR0T2sxT2xuNjZkWXQ1NmUxd2FsY1p1?=
- =?utf-8?B?cnJsbGJYdWxyMVhTa25lZWtEUy91N3lBTFJaSUJMWlFWaGpsNU10eXpWOFJT?=
- =?utf-8?Q?sO6beQUKdBvQKAT8bxXCobq7x?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac6a0ab3-c21a-4dbf-a591-08ddf7484aa4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YW56RHBlU0tuOGIwOXRwckZOYjBSYm5BTEVnLzEzajlSOFppS3lZZlBucVJS?=
+ =?utf-8?B?d1ZyYzVxS2RPLzRDd1hDMzVlVmc0cUVVcDlQSGRUcC9KTUlGQVEzTFJqbDYx?=
+ =?utf-8?B?YlNkNkZLejRyWUFoTnd4RmxaNFFTTzAxZSsvRlNLYlpJdzlyZW5BYWFsejlE?=
+ =?utf-8?B?amNYdzBJK2Z5ZHhjQUhSbjJJQ2ZJUFc4T1VzT3g1cHUvWXJwNzdKcVNzTjd6?=
+ =?utf-8?B?bkpxMUllWFJ3L2tVUlhIbmtvT2NGcUxJYVVYSVU2aHlnNWJOY0d5b0N2SnNZ?=
+ =?utf-8?B?cU1SWUZTbGhJT1grWGpTRkFreS9wbXE2UE0zajFnd3pkSUtOdWlQQWlNVUVr?=
+ =?utf-8?B?Nzl4cnk0cTdEa3ppek52bTlpYzNaYkRRRzEzRWxUQWhkRGZjOVZmcHlzb0U2?=
+ =?utf-8?B?REdzZjN6OXExQWIvYmdSb3ZqSGowdXE4SVN5cWxiL05UbnZOcWN0MCtFUzJr?=
+ =?utf-8?B?V1JWNzBoRGVMU0NLRUErQ1FvYWxnZ2RjSkhZVjFqRUxTZDJNdE5EWjYzeWtO?=
+ =?utf-8?B?M3V2cEFYRXJxVnBwZFNDNXlsaUU0anBIby85dHRpd3lGV29LdUwzb2NtNXhQ?=
+ =?utf-8?B?TEgyQzc0UCs2MUFEMDN2d1ZyLzhCRWtCR3hiSFN4MUI0N2daRDdKbEtMM2dh?=
+ =?utf-8?B?SVI3SDNHekpoWFRKeE1RTXF5UFN2QXQ1Z2dMK0lwNnBkV0lvQkhaV212aWJt?=
+ =?utf-8?B?TzREbmU4akh6QzhIdDZTMjVsVnZhUzlqM0N0dnpkam9BUVprZmdlMVIvSm42?=
+ =?utf-8?B?eUtpMnhSaDlIbDB6Vjk3ZUt2cGZ2OUFXdkcyNktmU1BIU2dodEREK2xORFo1?=
+ =?utf-8?B?NjNZcnhMSTFTWThHZEdPUzdPUEluQXIwY0lBUkRHYUpENS9KMWhPRzZPWnpi?=
+ =?utf-8?B?WCtjMi9sZG5YRzZyZVJhZEEvUXpIcVdvSjFWM2NkOXMyMEhpMXV4OStvNU8y?=
+ =?utf-8?B?TEpmdVhYcnNHekVFWlFQVlk0MEhqR0MwdldYWmc5OFhCb1dPNzU1L0dLMTF6?=
+ =?utf-8?B?dXpvYmpJNTNwRjFpazIybGxNeFBDd3FuMGlvZGUwMzU1QmR0TmMrKzJuSllH?=
+ =?utf-8?B?aDJncU12V0VXV2dzc2ZsdDJrWGNERGh5Ty9DNXkySk1lMWFzanE1ZzQ1b2tW?=
+ =?utf-8?B?TVVkNjNocFZpSmd0ZzV2SGt0L1Vhd2l5RnZ5aW9XUW5FZWdiV1M5R3N4alpz?=
+ =?utf-8?B?bkRnVmtWcVcwZkFldlQxV2xHdmtYckJRYTFrZG9IZ09VcU1lRi9kZytuQThV?=
+ =?utf-8?B?SVZYK2VHUU8za3JxekZlWEZqRk12aUwxODhTOW5KaGwwTTJTUDVYMXc5TzlU?=
+ =?utf-8?B?Q1NESDB1MXJaUWpUUTg4aVMrWWozSDFNOTQ3T2FKOXBoTk81eThsckNqTUo1?=
+ =?utf-8?B?bFlBSUFPM1dCYXZZRXM5NEY2OU00c3FBajFPcG1QWWRWTmJBY3FjcDdOK09Q?=
+ =?utf-8?B?OVlHOG1mUElYRzBFKzFNMXg4QzRVT09EU2F6WU1JSGRPRko0WEwrYVl0aXZB?=
+ =?utf-8?B?dlppMkF2MjM2eHI5QStCVEJFQVpid0w5MnE3TVVGdll6MzBVdFllMk41d0xa?=
+ =?utf-8?B?MjRhRktnSVpRME82YjFOK2xWRnorUW1SYThRQkQ4N0lBQW1jYlhzZXVuNmx5?=
+ =?utf-8?B?NFhMYi9MZ2pBNEM1R2FFVk5CK2JxbHNzdHpOUWNycjFtT3diRmIyeWFpd1Zh?=
+ =?utf-8?B?Q0JxaGRaTUZTdm4zQU1HbWx1UTIyS2pHZ2xrbFJZdkdmcFY2dWlBMERWMjFL?=
+ =?utf-8?B?TkFiTHppVnRWVFMzZWlxVTRaNGFRUXpDNXpkZC9TRGtjTHNhNzhDRDdCbE9x?=
+ =?utf-8?B?L1dvelUzdThXTXFqQWQveHhRSUF6b2hWZnoxRHR2b09jaGZZUVUwZmh5MXcv?=
+ =?utf-8?B?ZnIxSzRrMWZxZ0p2NllCV21yZG0yQ2g5aWU4OUt0WHhTUUc4aDRsdUtJS3o0?=
+ =?utf-8?B?d1YvcW9hMHdMdUZYNFdEVi9UY0dBVkM0VC9wdm9jVHQ2bGxlT2dCOHRSOG53?=
+ =?utf-8?B?T1AzdnJxU0JYMWh5U1EyV09qTSthTTFiWVBqK2NMMXhCM21aS2NBckZPVFlL?=
+ =?utf-8?B?RUN4c2E5eFZmRW8wMWxkQkpvQzNRdit2RXBlSUUxK0ZIQmFuYW8rYndYNVVm?=
+ =?utf-8?B?amYrQktxUERNcEd1SC9ad0dTOFJwUFpIZ1k4TzBacEtrSkZQVDRmM0NPNENK?=
+ =?utf-8?B?S202NWZqWFlYWE11Zm9xSXJ4SlVBbXBFVzVOeHNqYXFyM3l2eDlBeUJiYlk1?=
+ =?utf-8?B?MkpWRXNuQ0hXQkU1Z1RtVEhFZ1FnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eee20b47-18c9-4cef-6af4-08ddf7486d8e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 06:46:42.0811 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 06:47:40.5819 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w+tvFAnJ8oZ4xATr8ZYdGxR7ARqPSWd80GhXLlSUaMRF9eJoZFvwJqZrk3dXiKYc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5858
+X-MS-Exchange-CrossTenant-UserPrincipalName: hpYAR6GnwYE25akL7IR3OBvjJLOZ9mhgCqKjd8D9veltmlP4pXdK0yqFFki0Y9MrEgT6jWsFd+hXodM/oA9VKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8691
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,60 +184,385 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.09.25 22:09, Thadeu Lima de Souza Cascardo wrote:
-> On certain workloads, like on ChromeOS when opening multiple tabs and
-> windows, and switching desktops, memory pressure can build up and latency
-> is observed as high order allocations result in memory reclaim. This was
-> observed when running on an amdgpu.
-> 
-> This is caused by TTM pool allocations and turning off direct reclaim when
-> doing those higher order allocations leads to lower memory pressure.
-> 
-> Since turning direct reclaim off might also lead to lower throughput,
-> make it tunable, both as a module parameter that can be changed in sysfs
-> and as a flag when allocating a GEM object.
-> 
-> A latency option will avoid direct reclaim for higher order allocations.
-> 
-> The throughput option could be later used to more agressively compact pages
-> or reclaim, by not using __GFP_NORETRY.
+On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
+> This commit converts the existing MIPI code to use operations, which is a
+> necessary step for the Tegra20/Tegra30 SoCs. Additionally, it creates a
+> dedicated header file, tegra-mipi-cal.h, to contain the MIPI calibration
+> functions, improving code organization and readability.
 
-Well I can only repeat it, at least for amdgpu that is a clear NAK from my side to this.
+I'd write out "operation function pointers", at least the first time. Just =
+"operations" isn't clear to me.
 
-The behavior to allocate huge pages is a must have for the driver.
+Please write the commit message in imperative mood (like you've done in oth=
+er patches).
 
-The alternative I can offer is to disable the fallback which in your case would trigger the OOM killer.
-
-Regards,
-Christian.
-
-> 
-> Other drivers can later opt to use this mechanism too.
-> 
-> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
-> Changes in v2:
-> - Make disabling direct reclaim an option.
-> - Link to v1: https://lore.kernel.org/r/20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com
-> 
-> ---
-> Thadeu Lima de Souza Cascardo (3):
->       ttm: pool: allow requests to prefer latency over throughput
->       ttm: pool: add a module parameter to set latency preference
->       drm/amdgpu: allow allocation preferences when creating GEM object
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  3 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  3 ++-
->  drivers/gpu/drm/ttm/ttm_pool.c             | 23 +++++++++++++++++------
->  drivers/gpu/drm/ttm/ttm_tt.c               |  2 +-
->  include/drm/ttm/ttm_bo.h                   |  5 +++++
->  include/drm/ttm/ttm_pool.h                 |  2 +-
->  include/drm/ttm/ttm_tt.h                   |  2 +-
->  include/uapi/drm/amdgpu_drm.h              |  9 +++++++++
->  8 files changed, 38 insertions(+), 11 deletions(-)
-> ---
-> base-commit: f83ec76bf285bea5727f478a68b894f5543ca76e
-> change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
-> 
-> Best regards,
+>  drivers/gpu/drm/tegra/dsi.c             |   1 +
+>  drivers/gpu/host1x/mipi.c               |  40 +++------
+>  drivers/staging/media/tegra-video/csi.c |   1 +
+>  include/linux/host1x.h                  |  10 ---
+>  include/linux/tegra-mipi-cal.h          | 111 ++++++++++++++++++++++++
+>  5 files changed, 126 insertions(+), 37 deletions(-)
+>  create mode 100644 include/linux/tegra-mipi-cal.h
+>=20
+> diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> index 64f12a85a9dd..278bf2c85524 100644
+> --- a/drivers/gpu/drm/tegra/dsi.c
+> +++ b/drivers/gpu/drm/tegra/dsi.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/reset.h>
+> +#include <linux/tegra-mipi-cal.h>
+> =20
+>  #include <video/mipi_display.h>
+> =20
+> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> index e51b43dd15a3..2fa339a428f3 100644
+> --- a/drivers/gpu/host1x/mipi.c
+> +++ b/drivers/gpu/host1x/mipi.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> +#include <linux/tegra-mipi-cal.h>
+> =20
+>  #include "dev.h"
+> =20
+> @@ -116,23 +117,6 @@ struct tegra_mipi_soc {
+>  	u8 hsclkpuos;
+>  };
+> =20
+> -struct tegra_mipi {
+> -	const struct tegra_mipi_soc *soc;
+> -	struct device *dev;
+> -	void __iomem *regs;
+> -	struct mutex lock;
+> -	struct clk *clk;
+> -
+> -	unsigned long usage_count;
+> -};
+> -
+> -struct tegra_mipi_device {
+> -	struct platform_device *pdev;
+> -	struct tegra_mipi *mipi;
+> -	struct device *device;
+> -	unsigned long pads;
+> -};
+> -
+>  static inline u32 tegra_mipi_readl(struct tegra_mipi *mipi,
+>  				   unsigned long offset)
+>  {
+> @@ -261,7 +245,7 @@ void tegra_mipi_free(struct tegra_mipi_device *device=
+)
+>  }
+>  EXPORT_SYMBOL(tegra_mipi_free);
+> =20
+> -int tegra_mipi_enable(struct tegra_mipi_device *dev)
+> +static int tegra114_mipi_enable(struct tegra_mipi_device *dev)
+>  {
+>  	int err =3D 0;
+> =20
+> @@ -273,11 +257,9 @@ int tegra_mipi_enable(struct tegra_mipi_device *dev)
+>  	mutex_unlock(&dev->mipi->lock);
+> =20
+>  	return err;
+> -
+>  }
+> -EXPORT_SYMBOL(tegra_mipi_enable);
+> =20
+> -int tegra_mipi_disable(struct tegra_mipi_device *dev)
+> +static int tegra114_mipi_disable(struct tegra_mipi_device *dev)
+>  {
+>  	int err =3D 0;
+> =20
+> @@ -289,11 +271,9 @@ int tegra_mipi_disable(struct tegra_mipi_device *dev=
+)
+>  	mutex_unlock(&dev->mipi->lock);
+> =20
+>  	return err;
+> -
+>  }
+> -EXPORT_SYMBOL(tegra_mipi_disable);
+> =20
+> -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
+> +static int tegra114_mipi_finish_calibration(struct tegra_mipi_device *de=
+vice)
+>  {
+>  	struct tegra_mipi *mipi =3D device->mipi;
+>  	void __iomem *status_reg =3D mipi->regs + (MIPI_CAL_STATUS << 2);
+> @@ -309,9 +289,8 @@ int tegra_mipi_finish_calibration(struct tegra_mipi_d=
+evice *device)
+> =20
+>  	return err;
+>  }
+> -EXPORT_SYMBOL(tegra_mipi_finish_calibration);
+> =20
+> -int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
+> +static int tegra114_mipi_start_calibration(struct tegra_mipi_device *dev=
+ice)
+>  {
+>  	const struct tegra_mipi_soc *soc =3D device->mipi->soc;
+>  	unsigned int i;
+> @@ -384,7 +363,13 @@ int tegra_mipi_start_calibration(struct tegra_mipi_d=
+evice *device)
+> =20
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL(tegra_mipi_start_calibration);
+> +
+> +static const struct tegra_mipi_ops tegra114_mipi_ops =3D {
+> +	.tegra_mipi_enable =3D tegra114_mipi_enable,
+> +	.tegra_mipi_disable =3D tegra114_mipi_disable,
+> +	.tegra_mipi_start_calibration =3D tegra114_mipi_start_calibration,
+> +	.tegra_mipi_finish_calibration =3D tegra114_mipi_finish_calibration,
+> +};
+> =20
+>  static const struct tegra_mipi_pad tegra114_mipi_pads[] =3D {
+>  	{ .data =3D MIPI_CAL_CONFIG_CSIA },
+> @@ -512,6 +497,7 @@ static int tegra_mipi_probe(struct platform_device *p=
+dev)
+> =20
+>  	mipi->soc =3D match->data;
+>  	mipi->dev =3D &pdev->dev;
+> +	mipi->ops =3D &tegra114_mipi_ops;
+> =20
+>  	mipi->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+>  	if (IS_ERR(mipi->regs))
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
+dia/tegra-video/csi.c
+> index 74c92db1032f..9e3bd6109781 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/tegra-mipi-cal.h>
+> =20
+>  #include <media/v4l2-fwnode.h>
+> =20
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index 9fa9c30a34e6..b1c6514859d3 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -453,16 +453,6 @@ void host1x_client_unregister(struct host1x_client *=
+client);
+>  int host1x_client_suspend(struct host1x_client *client);
+>  int host1x_client_resume(struct host1x_client *client);
+> =20
+> -struct tegra_mipi_device;
+> -
+> -struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> -					     struct device_node *np);
+> -void tegra_mipi_free(struct tegra_mipi_device *device);
+> -int tegra_mipi_enable(struct tegra_mipi_device *device);
+> -int tegra_mipi_disable(struct tegra_mipi_device *device);
+> -int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
+> -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+> -
+>  /* host1x memory contexts */
+> =20
+>  struct host1x_memory_context {
+> diff --git a/include/linux/tegra-mipi-cal.h b/include/linux/tegra-mipi-ca=
+l.h
+> new file mode 100644
+> index 000000000000..2bfdbfd3cb77
+> --- /dev/null
+> +++ b/include/linux/tegra-mipi-cal.h
+> @@ -0,0 +1,111 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __TEGRA_MIPI_CAL_H_
+> +#define __TEGRA_MIPI_CAL_H_
+> +
+> +struct tegra_mipi {
+> +	const struct tegra_mipi_soc *soc;
+> +	const struct tegra_mipi_ops *ops;
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct mutex lock;
+> +	struct clk *clk;
+> +
+> +	unsigned long usage_count;
+> +};
+> +
+> +struct tegra_mipi_device {
+> +	struct platform_device *pdev;
+> +	struct tegra_mipi *mipi;
+> +	struct device *device;
+> +	unsigned long pads;
+> +};
+
+We should avoid putting implementation details / chip-specific things in th=
+e public header. Here's a sketch of what I'm thinking about:
+
+--- tegra-mipi-cal.h:
+
+struct tegra_mipi_device;
+
+struct tegra_mipi_ops {
+	// ...
+};
+
+int tegra_mipi_add_provider(struct device_node *np, struct tegra_mipi_ops *=
+ops);
+
+int tegra_mipi_enable(...);
+// ...
+
+--- host1x/mipi.c:
+
+// move tegra114-mipi specific stuff to a new file, e.g. host1x/tegra114-mi=
+pi.c
+
+struct tegra_mipi_device {
+	struct tegra_mipi_ops *ops;
+	struct platform_device *pdev;
+};
+
+/* only need to support one provider */
+static struct {
+	struct device_node *np;
+	struct tegra_mipi_ops *ops;
+} provider;
+
+int tegra_mipi_add_provider(struct device_node *np, struct tegra_mipi_ops *=
+ops)
+{
+	if (provider.np)
+		return -EBUSY;
+
+	provider.np =3D np;
+	provider.ops =3D ops;
+
+	return 0;
+}
+
+struct tegra_mipi_device *tegra_mipi_request(struct *device, struct device_=
+node *np)
+{
+	struct device_node *phandle_np =3D /* ... */;
+	struct platform_device *pdev;
+	struct tegra_mipi_device *mipidev;
+
+	if (provider.np !=3D phandle_np)
+		return -ENODEV;
+
+	pdev =3D /* ... */;
+
+	mipidev =3D kzalloc(...);
+	mipidev->ops =3D provider.ops;
+	mipidev->pdev =3D pdev;
+	mipidev->cells =3D phandle_cells;
+
+	return mipidev;
+}
+
+int tegra_mipi_enable(struct tegra_mipi_device *device)
+{
+	return device->ops->enable(platform_get_drvdata(device->pdev), device->cel=
+ls);
+}
+
+> +
+> +/**
+> + * Operations for Tegra MIPI calibration device
+> + */
+> +struct tegra_mipi_ops {
+> +	/**
+> +	 * @tegra_mipi_enable:
+> +	 *
+> +	 * Enable MIPI calibration device
+> +	 */
+> +	int (*tegra_mipi_enable)(struct tegra_mipi_device *device);
+
+The tegra_mipi_ prefix should be dropped for the field names.
+
+> +
+> +	/**
+> +	 * @tegra_mipi_disable:
+> +	 *
+> +	 * Disable MIPI calibration device
+> +	 */
+> +	int (*tegra_mipi_disable)(struct tegra_mipi_device *device);
+> +
+> +	/**
+> +	 * @tegra_mipi_start_calibration:
+> +	 *
+> +	 * Start MIPI calibration
+> +	 */
+> +	int (*tegra_mipi_start_calibration)(struct tegra_mipi_device *device);
+> +
+> +	/**
+> +	 * @tegra_mipi_finish_calibration:
+> +	 *
+> +	 * Finish MIPI calibration
+> +	 */
+> +	int (*tegra_mipi_finish_calibration)(struct tegra_mipi_device *device);
+> +};
+> +
+> +struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> +					     struct device_node *np);
+> +
+> +void tegra_mipi_free(struct tegra_mipi_device *device);
+> +
+> +static inline int tegra_mipi_enable(struct tegra_mipi_device *device)
+> +{
+> +	/* Tegra114+ has a dedicated MIPI calibration block */
+> +	if (device->mipi) {
+> +		if (!device->mipi->ops->tegra_mipi_enable)
+> +			return 0;
+> +
+> +		return device->mipi->ops->tegra_mipi_enable(device);
+> +	}
+> +
+> +	return -ENOSYS;
+> +}
+> +
+> +static inline int tegra_mipi_disable(struct tegra_mipi_device *device)
+> +{
+> +	if (device->mipi) {
+> +		if (!device->mipi->ops->tegra_mipi_disable)
+> +			return 0;
+> +
+> +		return device->mipi->ops->tegra_mipi_disable(device);
+> +	}
+> +
+> +	return -ENOSYS;
+> +}
+> +
+> +static inline int tegra_mipi_start_calibration(struct tegra_mipi_device =
+*device)
+> +{
+> +	if (device->mipi) {
+> +		if (!device->mipi->ops->tegra_mipi_start_calibration)
+> +			return 0;
+> +
+> +		return device->mipi->ops->tegra_mipi_start_calibration(device);
+> +	}
+> +
+> +	return -ENOSYS;
+> +}
+> +
+> +static inline int tegra_mipi_finish_calibration(struct tegra_mipi_device=
+ *device)
+> +{
+> +	if (device->mipi) {
+> +		if (!device->mipi->ops->tegra_mipi_finish_calibration)
+> +			return 0;
+> +
+> +		return device->mipi->ops->tegra_mipi_finish_calibration(device);
+> +	}
+> +
+> +	return -ENOSYS;
+> +}
+> +
+> +#endif /* __TEGRA_MIPI_CAL_H_ */
+>=20
+
+
+
 
