@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D51B89819
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF66B89825
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:43:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 421A210E9A7;
-	Fri, 19 Sep 2025 12:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6152810E9A0;
+	Fri, 19 Sep 2025 12:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EtMqj0m/";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="s/S6JLhp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E31310E9A4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:42:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F20710E9A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:43:30 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 167074E40D6B;
- Fri, 19 Sep 2025 12:42:48 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 3287D4E40CF6;
+ Fri, 19 Sep 2025 12:43:29 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id DB066606A8;
- Fri, 19 Sep 2025 12:42:47 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 05310606A8;
+ Fri, 19 Sep 2025 12:43:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 8B9A1102F1D6A; 
- Fri, 19 Sep 2025 14:42:34 +0200 (CEST)
+ with ESMTPSA id 56EBC102F1935; 
+ Fri, 19 Sep 2025 14:43:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758285765; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758285807; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=txIL/6sn7rDsWZ3Jss4FRuOg6qlu557XN73hNeK0jMg=;
- b=EtMqj0m/Jh3nRkXVaHgqWnverCsXarFUIpHXQgt2TYlPTr3rguoxI5QF2HEfePaDgaTp9U
- hzLYj+Dm1oWKkcwZaHNX4aV2k+nUfs8iOv03plhUN1lgCjsAbsg4hxqooT4iMdPSWH65gA
- RKSag58DNFhfncKyNuWkcIq/st1PkQSm9bS/M+ygSOtj7SnTeRrwE7DkN9/bEt1UdnDz4E
- HTff9hL3F5x866mrc6Z84vxLsH4WHQ4aJlHt0TLhVSCULNQIEMnkZ8Zrg78XZ340f/b/W3
- ZvqaqyO/oQNLMc2T3c0OAxeuIY7n4lidoVI4DXFDt6TngUcR5++55y/EYGxZow==
-Message-ID: <ff53599d-fd7f-4791-a3e1-3269386c6b3e@bootlin.com>
-Date: Fri, 19 Sep 2025 14:42:33 +0200
+ bh=YN0QUcu+9ztr+BxYPiX7mYVoICxMc0GmiDvU/ArXCAI=;
+ b=s/S6JLhpOD0F0gG1RuW79ixYnNOKQAK7lgszzTGSPOcAT5/XlubpWJzSTRxNcxExt2mK2P
+ HShV5VsxE+fKiWTRgP3aTlPfgQhxlO1PWlmYd6yBXrCjoCLexgDUhoGht318U48S9kae15
+ TWhnKJXCNVoELLtCMpJWuUm7w5UBNMJgYYsTM89IZ1YFlu5bZVBC96g1goK5bBYi7AcPEl
+ 5nkI+XNcyMj5T4hL/ooJG7XZTyNUJRTbuY1GqS1YDCGL2e803lHr23rhugKrktavZ3o+f4
+ MwMcz+SY/5tn8IaIqNzk3x4nWZiiNDsC6yD7216FRM9s09D+gLsEbCgbUM9SoA==
+Message-ID: <0f3cbb7c-d627-44ed-b400-3b26b2acbde5@bootlin.com>
+Date: Fri, 19 Sep 2025 14:43:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 05/20] drm: Introduce
- DRM_CAP_POST_BLEND_COLOR_PIPELINE
+Subject: Re: [PATCH RFC v2 03/20] drm: Factor out common color_pipeline
+ property initialization code
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -64,7 +64,7 @@ Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-5-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-3-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -120,7 +120,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-5-ac4471b44758@collabora.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-3-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -142,67 +142,148 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
-> Add a new cap that drivers can set to signal they support post-blend
-> color pipelines.
+> In preparation for sharing the initialization code for the color
+> pipeline property between pre- and post-blend color pipelines, factor
+> out the common initialization to a separate function.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/drm_ioctl.c | 3 +++
->   include/drm/drm_drv.h       | 6 ++++++
->   include/uapi/drm/drm.h      | 6 ++++++
->   3 files changed, 15 insertions(+)
+>   drivers/gpu/drm/drm_crtc.c          | 44 +++++++++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/drm_crtc_internal.h |  5 +++++
+>   drivers/gpu/drm/drm_plane.c         | 36 +++++-------------------------
+>   3 files changed, 54 insertions(+), 31 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index ff193155129e7e863888d8958458978566b144f8..01592d10e3465ddceddef94bc417f98d3ec12087 100644
-> --- a/drivers/gpu/drm/drm_ioctl.c
-> +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -304,6 +304,9 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
->   		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) &&
->   			     dev->mode_config.async_page_flip;
->   		break;
-> +	case DRM_CAP_POST_BLEND_COLOR_PIPELINE:
-> +		req->value = drm_core_check_feature(dev, DRIVER_POST_BLEND_COLOR_PIPELINE);
-> +		break;
->   	default:
->   		return -EINVAL;
->   	}
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 42fc085f986dee9261f8b08c4fc7d93b8d6d9769..6b0f4904e69766232283d430c2540d30afef850f 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -122,6 +122,12 @@ enum drm_driver_feature {
->   	 * the cursor planes to work correctly).
->   	 */
->   	DRIVER_CURSOR_HOTSPOT           = BIT(9),
-> +	/**
-> +	 * @DRIVER_POST_BLEND_COLOR_PIPELINE:
-> +	 *
-> +	 * Driver supports post-blend color pipeline.
-> +	 */
-> +	DRIVER_POST_BLEND_COLOR_PIPELINE		= BIT(10),
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 46655339003db2a1b43441434839e26f61d79b4e..94e60cffd29972aa979ac2f1932be7a6a97f3ada 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -959,3 +959,47 @@ bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state)
+>   	return hweight32(crtc_state->encoder_mask) > 1;
+>   }
+>   EXPORT_SYMBOL(drm_crtc_in_clone_mode);
+> +
+> +struct drm_property *
+> +drm_common_create_color_pipeline_property(struct drm_device *dev, struct drm_mode_object *obj,
+> +					  const struct drm_prop_enum_list *pipelines,
+> +					  int num_pipelines)
+> +{
+> +	struct drm_prop_enum_list *all_pipelines;
+> +	struct drm_property *prop;
+> +	int len = 0;
+> +	int i;
+> +
+> +	all_pipelines = kcalloc(num_pipelines + 1,
+> +				sizeof(*all_pipelines),
+> +				GFP_KERNEL);
+> +
+> +	if (!all_pipelines) {
+> +		drm_err(dev, "failed to allocate color pipeline\n");
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	/* Create default Bypass color pipeline */
+> +	all_pipelines[len].type = 0;
+> +	all_pipelines[len].name = "Bypass";
+> +	len++;
+> +
+> +	/* Add all other color pipelines */
+> +	for (i = 0; i < num_pipelines; i++, len++) {
+> +		all_pipelines[len].type = pipelines[i].type;
+> +		all_pipelines[len].name = pipelines[i].name;
+> +	}
+> +
+> +	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
+> +					"COLOR_PIPELINE",
+> +					all_pipelines, len);
+> +	if (IS_ERR(prop)) {
+> +		kfree(all_pipelines);
+> +		return prop;
+> +	}
+> +
+> +	drm_object_attach_property(obj, prop, 0);
+> +
+> +	kfree(all_pipelines);
+> +	return prop;
+> +}
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index c094092296448093c5cd192ecdc8ea9a50769c90..e3dbdcbfa385b940ec0b5476adde6146fe4afde1 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -35,6 +35,7 @@
+>   #ifndef __DRM_CRTC_INTERNAL_H__
+>   #define __DRM_CRTC_INTERNAL_H__
 >   
->   	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+> +#include <drm/drm_property.h>
+>   #include <linux/err.h>
+>   #include <linux/types.h>
 >   
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 27cc159c1d275c7a7fe057840ef792f30a582bb7..c6c53e57958e951204154ce41a69696a6876f0e8 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -812,6 +812,12 @@ struct drm_gem_change_handle {
->    * commits.
->    */
->   #define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP	0x15
-> +/**
-> + * DRM_CAP_POST_BLEND_COLOR_PIPELINE
-> + *
-> + * If set to 1, the driver supports post-blend color pipelines.
-> + */
-> +#define DRM_CAP_POST_BLEND_COLOR_PIPELINE	0x16
+> @@ -79,6 +80,10 @@ int drm_crtc_check_viewport(const struct drm_crtc *crtc,
+>   int drm_crtc_register_all(struct drm_device *dev);
+>   void drm_crtc_unregister_all(struct drm_device *dev);
+>   int drm_crtc_force_disable(struct drm_crtc *crtc);
+> +struct drm_property *
+> +drm_common_create_color_pipeline_property(struct drm_device *dev, struct drm_mode_object *obj,
+> +					  const struct drm_prop_enum_list *pipelines,
+> +					  int num_pipelines);
 >   
->   /* DRM_IOCTL_GET_CAP ioctl argument type */
->   struct drm_get_cap {
+>   struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc);
+>   
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index f6cfa8ac090c7bc49c7f276993bba7e9800da140..60dbfcab495600dd44c15260a1fa6135db59c6e2 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -1839,43 +1839,17 @@ int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+>   					     const struct drm_prop_enum_list *pipelines,
+>   					     int num_pipelines)
+>   {
+> -	struct drm_prop_enum_list *all_pipelines;
+>   	struct drm_property *prop;
+> -	int len = 0;
+> -	int i;
+> -
+> -	all_pipelines = kcalloc(num_pipelines + 1,
+> -				sizeof(*all_pipelines),
+> -				GFP_KERNEL);
+> -
+> -	if (!all_pipelines) {
+> -		drm_err(plane->dev, "failed to allocate color pipeline\n");
+> -		return -ENOMEM;
+> -	}
+>   
+> -	/* Create default Bypass color pipeline */
+> -	all_pipelines[len].type = 0;
+> -	all_pipelines[len].name = "Bypass";
+> -	len++;
+> -
+> -	/* Add all other color pipelines */
+> -	for (i = 0; i < num_pipelines; i++, len++) {
+> -		all_pipelines[len].type = pipelines[i].type;
+> -		all_pipelines[len].name = pipelines[i].name;
+> -	}
+> -
+> -	prop = drm_property_create_enum(plane->dev, DRM_MODE_PROP_ATOMIC,
+> -					"COLOR_PIPELINE",
+> -					all_pipelines, len);
+> -	if (IS_ERR(prop)) {
+> -		kfree(all_pipelines);
+> +	prop = drm_common_create_color_pipeline_property(plane->dev,
+> +							 &plane->base,
+> +							 pipelines,
+> +							 num_pipelines);
+> +	if (IS_ERR(prop))
+>   		return PTR_ERR(prop);
+> -	}
+>   
+> -	drm_object_attach_property(&plane->base, prop, 0);
+>   	plane->color_pipeline_property = prop;
+>   
+> -	kfree(all_pipelines);
+>   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_plane_create_color_pipeline_property);
 > 
 
 -- 
