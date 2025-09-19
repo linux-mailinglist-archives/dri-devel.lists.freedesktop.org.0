@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878DEB891F5
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 12:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2147B89369
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 13:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6242410E989;
-	Fri, 19 Sep 2025 10:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86DB010E996;
+	Fri, 19 Sep 2025 11:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QGCAmT99";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="L/j5DNx6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4569910E989
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 10:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1758278741; x=1789814741;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Z/95kFtj+EpEUZDWc6L2nInAUcfB2yavwYIE9LS/m6M=;
- b=QGCAmT99kpr4EPkeWoB8lJH0bQj8VZDzQ+bdWpncgKgLOAvCEYlytV8V
- TH4ZcZpW/4XGYCaAP2X/m2hZP4g00bphpwUkgCKOXEvCbLlZehd7fQN78
- lG0O7I1KSfhe7/c3meHEG/kAnGxn17Ly7rSHoT0Ll16/3YzuO7192PAVQ
- lcVHuYtTgDNIcQhIqq4FSuEFAvrOvg6LfYdcJT3rLnUHzNoRVad1BDX69
- PZPqKp/crp62pIGaF5ILWJci9G5m9lRcK9fuDGup6mwr4+SRkfgWKGUpA
- eARMi9hfjUpXlOvaYaWKIWEH0Xc4CHZYzLqMEVqsCiYpJGTm2baGCO0QZ g==;
-X-CSE-ConnectionGUID: cbag/j/yRfycZSNEKiAgbw==
-X-CSE-MsgGUID: /pNSbdWJTuG14KteCbHIdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="78230973"
-X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; d="scan'208";a="78230973"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2025 03:45:41 -0700
-X-CSE-ConnectionGUID: KJfJ+BRyRQy8doZMDMWzGQ==
-X-CSE-MsgGUID: yRcK4vDpSQeX48ybd5leLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; d="scan'208";a="206566947"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.148])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Sep 2025 03:45:37 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@canonical.com>,
- John Stultz <john.stultz@linaro.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] dma-buf/sw-sync: Fix interrupts disabled excessively long
-Date: Fri, 19 Sep 2025 12:44:47 +0200
-Message-ID: <20250919104503.1388351-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0107E10E98B;
+ Fri, 19 Sep 2025 11:13:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=7IAnsxZjH5AhBJ/tfYhtdLrenrS33yCd6ZMl51qI+Nk=; b=L/j5DNx6AWdvT0FlzORjKGkjTA
+ oL4SJ9QjArw4uxAdFvmAEFtkBbMIVCAumtYWbxSJKW4gEh4Bxqh+7kmSfC8++euchHKon8xbUIy96
+ BzdDtMsYN9WfDOdMPEuEFvqzSnboGWeg68JtvGrytlT5DlkDnbqEBiVGNixkurpqIJoskcCQiqIEC
+ Z/suW+dy6X18IxjTgU2Mbo3boSl0EGg0P5FBxETSN5qSMA2u/xQlEJFQoRv1VOdyIFcM+tqTIRdZW
+ 3gdYlWxtbNVi6VpggaaE+nX3owigyKFgMOQ2ZCYEAO2TKs2a58z9AYnlHKZ0Lkwmi6105qwIZahRs
+ JHa4kY+A==;
+Received: from 179-125-87-227-dinamico.pombonet.net.br ([179.125.87.227]
+ helo=quatroqueijos.cascardo.eti.br)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uzZ3M-00E3o4-CX; Fri, 19 Sep 2025 13:13:24 +0200
+Date: Fri, 19 Sep 2025 08:13:15 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH RFC v2 0/3] drm/ttm: allow direct reclaim to be skipped
+Message-ID: <aM06y7MP6LzHMBK7@quatroqueijos.cascardo.eti.br>
+References: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
+ <6f92ff06-04c3-440b-becb-50a7693ecc39@amd.com>
+ <67c83b24-01b6-4633-8645-52dc746c32e2@igalia.com>
+ <96c117bc-389f-42d9-952e-894768aad780@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <96c117bc-389f-42d9-952e-894768aad780@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,120 +73,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When multiple fences of an sw_sync timeline are signaled via
-sw_sync_ioctl_inc(), we now disable interrupts and keep them disabled
-while signaling all requested fences of the timeline in a loop.  Since
-user space may set up an arbitrary long timeline of fences with
-arbitrarily expensive callbacks added to each fence, we may end up running
-with interrupts disabled for too long, longer than NMI watchdog limit.
-That potentially risky scenario has been demonstrated on Intel DRM CI
-trybot[1], on a low end machine fi-pnv-d510, with one of new IGT subtests
-that try to reimplement wait_* test cases of a dma_fence_chain selftest in
-user space.
+On Fri, Sep 19, 2025 at 10:01:26AM +0200, Christian König wrote:
+> On 19.09.25 09:43, Tvrtko Ursulin wrote:
+> > On 19/09/2025 07:46, Christian König wrote:
+> >> On 18.09.25 22:09, Thadeu Lima de Souza Cascardo wrote:
+> >>> On certain workloads, like on ChromeOS when opening multiple tabs and
+> >>> windows, and switching desktops, memory pressure can build up and latency
+> >>> is observed as high order allocations result in memory reclaim. This was
+> >>> observed when running on an amdgpu.
+> >>>
+> >>> This is caused by TTM pool allocations and turning off direct reclaim when
+> >>> doing those higher order allocations leads to lower memory pressure.
+> >>>
+> >>> Since turning direct reclaim off might also lead to lower throughput,
+> >>> make it tunable, both as a module parameter that can be changed in sysfs
+> >>> and as a flag when allocating a GEM object.
+> >>>
+> >>> A latency option will avoid direct reclaim for higher order allocations.
+> >>>
+> >>> The throughput option could be later used to more agressively compact pages
+> >>> or reclaim, by not using __GFP_NORETRY.
+> >>
+> >> Well I can only repeat it, at least for amdgpu that is a clear NAK from my side to this.
+> >>
+> >> The behavior to allocate huge pages is a must have for the driver.
+> > 
+> > Disclaimer that I wouldn't go system-wide but per device - so somewhere in sysfs rather than a modparam. That kind of a toggle would not sound problematic to me since it leaves the policy outside the kernel and allows people to tune to their liking.
+> 
+> Yeah I've also wrote before when that is somehow beneficial for nouveau (for example) then I don't have any problem with making the policy device dependent.
+> 
+> But for amdgpu we have so many so bad experiences with this approach that I absolutely can't accept that.
 
-[141.993704] [IGT] syncobj_timeline: starting subtest stress-enable-all-signal-all-forward
-[164.964389] watchdog: CPU3: Watchdog detected hard LOCKUP on cpu 3
-[164.964407] Modules linked in: snd_hda_codec_alc662 snd_hda_codec_realtek_lib snd_hda_codec_generic snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore i915 prime_numbers ttm drm_buddy drm_display_helper cec rc_core i2c_algo_bit video wmi overlay at24 ppdev gpio_ich binfmt_misc nls_iso8859_1 coretemp i2c_i801 i2c_mux i2c_smbus r8169 lpc_ich realtek parport_pc parport nvme_fabrics dm_multipath fuse msr efi_pstore nfnetlink autofs4
-[164.964569] irq event stamp: 1002206
-[164.964575] hardirqs last  enabled at (1002205): [<ffffffff82898ac7>] _raw_spin_unlock_irq+0x27/0x70
-[164.964599] hardirqs last disabled at (1002206): [<ffffffff8287d021>] sysvec_irq_work+0x11/0xc0
-[164.964616] softirqs last  enabled at (1002138): [<ffffffff81341bc5>] fpu_clone+0xb5/0x270
-[164.964631] softirqs last disabled at (1002136): [<ffffffff81341b97>] fpu_clone+0x87/0x270
-[164.964650] CPU: 3 UID: 0 PID: 1515 Comm: syncobj_timelin Tainted: G     U              6.17.0-rc6-Trybot_154715v1-gc1b827f32471+ #1 PREEMPT(voluntary)
-[164.964662] Tainted: [U]=USER
-[164.964665] Hardware name:  /D510MO, BIOS MOPNV10J.86A.0311.2010.0802.2346 08/02/2010
-[164.964669] RIP: 0010:lock_release+0x13d/0x2a0
-[164.964680] Code: c2 01 48 8d 4d c8 44 89 f6 4c 89 ef e8 bc fc ff ff 0b 05 96 ca 42 06 0f 84 fc 00 00 00 b8 ff ff ff ff 65 0f c1 05 0b 71 a9 02 <83> f8 01 0f 85 2f 01 00 00 48 f7 45 c0 00 02 00 00 74 06 fb 0f 1f
-[164.964686] RSP: 0018:ffffc90000170e70 EFLAGS: 00000057
-[164.964693] RAX: 0000000000000001 RBX: ffffffff83595520 RCX: 0000000000000000
-[164.964698] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[164.964701] RBP: ffffc90000170eb0 R08: 0000000000000000 R09: 0000000000000000
-[164.964706] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8226a948
-[164.964710] R13: ffff88802423b340 R14: 0000000000000001 R15: ffff88802423c238
-[164.964714] FS:  0000729f4d972940(0000) GS:ffff8880f8e77000(0000) knlGS:0000000000000000
-[164.964720] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[164.964725] CR2: 0000729f4d92e720 CR3: 000000003afe4000 CR4: 00000000000006f0
-[164.964729] Call Trace:
-[164.964734]  <IRQ>
-[164.964750]  dma_fence_chain_get_prev+0x13d/0x240
-[164.964769]  dma_fence_chain_walk+0xbd/0x200
-[164.964784]  dma_fence_chain_enable_signaling+0xb2/0x280
-[164.964803]  dma_fence_chain_irq_work+0x1b/0x80
-[164.964816]  irq_work_single+0x75/0xa0
-[164.964834]  irq_work_run_list+0x33/0x60
-[164.964846]  irq_work_run+0x18/0x40
-[164.964856]  __sysvec_irq_work+0x35/0x170
-[164.964868]  sysvec_irq_work+0x9b/0xc0
-[164.964879]  </IRQ>
-[164.964882]  <TASK>
-[164.964890]  asm_sysvec_irq_work+0x1b/0x20
-[164.964900] RIP: 0010:_raw_spin_unlock_irq+0x2d/0x70
-[164.964907] Code: 00 00 55 48 89 e5 53 48 89 fb 48 83 c7 18 48 8b 75 08 e8 06 63 bf fe 48 89 df e8 be 98 bf fe e8 59 ee d3 fe fb 0f 1f 44 00 00 <65> ff 0d 5c 85 68 01 74 14 48 8b 5d f8 c9 31 c0 31 d2 31 c9 31 f6
-[164.964913] RSP: 0018:ffffc9000070fca0 EFLAGS: 00000246
-[164.964919] RAX: 0000000000000000 RBX: ffff88800c2d8b10 RCX: 0000000000000000
-[164.964923] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[164.964927] RBP: ffffc9000070fca8 R08: 0000000000000000 R09: 0000000000000000
-[164.964931] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800c2d8ac0
-[164.964934] R13: ffffc9000070fcc8 R14: ffff88800c2d8ac0 R15: 00000000ffffffff
-[164.964967]  sync_timeline_signal+0x153/0x2c0
-[164.964989]  sw_sync_ioctl+0x98/0x580
-[164.965017]  __x64_sys_ioctl+0xa2/0x100
-[164.965034]  x64_sys_call+0x1226/0x2680
-[164.965046]  do_syscall_64+0x93/0x980
-[164.965057]  ? do_syscall_64+0x1b7/0x980
-[164.965070]  ? lock_release+0xce/0x2a0
-[164.965082]  ? __might_fault+0x53/0xb0
-[164.965096]  ? __might_fault+0x89/0xb0
-[164.965104]  ? __might_fault+0x53/0xb0
-[164.965116]  ? _copy_to_user+0x53/0x70
-[164.965131]  ? __x64_sys_rt_sigprocmask+0x8f/0xe0
-[164.965152]  ? do_syscall_64+0x1b7/0x980
-[164.965169]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[164.965176] RIP: 0033:0x729f4fb24ded
-[164.965188] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-[164.965193] RSP: 002b:00007ffdc36220e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[164.965200] RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 0000729f4fb24ded
-[164.965205] RDX: 00007ffdc3622174 RSI: 0000000040045701 RDI: 0000000000000007
-[164.965209] RBP: 00007ffdc3622130 R08: 0000000000000000 R09: 0000000000000000
-[164.965213] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffdc3622174
-[164.965217] R13: 0000000040045701 R14: 0000000000000007 R15: 0000000000000003
-[164.965248]  </TASK>
-[166.952984] perf: interrupt took too long (11861 > 6217), lowering kernel.perf_event_max_sample_rate to 16000
-[166.953134] clocksource: Long readout interval, skipping watchdog check: cs_nsec: 13036276804 wd_nsec: 13036274445
+The mechanism here allows it to be set per device. I even considered that
+as a patch in the RFC, but I opted to get it out sooner so we could have
+this discussion.
 
-Avoid potentially expensive signaling of each fence when removing it from
-the timeline from inside the loop under protection of a common lock and
-disabled interrupts, do that only after interrupts are re-enabled.  Each
-call to dma_fence_signal() will then disable and re-enable interrputs as
-needed for processing of each signaled fence.
+> 
+> > One side question thought - does AMD benefit from larger than 2MiB contiguous blocks? IIUC the maximum PTE is 2MiB so maybe not? In which case it may make sense to add some TTM API letting drivers tell the pool allocator what is the maximum order to bother with. Larger than that may have diminishing benefit for the disproportionate pressure on the memory allocator and reclaim.
+> 
+> Using 1GiB allocations would allow for the page tables to skip another layer on AMD GPUs, but the most benefit is between 4kiB and 2MiB since that can be handled more efficiently by the L1. Having 2MiB allocations then also has an additional benefit for L2.
+> 
+> Apart from performance for AMD GPUs there are also some HW features which only work with huge pages, e.g. on some laptops you can get for example flickering on the display if the scanout buffer is back by to many small pages.
+> 
+> NVidia used to work on 1GiB allocations which as far as I know was the kickoff for the whole ongoing switch to using folios instead of pages. And from reading public available documentation I have the impression that NVidia GPUs works more or less the same as AMD GPUs regarding the TLB.
+> 
+> Another alternative would be that we add a WARN_ONCE() when we have to fallback to lower order pages, but that wouldn't help the end user either. It just makes it more obvious that you need more memory for a specific use case without triggering the OOM killer.
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Regards,
+> > 
+> > Tvrtko
+> > 
+> >> The alternative I can offer is to disable the fallback which in your case would trigger the OOM killer.
+> >>
 
-[1] https://patchwork.freedesktop.org/series/154715/
+Warning could be as simple as removing __GFP_NOWARN. But I don't think we
+want either a warning or to trigger the OOM killer when allocating lower
+order pages are still possible. That will already happen when we get to 0
+order pages, where there is no fallback available anymore, and, then, it
+makes sense to try harder and warn if no page can be allocated.
 
-Fixes: 0f0d8406fb9c3 ("android: convert sync to fence api, v6")
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/dma-buf/sw_sync.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Under my current workload, the balance skews torwards 0-order pages,
+reducing the amount of 10 and 9 order pages to half, when comparing runs
+with direct reclaim and without direct reclaim. So, I understand your
+concern in respect to the impact on the GPU TLB and potential flickering.
+Is there a way we can measure it on the devices we are using? And, then, if
+it does not show to be a problem on those devices, would making this be a
+setting per-device be acceptable to you? In a way that we could have in
+userspace a list of devices where it is okay to prefer not to reclaim over
+getting huge pages and that could be set if the workload prefers lower
+latency in those allocations?
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 3c20f1d31cf54..638c2f756299a 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -224,13 +224,12 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
- 
- 		list_move_tail(&pt->link, &signalled);
- 		rb_erase(&pt->node, &obj->pt_tree);
--
--		dma_fence_signal_locked(&pt->base);
- 	}
- 
- 	spin_unlock_irq(&obj->lock);
- 
- 	list_for_each_entry_safe(pt, next, &signalled, link) {
-+		dma_fence_signal(&pt->base);
- 		list_del_init(&pt->link);
- 		dma_fence_put(&pt->base);
- 	}
--- 
-2.51.0
+Thanks.
+Cascardo.
 
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> Other drivers can later opt to use this mechanism too.
+> >>>
+> >>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> >>> ---
+> >>> Changes in v2:
+> >>> - Make disabling direct reclaim an option.
+> >>> - Link to v1: https://lore.kernel.org/r/20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com
+> >>>
+> >>> ---
+> >>> Thadeu Lima de Souza Cascardo (3):
+> >>>        ttm: pool: allow requests to prefer latency over throughput
+> >>>        ttm: pool: add a module parameter to set latency preference
+> >>>        drm/amdgpu: allow allocation preferences when creating GEM object
+> >>>
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  3 ++-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  3 ++-
+> >>>   drivers/gpu/drm/ttm/ttm_pool.c             | 23 +++++++++++++++++------
+> >>>   drivers/gpu/drm/ttm/ttm_tt.c               |  2 +-
+> >>>   include/drm/ttm/ttm_bo.h                   |  5 +++++
+> >>>   include/drm/ttm/ttm_pool.h                 |  2 +-
+> >>>   include/drm/ttm/ttm_tt.h                   |  2 +-
+> >>>   include/uapi/drm/amdgpu_drm.h              |  9 +++++++++
+> >>>   8 files changed, 38 insertions(+), 11 deletions(-)
+> >>> ---
+> >>> base-commit: f83ec76bf285bea5727f478a68b894f5543ca76e
+> >>> change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
+> >>>
+> >>> Best regards,
+> >>
+> > 
+> 
