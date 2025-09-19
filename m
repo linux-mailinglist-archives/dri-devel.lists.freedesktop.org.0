@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D57B87FEA
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 08:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA98B8800F
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 08:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4016410E056;
-	Fri, 19 Sep 2025 06:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0FCF10E222;
+	Fri, 19 Sep 2025 06:33:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="EiT8H2tx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dipW1msm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010058.outbound.protection.outlook.com
- [52.101.193.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB45710E056
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 06:29:55 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012038.outbound.protection.outlook.com [52.101.53.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B5110E222
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 06:33:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ijW7tH3nTlLDi8YN/ZkVAM4KRwvpt4UM4Oaa8C+6vkyZM4AVg9YRAKeDmIKQzpMZvVcFSSslDPKXJs/vQaRiefAv15oQ/gaZ3Be5WVEOUs5qwNXUMONxUAF53HyEiYYdkBtMp2xnjuT0CMUAiQnZ/BWbC9vrRDnjB8RAzN0JvXrWbgHZ4dCyP6H9ZCgugle8kp2L6RWQNaxIJxZac2vuQ6GoHY/ZbVgH98whlBM+pPt+mcOLNvSQkggEO/Ff5HFfBdRFUMTZtA0O7ncjgFebdmxalD00cgp5sgRbxT957LKbRITaVFsKH7LRVZxMMw3OwOGAAg5AwxtkFegDyb8RnA==
+ b=ON9jqpG6pC/H+Q5RW5CzeOdGko8ZApvXFWZKoLn5/FKDCYZoMUxly334JBGx7+E1z+cB/8k4Leaf98OCrc4uAuj+LYvHCFyV6f57Ba3UcBcuTLQ1bIgNH81T/CkbZRA2gtcmWoqWqJagoy0Czdw5KL/1eoGVYgwDC2YDqkyP0SqqbvZxiKMGziUpozfihkHTyBiNMB7B7xZDG+7Gr+nj3bQ2tQ927j2cS/2QAwQGogOS1/lZNppx5VhLi9PQeESH4/Znwxp5e059sHfu/VCM+0GGjRV5hnKg7UUjxLdZkalTpE6yGBrlG8IJnEkj0H0QXh7D2lEdvPDYC8ASN5tE3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ymr5RFPtABic/nvXfzxQr4ydK4bWl9RC+MknIief+v4=;
- b=SznquUtaIrBY+wZJqXC4AY8PtPyBwy8jVJt1peFJafar4dKUUMSXnBvwUXBrygn87lnxZ5WBKA7elVz+10rcx1rtOWHzYm2G8XTpcoPdBjdMFcleo4oqT6MxvXz4TYAxqHgRoCXfsY0m3/EOPMnJ3GYuTgm1tNZk4TMjIuF9UeT/cjkNaI7xRhK2Z+g+TiQ6sZj/ez4E/RY1SVe4sVyg+NuvD6c3DDqftZ/zb1FMwyXDWu48T7yPOg1OY0eYw1krMqGHJMFE9VUjOGWj/quXUqR2UyN4YQrqbOdjdWBEx90tkQbGmlW+AliGdTpzz/iZ9vuTxfwUqIMOMD7baGlwTg==
+ bh=c1vUxRO98hn4p4qZIjX7PmcLcvXSOwhCwVGfa6hZHDg=;
+ b=dCcpfEPQQhWsKIc1lPzLike2Fy82rUgJ9Q69kpsH7KwUsLAj+9rNj9QkzqsdySHG71FcekL2H/qIKNtSbQAlEnT+FsKswbAOIFo/0hntW4+3YnwbOmZuTvf4qD57IPJLf0d5UrBNjXnpqESxfzIAHRIEKkLC5i66aVaRl/N4wuwxqZV0cUU4dHWdiS67PNFapyKnAS9x8ihOhFrLokG8Nn8PDBxwDJSZ4XFTIAIVX3ZGUV31z4SvEAZVVRYXC89Eevu/idWlXU18g4dKHtyIx8ihHO7tOewJWHuANjMnbV5mzIopy2O36TXUaBbDLuqCs9ePWmyg647vUweeWAksUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ymr5RFPtABic/nvXfzxQr4ydK4bWl9RC+MknIief+v4=;
- b=EiT8H2txoSY8pQbyrkf6E7bMYBmFjPhh+9hPCvKavjG13FWdXUg9sTF3u16R+1P3DCzXusgtXWUBO14n5dJ8/K4umgrX+XPma70UC0KkrsyhKrP0AMYi6MWc3flQliUwOEIGzxsxv1npQmpAR8GVSaZ1XrGrz9tZ//2N9RFVMUQuuJWGaUeLbjq9zpQVHfaDdjp7ATk4g11jyBn7PkotUQzAsMH2lDeT4lb2UXDrbEeno0dO+8mmsBauUFHR7m4OTlMxXaGVZPRUrz1wAHhLcK7tZdfZlvbXEYbs209aTKWvTUzA4QcwMGLPEJbZTiWlj9TO2kuDOh9D6r3v/8MUxw==
+ bh=c1vUxRO98hn4p4qZIjX7PmcLcvXSOwhCwVGfa6hZHDg=;
+ b=dipW1msm903hmGB4hcVgB5R0M95lLZLswG4Yf8AmF/004Bu4LS6e8iFzZqZt3eFihYountV3vJp9GjQaTKedrhPEkws1TrUQ/zs5eMwfJ9/wbW3gLVrRM/caPrWKf1IQ4sx/PPcC1VP6Dk6B4BxM2KsldhOTzlzMOFSLGADX0hPLcRp7x8KAdLb2Ka6uoOZXmVeG+r/T0Pd35edLullButzDRjIQCYXV7bQIazXimLr49mSsKzZH2/DL/xp4vmhpFWDeR7i/IR2nzgtIIll6J4Z/KqZPZ1X/9OHsDuS4EGAwYrEpa9HTjYn7aH4Hcr22xGmFr7s69QwWuXmBM7qwhw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- DM6PR12MB4170.namprd12.prod.outlook.com (2603:10b6:5:219::20) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.14; Fri, 19 Sep 2025 06:29:51 +0000
+ MW4PR12MB6803.namprd12.prod.outlook.com (2603:10b6:303:20e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.19; Fri, 19 Sep
+ 2025 06:33:51 +0000
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9115.018; Fri, 19 Sep 2025
- 06:29:50 +0000
+ 06:33:51 +0000
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
@@ -64,113 +63,112 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 01/23] clk: tegra: set CSUS as vi_sensors gate for
- Tegra20, Tegra30 and Tegra114
-Date: Fri, 19 Sep 2025 15:29:46 +0900
-Message-ID: <2718480.Icojqenx9y@senjougahara>
-In-Reply-To: <20250906135345.241229-2-clamor95@gmail.com>
+Subject: Re: [PATCH v2 03/23] clk: tegra30: add CSI pad clock gates
+Date: Fri, 19 Sep 2025 15:33:47 +0900
+Message-ID: <2918362.NG923GbCHz@senjougahara>
+In-Reply-To: <20250906135345.241229-4-clamor95@gmail.com>
 References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-2-clamor95@gmail.com>
+ <20250906135345.241229-4-clamor95@gmail.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0146.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31b::11) To DM4PR12MB6494.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCPR01CA0201.jpnprd01.prod.outlook.com
+ (2603:1096:405:7a::18) To DM4PR12MB6494.namprd12.prod.outlook.com
  (2603:10b6:8:ba::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|DM6PR12MB4170:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e19da22-0470-4a7e-2eb9-08ddf745efc5
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|MW4PR12MB6803:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1fd3fc8e-e165-4ab8-9d5a-08ddf7467f24
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|10070799003|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bThTSGprMHNJcTVCdnMxOE9PblFVbVo3Z1AyaTJMSVAvWkNqQkw4UlllMHhF?=
- =?utf-8?B?TXg3VDNBM0tOeHlETUlHbDl0UGxUOTNZVFNIVngyZnl6ZnBpeE1vNVNsZ3Ar?=
- =?utf-8?B?UDBJRHBoTU1Xa2tXR3o0eDVXcnhRUktEY2hpaFBqYVc2QlIwYTRLTjVmRWVU?=
- =?utf-8?B?elNXWHU3OVVTaTRNOEt3ejNNWWEvTkJzdng1SkFMN3NpMmczbG54TWZyRUpB?=
- =?utf-8?B?TEJQMDFTZEdYU2hHenZDVndXcmR5UTllQTF2S1dtRnBBMEljRHdiWnU2eXpK?=
- =?utf-8?B?bHI3WENIekRCVFpRam9TN3RFakUxdVZRbXNEMThmMUwraUlnOWNZZU9GNW8w?=
- =?utf-8?B?RVE4THlVbmZjNUg1UTdZYm9iRnpsRWpqZS9rQzhYOGlBc0lJbVdNZUNPclFs?=
- =?utf-8?B?aDNXbUNLa3hsektCd2U3NUxjbU44bDdyRW4vK1Jmak54bG8wRGh4em0wdkVE?=
- =?utf-8?B?V1lWYU42Zm4weEdsMnVERGRMOGc0eFRMcXZoK1F2cm9vWmE0LzR5VTlWU1k5?=
- =?utf-8?B?NFZzVThTMTdEK2NUTkk2QXp3VE5UNGs1OXJNK2xYazUydXdRN3drTnl1T1pT?=
- =?utf-8?B?dkFrQVRkeVFWbmFaWk1JV0Eva1hGNnEzWlBPNTJCNjdKMHlyR0MxMWJ4RU93?=
- =?utf-8?B?Rk9UNUIzOEZaeE1pTStDd1JvRzBsUHVtQUR2Y0N2YTRqQi9jSmd5V1RxelUz?=
- =?utf-8?B?WHRpU3dxMzI1dTJPY1NCN0lPbFcyRjFnU3J6SjZLdldBZXQ5Yk96YThlSS9k?=
- =?utf-8?B?R2YwOFVvdk5RWnVpRkV6bmxnRUFnODFhcktJZW5YZHREWmJET3JscEtFc3hC?=
- =?utf-8?B?dkk0QlZhRkRNQ1I5bFdmdFphRjltMndZcWk3N01OaGFZQVJueEFBK2ozd3lu?=
- =?utf-8?B?WEUxNllTOUc3a0dhTHJwOFdtb3MrcjJ6SFFpQ2FLL2JmMlU1N3RLdkJhcmF5?=
- =?utf-8?B?elhYRHdQYytHUlNqdUNaYTdMSlRNeElldEZaWUFPNnhNNlZ2Z1d0Z29xaWdD?=
- =?utf-8?B?OXFNSEZNUjV5Nm1FaVBjTWJjOGgvOTBVVE43a0JoSGxZZUQxRlV6MjRUVHVY?=
- =?utf-8?B?QjF4UFFHMXpoMllvVVpwdzExMStLRWx0cTFiSzJFK0wwVTgxSjI4b094WlJx?=
- =?utf-8?B?dnpVejVZVXY4SG1pU056ZlNZVFRaeUZGUWdJZGtlVHpmamxuTDJvQU00dnRX?=
- =?utf-8?B?eVErdnZidGZudXRodmppQnVLV0s3dE1HVUUvRHlZNy9PWEs4a2NEaTFFemFT?=
- =?utf-8?B?TDgrUHVCejhQTUxwRmtXcGhtSmRWQjI4TmxsRUdxQmxGV1h3eEp6UFEzU2sv?=
- =?utf-8?B?L3NWWHl0K2pYNFAwTUhzVFJNclNqQm5EVXBDWmsxSTRtb3NkOSs2WWJWYTlj?=
- =?utf-8?B?VDlXOHFBMDh1M0M0WEtNdjg4TXBsQnJ6bVQ0ZUkyU0RxOFp4c1hnNVlQUkJY?=
- =?utf-8?B?eWZFTmozUkhpdHRKNDY0b1hNK1k5UzdSL0h2YWxyZXBneU5DY01uNTFKMFk0?=
- =?utf-8?B?ajZHSitxTUQxckgrNnUvemlHakVjTUI3MXdteFBWZWpsVVB4Zmw3TXkxS0pB?=
- =?utf-8?B?bVd0RjJOOFg4d2Z5UTRJSXBPcmdkZ2tNMzNrcng4eDFuWTlBb3phRzNJZ1ZL?=
- =?utf-8?B?YldqSm1MMzRhcnpDTUtLaHR2Y2hXVjJtZndWR0g5STc5N2dzQWh3K0xkM1Rj?=
- =?utf-8?B?U0MyUjE1U2x2bkZyL1NNaWt3bWU5MHB3RUQ2dExoR0FLMWpPbXRJVWdJMlMr?=
- =?utf-8?B?SXhPeFZJTnl5WVN3RWNLNHhiQ1VZR1ZNeTcrcUV1RWg5cFdla1NQMjBGT3Vz?=
- =?utf-8?B?SExrQThWQ3ZQd2RpZHBZRUprSlhhbHdDRVNlek12Z1ZRbWc0OXpXR3BwQ3FU?=
- =?utf-8?B?UzhTcFM0UkJ6M2hEOURlR0ZXbzlDWWY1V0JKOVkvTGtiTDFHL2hqbkRRdjNU?=
- =?utf-8?B?T3RxV1haQXU2Zm5meGNhMzhtTlpoMlVrdS9XbjZGSStyYVZycUFISHZrSmxw?=
- =?utf-8?B?dHJQaVlCTERBPT0=?=
+ ARA:13230040|376014|7416014|10070799003|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZitHWEVJdGJBdUh1NXZjbkNSSnA3Skx1V1ZzZmpORlArcVdsMFdhdVZPYlN6?=
+ =?utf-8?B?TEc3eFJ4WU1PSGM1d1lwbXhlZWxBZElIYVphRlh6SnpJaE1iTFE5OCt0anlW?=
+ =?utf-8?B?R04zR3M2bGFGbDZzMm9WU1RZaHpaOTVlTmFFVGFEQ1llZ2NKN0tsRkx0YlIw?=
+ =?utf-8?B?SWliQU9XSzVrRFpqcGFrSUxEWVBURHdsUW9xVEV1VUpqdFFiWlRSRVlvS2ll?=
+ =?utf-8?B?aVpPUmZQNksrdE1CY0VZZnJUUTU2TlVMUWNJMUxtQWNGQmQwVEloWk84dmxT?=
+ =?utf-8?B?Vi9TcmxFaTdQR1FuT1V1NlRRN2VkOHN6WDMrN2xMZ0k1ZHlsaXRnNmtUSmJ2?=
+ =?utf-8?B?T1czZ29DbUNKeVp4R3ZkSGY1bmFjK3I5MjB3UFhNWmVTdFhIRjZPbVQxREtl?=
+ =?utf-8?B?anJaNXZNNnBIeTZDTjNXU29HNHAzSXRiYXFMLzVSTkx6M2U0VSs5dUhUMFNE?=
+ =?utf-8?B?djhtb2N3NFY0eldDNWFtd29KRlNTRkhuZnVwWXB3YklnbEpCbng1ZHY2TWJj?=
+ =?utf-8?B?RE5teHhNbW5zMFBOWTBrd0ZGOE92OTJuVk5Wb3lqaDFFUW1RWVhDVnNqNExB?=
+ =?utf-8?B?TUIyYlk3N29veFJxcVNzbnRxdFFsdnA1OHNsbWtOQzFnQXlMRDJQY3RxODd6?=
+ =?utf-8?B?blUzWGJGWlYwWW1JdGdkQnFRaEwrRkhIbFdHcWtpZmhWMDRLMCtPSzZnRjJa?=
+ =?utf-8?B?VmRXRlVHNVM0cHZQc3RuUzZYYWRnaDNMeFdhMVM4Uk10TVNtSmMyNWd4Z3Uy?=
+ =?utf-8?B?aGJQVm0xNWtJVHJWcUwwaWRFaHc2bmJLd1dDRHdvd0RoQ0Y2RkxGcEF3UU54?=
+ =?utf-8?B?MGQrNG5TQWUvVHNYWUtKaXh6OURRRFI1RUJtcjViNkpZUWpTTHZ5Wkh6bHNi?=
+ =?utf-8?B?MGxhYWcxa1lES1JGcnpnd2hMaCtuVDU3dmFyR3NoQlRLMVdKSGROTVhKK0tP?=
+ =?utf-8?B?M2QycHdHditzYndMWU9TYUFvVDNkNHREc0I5WWh5dC9FN09MSHRyN0F2TzRi?=
+ =?utf-8?B?b1VMQjlxUHJ4eDJWYnpuN0U1WXhPSCtJdW5iV1NqbTNrVnhScExKdWZNamxz?=
+ =?utf-8?B?YXVDS09oUDNweWRKV3RGcmc4SlNsMFFYdVdDRmFiOEFHT0tGbWY4aUl1VFVx?=
+ =?utf-8?B?cVNrUFpJOWRPWjhoNjZSTmhpbytpOEU4VHJLSjJYWkkzMmM3MXVFNzZqMXF3?=
+ =?utf-8?B?WnZ4cDF1cWVGdU5vVXhLblkzZFJ3dDh2ZHo5cWlUMEJJUEREM1FOZ1p0QTVU?=
+ =?utf-8?B?WFF2RFIzZkpaRi9nZ3VoV3pSZDBVWVBGYmE5VmFNSllYTHJQaHlMTndnRmNJ?=
+ =?utf-8?B?MWpPTHdmZ3piUHE2ZEE5UEJaTDdjdlZkNmVteTlMTnFVQVNZYmlCVWcrMW5F?=
+ =?utf-8?B?V3FNNUdiWkJDS05sY0J3ZFZ2TXNkdmw5K3NCN3BNU0lyVXJKWlg0ZktMUGtW?=
+ =?utf-8?B?Szlsc2l4Nm1WUFYrUFAxZitUcFlpNmpWRDIzVjNKN1FKbkdFUnArWkNaRjFs?=
+ =?utf-8?B?ZWFQUlQ1dStkMDJ3WlZJalRpaE13M0tQSXFvVXFaSXMzclYvU2lVM2lKT1p5?=
+ =?utf-8?B?eWxuS2JwZ2FMY1poeXg3Q1JZM20wamVSR0grZkRKcTB0Z0NoVDdLQURGVnFZ?=
+ =?utf-8?B?akExWWRENjJtVGYxTWVQdnBhQ2puUzg3QXIvSFJKd25sUDM1TDJWYmd1QkZP?=
+ =?utf-8?B?amNtLzA0R1ZXSHNNcHpBdTY2ZHhCalVtM0FMNDY3c2s2QUp5Z3RhY29sL2s1?=
+ =?utf-8?B?K2FrS1FmWmlmdW5ldUJqRlFvRVNleFhqYTNqZHQ1ZERNN2w2SHZGa1hodTlq?=
+ =?utf-8?B?R0QxN3Q1ZC9FVHVSZXJhTHNnOUo5SXZvQmlBNEZaamRvNUJTTU5sTFl2dFJm?=
+ =?utf-8?B?QW9GaWpQVWU5VFBTV3g3dCtYQWVTQWdRblNQOUhCa25iWWY2QjBtMWVVR3dy?=
+ =?utf-8?B?cVlrcWE4dW9BZnMxaXFkRVd2UjJwUWtucVJ1SWVPSDQ1VHdoQWZBSktUbGNk?=
+ =?utf-8?B?bzVpa1RHbUFBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(10070799003)(376014)(7416014)(921020);
+ SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TC90UllUN0NEeW84b1Y5T0szWFNXZFFFWlVOd2Vac3Yxb3h3TFZJL2Jkbzgy?=
- =?utf-8?B?RjdaNlBiOVlYV3FET2dIOWZ0SG4zcU94Q2JNNGRxcVZKd3JHbDdjL0E3QjZ5?=
- =?utf-8?B?RWNuSXdyc0FmanUrZFRtcEk1eUJaMDZJTUJ2dzJIUHQ5ek11cjE1SWlKUmhH?=
- =?utf-8?B?NXpBdHcxUFhNZVpwZXREaFM4ODd5eVNWV0NvK1dXVzJHTXUvbUlXbVdLR1NU?=
- =?utf-8?B?WXVFa3hNY1IwS3l5amEvUFZING1GdzlrUHlsbzByV2J5OHo2ZUJiM1prTHdM?=
- =?utf-8?B?ZFo1UHVQT3ZQNWZBVUNVdHR2MlFPS2pLR1M4OGFXd3J3UHJGeE8xV2xTWjNl?=
- =?utf-8?B?a09xa3hKajNHZDhvaTVzMDUwdy8wTTNpQ2U0cXM1WlpReUMzT0lZY3BvVHN5?=
- =?utf-8?B?ZFhJeEF2Wk1qYnkyK2ZZSVJZbm9ITGNobHpjOGlEOGcrOGFmY3BKOElWS0Mv?=
- =?utf-8?B?RWVjM0NUcGNPUHhPcG16V280ZHhicmhvQlRJU2NLN05xZk0xWTdVWFBGTVJC?=
- =?utf-8?B?RHVsZkc5U3BuSi9HS3pPOUV2eHpqQUlEZlNNMUlLRlFOaXQ4cWFORC9TS3JU?=
- =?utf-8?B?Q01BUGhydUYvTFVKZi9DRWtSN0JTeXhxQ2wxMEs4NUN6MUYxbTRwZzZNR29k?=
- =?utf-8?B?enNOVCtMbkRkM1VCYVFCQU5tVDdyTC9VQzBidWw1RHAxRWMxelVNSEpOVjln?=
- =?utf-8?B?bHFsSGxSTUV5ejloOHJrRVlWRGlWaC9vSWJBbUJmTGd4R2g4aHdNZ1VQNkhR?=
- =?utf-8?B?TG5idi9rMnRsZU5zQXVNY0t3YzRzUTlCZkJEbDhJSVh2RFZjY0FORkRyckMr?=
- =?utf-8?B?VjV4NUFiVHZoQ0VzUmMrUmJ1ekwvazdMN1hWNThjNTIwc1FaL3MwUkFzN1lD?=
- =?utf-8?B?L1RoTDRDRWJkWVdBL1dJS1VGZExaK21tN1kvK2JFWmN6OFpvY1d4bk9jdVo2?=
- =?utf-8?B?SUp5d0VKYW9uMlJIVFdCOFJZUVhQTHBhUzdOcXp0ZHB5UTJZK0NSVFUyRys4?=
- =?utf-8?B?eU5hbzB3WHkxL2dKTlpMM2JIakdvcGlYUWI5Y2o5bG8wdVJLMkkycHlZMXVp?=
- =?utf-8?B?Q1lUQ2Z4bkxPVGZBVDBENzYxdGJBaWhLaVhmQ0YwSHZIQ01mN3U3bEE0K081?=
- =?utf-8?B?QUNmVlU4ekpWbXhaeTU0M2J4T3k0NHNPSXB5L29xRXdHRFFOVnZEeTd4aFRh?=
- =?utf-8?B?bjBVYmNUVHZtRmtSVGNBbko1ZFo0d3lyNjMrcXRxSis0L1ZGcFFNNWlpSFVK?=
- =?utf-8?B?ZmN3TEdrUnhTOXVURlp1UnNUL1FtSTd5UTMwZkpmQk1IL1ptVzB5NjJYTlp3?=
- =?utf-8?B?TU9idWdzc3cxd2FQZ2M4UFhlQWhrMjhvc1h6dm5TbThETkg2bW0rdVBXK3dQ?=
- =?utf-8?B?UXRNQUxFeDlhY241dzZhbFloN2xRQ2Y4YXJ6YVpEYW05OUxZQmgxNXFvQkEw?=
- =?utf-8?B?RDlGZmhoRGkwNU1uNVJFVW84QXc4eXlKbCsySEg2eVppQTFjalFkdk5vem9H?=
- =?utf-8?B?K3IrdWJiY2RINTNRN2tBRE9FNUgyUElOd2J3WFcrNHVuajVUdC9jSzVHMmlF?=
- =?utf-8?B?bHgvSC8yYUhHVC94RlRDc3c4NTdJd2QwWGNNR1I1NmpaSTNlY0dkR2tiRkNP?=
- =?utf-8?B?WjNWTmRuQXdOTUtrZGhsOEhUekl5aGVoNUpJUmovNThGYjBscG9zcVV2NDJq?=
- =?utf-8?B?WEJIYkhkRlJSYktYbUc4L2dDY3Y0T1RWd2IzYVVHT25QVVllc3NObyttWUM0?=
- =?utf-8?B?MkNJcVdSbFhqZk9tR0xKcCs0UFBxaXhNMzdWQU1KQmV6dXBXdmRlVTF4VTZP?=
- =?utf-8?B?WUsvUDIyOWl0MXNUZVVMOCtFclBhbldwNFJjRmZJYXFuYzEwZm1XUzJoa1Ew?=
- =?utf-8?B?WTZLTFgxcmJWYm9ySHJMK25SVnl6TkNoUjhpVnhwVyt0MW11REZTaUVlanA1?=
- =?utf-8?B?K2VNM2U2MXl2UkFUWFNvVis4c1pDVndVeWRDbm9ROGJ3MSsxQXRIZjZLU2lp?=
- =?utf-8?B?ZktkK1J6QllMaTFMcXJCMHZmOEI5WGRldE1SK2RRQWZsZW1qZXo4N2FhNXZs?=
- =?utf-8?B?MWFWTHBVNU0rU0k0OWF4TURmeHRNNVp4S3VZTzU2TGw1azFVU3VWTFQ2c2x3?=
- =?utf-8?B?ci9aQkVsSjRiRVQyTkx3blYvUXYvODVDb1d0anRQN3l0UzVDZW4wRWEwSWZ1?=
- =?utf-8?B?V1k2UFlxQjR4SVE4eFRYV1NZdW5za2c2VzdkRzIrZ0ttM3ZoUHBOK09rc2Rj?=
- =?utf-8?B?bkJhYS9pTWdhenpIZm9HYUZHSlJ3PT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YmFXbTlZSW1wRlVmQUZabUxlMDBOb3NiOFRWek0vOVpSdndxM2E1ajlsYlM3?=
+ =?utf-8?B?T2tyU2lJbXBUa3pWRGJneEVjaFBWRkVCSHJBaWZWdGtXWkxGNGEzenBmS0J0?=
+ =?utf-8?B?cDhtYkFIRnN5QWZhQy85eTBSRWYxNnJMc21YeFhEMWlRUGhVUG42d1MzRmZ3?=
+ =?utf-8?B?YVM1L3JOMU9RMkQ1UE0vZzNKcVI0cE9zUGZUMVhNK2VTalpMNWtwck9WaDB6?=
+ =?utf-8?B?cE81bnRHR05GVzRzeHMyYVlEeFhCK0FVVDMwZFQyL1g0WWhCb0Vjclo0SUlo?=
+ =?utf-8?B?eENkbDJqbUlRcWFMZlFPODhlR3hHcnFnMTdyR01tVzlXU3FXbExaTkQwYndQ?=
+ =?utf-8?B?K3RXQ0JrNlRmSlY4bVA1bnBwNVZablF1Sk85eS9yL21LOVN2dVZDVEtLNlh3?=
+ =?utf-8?B?TTJFZlJKWnkrWTVsMVQyMlJzMWFEVTRTa2ZDVi9tbytnbDFRbUUxVXpuSGxn?=
+ =?utf-8?B?dnBaRFFuZGF6WjYydUxnbDlOQ2o5bFdFcDNLS2pFVnB0SE85V0hBZWtVRnk4?=
+ =?utf-8?B?TzY3MzN6dVZualZHdWtJZEpPWXpqTmxkZW5pNEIrZWdGM0xOc0c2Vk9nOGhD?=
+ =?utf-8?B?V1EwUVIvU2JOU1NJTWJRK0ZTc3NIZ2YyRTRHTnhmODR0TW0yZCtjRXk2SHFl?=
+ =?utf-8?B?a2dkVlZrWTJZcVRwYTdkdnQzNmp1ckZQSUYyT3pwYkVycHZRSkE3SGNZZGxr?=
+ =?utf-8?B?ZW9DNE5mMG9KcWtFNHB3YmtsbW1WbWtrd3ZYTExYNFVKM1lDVVF4OWMrRFRN?=
+ =?utf-8?B?L0lqcU03ZkVoOVlaemZzL2ZvU0JRWmJhWHloNHVQM3o5aXJXZmJ4WnZ2dmJs?=
+ =?utf-8?B?MWFDYjBBcENFY3RwQTdLWHRRU3VOR2FlWEd4M3RxcC9kcDRxVHp2cGNWa24r?=
+ =?utf-8?B?QTc4NVpmZGJ2QzZHVGRaOGI5SlZGcm96TU9KUnhKNHFRYStiL2VXL29LYXYr?=
+ =?utf-8?B?djEvRVMxSkhlSzg3VGdOemRudE5WQ2g2UUNONGxvb2EyQzlSdmYyUi96TjRH?=
+ =?utf-8?B?Y0RpeDZhOEJ0OFpPQkE2WXk2MTRldTNucitzTHRwUkhsOTUrd2M0RlVvWDVa?=
+ =?utf-8?B?THRJK3VkazB0cU5vWjYrby9aTnZqRXVWWkhaQjdVNzVCdmdYSldQRzRvdHZG?=
+ =?utf-8?B?UjdXcFJLZzBKWHdqSTBZaW04VTlzSGpTYkJiaStKUlVMSGMrMXRybExXa0FX?=
+ =?utf-8?B?QVNFVWMvTCtDUkdoRkFua2dHSjNsSFVCeXpSYnlKK2FKZU56YU9lOTJUcFJs?=
+ =?utf-8?B?SmRWTU9SRk5naURyM0o5MG8ySzhQdDF4SHd2QWVBd0I0aXFmaFVURHlzbTFX?=
+ =?utf-8?B?TUI2Nk0ydmxSWHBNT1hiZE1BRHl1VXBXWktiL3M3ZVlGWG1CUmJ0T21hTlJY?=
+ =?utf-8?B?MWNXWUY2RWVQbXI4NmZOcDIxR0ZOdFFHTFhKYWZIZTZQQzVGamMwckUvNDNS?=
+ =?utf-8?B?Snh1YnE3eFRZNFl3eVdnaVpFdjZpalNCOHRoRjByS3dsdVZZSk4yTnh1UmRw?=
+ =?utf-8?B?VElJOWZ2cUxZMWYwcUlRMWpiMUVkQ2JJU3NWc2dWUm4zNGwzTEZzc1VtSDVH?=
+ =?utf-8?B?a0szR3I2RHlQNG5nUkd6Z01RV1c1bVozcEtWNU5QWUJad1BrU3diU211TFBM?=
+ =?utf-8?B?SFh4eGllUkdMbUpjZktCZnRpTWJLOXJNQ3o3K01lOXZ1em4vMVBHTnJ5bFRs?=
+ =?utf-8?B?dlhaaG03SSswd0tpL1piNmo4bTJ5a1dxMHFPSXNZQ0xGRy9QNXlOZWVpMWpO?=
+ =?utf-8?B?b1EwN0pVaWxyRGhWWEVGd3NpZGpMY2Nmai81dUhPaXFvYWs5RjFoUUpDNU5S?=
+ =?utf-8?B?R0U3WUd0T1IwaFhXcmhLb2hneXhsTkxrMzRhakE0VklWUkNkUG9GaGJiY3pL?=
+ =?utf-8?B?dFNmTUFncnk3TVVQSmdYa2ljNFlTS1h3bjVmT2ZBT1UwNmRXVXIwaTZSejZt?=
+ =?utf-8?B?SU42WGxFZXBILzZydEUzU0YyaVorT2dUUDZZQWZScWR5dFBqZWRWMFRYODdU?=
+ =?utf-8?B?RWZwM3l2WXhLbHhLaE5aQ2VuaVFaWWt0UUplcE8vSUpQaUM3UE1OcWRia2hV?=
+ =?utf-8?B?NUdsQWY2N2owLy83Nkd4YjRzL3R5TGR3SUtnWXhEbFR0cGtpRnp2Qmlmc1FT?=
+ =?utf-8?B?eEhuQS9ybzFkN1pCSTljOHJOZTFQUWJHZXI4THB1QzNON1hBV3lZMzI3L1E0?=
+ =?utf-8?B?NDQ0cUM4RnN5SVM2WnBiTm4xWGloZ2d4U1dMZTNIZVFqUVBSMnBuM25yNXFm?=
+ =?utf-8?B?QVA3L2Zqbjdzd0NtOXJCL01qRG5BPT0=?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e19da22-0470-4a7e-2eb9-08ddf745efc5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fd3fc8e-e165-4ab8-9d5a-08ddf7467f24
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 06:29:50.6834 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 06:33:51.2068 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X4/LXBw9wZx7FMawmzvnouey5LvPquJuDTVNj1uxQ8RjbMs/ZNZZS2n2SQ/FTwABKa5ppmvHEB3mqk8cJec3qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4170
+X-MS-Exchange-CrossTenant-UserPrincipalName: s7guAdpXwSk5VzuB/fQK723jUkAkW2phWjETmuTpm2YpLYVBT+gLsqnt1S0t+b0ld4x9O3yBf/z0cMOz2kowcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6803
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,133 +185,67 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> CSUS clock which is camera MCLK, is also a clock gate for vi_sensor so
-> lets model it by creating CSUS grate with vi_sensor as a parent.
+> Tegra30 has CSI pad bits in both PLLD and PLLD2 clocks that are required
+> for the correct work of the CSI block. Add CSI pad A and pad B clock gate=
+s
+> with PLLD/PLLD2 parents, respectively. Add plld2 spinlock, like one plld
+> has to be used for clock gate registration.
 
-s/grate/gate/; "vi_sensor's" in commit message.
+I might add a note that the spinlocks are needed since both the PLLDx and C=
+SIx_PAD clocks use the same registers.
 
-The commit message is a bit difficult to understand (to me at least), perha=
-ps explain it in terms of the clock signal flow, e.g. "The CSUS clock is a =
-clock gate for the output clock signal primarily sourced from the VI_SENSOR=
- clock. This clock signal is used as an input MCLK clock for cameras."
+In any case,
 
-For Tegra30/114, I think this is correct. For Tegra20, I noticed that for t=
-he two other output clocks -- cdev1 and cdev2 -- we already are modelling t=
-he source clock muxing in the clock framework through clocks called cdev1_m=
-ux and cdev2_mux which are registered as read-only mux clocks in pinctrl-te=
-gra20.c. So I think the same should be done for csus -- add a csus_mux cloc=
-k in pinctrl-tegra20.c, and make it csus's parent. For Tegra30 and later ch=
-ips, these output clocks seem to have only one source clock.
-
-Thanks,
-Mikko
+Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 
 >=20
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/clk/tegra/clk-tegra114.c | 7 ++++++-
->  drivers/clk/tegra/clk-tegra20.c  | 7 ++++++-
->  drivers/clk/tegra/clk-tegra30.c  | 7 ++++++-
->  3 files changed, 18 insertions(+), 3 deletions(-)
+>  drivers/clk/tegra/clk-tegra30.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/clk/tegra/clk-tegra114.c b/drivers/clk/tegra/clk-teg=
-ra114.c
-> index 186b0b81c1ec..00282b0d3763 100644
-> --- a/drivers/clk/tegra/clk-tegra114.c
-> +++ b/drivers/clk/tegra/clk-tegra114.c
-> @@ -691,7 +691,6 @@ static struct tegra_clk tegra114_clks[tegra_clk_max] =
-__initdata =3D {
->  	[tegra_clk_tsec] =3D { .dt_id =3D TEGRA114_CLK_TSEC, .present =3D true =
-},
->  	[tegra_clk_xusb_host] =3D { .dt_id =3D TEGRA114_CLK_XUSB_HOST, .present=
- =3D true },
->  	[tegra_clk_msenc] =3D { .dt_id =3D TEGRA114_CLK_MSENC, .present =3D tru=
-e },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA114_CLK_CSUS, .present =3D true =
-},
->  	[tegra_clk_mselect] =3D { .dt_id =3D TEGRA114_CLK_MSELECT, .present =3D=
- true },
->  	[tegra_clk_tsensor] =3D { .dt_id =3D TEGRA114_CLK_TSENSOR, .present =3D=
- true },
->  	[tegra_clk_i2s3] =3D { .dt_id =3D TEGRA114_CLK_I2S3, .present =3D true =
-},
-> @@ -1047,6 +1046,12 @@ static __init void tegra114_periph_clk_init(void _=
-_iomem *clk_base,
->  					     0, 82, periph_clk_enb_refcnt);
->  	clks[TEGRA114_CLK_DSIB] =3D clk;
-> =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
-> +					     clk_base, 0, TEGRA114_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA114_CLK_CSUS] =3D clk;
-> +
->  	/* emc mux */
->  	clk =3D clk_register_mux(NULL, "emc_mux", mux_pllmcp_clkm,
->  			       ARRAY_SIZE(mux_pllmcp_clkm),
-> diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegr=
-a20.c
-> index 2c58ce25af75..bf9a9f8ddf62 100644
-> --- a/drivers/clk/tegra/clk-tegra20.c
-> +++ b/drivers/clk/tegra/clk-tegra20.c
-> @@ -530,7 +530,6 @@ static struct tegra_clk tegra20_clks[tegra_clk_max] _=
-_initdata =3D {
->  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA20_CLK_RTC, .present =3D true },
->  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA20_CLK_TIMER, .present =3D true=
- },
->  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA20_CLK_KBC, .present =3D true },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA20_CLK_CSUS, .present =3D true }=
-,
->  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA20_CLK_VCP, .present =3D true },
->  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA20_CLK_BSEA, .present =3D true }=
-,
->  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA20_CLK_BSEV, .present =3D true }=
-,
-> @@ -807,6 +806,12 @@ static void __init tegra20_periph_clk_init(void)
->  	clk_register_clkdev(clk, NULL, "dsi");
->  	clks[TEGRA20_CLK_DSI] =3D clk;
-> =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
-> +					     clk_base, 0, TEGRA20_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA20_CLK_CSUS] =3D clk;
-> +
->  	/* pex */
->  	clk =3D tegra_clk_register_periph_gate("pex", "clk_m", 0, clk_base, 0, =
-70,
->  				    periph_clk_enb_refcnt);
 > diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegr=
 a30.c
-> index 82a8cb9545eb..ca367184e185 100644
+> index ca738bc64615..61fe527ee6c1 100644
 > --- a/drivers/clk/tegra/clk-tegra30.c
 > +++ b/drivers/clk/tegra/clk-tegra30.c
-> @@ -779,7 +779,6 @@ static struct tegra_clk tegra30_clks[tegra_clk_max] _=
-_initdata =3D {
->  	[tegra_clk_rtc] =3D { .dt_id =3D TEGRA30_CLK_RTC, .present =3D true },
->  	[tegra_clk_timer] =3D { .dt_id =3D TEGRA30_CLK_TIMER, .present =3D true=
- },
->  	[tegra_clk_kbc] =3D { .dt_id =3D TEGRA30_CLK_KBC, .present =3D true },
-> -	[tegra_clk_csus] =3D { .dt_id =3D TEGRA30_CLK_CSUS, .present =3D true }=
-,
->  	[tegra_clk_vcp] =3D { .dt_id =3D TEGRA30_CLK_VCP, .present =3D true },
->  	[tegra_clk_bsea] =3D { .dt_id =3D TEGRA30_CLK_BSEA, .present =3D true }=
-,
->  	[tegra_clk_bsev] =3D { .dt_id =3D TEGRA30_CLK_BSEV, .present =3D true }=
-,
-> @@ -1008,6 +1007,12 @@ static void __init tegra30_periph_clk_init(void)
+> @@ -154,6 +154,7 @@ static unsigned long input_freq;
+> =20
+>  static DEFINE_SPINLOCK(cml_lock);
+>  static DEFINE_SPINLOCK(pll_d_lock);
+> +static DEFINE_SPINLOCK(pll_d2_lock);
+> =20
+>  #define TEGRA_INIT_DATA_MUX(_name, _parents, _offset,	\
+>  			    _clk_num, _gate_flags, _clk_id)	\
+> @@ -859,7 +860,7 @@ static void __init tegra30_pll_init(void)
+> =20
+>  	/* PLLD2 */
+>  	clk =3D tegra_clk_register_pll("pll_d2", "pll_ref", clk_base, pmc_base,=
+ 0,
+> -			    &pll_d2_params, NULL);
+> +			    &pll_d2_params, &pll_d2_lock);
+>  	clks[TEGRA30_CLK_PLL_D2] =3D clk;
+> =20
+>  	/* PLLD2_OUT0 */
+> @@ -1008,6 +1009,16 @@ static void __init tegra30_periph_clk_init(void)
 >  				    0, 48, periph_clk_enb_refcnt);
 >  	clks[TEGRA30_CLK_DSIA] =3D clk;
 > =20
-> +	/* csus */
-> +	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
-> +					     clk_base, 0, TEGRA30_CLK_CSUS,
-> +					     periph_clk_enb_refcnt);
-> +	clks[TEGRA30_CLK_CSUS] =3D clk;
+> +	/* csia_pad */
+> +	clk =3D clk_register_gate(NULL, "csia_pad", "pll_d", CLK_SET_RATE_PAREN=
+T,
+> +				clk_base + PLLD_BASE, 26, 0, &pll_d_lock);
+> +	clks[TEGRA30_CLK_CSIA_PAD] =3D clk;
 > +
->  	/* pcie */
->  	clk =3D tegra_clk_register_periph_gate("pcie", "clk_m", 0, clk_base, 0,
->  				    70, periph_clk_enb_refcnt);
+> +	/* csib_pad */
+> +	clk =3D clk_register_gate(NULL, "csib_pad", "pll_d2", CLK_SET_RATE_PARE=
+NT,
+> +				clk_base + PLLD2_BASE, 26, 0, &pll_d2_lock);
+> +	clks[TEGRA30_CLK_CSIB_PAD] =3D clk;
+> +
+>  	/* csus */
+>  	clk =3D tegra_clk_register_periph_gate("csus", "vi_sensor", 0,
+>  					     clk_base, 0, TEGRA30_CLK_CSUS,
 >=20
 
 
