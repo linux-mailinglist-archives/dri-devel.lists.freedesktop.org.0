@@ -2,172 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA151B886FC
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 10:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90BE5B88773
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 10:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A333C10E285;
-	Fri, 19 Sep 2025 08:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88E4A10E96C;
+	Fri, 19 Sep 2025 08:47:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="nLH3gLeF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pK/GKjrs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013001.outbound.protection.outlook.com
- [40.107.201.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E673710E285
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 08:36:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TJkl00sL+LEgIryLozqv/5nitZtiyg/9rD1SASE0OWlyzK8FiQfijLG4B44rdg6kVOQOaa8GYGbdCmrQJQDeFFZWNnZHaUSfoU2s6wGBuuNQK1iJ9NCtmVySZveBcMJijDT66RipOSPl0vRAPHIzE6LF8dkNTx0WftHrAtlYctxYiA5Bc//kGgoqFSC0EL9Qkdqne6mj88XIQtasqISxsRLk8P/MlUdnSaIf3P8JG4Ovb96vR5Cg0wXlT9D4cBs2m2koyisxl4e0G1ySssC/eD181nNGKFtPR+IQf+7SaEy557/hGqoKHTZQ7xmG/3Xo44aPmDBsliIl55wj3DptpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jXDYdHOJmboi90gsc/Dxg6RLKfdYuW6ueYEtK/dqCus=;
- b=QhK6yIWfDK0CAVbL4skpKpMlbw84sSxK47RsvMjkcBppBg5YDQmBWGZ5IJE7mbwQkaApG+80JdUIOh0fha5TVgl4Zw7xnR/Uqq+7C7o+SMNAx6BIHRpOHIZXVHr+4QPrp/i84RIg9mIE2XBxmUfQQa3XythxKmNxcGrzWAidvM6ISN46rcuGEhLdTYqod5FaM0iorcPPjmkXkwZbuvrMxtf3Oh1CViPwyd2qT1jhXSiHl5m4FrbyWlv2WhcwMiCEvJl+mXXCbBeYDGT29L4WCQ7ySnGBPhbai1H3PB7YmjE56vBPr2bOSTOHsuEM2lApfePcbJu6cIMNTv/voRDxCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jXDYdHOJmboi90gsc/Dxg6RLKfdYuW6ueYEtK/dqCus=;
- b=nLH3gLeF6nS+/gWvfhVQoNbGwhmETRFdRvb+mlXHFkkY4xEYhPcxiso4tDd1POhke1df3Z+X6uJEYgAO4KRNxvSE9EHi9otg3SOLidi7T79rmyxDiMLd0x70Hc4ySPlN675w+jwyjbDyvRuEHDkMjSd8XvQ1BGNd3J2YPcRtoQZXA+Qn9Dzo46gpEgKEi4ztA7EQ/0mQby75FbnDkW/8vsqcPUDM+RZ0HAYoEhtmrAx8QvznPEzxJoRQ6t5KWJEoZtAfaMryvcxJ4+GIx1LYVoYDWtR1c0WBaNBPTDHTW7Hrdro4KnCcoRWcSwaFk3KZ4s16pIpaSCroLRTbzi/2Eg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by CH2PR12MB9494.namprd12.prod.outlook.com (2603:10b6:610:27f::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 19 Sep
- 2025 08:36:16 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
- 08:36:16 +0000
-Message-ID: <5e4af716-e4ed-4c03-9ba9-6242977258d8@nvidia.com>
-Date: Fri, 19 Sep 2025 18:36:09 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v5 05/15] mm/migrate_device: handle partially mapped folios
- during collection
-To: Chris Mason <clm@meta.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20250918164213.2866702-1-clm@meta.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <20250918164213.2866702-1-clm@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR04CA0019.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0::29) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF81410E96C;
+ Fri, 19 Sep 2025 08:47:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8RTViDZT+J/z4RR+d5SoyTf3sfJaI4OVNgODzV7vQ5Q=; b=pK/GKjrsilOkSbSPMeXozaMh5O
+ d4A9BZoambXsXqu0EpzvXV9EXZVB8HOHPhdN5/TsfQE52YUedUpGmVVrGcz5onitqi+ui+XVKQRvA
+ wbtVte33GvJfaBjbW2Kf81Ro9o/4J6tfpWjh26rCRgFatWagfTOuwttiiGIajXFyYNF1cdyNFjAaB
+ mJ9O/pmAzm+110FhW9o2OrWcC7Zmbhjwp64zlET8aRNctYjHUsc+hNm/CUd2y5X+doET3vA0G3gdm
+ qXqlQ0n7jin9C3Rx8dKfoiVa9oN6Ggz8wTaaRAzxPx1bdltFpal2xG+pX3hvdjAkJAD9JToHKIvid
+ 9WQl2y0g==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uzWlU-00E190-Qg; Fri, 19 Sep 2025 10:46:48 +0200
+Message-ID: <76861e33-8d07-4b97-9f91-4c5651732e91@igalia.com>
+Date: Fri, 19 Sep 2025 09:46:47 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|CH2PR12MB9494:EE_
-X-MS-Office365-Filtering-Correlation-Id: d011201b-e528-41cf-caa4-08ddf757997e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YmlPaGVvekpPOVQxd2JlSC8rVldDWVpCQ1VKZTErcnQzTmsxZkkwK0VzcnhC?=
- =?utf-8?B?ZStMbUJ2d0FVSEhOc25ITE5yclh0OGllRlZUM1ZlREEycG02K1dLVktUQkdy?=
- =?utf-8?B?a3M3VE9yUUZKdmxMLytweGY5MERRZmRFdjdFQUFpbW94Ny9NL2VoUWdZbm5E?=
- =?utf-8?B?RmFITnVMTHpoVGEzdTZqRE1DVDRlY015N29ReGdQd2c1UmVVV1p2QmhSU2NV?=
- =?utf-8?B?WC8xaUFrTG90M1NOY0dsZ3NJckhCeW1ZSy95R2pDaStMNmhKVmptL0NmbHo1?=
- =?utf-8?B?VU02cGQ5RXpJYUtIRWNjMGZzNklKcGJudnIzNS84RkI2OWptcFhrQ3k3QlZM?=
- =?utf-8?B?dEIrUS82blhqTitNWSt6TVYwUWtHMTBNWVZ3dGV0ZHFCR2JrbzRHSmY4TnQv?=
- =?utf-8?B?NC8weVZHbUI5OGQ4bkpaV0I5RWEzNnpyVU8rb3FjdmwzMW9zcFhVY1ZHMmxZ?=
- =?utf-8?B?d0ZMUzlIOVh0MWp6MmY4SW5RZnEvMzZ3TjR6Y3cya3BjSFM3b00vS1VSMUtN?=
- =?utf-8?B?WnArMU5mRUZNYXdlLzBlMGIwOG5aOW1oY1Jtb2ZwYkZqTEtyb0o1SUNnSU1I?=
- =?utf-8?B?UUUxaFRzZFlvcUxwMlgwT3Vybm0zcjMwaWpNM25nOFVYVi93ZzlCUGRJV1ZS?=
- =?utf-8?B?YWwvbVlTRW9SWkdtWG81b3F2NUxwRVRQbWRONW5tNmxiUkZlSlFkWjNVR0tx?=
- =?utf-8?B?TGVtNFdKMHc5dVpSaS8vb2x0dWY3eEVicGgzR1RsYlF2NlE4YmFxeDdXRU9j?=
- =?utf-8?B?NlNiSWh5VmRTTDA4dmR4Y1hBTFJpaHBFOWprQ2t2eVJobXI0UDJzNi9aTFpw?=
- =?utf-8?B?VU9jVVU4UnhhNS9WeXY4Nm5kTzIvblpmOHZXaHhDY2oxazc2eFFWdUQ5WHQ2?=
- =?utf-8?B?TEttTGtZNXFIeWhzQ3M2elljaG1sbnVzNXhPa1k2aFdIOFlVSVhiT3NUK0ZO?=
- =?utf-8?B?R08ySXd4L0hLdXBCNEJYOUdNWWU5SXBITFNWZDhKemZCeDBxVGpFS2lOZXNX?=
- =?utf-8?B?MHJSZlhoQm1uQXdsMG9XUEhPNXkvTnNkc3FsVStxRkphL25IeXhCVW9RM0la?=
- =?utf-8?B?bUpsNkVrNW1ZUURaQjlSNWFNQWdYYUNDUDFXdE9PditCdldyWGJ6YStUK0Rp?=
- =?utf-8?B?Z2Y0Mk14L3BINGpCaU4vR0lpMFlmOFdjY2dEUTEvajFYNFZwRGIxRUJMdEM0?=
- =?utf-8?B?NUw5MDdzcHBwS09mT0VYRDZYbkpOSmtCbGJkL3ROL1BVOHRtUmJ3ME91aTh0?=
- =?utf-8?B?L1RCbDJPMmJvZUgzeUczbWR1Zzk0V1FWZzNUKzErZUpJcXduc1FHdmNFV0pJ?=
- =?utf-8?B?VVd6dktRYU45dGtIKzlFSFM2UmZBOXozWU8wWkxVZVFzenkrMXQwWUxsaTFF?=
- =?utf-8?B?ZzJsTUdSMExxeldteTJLckFVT3JLeVB0WGNDNHlsSGZHR0FJVG1XZjVzZWkv?=
- =?utf-8?B?VC8yRk9wYVl3Z0Q1MDY5VVhRZUd1SVdyY1dRRExaanJqNVZCN1BjbFdDWnoz?=
- =?utf-8?B?Y04wTXNXV3V0YjB0M3FaTWwraUlCT2c3OXFjbTA3N3pvUVBNazY2TzJwK05l?=
- =?utf-8?B?bFhrT2xEMUVSMTdQek9GOHVUZ3JlNXRGTUJ4c0JSSENkdVd6azgvSjdUUjdH?=
- =?utf-8?B?OXp0ZlRxcmlFd0dTRHh2Ym52Vno1ZUpwSDZiMVpGYmFyRXA3c3FlcUdEck9M?=
- =?utf-8?B?WTNrdDJqR2cwbHdBeENEWTdVZUZUaUgrMS9wS3FOUFZzWi9GOWI2b3Zibkha?=
- =?utf-8?B?cGwya3ZwNmJFK3Y2RVpxWUhFR3lnT01JVWFhaGtGcStId0VGZVl3c09na3p1?=
- =?utf-8?B?QlNzSUpFTlpTZnpuYWlBckJuaWN1OUJvTWdSRjBqaENwOVV0TERmTUtVaThE?=
- =?utf-8?B?dEJvQWNLWU5IRWwyMkl6UnJVcWxwNlZ0dU9QOFFrZkNCekNqYjVrUDdWdzVC?=
- =?utf-8?Q?ijFlWsvaLVE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjFUaXNBemlwMXNjRnpzOW9SZjJFelhkc2w4S1hWbktVdEM5SzU0SnozTzZR?=
- =?utf-8?B?QlRJTmlUanFFMEx6TGNEbjc4cUMrOTE3bVd6UVFXakkxVTFTblkwQjM3dUtm?=
- =?utf-8?B?L2p5VWdOd2NyRS9oWXdGdERSbU5RYzVWRTNuWFhUQVJyMFJMZ0dzNUVxU0p5?=
- =?utf-8?B?Z1BpWGFDRURleFF3RE1FSWxrWlptSHAzcnZST1RlTndSVzh1ZERpcUwzRG5G?=
- =?utf-8?B?d3Rqbmd2UnErMWY5Z0VWbFZRaWtMeUc0VjR2eXQxVFA4UWt0cnFNeEQxMnFI?=
- =?utf-8?B?UGgyd1ExMTJMRlBsandSOFB6dlBZRjgxa1R1V2tmYjNrN0FFc1VlWjhzQWFt?=
- =?utf-8?B?UWNNS2ZGcXVPT0dlQk40VFRXYktqRHpQMDRqK1NkRDU4N29sVTcwbWRvazN5?=
- =?utf-8?B?TXlMTHdncnJMbkZNbmRRRzkwSjNPVnYyM2tFSDJxUTVWVkxrYzhudG9vczJp?=
- =?utf-8?B?M1pBTEJTcWhOZ1ljZUFlRkFzMXo0dkJIVzN3bjJUODNxOC9vTi9DRUFRQnZ1?=
- =?utf-8?B?T0ZScndwMG81QUR2K1g0L2pmV0gzTkp1dWRyNGRzNVozS2JxOWc4TmhwSkt1?=
- =?utf-8?B?R0lSUWRpY2NlbnBLOWwrZDZYMFl1a3B1VkNxT2ZOT2tNek1lOTlRdUVZSGF1?=
- =?utf-8?B?ci9RbSswR01ES1E3ZmNybDdDTytJeXp1L25pM0VqUUdFMWpRcFZSalNvZVky?=
- =?utf-8?B?SWdjTHlpUzFZdlhDRDJHelJQRDFIa0NsVGlXKzdOR3FsWmovSkNoaXlaNUIv?=
- =?utf-8?B?YmxGOFYxNjcxaCtUdit2TThYOWhEK2pERXNjc3lGV2VzWmtCRVlDa0c3MEhX?=
- =?utf-8?B?ekcwbkppS1JnQzVvNXpqSmphT1lkSnZBeW9PMVpTZW8ydWJhZmJ3bmpGSjdt?=
- =?utf-8?B?Mjg0T01COU9saXBpVit4Z3MzNlAwRTZIRG5XQlYyQ0FzbkZrMjdtZTFGRUFh?=
- =?utf-8?B?c2VoZ3NtRTBQS1VVbTJESW5xT0gyZDZFMFZmNm1iQlA5eDJmSEQ5cGJmU21S?=
- =?utf-8?B?eGIvNFRxalR4a250UktCeG02SFVDMWZnNFFTQlRtUGRmSnBWV3E2U05wTTdu?=
- =?utf-8?B?NG5FS25XSEdON3Vqdjl6MGw1KzFYVlhVemp4RURJSjB5SFZLUGpmbzF5cW4y?=
- =?utf-8?B?RlJBcDVZOFlpSHIva1RuMURCejVReFFkY0FRdFR6U1Y1OEMxQm5EQTNGZ0JD?=
- =?utf-8?B?Rk5jcXRBUGF6cy8xZ1d6UnFQOUMyYmp5YXppeUpmNHQyMDQwRGFJOG5meXRx?=
- =?utf-8?B?TDIyQ2F2TDVpSG9UUWhUOU5adzV2ZnpkUFRzZmFaZ0dwZXRETklNSlk2Zklm?=
- =?utf-8?B?QWhXQS9hcHlzWDNCRHFUQUZoT0ZEaU5mLzAyWFIyS2xPc3dBc3d1WFlteTNK?=
- =?utf-8?B?a3VlWFA3VEpkb1d5clQzVWN0QUpFUHZka0c4UHdjVnF5eHZRVG9kQ2ZXWWpN?=
- =?utf-8?B?M3AvV1FhNlpYRklrWkdKMWVneWhLbzY2NVV1NXVpQzhMbmdpc3Y3aUZqdEJp?=
- =?utf-8?B?YzFSb0R3R3loTE9aaktuSEFmelNSZzFPUUk4NmFTdEZPSklsc3ZOWkV6RzZF?=
- =?utf-8?B?QTFtUW1mYzlkeWZ2T2RWVHFwNmtqQmlETDl0UHpnVkI1dUx1UVl3TlpxTGNJ?=
- =?utf-8?B?NWYyWDBDZEFMMVBiUGhKSDF5SHlxanVoNk9oQTlKbE5GbFFncWl4MFRycjRE?=
- =?utf-8?B?SEgyL1VJdnQzd3JWeEFXTmZWbW50dWsvdThJclBENlk5UVd1YWNSOGJTRjF5?=
- =?utf-8?B?bUxpMFJVRFdNQ0kyTmh6SmovVXlNWXk1TnVUdE5LZlIwV2hoOEFiRUUySTlD?=
- =?utf-8?B?elE0dEJEdU05VmdNWi9EZjV1NW9IRDBQSytESGF4UnpTTVlEbk81azcvWnBl?=
- =?utf-8?B?TXhPT0ppazZ4Y0dsVmtWcWRVbTNTY1dQbEc1Ris1L1F1TVpOOUVZWGEweXZC?=
- =?utf-8?B?bmZaMHJCblUxT2dUMXBxOEViVXV2SWYrMVo5WGQ5cEQ2VzIxd014c0dkejRU?=
- =?utf-8?B?RGt0ZGhjdC80ZUJsNnBJWEtrczl3SWpjV01ZL1k3QmZhWkU2ZzFXWnNDTXM3?=
- =?utf-8?B?SW8vcXJNRGNVdzZiYksybGNqeVUySjUybzFTMmY4RWtvNVdOSFc2Q3c3WFkz?=
- =?utf-8?B?dS9GeHVKT2t3VDZpSFptY3lqWHU4RVVnSUdlaXc1OCs1U0Ftc2xHUEp2UDNR?=
- =?utf-8?Q?QlljJfPgsfb7zK8e2CacwAdpCsmENnyM7uKfj/4DFjxQ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d011201b-e528-41cf-caa4-08ddf757997e
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 08:36:16.7496 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nlni/zXMXXAQnuEOEVZx56SJ5DZ2yn5/1CHpBg+yEAg4xmcYzPw1zv+SvszhcRAapGS0VKKcA9D6irpKZNuhTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9494
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 0/3] drm/ttm: allow direct reclaim to be skipped
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
+ <6f92ff06-04c3-440b-becb-50a7693ecc39@amd.com>
+ <67c83b24-01b6-4633-8645-52dc746c32e2@igalia.com>
+ <96c117bc-389f-42d9-952e-894768aad780@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <96c117bc-389f-42d9-952e-894768aad780@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,86 +72,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/19/25 02:42, Chris Mason wrote:
-> On Mon,  8 Sep 2025 10:04:38 +1000 Balbir Singh <balbirs@nvidia.com> wrote:
-> 
->> Extend migrate_vma_collect_pmd() to handle partially mapped large
->> folios that require splitting before migration can proceed.
+
+On 19/09/2025 09:01, Christian König wrote:
+> On 19.09.25 09:43, Tvrtko Ursulin wrote:
+>> On 19/09/2025 07:46, Christian König wrote:
+>>> On 18.09.25 22:09, Thadeu Lima de Souza Cascardo wrote:
+>>>> On certain workloads, like on ChromeOS when opening multiple tabs and
+>>>> windows, and switching desktops, memory pressure can build up and latency
+>>>> is observed as high order allocations result in memory reclaim. This was
+>>>> observed when running on an amdgpu.
+>>>>
+>>>> This is caused by TTM pool allocations and turning off direct reclaim when
+>>>> doing those higher order allocations leads to lower memory pressure.
+>>>>
+>>>> Since turning direct reclaim off might also lead to lower throughput,
+>>>> make it tunable, both as a module parameter that can be changed in sysfs
+>>>> and as a flag when allocating a GEM object.
+>>>>
+>>>> A latency option will avoid direct reclaim for higher order allocations.
+>>>>
+>>>> The throughput option could be later used to more agressively compact pages
+>>>> or reclaim, by not using __GFP_NORETRY.
+>>>
+>>> Well I can only repeat it, at least for amdgpu that is a clear NAK from my side to this.
+>>>
+>>> The behavior to allocate huge pages is a must have for the driver.
 >>
->> During PTE walk in the collection phase, if a large folio is only
->> partially mapped in the migration range, it must be split to ensure
->> the folio is correctly migrated.
+>> Disclaimer that I wouldn't go system-wide but per device - so somewhere in sysfs rather than a modparam. That kind of a toggle would not sound problematic to me since it leaves the policy outside the kernel and allows people to tune to their liking.
+> 
+> Yeah I've also wrote before when that is somehow beneficial for nouveau (for example) then I don't have any problem with making the policy device dependent.
+> 
+> But for amdgpu we have so many so bad experiences with this approach that I absolutely can't accept that.
+> 
+>> One side question thought - does AMD benefit from larger than 2MiB contiguous blocks? IIUC the maximum PTE is 2MiB so maybe not? In which case it may make sense to add some TTM API letting drivers tell the pool allocator what is the maximum order to bother with. Larger than that may have diminishing benefit for the disproportionate pressure on the memory allocator and reclaim.
+> 
+> Using 1GiB allocations would allow for the page tables to skip another layer on AMD GPUs, but the most benefit is between 4kiB and 2MiB since that can be handled more efficiently by the L1. Having 2MiB allocations then also has an additional benefit for L2.
+> 
+> Apart from performance for AMD GPUs there are also some HW features which only work with huge pages, e.g. on some laptops you can get for example flickering on the display if the scanout buffer is back by to many small pages.
+> 
+> NVidia used to work on 1GiB allocations which as far as I know was the kickoff for the whole ongoing switch to using folios instead of pages. And from reading public available documentation I have the impression that NVidia GPUs works more or less the same as AMD GPUs regarding the TLB.
+
+1GiB is beyond the TTM pool allocator scope, right?
+
+ From what you wrote it sounds like my idea would actually be okay. A 
+very gentle approach (minimal change in behaviour) to only disable 
+direct reclaim above the threshold set by the driver. Along the lines of:
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
+b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 428265046815..06b243f05edd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1824,7 +1824,7 @@ static int amdgpu_ttm_pools_init(struct 
+amdgpu_device *adev)
+  	for (i = 0; i < adev->gmc.num_mem_partitions; i++) {
+  		ttm_pool_init(&adev->mman.ttm_pools[i], adev->dev,
+  			      adev->gmc.mem_partitions[i].numa.node,
+-			      false, false);
++			      false, false, get_order(2 * SZ_1M));
+  	}
+  	return 0;
+  }
+@@ -1865,7 +1865,8 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+  			       adev_to_drm(adev)->anon_inode->i_mapping,
+  			       adev_to_drm(adev)->vma_offset_manager,
+  			       adev->need_swiotlb,
+-			       dma_addressing_limited(adev->dev));
++			       dma_addressing_limited(adev->dev),
++			       get_order(2 * SZ_1M));
+  	if (r) {
+  		dev_err(adev->dev,
+  			"failed initializing buffer object driver(%d).\n", r);
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index baf27c70a419..5d54e8373230 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -726,8 +726,12 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
+struct ttm_tt *tt,
+
+  	page_caching = tt->caching;
+  	allow_pools = true;
+-	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+-	     alloc->remaining_pages;
++
++	order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
++	if (order > pool->max_beneficial_order)
++		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
++
++	for (; alloc->remaining_pages;
+  	     order = ttm_pool_alloc_find_order(order, alloc)) {
+  		struct ttm_pool_type *pt;
+
+@@ -745,6 +749,8 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
+struct ttm_tt *tt,
+  		if (!p) {
+  			page_caching = ttm_cached;
+  			allow_pools = false;
++			if (order <= pool->max_beneficial_order)
++				gfp_flags |= __GFP_DIRECT_RECLAIM;
+  			p = ttm_pool_alloc_page(pool, gfp_flags, order);
+  		}
+  		/* If that fails, lower the order if possible and retry. */
+@@ -1064,7 +1070,8 @@ long ttm_pool_backup(struct ttm_pool *pool, struct 
+ttm_tt *tt,
+   * Initialize the pool and its pool types.
+   */
+  void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+-		   int nid, bool use_dma_alloc, bool use_dma32)
++		   int nid, bool use_dma_alloc, bool use_dma32,
++		   unsigned int max_beneficial_order)
+  {
+  	unsigned int i, j;
+
+@@ -1074,6 +1081,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct 
+device *dev,
+  	pool->nid = nid;
+  	pool->use_dma_alloc = use_dma_alloc;
+  	pool->use_dma32 = use_dma32;
++	pool->max_beneficial_order = max_beneficial_order;
+
+  	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
+  		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
+
+
+That should have the page allocator working less hard and lower the 
+latency with large buffers.
+
+Then a more aggressive change on top could be:
+
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index 5d54e8373230..152164f79927 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -726,12 +726,8 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
+struct ttm_tt *tt,
+
+  	page_caching = tt->caching;
+  	allow_pools = true;
+-
+-	order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+-	if (order > pool->max_beneficial_order)
+-		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
+-
+-	for (; alloc->remaining_pages;
++	for (order = ttm_pool_alloc_find_order(pool->max_beneficial_order, alloc);
++	     alloc->remaining_pages;
+  	     order = ttm_pool_alloc_find_order(order, alloc)) {
+  		struct ttm_pool_type *pt;
+
+@@ -749,8 +745,6 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
+struct ttm_tt *tt,
+  		if (!p) {
+  			page_caching = ttm_cached;
+  			allow_pools = false;
+-			if (order <= pool->max_beneficial_order)
+-				gfp_flags |= __GFP_DIRECT_RECLAIM;
+  			p = ttm_pool_alloc_page(pool, gfp_flags, order);
+  		}
+  		/* If that fails, lower the order if possible and retry. */
+
+Ie. don't even bother trying to allocate orders above what the driver 
+says is useful. Could be made a drivers choice as well.
+
+And all could be combined with some sort of a sysfs control, as Cascardo 
+was suggesting, to disable direct reclaim completely if someone wants that.
+
+Regards,
+
+Tvrtko
+
+> Another alternative would be that we add a WARN_ONCE() when we have to fallback to lower order pages, but that wouldn't help the end user either. It just makes it more obvious that you need more memory for a specific use case without triggering the OOM killer.
+> 
+> Regards,
+> Christian.
+> 
 >>
->> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->> ---
->>  mm/migrate_device.c | 94 +++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 94 insertions(+)
+>> Regards,
 >>
->> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
->> index abd9f6850db6..f45ef182287d 100644
->> --- a/mm/migrate_device.c
->> +++ b/mm/migrate_device.c
->> @@ -54,6 +54,53 @@ static int migrate_vma_collect_hole(unsigned long start,
->>  	return 0;
->>  }
->>  
->> +/**
->> + * migrate_vma_split_folio() - Helper function to split a THP folio
->> + * @folio: the folio to split
->> + * @fault_page: struct page associated with the fault if any
->> + *
->> + * Returns 0 on success
->> + */
->> +static int migrate_vma_split_folio(struct folio *folio,
->> +				   struct page *fault_page)
->> +{
->> +	int ret;
->> +	struct folio *fault_folio = fault_page ? page_folio(fault_page) : NULL;
->> +	struct folio *new_fault_folio = NULL;
->> +
->> +	if (folio != fault_folio) {
->> +		folio_get(folio);
->> +		folio_lock(folio);
->> +	}
+>> Tvrtko
+>>
+>>> The alternative I can offer is to disable the fallback which in your case would trigger the OOM killer.
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>>
+>>>> Other drivers can later opt to use this mechanism too.
+>>>>
+>>>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Make disabling direct reclaim an option.
+>>>> - Link to v1: https://lore.kernel.org/r/20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com
+>>>>
+>>>> ---
+>>>> Thadeu Lima de Souza Cascardo (3):
+>>>>         ttm: pool: allow requests to prefer latency over throughput
+>>>>         ttm: pool: add a module parameter to set latency preference
+>>>>         drm/amdgpu: allow allocation preferences when creating GEM object
+>>>>
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  3 ++-
+>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  3 ++-
+>>>>    drivers/gpu/drm/ttm/ttm_pool.c             | 23 +++++++++++++++++------
+>>>>    drivers/gpu/drm/ttm/ttm_tt.c               |  2 +-
+>>>>    include/drm/ttm/ttm_bo.h                   |  5 +++++
+>>>>    include/drm/ttm/ttm_pool.h                 |  2 +-
+>>>>    include/drm/ttm/ttm_tt.h                   |  2 +-
+>>>>    include/uapi/drm/amdgpu_drm.h              |  9 +++++++++
+>>>>    8 files changed, 38 insertions(+), 11 deletions(-)
+>>>> ---
+>>>> base-commit: f83ec76bf285bea5727f478a68b894f5543ca76e
+>>>> change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
+>>>>
+>>>> Best regards,
+>>>
+>>
 > 
-> Can fault_folio ever be non-null and different from folio? Apologies for
-> not knowing the lock ordering rules but this jumps out.
-> 
-
-Yes, migration can occur in fault context or be driver driven
-
->> +
->> +	ret = split_folio(folio);
->> +	if (ret) {
->> +		if (folio != fault_folio) {
->> +			folio_unlock(folio);
->> +			folio_put(folio);
->> +		}
->> +		return ret;
->> +	}
->> +
->> +	new_fault_folio = fault_page ? page_folio(fault_page) : NULL;
->> +
->> +	/*
->> +	 * Ensure the lock is held on the correct
->> +	 * folio after the split
->> +	 */
->> +	if (!new_fault_folio) {
->> +		folio_unlock(folio);
->> +		folio_put(folio);
->> +	} else if (folio != new_fault_folio) {
->> +		folio_get(new_fault_folio);
->> +		folio_lock(new_fault_folio);
->> +		folio_unlock(folio);
->> +		folio_put(folio);
->> +	}
-> 
-> Same question here, do we need trylocks?
-> 
-
-Since we had the folio lock before, the assumption is that we can
-still grab the lock after split and it's OK to wait, since this
-is not a hot-path.
-
-Balbir Singh
 
