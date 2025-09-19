@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80652B89846
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCF2B89856
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D013910E9B5;
-	Fri, 19 Sep 2025 12:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABFCE10E9B2;
+	Fri, 19 Sep 2025 12:45:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="MoJTAGnc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Koir+LBn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C8DD10E9B0
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:45:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08C1510E9B2;
+ Fri, 19 Sep 2025 12:45:46 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 4D92F1A0F14;
- Fri, 19 Sep 2025 12:45:08 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id EC3C21A0F14;
+ Fri, 19 Sep 2025 12:45:44 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 1F872606A8;
- Fri, 19 Sep 2025 12:45:08 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BFB0A606A8;
+ Fri, 19 Sep 2025 12:45:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A8CE6102F1935; 
- Fri, 19 Sep 2025 14:45:00 +0200 (CEST)
+ with ESMTPSA id C96C7102F1847; 
+ Fri, 19 Sep 2025 14:45:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758285906; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758285942; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=39Br2zJ6N21AM51+p0Pu7+qrwc/3pZIDCexOHBe3F24=;
- b=MoJTAGnc5y72Blm478u0d+hw5TowFDR2Z8Ubq+oSfBuSFsVArQsbqVeAs+v//d+HfHxHQ0
- Dic6/c12EEInQg8hpov1XlPVvS+mKIfHbQ/YejY85+5lj0sBqmTK70lMyYYDBiJJd8WyQ/
- QprR4T6ub/xDtjF0GVPdYmyGQxweVSYPsFbhq2/JOx9wDD1RWl9UK1Oy3U2hfMVEW2IoKZ
- 7Ws5gkw4qppWLbMBmKVWK3wjDgZ6M1FufgbD1/0QptALdawsyVHWBzzCzhMx84GUQBiKvV
- Tpl3sLbxUBiK9yAuTyx4LYI0B3h35N2J313djtU3gFRlFjwMOenYOHh/km9CJA==
-Message-ID: <e26063ca-ead1-495b-89f9-6d702f16994d@bootlin.com>
-Date: Fri, 19 Sep 2025 14:45:00 +0200
+ bh=MjgzZqUkGZtW8y2Dj439Uyqecpqe2is3aaIjBO+I7Qk=;
+ b=Koir+LBnjg3C1xEp5PjdUQfL00B/cbLDleIAal1uoGnhwdNosgmg14sO4nCSGniH+gOPOD
+ LDm5Xtvj5mCn5b9KR41MAMwkd291c3uyNL/O0AJvZPurFsn2GjMhduRl0RiQ5QYtCQnZxt
+ +drqZhWNRFQvVeJl2Vn30WtBAcnb3M+sfmyHqotcNT/xxCPyFZQzVkZKuHyduL+KzUdy4I
+ Q1e/dQaAHg4heZ4vQsAoytZd1Pi/IMDUn/fD5K/yF0tuvi9SDgodOB8NJGSq3pm/M9rGf3
+ 8ashqkJto+jk0UtmCvCBzCH4j3LbFZMWSF1q+6n6v78FEdw3leKzUtshAfa4ag==
+Message-ID: <9ca5c4c2-0a73-4994-9f18-6dc88effe41b@bootlin.com>
+Date: Fri, 19 Sep 2025 14:45:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 01/20] drm/crtc: Add color pipeline to CRTC state
+Subject: Re: [PATCH RFC v2 17/20] drm/vkms: Rename existing color pipeline
+ helpers to contain "pre_blend"
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -63,7 +64,7 @@ Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-1-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-17-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -119,7 +120,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-1-ac4471b44758@collabora.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-17-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -141,36 +142,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
-> Add a color pipeline to the CRTC state to allow post-blend color
-> pipelines.
+> Rename the existing color pipeline helpers so they contain "pre_blend"
+> in the name to make them clearly distinguishable from the post-blend
+> helpers when they're introduced.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   include/drm/drm_crtc.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   drivers/gpu/drm/vkms/vkms_colorop.c | 8 +++++---
+>   drivers/gpu/drm/vkms/vkms_drv.h     | 2 +-
+>   drivers/gpu/drm/vkms/vkms_plane.c   | 2 +-
+>   3 files changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index caa56e039da2a748cf40ebf45b37158acda439d9..77c0c04a5910a2263923e06cf37535697e20e1c9 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -274,6 +274,14 @@ struct drm_crtc_state {
->   	 */
->   	struct drm_property_blob *gamma_lut;
+> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+> index 0191ac44dec0a9513e001b304f6ead32a96cdb8c..5924ae2bd40fc904048f99bc9b96308140709e25 100644
+> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
+> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+> @@ -14,7 +14,9 @@ static const u64 supported_tfs =
 >   
-> +	/**
-> +	 * @color_pipeline:
-> +	 *
-> +	 * The first colorop of the active color pipeline, or NULL, if no
-> +	 * color pipeline is active.
-> +	 */
-> +	struct drm_colorop *color_pipeline;
-> +
->   	/**
->   	 * @target_vblank:
->   	 *
+>   #define MAX_COLOR_PIPELINE_OPS 4
+>   
+> -static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+> +static int
+> +vkms_initialize_pre_blend_color_pipeline(struct drm_plane *plane,
+> +					 struct drm_prop_enum_list *list)
+>   {
+>   	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+>   	struct drm_device *dev = plane->dev;
+> @@ -96,13 +98,13 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+>   	return ret;
+>   }
+>   
+> -int vkms_initialize_colorops(struct drm_plane *plane)
+> +int vkms_initialize_pre_blend_colorops(struct drm_plane *plane)
+>   {
+>   	struct drm_prop_enum_list pipeline;
+>   	int ret;
+>   
+>   	/* Add color pipeline */
+> -	ret = vkms_initialize_color_pipeline(plane, &pipeline);
+> +	ret = vkms_initialize_pre_blend_color_pipeline(plane, &pipeline);
+>   	if (ret)
+>   		return ret;
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 55440ec6db5209741af1443d4e49e9471e6795c9..37ee569474223b2cf01e3cc0e4f119777533ae23 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -305,6 +305,6 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+>   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, struct vkms_output *vkms_out);
+>   
+>   /* Colorops */
+> -int vkms_initialize_colorops(struct drm_plane *plane);
+> +int vkms_initialize_pre_blend_colorops(struct drm_plane *plane);
+>   
+>   #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index db8d26810afa8d8fcab48a6db2e691255f26a8a6..8e63a07a7e1b0a350361d0b03b7911bfa9ce3dcc 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -232,7 +232,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+>   					  DRM_COLOR_YCBCR_BT601,
+>   					  DRM_COLOR_YCBCR_FULL_RANGE);
+>   
+> -	vkms_initialize_colorops(&plane->base);
+> +	vkms_initialize_pre_blend_colorops(&plane->base);
+>   
+>   	return plane;
+>   }
 > 
 
 -- 
