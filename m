@@ -2,159 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E9B87C62
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 05:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B09B87CF6
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 05:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0A710E925;
-	Fri, 19 Sep 2025 03:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED8010E0F8;
+	Fri, 19 Sep 2025 03:30:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="bY3YJ5du";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BRV3taMj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013064.outbound.protection.outlook.com
- [40.107.162.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE4B10E925
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 03:05:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oGM/wluU21McHgJCzKIiSmudC4bjm0jYyXYF7bmaIQRs9tUYplP4dce9xNxqq25C2sravtEY260UPOKWJ4da/sXwcp5XIFc1qiSx6KjZkPkIBJPkm0T1HXBzfa3WAEVn95r3wjZ0h6Cf02gsVR/Ex26MmLQDadV3SCCtwbuk9l4hKLqN8w602UDOEiIwHyvBsq7UNCe8UEgdM9z8QdDCZVRagecKDLT18RNkDP2GKii2Z/RIbBSPQNel6DCyvzSU66z689zAuiyXWltJfkclBF6ATQgzWW8yfdENgXbpWa+6tS5br/CMaevE6ffzKuiQsvZCQVbxx1lgHoK4CfqxMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=auSN4DbDmJ7DuMzkGuwVQHMty1BHob51Uz2lGLbxNY8=;
- b=bU/FyLX2FttXH++VtigsYLXjV1Ko8Fme0CnI6Hf6YFdHX6J1r3KNwHXJbQJsZue3lIs2AsLrX51jb9jWsh1gjgU1Pw5X5Z2XdhBZ7PUW/w0TgVSlPJcv+nMrVWSIb/O1PJ0UaCPR4c/4HimIJqroi73zVBEEZOgPv4tzq9xrQPk0FXNxIQAqgQmwzph8p9jMTdMWvo4CZw73CqXAjut7ZbSms6V89zmh0BZN2/TN+TF/Iu8NCdmO7gi1R0iLgckU5jZfXxtt8C4Pe4CRLCYqaJQ3qwLuRzTYzdqAZNp7YY4PrIGOSWf/en6OoTRnR365KfB+L6BXJbxj3wHvIZzb7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=auSN4DbDmJ7DuMzkGuwVQHMty1BHob51Uz2lGLbxNY8=;
- b=bY3YJ5duLhpJm6a2cZFnx4JmNfOVISqyGOFIVTGDzclg2J9oBa8GycRuQpXuZEJUenF360DCKlREZEmyz8MT7qVucNgfjjhG7C4g4sTIDBorPfrBH3AXRJ+q+iEt5a1mpJb9FMyXUZ0cnlXPLAWMGMbXEAKzL7zyKnnNWWKvoFTtmkR1PdmSK13sBGQgvzMQVNIMOgmq/dUxIla8YfohgrFIj6j0qd5h1IVosOOi8HAupwX3QUrvz4T+lTBJZIRyI38xQmkkFGjUzL6Y76tFL9bHNSXrxzWxk3QexlkksQnjO0ouyjnzThZFfazaGSCx1eduhYAwskoRPKg/kp6D4A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DU2PR04MB8615.eurprd04.prod.outlook.com (2603:10a6:10:2da::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
- 2025 03:05:24 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
- 03:05:24 +0000
-Message-ID: <cb1b78f5-7b27-4905-be73-c41fa6d1a9d3@nxp.com>
-Date: Fri, 19 Sep 2025 11:06:56 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: waveshare-dsi: Fix bailout for
- devm_drm_bridge_alloc()
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- qijian.guo@nxp.com
-References: <20250806084121.510207-1-victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250806084121.510207-1-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0002.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::16) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D06A10E0F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 03:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1758252609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hARynVBx6wUtc+ogEnVgwz4bGXfrmnzWAy4AkQM2lGY=;
+ b=BRV3taMjaj6BLA9jjpCNUV6gIcMI0KA+jvcMdCa7ebH4GKMAeGVvV1AB0iOH5aZgjBNw/Q
+ sZIYSu/4JAxaRI87WEh6ynGc3kBInGziCkXonqKOsw76Y2JydRJw3TfBs03/TFxQTD19U8
+ jSv5XF6W6PFOi+D99JTwBYCDVbKyyi8=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-544-bYKYwxJLPZ-5VWtN1FEVjA-1; Thu, 18 Sep 2025 23:30:07 -0400
+X-MC-Unique: bYKYwxJLPZ-5VWtN1FEVjA-1
+X-Mimecast-MFC-AGG-ID: bYKYwxJLPZ-5VWtN1FEVjA_1758252607
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-25bdf8126ceso34839175ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 20:30:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758252606; x=1758857406;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hARynVBx6wUtc+ogEnVgwz4bGXfrmnzWAy4AkQM2lGY=;
+ b=UAbzKP0qEktYuvMIyPWMwU0Jw59meoljN8+KT/0096I/9JW9ASXr2ZPNSZIPCZp9xs
+ zPiMU3B30y/j6+sBKXZbJZeRTR7hVrSBvnmROzeqkr3vwDjZqfD1am/x86pjsRNeCpx9
+ pLzSQPLY/wbJKj+r0TukUkyGyoilAHtl1iwux/KwfFfCRE8lh45/6Kc2x/KRncbEh+YZ
+ /XjY4VetsLBAEIExAqh0Th9snbiBk55bOiYNw+vbARmVroP9l5ZwNCKj9d6wpiDsn3XP
+ WI0LXSth05C8HMYQMiQL3Bn5OH7D9mZeKsniTbyCRcZ/OgKTClzdq3xS2BHTgLr1RqSy
+ xaZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVW7jGlUd/I8CvFslnO0Gcsv1M5LrOc8lOVmfoA0Ca3Id3ez0npruUjn7szBUwaHtA/Ret3wcpuiqA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YylUZRLwLGhEcehp5f/b3rhGVeefYI0jZgKU7FCg9s2pSLdu9qB
+ CcyqhoEfVKELB//hDb2j3PyOVfI5jO6TN2IVJC63JOd+fM5wyd0tFcqKJ2IqraYAKHEDtXZBv81
+ iinvWDgSRxqlMhqyoFxFGtlYPJwnLs9s7O2G/alPvhNujde3toW3iKqfqTcvawzGB6PiYeg==
+X-Gm-Gg: ASbGncvtWkgSEk/xPrYZTiS7+XgchvYVvkIEeyTvyYOSYGFEygtYziDWXfvQY2AZzci
+ lNHLfitmbq3X4nPoieteLricbQW/FC98UQLDyXsk56/BKrm6x5hz14j559vvtRFN3b+XVxz7WZ6
+ tMKI0F/qlQjG9d/SF7dXKf9jXnUVGp0hh7wu6+TfUehGnbQVor6KpbdXCQYCO1BHF/UAhBZfXsw
+ 4V5mfHeDxXrNYYGrtBNcWq0eA8nFSD/PdQ5ChA5LRVAIWeuLi9qfCJLNJgxmZMSkp0KDb4lFrOQ
+ ssgka53IsqbH4ARpXxt2kYUn3FBDkfvWzJs=
+X-Received: by 2002:a17:903:b48:b0:269:8c12:909a with SMTP id
+ d9443c01a7336-269ba51175amr24401405ad.31.1758252606567; 
+ Thu, 18 Sep 2025 20:30:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsOZ+qyws+SGDCdwtAw9gyecdBjV3fndhavA2LPihQIkNaarPBI9MMby+SKHSIxbr1bqlpGQ==
+X-Received: by 2002:a17:903:b48:b0:269:8c12:909a with SMTP id
+ d9443c01a7336-269ba51175amr24401005ad.31.1758252606138; 
+ Thu, 18 Sep 2025 20:30:06 -0700 (PDT)
+Received: from zeus ([2405:6580:83a0:7600:6e93:a15a:9134:ae1f])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-330606509e9sm4054289a91.9.2025.09.18.20.30.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Sep 2025 20:30:05 -0700 (PDT)
+From: Ryosuke Yasuoka <ryasuoka@redhat.com>
+To: zack.rusin@broadcom.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, jfalempe@redhat.com, ian.forbes@broadcom.com
+Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>,
+ bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH drm-misc-next v3 0/1] add drm_panic_support for vmwgfx-stdu
+Date: Fri, 19 Sep 2025 12:29:29 +0900
+Message-ID: <20250919032936.2267240-1-ryasuoka@redhat.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8615:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6433546-2234-4e4f-4c1f-08ddf729606c
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|19092799006|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VmxpSHNEQ0NIdmtCdHdxUE1BamJYQkF3OGIyczB6WTE4SWI0MzlLdWhCMFQy?=
- =?utf-8?B?N1B4MWNMRk5TZ1FZdU9pUU8vME1hbmZob1ROeG5rWk8rcy84SHdDRmxnQ2Vp?=
- =?utf-8?B?ZXpVQ2hBQ0xRZlZPanBnNXZJdjVBTEhVLytLeHQrSE15VTc4cnlsbTczVjVp?=
- =?utf-8?B?eHNjZEg5SXhXdXpXQVNWNlR1ZUprRE01V2lTS3VRN3BRU1lkZmZ6bEoySUZl?=
- =?utf-8?B?NUVFUVA3aVRkSFBDSk9Wbnd4RVd3V3hSaHN5bmdMRmEzQTB3bzczeVY1U2py?=
- =?utf-8?B?alZ0Tm9rT2gzNytNN2lMSWFRbm8xdExMUkpuSVEwQ2E1Q2dxdHlOU0l6bkZ5?=
- =?utf-8?B?dkxIRXFtQ3preTVTTkhkZFZRN0lPeDN4ZHU5T2sxckZJNFpSVldoa1o5L0Rj?=
- =?utf-8?B?Vlg5WTdFMytqc0NsSG9WQ3FnUzJlLzcrdjBYV1lPeTREVG9JSEtHaGMzZkNE?=
- =?utf-8?B?TVQrTlBBUVFNR1dMeWExR0I5Z1JuUmRpVU5KSUJ3MmNCdzFlK2U3Q0F4b1Fn?=
- =?utf-8?B?TUJZcC9MdklwQjQ3UTJ0bWRQRU85ZTBNekpNbDI3eVBUVmtNd0RhTUU3UU4v?=
- =?utf-8?B?Tm5ISmU5RDFvbjBsL1hRcithc1FxcytrbEZtRm1TYUpvY2ZFc1gza3Z1ZTJj?=
- =?utf-8?B?b1hnN1Rib3JxZThEcGdmMVpJN25EVUROeGt2elpZK3VnYjI5dE1aOW42bGth?=
- =?utf-8?B?NDUzYUhNckFoWFA0bGF2QUppS000VEUwUUlkNnZDaExuQnpsNlBaT0Z0VW94?=
- =?utf-8?B?SjFNRlg1ZXRaNmREb2tzb0lnc2RseXI3WXluTTZFalZqQUorUXZ3SVVjSGRK?=
- =?utf-8?B?ZDBhVlZkYSt2UFFwblp6cHFQRDdVc0ZWb00wL3ZBOXM4Z0tRM0JCb0lQNXM4?=
- =?utf-8?B?ODVwMGZQV29ML3RtaHpOalVMY3RKOExuMHFQM3BHNlU5TktmdndqTEtGS3o4?=
- =?utf-8?B?MHI0VXFTNnY4WVFrNUwxajlsbWhCQ2ZBT2d1TDYxeHR1VXZCaHBVd0t4QTdJ?=
- =?utf-8?B?TWwzbEdmeHJXM21vNlpxKzdsLzlRUTZSNDgyeTlndzVZTysySkMxRE0rRTlO?=
- =?utf-8?B?OG9IR2dUbGtYZFZveng0czFnbUF2RFpINnFPd1YzVDhBdGZWWndKUlpzVXp6?=
- =?utf-8?B?L0d3UC9NYlRzTXU3UHoraHdZOUNwRWhFMjcwKzlFTGpNTVJSdWVoWjdOTUl3?=
- =?utf-8?B?cXpaL3ZnMnVpZnhSaFk4K09uQ09CdklUTUpWOXkyMnFFaFd6dW8vbGE3UUlK?=
- =?utf-8?B?aEY4VU94bkFaQVdBTGFJY1dXTFRvdVRsaythbWNkTG14bHd1aEdwTUd3WGRz?=
- =?utf-8?B?eHRPQW9abVJMWTVybm1wUm4zM2tKUlV6cjNIa2ZzMVB3bTRNUVRQN2NPMjNq?=
- =?utf-8?B?bDFiUU13RVdGV2hCb21CK0E2T25CbnVONXg4VXFocW9NZFVaaE51c3hwZWZZ?=
- =?utf-8?B?QXB6K0k5N2o1ZDRqZ28xNDhueWdvVzZhN0lNTWkyWFFlM0lJOVJMaEtIRE5i?=
- =?utf-8?B?bVhnWEFoSlRpWlltSDZBL3BNYUlsUEdqemY0cGVqdVoyTk1nbFpoWnR6VUFH?=
- =?utf-8?B?OGhrcDJpcjBDNlAvbnFXY2J0Q05MOVUyREJqZ0luOFhxRkdvK1hOZ2hDODg3?=
- =?utf-8?B?SGNXbXNubjNldmZCbUxIYUU4cjBlU01vZ0d5QlFISFBCVldZK3FBV1ZSekh6?=
- =?utf-8?B?Ykh4RUdiZThDMFVzVXZVSjBXWEpXeVd5N0wrNDB3blkxQkdXb0MwNldFSE1s?=
- =?utf-8?B?REc4N21kWWZCSGtVdjNBY2Q5VDRRTFVUMkIrcjNjSndudW0vNkZuNGNLSGFn?=
- =?utf-8?B?WC9haERUN2pWcWRBS1h3b2FXSzh1a01UNDVUNjA5NG9KNmRtN3ZSWXlhVFVF?=
- =?utf-8?B?MzhxOW1yU2RoNnZmbTRDNFlOQzlSdEh2cUNPcnFqQmphRGpGL3cxUVVJb1pP?=
- =?utf-8?Q?IRDPDMnBMGc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(19092799006)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1YweG13cEdVbHFoVzhDcUloZVlQRW1RaStYNFJsY0ZHTlpVTnc4eTRwZ2pW?=
- =?utf-8?B?bUQ5bFBFcWNJSUlHRkk0N1FNSDREdW5jdXV3Q1dLeXVwQWN2eDlpcTBidlFq?=
- =?utf-8?B?ZWJDRjRPU3lnZVk5TFh6QjJacndEN1ovMGZqclVyZ2VqQ1pIdlY1cll5Vk02?=
- =?utf-8?B?Tjd0T1RVWkpnL3FBbUhnVHhocUNBbnU0UG5vK1dwZ00xT1dWQVNpWkU1QlIw?=
- =?utf-8?B?SU56UzRETXNucW91WElTWHl1RXk2cmlvZ3grWmpXUXova3JXVmZuL1NrVkhr?=
- =?utf-8?B?ZldvQ3BmZFEyZXRoWFIxUTc3Z3FhTTBBc245K1lqZEpPZTJodng4WEdWZXBl?=
- =?utf-8?B?eXp6eGFiVStlTVByVzZMODBTbUNWaStEOWE2U2dtNG5TVXZFNFdPUjJ2b2g0?=
- =?utf-8?B?bWpCRkdYamp4TzVnS1RoajNObVNoaUNWTkpaT2RmKzJONGdkcm1kYXh5Vnkx?=
- =?utf-8?B?MW9DUytzWmE1QkZZSUpaTDBVVlhLWlBGb0t2dnlnRE5Samp5WFBCV2JwUWYr?=
- =?utf-8?B?YmJqUEhxbG5QNlZtV2t5RjBpcjROOXB5SHc1d0M4V09nYWhyQjFndzRGOHN1?=
- =?utf-8?B?UmxyWEhPc1dORHNZKzlkT09JTmpkVzg0MkNjdHVZNFkyR1htd3ZjZEsrRnhh?=
- =?utf-8?B?dU9DNXRYWkFKWVZ4N1ZSVE45YVZHcmhjd09jUVNPKzJoeEJXMlNPTXJISXU0?=
- =?utf-8?B?RG9Ka241UmtuUnVPODJzREllb1Zvc2lIWWZZRXpwd0tmQlJoNHZNTmVVM1V3?=
- =?utf-8?B?QS96bjE2Qld0VnFjaEJRWlZMekRQVU5Gb0p2L0k2VHMzN2lxZnZ6WDhVb2s4?=
- =?utf-8?B?dmhvMTFEUjArNzY0YXVpd1ZhZUZQSHlsKytXanlwaThBVWs0VEVOTkVTY3hw?=
- =?utf-8?B?VG45TG1IZVBrbDVYcFNaMEpYTGhPRlNnUENQNUVEWHlpeE1lVmVPNi85R0sz?=
- =?utf-8?B?VDVJYUh0bEZaZTNZOWUzSGoxRHNVb045bUV4WFFjOVQwVjRxb2gyck5YaDd0?=
- =?utf-8?B?d2V0cFhXUTA1YzdLekxCN1VjSEtJSEpvLyt2b2F5UzdoUmNLVHlLbmJNTnIx?=
- =?utf-8?B?bEw3K3FYL0FRSmpIaCtGN3JyaGlHMzU5TnJXSkNJWUJqcGMzUmtmV0pkaWNY?=
- =?utf-8?B?RzNhMEIwdm5uQmt3MDJ1TnVsaTJ3S1h0bXl2OXNRUHA0cm93SjVUVGphQnJs?=
- =?utf-8?B?Z2Y5NmJ2TGpmZXdUd2J3dXRFNU5qUWlZQXM3ZWRaUThTVGxyL1owRHpBeHFZ?=
- =?utf-8?B?Nzk1M3lESDZBekZuUEIxeDdxQ2drWjlxejFUdCthci9neHo2cEg3VUhHZHJ6?=
- =?utf-8?B?Q1RmL3IvMFczV1J4bldUUUMxRmRXQkZlT3lEalh3YkhWTW9wcHo2OWtCaUJs?=
- =?utf-8?B?K0JnbVZoOFBlODBsZ3VMbWRCRk5mWGFKNnBCRU1sZS9rQ2c3QzVyeG5ERTlH?=
- =?utf-8?B?dVJVR2ZPcjZQUHFrcGhQc0pkNUNKRGk3SkI2YjYzU1JPeWRqajBBd2g1TGp3?=
- =?utf-8?B?UXN6QUxNZVRtNU1RYWVqVDBSSmo5enlVVHdaQzFqL3ZCY21WeFZjSlh4VnRs?=
- =?utf-8?B?bUgwNkYvUFUrM1FtVno5NktXdDlvbkV0ZTBNaDBqTU5rRjVjbGYrQnZ1ZC9P?=
- =?utf-8?B?eVozMG04Q21YU3NEdkkwMVp5OStMMGRjYWE2ZjQyTTNOVWxEbHJ0Y2ZFY3FZ?=
- =?utf-8?B?WElBSSs1WXhxUHYwTmhqVVlFbjYwci9ld2ZVREtKbjJZUXpvRmpMT0ZLMGh6?=
- =?utf-8?B?bncvdEJzT3hTRVVpRzI4S0lrUHIxeTBVMXE1bHJvc09ZV1hJcUNOZFlOekhP?=
- =?utf-8?B?TFZKN3lZeDNpcmRHWENIYVFWSUhMVXl1dEE3RGNzd3M0eUlQSnk2UlZNUW9E?=
- =?utf-8?B?Q284WU1aSUFqL2FuQmpjZTcxenlscXdVRkNmVFZxMHVzanROSkV4ekJtWmRH?=
- =?utf-8?B?VFBuVkh0RnpudERybXJMdXcwS1NYZ1BwMkwrSVcrYVlrdUx6ZFdNSkhHaHhC?=
- =?utf-8?B?eEx6eldoUjJxK0I3azRlVjljaDVFanl4b1p0OXJJOXRkRWxZcXZhNVRheDA5?=
- =?utf-8?B?WVUwZkFXdjhNOUpSVWE1VnZpYmtyVEFMb0tHNFp5L05oV3MzcExNTytUNzRs?=
- =?utf-8?Q?wYG2lPCGWKgJl+cVsaefgUGgc?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6433546-2234-4e4f-4c1f-08ddf729606c
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 03:05:24.2788 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bNm2amLnZaRtbbx0CWIL47AE8Joan+zMgrUDGk5FX9wJctOIxSGoe/eKNKUqoeUAfixXRQz04RRuDWGkJZniDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8615
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: QEr4t-SHlwl8ror-ckrRHDbXv3PJ9e3lsvlJ6F53w2o_1758252607
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,19 +100,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/6/25 16:41, Liu Ying wrote:
-> devm_drm_bridge_alloc() returns ERR_PTR on failure instead of a
-> NULL pointer, so use IS_ERR() to check the returned pointer and
-> turn proper error code on failure by using PTR_ERR().
-> 
-> Fixes: dbdea37add13 ("drm: bridge: Add waveshare DSI2DPI unit driver")
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->  drivers/gpu/drm/bridge/waveshare-dsi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Add drm_panic support for stdu in vmwgfx. This patch was tested in a VM
+with VMSVGA on Virtual Box.
 
-Applied to misc/kernel.git (drm-misc-next-fixes).
+Based on the feedback for v2 patch, I've made the following updates in
+my v3 patch.
+- Use MEMREMAP_WB | MEMREMAP_DEC flags for memremap
+- Use vmw_priv->initial_height and initial_width for sb and VRAM
+- Move all panic related functions to the vmwgfx_kms.c file
+- Ensure if the current display unit is 0 in get_scanout_buffer()
 
+I did not apply all of Ian's feedback in this v3 patch for the reasons
+outlined below.
+
+> 1. You can call `vmw_kms_write_svga` directly in `panic_flush`. There
+> is no need to mark the buffer as dirty or send any commands.
+
+In my test environment (VirtualBox), the panic screen appears unstably 
+without dirty command's submission. Without it, the screen sometimes
+appears immediately as expected, and at other times, there's a delay
+of 15 to 20 seconds. I've also observed that it sometimes only appears
+after switching between the VirtualBox console window and other windows.
+
+With command submission, we can stably get a panic screen. Even if it
+fails, we may get the panic screen ultimately. Therefore, I think we
+should retain vmw_kms_panic_do_bo_dirty() to submit commands.
+
+> 2. The format should be hardcoded to RGB565 to minimize the risk of
+> overrunning VRAM. Adjust the pitch accordingly to 2x width.
+
+While it's possible to output the panic screen with RGB565 by adjusting
+pitch and width, and BPP on the (virtual) hardware side, this approach
+causes debugfs to fail. It appears that the BPP must be reset after the
+panic screen is displayed, and there is no way to wait for the screen
+to be fully displayed within the drm_panic handler code.
+
+In my test environment, as VRAM has enough space even when using
+XRGB8888 (32 bits), I think the risk of overruning VRAM is low. So I've
+kept the default format and CPP size.
+
+v1:
+https://lore.kernel.org/all/20250901083701.32365-1-ryasuoka@redhat.com/
+
+v2:
+https://lore.kernel.org/all/20250908141152.221291-2-ryasuoka@redhat.com/
+- Map a scanout_buffer to VRAM in .get_scanout_buffer
+- And then write to VRAM directly using fifo in legacy mode to avoid
+allocations or command submissions.
+
+
+Ryosuke Yasuoka (1):
+  drm/vmwgfx: add drm_panic support for stdu mode
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h  |   4 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c  | 165 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c |   2 +
+ 3 files changed, 171 insertions(+)
+
+
+base-commit: d41c79838c47bc822534cd53628fe5e0f8ad2424
 -- 
-Regards,
-Liu Ying
+2.51.0
+
