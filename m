@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BE5B88773
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 10:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67546B887CC
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 10:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88E4A10E96C;
-	Fri, 19 Sep 2025 08:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72A6810E054;
+	Fri, 19 Sep 2025 08:56:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pK/GKjrs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QeIORtSo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF81410E96C;
- Fri, 19 Sep 2025 08:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8RTViDZT+J/z4RR+d5SoyTf3sfJaI4OVNgODzV7vQ5Q=; b=pK/GKjrsilOkSbSPMeXozaMh5O
- d4A9BZoambXsXqu0EpzvXV9EXZVB8HOHPhdN5/TsfQE52YUedUpGmVVrGcz5onitqi+ui+XVKQRvA
- wbtVte33GvJfaBjbW2Kf81Ro9o/4J6tfpWjh26rCRgFatWagfTOuwttiiGIajXFyYNF1cdyNFjAaB
- mJ9O/pmAzm+110FhW9o2OrWcC7Zmbhjwp64zlET8aRNctYjHUsc+hNm/CUd2y5X+doET3vA0G3gdm
- qXqlQ0n7jin9C3Rx8dKfoiVa9oN6Ggz8wTaaRAzxPx1bdltFpal2xG+pX3hvdjAkJAD9JToHKIvid
- 9WQl2y0g==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uzWlU-00E190-Qg; Fri, 19 Sep 2025 10:46:48 +0200
-Message-ID: <76861e33-8d07-4b97-9f91-4c5651732e91@igalia.com>
-Date: Fri, 19 Sep 2025 09:46:47 +0100
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5869810E054
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 08:56:27 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3f0ae439b56so177833f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 01:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1758272186; x=1758876986; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b3SjolQB/965DSj8U4lOYkQfWCLlEcwDrVdjMZu0fvY=;
+ b=QeIORtSoxIx0rCjYzGoyI7xKyjfoalp/LKFs70BBBg0V8IhpmHkWkIz8s2breeMFjZ
+ h41Vv1fF0UhidJTbUUyn9UuCTcCPuIYRbTDBiyEqSGalVDPS5f3OfDLG4QmcJZ8/l6Z+
+ gN9JsEFA/2KhLleNnCphxpWtvI3ym8PTokmSLQ5hpt8s8C0b8xom0lq9NcDpNCMWEuxE
+ HrLC+Fs0FY7hTRLAz7CM6AGNweU0g78G/PzVPvNUhKZnlepOwxWhDcycEit8V6XTDowG
+ /WLjQXDidi1WndwQn2UdVPahTcZcaSk7Bq1rs6V8GUu73yyKaVP7ctSC+06abQ9fIQxb
+ C8KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758272186; x=1758876986;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b3SjolQB/965DSj8U4lOYkQfWCLlEcwDrVdjMZu0fvY=;
+ b=MCHVzGGIM3ewjtWMragW+Dl18jSi3lrh006rcqtFB+zY2X5DqF59m/szCWiZFenP5O
+ Ko9nyjDFYDKMibdMR6BYQ3aKWu3POOSYHtOa5plJCm0+PDRAQzE+Nb01v5ou/fvZvj8Y
+ hbXqfSTpSWv9ts3d7mBpwsMEhv/f2uAU2iUvTcLNkES+mNTZCaR++tT734PRlgRbatbg
+ hmch5qDW2/d5DZedjbmXSRJ95+MG7D5LuuheerVH/2SXDLFFYlSjMkUP2YLNu07ELPbU
+ 3leS+nAxSgxgqYQq4kqQOU6GoStoQMw83BuKGaqvpW13Rg4qDDed0ebmXpMQGGIBvJFJ
+ Ifmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUv+CmA80Vf+jkcU3zqDJ8cQYfJOFW79Ispo3nnihYOfE/BxhnTI4LRU25vJm39Ny4OcajO/8iQeGY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwO3tr/xGs7D0YOAq//cyZRtxGiSSr38pI/wRp4ezwvWYvXpZ78
+ WO4LrSzQwbi57Tu9KFtPGNjRNVwPYLQAF8tN+gr4i+XKLKgq11SBatwlt9+XgSWFGYpfyjgRbqu
+ 3X7us+Si9xsNEQI+++CxkUuBR1Z07PnU=
+X-Gm-Gg: ASbGncvvnoy5ro3Re4SF6YA9bG2oBdS1WRE3kmd2jAFqf7CD3wRY6OqnKOG/1xoqK7V
+ 1+M+xZ9kUD2kUhT70IWNfZPIxYKXqIxiU2afy8ruA9oSBNojkIc3DZfOmp5wrxgz1GdidO820v1
+ XUNJIw35VNQLwqE5Zyty9I9CVrdOwK0E2N6LHi82Xr0j45FhcmtkwcrwITT860s1EO46hGyeDZ9
+ NarCnRY
+X-Google-Smtp-Source: AGHT+IFSRgoyAcfBMBdxJ3/Mg94CU1V7AfyoCIGOSWF2v2XWjSF8VBHtPZaoUW2eW5N/CrVldqiF9YYHWb26kL7t4bw=
+X-Received: by 2002:a05:6000:310f:b0:3ee:152e:676e with SMTP id
+ ffacd0b85a97d-3ee7b9dcd9emr1716992f8f.11.1758272185363; Fri, 19 Sep 2025
+ 01:56:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 0/3] drm/ttm: allow direct reclaim to be skipped
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-10-clamor95@gmail.com>
+ <4792993.1IzOArtZ34@senjougahara>
+ <CAPVz0n2BpSeZkoT1YV9q5bkOCkjSvOwAXNVGgM4wPUqV3jyxgg@mail.gmail.com>
+In-Reply-To: <CAPVz0n2BpSeZkoT1YV9q5bkOCkjSvOwAXNVGgM4wPUqV3jyxgg@mail.gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 19 Sep 2025 11:56:14 +0300
+X-Gm-Features: AS18NWBH4VHm807-uapHCiTJGO5ngwX3Ep54IEurA9hHeb7dua-mj3pRKJUHO0c
+Message-ID: <CAPVz0n1XBAXj=x0jJNbKURUY3NJEyS3dFONsFeXaUzbx9W0y_g@mail.gmail.com>
+Subject: Re: [PATCH v2 09/23] gpu: host1x: convert MIPI to use operations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20250918-ttm_pool_no_direct_reclaim-v2-0-135294e1f8a2@igalia.com>
- <6f92ff06-04c3-440b-becb-50a7693ecc39@amd.com>
- <67c83b24-01b6-4633-8645-52dc746c32e2@igalia.com>
- <96c117bc-389f-42d9-952e-894768aad780@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <96c117bc-389f-42d9-952e-894768aad780@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>, 
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,220 +105,409 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+=D0=BF=D1=82, 19 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 10:58 Svya=
+toslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> =D0=BF=D1=82, 19 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:47 Mi=
+kko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > This commit converts the existing MIPI code to use operations, which =
+is a
+> > > necessary step for the Tegra20/Tegra30 SoCs. Additionally, it creates=
+ a
+> > > dedicated header file, tegra-mipi-cal.h, to contain the MIPI calibrat=
+ion
+> > > functions, improving code organization and readability.
+> >
+> > I'd write out "operation function pointers", at least the first time. J=
+ust "operations" isn't clear to me.
+> >
+> > Please write the commit message in imperative mood (like you've done in=
+ other patches).
+> >
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/tegra/dsi.c             |   1 +
+> > >  drivers/gpu/host1x/mipi.c               |  40 +++------
+> > >  drivers/staging/media/tegra-video/csi.c |   1 +
+> > >  include/linux/host1x.h                  |  10 ---
+> > >  include/linux/tegra-mipi-cal.h          | 111 ++++++++++++++++++++++=
+++
+> > >  5 files changed, 126 insertions(+), 37 deletions(-)
+> > >  create mode 100644 include/linux/tegra-mipi-cal.h
+> > >
+> > > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.=
+c
+> > > index 64f12a85a9dd..278bf2c85524 100644
+> > > --- a/drivers/gpu/drm/tegra/dsi.c
+> > > +++ b/drivers/gpu/drm/tegra/dsi.c
+> > > @@ -14,6 +14,7 @@
+> > >  #include <linux/pm_runtime.h>
+> > >  #include <linux/regulator/consumer.h>
+> > >  #include <linux/reset.h>
+> > > +#include <linux/tegra-mipi-cal.h>
+> > >
+> > >  #include <video/mipi_display.h>
+> > >
+> > > diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> > > index e51b43dd15a3..2fa339a428f3 100644
+> > > --- a/drivers/gpu/host1x/mipi.c
+> > > +++ b/drivers/gpu/host1x/mipi.c
+> > > @@ -27,6 +27,7 @@
+> > >  #include <linux/of_platform.h>
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/tegra-mipi-cal.h>
+> > >
+> > >  #include "dev.h"
+> > >
+> > > @@ -116,23 +117,6 @@ struct tegra_mipi_soc {
+> > >       u8 hsclkpuos;
+> > >  };
+> > >
+> > > -struct tegra_mipi {
+> > > -     const struct tegra_mipi_soc *soc;
+> > > -     struct device *dev;
+> > > -     void __iomem *regs;
+> > > -     struct mutex lock;
+> > > -     struct clk *clk;
+> > > -
+> > > -     unsigned long usage_count;
+> > > -};
+> > > -
+> > > -struct tegra_mipi_device {
+> > > -     struct platform_device *pdev;
+> > > -     struct tegra_mipi *mipi;
+> > > -     struct device *device;
+> > > -     unsigned long pads;
+> > > -};
+> > > -
+> > >  static inline u32 tegra_mipi_readl(struct tegra_mipi *mipi,
+> > >                                  unsigned long offset)
+> > >  {
+> > > @@ -261,7 +245,7 @@ void tegra_mipi_free(struct tegra_mipi_device *de=
+vice)
+> > >  }
+> > >  EXPORT_SYMBOL(tegra_mipi_free);
+> > >
+> > > -int tegra_mipi_enable(struct tegra_mipi_device *dev)
+> > > +static int tegra114_mipi_enable(struct tegra_mipi_device *dev)
+> > >  {
+> > >       int err =3D 0;
+> > >
+> > > @@ -273,11 +257,9 @@ int tegra_mipi_enable(struct tegra_mipi_device *=
+dev)
+> > >       mutex_unlock(&dev->mipi->lock);
+> > >
+> > >       return err;
+> > > -
+> > >  }
+> > > -EXPORT_SYMBOL(tegra_mipi_enable);
+> > >
+> > > -int tegra_mipi_disable(struct tegra_mipi_device *dev)
+> > > +static int tegra114_mipi_disable(struct tegra_mipi_device *dev)
+> > >  {
+> > >       int err =3D 0;
+> > >
+> > > @@ -289,11 +271,9 @@ int tegra_mipi_disable(struct tegra_mipi_device =
+*dev)
+> > >       mutex_unlock(&dev->mipi->lock);
+> > >
+> > >       return err;
+> > > -
+> > >  }
+> > > -EXPORT_SYMBOL(tegra_mipi_disable);
+> > >
+> > > -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
+> > > +static int tegra114_mipi_finish_calibration(struct tegra_mipi_device=
+ *device)
+> > >  {
+> > >       struct tegra_mipi *mipi =3D device->mipi;
+> > >       void __iomem *status_reg =3D mipi->regs + (MIPI_CAL_STATUS << 2=
+);
+> > > @@ -309,9 +289,8 @@ int tegra_mipi_finish_calibration(struct tegra_mi=
+pi_device *device)
+> > >
+> > >       return err;
+> > >  }
+> > > -EXPORT_SYMBOL(tegra_mipi_finish_calibration);
+> > >
+> > > -int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
+> > > +static int tegra114_mipi_start_calibration(struct tegra_mipi_device =
+*device)
+> > >  {
+> > >       const struct tegra_mipi_soc *soc =3D device->mipi->soc;
+> > >       unsigned int i;
+> > > @@ -384,7 +363,13 @@ int tegra_mipi_start_calibration(struct tegra_mi=
+pi_device *device)
+> > >
+> > >       return 0;
+> > >  }
+> > > -EXPORT_SYMBOL(tegra_mipi_start_calibration);
+> > > +
+> > > +static const struct tegra_mipi_ops tegra114_mipi_ops =3D {
+> > > +     .tegra_mipi_enable =3D tegra114_mipi_enable,
+> > > +     .tegra_mipi_disable =3D tegra114_mipi_disable,
+> > > +     .tegra_mipi_start_calibration =3D tegra114_mipi_start_calibrati=
+on,
+> > > +     .tegra_mipi_finish_calibration =3D tegra114_mipi_finish_calibra=
+tion,
+> > > +};
+> > >
+> > >  static const struct tegra_mipi_pad tegra114_mipi_pads[] =3D {
+> > >       { .data =3D MIPI_CAL_CONFIG_CSIA },
+> > > @@ -512,6 +497,7 @@ static int tegra_mipi_probe(struct platform_devic=
+e *pdev)
+> > >
+> > >       mipi->soc =3D match->data;
+> > >       mipi->dev =3D &pdev->dev;
+> > > +     mipi->ops =3D &tegra114_mipi_ops;
+> > >
+> > >       mipi->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, =
+NULL);
+> > >       if (IS_ERR(mipi->regs))
+> > > diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/stagin=
+g/media/tegra-video/csi.c
+> > > index 74c92db1032f..9e3bd6109781 100644
+> > > --- a/drivers/staging/media/tegra-video/csi.c
+> > > +++ b/drivers/staging/media/tegra-video/csi.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/of_graph.h>
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/pm_runtime.h>
+> > > +#include <linux/tegra-mipi-cal.h>
+> > >
+> > >  #include <media/v4l2-fwnode.h>
+> > >
+> > > diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> > > index 9fa9c30a34e6..b1c6514859d3 100644
+> > > --- a/include/linux/host1x.h
+> > > +++ b/include/linux/host1x.h
+> > > @@ -453,16 +453,6 @@ void host1x_client_unregister(struct host1x_clie=
+nt *client);
+> > >  int host1x_client_suspend(struct host1x_client *client);
+> > >  int host1x_client_resume(struct host1x_client *client);
+> > >
+> > > -struct tegra_mipi_device;
+> > > -
+> > > -struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> > > -                                          struct device_node *np);
+> > > -void tegra_mipi_free(struct tegra_mipi_device *device);
+> > > -int tegra_mipi_enable(struct tegra_mipi_device *device);
+> > > -int tegra_mipi_disable(struct tegra_mipi_device *device);
+> > > -int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
+> > > -int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+> > > -
+> > >  /* host1x memory contexts */
+> > >
+> > >  struct host1x_memory_context {
+> > > diff --git a/include/linux/tegra-mipi-cal.h b/include/linux/tegra-mip=
+i-cal.h
+> > > new file mode 100644
+> > > index 000000000000..2bfdbfd3cb77
+> > > --- /dev/null
+> > > +++ b/include/linux/tegra-mipi-cal.h
+> > > @@ -0,0 +1,111 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +
+> > > +#ifndef __TEGRA_MIPI_CAL_H_
+> > > +#define __TEGRA_MIPI_CAL_H_
+> > > +
+> > > +struct tegra_mipi {
+> > > +     const struct tegra_mipi_soc *soc;
+> > > +     const struct tegra_mipi_ops *ops;
+> > > +     struct device *dev;
+> > > +     void __iomem *regs;
+> > > +     struct mutex lock;
+> > > +     struct clk *clk;
+> > > +
+> > > +     unsigned long usage_count;
+> > > +};
+> > > +
+> > > +struct tegra_mipi_device {
+> > > +     struct platform_device *pdev;
+> > > +     struct tegra_mipi *mipi;
+> > > +     struct device *device;
+> > > +     unsigned long pads;
+> > > +};
+> >
+> > We should avoid putting implementation details / chip-specific things i=
+n the public header. Here's a sketch of what I'm thinking about:
+> >
+> > --- tegra-mipi-cal.h:
+> >
+> > struct tegra_mipi_device;
+> >
+> > struct tegra_mipi_ops {
+> >         // ...
+> > };
+> >
+> > int tegra_mipi_add_provider(struct device_node *np, struct tegra_mipi_o=
+ps *ops);
+> >
+> > int tegra_mipi_enable(...);
+> > // ...
+> >
+> > --- host1x/mipi.c:
+> >
+> > // move tegra114-mipi specific stuff to a new file, e.g. host1x/tegra11=
+4-mipi.c
+> >
+> > struct tegra_mipi_device {
+> >         struct tegra_mipi_ops *ops;
+> >         struct platform_device *pdev;
+> > };
+> >
+> > /* only need to support one provider */
+> > static struct {
+> >         struct device_node *np;
+> >         struct tegra_mipi_ops *ops;
+> > } provider;
+> >
+> > int tegra_mipi_add_provider(struct device_node *np, struct tegra_mipi_o=
+ps *ops)
+> > {
+> >         if (provider.np)
+> >                 return -EBUSY;
+> >
+> >         provider.np =3D np;
+> >         provider.ops =3D ops;
+> >
+> >         return 0;
+> > }
+> >
+> > struct tegra_mipi_device *tegra_mipi_request(struct *device, struct dev=
+ice_node *np)
+> > {
+> >         struct device_node *phandle_np =3D /* ... */;
+> >         struct platform_device *pdev;
+> >         struct tegra_mipi_device *mipidev;
+> >
+> >         if (provider.np !=3D phandle_np)
+> >                 return -ENODEV;
+> >
+> >         pdev =3D /* ... */;
+> >
+> >         mipidev =3D kzalloc(...);
+> >         mipidev->ops =3D provider.ops;
+> >         mipidev->pdev =3D pdev;
+> >         mipidev->cells =3D phandle_cells;
+> >
+> >         return mipidev;
+> > }
+> >
+> > int tegra_mipi_enable(struct tegra_mipi_device *device)
+> > {
+> >         return device->ops->enable(platform_get_drvdata(device->pdev), =
+device->cells);
+> > }
+> >
+> > > +
+> > > +/**
+> > > + * Operations for Tegra MIPI calibration device
+> > > + */
+> > > +struct tegra_mipi_ops {
+> > > +     /**
+> > > +      * @tegra_mipi_enable:
+> > > +      *
+> > > +      * Enable MIPI calibration device
+> > > +      */
+> > > +     int (*tegra_mipi_enable)(struct tegra_mipi_device *device);
+> >
+> > The tegra_mipi_ prefix should be dropped for the field names.
+> >
+> > > +
+> > > +     /**
+> > > +      * @tegra_mipi_disable:
+> > > +      *
+> > > +      * Disable MIPI calibration device
+> > > +      */
+> > > +     int (*tegra_mipi_disable)(struct tegra_mipi_device *device);
+> > > +
+> > > +     /**
+> > > +      * @tegra_mipi_start_calibration:
+> > > +      *
+> > > +      * Start MIPI calibration
+> > > +      */
+> > > +     int (*tegra_mipi_start_calibration)(struct tegra_mipi_device *d=
+evice);
+> > > +
+> > > +     /**
+> > > +      * @tegra_mipi_finish_calibration:
+> > > +      *
+> > > +      * Finish MIPI calibration
+> > > +      */
+> > > +     int (*tegra_mipi_finish_calibration)(struct tegra_mipi_device *=
+device);
+> > > +};
+> > > +
+> > > +struct tegra_mipi_device *tegra_mipi_request(struct device *device,
+> > > +                                          struct device_node *np);
+> > > +
+> > > +void tegra_mipi_free(struct tegra_mipi_device *device);
+> > > +
+> > > +static inline int tegra_mipi_enable(struct tegra_mipi_device *device=
+)
+> > > +{
+> > > +     /* Tegra114+ has a dedicated MIPI calibration block */
+> > > +     if (device->mipi) {
+> > > +             if (!device->mipi->ops->tegra_mipi_enable)
+> > > +                     return 0;
+> > > +
+> > > +             return device->mipi->ops->tegra_mipi_enable(device);
+> > > +     }
+> > > +
+> > > +     return -ENOSYS;
+> > > +}
+> > > +
+> > > +static inline int tegra_mipi_disable(struct tegra_mipi_device *devic=
+e)
+> > > +{
+> > > +     if (device->mipi) {
+> > > +             if (!device->mipi->ops->tegra_mipi_disable)
+> > > +                     return 0;
+> > > +
+> > > +             return device->mipi->ops->tegra_mipi_disable(device);
+> > > +     }
+> > > +
+> > > +     return -ENOSYS;
+> > > +}
+> > > +
+> > > +static inline int tegra_mipi_start_calibration(struct tegra_mipi_dev=
+ice *device)
+> > > +{
+> > > +     if (device->mipi) {
+> > > +             if (!device->mipi->ops->tegra_mipi_start_calibration)
+> > > +                     return 0;
+> > > +
+> > > +             return device->mipi->ops->tegra_mipi_start_calibration(=
+device);
+> > > +     }
+> > > +
+> > > +     return -ENOSYS;
+> > > +}
+> > > +
+> > > +static inline int tegra_mipi_finish_calibration(struct tegra_mipi_de=
+vice *device)
+> > > +{
+> > > +     if (device->mipi) {
+> > > +             if (!device->mipi->ops->tegra_mipi_finish_calibration)
+> > > +                     return 0;
+> > > +
+> > > +             return device->mipi->ops->tegra_mipi_finish_calibration=
+(device);
+> > > +     }
+> > > +
+> > > +     return -ENOSYS;
+> > > +}
+> > > +
+> > > +#endif /* __TEGRA_MIPI_CAL_H_ */
+> > >
+> >
+>
+> All this is good, but how to include into this CSI? Adding support for
+> CSI is why I am even touching this at the first place.
 
-On 19/09/2025 09:01, Christian König wrote:
-> On 19.09.25 09:43, Tvrtko Ursulin wrote:
->> On 19/09/2025 07:46, Christian König wrote:
->>> On 18.09.25 22:09, Thadeu Lima de Souza Cascardo wrote:
->>>> On certain workloads, like on ChromeOS when opening multiple tabs and
->>>> windows, and switching desktops, memory pressure can build up and latency
->>>> is observed as high order allocations result in memory reclaim. This was
->>>> observed when running on an amdgpu.
->>>>
->>>> This is caused by TTM pool allocations and turning off direct reclaim when
->>>> doing those higher order allocations leads to lower memory pressure.
->>>>
->>>> Since turning direct reclaim off might also lead to lower throughput,
->>>> make it tunable, both as a module parameter that can be changed in sysfs
->>>> and as a flag when allocating a GEM object.
->>>>
->>>> A latency option will avoid direct reclaim for higher order allocations.
->>>>
->>>> The throughput option could be later used to more agressively compact pages
->>>> or reclaim, by not using __GFP_NORETRY.
->>>
->>> Well I can only repeat it, at least for amdgpu that is a clear NAK from my side to this.
->>>
->>> The behavior to allocate huge pages is a must have for the driver.
->>
->> Disclaimer that I wouldn't go system-wide but per device - so somewhere in sysfs rather than a modparam. That kind of a toggle would not sound problematic to me since it leaves the policy outside the kernel and allows people to tune to their liking.
-> 
-> Yeah I've also wrote before when that is somehow beneficial for nouveau (for example) then I don't have any problem with making the policy device dependent.
-> 
-> But for amdgpu we have so many so bad experiences with this approach that I absolutely can't accept that.
-> 
->> One side question thought - does AMD benefit from larger than 2MiB contiguous blocks? IIUC the maximum PTE is 2MiB so maybe not? In which case it may make sense to add some TTM API letting drivers tell the pool allocator what is the maximum order to bother with. Larger than that may have diminishing benefit for the disproportionate pressure on the memory allocator and reclaim.
-> 
-> Using 1GiB allocations would allow for the page tables to skip another layer on AMD GPUs, but the most benefit is between 4kiB and 2MiB since that can be handled more efficiently by the L1. Having 2MiB allocations then also has an additional benefit for L2.
-> 
-> Apart from performance for AMD GPUs there are also some HW features which only work with huge pages, e.g. on some laptops you can get for example flickering on the display if the scanout buffer is back by to many small pages.
-> 
-> NVidia used to work on 1GiB allocations which as far as I know was the kickoff for the whole ongoing switch to using folios instead of pages. And from reading public available documentation I have the impression that NVidia GPUs works more or less the same as AMD GPUs regarding the TLB.
-
-1GiB is beyond the TTM pool allocator scope, right?
-
- From what you wrote it sounds like my idea would actually be okay. A 
-very gentle approach (minimal change in behaviour) to only disable 
-direct reclaim above the threshold set by the driver. Along the lines of:
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c 
-b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 428265046815..06b243f05edd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1824,7 +1824,7 @@ static int amdgpu_ttm_pools_init(struct 
-amdgpu_device *adev)
-  	for (i = 0; i < adev->gmc.num_mem_partitions; i++) {
-  		ttm_pool_init(&adev->mman.ttm_pools[i], adev->dev,
-  			      adev->gmc.mem_partitions[i].numa.node,
--			      false, false);
-+			      false, false, get_order(2 * SZ_1M));
-  	}
-  	return 0;
-  }
-@@ -1865,7 +1865,8 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
-  			       adev_to_drm(adev)->anon_inode->i_mapping,
-  			       adev_to_drm(adev)->vma_offset_manager,
-  			       adev->need_swiotlb,
--			       dma_addressing_limited(adev->dev));
-+			       dma_addressing_limited(adev->dev),
-+			       get_order(2 * SZ_1M));
-  	if (r) {
-  		dev_err(adev->dev,
-  			"failed initializing buffer object driver(%d).\n", r);
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index baf27c70a419..5d54e8373230 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -726,8 +726,12 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
-struct ttm_tt *tt,
-
-  	page_caching = tt->caching;
-  	allow_pools = true;
--	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
--	     alloc->remaining_pages;
-+
-+	order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
-+	if (order > pool->max_beneficial_order)
-+		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
-+
-+	for (; alloc->remaining_pages;
-  	     order = ttm_pool_alloc_find_order(order, alloc)) {
-  		struct ttm_pool_type *pt;
-
-@@ -745,6 +749,8 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
-struct ttm_tt *tt,
-  		if (!p) {
-  			page_caching = ttm_cached;
-  			allow_pools = false;
-+			if (order <= pool->max_beneficial_order)
-+				gfp_flags |= __GFP_DIRECT_RECLAIM;
-  			p = ttm_pool_alloc_page(pool, gfp_flags, order);
-  		}
-  		/* If that fails, lower the order if possible and retry. */
-@@ -1064,7 +1070,8 @@ long ttm_pool_backup(struct ttm_pool *pool, struct 
-ttm_tt *tt,
-   * Initialize the pool and its pool types.
-   */
-  void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
--		   int nid, bool use_dma_alloc, bool use_dma32)
-+		   int nid, bool use_dma_alloc, bool use_dma32,
-+		   unsigned int max_beneficial_order)
-  {
-  	unsigned int i, j;
-
-@@ -1074,6 +1081,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct 
-device *dev,
-  	pool->nid = nid;
-  	pool->use_dma_alloc = use_dma_alloc;
-  	pool->use_dma32 = use_dma32;
-+	pool->max_beneficial_order = max_beneficial_order;
-
-  	for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-  		for (j = 0; j < NR_PAGE_ORDERS; ++j) {
-
-
-That should have the page allocator working less hard and lower the 
-latency with large buffers.
-
-Then a more aggressive change on top could be:
-
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 5d54e8373230..152164f79927 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -726,12 +726,8 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
-struct ttm_tt *tt,
-
-  	page_caching = tt->caching;
-  	allow_pools = true;
--
--	order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
--	if (order > pool->max_beneficial_order)
--		gfp_flags &= ~__GFP_DIRECT_RECLAIM;
--
--	for (; alloc->remaining_pages;
-+	for (order = ttm_pool_alloc_find_order(pool->max_beneficial_order, alloc);
-+	     alloc->remaining_pages;
-  	     order = ttm_pool_alloc_find_order(order, alloc)) {
-  		struct ttm_pool_type *pt;
-
-@@ -749,8 +745,6 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, 
-struct ttm_tt *tt,
-  		if (!p) {
-  			page_caching = ttm_cached;
-  			allow_pools = false;
--			if (order <= pool->max_beneficial_order)
--				gfp_flags |= __GFP_DIRECT_RECLAIM;
-  			p = ttm_pool_alloc_page(pool, gfp_flags, order);
-  		}
-  		/* If that fails, lower the order if possible and retry. */
-
-Ie. don't even bother trying to allocate orders above what the driver 
-says is useful. Could be made a drivers choice as well.
-
-And all could be combined with some sort of a sysfs control, as Cascardo 
-was suggesting, to disable direct reclaim completely if someone wants that.
-
-Regards,
-
-Tvrtko
-
-> Another alternative would be that we add a WARN_ONCE() when we have to fallback to lower order pages, but that wouldn't help the end user either. It just makes it more obvious that you need more memory for a specific use case without triggering the OOM killer.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> The alternative I can offer is to disable the fallback which in your case would trigger the OOM killer.
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Other drivers can later opt to use this mechanism too.
->>>>
->>>> Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
->>>> ---
->>>> Changes in v2:
->>>> - Make disabling direct reclaim an option.
->>>> - Link to v1: https://lore.kernel.org/r/20250910-ttm_pool_no_direct_reclaim-v1-1-53b0fa7f80fa@igalia.com
->>>>
->>>> ---
->>>> Thadeu Lima de Souza Cascardo (3):
->>>>         ttm: pool: allow requests to prefer latency over throughput
->>>>         ttm: pool: add a module parameter to set latency preference
->>>>         drm/amdgpu: allow allocation preferences when creating GEM object
->>>>
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  3 ++-
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  3 ++-
->>>>    drivers/gpu/drm/ttm/ttm_pool.c             | 23 +++++++++++++++++------
->>>>    drivers/gpu/drm/ttm/ttm_tt.c               |  2 +-
->>>>    include/drm/ttm/ttm_bo.h                   |  5 +++++
->>>>    include/drm/ttm/ttm_pool.h                 |  2 +-
->>>>    include/drm/ttm/ttm_tt.h                   |  2 +-
->>>>    include/uapi/drm/amdgpu_drm.h              |  9 +++++++++
->>>>    8 files changed, 38 insertions(+), 11 deletions(-)
->>>> ---
->>>> base-commit: f83ec76bf285bea5727f478a68b894f5543ca76e
->>>> change-id: 20250909-ttm_pool_no_direct_reclaim-ee0807a2d3fe
->>>>
->>>> Best regards,
->>>
->>
-> 
-
+Nevermind, I have figured it all out.
