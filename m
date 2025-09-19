@@ -2,119 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C841B87851
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 02:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC2CB87A3A
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 03:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8162F10E917;
-	Fri, 19 Sep 2025 00:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C0C10E922;
+	Fri, 19 Sep 2025 01:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XbwM6KZO";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hQw3IMoJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69B2C10E916
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 00:42:01 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IIL3V8009857
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 00:42:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=c7p3i6sjQr+k5zoECzCA+ef/
- jRyUe4RBthVRq4DMzXI=; b=XbwM6KZOqXzyEz8KzdDURzw2BB7Vu91bxft5NFC7
- x9zLq5LP2nmwrXoz80c1wonccflMEroPzX0qDuWKgegirFU/fri/lHri9hNxIN4z
- F5jGzy/BvQGaUulzCYLbZ9p2qsnuRiq299ObLf6hhzP90mGlSzlusGMGQNR7fUty
- d/rNh95cDabvbOEc42qYYwBva4YqgQh2gTpnUaRsDDmP96XV7MxytIP/dpr7EO9/
- zUSzhY/olZJlzomaKnecIHPGTlxcsYrAXPiJ2ZgdyU49X1b25As5tT8xZX3XpmuY
- uewp+VpwHCOz8wnP9nKc5h3icSQETxBMHkRlIr8BfKKkfw==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 498q9d8ybf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 00:42:00 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-78e45d71f05so29933556d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Sep 2025 17:42:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758242520; x=1758847320;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c7p3i6sjQr+k5zoECzCA+ef/jRyUe4RBthVRq4DMzXI=;
- b=XtWaJHI46UECTCu8YDfsXNU8obkXCxsBFBizTGY/v9cFnsFl7UdBDYpL986gql4ruJ
- UdzseBJK/Cg0fG4/9o5ahVLF42ortwUQUfD3HWkoMtoKwaTHr1b7RIo0FoksuXSzdTv8
- nR3Hj6YYi0y5mjO+cYepSaep32hKVIfXLGb3X7+Tl4HrDlcdIhZPARjMsaTSjuiIYxXP
- qsl2uK6w0zvvW5C9ZIZyu3gxA9dltfpbonK1QV45iJDq3WmEQUpSr7Pg3Z9wfzo0i6yb
- q5imw12vVD9eNt1OO2l8tGqS1uLi+MfP7dIlx3NlYGDfZq+d8fbG3HZaZ/J9IsktgIbo
- bTQg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSMHuS8+SDGrcqSyI4Qp9pRkO0vffWFvPvGmxmdTY1UP19e7OXF4w9S+TpPey82EENwEz7IhmQDTA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHWNAnuGhIAIOuhe3LJYOeFvq1Sj66NjO/bc2wbhtRLrLS2j2r
- tkpIzTauosBJnWPR82N1hXvV4gwEy/g7RsTQnB+k/Ks40QCwwhHOJiByCEha4Z+XVcyt1xHqvHo
- roQIjCZxqWT6lYT+se10FNzSr5H+qyixPZctwu/ZAFatncV00GKhflxQdc1DzlvVPpdrzPVc=
-X-Gm-Gg: ASbGncvryM3kFCJclk+gOD30B3Y84f0sBpk3rJFdwL7J4pZAlhtE1RfbXmoFuyctOIi
- oE7CC3ZLR8mz/Xa8Rj58xrE4Qq2ywR4j3IyJqHeo7flrMqtNHF7JFxaRFRYozS+u61Fk3uA34dG
- 8jwdPv0x02XPe605FId9jSoO8wMX7M6+/1YxFeTpUwc7MI98wOSmy6nNE3DS6wGe2qdvjnajrmG
- gZhtTpO2sUMgchtDdQQttsujRUnFkkmNJlQq1PJ9LMeMB+Tywma3fWpKTxAougzyRpnu/QhPC3Z
- e4KToitUHDldkkdMGFMYJBBwChtjZASMk+ITfFA7esJnK+kw1qtTSRei7Y0bYt5Rg4qq2RCxnsX
- KmvzFckmI03YPV4bKsXBG+ya5EzgIyRg2W6gCoXN5qqaSyRkAh5Ek
-X-Received: by 2002:a05:6214:248b:b0:721:7749:5a1a with SMTP id
- 6a1803df08f44-79912a779a9mr17102236d6.20.1758242519510; 
- Thu, 18 Sep 2025 17:41:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHHw7U/FdFUi2wArZIvt0T4wFtimMyyezA0YZtnzCSrMFgWPiguKlZZ7p/fkDAhwAWXS6MQZA==
-X-Received: by 2002:a05:6214:248b:b0:721:7749:5a1a with SMTP id
- 6a1803df08f44-79912a779a9mr17102086d6.20.1758242519072; 
- Thu, 18 Sep 2025 17:41:59 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-578a6507462sm1052227e87.46.2025.09.18.17.41.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Sep 2025 17:41:58 -0700 (PDT)
-Date: Fri, 19 Sep 2025 03:41:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v16 00/10] drm/msm/dpu: Support quad pipe with
- dual-interface
-Message-ID: <lkpcsed5wkyztbysmiks5xk3ojr3dw74ef65cpoycclxjmbnsp@5adctm46fc3z>
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
+Received: from BN8PR05CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11011034.outbound.protection.outlook.com [52.101.57.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D6B10E922
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 01:49:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RLTv3XyYm5J+qkjMwqyfAwnXSzChfkeLAP16DXvlW4vZ0eDuZP6MVOIdtTc1LVp6q9JkIVjXONCnbupUR8iPyxAaztwANkcO89I/u93NBGa56QXnxc6yKprR+s8zOaBov8Yupf5idmDoUc/lcxDL2vyIMO8HZ5AUreU/t1UY7wHIBPJ7XoTO/9uSJ+wUOrmL7hd9U3GkFU62rxSGGnNDNQL2By4Fiafmk8IUbuFPXGWPfL+5od3xEHortYCEJygYZICf3/3lYbrkTdr3qHs3qzm396gSg0HuqzA03YO9GkCFxQCjRuaC4Lr/Gw1TiqZ4HLqmmr/l26QF9luiuGJMRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=33BaAsCWK71xp5Ewce/weN1NbP8pGc5lsLiYK8p9CkI=;
+ b=A91RECeNC5oirk8BWxOY0bgs1kyiNYCqPQ4z9LaIZBAC5hU1nBItDrb/vX0KeCF7GxRbAHgRF0UYXDSqy0kRosLk2lejCzW8tbQMRjNlcGuklkpwXDmtAvbTEG8nNRJJ4ga7QMZRu6hh4ETMqf+LpwkMiVuQx6NVWaYgCBZcNMBk8aUA4BSpmzPbifJr3j17xK4M4HSbPI0lFSdcPi4j1fxGoENPYpXA9lkfKgkVmGq6fEWYps6hxw0QwDGxV+rXxEEW7LqZ1c6TiipWKzVOL8pd2gz0oVPkf2FOU7DTycSdDMU98FHrR6MujIX8HwRz/SAbOh7Bgxjf/+C8K3tmyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=33BaAsCWK71xp5Ewce/weN1NbP8pGc5lsLiYK8p9CkI=;
+ b=hQw3IMoJ9iToY5NQOZXstf7oTxiHZ+PncGEHaOMyhR8MTNip0yomg0kFbl/Hgv44jgK3/b13uPrBUCxa5RaVaU1CcYuC7pwK0SEFuY0MDcylnFeCJzMpIY9/3U/7Ry8pNqRBU8OWhZxKxGU8WMshkVlHkLyUuVXzlbAw1hWdU+vgCywDKCO9kNzWzG+zzpsorfXXW2/IrIZqP1I5Brt4R0CwknTTca2Cq7G46vMqk2/wDr7MmwjC3Q/rqGhQgxHc5DCSzKXkduuCSZp3wBCBDIlESQCfSI0GUVn3l6wYlbGQVGD48fmLnH6UCfSTwZb9T9PsmS385aByWPuU5lKI/Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by IA1PR12MB6625.namprd12.prod.outlook.com (2603:10b6:208:3a3::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
+ 2025 01:49:28 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
+ 01:49:28 +0000
+Message-ID: <ab236dfe-5680-4fa5-89e2-3a56cfe67ba5@nvidia.com>
+Date: Fri, 19 Sep 2025 11:49:20 +1000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v5 01/15] mm/zone_device: support large zone device private
+ folios
+To: Chris Mason <clm@meta.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250918122813.1440093-1-clm@meta.com>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <20250918122813.1440093-1-clm@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY5PR17CA0045.namprd17.prod.outlook.com
+ (2603:10b6:a03:167::22) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
-X-Authority-Analysis: v=2.4 cv=YsAPR5YX c=1 sm=1 tr=0 ts=68cca6d8 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=e5mUnYsNAAAA:8
- a=SLu1AeIDhlxv97n4O6gA:9 a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22
- a=cvBusfyB2V15izCimMoJ:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: 1VNyMTC1-Jb7iRNJv_Cjzlb_HKVFYfxy
-X-Proofpoint-ORIG-GUID: 1VNyMTC1-Jb7iRNJv_Cjzlb_HKVFYfxy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE4MDE2MyBTYWx0ZWRfX77uGj/ewxk8M
- suNGhHBZ+FaLgf/F7svjeiJfWqQ41EiyJlJ3Dpmn5pr40/7i5y+wYed/j7sEuRSZXE254iLkete
- +dvmHfxpyUkloI6DQGaPXtDe4OCAauChwYOZ7SGbovfujM49EX/etj100pYOojNZfiyTpGh2ube
- xPsFTis45/5pL7TB/iz72nTNgdSQYKXMxW2xQyV7uB9gRPp/x12rAq4nR4kwCsCtuPhqNvFx+R9
- nGi5HbwbxeSns2BJHiNiogV65CQR+XxPVTUVMjxRGk78DqdjufIdFjfd8ietBlGT8bDthQg762J
- t9aaGiVqpJGBwxwghvRc2Cb+6oEmAGcl/lMQYRTGHB2soacjyy/Uxwrsf3eZuRQKYR9YgQbL55g
- kUL/P3J1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_03,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 spamscore=0 clxscore=1015 phishscore=0
- bulkscore=0 suspectscore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509180163
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|IA1PR12MB6625:EE_
+X-MS-Office365-Filtering-Correlation-Id: dee1e836-dcfa-44a9-89d0-08ddf71ec4cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|10070799003|366016|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MU1HdEp2eGJRNnFRazJzNVFhMWNXVUg3aXlMYTdzYkRPVmpmRVpleGJPMVdS?=
+ =?utf-8?B?cURGbTA4bXJZdVZMbjZEZFZBd3IyV2pHSUdjZkRmZ1VydEs2bTNsamovRkIv?=
+ =?utf-8?B?SHBXRElqVjlNZWNlazE0Z0wzMERWUDk5YnJKUW1Gb3ZrNlkwV0lxT3RNdlR0?=
+ =?utf-8?B?SFRocHdsRWdXOW9UdWNCV0VuZ3ppYUdnWDZObmVyUG5Mb0RpR05Xbks3dXRo?=
+ =?utf-8?B?QXFRa0pxakRQNmFTOEtRcHlZbzFmM1drZGZySVhkRklrYUFGRk1zRWVaazVC?=
+ =?utf-8?B?SWZ2WHVvTkJXemJCSkFweFg1Z3k2LzY1VmtpNDlFNjBvbVN6Nm95TGd6T24r?=
+ =?utf-8?B?d0FvLzdrM01kaG14VlJ5bS9YbUxPUEJXb01SditYZzltWHVUM25RK296Y1ZZ?=
+ =?utf-8?B?Sk9nM2ZhVWVrMzRQNzdWNUREZ0QvN2JBMXVWNWo4MTJOK0dXSVhEWk5BTFB6?=
+ =?utf-8?B?R3NLVFNPZ2VnaTdybm91a3BEUlRUOVRJYXI1T2NsWk80NjZ2eWVLWk8yWm9h?=
+ =?utf-8?B?NFBMOUVuckFvcXlEZGROcGc1SHE1OHZiMzhYbEdEMnFtRlM5Ull3L0pMdW5k?=
+ =?utf-8?B?ajh5Q2NLLzVKSXFQY1ZzOVI0a3o3QXhsZHpuZjZaTXBxdXR1Y2NhdUZaSkp6?=
+ =?utf-8?B?dGFkSDNYTEdRbGd2UE9YUE1mV1dUVUZtRm0xazdLY3MvWEp2ZnlqV0k4Z2xl?=
+ =?utf-8?B?WERxaWNiNHlPUmRvVzlXY0d2RXYyRUNHV3ZGeDFTWlNkM2NvZXN5ZWdoaEsv?=
+ =?utf-8?B?VUMrUkplenI1dzR5TVZPbHloOEFaQ0x4WHRoSmZrRktoUHVzcTYxL1liUWNW?=
+ =?utf-8?B?enpqVW85QzZPbE9mU3ZGNTIxLzlIUDVtdllPL2xBWkc3ZFo2UThzQXQzcjds?=
+ =?utf-8?B?WDcvUmk1VGYwUXFCaUE3a2pXN0FFcjRpM0toTFhqTFJWaWtBbndYUXIydFNO?=
+ =?utf-8?B?dkR5bGtNQ2Y4QnQ2eFh6MVBwaFl6MmF4cUIzLy85TnAwQmNZK1VWcnQ2b3Ro?=
+ =?utf-8?B?UlQvU3A5dGNWN3N3NHBhRngyd2hXaGJvZ2F5YVpiOG5ySCs3YzNrL29HT2FH?=
+ =?utf-8?B?aGlmL3hIczVlbnA5U3dUQmZkNFY1T1dnd1I2NVJRT2pWcWkvdjlNUG1mN0N1?=
+ =?utf-8?B?UURvMk92eEp5dUhXU3pSajUrRnpuSklIUUlLcUJVQXZQR2hnaUJKWW13Ymow?=
+ =?utf-8?B?RjZLN1lTa2FaL3JqMzRZM3JFaEFHVUhQYmRXTHRjV09NVk9NVmhpeVF3UWtZ?=
+ =?utf-8?B?TjRYUGRReDZmTUNtakZkSS9LNktqckRENWJLMVFvSzlaSlhIMVBYdEttK05v?=
+ =?utf-8?B?MGpkaS9ML2t0OU5RUnI0YS9RKzg5L2NaakUxSDR2L2FDRVFuQ0g0VnBLVVpU?=
+ =?utf-8?B?a21PL0JKeCtZL3NZMVFIQ1V1eGpKMzZBMjIzSDl3aFJ3dTVDWkNpNHZaVSts?=
+ =?utf-8?B?cmlxN2oyRlVrckR3d05IMUFqS2xhYlAvbk5FMWt1UnN0M1lITSt6WmxON1NN?=
+ =?utf-8?B?REtMWnVxSHRBMlZWTWdobUVaZHhCc3d0Z2ROek13dk0ybkFSNEEvb1JyaGJu?=
+ =?utf-8?B?dzZ5NmQvUVhZS2Q5ZWhyaCtQYTRsNnNkc0FoaE13SHp0UlJNdXpQS1I3Y3dt?=
+ =?utf-8?B?d2xZenRidHV4Vkc3dGhkWXNkUnFKWEJOWW9FcEFOVllTZ2hWdFBCaWFDQ0Jn?=
+ =?utf-8?B?TG41OGMzK1hMZGROem1UQmVQbkpaZS9odUpzdWtQNCs1N08yaWRlcFpnR1Ev?=
+ =?utf-8?B?bHRZSUp0V1VhblNxeko2TmhHZ3FLUlBiZks2dVZtMXRveEVSL1ZXaWhWZkhG?=
+ =?utf-8?B?T0FyOENxajZvRk81eVg2aVZianNYSFhKaFlZQnc2KzJLMnRxM0o0akhaRHFE?=
+ =?utf-8?B?NWhnZnBaKzhUY2JSdG84eGVaRGpJYlNzQUJtSU4xSTFwaTV6VkUyckc5Ui91?=
+ =?utf-8?Q?bHIGOadIUns=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SndYa3g3QVRoeVFOblRxNHJlK3FNWnlsWU1wa3FHMnpFR0x6SDBqN3daZDI0?=
+ =?utf-8?B?SlZiaEYzRlZYcnF3VzVmSGFpTUg4LzFzc3FIdHI5U3RnWXlRWkR2Wjk4TVE5?=
+ =?utf-8?B?Rnc3Z3V0ZFhCT1JqdFIwQjl1dTZMTjF2eVNEMjlrK1BmMlk4NTdlNTVpS0hP?=
+ =?utf-8?B?TnlmUlFlZkUrL1FwS2dZTDRmd2gvYUxVbTQ3MzR6U2lRenQrNml6S1FidUJw?=
+ =?utf-8?B?VjRwek1GUWtiOVp6KzU0UjluY01FS0gvYW9DU2lyem9BT2NkS2l0Q0ZNaGYz?=
+ =?utf-8?B?ZzJVTkVkakZZenNrczZMMFNyR3llMlRMbUFjOVI2YWhaSnBvU1o5ak9qd2dG?=
+ =?utf-8?B?eWEyZFdra2NSeFZsM0VKQS9hOCtXS2N6Q2w4czZEZmNIcUw5cWFxeVRLVktI?=
+ =?utf-8?B?OFpkNXFSbktDUXg2OHJBSUR6bElZQ3E1SURuRjlZeW02cWdNUXkrWDhlajAv?=
+ =?utf-8?B?WHVsVm1IbDY4VFhEdGF6anQ3VWdEN3NEek15emZLcFk3SFRONXZic0Y0aXZ4?=
+ =?utf-8?B?MzF6a2V3SmhBU01GQXhUdXpzcmlNVHRlM0Iybjg5WUNHd1ZTSFJ6Q0JZYWZQ?=
+ =?utf-8?B?c0pGRitvaFJvcm9uNzdBSUJ2RnA1TDVPNDAwOFpuNXRiT3k3WjJxVVd1d2or?=
+ =?utf-8?B?MmRlS3dLcW5ET1luWUNoNUR6N0tzUHFNMndoQVkrZ0JLY3hrQlJMdDBiZkN5?=
+ =?utf-8?B?aTgrc3c0OVBkR1lPUkNHbVl1QmV3OTAzRzVid3Fadzl5VWVpN1NPaUZzVk5o?=
+ =?utf-8?B?bG1YOU9BOTZaUFJ2VUt2UlYyQ1puQ1RlSlhhYUEvcTJMSGMzMks1S1A1SnZC?=
+ =?utf-8?B?N0V4aEYyUkVVSGowUitFQVhpQ1RtWXRXNVozVDkrd2Q4VjNMWHllRlhubEh4?=
+ =?utf-8?B?MjVCTDM5UTVnTnJjMWxJaHRRWTVRaWFEeUsrZDR3Y0x5ZXFOZWE0bnNQVmdx?=
+ =?utf-8?B?Mnp4WGtIc3dqWnR4NDg3V3NlME42WmZnYURzbVFJZWRKR1c4ZElrYlhtMDhS?=
+ =?utf-8?B?YmlFWEFpUkFqMkQ0eXpsbVh5Zm85TWZnMHVQYi8zTGs2MWhsRmJ2YUJuS3Mx?=
+ =?utf-8?B?SmUrU21KUm9IQVRTRi95MkxuZ29rS2t1YitUTzRHTmJlSEtFWSsxVjRXQzc2?=
+ =?utf-8?B?aVBuUEs5SlVpZVJqcHdPVXo1MlZYbHlPSDBncDB6RUxSNG1MMXJrNFlKYWcz?=
+ =?utf-8?B?cWxBakxUZkdJdVlLOFhkRXZOcjZ2SVVOZHNPOXNRRDY5MGZUM1FPZDNMOUNi?=
+ =?utf-8?B?ekQ2UzF0eGxTK2UxUk1Cd0Q1NVZVZXF0RDNnNm0vREFLTmUxUFFwbUE5NUNO?=
+ =?utf-8?B?WmRPZHJ5N3hERWppSzFPb0RDMXU1NFAvNkZaUVZld2tZa01NUWQ2TVc0R0lY?=
+ =?utf-8?B?UHA1QjhkcmNKbzlzWVJIL25pMnBZdEswczlRWDcwNiszUWNiRU15MnVlNFZS?=
+ =?utf-8?B?d3BWNFRkVWFtTXgreUo1SngyMVFJdXE3d2tkZFhvMlhxUTlQODR2dTM3UmY3?=
+ =?utf-8?B?ZnFmSnlGVHZaVm9Ob2FpSllBVnVEZmVjVG5PejNVeE5jTk1PNHV3VGdCb1Uz?=
+ =?utf-8?B?MUlIUVJhSm0rL0NtMlVUbVd5ZVoxQklSZ1dLdnlmdUhBWHhCUGUrVzlpM3Nm?=
+ =?utf-8?B?QkZ4WEdlcFduQ2FDQmZ6ZnA3WTA4OWY2RmNmQUNjV2xFeDF2TXUvajFOenNh?=
+ =?utf-8?B?TGYvdFd2YUorZUZ5UTNyOHdUbi9sNFNBQ242aWxWdG8xaVhLYWZzckc0amkw?=
+ =?utf-8?B?RmV3Y0lqQmtvMDlaL0pnTElFY0dOQVEzV0RNaTYydnZOZVBkY0NXOXJTZHJ5?=
+ =?utf-8?B?QnVTTFExc082dkdDMkczMUtPRFJ6YUd1SGhLMk9rT1lSVE5TTzdkRmpSbk5F?=
+ =?utf-8?B?Mk1zQzIxRndBZE83cmY0bkhMNCtoYXVnNS9mdXBQdnJ0NysyNXVuRlhDQUhJ?=
+ =?utf-8?B?VFUya0NhNGhPcG9ITWk0RHdEUFZ2K1BhemRMOXF3Mm9ubkRGRUxhT2R3TEEx?=
+ =?utf-8?B?V0lFbCs5K2pQdGRMbjRETm9GU3A4TWJncnVMc0hOY3NGTHNpQnRVcmNIM0xS?=
+ =?utf-8?B?VjRZdEdITWVEWEhYQ1F2ZUcxVmdKbTFjWXlmRlpBamIxUFdFNk96M0ZzZWVl?=
+ =?utf-8?B?SWttTUl4QWFJdHpkZ09UOXJYMjNSYktzU0FFRmRXUlBrenE5VjVFTThtQ1gz?=
+ =?utf-8?Q?8muIwbsGUUL8UO0ajcZzmBo1LSwfifEjrzVD30Ln+SK6?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dee1e836-dcfa-44a9-89d0-08ddf71ec4cb
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 01:49:28.0960 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A84XLnvUVKboFa4lMxb2+BD3ziM/QETkuPICMJhokwvzrgDuOIr59JFDKJhkXj9Q0hBx4Y26r4CBPjK/A7mWdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6625
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,39 +182,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 18, 2025 at 09:28:52PM +0800, Jun Nie wrote:
-> 2 or more SSPPs and dual-DSI interface are need for super wide panel.
-> And 4 DSC are preferred for power optimal in this case due to width
-> limitation of SSPP and MDP clock rate constrain. This patch set
-> extends number of pipes to 4 and revise related mixer blending logic
-> to support quad pipe. All these changes depends on the virtual plane
-> feature to split a super wide drm plane horizontally into 2 or more sub
-> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
-> whole drm plane.
+On 9/18/25 22:27, Chris Mason wrote:
 > 
-> The first pipe pair co-work with the first mixer pair to cover the left
-> half of screen and 2nd pair of pipes and mixers are for the right half
-> of screen. If a plane is only for the right half of screen, only one
-> or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
-> assinged for invalid pipe.
+> [ apologies for resending this, debugging sendmail ]
 > 
-> For those panel that does not require quad-pipe, only 1 or 2 pipes in
-> the 1st pipe pair will be used. There is no concept of right half of
-> screen.
+> Hi Balbir,
 > 
-> For legacy non virtual plane mode, the first 1 or 2 pipes are used for
-> the single SSPP and its multi-rect mode.
->     
->     Changes in v16:
->     - Rebase to latest branch msm-next-lumag.
->     - Fix IGT test failures.
->     - Drop patches that have been merged.
->     - Link to v15: https://lore.kernel.org/r/20250819-v6-16-rc2-quad-pipe-upstream-v15-0-2c7a85089db8@linaro.org
+> On Mon,  8 Sep 2025 10:04:34 +1000 Balbir Singh <balbirs@nvidia.com> wrote:
+>> Add routines to support allocation of large order zone device folios
+>> and helper functions for zone device folios, to check if a folio is
+>> device private and helpers for setting zone device data.
+>>
+>> When large folios are used, the existing page_free() callback in
+>> pgmap is called when the folio is freed, this is true for both
+>> PAGE_SIZE and higher order pages.
+>>
+>> Zone device private large folios do not support deferred split and
+>> scan like normal THP folios.
+> 
+> [ ... ]
+> 
+>> diff --git a/mm/memremap.c b/mm/memremap.c
+>> index 46cb1b0b6f72..66f9186b5500 100644
+>> --- a/mm/memremap.c
+>> +++ b/mm/memremap.c
+>> @@ -453,11 +452,15 @@ void free_zone_device_folio(struct folio *folio)
+>>  
+>>  	switch (pgmap->type) {
+>>  	case MEMORY_DEVICE_PRIVATE:
+>> +		percpu_ref_put_many(&folio->pgmap->ref, nr);
+> 
+> Here we're dropping nr refs
+> 
+>> +		pgmap->ops->page_free(&folio->page);
+>> +		folio->page.mapping = NULL;
+>> +		break;
+>>  	case MEMORY_DEVICE_COHERENT:
+>>  		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
+>>  			break;
+>> -		pgmap->ops->page_free(folio_page(folio, 0));
+>> -		put_dev_pagemap(pgmap);
+>> +		pgmap->ops->page_free(&folio->page);
+>> +		percpu_ref_put(&folio->pgmap->ref);
+> 
+> Here we're dropping one ref?
+> 
+>>  		break;
+>>  
+>>  	case MEMORY_DEVICE_GENERIC:
+>> @@ -480,14 +483,23 @@ void free_zone_device_folio(struct folio *folio)
+>>  	}
+>>  }
+>>  
+>> -void zone_device_page_init(struct page *page)
+>> +void zone_device_folio_init(struct folio *folio, unsigned int order)
+>>  {
+>> +	struct page *page = folio_page(folio, 0);
+>> +
+>> +	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+>> +
+>>  	/*
+>>  	 * Drivers shouldn't be allocating pages after calling
+>>  	 * memunmap_pages().
+>>  	 */
+>> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
+>> -	set_page_count(page, 1);
+>> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
+> 
+> Here we always bump by 1 << order
+> 
+> I hesitate to send this one because I don't know the code at all, but the
+> AI review prompts keep flagging this apparent refcount mismatch, and it looks
+> real to me.
+> 
+> Are the differences in refcount handling inside free_zone_device_folio()
+> intentional?
+> 
 
-Thanks. It's too invasive and too late for 6.18, but I've started the
-test run at https://gitlab.freedesktop.org/drm/msm/-/merge_requests/191
+Thanks for the review! I've posted a v6, but in general
 
+1. Large folios for supported for device-private pages, hence the nr (from folio_order)
+2. The user of the folios specifies the order (for mTHP), a folio gets get created
+   with that order
+3. What you are seeing with the percpu_ref_put for two different cases
+   MEMORY_DEVICE_COHERENT and MEMORY_DEVICE_PRIVATE
 
--- 
-With best wishes
-Dmitry
+The reason I point you to v6, is that the diff is a little bit different there
+
+Balbir
