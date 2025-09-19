@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCF2B89856
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B971BB89889
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Sep 2025 14:48:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFCE10E9B2;
-	Fri, 19 Sep 2025 12:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9576210E9B9;
+	Fri, 19 Sep 2025 12:48:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Koir+LBn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pKb0WE2p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C1510E9B2;
- Fri, 19 Sep 2025 12:45:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92CF110E239
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Sep 2025 12:48:34 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id EC3C21A0F14;
- Fri, 19 Sep 2025 12:45:44 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 57E0D1A0F14;
+ Fri, 19 Sep 2025 12:48:33 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id BFB0A606A8;
- Fri, 19 Sep 2025 12:45:44 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 1CBAC606A8;
+ Fri, 19 Sep 2025 12:48:33 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C96C7102F1847; 
- Fri, 19 Sep 2025 14:45:36 +0200 (CEST)
+ with ESMTPSA id 387DC102F17F6; 
+ Fri, 19 Sep 2025 14:48:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1758285942; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1758286110; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references:autocrypt;
- bh=MjgzZqUkGZtW8y2Dj439Uyqecpqe2is3aaIjBO+I7Qk=;
- b=Koir+LBnjg3C1xEp5PjdUQfL00B/cbLDleIAal1uoGnhwdNosgmg14sO4nCSGniH+gOPOD
- LDm5Xtvj5mCn5b9KR41MAMwkd291c3uyNL/O0AJvZPurFsn2GjMhduRl0RiQ5QYtCQnZxt
- +drqZhWNRFQvVeJl2Vn30WtBAcnb3M+sfmyHqotcNT/xxCPyFZQzVkZKuHyduL+KzUdy4I
- Q1e/dQaAHg4heZ4vQsAoytZd1Pi/IMDUn/fD5K/yF0tuvi9SDgodOB8NJGSq3pm/M9rGf3
- 8ashqkJto+jk0UtmCvCBzCH4j3LbFZMWSF1q+6n6v78FEdw3leKzUtshAfa4ag==
-Message-ID: <9ca5c4c2-0a73-4994-9f18-6dc88effe41b@bootlin.com>
-Date: Fri, 19 Sep 2025 14:45:36 +0200
+ bh=edgPX+ZMRVJRPce4J9xc4JzLXJtK189YyGXqaQRiUYM=;
+ b=pKb0WE2p9oZ+vyPQSrTFDsWToBhk1qI+JRFaAL2uYifaYBCiPYp5WW0jE2Ut87D1eU2Sl4
+ l3jNBhUv6Slqr5P8gIbv5fkhTGfGAu4Z/nBPM6GNOglhs6QtDsk855jKmHGt3pCjlFjtHC
+ BFA6D8N+FUvjsQwRcIIU/MmMEmXM54qN3dayg7O1OuCNWQQ+aFOUD8uoS/QD1/RpVVwTek
+ tGtfGN7hMLG+HlmUpY58mGNauTowpw9+LIF2oxqs9b09OmbLt/TBGvvjM3SoTXVqnJvBE1
+ P1cnfzlcIHk+l60Yol2+mqpqRtRZzpcKzlx6X4XrOnXYW0G13tDL+l63mvdkRA==
+Message-ID: <0f63d9e1-8ef6-4d1d-83dc-6666a256f81b@bootlin.com>
+Date: Fri, 19 Sep 2025 14:48:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH RFC v2 17/20] drm/vkms: Rename existing color pipeline
- helpers to contain "pre_blend"
+Subject: Re: [PATCH RFC v2 18/20] drm/vkms: Prepare
+ pre_blend_color_transform() for post-blend pipelines
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -64,7 +64,7 @@ Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Simona Vetter <simona.vetter@ffwll.ch>
 References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-17-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-18-ac4471b44758@collabora.com>
 Content-Language: en-US, fr
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
@@ -120,7 +120,7 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-17-ac4471b44758@collabora.com>
+In-Reply-To: <20250917-mtk-post-blend-color-pipeline-v2-18-ac4471b44758@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -142,75 +142,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
-> Rename the existing color pipeline helpers so they contain "pre_blend"
-> in the name to make them clearly distinguishable from the post-blend
-> helpers when they're introduced.
+> As a preparatory step for supporting post-blend color pipelines in VKMS,
+> rename pre_blend_color_transform() to color_transform() and make it take
+> the first colorop instead of a plane state, so it can be shared by both
+> pre- and post-blend color pipeline code paths.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 > ---
->   drivers/gpu/drm/vkms/vkms_colorop.c | 8 +++++---
->   drivers/gpu/drm/vkms/vkms_drv.h     | 2 +-
->   drivers/gpu/drm/vkms/vkms_plane.c   | 2 +-
->   3 files changed, 7 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_composer.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
-> index 0191ac44dec0a9513e001b304f6ead32a96cdb8c..5924ae2bd40fc904048f99bc9b96308140709e25 100644
-> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
-> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
-> @@ -14,7 +14,9 @@ static const u64 supported_tfs =
->   
->   #define MAX_COLOR_PIPELINE_OPS 4
->   
-> -static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-> +static int
-> +vkms_initialize_pre_blend_color_pipeline(struct drm_plane *plane,
-> +					 struct drm_prop_enum_list *list)
->   {
->   	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
->   	struct drm_device *dev = plane->dev;
-> @@ -96,13 +98,13 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->   	return ret;
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index 31b1dd3cd115d930ec3ed498403a8f44208d76c3..05e1551d6330e4dc14563d3a399b3544d11c6576 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -189,13 +189,13 @@ static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colo
+>   	}
 >   }
 >   
-> -int vkms_initialize_colorops(struct drm_plane *plane)
-> +int vkms_initialize_pre_blend_colorops(struct drm_plane *plane)
+> -static void pre_blend_color_transform(const struct vkms_plane_state *plane_state,
+> -				      struct line_buffer *output_buffer)
+> +static void color_transform(struct drm_colorop *first_colorop,
+> +			    struct line_buffer *output_buffer)
 >   {
->   	struct drm_prop_enum_list pipeline;
->   	int ret;
+>   	struct pixel_argb_s32 pixel;
 >   
->   	/* Add color pipeline */
-> -	ret = vkms_initialize_color_pipeline(plane, &pipeline);
-> +	ret = vkms_initialize_pre_blend_color_pipeline(plane, &pipeline);
->   	if (ret)
->   		return ret;
+>   	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
+> -		struct drm_colorop *colorop = plane_state->base.base.color_pipeline;
+> +		struct drm_colorop *colorop = first_colorop;
 >   
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 55440ec6db5209741af1443d4e49e9471e6795c9..37ee569474223b2cf01e3cc0e4f119777533ae23 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -305,6 +305,6 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
->   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, struct vkms_output *vkms_out);
->   
->   /* Colorops */
-> -int vkms_initialize_colorops(struct drm_plane *plane);
-> +int vkms_initialize_pre_blend_colorops(struct drm_plane *plane);
->   
->   #endif /* _VKMS_DRV_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index db8d26810afa8d8fcab48a6db2e691255f26a8a6..8e63a07a7e1b0a350361d0b03b7911bfa9ce3dcc 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -232,7 +232,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
->   					  DRM_COLOR_YCBCR_BT601,
->   					  DRM_COLOR_YCBCR_FULL_RANGE);
->   
-> -	vkms_initialize_colorops(&plane->base);
-> +	vkms_initialize_pre_blend_colorops(&plane->base);
->   
->   	return plane;
+>   		/*
+>   		 * Some operations, such as applying a BT709 encoding matrix,
+> @@ -449,7 +449,7 @@ static void blend_line(struct vkms_plane_state *current_plane, int y,
+>   	 */
+>   	current_plane->pixel_read_line(current_plane, src_x_start, src_y_start, direction,
+>   				       pixel_count, &stage_buffer->pixels[dst_x_start]);
+> -	pre_blend_color_transform(current_plane, stage_buffer);
+> +	color_transform(current_plane->base.base.color_pipeline, stage_buffer);
+>   	pre_mul_alpha_blend(stage_buffer, output_buffer,
+>   			    dst_x_start, pixel_count);
 >   }
 > 
 
