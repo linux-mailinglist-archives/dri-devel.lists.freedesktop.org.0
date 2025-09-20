@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8D2B8C5CE
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 12:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6A0B8C5E9
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 12:49:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A3510E27D;
-	Sat, 20 Sep 2025 10:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2E7510E2B9;
+	Sat, 20 Sep 2025 10:49:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mX/JPF6v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BVB2IimR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED75B10E0BA
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 09:46:15 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3ee1221ceaaso1398291f8f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 02:46:15 -0700 (PDT)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C5110E0BA
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 09:46:16 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-45f29e5e89bso32393555e9.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 02:46:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758361574; x=1758966374; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=A9AmXy4+QY1EUkh+fpSVOr355frd/pBEAbEoqii3KVA=;
- b=mX/JPF6vYmjGQuFX12CEWh5/BsHq9gq/6FjHTibw3WuDZlHBU2j/rB265QoyRlSh3a
- 0shUNUMWaRqm+RN29HcgsB61TWprNv+iwYg4IBU+LlhO2KjmdFpq0CfF0n5DWrJspo1R
- ACp9IAwckuG1lUUCcrqz+LaiBZzYofBF6vWsE9HTQiSdTOeKiavANQpNH00F4Y/I7+Jt
- a6bzwXZ/YvLAr0ozatx1Ajs5s3s6AViZq34I9503AauTzHzcRxwlxAVG+BxFL27vbPEi
- 1x+24LZTIRZaMgsxmdgDVmtNVKzQ22qva9i1BBW+NKEF8+ssUce+MkCUHwlXPhbyUKpM
- Y4NA==
+ d=gmail.com; s=20230601; t=1758361575; x=1758966375; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=RXym3wsq/PuCHeEIYBZQWPcAIhSSAARk/vWWcaHNabQ=;
+ b=BVB2IimR3lS/PbTF+WKCpqnTSkCuIkw2clOLo53xNtF2Fe8NOH99Y5CiyUNWziR4nv
+ 77Trk4swQW1JF5gzN9htVtR6jcPzl4Iu4Im20uITjhXcSD78PffiXu1pTkF7U4OvKjPT
+ q7X8vFUrbvKngeztoSaSzPVxmOjjWM7TXSIJL50vxff6hULy545UY7L0TIy71MATix4H
+ 740mkXcSh9KCyQiBKS4XIRJn5XbQ3+3ynPqP9EFj55wE9JlxE1TBbPPPyzVXdLrA4Se2
+ ngcZ86Pl+IykWgVC55GVREiMmArv4WpWO5qJpog1/gnk/mVF+sGEkmj1bhEsF4nShyIe
+ 9+XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758361574; x=1758966374;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=A9AmXy4+QY1EUkh+fpSVOr355frd/pBEAbEoqii3KVA=;
- b=YtZrc2HBcdd9JSc+FgzF71l2QxsIW52V/Sbui3CLf21p/13tw/+P714Pqxh/aadWsb
- MFJbuJpohMB7eR/z2qQVty0NswvpdQMwqxsuANyTrGTtfiHvvngre3aKFwUE7Fta2sLI
- o6Qhrfk32rJiPyqvMAk4QKmuxZjmV+J2BGrGtdF/JCoMnKfFyaYZ3Q0p0IvW9xhXWJp4
- QHmflUWx5U2diz+qTtIkvEaqricMV2XIONINHCJZ8PvYNUA/z/M3cUWpxWX54PpUqqxI
- WWe6JpE+Lv1txrLQpQUMyHlgce9ulUJ6K9wBwofTSslkUKw9btj90jwCPrCZro9/R2P+
- s4VQ==
-X-Gm-Message-State: AOJu0Yz5Fx5+7Pd725S484MXebLhKKhRcwFv1IhikjEg5i+HadrunHKB
- aSCHv9A1rA/iDGsRTzurPbgjS/BWsstRPBYVw31HmGeZ8hjsrtrBb/cV
-X-Gm-Gg: ASbGnctnYJIsoMZ49PEWGLFjTa9stopeCVNmT4YxwGdBggVYYlCBKK7VI9olYsZLm3i
- oAQWMibwbUyHuaKjmlHvMB1nZfuyA41G0jx+HpWfHEKCftBZfWMoFcbow3/eRgk5V80jfEQf/4A
- 3enzSUzSbgjzlMfHV2Fjxkl96MUC8oacjR3M3D/btfm0aHQdOYl68nWWAWpmQkVw/Nv1elK7X7y
- dqfFx7BwPKPEZEVnv13/sEXa8Zb1IlSmxcz12+IgTbiCPFCA2t+1SRXsZlmSZ8dhQxRBgc4U5L8
- r9h1vu1iZi7cVjSqfcEyoKDTuBrU/HCNKSpRyQd7XHyWc4MKdIwHAOHFuq/c4rgYjks1b5UWWEZ
- Z3b82ULZIcY0Xyz/4V5t0exn7cnHTAJJRAO5VaLFL/DtJs6kXUwjxskRRY2553lx/
-X-Google-Smtp-Source: AGHT+IEatF3KG2Gj7cdp5qI2sAlIkCwMm4RWqlOem2CllBesxAwlDjeW1w8yej2F7QTtoxZSOOR6Jw==
-X-Received: by 2002:a05:6000:2282:b0:3eb:5ff:cb2e with SMTP id
- ffacd0b85a97d-3ee83cabcc7mr4746585f8f.29.1758361573978; 
- Sat, 20 Sep 2025 02:46:13 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1758361575; x=1758966375;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RXym3wsq/PuCHeEIYBZQWPcAIhSSAARk/vWWcaHNabQ=;
+ b=de/J382Qzyz088xib3xc7eh5H33o5Tige5zSKvIBMLUfBahStTP10VvBqT5MhwEVD7
+ aQBQuF//zwxdu+eZTcCennrROBGgnq8i9SGCjcThgug4h50MgmIVqtAtWpOks6a7Yrui
+ dEH4PuUoiUy8WOArwRQGzQdHkilEzBzf52JXSavXfcpR6FxSNqeCQHjyI5Krbc5cqegY
+ eXJDVrJeUx43MgFyd33EPZtP9w+yUzsQcL7VCnGykio6OAk6izn4BiJmeZAURAa8HrSv
+ AN1koNzAqCq2b9Pgg4fmCouHvezh9rWquldocteE2CWHM8Sf3dh4UqwhJawCGapj7gsE
+ Fd4g==
+X-Gm-Message-State: AOJu0YyD56UZOz10e/yzj0rCH6BY9UqsUPzJAD0kuHk1E+ODheRxtV9l
+ cMy8j8/3aW5tX2h1s1V3jjhElFfGXJBWvkJ1KwdemUOQWuZ+Pdq4C7j6
+X-Gm-Gg: ASbGncuwlLXmkT7vU2VlIQ2a0Li+fPUjeXp1NExRmaM54GzmjzYZCUGJqe+amwJAdjk
+ B9B+UQfcAK+TmKCkJuPAXLgcBOoFUPTFUrHYbIXcj5grd52/Re9rwe35kyFnPspMmVC4QJ/YjEw
+ CVVb1Nvb6HKK4axFQ+qARGSxTKzVTaUrLlTk6EYhomYRn9QdKArhRncIkemIWc5O4K1yeBZi74l
+ jPFUQM9XoIvPlFOOwBT8Jn5jwY289dfw3N1X3iWFrxdh8o2UijOjMsnZH7Ifmm+tSeq9Yyamkb8
+ ynmjMNqa761njxydOzAKK9x6qO0YWHBHEXZw22eJFiIT0FhfkgI5cx5F8GE6x/o3TJKyjoJ4f2f
+ G9Crtu5POP/pae8J2FkdF6TkIGxq3Rg2HcV15zkMLGygpAKwr2UAKSYqVeUCmVZeL+bBxMpziW4
+ 0=
+X-Google-Smtp-Source: AGHT+IGJerg5bFIZpABIm0fuQUyqCHNKx7qMOFOYTZTKzKq9jBqbHCxsWXt3vY5pR3US6GOBn/QQ8w==
+X-Received: by 2002:a05:600c:6305:b0:458:bc3f:6a77 with SMTP id
+ 5b1f17b1804b1-467e6b64cc2mr54816235e9.2.1758361574893; 
+ Sat, 20 Sep 2025 02:46:14 -0700 (PDT)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.139.156])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4613eb27f25sm163883615e9.23.2025.09.20.02.46.12
+ 5b1f17b1804b1-4613eb27f25sm163883615e9.23.2025.09.20.02.46.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Sep 2025 02:46:13 -0700 (PDT)
+ Sat, 20 Sep 2025 02:46:14 -0700 (PDT)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Subject: [PATCH v2 0/5] drm/solomon: Code improvements and DRM helper adoption
-Date: Sat, 20 Sep 2025 11:45:40 +0200
-Message-Id: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
+Date: Sat, 20 Sep 2025 11:45:41 +0200
+Subject: [PATCH v2 1/5] drm/solomon: Move calls to drm_gem_fb_end_cpu*()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMR3zmgC/3WNQQqDMBBFryKzbkoStThd9R7FhYkTHahGkhIsk
- rs3dd/le/DfPyBSYIpwrw4IlDiyXwvoSwV2HtaJBI+FQUvdSlRa8LIFn0jEOKpa7sI0renQuea
- GNZTVFsjxfhaffeGZ49uHz3mQ1M/+byUlpDAW6w5p1Ij0mJaBX1frF+hzzl/GT9cHrgAAAA==
-X-Change-ID: 20250912-improve-ssd130x-b45b89ff4693
+Message-Id: <20250920-improve-ssd130x-v2-1-77721e87ae08@gmail.com>
+References: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
+In-Reply-To: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
 To: Javier Martinez Canillas <javierm@redhat.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -93,45 +92,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series improves the Solomon SSD130x DRM driver by adopting
-existing DRM helpers, improving code clarity, and following kernel
-coding standards.
+Calls to drm_gem_fb_end_cpu*() should be between the calls to
+drm_dev*(), and not hidden inside some other function. This way the
+critical section code is visible at a glance, keeping it short and
+improving maintainability.
 
-* Patch #1 moves DRM GEM framebuffer CPU access calls to make critical
-  sections more visible and maintainable.
-* Patch #2 replaces WARN_ON with drm_WARN_ON_ONCE to prevent log spam.
-* Patch #3 adopts drm_crtc_helper_mode_valid_fixed() for mode
-  validation.
-* Patch #4 adopts drm_connector_helper_get_modes_fixed() for mode
-  management.
-* Patch #5 enforces one assignment per line per kernel coding style.
-
-These improvements reduce code duplication by leveraging existing DRM
-infrastructure and enhance code readability without changing
-functionality.
-
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 ---
-Changes in v2:
-- Use a goto label to ensure drm_dev_exit() is called in the error path
-  of drm_gem_fb_begin_cpu_access().
-- Link to v1: https://lore.kernel.org/r/20250912-improve-ssd130x-v1-0-bc9389ed299e@gmail.com
+ drivers/gpu/drm/solomon/ssd130x.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
----
-Iker Pedrosa (5):
-      drm/solomon: Move calls to drm_gem_fb_end_cpu*()
-      drm/solomon: Use drm_WARN_ON_ONCE instead of WARN_ON
-      drm/solomon: Simplify mode_valid() using DRM helper
-      drm/solomon: Simplify get_modes() using DRM helper
-      drm/solomon: Enforce one assignment per line
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index dd2006d51c7a2fc8501904565da806aa47333ad6..d98015d6d28505d028ee958831e3cefdb8a9c397 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -1016,15 +1016,9 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb,
+ 
+ 	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
+ 
+-	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+-	if (ret)
+-		return ret;
+-
+ 	iosys_map_set_vaddr(&dst, buf);
+ 	drm_fb_xrgb8888_to_mono(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+ 
+-	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+-
+ 	ssd130x_update_rect(ssd130x, rect, buf, data_array);
+ 
+ 	return ret;
+@@ -1048,15 +1042,9 @@ static int ssd132x_fb_blit_rect(struct drm_framebuffer *fb,
+ 
+ 	dst_pitch = drm_rect_width(rect);
+ 
+-	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+-	if (ret)
+-		return ret;
+-
+ 	iosys_map_set_vaddr(&dst, buf);
+ 	drm_fb_xrgb8888_to_gray8(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+ 
+-	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+-
+ 	ssd132x_update_rect(ssd130x, rect, buf, data_array);
+ 
+ 	return ret;
+@@ -1078,15 +1066,9 @@ static int ssd133x_fb_blit_rect(struct drm_framebuffer *fb,
+ 
+ 	dst_pitch = drm_format_info_min_pitch(fi, 0, drm_rect_width(rect));
+ 
+-	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+-	if (ret)
+-		return ret;
+-
+ 	iosys_map_set_vaddr(&dst, data_array);
+ 	drm_fb_xrgb8888_to_rgb332(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
+ 
+-	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+-
+ 	ssd133x_update_rect(ssd130x, rect, data_array, dst_pitch);
+ 
+ 	return ret;
+@@ -1232,6 +1214,9 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
++	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
++		goto out_drm_dev_exit;
++
+ 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+ 	drm_atomic_for_each_plane_damage(&iter, &damage) {
+ 		dst_clip = plane_state->dst;
+@@ -1245,6 +1230,9 @@ static void ssd130x_primary_plane_atomic_update(struct drm_plane *plane,
+ 				     &shadow_plane_state->fmtcnv_state);
+ 	}
+ 
++	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++
++out_drm_dev_exit:
+ 	drm_dev_exit(idx);
+ }
+ 
+@@ -1267,6 +1255,9 @@ static void ssd132x_primary_plane_atomic_update(struct drm_plane *plane,
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
++	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
++		goto out_drm_dev_exit;
++
+ 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+ 	drm_atomic_for_each_plane_damage(&iter, &damage) {
+ 		dst_clip = plane_state->dst;
+@@ -1280,6 +1271,9 @@ static void ssd132x_primary_plane_atomic_update(struct drm_plane *plane,
+ 				     &shadow_plane_state->fmtcnv_state);
+ 	}
+ 
++	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++
++out_drm_dev_exit:
+ 	drm_dev_exit(idx);
+ }
+ 
+@@ -1301,6 +1295,9 @@ static void ssd133x_primary_plane_atomic_update(struct drm_plane *plane,
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
++	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE))
++		goto out_drm_dev_exit;
++
+ 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+ 	drm_atomic_for_each_plane_damage(&iter, &damage) {
+ 		dst_clip = plane_state->dst;
+@@ -1313,6 +1310,9 @@ static void ssd133x_primary_plane_atomic_update(struct drm_plane *plane,
+ 				     &shadow_plane_state->fmtcnv_state);
+ 	}
+ 
++	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
++
++out_drm_dev_exit:
+ 	drm_dev_exit(idx);
+ }
+ 
 
- drivers/gpu/drm/solomon/ssd130x.c | 80 ++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 48 deletions(-)
----
-base-commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
-change-id: 20250912-improve-ssd130x-b45b89ff4693
-
-Best regards,
 -- 
-Iker Pedrosa <ikerpedrosam@gmail.com>
+2.51.0
 
