@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE80AB8C5D4
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 12:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1137DB8C5E0
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 12:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC02D10E2B6;
-	Sat, 20 Sep 2025 10:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E691A10E2B7;
+	Sat, 20 Sep 2025 10:49:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M/IBScA7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZbfnISIk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B58D10E0BA
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 09:46:19 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-45f2acb5f42so22634915e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 02:46:19 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 407B710E0BA
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 09:46:20 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3ed20bdfdffso2986861f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Sep 2025 02:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758361578; x=1758966378; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1758361579; x=1758966379; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=U1k1X7wVhC2Ie0OtoDz9fs6zchWP2fAQ9NgE8oeXh0w=;
- b=M/IBScA7r4qeVtIO++7WMB00SHGIxr1XrYRO1lkKr5HY7UJoL0nQaXl34t6QJw+P43
- Ft2xrjh17pWsNTrEboi6/OnvSKBfrA382KnqCjgxJAT8+gTJzr9aw3xqBNK1pVhIOyr7
- 7adhrXpb8GaceSulz6T1Sf7Du6v3By/YnF1kB2VZNb0jgURXxHIlPfTcwolgb8X/Hi1R
- 5ME3GIz8VC429rk6ur6slLLKyBI+x2VcL6BtZcEhpQQQAKJI0yMTZOWXol0RdTK1zk8g
- E0kZ6Cb8GHY5PfL7B+hLU5mXQjDVTrZBj/hM676yfyOgnV5aOi+WNWY1/leV6b1MKYuN
- v8rw==
+ :reply-to; bh=rq2teog4gIQygb1gH3aobDn756RO8w24JG5dF9G4uFY=;
+ b=ZbfnISIk5/x/ZLOJchcYvj1rAU/SHklXLj0ECO33d+4XeSdkUFy7Mi7z1zhDPBHtQ4
+ R5tELGVKbIONv1MWDroQlfc/5wRbRtUxwAZ3O4k5B1G0Gq8icnOzQDDpCaDiFjmhHzA7
+ Nwdnm8lcYBdbnWY7fLt8z5QZQo8ucAqwvTOQPXOUScyH1p6Gpsvn4lDu2twlyO08vsCQ
+ L09BMcmLcq3WiEw+5F4WwUQWFax2HSgwa39d1p5KRM+WqRB8dSwrR93xE0W7YdzWuXgP
+ Z3asmA7/r/FdWs7pP0l+r3JR3AO0icmwXiZdVVv89eZ6TTyZVG6VgIixMNXSzlLyasnk
+ k8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758361578; x=1758966378;
+ d=1e100.net; s=20230601; t=1758361579; x=1758966379;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U1k1X7wVhC2Ie0OtoDz9fs6zchWP2fAQ9NgE8oeXh0w=;
- b=m22OGMlvEqiR4d3x02EMAAX+uYQQDrNLNYHf67N5s5inMQl+G1YqU0KQ6P0YlqyFjt
- cHCOWwyIWGPpHlP5hCUX20yLBQfMz7U15w74QhbmU1llmamPjFn+eLVnT1TBu9TCAbEi
- tHZ+TR6cBmPKZa4MIG4NjqPeUl0r79MmcqvUtoV4K+FWFiaBaSWo9lL4uEr7U9Qp9VsE
- 5pWhYz0Iu95zzLi4ymcRKgIdurVCSRDmywkQ3IixJZFSHevsN0uZB0yvWQQlpxvAPQTJ
- AvZjXSoLzTbThNbGMIbBrbIjcNuly9xwudMwgu1LtPtHvpxXAm7iX+zyLQNh6fCLK9zC
- SQWw==
-X-Gm-Message-State: AOJu0YxZ70NG4GmASp/C+H+vk8DrHS4ScCo1Sf3VmwVWWiH63H4rhwS+
- jTKplqQr4+xIvke4i2tNT66CFpmyCaAyAEox8pRgIq2DiL0VLkbZAo6u
-X-Gm-Gg: ASbGnctvmS/FBczwoW2L8iogZn4vHTbGAXgm8BYEWsJtteGXabpcGCtT/slEgc9wXt4
- 0ZOiVjmaPSTlt8Mut71N9XsOu+Q4qyNbiK+ylGqxdc+47ZtGX08tdzpaeWC112pRIJus2XCDt7n
- 7oL28YqJQbdZ0kauIlteHe++gEqWDDfIroXo/hVhf8dGO4ZH38fkuHuIYzl59iYCt+xeXVtdEpL
- hF1JT2sifs2jPxJblCbHFs7CHyaeR8vUgJ1SLnTtuhlVoh6bR+dIgci0OET4yx+9IBpoEwjaaWA
- ph0p+FUIBSU3YGxqwwCa4I/BPX/IOsdVj49WRcm20+tQvoesz+98Yz7xPxdX7RyhS+UlJxF0gn9
- qfoU7F9vNebezjmJ+PDULkPMoVpFjqzVM1R5b5o9pEIrXu9UffYBviwPP1hdlDr4b
-X-Google-Smtp-Source: AGHT+IG+MahtWTblaZT5DEDOldTm+ldFui4wqvz2L1QckgRXFnWDqec2nqXs/VZsuZMCBAulm9eIVA==
-X-Received: by 2002:a05:600c:3055:b0:468:9798:1acc with SMTP id
- 5b1f17b1804b1-4689798217dmr34817835e9.2.1758361577700; 
- Sat, 20 Sep 2025 02:46:17 -0700 (PDT)
+ bh=rq2teog4gIQygb1gH3aobDn756RO8w24JG5dF9G4uFY=;
+ b=AzGjYFNn2ICJRPpiHmK+g6tBD/6AQvXlq5icjVAZ8DiuMvyqTvJAdAMLcRitHofA1F
+ Ko9a5Jvl7/vJu7JSuFeYZ/mZs5MR8Su+9uw/9j7TsvyKT07uOelCfHsCnGUFvzytB5jQ
+ kKhLkTSoH2VLMu51jWnj/e6AG27rI3a2dKUlXDuiiJdFET4o+jgG6Q05kXhBVJu3+alV
+ yyPLTQUP3o5T3MFOufUEIfAhAiKV3nL9pHHxmtietgSCFs+caTep4Nkvgil/nb9BjAkQ
+ QAOObXBFpEvGGfMtGE0qFGlQwnlhjqqdqUAJO1T4/BEe/e16bQKIAdVBR5GsXFPG0YG5
+ pNvg==
+X-Gm-Message-State: AOJu0Yxgmg4UmMtW52gX9oYCcX57Cjv/53eSgnVWrlbKlbO+SLi7ixb2
+ hPV0UodJkFt4ZEMJLG37QCnE8ibMSINn+a2X9DS9+A07zOEuIN0Vi0i+
+X-Gm-Gg: ASbGncvcgZCVe6aW2NypMYaFXc+KPHxNt4wIa8cLQMi7ZSIckkiV2UMmW+ExIlpynaU
+ qBsMIXXh780haQnYAkdBE/2zP3HmIlgxRNwDUHKflR0WJH2llkSBbit3LAIsP7YE/Nsn3tWvpOB
+ tXe3b0Tfjx1fDwOxFB2kzQrooQAbFQAM5kik2zb2B2Y5IRkA6VYG+kQB9frrO4XiQDNLv0pyVlV
+ 5P6BjPDsFkVKGLttwEFV5i+n+U2YYdDIhC/Cd71dq3HmeQ+unweQ7a68hWwr1cHTVO7Ua98cUux
+ q8NYzDKx/Z6645JZ7UkCbEB/KWa6adUFEtBCdR1KADaU3/B476nzrReyYwETB+cOGtv2N86/lF1
+ KBH+DWNbJg7qylhM5Coa6nrkAEPAlvsOlJ+Xy8TmfmwSalmEmwQuXy/9fpns/6FAP
+X-Google-Smtp-Source: AGHT+IFl+MC1nDaVLJuiZMNJ7+rEO5Az3pzwP23zFiHFFh+Nl5JFajqsTQQ43BuBBoBZUolOBfA1hg==
+X-Received: by 2002:a05:6000:1862:b0:3ea:bccc:2a2c with SMTP id
+ ffacd0b85a97d-3ee7c552978mr4924011f8f.11.1758361578687; 
+ Sat, 20 Sep 2025 02:46:18 -0700 (PDT)
 Received: from ipedrosa-thinkpadx1carbongen12.rmtes.csb ([5.225.139.156])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4613eb27f25sm163883615e9.23.2025.09.20.02.46.16
+ 5b1f17b1804b1-4613eb27f25sm163883615e9.23.2025.09.20.02.46.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Sep 2025 02:46:17 -0700 (PDT)
+ Sat, 20 Sep 2025 02:46:18 -0700 (PDT)
 From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Sat, 20 Sep 2025 11:45:44 +0200
-Subject: [PATCH v2 4/5] drm/solomon: Simplify get_modes() using DRM helper
+Date: Sat, 20 Sep 2025 11:45:45 +0200
+Subject: [PATCH v2 5/5] drm/solomon: Enforce one assignment per line
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250920-improve-ssd130x-v2-4-77721e87ae08@gmail.com>
+Message-Id: <20250920-improve-ssd130x-v2-5-77721e87ae08@gmail.com>
 References: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
 In-Reply-To: <20250920-improve-ssd130x-v2-0-77721e87ae08@gmail.com>
 To: Javier Martinez Canillas <javierm@redhat.com>, 
@@ -91,46 +91,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x_connector_get_modes function contains a manual implementation
-to manage modes.
-
-This pattern is common for simple displays, and the DRM core already
-provides the drm_connector_helper_get_modes_fixed() helper for this exact
-use case.
+The code contains several instances of chained assignments. The Linux
+kernel coding style generally favors clarity and simplicity over terse
+syntax. Refactor the code to use a separate line for each assignment.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/gpu/drm/solomon/ssd130x.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 6083fd9e9e5e4def670961dc46df7e4adef7462d..50528a94cd3bcfa46517c6ffccf3f458e17cf816 100644
+index 50528a94cd3bcfa46517c6ffccf3f458e17cf816..f3dd6982b293c74024f7d70a6ef1ebfb5889b0a1 100644
 --- a/drivers/gpu/drm/solomon/ssd130x.c
 +++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -1732,20 +1732,8 @@ static const struct drm_encoder_funcs ssd130x_encoder_funcs = {
- static int ssd130x_connector_get_modes(struct drm_connector *connector)
- {
- 	struct ssd130x_device *ssd130x = drm_to_ssd130x(connector->dev);
--	struct drm_display_mode *mode;
--	struct device *dev = ssd130x->dev;
--
--	mode = drm_mode_duplicate(connector->dev, &ssd130x->mode);
--	if (!mode) {
--		dev_err(dev, "Failed to duplicated mode\n");
--		return 0;
--	}
--
--	drm_mode_probed_add(connector, mode);
--	drm_set_preferred_mode(connector, mode->hdisplay, mode->vdisplay);
+@@ -1867,10 +1867,14 @@ static int ssd130x_init_modeset(struct ssd130x_device *ssd130x)
  
--	/* There is only a single mode */
--	return 1;
-+	return drm_connector_helper_get_modes_fixed(connector, &ssd130x->mode);
- }
+ 	mode->type = DRM_MODE_TYPE_DRIVER;
+ 	mode->clock = 1;
+-	mode->hdisplay = mode->htotal = ssd130x->width;
+-	mode->hsync_start = mode->hsync_end = ssd130x->width;
+-	mode->vdisplay = mode->vtotal = ssd130x->height;
+-	mode->vsync_start = mode->vsync_end = ssd130x->height;
++	mode->hdisplay = ssd130x->width;
++	mode->htotal = ssd130x->width;
++	mode->hsync_start = ssd130x->width;
++	mode->hsync_end = ssd130x->width;
++	mode->vdisplay = ssd130x->height;
++	mode->vtotal = ssd130x->height;
++	mode->vsync_start = ssd130x->height;
++	mode->vsync_end = ssd130x->height;
+ 	mode->width_mm = 27;
+ 	mode->height_mm = 27;
  
- static const struct drm_connector_helper_funcs ssd130x_connector_helper_funcs = {
 
 -- 
 2.51.0
