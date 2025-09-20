@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B80AB8CEC1
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 20:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37703B8CEBB
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Sep 2025 20:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9B910E2DB;
-	Sat, 20 Sep 2025 18:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 511EE10E2D6;
+	Sat, 20 Sep 2025 18:23:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CbZRnYM/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="t0ZVfgqP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from CY7PR03CU001.outbound.protection.outlook.com
  (mail-westcentralusazon11010064.outbound.protection.outlook.com
  [40.93.198.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B2F10E2D3;
- Sat, 20 Sep 2025 18:23:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE3B10E2D6;
+ Sat, 20 Sep 2025 18:23:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=isY2CFC/K3hKOI20WTY8krKaa2NZA3xqHbA1yq1BvYPyIkXijoKromE7BmjPJJVte5LEk/xk5cd3bR37UGHOTMZoRP+WW4RN6HmOEIup2jKNbwOLSxjDmToraWpThuO0UzJbk1ffjCO7inkFAYDkeZmAg2c0kWDilpAw1SqP1MEEktK/5xwd8Quje7lrNVFoe6m3NUJmeTCvTw2+7fmP7gjasmFEmxRkMK28cC5rKEJbhqW8LY2vzwWvQSpi/XCKJr65feX2JRMrclMsZEpgeELxqjG/NthZJnJE4rZKYQfd70qRC6ZzXxdC0yWrHbZywKEB3lbzGa29Si9qFL8p5Q==
+ b=B6I7eMBUoE6a1g0Eu7rNbpDlVvx2eOseWXImDhWKfP7kYWYEjPufS4mt0cUtAWYnjlVyujBIR/m86iEc8SuqmQmV6G7Tkg0w4yGjaU4Q5mtNzCCMV73O8J2GwzhpMPpP4wpSPwhBperVJ0iEsonalCxxUmXfdTGThdhFJFItR7DC3aQenao0cd/zEx53Mr+4+s0XvwQnBedwgyD4Bpx9vIM3rJqMnuE5Q3xKZsDL3G4B4Bu45xAnZalM2xpxEWeYOr8V8DSfaMGsO2tjdLPSjoD2hFPpcRdmhYSF50B2VUbFmeyuu4NwMnF3cxRwvUsAD0/hxloB37yOYzrsaltbZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ONc/ZUW2asDMfHW/bkWXo0meLgThi5wMSmDKqGUvB+0=;
- b=RNpVu/uRZyWLGOKwrpNVPIc32llNeG34BDwdytfmExizbnqno0viBMOVuVvWzPKldOP63gHOr73p1ua+OjAzxRE5pLJzglXnPUUcamJxCHWAkY3r3Hg0pylB8Ub5aIgfrwCZvc+hZ302bnIPSpmuThc07031Cl0IfhKUePs6Zb8Ev/uUUjTaK7+BtLzBBY6X45/BUeAJr/YQ5FW492tHIo5NJAyFDYuS0Y1Fkj4EKInqCFTFHbqGbv6GK6+JCAn9aTg15s0n9RTURKr9duKr+Xp1tfsjzqT4cefc0y+uxiT4C5NDSiHtGSo0FDk0pHOHE299h4c8rsXKDiG5A3Woiw==
+ bh=OMYC79PMjCTklVK9VTOXuJdHLqHqdF1k+Jlv6Aqu7i4=;
+ b=dAFCq6zu/RK00inZxulXBw14v7HrroLIzml3z57fOmrj0O9HdGAcc9/8ALhZw7pM9ry64E2tzG73MG3P7RtyMMg9YGeDz6YwbjvdOxM+G5zgxJTm+VmOjtgdlKuMEePcCGinmbQB7SDp0W3FBDl4WIhFmN3PzY0gabVH1lGY45uCBtEHCRvK73U2GPYWz3V2uOI9KFpEB07oqgqDEml+O5pkDkOd7I7m7zWmspQYMdfKGMV1nWgZOJCc++meLu5nt0XZpSF0weM0SQNpbRIsBmha2TsHYwgVhMTYN47MYBwP+tAlSGzBG8Eiqan6ubpXaK1VefNFMXMRYNnp/tzuHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ONc/ZUW2asDMfHW/bkWXo0meLgThi5wMSmDKqGUvB+0=;
- b=CbZRnYM/7wKIFvBByzsND2eDTabojytud1/5YjMDEHfPJ80WRgax/XPazR6X11BJtiBApCX9WjtfA2FkoB9g2q0Qj0rHjpDN7VHkSXqwrRTY4dmMkqF1JsO1Uyq1iczkP+5UrcC0fGe1QIS5/mA6t+2wsBhq7VTqkhzLqWPTT2WAX8yVLDc9VpsaKz6WYBIe4UYzSozFUd1H43I6loPSiNrLaQ+OG3GBxeAgm4cMJkPBQ+tG2sLg1TlTAxTWhRofWA4GIRxw64883rf9Gb7LukNTQy5ItskggBtnm6l++p7lN6HnA33Jrm/pHtngmrfi41nx6OyoRkNONbKYtwPWBw==
+ bh=OMYC79PMjCTklVK9VTOXuJdHLqHqdF1k+Jlv6Aqu7i4=;
+ b=t0ZVfgqPbo+txTGxC7BCIJjUsI++B3Rbvokmv3cz49h2/ibQ2Y2Ff00H24NCaatsugoUI30mnLaPcacLXKiCOP7E7pc1uqzme4OX4x57vpJiBVQFZHDlhUIY76Rot0EdcGAY7U4w94YZrFBzQhAF/HzD0UlzBIMNoEXUbcg16zLxf8wPOOoR5VoYBqjyKBn9igPUFt5UooQjJQqCUTHFRd1JGBnIEvWCfv5Gf+io7AbRZVcDZQWpypDTrbnDu9rGZXV5Nb3yQHG8ZOmCxXTXPDh+qw5Rin0I8vVimt0pQkUm8Qv6VesSOXVHw5WtmMvkGje2nww6/b8IJgZDaP8iGA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
@@ -60,89 +60,90 @@ Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
  Elle Rhumsaa <elle@weathered-steel.dev>, Yury Norov <yury.norov@gmail.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  nouveau@lists.freedesktop.org
-Subject: [PATCH v4 5/6] rust: Add KUNIT tests for bitfield
-Date: Sat, 20 Sep 2025 14:22:31 -0400
-Message-Id: <20250920182232.2095101-6-joelagnelf@nvidia.com>
+Subject: [PATCH v4 6/6] rust: bitfield: Use 'as' operator for setter type
+ conversion
+Date: Sat, 20 Sep 2025 14:22:32 -0400
+Message-Id: <20250920182232.2095101-7-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250920182232.2095101-1-joelagnelf@nvidia.com>
 References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BN0PR04CA0099.namprd04.prod.outlook.com
- (2603:10b6:408:ec::14) To SN7PR12MB8059.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR18CA0026.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::31) To SN7PR12MB8059.namprd12.prod.outlook.com
  (2603:10b6:806:32b::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|MW6PR12MB8913:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac6812de-b667-49a1-88a0-08ddf872bd09
+X-MS-Office365-Filtering-Correlation-Id: 0f5316e8-bea9-4e48-c3d9-08ddf872be2a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gCas7HM96mVMH4mMxX4geJJ4qyxmh6avhw4fFeHCjIFqL/ohixwTZhfU+EwN?=
- =?us-ascii?Q?vTHFR+Sx0FJLC/EjUAKO7YiZvxxQRheHBxzYPVWmuUrh2sbbXQE6PZK0LxDb?=
- =?us-ascii?Q?ANFzOjHD6Fs7q/ZReeLBj44STxINIDB4NulqgbVYjA9GAwdc2KsXqZJ/1qjH?=
- =?us-ascii?Q?IH0MqFEROprVO/bGf16PPSTj0iDNWmY1zvEHmzdK+uyuSrnA8d9H4RHScJAW?=
- =?us-ascii?Q?o1TJEZkqXfkIMHqOOfZbvSEEGO5CHAxoQ27C9/BneOsxFWeu2sXKGWgpTjBV?=
- =?us-ascii?Q?Z+e4kB01v3g/7/JNdxEnxWAv/MP9o/dOcsEKOYW1kGUc4/TG9bRKhPd0aqCA?=
- =?us-ascii?Q?HocqrOPqQktrq7eZIjq+84sH+QwnhYk4H0dmEtHYKtGHRs2yCpri9QpScgXU?=
- =?us-ascii?Q?ewcbtflU19NGJiy2EG7NJHSMKMerYzkqQZLhfZpDK8R2gE0woeWVYoAGBl6L?=
- =?us-ascii?Q?5jse7U0Q4Ns78G2hUOOPz9OXJQmXRvGX0Cle4CPbgyPpXEna3eE+cwlP5nqv?=
- =?us-ascii?Q?WwO0ydzlskkBaMiKSRdM82vHYH2VSd+WemYcaYPZeib4pHOdTx251LaLpHvZ?=
- =?us-ascii?Q?gSm9dsznTrZhmOv7qiAhgHUCh9gja62cm+gZnXnPtK/4F7gY82u3GQQ8QnXN?=
- =?us-ascii?Q?LvUcEQMaB3nqt3JKslOnRe+4s8iq+GE57hEwS34fY2p/eY92X+T0uQXpQ0v4?=
- =?us-ascii?Q?aR6uufzOfTip5Bd7Er8hn7Xf65VCrQ+HhO3qvVmwT4M6pbrBa8yG4cECQcW9?=
- =?us-ascii?Q?Fpx31RBmHwAkRT1culY23gGE2A2exGnjg7ZJGjqyDFqIWFJdPGuo3AHWuTdH?=
- =?us-ascii?Q?XRZvZcgmMlt0OyITgZV0i1udSKoFCQJtSHH3/mf5XFSp1uNkIw+bQ5UEJ2cy?=
- =?us-ascii?Q?yMKSfmzTFI/+Z/P82Ku1pTs3jAxkI/inqUekC+0ADKyZQiCQxlZJpSwdkOCX?=
- =?us-ascii?Q?IuVYaQY1bEae2NixXRuHfzcqla85bClmTwMDt9eIhiaq5jXLspUXFemZehtB?=
- =?us-ascii?Q?dBY6o5KOHgvS7bgHizXZTMUarsI610c+CvrrIy30RCfs8jHwUFZGsj2JAaIj?=
- =?us-ascii?Q?H9Osp3mtWMngNlFQ8irZgFndmfaClsniBYD6A2QxegFGP7F02+lcjfDt1fHl?=
- =?us-ascii?Q?r7sYnqBO2kV6flCEFjqnjgIRCHJGfVMVZVEqPHy2Y04QZk54VGcsucCI/6kg?=
- =?us-ascii?Q?LTvcXEmelNzek4XSNJou+Z63ZPfS4VpE9COt1GqEeXvU2ohD5u+ZLcz/lbTd?=
- =?us-ascii?Q?U58q60Qx6G9tMCXE7H1AeIRx5tDJyNas3dq15Rx50PX/mMrqi6uRUxGd3Ctl?=
- =?us-ascii?Q?+2vnySWr77obbGOc6lahfbQXNlI+vd2dFy8nhWnt0Q+uekM5EZ0CznBoEFIq?=
- =?us-ascii?Q?k2lhoYf73wtFkdgPKR9FmVcJ7KkAWJ+ZzsK7hd7QmT0uA/xbHRUYtDfhW5Hr?=
- =?us-ascii?Q?sD//IAxcllA=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ezSDaYNG2juOtYDr+MMQ8ysDV3s6OUabG23GZEaidnyzqbCUTHU10MyZym52?=
+ =?us-ascii?Q?2O/asE1OPE4NeZesDUaFypn6mAghzLE91YrFcYAhAnj2keZL6I5Qf4Qut7/C?=
+ =?us-ascii?Q?LPwDPFanOyJXK6wooEFMY7Ugh8a3fnDuD7wFxnkYyzN2RC2LMeIATG5f1O7R?=
+ =?us-ascii?Q?+OPsPtsLHr1UBsRq9tHZyK5hjV8UL3sW6Jst8IG3yU+KL0An2b5UG6cDKmXS?=
+ =?us-ascii?Q?J6RYKTFA9C3SRvTWPaaJH/JzRpIjA6evHhnBm44QG0PzuvINB437yVOrcS2p?=
+ =?us-ascii?Q?88pc2l8x2xoT06g7l2bO/m0qP66f5zE2F9jPV1gYkHxDfQtg/qIl0kioc4pl?=
+ =?us-ascii?Q?rL88s2cO9Lzsm32xreX9nGRJOUUr3BP5kEzo34L5EUD8sVfxvVqNUv8CBoI/?=
+ =?us-ascii?Q?36/ZxwHNfNNeZKR5nWyS13+pVkUNnJgXvlx9VJz0NNKoMpPX8EgiIdUBnVlj?=
+ =?us-ascii?Q?PItxyDybqqq/p/BUEEW3QvKDnNEOBbJA0fSl1F9psmpPA+PgTITRbXQIiQ+a?=
+ =?us-ascii?Q?tCZUS/j/8vtU9rG9H9zLwHLB9MKb+dCMLTyobOrRs/r0jqk6lL2HfptT9LPi?=
+ =?us-ascii?Q?UzYpx/4NQ1LMnVW5+Zsimuw/V7SH9WUxIDW40SgZ56WOt8e8aMgFGgn/dpBW?=
+ =?us-ascii?Q?kbpQRF/xZm3VRl2cZGoTJlR4qa59DryDKz25sx9KnTfR1We4eVhPVRNtWyX0?=
+ =?us-ascii?Q?zxWyit4cj3/fPvKgtGVdytDwe7HRAdlMt8CGZsCZiKPQEbHccvArSfbD30/u?=
+ =?us-ascii?Q?P/YLhduwDoAYu9ApDeixDyw/EGCo+uUrxJlfauG7FZVTor0UBnSfIqtiir0l?=
+ =?us-ascii?Q?oSuUYkNU7YXX4OqyOcXfl21tIGej0p5aD6cBIY9u4u88irZdflmAQko29oRk?=
+ =?us-ascii?Q?S16kcqgfcYM0rU4AFsAbBc0vgeDlUXJJs4STp2w/qH+7AtWP04J67/fAgcQg?=
+ =?us-ascii?Q?SWOVDBg3f3rkLDKrTrvJJztnPP6ftKZlMrrpeOGHtLU4L9DBSq2EgelY3UXA?=
+ =?us-ascii?Q?88Osh3/wOEwWcKZd+vHu9PMkAHY7z4RcWZFpV5qrOq0buEP59oiFjbKQS/Hw?=
+ =?us-ascii?Q?U39n0FORIgrhGKR+VlAYX59vM9tXVltBJQEi3E8jNWQG6ZlmKY9D2MPDpUFv?=
+ =?us-ascii?Q?Kh7oEMaLDoyEGERotk+EfQoRIpVWQ6mBUceHbz1w+9dBwwh14TqjuLQX94zr?=
+ =?us-ascii?Q?H6ZJ7l87vddouN1HpUtgzVY4wWl4FOZDSMY5r2OjQgJZTZxYVUB1f4nbOfrT?=
+ =?us-ascii?Q?dIjrdiWot1d612OG90u7KXyS0OBkStmbhEy45+h835JURe5znwxbtpRkJKZ+?=
+ =?us-ascii?Q?SdPigy5uAEuZVgp/gH3UpgijUlKgeB1/3XN4mQGTbuuzlpavQHKPYVb/RFWZ?=
+ =?us-ascii?Q?cZoUbNsfIQVPT165cJ9d491BKVNdYcjokvsahMY5XUkwwDP2mX82yol4HRyL?=
+ =?us-ascii?Q?KPMTncPHe3s=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1udNHi2GMvk1sniumNCecbDZ5nMMKROVmUfZvCo3OSUT9kETPCSMnsqZ4icn?=
- =?us-ascii?Q?pgphWCMnglbXZk5a4eKGiFJJt/tBC5mteaCwdRh8hNRfu7aoTsjcURVxc0xy?=
- =?us-ascii?Q?aRHMZHM3S1pcUM55oDadtptyJIUb3djI+4OFNdti2F3wjRlOmyQpqEEjIzNh?=
- =?us-ascii?Q?4Wj2u7L/ulm38xmO8OeowoOubZz5eNmddQp0pIfBOKIBpalhyxE6eFCYDTZP?=
- =?us-ascii?Q?Tzb8JMZIeUAU0G/6CX7IBfcfaJApvaPOQVpgvFSErhhOd5noEefyyzrCThoX?=
- =?us-ascii?Q?lSZHEMtcHW4HI4L4UTroqXn0dYGIOFeH47K0rLD4jD0k7FMUVSfC1qtq/nJK?=
- =?us-ascii?Q?ur3yelAWt4gwM/4Gg07eWugqqcIlEtzotTx1Cl3GqaMEZgeOC3cAEhtOX5T0?=
- =?us-ascii?Q?poLG28QcFHe+9ROHBd7qMWksf76/kmtK9RwT29lAuhHF9N9qQXea72LTC9C6?=
- =?us-ascii?Q?6sBu+LNY1xs34IEauRxyMLRiy6/GwmOvYwnpr3mgBzUf3BNhboUjI/aWxHe4?=
- =?us-ascii?Q?tW2cQ4+sPzRHiIqhWHgWOJxpe+txU488W5zTq8coJ5VcHs/VMvNFc6GRbQK2?=
- =?us-ascii?Q?1LGSGkmu/APt18Lgfm8TMtAa22WfhAlMLnccYsCWRXMyiacK3w6kUulso8qs?=
- =?us-ascii?Q?6D03x26YdlePwp0OaOkAKrPaq7jSEcdSkyyt2ZW7GJRtnk3QT+0RqsAFiFrI?=
- =?us-ascii?Q?mTPsnMpsCaQlNoeM03vluyBmDtkPxKwLb6cYNNR6T2k9K1LX5RTIeKami9Sz?=
- =?us-ascii?Q?snP3PRcct5BdoYbg29/BJUkyOEihRF4D3wB5UFg9t0CVZLVIWoX/P/4wC/x1?=
- =?us-ascii?Q?VHp0uLLU2fkGOxO96K8xUtsLnO65mVub4qiWXFLqrOFYU20eBawxdBmMZw1h?=
- =?us-ascii?Q?bn32fZHYNMsCsV8fU6qw28h/pClNr3wkkgU/zqKvQL116b/wSrNKDGd26cb7?=
- =?us-ascii?Q?pQITMIWNYlSdAChATwgBhmC0qqT7IH+OdXTL/DhzW6bDLz7TmT5jkNrbbUjg?=
- =?us-ascii?Q?L4+hSdGohsnEgJEABY/uBRDZPOCzuZZR140RrbaDJupRQopAZtxM8iTOP+fu?=
- =?us-ascii?Q?HGPgxxszxods2DUrkQnOgFo5FLMZ+eVYy01P+zThJBAXGEIJ9eVvoc+kZ2PA?=
- =?us-ascii?Q?5s0jXeSGFr7l3yz0GgoN1S+ynVhgVO42DUq3bF+SOFbTepBnIm+2tHW38d9p?=
- =?us-ascii?Q?hpMe2bFVH8oEg5Hy/l8ZV45/hEDZmyemIY5F6u/xg/T7oIRhb/btvWppWybc?=
- =?us-ascii?Q?k6TeYmatjNbl1wl+AmGKycU0X6u5kVjcnSeDsik4bntfXyWeXhxmTRbLUKTA?=
- =?us-ascii?Q?t0JnoJU6KJRtJzlD2BzISJmnub+9e9dSXO6T1oMg0aindk4eQLkMQVOeWmIe?=
- =?us-ascii?Q?dITXM3uSeDYF9a1sJpph802zGuvGHT+lcPFdPOmjLpgKDTjy8t0DmMNhwnBl?=
- =?us-ascii?Q?emGit4jXuXHx6OsrpT0yxLYBM3MkxELEMXtl2O1K7+jeN1lX1gJpChKcyxTN?=
- =?us-ascii?Q?Yb+5Ctn48jzueTOCFjHOTCKGWH62MEAFBJaY28hB3IOC8CVV4YLW5HbXd5zt?=
- =?us-ascii?Q?E7JhYLlyKH8HihJ5jEXsGiwD2H/So6vZLXKixNDq?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?360JQ8iCtMABa/KJlsYjyWx3R++Rf7zw90A3S5SbPATuQ+dw3xlE0ZqTNOwu?=
+ =?us-ascii?Q?hJJ+CYBK/w0LMnkALWMtKfxr1Ia85q5k9d1lX/hqdoRalYdUfEULCQucEib3?=
+ =?us-ascii?Q?E169KKxhqqD86uOzZc1F7cwQcSuXSZMjsnTDjN8ZibrwyfBucoaCMHIXxfdW?=
+ =?us-ascii?Q?Qm//v7A6gTS+wCKungy34Km+zlTXTKiKv9HcEhsNqjP3In0WI3/P/w6XGTVl?=
+ =?us-ascii?Q?fsC1A1kCgaYkuRPpG8fBIlUYUHwreCYU9hX5DLf8RQ8qcMiWWSWtVnqo8bgW?=
+ =?us-ascii?Q?2HmaH8RsheUo4rcFv/Qv4aI0lytyeZe2apHKOopxLox1egSPZREuEI/owoZX?=
+ =?us-ascii?Q?RJNFPIpbupmfnO9S9Hm2cwdeiUNANavs9Pe0b8yL/NXiUYAokqXSwLesHkpm?=
+ =?us-ascii?Q?1oIbA3LPLwuq1g/YtPY1hssC3UOxJf/UOfGHhXTxTZg6jtfKo7JB5VdzyDsL?=
+ =?us-ascii?Q?VEkhECr32hcPyyJvh2jBHK2wJFHSuN8dVykPSJz8269ahpwoWTdp9SYAD/4V?=
+ =?us-ascii?Q?PKqmxriW9jTLwKbXKMUWFAYQo6m22tM89siMT8enOyCRjdog6r3yxxgtA69b?=
+ =?us-ascii?Q?cMSwpJpdam9DkIqv1Sztoj0vH7WVOmeQu3+IEltQlcz0GWZx0+rjzWKLKZqc?=
+ =?us-ascii?Q?9jQt1ElLzOYMP1+0I4gdnThNswkAZOLvrlajs6NZfzIFpi6mXREbtVxGGx7D?=
+ =?us-ascii?Q?klZxKJiOyEidxuHSXTUkEAL4dAYOtXz72LDho2snhY5Tx6Zc4q83JYF+ZyTh?=
+ =?us-ascii?Q?x8zEjZqdzecySSz6PcmttnoAmj5Aai+Ulb27fKJOd2YfpYgXFJe/S1JZ1UJh?=
+ =?us-ascii?Q?Mhx18vveS7lAlKONJmTw1+wRP5czBLu2o9k9YwIoe4BVFF5FgkoOEcj03sTc?=
+ =?us-ascii?Q?Mq7oyKl3bS+OpXe+pdQLZvGidB1Jw1g65GdIUWPf71hCE4BfY0WXB0fnd8Jp?=
+ =?us-ascii?Q?9xAIQQHzv56rzhPbyeFBirNKHHeOAaAYufr08wTk75aezJqv2Y/iSWGKqn4o?=
+ =?us-ascii?Q?hFJ5IEiAhoMxkzpyYiTAsZs8Y0YXvT+pO2p5v7wQR2BIRRL+BwRSbcwKFm7M?=
+ =?us-ascii?Q?4zUKGoawDOG5SxeaOpxR8+JqD5FX0MhoNsYQPjOWCBMrbcCZe65GxOr8Zz9+?=
+ =?us-ascii?Q?VTUWblX1uaZzcU9IgbICO33wsYm35IJlsCd4hixU9z8nB11W6Yv6M+XVkETz?=
+ =?us-ascii?Q?UxRdu29A+XFDYMQjetsl+t2/zyCc3qCegQJXjMti6bExpVNQHxnRxtWlReWE?=
+ =?us-ascii?Q?HOpi+bIptCjWfXqvfiSNgJcuIUs5FJxKo0lqiVoH/mMGWc/pQ383If+L99B2?=
+ =?us-ascii?Q?2DJFrl5mpD+mHcxAj5cHCiSGoKaaiuOVqxZEmxU8DxO6yQkZY214mIxbbNNU?=
+ =?us-ascii?Q?0VBXV6fe7SpcR59wfzf6xavWLC6/7YlCU2AJMhI2PSllG+PAVTOSX4m2n1Nn?=
+ =?us-ascii?Q?CZsxY45zAvO1yIJy63ZEv1OJDr7j1eqbtJ0YxpVGX3Lie2R5n+AqT9KuNruh?=
+ =?us-ascii?Q?YPLhkMiQCqzbkexj9mg3wZOpjWal2eyP2q9rxJBKxpm3UVvB+mWA8u3m5JhN?=
+ =?us-ascii?Q?hz5HI5Lu4w/Y8bg0nV+xi5eN7ZWr2Tax+L5T/4Rc?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac6812de-b667-49a1-88a0-08ddf872bd09
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f5316e8-bea9-4e48-c3d9-08ddf872be2a
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2025 18:23:03.9116 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2025 18:23:05.7843 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U4UnMF6eosgZ55LsAGCMeaOsjRn3+nQdKPpbRWcbwi9TzhbmlFQw+xQOifck+9XD/e9aMZV1G3C2vKiBP6h7dQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: bLQSlc8/YMIyX4KZiWDVT33zyJq5wsHUBYrzJ/YZwqgiKW8rQyntkTsYMd1g21qAK9G7kg3DLhiUGrRsVD+fPw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8913
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -159,370 +160,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KUNIT tests to make sure the macro is working correctly.
+The bitfield macro's setter currently uses the From trait for type
+conversion, which is overly restrictive and prevents use cases such as
+narrowing conversions (e.g., u32 storage size to u8 field size) which
+aren't supported by From.
 
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+Replace 'from' with 'as' in the setter implementation to support this.
+
+Suggested-by: Yury Norov <yury.norov@gmail.com>
+Signed-off-by: Joel Fernandes <joel@joelfernandes.org>
 ---
- rust/kernel/bits/bitfield.rs | 349 +++++++++++++++++++++++++++++++++++
- 1 file changed, 349 insertions(+)
+ rust/kernel/bits/bitfield.rs | 46 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
 diff --git a/rust/kernel/bits/bitfield.rs b/rust/kernel/bits/bitfield.rs
-index 6089f3cdbd1b..99e443580b36 100644
+index 99e443580b36..6342352891fa 100644
 --- a/rust/kernel/bits/bitfield.rs
 +++ b/rust/kernel/bits/bitfield.rs
-@@ -341,3 +341,352 @@ fn default() -> Self {
+@@ -300,7 +300,7 @@ impl $name {
+         $vis fn [<set_ $field>](mut self, value: $to_type) -> Self {
+             const MASK: $storage = $name::[<$field:upper _MASK>];
+             const SHIFT: u32 = $name::[<$field:upper _SHIFT>];
+-            let value = (<$storage>::from(value) << SHIFT) & MASK;
++            let value = ((value as $storage) << SHIFT) & MASK;
+             self.0 = (self.0 & !MASK) | value;
+ 
+             self
+@@ -452,6 +452,15 @@ struct TestPartialBits: u8 {
          }
-     };
+     }
+ 
++    // For testing wide field types on narrow storage
++    bitfield! {
++        struct TestWideFields: u8 {
++            3:0       nibble      as u32;
++            7:4       high_nibble as u32;
++            7:0       full        as u64;
++        }
++    }
++
+     #[test]
+     fn test_single_bits() {
+         let mut pte = TestPageTableEntry::default();
+@@ -689,4 +698,39 @@ fn test_partial_bitfield() {
+         bf2 = bf2.set_state(0x55);
+         assert_eq!(bf2.state(), 0x1);
+     }
++
++    #[test]
++    fn test_wide_field_types() {
++        let mut wf = TestWideFields::default();
++
++        wf = wf.set_nibble(0x0000000F_u32);
++        assert_eq!(wf.nibble(), 0x0000000F_u32);
++
++        wf = wf.set_high_nibble(0x00000007_u32);
++        assert_eq!(wf.high_nibble(), 0x00000007_u32);
++
++        wf = wf.set_nibble(0xDEADBEEF_u32);
++        assert_eq!(wf.nibble(), 0x0000000F_u32);
++
++        wf = wf.set_high_nibble(0xCAFEBABE_u32);
++        assert_eq!(wf.high_nibble(), 0x0000000E_u32);
++
++        wf = wf.set_full(0xDEADBEEFCAFEBABE_u64);
++        assert_eq!(wf.full(), 0xBE_u64);
++
++        assert_eq!(wf.raw(), 0xBE_u8);
++
++        wf = TestWideFields::default()
++            .set_nibble(0x5_u32)
++            .set_high_nibble(0xA_u32);
++        assert_eq!(wf.raw(), 0xA5_u8);
++        assert_eq!(wf.nibble(), 0x5_u32);
++        assert_eq!(wf.high_nibble(), 0xA_u32);
++
++        // Test builder pattern
++        let wf2 = TestWideFields::default()
++            .set_nibble(0x12345678_u32)    // truncated to 0x8
++            .set_high_nibble(0x9ABCDEF0_u32); // truncated to 0x0
++        assert_eq!(wf2.raw(), 0x08_u8);
++    }
  }
-+
-+#[::kernel::macros::kunit_tests(kernel_bitfield)]
-+mod tests {
-+    use core::convert::TryFrom;
-+
-+    // Enum types for testing => and ?=> conversions
-+    #[derive(Debug, Clone, Copy, PartialEq)]
-+    enum MemoryType {
-+        Unmapped = 0,
-+        Normal = 1,
-+        Device = 2,
-+        Reserved = 3,
-+    }
-+
-+    impl Default for MemoryType {
-+        fn default() -> Self {
-+            MemoryType::Unmapped
-+        }
-+    }
-+
-+    impl TryFrom<u8> for MemoryType {
-+        type Error = u8;
-+        fn try_from(value: u8) -> Result<Self, Self::Error> {
-+            match value {
-+                0 => Ok(MemoryType::Unmapped),
-+                1 => Ok(MemoryType::Normal),
-+                2 => Ok(MemoryType::Device),
-+                3 => Ok(MemoryType::Reserved),
-+                _ => Err(value),
-+            }
-+        }
-+    }
-+
-+    impl From<MemoryType> for u64 {
-+        fn from(mt: MemoryType) -> u64 {
-+            mt as u64
-+        }
-+    }
-+
-+    #[derive(Debug, Clone, Copy, PartialEq)]
-+    enum Priority {
-+        Low = 0,
-+        Medium = 1,
-+        High = 2,
-+        Critical = 3,
-+    }
-+
-+    impl Default for Priority {
-+        fn default() -> Self {
-+            Priority::Low
-+        }
-+    }
-+
-+    impl From<u8> for Priority {
-+        fn from(value: u8) -> Self {
-+            match value & 0x3 {
-+                0 => Priority::Low,
-+                1 => Priority::Medium,
-+                2 => Priority::High,
-+                _ => Priority::Critical,
-+            }
-+        }
-+    }
-+
-+    impl From<Priority> for u16 {
-+        fn from(p: Priority) -> u16 {
-+            p as u16
-+        }
-+    }
-+
-+    bitfield! {
-+        struct TestPageTableEntry: u64 {
-+            0:0       present     as bool;
-+            1:1       writable    as bool;
-+            11:9      available   as u8;
-+            13:12     mem_type    as u8 ?=> MemoryType;
-+            17:14     extended_type as u8 ?=> MemoryType;  // For testing failures
-+            51:12     pfn         as u64;
-+            51:12     pfn_overlap as u64;
-+            61:52     available2  as u16;
-+        }
-+    }
-+
-+    bitfield! {
-+        struct TestControlRegister: u16 {
-+            0:0       enable      as bool;
-+            3:1       mode        as u8;
-+            5:4       priority    as u8 => Priority;
-+            7:4       priority_nibble as u8;
-+            15:8      channel     as u8;
-+        }
-+    }
-+
-+    bitfield! {
-+        struct TestStatusRegister: u8 {
-+            0:0       ready       as bool;
-+            1:1       error       as bool;
-+            3:2       state       as u8;
-+            7:4       reserved    as u8;
-+            7:0       full_byte   as u8;  // For entire register
-+        }
-+    }
-+
-+    bitfield! {
-+        struct TestPartialBits: u8 {
-+            0:0       ready       as bool;
-+            1:1       error       as bool;
-+            3:2       state       as u8;
-+        }
-+    }
-+
-+    #[test]
-+    fn test_single_bits() {
-+        let mut pte = TestPageTableEntry::default();
-+
-+        assert!(!pte.present());
-+        assert!(!pte.writable());
-+
-+        pte = pte.set_present(true);
-+        assert!(pte.present());
-+
-+        pte = pte.set_writable(true);
-+        assert!(pte.writable());
-+
-+        pte = pte.set_writable(false);
-+        assert!(!pte.writable());
-+
-+        assert_eq!(pte.available(), 0);
-+        pte = pte.set_available(0x5);
-+        assert_eq!(pte.available(), 0x5);
-+    }
-+
-+    #[test]
-+    fn test_range_fields() {
-+        let mut pte = TestPageTableEntry::default();
-+
-+        pte = pte.set_pfn(0x123456);
-+        assert_eq!(pte.pfn(), 0x123456);
-+        // Test overlapping field reads same value
-+        assert_eq!(pte.pfn_overlap(), 0x123456);
-+
-+        pte = pte.set_available(0x7);
-+        assert_eq!(pte.available(), 0x7);
-+
-+        pte = pte.set_available2(0x3FF);
-+        assert_eq!(pte.available2(), 0x3FF);
-+
-+        // Test TryFrom with ?=> for MemoryType
-+        pte = pte.set_mem_type(MemoryType::Device);
-+        assert_eq!(pte.mem_type(), Ok(MemoryType::Device));
-+
-+        pte = pte.set_mem_type(MemoryType::Normal);
-+        assert_eq!(pte.mem_type(), Ok(MemoryType::Normal));
-+
-+        // Test all valid values for mem_type
-+        pte = pte.set_mem_type(MemoryType::Reserved); // Valid value: 3
-+        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
-+
-+        // Test failure case using extended_type field which has 4 bits (0-15)
-+        // MemoryType only handles 0-3, so values 4-15 should return Err
-+        let mut raw = pte.raw();
-+        // Set bits 17:14 to 7 (invalid for MemoryType)
-+        raw = (raw & !::kernel::bits::genmask_u64(14..=17)) | (0x7 << 14);
-+        let invalid_pte = TestPageTableEntry::from(raw);
-+        // Should return Err with the invalid value
-+        assert_eq!(invalid_pte.extended_type(), Err(0x7));
-+
-+        // Test a valid value after testing invalid to ensure both cases work
-+        // Set bits 17:14 to 2 (valid: Device)
-+        raw = (raw & !::kernel::bits::genmask_u64(14..=17)) | (0x2 << 14);
-+        let valid_pte = TestPageTableEntry::from(raw);
-+        assert_eq!(valid_pte.extended_type(), Ok(MemoryType::Device));
-+
-+        let max_pfn = ::kernel::bits::genmask_u64(0..=39);
-+        pte = pte.set_pfn(max_pfn);
-+        assert_eq!(pte.pfn(), max_pfn);
-+        assert_eq!(pte.pfn_overlap(), max_pfn);
-+    }
-+
-+    #[test]
-+    fn test_builder_pattern() {
-+        let pte = TestPageTableEntry::default()
-+            .set_present(true)
-+            .set_writable(true)
-+            .set_available(0x7)
-+            .set_pfn(0xABCDEF)
-+            .set_mem_type(MemoryType::Reserved)
-+            .set_available2(0x3FF);
-+
-+        assert!(pte.present());
-+        assert!(pte.writable());
-+        assert_eq!(pte.available(), 0x7);
-+        assert_eq!(pte.pfn(), 0xABCDEF);
-+        assert_eq!(pte.pfn_overlap(), 0xABCDEF);
-+        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
-+        assert_eq!(pte.available2(), 0x3FF);
-+    }
-+
-+    #[test]
-+    fn test_raw_operations() {
-+        let raw_value = 0x3FF0000003123E03u64;
-+
-+        // Test using ::from() syntax
-+        let pte = TestPageTableEntry::from(raw_value);
-+        assert_eq!(pte.raw(), raw_value);
-+
-+        assert!(pte.present());
-+        assert!(pte.writable());
-+        assert_eq!(pte.available(), 0x7);
-+        assert_eq!(pte.pfn(), 0x3123);
-+        assert_eq!(pte.pfn_overlap(), 0x3123);
-+        assert_eq!(pte.mem_type(), Ok(MemoryType::Reserved));
-+        assert_eq!(pte.available2(), 0x3FF);
-+
-+        // Test using direct constructor syntax TestStruct(value)
-+        let pte2 = TestPageTableEntry(raw_value);
-+        assert_eq!(pte2.raw(), raw_value);
-+    }
-+
-+    #[test]
-+    fn test_u16_bitfield() {
-+        let mut ctrl = TestControlRegister::default();
-+
-+        assert!(!ctrl.enable());
-+        assert_eq!(ctrl.mode(), 0);
-+        assert_eq!(ctrl.priority(), Priority::Low);
-+        assert_eq!(ctrl.priority_nibble(), 0);
-+        assert_eq!(ctrl.channel(), 0);
-+
-+        ctrl = ctrl.set_enable(true);
-+        assert!(ctrl.enable());
-+
-+        ctrl = ctrl.set_mode(0x5);
-+        assert_eq!(ctrl.mode(), 0x5);
-+
-+        // Test From conversion with =>
-+        ctrl = ctrl.set_priority(Priority::High);
-+        assert_eq!(ctrl.priority(), Priority::High);
-+        assert_eq!(ctrl.priority_nibble(), 0x2); // High = 2 in bits 5:4
-+
-+        ctrl = ctrl.set_channel(0xAB);
-+        assert_eq!(ctrl.channel(), 0xAB);
-+
-+        // Test overlapping fields
-+        ctrl = ctrl.set_priority_nibble(0xF);
-+        assert_eq!(ctrl.priority_nibble(), 0xF);
-+        assert_eq!(ctrl.priority(), Priority::Critical); // bits 5:4 = 0x3
-+
-+        let ctrl2 = TestControlRegister::default()
-+            .set_enable(true)
-+            .set_mode(0x3)
-+            .set_priority(Priority::Medium)
-+            .set_channel(0x42);
-+
-+        assert!(ctrl2.enable());
-+        assert_eq!(ctrl2.mode(), 0x3);
-+        assert_eq!(ctrl2.priority(), Priority::Medium);
-+        assert_eq!(ctrl2.channel(), 0x42);
-+
-+        let raw_value: u16 = 0x4217;
-+        let ctrl3 = TestControlRegister::from(raw_value);
-+        assert_eq!(ctrl3.raw(), raw_value);
-+        assert!(ctrl3.enable());
-+        assert_eq!(ctrl3.priority(), Priority::Medium);
-+        assert_eq!(ctrl3.priority_nibble(), 0x1);
-+        assert_eq!(ctrl3.channel(), 0x42);
-+    }
-+
-+    #[test]
-+    fn test_u8_bitfield() {
-+        let mut status = TestStatusRegister::default();
-+
-+        assert!(!status.ready());
-+        assert!(!status.error());
-+        assert_eq!(status.state(), 0);
-+        assert_eq!(status.reserved(), 0);
-+        assert_eq!(status.full_byte(), 0);
-+
-+        status = status.set_ready(true);
-+        assert!(status.ready());
-+        assert_eq!(status.full_byte(), 0x01);
-+
-+        status = status.set_error(true);
-+        assert!(status.error());
-+        assert_eq!(status.full_byte(), 0x03);
-+
-+        status = status.set_state(0x3);
-+        assert_eq!(status.state(), 0x3);
-+        assert_eq!(status.full_byte(), 0x0F);
-+
-+        status = status.set_reserved(0xA);
-+        assert_eq!(status.reserved(), 0xA);
-+        assert_eq!(status.full_byte(), 0xAF);
-+
-+        // Test overlapping field
-+        status = status.set_full_byte(0x55);
-+        assert_eq!(status.full_byte(), 0x55);
-+        assert!(status.ready());
-+        assert!(!status.error());
-+        assert_eq!(status.state(), 0x1);
-+        assert_eq!(status.reserved(), 0x5);
-+
-+        let status2 = TestStatusRegister::default()
-+            .set_ready(true)
-+            .set_state(0x2)
-+            .set_reserved(0x5);
-+
-+        assert!(status2.ready());
-+        assert!(!status2.error());
-+        assert_eq!(status2.state(), 0x2);
-+        assert_eq!(status2.reserved(), 0x5);
-+        assert_eq!(status2.full_byte(), 0x59);
-+
-+        let raw_value: u8 = 0x59;
-+        let status3 = TestStatusRegister::from(raw_value);
-+        assert_eq!(status3.raw(), raw_value);
-+        assert!(status3.ready());
-+        assert!(!status3.error());
-+        assert_eq!(status3.state(), 0x2);
-+        assert_eq!(status3.reserved(), 0x5);
-+        assert_eq!(status3.full_byte(), 0x59);
-+
-+        let status4 = TestStatusRegister::from(0xFF);
-+        assert!(status4.ready());
-+        assert!(status4.error());
-+        assert_eq!(status4.state(), 0x3);
-+        assert_eq!(status4.reserved(), 0xF);
-+        assert_eq!(status4.full_byte(), 0xFF);
-+    }
-+
-+    #[test]
-+    fn test_partial_bitfield() {
-+        // Test creating a bitfield from a runtime value that has bits set
-+        // beyond what the defined fields can handle.
-+        let raw_value: u8 = 0xff; // All bits set
-+        let bf = TestPartialBits::from(raw_value);
-+        assert_eq!(bf.raw(), 0xff);
-+
-+        // Test individual field extraction from the runtime value
-+        assert!(bf.ready());
-+        assert!(bf.error());
-+        assert_eq!(bf.state(), 3); // bits 3:2 are both set
-+
-+        // Test overflow of setters
-+        let mut bf2 = TestPartialBits::default();
-+        bf2 = bf2.set_state(0x55);
-+        assert_eq!(bf2.state(), 0x1);
-+    }
-+}
 -- 
 2.34.1
 
