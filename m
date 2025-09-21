@@ -2,87 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB97BB8E2B9
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 19:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC71DB8E49D
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 22:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A857D10E0AE;
-	Sun, 21 Sep 2025 17:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B94F310E160;
+	Sun, 21 Sep 2025 20:04:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oNji14LK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iCTBvx1y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFCF10E37B;
- Sun, 21 Sep 2025 17:28:48 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3555A10E160
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 20:04:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 63B6D40468;
- Sun, 21 Sep 2025 17:28:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22692C4CEE7;
- Sun, 21 Sep 2025 17:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1758475727;
- bh=OhAKhAi+AnzI3Qc3qjl3chOvflGQ1Z6G7nQKCQgIA6k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oNji14LKsaN74d6/6VxXQLAaEWqiMK1odhhlWG54PmdesR086HbzOQPsvLp4l8W8h
- erd/geKCs7blyB1imhKlNfDZtIHl2vwbNw8z3TSYAfWxPI4STRspwkbfLQuyq+0pRc
- wfxpVS7OtRaNl868jtRKMkgfZDW20Ck1f7t2BQsw=
-Date: Sun, 21 Sep 2025 19:28:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Eliav Farber <farbere@amazon.com>
-Cc: linux@armlinux.org.uk, jdike@addtoit.com, richard@nod.at,
- anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
- luto@kernel.org, peterz@infradead.org, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
- tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
- james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
- sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- evan.quan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robdclark@gmail.com, sean@poorly.run,
- jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
- dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
- dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
- kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
- joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
- hdegoede@redhat.com, mgross@linux.intel.com,
- intel-linux-scu@intel.com, artur.paszkiewicz@intel.com,
- jejb@linux.ibm.com, martin.petersen@oracle.com,
- sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
- dsterba@suse.com, jack@suse.com, tytso@mit.edu,
- adilger.kernel@dilger.ca, dushistov@mail.ru,
- luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
- sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
- linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
- akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru,
- yoshfuji@linux-ipv6.org, pablo@netfilter.org, kadlec@netfilter.org,
- fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
- willy@infradead.org, sashal@kernel.org, ruanjinjie@huawei.com,
- David.Laight@aculab.com, herve.codina@bootlin.com, Jason@zx2c4.com,
- bvanassche@acm.org, keescook@chromium.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
- stable@vger.kernel.org, jonnyc@amazon.com
-Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Message-ID: <2025092136-unelected-skirt-d91d@gregkh>
-References: <20250919101727.16152-1-farbere@amazon.com>
+ by tor.source.kernel.org (Postfix) with ESMTP id D4FE5600AE;
+ Sun, 21 Sep 2025 20:04:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A835C4CEE7;
+ Sun, 21 Sep 2025 20:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758485061;
+ bh=oK6PNMhjBQuguBf6ZyCDvGmGsPBZFWxojb6mTU595d4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=iCTBvx1ycWtFaxbFJjKnE8lmTRV6YKBljeoNPWr3O0f9KOI2wK+gY/chvSLppb2iw
+ nKDM1jLs/kX3EvgUACM5BKR1e32v5rVmusbFg6REu8gh8nHtL4KnpR4cztPIEWYsyn
+ 85sV5ZWf8I2axh1P00A55pSPIoljTkKeShL0Yo6iD75KN1B4tcxd0MZkgqGmYUT1mQ
+ IpOfY2l2pbjRNsgwxsBcIB9YfzgZxcgmX2t0tM84PDIkYUJsgjzu0i/zQZHS16n4gv
+ WrApdIyoKSa91FOKnNUjwHaVFh7bF8WfL1saxL8xffSMJav7UkpqNUB9WhDh8//gHr
+ V8yFvFNiMSeTQ==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919101727.16152-1-farbere@amazon.com>
-X-Mailman-Approved-At: Sun, 21 Sep 2025 17:58:49 +0000
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
+References: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
+ <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
+Subject: Re: [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Andy Yan <andy.yan@rock-chips.com>,
+ Bill Wendling <morbo@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, David Airlie <airlied@gmail.com>,
+ David S. Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Heiko Stuebner <heiko@sntech.de>, Jaehoon Chung <jh80.chung@samsung.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Justin Stitt <justinstitt@google.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Krzysztof =?utf-8?q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <mripard@k
+ ernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Paolo Abeni <pabeni@redhat.com>, Qin Jian <qinjian@cqplus1.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Rob Herring <robh@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, Shawn Lin <shawn.lin@rock-chips.com>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Simona Vetter <simona@ffwll.ch>,
+ Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Yury Norov <yury.norov@gmail.com>
+Date: Sun, 21 Sep 2025 13:04:19 -0700
+Message-ID: <175848505982.4354.2243738737036950081@lazor>
+User-Agent: alot/0.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,67 +92,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
-> This series includes a total of 27 patches, to align minmax.h of
-> v5.15.y with v6.17-rc6.
-> 
-> The set consists of 24 commits that directly update minmax.h:
-> 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
->    once")
+Quoting Nicolas Frattaroli (2025-06-23 09:05:47)
+> The sp7021 clock driver has its own shifted high word mask macro,
+> similar to the ones many Rockchip drivers have.
+>=20
+> Remove it, and replace instances of it with hw_bitfield.h's
+> FIELD_PREP_WM16 macro, which does the same thing except in a common
+> macro that also does compile-time error checking.
+>=20
+> This was compile-tested with 32-bit ARM with Clang, no runtime tests
+> were performed as I lack the hardware. However, I verified that fix
+> commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()=
+")
+> is not regressed. No warning is produced.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
 
-But this isn't in 5.15.y, so how is this syncing things up?
-
-I'm all for this, but I got confused here, at the first commit :)
-
-> 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
-
-
-
-> 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
->    comparison")
-> 4) f9bff0e31881 ("minmax: add in_range() macro")
-> 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
-> 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
-> 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
-> 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
->    have the same signedness.")
-> 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
->    __clamp_once()")
-> 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
->     char/short'")
-> 11) 867046cc7027 ("minmax: relax check to allow comparison between
->     unsigned arguments and signed constants")
-> 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
->     expressions in VM code")
-> 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
->     implementation")
-> 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
->     available everywhere")
-> 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
->     implementation")
-> 19) 22f546873149 ("minmax: improve macro expansion and type
->     checking")
-> 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
-> 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
->     commas")
-> 22) 10666e992048 ("minmax.h: update some comments")
-> 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
->     max() and clamp()")
-> 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
->     test in clamp()")
-> 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
->     min/max() ones")
-> 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
-> 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
->     expanded once")
-
-Some of these are also only in newer kernels, which, as you know, is
-generally a bad thing (i.e. I can't take patches only for older
-kernels.)
-
-I want these changes, as they are great, but can you perhaps provide
-patch series for newer kernels first so that I can then take these?
-
-thanks,
-
-greg k-h
+Acked-by: Stephen Boyd <sboyd@kernel.org>
