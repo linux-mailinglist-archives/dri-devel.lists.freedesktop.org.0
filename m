@@ -2,135 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E82B8F0F4
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 07:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C85B8F3DD
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 09:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B882E10E3AC;
-	Mon, 22 Sep 2025 05:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70C2310E077;
+	Mon, 22 Sep 2025 07:13:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Fs5tQfPc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7o97hV/s";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pLudh/Qi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2O8npJVl";
+	dkim=pass (2048-bit key; unprotected) header.d=amazon.com header.i=@amazon.com header.b="DloIHZ8+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6302C10E3AC
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 05:57:59 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C8B611F8B9;
- Mon, 22 Sep 2025 05:57:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758520678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
- b=Fs5tQfPci0a+Jw35Cj2Lfww9fpxaVviqDYWN4O8YjHD71pGyPCvO3MTjupSE2iPRTTBdHx
- 1JYsA3NN9mOrO7fjYV+jhA/HiSHGn6sbQRnbqFM/4VL4nxhZSlS1HhsYE5WCY/b8cYbp0r
- OPjdvedwtGeXnHOXGE87K0YbXtxYwik=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758520678;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
- b=7o97hV/sel56lX3iFmE+RtbRoImY0aqaQ4MSPuJm/z1hqhJdrMH4F290wfVyRxgebQD7nb
- SI51Bj6hWqGM0pAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1758520676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
- b=pLudh/QibDB09pUHmYYRhEmcNtDal8EpQ3h7AuiT7P/ZiI3f2plZRwzEuepWwjswC4wIxM
- 088qyKVZvpJ5mWe8+WzBf0XMS0YSkzjLPN8IMTijEazoj2lL43SAZ/IE9syDwN7j0806fi
- 1M4ErxviDFKs9+J8QhPtBnjKzq938AM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1758520676;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/RQhxHn+4UU3UiUHb3vbEUI/CfFVbR3/MSpBOKAXb7I=;
- b=2O8npJVlA9VHEZbrKFk1vRoiG4Zp/lGajxuc6YQVlQPLQtJ4qSCmhq6U0Z0WIW9asxfurN
- erE3JgVD3gjK3bCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86D8E1388C;
- Mon, 22 Sep 2025 05:57:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Mq70HmTl0GgaYwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 22 Sep 2025 05:57:56 +0000
-Message-ID: <4a24f449-5f40-4169-9c19-4840fec81f4b@suse.de>
-Date: Mon, 22 Sep 2025 07:57:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tiny: pixpaper: Fix missing dependency on
- DRM_GEM_SHMEM_HELPER
-To: LiangCheng Wang <zaq14760@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel test robot <lkp@intel.com>
-References: <20250922-bar-v1-1-b2a1f54ace82@gmail.com>
+Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ [63.176.194.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB4410E0FA;
+ Sun, 21 Sep 2025 21:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+ t=1758490636; x=1790026636;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=w/nAd4kDSjaQjN1Dv16qY5ce7rfWNGwV0jiO1W97n90=;
+ b=DloIHZ8+V6p8a6qTlJp349Vd/bxZs0ajxBJ01p1C0PPouse4pEpQK0LW
+ AmnaaAfWQwwjZcrK9VsfO534Ipf77GLYCgI/dchs6g1Jyr8/YgYM4/fUA
+ YhA8TupSW0JM0b5RdyNG9HQ9li5phLQUIoz7t+TEjdt6f5x+5PrImVTNP
+ bGGptgDXWjn3wSUw8hLtEvpXXquAjIW31s16POTbTXyXsN5hsyaNXOSNO
+ HdrYQlEQIjK59KxSi6ijYSft2shfkjOySxbX/SRteH0EkP1JWtkeDOvU5
+ uvMzaxRWg63niaMFk0aKfU5G64KeAVVA2y91yqWnLG8M9ddiYi+PtWzzO Q==;
+X-CSE-ConnectionGUID: IkzWuETbT12a0z9pqWbBLQ==
+X-CSE-MsgGUID: PRMHOoNlThOyMzCGXOQDbw==
+X-IronPort-AV: E=Sophos;i="6.18,283,1751241600"; 
+   d="scan'208";a="2450586"
+Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO
+ smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
+ by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com
+ with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 21:37:06 +0000
+Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:22107]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.21.26:2525]
+ with esmtp (Farcaster)
+ id e11f0e39-22b8-46a0-839c-05efcff8dbe9; Sun, 21 Sep 2025 21:37:06 +0000 (UTC)
+X-Farcaster-Flow-ID: e11f0e39-22b8-46a0-839c-05efcff8dbe9
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Sun, 21 Sep 2025 21:37:03 +0000
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Sun, 21 Sep 2025 21:37:02 +0000
+Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
+ EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
+ 15.02.2562.020; Sun, 21 Sep 2025 21:37:02 +0000
+From: "Farber, Eliav" <farbere@amazon.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "jdike@addtoit.com"
+ <jdike@addtoit.com>, "richard@nod.at" <richard@nod.at>,
+ "anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "luto@kernel.org" <luto@kernel.org>, "peterz@infradead.org"
+ <peterz@infradead.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "tony.luck@intel.com" <tony.luck@intel.com>, "qiuxu.zhuo@intel.com"
+ <qiuxu.zhuo@intel.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+ "james.morse@arm.com" <james.morse@arm.com>, "rric@kernel.org"
+ <rric@kernel.org>, "harry.wentland@amd.com" <harry.wentland@amd.com>,
+ "sunpeng.li@amd.com" <sunpeng.li@amd.com>, "alexander.deucher@amd.com"
+ <alexander.deucher@amd.com>, "christian.koenig@amd.com"
+ <christian.koenig@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>, 
+ "james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
+ <liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>, 
+ "brian.starkey@arm.com" <brian.starkey@arm.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
+ "sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>, 
+ "linux@roeck-us.net" <linux@roeck-us.net>, "fery@cypress.com"
+ <fery@cypress.com>, "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "agk@redhat.com" <agk@redhat.com>, "snitzer@redhat.com" <snitzer@redhat.com>, 
+ "dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
+ <rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
+ "kuba@kernel.org" <kuba@kernel.org>, "peppe.cavallaro@st.com"
+ <peppe.cavallaro@st.com>, "alexandre.torgue@st.com"
+ <alexandre.torgue@st.com>, "joabreu@synopsys.com" <joabreu@synopsys.com>,
+ "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "malattia@linux.it"
+ <malattia@linux.it>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "mgross@linux.intel.com" <mgross@linux.intel.com>,
+ "intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
+ "artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
+ <martin.petersen@oracle.com>, "sakari.ailus@linux.intel.com"
+ <sakari.ailus@linux.intel.com>, "clm@fb.com" <clm@fb.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
+ <dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
+ <tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
+ <luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "pmladek@suse.com" <pmladek@suse.com>, "sergey.senozhatsky@gmail.com"
+ <sergey.senozhatsky@gmail.com>, "andriy.shevchenko@linux.intel.com"
+ <andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
+ <linux@rasmusvillemoes.dk>, "minchan@kernel.org" <minchan@kernel.org>,
+ "ngupta@vflare.org" <ngupta@vflare.org>, "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>, "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+ "yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "pablo@netfilter.org"
+ <pablo@netfilter.org>, "kadlec@netfilter.org" <kadlec@netfilter.org>,
+ "fw@strlen.de" <fw@strlen.de>, "jmaloy@redhat.com" <jmaloy@redhat.com>,
+ "ying.xue@windriver.com" <ying.xue@windriver.com>, "willy@infradead.org"
+ <willy@infradead.org>, "sashal@kernel.org" <sashal@kernel.org>,
+ "ruanjinjie@huawei.com" <ruanjinjie@huawei.com>, "David.Laight@aculab.com"
+ <David.Laight@aculab.com>, "herve.codina@bootlin.com"
+ <herve.codina@bootlin.com>, "Jason@zx2c4.com" <Jason@zx2c4.com>,
+ "bvanassche@acm.org" <bvanassche@acm.org>, "keescook@chromium.org"
+ <keescook@chromium.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
+ <linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
+ <linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
+ <linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
+ <linux-input@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
+ <netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
+ <coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
+ <tipc-discussion@lists.sourceforge.net>, "stable@vger.kernel.org"
+ <stable@vger.kernel.org>, "Chocron, Jonathan" <jonnyc@amazon.com>
+Subject: RE: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+Thread-Topic: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+Thread-Index: AQHcKz/dRIfBoG9yrEaIjS9Ywn6sYg==
+Date: Sun, 21 Sep 2025 21:37:02 +0000
+Message-ID: <4f497306c58240a88c0bb001786c3ad2@amazon.com>
+References: <20250919101727.16152-1-farbere@amazon.com>
+ <2025092136-unelected-skirt-d91d@gregkh>
+In-Reply-To: <2025092136-unelected-skirt-d91d@gregkh>
+Accept-Language: en-US
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250922-bar-v1-1-b2a1f54ace82@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, suse.de:email, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.85.143.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 22 Sep 2025 07:13:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,63 +171,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Am 22.09.25 um 04:57 schrieb LiangCheng Wang:
-> The driver uses drm_gem_shmem_prime_import_no_map() and
-> drm_gem_shmem_dumb_create(), but the Kconfig currently selects
-> DRM_GEM_DMA_HELPER instead of DRM_GEM_SHMEM_HELPER. This causes
-> link failures when DRM_GEM_SHMEM_HELPER is not enabled.
+> On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
+> > This series includes a total of 27 patches, to align minmax.h of
+> > v5.15.y with v6.17-rc6.
+> >
+> > The set consists of 24 commits that directly update minmax.h:
+> > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
+> >    once")
 >
-> Select DRM_GEM_SHMEM_HELPER to fix the build.
+> But this isn't in 5.15.y, so how is this syncing things up?
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202509220320.gfFZjmyg-lkp@intel.com/
-> Fixes: c9e70639f591 ("drm: tiny: Add support for Mayqueen Pixpaper e-ink panel")
->
-> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+> I'm all for this, but I got confused here, at the first commit :)
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+It's a typo.
+It should be 5.10.y and not 5.15.y.
 
-> ---
-> This patch fixes a build failure in the Pixpaper DRM tiny driver caused by
-> a missing dependency on DRM_GEM_SHMEM_HELPER. The driver calls
-> drm_gem_shmem_prime_import_no_map() and drm_gem_shmem_dumb_create(), which
-> require CONFIG_DRM_GEM_SHMEM_HELPER to be enabled.
+> Some of these are also only in newer kernels, which, as you know, is
+> generally a bad thing (i.e. I can't take patches only for older
+> kernels.)
 >
-> The issue was reported by the 0-day kernel test robot. This patch updates
-> the Kconfig to select DRM_GEM_SHMEM_HELPER instead of DRM_GEM_DMA_HELPER.
-> ---
->   drivers/gpu/drm/tiny/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-> index 94a5bf61a115929640022128e20c723ab7c0e735..7d9e85e932d7fd7bdb6ad7a4c6ba0f835841f623 100644
-> --- a/drivers/gpu/drm/tiny/Kconfig
-> +++ b/drivers/gpu/drm/tiny/Kconfig
-> @@ -86,7 +86,7 @@ config DRM_PIXPAPER
->           tristate "DRM support for PIXPAPER display panels"
->           depends on DRM && SPI
->           select DRM_CLIENT_SELECTION
-> -        select DRM_GEM_DMA_HELPER
-> +        select DRM_GEM_SHMEM_HELPER
->           select DRM_KMS_HELPER
->           help
->   	  DRM driver for the Mayqueen Pixpaper e-ink display panel.
->
-> ---
-> base-commit: 846bd2225ec3cfa8be046655e02b9457ed41973e
-> change-id: 20250922-bar-cd1f3e834e78
->
-> Best regards,
+> I want these changes, as they are great, but can you perhaps provide
+> patch series for newer kernels first so that I can then take these?
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+So you'd first like first to align 6.16 with 6.17, then 6.15 with 6.16,
+then 6.12 with 6.15, then 6.6 with 6.12, and so on until we eventually
+align 5.10 and even 5.4?
 
-
+---
+Regards, Eliav
