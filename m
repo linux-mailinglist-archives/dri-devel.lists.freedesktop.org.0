@@ -2,89 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223ABB8DA60
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 13:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58E4B8DB13
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 14:34:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D42EC10E03B;
-	Sun, 21 Sep 2025 11:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBCCC10E1A3;
+	Sun, 21 Sep 2025 12:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bwmjthrt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lUCEtW9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 242A810E03B
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 11:42:09 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-3307e8979f2so983518a91.2
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 04:42:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758454928; x=1759059728; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K916KUx2pRc33+DQRqSv33PWW4YfoGyNBVmdt55/SZs=;
- b=bwmjthrtidLvmDxNnuHHFxe/SZ8vjugVfbHNo65Y8hplPrTkqXvc/Ohm8tl2eRwPsr
- 8zKe0Y7O8u1FwNy0ktZLGGN1wiTcRi2xpPdIqrLR5k0xa50WrgJql6psZv48LDI55xN9
- MXk50in5qUcULwulchrAV1kJron30GbKJLFEdama+pfvTWtplOQdEavPIUDZnwsUhLLE
- aHVtVKMKLV+4mPyLCNn2aMis/dARwaCqGL6NX601gsw5eOw9U2KNAPTlrEA0kGVfFwbX
- dfbT3wqT/eNox0fzN6l9Ue8T6zQqJ5kI8WPk5RW0w2fBrKzPKvTix1iKffEkp6uVN8ax
- iFvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758454928; x=1759059728;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=K916KUx2pRc33+DQRqSv33PWW4YfoGyNBVmdt55/SZs=;
- b=E6/fe1X7FgOgFkZe1j+ZxChv8dPGH2IAPJwr35TgUmHGxnagjs3d4ZBfhLt2P7lol8
- p09k0DY5cLG3yWQau+4eGSlCztbHnRn1PWFx1tzCGfrarSjNMpJIo00mTtXpBw+CX9G+
- +REVcydCS9dH7ydh789P5Q53+AjMZ6eDcalBn24SrS4ks1rPJOsIZrPNx4ujjxJtWf7G
- qZymb/ml1IZostFxDvq1ffH35hFpjlxgKxFUqzODO9zOLcg1gJ9QJ5pqTGFhT/sYkIhP
- w9WKwRQn/RlB4uTLonCHxzxnTRm1NHmNlA1phpjCndv3Cg6Frwqr5PnHvHGzem13Kfnf
- yGQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbfJjG9aN0lUvzNyFQiAHHIv9KeAlRtvPXQBvggTCx+KeusiL3pF4tkuNhvlHmJZ7m37Sqyid7MzA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZLRpMHCp4x5jU+qAt11N72WuA72Xi3XKAXgI8joNd/y8CSBj3
- IEjyUezs9WNMa5E38rxSf5SsFCYb76CaVAqceu/C1pCChGd3AMacaAjab1h0R7/dRD6kHNNtcN0
- DjEX6IjOkeE9/WQX2Jdz8uUaOroLwfdU=
-X-Gm-Gg: ASbGnct/bPHi0N50mJc0zCiKpzJi81at81mRVhioIfrT6vk89uOnQ4SODPxjSEK35zB
- WehhqYotoHuWqhXMFM4IfRy2WSNyCM1y6kzjsJZcISxrkMwg1m6IGSPz1KilQGyQAtSZo8cbzTh
- ffyFrsun8NDzrujp6IKcVU/gsi4IDBk5Q1juPSsXIurXhTEm1nDHWoMj+EjIgx+Wc8dUZKi+3mb
- kL/asB7Kz2G4cXolkzuPWwwPj7VfvBYzQ9OSWvCqUHCp52lsFg+1zeQZc46ZKDtA2HXeAizuU9/
- kZnD7cSVB94MymQC9U5GBehsaM+rc+Bo+xcE
-X-Google-Smtp-Source: AGHT+IFRSGavmihE0jeFmf3/2ErrEQ7lVZdNPzc90R+azLE4QPTS7uO3XKCP8dBGdcZnR+PQiMPrb7CuZa2GRwXI02k=
-X-Received: by 2002:a17:902:da81:b0:258:a3a1:9aa5 with SMTP id
- d9443c01a7336-269ba26087cmr64556325ad.0.1758454928589; Sun, 21 Sep 2025
- 04:42:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250909212039.227221-1-joelagnelf@nvidia.com>
- <20250909212039.227221-6-joelagnelf@nvidia.com> <aMDq2ln1ivFol_Db@yury>
- <bbd6c5f8-8ad2-4dac-a3a4-b08de52f187b@nvidia.com> <aMIqGBoNaJ7rUrYQ@yury>
- <20250916095918.GA1647262@joelbox2> <20250920003916.GA2009525@joelbox2>
-In-Reply-To: <20250920003916.GA2009525@joelbox2>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 21 Sep 2025 13:41:55 +0200
-X-Gm-Features: AS18NWAEK_G6m5-8BL_C3aor80z6U_cj8cDpyNPkB8wcxKLKwKj_z5k0IO6zsJc
-Message-ID: <CANiq72=uycGrGAVH=8KjVQ3e-P_-B0c=_mUBa1__sh44eiQ3=Q@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] rust: Add KUNIT tests for bitfield
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, dakr@kernel.org, acourbot@nvidia.com, 
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, 
- joel@joelfernandes.org, Elle Rhumsaa <elle@weathered-steel.dev>, 
- Daniel Almeida <daniel.almeida@collabora.com>, nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C68710E098;
+ Sun, 21 Sep 2025 12:34:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id A33794495A;
+ Sun, 21 Sep 2025 12:34:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE53AC116D0;
+ Sun, 21 Sep 2025 12:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758458043;
+ bh=VxmthJPNENbIGHLIKYatBSWAADCcIL/mFRxggTyg46E=;
+ h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+ b=lUCEtW9sAiXF2PpPs9Dae4vbu6pomlNbS76GGz1KR0zz0aTiQpFgPAs0qp1WO792Y
+ 9EVffICjQQREcHxnxaJ/5E3jscWb/+G2aYMI8j/qfgFAQnRE4c7e8JJKwiorITs0YD
+ D22Uxyo36ePCho63HL7mhhDgAtx0mQYlJdCALIuBFNXe/7KuquS0ZZ0Xc2qwskMkhG
+ cfwi7WjGK9NMnQ+c+fe6HNfyEJ5cMDzup9muuGXvrtm0spfr/BkGm0Lb/q8E31QNd8
+ EVRN75dKr9UQeRzu3LEDaz7yN2UiPTAm7H2FtBQ4desmemMPSrPnitc1AsQGbFRNvg
+ olsHlyGyHV4QQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 21 Sep 2025 14:33:56 +0200
+Message-Id: <DCYHCLM67KRZ.366VS9PDKLYKY@kernel.org>
+To: "Greg KH" <gregkh@linuxfoundation.org>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>
+Cc: <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>,
+ <acourbot@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun
+ Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "John
+ Hubbard" <jhubbard@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Yury
+ Norov" <yury.norov@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v4 1/6] nova-core: bitfield: Move bitfield-specific code
+ from register! into new macro
+From: "Benno Lossin" <lossin@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20250920182232.2095101-1-joelagnelf@nvidia.com>
+ <20250920182232.2095101-2-joelagnelf@nvidia.com>
+ <2025092157-pauper-snap-aad1@gregkh>
+In-Reply-To: <2025092157-pauper-snap-aad1@gregkh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,19 +74,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 20, 2025 at 2:39=E2=80=AFAM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
+On Sun Sep 21, 2025 at 11:36 AM CEST, Greg KH wrote:
+> On Sat, Sep 20, 2025 at 02:22:27PM -0400, Joel Fernandes wrote:
+>> The bitfield-specific into new macro. This will be used to define
+>> structs with bitfields, similar to C language.
+>>=20
+>> Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/bitfield.rs    | 314 +++++++++++++++++++++++++++
+>>  drivers/gpu/nova-core/nova_core.rs   |   3 +
+>>  drivers/gpu/nova-core/regs/macros.rs | 259 +---------------------
+>>  3 files changed, 327 insertions(+), 249 deletions(-)
+>>  create mode 100644 drivers/gpu/nova-core/bitfield.rs
+>>=20
+>> diff --git a/drivers/gpu/nova-core/bitfield.rs b/drivers/gpu/nova-core/b=
+itfield.rs
+>> new file mode 100644
+>> index 000000000000..ba6b7caa05d9
+>> --- /dev/null
+>> +++ b/drivers/gpu/nova-core/bitfield.rs
+>> @@ -0,0 +1,314 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! Bitfield library for Rust structures
+>> +//!
+>> +//! Support for defining bitfields in Rust structures. Also used by the=
+ [`register!`] macro.
+>> +//!
+>> +//! # Syntax
+>> +//!
+>> +//! ```rust
+>> +//! #[derive(Debug, Clone, Copy)]
+>> +//! enum Mode {
+>> +//!     Low =3D 0,
+>> +//!     High =3D 1,
+>> +//!     Auto =3D 2,
+>> +//! }
+>> +//!
+>> +//! impl TryFrom<u8> for Mode {
+>> +//!     type Error =3D u8;
+>> +//!     fn try_from(value: u8) -> Result<Self, Self::Error> {
+>> +//!         match value {
+>> +//!             0 =3D> Ok(Mode::Low),
+>> +//!             1 =3D> Ok(Mode::High),
+>> +//!             2 =3D> Ok(Mode::Auto),
+>> +//!             _ =3D> Err(value),
+>> +//!         }
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! impl From<Mode> for u32 {
+>> +//!     fn from(mode: Mode) -> u32 {
+>> +//!         mode as u32
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! #[derive(Debug, Clone, Copy)]
+>> +//! enum State {
+>> +//!     Inactive =3D 0,
+>> +//!     Active =3D 1,
+>> +//! }
+>> +//!
+>> +//! impl From<bool> for State {
+>> +//!     fn from(value: bool) -> Self {
+>> +//!         if value { State::Active } else { State::Inactive }
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! impl From<State> for u32 {
+>> +//!     fn from(state: State) -> u32 {
+>> +//!         state as u32
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! bitfield! {
+>> +//!     struct ControlReg {
+>> +//!         3:0       mode        as u8 ?=3D> Mode;
+>> +//!         7         state       as bool =3D> State;
+>> +//!     }
+>> +//! }
 >
-> The C checks use BUILD_BUG_ON, in rust-for-linux we have build_assert but=
- it
-> is fragile and depends on the value being a constant.
+> As discussed at the conference this week, I do object to this as it
+> will allow the same mistakes to happen that we used to do in the kernel
+> for a long time before the regmap() api happened, along with GENMASK().
 
-What do you mean?
+Have you read the following macro arm of the implementation?
 
-`build_assert!` works essentially like `BUILD_BUG_ON`, i.e. after the
-optimizer, and does not depend on the value being a constant.
+    // Generates the accessor methods for a single field.
+    (
+        @leaf_accessor $name:ident $hi:tt:$lo:tt $field:ident
+            { $process:expr } $to_type:ty =3D> $res_type:ty $(, $comment:li=
+teral)?;
+    ) =3D> {
+        ::kernel::macros::paste!(
+        const [<$field:upper _RANGE>]: ::core::ops::RangeInclusive<u8> =3D =
+$lo..=3D$hi;
+        const [<$field:upper _MASK>]: u32 =3D ((((1 << $hi) - 1) << 1) + 1)=
+ - ((1 << $lo) - 1);
+        const [<$field:upper _SHIFT>]: u32 =3D Self::[<$field:upper _MASK>]=
+.trailing_zeros();
+        );
+   =20
+        $(
+        #[doc=3D"Returns the value of this field:"]
+        #[doc=3D$comment]
+        )?
+        #[inline(always)]
+        pub(crate) fn $field(self) -> $res_type {
+            ::kernel::macros::paste!(
+            const MASK: u32 =3D $name::[<$field:upper _MASK>];
+            const SHIFT: u32 =3D $name::[<$field:upper _SHIFT>];
+            );
+            let field =3D ((self.0 & MASK) >> SHIFT);
 
-You may be thinking of `static_assert!`, which is the compiler-based one.
+Here you can see that it's just a mask + shift operation internally to
+access the field.
+   =20
+            $process(field)
+        }
+   =20
+        ::kernel::macros::paste!(
+        $(
+        #[doc=3D"Sets the value of this field:"]
+        #[doc=3D$comment]
+        )?
+        #[inline(always)]
+        pub(crate) fn [<set_ $field>](mut self, value: $to_type) -> Self {
+            const MASK: u32 =3D $name::[<$field:upper _MASK>];
+            const SHIFT: u32 =3D $name::[<$field:upper _SHIFT>];
+            let value =3D (u32::from(value) << SHIFT) & MASK;
+            self.0 =3D (self.0 & !MASK) | value;
+   =20
+            self
+        }
+        );
+    };
 
+Now I too would like to see how exactly this will be used to read data
+from hardware. But at least in theory if the conversion from hardware
+endianness to native endianness is done correctly, this will do the
+right thing :)
+
+> The issue is that you are going to want to take these bitfields as part
+> of a larger structure, and attempt to "lay it over" a chunk of memory
+> that came from, or is going to, hardware.  When that happens, all of the
+> endian issues of mis-matches between hardware and cpus come into play,
+> which is not able to be properly expressed here at all, unless you
+> attempt to either resolve it all later on in something like the regmap
+> api, or you have #ifdef stuff to attempt to capture all of the possible
+> combinations and deal with it at build time (which is strongly never
+> recommended, but is what we used to do in previous decades.)
+
+The "laying over part" requires a cast or transmute in Rust which is
+`unsafe`, so I'd say we will definitely notice it in the code if a user
+would be trying to do it.
+
+---
 Cheers,
-Miguel
+Benno
