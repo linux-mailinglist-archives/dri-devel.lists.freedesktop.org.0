@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA68B8DDF6
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 18:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E13CB8DE75
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Sep 2025 18:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A28C10E0FE;
-	Sun, 21 Sep 2025 16:03:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86B2010E18F;
+	Sun, 21 Sep 2025 16:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DTYvftXf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TZO+l66m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BEC010E039
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 14:55:05 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-77f1f8a114bso605990b3a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 07:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1758466504; x=1759071304; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pJFv3ChPUzhn9GkGU13hJh9Fbrlocc4W2rtrc3dBgJk=;
- b=DTYvftXfAqx82edDPPDUzpWcUJyi1tuqxAR5lYdAMPDBDOKWIMbWbe0Ta4MChpfO1Z
- RqfjjSzpjX5rfIQeVWVmC9Tl5ZkC11lmcf/T2+3C6jomZopjdQGBqtOVHDCQvMOwczzT
- WwhnYgclvmOIcws8i1gVBdc8ZUbuXFJBeIb46eaELZ7bApwcXrHcj1+ZJOxWnKLfmYti
- Hs32xpv+NaK/f0xS22T0HDfEn6cUr7xBFQRKjkVmGo46nsX4FLc11515FtcE9Tx8efI3
- 8k2pq0fcyT3W4FkiHhDkaWPwk8LHtctaqeJu4tlWXEh+BF/ON4aWsj8chzEO7S+c+cO4
- iVgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1758466504; x=1759071304;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pJFv3ChPUzhn9GkGU13hJh9Fbrlocc4W2rtrc3dBgJk=;
- b=oRok6kfVrmWuMAW5yGMjtN2q4+CCqsZEskgVKu3aSd5vilNHWN6dZiQ5WiaXWeOgJ7
- fX3oQjfTXK84S+WMsod0AF1qg7bE0j1rnEN7wqgO0uuS1/R+05MXmvBbOtgNtvqOmPfu
- SWsS+EYg1dDaZVdd50WrgxFiVHGGT1l/tYq5ecuy5hhPymQ7lpNnkWWP3OVP/xoZSZiH
- DPXHaKeugrmvLgI/XKih3qQm8LEFx+9g/KnUy6P/HuCnHf5pvo2qpgZllU2aRPeDMs+z
- xkStmqcVd3xfU/ouN4F2tMsw/BqCgxyb87dr0OUeIP3/c2kvuMJaQI59hDSPkbbdnEiX
- KD6A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZ4zEmTIVHWo+sHXjMiafa9ctkQeeIkqwisSM/dZS8ydBNrD32tip9gxR5nCmdRxokPKfV0KIdiQg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw10Pi4usV/uWaVcbAzgMbwbg2xyWu+k0IYmiGuZO2pja4kP9Jk
- hL4bhHVloj8taNqpHNd3i/gHc6+vovaLF9L7FVF8tlKNiuK7ODrq61bz
-X-Gm-Gg: ASbGncs7sTIV4Z6uOUfrVzvvEuWHX6mxDvyD4m8Tqn2S6XuMIFULH74xvoplbfZ9HoG
- ZObGgl6ttor+j3Y+z/6RMMh3/Zryu/Aodra7/0p7qNswpSN9o6TKFxoKG+m/pHXCCh+Dqszznnd
- U99OLpqRT9JaScAf+WDXe8Kj9UQsCR2EropHS2uV5w2lMWfga1dwB9k8i/q3a5WgYcbiG+b5M86
- b9wQ1eGP9SS9XeIIiY+H41GJvpf1L2gWOUiVBgWlVEDzlfsWLQwmEqBkT8SltitLhE87koQ4bxR
- 2QbkZ4KToosVeI3UjQbroar84gSxf9shgpRyNNyGxLtUP9Bu6oeOttKwzjeTttjFHWuVIRDBxEH
- 1ZHgRLmkjC2LgQ4lqgDs+yY3t7OF1rEkv5CbwB7A6LwA=
-X-Google-Smtp-Source: AGHT+IGlGOrrC1qELYieezel6ZZpPzpPTwUZ/Hjhxs33BYHvkYGq6FWqHUkdWrQ5M/94vUUoWCRMpA==
-X-Received: by 2002:a05:6a20:3945:b0:262:af30:e3c with SMTP id
- adf61e73a8af0-2921cafa18amr14329391637.28.1758466504480; 
- Sun, 21 Sep 2025 07:55:04 -0700 (PDT)
-Received: from asahi.bialairport.com ([103.241.193.55])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-77cfbb7aad7sm10415321b3a.12.2025.09.21.07.55.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Sep 2025 07:55:03 -0700 (PDT)
-From: Shreyas Muppana <shreyasmuppana@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shreyas Muppana <shreyasmuppana@gmail.com>
-Subject: [PATCH] drm/amdgpu: remove leading space before square bracket
-Date: Sun, 21 Sep 2025 20:24:01 +0530
-Message-ID: <20250921145401.22654-1-shreyasmuppana@gmail.com>
-X-Mailer: git-send-email 2.51.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E07310E18F
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 16:08:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 170984198B;
+ Sun, 21 Sep 2025 16:08:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEED8C4CEE7;
+ Sun, 21 Sep 2025 16:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1758470915;
+ bh=bjgVhndVUFUWDh9Kli3/1k8OQLzpscDz8f8evH9FF0I=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=TZO+l66md5y3YCmXc+ANR/7ZQQnj+9xH3xUYAKm16jr1VgmO7nbmA17BrgK/cp/1I
+ ErAp9eU0l0ULWifGJSR8G6K31HdIhbPHRzPZCzoYVkURF0xm+t9Lp0IEZSKtUhv5To
+ NZu/9IYg7jMI23EOHyqP+9Yf1aKiJVOzv4il1R+7W1e64H8azKP5cKmPz00VBgcjHS
+ PM9ECn8MePHnkI7w4wRHfNxe5xMJ2h3rKfz6GeQ9giQ6ATo5gVf/vbqE+0BUftKaap
+ 6gENrL80OHsZU6jBLMOv2yTsyFq8PwSbbvOqjz6w5EsEXkHMQfXyVbT4c+pXfINbKa
+ C6DAc9QudVGqg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 21 Sep 2025 16:03:00 +0000
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250828-dt-apple-t6020-v1-25-507ba4c4b98e@jannau.net>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-25-507ba4c4b98e@jannau.net>
+Subject: Re: [PATCH 25/37] clk: clk-apple-nco: Add "apple,
+ t8103-nco" compatible
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org,
+ linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-clk@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Janne Grunau <j@jannau.net>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andi Shyti <andi.shyti@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Guenter Roeck <linux@roeck-us.net>, Hector Martin <marcan@marcan.st>,
+ Janne Grunau <j@jannau.net>, Jaroslav Kysela <perex@perex.cz>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+ Joerg Roedel <joro@8bytes.org>, Johannes Berg <johannes@sipsolutions.net>,
+ Keith Busch <kbusch@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marc Zyngier <maz@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Mark Brown <broonie@kernel.org>, Mark Kettenis <kettenis@openbsd.org>,
+ Martin =?utf-8?q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Maxime Ripard <mripard@kernel.org>, Michael Turquette <
+ mturquette@baylibre.com>, Neal Gompa <neal@gompa.dev>,
+ Rafael J. Wysocki <rafael@kernel.org>, Rob Herring <robh@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sagi Grimberg <sagi@grimberg.me>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sven Peter <sven@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Will Deacon <will@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ van Spriel <arend@broadcom.com>
+Date: Sun, 21 Sep 2025 09:08:33 -0700
+Message-ID: <175847091343.4354.2623772725149192827@lazor>
+User-Agent: alot/0.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,27 +93,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-remove a space before an open square bracket,
-fixes a linter error
+Quoting Janne Grunau (2025-08-28 07:01:44)
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,nco" anymore [1]. Use
+> "apple,t8103-nco" as base compatible as it is the SoC the driver and
+> bindings were written for.
+>=20
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@k=
+ernel.org/
+>=20
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
 
-Signed-off-by: Shreyas Muppana <shreyasmuppana@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-index cbc40cad5..8f3a31952 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-@@ -26,7 +26,7 @@
- #include "amdgpu_aca.h"
- #include "amdgpu_ras.h"
- 
--#define ACA_BANK_HWID(type, hwid, mcatype) [ACA_HWIP_TYPE_##type] = {hwid, mcatype}
-+#define ACA_BANK_HWID(type, hwid, mcatype)[ACA_HWIP_TYPE_##type] = {hwid, mcatype}
- 
- typedef int bank_handler_t(struct aca_handle *handle, struct aca_bank *bank, enum aca_smu_type type, void *data);
- 
--- 
-2.51.0
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
