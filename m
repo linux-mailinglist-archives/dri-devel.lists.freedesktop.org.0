@@ -2,71 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C59B9145D
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC28B914B4
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 15:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DE410E1AD;
-	Mon, 22 Sep 2025 13:00:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572BE10E49C;
+	Mon, 22 Sep 2025 13:07:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="SNh4iW/H";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="q7XVwUX/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C32910E1AD
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 13:00:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1758545993; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KXpsdfL0sLIEN6+ch4OPZF52ykGK/xd00kPCHOkG5Xlu8G1l9PuD8jlo98l/LK6vHA5/wZWezrGDBvHucrgPgoFZYN3uqpFmNUDfVwYPe6HjadufpYsFK6kU1+AYmqBjoGP2B4sSVB4Ccz2x8EPdJYThLbswqjHEWF+DQ9WJeLs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1758545993;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=wAZGo74S2/BuMJzm9w/GphhXaDBG31Y3GtBvN2ub5vc=; 
- b=Wujcwi5wk5ySWMkqq6JlwPpWHVpABorutQHdIRLY7OlPV9JQUQ5eY/QqFbV9oXyuPu/F5Rsuly/tX3f4FFKiiIhkSYEmERY9+WMw2FUbdSBy7hh3m1lDaZO/0vyS7C4GIjMChXERansH97pbxCQQMlUHP+2re8nbHZKl0ZcezY4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758545993; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=wAZGo74S2/BuMJzm9w/GphhXaDBG31Y3GtBvN2ub5vc=;
- b=SNh4iW/HOcYjfz3V8ezrXt3Q2QL/Xw1vXwlLJ2bipi8+wTsUczNONCv/oBROfy1g
- 8DlhSadMqjFNmUgrwkUx5CM9AwTAsQjFuqZp8wT5clHOD7A+rAIaEflzgcaYOOA23mf
- Stjg/mYFZWCQy8Z/G4n3Bj+ORsjgdlsKTo/WmY0o=
-Received: by mx.zohomail.com with SMTPS id 1758545990297867.0298207925075;
- Mon, 22 Sep 2025 05:59:50 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Jassi Brar <jassisinghbrar@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Chia-I Wu <olvaffe@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 05/10] mailbox: add MediaTek GPUEB IPI mailbox
-Date: Mon, 22 Sep 2025 14:59:43 +0200
-Message-ID: <1933660.tdWV9SEqCh@workhorse>
-In-Reply-To: <CABb+yY0_TZC0Dd3Rue=6Am4=Urs8hdkaa6RE=42t58SYUsLV0w@mail.gmail.com>
-References: <20250917-mt8196-gpufreq-v3-0-c4ede4b4399e@collabora.com>
- <20250917-mt8196-gpufreq-v3-5-c4ede4b4399e@collabora.com>
- <CABb+yY0_TZC0Dd3Rue=6Am4=Urs8hdkaa6RE=42t58SYUsLV0w@mail.gmail.com>
-MIME-Version: 1.0
+Received: from sonic305-20.consmr.mail.gq1.yahoo.com
+ (sonic305-20.consmr.mail.gq1.yahoo.com [98.137.64.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAD6410E49D
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 13:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1758546450; bh=0EfXqbK4DHTE0Z8e3N5vogNx54gJngPVVQY62jODgAo=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=q7XVwUX/3uV6Rs+CP6Wm+HUOtA8AptmDwmrDBNnyhL8HcfiX6IapcuXqCcmzjGbXNpDJpEDx2bOCGIPbKKKLzDzsCSfewpbHfeBVZqfWjjCYIQIYkukPHq4omF4a0lauZUfTxT+jTY7Lt+6+z/51awJ23j2U08lEcsFuk77zpbQ9G/LTPMDqVYhW5i1JmW8GXBHvKtDHx33vyEkLuJY9v2VhIJXJk7z+HGkiPtwnbBYegpr1/ZOCKLu0tMUxbuu/9mSKpbrDqSbKOK7uGIvlphK7HTP2hHVd4vgmTosQkkjMFW0K9X9/jp2H3QA4XtxvEVot9ZquvyIv/hFjVbgepQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1758546450; bh=8nUHS3jqYhkBkL3t6jmEcWY2pa09EtZEaXjaisrZ/A8=;
+ h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
+ b=IMZUBXgW3Vm6Zvjd8Mo6WMoQtOPaY9al2ufjMxEahZahiMNGY+0lTKnt/A3nw3tQoYyj8XhhtaqEP9vpCzw6vhM1t7c4iYIP+tUlgAz4wIucbzNukCE5fcPh9uRTZ/EF3KoOrR9l2vA2wacGwwoCMZshhfgwcsFaRauxzgjWX/PUD9tL4Z9BUTi/QZArU/yud2j9bMG6gAbAnbThlaRRDHPyXIeSWQCPjMCXiLbYFKRGECkV2C3BMcLOsG1SSx1mK7XqEXlSzldfSqUDFsshzvrjdeBF3d8i2k8BEax/GV8iExKYLqfx3a2tQzLCaMrFQXSkRiSbLZuq0wPnCUYfIQ==
+X-YMail-OSG: uMjTQtAVM1kdo9eTdXKhlDzDjODgp6IjVE_Etyc3FC08mABxKOmkS0XCR0tnT5i
+ 75uGz58sIL2nshhxnKeFHqkwLkoAiIghJbLwMJ6_Je5C5nai2iam.OsDWnj42iI94_HITYi9FiRg
+ hRyV3Dkk5vEppKQAhf3E77EIVhrKtbaLVRJhlWQGwbo1bq3zPxGQDqxQeuZkcGgMx0WRdhrBQN5r
+ JdwuAoe3xLWLZgJOYSCJJi5_9FYJ8ou4q55uBPQ0QFq7JuBc9TrZNno_YoCqTj91qnMPf1kjYQxb
+ UMXTJbJ0i34VSF6wV81CEhhRqDBiHuKQL9rQIu_W84H73RQpaR5Xt8f0BQiyJ1cbXLWB2Sk.fkEE
+ wgycRvvIR6J5oGjOXCxL0Oshk778xfNTZX6Wmy2.q3VjZH250PwliqhEe71JujeBkKTa_8hc5wWZ
+ zJ5yRx4U9kicXkPQjW.S6MJl5dBIRy5S7YDSVAnikDLgKbAAsueBIe.9E4SAk9I71nI7.IFY4m3q
+ dPkzQnEQtn3aH_rGZrj_w2ovl.eMWvYZZhiw4OV9MOWuKu1xVpps3OYRrKrhZtjVDc_UURihhpGa
+ nqJY2TZlQZBaA6g_4xBwVPGeldhtuOnWOxlZDVCk2a5muoIkk_NamNghMj7aCg7n3LNZVxmyCLax
+ hIAilW.ckS2lnWfUd4upoqvCaLO9vRC.qttqq36HFvu0k86GEbS3N3ZMV3mdQiP1SGy46i.L9qda
+ lTJfWVRKczjsEkIif.eaLMpKnsFzJh.ntgFWFCwDe1JE6M___HTZlKn5Xm_wtfBRO2pyiw1iRrQp
+ J9f81m5VgJSMt69oefJWtlc5KrNiR4TavtFpm73WzNE3iuMusw0ZH7VlCi0p0YQs_rfvX1drnRpf
+ cmzVtxQDjeQJtSIKyxGW5AUg36OFwd_IcI5gsHb.ke7M9g4YdUA7q_oOhCEn2AMGYDmuEQTHFy2f
+ Gh2RBi5UufKqOwyjnbweYxUH_zR7ZPUFu9VEYbTMGi5jR_97FwjQCEpi8VJuZ7I.Ru9LzhT1OCRE
+ .dLLK6WBYC8g0_n0FIHe7PXYHVJ3pit5nDvJDC9tWv1_1vyfgbRCzwA6FHG90QbHLALosl.NHmg7
+ ojAcpgHTM2qi5GM2_i_O2.QZ_ysUwh0Ky2YGvF.i1JFQUVZmrK1kPoz8mGniSHGShtN833L0dgCQ
+ EKepclSvvRvINplmIddvoXa.qUyC8kDSn93KFR1wjmkyoHEYoD2hi2SQ6wJ1jaTKhNjFTsi8nnq_
+ QWpAdETMAmHEQjYdKZ.FIMFX9SAIbT6dJ0827NZa2FWWjRu65DKzw3S3aP4943.Gp6Kk6PwFleZR
+ R_q20FxBec9Dx4s2o6bV1SbznqNVEKF3Sohjc30p1PnpD3ZimjbYg2_a6Sj0b9gTKq4BATZxxqRD
+ ovC48RIEvKoEx6WinM9z25BvFOIk54P8flFJyDOi0iE2gG6b_foQBD5VChD4qc1Q2uEHw2FtG3bj
+ SQ9JER9e65ggaPTRE.sSV.H0L_iun23.GQMqPHpcrQfF76g8CKaudNTREVPS0bxWvoxhPVUCmOoh
+ FPEqVim5arNSdhLbuh43iBuzJ4wsY3WJnZr3hHEWCKSN.cehZa._AukzbqT14sfd2TloC95laect
+ _lgJxgW90JWvOUr8b696qHbR3NPI5QN9bxnNqkEI39B9VpPVHDNHLTk6TKcK42nQ6toEGDbMkzxx
+ j2XAF4nd6SA.3Rv1tpq9kX9rMo9dIi7g_E3vQKItY4MCYwKoUkX0Zy9Svtz.mRhnpIK9sKlrumE4
+ uHr3BkQlR._GMBhzKPpgW3OwabgKLENNSA.yONqTN7dkuo1hPYsv77eMoyWZWzQquFsLRDOyMlCu
+ oo5ifLT126E9kzb4sFzeFR3_GF34CdeCM.TG9Bm9VGwlPW687PL6N7C_OWhJ5h25FUQqm9OQoBKX
+ HO2JmMAW1RRjlAfUqJZuJLy5w5QHJtU4qbfep46r7VSJ_5Dt8JBXvEPPNx4qSKmzOrysllotDjf7
+ cGXKPntGHCuDJ977527BkfVm1uafp1J99Sjg7SDMPrZGcCGPcwUXA6rWH44f7jgfNlD_z4tTHaAD
+ 9yf1GkmjWwsWR25wR7R.Dkc4z6V2mNmm0YaN0dL.UQ8ggeKnzxAksoJWdkmLxqShkBY32O1liG29
+ E9KKgK1IfiRRipPKrCIYFouseQd9jJvWkj40SG0aLJeE3FGuNoAQC30pR4TkCD2Gjg8LezrlrJH1
+ ttKxVRxTKlTp_12foPKIhl.FkQYZ.13vI4QfAfKY0b_YOr.xCPUTiNLSQHg--
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: fa94e19c-8fce-4d91-8c55-ef4cb44f0a34
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic305.consmr.mail.gq1.yahoo.com with HTTP; Mon, 22 Sep 2025 13:07:30 +0000
+Received: by hermes--production-ir2-74585cff4f-6d9mc (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID a37f67a5b94ace5596a44b3048a74291; 
+ Mon, 22 Sep 2025 13:07:24 +0000 (UTC)
+Message-ID: <b87337baa6bdb69354f368a5526a68f1cc5f701c.camel@aol.com>
+Subject: Re: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with drm versions
+From: Ruben Wauters <rubenru09@aol.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann	 <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Mon, 22 Sep 2025 14:07:22 +0100
+In-Reply-To: <202509212215.c8v3RKmL-lkp@intel.com>
+References: <202509212215.c8v3RKmL-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Evolution 3.56.2 
+MIME-Version: 1.0
+X-Mailer: WebService/1.1.24425
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,156 +95,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sunday, 21 September 2025 07:00:59 Central European Summer Time Jassi Br=
-ar wrote:
-> On Wed, Sep 17, 2025 at 7:23=E2=80=AFAM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> ....
+On Mon, 2025-09-22 at 08:47 +0300, Dan Carpenter wrote:
+> Hi Ruben,
 >=20
-> > +#define MBOX_CTL_TX_STS                0x0000
-> > +#define MBOX_CTL_IRQ_SET       0x0004
-> > +#define MBOX_CTL_IRQ_CLR       0x0074
-> > +#define MBOX_CTL_RX_STS                0x0078
-> > +
-> 1) Please don't pollute the global namespace. Make these something
-> like MBOX_MTK_GPUEB_xxx. Here and elsewhere.
+> kernel test robot noticed the following build warnings:
+>=20
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Ruben-Wauters/drm-gud-repl=
+ace-WARN_ON-WARN_ON_ONCE-with-drm-versions/20250914-235627
+> base:=C2=A0=C2=A0 git://anongit.freedesktop.org/drm/drm-misc drm-misc-nex=
+t
+> patch link:=C2=A0=C2=A0=C2=A0
+> https://lore.kernel.org/r/20250914155308.2144-1-rubenru09%40aol.com
+> patch subject: [PATCH] drm: gud: replace WARN_ON/WARN_ON_ONCE with
+> drm versions
+> config: x86_64-randconfig-161-20250921
+> (https://download.01.org/0day-ci/archive/20250921/202509212215.c8v3RK
+> mL-lkp@intel.com/config)
+> compiler: clang version 20.1.8
+> (https://github.com/llvm/llvm-project=C2=A087f0227cb60147a26a1eeb4fb06e3b=
+5
+> 05e9c7261)
 
-I tend to disagree. These don't pollute the global namespace, they're
-defined as part of the file, so only pollute its local scope. I'm not
-going to make 25 character long symbols just to work around an issue
-that doesn't exist, but may exist in the unlikely future where
-mailbox.h gets its own symbol named precisely the same way but
-whoever adds it doesn't try to compile test every single mailbox
-driver to make sure they didn't break anything.
+Hi,
 
-> 2) You don't write short values, so maybe just 0x04, 0x04 0x74 and 0x78.
->=20
->=20
-> > +#define MBOX_FULL              BIT(0) /* i.e. we've received data */
-> > +#define MBOX_CLOGGED           BIT(1) /* i.e. the channel is shutdown =
-*/
-> > +
-> This is confusing. CLOGGED usually means malfunction, but it seems you
-> want to call it STOPPED or UNINIT?
+Thank you for catching this, I completely missed it. Since the patch
+has already been applied to drm-misc-next I will send another patch to
+fix this issue.
 
-I don't agree that "CLOGGED usually means malfunction". To clog something
-is to impede its flow, which in this case is the correct terminology to
-refer to what's happened to the channel. "UNINIT" is wrong, it's initialised
-properly. "STOPPED" is also wrong, it's not stopped, it still sends, it just
-won't pass it on through.
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes:
+> > https://lore.kernel.org/r/202509212215.c8v3RKmL-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/gpu/drm/gud/gud_connector.c:597
+> gud_connector_fill_properties() warn: passing a valid pointer to
+> 'PTR_ERR'
+>=20
+> vim +/PTR_ERR +597 drivers/gpu/drm/gud/gud_connector.c
+>=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 580=C2=A0 int
+> gud_connector_fill_properties(struct drm_connector_state
+> *connector_state,
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
+> 581=C2=A0=C2=A0				=C2=A0 struct gud_property_req *properties)
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 582=C2=A0 {
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 583=C2=A0=C2=A0	struc=
+t gud_connector
+> *gconn =3D to_gud_connector(connector_state->connector);
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 584=C2=A0=C2=A0	unsig=
+ned int i;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 585=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 586=C2=A0=C2=A0	for (=
+i =3D 0; i <
+> gconn->num_properties; i++) {
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 587=C2=A0=C2=A0		u16 =
+prop =3D
+> gconn->properties[i];
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 588=C2=A0=C2=A0		u64 =
+val;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 589=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 590=C2=A0=C2=A0		if (=
+prop =3D=3D
+> GUD_PROPERTY_BACKLIGHT_BRIGHTNESS) {
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 591=C2=A0=C2=A0			val
+> =3D connector_state->tv.brightness;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 592=C2=A0=C2=A0		} el=
+se {
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
+> 593=C2=A0=C2=A0			unsigned int *state_val;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 594=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
+> 595=C2=A0=C2=A0			state_val =3D gud_connector_tv_state_val(prop, &connect=
+or_state->tv);
+> d00e57106c0d0c Ruben Wauters=C2=A0 2025-09-14=C2=A0 596=C2=A0=C2=A0			if
+> (drm_WARN_ON_ONCE(connector_state->connector->dev, state_val))
+>=20
+> You accidentally deleted the IS_ERR() check so now this function is
+> badly broken.
 
->=20
->=20
-> > +#define MBOX_MAX_RX_SIZE       32 /* in bytes */
-> > +
-> > +struct mtk_gpueb_mbox {
-> > +       struct device *dev;
-> > +       struct clk *clk;
-> > +       void __iomem *mbox_mmio;
-> > +       void __iomem *mbox_ctl;
-> > +       struct mbox_controller mbox;
-> > +       struct mtk_gpueb_mbox_chan *ch;
-> > +       int irq;
-> > +       const struct mtk_gpueb_mbox_variant *v;
-> > +};
-> Other structures have kernel-doc, so why not here too?
-> ...
->
+What I think happened was that on replacing WARN_ON_ONCE with
+drm_WARN_ON_ONCE I had to find a drm device for the first parameter.
+Since there was not one readily available I believe I ended up re-
+writing this line, and accidentally left out the IS_ERR(). I will fix
+this.
 
-Because fully documenting all internal structures is not required
-for acceptance and writing redundant explanations for members that
-can be understood from name and context is redundant.
+> 	if (drm_WARN_ON_ONCE(connector_state->connector->dev,
+> IS_ERR(state_val)))
+>=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13
+> @597=C2=A0=C2=A0				return PTR_ERR(state_val);
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 598=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 599=C2=A0=C2=A0			val
+> =3D *state_val;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 600=C2=A0=C2=A0		}
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 601=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
+> 602=C2=A0=C2=A0		properties[i].prop =3D cpu_to_le16(prop);
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0
+> 603=C2=A0=C2=A0		properties[i].val =3D cpu_to_le64(val);
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 604=C2=A0=C2=A0	}
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 605=C2=A0=20
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 606=C2=A0=C2=A0	retur=
+n gconn-
+> >num_properties;
+> 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13=C2=A0 607=C2=A0 }
 
-> > +
-> > +static int mtk_gpueb_mbox_send_data(struct mbox_chan *chan, void *data)
-> > +{
-> > +       struct mtk_gpueb_mbox_chan *ch =3D chan->con_priv;
-> > +       int i;
-> > +       u32 *values =3D data;
-> > +
-> maybe order in decreasing lengths ?
->=20
->=20
-> > +
-> > +       /*
-> > +        * We don't want any fancy nonsense, just write the 32-bit valu=
-es in
-> > +        * order. memcpy_toio/__iowrite32_copy don't work here, because=
- fancy.
-> > +        */
-> >
-> Please make the comment technical. Currently it just expresses your
-> distaste for fancy :)
->=20
+Thank you for reporting this
 
-Then I will have to make an assertive statement about memory semantics
-of those two calls and how they differ from writel, which I don't want
-to do, because it would likely be inaccurate or not the full picture
-as those two calls can do a variety of things depending on the platform.
-
-Saying that I want 32-bit writes in order is much simpler than explaining
-how the two mentioned calls some well-meaning future developer may wish
-to replace this with don't do that.
-
-> > +       for (i =3D 0; i < ch->c->tx_len; i +=3D 4)
-> > +               writel(values[i / 4], ch->ebm->mbox_mmio + ch->c->tx_of=
-fset + i);
-> > +
->=20
-> ...
-> > +
-> > +static struct mbox_chan *
-> > +mtk_gpueb_mbox_of_xlate(struct mbox_controller *mbox,
-> > +                       const struct of_phandle_args *sp)
-> > +{
-> > +       struct mtk_gpueb_mbox *ebm =3D dev_get_drvdata(mbox->dev);
-> > +
-> > +       if (!sp->args_count)
-> > +               return ERR_PTR(-EINVAL);
-> > +
-> > +       if (sp->args[0] >=3D ebm->v->num_channels)
-> > +               return ERR_PTR(-ECHRNG);
-> > +
-> > +       return &mbox->chans[sp->args[0]];
-> > +}
-> >
-> Just use the default of_mbox_index_xlate()
->=20
-> ....
-> > +
-> > +       for (i =3D 0; i < ebm->v->num_channels; i++) {
->=20
-> You make this block a bit cleaner by using a temporary variable
->         echan =3D &ebm->ch[i];
-> and using echan instead of ebm->ch[i] a dozen times below.
->=20
-> > +               ebm->ch[i].c =3D &ebm->v->channels[i];
-> > +               if (ebm->ch[i].c->rx_len > MBOX_MAX_RX_SIZE) {
-> > +                       dev_err(ebm->dev, "Channel %s RX size (%d) too =
-large\n",
-> > +                               ebm->ch[i].c->name, ebm->ch[i].c->rx_le=
-n);
-> > +                       return -EINVAL;
-> > +               }
-> > +               ebm->ch[i].full_name =3D devm_kasprintf(ebm->dev, GFP_K=
-ERNEL, "%s:%s",
-> > +                                                     dev_name(ebm->dev=
-), ebm->ch[i].c->name);
-> > +               if (!ebm->ch[i].full_name)
-> > +                       return -ENOMEM;
-> > +
-> > +               ebm->ch[i].ebm =3D ebm;
-> > +               ebm->ch[i].num =3D i;
-> > +               spin_lock_init(&ebm->mbox.chans[i].lock);
-> > +               ebm->mbox.chans[i].con_priv =3D &ebm->ch[i];
-> > +               atomic_set(&ebm->ch[i].rx_status, MBOX_CLOGGED);
-> > +       }
-> > +
->=20
->=20
-> -j
->=20
-
-
-
-
+Ruben Wauters
