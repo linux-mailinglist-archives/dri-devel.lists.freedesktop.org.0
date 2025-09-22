@@ -2,175 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEEBB8EE87
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 06:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9465FB8EEAD
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Sep 2025 06:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A782F10E030;
-	Mon, 22 Sep 2025 04:11:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="kV/1PjjA";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12F3D10E39F;
+	Mon, 22 Sep 2025 04:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012058.outbound.protection.outlook.com
- [40.107.200.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1D110E030
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 04:11:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QKiDjzmhCOQ1y6WXSQcFZMtZxaiCGF7iyKO3fLb4kz+O+1p5XoMt4j44/0418y9Y2mwqBLvz7bkVhCo+SpVTs3X+odsxJ6t606sGFRu0RNDFd5r0E/2//N/SqvVli+OnFzkGUxnsj5cmSwb6xqHM0yR9DazhJ6nju0T9FKdpqtaGZ4nCSl1Z3m+gk6DvrZfteyCPdLnBPWDXYFqKX7My6LYve733C4qNgsR4KNAAmnOBrGebKwJIxlGQoyIzA2x/0esozBWFgGz3B3mffTsOCSQCOCK+4M8QQPTYYQ095oNhN42p0JOLL0wq5i4SP9a08xrFb6osOFf4m7i798Sr3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKrxDeZnlKUCUdQ67KRFxtD+3VexIWr9rARN1nAHmgE=;
- b=FraznzBE+grMeH4fPH1wPAXdB1rXYJWi6bpiyGzg9cIzEmqAOywtrbWRxb85wd1ayJd8A0vdww5nQM6AanXBETlEQ19V1++GYksTQ/scKlbu92F1oI14ti4TeXiOLAyG3CQATzX175Qa4ABie0RmoGc7xdJ55aP7meFXwzJ6RIyO5NibbXT7SgpcwscMDua8edm4fZichzwUxJ6VjQzjK1BBqq/Q0H+GwYlavARFBCgxfqPa/KDVvx//zPiUDvjda+J2sjC5usyD/B3ateCCuXJ489bD4p1zTBBptqYMCKe2oWYoKnnqcRpY897W0ayNRRulis8KKh3YiQ0bdlOwhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKrxDeZnlKUCUdQ67KRFxtD+3VexIWr9rARN1nAHmgE=;
- b=kV/1PjjAyrw9LE2H7qj1TfeMG2EkwcuhnT52OsBvTkQDYocIbp2NEypIPspQaSD72V2Ij45JlAEbjKTctRhd1IjvgN4Map6i8Wxiee13iq7olswEX1Boq1DfwyWp+Ax/IN+O+i8HEm2RXpDt18ZlZzlI5+kowksOYrXSaYuE1xLRmdkPnX+Sh0UP68nquNNNcr2eQtCPvgtidZK0DGWDT7nEGaejj5w3W1qvhCMT7BHoJiQvQat8fKqCnjDyQR2rN73XAceWXhZrdG9fl8BBesP6UAHH31ajrnKK31+MoZip2La7FMuwaxq/zVTwfcQoEQkc3JCg0j4ZfrPynR5UDA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- PH8PR12MB7026.namprd12.prod.outlook.com (2603:10b6:510:1bd::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 04:11:13 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 04:11:13 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 13/23] staging: media: tegra-video: csi: move
- avdd-dsi-csi-supply from VI to CSI
-Date: Mon, 22 Sep 2025 13:11:05 +0900
-Message-ID: <2325951.TLkxdtWsSY@senjougahara>
-In-Reply-To: <20250906135345.241229-14-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-14-clamor95@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0290.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::7) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com
+ [209.85.166.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE74510E39F
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Sep 2025 04:15:28 +0000 (UTC)
+Received: by mail-il1-f208.google.com with SMTP id
+ e9e14a558f8ab-4248adc62e0so22459995ab.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Sep 2025 21:15:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1758514528; x=1759119328;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BakDNPWo+QkF9V9wbXmNqYGZxd72ptFmNyaovE0QhPw=;
+ b=bC+RdWM39tjj5wjLiH4aPIdJUvyyFjxMPvZ1G9zsgyboYiAjbiolhoYmP0DtNCkWPg
+ 5TAd9X4mGKbKyyQXIKYEm9FHXEEPwD6TLDebdE+ZOiz4u2CgQM2sskPdxqfO6b4mXadD
+ KjgviVTgjfU3xfuKgnz9nIxdxOOMN9GAKOXJO6UKpLq2smeX7KAvs0gXnM3jN+DUwIpU
+ 18DEYEo+cpf7GSYFUgoy9nhArhUKk4d+WDusgUF/VKmpKg/S1N13X5EJBPPC5no4QDUd
+ owKvJyM0sfy29XG06wmvSDeGQIlc47O0975TOrn96lsIl+2Toy/vAtVhTVWxtTdkioVL
+ xmcg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUE1gkG4mGFaMChv9RFg0QOcgjAEb28nTNJ464zNj4YSz1m+WhKA/VF74pAqwQIAqYvbe196+ZHnQ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfXv0UT/doSoshlfD8wr0tXgmMlP7frT6Cssvf6hQp35lNiEYC
+ ahuNtlTMGNF/f1aF5Da1r1lOaMVZYKtPIuYfgBnwyOV63z8SplntLSZuGR4NJSui08GXRRKhwlC
+ MhUdyK7JNuFs6mkB5S1YucUZosMjrYTcWgZ+aVsz6hym7RpawIiJsWiMtNCk=
+X-Google-Smtp-Source: AGHT+IGdtf8+tn/0tLHSfNn/WIvMRMx9qNdlFsybI223Br7aqGakbUQdFqw2QC0HSYbbI1UdSWjVmRuaUdU9L5ru6k+ec5lkq/dK
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH8PR12MB7026:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bbcac1e-be9f-447a-bb3d-08ddf98e117e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|10070799003|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UU9YckxRdzd0Vmhmc29qdGk5L0NIZTEzY1JtWDBQa2Qwb1pFcEpxb05zYWEz?=
- =?utf-8?B?WkcyMHl0dTZGSmNCMWkzSFYrY1R6ejlsWUdUbTFFZWh2aUtjZ2tvMkpZamJi?=
- =?utf-8?B?SzVLd2Rjc1lNRGR2ZW5vK2VsUDVYMGtzVjk5NVNwTzlLbVU4UkFDN1Bwdlpu?=
- =?utf-8?B?ZzFaOWtBTWlHWGJ1Qzlpd2twU2wzdVRuTlNYSHJsOXBXVm1VMWdKUk0yZ1ZJ?=
- =?utf-8?B?STV3STU3NjNEdnZ2WTNGcVNXY3lMSFEyNEZOdG15WDlBOXBPRTVUbnNRZWNa?=
- =?utf-8?B?aWRSY0NvSzlZdXUzWkE0NGI2UC9ZZmdyc3FiSGJDNFB0SkhxQ1NkRU1Uc1dL?=
- =?utf-8?B?Q29lV3ljOEtSOWxhK0VSN3IweEhFYVNlZkNXbmw4bzVLOHhacDNBY0FxRmZ4?=
- =?utf-8?B?ZlFlWlREODRFb2gxN1Z1V3JEUVZTSCtSd3gyeW5lbWczL1RWUDRzWW1VSWdP?=
- =?utf-8?B?Wk51NzJDUjlJaDRmZVp3Sjc2QndoVENvbEhqZ0JWMFBKbXpaeHRPd2tWMlNx?=
- =?utf-8?B?NWpwZ3c4SWNZNE9oOEtCQXlDQXYxamJ6TlNGWEVTRHBXemRKeE80b3MyVExw?=
- =?utf-8?B?TWgwRUt0SUMxaTRjU0gxZVBkOVBUS2wvdmZzZEJsU0VIUGlySnpTT0dhdlpB?=
- =?utf-8?B?aWg0Q2JTMEV1K1krKzQ4SVhOTDR3MlBndU1xYkhBSHVpM2tUdHZiMDRyVFJq?=
- =?utf-8?B?Nkt4NUhoRDNuNXE4aHJHa3VvRkJiRGlGOVFwUUJEVC9tR3hZSlpzOUd2TlMx?=
- =?utf-8?B?YXo3UTFkN2dpWW44RzJPVHBTZHRLNFpKVGc5TS9VQnVBQk0wcGlnWE1yeXRn?=
- =?utf-8?B?dGxMNTAxa3ZVbmtvd29XeS9TaE5va0lKclJnMTVUd3E1OE1DbzhKeENBTGIy?=
- =?utf-8?B?Y0lKN0RZbTloNnprY3Q1K0RkbWd0WUlVbFl5YStvcmdGZTVkVzVOci9DQzVo?=
- =?utf-8?B?QUc4cm1oWHFYR0V6b1pSNE95ck5LcEhERmV3VVVMclVocU9sKzNTaHQ2YTJv?=
- =?utf-8?B?Qy80L1hUVDh3RUZrRjBBdzVVbGNUSjBjZDA5TjlmK2ZITER2Z2dDbm1LL2dp?=
- =?utf-8?B?TnVHRkZlcWhIT2NVWXMrNjhoNDhRTEJuS2FZaWk2NXN3K1pnSWhaKzVoWXhp?=
- =?utf-8?B?K3RrcHVLYWYzVkx6WXZoWHoxR2x0cXdnbDhLa0dvQlJLRlVrZktSZ01WSVZa?=
- =?utf-8?B?STNvWmkyU1ZZZGNrUVQvRVh5VlhzekVPWjUzeHRTMFpLb21YZlpHMjkvKzBh?=
- =?utf-8?B?M3JFNzV4VUZlZlQ2L1AvaFFhYUhocXVCQjRPSnRSNW0xS0hxdkQvV1hyVjBC?=
- =?utf-8?B?U1V0MkpCL3ZMYmFhRE1iWWZqeU1Ib2pmMExEeXRrK3AyT1hqc3BBUUYvdC92?=
- =?utf-8?B?NjhidTZRNHB2emRwZENKaXRPeGtiYUd4VUk4THM5a3hCb0Rkd1kvN1owUC9K?=
- =?utf-8?B?VVlES0NYTkVEanNkZVl1R3piTDlJUUlNRG5qNmhpWGMrMmcrUXZxQWErYis1?=
- =?utf-8?B?TnZrUzZhOU81clhORldBTGJBVGtzYnR0OGhzcHpZS1gxTE9ISFEvK0F2K2Qw?=
- =?utf-8?B?MjFHcU9aZk5UODVKbG83eHA0QUdZaHRhd2ZXdGdkWTFrdVp1TWphWllHSWMy?=
- =?utf-8?B?ckcrdmZjQ0xYa1hkTm81dTVkRWV5amtsNGFzb0F6SjNzQnpSRVdrYUVnZXlh?=
- =?utf-8?B?YkQvdW5BVS82MTc2QjhaOVdsRXVjeGEvRGxRVXhrb1RsZVBGSkdDbGZjc0ZF?=
- =?utf-8?B?U0dnSzh1TDBqa1VraG1sN1BPbnZDR1NudXlsMjRWMk0vQWIzbk5HT1lCWlhG?=
- =?utf-8?B?OEtvVDlqb0EyTFlxVjlrSnlNSDZNWUVMRCtlTmEyeVlHaytzTndtZm1lMk4z?=
- =?utf-8?B?Z2JBdnhpTndmLy95dmN0TmxkcUJ1Y0VpbnR4Y1FWUUJiSHpIc1Aza1VUZklW?=
- =?utf-8?B?aUVDbVY4eFQ3RmZpa01yODJLRjQyaFFhZHlCRE42UFBYdWVhbkgrcDdISDZt?=
- =?utf-8?B?anhZS3ZNVlNRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6494.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YTR0SktTTzRGTXZtWFRYNGFIY1RURTdsdXJQdVpvdmJ2Z0J6c1VRa1NqYllF?=
- =?utf-8?B?RUlZUVVibzcySG9HUTdZL2ZCZ0dRVkgvM3hRdHRvNlRXOVNUMU9rZ1JWd3o5?=
- =?utf-8?B?WE03TitRcG9jWHMwODBlZUFTZ2xya2xZMlVRbGtLUmh3WnNDVHhnc2VwMWxB?=
- =?utf-8?B?Mkl4Njk1OURLd2JuWitwV3JucEszd2dIY0dLcXdHTWY2eFJKS1NWdU1Ec1Nw?=
- =?utf-8?B?bStsa2xKYVVRT3ZIaG1GMjhXREtqdnMwaUxmSHNzTk9seGsrZUhDK1hmeFpK?=
- =?utf-8?B?WnRvRTcyeFpSN3NtUDlVcFJjYldPYlh5dWhVNk1oWGRMSFhlT0U2ZGQ2eVov?=
- =?utf-8?B?aVgrTmhRUTlPdzF3bUNrc05GT3JpUHNVUFdpd3ZBS2c2OGRLZFZFek5sNXNX?=
- =?utf-8?B?RHRPSldTK1M2L3ZGZzF5WjdLdTlnSEVpSFN6MVgrbkptZlEwNGtBaGZDaGdZ?=
- =?utf-8?B?YnpWL0V1OFBsYlREbXpvTkRVUG9UeW5VdzBuTkl0Z24wKzZsZ25MNUVKcEhI?=
- =?utf-8?B?WW9uRkdZRmxkOUlVWVZ0U0dOSXFweisyT3VDeUtuM2NnUnB2VnZSVXJLaWRP?=
- =?utf-8?B?NE5Td3B3Q01uZGp1dmZXZ0pjWWFCN1JMQmFCbjlYSDRFVkREUkRBd21YcHN0?=
- =?utf-8?B?NnlCK3FtWlpkbXJvWFdxNVZONHcvWDZOeHQ2TWF3SWVPRk8yVlhBdWt5MkEr?=
- =?utf-8?B?Rjgzak0yRzlGUEhTY0YrWDRjcUdvOFc2L2V5bzJuM1VZdnI0MUplUWI1cDdO?=
- =?utf-8?B?b01MUDlwL1hJWk9mSlZuOTFxQ1pvSjkwdGNyL1VQbFppMXpveXhlMkI4eUUx?=
- =?utf-8?B?UmMzY1dTUXAzMGx3RTA2THJQTjJoQlhBVHIvUVJZMWxScHd3ZTFMeWE3VWt1?=
- =?utf-8?B?UGRmWmR5QzFMQUxiN3RLektGOEZTTjkxN1hFMGc0QjRQeGJCZFpWVDJiNmRR?=
- =?utf-8?B?NHJlNmNMTmFpanFCTjZrT05QaUNUempTNEFVSGVlWTRuMzV3STlJQ01LZW0z?=
- =?utf-8?B?YUJOcWVka2xUaXF5bjNrTWZOQ2tFbytFMmdwVnBYM1lmeUxyQW8vYVFWQ3or?=
- =?utf-8?B?NHk1b0YxZXE4UTBNb2tHY2l2dWRwUFJZZU1ta0dmMjExYWpjeEFCT2hKZmh4?=
- =?utf-8?B?VlczY1NCQWNleitVL282SldzM1hlbzlLTlh5WFFGdmJEUFpwQXptQlp2S3o1?=
- =?utf-8?B?Y3ZiSWhhNEJ0Nk5Lckl6WEd3UDBRUEVXR25nM1F2VW1yeDFib1VvZVhiTHNi?=
- =?utf-8?B?WGFQbUNDbURKUm8wbGhwRmZ0UmVBdmFELy8xT1U5Q3B2STdUSmJlNzlDTTI3?=
- =?utf-8?B?TERFQU9laEZ3TWhvYjhjODFCTS9hazd5VVBsZFA5Uld5SXBCQWdxbHZqanA5?=
- =?utf-8?B?a3NzVExndmxRZ2J6MG1xTXh1dDNqckh1WWVZOExEOWF4RE5kOGZ0SmwwdEd2?=
- =?utf-8?B?dm90SlZzNEVNaGlzWW5EVWxEUXZWd0RuNkJQSjc0cGl0bjM0R093WUZ0U2lt?=
- =?utf-8?B?RUJhMUpYUnBHSjk5aFNWNEVCTEYxQUtCTmVia0paaTA0TGlTektaa0FzY0pp?=
- =?utf-8?B?UXI5WTE4N1M1NEV2NG5LZnVpNUxoUFowMnVNR3lIaWxhUWVLU0p3UEVGcDFV?=
- =?utf-8?B?b1FDWGVpTGJqRzIzaXdEM0k3ZGE0VWhXRXcvNmpjUThJZFhWY1g5TDk5Z29U?=
- =?utf-8?B?ajJoN1FLeWJadUNEZW81N1h2Y3RUYUlqS2tGMWxjcW92K01sRWpTS0UvZ0gz?=
- =?utf-8?B?SEhqY0dpUkNabFFQNXErYmFuQ1IvR3IvUkZVdDhSczFwS2VwbGZoWm9USVNO?=
- =?utf-8?B?YUtOS2dma3NSZHdDbStFNDBZQ0VGUVdVOUZrVmRjNzdGU05FZTlyUXJNRjdi?=
- =?utf-8?B?QmV0Q0ExWUVaWnN1R2pFVzdCV1VPdnRjRzg5Y0xVQmt0b1BPd2FHM2pmbDNx?=
- =?utf-8?B?T1h0UmZuak1uOW1sMHBNL0lZR0ttTTBIb2w0aDQ2YmhYWG16QUsyQVcyWEZY?=
- =?utf-8?B?MFZRZkRtWUJORXNLY2FmYkdDbXVQRkdIdkdFSHhWQ2w3K3BzSEZVbDlnTkEw?=
- =?utf-8?B?VGpVQ2VjWjYxRm5FRGVrYk8zbTZzQUlOcWp6ZmE5UHo4YlZwYXE4ZEp5WGRk?=
- =?utf-8?B?M3Z2akluazRqVEpiMSs1UXpnRXZlNGwzd3FPK3dZOHFUeWN6VTUzRWZuYXFz?=
- =?utf-8?B?NzRnRFh3M0NCcDFJSktsLzJQSTdHNjNUOUxCMWxUYmw2YTFYWFczdForSUhR?=
- =?utf-8?B?VzhQQWlmMUxTWTMyb2pWNzk4cUVBPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbcac1e-be9f-447a-bb3d-08ddf98e117e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 04:11:13.4079 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GPXNLpM1tkn24/3ckfm/2Yrv1crWcUx90i9CrItLSXLFwjko4kMUZRS1XsDUipUQPTMsUGLwaw/xqKlUc2o26A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7026
+X-Received: by 2002:a05:6e02:258a:b0:424:3b83:4f5f with SMTP id
+ e9e14a558f8ab-4248190bbd3mr155108815ab.8.1758514527823; Sun, 21 Sep 2025
+ 21:15:27 -0700 (PDT)
+Date: Sun, 21 Sep 2025 21:15:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68d0cd5f.050a0220.139b6.0017.GAE@google.com>
+Subject: [syzbot] [fbdev?] KASAN: slab-out-of-bounds Read in
+ fb_pad_unaligned_buffer (4)
+From: syzbot <syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, simona@ffwll.ch, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,180 +63,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> The avdd-dsi-csi-supply is CSI power supply not VI, hence move it to
-> proper place.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/csi.c | 19 ++++++++++++++++++-
->  drivers/staging/media/tegra-video/vi.c  | 23 ++---------------------
->  drivers/staging/media/tegra-video/vi.h  |  2 --
->  include/linux/tegra-csi.h               |  2 ++
->  4 files changed, 22 insertions(+), 24 deletions(-)
->=20
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
-dia/tegra-video/csi.c
-> index c848e4ab51ac..1677eb51ec21 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -710,6 +710,8 @@ static int __maybe_unused csi_runtime_suspend(struct =
-device *dev)
-> =20
->  	clk_bulk_disable_unprepare(csi->soc->num_clks, csi->clks);
-> =20
-> +	regulator_disable(csi->vdd);
-> +
->  	return 0;
->  }
-> =20
-> @@ -718,13 +720,23 @@ static int __maybe_unused csi_runtime_resume(struct=
- device *dev)
->  	struct tegra_csi *csi =3D dev_get_drvdata(dev);
->  	int ret;
-> =20
-> +	ret =3D regulator_enable(csi->vdd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	ret =3D clk_bulk_prepare_enable(csi->soc->num_clks, csi->clks);
->  	if (ret < 0) {
->  		dev_err(csi->dev, "failed to enable clocks: %d\n", ret);
-> -		return ret;
-> +		goto disable_vdd;
->  	}
-> =20
->  	return 0;
-> +
-> +disable_vdd:
-> +	regulator_disable(csi->vdd);
-> +	return ret;
->  }
-> =20
->  static int tegra_csi_init(struct host1x_client *client)
-> @@ -802,6 +814,11 @@ static int tegra_csi_probe(struct platform_device *p=
-dev)
->  		return ret;
->  	}
-> =20
-> +	csi->vdd =3D devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
-> +	if (IS_ERR(csi->vdd))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csi->vdd),
-> +				     "failed to get VDD supply");
-> +
->  	if (!pdev->dev.pm_domain) {
->  		ret =3D -ENOENT;
->  		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/med=
-ia/tegra-video/vi.c
-> index 2deb615547be..05af718b3cdf 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -1405,29 +1405,19 @@ static int __maybe_unused vi_runtime_resume(struc=
-t device *dev)
->  	struct tegra_vi *vi =3D dev_get_drvdata(dev);
->  	int ret;
-> =20
-> -	ret =3D regulator_enable(vi->vdd);
-> -	if (ret) {
-> -		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	ret =3D clk_set_rate(vi->clk, vi->soc->vi_max_clk_hz);
->  	if (ret) {
->  		dev_err(dev, "failed to set vi clock rate: %d\n", ret);
-> -		goto disable_vdd;
-> +		return ret;
->  	}
-> =20
->  	ret =3D clk_prepare_enable(vi->clk);
->  	if (ret) {
->  		dev_err(dev, "failed to enable vi clock: %d\n", ret);
-> -		goto disable_vdd;
-> +		return ret;
->  	}
-> =20
->  	return 0;
-> -
-> -disable_vdd:
-> -	regulator_disable(vi->vdd);
-> -	return ret;
->  }
-> =20
->  static int __maybe_unused vi_runtime_suspend(struct device *dev)
-> @@ -1436,8 +1426,6 @@ static int __maybe_unused vi_runtime_suspend(struct=
- device *dev)
-> =20
->  	clk_disable_unprepare(vi->clk);
-> =20
-> -	regulator_disable(vi->vdd);
-> -
->  	return 0;
->  }
-> =20
-> @@ -1882,13 +1870,6 @@ static int tegra_vi_probe(struct platform_device *=
-pdev)
->  		return ret;
->  	}
-> =20
-> -	vi->vdd =3D devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
-> -	if (IS_ERR(vi->vdd)) {
-> -		ret =3D PTR_ERR(vi->vdd);
-> -		dev_err(&pdev->dev, "failed to get VDD supply: %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	if (!pdev->dev.pm_domain) {
->  		ret =3D -ENOENT;
->  		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-> diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/med=
-ia/tegra-video/vi.h
-> index 64655ac1b41f..367667adf745 100644
-> --- a/drivers/staging/media/tegra-video/vi.h
-> +++ b/drivers/staging/media/tegra-video/vi.h
-> @@ -93,7 +93,6 @@ struct tegra_vi_soc {
->   * @client: host1x_client struct
->   * @iomem: register base
->   * @clk: main clock for VI block
-> - * @vdd: vdd regulator for VI hardware, normally it is avdd_dsi_csi
->   * @soc: pointer to SoC data structure
->   * @ops: vi operations
->   * @vi_chans: list head for VI channels
-> @@ -103,7 +102,6 @@ struct tegra_vi {
->  	struct host1x_client client;
->  	void __iomem *iomem;
->  	struct clk *clk;
-> -	struct regulator *vdd;
->  	const struct tegra_vi_soc *soc;
->  	const struct tegra_vi_ops *ops;
->  	struct list_head vi_chans;
-> diff --git a/include/linux/tegra-csi.h b/include/linux/tegra-csi.h
-> index b47f48ef7115..85c74e22a0cb 100644
-> --- a/include/linux/tegra-csi.h
-> +++ b/include/linux/tegra-csi.h
-> @@ -139,6 +139,7 @@ struct tegra_csi_soc {
->   * @client: host1x_client struct
->   * @iomem: register base
->   * @clks: clock for CSI and CIL
-> + * @vdd: vdd regulator for CSI hardware, usually avdd_dsi_csi
->   * @soc: pointer to SoC data structure
->   * @ops: csi operations
->   * @mipi_ops: MIPI calibration operations
-> @@ -150,6 +151,7 @@ struct tegra_csi {
->  	struct host1x_client client;
->  	void __iomem *iomem;
->  	struct clk_bulk_data *clks;
-> +	struct regulator *vdd;
->  	const struct tegra_csi_soc *soc;
->  	const struct tegra_csi_ops *ops;
->  	const struct tegra_mipi_ops *mipi_ops;
->=20
+Hello,
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+syzbot found the following issue on:
+
+HEAD commit:    b320789d6883 Linux 6.17-rc4
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16ceae62580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d4703ac89d9e185a
+dashboard link: https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/daf1f6c847dd/disk-b320789d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fbeb0bd5d987/vmlinux-b320789d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a85084f8e16b/bzImage-b320789d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in fb_pad_unaligned_buffer+0x3b8/0x440 drivers/video/fbdev/core/fbmem.c:110
+Read of size 1 at addr ffff888075fb54e4 by task syz.0.1621/12752
+
+CPU: 1 UID: 0 PID: 12752 Comm: syz.0.1621 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/14/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xcd/0x630 mm/kasan/report.c:482
+ kasan_report+0xe0/0x110 mm/kasan/report.c:595
+ fb_pad_unaligned_buffer+0x3b8/0x440 drivers/video/fbdev/core/fbmem.c:110
+ bit_putcs_unaligned drivers/video/fbdev/core/bitblit.c:129 [inline]
+ bit_putcs+0x870/0xde0 drivers/video/fbdev/core/bitblit.c:187
+ fbcon_putcs+0x384/0x4a0 drivers/video/fbdev/core/fbcon.c:1327
+ con_flush drivers/tty/vt/vt.c:2746 [inline]
+ do_con_write+0xfed/0x8280 drivers/tty/vt/vt.c:3173
+ con_write+0x23/0xb0 drivers/tty/vt/vt.c:3516
+ process_output_block drivers/tty/n_tty.c:561 [inline]
+ n_tty_write+0x41c/0x11e0 drivers/tty/n_tty.c:2377
+ iterate_tty_write drivers/tty/tty_io.c:1006 [inline]
+ file_tty_write.constprop.0+0x504/0x9b0 drivers/tty/tty_io.c:1081
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x7d3/0x11d0 fs/read_write.c:686
+ ksys_write+0x12a/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x4c0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f1f5fb8ebe9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f1f60a10038 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f1f5fdc6180 RCX: 00007f1f5fb8ebe9
+RDX: 0000000000001066 RSI: 0000200000001640 RDI: 0000000000000009
+RBP: 00007f1f5fc11e19 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f1f5fdc6218 R14: 00007f1f5fdc6180 R15: 00007ffc8f9c3728
+ </TASK>
+
+Allocated by task 10009:
+ kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:388 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:405
+ kasan_kmalloc include/linux/kasan.h:260 [inline]
+ __do_kmalloc_node mm/slub.c:4365 [inline]
+ __kmalloc_noprof+0x223/0x510 mm/slub.c:4377
+ kmalloc_noprof include/linux/slab.h:909 [inline]
+ fbcon_set_font+0x434/0xb80 drivers/video/fbdev/core/fbcon.c:2536
+ con_font_set drivers/tty/vt/vt.c:4887 [inline]
+ con_font_op+0x7fb/0xf50 drivers/tty/vt/vt.c:4934
+ vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
+ vt_ioctl+0x48f/0x30a0 drivers/tty/vt/vt_ioctl.c:751
+ tty_ioctl+0x661/0x1680 drivers/tty/tty_io.c:2792
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:598 [inline]
+ __se_sys_ioctl fs/ioctl.c:584 [inline]
+ __x64_sys_ioctl+0x18b/0x210 fs/ioctl.c:584
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x4c0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888075fb5000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 468 bytes to the right of
+ allocated 784-byte region [ffff888075fb5000, ffff888075fb5310)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x75fb0
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+anon flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801b841dc0 0000000000000000 dead000000000001
+raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+head: 00fff00000000040 ffff88801b841dc0 0000000000000000 dead000000000001
+head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+head: 00fff00000000003 ffffea0001d7ec01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0x52820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 37, tgid 37 (kworker/u8:3), ts 77706432678, free_ts 77578310551
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1c0/0x230 mm/page_alloc.c:1851
+ prep_new_page mm/page_alloc.c:1859 [inline]
+ get_page_from_freelist+0x132b/0x38e0 mm/page_alloc.c:3858
+ __alloc_frozen_pages_noprof+0x261/0x23f0 mm/page_alloc.c:5148
+ alloc_pages_mpol+0x1fb/0x550 mm/mempolicy.c:2416
+ alloc_slab_page mm/slub.c:2487 [inline]
+ allocate_slab mm/slub.c:2655 [inline]
+ new_slab+0x247/0x330 mm/slub.c:2709
+ ___slab_alloc+0xcf2/0x1740 mm/slub.c:3891
+ __slab_alloc.constprop.0+0x56/0xb0 mm/slub.c:3981
+ __slab_alloc_node mm/slub.c:4056 [inline]
+ slab_alloc_node mm/slub.c:4217 [inline]
+ __do_kmalloc_node mm/slub.c:4364 [inline]
+ __kmalloc_noprof+0x2f2/0x510 mm/slub.c:4377
+ kmalloc_noprof include/linux/slab.h:909 [inline]
+ kzalloc_noprof include/linux/slab.h:1039 [inline]
+ ieee802_11_parse_elems_full+0x1db/0x3780 net/mac80211/parse.c:1011
+ ieee802_11_parse_elems_crc net/mac80211/ieee80211_i.h:2462 [inline]
+ ieee802_11_parse_elems net/mac80211/ieee80211_i.h:2469 [inline]
+ ieee80211_inform_bss+0x10b/0x1140 net/mac80211/scan.c:79
+ rdev_inform_bss net/wireless/rdev-ops.h:418 [inline]
+ cfg80211_inform_single_bss_data+0x8e7/0x1df0 net/wireless/scan.c:2379
+ cfg80211_inform_bss_data+0x224/0x3bd0 net/wireless/scan.c:3234
+ cfg80211_inform_bss_frame_data+0x26f/0x750 net/wireless/scan.c:3325
+ ieee80211_bss_info_update+0x310/0xab0 net/mac80211/scan.c:226
+ ieee80211_rx_bss_info net/mac80211/ibss.c:1094 [inline]
+ ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1573 [inline]
+ ieee80211_ibss_rx_queued_mgmt+0x1905/0x2fd0 net/mac80211/ibss.c:1600
+ ieee80211_iface_process_skb net/mac80211/iface.c:1699 [inline]
+ ieee80211_iface_work+0xe2e/0x1360 net/mac80211/iface.c:1753
+page last free pid 5220 tgid 5220 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1395 [inline]
+ __free_frozen_pages+0x7d5/0x10f0 mm/page_alloc.c:2895
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x4d/0x120 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x195/0x1e0 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x69/0x90 mm/kasan/common.c:340
+ kasan_slab_alloc include/linux/kasan.h:250 [inline]
+ slab_post_alloc_hook mm/slub.c:4180 [inline]
+ slab_alloc_node mm/slub.c:4229 [inline]
+ kmem_cache_alloc_noprof+0x1cb/0x3b0 mm/slub.c:4236
+ getname_flags.part.0+0x4c/0x550 fs/namei.c:146
+ getname_flags+0x93/0xf0 include/linux/audit.h:322
+ do_readlinkat+0xb4/0x3a0 fs/stat.c:575
+ __do_sys_readlink fs/stat.c:613 [inline]
+ __se_sys_readlink fs/stat.c:610 [inline]
+ __x64_sys_readlink+0x78/0xc0 fs/stat.c:610
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x4c0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888075fb5380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888075fb5400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888075fb5480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                       ^
+ ffff888075fb5500: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888075fb5580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
